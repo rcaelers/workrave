@@ -30,7 +30,9 @@
 
 @class MacOSStatusBarView;
 
-class MacOSAppletWindow : public AppletWindow, public TimerBoxViewBase
+class MacOSAppletWindow
+  : public AppletWindow
+  , public TimerBoxViewBase
 {
 public:
   MacOSAppletWindow();
@@ -38,13 +40,15 @@ public:
 
   bool is_visible() const override;
 
-  void set_slot(workrave::BreakId  id, int slot) override;
+  void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,
                     TimerColorId primary_color,
-                    int primary_value, int primary_max,
+                    int primary_value,
+                    int primary_max,
                     TimerColorId secondary_color,
-                    int secondary_value, int secondary_max) override;
+                    int secondary_value,
+                    int secondary_max) override;
 
 private:
   ColorId convertColorId(TimerColorId colorId);

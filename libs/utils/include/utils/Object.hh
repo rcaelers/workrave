@@ -12,12 +12,14 @@ namespace workrave
     class Object : public std::enable_shared_from_this<Object>
     {
     public:
-      Object() : count(0) { }
+      Object()
+        : count(0)
+      {
+      }
 
       virtual ~Object() {}
 
     protected:
-
       void ref()
       {
         if (count++ == 0)
@@ -38,6 +40,6 @@ namespace workrave
       int count;
       std::shared_ptr<Object> me;
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 #endif

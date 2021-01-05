@@ -17,11 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #include "W32LockScreen.hh"
 
 W32LockScreen::LockWorkStationFunc W32LockScreen::lock_func = NULL;
-HINSTANCE W32LockScreen::user32_dll = NULL;
+HINSTANCE W32LockScreen::user32_dll                         = NULL;
 
 W32LockScreen::W32LockScreen()
 {
@@ -29,12 +28,12 @@ W32LockScreen::W32LockScreen()
   user32_dll = LoadLibrary("user32.dll");
   if (user32_dll != NULL)
     {
-      lock_func = (LockWorkStationFunc)
-          GetProcAddress(user32_dll, "LockWorkStation");
+      lock_func = (LockWorkStationFunc)GetProcAddress(user32_dll, "LockWorkStation");
     }
 }
 
-bool W32LockScreen::lock()
+bool
+W32LockScreen::lock()
 {
   (*lock_func)();
   return true;

@@ -38,7 +38,9 @@ namespace workrave
 {
   namespace dbus
   {
-    class DBusGio : public IDBus, public IDBusPrivateGio
+    class DBusGio
+      : public IDBus
+      , public IDBusPrivateGio
     {
     public:
       using Ptr = std::shared_ptr<DBusGio>;
@@ -48,7 +50,7 @@ namespace workrave
       ~DBusGio() override;
 
       void init() override;
-      void register_service(const std::string &service, IDBusWatch *cb  = nullptr) override;
+      void register_service(const std::string &service, IDBusWatch *cb = nullptr) override;
       void register_object_path(const std::string &object_path) override;
       void connect(const std::string &path, const std::string &interface_name, void *object) override;
       void disconnect(const std::string &path, const std::string &interface_name) override;
@@ -64,12 +66,12 @@ namespace workrave
       void unwatch(const std::string &name) override;
 
     private:
-      using Bindings = std::map<std::string, DBusBinding *>;
-      using BindingIter = Bindings::iterator;
+      using Bindings     = std::map<std::string, DBusBinding *>;
+      using BindingIter  = Bindings::iterator;
       using BindingCIter = Bindings::const_iterator;
 
-      using Services = std::map<std::string, guint>;
-      using ServicesIter = Services::iterator;
+      using Services      = std::map<std::string, guint>;
+      using ServicesIter  = Services::iterator;
       using ServicesCIter = Services::const_iterator;
 
       struct InterfaceData
@@ -83,8 +85,8 @@ namespace workrave
         void *object{nullptr};
       };
 
-      using Interfaces = std::map<std::string, InterfaceData>;
-      using InterfaceIter = Interfaces::iterator;
+      using Interfaces     = std::map<std::string, InterfaceData>;
+      using InterfaceIter  = Interfaces::iterator;
       using InterfaceCIter = Interfaces::const_iterator;
 
       struct ObjectData
@@ -95,8 +97,8 @@ namespace workrave
         bool registered{false};
       };
 
-      using Objects = std::map<std::string, ObjectData>;
-      using ObjectIter = Objects::iterator;
+      using Objects     = std::map<std::string, ObjectData>;
+      using ObjectIter  = Objects::iterator;
       using ObjectCIter = Objects::const_iterator;
 
       struct WatchData
@@ -106,8 +108,8 @@ namespace workrave
         bool seen;
       };
 
-      using Watched = std::map<std::string, WatchData>;
-      using WatchIter = Watched::iterator;
+      using Watched    = std::map<std::string, WatchData>;
+      using WatchIter  = Watched::iterator;
       using WatchCIter = Watched::const_iterator;
 
       void *find_object(const std::string &path, const std::string &interface_name) const;
@@ -121,34 +123,31 @@ namespace workrave
 
       void bus_name_presence(const std::string &name, bool present);
 
-      static void on_method_call(GDBusConnection       *connection,
-                                 const gchar           *sender,
-                                 const gchar           *object_path,
-                                 const gchar           *interface_name,
-                                 const gchar           *method_name,
-                                 GVariant              *parameters,
+      static void on_method_call(GDBusConnection *connection,
+                                 const gchar *sender,
+                                 const gchar *object_path,
+                                 const gchar *interface_name,
+                                 const gchar *method_name,
+                                 GVariant *parameters,
                                  GDBusMethodInvocation *invocation,
-                                 gpointer               user_data);
+                                 gpointer user_data);
 
-      static GVariant *
-      on_get_property(GDBusConnection  *connection,
-                      const gchar      *sender,
-                      const gchar      *object_path,
-                      const gchar      *interface_name,
-                      const gchar      *property_name,
-                      GError          **error,
-                      gpointer          user_data);
+      static GVariant *on_get_property(GDBusConnection *connection,
+                                       const gchar *sender,
+                                       const gchar *object_path,
+                                       const gchar *interface_name,
+                                       const gchar *property_name,
+                                       GError **error,
+                                       gpointer user_data);
 
-
-      static gboolean
-      on_set_property (GDBusConnection  *connection,
-                       const gchar      *sender,
-                       const gchar      *object_path,
-                       const gchar      *interface_name,
-                       const gchar      *property_name,
-                       GVariant         *value,
-                       GError          **error,
-                       gpointer          user_data);
+      static gboolean on_set_property(GDBusConnection *connection,
+                                      const gchar *sender,
+                                      const gchar *object_path,
+                                      const gchar *interface_name,
+                                      const gchar *property_name,
+                                      GVariant *value,
+                                      GError **error,
+                                      gpointer user_data);
 
       static void on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data);
       static void on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data);
@@ -171,7 +170,7 @@ namespace workrave
 
       static const GDBusInterfaceVTable interface_vtable;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSGIO_HH

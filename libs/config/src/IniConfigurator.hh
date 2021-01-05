@@ -27,8 +27,7 @@
 
 #include "IConfigBackend.hh"
 
-class IniConfigurator :
-  public virtual IConfigBackend
+class IniConfigurator : public virtual IConfigBackend
 {
 public:
   IniConfigurator();

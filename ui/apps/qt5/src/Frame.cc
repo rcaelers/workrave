@@ -27,8 +27,8 @@
 #include <QStyleOptionFrame>
 
 Frame::Frame(QWidget *parent)
-    : QWidget(parent)
-    , heartbeat_timer(new QTimer(this))
+  : QWidget(parent)
+  , heartbeat_timer(new QTimer(this))
 {
   connect(heartbeat_timer.get(), SIGNAL(timeout()), this, SLOT(on_timer()));
 }
@@ -44,7 +44,7 @@ void
 Frame::set_frame_style(const Style style)
 {
   frame_style = style;
-  int dfw = 1;
+  int dfw     = 1;
   switch (style)
     {
     case Style::BreakWindow:
@@ -68,7 +68,7 @@ Frame::set_frame_width(int frame, int border)
 {
   QRect fr = get_frame_rect();
 
-  frame_width = frame;
+  frame_width  = frame;
   border_width = border;
 
   QRect cr = fr.isValid() ? fr : rect();
@@ -123,8 +123,8 @@ Frame::paintEvent(QPaintEvent *pe)
   QStyleOptionFrame opt;
   opt.initFrom(this);
 
-  opt.rect = fr;
-  opt.lineWidth = 1;
+  opt.rect         = fr;
+  opt.lineWidth    = 1;
   opt.midLineWidth = 0;
   opt.state |= QStyle::State_Raised;
   opt.frameShape = QFrame::Panel;
@@ -135,8 +135,13 @@ Frame::paintEvent(QPaintEvent *pe)
     {
       paint.fillRect(border_width, border_width, frame_width, height() - 2 * border_width, frame_color);
       paint.fillRect(width() - border_width - frame_width, border_width, frame_width, height() - 2 * border_width, frame_color);
-      paint.fillRect(border_width + frame_width, border_width, width() - 2 * frame_width - 2 * border_width, frame_width, frame_color);
-      paint.fillRect(border_width + frame_width, height() - frame_width - border_width, width() - 2 * frame_width - 2 * border_width, frame_width, frame_color);
+      paint.fillRect(
+        border_width + frame_width, border_width, width() - 2 * frame_width - 2 * border_width, frame_width, frame_color);
+      paint.fillRect(border_width + frame_width,
+                     height() - frame_width - border_width,
+                     width() - 2 * frame_width - 2 * border_width,
+                     frame_width,
+                     frame_color);
     }
 }
 

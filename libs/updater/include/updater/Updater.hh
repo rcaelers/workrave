@@ -18,7 +18,7 @@
 #ifndef WORKRAVE_UPDATE_UPDATER_HH
 #define WORKRAVE_UPDATE_UPDATER_HH
 
-#include<string>
+#include <string>
 #include <memory>
 
 namespace workrave
@@ -30,9 +30,8 @@ namespace workrave
     public:
       using Ptr = std::shared_ptr<Updater>;
 
-      virtual ~Updater() = default;
+      virtual ~Updater()               = default;
       virtual void check_for_updates() = 0;
-
     };
 
     class UpdaterFactory
@@ -40,7 +39,7 @@ namespace workrave
     public:
       static Updater::Ptr create(std::string appcast_url);
     };
-  }
-}
+  } // namespace updater
+} // namespace workrave
 
 #endif // WORKRAVE_UPDATE_UPDATER_HH

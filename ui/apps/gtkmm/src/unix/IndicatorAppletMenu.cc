@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -38,8 +38,7 @@
 using namespace std;
 
 //! Constructor.
-IndicatorAppletMenu::IndicatorAppletMenu()
-= default;
+IndicatorAppletMenu::IndicatorAppletMenu() = default;
 
 //! Destructor.
 IndicatorAppletMenu::~IndicatorAppletMenu()
@@ -92,17 +91,16 @@ IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *labe
 void
 IndicatorAppletMenu::menu_item_set_checked(int cmd, bool checked)
 {
-  dbusmenu_menuitem_property_set_int(menu_items[cmd], DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
-                                     checked ?
-                                     DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED :
-                                     DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
+  dbusmenu_menuitem_property_set_int(menu_items[cmd],
+                                     DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
+                                     checked ? DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED : DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
 }
 
 void
 IndicatorAppletMenu::init()
 {
   server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
-  root = dbusmenu_menuitem_new();
+  root   = dbusmenu_menuitem_new();
   dbusmenu_server_set_root(server, root);
   dbusmenu_menuitem_property_set_bool(root, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
 
@@ -149,9 +147,9 @@ IndicatorAppletMenu::find_menu_item(DbusmenuMenuitem *item) const
 void
 IndicatorAppletMenu::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
 {
-  (void) timestamp;
+  (void)timestamp;
 
-  auto *menu = (IndicatorAppletMenu *) user_data;
+  auto *menu = (IndicatorAppletMenu *)user_data;
   menu->menu_item_activated(mi);
 }
 
@@ -161,7 +159,7 @@ IndicatorAppletMenu::menu_item_activated(DbusmenuMenuitem *mi)
   int command = find_menu_item(mi);
   if (command != -1)
     {
-      IGUI *gui = GUI::get_instance();
+      IGUI *gui    = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->applet_command(command);
     }

@@ -41,5 +41,4 @@ private:
   std::shared_ptr<Private> priv;
 };
 
-
 #endif // MACOSSOUNDPLAYER_HH

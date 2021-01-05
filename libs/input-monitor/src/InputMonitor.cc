@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "InputMonitor.hh"
@@ -31,48 +31,43 @@ InputMonitor::subscribe(IInputMonitorListener *listener)
   listeners.push_back(listener);
 }
 
-
 void
 InputMonitor::unsubscribe(IInputMonitorListener *listener)
 {
   listeners.remove(listener);
 }
 
-
 void
 InputMonitor::fire_action()
 {
-  for (auto &l : listeners)
+  for (auto &l: listeners)
     {
       l->action_notify();
     }
 }
 
-
 void
 InputMonitor::fire_mouse(int x, int y, int wheel)
 {
-  for (auto &l : listeners)
+  for (auto &l: listeners)
     {
       l->mouse_notify(x, y, wheel);
     }
 }
 
-
 void
 InputMonitor::fire_button(bool is_press)
 {
-  for (auto &l : listeners)
+  for (auto &l: listeners)
     {
       l->button_notify(is_press);
     }
 }
 
-
 void
 InputMonitor::fire_keyboard(bool repeat)
 {
-  for (auto &l : listeners)
+  for (auto &l: listeners)
     {
       l->keyboard_notify(repeat);
     }

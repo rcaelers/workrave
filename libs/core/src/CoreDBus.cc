@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "CoreDBus.hh"
@@ -24,17 +24,20 @@
 #include "dbus/IDBus.hh"
 
 #ifdef HAVE_DBUS
-#include "DBusWorkrave.hh"
+#  include "DBusWorkrave.hh"
 #endif
 #include "CoreModes.hh"
 
 using namespace workrave;
 using namespace workrave::dbus;
 
-CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus) : dbus(dbus)
+CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus)
+  : dbus(dbus)
 {
-  connections.connect(modes->signal_operation_mode_changed(), [this](auto && mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
-  connections.connect(modes->signal_usage_mode_changed(), [this](auto && mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connections.connect(modes->signal_operation_mode_changed(),
+                      [this](auto &&mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connections.connect(modes->signal_usage_mode_changed(),
+                      [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
 }
 
 void

@@ -32,8 +32,7 @@
 #include "InputMonitor.hh"
 
 //! Activity monitor for a local X server.
-class RecordInputMonitor :
-  public InputMonitor
+class RecordInputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -49,7 +48,6 @@ public:
   void terminate() override;
 
 private:
-
   //! The monitor's execution thread.
   void run();
 
@@ -69,7 +67,7 @@ private:
   void handle_xrecord_device_motion_event(XRecordInterceptData *data);
   void handle_xrecord_device_button_event(XRecordInterceptData *data);
 
-  static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
+  static void handle_xrecord_callback(XPointer closure, XRecordInterceptData *data);
 
 private:
   //! The X11 display name.

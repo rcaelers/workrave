@@ -61,9 +61,9 @@ using namespace workrave;
 StatisticsDialog::StatisticsDialog()
 {
   ICore::Ptr core = Backend::get_core();
-  statistics = core->get_statistics();
+  statistics      = core->get_statistics();
 
-  for (auto &activity_label : activity_labels)
+  for (auto &activity_label: activity_labels)
     {
       activity_label = nullptr;
     }
@@ -111,7 +111,7 @@ StatisticsDialog::init_gui()
 void
 StatisticsDialog::create_navigation_box(QLayout *parent)
 {
-  QGroupBox *box = new QGroupBox(tr("Browse history"));
+  QGroupBox *box      = new QGroupBox(tr("Browse history"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
   parent->addWidget(box);
@@ -155,7 +155,7 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
 void
 StatisticsDialog::create_statistics_box(QLayout *parent)
 {
-  QGroupBox *box = new QGroupBox(tr("Statistics"));
+  QGroupBox *box      = new QGroupBox(tr("Statistics"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
   parent->addWidget(box);
@@ -175,11 +175,11 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
                                                             tr("The number of times you were prompted to break, excluding"
                                                                " repeated prompts for the same break"));
 
-  QWidget *prompted_label = UiUtil::create_label_with_tooltip(tr("Repeated prompts"),
-                                                              tr("The number of times you were repeatedly prompted to break"));
+  QWidget *prompted_label =
+    UiUtil::create_label_with_tooltip(tr("Repeated prompts"), tr("The number of times you were repeatedly prompted to break"));
 
-  QWidget *taken_label = UiUtil::create_label_with_tooltip(tr("Prompted breaks taken"),
-                                                           tr("The number of times you took a break when being prompted"));
+  QWidget *taken_label =
+    UiUtil::create_label_with_tooltip(tr("Prompted breaks taken"), tr("The number of times you took a break when being prompted"));
 
   QWidget *natural_label = UiUtil::create_label_with_tooltip(tr("Natural breaks taken"),
                                                              tr("The number of times you took a break without being prompted"));
@@ -194,11 +194,11 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 
   QWidget *daily_usage_label = UiUtil::create_label_with_tooltip(tr("Daily"), tr("The total computer usage for the selected day"));
 
-  QWidget *weekly_usage_label = UiUtil::create_label_with_tooltip(tr("Weekly"),
-                                                                  tr("The total computer usage for the whole week of the selected day"));
+  QWidget *weekly_usage_label =
+    UiUtil::create_label_with_tooltip(tr("Weekly"), tr("The total computer usage for the whole week of the selected day"));
 
-  QWidget *monthly_usage_label = UiUtil::create_label_with_tooltip(tr("Monthly"),
-                                                                   tr("The total computer usage for the whole month of the selected day"));
+  QWidget *monthly_usage_label =
+    UiUtil::create_label_with_tooltip(tr("Monthly"), tr("The total computer usage for the whole month of the selected day"));
 
   QFrame *hrule = new QFrame();
   QFrame *vrule = new QFrame();
@@ -239,8 +239,8 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   table->addWidget(hrule, y, 0, 1, 5);
   y += 2;
 
-  daily_usage_time_label = new QLabel();
-  weekly_usage_time_label = new QLabel();
+  daily_usage_time_label   = new QLabel();
+  weekly_usage_time_label  = new QLabel();
   monthly_usage_time_label = new QLabel();
 
   vrule = new QFrame();
@@ -302,7 +302,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       ss.imbue(std::locale(ss.getloc(), new boost::posix_time::time_facet("%X")));
       ss << pt;
       std::string start = ss.str();
-      pt = boost::posix_time::ptime_from_tm(stats->stop);
+      pt                = boost::posix_time::ptime_from_tm(stats->stop);
       ss << pt;
       std::string stop = ss.str();
 
@@ -345,32 +345,32 @@ void
 StatisticsDialog::display_week_statistics()
 {
   QDate date = calendar->selectedDate();
-  int y = date.year();
-  int m = date.month() - 1;
-  int d = date.day();
+  int y      = date.year();
+  int m      = date.month() - 1;
+  int d      = date.day();
 
   std::tm timeinfo;
   std::memset(&timeinfo, 0, sizeof(timeinfo));
   timeinfo.tm_mday = d;
-  timeinfo.tm_mon = m;
+  timeinfo.tm_mon  = m;
   timeinfo.tm_year = y - 1900;
 
-  std::time_t t = std::mktime(&timeinfo);
+  std::time_t t           = std::mktime(&timeinfo);
   std::tm const *time_loc = std::localtime(&t);
 
   QLocale locale;
   int week_start = locale.firstDayOfWeek() % 7;
 
-  int offset = (time_loc->tm_wday - week_start + 7) % 7;
+  int offset         = (time_loc->tm_wday - week_start + 7) % 7;
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)
     {
       std::memset(&timeinfo, 0, sizeof(timeinfo));
       timeinfo.tm_mday = d - offset + i;
-      timeinfo.tm_mon = m;
+      timeinfo.tm_mon  = m;
       timeinfo.tm_year = y - 1900;
-      t = std::mktime(&timeinfo);
-      time_loc = std::localtime(&t);
+      t                = std::mktime(&timeinfo);
+      time_loc         = std::localtime(&t);
 
       int idx, next, prev;
       statistics->get_day_index_by_date(time_loc->tm_year + 1900, time_loc->tm_mon + 1, time_loc->tm_mday, idx, next, prev);
@@ -394,8 +394,8 @@ void
 StatisticsDialog::display_month_statistics()
 {
   QDate date = calendar->selectedDate();
-  int y = date.year();
-  int m = date.month() - 1;
+  int y      = date.year();
+  int m      = date.month() - 1;
 
   int max_mday;
   if (m == 3 || m == 5 || m == 8 || m == 10)
@@ -447,7 +447,7 @@ StatisticsDialog::clear_display_statistics()
   weekly_usage_time_label->setText("");
   monthly_usage_time_label->setText("");
 
-  for (auto &break_label : break_labels)
+  for (auto &break_label: break_labels)
     {
       for (int j = 0; j <= 6; j++)
         {
@@ -486,7 +486,7 @@ void
 StatisticsDialog::set_calendar_day_index(int idx)
 {
   IStatistics::DailyStats *stats = statistics->get_day(idx);
-  QDate date = calendar->selectedDate();
+  QDate date                     = calendar->selectedDate();
   date.setDate(stats->start.tm_year + 1900, stats->start.tm_mon + 1, stats->start.tm_mday);
   calendar->setSelectedDate(date);
   display_calendar_date();

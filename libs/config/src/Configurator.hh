@@ -31,7 +31,9 @@
 #include "IConfigBackend.hh"
 #include "Variant.hh"
 
-class Configurator : public workrave::config::IConfigurator, public workrave::config::IConfiguratorListener
+class Configurator
+  : public workrave::config::IConfigurator
+  , public workrave::config::IConfiguratorListener
 {
 public:
   explicit Configurator(IConfigBackend *backend);
@@ -54,16 +56,21 @@ public:
   bool get_value(const std::string &key, int &out) const override;
   bool get_value(const std::string &key, double &out) const override;
 
-  void get_value_with_default(const std::string & key, std::string &out, std::string s) const override;
-  void get_value_with_default(const std::string & key, bool &out, const bool def) const override;
-  void get_value_with_default(const std::string & key, int &out, const int def) const override;
-  void get_value_with_default(const std::string & key, double &out, const double def) const override;
+  void get_value_with_default(const std::string &key, std::string &out, std::string s) const override;
+  void get_value_with_default(const std::string &key, bool &out, const bool def) const override;
+  void get_value_with_default(const std::string &key, int &out, const int def) const override;
+  void get_value_with_default(const std::string &key, double &out, const double def) const override;
 
-  bool set_value(const std::string &key, const std::string &v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, const char *v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key,
+                 const std::string &v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key,
+                 const char *v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
   bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
   bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool
+  set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
   bool get_typed_value(const std::string &key, std::string &t) const override;
   bool set_typed_value(const std::string &key, const std::string &t) override;
@@ -74,8 +81,8 @@ public:
   bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const override;
 
 private:
-  using Listeners = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
-  using ListenerIter = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>::iterator;
+  using Listeners     = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
+  using ListenerIter  = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>::iterator;
   using ListenerCIter = std::list<std::pair<std::string, IConfiguratorListener *>>::const_iterator;
 
   //! Configuration change listeners.
@@ -95,14 +102,13 @@ private:
     int delay;
   };
 
-  using DelayedList = std::map<std::string, DelayedConfig>;
-  using DelayedListIter = DelayedList::iterator;
+  using DelayedList      = std::map<std::string, DelayedConfig>;
+  using DelayedListIter  = DelayedList::iterator;
   using DelayedListCIter = DelayedList::const_iterator;
 
-  using Settings = std::map<std::string, Setting>;
-  using SettingIter = std::map<std::string, Setting>::iterator;
+  using Settings     = std::map<std::string, Setting>;
+  using SettingIter  = std::map<std::string, Setting>::iterator;
   using SettingCIter = std::map<std::string, Setting>::const_iterator;
-
 
 private:
   bool find_setting(const std::string &name, Setting &setting) const;
@@ -130,6 +136,5 @@ private:
   //! Next auto save time.
   time_t auto_save_time;
 };
-
 
 #endif // CONFIGURATOR_HH

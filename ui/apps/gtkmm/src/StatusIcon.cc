@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -26,16 +26,16 @@
 #include <cassert>
 
 #ifdef PLATFORM_OS_MACOS
-#if HAVE_IGE_MAC_INTEGRATION
-#include "ige-mac-dock.h"
-#endif
-#if HAVE_GTK_MAC_INTEGRATION
-#include "gtk-mac-dock.h"
-#endif
+#  if HAVE_IGE_MAC_INTEGRATION
+#    include "ige-mac-dock.h"
+#  endif
+#  if HAVE_GTK_MAC_INTEGRATION
+#    include "gtk-mac-dock.h"
+#  endif
 #endif
 
 #ifdef PLATFORM_OS_WINDOWS
-#include "W32StatusIcon.hh"
+#  include "W32StatusIcon.hh"
 #endif
 
 #include "StatusIcon.hh"
@@ -53,9 +53,9 @@ using namespace std;
 StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
-  mode_icons[OperationMode::Normal] = GtkUtil::create_pixbuf("workrave-icon-medium.png");
+  mode_icons[OperationMode::Normal]    = GtkUtil::create_pixbuf("workrave-icon-medium.png");
   mode_icons[OperationMode::Suspended] = GtkUtil::create_pixbuf("workrave-suspended-icon-medium.png");
-  mode_icons[OperationMode::Quiet] = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
+  mode_icons[OperationMode::Quiet]     = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
   wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
@@ -68,14 +68,13 @@ StatusIcon::init()
 {
   insert_icon();
 
-  GUIConfig::trayicon_enabled().connect([&] (bool enabled)
-                                        {
-                                          if (status_icon->get_visible() != enabled)
-                                            {
-                                              visibility_changed_signal.emit();
-                                              status_icon->set_visible(enabled);
-                                            }
-                                        });
+  GUIConfig::trayicon_enabled().connect([&](bool enabled) {
+    if (status_icon->get_visible() != enabled)
+      {
+        visibility_changed_signal.emit();
+        status_icon->set_visible(enabled);
+      }
+  });
 
   bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
   status_icon->set_visible(tray_icon_enabled);
@@ -85,7 +84,7 @@ void
 StatusIcon::insert_icon()
 {
   // Create status icon
-  ICore::Ptr core = Backend::get_core();
+  ICore::Ptr core    = Backend::get_core();
   OperationMode mode = core->get_operation_mode_regular();
 
 #ifdef USE_W32STATUSICON
@@ -124,7 +123,7 @@ StatusIcon::is_visible() const
 }
 
 void
-StatusIcon::set_tooltip(std::string& tip)
+StatusIcon::set_tooltip(std::string &tip)
 {
 #if !defined(USE_W32STATUSICON)
   status_icon->set_tooltip_text(tip);
@@ -139,18 +138,18 @@ StatusIcon::show_balloon(string id, const string &balloon)
 #ifdef USE_W32STATUSICON
   status_icon->show_balloon(id, balloon);
 #else
-  (void) id;
-  (void) balloon;
+  (void)id;
+  (void)balloon;
 #endif
 }
 
 void
 StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
-  (void) button;
+  (void)button;
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }
@@ -177,11 +176,10 @@ StatusIcon::on_activate()
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
 GdkFilterReturn
-StatusIcon::win32_filter_func (void     *xevent,
-                               GdkEvent *event)
+StatusIcon::win32_filter_func(void *xevent, GdkEvent *event)
 {
-  (void) event;
-  MSG *msg = (MSG *) xevent;
+  (void)event;
+  MSG *msg            = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   if (msg->message == wm_taskbarcreated)
     {

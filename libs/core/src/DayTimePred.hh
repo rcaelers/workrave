@@ -20,6 +20,9 @@
 #ifndef DAYTIMEPRED_HH
 #define DAYTIMEPRED_HH
 
+#include <string>
+#include <unistd.h>
+
 class DayTimePred
 {
 public:

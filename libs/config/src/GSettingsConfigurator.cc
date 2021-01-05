@@ -18,56 +18,50 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_GSETTINGS
 
-#include "debug.hh"
-#include <cstring>
-#include <boost/algorithm/string/replace.hpp>
+#  include "debug.hh"
+#  include <cstring>
+#  include <boost/algorithm/string/replace.hpp>
 
-#include "GSettingsConfigurator.hh"
-#include "Configurator.hh"
+#  include "GSettingsConfigurator.hh"
+#  include "Configurator.hh"
 
 using namespace workrave;
 using namespace workrave::config;
 using namespace std;
 
-static string underscore_exceptions[] =
-  {
-    "general/usage-mode",
-    "general/operation-mode",
-  };
+static string underscore_exceptions[] = {
+  "general/usage-mode",
+  "general/operation-mode",
+};
 
 GSettingsConfigurator::GSettingsConfigurator()
 {
   schema_base = "org.workrave";
-  path_base = "/org/workrave/";
+  path_base   = "/org/workrave/";
 
   add_children();
 }
 
-
-GSettingsConfigurator::~GSettingsConfigurator()
-= default;
-
+GSettingsConfigurator::~GSettingsConfigurator() = default;
 
 bool
 GSettingsConfigurator::load(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 GSettingsConfigurator::save(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 GSettingsConfigurator::save()
@@ -75,15 +69,13 @@ GSettingsConfigurator::save()
   return true;
 }
 
-
 bool
 GSettingsConfigurator::remove_key(const std::string &key)
 {
   bool ret = true;
-  (void) key;
+  (void)key;
   return ret;
 }
-
 
 bool
 GSettingsConfigurator::get_value(const std::string &full_path, VariantType type, Variant &out) const
@@ -119,31 +111,31 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
                 }
             }
 
-          ret = false;
+          ret                            = false;
           const GVariantType *value_type = g_variant_get_type(value);
 
           if (g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
             {
               out.int_value = g_settings_get_int(child, key.c_str());
-              ret = true;
+              ret           = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
             {
               out.bool_value = g_settings_get_boolean(child, key.c_str());
-              ret = true;
+              ret            = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
             {
               out.double_value = g_settings_get_double(child, key.c_str());
-              ret = true;
+              ret              = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
             {
               out.string_value = g_settings_get_string(child, key.c_str());
-              ret = true;
+              ret              = true;
             }
 
-          //g_variant_unref(value);
+          // g_variant_unref(value);
         }
 
       if (ret)
@@ -155,7 +147,6 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
   return ret;
 }
 
-
 bool
 GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
 {
@@ -166,7 +157,7 @@ GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
 
   if (child != nullptr)
     {
-      switch(value.type)
+      switch (value.type)
         {
         case VARIANT_TYPE_NONE:
           ret = false;
@@ -195,26 +186,23 @@ GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
   return ret;
 }
 
-
-
 void
 GSettingsConfigurator::set_listener(IConfiguratorListener *listener)
 {
   this->listener = listener;
 }
 
-
 bool
 GSettingsConfigurator::add_listener(const string &key)
 {
-  (void) key;
+  (void)key;
   return true;
 }
 
 bool
 GSettingsConfigurator::remove_listener(const string &remove_key)
 {
-  (void) remove_key;
+  (void)remove_key;
   return true;
 }
 
@@ -225,7 +213,7 @@ GSettingsConfigurator::add_children()
   int len = schema_base.length();
 
   // deprecated: const char* const *schemas = g_settings_schema_source_list_schemas();
-  gchar** schemas = nullptr;
+  gchar **schemas = nullptr;
   g_settings_schema_source_list_schemas(g_settings_schema_source_get_default(), TRUE, &schemas, nullptr);
 
   for (int i = 0; schemas[i] != nullptr; i++)
@@ -249,11 +237,11 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   gchar *path;
   g_object_get(gsettings, "path", &path, NULL);
 
-  string tmp = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
+  string tmp     = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
   string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_MSG(changed);
 
-  for (auto & underscore_exception : underscore_exceptions)
+  for (auto &underscore_exception: underscore_exceptions)
     {
       string mangled = boost::algorithm::replace_all_copy(underscore_exception, "-", "_");
       if (mangled == changed)
@@ -264,28 +252,27 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
         }
     }
 
-  auto *self = (GSettingsConfigurator *) user_data;
+  auto *self = (GSettingsConfigurator *)user_data;
   self->listener->config_changed_notify(changed);
 
   g_free(path);
   TRACE_EXIT();
 }
 
-
 void
 GSettingsConfigurator::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s = key.c_str();
+  const char *s     = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
-      parent = key.substr(0, slash-s);
-      child = slash+1;
+      parent = key.substr(0, slash - s);
+      child  = slash + 1;
     }
   else
     {
       parent = "";
-      child = "";
+      child  = "";
     }
 }
 

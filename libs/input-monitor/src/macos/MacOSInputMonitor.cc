@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "MacOSInputMonitor.hh"
@@ -53,12 +53,24 @@ MacOSInputMonitor::terminate()
 uint64_t
 MacOSInputMonitor::get_event_count()
 {
-  static const CGEventType events[] = { kCGEventFlagsChanged,      kCGEventKeyDown,      kCGEventKeyUp,          kCGEventLeftMouseDown,
-                                        kCGEventLeftMouseDragged,  kCGEventLeftMouseUp,  kCGEventMouseMoved,     kCGEventOtherMouseDown,
-                                        kCGEventOtherMouseDragged, kCGEventOtherMouseUp, kCGEventRightMouseDown, kCGEventRightMouseDragged,
-                                        kCGEventRightMouseUp,      kCGEventScrollWheel,  kCGEventTabletPointer,  kCGEventTabletProximity };
-  uint64_t count = 0;
-  for (auto event : events)
+  static const CGEventType events[] = {kCGEventFlagsChanged,
+                                       kCGEventKeyDown,
+                                       kCGEventKeyUp,
+                                       kCGEventLeftMouseDown,
+                                       kCGEventLeftMouseDragged,
+                                       kCGEventLeftMouseUp,
+                                       kCGEventMouseMoved,
+                                       kCGEventOtherMouseDown,
+                                       kCGEventOtherMouseDragged,
+                                       kCGEventOtherMouseUp,
+                                       kCGEventRightMouseDown,
+                                       kCGEventRightMouseDragged,
+                                       kCGEventRightMouseUp,
+                                       kCGEventScrollWheel,
+                                       kCGEventTabletPointer,
+                                       kCGEventTabletProximity};
+  uint64_t count                    = 0;
+  for (auto event: events)
     {
       count += CGEventSourceCounterForEventType(kCGEventSourceStateCombinedSessionState, event);
     }

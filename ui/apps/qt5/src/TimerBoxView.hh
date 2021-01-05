@@ -33,8 +33,8 @@
 #include "TimeBar.hh"
 
 class TimerBoxView
-    : public QWidget
-    , public TimerBoxViewBase
+  : public QWidget
+  , public TimerBoxViewBase
 {
   Q_OBJECT
 
@@ -64,16 +64,16 @@ private:
   void set_sheep_only(bool sheep_only);
 
 private:
-  QGridLayout *layout{ nullptr };
+  QGridLayout *layout{nullptr};
   QWidget *labels[workrave::BREAK_ID_SIZEOF];
   TimeBar *bars[workrave::BREAK_ID_SIZEOF];
-  QLabel *sheep{ nullptr };
+  QLabel *sheep{nullptr};
   bool reconfigure = true;
-  int size = 0;
+  int size         = 0;
   int current_content[workrave::BREAK_ID_SIZEOF];
   int new_content[workrave::BREAK_ID_SIZEOF];
   int visible_count = -1;
-  bool sheep_only = false;
+  bool sheep_only   = false;
 };
 
 #endif // TIMERBOXVIEW_HH

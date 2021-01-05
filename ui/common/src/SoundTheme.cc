@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/SoundTheme.hh"
@@ -40,7 +40,7 @@
 #include "utils/AssetPath.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
-#include "utils/Platform.hh"
+#  include "utils/Platform.hh"
 #endif
 
 using namespace workrave;
@@ -49,64 +49,63 @@ using namespace workrave::audio;
 using namespace workrave::utils;
 using namespace std;
 
-SoundTheme::SoundRegistry SoundTheme::sound_registry[] =
+SoundTheme::SoundRegistry SoundTheme::sound_registry[] = {
   {
-    {
-      SoundEvent::BreakPrelude,
-      "break_prelude",
-    },
+    SoundEvent::BreakPrelude,
+    "break_prelude",
+  },
 
-    {
-      SoundEvent::BreakIgnored,
-      "break_ignored",
-    },
+  {
+    SoundEvent::BreakIgnored,
+    "break_ignored",
+  },
 
-    {
-      SoundEvent::RestBreakStarted,
-      "rest_break_started",
-    },
+  {
+    SoundEvent::RestBreakStarted,
+    "rest_break_started",
+  },
 
-    {
-      SoundEvent::RestBreakEnded,
-      "rest_break_ended",
-    },
+  {
+    SoundEvent::RestBreakEnded,
+    "rest_break_ended",
+  },
 
-    {
-      SoundEvent::MicroBreakStarted,
-      "micro_break_started",
-    },
+  {
+    SoundEvent::MicroBreakStarted,
+    "micro_break_started",
+  },
 
-    {
-      SoundEvent::MicroBreakEnded,
-      "micro_break_ended",
-    },
+  {
+    SoundEvent::MicroBreakEnded,
+    "micro_break_ended",
+  },
 
-    {
-      SoundEvent::DailyLimit,
-      "daily_limit",
-    },
+  {
+    SoundEvent::DailyLimit,
+    "daily_limit",
+  },
 
-    {
-      SoundEvent::ExerciseEnded,
-      "exercise_ended",
-    },
+  {
+    SoundEvent::ExerciseEnded,
+    "exercise_ended",
+  },
 
-    {
-      SoundEvent::ExercisesEnded,
-      "exercises_ended",
-    },
+  {
+    SoundEvent::ExercisesEnded,
+    "exercises_ended",
+  },
 
-    {
-      SoundEvent::ExerciseStep,
-      "exercise_step",
-    },
-  };
+  {
+    SoundEvent::ExerciseStep,
+    "exercise_step",
+  },
+};
 
-const string SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
-const string SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
-const string SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
-const string SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
-const string SoundTheme::CFG_KEY_SOUND_EVENT = "sound/events/";
+const string SoundTheme::CFG_KEY_SOUND_ENABLED       = "sound/enabled";
+const string SoundTheme::CFG_KEY_SOUND_DEVICE        = "sound/device";
+const string SoundTheme::CFG_KEY_SOUND_VOLUME        = "sound/volume";
+const string SoundTheme::CFG_KEY_SOUND_MUTE          = "sound/mute";
+const string SoundTheme::CFG_KEY_SOUND_EVENT         = "sound/events/";
 const string SoundTheme::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
 
 workrave::config::Setting<bool> &
@@ -148,7 +147,8 @@ SoundTheme::sound_event(const std::string &event)
 workrave::config::Setting<bool> &
 SoundTheme::sound_event_enabled(SoundEvent event)
 {
-  return SettingCache::get<bool>(Backend::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED, true);
+  return SettingCache::get<bool>(
+    Backend::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED, true);
 }
 
 workrave::config::Setting<std::string> &
@@ -160,7 +160,8 @@ SoundTheme::sound_event(SoundEvent event)
 SoundEvent
 SoundTheme::sound_id_to_event(const std::string &id)
 {
-  SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.id == id; });
+  SoundRegistry *item =
+    std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](SoundRegistry &item) { return item.id == id; });
   if (item != std::end(sound_registry))
     {
       return item->event;
@@ -171,7 +172,8 @@ SoundTheme::sound_id_to_event(const std::string &id)
 const std::string
 SoundTheme::sound_event_to_id(SoundEvent event)
 {
-  SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&] (SoundRegistry &item) { return item.event == event; });
+  SoundRegistry *item =
+    std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](SoundRegistry &item) { return item.event == event; });
   if (item != std::end(sound_registry))
     {
       return item->id;
@@ -188,8 +190,7 @@ SoundTheme::SoundTheme()
 #endif
 }
 
-SoundTheme::~SoundTheme()
-= default;
+SoundTheme::~SoundTheme() = default;
 
 void
 SoundTheme::init()
@@ -207,7 +208,7 @@ SoundTheme::register_sound_events()
   ThemeInfo::Ptr theme = get_theme("default");
   if (theme)
     {
-      for (SoundInfo sound : theme->sounds)
+      for (SoundInfo sound: theme->sounds)
         {
           boost::filesystem::path path(SoundTheme::sound_event(sound.event)());
           if (!boost::filesystem::is_regular_file(path))
@@ -227,7 +228,7 @@ SoundTheme::activate_theme(const std::string &theme_id)
   ThemeInfo::Ptr theme = get_theme(theme_id);
   if (theme)
     {
-      for (SoundInfo sound : theme->sounds)
+      for (SoundInfo sound: theme->sounds)
         {
           TRACE_MSG("activating " << sound.event << " " << sound.filename);
           SoundTheme::sound_event(sound.event).set(sound.filename);
@@ -241,7 +242,7 @@ SoundTheme::load_themes()
 {
   TRACE_ENTER("SoundTheme::get_sound_themes");
 
-  for (const auto &dirname : AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS))
+  for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS))
     {
       boost::filesystem::path dirpath(dirname);
 
@@ -283,12 +284,12 @@ SoundTheme::load_sound_theme(const string &themedir)
       boost::property_tree::ptree pt;
       boost::property_tree::ini_parser::read_ini(file.string(), pt);
 
-      theme->theme_id = path.stem().string();
+      theme->theme_id    = path.stem().string();
       theme->description = pt.get<std::string>("general.description");
       TRACE_MSG("id = " << theme->theme_id);
       TRACE_MSG("descr = " << theme->description);
 
-      for (SoundRegistry &snd : sound_registry)
+      for (SoundRegistry &snd: sound_registry)
         {
           auto filename = pt.get<std::string>(snd.id + ".file");
 
@@ -297,7 +298,7 @@ SoundTheme::load_sound_theme(const string &themedir)
           soundpath = canonical(soundpath);
 
           SoundInfo sound_info;
-          sound_info.event = sound_id_to_event(snd.id);
+          sound_info.event    = sound_id_to_event(snd.id);
           sound_info.filename = soundpath.string();
           theme->sounds.push_back(sound_info);
         }
@@ -320,10 +321,10 @@ SoundTheme::get_themes()
 SoundTheme::ThemeInfo::Ptr
 SoundTheme::get_active_theme()
 {
-   for (SoundTheme::ThemeInfo::Ptr theme : themes)
+  for (SoundTheme::ThemeInfo::Ptr theme: themes)
     {
       bool is_current = true;
-      for (SoundInfo sound : theme->sounds)
+      for (SoundInfo sound: theme->sounds)
         {
           if (sound.filename != SoundTheme::sound_event(sound.event)())
             {
@@ -337,15 +338,14 @@ SoundTheme::get_active_theme()
         }
     }
 
-
   ThemeInfo::Ptr theme(new ThemeInfo);
-  theme->theme_id = "custom";
+  theme->theme_id    = "custom";
   theme->description = "";
 
-  for (SoundRegistry &snd : sound_registry)
+  for (SoundRegistry &snd: sound_registry)
     {
       SoundInfo sound_info;
-      sound_info.event = sound_id_to_event(snd.id);
+      sound_info.event    = sound_id_to_event(snd.id);
       sound_info.filename = SoundTheme::sound_event(snd.event)();
       theme->sounds.push_back(sound_info);
     }
@@ -356,7 +356,7 @@ SoundTheme::get_active_theme()
 SoundTheme::ThemeInfo::Ptr
 SoundTheme::get_theme(const std::string &theme_id)
 {
-  auto it = std::find_if(themes.begin(), themes.end(), [&] (ThemeInfo::Ptr item) { return item->theme_id == theme_id; });
+  auto it = std::find_if(themes.begin(), themes.end(), [&](ThemeInfo::Ptr item) { return item->theme_id == theme_id; });
   if (it != themes.end())
     {
       return *it;
@@ -405,21 +405,21 @@ SoundTheme::capability(workrave::audio::SoundCapability cap)
 void
 SoundTheme::win32_remove_deprecated_appevents()
 {
-  const string ids[] = { "WorkraveBreakPrelude",
-                         "WorkraveBreakIgnored",
-                         "WorkraveRestBreakStarted",
-                         "WorkraveRestBreakEnded",
-                         "WorkraveMicroBreakStarted",
-                         "WorkraveMicroBreakEnded",
-                         "WorkraveDailyLimit",
-                         "WorkraveExerciseEnded",
-                         "WorkraveExercisesEnded",
-                         "WorkraveExerciseStep"  };
+  const string ids[] = {"WorkraveBreakPrelude",
+                        "WorkraveBreakIgnored",
+                        "WorkraveRestBreakStarted",
+                        "WorkraveRestBreakEnded",
+                        "WorkraveMicroBreakStarted",
+                        "WorkraveMicroBreakEnded",
+                        "WorkraveDailyLimit",
+                        "WorkraveExerciseEnded",
+                        "WorkraveExercisesEnded",
+                        "WorkraveExerciseStep"};
 
-  string schemes = "AppEvents\\Schemes\\Apps\\Workrave\\";
+  string schemes      = "AppEvents\\Schemes\\Apps\\Workrave\\";
   string event_labels = "AppEvents\\EventLabels\\";
 
-  for (string id : ids)
+  for (string id: ids)
     {
       string key = schemes + id + "\\.current";
       Platform::registry_set_value(key.c_str(), NULL, NULL);

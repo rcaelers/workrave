@@ -17,7 +17,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <vector>
@@ -29,7 +29,7 @@
 using namespace workrave::utils;
 
 ITimeSource::Ptr TimeSource::source;
-int64_t TimeSource::synced_real_time = 0;
+int64_t TimeSource::synced_real_time      = 0;
 int64_t TimeSource::synced_monotonic_time = 0;
 
 int64_t
@@ -40,7 +40,8 @@ TimeSource::get_real_time_usec()
       return source->get_real_time_usec();
     }
 
-  auto t = std::chrono::system_clock::now().time_since_epoch();;
+  auto t = std::chrono::system_clock::now().time_since_epoch();
+  ;
   auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
   return ms;
 }
@@ -53,7 +54,8 @@ TimeSource::get_monotonic_time_usec()
       return source->get_monotonic_time_usec();
     }
 
-  auto t = std::chrono::steady_clock::now().time_since_epoch();;
+  auto t = std::chrono::steady_clock::now().time_since_epoch();
+  ;
   auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
   return ms;
 }
@@ -86,6 +88,5 @@ void
 TimeSource::sync()
 {
   synced_monotonic_time = get_monotonic_time_usec();
-  synced_real_time = get_real_time_usec();
+  synced_real_time      = get_real_time_usec();
 }
-

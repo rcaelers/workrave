@@ -21,7 +21,7 @@
 #define BREAKWINDOW_HH
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <cstdio>
@@ -43,31 +43,28 @@ namespace Gtk
 {
   class Button;
   class Box;
-}
+} // namespace Gtk
 
 class Frame;
 
-class BreakWindow :
-  public Gtk::Window,
-  public IBreakWindow
+class BreakWindow
+  : public Gtk::Window
+  , public IBreakWindow
 {
-    friend class W32Compat;
+  friend class W32Compat;
 
 public:
   enum BreakFlags
-    {
-      BREAK_FLAGS_NONE            = 0,
-      BREAK_FLAGS_POSTPONABLE     = 1 << 0,
-      BREAK_FLAGS_SKIPPABLE       = 1 << 1,
-      BREAK_FLAGS_NO_EXERCISES    = 1 << 2,
-      BREAK_FLAGS_NATURAL         = 1 << 3,
-      BREAK_FLAGS_USER_INITIATED  = 1 << 4
-    };
+  {
+    BREAK_FLAGS_NONE           = 0,
+    BREAK_FLAGS_POSTPONABLE    = 1 << 0,
+    BREAK_FLAGS_SKIPPABLE      = 1 << 1,
+    BREAK_FLAGS_NO_EXERCISES   = 1 << 2,
+    BREAK_FLAGS_NATURAL        = 1 << 3,
+    BREAK_FLAGS_USER_INITIATED = 1 << 4
+  };
 
-  BreakWindow(workrave::BreakId break_id,
-              HeadInfo &head,
-              BreakFlags break_flags,
-              GUIConfig::BlockMode block_mode);
+  BreakWindow(workrave::BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode block_mode);
   ~BreakWindow() override;
 
   void init() override;
@@ -118,12 +115,13 @@ private:
   class SysoperModelColumns : public Gtk::TreeModelColumnRecord
   {
   public:
-    Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > icon;
+    Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf>> icon;
     Gtk::TreeModelColumn<Glib::ustring> name;
     Gtk::TreeModelColumn<System::SystemOperation::SystemOperationType> id;
     bool has_button_images;
 
-    SysoperModelColumns(bool has_button_images): has_button_images(has_button_images)
+    SysoperModelColumns(bool has_button_images)
+      : has_button_images(has_button_images)
     {
       if (has_button_images)
         {
@@ -143,7 +141,7 @@ private:
   //! Break windows visible?
   bool visible;
 
-  //Supported system operations (like suspend, hibernate, shutdown)
+  // Supported system operations (like suspend, hibernate, shutdown)
   std::vector<System::SystemOperation> supported_system_operations;
   SysoperModelColumns *sysoper_model_columns;
 
@@ -163,14 +161,12 @@ private:
   long parent;
 #endif
 
-  void get_operation_name_and_icon(
-      System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
-  void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model,
-      System::SystemOperation::SystemOperationType type);
+  void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
+  void append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, System::SystemOperation::SystemOperationType type);
   void on_sysoper_combobox_changed();
 
-  bool on_draw(const ::Cairo::RefPtr< ::Cairo::Context>& cr) override;
-  void on_screen_changed(const Glib::RefPtr<Gdk::Screen>& previous_screen) override;
+  bool on_draw(const ::Cairo::RefPtr<::Cairo::Context> &cr) override;
+  void on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen) override;
 };
 
 inline BreakWindow::BreakFlags
@@ -198,22 +194,22 @@ operator~(BreakWindow::BreakFlags flags)
   return static_cast<BreakWindow::BreakFlags>(~static_cast<unsigned>(flags));
 }
 
-inline BreakWindow::BreakFlags&
-operator|=(BreakWindow::BreakFlags& lhs, BreakWindow::BreakFlags rhs)
+inline BreakWindow::BreakFlags &
+operator|=(BreakWindow::BreakFlags &lhs, BreakWindow::BreakFlags rhs)
 
 {
   return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs)));
 }
 
-inline BreakWindow::BreakFlags&
-operator&=(BreakWindow::BreakFlags& lhs, BreakWindow::BreakFlags rhs)
+inline BreakWindow::BreakFlags &
+operator&=(BreakWindow::BreakFlags &lhs, BreakWindow::BreakFlags rhs)
 
 {
   return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs)));
 }
 
-inline BreakWindow::BreakFlags&
-operator^=(BreakWindow::BreakFlags& lhs, BreakWindow::BreakFlags rhs)
+inline BreakWindow::BreakFlags &
+operator^=(BreakWindow::BreakFlags &lhs, BreakWindow::BreakFlags rhs)
 
 {
   return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) ^ static_cast<unsigned>(rhs)));

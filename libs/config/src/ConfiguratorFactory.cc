@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <cstdlib>
@@ -30,16 +30,16 @@
 #include "IniConfigurator.hh"
 #include "XmlConfigurator.hh"
 #ifdef HAVE_GSETTINGS
-#include "GSettingsConfigurator.hh"
+#  include "GSettingsConfigurator.hh"
 #endif
 #ifdef PLATFORM_OS_WINDOWS
-#include "W32Configurator.hh"
+#  include "W32Configurator.hh"
 #endif
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSConfigurator.hh"
+#  include "MacOSConfigurator.hh"
 #endif
 #ifdef HAVE_QT5
-#include "QtSettingsConfigurator.hh"
+#  include "QtSettingsConfigurator.hh"
 #endif
 
 using namespace workrave::config;
@@ -48,7 +48,7 @@ using namespace workrave::config;
 IConfigurator::Ptr
 ConfiguratorFactory::create(Format fmt)
 {
-  Configurator *c =  nullptr;
+  Configurator *c   = nullptr;
   IConfigBackend *b = nullptr;
 
   if (fmt == FormatNative)

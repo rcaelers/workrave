@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gtkmm/spinbutton.h>
@@ -26,21 +26,21 @@
 #include "debug.hh"
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
-#undef HAVE_UNISTD_H
+#  undef HAVE_UNISTD_H
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include "TimeEntry.hh"
 
-
 TimeEntry::TimeEntry()
-  : Gtk::HBox(false, 1),
-    
-    hours_adjustment(Gtk::Adjustment::create(0, 0, 23)),
-    mins_adjustment(Gtk::Adjustment::create(0, 0, 59)),
-    secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
+  : Gtk::HBox(false, 1)
+  ,
+
+  hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
+  , mins_adjustment(Gtk::Adjustment::create(0, 0, 59))
+  , secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
 {
   secs = Gtk::manage(new Gtk::SpinButton(secs_adjustment));
   secs->set_numeric(true);
@@ -73,14 +73,12 @@ TimeEntry::TimeEntry()
   pack_start(*secs, false, false);
 }
 
-
-TimeEntry::~TimeEntry()
-= default;
+TimeEntry::~TimeEntry() = default;
 
 void
 TimeEntry::set_value(time_t t)
 {
-  hours_adjustment->set_value((double)(t / (60*60)));
+  hours_adjustment->set_value((double)(t / (60 * 60)));
   mins_adjustment->set_value((double)((t / 60) % 60));
   secs_adjustment->set_value((double)(t % 60));
 }
@@ -98,7 +96,7 @@ void
 TimeEntry::update(Gtk::SpinButton *spin)
 {
   // Needless to say, this kinda sucks.
-  Glib::ustring s = spin->get_text();
+  Glib::ustring s  = spin->get_text();
   const gchar *txt = s.c_str();
   if (txt != nullptr && *txt != 0)
     {

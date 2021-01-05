@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "W32Grab.hh"
@@ -24,7 +24,7 @@
 #include "debug.hh"
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
-#undef max
+#  undef max
 #endif
 
 #include <windows.h>
@@ -57,9 +57,9 @@ Hook::instance()
   static Hook *the_instance = nullptr;
 
   if (the_instance == nullptr)
-  {
-    the_instance = new Hook();
-  }
+    {
+      the_instance = new Hook();
+    }
   return the_instance;
 }
 
@@ -76,10 +76,10 @@ void
 Hook::disable()
 {
   if (hook != nullptr)
-  {
-    UnhookWindowsHookEx(hook);
-    hook = nullptr;
-  }
+    {
+      UnhookWindowsHookEx(hook);
+      hook = nullptr;
+    }
 }
 
 LRESULT CALLBACK
@@ -95,12 +95,12 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
 
       // bool is_key_down = ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN));
 
-      BOOL ctrl_down = GetAsyncKeyState(VK_CONTROL)>>((sizeof(SHORT) * 8) - 1);
+      BOOL ctrl_down = GetAsyncKeyState(VK_CONTROL) >> ((sizeof(SHORT) * 8) - 1);
 
-      if ((data->vkCode == VK_ESCAPE && ctrl_down) ||				        // Ctrl+Esc
-          (data->vkCode == VK_TAB && data->flags & LLKHF_ALTDOWN) ||	  // Alt+TAB
-          (data->vkCode == VK_ESCAPE && data->flags & LLKHF_ALTDOWN) ||	// Alt+Esc
-          (data->vkCode == VK_LWIN || data->vkCode == VK_RWIN))			    // Start Menu
+      if ((data->vkCode == VK_ESCAPE && ctrl_down) ||                   // Ctrl+Esc
+          (data->vkCode == VK_TAB && data->flags & LLKHF_ALTDOWN) ||    // Alt+TAB
+          (data->vkCode == VK_ESCAPE && data->flags & LLKHF_ALTDOWN) || // Alt+Esc
+          (data->vkCode == VK_LWIN || data->vkCode == VK_RWIN))         // Start Menu
         {
           handled = true;
         }
@@ -109,10 +109,7 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
   return (handled ? TRUE : CallNextHookEx(self->hook, nCode, wParam, lParam));
 }
 
-
-W32Grab::W32Grab()
-{
-}
+W32Grab::W32Grab() {}
 
 bool
 W32Grab::can_grab()
@@ -131,4 +128,3 @@ W32Grab::ungrab()
 {
   Hook::instance()->disable();
 }
-

@@ -21,7 +21,7 @@
 #define LOCKSCREEN_HH_
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "session/IScreenLockMethod.hh"
@@ -33,15 +33,14 @@ class W32LockScreen : public IScreenLockMethod
 {
 public:
   W32LockScreen();
-  virtual ~W32LockScreen() {};
+  virtual ~W32LockScreen(){};
   virtual bool is_lock_supported() { return lock_func != NULL; };
   virtual bool lock();
 
 private:
-  typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
+  typedef HRESULT(FAR PASCAL *LockWorkStationFunc)(void);
   static LockWorkStationFunc lock_func;
   static HINSTANCE user32_dll;
-
 };
 
 #endif /* LOCKSCREEN_HH_ */

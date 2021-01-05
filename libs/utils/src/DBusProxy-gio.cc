@@ -23,133 +23,111 @@
 #include "DBusProxy-gio.hh"
 #include <iostream>
 
+bool
+DBusProxy::init_with_connection(GDBusConnection *connection,
+                                const char *name,
+                                const char *object_path,
+                                const char *interface_name,
+                                GDBusProxyFlags flags_in)
+{
+  TRACE_ENTER_MSG("DBus_proxy::init_with_connection", name);
+  this->flags = flags_in;
+  proxy       = g_dbus_proxy_new_sync(connection, flags, nullptr, name, object_path, interface_name, nullptr, &error);
 
-
-  bool DBusProxy::init_with_connection(GDBusConnection *connection, const char *name, const char *object_path,
-              const char *interface_name, GDBusProxyFlags flags_in)
-  {
-    TRACE_ENTER_MSG("DBus_proxy::init_with_connection", name);
-    this->flags = flags_in;
-    proxy = g_dbus_proxy_new_sync(connection,
-                                       flags,
-                                       nullptr,
-                                       name,
-                                       object_path,
-                                       interface_name,
-                                       nullptr,
-                                       &error);
-
-    if (error != nullptr)
-      {
-        TRACE_MSG("Error: " << error->message);
-        return false;
-      }
-    TRACE_EXIT();
-    return true;
-  }
-
-  bool DBusProxy::init(GBusType bus_type, const char *name, const char *object_path,
-              const char *interface_name, GDBusProxyFlags flags_in)
-  {
-    TRACE_ENTER_MSG("DBus_proxy::init", name);
-    this->flags = flags_in;
-    error = nullptr;
-    proxy = g_dbus_proxy_new_for_bus_sync(bus_type,
-                                               flags,
-                                               nullptr,
-                                               name,
-                                               object_path,
-                                               interface_name,
-                                               nullptr,
-                                               &error);
-
-    if (error != nullptr)
-      {
-        TRACE_MSG("Error: " << error->message);
-        return false;
-      }
-    TRACE_EXIT();
-    return true;
-  }
-
-
-  //Consumes (=deletes) method_parameters if it is floating
-  //method_result may be null, in this case the result of the method is ignored
-  bool DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result)
-  {
-    TRACE_ENTER_MSG("DBus_proxy::call_method", method_name);
-    if (proxy == nullptr)
+  if (error != nullptr)
+    {
+      TRACE_MSG("Error: " << error->message);
       return false;
+    }
+  TRACE_EXIT();
+  return true;
+}
 
-    if (error != nullptr)
-      {
-        g_error_free(error);
-        error = nullptr;
-      }
+bool
+DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, const char *interface_name, GDBusProxyFlags flags_in)
+{
+  TRACE_ENTER_MSG("DBus_proxy::init", name);
+  this->flags = flags_in;
+  error       = nullptr;
+  proxy       = g_dbus_proxy_new_for_bus_sync(bus_type, flags, nullptr, name, object_path, interface_name, nullptr, &error);
 
-    GVariant *result = g_dbus_proxy_call_sync(proxy, method_name,
-                                              method_parameters,
-                                              G_DBUS_CALL_FLAGS_NONE,
-                                              -1,
-                                              nullptr,
-                                              &error);
-
-    if (method_result == nullptr)
-      {
-        if (result != nullptr)
-          {
-            g_variant_unref(result);
-            result = nullptr;
-          }
-      }
-    else
-      {
-        if (error != nullptr)
-          {
-            *method_result = nullptr;
-            if (result != nullptr)
-              {
-                g_variant_unref(result);
-                result = nullptr;
-              }
-          }
-        else
-          {
-            *method_result = result;
-          }
-      }
-
-    if (error != nullptr)
-      {
-        TRACE_RETURN(error->message);
-        return false;
-      }
-
-    TRACE_EXIT();
-    return true;
-  }
-
-  //Consumes (=deletes) method_parameters if it is floating
-  bool DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *method_parameters)
-  {
-    TRACE_ENTER_MSG("DBus_proxy::call_method_asynch_no_result", method_name);
-    if (proxy == nullptr)
+  if (error != nullptr)
+    {
+      TRACE_MSG("Error: " << error->message);
       return false;
+    }
+  TRACE_EXIT();
+  return true;
+}
 
-    if (error != nullptr)
-      {
-        g_error_free(error);
-        error = nullptr;
-      }
+// Consumes (=deletes) method_parameters if it is floating
+// method_result may be null, in this case the result of the method is ignored
+bool
+DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result)
+{
+  TRACE_ENTER_MSG("DBus_proxy::call_method", method_name);
+  if (proxy == nullptr)
+    return false;
 
-    g_dbus_proxy_call(proxy, method_name,
-                              method_parameters,
-                              G_DBUS_CALL_FLAGS_NONE,
-                              -1,
-                              nullptr,
-                              nullptr,
-                              nullptr);
+  if (error != nullptr)
+    {
+      g_error_free(error);
+      error = nullptr;
+    }
 
-    TRACE_EXIT();
-    return true;
-  }
+  GVariant *result = g_dbus_proxy_call_sync(proxy, method_name, method_parameters, G_DBUS_CALL_FLAGS_NONE, -1, nullptr, &error);
+
+  if (method_result == nullptr)
+    {
+      if (result != nullptr)
+        {
+          g_variant_unref(result);
+          result = nullptr;
+        }
+    }
+  else
+    {
+      if (error != nullptr)
+        {
+          *method_result = nullptr;
+          if (result != nullptr)
+            {
+              g_variant_unref(result);
+              result = nullptr;
+            }
+        }
+      else
+        {
+          *method_result = result;
+        }
+    }
+
+  if (error != nullptr)
+    {
+      TRACE_RETURN(error->message);
+      return false;
+    }
+
+  TRACE_EXIT();
+  return true;
+}
+
+// Consumes (=deletes) method_parameters if it is floating
+bool
+DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *method_parameters)
+{
+  TRACE_ENTER_MSG("DBus_proxy::call_method_asynch_no_result", method_name);
+  if (proxy == nullptr)
+    return false;
+
+  if (error != nullptr)
+    {
+      g_error_free(error);
+      error = nullptr;
+    }
+
+  g_dbus_proxy_call(proxy, method_name, method_parameters, G_DBUS_CALL_FLAGS_NONE, -1, nullptr, nullptr, nullptr);
+
+  TRACE_EXIT();
+  return true;
+}

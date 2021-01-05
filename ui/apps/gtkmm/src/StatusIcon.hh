@@ -22,7 +22,7 @@
 
 #ifdef PLATFORM_OS_WINDOWS
 // #define USE_W32STATUSICON 1
-#include <gdk/gdkwin32.h>
+#  include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
 
@@ -40,9 +40,9 @@ public:
 
   void init();
   void set_operation_mode(workrave::OperationMode m);
-  void set_tooltip(std::string& tip);
+  void set_tooltip(std::string &tip);
   bool is_visible() const;
-  void show_balloon(std::string id, const std::string& balloon);
+  void show_balloon(std::string id, const std::string &balloon);
 
   sigc::signal<void> &signal_visibility_changed();
   sigc::signal<void> &signal_activate();
@@ -70,16 +70,14 @@ private:
   sigc::signal<void> activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
 
-
 #ifdef USE_W32STATUSICON
   W32StatusIcon *status_icon;
 #else
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
-#ifdef PLATFORM_OS_WINDOWS
+#  ifdef PLATFORM_OS_WINDOWS
   UINT wm_taskbarcreated;
-#endif
+#  endif
 #endif
 };
-
 
 #endif // STATUSICON_HH

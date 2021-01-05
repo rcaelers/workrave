@@ -21,7 +21,7 @@
 #define EXERCISES_DIALOG_HH
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Hig.hh"

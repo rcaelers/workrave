@@ -27,7 +27,7 @@
 #include <iostream>
 
 IconListNotebook::IconListNotebook(QWidget *parent)
-    : QWidget(parent)
+  : QWidget(parent)
 {
   content = new QStackedWidget;
   content->setFrameShape(QFrame::StyledPanel);
@@ -60,9 +60,9 @@ IconListNotebook::IconListNotebook(QWidget *parent)
 QSize
 IconListNotebook::sizeHint() const
 {
-  int max_x{ 0 };
-  int max_y{ 0 };
-  for (QAbstractButton *button : button_group->buttons())
+  int max_x{0};
+  int max_y{0};
+  for (QAbstractButton *button: button_group->buttons())
     {
       max_x = qMax(max_x, button->sizeHint().width());
       max_y = qMax(max_y, button->sizeHint().height());

@@ -17,10 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
-
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <iostream>
@@ -44,18 +42,14 @@ MacOSGtkMenu::MacOSGtkMenu(bool show_open)
 {
 }
 
-
 //! Destructor.
-MacOSGtkMenu::~MacOSGtkMenu()
-{
-}
-
+MacOSGtkMenu::~MacOSGtkMenu() {}
 
 void
 MacOSGtkMenu::popup(const guint button, const guint activate_time)
 {
-  (void) button;
-  (void) activate_time;
+  (void)button;
+  (void)activate_time;
 }
 
 void
@@ -95,7 +89,6 @@ MacOSGtkMenu::create_ui()
   //     std::cerr << "building menus and toolbars failed: " <<  ex.what();
   //   }
 
-
   // Glib::RefPtr<Gtk::Application> app = Gtk::Application::get_default();
 
   // static const GActionEntry actions[] = {
@@ -114,7 +107,6 @@ MacOSGtkMenu::create_ui()
   // g_object_unref (menu);
 
   // app->set_appmenu()
-
 
   // Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu"));
   // Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit"));
@@ -147,5 +139,4 @@ MacOSGtkMenu::create_ui()
   //                  "quit-activate",
   //                  G_CALLBACK(dock_quit),
   //                  this);
-
 }

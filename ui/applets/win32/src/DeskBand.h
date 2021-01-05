@@ -25,20 +25,21 @@
 #include "Applet.hh"
 
 #ifndef DESKBAND_H
-#define DESKBAND_H
+#  define DESKBAND_H
 
-#define DB_CLASS_NAME (TEXT("WorkraveApplet"))
+#  define DB_CLASS_NAME (TEXT("WorkraveApplet"))
 
-#define DB_MIN_SIZE_X   10
-#define DB_MIN_SIZE_Y   10
+#  define DB_MIN_SIZE_X 10
+#  define DB_MIN_SIZE_Y 10
 
 class TimerBox;
 
-class CDeskBand : public IDeskBand2,
-                  public IInputObject,
-                  public IObjectWithSite,
-                  public IPersistStream,
-                  public IContextMenu
+class CDeskBand
+  : public IDeskBand2
+  , public IInputObject
+  , public IObjectWithSite
+  , public IPersistStream
+  , public IContextMenu
 {
 protected:
   DWORD m_ObjRefCount;
@@ -47,48 +48,48 @@ public:
   CDeskBand();
   virtual ~CDeskBand();
 
-  //IUnknown methods
-  STDMETHODIMP QueryInterface(REFIID, LPVOID*);
+  // IUnknown methods
+  STDMETHODIMP QueryInterface(REFIID, LPVOID *);
   STDMETHODIMP_(DWORD) AddRef();
   STDMETHODIMP_(DWORD) Release();
 
-  //IOleWindow methods
-  STDMETHOD (GetWindow) (HWND*);
-  STDMETHOD (ContextSensitiveHelp) (BOOL);
+  // IOleWindow methods
+  STDMETHOD(GetWindow)(HWND *);
+  STDMETHOD(ContextSensitiveHelp)(BOOL);
 
-  //IDockingWindow methods
-  STDMETHOD (ShowDW) (BOOL fShow);
-  STDMETHOD (CloseDW) (DWORD dwReserved);
-  STDMETHOD (ResizeBorderDW) (LPCRECT prcBorder, IUnknown* punkToolbarSite, BOOL fReserved);
+  // IDockingWindow methods
+  STDMETHOD(ShowDW)(BOOL fShow);
+  STDMETHOD(CloseDW)(DWORD dwReserved);
+  STDMETHOD(ResizeBorderDW)(LPCRECT prcBorder, IUnknown *punkToolbarSite, BOOL fReserved);
 
-  //IDeskBand methods
-  STDMETHOD (GetBandInfo) (DWORD, DWORD, DESKBANDINFO*);
+  // IDeskBand methods
+  STDMETHOD(GetBandInfo)(DWORD, DWORD, DESKBANDINFO *);
 
-  //IDeskBand2 methods
-  STDMETHOD ( CanRenderComposited )( BOOL * );
-  STDMETHOD ( GetCompositionState )( BOOL * );
-  STDMETHOD ( SetCompositionState )( BOOL );
+  // IDeskBand2 methods
+  STDMETHOD(CanRenderComposited)(BOOL *);
+  STDMETHOD(GetCompositionState)(BOOL *);
+  STDMETHOD(SetCompositionState)(BOOL);
 
-  //IInputObject methods
-  STDMETHOD (UIActivateIO) (BOOL, LPMSG);
-  STDMETHOD (HasFocusIO) ();
-  STDMETHOD (TranslateAcceleratorIO) (LPMSG);
+  // IInputObject methods
+  STDMETHOD(UIActivateIO)(BOOL, LPMSG);
+  STDMETHOD(HasFocusIO)();
+  STDMETHOD(TranslateAcceleratorIO)(LPMSG);
 
-  //IObjectWithSite methods
-  STDMETHOD (SetSite) (IUnknown*);
-  STDMETHOD (GetSite) (REFIID, LPVOID*);
+  // IObjectWithSite methods
+  STDMETHOD(SetSite)(IUnknown *);
+  STDMETHOD(GetSite)(REFIID, LPVOID *);
 
-  //IPersistStream methods
-  STDMETHOD (GetClassID) (LPCLSID);
-  STDMETHOD (IsDirty) ();
-  STDMETHOD (Load) (LPSTREAM);
-  STDMETHOD (Save) (LPSTREAM, BOOL);
-  STDMETHOD (GetSizeMax) (ULARGE_INTEGER*);
+  // IPersistStream methods
+  STDMETHOD(GetClassID)(LPCLSID);
+  STDMETHOD(IsDirty)();
+  STDMETHOD(Load)(LPSTREAM);
+  STDMETHOD(Save)(LPSTREAM, BOOL);
+  STDMETHOD(GetSizeMax)(ULARGE_INTEGER *);
 
-  //IContextMenu methods
-  STDMETHOD (QueryContextMenu)(HMENU, UINT, UINT, UINT, UINT);
-  STDMETHOD (InvokeCommand)(LPCMINVOKECOMMANDINFO);
-  STDMETHOD (GetCommandString)(UINT_PTR, UINT, LPUINT, LPSTR, UINT);
+  // IContextMenu methods
+  STDMETHOD(QueryContextMenu)(HMENU, UINT, UINT, UINT, UINT);
+  STDMETHOD(InvokeCommand)(LPCMINVOKECOMMANDINFO);
+  STDMETHOD(GetCommandString)(UINT_PTR, UINT, LPUINT, LPSTR, UINT);
 
   HWND get_command_window() const;
 
@@ -126,8 +127,7 @@ private:
 inline HWND
 CDeskBand::get_command_window() const
 {
-  return (HWND)LongToHandle( m_AppletMenu.command_window );
+  return (HWND)LongToHandle(m_AppletMenu.command_window);
 }
 
-#endif   //DESKBAND_H
-
+#endif // DESKBAND_H

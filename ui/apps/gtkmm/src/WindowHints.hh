@@ -21,14 +21,14 @@
 #include <gtk/gtk.h>
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <windows.h>
+#  include <windows.h>
 
-#undef __out
-#undef __in
+#  undef __out
+#  undef __in
 
-#if defined(interface)
-#undef interface
-#endif
+#  if defined(interface)
+#    undef interface
+#  endif
 #endif
 
 namespace Gtk

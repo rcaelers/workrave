@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -30,20 +30,20 @@ using namespace workrave::input_monitor;
 
 MacOSInputMonitorFactory::MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config)
 {
-  (void) config;
+  (void)config;
   monitor = nullptr;
 }
 
 void
 MacOSInputMonitorFactory::init(const char *display)
 {
-  (void) display;
+  (void)display;
 }
 
 IInputMonitor::Ptr
 MacOSInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
-  (void) capability;
+  (void)capability;
 
   if (monitor == nullptr)
     {

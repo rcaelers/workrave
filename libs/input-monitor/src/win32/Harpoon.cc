@@ -22,7 +22,7 @@
 
 #include <assert.h>
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -47,40 +47,36 @@ using namespace workrave::utils;
 using namespace std;
 
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
-HWND Harpoon::helper_window = NULL;
+HWND Harpoon::helper_window  = NULL;
 bool Harpoon::helper_started = false;
 
-Harpoon::Harpoon()
-{
-}
-
+Harpoon::Harpoon() {}
 
 Harpoon::~Harpoon()
 {
   terminate();
 }
 
-
 bool
 Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 {
   TRACE_ENTER("Harpoon::init");
-  assert( HARPOON_MAX_UNBLOCKED_APPS );
+  assert(HARPOON_MAX_UNBLOCKED_APPS);
   init_critical_filename_list(config);
 
   bool debug, mouse_lowlevel, keyboard_lowlevel;
 
-  config->get_value_with_default( "advanced/harpoon/debug", debug, false );
+  config->get_value_with_default("advanced/harpoon/debug", debug, false);
 
   bool default_mouse_lowlevel = false;
-  if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
+  if (LOBYTE(LOWORD(GetVersion())) >= 6)
     {
       default_mouse_lowlevel = true;
     }
 
-  config->get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
+  config->get_value_with_default("advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel);
 
-  config->get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
+  config->get_value_with_default("advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true);
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
@@ -107,7 +103,6 @@ Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
   return true;
 }
 
-
 //! Stops the activity monitoring.
 void
 Harpoon::terminate()
@@ -115,7 +110,6 @@ Harpoon::terminate()
   stop_harpoon_helper();
   harpoon_exit();
 }
-
 
 void
 Harpoon::block_input()
@@ -160,42 +154,41 @@ Harpoon::init_critical_filename_list(IConfigurator::Ptr config)
   int i, filecount;
 
   // Task Manager is always on the critical_filename_list
-  if( GetVersion() >= 0x80000000 )
-  // Windows Me/98/95
-      strcpy( critical_filename_list[ 0 ], "taskman.exe" );
-  else if( !check_for_taskmgr_debugger( critical_filename_list[ 0 ] ) )
-      strcpy( critical_filename_list[ 0 ], "taskmgr.exe" );
+  if (GetVersion() >= 0x80000000)
+    // Windows Me/98/95
+    strcpy(critical_filename_list[0], "taskman.exe");
+  else if (!check_for_taskmgr_debugger(critical_filename_list[0]))
+    strcpy(critical_filename_list[0], "taskmgr.exe");
 
-  for( i = 1; i < HARPOON_MAX_UNBLOCKED_APPS; ++i )
-      critical_filename_list[ i ][ 0 ] = '\0';
+  for (i = 1; i < HARPOON_MAX_UNBLOCKED_APPS; ++i)
+    critical_filename_list[i][0] = '\0';
 
   filecount = 0;
-  if( !config->get_value( "advanced/critical_files/filecount", filecount) || !filecount )
-          return;
+  if (!config->get_value("advanced/critical_files/filecount", filecount) || !filecount)
+    return;
 
-  if( filecount >= HARPOON_MAX_UNBLOCKED_APPS )
-  // This shouldn't happen
+  if (filecount >= HARPOON_MAX_UNBLOCKED_APPS)
+    // This shouldn't happen
     {
       filecount = HARPOON_MAX_UNBLOCKED_APPS - 1;
-      config->set_value( "advanced/critical_files/filecount", filecount );
+      config->set_value("advanced/critical_files/filecount", filecount);
     }
 
   char loc[40];
   string buffer;
-  for( i = 1; i <= filecount; ++i )
+  for (i = 1; i <= filecount; ++i)
     {
-      sprintf( loc, "advanced/critical_files/file%d", i );
-      if( config->get_value( loc, buffer) )
+      sprintf(loc, "advanced/critical_files/file%d", i);
+      if (config->get_value(loc, buffer))
         {
-          strncpy( critical_filename_list[ i ], buffer.c_str(), 510 );
-          critical_filename_list[ i ][ 510 ] = '\0';
+          strncpy(critical_filename_list[i], buffer.c_str(), 510);
+          critical_filename_list[i][510] = '\0';
         }
     }
 }
 
-
 bool
-Harpoon::check_for_taskmgr_debugger( char *out )
+Harpoon::check_for_taskmgr_debugger(char *out)
 {
   HKEY hKey = NULL;
   LONG err;
@@ -203,75 +196,76 @@ Harpoon::check_for_taskmgr_debugger( char *out )
   unsigned char *p, *p2, *buffer;
 
   // If there is a debugger for taskmgr, it's always critical
-  err = RegOpenKeyExA( HKEY_LOCAL_MACHINE,
-      "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\"
-      "Image File Execution Options\\taskmgr.exe",
-      0, KEY_QUERY_VALUE, &hKey );
+  err = RegOpenKeyExA(HKEY_LOCAL_MACHINE,
+                      "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\"
+                      "Image File Execution Options\\taskmgr.exe",
+                      0,
+                      KEY_QUERY_VALUE,
+                      &hKey);
 
-  if( err != ERROR_SUCCESS )
+  if (err != ERROR_SUCCESS)
     {
-      RegCloseKey( hKey );
+      RegCloseKey(hKey);
       return false;
     }
 
   // get the size, in bytes, required for buffer
-  err = RegQueryValueExA( hKey, "Debugger", NULL, NULL, NULL, &size );
+  err = RegQueryValueExA(hKey, "Debugger", NULL, NULL, NULL, &size);
 
-  if( err != ERROR_SUCCESS || !size )
+  if (err != ERROR_SUCCESS || !size)
     {
-      RegCloseKey( hKey );
+      RegCloseKey(hKey);
       return false;
     }
 
-  if( !( buffer = (unsigned char *)malloc( size + 1 ) ) )
+  if (!(buffer = (unsigned char *)malloc(size + 1)))
     {
-      RegCloseKey( hKey );
+      RegCloseKey(hKey);
       return false;
     }
 
-  err = RegQueryValueExA( hKey, "Debugger", NULL, NULL, (LPBYTE)buffer, &size );
+  err = RegQueryValueExA(hKey, "Debugger", NULL, NULL, (LPBYTE)buffer, &size);
 
-  if( err != ERROR_SUCCESS || !size )
+  if (err != ERROR_SUCCESS || !size)
     {
-      free( buffer );
-      RegCloseKey( hKey );
+      free(buffer);
+      RegCloseKey(hKey);
       return false;
     }
 
-  buffer[ size ] = '\0';
+  buffer[size] = '\0';
 
   // get to innermost quoted
-  for( p2 = buffer; *p2 == '\"'; ++p2 )
-  ;
-  if( p2 != buffer )
-  // e.g. "my debugger.exe" /y /x
+  for (p2 = buffer; *p2 == '\"'; ++p2)
+    ;
+  if (p2 != buffer)
+    // e.g. "my debugger.exe" /y /x
     {
-      if( (p = _mbschr( p2, '\"' )) )
-          *p = '\0';
+      if ((p = _mbschr(p2, '\"')))
+        *p = '\0';
     }
   else
-  // e.g. debugger.exe /y /x
+    // e.g. debugger.exe /y /x
     {
-      if( (p = _mbschr( p2, ' ' )) )
-          *p = '\0';
+      if ((p = _mbschr(p2, ' ')))
+        *p = '\0';
     }
 
   // Search the path to find where the filename starts:
-  if( (p = (unsigned char *)_mbsrchr( p2, '\\' )) )
-  // Point to first (mb) filename character
-      ++p;
+  if ((p = (unsigned char *)_mbsrchr(p2, '\\')))
+    // Point to first (mb) filename character
+    ++p;
   else
-  // No path.
-      p = p2;
+    // No path.
+    p = p2;
 
-  _mbstrncpy_lowercase( out, (char *)p, 510 );
-  out[ 510 ] = '\0';
+  _mbstrncpy_lowercase(out, (char *)p, 510);
+  out[510] = '\0';
 
-  RegCloseKey( hKey );
-  free( buffer );
+  RegCloseKey(hKey);
+  free(buffer);
   return true;
 }
-
 
 bool
 Harpoon::is_64bit_windows()
@@ -279,11 +273,11 @@ Harpoon::is_64bit_windows()
   TRACE_ENTER("Harpoon::is_64bit_windows");
 #if defined(_WIN64)
   TRACE_RETURN("Yes. win64 build");
-  return true;  // 64-bit programs run only on Win64
+  return true; // 64-bit programs run only on Win64
 #elif defined(_WIN32)
   BOOL f64 = FALSE;
 
-  typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
+  typedef BOOL(WINAPI * LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
   LPFN_ISWOW64PROCESS fnIsWow64Process;
 
   fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process");
@@ -309,14 +303,14 @@ Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
 {
   TRACE_ENTER("Harpoon::recursive_find_window");
   static char buf[80];
-  int num = GetClassName(hwnd, buf, sizeof(buf)-1);
+  int num  = GetClassName(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
   TRACE_MSG(buf);
-  if (! stricmp(lpClassName, buf))
+  if (!stricmp(lpClassName, buf))
     {
-      ret =  hwnd;
+      ret = hwnd;
     }
   else
     {
@@ -335,11 +329,10 @@ Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
   return ret;
 }
 
-
 void
 Harpoon::start_harpoon_helper()
 {
-  TRACE_ENTER("Harpoon::start_harpoon_helper" );
+  TRACE_ENTER("Harpoon::start_harpoon_helper");
 
   if (helper_window == NULL)
     {
@@ -361,17 +354,17 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       std::string install_dir = Platform::get_application_directory();
-      string helper = install_dir + "\\lib32\\WorkraveHelper.exe";
-      string args = helper + " " + Platform::get_application_name();
+      string helper           = install_dir + "\\lib32\\WorkraveHelper.exe";
+      string args             = helper + " " + Platform::get_application_name();
 
       TRACE_MSG(install_dir.c_str());
       TRACE_MSG(helper.c_str());
       TRACE_MSG(args.c_str());
 
-      if (CreateProcessA(helper.c_str(), (LPSTR) args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+      if (CreateProcessA(helper.c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
           helper_started = true;
-          helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+          helper_window  = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
         }
       else
         {
@@ -381,13 +374,13 @@ Harpoon::start_harpoon_helper()
       TRACE_MSG(pi.hProcess);
       TRACE_MSG(pi.hThread);
     }
-    TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 void
 Harpoon::stop_harpoon_helper()
 {
-  TRACE_ENTER("Harpoon::stop_harpoon_helper" );
+  TRACE_ENTER("Harpoon::stop_harpoon_helper");
   if (helper_window == NULL)
     {
       helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
@@ -395,7 +388,7 @@ Harpoon::stop_harpoon_helper()
   if (helper_window != NULL)
     {
       PostMessage(helper_window, WM_USER + HARPOON_HELPER_EXIT, 0, 0);
-      helper_window = NULL;
+      helper_window  = NULL;
       helper_started = false;
     }
   TRACE_EXIT();

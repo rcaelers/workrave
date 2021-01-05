@@ -31,7 +31,6 @@
 
 #include "dbus/IDBus.hh"
 
-
 class DBusTestServerQt : DBusTestServer
 {
 public:

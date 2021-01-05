@@ -44,7 +44,7 @@ private:
   QWidget *create_ui_page(SoundTheme::Ptr sound_theme);
 
 private:
-  IconListNotebook *notebook{ nullptr };
+  IconListNotebook *notebook{nullptr};
 
   std::shared_ptr<SizeGroup> hsize_group;
   std::shared_ptr<SizeGroup> vsize_group;

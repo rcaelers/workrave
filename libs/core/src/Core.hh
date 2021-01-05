@@ -34,7 +34,8 @@
 #include "CoreDBus.hh"
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class IApp;
 }
 

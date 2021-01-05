@@ -26,7 +26,7 @@ namespace Gtk
   class ComboBoxText;
   class SpinButton;
   class CheckButton;
-}
+} // namespace Gtk
 
 #include "core/ICore.hh"
 
@@ -35,8 +35,7 @@ namespace Gtk
 #include <string>
 #include <gtkmm/box.h>
 
-class TimerBoxPreferencePage
-  : public Gtk::HBox
+class TimerBoxPreferencePage : public Gtk::HBox
 {
 public:
   TimerBoxPreferencePage(std::string name);
@@ -57,23 +56,23 @@ private:
 
   std::string name;
 
-  Gtk::CheckButton *ontop_cb { nullptr };
-  Gtk::CheckButton *enabled_cb{ nullptr };
-  Gtk::ComboBoxText *place_button { nullptr };
+  Gtk::CheckButton *ontop_cb{nullptr};
+  Gtk::CheckButton *enabled_cb{nullptr};
+  Gtk::ComboBoxText *place_button{nullptr};
   scoped_connections connections;
-  Gtk::ComboBoxText *timer_display_button[workrave::BREAK_ID_SIZEOF] = { nullptr, };
-  Gtk::SpinButton *cycle_entry { nullptr };
-  Gtk::CheckButton *applet_fallback_enabled_cb{ nullptr };
-  Gtk::CheckButton *applet_icon_enabled_cb{ nullptr };
+  Gtk::ComboBoxText *timer_display_button[workrave::BREAK_ID_SIZEOF] = {
+    nullptr,
+  };
+  Gtk::SpinButton *cycle_entry{nullptr};
+  Gtk::CheckButton *applet_fallback_enabled_cb{nullptr};
+  Gtk::CheckButton *applet_icon_enabled_cb{nullptr};
 };
 
 #ifndef GTKMM_CHECK_VERSION
-# define GTKMM_CHECK_VERSION(major, minor, micro) \
-   (GTKMM_MAJOR_VERSION > (major)                     \
-    || (GTKMM_MAJOR_VERSION == (major)                \
-        && (GTKMM_MINOR_VERSION > (minor)             \
-            || (GTKMM_MINOR_VERSION == (minor)        \
-                && GTKMM_MICRO_VERSION >= (micro)))))
+#  define GTKMM_CHECK_VERSION(major, minor, micro) \
+    (GTKMM_MAJOR_VERSION > (major)                 \
+     || (GTKMM_MAJOR_VERSION == (major)            \
+         && (GTKMM_MINOR_VERSION > (minor) || (GTKMM_MINOR_VERSION == (minor) && GTKMM_MICRO_VERSION >= (micro)))))
 #endif
 
 #endif // TIMERBOXPREFERENCEPAGE_HH

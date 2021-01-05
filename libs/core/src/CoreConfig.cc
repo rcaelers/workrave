@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -33,60 +33,56 @@ using namespace workrave::config;
 
 IConfigurator::Ptr CoreConfig::config;
 
-const string CoreConfig::CFG_KEY_MICRO_BREAK               = "micro_pause";
-const string CoreConfig::CFG_KEY_REST_BREAK                = "rest_break";
-const string CoreConfig::CFG_KEY_DAILY_LIMIT               = "daily_limit";
-
-const string CoreConfig::CFG_KEY_TIMERS                    = "timers";
-const string CoreConfig::CFG_KEY_TIMER                     = "timers/%b";
-
-const string CoreConfig::CFG_KEY_TIMER_LIMIT               = "timers/%b/limit";
-const string CoreConfig::CFG_KEY_TIMER_AUTO_RESET          = "timers/%b/auto_reset";
-const string CoreConfig::CFG_KEY_TIMER_RESET_PRED          = "timers/%b/reset_pred";
-const string CoreConfig::CFG_KEY_TIMER_SNOOZE              = "timers/%b/snooze";
-const string CoreConfig::CFG_KEY_TIMER_MONITOR             = "timers/%b/monitor";
-
+const string CoreConfig::CFG_KEY_MICRO_BREAK                                = "micro_pause";
+const string CoreConfig::CFG_KEY_REST_BREAK                                 = "rest_break";
+const string CoreConfig::CFG_KEY_DAILY_LIMIT                                = "daily_limit";
+const string CoreConfig::CFG_KEY_TIMERS                                     = "timers";
+const string CoreConfig::CFG_KEY_TIMER                                      = "timers/%b";
+const string CoreConfig::CFG_KEY_TIMER_LIMIT                                = "timers/%b/limit";
+const string CoreConfig::CFG_KEY_TIMER_AUTO_RESET                           = "timers/%b/auto_reset";
+const string CoreConfig::CFG_KEY_TIMER_RESET_PRED                           = "timers/%b/reset_pred";
+const string CoreConfig::CFG_KEY_TIMER_SNOOZE                               = "timers/%b/snooze";
+const string CoreConfig::CFG_KEY_TIMER_MONITOR                              = "timers/%b/monitor";
 const string CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY = "timers/daily_limit/use_microbreak_activity";
+const string CoreConfig::CFG_KEY_BREAKS                                     = "breaks";
+const string CoreConfig::CFG_KEY_BREAK                                      = "breaks/%b";
+const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES                         = "breaks/%b/max_preludes";
+const string CoreConfig::CFG_KEY_BREAK_ENABLED                              = "breaks/%b/enabled";
+const string CoreConfig::CFG_KEY_MONITOR                                    = "monitor";
+const string CoreConfig::CFG_KEY_MONITOR_NOISE                              = "monitor/noise";
+const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY                           = "monitor/activity";
+const string CoreConfig::CFG_KEY_MONITOR_IDLE                               = "monitor/idle";
+const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY                        = "monitor/sensitivity";
+const string CoreConfig::CFG_KEY_GENERAL_DATADIR                            = "general/datadir";
+const string CoreConfig::CFG_KEY_OPERATION_MODE                             = "general/operation-mode";
+const string CoreConfig::CFG_KEY_USAGE_MODE                                 = "general/usage-mode";
 
-const string CoreConfig::CFG_KEY_BREAKS                    = "breaks";
-const string CoreConfig::CFG_KEY_BREAK                     = "breaks/%b";
+CoreConfig::Defaults CoreConfig::default_config[] = {{
+                                                       CoreConfig::CFG_KEY_MICRO_BREAK,
+                                                       3 * 60,
+                                                       30,
+                                                       "",
+                                                       150,
+                                                       3,
+                                                     },
 
-const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES        = "breaks/%b/max_preludes";
-const string CoreConfig::CFG_KEY_BREAK_ENABLED             = "breaks/%b/enabled";
+                                                     {
+                                                       CoreConfig::CFG_KEY_REST_BREAK,
+                                                       45 * 60,
+                                                       10 * 60,
+                                                       "",
+                                                       180,
+                                                       3,
+                                                     },
 
-const string CoreConfig::CFG_KEY_MONITOR                   = "monitor";
-
-const string CoreConfig::CFG_KEY_MONITOR_NOISE             = "monitor/noise";
-const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY          = "monitor/activity";
-const string CoreConfig::CFG_KEY_MONITOR_IDLE              = "monitor/idle";
-const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY       = "monitor/sensitivity";
-
-const string CoreConfig::CFG_KEY_GENERAL_DATADIR           = "general/datadir";
-const string CoreConfig::CFG_KEY_OPERATION_MODE            = "general/operation-mode";
-const string CoreConfig::CFG_KEY_USAGE_MODE                = "general/usage-mode";
-
-
-CoreConfig::Defaults CoreConfig::default_config[] =
-  {
-    {
-      CoreConfig::CFG_KEY_MICRO_BREAK,
-      3*60, 30, "", 150,
-      3,
-    },
-
-    {
-      CoreConfig::CFG_KEY_REST_BREAK,
-      45*60, 10*60, "", 180,
-      3,
-    },
-
-    {
-      CoreConfig::CFG_KEY_DAILY_LIMIT,
-      14400, 0, "day/4:00", 20 * 60,
-      3,
-    }
-  };
-
+                                                     {
+                                                       CoreConfig::CFG_KEY_DAILY_LIMIT,
+                                                       14400,
+                                                       0,
+                                                       "day/4:00",
+                                                       20 * 60,
+                                                       3,
+                                                     }};
 
 string
 CoreConfig::get_break_name(BreakId id)
@@ -117,52 +113,38 @@ CoreConfig::init(IConfigurator::Ptr config)
 
       // Set defaults.
 
-      config->set_value(CoreConfig::timer_limit(break_id).key(),
-                        def.limit,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(CoreConfig::timer_limit(break_id).key(), def.limit, CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::timer_auto_reset(break_id).key(),
-                        def.auto_reset,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(CoreConfig::timer_auto_reset(break_id).key(), def.auto_reset, CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::timer_reset_pred(break_id).key(),
-                        def.resetpred,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(CoreConfig::timer_reset_pred(break_id).key(), def.resetpred, CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::timer_snooze(break_id).key(),
-                        def.snooze,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(CoreConfig::timer_snooze(break_id).key(), def.snooze, CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::break_max_preludes(break_id).key(),
-                        def.max_preludes,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(CoreConfig::break_max_preludes(break_id).key(), def.max_preludes, CONFIG_FLAG_INITIAL);
 
-      config->set_value(CoreConfig::break_enabled(break_id).key(),
-                        true,
-                        CONFIG_FLAG_INITIAL);
+      config->set_value(CoreConfig::break_enabled(break_id).key(), true, CONFIG_FLAG_INITIAL);
     }
 
-  config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(),
-                    false,
-                    CONFIG_FLAG_INITIAL);
+  config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(), false, CONFIG_FLAG_INITIAL);
 
   string monitor_name;
   bool ret = config->get_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), monitor_name);
 
   if (ret && monitor_name == "micro_pause")
     {
-      config->set_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), "deprecated. replaced by use_microbreak_activity");
+      config->set_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT),
+                        "deprecated. replaced by use_microbreak_activity");
       config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, true);
     }
-
 }
 
 string
 CoreConfig::expand(const string &key, workrave::BreakId id)
 {
-  string str = key;
+  string str            = key;
   string::size_type pos = 0;
-  string name = CoreConfig::get_break_name(id);
+  string name           = CoreConfig::get_break_name(id);
 
   while ((pos = str.find("%b", pos)) != string::npos)
     {
@@ -180,7 +162,7 @@ CoreConfig::key_timer(workrave::BreakId break_id)
 }
 
 SettingGroup &
-CoreConfig:: key_break(workrave::BreakId break_id)
+CoreConfig::key_break(workrave::BreakId break_id)
 {
   return SettingCache::group(config, expand(CFG_KEY_BREAK, break_id));
 }
@@ -192,13 +174,13 @@ CoreConfig::key_timers()
 }
 
 SettingGroup &
-CoreConfig:: key_breaks()
+CoreConfig::key_breaks()
 {
   return SettingCache::group(config, CFG_KEY_BREAKS);
 }
 
 SettingGroup &
-CoreConfig:: key_monitor()
+CoreConfig::key_monitor()
 {
   return SettingCache::group(config, CFG_KEY_MONITOR);
 }

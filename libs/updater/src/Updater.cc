@@ -16,14 +16,13 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
-
 
 #include "Updater.hh"
 
 #ifdef PLATFORM_OS_MACOS
-#include "SparkleUpdater.hh"
+#  include "SparkleUpdater.hh"
 #endif
 
 using namespace workrave::updater;

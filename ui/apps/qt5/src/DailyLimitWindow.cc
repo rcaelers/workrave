@@ -27,7 +27,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 DailyLimitWindow::DailyLimitWindow(IToolkitPlatform::Ptr platform, QScreen *screen, BreakFlags break_flags)
-    : BreakWindow(platform, screen, BREAK_ID_DAILY_LIMIT, break_flags)
+  : BreakWindow(platform, screen, BREAK_ID_DAILY_LIMIT, break_flags)
 {
   setWindowTitle(tr("Daily limit"));
 }
@@ -36,7 +36,7 @@ QWidget *
 DailyLimitWindow::create_gui()
 {
   QVBoxLayout *box = new QVBoxLayout;
-  QWidget *widget = new QWidget;
+  QWidget *widget  = new QWidget;
   widget->setLayout(box);
 
   QString text = UiUtil::create_alert_text(tr("Daily limit"),
@@ -45,8 +45,8 @@ DailyLimitWindow::create_gui()
                                               "find something else to do, such as reviewing a document."));
 
   QHBoxLayout *dailylimit_box = new QHBoxLayout;
-  QLabel *label = new QLabel(text);
-  QLabel *image = UiUtil::create_image_label("daily-limit.png");
+  QLabel *label               = new QLabel(text);
+  QLabel *image               = UiUtil::create_image_label("daily-limit.png");
   dailylimit_box->addWidget(image);
   dailylimit_box->addWidget(label);
 

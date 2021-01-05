@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "WindowHints.hh"
@@ -25,17 +25,17 @@
 #include "utils/Platform.hh"
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
-#undef max
+#  undef max
 #endif
 
 #include <gtkmm/window.h>
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <windows.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkwin32.h>
+#  include <windows.h>
+#  include <gtk/gtk.h>
+#  include <gdk/gdkwin32.h>
 
-#include "W32Compat.hh"
+#  include "W32Compat.hh"
 #endif
 
 void
@@ -43,7 +43,7 @@ WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 {
 #if defined(PLATFORM_OS_WINDOWS)
 
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
   W32Compat::SetWindowOnTop(hwnd, on_top);
 
 #else

@@ -35,7 +35,6 @@ HarpoonHelper::HarpoonHelper(char *args)
 {
 }
 
-
 HarpoonHelper::~HarpoonHelper()
 {
   terminate();
@@ -49,43 +48,28 @@ HarpoonHelper::init(HINSTANCE hInstance)
 
   DWORD dwStyle, dwExStyle;
 
-  dwStyle = WS_OVERLAPPED;
+  dwStyle   = WS_OVERLAPPED;
   dwExStyle = WS_EX_TOOLWINDOW;
 
-    WNDCLASSEX wclass =
-    {
-      sizeof(WNDCLASSEX),
-      0,
-      harpoon_window_proc,
-      0,
-      0,
-      hInstance,
-      NULL,
-      NULL,
-      NULL,
-      NULL,
-      HARPOON_HELPER_WINDOW_CLASS,
-      NULL
-    };
+  WNDCLASSEX wclass = {
+    sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, hInstance, NULL, NULL, NULL, NULL, HARPOON_HELPER_WINDOW_CLASS, NULL};
 
   notification_class = RegisterClassEx(&wclass);
-  if( !notification_class )
-      return FALSE;
+  if (!notification_class)
+    return FALSE;
 
-  notification_window = CreateWindowEx(
-      dwExStyle,
-      HARPOON_HELPER_WINDOW_CLASS,
-      HARPOON_HELPER_WINDOW_CLASS,
-      dwStyle,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      NULL,
-      NULL,
-      hInstance,
-      NULL
-      );
+  notification_window = CreateWindowEx(dwExStyle,
+                                       HARPOON_HELPER_WINDOW_CLASS,
+                                       HARPOON_HELPER_WINDOW_CLASS,
+                                       dwStyle,
+                                       CW_USEDEFAULT,
+                                       CW_USEDEFAULT,
+                                       CW_USEDEFAULT,
+                                       CW_USEDEFAULT,
+                                       NULL,
+                                       NULL,
+                                       hInstance,
+                                       NULL);
 
   if (!notification_window)
     {
@@ -96,8 +80,8 @@ HarpoonHelper::init(HINSTANCE hInstance)
 
   init_critical_filename_list();
 
-  bool debug = false;
-  bool mouse_lowlevel = false;
+  bool debug             = false;
+  bool mouse_lowlevel    = false;
   bool keyboard_lowlevel = true;
 
   if (LOBYTE(LOWORD(GetVersion())) >= 6)
@@ -120,15 +104,12 @@ HarpoonHelper::init(HINSTANCE hInstance)
   return true;
 }
 
-
 //! Stops the activity monitoring.
 void
 HarpoonHelper::terminate()
 {
-    harpoon_exit();
+  harpoon_exit();
 }
-
-
 
 void
 HarpoonHelper::run()
@@ -151,7 +132,7 @@ HarpoonHelper::init_critical_filename_list()
   int i;
 
   for (i = 0; i < HARPOON_MAX_UNBLOCKED_APPS; ++i)
-      critical_filename_list[i][0] = '\0';
+    critical_filename_list[i][0] = '\0';
 
   // Task Manager is always on the critical_filename_list
   if (GetVersion() >= 0x80000000)
@@ -182,22 +163,21 @@ HarpoonHelper::init_critical_filename_list()
       char loc[40];
       string buffer;
 
-      for(i = 1; i <= filecount; ++i)
+      for (i = 1; i <= filecount; ++i)
         {
-          sprintf(loc, "advanced/critical_files/file%d", i );
+          sprintf(loc, "advanced/critical_files/file%d", i);
           if (config.get_value(loc, buffer))
             {
-             strcpy_s(critical_filename_list[i + 2], 510, buffer.c_str());
-             critical_filename_list[i][510] = '\0';
+              strcpy_s(critical_filename_list[i + 2], 510, buffer.c_str());
+              critical_filename_list[i][510] = '\0';
             }
         }
     }
   TRACE_EXIT();
 }
 
-
 bool
-HarpoonHelper::check_for_taskmgr_debugger( char *out )
+HarpoonHelper::check_for_taskmgr_debugger(char *out)
 {
   HKEY hKey = NULL;
   LONG err;
@@ -205,76 +185,76 @@ HarpoonHelper::check_for_taskmgr_debugger( char *out )
   unsigned char *p, *p2, *buffer;
 
   // If there is a debugger for taskmgr, it's always critical
-  err = RegOpenKeyExA( HKEY_LOCAL_MACHINE,
-      "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\"
-      "Image File Execution Options\\taskmgr.exe",
-      0, KEY_QUERY_VALUE, &hKey );
+  err = RegOpenKeyExA(HKEY_LOCAL_MACHINE,
+                      "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\"
+                      "Image File Execution Options\\taskmgr.exe",
+                      0,
+                      KEY_QUERY_VALUE,
+                      &hKey);
 
-  if( err != ERROR_SUCCESS )
+  if (err != ERROR_SUCCESS)
     {
-      RegCloseKey( hKey );
+      RegCloseKey(hKey);
       return false;
     }
 
   // get the size, in bytes, required for buffer
-  err = RegQueryValueExA( hKey, "Debugger", NULL, NULL, NULL, &size );
+  err = RegQueryValueExA(hKey, "Debugger", NULL, NULL, NULL, &size);
 
-  if( err != ERROR_SUCCESS || !size )
+  if (err != ERROR_SUCCESS || !size)
     {
-      RegCloseKey( hKey );
+      RegCloseKey(hKey);
       return false;
     }
 
-  if( !( buffer = (unsigned char *)malloc( size + 1 ) ) )
+  if (!(buffer = (unsigned char *)malloc(size + 1)))
     {
-      RegCloseKey( hKey );
+      RegCloseKey(hKey);
       return false;
     }
 
-  err = RegQueryValueExA( hKey, "Debugger", NULL, NULL, (LPBYTE)buffer, &size );
+  err = RegQueryValueExA(hKey, "Debugger", NULL, NULL, (LPBYTE)buffer, &size);
 
-  if( err != ERROR_SUCCESS || !size )
+  if (err != ERROR_SUCCESS || !size)
     {
-      free( buffer );
-      RegCloseKey( hKey );
+      free(buffer);
+      RegCloseKey(hKey);
       return false;
     }
 
-  buffer[ size ] = '\0';
+  buffer[size] = '\0';
 
   // get to innermost quoted
-  for( p2 = buffer; *p2 == '\"'; ++p2 )
-  ;
-  if( p2 != buffer )
-  // e.g. "my debugger.exe" /y /x
+  for (p2 = buffer; *p2 == '\"'; ++p2)
+    ;
+  if (p2 != buffer)
+    // e.g. "my debugger.exe" /y /x
     {
-      if( (p = _mbschr( p2, '\"' )) )
-          *p = '\0';
+      if ((p = _mbschr(p2, '\"')))
+        *p = '\0';
     }
   else
-  // e.g. debugger.exe /y /x
+    // e.g. debugger.exe /y /x
     {
-      if( (p = _mbschr( p2, ' ' )) )
-          *p = '\0';
+      if ((p = _mbschr(p2, ' ')))
+        *p = '\0';
     }
 
   // Search the path to find where the filename starts:
-  if( (p = (unsigned char *)_mbsrchr( p2, '\\' )) )
-  // Point to first (mb) filename character
-      ++p;
+  if ((p = (unsigned char *)_mbsrchr(p2, '\\')))
+    // Point to first (mb) filename character
+    ++p;
   else
-  // No path.
-      p = p2;
+    // No path.
+    p = p2;
 
-  _mbstrncpy_lowercase( out, (char *)p, 510 );
-  out[ 510 ] = '\0';
+  _mbstrncpy_lowercase(out, (char *)p, 510);
+  out[510] = '\0';
 
-  RegCloseKey( hKey );
-  free( buffer );
+  RegCloseKey(hKey);
+  free(buffer);
   return true;
 }
-
-
 
 LRESULT CALLBACK
 HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -285,9 +265,9 @@ HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
   TRACE_MSG(evt_type);
   if (evt_type >= 0 && evt_type < HARPOON_HELPER_EVENT__SIZEOF)
-  {
-    switch ((HarpoonHelperEventType) evt_type)
-      {
+    {
+      switch ((HarpoonHelperEventType)evt_type)
+        {
         case HARPOON_HELPER_INIT:
           TRACE_MSG("init");
           break;
@@ -300,18 +280,18 @@ HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
         case HARPOON_HELPER_BLOCK:
           TRACE_MSG("block");
           harpoon_block_input();
-        break;
+          break;
 
         case HARPOON_HELPER_UNBLOCK:
           TRACE_MSG("unblock");
           harpoon_unblock_input();
-        break;
+          break;
 
-	    case HARPOON_HELPER_NOTHING:
-		case HARPOON_HELPER_EVENT__SIZEOF:
-	    break;
-      }
-  }
+        case HARPOON_HELPER_NOTHING:
+        case HARPOON_HELPER_EVENT__SIZEOF:
+          break;
+        }
+    }
 
   TRACE_EXIT();
   return DefWindowProc(hwnd, uMsg, wParam, lParam);

@@ -41,7 +41,7 @@ namespace workrave
       //! Returns the system monotonic time, if available.
       virtual int64_t get_monotonic_time_usec() = 0;
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_ITIMESOURCE_HH

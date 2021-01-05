@@ -18,11 +18,11 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSHelpers.hh"
+#  include "MacOSHelpers.hh"
 #endif
 
 #include "debug.hh"
@@ -37,13 +37,9 @@
 
 using namespace std;
 
-IniConfigurator::IniConfigurator()
-= default;
+IniConfigurator::IniConfigurator() = default;
 
-
-IniConfigurator::~IniConfigurator()
-= default;
-
+IniConfigurator::~IniConfigurator() = default;
 
 bool
 IniConfigurator::load(string filename)
@@ -54,17 +50,16 @@ IniConfigurator::load(string filename)
   try
     {
       boost::property_tree::ini_parser::read_ini(filename, pt);
-      ret = !pt.empty();
+      ret           = !pt.empty();
       last_filename = filename;
     }
-  catch (boost::property_tree::ini_parser_error&)
+  catch (boost::property_tree::ini_parser_error &)
     {
     }
 
   TRACE_EXIT();
   return ret;
 }
-
 
 bool
 IniConfigurator::save(string filename)
@@ -78,7 +73,7 @@ IniConfigurator::save(string filename)
       boost::property_tree::ini_parser::write_ini(config_file, pt);
       ret = true;
     }
-  catch (boost::property_tree::ini_parser_error&)
+  catch (boost::property_tree::ini_parser_error &)
     {
     }
 
@@ -86,13 +81,11 @@ IniConfigurator::save(string filename)
   return ret;
 }
 
-
 bool
 IniConfigurator::save()
 {
   return save(last_filename);
 }
-
 
 bool
 IniConfigurator::remove_key(const std::string &key)
@@ -108,24 +101,22 @@ IniConfigurator::remove_key(const std::string &key)
   return ret;
 }
 
-
 bool
-IniConfigurator::get_value(const std::string &key, VariantType type,
-                           Variant &out) const
+IniConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   TRACE_ENTER_MSG("IniConfigurator::get_value", key);
 
-  bool ret = true;
+  bool ret                                      = true;
   boost::property_tree::ptree::path_type inikey = path(key);
 
   out.type = type;
 
   try
     {
-      switch(type)
+      switch (type)
         {
         case VARIANT_TYPE_INT:
-          out.int_value =  pt.get<int>(inikey);
+          out.int_value = pt.get<int>(inikey);
           break;
 
         case VARIANT_TYPE_BOOL:
@@ -137,7 +128,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type,
           break;
 
         case VARIANT_TYPE_NONE:
-          out.type = VARIANT_TYPE_STRING;
+          out.type         = VARIANT_TYPE_STRING;
           out.string_value = pt.get<string>(inikey);
           break;
 
@@ -146,7 +137,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type,
           break;
         }
     }
-  catch (boost::property_tree::ptree_error&)
+  catch (boost::property_tree::ptree_error &)
     {
       ret = false;
     }
@@ -164,7 +155,7 @@ IniConfigurator::set_value(const std::string &key, Variant &value)
 
   try
     {
-      switch(value.type)
+      switch (value.type)
         {
         case VARIANT_TYPE_INT:
           pt.put(inikey, value.int_value);
@@ -184,7 +175,7 @@ IniConfigurator::set_value(const std::string &key, Variant &value)
           break;
         }
     }
-  catch (boost::property_tree::ptree_error&)
+  catch (boost::property_tree::ptree_error &)
     {
       ret = false;
     }
@@ -196,8 +187,8 @@ boost::property_tree::ptree::path_type
 IniConfigurator::path(const string &key) const
 {
   string new_key = key;
-  bool first = true;
-  for (auto &c : new_key)
+  bool first     = true;
+  for (auto &c: new_key)
     {
       if (c == '/')
         {

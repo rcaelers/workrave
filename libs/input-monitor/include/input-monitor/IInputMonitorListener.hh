@@ -44,7 +44,7 @@ namespace workrave
       //! Reports keyboard activity
       virtual void keyboard_notify(bool repeat) = 0;
     };
-  }
-}
+  } // namespace input_monitor
+} // namespace workrave
 
 #endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITORLISTENER_HH

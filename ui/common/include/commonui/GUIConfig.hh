@@ -16,31 +16,36 @@
 //
 
 #ifndef GUICONFIG_HH
-#define GUICONFIG_HH
+#  define GUICONFIG_HH
 
-#include "core/ICore.hh"
-#include "config/Setting.hh"
+#  include "core/ICore.hh"
+#  include "config/Setting.hh"
 
 class GUIConfig
 {
 public:
-  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
+  enum BlockMode
+  {
+    BLOCK_MODE_NONE = 0,
+    BLOCK_MODE_INPUT,
+    BLOCK_MODE_ALL
+  };
 
   enum SlotType
-    {
-      BREAK_WHEN_IMMINENT = 1,
-      BREAK_WHEN_FIRST = 2,
-      BREAK_SKIP = 4,
-      BREAK_EXCLUSIVE = 8,
-      BREAK_DEFAULT = 16,
-      BREAK_HIDE = 32
-    };
+  {
+    BREAK_WHEN_IMMINENT = 1,
+    BREAK_WHEN_FIRST    = 2,
+    BREAK_SKIP          = 4,
+    BREAK_EXCLUSIVE     = 8,
+    BREAK_DEFAULT       = 16,
+    BREAK_HIDE          = 32
+  };
 
   static workrave::config::Setting<bool> &break_auto_natural(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_ignorable(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_skippable(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_enable_shutdown(workrave::BreakId break_id);
-  static workrave::config::Setting<int> & break_exercises(workrave::BreakId break_id);
+  static workrave::config::Setting<int> &break_exercises(workrave::BreakId break_id);
   static workrave::config::Setting<int, GUIConfig::BlockMode> &block_mode();
   static workrave::config::Setting<std::string> &locale();
   static workrave::config::Setting<bool> &trayicon_enabled();
@@ -104,25 +109,25 @@ private:
 
 #endif
 
-  // Backend::get_configurator()->get_value_with_default(
-  //   "advanced/force_focus_on_break_start",
-  //   force_focus_on_break_start,
-  //   true
-  //   );
+// Backend::get_configurator()->get_value_with_default(
+//   "advanced/force_focus_on_break_start",
+//   force_focus_on_break_start,
+//   true
+//   );
 
-  //         Backend::get_configurator()->get_value(SoundTheme::CFG_KEY_SOUND_MUTE, mute);
+//         Backend::get_configurator()->get_value(SoundTheme::CFG_KEY_SOUND_MUTE, mute);
 
-  // Backend::get_configurator()->get_value_with_default("advanced/monitor",
-  //                                                         monitor_type,
-  //                                                         "default");
-  //     bool valid = Backend::get_configurator()->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
-  //                                                             row[sound_model.label],
-  //                                                             filename);
-  //   // Should SetWindowOnTop() call IMEWindowMagic() ?
-  //   if( !Backend::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
+// Backend::get_configurator()->get_value_with_default("advanced/monitor",
+//                                                         monitor_type,
+//                                                         "default");
+//     bool valid = Backend::get_configurator()->get_value(string(SoundTheme::CFG_KEY_SOUND_EVENTS) +
+//                                                             row[sound_model.label],
+//                                                             filename);
+//   // Should SetWindowOnTop() call IMEWindowMagic() ?
+//   if( !Backend::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
 
-  //   if( !Backend::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
+//   if( !Backend::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
 
-  //   if( !Backend::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
+//   if( !Backend::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
 
-  //   if( Backend::get_configurator()->get_value( "advanced/force_focus_functions", str ) )
+//   if( Backend::get_configurator()->get_value( "advanced/force_focus_functions", str ) )

@@ -30,16 +30,18 @@ class ITimerBoxView
 public:
   virtual ~ITimerBoxView() = default;
 
-  virtual void set_slot(workrave::BreakId  id, int slot) = 0;
+  virtual void set_slot(workrave::BreakId id, int slot)        = 0;
   virtual void set_time_bar(workrave::BreakId id,
                             int value,
                             TimerColorId primary_color,
-                            int primary_value, int primary_max,
+                            int primary_value,
+                            int primary_max,
                             TimerColorId secondary_color,
-                            int secondary_value, int secondary_max) = 0;
-  virtual void set_tip(std::string tip) = 0;
-  virtual void set_icon(StatusIconType icon) = 0;
-  virtual void update_view() = 0;
+                            int secondary_value,
+                            int secondary_max)                 = 0;
+  virtual void set_tip(std::string tip)                        = 0;
+  virtual void set_icon(StatusIconType icon)                   = 0;
+  virtual void update_view()                                   = 0;
   virtual void set_geometry(Orientation orientation, int size) = 0;
 };
 

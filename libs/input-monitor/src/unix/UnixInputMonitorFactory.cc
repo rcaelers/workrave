@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -42,12 +42,11 @@ using namespace workrave::config;
 using namespace workrave::input_monitor;
 
 UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
-  : error_reported(false),
-    config(config)
+  : error_reported(false)
+  , config(config)
 {
   monitor = nullptr;
 }
-
 
 void
 UnixInputMonitorFactory::init(const char *display)
@@ -60,7 +59,7 @@ IInputMonitor::Ptr
 UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
-  (void) capability;
+  (void)capability;
 
   if (monitor == nullptr)
     {
@@ -92,7 +91,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
       while (true)
         {
           actual_monitor_method = *loop;
-          TRACE_MSG("Test " <<  actual_monitor_method);
+          TRACE_MSG("Test " << actual_monitor_method);
 
           if (actual_monitor_method == "record")
             {

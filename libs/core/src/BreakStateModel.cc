@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -40,29 +40,26 @@ BreakStateModel::BreakStateModel(BreakId id,
                                  IApp *app,
                                  Timer::Ptr timer,
                                  IActivityMonitor::Ptr activity_monitor,
-                                 CoreHooks::Ptr hooks) :
-  break_id(id),
-  application(app),
-  timer(timer),
-  activity_monitor(activity_monitor),
-  hooks(hooks),
-  break_stage(BreakStage::None),
-  prelude_time(0),
-  prelude_count(0),
-  max_number_of_preludes(2),
-  fake_break(false),
-  fake_break_count(0),
-  user_abort(false),
-  delayed_abort(false),
-  break_hint(BREAK_HINT_NONE)
+                                 CoreHooks::Ptr hooks)
+  : break_id(id)
+  , application(app)
+  , timer(timer)
+  , activity_monitor(activity_monitor)
+  , hooks(hooks)
+  , break_stage(BreakStage::None)
+  , prelude_time(0)
+  , prelude_count(0)
+  , max_number_of_preludes(2)
+  , fake_break(false)
+  , fake_break_count(0)
+  , user_abort(false)
+  , delayed_abort(false)
+  , break_hint(BREAK_HINT_NONE)
 {
 }
 
-
 //! Destructor.
-BreakStateModel::~BreakStateModel()
-= default;
-
+BreakStateModel::~BreakStateModel() = default;
 
 void
 BreakStateModel::process()
@@ -159,18 +156,17 @@ BreakStateModel::process()
   TRACE_EXIT();
 }
 
-
 //! Starts the break.
 void
 BreakStateModel::start_break()
 {
   TRACE_ENTER_MSG("BreakStateModel::start_break", break_id);
 
-  break_hint = BREAK_HINT_NONE;
-  forced_break = false;
-  fake_break = false;
-  prelude_time = 0;
-  user_abort = false;
+  break_hint    = BREAK_HINT_NONE;
+  forced_break  = false;
+  fake_break    = false;
+  prelude_time  = 0;
+  user_abort    = false;
   delayed_abort = false;
 
   if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
@@ -185,18 +181,17 @@ BreakStateModel::start_break()
   TRACE_EXIT();
 }
 
-
 //! Starts the break without preludes.
 void
 BreakStateModel::force_start_break(BreakHint hint)
 {
   TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id);
 
-  break_hint = hint;
-  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
-  fake_break = false;
-  prelude_time = 0;
-  user_abort = false;
+  break_hint    = hint;
+  forced_break  = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
+  fake_break    = false;
+  prelude_time  = 0;
+  user_abort    = false;
   delayed_abort = false;
 
   if (timer->is_auto_reset_enabled())
@@ -207,7 +202,7 @@ BreakStateModel::force_start_break(BreakHint hint)
       if (idle >= timer->get_auto_reset() || !timer->is_enabled())
         {
           TRACE_MSG("Faking break");
-          fake_break = true;
+          fake_break       = true;
           fake_break_count = timer->get_auto_reset();
         }
     }
@@ -270,8 +265,6 @@ BreakStateModel::skip_break()
     }
 }
 
-
-
 //! Stops the break.
 void
 BreakStateModel::stop_break()
@@ -281,7 +274,7 @@ BreakStateModel::stop_break()
   break_hint = BREAK_HINT_NONE;
   goto_stage(BreakStage::None);
   prelude_count = 0;
-  fake_break = false;
+  fake_break    = false;
 
   break_event_signal(BreakEvent::BreakStop);
 
@@ -304,7 +297,6 @@ BreakStateModel::override(BreakId id)
 
   max_number_of_preludes = max_preludes;
 }
-
 
 boost::signals2::signal<void(BreakEvent)> &
 BreakStateModel::signal_break_event()
@@ -336,7 +328,8 @@ BreakStateModel::get_break_stage() const
   return break_stage;
 }
 
-void BreakStateModel::set_max_number_of_preludes(int max_number_of_preludes)
+void
+BreakStateModel::set_max_number_of_preludes(int max_number_of_preludes)
 {
   this->max_number_of_preludes = max_number_of_preludes;
 }
@@ -404,9 +397,7 @@ BreakStateModel::break_window_start()
   application->refresh_break_window();
 
   // Report state change.
-  break_event_signal(forced_break
-                     ? BreakEvent::ShowBreakForced
-                     : BreakEvent::ShowBreak);
+  break_event_signal(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
 
   TRACE_EXIT();
 }
@@ -415,7 +406,7 @@ void
 BreakStateModel::break_window_update()
 {
   int64_t duration = timer->get_auto_reset();
-  int64_t idle = 0;
+  int64_t idle     = 0;
 
   if (fake_break)
     {
@@ -451,7 +442,7 @@ BreakStateModel::break_window_stop()
     {
       // Update statistics and play sound if the break end
       // was "natural"
-      int64_t idle = timer->get_elapsed_idle_time();
+      int64_t idle  = timer->get_elapsed_idle_time();
       int64_t reset = timer->get_auto_reset();
 
       if (idle >= reset && !user_abort)
@@ -523,7 +514,7 @@ BreakStateModel::action_notify()
   TRACE_ENTER("BreakStateModel::action_notify");
   delayed_abort = true;
   TRACE_EXIT();
-  return false;   // false: kill listener.
+  return false; // false: kill listener.
 }
 
 bool

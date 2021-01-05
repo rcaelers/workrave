@@ -23,16 +23,14 @@
 class IBreakWindow
 {
 public:
-  virtual ~IBreakWindow()
-  {
-  }
+  virtual ~IBreakWindow() {}
 
   typedef std::shared_ptr<IBreakWindow> Ptr;
 
-  virtual void init() = 0;
-  virtual void start() = 0;
-  virtual void stop() = 0;
-  virtual void refresh() = 0;
+  virtual void init()                                 = 0;
+  virtual void start()                                = 0;
+  virtual void stop()                                 = 0;
+  virtual void refresh()                              = 0;
   virtual void set_progress(int value, int max_value) = 0;
 };
 

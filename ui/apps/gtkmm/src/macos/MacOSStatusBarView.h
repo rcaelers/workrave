@@ -1,9 +1,10 @@
-#import <Cocoa/Cocoa.h>
 #import "MacOSTimeBar.h"
+#import <Cocoa/Cocoa.h>
 
 #include "commonui/ITimeBar.hh"
 
-@interface MacOSStatusBarView : NSView {
+@interface MacOSStatusBarView : NSView
+{
 
   NSStatusItem *statusItem;
   NSMenu *menu;
@@ -13,14 +14,14 @@
   MacOSTimeBar *timebars[3];
 }
 
-- (void)setBreak: (int) id
-          text:(NSString *)text
-          primaryColor:(ColorId)primaryColor
-          primaryValue:(int)primaryValue
-          primaryMaxValue:(int)primaryMaxValue
-          secondaryColor:(ColorId)secondaryColor
-          secondaryValue:(int)secondaryValue
-          secondaryMaxValue:(int)secondaryMaxValue;
+- (void)setBreak:(int)id
+                 text:(NSString *)text
+         primaryColor:(ColorId)primaryColor
+         primaryValue:(int)primaryValue
+      primaryMaxValue:(int)primaryMaxValue
+       secondaryColor:(ColorId)secondaryColor
+       secondaryValue:(int)secondaryValue
+    secondaryMaxValue:(int)secondaryMaxValue;
 
 - (id)initWithMenu:(NSMenu *)myMenu;
 - (void)drawRect:(NSRect)rect;

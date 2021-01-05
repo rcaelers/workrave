@@ -26,8 +26,7 @@
 
 #include "MainGtkMenu.hh"
 
-class MacOSGtkMenu
-  : public MainGtkMenu
+class MacOSGtkMenu : public MainGtkMenu
 {
 public:
   MacOSGtkMenu(bool show_open);

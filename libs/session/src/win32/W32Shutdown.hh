@@ -19,7 +19,7 @@
 #define W32SHUTDOWN_HH_
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "session/ISystemStateChangeMethod.hh"
@@ -28,11 +28,11 @@ class W32Shutdown : public ISystemStateChangeMethod
 {
 public:
   W32Shutdown();
-  virtual
-  ~W32Shutdown() {};
+  virtual ~W32Shutdown(){};
 
   virtual bool shutdown();
-  virtual bool canShutdown() { return shutdown_supported;}
+  virtual bool canShutdown() { return shutdown_supported; }
+
 private:
   bool shutdown_helper(bool for_real);
   bool shutdown_supported;

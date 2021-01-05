@@ -21,11 +21,13 @@
 #ifndef ISYSTEMLOCK_HH
 #define ISYSTEMLOCK_HH
 
-class /*interface*/ IScreenLockMethod {
+class /*interface*/ IScreenLockMethod
+{
 public:
-  virtual ~IScreenLockMethod() = default;;
+  virtual ~IScreenLockMethod() = default;
+  ;
   virtual bool is_lock_supported() = 0;
-  virtual bool lock() = 0;
+  virtual bool lock()              = 0;
 };
 
 #endif

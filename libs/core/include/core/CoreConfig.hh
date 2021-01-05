@@ -18,10 +18,9 @@
 #ifndef WORKRAVE_BACKEND_CORECONFIG_HH
 #define WORKRAVE_BACKEND_CORECONFIG_HH
 
-#include "core/ICore.hh"
-
 #include "config/IConfigurator.hh"
 #include "config/Setting.hh"
+#include "core/ICore.hh"
 
 class CoreConfig
 {
@@ -94,11 +93,11 @@ private:
     int max_preludes;
   };
 
-
   static Defaults default_config[];
   static workrave::config::IConfigurator::Ptr config;
 
   static std::string expand(const std::string &key, workrave::BreakId id);
+
 public:
   static void init(workrave::config::IConfigurator::Ptr config);
   static std::string get_break_name(workrave::BreakId id);

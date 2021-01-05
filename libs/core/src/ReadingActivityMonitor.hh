@@ -27,9 +27,9 @@
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
 
-class ReadingActivityMonitor :
-  public IActivityMonitorListener,
-  public std::enable_shared_from_this<ReadingActivityMonitor>
+class ReadingActivityMonitor
+  : public IActivityMonitorListener
+  , public std::enable_shared_from_this<ReadingActivityMonitor>
 {
 public:
   using Ptr = std::shared_ptr<ReadingActivityMonitor>;
@@ -51,7 +51,13 @@ private:
   void on_usage_mode_changed(workrave::UsageMode mode);
 
 private:
-  enum State { Idle, Active, Prelude, Taking };
+  enum State
+  {
+    Idle,
+    Active,
+    Prelude,
+    Taking
+  };
 
   IActivityMonitor::Ptr monitor;
   CoreModes::Ptr modes;
@@ -62,4 +68,3 @@ private:
 };
 
 #endif // READINGACTIVITYMONITOR_HH
-

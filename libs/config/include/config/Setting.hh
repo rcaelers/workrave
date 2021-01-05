@@ -34,23 +34,24 @@ namespace workrave
       virtual ~SettingBase() = default;
     };
 
-    class SettingGroup : public SettingBase, IConfiguratorListener, boost::noncopyable
+    class SettingGroup
+      : public SettingBase
+      , IConfiguratorListener
+      , boost::noncopyable
     {
     private:
-      using NotifyType = boost::signals2::signal<void ()>;
+      using NotifyType = boost::signals2::signal<void()>;
 
     public:
-      explicit SettingGroup(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting)
+      explicit SettingGroup(workrave::config::IConfigurator::Ptr config, const std::string &setting)
+        : config(config)
+        , setting(setting)
       {
       }
 
-      ~SettingGroup() override
-      = default;
+      ~SettingGroup() override = default;
 
-      const std::string key() const
-      {
-        return setting;
-      }
+      std::string key() const { return setting; }
 
       boost::signals2::connection connect(NotifyType::slot_type slot)
       {
@@ -76,41 +77,40 @@ namespace workrave
       NotifyType signal;
     };
 
-
     template<class T, class R = T>
-    class Setting : public SettingBase, IConfiguratorListener, boost::noncopyable
+    class Setting
+      : public SettingBase
+      , IConfiguratorListener
+      , boost::noncopyable
     {
     private:
-      using NotifyType = boost::signals2::signal<void (const R &)>;
+      using NotifyType = boost::signals2::signal<void(const R &)>;
 
     public:
-      explicit Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting) : config(config), setting(setting) , has_default_value(false)
+      explicit Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting)
+        : config(config)
+        , setting(setting)
+        , has_default_value(false)
       {
       }
 
-      Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting, R default_value) : config(config), setting(setting) , has_default_value(true), default_value(default_value)
+      Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting, R default_value)
+        : config(config)
+        , setting(setting)
+        , has_default_value(true)
+        , default_value(default_value)
       {
       }
 
-      ~Setting() override
-      = default;
+      ~Setting() override = default;
 
-      const std::string key() const
-      {
-        return setting;
-      }
+      std::string key() const { return setting; }
 
-      const R operator()() const
-      {
-        return get();
-      }
+      R operator()() const { return get(); }
 
-      const R operator()(const T def) const
-      {
-        return get(def);
-      }
+      R operator()(const T def) const { return get(def); }
 
-      const R get() const
+      R get() const
       {
         T ret = T();
         if (has_default_value)
@@ -124,17 +124,14 @@ namespace workrave
         return static_cast<R>(ret);
       }
 
-      const R get(const R def) const
+      R get(const R def) const
       {
         const T ret = T();
         config->get_value_with_default(setting, ret, static_cast<T>(def));
         return static_cast<R>(ret);
       }
 
-      void set(const R &val)
-      {
-        config->set_value(setting, static_cast<T>(val));
-      }
+      void set(const R &val) { config->set_value(setting, static_cast<T>(val)); }
 
       boost::signals2::connection connect(typename NotifyType::slot_type slot)
       {
@@ -169,7 +166,7 @@ namespace workrave
       R default_value;
       NotifyType signal;
     };
-  }
-}
+  } // namespace config
+} // namespace workrave
 
 #endif // WORKRAVE_CONFIG_SETTING_HH

@@ -45,7 +45,7 @@ public:
 
 private:
   NSRunningApplication *active_app = nil;
-  bool active_app_hidden = false;
+  bool active_app_hidden           = false;
 };
 
 ToolkitPlatformMac::ToolkitPlatformMac()
@@ -53,9 +53,7 @@ ToolkitPlatformMac::ToolkitPlatformMac()
   pimpl = std::make_unique<Pimpl>();
 }
 
-ToolkitPlatformMac::~ToolkitPlatformMac()
-{
-}
+ToolkitPlatformMac::~ToolkitPlatformMac() {}
 
 QPixmap
 ToolkitPlatformMac::get_desktop_image()
@@ -97,7 +95,7 @@ ToolkitPlatformMac::Pimpl::get_desktop_image()
   QPixmap pixmap;
 
   CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionAll /*OnScreenOnly*/, kCGNullWindowID);
-  CFIndex numWindows = CFArrayGetCount(windowList);
+  CFIndex numWindows    = CFArrayGetCount(windowList);
 
   for (int i = 0; i < (int)numWindows; i++)
     {
@@ -114,7 +112,8 @@ ToolkitPlatformMac::Pimpl::get_desktop_image()
               int winId = 0;
               CFNumberGetValue(index, kCFNumberIntType, &winId);
 
-              CGImageRef cgImage = CGWindowListCreateImage(CGRectInfinite, kCGWindowListOptionIncludingWindow, winId, kCGWindowImageNominalResolution);
+              CGImageRef cgImage =
+                CGWindowListCreateImage(CGRectInfinite, kCGWindowListOptionIncludingWindow, winId, kCGWindowImageNominalResolution);
 #if defined(HAVE_QT5)
               pixmap = QtMac::fromCGImageRef(cgImage);
 #elif defined(HAVE_QT6)
@@ -133,7 +132,7 @@ ToolkitPlatformMac::Pimpl::get_desktop_image()
 void
 ToolkitPlatformMac::Pimpl::foreground()
 {
-  active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
+  active_app        = [[NSWorkspace sharedWorkspace] frontmostApplication];
   active_app_hidden = [NSApp isHidden];
   [NSApp activateIgnoringOtherApps:YES];
 }
@@ -155,11 +154,12 @@ ToolkitPlatformMac::Pimpl::restore_foreground()
 void
 ToolkitPlatformMac::Pimpl::lock()
 {
-  NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar
-                                              | NSApplicationPresentationDisableAppleMenu | NSApplicationPresentationDisableProcessSwitching |
-                                              // NSApplicationPresentationDisableForceQuit |
-                                              // NSApplicationPresentationDisableSessionTermination |
-                                              NSApplicationPresentationDisableHideApplication);
+  NSApplicationPresentationOptions options =
+    (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar | NSApplicationPresentationDisableAppleMenu
+     | NSApplicationPresentationDisableProcessSwitching |
+     // NSApplicationPresentationDisableForceQuit |
+     // NSApplicationPresentationDisableSessionTermination |
+     NSApplicationPresentationDisableHideApplication);
   [NSApp setPresentationOptions:options];
 }
 

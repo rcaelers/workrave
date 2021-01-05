@@ -42,7 +42,6 @@ private:
   workrave::input_monitor::IInputMonitor::Ptr create_statistics_monitor();
   workrave::input_monitor::IInputMonitor::Ptr create_activity_monitor();
 
-
 private:
   workrave::config::IConfigurator::Ptr config;
   workrave::input_monitor::IInputMonitor::Ptr activity_monitor;

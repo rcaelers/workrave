@@ -21,8 +21,8 @@
 
 #include "AboutDialog.hh"
 
-#include <QtGui>
 #include <QStyle>
+#include <QtGui>
 
 #include "commonui/credits.h"
 #include "core/ICore.hh"
@@ -36,7 +36,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 AboutDialog::AboutDialog()
-    : QDialog()
+  : QDialog()
 {
   setWindowTitle(tr("About Workrave"));
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -70,12 +70,12 @@ AboutDialog::AboutDialog()
   vbox->addWidget(copyright_label);
 
   QDialogButtonBox *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
-  QPushButton *closeButton = button_box->button(QDialogButtonBox::Close);
+  QPushButton *closeButton     = button_box->button(QDialogButtonBox::Close);
 
   button_box->addButton(closeButton, QDialogButtonBox::ButtonRole(QDialogButtonBox::RejectRole | QDialogButtonBox::AcceptRole));
   connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
 
-  QPixmap pixmap = UiUtil::create_pixmap("workrave-sheep.svg", 150);
+  QPixmap pixmap    = UiUtil::create_pixmap("workrave-sheep.svg", 150);
   QLabel *logoLabel = new QLabel;
   logoLabel->setPixmap(pixmap);
 

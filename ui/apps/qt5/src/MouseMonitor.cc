@@ -35,14 +35,14 @@ public:
 
 public:
   Private()
-      : monitor(nil)
+    : monitor(nil)
   {
   }
 };
 
 MouseMonitor::MouseMonitor(std::function<void(int, int)> func)
 {
-  priv = std::make_unique<Private>();
+  priv       = std::make_unique<Private>();
   priv->func = func;
 }
 

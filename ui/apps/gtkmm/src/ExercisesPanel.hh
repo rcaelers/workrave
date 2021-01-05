@@ -21,7 +21,7 @@
 #define EXERCISES_PANEL_HH
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/Exercise.hh"

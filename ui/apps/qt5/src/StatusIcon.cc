@@ -31,9 +31,9 @@ using namespace workrave;
 
 StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
 {
-  mode_icons[workrave::OperationMode::Normal] = UiUtil::create_icon("workrave-icon-medium.png");
+  mode_icons[workrave::OperationMode::Normal]    = UiUtil::create_icon("workrave-icon-medium.png");
   mode_icons[workrave::OperationMode::Suspended] = UiUtil::create_icon("workrave-suspended-icon-medium.png");
-  mode_icons[workrave::OperationMode::Quiet] = UiUtil::create_icon("workrave-quiet-icon-medium.png");
+  mode_icons[workrave::OperationMode::Quiet]     = UiUtil::create_icon("workrave-quiet-icon-medium.png");
 
   tray_icon = std::make_shared<QSystemTrayIcon>();
 
@@ -41,7 +41,8 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
   tray_icon->setContextMenu(menu->get_menu());
 
   ICore::Ptr core = Backend::get_core();
-  connections.connect(core->signal_operation_mode_changed(), std::bind(&StatusIcon::on_operation_mode_changed, this, std::placeholders::_1));
+  connections.connect(core->signal_operation_mode_changed(),
+                      std::bind(&StatusIcon::on_operation_mode_changed, this, std::placeholders::_1));
   OperationMode mode = core->get_operation_mode_regular();
   tray_icon->setIcon(mode_icons[mode]);
 

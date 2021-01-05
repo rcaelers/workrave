@@ -32,7 +32,7 @@ namespace Gtk
   class Calendar;
   class Notebook;
   class Widget;
-}
+} // namespace Gtk
 
 using namespace workrave;
 

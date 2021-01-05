@@ -31,15 +31,15 @@ namespace workrave
       // Grmbl. Ideally, this was call just SearchPath, however
       // Windows feels it is necessary to do a "#define SearchPath SearchPathA"
       enum SearchPathId
-        {
-          SEARCH_PATH_IMAGES = 0,
-          SEARCH_PATH_SOUNDS,
-          SEARCH_PATH_CONFIG,
-          SEARCH_PATH_EXERCISES,
-          SEARCH_PATH_SIZEOF
-        };
+      {
+        SEARCH_PATH_IMAGES = 0,
+        SEARCH_PATH_SOUNDS,
+        SEARCH_PATH_CONFIG,
+        SEARCH_PATH_EXERCISES,
+        SEARCH_PATH_SIZEOF
+      };
 
-      static const std::string& get_home_directory();
+      static const std::string &get_home_directory();
       static void set_home_directory(const std::string &home);
 
       static const std::set<std::string> &get_search_path(SearchPathId type);
@@ -50,7 +50,7 @@ namespace workrave
       static std::set<std::string> search_paths[SEARCH_PATH_SIZEOF];
       static std::string home_directory;
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_UTIL_HH

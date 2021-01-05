@@ -28,15 +28,15 @@ namespace workrave
     {
     public:
       enum Format
-        {
-          FormatIni,
-          FormatXml,
-          FormatNative
-        };
+      {
+        FormatIni,
+        FormatXml,
+        FormatNative
+      };
 
       static IConfigurator::Ptr create(Format fmt);
     };
-  }
-}
+  } // namespace config
+} // namespace workrave
 
 #endif // WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH

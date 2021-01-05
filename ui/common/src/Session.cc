@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Session.hh"
@@ -34,9 +34,7 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace std;
 
-Session::Session()
-= default;
-
+Session::Session() = default;
 
 void
 Session::init()
@@ -52,7 +50,7 @@ Session::set_idle(bool new_idle)
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
 
   bool auto_natural = GUIConfig::break_auto_natural(BREAK_ID_REST_BREAK)();
-  ICore::Ptr core = Backend::get_core();
+  ICore::Ptr core   = Backend::get_core();
 
   if (core->get_usage_mode() == UsageMode::Reading)
     {
@@ -68,13 +66,13 @@ Session::set_idle(bool new_idle)
       TRACE_MSG("taking " << taking);
       if (!taking)
         {
-          core->set_operation_mode_override( OperationMode::Suspended, "screensaver" );
+          core->set_operation_mode_override(OperationMode::Suspended, "screensaver");
         }
     }
   else if (!new_idle && is_idle && !taking)
     {
       TRACE_MSG("No longer idle");
-      core->remove_operation_mode_override( "screensaver" );
+      core->remove_operation_mode_override("screensaver");
 
       if (auto_natural)
         {
@@ -82,9 +80,8 @@ Session::set_idle(bool new_idle)
 
           IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
-          if (core->get_operation_mode() == OperationMode::Normal &&
-              rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
-              && rest_break->is_enabled()
+          if (core->get_operation_mode() == OperationMode::Normal
+              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()
               && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
@@ -110,8 +107,8 @@ Session::set_idle(bool new_idle)
 void
 Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
-  (void) proxy;
-  (void) sender_name;
+  (void)proxy;
+  (void)sender_name;
 
   auto *self = static_cast<Session *>(user_data);
   int session_status;
@@ -122,7 +119,6 @@ Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GV
       self->set_idle(session_status == 3);
     }
 }
-
 
 void
 Session::init_gnome()

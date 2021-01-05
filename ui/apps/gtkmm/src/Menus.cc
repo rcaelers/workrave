@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -26,7 +26,7 @@
 #include "commonui/credits.h"
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include <iostream>
 
@@ -52,23 +52,23 @@
 #include "AppletControl.hh"
 
 #ifdef HAVE_INDICATOR
-#include "IndicatorAppletMenu.hh"
+#  include "IndicatorAppletMenu.hh"
 #endif
 
 #ifdef HAVE_DBUS
-#include "GenericDBusApplet.hh"
+#  include "GenericDBusApplet.hh"
 #endif
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <shellapi.h>
+#  include <shellapi.h>
 
-#include "W32AppletWindow.hh"
-#include "W32TrayMenu.hh"
-#include "W32AppletMenu.hh"
+#  include "W32AppletWindow.hh"
+#  include "W32TrayMenu.hh"
+#  include "W32AppletMenu.hh"
 #endif
 
 #if defined(PLATFORM_OS_MACOS)
-#include "MacOSGtkMenu.hh"
+#  include "MacOSGtkMenu.hh"
 #endif
 
 #include "commonui/MenuEnums.hh"
@@ -80,17 +80,16 @@ using namespace workrave::utils;
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-Menus::Menus(SoundTheme::Ptr sound_theme) :
-  sound_theme(sound_theme)
+Menus::Menus(SoundTheme::Ptr sound_theme)
+  : sound_theme(sound_theme)
 {
   gui = GUI::get_instance();
 
-  for (auto & menu : menus)
+  for (auto &menu: menus)
     {
       menu = nullptr;
     }
 }
-
 
 //! Destructor.
 Menus::~Menus()
@@ -99,7 +98,6 @@ Menus::~Menus()
   TRACE_EXIT();
 }
 
-
 void
 Menus::init(AppletControl *applet_control)
 {
@@ -107,11 +105,11 @@ Menus::init(AppletControl *applet_control)
   std::shared_ptr<IAppletWindow> applet_window;
 #endif
 
-// #if defined(PLATFORM_OS_MACOS)
-//   menus[MENU_MAINWINDOW] = new MacOSGtkMenu(true);
-// #else
+  // #if defined(PLATFORM_OS_MACOS)
+  //   menus[MENU_MAINWINDOW] = new MacOSGtkMenu(true);
+  // #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
-//#endif
+  //#endif
 
 #ifdef PLATFORM_OS_WIN32
   menus[MENU_MAINAPPLET] = new W32TrayMenu();
@@ -120,22 +118,22 @@ Menus::init(AppletControl *applet_control)
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  applet_window = applet_control->get_applet_window(AppletControl::AppletType::Windows);
+  applet_window                                      = applet_control->get_applet_window(AppletControl::AppletType::Windows);
   std::shared_ptr<W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
-  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window.get());
+  menus[MENU_APPLET_W32]                             = new W32AppletMenu(w32_applet_window.get());
 #endif
 
 #if defined(HAVE_DBUS)
-  applet_window = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
+  applet_window                                       = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
   std::shared_ptr<GenericDBusApplet> indicator_applet = std::dynamic_pointer_cast<GenericDBusApplet>(applet_window);
-  menus[MENU_APPLET_GENERICDBUS] = indicator_applet.get();
+  menus[MENU_APPLET_GENERICDBUS]                      = indicator_applet.get();
 
-#if defined(HAVE_INDICATOR)
+#  if defined(HAVE_INDICATOR)
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
+#  endif
 #endif
-#endif
-  
-  for (auto & menu : menus)
+
+  for (auto &menu: menus)
     {
       if (menu != nullptr)
         {
@@ -146,11 +144,8 @@ Menus::init(AppletControl *applet_control)
   resync();
 }
 
-
 void
-Menus::popup(const MenuKind kind,
-             const guint button,
-             const guint activate_time)
+Menus::popup(const MenuKind kind, const guint button, const guint activate_time)
 {
   IMenu *pop_menu = menus[kind];
   if (pop_menu)
@@ -159,13 +154,11 @@ Menus::popup(const MenuKind kind,
     }
 }
 
-
 void
 Menus::on_menu_open_main_window()
 {
   gui->open_main_window();
 }
-
 
 //! User requested application quit....
 void
@@ -178,14 +171,12 @@ Menus::on_menu_quit()
   TRACE_EXIT();
 }
 
-
 //! User requested immediate restbreak.
 void
 Menus::on_menu_restbreak_now()
 {
   gui->restbreak_now();
 }
-
 
 void
 Menus::on_set_operation_mode(OperationMode m)
@@ -195,7 +186,6 @@ Menus::on_set_operation_mode(OperationMode m)
   resync();
 }
 
-
 void
 Menus::set_usage_mode(UsageMode m)
 {
@@ -203,7 +193,6 @@ Menus::set_usage_mode(UsageMode m)
   core->set_usage_mode(m);
   resync();
 }
-
 
 void
 Menus::on_menu_quiet()
@@ -213,7 +202,6 @@ Menus::on_menu_quiet()
   TRACE_EXIT();
 }
 
-
 void
 Menus::on_menu_suspend()
 {
@@ -221,7 +209,6 @@ Menus::on_menu_suspend()
   on_set_operation_mode(OperationMode::Suspended);
   TRACE_EXIT();
 }
-
 
 void
 Menus::on_menu_normal()
@@ -231,7 +218,6 @@ Menus::on_menu_normal()
   TRACE_EXIT();
 }
 
-
 void
 Menus::on_menu_reading(bool reading)
 {
@@ -240,7 +226,6 @@ Menus::on_menu_reading(bool reading)
   resync();
   TRACE_EXIT();
 }
-
 
 //! Preferences Dialog.
 void
@@ -281,7 +266,7 @@ Menus::on_menu_exercises()
 void
 Menus::on_exercises_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(exercises_dialog != nullptr);
   exercises_dialog->hide();
@@ -290,14 +275,13 @@ Menus::on_exercises_response(int response)
   exercises_dialog = nullptr;
 }
 
-
 //! Statistics Dialog.
 void
 Menus::on_menu_statistics()
 {
   if (statistics_dialog == nullptr)
     {
-      ICore::Ptr core = Backend::get_core();
+      ICore::Ptr core        = Backend::get_core();
       IStatistics::Ptr stats = core->get_statistics();
       stats->update();
 
@@ -331,7 +315,6 @@ Menus::on_menu_debug()
 #endif
 }
 
-
 //! About Dialog.
 void
 Menus::on_menu_about()
@@ -339,10 +322,10 @@ Menus::on_menu_about()
   if (about == nullptr)
     {
       int *ptr = nullptr;
-      *ptr = 10;
-      
+      *ptr     = 10;
+
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
-      about = new Gtk::AboutDialog;
+      about                            = new Gtk::AboutDialog;
 
       about->set_name("Workrave");
       std::vector<Glib::ustring> authors;
@@ -353,11 +336,11 @@ Menus::on_menu_about()
       about->set_authors(authors);
 
       about->set_copyright(workrave_copyright);
-      about->set_comments(_("This program assists in the prevention and recovery"
-                            " of Repetitive Strain Injury (RSI)."));
+      about->set_comments(
+        _("This program assists in the prevention and recovery"
+          " of Repetitive Strain Injury (RSI)."));
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
-
 
 #ifdef WORKRAVE_GIT_VERSION
       about->set_version(PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");
@@ -372,12 +355,11 @@ Menus::on_menu_about()
   about->present();
 }
 
-
 #ifdef PLATFORM_OS_WINDOWS
 void
 Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
 {
-  (void) about;
+  (void)about;
   ShellExecuteA(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 #endif
@@ -385,7 +367,7 @@ Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link
 void
 Menus::on_about_response(int response)
 {
-  (void) response;
+  (void)response;
 
   delete about;
   about = nullptr;
@@ -394,7 +376,7 @@ Menus::on_about_response(int response)
 void
 Menus::on_statistics_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(statistics_dialog != nullptr);
   statistics_dialog->hide();
@@ -406,7 +388,7 @@ Menus::on_statistics_response(int response)
 void
 Menus::on_preferences_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(preferences_dialog != nullptr);
   preferences_dialog->hide();
@@ -420,7 +402,7 @@ Menus::on_preferences_response(int response)
 void
 Menus::on_debug_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(debug_dialog != nullptr);
   debug_dialog->hide();
@@ -428,7 +410,6 @@ Menus::on_debug_response(int response)
   delete debug_dialog;
   debug_dialog = nullptr;
 }
-
 
 void
 Menus::applet_command(short cmd)
@@ -474,7 +455,6 @@ Menus::applet_command(short cmd)
     }
 }
 
-
 void
 Menus::resync()
 {
@@ -483,7 +463,7 @@ Menus::resync()
     return;
   syncing = true;
 
-  for (auto & menu : menus)
+  for (auto &menu: menus)
     {
       if (menu != nullptr)
         {
@@ -496,14 +476,12 @@ Menus::resync()
           the resync, and cause a signal that then calls back into core with the override mode
           as a regular mode. That would erase whatever the user's regular mode was.
           */
-          menu->resync(core->get_operation_mode_regular(),
-                           core->get_usage_mode());
+          menu->resync(core->get_operation_mode_regular(), core->get_usage_mode());
         }
     }
 
   syncing = false;
 }
-
 
 void
 Menus::locale_changed()
@@ -513,7 +491,7 @@ Menus::locale_changed()
     return;
   syncing = true;
 
-  for (auto & menu : menus)
+  for (auto &menu: menus)
     {
       if (menu != nullptr)
         {

@@ -43,8 +43,8 @@
 #endif
 
 class Toolkit
-    : public QApplication
-    , public IToolkit
+  : public QApplication
+  , public IToolkit
 {
   Q_OBJECT
 
@@ -69,9 +69,9 @@ public Q_SLOTS:
 
 private:
 private:
-  QTimer *heartbeat_timer{ nullptr };
+  QTimer *heartbeat_timer{nullptr};
 
-  MainWindow *main_window{ nullptr };
+  MainWindow *main_window{nullptr};
   std::shared_ptr<StatusIcon> status_icon;
 
   QPointer<PreferencesDialog> preferences_dialog;
@@ -99,7 +99,7 @@ class OneshotTimer : public QObject
 
 public:
   OneshotTimer(int ms, std::function<void()> func)
-      : func(func)
+    : func(func)
   {
     QTimer::singleShot(ms, this, SLOT(exec()));
   };

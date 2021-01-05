@@ -35,12 +35,13 @@ namespace workrave
     {
     public:
       static void init(workrave::config::IConfigurator::Ptr config, const char *display);
-      static workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability);
+      static workrave::input_monitor::IInputMonitor::Ptr
+      create_monitor(workrave::input_monitor::IInputMonitorFactory::MonitorCapability capability);
 
     private:
       static workrave::input_monitor::IInputMonitorFactory *factory;
     };
-  }
-}
+  } // namespace input_monitor
+} // namespace workrave
 
 #endif // WORKRAVE_INPUT_MONITOR_INPUTMONITORFACTORY_HH

@@ -26,7 +26,9 @@
 #include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"
 
-class SimulatedTime : public workrave::utils::ITimeSource, public std::enable_shared_from_this<SimulatedTime>
+class SimulatedTime
+  : public workrave::utils::ITimeSource
+  , public std::enable_shared_from_this<SimulatedTime>
 {
 public:
   typedef std::shared_ptr<SimulatedTime> Ptr;
@@ -44,28 +46,22 @@ public:
   void reset()
   {
     std::tm tm;
-    tm.tm_sec = 0;
-    tm.tm_min = 0;
-    tm.tm_hour = 22;
-    tm.tm_mday = 22;
-    tm.tm_mon = 9;
-    tm.tm_year = 102;
-    tm.tm_isdst = -1;
+    tm.tm_sec      = 0;
+    tm.tm_min      = 0;
+    tm.tm_hour     = 22;
+    tm.tm_mday     = 22;
+    tm.tm_mon      = 9;
+    tm.tm_year     = 102;
+    tm.tm_isdst    = -1;
     std::time_t tt = timelocal(&tm);
 
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::from_time_t(tt);
-    current_time = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();
+    current_time                             = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();
   }
 
-  int64_t get_real_time_usec() override
-  {
-    return current_time;
-  }
+  int64_t get_real_time_usec() override { return current_time; }
 
-  int64_t get_monotonic_time_usec() override
-  {
-    return current_time;
-  }
+  int64_t get_monotonic_time_usec() override { return current_time; }
 
   int64_t current_time;
 

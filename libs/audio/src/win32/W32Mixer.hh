@@ -23,8 +23,8 @@
 #include "IMixer.hh"
 
 #ifdef HAVE_MMDEVICEAPI_H
-#include <mmdeviceapi.h>
-#include <endpointvolume.h>
+#  include <mmdeviceapi.h>
+#  include <endpointvolume.h>
 #else
 
 typedef interface IMMDeviceCollection IMMDeviceCollection;
@@ -33,61 +33,61 @@ typedef interface IAudioEndpointVolumeCallback IAudioEndpointVolumeCallback;
 typedef interface IPropertyStore IPropertyStore;
 
 typedef enum
-  {
-    eRender              = 0,
-    eCapture             = 1,
-    eAll                 = 2,
-    EDataFlow_enum_count = 3
-  } EDataFlow;
+{
+  eRender              = 0,
+  eCapture             = 1,
+  eAll                 = 2,
+  EDataFlow_enum_count = 3
+} EDataFlow;
 
 typedef enum
-  {
-    eConsole            = 0,
-    eMultimedia         = 1,
-    eCommunications     = 2,
-    ERole_enum_count    = 3,
-  } ERole;
+{
+  eConsole         = 0,
+  eMultimedia      = 1,
+  eCommunications  = 2,
+  ERole_enum_count = 3,
+} ERole;
 
 class IMMDevice : public IUnknown
 {
 public:
   virtual HRESULT STDMETHODCALLTYPE Activate(REFIID, DWORD, PROPVARIANT *, void **) = 0;
-  virtual HRESULT STDMETHODCALLTYPE OpenPropertyStore(DWORD, IPropertyStore **) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetId(LPWSTR *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetState(DWORD *) = 0;
+  virtual HRESULT STDMETHODCALLTYPE OpenPropertyStore(DWORD, IPropertyStore **)     = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetId(LPWSTR *)                                 = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetState(DWORD *)                               = 0;
 };
 
 class IMMDeviceEnumerator : public IUnknown
 {
 public:
-  virtual HRESULT STDMETHODCALLTYPE EnumAudioEndpoints(EDataFlow, DWORD, IMMDeviceCollection **) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetDefaultAudioEndpoint(EDataFlow, ERole, IMMDevice **) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetDevice(LPCWSTR, IMMDevice **) = 0;
-  virtual HRESULT STDMETHODCALLTYPE RegisterEndpointNotificationCallback(IMMNotificationClient *) = 0;
+  virtual HRESULT STDMETHODCALLTYPE EnumAudioEndpoints(EDataFlow, DWORD, IMMDeviceCollection **)    = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetDefaultAudioEndpoint(EDataFlow, ERole, IMMDevice **)         = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetDevice(LPCWSTR, IMMDevice **)                                = 0;
+  virtual HRESULT STDMETHODCALLTYPE RegisterEndpointNotificationCallback(IMMNotificationClient *)   = 0;
   virtual HRESULT STDMETHODCALLTYPE UnregisterEndpointNotificationCallback(IMMNotificationClient *) = 0;
 };
 
 class IAudioEndpointVolume : public IUnknown
 {
 public:
-  virtual HRESULT STDMETHODCALLTYPE RegisterControlChangeNotify(IAudioEndpointVolumeCallback *) = 0;
+  virtual HRESULT STDMETHODCALLTYPE RegisterControlChangeNotify(IAudioEndpointVolumeCallback *)   = 0;
   virtual HRESULT STDMETHODCALLTYPE UnregisterControlChangeNotify(IAudioEndpointVolumeCallback *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetChannelCount(UINT *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE SetMasterVolumeLevel(float, LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE SetMasterVolumeLevelScalar(float, LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetMasterVolumeLevel(float *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetMasterVolumeLevelScalar(float *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE SetChannelVolumeLevel(UINT, float, LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE SetChannelVolumeLevelScalar(UINT, float, LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetChannelVolumeLevel(UINT, float *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetChannelVolumeLevelScalar(UINT, float *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE SetMute(BOOL, LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetMute(BOOL *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetVolumeStepInfo(UINT *, UINT *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE VolumeStepUp(LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE VolumeStepDown(LPCGUID) = 0;
-  virtual HRESULT STDMETHODCALLTYPE QueryHardwareSupport(DWORD *) = 0;
-  virtual HRESULT STDMETHODCALLTYPE GetVolumeRange(float *, float *, float *) = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetChannelCount(UINT *)                                       = 0;
+  virtual HRESULT STDMETHODCALLTYPE SetMasterVolumeLevel(float, LPCGUID)                          = 0;
+  virtual HRESULT STDMETHODCALLTYPE SetMasterVolumeLevelScalar(float, LPCGUID)                    = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetMasterVolumeLevel(float *)                                 = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetMasterVolumeLevelScalar(float *)                           = 0;
+  virtual HRESULT STDMETHODCALLTYPE SetChannelVolumeLevel(UINT, float, LPCGUID)                   = 0;
+  virtual HRESULT STDMETHODCALLTYPE SetChannelVolumeLevelScalar(UINT, float, LPCGUID)             = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetChannelVolumeLevel(UINT, float *)                          = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetChannelVolumeLevelScalar(UINT, float *)                    = 0;
+  virtual HRESULT STDMETHODCALLTYPE SetMute(BOOL, LPCGUID)                                        = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetMute(BOOL *)                                               = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetVolumeStepInfo(UINT *, UINT *)                             = 0;
+  virtual HRESULT STDMETHODCALLTYPE VolumeStepUp(LPCGUID)                                         = 0;
+  virtual HRESULT STDMETHODCALLTYPE VolumeStepDown(LPCGUID)                                       = 0;
+  virtual HRESULT STDMETHODCALLTYPE QueryHardwareSupport(DWORD *)                                 = 0;
+  virtual HRESULT STDMETHODCALLTYPE GetVolumeRange(float *, float *, float *)                     = 0;
 };
 #endif
 

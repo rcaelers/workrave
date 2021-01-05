@@ -38,11 +38,11 @@ namespace dc
 {
   enum Flags
   {
-    NONE = 0,
+    NONE      = 0,
     NO_CONFIG = 1,
     NO_WIDGET = 2,
   };
-}
+} // namespace dc
 
 class DataConnector
 {
@@ -54,7 +54,10 @@ public:
 
   void connect(const std::string &setting, DataConnection *connection, dc::Flags flags = dc::NONE);
 
-  void connect(const std::string &setting, DataConnection *connection, std::function<bool(const std::string &, bool)> cb, dc::Flags flags = dc::NONE);
+  void connect(const std::string &setting,
+               DataConnection *connection,
+               std::function<bool(const std::string &, bool)> cb,
+               dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
   void connect(workrave::config::Setting<T, R> &setting, DataConnection *connection, dc::Flags flags = dc::NONE)
@@ -74,10 +77,7 @@ public:
 private:
   struct MonitoredWidget
   {
-    MonitoredWidget()
-    {
-      connection = NULL;
-    }
+    MonitoredWidget() { connection = NULL; }
 
     DataConnection *connection;
   };
@@ -90,8 +90,8 @@ private:
 };
 
 class DataConnection
-    : public QObject
-    , public workrave::config::IConfiguratorListener
+  : public QObject
+  , public workrave::config::IConfiguratorListener
 {
 public:
   DataConnection();
@@ -113,12 +113,10 @@ protected:
   {                                                     \
   public:                                               \
     explicit WrapperType(WidgetType widget)             \
-        : widget(widget)                                \
+      : widget(widget)                                  \
     {                                                   \
     }                                                   \
-    virtual ~WrapperType()                              \
-    {                                                   \
-    }                                                   \
+    virtual ~WrapperType() {}                           \
                                                         \
     void init();                                        \
     void widget_changed_notify();                       \
@@ -133,13 +131,10 @@ protected:
     WrapperType *wrap(WidgetType t);                    \
   }
 
-#define DEFINE_DATA_TYPE(WidgetType, WrapperType) \
-  namespace dc                                    \
-  {                                               \
-    WrapperType *wrap(WidgetType t)               \
-    {                                             \
-      return new WrapperType(t);                  \
-    }                                             \
+#define DEFINE_DATA_TYPE(WidgetType, WrapperType)                  \
+  namespace dc                                                     \
+  {                                                                \
+    WrapperType *wrap(WidgetType t) { return new WrapperType(t); } \
   }
 
 #define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType) \

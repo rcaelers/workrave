@@ -21,9 +21,10 @@
 #include "core/ICoreHooks.hh"
 #include "ICoreTestHooks.hh"
 
-class CoreHooks : public ICoreHooks
+class CoreHooks
+  : public ICoreHooks
 #ifdef HAVE_TESTS
-                , public ICoreTestHooks
+  , public ICoreTestHooks
 #endif
 {
 public:

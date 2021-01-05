@@ -59,8 +59,7 @@ private:
   Glib::RefPtr<Gtk::Adjustment> secs_adjustment;
 };
 
-
-inline TimeEntry::signal_value_changed_t&
+inline TimeEntry::signal_value_changed_t &
 TimeEntry::signal_value_changed()
 {
   return sig_value_changed;

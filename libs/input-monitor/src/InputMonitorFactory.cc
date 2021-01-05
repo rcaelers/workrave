@@ -15,19 +15,19 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "input-monitor/InputMonitorFactory.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
-#include "W32InputMonitorFactory.hh"
+#  include "W32InputMonitorFactory.hh"
 #endif
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSInputMonitorFactory.hh"
+#  include "MacOSInputMonitorFactory.hh"
 #endif
 #ifdef PLATFORM_OS_UNIX
-#include "UnixInputMonitorFactory.hh"
+#  include "UnixInputMonitorFactory.hh"
 #endif
 
 using namespace workrave::config;

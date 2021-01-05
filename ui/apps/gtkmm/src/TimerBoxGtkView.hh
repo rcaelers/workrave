@@ -37,9 +37,11 @@ namespace Gtk
   class Bin;
   class Image;
   class EventBox;
-}
+} // namespace Gtk
 
-class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView
+class TimerBoxGtkView
+  : public Gtk::Table
+  , public ITimerBoxView
 {
 public:
   TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
@@ -47,13 +49,15 @@ public:
 
   void set_geometry(Orientation orientation, int size) override;
   int get_visible_count() const;
-  void set_slot(workrave::BreakId  id, int slot) override;
+  void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,
                     TimerColorId primary_color,
-                    int primary_value, int primary_max,
+                    int primary_value,
+                    int primary_max,
                     TimerColorId secondary_color,
-                    int secondary_value, int secondary_max) override;
+                    int secondary_value,
+                    int secondary_max) override;
   void set_tip(std::string tip) override;
   void set_icon(StatusIconType icon) override;
   void update_view() override;
@@ -62,7 +66,7 @@ public:
   void set_sheep_only(bool sheep_only);
   bool is_sheep_only() const;
 
-  bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
+  bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
 private:
   void init_widgets();
@@ -130,12 +134,10 @@ private:
   scoped_connections connections;
 };
 
-
 inline int
 TimerBoxGtkView::get_visible_count() const
 {
   return visible_count;
 }
-
 
 #endif // TIMERBOXGTKVIEW_HH

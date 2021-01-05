@@ -24,12 +24,11 @@
 
 #include <windows.h>
 
-
 #undef __out
 #undef __in
 
 #if defined(interface)
-#undef interface
+#  undef interface
 #endif
 
 #include "Grab.hh"

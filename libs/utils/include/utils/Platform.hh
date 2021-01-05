@@ -39,16 +39,17 @@ namespace workrave
       static std::string get_application_name();
       static bool registry_set_value(const char *path, const char *name, const char *value);
       static bool registry_get_value(const char *path, const char *name, char *out);
+
     private:
-      static std::wstring convert(const char* c);
+      static std::wstring convert(const char *c);
 #endif
     public:
-      static int setenv(const char* name, const char* val, int);
-      static int unsetenv(const char* name);
+      static int setenv(const char *name, const char *val, int);
+      static int unsetenv(const char *name);
 
-       static bool can_position_windows();
+      static bool can_position_windows();
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_PLATFORM_HH

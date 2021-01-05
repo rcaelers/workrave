@@ -67,7 +67,7 @@ private:
   Activated activated;
   MenuNodeType type;
   MenuNodeList menu_items;
-  bool checked{ false };
+  bool checked{false};
   boost::signals2::signal<void()> changed_signal;
 };
 

@@ -20,21 +20,21 @@
 #include <memory>
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "dbus/DBusFactory.hh"
 
 #if defined(HAVE_DBUS_DUMMY)
-#include "DBusDummy.hh"
+#  include "DBusDummy.hh"
 #elif defined(HAVE_DBUS_QT)
-#include "DBusQt.hh"
+#  include "DBusQt.hh"
 #elif defined(HAVE_DBUS_GIO)
-#include "DBusGio.hh"
+#  include "DBusGio.hh"
 #elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-#include "DBusFreedesktop.hh"
+#  include "DBusFreedesktop.hh"
 #else
-#include "DBusDummy.hh"
+#  include "DBusDummy.hh"
 #endif
 
 workrave::dbus::IDBus::Ptr

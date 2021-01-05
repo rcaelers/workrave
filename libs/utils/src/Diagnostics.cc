@@ -4,14 +4,13 @@
 
 bool TracedFieldBase::debug = false;
 
-
 void
 Diagnostics::enable(DiagnosticsSink *sink)
 {
-  this->sink = sink;
-  enabled = true;
+  this->sink             = sink;
+  enabled                = true;
   TracedFieldBase::debug = true;
-  for (const auto &kv : topics)
+  for (const auto &kv: topics)
     {
       kv.second();
     }
@@ -20,8 +19,8 @@ Diagnostics::enable(DiagnosticsSink *sink)
 void
 Diagnostics::disable()
 {
-  enabled = false;
-  sink = nullptr;
+  enabled                = false;
+  sink                   = nullptr;
   TracedFieldBase::debug = false;
 }
 
@@ -48,4 +47,3 @@ Diagnostics::trace_get_time()
   strftime(logtime, 128, "%d %b %Y %H:%M:%S ", tmlt);
   return logtime;
 }
-

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "ReadingActivityMonitor.hh"
@@ -27,23 +27,23 @@
 using namespace workrave;
 using namespace workrave::input_monitor;
 
-ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes) :
-  monitor(monitor),
-  modes(modes),
-  suspended(false),
-  forced_idle(false),
-  state(Idle)
+ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
+  : monitor(monitor)
+  , modes(modes)
+  , suspended(false)
+  , forced_idle(false)
+  , state(Idle)
 {
 }
 
-ReadingActivityMonitor::~ReadingActivityMonitor()
-= default;
+ReadingActivityMonitor::~ReadingActivityMonitor() = default;
 
 void
 ReadingActivityMonitor::init()
 {
   monitor->set_listener(shared_from_this());
-  connections.connect(modes->signal_usage_mode_changed(), [this](auto && mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connections.connect(modes->signal_usage_mode_changed(),
+                      [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
 }
 
 void
@@ -67,10 +67,10 @@ ReadingActivityMonitor::is_active()
       bool local_is_active = monitor->is_active();
       TRACE_MSG(local_is_active)
 
-        if (local_is_active)
-          {
-            forced_idle = false;
-          }
+      if (local_is_active)
+        {
+          forced_idle = false;
+        }
     }
 
   if (forced_idle)
@@ -84,7 +84,6 @@ ReadingActivityMonitor::is_active()
       TRACE_RETURN("Suspended");
       return false;
     }
-
 
   bool active = false;
   switch (state)
@@ -126,7 +125,8 @@ ReadingActivityMonitor::on_usage_mode_changed(workrave::UsageMode mode)
 void
 ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("ReadingActivityMonitor::handle_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  TRACE_ENTER_MSG("ReadingActivityMonitor::handle_break_event",
+                  break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
   switch (state)
     {
     case Idle:
@@ -138,8 +138,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
           TRACE_MSG("Active -> Prelude");
           state = Prelude;
         }
-      else if (event == BreakEvent::ShowBreak ||
-               event == BreakEvent::ShowBreakForced)
+      else if (event == BreakEvent::ShowBreak || event == BreakEvent::ShowBreakForced)
         {
           TRACE_MSG("Active -> Taking");
           state = Taking;
@@ -147,8 +146,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       break;
 
     case Prelude:
-      if (event == BreakEvent::ShowBreak ||
-          event == BreakEvent::ShowBreakForced)
+      if (event == BreakEvent::ShowBreak || event == BreakEvent::ShowBreakForced)
         {
           TRACE_MSG("Prelude -> Taking");
           state = Taking;
@@ -156,7 +154,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       else if (event == BreakEvent::BreakIdle)
         {
           TRACE_MSG("Prelude -> Active");
-          state = Active;
+          state       = Active;
           forced_idle = false;
         }
       break;
@@ -167,7 +165,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
           if (break_id == BREAK_ID_MICRO_BREAK)
             {
               TRACE_MSG("Taking -> Active");
-              state = Active;
+              state       = Active;
               forced_idle = false;
             }
           else
@@ -185,5 +183,5 @@ bool
 ReadingActivityMonitor::action_notify()
 {
   state = Active;
-  return false;   // false: kill listener.
+  return false; // false: kill listener.
 }

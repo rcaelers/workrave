@@ -28,8 +28,9 @@
 
 #include "IConfigBackend.hh"
 
-class GSettingsConfigurator :
-  public IConfigBackend, public IConfigBackendMonitoring
+class GSettingsConfigurator
+  : public IConfigBackend
+  , public IConfigBackendMonitoring
 {
 public:
   GSettingsConfigurator();
@@ -54,8 +55,8 @@ private:
   std::string schema_base;
   std::string path_base;
 
-  using SettingsMap = std::map<std::string, GSettings *>;
-  using SettingsIter = SettingsMap::iterator;
+  using SettingsMap   = std::map<std::string, GSettings *>;
+  using SettingsIter  = SettingsMap::iterator;
   using SettingsCIter = SettingsMap::const_iterator;
 
   //!
@@ -67,6 +68,5 @@ private:
 
   static void on_settings_changed(GSettings *settings, const gchar *key, void *user_data);
 };
-
 
 #endif // GGSETTINGSCONFIGURATOR_HH

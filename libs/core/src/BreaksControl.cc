@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -33,8 +33,8 @@
 #include "core/CoreConfig.hh"
 #include "TimerActivityMonitor.hh"
 
-static const char *WORKRAVESTATE="WorkRaveState";
-static const int SAVESTATETIME = 60;
+static const char *WORKRAVESTATE = "WorkRaveState";
+static const int SAVESTATETIME   = 60;
 
 using namespace std;
 using namespace workrave;
@@ -46,15 +46,15 @@ BreaksControl::BreaksControl(IApp *app,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
                              IDBus::Ptr dbus,
-                             CoreHooks::Ptr hooks) :
-  application(app),
-  activity_monitor(activity_monitor),
-  modes(modes),
-  statistics(statistics),
-  dbus(dbus),
-  hooks(hooks),
-  insist_policy(InsistPolicy::Halt),
-  active_insist_policy(InsistPolicy::Invalid)
+                             CoreHooks::Ptr hooks)
+  : application(app)
+  , activity_monitor(activity_monitor)
+  , modes(modes)
+  , statistics(statistics)
+  , dbus(dbus)
+  , hooks(hooks)
+  , insist_policy(InsistPolicy::Halt)
+  , active_insist_policy(InsistPolicy::Invalid)
 {
 }
 
@@ -66,7 +66,8 @@ BreaksControl::~BreaksControl()
 void
 BreaksControl::init()
 {
-  connections.connect(modes->signal_operation_mode_changed(), [this](auto && mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connections.connect(modes->signal_operation_mode_changed(),
+                      [this](auto &&mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
 
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
@@ -75,8 +76,10 @@ BreaksControl::init()
       timers[break_id] = std::make_shared<Timer>(break_name);
       timers[break_id]->enable();
 
-      breaks[break_id] = std::make_shared<Break>(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
-      connections.connect(breaks[break_id]->signal_break_event(), [this, break_id](auto && event) { on_break_event(break_id, std::forward<decltype(event)>(event)); });
+      breaks[break_id] =
+        std::make_shared<Break>(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
+      connections.connect(breaks[break_id]->signal_break_event(),
+                          [this, break_id](auto &&event) { on_break_event(break_id, std::forward<decltype(event)>(event)); });
     }
 
   reading_activity_monitor = std::make_shared<ReadingActivityMonitor>(activity_monitor, modes);
@@ -100,7 +103,7 @@ BreaksControl::force_idle()
   microbreak_activity_monitor->force_idle();
   reading_activity_monitor->force_idle();
 
-  for (auto &timer : timers)
+  for (auto &timer: timers)
     {
       timer->stop_timer();
     }
@@ -109,7 +112,7 @@ BreaksControl::force_idle()
 void
 BreaksControl::stop_all_breaks()
 {
-  for (auto &b : breaks)
+  for (auto &b: breaks)
     {
       if (b->is_active())
         {
@@ -154,7 +157,7 @@ BreaksControl::heartbeat()
   process_timers(user_is_active);
 
   // Send heartbeats to other components.
-  for (auto &b : breaks)
+  for (auto &b: breaks)
     {
       b->process();
     }
@@ -168,7 +171,6 @@ BreaksControl::heartbeat()
 
   TRACE_EXIT();
 }
-
 
 //! Processes all timers.
 void
@@ -192,8 +194,7 @@ BreaksControl::process_timers(bool user_is_active)
             {
             case TIMER_EVENT_LIMIT_REACHED:
               TRACE_MSG("limit reached" << break_id);
-              if (!breaks[break_id]->is_active() &&
-                  modes->get_operation_mode() == OperationMode::Normal)
+              if (!breaks[break_id]->is_active() && modes->get_operation_mode() == OperationMode::Normal)
                 {
                   start_break(break_id);
                 }
@@ -225,7 +226,6 @@ BreaksControl::process_timers(bool user_is_active)
   TRACE_EXIT();
 }
 
-
 void
 BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
 {
@@ -254,13 +254,12 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
       // Only advance when
       // 0. It is activity sensitive
       // 1. we have a next limit reached time.
-      if (activity_sensitive &&
-          rb_timer->get_next_limit_time() > 0)
+      if (activity_sensitive && rb_timer->get_next_limit_time() > 0)
         {
           Timer::Ptr timer = timers[break_id];
 
           int64_t duration = timer->get_auto_reset();
-          int64_t now = TimeSource::get_monotonic_time_sec_sync();
+          int64_t now      = TimeSource::get_monotonic_time_sec_sync();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
@@ -294,8 +293,7 @@ BreaksControl::set_insist_policy(InsistPolicy p)
 {
   TRACE_ENTER_MSG("Core::set_insist_policy", p);
 
-  if (active_insist_policy != InsistPolicy::Invalid &&
-      insist_policy != p)
+  if (active_insist_policy != InsistPolicy::Invalid && insist_policy != p)
     {
       TRACE_MSG("refreeze " << active_insist_policy);
       defrost();
@@ -341,7 +339,6 @@ BreaksControl::freeze()
   active_insist_policy = policy;
 }
 
-
 //! Undo the insist policy.
 void
 BreaksControl::defrost()
@@ -366,7 +363,7 @@ BreaksControl::defrost()
 
     case InsistPolicy::Invalid:
     case InsistPolicy::Reset:
-     break;
+      break;
     }
 
   active_insist_policy = InsistPolicy::Invalid;
@@ -387,8 +384,7 @@ BreaksControl::set_freeze_all_breaks(bool freeze)
 void
 BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
 {
-  if (operation_mode == OperationMode::Suspended ||
-      operation_mode == OperationMode::Quiet)
+  if (operation_mode == OperationMode::Suspended || operation_mode == OperationMode::Quiet)
     {
       stop_all_breaks();
     }
@@ -402,14 +398,11 @@ BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
     }
 }
 
-
 void
 BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("GUI::on_break_event",
-                  break_id
-                  << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
-  switch(event)
+  TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  switch (event)
     {
     case BreakEvent::BreakIdle:
       defrost();
@@ -436,7 +429,6 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
   TRACE_EXIT();
 }
 
-
 //! Saves the current state.
 void
 BreaksControl::save_state() const
@@ -447,8 +439,7 @@ BreaksControl::save_state() const
 
   ofstream stateFile(ss.str().c_str());
 
-  stateFile << "WorkRaveState 3"  << endl
-            << TimeSource::get_real_time_sec() << endl;
+  stateFile << "WorkRaveState 3" << endl << TimeSource::get_real_time_sec() << endl;
 
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
@@ -459,7 +450,6 @@ BreaksControl::save_state() const
 
   stateFile.close();
 }
-
 
 //! Loads the current state.
 void
@@ -481,7 +471,7 @@ BreaksControl::load_state()
   ifstream state_file(ss.str().c_str());
 
   int version = 0;
-  bool ok = state_file.good();
+  bool ok     = state_file.good();
 
   if (ok)
     {

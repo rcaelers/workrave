@@ -49,7 +49,7 @@ namespace workrave
       //! Unsubscribe for activity monitor.
       virtual void unsubscribe(IInputMonitorListener *listener) = 0;
     };
-  }
-}
+  } // namespace input_monitor
+} // namespace workrave
 
 #endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH

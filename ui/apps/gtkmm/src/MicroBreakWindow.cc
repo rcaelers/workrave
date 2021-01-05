@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gtkmm/label.h>
@@ -44,12 +44,12 @@ using namespace std;
 using namespace workrave::utils;
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode) :
-  BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode),
-  progress_value(0),
-  progress_max_value(0),
-  is_flashing(false),
-  fixed_size(false)
+MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+  : BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode)
+  , progress_value(0)
+  , progress_max_value(0)
+  , is_flashing(false)
+  , fixed_size(false)
 {
   set_title(_("Micro-break"));
 }
@@ -79,8 +79,8 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
   // Button box at the bottom.
-  ICore::Ptr core = Backend::get_core();
-  IBreak::Ptr restbreak =  core->get_break(BREAK_ID_REST_BREAK);
+  ICore::Ptr core       = Backend::get_core();
+  IBreak::Ptr restbreak = core->get_break(BREAK_ID_REST_BREAK);
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
       Gtk::HBox *button_box;
@@ -102,24 +102,19 @@ MicroBreakWindow::create_gui()
               bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
             }
 
-          Gtk::Alignment *bboxa =
-            Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+          Gtk::Alignment *bboxa = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
           bboxa->add(*bbox);
 
           if (restbreak->is_enabled())
             {
-              button_box->pack_start
-                (*Gtk::manage(create_restbreaknow_button(false)),
-                 Gtk::PACK_SHRINK, 0);
+              button_box->pack_start(*Gtk::manage(create_restbreaknow_button(false)), Gtk::PACK_SHRINK, 0);
             }
-          button_box->pack_end(*bboxa,
-                                 Gtk::PACK_EXPAND_WIDGET, 0);
+          button_box->pack_end(*bboxa, Gtk::PACK_EXPAND_WIDGET, 0);
         }
       else
         {
           button_box = Gtk::manage(new Gtk::HBox(false, 6));
-          button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)),
-                               Gtk::PACK_SHRINK, 0);
+          button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)), Gtk::PACK_SHRINK, 0);
         }
       box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
     }
@@ -129,7 +124,6 @@ MicroBreakWindow::create_gui()
   return box;
 }
 
-
 //! Destructor.
 MicroBreakWindow::~MicroBreakWindow()
 {
@@ -137,18 +131,12 @@ MicroBreakWindow::~MicroBreakWindow()
   TRACE_EXIT();
 }
 
-
-
 Gtk::Button *
 MicroBreakWindow::create_restbreaknow_button(bool label)
 {
   Gtk::Button *ret;
-  ret = Gtk::manage(GtkUtil::create_image_button(_("Rest break"),
-                                            "timer-rest-break.png",
-                                            label));
-  ret->signal_clicked()
-    .connect(sigc::mem_fun(*this,
-                         &MicroBreakWindow::on_restbreaknow_button_clicked));
+  ret = Gtk::manage(GtkUtil::create_image_button(_("Rest break"), "timer-rest-break.png", label));
+  ret->signal_clicked().connect(sigc::mem_fun(*this, &MicroBreakWindow::on_restbreaknow_button_clicked));
   ret->set_can_focus(false);
 
   return ret;
@@ -162,21 +150,20 @@ MicroBreakWindow::on_restbreaknow_button_clicked()
   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
 }
 
-
 void
 MicroBreakWindow::update_time_bar()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
 
   time_t time = progress_max_value - progress_value;
-  string s = _("Micro-break");
+  string s    = _("Micro-break");
   s += ' ';
   s += Text::time_to_string(time);
 
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
-  ICore::Ptr core = Backend::get_core();
+  ICore::Ptr core  = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
     {
@@ -199,7 +186,6 @@ MicroBreakWindow::update_time_bar()
   TRACE_EXIT();
 }
 
-
 void
 MicroBreakWindow::update_label()
 {
@@ -207,8 +193,8 @@ MicroBreakWindow::update_label()
 
   ICore::Ptr core = Backend::get_core();
 
-  IBreak::Ptr restbreak_timer =  core->get_break(BREAK_ID_REST_BREAK);
-  IBreak::Ptr daily_timer =  core->get_break(BREAK_ID_DAILY_LIMIT);
+  IBreak::Ptr restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
+  IBreak::Ptr daily_timer     = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
@@ -228,7 +214,6 @@ MicroBreakWindow::update_label()
         }
     }
 
-
   Glib::ustring txt(_("Please relax for a few seconds"));
   if (show_next == BREAK_ID_REST_BREAK)
     {
@@ -236,13 +221,11 @@ MicroBreakWindow::update_label()
 
       if (rb >= 0)
         {
-          sprintf(s, _("Next rest break in %s"),
-                  Text::time_to_string(rb, true).c_str());
+          sprintf(s, _("Next rest break in %s"), Text::time_to_string(rb, true).c_str());
         }
       else
         {
-          sprintf(s, _("Rest break %s overdue"),
-                  Text::time_to_string(-rb, true).c_str());
+          sprintf(s, _("Rest break %s overdue"), Text::time_to_string(-rb, true).c_str());
         }
 
       txt += "\n";
@@ -254,13 +237,11 @@ MicroBreakWindow::update_label()
 
       if (dl >= 0)
         {
-          sprintf(s, _("Daily limit in %s"),
-                  Text::time_to_string(dl, true).c_str());
+          sprintf(s, _("Daily limit in %s"), Text::time_to_string(dl, true).c_str());
         }
       else
         {
-          sprintf(s, _("Daily limit %s overdue"),
-                  Text::time_to_string(-dl, true).c_str());
+          sprintf(s, _("Daily limit %s overdue"), Text::time_to_string(-dl, true).c_str());
         }
 
       txt += "\n";
@@ -270,7 +251,6 @@ MicroBreakWindow::update_label()
   label->set_markup(HigUtil::create_alert_text(_("Micro-break"), txt.c_str()));
   TRACE_EXIT();
 }
-
 
 //! Refresh window.
 void
@@ -293,10 +273,9 @@ MicroBreakWindow::update_break_window()
     }
 }
 
-
 void
 MicroBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value = value;
+  progress_value     = value;
 }

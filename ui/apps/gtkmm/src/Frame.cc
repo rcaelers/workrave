@@ -18,14 +18,15 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
 #include "Frame.hh"
 
-Frame::Frame() : frame_color(Gdk::Color("black"))
+Frame::Frame()
+  : frame_color(Gdk::Color("black"))
 {
 }
 
@@ -48,7 +49,7 @@ void
 Frame::set_frame_style(const Style style)
 {
   frame_style = style;
-  int dfw = 1;
+  int dfw     = 1;
   switch (style)
     {
     case STYLE_BREAK_WINDOW:
@@ -72,7 +73,6 @@ Frame::set_frame_width(guint width)
 {
   frame_width = width;
 }
-
 
 void
 Frame::set_frame_flashing(int delay)
@@ -102,7 +102,7 @@ Frame::set_frame_flashing(int delay)
 bool
 Frame::on_timer()
 {
-  set_frame_visible(! frame_visible);
+  set_frame_visible(!frame_visible);
   flash_signal_src(frame_visible);
   return true;
 }
@@ -111,13 +111,13 @@ void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
   Gtk::Widget *widget = get_child();
-  guint b = get_border_width() + frame_width;
+  guint b             = get_border_width() + frame_width;
 
   Gtk::Allocation alloc;
   alloc.set_x(allocation.get_x() + b);
   alloc.set_y(allocation.get_y() + b);
-  alloc.set_width(allocation.get_width() - 2*b);
-  alloc.set_height(allocation.get_height() - 2*b);
+  alloc.set_width(allocation.get_width() - 2 * b);
+  alloc.set_height(allocation.get_height() - 2 * b);
 
   widget->size_allocate(alloc);
   set_allocation(allocation);
@@ -136,7 +136,7 @@ Frame::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_width(minimum_width, natural_width);
 
-  guint d = 2*(get_border_width()+frame_width);
+  guint d = 2 * (get_border_width() + frame_width);
   minimum_width += d;
   natural_width += d;
   TRACE_MSG(minimum_width << " " << natural_width);
@@ -150,7 +150,7 @@ Frame::get_preferred_height_vfunc(int &minimum_height, int &natural_height) cons
   const Gtk::Widget *widget = get_child();
   widget->get_preferred_height(minimum_height, natural_height);
 
-  guint d = 2*(get_border_width()+frame_width);
+  guint d = 2 * (get_border_width() + frame_width);
   minimum_height += d;
   natural_height += d;
   TRACE_MSG(minimum_height << " " << natural_height);
@@ -174,14 +174,14 @@ Frame::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_height
 }
 
 bool
-Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
+Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
 
   // Physical width/height
   Gtk::Allocation allocation = get_allocation();
-  int width = allocation.get_width();
-  int height = allocation.get_height();
+  int width                  = allocation.get_width();
+  int height                 = allocation.get_height();
 
   switch (frame_style)
     {
@@ -192,11 +192,11 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 
           cr->rectangle(0, 0, frame_width, height);
           cr->fill();
-          cr->rectangle(0+width-frame_width, 0, frame_width, height);
+          cr->rectangle(0 + width - frame_width, 0, frame_width, height);
           cr->fill();
-          cr->rectangle(0+frame_width, 0, width-2*frame_width, frame_width);
+          cr->rectangle(0 + frame_width, 0, width - 2 * frame_width, frame_width);
           cr->fill();
-          cr->rectangle(0+frame_width, 0+height-frame_width, width-2*frame_width, frame_width);
+          cr->rectangle(0 + frame_width, 0 + height - frame_width, width - 2 * frame_width, frame_width);
           cr->fill();
         }
       break;
@@ -215,11 +215,11 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 
       style_context->remove_class(GTK_STYLE_CLASS_FRAME);
       style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
-      style_context->render_background(cr, 1, 1, width - 2, height -2);
+      style_context->render_background(cr, 1, 1, width - 2, height - 2);
 
       style_context->remove_class(GTK_STYLE_CLASS_BACKGROUND);
       style_context->add_class(GTK_STYLE_CLASS_FRAME);
-      style_context->render_frame(cr, 1, 1, width - 2, height -2);
+      style_context->render_frame(cr, 1, 1, width - 2, height - 2);
 
       style_context->context_restore();
       break;
@@ -231,21 +231,19 @@ Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
 }
 
 void
-Frame::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color)
+Frame::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color)
 {
   cr->set_source_rgb(color.get_red_p(), color.get_green_p(), color.get_blue_p());
 }
 
-
 void
-Frame::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color)
+Frame::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color)
 {
   cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
 }
 
-sigc::signal1<void,bool> &
+sigc::signal1<void, bool> &
 Frame::signal_flash()
 {
   return flash_signal_src;
 }
-

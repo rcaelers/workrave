@@ -22,37 +22,34 @@
 #include <libgnome-panel/gp-module.h>
 
 static GpAppletInfo *
-get_applet_info (const gchar *id)
+get_applet_info(const gchar *id)
 {
-  return gp_applet_info_new (workrave_applet_get_type,
-                             _("Workrave"),
-                             _("Workrave Applet"),
-                             "workrave");
+  return gp_applet_info_new(workrave_applet_get_type, _("Workrave"), _("Workrave Applet"), "workrave");
 }
 
 static const gchar *
-get_applet_id_from_iid (const gchar *iid)
+get_applet_id_from_iid(const gchar *iid)
 {
-  if (g_strcmp0 (iid, "WorkraveAppletFactory::WorkraveApplet") == 0)
+  if (g_strcmp0(iid, "WorkraveAppletFactory::WorkraveApplet") == 0)
     return "workrave";
 
   return NULL;
 }
 
 void
-gp_module_load (GpModule *module)
+gp_module_load(GpModule *module)
 {
-  bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
-  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  gp_module_set_gettext_domain (module, GETTEXT_PACKAGE);
+  bindtextdomain(GETTEXT_PACKAGE, GNOMELOCALEDIR);
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  gp_module_set_gettext_domain(module, GETTEXT_PACKAGE);
 
-  gp_module_set_abi_version (module, GP_MODULE_ABI_VERSION);
+  gp_module_set_abi_version(module, GP_MODULE_ABI_VERSION);
 
-  gp_module_set_id (module, "org.workrave.workrave-applet");
-  gp_module_set_version (module, PACKAGE_VERSION);
+  gp_module_set_id(module, "org.workrave.workrave-applet");
+  gp_module_set_version(module, PACKAGE_VERSION);
 
-  gp_module_set_applet_ids (module, "workrave", NULL);
+  gp_module_set_applet_ids(module, "workrave", NULL);
 
-  gp_module_set_get_applet_info (module, get_applet_info);
-  gp_module_set_compatibility (module, get_applet_id_from_iid);
+  gp_module_set_get_applet_info(module, get_applet_info);
+  gp_module_set_compatibility(module, get_applet_id_from_iid);
 }

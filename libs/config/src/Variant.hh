@@ -24,47 +24,48 @@
 
 #include <string>
 
-enum VariantType { VARIANT_TYPE_NONE,
-                   VARIANT_TYPE_INT,
-                   VARIANT_TYPE_BOOL,
-                   VARIANT_TYPE_DOUBLE,
-                   VARIANT_TYPE_STRING };
-
+enum VariantType
+{
+  VARIANT_TYPE_NONE,
+  VARIANT_TYPE_INT,
+  VARIANT_TYPE_BOOL,
+  VARIANT_TYPE_DOUBLE,
+  VARIANT_TYPE_STRING
+};
 
 class Variant
 {
 public:
-  Variant()
-  = default;
+  Variant() = default;
 
   explicit Variant(std::string v)
   {
-    type = VARIANT_TYPE_STRING;
+    type         = VARIANT_TYPE_STRING;
     string_value = v;
   }
 
   explicit Variant(int v)
   {
-    type = VARIANT_TYPE_INT;
+    type      = VARIANT_TYPE_INT;
     int_value = v;
   }
 
   explicit Variant(bool v)
   {
-    type = VARIANT_TYPE_BOOL;
+    type       = VARIANT_TYPE_BOOL;
     bool_value = v;
   }
 
   explicit Variant(double v)
   {
-    type = VARIANT_TYPE_DOUBLE;
+    type         = VARIANT_TYPE_DOUBLE;
     double_value = v;
   }
 
   explicit Variant(const Variant &rhs)
   {
     type = rhs.type;
-    switch(rhs.type)
+    switch (rhs.type)
       {
       case VARIANT_TYPE_INT:
         int_value = rhs.int_value;
@@ -87,12 +88,12 @@ public:
       }
   }
 
-  Variant& operator=(const Variant &lid)
+  Variant &operator=(const Variant &lid)
   {
     if (this != &lid)
       {
         type = lid.type;
-        switch(lid.type)
+        switch (lid.type)
           {
           case VARIANT_TYPE_INT:
             int_value = lid.int_value;
@@ -117,19 +118,16 @@ public:
     return *this;
   }
 
-  bool operator!=(const Variant &lid)
-  {
-    return !operator==(lid);
-  }
+  bool operator!=(const Variant &lid) const { return !operator==(lid); }
 
-  bool operator==(const Variant &lid)
+  bool operator==(const Variant &lid) const
   {
     if (type != lid.type)
       {
         return false;
       }
 
-    switch(lid.type)
+    switch (lid.type)
       {
       case VARIANT_TYPE_INT:
         return int_value == lid.int_value;
@@ -152,17 +150,11 @@ public:
     return false;
   }
 
-  virtual ~Variant()
-  {
-    type = VARIANT_TYPE_NONE;
-  }
+  virtual ~Variant() { type = VARIANT_TYPE_NONE; }
 
-  VariantType get_type()
-  {
-    return type;
-  }
+  VariantType get_type() const { return type; }
 
-  //private:
+  // private:
   VariantType type;
 
   std::string string_value;

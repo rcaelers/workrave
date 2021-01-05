@@ -40,21 +40,20 @@ static gboolean alive;
 static void receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
 static gboolean on_timer(gpointer user_data);
 
-static gboolean delete_event( GtkWidget *widget,
-                              GdkEvent  *event,
-                              gpointer   data )
+static gboolean
+delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    /* Change TRUE to FALSE and the main window will be destroyed with
-     * a "delete-event". */
+  /* Change TRUE to FALSE and the main window will be destroyed with
+   * a "delete-event". */
 
-    return TRUE;
+  return TRUE;
 }
 
 /* Another callback */
-static void destroy( GtkWidget *widget,
-                     gpointer   data )
+static void
+destroy(GtkWidget *widget, gpointer data)
 {
-    gtk_main_quit ();
+  gtk_main_quit();
 }
 
 static void
@@ -116,7 +115,8 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 
       memset(td, 0, sizeof(td));
 
-      g_variant_get(parameters, "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
+      g_variant_get(parameters,
+                    "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
                     &td[BREAK_ID_MICRO_BREAK].bar_text,
                     &td[BREAK_ID_MICRO_BREAK].slot,
                     &td[BREAK_ID_MICRO_BREAK].bar_secondary_color,
@@ -140,8 +140,7 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
                     &td[BREAK_ID_DAILY_LIMIT].bar_secondary_max,
                     &td[BREAK_ID_DAILY_LIMIT].bar_primary_color,
                     &td[BREAK_ID_DAILY_LIMIT].bar_primary_val,
-                    &td[BREAK_ID_DAILY_LIMIT].bar_primary_max
-                    );
+                    &td[BREAK_ID_DAILY_LIMIT].bar_primary_max);
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -155,7 +154,8 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
             {
               workrave_timerbox_set_enabled(timerbox, TRUE);
               workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
-              workrave_timebar_set_secondary_progress(timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
+              workrave_timebar_set_secondary_progress(
+                timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
               workrave_timebar_set_text(timebar, td[i].bar_text);
             }
         }
@@ -179,8 +179,8 @@ on_timer(gpointer user_data)
   return TRUE;
 }
 
-int main( int   argc,
-          char *argv[] )
+int
+main(int argc, char *argv[])
 {
   GtkWidget *window;
 
@@ -188,8 +188,8 @@ int main( int   argc,
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-  g_signal_connect(window, "delete-event", G_CALLBACK (delete_event), NULL);
-  g_signal_connect(window, "destroy", G_CALLBACK (destroy), NULL);
+  g_signal_connect(window, "delete-event", G_CALLBACK(delete_event), NULL);
+  g_signal_connect(window, "destroy", G_CALLBACK(destroy), NULL);
 
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
 

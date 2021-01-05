@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -30,45 +30,42 @@
 #include <Cocoa/Cocoa.h>
 #import "Foundation/Foundation.h"
 
-@interface SoundDelegate : NSObject<NSSoundDelegate>
+@interface SoundDelegate : NSObject <NSSoundDelegate>
 {
   ISoundPlayerEvents *callback;
 }
 
-- (void) setCallback:(ISoundPlayerEvents*)callback;
+- (void)setCallback:(ISoundPlayerEvents *)callback;
 - (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying;
 @end
 
 @implementation SoundDelegate : NSObject
 
-- (void) setCallback:(ISoundPlayerEvents*)aCallback;
+- (void)setCallback:(ISoundPlayerEvents *)aCallback;
 {
   self->callback = aCallback;
 }
 
-- (void) sound: (NSSound *) sound didFinishPlaying: (BOOL)finishedPlaying
+- (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying
 {
   callback->eos_event();
 }
 @end
-
 
 class MacOSSoundPlayer::Private
 {
 public:
   NSMutableDictionary *soundDictionary;
   SoundDelegate *delegate;
+
 public:
   Private()
   {
     soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
-    delegate = [SoundDelegate alloc];
+    delegate        = [SoundDelegate alloc];
   }
 
-  ~Private()
-  {
-    [soundDictionary removeAllObjects];
-  }
+  ~Private() { [soundDictionary removeAllObjects]; }
 };
 
 MacOSSoundPlayer::MacOSSoundPlayer()
@@ -76,14 +73,12 @@ MacOSSoundPlayer::MacOSSoundPlayer()
   priv = std::make_shared<Private>();
 }
 
-
 void
 MacOSSoundPlayer::init(ISoundPlayerEvents *events)
 {
   this->events = events;
-  [priv->delegate setCallback: events];
+  [priv->delegate setCallback:events];
 }
-
 
 bool
 MacOSSoundPlayer::capability(workrave::audio::SoundCapability cap)
@@ -99,19 +94,18 @@ MacOSSoundPlayer::capability(workrave::audio::SoundCapability cap)
   return false;
 }
 
-
 void
 MacOSSoundPlayer::play_sound(std::string file, int volume)
 {
-  NSString* filename = [NSString stringWithUTF8String: file.c_str()];
-  NSSound *sound = [priv->soundDictionary objectForKey:filename];
+  NSString *filename = [NSString stringWithUTF8String:file.c_str()];
+  NSSound *sound     = [priv->soundDictionary objectForKey:filename];
   if (sound == nil)
     {
       sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
-      [sound setDelegate: priv->delegate];
+      [sound setDelegate:priv->delegate];
       [priv->soundDictionary setObject:sound forKey:filename];
     }
-  [sound setVolume: static_cast<float>(volume / 100.0)];
+  [sound setVolume:static_cast<float>(volume / 100.0)];
   [sound stop];
   [sound play];
 }

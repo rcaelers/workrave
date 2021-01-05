@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <boost/algorithm/string.hpp>
@@ -32,13 +32,9 @@
 
 using namespace std;
 
-XmlConfigurator::XmlConfigurator()
-= default;
+XmlConfigurator::XmlConfigurator() = default;
 
-
-XmlConfigurator::~XmlConfigurator()
-= default;
-
+XmlConfigurator::~XmlConfigurator() = default;
 
 bool
 XmlConfigurator::load(string filename)
@@ -49,17 +45,16 @@ XmlConfigurator::load(string filename)
   try
     {
       boost::property_tree::xml_parser::read_xml(filename, pt);
-      ret = !pt.empty();
+      ret           = !pt.empty();
       last_filename = filename;
     }
-  catch (boost::property_tree::xml_parser_error&)
+  catch (boost::property_tree::xml_parser_error &)
     {
     }
 
   TRACE_EXIT();
   return ret;
 }
-
 
 bool
 XmlConfigurator::save(string filename)
@@ -73,7 +68,7 @@ XmlConfigurator::save(string filename)
       boost::property_tree::xml_parser::write_xml(config_file, pt);
       ret = true;
     }
-  catch (boost::property_tree::xml_parser_error&)
+  catch (boost::property_tree::xml_parser_error &)
     {
     }
 
@@ -81,13 +76,11 @@ XmlConfigurator::save(string filename)
   return ret;
 }
 
-
 bool
 XmlConfigurator::save()
 {
   return save(last_filename);
 }
-
 
 bool
 XmlConfigurator::remove_key(const std::string &key)
@@ -102,24 +95,22 @@ XmlConfigurator::remove_key(const std::string &key)
   return ret;
 }
 
-
 bool
-XmlConfigurator::get_value(const std::string &key, VariantType type,
-                           Variant &out) const
+XmlConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   TRACE_ENTER_MSG("XmlConfigurator::get_value", key);
 
-  bool ret = true;
+  bool ret       = true;
   string xmlpath = path(key);
 
   out.type = type;
 
   try
     {
-      switch(type)
+      switch (type)
         {
         case VARIANT_TYPE_INT:
-          out.int_value =  pt.get<int>(xmlpath);
+          out.int_value = pt.get<int>(xmlpath);
           break;
 
         case VARIANT_TYPE_BOOL:
@@ -131,7 +122,7 @@ XmlConfigurator::get_value(const std::string &key, VariantType type,
           break;
 
         case VARIANT_TYPE_NONE:
-          out.type = VARIANT_TYPE_STRING;
+          out.type         = VARIANT_TYPE_STRING;
           out.string_value = pt.get<string>(xmlpath);
           break;
 
@@ -159,7 +150,7 @@ XmlConfigurator::set_value(const std::string &key, Variant &value)
 
   try
     {
-      switch(value.type)
+      switch (value.type)
         {
         case VARIANT_TYPE_INT:
           pt.put(xmlpath, value.int_value);
@@ -179,7 +170,7 @@ XmlConfigurator::set_value(const std::string &key, Variant &value)
           break;
         }
     }
-  catch (boost::property_tree::ptree_error&)
+  catch (boost::property_tree::ptree_error &)
     {
       ret = false;
     }

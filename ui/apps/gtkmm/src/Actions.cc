@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -40,8 +40,8 @@ using namespace workrave::utils;
 
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
-  : popup_menu(nullptr),
-    show_open(show_open)
+  : popup_menu(nullptr)
+  , show_open(show_open)
 {
 }
 
@@ -50,14 +50,14 @@ MainGtkMenu::init()
 {
   if (popup_menu == nullptr)
     {
-      //create_actions();
+      // create_actions();
       create_menu();
       post_init();
 
-      IGUI *gui = GUI::get_instance();
+      IGUI *gui               = GUI::get_instance();
       MainWindow *main_window = gui->get_main_window();
       popup_menu->attach_to_widget(*main_window);
-      //main_window->add_accel_group(popup_menu->get_accel_group());
+      // main_window->add_accel_group(popup_menu->get_accel_group());
       main_window->insert_action_group("app", action_group);
     }
 }
@@ -65,7 +65,7 @@ MainGtkMenu::init()
 void
 MainGtkMenu::create_actions()
 {
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
 
   action_group = Gio::SimpleActionGroup::create();
@@ -95,25 +95,28 @@ MainGtkMenu::create_menu()
   auto section1 = Gio::Menu::create();
   app_menu->append_section(section1);
 
-	auto item = Gio::MenuItem::create(_("Restbreak"), "app.restbreak");
+  auto item = Gio::MenuItem::create(_("Restbreak"), "app.restbreak");
   item->set_attribute_value("accel", Glib::Variant<Glib::ustring>::create("<Primary>r"));
   section1->append_item(item);
 
   section1->append(_("Exercises"), "app.exercises");
   section1->append(_("Statistics"), "app.statistics");
-  
+
   auto section2 = Gio::Menu::create();
   app_menu->append_section(section2);
 
   auto mode_menu = Gio::Menu::create();
-	item = Gio::MenuItem::create(_("Normal"), "app.mode");
-  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Normal)));
+  item           = Gio::MenuItem::create(_("Normal"), "app.mode");
+  item->set_attribute_value("target",
+                            Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Normal)));
   mode_menu->append_item(item);
-	item = Gio::MenuItem::create(_("Quiet"), "app.mode");
-  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Quiet)));
+  item = Gio::MenuItem::create(_("Quiet"), "app.mode");
+  item->set_attribute_value("target",
+                            Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Quiet)));
   mode_menu->append_item(item);
-	item = Gio::MenuItem::create(_("Suspended"), "app.mode");
-  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Suspended)));
+  item = Gio::MenuItem::create(_("Suspended"), "app.mode");
+  item->set_attribute_value(
+    "target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Suspended)));
   mode_menu->append_item(item);
   section2->append_submenu(_("Mode"), mode_menu);
 
@@ -133,11 +136,10 @@ MainGtkMenu::create_menu()
   popup_menu = std::make_unique<Gtk::Menu>(app_menu);
 }
 
-
 void
 MainGtkMenu::popup(const guint button, const guint activate_time)
 {
-  (void) button;
+  (void)button;
 
   if (popup_menu != nullptr)
     {
@@ -145,17 +147,16 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
     }
 }
 
-
 void
 MainGtkMenu::resync(OperationMode mode, UsageMode usage)
 {
-  Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))->change_state(static_cast<std::underlying_type_t<OperationMode>>(mode));
+  Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))
+    ->change_state(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
   Glib::RefPtr<Gio::SimpleAction> action = Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("reading"));
 
-  bool reading = ( usage == UsageMode::Reading );
+  bool reading = (usage == UsageMode::Reading);
   action->change_state(reading);
-
 }
 
 void
@@ -163,7 +164,7 @@ MainGtkMenu::on_menu_mode(int mode)
 {
   Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))->change_state(mode);
 
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
 
   switch (static_cast<OperationMode>(mode))
@@ -196,11 +197,10 @@ MainGtkMenu::on_menu_reading()
   active = !active;
   action->change_state(active);
 
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->on_menu_reading(active);
 }
-
 
 #ifdef PLATFORM_OS_OSX
 // /* Taken from Gaim. needs to be gtkmm-ified. */
@@ -213,11 +213,9 @@ MainGtkMenu::osx_popup_hack_connect(Gtk::Menu *menu)
 {
   TRACE_ENTER("W32TrayMenu::osx_popup_hack_connect");
 
-  GtkWidget *widget = (GtkWidget*) menu->gobj();
-  g_signal_connect(widget, "leave-notify-event",
-                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
-  g_signal_connect(widget, "enter-notify-event",
-                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+  GtkWidget *widget = (GtkWidget *)menu->gobj();
+  g_signal_connect(widget, "leave-notify-event", G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+  g_signal_connect(widget, "enter-notify-event", G_CALLBACK(osx_popup_hack_leave_enter), NULL);
 
   TRACE_EXIT();
 }
@@ -234,40 +232,41 @@ MainGtkMenu::osx_popup_hack_hide(gpointer data)
   return FALSE;
 }
 
-
 gboolean
-MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
-                                          void *data)
+MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
 {
   TRACE_ENTER("W32TrayMenu::osx_popup_hack_leave_enter");
 
-  TRACE_MSG(event->type << " " <<  event->detail);
+  TRACE_MSG(event->type << " " << event->detail);
 
-  (void) data;
+  (void)data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
       /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/
-      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
-    /* Add some slop so that the menu doesn't annoyingly disappear
-       when mousing around */
-    TRACE_MSG("leave " << hide_docklet_timer);
-    if (hide_docklet_timer == 0) {
-      hide_docklet_timer = g_timeout_add(500, osx_popup_hack_hide, menu);
+      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
+    {
+      /* Add some slop so that the menu doesn't annoyingly disappear
+         when mousing around */
+      TRACE_MSG("leave " << hide_docklet_timer);
+      if (hide_docklet_timer == 0)
+        {
+          hide_docklet_timer = g_timeout_add(500, osx_popup_hack_hide, menu);
+        }
     }
-  } else if (event->type == GDK_ENTER_NOTIFY
-             && event->detail == GDK_NOTIFY_ANCESTOR) {
+  else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR)
+    {
 
-    TRACE_MSG("enter " << hide_docklet_timer);
+      TRACE_MSG("enter " << hide_docklet_timer);
 
-    if (hide_docklet_timer != 0) {
-      /* Cancel the hiding if we reenter */
+      if (hide_docklet_timer != 0)
+        {
+          /* Cancel the hiding if we reenter */
 
-      g_source_remove(hide_docklet_timer);
-      hide_docklet_timer = 0;
+          g_source_remove(hide_docklet_timer);
+          hide_docklet_timer = 0;
+        }
     }
-  }
   TRACE_EXIT();
   return FALSE;
 }
 #endif
-

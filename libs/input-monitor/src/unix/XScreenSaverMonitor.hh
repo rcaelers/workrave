@@ -33,8 +33,7 @@
 #include "InputMonitor.hh"
 
 //! Activity monitor for a local X server.
-class XScreenSaverMonitor :
-  public InputMonitor
+class XScreenSaverMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -52,7 +51,6 @@ public:
 private:
   //! The monitor's execution thread.
   virtual void run();
-
 
 private:
   //! Abort the main loop

@@ -30,43 +30,47 @@
 #include "Applet.hh"
 #include "AppletWindow.hh"
 
-class W32AppletWindow : public AppletWindow, public TimerBoxViewBase
+class W32AppletWindow
+  : public AppletWindow
+  , public TimerBoxViewBase
 {
 public:
   W32AppletWindow();
   virtual ~W32AppletWindow();
 
-  void set_slot(workrave::BreakId  id, int slot) override;
+  void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,
                     TimerColorId primary_color,
-                    int primary_value, int primary_max,
+                    int primary_value,
+                    int primary_max,
                     TimerColorId secondary_color,
-                    int secondary_value, int secondary_max) override;
-  void update_view()  override;
+                    int secondary_value,
+                    int secondary_max) override;
+  void update_view() override;
   void update_time_bars();
   void update_menu();
   bool is_visible() const override;
-  void set_geometry(Orientation orientation, int size)  override;
+  void set_geometry(Orientation orientation, int size) override;
 
   void init_menu(HWND dest);
   void init_thread();
   void add_menu(const char *text, short cmd, int flags);
 
-  GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
+  GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
   bool on_applet_command(int command);
 
   enum MenuFlag
   {
-    MENU_FLAG_TOGGLE = APPLET_MENU_FLAG_TOGGLE,
+    MENU_FLAG_TOGGLE   = APPLET_MENU_FLAG_TOGGLE,
     MENU_FLAG_SELECTED = APPLET_MENU_FLAG_SELECTED,
-    MENU_FLAG_POPUP = APPLET_MENU_FLAG_POPUP
+    MENU_FLAG_POPUP    = APPLET_MENU_FLAG_POPUP
   };
 
 private:
   void update_applet_window();
 
-  static unsigned __stdcall run_event_pipe_static( void * );
+  static unsigned __stdcall run_event_pipe_static(void *);
 
 private:
   void run_event_pipe();

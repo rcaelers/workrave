@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "GUIConfig.hh"
@@ -33,17 +33,17 @@
 using namespace std;
 using namespace workrave::config;
 
-const string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_break";
-const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE    = "gui/breaks/%b/skippable_break";
-const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN  = "gui/breaks/%b/enable_shutdown";
-const string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";
-const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
-const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
-const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
-const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
-const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
-const string GUIConfig::CFG_KEY_AUTOSTART          = "gui/autostart";
-const string GUIConfig::CFG_KEY_ICONTHEME          = "gui/icontheme";
+const string GUIConfig::CFG_KEY_BREAK_IGNORABLE       = "gui/breaks/%b/ignorable_break";
+const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE       = "gui/breaks/%b/skippable_break";
+const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
+const string GUIConfig::CFG_KEY_BREAK_EXERCISES       = "gui/breaks/%b/exercises";
+const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL    = "gui/breaks/%b/auto_natural";
+const string GUIConfig::CFG_KEY_BLOCK_MODE            = "gui/breaks/block_mode";
+const string GUIConfig::CFG_KEY_LOCALE                = "gui/locale";
+const string GUIConfig::CFG_KEY_TRAYICON_ENABLED      = "gui/trayicon_enabled";
+const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED     = "gui/closewarn_enabled";
+const string GUIConfig::CFG_KEY_AUTOSTART             = "gui/autostart";
+const string GUIConfig::CFG_KEY_ICONTHEME             = "gui/icontheme";
 
 const string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -53,15 +53,14 @@ const string GUIConfig::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
 
 const string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
-const string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
+const string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED     = "gui/applet/icon_enabled";
 
-const string GUIConfig::CFG_KEY_TIMERBOX = "gui/";
+const string GUIConfig::CFG_KEY_TIMERBOX            = "gui/";
 const string GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
-const string GUIConfig::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
-const string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
-const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
-const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
-
+const string GUIConfig::CFG_KEY_TIMERBOX_ENABLED    = "/enabled";
+const string GUIConfig::CFG_KEY_TIMERBOX_POSITION   = "/position";
+const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS      = "/flags";
+const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT   = "/imminent";
 
 void
 GUIConfig::init()
@@ -83,7 +82,6 @@ GUIConfig::init()
       bool ignorable;
       config->get_value_with_default(break_ignorable(breakId).key(), ignorable, true);
       config->set_value(break_skippable(breakId).key(), ignorable, CONFIG_FLAG_INITIAL);
-
     }
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_INITIAL);
@@ -93,15 +91,14 @@ GUIConfig::init()
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
 }
 
-
 string
 GUIConfig::expand(const string &key, workrave::BreakId id)
 {
   workrave::IBreak::Ptr b = Backend::get_core()->get_break(id);
 
-  string str = key;
+  string str            = key;
   string::size_type pos = 0;
-  string name = b->get_name();
+  string name           = b->get_name();
 
   while ((pos = str.find("%b", pos)) != string::npos)
     {
@@ -230,21 +227,25 @@ Setting<int> &
 GUIConfig::timerbox_slot(const std::string &box, workrave::BreakId break_id)
 {
   workrave::IBreak::Ptr br = Backend::get_core()->get_break(break_id);
-  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION, (box == "applet" ? 0 : break_id));
+  return SettingCache::get<int>(Backend::get_configurator(),
+                                CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION,
+                                (box == "applet" ? 0 : break_id));
 }
 
 Setting<int> &
 GUIConfig::timerbox_flags(const std::string &box, workrave::BreakId break_id)
 {
   workrave::IBreak::Ptr br = Backend::get_core()->get_break(break_id);
-  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
+  return SettingCache::get<int>(
+    Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
 }
 
 Setting<int> &
 GUIConfig::timerbox_imminent(const std::string &box, workrave::BreakId break_id)
 {
   workrave::IBreak::Ptr br = Backend::get_core()->get_break(break_id);
-  return SettingCache::get<int>(Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
+  return SettingCache::get<int>(
+    Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
 }
 
 Setting<bool> &

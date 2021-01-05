@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "UnixGrab.hh"
@@ -30,8 +30,7 @@
 
 using namespace workrave::utils;
 
-UnixGrab::UnixGrab()
-= default;
+UnixGrab::UnixGrab() = default;
 
 bool
 UnixGrab::can_grab()
@@ -42,14 +41,14 @@ UnixGrab::can_grab()
 void
 UnixGrab::grab(GdkWindow *window)
 {
-  if (! Platform::running_on_wayland())
+  if (!Platform::running_on_wayland())
     {
       grab_wanted = true;
       if (!grabbed)
         {
           grab_window = window;
-          grabbed = grab_internal();
-          if (! grabbed && !grab_retry_connection.connected())
+          grabbed     = grab_internal();
+          if (!grabbed && !grab_retry_connection.connected())
             {
               grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UnixGrab::on_grab_retry_timer), 2000);
             }
@@ -64,81 +63,86 @@ UnixGrab::grab_internal()
   bool ret = false;
 
 #if GTK_CHECK_VERSION(3, 24, 0)
-      // gdk_device_grab is deprecated since 3.20.
-      // However, an issue that was solved in gtk 3.24 causes windows to be hidden
-      // when a grab fails: https://github.com/GNOME/gtk/commit/2c8b95a518bea2192145efe11219f2e36091b37a
-      GdkGrabStatus status;
+  // gdk_device_grab is deprecated since 3.20.
+  // However, an issue that was solved in gtk 3.24 causes windows to be hidden
+  // when a grab fails: https://github.com/GNOME/gtk/commit/2c8b95a518bea2192145efe11219f2e36091b37a
+  GdkGrabStatus status;
 
-      GdkDisplay *display = gdk_display_get_default();
-      GdkSeat *seat = gdk_display_get_default_seat(display);
-      status = gdk_seat_grab(seat, grab_window, GDK_SEAT_CAPABILITY_ALL, TRUE, nullptr, nullptr, nullptr, nullptr);
+  GdkDisplay *display = gdk_display_get_default();
+  GdkSeat *seat       = gdk_display_get_default_seat(display);
+  status              = gdk_seat_grab(seat, grab_window, GDK_SEAT_CAPABILITY_ALL, TRUE, nullptr, nullptr, nullptr, nullptr);
 
-      ret = status == GDK_GRAB_SUCCESS;
+  ret = status == GDK_GRAB_SUCCESS;
 #else
-      GdkDevice *device = gtk_get_current_event_device();
-      if (device == nullptr)
+  GdkDevice *device = gtk_get_current_event_device();
+  if (device == nullptr)
+    {
+      GdkDisplay *display              = gdk_window_get_display(grab_window);
+      GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
+      device                           = gdk_device_manager_get_client_pointer(device_manager);
+    }
+
+  if (device != nullptr)
+    {
+      if (gdk_device_get_source(device) == GDK_SOURCE_KEYBOARD)
         {
-          GdkDisplay *display = gdk_window_get_display(grab_window);
-          GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
-          device = gdk_device_manager_get_client_pointer(device_manager);
+          keyboard = device;
+          pointer  = gdk_device_get_associated_device(device);
         }
-
-      if (device != nullptr)
+      else
         {
-          if (gdk_device_get_source(device) == GDK_SOURCE_KEYBOARD)
-            {
-              keyboard = device;
-              pointer = gdk_device_get_associated_device(device);
-            }
-          else
-            {
-              pointer = device;
-              keyboard = gdk_device_get_associated_device(device);
-            }
+          pointer  = device;
+          keyboard = gdk_device_get_associated_device(device);
         }
+    }
 
-      GdkGrabStatus keybGrabStatus;
-      keybGrabStatus = gdk_device_grab(keyboard, grab_window,
-                                       GDK_OWNERSHIP_NONE, TRUE,
-                                       (GdkEventMask) (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
-                                       nullptr, GDK_CURRENT_TIME);
+  GdkGrabStatus keybGrabStatus;
+  keybGrabStatus = gdk_device_grab(keyboard,
+                                   grab_window,
+                                   GDK_OWNERSHIP_NONE,
+                                   TRUE,
+                                   (GdkEventMask)(GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
+                                   nullptr,
+                                   GDK_CURRENT_TIME);
 
-      if (keybGrabStatus == GDK_GRAB_SUCCESS)
+  if (keybGrabStatus == GDK_GRAB_SUCCESS)
+    {
+      GdkGrabStatus pointerGrabStatus;
+      pointerGrabStatus = gdk_device_grab(pointer,
+                                          grab_window,
+                                          GDK_OWNERSHIP_NONE,
+                                          TRUE,
+                                          (GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
+                                          nullptr,
+                                          GDK_CURRENT_TIME);
+
+      if (pointerGrabStatus != GDK_GRAB_SUCCESS)
         {
-          GdkGrabStatus pointerGrabStatus;
-          pointerGrabStatus = gdk_device_grab(pointer, grab_window,
-                                              GDK_OWNERSHIP_NONE, TRUE,
-                                              (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
-                                              nullptr, GDK_CURRENT_TIME);
-
-          if (pointerGrabStatus != GDK_GRAB_SUCCESS)
-            {
-              gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
-            }
-          else
-            {
-              ret = true;
-            }
+          gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
         }
+      else
+        {
+          ret = true;
+        }
+    }
 #endif
 
   TRACE_EXIT();
   return ret;
 }
 
-
 void
 UnixGrab::ungrab()
 {
-  if (! Platform::running_on_wayland())
+  if (!Platform::running_on_wayland())
     {
-      grabbed = false;
+      grabbed     = false;
       grab_wanted = false;
       grab_retry_connection.disconnect();
 
 #if GTK_CHECK_VERSION(3, 24, 0)
       GdkDisplay *display = gdk_display_get_default();
-      GdkSeat *seat = gdk_display_get_default_seat(display);
+      GdkSeat *seat       = gdk_display_get_default_seat(display);
       gdk_seat_ungrab(seat);
 #else
       if (keyboard != nullptr)

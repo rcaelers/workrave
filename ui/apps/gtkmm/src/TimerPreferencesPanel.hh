@@ -21,7 +21,7 @@
 #define TIMERPREFERENCESPANEL_HH
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <cstdio>
@@ -40,12 +40,11 @@ namespace Gtk
 {
   class CheckButton;
   class SpinButton;
-}
+} // namespace Gtk
 
 using namespace workrave;
 
-class TimerPreferencesPanel
-  : public Gtk::VBox
+class TimerPreferencesPanel : public Gtk::VBox
 {
 public:
   TimerPreferencesPanel(workrave::BreakId timer,
@@ -59,8 +58,7 @@ private:
 
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
-  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group,
-                                   Glib::RefPtr<Gtk::SizeGroup> vsize_group);
+  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   void set_prelude_sensitivity();
 
   void on_enabled_toggled();

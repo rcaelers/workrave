@@ -18,7 +18,7 @@
 #ifndef MACOSINPUTMONITORFACTORY_HH
 #define MACOSINPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "input-monitor/IInputMonitor.hh"

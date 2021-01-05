@@ -45,7 +45,7 @@ DataConnector::DataConnector()
 
 DataConnector::~DataConnector()
 {
-  for (auto &connection : connections)
+  for (auto &connection: connections)
     {
       delete connection.connection;
     }
@@ -68,7 +68,10 @@ DataConnector::connect(const std::string &setting, DataConnection *connection, d
 }
 
 void
-DataConnector::connect(const std::string &setting, DataConnection *connection, std::function<bool(const std::string &, bool)> cb, dc::Flags flags)
+DataConnector::connect(const std::string &setting,
+                       DataConnection *connection,
+                       std::function<bool(const std::string &, bool)> cb,
+                       dc::Flags flags)
 {
   if (connection != nullptr)
     {
@@ -85,7 +88,7 @@ DataConnector::connect(const std::string &setting, DataConnection *connection, s
 }
 
 DataConnection::DataConnection()
-    : flags(dc::NONE)
+  : flags(dc::NONE)
 {
   config = Backend::get_configurator();
 }
@@ -99,7 +102,7 @@ void
 DataConnection::set(dc::Flags flags, const std::string &key)
 {
   this->flags = flags;
-  this->key = key;
+  this->key   = key;
 
   if ((flags & dc::NO_CONFIG) == 0)
     {

@@ -16,14 +16,14 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
 #ifdef HAVE_REALPATH
-#include <climits>
-#include <cstdlib>
+#  include <climits>
+#  include <cstdlib>
 #endif
 
 #include "SoundPlayer.hh"
@@ -31,18 +31,18 @@
 #include "IMixer.hh"
 
 #if defined HAVE_GSTREAMER
-#include "GstSoundPlayer.hh"
+#  include "GstSoundPlayer.hh"
 #elif defined PLATFORM_OS_WINDOWS
-#include <windows.h>
-#include "W32SoundPlayer.hh"
-#include "W32DirectSoundPlayer.hh"
-#include "W32Mixer.hh"
+#  include <windows.h>
+#  include "W32SoundPlayer.hh"
+#  include "W32DirectSoundPlayer.hh"
+#  include "W32Mixer.hh"
 #elif defined PLATFORM_OS_MACOS
-#include "MacOSSoundPlayer.hh"
+#  include "MacOSSoundPlayer.hh"
 #endif
 
 #if defined HAVE_PULSE
-#include "PulseMixer.hh"
+#  include "PulseMixer.hh"
 #endif
 
 using namespace workrave;
@@ -59,14 +59,14 @@ SoundPlayer::SoundPlayer()
 {
   driver =
 #if defined HAVE_GSTREAMER
-     new GstSoundPlayer()
+    new GstSoundPlayer()
 #elif defined PLATFORM_OS_WINDOWS
-     new W32DirectSoundPlayer()
+    new W32DirectSoundPlayer()
 #elif defined PLATFORM_OS_MACOS
-     new MacOSSoundPlayer()
+    new MacOSSoundPlayer()
 #else
 #  warning Sound card support disabled.
-     NULL
+    NULL
 #endif
     ;
 
@@ -80,7 +80,7 @@ SoundPlayer::SoundPlayer()
 #endif
     ;
 
-  must_unmute = false;
+  must_unmute  = false;
   delayed_mute = false;
 }
 
@@ -109,16 +109,14 @@ SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, in
   TRACE_ENTER_MSG("SoundPlayer::play_sound ", wavfile << " " << mute_after_playback << " " << volume);
   delayed_mute = false;
 
-  if (mute_after_playback &&
-      mixer != nullptr && driver != nullptr &&
-      driver->capability(SoundCapability::EOS_EVENT))
+  if (mute_after_playback && mixer != nullptr && driver != nullptr && driver->capability(SoundCapability::EOS_EVENT))
     {
       delayed_mute = true;
     }
 
   if (driver != nullptr)
     {
-      if (wavfile != "")
+      if (!wavfile.empty())
         {
           driver->play_sound(wavfile, volume);
         }

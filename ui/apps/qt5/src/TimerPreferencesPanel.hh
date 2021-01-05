@@ -53,18 +53,18 @@ private:
   std::shared_ptr<SizeGroup> hsize_group;
   std::shared_ptr<SizeGroup> vsize_group;
 
-  QCheckBox *enabled_cb{ nullptr };
-  QCheckBox *auto_natural_cb{ nullptr };
-  QCheckBox *has_max_prelude_cb{ nullptr };
-  QCheckBox *ignorable_cb{ nullptr };
-  QCheckBox *monitor_cb{ nullptr };
-  QCheckBox *prelude_cb{ nullptr };
-  QCheckBox *skippable_cb{ nullptr };
-  QSpinBox *exercises_spin{ nullptr };
-  QSpinBox *max_prelude_spin{ nullptr };
-  TimeEntry *auto_reset_tim{ nullptr };
-  TimeEntry *limit_tim{ nullptr };
-  TimeEntry *snooze_tim{ nullptr };
+  QCheckBox *enabled_cb{nullptr};
+  QCheckBox *auto_natural_cb{nullptr};
+  QCheckBox *has_max_prelude_cb{nullptr};
+  QCheckBox *ignorable_cb{nullptr};
+  QCheckBox *monitor_cb{nullptr};
+  QCheckBox *prelude_cb{nullptr};
+  QCheckBox *skippable_cb{nullptr};
+  QSpinBox *exercises_spin{nullptr};
+  QSpinBox *max_prelude_spin{nullptr};
+  TimeEntry *auto_reset_tim{nullptr};
+  TimeEntry *limit_tim{nullptr};
+  TimeEntry *snooze_tim{nullptr};
 };
 
 #endif // TIMERPREFERENCESPANEL_HH

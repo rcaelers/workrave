@@ -45,21 +45,21 @@ MenuModel::signal_update()
 }
 
 MenuNode::MenuNode()
-    : id("workrave:root")
-    , type(MenuNodeType::MENU)
+  : id("workrave:root")
+  , type(MenuNodeType::MENU)
 {
 }
 
 MenuNode::MenuNode(const std::string &id, const std::string &text, Activated activated, MenuNodeType type)
-    : id(id)
-    , text(text)
-    , activated(activated)
-    , type(type)
+  : id(id)
+  , text(text)
+  , activated(activated)
+  , type(type)
 {
 }
 
 MenuNode::MenuNode(MenuNodeType type)
-    : type(type)
+  : type(type)
 {
 }
 

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gtkmm.h>
@@ -40,32 +40,33 @@
 #include "GtkUtil.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <gdk/gdkwin32.h>
+#  include <gdk/gdkwin32.h>
 #endif
 
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
-  : Gtk::Window(Gtk::WINDOW_TOPLEVEL),
+  : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
+  ,
 #ifdef PLATFORM_OS_WINDOWS
-    gdk_offset_x(0),
-    gdk_offset_y(0),
+  gdk_offset_x(0)
+  , gdk_offset_y(0)
+  ,
 #endif
-    SCREEN_MARGIN(20),
-    did_avoid(false),
-    time_bar(nullptr),
-    frame(nullptr),
-    window_frame(nullptr),
-    label(nullptr),
-    image_icon(nullptr),
-    progress_value(0),
-    progress_max_value(0),
-    flash_visible(false),
-    align(nullptr)
+  SCREEN_MARGIN(20)
+  , did_avoid(false)
+  , time_bar(nullptr)
+  , frame(nullptr)
+  , window_frame(nullptr)
+  , label(nullptr)
+  , image_icon(nullptr)
+  , progress_value(0)
+  , progress_max_value(0)
+  , flash_visible(false)
+  , align(nullptr)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
 
@@ -92,7 +93,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   realize();
 
   time_bar = Gtk::manage(new TimeBar);
-  label = Gtk::manage(new Gtk::Label());
+  label    = Gtk::manage(new Gtk::Label());
 
   Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
   vbox->pack_start(*label, false, false, 0);
@@ -111,8 +112,8 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   frame->add(*hbox);
   frame->signal_flash().connect(sigc::mem_fun(*this, &PreludeWindow::on_frame_flash_event));
   flash_visible = true;
-  color_warn = Gdk::Color("orange");
-  color_alert = Gdk::Color("red");
+  color_warn    = Gdk::Color("orange");
+  color_alert   = Gdk::Color("red");
 
   add(*frame);
 
@@ -185,9 +186,9 @@ PreludeWindow::start()
 
 //! Adds a child to the window.
 void
-PreludeWindow::add(Gtk::Widget& widget)
+PreludeWindow::add(Gtk::Widget &widget)
 {
-  if (! window_frame)
+  if (!window_frame)
     {
       window_frame = Gtk::manage(new Frame());
       window_frame->set_border_width(0);
@@ -201,10 +202,10 @@ PreludeWindow::add(Gtk::Widget& widget)
 
           widget.signal_size_allocate().connect(sigc::mem_fun(*this, &PreludeWindow::on_size_allocate_event));
         }
-       else
-         {
-           Gtk::Window::add(*window_frame);
-         }
+      else
+        {
+          Gtk::Window::add(*window_frame);
+        }
 
 #ifndef PLATFORM_OS_WINDOWS
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
@@ -227,7 +228,6 @@ PreludeWindow::stop()
   TRACE_EXIT();
 }
 
-
 //! Refresh window.
 void
 PreludeWindow::refresh()
@@ -248,30 +248,27 @@ PreludeWindow::refresh()
   time_bar->update();
 
 #if defined(PLATFORM_OS_WINDOWS)
-// Vista GTK phantom toplevel parent kludge:
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  if( hwnd )
+  // Vista GTK phantom toplevel parent kludge:
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  if (hwnd)
     {
-      HWND hAncestor = GetAncestor( hwnd, GA_ROOT );
-      HWND hDesktop = GetDesktopWindow();
-      if( hAncestor && hDesktop && hAncestor != hDesktop )
-          hwnd = hAncestor;
+      HWND hAncestor = GetAncestor(hwnd, GA_ROOT);
+      HWND hDesktop  = GetDesktopWindow();
+      if (hAncestor && hDesktop && hAncestor != hDesktop)
+        hwnd = hAncestor;
       // Set toplevel window topmost!
-      SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
-          SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+      SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
     }
 #endif
 }
 
-
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  progress_value = value;
+  progress_value     = value;
   progress_max_value = max_value;
   refresh();
 }
-
 
 void
 PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
@@ -292,12 +289,11 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
     }
 }
 
-
 void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
   const char *icon = nullptr;
-  switch(stage)
+  switch (stage)
     {
     case IApp::STAGE_INITIAL:
       frame->set_frame_flashing(0);
@@ -319,12 +315,12 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       break;
 
     case IApp::STAGE_MOVE_OUT:
-      if (! did_avoid)
+      if (!did_avoid)
         {
           int winx, winy;
           get_position(winx, winy);
           set_position(Gtk::WIN_POS_NONE);
-          move (winx, head.get_y() + SCREEN_MARGIN);
+          move(winx, head.get_y() + SCREEN_MARGIN);
         }
       break;
     }
@@ -335,7 +331,6 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     }
 }
 
-
 void
 PreludeWindow::on_frame_flash_event(bool frame_visible)
 {
@@ -345,14 +340,13 @@ PreludeWindow::on_frame_flash_event(bool frame_visible)
   TRACE_EXIT();
 }
 
-
 #ifdef PLATFORM_OS_WINDOWS
 // Sets whether the window should run away for the mouse pointer.
 void
 PreludeWindow::init_avoid_pointer_polling()
 {
   TRACE_ENTER("PreludeWindow::init_avoid_pointer_polling");
-  if (! avoid_signal.connected())
+  if (!avoid_signal.connected())
     {
       int x, y;
       get_pointer_location(x, y);
@@ -366,9 +360,7 @@ PreludeWindow::init_avoid_pointer_polling()
       gdk_offset_y = p.y - y;
       TRACE_MSG("offset " << gdk_offset_x << " " << gdk_offset_y);
 
-      avoid_signal = Glib::signal_timeout()
-        .connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer_event),
-                 150);
+      avoid_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer_event), 150);
     }
   did_avoid = false;
   TRACE_EXIT();
@@ -391,13 +383,13 @@ PreludeWindow::on_avoid_pointer_timer_event()
 
   int width, height;
   Gtk::Allocation a = frame->get_allocation();
-  width = a.get_width();
-  height = a.get_height();
+  width             = a.get_width();
+  height            = a.get_height();
 
   int px = p.x - gdk_offset_x;
   int py = p.y - gdk_offset_y;
 
-  if (px >= winx && px < winx+width && py >= winy && py < winy+height)
+  if (px >= winx && px < winx + width && py >= winy && py < winy + height)
     {
       avoid_pointer();
     }
@@ -414,14 +406,13 @@ PreludeWindow::on_avoid_pointer_timer_event()
 bool
 PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 {
-  (void) event;
+  (void)event;
 
   avoid_pointer();
   return false;
 }
 
 #endif
-
 
 //! Move window if pointer is neat specified location.
 void
@@ -435,10 +426,10 @@ PreludeWindow::avoid_pointer()
   if (!Platform::can_position_windows())
     {
       Gtk::Allocation a = frame->get_allocation();
-      winx = a.get_x();
-      winy = a.get_y();
-      width = a.get_width();
-      height = a.get_height();
+      winx              = a.get_x();
+      winy              = a.get_y();
+      width             = a.get_width();
+      height            = a.get_height();
     }
   else
     {
@@ -448,8 +439,8 @@ PreludeWindow::avoid_pointer()
   TRACE_MSG("x:" << winx << " y:" << winy << " w:" << width << " h:" << height);
 
   int screen_height = head.get_height();
-  int top_y = head.get_y() + SCREEN_MARGIN;
-  int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
+  int top_y         = head.get_y() + SCREEN_MARGIN;
+  int bottom_y      = head.get_y() + screen_height - height - SCREEN_MARGIN;
 
   if (winy > screen_height / 2)
     {
@@ -483,7 +474,7 @@ PreludeWindow::avoid_pointer()
 }
 
 bool
-PreludeWindow::on_draw_event(const Cairo::RefPtr<Cairo::Context>& cr)
+PreludeWindow::on_draw_event(const Cairo::RefPtr<Cairo::Context> &cr)
 {
   cr->save();
   cr->set_source_rgba(0.0, 0.0, 0.0, 0.0);
@@ -495,9 +486,9 @@ PreludeWindow::on_draw_event(const Cairo::RefPtr<Cairo::Context>& cr)
 }
 
 void
-PreludeWindow::on_screen_changed_event(const Glib::RefPtr<Gdk::Screen>& previous_screen)
+PreludeWindow::on_screen_changed_event(const Glib::RefPtr<Gdk::Screen> &previous_screen)
 {
-  (void) previous_screen;
+  (void)previous_screen;
 
   const Glib::RefPtr<Gdk::Screen> screen = get_screen();
   const Glib::RefPtr<Gdk::Visual> visual = screen->get_rgba_visual();
@@ -523,11 +514,7 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 
       if (window)
         {
-          Cairo::RectangleInt rect = {
-            allocation.get_x(),
-            allocation.get_y(),
-            allocation.get_width(),
-            allocation.get_height() };
+          Cairo::RectangleInt rect = {allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height()};
 
           window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
         }
@@ -537,8 +524,8 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 void
 PreludeWindow::get_pointer_location(int &x, int &y)
 {
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  Glib::RefPtr<Gdk::Display> display              = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::DeviceManager> device_manager = display->get_device_manager();
-  Glib::RefPtr<Gdk::Device> device = device_manager->get_client_pointer();
+  Glib::RefPtr<Gdk::Device> device                = device_manager->get_client_pointer();
   device->get_position(x, y);
 }

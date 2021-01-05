@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -57,8 +57,7 @@ GstSoundPlayer::init(ISoundPlayerEvents *events)
 bool
 GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  return (cap == workrave::audio::SoundCapability::VOLUME ||
-          cap == workrave::audio::SoundCapability::EOS_EVENT);
+  return (cap == workrave::audio::SoundCapability::VOLUME || cap == workrave::audio::SoundCapability::EOS_EVENT);
 }
 
 void
@@ -76,9 +75,9 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 
   if (play != nullptr)
     {
-      auto *watch_data = new WatchData;
+      auto *watch_data   = new WatchData;
       watch_data->player = this;
-      watch_data->play = play;
+      watch_data->play   = play;
 
       GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(play));
       gst_bus_add_watch(bus, bus_watch, watch_data);
@@ -87,10 +86,7 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 
       gst_element_set_state(play, GST_STATE_NULL);
 
-      g_object_set(G_OBJECT(play),
-                   "uri", uri,
-                   "volume", (float)(volume / 100.0),
-                   "audio-sink", sink, NULL);
+      g_object_set(G_OBJECT(play), "uri", uri, "volume", (float)(volume / 100.0), "audio-sink", sink, NULL);
 
       gst_element_set_state(play, GST_STATE_PLAYING);
 
@@ -104,12 +100,12 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 gboolean
 GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
-  auto *watch_data = (WatchData *) data;
+  auto *watch_data = (WatchData *)data;
   GstElement *play = watch_data->play;
-  GError *err = nullptr;
-  gboolean ret = TRUE;
+  GError *err      = nullptr;
+  gboolean ret     = TRUE;
 
-  (void) bus;
+  (void)bus;
 
   switch (GST_MESSAGE_TYPE(msg))
     {

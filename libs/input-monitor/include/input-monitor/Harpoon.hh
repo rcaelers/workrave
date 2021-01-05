@@ -45,7 +45,7 @@ public:
 
 private:
   static void init_critical_filename_list(workrave::config::IConfigurator::Ptr config);
-  static bool check_for_taskmgr_debugger( char *out );
+  static bool check_for_taskmgr_debugger(char *out);
   static void on_harpoon_event(HarpoonEvent *event);
 
   static bool is_64bit_windows();

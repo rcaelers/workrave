@@ -18,22 +18,22 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# ifdef HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  ifdef HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include <cassert>
 #include <sstream>
@@ -62,9 +62,9 @@ StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false)
 {
   ICore::Ptr core = Backend::get_core();
-  statistics = core->get_statistics();
+  statistics      = core->get_statistics();
 
-  for (auto & activity_label : activity_labels)
+  for (auto &activity_label: activity_labels)
     {
       activity_label = nullptr;
     }
@@ -73,11 +73,8 @@ StatisticsDialog::StatisticsDialog()
   display_calendar_date();
 }
 
-
 //! Destructor.
-StatisticsDialog::~StatisticsDialog()
-= default;
-
+StatisticsDialog::~StatisticsDialog() = default;
 
 int
 StatisticsDialog::run()
@@ -89,7 +86,6 @@ StatisticsDialog::run()
   return 0;
 }
 
-
 void
 StatisticsDialog::init_gui()
 {
@@ -97,20 +93,18 @@ StatisticsDialog::init_gui()
   Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 #else
-  Gtk::HBox *tnotebook= Gtk::manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *tnotebook = Gtk::manage(new Gtk::HBox(false, 6));
 #endif
 
   // Calendar
   calendar = Gtk::manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
   calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
-  calendar->set_display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
-                                |Gtk::CALENDAR_SHOW_DAY_NAMES
-                                |Gtk::CALENDAR_SHOW_HEADING);
+  calendar->set_display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS | Gtk::CALENDAR_SHOW_DAY_NAMES | Gtk::CALENDAR_SHOW_HEADING);
 
   // Button box.
-  Gtk::HBox *btnbox= Gtk::manage(new Gtk::HBox(false, 6));
-  first_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-first"));
+  Gtk::HBox *btnbox = Gtk::manage(new Gtk::HBox(false, 6));
+  first_btn         = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-first"));
   first_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
   last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-last"));
   last_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_last));
@@ -128,19 +122,18 @@ StatisticsDialog::init_gui()
   date_label = Gtk::manage(new Gtk::Label);
 
   // Navigation box
-  HigCategoryPanel *browsebox
-    = Gtk::manage(new HigCategoryPanel(_("Browse history")));
+  HigCategoryPanel *browsebox = Gtk::manage(new HigCategoryPanel(_("Browse history")));
   browsebox->add_widget(*btnbox);
   browsebox->add_widget(*calendar);
 
   // Delete button
-  delete_btn = Gtk::manage( GtkUtil::create_custom_stock_button( _("Delete all statistics history"), "edit-delete" ) );
-  delete_btn->signal_clicked().connect( sigc::mem_fun( *this, &StatisticsDialog::on_history_delete_all ) );
-  browsebox->add_widget( *delete_btn );
+  delete_btn = Gtk::manage(GtkUtil::create_custom_stock_button(_("Delete all statistics history"), "edit-delete"));
+  delete_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_delete_all));
+  browsebox->add_widget(*delete_btn);
 
   // Stats box
   HigCategoriesPanel *navbox = Gtk::manage(new HigCategoriesPanel());
-  HigCategoryPanel *statbox = Gtk::manage(new HigCategoryPanel(_("Statistics")));
+  HigCategoryPanel *statbox  = Gtk::manage(new HigCategoryPanel(_("Statistics")));
   statbox->add_label(_("Date:"), *date_label);
   statbox->add_widget(*tnotebook);
   navbox->add(*statbox);
@@ -173,7 +166,7 @@ StatisticsDialog::init_gui()
 void
 StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  Gtk::HBox *box  = Gtk::manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Breaks")));
   box->pack_start(*lab, false, false, 0);
 
@@ -182,61 +175,35 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Widget *unique_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Break prompts"),
-     _("The number of times you were prompted to break, excluding"
-       " repeated prompts for the same break"));
+  Gtk::Widget *unique_label = GtkUtil::create_label_with_tooltip(_("Break prompts"),
+                                                                 _("The number of times you were prompted to break, excluding"
+                                                                   " repeated prompts for the same break"));
 
-  Gtk::Widget *prompted_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Repeated prompts"),
-     _("The number of times you were repeatedly prompted to break"));
+  Gtk::Widget *prompted_label =
+    GtkUtil::create_label_with_tooltip(_("Repeated prompts"), _("The number of times you were repeatedly prompted to break"));
 
-  Gtk::Widget *taken_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Prompted breaks taken"),
-     _("The number of times you took a break when being prompted"));
+  Gtk::Widget *taken_label =
+    GtkUtil::create_label_with_tooltip(_("Prompted breaks taken"), _("The number of times you took a break when being prompted"));
 
-  Gtk::Widget *natural_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Natural breaks taken"),
-     _("The number of times you took a break without being prompted"));
+  Gtk::Widget *natural_label =
+    GtkUtil::create_label_with_tooltip(_("Natural breaks taken"), _("The number of times you took a break without being prompted"));
 
-  Gtk::Widget *skipped_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Breaks skipped"),
-     _("The number of breaks you skipped"));
+  Gtk::Widget *skipped_label = GtkUtil::create_label_with_tooltip(_("Breaks skipped"), _("The number of breaks you skipped"));
 
-  Gtk::Widget *postponed_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Breaks postponed"),
-     _("The number of breaks you postponed"));
+  Gtk::Widget *postponed_label = GtkUtil::create_label_with_tooltip(_("Breaks postponed"), _("The number of breaks you postponed"));
 
-  Gtk::Widget *overdue_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Overdue time"),
-     _("The total time this break was overdue"));
+  Gtk::Widget *overdue_label = GtkUtil::create_label_with_tooltip(_("Overdue time"), _("The total time this break was overdue"));
 
-  Gtk::Widget *usage_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Usage"),
-     _("Active computer usage"));
+  Gtk::Widget *usage_label = GtkUtil::create_label_with_tooltip(_("Usage"), _("Active computer usage"));
 
-  Gtk::Widget *daily_usage_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Daily"),
-     _("The total computer usage for the selected day"));
+  Gtk::Widget *daily_usage_label =
+    GtkUtil::create_label_with_tooltip(_("Daily"), _("The total computer usage for the selected day"));
 
-  Gtk::Widget *weekly_usage_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Weekly"),
-     _("The total computer usage for the whole week of the selected day"));
+  Gtk::Widget *weekly_usage_label =
+    GtkUtil::create_label_with_tooltip(_("Weekly"), _("The total computer usage for the whole week of the selected day"));
 
-  Gtk::Widget *monthly_usage_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Monthly"),
-     _("The total computer usage for the whole month of the selected day"));
+  Gtk::Widget *monthly_usage_label =
+    GtkUtil::create_label_with_tooltip(_("Monthly"), _("The total computer usage for the whole month of the selected day"));
 
   Gtk::HSeparator *hrule = Gtk::manage(new Gtk::HSeparator());
   Gtk::VSeparator *vrule = Gtk::manage(new Gtk::VSeparator());
@@ -244,12 +211,9 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   // Add labels to table.
   int y = 0;
 
-  Gtk::Widget *mp_label = Gtk::manage(GtkUtil::create_label_for_break
-                                 (BREAK_ID_MICRO_BREAK));
-  Gtk::Widget *rb_label = Gtk::manage(GtkUtil::create_label_for_break
-                                 (BREAK_ID_REST_BREAK));
-  Gtk::Widget *dl_label = Gtk::manage(GtkUtil::create_label_for_break
-                                 (BREAK_ID_DAILY_LIMIT));
+  Gtk::Widget *mp_label = Gtk::manage(GtkUtil::create_label_for_break(BREAK_ID_MICRO_BREAK));
+  Gtk::Widget *rb_label = Gtk::manage(GtkUtil::create_label_for_break(BREAK_ID_REST_BREAK));
+  Gtk::Widget *dl_label = Gtk::manage(GtkUtil::create_label_for_break(BREAK_ID_DAILY_LIMIT));
 
   y = 0;
   GtkUtil::table_attach_left_aligned(*table, *mp_label, 2, y);
@@ -273,8 +237,8 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
   y++;
 
-  daily_usage_time_label = Gtk::manage(new Gtk::Label());
-  weekly_usage_time_label = Gtk::manage(new Gtk::Label());
+  daily_usage_time_label   = Gtk::manage(new Gtk::Label());
+  weekly_usage_time_label  = Gtk::manage(new Gtk::Label());
   monthly_usage_time_label = Gtk::manage(new Gtk::Label());
 
   vrule = Gtk::manage(new Gtk::VSeparator());
@@ -292,7 +256,6 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_time_label, 2, y);
   GtkUtil::table_attach_right_aligned(*table, *weekly_usage_time_label, 3, y);
   GtkUtil::table_attach_right_aligned(*table, *monthly_usage_time_label, 4, y);
-
 
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -313,11 +276,10 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 #endif
 }
 
-
 void
 StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  Gtk::HBox *box  = Gtk::manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Activity")));
   box->pack_start(*lab, false, false, 0);
 
@@ -326,28 +288,17 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Widget *mouse_time_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Mouse usage:"),
-     _("The total time you were using the mouse"));
-  Gtk::Widget *mouse_movement_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Mouse movement:"),
-     _("The total on-screen mouse movement"));
-  Gtk::Widget *mouse_click_movement_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Effective mouse movement:"),
-     _("The total mouse movement you would have had if you moved your "
-       "mouse in straight lines between clicks"));
-  Gtk::Widget *mouse_clicks_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Mouse button clicks:"),
-     _("The total number of mouse button clicks"));
-  Gtk::Widget *keystrokes_label
-    = GtkUtil::create_label_with_tooltip
-    (_("Keystrokes:"),
-     _("The total number of keys pressed"));
-
+  Gtk::Widget *mouse_time_label =
+    GtkUtil::create_label_with_tooltip(_("Mouse usage:"), _("The total time you were using the mouse"));
+  Gtk::Widget *mouse_movement_label =
+    GtkUtil::create_label_with_tooltip(_("Mouse movement:"), _("The total on-screen mouse movement"));
+  Gtk::Widget *mouse_click_movement_label =
+    GtkUtil::create_label_with_tooltip(_("Effective mouse movement:"),
+                                       _("The total mouse movement you would have had if you moved your "
+                                         "mouse in straight lines between clicks"));
+  Gtk::Widget *mouse_clicks_label =
+    GtkUtil::create_label_with_tooltip(_("Mouse button clicks:"), _("The total number of mouse button clicks"));
+  Gtk::Widget *keystrokes_label = GtkUtil::create_label_with_tooltip(_("Keystrokes:"), _("The total number of keys pressed"));
 
   int y = 0;
   GtkUtil::table_attach_left_aligned(*table, *mouse_time_label, 0, y++);
@@ -365,7 +316,6 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
   box->show_all();
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
 }
-
 
 void
 StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
@@ -396,7 +346,6 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       date_label->set_text(buf);
     }
 
-
   int64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
   daily_usage_time_label->set_text(Text::time_to_string(value));
 
@@ -410,8 +359,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       ss << value;
       break_labels[i][0]->set_text(ss.str());
 
-      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED]
-        - value;
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED] - value;
       ss.str("");
       ss << value;
       break_labels[i][1]->set_text(ss.str());
@@ -448,9 +396,10 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       // Label not available is OS X
 
       value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
-      if (value > 24 * 60 * 60) {
-        value = 0;
-      }
+      if (value > 24 * 60 * 60)
+        {
+          value = 0;
+        }
       activity_labels[0]->set_text(Text::time_to_string(value));
 
       value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
@@ -473,7 +422,6 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       ss << value;
       activity_labels[4]->set_text(ss.str());
     }
-
 }
 
 void
@@ -485,27 +433,25 @@ StatisticsDialog::display_week_statistics()
   std::tm timeinfo;
   std::memset(&timeinfo, 0, sizeof(timeinfo));
   timeinfo.tm_mday = d;
-  timeinfo.tm_mon = m;
+  timeinfo.tm_mon  = m;
   timeinfo.tm_year = y - 1900;
 
-  std::time_t t = std::mktime(&timeinfo);
+  std::time_t t           = std::mktime(&timeinfo);
   std::tm const *time_loc = std::localtime(&t);
 
-  int offset = (time_loc->tm_wday - workrave::utils::Locale::get_week_start() + 7) % 7;
+  int offset         = (time_loc->tm_wday - workrave::utils::Locale::get_week_start() + 7) % 7;
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)
     {
       std::memset(&timeinfo, 0, sizeof(timeinfo));
       timeinfo.tm_mday = d - offset + i;
-      timeinfo.tm_mon = m;
+      timeinfo.tm_mon  = m;
       timeinfo.tm_year = y - 1900;
-      t = std::mktime(&timeinfo);
-      time_loc = std::localtime(&t);
+      t                = std::mktime(&timeinfo);
+      time_loc         = std::localtime(&t);
 
       int idx, next, prev;
-      statistics->get_day_index_by_date(time_loc->tm_year + 1900,
-                                        time_loc->tm_mon + 1,
-                                        time_loc->tm_mday, idx, next, prev);
+      statistics->get_day_index_by_date(time_loc->tm_year + 1900, time_loc->tm_mon + 1, time_loc->tm_mday, idx, next, prev);
 
       if (idx >= 0)
         {
@@ -523,7 +469,8 @@ StatisticsDialog::display_week_statistics()
 }
 
 void
-StatisticsDialog::display_month_statistics() {
+StatisticsDialog::display_month_statistics()
+{
   guint y, m, d;
   calendar->get_date(y, m, d);
 
@@ -578,7 +525,7 @@ StatisticsDialog::clear_display_statistics()
   monthly_usage_time_label->set_text("");
 
   // Put the breaks in table.
-  for (auto & break_label : break_labels)
+  for (auto &break_label: break_labels)
     {
       for (int j = 0; j <= 6; j++)
         {
@@ -611,14 +558,14 @@ StatisticsDialog::get_calendar_day_index(int &idx, int &next, int &prev)
 {
   guint y, m, d;
   calendar->get_date(y, m, d);
-  statistics->get_day_index_by_date(y, m+1, d, idx, next, prev);
+  statistics->get_day_index_by_date(y, m + 1, d, idx, next, prev);
 }
 
 void
 StatisticsDialog::set_calendar_day_index(int idx)
 {
   IStatistics::DailyStats *stats = statistics->get_day(idx);
-  calendar->select_month(stats->start.tm_mon, stats->start.tm_year+1900);
+  calendar->select_month(stats->start.tm_mon, stats->start.tm_year + 1900);
   calendar->select_day(stats->start.tm_mday);
   display_calendar_date();
 }
@@ -656,7 +603,6 @@ StatisticsDialog::on_history_go_back()
     set_calendar_day_index(prev);
 }
 
-
 void
 StatisticsDialog::on_history_go_forward()
 {
@@ -666,13 +612,11 @@ StatisticsDialog::on_history_go_forward()
     set_calendar_day_index(next);
 }
 
-
 void
 StatisticsDialog::on_history_goto_last()
 {
   set_calendar_day_index(0);
 }
-
 
 void
 StatisticsDialog::on_history_goto_first()
@@ -681,62 +625,53 @@ StatisticsDialog::on_history_goto_first()
   set_calendar_day_index(size);
 }
 
-
 void
 StatisticsDialog::on_history_delete_all()
 {
-    /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
-    triggered while the message boxes are shown. The user would have no way to interact
-    with the break window without closing out the dialog which may be hidden behind it.
-    Temporarily override operation mode to avoid catastrophe, and remove the
-    override before any return.
-    */
-    const char funcname[] = "StatisticsDialog::on_history_delete_all";
-    Backend::get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
+  /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
+  triggered while the message boxes are shown. The user would have no way to interact
+  with the break window without closing out the dialog which may be hidden behind it.
+  Temporarily override operation mode to avoid catastrophe, and remove the
+  override before any return.
+  */
+  const char funcname[] = "StatisticsDialog::on_history_delete_all";
+  Backend::get_core()->set_operation_mode_override(OperationMode::Suspended, funcname);
 
-    // Confirm the user's intention
-    string msg = HigUtil::create_alert_text(
-        _("Warning"),
-        _("You have chosen to delete your statistics history. Continue?")
-        );
-    Gtk::MessageDialog mb_ask( *this, msg, true, Gtk::MESSAGE_WARNING, Gtk::BUTTONS_YES_NO, false );
-    mb_ask.set_title( _("Warning") );
-    mb_ask.get_widget_for_response( Gtk::RESPONSE_NO )->grab_default();
-    if( mb_ask.run() == Gtk::RESPONSE_YES )
+  // Confirm the user's intention
+  string msg = HigUtil::create_alert_text(_("Warning"), _("You have chosen to delete your statistics history. Continue?"));
+  Gtk::MessageDialog mb_ask(*this, msg, true, Gtk::MESSAGE_WARNING, Gtk::BUTTONS_YES_NO, false);
+  mb_ask.set_title(_("Warning"));
+  mb_ask.get_widget_for_response(Gtk::RESPONSE_NO)->grab_default();
+  if (mb_ask.run() == Gtk::RESPONSE_YES)
     {
-        mb_ask.hide();
+      mb_ask.hide();
 
-        // Try to delete statistics history files
-        for( ;; )
+      // Try to delete statistics history files
+      for (;;)
         {
-            if( statistics->delete_all_history() )
+          if (statistics->delete_all_history())
             {
-                msg = HigUtil::create_alert_text(
-                    _("Files deleted!"),
-                    _("The files containing your statistics history have been deleted.")
-                    );
-                Gtk::MessageDialog mb_info( *this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false );
-                mb_info.set_title( _("Info") );
-                mb_info.run();
-                break;
+              msg = HigUtil::create_alert_text(_("Files deleted!"),
+                                               _("The files containing your statistics history have been deleted."));
+              Gtk::MessageDialog mb_info(*this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
+              mb_info.set_title(_("Info"));
+              mb_info.run();
+              break;
             }
 
-            msg = HigUtil::create_alert_text(
-                _("File deletion failed!"),
-                _("The files containing your statistics history could not be deleted. Try again?")
-                );
-            Gtk::MessageDialog mb_error( *this, msg, true, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_YES_NO, false );
-            mb_error.set_title( _("Error") );
-            mb_error.get_widget_for_response( Gtk::RESPONSE_NO )->grab_default();
-            if( mb_error.run() != Gtk::RESPONSE_YES )
-                break;
+          msg = HigUtil::create_alert_text(_("File deletion failed!"),
+                                           _("The files containing your statistics history could not be deleted. Try again?"));
+          Gtk::MessageDialog mb_error(*this, msg, true, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_YES_NO, false);
+          mb_error.set_title(_("Error"));
+          mb_error.get_widget_for_response(Gtk::RESPONSE_NO)->grab_default();
+          if (mb_error.run() != Gtk::RESPONSE_YES)
+            break;
         }
     }
 
-    // Remove this function's operation mode override
-    Backend::get_core()->remove_operation_mode_override( funcname );
+  // Remove this function's operation mode override
+  Backend::get_core()->remove_operation_mode_override(funcname);
 }
-
 
 //! Periodic heartbeat.
 bool
@@ -750,7 +685,6 @@ StatisticsDialog::on_timer()
   return true;
 }
 
-
 void
 StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
 {
@@ -763,11 +697,11 @@ StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
   GdkRectangle geometry;
   gdk_monitor_get_geometry(monitor, &geometry);
 
-  double mm = (double) pixels * gdk_monitor_get_width_mm(monitor)  / geometry.width;
+  double mm = (double)pixels * gdk_monitor_get_width_mm(monitor) / geometry.width;
 #else
-  double mm = (double) pixels * gdk_screen_width_mm() / gdk_screen_width();
+  double mm = (double)pixels * gdk_screen_width_mm() / gdk_screen_width();
 #endif
 
-  sprintf(buf, "%.02f m", mm/1000);
+  sprintf(buf, "%.02f m", mm / 1000);
   stream << buf;
 }

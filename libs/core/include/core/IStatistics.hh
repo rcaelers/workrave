@@ -25,43 +25,43 @@
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 typedef __int64 int64_t;
 #else
-#include <cstdint>
+#  include <cstdint>
 #endif
 
 #include "core/CoreTypes.hh"
 
-namespace workrave {
-
+namespace workrave
+{
   class IStatistics
   {
   public:
     using Ptr = std::shared_ptr<IStatistics>;
 
     enum StatsBreakValueType
-      {
-        STATS_BREAKVALUE_PROMPTED = 0,
-        STATS_BREAKVALUE_TAKEN,
-        STATS_BREAKVALUE_NATURAL_TAKEN,
-        STATS_BREAKVALUE_SKIPPED,
-        STATS_BREAKVALUE_POSTPONED,
-        STATS_BREAKVALUE_UNIQUE_BREAKS,
-        STATS_BREAKVALUE_TOTAL_OVERDUE,
-        STATS_BREAKVALUE_SIZEOF
-      };
+    {
+      STATS_BREAKVALUE_PROMPTED = 0,
+      STATS_BREAKVALUE_TAKEN,
+      STATS_BREAKVALUE_NATURAL_TAKEN,
+      STATS_BREAKVALUE_SKIPPED,
+      STATS_BREAKVALUE_POSTPONED,
+      STATS_BREAKVALUE_UNIQUE_BREAKS,
+      STATS_BREAKVALUE_TOTAL_OVERDUE,
+      STATS_BREAKVALUE_SIZEOF
+    };
 
     enum StatsValueType
-      {
-        STATS_VALUE_TOTAL_ACTIVE_TIME = 0,
-        STATS_VALUE_TOTAL_MOUSE_MOVEMENT,
-        STATS_VALUE_TOTAL_CLICK_MOVEMENT,
-        STATS_VALUE_TOTAL_MOVEMENT_TIME,
-        STATS_VALUE_TOTAL_CLICKS,
-        STATS_VALUE_TOTAL_KEYSTROKES,
-        STATS_VALUE_SIZEOF
-      };
+    {
+      STATS_VALUE_TOTAL_ACTIVE_TIME = 0,
+      STATS_VALUE_TOTAL_MOUSE_MOVEMENT,
+      STATS_VALUE_TOTAL_CLICK_MOVEMENT,
+      STATS_VALUE_TOTAL_MOVEMENT_TIME,
+      STATS_VALUE_TOTAL_CLICKS,
+      STATS_VALUE_TOTAL_KEYSTROKES,
+      STATS_VALUE_SIZEOF
+    };
 
-    typedef int BreakStats[STATS_BREAKVALUE_SIZEOF];
-    typedef int64_t MiscStats[STATS_VALUE_SIZEOF];
+    using BreakStats = int[STATS_BREAKVALUE_SIZEOF];
+    using MiscStats  = int64_t[STATS_VALUE_SIZEOF];
 
     struct DailyStats
     {
@@ -81,14 +81,14 @@ namespace workrave {
   public:
     virtual ~IStatistics() = default;
 
-    virtual bool delete_all_history() = 0;
-    virtual void update() = 0;
-    virtual DailyStats *get_current_day() const = 0;
-    virtual DailyStats *get_day(int day) const = 0;
+    virtual bool delete_all_history()                                                             = 0;
+    virtual void update()                                                                         = 0;
+    virtual DailyStats *get_current_day() const                                                   = 0;
+    virtual DailyStats *get_day(int day) const                                                    = 0;
     virtual void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const = 0;
-    virtual int get_history_size() const = 0;
-    virtual void dump() = 0;
+    virtual int get_history_size() const                                                          = 0;
+    virtual void dump()                                                                           = 0;
   };
-}
+} // namespace workrave
 
 #endif // WORKRAVE_BACKEND_ISTATISTICS_HH

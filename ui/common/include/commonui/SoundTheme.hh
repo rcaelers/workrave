@@ -31,18 +31,18 @@
 #include "audio/ISoundPlayer.hh"
 
 enum class SoundEvent
-  {
-    BreakPrelude,
-    BreakIgnored,
-    RestBreakStarted,
-    RestBreakEnded,
-    MicroBreakStarted,
-    MicroBreakEnded,
-    DailyLimit,
-    ExerciseEnded,
-    ExercisesEnded,
-    ExerciseStep,
-  };
+{
+  BreakPrelude,
+  BreakIgnored,
+  RestBreakStarted,
+  RestBreakEnded,
+  MicroBreakStarted,
+  MicroBreakEnded,
+  DailyLimit,
+  ExerciseEnded,
+  ExercisesEnded,
+  ExerciseStep,
+};
 
 class SoundTheme
 {
@@ -55,16 +55,18 @@ public:
   static workrave::config::Setting<bool> &sound_event_enabled(SoundEvent event);
 
   static std::list<SoundEvent> events()
-    {
-      return std::list<SoundEvent>
-        {
-          SoundEvent::BreakPrelude, SoundEvent::BreakIgnored,
-            SoundEvent::MicroBreakStarted, SoundEvent::MicroBreakEnded,
-            SoundEvent::RestBreakStarted, SoundEvent::RestBreakEnded,
-            SoundEvent::DailyLimit,
-            SoundEvent::ExerciseEnded, SoundEvent::ExercisesEnded, SoundEvent::ExerciseStep
-            };
-    }
+  {
+    return std::list<SoundEvent>{SoundEvent::BreakPrelude,
+                                 SoundEvent::BreakIgnored,
+                                 SoundEvent::MicroBreakStarted,
+                                 SoundEvent::MicroBreakEnded,
+                                 SoundEvent::RestBreakStarted,
+                                 SoundEvent::RestBreakEnded,
+                                 SoundEvent::DailyLimit,
+                                 SoundEvent::ExerciseEnded,
+                                 SoundEvent::ExercisesEnded,
+                                 SoundEvent::ExerciseStep};
+  }
 
   class SoundInfo
   {
@@ -136,7 +138,8 @@ private:
   static const std::string CFG_KEY_SOUND_MUTE;
 };
 
-inline std::ostream& operator<<(std::ostream& stream, SoundEvent event)
+inline std::ostream &
+operator<<(std::ostream &stream, SoundEvent event)
 {
   stream << SoundTheme::sound_event_to_id(event);
   return stream;

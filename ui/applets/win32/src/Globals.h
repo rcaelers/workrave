@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-extern HINSTANCE  g_hInst;
-extern UINT       g_DllRefCount;
+extern HINSTANCE g_hInst;
+extern UINT g_DllRefCount;
 
 #undef ARRAYSIZE
-#define ARRAYSIZE(a)    (sizeof(a)/sizeof(a[0]))
+#define ARRAYSIZE(a) (sizeof(a) / sizeof(a[0]))

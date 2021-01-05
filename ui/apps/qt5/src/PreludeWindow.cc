@@ -43,9 +43,9 @@ using namespace workrave::utils;
 #endif
 
 PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
-    : QWidget(nullptr, Qt::Window)
-    , break_id(break_id)
-    , screen(screen)
+  : QWidget(nullptr, Qt::Window)
+  , break_id(break_id)
+  , screen(screen)
 {
   QTimer *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -107,18 +107,19 @@ PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
 
   setWindowFlags(
 #ifdef PLATFORM_OS_MACOS
-      Qt::SubWindow |
+    Qt::SubWindow |
 #else
-      Qt::Tool |
+    Qt::Tool |
 #endif
-      Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
-      | Qt::X11BypassWindowManagerHint);
+    Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus
+    | Qt::X11BypassWindowManagerHint);
 
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
 
 #ifdef PLATFORM_OS_MACOS
-  mouse_monitor = std::make_shared<MouseMonitor>(std::bind(&PreludeWindow::avoid_pointer, this, std::placeholders::_1, std::placeholders::_2));
+  mouse_monitor =
+    std::make_shared<MouseMonitor>(std::bind(&PreludeWindow::avoid_pointer, this, std::placeholders::_1, std::placeholders::_2));
 #endif
 }
 
@@ -187,7 +188,7 @@ PreludeWindow::refresh()
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  progress_value = value;
+  progress_value     = value;
   progress_max_value = max_value;
   refresh();
 }
@@ -281,10 +282,10 @@ PreludeWindow::avoid_pointer(int px, int py)
   py = rect.height() - py;
 
   int screen_height = rect.height();
-  int top_y = rect.y() + SCREEN_MARGIN;
-  int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
-  int winy = geo.y();
-  int winx = geo.x();
+  int top_y         = rect.y() + SCREEN_MARGIN;
+  int bottom_y      = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
+  int winy          = geo.y();
+  int winx          = geo.x();
 
 #ifdef PLATFORM_OS_MACOS
   if (!geo.contains(px, py))

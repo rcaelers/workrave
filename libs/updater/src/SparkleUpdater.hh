@@ -32,7 +32,7 @@ public:
 
 private:
   class Private;
-  Private* d;
+  Private *d;
 };
 
 #endif // WORKRAVE_UPDATE_SPARKLE_UPDATER_HH

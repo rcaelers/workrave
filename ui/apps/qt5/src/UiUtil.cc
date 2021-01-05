@@ -65,7 +65,7 @@ void
 UiUtil::add_widget(QBoxLayout *layout, const QString &text, QWidget *widget)
 {
   QHBoxLayout *box = new QHBoxLayout;
-  QLabel *lab = new QLabel(text);
+  QLabel *lab      = new QLabel(text);
 
   box->addWidget(lab);
   box->addWidget(widget);
@@ -141,7 +141,7 @@ UiUtil::create_image_text_button(const QString &filename, const QString &text)
 QLabel *
 UiUtil::create_image_label(const QString &filename)
 {
-  QLabel *label = new QLabel;
+  QLabel *label    = new QLabel;
   std::string file = AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
   label->setPixmap(QPixmap(file.c_str()));
   return label;

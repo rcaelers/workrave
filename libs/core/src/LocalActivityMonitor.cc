@@ -18,17 +18,17 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "LocalActivityMonitor.hh"
 
 #include <cassert>
 #include <cmath>
+#include <utility>
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/InputMonitorFactory.hh"
-#include "utils/TimeSource.hh"
 
 #include "core/CoreConfig.hh"
 #include "debug.hh"
@@ -38,33 +38,13 @@ using namespace workrave::config;
 using namespace workrave::input_monitor;
 using namespace workrave::utils;
 
-LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const char *display_name) :
-  config(config),
-  display_name(display_name),
-  state(ACTIVITY_MONITOR_IDLE),
-  prev_x(-10),
-  prev_y(-10),
-  button_is_pressed(false),
-  sensitivity(3)
+LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const char *display_name)
+  : config(std::move(config))
+  , display_name(display_name)
 {
   TRACE_ENTER("LocalActivityMonitor::LocalActivityMonitor");
-
-  first_action_time = 0;
-  last_action_time = 0;
-
-  noise_threshold = 1 * TimeSource::TIME_USEC_PER_SEC;
-  activity_threshold = 2 * TimeSource::TIME_USEC_PER_SEC;
-  idle_threshold = 5 * TimeSource::TIME_USEC_PER_SEC;
-
   TRACE_EXIT();
 }
-
-LocalActivityMonitor::~LocalActivityMonitor()
-{
-  TRACE_ENTER("LocalActivityMonitor::~LocalActivityMonitor");
-  TRACE_EXIT();
-}
-
 
 //! Initializes the monitor.
 void
@@ -86,7 +66,6 @@ LocalActivityMonitor::init()
   TRACE_EXIT();
 }
 
-
 //! Terminates the monitor.
 void
 LocalActivityMonitor::terminate()
@@ -101,7 +80,6 @@ LocalActivityMonitor::terminate()
   TRACE_EXIT();
 }
 
-
 //! Suspends the activity monitoring.
 void
 LocalActivityMonitor::suspend()
@@ -112,7 +90,6 @@ LocalActivityMonitor::suspend()
   lock.unlock();
   TRACE_RETURN(state);
 }
-
 
 //! Resumes the activity monitoring.
 void
@@ -125,7 +102,6 @@ LocalActivityMonitor::resume()
   TRACE_RETURN(state);
 }
 
-
 //! Forces state te be idle.
 void
 LocalActivityMonitor::force_idle()
@@ -134,13 +110,12 @@ LocalActivityMonitor::force_idle()
   lock.lock();
   if (state != ACTIVITY_MONITOR_SUSPENDED)
     {
-      state = ACTIVITY_MONITOR_FORCED_IDLE;
+      state            = ACTIVITY_MONITOR_FORCED_IDLE;
       last_action_time = 0;
     }
   lock.unlock();
   TRACE_RETURN(state);
 }
-
 
 bool
 LocalActivityMonitor::is_active()
@@ -172,14 +147,13 @@ LocalActivityMonitor::process_state()
   TRACE_RETURN(state);
 }
 
-
 //! Sets the operation parameters.
 void
 LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold = noise * 1000;
+  noise_threshold    = noise * 1000;
   activity_threshold = activity * 1000;
-  idle_threshold = idle * 1000;
+  idle_threshold     = idle * 1000;
 
   this->sensitivity = sensitivity;
 
@@ -187,17 +161,15 @@ LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sens
   state = ACTIVITY_MONITOR_IDLE;
 }
 
-
 //! Sets the operation parameters.
 void
-LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity)
+LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity) const
 {
-  noise = static_cast<int>(noise_threshold / 1000);
-  activity = static_cast<int>(activity_threshold / 1000);
-  idle = static_cast<int>(idle_threshold / 1000);
+  noise       = static_cast<int>(noise_threshold / 1000);
+  activity    = static_cast<int>(activity_threshold / 1000);
+  idle        = static_cast<int>(idle_threshold / 1000);
   sensitivity = this->sensitivity;
 }
-
 
 //! Sets the callback listener.
 void
@@ -207,7 +179,6 @@ LocalActivityMonitor::set_listener(IActivityMonitorListener::Ptr l)
   listener = l;
   lock.unlock();
 }
-
 
 //! Activity is reported by the input monitor.
 void
@@ -222,7 +193,7 @@ LocalActivityMonitor::action_notify()
     case ACTIVITY_MONITOR_FORCED_IDLE:
       {
         first_action_time = now;
-        last_action_time = now;
+        last_action_time  = now;
 
         if (activity_threshold == 0)
           {
@@ -263,7 +234,6 @@ LocalActivityMonitor::action_notify()
   call_listener();
 }
 
-
 //! Mouse activity is reported by the input monitor.
 void
 LocalActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
@@ -271,17 +241,15 @@ LocalActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
-  prev_x = x;
-  prev_y = y;
+  prev_x            = x;
+  prev_y            = y;
 
-  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity
-      || wheel_delta != 0 || button_is_pressed)
+  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0 || button_is_pressed)
     {
       action_notify();
     }
   lock.unlock();
 }
-
 
 //! Mouse button activity is reported by the input monitor.
 void
@@ -299,7 +267,6 @@ LocalActivityMonitor::button_notify(bool is_press)
   lock.unlock();
 }
 
-
 //! Keyboard activity is reported by the input monitor.
 void
 LocalActivityMonitor::keyboard_notify(bool repeat)
@@ -310,7 +277,6 @@ LocalActivityMonitor::keyboard_notify(bool repeat)
   action_notify();
   lock.unlock();
 }
-
 
 //! Calls the callback listener.
 void
@@ -341,9 +307,9 @@ LocalActivityMonitor::load_config()
 {
   TRACE_ENTER("LocalActivityMonitor::load_config");
 
-  int noise = CoreConfig::monitor_noise()();
-  int activity = CoreConfig::monitor_activity()();
-  int idle = CoreConfig::monitor_idle()();
+  int noise       = CoreConfig::monitor_noise()();
+  int activity    = CoreConfig::monitor_activity()();
+  int idle        = CoreConfig::monitor_idle()();
   int sensitivity = CoreConfig::monitor_sensitivity()();
 
   // Pre 1.0 compatibility...
@@ -406,7 +372,6 @@ LocalActivityMonitor::load_config()
 
 //   monitor_state = state;
 // }
-
 
 // void
 // LocalActivityMonitor::report_external_activity(std::string who, bool act)

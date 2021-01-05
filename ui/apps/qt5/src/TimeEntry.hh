@@ -45,9 +45,9 @@ private:
 private:
   boost::signals2::signal<void()> value_changed_signal;
 
-  QSpinBox *hrs{ nullptr };
-  QSpinBox *mins{ nullptr };
-  QSpinBox *secs{ nullptr };
+  QSpinBox *hrs{nullptr};
+  QSpinBox *mins{nullptr};
+  QSpinBox *secs{nullptr};
 };
 
 #endif // TIMEENTRY_HH

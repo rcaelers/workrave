@@ -25,8 +25,7 @@
 #include "BreakWindow.hh"
 #include "commonui/GUIConfig.hh"
 
-class DailyLimitWindow :
-  public BreakWindow
+class DailyLimitWindow : public BreakWindow
 {
 public:
   DailyLimitWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
@@ -37,6 +36,5 @@ public:
 protected:
   Gtk::Widget *create_gui() override;
 };
-
 
 #endif // DAILYLIMITWINDOW_HH

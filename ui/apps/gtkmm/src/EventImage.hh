@@ -25,13 +25,12 @@
 class EventImage : public Gtk::Image
 {
 public:
-  EventImage()
-  = default;
+  EventImage() = default;
 
-  EventImage(const Glib::ustring& file, bool mnemonic = false) :
-    Gtk::Image(file)
+  EventImage(const Glib::ustring &file, bool mnemonic = false)
+    : Gtk::Image(file)
   {
-    (void) mnemonic;
+    (void)mnemonic;
   }
 
 private:
@@ -43,6 +42,5 @@ private:
 
   GdkWindow *event_window;
 };
-
 
 #endif // EVENTIMAGE_HH

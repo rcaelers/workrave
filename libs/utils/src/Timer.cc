@@ -17,7 +17,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <boost/lexical_cast.hpp>
@@ -44,10 +44,10 @@ Timer::get()
   return instance;
 }
 
-
 Timer::Timer()
 #ifdef HAVE_TESTS
-  : simulated(false), current_time(0)
+  : simulated(false)
+  , current_time(0)
 #endif
 {
 }
@@ -66,7 +66,7 @@ Timer::create(string name, int64_t interval, Callback callback)
       timers[id] = new Info();
     }
 
-  Info *info = timers[id];
+  Info *info     = timers[id];
   info->callback = callback;
 
 #ifdef HAVE_TESTS
@@ -87,7 +87,7 @@ Timer::create(string name, int64_t interval, Callback callback)
 #ifdef HAVE_TESTS
           && !simulated
 #endif
-          )
+      )
         {
           info->source = g_timeout_source_new(interval);
           g_source_set_callback(info->source, static_on_timer, info, NULL);
@@ -97,7 +97,6 @@ Timer::create(string name, int64_t interval, Callback callback)
   g_timer_mutex.unlock();
   TRACE_EXIT();
 }
-
 
 void
 Timer::destroy(string name)
@@ -124,7 +123,6 @@ Timer::destroy(string name)
   TRACE_EXIT();
 }
 
-
 gboolean
 Timer::static_on_timer(gpointer data)
 {
@@ -147,12 +145,14 @@ Timer::static_on_idle(gpointer data)
   return FALSE;
 }
 
-int64_t Timer::get_real_time_usec()
+int64_t
+Timer::get_real_time_usec()
 {
   return current_time;
 }
 
-int64_t Timer::get_monotonic_time_usec()
+int64_t
+Timer::get_monotonic_time_usec()
 {
   return current_time;
 }
@@ -166,7 +166,7 @@ Timer::set_simulated(bool on)
   if (on)
     {
       TimeSource::source = shared_from_this();
-      current_time = g_get_monotonic_time();
+      current_time       = g_get_monotonic_time();
 
       for (TimerMapIter i = timers.begin(); i != timers.end(); i++)
         {
@@ -223,17 +223,13 @@ Timer::simulate(int64_t usec, int64_t delay)
       for (list<Info *>::iterator i = timers_to_call.begin(); i != timers_to_call.end(); i++)
         {
           (*i)->syncer = &syncer;
-          g_main_context_invoke_full((*i)->context,
-                                     G_PRIORITY_DEFAULT_IDLE,
-                                     static_on_idle,
-                                     *i,
-                                     NULL);
+          g_main_context_invoke_full((*i)->context, G_PRIORITY_DEFAULT_IDLE, static_on_idle, *i, NULL);
         }
 
       syncer.wait();
       current_time += smallest;
       g_usleep(delay);
-   }
+    }
   TRACE_EXIT();
 }
 

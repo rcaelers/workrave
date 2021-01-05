@@ -48,7 +48,7 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   setLayout(layout);
 
   QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-  QPushButton *close_button = buttonBox->button(QDialogButtonBox::Close);
+  QPushButton *close_button   = buttonBox->button(QDialogButtonBox::Close);
   close_button->setAutoDefault(true);
   close_button->setDefault(true);
 

@@ -16,11 +16,11 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSHelpers.hh"
+#  include "MacOSHelpers.hh"
 #endif
 
 #include "debug.hh"
@@ -42,9 +42,9 @@
 
 #include "dbus/DBusFactory.hh"
 #ifdef HAVE_DBUS
-#include "DBusWorkrave.hh"
-#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/"
-#define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
+#  include "DBusWorkrave.hh"
+#  define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/"
+#  define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
 #endif
 
 using namespace std;
@@ -100,7 +100,7 @@ Core::init(IApp *app, const char *display_name)
       // LCOV_EXCL_START
       monitor = std::make_shared<LocalActivityMonitor>(configurator, display_name);
       // LCOV_EXCL_STOP
-   }
+    }
 
   monitor->init();
 
@@ -108,7 +108,7 @@ Core::init(IApp *app, const char *display_name)
   statistics->init();
 
   core_modes = std::make_shared<CoreModes>(monitor);
-  core_dbus = std::make_shared<CoreDBus>(core_modes, dbus);
+  core_dbus  = std::make_shared<CoreDBus>(core_modes, dbus);
 
   breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, dbus, hooks);
   breaks_control->init();
@@ -126,11 +126,10 @@ Core::init_configurator()
     {
       configurator = hooks->hook_create_configurator()();
     }
-  else
 #endif
 
   // LCOV_EXCL_START
-  if (boost::filesystem::is_regular_file(ini_file))
+  if (!configurator && boost::filesystem::is_regular_file(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);
@@ -142,17 +141,17 @@ Core::init_configurator()
       if (configurator == nullptr)
         {
           string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
-          configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
+          configurator      = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
           if (configurator)
             {
 #if defined(PLATFORM_OS_UNIX)
-              if (configFile == "" || configFile == "config.xml")
+              if (configFile.empty() || configFile == "config.xml")
                 {
                   configFile = AssetPath::get_home_directory() + "config.xml";
                 }
 #endif
-              if (configFile != "")
+              if (!configFile.empty())
                 {
                   configurator->load(configFile);
                 }
@@ -161,7 +160,7 @@ Core::init_configurator()
 
       if (configurator == nullptr)
         {
-          ini_file = AssetPath::get_home_directory() + "workrave.ini";
+          ini_file     = AssetPath::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
 
           if (configurator)
@@ -175,14 +174,12 @@ Core::init_configurator()
   CoreConfig::init(configurator);
 
   string home = CoreConfig::general_datadir()();
-  if (home != "")
+  if (!home.empty())
     {
       AssetPath::set_home_directory(home);
     }
   // LCOV_EXCL_STOP
-
 }
-
 
 //! Initializes the communication bus.
 void
@@ -221,7 +218,6 @@ Core::heartbeat()
   TRACE_EXIT();
 }
 
-
 /********************************************************************************/
 /**** ICore Interface                                                      ******/
 /********************************************************************************/
@@ -232,13 +228,11 @@ Core::signal_operation_mode_changed()
   return core_modes->signal_operation_mode_changed();
 }
 
-
 boost::signals2::signal<void(UsageMode)> &
 Core::signal_usage_mode_changed()
 {
   return core_modes->signal_usage_mode_changed();
 }
-
 
 //! Forces the start of the specified break.
 void
@@ -247,14 +241,12 @@ Core::force_break(BreakId id, BreakHint break_hint)
   breaks_control->force_break(id, break_hint);
 }
 
-
 //! Returns the specified break controller.
 IBreak::Ptr
 Core::get_break(BreakId id)
 {
   return breaks_control->get_break(id);
 }
-
 
 //! Returns the statistics.
 IStatistics::Ptr
@@ -263,14 +255,12 @@ Core::get_statistics() const
   return statistics;
 }
 
-
 //! Returns the configurator.
 IConfigurator::Ptr
 Core::get_configurator() const
 {
   return configurator;
 }
-
 
 //!
 ICoreHooks::Ptr
@@ -279,13 +269,11 @@ Core::get_hooks() const
   return hooks;
 }
 
-
 dbus::IDBus::Ptr
 Core::get_dbus() const
 {
   return dbus;
 }
-
 
 //! Is the user currently active?
 bool
@@ -294,14 +282,12 @@ Core::is_user_active() const
   return monitor->is_active();
 }
 
-
 //! Retrieves the operation mode.
 OperationMode
 Core::get_operation_mode()
 {
   return core_modes->get_operation_mode();
 }
-
 
 //! Retrieves the regular operation mode.
 OperationMode
@@ -310,14 +296,12 @@ Core::get_operation_mode_regular()
   return core_modes->get_operation_mode_regular();
 }
 
-
 //! Checks if operation_mode is an override.
 bool
 Core::is_operation_mode_an_override()
 {
   return core_modes->is_operation_mode_an_override();
 }
-
 
 //! Sets the operation mode.
 void
@@ -326,14 +310,12 @@ Core::set_operation_mode(OperationMode mode)
   core_modes->set_operation_mode(mode);
 }
 
-
 //! Temporarily overrides the operation mode.
 void
 Core::set_operation_mode_override(OperationMode mode, const std::string &id)
 {
   core_modes->set_operation_mode_override(mode, id);
 }
-
 
 //! Removes the overriden operation mode.
 void
@@ -342,7 +324,6 @@ Core::remove_operation_mode_override(const std::string &id)
   core_modes->remove_operation_mode_override(id);
 }
 
-
 //! Retrieves the usage mode.
 UsageMode
 Core::get_usage_mode()
@@ -350,14 +331,12 @@ Core::get_usage_mode()
   return core_modes->get_usage_mode();
 }
 
-
 //! Sets the usage mode.
 void
 Core::set_usage_mode(UsageMode mode)
 {
   core_modes->set_usage_mode(mode);
 }
-
 
 //! Sets the insist policy.
 /*!
@@ -370,14 +349,12 @@ Core::set_insist_policy(InsistPolicy p)
   breaks_control->set_insist_policy(p);
 }
 
-
 //! Forces all monitors to be idle.
 void
 Core::force_idle()
 {
   monitor->force_idle();
 }
-
 
 //! Announces a powersave state.
 void
@@ -409,8 +386,8 @@ Core::set_powersave(bool down)
 void
 Core::report_external_activity(std::string who, bool act)
 {
-  (void) who;
-  (void) act;
+  (void)who;
+  (void)act;
   // TODO: fix this
   // monitor->report_external_activity(who, act);
 }

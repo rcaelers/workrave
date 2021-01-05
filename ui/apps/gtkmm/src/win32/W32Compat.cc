@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -28,10 +28,10 @@
 #include <wtsapi32.h>
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
-#undef max
+#  undef max
 #endif
 #ifdef PLATFORM_OS_WINDOWS
-#undef interface
+#  undef interface
 #endif
 
 #include <gtkmm.h>
@@ -48,17 +48,17 @@
 
 using namespace workrave;
 
-bool W32Compat::ime_magic = false;
+bool W32Compat::ime_magic           = false;
 bool W32Compat::reset_window_always = false;
-bool W32Compat::reset_window_never = false;
+bool W32Compat::reset_window_never  = false;
 
 W32Compat::SWITCHTOTHISWINDOWPROC W32Compat::switch_to_this_window_proc = NULL;
 
-
-
-typedef BOOLEAN (WINAPI * PWINSTATIONQUERYINFORMATIONW)(
-    HANDLE, ULONG, INT, PVOID, ULONG, PULONG );
-namespace { PWINSTATIONQUERYINFORMATIONW dyn_WinStationQueryInformationW; }
+typedef BOOLEAN(WINAPI *PWINSTATIONQUERYINFORMATIONW)(HANDLE, ULONG, INT, PVOID, ULONG, PULONG);
+namespace
+{
+  PWINSTATIONQUERYINFORMATIONW dyn_WinStationQueryInformationW;
+}
 
 /* W32Compat::WinStationQueryInformationW()
 
@@ -75,48 +75,37 @@ http://msdn.microsoft.com/en-us/library/cc248834.aspx
 returns whatever the API returns.
 if the API is unavailable this function returns FALSE and last error is set ERROR_INVALID_FUNCTION.
 */
-BOOLEAN W32Compat::WinStationQueryInformationW(
-    HANDLE hServer,   // use WTS_CURRENT_SERVER_HANDLE
-    ULONG LogonId,   // use WTS_CURRENT_SESSION
-    INT WinStationInformationClass,   // review msdn links in comment block
-    PVOID pWinStationInformation,
-    ULONG WinStationInformationLength,
-    PULONG pReturnLength
-)
-{
-    init();
-
-    if( !dyn_WinStationQueryInformationW )
-    {
-        SetLastError( ERROR_INVALID_FUNCTION );
-        return FALSE;
-    }
-
-    return dyn_WinStationQueryInformationW(
-        hServer,
-        LogonId,
-        WinStationInformationClass,
-        pWinStationInformation,
-        WinStationInformationLength,
-        pReturnLength
-        );
-}
-
-
-
-VOID
-W32Compat::SwitchToThisWindow( HWND hwnd, BOOL emulate_alt_tab )
+BOOLEAN
+W32Compat::WinStationQueryInformationW(HANDLE hServer,                 // use WTS_CURRENT_SERVER_HANDLE
+                                       ULONG LogonId,                  // use WTS_CURRENT_SESSION
+                                       INT WinStationInformationClass, // review msdn links in comment block
+                                       PVOID pWinStationInformation,
+                                       ULONG WinStationInformationLength,
+                                       PULONG pReturnLength)
 {
   init();
 
-  if ( switch_to_this_window_proc != NULL )
+  if (!dyn_WinStationQueryInformationW)
     {
-      ( *switch_to_this_window_proc )( hwnd, emulate_alt_tab );
+      SetLastError(ERROR_INVALID_FUNCTION);
+      return FALSE;
+    }
+
+  return dyn_WinStationQueryInformationW(
+    hServer, LogonId, WinStationInformationClass, pWinStationInformation, WinStationInformationLength, pReturnLength);
+}
+
+VOID
+W32Compat::SwitchToThisWindow(HWND hwnd, BOOL emulate_alt_tab)
+{
+  init();
+
+  if (switch_to_this_window_proc != NULL)
+    {
+      (*switch_to_this_window_proc)(hwnd, emulate_alt_tab);
     }
   return;
 }
-
-
 
 static W32CriticalSection cs__init;
 volatile LONG W32Compat::_initialized = 0;
@@ -126,79 +115,73 @@ volatile LONG W32Compat::_initialized = 0;
 Initialize the W32Compat class. The functions should call init(), which is inline, instead of this.
 A call to init() should be the first line in each of the other functions in this class.
 */
-void W32Compat::_init()
+void
+W32Compat::_init()
 {
-    W32CriticalSection::Guard guard( cs__init );
+  W32CriticalSection::Guard guard(cs__init);
 
-    if( _initialized )
-        return;
+  if (_initialized)
+    return;
 
-    HMODULE user_lib = GetModuleHandleA( "user32.dll" );
-    if( user_lib )
+  HMODULE user_lib = GetModuleHandleA("user32.dll");
+  if (user_lib)
     {
-        switch_to_this_window_proc = (SWITCHTOTHISWINDOWPROC) GetProcAddress(user_lib, "SwitchToThisWindow");
+      switch_to_this_window_proc = (SWITCHTOTHISWINDOWPROC)GetProcAddress(user_lib, "SwitchToThisWindow");
     }
 
-    HMODULE winsta_lib = LoadLibraryA( "winsta" );
-    if( winsta_lib )
+  HMODULE winsta_lib = LoadLibraryA("winsta");
+  if (winsta_lib)
     {
-        dyn_WinStationQueryInformationW =
-            (PWINSTATIONQUERYINFORMATIONW)GetProcAddress(
-            winsta_lib,
-            "WinStationQueryInformationW"
-            );
+      dyn_WinStationQueryInformationW = (PWINSTATIONQUERYINFORMATIONW)GetProcAddress(winsta_lib, "WinStationQueryInformationW");
     }
 
-    // Should SetWindowOnTop() call IMEWindowMagic() ?
-    if( !Backend::get_configurator()->get_value( "advanced/ime_magic", ime_magic ) )
+  // Should SetWindowOnTop() call IMEWindowMagic() ?
+  if (!Backend::get_configurator()->get_value("advanced/ime_magic", ime_magic))
     {
-        ime_magic = false;
+      ime_magic = false;
     }
 
-    // As of writing SetWindowOnTop() always calls ResetWindow()
-    // ResetWindow() determines whether to "reset" when both
-    // reset_window_always and reset_window_never are false.
-    //
-    // If reset_window_always is true, and if ResetWindow() is continually
-    // passed the same hwnd, hwnd will flicker as a result of the continual
-    // z-order position changes / resetting.
-    if( !Backend::get_configurator()->get_value( "advanced/reset_window_always", reset_window_always ) )
+  // As of writing SetWindowOnTop() always calls ResetWindow()
+  // ResetWindow() determines whether to "reset" when both
+  // reset_window_always and reset_window_never are false.
+  //
+  // If reset_window_always is true, and if ResetWindow() is continually
+  // passed the same hwnd, hwnd will flicker as a result of the continual
+  // z-order position changes / resetting.
+  if (!Backend::get_configurator()->get_value("advanced/reset_window_always", reset_window_always))
     {
-        reset_window_always = false;
+      reset_window_always = false;
     }
-    // ResetWindow() will always abort when reset_window_never is true.
-    if( !Backend::get_configurator()->get_value( "advanced/reset_window_never", reset_window_never ) )
+  // ResetWindow() will always abort when reset_window_never is true.
+  if (!Backend::get_configurator()->get_value("advanced/reset_window_never", reset_window_never))
     {
-        reset_window_never = false;
+      reset_window_never = false;
     }
 
-    InterlockedExchange( &_initialized, 1 );
+  InterlockedExchange(&_initialized, 1);
 }
 
-
 void
-W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
+W32Compat::SetWindowOnTop(HWND hwnd, BOOL topmost)
 {
   init();
 
-  SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-    0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+  SetWindowPos(hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
-  ResetWindow( hwnd, (bool)topmost );
+  ResetWindow(hwnd, (bool)topmost);
 
-  if( ime_magic && topmost )
-  {
-    IMEWindowMagic( hwnd );
-  }
+  if (ime_magic && topmost)
+    {
+      IMEWindowMagic(hwnd);
+    }
 
-  if( W32ForceFocus::GetForceFocusValue() && topmost )
-  {
-    W32ForceFocus::ForceWindowFocus( hwnd );
-  }
+  if (W32ForceFocus::GetForceFocusValue() && topmost)
+    {
+      W32ForceFocus::ForceWindowFocus(hwnd);
+    }
 
   return;
 }
-
 
 // Bug 587 -  Vista: Workrave not modal / coming to front
 // http://issues.workrave.org/show_bug.cgi?id=587
@@ -207,68 +190,67 @@ W32Compat::SetWindowOnTop( HWND hwnd, BOOL topmost )
 // hwnd == window to "reset" in z-order
 // topmost == true if window should be topmost, false otherwise
 void
-W32Compat::ResetWindow( HWND hwnd, bool topmost )
+W32Compat::ResetWindow(HWND hwnd, bool topmost)
 {
   init();
 
-  if( !IsWindow( hwnd ) || reset_window_never )
+  if (!IsWindow(hwnd) || reset_window_never)
     return;
 
-  bool reset = false;
+  bool reset        = false;
   DWORD gwl_exstyle = 0;
 
   WINDOWINFO gwi;
-  ZeroMemory( &gwi, sizeof( gwi ) );
-  gwi.cbSize = sizeof( WINDOWINFO );
+  ZeroMemory(&gwi, sizeof(gwi));
+  gwi.cbSize = sizeof(WINDOWINFO);
 
+  SetLastError(0);
+  gwl_exstyle = (DWORD)GetWindowLong(hwnd, GWL_EXSTYLE);
+  if (!GetLastError())
+    {
+      // if desired and actual topmost style differ, plan to reset
+      if (topmost != (gwl_exstyle & WS_EX_TOPMOST ? true : false))
+        reset = true;
+    }
 
-  SetLastError( 0 );
-  gwl_exstyle = (DWORD)GetWindowLong( hwnd, GWL_EXSTYLE );
-  if( !GetLastError() )
-  {
-    // if desired and actual topmost style differ, plan to reset
-    if( topmost != ( gwl_exstyle & WS_EX_TOPMOST ? true : false ) )
-      reset = true;
-  }
-
-  SetLastError( 0 );
-  GetWindowInfo( hwnd, &gwi );
-  if( !GetLastError() )
-  {
-    // if desired and actual topmost style differ, plan to reset
-    if( topmost != ( gwi.dwExStyle & WS_EX_TOPMOST ? true : false ) )
-      reset = true;
-  }
+  SetLastError(0);
+  GetWindowInfo(hwnd, &gwi);
+  if (!GetLastError())
+    {
+      // if desired and actual topmost style differ, plan to reset
+      if (topmost != (gwi.dwExStyle & WS_EX_TOPMOST ? true : false))
+        reset = true;
+    }
 
 #ifdef BREAKAGE
-  const bool DEBUG = false;
+  const bool DEBUG         = false;
   DWORD valid_exstyle_diff = 0;
 
   // GetWindowInfo() and GetWindowLong() extended style info can differ.
   // Compare the two results but filter valid values only.
-  valid_exstyle_diff = ( gwl_exstyle ^ gwi.dwExStyle ) & ~0xF1A08802;
-  if( valid_exstyle_diff || DEBUG )
-  {
-    // if the extended style info differs, plan to reset.
-    // e.g. gwl returned ws_ex_toolwindow but gwi didn't
-    reset = true;
-
-    // attempt to sync differences:
-    DWORD swl_exstyle = ( valid_exstyle_diff | gwl_exstyle ) & ~0xF1A08802;
-
-    if( ( swl_exstyle & WS_EX_APPWINDOW ) && ( swl_exstyle & WS_EX_TOOLWINDOW ) )
-    // this hasn't happened and shouldn't happen, but i suppose it could.
-    // if both styles are set change to appwindow only.
-    // why not toolwindow only? well, why are they both set in the first place?
-    // in this case it's better to make hwnd visible on the taskbar.
+  valid_exstyle_diff = (gwl_exstyle ^ gwi.dwExStyle) & ~0xF1A08802;
+  if (valid_exstyle_diff || DEBUG)
     {
-      swl_exstyle &= ~WS_EX_TOOLWINDOW;
-    }
+      // if the extended style info differs, plan to reset.
+      // e.g. gwl returned ws_ex_toolwindow but gwi didn't
+      reset = true;
 
-    ShowWindow( hwnd, SW_HIDE );
-    SetWindowLong( hwnd, GWL_EXSTYLE, (LONG)swl_exstyle );
-    ShowWindow( hwnd, SW_SHOWNA );
-  }
+      // attempt to sync differences:
+      DWORD swl_exstyle = (valid_exstyle_diff | gwl_exstyle) & ~0xF1A08802;
+
+      if ((swl_exstyle & WS_EX_APPWINDOW) && (swl_exstyle & WS_EX_TOOLWINDOW))
+        // this hasn't happened and shouldn't happen, but i suppose it could.
+        // if both styles are set change to appwindow only.
+        // why not toolwindow only? well, why are they both set in the first place?
+        // in this case it's better to make hwnd visible on the taskbar.
+        {
+          swl_exstyle &= ~WS_EX_TOOLWINDOW;
+        }
+
+      ShowWindow(hwnd, SW_HIDE);
+      SetWindowLong(hwnd, GWL_EXSTYLE, (LONG)swl_exstyle);
+      ShowWindow(hwnd, SW_SHOWNA);
+    }
 #endif
 
   // "reset" window position in z-order.
@@ -280,17 +262,14 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
   // set HWND_TOPMOST followed by HWND_NOTOPMOST
   // the reverse is currently unproven.
   // i don't know of any problems removing the topmost style.
-  if( IsWindow( hwnd ) && ( reset || reset_window_always ) )
-  {
-    SetWindowPos( hwnd, !topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-      0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-    SetWindowPos( hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST,
-      0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
-  }
+  if (IsWindow(hwnd) && (reset || reset_window_always))
+    {
+      SetWindowPos(hwnd, !topmost ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+      SetWindowPos(hwnd, topmost ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
 
   return;
 }
-
 
 // Bug 587 -  Vista: Workrave not modal / coming to front
 // http://issues.workrave.org/show_bug.cgi?id=587
@@ -299,22 +278,19 @@ W32Compat::ResetWindow( HWND hwnd, bool topmost )
 // ResetWindow() tests sufficient. This code is for troubleshooting.
 // if all else fails request user enable advanced/ime_magic = "1"
 void
-W32Compat::IMEWindowMagic( HWND hwnd )
+W32Compat::IMEWindowMagic(HWND hwnd)
 {
   init();
 
-  if( !IsWindow( hwnd ) )
+  if (!IsWindow(hwnd))
     return;
 
   // This message works to make hwnd topmost without activation or focus.
   // I found it by watching window messages. I don't know its intended use.
-  SendMessage( hwnd, 0x287, 0x17/*0x18*/, (LPARAM)hwnd );
+  SendMessage(hwnd, 0x287, 0x17 /*0x18*/, (LPARAM)hwnd);
 
-  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER |
-    SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+  SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 }
-
-
 
 /* W32Compat::IsOurWinStationConnected()
 
@@ -325,40 +301,30 @@ First-chance exception at 0x7656fc56 in workrave.exe: 0x000006BA: The RPC server
 
 returns true if our winstation is connected
 */
-bool W32Compat::IsOurWinStationConnected()
+bool
+W32Compat::IsOurWinStationConnected()
 {
   init();
 
-    bool func_retval = false;
-    DWORD bytes_returned = 0;
+  bool func_retval     = false;
+  DWORD bytes_returned = 0;
 
-    WTS_CONNECTSTATE_CLASS *state = NULL;
+  WTS_CONNECTSTATE_CLASS *state = NULL;
 
-    if( WTSQuerySessionInformation(
-            WTS_CURRENT_SERVER_HANDLE,
-            WTS_CURRENT_SESSION,
-            WTSConnectState,
-            reinterpret_cast<LPTSTR*>(&state),
-            &bytes_returned
-            )
-            && state
-        )
+  if (WTSQuerySessionInformation(
+        WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, reinterpret_cast<LPTSTR *>(&state), &bytes_returned)
+      && state)
     {
-        if( ( bytes_returned == sizeof( *state ) )
-            && ( ( *state == WTSActive )
-                || ( *state == WTSConnected ) )
-            )
+      if ((bytes_returned == sizeof(*state)) && ((*state == WTSActive) || (*state == WTSConnected)))
         {
-            func_retval = true;
+          func_retval = true;
         }
 
-        WTSFreeMemory( state );
+      WTSFreeMemory(state);
     }
 
-    return func_retval;
+  return func_retval;
 }
-
-
 
 /* W32Compat::IsOurWinStationLocked()
 
@@ -369,31 +335,27 @@ First-chance exception at 0x7656fc56 in workrave.exe: 0x000006BA: The RPC server
 
 returns true if our winstation is locked
 */
-bool W32Compat::IsOurWinStationLocked()
+bool
+W32Compat::IsOurWinStationLocked()
 {
   init();
 
-    BOOL locked = FALSE;
-    DWORD bytes_returned = 0;
+  BOOL locked          = FALSE;
+  DWORD bytes_returned = 0;
 
-    if( !WinStationQueryInformationW(
-            WTS_CURRENT_SERVER_HANDLE,   // SERVERNAME_CURRENT
-            WTS_CURRENT_SESSION,   // LOGONID_CURRENT
-            28,   // WinStationLockedState
-            &locked,
-            sizeof( locked ),
-            &bytes_returned
-            )
-        || ( bytes_returned != sizeof( locked ) )
-        )
+  if (!WinStationQueryInformationW(WTS_CURRENT_SERVER_HANDLE, // SERVERNAME_CURRENT
+                                   WTS_CURRENT_SESSION,       // LOGONID_CURRENT
+                                   28,                        // WinStationLockedState
+                                   &locked,
+                                   sizeof(locked),
+                                   &bytes_returned)
+      || (bytes_returned != sizeof(locked)))
     {
-        return false;
+      return false;
     }
 
-    return !!locked;
+  return !!locked;
 }
-
-
 
 /* W32Compat::IsOurDesktopVisible()
 
@@ -404,83 +366,69 @@ If our desktop is visible that implies that this process' workstation is unlocke
 
 returns true if our desktop is visible
 */
-bool W32Compat::IsOurDesktopVisible()
+bool
+W32Compat::IsOurDesktopVisible()
 {
   init();
 
-    bool func_retval = false;
+  bool func_retval = false;
 
-    HDESK input_desktop_handle = NULL;
-    HDESK our_desktop_handle = NULL;
+  HDESK input_desktop_handle = NULL;
+  HDESK our_desktop_handle   = NULL;
 
-    wchar_t input_desktop_name[ MAX_PATH ] = { L'\0', };
-    wchar_t our_desktop_name[ MAX_PATH ] = { L'\0', };
+  wchar_t input_desktop_name[MAX_PATH] = {
+    L'\0',
+  };
+  wchar_t our_desktop_name[MAX_PATH] = {
+    L'\0',
+  };
 
-    BOOL ret = 0;
-    DWORD bytes_needed = 0;
+  BOOL ret           = 0;
+  DWORD bytes_needed = 0;
 
+  /*
+  Get the input desktop name
+  */
+  input_desktop_handle = OpenInputDesktop(0, false, GENERIC_READ);
+  if (!input_desktop_handle)
+    goto cleanup;
 
-    /*
-    Get the input desktop name
-    */
-    input_desktop_handle = OpenInputDesktop( 0, false, GENERIC_READ );
-    if( !input_desktop_handle )
-        goto cleanup;
+  bytes_needed = 0;
+  ret = GetUserObjectInformationW(input_desktop_handle, UOI_NAME, input_desktop_name, sizeof(input_desktop_name), &bytes_needed);
 
-    bytes_needed = 0;
-    ret = GetUserObjectInformationW(
-        input_desktop_handle,
-        UOI_NAME,
-        input_desktop_name,
-        sizeof( input_desktop_name ),
-        &bytes_needed
-        );
+  if (!ret || (bytes_needed > sizeof(input_desktop_name)))
+    goto cleanup;
 
-    if( !ret || ( bytes_needed > sizeof( input_desktop_name ) ) )
-        goto cleanup;
+  /*
+  Get our calling thread's desktop name
+  */
+  our_desktop_handle = GetThreadDesktop(GetCurrentThreadId());
+  if (!our_desktop_handle)
+    goto cleanup;
 
+  bytes_needed = 0;
+  ret          = GetUserObjectInformationW(our_desktop_handle, UOI_NAME, our_desktop_name, sizeof(our_desktop_name), &bytes_needed);
+  if (!ret || (bytes_needed > sizeof(our_desktop_name)))
+    goto cleanup;
 
-    /*
-    Get our calling thread's desktop name
-    */
-    our_desktop_handle = GetThreadDesktop( GetCurrentThreadId() );
-    if( !our_desktop_handle )
-        goto cleanup;
+  // If the desktop names are different then our thread is not associated with the input desktop
+  if (_wcsnicmp(input_desktop_name, our_desktop_name, MAX_PATH))
+    goto cleanup;
 
-    bytes_needed = 0;
-    ret = GetUserObjectInformationW(
-        our_desktop_handle,
-        UOI_NAME,
-        our_desktop_name,
-        sizeof( our_desktop_name ),
-        &bytes_needed
-        );
-    if( !ret || ( bytes_needed > sizeof( our_desktop_name ) ) )
-        goto cleanup;
+  // If our winstation is not connected then our desktop is not visible
+  if (!IsOurWinStationConnected())
+    goto cleanup;
 
-
-    // If the desktop names are different then our thread is not associated with the input desktop
-    if( _wcsnicmp( input_desktop_name, our_desktop_name, MAX_PATH ) )
-        goto cleanup;
-
-
-    // If our winstation is not connected then our desktop is not visible
-    if( !IsOurWinStationConnected() )
-        goto cleanup;
-
-
-    func_retval = true;
+  func_retval = true;
 cleanup:
-    if( input_desktop_handle )
-        CloseHandle( input_desktop_handle );
+  if (input_desktop_handle)
+    CloseHandle(input_desktop_handle);
 
-    if( our_desktop_handle )
-        CloseHandle( our_desktop_handle );
+  if (our_desktop_handle)
+    CloseHandle(our_desktop_handle);
 
-    return func_retval;
+  return func_retval;
 }
-
-
 
 /* W32Compat::RefreshBreakWindow()
 
@@ -490,63 +438,64 @@ Refresh a BreakWindow:
 - Make sure the window manager has not disabled our topmost status; reset if necessary
 - Force focus to the main break window if the preference advanced/force_focus is true
 */
-void W32Compat::RefreshBreakWindow( BreakWindow &window )
+void
+W32Compat::RefreshBreakWindow(BreakWindow &window)
 {
-    ICore::Ptr core = Backend::get_core();
-    bool user_active = core->is_user_active();
+  ICore::Ptr core  = Backend::get_core();
+  bool user_active = core->is_user_active();
 
-    // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
-    // to be non-standard behaviour on windows, so make shortcuts available
-    // without ALT after the user is idle for 5s
-    if ( !user_active && !window.accel_added )
+  // GTK keyboard shortcuts can be accessed by using the ALT key. This appear
+  // to be non-standard behaviour on windows, so make shortcuts available
+  // without ALT after the user is idle for 5s
+  if (!user_active && !window.accel_added)
     {
-        IBreak::Ptr b = core->get_break( BreakId( window.break_id ) );
-        assert( b != NULL );
+      IBreak::Ptr b = core->get_break(BreakId(window.break_id));
+      assert(b != NULL);
 
-        //TRACE_MSG(b->get_elapsed_idle_time());
-        if( b->get_elapsed_idle_time() > 5 )
+      // TRACE_MSG(b->get_elapsed_idle_time());
+      if (b->get_elapsed_idle_time() > 5)
         {
-            if( window.postpone_button != NULL )
+          if (window.postpone_button != NULL)
             {
-                GtkUtil::update_mnemonic( window.postpone_button, window.accel_group );
+              GtkUtil::update_mnemonic(window.postpone_button, window.accel_group);
             }
-            if( window.skip_button != NULL )
+          if (window.skip_button != NULL)
             {
-                GtkUtil::update_mnemonic( window.skip_button, window.accel_group );
+              GtkUtil::update_mnemonic(window.skip_button, window.accel_group);
             }
-            // FIXME:
-            // if( window.shutdown_button != NULL )
-            // {
-            //     GtkUtil::update_mnemonic( window.shutdown_button, window.accel_group );
-            // }
-            // if( window.lock_button != NULL )
-            // {
-            //     GtkUtil::update_mnemonic( window.lock_button, window.accel_group );
-            // }
-            window.accel_added = true;
+          // FIXME:
+          // if( window.shutdown_button != NULL )
+          // {
+          //     GtkUtil::update_mnemonic( window.shutdown_button, window.accel_group );
+          // }
+          // if( window.lock_button != NULL )
+          // {
+          //     GtkUtil::update_mnemonic( window.lock_button, window.accel_group );
+          // }
+          window.accel_added = true;
         }
     }
 
-    /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every
-    refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
-    */
+  /* We can't call WindowHints::set_always_on_top() or W32Compat::SetWindowOnTop() for every
+  refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
+  */
 
-    HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(window.Gtk::Widget::gobj()));
-    if( !hwnd )
-        return;
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(window.Gtk::Widget::gobj()));
+  if (!hwnd)
+    return;
 
-    // don't enforce topmost while a tooltip is visible, otherwise we could cover the tooltip
-    if( !GtkUtil::get_visible_tooltip_window() )
-        SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE );
+  // don't enforce topmost while a tooltip is visible, otherwise we could cover the tooltip
+  if (!GtkUtil::get_visible_tooltip_window())
+    SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
-    // this checks if the window manager has disabled our topmost ability and resets it if necessary
-    W32Compat::ResetWindow( hwnd, true );
+  // this checks if the window manager has disabled our topmost ability and resets it if necessary
+  W32Compat::ResetWindow(hwnd, true);
 
-    /* If there are multiple break windows only force focus on the first, otherwise focus would be
-    continuously switched to each break window on every refresh, making interaction very difficult.
-    */
-    if( W32ForceFocus::GetForceFocusValue() && window.head.count == 0)
+  /* If there are multiple break windows only force focus on the first, otherwise focus would be
+  continuously switched to each break window on every refresh, making interaction very difficult.
+  */
+  if (W32ForceFocus::GetForceFocusValue() && window.head.count == 0)
     {
-        W32ForceFocus::ForceWindowFocus( hwnd, 0 );   // try without blocking
+      W32ForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
     }
 }

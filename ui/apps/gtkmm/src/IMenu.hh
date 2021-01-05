@@ -28,11 +28,11 @@
 class IMenu
 {
 public:
-  IMenu() = default;
+  IMenu()          = default;
   virtual ~IMenu() = default;
 
-  virtual void init() = 0;
-  virtual void popup(const guint button, const guint activate_time) = 0;
+  virtual void init()                                                          = 0;
+  virtual void popup(const guint button, const guint activate_time)            = 0;
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage) = 0;
 };
 

@@ -42,8 +42,8 @@ private:
   void on_restbreaknow_button_clicked();
 
 private:
-  TimeBar *time_bar{ nullptr };
-  QLabel *label{ nullptr };
+  TimeBar *time_bar{nullptr};
+  QLabel *label{nullptr};
 };
 
 #endif // MICROBREAKWINDOW_HH

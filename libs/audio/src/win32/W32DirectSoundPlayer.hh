@@ -45,7 +45,6 @@ private:
   ISoundPlayerEvents *events;
 };
 
-
 class WaveFile
 {
 public:
@@ -57,7 +56,7 @@ public:
   size_t read(BYTE *buffer, size_t size);
   DWORD get_size();
 
-  void  reset_file();
+  void reset_file();
   WAVEFORMATEX *get_format() { return &format; };
 
 private:
@@ -68,7 +67,6 @@ private:
   MMCKINFO parent;
   DWORD sample_size;
 };
-
 
 class SoundClip
 {
@@ -81,12 +79,10 @@ public:
   void set_volume(int volume);
 
 private:
-
   void fill_buffer();
   bool is_buffer_lost();
   void restore_buffer();
   std::string get_error_string(DWORD error_code);
-
 
 private:
   std::string filename;
@@ -98,6 +94,5 @@ private:
   ISoundPlayerEvents *events;
   int volume;
 };
-
 
 #endif // W32DIRECTSOUNDPLAYER_HH

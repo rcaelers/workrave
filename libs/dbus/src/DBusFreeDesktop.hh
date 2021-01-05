@@ -35,7 +35,9 @@ namespace workrave
 {
   namespace dbus
   {
-    class DBusFreeDesktop : public DBusGeneric, public IDBusPrivateFreeDesktop
+    class DBusFreeDesktop
+      : public DBusGeneric
+      , public IDBusPrivateFreeDesktop
     {
     public:
       typedef std::shared_ptr<DBusFreeDesktop> Ptr;
@@ -54,12 +56,9 @@ namespace workrave
       DBusConnection *conn() { return connection; }
 
     private:
-      DBusHandlerResult dispatch_static(DBusConnection *connection,
-                                        DBusMessage *message);
+      DBusHandlerResult dispatch_static(DBusConnection *connection, DBusMessage *message);
 
-      static DBusHandlerResult dispatch_static(DBusConnection *connection,
-                                               DBusMessage *message,
-                                               void *user_data);
+      static DBusHandlerResult dispatch_static(DBusConnection *connection, DBusMessage *message, void *user_data);
 
       DBusHandlerResult dispatch(DBusConnection *connection, DBusMessage *message);
       DBusHandlerResult handle_introspect(DBusConnection *connection, DBusMessage *message);
@@ -69,7 +68,6 @@ namespace workrave
       void send(DBusMessage *msg) const;
 
       friend class DBusBinding;
-
 
     private:
       //! Connection to the DBus.
@@ -99,6 +97,6 @@ namespace workrave
 
       void connection_setup(GMainContext *context);
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 #endif // WORKRAVE_DBUS_DBUSFREEDESKTOP_HH

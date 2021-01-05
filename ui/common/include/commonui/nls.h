@@ -22,29 +22,28 @@
 #ifndef WORKRAVE_NLS_H
 #define WORKRAVE_NLS_H
 
-#  ifdef ENABLE_NLS
-#    include <locale.h>
-#    include <libintl.h>
-     // libintl #defines 'snprintf' to 'libintl_snprintf'
-     // As a result, 'std::snprintf' becomes 'std::libintl_snprintf'.
-     // This results in compilation errors.
-#    undef snprintf
-#    define _(String) ((const char *)gettext(String))
-#    ifdef gettext_noop
-#        define N_(String) gettext_noop (String)
-#    else
-#        define N_(String) (String)
-#    endif
+#ifdef ENABLE_NLS
+#  include <locale.h>
+#  include <libintl.h>
+// libintl #defines 'snprintf' to 'libintl_snprintf'
+// As a result, 'std::snprintf' becomes 'std::libintl_snprintf'.
+// This results in compilation errors.
+#  undef snprintf
+#  define _(String) ((const char *)gettext(String))
+#  ifdef gettext_noop
+#    define N_(String) gettext_noop(String)
 #  else
-/* Stubs that do something close enough.  */
-#    define textdomain(String) (String)
-#    define gettext(String) (String)
-#    define dgettext(Domain,Message) (Message)
-#    define dcgettext(Domain,Message,Type) (Message)
-#    define bindtextdomain(Domain,Directory) (Domain)
-#    define _(String) (String)
 #    define N_(String) (String)
 #  endif
+#else
+/* Stubs that do something close enough.  */
+#  define textdomain(String) (String)
+#  define gettext(String) (String)
+#  define dgettext(Domain, Message) (Message)
+#  define dcgettext(Domain, Message, Type) (Message)
+#  define bindtextdomain(Domain, Directory) (Domain)
+#  define _(String) (String)
+#  define N_(String) (String)
+#endif
 
 #endif // WORKRAVE_NLS_H
-

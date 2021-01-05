@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -32,22 +32,22 @@
 #include "Text.hh"
 #include "GtkUtil.hh"
 
-const int MARGINX = 4;
-const int MARGINY = 2;
+const int MARGINX                   = 4;
+const int MARGINY                   = 2;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
 
-std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors {
-  { TimerColorId::Active, Gdk::Color("lightblue") },
-  { TimerColorId::Inactive, Gdk::Color("lightgreen") },
-  { TimerColorId::Overdue, Gdk::Color("orange") },
-  { TimerColorId::ActiveDuringBreak1, Gdk::Color("red") },
-  { TimerColorId::ActiveDuringBreak2, Gdk::Color("#e00000") },
-  { TimerColorId::InactiveOverActive, Gdk::Color("#00d4b2") },
-  { TimerColorId::InactiveOverOverdue, Gdk::Color("lightgreen")},
-  { TimerColorId::Bg, Gdk::Color("#777777")},
-  };
+std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors{
+  {TimerColorId::Active, Gdk::Color("lightblue")},
+  {TimerColorId::Inactive, Gdk::Color("lightgreen")},
+  {TimerColorId::Overdue, Gdk::Color("orange")},
+  {TimerColorId::ActiveDuringBreak1, Gdk::Color("red")},
+  {TimerColorId::ActiveDuringBreak2, Gdk::Color("#e00000")},
+  {TimerColorId::InactiveOverActive, Gdk::Color("#00d4b2")},
+  {TimerColorId::InactiveOverOverdue, Gdk::Color("lightgreen")},
+  {TimerColorId::Bg, Gdk::Color("#777777")},
+};
 
 TimeBar::TimeBar()
 {
@@ -61,8 +61,7 @@ TimeBar::TimeBar()
   GtkUtil::set_theme_fg_color(this);
 }
 
-TimeBar::~TimeBar()
-= default;
+TimeBar::~TimeBar() = default;
 
 void
 TimeBar::set_progress(int value, int max_value)
@@ -72,7 +71,7 @@ TimeBar::set_progress(int value, int max_value)
       value = max_value;
     }
 
-  bar_value = value;
+  bar_value     = value;
   bar_max_value = max_value;
 }
 
@@ -84,7 +83,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
       value = max_value;
     }
 
-  secondary_bar_value = value;
+  secondary_bar_value     = value;
   secondary_bar_max_value = max_value;
 }
 
@@ -134,15 +133,12 @@ TimeBar::update()
 void
 TimeBar::on_size_allocate(Gtk::Allocation &allocation)
 {
-  //Use the offered allocation for this container:
+  // Use the offered allocation for this container:
   set_allocation(allocation);
 
   if (get_realized())
     {
-      get_window()->move_resize(allocation.get_x(),
-                                allocation.get_y(),
-                                allocation.get_width(),
-                                allocation.get_height());
+      get_window()->move_resize(allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height());
     }
 }
 
@@ -152,12 +148,12 @@ TimeBar::get_preferred_size(int &width, int &height) const
   // Not sure why create_pango_layout is not const...
   Glib::RefPtr<Pango::Layout> pl = const_cast<TimeBar *>(this)->create_pango_layout(bar_text);
 
-  string min_string = Text::time_to_string(-(59+59*60+9*60*60));
+  string min_string                 = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
   Glib::RefPtr<Pango::Layout> plmin = const_cast<TimeBar *>(this)->create_pango_layout(min_string);
 
-  Glib::RefPtr<Pango::Context> pcl = pl->get_context();
+  Glib::RefPtr<Pango::Context> pcl   = pl->get_context();
   Glib::RefPtr<Pango::Context> pcmin = plmin->get_context();
-  Pango::Matrix matrix = PANGO_MATRIX_INIT;
+  Pango::Matrix matrix               = PANGO_MATRIX_INIT;
 
   pango_matrix_rotate(&matrix, 360 - rotation);
 
@@ -173,7 +169,7 @@ TimeBar::get_preferred_size(int &width, int &height) const
   if (mheight > height)
     height = mheight;
 
-  width = width + 2 * MARGINX;
+  width  = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
@@ -233,14 +229,14 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   const int border_size = 1;
 
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-  Gtk::Allocation allocation = get_allocation();
+  Gtk::Allocation allocation                    = get_allocation();
 
   style_context->context_save();
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
 #ifdef PLATFORM_OS_WINDOWS
   static const char timebar_style[] =
-		"* {\n"
+    "* {\n"
     "    box-shadow: none;\n"
     "    color: #000000;\n"
     "    margin: 0;\n"
@@ -248,7 +244,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     "    border-style: inset;\n"
     "    border-radius: 0;\n"
     "    border: 1px inset #b6b6b3;\n"
-		"}";
+    "}";
 
   Glib::RefPtr<Gtk::CssProvider> provider = Gtk::CssProvider::create();
   provider->load_from_data(timebar_style);
@@ -283,8 +279,8 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->rectangle(0, 0, win_w, win_h);
   cr->clip();
 
-  style_context->render_background(cr, 0, 0, win_w - 1, win_h -1);
-  style_context->render_frame(cr, 0, 0, win_w - 1, win_h -1);
+  style_context->render_background(cr, 0, 0, win_w - 1, win_h - 1);
+  style_context->render_frame(cr, 0, 0, win_w - 1, win_h - 1);
 
   // set_color(cr, back_color);
   // cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
@@ -299,7 +295,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   // Secondary bar
   int sbar_width = 0;
-  if (secondary_bar_max_value >  0)
+  if (secondary_bar_max_value > 0)
     {
       sbar_width = (secondary_bar_value * (win_lw - 2 * border_size - 1)) / secondary_bar_max_value;
     }
@@ -337,18 +333,12 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
           if (bar_width)
             {
               set_color(cr, bar_colors[overlap_color]);
-              draw_bar(cr,
-                       border_size, border_size,
-                       bar_width, bar_height,
-                       win_lw, win_lh);
+              draw_bar(cr, border_size, border_size, bar_width, bar_height, win_lw, win_lh);
             }
           if (sbar_width > bar_width)
             {
               set_color(cr, bar_colors[secondary_bar_color]);
-              draw_bar(cr,
-                       border_size + bar_width, border_size,
-                       sbar_width - bar_width, bar_height,
-                       win_lw, win_lh);
+              draw_bar(cr, border_size + bar_width, border_size, sbar_width - bar_width, bar_height, win_lw, win_lh);
             }
         }
       else
@@ -356,33 +346,24 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
           if (sbar_width)
             {
               set_color(cr, bar_colors[overlap_color]);
-              draw_bar(cr,
-                       border_size, border_size,
-                       sbar_width, bar_height,
-                       win_lw, win_lh);
+              draw_bar(cr, border_size, border_size, sbar_width, bar_height, win_lw, win_lh);
             }
           set_color(cr, bar_colors[bar_color]);
-          draw_bar(cr,
-                   border_size + sbar_width, border_size,
-                   bar_width - sbar_width, bar_height,
-                   win_lw, win_lh);
+          draw_bar(cr, border_size + sbar_width, border_size, bar_width - sbar_width, bar_height, win_lw, win_lh);
         }
     }
   else
     {
       // No overlap
       set_color(cr, bar_colors[bar_color]);
-      draw_bar(cr,
-               border_size, border_size,
-               bar_width, bar_height, win_lw, win_lh);
+      draw_bar(cr, border_size, border_size, bar_width, bar_height, win_lw, win_lh);
     }
-
 
   // Text
   Pango::Matrix matrix = PANGO_MATRIX_INIT;
   pango_matrix_rotate(&matrix, 360 - rotation);
 
-  Glib::RefPtr<Pango::Layout> pl1 = create_pango_layout(bar_text);
+  Glib::RefPtr<Pango::Layout> pl1  = create_pango_layout(bar_text);
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
 
   pc1->set_matrix(matrix);
@@ -476,23 +457,21 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 }
 
 void
-TimeBar::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color)
+TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color)
 {
   cr->set_source_rgba(color.get_red_p(), color.get_green_p(), color.get_blue_p(), 1);
 }
 
 void
-TimeBar::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color)
+TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color)
 {
   cr->set_source_rgba(color.get_red(), color.get_green(), color.get_blue(), 1);
 }
 
 void
-TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context>& cr,
-                  int x, int y, int width, int height,
-                  int winw, int winh)
+TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh)
 {
-  (void) winh;
+  (void)winh;
 
   if (rotation == 0 || rotation == 180)
     {
@@ -501,7 +480,7 @@ TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context>& cr,
     }
   else
     {
-      cr->rectangle(y, winw - x- width, height, width);
+      cr->rectangle(y, winw - x - width, height, width);
       cr->fill();
     }
 }

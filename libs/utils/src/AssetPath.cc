@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <boost/filesystem.hpp>
@@ -26,7 +26,7 @@
 #include "debug.hh"
 
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSHelpers.hh"
+#  include "MacOSHelpers.hh"
 #endif
 
 #include <cstdlib>
@@ -34,31 +34,32 @@
 #include <sstream>
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
+#  include <sys/stat.h>
 #endif
 #ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+#  include <sys/types.h>
 #endif
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <windows.h>
+#  include <windows.h>
 // HACK: #include <shlobj.h>, need -fvtable-thunks.
 // Perhaps we should enable this, but let's hack it for now...
 //#include <shlobj.h>
-extern "C" {
-#define SHGetPathFromIDList SHGetPathFromIDListA
-HRESULT WINAPI SHGetSpecialFolderLocation(HWND,int,void**);
-BOOL WINAPI SHGetPathFromIDList(void *,LPSTR);
-#ifndef PLATFORM_OS_WINDOWS
-VOID WINAPI CoTaskMemFree(PVOID);
-#endif
-#define PathCanonicalize PathCanonicalizeA
-BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
-#define CSIDL_APPDATA   26
+extern "C"
+{
+#  define SHGetPathFromIDList SHGetPathFromIDListA
+  HRESULT WINAPI SHGetSpecialFolderLocation(HWND, int, void **);
+  BOOL WINAPI SHGetPathFromIDList(void *, LPSTR);
+#  ifndef PLATFORM_OS_WINDOWS
+  VOID WINAPI CoTaskMemFree(PVOID);
+#  endif
+#  define PathCanonicalize PathCanonicalizeA
+  BOOL WINAPI PathCanonicalize(LPSTR, LPCSTR);
+#  define CSIDL_APPDATA 26
 }
 // (end of hack)
 #endif
@@ -73,7 +74,7 @@ set<string> AssetPath::search_paths[AssetPath::SEARCH_PATH_SIZEOF];
 string AssetPath::home_directory = "";
 
 //! Returns the user's home directory.
-const string&
+const string &
 AssetPath::get_home_directory()
 {
   // Already cached?
@@ -105,8 +106,7 @@ AssetPath::get_home_directory()
         }
 #elif defined(PLATFORM_OS_WINDOWS)
       void *pidl;
-      HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
-                                              CSIDL_APPDATA, &pidl);
+      HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP, CSIDL_APPDATA, &pidl);
       if (SUCCEEDED(hr))
         {
           char buf[MAX_PATH];
@@ -114,9 +114,9 @@ AssetPath::get_home_directory()
           SHGetPathFromIDList(pidl, buf);
           CoTaskMemFree(pidl);
 
-          strcat (buf, "\\Workrave");
+          strcat(buf, "\\Workrave");
           BOOL dirok = CreateDirectory(buf, NULL);
-          if (! dirok)
+          if (!dirok)
             {
               if (GetLastError() == ERROR_ALREADY_EXISTS)
                 {
@@ -135,14 +135,12 @@ AssetPath::get_home_directory()
   return ret;
 }
 
-
 //! Returns the user's home directory.
 void
 AssetPath::set_home_directory(const string &home)
 {
 #ifdef PLATFORM_OS_WINDOWS
-  if (home.substr(0, 2) == ".\\" ||
-      home.substr(0, 3) == "..\\")
+  if (home.substr(0, 2) == ".\\" || home.substr(0, 3) == "..\\")
     {
       char buffer[MAX_PATH];
 
@@ -171,13 +169,14 @@ AssetPath::set_home_directory(const string &home)
 
 #endif
 
-
 //! Returns the searchpath for the specified file type.
 const set<string> &
 AssetPath::get_search_path(SearchPathId type)
 {
-  if (search_paths[type].size() > 0)
-    return search_paths[type];
+  if (!search_paths[type].empty())
+    {
+      return search_paths[type];
+    }
 
   set<string> &searchPath = search_paths[type];
 
@@ -185,10 +184,10 @@ AssetPath::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_WINDOWS)
   string app_dir = Platform::get_application_directory();
 #elif defined(PLATFORM_OS_MACOS)
-  char execpath[MAXPATHLEN+1];
-  uint32_t pathsz = sizeof (execpath);
+  char execpath[MAXPATHLEN + 1];
+  uint32_t pathsz = sizeof(execpath);
 
-  _NSGetExecutablePath (execpath, &pathsz);
+  _NSGetExecutablePath(execpath, &pathsz);
 
   boost::filesystem::path p(execpath);
   boost::filesystem::path dir = p.parent_path();
@@ -211,7 +210,7 @@ AssetPath::get_search_path(SearchPathId type)
 
 #elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.insert(app_dir +  "/../Resources/images");
+      searchPath.insert(app_dir + "/../Resources/images");
 #endif
     }
   if (type == SEARCH_PATH_SOUNDS)
@@ -228,7 +227,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds");
-      searchPath.insert(app_dir +  "/../Resources/sounds");
+      searchPath.insert(app_dir + "/../Resources/sounds");
 #endif
     }
   else if (type == SEARCH_PATH_CONFIG)
@@ -248,7 +247,7 @@ AssetPath::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
       searchPath.insert(home_dir + "/");
-      searchPath.insert(app_dir +  "/../Resources/config");
+      searchPath.insert(app_dir + "/../Resources/config");
 #endif
     }
   else if (type == SEARCH_PATH_EXERCISES)
@@ -259,15 +258,14 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
-      searchPath.insert(app_dir +  "/../Resources/exercises");
+      searchPath.insert(app_dir + "/../Resources/exercises");
 #else
-#error Not properly ported.
+#  error Not properly ported.
 #endif
     }
 
   return searchPath;
 }
-
 
 //! Completes the directory for the specified file and file type.
 string
@@ -306,7 +304,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::st
       boost::filesystem::path full_path;
       full_path = (*i);
       full_path /= path;
-      found = boost::filesystem::is_regular_file(full_path);
+      found         = boost::filesystem::is_regular_file(full_path);
       complete_path = full_path.string();
     }
 

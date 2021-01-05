@@ -48,8 +48,6 @@ public:
 
   //!
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
-
 };
-
 
 #endif // IPRELUDEWINDOW_HH

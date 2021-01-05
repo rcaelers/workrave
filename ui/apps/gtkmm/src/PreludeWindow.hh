@@ -28,11 +28,11 @@ namespace Gtk
 {
   class Image;
   class Label;
-}
+} // namespace Gtk
 
-class PreludeWindow :
-  public Gtk::Window,
-  public IPreludeWindow
+class PreludeWindow
+  : public Gtk::Window
+  , public IPreludeWindow
 {
 public:
   PreludeWindow(HeadInfo &head, workrave::BreakId break_id);
@@ -47,19 +47,19 @@ public:
 
 private:
   void on_frame_flash_event(bool frame_visible);
-  void add(Gtk::Widget& widget) override;
+  void add(Gtk::Widget &widget) override;
 
 #ifdef PLATFORM_OS_WINDOWS
   void init_avoid_pointer_polling();
   bool on_avoid_pointer_timer_event();
 #else
-  bool on_enter_notify_event(GdkEventCrossing* event) override;
+  bool on_enter_notify_event(GdkEventCrossing *event) override;
 #endif
   void get_pointer_location(int &x, int &y);
   void avoid_pointer();
 
-  bool on_draw_event(const ::Cairo::RefPtr< ::Cairo::Context>& cr);
-  void on_screen_changed_event(const Glib::RefPtr<Gdk::Screen>& previous_screen);
+  bool on_draw_event(const ::Cairo::RefPtr<::Cairo::Context> &cr);
+  void on_screen_changed_event(const Glib::RefPtr<Gdk::Screen> &previous_screen);
   void update_input_region(Gtk::Allocation &allocation);
   void on_size_allocate_event(Gtk::Allocation &allocation);
 

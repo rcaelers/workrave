@@ -18,18 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#ifdef TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# ifdef HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
+#  include "config.h"
 #endif
 
 #include <cstdlib>
@@ -47,7 +36,7 @@ DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
     {
       return -1;
     }
-  else if (h1 > h2)
+  if (h1 > h2)
     {
       return 1;
     }
@@ -56,7 +45,7 @@ DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
     {
       return -1;
     }
-  else if (m1 > m2)
+  if (m1 > m2)
     {
       return 1;
     }
@@ -64,21 +53,19 @@ DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
   return 0;
 }
 
-
 bool
 DayTimePred::init(int hour, int min)
 {
   pred_hour = hour;
-  pred_min = min;
+  pred_min  = min;
 
   return true;
 }
 
-
 bool
 DayTimePred::init(std::string spec)
 {
-  bool ret = false;
+  bool ret                   = false;
   std::string::size_type pos = spec.find(':');
 
   if (pos != std::string::npos)
@@ -86,7 +73,7 @@ DayTimePred::init(std::string spec)
       std::string hours;
       std::string minutes;
 
-      hours = spec.substr(0, pos);
+      hours   = spec.substr(0, pos);
       minutes = spec.substr(pos + 1);
 
       ret = init(atoi(hours.c_str()), atoi(minutes.c_str()));
@@ -94,7 +81,6 @@ DayTimePred::init(std::string spec)
 
   return ret;
 }
-
 
 int
 DayTimePred::days_in_month(int month, int year)
@@ -114,11 +100,10 @@ DayTimePred::days_in_month(int month, int year)
     }
   else
     {
-      int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+      int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
       return days[month];
     }
 }
-
 
 time_t
 DayTimePred::get_next(time_t last_time)
@@ -134,8 +119,8 @@ DayTimePred::get_next(time_t last_time)
           ret->tm_mday++;
         }
 
-      ret->tm_sec = 0;
-      ret->tm_min = pred_min;
+      ret->tm_sec  = 0;
+      ret->tm_min  = pred_min;
       ret->tm_hour = pred_hour;
 
       if (ret->tm_mday > days_in_month(ret->tm_mon, ret->tm_year + 1900))
@@ -152,8 +137,6 @@ DayTimePred::get_next(time_t last_time)
 
       return mktime(ret);
     }
-  else
-    {
-      return 0;
-    }
+
+  return 0;
 }

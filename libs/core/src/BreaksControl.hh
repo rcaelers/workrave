@@ -34,8 +34,7 @@
 #include "ReadingActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
-class BreaksControl :
-  public std::enable_shared_from_this<BreaksControl>
+class BreaksControl : public std::enable_shared_from_this<BreaksControl>
 {
 public:
   using Ptr = std::shared_ptr<BreaksControl>;

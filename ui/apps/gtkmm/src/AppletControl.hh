@@ -31,19 +31,19 @@ class AppletControl
 {
 public:
   enum class AppletType
-    {
-     Tray,
-     GenericDBus,
-     Windows,
-     MacOS,
-    };
+  {
+    Tray,
+    GenericDBus,
+    Windows,
+    MacOS,
+  };
 
-  AppletControl() = default;
+  AppletControl()  = default;
   ~AppletControl() = default;
 
   void init();
   void heartbeat();
-  void set_tooltip(std::string& tip);
+  void set_tooltip(std::string &tip);
   std::shared_ptr<IAppletWindow> get_applet_window(AppletType type);
 
   bool is_visible() const;
@@ -52,7 +52,7 @@ public:
 private:
   std::map<AppletType, std::shared_ptr<IAppletWindow>> applets;
 
-  bool visible { false };
+  bool visible{false};
 
   sigc::signal<void> visibility_changed_signal;
 

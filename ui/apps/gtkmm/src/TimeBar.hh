@@ -50,21 +50,19 @@ public:
   void get_preferred_size(int &width, int &height) const;
 
 private:
-  void draw_bar(const Cairo::RefPtr<Cairo::Context>& cr,
-                int x, int y, int width, int height,
-                int winw, int winh);
-  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color);
-  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color);
+  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh);
+  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
+  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
   void set_text_color(Gdk::Color color);
 
 protected:
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
-  void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const override;
-  void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const override;
-  void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const override;
-  void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const override;
-  void on_size_allocate(Gtk::Allocation& allocation) override;
-  bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
+  void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const override;
+  void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const override;
+  void get_preferred_width_for_height_vfunc(int height, int &minimum_width, int &natural_width) const override;
+  void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const override;
+  void on_size_allocate(Gtk::Allocation &allocation) override;
+  bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
 private:
   static std::map<TimerColorId, Gdk::Color> bar_colors;
@@ -99,6 +97,5 @@ private:
   //! Bar rotation (clockwise degrees)
   int rotation{0};
 };
-
 
 #endif // TIMEBAR_HH

@@ -20,23 +20,20 @@
 #ifndef WORKRAVE_BACKEND_ICORE_HH
 #define WORKRAVE_BACKEND_ICORE_HH
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include <boost/signals2.hpp>
 
-#include "core/CoreTypes.hh"
-
 #include "config/IConfigurator.hh"
-#include "dbus/IDBus.hh"
-
+#include "core/CoreTypes.hh"
 #include "core/IBreak.hh"
-#include "core/IStatistics.hh"
 #include "core/ICoreHooks.hh"
+#include "core/IStatistics.hh"
+#include "dbus/IDBus.hh"
 
 namespace workrave
 {
-  // Forward declaratons
   class IApp;
 
   //! Main interface of the backend.
@@ -48,7 +45,7 @@ namespace workrave
     virtual ~ICore() = default;
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
-    virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;
+    virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed()         = 0;
 
     //! Initialize the Core. Must be called first.
     virtual void init(workrave::IApp *app, const char *display) = 0;
@@ -60,19 +57,19 @@ namespace workrave
     virtual void force_break(workrave::BreakId id, workrave::BreakHint break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    virtual IBreak::Ptr get_break(workrave::BreakId id) = 0;
+    [[nodiscard]] virtual IBreak::Ptr get_break(workrave::BreakId id) = 0;
 
     //! Return the statistics interface.
-    virtual IStatistics::Ptr get_statistics() const = 0;
+    [[nodiscard]] virtual IStatistics::Ptr get_statistics() const = 0;
 
     //! Is the user currently active?
-    virtual bool is_user_active() const = 0;
+    [[nodiscard]] virtual bool is_user_active() const = 0;
 
     //! Retrieves the operation mode.
-    virtual workrave::OperationMode get_operation_mode() = 0;
+    [[nodiscard]] virtual workrave::OperationMode get_operation_mode() = 0;
 
     //! Retrieves the regular operation mode.
-    virtual workrave::OperationMode get_operation_mode_regular() = 0;
+    [[nodiscard]] virtual workrave::OperationMode get_operation_mode_regular() = 0;
 
     //! Sets the operation mode.
     virtual void set_operation_mode(workrave::OperationMode mode) = 0;
@@ -84,10 +81,10 @@ namespace workrave
     virtual void remove_operation_mode_override(const std::string &id) = 0;
 
     //! Checks if operation_mode is an override.
-    virtual bool is_operation_mode_an_override() = 0;
+    [[nodiscard]] virtual bool is_operation_mode_an_override() = 0;
 
     //! Return the current usage mode.
-    virtual workrave::UsageMode get_usage_mode() = 0;
+    [[nodiscard]] virtual workrave::UsageMode get_usage_mode() = 0;
 
     //! Set the usage mode.
     virtual void set_usage_mode(workrave::UsageMode mode) = 0;
@@ -102,21 +99,20 @@ namespace workrave
     virtual void force_idle() = 0;
 
     //! Return configuration
-    virtual config::IConfigurator::Ptr get_configurator() const = 0;
+    [[nodiscard]] virtual config::IConfigurator::Ptr get_configurator() const = 0;
 
     //! Return the hooks
-    virtual ICoreHooks::Ptr get_hooks() const = 0;
+    [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
     //! Return DBUs remoting interface.
-    virtual dbus::IDBus::Ptr get_dbus() const = 0;
+    [[nodiscard]] virtual dbus::IDBus::Ptr get_dbus() const = 0;
   };
-
 
   class CoreFactory
   {
   public:
     static ICore::Ptr create();
   };
-};
+}; // namespace workrave
 
 #endif // WORKRAVE_BACKEND_ICORE_HH

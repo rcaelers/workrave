@@ -20,8 +20,6 @@
 #ifndef ICORETESTHOOKS_HH
 #define ICORETESTHOOKS_HH
 
-#ifdef HAVE_TESTS
-
 #include <string>
 #include <istream>
 #include <memory>
@@ -36,15 +34,13 @@
 class ICoreTestHooks
 {
 public:
-  virtual ~ICoreTestHooks() {}
+  virtual ~ICoreTestHooks() = default;
 
-  typedef std::shared_ptr<ICoreTestHooks> Ptr;
+  using Ptr = std::shared_ptr<ICoreTestHooks>;
 
-  virtual std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
-  virtual std::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
+  virtual std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator()          = 0;
+  virtual std::function<IActivityMonitor::Ptr()> &hook_create_monitor()                              = 0;
   virtual std::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };
-
-#endif
 
 #endif // ICOREHOOKS_HH

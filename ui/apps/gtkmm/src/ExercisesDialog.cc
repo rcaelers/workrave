@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "ExercisesDialog.hh"
@@ -26,8 +26,8 @@
 #include "commonui/Exercise.hh"
 
 ExercisesDialog::ExercisesDialog()
-  : HigDialog(_("Exercises"), false, false),
-    exercises_panel(get_action_area())
+  : HigDialog(_("Exercises"), false, false)
+  , exercises_panel(get_action_area())
 {
   get_vbox()->pack_start(exercises_panel, true, true, 0);
   Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);

@@ -25,33 +25,33 @@
 #include "session/IScreenLockMethod.hh"
 #include <cstdlib>
 
-//A method of locking the screen that
-//does that by executing a command
+// A method of locking the screen that
+// does that by executing a command
 class ScreenLockCommandline : public IScreenLockMethod
 {
 public:
-  //the parameter 'parameters' may be NULL, in which case it is assumed that the
-  //program does not take any parameters
-  //async - whether to invoke the program syncronously (async = false, wait for the command
-  //to complete) or asynchronously (async = true)
+  // the parameter 'parameters' may be NULL, in which case it is assumed that the
+  // program does not take any parameters
+  // async - whether to invoke the program syncronously (async = false, wait for the command
+  // to complete) or asynchronously (async = true)
   ScreenLockCommandline(const char *program_name, const char *parameters, bool async = false);
   ~ScreenLockCommandline() override
-    {
-      if (cmd != nullptr)
-        {
-          free(cmd);
-          cmd = nullptr;
-        }
-    }
+  {
+    if (cmd != nullptr)
+      {
+        free(cmd);
+        cmd = nullptr;
+      }
+  }
 
   bool is_lock_supported() override { return cmd != nullptr; }
   bool lock() override;
+
 private:
-  bool invoke(const gchar* command, bool async);
+  bool invoke(const gchar *command, bool async);
 
   char *cmd;
   const bool async;
-
 };
 
 #endif

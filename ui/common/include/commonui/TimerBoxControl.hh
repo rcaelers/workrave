@@ -47,7 +47,6 @@ private:
   void init_slot(int slot);
   void cycle_slots();
 
-
 private:
   //! View
   ITimerBoxView *view;

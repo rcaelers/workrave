@@ -18,20 +18,19 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
 #include "EventButton.hh"
 
-
 //! User pressed some mouse button in the main window.
 bool
 EventButton::on_button_press_event(GdkEventButton *event)
 {
   bool handled = button_pressed.emit(event->button);
-  bool ret = true;
+  bool ret     = true;
 
   if (!handled)
     {

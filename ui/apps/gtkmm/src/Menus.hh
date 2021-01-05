@@ -38,8 +38,7 @@ namespace Gtk
 
 using namespace workrave;
 
-class Menus :
-  public sigc::trackable
+class Menus : public sigc::trackable
 {
 public:
   explicit Menus(SoundTheme::Ptr sound_theme);
@@ -47,23 +46,21 @@ public:
 
   //! Menus items to be synced.
   enum MenuKind
-    {
-      MENU_NONE,
-      MENU_MAINWINDOW,
-      MENU_MAINAPPLET,
-      MENU_APPLET_W32,
-      MENU_APPLET_INDICATOR,
-      MENU_APPLET_GENERICDBUS,
-      MENU_SIZEOF,
-    };
+  {
+    MENU_NONE,
+    MENU_MAINWINDOW,
+    MENU_MAINAPPLET,
+    MENU_APPLET_W32,
+    MENU_APPLET_INDICATOR,
+    MENU_APPLET_GENERICDBUS,
+    MENU_SIZEOF,
+  };
 
   void init(AppletControl *applet_control);
   void applet_command(short cmd);
   void resync();
   void locale_changed();
-  void popup(const MenuKind kind,
-             const guint button,
-             const guint activate_time);
+  void popup(const MenuKind kind, const guint button, const guint activate_time);
 
 private:
   void set_usage_mode(workrave::UsageMode m);
@@ -101,24 +98,24 @@ public:
 
 private:
   //! Interface to the GUI.
-  IGUI *gui { nullptr };
+  IGUI *gui{nullptr};
 
   // The Statistics dialog.
-  StatisticsDialog *statistics_dialog { nullptr };
+  StatisticsDialog *statistics_dialog{nullptr};
 
   // The Statistics dialog.
-  PreferencesDialog *preferences_dialog { nullptr };
+  PreferencesDialog *preferences_dialog{nullptr};
 
   // The Debug dialog.
-  DebugDialog *debug_dialog { nullptr };
+  DebugDialog *debug_dialog{nullptr};
 
   // The exercises dialog.
-  ExercisesDialog *exercises_dialog { nullptr };
+  ExercisesDialog *exercises_dialog{nullptr};
 
   //! Different kind of menus
   IMenu *menus[MENU_SIZEOF];
 
-  Gtk::AboutDialog *about { nullptr };
+  Gtk::AboutDialog *about{nullptr};
 
   SoundTheme::Ptr sound_theme;
 };

@@ -34,16 +34,16 @@ namespace workrave
     {
     public:
       enum MonitorCapability
-        {
-          CAPABILITY_ACTIVITY,
-          CAPABILITY_STATISTICS
-        };
+      {
+        CAPABILITY_ACTIVITY,
+        CAPABILITY_STATISTICS
+      };
 
       virtual ~IInputMonitorFactory() = default;
 
-      virtual void init(const char *display) = 0;
+      virtual void init(const char *display)                                  = 0;
       virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability) = 0;
     };
-  }
-}
+  } // namespace input_monitor
+} // namespace workrave
 #endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH

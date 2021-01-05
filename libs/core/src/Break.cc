@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Break.hh"
@@ -34,13 +34,13 @@ Break::Break(BreakId break_id,
              Statistics::Ptr statistics,
              IDBus::Ptr dbus,
              CoreHooks::Ptr hooks)
-  : break_id(break_id),
-    timer(timer)
+  : break_id(break_id)
+  , timer(timer)
 {
-  break_state_model = std::make_shared<BreakStateModel>(break_id, app, timer, activity_monitor, hooks);
-  break_statistics = std::make_shared<BreakStatistics>(break_id, break_state_model, timer, statistics);
+  break_state_model   = std::make_shared<BreakStateModel>(break_id, app, timer, activity_monitor, hooks);
+  break_statistics    = std::make_shared<BreakStatistics>(break_id, break_state_model, timer, statistics);
   break_configuration = std::make_shared<BreakConfig>(break_id, break_state_model, timer);
-  break_dbus = std::make_shared<BreakDBus>(break_id, break_state_model, dbus);
+  break_dbus          = std::make_shared<BreakDBus>(break_id, break_state_model, dbus);
 }
 
 boost::signals2::signal<void(BreakEvent)> &
@@ -128,7 +128,7 @@ Break::get_total_overdue_time() const
 }
 
 int64_t
-Break::get_timer_remaining()
+Break::get_timer_remaining() const
 {
   if (timer->is_limit_enabled())
     {
@@ -222,7 +222,6 @@ Break::get_stage_text(BreakStage stage)
     }
   return progress;
 }
-
 
 std::string
 Break::get_break_stage() const

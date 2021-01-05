@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -30,24 +30,19 @@
 using namespace workrave;
 using namespace workrave::dbus;
 
-
 DBusBindingFreeDesktop::DBusBindingFreeDesktop(IDBus::Ptr dbus)
   : dbus(dbus)
 {
 }
 
-
-DBusBindingFreeDesktop::~DBusBindingFreeDesktop()
-{
-}
-
+DBusBindingFreeDesktop::~DBusBindingFreeDesktop() {}
 
 DBusMessage *
 DBusBindingFreeDesktop::call(const std::string &method, void *object, DBusMessage *message)
 {
   DBusMessage *ret = NULL;
-  bool found = false;
-  int count = 0;
+  bool found       = false;
+  int count        = 0;
 
   DBusIntrospect *table = get_method_introspect();
   while (!found && table[count].name != NULL)
@@ -68,12 +63,11 @@ DBusBindingFreeDesktop::call(const std::string &method, void *object, DBusMessag
     }
   else
     {
-      throw DBusRemoteException(std::string("No such member:") + method );
+      throw DBusRemoteException(std::string("No such member:") + method);
     }
 
   return ret;
 }
-
 
 void
 DBusBindingFreeDesktop::get_uint8(DBusMessageIter *it, uint8_t *value)
@@ -89,7 +83,6 @@ DBusBindingFreeDesktop::get_uint8(DBusMessageIter *it, uint8_t *value)
   dbus_message_iter_next(it);
 }
 
-
 void
 DBusBindingFreeDesktop::get_uint16(DBusMessageIter *it, uint16_t *value)
 {
@@ -103,7 +96,6 @@ DBusBindingFreeDesktop::get_uint16(DBusMessageIter *it, uint16_t *value)
   dbus_message_iter_get_basic(it, value);
   dbus_message_iter_next(it);
 }
-
 
 void
 DBusBindingFreeDesktop::get_int16(DBusMessageIter *it, int16_t *value)
@@ -133,7 +125,6 @@ DBusBindingFreeDesktop::get_uint32(DBusMessageIter *it, uint32_t *value)
   dbus_message_iter_next(it);
 }
 
-
 void
 DBusBindingFreeDesktop::get_int32(DBusMessageIter *it, int32_t *value)
 {
@@ -147,7 +138,6 @@ DBusBindingFreeDesktop::get_int32(DBusMessageIter *it, int32_t *value)
   dbus_message_iter_get_basic(it, value);
   dbus_message_iter_next(it);
 }
-
 
 void
 DBusBindingFreeDesktop::get_uint64(DBusMessageIter *it, uint64_t *value)
@@ -163,7 +153,6 @@ DBusBindingFreeDesktop::get_uint64(DBusMessageIter *it, uint64_t *value)
   dbus_message_iter_next(it);
 }
 
-
 void
 DBusBindingFreeDesktop::get_int64(DBusMessageIter *it, int64_t *value)
 {
@@ -177,7 +166,6 @@ DBusBindingFreeDesktop::get_int64(DBusMessageIter *it, int64_t *value)
   dbus_message_iter_get_basic(it, value);
   dbus_message_iter_next(it);
 }
-
 
 void
 DBusBindingFreeDesktop::get_bool(DBusMessageIter *it, bool *value)
@@ -196,7 +184,6 @@ DBusBindingFreeDesktop::get_bool(DBusMessageIter *it, bool *value)
   *value = v;
 }
 
-
 void
 DBusBindingFreeDesktop::get_double(DBusMessageIter *it, double *value)
 {
@@ -210,7 +197,6 @@ DBusBindingFreeDesktop::get_double(DBusMessageIter *it, double *value)
   dbus_message_iter_get_basic(it, value);
   dbus_message_iter_next(it);
 }
-
 
 void
 DBusBindingFreeDesktop::get_string(DBusMessageIter *it, std::string *value)
@@ -232,7 +218,6 @@ DBusBindingFreeDesktop::get_string(DBusMessageIter *it, std::string *value)
     }
 }
 
-
 void
 DBusBindingFreeDesktop::put_uint8(DBusMessageIter *it, const uint8_t *value)
 {
@@ -244,7 +229,6 @@ DBusBindingFreeDesktop::put_uint16(DBusMessageIter *it, const uint16_t *value)
 {
   dbus_message_iter_append_basic(it, DBUS_TYPE_UINT16, value);
 }
-
 
 void
 DBusBindingFreeDesktop::put_int16(DBusMessageIter *it, const int16_t *value)
@@ -258,13 +242,11 @@ DBusBindingFreeDesktop::put_uint32(DBusMessageIter *it, const uint32_t *value)
   dbus_message_iter_append_basic(it, DBUS_TYPE_UINT32, value);
 }
 
-
 void
 DBusBindingFreeDesktop::put_int32(DBusMessageIter *it, const int32_t *value)
 {
   dbus_message_iter_append_basic(it, DBUS_TYPE_INT32, value);
 }
-
 
 void
 DBusBindingFreeDesktop::put_uint64(DBusMessageIter *it, const uint64_t *value)
@@ -272,20 +254,17 @@ DBusBindingFreeDesktop::put_uint64(DBusMessageIter *it, const uint64_t *value)
   dbus_message_iter_append_basic(it, DBUS_TYPE_UINT64, value);
 }
 
-
 void
 DBusBindingFreeDesktop::put_int64(DBusMessageIter *it, const int64_t *value)
 {
   dbus_message_iter_append_basic(it, DBUS_TYPE_INT64, value);
 }
 
-
 void
 DBusBindingFreeDesktop::put_double(DBusMessageIter *it, const double *value)
 {
   dbus_message_iter_append_basic(it, DBUS_TYPE_DOUBLE, value);
 }
-
 
 void
 DBusBindingFreeDesktop::put_bool(DBusMessageIter *it, const bool *value)
@@ -294,14 +273,12 @@ DBusBindingFreeDesktop::put_bool(DBusMessageIter *it, const bool *value)
   dbus_message_iter_append_basic(it, DBUS_TYPE_BOOLEAN, &v);
 }
 
-
 void
 DBusBindingFreeDesktop::put_string(DBusMessageIter *it, const std::string *value)
 {
   const char *cstr = value->c_str();
   dbus_message_iter_append_basic(it, DBUS_TYPE_STRING, &cstr);
 }
-
 
 void
 DBusBindingFreeDesktop::send(DBusMessage *msg)

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <assert.h>
@@ -26,7 +26,7 @@
 #include "utils/Platform.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <windows.h>
+#  include <windows.h>
 #endif
 
 #include <stdlib.h>
@@ -35,8 +35,7 @@ using namespace std;
 using namespace workrave::utils;
 
 bool
-Platform::registry_get_value(const char *path, const char *name,
-                         char *out)
+Platform::registry_get_value(const char *path, const char *name, char *out)
 {
   HKEY handle;
   bool rc = false;
@@ -47,7 +46,7 @@ Platform::registry_get_value(const char *path, const char *name,
     {
       DWORD type, size;
       size = MAX_PATH;
-      err = RegQueryValueExA(handle, name, 0, &type, (LPBYTE) out, &size);
+      err  = RegQueryValueExA(handle, name, 0, &type, (LPBYTE)out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -58,23 +57,19 @@ Platform::registry_get_value(const char *path, const char *name,
 }
 
 bool
-Platform::registry_set_value(const char *path, const char *name,
-                         const char *value)
+Platform::registry_set_value(const char *path, const char *name, const char *value)
 {
   HKEY handle;
   bool rc = false;
   DWORD disp;
   LONG err;
 
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0,
-                       NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
-                       NULL, &handle, &disp);
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
       if (value != NULL)
         {
-          err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *) value,
-			  static_cast<DWORD>(strlen(value)+1));
+          err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *)value, static_cast<DWORD>(strlen(value) + 1));
         }
       else
         {
@@ -94,11 +89,11 @@ Platform::get_application_directory()
   GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
   // app_dir_name == c:\program files\workrave\lib\workrave.exe
   char *s = strrchr(app_dir_name, '\\');
-  assert (s);
+  assert(s);
   *s = '\0';
   // app_dir_name == c:\program files\workrave\lib
   s = strrchr(app_dir_name, '\\');
-  assert (s);
+  assert(s);
   *s = '\0';
   // app_dir_name == c:\program files\workrave
   return string(app_dir_name);
@@ -115,25 +110,24 @@ Platform::get_application_name()
 }
 
 std::wstring
-Platform::convert(const char* c)
+Platform::convert(const char *c)
 {
-   std::string s(c);
+  std::string s(c);
 
-   return std::wstring(s.begin(), s.end());
+  return std::wstring(s.begin(), s.end());
 }
 
 int
-Platform::setenv(const char* name, const char* val, int)
+Platform::setenv(const char *name, const char *val, int)
 {
   return SetEnvironmentVariableW(convert(name).c_str(), convert(val).c_str());
 }
 
 int
-Platform::unsetenv(const char* name)
+Platform::unsetenv(const char *name)
 {
   return SetEnvironmentVariableW(convert(name).c_str(), 0);
 }
-
 
 bool
 Platform::can_position_windows()

@@ -31,10 +31,9 @@ namespace Gtk
 {
   class HButtonBox;
   class HBox;
-}
+} // namespace Gtk
 
-class RestBreakWindow :
-  public BreakWindow
+class RestBreakWindow : public BreakWindow
 {
 public:
   RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
@@ -73,6 +72,5 @@ private:
   //! Is currently flashing because user is active?
   bool is_flashing;
 };
-
 
 #endif // RESTBREAKWINDOW_HH

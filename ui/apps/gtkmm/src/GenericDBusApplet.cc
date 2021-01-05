@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -39,33 +39,32 @@
 #include "dbus/IDBus.hh"
 #include "DBusGUI.hh"
 
-#define  WORKRAVE_INDICATOR_SERVICE_NAME     "org.workrave.Workrave"
-#define  WORKRAVE_INDICATOR_SERVICE_IFACE    "org.workrave.AppletInterface"
-#define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
+#define WORKRAVE_INDICATOR_SERVICE_NAME "org.workrave.Workrave"
+#define WORKRAVE_INDICATOR_SERVICE_IFACE "org.workrave.AppletInterface"
+#define WORKRAVE_INDICATOR_SERVICE_OBJ "/org/workrave/Workrave/UI"
 
 using namespace std;
 
 GenericDBusApplet::GenericDBusApplet()
 {
   timer_box_control = new TimerBoxControl("applet", this);
-  timer_box_view = this;
+  timer_box_view    = this;
 
-  for (auto & i : data)
+  for (auto &i: data)
     {
-      i.bar_text = "";
-      i.bar_primary_color = 0;
-      i.bar_primary_val = 0;
-      i.bar_primary_max = 0;
+      i.bar_text            = "";
+      i.bar_primary_color   = 0;
+      i.bar_primary_val     = 0;
+      i.bar_primary_max     = 0;
       i.bar_secondary_color = 0;
-      i.bar_secondary_val = 0;
-      i.bar_secondary_max = 0;
+      i.bar_secondary_val   = 0;
+      i.bar_secondary_max   = 0;
     }
 
   connections.add(GUIConfig::trayicon_enabled().connect([this](bool enabled) { send_tray_icon_enabled(); }));
 }
 
-GenericDBusApplet::~GenericDBusApplet()
-= default;
+GenericDBusApplet::~GenericDBusApplet() = default;
 
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
@@ -79,18 +78,20 @@ void
 GenericDBusApplet::set_time_bar(BreakId id,
                                 int value,
                                 TimerColorId primary_color,
-                                int primary_val, int primary_max,
+                                int primary_val,
+                                int primary_max,
                                 TimerColorId secondary_color,
-                                int secondary_val, int secondary_max)
+                                int secondary_val,
+                                int secondary_max)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << value);
-  data[id].bar_text = Text::time_to_string(value);
-  data[id].bar_primary_color = (int)primary_color;
-  data[id].bar_primary_val = primary_val;
-  data[id].bar_primary_max = primary_max;
+  data[id].bar_text            = Text::time_to_string(value);
+  data[id].bar_primary_color   = (int)primary_color;
+  data[id].bar_primary_val     = primary_val;
+  data[id].bar_primary_max     = primary_max;
   data[id].bar_secondary_color = (int)secondary_color;
-  data[id].bar_secondary_val = secondary_val;
-  data[id].bar_secondary_max = secondary_max;
+  data[id].bar_secondary_val   = secondary_val;
+  data[id].bar_secondary_max   = secondary_max;
   TRACE_EXIT();
 }
 
@@ -101,8 +102,8 @@ GenericDBusApplet::update_view()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
-  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                       data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+  iface->TimersUpdated(
+    WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }
@@ -115,9 +116,7 @@ GenericDBusApplet::init_applet()
       dbus = Backend::get_dbus();
       if (dbus->is_available())
         {
-          dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                        WORKRAVE_INDICATOR_SERVICE_IFACE,
-                        this);
+          dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ, WORKRAVE_INDICATOR_SERVICE_IFACE, this);
         }
     }
   catch (workrave::dbus::DBusException &)
@@ -131,7 +130,7 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
   TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
   embedded = enable;
 
-  for (const auto & active_bus_name : active_bus_names)
+  for (const auto &active_bus_name: active_bus_names)
     {
       dbus->unwatch(active_bus_name);
     }
@@ -143,11 +142,11 @@ GenericDBusApplet::applet_embed(bool enable, const string &sender)
     }
 
   if (!enable)
-  {
-    TRACE_MSG("Disabling");
-    visible = false;
-    visibility_changed_signal.emit(false);
-  }
+    {
+      TRACE_MSG("Disabling");
+      visible = false;
+      visibility_changed_signal.emit(false);
+    }
 
   TRACE_EXIT();
 }
@@ -159,29 +158,31 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage)
 
   items.clear();
 
-  add_menu_item(_("Open"),        MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Rest break"),  MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Exercises"),   MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_BEGIN);
+  add_menu_item(_("Open"), MENU_COMMAND_OPEN, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Rest break"), MENU_COMMAND_REST_BREAK, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Exercises"), MENU_COMMAND_EXERCISES, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
-  add_menu_item(_("Normal"),      MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
-                | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Suspended"),   MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
-                | (mode == OperationMode::Suspended ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Quiet"),       MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
-                | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Normal"),
+                MENU_COMMAND_MODE_NORMAL,
+                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Suspended"),
+                MENU_COMMAND_MODE_SUSPENDED,
+                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Suspended ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Quiet"),
+                MENU_COMMAND_MODE_QUIET,
+                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
+  add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
 
-  add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_END);
+  add_menu_item(_("Reading mode"),
+                MENU_COMMAND_MODE_READING,
+                MENU_ITEM_FLAG_CHECK | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
-  add_menu_item(_("Reading mode"), MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
-                | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-
-
-  add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Quit"),         MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Statistics"), MENU_COMMAND_STATISTICS, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("About..."), MENU_COMMAND_ABOUT, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Quit"), MENU_COMMAND_QUIT, MENU_ITEM_FLAG_NONE);
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
@@ -206,16 +207,16 @@ void
 GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
 {
   MenuItem item;
-  item.text = text;
+  item.text    = text;
   item.command = command;
-  item.flags = flags;
+  item.flags   = flags;
   items.push_back(item);
 }
 
 void
 GenericDBusApplet::applet_command(int command)
 {
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
 }
@@ -223,7 +224,7 @@ GenericDBusApplet::applet_command(int command)
 void
 GenericDBusApplet::button_clicked(int button)
 {
-  (void) button;
+  (void)button;
   timer_box_control->force_cycle();
 }
 
@@ -248,7 +249,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
       if (active_bus_names.size() == 0)
         {
           TRACE_MSG("Disabling");
-          visible = false;
+          visible  = false;
           embedded = false;
           visibility_changed_signal.emit(false);
         }

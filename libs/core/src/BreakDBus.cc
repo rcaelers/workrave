@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -24,7 +24,7 @@
 #include "BreakDBus.hh"
 
 #ifdef HAVE_DBUS
-#include "DBusWorkrave.hh"
+#  include "DBusWorkrave.hh"
 #endif
 
 #include "core/CoreConfig.hh"
@@ -34,14 +34,16 @@ using namespace workrave::dbus;
 using namespace std;
 
 BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, IDBus::Ptr dbus)
-  : break_id(break_id),
-    break_state_model(break_state_model),
-    dbus(dbus)
+  : break_id(break_id)
+  , break_state_model(break_state_model)
+  , dbus(dbus)
 {
   string break_name = CoreConfig::get_break_name(break_id);
 
-  connections.connect(break_state_model->signal_break_stage_changed(), [this](auto && stage) { on_break_stage_changed(std::forward<decltype(stage)>(stage)); });
-  connections.connect(break_state_model->signal_break_event(), [this](auto && event) { on_break_event(std::forward<decltype(event)>(event)); });
+  connections.connect(break_state_model->signal_break_stage_changed(),
+                      [this](auto &&stage) { on_break_stage_changed(std::forward<decltype(stage)>(stage)); });
+  connections.connect(break_state_model->signal_break_event(),
+                      [this](auto &&event) { on_break_event(std::forward<decltype(event)>(event)); });
 
   try
     {
@@ -54,9 +56,7 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
     }
 }
 
-
-BreakDBus::~BreakDBus()
-= default;
+BreakDBus::~BreakDBus() = default;
 
 void
 BreakDBus::on_break_event(BreakEvent event)
@@ -71,12 +71,11 @@ BreakDBus::on_break_event(BreakEvent event)
 #endif
 }
 
-
 void
 BreakDBus::on_break_stage_changed(BreakStage stage)
 {
-  (void) stage;
-  (void) break_id;
+  (void)stage;
+  (void)break_id;
 
 #ifdef HAVE_DBUS
   std::string progress = Break::get_stage_text(stage);

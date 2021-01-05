@@ -27,16 +27,17 @@
 
 #include "config/Config.hh"
 #include "utils/ScopedConnections.hh"
+#include "utils/TimeSource.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
-class LocalActivityMonitor :
-  public IActivityMonitor,
-  public workrave::input_monitor::IInputMonitorListener
+class LocalActivityMonitor
+  : public IActivityMonitor
+  , public workrave::input_monitor::IInputMonitorListener
 {
 public:
   LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const char *display_name);
-  ~LocalActivityMonitor() override;
+  ~LocalActivityMonitor() override = default;
 
   void init() override;
   void terminate() override;
@@ -57,20 +58,20 @@ private:
 
   void load_config();
   void set_parameters(int noise, int activity, int idle, int sensitivity);
-  void get_parameters(int &noise, int &activity, int &idle, int &sensitivity);
+  void get_parameters(int &noise, int &activity, int &idle, int &sensitivity) const;
 
   void process_state();
 
   //! State of the activity monitor.
   enum LocalActivityMonitorState
-    {
-      ACTIVITY_MONITOR_UNKNOWN,
-      ACTIVITY_MONITOR_SUSPENDED,
-      ACTIVITY_MONITOR_IDLE,
-      ACTIVITY_MONITOR_FORCED_IDLE,
-      ACTIVITY_MONITOR_NOISE,
-      ACTIVITY_MONITOR_ACTIVE
-    };
+  {
+    ACTIVITY_MONITOR_UNKNOWN,
+    ACTIVITY_MONITOR_SUSPENDED,
+    ACTIVITY_MONITOR_IDLE,
+    ACTIVITY_MONITOR_FORCED_IDLE,
+    ACTIVITY_MONITOR_NOISE,
+    ACTIVITY_MONITOR_ACTIVE
+  };
 
 private:
   workrave::config::IConfigurator::Ptr config;
@@ -82,37 +83,37 @@ private:
   workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! the current state.
-  LocalActivityMonitorState state;
+  LocalActivityMonitorState state{ACTIVITY_MONITOR_IDLE};
 
   //! Internal locking
   boost::recursive_mutex lock;
 
   //! Previous X coordinate
-  int prev_x;
+  int prev_x{-10};
 
   //! Previous Y coordinate
-  int prev_y;
+  int prev_y{-10};
 
   //! Is the button currently pressed?
-  bool button_is_pressed;
+  bool button_is_pressed{false};
 
   //! Last time activity was detected
-  int64_t last_action_time;
+  int64_t last_action_time{0};
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  int64_t first_action_time;
+  int64_t first_action_time{0};
 
   //! The noise threshold
-  int64_t noise_threshold;
+  int64_t noise_threshold{1 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
 
   //! The activity threshold.
-  int64_t activity_threshold;
+  int64_t activity_threshold{2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
 
   //! The idle threshold.
-  int64_t idle_threshold;
+  int64_t idle_threshold{5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC};
 
   //! Mouse sensitivity
-  int sensitivity;
+  int sensitivity{3};
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;

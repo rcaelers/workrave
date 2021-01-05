@@ -45,9 +45,7 @@ public:
 private:
   void win32_popup_hack_connect();
   static gboolean win32_popup_hack_hide(gpointer data);
-  static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,
-                                               GdkEventCrossing *event,
-                                               void *data);
+  static gboolean win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data);
 };
 
 #endif // W32TRAYMENU_HH

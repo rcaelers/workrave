@@ -33,7 +33,7 @@ public:
   void play_sound(std::string wavfile, int volume);
 
 protected:
-  static DWORD WINAPI thread_Play( LPVOID );
+  static DWORD WINAPI thread_Play(LPVOID);
 
 private:
   void Play();

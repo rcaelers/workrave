@@ -26,7 +26,7 @@ class HigDialog : public Gtk::Dialog
 {
 public:
   HigDialog();
-  HigDialog(const Glib::ustring& title, bool modal=false, bool use_separator=false);
+  HigDialog(const Glib::ustring &title, bool modal = false, bool use_separator = false);
   Gtk::VBox *get_vbox();
 
 private:

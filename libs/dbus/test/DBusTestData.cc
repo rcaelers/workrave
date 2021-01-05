@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -28,16 +28,14 @@
 #include "dbus/IDBus.hh"
 
 //! Constructor.
-DBusTestData::DBusTestData()
-= default;
-
+DBusTestData::DBusTestData() = default;
 
 //! Destructor.
-DBusTestData::~DBusTestData()
-= default;
+DBusTestData::~DBusTestData() = default;
 
 #ifdef DBUS_BACKEND_QT
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes& message)
+QDBusArgument &
+operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message)
 {
   argument.beginStructure();
 
@@ -59,7 +57,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWit
   return argument;
 }
 
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypes &message)
+const QDBusArgument &
+operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypes &message)
 {
   argument.beginStructure();
 
@@ -70,21 +69,26 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Str
   argument >> message.m_int32;
   argument >> message.m_uint32;
   qlonglong l;
-  argument >> l; message.m_int64 = l;
+  argument >> l;
+  message.m_int64 = l;
   qlonglong ul;
-  argument >> ul; message.m_uint64 = ul;
+  argument >> ul;
+  message.m_uint64 = ul;
   QString s;
-  argument >> s; message.m_string = s.toStdString();
+  argument >> s;
+  message.m_string = s.toStdString();
   argument >> message.m_bool;
   argument >> message.m_double;
   QString e;
-  argument >> e; message.m_enum = DBusTestData::str_to_enum(e.toStdString());
+  argument >> e;
+  message.m_enum = DBusTestData::str_to_enum(e.toStdString());
   argument.endStructure();
 
   return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder& message)
+QDBusArgument &
+operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder &message)
 {
   argument.beginStructure();
 
@@ -106,7 +110,8 @@ QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWit
   return argument;
 }
 
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message)
+const QDBusArgument &
+operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message)
 {
   argument.beginStructure();
 
@@ -115,38 +120,44 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Str
   argument >> message.m_int16;
   argument >> message.m_uint16;
   QString s;
-  argument >> s; message.m_string = s.toStdString();
+  argument >> s;
+  message.m_string = s.toStdString();
   argument >> message.m_int32;
   argument >> message.m_uint32;
   qlonglong l;
-  argument >> l; message.m_int64 = l;
+  argument >> l;
+  message.m_int64 = l;
   qlonglong ul;
-  argument >> ul; message.m_uint64 = ul;
+  argument >> ul;
+  message.m_uint64 = ul;
   argument >> message.m_bool;
   argument >> message.m_double;
   QString e;
-  argument >> e; message.m_enum = DBusTestData::str_to_enum(e.toStdString());
+  argument >> e;
+  message.m_enum = DBusTestData::str_to_enum(e.toStdString());
   argument.endStructure();
 
   return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data& message)
+QDBusArgument &
+operator<<(QDBusArgument &argument, const DBusTestData::Data &message)
 {
-    argument.beginStructure();
-    argument << message.m_key;
-    argument << message.m_data;
-    argument.endStructure();
-    return argument;
+  argument.beginStructure();
+  argument << message.m_key;
+  argument << message.m_data;
+  argument.endStructure();
+  return argument;
 }
 
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Data &message)
+const QDBusArgument &
+operator>>(const QDBusArgument &argument, DBusTestData::Data &message)
 {
-    argument.beginStructure();
-    argument >> message.m_key;
-    argument >> message.m_data;
-    argument.endStructure();
-    return argument;
+  argument.beginStructure();
+  argument >> message.m_key;
+  argument >> message.m_data;
+  argument.endStructure();
+  return argument;
 }
 
 #endif

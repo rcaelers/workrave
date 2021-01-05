@@ -44,15 +44,15 @@ using namespace workrave;
 using namespace workrave::config;
 
 Toolkit::Toolkit(int argc, char **argv)
-    : QApplication(argc, argv)
-    , heartbeat_timer(new QTimer(this))
+  : QApplication(argc, argv)
+  , heartbeat_timer(new QTimer(this))
 {
 }
 
 void
 Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
 {
-  this->menu_model = menu_model;
+  this->menu_model  = menu_model;
   this->sound_theme = sound_theme;
 
   setQuitOnLastWindowClosed(false);
@@ -73,7 +73,7 @@ Toolkit::init(MenuModel::Ptr menu_model, SoundTheme::Ptr sound_theme)
   main_window->raise();
 
 #if defined(PLATFORM_OS_MACOS)
-  dock = std::make_shared<Dock>();
+  dock     = std::make_shared<Dock>();
   platform = std::make_shared<ToolkitPlatformMac>();
 #elif defined(PLATFORM_OS_WINDOWS)
   platform = std::make_shared<ToolkitPlatformWindows>();
@@ -106,7 +106,7 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
   IBreakWindow::Ptr ret;
 
   QList<QScreen *> screens = QGuiApplication::screens();
-  QScreen *screen = screens.at(screen_index);
+  QScreen *screen          = screens.at(screen_index);
 
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
@@ -128,7 +128,7 @@ IPreludeWindow::Ptr
 Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
 {
   QList<QScreen *> screens = QGuiApplication::screens();
-  QScreen *screen = screens.at(screen_index);
+  QScreen *screen          = screens.at(screen_index);
 
   return std::make_shared<PreludeWindow>(screen, break_id);
 }

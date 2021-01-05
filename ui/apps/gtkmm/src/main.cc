@@ -87,7 +87,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdSh
   (void)hPrevInstance;
   (void)iCmdShow;
 
-  char *argv[] = { szCmdLine };
+  char *argv[] = {szCmdLine};
 
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this

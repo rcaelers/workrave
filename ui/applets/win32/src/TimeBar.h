@@ -64,31 +64,29 @@ private:
   static HFONT bar_font;
   static std::map<TimerColorId, HBRUSH> bar_colors;
   static void init(HINSTANCE hinst);
-  static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
-                                   LPARAM lParam);
+  static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
   void compute_size(int &width, int &height);
   LRESULT on_paint();
   void time_to_string(time_t time, char *buf, int len);
 };
 
-
 struct NONCLIENTMETRICS_PRE_VISTA_STRUCT
 {
-    UINT    cbSize;
-    int     iBorderWidth;
-    int     iScrollWidth;
-    int     iScrollHeight;
-    int     iCaptionWidth;
-    int     iCaptionHeight;
-    LOGFONT lfCaptionFont;
-    int     iSmCaptionWidth;
-    int     iSmCaptionHeight;
-    LOGFONT lfSmCaptionFont;
-    int     iMenuWidth;
-    int     iMenuHeight;
-    LOGFONT lfMenuFont;
-    LOGFONT lfStatusFont;
-    LOGFONT lfMessageFont;
+  UINT cbSize;
+  int iBorderWidth;
+  int iScrollWidth;
+  int iScrollHeight;
+  int iCaptionWidth;
+  int iCaptionHeight;
+  LOGFONT lfCaptionFont;
+  int iSmCaptionWidth;
+  int iSmCaptionHeight;
+  LOGFONT lfSmCaptionFont;
+  int iMenuWidth;
+  int iMenuHeight;
+  LOGFONT lfMenuFont;
+  LOGFONT lfStatusFont;
+  LOGFONT lfMessageFont;
   /*
   This is a pre-vista structure for compatibility across platforms.
   Normally, when Vista is the target build (WINVER 0x0600),
@@ -98,4 +96,3 @@ struct NONCLIENTMETRICS_PRE_VISTA_STRUCT
 };
 
 #endif // TIMEBAR_H
-

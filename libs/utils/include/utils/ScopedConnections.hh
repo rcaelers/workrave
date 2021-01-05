@@ -24,18 +24,12 @@
 class scoped_connections : public boost::noncopyable
 {
 public:
-  ~scoped_connections()
-  {
-    disconnect_all();
-  }
+  ~scoped_connections() { disconnect_all(); }
 
-  void add(boost::signals2::connection conn)
-  {
-    connections.push_front(conn);
-  }
+  void add(boost::signals2::connection conn) { connections.push_front(conn); }
 
   template<typename S>
-  void connect(S& sig, const typename S::slot_function_type& sf)
+  void connect(S &sig, const typename S::slot_function_type &sf)
   {
     add(sig.connect(sf));
   }

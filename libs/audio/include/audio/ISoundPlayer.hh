@@ -22,37 +22,34 @@
 
 #include <memory>
 
-namespace workrave
+namespace workrave::audio
 {
-  namespace audio
+
+  enum class SoundCapability
   {
+    VOLUME,
+    MUTE,
+    EOS_EVENT
+  };
 
-    enum class SoundCapability
-      {
-        VOLUME,
-        MUTE,
-        EOS_EVENT
-      };
+  class ISoundPlayer
+  {
+  public:
+    using Ptr = std::shared_ptr<ISoundPlayer>;
 
-    class ISoundPlayer
-    {
-    public:
-      using Ptr = std::shared_ptr<ISoundPlayer>;
+    virtual ~ISoundPlayer() = default;
 
-      virtual ~ISoundPlayer() = default;
+    virtual void init()                                                                       = 0;
+    virtual bool capability(SoundCapability cap)                                              = 0;
+    virtual void restore_mute()                                                               = 0;
+    virtual void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) = 0;
+  };
 
-      virtual void init() = 0;
-      virtual bool capability(SoundCapability cap) = 0;
-      virtual void restore_mute() = 0;
-      virtual void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) = 0;
-    };
-
-    class SoundPlayerFactory
-    {
-    public:
-      static ISoundPlayer::Ptr create();
-    };
-  }
-}
+  class SoundPlayerFactory
+  {
+  public:
+    static ISoundPlayer::Ptr create();
+  };
+} // namespace workrave::audio
 
 #endif // WORKRAVE_AUDIO_ISOUNDPLAYER_HH

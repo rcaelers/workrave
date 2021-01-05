@@ -23,7 +23,7 @@
 #include <memory>
 
 #if defined(HAVE_DBUS_GIO)
-#include <gio/gio.h>
+#  include <gio/gio.h>
 #endif
 
 class Session

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -27,17 +27,16 @@
 using namespace std;
 using namespace workrave;
 
-CoreModes::CoreModes(IActivityMonitor::Ptr monitor) :
-  operation_mode(OperationMode::Normal),
-  operation_mode_regular(OperationMode::Normal),
-  usage_mode(UsageMode::Normal),
-  monitor(monitor)
+CoreModes::CoreModes(IActivityMonitor::Ptr monitor)
+  : operation_mode(OperationMode::Normal)
+  , operation_mode_regular(OperationMode::Normal)
+  , usage_mode(UsageMode::Normal)
+  , monitor(monitor)
 {
   TRACE_ENTER("CoreModes::CoreModes");
   load_config();
   TRACE_EXIT();
 }
-
 
 CoreModes::~CoreModes()
 {
@@ -45,20 +44,17 @@ CoreModes::~CoreModes()
   TRACE_EXIT();
 }
 
-
 boost::signals2::signal<void(OperationMode)> &
 CoreModes::signal_operation_mode_changed()
 {
   return operation_mode_changed_signal;
 }
 
-
 boost::signals2::signal<void(UsageMode)> &
 CoreModes::signal_usage_mode_changed()
 {
   return usage_mode_changed_signal;
 }
-
 
 //! Retrieves the operation mode.
 OperationMode
@@ -68,7 +64,6 @@ CoreModes::get_operation_mode()
   TRACE_EXIT();
   return operation_mode;
 }
-
 
 //! Retrieves the regular operation mode.
 OperationMode
@@ -81,7 +76,6 @@ CoreModes::get_operation_mode_regular()
   return operation_mode_regular;
 }
 
-
 //! Checks if operation_mode is an override.
 bool
 CoreModes::is_operation_mode_an_override()
@@ -89,14 +83,12 @@ CoreModes::is_operation_mode_an_override()
   return !!operation_mode_overrides.size();
 }
 
-
 //! Sets the operation mode.
 void
 CoreModes::set_operation_mode(OperationMode mode)
 {
   set_operation_mode_internal(mode, true);
 }
-
 
 //! Temporarily overrides the operation mode.
 void
@@ -109,7 +101,6 @@ CoreModes::set_operation_mode_override(OperationMode mode, const std::string &id
 
   set_operation_mode_internal(mode, false, id);
 }
-
 
 //! Removes the overriden operation mode.
 void
@@ -130,9 +121,7 @@ CoreModes::remove_operation_mode_override(const std::string &id)
   */
   if (operation_mode_overrides.size())
     {
-      set_operation_mode_internal(operation_mode_overrides.begin()->second,
-                                  false,
-                                  operation_mode_overrides.begin()->first);
+      set_operation_mode_internal(operation_mode_overrides.begin()->second, false, operation_mode_overrides.begin()->first);
     }
   else
     {
@@ -156,14 +145,12 @@ CoreModes::remove_operation_mode_override(const std::string &id)
   TRACE_EXIT();
 }
 
-
 //! Set the operation mode.
 void
-CoreModes::set_operation_mode_internal(
-                                       OperationMode mode,
+CoreModes::set_operation_mode_internal(OperationMode mode,
                                        bool persistent,
                                        const std::string &override_id /* default param: empty string */
-                                       )
+)
 {
   TRACE_ENTER_MSG("CoreModes::set_operation_mode", (persistent ? "persistent" : ""));
 
@@ -172,24 +159,19 @@ CoreModes::set_operation_mode_internal(
       TRACE_MSG("override_id: " << override_id);
     }
 
-  TRACE_MSG("Incoming/requested mode is "
-            << (mode == OperationMode::Normal ? "OperationMode::Normal" :
-                mode == OperationMode::Suspended ? "OperationMode::Suspended" :
-                mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???")
-            << (override_id.size() ? " (override)" : " (regular)")
-            );
+  TRACE_MSG("Incoming/requested mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
+                                              : mode == OperationMode::Suspended ? "OperationMode::Suspended"
+                                              : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
+                                                                                 : "???")
+                                          << (override_id.size() ? " (override)" : " (regular)"));
 
-  TRACE_MSG("Current mode is "
-            << (operation_mode == OperationMode::Normal ? "OperationMode::Normal" :
-                operation_mode == OperationMode::Suspended ? "OperationMode::Suspended" :
-                operation_mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???")
-            << (operation_mode_overrides.size() ? " (override)" : " (regular)")
-            );
+  TRACE_MSG("Current mode is " << (operation_mode == OperationMode::Normal      ? "OperationMode::Normal"
+                                   : operation_mode == OperationMode::Suspended ? "OperationMode::Suspended"
+                                   : operation_mode == OperationMode::Quiet     ? "OperationMode::Quiet"
+                                                                                : "???")
+                               << (operation_mode_overrides.size() ? " (override)" : " (regular)"));
 
-  if ((mode != OperationMode::Normal)
-      && (mode != OperationMode::Quiet)
-      && (mode != OperationMode::Suspended)
-      )
+  if ((mode != OperationMode::Normal) && (mode != OperationMode::Quiet) && (mode != OperationMode::Suspended))
     {
       TRACE_RETURN("No change: incoming invalid");
       return;
@@ -205,7 +187,7 @@ CoreModes::set_operation_mode_internal(
       operation_mode_changed_signal(operation_mode);
 
       OperationMode cm = CoreConfig::operation_mode()();
-      if (persistent  && (cm != mode))
+      if (persistent && (cm != mode))
         {
           CoreConfig::operation_mode().set(mode);
         }
@@ -218,15 +200,12 @@ CoreModes::set_operation_mode_internal(
   if (override_id.size())
     {
       // Add this override to the map
-      operation_mode_overrides[ override_id ] = mode;
+      operation_mode_overrides[override_id] = mode;
 
       /* Find the most important override. Override modes in order of importance:
          OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
       */
-      for(auto i = operation_mode_overrides.begin();
-          (i != operation_mode_overrides.end());
-          ++i
-          )
+      for (auto i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end()); ++i)
         {
           if (i->second == OperationMode::Suspended)
             {
@@ -234,23 +213,19 @@ CoreModes::set_operation_mode_internal(
               break;
             }
 
-          if ((i->second == OperationMode::Quiet)
-              && (mode == OperationMode::Normal)
-              )
+          if ((i->second == OperationMode::Quiet) && (mode == OperationMode::Normal))
             {
               mode = OperationMode::Quiet;
             }
         }
     }
 
-
   if (operation_mode != mode)
     {
-      TRACE_MSG("Changing active operation mode to "
-                << (mode == OperationMode::Normal ? "OperationMode::Normal" :
-                    mode == OperationMode::Suspended ? "OperationMode::Suspended" :
-                    mode == OperationMode::Quiet ? "OperationMode::Quiet" : "???")
-                );
+      TRACE_MSG("Changing active operation mode to " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
+                                                         : mode == OperationMode::Suspended ? "OperationMode::Suspended"
+                                                         : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
+                                                                                            : "???"));
 
       OperationMode previous_mode = operation_mode;
 
@@ -290,7 +265,6 @@ CoreModes::set_operation_mode_internal(
   TRACE_EXIT();
 }
 
-
 //! Retrieves the usage mode.
 UsageMode
 CoreModes::get_usage_mode()
@@ -298,14 +272,12 @@ CoreModes::get_usage_mode()
   return usage_mode;
 }
 
-
 //! Sets the usage mode.
 void
 CoreModes::set_usage_mode(UsageMode mode)
 {
   set_usage_mode_internal(mode, true);
 }
-
 
 //! Sets the usage mode.
 void
@@ -321,7 +293,6 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
         }
 
       usage_mode_changed_signal(mode);
-
     }
 }
 
@@ -329,16 +300,10 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 void
 CoreModes::load_config()
 {
-  connections.add(CoreConfig::operation_mode().connect([&] (OperationMode operation_mode)
-                                                       {
-                                                         set_operation_mode_internal(operation_mode, false);
-                                                       }));
+  connections.add(CoreConfig::operation_mode().connect(
+    [&](OperationMode operation_mode) { set_operation_mode_internal(operation_mode, false); }));
 
-  connections.add(CoreConfig::usage_mode().connect([&] (UsageMode usage_mode)
-                                                   {
-                                                     set_usage_mode_internal(usage_mode, false);
-                                                   }
-                                                   ));
+  connections.add(CoreConfig::usage_mode().connect([&](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); }));
   OperationMode operation_mode = CoreConfig::operation_mode()();
   set_operation_mode(operation_mode);
 

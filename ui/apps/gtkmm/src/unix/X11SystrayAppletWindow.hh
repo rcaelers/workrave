@@ -38,9 +38,9 @@ class TimerBoxControl;
 class TimerBoxGtkView;
 class AppletControl;
 
-class X11SystrayAppletWindow :
-  public sigc::trackable,
-  public AppletWindow
+class X11SystrayAppletWindow
+  : public sigc::trackable
+  , public AppletWindow
 {
 public:
   X11SystrayAppletWindow();
@@ -50,30 +50,30 @@ public:
 
 private:
   //! Gtk timerbox viewer
-  TimerBoxGtkView *view { nullptr };
+  TimerBoxGtkView *view{nullptr};
 
   //! The Gtk+ plug in the panel.
-  Gtk::Plug *plug { nullptr };
+  Gtk::Plug *plug{nullptr};
 
   //! Container to put the timers in..
-  Gtk::Bin *container { nullptr };
+  Gtk::Bin *container{nullptr};
 
   //! Align break orientationly.
-  Orientation applet_orientation { ORIENTATION_UP };
+  Orientation applet_orientation{ORIENTATION_UP};
 
   //! Size of the applet
-  int applet_size { 0 };
+  int applet_size{0};
 
   //! Applet currently visible?
-  bool applet_active { false };
+  bool applet_active{false};
 
   //! Applet embedded?
-  bool embedded { false };
+  bool embedded{false};
 
-  bool enabled { false };
+  bool enabled{false};
 
   //! The tray icon
-  WRGtkTrayIcon *tray_icon  { nullptr };
+  WRGtkTrayIcon *tray_icon{nullptr};
 
   scoped_connections connections;
 
@@ -81,9 +81,7 @@ private:
   void activate();
   void deactivate();
 
-  static void static_notify_callback(GObject    *gobject,
-                                     GParamSpec *arg,
-                                     gpointer    user_data);
+  static void static_notify_callback(GObject *gobject, GParamSpec *arg, gpointer user_data);
   void notify_callback();
   void on_menu_restbreak_now();
   void button_clicked(int button);
@@ -91,7 +89,7 @@ private:
   // Events.
   void on_embedded();
   bool on_button_press_event(GdkEventButton *event);
-  bool on_delete_event(GdkEventAny*);
+  bool on_delete_event(GdkEventAny *);
   void on_size_allocate(Gtk::Allocation &allocation);
   void on_enabled_changed();
 };

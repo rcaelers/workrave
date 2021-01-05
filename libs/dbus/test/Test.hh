@@ -28,7 +28,10 @@ class SignalReceiver : public QObject
 {
   Q_OBJECT
 public:
-  SignalReceiver() : got(false) {}
+  SignalReceiver()
+    : got(false)
+  {
+  }
 
 public Q_SLOTS:
 
@@ -47,6 +50,5 @@ public Q_SLOTS:
 public:
   bool got;
 };
-
 
 #endif // TEST_HH

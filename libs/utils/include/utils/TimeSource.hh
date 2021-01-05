@@ -58,7 +58,7 @@ namespace workrave
       static int64_t synced_real_time;
       static int64_t synced_monotonic_time;
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_TIMESOURCE_HH

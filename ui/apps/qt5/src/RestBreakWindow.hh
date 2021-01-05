@@ -43,8 +43,8 @@ private:
 
 private:
   SoundTheme::Ptr sound_theme;
-  TimeBar *timebar{ nullptr };
-  QHBoxLayout *pluggable_panel{ nullptr };
+  TimeBar *timebar{nullptr};
+  QHBoxLayout *pluggable_panel{nullptr};
 
   scoped_connections connections;
 };

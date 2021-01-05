@@ -34,8 +34,8 @@
 #include "IToolkitPlatform.hh"
 
 class BreakWindow
-    : public QWidget
-    , public IBreakWindow
+  : public QWidget
+  , public IBreakWindow
 {
   Q_OBJECT
 
@@ -49,14 +49,8 @@ public:
   void refresh() override;
 
 protected:
-  BreakFlags get_break_flags() const
-  {
-    return break_flags;
-  }
-  QScreen *get_screen()
-  {
-    return screen;
-  }
+  BreakFlags get_break_flags() const { return break_flags; }
+  QScreen *get_screen() { return screen; }
   void center();
 
   void add_skip_button(QGridLayout *box, bool locked);
@@ -90,14 +84,14 @@ private:
   BreakFlags break_flags;
   GUIConfig::BlockMode block_mode;
   bool is_flashing = false;
-  QScreen *screen{ nullptr };
-  Frame *frame{ nullptr };
-  QWidget *gui{ nullptr };
-  QWidget *block_window{ nullptr };
-  QProgressBar *progress_bar{ nullptr };
-  QPushButton *postpone_button{ nullptr };
-  QPushButton *skip_button{ nullptr };
-  QComboBox *sysoper_combo{ nullptr };
+  QScreen *screen{nullptr};
+  Frame *frame{nullptr};
+  QWidget *gui{nullptr};
+  QWidget *block_window{nullptr};
+  QProgressBar *progress_bar{nullptr};
+  QPushButton *postpone_button{nullptr};
+  QPushButton *skip_button{nullptr};
+  QComboBox *sysoper_combo{nullptr};
   std::shared_ptr<SizeGroup> size_group;
 };
 

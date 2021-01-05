@@ -33,8 +33,8 @@
 #endif
 
 class PreludeWindow
-    : public QWidget
-    , public IPreludeWindow
+  : public QWidget
+  , public IPreludeWindow
 {
   Q_OBJECT
 
@@ -57,20 +57,20 @@ private:
   const static int SCREEN_MARGIN = 20;
 
   workrave::BreakId break_id;
-  QScreen *screen{ nullptr };
+  QScreen *screen{nullptr};
 
-  int progress_value = 0;
+  int progress_value     = 0;
   int progress_max_value = 1;
 
   bool flash_visible = false;
   QString progress_text;
   bool did_avoid = false;
 
-  QVBoxLayout *layout{ nullptr };
-  TimeBar *timebar{ nullptr };
-  QLabel *label{ nullptr };
-  QLabel *image{ nullptr };
-  Frame *frame{ nullptr };
+  QVBoxLayout *layout{nullptr};
+  TimeBar *timebar{nullptr};
+  QLabel *label{nullptr};
+  QLabel *image{nullptr};
+  Frame *frame{nullptr};
   scoped_connections connections;
 
 #ifdef PLATFORM_OS_MACOS

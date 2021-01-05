@@ -38,10 +38,10 @@ TimerBoxView::TimerBoxView()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      new_content[i] = BREAK_ID_NONE;
+      new_content[i]     = BREAK_ID_NONE;
       current_content[i] = BREAK_ID_NONE;
-      labels[i] = nullptr;
-      bars[i] = nullptr;
+      labels[i]          = nullptr;
+      bars[i]            = nullptr;
     }
 
   init();
@@ -106,7 +106,7 @@ TimerBoxView::get_number_of_timers() const
   int number_of_timers = 0;
   if (!sheep_only)
     {
-      for (int timer : new_content)
+      for (int timer: new_content)
         {
           if (timer != BREAK_ID_NONE)
             {
@@ -166,7 +166,7 @@ TimerBoxView::init_table()
   // Fill table.
   for (int i = 0; i < number_of_timers; i++)
     {
-      int id = new_content[i];
+      int id  = new_content[i];
       int cid = current_content[i];
 
       if (id != cid)
@@ -217,12 +217,19 @@ TimerBoxView::set_slot(BreakId id, int slot)
   if (new_content[slot] != id)
     {
       new_content[slot] = id;
-      reconfigure = true;
+      reconfigure       = true;
     }
 }
 
 void
-TimerBoxView::set_time_bar(BreakId id, int value, TimerColorId primary_color, int primary_val, int primary_max, TimerColorId secondary_color, int secondary_val, int secondary_max)
+TimerBoxView::set_time_bar(BreakId id,
+                           int value,
+                           TimerColorId primary_color,
+                           int primary_val,
+                           int primary_max,
+                           TimerColorId secondary_color,
+                           int secondary_val,
+                           int secondary_max)
 {
   TRACE_ENTER_MSG("TimerBoxView::set_time_bar", id);
 
@@ -254,7 +261,7 @@ TimerBoxView::update_view()
       init_table();
       reconfigure = false;
     }
-  for (auto &b : bars)
+  for (auto &b: bars)
     {
       b->update();
     }

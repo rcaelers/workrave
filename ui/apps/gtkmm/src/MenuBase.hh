@@ -29,19 +29,14 @@ class MenuBase : public IMenu
 public:
   ~MenuBase() override = default;
 
-  void init() override
-  {
-  }
+  void init() override {}
 
-  virtual void add_accel(Gtk::Window &window)
-  {
-    (void) window;
-  }
+  virtual void add_accel(Gtk::Window &window) { (void)window; }
 
   void popup(const guint button, const guint activate_time) override
   {
-    (void) button;
-    (void) activate_time;
+    (void)button;
+    (void)activate_time;
   };
 };
 

@@ -25,16 +25,14 @@ class IToolkitPlatform
 public:
   typedef std::shared_ptr<IToolkitPlatform> Ptr;
 
-  virtual ~IToolkitPlatform()
-  {
-  }
+  virtual ~IToolkitPlatform() {}
 
   virtual QPixmap get_desktop_image() = 0;
 
-  virtual void foreground() = 0;
+  virtual void foreground()         = 0;
   virtual void restore_foreground() = 0;
 
-  virtual void lock() = 0;
+  virtual void lock()   = 0;
   virtual void unlock() = 0;
 };
 

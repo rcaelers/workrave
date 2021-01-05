@@ -1,5 +1,5 @@
-#import <Cocoa/Cocoa.h>
 #import "ColorId.h"
+#import <Cocoa/Cocoa.h>
 
 @interface MacOSTimeBar : NSObject
 {
@@ -30,13 +30,12 @@
 
 - (void)drawRect:(NSRect)rect;
 
-- (void) setText: (NSString*) text;
-- (void) setValue: (int) value;
-- (void) setMaxValue: (int) max_value;
-- (void) setColor: (enum ColorId) color;
-- (void) setSecondaryValue: (int) secondary_value;
-- (void) setSecondaryMaxValue: (int) secondary_max_value;
-- (void) setSecondaryColor: (enum ColorId) secondary_color;
-
+- (void)setText:(NSString *)text;
+- (void)setValue:(int)value;
+- (void)setMaxValue:(int)max_value;
+- (void)setColor:(enum ColorId)color;
+- (void)setSecondaryValue:(int)secondary_value;
+- (void)setSecondaryMaxValue:(int)secondary_max_value;
+- (void)setSecondaryColor:(enum ColorId)secondary_color;
 
 @end

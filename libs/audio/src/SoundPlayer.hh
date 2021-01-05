@@ -22,7 +22,9 @@
 
 class IMixer;
 
-class SoundPlayer : public workrave::audio::ISoundPlayer, public ISoundPlayerEvents
+class SoundPlayer
+  : public workrave::audio::ISoundPlayer
+  , public ISoundPlayerEvents
 {
 public:
   SoundPlayer();

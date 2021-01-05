@@ -24,48 +24,52 @@
 #include <set>
 
 #ifdef DBUS_BACKEND_QT
-#include <QDBusArgument>
-#include <QMetaType>
+#  include <QDBusArgument>
+#  include <QMetaType>
 #endif
 
 class DBusTestData
 {
 public:
   enum Enum
-    {
-      ONE, TWO, THREE, FOUR, FIVE,
-    };
+  {
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+  };
 
   struct StructWithAllBasicTypes
   {
-    int         m_int;
-    uint8_t     m_uint8;
-    int16_t     m_int16;
-    uint16_t    m_uint16;
-    int32_t     m_int32;
-    uint32_t    m_uint32;
-    int64_t     m_int64;
-    uint64_t    m_uint64;
+    int m_int;
+    uint8_t m_uint8;
+    int16_t m_int16;
+    uint16_t m_uint16;
+    int32_t m_int32;
+    uint32_t m_uint32;
+    int64_t m_int64;
+    uint64_t m_uint64;
     std::string m_string;
-    bool        m_bool;
-    double      m_double;
-    Enum        m_enum;
+    bool m_bool;
+    double m_double;
+    Enum m_enum;
   };
 
   struct StructWithAllBasicTypesReorder
   {
-    int         m_int;
-    uint8_t     m_uint8;
-    int16_t     m_int16;
-    uint16_t    m_uint16;
+    int m_int;
+    uint8_t m_uint8;
+    int16_t m_int16;
+    uint16_t m_uint16;
     std::string m_string;
-    int32_t     m_int32;
-    uint32_t    m_uint32;
-    int64_t     m_int64;
-    uint64_t    m_uint64;
-    bool        m_bool;
-    double      m_double;
-    Enum        m_enum;
+    int32_t m_int32;
+    uint32_t m_uint32;
+    int64_t m_int64;
+    uint64_t m_uint64;
+    bool m_bool;
+    double m_double;
+    Enum m_enum;
   };
 
   typedef std::list<StructWithAllBasicTypes> ListOfStructWithAllBasicTypes;
@@ -73,17 +77,21 @@ public:
 
   struct Data
   {
-    Data() : m_key(0), m_data(0) {}
-    Data(int k, int d) : m_key(k), m_data(d) {}
-
-
-    bool operator==(const Data &other) const
+    Data()
+      : m_key(0)
+      , m_data(0)
     {
-      return m_key == other.m_key && m_data == other.m_data;
+    }
+    Data(int k, int d)
+      : m_key(k)
+      , m_data(d)
+    {
     }
 
-    int              m_key;
-    int              m_data;
+    bool operator==(const Data &other) const { return m_key == other.m_key && m_data == other.m_data; }
+
+    int m_key;
+    int m_data;
   };
 
   typedef std::map<std::string, Data> DataMap;
@@ -145,7 +153,6 @@ public:
     return ret;
   }
 
-
   DBusTestData();
   virtual ~DBusTestData();
 };
@@ -155,15 +162,14 @@ Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypes)
 Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypesReorder)
 Q_DECLARE_METATYPE(DBusTestData::Data)
 
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes& message);
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message);
 const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypes &message);
 
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder& message);
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder &message);
 const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message);
 
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data& message);
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data &message);
 const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Data &message);
 #endif
-
 
 #endif // DBUSTESTDATA_HH

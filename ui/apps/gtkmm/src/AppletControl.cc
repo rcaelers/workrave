@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <type_traits>
@@ -28,23 +28,23 @@
 #include "AppletControl.hh"
 
 #ifdef HAVE_PANELAPPLET4
-#include "GnomeAppletWindow.hh"
+#  include "GnomeAppletWindow.hh"
 #endif
 
 #ifdef PLATFORM_OS_UNIX
-#include "X11SystrayAppletWindow.hh"
+#  include "X11SystrayAppletWindow.hh"
 #endif
 
 #ifdef PLATFORM_OS_WINDOWS
-#include "W32AppletWindow.hh"
+#  include "W32AppletWindow.hh"
 #endif
 
 #ifdef HAVE_DBUS
-#include "GenericDBusApplet.hh"
+#  include "GenericDBusApplet.hh"
 #endif
 
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSAppletWindow.hh"
+#  include "MacOSAppletWindow.hh"
 #endif
 
 #include "GUI.hh"
@@ -68,10 +68,11 @@ AppletControl::init()
   applets[AppletType::GenericDBus] = std::make_shared<GenericDBusApplet>();
 #endif
 
-  for (const auto &kv : applets)
+  for (const auto &kv: applets)
     {
       kv.second->init_applet();
-      kv.second->signal_visibility_changed().connect(sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_visibility_changed), kv.first));
+      kv.second->signal_visibility_changed().connect(
+        sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_visibility_changed), kv.first));
     }
   check_visible();
 }
@@ -79,12 +80,13 @@ AppletControl::init()
 void
 AppletControl::on_applet_visibility_changed(AppletType type, bool visible)
 {
-  TRACE_ENTER_MSG("AppletControl::on_applet_visibility_changed", static_cast<std::underlying_type<AppletType>::type>(type) << " " << visible);
+  TRACE_ENTER_MSG("AppletControl::on_applet_visibility_changed",
+                  static_cast<std::underlying_type<AppletType>::type>(type) << " " << visible);
 
   // TODO: REFACTOR
   if (visible)
     {
-      IGUI *gui = GUI::get_instance();
+      IGUI *gui    = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->resync();
     }
@@ -97,7 +99,7 @@ void
 AppletControl::heartbeat()
 {
   TRACE_ENTER("AppletControl::heartbeat");
-  for (const auto &kv : applets)
+  for (const auto &kv: applets)
     {
       kv.second->update_applet();
     }
@@ -105,9 +107,9 @@ AppletControl::heartbeat()
 }
 
 void
-AppletControl::set_tooltip(std::string& tip)
+AppletControl::set_tooltip(std::string &tip)
 {
-  for (const auto &kv : applets)
+  for (const auto &kv: applets)
     {
       kv.second->set_applet_tooltip(tip);
     }
@@ -119,7 +121,7 @@ AppletControl::is_visible() const
   TRACE_ENTER("AppletControl::is_visible");
   int count = 0;
 
-  for (const auto &kv : applets)
+  for (const auto &kv: applets)
     {
       if (kv.second->is_visible())
         {
@@ -149,7 +151,6 @@ AppletControl::get_applet_window(AppletType type)
 {
   return applets[type];
 }
-
 
 sigc::signal<void> &
 AppletControl::signal_visibility_changed()

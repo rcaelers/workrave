@@ -35,8 +35,8 @@ public:
 public:
   BreakConfig(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer);
 
-  bool is_microbreak_used_for_activity() const;
-  bool is_enabled() const;
+  [[nodiscard]] bool is_microbreak_used_for_activity() const;
+  [[nodiscard]] bool is_enabled() const;
 
 private:
   void load_timer_config();

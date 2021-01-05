@@ -26,15 +26,15 @@
 
 #include "timebar.h"
 
-#define WORKRAVE_TYPE_TIMERBOX                  (workrave_timerbox_get_type())
-#define WORKRAVE_TIMERBOX(obj)                  (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerbox))
-#define WORKRAVE_IS_TIMERBOX(obj)               (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TYPE_TIMERBOX))
-#define WORKRAVE_TIMERBOX_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerboxClass))
-#define WORKRAVE_IS_TIMERBOX_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TYPE_TIMERBOX))
-#define WORKRAVE_TIMERBOX_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerboxClass))
+#define WORKRAVE_TYPE_TIMERBOX (workrave_timerbox_get_type())
+#define WORKRAVE_TIMERBOX(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerbox))
+#define WORKRAVE_IS_TIMERBOX(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TYPE_TIMERBOX))
+#define WORKRAVE_TIMERBOX_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerboxClass))
+#define WORKRAVE_IS_TIMERBOX_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TYPE_TIMERBOX))
+#define WORKRAVE_TIMERBOX_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TYPE_TIMERBOX, WorkraveTimerboxClass))
 
-typedef struct _WorkraveTimerbox        WorkraveTimerbox;
-typedef struct _WorkraveTimerboxClass   WorkraveTimerboxClass;
+typedef struct _WorkraveTimerbox WorkraveTimerbox;
+typedef struct _WorkraveTimerboxClass WorkraveTimerboxClass;
 typedef struct _WorkraveTimerboxPrivate WorkraveTimerboxPrivate;
 
 struct _WorkraveTimerbox
@@ -49,16 +49,14 @@ struct _WorkraveTimerboxClass
 
 GType workrave_timerbox_get_type(void);
 
-
 typedef enum WorkraveBreakId
-  {
-    BREAK_ID_NONE = -1,
-    BREAK_ID_MICRO_BREAK = 0,
-    BREAK_ID_REST_BREAK,
-    BREAK_ID_DAILY_LIMIT,
-    BREAK_ID_SIZEOF
-  } WorkraveBreakId;
-
+{
+  BREAK_ID_NONE        = -1,
+  BREAK_ID_MICRO_BREAK = 0,
+  BREAK_ID_REST_BREAK,
+  BREAK_ID_DAILY_LIMIT,
+  BREAK_ID_SIZEOF
+} WorkraveBreakId;
 
 /*
  * Method definitions.

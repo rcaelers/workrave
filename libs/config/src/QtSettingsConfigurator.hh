@@ -24,10 +24,12 @@
 #include "IConfigBackend.hh"
 #include "ConfigBackendAdapter.hh"
 
-class QtSettingsConfigurator : public virtual IConfigBackend, public virtual ConfigBackendAdapter
+class QtSettingsConfigurator
+  : public virtual IConfigBackend
+  , public virtual ConfigBackendAdapter
 {
 public:
-  explicit QtSettingsConfigurator(QSettings *settings = 0);
+  explicit QtSettingsConfigurator(QSettings *settings = nullptr);
   ~QtSettingsConfigurator() override;
 
   bool load(std::string filename) override;
@@ -49,7 +51,7 @@ public:
   bool set_config_value(const std::string &key, double v) override;
 
 protected:
-  QVariant qt_get_value(const std::string &key, bool& exists) const;
+  QVariant qt_get_value(const std::string &key, bool &exists) const;
   QString qt_key(const std::string &key) const;
   void dispose();
 

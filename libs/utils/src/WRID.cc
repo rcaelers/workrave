@@ -20,7 +20,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -32,15 +32,15 @@
 #include "WRID.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
-#include <windows.h>
-#include <wincrypt.h>
+#  include <windows.h>
+#  include <wincrypt.h>
 #elif defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
+#  include <sys/types.h>
+#  include <sys/stat.h>
+#  include <fcntl.h>
+#  include <unistd.h>
+#  include <errno.h>
+#  include <string.h>
 #endif
 
 #include "WRID.hh"
@@ -71,7 +71,7 @@ WRID::WRID(const std::string &str)
   TRACE_EXIT();
 }
 
-WRID&
+WRID &
 WRID::operator=(const WRID &lid)
 {
   TRACE_ENTER("WRID::WRID::=");
@@ -84,19 +84,19 @@ WRID::operator=(const WRID &lid)
 }
 
 bool
-WRID::operator==(const WRID& lid) const
+WRID::operator==(const WRID &lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) == 0;
 }
 
 bool
-WRID::operator!=(const WRID& lid) const
+WRID::operator!=(const WRID &lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) != 0;
 }
 
 bool
-WRID::operator<(const WRID& lid) const
+WRID::operator<(const WRID &lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) < 0;
 }
@@ -121,9 +121,8 @@ WRID::str() const
 guint8 *
 WRID::raw() const
 {
-  return (guint8 *) &id;
+  return (guint8 *)&id;
 }
-
 
 void
 WRID::create()
@@ -131,7 +130,7 @@ WRID::create()
   gint64 now = g_get_real_time();
 
   guint32 *id32 = ((guint32 *)&id);
-  id32[3] = GUINT32_TO_BE(now / G_USEC_PER_SEC);
+  id32[3]       = GUINT32_TO_BE(now / G_USEC_PER_SEC);
 
   get_random_bytes(id, sizeof(id) - 4);
 }
@@ -140,7 +139,7 @@ bool
 WRID::set(const std::string &str)
 {
   size_t len = str.length();
-  bool ret = true;
+  bool ret   = true;
 
   if (len != STR_LENGTH)
     {
@@ -171,7 +170,7 @@ WRID::set(const std::string &str)
           else
             {
               nibble = 0;
-              ret = false;
+              ret    = false;
             }
 
           if (i % 2 == 0)
@@ -188,12 +187,12 @@ WRID::set(const std::string &str)
   return ret;
 }
 
-#if defined (PLATFORM_OS_UNIX) || defined (PLATFORM_OS_MACOS)
+#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
 
 void
 WRID::get_random_bytes(unsigned char *buf, size_t length)
 {
-  int fd = -1;
+  int fd  = -1;
   bool ok = false;
 
   do
@@ -254,7 +253,7 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
    */
   DWORD flags = CRYPT_VERIFYCONTEXT;
 
-  if (LOBYTE(LOWORD(GetVersion())) >= 5 )
+  if (LOBYTE(LOWORD(GetVersion())) >= 5)
     {
       flags |= 0x40;
     }
@@ -269,6 +268,6 @@ WRID::get_random_bytes(unsigned char *buf, size_t length)
 
 #else
 
-#error Unsupported platform
+#  error Unsupported platform
 
 #endif

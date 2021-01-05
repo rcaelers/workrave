@@ -19,10 +19,10 @@
 
 #ifdef TRACING
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h> /* for GetFileAttributes */
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h> /* for GetFileAttributes */
 
-#include "Debug.h"
+#  include "Debug.h"
 
 using namespace std;
 

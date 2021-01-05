@@ -18,15 +18,15 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
 #ifdef HAVE_GTK
-#include <gdk/gdkx.h>
+#  include <gdk/gdkx.h>
 
-#include <memory>
+#  include <memory>
 #endif
 
 #include "XScreenSaverMonitor.hh"
@@ -37,9 +37,7 @@
 using namespace std;
 using namespace workrave::utils;
 
-XScreenSaverMonitor::XScreenSaverMonitor()
-= default;
-
+XScreenSaverMonitor::XScreenSaverMonitor() = default;
 
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
@@ -51,7 +49,6 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
   TRACE_EXIT();
 }
 
-
 bool
 XScreenSaverMonitor::init()
 {
@@ -60,7 +57,7 @@ XScreenSaverMonitor::init()
   int error_base;
 
   xdisplay = static_cast<Display *>(Platform::get_default_display());
-  root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
+  root     = reinterpret_cast<Drawable>(Platform::get_default_root_window());
 
   Bool has_extension = False;
   if (xdisplay != nullptr)
@@ -70,11 +67,11 @@ XScreenSaverMonitor::init()
     }
 
   if (has_extension)
-  {
+    {
 
-    screen_saver_info = XScreenSaverAllocInfo();
-    monitor_thread = std::make_shared<boost::thread>([this] { run(); });
-  }
+      screen_saver_info = XScreenSaverAllocInfo();
+      monitor_thread    = std::make_shared<boost::thread>([this] { run(); });
+    }
 
   TRACE_RETURN(has_extension);
   return has_extension;
@@ -95,7 +92,6 @@ XScreenSaverMonitor::terminate()
   TRACE_EXIT();
 }
 
-
 void
 XScreenSaverMonitor::run()
 {
@@ -114,7 +110,7 @@ XScreenSaverMonitor::run()
             fire_action();
           }
 
-        boost::system_time timeout = boost::get_system_time()+ boost::posix_time::milliseconds(1000);
+        boost::system_time timeout = boost::get_system_time() + boost::posix_time::milliseconds(1000);
         cond.timed_wait(lock, timeout);
       }
   }

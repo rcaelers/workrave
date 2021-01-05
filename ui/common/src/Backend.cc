@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Backend.hh"
@@ -43,13 +43,11 @@ Backend::get_core()
   return core;
 }
 
-
 IConfigurator::Ptr
 Backend::get_configurator()
 {
   return get_core()->get_configurator();
 }
-
 
 IDBus::Ptr
 Backend::get_dbus()

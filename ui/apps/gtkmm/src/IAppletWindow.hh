@@ -25,15 +25,15 @@
 
 class IAppletWindow
 {
-  public:
-    virtual ~IAppletWindow() = default;
+public:
+  virtual ~IAppletWindow() = default;
 
-    virtual sigc::signal<void, bool> &signal_visibility_changed() = 0;
+  virtual sigc::signal<void, bool> &signal_visibility_changed() = 0;
 
-    virtual void init_applet() = 0;
-    virtual void update_applet() = 0;
-    virtual void set_applet_tooltip(const std::string &tip) = 0;
-    virtual bool is_visible() const = 0;
+  virtual void init_applet()                              = 0;
+  virtual void update_applet()                            = 0;
+  virtual void set_applet_tooltip(const std::string &tip) = 0;
+  virtual bool is_visible() const                         = 0;
 };
 
 #endif // IAPPLETWINDOW_HH

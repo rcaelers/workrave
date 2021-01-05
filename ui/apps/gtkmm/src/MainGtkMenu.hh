@@ -45,11 +45,8 @@ private:
 #ifdef PLATFORM_OS_MACOSOS
   void macos_popup_hack_connect(Gtk::Menu *menu);
   static gboolean macos_popup_hack_hide(gpointer data);
-  static gboolean macos_popup_hack_leave_enter(GtkWidget *menu,
-                                               GdkEventCrossing *event,
-                                               void *data);
+  static gboolean macos_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data);
 #endif
-
 
 protected:
   Glib::RefPtr<Gio::SimpleActionGroup> action_group;

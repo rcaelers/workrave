@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -29,8 +29,6 @@
 
 #include "IconListNotebook.hh"
 #include "IconListCellRenderer.hh"
-
-
 
 IconListNotebook::IconListNotebook()
   : Gtk::HBox(false, 6)
@@ -47,19 +45,14 @@ IconListNotebook::IconListNotebook()
   icon_list.set_model(list_store);
 
   auto *renderer = new IconListCellRenderer();
-  auto *tvc = new Gtk::TreeViewColumn("Bla",
-                                                     *Gtk::manage(renderer));
+  auto *tvc      = new Gtk::TreeViewColumn("Bla", *Gtk::manage(renderer));
   icon_list.append_column(*Gtk::manage(tvc));
-  tvc->add_attribute(renderer->property_text(),
-                     model_columns.text);
-  tvc->add_attribute(renderer->property_pixbuf(),
-                     model_columns.pixbuf);
-
+  tvc->add_attribute(renderer->property_text(), model_columns.text);
+  tvc->add_attribute(renderer->property_pixbuf(), model_columns.pixbuf);
 
   Glib::RefPtr<Gtk::TreeSelection> selection = icon_list.get_selection();
   selection->set_mode(Gtk::SELECTION_SINGLE);
-  selection->signal_changed()
-    .connect(sigc::mem_fun(*this, &IconListNotebook::on_page_changed));
+  selection->signal_changed().connect(sigc::mem_fun(*this, &IconListNotebook::on_page_changed));
 
   notebook.set_show_tabs(false);
   notebook.set_show_border(false);
@@ -68,26 +61,23 @@ IconListNotebook::IconListNotebook()
   pack_start(notebook, true, true, 0);
 }
 
-
 void
 IconListNotebook::on_page_changed()
 {
-  if(const Gtk::TreeModel::iterator selected
-     = icon_list.get_selection()->get_selected())
-  {
-    Gtk::Widget *page =  (*selected)[model_columns.page];
-    int page_num = gtk_notebook_page_num(notebook.gobj(), page->gobj());
-    notebook.set_current_page(page_num);
-  }
+  if (const Gtk::TreeModel::iterator selected = icon_list.get_selection()->get_selected())
+    {
+      Gtk::Widget *page = (*selected)[model_columns.page];
+      int page_num      = gtk_notebook_page_num(notebook.gobj(), page->gobj());
+      notebook.set_current_page(page_num);
+    }
 }
 
 void
-IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf,
-                           Gtk::Widget &widget)
+IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf, Gtk::Widget &widget)
 {
   notebook.append_page(widget, name);
-  Gtk::TreeRow row = *list_store->append();
-  row[model_columns.text] = Glib::ustring(name);
+  Gtk::TreeRow row          = *list_store->append();
+  row[model_columns.text]   = Glib::ustring(name);
   row[model_columns.pixbuf] = pixbuf;
-  row[model_columns.page] = &widget;
+  row[model_columns.page]   = &widget;
 }

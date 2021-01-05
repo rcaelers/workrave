@@ -35,9 +35,12 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(IToolkitPlatform::Ptr platform, SoundTheme::Ptr sound_theme, QScreen *screen, BreakFlags break_flags)
-    : BreakWindow(platform, screen, BREAK_ID_REST_BREAK, break_flags)
-    , sound_theme(sound_theme)
+RestBreakWindow::RestBreakWindow(IToolkitPlatform::Ptr platform,
+                                 SoundTheme::Ptr sound_theme,
+                                 QScreen *screen,
+                                 BreakFlags break_flags)
+  : BreakWindow(platform, screen, BREAK_ID_REST_BREAK, break_flags)
+  , sound_theme(sound_theme)
 {
   setWindowTitle(tr("Rest break"));
 }
@@ -77,7 +80,7 @@ RestBreakWindow::update_break_window()
 void
 RestBreakWindow::set_progress(int value, int max_value)
 {
-  time_t time = max_value - value;
+  time_t time  = max_value - value;
   QString text = qstr(qformat(tr("Rest break for %s")) % Text::time_to_string(time, true));
 
   timebar->set_progress(value, max_value);

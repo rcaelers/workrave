@@ -29,8 +29,7 @@ typedef union HarpoonEventUnion HarpoonEvent;
 using namespace workrave::config;
 
 //! Activity monitor for a local X server.
-class W32InputMonitor :
-  public InputMonitor
+class W32InputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -40,7 +39,7 @@ public:
   virtual ~W32InputMonitor();
 
   bool init();
-  void terminate() ;
+  void terminate();
 
 private:
   static W32InputMonitor *singleton;

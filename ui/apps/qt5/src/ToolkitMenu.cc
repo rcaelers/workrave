@@ -63,8 +63,8 @@ MenuEntryFactory::create(MenuNode::Ptr menu_node, MenuNodeFilter filter)
 }
 
 MenuEntry::MenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
-    : menu_node(menu_node)
-    , filter(filter)
+  : menu_node(menu_node)
+  , filter(filter)
 {
 }
 
@@ -81,7 +81,7 @@ MenuEntry::get_filter() const
 }
 
 SubMenuEntry::SubMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
-    : MenuEntry(menu_node, filter)
+  : MenuEntry(menu_node, filter)
 {
   menu = new QMenu(tr(menu_node->get_text().c_str()));
   init();
@@ -91,10 +91,10 @@ void
 SubMenuEntry::init()
 {
   MenuNode::Ptr menu_node = get_menu_node();
-  MenuNodeFilter filter = get_filter();
+  MenuNodeFilter filter   = get_filter();
 
   menu->clear();
-  for (const MenuNode::Ptr &menu_to_add : get_menu_node()->get_menu_items())
+  for (const MenuNode::Ptr &menu_to_add: get_menu_node()->get_menu_items())
     {
       const MenuNodeFilter &filter = get_filter();
 
@@ -121,7 +121,7 @@ SubMenuEntry::get_menu() const
 }
 
 ActionMenuEntry::ActionMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
-    : MenuEntry(menu_node, filter)
+  : MenuEntry(menu_node, filter)
 {
   connections.connect(menu_node->signal_changed(), std::bind(&ActionMenuEntry::on_menu_changed, this));
 
@@ -144,7 +144,8 @@ ActionMenuEntry::on_menu_changed()
   if (action != nullptr)
     {
       action->setText(get_menu_node()->get_text().c_str());
-      action->setCheckable(get_menu_node()->get_type() == MenuNodeType::RADIO || get_menu_node()->get_type() == MenuNodeType::CHECK);
+      action->setCheckable(get_menu_node()->get_type() == MenuNodeType::RADIO
+                           || get_menu_node()->get_type() == MenuNodeType::CHECK);
       action->setChecked(get_menu_node()->is_checked());
     }
 }
@@ -157,7 +158,7 @@ ActionMenuEntry::on_action(bool checked)
 }
 
 SeperatorMenuEntry::SeperatorMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
-    : MenuEntry(menu_node, filter)
+  : MenuEntry(menu_node, filter)
 {
   action = new QAction(menu_node->get_text().c_str(), this);
   action->setSeparator(true);

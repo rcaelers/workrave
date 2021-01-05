@@ -18,17 +18,17 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "TimerBoxControl.hh"
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSHelpers.hh"
+#  include "MacOSHelpers.hh"
 #endif
 
 #include <iostream>
@@ -44,14 +44,13 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-
 //! Constructor.
-TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView *v) :
-  view(v),
-  cycle_time(10),
-  name(n),
-  force_duration(0),
-  force_empty(false)
+TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView *v)
+  : view(v)
+  , cycle_time(10)
+  , name(n)
+  , force_duration(0)
+  , force_empty(false)
 {
   init();
 }
@@ -60,7 +59,7 @@ TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView *v) :
 void
 TimerBoxControl::update()
 {
-  ICore::Ptr core = Backend::get_core();
+  ICore::Ptr core    = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (reconfigure)
@@ -102,7 +101,6 @@ TimerBoxControl::update()
   view->update_view();
 }
 
-
 void
 TimerBoxControl::force_cycle()
 {
@@ -117,7 +115,6 @@ TimerBoxControl::set_force_empty(bool s)
   force_empty = s;
 }
 
-
 //! Initializes the timerbox.
 void
 TimerBoxControl::init()
@@ -130,8 +127,8 @@ TimerBoxControl::init()
     {
       connections.add(CoreConfig::break_enabled(BreakId(i)).connect([this](bool b) { load_configuration(); }));
 
-      break_position[i] = i;
-      break_flags[i] = 0;
+      break_position[i]      = i;
+      break_flags[i]         = 0;
       break_imminent_time[i] = 0;
 
       for (int j = 0; j < BREAK_ID_SIZEOF; j++)
@@ -147,9 +144,6 @@ TimerBoxControl::init()
   TRACE_EXIT();
 }
 
-
-
-
 //! Updates the main window.
 void
 TimerBoxControl::update_widgets()
@@ -157,7 +151,7 @@ TimerBoxControl::update_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(count);
+      IBreak::Ptr b   = core->get_break(count);
 
       time_t value;
       TimerColorId primary_color;
@@ -167,10 +161,10 @@ TimerBoxControl::update_widgets()
 
       // Collect some data.
       time_t maxActiveTime = b->get_limit();
-      time_t activeTime = b->get_elapsed_time();
+      time_t activeTime    = b->get_elapsed_time();
       time_t breakDuration = b->get_auto_reset();
-      time_t idleTime = b->get_elapsed_idle_time();
-      bool overdue = (maxActiveTime < activeTime);
+      time_t idleTime      = b->get_elapsed_idle_time();
+      bool overdue         = (maxActiveTime < activeTime);
 
       // Set the value
       if (b->is_limit_enabled() && maxActiveTime != 0)
@@ -183,29 +177,32 @@ TimerBoxControl::update_widgets()
         }
       // And set the bar.
       secondary_val = secondary_max = 0;
-      secondary_color = TimerColorId::Inactive;
+      secondary_color               = TimerColorId::Inactive;
 
       // Timer is running, show elapsed time.
       primary_val = static_cast<int>(activeTime);
       primary_max = static_cast<int>(maxActiveTime);
 
-      primary_color = overdue
-        ? TimerColorId::Overdue : TimerColorId::Active;
+      primary_color = overdue ? TimerColorId::Overdue : TimerColorId::Active;
 
       if (b->is_auto_reset_enabled() && breakDuration != 0)
         {
           // resting.
           secondary_color = TimerColorId::Inactive;
-          secondary_val = static_cast<int>(idleTime);
-          secondary_max = static_cast<int>(breakDuration);
+          secondary_val   = static_cast<int>(idleTime);
+          secondary_max   = static_cast<int>(breakDuration);
         }
 
-      view->set_time_bar(BreakId(count), static_cast<int>(value),
-                         primary_color, primary_val, primary_max,
-                         secondary_color, secondary_val, secondary_max);
+      view->set_time_bar(BreakId(count),
+                         static_cast<int>(value),
+                         primary_color,
+                         primary_val,
+                         primary_max,
+                         secondary_color,
+                         secondary_val,
+                         secondary_max);
     }
 }
-
 
 void
 TimerBoxControl::init_icon()
@@ -225,7 +222,6 @@ TimerBoxControl::init_icon()
       break;
     }
 }
-
 
 //! Initializes the applet.
 void
@@ -253,7 +249,7 @@ TimerBoxControl::init_table()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           int cycle = break_slot_cycle[i];
-          int id = break_slots[i][cycle]; // break id
+          int id    = break_slots[i][cycle]; // break id
           if (id != -1)
             {
               view->set_slot(BreakId(id), slot);
@@ -268,7 +264,6 @@ TimerBoxControl::init_table()
   TRACE_EXIT();
 }
 
-
 //! Compute what break to show on the specified location.
 void
 TimerBoxControl::init_slot(int slot)
@@ -281,7 +276,7 @@ TimerBoxControl::init_slot(int slot)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(BreakId(i));
+      IBreak::Ptr b   = core->get_break(BreakId(i));
 
       bool on = b->is_enabled();
 
@@ -299,17 +294,16 @@ TimerBoxControl::init_slot(int slot)
 
   for (int i = 0; i < count; i++)
     {
-      int id = breaks_id[i];
+      int id    = breaks_id[i];
       int flags = break_flags[id];
 
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(i);
+      IBreak::Ptr b   = core->get_break(i);
 
       time_t time_left = b->get_limit() - b->get_elapsed_time();
 
       // Exclude break if not imminent.
-      if (flags & GUIConfig::BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] &&
-          force_duration == 0)
+      if (flags & GUIConfig::BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] && force_duration == 0)
         {
           break_flags[id] |= GUIConfig::BREAK_SKIP;
         }
@@ -318,15 +312,14 @@ TimerBoxControl::init_slot(int slot)
       if (!(flags & GUIConfig::BREAK_SKIP) && (first_id == -1 || time_left < first))
         {
           first_id = id;
-          first = time_left;
+          first    = time_left;
         }
     }
-
 
   // Exclude break if not first.
   for (int i = 0; i < count; i++)
     {
-      int id = breaks_id[i];
+      int id    = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & GUIConfig::BREAK_SKIP))
@@ -338,13 +331,12 @@ TimerBoxControl::init_slot(int slot)
         }
     }
 
-
   // Exclude breaks if not exclusive.
-  bool have_one = false;
+  bool have_one   = false;
   int breaks_left = 0;
   for (int i = 0; i < count; i++)
     {
-      int id = breaks_id[i];
+      int id    = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & GUIConfig::BREAK_SKIP))
@@ -367,7 +359,7 @@ TimerBoxControl::init_slot(int slot)
     {
       for (int i = 0; i < count; i++)
         {
-          int id = breaks_id[i];
+          int id    = breaks_id[i];
           int flags = break_flags[id];
 
           if (flags & GUIConfig::BREAK_DEFAULT && flags & GUIConfig::BREAK_SKIP)
@@ -386,7 +378,7 @@ TimerBoxControl::init_slot(int slot)
   int new_count = 0;
   for (int i = 0; i < count; i++)
     {
-      int id = breaks_id[i];
+      int id    = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & GUIConfig::BREAK_SKIP))
@@ -397,7 +389,6 @@ TimerBoxControl::init_slot(int slot)
     }
 }
 
-
 //! Cycles through the breaks.
 void
 TimerBoxControl::cycle_slots()
@@ -405,14 +396,12 @@ TimerBoxControl::cycle_slots()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       break_slot_cycle[i]++;
-      if (break_slot_cycle[i] >= BREAK_ID_SIZEOF
-          || break_slots[i][break_slot_cycle[i]] == -1)
+      if (break_slot_cycle[i] >= BREAK_ID_SIZEOF || break_slots[i][break_slot_cycle[i]] == -1)
         {
           break_slot_cycle[i] = 0;
         }
     }
 }
-
 
 //! Reads the applet configuration.
 void
@@ -424,8 +413,8 @@ TimerBoxControl::load_configuration()
     {
       BreakId bid = i;
 
-      break_position[i] = GUIConfig::timerbox_slot(name, bid)();
-      break_flags[i] = GUIConfig::timerbox_flags(name, bid)();
+      break_position[i]      = GUIConfig::timerbox_slot(name, bid)();
+      break_flags[i]         = GUIConfig::timerbox_flags(name, bid)();
       break_imminent_time[i] = GUIConfig::timerbox_imminent(name, bid)();
 
       break_slot_cycle[i] = 0;

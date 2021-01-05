@@ -21,19 +21,19 @@
 
 using BreakFlags = int;
 
-const static int BREAK_FLAGS_NONE            = 0;
-const static int BREAK_FLAGS_POSTPONABLE     = 1 << 0;
-const static int BREAK_FLAGS_SKIPPABLE       = 1 << 1;
-const static int BREAK_FLAGS_NO_EXERCISES    = 1 << 2;
-const static int BREAK_FLAGS_NATURAL         = 1 << 3;
-const static int BREAK_FLAGS_USER_INITIATED  = 1 << 4;
+const static int BREAK_FLAGS_NONE           = 0;
+const static int BREAK_FLAGS_POSTPONABLE    = 1 << 0;
+const static int BREAK_FLAGS_SKIPPABLE      = 1 << 1;
+const static int BREAK_FLAGS_NO_EXERCISES   = 1 << 2;
+const static int BREAK_FLAGS_NATURAL        = 1 << 3;
+const static int BREAK_FLAGS_USER_INITIATED = 1 << 4;
 
 enum class StatusIconType
-  {
-    Normal,
-    Quiet,
-    Suspended
-  };
+{
+  Normal,
+  Quiet,
+  Suspended
+};
 
 enum class TimerColorId
 {
@@ -48,11 +48,11 @@ enum class TimerColorId
 };
 
 enum Orientation
-  {
-    ORIENTATION_UP,
-    ORIENTATION_RIGHT,
-    ORIENTATION_DOWN,
-    ORIENTATION_LEFT,
-  };
+{
+  ORIENTATION_UP,
+  ORIENTATION_RIGHT,
+  ORIENTATION_DOWN,
+  ORIENTATION_LEFT,
+};
 
 #endif // UITYPES_HH

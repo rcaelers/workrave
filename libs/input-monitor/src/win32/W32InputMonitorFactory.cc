@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -33,18 +33,18 @@
 using namespace std;
 using namespace workrave;
 
-W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config) : config(config)
+W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config)
+  : config(config)
 {
-  activity_monitor = NULL;
+  activity_monitor   = NULL;
   statistics_monitor = NULL;
 }
 
 void
 W32InputMonitorFactory::init(const char *display)
 {
-  (void) display;
+  (void)display;
 }
-
 
 //! Retrieves the input activity monitor
 IInputMonitor::Ptr
@@ -79,9 +79,7 @@ W32InputMonitorFactory::create_activity_monitor()
       string configure_monitor_method;
       int max_tries = 3;
 
-      config->get_value_with_default("advanced/monitor",
-                                                              configure_monitor_method,
-                                                              "default");
+      config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
       if (configure_monitor_method == "default")
         {
@@ -100,7 +98,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (actual_monitor_method == "lowlevel")
             {
-              monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
+              monitor     = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
@@ -114,7 +112,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "nohook")
             {
-              monitor = IInputMonitor::Ptr(new W32AlternateMonitor(config));
+              monitor     = IInputMonitor::Ptr(new W32AlternateMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
@@ -129,7 +127,7 @@ W32InputMonitorFactory::create_activity_monitor()
           else if (actual_monitor_method == "normal")
             {
 #ifdef HAVE_HARPOON
-              monitor = IInputMonitor::Ptr(new W32InputMonitor(config));
+              monitor     = IInputMonitor::Ptr(new W32InputMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
@@ -140,8 +138,8 @@ W32InputMonitorFactory::create_activity_monitor()
                   TRACE_MSG("failed to init");
                 }
 #else
-        actual_monitor_method = "lowlevel";
-        TRACE_MSG("normal not available");
+              actual_monitor_method = "lowlevel";
+              TRACE_MSG("normal not available");
 #endif
             }
 
@@ -150,22 +148,22 @@ W32InputMonitorFactory::create_activity_monitor()
 
       if (!initialized)
         {
-          MessageBoxA( NULL,
-                       "Workrave must be able to monitor certain system "
-                       "events in order to determine when you are idle.\n\n"
+          MessageBoxA(NULL,
+                      "Workrave must be able to monitor certain system "
+                      "events in order to determine when you are idle.\n\n"
 
-                       "Attempts were made to monitor your system, "
-                       "but they were unsuccessful.\n\n"
+                      "Attempts were made to monitor your system, "
+                      "but they were unsuccessful.\n\n"
 
-                       "Workrave has reset itself to use its default monitor."
-                       "Please run Workrave again. If you see this message "
-                       "again, please file a bug report:\n\n"
+                      "Workrave has reset itself to use its default monitor."
+                      "Please run Workrave again. If you see this message "
+                      "again, please file a bug report:\n\n"
 
-                       "http://issues.workrave.org/\n\n"
+                      "http://issues.workrave.org/\n\n"
 
-                       "Workrave must exit now.\n",
-                       "Workrave",
-                       MB_OK );
+                      "Workrave must exit now.\n",
+                      "Workrave",
+                      MB_OK);
 
           config->set_value("advanced/monitor", "normal");
           config->save();
@@ -203,7 +201,7 @@ W32InputMonitorFactory::create_statistics_monitor()
   if (actual_monitor_method == "nohook")
     {
       IInputMonitor::Ptr monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
-      bool initialized = monitor->init();
+      bool initialized           = monitor->init();
 
       if (!initialized)
         {

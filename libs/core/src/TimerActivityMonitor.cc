@@ -18,23 +18,24 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include <utility>
+
+#  include "config.h"
 #endif
 
 #include "TimerActivityMonitor.hh"
 
 #include "debug.hh"
 
-TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer) :
-  monitor(monitor),
-  timer(timer),
-  suspended(false),
-  forced_idle(false)
+TimerActivityMonitor::TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer)
+  : monitor(std::move(monitor))
+  , timer(std::move(timer))
+  , suspended(false)
+  , forced_idle(false)
 {
 }
 
-TimerActivityMonitor::~TimerActivityMonitor()
-= default;
+TimerActivityMonitor::~TimerActivityMonitor() = default;
 
 void
 TimerActivityMonitor::suspend()
@@ -57,10 +58,10 @@ TimerActivityMonitor::is_active()
       bool local_is_active = monitor->is_active();
       TRACE_MSG(local_is_active)
 
-        if (local_is_active)
-          {
-            forced_idle = false;
-          }
+      if (local_is_active)
+        {
+          forced_idle = false;
+        }
     }
 
   if (forced_idle)
@@ -75,8 +76,8 @@ TimerActivityMonitor::is_active()
       return false;
     }
 
-  bool running = timer->is_running();
-  int64_t idle = timer->get_elapsed_idle_time();
+  bool running  = timer->is_running();
+  int64_t idle  = timer->get_elapsed_idle_time();
   int64_t reset = timer->get_auto_reset();
 
   if (!running && idle >= reset)
@@ -84,11 +85,9 @@ TimerActivityMonitor::is_active()
       TRACE_RETURN("Idle stopped");
       return false;
     }
-  else
-    {
-      TRACE_RETURN("Active");
-      return true;
-    }
+
+  TRACE_RETURN("Active");
+  return true;
 }
 
 void

@@ -36,7 +36,10 @@ namespace workrave
 {
   namespace dbus
   {
-    class DBusQt : public DBusGeneric, public IDBusPrivateQt, public QDBusVirtualObject
+    class DBusQt
+      : public DBusGeneric
+      , public IDBusPrivateQt
+      , public QDBusVirtualObject
     {
     public:
       typedef std::shared_ptr<DBusQt> Ptr;
@@ -61,9 +64,9 @@ namespace workrave
       QString introspect(const QString &path) const override;
       bool handleMessage(const QDBusMessage &message, const QDBusConnection &connection) override;
 
-      void on_service_owner_changed(const QString & name, const QString & oldowner, const QString & newowner);
-      void on_service_registered(const QString & name);
-      void on_service_unregistered(const QString & name);
+      void on_service_owner_changed(const QString &name, const QString &oldowner, const QString &newowner);
+      void on_service_registered(const QString &name);
+      void on_service_unregistered(const QString &name);
 
     private:
       struct WatchData
@@ -85,6 +88,6 @@ namespace workrave
       //!
       Watched watched;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 #endif // WORKRAVE_DBUS_DBUSQT_HH

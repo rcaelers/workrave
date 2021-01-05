@@ -3,17 +3,18 @@
 
 #ifdef PLATFORM_OS_UNIX
 
-#include <gdk/gdk.h>
+#  include <gdk/gdk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#  ifdef __cplusplus
+extern "C"
+{
+#  endif
 
   void set_desktop_background(GdkWindow *window);
 
-#ifdef __cplusplus
+#  ifdef __cplusplus
 }
-#endif
+#  endif
 
 #endif
 

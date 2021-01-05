@@ -73,7 +73,7 @@ public:
   void init();
 
 private:
-  QMenu *menu{ nullptr };
+  QMenu *menu{nullptr};
   MenuEntries children;
   scoped_connections connections;
 };
@@ -94,7 +94,7 @@ private:
   void on_menu_changed();
 
 private:
-  QAction *action{ nullptr };
+  QAction *action{nullptr};
   scoped_connections connections;
 };
 
@@ -108,7 +108,7 @@ public:
   QAction *get_action() const override;
 
 private:
-  QAction *action{ nullptr };
+  QAction *action{nullptr};
 };
 
 class ToolkitMenu : public QObject

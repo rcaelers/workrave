@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -27,36 +27,25 @@
 #import <Foundation/NSString.h>
 
 #include <string>
-#include <string.h>
+#include <cstring>
 
 #include "MacOSConfigurator.hh"
 
 using namespace std;
 
-MacOSConfigurator::MacOSConfigurator()
-{
-}
-
-
-MacOSConfigurator::~MacOSConfigurator()
-= default;
-
-
 bool
 MacOSConfigurator::load(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 MacOSConfigurator::save(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 MacOSConfigurator::save()
@@ -64,48 +53,45 @@ MacOSConfigurator::save()
   return true;
 }
 
-
 bool
 MacOSConfigurator::remove_key(const std::string &key)
 {
   TRACE_ENTER_MSG("MacOSConfigurator::remove_key", key);
 
-  NSString* keystring = [NSString stringWithCString:key.c_str() encoding: NSUTF8StringEncoding];
+  NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSUTF8StringEncoding];
 
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey: keystring];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:keystring];
 
   TRACE_EXIT();
   return true;
 }
 
-
 bool
-MacOSConfigurator::get_value(const std::string &key, VariantType type,
-                           Variant &out) const
+MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   bool ret = false;
 
   TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
 
-  NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
-  out.type = type;
+  NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
+  out.type            = type;
 
-  if ([[NSUserDefaults standardUserDefaults] objectForKey: keystring] != nil)
+  if ([[NSUserDefaults standardUserDefaults] objectForKey:keystring] != nil)
     {
       ret = true;
 
-      switch(type)
+      switch (type)
         {
         case VARIANT_TYPE_INT:
-          out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey: keystring];
+          out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey:keystring];
           break;
 
         case VARIANT_TYPE_BOOL:
-          out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey: keystring];
+          out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey:keystring];
           break;
 
         case VARIANT_TYPE_DOUBLE:
-          out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey: keystring];
+          out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey:keystring];
           break;
 
         case VARIANT_TYPE_NONE:
@@ -115,7 +101,7 @@ MacOSConfigurator::get_value(const std::string &key, VariantType type,
 
         case VARIANT_TYPE_STRING:
           {
-            NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey: keystring];
+            NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey:keystring];
             if (val != nil)
               {
                 out.string_value = [val cStringUsingEncoding:NSUTF8StringEncoding];
@@ -139,20 +125,20 @@ MacOSConfigurator::set_value(const std::string &key, Variant &value)
   bool ret = true;
 
   TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
-  NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
+  NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
 
-  switch(value.type)
+  switch (value.type)
     {
     case VARIANT_TYPE_INT:
-      [[NSUserDefaults standardUserDefaults] setInteger: value.int_value forKey: keystring];
+      [[NSUserDefaults standardUserDefaults] setInteger:value.int_value forKey:keystring];
       break;
 
     case VARIANT_TYPE_BOOL:
-      [[NSUserDefaults standardUserDefaults] setBool: value.bool_value forKey: keystring];
+      [[NSUserDefaults standardUserDefaults] setBool:value.bool_value forKey:keystring];
       break;
 
     case VARIANT_TYPE_DOUBLE:
-      [[NSUserDefaults standardUserDefaults] setFloat: value.double_value forKey: keystring];
+      [[NSUserDefaults standardUserDefaults] setFloat:value.double_value forKey:keystring];
       break;
 
     case VARIANT_TYPE_NONE:
@@ -161,9 +147,9 @@ MacOSConfigurator::set_value(const std::string &key, Variant &value)
 
     case VARIANT_TYPE_STRING:
       {
-        string val = value.string_value;
-        NSString *string_value = [NSString stringWithCString: val.c_str() encoding: NSASCIIStringEncoding];
-        [[NSUserDefaults standardUserDefaults] setObject: string_value forKey: keystring];
+        string val             = value.string_value;
+        NSString *string_value = [NSString stringWithCString:val.c_str() encoding:NSASCIIStringEncoding];
+        [[NSUserDefaults standardUserDefaults] setObject:string_value forKey:keystring];
       }
       break;
     }

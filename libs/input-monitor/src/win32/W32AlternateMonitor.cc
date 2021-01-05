@@ -26,162 +26,159 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
 
-#include "debug.hh"
+#  include "debug.hh"
 
-#include <sstream>
+#  include <sstream>
 
-#if !defined(PLATFORM_OS_WINDOWS_NATIVE)
-#include <unistd.h>
-#endif
+#  if !defined(PLATFORM_OS_WINDOWS_NATIVE)
+#    include <unistd.h>
+#  endif
 
-#include "W32AlternateMonitor.hh"
-#ifdef HAVE_HARPOON
-#include "input-monitor/Harpoon.hh"
-#endif
+#  include "W32AlternateMonitor.hh"
+#  ifdef HAVE_HARPOON
+#    include "input-monitor/Harpoon.hh"
+#  endif
 
 using namespace workrave;
 
-
-W32AlternateMonitor::W32AlternateMonitor(IConfigurator::Ptr config) :
-  config( config ),
-  initialized( false ),
-  interval( 500 ),
-  thread_abort_event( NULL ),
-  thread_handle( NULL ),
-  thread_id( 0 )
+W32AlternateMonitor::W32AlternateMonitor(IConfigurator::Ptr config)
+  : config(config)
+  , initialized(false)
+  , interval(500)
+  , thread_abort_event(NULL)
+  , thread_handle(NULL)
+  , thread_id(0)
 {
-  TRACE_ENTER( "W32AlternateMonitor::W32AlternateMonitor" );
+  TRACE_ENTER("W32AlternateMonitor::W32AlternateMonitor");
 
   TRACE_EXIT();
 }
 
-
 W32AlternateMonitor::~W32AlternateMonitor()
 {
-  TRACE_ENTER( "W32AlternateMonitor::~W32AlternateMonitor" );
+  TRACE_ENTER("W32AlternateMonitor::~W32AlternateMonitor");
 
   terminate();
 
   TRACE_EXIT();
 }
 
-
-bool W32AlternateMonitor::init()
+bool
+W32AlternateMonitor::init()
 {
-  TRACE_ENTER( "W32AlternateMonitor::init" );
+  TRACE_ENTER("W32AlternateMonitor::init");
 
-  if( initialized )
+  if (initialized)
     goto cleanup;
 
-  config->get_value_with_default( "advanced/interval", interval, 500 );
+  config->get_value_with_default("advanced/interval", interval, 500);
 
-  SetLastError( 0 );
-  thread_abort_event = CreateEvent( NULL, FALSE, FALSE, NULL );
-  if( !thread_abort_event )
-  {
-    TRACE_MSG( "Thread abort event could not be created. GetLastError : " << GetLastError() );
-    goto cleanup;
-  }
+  SetLastError(0);
+  thread_abort_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+  if (!thread_abort_event)
+    {
+      TRACE_MSG("Thread abort event could not be created. GetLastError : " << GetLastError());
+      goto cleanup;
+    }
 
   thread_id = 0;
-  SetLastError( 0 );
-  thread_handle = CreateThread( NULL, 0, thread_Monitor, this, 0, (DWORD *)&thread_id );
-  if( !thread_handle || !thread_id )
-  {
-    TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
-    goto cleanup;
-  }
+  SetLastError(0);
+  thread_handle = CreateThread(NULL, 0, thread_Monitor, this, 0, (DWORD *)&thread_id);
+  if (!thread_handle || !thread_id)
+    {
+      TRACE_MSG("Thread could not be created. GetLastError : " << GetLastError());
+      goto cleanup;
+    }
 
-#ifdef HAVE_HARPOON
-  Harpoon::init( config, NULL );
-#endif
+#  ifdef HAVE_HARPOON
+  Harpoon::init(config, NULL);
+#  endif
 
   initialized = true;
 
 cleanup:
-  if( initialized == false )
+  if (initialized == false)
     terminate();
 
   TRACE_EXIT();
   return initialized;
 }
 
-
-void W32AlternateMonitor::terminate()
+void
+W32AlternateMonitor::terminate()
 {
-  TRACE_ENTER( "W32AlternateMonitor::terminate" );
+  TRACE_ENTER("W32AlternateMonitor::terminate");
 
   thread_id = 0;
 
-  if( thread_handle )
-  {
-    SetEvent( thread_abort_event );
-    WaitForSingleObject( thread_handle, INFINITE );
-    CloseHandle( thread_handle );
-    thread_handle = NULL;
-  }
+  if (thread_handle)
+    {
+      SetEvent(thread_abort_event);
+      WaitForSingleObject(thread_handle, INFINITE);
+      CloseHandle(thread_handle);
+      thread_handle = NULL;
+    }
 
-  if( thread_abort_event )
-  {
-    CloseHandle( thread_abort_event );
-    thread_abort_event = NULL;
-  }
+  if (thread_abort_event)
+    {
+      CloseHandle(thread_abort_event);
+      thread_abort_event = NULL;
+    }
 
-#ifdef HAVE_HARPOON
+#  ifdef HAVE_HARPOON
   Harpoon::terminate();
-#endif
+#  endif
 
   initialized = false;
 
   TRACE_EXIT();
 }
 
-
-DWORD WINAPI W32AlternateMonitor::thread_Monitor( LPVOID lpParam )
+DWORD WINAPI
+W32AlternateMonitor::thread_Monitor(LPVOID lpParam)
 {
-  W32AlternateMonitor *pThis = (W32AlternateMonitor *) lpParam;
+  W32AlternateMonitor *pThis = (W32AlternateMonitor *)lpParam;
   pThis->Monitor();
   // invalidate the id to signal the thread is exiting
   pThis->thread_id = 0;
-  return (DWORD) 0;
+  return (DWORD)0;
 }
 
-
-void W32AlternateMonitor::Monitor()
+void
+W32AlternateMonitor::Monitor()
 {
   const DWORD current_thread_id = GetCurrentThreadId();
 
-  TRACE_ENTER_MSG( "W32AlternateMonitor::Monitor [ id: ", current_thread_id << " ]" );
+  TRACE_ENTER_MSG("W32AlternateMonitor::Monitor [ id: ", current_thread_id << " ]");
 
-  SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL );
-
+  SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
   LASTINPUTINFO lii;
   DWORD dwPreviousTime = 0;
 
-  lii.cbSize = sizeof( lii );
+  lii.cbSize = sizeof(lii);
   lii.dwTime = GetTickCount();
 
-  while( thread_id == current_thread_id )
-  /* Main loop */
-  {
-    dwPreviousTime = lii.dwTime;
-
-    if( GetLastInputInfo( &lii ) && ( lii.dwTime > dwPreviousTime ) )
-    /* User session has received input */
+  while (thread_id == current_thread_id)
+    /* Main loop */
     {
-      /* Notify the activity monitor */
-      fire_action();
-    }
+      dwPreviousTime = lii.dwTime;
 
-    if( WaitForSingleObject( thread_abort_event, interval ) != WAIT_TIMEOUT )
-      break;
-  }
+      if (GetLastInputInfo(&lii) && (lii.dwTime > dwPreviousTime))
+        /* User session has received input */
+        {
+          /* Notify the activity monitor */
+          fire_action();
+        }
+
+      if (WaitForSingleObject(thread_abort_event, interval) != WAIT_TIMEOUT)
+        break;
+    }
 
   TRACE_EXIT();
 }

@@ -24,8 +24,8 @@
 #include <gtkmm.h>
 
 #ifdef PLATFORM_OS_WINDOWS
-#include <windows.h>
-#include "commonui/TimerBoxControl.hh"
+#  include <windows.h>
+#  include "commonui/TimerBoxControl.hh"
 #endif
 
 #include "utils/ScopedConnections.hh"
@@ -33,8 +33,7 @@
 class TimerBoxControl;
 class TimerBoxGtkView;
 
-class MainWindow :
-  public Gtk::Window
+class MainWindow : public Gtk::Window
 {
 public:
   MainWindow();
@@ -53,6 +52,7 @@ public:
   sigc::signal<void> &signal_visibility_changed();
 
   bool is_visible() const;
+
 private:
   void on_visibility_changed();
   bool on_timer_view_button_press_event(GdkEventButton *event);
@@ -100,7 +100,7 @@ private:
   void move_to_start_position();
 
   // UI Events.
-  bool on_delete_event(GdkEventAny*) override;
+  bool on_delete_event(GdkEventAny *) override;
   bool on_configure_event(GdkEventConfigure *event) override;
 
   static void get_start_position(int &x, int &y, int &head);
@@ -113,8 +113,7 @@ private:
   void win32_init();
   void win32_exit();
 
-  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
-                                            WPARAM wParam, LPARAM lParam);
+  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;

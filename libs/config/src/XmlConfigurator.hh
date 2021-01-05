@@ -27,8 +27,7 @@
 
 #include "IConfigBackend.hh"
 
-class XmlConfigurator :
-  public virtual IConfigBackend
+class XmlConfigurator : public virtual IConfigBackend
 {
 public:
   XmlConfigurator();

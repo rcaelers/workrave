@@ -30,7 +30,8 @@
 #include "CoreHooks.hh"
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class IApp;
 }
 
@@ -43,9 +44,9 @@ enum class BreakStage
   Delayed
 };
 
-class BreakStateModel :
-  public IActivityMonitorListener,
-  public std::enable_shared_from_this<BreakStateModel>
+class BreakStateModel
+  : public IActivityMonitorListener
+  , public std::enable_shared_from_this<BreakStateModel>
 {
 public:
   using Ptr = std::shared_ptr<BreakStateModel>;
@@ -88,7 +89,6 @@ private:
   void prelude_window_start();
   void prelude_window_update();
   void prelude_window_stop();
-
 
   // IActivityMonitorListener
   bool action_notify() override;

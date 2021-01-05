@@ -25,7 +25,7 @@ class qformat : public boost::format
 {
 public:
   qformat(const QString &str)
-      : fmt(str.toStdString())
+    : fmt(str.toStdString())
   {
   }
 
@@ -36,10 +36,7 @@ public:
     return *this;
   }
 
-  QString str() const
-  {
-    return QString::fromStdString(fmt.str());
-  }
+  QString str() const { return QString::fromStdString(fmt.str()); }
 
 private:
   boost::format fmt;

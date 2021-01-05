@@ -24,8 +24,8 @@
 #include <QWidget>
 
 SizeGroup::SizeGroup(Qt::Orientations orientation, QObject *parent)
-    : QObject(parent)
-    , orientation(orientation)
+  : QObject(parent)
+  , orientation(orientation)
 {
   timer = new QTimer(this);
   timer->setSingleShot(true);
@@ -56,12 +56,12 @@ SizeGroup::eventFilter(QObject *o, QEvent *event)
 void
 SizeGroup::update()
 {
-  int width = 0;
+  int width  = 0;
   int height = 0;
 
   Q_FOREACH (QWidget *widget, widgets)
     {
-      width = qMax(widget->sizeHint().width(), width);
+      width  = qMax(widget->sizeHint().width(), width);
       height = qMax(widget->sizeHint().height(), height);
     }
 

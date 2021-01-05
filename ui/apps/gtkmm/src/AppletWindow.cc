@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -27,8 +27,7 @@
 #include "commonui/ITimerBoxView.hh"
 #include "commonui/TimerBoxControl.hh"
 
-AppletWindow::AppletWindow()
-= default;
+AppletWindow::AppletWindow() = default;
 
 void
 AppletWindow::set_applet_tooltip(const std::string &tip)

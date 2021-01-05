@@ -23,63 +23,46 @@
 class W32ActiveSetup
 {
 public:
-    static const REGSAM registry_view;
-    static const wchar_t component_path[];
-    static const wchar_t guid_autorun[];
+  static const REGSAM registry_view;
+  static const wchar_t component_path[];
+  static const wchar_t guid_autorun[];
 
-    static const WCHAR *get_user_profile_dir();
+  static const WCHAR *get_user_profile_dir();
 
-    static bool update(
-        const std::wstring &guid
-        );
+  static bool update(const std::wstring &guid);
 
-    static bool update_all();
+  static bool update_all();
 
 private:
-    enum reg
-    {
-        HKCU,
-        HKLM
-    };
+  enum reg
+  {
+    HKCU,
+    HKLM
+  };
 
-    static bool is_os_64();
+  static bool is_os_64();
 
-    static bool check_guid(
-        const enum reg reg, // HKLM or HKCU
-        const std::wstring &guid
-        );
+  static bool check_guid(const enum reg reg, // HKLM or HKCU
+                         const std::wstring &guid);
 
-    static bool is_guid_enabled(
-        const std::wstring &guid
-        );
+  static bool is_guid_enabled(const std::wstring &guid);
 
-    static bool read_from_registry_value(
-        const enum reg reg, // HKLM or HKCU
-        const std::wstring &guid,
-        const std::wstring &value,
-        std::wstring &data // out
-        );
+  static bool read_from_registry_value(const enum reg reg, // HKLM or HKCU
+                                       const std::wstring &guid,
+                                       const std::wstring &value,
+                                       std::wstring &data // out
+  );
 
-    static bool write_to_registry_value(
-        const std::wstring &guid,
-        const std::wstring &value,
-        const std::wstring &data
-        );
+  static bool write_to_registry_value(const std::wstring &guid, const std::wstring &value, const std::wstring &data);
 
-    static bool get_version(
-        const enum reg reg, // HKLM or HKCU
-        const std::wstring &guid,
-        std::vector<DWORD> &version // out
-        );
+  static bool get_version(const enum reg reg, // HKLM or HKCU
+                          const std::wstring &guid,
+                          std::vector<DWORD> &version // out
+  );
 
-    static bool set_version(
-        const std::wstring &guid,
-        const std::vector<DWORD> &version
-        );
+  static bool set_version(const std::wstring &guid, const std::vector<DWORD> &version);
 
-    static DWORD WINAPI create_process(
-        LPVOID lpParam
-        );
+  static DWORD WINAPI create_process(LPVOID lpParam);
 };
 
 #endif // W32ACTIVESETUP_HH

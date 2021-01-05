@@ -41,7 +41,7 @@ namespace workrave
             cache[key] = new workrave::config::Setting<T, S>(config, key, def);
           }
 
-        auto *ret = dynamic_cast<workrave::config::Setting<T,S> *>(cache[key]);
+        auto *ret = dynamic_cast<workrave::config::Setting<T, S> *>(cache[key]);
         assert(ret != nullptr);
         return *ret;
       }
@@ -61,7 +61,7 @@ namespace workrave
     private:
       static std::map<std::string, SettingBase *> cache;
     };
-  }
-}
+  } // namespace config
+} // namespace workrave
 
 #endif // WORKRAVE_CONFIG_SETTINGCACHE_HH

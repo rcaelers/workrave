@@ -80,7 +80,7 @@ std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
 GDBusConnection *System::session_connection = nullptr;
-GDBusConnection *System::system_connection = nullptr;
+GDBusConnection *System::system_connection  = nullptr;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -90,7 +90,7 @@ System::init_DBus()
 {
   TRACE_ENTER("System::init_dbus()");
 
-  GError *error = nullptr;
+  GError *error      = nullptr;
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
   if (error != nullptr)
     {
@@ -112,13 +112,18 @@ System::init_DBus()
 }
 
 bool
-System::add_DBus_lock_cmd(const char *dbus_name, const char *dbus_path, const char *dbus_interface, const char *dbus_lock_method, const char *dbus_method_to_check_existence)
+System::add_DBus_lock_cmd(const char *dbus_name,
+                          const char *dbus_path,
+                          const char *dbus_interface,
+                          const char *dbus_lock_method,
+                          const char *dbus_method_to_check_existence)
 {
   TRACE_ENTER_MSG("System::add_DBus_lock_cmd", dbus_name);
 
   // I wish we could use std::move here
   IScreenLockMethod *lock_method = nullptr;
-  lock_method = new ScreenLockDBus(session_connection, dbus_name, dbus_path, dbus_interface, dbus_lock_method, dbus_method_to_check_existence);
+  lock_method =
+    new ScreenLockDBus(session_connection, dbus_name, dbus_path, dbus_interface, dbus_lock_method, dbus_method_to_check_existence);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
@@ -196,7 +201,8 @@ System::init_DBus_lock_commands()
       add_DBus_lock_cmd("org.kde.ksmserver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
 
       // EFL:
-      add_DBus_lock_cmd("org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop", "Lock", nullptr);
+      add_DBus_lock_cmd(
+        "org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop", "Lock", nullptr);
     }
   TRACE_EXIT();
 }
@@ -264,7 +270,7 @@ System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, b
 {
   TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
   IScreenLockMethod *lock_method = nullptr;
-  lock_method = new ScreenLockCommandline(command_name, parameters, async);
+  lock_method                    = new ScreenLockCommandline(command_name, parameters, async);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
@@ -355,7 +361,7 @@ System::lock_screen()
 {
   TRACE_ENTER("System::lock");
 
-  for (auto &lock_command : lock_commands)
+  for (auto &lock_command: lock_commands)
     {
       if (lock_command->lock())
         {
@@ -382,7 +388,7 @@ System::execute(SystemOperation::SystemOperationType type)
     }
   else
     {
-      for (auto &system_state_command : system_state_commands)
+      for (auto &system_state_command: system_state_commands)
         {
           bool ret = false;
           switch (type)
@@ -439,7 +445,7 @@ System::init()
       supported_system_operations.push_back(SystemOperation("Lock", SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN));
     }
 
-  for (auto &system_state_command : system_state_commands)
+  for (auto &system_state_command: system_state_commands)
     {
       if (system_state_command->canShutdown())
         {
@@ -455,7 +461,8 @@ System::init()
         }
       if (system_state_command->canSuspendHybrid())
         {
-          supported_system_operations.push_back(SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
+          supported_system_operations.push_back(
+            SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
         }
     }
 
@@ -467,13 +474,13 @@ System::init()
 void
 System::clear()
 {
-  for (auto &lock_command : lock_commands)
+  for (auto &lock_command: lock_commands)
     {
       delete lock_command;
     }
   lock_commands.clear();
 
-  for (auto &system_state_command : system_state_commands)
+  for (auto &system_state_command: system_state_commands)
     {
       delete system_state_command;
     }

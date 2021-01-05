@@ -43,10 +43,10 @@ public Q_SLOTS:
   void set_index(int index);
 
 private:
-  QButtonGroup *button_group{ nullptr };
-  QHBoxLayout *layout{ nullptr };
-  QVBoxLayout *button_layout{ nullptr };
-  QStackedWidget *content{ nullptr };
+  QButtonGroup *button_group{nullptr};
+  QHBoxLayout *layout{nullptr};
+  QVBoxLayout *button_layout{nullptr};
+  QStackedWidget *content{nullptr};
 };
 
 #endif

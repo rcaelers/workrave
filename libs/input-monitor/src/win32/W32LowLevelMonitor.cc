@@ -53,7 +53,7 @@ jay satiro, workrave project, september 2007
 
 #include <assert.h>
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -63,7 +63,7 @@ jay satiro, workrave project, september 2007
 
 #include "W32LowLevelMonitor.hh"
 #ifdef HAVE_HARPOON
-#include "input-monitor/Harpoon.hh"
+#  include "input-monitor/Harpoon.hh"
 #endif
 
 W32LowLevelMonitor *W32LowLevelMonitor::singleton = NULL;
@@ -81,41 +81,40 @@ Therefore BOOL functions can return -1.
 MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
 
-
-W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config) : config(config)
+W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
+  : config(config)
 {
-  TRACE_ENTER( "W32LowLevelMonitor::W32LowLevelMonitor" );
+  TRACE_ENTER("W32LowLevelMonitor::W32LowLevelMonitor");
 
-  if( singleton != NULL )
+  if (singleton != NULL)
     {
-      TRACE_RETURN( " singleton != NULL " );
+      TRACE_RETURN(" singleton != NULL ");
       return;
     }
 
   singleton = this;
 
-  dispatch = new thread_struct;
+  dispatch       = new thread_struct;
   dispatch->name = "Dispatch";
 
-  callback = new thread_struct;
+  callback       = new thread_struct;
   callback->name = "Callback";
 
   k_hook = NULL;
   m_hook = NULL;
 
-  process_handle = GetModuleHandle( NULL );
+  process_handle = GetModuleHandle(NULL);
 
   TRACE_EXIT();
 }
 
-
 W32LowLevelMonitor::~W32LowLevelMonitor()
 {
-  TRACE_ENTER( "W32LowLevelMonitor::~W32LowLevelMonitor" );
+  TRACE_ENTER("W32LowLevelMonitor::~W32LowLevelMonitor");
 
-  if( singleton != this )
+  if (singleton != this)
     {
-      TRACE_RETURN( " singleton != this " );
+      TRACE_RETURN(" singleton != this ");
       return;
     }
 
@@ -124,40 +123,38 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
   delete dispatch;
   delete callback;
 
-  dispatch = NULL;
-  callback = NULL;
+  dispatch  = NULL;
+  callback  = NULL;
   singleton = NULL;
 
   TRACE_EXIT();
 }
 
-
-bool W32LowLevelMonitor::init()
+bool
+W32LowLevelMonitor::init()
 {
-  TRACE_ENTER( "W32LowLevelMonitor::init" );
+  TRACE_ENTER("W32LowLevelMonitor::init");
 
-  if( singleton != this )
+  if (singleton != this)
     {
-      TRACE_RETURN( " singleton != this " );
+      TRACE_RETURN(" singleton != this ");
       return false;
     }
 
   terminate();
 
-  dispatch->handle =
-      CreateThread( NULL, 0, thread_Dispatch, this, 0, &dispatch->id );
+  dispatch->handle = CreateThread(NULL, 0, thread_Dispatch, this, 0, &dispatch->id);
 
-  if( !wait_for_thread_queue( dispatch ) )
+  if (!wait_for_thread_queue(dispatch))
     {
       terminate();
       TRACE_EXIT();
       return false;
     }
 
-  callback->handle =
-      CreateThread( NULL, 0, thread_Callback, this, 0, &callback->id );
+  callback->handle = CreateThread(NULL, 0, thread_Callback, this, 0, &callback->id);
 
-  if( !wait_for_thread_queue( callback ) )
+  if (!wait_for_thread_queue(callback))
     {
       terminate();
       TRACE_EXIT();
@@ -172,13 +169,14 @@ bool W32LowLevelMonitor::init()
   return true;
 }
 
-bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
+bool
+W32LowLevelMonitor::wait_for_thread_queue(thread_struct *thread)
 {
-  TRACE_ENTER_MSG( "W32LowLevelMonitor::wait_for_thread_queue : ", thread->name);
+  TRACE_ENTER_MSG("W32LowLevelMonitor::wait_for_thread_queue : ", thread->name);
 
-  if( !thread->handle || !thread->id )
+  if (!thread->handle || !thread->id)
     {
-      TRACE_RETURN( " thread: creation failed." );
+      TRACE_RETURN(" thread: creation failed.");
       return false;
     }
 
@@ -187,24 +185,25 @@ bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
   do
     {
       thread_exit_code = 0;
-      Sleep( 1 );
-      GetExitCodeThread( thread->handle, &thread_exit_code );
-      if( thread_exit_code != STILL_ACTIVE )
+      Sleep(1);
+      GetExitCodeThread(thread->handle, &thread_exit_code);
+      if (thread_exit_code != STILL_ACTIVE)
         {
-          TRACE_RETURN( " thread: terminated prematurely." );
+          TRACE_RETURN(" thread: terminated prematurely.");
           return false;
         }
-    } while( thread->active == false );
+    }
+  while (thread->active == false);
 
-  SetLastError( 0 );
-  BOOL ret = PostThreadMessageW( thread->id, 0xFFFF, 0, 0 );
+  SetLastError(0);
+  BOOL ret  = PostThreadMessageW(thread->id, 0xFFFF, 0, 0);
   DWORD gle = GetLastError();
 
-  if( !ret || gle )
+  if (!ret || gle)
     {
-      TRACE_MSG( " thread: PostThreadMessage test failed." );
-      TRACE_MSG( " thread: PostThreadMessage returned: " << ret );
-      TRACE_MSG( " thread: GetLastError returned: " << gle );
+      TRACE_MSG(" thread: PostThreadMessage test failed.");
+      TRACE_MSG(" thread: PostThreadMessage returned: " << ret);
+      TRACE_MSG(" thread: GetLastError returned: " << gle);
       TRACE_EXIT();
       return false;
     }
@@ -213,80 +212,81 @@ bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
   return true;
 }
 
-
-void W32LowLevelMonitor::terminate()
+void
+W32LowLevelMonitor::terminate()
 {
-  if( singleton != this )
-      return;
+  if (singleton != this)
+    return;
 
   unhook();
 
-  terminate_thread( callback );
-  terminate_thread( dispatch );
+  terminate_thread(callback);
+  terminate_thread(dispatch);
 
 #ifdef HAVE_HARPOON
   Harpoon::terminate();
 #endif
 }
 
-
-void W32LowLevelMonitor::terminate_thread( thread_struct *thread )
+void
+W32LowLevelMonitor::terminate_thread(thread_struct *thread)
 {
   thread->active = false;
 
-  if( thread->id )
-      PostThreadMessageW( thread->id, WM_QUIT, 0, 0 );
+  if (thread->id)
+    PostThreadMessageW(thread->id, WM_QUIT, 0, 0);
 
-  wait_for_thread_to_exit( thread );
+  wait_for_thread_to_exit(thread);
 
-  if( thread->handle != NULL )
+  if (thread->handle != NULL)
     {
-      CloseHandle( thread->handle );
+      CloseHandle(thread->handle);
       thread->handle = NULL;
     }
   thread->id = 0;
 }
 
-
-void W32LowLevelMonitor::wait_for_thread_to_exit( thread_struct *thread )
+void
+W32LowLevelMonitor::wait_for_thread_to_exit(thread_struct *thread)
 {
   DWORD thread_exit_code = 0;
 
-  if( !thread || !thread->handle )
+  if (!thread || !thread->handle)
     return;
 
   do
     {
-      Sleep( 1 );
-      GetExitCodeThread( thread->handle, &thread_exit_code );
-    } while( thread_exit_code == STILL_ACTIVE );
+      Sleep(1);
+      GetExitCodeThread(thread->handle, &thread_exit_code);
+    }
+  while (thread_exit_code == STILL_ACTIVE);
 }
 
-
-void W32LowLevelMonitor::unhook()
+void
+W32LowLevelMonitor::unhook()
 {
-  if( k_hook )
-  {
-    UnhookWindowsHookEx( k_hook );
-    k_hook = NULL;
-  }
+  if (k_hook)
+    {
+      UnhookWindowsHookEx(k_hook);
+      k_hook = NULL;
+    }
 
-  if( m_hook )
-  {
-    UnhookWindowsHookEx( m_hook );
-    m_hook = NULL;
-  }
+  if (m_hook)
+    {
+      UnhookWindowsHookEx(m_hook);
+      m_hook = NULL;
+    }
 }
 
-
-DWORD WINAPI W32LowLevelMonitor::thread_Dispatch( LPVOID lpParam )
+DWORD WINAPI
+W32LowLevelMonitor::thread_Dispatch(LPVOID lpParam)
 {
-  W32LowLevelMonitor *pThis = (W32LowLevelMonitor *) lpParam;
+  W32LowLevelMonitor *pThis = (W32LowLevelMonitor *)lpParam;
   return pThis->dispatch_thread();
 }
 
-
-DWORD W32LowLevelMonitor::dispatch_thread()
+DWORD
+W32LowLevelMonitor::dispatch_thread()
 {
   dispatch->active = false;
 
@@ -295,71 +295,71 @@ DWORD W32LowLevelMonitor::dispatch_thread()
 
   // It's good practice to force creation of the thread
   // message queue before setting active.
-  PeekMessageW( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
+  PeekMessageW(&msg, NULL, WM_USER, WM_USER, PM_NOREMOVE);
   dispatch->active = true;
 
-  while( ( ret = GetMessageW( &msg, NULL, 0, 0 ) > 0 ) && dispatch->active )
+  while ((ret = GetMessageW(&msg, NULL, 0, 0) > 0) && dispatch->active)
     {
       msg.message &= 0xFFFF;
-      if( msg.message > WM_APP)
-      // mouse notification
+      if (msg.message > WM_APP)
+        // mouse notification
         {
-          switch( msg.message - WM_APP )
+          switch (msg.message - WM_APP)
             {
-              // msg.wParam == x coord
-              // msg.lParam == y coord
-              case WM_MOUSEMOVE:
-                  fire_mouse( static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 0 );
-                  break;
+            // msg.wParam == x coord
+            // msg.lParam == y coord
+            case WM_MOUSEMOVE:
+              fire_mouse(static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 0);
+              break;
 
-              case WM_MOUSEWHEEL:
-              case WM_MOUSEHWHEEL:
-                  fire_mouse(static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 1 );
-                  break;
+            case WM_MOUSEWHEEL:
+            case WM_MOUSEHWHEEL:
+              fire_mouse(static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 1);
+              break;
 
-              case WM_LBUTTONDOWN:
-              case WM_MBUTTONDOWN:
-              case WM_RBUTTONDOWN:
-              case WM_XBUTTONDOWN:
-                  fire_button( true );
-                  break;
+            case WM_LBUTTONDOWN:
+            case WM_MBUTTONDOWN:
+            case WM_RBUTTONDOWN:
+            case WM_XBUTTONDOWN:
+              fire_button(true);
+              break;
 
-              case WM_LBUTTONUP:
-              case WM_MBUTTONUP:
-              case WM_RBUTTONUP:
-              case WM_XBUTTONUP:
-                  fire_button( false );
-                  break;
+            case WM_LBUTTONUP:
+            case WM_MBUTTONUP:
+            case WM_RBUTTONUP:
+            case WM_XBUTTONUP:
+              fire_button(false);
+              break;
             }
         }
-      else if( msg.message == WM_APP )
-      // keyboard notification
+      else if (msg.message == WM_APP)
+        // keyboard notification
         {
           // kb->flags == msg.wParam
-          if( msg.wParam & 0x00000080 )
-          // Transition state: key released
-              fire_keyboard(false);
+          if (msg.wParam & 0x00000080)
+            // Transition state: key released
+            fire_keyboard(false);
           else
-          // Transition state: key pressed
-              fire_action();
+            // Transition state: key pressed
+            fire_action();
         }
     }
 
   dispatch->active = false;
 
   // Always return a value != STILL_ACTIVE (259)
-  return (DWORD) ret;
+  return (DWORD)ret;
 }
 
-
-DWORD WINAPI W32LowLevelMonitor::thread_Callback( LPVOID lpParam )
+DWORD WINAPI
+W32LowLevelMonitor::thread_Callback(LPVOID lpParam)
 {
-  W32LowLevelMonitor *pThis = (W32LowLevelMonitor *) lpParam;
+  W32LowLevelMonitor *pThis = (W32LowLevelMonitor *)lpParam;
   return pThis->time_critical_callback_thread();
 }
 
-
-DWORD W32LowLevelMonitor::time_critical_callback_thread()
+DWORD
+W32LowLevelMonitor::time_critical_callback_thread()
 {
   callback->active = false;
 
@@ -368,9 +368,9 @@ DWORD W32LowLevelMonitor::time_critical_callback_thread()
 
   // An attempt to set the thread priority to
   // THREAD_PRIORITY_TIME_CRITICAL.
-  for( i = 0; ( !SetThreadPriority( GetCurrentThread(), 15 ) && ( i < 100 ) ); ++i )
+  for (i = 0; (!SetThreadPriority(GetCurrentThread(), 15) && (i < 100)); ++i)
     {
-      Sleep( 1 );
+      Sleep(1);
     }
 
   /*
@@ -381,77 +381,68 @@ DWORD W32LowLevelMonitor::time_critical_callback_thread()
 
   // It's good practice to force creation of the thread
   // message queue before setting active.
-  PeekMessageW( &msg, NULL, WM_USER, WM_USER, PM_NOREMOVE );
+  PeekMessageW(&msg, NULL, WM_USER, WM_USER, PM_NOREMOVE);
 
   unhook();
 
-  k_hook =
-      SetWindowsHookExW( WH_KEYBOARD_LL, &k_hook_callback, process_handle, 0 );
-  m_hook =
-      SetWindowsHookExW( WH_MOUSE_LL, &m_hook_callback, process_handle, 0 );
+  k_hook = SetWindowsHookExW(WH_KEYBOARD_LL, &k_hook_callback, process_handle, 0);
+  m_hook = SetWindowsHookExW(WH_MOUSE_LL, &m_hook_callback, process_handle, 0);
 
-  if( !k_hook || !m_hook )
+  if (!k_hook || !m_hook)
     {
       unhook();
-      return (DWORD) 0;
+      return (DWORD)0;
     }
 
   callback->active = true;
 
   // Message loop. As noted, a hook is called in the
   // context of the thread that installed it. i.e. this one.
-  while( GetMessageW( &msg, NULL, 0, 0 ) && callback->active )
-  ;
+  while (GetMessageW(&msg, NULL, 0, 0) && callback->active)
+    ;
 
   unhook();
   callback->active = false;
 
   // Always return a value != STILL_ACTIVE (259)
-  return (DWORD) 1;
+  return (DWORD)1;
 }
 
-
-LRESULT CALLBACK W32LowLevelMonitor::k_hook_callback(
-    int nCode, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK
+W32LowLevelMonitor::k_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 {
-  DWORD flags = ( (_KBDLLHOOKSTRUCT *) lParam )->flags;
+  DWORD flags = ((_KBDLLHOOKSTRUCT *)lParam)->flags;
 
-  if( !nCode && !( flags & LLKHF_INJECTED ) )
-  // If there is an event, and it's not injected, notify.
+  if (!nCode && !(flags & LLKHF_INJECTED))
+    // If there is an event, and it's not injected, notify.
     {
-      PostThreadMessageW
-        (
-          dispatch->id, //idThread
-          WM_APP, //Msg
-          (WPARAM) flags, //wParam
-          (LPARAM) 0 //lParam
-        );
+      PostThreadMessageW(dispatch->id,  // idThread
+                         WM_APP,        // Msg
+                         (WPARAM)flags, // wParam
+                         (LPARAM)0      // lParam
+      );
     }
 
-  return CallNextHookEx( (HHOOK) 0, nCode, wParam, lParam );
+  return CallNextHookEx((HHOOK)0, nCode, wParam, lParam);
 }
 
-
-LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback(
-    int nCode, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK
+W32LowLevelMonitor::m_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 {
   // DWORD flags = ( (_MSLLHOOKSTRUCT *) lParam )->flags;
 
-
-  if( !nCode ) // && !( flags & LLMHF_INJECTED ) )
-  // If there is an event, and it's not injected, notify.
-  // RC: My Wacom tablet driver injects mouse move events...
+  if (!nCode) // && !( flags & LLMHF_INJECTED ) )
+              // If there is an event, and it's not injected, notify.
+              // RC: My Wacom tablet driver injects mouse move events...
     {
-      PostThreadMessageW
-        (
-          dispatch->id, //idThread
-          WM_APP + (DWORD) wParam, //Msg
-          (WPARAM) ( (_MSLLHOOKSTRUCT *) lParam )->pt.x, //wParam
-          (LPARAM) ( (_MSLLHOOKSTRUCT *) lParam )->pt.y //lParam
-        );
+      PostThreadMessageW(dispatch->id,                              // idThread
+                         WM_APP + (DWORD)wParam,                    // Msg
+                         (WPARAM)((_MSLLHOOKSTRUCT *)lParam)->pt.x, // wParam
+                         (LPARAM)((_MSLLHOOKSTRUCT *)lParam)->pt.y  // lParam
+      );
     }
 
-  return CallNextHookEx( (HHOOK) 0, nCode, wParam, lParam );
+  return CallNextHookEx((HHOOK)0, nCode, wParam, lParam);
 }
 
-//POINTTOPOINTS( ( (MSLLHOOKSTRUCT *) lParam )->pt )
+// POINTTOPOINTS( ( (MSLLHOOKSTRUCT *) lParam )->pt )

@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "RecordInputMonitor.hh"
@@ -33,13 +33,12 @@
 #include <X11/extensions/XIproto.h>
 #include <X11/Xos.h>
 
-
 #include "input-monitor/IInputMonitorListener.hh"
 
 #ifdef HAVE_APP_GTK
-#include <gdk/gdkx.h>
+#  include <gdk/gdkx.h>
 
-#include <memory>
+#  include <memory>
 #endif
 
 using namespace std;
@@ -57,21 +56,20 @@ errorHandler(Display *dpy, XErrorEvent *error)
 {
   (void)dpy;
 
-  if (error->error_code == BadWindow || error->error_code==BadDrawable)
+  if (error->error_code == BadWindow || error->error_code == BadDrawable)
     return 0;
   return 0;
 }
 #endif
 
-RecordInputMonitor::RecordInputMonitor(const char *display_name) :
-  x11_display_name(display_name),
-  x11_display(nullptr),
-  abort(false),
-  xrecord_context(0),
-  xrecord_datalink(nullptr)
+RecordInputMonitor::RecordInputMonitor(const char *display_name)
+  : x11_display_name(display_name)
+  , x11_display(nullptr)
+  , abort(false)
+  , xrecord_context(0)
+  , xrecord_datalink(nullptr)
 {
 }
-
 
 RecordInputMonitor::~RecordInputMonitor()
 {
@@ -87,7 +85,6 @@ RecordInputMonitor::~RecordInputMonitor()
     }
   TRACE_EXIT();
 }
-
 
 bool
 RecordInputMonitor::init()
@@ -120,7 +117,7 @@ RecordInputMonitor::run()
 
   error_trap_enter();
 
-  if (XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
+  if (XRecordEnableContext(xrecord_datalink, xrecord_context, &handle_xrecord_callback, (XPointer)this))
     {
       error_trap_exit();
       xrecord_datalink = nullptr;
@@ -150,11 +147,10 @@ RecordInputMonitor::error_trap_exit()
 #endif
 }
 
-
 void
 RecordInputMonitor::handle_xrecord_key_event(XRecordInterceptData *data)
 {
-  (void) data;
+  (void)data;
   fire_keyboard(false);
 }
 
@@ -196,10 +192,10 @@ RecordInputMonitor::handle_xrecord_button_event(XRecordInterceptData *data)
 void
 RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordInterceptData *data)
 {
-  auto *event = (deviceKeyButtonPointer *)data->data;
+  auto *event           = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
-  static int detail = 0;
-  static int state = 0;
+  static int detail     = 0;
+  static int state      = 0;
 
   if (press)
     {
@@ -210,27 +206,27 @@ RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordIntercept
           fire_keyboard(state == event->state && detail == event->detail);
 
           detail = event->detail;
-          state = event->state;
+          state  = event->state;
         }
     }
   else
     {
       detail = 0;
-      state = 0;
+      state  = 0;
     }
 }
 
 void
 RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *data)
 {
-  auto *event = (deviceKeyButtonPointer *)data->data;
+  auto *event           = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
 
   if (event->time != last_time)
     {
       last_time = event->time;
-      int x = event->root_x;
-      int y = event->root_y;
+      int x     = event->root_x;
+      int y     = event->root_y;
 
       fire_mouse(x, y, 0);
     }
@@ -239,7 +235,7 @@ RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *dat
 void
 RecordInputMonitor::handle_xrecord_device_button_event(XRecordInterceptData *data)
 {
-  auto *event = (deviceKeyButtonPointer *)data->data;
+  auto *event           = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
 
   if (event->time != last_time)
@@ -251,11 +247,11 @@ RecordInputMonitor::handle_xrecord_device_button_event(XRecordInterceptData *dat
 }
 
 void
-RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData * data)
+RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData *data)
 {
   TRACE_ENTER("RecordInputMonitor::handle_xrecord_callback");
-  xEvent *  event;
-  auto *monitor = (RecordInputMonitor *) closure;
+  xEvent *event;
+  auto *monitor = (RecordInputMonitor *)closure;
 
   switch (data->category)
     {
@@ -290,8 +286,8 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
             {
               monitor->handle_xrecord_device_key_event(false, data);
             }
-          else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress ||
-                   event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
+          else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress
+                   || event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
             {
               monitor->handle_xrecord_device_button_event(data);
             }
@@ -306,7 +302,6 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
   TRACE_EXIT();
 }
 
-
 //! Initialize the XRecord monitoring.
 bool
 RecordInputMonitor::init_xrecord()
@@ -319,9 +314,9 @@ RecordInputMonitor::init_xrecord()
 
   if (x11_display != nullptr && XRecordQueryVersion(x11_display, &major, &minor))
     {
-      xrecord_context = 0;
+      xrecord_context  = 0;
       xrecord_datalink = nullptr;
-      use_xrecord = true;
+      use_xrecord      = true;
 
       // Receive from ALL clients, including future clients.
       XRecordClientSpec client = XRecordAllClients;
@@ -334,8 +329,7 @@ RecordInputMonitor::init_xrecord()
           memset(recordRange, 0, sizeof(XRecordRange));
 
           int opcode, error_base;
-          Bool have_xi =  XQueryExtension(x11_display, "XInputExtension",
-                                          &opcode, &xi_event_base, &error_base);
+          Bool have_xi = XQueryExtension(x11_display, "XInputExtension", &opcode, &xi_event_base, &error_base);
 
           if (have_xi && xi_event_base != 0)
             {
@@ -351,7 +345,7 @@ RecordInputMonitor::init_xrecord()
             }
 
           // And create the XRECORD context.
-          xrecord_context = XRecordCreateContext(x11_display, 0, &client,  1, &recordRange, 1);
+          xrecord_context = XRecordCreateContext(x11_display, 0, &client, 1, &recordRange, 1);
 
           XFree(recordRange);
         }
@@ -367,7 +361,7 @@ RecordInputMonitor::init_xrecord()
         {
           XRecordFreeContext(x11_display, xrecord_context);
           xrecord_context = 0;
-          use_xrecord = false;
+          use_xrecord     = false;
         }
     }
 

@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -33,15 +33,16 @@ MacOSAppletWindow::MacOSAppletWindow()
 {
   TRACE_ENTER("MacOSAppletWindow::MacOSAppletWindow");
 
-  timer_box_view = this;
+  timer_box_view    = this;
   timer_box_control = new TimerBoxControl("applet", *this);
 
   NSMenu *menu = [[NSMenu alloc] init];
-  view = [[MacOSStatusBarView alloc] initWithMenu:menu];
+  view         = [[MacOSStatusBarView alloc] initWithMenu:menu];
 
-  while ([menu numberOfItems] > 0) {
-    [menu removeItemAtIndex:0];
-  }
+  while ([menu numberOfItems] > 0)
+    {
+      [menu removeItemAtIndex:0];
+    }
   NSMenuItem *item;
 
   item = [[NSMenuItem alloc] initWithTitle:@"Hello" action:nil keyEquivalent:@""];
@@ -62,7 +63,6 @@ MacOSAppletWindow::~MacOSAppletWindow()
   TRACE_EXIT();
 }
 
-
 void
 MacOSAppletWindow::set_slot(workrave::BreakId id, int slot)
 {
@@ -70,27 +70,28 @@ MacOSAppletWindow::set_slot(workrave::BreakId id, int slot)
   TRACE_EXIT();
 }
 
-
 void
 MacOSAppletWindow::set_time_bar(workrave::BreakId id,
-                              int value,
-                              TimerColorId primary_color,
-                              int primary_val, int primary_max,
-                              TimerColorId secondary_color,
-                              int secondary_val, int secondary_max)
+                                int value,
+                                TimerColorId primary_color,
+                                int primary_val,
+                                int primary_max,
+                                TimerColorId secondary_color,
+                                int secondary_val,
+                                int secondary_max)
 {
   TRACE_ENTER_MSG("MacOSAppletWindow::set_time_bar", int(id) << "=" << value);
 
-  NSString *bar_text = [NSString stringWithCString: Text::time_to_string(value) encoding: NSASCIIStringEncoding];
+  NSString *bar_text = [NSString stringWithCString:Text::time_to_string(value) encoding:NSASCIIStringEncoding];
 
-  [view setBreak: id
-        text: bar_text
-        primaryColor: convertColorId(primary_color)
-        primaryValue: primary_val
-        primaryMaxValue: primary_max
-        secondaryColor: convertColorId(secondary_color)
-        secondaryValue: secondary_val
-        secondaryMaxValue: secondary_max ];
+  [view setBreak:id
+                 text:bar_text
+         primaryColor:convertColorId(primary_color)
+         primaryValue:primary_val
+      primaryMaxValue:primary_max
+       secondaryColor:convertColorId(secondary_color)
+       secondaryValue:secondary_val
+    secondaryMaxValue:secondary_max];
 
   TRACE_EXIT();
 }

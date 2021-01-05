@@ -35,7 +35,7 @@ namespace workrave
     Quiet,
   };
 
-  inline std::ostream& operator<<(std::ostream& stream, OperationMode mode)
+  inline std::ostream &operator<<(std::ostream &stream, OperationMode mode)
   {
     switch (mode)
       {
@@ -61,7 +61,7 @@ namespace workrave
     Reading,
   };
 
-  inline std::ostream& operator<<(std::ostream& stream, UsageMode mode)
+  inline std::ostream &operator<<(std::ostream &stream, UsageMode mode)
   {
     switch (mode)
       {
@@ -76,23 +76,23 @@ namespace workrave
   }
 
   using BreakId = int;
-  const int BREAK_ID_NONE = -1;
+
+  const int BREAK_ID_NONE        = -1;
   const int BREAK_ID_MICRO_BREAK = 0;
-  const int BREAK_ID_REST_BREAK = 1;
+  const int BREAK_ID_REST_BREAK  = 1;
   const int BREAK_ID_DAILY_LIMIT = 2;
-  const int BREAK_ID_SIZEOF = 3;
+  const int BREAK_ID_SIZEOF      = 3;
 
   enum BreakHint
-    {
-      BREAK_HINT_NONE = 0,
+  {
+    BREAK_HINT_NONE = 0,
 
-      // Break was started on user request
-      BREAK_HINT_USER_INITIATED = 1,
+    // Break was started on user request
+    BREAK_HINT_USER_INITIATED = 1,
 
-      // Natural break.
-      BREAK_HINT_NATURAL_BREAK = 2
-    };
-
+    // Natural break.
+    BREAK_HINT_NATURAL_BREAK = 2
+  };
 
   //! The way a break is insisted.
   enum class InsistPolicy
@@ -110,7 +110,7 @@ namespace workrave
     Ignore
   };
 
-  inline std::ostream& operator<<(std::ostream& stream, InsistPolicy policy)
+  inline std::ostream &operator<<(std::ostream &stream, InsistPolicy policy)
   {
     switch (policy)
       {
@@ -130,6 +130,6 @@ namespace workrave
     return stream;
   }
 
-}
+} // namespace workrave
 
 #endif // WORKRAVE_BACKEND_CORETYPES_HH

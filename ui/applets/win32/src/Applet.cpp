@@ -18,7 +18,6 @@
 //
 // $Id$
 
-
 #include <ole2.h>
 #include <comcat.h>
 #include <olectl.h>
@@ -26,7 +25,7 @@
 #include <shlwapi.h>
 
 #if !defined(__GNUC__)
-#pragma data_seg(".text")
+#  pragma data_seg(".text")
 #endif
 
 #define INITGUID
@@ -36,31 +35,30 @@
 #include "Debug.h"
 
 #if !defined(__GNUC__)
-#pragma data_seg()
+#  pragma data_seg()
 #endif
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
 BOOL RegisterServer(CLSID, LPCTSTR, BOOL reg);
 BOOL RegisterComCat(CLSID, CATID, BOOL reg);
 
-HINSTANCE   g_hInst;
-UINT        g_DllRefCount;
+HINSTANCE g_hInst;
+UINT g_DllRefCount;
 
-extern "C" BOOL WINAPI DllMain(  HINSTANCE hInstance,
-                                 DWORD dwReason,
-                                 LPVOID lpReserved)
+extern "C" BOOL WINAPI
+DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
-switch(dwReason)
-   {
-   case DLL_PROCESS_ATTACH:
+  switch (dwReason)
+    {
+    case DLL_PROCESS_ATTACH:
       g_hInst = hInstance;
       break;
 
-   case DLL_PROCESS_DETACH:
+    case DLL_PROCESS_DETACH:
       break;
-   }
+    }
 
-return TRUE;
+  return TRUE;
 }
 
 STDAPI
@@ -71,47 +69,43 @@ DllCanUnloadNow()
   return (g_DllRefCount ? S_FALSE : S_OK);
 }
 
-
 STDAPI
-DllGetClassObject(REFCLSID rclsid,
-                  REFIID riid,
-                  LPVOID *ppReturn)
+DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppReturn)
 {
   *ppReturn = NULL;
 
-  //if we don't support this classid, return the proper error code
+  // if we don't support this classid, return the proper error code
   if (!IsEqualCLSID(rclsid, CLSID_WorkraveDeskBand))
     return CLASS_E_CLASSNOTAVAILABLE;
 
-  //create a CClassFactory object and check it for validity
+  // create a CClassFactory object and check it for validity
   CClassFactory *pClassFactory = new CClassFactory(rclsid);
   if (NULL == pClassFactory)
     return E_OUTOFMEMORY;
 
-  //get the QueryInterface return for our return value
+  // get the QueryInterface return for our return value
   HRESULT hResult = pClassFactory->QueryInterface(riid, ppReturn);
 
-  //call Release to decement the ref count - creating the object set it to one
-  //and QueryInterface incremented it - since its being used externally (not by
-  //us), we only want the ref count to be 1
+  // call Release to decement the ref count - creating the object set it to one
+  // and QueryInterface incremented it - since its being used externally (not by
+  // us), we only want the ref count to be 1
   pClassFactory->Release();
 
-  //return the result from QueryInterface
+  // return the result from QueryInterface
   return hResult;
 }
-
 
 static void
 ClearDeskBandCache()
 {
-/*
-Remove the cache of the deskbands on Windows 2000. This will cause the new
-deskband to be displayed in the toolbar menu the next time the user brings it
-up. See KB article Q214842 for more information on this.
-*/
-  TCHAR    szSubKey[MAX_PATH];
-  TCHAR    szCATID[MAX_PATH];
-  LPWSTR   pwszCATID;
+  /*
+  Remove the cache of the deskbands on Windows 2000. This will cause the new
+  deskband to be displayed in the toolbar menu the next time the user brings it
+  up. See KB article Q214842 for more information on this.
+  */
+  TCHAR szSubKey[MAX_PATH];
+  TCHAR szCATID[MAX_PATH];
+  LPWSTR pwszCATID;
 
   StringFromCLSID(CATID_DeskBand, &pwszCATID);
   if (pwszCATID)
@@ -119,28 +113,20 @@ up. See KB article Q214842 for more information on this.
 #ifdef UNICODE
       lstrcpy(szCATID, pwszCATID);
 #else
-      WideCharToMultiByte( CP_ACP,
-                           0,
-                           pwszCATID,
-                           -1,
-                           szCATID,
-                           ARRAYSIZE(szCATID),
-                           NULL,
-                           NULL);
+      WideCharToMultiByte(CP_ACP, 0, pwszCATID, -1, szCATID, ARRAYSIZE(szCATID), NULL, NULL);
 #endif
 
-      //free the string
+      // free the string
       CoTaskMemFree(pwszCATID);
 
       wsprintf(szSubKey, TEXT("Component Categories\\%s\\Enum"), szCATID);
 
       RegDeleteKey(HKEY_CLASSES_ROOT, szSubKey);
     }
-
-
 }
 
-STDAPI DllUnregisterServer()
+STDAPI
+DllUnregisterServer()
 {
   RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, FALSE);
   RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), FALSE);
@@ -148,16 +134,14 @@ STDAPI DllUnregisterServer()
   return S_OK;
 }
 
-
-
-
-STDAPI DllRegisterServer()
+STDAPI
+DllRegisterServer()
 {
-  //Register the desk band object.
+  // Register the desk band object.
   if (!RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), TRUE))
     return SELFREG_E_CLASS;
 
-//Register the component categories for the desk band object.
+  // Register the component categories for the desk band object.
   if (!RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, TRUE))
     return SELFREG_E_CLASS;
 
@@ -166,27 +150,26 @@ STDAPI DllRegisterServer()
   return S_OK;
 }
 
-
-typedef struct{
-   HKEY  hRootKey;
-   LPCTSTR szSubKey;//TCHAR szSubKey[MAX_PATH];
-   LPCTSTR lpszValueName;
-   LPCTSTR szData;//TCHAR szData[MAX_PATH];
-}DOREGSTRUCT, *LPDOREGSTRUCT;
-
+typedef struct
+{
+  HKEY hRootKey;
+  LPCTSTR szSubKey; // TCHAR szSubKey[MAX_PATH];
+  LPCTSTR lpszValueName;
+  LPCTSTR szData; // TCHAR szData[MAX_PATH];
+} DOREGSTRUCT, *LPDOREGSTRUCT;
 
 BOOL
 RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
 {
-  HKEY     hKey;
-  LRESULT  lResult;
-  DWORD    dwDisp;
-  TCHAR    szSubKey[MAX_PATH];
-  TCHAR    szCLSID[MAX_PATH];
-  TCHAR    szModule[MAX_PATH];
-  LPWSTR   pwsz;
+  HKEY hKey;
+  LRESULT lResult;
+  DWORD dwDisp;
+  TCHAR szSubKey[MAX_PATH];
+  TCHAR szCLSID[MAX_PATH];
+  TCHAR szModule[MAX_PATH];
+  LPWSTR pwsz;
 
-  //get the CLSID in string form
+  // get the CLSID in string form
   StringFromIID(clsid, &pwsz);
 
   if (pwsz)
@@ -194,59 +177,48 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
 #ifdef UNICODE
       lstrcpy(szCLSID, pwsz);
 #else
-      WideCharToMultiByte( CP_ACP,
-                           0,
-                           pwsz,
-                           -1,
-                           szCLSID,
-                           ARRAYSIZE(szCLSID),
-                           NULL,
-                           NULL);
+      WideCharToMultiByte(CP_ACP, 0, pwsz, -1, szCLSID, ARRAYSIZE(szCLSID), NULL, NULL);
 #endif
 
-      //free the string
+      // free the string
       CoTaskMemFree(pwsz);
     }
 
-  //get this app's path and file name
+  // get this app's path and file name
   GetModuleFileName(g_hInst, szModule, ARRAYSIZE(szModule));
 
-  DOREGSTRUCT ClsidEntries[] = {HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s"),                  NULL,                   lpszTitle,
-                                HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s\\InprocServer32"),  NULL,                   szModule,
-                                HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s\\InprocServer32"),  TEXT("ThreadingModel"), TEXT("Apartment")
-    };
+  DOREGSTRUCT ClsidEntries[] = {HKEY_CLASSES_ROOT,
+                                TEXT("CLSID\\%s"),
+                                NULL,
+                                lpszTitle,
+                                HKEY_CLASSES_ROOT,
+                                TEXT("CLSID\\%s\\InprocServer32"),
+                                NULL,
+                                szModule,
+                                HKEY_CLASSES_ROOT,
+                                TEXT("CLSID\\%s\\InprocServer32"),
+                                TEXT("ThreadingModel"),
+                                TEXT("Apartment")};
 
   if (reg)
     {
-      //register the CLSID entries
-      for(size_t i = 0; i < sizeof(ClsidEntries)/sizeof(ClsidEntries[0]); i++)
+      // register the CLSID entries
+      for (size_t i = 0; i < sizeof(ClsidEntries) / sizeof(ClsidEntries[0]); i++)
         {
-          //create the sub key string - for this case, insert the file extension
+          // create the sub key string - for this case, insert the file extension
           wsprintf(szSubKey, ClsidEntries[i].szSubKey, szCLSID);
 
-          lResult = RegCreateKeyEx(  ClsidEntries[i].hRootKey,
-                                     szSubKey,
-                                     0,
-                                     NULL,
-                                     REG_OPTION_NON_VOLATILE,
-                                     KEY_WRITE,
-                                     NULL,
-                                     &hKey,
-                                     &dwDisp);
+          lResult =
+            RegCreateKeyEx(ClsidEntries[i].hRootKey, szSubKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, &dwDisp);
 
           if (NOERROR == lResult)
             {
               TCHAR szData[MAX_PATH];
 
-              //if necessary, create the value string
+              // if necessary, create the value string
               wsprintf(szData, ClsidEntries[i].szData, szModule);
 
-              lResult = RegSetValueEx(   hKey,
-                                         ClsidEntries[i].lpszValueName,
-                                         0,
-                                         REG_SZ,
-                                         (const BYTE *)szData,
-                                         lstrlen(szData) + 1);
+              lResult = RegSetValueEx(hKey, ClsidEntries[i].lpszValueName, 0, REG_SZ, (const BYTE *)szData, lstrlen(szData) + 1);
 
               RegCloseKey(hKey);
             }
@@ -256,47 +228,34 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
     }
   else
     {
-      //create the sub key string - for this case, insert the file extension
+      // create the sub key string - for this case, insert the file extension
       wsprintf(szSubKey, ClsidEntries[0].szSubKey, szCLSID);
 
       SHDeleteKey(ClsidEntries[0].hRootKey, szSubKey);
     }
 
-  //If running on NT, register the extension as approved.
-  OSVERSIONINFO  osvi;
+  // If running on NT, register the extension as approved.
+  OSVERSIONINFO osvi;
 
   osvi.dwOSVersionInfoSize = sizeof(osvi);
   GetVersionEx(&osvi);
 
   if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId)
     {
-      lstrcpy( szSubKey, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"));
+      lstrcpy(szSubKey, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"));
 
-      lResult = RegCreateKeyEx(  HKEY_LOCAL_MACHINE,
-                                 szSubKey,
-                                 0,
-                                 NULL,
-                                 REG_OPTION_NON_VOLATILE,
-                                 KEY_WRITE,
-                                 NULL,
-                                 &hKey,
-                                 &dwDisp);
+      lResult = RegCreateKeyEx(HKEY_LOCAL_MACHINE, szSubKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, &dwDisp);
 
       if (NOERROR == lResult)
         {
           TCHAR szData[MAX_PATH];
 
-          //Create the value string.
+          // Create the value string.
           lstrcpy(szData, lpszTitle);
 
           if (reg)
             {
-              lResult = RegSetValueEx(   hKey,
-                                         szCLSID,
-                                         0,
-                                         REG_SZ,
-                                         (LPBYTE)szData,
-                                         (lstrlen(szData) + 1) * sizeof(TCHAR));
+              lResult = RegSetValueEx(hKey, szCLSID, 0, REG_SZ, (LPBYTE)szData, (lstrlen(szData) + 1) * sizeof(TCHAR));
             }
           else
             {
@@ -315,16 +274,12 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
 BOOL
 RegisterComCat(CLSID clsid, CATID CatID, BOOL reg)
 {
-  ICatRegister   *pcr;
-  HRESULT        hr = S_OK ;
+  ICatRegister *pcr;
+  HRESULT hr = S_OK;
 
   CoInitialize(NULL);
 
-  hr = CoCreateInstance(  CLSID_StdComponentCategoriesMgr,
-                          NULL,
-                          CLSCTX_INPROC_SERVER,
-                          IID_ICatRegister,
-                          (LPVOID*)&pcr);
+  hr = CoCreateInstance(CLSID_StdComponentCategoriesMgr, NULL, CLSCTX_INPROC_SERVER, IID_ICatRegister, (LPVOID *)&pcr);
 
   if (SUCCEEDED(hr))
     {

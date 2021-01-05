@@ -54,37 +54,21 @@ public:
     const char *name;
     SystemOperationType type;
 
-    bool
-    execute() const
-    {
-      return System::execute(type);
-    }
+    bool execute() const { return System::execute(type); }
 
-    bool
-    operator<(const SystemOperation &other) const
-    {
-      return this->type < other.type;
-    }
+    bool operator<(const SystemOperation &other) const { return this->type < other.type; }
 
   private:
     SystemOperation(const char *name, const SystemOperationType type)
-        : name(name)
-        , type(type){};
+      : name(name)
+      , type(type){};
     friend class System;
   };
 
-  static bool
-  is_lockable()
-  {
-    return !lock_commands.empty();
-  }
+  static bool is_lockable() { return !lock_commands.empty(); }
   static bool lock_screen();
 
-  static std::vector<SystemOperation>
-  get_supported_system_operations()
-  {
-    return supported_system_operations;
-  }
+  static std::vector<SystemOperation> get_supported_system_operations() { return supported_system_operations; }
   static bool execute(SystemOperation::SystemOperationType type);
 
   // display will not be owned by System,

@@ -30,29 +30,28 @@
 
 CDeskBand::CDeskBand()
 {
-  m_pSite = NULL;
-  m_hWnd = NULL;
-  m_hwndParent = NULL;
-  m_bFocus = FALSE;
-  m_dwViewMode = 0;
-  m_dwBandID = 0;
-  m_TimerBox = NULL;
-  m_HasAppletMenu = FALSE;
-  m_LastCopyData = 0;
-  m_ObjRefCount = 1;
-  m_preferredWidth = DB_MIN_SIZE_X;
+  m_pSite           = NULL;
+  m_hWnd            = NULL;
+  m_hwndParent      = NULL;
+  m_bFocus          = FALSE;
+  m_dwViewMode      = 0;
+  m_dwBandID        = 0;
+  m_TimerBox        = NULL;
+  m_HasAppletMenu   = FALSE;
+  m_LastCopyData    = 0;
+  m_ObjRefCount     = 1;
+  m_preferredWidth  = DB_MIN_SIZE_X;
   m_preferredHeight = DB_MIN_SIZE_Y;
-  m_minimumWidth = DB_MIN_SIZE_X;
-  m_minimumHeight = DB_MIN_SIZE_Y;
+  m_minimumWidth    = DB_MIN_SIZE_X;
+  m_minimumHeight   = DB_MIN_SIZE_Y;
 
   g_DllRefCount++;
 }
 
-
 CDeskBand::~CDeskBand()
 {
   TRACE_ENTER("CDeskBand::~CDeskBand");
-  //this should have been freed in a call to SetSite(NULL), but just to be safe
+  // this should have been freed in a call to SetSite(NULL), but just to be safe
   if (m_pSite)
     {
       m_pSite->Release();
@@ -69,69 +68,69 @@ CDeskBand::QueryInterface(REFIID riid, LPVOID *ppReturn)
 {
   *ppReturn = NULL;
 
-  //IUnknown
+  // IUnknown
   if (IsEqualIID(riid, IID_IUnknown))
     {
       *ppReturn = this;
     }
 
-  //IOleWindow
+  // IOleWindow
   else if (IsEqualIID(riid, IID_IOleWindow))
     {
-      *ppReturn = (IOleWindow*)this;
+      *ppReturn = (IOleWindow *)this;
     }
 
-  //IDockingWindow
+  // IDockingWindow
   else if (IsEqualIID(riid, IID_IDockingWindow))
     {
-      *ppReturn = (IDockingWindow*)this;
+      *ppReturn = (IDockingWindow *)this;
     }
 
-  //IInputObject
+  // IInputObject
   else if (IsEqualIID(riid, IID_IInputObject))
     {
-      *ppReturn = (IInputObject*)this;
+      *ppReturn = (IInputObject *)this;
     }
 
-  //IObjectWithSite
+  // IObjectWithSite
   else if (IsEqualIID(riid, IID_IObjectWithSite))
     {
-      *ppReturn = (IObjectWithSite*)this;
+      *ppReturn = (IObjectWithSite *)this;
     }
 
-  //IDeskBand
+  // IDeskBand
   else if (IsEqualIID(riid, IID_IDeskBand))
     {
-      *ppReturn = (IDeskBand*)this;
+      *ppReturn = (IDeskBand *)this;
     }
 
-  //IDeskBand2
+  // IDeskBand2
   else if (IsEqualIID(riid, IID_IDeskBand2))
     {
-      *ppReturn = (IDeskBand2*)this;
+      *ppReturn = (IDeskBand2 *)this;
     }
 
-  //IPersist
+  // IPersist
   else if (IsEqualIID(riid, IID_IPersist))
     {
-      *ppReturn = (IPersist*)this;
+      *ppReturn = (IPersist *)this;
     }
 
-  //IPersistStream
+  // IPersistStream
   else if (IsEqualIID(riid, IID_IPersistStream))
     {
-      *ppReturn = (IPersistStream*)this;
+      *ppReturn = (IPersistStream *)this;
     }
 
-  //IContextMenu
+  // IContextMenu
   else if (IsEqualIID(riid, IID_IContextMenu))
     {
-      *ppReturn = (IContextMenu*)this;
+      *ppReturn = (IContextMenu *)this;
     }
 
   if (*ppReturn)
     {
-      (*(LPUNKNOWN*)ppReturn)->AddRef();
+      (*(LPUNKNOWN *)ppReturn)->AddRef();
       return S_OK;
     }
 
@@ -143,7 +142,6 @@ CDeskBand::AddRef()
 {
   return ++m_ObjRefCount;
 }
-
 
 STDMETHODIMP_(DWORD)
 CDeskBand::Release()
@@ -170,7 +168,7 @@ CDeskBand::GetWindow(HWND *phWnd)
 STDMETHODIMP
 CDeskBand::ContextSensitiveHelp(BOOL fEnterMode)
 {
-  TRACE_ENTER_MSG("CDeskBand::ContextSensitiveHelp",fEnterMode);
+  TRACE_ENTER_MSG("CDeskBand::ContextSensitiveHelp", fEnterMode);
   TRACE_EXIT();
   return E_NOTIMPL;
 }
@@ -183,12 +181,12 @@ CDeskBand::ShowDW(BOOL fShow)
     {
       if (fShow)
         {
-          //show our window
+          // show our window
           ShowWindow(m_hWnd, SW_SHOW);
         }
       else
         {
-          //hide our window
+          // hide our window
           ShowWindow(m_hWnd, SW_HIDE);
         }
     }
@@ -216,9 +214,7 @@ CDeskBand::CloseDW(DWORD dwReserved)
 }
 
 STDMETHODIMP
-CDeskBand::ResizeBorderDW(LPCRECT prcBorder,
-                          IUnknown* punkSite,
-                          BOOL fReserved)
+CDeskBand::ResizeBorderDW(LPCRECT prcBorder, IUnknown *punkSite, BOOL fReserved)
 {
   TRACE_ENTER("CDeskBand::ResizeBorderDW");
   TRACE_EXIT();
@@ -243,10 +239,10 @@ CDeskBand::HasFocusIO()
   TRACE_ENTER("CDeskBand::HasFocusIO");
 
   if (m_bFocus)
-  {
-    TRACE_RETURN("OK");
-    return S_OK;
-  }
+    {
+      TRACE_RETURN("OK");
+      return S_OK;
+    }
 
   TRACE_RETURN("FALSE");
   return S_FALSE;
@@ -261,25 +257,25 @@ CDeskBand::TranslateAcceleratorIO(LPMSG pMsg)
 }
 
 STDMETHODIMP
-CDeskBand::SetSite(IUnknown* punkSite)
+CDeskBand::SetSite(IUnknown *punkSite)
 {
   TRACE_ENTER("CDeskBand::SetSite");
-  //If a site is being held, release it.
+  // If a site is being held, release it.
   if (m_pSite)
     {
       m_pSite->Release();
       m_pSite = NULL;
     }
 
-  //If punkSite is not NULL, a new site is being set.
+  // If punkSite is not NULL, a new site is being set.
   if (punkSite)
     {
-      //Get the parent window.
-      IOleWindow  *pOleWindow;
+      // Get the parent window.
+      IOleWindow *pOleWindow;
 
       m_hwndParent = NULL;
 
-      if (SUCCEEDED(punkSite->QueryInterface(IID_IOleWindow, (LPVOID*)&pOleWindow)))
+      if (SUCCEEDED(punkSite->QueryInterface(IID_IOleWindow, (LPVOID *)&pOleWindow)))
         {
           pOleWindow->GetWindow(&m_hwndParent);
           pOleWindow->Release();
@@ -291,8 +287,8 @@ CDeskBand::SetSite(IUnknown* punkSite)
       if (!RegisterAndCreateWindow())
         return E_FAIL;
 
-      //Get and keep the IInputObjectSite pointer.
-      if (SUCCEEDED(punkSite->QueryInterface(IID_IInputObjectSite, (LPVOID*)&m_pSite)))
+      // Get and keep the IInputObjectSite pointer.
+      if (SUCCEEDED(punkSite->QueryInterface(IID_IInputObjectSite, (LPVOID *)&m_pSite)))
         {
           return S_OK;
         }
@@ -318,12 +314,12 @@ CDeskBand::GetSite(REFIID riid, LPVOID *ppvReturn)
 }
 
 STDMETHODIMP
-CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
+CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO *pdbi)
 {
   TRACE_ENTER_MSG("CDeskBand::GetBandInfo", dwBandID << " " << dwViewMode);
   if (pdbi)
     {
-      m_dwBandID = dwBandID;
+      m_dwBandID   = dwBandID;
       m_dwViewMode = dwViewMode;
 
       if (pdbi->dwMask & DBIM_MINSIZE)
@@ -380,7 +376,7 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 
       if (pdbi->dwMask & DBIM_BKCOLOR)
         {
-          //Use the default background color by removing this flag.
+          // Use the default background color by removing this flag.
           pdbi->dwMask &= ~DBIM_BKCOLOR;
         }
 
@@ -398,26 +394,26 @@ CDeskBand::CanRenderComposited(BOOL *pfCanRenderComposited)
 
   if (!pfCanRenderComposited)
     return E_INVALIDARG;
-  
+
   *pfCanRenderComposited = TRUE;
   TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
-CDeskBand::GetCompositionState( BOOL *pfCompositionEnabled )
+CDeskBand::GetCompositionState(BOOL *pfCompositionEnabled)
 {
   TRACE_ENTER("CDeskBand::GetCompositionState");
   if (!pfCompositionEnabled)
     return E_INVALIDARG;
-  
+
   *pfCompositionEnabled = m_CompositionEnabled;
   TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
-CDeskBand::SetCompositionState( BOOL fCompositionEnabled )
+CDeskBand::SetCompositionState(BOOL fCompositionEnabled)
 {
   TRACE_ENTER_MSG("CDeskBand::SetCompositionState", fCompositionEnabled);
   m_CompositionEnabled = fCompositionEnabled;
@@ -468,26 +464,21 @@ CDeskBand::GetSizeMax(ULARGE_INTEGER *pul)
 }
 
 STDMETHODIMP
-CDeskBand::QueryContextMenu(HMENU hMenu,
-                            UINT indexMenu,
-                            UINT idCmdFirst,
-                            UINT idCmdLast,
-                            UINT uFlags)
+CDeskBand::QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags)
 {
   TRACE_ENTER("CDeskBand::QueryContextMenu");
-  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow( get_command_window() ))
+  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow(get_command_window()))
     return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 
-  int m = 0;
+  int m       = 0;
   HMENU popup = NULL;
   while (m < m_AppletMenu.num_items)
     {
       AppletMenuItemData *d = &m_AppletMenu.items[m];
-      wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH*2];
-      MultiByteToWideChar(CP_UTF8, 0, d->text, -1,
-                          textw, sizeof(textw)/sizeof(textw[0]));
+      wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH * 2];
+      MultiByteToWideChar(CP_UTF8, 0, d->text, -1, textw, sizeof(textw) / sizeof(textw[0]));
       wchar_t *abbrev = wcschr(textw, '_');
-      UINT flags = MF_STRING | MF_BYPOSITION;
+      UINT flags      = MF_STRING | MF_BYPOSITION;
       if (d->flags & APPLET_MENU_FLAG_SELECTED)
         {
           flags |= MF_CHECKED;
@@ -502,29 +493,18 @@ CDeskBand::QueryContextMenu(HMENU hMenu,
             {
               popup = CreatePopupMenu();
             }
-          AppendMenuW(popup,
-                      flags,
-                      idCmdFirst + m,
-                      textw);
+          AppendMenuW(popup, flags, idCmdFirst + m, textw);
         }
       else
         {
           if (popup != NULL)
             {
-              InsertMenuW(hMenu,
-                          indexMenu++,
-                          MF_POPUP | flags,
-                          (UINT_PTR) popup,
-                          textw);
+              InsertMenuW(hMenu, indexMenu++, MF_POPUP | flags, (UINT_PTR)popup, textw);
               popup = NULL;
             }
           else
             {
-              InsertMenuW(hMenu,
-                          indexMenu++,
-                          flags,
-                          idCmdFirst + m,
-                          textw);
+              InsertMenuW(hMenu, indexMenu++, flags, idCmdFirst + m, textw);
             }
         }
       m++;
@@ -541,9 +521,9 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
   int cmd = LOWORD(lpcmi->lpVerb);
   HRESULT ret;
 
-  if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow( get_command_window() ))
+  if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow(get_command_window()))
     {
-      SendMessage( get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, 0 );
+      SendMessage(get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, 0);
       ret = NOERROR;
     }
   else
@@ -555,13 +535,9 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 }
 
 STDMETHODIMP
-CDeskBand::GetCommandString(UINT_PTR idCommand,
-                            UINT uFlags,
-                            LPUINT lpReserved,
-                            LPSTR lpszName,
-                            UINT uMaxNameLen)
+CDeskBand::GetCommandString(UINT_PTR idCommand, UINT uFlags, LPUINT lpReserved, LPSTR lpszName, UINT uMaxNameLen)
 {
-  HRESULT  hr = E_INVALIDARG;
+  HRESULT hr = E_INVALIDARG;
   return hr;
 }
 
@@ -569,20 +545,19 @@ LRESULT CALLBACK
 CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER("CDeskBand::WndProc");
-  LRESULT lResult = 0;
-  CDeskBand  *pThis = (CDeskBand*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+  LRESULT lResult  = 0;
+  CDeskBand *pThis = (CDeskBand *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis = (CDeskBand *)( lpcs->lpCreateParams );
+        pThis               = (CDeskBand *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
-                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
-        //set the window handle
+        // set the window handle
         pThis->m_hWnd = hWnd;
         SetTimer(hWnd, 0xdeadf00d, 3000, NULL);
         PaintHelper::Init();
@@ -591,9 +566,9 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
     case WM_ERASEBKGND:
       if (pThis->m_CompositionEnabled)
-      {
-        lResult = 1;
-      }
+        {
+          lResult = 1;
+        }
       break;
 
     case WM_COMMAND:
@@ -605,7 +580,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_COPYDATA:
-      pThis->OnCopyData((PCOPYDATASTRUCT) lParam);
+      pThis->OnCopyData((PCOPYDATASTRUCT)lParam);
       break;
 
     case WM_SETFOCUS:
@@ -625,18 +600,17 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_LBUTTONUP:
-      SendMessage((HWND)LongToHandle(pThis->m_AppletMenu.command_window),
-                  WM_USER + 1, 0, 0);
+      SendMessage((HWND)LongToHandle(pThis->m_AppletMenu.command_window), WM_USER + 1, 0, 0);
       break;
     }
 
-    if (uMessage != WM_ERASEBKGND)
+  if (uMessage != WM_ERASEBKGND)
     {
-        lResult = DefWindowProc(hWnd, uMessage, wParam, lParam);
+      lResult = DefWindowProc(hWnd, uMessage, wParam, lParam);
     }
 
-    TRACE_EXIT();
-    return lResult;
+  TRACE_EXIT();
+  return lResult;
 }
 
 LRESULT
@@ -667,21 +641,18 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
 {
   TRACE_ENTER("CDeskBand::OnCopyData");
   m_LastCopyData = time(NULL);
-  if (copy_data->dwData == APPLET_MESSAGE_MENU
-      && copy_data->cbData == sizeof(AppletMenuData))
+  if (copy_data->dwData == APPLET_MESSAGE_MENU && copy_data->cbData == sizeof(AppletMenuData))
     {
-      m_AppletMenu = *((AppletMenuData *) copy_data->lpData);
+      m_AppletMenu    = *((AppletMenuData *)copy_data->lpData);
       m_HasAppletMenu = TRUE;
     }
-  else if (m_TimerBox != NULL
-           && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
-           && copy_data->cbData == sizeof(AppletHeartbeatData))
+  else if (m_TimerBox != NULL && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT && copy_data->cbData == sizeof(AppletHeartbeatData))
     {
-      AppletHeartbeatData *data = (AppletHeartbeatData *) copy_data->lpData;
+      AppletHeartbeatData *data = (AppletHeartbeatData *)copy_data->lpData;
       m_TimerBox->set_enabled(data->enabled);
       for (int s = 0; s < BREAK_ID_SIZEOF; s++)
         {
-          m_TimerBox->set_slot(s, (BreakId) data->slots[s]);
+          m_TimerBox->set_slot(s, (BreakId)data->slots[s]);
         }
       for (int b = 0; b < BREAK_ID_SIZEOF; b++)
         {
@@ -689,8 +660,8 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
           if (bar != NULL)
             {
               bar->set_text(data->bar_text[b]);
-              bar->set_bar_color((TimerColorId) data->bar_primary_color[b]);
-              bar->set_secondary_bar_color((TimerColorId) data->bar_secondary_color[b]);
+              bar->set_bar_color((TimerColorId)data->bar_primary_color[b]);
+              bar->set_secondary_bar_color((TimerColorId)data->bar_secondary_color[b]);
               bar->set_progress(data->bar_primary_val[b], data->bar_primary_max[b]);
               bar->set_secondary_progress(data->bar_secondary_val[b], data->bar_secondary_max[b]);
             }
@@ -703,12 +674,11 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
   return 0;
 }
 
-
 LRESULT
 CDeskBand::OnSize(LPARAM lParam)
 {
-  TRACE_ENTER_MSG("CDeskBand::OnSize",lParam);
-  int   cx, cy;
+  TRACE_ENTER_MSG("CDeskBand::OnSize", lParam);
+  int cx, cy;
 
   cx = LOWORD(lParam);
   cy = HIWORD(lParam);
@@ -723,21 +693,19 @@ CDeskBand::OnSize(LPARAM lParam)
   return 0;
 }
 
-
 void
 CDeskBand::FocusChange(BOOL bFocus)
 {
   TRACE_ENTER_MSG("CDeskBand::OnWindowPosChanging", bFocus);
   m_bFocus = bFocus;
 
-  //inform the input object site that the focus has changed
+  // inform the input object site that the focus has changed
   if (m_pSite)
     {
-      m_pSite->OnFocusChangeIS((IDockingWindow*)this, bFocus);
+      m_pSite->OnFocusChangeIS((IDockingWindow *)this, bFocus);
     }
   TRACE_EXIT();
 }
-
 
 LRESULT
 CDeskBand::OnSetFocus()
@@ -747,7 +715,6 @@ CDeskBand::OnSetFocus()
   TRACE_EXIT();
   return 0;
 }
-
 
 LRESULT
 CDeskBand::OnKillFocus()
@@ -762,43 +729,43 @@ BOOL
 CDeskBand::RegisterAndCreateWindow()
 {
   TRACE_ENTER("CDeskBand::RegisterAndCreateWindow");
-  //If the window doesn't exist yet, create it now.
+  // If the window doesn't exist yet, create it now.
   if (!m_hWnd)
     {
-      //Can't create a child window without a parent.
+      // Can't create a child window without a parent.
       if (!m_hwndParent)
         {
           return FALSE;
         }
 
-      //If the window class has not been registered, then do so.
+      // If the window class has not been registered, then do so.
       WNDCLASS wc;
       if (!GetClassInfo(g_hInst, DB_CLASS_NAME, &wc))
         {
           ZeroMemory(&wc, sizeof(wc));
-          wc.style          = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
-          wc.lpfnWndProc    = (WNDPROC)WndProc;
-          wc.cbClsExtra     = 0;
-          wc.cbWndExtra     = 0;
-          wc.hInstance      = g_hInst;
-          wc.hIcon          = NULL;
-          wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-          wc.hbrBackground  = NULL;//(HBRUSH)(COLOR_WINDOWFRAME+1);
-          wc.lpszMenuName   = NULL;
-          wc.lpszClassName  = DB_CLASS_NAME;
+          wc.style         = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
+          wc.lpfnWndProc   = (WNDPROC)WndProc;
+          wc.cbClsExtra    = 0;
+          wc.cbWndExtra    = 0;
+          wc.hInstance     = g_hInst;
+          wc.hIcon         = NULL;
+          wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+          wc.hbrBackground = NULL; //(HBRUSH)(COLOR_WINDOWFRAME+1);
+          wc.lpszMenuName  = NULL;
+          wc.lpszClassName = DB_CLASS_NAME;
 
           if (!RegisterClass(&wc))
             {
-              //If RegisterClass fails, CreateWindow below will fail.
+              // If RegisterClass fails, CreateWindow below will fail.
             }
         }
 
-      RECT  rc;
+      RECT rc;
 
       GetClientRect(m_hwndParent, &rc);
       TRACE_MSG(rc.left << " " << rc.top << " " << rc.right << " " << rc.bottom);
 
-      //Create the window. The WndProc will set m_hWnd.
+      // Create the window. The WndProc will set m_hWnd.
       HWND h = CreateWindowEx(WS_EX_TRANSPARENT,
                               DB_CLASS_NAME,
                               NULL,
@@ -811,14 +778,13 @@ CDeskBand::RegisterAndCreateWindow()
                               NULL,
                               g_hInst,
                               (LPVOID)this);
-      
+
       m_TimerBox = new TimerBox(h, g_hInst, this);
     }
 
   return (NULL != m_hWnd);
   TRACE_EXIT();
 }
-
 
 LRESULT
 CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
@@ -832,43 +798,43 @@ CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
   return 0;
 }
 
-
-void CDeskBand::UpdateDeskband()
+void
+CDeskBand::UpdateDeskband()
 {
-    TRACE_ENTER("CDeskBand::UpdateDeskband");
+  TRACE_ENTER("CDeskBand::UpdateDeskband");
 
-    int preferredWidth, preferredHeight;
-    m_TimerBox->get_preferred_size(preferredWidth, preferredHeight);
-    preferredWidth = __max(DB_MIN_SIZE_X, preferredWidth);
-    preferredHeight = __max(DB_MIN_SIZE_Y, preferredHeight);
+  int preferredWidth, preferredHeight;
+  m_TimerBox->get_preferred_size(preferredWidth, preferredHeight);
+  preferredWidth  = __max(DB_MIN_SIZE_X, preferredWidth);
+  preferredHeight = __max(DB_MIN_SIZE_Y, preferredHeight);
 
-    int minimumWidth, minimumHeight;
-    m_TimerBox->get_minimum_size(minimumWidth, minimumHeight);
-    minimumWidth = __max(DB_MIN_SIZE_X, minimumWidth);
-    minimumHeight = __max(DB_MIN_SIZE_Y, minimumHeight);
+  int minimumWidth, minimumHeight;
+  m_TimerBox->get_minimum_size(minimumWidth, minimumHeight);
+  minimumWidth  = __max(DB_MIN_SIZE_X, minimumWidth);
+  minimumHeight = __max(DB_MIN_SIZE_Y, minimumHeight);
 
-    TRACE_MSG("w x h: " << preferredWidth << " " << preferredHeight << " old: " << m_preferredWidth << " " << m_preferredHeight);
-    TRACE_MSG("w x h: " << minimumWidth << " " << minimumHeight << " old: " << m_minimumWidth << " " << m_minimumHeight);
+  TRACE_MSG("w x h: " << preferredWidth << " " << preferredHeight << " old: " << m_preferredWidth << " " << m_preferredHeight);
+  TRACE_MSG("w x h: " << minimumWidth << " " << minimumHeight << " old: " << m_minimumWidth << " " << m_minimumHeight);
 
-    if (preferredWidth != m_preferredWidth || preferredHeight != m_preferredHeight ||
-        minimumWidth != m_minimumWidth || minimumHeight != m_minimumHeight)
+  if (preferredWidth != m_preferredWidth || preferredHeight != m_preferredHeight || minimumWidth != m_minimumWidth
+      || minimumHeight != m_minimumHeight)
     {
-        m_preferredWidth = preferredWidth;
-        m_preferredHeight = preferredHeight;
-        m_minimumWidth = minimumWidth;
-        m_minimumHeight = minimumHeight;
+      m_preferredWidth  = preferredWidth;
+      m_preferredHeight = preferredHeight;
+      m_minimumWidth    = minimumWidth;
+      m_minimumHeight   = minimumHeight;
 
-        IOleCommandTarget* oleCommandTarget;
-        HRESULT hr = GetSite(IID_IOleCommandTarget, (LPVOID*)&oleCommandTarget);
+      IOleCommandTarget *oleCommandTarget;
+      HRESULT hr = GetSite(IID_IOleCommandTarget, (LPVOID *)&oleCommandTarget);
 
-        if (SUCCEEDED(hr))
+      if (SUCCEEDED(hr))
         {
-            VARIANTARG v = { 0 };
-            v.vt = VT_I4;
-            v.lVal = m_dwBandID;
+          VARIANTARG v = {0};
+          v.vt         = VT_I4;
+          v.lVal       = m_dwBandID;
 
-            oleCommandTarget->Exec(&CGID_DeskBand, DBID_BANDINFOCHANGED, OLECMDEXECOPT_DODEFAULT, &v, NULL);
-            oleCommandTarget->Release();
+          oleCommandTarget->Exec(&CGID_DeskBand, DBID_BANDINFOCHANGED, OLECMDEXECOPT_DODEFAULT, &v, NULL);
+          oleCommandTarget->Release();
         }
     }
 }

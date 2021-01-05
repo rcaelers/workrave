@@ -16,10 +16,9 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "config/SettingCache.hh"
 
 std::map<std::string, workrave::config::SettingBase *> workrave::config::SettingCache::cache;
-

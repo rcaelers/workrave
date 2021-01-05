@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -37,31 +37,27 @@
 using namespace std;
 using namespace workrave;
 
-
 //! Constructor.
 W32AppletMenu::W32AppletMenu(W32AppletWindow *applet_window)
   : applet_window(applet_window)
 {
 }
 
-
 //! Destructor.
-W32AppletMenu::~W32AppletMenu()
-{
-}
+W32AppletMenu::~W32AppletMenu() {}
 
 void
 W32AppletMenu::resync(OperationMode mode, UsageMode usage)
 {
   TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << usage);
 
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui               = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
 
   if (applet_window != NULL)
     {
       TRACE_MSG("ok");
-      HWND cmd_win = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
+      HWND cmd_win = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
 
       W32AppletWindow *w32aw = applet_window;
       w32aw->init_menu(cmd_win);
@@ -71,32 +67,24 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage)
       w32aw->add_menu(_("_Rest break"), MenuCommand::MENU_COMMAND_REST_BREAK, 0);
       w32aw->add_menu(_("Exercises"), MenuCommand::MENU_COMMAND_EXERCISES, 0);
 
-      w32aw->add_menu(_("_Normal"), MenuCommand::MENU_COMMAND_MODE_NORMAL,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OperationMode::Normal
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("Q_uiet"), MenuCommand::MENU_COMMAND_MODE_QUIET,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OperationMode::Quiet
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("_Suspended"), MenuCommand::MENU_COMMAND_MODE_SUSPENDED,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OperationMode::Suspended
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
+      w32aw->add_menu(_("_Normal"),
+                      MenuCommand::MENU_COMMAND_MODE_NORMAL,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (mode == OperationMode::Normal ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+      w32aw->add_menu(_("Q_uiet"),
+                      MenuCommand::MENU_COMMAND_MODE_QUIET,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (mode == OperationMode::Quiet ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+      w32aw->add_menu(_("_Suspended"),
+                      MenuCommand::MENU_COMMAND_MODE_SUSPENDED,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (mode == OperationMode::Suspended ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
 
       w32aw->add_menu(_("_Mode"), 0, 0);
 
-      w32aw->add_menu(_("Reading mode"), MenuCommand::MENU_COMMAND_MODE_READING,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |(usage == UsageMode::Reading
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
+      w32aw->add_menu(_("Reading mode"),
+                      MenuCommand::MENU_COMMAND_MODE_READING,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | (usage == UsageMode::Reading ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
 
       w32aw->add_menu(_("Statistics"), MenuCommand::MENU_COMMAND_STATISTICS, 0);
       w32aw->add_menu(_("About..."), MenuCommand::MENU_COMMAND_ABOUT, 0);

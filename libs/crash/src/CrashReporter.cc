@@ -79,7 +79,7 @@ void
 CrashReporter::Pimpl::init()
 {
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
-  const std::filesystem::path app_dir = workrave::utils::Platform::get_application_directory();
+  const std::filesystem::path app_dir  = workrave::utils::Platform::get_application_directory();
 
 #ifdef PLATFORM_OS_WINDOWS
   std::string handler_exe = "WorkraveCrashHandler.exe";
@@ -119,8 +119,15 @@ CrashReporter::Pimpl::init()
 
   settings->SetUploadsEnabled(true);
 
-  client = new crashpad::CrashpadClient();
-  bool success = client->StartHandler(handler, reports_dir, metrics_dir, url, annotations, arguments, /* restartable */ true, /* asynchronous_start */ false);
+  client       = new crashpad::CrashpadClient();
+  bool success = client->StartHandler(handler,
+                                      reports_dir,
+                                      metrics_dir,
+                                      url,
+                                      annotations,
+                                      arguments,
+                                      /* restartable */ true,
+                                      /* asynchronous_start */ false);
   std::cout << "result = " << success << "\n";
 
   crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);

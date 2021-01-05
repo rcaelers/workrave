@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -28,7 +28,7 @@
 #include "Text.hh"
 
 #if defined(interface)
-#undef interface
+#  undef interface
 #endif
 
 #include "Applet.hh"
@@ -44,16 +44,16 @@ W32AppletWindow::W32AppletWindow()
   memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
   memset(&menu_data, 0, sizeof(AppletMenuData));
 
-  thread_id = 0;
-  thread_handle = NULL;
-  timer_box_view = this;
-  applet_window = NULL;
+  thread_id              = 0;
+  thread_handle          = NULL;
+  timer_box_view         = this;
+  applet_window          = NULL;
   heartbeat_data.enabled = true;
-  local_applet_window = NULL;
+  local_applet_window    = NULL;
   init_menu(NULL);
 
   ::InitializeCriticalSection(&heartbeat_data_lock);
-  thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+  thread_abort_event   = ::CreateEvent(NULL, FALSE, FALSE, NULL);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
   timer_box_control = new TimerBoxControl("applet", this);
@@ -71,18 +71,18 @@ W32AppletWindow::~W32AppletWindow()
   called from the main thread. current conditions are acceptable, however. 2/12/2012
   */
   heartbeat_data.enabled = false;
-  SetEvent( thread_abort_event );
-  if( thread_handle )
-  {
-    WaitForSingleObject( thread_handle, INFINITE );
-    CloseHandle( thread_handle );
-  }
+  SetEvent(thread_abort_event);
+  if (thread_handle)
+    {
+      WaitForSingleObject(thread_handle, INFINITE);
+      CloseHandle(thread_handle);
+    }
 
-  if( thread_abort_event )
-    CloseHandle( thread_abort_event );
+  if (thread_abort_event)
+    CloseHandle(thread_abort_event);
 
-  if( heartbeat_data_event )
-    CloseHandle( heartbeat_data_event );
+  if (heartbeat_data_event)
+    CloseHandle(heartbeat_data_event);
 
   DeleteCriticalSection(&heartbeat_data_lock);
 
@@ -95,13 +95,13 @@ static HWND
 RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
 {
   static char buf[80];
-  int num = GetClassNameA(hwnd, buf, sizeof(buf)-1);
+  int num  = GetClassNameA(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
-  if (! stricmp(lpClassName, buf))
+  if (!stricmp(lpClassName, buf))
     {
-      ret =  hwnd;
+      ret = hwnd;
     }
   else
     {
@@ -119,13 +119,11 @@ RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
   return ret;
 }
 
-
-
 void
 W32AppletWindow::set_slot(BreakId id, int slot)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_slot", int(id) << ", " << slot);
-  heartbeat_data.slots[slot] = (short) id;
+  heartbeat_data.slots[slot] = (short)id;
   TRACE_EXIT();
 }
 
@@ -133,19 +131,21 @@ void
 W32AppletWindow::set_time_bar(BreakId id,
                               int value,
                               TimerColorId primary_color,
-                              int primary_val, int primary_max,
+                              int primary_val,
+                              int primary_max,
                               TimerColorId secondary_color,
-                              int secondary_val, int secondary_max)
+                              int secondary_val,
+                              int secondary_max)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << value);
-  strncpy(heartbeat_data.bar_text[id], Text::time_to_string(value).c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);
-  heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
-  heartbeat_data.bar_primary_color[id] = (int) primary_color;
-  heartbeat_data.bar_primary_val[id] = primary_val;
-  heartbeat_data.bar_primary_max[id] = primary_max;
-  heartbeat_data.bar_secondary_color[id] = (int)secondary_color;
-  heartbeat_data.bar_secondary_val[id] = secondary_val;
-  heartbeat_data.bar_secondary_max[id] = secondary_max;
+  strncpy(heartbeat_data.bar_text[id], Text::time_to_string(value).c_str(), APPLET_BAR_TEXT_MAX_LENGTH - 1);
+  heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH - 1] = '\0';
+  heartbeat_data.bar_primary_color[id]                        = (int)primary_color;
+  heartbeat_data.bar_primary_val[id]                          = primary_val;
+  heartbeat_data.bar_primary_max[id]                          = primary_max;
+  heartbeat_data.bar_secondary_color[id]                      = (int)secondary_color;
+  heartbeat_data.bar_secondary_val[id]                        = secondary_val;
+  heartbeat_data.bar_secondary_max[id]                        = secondary_max;
   TRACE_EXIT();
 }
 
@@ -156,24 +156,24 @@ W32AppletWindow::update_view()
 
   BOOL entered = ::TryEnterCriticalSection(&heartbeat_data_lock);
   if (entered)
-  {
-    update_applet_window();
+    {
+      update_applet_window();
 
-    if (applet_window != NULL)
-      {
-        memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
-        if (!menu_sent)
-          {
-            memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
-            local_applet_window = applet_window;
-            menu_sent = true;
-          }
+      if (applet_window != NULL)
+        {
+          memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
+          if (!menu_sent)
+            {
+              memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
+              local_applet_window = applet_window;
+              menu_sent           = true;
+            }
 
-        SetEvent(heartbeat_data_event);
-      }
+          SetEvent(heartbeat_data_event);
+        }
 
-    ::LeaveCriticalSection(&heartbeat_data_lock);
-  }
+      ::LeaveCriticalSection(&heartbeat_data_lock);
+    }
 
   TRACE_EXIT();
 }
@@ -190,7 +190,7 @@ W32AppletWindow::update_menu()
       msg.dwData = APPLET_MESSAGE_MENU;
       msg.cbData = sizeof(AppletMenuData);
       msg.lpData = &local_menu_data;
-      SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM) &msg);
+      SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM)&msg);
     }
   TRACE_EXIT();
 }
@@ -209,7 +209,7 @@ W32AppletWindow::update_time_bars()
         {
           TRACE_MSG("sending: slots[]=" << local_heartbeat_data.slots[i]);
         }
-      SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM) &msg);
+      SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM)&msg);
     }
   TRACE_EXIT();
 }
@@ -221,9 +221,9 @@ W32AppletWindow::update_applet_window()
   HWND previous_applet_window = applet_window;
   if (applet_window == NULL || !IsWindow(applet_window))
     {
-      HWND taskbar = FindWindowA("Shell_TrayWnd",NULL);
+      HWND taskbar  = FindWindowA("Shell_TrayWnd", NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
-      menu_sent = false;
+      menu_sent     = false;
     }
 
   if (previous_applet_window == NULL && applet_window != NULL)
@@ -238,145 +238,130 @@ W32AppletWindow::update_applet_window()
   TRACE_EXIT();
 }
 
-
 void
 W32AppletWindow::init_thread()
 {
-  TRACE_ENTER( "W32AppletWindow::init_thread" );
+  TRACE_ENTER("W32AppletWindow::init_thread");
   DWORD thread_exit_code = 0;
 
-  if( thread_id
-    && thread_handle
-    && GetExitCodeThread( thread_handle, &thread_exit_code )
-    && ( thread_exit_code == STILL_ACTIVE )
-  )
+  if (thread_id && thread_handle && GetExitCodeThread(thread_handle, &thread_exit_code) && (thread_exit_code == STILL_ACTIVE))
     return;
 
-  if( !thread_id )
-  {
-    // if there is no id but a handle then this instance's worker thread has exited or is exiting.
-    if( thread_handle )
-      CloseHandle( thread_handle );
-
-    thread_id = 0;
-    SetLastError( 0 );
-    thread_handle =
-      (HANDLE)_beginthreadex( NULL, 0, run_event_pipe_static, this, 0, (unsigned int *)&thread_id );
-
-    if( !thread_handle || !thread_id )
+  if (!thread_id)
     {
-      TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
+      // if there is no id but a handle then this instance's worker thread has exited or is exiting.
+      if (thread_handle)
+        CloseHandle(thread_handle);
+
+      thread_id = 0;
+      SetLastError(0);
+      thread_handle = (HANDLE)_beginthreadex(NULL, 0, run_event_pipe_static, this, 0, (unsigned int *)&thread_id);
+
+      if (!thread_handle || !thread_id)
+        {
+          TRACE_MSG("Thread could not be created. GetLastError : " << GetLastError());
+        }
     }
-  }
 
   TRACE_EXIT();
 }
 
-
-unsigned __stdcall
-W32AppletWindow::run_event_pipe_static( void *param )
+unsigned __stdcall W32AppletWindow::run_event_pipe_static(void *param)
 {
-  W32AppletWindow *pThis = (W32AppletWindow *) param;
+  W32AppletWindow *pThis = (W32AppletWindow *)param;
   pThis->run_event_pipe();
   // invalidate the id to signal the thread is exiting
   pThis->thread_id = 0;
-  return (DWORD) 0;
+  return (DWORD)0;
 }
-
 
 void
 W32AppletWindow::run_event_pipe()
 {
   const DWORD current_thread_id = GetCurrentThreadId();
 
-  TRACE_ENTER_MSG( "W32AppletWindow::run_event_pipe [ id: ", current_thread_id << " ]" );
+  TRACE_ENTER_MSG("W32AppletWindow::run_event_pipe [ id: ", current_thread_id << " ]");
 
-  while( thread_id == current_thread_id )
-  {
-    /* JS: thread_abort_event must be first in the array of events.
-    the index returned by WaitForMultipleObjectsEx() corresponds to the first
-    signaled event in the array if more than one is signaled
-    */
-    HANDLE events[ 2 ] = { thread_abort_event, heartbeat_data_event };
-    int const events_count = ( sizeof( events ) / sizeof( events[ 0 ] ) );
-
-    DWORD wait_result = WaitForMultipleObjectsEx( events_count, events, FALSE, INFINITE, FALSE );
-
-    if( ( wait_result == WAIT_FAILED ) || ( wait_result == ( WAIT_OBJECT_0 + 0 ) ) )
-      break;
-
-    if( heartbeat_data.enabled && ( wait_result == ( WAIT_OBJECT_0 + 1 ) ) )
+  while (thread_id == current_thread_id)
     {
-      EnterCriticalSection( &heartbeat_data_lock );
+      /* JS: thread_abort_event must be first in the array of events.
+      the index returned by WaitForMultipleObjectsEx() corresponds to the first
+      signaled event in the array if more than one is signaled
+      */
+      HANDLE events[2]       = {thread_abort_event, heartbeat_data_event};
+      int const events_count = (sizeof(events) / sizeof(events[0]));
 
-      update_time_bars();
-      update_menu();
+      DWORD wait_result = WaitForMultipleObjectsEx(events_count, events, FALSE, INFINITE, FALSE);
 
-      LeaveCriticalSection( &heartbeat_data_lock );
+      if ((wait_result == WAIT_FAILED) || (wait_result == (WAIT_OBJECT_0 + 0)))
+        break;
+
+      if (heartbeat_data.enabled && (wait_result == (WAIT_OBJECT_0 + 1)))
+        {
+          EnterCriticalSection(&heartbeat_data_lock);
+
+          update_time_bars();
+          update_menu();
+
+          LeaveCriticalSection(&heartbeat_data_lock);
+        }
     }
-  }
 
   TRACE_EXIT();
 }
-
 
 void
 W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
-  menu_sent = false;
+  menu_sent           = false;
 
   /*
     As noted in ui/win32/applet/include/applet.hh:
     We pass the command_window HWND as a LONG for compatibility.
   */
-  menu_data.command_window = HandleToLong( hwnd );
+  menu_data.command_window = HandleToLong(hwnd);
 }
-
 
 void
 W32AppletWindow::add_menu(const char *text, short cmd, int flags)
 {
   AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
-  d->command = cmd;
+  d->command            = cmd;
   strcpy(d->text, text);
   d->flags = flags;
 }
 
-
 void
 W32AppletWindow::set_geometry(Orientation orientation, int size)
 {
-  (void) orientation;
-  (void) size;
+  (void)orientation;
+  (void)size;
 }
 
 bool
 W32AppletWindow::on_applet_command(int command)
 {
   TRACE_ENTER_MSG("W32AppletWindow::on_applet_command", command);
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
   TRACE_EXIT();
   return false;
 }
 
-
 GdkFilterReturn
-W32AppletWindow::win32_filter_func (void     *xevent,
-                                    GdkEvent *event)
+W32AppletWindow::win32_filter_func(void *xevent, GdkEvent *event)
 {
-  (void) event;
-  MSG *msg = (MSG *) xevent;
+  (void)event;
+  MSG *msg            = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
 
   switch (msg->message)
     {
     case WM_USER:
       {
-        sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &W32AppletWindow::on_applet_command),
-                                              (int) msg->wParam);
+        sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &W32AppletWindow::on_applet_command), (int)msg->wParam);
         Glib::signal_idle().connect(my_slot);
 
         ret = GDK_FILTER_REMOVE;

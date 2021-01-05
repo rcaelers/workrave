@@ -23,31 +23,29 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-#define WORKRAVE_TYPE_TIMEBAR                  (workrave_timebar_get_type())
-#define WORKRAVE_TIMEBAR(obj)                  (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebar))
-#define WORKRAVE_IS_TIMEBAR(obj)               (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TYPE_TIMEBAR))
-#define WORKRAVE_TIMEBAR_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebarClass))
-#define WORKRAVE_IS_TIMEBAR_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TYPE_TIMEBAR))
-#define WORKRAVE_TIMEBAR_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebarClass))
+#define WORKRAVE_TYPE_TIMEBAR (workrave_timebar_get_type())
+#define WORKRAVE_TIMEBAR(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebar))
+#define WORKRAVE_IS_TIMEBAR(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TYPE_TIMEBAR))
+#define WORKRAVE_TIMEBAR_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebarClass))
+#define WORKRAVE_IS_TIMEBAR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TYPE_TIMEBAR))
+#define WORKRAVE_TIMEBAR_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TYPE_TIMEBAR, WorkraveTimebarClass))
 
-typedef struct _WorkraveTimebar        WorkraveTimebar;
-typedef struct _WorkraveTimebarClass   WorkraveTimebarClass;
+typedef struct _WorkraveTimebar WorkraveTimebar;
+typedef struct _WorkraveTimebarClass WorkraveTimebarClass;
 typedef struct _WorkraveTimebarPrivate WorkraveTimebarPrivate;
 
-
 typedef enum WorkraveColorId
-  {
-    COLOR_ID_ACTIVE = 0,
-    COLOR_ID_INACTIVE,
-    COLOR_ID_OVERDUE,
-    COLOR_ID_1_ACTIVE_DURING_BREAK,
-    COLOR_ID_2_ACTIVE_DURING_BREAK,
-    COLOR_ID_INACTIVE_OVER_ACTIVE,
-    COLOR_ID_INACTIVE_OVER_OVERDUE,
-    COLOR_ID_BG,
-    COLOR_ID_SIZEOF
-  } WorkraveColorId;
-
+{
+  COLOR_ID_ACTIVE = 0,
+  COLOR_ID_INACTIVE,
+  COLOR_ID_OVERDUE,
+  COLOR_ID_1_ACTIVE_DURING_BREAK,
+  COLOR_ID_2_ACTIVE_DURING_BREAK,
+  COLOR_ID_INACTIVE_OVER_ACTIVE,
+  COLOR_ID_INACTIVE_OVER_OVERDUE,
+  COLOR_ID_BG,
+  COLOR_ID_SIZEOF
+} WorkraveColorId;
 
 struct _WorkraveTimebar
 {
@@ -60,7 +58,6 @@ struct _WorkraveTimebarClass
 };
 
 GType workrave_timebar_get_type(void);
-
 
 /*
  * Method definitions.

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "X11InputMonitor.hh"
@@ -35,13 +35,12 @@
 #include <X11/extensions/XIproto.h>
 #include <X11/Xos.h>
 
-
 #include "input-monitor/IInputMonitorListener.hh"
 
 #ifdef HAVE_APP_GTK
-#include <gdk/gdkx.h>
+#  include <gdk/gdkx.h>
 
-#include <memory>
+#  include <memory>
 #endif
 
 using namespace std;
@@ -57,7 +56,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
 {
   (void)dpy;
 
-  if (error->error_code == BadWindow || error->error_code==BadDrawable)
+  if (error->error_code == BadWindow || error->error_code == BadDrawable)
     return 0;
   return 0;
 }
@@ -65,7 +64,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
 
 //! Obtains the next X11 event with specified timeout.
 static Bool
-XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
+XNextEventTimed(Display *dsp, XEvent *event_return, long millis)
 {
   if (millis == 0)
     {
@@ -74,7 +73,7 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
     }
 
   struct timeval tv;
-  tv.tv_sec = millis / 1000;
+  tv.tv_sec  = millis / 1000;
   tv.tv_usec = (millis % 1000) * 1000;
 
   XFlush(dsp);
@@ -89,7 +88,7 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
       fd_set readset;
       FD_ZERO(&readset);
       FD_SET(fd, &readset);
-      if (select(fd+1, &readset, nullptr, nullptr, &tv) <= 0)
+      if (select(fd + 1, &readset, nullptr, nullptr, &tv) <= 0)
         {
           return False;
         }
@@ -108,13 +107,12 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
     }
 }
 
-X11InputMonitor::X11InputMonitor(const char* display_name) :
-  x11_display_name(display_name),
-  x11_display(nullptr),
-  abort(false)
+X11InputMonitor::X11InputMonitor(const char *display_name)
+  : x11_display_name(display_name)
+  , x11_display(nullptr)
+  , abort(false)
 {
 }
-
 
 // FIXME: never executed....
 X11InputMonitor::~X11InputMonitor()
@@ -127,7 +125,6 @@ X11InputMonitor::~X11InputMonitor()
 
   TRACE_EXIT();
 }
-
 
 bool
 X11InputMonitor::init()
@@ -147,7 +144,6 @@ X11InputMonitor::terminate()
   TRACE_EXIT();
 }
 
-
 void
 X11InputMonitor::run()
 {
@@ -163,9 +159,8 @@ X11InputMonitor::run()
   root_window = DefaultRootWindow(x11_display);
   set_all_events(root_window);
 
-  XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
-              ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
-  XSync(x11_display,False);
+  XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True, ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
+  XSync(x11_display, False);
 
   error_trap_exit();
 
@@ -203,7 +198,6 @@ X11InputMonitor::run()
           error_trap_exit();
         }
 
-
       // timeout
       Window root, child;
       int root_x, root_y, win_x, win_y;
@@ -224,45 +218,43 @@ X11InputMonitor::run()
 void
 X11InputMonitor::set_event_mask(Window window)
 {
-  XWindowAttributes   attrs;
-  unsigned long   events;
-  Window    root,parent,*children;
-  unsigned int    nchildren;
-  char      *name;
+  XWindowAttributes attrs;
+  unsigned long events;
+  Window root, parent, *children;
+  unsigned int nchildren;
+  char *name;
 
   if (!XQueryTree(x11_display, window, &root, &parent, &children, &nchildren))
     return;
 
   if (XFetchName(x11_display, window, &name))
     {
-      //printf("Watching: %s\n", name);
+      // printf("Watching: %s\n", name);
       XFree(name);
     }
 
   if (parent == None)
     {
-      attrs.all_event_masks =
-      attrs.do_not_propagate_mask = KeyPressMask;
+      attrs.all_event_masks = attrs.do_not_propagate_mask = KeyPressMask;
     }
   else
     {
       XGetWindowAttributes(x11_display, window, &attrs);
     }
 
-  events=((attrs.all_event_masks | attrs.do_not_propagate_mask) & KeyPressMask);
+  events = ((attrs.all_event_masks | attrs.do_not_propagate_mask) & KeyPressMask);
 
-  XSelectInput(x11_display, window, SubstructureNotifyMask|PropertyChangeMask|EnterWindowMask|events);
+  XSelectInput(x11_display, window, SubstructureNotifyMask | PropertyChangeMask | EnterWindowMask | events);
 
   if (children)
-  {
-    while (nchildren)
-      {
-        set_event_mask(children[--nchildren]);
-      }
-    XFree(children);
-  }
+    {
+      while (nchildren)
+        {
+          set_event_mask(children[--nchildren]);
+        }
+      XFree(children);
+    }
 }
-
 
 void
 X11InputMonitor::set_all_events(Window window)
@@ -270,19 +262,17 @@ X11InputMonitor::set_all_events(Window window)
   error_trap_enter();
 
   set_event_mask(window);
-  XSync(x11_display,False);
+  XSync(x11_display, False);
 
   error_trap_exit();
 }
 
-
 void
 X11InputMonitor::handle_keypress(XEvent *event)
 {
-  (void) event;
+  (void)event;
   fire_keyboard(false);
 }
-
 
 void
 X11InputMonitor::handle_create(XEvent *event)
@@ -290,11 +280,10 @@ X11InputMonitor::handle_create(XEvent *event)
   set_all_events(event->xcreatewindow.window);
 }
 
-
 void
 X11InputMonitor::handle_button(XEvent *event)
 {
-  (void) event;
+  (void)event;
 
   XSync(x11_display, 0);
   XAllowEvents(x11_display, ReplayPointer, CurrentTime);

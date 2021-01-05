@@ -29,10 +29,10 @@ namespace workrave
     class IDBusWatch
     {
     public:
-      virtual ~IDBusWatch() = default;
+      virtual ~IDBusWatch()                                                 = default;
       virtual void bus_name_presence(const std::string &name, bool present) = 0;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_IDBUSWATCH_HH

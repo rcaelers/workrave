@@ -26,59 +26,59 @@
 #undef __in
 
 #ifndef MONITOR_DEFAULTTONULL
-#define MONITOR_DEFAULTTONULL       0x00000000
+#  define MONITOR_DEFAULTTONULL 0x00000000
 #endif
 
 #ifndef MONITOR_DEFAULTTOPRIMARY
-#define MONITOR_DEFAULTTOPRIMARY    0x00000001
+#  define MONITOR_DEFAULTTOPRIMARY 0x00000001
 #endif
 
 #ifndef MONITOR_DEFAULTTONEAREST
-#define MONITOR_DEFAULTTONEAREST    0x00000002
+#  define MONITOR_DEFAULTTONEAREST 0x00000002
 #endif
-
 
 class BreakWindow;
 class W32Compat
 {
 public:
-  static BOOLEAN WinStationQueryInformationW(
-    HANDLE hServer,   // use WTS_CURRENT_SERVER_HANDLE
-    ULONG LogonId,   // use WTS_CURRENT_SESSION
-    INT WinStationInformationClass,   // http://msdn.microsoft.com/en-us/library/cc248834.aspx
-    PVOID pWinStationInformation,
-    ULONG WinStationInformationLength,
-    PULONG pReturnLength
-    );
-  static VOID SwitchToThisWindow( HWND, BOOL );
-  static void SetWindowOnTop( HWND, BOOL );
-  static void ResetWindow( HWND, bool );
-  static void IMEWindowMagic( HWND );
+  static BOOLEAN
+  WinStationQueryInformationW(HANDLE hServer,                 // use WTS_CURRENT_SERVER_HANDLE
+                              ULONG LogonId,                  // use WTS_CURRENT_SESSION
+                              INT WinStationInformationClass, // http://msdn.microsoft.com/en-us/library/cc248834.aspx
+                              PVOID pWinStationInformation,
+                              ULONG WinStationInformationLength,
+                              PULONG pReturnLength);
+  static VOID SwitchToThisWindow(HWND, BOOL);
+  static void SetWindowOnTop(HWND, BOOL);
+  static void ResetWindow(HWND, bool);
+  static void IMEWindowMagic(HWND);
   static bool IsOurWinStationConnected();
   static bool IsOurWinStationLocked();
   static bool IsOurDesktopVisible();
-  static void RefreshBreakWindow( BreakWindow &window );
+  static void RefreshBreakWindow(BreakWindow &window);
 
 private:
   static volatile LONG _initialized;
   static void _init();
   // A call to init() should be the first line in each of the other functions in this class
-  static inline void init() { if( !_initialized ) _init(); }
+  static inline void init()
+  {
+    if (!_initialized)
+      _init();
+  }
 
   static bool run_once;
   static bool ime_magic;
   static bool reset_window_always;
   static bool reset_window_never;
 
-  typedef VOID (WINAPI *SWITCHTOTHISWINDOWPROC)( HWND, BOOL );
+  typedef VOID(WINAPI *SWITCHTOTHISWINDOWPROC)(HWND, BOOL);
 
   static SWITCHTOTHISWINDOWPROC switch_to_this_window_proc;
-
 };
 
-
 #if defined(interface)
-#undef interface
+#  undef interface
 #endif
 
 #endif // W32_COMPAT_HH

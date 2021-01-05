@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -39,16 +39,14 @@ using namespace workrave::dbus;
 
 //! Construct a new D-BUS bridge
 DBusQt::DBusQt()
-  : connection(QDBusConnection::sessionBus()), watcher(this)
+  : connection(QDBusConnection::sessionBus())
+  , watcher(this)
 {
   watcher.setConnection(connection);
 }
 
-
 //! Destruct the D-BUS bridge
-DBusQt::~DBusQt()
-= default;
-
+DBusQt::~DBusQt() = default;
 
 //! Initialize D-BUS bridge
 void
@@ -59,7 +57,6 @@ DBusQt::init()
   QObject::connect(&watcher, &QDBusServiceWatcher::serviceUnregistered, this, &DBusQt::on_service_unregistered);
 }
 
-
 //! Registers the specified service
 void
 DBusQt::register_service(const std::string &service, IDBusWatch *cb)
@@ -67,7 +64,6 @@ DBusQt::register_service(const std::string &service, IDBusWatch *cb)
   // TODO: use cb
   connection.registerService(QString::fromStdString(service));
 }
-
 
 //! Registers the specified object path
 void
@@ -80,7 +76,6 @@ DBusQt::register_object_path(const string &object_path)
     }
 }
 
-
 bool
 DBusQt::is_available() const
 {
@@ -92,7 +87,7 @@ bool
 DBusQt::is_running(const std::string &name) const
 {
   QDBusConnectionInterface *i = connection.interface();
-  QDBusReply<QString> reply = i->serviceOwner(QString::fromStdString(name));
+  QDBusReply<QString> reply   = i->serviceOwner(QString::fromStdString(name));
   return reply.isValid();
 }
 
@@ -102,7 +97,7 @@ DBusQt::watch(const std::string &name, IDBusWatch *cb)
   watcher.addWatchedService(QString::fromStdString(name));
 
   watched[name].callback = cb;
-  watched[name].seen = false;
+  watched[name].seen     = false;
 }
 
 void
@@ -120,10 +115,10 @@ DBusQt::introspect(const QString &path) const
   ObjectCIter object_it = objects.find(path.toStdString());
   if (object_it != objects.end())
     {
-      for (auto &interface : object_it->second)
+      for (auto &interface: object_it->second)
         {
-          string interface_name = interface.first;
-          DBusBindingQt *binding = dynamic_cast<DBusBindingQt*>(find_binding(interface_name));
+          string interface_name  = interface.first;
+          DBusBindingQt *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
           if (binding != nullptr)
             {
               str += binding->get_interface_introspect();
@@ -137,8 +132,8 @@ DBusQt::introspect(const QString &path) const
 bool
 DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  bool success = false;
-  string path = message.path().toStdString();
+  bool success          = false;
+  string path           = message.path().toStdString();
   string interface_name = message.interface().toStdString();
 
   try
@@ -146,44 +141,45 @@ DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connec
       void *cobject = find_object(path, interface_name);
       if (cobject != nullptr)
         {
-          DBusBindingQt *binding = dynamic_cast<DBusBindingQt*>(find_binding(interface_name));
+          DBusBindingQt *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
           if (binding != nullptr)
             {
               success = binding->call(cobject, message, connection);
             }
         }
     }
-  catch(DBusRemoteException &e)
+  catch (DBusRemoteException &e)
     {
       e << object_info(path);
       std::cout << "error : " << e.diag() << std::endl;
-      message.createErrorReply(QString::fromStdString(e.error()),
-                               QString::fromStdString(e.diag()));
-
+      message.createErrorReply(QString::fromStdString(e.error()), QString::fromStdString(e.diag()));
     }
 
   return success;
 }
 
-void DBusQt::on_service_owner_changed(const QString &name, const QString &oldowner, const QString &newowner)
+void
+DBusQt::on_service_owner_changed(const QString &name, const QString &oldowner, const QString &newowner)
 {
-  (void) name;
-  (void) oldowner;
-  (void) newowner;
+  (void)name;
+  (void)oldowner;
+  (void)newowner;
 }
 
-void DBusQt::on_service_registered(const QString &name)
+void
+DBusQt::on_service_registered(const QString &name)
 {
   string service_name = name.toStdString();
   if (watched.find(service_name) != watched.end())
     {
       WatchData &w = watched[service_name];
-      w.seen = true;
+      w.seen       = true;
       w.callback->bus_name_presence(service_name, true);
     }
 }
 
-void DBusQt::on_service_unregistered(const QString &name)
+void
+DBusQt::on_service_unregistered(const QString &name)
 {
   string service_name = name.toStdString();
   if (watched.find(service_name) != watched.end())
@@ -191,7 +187,7 @@ void DBusQt::on_service_unregistered(const QString &name)
       WatchData &w = watched[service_name];
       if (w.seen)
         {
-         w.callback->bus_name_presence(service_name, false);
+          w.callback->bus_name_presence(service_name, false);
         }
     }
 }

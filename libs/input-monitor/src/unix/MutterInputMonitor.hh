@@ -27,8 +27,7 @@
 #include <gio/gio.h>
 #include <atomic>
 
-class MutterInputMonitor :
-  public InputMonitor
+class MutterInputMonitor : public InputMonitor
 {
 public:
   MutterInputMonitor();
@@ -43,7 +42,8 @@ public:
   void terminate() override;
 
 private:
-  static void on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+  static void
+  on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
   static void on_session_manager_property_changed(GDBusProxy *session, GVariant *changed, char **invalidated, gpointer user_data);
 
   static void on_register_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
@@ -65,12 +65,12 @@ private:
 private:
   static const int GSM_INHIBITOR_FLAG_IDLE = 8;
 
-  GDBusProxy *idle_proxy = nullptr;
+  GDBusProxy *idle_proxy    = nullptr;
   GDBusProxy *session_proxy = nullptr;
-  std::atomic<bool> active { false };
-  std::atomic<bool> inhibited { false };
+  std::atomic<bool> active{false};
+  std::atomic<bool> inhibited{false};
   guint watch_active = 0;
-  guint watch_idle = 0;
+  guint watch_idle   = 0;
 
   bool abort = false;
   std::shared_ptr<boost::thread> monitor_thread;

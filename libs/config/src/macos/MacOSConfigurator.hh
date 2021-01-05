@@ -26,12 +26,11 @@
 
 #include "IConfigBackend.hh"
 
-class MacOSConfigurator :
-  public virtual IConfigBackend
+class MacOSConfigurator : public virtual IConfigBackend
 {
 public:
-  MacOSConfigurator();
-  ~MacOSConfigurator() override;
+  MacOSConfigurator()           = default;
+  ~MacOSConfigurator() override = default;
 
   bool load(std::string filename) override;
   bool save(std::string filename) override;

@@ -38,20 +38,19 @@ namespace Gtk
   class SpinButton;
   class ComboBox;
   class Adjustment;
-}
+} // namespace Gtk
 
 class DataConnection;
 
 namespace dc
 {
   enum Flags
-    {
-      NONE = 0,
-      NO_CONFIG = 1,
-      NO_WIDGET = 2,
-    };
-}
-
+  {
+    NONE      = 0,
+    NO_CONFIG = 1,
+    NO_WIDGET = 2,
+  };
+} // namespace dc
 
 class DataConnector
 {
@@ -59,9 +58,7 @@ public:
   DataConnector();
   ~DataConnector();
 
-  void connect(const std::string &setting,
-               DataConnection *connection,
-               dc::Flags flags = dc::NONE);
+  void connect(const std::string &setting, DataConnection *connection, dc::Flags flags = dc::NONE);
 
   void connect(const std::string &setting,
                DataConnection *connection,
@@ -69,9 +66,7 @@ public:
                dc::Flags flags = dc::NONE);
 
   template<class T, class R = T>
-  void connect(workrave::config::Setting<T, R> &setting,
-               DataConnection *connection,
-               dc::Flags flags = dc::NONE)
+  void connect(workrave::config::Setting<T, R> &setting, DataConnection *connection, dc::Flags flags = dc::NONE)
   {
     connect(setting.key(), connection, flags);
   }
@@ -88,15 +83,12 @@ public:
 private:
   struct MonitoredWidget
   {
-    MonitoredWidget()
-    {
-      connection = nullptr;
-    }
+    MonitoredWidget() { connection = nullptr; }
 
     DataConnection *connection;
   };
 
-  using Widgets = std::list<MonitoredWidget>;
+  using Widgets    = std::list<MonitoredWidget>;
   using WidgetIter = Widgets::iterator;
 
   //!
@@ -106,10 +98,7 @@ private:
   workrave::config::IConfigurator::Ptr config;
 };
 
-
-
-class DataConnection
-  : public workrave::config::IConfiguratorListener
+class DataConnection : public workrave::config::IConfiguratorListener
 {
 public:
   DataConnection();
@@ -121,58 +110,54 @@ public:
   sigc::signal<bool, const std::string &, bool> intercept;
 
 protected:
-
   workrave::config::IConfigurator::Ptr config;
   std::string key;
   dc::Flags flags;
 };
 
-
-#define DECLARE_DATA_TYPE(WidgetType, WrapperType, WidgetDataType/*, ConfigDataType */) \
-  class WrapperType : public DataConnection                             \
-  {                                                                     \
-  public:                                                               \
-    WrapperType(WidgetType widget)                                      \
-      : widget(widget)                                                  \
-      {                                                                 \
-      }                                                                 \
-    virtual ~WrapperType()                                              \
-    {                                                                   \
-    }                                                                   \
-                                                                        \
-    void init();                                                        \
-    void widget_changed_notify();                                       \
-    void config_changed_notify(const std::string &key);                 \
-                                                                        \
-  private:                                                              \
-    WidgetType widget;                                                  \
-  };                                                                    \
-                                                                        \
-  namespace dc {                                                        \
-    WrapperType *wrap (WidgetType t);                                   \
+#define DECLARE_DATA_TYPE(WidgetType, WrapperType, WidgetDataType /*, ConfigDataType */) \
+  class WrapperType : public DataConnection                                              \
+  {                                                                                      \
+  public:                                                                                \
+    WrapperType(WidgetType widget)                                                       \
+      : widget(widget)                                                                   \
+    {                                                                                    \
+    }                                                                                    \
+    virtual ~WrapperType() {}                                                            \
+                                                                                         \
+    void init();                                                                         \
+    void widget_changed_notify();                                                        \
+    void config_changed_notify(const std::string &key);                                  \
+                                                                                         \
+  private:                                                                               \
+    WidgetType widget;                                                                   \
+  };                                                                                     \
+                                                                                         \
+  namespace dc                                                                           \
+  {                                                                                      \
+    WrapperType *wrap(WidgetType t);                                                     \
   }
 
-#define DEFINE_DATA_TYPE(WidgetType, WrapperType)                       \
-  namespace dc {                                                        \
-    WrapperType *wrap (WidgetType t)                                    \
-    {                                                                   \
-      return new WrapperType(t);                                        \
-    }                                                                   \
+#define DEFINE_DATA_TYPE(WidgetType, WrapperType)                  \
+  namespace dc                                                     \
+  {                                                                \
+    WrapperType *wrap(WidgetType t) { return new WrapperType(t); } \
   }
 
-#define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType)                   \
-  namespace dc {                                                        \
-    WrapperType *wrap (WidgetType *t)                                   \
-    {                                                                   \
-      if (t != NULL)                                                    \
-        {                                                               \
-          return new WrapperType(t);                                    \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          return NULL;                                                  \
-        }                                                               \
-    }                                                                   \
+#define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType) \
+  namespace dc                                        \
+  {                                                   \
+    WrapperType *wrap(WidgetType *t)                  \
+    {                                                 \
+      if (t != NULL)                                  \
+        {                                             \
+          return new WrapperType(t);                  \
+        }                                             \
+      else                                            \
+        {                                             \
+          return NULL;                                \
+        }                                             \
+    }                                                 \
   }
 
 DECLARE_DATA_TYPE(Gtk::Entry *, DataConnectionGtkEntry, std::string);
@@ -183,16 +168,15 @@ DECLARE_DATA_TYPE(Gtk::ComboBox *, DataConnectionGtkComboBox, int);
 DECLARE_DATA_TYPE(Glib::RefPtr<Gtk::Adjustment>, DataConnectionGtkAdjustment, int);
 DECLARE_DATA_TYPE(TimeEntry *, DataConnectionTimeEntry, int);
 
-
-class DataConnectionGtkEntryTwin  : public DataConnection
+class DataConnectionGtkEntryTwin : public DataConnection
 {
-  public:
+public:
   DataConnectionGtkEntryTwin(Gtk::Entry *widget1, Gtk::Entry *widget2)
-    : widget1(widget1), widget2(widget2)
+    : widget1(widget1)
+    , widget2(widget2)
   {
   }
-  ~DataConnectionGtkEntryTwin() override
-  = default;
+  ~DataConnectionGtkEntryTwin() override = default;
 
   void init() override;
   void widget_changed_notify();

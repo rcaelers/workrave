@@ -41,7 +41,10 @@ namespace workrave
     class CallbackSyncer
     {
     public:
-      CallbackSyncer(unsigned long count) : count(count) { }
+      CallbackSyncer(unsigned long count)
+        : count(count)
+      {
+      }
 
       void notify()
       {
@@ -73,9 +76,11 @@ namespace workrave
 #endif
 
     //! A periodic timer.
-    class Timer :
+    class Timer
+      :
 #ifdef HAVE_TESTS
-      public ITimeSource,
+      public ITimeSource
+      ,
 #endif
       public std::enable_shared_from_this<Timer>
     {
@@ -98,6 +103,7 @@ namespace workrave
 
       virtual gint64 get_real_time_usec();
       virtual gint64 get_monotonic_time_usec();
+
     private:
       static gboolean static_on_idle(gpointer data);
 #endif
@@ -108,11 +114,16 @@ namespace workrave
       class Info
       {
       public:
-        Info() : interval(0), source(NULL)
+        Info()
+          : interval(0)
+          , source(NULL)
 #ifdef HAVE_TESTS
-               , next(0), context(NULL), syncer(NULL)
+          , next(0)
+          , context(NULL)
+          , syncer(NULL)
 #endif
-        {}
+        {
+        }
 
         gint64 interval;
         GSource *source;
@@ -125,7 +136,7 @@ namespace workrave
 #endif
       };
 
-      typedef std::map<std::string, Info*> TimerMap;
+      typedef std::map<std::string, Info *> TimerMap;
       typedef TimerMap::iterator TimerMapIter;
 
       static Timer::Ptr instance;
@@ -136,7 +147,7 @@ namespace workrave
       gint64 current_time;
 #endif
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_TIMER_HH

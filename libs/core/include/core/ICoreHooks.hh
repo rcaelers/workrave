@@ -21,12 +21,14 @@
 #define WORKRAVE_BACKEND_ICOREHOOKS_HH
 
 #include <memory>
+
 #include <boost/signals2.hpp>
 
 class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
 {
 public:
   using Ptr = std::shared_ptr<ICoreHooks>;
+
   virtual ~ICoreHooks() = default;
 };
 

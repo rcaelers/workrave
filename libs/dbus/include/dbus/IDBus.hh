@@ -39,21 +39,21 @@ namespace workrave
     public:
       virtual ~IDBus() = default;
 
-      virtual void init() = 0;
-      virtual void register_service(const std::string &service, IDBusWatch *cb = nullptr) = 0;
-      virtual void register_object_path(const std::string &object_path) = 0;
+      virtual void init()                                                                                   = 0;
+      virtual void register_service(const std::string &service, IDBusWatch *cb = nullptr)                   = 0;
+      virtual void register_object_path(const std::string &object_path)                                     = 0;
       virtual void connect(const std::string &object_path, const std::string &interface_name, void *object) = 0;
-      virtual void disconnect(const std::string &object_path, const std::string &interface_name) = 0;
+      virtual void disconnect(const std::string &object_path, const std::string &interface_name)            = 0;
 
       virtual void register_binding(const std::string &interface_name, DBusBinding *binding) = 0;
-      virtual DBusBinding *find_binding(const std::string &interface_name) const = 0;
+      virtual DBusBinding *find_binding(const std::string &interface_name) const             = 0;
 
-      virtual bool is_available() const = 0;
+      virtual bool is_available() const                      = 0;
       virtual bool is_running(const std::string &name) const = 0;
 
       virtual void watch(const std::string &name, IDBusWatch *cb) = 0;
-      virtual void unwatch(const std::string &name) = 0;
+      virtual void unwatch(const std::string &name)               = 0;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 #endif // WORKRAVE_DBUS_IDBUS_HH

@@ -93,7 +93,7 @@ namespace workrave
 
       IDBus::Ptr dbus;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSBINDINGFREEDESKTOP_HH

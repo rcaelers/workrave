@@ -30,7 +30,7 @@ class MacOSInputMonitor : public InputMonitor
 {
 public:
   MacOSInputMonitor() = default;
-  virtual ~MacOSInputMonitor();
+  ~MacOSInputMonitor() override;
 
   bool init() override;
   void terminate() override;

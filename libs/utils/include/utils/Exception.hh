@@ -20,7 +20,6 @@
 #ifndef WORKRAVE_UTILS_EXCEPTION_HH
 #define WORKRAVE_UTILS_EXCEPTION_HH
 
-
 #include <string>
 #include <exception>
 
@@ -42,16 +41,13 @@ namespace workrave
       }
 
       // FIXME: implement what
-      virtual std::string details() const
-      {
-        return detailed_information;
-      }
+      virtual std::string details() const { return detailed_information; }
 
     private:
       //
       std::string detailed_information;
     };
-  }
-}
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_EXCEPTION_HH

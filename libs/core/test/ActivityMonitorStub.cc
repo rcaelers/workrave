@@ -17,7 +17,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "ActivityMonitorStub.hh"
@@ -29,18 +29,20 @@
 using namespace std;
 using namespace workrave::utils;
 
-ActivityMonitorStub::ActivityMonitorStub() : active(false), suspended(false), forced_idle(false)
+ActivityMonitorStub::ActivityMonitorStub()
+  : active(false)
+  , suspended(false)
+  , forced_idle(false)
 {
 }
 
-ActivityMonitorStub::~ActivityMonitorStub()
-= default;
+ActivityMonitorStub::~ActivityMonitorStub() = default;
 
 void
 ActivityMonitorStub::set_active(bool active)
 {
   this->active = active;
-  forced_idle = false;
+  forced_idle  = false;
 }
 
 void

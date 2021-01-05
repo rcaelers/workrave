@@ -25,7 +25,7 @@
 class ActivityMonitorStub : public IActivityMonitor
 {
 public:
-  typedef std::shared_ptr<ActivityMonitorStub> Ptr;
+  using Ptr = std::shared_ptr<ActivityMonitorStub>;
 
 public:
   ActivityMonitorStub();

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gtk/gtk.h>
@@ -32,23 +32,24 @@
 #define SPACE 5
 
 IconListCellRenderer::IconListCellRenderer()
-  : Glib::ObjectBase (typeid(IconListCellRenderer)),
-    Gtk::CellRenderer(),
-    property_text_   (*this, "text"),
-    property_pixbuf_ (*this, "pixbuf")
+  : Glib::ObjectBase(typeid(IconListCellRenderer))
+  , Gtk::CellRenderer()
+  , property_text_(*this, "text")
+  , property_pixbuf_(*this, "pixbuf")
 {
   update_properties();
 }
 
-IconListCellRenderer::~IconListCellRenderer()
-= default;
+IconListCellRenderer::~IconListCellRenderer() = default;
 
-Glib::PropertyProxy<Glib::ustring> IconListCellRenderer::property_text()
+Glib::PropertyProxy<Glib::ustring>
+IconListCellRenderer::property_text()
 {
   return property_text_.get_proxy();
 }
 
-Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf> > IconListCellRenderer::property_pixbuf()
+Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf>>
+IconListCellRenderer::property_pixbuf()
 {
   return property_pixbuf_.get_proxy();
 }
@@ -56,7 +57,7 @@ Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf> > IconListCellRenderer::property_p
 void
 IconListCellRenderer::update_properties()
 {
-  text_renderer.property_text() = property_text_;
+  text_renderer.property_text()     = property_text_;
   pixbuf_renderer.property_pixbuf() = property_pixbuf_;
 }
 
@@ -67,7 +68,7 @@ IconListCellRenderer::get_preferred_width_vfunc(Gtk::Widget &widget, int &minimu
   int text_minimum_width, text_natural_width;
   int pixbuf_minimum_width, pixbuf_natural_width;
 
-  const_cast<IconListCellRenderer*>(this)->update_properties();
+  const_cast<IconListCellRenderer *>(this)->update_properties();
 
   text_renderer.get_preferred_width(widget, text_minimum_width, text_natural_width);
   pixbuf_renderer.get_preferred_width(widget, pixbuf_minimum_width, pixbuf_natural_width);
@@ -78,23 +79,27 @@ IconListCellRenderer::get_preferred_width_vfunc(Gtk::Widget &widget, int &minimu
   TRACE_EXIT();
 }
 
-void IconListCellRenderer::get_preferred_height_for_width_vfunc(Gtk::Widget &widget, int width, int &minimum_height, int &natural_height) const
+void
+IconListCellRenderer::get_preferred_height_for_width_vfunc(Gtk::Widget &widget,
+                                                           int width,
+                                                           int &minimum_height,
+                                                           int &natural_height) const
 {
-  (void) width;
+  (void)width;
   TRACE_ENTER("IconListCellRenderer::get_preferred_height_for_width_vfunc");
   get_preferred_height_vfunc(widget, minimum_height, natural_height);
   TRACE_MSG(minimum_height << " " << natural_height);
   TRACE_EXIT();
-
 }
 
-void IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const
+void
+IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const
 {
   TRACE_ENTER("IconListCellRenderer::get_preferred_height_vfunc");
   int text_minimum_height, text_natural_height;
   int pixbuf_minimum_height, pixbuf_natural_height;
 
-  const_cast<IconListCellRenderer*>(this)->update_properties();
+  const_cast<IconListCellRenderer *>(this)->update_properties();
 
   text_renderer.get_preferred_height(widget, text_minimum_height, text_natural_height);
   pixbuf_renderer.get_preferred_height(widget, pixbuf_minimum_height, pixbuf_natural_height);
@@ -106,16 +111,25 @@ void IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &
   TRACE_EXIT();
 }
 
-void IconListCellRenderer::get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const
+void
+IconListCellRenderer::get_preferred_width_for_height_vfunc(Gtk::Widget &widget,
+                                                           int height,
+                                                           int &minimum_width,
+                                                           int &natural_width) const
 {
-  (void) height;
+  (void)height;
   TRACE_ENTER("IconListCellRenderer::get_preferred_width_for_height_vfunc");
   get_preferred_width_vfunc(widget, minimum_width, natural_width);
   TRACE_MSG(minimum_width << " " << natural_width);
   TRACE_EXIT();
 }
 
-void IconListCellRenderer::render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr, Gtk::Widget &widget, const Gdk::Rectangle &background_area, const Gdk::Rectangle &cell_area, Gtk::CellRendererState flags)
+void
+IconListCellRenderer::render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr,
+                                   Gtk::Widget &widget,
+                                   const Gdk::Rectangle &background_area,
+                                   const Gdk::Rectangle &cell_area,
+                                   Gtk::CellRendererState flags)
 {
   update_properties();
 

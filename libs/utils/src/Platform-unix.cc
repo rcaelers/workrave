@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "utils/Platform.hh"
@@ -26,27 +26,27 @@
 #include <cstdlib>
 
 #ifdef HAVE_GTK
-#include <glib.h>
-#include <gdk/gdk.h>
-#ifdef PLATFORM_OS_UNIX
-#include <gdk/gdkx.h>
-#endif
-#ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
-#endif
+#  include <glib.h>
+#  include <gdk/gdk.h>
+#  ifdef PLATFORM_OS_UNIX
+#    include <gdk/gdkx.h>
+#  endif
+#  ifdef GDK_WINDOWING_WAYLAND
+#    include <gdk/gdkwayland.h>
+#  endif
 #endif
 
 #ifdef HAVE_QT
-#include <QtGui>
-#if defined(HAVE_QT5)
-#include <qdesktopwidget.h>
-#include <qpa/qplatformnativeinterface.h>
-#endif
-#include <qapplication.h>
+#  include <QtGui>
+#  if defined(HAVE_QT5)
+#    include <qdesktopwidget.h>
+#    include <qpa/qplatformnativeinterface.h>
+#  endif
+#  include <qapplication.h>
 
-#if defined(PLATFORM_OS_UNIX)
-#include <X11/Xlib.h>
-#endif
+#  if defined(PLATFORM_OS_UNIX)
+#    include <X11/Xlib.h>
+#  endif
 #endif
 
 using namespace workrave::utils;
@@ -57,21 +57,21 @@ Platform::get_default_display()
 {
   void *xdisplay = nullptr;
 
-#if defined(HAVE_GTK)
+#  if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
   if (display != nullptr)
     {
       xdisplay = gdk_x11_display_get_xdisplay(display);
     }
-#elif defined(HAVE_QT)
+#  elif defined(HAVE_QT)
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (native != NULL)
     {
       xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
     }
-#else
-#error Platform unsupported
-#endif
+#  else
+#    error Platform unsupported
+#  endif
 
   return xdisplay;
 }
@@ -81,7 +81,7 @@ Platform::get_default_display_name()
 {
   std::string ret;
 
-#if defined(HAVE_GTK)
+#  if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
   if (display != nullptr)
     {
@@ -91,47 +91,46 @@ Platform::get_default_display_name()
           ret = name;
         }
     }
-#elif defined(HAVE_QT)
+#  elif defined(HAVE_QT)
   QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
   if (native != NULL)
     {
       void *xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
-      char *name = XDisplayString(static_cast<Display*>(xdisplay));
+      char *name     = XDisplayString(static_cast<Display *>(xdisplay));
       if (name != NULL)
         {
           ret = name;
         }
     }
-#else
-#error Platform unsupported
-#endif
+#  else
+#    error Platform unsupported
+#  endif
   return ret;
 }
 
 unsigned long
 Platform::get_default_root_window()
 {
-#if defined(HAVE_GTK)
+#  if defined(HAVE_GTK)
   return gdk_x11_get_default_root_xwindow();
-#elif defined(HAVE_QT)
+#  elif defined(HAVE_QT)
   QDesktopWidget *desktop = QApplication::desktop();
-  QWindow *window = desktop->windowHandle();
+  QWindow *window         = desktop->windowHandle();
   return window->winId();
-#else
-#error Platform unsupported
-#endif
-
+#  else
+#    error Platform unsupported
+#  endif
 }
 #endif
 
 int
-Platform::setenv(const char* name, const char* val, int overwrite)
+Platform::setenv(const char *name, const char *val, int overwrite)
 {
   return ::setenv(name, val, overwrite);
 }
 
 int
-Platform::unsetenv(const char* name)
+Platform::unsetenv(const char *name)
 {
   return ::unsetenv(name);
 }
@@ -140,12 +139,12 @@ Platform::unsetenv(const char* name)
 bool
 Platform::running_on_wayland()
 {
-#ifdef GDK_WINDOWING_WAYLAND
-  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
+#  ifdef GDK_WINDOWING_WAYLAND
+  GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   return GDK_IS_WAYLAND_DISPLAY(display);
-#else
+#  else
   return false;
-#endif
+#  endif
 }
 #endif
 
@@ -157,6 +156,6 @@ Platform::can_position_windows()
 #elif defined(PLATFORM_OS_MACOS)
   return true;
 #else
-  #error Unknown platform
+#  error Unknown platform
 #endif
 }

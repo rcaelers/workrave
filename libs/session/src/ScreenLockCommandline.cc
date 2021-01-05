@@ -20,18 +20,18 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_GLIB
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 #include "ScreenLockCommandline.hh"
 #include "debug.hh"
 
-ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async):
-  async(async)
+ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async)
+  : async(async)
 {
   TRACE_ENTER_MSG("ScreenLockCommandline::ScreenLockCommandline", program_name);
   char *program_path = g_find_program_in_path(program_name);
@@ -52,17 +52,16 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
   TRACE_EXIT();
 }
 
-
 bool
-ScreenLockCommandline::invoke(const gchar* command, bool async)
+ScreenLockCommandline::invoke(const gchar *command, bool async)
 {
   GError *error = nullptr;
 
-  if(!async)
+  if (!async)
     {
       // synchronised call
       gint exit_code;
-      if (!g_spawn_command_line_sync(command, nullptr, nullptr, &exit_code, &error) )
+      if (!g_spawn_command_line_sync(command, nullptr, nullptr, &exit_code, &error))
         {
           g_error_free(error);
           return false;
@@ -72,7 +71,7 @@ ScreenLockCommandline::invoke(const gchar* command, bool async)
   else
     {
       // asynchronous call
-      if (!g_spawn_command_line_async(command, &error) )
+      if (!g_spawn_command_line_async(command, &error))
         {
           g_error_free(error);
           return false;
@@ -81,7 +80,8 @@ ScreenLockCommandline::invoke(const gchar* command, bool async)
     }
 }
 
-bool ScreenLockCommandline::lock()
+bool
+ScreenLockCommandline::lock()
 {
   TRACE_ENTER_MSG("ScreenLockCommandline::lock", cmd);
   return invoke(cmd, async);

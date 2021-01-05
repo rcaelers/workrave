@@ -41,22 +41,20 @@ public:
     Exercises
   };
 
-  virtual ~IToolkit()
-  {
-  }
+  virtual ~IToolkit() {}
 
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
 
-  virtual void init(MenuModel::Ptr menu, SoundTheme::Ptr sound_theme) = 0;
-  virtual void terminate() = 0;
-  virtual void run() = 0;
-  virtual const char *get_display_name() = 0;
+  virtual void init(MenuModel::Ptr menu, SoundTheme::Ptr sound_theme)                                                 = 0;
+  virtual void terminate()                                                                                            = 0;
+  virtual void run()                                                                                                  = 0;
+  virtual const char *get_display_name()                                                                              = 0;
   virtual IBreakWindow::Ptr create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) = 0;
-  virtual IPreludeWindow::Ptr create_prelude_window(int screen_index, workrave::BreakId break_id) = 0;
-  virtual void show_window(WindowType type) = 0;
-  virtual int get_screen_count() const = 0;
-  virtual void create_oneshot_timer(int ms, std::function<void()> func) = 0;
-  virtual void show_balloon(const std::string &id, const std::string &title, const std::string &balloon) = 0;
+  virtual IPreludeWindow::Ptr create_prelude_window(int screen_index, workrave::BreakId break_id)                     = 0;
+  virtual void show_window(WindowType type)                                                                           = 0;
+  virtual int get_screen_count() const                                                                                = 0;
+  virtual void create_oneshot_timer(int ms, std::function<void()> func)                                               = 0;
+  virtual void show_balloon(const std::string &id, const std::string &title, const std::string &balloon)              = 0;
 };
 
 #endif // ITOOLKIT_HH

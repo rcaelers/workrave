@@ -40,14 +40,14 @@ using namespace workrave;
 using namespace workrave::config;
 
 TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
-    : name(name)
+  : name(name)
 {
   connector = std::make_shared<DataConnector>();
 
-  ontop_cb = new QCheckBox;
-  enabled_cb = new QCheckBox();
+  ontop_cb     = new QCheckBox;
+  enabled_cb   = new QCheckBox();
   place_button = new QComboBox();
-  for (auto &button : timer_display_button)
+  for (auto &button: timer_display_button)
     {
       button = new QComboBox;
     }
@@ -102,7 +102,7 @@ TimerBoxPreferencesPanel::init_placement()
   int mp_slot = GUIConfig::timerbox_slot(name, BREAK_ID_MICRO_BREAK)();
   int rb_slot = GUIConfig::timerbox_slot(name, BREAK_ID_REST_BREAK)();
   int dl_slot = GUIConfig::timerbox_slot(name, BREAK_ID_DAILY_LIMIT)();
-  int place = 0;
+  int place   = 0;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
       place = 0;
@@ -139,15 +139,16 @@ TimerBoxPreferencesPanel::init_timer_display()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       timer_display_button[i] = new QComboBox;
-      QComboBox *button = timer_display_button[i];
+      QComboBox *button       = timer_display_button[i];
 
       button->addItem(tr("Hide"));
       button->addItem(tr("Show"));
       button->addItem(tr("Show only when this timer is first due"));
 
-      connector->connect(GUIConfig::timerbox_flags(name, i),
-                         dc::wrap(timer_display_button[i]),
-                         std::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, std::placeholders::_1, std::placeholders::_2));
+      connector->connect(
+        GUIConfig::timerbox_flags(name, i),
+        dc::wrap(timer_display_button[i]),
+        std::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, std::placeholders::_1, std::placeholders::_2));
     }
 }
 
@@ -165,7 +166,7 @@ TimerBoxPreferencesPanel::init()
 
   layout->addWidget(enabled_cb);
 
-  QGroupBox *display_box = new QGroupBox(tr("Display"));
+  QGroupBox *display_box      = new QGroupBox(tr("Display"));
   QVBoxLayout *display_layout = new QVBoxLayout;
   display_box->setLayout(display_layout);
   layout->addWidget(display_box);
@@ -211,7 +212,7 @@ TimerBoxPreferencesPanel::on_timer_display_changed(int break_id, const std::stri
 {
   if (write)
     {
-      int sel = timer_display_button[break_id]->currentIndex();
+      int sel   = timer_display_button[break_id]->currentIndex();
       int flags = 0;
       switch (sel)
         {
@@ -231,7 +232,7 @@ TimerBoxPreferencesPanel::on_timer_display_changed(int break_id, const std::stri
     }
   else
     {
-      int flags = GUIConfig::timerbox_flags(name, break_id)();
+      int flags    = GUIConfig::timerbox_flags(name, break_id)();
       int showhide = 0;
       if (flags & GUIConfig::BREAK_HIDE)
         {
@@ -260,27 +261,27 @@ TimerBoxPreferencesPanel::on_place_changed()
     {
     case 0:
       slot[BREAK_ID_MICRO_BREAK] = 0;
-      slot[BREAK_ID_REST_BREAK] = 1;
+      slot[BREAK_ID_REST_BREAK]  = 1;
       slot[BREAK_ID_DAILY_LIMIT] = 2;
       break;
     case 1:
       slot[BREAK_ID_MICRO_BREAK] = 0;
-      slot[BREAK_ID_REST_BREAK] = 0;
+      slot[BREAK_ID_REST_BREAK]  = 0;
       slot[BREAK_ID_DAILY_LIMIT] = 1;
       break;
     case 2:
       slot[BREAK_ID_MICRO_BREAK] = 0;
-      slot[BREAK_ID_REST_BREAK] = 1;
+      slot[BREAK_ID_REST_BREAK]  = 1;
       slot[BREAK_ID_DAILY_LIMIT] = 1;
       break;
     case 3:
       slot[BREAK_ID_MICRO_BREAK] = 0;
-      slot[BREAK_ID_REST_BREAK] = 0;
+      slot[BREAK_ID_REST_BREAK]  = 0;
       slot[BREAK_ID_DAILY_LIMIT] = 0;
       break;
     default:
       slot[BREAK_ID_MICRO_BREAK] = -1;
-      slot[BREAK_ID_REST_BREAK] = -1;
+      slot[BREAK_ID_REST_BREAK]  = -1;
       slot[BREAK_ID_DAILY_LIMIT] = -1;
     }
 
@@ -294,7 +295,7 @@ void
 TimerBoxPreferencesPanel::enable_buttons()
 {
   int num_disabled = 0;
-  for (auto &button : timer_display_button)
+  for (auto &button: timer_display_button)
     {
       if (button->currentIndex() == 0)
         {
@@ -310,7 +311,7 @@ TimerBoxPreferencesPanel::enable_buttons()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           ICore::Ptr core = Backend::get_core();
-          IBreak::Ptr b = core->get_break(BreakId(i));
+          IBreak::Ptr b   = core->get_break(BreakId(i));
 
           bool timer_on = b->is_enabled();
           timer_display_button[i]->setEnabled(on && timer_on);
@@ -322,7 +323,7 @@ TimerBoxPreferencesPanel::enable_buttons()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           ICore::Ptr core = Backend::get_core();
-          IBreak::Ptr b = core->get_break(BreakId(i));
+          IBreak::Ptr b   = core->get_break(BreakId(i));
           timer_display_button[i]->setEnabled(b->is_enabled());
         }
       if (num_disabled == 3)

@@ -1,31 +1,30 @@
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "desktop-window.h"
 
 #ifdef PLATFORM_OS_UNIX
 
-#include <gdk/gdk.h>
-#include <gdk/gdk.h>
-#include <gdk/gdkx.h>
-#include <X11/Xatom.h>
+#  include <gdk/gdk.h>
+#  include <gdk/gdk.h>
+#  include <gdk/gdkx.h>
+#  include <X11/Xatom.h>
 
-#include <cairo.h>
-#include <cairo-xlib.h>
+#  include <cairo.h>
+#  include <cairo-xlib.h>
 
 // GTK3 compatibility
-#undef GDK_DISPLAY
-#define GDK_DISPLAY() GDK_DISPLAY_XDISPLAY(gdk_display_get_default())
+#  undef GDK_DISPLAY
+#  define GDK_DISPLAY() GDK_DISPLAY_XDISPLAY(gdk_display_get_default())
 #endif
 
 #ifndef GDK_WINDOW_XWINDOW
-#define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
+#  define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
 #endif
 
-
 static Window
-get_desktop_window (Window the_window)
+get_desktop_window(Window the_window)
 {
   Atom prop, type, prop2;
   int format;
@@ -34,38 +33,43 @@ get_desktop_window (Window the_window)
   unsigned int nchildren;
   Window w, root, *children, parent;
 
-  prop = XInternAtom(GDK_DISPLAY(), "_XROOTPMAP_ID", True);
+  prop  = XInternAtom(GDK_DISPLAY(), "_XROOTPMAP_ID", True);
   prop2 = XInternAtom(GDK_DISPLAY(), "_XROOTCOLOR_PIXEL", True);
 
   if (prop == None && prop2 == None)
     return None;
 
-  for (w = the_window; w; w = parent) {
-    if ((XQueryTree(GDK_DISPLAY(), w, &root, &parent, &children, &nchildren)) == False)
-      return None;
+  for (w = the_window; w; w = parent)
+    {
+      if ((XQueryTree(GDK_DISPLAY(), w, &root, &parent, &children, &nchildren)) == False)
+        return None;
 
-    if (nchildren)
-      XFree(children);
+      if (nchildren)
+        XFree(children);
 
-    if (prop != None) {
-      XGetWindowProperty(GDK_DISPLAY(), w, prop, 0L, 1L, False, AnyPropertyType,
-       &type, &format, &length, &after, &data);
-    } else if (prop2 != None) {
-      XGetWindowProperty(GDK_DISPLAY(), w, prop2, 0L, 1L, False, AnyPropertyType,
-       &type, &format, &length, &after, &data);
-    } else  {
-      continue;
+      if (prop != None)
+        {
+          XGetWindowProperty(GDK_DISPLAY(), w, prop, 0L, 1L, False, AnyPropertyType, &type, &format, &length, &after, &data);
+        }
+      else if (prop2 != None)
+        {
+          XGetWindowProperty(GDK_DISPLAY(), w, prop2, 0L, 1L, False, AnyPropertyType, &type, &format, &length, &after, &data);
+        }
+      else
+        {
+          continue;
+        }
+
+      if (type != None)
+        {
+          return w;
+        }
     }
-
-    if (type != None) {
-      return w;
-    }
-  }
   return None;
 }
 
 static Pixmap
-get_pixmap_prop (Window the_window, char *prop_id)
+get_pixmap_prop(Window the_window, char *prop_id)
 {
   Atom prop, type;
   int format;
@@ -85,9 +89,7 @@ get_pixmap_prop (Window the_window, char *prop_id)
   if (prop == None)
     return None;
 
-  XGetWindowProperty(GDK_DISPLAY(), desktop_window, prop, 0L, 1L, False,
-         AnyPropertyType, &type, &format, &length, &after,
-         &data);
+  XGetWindowProperty(GDK_DISPLAY(), desktop_window, prop, 0L, 1L, False, AnyPropertyType, &type, &format, &length, &after, &data);
 
   if (type == XA_PIXMAP)
     return *((Pixmap *)data);
@@ -102,7 +104,7 @@ set_desktop_background(GdkWindow *window)
 
   if (xpm != None)
     {
-      GdkScreen *screen = gdk_window_get_screen(window);
+      GdkScreen *screen   = gdk_window_get_screen(window);
       GdkDisplay *display = gdk_window_get_display(window);
       Window root_return;
       int x, y;
@@ -111,15 +113,10 @@ set_desktop_background(GdkWindow *window)
 
       gdk_x11_display_error_trap_push(display);
 
-      if (XGetGeometry(GDK_SCREEN_XDISPLAY(screen),
-                       xpm,
-                       &root_return,
-                       &x, &y, &width, &height, &bw, &depth_ret))
+      if (XGetGeometry(GDK_SCREEN_XDISPLAY(screen), xpm, &root_return, &x, &y, &width, &height, &bw, &depth_ret))
         {
-          surface = cairo_xlib_surface_create(GDK_SCREEN_XDISPLAY (screen),
-                                              xpm,
-                                              GDK_VISUAL_XVISUAL(gdk_screen_get_system_visual(screen)),
-                                              width, height);
+          surface = cairo_xlib_surface_create(
+            GDK_SCREEN_XDISPLAY(screen), xpm, GDK_VISUAL_XVISUAL(gdk_screen_get_system_visual(screen)), width, height);
         }
       gdk_x11_display_error_trap_pop_ignored(display);
 
@@ -130,7 +127,7 @@ set_desktop_background(GdkWindow *window)
     }
   else
     {
-      GdkRGBA black = { 0.0, 0.0, 0.0, 1.0 };
+      GdkRGBA black = {0.0, 0.0, 0.0, 1.0};
       gdk_window_set_background_rgba(window, &black);
     }
 }

@@ -16,12 +16,13 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
 #include <boost/algorithm/string/predicate.hpp>
+#include <utility>
 
 #include "BreakConfig.hh"
 #include "core/CoreConfig.hh"
@@ -31,12 +32,12 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer) :
-  break_id(break_id),
-  break_state_model(break_state_model),
-  timer(timer),
-  enabled(true),
-  use_microbreak_activity(false)
+BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer)
+  : break_id(break_id)
+  , break_state_model(std::move(break_state_model))
+  , timer(std::move(timer))
+  , enabled(true)
+  , use_microbreak_activity(false)
 {
   load_timer_config();
   load_break_config();
@@ -62,7 +63,7 @@ BreakConfig::load_timer_config()
 
   // Read reset predicate
   string reset_pred = CoreConfig::timer_reset_pred(break_id)();
-  if (reset_pred != "")
+  if (!reset_pred.empty())
     {
       DayTimePred *pred = create_time_pred(reset_pred);
       timer->set_daily_reset(pred);
@@ -75,7 +76,7 @@ BreakConfig::load_timer_config()
   // Read the monitor setting for the timer.
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      use_microbreak_activity = CoreConfig::timer_daily_limit_use_micro_break_activity()();
+      use_microbreak_activity = (CoreConfig::timer_daily_limit_use_micro_break_activity()() != 0);
     }
 
   TRACE_EXIT();
@@ -116,7 +117,7 @@ DayTimePred *
 BreakConfig::create_time_pred(string spec)
 {
   DayTimePred *pred = nullptr;
-  bool ok = false;
+  bool ok           = false;
 
   std::string type;
   std::string::size_type pos = spec.find('/');
@@ -129,12 +130,12 @@ BreakConfig::create_time_pred(string spec)
       if (type == "day")
         {
           auto *dayPred = new DayTimePred();
-          ok = dayPred->init(spec);
-          pred = dayPred;
+          ok            = dayPred->init(spec);
+          pred          = dayPred;
         }
     }
 
-  if (pred && !ok)
+  if ((pred != nullptr) && !ok)
     {
       delete pred;
       pred = nullptr;

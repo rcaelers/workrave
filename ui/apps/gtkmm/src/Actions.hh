@@ -37,7 +37,7 @@ private:
   void on_menu_reading();
 
   void init(Glib::RefPtr<Gtk::Application> app);
-  
+
   Glib::RefPtr<Gio::SimpleActionGroup> action_group;
 };
 

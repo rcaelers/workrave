@@ -43,7 +43,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
-    : toolkit(toolkit)
+  : toolkit(toolkit)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -150,7 +150,8 @@ Application::init_core()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       IBreak::Ptr b = core->get_break(BreakId(i));
-      connections.connect(b->signal_break_event(), std::bind(&Application::on_break_event, this, BreakId(i), std::placeholders::_1));
+      connections.connect(b->signal_break_event(),
+                          std::bind(&Application::on_break_event, this, BreakId(i), std::placeholders::_1));
     }
 
   GUIConfig::init();
@@ -241,24 +242,24 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
     BreakEvent break_event;
     SoundEvent sound_event;
   } event_mappings[] = {
-    { BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude },
-    { BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored },
-    { BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak, SoundEvent::MicroBreakStarted },
-    { BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken, SoundEvent::MicroBreakEnded },
-    { BREAK_ID_REST_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude },
-    { BREAK_ID_REST_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored },
-    { BREAK_ID_REST_BREAK, BreakEvent::ShowBreak, SoundEvent::RestBreakStarted },
-    { BREAK_ID_REST_BREAK, BreakEvent::BreakTaken, SoundEvent::RestBreakEnded },
-    { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude },
-    { BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored },
-    { BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak, SoundEvent::MicroBreakEnded },
+    {BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
+    {BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
+    {BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak, SoundEvent::MicroBreakStarted},
+    {BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken, SoundEvent::MicroBreakEnded},
+    {BREAK_ID_REST_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
+    {BREAK_ID_REST_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
+    {BREAK_ID_REST_BREAK, BreakEvent::ShowBreak, SoundEvent::RestBreakStarted},
+    {BREAK_ID_REST_BREAK, BreakEvent::BreakTaken, SoundEvent::RestBreakEnded},
+    {BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
+    {BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
+    {BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak, SoundEvent::MicroBreakEnded},
   };
 
-  for (auto &event_mapping : event_mappings)
+  for (auto &event_mapping: event_mappings)
     {
       if (event_mapping.id == break_id && event_mapping.break_event == event)
         {
-          bool mute = false;
+          bool mute      = false;
           SoundEvent snd = event_mapping.sound_event;
           TRACE_MSG("play " << static_cast<std::underlying_type<BreakEvent>::type>(event));
 
@@ -329,8 +330,8 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   hide_break_window();
 
   BreakFlags break_flags = BREAK_FLAGS_NONE;
-  bool ignorable = GUIConfig::break_ignorable(break_id)();
-  bool skippable = GUIConfig::break_skippable(break_id)();
+  bool ignorable         = GUIConfig::break_ignorable(break_id)();
+  bool skippable         = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
     {
@@ -379,12 +380,12 @@ Application::hide_break_window()
   TRACE_ENTER("Application::hide_break_window");
   active_break_id = BREAK_ID_NONE;
 
-  for (auto &window : prelude_windows)
+  for (auto &window: prelude_windows)
     {
       window->stop();
     }
 
-  for (auto &window : break_windows)
+  for (auto &window: break_windows)
     {
       window->stop();
     }
@@ -400,12 +401,12 @@ Application::show_break_window()
 {
   TRACE_ENTER("Application::hide_break_window");
 
-  for (auto &window : prelude_windows)
+  for (auto &window: prelude_windows)
     {
       window->start();
     }
 
-  for (auto &window : break_windows)
+  for (auto &window: break_windows)
     {
       window->start();
     }
@@ -416,12 +417,12 @@ Application::show_break_window()
 void
 Application::refresh_break_window()
 {
-  for (auto &window : prelude_windows)
+  for (auto &window: prelude_windows)
     {
       window->refresh();
     }
 
-  for (auto &window : break_windows)
+  for (auto &window: break_windows)
     {
       window->refresh();
     }
@@ -430,12 +431,12 @@ Application::refresh_break_window()
 void
 Application::set_break_progress(int value, int max_value)
 {
-  for (auto &window : prelude_windows)
+  for (auto &window: prelude_windows)
     {
       window->set_progress(value, max_value);
     }
 
-  for (auto &window : break_windows)
+  for (auto &window: break_windows)
     {
       window->set_progress(value, max_value);
     }
@@ -444,7 +445,7 @@ Application::set_break_progress(int value, int max_value)
 void
 Application::set_prelude_stage(PreludeStage stage)
 {
-  for (auto &window : prelude_windows)
+  for (auto &window: prelude_windows)
     {
       window->set_stage(stage);
     }
@@ -453,7 +454,7 @@ Application::set_prelude_stage(PreludeStage stage)
 void
 Application::set_prelude_progress_text(PreludeProgressText text)
 {
-  for (auto &window : prelude_windows)
+  for (auto &window: prelude_windows)
     {
       window->set_progress_text(text);
     }

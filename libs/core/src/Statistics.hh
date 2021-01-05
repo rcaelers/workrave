@@ -39,24 +39,23 @@
 #include "IActivityMonitor.hh"
 
 class Statistics
-  : public workrave::IStatistics,
-    public workrave::input_monitor::IInputMonitorListener
+  : public workrave::IStatistics
+  , public workrave::input_monitor::IInputMonitorListener
 {
 public:
   using Ptr = std::shared_ptr<Statistics>;
 
 private:
   enum StatsMarker
-    {
-      STATS_MARKER_TODAY,
-      STATS_MARKER_HISTORY,
-      STATS_MARKER_END,
-      STATS_MARKER_STARTTIME,
-      STATS_MARKER_STOPTIME,
-      STATS_MARKER_BREAK_STATS,
-      STATS_MARKER_MISC_STATS,
-    };
-
+  {
+    STATS_MARKER_TODAY,
+    STATS_MARKER_HISTORY,
+    STATS_MARKER_END,
+    STATS_MARKER_STARTTIME,
+    STATS_MARKER_STOPTIME,
+    STATS_MARKER_BREAK_STATS,
+    STATS_MARKER_MISC_STATS,
+  };
 
   struct DailyStatsImpl : public workrave::IStatistics::DailyStats
   {
@@ -68,15 +67,15 @@ private:
       memset((void *)&start, 0, sizeof(start));
       memset((void *)&stop, 0, sizeof(stop));
 
-      for(auto & break_stat : break_stats)
+      for (auto &break_stat: break_stats)
         {
-          for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+          for (int &stat: break_stat)
             {
-              break_stat[j] = 0;
+              stat = 0;
             }
         }
 
-      for(int64_t & misc_stat : misc_stats)
+      for (int64_t &misc_stat: misc_stats)
         {
           misc_stat = 0;
         }
@@ -87,14 +86,11 @@ private:
 
     bool starts_at_date(int y, int m, int d);
     bool starts_before_date(int y, int m, int d);
-    bool is_empty() const
-    {
-      return start.tm_year == 0;
-    }
+    bool is_empty() const { return start.tm_year == 0; }
   };
 
-  using History = std::vector<DailyStatsImpl *>;
-  using HistoryIter = std::vector<DailyStatsImpl *>::iterator;
+  using History      = std::vector<DailyStatsImpl *>;
+  using HistoryIter  = std::vector<DailyStatsImpl *>::iterator;
   using HistoryRIter = std::vector<DailyStatsImpl *>::reverse_iterator;
 
 public:

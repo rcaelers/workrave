@@ -18,24 +18,24 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef TRACING
 
-#include <sstream>
-#include <chrono>
+#  include <sstream>
+#  include <chrono>
 
-#include <boost/thread/tss.hpp>
-#include <boost/filesystem.hpp>
+#  include <boost/thread/tss.hpp>
+#  include <boost/filesystem.hpp>
 
-#ifdef PLATFORM_OS_WINDOWS
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h> /* for GetFileAttributes */
-#endif
+#  ifdef PLATFORM_OS_WINDOWS
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h> /* for GetFileAttributes */
+#  endif
 
-#include "debug.hh"
-#include "utils/TimeSource.hh"
+#  include "debug.hh"
+#  include "utils/TimeSource.hh"
 
 using namespace std;
 using namespace workrave::utils;
@@ -51,8 +51,8 @@ Debug::trace_string()
 {
   char logtime[256];
 
-#ifdef HAVE_TESTS
-  time_t t = static_cast<time_t>(TimeSource::get_real_time_sec());
+#  ifdef HAVE_TESTS
+  auto t          = static_cast<time_t>(TimeSource::get_real_time_sec());
   struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 
@@ -72,19 +72,19 @@ Debug::trace_string()
       ss << " " << logtime << "." << (ms % 1000000) / 1000;
     }
 
-  ss << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;
+  ss << " " << boost::this_thread::get_id() /* g_thread_self() */ << " ";
   return ss.str();
 
-#else
+#  else
 
-  auto t = (time_t) TimeSource::get_real_time_sec();
+  auto t          = (time_t)TimeSource::get_real_time_sec();
   struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 
   stringstream ss;
-  ss << logtime << " " <<  boost::this_thread::get_id() /* g_thread_self() */ << " " ;
+  ss << logtime << " " << boost::this_thread::get_id() /* g_thread_self() */ << " ";
   return ss.str();
-#endif
+#  endif
 }
 
 void
@@ -116,7 +116,7 @@ Debug::stream()
     {
       std::string debug_filename;
 
-#if defined(WIN32) || defined(PLATFORM_OS_WINDOWS)
+#  if defined(WIN32) || defined(PLATFORM_OS_WINDOWS)
       char path_buffer[MAX_PATH];
 
       DWORD ret = GetTempPath(MAX_PATH, path_buffer);
@@ -132,13 +132,13 @@ Debug::stream()
       boost::filesystem::path dir(debug_filename);
       boost::filesystem::create_directory(dir);
 
-#elif defined(PLATFORM_OS_MACOS)
+#  elif defined(PLATFORM_OS_MACOS)
       debug_filename = "/tmp/";
-#elif defined(PLATFORM_OS_UNIX)
+#  elif defined(PLATFORM_OS_UNIX)
       debug_filename = "/tmp/";
-#else
-#error Unknown platform.
-#endif
+#  else
+#    error Unknown platform.
+#  endif
 
       char logfile[128];
       time_t ltime;
@@ -148,7 +148,7 @@ Debug::stream()
       strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);
 
       stringstream ss;
-      ss << debug_filename << logfile << "-" <<  boost::this_thread::get_id();
+      ss << debug_filename << logfile << "-" << boost::this_thread::get_id();
 
       if (g_thread_name.get() != nullptr)
         {

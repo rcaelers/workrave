@@ -30,8 +30,7 @@
 #include "InputMonitor.hh"
 
 //! Activity monitor for a local X server.
-class X11InputMonitor :
-  public InputMonitor
+class X11InputMonitor : public InputMonitor
 {
 public:
   //! Constructor.

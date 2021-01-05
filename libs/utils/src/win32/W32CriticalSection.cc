@@ -23,8 +23,6 @@
 
 #include "utils/W32CriticalSection.hh"
 
-
-
 /* A critical section is a fast and light thread synchronization object in Windows. Critical
 sections are used by creating a CRITICAL_SECTION object which must be initialized, can be locked
 and unlocked multiple times, and then can be deleted.
@@ -111,120 +109,103 @@ void SomeFunction()
 
 */
 
-
-
-W32CriticalSection::AdvancedGuard::AdvancedGuard() : W32CriticalSection( 500 ) {}
-
-
-
-// Lock 'cs' once.
-W32CriticalSection::AdvancedGuard::AdvancedGuard( W32CriticalSection &cs )
-    : W32CriticalSection( 500 )
+W32CriticalSection::AdvancedGuard::AdvancedGuard()
+  : W32CriticalSection(500)
 {
-    Lock( cs );
 }
 
-
+// Lock 'cs' once.
+W32CriticalSection::AdvancedGuard::AdvancedGuard(W32CriticalSection &cs)
+  : W32CriticalSection(500)
+{
+  Lock(cs);
+}
 
 // Unlock all the locks held that have not yet been unlocked via Unlock().
 W32CriticalSection::AdvancedGuard::~AdvancedGuard()
 {
-    for( std::list<W32CriticalSection *>::reverse_iterator i = list_.rbegin();
-        i != list_.rend();
-        ++i
-        )
+  for (std::list<W32CriticalSection *>::reverse_iterator i = list_.rbegin(); i != list_.rend(); ++i)
     {
-        LeaveCriticalSection( *i );
+      LeaveCriticalSection(*i);
     }
 }
-
-
 
 // Try to lock 'cs' once without blocking for it.
 // Returns true if acquired.
-bool W32CriticalSection::AdvancedGuard::TryLock( W32CriticalSection &cs )
+bool
+W32CriticalSection::AdvancedGuard::TryLock(W32CriticalSection &cs)
 {
-    if( !TryEnterCriticalSection( &cs ) )
-        return false;
+  if (!TryEnterCriticalSection(&cs))
+    return false;
 
-    Guard guard( *this );
-    list_.push_back( &cs );
-    return true;
+  Guard guard(*this);
+  list_.push_back(&cs);
+  return true;
 }
-
-
 
 // Try to lock 'cs' once by blocking for it only for a specific number of 'milliseconds'.
 // Returns true if acquired.
-bool W32CriticalSection::AdvancedGuard::TryLockFor(
-    W32CriticalSection &cs,
-    const DWORD milliseconds
-    )
+bool
+W32CriticalSection::AdvancedGuard::TryLockFor(W32CriticalSection &cs, const DWORD milliseconds)
 {
-    const int spin = ( milliseconds ? 4000 : 1 );
-    const DWORD start = GetTickCount();
-    DWORD remaining = milliseconds;
+  const int spin    = (milliseconds ? 4000 : 1);
+  const DWORD start = GetTickCount();
+  DWORD remaining   = milliseconds;
 
-    for( DWORD interval = 1; /**/; interval *= 2 )
+  for (DWORD interval = 1; /**/; interval *= 2)
     {
-        for( int i = 0; i < spin; ++i )
+      for (int i = 0; i < spin; ++i)
         {
-            if( TryEnterCriticalSection( &cs ) )
+          if (TryEnterCriticalSection(&cs))
             {
-                Guard guard( *this );
-                list_.push_back( &cs );
-                return true;
+              Guard guard(*this);
+              list_.push_back(&cs);
+              return true;
             }
 
-            if( milliseconds != INFINITE )
+          if (milliseconds != INFINITE)
             {
-                DWORD elapsed = GetTickCount() - start;
+              DWORD elapsed = GetTickCount() - start;
 
-                if( elapsed >= milliseconds )
-                    return false;
+              if (elapsed >= milliseconds)
+                return false;
 
-                remaining = milliseconds - elapsed;
+              remaining = milliseconds - elapsed;
             }
         }
 
-        if( ( interval > 128 ) || ( interval > remaining ) )
-            interval = 1;
+      if ((interval > 128) || (interval > remaining))
+        interval = 1;
 
-        Sleep( interval );
+      Sleep(interval);
     }
 }
-
-
 
 // Lock 'cs' once by blocking for it.
 // Returns after the lock has been acquired.
-void W32CriticalSection::AdvancedGuard::Lock( W32CriticalSection &cs )
+void
+W32CriticalSection::AdvancedGuard::Lock(W32CriticalSection &cs)
 {
-    EnterCriticalSection( &cs );
+  EnterCriticalSection(&cs);
 
-    Guard guard( *this );
-    list_.push_back( &cs );
+  Guard guard(*this);
+  list_.push_back(&cs);
 }
-
-
 
 // Unlock 'cs' once.
 // Returns after the lock has been released.
-void W32CriticalSection::AdvancedGuard::Unlock( W32CriticalSection &cs )
+void
+W32CriticalSection::AdvancedGuard::Unlock(W32CriticalSection &cs)
 {
-    Guard guard( *this );
+  Guard guard(*this);
 
-    for( std::list<W32CriticalSection *>::reverse_iterator i = list_.rbegin();
-        i != list_.rend();
-        ++i
-        )
+  for (std::list<W32CriticalSection *>::reverse_iterator i = list_.rbegin(); i != list_.rend(); ++i)
     {
-        if( *i != &cs )
-            continue;
+      if (*i != &cs)
+        continue;
 
-        list_.erase( (++i).base() );
-        LeaveCriticalSection( &cs );
-        return;
+      list_.erase((++i).base());
+      LeaveCriticalSection(&cs);
+      return;
     }
 }
-

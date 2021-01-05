@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "commonui/nls.h"
@@ -41,9 +41,8 @@ using namespace workrave;
 using namespace workrave::utils;
 
 //! Construct a new Daily limit window.
-DailyLimitWindow::DailyLimitWindow(HeadInfo &head, BreakFlags break_flags,
-                                   GUIConfig::BlockMode mode) :
-  BreakWindow(BREAK_ID_DAILY_LIMIT, head, break_flags, mode)
+DailyLimitWindow::DailyLimitWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+  : BreakWindow(BREAK_ID_DAILY_LIMIT, head, break_flags, mode)
 {
   set_title(_("Daily limit"));
 }
@@ -52,11 +51,10 @@ Gtk::Widget *
 DailyLimitWindow::create_gui()
 {
   // label
-  Glib::ustring txt = HigUtil::create_alert_text
-    (_("Daily limit"),
-     _("You have reached your daily limit. Please stop working\n"
-       "behind the computer. If your working day is not over yet,\n"
-       "find something else to do, such as reviewing a document."));
+  Glib::ustring txt = HigUtil::create_alert_text(_("Daily limit"),
+                                                 _("You have reached your daily limit. Please stop working\n"
+                                                   "behind the computer. If your working day is not over yet,\n"
+                                                   "find something else to do, such as reviewing a document."));
 
   Gtk::Label *label = Gtk::manage(new Gtk::Label());
   label->set_markup(txt);
@@ -83,14 +81,12 @@ DailyLimitWindow::create_gui()
   return box;
 }
 
-
 //! Destructor.
-DailyLimitWindow::~DailyLimitWindow()
-= default;
+DailyLimitWindow::~DailyLimitWindow() = default;
 
 void
 DailyLimitWindow::set_progress(int value, int max_value)
 {
-  (void) value;
-  (void) max_value;
+  (void)value;
+  (void)max_value;
 }

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -31,8 +31,7 @@ CoreHooks::CoreHooks()
   TRACE_EXIT();
 }
 
-CoreHooks::~CoreHooks()
-= default;
+CoreHooks::~CoreHooks() = default;
 
 #ifdef HAVE_TESTS
 std::function<workrave::config::IConfigurator::Ptr()> &

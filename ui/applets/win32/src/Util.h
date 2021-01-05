@@ -30,18 +30,18 @@ public:
   void HideWindow(HWND hwnd);
   void ShowWindow(HWND hwnd, int x, int y);
   void EndPaint();
+
 private:
   int hide_windows_num;
   HWND hide_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE];
   struct ShowWindowData
-    {
-      HWND hwnd;
-      int x, y;
-    };
+  {
+    HWND hwnd;
+    int x, y;
+  };
   ShowWindowData show_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE];
   int show_windows_num;
   BOOL repaint;
 };
 
 #endif // UTIL_H
-

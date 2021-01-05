@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <stdio.h>
@@ -26,13 +26,13 @@
 #include "debug.hh"
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
-#undef max
+#  undef max
 #endif
 
 #include "harpoon.h"
 #include "input-monitor/Harpoon.hh"
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
-#undef max
+#  undef max
 #endif
 
 bool

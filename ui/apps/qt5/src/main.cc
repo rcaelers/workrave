@@ -59,7 +59,7 @@ run(int argc, char **argv)
 #endif
 
   std::shared_ptr<IToolkit> toolkit = std::make_shared<Toolkit>(argc, argv);
-  std::shared_ptr<Application> app = std::make_shared<Application>(argc, argv, toolkit);
+  std::shared_ptr<Application> app  = std::make_shared<Application>(argc, argv, toolkit);
   app->main();
 
   return 0;
@@ -90,7 +90,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdSh
   HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
-      char *argv[] = { szCmdLine };
+      char *argv[] = {szCmdLine};
       run(sizeof(argv) / sizeof(argv[0]), argv);
     }
   return (0);
