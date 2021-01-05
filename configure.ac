@@ -35,9 +35,8 @@ dnl AM_SILENT_RULES([yes])
 GNOME_SHELL_VERSION=3.26.1
 AC_SUBST(GNOME_SHELL_VERSION)
 
-if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
-    git_version=`git describe --tags --abbrev=10 --dirty 2>/dev/null`
-    AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
+if test -n "$WORKRAVE_GIT_VERSION"; then
+    AC_DEFINE_UNQUOTED(GIT_VERSION, "$WORKRAVE_GIT_VERSION", [GIT Version])
 fi
 
 
