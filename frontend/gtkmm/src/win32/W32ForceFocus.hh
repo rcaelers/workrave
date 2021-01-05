@@ -22,54 +22,52 @@
 
 #include <windows.h>
 
-
-
 class W32ForceFocus
 {
 public:
-    // Simulate an ALT keypress in an attempt to make hwnd foreground
-    static bool AltKeypress( HWND hwnd );
+  // Simulate an ALT keypress in an attempt to make hwnd foreground
+  static bool AltKeypress(HWND hwnd);
 
-    // Attach to the thread of the current foreground window in an attempt to make hwnd foreground
-    static bool AttachInput( HWND hwnd );
+  // Attach to the thread of the current foreground window in an attempt to make hwnd foreground
+  static bool AttachInput(HWND hwnd);
 
-    // Minimize and restore a dummy window in an attempt to make hwnd foreground
-    static bool MinimizeRestore( HWND hwnd );
+  // Minimize and restore a dummy window in an attempt to make hwnd foreground
+  static bool MinimizeRestore(HWND hwnd);
 
-    // Create a worker thread that runs any of the above hacks in an attempt to make hwnd foreground
-    static bool ForceWindowFocus( HWND hwnd, DWORD milliseconds_to_block = 200 );
+  // Create a worker thread that runs any of the above hacks in an attempt to make hwnd foreground
+  static bool ForceWindowFocus(HWND hwnd, DWORD milliseconds_to_block = 200);
 
-    // Check the user preference advanced/force_focus
-    static bool GetForceFocusValue();
+  // Check the user preference advanced/force_focus
+  static bool GetForceFocusValue();
 
 private:
-    // Get the flags of functions that should be used to make hwnd foreground
-    static DWORD GetFunctions();
+  // Get the flags of functions that should be used to make hwnd foreground
+  static DWORD GetFunctions();
 
-    // Retry the GetForegroundWindow() function if it fails
-    static HWND GetForegroundWindowTryHarder( DWORD max_retries = 200 );
+  // Retry the GetForegroundWindow() function if it fails
+  static HWND GetForegroundWindowTryHarder(DWORD max_retries = 200);
 
-    // This is the ThreadProc called by CreateThread to create the worker thread
-    static DWORD WINAPI thread_Worker( LPVOID lpParameter );
+  // This is the ThreadProc called by CreateThread to create the worker thread
+  static DWORD WINAPI thread_Worker(LPVOID lpParameter);
 
-    // A handle to the worker thread
-    static HANDLE thread_handle;
-    
-    // Info needed by thread_Worker
-    static struct thread_info
-    {
-        // the hwnd we want to force focus to
-        HWND hwnd;   // in
+  // A handle to the worker thread
+  static HANDLE thread_handle;
 
-        // the functions we want to call to force the focus
-        DWORD flags;   // in, out (ThreadProc may change the flags for recursive calls)
+  // Info needed by thread_Worker
+  static struct thread_info
+  {
+    // the hwnd we want to force focus to
+    HWND hwnd; // in
 
-        // the function that worked to force the focus, if any
-        DWORD retval;   // out
-    } ti;
+    // the functions we want to call to force the focus
+    DWORD flags; // in, out (ThreadProc may change the flags for recursive calls)
 
-    // Cached value of user preference advanced/force_focus
-    static bool force_focus;
+    // the function that worked to force the focus, if any
+    DWORD retval; // out
+  } ti;
+
+  // Cached value of user preference advanced/force_focus
+  static bool force_focus;
 };
 
 #endif // W32FORCEFOCUS_HH

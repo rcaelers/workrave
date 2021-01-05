@@ -28,11 +28,11 @@ class ConfiguratorFactory
 {
 public:
   enum Format
-    {
-      FormatIni,
-      FormatXml,
-      FormatNative
-    };
+  {
+    FormatIni,
+    FormatXml,
+    FormatNative
+  };
 
   //! Creates a link server of the specified type.
   static Configurator *create(Format fmt);

@@ -18,13 +18,13 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSHelpers.hh"
 #endif
 
 #include <cstdlib>
@@ -39,7 +39,7 @@ void
 StringUtil::split(const string &in, const char delim, vector<std::string> &result)
 {
   string::size_type start_pos = 0;
-  string::size_type end_pos = in.find(delim, 0);
+  string::size_type end_pos   = in.find(delim, 0);
 
   while ((end_pos = in.find(delim, start_pos)) != string::npos)
     {
@@ -47,18 +47,17 @@ StringUtil::split(const string &in, const char delim, vector<std::string> &resul
       result.push_back(s);
 
       start_pos = end_pos + 1;
-      end_pos = in.find(delim, start_pos);
+      end_pos   = in.find(delim, start_pos);
     }
 
   string s = in.substr(start_pos, in.size() - start_pos);
   result.push_back(s);
 }
 
-
 string
 StringUtil::search_replace(const string &in, const string &search, const string &replace)
 {
-  string str = in;
+  string str            = in;
   string::size_type pos = 0;
 
   while ((pos = str.find(search, pos)) != string::npos)

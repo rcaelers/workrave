@@ -23,10 +23,10 @@
 #include "ISoundDriver.hh"
 
 #include <windows.h>
-#if defined (HAVE_DXERR_H)
-#include <dxerr.h>
+#if defined(HAVE_DXERR_H)
+#  include <dxerr.h>
 #elif defined(HAVE_DXERR8_H)
-#include <dxerr8.h>
+#  include <dxerr8.h>
 #endif
 #include <dsound.h>
 #include <string>
@@ -56,7 +56,6 @@ private:
   ISoundDriverEvents *events;
 };
 
-
 class WaveFile
 {
 public:
@@ -68,7 +67,7 @@ public:
   size_t read(BYTE *buffer, size_t size);
   size_t get_size();
 
-  void  reset_file();
+  void reset_file();
   WAVEFORMATEX *get_format() { return &format; };
 
 private:
@@ -79,7 +78,6 @@ private:
   MMCKINFO parent;
   DWORD sample_size;
 };
-
 
 class SoundClip
 {
@@ -92,7 +90,6 @@ public:
   void set_volume(int volume);
 
 private:
-
   void fill_buffer();
   bool is_buffer_lost();
   void restore_buffer();
@@ -106,6 +103,5 @@ private:
   HANDLE stop_event;
   ISoundDriverEvents *events;
 };
-
 
 #endif // W32DIRECTSOUNDPLAYER_HH

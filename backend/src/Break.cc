@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -37,7 +37,6 @@
 
 using namespace std;
 
-
 struct Defaults
 {
   string name;
@@ -51,44 +50,47 @@ struct Defaults
   // Break settings
   int max_preludes;
 
-} default_config[] =
-  {
-    {
-      // FIXME: Rename to micro_break, but in a backwards compatible manner.
-      "micro_pause",
-      3*60, 30, "", 150,
-      3,
-    },
+} default_config[] = {{
+                        // FIXME: Rename to micro_break, but in a backwards compatible manner.
+                        "micro_pause",
+                        3 * 60,
+                        30,
+                        "",
+                        150,
+                        3,
+                      },
 
-    {
-      "rest_break",
-      45*60, 10*60, "", 180,
-      3,
-    },
+                      {
+                        "rest_break",
+                        45 * 60,
+                        10 * 60,
+                        "",
+                        180,
+                        3,
+                      },
 
-    {
-      "daily_limit",
-      14400, 0, "day/4:00", 20 * 60,
-      3,
-    }
-  };
-
-
+                      {
+                        "daily_limit",
+                        14400,
+                        0,
+                        "day/4:00",
+                        20 * 60,
+                        3,
+                      }};
 
 //! Constucts a new Break
-Break::Break() :
-  break_id(BREAK_ID_NONE),
-  config(NULL),
-  application(NULL),
-  timer(NULL),
-  break_control(NULL),
-  enabled(true),
-  usage_mode(USAGE_MODE_NORMAL)
+Break::Break()
+  : break_id(BREAK_ID_NONE)
+  , config(NULL)
+  , application(NULL)
+  , timer(NULL)
+  , break_control(NULL)
+  , enabled(true)
+  , usage_mode(USAGE_MODE_NORMAL)
 {
   TRACE_ENTER("Break:Break");
   TRACE_EXIT()
 }
-
 
 //! Initializes the break.
 void
@@ -96,14 +98,14 @@ Break::init(BreakId id, IApp *app)
 {
   TRACE_ENTER("Break::init");
 
-  break_id = id;
-  config = CoreFactory::get_configurator();
+  break_id    = id;
+  config      = CoreFactory::get_configurator();
   application = app;
 
   Defaults &def = default_config[break_id];
 
-  break_name = def.name;
-  timer = new Timer(break_name);
+  break_name    = def.name;
+  timer         = new Timer(break_name);
   break_control = new BreakControl(break_id, break_name, app, timer);
 
   init_timer();
@@ -122,13 +124,12 @@ Break::~Break()
   TRACE_EXIT();
 }
 
-
 string
 Break::expand(const string &key, BreakId id)
 {
-  string str = key;
+  string str            = key;
   string::size_type pos = 0;
-  string name = get_name(id);
+  string name           = get_name(id);
 
   while ((pos = str.find("%b", pos)) != string::npos)
     {
@@ -138,14 +139,13 @@ Break::expand(const string &key, BreakId id)
 
   return str;
 }
-
 
 string
 Break::expand(const string &key)
 {
-  string str = key;
+  string str            = key;
   string::size_type pos = 0;
-  string name = get_name();
+  string name           = get_name();
 
   while ((pos = str.find("%b", pos)) != string::npos)
     {
@@ -155,7 +155,6 @@ Break::expand(const string &key)
 
   return str;
 }
-
 
 void
 Break::init_defaults()
@@ -167,47 +166,29 @@ Break::init_defaults()
 
   // Convert old settings.
 
-  config->rename_key(string("gui/breaks/%b/max_preludes") % break_id,
-                     CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id);
+  config->rename_key(string("gui/breaks/%b/max_preludes") % break_id, CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id);
 
-  config->rename_key(string("gui/breaks/%b/enabled") % break_id,
-                     CoreConfig::CFG_KEY_BREAK_ENABLED % break_id);
+  config->rename_key(string("gui/breaks/%b/enabled") % break_id, CoreConfig::CFG_KEY_BREAK_ENABLED % break_id);
 
   config->remove_key(string("gui/breaks/%b/max_postpone") % break_id);
 
   // Set defaults.
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id,
-                    def.limit,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, def.limit, CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id,
-                    def.auto_reset,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, def.auto_reset, CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id,
-                    def.resetpred,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, def.resetpred, CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id,
-                    def.snooze,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, def.snooze, CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
-                    "",
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, "", CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
-                    true,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, true, CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
-                    def.max_preludes,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, def.max_preludes, CONFIG_FLAG_DEFAULT);
 
-  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id,
-                    true,
-                    CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, true, CONFIG_FLAG_DEFAULT);
 }
 
 //! Returns the id of the break
@@ -217,14 +198,12 @@ Break::get_id() const
   return break_id;
 }
 
-
 //! Returns the name of the break (used in configuration)
 string
 Break::get_name() const
 {
   return break_name;
 }
-
 
 //! Returns the name of the break (used in configuration)
 string
@@ -234,7 +213,6 @@ Break::get_name(BreakId id)
   return def.name;
 }
 
-
 //! Returns the timer.
 Timer *
 Break::get_timer() const
@@ -242,14 +220,12 @@ Break::get_timer() const
   return timer;
 }
 
-
 //! Returns the Break controller.
 BreakControl *
 Break::get_break_control()
 {
   return break_control;
 }
-
 
 // Initialize the timer based.
 void
@@ -262,7 +238,6 @@ Break::init_timer()
 
   config->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
 }
-
 
 //! Load the configuration of the timer.
 void
@@ -302,7 +277,7 @@ Break::load_timer_config()
   TRACE_MSG(ret << " " << monitor_name);
   if (ret && monitor_name != "")
     {
-      Core *core = Core::get_instance();
+      Core *core    = Core::get_instance();
       Timer *master = core->get_timer(monitor_name);
       if (master != NULL)
         {
@@ -318,7 +293,6 @@ Break::load_timer_config()
   TRACE_EXIT();
 }
 
-
 // Initialize the break control.
 void
 Break::init_break_control()
@@ -326,7 +300,6 @@ Break::init_break_control()
   load_break_control_config();
   config->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
 }
-
 
 void
 Break::load_break_control_config()
@@ -340,7 +313,6 @@ Break::load_break_control_config()
   enabled = true;
   config->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
 }
-
 
 void
 Break::override(BreakId id)
@@ -379,7 +351,6 @@ Break::is_running() const
   TimerState state = timer->get_state();
   return state == STATE_RUNNING;
 }
-
 
 bool
 Break::is_taking() const
@@ -450,7 +421,6 @@ Break::set_usage_mode(UsageMode mode)
   TRACE_EXIT();
 }
 
-
 bool
 Break::starts_with(const string &key, string prefix, string &name)
 {
@@ -464,7 +434,7 @@ Break::starts_with(const string &key, string prefix, string &name)
   if (pos != string::npos)
     {
       TRACE_MSG(pos);
-      k = key.substr(pos + prefix.length());
+      k   = key.substr(pos + prefix.length());
       pos = k.find('/');
 
       if (pos != string::npos)
@@ -477,7 +447,6 @@ Break::starts_with(const string &key, string prefix, string &name)
   TRACE_EXIT();
   return ret;
 }
-
 
 //! Notification that the configuration changed.
 void

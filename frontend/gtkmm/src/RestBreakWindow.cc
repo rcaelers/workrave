@@ -20,18 +20,18 @@
 const int TIMEOUT = 1000;
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-#include "W32Compat.hh"
-#include "W32ForceFocus.hh"
+#ifdef PLATFORM_OS_WINDOWS
+#  include "W32Compat.hh"
+#  include "W32ForceFocus.hh"
 #endif
 
 #include <gtkmm/button.h>
@@ -58,25 +58,23 @@ const int TIMEOUT = 1000;
 #include "CoreFactory.hh"
 
 #ifdef HAVE_EXERCISES
-#include "Exercise.hh"
-#include "ExercisesPanel.hh"
+#  include "Exercise.hh"
+#  include "ExercisesPanel.hh"
 #endif
 
 const int MARGINX = 8;
 const int MARGINY = 8;
 
-
 //! Constructor
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(HeadInfo &head, BreakFlags break_flags,
-                                 GUIConfig::BlockMode mode) :
-  BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode),
-  timebar(NULL),
-  progress_value(0),
-  progress_max_value(0),
-  is_flashing(false)
+RestBreakWindow::RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+  : BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode)
+  , timebar(NULL)
+  , progress_value(0)
+  , progress_max_value(0)
+  , is_flashing(false)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
   set_title(_("Rest break"));
@@ -95,18 +93,20 @@ RestBreakWindow::create_gui()
 
   vbox->pack_start(
 #ifdef HAVE_EXERCISES
-                   *pluggable_panel
+    *pluggable_panel
 #else
-                   *create_info_panel()
+    *create_info_panel()
 #endif
-                   , false, false, 0);
+    ,
+    false,
+    false,
+    0);
 
   // Timebar
   timebar = Gtk::manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
 
-  Gtk::Box *bottom_box = create_bottom_box(true,
-      GUIConfig::get_shutdown_enabled(BREAK_ID_REST_BREAK));
+  Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::get_shutdown_enabled(BREAK_ID_REST_BREAK));
   if (bottom_box)
     {
       vbox->pack_end(*Gtk::manage(bottom_box), Gtk::PACK_SHRINK, 6);
@@ -115,14 +115,12 @@ RestBreakWindow::create_gui()
   return vbox;
 }
 
-
 //! Destructor.
 RestBreakWindow::~RestBreakWindow()
 {
   TRACE_ENTER("RestBreakWindow::~RestBreakWindow");
   TRACE_EXIT();
 }
-
 
 //! Starts the restbreak.
 void
@@ -150,7 +148,6 @@ RestBreakWindow::start()
   TRACE_EXIT();
 }
 
-
 //! Period timer callback.
 void
 RestBreakWindow::update_break_window()
@@ -158,14 +155,12 @@ RestBreakWindow::update_break_window()
   draw_time_bar();
 }
 
-
 void
 RestBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value = value;
+  progress_value     = value;
 }
-
 
 //! Draws the timer bar.
 void
@@ -179,7 +174,7 @@ RestBreakWindow::draw_time_bar()
 
   timebar->set_text(s);
 
-  ICore *core = CoreFactory::get_core();
+  ICore *core      = CoreFactory::get_core();
   bool user_active = core->is_user_active();
   if (frame != NULL)
     {
@@ -201,7 +196,6 @@ RestBreakWindow::draw_time_bar()
   timebar->update();
 }
 
-
 Gtk::Widget *
 RestBreakWindow::create_info_panel()
 {
@@ -209,23 +203,19 @@ RestBreakWindow::create_info_panel()
 
   Gtk::Image *info_img = GtkUtil::create_image("rest-break.png");
   info_img->set_alignment(0.0, 0.0);
-  Gtk::Label *info_lab =
-    Gtk::manage(new Gtk::Label());
+  Gtk::Label *info_lab = Gtk::manage(new Gtk::Label());
   Glib::ustring txt;
 
   if (break_flags & BREAK_FLAGS_NATURAL)
     {
-      txt = HigUtil::create_alert_text
-        (_("Natural rest break"),
-         _("This is your natural rest break."));
+      txt = HigUtil::create_alert_text(_("Natural rest break"), _("This is your natural rest break."));
     }
   else
     {
-      txt = HigUtil::create_alert_text
-        (_("Rest break"),
-         _("This is your rest break. Make sure you stand up and\n"
-           "walk away from your computer on a regular basis. Just\n"
-           "walk around for a few minutes, stretch, and relax."));
+      txt = HigUtil::create_alert_text(_("Rest break"),
+                                       _("This is your rest break. Make sure you stand up and\n"
+                                         "walk away from your computer on a regular basis. Just\n"
+                                         "walk around for a few minutes, stretch, and relax."));
     }
 
   GtkUtil::set_theme_fg_color(info_lab);
@@ -276,8 +266,7 @@ RestBreakWindow::install_exercises_panel()
       ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(NULL));
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
-      exercises_panel->signal_stop().connect
-        (sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
+      exercises_panel->signal_stop().connect(sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
       pluggable_panel->show_all();
       pluggable_panel->queue_resize();
     }
@@ -287,13 +276,13 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   Gtk::Requisition old_size;
   Gtk::Requisition natural_size;
   get_preferred_size(old_size, natural_size);
-#else
+#  else
   Gtk::Requisition old_size = size_request();
-#endif
+#  endif
 
   set_ignore_activity(false);
   clear_pluggable_panel();
@@ -302,18 +291,17 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->queue_resize();
 
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
-  if (block_mode == GUIConfig::BLOCK_MODE_NONE &&
-      head.count == 0)
+  if (block_mode == GUIConfig::BLOCK_MODE_NONE && head.count == 0)
     {
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);
-#else
+#  else
       Gtk::Requisition new_size = size_request();
-#endif
+#  endif
 
-      int width_delta = (new_size.width - old_size.width) / 2;
-      int height_delta = (new_size.height -  old_size.height) / 2;
+      int width_delta  = (new_size.width - old_size.width) / 2;
+      int height_delta = (new_size.height - old_size.height) / 2;
 
       int x, y;
       get_position(x, y);
@@ -333,14 +321,12 @@ RestBreakWindow::set_ignore_activity(bool i)
   ICore *core = CoreFactory::get_core();
   assert(core != NULL);
 
-#ifdef PLATFORM_OS_WIN32
-  if( W32ForceFocus::GetForceFocusValue() )
+#ifdef PLATFORM_OS_WINDOWS
+  if (W32ForceFocus::GetForceFocusValue())
     {
       i = true;
     }
 #endif
 
-  core->set_insist_policy(i ?
-                          ICore::INSIST_POLICY_IGNORE :
-                          ICore::INSIST_POLICY_HALT);
+  core->set_insist_policy(i ? ICore::INSIST_POLICY_IGNORE : ICore::INSIST_POLICY_HALT);
 }

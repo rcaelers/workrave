@@ -29,7 +29,6 @@ using namespace workrave;
 #define APPLET_MESSAGE_HEARTBEAT 0
 #define APPLET_MESSAGE_MENU 1
 
-
 /*!!!!!!!!!!!!!!!!!!!
 On Windows x64, the installed Applet will be 64-bit.
 
@@ -41,7 +40,6 @@ passed structure have types that are the same size on both
 All structures declared in this file are used by both
 Workrave (x86) and the applet (x86 & x64).
 */
-
 
 struct AppletHeartbeatData
 {
@@ -90,6 +88,5 @@ struct AppletMenuData
 
   AppletMenuItemData items[APPLET_MAX_MENU_ITEMS];
 };
-
 
 #endif /* APPLET_H */

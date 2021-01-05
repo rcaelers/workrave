@@ -1,6 +1,6 @@
 // SystemLockDBus.hh -- support for locking the system using DBus
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,20 +23,24 @@
 #include "IScreenLockMethod.hh"
 #include "DBusProxy.hh"
 
-class ScreenLockDBus: public IScreenLockMethod {
+class ScreenLockDBus : public IScreenLockMethod
+{
 public:
-  //dbus_lock_method - method to execute on the interface in order to lock the system
-  //dbus_method_to_check_existence - method to execute in order to check if the interface
+  // dbus_lock_method - method to execute on the interface in order to lock the system
+  // dbus_method_to_check_existence - method to execute in order to check if the interface
   //                                 is implemented
-  //all parameters are owned by the caller and should be destroyed after 
-  //destroyal of this object
+  // all parameters are owned by the caller and should be destroyed after
+  // destroyal of this object
   ScreenLockDBus(GDBusConnection *connection,
-                  const char *dbus_name, const char *dbus_path, const char *dbus_interface, 
-                  const char *dbus_lock_method, const char *dbus_method_to_check_existence);
+                 const char *dbus_name,
+                 const char *dbus_path,
+                 const char *dbus_interface,
+                 const char *dbus_lock_method,
+                 const char *dbus_method_to_check_existence);
 
-  virtual ~ScreenLockDBus() {};
+  virtual ~ScreenLockDBus(){};
 
-  virtual bool is_lock_supported() {   return proxy.is_valid();  };
+  virtual bool is_lock_supported() { return proxy.is_valid(); };
   virtual bool lock();
 
 private:

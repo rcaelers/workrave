@@ -16,7 +16,7 @@ if HAVE_GCONF
 sourcesgconf = 		GConfConfigurator.cc 
 endif
 
-if PLATFORM_OS_OSX
+if PLATFORM_OS_MACOS
 sourcesdummy =          dummy.c
 endif
 

@@ -17,7 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 #ifndef ISOUNDDRIVER_HH
 #define ISOUNDDRIVER_HH
 
@@ -42,9 +41,9 @@ public:
   //!
   virtual bool capability(SoundCapability cap) = 0;
 
-  virtual bool get_sound_enabled(SoundEvent snd, bool &enabled) = 0;
-  virtual void set_sound_enabled(SoundEvent snd, bool enabled) = 0;
-  virtual bool get_sound_wav_file(SoundEvent snd, std::string &filename) = 0;
+  virtual bool get_sound_enabled(SoundEvent snd, bool &enabled)                = 0;
+  virtual void set_sound_enabled(SoundEvent snd, bool enabled)                 = 0;
+  virtual bool get_sound_wav_file(SoundEvent snd, std::string &filename)       = 0;
   virtual void set_sound_wav_file(SoundEvent snd, const std::string &wav_file) = 0;
 
   //! Plays sound, returns immediately.

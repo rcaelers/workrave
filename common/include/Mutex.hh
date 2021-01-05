@@ -21,13 +21,13 @@
 #define MUTEX_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #if defined(HAVE_GLIB)
-#include "GlibMutex.hh"
+#  include "GlibMutex.hh"
 #else
-#error Port missing
+#  error Port missing
 #endif
 
 #endif // MUTEX_HH

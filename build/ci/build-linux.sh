@@ -83,3 +83,16 @@ else
 
     ${CI_DIR}/catalog.sh -f ${filename} -k source -c none -p all
 fi
+
+#if [ -n $CONF_DEB ]; then
+#    rm -rf debian
+#    git clone -b debian-packaging https://github.com/rcaelers/workrave.git $WORKSPACE/debian-packaging
+#
+#    series=`lsb_release -cs`
+#    cp -a $WORKSPACE/debian-packaging/debian .
+#    if [ -d "$WORKSPACE/debian-packaging/debian-${series}" ]; then
+#        cp -a $WORKSPACE/debian-packaging/debian-${series}/* debian/
+#    fi
+#
+#    dpkg-buildpackage -b -rfakeroot -us -uc
+#fi

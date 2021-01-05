@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef IDLELOGMANAGER_HH
 #define IDLELOGMANAGER_HH
 
@@ -24,15 +23,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# if HAVE_STDLIB_H
 #  include <stdlib.h>
-# endif
+#  include <stddef.h>
+#else
+#  if HAVE_STDLIB_H
+#    include <stdlib.h>
+#  endif
 #endif
 #if HAVE_UNISTD_H
-# include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #include <iostream>
@@ -53,21 +52,21 @@ private:
   // A Single idle time interval
   struct IdleInterval
   {
-    IdleInterval() :
-      begin_time(0),
-      end_idle_time(0),
-      end_time(0),
-      active_time(0),
-      to_be_saved(false)
+    IdleInterval()
+      : begin_time(0)
+      , end_idle_time(0)
+      , end_time(0)
+      , active_time(0)
+      , to_be_saved(false)
     {
     }
 
-    IdleInterval(time_t b, time_t e) :
-      begin_time(b),
-      end_idle_time(e),
-      end_time(e),
-      active_time(0),
-      to_be_saved(false)
+    IdleInterval(time_t b, time_t e)
+      : begin_time(b)
+      , end_idle_time(e)
+      , end_time(e)
+      , active_time(0)
+      , to_be_saved(false)
     {
     }
 
@@ -87,7 +86,6 @@ private:
     bool to_be_saved;
   };
 
-
   typedef list<IdleInterval> IdleLog;
   typedef IdleLog::iterator IdleLogIter;
   typedef IdleLog::reverse_iterator IdleLogRIter;
@@ -95,13 +93,13 @@ private:
   //! Idle information of a single client.
   struct ClientInfo
   {
-    ClientInfo() :
-      state(ACTIVITY_UNKNOWN),
-      master(false),
-      total_active_time(0),
-      last_active_begin_time(0),
-      last_active_time(0),
-      last_update_time()
+    ClientInfo()
+      : state(ACTIVITY_UNKNOWN)
+      , master(false)
+      , total_active_time(0)
+      , last_active_begin_time(0)
+      , last_active_time(0)
+      , last_update_time()
     {
     }
 
@@ -138,9 +136,9 @@ private:
       if (last_active_begin_time != 0)
         {
           current_interval.active_time += (current_time - last_active_begin_time);
-          total_active_time            += (current_time - last_active_begin_time);
+          total_active_time += (current_time - last_active_begin_time);
 
-          last_active_time = 0;
+          last_active_time       = 0;
           last_active_begin_time = 0;
         }
     }
@@ -204,6 +202,5 @@ private:
   void fix_idlelog(ClientInfo &info);
   void dump_idlelog(ClientInfo &info);
 };
-
 
 #endif // IDLELOGMANAGER_HH

@@ -25,8 +25,7 @@
 #include <windows.h>
 #include "InputMonitor.hh"
 
-class W32AlternateMonitor :
-  public InputMonitor
+class W32AlternateMonitor : public InputMonitor
 {
 public:
   W32AlternateMonitor();
@@ -35,11 +34,11 @@ public:
   void terminate();
 
 protected:
-  static DWORD WINAPI thread_Monitor( LPVOID );
+  static DWORD WINAPI thread_Monitor(LPVOID);
 
 private:
   void Monitor();
-  void Update( LASTINPUTINFO * );
+  void Update(LASTINPUTINFO *);
 
   bool initialized;
   int interval;

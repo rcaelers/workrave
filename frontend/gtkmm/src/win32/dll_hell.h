@@ -22,14 +22,14 @@
 #define DLL_HELL_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-  void dll_hell_check (void);
+  void dll_hell_check(void);
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif /* DLL_HELL_H */

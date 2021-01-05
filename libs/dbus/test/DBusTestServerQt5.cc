@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <QtCore>
@@ -33,24 +33,21 @@
 
 #include "DBusQt5.hh"
 
-#define  WORKRAVE_TEST_PATH "/org/workrave/Workrave/Test"
-#define  WORKRAVE_TEST_INTERFACE "org.workrave.TestInterface"
-#define  WORKRAVE_TEST_SERVICE "org.workrave.Test"
+#define WORKRAVE_TEST_PATH "/org/workrave/Workrave/Test"
+#define WORKRAVE_TEST_INTERFACE "org.workrave.TestInterface"
+#define WORKRAVE_TEST_SERVICE "org.workrave.Test"
 
 using namespace std;
 using namespace org::workrave::test;
 
 //! Constructor.
-DBusTestServerQt5::DBusTestServerQt5()
-{
-}
-
+DBusTestServerQt5::DBusTestServerQt5() {}
 
 //! Destructor.
-DBusTestServerQt5::~DBusTestServerQt5()
-= default;
+DBusTestServerQt5::~DBusTestServerQt5() = default;
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
   DBusTestServerQt5 s;
   s.run(argc, argv);
@@ -88,7 +85,7 @@ DBusTestServerQt5::run(int argc, char **argv)
     }
   catch (workrave::dbus::DBusException &)
     {
-      std::cerr << "server failed" <<std::endl;
+      std::cerr << "server failed" << std::endl;
     }
 }
 void
@@ -118,19 +115,21 @@ DBusTestServerQt5::test_fire_signal()
 
   if (test != nullptr)
     {
-      test->Signal("/org/workrave/Test", par.m_int,
-                   par.m_uint8  ,
-                   par.m_int16  ,
-                   par.m_uint16 ,
-                   par.m_int32  ,
-                   par.m_uint32 ,
-                   par.m_int64  ,
-                   par.m_uint64 ,
-                   par.m_string ,
-                   par.m_bool   ,
-                   par.m_double ,
+      test->Signal("/org/workrave/Test",
+                   par.m_int,
+                   par.m_uint8,
+                   par.m_int16,
+                   par.m_uint16,
+                   par.m_int32,
+                   par.m_uint32,
+                   par.m_int64,
+                   par.m_uint64,
+                   par.m_string,
+                   par.m_bool,
+                   par.m_double,
                    par.m_enum,
-                   l, m );
+                   l,
+                   m);
     }
 }
 
@@ -172,20 +171,20 @@ DBusTestServerQt5::test_fire_signal_with_ref()
 
   if (test != nullptr)
     {
-      test->SignalWithRef("/org/workrave/Test", par.m_int,
-                          par.m_uint8  ,
-                          par.m_int16  ,
-                          par.m_uint16 ,
-                          par.m_int32  ,
-                          par.m_uint32 ,
-                          par.m_int64  ,
-                          par.m_uint64 ,
-                          par.m_string ,
-                          par.m_bool   ,
-                          par.m_double ,
+      test->SignalWithRef("/org/workrave/Test",
+                          par.m_int,
+                          par.m_uint8,
+                          par.m_int16,
+                          par.m_uint16,
+                          par.m_int32,
+                          par.m_uint32,
+                          par.m_int64,
+                          par.m_uint64,
+                          par.m_string,
+                          par.m_bool,
+                          par.m_double,
                           par.m_enum,
                           l,
-                          m
-                          );
+                          m);
     }
 }

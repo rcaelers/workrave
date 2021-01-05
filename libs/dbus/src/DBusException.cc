@@ -23,9 +23,9 @@ namespace workrave
 {
   namespace dbus
   {
-    const char *DBUS_ERROR_FAILED =                            "org.freedesktop.DBus.Error.Failed";
-    const char *DBUS_ERROR_NOT_SUPPORTED =                     "org.freedesktop.DBus.Error.NotSupported";
-    const char *DBUS_ERROR_INVALID_ARGS =                      "org.freedesktop.DBus.Error.InvalidArgs";
-    const char *DBUS_ERROR_UNKNOWN_METHOD =                    "org.freedesktop.DBus.Error.UnknownMethod";
-  }
-}
+    const char *DBUS_ERROR_FAILED         = "org.freedesktop.DBus.Error.Failed";
+    const char *DBUS_ERROR_NOT_SUPPORTED  = "org.freedesktop.DBus.Error.NotSupported";
+    const char *DBUS_ERROR_INVALID_ARGS   = "org.freedesktop.DBus.Error.InvalidArgs";
+    const char *DBUS_ERROR_UNKNOWN_METHOD = "org.freedesktop.DBus.Error.UnknownMethod";
+  } // namespace dbus
+} // namespace workrave

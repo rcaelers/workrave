@@ -23,7 +23,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <stdio.h>
@@ -44,17 +44,14 @@ namespace Gtk
 {
   class CheckButton;
   class SpinButton;
-}
+} // namespace Gtk
 
 using namespace workrave;
 
-class TimerPreferencesPanel
-  : public Gtk::VBox
+class TimerPreferencesPanel : public Gtk::VBox
 {
 public:
-  TimerPreferencesPanel(BreakId timer,
-                        Glib::RefPtr<Gtk::SizeGroup> hsize_group,
-                        Glib::RefPtr<Gtk::SizeGroup> vsize_group);
+  TimerPreferencesPanel(BreakId timer, Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   ~TimerPreferencesPanel();
 
 private:
@@ -68,8 +65,7 @@ private:
 #endif
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
-  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group,
-                                   Glib::RefPtr<Gtk::SizeGroup> vsize_group);
+  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   void set_prelude_sensitivity();
 
   void on_enabled_toggled();
@@ -98,11 +94,11 @@ private:
   Gtk::CheckButton *auto_natural_cb;
 #ifdef HAVE_EXERCISES
   Gtk::SpinButton *exercises_spin;
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> exercises_adjustment;
-#else
+#  else
   Gtk::Adjustment exercises_adjustment;
-#endif
+#  endif
 #endif
 };
 

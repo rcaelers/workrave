@@ -20,24 +20,24 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 #include <string>
 #include <assert.h>
 
-#ifdef PLATFORM_OS_OSX
-#if HAVE_IGE_MAC_INTEGRATION
-#include "ige-mac-dock.h"
-#endif
-#if HAVE_GTK_MAC_INTEGRATION
-#include "gtk-mac-dock.h"
-#endif
+#ifdef PLATFORM_OS_MACOS
+#  if HAVE_IGE_MAC_INTEGRATION
+#    include "ige-mac-dock.h"
+#  endif
+#  if HAVE_GTK_MAC_INTEGRATION
+#    include "gtk-mac-dock.h"
+#  endif
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-#include "W32StatusIcon.hh"
+#ifdef PLATFORM_OS_WINDOWS
+#  include "W32StatusIcon.hh"
 #endif
 
 #include "StatusIcon.hh"
@@ -56,36 +56,33 @@ StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
 
-#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
+#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
   TRACE_EXIT();
 }
 
-StatusIcon::~StatusIcon()
-{
-}
+StatusIcon::~StatusIcon() {}
 
 void
 StatusIcon::init()
 {
   // Preload icons
-  const char *mode_files[] =
-    {
-      "workrave-icon-medium.png",
-      "workrave-suspended-icon-medium.png",
-      "workrave-quiet-icon-medium.png",
-    };
-  assert(sizeof(mode_files)/sizeof(mode_files[0]) == OPERATION_MODE_SIZEOF);
+  const char *mode_files[] = {
+    "workrave-icon-medium.png",
+    "workrave-suspended-icon-medium.png",
+    "workrave-quiet-icon-medium.png",
+  };
+  assert(sizeof(mode_files) / sizeof(mode_files[0]) == OPERATION_MODE_SIZEOF);
   for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
     {
-       mode_icons[(OperationMode)i] = GtkUtil::create_pixbuf(mode_files[i]);
+      mode_icons[(OperationMode)i] = GtkUtil::create_pixbuf(mode_files[i]);
     }
 
   insert_icon();
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
-  
+
   bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
   status_icon->set_visible(tray_icon_enabled);
 }
@@ -94,7 +91,7 @@ void
 StatusIcon::insert_icon()
 {
   // Create status icon
-  ICore *core = CoreFactory::get_core();
+  ICore *core        = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode_regular();
 
 #ifdef USE_W32STATUSICON
@@ -110,27 +107,24 @@ StatusIcon::insert_icon()
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
 #else
 
-#if !defined(HAVE_STATUSICON_SIGNAL) || !defined(HAVE_EMBEDDED_SIGNAL)
+#  if !defined(HAVE_STATUSICON_SIGNAL) || !defined(HAVE_EMBEDDED_SIGNAL)
   // Hook up signals, missing from gtkmm
   GtkStatusIcon *gobj = status_icon->gobj();
-#endif
-  
-#ifdef HAVE_STATUSICON_SIGNAL
+#  endif
+
+#  ifdef HAVE_STATUSICON_SIGNAL
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
-#else
-  g_signal_connect(gobj, "activate",
-                   reinterpret_cast<GCallback>(activate_callback), this);
-  g_signal_connect(gobj, "popup-menu",
-                   reinterpret_cast<GCallback>(popup_menu_callback), this);
-#endif
+#  else
+  g_signal_connect(gobj, "activate", reinterpret_cast<GCallback>(activate_callback), this);
+  g_signal_connect(gobj, "popup-menu", reinterpret_cast<GCallback>(popup_menu_callback), this);
+#  endif
 
-#ifdef HAVE_EMBEDDED_SIGNAL
+#  ifdef HAVE_EMBEDDED_SIGNAL
   status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
-#else
-  g_signal_connect(gobj, "notify::embedded",
-                   reinterpret_cast<GCallback>(embedded_changed_callback), this);
-#endif
+#  else
+  g_signal_connect(gobj, "notify::embedded", reinterpret_cast<GCallback>(embedded_changed_callback), this);
+#  endif
 #endif
 }
 
@@ -152,7 +146,7 @@ StatusIcon::is_visible() const
 }
 
 void
-StatusIcon::set_tooltip(std::string& tip)
+StatusIcon::set_tooltip(std::string &tip)
 {
 #if defined(HAVE_GTK3) && !defined(USE_W32STATUSICON)
   status_icon->set_tooltip_text(tip);
@@ -167,18 +161,18 @@ StatusIcon::show_balloon(string id, const string &balloon)
 #ifdef USE_W32STATUSICON
   status_icon->show_balloon(id, balloon);
 #else
-  (void) id;
-  (void) balloon;
+  (void)id;
+  (void)balloon;
 #endif
 }
 
 void
 StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
-  (void) button;
+  (void)button;
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }
@@ -191,35 +185,29 @@ StatusIcon::on_embedded_changed()
 
 #ifndef HAVE_STATUSICON_SIGNAL
 void
-StatusIcon::activate_callback(GtkStatusIcon *,
-                              gpointer callback_data)
+StatusIcon::activate_callback(GtkStatusIcon *, gpointer callback_data)
 {
-  static_cast<StatusIcon*>(callback_data)->on_activate();
+  static_cast<StatusIcon *>(callback_data)->on_activate();
 }
 
 void
-StatusIcon::popup_menu_callback(GtkStatusIcon *,
-                                guint button,
-                                guint activate_time,
-                                gpointer callback_data)
+StatusIcon::popup_menu_callback(GtkStatusIcon *, guint button, guint activate_time, gpointer callback_data)
 {
-  static_cast<StatusIcon*>(callback_data)->on_popup_menu(button, activate_time);
+  static_cast<StatusIcon *>(callback_data)->on_popup_menu(button, activate_time);
 }
 #endif
 
 #ifndef HAVE_EMBEDDED_SIGNAL
 void
-StatusIcon::embedded_changed_callback(GObject* gobject,
-                                      GParamSpec* pspec,
-                                      gpointer callback_data)
+StatusIcon::embedded_changed_callback(GObject *gobject, GParamSpec *pspec, gpointer callback_data)
 {
-  (void) pspec;
-  (void) gobject;
-  static_cast<StatusIcon*>(callback_data)->on_embedded_changed();
+  (void)pspec;
+  (void)gobject;
+  static_cast<StatusIcon *>(callback_data)->on_embedded_changed();
 }
 #endif
 
-#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
+#if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
 void
 StatusIcon::on_balloon_activate(string id)
 {
@@ -233,13 +221,12 @@ StatusIcon::on_activate()
   activate_signal.emit();
 }
 
-#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WIN32)
+#if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
 GdkFilterReturn
-StatusIcon::win32_filter_func (void     *xevent,
-                               GdkEvent *event)
+StatusIcon::win32_filter_func(void *xevent, GdkEvent *event)
 {
-  (void) event;
-  MSG *msg = (MSG *) xevent;
+  (void)event;
+  MSG *msg            = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   if (msg->message == wm_taskbarcreated)
     {

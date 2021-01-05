@@ -2,39 +2,40 @@
 #define ENUM_H
 
 #ifdef __cplusplus
-namespace workrave {
+namespace workrave
+{
 #endif
-  
+
   /* Mode */
   typedef enum OperationMode
-    {
-      /* Breaks are reported to the user when due. */
-      OPERATION_MODE_NORMAL=0,
+  {
+    /* Breaks are reported to the user when due. */
+    OPERATION_MODE_NORMAL = 0,
 
-      /* Monitoring is suspended. */
-      OPERATION_MODE_SUSPENDED,
+    /* Monitoring is suspended. */
+    OPERATION_MODE_SUSPENDED,
 
-      /* Breaks are not reported to the user when due. */
-      OPERATION_MODE_QUIET,
+    /* Breaks are not reported to the user when due. */
+    OPERATION_MODE_QUIET,
 
-      /* Number of modes.*/
-      OPERATION_MODE_SIZEOF
-    } OperationMode;
+    /* Number of modes.*/
+    OPERATION_MODE_SIZEOF
+  } OperationMode;
 
   typedef enum UsageMode
-    {
-      /* Normal 'average' PC usage. */
-      USAGE_MODE_NORMAL=0,
+  {
+    /* Normal 'average' PC usage. */
+    USAGE_MODE_NORMAL = 0,
 
-      /* User is reading. */
-      USAGE_MODE_READING,
+    /* User is reading. */
+    USAGE_MODE_READING,
 
-      /* Number of modes. */
-      USAGE_MODE_SIZEOF
-    }  UsageMode;
+    /* Number of modes. */
+    USAGE_MODE_SIZEOF
+  } UsageMode;
 
 #ifdef __cplusplus
 }
 #endif
-  
+
 #endif

@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid)
 
-SUBDIRS = 		unix win32 osx
+SUBDIRS = 		unix win32 macos
 
 noinst_LTLIBRARIES = 	libworkrave-backend.la
 
@@ -48,13 +48,13 @@ endif
 endif
 
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 platform_ldadd = 	win32/libworkrave-backend-win32.la
 platform_cflags = 	-I$(top_srcdir)/backend/src/win32
 endif
-if PLATFORM_OS_OSX
-platform_ldadd = 	osx/libworkrave-backend-osx.la
-platform_cflags = 	-I$(top_srcdir)/backend/src/osx
+if PLATFORM_OS_MACOS
+platform_ldadd = 	macos/libworkrave-backend-macos.la
+platform_cflags = 	-I$(top_srcdir)/backend/src/macos
 endif
 if PLATFORM_OS_UNIX
 platform_ldadd = 	unix/libworkrave-backend-unix.la

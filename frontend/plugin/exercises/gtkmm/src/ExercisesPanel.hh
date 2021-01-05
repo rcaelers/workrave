@@ -21,21 +21,21 @@
 #define EXERCISES_PANEL_HH
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_EXERCISES
 
-#include "preinclude.h"
-#include "Exercise.hh"
+#  include "preinclude.h"
+#  include "Exercise.hh"
 
-#include <gtkmm.h>
+#  include <gtkmm.h>
 
-#define PREVIOUS_BUTTON_ID Gtk::Stock::MEDIA_PREVIOUS
-#define CLOSE_BUTTON_ID Gtk::Stock::CLOSE
-#define NEXT_BUTTON_ID Gtk::Stock::MEDIA_NEXT
-#define EXECUTE_BUTTON_ID Gtk::Stock::MEDIA_PLAY
-#define STOP_BUTTON_ID Gtk::Stock::MEDIA_PAUSE
+#  define PREVIOUS_BUTTON_ID Gtk::Stock::MEDIA_PREVIOUS
+#  define CLOSE_BUTTON_ID Gtk::Stock::CLOSE
+#  define NEXT_BUTTON_ID Gtk::Stock::MEDIA_NEXT
+#  define EXECUTE_BUTTON_ID Gtk::Stock::MEDIA_PLAY
+#  define STOP_BUTTON_ID Gtk::Stock::MEDIA_PAUSE
 
 class ExercisesPanel : public Gtk::HBox
 {

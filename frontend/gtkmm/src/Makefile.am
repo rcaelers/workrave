@@ -4,7 +4,7 @@
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS = 		win32 unix osx
+SUBDIRS = 		win32 unix macos
 
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
@@ -72,7 +72,7 @@ includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 endif
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 extrasources +=		eggsmclient-win32.c eggsmclient.c
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 					-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
@@ -93,7 +93,7 @@ endif
 extrasources +=		$(sourcesstatistics) 
 
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 WINDRES ?= 		"windres"
 .rc.o:
 	${WINDRES} -o $@ $<
@@ -111,10 +111,10 @@ if PLATFORM_OS_UNIX
 X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11
 endif
 
-if PLATFORM_OS_OSX
-includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
-ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
-OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
+if PLATFORM_OS_MACOS
+includesmacos  = 		-I$(top_srcdir)/frontend/gtkmm/src/macos
+ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/macos
+MacOSLIBS	=		$(top_builddir)/frontend/gtkmm/src/macos/libworkrave-frontend-gtkmm-macos.la
 endif
 
 # DBus service file
@@ -226,14 +226,14 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@IGE_CFLAGS@ \
-			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
+			$(includeswin32) $(win32cflags) $(includesinput) $(includesmacos) \
 			$(includesx) $(INDICATOR_CFLAGS) $(indicatorflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src
 
-if PLATFORM_OS_OSX
+if PLATFORM_OS_MACOS
 AM_CFLAGS = 		-xobjective-c
 AM_CPPFLAGS =		-xobjective-c++
 endif
@@ -260,7 +260,7 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@PULSE_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
-			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
+			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${MacOSLIBS} ${WIN32CONSOLE} \
 			${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \

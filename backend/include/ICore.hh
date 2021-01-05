@@ -25,7 +25,8 @@
 
 #include "enum.h"
 
-namespace workrave {
+namespace workrave
+{
 
   // Forward declaratons
   class IBreak;
@@ -37,49 +38,47 @@ namespace workrave {
 
   //! ID of a break.
   enum BreakId
-    {
-      BREAK_ID_NONE = -1,
-      BREAK_ID_MICRO_BREAK = 0,
-      BREAK_ID_REST_BREAK,
-      BREAK_ID_DAILY_LIMIT,
-      BREAK_ID_SIZEOF
-    };
+  {
+    BREAK_ID_NONE        = -1,
+    BREAK_ID_MICRO_BREAK = 0,
+    BREAK_ID_REST_BREAK,
+    BREAK_ID_DAILY_LIMIT,
+    BREAK_ID_SIZEOF
+  };
 
-    inline std::ostream& operator<<(std::ostream& stream, BreakId n)
-    {
-      switch (n)
-        {
-        case BREAK_ID_NONE:
-          stream << "none";
-          break;
-        case BREAK_ID_MICRO_BREAK:
-          stream << "micro";
-          break;
-        case BREAK_ID_REST_BREAK:
-          stream << "rest";
-          break;
-        case BREAK_ID_DAILY_LIMIT:
-          stream << "daily";
-          break;
-        default:
-          stream << "invalid";
-          break;
-        }
-      return stream;
-    }
-
-    enum BreakHint
+  inline std::ostream &operator<<(std::ostream &stream, BreakId n)
+  {
+    switch (n)
       {
-        BREAK_HINT_NONE = 0,
+      case BREAK_ID_NONE:
+        stream << "none";
+        break;
+      case BREAK_ID_MICRO_BREAK:
+        stream << "micro";
+        break;
+      case BREAK_ID_REST_BREAK:
+        stream << "rest";
+        break;
+      case BREAK_ID_DAILY_LIMIT:
+        stream << "daily";
+        break;
+      default:
+        stream << "invalid";
+        break;
+      }
+    return stream;
+  }
 
-        // Break was started on user request
-        BREAK_HINT_USER_INITIATED = 1,
+  enum BreakHint
+  {
+    BREAK_HINT_NONE = 0,
 
-        // Natural break.
-        BREAK_HINT_NATURAL_BREAK = 2,
+    // Break was started on user request
+    BREAK_HINT_USER_INITIATED = 1,
 
-      };
-
+    // Natural break.
+    BREAK_HINT_NATURAL_BREAK = 2,
+  };
 
   //! Main interface of the backend.
   class ICore
@@ -89,23 +88,22 @@ namespace workrave {
 
     //! The way a break is insisted.
     enum InsistPolicy
-      {
-        //! Uninitialized policy
-        INSIST_POLICY_INVALID,
+    {
+      //! Uninitialized policy
+      INSIST_POLICY_INVALID,
 
-        //! Halts the timer on activity.
-        INSIST_POLICY_HALT,
+      //! Halts the timer on activity.
+      INSIST_POLICY_HALT,
 
-        //! Resets the timer on activity.
-        INSIST_POLICY_RESET,
+      //! Resets the timer on activity.
+      INSIST_POLICY_RESET,
 
-        //! Ignores all activity.
-        INSIST_POLICY_IGNORE,
+      //! Ignores all activity.
+      INSIST_POLICY_IGNORE,
 
-        //! Number of policies.
-        INSIST_POLICY_SIZEOF
-      };
-
+      //! Number of policies.
+      INSIST_POLICY_SIZEOF
+    };
 
     //! Initialize the Core. Must be called first.
     virtual void init(int argc, char **argv, IApp *app, const char *display) = 0;
@@ -146,10 +144,10 @@ namespace workrave {
     virtual void set_operation_mode(OperationMode mode) = 0;
 
     //! Temporarily overrides the operation mode.
-    virtual void set_operation_mode_override( OperationMode mode, const std::string &id ) = 0;
+    virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;
 
     //! Removes the overriden operation mode.
-    virtual void remove_operation_mode_override( const std::string &id ) = 0;
+    virtual void remove_operation_mode_override(const std::string &id) = 0;
 
     //! Return the current usage mode.
     virtual UsageMode get_usage_mode() = 0;
@@ -178,26 +176,25 @@ namespace workrave {
 
   std::string operator%(const std::string &key, BreakId id);
 
-    enum InsistPolicy
-      {
-        //! Uninitialized policy
-        INSIST_POLICY_INVALID,
+  enum InsistPolicy
+  {
+    //! Uninitialized policy
+    INSIST_POLICY_INVALID,
 
-        //! Halts the timer on activity.
-        INSIST_POLICY_HALT,
+    //! Halts the timer on activity.
+    INSIST_POLICY_HALT,
 
-        //! Resets the timer on activity.
-        INSIST_POLICY_RESET,
+    //! Resets the timer on activity.
+    INSIST_POLICY_RESET,
 
-        //! Ignores all activity.
-        INSIST_POLICY_IGNORE,
+    //! Ignores all activity.
+    INSIST_POLICY_IGNORE,
 
-        //! Number of policies.
-        INSIST_POLICY_SIZEOF
-      };
+    //! Number of policies.
+    INSIST_POLICY_SIZEOF
+  };
 
-
-  inline std::ostream& operator<<(std::ostream& stream, ICore::InsistPolicy p)
+  inline std::ostream &operator<<(std::ostream &stream, ICore::InsistPolicy p)
   {
     switch (p)
       {
@@ -220,6 +217,6 @@ namespace workrave {
     return stream;
   }
 
-};
+}; // namespace workrave
 
 #endif // ICORE_HH

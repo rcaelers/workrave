@@ -43,9 +43,7 @@ namespace workrave
       {
       }
 
-      ~DBusException() override
-      {
-      }
+      ~DBusException() override {}
     };
 
     typedef boost::error_info<struct tag_message_info, std::string> message_info;
@@ -61,22 +59,24 @@ namespace workrave
 
     typedef boost::error_info<struct tag_field_path_info, std::string> field_path_info;
 
-    class DBusRemoteException : public virtual boost::exception, public virtual std::exception
+    class DBusRemoteException
+      : public virtual boost::exception
+      , public virtual std::exception
     {
     public:
       std::string error()
       {
         std::string ret;
-        if (const std::string* msg = boost::get_error_info<error_code_info>(*this))
+        if (const std::string *msg = boost::get_error_info<error_code_info>(*this))
           {
             ret = *msg;
           }
         return ret;
       }
 
-      DBusRemoteException& operator<< (const field_info& rhs)
+      DBusRemoteException &operator<<(const field_info &rhs)
       {
-        if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
+        if (const std::string *msg = boost::get_error_info<field_path_info>(*this))
           {
             *this << field_path_info(rhs.value() + "." + *msg);
           }
@@ -90,7 +90,7 @@ namespace workrave
 
       void prepend_field(const std::string &field)
       {
-        if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
+        if (const std::string *msg = boost::get_error_info<field_path_info>(*this))
           {
             *this << field_path_info(field + "." + *msg);
           }
@@ -104,39 +104,39 @@ namespace workrave
       {
         std::string ret;
 
-        if (const std::string* msg = boost::get_error_info<message_info>(*this))
+        if (const std::string *msg = boost::get_error_info<message_info>(*this))
           {
             ret += *msg;
           }
-        if (const std::string* msg = boost::get_error_info<object_info>(*this))
+        if (const std::string *msg = boost::get_error_info<object_info>(*this))
           {
             ret += " object path=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<interface_info>(*this))
+        if (const std::string *msg = boost::get_error_info<interface_info>(*this))
           {
             ret += " interface=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<method_info>(*this))
+        if (const std::string *msg = boost::get_error_info<method_info>(*this))
           {
             ret += " method=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<argument_info>(*this))
+        if (const std::string *msg = boost::get_error_info<argument_info>(*this))
           {
             ret += " argument=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<actual_type_info>(*this))
+        if (const std::string *msg = boost::get_error_info<actual_type_info>(*this))
           {
             ret += " type=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<expected_type_info>(*this))
+        if (const std::string *msg = boost::get_error_info<expected_type_info>(*this))
           {
             ret += " expected_type=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<field_path_info>(*this))
+        if (const std::string *msg = boost::get_error_info<field_path_info>(*this))
           {
             ret += " fieldpath=" + *msg;
           }
-        if (const std::string* msg = boost::get_error_info<parameter_info>(*this))
+        if (const std::string *msg = boost::get_error_info<parameter_info>(*this))
           {
             ret += " parameter=" + *msg;
           }
@@ -144,7 +144,7 @@ namespace workrave
         return ret;
       }
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSEXCEPTION_HH

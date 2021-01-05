@@ -35,6 +35,7 @@ public:
 #if defined(HAVE_DBUS)
 public:
   void init_gnome();
+
 private:
   static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
 #endif

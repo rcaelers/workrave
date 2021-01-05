@@ -28,8 +28,9 @@
 #include "IConfigBackend.hh"
 #include "ConfigBackendAdapter.hh"
 
-class W32Configurator :
-  public virtual IConfigBackend, public virtual ConfigBackendAdapter
+class W32Configurator
+  : public virtual IConfigBackend
+  , public virtual ConfigBackendAdapter
 {
 public:
   W32Configurator();

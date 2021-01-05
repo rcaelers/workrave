@@ -20,34 +20,34 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_DISTRIBUTION
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#include <assert.h>
+#  ifdef HAVE_UNISTD_H
+#    include <unistd.h>
+#  endif
+#  include <assert.h>
 
-#include <gtkmm/image.h>
-#include <gtkmm/label.h>
-#include <gtkmm/alignment.h>
-#include <gtkmm/entry.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/checkbutton.h>
-#include <gtkmm/stock.h>
+#  include <gtkmm/image.h>
+#  include <gtkmm/label.h>
+#  include <gtkmm/alignment.h>
+#  include <gtkmm/entry.h>
+#  include <gtkmm/spinbutton.h>
+#  include <gtkmm/checkbutton.h>
+#  include <gtkmm/stock.h>
 
-#include "nls.h"
-#include "debug.hh"
+#  include "nls.h"
+#  include "debug.hh"
 
-#include "NetworkJoinDialog.hh"
+#  include "NetworkJoinDialog.hh"
 
-#include "CoreFactory.hh"
-#include "IDistributionManager.hh"
-#include "IConfigurator.hh"
-#include "Util.hh"
-#include "GtkUtil.hh"
+#  include "CoreFactory.hh"
+#  include "IDistributionManager.hh"
+#  include "IConfigurator.hh"
+#  include "Util.hh"
+#  include "GtkUtil.hh"
 
 using namespace workrave;
 
@@ -56,27 +56,24 @@ NetworkJoinDialog::NetworkJoinDialog()
 {
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager
-    = core->get_distribution_manager();
+  ICore *core                        = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
 
   // Icon
-  Gtk::Image *title_img = GtkUtil::create_image("network.png");
-  Gtk::Alignment *img_aln
-    = Gtk::manage(new Gtk::Alignment
-#ifdef HAVE_GTK3
-                  (Gtk::ALIGN_START, Gtk::ALIGN_END, 0.0, 0.0));
-#else
-                  (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
-#endif
+  Gtk::Image *title_img   = GtkUtil::create_image("network.png");
+  Gtk::Alignment *img_aln = Gtk::manage(new Gtk::Alignment
+#  ifdef HAVE_GTK3
+                                        (Gtk::ALIGN_START, Gtk::ALIGN_END, 0.0, 0.0));
+#  else
+                                        (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
+#  endif
 
   img_aln->add(*title_img);
 
   Gtk::Label *title_lab = Gtk::manage(new Gtk::Label());
-  Glib::ustring text = HigUtil::create_alert_text
-    (_("Network connect"),
-     _("Enter the host name and port number of a computer\n"
-       "in the network you wish to connect to."));
+  Glib::ustring text    = HigUtil::create_alert_text(_("Network connect"),
+                                                  _("Enter the host name and port number of a computer\n"
+                                                    "in the network you wish to connect to."));
   title_lab->set_markup(text);
 
   host_entry.set_width_chars(40);
@@ -115,14 +112,12 @@ NetworkJoinDialog::NetworkJoinDialog()
   TRACE_EXIT();
 }
 
-
 //! Destructor.
 NetworkJoinDialog::~NetworkJoinDialog()
 {
   TRACE_ENTER("NetworkJoinDialog::~NetworkJoinDialog");
   TRACE_EXIT();
 }
-
 
 std::string
 NetworkJoinDialog::get_connect_url()

@@ -43,14 +43,13 @@ namespace Gtk
   class SpinButton;
   class Button;
   class Notebook;
-}
+} // namespace Gtk
 
 #include <gtkmm/box.h>
 
 using namespace workrave;
 
-class NetworkPreferencePage
-  : public Gtk::VBox
+class NetworkPreferencePage : public Gtk::VBox
 {
 public:
   NetworkPreferencePage();
@@ -73,10 +72,10 @@ private:
 
   void on_peer_remove();
   void on_peer_add();
-  void on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
-  void on_row_deleted(const Gtk::TreeModel::Path& path);
-  void on_hostname_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
-  void on_port_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
+  void on_row_changed(const Gtk::TreeModel::Path &path, const Gtk::TreeModel::iterator &iter);
+  void on_row_deleted(const Gtk::TreeModel::Path &path);
+  void on_hostname_edited(const Glib::ustring &path_string, const Glib::ustring &new_text);
+  void on_port_edited(const Glib::ustring &path_string, const Glib::ustring &new_text);
 
   void update_peers();
 

@@ -71,6 +71,6 @@ namespace workrave
       //!
       Objects objects;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 #endif // WORKRAVE_DBUS_DBUSGENERIC_HH

@@ -35,8 +35,7 @@ namespace workrave
 
 using namespace workrave;
 
-class BreakWindow :
-  public IBreakWindow
+class BreakWindow : public IBreakWindow
 {
 public:
   BreakWindow(BreakId break_id, bool ignorable, GUI::BlockMode block_mode);

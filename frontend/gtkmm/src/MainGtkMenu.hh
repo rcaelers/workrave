@@ -60,14 +60,11 @@ private:
   void on_menu_quiet();
   void on_menu_reading();
 
-#ifdef PLATFORM_OS_OSX
-  void osx_popup_hack_connect(Gtk::Menu *menu);
-  static gboolean osx_popup_hack_hide(gpointer data);
-  static gboolean osx_popup_hack_leave_enter(GtkWidget *menu,
-                                               GdkEventCrossing *event,
-                                               void *data);
+#ifdef PLATFORM_OS_MACOS
+  void macos_popup_hack_connect(Gtk::Menu *menu);
+  static gboolean macos_popup_hack_hide(gpointer data);
+  static gboolean macos_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data);
 #endif
-
 
 protected:
   Glib::RefPtr<Gtk::UIManager> ui_manager;

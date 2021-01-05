@@ -26,12 +26,11 @@ public:
   static Test *get_instance();
 
   void quit();
+
 private:
   //! The one and only instance
   static Test *instance;
 };
-
-
 
 //! Returns the singleton Test instance.
 inline Test *

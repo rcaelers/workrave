@@ -44,7 +44,7 @@ public:
 
   //! Enable/Disable distributed operation.
   virtual bool set_network_enabled(bool enabled) = 0;
-  virtual bool set_server_enabled(bool enabled) = 0;
+  virtual bool set_server_enabled(bool enabled)  = 0;
 
   //! Periodic heartbeat.
   virtual void heartbeat() = 0;
@@ -74,8 +74,7 @@ public:
   virtual bool unregister_client_message(DistributionClientMessageID id) = 0;
 
   //! Sends a client message to all remote hosts.
-  virtual bool broadcast_client_message(DistributionClientMessageID id,
-                                        PacketBuffer &buffer) = 0;
+  virtual bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer) = 0;
 
   //! Disconnects from all remote clients.
   virtual bool disconnect_all() = 0;

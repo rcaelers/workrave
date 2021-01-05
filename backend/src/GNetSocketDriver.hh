@@ -28,8 +28,7 @@
 using namespace workrave;
 
 //! Listen socket implementation usinf GNet
-class GNetSocketServer
-  : public ISocketServer
+class GNetSocketServer : public ISocketServer
 {
 public:
   GNetSocketServer();
@@ -41,7 +40,7 @@ public:
 private:
   // GNET callbacks
   void async_accept(GTcpSocket *server, GTcpSocket *client);
-  static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
+  static void static_async_accept(GTcpSocket *server, GTcpSocket *client, gpointer data);
 
 private:
   //! GNet socket
@@ -57,10 +56,8 @@ private:
   guint watch;
 };
 
-
 //! Socket implementation based on GNet
-class GNetSocket
-  : public ISocket
+class GNetSocket : public ISocket
 {
 public:
   GNetSocket();
@@ -75,9 +72,9 @@ public:
 
 private:
   // GNET callbacks
-  bool async_io(GIOChannel* iochannel, GIOCondition condition);
+  bool async_io(GIOChannel *iochannel, GIOCondition condition);
   void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status);
-  static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
+  static gboolean static_async_io(GIOChannel *iochannel, GIOCondition condition, gpointer data);
   static void static_async_connected(GTcpSocket *socket, GTcpSocketConnectAsyncStatus status, gpointer data);
 
 private:
@@ -94,9 +91,7 @@ private:
   guint watch;
 };
 
-
-class GNetSocketDriver
-  : public SocketDriver
+class GNetSocketDriver : public SocketDriver
 {
   //! Create a new socket
   ISocket *create_socket();
@@ -104,6 +99,5 @@ class GNetSocketDriver
   //! Create a new listen socket
   ISocketServer *create_server();
 };
-
 
 #endif // GNETSOCKETDRIVER_HH

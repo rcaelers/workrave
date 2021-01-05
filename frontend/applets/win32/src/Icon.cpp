@@ -31,9 +31,8 @@ Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskba
   : deskband(deskband)
 {
   init(hinst);
-  icon = (HICON)LoadImage(hinst, resource,  IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-  hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "",
-      WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this);
+  icon = (HICON)LoadImage(hinst, resource, IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+  hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this);
 
   paint_helper = new PaintHelper(hwnd);
 }
@@ -49,17 +48,16 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER("Icon::WndProc");
   LRESULT lResult = 0;
-  Icon  *pThis = (Icon*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+  Icon *pThis     = (Icon *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis = (Icon *)(lpcs->lpCreateParams);
+        pThis               = (Icon *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
-                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
       }
       break;
 
@@ -113,21 +111,21 @@ Icon::on_paint()
 void
 Icon::init(HINSTANCE hinst)
 {
-  //If the window class has not been registered, then do so.
+  // If the window class has not been registered, then do so.
   WNDCLASS wc;
   if (!GetClassInfo(hinst, ICON_CLASS_NAME, &wc))
     {
       ZeroMemory(&wc, sizeof(wc));
-      wc.style          = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
-      wc.lpfnWndProc    = (WNDPROC)wnd_proc;
-      wc.cbClsExtra     = 0;
-      wc.cbWndExtra     = 0;
-      wc.hInstance      = hinst;
-      wc.hIcon          = NULL;
-      wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-      wc.hbrBackground  = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
-      wc.lpszMenuName   = NULL;
-      wc.lpszClassName  = ICON_CLASS_NAME;
+      wc.style         = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
+      wc.lpfnWndProc   = (WNDPROC)wnd_proc;
+      wc.cbClsExtra    = 0;
+      wc.cbWndExtra    = 0;
+      wc.hInstance     = hinst;
+      wc.hIcon         = NULL;
+      wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+      wc.hbrBackground = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
+      wc.lpszMenuName  = NULL;
+      wc.lpszClassName = ICON_CLASS_NAME;
 
       RegisterClass(&wc);
     }

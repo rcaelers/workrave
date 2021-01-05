@@ -34,7 +34,7 @@ using namespace workrave;
 
 class TimerBox
 {
- public:
+public:
   TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband);
   ~TimerBox();
 
@@ -46,7 +46,7 @@ class TimerBox
   void update(bool repaint);
   void set_enabled(bool enabled);
 
- private:
+private:
   void update_sheep(TransparentDamageControl &ctrl);
   void update_time_bars(TransparentDamageControl &ctrl);
   void update_dimensions();
@@ -72,4 +72,3 @@ class TimerBox
 };
 
 #endif // TIMERBOX_H
-

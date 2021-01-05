@@ -21,15 +21,15 @@
 #include "SystemStateChangeUPower.hh"
 
 #ifdef HAVE_GLIB
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 #ifdef HAVE_STRING_H
-#include <string.h>
+#  include <string.h>
 #endif
 
 #ifdef HAVE_STRINGS_H
-#include <strings.h>
+#  include <strings.h>
 #endif
 
 #include <iostream>
@@ -41,41 +41,42 @@ SystemStateChangeUPower::SystemStateChangeUPower(GDBusConnection *connection)
 {
   TRACE_ENTER("SystemStateChangeUPower::SystemStateChangeUPower");
 
-  proxy.init_with_connection(connection, dbus_name,
-          "/org/freedesktop/UPower", "org.freedesktop.UPower",
-          static_cast<GDBusProxyFlags>(
-                            G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-                            G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS |
-                            G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START));
+  proxy.init_with_connection(connection,
+                             dbus_name,
+                             "/org/freedesktop/UPower",
+                             "org.freedesktop.UPower",
+                             static_cast<GDBusProxyFlags>(G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                          | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS
+                                                          | G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START));
 
-  property_proxy.init_with_connection(connection, "org.freedesktop.UPower",
-          "/org/freedesktop/UPower", "org.freedesktop.DBus.Properties");
+  property_proxy.init_with_connection(
+    connection, "org.freedesktop.UPower", "/org/freedesktop/UPower", "org.freedesktop.DBus.Properties");
 
   if (!proxy.is_valid() || !property_proxy.is_valid())
     {
-      can_suspend = false;
+      can_suspend   = false;
       can_hibernate = false;
     }
   else
     {
-      can_suspend = check_method("SuspendAllowed") && check_property("CanSuspend");
+      can_suspend   = check_method("SuspendAllowed") && check_property("CanSuspend");
       can_hibernate = check_method("HibernateAllowed") && check_property("CanHibernate");
     }
   TRACE_EXIT();
 }
 
-
-bool SystemStateChangeUPower::check_method(const char *method_name)
+bool
+SystemStateChangeUPower::check_method(const char *method_name)
 {
   TRACE_ENTER_MSG("SystemStateChangeUPower::check_method", method_name);
 
-
   GVariant *result;
-  if (!proxy.call_method(method_name, NULL, &result)) {
-    TRACE_MSG2(method_name, "failed");
-    TRACE_RETURN(false);
-    return false;
-  }
+  if (!proxy.call_method(method_name, NULL, &result))
+    {
+      TRACE_MSG2(method_name, "failed");
+      TRACE_RETURN(false);
+      return false;
+    }
 
   gboolean method_result;
   g_variant_get(result, "(b)", &method_result);
@@ -86,15 +87,14 @@ bool SystemStateChangeUPower::check_method(const char *method_name)
   return method_result == TRUE;
 }
 
-bool SystemStateChangeUPower::check_property(const char *property_name)
+bool
+SystemStateChangeUPower::check_property(const char *property_name)
 {
   TRACE_ENTER_MSG("SystemStateChangeUPower::check_property", property_name);
 
   GVariant *result;
   bool r1;
-  r1 = property_proxy.call_method("Get",
-          g_variant_new("(ss)", "org.freedesktop.UPower", property_name),
-          &result);
+  r1 = property_proxy.call_method("Get", g_variant_new("(ss)", "org.freedesktop.UPower", property_name), &result);
 
   if (!r1)
     {
@@ -120,7 +120,8 @@ bool SystemStateChangeUPower::check_property(const char *property_name)
   return (prop_value == TRUE);
 }
 
-bool SystemStateChangeUPower::execute(const char *method_name)
+bool
+SystemStateChangeUPower::execute(const char *method_name)
 {
   TRACE_ENTER_MSG("SystemStateChangeUPower::execute", method_name);
 

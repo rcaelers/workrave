@@ -24,22 +24,22 @@
 
 #ifndef TRACING
 
-#define TRACE_ENTER(x)
-#define TRACE_ENTER_MSG(x,y)
-#define TRACE_RETURN(x)
-#define TRACE_EXIT()
-#define TRACE_MSG(x)
-#define TRACE_MSG2(x,y)
+#  define TRACE_ENTER(x)
+#  define TRACE_ENTER_MSG(x, y)
+#  define TRACE_RETURN(x)
+#  define TRACE_EXIT()
+#  define TRACE_MSG(x)
+#  define TRACE_MSG2(x, y)
 
 #else
 
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <ctime>
-#include <string>
+#  include <iostream>
+#  include <iomanip>
+#  include <fstream>
+#  include <ctime>
+#  include <string>
 
-#include "Mutex.hh"
+#  include "Mutex.hh"
 
 extern Mutex g_log_mutex;
 extern std::ofstream g_log_stream;
@@ -51,31 +51,37 @@ public:
   static std::string trace_get_time();
 };
 
-#define TRACE_ENTER(x   ) g_log_mutex.lock(); \
-                          const char *_trace_method_name = x;   \
-                          std::cerr << Debug::trace_get_time() << ">>> " << x << std::endl; \
-                          g_log_mutex.unlock();
+#  define TRACE_ENTER(x)                                              \
+    g_log_mutex.lock();                                               \
+    const char *_trace_method_name = x;                               \
+    std::cerr << Debug::trace_get_time() << ">>> " << x << std::endl; \
+    g_log_mutex.unlock();
 
-#define TRACE_ENTER_MSG(x, y) g_log_mutex.lock(); \
-                          const char *_trace_method_name = x; \
-                          std::cerr  << Debug::trace_get_time() << ">>> " << x << " " << y << std::endl; \
-                          g_log_mutex.unlock();
+#  define TRACE_ENTER_MSG(x, y)                                                   \
+    g_log_mutex.lock();                                                           \
+    const char *_trace_method_name = x;                                           \
+    std::cerr << Debug::trace_get_time() << ">>> " << x << " " << y << std::endl; \
+    g_log_mutex.unlock();
 
-#define TRACE_RETURN(y)   g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << y << std::endl; \
-                          g_log_mutex.unlock();
+#  define TRACE_RETURN(y)                                                                   \
+    g_log_mutex.lock();                                                                     \
+    std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << y << std::endl; \
+    g_log_mutex.unlock();
 
-#define TRACE_EXIT()      g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << std::endl; \
-                          g_log_mutex.unlock();
+#  define TRACE_EXIT()                                                                 \
+    g_log_mutex.lock();                                                                \
+    std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << std::endl; \
+    g_log_mutex.unlock();
 
-#define TRACE_MSG(msg)    g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl; \
-                          g_log_mutex.unlock();
+#  define TRACE_MSG(msg)                                                                             \
+    g_log_mutex.lock();                                                                              \
+    std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg << std::endl; \
+    g_log_mutex.unlock();
 
-#define TRACE_MSG2(x,y)   g_log_mutex.lock(); \
-                          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << x << " " << y << std::endl; \
-                          g_log_mutex.unlock();
+#  define TRACE_MSG2(x, y)                                                                                     \
+    g_log_mutex.lock();                                                                                        \
+    std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << x << " " << y << std::endl; \
+    g_log_mutex.unlock();
 
 #endif // TRACING
 

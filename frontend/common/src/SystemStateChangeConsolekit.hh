@@ -22,7 +22,7 @@
 #define SYSTEMSTATECHANGECONSOLEKIT_HH_
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "DBusProxy.hh"
@@ -34,17 +34,15 @@
 //    - only restart / shutdown,
 //    - it is literally dead as Ubuntu is switching to logind for 14.04
 
-
 class SystemStateChangeConsolekit : public ISystemStateChangeMethod
 {
 public:
   static const char *dbus_name;
   SystemStateChangeConsolekit(GDBusConnection *connection);
-  virtual
-  ~SystemStateChangeConsolekit() {};
+  virtual ~SystemStateChangeConsolekit(){};
 
   virtual bool shutdown();
-  virtual bool canShutdown() { return can_shutdown;}
+  virtual bool canShutdown() { return can_shutdown; }
 
 private:
   bool can_shutdown;

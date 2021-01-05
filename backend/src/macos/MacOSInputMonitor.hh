@@ -1,4 +1,4 @@
-// OSXInputMonitor.hh --- ActivityMonitor for OSX
+// MacOSInputMonitor.hh --- ActivityMonitor for MacOS
 //
 // Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,23 +17,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXINPUTMONITOR_HH
-#define OSXINPUTMONITOR_HH
+#ifndef MacOSINPUTMONITOR_HH
+#define MacOSINPUTMONITOR_HH
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #ifdef HAVE_IOKIT
-#include <CoreFoundation/CoreFoundation.h>
-#include <IOKit/IOKitLib.h>
+#  include <CoreFoundation/CoreFoundation.h>
+#  include <IOKit/IOKitLib.h>
 #endif
 
 #include "InputMonitor.hh"
@@ -41,20 +41,20 @@
 #include "Runnable.hh"
 #include "Thread.hh"
 
-//! Activity monitor for OSX.
-class OSXInputMonitor :
-  public InputMonitor,
-  public Runnable
+//! Activity monitor for MacOS.
+class MacOSInputMonitor
+  : public InputMonitor
+  , public Runnable
 {
 public:
   //! Constructor.
-  OSXInputMonitor();
+  MacOSInputMonitor();
 
   //! Destructor.
-  virtual ~OSXInputMonitor();
+  virtual ~MacOSInputMonitor();
 
   bool init();
-  void terminate() ;
+  void terminate();
   void run();
 
 private:
@@ -68,4 +68,4 @@ private:
   io_service_t io_service;
 };
 
-#endif // OSXINPUTMONITOR_HH
+#endif // MacOSINPUTMONITOR_HH

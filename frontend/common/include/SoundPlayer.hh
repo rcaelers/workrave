@@ -33,10 +33,10 @@ class SoundPlayer : public ISoundDriverEvents
 {
 public:
   enum Device
-    {
-      DEVICE_SPEAKER = 0,
-      DEVICE_SOUNDCARD
-    };
+  {
+    DEVICE_SPEAKER = 0,
+    DEVICE_SOUNDCARD
+  };
 
   class Theme
   {

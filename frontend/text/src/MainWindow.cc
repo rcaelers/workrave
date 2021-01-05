@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "nls.h"
@@ -40,31 +40,24 @@
 #include "IConfigurator.hh"
 #include "IStatistics.hh"
 
-const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
+const string MainWindow::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 
-const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
-= "gui/main_window/start_in_tray";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
 
-const string MainWindow::CFG_KEY_MAIN_WINDOW_X
-= "gui/main_window/x";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
-= "gui/main_window/y";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD
-= "gui/main_window/head";
-
-
+const string MainWindow::CFG_KEY_MAIN_WINDOW_X    = "gui/main_window/x";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_Y    = "gui/main_window/y";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD = "gui/main_window/head";
 
 //! Constructor.
-MainWindow::MainWindow() :
-  enabled(true),
-  timer_box_control(NULL),
-  timer_box_view(NULL),
-  monitor_suspended(false)
+MainWindow::MainWindow()
+  : enabled(true)
+  , timer_box_control(NULL)
+  , timer_box_view(NULL)
+  , monitor_suspended(false)
 {
   init();
 }
-
 
 //! Destructor.
 MainWindow::~MainWindow()
@@ -76,7 +69,6 @@ MainWindow::~MainWindow()
   TRACE_EXIT();
 }
 
-
 //! Initializes the main window.
 void
 MainWindow::init()
@@ -85,7 +77,7 @@ MainWindow::init()
 
   enabled = TimerBoxControl::is_enabled("main_window");
 
-  timer_box_view = new TimerBoxTextView();
+  timer_box_view    = new TimerBoxTextView();
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
 
   IConfigurator *config = CoreFactory::get_configurator();
@@ -94,7 +86,6 @@ MainWindow::init()
   TRACE_EXIT();
 }
 
-
 //! Updates the main window.
 void
 MainWindow::update()
@@ -102,62 +93,51 @@ MainWindow::update()
   timer_box_control->update();
 }
 
-
 void
 MainWindow::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
-  if (key != CFG_KEY_MAIN_WINDOW_HEAD
-      && key != CFG_KEY_MAIN_WINDOW_X
-      && key != CFG_KEY_MAIN_WINDOW_Y)
+  if (key != CFG_KEY_MAIN_WINDOW_HEAD && key != CFG_KEY_MAIN_WINDOW_X && key != CFG_KEY_MAIN_WINDOW_Y)
     {
       // XXX: config changed.
     }
   TRACE_EXIT();
 }
 
-
 bool
 MainWindow::get_always_on_top()
 {
   bool b;
   bool rc;
-  b = CoreFactory::get_configurator()
-    ->get_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, rc);
-  if (! b)
+  b = CoreFactory::get_configurator()->get_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, rc);
+  if (!b)
     {
       rc = false;
     }
   return rc;
 }
 
-
 void
 MainWindow::set_always_on_top(bool b)
 {
-  CoreFactory::get_configurator()
-    ->set_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+  CoreFactory::get_configurator()->set_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
 }
-
 
 bool
 MainWindow::get_start_in_tray()
 {
   bool b;
   bool rc;
-  b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc);
-  if (! b)
+  b = CoreFactory::get_configurator()->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc);
+  if (!b)
     {
       rc = false;
     }
   return rc;
 }
 
-
 void
 MainWindow::set_start_in_tray(bool b)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
 }

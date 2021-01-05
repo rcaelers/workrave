@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 
 noinst_LTLIBRARIES = 	libworkrave-common-win32.la
 

@@ -30,13 +30,14 @@
 #include "IConfigBackend.hh"
 #include "ConfigBackendAdapter.hh"
 
-class XMLConfigurator : public virtual IConfigBackend, public virtual ConfigBackendAdapter
+class XMLConfigurator
+  : public virtual IConfigBackend
+  , public virtual ConfigBackendAdapter
 {
 public:
   XMLConfigurator();
   XMLConfigurator(XMLConfigurator *parent);
   virtual ~XMLConfigurator();
-
 
   // Pure virtuals from Configurator
   virtual bool load(std::string filename);
@@ -65,10 +66,7 @@ private:
   std::list<XMLConfigurator *> get_all_children() const;
   virtual bool create_child(const std::string &key);
 
-  std::string getName() const
-  {
-    return node_name;
-  }
+  std::string getName() const { return node_name; }
 
   void setName(std::string name)
   {
@@ -80,10 +78,7 @@ private:
       }
   }
 
-  std::string getPath() const
-  {
-    return node_path;
-  }
+  std::string getPath() const { return node_path; }
 
 private:
   typedef std::map<std::string, std::string> Attributes;

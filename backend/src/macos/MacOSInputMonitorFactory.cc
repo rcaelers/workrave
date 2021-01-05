@@ -1,4 +1,4 @@
-// OSXInputMonitorFactory.cc -- Factory to create input monitors
+// MacOSInputMonitorFactory.cc -- Factory to create input monitors
 //
 // Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -28,30 +28,29 @@
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
-#include "OSXInputMonitorFactory.hh"
-#include "OSXInputMonitor.hh"
+#include "MacOSInputMonitorFactory.hh"
+#include "MacOSInputMonitor.hh"
 
-OSXInputMonitorFactory::OSXInputMonitorFactory()
+MacOSInputMonitorFactory::MacOSInputMonitorFactory()
 {
   monitor = NULL;
 }
 
 void
-OSXInputMonitorFactory::init(const char *display)
+MacOSInputMonitorFactory::init(const char *display)
 {
   (void)display;
 }
 
-
 //! Retrieves the input activity monitor
 IInputMonitor *
-OSXInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+MacOSInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
-  (void) capability;
+  (void)capability;
 
   if (monitor == NULL)
     {
-      monitor = new OSXInputMonitor();
+      monitor = new MacOSInputMonitor();
 
       bool init_ok = monitor->init();
       if (!init_ok)

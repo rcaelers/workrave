@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -39,7 +39,7 @@ using namespace std;
 GConfConfigurator::GConfConfigurator()
 {
   gconf_client = gconf_client_get_default();
-  gconf_root = "/apps/workrave";
+  gconf_root   = "/apps/workrave";
 
 #ifndef NDEBUG
   const char *env = getenv("WORKRAVE_GCONF_ROOT");
@@ -65,7 +65,6 @@ GConfConfigurator::GConfConfigurator()
     }
 }
 
-
 GConfConfigurator::~GConfConfigurator()
 {
   GError *error = NULL;
@@ -84,22 +83,19 @@ GConfConfigurator::~GConfConfigurator()
     }
 }
 
-
 bool
 GConfConfigurator::load(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 GConfConfigurator::save(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 GConfConfigurator::save()
@@ -107,17 +103,16 @@ GConfConfigurator::save()
   return true;
 }
 
-
 bool
 GConfConfigurator::get_value(const string &key, GConfValue **value) const
 {
-  bool ret = true;
+  bool ret      = true;
   GError *error = NULL;
 
   string full_key = gconf_root + "/" + key;
 
   assert(value != NULL);
-  *value  = gconf_client_get_without_default(gconf_client, full_key.c_str(), &error);
+  *value = gconf_client_get_without_default(gconf_client, full_key.c_str(), &error);
 
   if (error != NULL || *value == NULL)
     {
@@ -133,15 +128,13 @@ GConfConfigurator::get_value(const string &key, GConfValue **value) const
         }
     }
 
-
   return ret;
 }
-
 
 bool
 GConfConfigurator::remove_key(const std::string &key)
 {
-  bool ret = true;
+  bool ret      = true;
   GError *error = NULL;
 
   string full_key = gconf_root + "/" + key;
@@ -157,10 +150,8 @@ GConfConfigurator::remove_key(const std::string &key)
   return ret;
 }
 
-
 bool
-GConfConfigurator::get_value(const std::string &key, VariantType type,
-                             Variant &out) const
+GConfConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   bool ret = false;
   GConfValue *value;
@@ -194,15 +185,14 @@ GConfConfigurator::get_value(const std::string &key, VariantType type,
             }
         }
 
-
       ret = false;
-      switch(type)
+      switch (type)
         {
         case VARIANT_TYPE_INT:
           if (value->type == GCONF_VALUE_INT)
             {
               out.int_value = gconf_value_get_int(value);
-              ret = true;
+              ret           = true;
             }
           break;
 
@@ -210,7 +200,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type,
           if (value->type == GCONF_VALUE_BOOL)
             {
               out.bool_value = gconf_value_get_bool(value);
-              ret = true;
+              ret            = true;
             }
           break;
 
@@ -218,7 +208,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type,
           if (value->type == GCONF_VALUE_FLOAT)
             {
               out.double_value = gconf_value_get_float(value);
-              ret = true;
+              ret              = true;
             }
           break;
 
@@ -226,7 +216,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type,
           if (value->type == GCONF_VALUE_STRING)
             {
               out.string_value = gconf_value_get_string(value);
-              ret = true;
+              ret              = true;
             }
           break;
 
@@ -246,40 +236,34 @@ GConfConfigurator::get_value(const std::string &key, VariantType type,
   return ret;
 }
 
-
 bool
 GConfConfigurator::set_value(const std::string &key, Variant &value)
 {
-  bool ret = true;
+  bool ret      = true;
   GError *error = NULL;
 
   string full_key = gconf_root + "/" + key;
 
-  switch(value.type)
+  switch (value.type)
     {
     case VARIANT_TYPE_NONE:
       ret = false;
       break;
 
     case VARIANT_TYPE_INT:
-      ret = gconf_client_set_int(gconf_client, full_key.c_str(),
-                                 value.int_value, &error);
+      ret = gconf_client_set_int(gconf_client, full_key.c_str(), value.int_value, &error);
       break;
 
     case VARIANT_TYPE_BOOL:
-      ret = gconf_client_set_bool(gconf_client, full_key.c_str(),
-                                  value.bool_value, &error);
+      ret = gconf_client_set_bool(gconf_client, full_key.c_str(), value.bool_value, &error);
       break;
 
     case VARIANT_TYPE_DOUBLE:
-      ret = gconf_client_set_float(gconf_client, full_key.c_str(),
-                                   value.double_value, &error);
+      ret = gconf_client_set_float(gconf_client, full_key.c_str(), value.double_value, &error);
       break;
 
     case VARIANT_TYPE_STRING:
-      ret = gconf_client_set_string(gconf_client, full_key.c_str(),
-                                    value.string_value.c_str(),
-                                    &error);
+      ret = gconf_client_set_string(gconf_client, full_key.c_str(), value.string_value.c_str(), &error);
       break;
 
     default:
@@ -297,14 +281,11 @@ GConfConfigurator::set_value(const std::string &key, Variant &value)
   return ret;
 }
 
-
-
 void
 GConfConfigurator::set_listener(IConfiguratorListener *listener)
 {
   this->listener = listener;
 }
-
 
 bool
 GConfConfigurator::add_listener(const string &key_prefix)
@@ -312,8 +293,8 @@ GConfConfigurator::add_listener(const string &key_prefix)
   TRACE_ENTER_MSG("GConfConfigurator::add_listener", key_prefix);
 
   string full_key = gconf_root + "/" + key_prefix;
-  GError *error = NULL;
-  guint id = 0;
+  GError *error   = NULL;
+  guint id        = 0;
 
   int len = full_key.length();
   if (len > 0)
@@ -326,12 +307,8 @@ GConfConfigurator::add_listener(const string &key_prefix)
 
   // Add notification callback.
 
-  id = gconf_client_notify_add(gconf_client,
-                               full_key.c_str(),
-                               &GConfConfigurator::static_key_changed,
-                               (gpointer)this,
-                               NULL,
-                               &error);
+  id =
+    gconf_client_notify_add(gconf_client, full_key.c_str(), &GConfConfigurator::static_key_changed, (gpointer)this, NULL, &error);
 
   if (error != NULL)
     {
@@ -345,7 +322,6 @@ GConfConfigurator::add_listener(const string &key_prefix)
   TRACE_EXIT();
   return error == NULL;
 }
-
 
 bool
 GConfConfigurator::remove_listener(const string &remove_key)
@@ -375,21 +351,19 @@ GConfConfigurator::remove_listener(const string &remove_key)
   return ret;
 }
 
-
 void
 GConfConfigurator::static_key_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
 {
   (void)client;
-  GConfConfigurator *c = (GConfConfigurator *) user_data;
+  GConfConfigurator *c = (GConfConfigurator *)user_data;
   c->key_changed(cnxn_id, entry);
 }
-
 
 void
 GConfConfigurator::key_changed(guint id, GConfEntry *entry)
 {
   TRACE_ENTER_MSG("GConfConfigurator::key_changed", id);
-  (void) entry;
+  (void)entry;
 
   IDMapIter i = ids.find(id);
   if (i != ids.end())

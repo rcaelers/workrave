@@ -33,8 +33,9 @@ class GConfValue;
 
 #include "IConfigBackend.hh"
 
-class GConfConfigurator :
-  public IConfigBackend, public IConfigBackendMonitoring
+class GConfConfigurator
+  : public IConfigBackend
+  , public IConfigBackendMonitoring
 {
 public:
   GConfConfigurator();
@@ -79,6 +80,5 @@ private:
   //!
   void key_changed(guint cnxn_id, GConfEntry *entry);
 };
-
 
 #endif // GCONFCONFIGURATOR_HH

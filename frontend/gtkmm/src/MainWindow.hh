@@ -25,9 +25,9 @@
 #include <string>
 #include <gtkmm/window.h>
 
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
-#include "TimerBoxControl.hh"
+#ifdef PLATFORM_OS_WINDOWS
+#  include <windows.h>
+#  include "TimerBoxControl.hh"
 #endif
 
 #include "IConfiguratorListener.hh"
@@ -37,9 +37,9 @@ class TimerBoxGtkView;
 
 using namespace workrave;
 
-class MainWindow :
-  public Gtk::Window,
-  public IConfiguratorListener
+class MainWindow
+  : public Gtk::Window
+  , public IConfiguratorListener
 {
 public:
   MainWindow();
@@ -50,7 +50,7 @@ public:
   void open_window();
   void close_window();
   void set_can_close(bool can_close);
-  
+
   void update();
   void relocate_window(int width, int height);
 
@@ -58,7 +58,7 @@ public:
   sigc::signal<void> &signal_visibility_changed();
 
   bool is_visible() const;
-  
+
 private:
   void on_visibility_changed();
   bool on_timer_view_button_press_event(GdkEventButton *event);
@@ -97,7 +97,7 @@ private:
 
   //!
   sigc::connection visible_connection;
-  
+
 private:
   void setup();
   void config_changed_notify(const std::string &key);
@@ -105,21 +105,20 @@ private:
   void move_to_start_position();
 
   // UI Events.
-  bool on_delete_event(GdkEventAny*);
+  bool on_delete_event(GdkEventAny *);
   bool on_configure_event(GdkEventConfigure *event);
-  
+
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 private:
   void win32_show(bool b);
   bool win32_show_retry();
   void win32_init();
   void win32_exit();
 
-  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
-                                            WPARAM wParam, LPARAM lParam);
+  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;

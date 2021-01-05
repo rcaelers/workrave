@@ -18,39 +18,37 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #if defined(HAVE_DISTRIBUTION) && defined(HAVE_GNET)
 
-#define GNET_EXPERIMENTAL
+#  define GNET_EXPERIMENTAL
 
-#include "debug.hh"
-#include "GNetSocketDriver.hh"
+#  include "debug.hh"
+#  include "GNetSocketDriver.hh"
 
 using namespace std;
 
-
 //! Creates a new listen socket.
-GNetSocketServer::GNetSocketServer() :
-  socket(NULL),
-  iochannel(NULL),
-  watch_flags(0),
-  watch(0)
+GNetSocketServer::GNetSocketServer()
+  : socket(NULL)
+  , iochannel(NULL)
+  , watch_flags(0)
+  , watch(0)
 {
 }
-
 
 //! Destructs the listen socket.
 GNetSocketServer::~GNetSocketServer()
 {
-#ifndef HAVE_GNET2
+#  ifndef HAVE_GNET2
   if (iochannel != NULL)
     {
       // this causes troubles with gnet2
       g_io_channel_unref(iochannel);
     }
-#endif
+#  endif
 
   if (socket != NULL)
     {
@@ -62,7 +60,6 @@ GNetSocketServer::~GNetSocketServer()
       g_source_remove(watch);
     }
 }
-
 
 //! Listen at the specified port.
 void
@@ -81,7 +78,6 @@ GNetSocketServer::listen(int port)
   gnet_tcp_socket_server_accept_async(socket, static_async_accept, this);
 }
 
-
 //! GNet has accepted a new connection.
 void
 GNetSocketServer::static_async_accept(GTcpSocket *server, GTcpSocket *client, gpointer data)
@@ -90,40 +86,36 @@ GNetSocketServer::static_async_accept(GTcpSocket *server, GTcpSocket *client, gp
   s->async_accept(server, client);
 }
 
-
 //! GNet has accepted a new connection.
 void
 GNetSocketServer::async_accept(GTcpSocket *server, GTcpSocket *client)
 {
-  (void) server;
+  (void)server;
 
   try
     {
-      GNetSocket *socket =  new GNetSocket(client);
+      GNetSocket *socket = new GNetSocket(client);
       listener->socket_accepted(this, socket);
     }
-  catch(...)
+  catch (...)
     {
       // Make sure that no exception reach the glib mainloop.
     }
 }
 
-
 //! GNet reports that data is ready to be read.
 gboolean
-GNetSocket::static_async_io(GIOChannel *iochannel, GIOCondition condition,
-                            gpointer data)
+GNetSocket::static_async_io(GIOChannel *iochannel, GIOCondition condition, gpointer data)
 {
-  GNetSocket *con =  (GNetSocket *)data;
+  GNetSocket *con = (GNetSocket *)data;
   return con->async_io(iochannel, condition);
 }
-
 
 //! GNet reports that data is ready to be read.
 bool
 GNetSocket::async_io(GIOChannel *iochannel, GIOCondition condition)
 {
-  (void) iochannel;
+  (void)iochannel;
 
   bool ret = true;
 
@@ -149,7 +141,7 @@ GNetSocket::async_io(GIOChannel *iochannel, GIOCondition condition)
             }
         }
     }
-  catch(...)
+  catch (...)
     {
       // Make sure that no exception reach the glib mainloop.
       close();
@@ -159,11 +151,9 @@ GNetSocket::async_io(GIOChannel *iochannel, GIOCondition condition)
   return ret;
 }
 
-
 //! GNet reports that the connection is established.
 void
-GNetSocket::async_connected(GTcpSocket *socket, GInetAddr *ia,
-                            GTcpSocketConnectAsyncStatus status)
+GNetSocket::async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status)
 {
   try
     {
@@ -179,10 +169,10 @@ GNetSocket::async_connected(GTcpSocket *socket, GInetAddr *ia,
         }
       else
         {
-          socket = socket;
-          iochannel = gnet_tcp_socket_get_io_channel(socket);
+          socket      = socket;
+          iochannel   = gnet_tcp_socket_get_io_channel(socket);
           watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-          watch = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
+          watch       = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
 
           if (listener != NULL)
             {
@@ -198,15 +188,12 @@ GNetSocket::async_connected(GTcpSocket *socket, GInetAddr *ia,
     }
 }
 
-
 //! Connection established.
 void
-GNetSocket::static_async_connected(GTcpSocket *socket,
-                                   GTcpSocketConnectAsyncStatus status,
-                                   gpointer data)
+GNetSocket::static_async_connected(GTcpSocket *socket, GTcpSocketConnectAsyncStatus status, gpointer data)
 {
-  GNetSocket *con =  (GNetSocket *)data;
-  GInetAddr *ia = NULL;
+  GNetSocket *con = (GNetSocket *)data;
+  GInetAddr *ia   = NULL;
   if (socket != NULL)
     {
       ia = gnet_tcp_socket_get_remote_inetaddr(socket);
@@ -215,26 +202,23 @@ GNetSocket::static_async_connected(GTcpSocket *socket,
   con->async_connected(socket, ia, status);
 }
 
-
 //! Creates a new connection.
-GNetSocket::GNetSocket(GTcpSocket *socket) :
-  socket(socket)
+GNetSocket::GNetSocket(GTcpSocket *socket)
+  : socket(socket)
 {
-  iochannel = gnet_tcp_socket_get_io_channel(socket);
+  iochannel   = gnet_tcp_socket_get_io_channel(socket);
   watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-  watch = g_io_add_watch(iochannel, (GIOCondition) watch_flags, static_async_io, this);
+  watch       = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
 }
-
 
 //! Creates a new connection.
-GNetSocket::GNetSocket() :
-  socket(NULL),
-  iochannel(NULL),
-  watch_flags(0),
-  watch(0)
+GNetSocket::GNetSocket()
+  : socket(NULL)
+  , iochannel(NULL)
+  , watch_flags(0)
+  , watch(0)
 {
 }
-
 
 //! Destructs the connection.
 GNetSocket::~GNetSocket()
@@ -251,14 +235,12 @@ GNetSocket::~GNetSocket()
     }
 }
 
-
 //! Connects to the specified host.
 void
 GNetSocket::connect(const string &host, int port)
 {
   gnet_tcp_socket_connect_async(host.c_str(), port, static_async_connected, this);
 }
-
 
 //! Read from the connection.
 void
@@ -280,7 +262,6 @@ GNetSocket::read(void *buf, int count, int &bytes_read)
   bytes_read = (int)num_read;
 }
 
-
 //! Write to the connection.
 void
 GNetSocket::write(void *buf, int count, int &bytes_written)
@@ -291,29 +272,28 @@ GNetSocket::write(void *buf, int count, int &bytes_written)
     }
 
   gsize num_written = 0;
-  GIOError error = g_io_channel_write(iochannel, (char *)buf, (gsize)count, &num_written);
+  GIOError error    = g_io_channel_write(iochannel, (char *)buf, (gsize)count, &num_written);
 
   if (error != G_IO_ERROR_NONE)
     {
       throw SocketException("write error");
     }
 
-  bytes_written = (int) num_written;
+  bytes_written = (int)num_written;
 }
-
 
 //! Close the connection.
 void
 GNetSocket::close()
 {
-#ifndef HAVE_GNET2
+#  ifndef HAVE_GNET2
   if (iochannel != NULL)
     {
       // this causes troubles with gnet2
       g_io_channel_unref(iochannel);
       iochannel = NULL;
     }
-#endif
+#  endif
 
   if (socket != NULL)
     {
@@ -326,7 +306,7 @@ GNetSocket::close()
       g_source_remove(watch);
     }
 
-  watch = 0;
+  watch       = 0;
   watch_flags = 0;
 }
 
@@ -337,7 +317,6 @@ GNetSocketDriver::create_socket()
   return new GNetSocket();
 }
 
-
 //! Create a new listen socket
 ISocketServer *
 GNetSocketDriver::create_server()
@@ -346,4 +325,3 @@ GNetSocketDriver::create_server()
 }
 
 #endif
-

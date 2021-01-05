@@ -18,20 +18,20 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <stdio.h>
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #include "nls.h"
@@ -56,11 +56,11 @@ Text::time_to_string(time_t time, bool display_units)
     {
       t[0] = 0;
     }
-  int hrs = (int)time/3600;
+  int hrs = (int)time / 3600;
   int min = (time / 60) % 60;
   int sec = time % 60;
 
-  if (! display_units)
+  if (!display_units)
     {
       if (hrs > 0)
         {

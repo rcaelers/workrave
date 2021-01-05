@@ -20,15 +20,15 @@
 #include <memory>
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "dbus/DBusFactory.hh"
 
 #if defined(HAVE_DBUS)
-#include "DBusGio.hh"
+#  include "DBusGio.hh"
 #else
-#include "DBusDummy.hh"
+#  include "DBusDummy.hh"
 #endif
 
 workrave::dbus::IDBus::Ptr

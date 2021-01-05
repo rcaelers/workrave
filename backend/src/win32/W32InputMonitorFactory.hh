@@ -38,7 +38,6 @@ private:
   IInputMonitor *create_statistics_monitor();
   IInputMonitor *create_activity_monitor();
 
-
 private:
   IInputMonitor *activity_monitor;
   IInputMonitor *statistics_monitor;

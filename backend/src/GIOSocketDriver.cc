@@ -18,23 +18,21 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
 
-#include "debug.hh"
-#include "GIOSocketDriver.hh"
+#  include "debug.hh"
+#  include "GIOSocketDriver.hh"
 
 using namespace std;
 
-
 //! Creates a new listen socket.
-GIOSocketServer::GIOSocketServer() :
-  service(NULL)
+GIOSocketServer::GIOSocketServer()
+  : service(NULL)
 {
 }
-
 
 //! Destructs the listen socket.
 GIOSocketServer::~GIOSocketServer()
@@ -46,7 +44,6 @@ GIOSocketServer::~GIOSocketServer()
       service = NULL;
     }
 }
-
 
 //! Listen at the specified port.
 void
@@ -71,7 +68,6 @@ GIOSocketServer::listen(int port)
 
   g_signal_connect(service, "incoming", G_CALLBACK(static_socket_incoming), this);
   g_socket_service_start(service);
-
 }
 
 gboolean
@@ -81,38 +77,33 @@ GIOSocketServer::static_socket_incoming(GSocketService *service,
                                         gpointer user_data)
 {
   TRACE_ENTER("GIOSocketServer::static_socket_incoming");
-  (void) service;
-  (void) src_object;
+  (void)service;
+  (void)src_object;
 
   try
     {
-      GIOSocketServer *ss = (GIOSocketServer *) user_data;
-      GIOSocket *socket =  new GIOSocket(connection);
+      GIOSocketServer *ss = (GIOSocketServer *)user_data;
+      GIOSocket *socket   = new GIOSocket(connection);
       ss->listener->socket_accepted(ss, socket);
     }
-  catch(...)
+  catch (...)
     {
       // Make sure that no exception reach the glib mainloop.
     }
 
   TRACE_EXIT();
-	return FALSE;
+  return FALSE;
 }
 
-
-
 void
-GIOSocket::static_connected_callback(GObject *source_object,
-                                     GAsyncResult *result,
-                                     gpointer user_data)
+GIOSocket::static_connected_callback(GObject *source_object, GAsyncResult *result, gpointer user_data)
 {
   TRACE_ENTER("GIOSocketServer::static_connected_callback");
 
   GIOSocket *socket = (GIOSocket *)user_data;
-  GError *error = NULL;
+  GError *error     = NULL;
 
-  GSocketConnection *socket_connection =
-    g_socket_client_connect_finish(G_SOCKET_CLIENT(source_object), result, &error);
+  GSocketConnection *socket_connection = g_socket_client_connect_finish(G_SOCKET_CLIENT(source_object), result, &error);
 
   if (error != NULL)
     {
@@ -122,14 +113,12 @@ GIOSocket::static_connected_callback(GObject *source_object,
   else if (socket_connection != NULL)
     {
       socket->connection = socket_connection;
-      socket->socket = g_socket_connection_get_socket(socket->connection);
+      socket->socket     = g_socket_connection_get_socket(socket->connection);
       g_socket_set_blocking(socket->socket, FALSE);
       g_socket_set_keepalive(socket->socket, TRUE);
 
-      socket->source = g_socket_create_source(socket->socket,
-                                              (GIOCondition) (G_IO_IN | G_IO_ERR | G_IO_HUP),
-                                              NULL);
-      g_source_set_callback(socket->source, reinterpret_cast<GSourceFunc>(static_data_callback), (void*)socket, NULL);
+      socket->source = g_socket_create_source(socket->socket, (GIOCondition)(G_IO_IN | G_IO_ERR | G_IO_HUP), NULL);
+      g_source_set_callback(socket->source, reinterpret_cast<GSourceFunc>(static_data_callback), (void *)socket, NULL);
       g_source_attach(socket->source, NULL);
       // g_source_unref(source);
 
@@ -141,18 +130,15 @@ GIOSocket::static_connected_callback(GObject *source_object,
   TRACE_EXIT();
 }
 
-
 gboolean
-GIOSocket::static_data_callback(GSocket *socket,
-                                GIOCondition condition,
-                                gpointer user_data)
+GIOSocket::static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data)
 {
   TRACE_ENTER_MSG("GIOSocket::static_data_callback", (int)condition);
 
   GIOSocket *giosocket = (GIOSocket *)user_data;
-  gboolean ret = TRUE;
+  gboolean ret         = TRUE;
 
-  (void) socket;
+  (void)socket;
 
   try
     {
@@ -177,7 +163,7 @@ GIOSocket::static_data_callback(GSocket *socket,
             }
         }
     }
-  catch(...)
+  catch (...)
     {
       // Make sure that no exception reach the glib mainloop.
       TRACE_MSG("Exception. Closing socket");
@@ -189,9 +175,9 @@ GIOSocket::static_data_callback(GSocket *socket,
 }
 
 //! Creates a new connection.
-GIOSocket::GIOSocket(GSocketConnection *connection) :
-  connection(connection),
-  resolver(NULL)
+GIOSocket::GIOSocket(GSocketConnection *connection)
+  : connection(connection)
+  , resolver(NULL)
 {
   TRACE_ENTER("GIOSocket::GIOSocket(con)");
   socket = g_socket_connection_get_socket(connection);
@@ -201,25 +187,23 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
   g_socket_set_keepalive(socket, TRUE);
 
   source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
-  g_source_set_callback(source, reinterpret_cast<GSourceFunc>(static_data_callback), (void*)this, NULL);
+  g_source_set_callback(source, reinterpret_cast<GSourceFunc>(static_data_callback), (void *)this, NULL);
   g_source_attach(source, NULL);
   g_source_unref(source);
   TRACE_EXIT();
 }
 
-
 //! Creates a new connection.
-GIOSocket::GIOSocket() :
-  connection(NULL),
-  socket(NULL),
-  resolver(NULL),
-  source(NULL),
-  port(0)
+GIOSocket::GIOSocket()
+  : connection(NULL)
+  , socket(NULL)
+  , resolver(NULL)
+  , source(NULL)
+  , port(0)
 {
   TRACE_ENTER("GIOSocket::GIOSocket()");
   TRACE_EXIT();
 }
-
 
 //! Destructs the connection.
 GIOSocket::~GIOSocket()
@@ -240,7 +224,6 @@ GIOSocket::~GIOSocket()
   TRACE_EXIT();
 }
 
-
 //! Connects to the specified host.
 void
 GIOSocket::connect(const string &host, int port)
@@ -257,12 +240,7 @@ GIOSocket::connect(const string &host, int port)
   else
     {
       resolver = g_resolver_get_default();
-      g_resolver_lookup_by_name_async(resolver,
-                                      host.c_str(),
-                                      NULL,
-                                      static_connect_after_resolve,
-                                      this);
-
+      g_resolver_lookup_by_name_async(resolver, host.c_str(), NULL, static_connect_after_resolve, this);
     }
   TRACE_EXIT();
 }
@@ -272,13 +250,9 @@ GIOSocket::connect(GInetAddress *inet_addr, int port)
 {
   TRACE_ENTER_MSG("GIOSocket::connect", port);
   GSocketAddress *socket_address = g_inet_socket_address_new(inet_addr, port);
-  GSocketClient *socket_client = g_socket_client_new();
+  GSocketClient *socket_client   = g_socket_client_new();
 
-  g_socket_client_connect_async(socket_client,
-                                G_SOCKET_CONNECTABLE(socket_address),
-                                NULL,
-                                static_connected_callback,
-                                this);
+  g_socket_client_connect_async(socket_client, G_SOCKET_CONNECTABLE(socket_address), NULL, static_connected_callback, this);
   TRACE_EXIT();
 }
 
@@ -286,7 +260,7 @@ void
 GIOSocket::static_connect_after_resolve(GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   TRACE_ENTER("GIOSocket::static_connect_after_resolve");
-  GError *error = NULL;
+  GError *error    = NULL;
   GList *addresses = g_resolver_lookup_by_name_finish((GResolver *)source_object, res, &error);
 
   if (error != NULL)
@@ -300,15 +274,14 @@ GIOSocket::static_connect_after_resolve(GObject *source_object, GAsyncResult *re
       // Take first result
       if (addresses->data != NULL)
         {
-          GInetAddress *a = (GInetAddress *) addresses->data;
-          GIOSocket *socket = (GIOSocket *) user_data;
+          GInetAddress *a   = (GInetAddress *)addresses->data;
+          GIOSocket *socket = (GIOSocket *)user_data;
           socket->connect(a, socket->port);
         }
-       g_resolver_free_addresses(addresses);
+      g_resolver_free_addresses(addresses);
     }
   TRACE_EXIT();
 }
-
 
 //! Read from the connection.
 void
@@ -316,7 +289,7 @@ GIOSocket::read(void *buf, int count, int &bytes_read)
 {
   TRACE_ENTER_MSG("GIOSocket::read", count);
 
-  GError *error = NULL;
+  GError *error  = NULL;
   gsize num_read = 0;
 
   if (socket != NULL)
@@ -333,12 +306,11 @@ GIOSocket::read(void *buf, int count, int &bytes_read)
   TRACE_RETURN(bytes_read);
 }
 
-
 //! Write to the connection.
 void
 GIOSocket::write(void *buf, int count, int &bytes_written)
 {
-  GError *error = NULL;
+  GError *error     = NULL;
   gsize num_written = 0;
   if (socket != NULL)
     {
@@ -348,9 +320,8 @@ GIOSocket::write(void *buf, int count, int &bytes_written)
           throw SocketException(string("socket write error: ") + error->message);
         }
     }
-  bytes_written = (int) num_written;
+  bytes_written = (int)num_written;
 }
-
 
 //! Close the connection.
 void
@@ -373,7 +344,6 @@ GIOSocketDriver::create_socket()
 {
   return new GIOSocket();
 }
-
 
 //! Create a new listen socket
 ISocketServer *

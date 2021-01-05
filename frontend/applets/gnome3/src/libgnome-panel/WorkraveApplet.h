@@ -24,15 +24,15 @@
 
 G_BEGIN_DECLS
 
-#define WORKRAVE_TYPE_APPLET             (workrave_applet_get_type ())
-#define WORKRAVE_APPLET(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKRAVE_TYPE_APPLET, WorkraveApplet))
-#define WORKRAVE_APPLET_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), WORKRAVE_TYPE_APPLET, WorkraveAppletClass))
-#define WORKRAVE_IS_APPLET(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), WORKRAVE_TYPE_APPLET))
-#define WORKRAVE_IS_APPLET_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), WORKRAVE_TYPE_APPLET))
-#define WORKRAVE_APPLET_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TYPE_APPLET, WorkraveAppletClass))
+#define WORKRAVE_TYPE_APPLET (workrave_applet_get_type())
+#define WORKRAVE_APPLET(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TYPE_APPLET, WorkraveApplet))
+#define WORKRAVE_APPLET_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TYPE_APPLET, WorkraveAppletClass))
+#define WORKRAVE_IS_APPLET(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TYPE_APPLET))
+#define WORKRAVE_IS_APPLET_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TYPE_APPLET))
+#define WORKRAVE_APPLET_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TYPE_APPLET, WorkraveAppletClass))
 
-typedef struct _WorkraveApplet        WorkraveApplet;
-typedef struct _WorkraveAppletClass   WorkraveAppletClass;
+typedef struct _WorkraveApplet WorkraveApplet;
+typedef struct _WorkraveAppletClass WorkraveAppletClass;
 typedef struct _WorkraveAppletPrivate WorkraveAppletPrivate;
 
 struct _WorkraveApplet

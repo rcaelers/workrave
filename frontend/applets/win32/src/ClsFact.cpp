@@ -31,7 +31,6 @@ CClassFactory::CClassFactory(CLSID clsid)
   TRACE_EXIT();
 }
 
-
 CClassFactory::~CClassFactory()
 {
   TRACE_ENTER("CClassFactory::CClassFactory");
@@ -40,8 +39,8 @@ CClassFactory::~CClassFactory()
   TRACE_EXIT();
 }
 
-
-STDMETHODIMP CClassFactory::QueryInterface(REFIID riid, LPVOID *ppReturn)
+STDMETHODIMP
+CClassFactory::QueryInterface(REFIID riid, LPVOID *ppReturn)
 {
   *ppReturn = NULL;
 
@@ -52,24 +51,22 @@ STDMETHODIMP CClassFactory::QueryInterface(REFIID riid, LPVOID *ppReturn)
 
   else if (IsEqualIID(riid, IID_IClassFactory))
     {
-      *ppReturn = (IClassFactory*)this;
+      *ppReturn = (IClassFactory *)this;
     }
 
   if (*ppReturn)
     {
-      (*(LPUNKNOWN*)ppReturn)->AddRef();
+      (*(LPUNKNOWN *)ppReturn)->AddRef();
       return S_OK;
     }
 
   return E_NOINTERFACE;
 }
 
-
 STDMETHODIMP_(DWORD) CClassFactory::AddRef()
 {
   return ++m_ObjRefCount;
 }
-
 
 STDMETHODIMP_(DWORD) CClassFactory::Release()
 {
@@ -82,20 +79,18 @@ STDMETHODIMP_(DWORD) CClassFactory::Release()
   return m_ObjRefCount;
 }
 
-
-STDMETHODIMP CClassFactory::CreateInstance(LPUNKNOWN pUnknown,
-                                           REFIID riid,
-                                           LPVOID *ppObject)
+STDMETHODIMP
+CClassFactory::CreateInstance(LPUNKNOWN pUnknown, REFIID riid, LPVOID *ppObject)
 {
-  HRESULT  hResult = E_FAIL;
-  LPVOID   pTemp = NULL;
+  HRESULT hResult = E_FAIL;
+  LPVOID pTemp    = NULL;
 
   *ppObject = NULL;
 
   if (pUnknown != NULL)
     return CLASS_E_NOAGGREGATION;
 
-  //create the proper object
+  // create the proper object
   if (IsEqualCLSID(m_clsidObject, CLSID_WorkraveDeskBand))
     {
 #ifdef TRACING
@@ -111,16 +106,15 @@ STDMETHODIMP CClassFactory::CreateInstance(LPUNKNOWN pUnknown,
 
   if (pTemp)
     {
-      //get the QueryInterface return for our return value
+      // get the QueryInterface return for our return value
       hResult = ((LPUNKNOWN)pTemp)->QueryInterface(riid, ppObject);
 
-      //call Release to decement the ref count
+      // call Release to decement the ref count
       ((LPUNKNOWN)pTemp)->Release();
     }
 
   return hResult;
 }
-
 
 STDMETHODIMP CClassFactory::LockServer(BOOL)
 {

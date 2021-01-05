@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "nls.h"
@@ -28,7 +28,7 @@
 #include "credits.h"
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include <iostream>
 
@@ -46,37 +46,37 @@
 #include "IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "IDistributionManager.hh"
-#include "NetworkJoinDialog.hh"
-#include "NetworkLogDialog.hh"
+#  include "IDistributionManager.hh"
+#  include "NetworkJoinDialog.hh"
+#  include "NetworkLogDialog.hh"
 #endif
 
 #ifdef HAVE_EXERCISES
-#include "ExercisesDialog.hh"
-#include "Exercise.hh"
+#  include "ExercisesDialog.hh"
+#  include "Exercise.hh"
 #endif
 
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
 
 #ifdef HAVE_INDICATOR
-#include "IndicatorAppletMenu.hh"
+#  include "IndicatorAppletMenu.hh"
 #endif
 
 #ifdef HAVE_DBUS
-#include "GenericDBusApplet.hh"
+#  include "GenericDBusApplet.hh"
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-#include <shellapi.h>
+#ifdef PLATFORM_OS_WINDOWS
+#  include <shellapi.h>
 
-#include "W32AppletWindow.hh"
-#include "W32TrayMenu.hh"
-#include "W32AppletMenu.hh"
+#  include "W32AppletWindow.hh"
+#  include "W32TrayMenu.hh"
+#  include "W32AppletMenu.hh"
 #endif
 
-#if defined(PLATFORM_OS_OSX)
-#include "OSXGtkMenu.hh"
+#if defined(PLATFORM_OS_MACOS)
+#  include "MacOSGtkMenu.hh"
 #endif
 
 #include "MenuEnums.hh"
@@ -86,16 +86,20 @@
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-Menus::Menus() :
+Menus::Menus()
+  :
 #ifdef HAVE_DISTRIBUTION
-  network_log_dialog(NULL),
-  network_join_dialog(NULL),
+  network_log_dialog(NULL)
+  , network_join_dialog(NULL)
+  ,
 #endif
-  statistics_dialog(NULL),
-  preferences_dialog(NULL),
-  debug_dialog(NULL),
+  statistics_dialog(NULL)
+  , preferences_dialog(NULL)
+  , debug_dialog(NULL)
+  ,
 #ifdef HAVE_EXERCISES
-  exercises_dialog(NULL),
+  exercises_dialog(NULL)
+  ,
 #endif
   about(NULL)
 {
@@ -107,7 +111,6 @@ Menus::Menus() :
     }
 }
 
-
 //! Destructor.
 Menus::~Menus()
 {
@@ -115,43 +118,42 @@ Menus::~Menus()
   TRACE_EXIT();
 }
 
-
 void
 Menus::init(AppletControl *applet_control)
 {
   std::shared_ptr<IAppletWindow> applet_window;
 
-#if defined(PLATFORM_OS_OSX)
-  menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
+#if defined(PLATFORM_OS_MACOS)
+  menus[MENU_MAINWINDOW] = new MacOSGtkMenu(true);
 #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
 #endif
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   menus[MENU_MAINAPPLET] = new W32TrayMenu();
 #else
   menus[MENU_MAINAPPLET] = new MainGtkMenu(true);
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
-  applet_window = applet_control->get_applet_window(AppletControl::AppletType::Windows);
+#if defined(PLATFORM_OS_WINDOWS)
+  applet_window                                      = applet_control->get_applet_window(AppletControl::AppletType::Windows);
   std::shared_ptr<W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
-  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window.get());
+  menus[MENU_APPLET_W32]                             = new W32AppletMenu(w32_applet_window.get());
 #endif
 
 #if defined(HAVE_DBUS)
-  applet_window = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
+  applet_window                                       = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
   std::shared_ptr<GenericDBusApplet> indicator_applet = std::dynamic_pointer_cast<GenericDBusApplet>(applet_window);
-  menus[MENU_APPLET_GENERICDBUS] = indicator_applet.get();
+  menus[MENU_APPLET_GENERICDBUS]                      = indicator_applet.get();
 
-#if defined(HAVE_INDICATOR)
+#  if defined(HAVE_INDICATOR)
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
+#  endif
 #endif
-#endif
-  
+
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      if (menus[i] != NULL)
+      if (menus[i] != nullptr)
         {
           menus[i]->init();
         }
@@ -160,11 +162,8 @@ Menus::init(AppletControl *applet_control)
   resync();
 }
 
-
 void
-Menus::popup(const MenuKind kind,
-             const guint button,
-             const guint activate_time)
+Menus::popup(const MenuKind kind, const guint button, const guint activate_time)
 {
   IMenu *pop_menu = menus[kind];
   if (pop_menu)
@@ -173,13 +172,11 @@ Menus::popup(const MenuKind kind,
     }
 }
 
-
 void
 Menus::on_menu_open_main_window()
 {
   gui->open_main_window();
 }
-
 
 //! User requested application quit....
 void
@@ -192,14 +189,12 @@ Menus::on_menu_quit()
   TRACE_EXIT();
 }
 
-
 //! User requested immediate restbreak.
 void
 Menus::on_menu_restbreak_now()
 {
   gui->restbreak_now();
 }
-
 
 void
 Menus::on_set_operation_mode(OperationMode m)
@@ -209,7 +204,6 @@ Menus::on_set_operation_mode(OperationMode m)
   resync();
 }
 
-
 void
 Menus::set_usage_mode(UsageMode m)
 {
@@ -217,7 +211,6 @@ Menus::set_usage_mode(UsageMode m)
   core->set_usage_mode(m);
   resync();
 }
-
 
 void
 Menus::on_menu_quiet()
@@ -227,7 +220,6 @@ Menus::on_menu_quiet()
   TRACE_EXIT();
 }
 
-
 void
 Menus::on_menu_suspend()
 {
@@ -235,7 +227,6 @@ Menus::on_menu_suspend()
   on_set_operation_mode(OPERATION_MODE_SUSPENDED);
   TRACE_EXIT();
 }
-
 
 void
 Menus::on_menu_normal()
@@ -245,7 +236,6 @@ Menus::on_menu_normal()
   TRACE_EXIT();
 }
 
-
 void
 Menus::on_menu_reading(bool reading)
 {
@@ -254,7 +244,6 @@ Menus::on_menu_reading(bool reading)
   resync();
   TRACE_EXIT();
 }
-
 
 //! Preferences Dialog.
 void
@@ -296,7 +285,7 @@ Menus::on_menu_exercises()
 void
 Menus::on_exercises_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(exercises_dialog != NULL);
   exercises_dialog->hide();
@@ -307,14 +296,13 @@ Menus::on_exercises_response(int response)
 
 #endif
 
-
 //! Statistics Dialog.
 void
 Menus::on_menu_statistics()
 {
   if (statistics_dialog == NULL)
     {
-      ICore *core = CoreFactory::get_core();
+      ICore *core        = CoreFactory::get_core();
       IStatistics *stats = core->get_statistics();
       stats->update();
 
@@ -346,7 +334,6 @@ Menus::on_menu_debug()
     }
 }
 
-
 //! About Dialog.
 void
 Menus::on_menu_about()
@@ -354,7 +341,7 @@ Menus::on_menu_about()
   if (about == NULL)
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
-      about = new Gtk::AboutDialog;
+      about                            = new Gtk::AboutDialog;
 
       about->set_name("Workrave");
 #ifdef HAVE_GTK3
@@ -369,12 +356,13 @@ Menus::on_menu_about()
 #endif
 
       about->set_copyright(workrave_copyright);
-      about->set_comments(_("This program assists in the prevention and recovery"
-                            " of Repetitive Strain Injury (RSI)."));
+      about->set_comments(
+        _("This program assists in the prevention and recovery"
+          " of Repetitive Strain Injury (RSI)."));
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
 
-#if defined(PLATFORM_OS_WIN32) && !defined(HAVE_GTK3)
+#if defined(PLATFORM_OS_WINDOWS) && !defined(HAVE_GTK3)
       about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
 #endif
 
@@ -391,12 +379,11 @@ Menus::on_menu_about()
   about->present();
 }
 
-
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 void
 Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
 {
-  (void) about;
+  (void)about;
   ShellExecute(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 #endif
@@ -404,7 +391,7 @@ Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link
 void
 Menus::on_about_response(int response)
 {
-  (void) response;
+  (void)response;
 
   delete about;
   about = NULL;
@@ -427,17 +414,16 @@ Menus::on_menu_network_join()
 void
 Menus::on_network_join_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(network_join_dialog != NULL);
   network_join_dialog->hide();
 
   if (response == Gtk::RESPONSE_OK)
     {
-      ICore *core = CoreFactory::get_core();
-      IDistributionManager *dist_manager
-        = core->get_distribution_manager();
-      std::string peer = network_join_dialog->get_connect_url();
+      ICore *core                        = CoreFactory::get_core();
+      IDistributionManager *dist_manager = core->get_distribution_manager();
+      std::string peer                   = network_join_dialog->get_connect_url();
       dist_manager->connect(peer);
       CoreFactory::get_configurator()->save();
     }
@@ -451,7 +437,7 @@ void
 Menus::on_menu_network_leave()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
+  ICore *core                        = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
@@ -464,7 +450,7 @@ void
 Menus::on_menu_network_reconnect()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
+  ICore *core                        = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
@@ -484,8 +470,7 @@ Menus::on_menu_network_log(bool active)
       if (network_log_dialog == NULL)
         {
           network_log_dialog = new NetworkLogDialog();
-          network_log_dialog->signal_response().
-            connect(sigc::mem_fun(*this, &Menus::on_network_log_response));
+          network_log_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_network_log_response));
 
           resync();
 
@@ -500,18 +485,16 @@ Menus::on_menu_network_log(bool active)
       resync();
     }
 
-
   TRACE_EXIT();
 #endif
 }
-
 
 #ifdef HAVE_DISTRIBUTION
 void
 Menus::on_network_log_response(int response)
 {
   TRACE_ENTER_MSG("Menus::on_network_log_response", response);
-  (void) response;
+  (void)response;
 
   assert(network_log_dialog != NULL);
 
@@ -529,7 +512,7 @@ Menus::on_network_log_response(int response)
 void
 Menus::on_statistics_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(statistics_dialog != NULL);
   statistics_dialog->hide();
@@ -541,7 +524,7 @@ Menus::on_statistics_response(int response)
 void
 Menus::on_preferences_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(preferences_dialog != NULL);
   preferences_dialog->hide();
@@ -555,7 +538,7 @@ Menus::on_preferences_response(int response)
 void
 Menus::on_debug_response(int response)
 {
-  (void) response;
+  (void)response;
 
   assert(debug_dialog != NULL);
   debug_dialog->hide();
@@ -563,7 +546,6 @@ Menus::on_debug_response(int response)
   delete debug_dialog;
   debug_dialog = NULL;
 }
-
 
 void
 Menus::applet_command(short cmd)
@@ -625,7 +607,6 @@ Menus::applet_command(short cmd)
     }
 }
 
-
 void
 Menus::resync()
 {
@@ -640,11 +621,11 @@ Menus::resync()
         {
           ICore *core = CoreFactory::get_core();
 
-          /* Use operation_mode_regular here to show the mode that will be restored 
-          if an override is in place. That is also necessary because if get_operation_mode() 
-          were called instead then that would cause a mode that's possibly an override to 
-          be returned. If that then the override mode menu item would be set_active() during 
-          the resync, and cause a signal that then calls back into core with the override mode 
+          /* Use operation_mode_regular here to show the mode that will be restored
+          if an override is in place. That is also necessary because if get_operation_mode()
+          were called instead then that would cause a mode that's possibly an override to
+          be returned. If that then the override mode menu item would be set_active() during
+          the resync, and cause a signal that then calls back into core with the override mode
           as a regular mode. That would erase whatever the user's regular mode was.
           */
           menus[i]->resync(core->get_operation_mode_regular(),
@@ -654,13 +635,11 @@ Menus::resync()
 #else
                            false);
 #endif
-
         }
     }
 
   syncing = false;
 }
-
 
 void
 Menus::locale_changed()

@@ -39,11 +39,11 @@ namespace workrave
 {
   // Core interfaces
   class IConfigurator;
-}
+} // namespace workrave
 
-class GUI :
-  public IApp,
-  public ICoreEventListener
+class GUI
+  : public IApp
+  , public ICoreEventListener
 {
 public:
   GUI(int argc, char **argv);
@@ -74,7 +74,12 @@ public:
 
   static gboolean static_on_timer(gpointer data);
 
-  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
+  enum BlockMode
+  {
+    BLOCK_MODE_NONE = 0,
+    BLOCK_MODE_INPUT,
+    BLOCK_MODE_ALL
+  };
 
 private:
   bool on_timer();
@@ -142,7 +147,6 @@ private:
   int progress_max_value;
 };
 
-
 //! Returns the only instance of GUI
 inline GUI *
 GUI::get_instance()
@@ -156,6 +160,5 @@ GUI::get_sound_player() const
 {
   return sound_player;
 }
-
 
 #endif // GUI_HH

@@ -19,7 +19,7 @@
 
 #include <assert.h>
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -37,27 +37,26 @@
 #include "Harpoon.hh"
 
 #ifndef HAVE_STRUCT_MOUSEHOOKSTRUCT
-typedef struct tagMOUSEHOOKSTRUCT {
-    POINT   pt;
-    HWND    hwnd;
-    UINT    wHitTestCode;
-    DWORD   dwExtraInfo;
+typedef struct tagMOUSEHOOKSTRUCT
+{
+  POINT pt;
+  HWND hwnd;
+  UINT wHitTestCode;
+  DWORD dwExtraInfo;
 } MOUSEHOOKSTRUCT, FAR *LPMOUSEHOOKSTRUCT, *PMOUSEHOOKSTRUCT;
 #endif
 
 #ifndef HAVE_STRUCT_MOUSEHOOKSTRUCTEX
-typedef struct {
-    struct tagMOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
-    DWORD mouseData;
+typedef struct
+{
+  struct tagMOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
+  DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 #endif
 
 W32InputMonitor *W32InputMonitor::singleton = NULL;
 
-W32InputMonitor::W32InputMonitor()
-{
-}
-
+W32InputMonitor::W32InputMonitor() {}
 
 W32InputMonitor::~W32InputMonitor()
 {
@@ -78,14 +77,12 @@ W32InputMonitor::init()
     }
 }
 
-
 //! Stops the activity monitoring.
 void
 W32InputMonitor::terminate()
 {
   Harpoon::terminate();
 }
-
 
 void
 W32InputMonitor::on_harpoon_event(HarpoonEvent *event)
@@ -106,8 +103,7 @@ W32InputMonitor::on_harpoon_event(HarpoonEvent *event)
       break;
 
     case HARPOON_MOUSE_WHEEL:
-      singleton->fire_mouse(event->mouse.x, event->mouse.y,
-                            event->mouse.wheel);
+      singleton->fire_mouse(event->mouse.x, event->mouse.y, event->mouse.wheel);
       break;
 
     case HARPOON_KEY_RELEASE:

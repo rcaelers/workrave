@@ -20,37 +20,37 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_DISTRIBUTION
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#include <assert.h>
+#  ifdef HAVE_UNISTD_H
+#    include <unistd.h>
+#  endif
+#  include <assert.h>
 
-#include <gtkmm/textview.h>
-#include <gtkmm/textbuffer.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/stock.h>
+#  include <gtkmm/textview.h>
+#  include <gtkmm/textbuffer.h>
+#  include <gtkmm/adjustment.h>
+#  include <gtkmm/stock.h>
 
-#include "nls.h"
-#include "debug.hh"
+#  include "nls.h"
+#  include "debug.hh"
 
-#include "NetworkLogDialog.hh"
+#  include "NetworkLogDialog.hh"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "IDistributionManager.hh"
-#include "Util.hh"
+#  include "ICore.hh"
+#  include "CoreFactory.hh"
+#  include "IDistributionManager.hh"
+#  include "Util.hh"
 
 NetworkLogDialog::NetworkLogDialog()
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   : Gtk::Dialog(_("Network log"), false)
-#else
-    : Gtk::Dialog(_("Network log"), false, true)
-#endif
+#  else
+  : Gtk::Dialog(_("Network log"), false, true)
+#  endif
 {
   TRACE_ENTER("NetworkLogDialog::NetworkLogDialog");
 
@@ -77,12 +77,11 @@ NetworkLogDialog::NetworkLogDialog()
   TRACE_EXIT();
 }
 
-
 //! Destructor.
 NetworkLogDialog::~NetworkLogDialog()
 {
   TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
-  ICore *core = CoreFactory::get_core();
+  ICore *core                        = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
@@ -91,24 +90,23 @@ NetworkLogDialog::~NetworkLogDialog()
   TRACE_EXIT();
 }
 
-
 void
 NetworkLogDialog::distribution_log(std::string msg)
 {
   Gtk::TextIter iter = text_buffer->end();
-  iter = text_buffer->insert(iter, msg);
-#ifdef HAVE_GTK3
+  iter               = text_buffer->insert(iter, msg);
+#  ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
-#else
+#  else
   Gtk::Adjustment *a = scrolled_window.get_vadjustment();
-#endif
+#  endif
   a->set_value(a->get_upper());
 }
 
 void
 NetworkLogDialog::init()
 {
-  ICore *core = CoreFactory::get_core();
+  ICore *core                        = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
 
   Gtk::TextIter iter = text_buffer->end();
@@ -123,11 +121,11 @@ NetworkLogDialog::init()
         }
 
       dist_manager->add_log_listener(this);
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
       Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
-#else
+#  else
       Gtk::Adjustment *a = scrolled_window.get_vadjustment();
-#endif
+#  endif
       a->set_value(a->get_upper());
     }
 }
@@ -143,13 +141,12 @@ NetworkLogDialog::run()
   return 0;
 }
 
-
 void
 NetworkLogDialog::on_response(int response)
 {
-  (void) response;
+  (void)response;
   TRACE_ENTER("NetworkLogDialog::on_response")
-  ICore *core = CoreFactory::get_core();
+  ICore *core                        = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {

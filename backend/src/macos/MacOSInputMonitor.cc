@@ -1,4 +1,4 @@
-// OSXInputMonitor.cc --- ActivityMonitor for OSX
+// MacOSInputMonitor.cc --- ActivityMonitor for MacOS
 //
 // Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -18,23 +18,22 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
-#include "OSXInputMonitor.hh"
+#include "MacOSInputMonitor.hh"
 #include "IInputMonitorListener.hh"
 #include "Thread.hh"
 
-OSXInputMonitor::OSXInputMonitor()
+MacOSInputMonitor::MacOSInputMonitor()
   : terminate_loop(false)
 {
   monitor_thread = new Thread(this);
-  io_service = NULL;
+  io_service     = NULL;
 }
 
-
-OSXInputMonitor::~OSXInputMonitor()
+MacOSInputMonitor::~MacOSInputMonitor()
 {
   if (monitor_thread != NULL)
     {
@@ -43,45 +42,37 @@ OSXInputMonitor::~OSXInputMonitor()
     }
 }
 
-
 bool
-OSXInputMonitor::init()
+MacOSInputMonitor::init()
 {
   mach_port_t master;
   IOMasterPort(MACH_PORT_NULL, &master);
-  io_service = IOServiceGetMatchingService(master,
-                                           IOServiceMatching("IOHIDSystem"));
+  io_service = IOServiceGetMatchingService(master, IOServiceMatching("IOHIDSystem"));
 
   monitor_thread->start();
   return true;
 }
 
-
 //! Stops the activity monitoring.
 void
-OSXInputMonitor::terminate()
+MacOSInputMonitor::terminate()
 {
   terminate_loop = true;
   monitor_thread->wait();
 }
 
-
 void
-OSXInputMonitor::run()
+MacOSInputMonitor::run()
 {
-  TRACE_ENTER("OSXInputMonitor::run");
+  TRACE_ENTER("MacOSInputMonitor::run");
 
   while (!terminate_loop)
     {
       CFTypeRef property;
       uint64_t idle_time = 0;
 
-      property = IORegistryEntryCreateCFProperty(io_service,
-                                                 CFSTR("HIDIdleTime"),
-                                                 kCFAllocatorDefault,
-                                                 0);
-      CFNumberGetValue((CFNumberRef)property,
-                       kCFNumberSInt64Type, &idle_time);
+      property = IORegistryEntryCreateCFProperty(io_service, CFSTR("HIDIdleTime"), kCFAllocatorDefault, 0);
+      CFNumberGetValue((CFNumberRef)property, kCFNumberSInt64Type, &idle_time);
       CFRelease(property);
 
       TRACE_MSG(idle_time);

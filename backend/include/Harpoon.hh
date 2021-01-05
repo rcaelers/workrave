@@ -24,14 +24,14 @@
 #define HARPOON_HH
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #include <windows.h>
@@ -56,7 +56,7 @@ public:
 
 private:
   static void init_critical_filename_list();
-  static bool check_for_taskmgr_debugger( char *out );
+  static bool check_for_taskmgr_debugger(char *out);
   static void on_harpoon_event(HarpoonEvent *event);
 
   static bool is_64bit_windows();

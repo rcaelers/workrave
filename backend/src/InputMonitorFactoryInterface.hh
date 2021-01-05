@@ -30,10 +30,10 @@ class InputMonitorFactoryInterface
 {
 public:
   enum MonitorCapability
-    {
-      CAPABILITY_ACTIVITY,
-      CAPABILITY_STATISTICS
-    };
+  {
+    CAPABILITY_ACTIVITY,
+    CAPABILITY_STATISTICS
+  };
 
   virtual void init(const std::string &display);
   virtual IInputMonitor *get_monitor(MonitorCapability capability);

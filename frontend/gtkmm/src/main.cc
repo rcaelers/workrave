@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -28,13 +28,13 @@
 #include <stdio.h>
 
 #include "GUI.hh"
-#ifdef PLATFORM_OS_WIN32
-#include <io.h>
-#include <fcntl.h>
+#ifdef PLATFORM_OS_WINDOWS
+#  include <io.h>
+#  include <fcntl.h>
 
-#include "crashlog.h"
-#include "dll_hell.h"
-#include "W32ActiveSetup.hh"
+#  include "crashlog.h"
+#  include "dll_hell.h"
+#  include "W32ActiveSetup.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -42,17 +42,17 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
-#ifdef PLATFORM_OS_WIN32
-    W32ActiveSetup::update_all();
+#ifdef PLATFORM_OS_WINDOWS
+  W32ActiveSetup::update_all();
 #endif
 
-#if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
-	SetUnhandledExceptionFilter(exception_filter);
+#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
+  SetUnhandledExceptionFilter(exception_filter);
 
-#if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
+#  if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
   // Enable Windows structural exception handling.
   __try1(exception_handler);
-#endif
+#  endif
 #endif
 
 #ifdef TRACING
@@ -61,7 +61,7 @@ run(int argc, char **argv)
 
   GUI *gui = new GUI(argc, argv);
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   dll_hell_check();
 #endif
 
@@ -70,17 +70,16 @@ run(int argc, char **argv)
   delete gui;
 
 #if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-#if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
+#  if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
   // Disable Windows structural exception handling.
   __except1;
-#endif
+#  endif
 #endif
 
   return 0;
 }
 
-
-#if !defined(PLATFORM_OS_WIN32) // || (!defined(PLATFORM_OS_WIN32_NATIVE) && !defined(NDEBUG))
+#if !defined(PLATFORM_OS_WINDOWS) // || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
 int
 main(int argc, char **argv)
 {
@@ -90,18 +89,16 @@ main(int argc, char **argv)
 
 #else
 
-#include <windows.h>
+#  include <windows.h>
 
-int WINAPI WinMain (HINSTANCE hInstance,
-                    HINSTANCE hPrevInstance,
-                    PSTR szCmdLine,
-                    int iCmdShow)
+int WINAPI
+WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-  (void) hInstance;
-  (void) hPrevInstance;
-  (void) iCmdShow;
+  (void)hInstance;
+  (void)hPrevInstance;
+  (void)iCmdShow;
 
-  char *argv[] = { szCmdLine };
+  char *argv[] = {szCmdLine};
 
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
@@ -109,7 +106,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
   HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
-      run(sizeof(argv)/sizeof(argv[0]), argv);
+      run(sizeof(argv) / sizeof(argv[0]), argv);
     }
   return (0);
 }

@@ -26,27 +26,24 @@
 #include <memory>
 
 #include "IAppletWindow.hh"
-#include "IConfiguratorListener.hh"
-
-using namespace workrave;
 
 class AppletControl
 {
 public:
   enum class AppletType
-    {
-     Tray,
-     GenericDBus,
-     Windows,
-     MacOS,
-    };
+  {
+    Tray,
+    GenericDBus,
+    Windows,
+    MacOS,
+  };
 
-  AppletControl() = default;
+  AppletControl()  = default;
   ~AppletControl() = default;
 
   void init();
   void heartbeat();
-  void set_tooltip(std::string& tip);
+  void set_tooltip(std::string &tip);
   std::shared_ptr<IAppletWindow> get_applet_window(AppletType type);
 
   bool is_visible() const;
@@ -55,11 +52,11 @@ public:
 private:
   std::map<AppletType, std::shared_ptr<IAppletWindow>> applets;
 
-  bool enabled { false };
-  bool visible { false };
+  bool enabled{false};
+  bool visible{false};
 
   sigc::signal<void> visibility_changed_signal;
-  
+
 private:
   void on_applet_visibility_changed(AppletType type, bool visible);
   void check_visible();

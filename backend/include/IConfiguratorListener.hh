@@ -30,6 +30,6 @@ namespace workrave
     //! The configuration item with specified key has changed.
     virtual void config_changed_notify(const std::string &key) = 0;
   };
-}
+} // namespace workrave
 
 #endif // ICONFIGURATORLISTENER_HH

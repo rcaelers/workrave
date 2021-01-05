@@ -22,7 +22,7 @@
 #define SYSTEMSTATECHANGEUPOWER_HH_
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "DBusProxy.hh"
@@ -37,20 +37,19 @@
 //      - control of keyboard backlight, may be usable in addition to dpms
 //    - we may use libupower, but it is unneccessary
 
-
 class SystemStateChangeUPower : public ISystemStateChangeMethod
 {
 public:
   SystemStateChangeUPower(GDBusConnection *connection);
-  virtual
-  ~SystemStateChangeUPower() {};
+  virtual ~SystemStateChangeUPower(){};
   virtual bool suspend() { return execute("Suspend"); }
   virtual bool hibernate() { return execute("Hibernate"); }
 
-  virtual bool canSuspend() { return can_suspend;}
-  virtual bool canHibernate() { return can_hibernate;}
+  virtual bool canSuspend() { return can_suspend; }
+  virtual bool canHibernate() { return can_hibernate; }
 
   static const char *dbus_name;
+
 private:
   bool check_method(const char *method_name);
   bool check_property(const char *property_name);

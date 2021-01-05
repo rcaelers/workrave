@@ -27,6 +27,6 @@ namespace workrave
     //! Notification that a new log message has arrived.
     virtual void distribution_log(string msg) = 0;
   };
-}
+} // namespace workrave
 
 #endif // DISTRIBUTIONLOGLISTENER_HH

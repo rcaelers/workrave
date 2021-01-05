@@ -1,6 +1,6 @@
-// AppController.hh --- OSX Application Controller
+// MacOSHelpers.hh --- Helpers for OS X
 //
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2017 Tom Parker
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Cocoa/Cocoa.h>
+#ifndef MacOS_HELPERS_HH
+#define MacOS_HELPERS_HH
 
-@interface AppController : NSObject
-{
-}
+#include <pthread.h>
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification;
-- (void)applicationWillTerminate:(NSNotification *)aNotification;
+#ifndef _MACH_PORT_T
+#  define _MACH_PORT_T
+#  include <sys/_types.h> /* __darwin_mach_port_t */
+typedef __darwin_mach_port_t mach_port_t;
+mach_port_t pthread_mach_thread_np(pthread_t);
+#endif /* _MACH_PORT_T */
 
-@end
+#include <mach-o/dyld.h>
+#include <sys/param.h>
+
+#endif

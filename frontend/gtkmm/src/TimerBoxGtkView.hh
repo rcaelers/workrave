@@ -38,9 +38,12 @@ namespace Gtk
   class Bin;
   class Image;
   class EventBox;
-}
+} // namespace Gtk
 
-class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView, public IConfiguratorListener
+class TimerBoxGtkView
+  : public Gtk::Table
+  , public ITimerBoxView
+  , public IConfiguratorListener
 {
 public:
   TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
@@ -48,12 +51,15 @@ public:
 
   void set_geometry(Orientation orientation, int size);
   int get_visible_count() const;
-  void set_slot(BreakId  id, int slot);
+  void set_slot(BreakId id, int slot);
   void set_time_bar(BreakId id,
-                    std::string text, TimeBar::ColorId primary_color,
-                    int primary_value, int primary_max,
+                    std::string text,
+                    TimeBar::ColorId primary_color,
+                    int primary_value,
+                    int primary_max,
                     TimeBar::ColorId secondary_color,
-                    int secondary_value, int secondary_max);
+                    int secondary_value,
+                    int secondary_max);
   void set_tip(std::string tip);
   void set_icon(IconType icon);
   void update_view();
@@ -61,9 +67,9 @@ public:
 
   void set_sheep_only(bool sheep_only);
   bool is_sheep_only() const;
-  
+
 #ifdef HAVE_GTK3
-  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
+  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr);
 #endif
 
 private:
@@ -74,7 +80,7 @@ private:
 
   bool on_restbreak_button_press_event(int button);
   int get_number_of_timers() const;
-  
+
   virtual void config_changed_notify(const std::string &key);
 
   //! What menu to active on click
@@ -132,12 +138,10 @@ private:
   bool sheep_only;
 };
 
-
 inline int
 TimerBoxGtkView::get_visible_count() const
 {
   return visible_count;
 }
-
 
 #endif // TIMERBOXGTKVIEW_HH

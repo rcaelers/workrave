@@ -1,6 +1,6 @@
 // SystemLockCommandline.hh -- support for locking the system using command line
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 // Uses some code and ideas from the KShutdown utility: file src/actions/lock.cpp
 // Copyright (C) 2009  Konrad Twardowski
@@ -24,33 +24,33 @@
 
 #include "IScreenLockMethod.hh"
 #include "stdlib.h"
-//A method of locking the screen that 
-//does that by executing a command
+// A method of locking the screen that
+// does that by executing a command
 class ScreenLockCommandline : public IScreenLockMethod
 {
 public:
-  //the parameter 'parameters' may be NULL, in which case it is assumed that the
-  //program does not take any parameters
-  //async - whether to invoke the program syncronously (async = false, wait for the command
-  //to complete) or asynchronously (async = true)
+  // the parameter 'parameters' may be NULL, in which case it is assumed that the
+  // program does not take any parameters
+  // async - whether to invoke the program syncronously (async = false, wait for the command
+  // to complete) or asynchronously (async = true)
   ScreenLockCommandline(const char *program_name, const char *parameters, bool async = false);
   ~ScreenLockCommandline()
-    {
-      if (cmd != NULL)
-        {
-          free(cmd);
-          cmd = NULL;
-        }
-    }
+  {
+    if (cmd != NULL)
+      {
+        free(cmd);
+        cmd = NULL;
+      }
+  }
 
   virtual bool is_lock_supported() { return cmd != NULL; }
   virtual bool lock();
+
 private:
-  bool invoke(const gchar* command, bool async);
+  bool invoke(const gchar *command, bool async);
 
   char *cmd;
   const bool async;
-
 };
 
 #endif

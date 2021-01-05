@@ -36,7 +36,7 @@ public:
   void set_frame_color(const Gdk::Color &color);
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
-  sigc::signal1<void,bool> &signal_flash();
+  sigc::signal1<void, bool> &signal_flash();
 
 protected:
   bool on_timer();
@@ -44,20 +44,19 @@ protected:
 
 #ifdef HAVE_GTK3
   virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
-  virtual void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const;
-  virtual void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const;
-  virtual void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const;
-  virtual void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const;
-  virtual bool on_draw(const Cairo::RefPtr< Cairo::Context >& cr);
+  virtual void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const;
+  virtual void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const;
+  virtual void get_preferred_width_for_height_vfunc(int height, int &minimum_width, int &natural_width) const;
+  virtual void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const;
+  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr);
 
-  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color);
-  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color);
+  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
+  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
 #else
   void on_realize();
-  bool on_expose_event(GdkEventExpose* e);
+  bool on_expose_event(GdkEventExpose *e);
   void on_size_request(Gtk::Requisition *requisition);
 #endif
-
 
 private:
   //! Frame border width
@@ -90,6 +89,5 @@ private:
   sigc::connection flash_signal;
 
   //! Flash signal source
-  sigc::signal1<void,bool> flash_signal_src;
+  sigc::signal1<void, bool> flash_signal_src;
 };
-

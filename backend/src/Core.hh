@@ -24,19 +24,19 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# if HAVE_STDLIB_H
 #  include <stdlib.h>
-# endif
+#  include <stddef.h>
+#else
+#  if HAVE_STDLIB_H
+#    include <stdlib.h>
+#  endif
 #endif
 #if HAVE_UNISTD_H
-# include <unistd.h>
+#  include <unistd.h>
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSHelpers.hh"
 #endif
 
 #include <iostream>
@@ -55,17 +55,18 @@
 #include "Diagnostics.hh"
 
 #ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
+#  include "dbus/IDBus.hh"
 #endif
 
 using namespace workrave;
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class ISoundPlayer;
   class IApp;
   class INetwork;
-}
+} // namespace workrave
 
 class ActivityMonitor;
 class Configurator;
@@ -75,20 +76,22 @@ class IdleLogManager;
 class BreakControl;
 
 #ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#include "IDistributionClientMessage.hh"
-#include "DistributionListener.hh"
+#  include "DistributionManager.hh"
+#  include "IDistributionClientMessage.hh"
+#  include "DistributionListener.hh"
 #endif
 
-class Core :
+class Core
+  :
 #ifdef HAVE_DISTRIBUTION
-  public IDistributionClientMessage,
-  public DistributionListener,
+  public IDistributionClientMessage
+  , public DistributionListener
+  ,
 #endif
-  public TimeSource,
-  public ICore,
-  public IConfiguratorListener,
-  public IBreakResponse
+  public TimeSource
+  , public ICore
+  , public IConfiguratorListener
+  , public IBreakResponse
 {
 public:
   Core();
@@ -121,8 +124,8 @@ public:
   OperationMode get_operation_mode_regular();
   bool is_operation_mode_an_override();
   void set_operation_mode(OperationMode mode);
-  void set_operation_mode_override( OperationMode mode, const std::string &id );
-  void remove_operation_mode_override( const std::string &id );
+  void set_operation_mode_override(OperationMode mode, const std::string &id);
+  void remove_operation_mode_override(const std::string &id);
 
   UsageMode get_usage_mode();
   void set_usage_mode(UsageMode mode);
@@ -145,29 +148,25 @@ public:
   // DBus functions.
   void report_external_activity(std::string who, bool act);
   void is_timer_running(BreakId id, bool &value);
-  void get_timer_elapsed(BreakId id,int *value);
-  void get_timer_remaining(BreakId id,int *value);
+  void get_timer_elapsed(BreakId id, int *value);
+  void get_timer_remaining(BreakId id, int *value);
   void get_timer_idle(BreakId id, int *value);
-  void get_timer_overdue(BreakId id,int *value);
+  void get_timer_overdue(BreakId id, int *value);
 
   // BreakResponseInterface
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
 
 #ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr get_dbus()
-  {
-    return dbus;
-  }
+  workrave::dbus::IDBus::Ptr get_dbus() { return dbus; }
 #endif
 
 private:
-
 #ifndef NDEBUG
   enum ScriptCommand
-    {
-      SCRIPT_START = 1,
-    };
+  {
+    SCRIPT_START = 1,
+  };
 #endif
 
   void init(int argc, char **argv, IApp *application, const char *display_name);
@@ -201,11 +200,10 @@ private:
 
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
-  
+
 #ifdef HAVE_DISTRIBUTION
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                      PacketBuffer &buffer);
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer);
 
   bool request_break_state(PacketBuffer &buffer);
   bool set_break_state(bool master, PacketBuffer &buffer);
@@ -216,23 +214,21 @@ private:
   bool set_monitor_state(bool master, PacketBuffer &buffer);
 
   enum BreakControlMessage
-    {
-      BCM_POSTPONE,
-      BCM_SKIP,
-      BCM_ABORT_PRELUDE,
-      BCM_START_BREAK,
-    };
+  {
+    BCM_POSTPONE,
+    BCM_SKIP,
+    BCM_ABORT_PRELUDE,
+    BCM_START_BREAK,
+  };
 
   void send_break_control_message(BreakId break_id, BreakControlMessage message);
-  void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message,
-                                             bool param);
+  void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param);
   bool set_break_control(PacketBuffer &buffer);
 
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
   void compute_timers();
 #endif // HAVE_DISTRIBUTION
-
 
 private:
   //! The one and only instance
@@ -319,10 +315,10 @@ private:
   //! Manager that collects idle times of all clients.
   IdleLogManager *idlelog_manager;
 
-#ifndef NDEBUG
+#  ifndef NDEBUG
   //! A fake activity monitor for testing puposes.
   FakeActivityMonitor *fake_monitor;
-#endif
+#  endif
 #endif
 
   //! External activity
@@ -332,7 +328,6 @@ private:
   friend class Test;
 #endif
 };
-
 
 //! Returns the singleton Core instance.
 inline Core *

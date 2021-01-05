@@ -22,8 +22,8 @@
 
 #include "preinclude.h"
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
-#undef max
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#  undef max
 #endif
 
 #include <gdkmm/rectangle.h>
@@ -33,10 +33,7 @@
 class HeadInfo
 {
 public:
-  HeadInfo()
-  {
-    count = 0;
-  }
+  HeadInfo() { count = 0; }
 
   int get_width() const;
   int get_height() const;

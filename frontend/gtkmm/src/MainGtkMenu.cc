@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "nls.h"
@@ -40,26 +40,21 @@
 
 using namespace std;
 
-
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
-  : popup_menu(NULL),
-    show_open(show_open)
+  : popup_menu(NULL)
+  , show_open(show_open)
 {
 }
-
 
 //! Destructor.
-MainGtkMenu::~MainGtkMenu()
-{
-}
-
+MainGtkMenu::~MainGtkMenu() {}
 
 void
-MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
+MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory> &factory,
                             const std::string &path,
-                            const Glib::ustring& icon_id,
-                            const Glib::ustring& label)
+                            const Glib::ustring &icon_id,
+                            const Glib::ustring &label)
 {
   Gtk::IconSource source;
 #ifdef HAVE_GTK3
@@ -83,7 +78,6 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
   Gtk::Stock::add(Gtk::StockItem(stock_id, label));
 }
 
-
 void
 MainGtkMenu::register_stock_items()
 {
@@ -93,7 +87,6 @@ MainGtkMenu::register_stock_items()
 
   factory->add_default();
 }
-
 
 void
 MainGtkMenu::init()
@@ -113,7 +106,7 @@ MainGtkMenu::init()
       ui_manager->insert_action_group(action_group);
     }
 
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui               = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
   main_window->add_accel_group(ui_manager->get_accel_group());
 }
@@ -121,7 +114,7 @@ MainGtkMenu::init()
 void
 MainGtkMenu::create_actions()
 {
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
 
   action_group = Gtk::ActionGroup::create();
@@ -135,64 +128,43 @@ MainGtkMenu::create_actions()
   action_group->add(Gtk::RadioAction::create(group_mode, "Normal", _("_Normal")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_normal));
 
-  action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
+  action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")), sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
 
   action_group->add(Gtk::RadioAction::create(group_mode, "Suspended", _("_Suspended")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_suspend));
 
-  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
+  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")), sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
 
   // Networking menu
 #ifdef HAVE_DISTRIBUTION
   action_group->add(Gtk::Action::create("Network", _("_Network")));
-  action_group->add(Gtk::Action::create("Join", _("_Connect")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_network_join));
-  action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
-  action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
-  action_group->add(Gtk::ToggleAction::create("ShowLog", _("Show _log")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_network_log));
+  action_group->add(Gtk::Action::create("Join", _("_Connect")), sigc::mem_fun(*menus, &Menus::on_menu_network_join));
+  action_group->add(Gtk::Action::create("Disconnect", _("_Disconnect")), sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
+  action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")), sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
+  action_group->add(Gtk::ToggleAction::create("ShowLog", _("Show _log")), sigc::mem_fun(*this, &MainGtkMenu::on_menu_network_log));
 #endif
 
   // Open
-  action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN),
-                    sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
+  action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN), sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
 
   // Restbreak now
   // Gtk::AccelKey("<control>r"),
-  action_group->add(Gtk::Action::create("Restbreak",
-                                        Gtk::StockID("restbreak"),
-                                        _("_Rest break")),
+  action_group->add(Gtk::Action::create("Restbreak", Gtk::StockID("restbreak"), _("_Rest break")),
                     sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
 
   // Preferences
-  action_group->add(Gtk::Action::create("Preferences",
-                                        Gtk::Stock::PREFERENCES,
-                                        _("_Preferences")),
+  action_group->add(Gtk::Action::create("Preferences", Gtk::Stock::PREFERENCES, _("_Preferences")),
                     sigc::mem_fun(*menus, &Menus::on_menu_preferences));
 
 #ifdef HAVE_EXERCISES
-  action_group->add(Gtk::Action::create("Exercises",
-                                        _("Exercises")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_exercises));
+  action_group->add(Gtk::Action::create("Exercises", _("Exercises")), sigc::mem_fun(*menus, &Menus::on_menu_exercises));
 
 #endif
-  action_group->add(Gtk::Action::create("Statistics",
-                                        _("Statistics")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_statistics));
+  action_group->add(Gtk::Action::create("Statistics", _("Statistics")), sigc::mem_fun(*menus, &Menus::on_menu_statistics));
 
-  action_group->add(Gtk::Action::create("About",
-                                        Gtk::Stock::ABOUT,
-                                        _("_About")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_about));
+  action_group->add(Gtk::Action::create("About", Gtk::Stock::ABOUT, _("_About")), sigc::mem_fun(*menus, &Menus::on_menu_about));
 
-  action_group->add(Gtk::Action::create("Quit",
-                                        Gtk::Stock::QUIT,
-                                        _("_Quit")),
-                    sigc::mem_fun(*menus, &Menus::on_menu_quit));
+  action_group->add(Gtk::Action::create("Quit", Gtk::Stock::QUIT, _("_Quit")), sigc::mem_fun(*menus, &Menus::on_menu_quit));
 }
 
 void
@@ -205,7 +177,7 @@ MainGtkMenu::create_ui()
       open_ui_info = "    <menuitem action='Open'/>";
     }
 
-  //Layout the actions in a menubar and toolbar:
+  // Layout the actions in a menubar and toolbar:
   Glib::ustring ui_info =
     "<ui>"
     "  <popup name='Menu'>"
@@ -244,22 +216,21 @@ MainGtkMenu::create_ui()
     {
       ui_manager->add_ui_from_string(ui_info);
     }
-  catch(const Glib::Error&)
+  catch (const Glib::Error &)
     {
     }
 
-  popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu"));
+  popup_menu = dynamic_cast<Gtk::Menu *>(ui_manager->get_widget("/Menu"));
 
-#ifdef PLATFORM_OS_OSX
-  osx_popup_hack_connect(popup_menu);
+#ifdef PLATFORM_OS_MACOS
+  macos_popup_hack_connect(popup_menu);
 #endif
 }
-
 
 void
 MainGtkMenu::popup(const guint button, const guint activate_time)
 {
-  (void) button;
+  (void)button;
 
   if (popup_menu != NULL)
     {
@@ -267,12 +238,11 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
     }
 }
 
-
 void
 MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   Gtk::CheckMenuItem *item = NULL;
-  const char *menu_name = NULL;
+  const char *menu_name    = NULL;
 
   switch (mode)
     {
@@ -292,42 +262,41 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       break;
     }
 
-  if( menu_name )
-  {
-      item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( menu_name ) );
-      if( item && !item->get_active() )
-      {
+  if (menu_name)
+    {
+      item = dynamic_cast<Gtk::CheckMenuItem *>(ui_manager->get_widget(menu_name));
+      if (item && !item->get_active())
+        {
           item->set_active();
-      }
-  }
+        }
+    }
 
-  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Network/ShowLog"));
+  item = dynamic_cast<Gtk::CheckMenuItem *>(ui_manager->get_widget("/Menu/Network/ShowLog"));
   if (item != NULL)
     {
       item->set_active(show_log);
     }
 
-  item = dynamic_cast<Gtk::CheckMenuItem*>( ui_manager->get_widget( "/Menu/Reading" ) );
-  if( item )
-  {
-      bool reading = ( usage == USAGE_MODE_READING );
+  item = dynamic_cast<Gtk::CheckMenuItem *>(ui_manager->get_widget("/Menu/Reading"));
+  if (item)
+    {
+      bool reading = (usage == USAGE_MODE_READING);
 
-      if( reading != item->get_active() )
-          item->set_active( reading );
-  }
+      if (reading != item->get_active())
+        item->set_active(reading);
+    }
 }
-
 
 void
 MainGtkMenu::on_menu_network_log()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Network/ShowLog");
+  Glib::RefPtr<Gtk::Action> act        = ui_manager->get_action("/Menu/Network/ShowLog");
   Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
 
   if (ract)
     {
-      bool active = ract->get_active();
-      IGUI *gui = GUI::get_instance();
+      bool active  = ract->get_active();
+      IGUI *gui    = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->on_menu_network_log(active);
     }
@@ -336,7 +305,7 @@ MainGtkMenu::on_menu_network_log()
 void
 MainGtkMenu::on_menu_normal()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Normal");
+  Glib::RefPtr<Gtk::Action> act       = ui_manager->get_action("/Menu/Mode/Normal");
   Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
 
   if (ract)
@@ -344,7 +313,7 @@ MainGtkMenu::on_menu_normal()
       bool active = ract->get_active();
       if (active)
         {
-          IGUI *gui = GUI::get_instance();
+          IGUI *gui    = GUI::get_instance();
           Menus *menus = gui->get_menus();
           menus->on_menu_normal();
         }
@@ -354,7 +323,7 @@ MainGtkMenu::on_menu_normal()
 void
 MainGtkMenu::on_menu_suspend()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Suspended");
+  Glib::RefPtr<Gtk::Action> act       = ui_manager->get_action("/Menu/Mode/Suspended");
   Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
 
   if (ract)
@@ -362,7 +331,7 @@ MainGtkMenu::on_menu_suspend()
       bool active = ract->get_active();
       if (active)
         {
-          IGUI *gui = GUI::get_instance();
+          IGUI *gui    = GUI::get_instance();
           Menus *menus = gui->get_menus();
 
           menus->on_menu_suspend();
@@ -373,7 +342,7 @@ MainGtkMenu::on_menu_suspend()
 void
 MainGtkMenu::on_menu_quiet()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Quiet");
+  Glib::RefPtr<Gtk::Action> act       = ui_manager->get_action("/Menu/Mode/Quiet");
   Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
 
   if (ract)
@@ -381,7 +350,7 @@ MainGtkMenu::on_menu_quiet()
       bool active = ract->get_active();
       if (active)
         {
-          IGUI *gui = GUI::get_instance();
+          IGUI *gui    = GUI::get_instance();
           Menus *menus = gui->get_menus();
 
           menus->on_menu_quiet();
@@ -392,44 +361,41 @@ MainGtkMenu::on_menu_quiet()
 void
 MainGtkMenu::on_menu_reading()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Reading");
+  Glib::RefPtr<Gtk::Action> act        = ui_manager->get_action("/Menu/Reading");
   Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
 
   if (ract)
     {
-      bool active = ract->get_active();
-      IGUI *gui = GUI::get_instance();
+      bool active  = ract->get_active();
+      IGUI *gui    = GUI::get_instance();
       Menus *menus = gui->get_menus();
 
       menus->on_menu_reading(active);
     }
 }
 
-
-#ifdef PLATFORM_OS_OSX
+#ifdef PLATFORM_OS_MACOS
 // /* Taken from Gaim. needs to be gtkmm-ified. */
 // /* This is a workaround for a bug in windows GTK+. Clicking outside of the
 //    menu does not get rid of it, so instead we get rid of it as soon as the
 //    pointer leaves the menu. */
 
 void
-MainGtkMenu::osx_popup_hack_connect(Gtk::Menu *menu)
+MainGtkMenu::macos_popup_hack_connect(Gtk::Menu *menu)
 {
-  TRACE_ENTER("W32TrayMenu::osx_popup_hack_connect");
+  TRACE_ENTER("W32TrayMenu::macos_popup_hack_connect");
 
-  GtkWidget *widget = (GtkWidget*) menu->gobj();
-  g_signal_connect(widget, "leave-notify-event",
-                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
-  g_signal_connect(widget, "enter-notify-event",
-                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+  GtkWidget *widget = (GtkWidget *)menu->gobj();
+  g_signal_connect(widget, "leave-notify-event", G_CALLBACK(macos_popup_hack_leave_enter), NULL);
+  g_signal_connect(widget, "enter-notify-event", G_CALLBACK(macos_popup_hack_leave_enter), NULL);
 
   TRACE_EXIT();
 }
 
 gboolean
-MainGtkMenu::osx_popup_hack_hide(gpointer data)
+MainGtkMenu::macos_popup_hack_hide(gpointer data)
 {
-  TRACE_ENTER("W32TrayMenu::osx_popup_hack_hide");
+  TRACE_ENTER("W32TrayMenu::macos_popup_hack_hide");
   if (data != NULL)
     {
       gtk_menu_popdown(GTK_MENU(data));
@@ -438,40 +404,41 @@ MainGtkMenu::osx_popup_hack_hide(gpointer data)
   return FALSE;
 }
 
-
 gboolean
-MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
-                                          void *data)
+MainGtkMenu::macos_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
 {
-  TRACE_ENTER("W32TrayMenu::osx_popup_hack_leave_enter");
+  TRACE_ENTER("W32TrayMenu::macos_popup_hack_leave_enter");
 
-  TRACE_MSG(event->type << " " <<  event->detail);
+  TRACE_MSG(event->type << " " << event->detail);
 
-  (void) data;
+  (void)data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
       /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/
-      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
-    /* Add some slop so that the menu doesn't annoyingly disappear
-       when mousing around */
-    TRACE_MSG("leave " << hide_docklet_timer);
-    if (hide_docklet_timer == 0) {
-      hide_docklet_timer = g_timeout_add(500, osx_popup_hack_hide, menu);
+      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
+    {
+      /* Add some slop so that the menu doesn't annoyingly disappear
+         when mousing around */
+      TRACE_MSG("leave " << hide_docklet_timer);
+      if (hide_docklet_timer == 0)
+        {
+          hide_docklet_timer = g_timeout_add(500, macos_popup_hack_hide, menu);
+        }
     }
-  } else if (event->type == GDK_ENTER_NOTIFY
-             && event->detail == GDK_NOTIFY_ANCESTOR) {
+  else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR)
+    {
 
-    TRACE_MSG("enter " << hide_docklet_timer);
+      TRACE_MSG("enter " << hide_docklet_timer);
 
-    if (hide_docklet_timer != 0) {
-      /* Cancel the hiding if we reenter */
+      if (hide_docklet_timer != 0)
+        {
+          /* Cancel the hiding if we reenter */
 
-      g_source_remove(hide_docklet_timer);
-      hide_docklet_timer = 0;
+          g_source_remove(hide_docklet_timer);
+          hide_docklet_timer = 0;
+        }
     }
-  }
   TRACE_EXIT();
   return FALSE;
 }
 #endif
-

@@ -35,14 +35,17 @@ using namespace workrave;
 using namespace std;
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class IConfiguratorListener;
 }
 #include "Variant.hh"
 
 class IConfigBackend;
 
-class Configurator : public IConfigurator, public IConfiguratorListener
+class Configurator
+  : public IConfigurator
+  , public IConfiguratorListener
 {
 public:
   Configurator(IConfigBackend *backend);
@@ -65,10 +68,10 @@ public:
   virtual bool get_value(const std::string &key, int &out) const;
   virtual bool get_value(const std::string &key, double &out) const;
 
-  virtual void get_value_with_default(const std::string & key, std::string &out, string s) const;
-  virtual void get_value_with_default(const std::string & key, bool &out, const bool def) const;
-  virtual void get_value_with_default(const std::string & key, int &out, const int def) const;
-  virtual void get_value_with_default(const std::string & key, double &out, const double def) const;
+  virtual void get_value_with_default(const std::string &key, std::string &out, string s) const;
+  virtual void get_value_with_default(const std::string &key, bool &out, const bool def) const;
+  virtual void get_value_with_default(const std::string &key, int &out, const int def) const;
+  virtual void get_value_with_default(const std::string &key, double &out, const double def) const;
 
   virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE);
   virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE);
@@ -85,9 +88,9 @@ public:
   virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const;
 
 private:
-  typedef std::list<std::pair<std::string, IConfiguratorListener *> > Listeners;
-  typedef std::list<std::pair<std::string, IConfiguratorListener *> >::iterator ListenerIter;
-  typedef std::list<std::pair<std::string, IConfiguratorListener *> >::const_iterator ListenerCIter;
+  typedef std::list<std::pair<std::string, IConfiguratorListener *>> Listeners;
+  typedef std::list<std::pair<std::string, IConfiguratorListener *>>::iterator ListenerIter;
+  typedef std::list<std::pair<std::string, IConfiguratorListener *>>::const_iterator ListenerCIter;
 
   //! Configuration change listeners.
   Listeners listeners;
@@ -113,7 +116,6 @@ private:
   typedef std::map<std::string, Setting> Settings;
   typedef std::map<std::string, Setting>::iterator SettingIter;
   typedef std::map<std::string, Setting>::const_iterator SettingCIter;
-
 
 private:
   bool find_setting(const string &name, Setting &setting) const;
@@ -141,6 +143,5 @@ private:
   //! Next auto save time.
   time_t auto_save_time;
 };
-
 
 #endif // CONFIGURATOR_HH

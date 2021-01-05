@@ -27,5 +27,4 @@ public:
   virtual void run() = 0;
 };
 
-
 #endif // RUNNABLE_HH

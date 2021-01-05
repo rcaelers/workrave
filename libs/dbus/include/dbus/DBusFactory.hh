@@ -33,6 +33,6 @@ namespace workrave
     public:
       static IDBus::Ptr create();
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 #endif // WORKRAVE_DBUS_IDBUS_HH

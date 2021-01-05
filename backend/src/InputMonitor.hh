@@ -28,8 +28,7 @@
 class IInputMonitorListener;
 
 //!  Base for activity monitors.
-class InputMonitor
-  : public IInputMonitor
+class InputMonitor : public IInputMonitor
 {
 public:
   InputMonitor();

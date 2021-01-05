@@ -18,11 +18,11 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSHelpers.hh"
 #endif
 
 #include "debug.hh"
@@ -43,7 +43,6 @@ GlibIniConfigurator::GlibIniConfigurator()
 {
 }
 
-
 GlibIniConfigurator::~GlibIniConfigurator()
 {
   if (config != NULL)
@@ -52,20 +51,18 @@ GlibIniConfigurator::~GlibIniConfigurator()
     }
 }
 
-
 bool
 GlibIniConfigurator::load(string filename)
 {
   GError *error = NULL;
-  gboolean r = TRUE;
+  gboolean r    = TRUE;
 
   last_filename = filename;
 
   TRACE_ENTER_MSG("GlibIniConfigurator::load", filename)
-    config = g_key_file_new();
+  config = g_key_file_new();
 
-  r = g_key_file_load_from_file(config, filename.c_str(),
-                                G_KEY_FILE_KEEP_COMMENTS, &error);
+  r = g_key_file_load_from_file(config, filename.c_str(), G_KEY_FILE_KEEP_COMMENTS, &error);
 
   if (r)
     {
@@ -80,12 +77,11 @@ GlibIniConfigurator::load(string filename)
   return error == NULL;
 }
 
-
 bool
 GlibIniConfigurator::save(string filename)
 {
   GError *error = NULL;
-  char *str = g_key_file_to_data(config, NULL, &error);
+  char *str     = g_key_file_to_data(config, NULL, &error);
 
   TRACE_ENTER_MSG("GlibIniConfigurator::save", filename);
   if (error != NULL)
@@ -110,18 +106,16 @@ GlibIniConfigurator::save(string filename)
   return error == NULL;
 }
 
-
 bool
 GlibIniConfigurator::save()
 {
   return save(last_filename);
 }
 
-
 bool
 GlibIniConfigurator::remove_key(const std::string &key)
 {
-  bool ret = true;
+  bool ret      = true;
   GError *error = NULL;
   string group;
   string inikey;
@@ -142,12 +136,10 @@ GlibIniConfigurator::remove_key(const std::string &key)
   return ret;
 }
 
-
 bool
-GlibIniConfigurator::get_value(const std::string &key, VariantType type,
-                               Variant &out) const
+GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
-  bool ret = false;
+  bool ret      = false;
   GError *error = NULL;
   string group;
   string inikey;
@@ -163,7 +155,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
     {
       ret = true;
 
-      switch(type)
+      switch (type)
         {
         case VARIANT_TYPE_INT:
           out.int_value = g_key_file_get_integer(config, group.c_str(), inikey.c_str(), &error);
@@ -201,7 +193,6 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
         default:
           ret = false;
         }
-
     }
 
   if (error != NULL)
@@ -224,7 +215,7 @@ GlibIniConfigurator::set_value(const std::string &key, Variant &value)
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
-  switch(value.type)
+  switch (value.type)
     {
     case VARIANT_TYPE_INT:
       g_key_file_set_integer(config, group.c_str(), inikey.c_str(), value.int_value);
@@ -258,24 +249,22 @@ GlibIniConfigurator::set_value(const std::string &key, Variant &value)
   return ret;
 }
 
-
 void
 GlibIniConfigurator::split_key(const string &key, string &group, string &out_key) const
 {
-  const char *s = key.c_str();
+  const char *s     = key.c_str();
   const char *slash = strchr(s, '/');
   if (slash)
     {
-      group = key.substr(0, slash-s);
-      out_key = slash+1;
+      group   = key.substr(0, slash - s);
+      out_key = slash + 1;
     }
   else
     {
-      group = "";
+      group   = "";
       out_key = "";
     }
 }
-
 
 string
 GlibIniConfigurator::key_inify(const string &key) const

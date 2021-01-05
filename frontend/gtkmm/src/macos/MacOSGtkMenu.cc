@@ -1,4 +1,4 @@
-// OSXGtkMenu.cc --- Menus using Gtk+
+// MacOSGtkMenu.cc --- Menus using Gtk+
 //
 // Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -17,10 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
-
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <iostream>
@@ -28,7 +26,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "OSXGtkMenu.hh"
+#include "MacOSGtkMenu.hh"
 
 #include <string>
 
@@ -46,66 +44,60 @@
 using namespace std;
 
 #if HAVE_IGE_MAC_INTEGRATION
-#include "ige-mac-menu.h"
-#include "ige-mac-dock.h"
-#include "ige-mac-bundle.h"
+#  include "ige-mac-menu.h"
+#  include "ige-mac-dock.h"
+#  include "ige-mac-bundle.h"
 #endif
 
 #if HAVE_GTK_MAC_INTEGRATION
-#include "gtk-mac-menu.h"
-#include "gtk-mac-dock.h"
-#include "gtk-mac-bundle.h"
-#define IgeMacMenuGroup GtkMacMenuGroup
-#define IgeMacDock GtkMacDock
-#define ige_mac_menu_set_menu_bar gtk_mac_menu_set_menu_bar
-#define ige_mac_menu_set_quit_menu_item gtk_mac_menu_set_quit_menu_item
-#define ige_mac_menu_add_app_menu_group gtk_mac_menu_add_app_menu_group
-#define ige_mac_menu_add_app_menu_item gtk_mac_menu_add_app_menu_item
-#define ige_mac_dock_new gtk_mac_dock_new
+#  include "gtk-mac-menu.h"
+#  include "gtk-mac-dock.h"
+#  include "gtk-mac-bundle.h"
+#  define IgeMacMenuGroup GtkMacMenuGroup
+#  define IgeMacDock GtkMacDock
+#  define ige_mac_menu_set_menu_bar gtk_mac_menu_set_menu_bar
+#  define ige_mac_menu_set_quit_menu_item gtk_mac_menu_set_quit_menu_item
+#  define ige_mac_menu_add_app_menu_group gtk_mac_menu_add_app_menu_group
+#  define ige_mac_menu_add_app_menu_item gtk_mac_menu_add_app_menu_item
+#  define ige_mac_dock_new gtk_mac_dock_new
 #endif
 
-
 //! Constructor.
-OSXGtkMenu::OSXGtkMenu(bool show_open)
+MacOSGtkMenu::MacOSGtkMenu(bool show_open)
   : MainGtkMenu(show_open)
 {
 }
 
-
 //! Destructor.
-OSXGtkMenu::~OSXGtkMenu()
-{
-}
-
+MacOSGtkMenu::~MacOSGtkMenu() {}
 
 void
-OSXGtkMenu::popup(const guint button, const guint activate_time)
+MacOSGtkMenu::popup(const guint button, const guint activate_time)
 {
-  (void) button;
-  (void) activate_time;
+  (void)button;
+  (void)activate_time;
 }
 
 void
-OSXGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
+MacOSGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
 {
-  (void) dock;
+  (void)dock;
   // current, segment fault
   // Menus *menus = (Menus *) data;
   // menus->on_menu_open_main_window();
 }
 
-
 void
-OSXGtkMenu::dock_quit(IgeMacDock *dock, void *data)
+MacOSGtkMenu::dock_quit(IgeMacDock *dock, void *data)
 {
-  (void) dock;
+  (void)dock;
   // current, segment fault
   // Menus *menus = (Menus *) data;
   // menus->on_menu_quit();
 }
 
 void
-OSXGtkMenu::create_ui()
+MacOSGtkMenu::create_ui()
 {
   Glib::ustring ui_info =
     "<ui>\n"
@@ -142,44 +134,33 @@ OSXGtkMenu::create_ui()
     {
       ui_manager->add_ui_from_string(ui_info);
     }
-  catch(const Glib::Error& ex)
+  catch (const Glib::Error &ex)
     {
-      std::cerr << "building menus and toolbars failed: " <<  ex.what();
+      std::cerr << "building menus and toolbars failed: " << ex.what();
     }
 
   IgeMacMenuGroup *group;
-  IgeMacDock      *dock;
+  IgeMacDock *dock;
 
-  Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu"));
-  Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit"));
+  Gtk::MenuBar *menu  = dynamic_cast<Gtk::MenuBar *>(ui_manager->get_widget("/Menu"));
+  Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem *>(ui_manager->get_widget("/Apple/Quit"));
 
   ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(menu->gobj()));
 
   ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(item->gobj()));
 
-  item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/About"));
+  item = dynamic_cast<Gtk::MenuItem *>(ui_manager->get_widget("/Apple/About"));
 
   group = ige_mac_menu_add_app_menu_group();
-  ige_mac_menu_add_app_menu_item(group,
-                                 GTK_MENU_ITEM(item->gobj()),
-                                 NULL);
+  ige_mac_menu_add_app_menu_item(group, GTK_MENU_ITEM(item->gobj()), NULL);
 
-  item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Preferences"));
+  item = dynamic_cast<Gtk::MenuItem *>(ui_manager->get_widget("/Apple/Preferences"));
 
   group = ige_mac_menu_add_app_menu_group();
-  ige_mac_menu_add_app_menu_item(group,
-                                 GTK_MENU_ITEM (item->gobj()),
-                                 NULL);
+  ige_mac_menu_add_app_menu_item(group, GTK_MENU_ITEM(item->gobj()), NULL);
 
-  dock = ige_mac_dock_new ();
-  g_signal_connect(dock,
-                   "clicked",
-                   G_CALLBACK(dock_clicked),
-                   this);
+  dock = ige_mac_dock_new();
+  g_signal_connect(dock, "clicked", G_CALLBACK(dock_clicked), this);
 
-  g_signal_connect(dock,
-                   "quit-activate",
-                   G_CALLBACK(dock_quit),
-                   this);
-
+  g_signal_connect(dock, "quit-activate", G_CALLBACK(dock_quit), this);
 }

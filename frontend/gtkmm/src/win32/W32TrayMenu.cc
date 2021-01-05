@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <windows.h>
@@ -47,18 +47,14 @@
 
 using namespace std;
 
-
 //! Constructor.
 W32TrayMenu::W32TrayMenu()
   : MainGtkMenu(true)
 {
 }
 
-
 //! Destructor.
-W32TrayMenu::~W32TrayMenu()
-{
-}
+W32TrayMenu::~W32TrayMenu() {}
 
 void
 W32TrayMenu::post_init()
@@ -66,19 +62,16 @@ W32TrayMenu::post_init()
   win32_popup_hack_connect(popup_menu);
 }
 
-
 void
 W32TrayMenu::popup(const guint button, const guint activate_time)
 {
-  (void) button;
+  (void)button;
 
   if (popup_menu != NULL)
     {
       popup_menu->popup(1, activate_time);
     }
 }
-
-
 
 // /* Taken from Gaim. needs to be gtkmm-ified. */
 // /* This is a workaround for a bug in windows GTK+. Clicking outside of the
@@ -90,11 +83,9 @@ W32TrayMenu::win32_popup_hack_connect(Gtk::Widget *menu)
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
 
-  GtkWidget *widget = (GtkWidget*) menu->gobj();
-  g_signal_connect(widget, "leave-notify-event",
-                   G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-  g_signal_connect(widget, "enter-notify-event",
-                   G_CALLBACK(win32_popup_hack_leave_enter), NULL);
+  GtkWidget *widget = (GtkWidget *)menu->gobj();
+  g_signal_connect(widget, "leave-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
+  g_signal_connect(widget, "enter-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
 
   TRACE_EXIT();
 }
@@ -111,19 +102,16 @@ W32TrayMenu::win32_popup_hack_hide(gpointer data)
   return FALSE;
 }
 
-
 gboolean
-W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
-                                          void *data)
+W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_leave_enter");
 
-  TRACE_MSG(event->type << " " <<  event->detail);
+  TRACE_MSG(event->type << " " << event->detail);
 
-  (void) data;
+  (void)data;
   static guint hide_docklet_timer = 0;
-  if (event->type == GDK_LEAVE_NOTIFY
-      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
+  if (event->type == GDK_LEAVE_NOTIFY && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
     {
       /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
       TRACE_MSG("leave " << hide_docklet_timer);
@@ -135,7 +123,7 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
   else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_VIRTUAL)
     {
       TRACE_MSG("enter " << hide_docklet_timer);
-      
+
       if (hide_docklet_timer != 0)
         {
           /* Cancel the hiding if we reenter */

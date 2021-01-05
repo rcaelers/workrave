@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -36,15 +36,10 @@ using namespace workrave;
 using namespace workrave::dbus;
 
 //! Construct a new D-BUS bridge
-DBusGeneric::DBusGeneric()
-{
-}
-
+DBusGeneric::DBusGeneric() {}
 
 //! Destruct the D-BUS bridge
-DBusGeneric::~DBusGeneric()
-= default;
-
+DBusGeneric::~DBusGeneric() = default;
 
 //! Connect a D-DBUS object/interface to a C object
 void
@@ -67,10 +62,9 @@ DBusGeneric::connect(const std::string &object_path, const std::string &interfac
     {
       Interfaces interfaces;
       interfaces[interface_name] = cobject;
-      objects[object_path] = interfaces;
+      objects[object_path]       = interfaces;
     }
 }
-
 
 //! Disconnect a D-DBUS object/interface to a C object
 void
@@ -85,14 +79,12 @@ DBusGeneric::disconnect(const std::string &object_path, const std::string &inter
     }
 }
 
-
 //! Register an interface binding
 void
 DBusGeneric::register_binding(const std::string &name, DBusBinding *interface)
 {
   bindings[name] = interface;
 }
-
 
 //! Find an interface binding
 DBusBinding *
@@ -109,7 +101,6 @@ DBusGeneric::find_binding(const std::string &interface_name) const
   return ret;
 }
 
-
 void *
 DBusGeneric::find_object(const std::string &path, const std::string &interface_name) const
 {
@@ -125,7 +116,6 @@ DBusGeneric::find_object(const std::string &path, const std::string &interface_n
           cobject = interface_it->second;
         }
     }
-
 
   return cobject;
 }

@@ -51,7 +51,12 @@ public:
 
   static void init();
 
-  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
+  enum BlockMode
+  {
+    BLOCK_MODE_NONE = 0,
+    BLOCK_MODE_INPUT,
+    BLOCK_MODE_ALL
+  };
   static BlockMode get_block_mode();
   static void set_block_mode(BlockMode mode);
 

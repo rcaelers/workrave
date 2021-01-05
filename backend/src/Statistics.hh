@@ -31,7 +31,8 @@
 #include "Mutex.hh"
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class IBreak;
 }
 
@@ -44,30 +45,28 @@ using namespace workrave;
 using namespace std;
 
 #ifdef HAVE_DISTRIBUTION
-#include "IDistributionClientMessage.hh"
-#include "PacketBuffer.hh"
+#  include "IDistributionClientMessage.hh"
+#  include "PacketBuffer.hh"
 #endif
 
-class Statistics :
-  public IStatistics,
-  public IInputMonitorListener
+class Statistics
+  : public IStatistics
+  , public IInputMonitorListener
 #ifdef HAVE_DISTRIBUTION
-  ,
-  public IDistributionClientMessage
+  , public IDistributionClientMessage
 #endif
 {
 private:
   enum StatsMarker
-    {
-      STATS_MARKER_TODAY,
-      STATS_MARKER_HISTORY,
-      STATS_MARKER_END,
-      STATS_MARKER_STARTTIME,
-      STATS_MARKER_STOPTIME,
-      STATS_MARKER_BREAK_STATS,
-      STATS_MARKER_MISC_STATS,
-    };
-
+  {
+    STATS_MARKER_TODAY,
+    STATS_MARKER_HISTORY,
+    STATS_MARKER_END,
+    STATS_MARKER_STARTTIME,
+    STATS_MARKER_STOPTIME,
+    STATS_MARKER_BREAK_STATS,
+    STATS_MARKER_MISC_STATS,
+  };
 
   struct DailyStatsImpl : public DailyStats
   {
@@ -79,30 +78,27 @@ private:
       memset((void *)&start, 0, sizeof(start));
       memset((void *)&stop, 0, sizeof(stop));
 
-      for(int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+          for (int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
             {
               break_stats[i][j] = 0;
             }
         }
 
-      for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+      for (int j = 0; j < STATS_VALUE_SIZEOF; j++)
         {
           misc_stats[j] = 0;
         }
 
       // Empty marker.
-      start.tm_year = 0;
+      start.tm_year    = 0;
       total_mouse_time = 0;
     }
 
     bool starts_at_date(int y, int m, int d);
     bool starts_before_date(int y, int m, int d);
-    bool is_empty() const
-    {
-      return start.tm_year == 0;
-    }
+    bool is_empty() const { return start.tm_year == 0; }
   };
 
   typedef std::vector<DailyStatsImpl *> History;
@@ -159,8 +155,7 @@ private:
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                      PacketBuffer &buffer);
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer);
   bool pack_stats(PacketBuffer &buffer, const DailyStatsImpl *stats);
 #endif
 

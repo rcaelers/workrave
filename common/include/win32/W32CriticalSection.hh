@@ -24,72 +24,54 @@
 
 #include <list>
 
-
-
-class W32CriticalSection :
-    public CRITICAL_SECTION
+class W32CriticalSection : public CRITICAL_SECTION
 {
 public:
-    W32CriticalSection()
+  W32CriticalSection() { InitializeCriticalSection(this); }
+  W32CriticalSection(DWORD dwSpinCount) { InitializeCriticalSectionAndSpinCount(this, dwSpinCount); }
+  ~W32CriticalSection() { DeleteCriticalSection(this); }
+
+  class Guard
+  {
+  public:
+    explicit Guard(W32CriticalSection &cs)
+      : critsec_(cs)
     {
-        InitializeCriticalSection( this );
+      EnterCriticalSection(&critsec_);
     }
-    W32CriticalSection( DWORD dwSpinCount )
-    {
-        InitializeCriticalSectionAndSpinCount( this, dwSpinCount );
-    }
-    ~W32CriticalSection()
-    {
-        DeleteCriticalSection( this );
-    }
+    ~Guard() { LeaveCriticalSection(&critsec_); }
 
-    class Guard
-    {
-    public:
-        explicit Guard( W32CriticalSection &cs ) : critsec_( cs )
-        {
-            EnterCriticalSection( &critsec_ );
-        }
-        ~Guard()
-        {
-            LeaveCriticalSection( &critsec_ );
-        }
+  private:
+    W32CriticalSection &critsec_;
 
-    private:
-        W32CriticalSection &critsec_;
+    Guard(const Guard &);
+    Guard &operator=(const Guard &);
+  };
 
-        Guard( const Guard & );
-        Guard& operator=( const Guard & );
-    };
-
-    class AdvancedGuard;
+  class AdvancedGuard;
 
 private:
-    W32CriticalSection( const W32CriticalSection & );
-    W32CriticalSection& operator=( const W32CriticalSection & );
+  W32CriticalSection(const W32CriticalSection &);
+  W32CriticalSection &operator=(const W32CriticalSection &);
 };
 
-
-
-class W32CriticalSection::AdvancedGuard :
-    public W32CriticalSection
+class W32CriticalSection::AdvancedGuard : public W32CriticalSection
 {
 public:
-    AdvancedGuard();
-    explicit AdvancedGuard( W32CriticalSection &cs );
-    ~AdvancedGuard();
+  AdvancedGuard();
+  explicit AdvancedGuard(W32CriticalSection &cs);
+  ~AdvancedGuard();
 
-    bool TryLock( W32CriticalSection &cs );
-    bool TryLockFor( W32CriticalSection &cs, const DWORD milliseconds );
-    void Lock( W32CriticalSection &cs );
-    void Unlock( W32CriticalSection &cs );
+  bool TryLock(W32CriticalSection &cs);
+  bool TryLockFor(W32CriticalSection &cs, const DWORD milliseconds);
+  void Lock(W32CriticalSection &cs);
+  void Unlock(W32CriticalSection &cs);
 
 private:
-    std::list<W32CriticalSection *> list_;
+  std::list<W32CriticalSection *> list_;
 
-    AdvancedGuard( const AdvancedGuard & );
-    AdvancedGuard& operator=( const AdvancedGuard & );
+  AdvancedGuard(const AdvancedGuard &);
+  AdvancedGuard &operator=(const AdvancedGuard &);
 };
-
 
 #endif // W32CRITICALSECTION_HH

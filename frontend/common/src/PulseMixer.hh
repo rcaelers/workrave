@@ -24,11 +24,11 @@
 
 #ifdef HAVE_PULSE
 
-#include <map>
+#  include <map>
 
-#include <pulse/pulseaudio.h>
-#include <pulse/stream.h>
-#include <pulse/glib-mainloop.h>
+#  include <pulse/pulseaudio.h>
+#  include <pulse/stream.h>
+#  include <pulse/glib-mainloop.h>
 
 class PulseMixer : public IMixer
 {
@@ -61,7 +61,7 @@ private:
   pa_mainloop_api *pa_api;
   pa_context *context;
 
-  std::map<uint32_t, SinkInfo*> sinks;
+  std::map<uint32_t, SinkInfo *> sinks;
   SinkInfo *default_sink_info;
   std::string default_sink_name;
 };

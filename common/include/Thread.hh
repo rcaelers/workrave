@@ -21,13 +21,13 @@
 #define THREAD_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #if defined(HAVE_GLIB)
-#include "GlibThread.hh"
+#  include "GlibThread.hh"
 #else
-#error Port missing
+#  error Port missing
 #endif
 
 #endif // THREAD_HH

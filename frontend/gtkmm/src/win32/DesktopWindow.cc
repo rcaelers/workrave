@@ -18,14 +18,14 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "DesktopWindow.hh"
 #include "W32Compat.hh"
 #include "debug.hh"
 
-const char * const DesktopWindow::WINDOW_CLASS = "WorkraveDesktopWindow";
+const char *const DesktopWindow::WINDOW_CLASS = "WorkraveDesktopWindow";
 
 bool DesktopWindow::initialized = false;
 
@@ -33,41 +33,36 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
 {
   TRACE_ENTER("DesktopWindow::DesktopWindow");
   init();
-  HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
+  HINSTANCE hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
   int x = head.get_x(), y = head.get_y();
   int w = head.get_width(), h = head.get_height();
 
   TRACE_MSG("Head: " << x << ", " << y << ", " << w << ", " << h << " " << head.monitor);
 
-  POINT pt = { x, y };
+  POINT pt         = {x, y};
   HMONITOR monitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
   if (monitor)
-	{
-	  TRACE_MSG("Monitor found");
-      MONITORINFO info = { 0, };
-	  info.cbSize = sizeof(info);
+    {
+      TRACE_MSG("Monitor found");
+      MONITORINFO info = {
+        0,
+      };
+      info.cbSize = sizeof(info);
 
-	  if (GetMonitorInfo(monitor, &info))
-		{
-		  x = info.rcMonitor.left;
-		  y = info.rcMonitor.top;
-		  w = info.rcMonitor.right - x;
-		  h = info.rcMonitor.bottom - y;
-		  TRACE_MSG("Monitor: " << x << ", " << y << ", " << w << ", " << h);
-		}
-	}
+      if (GetMonitorInfo(monitor, &info))
+        {
+          x = info.rcMonitor.left;
+          y = info.rcMonitor.top;
+          w = info.rcMonitor.right - x;
+          h = info.rcMonitor.bottom - y;
+          TRACE_MSG("Monitor: " << x << ", " << y << ", " << w << ", " << h);
+        }
+    }
 
-  hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
-                        WINDOW_CLASS,
-                        WINDOW_CLASS,
-                        WS_POPUP,
-                        x, y, w, h,
-                        (HWND)NULL,
-                        (HMENU)NULL,
-                        hinstance,
-                        (LPSTR)NULL);
-  SetWindowLong(hwnd, GWL_USERDATA, (LONG) this);
+  hwnd = CreateWindowEx(
+    WS_EX_TOOLWINDOW, WINDOW_CLASS, WINDOW_CLASS, WS_POPUP, x, y, w, h, (HWND)NULL, (HMENU)NULL, hinstance, (LPSTR)NULL);
+  SetWindowLong(hwnd, GWL_USERDATA, (LONG)this);
 
   TRACE_EXIT();
 }
@@ -78,10 +73,9 @@ DesktopWindow::~DesktopWindow()
 }
 
 LRESULT CALLBACK
-DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
-                           LPARAM lParam)
+DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  DesktopWindow *self = (DesktopWindow *) GetWindowLong(hwnd, GWL_USERDATA);
+  DesktopWindow *self = (DesktopWindow *)GetWindowLong(hwnd, GWL_USERDATA);
   switch (uMsg)
     {
     case WM_WINDOWPOSCHANGED:
@@ -89,13 +83,12 @@ DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
       return 0;
 
     case WM_ERASEBKGND:
-      PaintDesktop((HDC) wParam);
+      PaintDesktop((HDC)wParam);
       return 1;
     }
 
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-
 
 void
 DesktopWindow::init()
@@ -103,23 +96,9 @@ DesktopWindow::init()
   if (initialized)
     return;
 
-  HINSTANCE win32_hinstance = (HINSTANCE) GetModuleHandle(NULL);
+  HINSTANCE win32_hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
-  WNDCLASSEX wclass =
-    {
-      sizeof(WNDCLASSEX),
-      0,
-      window_proc,
-      0,
-      0,
-      win32_hinstance,
-      NULL,
-      NULL,
-      NULL,
-      NULL,
-      WINDOW_CLASS,
-      NULL
-    };
+  WNDCLASSEX wclass = {sizeof(WNDCLASSEX), 0, window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WINDOW_CLASS, NULL};
   RegisterClassEx(&wclass);
   initialized = true;
 }
@@ -132,5 +111,4 @@ DesktopWindow::set_visible(bool visible)
     {
       W32Compat::SetWindowOnTop(hwnd, TRUE);
     }
-
 }

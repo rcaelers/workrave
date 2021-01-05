@@ -24,7 +24,7 @@
 
 #ifdef HAVE_GSTREAMER
 
-#include <gst/gst.h>
+#  include <gst/gst.h>
 
 class GstSoundPlayer : public ISoundDriver
 {

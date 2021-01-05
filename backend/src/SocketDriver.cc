@@ -21,17 +21,17 @@
 static const char rcsid[] = "$Id: GNetSocketDriver.cc 1184 2007-05-12 09:16:31Z rcaelers $";
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "SocketDriver.hh"
 
 #if defined(HAVE_GIO_NET)
-#include "GIOSocketDriver.hh"
+#  include "GIOSocketDriver.hh"
 #endif
 
 #if defined(HAVE_GNET)
-#include "GNetSocketDriver.hh"
+#  include "GNetSocketDriver.hh"
 #endif
 
 //! Create a new socket
@@ -43,7 +43,6 @@ SocketDriver::create()
 #elif defined(HAVE_GNET)
   return new GNetSocketDriver();
 #else
-#error No socket driver
+#  error No socket driver
 #endif
 }
-

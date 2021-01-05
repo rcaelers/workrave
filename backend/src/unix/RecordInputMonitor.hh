@@ -33,9 +33,9 @@
 #include "Thread.hh"
 
 //! Activity monitor for a local X server.
-class RecordInputMonitor :
-  public InputMonitor,
-  public Runnable
+class RecordInputMonitor
+  : public InputMonitor
+  , public Runnable
 {
 public:
   //! Constructor.
@@ -51,7 +51,6 @@ public:
   virtual void terminate();
 
 private:
-
   //! The monitor's execution thread.
   virtual void run();
 
@@ -71,7 +70,7 @@ private:
   void handle_xrecord_handle_device_motion_event(XRecordInterceptData *data);
   void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
 
-  static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
+  static void handle_xrecord_callback(XPointer closure, XRecordInterceptData *data);
 
 private:
   //! The X11 display name.

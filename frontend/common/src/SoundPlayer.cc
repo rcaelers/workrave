@@ -18,15 +18,15 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 #include "nls.h"
 
 #ifdef HAVE_REALPATH
-#include <limits.h>
-#include <stdlib.h>
+#  include <limits.h>
+#  include <stdlib.h>
 #endif
 
 #include <list>
@@ -44,211 +44,120 @@
 #include "Util.hh"
 
 #if defined HAVE_GSTREAMER
-#include "GstSoundPlayer.hh"
+#  include "GstSoundPlayer.hh"
 #elif defined PLATFORM_OS_UNIX
-#include <X11/Xlib.h>
-#elif defined PLATFORM_OS_WIN32
-#include <windows.h>
-#include "W32SoundPlayer.hh"
-#include "W32DirectSoundPlayer.hh"
-#include "W32Mixer.hh"
-#elif defined PLATFORM_OS_OSX
-#include "OSXSoundPlayer.hh"
+#  include <X11/Xlib.h>
+#elif defined PLATFORM_OS_WINDOWS
+#  include <windows.h>
+#  include "W32SoundPlayer.hh"
+#  include "W32DirectSoundPlayer.hh"
+#  include "W32Mixer.hh"
+#elif defined PLATFORM_OS_MACOS
+#  include "MacOSSoundPlayer.hh"
 #endif
 
 #if defined HAVE_PULSE
-#include "PulseMixer.hh"
+#  include "PulseMixer.hh"
 #endif
 
 #include <gdk/gdk.h>
 
-const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
-const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
-const char *SoundPlayer::CFG_KEY_SOUND_VOLUME = "sound/volume";
-const char *SoundPlayer::CFG_KEY_SOUND_MUTE = "sound/mute";
-const char *SoundPlayer::CFG_KEY_SOUND_EVENTS = "sound/events/";
+const char *SoundPlayer::CFG_KEY_SOUND_ENABLED        = "sound/enabled";
+const char *SoundPlayer::CFG_KEY_SOUND_DEVICE         = "sound/device";
+const char *SoundPlayer::CFG_KEY_SOUND_VOLUME         = "sound/volume";
+const char *SoundPlayer::CFG_KEY_SOUND_MUTE           = "sound/mute";
+const char *SoundPlayer::CFG_KEY_SOUND_EVENTS         = "sound/events/";
 const char *SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
 using namespace workrave;
 using namespace std;
 
-SoundPlayer::SoundRegistry SoundPlayer::sound_registry[] =
-{
-  { "WorkraveBreakPrelude",
-    "break_prelude",
-    "break-prelude.wav",
-    _("Break prompt")
-  },
+SoundPlayer::SoundRegistry SoundPlayer::sound_registry[] = {
+  {"WorkraveBreakPrelude", "break_prelude", "break-prelude.wav", _("Break prompt")},
 
-  { "WorkraveBreakIgnored",
-    "break_ignored",
-    "break-ignored.wav",
-    _("Break ignored")
-  },
+  {"WorkraveBreakIgnored", "break_ignored", "break-ignored.wav", _("Break ignored")},
 
-  { "WorkraveRestBreakStarted",
-    "rest_break_started",
-    "rest-break-started.wav",
-    _("Rest break started")
-  },
+  {"WorkraveRestBreakStarted", "rest_break_started", "rest-break-started.wav", _("Rest break started")},
 
-  {
-    "WorkraveRestBreakEnded",
-    "rest_break_ended",
-    "rest-break-ended.wav",
-    _("Rest break ended")
-  },
+  {"WorkraveRestBreakEnded", "rest_break_ended", "rest-break-ended.wav", _("Rest break ended")},
 
-  { "WorkraveMicroBreakStarted",
-    "micro_break_started",
-    "micro-break-started.wav",
-    _("Micro-break started")
-  },
+  {"WorkraveMicroBreakStarted", "micro_break_started", "micro-break-started.wav", _("Micro-break started")},
 
-  { "WorkraveMicroBreakEnded",
-    "micro_break_ended",
-    "micro-break-ended.wav",
-    _("Micro-break ended")
-  },
+  {"WorkraveMicroBreakEnded", "micro_break_ended", "micro-break-ended.wav", _("Micro-break ended")},
 
-  { "WorkraveDailyLimit",
-    "daily_limit",
-    "daily-limit.wav",
-    _("Daily limit")
-  },
+  {"WorkraveDailyLimit", "daily_limit", "daily-limit.wav", _("Daily limit")},
 
-  { "WorkraveExerciseEnded",
-    "exercise_ended",
-    "exercise-ended.wav",
-    _("Exercise ended")
-  },
+  {"WorkraveExerciseEnded", "exercise_ended", "exercise-ended.wav", _("Exercise ended")},
 
-  { "WorkraveExercisesEnded",
-    "exercises_ended",
-    "exercises-ended.wav",
-    _("Exercises ended")
-  },
+  {"WorkraveExercisesEnded", "exercises_ended", "exercises-ended.wav", _("Exercises ended")},
 
-  { "WorkraveExerciseStep",
-    "exercise_step",
-    "exercise-step.wav",
-    _("Exercise change")
-  },
+  {"WorkraveExerciseStep", "exercise_step", "exercise-step.wav", _("Exercise change")},
 };
-
 
 /**********************************************************************
  * PC-Speaker
  **********************************************************************/
-static short prelude_beeps[][2]=
-{
-    { 250, 50},
-    { 300, 50},
-    { 0, 0 }
+static short prelude_beeps[][2] = {{250, 50}, {300, 50}, {0, 0}};
+
+static short micro_break_start_beeps[][2] = {
+  {320, 70},
+  {350, 70},
+  {0, 0},
 };
 
-static short micro_break_start_beeps[][2]=
-{
-    { 320, 70 },
-    { 350, 70 },
-    { 0, 0 },
+static short micro_break_end_beeps[][2] = {
+  {350, 70},
+  {320, 70},
+  {0, 0},
 };
 
-static short micro_break_end_beeps[][2]=
-{
-  { 350, 70 },
-  { 320, 70 },
-  { 0, 0 },
+static short rest_break_start_beeps[][2] =
+  {{160, 70}, {180, 70}, {200, 70}, {230, 70}, {260, 70}, {290, 70}, {320, 70}, {350, 70}, {0, 0}};
+
+static short rest_break_end_beeps[][2] =
+  {{350, 70}, {320, 70}, {290, 70}, {260, 70}, {230, 70}, {200, 70}, {180, 70}, {160, 70}, {0, 0}};
+
+static short break_ignore_beeps[][2] = {{60, 250}, {50, 400}, {0, 0}};
+
+static short daily_limit_beeps[][2] = {{80, 200}, {70, 200}, {60, 200}, {50, 400}, {0, 0}};
+
+static short exercise_ended_beeps[][2] = {
+  {320, 70},
+  {350, 70},
+  {0, 0},
 };
 
-static short rest_break_start_beeps[][2]=
-{
-  { 160, 70 },
-  { 180, 70 },
-  { 200, 70 },
-  { 230, 70 },
-  { 260, 70 },
-  { 290, 70 },
-  { 320, 70 },
-  { 350, 70 },
-  { 0, 0 }
+static short exercises_ended_beeps[][2] = {
+  {350, 70},
+  {320, 70},
+  {0, 0},
 };
 
-static short rest_break_end_beeps[][2]=
-{
-  { 350, 70 },
-  { 320, 70 },
-  { 290, 70 },
-  { 260, 70 },
-  { 230, 70 },
-  { 200, 70 },
-  { 180, 70 },
-  { 160, 70 },
-  { 0, 0 }
+static short exercises_step_beeps[][2] = {
+  {320, 70},
+  {0, 0},
 };
 
-static short break_ignore_beeps[][2]=
-{
-    { 60, 250 },
-    { 50, 400 },
-    { 0, 0 }
-};
-
-static short daily_limit_beeps[][2]=
-{
-    { 80, 200 },
-    { 70, 200 },
-    { 60, 200 },
-    { 50, 400 },
-    { 0, 0 }
-};
-
-
-static short exercise_ended_beeps[][2]=
-{
-    { 320, 70 },
-    { 350, 70 },
-    { 0, 0 },
-};
-
-
-static short exercises_ended_beeps[][2]=
-{
-    { 350, 70 },
-    { 320, 70 },
-    { 0, 0 },
-};
-
-static short exercises_step_beeps[][2]=
-{
-    { 320, 70 },
-    { 0, 0 },
-};
-
-static short (*beep_map[])[2] =
-{
-  prelude_beeps,
-  break_ignore_beeps,
-  rest_break_start_beeps,
-  rest_break_end_beeps,
-  micro_break_start_beeps,
-  micro_break_end_beeps,
-  daily_limit_beeps,
-  exercise_ended_beeps,
-  exercises_ended_beeps,
-  exercises_step_beeps
-};
-
+static short (*beep_map[])[2] = {prelude_beeps,
+                                 break_ignore_beeps,
+                                 rest_break_start_beeps,
+                                 rest_break_end_beeps,
+                                 micro_break_start_beeps,
+                                 micro_break_end_beeps,
+                                 daily_limit_beeps,
+                                 exercise_ended_beeps,
+                                 exercises_ended_beeps,
+                                 exercises_step_beeps};
 
 class SpeakerPlayer : public Thread
 {
 public:
   SpeakerPlayer(short (*beeps)[2]);
   void run();
+
 private:
   short (*beeps)[2];
 };
-
 
 SpeakerPlayer::SpeakerPlayer(short (*b)[2])
   : Thread(true)
@@ -260,74 +169,73 @@ void
 SpeakerPlayer::run()
 {
   TRACE_ENTER("SpeakerPlayer::run");
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   // Windows 95 Beep() only beeps, it ignores frequency & duration parameters.
   // So, in the case of W95 do not relay on Sound::beep()
   OSVERSIONINFO osvi;
   osvi.dwOSVersionInfoSize = sizeof(osvi);
-  if (! GetVersionEx(&osvi))
+  if (!GetVersionEx(&osvi))
     return;
-  if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS
-      && osvi.dwMinorVersion == 0) {
-    ::Beep(256, 256);
-    return;
-  }
+  if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS && osvi.dwMinorVersion == 0)
+    {
+      ::Beep(256, 256);
+      return;
+    }
 #endif
 
-  short (*b)[2];
+  short(*b)[2];
   b = beeps;
 #ifdef PLATFORM_OS_UNIX
   Display *display = XOpenDisplay(gdk_display_get_name(gdk_display_get_default()));
-  if (display) {
-#endif
-  while (b[0][0])
+  if (display)
     {
+#endif
+      while (b[0][0])
+        {
 #ifdef PLATFORM_OS_UNIX
-      Sound::beep(display, b[0][0], b[0][1]);
+          Sound::beep(display, b[0][0], b[0][1]);
 #else
       Sound::beep(b[0][0], b[0][1]);
 #endif
-      b++;
-    }
+          b++;
+        }
 #ifdef PLATFORM_OS_UNIX
-    XCloseDisplay(display);
-  }
+      XCloseDisplay(display);
+    }
 #endif
   TRACE_EXIT();
 }
-
 
 /**********************************************************************
  * SoundPlayer
  **********************************************************************/
 
-
 SoundPlayer::SoundPlayer()
 {
   driver =
 #if defined HAVE_GSTREAMER
-     new GstSoundPlayer()
-#elif defined PLATFORM_OS_WIN32
-     new W32DirectSoundPlayer()
-#elif defined PLATFORM_OS_OSX
-     new OSXSoundPlayer()
+    new GstSoundPlayer()
+#elif defined PLATFORM_OS_WINDOWS
+    new W32DirectSoundPlayer()
+#elif defined PLATFORM_OS_MACOS
+    new MacOSSoundPlayer()
 #else
 #  warning Sound card support disabled.
-     NULL
+    NULL
 #endif
     ;
 
   mixer =
 #if defined HAVE_PULSE
     new PulseMixer()
-#elif defined PLATFORM_OS_WIN32
+#elif defined PLATFORM_OS_WINDOWS
     new W32Mixer()
 #else
     NULL
 #endif
     ;
 
-  must_unmute = false;
+  must_unmute  = false;
   delayed_mute = false;
 }
 
@@ -335,7 +243,6 @@ SoundPlayer::~SoundPlayer()
 {
   delete driver;
 }
-
 
 void
 SoundPlayer::init()
@@ -351,7 +258,7 @@ SoundPlayer::init()
     }
 
   int volume = 0;
-  if( !CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume) )
+  if (!CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume))
     {
       // Volume value was not found, so set default volume @100.
       // This doesn't belong here if Workrave won't honor it on all platforms.
@@ -393,22 +300,17 @@ SoundPlayer::register_sound_events(string theme)
   TRACE_EXIT();
 }
 
-
 void
 SoundPlayer::activate_theme(const Theme &theme, bool force)
 {
   int idx = 0;
-  for (vector<string>::const_iterator it = theme.files.begin();
-       it != theme.files.end() && idx < SOUND_MAX;
-       it++)
+  for (vector<string>::const_iterator it = theme.files.begin(); it != theme.files.end() && idx < SOUND_MAX; it++)
     {
       const string &filename = *it;
 
       bool enabled = false;
-      bool valid = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                              sound_registry[idx].id +
-                                                              CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                              enabled);
+      bool valid   = CoreFactory::get_configurator()->get_value(
+        string(CFG_KEY_SOUND_EVENTS) + sound_registry[idx].id + CFG_KEY_SOUND_EVENTS_ENABLED, enabled);
 
       if (!valid)
         {
@@ -416,9 +318,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
         }
 
       string current_filename;
-      valid = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                         sound_registry[idx].id,
-                                                         current_filename);
+      valid = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) + sound_registry[idx].id, current_filename);
 
       if (valid && !g_file_test(current_filename.c_str(), G_FILE_TEST_IS_REGULAR))
         {
@@ -434,25 +334,22 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
     }
 }
 
-
 void
 SoundPlayer::sync_settings()
 {
   if (driver != NULL)
     {
-      for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
+      for (unsigned int i = 0; i < sizeof(sound_registry) / sizeof(sound_registry[0]); i++)
         {
           SoundRegistry *snd = &sound_registry[i];
 
           bool enabled = false;
-          bool valid = driver->get_sound_enabled((SoundEvent)i, enabled);
+          bool valid   = driver->get_sound_enabled((SoundEvent)i, enabled);
 
           if (valid)
             {
-              CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                         snd->id +
-                                                         SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                         enabled);
+              CoreFactory::get_configurator()->set_value(
+                string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + snd->id + SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED, enabled);
             }
           else
             {
@@ -462,22 +359,19 @@ SoundPlayer::sync_settings()
           string wav_file;
           valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
           if (valid)
-           {
-              CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                         snd->id,
-                                                         wav_file);
+            {
+              CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + snd->id, wav_file);
             }
         }
     }
 }
-
 
 void
 SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER_MSG("SoundPlayer::load_sound_theme", themefilename);
 
-  gboolean r = TRUE;
+  gboolean r      = TRUE;
   bool is_current = true;
 
   GKeyFile *config = g_key_file_new();
@@ -497,10 +391,10 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
           g_free(desc);
         }
 
-      int size = sizeof(sound_registry)/sizeof(sound_registry[0]);
+      int size = sizeof(sound_registry) / sizeof(sound_registry[0]);
       for (int i = 0; i < size; i++)
         {
-          SoundRegistry *snd = &sound_registry[i];
+          SoundRegistry *snd   = &sound_registry[i];
           char *sound_pathname = NULL;
 
           char *filename = g_key_file_get_string(config, snd->id, "file", NULL);
@@ -521,9 +415,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
                   if (is_current)
                     {
                       string current = "";
-                      CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                                 snd->id,
-                                                                 current);
+                      CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) + snd->id, current);
 
                       if (current != string(sound_pathname))
                         {
@@ -550,13 +442,12 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
   TRACE_EXIT();
 }
 
-
 void
 SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 {
   TRACE_ENTER("SoundPlayer::get_sound_themes");
   set<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
-  bool has_active = false;
+  bool has_active        = false;
 
   sync_settings();
 
@@ -567,7 +458,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
       if (dir != NULL)
         {
           const char *file;
-		      while ((file = g_dir_read_name(dir)) != NULL)
+          while ((file = g_dir_read_name(dir)) != NULL)
             {
               gchar *test_path = g_build_filename(it->c_str(), file, NULL);
 
@@ -602,18 +493,16 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
     {
       Theme active_theme;
 
-      active_theme.active = true;
+      active_theme.active      = true;
       active_theme.description = _("Custom");
 
       bool valid = true;
-      for (unsigned int i = 0; valid && i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
+      for (unsigned int i = 0; valid && i < sizeof(sound_registry) / sizeof(sound_registry[0]); i++)
         {
           string file;
 
           SoundRegistry *snd = &sound_registry[i];
-          bool valid = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                                  snd->id,
-                                                                  file);
+          bool valid         = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) + snd->id, file);
           if (valid && file != "")
             {
               active_theme.files.push_back(file);
@@ -633,20 +522,17 @@ void
 SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
 {
   TRACE_ENTER_MSG("SoundPlayer::play_sound ", snd << " " << mute_after_playback);
-  if (is_enabled() &&
-      snd >= SOUND_MIN && snd < SOUND_MAX)
+  if (is_enabled() && snd >= SOUND_MIN && snd < SOUND_MAX)
     {
       sync_settings();
 
       bool enabled = false;
-      bool valid = SoundPlayer::get_sound_enabled(snd, enabled);
+      bool valid   = SoundPlayer::get_sound_enabled(snd, enabled);
 
       if (valid && enabled)
         {
           delayed_mute = false;
-          if (mute_after_playback &&
-              mixer != NULL && driver != NULL &&
-              driver->capability(SOUND_CAP_EOS_EVENT))
+          if (mute_after_playback && mixer != NULL && driver != NULL && driver->capability(SOUND_CAP_EOS_EVENT))
             {
               delayed_mute = true;
             }
@@ -682,7 +568,6 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
   TRACE_EXIT();
 }
 
-
 void
 SoundPlayer::play_sound(string wavfile)
 {
@@ -702,9 +587,8 @@ SoundPlayer::is_enabled()
 {
   bool b;
   bool rc;
-  b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_SOUND_ENABLED, rc);
-  if (! b)
+  b = CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_ENABLED, rc);
+  if (!b)
     {
       rc = true;
       set_enabled(true);
@@ -715,8 +599,7 @@ SoundPlayer::is_enabled()
 void
 SoundPlayer::set_enabled(bool b)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_SOUND_ENABLED, b);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_ENABLED, b);
 }
 
 SoundPlayer::Device
@@ -725,8 +608,7 @@ SoundPlayer::get_device()
   bool b;
   Device dev = DEVICE_SOUNDCARD;
   string devstr;
-  b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_SOUND_DEVICE, devstr);
+  b = CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_DEVICE, devstr);
   if (b)
     {
       if (devstr == "speaker")
@@ -759,10 +641,8 @@ SoundPlayer::set_device(Device dev)
       devstr = "soundcard";
       break;
     }
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_SOUND_DEVICE, string(devstr));
+  CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_DEVICE, string(devstr));
 }
-
 
 bool
 SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
@@ -773,10 +653,8 @@ SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
     {
       enabled = true;
 
-      ret = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                       sound_registry[snd].id +
-                                                       CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                       enabled);
+      ret = CoreFactory::get_configurator()->get_value(
+        string(CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id + CFG_KEY_SOUND_EVENTS_ENABLED, enabled);
     }
   else
     {
@@ -791,17 +669,14 @@ SoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
-      CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                 sound_registry[snd].id +
-                                                 SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                 enabled);
+      CoreFactory::get_configurator()->set_value(
+        string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id + SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED, enabled);
       if (driver != NULL)
         {
           driver->set_sound_enabled(snd, enabled);
         }
     }
 }
-
 
 bool
 SoundPlayer::get_sound_wav_file(SoundEvent snd, string &filename)
@@ -811,29 +686,24 @@ SoundPlayer::get_sound_wav_file(SoundEvent snd, string &filename)
 
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
-      ret = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                       sound_registry[snd].id,
-                                                       filename);
+      ret =
+        CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
     }
   return ret;
 }
-
 
 void
 SoundPlayer::set_sound_wav_file(SoundEvent snd, const string &wav_file)
 {
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
-      CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                 sound_registry[snd].id,
-                                                 wav_file);
+      CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, wav_file);
       if (driver != NULL)
         {
           driver->set_sound_wav_file(snd, wav_file);
         }
     }
 }
-
 
 bool
 SoundPlayer::capability(SoundCapability cap)
@@ -865,7 +735,6 @@ SoundPlayer::restore_mute()
 
   TRACE_EXIT();
 }
-
 
 void
 SoundPlayer::eos_event()

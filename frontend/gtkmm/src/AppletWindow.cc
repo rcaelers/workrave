@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -30,12 +30,8 @@
 #include "TimerBoxControl.hh"
 
 AppletWindow::AppletWindow()
-  : timer_box_view(0),
-    timer_box_control(0)
-{
-}
-
-AppletWindow::~AppletWindow()
+  : timer_box_view(nullptr)
+  , timer_box_control(nullptr)
 {
 }
 

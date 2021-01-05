@@ -21,7 +21,7 @@
 #define COREFACTORY_HH
 
 #ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
+#  include "dbus/IDBus.hh"
 #endif
 
 namespace workrave
@@ -47,6 +47,6 @@ namespace workrave
     static workrave::dbus::IDBus::Ptr get_dbus();
 #endif
   };
-}
+} // namespace workrave
 
 #endif // COREFACTORY_HH

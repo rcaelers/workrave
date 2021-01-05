@@ -30,32 +30,42 @@
 #define MICRO_PER_SEC 1000000
 
 #define tvRESETTIME(tv) \
-  { (tv).tv_sec = 0; (tv).tv_usec = 0; }
+  {                     \
+    (tv).tv_sec  = 0;   \
+    (tv).tv_usec = 0;   \
+  }
 
 #define tvSETTIME(tv, sec, usec) \
-  { (tv).tv_sec = (sec); (tv).tv_usec = (usec); }
+  {                              \
+    (tv).tv_sec  = (sec);        \
+    (tv).tv_usec = (usec);       \
+  }
 
-#define tvADDTIME(ret, a, b) \
-  { (ret).tv_sec = (a).tv_sec + (b).tv_sec; \
-  if (((ret).tv_usec = (a).tv_usec+(b).tv_usec) >= MICRO_PER_SEC) \
-        { \
-    (ret).tv_sec++; \
-    (ret).tv_usec -= MICRO_PER_SEC; \
-  } }
+#define tvADDTIME(ret, a, b)                                          \
+  {                                                                   \
+    (ret).tv_sec = (a).tv_sec + (b).tv_sec;                           \
+    if (((ret).tv_usec = (a).tv_usec + (b).tv_usec) >= MICRO_PER_SEC) \
+      {                                                               \
+        (ret).tv_sec++;                                               \
+        (ret).tv_usec -= MICRO_PER_SEC;                               \
+      }                                                               \
+  }
 
-#define tvSUBTIME(ret, a, b) \
-  { (ret).tv_sec = (a).tv_sec - (b).tv_sec; \
-  if (((ret).tv_usec = (a).tv_usec - (b).tv_usec) < 0) \
-        { \
-          (ret).tv_sec--; \
-          (ret).tv_usec += MICRO_PER_SEC; \
-  } }
+#define tvSUBTIME(ret, a, b)                             \
+  {                                                      \
+    (ret).tv_sec = (a).tv_sec - (b).tv_sec;              \
+    if (((ret).tv_usec = (a).tv_usec - (b).tv_usec) < 0) \
+      {                                                  \
+        (ret).tv_sec--;                                  \
+        (ret).tv_usec += MICRO_PER_SEC;                  \
+      }                                                  \
+  }
 
 #define tvTIMEGEQ(a, b) ((a).tv_sec > (b).tv_sec || ((a).tv_sec == (b).tv_sec && (a).tv_usec >= (b).tv_usec))
 #define tvTIMEGT(a, b) ((a).tv_sec > (b).tv_sec || ((a).tv_sec == (b).tv_sec && (a).tv_usec > (b).tv_usec))
 #define tvTIMELT(a, b) ((a).tv_sec < (b).tv_sec || ((a).tv_sec == (b).tv_sec && (a).tv_usec < (b).tv_usec))
 #define tvTIMELEQ0(a) ((a).tv_sec < 0 || ((a).tv_sec == 0 && (a).tv_usec <= 0))
-#define tvTIMELT0(a)  ((a).tv_sec < 0 || ((a).tv_sec == 0 && (a).tv_usec < 0))
+#define tvTIMELT0(a) ((a).tv_sec < 0 || ((a).tv_sec == 0 && (a).tv_usec < 0))
 #define tvTIMEEQ0(a) (((a).tv_sec == 0 && (a).tv_usec == 0))
 
 #endif /* TIMEUTIL_H */

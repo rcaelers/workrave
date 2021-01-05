@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <windows.h>
@@ -86,13 +86,13 @@ W32Mixer::init()
   HRESULT hr;
 
   IMMDeviceEnumerator *device_enum = NULL;
-  IMMDevice *default_device = NULL;
+  IMMDevice *default_device        = NULL;
 
 #ifdef _MSC_VER
   // These symbols do not exist in the MSVC SDK. Use variable shadowing to compile without errors.
   const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
-  const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
-  const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);
+  const IID IID_IMMDeviceEnumerator    = __uuidof(IMMDeviceEnumerator);
+  const IID IID_IAudioEndpointVolume   = __uuidof(IAudioEndpointVolume);
 #endif //_MSC_VER
 
   hr = CoCreateInstance(CLSID_MMDeviceEnumerator, NULL, CLSCTX_INPROC_SERVER, IID_IMMDeviceEnumerator, (LPVOID *)&device_enum);
@@ -113,7 +113,6 @@ W32Mixer::init()
   TRACE_EXIT();
 }
 
-
 bool
 W32Mixer::set_mute_mmdevice(bool on)
 {
@@ -122,45 +121,44 @@ W32Mixer::set_mute_mmdevice(bool on)
   HRESULT hr;
 
   BOOL mute = FALSE;
-  hr = endpoint_volume->GetMute(&mute);
+  hr        = endpoint_volume->GetMute(&mute);
 
   if (hr == S_OK)
     {
-      TRACE_MSG("current mute is: " <<  mute);
+      TRACE_MSG("current mute is: " << mute);
       hr = endpoint_volume->SetMute(on, NULL);
     }
 
   return mute;
 }
 
-
 bool
 W32Mixer::set_mute_mixer(bool on)
 {
   TRACE_ENTER_MSG("W32Mixer::set_mute_mixer", on);
 
-	MMRESULT result = MMSYSERR_NOERROR;
-	MIXERLINE mixer_line;
-	MIXERLINECONTROLS mixer_line_controls;
+  MMRESULT result = MMSYSERR_NOERROR;
+  MIXERLINE mixer_line;
+  MIXERLINECONTROLS mixer_line_controls;
   MIXERCONTROL *mixer_control = NULL;
-	int mute_control = -1;
-  bool ret = false;
+  int mute_control            = -1;
+  bool ret                    = false;
 
   memset(&mixer_line, 0, sizeof(MIXERLINE));
   memset(&mixer_line_controls, 0, sizeof(MIXERLINECONTROLS));
 
-	mixer_line.cbStruct = sizeof(MIXERLINE);
+  mixer_line.cbStruct          = sizeof(MIXERLINE);
   mixer_line_controls.cbStruct = sizeof(MIXERLINECONTROLS);
 
-	result = mixerGetLineInfo(NULL, &mixer_line, MIXER_OBJECTF_MIXER | MIXER_GETLINEINFOF_DESTINATION);
+  result = mixerGetLineInfo(NULL, &mixer_line, MIXER_OBJECTF_MIXER | MIXER_GETLINEINFOF_DESTINATION);
   if (result == MMSYSERR_NOERROR)
     {
       mixer_control = new MIXERCONTROL[mixer_line.cControls];
 
-      mixer_line_controls.dwLineID = mixer_line.dwLineID;
+      mixer_line_controls.dwLineID  = mixer_line.dwLineID;
       mixer_line_controls.cControls = mixer_line.cControls;
-      mixer_line_controls.cbmxctrl = sizeof(MIXERCONTROL);
-      mixer_line_controls.pamxctrl = mixer_control;
+      mixer_line_controls.cbmxctrl  = sizeof(MIXERCONTROL);
+      mixer_line_controls.pamxctrl  = mixer_control;
 
       result = mixerGetLineControls(NULL, &mixer_line_controls, MIXER_OBJECTF_MIXER | MIXER_GETLINECONTROLSF_ALL);
     }
@@ -187,7 +185,7 @@ W32Mixer::set_mute_mixer(bool on)
       MIXERCONTROLDETAILS mixer_control_details;
       memset(&mixer_control_details, 0, sizeof(MIXERCONTROLDETAILS));
 
-      mixer_control_details.cbStruct	     = sizeof(MIXERCONTROLDETAILS);
+      mixer_control_details.cbStruct       = sizeof(MIXERCONTROLDETAILS);
       mixer_control_details.dwControlID    = mute_control;
       mixer_control_details.cMultipleItems = 0;
       mixer_control_details.cChannels      = 1;
@@ -196,7 +194,7 @@ W32Mixer::set_mute_mixer(bool on)
 
       mixerGetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
       ret = value.fValue;
-      TRACE_MSG("current mute is: " <<  ret);
+      TRACE_MSG("current mute is: " << ret);
 
       value.fValue = on;
       mixerSetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
@@ -204,7 +202,7 @@ W32Mixer::set_mute_mixer(bool on)
 
   if (mixer_control != NULL)
     {
-      delete [] mixer_control;
+      delete[] mixer_control;
     }
 
   TRACE_EXIT();

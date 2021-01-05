@@ -63,7 +63,7 @@ public:
       {
         std::stringstream ss;
         ss << value;
-        log(name +  " -> " + ss.str());
+        log(name + " -> " + ss.str());
       }
   }
 
@@ -76,9 +76,9 @@ public:
   }
 
 private:
-  bool enabled{ false };
+  bool enabled{false};
   std::map<std::string, request_t> topics;
-  DiagnosticsSink *sink { nullptr };
+  DiagnosticsSink *sink{nullptr};
 };
 
 template<typename ValueType>
@@ -86,13 +86,13 @@ class TracedField : public TracedFieldBase
 {
 public:
   using value_type = ValueType;
-  using base_type = TracedField<ValueType>;
+  using base_type  = TracedField<ValueType>;
 
   explicit TracedField(const TracedField &p) noexcept
-      : _name{ p._name }
-      , _value{ p._value }
-      , _last_published_value{ p._last_published_value }
-      , _manual{ p._manual }
+    : _name{p._name}
+    , _value{p._value}
+    , _last_published_value{p._last_published_value}
+    , _manual{p._manual}
   {
     Diagnostics::instance().register_topic(_name, [this]() { publish(); });
     if (debug && !_manual)
@@ -102,10 +102,10 @@ public:
   }
 
   explicit TracedField(TracedField &&p) noexcept
-      : _name{ std::move(p._name) }
-      , _value{ std::move(p._value) }
-      , _last_published_value{ p._last_published_value }
-      , _manual{ p._manual }
+    : _name{std::move(p._name)}
+    , _value{std::move(p._value)}
+    , _last_published_value{p._last_published_value}
+    , _manual{p._manual}
   {
     Diagnostics::instance().register_topic(_name, [this]() { report(); });
     if (debug && !_manual)
@@ -115,9 +115,9 @@ public:
   }
 
   TracedField(const std::string &name, const value_type &initial, bool manual = false) noexcept
-      : _name{ name }
-      , _value{ initial }
-      , _manual{ manual }
+    : _name{name}
+    , _value{initial}
+    , _manual{manual}
   {
     Diagnostics::instance().register_topic(_name, [this]() { report(); });
     if (debug && !_manual)
@@ -127,9 +127,9 @@ public:
   }
 
   TracedField(std::string &&name, value_type &&initial, bool manual = false) noexcept
-      : _name{ std::move(name) }
-      , _value{ std::move(initial) }
-      , _manual{ manual }
+    : _name{std::move(name)}
+    , _value{std::move(initial)}
+    , _manual{manual}
   {
     Diagnostics::instance().register_topic(_name, [this]() { report(); });
     if (debug && !_manual)
@@ -138,10 +138,7 @@ public:
       }
   }
 
-  ~TracedField() noexcept
-  {
-    Diagnostics::instance().unregister_topic(_name);
-  }
+  ~TracedField() noexcept { Diagnostics::instance().unregister_topic(_name); }
 
   base_type &operator=(const TracedField &prop) noexcept
   {
@@ -167,22 +164,16 @@ public:
     return *this;
   }
 
-  value_type get() const noexcept
-  {
-    return _value;
-  }
+  value_type get() const noexcept { return _value; }
 
-  void report()
-  {
-    Diagnostics::instance().report(_name, _value);
-  }
+  void report() { Diagnostics::instance().report(_name, _value); }
 
   void publish()
   {
     if (debug && _manual && (_last_published_value != _value || !_last_published_value_valid))
       {
         Diagnostics::instance().report(_name, _value);
-        _last_published_value = _value;
+        _last_published_value       = _value;
         _last_published_value_valid = true;
       }
   }
@@ -205,15 +196,9 @@ public:
     _value = std::move(value);
   }
 
-  operator value_type() const
-  {
-    return get();
-  }
+  operator value_type() const { return get(); }
 
-  bool operator==(const base_type &right) const
-  {
-    return get() == right.get();
-  }
+  bool operator==(const base_type &right) const { return get() == right.get(); }
 
   template<typename OtherValueType>
   bool operator==(const OtherValueType &value) const
@@ -221,10 +206,7 @@ public:
     return get() == value;
   }
 
-  bool operator!=(const base_type &right) const
-  {
-    return get() != right.get();
-  }
+  bool operator!=(const base_type &right) const { return get() != right.get(); }
 
   template<typename OtherValueType>
   bool operator!=(const OtherValueType &value) const
@@ -258,20 +240,11 @@ public:
     return before;
   }
 
-  value_type operator-() const
-  {
-    return -get();
-  }
+  value_type operator-() const { return -get(); }
 
-  value_type operator~() const
-  {
-    return ~get();
-  }
+  value_type operator~() const { return ~get(); }
 
-  value_type operator+(const base_type &right) const
-  {
-    return get() + right.get();
-  }
+  value_type operator+(const base_type &right) const { return get() + right.get(); }
 
   template<typename T>
   value_type operator+(const T &right) const
@@ -292,10 +265,7 @@ public:
     return *this;
   }
 
-  value_type operator-(const base_type &right) const
-  {
-    return get() - right.get();
-  }
+  value_type operator-(const base_type &right) const { return get() - right.get(); }
 
   template<typename T>
   value_type operator-(const T &right) const
@@ -316,10 +286,7 @@ public:
     return *this;
   }
 
-  value_type operator*(const base_type &right) const
-  {
-    return get() * right.get();
-  }
+  value_type operator*(const base_type &right) const { return get() * right.get(); }
 
   template<typename T>
   value_type operator*(const T &right) const
@@ -340,10 +307,7 @@ public:
     return *this;
   }
 
-  value_type operator/(const base_type &right) const
-  {
-    return get() / right.get();
-  }
+  value_type operator/(const base_type &right) const { return get() / right.get(); }
 
   template<typename T>
   value_type operator/(const T &right) const
@@ -364,10 +328,7 @@ public:
     return *this;
   }
 
-  value_type operator%(const base_type &right) const
-  {
-    return get() % right.get();
-  }
+  value_type operator%(const base_type &right) const { return get() % right.get(); }
 
   template<typename T>
   value_type operator%(const T &right) const
@@ -388,10 +349,7 @@ public:
     return *this;
   }
 
-  value_type operator&(const base_type &right) const
-  {
-    return get() & right.get();
-  }
+  value_type operator&(const base_type &right) const { return get() & right.get(); }
 
   template<typename T>
   value_type operator&(const T &right) const
@@ -412,10 +370,7 @@ public:
     return *this;
   };
 
-  value_type operator|(const base_type &right) const
-  {
-    return get() | right.get();
-  }
+  value_type operator|(const base_type &right) const { return get() | right.get(); }
 
   template<typename T>
   value_type operator|(const T &right) const
@@ -436,10 +391,7 @@ public:
     return *this;
   };
 
-  value_type operator^(const base_type &right) const
-  {
-    return get() ^ right.get();
-  }
+  value_type operator^(const base_type &right) const { return get() ^ right.get(); }
 
   template<typename T>
   value_type operator^(const T &right) const
@@ -460,10 +412,7 @@ public:
     return *this;
   };
 
-  value_type operator<<(int num) const
-  {
-    return get() << num;
-  }
+  value_type operator<<(int num) const { return get() << num; }
 
   template<typename T>
   base_type &operator<<=(int num)
@@ -472,10 +421,7 @@ public:
     return *this;
   }
 
-  value_type operator>>(int num) const
-  {
-    return get() >> num;
-  }
+  value_type operator>>(int num) const { return get() >> num; }
 
   template<typename T>
   base_type &operator>>=(int num)
@@ -488,8 +434,8 @@ private:
   std::string _name;
   value_type _value{};
   value_type _last_published_value{};
-  bool _last_published_value_valid{ false };
-  bool _manual{ false };
+  bool _last_published_value_valid{false};
+  bool _manual{false};
 };
 
 template<typename T>

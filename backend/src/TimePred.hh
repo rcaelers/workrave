@@ -21,16 +21,15 @@
 #define TIMEPRED_HH
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
-
 
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches
@@ -46,10 +45,7 @@ public:
   virtual ~TimePred() {}
 
   //! Set the last time the predicate matched.
-  virtual void set_last(time_t lastTime)
-  {
-    last_time = lastTime;
-  }
+  virtual void set_last(time_t lastTime) { last_time = lastTime; }
 
   //! Computes the next time the predicate matches given the time of the previous match.
   virtual time_t get_next() = 0;

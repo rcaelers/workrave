@@ -20,7 +20,6 @@
 #ifndef EXCEPTION_HH
 #define EXCEPTION_HH
 
-
 #include <string>
 #include <exception>
 
@@ -39,19 +38,14 @@ namespace workrave
       detailed_information = parent.details() + ", " + detail;
     }
 
-    virtual ~Exception() throw()
-    {
-    }
+    virtual ~Exception() throw() {}
 
-    virtual std::string details() const throw()
-    {
-      return detailed_information;
-    }
+    virtual std::string details() const throw() { return detailed_information; }
 
   private:
     //
     std::string detailed_information;
   };
-};
+}; // namespace workrave
 
 #endif // EXCEPTION_HH

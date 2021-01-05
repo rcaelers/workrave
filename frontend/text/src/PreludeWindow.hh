@@ -26,8 +26,7 @@ class Dispatcher;
 
 using namespace workrave;
 
-class PreludeWindow :
-  public IPreludeWindow
+class PreludeWindow : public IPreludeWindow
 {
 public:
   PreludeWindow(BreakId break_id);
@@ -56,7 +55,6 @@ private:
   //! Send response to this interface.
   IBreakResponse *prelude_response;
 };
-
 
 inline void
 PreludeWindow::set_response(IBreakResponse *pri)

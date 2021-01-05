@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -39,12 +39,11 @@
 #include "MutterInputMonitor.hh"
 
 UnixInputMonitorFactory::UnixInputMonitorFactory()
-  : error_reported(false),
-    actual_monitor_method{ "monitor.method", ""}
+  : error_reported(false)
+  , actual_monitor_method{"monitor.method", ""}
 {
   monitor = NULL;
 }
-
 
 void
 UnixInputMonitorFactory::init(const char *display)
@@ -57,7 +56,7 @@ IInputMonitor *
 UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   TRACE_ENTER("UnixInputMonitorFactory::get_monitor");
-  (void) capability;
+  (void)capability;
 
   if (monitor == NULL)
     {
@@ -69,9 +68,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
 
       TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
 
-      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
-                                                              configure_monitor_method,
-                                                              "default");
+      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
       vector<string>::const_iterator start = available_monitors.end();
 
@@ -89,10 +86,10 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
 
       vector<string>::const_iterator loop = start;
       string monitor_method;
-      while(1)
+      while (1)
         {
           monitor_method = *loop;
-          TRACE_MSG("Test " <<  monitor_method);
+          TRACE_MSG("Test " << monitor_method);
 
           if (monitor_method == "record")
             {
@@ -160,7 +157,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           TRACE_MSG("using " << monitor_method);
         }
 
-        actual_monitor_method = monitor_method;
+      actual_monitor_method = monitor_method;
     }
 
   TRACE_EXIT();
@@ -170,11 +167,10 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
 gboolean
 UnixInputMonitorFactory::static_report_failure(void *data)
 {
-  (void) data;
+  (void)data;
 
   Core *core = Core::get_instance();
   core->post_event(CORE_EVENT_MONITOR_FAILURE);
 
   return FALSE;
 }
-

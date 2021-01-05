@@ -47,7 +47,11 @@ namespace workrave
       virtual ~DBusBindingGio();
 
       virtual const char *get_interface_introspect() = 0;
-      virtual void call(const std::string &method, void *object, GDBusMethodInvocation *invocation, const std::string &sender, GVariant *inargs) = 0;
+      virtual void call(const std::string &method,
+                        void *object,
+                        GDBusMethodInvocation *invocation,
+                        const std::string &sender,
+                        GVariant *inargs)            = 0;
 
     protected:
       IDBus::Ptr dbus;
@@ -80,7 +84,7 @@ namespace workrave
       GVariant *put_double(const double *value);
       GVariant *put_string(const std::string *value);
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSBINDINGGIO_HH

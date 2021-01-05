@@ -1,6 +1,6 @@
 // SystemLockCommandline.cc -- support for locking the system using command line
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 // Uses some code and ideas from the KShutdown utility: file src/actions/lock.cpp
 // Copyright (C) 2009  Konrad Twardowski
@@ -20,18 +20,18 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_GLIB
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 #include "ScreenLockCommandline.hh"
 #include "debug.hh"
 
-ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async):
-        async(async)
+ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async)
+  : async(async)
 {
   TRACE_ENTER_MSG("ScreenLockCommandline::ScreenLockCommandline", program_name);
   char *program_path = g_find_program_in_path(program_name);
@@ -45,43 +45,43 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
       cmd = g_strdup_printf("%s %s", program_path, parameters);
       g_free(program_path);
     }
-  else 
+  else
     {
       cmd = program_path;
     }
   TRACE_EXIT();
 }
 
-
 bool
-ScreenLockCommandline::invoke(const gchar* command, bool async)
+ScreenLockCommandline::invoke(const gchar *command, bool async)
 {
   GError *error = NULL;
 
-  if(!async)
+  if (!async)
     {
       // synchronised call
       gint exit_code;
-      if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error) )
-	{
-	  g_error_free(error);
-	  return false;
-	}
+      if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error))
+        {
+          g_error_free(error);
+          return false;
+        }
       return WEXITSTATUS(exit_code) == 0;
     }
   else
     {
       // asynchronous call
-      if (!g_spawn_command_line_async(command, &error) )
-	{
-	  g_error_free(error);
-	  return false;
-	}
+      if (!g_spawn_command_line_async(command, &error))
+        {
+          g_error_free(error);
+          return false;
+        }
       return true;
     }
 }
 
-bool ScreenLockCommandline::lock()
+bool
+ScreenLockCommandline::lock()
 {
   TRACE_ENTER_MSG("ScreenLockCommandline::lock", cmd);
   return invoke(cmd, async);

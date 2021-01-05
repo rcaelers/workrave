@@ -21,14 +21,14 @@
 #define W32INPUTMONITOR_HH
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #include <windows.h>
@@ -37,8 +37,7 @@
 typedef union HarpoonEventUnion HarpoonEvent;
 
 //! Activity monitor for a local X server.
-class W32InputMonitor :
-  public InputMonitor
+class W32InputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -48,7 +47,7 @@ public:
   virtual ~W32InputMonitor();
 
   bool init();
-  void terminate() ;
+  void terminate();
 
 private:
   static W32InputMonitor *singleton;

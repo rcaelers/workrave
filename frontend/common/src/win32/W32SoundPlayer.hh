@@ -39,7 +39,7 @@ public:
   void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
 
 protected:
-  static DWORD WINAPI thread_Play( LPVOID );
+  static DWORD WINAPI thread_Play(LPVOID);
 
 private:
   void Play();

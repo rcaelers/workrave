@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -38,27 +38,25 @@ extern "C" int _nl_msg_cat_cntr;
 
 Locale::LanguageMap Locale::languages_native_locale;
 
-int compare_languages (const void *a, const void *b)
+int
+compare_languages(const void *a, const void *b)
 {
   return strcmp(((language_t *)a)->code, ((language_t *)b)->code);
 }
 
-int compare_countries (const void *a, const void *b)
+int
+compare_countries(const void *a, const void *b)
 {
-  return strcmp(((country_t*)a)->code, ((country_t*)b)->code);
+  return strcmp(((country_t *)a)->code, ((country_t *)b)->code);
 }
 
 bool
 Locale::get_language(const string &code, string &language)
 {
-  language_t key = { code.c_str(), NULL };
+  language_t key = {code.c_str(), NULL};
   language_t *val;
 
-  val = (language_t *) bsearch(&key,
-                               languages,
-                               sizeof(languages) / sizeof (language_t),
-                               sizeof(language_t),
-                               compare_languages);
+  val = (language_t *)bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages);
 
   if (val != NULL)
     {
@@ -71,14 +69,10 @@ Locale::get_language(const string &code, string &language)
 bool
 Locale::get_country(const string &code, string &country)
 {
-  country_t key = { code.c_str(), NULL };
+  country_t key = {code.c_str(), NULL};
   country_t *val;
 
-  val = (country_t *) bsearch(&key,
-                              countries,
-                              sizeof(countries) / sizeof (country_t),
-                              sizeof(country_t),
-                              compare_countries);
+  val = (country_t *)bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries);
 
   if (val != NULL)
     {
@@ -102,8 +96,8 @@ Locale::set_locale(const std::string &code)
       g_unsetenv("LANG");
     }
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
-    ++_nl_msg_cat_cntr;
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
+  ++_nl_msg_cat_cntr;
 #endif
 }
 
@@ -148,7 +142,7 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 {
   std::vector<std::string> all_linguas;
 
-  (void) languages;
+  (void)languages;
 
 #ifdef HAVE_LANGUAGE_SELECTION
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
@@ -162,10 +156,10 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 
       Language &language_entry = languages[code];
 
-      lang_code = code.substr(0,2);
+      lang_code = code.substr(0, 2);
       if (code.length() >= 5)
         {
-          country_code = code.substr(3,2);
+          country_code = code.substr(3, 2);
         }
 
       Locale::get_language(lang_code, language_entry.language_name);
@@ -177,11 +171,10 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 #endif
 }
 
-
 void
 Locale::get_all_languages_in_native_locale(LanguageMap &list)
 {
-  (void) list;
+  (void)list;
 
 #ifdef HAVE_LANGUAGE_SELECTION
   static bool init_done = false;
@@ -209,10 +202,10 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
       Language &language_entry = languages_native_locale[code];
 
-      lang_code = code.substr(0,2);
+      lang_code = code.substr(0, 2);
       if (code.length() >= 5)
         {
-          country_code = code.substr(3,2);
+          country_code = code.substr(3, 2);
         }
 
       Locale::get_language(lang_code, language_entry.language_name);
@@ -228,30 +221,30 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #endif
 }
 
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
+#ifdef PLATFORM_OS_WINDOWS
+#  include <windows.h>
 #endif
 
 #ifdef PLATFORM_OS_UNIX
-#include <langinfo.h>
+#  include <langinfo.h>
 #endif
 
 int
 Locale::get_week_start()
 {
   int week_start = 0;
-  
-#ifdef PLATFORM_OS_WIN32
+
+#ifdef PLATFORM_OS_WINDOWS
   WCHAR wsDay[4];
-	if (
+  if (
 #  if defined(_WIN32_WINNT_VISTA) && WINVER >= _WIN32_WINNT_VISTA && defined(LOCALE_NAME_USER_DEFAULT)
-      GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
+    GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
 #  else
-      GetLocaleInfoW(LOCALE_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
+    GetLocaleInfoW(LOCALE_USER_DEFAULT, LOCALE_IFIRSTDAYOFWEEK, wsDay, 4)
 #  endif
-      )
+  )
     {
-      char *ws = g_utf16_to_utf8(reinterpret_cast<const gunichar2*>(wsDay), -1, NULL, NULL, NULL);
+      char *ws = g_utf16_to_utf8(reinterpret_cast<const gunichar2 *>(wsDay), -1, NULL, NULL, NULL);
       if (ws != NULL)
         {
           week_start = (ws[0] - '0' + 1) % 7;
@@ -261,26 +254,28 @@ Locale::get_week_start()
 #endif
 
 #ifdef PLATFORM_OS_UNIX
-  union { unsigned int word; char *string; } langinfo;
-  gint week_1stday = 0;
+  union
+  {
+    unsigned int word;
+    char *string;
+  } langinfo;
+  gint week_1stday   = 0;
   gint first_weekday = 1;
   guint week_origin;
-  
+
   langinfo.string = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
-  first_weekday = langinfo.string[0];
+  first_weekday   = langinfo.string[0];
   langinfo.string = nl_langinfo(_NL_TIME_WEEK_1STDAY);
-  week_origin = langinfo.word;
+  week_origin     = langinfo.word;
   if (week_origin == 19971130) /* Sunday */
     week_1stday = 0;
   else if (week_origin == 19971201) /* Monday */
     week_1stday = 1;
   else
-    g_warning ("Unknown value of _NL_TIME_WEEK_1STDAY.\n");
+    g_warning("Unknown value of _NL_TIME_WEEK_1STDAY.\n");
 
   week_start = (week_1stday + first_weekday - 1) % 7;
 #endif
 
   return week_start;
 }
-
-

@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef DISTRIBUTIOMANAGER_HH
 #define DISTRIBUTIOMANAGER_HH
 
@@ -34,19 +33,24 @@ namespace workrave
 {
   class IDistributionManager;
   class DistributionLogListener;
-}
+} // namespace workrave
 
 class DistributionLink;
 class Configurator;
 class DistributionListener;
 class PacketBuffer;
 
-class DistributionManager :
-  public IDistributionManager,
-  public IConfiguratorListener
+class DistributionManager
+  : public IDistributionManager
+  , public IConfiguratorListener
 {
 public:
-  enum NodeState { NODE_ACTIVE, NODE_PASSIVE, NODE_STANDBY };
+  enum NodeState
+  {
+    NODE_ACTIVE,
+    NODE_PASSIVE,
+    NODE_STANDBY
+  };
 
   DistributionManager();
   virtual ~DistributionManager();
@@ -62,8 +66,8 @@ public:
   bool set_lock_master(bool lock);
   bool connect(string url);
   bool disconnect(string id);
-  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
-                               IDistributionClientMessage *callback);
+  bool
+  register_client_message(DistributionClientMessageID id, DistributionClientMessageType type, IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
 
   bool add_listener(DistributionListener *listener);
@@ -120,7 +124,6 @@ private:
   void fire_signon_client(char *id);
   void fire_signoff_client(char *id);
 
-
 private:
   typedef std::list<DistributionLogListener *> LogListeners;
   typedef std::list<DistributionLogListener *>::iterator LogListenerIter;
@@ -156,6 +159,5 @@ private:
   //! Current master.
   string current_master;
 };
-
 
 #endif // DISTRIBUTIOMANAGER_HH

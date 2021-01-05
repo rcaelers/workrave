@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -27,7 +27,7 @@
 #include <fstream>
 
 #include "GUI.hh"
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -37,7 +37,7 @@ run(int argc, char **argv)
 {
   GUI *gui = new GUI(argc, argv);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   dll_hell_check();
 #endif
 
@@ -48,8 +48,7 @@ run(int argc, char **argv)
   return 0;
 }
 
-
-#if !defined(PLATFORM_OS_WIN32) || !defined(NDEBUG)
+#if !defined(PLATFORM_OS_WINDOWS) || !defined(NDEBUG)
 int
 main(int argc, char **argv)
 {
@@ -60,14 +59,12 @@ main(int argc, char **argv)
 
 #else
 
-#include <windows.h>
+#  include <windows.h>
 
-int WINAPI WinMain (HINSTANCE hInstance,
-                    HINSTANCE hPrevInstance,
-                    PSTR szCmdLine,
-                    int iCmdShow)
+int WINAPI
+WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-  char *argv[] = { szCmdLine };
+  char *argv[] = {szCmdLine};
   char buf[1000];
 
   // InnoSetup: [...] requires that you add code to your application
@@ -76,7 +73,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
   HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
-      run(sizeof(argv)/sizeof(argv[0]), argv);
+      run(sizeof(argv) / sizeof(argv[0]), argv);
     }
   return (0);
 }

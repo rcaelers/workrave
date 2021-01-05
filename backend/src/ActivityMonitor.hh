@@ -27,22 +27,22 @@
 #include "Diagnostics.hh"
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 class ActivityListener;
 class IInputMonitor;
 
-class ActivityMonitor :
-  public IInputMonitorListener,
-  public IActivityMonitor
+class ActivityMonitor
+  : public IInputMonitorListener
+  , public IActivityMonitor
 {
 public:
   ActivityMonitor();
@@ -74,7 +74,7 @@ private:
   IInputMonitor *input_monitor;
 
   //! the current state.
-  TracedField<ActivityState> activity_state { "monitor.activity_state", ACTIVITY_IDLE, true };
+  TracedField<ActivityState> activity_state{"monitor.activity_state", ACTIVITY_IDLE, true};
 
   //! Internal locking
   Mutex lock;
@@ -95,16 +95,16 @@ private:
   gint64 first_action_time;
 
   //! The noise threshold
-  TracedField<gint64> noise_threshold{ "monitor.noise_threshold", 0 };
+  TracedField<gint64> noise_threshold{"monitor.noise_threshold", 0};
 
   //! The activity threshold.
-  TracedField<gint64> activity_threshold{ "monitor.activity_threshold", 0 };
+  TracedField<gint64> activity_threshold{"monitor.activity_threshold", 0};
 
   //! The idle threshold.
-  TracedField<gint64> idle_threshold{ "monitor.idle_threshold", 0};
+  TracedField<gint64> idle_threshold{"monitor.idle_threshold", 0};
 
   //! Mouse sensitivity
-  TracedField<int> sensitivity { "monitor.sensitivity", 3 };
+  TracedField<int> sensitivity{"monitor.sensitivity", 3};
 
   //! Activity listener.
   ActivityMonitorListener *listener;

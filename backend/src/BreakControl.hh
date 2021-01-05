@@ -30,20 +30,25 @@
 using namespace workrave;
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class IActivityMonitorListener;
   class IApp;
-}
+} // namespace workrave
 
 class Core;
 class PreludeWindow;
 class Timer;
 
-class BreakControl :
-  public ActivityMonitorListener
+class BreakControl : public ActivityMonitorListener
 {
 public:
-  enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
+  enum BreakState
+  {
+    BREAK_ACTIVE,
+    BREAK_INACTIVE,
+    BREAK_SUSPENDED
+  };
 
   //! Defines what to do when the user is active during a break.
   struct BreakStateData
@@ -83,18 +88,20 @@ public:
   void stop_prelude();
 
   std::string get_current_stage();
-  
+
 private:
   void break_window_start();
   void prelude_window_start();
   void post_event(CoreEvent event);
 
 private:
-  enum BreakStage { STAGE_NONE,
-                    STAGE_SNOOZED,
-                    STAGE_PRELUDE,
-                    STAGE_TAKING,
-                    STAGE_DELAYED
+  enum BreakStage
+  {
+    STAGE_NONE,
+    STAGE_SNOOZED,
+    STAGE_PRELUDE,
+    STAGE_TAKING,
+    STAGE_DELAYED
   };
 
   void update_prelude_window();
@@ -112,7 +119,7 @@ private:
 
   //! Name of the break controlled by this BreakControl.
   std::string break_name;
-  
+
   //! The Controller.
   Core *core;
 

@@ -1,4 +1,4 @@
-// AppController.hh --- OSX Application Controller
+// AppController.hh --- MacOS Application Controller
 //
 // Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.

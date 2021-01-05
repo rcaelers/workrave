@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -27,29 +27,29 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
-#undef HAVE_UNISTD_H
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#  undef HAVE_UNISTD_H
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include "TimeEntry.hh"
 
-
 TimeEntry::TimeEntry(bool millis)
-  : Gtk::HBox(false, 1),
-    hrs(NULL),
-    mins(NULL),
-    secs(NULL),
+  : Gtk::HBox(false, 1)
+  , hrs(NULL)
+  , mins(NULL)
+  , secs(NULL)
+  ,
 #ifdef HAVE_GTK3
-    hours_adjustment(Gtk::Adjustment::create(0, 0, 23)),
-    mins_adjustment(Gtk::Adjustment::create(0, 0, 59)),
-    secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
+  hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
+  , mins_adjustment(Gtk::Adjustment::create(0, 0, 59))
+  , secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
 #else
-    hours_adjustment(0, 0, 23),
-    mins_adjustment(0, 0, 59),
-    secs_adjustment(0, 0, 59)
+  hours_adjustment(0, 0, 23)
+  , mins_adjustment(0, 0, 59)
+  , secs_adjustment(0, 0, 59)
 #endif
 {
   this->millis = millis;
@@ -105,26 +105,24 @@ TimeEntry::TimeEntry(bool millis)
     }
 }
 
-
 //! Destructor.
 TimeEntry::~TimeEntry()
 {
   // FIXME: disconnect signals?
 }
 
-
 //! Set time
 void
 TimeEntry::set_value(time_t t)
 {
-  if (! millis)
+  if (!millis)
     {
 #ifdef HAVE_GTK3
-      hours_adjustment->set_value((double)(t / (60*60)));
+      hours_adjustment->set_value((double)(t / (60 * 60)));
       mins_adjustment->set_value((double)((t / 60) % 60));
       secs_adjustment->set_value((double)(t % 60));
 #else
-      hours_adjustment.set_value((double)(t / (60*60)));
+      hours_adjustment.set_value((double)(t / (60 * 60)));
       mins_adjustment.set_value((double)((t / 60) % 60));
       secs_adjustment.set_value((double)(t % 60));
 #endif
@@ -144,7 +142,7 @@ time_t
 TimeEntry::get_value()
 {
   int s = secs->get_value_as_int();
-  if (! millis)
+  if (!millis)
     {
       int h = hrs->get_value_as_int();
       int m = mins->get_value_as_int();
@@ -160,7 +158,7 @@ void
 TimeEntry::update(Gtk::SpinButton *spin)
 {
   // Needless to say, this kinda sucks.
-  Glib::ustring s = spin->get_text();
+  Glib::ustring s  = spin->get_text();
   const gchar *txt = s.c_str();
   if (txt != NULL && *txt != 0)
     {
@@ -175,7 +173,7 @@ TimeEntry::update(Gtk::SpinButton *spin)
 void
 TimeEntry::on_changed()
 {
-  if (! millis)
+  if (!millis)
     {
       update(hrs);
       update(mins);

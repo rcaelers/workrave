@@ -20,7 +20,7 @@
 #include "DebugDialog.hh"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gtkmm/textview.h>
@@ -41,9 +41,9 @@ using namespace workrave;
 
 DebugDialog::DebugDialog()
 #ifdef HAVE_GTK3
-    : Gtk::Dialog(_("Debug log"), false)
+  : Gtk::Dialog(_("Debug log"), false)
 #else
-    : Gtk::Dialog(_("Debug log"), false, true)
+  : Gtk::Dialog(_("Debug log"), false, true)
 #endif
 {
   TRACE_ENTER("DebugDialog::DebugDialog");
@@ -51,7 +51,7 @@ DebugDialog::DebugDialog()
   set_default_size(1024, 800);
 
   text_buffer = Gtk::TextBuffer::create();
-  text_view = Gtk::manage(new Gtk::TextView(text_buffer));
+  text_view   = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(false);
   text_view->set_editable(false);
 
@@ -70,7 +70,6 @@ DebugDialog::DebugDialog()
   TRACE_EXIT();
 }
 
-
 DebugDialog::~DebugDialog()
 {
   TRACE_ENTER("DebugDialog::~DebugDialog");
@@ -78,11 +77,11 @@ DebugDialog::~DebugDialog()
   TRACE_EXIT();
 }
 
-void 
+void
 DebugDialog::diagnostics_log(const std::string &log)
 {
   Gtk::TextIter iter = text_buffer->end();
-  iter = text_buffer->insert(iter, log + "\n");
+  iter               = text_buffer->insert(iter, log + "\n");
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
 #else
@@ -94,19 +93,18 @@ DebugDialog::diagnostics_log(const std::string &log)
 void
 DebugDialog::init()
 {
-//  ICore *core = CoreFactory::get_core();
-  
+  //  ICore *core = CoreFactory::get_core();
+
   Diagnostics::instance().enable(this);
 
-//   Gtk::TextIter iter = text_buffer->end();
+  //   Gtk::TextIter iter = text_buffer->end();
 
-
-// #ifdef HAVE_GTK3
-//       Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
-// #else
-//       Gtk::Adjustment *a = scrolled_window.get_vadjustment();
-// #endif
-//       a->set_value(a->get_upper());
+  // #ifdef HAVE_GTK3
+  //       Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
+  // #else
+  //       Gtk::Adjustment *a = scrolled_window.get_vadjustment();
+  // #endif
+  //       a->set_value(a->get_upper());
 }
 
 int
@@ -122,9 +120,8 @@ DebugDialog::run()
 void
 DebugDialog::on_response(int response)
 {
-  (void) response;
+  (void)response;
   TRACE_ENTER("DebugDialog::on_response")
   Diagnostics::instance().disable();
   TRACE_EXIT();
 }
-

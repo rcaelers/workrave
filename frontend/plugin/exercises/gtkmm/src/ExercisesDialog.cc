@@ -18,31 +18,29 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_EXERCISES
 
-#include "preinclude.h"
+#  include "preinclude.h"
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#include <assert.h>
+#  ifdef HAVE_UNISTD_H
+#    include <unistd.h>
+#  endif
+#  include <assert.h>
 
-#include <gtkmm/stock.h>
+#  include <gtkmm/stock.h>
 
-#include "nls.h"
-#include "debug.hh"
+#  include "nls.h"
+#  include "debug.hh"
 
-#include "ExercisesDialog.hh"
-#include "Exercise.hh"
-
-
+#  include "ExercisesDialog.hh"
+#  include "Exercise.hh"
 
 ExercisesDialog::ExercisesDialog()
-  : HigDialog(_("Exercises"), false, false),
-    exercises_panel(get_action_area())
+  : HigDialog(_("Exercises"), false, false)
+  , exercises_panel(get_action_area())
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 
@@ -50,7 +48,6 @@ ExercisesDialog::ExercisesDialog()
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
   TRACE_EXIT();
 }
-
 
 //! Destructor.
 ExercisesDialog::~ExercisesDialog()
@@ -66,6 +63,5 @@ ExercisesDialog::run()
   show_all();
   return 0;
 }
-
 
 #endif // HAVE_EXERCISES

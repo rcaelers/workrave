@@ -15,19 +15,19 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "InputMonitorFactory.hh"
 
-#ifdef PLATFORM_OS_WIN32
-#include "W32InputMonitorFactory.hh"
+#ifdef PLATFORM_OS_WINDOWS
+#  include "W32InputMonitorFactory.hh"
 #endif
-#ifdef PLATFORM_OS_OSX
-#include "OSXInputMonitorFactory.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSInputMonitorFactory.hh"
 #endif
 #ifdef PLATFORM_OS_UNIX
-#include "UnixInputMonitorFactory.hh"
+#  include "UnixInputMonitorFactory.hh"
 #endif
 
 #include "nls.h"
@@ -39,10 +39,10 @@ InputMonitorFactory::init(const char *display)
 {
   if (factory == NULL)
     {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
       factory = new W32InputMonitorFactory();
-#elif defined(PLATFORM_OS_OSX)
-      factory = new OSXInputMonitorFactory();
+#elif defined(PLATFORM_OS_MACOS)
+      factory = new MacOSInputMonitorFactory();
 #elif defined(PLATFORM_OS_UNIX)
       factory = new UnixInputMonitorFactory();
 #endif
@@ -64,4 +64,3 @@ InputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capabil
 
   return NULL;
 }
-

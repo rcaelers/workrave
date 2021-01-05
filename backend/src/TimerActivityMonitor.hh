@@ -31,36 +31,26 @@ class TimerActivityMonitor : public IActivityMonitor
 {
 public:
   //! Constructs an activity monitor that depends on specified timer.
-  TimerActivityMonitor(Timer *t) :
-    timer(t),
-    suspended(false),
-    forced_idle(false)
+  TimerActivityMonitor(Timer *t)
+    : timer(t)
+    , suspended(false)
+    , forced_idle(false)
 
   {
-    Core *core =  Core::get_instance();
-    monitor = core->get_activity_monitor();
+    Core *core = Core::get_instance();
+    monitor    = core->get_activity_monitor();
   }
 
-  virtual ~TimerActivityMonitor()
-  {
-  }
+  virtual ~TimerActivityMonitor() {}
 
   //! Stops the activity monitoring.
-  void terminate()
-  {
-  }
+  void terminate() {}
 
   //! Suspends the activity monitoring.
-  void suspend()
-  {
-    suspended = true;
-  }
+  void suspend() { suspended = true; }
 
   //! Resumes the activity monitoring.
-  void resume()
-  {
-    suspended = false;
-  }
+  void resume() { suspended = false; }
 
   //! Returns the current state
   ActivityState get_current_state()
@@ -71,12 +61,10 @@ public:
         ActivityState local_state = monitor->get_current_state();
         TRACE_MSG(local_state)
 
-        if (local_state != ACTIVITY_IDLE &&
-            local_state != ACTIVITY_SUSPENDED)
+        if (local_state != ACTIVITY_IDLE && local_state != ACTIVITY_SUSPENDED)
           {
             forced_idle = false;
           }
-
       }
 
     if (forced_idle)
@@ -92,8 +80,8 @@ public:
       }
 
     TimerState state = timer->get_state();
-    time_t idle = timer->get_elapsed_idle_time();
-    time_t reset = timer->get_auto_reset();
+    time_t idle      = timer->get_elapsed_idle_time();
+    time_t reset     = timer->get_auto_reset();
 
     if (state == STATE_STOPPED && idle >= reset)
       {
@@ -116,13 +104,9 @@ public:
     TRACE_EXIT();
   }
 
-
   // Returns the collected statistics.
   //! Sets the activity listener of this monitor.
-  void set_listener(ActivityMonitorListener *l)
-  {
-    (void)l;
-  }
+  void set_listener(ActivityMonitorListener *l) { (void)l; }
 
 private:
   //! Reference monitor

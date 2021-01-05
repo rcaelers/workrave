@@ -21,23 +21,22 @@
 #define SYSTEM_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_GLIB
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 #include <vector>
 
 #if defined(HAVE_DBUS)
-#include <glib.h>
-#include <gio/gio.h>
+#  include <glib.h>
+#  include <gio/gio.h>
 #endif
 
 #include "IScreenLockMethod.hh"
 #include "ISystemStateChangeMethod.hh"
-
 
 class System
 {
@@ -45,7 +44,8 @@ public:
   class SystemOperation
   {
   public:
-    enum SystemOperationType {
+    enum SystemOperationType
+    {
       SYSTEM_OPERATION_NONE,
       SYSTEM_OPERATION_LOCK_SCREEN,
       SYSTEM_OPERATION_SHUTDOWN,
@@ -54,38 +54,37 @@ public:
       SYSTEM_OPERATION_SUSPEND_HYBRID,
     };
 
-    //A simple, English language name of the operation
-    //Not translated into native language here because
-    //this class is not concerned with UI
+    // A simple, English language name of the operation
+    // Not translated into native language here because
+    // this class is not concerned with UI
     const char *name;
     SystemOperationType type;
 
     bool execute() const { return System::execute(type); }
 
-    bool operator< (const SystemOperation &other) const
-        { return this->type < other.type;  }
+    bool operator<(const SystemOperation &other) const { return this->type < other.type; }
+
   private:
-    SystemOperation(const char *name, const SystemOperationType type):
-          name(name), type(type) {};
+    SystemOperation(const char *name, const SystemOperationType type)
+      : name(name)
+      , type(type){};
     friend class System;
   };
-
 
   static bool is_lockable() { return !lock_commands.empty(); }
   static bool lock_screen();
 
-  static std::vector<SystemOperation> get_supported_system_operations()
-      { return supported_system_operations; }
+  static std::vector<SystemOperation> get_supported_system_operations() { return supported_system_operations; }
   static bool execute(SystemOperation::SystemOperationType type);
 
-  //display will not be owned by System,
-  //the caller may free it after calling
-  //this function
+  // display will not be owned by System,
+  // the caller may free it after calling
+  // this function
   static void init(
 #if defined(PLATFORM_OS_UNIX)
-                   const char *display
+    const char *display
 #endif
-                   );
+  );
   static void clear();
 
 private:
@@ -94,27 +93,26 @@ private:
   static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)
 
-#ifdef HAVE_DBUS
+#  ifdef HAVE_DBUS
   static void init_DBus();
   static void init_DBus_lock_commands();
-  static inline bool add_DBus_lock_cmd(
-      const char *dbus_name, const char *dbus_path, const char *dbus_interface,
-      const char *dbus_lock_method, const char *dbus_method_to_check_existence);
+  static inline bool add_DBus_lock_cmd(const char *dbus_name,
+                                       const char *dbus_path,
+                                       const char *dbus_interface,
+                                       const char *dbus_lock_method,
+                                       const char *dbus_method_to_check_existence);
 
-  static void add_DBus_system_state_command(
-      ISystemStateChangeMethod *method);
+  static void add_DBus_system_state_command(ISystemStateChangeMethod *method);
   static void init_DBus_system_state_commands();
 
-  static GDBusConnection* session_connection;
-  static GDBusConnection* system_connection;
-#endif
+  static GDBusConnection *session_connection;
+  static GDBusConnection *system_connection;
+#  endif
 
-  static inline void add_cmdline_lock_cmd(
-        const char *command_name, const char *parameters, bool async);
+  static inline void add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async);
   static void init_cmdline_lock_commands(const char *display);
-  static bool invoke(const gchar* command, bool async = false);
-#endif //defined(PLATFORM_OS_UNIX)
-
+  static bool invoke(const gchar *command, bool async = false);
+#endif // defined(PLATFORM_OS_UNIX)
 };
 
 #endif // SYSTEM_HH

@@ -32,12 +32,15 @@ public:
   TimerBoxTextView();
   virtual ~TimerBoxTextView();
 
-  void set_slot(BreakId  id, int slot);
+  void set_slot(BreakId id, int slot);
   void set_time_bar(BreakId id,
-                            std::string text, ITimeBar::ColorId primary_color,
-                            int primary_value, int primary_max,
-                            ITimeBar::ColorId secondary_color,
-                            int secondary_value, int secondary_max);
+                    std::string text,
+                    ITimeBar::ColorId primary_color,
+                    int primary_value,
+                    int primary_max,
+                    ITimeBar::ColorId secondary_color,
+                    int secondary_value,
+                    int secondary_max);
   void set_tip(std::string tip);
   void set_icon(IconType icon);
   void update_view();
@@ -46,6 +49,5 @@ public:
 
 private:
 };
-
 
 #endif // TIMERBOXTEXTVIEW_HH

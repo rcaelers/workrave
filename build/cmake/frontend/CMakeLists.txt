@@ -106,15 +106,15 @@ set(FRONTEND_SOURCES
 
 if (APPLE)
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
-    ${FRONTEND_DIR}/common/src/osx/OSXSoundPlayer.cc
-    ${FRONTEND_DIR}/common/src/osx/OSXSoundPlayer.hh
-    ${FRONTEND_DIR}/common/src/osx/Sound.cc
-    ${FRONTEND_DIR}/gtkmm/src/osx/AppController.h
-    ${FRONTEND_DIR}/gtkmm/src/osx/OSXGtkMenu.cc
-    ${FRONTEND_DIR}/gtkmm/src/osx/OSXGtkMenu.hh
-    ${FRONTEND_DIR}/gtkmm/src/osx/OSXUtil.cc
-    ${FRONTEND_DIR}/gtkmm/src/osx/OSXUtil.hh
-    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-osx.c
+    ${FRONTEND_DIR}/common/src/macos/MacOSSoundPlayer.cc
+    ${FRONTEND_DIR}/common/src/macos/MacOSSoundPlayer.hh
+    ${FRONTEND_DIR}/common/src/macos/Sound.cc
+    ${FRONTEND_DIR}/gtkmm/src/macos/AppController.h
+    ${FRONTEND_DIR}/gtkmm/src/macos/MacOSGtkMenu.cc
+    ${FRONTEND_DIR}/gtkmm/src/macos/MacOSGtkMenu.hh
+    ${FRONTEND_DIR}/gtkmm/src/macos/MacOSUtil.cc
+    ${FRONTEND_DIR}/gtkmm/src/macos/MacOSUtil.hh
+    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-macos.c
   )
 endif (APPLE)
   

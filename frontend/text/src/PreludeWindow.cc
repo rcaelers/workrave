@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -37,10 +37,10 @@
 
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(BreakId break_id)
-  : break_id(break_id),
-    progress_value(0),
-    progress_max_value(0),
-    prelude_response(NULL)
+  : break_id(break_id)
+  , progress_value(0)
+  , progress_max_value(0)
+  , prelude_response(NULL)
 {
 
   // XXX: Add window initialization.
@@ -64,13 +64,8 @@ PreludeWindow::PreludeWindow(BreakId break_id)
     }
 }
 
-
 //! Destructor.
-PreludeWindow::~PreludeWindow()
-{
-}
-
-
+PreludeWindow::~PreludeWindow() {}
 
 //! Starts the microbreak.
 void
@@ -99,7 +94,6 @@ PreludeWindow::destroy()
   TRACE_EXIT();
 }
 
-
 //! Stops the microbreak.
 void
 PreludeWindow::stop()
@@ -110,7 +104,6 @@ PreludeWindow::stop()
 
   TRACE_EXIT();
 }
-
 
 //! Refresh window.
 void
@@ -130,16 +123,14 @@ PreludeWindow::refresh()
   cout << "PRELUDE " << break_id << " : " << s << endl;
 }
 
-
 //! Sets the prelude progress.
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  progress_value = value;
+  progress_value     = value;
   progress_max_value = max_value;
   refresh();
 }
-
 
 //! Set the progress text.
 void
@@ -166,12 +157,11 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
     }
 }
 
-
 //! Sets the prelude stage.
 void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
-  switch(stage)
+  switch (stage)
     {
       // Initial stage, 'friendly prelude'
     case IApp::STAGE_INITIAL:

@@ -26,7 +26,7 @@ namespace Gtk
   class ComboBoxText;
   class SpinButton;
   class CheckButton;
-}
+} // namespace Gtk
 
 #include "ICore.hh"
 #include "IConfiguratorListener.hh"
@@ -36,14 +36,13 @@ namespace Gtk
 
 using namespace workrave;
 using namespace std;
-using namespace workrave;
 
 class TimerBoxPreferencePage
-  : public Gtk::HBox,
-    public IConfiguratorListener
+  : public Gtk::HBox
+  , public IConfiguratorListener
 {
 public:
-  TimerBoxPreferencePage(string name);
+  TimerBoxPreferencePage(std::string name);
   ~TimerBoxPreferencePage();
 
 private:
@@ -63,22 +62,22 @@ private:
 
   string name;
 
-  Gtk::CheckButton *ontop_cb { nullptr };
-  Gtk::CheckButton *enabled_cb{ nullptr };
-  Gtk::ComboBoxText *place_button { nullptr };
-  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF] = { nullptr, };
-  Gtk::SpinButton *cycle_entry { nullptr };
-  Gtk::CheckButton *applet_fallback_enabled_cb{ nullptr };
-  Gtk::CheckButton *applet_icon_enabled_cb{ nullptr };
+  Gtk::CheckButton *ontop_cb{nullptr};
+  Gtk::CheckButton *enabled_cb{nullptr};
+  Gtk::ComboBoxText *place_button{nullptr};
+  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF] = {
+    nullptr,
+  };
+  Gtk::SpinButton *cycle_entry{nullptr};
+  Gtk::CheckButton *applet_fallback_enabled_cb{nullptr};
+  Gtk::CheckButton *applet_icon_enabled_cb{nullptr};
 };
 
 #ifndef GTKMM_CHECK_VERSION
-# define GTKMM_CHECK_VERSION(major, minor, micro) \
-   (GTKMM_MAJOR_VERSION > (major)                     \
-    || (GTKMM_MAJOR_VERSION == (major)                \
-        && (GTKMM_MINOR_VERSION > (minor)             \
-            || (GTKMM_MINOR_VERSION == (minor)        \
-                && GTKMM_MICRO_VERSION >= (micro)))))
+#  define GTKMM_CHECK_VERSION(major, minor, micro) \
+    (GTKMM_MAJOR_VERSION > (major)                 \
+     || (GTKMM_MAJOR_VERSION == (major)            \
+         && (GTKMM_MINOR_VERSION > (minor) || (GTKMM_MINOR_VERSION == (minor) && GTKMM_MICRO_VERSION >= (micro)))))
 #endif
 
 #endif // TIMERBOXPREFERENCEPAGE_HH

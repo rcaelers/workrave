@@ -20,13 +20,12 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 
 #include "EventLabel.hh"
-
 
 void
 EventLabel::on_realize()
@@ -38,37 +37,31 @@ EventLabel::on_realize()
 #ifdef HAVE_GTK3
   GtkAllocation allocation;
   gtk_widget_get_allocation(widget, &allocation);
-  attributes.x = allocation.x;
-  attributes.y = allocation.y;
-  attributes.width = allocation.width;
+  attributes.x      = allocation.x;
+  attributes.y      = allocation.y;
+  attributes.width  = allocation.width;
   attributes.height = allocation.height;
-#else  // needed for 2.16
-  attributes.x = widget->allocation.x;
-  attributes.y = widget->allocation.y;
-  attributes.width = widget->allocation.width;
+#else // needed for 2.16
+  attributes.x      = widget->allocation.x;
+  attributes.y      = widget->allocation.y;
+  attributes.width  = widget->allocation.width;
   attributes.height = widget->allocation.height;
 #endif
 
-  attributes.wclass = GDK_INPUT_ONLY;
+  attributes.wclass     = GDK_INPUT_ONLY;
   attributes.event_mask = gtk_widget_get_events(widget);
-  attributes.event_mask |= (GDK_EXPOSURE_MASK |
-                            GDK_BUTTON_MOTION_MASK |
-                            GDK_BUTTON_PRESS_MASK |
-                            GDK_BUTTON_RELEASE_MASK |
-                            GDK_ENTER_NOTIFY_MASK |
-                            GDK_LEAVE_NOTIFY_MASK);
+  attributes.event_mask |= (GDK_EXPOSURE_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
+                            | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 
   gint attributes_mask = GDK_WA_X | GDK_WA_Y;
 
   Gtk::Label::on_realize();
 
-  event_window = gdk_window_new(gtk_widget_get_parent_window(widget),
-                                &attributes, attributes_mask);
+  event_window = gdk_window_new(gtk_widget_get_parent_window(widget), &attributes, attributes_mask);
 
   gdk_window_set_user_data(event_window, widget);
   gdk_window_show(event_window);
 }
-
 
 void
 EventLabel::on_unrealize()
@@ -83,7 +76,6 @@ EventLabel::on_unrealize()
   Gtk::Label::on_unrealize();
 }
 
-
 bool
 EventLabel::on_map_event(GdkEventAny *event)
 {
@@ -96,7 +88,6 @@ EventLabel::on_map_event(GdkEventAny *event)
 
   return ret;
 }
-
 
 bool
 EventLabel::on_unmap_event(GdkEventAny *event)
@@ -117,15 +108,11 @@ EventLabel::on_size_allocate(Gtk::Allocation &allocation)
   GtkWidget *widget = GTK_WIDGET(gobj());
 
 #ifdef HAVE_GTK3
-  if (gtk_widget_get_realized (widget))
-#else  // needed for 2.16
+  if (gtk_widget_get_realized(widget))
+#else // needed for 2.16
   if (GTK_WIDGET_REALIZED(widget))
 #endif
     {
-      gdk_window_move_resize(event_window,
-                             allocation.get_x(),
-                             allocation.get_y() ,
-                             allocation.get_width(),
-                             allocation.get_height());
+      gdk_window_move_resize(event_window, allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height());
     }
 }

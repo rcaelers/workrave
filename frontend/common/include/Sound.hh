@@ -21,11 +21,11 @@
 #define SOUND_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef PLATFORM_OS_UNIX
-#include <X11/Xlib.h>
+#  include <X11/Xlib.h>
 #endif
 
 class Sound
@@ -37,6 +37,5 @@ public:
   static void beep(int frequency, int millis);
 #endif
 };
-
 
 #endif // SOUND_HH

@@ -20,7 +20,7 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-localinstall
 
 noinst_PROGRAMS =
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt
 endif
 

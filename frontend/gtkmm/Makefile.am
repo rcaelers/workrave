@@ -5,5 +5,5 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		src win32 osx
+SUBDIRS = 		src win32 macos
 

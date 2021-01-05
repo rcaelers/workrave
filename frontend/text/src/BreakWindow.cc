@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -33,14 +33,13 @@
 #include "Util.hh"
 
 //! Constructor
-BreakWindow::BreakWindow(BreakId break_id, bool ignorable, GUI::BlockMode mode) :
-  block_mode(mode),
-  ignorable_break(ignorable),
-  break_response(NULL)
+BreakWindow::BreakWindow(BreakId break_id, bool ignorable, GUI::BlockMode mode)
+  : block_mode(mode)
+  , ignorable_break(ignorable)
+  , break_response(NULL)
 {
   this->break_id = break_id;
 }
-
 
 //! Destructor.
 BreakWindow::~BreakWindow()
@@ -48,7 +47,6 @@ BreakWindow::~BreakWindow()
   TRACE_ENTER("BreakWindow::~BreakWindow");
   TRACE_EXIT();
 }
-
 
 //! Break response
 void
@@ -63,7 +61,6 @@ BreakWindow::set_response(IBreakResponse *bri)
   //   break_response->skip_break(break_id);
 }
 
-
 //! Starts the break.
 void
 BreakWindow::start()
@@ -77,7 +74,6 @@ BreakWindow::start()
   TRACE_EXIT();
 }
 
-
 //! Stops the break.
 void
 BreakWindow::stop()
@@ -88,7 +84,6 @@ BreakWindow::stop()
 
   TRACE_EXIT();
 }
-
 
 //! Self-Destruct
 /*!
@@ -102,7 +97,6 @@ BreakWindow::destroy()
   delete this;
 }
 
-
 //! Refresh window.
 void
 BreakWindow::refresh()
@@ -110,11 +104,10 @@ BreakWindow::refresh()
   cout << "BREAK " << break_id << " : " << progress_value << "/" << progress_max_value << endl;
 }
 
-
 //! Sets the break progess.
 void
 BreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value = value;
+  progress_value     = value;
 }

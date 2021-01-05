@@ -63,38 +63,35 @@ private:
   static HFONT bar_font;
   static HBRUSH bar_colors[ITimeBar::COLOR_ID_SIZEOF];
   static void init(HINSTANCE hinst);
-  static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
-                                   LPARAM lParam);
+  static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
   void compute_size(int &width, int &height);
   LRESULT on_paint();
   void time_to_string(time_t time, char *buf, int len);
 };
 
-
 struct NONCLIENTMETRICS_PRE_VISTA_STRUCT
 {
-    UINT    cbSize;
-    int     iBorderWidth;
-    int     iScrollWidth;
-    int     iScrollHeight;
-    int     iCaptionWidth;
-    int     iCaptionHeight;
-    LOGFONT lfCaptionFont;
-    int     iSmCaptionWidth;
-    int     iSmCaptionHeight;
-    LOGFONT lfSmCaptionFont;
-    int     iMenuWidth;
-    int     iMenuHeight;
-    LOGFONT lfMenuFont;
-    LOGFONT lfStatusFont;
-    LOGFONT lfMessageFont;
-	/*
-	This is a pre-vista structure for compatibility across platforms.
-	Normally, when Vista is the target build (WINVER 0x0600),
-	NONCLIENTMETRICS structs contain an ifdef WINVER >= 0x0600:
-	int     iPaddedBorderWidth;
-	*/
+  UINT cbSize;
+  int iBorderWidth;
+  int iScrollWidth;
+  int iScrollHeight;
+  int iCaptionWidth;
+  int iCaptionHeight;
+  LOGFONT lfCaptionFont;
+  int iSmCaptionWidth;
+  int iSmCaptionHeight;
+  LOGFONT lfSmCaptionFont;
+  int iMenuWidth;
+  int iMenuHeight;
+  LOGFONT lfMenuFont;
+  LOGFONT lfStatusFont;
+  LOGFONT lfMessageFont;
+  /*
+  This is a pre-vista structure for compatibility across platforms.
+  Normally, when Vista is the target build (WINVER 0x0600),
+  NONCLIENTMETRICS structs contain an ifdef WINVER >= 0x0600:
+  int     iPaddedBorderWidth;
+  */
 };
 
 #endif // TIMEBAR_H
-

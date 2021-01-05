@@ -21,14 +21,14 @@
 #define EXERCISES_DIALOG_HH
 
 #ifdef HAVE_CONFIG
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_EXERCISES
 
-#include "preinclude.h"
-#include "Hig.hh"
-#include "ExercisesPanel.hh"
+#  include "preinclude.h"
+#  include "Hig.hh"
+#  include "ExercisesPanel.hh"
 
 class ExercisesDialog : public HigDialog
 {

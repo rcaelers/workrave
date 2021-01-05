@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -31,12 +31,12 @@
 #include <glibmm.h>
 #include <gtk/gtk.h>
 
-#ifdef PLATFORM_OS_WIN32_NATIVE
-#undef HAVE_UNISTD_H
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#  undef HAVE_UNISTD_H
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#  include <unistd.h>
 #endif
 #include <stdio.h>
 #include <assert.h>
@@ -73,80 +73,81 @@
 #include "Session.hh"
 #include "TimerBoxControl.hh"
 
-#if defined(PLATFORM_OS_WIN32)
-#include "W32AppletWindow.hh"
-#include <gdk/gdkwin32.h>
-#include <pbt.h>
-#include <wtsapi32.h>
+#if defined(PLATFORM_OS_WINDOWS)
+#  include "W32AppletWindow.hh"
+#  include <gdk/gdkwin32.h>
+#  include <pbt.h>
+#  include <wtsapi32.h>
 #endif
 
-#if defined(PLATFORM_OS_OSX)
-#include "OSXUtil.hh"
-#include <strings.h>
-#include <mach-o/dyld.h>
-#include <sys/param.h>
-#import <Cocoa/Cocoa.h>
-#import "AppController.h"
-#include <Carbon/Carbon.h>
+#if defined(PLATFORM_OS_MACOS)
+#  include "MacOSUtil.hh"
+#  include <strings.h>
+#  include <mach-o/dyld.h>
+#  include <sys/param.h>
+#  import <Cocoa/Cocoa.h>
+#  import "AppController.h"
+#  include <Carbon/Carbon.h>
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
-#include <X11/Xlib.h>
+#  include <X11/Xlib.h>
 #endif
 
 #if defined(HAVE_GCONF)
-#include <gconf/gconf-client.h>
+#  include <gconf/gconf-client.h>
 #endif
 
 #if defined(HAVE_DBUS)
-#if defined(interface)
-#undef interface
-#endif
-#include "dbus/IDBus.hh"
-#include "dbus/DBusException.hh"
+#  if defined(interface)
+#    undef interface
+#  endif
+#  include "dbus/IDBus.hh"
+#  include "dbus/DBusException.hh"
 #endif
 
 #ifdef HAVE_GTK_MAC_INTEGRATION
-#include "gtkosxapplication.h"
+#  include "gtkosxapplication.h"
 #endif
 
 GUI *GUI::instance = NULL;
-
 
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.
  *  \param argv all command line parameters.
  */
-GUI::GUI(int argc, char **argv) :
-  core(NULL),
-  sound_player(NULL),
-  break_windows(NULL),
-  prelude_windows(NULL),
-  active_break_count(0),
-  active_prelude_count(0),
-  response(NULL),
-  active_break_id(BREAK_ID_NONE),
-  main_window(NULL),
-  menus(0),
-  break_window_destroy(false),
-  prelude_window_destroy(false),
-  heads(NULL),
-  num_heads(-1),
-  screen_width(-1),
-  screen_height(-1),
+GUI::GUI(int argc, char **argv)
+  : core(NULL)
+  , sound_player(NULL)
+  , break_windows(NULL)
+  , prelude_windows(NULL)
+  , active_break_count(0)
+  , active_prelude_count(0)
+  , response(NULL)
+  , active_break_id(BREAK_ID_NONE)
+  , main_window(NULL)
+  , menus(0)
+  , break_window_destroy(false)
+  , prelude_window_destroy(false)
+  , heads(NULL)
+  , num_heads(-1)
+  , screen_width(-1)
+  , screen_height(-1)
+  ,
 #if defined(PLATFORM_OS_UNIX)
-  grab_wanted(false),
+  grab_wanted(false)
+  ,
 #endif
-  grab_handle(NULL),
-  status_icon(NULL),
-  applet_control(NULL),
-  muted(false),
-  closewarn_shown(false)
+  grab_handle(NULL)
+  , status_icon(NULL)
+  , applet_control(NULL)
+  , muted(false)
+  , closewarn_shown(false)
 {
   TRACE_ENTER("GUI:GUI");
 
-  assert(! instance);
+  assert(!instance);
   instance = this;
 
   this->argc = argc;
@@ -154,7 +155,6 @@ GUI::GUI(int argc, char **argv) :
 
   TRACE_EXIT();
 }
-
 
 //! Destructor.
 GUI::~GUI()
@@ -172,15 +172,14 @@ GUI::~GUI()
   delete applet_control;
   delete menus;
 
-  delete [] prelude_windows;
-  delete [] break_windows;
-  delete [] heads;
+  delete[] prelude_windows;
+  delete[] break_windows;
+  delete[] heads;
 
   delete sound_player;
 
   TRACE_EXIT();
 }
-
 
 //! Forces a restbreak.
 void
@@ -189,13 +188,11 @@ GUI::restbreak_now()
   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
 }
 
-
 //! The main entry point.
 void
 GUI::main()
 {
   TRACE_ENTER("GUI::main");
-
 
 #ifdef PLATFORM_OS_UNIX
   XInitThreads();
@@ -210,20 +207,20 @@ GUI::main()
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
 #else
-#if defined(PLATFORM_OS_WIN32)
+#  if defined(PLATFORM_OS_WINDOWS)
   Glib::OptionContext option_ctx;
   Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
   option_ctx.add_group(*option_group);
-#endif
+#  endif
 
   Gtk::Main *kit = NULL;
   try
     {
-#if defined(PLATFORM_OS_WIN32)
+#  if defined(PLATFORM_OS_WINDOWS)
       kit = new Gtk::Main(argc, argv, option_ctx);
-#else
+#  else
       kit = new Gtk::Main(argc, argv);
-#endif
+#  endif
     }
   catch (const Glib::OptionError &e)
     {
@@ -246,7 +243,7 @@ GUI::main()
   init_startup_warnings();
 
 #ifdef HAVE_GTK_MAC_INTEGRATION
-  GtkosxApplication* theApp = (GtkosxApplication *)g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
+  GtkosxApplication *theApp = (GtkosxApplication *)g_object_new(GTKMacOS_TYPE_APPLICATION, NULL);
   gtkosx_application_set_dock_icon_pixbuf(theApp, gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL));
   gtkosx_application_ready(theApp);
 #endif
@@ -261,7 +258,7 @@ GUI::main()
   TRACE_MSG("loop ended");
 
   System::clear();
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   cleanup_session();
 #endif
 
@@ -282,7 +279,6 @@ GUI::main()
 
   TRACE_EXIT();
 }
-
 
 //! Terminates the GUI.
 void
@@ -308,7 +304,6 @@ GUI::terminate()
   TRACE_EXIT();
 }
 
-
 //! Opens the main window.
 void
 GUI::open_main_window()
@@ -316,14 +311,12 @@ GUI::open_main_window()
   main_window->open_window();
 }
 
-
 //! Closes the main window.
 void
 GUI::close_main_window()
 {
   main_window->close_window();
 }
-
 
 //! The user close the main window.
 void
@@ -338,13 +331,12 @@ GUI::on_main_window_closed()
       status_icon->show_balloon("closewarn",
                                 _("Workrave is still running. "
                                   "You can access Workrave by clicking on the white sheep icon. "
-                                  "Click on this balloon to disable this message" ));
-      closewarn_shown =  true;
+                                  "Click on this balloon to disable this message"));
+      closewarn_shown = true;
     }
 
   TRACE_EXIT();
 }
-
 
 //! Periodic heartbeat.
 bool
@@ -378,8 +370,8 @@ GUI::on_timer()
 }
 
 #if defined(NDEBUG)
-static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
-                           const gchar *message, gpointer user_data)
+static void
+my_log_handler(const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer user_data)
 {
 }
 #endif
@@ -388,8 +380,8 @@ void
 GUI::init_platform()
 {
   TRACE_ENTER("GUI::init_platform");
-#if defined(PLATFORM_OS_OSX)
-  [ [ AppController alloc ] init ];
+#if defined(PLATFORM_OS_MACOS)
+  [[AppController alloc] init];
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -403,13 +395,12 @@ GUI::init_platform()
   TRACE_EXIT();
 }
 
-
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 void
 GUI::session_quit_cb(EggSMClient *client, GUI *gui)
 {
-  (void) client;
-  (void) gui;
+  (void)client;
+  (void)gui;
 
   TRACE_ENTER("GUI::session_quit_cb");
 
@@ -419,13 +410,12 @@ GUI::session_quit_cb(EggSMClient *client, GUI *gui)
   TRACE_EXIT();
 }
 
-
 void
 GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 {
-  (void) client;
-  (void) key_file;
-  (void) gui;
+  (void)client;
+  (void)key_file;
+  (void)gui;
 
   CoreFactory::get_configurator()->save();
 }
@@ -438,12 +428,8 @@ GUI::cleanup_session()
   client = egg_sm_client_get();
   if (client)
     {
-      g_signal_handlers_disconnect_by_func(client,
-                                           (gpointer)G_CALLBACK(session_quit_cb),
-                                           this);
-      g_signal_handlers_disconnect_by_func(client,
-                                           (gpointer)G_CALLBACK(session_save_state_cb),
-                                           this);
+      g_signal_handlers_disconnect_by_func(client, (gpointer)G_CALLBACK(session_quit_cb), this);
+      g_signal_handlers_disconnect_by_func(client, (gpointer)G_CALLBACK(session_save_state_cb), this);
     }
 }
 #endif
@@ -453,19 +439,13 @@ GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   EggSMClient *client = NULL;
-  client = egg_sm_client_get();
+  client              = egg_sm_client_get();
   if (client)
     {
-      g_signal_connect(client,
-                       "quit",
-                       G_CALLBACK(session_quit_cb),
-                       this);
-      g_signal_connect(client,
-                       "save-state",
-                       G_CALLBACK(session_save_state_cb),
-                       this);
+      g_signal_connect(client, "quit", G_CALLBACK(session_quit_cb), this);
+      g_signal_connect(client, "save-state", G_CALLBACK(session_save_state_cb), this);
     }
 #endif
 
@@ -481,17 +461,15 @@ GUI::init_debug()
 {
 #if defined(NDEBUG)
   TRACE_ENTER("GUI::init_debug");
-  const char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
-  for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
+  const char *domains[] = {NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject"};
+  for (unsigned int i = 0; i < sizeof(domains) / sizeof(char *); i++)
     {
-      g_log_set_handler(domains[i],
-                        (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
-                        my_log_handler, NULL);
+      g_log_set_handler(
+        domains[i], (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION), my_log_handler, NULL);
     }
   TRACE_EXIT();
 #endif
 }
-
 
 //! Initializes i18n.
 void
@@ -509,15 +487,15 @@ GUI::init_nls()
 #  endif
   const char *locale_dir;
 
-#if defined(PLATFORM_OS_WIN32)
+#  if defined(PLATFORM_OS_WINDOWS)
   string dir = Util::get_application_directory();
   // Use the pre-install locale location if workrave is running from its MSVC build directory.
-  dir += Util::file_exists( dir + "\\..\\Workrave.sln" ) ? "\\..\\frontend" : "\\lib\\locale";
+  dir += Util::file_exists(dir + "\\..\\Workrave.sln") ? "\\..\\frontend" : "\\lib\\locale";
   locale_dir = dir.c_str();
-#elif defined(PLATFORM_OS_OSX)
+#  elif defined(PLATFORM_OS_MACOS)
   char locale_path[MAXPATHLEN * 4];
-  char execpath[MAXPATHLEN+1];
-  uint32_t pathsz = sizeof (execpath);
+  char execpath[MAXPATHLEN + 1];
+  uint32_t pathsz = sizeof(execpath);
 
   _NSGetExecutablePath(execpath, &pathsz);
 
@@ -528,7 +506,7 @@ GUI::init_nls()
   // Locale
   strcat(locale_path, "/../Resources/locale");
   locale_dir = locale_path;
-#else
+#  else
   locale_dir = GNOMELOCALEDIR;
 #  endif
 
@@ -536,7 +514,7 @@ GUI::init_nls()
   setlocale(LC_ALL, "");
 #  endif
 
-#if defined(PLATFORM_OS_WIN32)
+#  if defined(PLATFORM_OS_WINDOWS)
   bindtextdomain("gtk20", locale_dir);
   bindtextdomain("iso_3166", locale_dir);
   bindtextdomain("iso_639", locale_dir);
@@ -547,7 +525,7 @@ GUI::init_nls()
   bind_textdomain_codeset("iso_639", "UTF-8");
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
-#endif
+#  endif
 
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
@@ -555,7 +533,6 @@ GUI::init_nls()
 
 #endif
 }
-
 
 //! Initializes the core.
 void
@@ -574,7 +551,6 @@ GUI::init_core()
   GUIConfig::init();
 }
 
-
 void
 GUI::init_multihead()
 {
@@ -591,14 +567,14 @@ GUI::init_multihead_mem(int new_num_heads)
   TRACE_ENTER("GUI::init_multihead_mem");
   if (new_num_heads != num_heads || num_heads <= 0)
     {
-      delete [] heads;
+      delete[] heads;
       heads = new HeadInfo[new_num_heads];
 
       PreludeWindow **old_prelude_windows = prelude_windows;
-      IBreakWindow **old_break_windows = break_windows;
+      IBreakWindow **old_break_windows    = break_windows;
 
-      prelude_windows = new PreludeWindow*[new_num_heads];/* LEAK */
-      break_windows = new IBreakWindow*[new_num_heads]; /* LEAK */
+      prelude_windows = new PreludeWindow *[new_num_heads]; /* LEAK */
+      break_windows   = new IBreakWindow *[new_num_heads];  /* LEAK */
 
       int max_heads = new_num_heads > num_heads ? new_num_heads : num_heads;
 
@@ -610,12 +586,12 @@ GUI::init_multihead_mem(int new_num_heads)
               if (i < num_heads)
                 {
                   prelude_windows[i] = old_prelude_windows[i];
-                  break_windows[i] = old_break_windows[i];
+                  break_windows[i]   = old_break_windows[i];
                 }
               else
                 {
                   prelude_windows[i] = NULL;
-                  break_windows[i] = NULL;
+                  break_windows[i]   = NULL;
                 }
             }
 
@@ -623,13 +599,11 @@ GUI::init_multihead_mem(int new_num_heads)
             {
               // Number of heads get smaller,
               // destroy breaks/preludes
-              if (old_prelude_windows != NULL &&
-                  old_prelude_windows[i] != NULL)
+              if (old_prelude_windows != NULL && old_prelude_windows[i] != NULL)
                 {
                   old_prelude_windows[i]->destroy();
                 }
-              if (old_break_windows != NULL &&
-                  old_break_windows[i] != NULL)
+              if (old_break_windows != NULL && old_break_windows[i] != NULL)
                 {
                   old_break_windows[i]->destroy();
                 }
@@ -646,8 +620,8 @@ GUI::init_multihead_mem(int new_num_heads)
           active_break_count = new_num_heads;
         }
 
-      delete [] old_prelude_windows;
-      delete [] old_break_windows;
+      delete[] old_prelude_windows;
+      delete[] old_break_windows;
 
       num_heads = new_num_heads;
     }
@@ -659,7 +633,7 @@ GUI::init_multihead_desktop()
 {
   TRACE_ENTER("GUI::init_multihead_desktop");
 
-  int width = 0;
+  int width  = 0;
   int height = 0;
 
   for (int i = 0; i < num_heads; i++)
@@ -684,7 +658,7 @@ GUI::init_multihead_desktop()
         {
           main_window->relocate_window(width, height);
         }
-      screen_width = width;
+      screen_width  = width;
       screen_height = height;
     }
 }
@@ -697,7 +671,7 @@ GUI::init_gtk_multihead()
   int new_num_heads = 0;
 
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  int num_screens = display->get_n_screens();
+  int num_screens                    = display->get_n_screens();
 
   TRACE_MSG("screens = " << num_screens);
   if (num_screens >= 1)
@@ -729,7 +703,8 @@ GUI::init_gtk_multihead()
 
 #ifdef HAVE_GTK3
                   gint scale = screen->get_monitor_scale_factor(j);
-                  rect = Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
+                  rect =
+                    Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
 #endif
                   bool overlap = false;
                   for (int k = 0; !overlap && k < count; k++)
@@ -744,19 +719,16 @@ GUI::init_gtk_multihead()
 
                   if (!overlap)
                     {
-                      heads[count].screen = screen;
-                      heads[count].monitor = j;
-                      heads[count].count = count;
+                      heads[count].screen   = screen;
+                      heads[count].monitor  = j;
+                      heads[count].count    = count;
                       heads[count].geometry = rect;
                       count++;
                     }
 
-                  TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
-                            << rect.get_x() << " "
-                            << rect.get_y() << " "
-                            << rect.get_width() << " "
-                            << rect.get_height() << " "
-                            << " intersects " << overlap);
+                  TRACE_MSG("Screen #" << i << " Monitor #" << j << "  " << rect.get_x() << " " << rect.get_y() << " "
+                                       << rect.get_width() << " " << rect.get_height() << " "
+                                       << " intersects " << overlap);
                 }
             }
         }
@@ -791,8 +763,10 @@ GUI::init_gui()
   // Events
   event_connections.push_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed)));
   event_connections.push_back(main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
-  event_connections.push_back(applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
-  event_connections.push_back(status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate)));
+  event_connections.push_back(
+    applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.push_back(
+    status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate)));
   event_connections.push_back(status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate)));
   event_connections.push_back(status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
 
@@ -803,14 +777,11 @@ GUI::init_gui()
 
   if (dbus->is_available())
     {
-      dbus->connect("/org/workrave/Workrave/UI",
-                    "org.workrave.ControlInterface",
-                    menus);
-
+      dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus);
     }
 #endif
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   win32_init_filter();
 #endif
 
@@ -818,22 +789,20 @@ GUI::init_gui()
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_timer), 1000);
 
 #ifndef HAVE_GTK3
-  static const gchar *rc_string =
-    {
-     "style \"progressBarWidth\"\n"
-     "{\n"
-     "   GtkProgressBar::min-horizontal-bar-width = 10\n"
-     "   GtkProgressBar::min-horizontal-bar-height = 2\n"
-     "}\n"
-     "\n"
-     "widget \"*.locked-progress\" style \"progressBarWidth\"\n"
-     // "class \"GtkProgressBar\" style \"progressBarWidth\"\n"
-    };
+  static const gchar *rc_string = {
+    "style \"progressBarWidth\"\n"
+    "{\n"
+    "   GtkProgressBar::min-horizontal-bar-width = 10\n"
+    "   GtkProgressBar::min-horizontal-bar-height = 2\n"
+    "}\n"
+    "\n"
+    "widget \"*.locked-progress\" style \"progressBarWidth\"\n"
+    // "class \"GtkProgressBar\" style \"progressBarWidth\"\n"
+  };
 
-	gtk_rc_parse_string(rc_string);
+  gtk_rc_parse_string(rc_string);
 #endif
 }
-
 
 #ifdef HAVE_DBUS
 void
@@ -845,8 +814,7 @@ GUI::init_dbus()
     {
       if (dbus->is_running("org.workrave.Workrave"))
         {
-          Gtk::MessageDialog dialog(_("Workrave failed to start"),
-                                    false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+          Gtk::MessageDialog dialog(_("Workrave failed to start"), false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
           dialog.set_secondary_text(_("Is Workrave already running?"));
           dialog.show();
           dialog.run();
@@ -888,12 +856,11 @@ GUI::init_startup_warnings()
     }
 }
 
-
 //! Returns a break window for the specified break.
 IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
 {
-  IBreakWindow *ret = NULL;
+  IBreakWindow *ret               = NULL;
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
@@ -910,7 +877,6 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFla
 
   return ret;
 }
-
 
 //! Initializes the sound player.
 void
@@ -932,7 +898,6 @@ GUI::init_sound_player()
   TRACE_EXIT();
 }
 
-
 void
 GUI::core_event_notify(const CoreEvent event)
 {
@@ -940,15 +905,13 @@ GUI::core_event_notify(const CoreEvent event)
 
   if (sound_player != NULL)
     {
-      if (event >= CORE_EVENT_SOUND_FIRST &&
-          event <= CORE_EVENT_SOUND_LAST)
+      if (event >= CORE_EVENT_SOUND_FIRST && event <= CORE_EVENT_SOUND_LAST)
         {
-          bool mute = false;
-          SoundEvent snd = (SoundEvent) ( (int)event - CORE_EVENT_SOUND_FIRST);
+          bool mute      = false;
+          SoundEvent snd = (SoundEvent)((int)event - CORE_EVENT_SOUND_FIRST);
           TRACE_MSG("play " << event);
 
-          if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED ||
-              event == CORE_EVENT_SOUND_DAILY_LIMIT)
+          if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED || event == CORE_EVENT_SOUND_DAILY_LIMIT)
             {
               CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
               if (mute)
@@ -968,8 +931,7 @@ GUI::core_event_notify(const CoreEvent event)
 #ifdef PLATFORM_OS_UNIX
       msg += _("Make sure that the RECORD extension is enabled in the X server.");
 #endif
-      Gtk::MessageDialog dialog(_("Workrave failed to start"),
-                                false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+      Gtk::MessageDialog dialog(_("Workrave failed to start"), false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
       dialog.set_secondary_text(msg);
       dialog.show();
       dialog.run();
@@ -977,7 +939,6 @@ GUI::core_event_notify(const CoreEvent event)
     }
   TRACE_EXIT();
 }
-
 
 void
 GUI::core_event_operation_mode_changed(const OperationMode m)
@@ -993,7 +954,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 void
 GUI::core_event_usage_mode_changed(const UsageMode m)
 {
-  (void) m;
+  (void)m;
   menus->resync();
 }
 
@@ -1015,13 +976,11 @@ GUI::config_changed_notify(const std::string &key)
   TRACE_EXIT();
 }
 
-
 void
 GUI::set_break_response(IBreakResponse *rep)
 {
   response = rep;
 }
-
 
 void
 GUI::create_prelude_window(BreakId break_id)
@@ -1041,7 +1000,6 @@ GUI::create_prelude_window(BreakId break_id)
   TRACE_EXIT();
 }
 
-
 void
 GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 {
@@ -1051,17 +1009,16 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
   collect_garbage();
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
-  bool ignorable = GUIConfig::get_ignorable(break_id);
-  bool skippable = GUIConfig::get_skippable(break_id);
+  bool ignorable                      = GUIConfig::get_ignorable(break_id);
+  bool skippable                      = GUIConfig::get_skippable(break_id);
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
-  {
-      break_flags = ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
-                      BreakWindow::BREAK_FLAGS_USER_INITIATED);
+    {
+      break_flags = (BreakWindow::BREAK_FLAGS_POSTPONABLE | BreakWindow::BREAK_FLAGS_USER_INITIATED);
 
       if (skippable)
         {
-          break_flags |=  BreakWindow::BREAK_FLAGS_SKIPPABLE;
+          break_flags |= BreakWindow::BREAK_FLAGS_SKIPPABLE;
         }
     }
   else
@@ -1071,7 +1028,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
           break_flags |= BreakWindow::BREAK_FLAGS_POSTPONABLE;
         }
 
-      if(skippable)
+      if (skippable)
         {
           break_flags |= BreakWindow::BREAK_FLAGS_SKIPPABLE;
         }
@@ -1079,8 +1036,8 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 
   if (break_hint & BREAK_HINT_NATURAL_BREAK)
     {
-      break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL |
-                       BreakWindow::BREAK_FLAGS_POSTPONABLE);
+      break_flags |=
+        (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL | BreakWindow::BREAK_FLAGS_POSTPONABLE);
     }
 
   active_break_id = break_id;
@@ -1136,7 +1093,6 @@ GUI::hide_break_window()
   TRACE_EXIT();
 }
 
-
 void
 GUI::show_break_window()
 {
@@ -1165,7 +1121,6 @@ GUI::show_break_window()
   TRACE_EXIT();
 }
 
-
 void
 GUI::refresh_break_window()
 {
@@ -1184,7 +1139,6 @@ GUI::refresh_break_window()
         }
     }
 }
-
 
 void
 GUI::set_break_progress(int value, int max_value)
@@ -1206,7 +1160,6 @@ GUI::set_break_progress(int value, int max_value)
     }
 }
 
-
 void
 GUI::set_prelude_stage(PreludeStage stage)
 {
@@ -1218,7 +1171,6 @@ GUI::set_prelude_stage(PreludeStage stage)
         }
     }
 }
-
 
 void
 GUI::set_prelude_progress_text(PreludeProgressText text)
@@ -1251,7 +1203,7 @@ GUI::collect_garbage()
             }
         }
       prelude_window_destroy = false;
-      active_prelude_count = 0;
+      active_prelude_count   = 0;
     }
 
   if (break_window_destroy)
@@ -1271,11 +1223,10 @@ GUI::collect_garbage()
             }
         }
       break_window_destroy = false;
-      active_break_count = 0;
+      active_break_count   = 0;
     }
   TRACE_EXIT();
 }
-
 
 //! Grabs the pointer and the keyboard.
 bool
@@ -1288,29 +1239,27 @@ GUI::grab()
       for (int i = 0; i < active_break_count; i++)
         {
           Glib::RefPtr<Gdk::Window> window = break_windows[i]->get_gdk_window();
-          windows[i] = window->gobj();
+          windows[i]                       = window->gobj();
         }
 
 #if defined(PLATFORM_OS_UNIX)
       grab_wanted = true;
 #endif
-      if (! grab_handle)
+      if (!grab_handle)
         {
           grab_handle = WindowHints::grab(active_break_count, windows);
 #if defined(PLATFORM_OS_UNIX)
-          if (! grab_handle && !grab_retry_connection.connected())
+          if (!grab_handle && !grab_retry_connection.connected())
             {
-              grab_retry_connection =
-                Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
+              grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
             }
 #endif
         }
 
-      delete [] windows;
+      delete[] windows;
     }
   return grab_handle != NULL;
 }
-
 
 //! Releases the pointer and keyboard grab
 void
@@ -1329,7 +1278,6 @@ GUI::ungrab()
     }
 }
 
-
 void
 GUI::interrupt_grab()
 {
@@ -1347,8 +1295,6 @@ GUI::interrupt_grab()
 #endif
     }
 }
-
-
 
 #if defined(PLATFORM_OS_UNIX)
 //! Reattempt to get the grab
@@ -1370,7 +1316,6 @@ GUI::on_grab_retry_timer()
   return ret;
 }
 #endif
-
 
 bool
 GUI::on_operational_mode_warning_timer()
@@ -1406,9 +1351,9 @@ GUI::map_to_head(int &x, int &y)
     {
       int left, top, width, height;
 
-      left = heads[i].get_x();
-      top = heads[i].get_y();
-      width = heads[i].get_width();
+      left   = heads[i].get_x();
+      top    = heads[i].get_y();
+      width  = heads[i].get_width();
       height = heads[i].get_height();
 
       if (x >= left && y >= top && x < left + width && y < top + height)
@@ -1458,7 +1403,6 @@ GUI::map_from_head(int &x, int &y, int head)
   y += h.get_y();
 }
 
-
 bool
 GUI::bound_head(int &x, int &y, int width, int height, int &head)
 {
@@ -1470,66 +1414,65 @@ GUI::bound_head(int &x, int &y, int width, int height, int &head)
     }
 
   HeadInfo &h = get_head(head);
-  if (x < - h.get_width())
+  if (x < -h.get_width())
     {
-      x = 0;
+      x   = 0;
       ret = true;
     }
-  if (y < - h.get_height())
+  if (y < -h.get_height())
     {
-      y = 0;
+      y   = 0;
       ret = true;
     }
 
   // Make sure something remains visible..
-  if (x > - 10 && x < 0)
+  if (x > -10 && x < 0)
     {
-      x = - 10;
+      x   = -10;
       ret = true;
     }
-  if (y > - 10 && y < 0)
+  if (y > -10 && y < 0)
     {
-      y = - 10;
+      y   = -10;
       ret = true;
     }
 
   if (x + width >= h.get_width())
     {
-      x = h.get_width() - width - 10;
+      x   = h.get_width() - width - 10;
       ret = true;
     }
 
   if (y + height >= h.get_height())
     {
-      y = h.get_height() - height - 10;
+      y   = h.get_height() - height - 10;
       ret = true;
     }
 
   return ret;
 }
 
-
 std::string
 GUI::get_timers_tooltip()
 {
-  //FIXME: duplicate
-  const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
-  string tip = "";
+  // FIXME: duplicate
+  const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
+  string tip           = "";
 
   OperationMode mode = core->get_operation_mode();
   switch (mode)
     {
     case OPERATION_MODE_SUSPENDED:
-      tip = string(_("Mode: ")) +   _("Suspended");
+      tip = string(_("Mode: ")) + _("Suspended");
       break;
 
     case OPERATION_MODE_QUIET:
-      tip = string(_("Mode: ")) +   _("Quiet");
+      tip = string(_("Mode: ")) + _("Quiet");
       break;
 
     case OPERATION_MODE_NORMAL:
     default:
-#if !defined(PLATFORM_OS_WIN32)
+#if !defined(PLATFORM_OS_WINDOWS)
       // Win32 tip is limited in length
       tip = "Workrave";
 #endif
@@ -1539,13 +1482,13 @@ GUI::get_timers_tooltip()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       IBreak *b = core->get_break(BreakId(count));
-      bool on = b->is_enabled();
+      bool on   = b->is_enabled();
 
       if (b != NULL && on)
         {
           // Collect some data.
           time_t maxActiveTime = b->get_limit();
-          time_t activeTime = b->get_elapsed_time();
+          time_t activeTime    = b->get_elapsed_time();
           std::string text;
 
           // Set the text
@@ -1599,7 +1542,7 @@ GUI::process_visibility()
 {
   TRACE_ENTER("GUI::process_visibility");
   TRACE_MSG(main_window->is_visible() << " " << applet_control->is_visible() << " " << status_icon->is_visible());
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   if (!main_window->is_visible() && !applet_control->is_visible())
     {
       GUIConfig::set_trayicon_enabled(true);
@@ -1611,29 +1554,27 @@ GUI::process_visibility()
   TRACE_EXIT();
 }
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
 void
 GUI::win32_init_filter()
 {
-  GtkWidget *window = (GtkWidget *)main_window->gobj();
+  GtkWidget *window     = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(window);
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
 
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
 
 GdkFilterReturn
-GUI::win32_filter_func (void     *xevent,
-                        GdkEvent *event,
-                        gpointer  data)
+GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
 {
   TRACE_ENTER("GUI::win32_filter_func");
-  (void) event;
-  GUI *gui = static_cast<GUI*>(data);
+  (void)event;
+  GUI *gui = static_cast<GUI *>(data);
 
-  MSG *msg = (MSG *) xevent;
+  MSG *msg            = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {
@@ -1700,20 +1641,21 @@ GUI::win32_filter_func (void     *xevent,
       }
       break;
 
-      default:
-        std::shared_ptr<W32AppletWindow> applet_window = std::dynamic_pointer_cast<W32AppletWindow>(gui->applet_control->get_applet_window(AppletControl::AppletType::Windows));
-        if (applet_window)
+    default:
+      std::shared_ptr<W32AppletWindow> applet_window =
+        std::dynamic_pointer_cast<W32AppletWindow>(gui->applet_control->get_applet_window(AppletControl::AppletType::Windows));
+      if (applet_window)
         {
           ret = applet_window->win32_filter_func(xevent, event);
         }
     }
 
-#ifndef USE_W32STATUSICON
+#  ifndef USE_W32STATUSICON
   if (ret != GDK_FILTER_REMOVE && gui->status_icon)
     {
       ret = gui->status_icon->win32_filter_func(xevent, event);
     }
-#endif
+#  endif
 
   TRACE_EXIT();
   return ret;

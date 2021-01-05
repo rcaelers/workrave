@@ -32,7 +32,6 @@ Config::Config()
   key_root = "Software/Workrave";
 }
 
-
 bool
 Config::get_value(const string &key, string &out) const
 {
@@ -55,38 +54,37 @@ Config::get_value(const string &key, string &out) const
       char *buffer;
 
       // get the size, in bytes, required for buffer
-      err = RegQueryValueExA( handle, c.c_str(), NULL, NULL, NULL, &size );
+      err = RegQueryValueExA(handle, c.c_str(), NULL, NULL, NULL, &size);
 
       if (err != ERROR_SUCCESS || !size)
         {
-          RegCloseKey( handle );
+          RegCloseKey(handle);
           TRACE_EXIT();
           return false;
         }
-      else if( !( buffer = (char *)malloc( size + 1 ) ) )
+      else if (!(buffer = (char *)malloc(size + 1)))
         {
-          RegCloseKey( handle );
+          RegCloseKey(handle);
           TRACE_EXIT();
           return false;
         }
 
-      err = RegQueryValueExA( handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size );
-      buffer[ size ] = '\0';
+      err          = RegQueryValueExA(handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size);
+      buffer[size] = '\0';
 
-      if ( err == ERROR_SUCCESS && type == REG_SZ )
+      if (err == ERROR_SUCCESS && type == REG_SZ)
         {
           out = buffer;
-          rc = true;
+          rc  = true;
         }
 
-      RegCloseKey( handle );
-      free( buffer );
+      RegCloseKey(handle);
+      free(buffer);
     }
 
   TRACE_EXIT();
   return rc;
 }
-
 
 //! Returns the value of the specified attribute
 /*!
@@ -101,7 +99,7 @@ Config::get_value(const string &key, int &out) const
   if (rc)
     {
       int f = sscanf(s.c_str(), "%d", &out);
-      rc = (f == 1);
+      rc    = (f == 1);
     }
   return rc;
 }
@@ -118,7 +116,6 @@ Config::get_value(const string &key, bool &out) const
   return rc;
 }
 
-
 string
 Config::key_add_part(string s, string t) const
 {
@@ -130,17 +127,17 @@ Config::key_add_part(string s, string t) const
 void
 Config::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s = key.c_str();
+  const char *s     = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
-      parent = key.substr(0, slash-s);
-      child = slash+1;
+      parent = key.substr(0, slash - s);
+      child  = slash + 1;
     }
   else
     {
       parent = "";
-      child = "";
+      child  = "";
     }
 }
 
@@ -159,7 +156,6 @@ Config::key_win32ify(const string &key) const
   return rc;
 }
 
-
 //! Removes the trailing '/'.
 void
 Config::strip_trailing_slash(string &key) const
@@ -173,7 +169,6 @@ Config::strip_trailing_slash(string &key) const
         }
     }
 }
-
 
 //! Adds add trailing '/' if it isn't there yet.
 void

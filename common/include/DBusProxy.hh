@@ -1,6 +1,6 @@
 // DBusProxy.cc --- support for simple DBUS method execution
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,13 +21,13 @@
 #define DBUSPROXY_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_DBUS
-#include "DBusProxy-gio.hh"
+#  include "DBusProxy-gio.hh"
 #else
-#error "This header file requires DBUS_GIO"
+#  error "This header file requires DBUS_GIO"
 #endif
 
-#endif //DBUSPROXY_HH
+#endif // DBUSPROXY_HH

@@ -49,7 +49,7 @@ namespace workrave
       explicit DBusBindingQt5(IDBus::Ptr dbus);
       ~DBusBindingQt5() override;
 
-      virtual const char *get_interface_introspect() = 0;
+      virtual const char *get_interface_introspect()                                                  = 0;
       virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
 
     protected:
@@ -85,7 +85,7 @@ namespace workrave
       QVariant put_string(const std::string &value);
       QVariant put_string(const QString &value);
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSBINDINGQT5_HH

@@ -1,6 +1,6 @@
-// OSXHelpers.hh --- Helpers for OS X
+// MacOSInputMonitorFactory.hh --- Factory to create input monitors.
 //
-// Copyright (C) 2017 Tom Parker
+// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,19 +17,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSX_HELPERS_HH
-#define OSX_HELPERS_HH
+#ifndef MacOSINPUTMONITORFACTORY_HH
+#define MacOSINPUTMONITORFACTORY_HH
 
-#include <pthread.h>
+#include <stdlib.h>
+#include <string>
 
-#ifndef _MACH_PORT_T
-#define _MACH_PORT_T
-#include <sys/_types.h> /* __darwin_mach_port_t */
-typedef __darwin_mach_port_t mach_port_t;
-mach_port_t pthread_mach_thread_np(pthread_t);
-#endif /* _MACH_PORT_T */
+#include "IInputMonitor.hh"
+#include "IInputMonitorFactory.hh"
 
-#include <mach-o/dyld.h>
-#include <sys/param.h>
+//! Factory to create input monitors.
+class MacOSInputMonitorFactory : public IInputMonitorFactory
+{
+public:
+  MacOSInputMonitorFactory();
+  void init(const char *display);
+  IInputMonitor *get_monitor(MonitorCapability capability);
 
-#endif
+private:
+  IInputMonitor *monitor;
+};
+
+#endif // INPUTMONITORFACTORY_HH

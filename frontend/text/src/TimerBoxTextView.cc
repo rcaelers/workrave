@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -37,43 +37,38 @@
 #include "CoreFactory.hh"
 #include "IBreak.hh"
 
-
 //! Constructor.
 TimerBoxTextView::TimerBoxTextView()
 {
   TRACE_ENTER("TimerBoxTextView::TimerBoxTextView");
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png",
-                                               Util::SEARCH_PATH_IMAGES);
+  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
 
   // XXX: Initialize widgets.
 
   TRACE_EXIT();
 }
 
-
-
 //! Destructor.
-TimerBoxTextView::~TimerBoxTextView()
-{
-}
-
+TimerBoxTextView::~TimerBoxTextView() {}
 
 //! Indicates that break 'id' must be shown on position 'slot'
 void
 TimerBoxTextView::set_slot(BreakId id, int slot)
 {
-  (void) id;
-  (void) slot;
+  (void)id;
+  (void)slot;
 }
 
 void
 TimerBoxTextView::set_time_bar(BreakId id,
                                std::string text,
                                ITimeBar::ColorId primary_color,
-                               int primary_val, int primary_max,
+                               int primary_val,
+                               int primary_max,
                                ITimeBar::ColorId secondary_color,
-                               int secondary_val, int secondary_max)
+                               int secondary_val,
+                               int secondary_max)
 {
   TRACE_ENTER("TimerBoxTextView::set_time_bar");
 
@@ -87,11 +82,10 @@ TimerBoxTextView::set_time_bar(BreakId id,
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
 
   // Amount of time the user is idle
-  TRACE_MSG(secondary_val << " " << secondary_max <<" " << int(secondary_color));
+  TRACE_MSG(secondary_val << " " << secondary_max << " " << int(secondary_color));
 
   TRACE_EXIT();
 }
-
 
 //! Sets the tooltip
 void
@@ -99,9 +93,8 @@ TimerBoxTextView::set_tip(string tip)
 {
   // XXX: Normally, the tooltip is only shown when
   // the sheep is shown and no timers.
-  (void) tip;
+  (void)tip;
 }
-
 
 void
 TimerBoxTextView::set_icon(IconType icon)
@@ -110,23 +103,20 @@ TimerBoxTextView::set_icon(IconType icon)
   switch (icon)
     {
     case ICON_NORMAL:
-      file = Util::complete_directory("workrave-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_QUIET:
-      file = Util::complete_directory("workrave-quiet-icon-medium.png",
-                                             Util::SEARCH_PATH_IMAGES);
+      file = Util::complete_directory("workrave-quiet-icon-medium.png", Util::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_SUSPENDED:
-      file = Util::complete_directory("workrave-suspended-icon-medium.png",
-                                      Util::SEARCH_PATH_IMAGES);
+      file = Util::complete_directory("workrave-suspended-icon-medium.png", Util::SEARCH_PATH_IMAGES);
       break;
     }
 
   // XXX: Do something with file.
-  (void) file;
+  (void)file;
 }
 
 void
@@ -138,13 +128,13 @@ TimerBoxTextView::update_view()
 void
 TimerBoxTextView::set_geometry(Orientation orientation, int size)
 {
-  (void) orientation;
-  (void) size;
+  (void)orientation;
+  (void)size;
 }
 
 void
 TimerBoxTextView::set_enabled(bool enabled)
 {
-  (void) enabled;
+  (void)enabled;
   // Status window disappears, no need to do anything here.
 }

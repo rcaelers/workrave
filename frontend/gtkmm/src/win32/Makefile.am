@@ -9,7 +9,7 @@ EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
 
 if HAVE_APP_GTKMM
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 noinst_LTLIBRARIES = 	libworkrave-frontend-gtkmm-win32.la
 libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			dll_hell.c \

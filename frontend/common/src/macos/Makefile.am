@@ -8,15 +8,15 @@ MAINTAINERCLEANFILES =	Makefile.in
 EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
 
-if PLATFORM_OS_OSX
+if PLATFORM_OS_MACOS
 
-noinst_LTLIBRARIES = 	libworkrave-frontend-common-osx.la
+noinst_LTLIBRARIES = 	libworkrave-frontend-common-macos.la
 
-libworkrave_frontend_common_osx_la_SOURCES = \
+libworkrave_frontend_common_macos_la_SOURCES = \
 			Sound.cc \
-			OSXSoundPlayer.cc
+			MacOSSoundPlayer.cc
 
-libworkrave_frontend_common_osx_la_CXXFLAGS = \
+libworkrave_frontend_common_macos_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			-W -I$(top_srcdir)/frontend/common/src -I$(top_srcdir)/frontend/common/include \

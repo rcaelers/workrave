@@ -42,8 +42,7 @@ namespace Gtk
 
 using namespace workrave;
 
-class Menus :
-  public sigc::trackable
+class Menus : public sigc::trackable
 {
 public:
   Menus();
@@ -51,23 +50,21 @@ public:
 
   //! Menus items to be synced.
   enum MenuKind
-    {
-      MENU_NONE,
-      MENU_MAINWINDOW,
-      MENU_MAINAPPLET,
-      MENU_APPLET_W32,
-      MENU_APPLET_INDICATOR,
-      MENU_APPLET_GENERICDBUS,
-      MENU_SIZEOF,
-    };
- 
+  {
+    MENU_NONE,
+    MENU_MAINWINDOW,
+    MENU_MAINAPPLET,
+    MENU_APPLET_W32,
+    MENU_APPLET_INDICATOR,
+    MENU_APPLET_GENERICDBUS,
+    MENU_SIZEOF,
+  };
+
   void init(AppletControl *applet_control);
   void applet_command(short cmd);
   void resync();
   void locale_changed();
-  void popup(const MenuKind kind,
-             const guint button,
-             const guint activate_time);
+  void popup(const MenuKind kind, const guint button, const guint activate_time);
 
 private:
   void set_usage_mode(UsageMode m);
@@ -105,7 +102,7 @@ public:
   void on_set_operation_mode(OperationMode m);
   void on_menu_debug();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
 #endif
 

@@ -19,7 +19,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -33,7 +33,7 @@
 #include <gtk/gtk.h>
 
 #ifdef GDK_WINDOWING_WAYLAND
-#include <gdk/gdkwayland.h>
+#  include <gdk/gdkwayland.h>
 #endif
 
 #include "GUI.hh"
@@ -53,21 +53,20 @@ GtkUtil::has_button_images()
 {
   // Bypassing gtkmm is necessary, because it does not offer
   // a find_property method yet.
-  GtkSettings* settings = gtk_settings_get_default();
-  GObjectClass * klazz = G_OBJECT_GET_CLASS(G_OBJECT(settings));
-  bool ret = true;
-  if (g_object_class_find_property (klazz, "gtk-button-images"))
+  GtkSettings *settings = gtk_settings_get_default();
+  GObjectClass *klazz   = G_OBJECT_GET_CLASS(G_OBJECT(settings));
+  bool ret              = true;
+  if (g_object_class_find_property(klazz, "gtk-button-images"))
     {
       gboolean gbi;
-      g_object_get (G_OBJECT(settings), "gtk-button-images", &gbi, NULL);
+      g_object_get(G_OBJECT(settings), "gtk-button-images", &gbi, NULL);
       ret = gbi;
     }
   return ret;
 }
 
 Gtk::Button *
-GtkUtil::create_custom_stock_button(const char *label_text,
-                                    const Gtk::StockID& stock_id)
+GtkUtil::create_custom_stock_button(const char *label_text, const Gtk::StockID &stock_id)
 {
   Gtk::Button *ret = new Gtk::Button();
   update_custom_stock_button(ret, label_text, stock_id);
@@ -75,29 +74,26 @@ GtkUtil::create_custom_stock_button(const char *label_text,
 }
 
 void
-GtkUtil::update_custom_stock_button(Gtk::Button *btn,
-                                    const char *label_text,
-                                    const Gtk::StockID& stock_id)
+GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, const Gtk::StockID &stock_id)
 {
   Gtk::Image *img = NULL;
 
   if (has_button_images() || !label_text)
     {
-      img = Gtk::manage(new Gtk::Image(stock_id,
-                                  Gtk::ICON_SIZE_BUTTON));
+      img = Gtk::manage(new Gtk::Image(stock_id, Gtk::ICON_SIZE_BUTTON));
     }
   btn->remove();
   if (label_text != NULL)
     {
-      Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
+      Gtk::Label *label     = Gtk::manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox       = Gtk::manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       if (img != NULL)
         {
           hbox->pack_start(*img, false, false, 0);
         }
       label->set_use_underline();
-      btn->set_data(*label_quark, (void*)label);
+      btn->set_data(*label_quark, (void *)label);
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -110,19 +106,15 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
     }
 }
 
-
 Gtk::Button *
-GtkUtil::create_image_button(const char *label_text,
-                             const char *image_file,
-                             bool label)
+GtkUtil::create_image_button(const char *label_text, const char *image_file, bool label)
 {
   Gtk::Button *btn = new Gtk::Button();
-  Gtk::Image *img = NULL;
+  Gtk::Image *img  = NULL;
   if (has_button_images())
     {
-      string icon = Util::complete_directory(image_file,
-                                             Util::SEARCH_PATH_IMAGES);
-      img = Gtk::manage(new Gtk::Image(icon));
+      string icon = Util::complete_directory(image_file, Util::SEARCH_PATH_IMAGES);
+      img         = Gtk::manage(new Gtk::Image(icon));
     }
   else
     {
@@ -131,15 +123,15 @@ GtkUtil::create_image_button(const char *label_text,
     }
   if (label_text != NULL && label)
     {
-      Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
+      Gtk::Label *label     = Gtk::manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox       = Gtk::manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       if (img != NULL)
         {
           hbox->pack_start(*img, false, false, 0);
         }
       label->set_use_underline();
-      btn->set_data(*label_quark, (void*)label);
+      btn->set_data(*label_quark, (void *)label);
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -153,12 +145,10 @@ GtkUtil::create_image_button(const char *label_text,
   return btn;
 }
 
-
-
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {
-  Gtk::HBox *box = new Gtk::HBox(false, 3);
+  Gtk::HBox *box  = new Gtk::HBox(false, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   box->pack_start(*img, false, false, 0);
@@ -166,24 +156,21 @@ GtkUtil::create_label_with_icon(string text, const char *icon)
   return box;
 }
 
-
 Gtk::Widget *
 GtkUtil::create_label_for_break(BreakId id)
 {
   // FIXME: duplicate:
-  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  const char *icons[]  = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
+  const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
 
   string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
 
-  Gtk::Widget *label =
-    GtkUtil::create_label_with_icon(labels[id], icon.c_str());
+  Gtk::Widget *label = GtkUtil::create_label_with_icon(labels[id], icon.c_str());
   return label;
 }
 
 void
-GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
-                              guint left_attach, guint top_attach, bool left)
+GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left)
 {
   Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment
 #ifdef HAVE_GTK3
@@ -193,27 +180,23 @@ GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
                                   (left ? Gtk::ALIGN_LEFT : Gtk::ALIGN_RIGHT,
                                    Gtk::ALIGN_BOTTOM,
 #endif
-                                   0.0, 0.0));
+                                   0.0,
+                                   0.0));
   a->add(child);
-  table.attach(*a, left_attach, left_attach+1, top_attach, top_attach + 1,
-               Gtk::FILL, Gtk::SHRINK);
+  table.attach(*a, left_attach, left_attach + 1, top_attach, top_attach + 1, Gtk::FILL, Gtk::SHRINK);
 }
 
 void
-GtkUtil::table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child,
-                                   guint left_attach, guint top_attach)
+GtkUtil::table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach)
 {
   table_attach_aligned(table, child, left_attach, top_attach, true);
 }
 
 void
-GtkUtil::table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
-                                   guint left_attach, guint top_attach)
+GtkUtil::table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach)
 {
   table_attach_aligned(table, child, left_attach, top_attach, false);
 }
-
-
 
 Gtk::Widget *
 GtkUtil::create_label_with_tooltip(string text, string tooltip)
@@ -233,7 +216,6 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
 #endif
 }
 
-
 EventImage *
 GtkUtil::create_image_with_tooltip(string file, string tooltip)
 {
@@ -243,12 +225,10 @@ GtkUtil::create_image_with_tooltip(string file, string tooltip)
   return image;
 }
 
-
 Gtk::Label *
 GtkUtil::create_label(string text, bool bold)
 {
-  Gtk::Label *label
-    = new Gtk::Label();
+  Gtk::Label *label = new Gtk::Label();
   if (bold)
     {
       label->set_markup(string("<span weight=\"bold\">") + text + "</span>");
@@ -259,7 +239,6 @@ GtkUtil::create_label(string text, bool bold)
     }
   return label;
 }
-
 
 /*
  * Returns a copy of pixbuf mirrored and or flipped.
@@ -280,16 +259,17 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
   gint i, j;
   gint a;
 
-  if (!src) return NULL;
+  if (!src)
+    return NULL;
 
-  w = gdk_pixbuf_get_width(src);
-  h = gdk_pixbuf_get_height(src);
+  w         = gdk_pixbuf_get_width(src);
+  h         = gdk_pixbuf_get_height(src);
   has_alpha = gdk_pixbuf_get_has_alpha(src);
-  srs = gdk_pixbuf_get_rowstride(src);
-  s_pix = gdk_pixbuf_get_pixels(src);
+  srs       = gdk_pixbuf_get_rowstride(src);
+  s_pix     = gdk_pixbuf_get_pixels(src);
 
-  dest = gdk_pixbuf_new(GDK_COLORSPACE_RGB, has_alpha, 8, w, h);
-  drs = gdk_pixbuf_get_rowstride(dest);
+  dest  = gdk_pixbuf_new(GDK_COLORSPACE_RGB, has_alpha, 8, w, h);
+  drs   = gdk_pixbuf_get_rowstride(dest);
   d_pix = gdk_pixbuf_get_pixels(dest);
 
   a = has_alpha ? 4 : 3;
@@ -310,10 +290,11 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
           dp += (w - 1) * a;
           for (j = 0; j < w; j++)
             {
-              *(dp++) = *(sp++);  /* r */
-              *(dp++) = *(sp++);  /* g */
-              *(dp++) = *(sp++);  /* b */
-              if (has_alpha) *(dp) = *(sp++); /* a */
+              *(dp++) = *(sp++); /* r */
+              *(dp++) = *(sp++); /* g */
+              *(dp++) = *(sp++); /* b */
+              if (has_alpha)
+                *(dp) = *(sp++); /* a */
               dp -= (a + 3);
             }
         }
@@ -321,10 +302,11 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
         {
           for (j = 0; j < w; j++)
             {
-              *(dp++) = *(sp++);  /* r */
-              *(dp++) = *(sp++);  /* g */
-              *(dp++) = *(sp++);  /* b */
-              if (has_alpha) *(dp++) = *(sp++); /* a */
+              *(dp++) = *(sp++); /* r */
+              *(dp++) = *(sp++); /* g */
+              *(dp++) = *(sp++); /* b */
+              if (has_alpha)
+                *(dp++) = *(sp++); /* a */
             }
         }
     }
@@ -332,15 +314,13 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
   return dest;
 }
 
-
 Glib::RefPtr<Gdk::Pixbuf>
 GtkUtil::flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical)
 {
-  GdkPixbuf *pb = pixbuf->gobj();
+  GdkPixbuf *pb     = pixbuf->gobj();
   GdkPixbuf *pbflip = pixbuf_copy_mirror(pb, horizontal, vertical);
   return Glib::wrap(pbflip, false);
 }
-
 
 //! Centers the window.
 void
@@ -359,8 +339,8 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
   int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
 
-  TRACE_MSG(head.geometry.get_x() << " "  << head.geometry.get_width() << " " << size.width);
-  TRACE_MSG(head.geometry.get_y() << " "  << head.geometry.get_height() << " " << size.height);
+  TRACE_MSG(head.geometry.get_x() << " " << head.geometry.get_width() << " " << size.width);
+  TRACE_MSG(head.geometry.get_y() << " " << head.geometry.get_height() << " " << size.height);
 
   window.set_position(Gtk::WIN_POS_NONE);
   window.move(x, y);
@@ -380,64 +360,63 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
       if (mnemonic != GDK_VoidSymbol)
 #endif
         {
-          widget->add_accelerator("activate", accel_group, mnemonic,  (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
+          widget->add_accelerator("activate", accel_group, mnemonic, (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
         }
     }
 }
-
 
 /* GtkUtil::get_visible_tooltip_window()
 
 returns the visible tooltip window or NULL
 */
-GtkWindow *GtkUtil::get_visible_tooltip_window()
+GtkWindow *
+GtkUtil::get_visible_tooltip_window()
 {
-    GtkWindow *func_retval = NULL;
+  GtkWindow *func_retval = NULL;
 
-    GList *list = gtk_window_list_toplevels();
-    for( GList *item = list; item; item = item->next )
+  GList *list = gtk_window_list_toplevels();
+  for (GList *item = list; item; item = item->next)
     {
-        GtkWidget *widget = (GtkWidget *)item->data;
-        if( !widget || !GTK_IS_WINDOW( widget ) || !gtk_widget_get_visible( widget ) )
-            continue;
+      GtkWidget *widget = (GtkWidget *)item->data;
+      if (!widget || !GTK_IS_WINDOW(widget) || !gtk_widget_get_visible(widget))
+        continue;
 
-        const char *widget_name = gtk_widget_get_name( widget );
-        if( !widget_name )
-            continue;
+      const char *widget_name = gtk_widget_get_name(widget);
+      if (!widget_name)
+        continue;
 
-        if( !strcmp( widget_name, "gtk-tooltip" ) )
+      if (!strcmp(widget_name, "gtk-tooltip"))
         {
-            func_retval = (GtkWindow *)widget;
-            break;
+          func_retval = (GtkWindow *)widget;
+          break;
         }
     }
 
-    g_list_free( list );
-    return func_retval;
+  g_list_free(list);
+  return func_retval;
 }
 
 bool
 GtkUtil::running_on_wayland()
 {
 #ifdef GDK_WINDOWING_WAYLAND
-  GdkDisplay* display = gdk_display_manager_get_default_display(gdk_display_manager_get());
+  GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   return GDK_IS_WAYLAND_DISPLAY(display);
 #else
   return false;
 #endif
 }
 
-
 void
 GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 {
-#if GTK_CHECK_VERSION(3,0,0)
+#if GTK_CHECK_VERSION(3, 0, 0)
   const char style[] =
-  "* {\n"
-  "color: @theme_fg_color;\n"
-  "}";
+    "* {\n"
+    "color: @theme_fg_color;\n"
+    "}";
 
-  Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
+  Glib::RefPtr<Gtk::CssProvider> css_provider   = Gtk::CssProvider::create();
   Glib::RefPtr<Gtk::StyleContext> style_context = widget->get_style_context();
 
   css_provider->load_from_data(style);
@@ -445,13 +424,12 @@ GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 #endif
 }
 
-
 std::string
 GtkUtil::get_image_filename(const std::string &image)
 {
   std::string theme = GUIConfig::get_icon_theme();
 
-  if (theme != "") 
+  if (theme != "")
     {
       theme += G_DIR_SEPARATOR_S;
     }
@@ -476,7 +454,7 @@ GtkUtil::create_pixbuf(const std::string &name)
     {
       ret = Gdk::Pixbuf::create_from_file(filename);
     }
-  catch(const Glib::Exception&)
+  catch (const Glib::Exception &)
     {
     }
   return ret;
@@ -486,13 +464,13 @@ Gtk::Image *
 GtkUtil::create_image(const std::string &name)
 {
   std::string filename = get_image_filename(name);
-  Gtk::Image *ret = NULL;
+  Gtk::Image *ret      = NULL;
 
   try
     {
       ret = Gtk::manage(new Gtk::Image(filename));
     }
-  catch(const Glib::Exception&)
+  catch (const Glib::Exception &)
     {
     }
   return ret;

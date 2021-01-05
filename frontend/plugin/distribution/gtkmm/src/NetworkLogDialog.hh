@@ -42,9 +42,9 @@ namespace Gtk
 
 using namespace workrave;
 
-class NetworkLogDialog :
-  public Gtk::Dialog,
-  public DistributionLogListener
+class NetworkLogDialog
+  : public Gtk::Dialog
+  , public DistributionLogListener
 {
 public:
   NetworkLogDialog();

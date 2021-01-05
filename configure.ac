@@ -217,22 +217,22 @@ dnl Checking target platform.
 dnl
 AC_MSG_CHECKING([for platform])
 
-platform_os_win32=no
-platform_os_osx=no
+PLATFORM_OS_WINDOWS=no
+PLATFORM_OS_MACOS=no
 platform_os_unix=no
 platform_variant_x11=no
 
 case "$target_or_host" in
   *-*mingw*|*-*-mingw*|*-*-cygwin*)
-    platform_os_win32=yes
+    PLATFORM_OS_WINDOWS=yes
     platform_os_name="Windows"
-   AC_DEFINE(PLATFORM_OS_WIN32,,[Define if compiling for the Win32 platform])
+   AC_DEFINE(PLATFORM_OS_WINDOWS,,[Define if compiling for the Win32 platform])
    AC_DEFINE(HAVE_LANGUAGE_SELECTION,,[Define if the UI language can be defined in the preferences])
     ;;
   *-*-darwin* | *-*-rhapsody*)
-    platform_os_osx=yes
+    PLATFORM_OS_MACOS=yes
     platform_os_name="OS X"
-   AC_DEFINE(PLATFORM_OS_OSX,,[Define if compiling for the OS X platform])
+   AC_DEFINE(PLATFORM_OS_MACOS,,[Define if compiling for the OS X platform])
     ;;
   *)
     platform_os_unix=yes
@@ -243,10 +243,10 @@ esac
 
 AC_MSG_RESULT([$platform_os_name])
 
-AM_CONDITIONAL(PLATFORM_OS_WIN32, test "x$platform_os_win32" = "xyes")
-AM_CONDITIONAL(PLATFORM_OS_OSX, test "x$platform_os_osx" = "xyes")
+AM_CONDITIONAL(PLATFORM_OS_WINDOWS, test "x$PLATFORM_OS_WINDOWS" = "xyes")
+AM_CONDITIONAL(PLATFORM_OS_MACOS, test "x$PLATFORM_OS_MACOS" = "xyes")
 AM_CONDITIONAL(PLATFORM_OS_UNIX, test "x$platform_os_unix" = "xyes")
-AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "x$platform_os_win32" = "xyes")
+AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "x$PLATFORM_OS_WINDOWS" = "xyes")
 
 dnl
 dnl Debug
@@ -284,7 +284,7 @@ LIBSTDCPP_LIBS=
 WIN32CONSOLE=
 DIRECTSOUNDLIBS=
 
-if test "x$platform_os_win32" = "xyes"
+if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
     LIBSTDCPP_LIBS=-lstdc++
 
@@ -334,14 +334,14 @@ AC_SUBST(DIRECTSOUNDLIBS)
 AM_CONDITIONAL(HAVE_DSOUND, test "x$have_dsound" = "xyes")
 
 dnl
-dnl OSX specific checks
+dnl MacOS specific checks
 dnl
 
 PKG_PROG_PKG_CONFIG
 
-AC_SUBST(OSX_CFLAGS)
+AC_SUBST(MacOS_CFLAGS)
 
-if test "x$platform_os_osx" = "xyes"
+if test "x$PLATFORM_OS_MACOS" = "xyes"
 then
 
    PKG_CHECK_MODULES(IGE, gtk-mac-integration >= 2.0,
@@ -360,7 +360,7 @@ then
 
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
     LIBS="$LIBS -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
-    OSX_CFLAGS=""
+    MacOS_CFLAGS=""
 fi
 
 AC_SUBST(IGE_LIBS)
@@ -497,7 +497,7 @@ dnl
 config_dbus=no
 have_python_jinja2=no
 
-if test "x$enable_dbus" != "xno" -a "x$platform_os_win32" != "xyes" -a "x$platform_os_osx" != "xyes"
+if test "x$enable_dbus" != "xno" -a "x$PLATFORM_OS_WINDOWS" != "xyes" -a "x$PLATFORM_OS_MACOS" != "xyes"
 then
 PKG_CHECK_MODULES([GIO],
                   [gio-2.0 >= 2.26.0],
@@ -602,7 +602,7 @@ dnl
 config_gtk=no
 config_gtk_version=none
 
-if test "x$platform_os_win32" != "xyes"
+if test "x$PLATFORM_OS_WINDOWS" != "xyes"
 then
 
 PKG_CHECK_MODULES(GTK,
@@ -641,7 +641,7 @@ dnl
 dnl Introspection
 dnl
 
-if test "x$platform_os_win32" != "xyes"
+if test "x$PLATFORM_OS_WINDOWS" != "xyes"
 then
     GOBJECT_INTROSPECTION_CHECK([0.6.7])
 else
@@ -931,7 +931,7 @@ AM_GNU_GETTEXT_VERSION([0.18])
 AM_GNU_GETTEXT([external])
 
 dnl Hack because windows gettext package is SEVERELY broken...
-if test "x$platform_os_win32" = "xyes"
+if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
         USE_NLS=yes
         AC_DEFINE(ENABLE_NLS,1,[Define to 1 if translation of program messages to the user's native language is requested.])
@@ -978,12 +978,12 @@ dnl
 
 variant=""
 
-if test "x$platform_os_win32" = "xyes"
+if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
    variant="$variant win32"
-elif test "x$platform_os_osx" = "xyes"
+elif test "x$PLATFORM_OS_MACOS" = "xyes"
 then
-   variant="$variant osx unix"
+   variant="$variant macos unix"
 elif test "x$platform_os_unix" = "xyes"
 then
    variant="$variant x11 unix"
@@ -1051,7 +1051,7 @@ dnl
 dnl Generate language list.
 dnl
 
-if test "x$platform_os_win32" = "xyes"
+if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
     LANGFILE="./frontend/gtkmm/win32/setup/lang.iss"
 
@@ -1077,7 +1077,7 @@ AC_CONFIG_FILES([Makefile
              backend/src/Makefile
              backend/src/org.workrave.gschema.xml.in
              backend/src/unix/Makefile
-             backend/src/osx/Makefile
+             backend/src/macos/Makefile
              backend/src/win32/Makefile
              backend/include/Makefile
              common/Makefile
@@ -1118,11 +1118,11 @@ AC_CONFIG_FILES([Makefile
              frontend/common/share/images/128x128/Makefile
              frontend/common/share/images/scalable/Makefile
              frontend/common/share/images/win32/Makefile
-             frontend/common/share/images/osx/Makefile
+             frontend/common/share/images/macos/Makefile
              frontend/common/src/Makefile
              frontend/common/src/win32/Makefile
              frontend/common/src/x11/Makefile
-             frontend/common/src/osx/Makefile
+             frontend/common/src/macos/Makefile
              frontend/applets/Makefile
              frontend/applets/win32/Makefile
              frontend/applets/win32/src/Makefile
@@ -1146,7 +1146,7 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/cinnamon/Makefile
              frontend/applets/cinnamon/src/Makefile
              frontend/gtkmm/Makefile
-             frontend/gtkmm/osx/Makefile
+             frontend/gtkmm/macos/Makefile
              frontend/gtkmm/win32/Makefile
              frontend/gtkmm/win32/setup/Makefile
              frontend/gtkmm/win32/setup/setup.iss
@@ -1155,7 +1155,7 @@ AC_CONFIG_FILES([Makefile
              frontend/gtkmm/src/org.workrave.gui.gschema.xml.in
              frontend/gtkmm/src/win32/Makefile
              frontend/gtkmm/src/unix/Makefile
-             frontend/gtkmm/src/osx/Makefile
+             frontend/gtkmm/src/macos/Makefile
              frontend/text/Makefile
              frontend/text/src/Makefile
              frontend/plugin/Makefile

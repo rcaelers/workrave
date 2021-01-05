@@ -1,4 +1,4 @@
-// OSXConfigurator.hh
+// MacOSConfigurator.hh
 //
 // Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXCONFIGURATOR_HH
-#define OSXCONFIGURATOR_HH
+#ifndef MacOSCONFIGURATOR_HH
+#define MacOSCONFIGURATOR_HH
 
 #include <string>
 #include <list>
@@ -26,12 +26,11 @@
 
 #include "IConfigBackend.hh"
 
-class OSXConfigurator :
-  public virtual IConfigBackend
+class MacOSConfigurator : public virtual IConfigBackend
 {
 public:
-  OSXConfigurator();
-  virtual ~OSXConfigurator();
+  MacOSConfigurator();
+  virtual ~MacOSConfigurator();
 
   virtual bool load(std::string filename);
   virtual bool save(std::string filename);
@@ -42,4 +41,4 @@ public:
   virtual bool set_value(const std::string &key, Variant &value);
 };
 
-#endif // OSXCONFIGURATOR_HH
+#endif // MacOSCONFIGURATOR_HH

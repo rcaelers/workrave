@@ -32,24 +32,26 @@ class ITimerBoxView
 {
 public:
   enum IconType
-    {
-      ICON_NORMAL,
-      ICON_QUIET,
-      ICON_SUSPENDED
-    };
+  {
+    ICON_NORMAL,
+    ICON_QUIET,
+    ICON_SUSPENDED
+  };
 
   virtual ~ITimerBoxView() {}
 
-  virtual void set_slot(BreakId  id, int slot) = 0;
+  virtual void set_slot(BreakId id, int slot)                  = 0;
   virtual void set_time_bar(BreakId id,
                             std::string text,
                             ITimeBar::ColorId primary_color,
-                            int primary_value, int primary_max,
+                            int primary_value,
+                            int primary_max,
                             ITimeBar::ColorId secondary_color,
-                            int secondary_value, int secondary_max) = 0;
-  virtual void set_tip(std::string tip) = 0;
-  virtual void set_icon(IconType icon) = 0;
-  virtual void update_view() = 0;
+                            int secondary_value,
+                            int secondary_max)                 = 0;
+  virtual void set_tip(std::string tip)                        = 0;
+  virtual void set_icon(IconType icon)                         = 0;
+  virtual void update_view()                                   = 0;
   virtual void set_geometry(Orientation orientation, int size) = 0;
 };
 

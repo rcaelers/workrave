@@ -28,7 +28,7 @@ using namespace workrave;
 class IPreludeWindow
 {
 public:
-  virtual ~IPreludeWindow() {};
+  virtual ~IPreludeWindow(){};
 
   //! Starts (i.e. shows) the prelude window.
   virtual void start() = 0;

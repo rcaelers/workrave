@@ -1,7 +1,7 @@
-#import "OSXTimeBar.h"
+#import "MacOSTimeBar.h"
 
 
-@implementation OSXTimeBar
+@implementation MacOSTimeBar
 
 - (void) setText: (NSString*) aText
 {

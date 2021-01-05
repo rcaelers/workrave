@@ -1,5 +1,5 @@
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gtkmm/label.h>
@@ -12,15 +12,14 @@ HigDialog::HigDialog()
   set_hig_defaults();
 }
 
-HigDialog::HigDialog(const Glib::ustring& title, bool modal,
-                     bool use_separator)
+HigDialog::HigDialog(const Glib::ustring &title, bool modal, bool use_separator)
 #ifdef HAVE_GTK3
   : Gtk::Dialog(title, modal)
 #else
-    : Gtk::Dialog(title, modal, use_separator)
+  : Gtk::Dialog(title, modal, use_separator)
 #endif
 {
-  (void) use_separator;
+  (void)use_separator;
 
   set_hig_defaults();
   vbox = NULL;
@@ -122,7 +121,6 @@ HigCategoryPanel::add_caption(Gtk::Widget &lab)
   options_box->set_spacing(6);
 }
 
-
 HigCategoriesPanel::HigCategoriesPanel()
 {
   set_spacing(18);
@@ -134,10 +132,8 @@ HigCategoriesPanel::add(Gtk::Widget &panel)
   pack_start(panel, false, false, 0);
 }
 
-
 Glib::ustring
-HigUtil::create_alert_text(const char *caption,
-                           const char *body)
+HigUtil::create_alert_text(const char *caption, const char *body)
 {
   Glib::ustring txt = "<span weight=\"bold\" size=\"larger\">";
   txt += caption;

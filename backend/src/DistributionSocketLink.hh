@@ -23,14 +23,14 @@
 #include <map>
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #include "DistributionLink.hh"
@@ -47,15 +47,16 @@
 
 class Configurator;
 
-class DistributionSocketLink :
-  public DistributionLink,
-  public IConfiguratorListener,
-  public ISocketServerListener,
-  public ISocketListener
+class DistributionSocketLink
+  : public DistributionLink
+  , public IConfiguratorListener
+  , public ISocketServerListener
+  , public ISocketListener
 {
 public:
 private:
-  enum PacketCommand {
+  enum PacketCommand
+  {
     PACKET_HELLO1       = 0x0001,
     PACKET_CLAIM        = 0x0002,
     PACKET_CLIENT_LIST  = 0x0003,
@@ -68,54 +69,55 @@ private:
     PACKET_HELLO2       = 0x000A,
   };
 
-  enum PacketFlags {
-    PACKETFLAG_SOURCE   = 0x0001,
-    PACKETFLAG_DEST     = 0x0002,
+  enum PacketFlags
+  {
+    PACKETFLAG_SOURCE = 0x0001,
+    PACKETFLAG_DEST   = 0x0002,
   };
 
   enum ClientListFlags
-    {
-      CLIENTLIST_ME     = 1,
-      CLIENTLIST_MASTER = 2,
-    };
+  {
+    CLIENTLIST_ME     = 1,
+    CLIENTLIST_MASTER = 2,
+  };
 
   struct ClientMessageListener
   {
     IDistributionClientMessage *listener;
     DistributionClientMessageType type;
 
-    ClientMessageListener() :
-      listener(NULL),
-      type(DCMT_PASSIVE)
+    ClientMessageListener()
+      : listener(NULL)
+      , type(DCMT_PASSIVE)
     {
     }
   };
 
   enum ClientType
-    {
-      CLIENTTYPE_UNKNOWN    = 1,
-      CLIENTTYPE_DIRECT     = 2,
-      CLIENTTYPE_ROUTED     = 3,
-      CLIENTTYPE_SIGNEDOFF  = 4,
-    };
+  {
+    CLIENTTYPE_UNKNOWN   = 1,
+    CLIENTTYPE_DIRECT    = 2,
+    CLIENTTYPE_ROUTED    = 3,
+    CLIENTTYPE_SIGNEDOFF = 4,
+  };
 
   struct Client
   {
-    Client() :
-      type(CLIENTTYPE_UNKNOWN),
-      peer(NULL),
-      socket(NULL),
-      id(NULL),
-      hostname(NULL),
-      port(0),
-      sent_client_list(false),
-      welcome(false),
-      reconnect_count(0),
-      reconnect_time(0),
-      next_claim_time(0),
-      reject_count(0),
-      claim_count(0),
-      outbound(false)
+    Client()
+      : type(CLIENTTYPE_UNKNOWN)
+      , peer(NULL)
+      , socket(NULL)
+      , id(NULL)
+      , hostname(NULL)
+      , port(0)
+      , sent_client_list(false)
+      , welcome(false)
+      , reconnect_count(0)
+      , reconnect_time(0)
+      , next_claim_time(0)
+      , reject_count(0)
+      , claim_count(0)
+      , outbound(false)
     {
     }
 
@@ -146,7 +148,7 @@ private:
 
     //! Challenge
     std::string challenge;
-    
+
     //! Canonical IP.
     gchar *hostname;
 
@@ -181,7 +183,6 @@ private:
     bool outbound;
   };
 
-
 public:
   DistributionSocketLink(Configurator *conf);
   virtual ~DistributionSocketLink();
@@ -202,8 +203,8 @@ public:
   bool claim();
   bool set_lock_master(bool lock);
 
-  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
-                               IDistributionClientMessage *callback);
+  bool
+  register_client_message(DistributionClientMessageID id, DistributionClientMessageType type, IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
 
@@ -266,7 +267,7 @@ private:
   void config_changed_notify(const string &key);
 
   std::string get_random_string() const;
-  
+
 private:
   typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
 
@@ -300,10 +301,10 @@ private:
   bool master_locked;
 
   //! My name
-  //gchar *myname;
+  // gchar *myname;
 
   //! My ID accross the network.
-  //gchar *myid;
+  // gchar *myid;
 
   //! My server port
   gint server_port;

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Sound.hh"
@@ -35,21 +35,20 @@ Sound::beep(Display *x11, int freq, int millis)
   XKeyboardControl values;
   values.bell_pitch = freq;
   // FIXME: why /2 ? The spec claims bell_duration is in millis!!
-  values.bell_duration = millis/2;
-  XChangeKeyboardControl(x11, KBBellDuration|KBBellPitch, &values);
+  values.bell_duration = millis / 2;
+  XChangeKeyboardControl(x11, KBBellDuration | KBBellPitch, &values);
   XBell(x11, state.bell_percent);
 
-  values.bell_pitch = state.bell_pitch;
+  values.bell_pitch    = state.bell_pitch;
   values.bell_duration = state.bell_duration;
-  XChangeKeyboardControl(x11, KBBellDuration|KBBellPitch, &values);
+  XChangeKeyboardControl(x11, KBBellDuration | KBBellPitch, &values);
 
 #ifdef HAVE_NANOSLEEP
   struct timespec tv;
-  tv.tv_sec = millis/1000;
-  tv.tv_nsec = (millis% 1000)*1000000;
+  tv.tv_sec  = millis / 1000;
+  tv.tv_nsec = (millis % 1000) * 1000000;
   nanosleep(&tv, 0);
 #else
-#error No nanosleep
+#  error No nanosleep
 #endif
-
 }

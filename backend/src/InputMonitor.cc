@@ -18,25 +18,20 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <assert.h>
 
 #include "InputMonitor.hh"
 
-
 InputMonitor::InputMonitor()
-  : activity_listener(NULL),
-    statistics_listener(NULL)
+  : activity_listener(NULL)
+  , statistics_listener(NULL)
 {
 }
 
-
-InputMonitor::~InputMonitor()
-{
-}
-
+InputMonitor::~InputMonitor() {}
 
 void
 InputMonitor::subscribe_activity(IInputMonitorListener *listener)
@@ -45,7 +40,6 @@ InputMonitor::subscribe_activity(IInputMonitorListener *listener)
   activity_listener = listener;
 }
 
-
 void
 InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
 {
@@ -53,20 +47,18 @@ InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
   statistics_listener = listener;
 }
 
-
 void
 InputMonitor::unsubscribe_activity(IInputMonitorListener *listener)
 {
-  (void) listener;
+  (void)listener;
   assert(activity_listener != NULL);
   activity_listener = NULL;
 }
 
-
 void
 InputMonitor::unsubscribe_statistics(IInputMonitorListener *listener)
 {
-  (void) listener;
+  (void)listener;
   assert(statistics_listener != NULL);
   statistics_listener = NULL;
 }

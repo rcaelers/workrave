@@ -65,12 +65,12 @@ set(BACKEND_SOURCES
 
 if (APPLE)
   set(BACKEND_SOURCES ${BACKEND_SOURCES}
-    ${BACKEND_DIR}/src/osx/OSXConfigurator.cc
-    ${BACKEND_DIR}/src/osx/OSXConfigurator.hh
-    ${BACKEND_DIR}/src/osx/OSXInputMonitor.cc
-    ${BACKEND_DIR}/src/osx/OSXInputMonitor.hh
-    ${BACKEND_DIR}/src/osx/OSXInputMonitorFactory.cc
-    ${BACKEND_DIR}/src/osx/OSXInputMonitorFactory.hh
+    ${BACKEND_DIR}/src/macos/MacOSConfigurator.cc
+    ${BACKEND_DIR}/src/macos/MacOSConfigurator.hh
+    ${BACKEND_DIR}/src/macos/MacOSInputMonitor.cc
+    ${BACKEND_DIR}/src/macos/MacOSInputMonitor.hh
+    ${BACKEND_DIR}/src/macos/MacOSInputMonitorFactory.cc
+    ${BACKEND_DIR}/src/macos/MacOSInputMonitorFactory.hh
   )
 endif (APPLE)
   

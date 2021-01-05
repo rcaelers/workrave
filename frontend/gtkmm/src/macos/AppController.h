@@ -1,6 +1,6 @@
-// Sound.cc --- Sound class
+// AppController.hh --- MacOS Application Controller
 //
-// Copyright (C) 2002, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#import <Cocoa/Cocoa.h>
 
-#include "Sound.hh"
-
-void
-Sound::beep(int freq, int millis)
+@interface AppController : NSObject
 {
-  (void) freq;
-  (void) millis;
 }
+
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
+
+@end

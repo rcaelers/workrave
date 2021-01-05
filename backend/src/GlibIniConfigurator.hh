@@ -28,8 +28,7 @@
 
 #include "IConfigBackend.hh"
 
-class GlibIniConfigurator :
-  public virtual IConfigBackend
+class GlibIniConfigurator : public virtual IConfigBackend
 {
 public:
   GlibIniConfigurator();

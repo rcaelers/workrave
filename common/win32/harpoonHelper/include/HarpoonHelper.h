@@ -23,14 +23,14 @@
 #define HARPOON_HELPER_H
 
 #if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
 #  include <sys/time.h>
-# else
 #  include <time.h>
-# endif
+#else
+#  if HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
 #endif
 
 #include <windows.h>
@@ -42,14 +42,13 @@
 typedef enum
 {
   HARPOON_HELPER_NOTHING = -1,
-  HARPOON_HELPER_INIT = 0,
+  HARPOON_HELPER_INIT    = 0,
   HARPOON_HELPER_EXIT,
   HARPOON_HELPER_BLOCK,
   HARPOON_HELPER_UNBLOCK,
   HARPOON_HELPER_EVENT__SIZEOF
 
 } HarpoonHelperEventType;
-
 
 //! Activity monitor for a local X server.
 class HarpoonHelper
@@ -70,13 +69,13 @@ private:
   HWND notification_window;
   char *args;
 
-  char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
+  char critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 
   ATOM notification_class;
   static LRESULT CALLBACK harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
   void init_critical_filename_list();
-  bool check_for_taskmgr_debugger( char *out );
+  bool check_for_taskmgr_debugger(char *out);
 };
 
 #endif // HARPOON_HELPER_H

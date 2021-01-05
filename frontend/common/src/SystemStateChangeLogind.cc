@@ -20,15 +20,15 @@
 #include "SystemStateChangeLogind.hh"
 
 #ifdef HAVE_GLIB
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 #ifdef HAVE_STRING_H
-#include <string.h>
+#  include <string.h>
 #endif
 
 #ifdef HAVE_STRINGS_H
-#include <strings.h>
+#  include <strings.h>
 #endif
 
 #include <iostream>
@@ -39,32 +39,34 @@ const char *SystemStateChangeLogind::dbus_name = "org.freedesktop.login1";
 SystemStateChangeLogind::SystemStateChangeLogind(GDBusConnection *connection)
 {
   TRACE_ENTER("SystemStateChangeLogind::SystemStateChangeLogind");
-  proxy.init_with_connection(connection, dbus_name, "/org/freedesktop/login1",
-      "org.freedesktop.login1.Manager",
-      static_cast<GDBusProxyFlags>(
-          G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-          G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS |
-          G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START));
+  proxy.init_with_connection(connection,
+                             dbus_name,
+                             "/org/freedesktop/login1",
+                             "org.freedesktop.login1.Manager",
+                             static_cast<GDBusProxyFlags>(G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                          | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS
+                                                          | G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START));
 
   if (!proxy.is_valid())
     {
-      can_shutdown = false;
-      can_suspend = false;
-      can_hibernate = false;
+      can_shutdown       = false;
+      can_suspend        = false;
+      can_hibernate      = false;
       can_suspend_hybrid = false;
     }
   else
     {
-      //CanPowerOff(), CanReboot(), CanSuspend(), CanHibernate(), CanHybridSleep()
-      can_shutdown = check_method("CanPowerOff");
-      can_suspend = check_method("CanSuspend");
-      can_hibernate = check_method("CanHibernate");
+      // CanPowerOff(), CanReboot(), CanSuspend(), CanHibernate(), CanHybridSleep()
+      can_shutdown       = check_method("CanPowerOff");
+      can_suspend        = check_method("CanSuspend");
+      can_hibernate      = check_method("CanHibernate");
       can_suspend_hybrid = check_method("CanHybridSleep");
     }
   TRACE_EXIT();
 }
 
-bool SystemStateChangeLogind::check_method(const char *method_name)
+bool
+SystemStateChangeLogind::check_method(const char *method_name)
 {
   TRACE_ENTER_MSG("SystemStateChangeLogind::check_method", method_name);
 
@@ -103,11 +105,12 @@ bool SystemStateChangeLogind::check_method(const char *method_name)
   return ret;
 }
 
-bool SystemStateChangeLogind::execute(const char *method_name)
+bool
+SystemStateChangeLogind::execute(const char *method_name)
 {
   TRACE_ENTER_MSG("SystemStateChangeLogind::execute", method_name);
 
-  //We do not want PolicyKit to ask for credentials
+  // We do not want PolicyKit to ask for credentials
   bool ret = proxy.call_method(method_name, g_variant_new("(b)", false), NULL);
 
   TRACE_RETURN(ret);

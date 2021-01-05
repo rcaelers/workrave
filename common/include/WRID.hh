@@ -35,17 +35,16 @@ namespace workrave
   private:
     typedef unsigned char uuid_type[16];
 
-
   public:
     WRID();
     WRID(const WRID &rhs);
     WRID(const std::string &str);
 
-    WRID& operator=(const WRID &lid);
+    WRID &operator=(const WRID &lid);
 
-    bool operator==(const WRID& lid) const;
-    bool operator!=(const WRID& lid) const;
-    bool operator<(const WRID& lid) const;
+    bool operator==(const WRID &lid) const;
+    bool operator!=(const WRID &lid) const;
+    bool operator<(const WRID &lid) const;
 
     std::string str() const;
     guint8 *raw() const;
@@ -61,6 +60,6 @@ namespace workrave
     //! Unique ID
     uuid_type id;
   };
-};
+}; // namespace workrave
 
 #endif // WRID_HH

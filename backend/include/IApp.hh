@@ -31,23 +31,22 @@ namespace workrave
   class IApp
   {
   public:
-
     //! The stage of a break warning (prelude)
     enum PreludeStage
-      {
-        STAGE_INITIAL = 0,
-        STAGE_MOVE_OUT,
-        STAGE_WARN,
-        STAGE_ALERT,
-      };
+    {
+      STAGE_INITIAL = 0,
+      STAGE_MOVE_OUT,
+      STAGE_WARN,
+      STAGE_ALERT,
+    };
 
     //! Text that the GUI show must in the prelude window.
     enum PreludeProgressText
-      {
-        PROGRESS_TEXT_BREAK_IN,
-        PROGRESS_TEXT_DISAPPEARS_IN,
-        PROGRESS_TEXT_SILENT_IN,
-      };
+    {
+      PROGRESS_TEXT_BREAK_IN,
+      PROGRESS_TEXT_DISAPPEARS_IN,
+      PROGRESS_TEXT_SILENT_IN,
+    };
 
     virtual ~IApp() {}
 
@@ -81,6 +80,6 @@ namespace workrave
     //! Terminate the application.
     virtual void terminate() = 0;
   };
-}
+} // namespace workrave
 
 #endif // IAPP_HH

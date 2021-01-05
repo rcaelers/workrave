@@ -41,7 +41,12 @@ public:
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
 
 private:
-  enum MenuItemType { Radio, Check, Normal };
+  enum MenuItemType
+  {
+    Radio,
+    Check,
+    Normal
+  };
 
   DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label);
   DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, int cmd);

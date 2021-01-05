@@ -22,151 +22,146 @@
 #define HARPOON_H
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <windows.h>
 #include <mbstring.h>
 
 #ifndef FALSE
-#define FALSE 0
+#  define FALSE 0
 #endif
 #ifndef TRUE
-#define TRUE 1
+#  define TRUE 1
 #endif
 
 #define HARPOON_MAX_UNBLOCKED_APPS 3
 #ifdef _WIN64
-#define HARPOON_WINDOW_CLASS "Harpoon64NotificationWindow"
+#  define HARPOON_WINDOW_CLASS "Harpoon64NotificationWindow"
 #else
-#define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
+#  define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
 #endif
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #ifdef HARPOON_EXPORTS
-#define HARPOON_API __declspec(dllexport)
+#  define HARPOON_API __declspec(dllexport)
 #else
-#define HARPOON_API __declspec(dllimport)
+#  define HARPOON_API __declspec(dllimport)
 #endif
 
-typedef enum
-{
-  HARPOON_NOTHING = -1,
-  HARPOON_BUTTON_PRESS = 0,
-  HARPOON_BUTTON_RELEASE,
-  HARPOON_2BUTTON_PRESS,
-  HARPOON_MOUSE_WHEEL,
-  HARPOON_KEY_PRESS,
-  HARPOON_KEY_RELEASE,
-  HARPOON_MOUSE_MOVE,
-  HARPOON_EVENT__SIZEOF
-} HarpoonEventType;
+  typedef enum
+  {
+    HARPOON_NOTHING      = -1,
+    HARPOON_BUTTON_PRESS = 0,
+    HARPOON_BUTTON_RELEASE,
+    HARPOON_2BUTTON_PRESS,
+    HARPOON_MOUSE_WHEEL,
+    HARPOON_KEY_PRESS,
+    HARPOON_KEY_RELEASE,
+    HARPOON_MOUSE_MOVE,
+    HARPOON_EVENT__SIZEOF
+  } HarpoonEventType;
 
-typedef enum
-{
-  HARPOON_KEY_REPEAT_FLAG = (1 << 0)
-} HarpoonKeyFlags;
+  typedef enum
+  {
+    HARPOON_KEY_REPEAT_FLAG = (1 << 0)
+  } HarpoonKeyFlags;
 
-typedef struct
-{
-  HarpoonEventType type;
-  int x;
-  int y;
-  int button;
-  int wheel;
-} HarpoonEventMouse;
+  typedef struct
+  {
+    HarpoonEventType type;
+    int x;
+    int y;
+    int button;
+    int wheel;
+  } HarpoonEventMouse;
 
-typedef struct
-{
-  HarpoonEventType type;
-  int flags;
-} HarpoonEventKeyboard;
+  typedef struct
+  {
+    HarpoonEventType type;
+    int flags;
+  } HarpoonEventKeyboard;
 
-typedef union HarpoonEventUnion
-{
-  HarpoonEventType type;
-  HarpoonEventMouse mouse;
-  HarpoonEventKeyboard keyboard;
-} HarpoonEvent;
+  typedef union HarpoonEventUnion
+  {
+    HarpoonEventType type;
+    HarpoonEventMouse mouse;
+    HarpoonEventKeyboard keyboard;
+  } HarpoonEvent;
 
+  typedef void (*HarpoonHookFunc)(HarpoonEvent *event);
 
+  HARPOON_API BOOL harpoon_init(char imported_critical_filename_list[][511], BOOL debug);
+  HARPOON_API void harpoon_exit(void);
 
+  HARPOON_API void harpoon_unhook();
+  HARPOON_API BOOL harpoon_hook(HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel);
 
-typedef void (* HarpoonHookFunc) (HarpoonEvent *event);
+  HARPOON_API void harpoon_block_input(void);
+  HARPOON_API void harpoon_unblock_input(void);
 
-
-HARPOON_API BOOL harpoon_init(
-    char imported_critical_filename_list[][ 511 ], BOOL debug );
-HARPOON_API void harpoon_exit (void);
-
-HARPOON_API void harpoon_unhook();
-HARPOON_API BOOL harpoon_hook(
-    HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel );
-
-HARPOON_API void harpoon_block_input(void);
-HARPOON_API void harpoon_unblock_input(void);
-
-HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
+  HARPOON_API char *_mbstrncpy_lowercase(const char *, const char *, int);
 
 #ifdef __cplusplus
 }
 #endif
 
 #ifndef XBUTTON1
-#define XBUTTON1 0x0001
+#  define XBUTTON1 0x0001
 #endif
 
 #ifndef XBUTTON2
-#define XBUTTON2 0x0002
+#  define XBUTTON2 0x0002
 #endif
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
 
-#ifndef WM_XBUTTONDOWN
-#define WM_XBUTTONDOWN 523
-#endif
+#  ifndef WM_XBUTTONDOWN
+#    define WM_XBUTTONDOWN 523
+#  endif
 
-#ifndef WM_XBUTTONUP
-#define WM_XBUTTONUP 524
-#endif
+#  ifndef WM_XBUTTONUP
+#    define WM_XBUTTONUP 524
+#  endif
 
-#ifndef WM_XBUTTONDBLCLK
-#define WM_XBUTTONDBLCLK 525
-#endif
+#  ifndef WM_XBUTTONDBLCLK
+#    define WM_XBUTTONDBLCLK 525
+#  endif
 
-#ifndef WM_MOUSEHWHEEL
-#define WM_MOUSEHWHEEL 526
-#endif
+#  ifndef WM_MOUSEHWHEEL
+#    define WM_MOUSEHWHEEL 526
+#  endif
 
-#ifndef WM_NCXBUTTONDOWN
-#define WM_NCXBUTTONDOWN 171
-#endif
+#  ifndef WM_NCXBUTTONDOWN
+#    define WM_NCXBUTTONDOWN 171
+#  endif
 
-#ifndef WM_NCXBUTTONUP
-#define WM_NCXBUTTONUP 172
-#endif
-#ifndef WM_NCXBUTTONDBLCLK
-#define WM_NCXBUTTONDBLCLK 173
-#endif
+#  ifndef WM_NCXBUTTONUP
+#    define WM_NCXBUTTONUP 172
+#  endif
+#  ifndef WM_NCXBUTTONDBLCLK
+#    define WM_NCXBUTTONDBLCLK 173
+#  endif
 
-#ifndef WM_NCMOUSEHOVER
-#define WM_NCMOUSEHOVER 672
-#endif
+#  ifndef WM_NCMOUSEHOVER
+#    define WM_NCMOUSEHOVER 672
+#  endif
 
-#ifndef WM_NCMOUSELEAVE
-#define WM_NCMOUSELEAVE 674
-#endif
+#  ifndef WM_NCMOUSELEAVE
+#    define WM_NCMOUSELEAVE 674
+#  endif
 
-#ifndef WM_UNICHAR
-#define WM_UNICHAR 265
-#endif
+#  ifndef WM_UNICHAR
+#    define WM_UNICHAR 265
+#  endif
 
-#ifndef WM_APPCOMMAND
-#define WM_APPCOMMAND 793
-#endif
+#  ifndef WM_APPCOMMAND
+#    define WM_APPCOMMAND 793
+#  endif
 
 #endif
 

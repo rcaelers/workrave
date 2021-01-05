@@ -35,7 +35,12 @@
 
 class AppletControl;
 
-class GenericDBusApplet : public AppletWindow, public TimerBoxViewBase, public MenuBase, public workrave::dbus::IDBusWatch, public IConfiguratorListener
+class GenericDBusApplet
+  : public AppletWindow
+  , public TimerBoxViewBase
+  , public MenuBase
+  , public workrave::dbus::IDBusWatch
+  , public IConfiguratorListener
 {
 public:
   struct TimerData
@@ -58,7 +63,7 @@ public:
   };
 
   typedef std::list<MenuItem> MenuItems;
- 
+
   GenericDBusApplet();
   virtual ~GenericDBusApplet();
 
@@ -68,35 +73,37 @@ public:
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
   virtual void button_clicked(int button);
-  
+
 private:
   // IAppletWindow
   void init_applet() override;
 
   // IConfiguratorListener
   void config_changed_notify(const std::string &key) override;
-  
+
   // ITimerBoxView
-  void set_slot(BreakId  id, int slot) override;
+  void set_slot(BreakId id, int slot) override;
   void set_time_bar(BreakId id,
                     std::string text,
                     ITimeBar::ColorId primary_color,
-                    int primary_value, int primary_max,
+                    int primary_value,
+                    int primary_max,
                     ITimeBar::ColorId secondary_color,
-                    int secondary_value, int secondary_max) override;
+                    int secondary_value,
+                    int secondary_max) override;
   void update_view() override;
   bool is_visible() const override;
 
   // IDBusWatch
   void bus_name_presence(const std::string &name, bool present) override;
-  
+
   // Menu
   void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) override;
 
   void add_menu_item(const char *text, int command, int flags);
 
   void send_tray_icon_enabled();
-  
+
 private:
   bool visible;
   bool embedded;

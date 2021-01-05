@@ -38,7 +38,11 @@ public:
   void grow(int size);
   void narrow(int pos, int size);
 
-  void clear() { narrow(0, -1); write_ptr = read_ptr = buffer; }
+  void clear()
+  {
+    narrow(0, -1);
+    write_ptr = read_ptr = buffer;
+  }
   void skip(int size) { read_ptr += size; }
   void insert(int pos, int size);
 
@@ -76,7 +80,7 @@ public:
   int bytes_available() { return write_ptr - read_ptr; }
   int bytes_written() { return write_ptr - buffer; }
   int bytes_read() { return read_ptr - buffer; }
-  gchar *get_buffer() { return (gchar *) buffer; }
+  gchar *get_buffer() { return (gchar *)buffer; }
   gchar *get_write_ptr() { return (gchar *)write_ptr; }
   int get_buffer_size() { return buffer_size; }
   void restart_read() { read_ptr = buffer; }
@@ -90,6 +94,5 @@ public:
   guint8 *original_buffer;
   int original_buffer_size;
 };
-
 
 #endif

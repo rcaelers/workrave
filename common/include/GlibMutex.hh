@@ -27,26 +27,14 @@
 class Mutex
 {
 public:
+  Mutex() { g_rec_mutex_init(&gmutex); };
 
-  Mutex()
-  {
-    g_rec_mutex_init(&gmutex);
-  };
+  ~Mutex() { g_rec_mutex_clear(&gmutex); };
 
-  ~Mutex()
-  {
-    g_rec_mutex_clear(&gmutex);
-  };
+  void lock() { g_rec_mutex_lock(&gmutex); }
 
-  void lock()
-  {
-    g_rec_mutex_lock(&gmutex);
-  }
+  void unlock() { g_rec_mutex_unlock(&gmutex); }
 
-  void unlock()
-  {
-    g_rec_mutex_unlock(&gmutex);
-  }
 private:
   GRecMutex gmutex;
 };
@@ -56,30 +44,17 @@ private:
 class Mutex
 {
 public:
+  Mutex() { g_static_rec_mutex_init(&gmutex); };
 
-  Mutex()
-  {
-    g_static_rec_mutex_init(&gmutex);
-  };
+  ~Mutex() { g_static_rec_mutex_free(&gmutex); };
 
-  ~Mutex()
-  {
-    g_static_rec_mutex_free(&gmutex);
-  };
+  void lock() { g_static_rec_mutex_lock(&gmutex); }
 
-  void lock()
-  {
-    g_static_rec_mutex_lock(&gmutex);
-  }
+  void unlock() { g_static_rec_mutex_unlock(&gmutex); }
 
-  void unlock()
-  {
-    g_static_rec_mutex_unlock(&gmutex);
-  }
 private:
   GStaticRecMutex gmutex;
 };
-
 
 #endif
 

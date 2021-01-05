@@ -1,6 +1,6 @@
 // SystemLock.hh -- interface for locking the system
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,12 @@
 #ifndef ISYSTEMLOCK_HH
 #define ISYSTEMLOCK_HH
 
-class /*interface*/ IScreenLockMethod {
+class /*interface*/ IScreenLockMethod
+{
 public:
-  virtual ~IScreenLockMethod() {};
+  virtual ~IScreenLockMethod(){};
   virtual bool is_lock_supported() = 0;
-  virtual bool lock() = 0;
+  virtual bool lock()              = 0;
 };
 
 #endif

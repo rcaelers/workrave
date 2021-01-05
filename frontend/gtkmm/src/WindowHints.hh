@@ -22,8 +22,8 @@
 
 #include <gtk/gtk.h>
 
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
+#ifdef PLATFORM_OS_WINDOWS
+#  include <windows.h>
 #endif
 
 namespace Gtk
@@ -40,16 +40,16 @@ public:
   static void set_always_on_top(Gtk::Window *window, bool ontop);
   static Grab *grab(int num_windows, GdkWindow **window);
   static void ungrab(Grab *grab);
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   static void attach_thread_input(bool enabled);
 #endif
 
 #if defined(HAVE_GTK3)
-#if GTK_CHECK_VERSION(3,24,0)
+#  if GTK_CHECK_VERSION(3, 24, 0)
   static GdkSeat *seat;
-#else
+#  else
   static GdkDevice *keyboard, *pointer;
-#endif
+#  endif
 #endif
 };
 

@@ -28,21 +28,21 @@ class ConfigBackendAdapter : public virtual IConfigBackend
 {
 public:
   virtual bool get_config_value(const std::string &key, std::string &out) const = 0;
-  virtual bool get_config_value(const std::string &key, bool &out) const = 0;
-  virtual bool get_config_value(const std::string &key, int &out) const = 0;
-  virtual bool get_config_value(const std::string &key, long &out) const = 0;
-  virtual bool get_config_value(const std::string &key, double &out) const = 0;
+  virtual bool get_config_value(const std::string &key, bool &out) const        = 0;
+  virtual bool get_config_value(const std::string &key, int &out) const         = 0;
+  virtual bool get_config_value(const std::string &key, long &out) const        = 0;
+  virtual bool get_config_value(const std::string &key, double &out) const      = 0;
 
   virtual bool set_config_value(const std::string &key, std::string v) = 0;
-  virtual bool set_config_value(const std::string &key, bool v) = 0;
-  virtual bool set_config_value(const std::string &key, int v) = 0;
-  virtual bool set_config_value(const std::string &key, long v) = 0;
-  virtual bool set_config_value(const std::string &key, double v) = 0;
+  virtual bool set_config_value(const std::string &key, bool v)        = 0;
+  virtual bool set_config_value(const std::string &key, int v)         = 0;
+  virtual bool set_config_value(const std::string &key, long v)        = 0;
+  virtual bool set_config_value(const std::string &key, double v)      = 0;
 
   virtual bool get_value(const std::string &key, VariantType type, Variant &value) const
   {
     value.type = type;
-    switch(type)
+    switch (type)
       {
       case VARIANT_TYPE_INT:
         return get_config_value(key, value.int_value);
@@ -62,10 +62,9 @@ public:
       }
   }
 
-
   virtual bool set_value(const std::string &key, Variant &value)
   {
-    switch(value.type)
+    switch (value.type)
       {
       case VARIANT_TYPE_NONE:
         return false;

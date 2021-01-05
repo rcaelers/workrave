@@ -1,4 +1,4 @@
-// OSXSoundPlayer.hh
+// MacOSSoundPlayer.hh
 //
 // Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,22 +17,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXSOUNDPLAYER_HH
-#define OSXSOUNDPLAYER_HH
+#ifndef MacOSSOUNDPLAYER_HH
+#define MacOSSOUNDPLAYER_HH
 
 #include "ISoundDriver.hh"
 #include "Thread.hh"
 #ifdef __OBJC__
-#import "Foundation/Foundation.h"
+#  import "Foundation/Foundation.h"
 #endif
 
-class OSXSoundPlayer : public ISoundDriver, public Thread
+class MacOSSoundPlayer
+  : public ISoundDriver
+  , public Thread
 {
 public:
-  OSXSoundPlayer();
-  virtual ~OSXSoundPlayer();
+  MacOSSoundPlayer();
+  virtual ~MacOSSoundPlayer();
 
-  void init(ISoundDriverEvents *) {};
+  void init(ISoundDriverEvents *){};
   bool capability(SoundCapability cap);
   void play_sound(std::string wavfile);
   void play_sound(SoundEvent snd);
@@ -43,7 +45,6 @@ public:
   void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
 
 private:
-
   void run();
 
   const char *wav_file;
@@ -53,4 +54,4 @@ private:
 #endif
 };
 
-#endif // OSXSOUNDPLAYER_HH
+#endif // MacOSSOUNDPLAYER_HH

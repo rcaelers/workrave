@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <stdio.h>
@@ -34,34 +34,27 @@ W32Configurator::W32Configurator()
   key_root = "Software/Workrave";
 }
 
-
-W32Configurator::~W32Configurator()
-{
-}
-
+W32Configurator::~W32Configurator() {}
 
 bool
 W32Configurator::load(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 W32Configurator::save(string filename)
 {
-  (void) filename;
+  (void)filename;
   return true;
 }
-
 
 bool
 W32Configurator::save()
 {
   return true;
 }
-
 
 bool
 W32Configurator::remove_key(const std::string &key)
@@ -82,7 +75,7 @@ W32Configurator::remove_key(const std::string &key)
       DWORD size;
       char buf[256]; // FIXME: yuck, should be dynamic.
       size = sizeof(buf);
-      err = RegDeleteKey(handle, c.c_str());
+      err  = RegDeleteKey(handle, c.c_str());
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -93,7 +86,6 @@ W32Configurator::remove_key(const std::string &key)
   TRACE_EXIT();
   return rc;
 }
-
 
 bool
 W32Configurator::get_config_value(const string &key, string &out) const
@@ -117,38 +109,37 @@ W32Configurator::get_config_value(const string &key, string &out) const
       char *buffer;
 
       // get the size, in bytes, required for buffer
-      err = RegQueryValueExA( handle, c.c_str(), NULL, NULL, NULL, &size );
+      err = RegQueryValueExA(handle, c.c_str(), NULL, NULL, NULL, &size);
 
       if (err != ERROR_SUCCESS || !size)
         {
-          RegCloseKey( handle );
+          RegCloseKey(handle);
           TRACE_EXIT();
           return false;
         }
-      else if( !( buffer = (char *)malloc( size + 1 ) ) )
+      else if (!(buffer = (char *)malloc(size + 1)))
         {
-          RegCloseKey( handle );
+          RegCloseKey(handle);
           TRACE_EXIT();
           return false;
         }
 
-      err = RegQueryValueExA( handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size );
-      buffer[ size ] = '\0';
+      err          = RegQueryValueExA(handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size);
+      buffer[size] = '\0';
 
-      if ( err == ERROR_SUCCESS && type == REG_SZ )
+      if (err == ERROR_SUCCESS && type == REG_SZ)
         {
           out = buffer;
-          rc = true;
+          rc  = true;
         }
 
-      RegCloseKey( handle );
-      free( buffer );
+      RegCloseKey(handle);
+      free(buffer);
     }
 
   TRACE_EXIT();
   return rc;
 }
-
 
 bool
 W32Configurator::get_config_value(const string &key, bool &out) const
@@ -162,7 +153,6 @@ W32Configurator::get_config_value(const string &key, bool &out) const
   return rc;
 }
 
-
 //! Returns the value of the specified attribute
 /*!
  *  \retval true value successfully returned.
@@ -175,11 +165,10 @@ W32Configurator::get_config_value(const string &key, int &out) const
   bool rc = get_config_value(key, l);
   if (rc)
     {
-      out = (int) l;
+      out = (int)l;
     }
   return rc;
 }
-
 
 //! Returns the value of the specified attribute
 /*!
@@ -194,11 +183,10 @@ W32Configurator::get_config_value(const string &key, long &out) const
   if (rc)
     {
       int f = sscanf(s.c_str(), "%ld", &out);
-      rc = (f == 1);
+      rc    = (f == 1);
     }
   return rc;
 }
-
 
 //! Returns the value of the specified attribute
 /*!
@@ -213,11 +201,10 @@ W32Configurator::get_config_value(const string &key, double &out) const
   if (rc)
     {
       int f = sscanf(s.c_str(), "%lf", &out);
-      rc = (f == 1);
+      rc    = (f == 1);
     }
   return rc;
 }
-
 
 bool
 W32Configurator::set_config_value(const string &key, string v)
@@ -233,21 +220,16 @@ W32Configurator::set_config_value(const string &key, string v)
   k = key_add_part(key_root, key);
   key_split(k, p, c);
   p32 = key_win32ify(p);
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0,
-                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
-                       NULL, &handle, &disp);
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
-      err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *) v.c_str(), v.length()+1);
+      err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *)v.c_str(), v.length() + 1);
       RegCloseKey(handle);
       rc = (err == ERROR_SUCCESS);
     }
   TRACE_EXIT();
   return rc;
 }
-
-
-
 
 bool
 W32Configurator::set_config_value(const string &key, int v)
@@ -273,7 +255,6 @@ W32Configurator::set_config_value(const string &key, bool v)
   return set_config_value(key, string(buf));
 }
 
-
 bool
 W32Configurator::set_config_value(const string &key, double v)
 {
@@ -281,8 +262,6 @@ W32Configurator::set_config_value(const string &key, double v)
   sprintf(buf, "%f", v);
   return set_config_value(key, string(buf));
 }
-
-
 
 string
 W32Configurator::key_add_part(string s, string t) const
@@ -295,17 +274,17 @@ W32Configurator::key_add_part(string s, string t) const
 void
 W32Configurator::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s = key.c_str();
+  const char *s     = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
-      parent = key.substr(0, slash-s);
-      child = slash+1;
+      parent = key.substr(0, slash - s);
+      child  = slash + 1;
     }
   else
     {
       parent = "";
-      child = "";
+      child  = "";
     }
 }
 
@@ -324,7 +303,6 @@ W32Configurator::key_win32ify(const string &key) const
   return rc;
 }
 
-
 //! Removes the trailing '/'.
 void
 W32Configurator::strip_trailing_slash(string &key) const
@@ -338,7 +316,6 @@ W32Configurator::strip_trailing_slash(string &key) const
         }
     }
 }
-
 
 //! Adds add trailing '/' if it isn't there yet.
 void

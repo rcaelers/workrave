@@ -18,21 +18,21 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef TRACING
 
-#include <glib.h>
-#include <glib/gstdio.h>
+#  include <glib.h>
+#  include <glib/gstdio.h>
 
-#ifdef PLATFORM_OS_WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
+#  ifdef PLATFORM_OS_WINDOWS
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
+#  endif
 
-#include "Mutex.hh"
-#include "debug.hh"
+#  include "Mutex.hh"
+#  include "debug.hh"
 
 using namespace std;
 
@@ -56,9 +56,9 @@ Debug::init()
 {
   std::string debug_filename;
 
-#if defined(WIN32) || defined(PLATFORM_OS_WIN32)
+#  if defined(WIN32) || defined(PLATFORM_OS_WINDOWS)
   char path_buffer[MAX_PATH];
-  
+
   DWORD ret = GetTempPath(MAX_PATH, path_buffer);
   if (ret > MAX_PATH || ret == 0)
     {
@@ -70,13 +70,13 @@ Debug::init()
     }
 
   g_mkdir(debug_filename.c_str(), 0);
-#elif defined(PLATFORM_OS_OSX)
+#  elif defined(PLATFORM_OS_MACOS)
   debug_filename = "/tmp/";
-#elif defined(PLATFORM_OS_UNIX)
+#  elif defined(PLATFORM_OS_UNIX)
   debug_filename = "/tmp/";
-#else
-#error Unknown platform.
-#endif
+#  else
+#    error Unknown platform.
+#  endif
 
   char logfile[128];
   time_t ltime;

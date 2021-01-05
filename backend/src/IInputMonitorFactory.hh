@@ -30,14 +30,14 @@ class IInputMonitorFactory
 {
 public:
   enum MonitorCapability
-    {
-      CAPABILITY_ACTIVITY,
-      CAPABILITY_STATISTICS
-    };
+  {
+    CAPABILITY_ACTIVITY,
+    CAPABILITY_STATISTICS
+  };
 
   virtual ~IInputMonitorFactory() {}
 
-  virtual void init(const char *display) = 0;
+  virtual void init(const char *display)                           = 0;
   virtual IInputMonitor *get_monitor(MonitorCapability capability) = 0;
 };
 

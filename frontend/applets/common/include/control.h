@@ -22,15 +22,17 @@
 
 #include "timerbox.h"
 
-#define WORKRAVE_TIMERBOX_CONTROL_TYPE                  (workrave_timerbox_control_get_type())
-#define WORKRAVE_TIMERBOX_CONTROL(obj)                  (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControl))
-#define WORKRAVE_IS_TIMERBOX_CONTROL(obj)               (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE))
-#define WORKRAVE_TIMERBOX_CONTROL_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControlClass))
-#define WORKRAVE_IS_TIMERBOX_CONTROL_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TIMERBOX_CONTROL_TYPE))
-#define WORKRAVE_TIMERBOX_CONTROL_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControlClass))
+#define WORKRAVE_TIMERBOX_CONTROL_TYPE (workrave_timerbox_control_get_type())
+#define WORKRAVE_TIMERBOX_CONTROL(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControl))
+#define WORKRAVE_IS_TIMERBOX_CONTROL(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE))
+#define WORKRAVE_TIMERBOX_CONTROL_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControlClass))
+#define WORKRAVE_IS_TIMERBOX_CONTROL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), WORKRAVE_TIMERBOX_CONTROL_TYPE))
+#define WORKRAVE_TIMERBOX_CONTROL_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControlClass))
 
-typedef struct _WorkraveTimerboxControl        WorkraveTimerboxControl;
-typedef struct _WorkraveTimerboxControlClass   WorkraveTimerboxControlClass;
+typedef struct _WorkraveTimerboxControl WorkraveTimerboxControl;
+typedef struct _WorkraveTimerboxControlClass WorkraveTimerboxControlClass;
 typedef struct _WorkraveTimerboxControlPrivate WorkraveTimerboxControlPrivate;
 
 struct _WorkraveTimerboxControl
@@ -46,11 +48,11 @@ struct _WorkraveTimerboxControlClass
 GType workrave_timerbox_control_get_type(void);
 
 enum WorkraveTimerboxControlTrayIconMode
-  {
-    WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS,
-    WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_NEVER,
-    WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW,
-  };
+{
+  WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS,
+  WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_NEVER,
+  WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW,
+};
 
 /*
  * Method definitions.

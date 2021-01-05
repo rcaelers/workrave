@@ -25,8 +25,8 @@
 #include <sigc++/trackable.h>
 #include <glibmm.h>
 
-#if defined(PLATFORM_OS_WIN32)
-#include "eggsmclient.h"
+#if defined(PLATFORM_OS_WINDOWS)
+#  include "eggsmclient.h"
 #endif
 
 #include "HeadInfo.hh"
@@ -37,13 +37,14 @@
 #include "WindowHints.hh"
 
 #ifdef HAVE_DBUS
-#include "dbus/IDBusWatch.hh"
+#  include "dbus/IDBusWatch.hh"
 #endif
 
-namespace workrave {
+namespace workrave
+{
   class IBreakResponse;
   class IConfigurator;
-}
+} // namespace workrave
 
 // GTKMM classes
 class MainWindow;
@@ -70,32 +71,34 @@ public:
 
   virtual sigc::signal0<void> &signal_heartbeat() = 0;
 
-  virtual Menus *get_menus() const = 0;
-  virtual MainWindow *get_main_window() const = 0;
+  virtual Menus *get_menus() const              = 0;
+  virtual MainWindow *get_main_window() const   = 0;
   virtual SoundPlayer *get_sound_player() const = 0;
 
   virtual void open_main_window() = 0;
-  virtual void restbreak_now() = 0;
+  virtual void restbreak_now()    = 0;
 
   virtual void interrupt_grab() = 0;
 
-  virtual int get_number_of_heads() const = 0;
-  virtual HeadInfo &get_head(int head) = 0;
-  virtual int map_to_head(int &x, int &y) = 0;
-  virtual void map_from_head(int &x, int &y, int head) = 0;
+  virtual int get_number_of_heads() const                                   = 0;
+  virtual HeadInfo &get_head(int head)                                      = 0;
+  virtual int map_to_head(int &x, int &y)                                   = 0;
+  virtual void map_from_head(int &x, int &y, int head)                      = 0;
   virtual bool bound_head(int &x, int &y, int width, int height, int &head) = 0;
-  virtual void terminate() = 0;
+  virtual void terminate()                                                  = 0;
 };
 
-class GUI :
-  public IGUI,
-  public IApp,
-  public ICoreEventListener,
-  public IConfiguratorListener,
+class GUI
+  : public IGUI
+  , public IApp
+  , public ICoreEventListener
+  , public IConfiguratorListener
+  ,
 #ifdef HAVE_DBUS
-  public workrave::dbus::IDBusWatch,
+    public workrave::dbus::IDBusWatch
+  ,
 #endif
-  public sigc::trackable
+    public sigc::trackable
 {
 public:
   GUI(int argc, char **argv);
@@ -166,7 +169,7 @@ private:
 
   void init_gtk_multihead();
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   static void session_quit_cb(EggSMClient *client, GUI *gui);
   static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
   void cleanup_session();
@@ -183,17 +186,15 @@ private:
   void on_status_icon_activate();
   void on_visibility_changed();
   void on_main_window_closed();
-  
+
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();
 #endif
   bool on_operational_mode_warning_timer();
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   void win32_init_filter();
-  static GdkFilterReturn win32_filter_func (void     *xevent,
-                                            GdkEvent *event,
-                                            gpointer  data);
+  static GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event, gpointer data);
 #endif
 
 private:
@@ -290,9 +291,7 @@ private:
 
   // UI Event connections
   std::list<sigc::connection> event_connections;
-  
 };
-
 
 //! Returns the only instance of GUI
 inline IGUI *
@@ -300,7 +299,6 @@ GUI::get_instance()
 {
   return instance;
 }
-
 
 //! Returns the applet window.
 inline AppletControl *
@@ -315,7 +313,6 @@ GUI::get_main_window() const
 {
   return main_window;
 }
-
 
 //! Returns the sound player
 inline SoundPlayer *

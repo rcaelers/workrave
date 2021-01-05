@@ -17,27 +17,26 @@
  *
  * Author: Stef Walter <stefw@collabora.co.uk>
  *
- * Modified for Workrave (and glib 2.28) 
+ * Modified for Workrave (and glib 2.28)
  */
 
 #include <glib.h>
 
 #if !GLIB_CHECK_VERSION(2, 30, 0)
 
-#include "config.h"
+#  include "config.h"
 
-#include <string.h>
+#  include <string.h>
 
-#include "ghmac.h"
+#  include "ghmac.h"
 
-#include "glib/galloca.h"
-#include "glib/gatomic.h"
-#include "glib/gslice.h"
-#include "glib/gmem.h"
-#include "glib/gstrfuncs.h"
-#include "glib/gtestutils.h"
-#include "glib/gtypes.h"
-
+#  include "glib/galloca.h"
+#  include "glib/gatomic.h"
+#  include "glib/gslice.h"
+#  include "glib/gmem.h"
+#  include "glib/gstrfuncs.h"
+#  include "glib/gtestutils.h"
+#  include "glib/gtypes.h"
 
 /**
  * SECTION:hmac
@@ -94,9 +93,7 @@ struct _GHmac
  * Since: 2.30
  */
 GHmac *
-g_hmac_new (GChecksumType  digest_type,
-            const guchar  *key,
-            gsize          key_len)
+g_hmac_new(GChecksumType digest_type, const guchar *key, gsize key_len)
 {
   GChecksum *checksum;
   GHmac *hmac;
@@ -105,8 +102,8 @@ g_hmac_new (GChecksumType  digest_type,
   gsize i, len;
   gsize block_size;
 
-  checksum = g_checksum_new (digest_type);
-  g_return_val_if_fail (checksum != NULL, NULL);
+  checksum = g_checksum_new(digest_type);
+  g_return_val_if_fail(checksum != NULL, NULL);
 
   switch (digest_type)
     {
@@ -118,44 +115,44 @@ g_hmac_new (GChecksumType  digest_type,
       block_size = 64; /* RFC 4868 */
       break;
     default:
-      g_return_val_if_reached (NULL);
+      g_return_val_if_reached(NULL);
     }
 
-  hmac = g_slice_new0 (GHmac);
-  hmac->ref_count = 1;
+  hmac              = g_slice_new0(GHmac);
+  hmac->ref_count   = 1;
   hmac->digest_type = digest_type;
-  hmac->digesti = checksum;
-  hmac->digesto = g_checksum_new (digest_type);
+  hmac->digesti     = checksum;
+  hmac->digesto     = g_checksum_new(digest_type);
 
-  buffer = (guchar *)g_alloca (block_size);
-  pad = (guchar *)g_alloca (block_size);
+  buffer = (guchar *)g_alloca(block_size);
+  pad    = (guchar *)g_alloca(block_size);
 
-  memset (buffer, 0, block_size);
+  memset(buffer, 0, block_size);
 
   /* If the key is too long, hash it */
   if (key_len > block_size)
     {
       len = block_size;
-      g_checksum_update (hmac->digesti, key, key_len);
-      g_checksum_get_digest (hmac->digesti, buffer, &len);
-      g_checksum_reset (hmac->digesti);
+      g_checksum_update(hmac->digesti, key, key_len);
+      g_checksum_get_digest(hmac->digesti, buffer, &len);
+      g_checksum_reset(hmac->digesti);
     }
 
   /* Otherwise pad it with zeros */
   else
     {
-      memcpy (buffer, key, key_len);
+      memcpy(buffer, key, key_len);
     }
 
   /* First pad */
   for (i = 0; i < block_size; i++)
     pad[i] = 0x36 ^ buffer[i]; /* ipad value */
-  g_checksum_update (hmac->digesti, pad, block_size);
+  g_checksum_update(hmac->digesti, pad, block_size);
 
   /* Second pad */
   for (i = 0; i < block_size; i++)
     pad[i] = 0x5c ^ buffer[i]; /* opad value */
-  g_checksum_update (hmac->digesto, pad, block_size);
+  g_checksum_update(hmac->digesto, pad, block_size);
 
   return hmac;
 }
@@ -174,17 +171,17 @@ g_hmac_new (GChecksumType  digest_type,
  * Since: 2.30
  */
 GHmac *
-g_hmac_copy (const GHmac *hmac)
+g_hmac_copy(const GHmac *hmac)
 {
   GHmac *copy;
 
-  g_return_val_if_fail (hmac != NULL, NULL);
+  g_return_val_if_fail(hmac != NULL, NULL);
 
-  copy = g_slice_new (GHmac);
-  copy->ref_count = 1;
+  copy              = g_slice_new(GHmac);
+  copy->ref_count   = 1;
   copy->digest_type = hmac->digest_type;
-  copy->digesti = g_checksum_copy (hmac->digesti);
-  copy->digesto = g_checksum_copy (hmac->digesto);
+  copy->digesti     = g_checksum_copy(hmac->digesti);
+  copy->digesto     = g_checksum_copy(hmac->digesto);
 
   return copy;
 }
@@ -202,11 +199,11 @@ g_hmac_copy (const GHmac *hmac)
  * Since: 2.30
  **/
 GHmac *
-g_hmac_ref (GHmac *hmac)
+g_hmac_ref(GHmac *hmac)
 {
-  g_return_val_if_fail (hmac != NULL, NULL);
+  g_return_val_if_fail(hmac != NULL, NULL);
 
-  g_atomic_int_inc (&hmac->ref_count);
+  g_atomic_int_inc(&hmac->ref_count);
 
   return hmac;
 }
@@ -225,15 +222,15 @@ g_hmac_ref (GHmac *hmac)
  * Since: 2.30
  */
 void
-g_hmac_unref (GHmac *hmac)
+g_hmac_unref(GHmac *hmac)
 {
-  g_return_if_fail (hmac != NULL);
+  g_return_if_fail(hmac != NULL);
 
-  if (g_atomic_int_dec_and_test (&hmac->ref_count))
+  if (g_atomic_int_dec_and_test(&hmac->ref_count))
     {
-      g_checksum_free (hmac->digesti);
-      g_checksum_free (hmac->digesto);
-      g_slice_free (GHmac, hmac);
+      g_checksum_free(hmac->digesti);
+      g_checksum_free(hmac->digesto);
+      g_slice_free(GHmac, hmac);
     }
 }
 
@@ -251,14 +248,12 @@ g_hmac_unref (GHmac *hmac)
  * Since: 2.30
  */
 void
-g_hmac_update (GHmac        *hmac,
-               const guchar *data,
-               gssize        length)
+g_hmac_update(GHmac *hmac, const guchar *data, gssize length)
 {
-  g_return_if_fail (hmac != NULL);
-  g_return_if_fail (length == 0 || data != NULL);
+  g_return_if_fail(hmac != NULL);
+  g_return_if_fail(length == 0 || data != NULL);
 
-  g_checksum_update (hmac->digesti, data, length);
+  g_checksum_update(hmac->digesti, data, length);
 }
 
 /**
@@ -279,22 +274,22 @@ g_hmac_update (GHmac        *hmac,
  * Since: 2.30
  */
 const gchar *
-g_hmac_get_string (GHmac *hmac)
+g_hmac_get_string(GHmac *hmac)
 {
   guint8 *buffer;
   gsize digest_len;
 
-  g_return_val_if_fail (hmac != NULL, NULL);
+  g_return_val_if_fail(hmac != NULL, NULL);
 
-  digest_len = g_checksum_type_get_length (hmac->digest_type);
-  buffer = (guint8 *)g_alloca (digest_len);
+  digest_len = g_checksum_type_get_length(hmac->digest_type);
+  buffer     = (guint8 *)g_alloca(digest_len);
 
   /* This is only called for its side-effect of updating hmac->digesto... */
-  g_hmac_get_digest (hmac, buffer, &digest_len);
+  g_hmac_get_digest(hmac, buffer, &digest_len);
   /* ... because we get the string from the checksum rather than
    * stringifying buffer ourselves
    */
-  return g_checksum_get_string (hmac->digesto);
+  return g_checksum_get_string(hmac->digesto);
 }
 
 /**
@@ -313,21 +308,19 @@ g_hmac_get_string (GHmac *hmac)
  * Since: 2.30
  */
 void
-g_hmac_get_digest (GHmac  *hmac,
-                   guint8 *buffer,
-                   gsize  *digest_len)
+g_hmac_get_digest(GHmac *hmac, guint8 *buffer, gsize *digest_len)
 {
   gsize len;
 
-  g_return_if_fail (hmac != NULL);
+  g_return_if_fail(hmac != NULL);
 
-  len = g_checksum_type_get_length (hmac->digest_type);
-  g_return_if_fail (*digest_len >= len);
+  len = g_checksum_type_get_length(hmac->digest_type);
+  g_return_if_fail(*digest_len >= len);
 
   /* Use the same buffer, because we can :) */
-  g_checksum_get_digest (hmac->digesti, buffer, &len);
-  g_checksum_update (hmac->digesto, buffer, len);
-  g_checksum_get_digest (hmac->digesto, buffer, digest_len);
+  g_checksum_get_digest(hmac->digesti, buffer, &len);
+  g_checksum_update(hmac->digesto, buffer, len);
+  g_checksum_get_digest(hmac->digesto, buffer, digest_len);
 }
 
 /**
@@ -350,24 +343,20 @@ g_hmac_get_digest (GHmac  *hmac,
  * Since: 2.30
  */
 gchar *
-g_compute_hmac_for_data (GChecksumType  digest_type,
-                         const guchar  *key,
-                         gsize          key_len,
-                         const guchar  *data,
-                         gsize          length)
+g_compute_hmac_for_data(GChecksumType digest_type, const guchar *key, gsize key_len, const guchar *data, gsize length)
 {
   GHmac *hmac;
   gchar *retval;
 
-  g_return_val_if_fail (length == 0 || data != NULL, NULL);
+  g_return_val_if_fail(length == 0 || data != NULL, NULL);
 
-  hmac = g_hmac_new (digest_type, key, key_len);
+  hmac = g_hmac_new(digest_type, key, key_len);
   if (!hmac)
     return NULL;
 
-  g_hmac_update (hmac, data, length);
-  retval = g_strdup (g_hmac_get_string (hmac));
-  g_hmac_unref (hmac);
+  g_hmac_update(hmac, data, length);
+  retval = g_strdup(g_hmac_get_string(hmac));
+  g_hmac_unref(hmac);
 
   return retval;
 }
@@ -391,18 +380,13 @@ g_compute_hmac_for_data (GChecksumType  digest_type,
  * Since: 2.30
  */
 gchar *
-g_compute_hmac_for_string (GChecksumType  digest_type,
-                           const guchar  *key,
-                           gsize          key_len,
-                           const gchar   *str,
-                           gssize         length)
+g_compute_hmac_for_string(GChecksumType digest_type, const guchar *key, gsize key_len, const gchar *str, gssize length)
 {
-  g_return_val_if_fail (length == 0 || str != NULL, NULL);
+  g_return_val_if_fail(length == 0 || str != NULL, NULL);
 
   if (length < 0)
-    length = strlen (str);
+    length = strlen(str);
 
-  return g_compute_hmac_for_data (digest_type, key, key_len,
-                                  (const guchar *) str, length);
+  return g_compute_hmac_for_data(digest_type, key, key_len, (const guchar *)str, length);
 }
 #endif

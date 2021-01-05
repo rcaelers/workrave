@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "nls.h"
@@ -40,34 +40,30 @@
 using namespace std;
 using namespace workrave;
 
-
 //! Constructor.
 W32AppletMenu::W32AppletMenu(W32AppletWindow *applet_window)
   : applet_window(applet_window)
 {
 }
 
-
 //! Destructor.
-W32AppletMenu::~W32AppletMenu()
-{
-}
+W32AppletMenu::~W32AppletMenu() {}
 
 void
 W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
-  TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
+  TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << usage);
 
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui               = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
-  
+
   if (applet_window != NULL)
     {
       TRACE_MSG("ok");
-#ifndef PLATFORM_OS_WIN32_NATIVE
-      HWND cmd_win = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
+      HWND cmd_win = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
 #else
-      HWND cmd_win = (HWND) GDK_WINDOW_HWND(((GtkWidget*)main_window->gobj())->window);
+      HWND cmd_win = (HWND)GDK_WINDOW_HWND(((GtkWidget *)main_window->gobj())->window);
 #endif
 
       W32AppletWindow *w32aw = applet_window;
@@ -78,51 +74,37 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       w32aw->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
       w32aw->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
 
-      w32aw->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_NORMAL
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_QUIET
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(mode == OPERATION_MODE_SUSPENDED
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
+      w32aw->add_menu(_("_Normal"),
+                      MENU_COMMAND_MODE_NORMAL,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (mode == OPERATION_MODE_NORMAL ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+      w32aw->add_menu(_("Q_uiet"),
+                      MENU_COMMAND_MODE_QUIET,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (mode == OPERATION_MODE_QUIET ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+      w32aw->add_menu(_("_Suspended"),
+                      MENU_COMMAND_MODE_SUSPENDED,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (mode == OPERATION_MODE_SUSPENDED ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
 
       w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
-      w32aw->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Disconnect"),
-                      MENU_COMMAND_NETWORK_DISCONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(show_log
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
+      w32aw->add_menu(
+        _("_Connect"), MENU_COMMAND_NETWORK_CONNECT, W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP);
+      w32aw->add_menu(
+        _("_Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT, W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP);
+      w32aw->add_menu(
+        _("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT, W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP);
+      w32aw->add_menu(_("Show _log"),
+                      MENU_COMMAND_NETWORK_LOG,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
+                        | (show_log ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
-      w32aw->add_menu(_("Reading mode"), MENU_COMMAND_MODE_READING,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |(usage == USAGE_MODE_READING
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
+      w32aw->add_menu(_("Reading mode"),
+                      MENU_COMMAND_MODE_READING,
+                      W32AppletWindow::MENU_FLAG_TOGGLE | (usage == USAGE_MODE_READING ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
 
       w32aw->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
       w32aw->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);

@@ -38,7 +38,9 @@ namespace workrave
 {
   namespace dbus
   {
-    class DBusGio : public IDBus, public IDBusPrivateGio
+    class DBusGio
+      : public IDBus
+      , public IDBusPrivateGio
     {
     public:
       typedef std::shared_ptr<DBusGio> Ptr;
@@ -48,7 +50,7 @@ namespace workrave
       virtual ~DBusGio();
 
       virtual void init();
-      virtual void register_service(const std::string &service, IDBusWatch *cb  = nullptr);
+      virtual void register_service(const std::string &service, IDBusWatch *cb = nullptr);
       virtual void register_object_path(const std::string &object_path);
       virtual void connect(const std::string &path, const std::string &interface_name, void *object);
       virtual void disconnect(const std::string &path, const std::string &interface_name);
@@ -74,7 +76,12 @@ namespace workrave
 
       struct InterfaceData
       {
-        InterfaceData() : introspection_data(NULL), registration_id(0), object(NULL) {}
+        InterfaceData()
+          : introspection_data(NULL)
+          , registration_id(0)
+          , object(NULL)
+        {
+        }
 
         std::string object_path;
         std::string interface_name;
@@ -89,7 +96,10 @@ namespace workrave
 
       struct ObjectData
       {
-        ObjectData() : registered(false) {}
+        ObjectData()
+          : registered(false)
+        {
+        }
 
         Interfaces interfaces;
         bool registered;
@@ -121,34 +131,31 @@ namespace workrave
 
       void bus_name_presence(const std::string &name, bool present);
 
-      static void on_method_call(GDBusConnection       *connection,
-                                 const gchar           *sender,
-                                 const gchar           *object_path,
-                                 const gchar           *interface_name,
-                                 const gchar           *method_name,
-                                 GVariant              *parameters,
+      static void on_method_call(GDBusConnection *connection,
+                                 const gchar *sender,
+                                 const gchar *object_path,
+                                 const gchar *interface_name,
+                                 const gchar *method_name,
+                                 GVariant *parameters,
                                  GDBusMethodInvocation *invocation,
-                                 gpointer               user_data);
+                                 gpointer user_data);
 
-      static GVariant *
-      on_get_property(GDBusConnection  *connection,
-                      const gchar      *sender,
-                      const gchar      *object_path,
-                      const gchar      *interface_name,
-                      const gchar      *property_name,
-                      GError          **error,
-                      gpointer          user_data);
+      static GVariant *on_get_property(GDBusConnection *connection,
+                                       const gchar *sender,
+                                       const gchar *object_path,
+                                       const gchar *interface_name,
+                                       const gchar *property_name,
+                                       GError **error,
+                                       gpointer user_data);
 
-
-      static gboolean
-      on_set_property (GDBusConnection  *connection,
-                       const gchar      *sender,
-                       const gchar      *object_path,
-                       const gchar      *interface_name,
-                       const gchar      *property_name,
-                       GVariant         *value,
-                       GError          **error,
-                       gpointer          user_data);
+      static gboolean on_set_property(GDBusConnection *connection,
+                                      const gchar *sender,
+                                      const gchar *object_path,
+                                      const gchar *interface_name,
+                                      const gchar *property_name,
+                                      GVariant *value,
+                                      GError **error,
+                                      gpointer user_data);
 
       static void on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data);
       static void on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data);
@@ -171,7 +178,7 @@ namespace workrave
 
       static const GDBusInterfaceVTable interface_vtable;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSGIO_HH

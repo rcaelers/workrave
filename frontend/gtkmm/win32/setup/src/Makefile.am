@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 
 lib_LTLIBRARIES	   	    = libzapper.la
 libzapper_la_SOURCES    = zapper.c

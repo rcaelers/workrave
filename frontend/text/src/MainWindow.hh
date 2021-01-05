@@ -32,8 +32,7 @@ class TimerBoxTextView;
 
 using namespace workrave;
 
-class MainWindow :
-  public IConfiguratorListener
+class MainWindow : public IConfiguratorListener
 {
 public:
   MainWindow();
@@ -76,7 +75,6 @@ public:
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
-
 };
 
 #endif // MAINWINDOW_HH

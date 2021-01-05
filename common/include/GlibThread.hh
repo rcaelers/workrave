@@ -49,5 +49,4 @@ private:
   bool autodelete;
 };
 
-
 #endif // GLIBTHREAD_HH

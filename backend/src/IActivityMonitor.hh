@@ -27,36 +27,37 @@ class ActivityMonitorListener;
 
 //! State of the activity monitor.
 enum ActivityState
-  {
-    ACTIVITY_UNKNOWN,
-    ACTIVITY_SUSPENDED,
-    ACTIVITY_IDLE,
-    ACTIVITY_NOISE,
-    ACTIVITY_ACTIVE
-  };
+{
+  ACTIVITY_UNKNOWN,
+  ACTIVITY_SUSPENDED,
+  ACTIVITY_IDLE,
+  ACTIVITY_NOISE,
+  ACTIVITY_ACTIVE
+};
 
-  inline std::ostream& operator<<(std::ostream& stream, ActivityState mode)
-  {
-    switch (mode)
-      {
-      case ACTIVITY_UNKNOWN:
-        stream << "unknonw";
-        break;
-      case ACTIVITY_SUSPENDED:
-        stream << "suspended";
-        break;
-      case ACTIVITY_IDLE:
-        stream << "idle";
-        break;
-      case ACTIVITY_NOISE:
-        stream << "noise";
-        break;
-      case ACTIVITY_ACTIVE:
-        stream << "active";
-        break;
-      }
-    return stream;
-  }
+inline std::ostream &
+operator<<(std::ostream &stream, ActivityState mode)
+{
+  switch (mode)
+    {
+    case ACTIVITY_UNKNOWN:
+      stream << "unknonw";
+      break;
+    case ACTIVITY_SUSPENDED:
+      stream << "suspended";
+      break;
+    case ACTIVITY_IDLE:
+      stream << "idle";
+      break;
+    case ACTIVITY_NOISE:
+      stream << "noise";
+      break;
+    case ACTIVITY_ACTIVE:
+      stream << "active";
+      break;
+    }
+  return stream;
+}
 
 //! Interface that all activity monitor implements.
 class IActivityMonitor

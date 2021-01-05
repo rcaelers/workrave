@@ -23,12 +23,12 @@
 namespace workrave
 {
   enum Orientation
-    {
-      ORIENTATION_UP,
-      ORIENTATION_RIGHT,
-      ORIENTATION_DOWN,
-      ORIENTATION_LEFT,
-    };
-};
+  {
+    ORIENTATION_UP,
+    ORIENTATION_RIGHT,
+    ORIENTATION_DOWN,
+    ORIENTATION_LEFT,
+  };
+}; // namespace workrave
 
 #endif // ORIENTATION_HH

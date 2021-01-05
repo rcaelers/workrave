@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -28,24 +28,20 @@
 
 #include "DBusGio.hh"
 
-#define  WORKRAVE_TEST_PATH "/org/workrave/Workrave/Test"
-#define  WORKRAVE_TEST_INTERFACE "org.workrave.TestInterface"
-#define  WORKRAVE_TEST_SERVICE "org.workrave.Test"
+#define WORKRAVE_TEST_PATH "/org/workrave/Workrave/Test"
+#define WORKRAVE_TEST_INTERFACE "org.workrave.TestInterface"
+#define WORKRAVE_TEST_SERVICE "org.workrave.Test"
 
 using namespace std;
 
 //! Constructor.
-DBusTestServerGio::DBusTestServerGio()
-{
-}
-
+DBusTestServerGio::DBusTestServerGio() {}
 
 //! Destructor.
-DBusTestServerGio::~DBusTestServerGio()
-{
-}
+DBusTestServerGio::~DBusTestServerGio() {}
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
   DBusTestServerGio s;
   s.run(argc, argv);
@@ -54,8 +50,8 @@ int main(int argc, char **argv)
 void
 DBusTestServerGio::run(int argc, char **argv)
 {
-  (void) argc;
-  (void) argv;
+  (void)argc;
+  (void)argv;
 
 #ifdef TRACING
   Debug::name(std::string("server"));
@@ -81,10 +77,9 @@ DBusTestServerGio::run(int argc, char **argv)
     }
   catch (workrave::dbus::DBusException &)
     {
-      std::cerr << "server failed" <<std::endl;
+      std::cerr << "server failed" << std::endl;
     }
 }
-
 
 void
 DBusTestServerGio::test_fire_signal()
@@ -110,19 +105,21 @@ DBusTestServerGio::test_fire_signal()
 
   if (test != NULL)
     {
-      test->Signal("/org/workrave/Test", par.m_int,
-                   par.m_uint8  ,
-                   par.m_int16  ,
-                   par.m_uint16 ,
-                   par.m_int32  ,
-                   par.m_uint32 ,
-                   par.m_int64  ,
-                   par.m_uint64 ,
-                   par.m_string ,
-                   par.m_bool   ,
-                   par.m_double ,
+      test->Signal("/org/workrave/Test",
+                   par.m_int,
+                   par.m_uint8,
+                   par.m_int16,
+                   par.m_uint16,
+                   par.m_int32,
+                   par.m_uint32,
+                   par.m_int64,
+                   par.m_uint64,
+                   par.m_string,
+                   par.m_bool,
+                   par.m_double,
                    par.m_enum,
-                   l, m );
+                   l,
+                   m);
     }
 }
 
@@ -159,23 +156,22 @@ DBusTestServerGio::test_fire_signal_with_ref()
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
 
-
   if (test != NULL)
     {
-      test->SignalWithRef("/org/workrave/Test", par.m_int,
-                          par.m_uint8  ,
-                          par.m_int16  ,
-                          par.m_uint16 ,
-                          par.m_int32  ,
-                          par.m_uint32 ,
-                          par.m_int64  ,
-                          par.m_uint64 ,
-                          par.m_string ,
-                          par.m_bool   ,
-                          par.m_double ,
+      test->SignalWithRef("/org/workrave/Test",
+                          par.m_int,
+                          par.m_uint8,
+                          par.m_int16,
+                          par.m_uint16,
+                          par.m_int32,
+                          par.m_uint32,
+                          par.m_int64,
+                          par.m_uint64,
+                          par.m_string,
+                          par.m_bool,
+                          par.m_double,
                           par.m_enum,
                           l,
-                          m
-                          );
+                          m);
     }
 }

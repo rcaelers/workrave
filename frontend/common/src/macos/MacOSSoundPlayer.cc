@@ -1,4 +1,4 @@
-// OSXSoundPlayer.cc --- Sound player
+// MacOSSoundPlayer.cc --- Sound player
 //
 // Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
@@ -18,31 +18,30 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
 #include <strings.h>
 
-#include "OSXSoundPlayer.hh"
+#include "MacOSSoundPlayer.hh"
 #include "SoundPlayer.hh"
 #include "Util.hh"
 #import <AppKit/AppKit.h>
 
-OSXSoundPlayer::OSXSoundPlayer()
+MacOSSoundPlayer::MacOSSoundPlayer()
 {
   soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
 }
 
-
-OSXSoundPlayer::~OSXSoundPlayer()
+MacOSSoundPlayer::~MacOSSoundPlayer()
 {
   [soundDictionary removeAllObjects];
   [soundDictionary release];
 }
 
 bool
-OSXSoundPlayer::capability(SoundCapability cap)
+MacOSSoundPlayer::capability(SoundCapability cap)
 {
   if (cap == SOUND_CAP_EDIT)
     {
@@ -51,16 +50,14 @@ OSXSoundPlayer::capability(SoundCapability cap)
   return false;
 }
 
-
 void
-OSXSoundPlayer::play_sound(SoundEvent snd)
+MacOSSoundPlayer::play_sound(SoundEvent snd)
 {
-  (void) snd;
+  (void)snd;
 }
 
-
 void
-OSXSoundPlayer::play_sound(string file)
+MacOSSoundPlayer::play_sound(string file)
 {
   if (wav_file == NULL)
     {
@@ -69,46 +66,48 @@ OSXSoundPlayer::play_sound(string file)
     }
 }
 
-
 void
-OSXSoundPlayer::run()
+MacOSSoundPlayer::run()
 {
-  NSString* filename = [NSString stringWithUTF8String: wav_file];
-  NSSound *sound = [soundDictionary objectForKey:filename];
-  if (sound == nil) {
-    sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
-    [soundDictionary setObject:sound forKey:filename];
-  }
+  NSString *filename = [NSString stringWithUTF8String:wav_file];
+  NSSound *sound     = [soundDictionary objectForKey:filename];
+  if (sound == nil)
+    {
+      sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];
+      [soundDictionary setObject:sound forKey:filename];
+    }
   [sound stop];
   [sound play];
-  free((void*)wav_file);
+  free((void *)wav_file);
   wav_file = NULL;
 }
 
-
-bool OSXSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
+bool
+MacOSSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
-  (void) snd;
-  (void) enabled;
+  (void)snd;
+  (void)enabled;
   return false;
 }
 
-void OSXSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
+void
+MacOSSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
-  (void) snd;
-  (void) enabled;
+  (void)snd;
+  (void)enabled;
 }
 
-bool OSXSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
+bool
+MacOSSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
-  (void) snd;
-  (void) wav_file;
+  (void)snd;
+  (void)wav_file;
   return false;
 }
 
-void OSXSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
+void
+MacOSSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
-  (void) snd;
-  (void) wav_file;
+  (void)snd;
+  (void)wav_file;
 }
-

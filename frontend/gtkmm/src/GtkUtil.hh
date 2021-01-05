@@ -42,48 +42,29 @@ using namespace workrave;
 class GtkUtil
 {
 public:
-  static Gtk::Button *
-  create_custom_stock_button(const char *label_text,
-                             const Gtk::StockID& stock_id);
+  static Gtk::Button *create_custom_stock_button(const char *label_text, const Gtk::StockID &stock_id);
 
-  static Gtk::Button *
-  create_image_button(const char *label_text, const char *image_file, bool label = true);
+  static Gtk::Button *create_image_button(const char *label_text, const char *image_file, bool label = true);
 
-  static void
-  update_custom_stock_button(Gtk::Button *btn, const char *label_text,
-                             const Gtk::StockID& stock_id);
+  static void update_custom_stock_button(Gtk::Button *btn, const char *label_text, const Gtk::StockID &stock_id);
 
-  static Gtk::Widget *
-  create_label_with_icon(std::string text, const char *icon);
+  static Gtk::Widget *create_label_with_icon(std::string text, const char *icon);
 
-  static Gtk::Label *
-  create_label(std::string text, bool bold);
+  static Gtk::Label *create_label(std::string text, bool bold);
 
-  static Gtk::Widget *
-  create_label_with_tooltip(std::string text,
-                            std::string tooltip);
+  static Gtk::Widget *create_label_with_tooltip(std::string text, std::string tooltip);
 
-  static EventImage *
-  create_image_with_tooltip(std::string file,
-                            std::string tooltip);
+  static EventImage *create_image_with_tooltip(std::string file, std::string tooltip);
 
-  static Gtk::Widget *
-  create_label_for_break(workrave::BreakId id);
+  static Gtk::Widget *create_label_for_break(workrave::BreakId id);
 
-  static Glib::RefPtr<Gdk::Pixbuf>
-  flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical);
+  static Glib::RefPtr<Gdk::Pixbuf> flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical);
 
-  static void
-  table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
-                       guint left_attach, guint top_attach, bool left);
+  static void table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left);
 
-  static void
-  table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child,
-                            guint left_attach, guint top_attach);
+  static void table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach);
 
-  static void
-  table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
-                             guint left_attach, guint top_attach);
+  static void table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach);
 
   static void center_window(Gtk::Window &window, HeadInfo &head);
 
@@ -100,7 +81,7 @@ public:
   static std::string get_image_filename(const std::string &image);
 
   static Glib::RefPtr<Gdk::Pixbuf> create_pixbuf(const std::string &name);
-  
+
   static Gtk::Image *create_image(const std::string &name);
 
 private:

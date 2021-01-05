@@ -18,12 +18,11 @@
 //
 //
 
-
 #ifndef SYSTEMSTATECHANGELOGIND_HH_
 #define SYSTEMSTATECHANGELOGIND_HH_
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "DBusProxy.hh"
@@ -38,25 +37,22 @@
 //      - Suspend/HIbernate - V 2012r.
 //      - HybridSuspend - XII 2012r.
 
-
 class SystemStateChangeLogind : public ISystemStateChangeMethod
 {
 public:
   SystemStateChangeLogind(GDBusConnection *connection);
-  virtual
-  ~SystemStateChangeLogind() {};
+  virtual ~SystemStateChangeLogind(){};
 
-  //PowerOff(), Reboot(), Suspend(), Hibernate(), HybridSleep()
+  // PowerOff(), Reboot(), Suspend(), Hibernate(), HybridSleep()
   virtual bool shutdown() { return execute("PowerOff"); }
   virtual bool suspend() { return execute("Suspend"); }
   virtual bool hibernate() { return execute("Hibernate"); }
   virtual bool suspendHybrid() { return execute("HybridSleep"); }
 
-
-  virtual bool canShutdown() { return can_shutdown;}
-  virtual bool canSuspend() { return can_suspend;}
-  virtual bool canHibernate() { return can_hibernate;}
-  virtual bool canSuspendHybrid() { return can_suspend_hybrid;}
+  virtual bool canShutdown() { return can_shutdown; }
+  virtual bool canSuspend() { return can_suspend; }
+  virtual bool canHibernate() { return can_hibernate; }
+  virtual bool canSuspendHybrid() { return can_suspend_hybrid; }
 
   static const char *dbus_name;
 

@@ -23,7 +23,6 @@
 #include <list>
 #include <string>
 
-
 struct Exercise
 {
 public:
@@ -37,7 +36,7 @@ public:
     bool mirror_x;
     Image(const char *img, int dur, bool mx)
     {
-      image = img;
+      image    = img;
       duration = dur;
       mirror_x = mx;
     }
@@ -53,11 +52,8 @@ public:
 
 private:
   static std::string get_exercises_file_name();
-  static void parse_exercises(const char *file_name, std::list<Exercise>&);
+  static void parse_exercises(const char *file_name, std::list<Exercise> &);
 #endif // HAVE_EXERCISES
 };
-
-
-
 
 #endif // EXERCISE_HH

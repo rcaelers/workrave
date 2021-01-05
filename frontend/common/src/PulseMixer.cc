@@ -18,33 +18,29 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_PULSE
 
-#include "debug.hh"
+#  include "debug.hh"
 
-#include "IConfigurator.hh"
-#include "ICore.hh"
-#include "CoreFactory.hh"
+#  include "IConfigurator.hh"
+#  include "ICore.hh"
+#  include "CoreFactory.hh"
 
-#include "PulseMixer.hh"
-#include "Util.hh"
-#include <debug.hh>
+#  include "PulseMixer.hh"
+#  include "Util.hh"
+#  include <debug.hh>
 
 using namespace std;
 using namespace workrave;
 
-
-
-
-
 PulseMixer::PulseMixer()
-  : pa_mainloop(NULL),
-    pa_api(NULL),
-    context(NULL),
-    default_sink_info(NULL)
+  : pa_mainloop(NULL)
+  , pa_api(NULL)
+  , context(NULL)
+  , default_sink_info(NULL)
 {
 }
 
@@ -57,8 +53,6 @@ PulseMixer::~PulseMixer()
 
   TRACE_EXIT();
 }
-
-
 
 bool
 PulseMixer::set_mute(bool on)
@@ -74,7 +68,7 @@ PulseMixer::set_mute(bool on)
 
       if (was_muted != on)
         {
-          pa_operation* o;
+          pa_operation *o;
           if (!(o = pa_context_set_sink_mute_by_index(context, default_sink_info->index, on, NULL, NULL)))
             {
               TRACE_MSG("pa_context_set_sink_mute_by_index failed");
@@ -101,39 +95,30 @@ PulseMixer::init()
   pa_api = pa_glib_mainloop_get_api(pa_mainloop);
   g_assert(pa_api);
 
-  pa_proplist *pa_proplist = pa_proplist_new ();
+  pa_proplist *pa_proplist = pa_proplist_new();
 
-  pa_proplist_sets(pa_proplist,
-                   PA_PROP_APPLICATION_NAME,
-                   "Workrave");
-  pa_proplist_sets(pa_proplist,
-                   PA_PROP_APPLICATION_ID,
-                   "org.workrave.Workrave");
-  pa_proplist_sets(pa_proplist,
-                   PA_PROP_APPLICATION_ICON_NAME,
-                   "workrave");
-  pa_proplist_sets(pa_proplist,
-                   PA_PROP_APPLICATION_VERSION,
-                   PACKAGE_VERSION);
+  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_NAME, "Workrave");
+  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_ID, "org.workrave.Workrave");
+  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_ICON_NAME, "workrave");
+  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_VERSION, PACKAGE_VERSION);
 
   context = pa_context_new_with_proplist(pa_api, NULL, pa_proplist);
   g_assert(context);
 
-  pa_proplist_free (pa_proplist);
+  pa_proplist_free(pa_proplist);
 
   pa_context_set_state_callback(context, context_state_cb, this);
 
-  pa_context_connect(context, NULL, (pa_context_flags_t) 0, NULL);
+  pa_context_connect(context, NULL, (pa_context_flags_t)0, NULL);
 
   TRACE_EXIT()
 }
-
 
 void
 PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *user_data)
 {
   TRACE_ENTER("PulseMixer::subscribe_cb");
-  PulseMixer* pulse = (PulseMixer*)user_data;
+  PulseMixer *pulse = (PulseMixer *)user_data;
 
   switch (t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK)
     {
@@ -149,7 +134,7 @@ PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t
             {
               TRACE_MSG("pa_context_get_sink_info_by_index failed");
               return;
-          }
+            }
           pa_operation_unref(o);
         }
       break;
@@ -167,12 +152,11 @@ PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t
   TRACE_EXIT();
 }
 
-
 void
 PulseMixer::context_state_cb(pa_context *c, void *user_data)
 {
   TRACE_ENTER("PulseMixer::context_state_cb");
-  PulseMixer* pulse = (PulseMixer*)user_data;
+  PulseMixer *pulse = (PulseMixer *)user_data;
 
   switch (pa_context_get_state(c))
     {
@@ -187,13 +171,13 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
 
         pa_context_set_subscribe_callback(c, subscribe_cb, pulse);
 
-        if (!(o = pa_context_subscribe(c, (pa_subscription_mask_t)
-                                       (PA_SUBSCRIPTION_MASK_SINK|
-                                        PA_SUBSCRIPTION_MASK_SOURCE|
-                                        PA_SUBSCRIPTION_MASK_SINK_INPUT|
-                                        PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT|
-                                        PA_SUBSCRIPTION_MASK_CLIENT|
-                                        PA_SUBSCRIPTION_MASK_SERVER), NULL, NULL)))
+        if (!(o =
+                pa_context_subscribe(c,
+                                     (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK | PA_SUBSCRIPTION_MASK_SOURCE
+                                                              | PA_SUBSCRIPTION_MASK_SINK_INPUT | PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT
+                                                              | PA_SUBSCRIPTION_MASK_CLIENT | PA_SUBSCRIPTION_MASK_SERVER),
+                                     NULL,
+                                     NULL)))
           {
             TRACE_MSG("pa_context_subscribe failed");
             return;
@@ -207,12 +191,12 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
           }
         pa_operation_unref(o);
 
-         if (!(o = pa_context_get_sink_info_list(c, sink_cb, pulse)))
-           {
-             TRACE_MSG("pa_context_get_sink_info_list failed");
-             return;
-           }
-         pa_operation_unref(o);
+        if (!(o = pa_context_get_sink_info_list(c, sink_cb, pulse)))
+          {
+            TRACE_MSG("pa_context_get_sink_info_list failed");
+            return;
+          }
+        pa_operation_unref(o);
 
         break;
       }
@@ -229,7 +213,7 @@ void
 PulseMixer::server_info_cb(pa_context *, const pa_server_info *i, void *user_data)
 {
   TRACE_ENTER("PulseMixer::server_info_cb");
-  PulseMixer *pulse = (PulseMixer*)user_data;
+  PulseMixer *pulse = (PulseMixer *)user_data;
   pulse->set_default_sink_name(i->default_sink_name ? i->default_sink_name : "");
   TRACE_EXIT();
 }
@@ -238,7 +222,7 @@ void
 PulseMixer::sink_cb(pa_context *, const pa_sink_info *i, int eol, void *user_data)
 {
   TRACE_ENTER("PulseMixer::sink_cb");
-  PulseMixer *pulse = (PulseMixer*)user_data;
+  PulseMixer *pulse = (PulseMixer *)user_data;
 
   if (eol == 0)
     {
@@ -254,7 +238,7 @@ PulseMixer::set_default_sink_name(const char *name)
 
   default_sink_name = name;
 
-  for (std::map<uint32_t, SinkInfo*>::iterator i = sinks.begin(); i != sinks.end(); ++i)
+  for (std::map<uint32_t, SinkInfo *>::iterator i = sinks.begin(); i != sinks.end(); ++i)
     {
       SinkInfo *sink_info = i->second;
 
@@ -266,7 +250,6 @@ PulseMixer::set_default_sink_name(const char *name)
     }
   TRACE_EXIT();
 }
-
 
 void
 PulseMixer::remove_sink(uint32_t index)
@@ -297,14 +280,14 @@ PulseMixer::update_sink(const pa_sink_info &info)
     }
   else
     {
-      sink_info = new SinkInfo();
+      sink_info         = new SinkInfo();
       sinks[info.index] = sink_info;
     }
 
-  sink_info->index = info.index;
-  sink_info->name = info.name;
+  sink_info->index       = info.index;
+  sink_info->name        = info.name;
   sink_info->description = info.description;
-  sink_info->mute = info.mute;
+  sink_info->mute        = info.mute;
 
   TRACE_MSG(info.name << " " << info.mute << " " << info.index);
 

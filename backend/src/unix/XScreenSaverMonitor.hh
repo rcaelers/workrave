@@ -32,9 +32,9 @@
 #include "Thread.hh"
 
 //! Activity monitor for a local X server.
-class XScreenSaverMonitor :
-  public InputMonitor,
-  public Runnable
+class XScreenSaverMonitor
+  : public InputMonitor
+  , public Runnable
 {
 public:
   //! Constructor.
@@ -52,7 +52,6 @@ public:
 private:
   //! The monitor's execution thread.
   virtual void run();
-
 
 private:
   //! Abort the main loop

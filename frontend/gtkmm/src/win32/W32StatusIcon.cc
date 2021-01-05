@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <windows.h>
@@ -34,13 +34,12 @@
 
 using namespace std;
 
-HWND W32StatusIcon::tray_hwnd = NULL;
+HWND W32StatusIcon::tray_hwnd         = NULL;
 UINT W32StatusIcon::wm_taskbarcreated = 0;
 
 const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
-static HICON
-pixbuf_to_hicon (GdkPixbuf *pixbuf);
+static HICON pixbuf_to_hicon(GdkPixbuf *pixbuf);
 
 //! Constructor.
 W32StatusIcon::W32StatusIcon()
@@ -49,13 +48,11 @@ W32StatusIcon::W32StatusIcon()
   init();
 }
 
-
 //! Destructor.
 W32StatusIcon::~W32StatusIcon()
 {
   cleanup();
 }
-
 
 void
 W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
@@ -67,13 +64,11 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
   gint height = pixbuf->get_height();
 
   HICON old_hicon = nid.hIcon;
-  int size = 16;
+  int size        = 16;
 
   if (width > size || height > size)
     {
-      scaled = pixbuf->scale_simple(MIN (size, width),
-                                    MIN (size, height),
-                                    Gdk::INTERP_BILINEAR);
+      scaled    = pixbuf->scale_simple(MIN(size, width), MIN(size, height), Gdk::INTERP_BILINEAR);
       nid.hIcon = pixbuf_to_hicon(scaled->gobj());
     }
   else
@@ -84,7 +79,7 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
   nid.uFlags |= NIF_ICON;
   if (nid.hWnd != NULL && visible)
     {
-      Shell_NotifyIconW (NIM_MODIFY, &nid);
+      Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
 
   if (old_hicon != NULL)
@@ -93,7 +88,6 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
     }
   TRACE_EXIT();
 }
-
 
 void
 W32StatusIcon::set_tooltip(const Glib::ustring &text)
@@ -118,20 +112,19 @@ W32StatusIcon::set_tooltip(const Glib::ustring &text)
     }
 }
 
-
 void
 W32StatusIcon::show_balloon(string id, const Glib::ustring &balloon)
 {
   TRACE_ENTER("W32StatusIcon::show_balloon");
-  gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, NULL, NULL, NULL);
+  gunichar2 *winfo  = g_utf8_to_utf16(balloon.c_str(), -1, NULL, NULL, NULL);
   gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, NULL, NULL, NULL);
 
   current_id = id;
-  
+
   if (winfo != NULL && wtitle != NULL)
     {
       nid.uFlags |= NIF_INFO;
-      nid.uTimeout = 20000;
+      nid.uTimeout    = 20000;
       nid.dwInfoFlags = NIIF_INFO;
 
       wcsncpy(nid.szInfo, (wchar_t *)winfo, G_N_ELEMENTS(nid.szInfo) - 1);
@@ -160,7 +153,6 @@ W32StatusIcon::show_balloon(string id, const Glib::ustring &balloon)
   TRACE_EXIT();
 }
 
-
 void
 W32StatusIcon::set_visible(bool visible)
 {
@@ -174,7 +166,6 @@ W32StatusIcon::set_visible(bool visible)
         }
     }
 }
-
 
 bool
 W32StatusIcon::get_visible() const
@@ -216,16 +207,13 @@ W32StatusIcon::init()
       WNDCLASS wclass;
       memset(&wclass, 0, sizeof(WNDCLASS));
       wclass.lpszClassName = "WorkraveTrayObserver";
-      wclass.lpfnWndProc = window_proc;
-      wclass.hInstance = hinstance;
+      wclass.lpfnWndProc   = window_proc;
+      wclass.hInstance     = hinstance;
 
       ATOM atom = RegisterClass(&wclass);
       if (atom != 0)
         {
-          tray_hwnd = CreateWindow(MAKEINTRESOURCE(atom),
-                                   NULL, WS_POPUP,
-                                   0, 0, 1, 1, NULL, NULL,
-                                   hinstance, NULL);
+          tray_hwnd = CreateWindow(MAKEINTRESOURCE(atom), NULL, WS_POPUP, 0, 0, 1, 1, NULL, NULL, hinstance, NULL);
         }
 
       if (tray_hwnd == NULL)
@@ -239,17 +227,17 @@ W32StatusIcon::init()
     }
 
   memset(&nid, 0, sizeof(NOTIFYICONDATA));
-  nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
-  nid.uID = 1;
-  nid.uFlags = NIF_MESSAGE;
+  nid.cbSize           = NOTIFYICONDATAW_V2_SIZE;
+  nid.uID              = 1;
+  nid.uFlags           = NIF_MESSAGE;
   nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
-  nid.hWnd = tray_hwnd;
+  nid.hWnd             = tray_hwnd;
 
   set_tooltip("Workrave");
 
   if (tray_hwnd != NULL)
     {
-      SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG) this);
+      SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG)this);
     }
 }
 
@@ -266,26 +254,23 @@ W32StatusIcon::cleanup()
     }
 }
 
-
 void
 W32StatusIcon::add_tray_icon()
 {
   memset(&nid, 0, sizeof(NOTIFYICONDATA));
 
-  nid.cbSize = sizeof(NOTIFYICONDATA);
-  nid.hWnd = tray_hwnd;
-  nid.uID = 1;
-  nid.uFlags = NIF_MESSAGE;
+  nid.cbSize           = sizeof(NOTIFYICONDATA);
+  nid.hWnd             = tray_hwnd;
+  nid.uID              = 1;
+  nid.uFlags           = NIF_MESSAGE;
   nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
-
 }
 
 LRESULT CALLBACK
-W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
-                              LPARAM lParam)
+W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER_MSG("W32StatusIcon::window_proc", uMsg << " " << wParam);
-  W32StatusIcon *status_icon = (W32StatusIcon *) GetWindowLong(hwnd, GWL_USERDATA);
+  W32StatusIcon *status_icon = (W32StatusIcon *)GetWindowLong(hwnd, GWL_USERDATA);
   if (status_icon != NULL)
     {
       if (uMsg == status_icon->wm_taskbarcreated)
@@ -315,8 +300,6 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-
-
 /* This is ganked from GTK+.
 
  * GDK - The GIMP Drawing Kit
@@ -330,45 +313,42 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
  */
 
 static gboolean
-_gdk_win32_pixbuf_to_hicon_supports_alpha (void)
+_gdk_win32_pixbuf_to_hicon_supports_alpha(void)
 {
-  static gboolean is_win_xp=FALSE, is_win_xp_checked=FALSE;
+  static gboolean is_win_xp = FALSE, is_win_xp_checked = FALSE;
 
   if (!is_win_xp_checked)
     {
       is_win_xp_checked = TRUE;
 
-      if (!G_WIN32_IS_NT_BASED ())
+      if (!G_WIN32_IS_NT_BASED())
         is_win_xp = FALSE;
       else
         {
           OSVERSIONINFO version;
 
-          memset (&version, 0, sizeof (version));
-          version.dwOSVersionInfoSize = sizeof (version);
-          is_win_xp = GetVersionEx (&version)
-            && version.dwPlatformId == VER_PLATFORM_WIN32_NT
-            && (version.dwMajorVersion > 5
-                || (version.dwMajorVersion == 5 && version.dwMinorVersion >= 1));
+          memset(&version, 0, sizeof(version));
+          version.dwOSVersionInfoSize = sizeof(version);
+          is_win_xp                   = GetVersionEx(&version) && version.dwPlatformId == VER_PLATFORM_WIN32_NT
+                      && (version.dwMajorVersion > 5 || (version.dwMajorVersion == 5 && version.dwMinorVersion >= 1));
         }
     }
   return is_win_xp;
 }
 
 static HBITMAP
-create_alpha_bitmap (gint     size,
-		     guchar **outdata)
+create_alpha_bitmap(gint size, guchar **outdata)
 {
   BITMAPV5HEADER bi;
   HDC hdc;
   HBITMAP hBitmap;
 
-  ZeroMemory (&bi, sizeof (BITMAPV5HEADER));
-  bi.bV5Size = sizeof (BITMAPV5HEADER);
+  ZeroMemory(&bi, sizeof(BITMAPV5HEADER));
+  bi.bV5Size   = sizeof(BITMAPV5HEADER);
   bi.bV5Height = bi.bV5Width = size;
-  bi.bV5Planes = 1;
-  bi.bV5BitCount = 32;
-  bi.bV5Compression = BI_BITFIELDS;
+  bi.bV5Planes               = 1;
+  bi.bV5BitCount             = 32;
+  bi.bV5Compression          = BI_BITFIELDS;
   /* The following mask specification specifies a supported 32 BPP
    * alpha format for Windows XP (BGRA format).
    */
@@ -378,60 +358,55 @@ create_alpha_bitmap (gint     size,
   bi.bV5AlphaMask = 0xFF000000;
 
   /* Create the DIB section with an alpha channel. */
-  hdc = GetDC (NULL);
+  hdc = GetDC(NULL);
   if (!hdc)
     {
       return NULL;
     }
-  hBitmap = CreateDIBSection (hdc, (BITMAPINFO *)&bi, DIB_RGB_COLORS,
-			      (PVOID *) outdata, NULL, (DWORD)0);
-  ReleaseDC (NULL, hdc);
+  hBitmap = CreateDIBSection(hdc, (BITMAPINFO *)&bi, DIB_RGB_COLORS, (PVOID *)outdata, NULL, (DWORD)0);
+  ReleaseDC(NULL, hdc);
 
   return hBitmap;
 }
 
 static HBITMAP
-create_color_bitmap (gint     size,
-		     guchar **outdata,
-		     gint     bits)
+create_color_bitmap(gint size, guchar **outdata, gint bits)
 {
-  struct {
+  struct
+  {
     BITMAPV4HEADER bmiHeader;
     RGBQUAD bmiColors[2];
   } bmi;
   HDC hdc;
   HBITMAP hBitmap;
 
-  ZeroMemory (&bmi, sizeof (bmi));
-  bmi.bmiHeader.bV4Size = sizeof (BITMAPV4HEADER);
+  ZeroMemory(&bmi, sizeof(bmi));
+  bmi.bmiHeader.bV4Size   = sizeof(BITMAPV4HEADER);
   bmi.bmiHeader.bV4Height = bmi.bmiHeader.bV4Width = size;
-  bmi.bmiHeader.bV4Planes = 1;
-  bmi.bmiHeader.bV4BitCount = bits;
-  bmi.bmiHeader.bV4V4Compression = BI_RGB;
+  bmi.bmiHeader.bV4Planes                          = 1;
+  bmi.bmiHeader.bV4BitCount                        = bits;
+  bmi.bmiHeader.bV4V4Compression                   = BI_RGB;
 
   /* when bits is 1, these will be used.
    * bmiColors[0] already zeroed from ZeroMemory()
    */
-  bmi.bmiColors[1].rgbBlue = 0xFF;
+  bmi.bmiColors[1].rgbBlue  = 0xFF;
   bmi.bmiColors[1].rgbGreen = 0xFF;
-  bmi.bmiColors[1].rgbRed = 0xFF;
+  bmi.bmiColors[1].rgbRed   = 0xFF;
 
-  hdc = GetDC (NULL);
+  hdc = GetDC(NULL);
   if (!hdc)
     {
       return NULL;
     }
-  hBitmap = CreateDIBSection (hdc, (BITMAPINFO *)&bmi, DIB_RGB_COLORS,
-			      (PVOID *) outdata, NULL, (DWORD)0);
-  ReleaseDC (NULL, hdc);
+  hBitmap = CreateDIBSection(hdc, (BITMAPINFO *)&bmi, DIB_RGB_COLORS, (PVOID *)outdata, NULL, (DWORD)0);
+  ReleaseDC(NULL, hdc);
 
   return hBitmap;
 }
 
 static gboolean
-pixbuf_to_hbitmaps_alpha_winxp (GdkPixbuf *pixbuf,
-				HBITMAP   *color,
-				HBITMAP   *mask)
+pixbuf_to_hbitmaps_alpha_winxp(GdkPixbuf *pixbuf, HBITMAP *color, HBITMAP *mask)
 {
   /* Based on code from
    * http://www.dotnet247.com/247reference/msgs/13/66301.aspx
@@ -442,27 +417,27 @@ pixbuf_to_hbitmaps_alpha_winxp (GdkPixbuf *pixbuf,
   gint width, height, size, i, i_offset, j, j_offset, rowstride;
   guint maskstride, mask_bit;
 
-  width = gdk_pixbuf_get_width (pixbuf); /* width of icon */
-  height = gdk_pixbuf_get_height (pixbuf); /* height of icon */
+  width  = gdk_pixbuf_get_width(pixbuf);  /* width of icon */
+  height = gdk_pixbuf_get_height(pixbuf); /* height of icon */
 
   /* The bitmaps are created square */
-  size = MAX (width, height);
+  size = MAX(width, height);
 
-  hColorBitmap = create_alpha_bitmap (size, &colordata);
+  hColorBitmap = create_alpha_bitmap(size, &colordata);
   if (!hColorBitmap)
     return FALSE;
-  hMaskBitmap = create_color_bitmap (size, &maskdata, 1);
+  hMaskBitmap = create_color_bitmap(size, &maskdata, 1);
   if (!hMaskBitmap)
     {
-      DeleteObject (hColorBitmap);
+      DeleteObject(hColorBitmap);
       return FALSE;
     }
 
   /* MSDN says mask rows are aligned to "LONG" boundaries */
   maskstride = (((size + 31) & ~31) >> 3);
 
-  indata = gdk_pixbuf_get_pixels (pixbuf);
-  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+  indata    = gdk_pixbuf_get_pixels(pixbuf);
+  rowstride = gdk_pixbuf_get_rowstride(pixbuf);
 
   if (width > height)
     {
@@ -477,39 +452,37 @@ pixbuf_to_hbitmaps_alpha_winxp (GdkPixbuf *pixbuf,
 
   for (j = 0; j < height; j++)
     {
-      colorrow = colordata + 4*(j+j_offset)*size + 4*i_offset;
-      maskbyte = maskdata + (j+j_offset)*maskstride + i_offset/8;
+      colorrow = colordata + 4 * (j + j_offset) * size + 4 * i_offset;
+      maskbyte = maskdata + (j + j_offset) * maskstride + i_offset / 8;
       mask_bit = (0x80 >> (i_offset % 8));
-      inrow = indata + (height-j-1)*rowstride;
+      inrow    = indata + (height - j - 1) * rowstride;
       for (i = 0; i < width; i++)
-	{
-	  colorrow[4*i+0] = inrow[4*i+2];
-	  colorrow[4*i+1] = inrow[4*i+1];
-	  colorrow[4*i+2] = inrow[4*i+0];
-	  colorrow[4*i+3] = inrow[4*i+3];
-	  if (inrow[4*i+3] == 0)
-	    maskbyte[0] |= mask_bit;	/* turn ON bit */
-	  else
-	    maskbyte[0] &= ~mask_bit;	/* turn OFF bit */
-	  mask_bit >>= 1;
-	  if (mask_bit == 0)
-	    {
-	      mask_bit = 0x80;
-	      maskbyte++;
-	    }
-	}
+        {
+          colorrow[4 * i + 0] = inrow[4 * i + 2];
+          colorrow[4 * i + 1] = inrow[4 * i + 1];
+          colorrow[4 * i + 2] = inrow[4 * i + 0];
+          colorrow[4 * i + 3] = inrow[4 * i + 3];
+          if (inrow[4 * i + 3] == 0)
+            maskbyte[0] |= mask_bit; /* turn ON bit */
+          else
+            maskbyte[0] &= ~mask_bit; /* turn OFF bit */
+          mask_bit >>= 1;
+          if (mask_bit == 0)
+            {
+              mask_bit = 0x80;
+              maskbyte++;
+            }
+        }
     }
 
   *color = hColorBitmap;
-  *mask = hMaskBitmap;
+  *mask  = hMaskBitmap;
 
   return TRUE;
 }
 
 static gboolean
-pixbuf_to_hbitmaps_normal (GdkPixbuf *pixbuf,
-			   HBITMAP   *color,
-			   HBITMAP   *mask)
+pixbuf_to_hbitmaps_normal(GdkPixbuf *pixbuf, HBITMAP *color, HBITMAP *mask)
 {
   /* Based on code from
    * http://www.dotnet247.com/247reference/msgs/13/66301.aspx
@@ -521,19 +494,19 @@ pixbuf_to_hbitmaps_normal (GdkPixbuf *pixbuf,
   gboolean has_alpha;
   guint maskstride, mask_bit;
 
-  width = gdk_pixbuf_get_width (pixbuf); /* width of icon */
-  height = gdk_pixbuf_get_height (pixbuf); /* height of icon */
+  width  = gdk_pixbuf_get_width(pixbuf);  /* width of icon */
+  height = gdk_pixbuf_get_height(pixbuf); /* height of icon */
 
   /* The bitmaps are created square */
-  size = MAX (width, height);
+  size = MAX(width, height);
 
-  hColorBitmap = create_color_bitmap (size, &colordata, 24);
+  hColorBitmap = create_color_bitmap(size, &colordata, 24);
   if (!hColorBitmap)
     return FALSE;
-  hMaskBitmap = create_color_bitmap (size, &maskdata, 1);
+  hMaskBitmap = create_color_bitmap(size, &maskdata, 1);
   if (!hMaskBitmap)
     {
-      DeleteObject (hColorBitmap);
+      DeleteObject(hColorBitmap);
       return FALSE;
     }
 
@@ -545,10 +518,10 @@ pixbuf_to_hbitmaps_normal (GdkPixbuf *pixbuf,
   /* MSDN says mask rows are aligned to "LONG" boundaries */
   maskstride = (((size + 31) & ~31) >> 3);
 
-  indata = gdk_pixbuf_get_pixels (pixbuf);
-  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-  nc = gdk_pixbuf_get_n_channels (pixbuf);
-  has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+  indata    = gdk_pixbuf_get_pixels(pixbuf);
+  rowstride = gdk_pixbuf_get_rowstride(pixbuf);
+  nc        = gdk_pixbuf_get_n_channels(pixbuf);
+  has_alpha = gdk_pixbuf_get_has_alpha(pixbuf);
 
   if (width > height)
     {
@@ -563,41 +536,41 @@ pixbuf_to_hbitmaps_normal (GdkPixbuf *pixbuf,
 
   for (j = 0; j < height; j++)
     {
-      colorrow = colordata + (j+j_offset)*bmstride + 3*i_offset;
-      maskbyte = maskdata + (j+j_offset)*maskstride + i_offset/8;
+      colorrow = colordata + (j + j_offset) * bmstride + 3 * i_offset;
+      maskbyte = maskdata + (j + j_offset) * maskstride + i_offset / 8;
       mask_bit = (0x80 >> (i_offset % 8));
-      inrow = indata + (height-j-1)*rowstride;
+      inrow    = indata + (height - j - 1) * rowstride;
       for (i = 0; i < width; i++)
-	{
-	  if (has_alpha && inrow[nc*i+3] < 128)
-	    {
-	      colorrow[3*i+0] = colorrow[3*i+1] = colorrow[3*i+2] = 0;
-	      maskbyte[0] |= mask_bit;	/* turn ON bit */
-	    }
-	  else
-	    {
-	      colorrow[3*i+0] = inrow[nc*i+2];
-	      colorrow[3*i+1] = inrow[nc*i+1];
-	      colorrow[3*i+2] = inrow[nc*i+0];
-	      maskbyte[0] &= ~mask_bit;	/* turn OFF bit */
-	    }
-	  mask_bit >>= 1;
-	  if (mask_bit == 0)
-	    {
-	      mask_bit = 0x80;
-	      maskbyte++;
-	    }
-	}
+        {
+          if (has_alpha && inrow[nc * i + 3] < 128)
+            {
+              colorrow[3 * i + 0] = colorrow[3 * i + 1] = colorrow[3 * i + 2] = 0;
+              maskbyte[0] |= mask_bit; /* turn ON bit */
+            }
+          else
+            {
+              colorrow[3 * i + 0] = inrow[nc * i + 2];
+              colorrow[3 * i + 1] = inrow[nc * i + 1];
+              colorrow[3 * i + 2] = inrow[nc * i + 0];
+              maskbyte[0] &= ~mask_bit; /* turn OFF bit */
+            }
+          mask_bit >>= 1;
+          if (mask_bit == 0)
+            {
+              mask_bit = 0x80;
+              maskbyte++;
+            }
+        }
     }
 
   *color = hColorBitmap;
-  *mask = hMaskBitmap;
+  *mask  = hMaskBitmap;
 
   return TRUE;
 }
 
 static HICON
-pixbuf_to_hicon (GdkPixbuf *pixbuf)
+pixbuf_to_hicon(GdkPixbuf *pixbuf)
 {
   gint x = 0, y = 0;
   gboolean is_icon = TRUE;
@@ -608,19 +581,19 @@ pixbuf_to_hicon (GdkPixbuf *pixbuf)
   if (pixbuf == NULL)
     return NULL;
 
-  if (_gdk_win32_pixbuf_to_hicon_supports_alpha() && gdk_pixbuf_get_has_alpha (pixbuf))
-    success = pixbuf_to_hbitmaps_alpha_winxp (pixbuf, &ii.hbmColor, &ii.hbmMask);
+  if (_gdk_win32_pixbuf_to_hicon_supports_alpha() && gdk_pixbuf_get_has_alpha(pixbuf))
+    success = pixbuf_to_hbitmaps_alpha_winxp(pixbuf, &ii.hbmColor, &ii.hbmMask);
   else
-    success = pixbuf_to_hbitmaps_normal (pixbuf, &ii.hbmColor, &ii.hbmMask);
+    success = pixbuf_to_hbitmaps_normal(pixbuf, &ii.hbmColor, &ii.hbmMask);
 
   if (!success)
     return NULL;
 
-  ii.fIcon = is_icon;
+  ii.fIcon    = is_icon;
   ii.xHotspot = x;
   ii.yHotspot = y;
-  icon = CreateIconIndirect (&ii);
-  DeleteObject (ii.hbmColor);
-  DeleteObject (ii.hbmMask);
+  icon        = CreateIconIndirect(&ii);
+  DeleteObject(ii.hbmColor);
+  DeleteObject(ii.hbmMask);
   return icon;
 }

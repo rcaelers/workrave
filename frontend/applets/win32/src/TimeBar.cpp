@@ -25,13 +25,13 @@
 #include "Debug.h"
 #include "PaintHelper.h"
 
-const int BORDER_SIZE = 2;
-const int MARGINX = 4;
-const int MARGINY = 0;
+const int BORDER_SIZE    = 2;
+const int MARGINX        = 4;
+const int MARGINY        = 0;
 const int MINIMAL_HEIGHT = 16;
 
 #define TIME_BAR_CLASS_NAME "WorkraveTimeBar"
-#define GDK_TO_COLORREF(r, g, b) (((r)>>8) | (((g)>>8) <<8) | (((b)>>8) << 16))
+#define GDK_TO_COLORREF(r, g, b) (((r) >> 8) | (((g) >> 8) << 8) | (((b) >> 8) << 16))
 
 HBRUSH TimeBar::bar_colors[ITimeBar::COLOR_ID_SIZEOF];
 HFONT TimeBar::bar_font = NULL;
@@ -41,20 +41,19 @@ TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
 {
   init(hinst);
 
-  bar_text[0] = 0;
-  bar_max_value = 100;
-  bar_value = 0;
+  bar_text[0]             = 0;
+  bar_max_value           = 100;
+  bar_value               = 0;
   secondary_bar_max_value = 0;
-  secondary_bar_value = 100;
-  secondary_bar_color = ITimeBar::COLOR_ID_INACTIVE;
-  bar_color = ITimeBar::COLOR_ID_ACTIVE;
+  secondary_bar_value     = 100;
+  secondary_bar_color     = ITimeBar::COLOR_ID_INACTIVE;
+  bar_color               = ITimeBar::COLOR_ID_ACTIVE;
 
-  hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "",
-      WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, (LPVOID)this );
+  hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, (LPVOID)this);
 
   paint_helper = new PaintHelper(hwnd);
   compute_size(width, height);
-  SetWindowPos(hwnd, NULL, 0, 0, width, height, SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
+  SetWindowPos(hwnd, NULL, 0, 0, width, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 }
 
 TimeBar::~TimeBar()
@@ -65,17 +64,16 @@ TimeBar::~TimeBar()
 LRESULT CALLBACK
 TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
-  TimeBar  *pThis = (TimeBar*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+  TimeBar *pThis = (TimeBar *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis = (TimeBar *)( lpcs->lpCreateParams );
+        pThis               = (TimeBar *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, 
-                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
       }
       break;
 
@@ -101,29 +99,29 @@ TimeBar::compute_size(int &w, int &h)
 {
   TRACE_ENTER("TimeBar::compute_size");
   HDC dc = GetDC(hwnd);
-  SelectObject(dc, (HGDIOBJ) bar_font);
+  SelectObject(dc, (HGDIOBJ)bar_font);
   char buf[80];
 
-  time_to_string(-(59+59*60+9*60*60), buf, sizeof(buf));
+  time_to_string(-(59 + 59 * 60 + 9 * 60 * 60), buf, sizeof(buf));
 
   RECT rect;
-  rect.left = 0;
-  rect.top = 0;
+  rect.left   = 0;
+  rect.top    = 0;
   rect.bottom = 0;
-  rect.right = 0;
-  h= DrawText(dc, buf, (int)strlen( buf ), &rect, DT_CALCRECT);
-  if (! h)
+  rect.right  = 0;
+  h           = DrawText(dc, buf, (int)strlen(buf), &rect, DT_CALCRECT);
+  if (!h)
     {
       w = 32;
       h = 16;
     }
   else
     {
-      w= rect.right;
+      w = rect.right;
     }
 
-  w += 2*MARGINX + 2*BORDER_SIZE;
-  h += 2*MARGINY + 2*BORDER_SIZE;
+  w += 2 * MARGINX + 2 * BORDER_SIZE;
+  h += 2 * MARGINY + 2 * BORDER_SIZE;
   if (h < MINIMAL_HEIGHT)
     h = MINIMAL_HEIGHT;
   ReleaseDC(hwnd, dc);
@@ -136,7 +134,7 @@ LRESULT
 TimeBar::on_paint()
 {
   TRACE_ENTER("TimeBar::on_paint");
-  RECT        rc;
+  RECT rc;
 
   HDC dc = paint_helper->BeginPaint();
 
@@ -144,14 +142,14 @@ TimeBar::on_paint()
 
   RECT r;
 
-  int winx = rc.left, winy = rc.top, winw = rc.right-rc.left, winh = rc.bottom-rc.top;
+  int winx = rc.left, winy = rc.top, winw = rc.right - rc.left, winh = rc.bottom - rc.top;
 
-  SelectObject(dc, (HGDIOBJ) bar_font);
+  SelectObject(dc, (HGDIOBJ)bar_font);
   r.left = r.top = r.bottom = r.right = 0;
 
   TRACE_MSG("1" << winx << " " << winy << " " << winw << " " << winh);
   // Bar
-  int bar_width = 0;
+  int bar_width   = 0;
   int border_size = BORDER_SIZE;
   if (bar_max_value > 0)
     {
@@ -160,7 +158,7 @@ TimeBar::on_paint()
 
   // Secondary bar
   int sbar_width = 0;
-  if (secondary_bar_max_value >  0)
+  if (secondary_bar_max_value > 0)
     {
       sbar_width = (secondary_bar_value * (winw - 2 * border_size)) / secondary_bar_max_value;
     }
@@ -171,7 +169,7 @@ TimeBar::on_paint()
   if (sbar_width > 0)
     {
       // Overlap
-      //assert(secondary_bar_color == COLOR_ID_INACTIVE);
+      // assert(secondary_bar_color == COLOR_ID_INACTIVE);
       ITimeBar::ColorId overlap_color;
       switch (bar_color)
         {
@@ -189,17 +187,17 @@ TimeBar::on_paint()
         {
           if (bar_width)
             {
-              r.left = winx+ border_size ;
-              r.top = winy+ border_size ;
-              r.right = r.left + bar_width;
+              r.left   = winx + border_size;
+              r.top    = winy + border_size;
+              r.right  = r.left + bar_width;
               r.bottom = r.top + bar_h;
               FillRect(dc, &r, bar_colors[overlap_color]);
             }
           if (sbar_width > bar_width)
             {
-              r.left = winx + bar_width+ border_size ;
-              r.top = winy+ border_size ;
-              r.right = r.left + sbar_width - bar_width;
+              r.left   = winx + bar_width + border_size;
+              r.top    = winy + border_size;
+              r.right  = r.left + sbar_width - bar_width;
               r.bottom = r.top + bar_h;
               FillRect(dc, &r, bar_colors[secondary_bar_color]);
             }
@@ -208,15 +206,15 @@ TimeBar::on_paint()
         {
           if (sbar_width)
             {
-              r.left = winx+ border_size ;
-              r.top = winy+ border_size ;
-              r.right = r.left + sbar_width;
+              r.left   = winx + border_size;
+              r.top    = winy + border_size;
+              r.right  = r.left + sbar_width;
               r.bottom = r.top + bar_h;
               FillRect(dc, &r, bar_colors[overlap_color]);
             }
-          r.left = winx + border_size + sbar_width;
-          r.top = winy + border_size ;
-          r.right = r.left + bar_width - sbar_width;
+          r.left   = winx + border_size + sbar_width;
+          r.top    = winy + border_size;
+          r.right  = r.left + bar_width - sbar_width;
           r.bottom = r.top + bar_h;
           FillRect(dc, &r, bar_colors[bar_color]);
         }
@@ -224,30 +222,30 @@ TimeBar::on_paint()
   else
     {
       // No overlap
-      r.left = winx + border_size;
-      r.top = winy + border_size;
-      r.right = r.left + bar_width;
+      r.left   = winx + border_size;
+      r.top    = winy + border_size;
+      r.right  = r.left + bar_width;
       r.bottom = r.top + bar_h;
       FillRect(dc, &r, bar_colors[bar_color]);
     }
 
   TRACE_MSG("3");
-  r.left = winx + border_size + __max(bar_width, sbar_width);
-  r.top = winy + border_size;
-  r.right = winx + winw - border_size;
+  r.left   = winx + border_size + __max(bar_width, sbar_width);
+  r.top    = winy + border_size;
+  r.right  = winx + winw - border_size;
   r.bottom = r.top + bar_h;
   FillRect(dc, &r, bar_colors[ITimeBar::COLOR_ID_BG]);
 
-  r.left = winx;
-  r.top = winy;
+  r.left   = winx;
+  r.top    = winy;
   r.bottom = r.top + winh;
-  r.right = r.left + winw;
-  DrawEdge(dc, &r, BF_ADJUST|EDGE_SUNKEN,BF_RECT);
+  r.right  = r.left + winw;
+  DrawEdge(dc, &r, BF_ADJUST | EDGE_SUNKEN, BF_RECT);
 
   SetBkMode(dc, TRANSPARENT);
   r.right -= border_size + MARGINX;
   r.left += border_size + MARGINX;
-  DrawText(dc, bar_text, (int)strlen( bar_text ), &r, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
+  DrawText(dc, bar_text, (int)strlen(bar_text), &r, DT_SINGLELINE | DT_VCENTER | DT_RIGHT);
 
   TRACE_MSG("4");
 
@@ -262,62 +260,61 @@ TimeBar::init(HINSTANCE hinst)
 {
   TRACE_ENTER("TimeBar::init");
 
-  //If the window class has not been registered, then do so.
+  // If the window class has not been registered, then do so.
   WNDCLASS wc;
   if (!GetClassInfo(hinst, TIME_BAR_CLASS_NAME, &wc))
     {
       ZeroMemory(&wc, sizeof(wc));
-      wc.style          = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
-      wc.lpfnWndProc    = (WNDPROC)wnd_proc;
-      wc.cbClsExtra     = 0;
-      wc.cbWndExtra     = 0;
-      wc.hInstance      = hinst;
-      wc.hIcon          = NULL;
-      wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-      wc.hbrBackground  = (HBRUSH)CreateSolidBrush(RGB(192, 0, 0));
-      wc.lpszMenuName   = NULL;
-      wc.lpszClassName  = TIME_BAR_CLASS_NAME;
+      wc.style         = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
+      wc.lpfnWndProc   = (WNDPROC)wnd_proc;
+      wc.cbClsExtra    = 0;
+      wc.cbWndExtra    = 0;
+      wc.hInstance     = hinst;
+      wc.hIcon         = NULL;
+      wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+      wc.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(192, 0, 0));
+      wc.lpszMenuName  = NULL;
+      wc.lpszClassName = TIME_BAR_CLASS_NAME;
 
       RegisterClass(&wc);
 
       HBRUSH green_mix_blue = CreateSolidBrush(0x00b2d400);
-      HBRUSH light_green = CreateSolidBrush(GDK_TO_COLORREF(37008,61166,37008));
-      HBRUSH orange = CreateSolidBrush(GDK_TO_COLORREF(65535, 42405, 0));
-      HBRUSH light_blue = CreateSolidBrush(GDK_TO_COLORREF(44461, 55512, 59110));
-      HBRUSH bg = CreateSolidBrush(GetSysColor(COLOR_3DLIGHT));
+      HBRUSH light_green    = CreateSolidBrush(GDK_TO_COLORREF(37008, 61166, 37008));
+      HBRUSH orange         = CreateSolidBrush(GDK_TO_COLORREF(65535, 42405, 0));
+      HBRUSH light_blue     = CreateSolidBrush(GDK_TO_COLORREF(44461, 55512, 59110));
+      HBRUSH bg             = CreateSolidBrush(GetSysColor(COLOR_3DLIGHT));
 
-      bar_colors[ITimeBar::COLOR_ID_ACTIVE] = light_blue;
-      bar_colors[ITimeBar::COLOR_ID_INACTIVE] = light_green;
-      bar_colors[ITimeBar::COLOR_ID_OVERDUE] = orange;
-      bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_ACTIVE] = green_mix_blue;
+      bar_colors[ITimeBar::COLOR_ID_ACTIVE]                = light_blue;
+      bar_colors[ITimeBar::COLOR_ID_INACTIVE]              = light_green;
+      bar_colors[ITimeBar::COLOR_ID_OVERDUE]               = orange;
+      bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_ACTIVE]  = green_mix_blue;
       bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE] = light_green;
-      bar_colors[ITimeBar::COLOR_ID_BG] = bg;
+      bar_colors[ITimeBar::COLOR_ID_BG]                    = bg;
 
       NONCLIENTMETRICS_PRE_VISTA_STRUCT ncm;
-	    LOGFONT lfDefault =
-	    // the default status font info on my system:
+      LOGFONT lfDefault =
+        // the default status font info on my system:
         {
-          -12, 0, 0, 0, 400, 0, 0, 0, '\1', 0, 0, 0, 0, TEXT( "Tahoma" )
-          //0, 0x00146218, 0, 0x001461F0, 0, '@', 0, 0, 0, 0, 0, 0, 0, TEXT( "·~" )
+          -12, 0, 0, 0, 400, 0, 0, 0, '\1', 0, 0, 0, 0, TEXT("Tahoma")
+          // 0, 0x00146218, 0, 0x001461F0, 0, '@', 0, 0, 0, 0, 0, 0, 0, TEXT( "·~" )
         };
 
-      ZeroMemory( &ncm, sizeof( ncm ) );
-      ncm.cbSize = sizeof( ncm );
+      ZeroMemory(&ncm, sizeof(ncm));
+      ncm.cbSize       = sizeof(ncm);
       ncm.lfStatusFont = lfDefault;
-	  
-      if (!SystemParametersInfo( SPI_GETNONCLIENTMETRICS, sizeof( ncm ), &ncm, 0 ))
+
+      if (!SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(ncm), &ncm, 0))
         // If SystemParametersInfo fails, use my default.
-        // Now that we're filling a pre-vista NCM struct, there 
+        // Now that we're filling a pre-vista NCM struct, there
         // shouldn't be any problem though, regardless of target.
         {
           ncm.lfStatusFont = lfDefault;
         }
-      
+
       bar_font = CreateFontIndirect(&ncm.lfStatusFont);
     }
   TRACE_EXIT();
 }
-
 
 //! Converts the specified time to a string
 void
@@ -335,32 +332,31 @@ TimeBar::time_to_string(time_t time, char *buf, int len)
     {
       t[0] = 0;
     }
-  int hrs = (int)( time / 3600 );
-  int min = (int)( (time / 60) % 60 );
-  int sec = (int)( time % 60 );
+  int hrs = (int)(time / 3600);
+  int min = (int)((time / 60) % 60);
+  int sec = (int)(time % 60);
 
   if (hrs > 0)
     {
-      _snprintf_s( buf, len, _TRUNCATE, "%s%d:%02d:%02d", t, hrs, min, sec );
+      _snprintf_s(buf, len, _TRUNCATE, "%s%d:%02d:%02d", t, hrs, min, sec);
     }
   else
     {
-      _snprintf_s( buf, len, _TRUNCATE, "%s%d:%02d", t, min, sec );
+      _snprintf_s(buf, len, _TRUNCATE, "%s%d:%02d", t, min, sec);
     }
 }
-
 
 void
 TimeBar::set_progress(int value, int max_value)
 {
-  bar_value = value;
+  bar_value     = value;
   bar_max_value = max_value;
 }
 
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
-  secondary_bar_value = value;
+  secondary_bar_value     = value;
   secondary_bar_max_value = max_value;
 }
 

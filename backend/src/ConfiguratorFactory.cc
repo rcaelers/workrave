@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <stdlib.h>
@@ -27,29 +27,29 @@
 #include "ConfiguratorFactory.hh"
 
 #ifdef HAVE_GLIB
-#include "GlibIniConfigurator.hh"
+#  include "GlibIniConfigurator.hh"
 #endif
 #ifdef HAVE_GSETTINGS
-#include "GSettingsConfigurator.hh"
+#  include "GSettingsConfigurator.hh"
 #endif
 #ifdef HAVE_GDOME
-#include "XMLConfigurator.hh"
+#  include "XMLConfigurator.hh"
 #endif
 #ifdef HAVE_GCONF
-#include "GConfConfigurator.hh"
+#  include "GConfConfigurator.hh"
 #endif
-#ifdef PLATFORM_OS_WIN32
-#include "W32Configurator.hh"
+#ifdef PLATFORM_OS_WINDOWS
+#  include "W32Configurator.hh"
 #endif
-#ifdef PLATFORM_OS_OSX
-#include "OSXConfigurator.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSConfigurator.hh"
 #endif
 
 //! Creates a configurator of the specified type.
 Configurator *
 ConfiguratorFactory::create(Format fmt)
 {
-  Configurator *c =  NULL;
+  Configurator *c   = NULL;
   IConfigBackend *b = NULL;
 
 #ifdef HAVE_GDOME
@@ -61,43 +61,43 @@ ConfiguratorFactory::create(Format fmt)
 #endif
 
 #if HAVE_GSETTINGS
-  if (fmt == FormatNative)
+    if (fmt == FormatNative)
     {
       b = new GSettingsConfigurator();
     }
   else
 #endif
-    
+
 #ifdef HAVE_GCONF
-  if (fmt == FormatNative)
+    if (fmt == FormatNative)
     {
       b = new GConfConfigurator();
     }
   else
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-  if (fmt == FormatNative)
+#ifdef PLATFORM_OS_WINDOWS
+    if (fmt == FormatNative)
     {
       b = new W32Configurator();
     }
   else
 #endif
 
-#ifdef PLATFORM_OS_OSX
-  if (fmt == FormatNative)
+#ifdef PLATFORM_OS_MACOS
+    if (fmt == FormatNative)
     {
-      b = new OSXConfigurator();
+      b = new MacOSConfigurator();
     }
   else
 #endif
 
-  if (fmt == FormatIni)
+    if (fmt == FormatIni)
     {
 #ifdef HAVE_GLIB
       b = new GlibIniConfigurator();
 #else
-#error Not ported
+#  error Not ported
 #endif
     }
 

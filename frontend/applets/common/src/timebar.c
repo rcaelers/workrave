@@ -30,11 +30,11 @@ static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr,
 static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height);
 static void workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, int *sbar_width, int *bar_height);
 
-const int MARGINX = 4;
-const int MARGINY = 2;
-const int MIN_HORIZONTAL_BAR_WIDTH = 12;
+const int MARGINX                   = 4;
+const int MARGINY                   = 2;
+const int MIN_HORIZONTAL_BAR_WIDTH  = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
-const int BORDER_SIZE = 2;
+const int BORDER_SIZE               = 2;
 
 enum
 {
@@ -43,7 +43,7 @@ enum
 };
 
 #ifdef USE_GTK2
-#include "compat.h"
+#  include "compat.h"
 #endif
 
 struct _WorkraveTimebarPrivate
@@ -89,12 +89,14 @@ G_DEFINE_TYPE_WITH_PRIVATE(WorkraveTimebar, workrave_timebar, G_TYPE_OBJECT);
 static GdkRGBA bar_colors[COLOR_ID_SIZEOF];
 
 #ifdef USE_GTK2
-static void set_color(cairo_t *cr, GdkColor color)
+static void
+set_color(cairo_t *cr, GdkColor color)
 {
   cairo_set_source_rgb(cr, color.red / 65535.0, color.green / 65535.0, color.blue / 65535.0);
 }
 #else
-static void set_color(cairo_t *cr, GdkRGBA color)
+static void
+set_color(cairo_t *cr, GdkRGBA color)
 {
   cairo_set_source_rgb(cr, color.red, color.green, color.blue);
 }
@@ -118,19 +120,18 @@ workrave_timebar_init(WorkraveTimebar *self)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  priv->bar_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
+  priv->bar_color           = COLOR_ID_INACTIVE_OVER_OVERDUE;
   priv->secondary_bar_color = COLOR_ID_2_ACTIVE_DURING_BREAK;
 
   gdk_rgba_parse(&priv->bar_text_color, "black");
-  priv->bar_value = 20;
-  priv->bar_max_value = 50;
-  priv->secondary_bar_value = 100;
+  priv->bar_value               = 20;
+  priv->bar_max_value           = 50;
+  priv->secondary_bar_value     = 100;
   priv->secondary_bar_max_value = 600;
-  priv->bar_text = g_strdup("");
+  priv->bar_text                = g_strdup("");
 
   workrave_timebar_init_ui(self);
 }
-
 
 void
 workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
@@ -144,7 +145,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   // Frame
   workrave_timebar_draw_frame(self, cr, priv->width, priv->height);
 
-  int bar_width = 0;
+  int bar_width  = 0;
   int sbar_width = 0;
   int bar_height = 0;
   workrave_timebar_compute_bar_dimensions(self, &bar_width, &sbar_width, &bar_height);
@@ -183,17 +184,13 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
             {
               GdkRGBA color = bar_colors[overlap_color];
               set_color(cr, color);
-              workrave_timebar_draw_filled_box(self, cr,
-                                               BORDER_SIZE, BORDER_SIZE,
-                                               bar_width, bar_height);
+              workrave_timebar_draw_filled_box(self, cr, BORDER_SIZE, BORDER_SIZE, bar_width, bar_height);
             }
           if (sbar_width > bar_width)
             {
               GdkRGBA color = bar_colors[priv->secondary_bar_color];
               set_color(cr, color);
-              workrave_timebar_draw_filled_box(self, cr,
-                                               BORDER_SIZE + bar_width, BORDER_SIZE,
-                                               sbar_width - bar_width, bar_height);
+              workrave_timebar_draw_filled_box(self, cr, BORDER_SIZE + bar_width, BORDER_SIZE, sbar_width - bar_width, bar_height);
             }
         }
       else
@@ -202,15 +199,11 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
             {
               GdkRGBA color = bar_colors[overlap_color];
               set_color(cr, color);
-              workrave_timebar_draw_filled_box(self, cr,
-                                               BORDER_SIZE, BORDER_SIZE,
-                                               sbar_width, bar_height);
+              workrave_timebar_draw_filled_box(self, cr, BORDER_SIZE, BORDER_SIZE, sbar_width, bar_height);
             }
           GdkRGBA color = bar_colors[priv->bar_color];
           set_color(cr, color);
-          workrave_timebar_draw_filled_box(self, cr,
-                                           BORDER_SIZE + sbar_width, BORDER_SIZE,
-                                           bar_width - sbar_width, bar_height);
+          workrave_timebar_draw_filled_box(self, cr, BORDER_SIZE + sbar_width, BORDER_SIZE, bar_width - sbar_width, bar_height);
         }
     }
   else
@@ -218,9 +211,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
       // No overlap
       GdkRGBA color = bar_colors[priv->bar_color];
       set_color(cr, color);
-      workrave_timebar_draw_filled_box(self, cr,
-                                       BORDER_SIZE, BORDER_SIZE,
-                                       bar_width, bar_height);
+      workrave_timebar_draw_filled_box(self, cr, BORDER_SIZE, BORDER_SIZE, bar_width, bar_height);
     }
 }
 
@@ -248,7 +239,6 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
   pango_cairo_show_layout(cr, priv->pango_layout);
 }
 
-
 #ifndef USE_GTK2
 static void
 workrave_timebar_init_ui(WorkraveTimebar *self)
@@ -262,11 +252,11 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
   gtk_style_context_set_path(priv->style_context, path);
   gtk_style_context_add_class(priv->style_context, GTK_STYLE_CLASS_TROUGH);
 
-  GdkScreen *screen = gdk_screen_get_default();
+  GdkScreen *screen   = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
 
   PangoFontDescription *font_desc = NULL;
-  gtk_style_context_get (priv->style_context, GTK_STATE_FLAG_ACTIVE, "font", &font_desc, NULL);
+  gtk_style_context_get(priv->style_context, GTK_STATE_FLAG_ACTIVE, "font", &font_desc, NULL);
 
   pango_context_set_language(priv->pango_context, gtk_get_default_language());
   pango_context_set_font_description(priv->pango_context, font_desc);
@@ -276,26 +266,25 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
   pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
 
-  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
+  priv->width  = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
   priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 
   gtk_widget_path_free(path);
 }
 
 static void
-workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
-                            int width, int height)
+workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
   gtk_style_context_save(priv->style_context);
   gtk_style_context_set_state(priv->style_context, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE);
 
-  gtk_render_frame(priv->style_context, cr, 0, 0, width -1, height -1);
+  gtk_render_frame(priv->style_context, cr, 0, 0, width - 1, height - 1);
 
   GdkRGBA color = bar_colors[COLOR_ID_BG];
   set_color(cr, color);
-  cairo_rectangle(cr, BORDER_SIZE, BORDER_SIZE, width - 2 * BORDER_SIZE , height - 2 *BORDER_SIZE);
+  cairo_rectangle(cr, BORDER_SIZE, BORDER_SIZE, width - 2 * BORDER_SIZE, height - 2 * BORDER_SIZE);
   cairo_fill(cr);
 
   gtk_style_context_restore(priv->style_context);
@@ -308,7 +297,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  GdkScreen *screen = gdk_screen_get_default();
+  GdkScreen *screen   = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
 
   const PangoFontDescription *font_desc = pango_font_description_from_string("Sans 10");
@@ -321,16 +310,15 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
   pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
 
-  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
+  priv->width  = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
   priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
 static void
-workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
-                            int width, int height)
+workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height)
 {
   cairo_set_source_rgb(cr, 0.6, 0.6, 0.6);
-  cairo_set_line_width (cr, 1);
+  cairo_set_line_width(cr, 1);
   cairo_rectangle(cr, 0, 0, width, height);
   cairo_fill(cr);
 
@@ -339,25 +327,24 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr,
   cairo_line_to(cr, width - 1.5, 1.5);
   cairo_move_to(cr, 1.5, 1.5);
   cairo_line_to(cr, 1.5, height - 1.5);
-  cairo_stroke (cr);
+  cairo_stroke(cr);
 
   cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
   cairo_move_to(cr, 1.5, height - 1.5);
   cairo_line_to(cr, width - 1.5, height - 1.5);
   cairo_move_to(cr, width - 1.5, 1.5);
   cairo_line_to(cr, width - 1.5, height - 1.5);
-  cairo_stroke (cr);
+  cairo_stroke(cr);
 
   GdkRGBA color = bar_colors[COLOR_ID_BG];
   set_color(cr, color);
-  cairo_rectangle(cr, 2, 2, width - 4 , height - 4);
+  cairo_rectangle(cr, 2, 2, width - 4, height - 4);
   cairo_fill(cr);
 }
 #endif
 
 static void
-workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr,
-                                 int x, int y, int width, int height)
+workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height)
 {
   cairo_rectangle(cr, x, y, width, height);
   cairo_fill(cr);
@@ -377,7 +364,7 @@ workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, i
 
   // Secondary bar
   *sbar_width = 0;
-  if (priv->secondary_bar_max_value >  0)
+  if (priv->secondary_bar_max_value > 0)
     {
       *sbar_width = (priv->secondary_bar_value * (priv->width - 2 * BORDER_SIZE)) / priv->secondary_bar_max_value;
     }
@@ -385,15 +372,14 @@ workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, i
   *bar_height = priv->height - 2 * BORDER_SIZE;
 }
 
-
 void
 workrave_timebar_set_progress(WorkraveTimebar *self, int value, int max_value, WorkraveColorId color)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  priv->bar_value = value <= max_value ? value : max_value;
+  priv->bar_value     = value <= max_value ? value : max_value;
   priv->bar_max_value = max_value;
-  priv->bar_color = color;
+  priv->bar_color     = color;
 }
 
 void
@@ -401,9 +387,9 @@ workrave_timebar_set_secondary_progress(WorkraveTimebar *self, int value, int ma
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  priv->secondary_bar_value = value <= max_value ? value : max_value;
+  priv->secondary_bar_value     = value <= max_value ? value : max_value;
   priv->secondary_bar_max_value = max_value;
-  priv->secondary_bar_color = color;
+  priv->secondary_bar_color     = color;
 }
 
 void
@@ -426,6 +412,6 @@ workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  *width = priv->width;
+  *width  = priv->width;
   *height = priv->height;
 }

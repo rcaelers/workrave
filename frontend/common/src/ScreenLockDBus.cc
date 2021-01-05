@@ -1,6 +1,6 @@
 // SystemLockDBus.cc -- support for locking the system using DBus
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -27,19 +27,23 @@
 #include "ScreenLockDBus.hh"
 
 ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
-                  const char *dbus_name, const char *dbus_path, const char *dbus_interface, 
-                  const char *dbus_lock_method, const char *dbus_method_to_check_existence): 
-                        dbus_lock_method(dbus_lock_method)
+                               const char *dbus_name,
+                               const char *dbus_path,
+                               const char *dbus_interface,
+                               const char *dbus_lock_method,
+                               const char *dbus_method_to_check_existence)
+  : dbus_lock_method(dbus_lock_method)
 {
   TRACE_ENTER_MSG("ScreenLockDBus::ScreenLockDBus", dbus_name);
 
-  //We do not allow autospawning services
-  bool r = proxy.init_with_connection(connection, dbus_name, dbus_path, dbus_interface,
-                  static_cast<GDBusProxyFlags>(
-                  G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-                  G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS |
-                  G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START)
-             );
+  // We do not allow autospawning services
+  bool r = proxy.init_with_connection(connection,
+                                      dbus_name,
+                                      dbus_path,
+                                      dbus_interface,
+                                      static_cast<GDBusProxyFlags>(G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                                   | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS
+                                                                   | G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START));
 
   if (r && dbus_method_to_check_existence != NULL)
     {
@@ -52,7 +56,8 @@ ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
   TRACE_EXIT();
 }
 
-bool ScreenLockDBus::lock()
+bool
+ScreenLockDBus::lock()
 {
   TRACE_ENTER_MSG("ScreenLockDBus::lock", dbus_lock_method);
   return proxy.call_method(dbus_lock_method, NULL, NULL);

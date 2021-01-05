@@ -1,7 +1,7 @@
-#import <Cocoa/Cocoa.h>
 #import "ColorId.h"
+#import <Cocoa/Cocoa.h>
 
-@interface OSXTimeBar : NSObject
+@interface MacOSTimeBar : NSObject
 {
   //! Color of the time-bar.
   ColorId color;
@@ -31,13 +31,12 @@
 - (void)drawRect:(NSRect)rect;
 - (void)dealloc;
 
-- (void) setText: (NSString*) text;
-- (void) setValue: (int) value;
-- (void) setMaxValue: (int) max_value;
-- (void) setColor: (ColorId) color;
-- (void) setSecondaryValue: (int) secondary_value;
-- (void) setSecondaryMaxValue: (int) secondary_max_value;
-- (void) setSecondaryColor: (ColorId) secondary_color;
-
+- (void)setText:(NSString *)text;
+- (void)setValue:(int)value;
+- (void)setMaxValue:(int)max_value;
+- (void)setColor:(ColorId)color;
+- (void)setSecondaryValue:(int)secondary_value;
+- (void)setSecondaryMaxValue:(int)secondary_max_value;
+- (void)setSecondaryColor:(ColorId)secondary_color;
 
 @end

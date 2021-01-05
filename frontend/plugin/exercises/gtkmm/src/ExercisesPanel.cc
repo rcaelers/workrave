@@ -21,21 +21,21 @@
 
 #ifdef HAVE_EXERCISES
 
-#include "preinclude.h"
+#  include "preinclude.h"
 
-#include <algorithm>
+#  include <algorithm>
 
-#include <string.h>
-#include <gtkmm.h>
+#  include <string.h>
+#  include <gtkmm.h>
 
-#include "ExercisesPanel.hh"
-#include "GtkUtil.hh"
-#include "GUI.hh"
-#include "Util.hh"
-#include "Hig.hh"
-#include "nls.h"
-#include "SoundPlayer.hh"
-#include "debug.hh"
+#  include "ExercisesPanel.hh"
+#  include "GtkUtil.hh"
+#  include "GUI.hh"
+#  include "Util.hh"
+#  include "Hig.hh"
+#  include "nls.h"
+#  include "SoundPlayer.hh"
+#  include "debug.hh"
 
 using namespace std;
 
@@ -43,40 +43,37 @@ using namespace std;
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
 
 static void
-text_buffer_insert_markup_real (GtkTextBuffer *buffer,
-                                GtkTextIter   *textiter,
-                                const gchar   *markup,
-                                gint           len)
+text_buffer_insert_markup_real(GtkTextBuffer *buffer, GtkTextIter *textiter, const gchar *markup, gint len)
 {
-  PangoAttrIterator  *paiter;
-  PangoAttrList      *attrlist;
-  GtkTextMark        *mark;
-  GError             *error = NULL;
-  gchar              *text;
+  PangoAttrIterator *paiter;
+  PangoAttrList *attrlist;
+  GtkTextMark *mark;
+  GError *error = NULL;
+  gchar *text;
 
-  g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
-  g_return_if_fail (textiter != NULL);
-  g_return_if_fail (markup != NULL);
-  g_return_if_fail (gtk_text_iter_get_buffer (textiter) == buffer);
+  g_return_if_fail(GTK_IS_TEXT_BUFFER(buffer));
+  g_return_if_fail(textiter != NULL);
+  g_return_if_fail(markup != NULL);
+  g_return_if_fail(gtk_text_iter_get_buffer(textiter) == buffer);
 
   if (len == 0)
     return;
 
   if (!pango_parse_markup(markup, len, 0, &attrlist, &text, NULL, &error))
-  {
-    g_warning("Invalid markup string: %s", error->message);
-    g_error_free(error);
-    return;
-  }
+    {
+      g_warning("Invalid markup string: %s", error->message);
+      g_error_free(error);
+      return;
+    }
 
   len = strlen(text);
 
   if (attrlist == NULL)
-  {
-    gtk_text_buffer_insert(buffer, textiter, text, len);
-    g_free(text);
-    return;
-  }
+    {
+      gtk_text_buffer_insert(buffer, textiter, text, len);
+      g_free(text);
+      return;
+    }
 
   /* create mark with right gravity */
   mark = gtk_text_buffer_create_mark(buffer, NULL, textiter, FALSE);
@@ -84,86 +81,80 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
   paiter = pango_attr_list_get_iterator(attrlist);
 
   do
-  {
-    PangoAttribute *attr;
-    GtkTextTag     *tag;
-    gint            start, end;
-
-    pango_attr_iterator_range(paiter, &start, &end);
-
-    if (end == G_MAXINT)  /* last chunk */
-      end = strlen(text);
-
-    tag = gtk_text_tag_new(NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_LANGUAGE)))
-      g_object_set(tag, "language", pango_language_to_string(((PangoAttrLanguage*)attr)->value), NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FAMILY)))
-      g_object_set(tag, "family", ((PangoAttrString*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STYLE)))
-      g_object_set(tag, "style", ((PangoAttrInt*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_WEIGHT)))
-      g_object_set(tag, "weight", ((PangoAttrInt*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_VARIANT)))
-      g_object_set(tag, "variant", ((PangoAttrInt*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRETCH)))
-      g_object_set(tag, "stretch", ((PangoAttrInt*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SIZE)))
-      g_object_set(tag, "size", ((PangoAttrInt*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FONT_DESC)))
-      g_object_set(tag, "font-desc", ((PangoAttrFontDesc*)attr)->desc, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FOREGROUND)))
     {
-      GdkColor col = { 0,
-                       ((PangoAttrColor*)attr)->color.red,
-                       ((PangoAttrColor*)attr)->color.green,
-                       ((PangoAttrColor*)attr)->color.blue
-                     };
+      PangoAttribute *attr;
+      GtkTextTag *tag;
+      gint start, end;
 
-      g_object_set(tag, "foreground-gdk", &col, NULL);
+      pango_attr_iterator_range(paiter, &start, &end);
+
+      if (end == G_MAXINT) /* last chunk */
+        end = strlen(text);
+
+      tag = gtk_text_tag_new(NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_LANGUAGE)))
+        g_object_set(tag, "language", pango_language_to_string(((PangoAttrLanguage *)attr)->value), NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FAMILY)))
+        g_object_set(tag, "family", ((PangoAttrString *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STYLE)))
+        g_object_set(tag, "style", ((PangoAttrInt *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_WEIGHT)))
+        g_object_set(tag, "weight", ((PangoAttrInt *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_VARIANT)))
+        g_object_set(tag, "variant", ((PangoAttrInt *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRETCH)))
+        g_object_set(tag, "stretch", ((PangoAttrInt *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SIZE)))
+        g_object_set(tag, "size", ((PangoAttrInt *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FONT_DESC)))
+        g_object_set(tag, "font-desc", ((PangoAttrFontDesc *)attr)->desc, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FOREGROUND)))
+        {
+          GdkColor col = {
+            0, ((PangoAttrColor *)attr)->color.red, ((PangoAttrColor *)attr)->color.green, ((PangoAttrColor *)attr)->color.blue};
+
+          g_object_set(tag, "foreground-gdk", &col, NULL);
+        }
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_BACKGROUND)))
+        {
+          GdkColor col = {
+            0, ((PangoAttrColor *)attr)->color.red, ((PangoAttrColor *)attr)->color.green, ((PangoAttrColor *)attr)->color.blue};
+
+          g_object_set(tag, "background-gdk", &col, NULL);
+        }
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_UNDERLINE)))
+        g_object_set(tag, "underline", ((PangoAttrInt *)attr)->value, NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRIKETHROUGH)))
+        g_object_set(tag, "strikethrough", (gboolean)(((PangoAttrInt *)attr)->value != 0), NULL);
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_RISE)))
+        g_object_set(tag, "rise", ((PangoAttrInt *)attr)->value, NULL);
+
+      /* PANGO_ATTR_SHAPE cannot be defined via markup text */
+
+      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SCALE)))
+        g_object_set(tag, "scale", ((PangoAttrFloat *)attr)->value, NULL);
+
+      gtk_text_tag_table_add(gtk_text_buffer_get_tag_table(buffer), tag);
+
+      gtk_text_buffer_insert_with_tags(buffer, textiter, text + start, end - start, tag, NULL);
+
+      /* mark had right gravity, so it should be
+       *  at the end of the inserted text now */
+      gtk_text_buffer_get_iter_at_mark(buffer, textiter, mark);
     }
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_BACKGROUND)))
-    {
-      GdkColor col = { 0,
-                       ((PangoAttrColor*)attr)->color.red,
-                       ((PangoAttrColor*)attr)->color.green,
-                       ((PangoAttrColor*)attr)->color.blue
-                     };
-
-      g_object_set(tag, "background-gdk", &col, NULL);
-    }
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_UNDERLINE)))
-      g_object_set(tag, "underline", ((PangoAttrInt*)attr)->value, NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRIKETHROUGH)))
-      g_object_set(tag, "strikethrough", (gboolean)(((PangoAttrInt*)attr)->value != 0), NULL);
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_RISE)))
-      g_object_set(tag, "rise", ((PangoAttrInt*)attr)->value, NULL);
-
-    /* PANGO_ATTR_SHAPE cannot be defined via markup text */
-
-    if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SCALE)))
-      g_object_set(tag, "scale", ((PangoAttrFloat*)attr)->value, NULL);
-
-    gtk_text_tag_table_add(gtk_text_buffer_get_tag_table(buffer), tag);
-
-          gtk_text_buffer_insert_with_tags(buffer, textiter, text+start, end - start, tag, NULL);
-
-    /* mark had right gravity, so it should be
-     *  at the end of the inserted text now */
-    gtk_text_buffer_get_iter_at_mark(buffer, textiter, mark);
-  }
   while (pango_attr_iterator_next(paiter));
 
   gtk_text_buffer_delete_mark(buffer, mark);
@@ -173,57 +164,50 @@ text_buffer_insert_markup_real (GtkTextBuffer *buffer,
 }
 
 static void
-text_buffer_insert_markup (GtkTextBuffer *buffer,
-                           GtkTextIter   *iter,
-                           const gchar   *markup,
-                           gint           len)
+text_buffer_insert_markup(GtkTextBuffer *buffer, GtkTextIter *iter, const gchar *markup, gint len)
 {
-  text_buffer_insert_markup_real (buffer, iter, markup, len);
+  text_buffer_insert_markup_real(buffer, iter, markup, len);
 }
 
-
-
 static void
-text_buffer_set_markup (GtkTextBuffer *buffer,
-                        const gchar   *markup,
-                        gint           len)
+text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
 {
   GtkTextIter start, end;
 
-  g_return_if_fail (GTK_IS_TEXT_BUFFER (buffer));
-  g_return_if_fail (markup != NULL);
+  g_return_if_fail(GTK_IS_TEXT_BUFFER(buffer));
+  g_return_if_fail(markup != NULL);
 
   if (len < 0)
-    len = strlen (markup);
+    len = strlen(markup);
 
-  gtk_text_buffer_get_bounds (buffer, &start, &end);
+  gtk_text_buffer_get_bounds(buffer, &start, &end);
 
-  gtk_text_buffer_delete (buffer, &start, &end);
+  gtk_text_buffer_delete(buffer, &start, &end);
 
   if (len > 0)
-  {
-    gtk_text_buffer_get_iter_at_offset (buffer, &start, 0);
-    text_buffer_insert_markup (buffer, &start, markup, len);
-  }
+    {
+      gtk_text_buffer_get_iter_at_offset(buffer, &start, 0);
+      text_buffer_insert_markup(buffer, &start, markup, len);
+    }
 }
 // (end code to be removed)
 
 int ExercisesPanel::exercises_pointer = 0;
 
 ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
-  : Gtk::HBox(false, 6),
-         exercises(Exercise::get_exercises())
+  : Gtk::HBox(false, 6)
+  , exercises(Exercise::get_exercises())
 {
   standalone = dialog_action_area != NULL;
 
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
 
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
-#else
+#  else
   progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
-#endif
+#  endif
 
   description_scroll.add(description_text);
   description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -233,14 +217,14 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   description_text.set_editable(false);
   image_frame.add(image);
 
-  pause_button =  Gtk::manage(new Gtk::Button());
+  pause_button = Gtk::manage(new Gtk::Button());
   Gtk::Widget *description_widget;
 
   if (dialog_action_area != NULL)
     {
-      back_button =  Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
-      forward_button =  Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
-      stop_button = NULL;
+      back_button    = Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
+      forward_button = Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
+      stop_button    = NULL;
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
@@ -249,17 +233,13 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
     }
   else
     {
-      back_button = Gtk::manage(GtkUtil::create_custom_stock_button
-                           (NULL, PREVIOUS_BUTTON_ID));
-      forward_button =  Gtk::manage(GtkUtil::create_custom_stock_button
-                               (NULL, NEXT_BUTTON_ID));
+      back_button    = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, PREVIOUS_BUTTON_ID));
+      forward_button = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, NEXT_BUTTON_ID));
 
-      stop_button =  Gtk::manage(GtkUtil::create_custom_stock_button
-                                         (NULL, CLOSE_BUTTON_ID));
-      stop_button->signal_clicked()
-        .connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
+      stop_button = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, CLOSE_BUTTON_ID));
+      stop_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
-      Gtk::HBox *button_box = Gtk::manage(new Gtk::HBox());
+      Gtk::HBox *button_box    = Gtk::manage(new Gtk::HBox());
       Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
       string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
@@ -270,8 +250,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
       button_box->pack_start(*pause_button, false, false, 0);
       button_box->pack_start(*forward_button, false, false, 0);
       button_box->pack_start(*stop_button, false, false, 0);
-      Gtk::Alignment *button_align
-        = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+      Gtk::Alignment *button_align = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
       button_align->add(*button_box);
       Gtk::VBox *description_box = Gtk::manage(new Gtk::VBox());
       description_box->pack_start(description_scroll, true, true, 0);
@@ -287,14 +266,11 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   description_scroll.set_size_request(250, 200);
   // (end of ugly)
 
-  back_button->signal_clicked()
-    .connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_back));
+  back_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_back));
 
-  forward_button->signal_clicked()
-    .connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_forward));
+  forward_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_forward));
 
-  pause_button->signal_clicked()
-    .connect(sigc::mem_fun(*this, &ExercisesPanel::on_pause));
+  pause_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_pause));
 
   back_button->set_tooltip_text(_("Previous exercise"));
   forward_button->set_tooltip_text(_("Next exercise"));
@@ -309,19 +285,17 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   pack_start(progress_bar, false, false, 0);
   pack_start(*description_widget, false, false, 0);
 
-  heartbeat_signal = GUI::get_instance()->signal_heartbeat()
-    .connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat));
+  heartbeat_signal = GUI::get_instance()->signal_heartbeat().connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat));
 
   exercise_count = 0;
   reset();
-
 }
 
 void
 ExercisesPanel::on_realize()
 {
   Gtk::HBox::on_realize();
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
 
   style_context->context_save();
@@ -329,12 +303,10 @@ ExercisesPanel::on_realize()
   style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
   description_text.override_background_color(get_style_context()->get_background_color());
   style_context->context_restore();
-#else
-  description_text.modify_base
-    (Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
-#endif
+#  else
+  description_text.modify_base(Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
+#  endif
 }
-
 
 ExercisesPanel::~ExercisesPanel()
 {
@@ -349,7 +321,7 @@ ExercisesPanel::~ExercisesPanel()
 void
 ExercisesPanel::reset()
 {
-  int i = adjust_exercises_pointer(1);
+  int i             = adjust_exercises_pointer(1);
   exercise_iterator = shuffled_exercises.begin();
   while (i > 0)
     {
@@ -357,8 +329,8 @@ ExercisesPanel::reset()
       i--;
     }
   exercise_num = 0;
-  paused = false;
-  stopped = false;
+  paused       = false;
+  stopped      = false;
   refresh_pause();
   start_exercise();
 }
@@ -371,11 +343,10 @@ ExercisesPanel::start_exercise()
       const Exercise &exercise = *exercise_iterator;
 
       Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
-      std::string txt = HigUtil::create_alert_text(exercise.title.c_str(),
-                                                   exercise.description.c_str());
+      std::string txt                   = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
       text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
-      exercise_time = 0;
-      seq_time = 0;
+      exercise_time  = 0;
+      seq_time       = 0;
       image_iterator = exercise.sequence.end();
       refresh_progress();
       refresh_sequence();
@@ -390,16 +361,15 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image=" << img.image);
-  string file = Util::complete_directory(img.image,
-                                         Util::SEARCH_PATH_EXERCISES);
-  if (! img.mirror_x)
+  string file = Util::complete_directory(img.image, Util::SEARCH_PATH_EXERCISES);
+  if (!img.mirror_x)
     {
       image.set(file);
     }
   else
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
-      Glib::RefPtr<Gdk::Pixbuf> flip = GtkUtil::flip_pixbuf(pixbuf, true, false);
+      Glib::RefPtr<Gdk::Pixbuf> flip   = GtkUtil::flip_pixbuf(pixbuf, true, false);
       image.set(flip);
     }
 
@@ -419,7 +389,7 @@ ExercisesPanel::refresh_sequence()
           image_iterator = exercise.sequence.begin();
         }
       else
-  	    {
+        {
           image_iterator++;
           if (image_iterator == exercise.sequence.end())
             {
@@ -441,14 +411,13 @@ void
 ExercisesPanel::refresh_progress()
 {
   const Exercise &exercise = *exercise_iterator;
-  progress_bar.set_fraction(1.0 - (double) exercise_time
-                            / exercise.duration);
+  progress_bar.set_fraction(1.0 - (double)exercise_time / exercise.duration);
 }
 
 void
 ExercisesPanel::on_stop()
 {
-  if (! stopped)
+  if (!stopped)
     {
       stopped = true;
       stop_signal();
@@ -486,10 +455,8 @@ void
 ExercisesPanel::refresh_pause()
 {
   Gtk::StockID stock_id = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
-  const char *label = paused ? _("Resume") : _("Pause");
-  GtkUtil::update_custom_stock_button(pause_button,
-                                      standalone ? label : NULL,
-                                      stock_id);
+  const char *label     = paused ? _("Resume") : _("Pause");
+  GtkUtil::update_custom_stock_button(pause_button, standalone ? label : NULL, stock_id);
   if (paused)
     pause_button->set_tooltip_text(_("Resume exercises"));
   else
@@ -499,7 +466,7 @@ ExercisesPanel::refresh_pause()
 void
 ExercisesPanel::on_pause()
 {
-  paused = ! paused;
+  paused = !paused;
   refresh_pause();
 }
 
@@ -523,9 +490,7 @@ ExercisesPanel::heartbeat()
         {
           on_stop();
         }
-      snd->play_sound(stopped
-                      ? SOUND_EXERCISES_ENDED
-                      : SOUND_EXERCISE_ENDED);
+      snd->play_sound(stopped ? SOUND_EXERCISES_ENDED : SOUND_EXERCISE_ENDED);
     }
   else
     {
@@ -533,7 +498,6 @@ ExercisesPanel::heartbeat()
       refresh_progress();
     }
 }
-
 
 void
 ExercisesPanel::set_exercise_count(int num)

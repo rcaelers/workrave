@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <cstdlib>
@@ -39,14 +39,13 @@ DayTimePred::set_last(time_t lastTime)
   last_time = lastTime;
 
   ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
+  time_t now  = core->get_time();
 
   if (last_time == 0)
     {
       last_time = now;
     }
 }
-
 
 int
 DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
@@ -64,29 +63,27 @@ DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
   return 0;
 }
 
-
 bool
 DayTimePred::init(int hour, int min)
 {
   pred_hour = hour;
-  pred_min = min;
+  pred_min  = min;
 
   return true;
 }
 
-
 bool
 DayTimePred::init(std::string spec)
 {
-  bool ret = false;
-  std:: string::size_type pos = spec.find(':');
+  bool ret                   = false;
+  std::string::size_type pos = spec.find(':');
 
   if (pos != std::string::npos)
     {
       std::string hours;
       std::string minutes;
 
-      hours = spec.substr(0, pos);
+      hours   = spec.substr(0, pos);
       minutes = spec.substr(pos + 1);
 
       ret = init(atoi(hours.c_str()), atoi(minutes.c_str()));
@@ -95,17 +92,16 @@ DayTimePred::init(std::string spec)
   return ret;
 }
 
-
 int
 DayTimePred::days_in_month(int month, int year)
 {
-  int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+  int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   if (month == 1)
     {
       // Feb
 
-      if (year % 4 == 0 && ( (year % 100 != 0) || (year % 400) == 0))
+      if (year % 4 == 0 && ((year % 100 != 0) || (year % 400) == 0))
         {
           return 29;
         }
@@ -120,13 +116,11 @@ DayTimePred::days_in_month(int month, int year)
     }
 }
 
-
 time_t
 DayTimePred::get_time_offset()
 {
-  return pred_hour*60*60 + pred_min*60;
+  return pred_hour * 60 * 60 + pred_min * 60;
 }
-
 
 time_t
 DayTimePred::get_next()
@@ -142,8 +136,8 @@ DayTimePred::get_next()
           ret->tm_mday++;
         }
 
-      ret->tm_sec = 0;
-      ret->tm_min = pred_min;
+      ret->tm_sec  = 0;
+      ret->tm_min  = pred_min;
       ret->tm_hour = pred_hour;
 
       if (ret->tm_mday > days_in_month(ret->tm_mon, ret->tm_year + 1900))
@@ -165,7 +159,6 @@ DayTimePred::get_next()
       return 0;
     }
 }
-
 
 string
 DayTimePred::to_string() const

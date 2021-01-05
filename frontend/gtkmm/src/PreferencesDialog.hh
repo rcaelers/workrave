@@ -30,7 +30,6 @@
 #include "IconListNotebook.hh"
 #include "ICore.hh"
 
-
 #include "SoundPlayer.hh"
 
 #include <gtkmm.h>
@@ -46,7 +45,7 @@ namespace Gtk
   class FileChooserButton;
   class HScale;
   class FileFilter;
-}
+} // namespace Gtk
 
 using namespace workrave;
 
@@ -82,12 +81,17 @@ private:
   IconListNotebook notebook;
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  //Tree model columns:
+  // Tree model columns:
   class ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
   public:
     ModelColumns()
-    { add(current); add(native); add(enabled); add(code);  }
+    {
+      add(current);
+      add(native);
+      add(enabled);
+      add(code);
+    }
 
     Gtk::TreeModelColumn<bool> enabled;
     Gtk::TreeModelColumn<Glib::ustring> code;
@@ -95,10 +99,9 @@ private:
     Gtk::TreeModelColumn<Glib::ustring> current;
   };
 
-  void on_native_cell_data(const Gtk::TreeModel::const_iterator& iter);
-  void on_current_cell_data(const Gtk::TreeModel::const_iterator& iter);
-  int on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
-                           const Gtk::TreeModel::iterator& iter2);
+  void on_native_cell_data(const Gtk::TreeModel::const_iterator &iter);
+  void on_current_cell_data(const Gtk::TreeModel::const_iterator &iter);
+  int on_cell_data_compare(const Gtk::TreeModel::iterator &iter1, const Gtk::TreeModel::iterator &iter2);
 
   Gtk::ComboBox languages_combo;
   ModelColumns languages_columns;
@@ -111,7 +114,13 @@ private:
   {
   public:
     SoundModel()
-    { add(enabled); add(description); add(selectable); add(label); add(event); }
+    {
+      add(enabled);
+      add(description);
+      add(selectable);
+      add(label);
+      add(event);
+    }
 
     Gtk::TreeModelColumn<bool> enabled;
     Gtk::TreeModelColumn<Glib::ustring> description;
@@ -141,7 +150,7 @@ private:
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb;
 
-  void on_sound_enabled(const Glib::ustring& path_stringxo);
+  void on_sound_enabled(const Glib::ustring &path_stringxo);
   void on_sound_play();
   void on_sound_filechooser_play();
   void on_sound_filechooser_select();
@@ -160,26 +169,24 @@ private:
 
   Gtk::Widget *create_monitoring_page();
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WINDOWS)
   Gtk::CheckButton *monitor_type_cb;
   void on_monitor_type_toggled();
 
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment;
-#else
+#  else
   Gtk::Adjustment sensitivity_adjustment;
-#endif
+#  endif
   Gtk::HBox *sensitivity_box;
 #endif
 };
 
 #ifndef GTKMM_CHECK_VERSION
-# define GTKMM_CHECK_VERSION(major, minor, micro) \
-   (GTKMM_MAJOR_VERSION > (major)                     \
-    || (GTKMM_MAJOR_VERSION == (major)                \
-        && (GTKMM_MINOR_VERSION > (minor)             \
-            || (GTKMM_MINOR_VERSION == (minor)        \
-                && GTKMM_MICRO_VERSION >= (micro)))))
+#  define GTKMM_CHECK_VERSION(major, minor, micro) \
+    (GTKMM_MAJOR_VERSION > (major)                 \
+     || (GTKMM_MAJOR_VERSION == (major)            \
+         && (GTKMM_MINOR_VERSION > (minor) || (GTKMM_MINOR_VERSION == (minor) && GTKMM_MICRO_VERSION >= (micro)))))
 #endif
 
 #endif // PREFERENCESWINDOW_HH

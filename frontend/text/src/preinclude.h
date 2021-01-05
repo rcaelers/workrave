@@ -21,7 +21,7 @@
 #define PREINCLUDE_HH
 
 #ifndef NOMINMAX
-#define NOMINMAX
+#  define NOMINMAX
 #endif
 
 #undef THREAD_PRIORITY_NORMAL

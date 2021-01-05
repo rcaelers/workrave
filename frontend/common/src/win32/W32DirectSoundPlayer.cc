@@ -17,7 +17,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -31,13 +31,13 @@
 #include <process.h>
 #include <mmsystem.h>
 #include <mmreg.h>
-#if defined (HAVE_DXERR_H)
-#include <dxerr.h>
+#if defined(HAVE_DXERR_H)
+#  include <dxerr.h>
 #elif defined(HAVE_DXERR8_H)
-#include <dxerr8.h>
+#  include <dxerr8.h>
 #endif
 #ifndef DXGetErrorString8
-#define DXGetErrorString8 DXGetErrorString
+#  define DXGetErrorString8 DXGetErrorString
 #endif
 #include <dsound.h>
 
@@ -50,25 +50,22 @@
 #include "Exception.hh"
 #include "Util.hh"
 
-#define	SAMPLE_BITS		    (8)
-#define	WAVE_BUFFER_SIZE  (4096)
+#define SAMPLE_BITS (8)
+#define WAVE_BUFFER_SIZE (4096)
 
 using namespace workrave;
 
 static std::string sound_filename;
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
 extern "C"
 {
-  void _chkstk()
-  {
-  }
+  void _chkstk() {}
 }
 #endif
 
 static bool
-registry_get_value(const char *path, const char *name,
-                   char *out)
+registry_get_value(const char *path, const char *name, char *out)
 {
   HKEY handle;
   bool rc = false;
@@ -79,7 +76,7 @@ registry_get_value(const char *path, const char *name,
     {
       DWORD type, size;
       size = MAX_PATH;
-      err = RegQueryValueEx(handle, name, 0, &type, (LPBYTE) out, &size);
+      err  = RegQueryValueEx(handle, name, 0, &type, (LPBYTE)out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -90,38 +87,28 @@ registry_get_value(const char *path, const char *name,
 }
 
 static bool
-registry_set_value(const char *path, const char *name,
-                   const char *value)
+registry_set_value(const char *path, const char *name, const char *value)
 {
   HKEY handle;
   bool rc = false;
   DWORD disp;
   LONG err;
 
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0,
-                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
-                       NULL, &handle, &disp);
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
-      err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *) value,
-                          strlen(value)+1);
+      err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *)value, strlen(value) + 1);
       RegCloseKey(handle);
       rc = (err == ERROR_SUCCESS);
     }
   return rc;
 }
 
-
 //! Constructor
-W32DirectSoundPlayer::W32DirectSoundPlayer()
-{
-}
-
+W32DirectSoundPlayer::W32DirectSoundPlayer() {}
 
 //! Destructor
-W32DirectSoundPlayer::~W32DirectSoundPlayer()
-{
-}
+W32DirectSoundPlayer::~W32DirectSoundPlayer() {}
 
 //!
 void
@@ -130,14 +117,12 @@ W32DirectSoundPlayer::init(ISoundDriverEvents *events)
   this->events = events;
 }
 
-
 void
 W32DirectSoundPlayer::play_sound(SoundEvent snd)
 {
-  TRACE_ENTER_MSG( "W32DirectSoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
+  TRACE_ENTER_MSG("W32DirectSoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name);
   TRACE_EXIT();
 }
-
 
 bool
 W32DirectSoundPlayer::capability(SoundCapability cap)
@@ -157,23 +142,21 @@ W32DirectSoundPlayer::capability(SoundCapability cap)
   return false;
 }
 
-
 void
 W32DirectSoundPlayer::play_sound(string wavfile)
 {
-  TRACE_ENTER_MSG( "W32DirectSoundPlayer::play_sound", wavfile);
+  TRACE_ENTER_MSG("W32DirectSoundPlayer::play_sound", wavfile);
 
   if (wavfile != "")
     {
       DWORD id;
-      
+
       SoundClip *clip = new SoundClip(wavfile, events);
       CloseHandle(CreateThread(NULL, 0, play_thread, clip, 0, &id));
     }
 
   TRACE_EXIT();
 }
-
 
 bool
 W32DirectSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
@@ -192,7 +175,6 @@ W32DirectSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 
   return false;
 }
-
 
 void
 W32DirectSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
@@ -223,7 +205,6 @@ W32DirectSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
       registry_set_value(key, NULL, "");
     }
 }
-
 
 bool
 W32DirectSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
@@ -259,7 +240,7 @@ W32DirectSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_
 
   strcpy(key, "AppEvents\\EventLabels\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
-  if (! registry_get_value(key, NULL, val))
+  if (!registry_get_value(key, NULL, val))
     {
       registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
     }
@@ -270,7 +251,7 @@ W32DirectSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_
   registry_set_value(key, NULL, wav_file.c_str());
 
   bool enabled = false;
-  bool valid = get_sound_enabled(snd, enabled);
+  bool valid   = get_sound_enabled(snd, enabled);
 
   if (!valid || enabled)
     {
@@ -280,12 +261,11 @@ W32DirectSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_
     }
 }
 
-
 DWORD WINAPI
 W32DirectSoundPlayer::play_thread(LPVOID lpParam)
 {
   TRACE_ENTER("W32DirectSoundPlayer::play_thread");
-  SoundClip *clip = (SoundClip *) lpParam;
+  SoundClip *clip = (SoundClip *)lpParam;
 
   try
     {
@@ -295,38 +275,35 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
           clip->play();
         }
     }
-  catch(Exception e)
+  catch (Exception e)
     {
       TRACE_MSG("Exception: " << e.details());
     }
-  catch(...)
+  catch (...)
     {
     }
 
   delete clip;
-  
+
   TRACE_EXIT();
-  return (DWORD) 0;
+  return (DWORD)0;
 }
-
-
 
 SoundClip::SoundClip(const string &filename, ISoundDriverEvents *events)
 {
   TRACE_ENTER("SoundClip::SoundClip");
 
   this->direct_sound = NULL;
-  this->filename = filename;
-  this->events = events;
+  this->filename     = filename;
+  this->events       = events;
 
-  wave_file = NULL;
-  sound_buffer = NULL;
+  wave_file         = NULL;
+  sound_buffer      = NULL;
   sound_buffer_size = 0;
-  stop_event = NULL;
+  stop_event        = NULL;
 
   TRACE_EXIT();
 }
-
 
 SoundClip::~SoundClip()
 {
@@ -355,7 +332,6 @@ SoundClip::~SoundClip()
   TRACE_EXIT();
 }
 
-
 void
 SoundClip::init()
 {
@@ -374,7 +350,7 @@ SoundClip::init()
     {
       throw Exception(string("IDirectSound_SetCooperativeLevel") + DXGetErrorString8(hr));
     }
-  
+
   wave_file = new WaveFile(filename);
   wave_file->init();
 
@@ -401,7 +377,7 @@ SoundClip::init()
     }
 
   LPDIRECTSOUNDNOTIFY notify;
-  hr = sound_buffer->QueryInterface(IID_IDirectSoundNotify8, (LPVOID*)&notify);
+  hr = sound_buffer->QueryInterface(IID_IDirectSoundNotify8, (LPVOID *)&notify);
   if (FAILED(hr) || notify == NULL)
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_QueryInterface IDirectSoundNotify" << DXGetErrorString8(hr));
@@ -411,7 +387,7 @@ SoundClip::init()
   stop_event = CreateEvent(0, false, false, 0);
 
   DSBPOSITIONNOTIFY pn;
-  pn.dwOffset = DSBPN_OFFSETSTOP;
+  pn.dwOffset     = DSBPN_OFFSETSTOP;
   pn.hEventNotify = stop_event;
 
   hr = notify->SetNotificationPositions(1, &pn);
@@ -437,14 +413,12 @@ SoundClip::fill_buffer()
   TRACE_ENTER("SoundClip::fill_buffer");
 
   HRESULT hr;
-  VOID *locked_sound_buffer = NULL;
+  VOID *locked_sound_buffer      = NULL;
   DWORD locked_sound_buffer_size = 0;
 
   restore_buffer();
 
-  hr = sound_buffer->Lock(0, sound_buffer_size,
-                          &locked_sound_buffer, &locked_sound_buffer_size,
-                          NULL, NULL, 0L);
+  hr = sound_buffer->Lock(0, sound_buffer_size, &locked_sound_buffer, &locked_sound_buffer_size, NULL, NULL, 0L);
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_Lock");
@@ -452,11 +426,11 @@ SoundClip::fill_buffer()
     }
 
   wave_file->reset_file();
-  int bytes_read = wave_file->read((BYTE*)locked_sound_buffer, locked_sound_buffer_size);
+  int bytes_read = wave_file->read((BYTE *)locked_sound_buffer, locked_sound_buffer_size);
 
   if (locked_sound_buffer_size - bytes_read > 0)
     {
-      FillMemory((BYTE*) locked_sound_buffer + bytes_read,
+      FillMemory((BYTE *)locked_sound_buffer + bytes_read,
                  locked_sound_buffer_size - bytes_read,
                  (BYTE)(wave_file->get_format()->wBitsPerSample == 8 ? 128 : 0));
     }
@@ -465,7 +439,6 @@ SoundClip::fill_buffer()
   sound_buffer->SetCurrentPosition(0);
   TRACE_EXIT();
 }
-
 
 bool
 SoundClip::is_buffer_lost()
@@ -486,7 +459,6 @@ SoundClip::is_buffer_lost()
   return (status & DSBSTATUS_BUFFERLOST) != 0;
 }
 
-
 void
 SoundClip::restore_buffer()
 {
@@ -501,7 +473,6 @@ SoundClip::restore_buffer()
   while (hr != S_OK);
   TRACE_EXIT();
 }
-
 
 void
 SoundClip::play()
@@ -524,7 +495,6 @@ SoundClip::play()
   TRACE_EXIT();
 }
 
-
 void
 SoundClip::set_volume(int volume)
 {
@@ -539,7 +509,7 @@ SoundClip::set_volume(int volume)
         }
       else
         {
-          dsVolume = 100 * (long) (20 * log10((double) volume / 100.0));
+          dsVolume = 100 * (long)(20 * log10((double)volume / 100.0));
         }
 
       dsVolume = CLAMP(dsVolume, -10000, 0);
@@ -549,19 +519,17 @@ SoundClip::set_volume(int volume)
   TRACE_EXIT();
 }
 
-
 WaveFile::WaveFile(const string &filename)
   : filename(filename)
 {
   TRACE_ENTER("WaveFile::WaveFile");
-  mmio = NULL;
+  mmio        = NULL;
   sample_size = 0;
 
   memset((void *)&child, 0, sizeof(child));
   memset((void *)&parent, 0, sizeof(parent));
   TRACE_EXIT();
 }
-
 
 WaveFile::~WaveFile()
 {
@@ -574,14 +542,13 @@ WaveFile::~WaveFile()
   TRACE_EXIT();
 }
 
-
 void
 WaveFile::init()
 {
   TRACE_ENTER("WaveFile::init");
   MMRESULT res;
 
-  mmio = mmioOpen((CHAR*)filename.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ);
+  mmio = mmioOpen((CHAR *)filename.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ);
   if (mmio == NULL)
     {
       TRACE_RETURN("Exception: mmioOpen");
@@ -597,7 +564,7 @@ WaveFile::init()
       throw Exception("mmioDescend1");
     }
 
-  if (parent.ckid != FOURCC_RIFF || parent.fccType != mmioFOURCC('W', 'A', 'V', 'E' ))
+  if (parent.ckid != FOURCC_RIFF || parent.fccType != mmioFOURCC('W', 'A', 'V', 'E'))
     {
       TRACE_RETURN("Exception: no Wave");
       throw Exception("no Wave");
@@ -649,7 +616,7 @@ WaveFile::init()
 size_t
 WaveFile::get_size()
 {
-    return sample_size;
+  return sample_size;
 }
 
 void
@@ -703,8 +670,8 @@ WaveFile::read(BYTE *buffer, size_t size)
         }
 
       mmioInfo.pchNext = mmioInfo.pchEndRead;
-
-    } while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
+    }
+  while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
 
   mmioSetInfo(mmio, &mmioInfo, 0);
 

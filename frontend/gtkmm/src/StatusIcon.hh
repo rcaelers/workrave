@@ -24,11 +24,11 @@
 
 #include <map>
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
 //#if ! GTK_CHECK_VERSION(2,22,1)
-#define USE_W32STATUSICON 1
+#  define USE_W32STATUSICON 1
 //#endif
-#include <gdk/gdkwin32.h>
+#  include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
 
@@ -36,26 +36,23 @@
 #include "IConfiguratorListener.hh"
 
 #ifndef WR_CHECK_VERSION
-#define WR_CHECK_VERSION(comp,major,minor,micro)   \
-    (comp##_MAJOR_VERSION > (major) || \
-     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) || \
-     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && \
-      comp##_MICRO_VERSION >= (micro)))
+#  define WR_CHECK_VERSION(comp, major, minor, micro)                                                      \
+    (comp##_MAJOR_VERSION > (major) || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) \
+     || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && comp##_MICRO_VERSION >= (micro)))
 #endif
 
-#if WR_CHECK_VERSION(GTKMM,2,11,1)
-#define HAVE_STATUSICON_SIGNAL 1
+#if WR_CHECK_VERSION(GTKMM, 2, 11, 1)
+#  define HAVE_STATUSICON_SIGNAL 1
 #endif
-#if WR_CHECK_VERSION(GTKMM,2,22,0)
-#define HAVE_EMBEDDED_SIGNAL 1
+#if WR_CHECK_VERSION(GTKMM, 2, 22, 0)
+#  define HAVE_EMBEDDED_SIGNAL 1
 #endif
 
 using namespace workrave;
 
 class W32StatusIcon;
 
-class StatusIcon :
-  public IConfiguratorListener
+class StatusIcon : public IConfiguratorListener
 {
 public:
   StatusIcon();
@@ -63,9 +60,9 @@ public:
 
   void init();
   void set_operation_mode(OperationMode m);
-  void set_tooltip(std::string& tip);
+  void set_tooltip(std::string &tip);
   bool is_visible() const;
-  void show_balloon(std::string id, const std::string& balloon);
+  void show_balloon(std::string id, const std::string &balloon);
 
   sigc::signal<void> &signal_visibility_changed();
   sigc::signal<void> &signal_activate();
@@ -79,40 +76,37 @@ private:
   void on_embedded_changed();
 
   void config_changed_notify(const std::string &key);
-  
-#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
+
+#if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
   GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
 #endif
-  
-#if defined(PLATFORM_OS_WIN32) && defined(USE_W32STATUSICON)
+
+#if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
   void on_balloon_activate(std::string id);
 #endif
-  
+
 #ifndef HAVE_STATUSICON_SIGNAL
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
-  static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
-                                  gpointer callback_data);
+  static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time, gpointer callback_data);
 #endif
 #ifndef HAVE_EMBEDDED_SIGNAL
-  static void embedded_changed_callback(GObject* gobject, GParamSpec* pspec, gpointer callback_data);
+  static void embedded_changed_callback(GObject *gobject, GParamSpec *pspec, gpointer callback_data);
 #endif
-  
-  std::map<OperationMode, Glib::RefPtr<Gdk::Pixbuf> > mode_icons;
+
+  std::map<OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 
   sigc::signal<void> visibility_changed_signal;
   sigc::signal<void> activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
 
-  
 #ifdef USE_W32STATUSICON
   W32StatusIcon *status_icon;
 #else
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
-#ifdef PLATFORM_OS_WIN32
+#  ifdef PLATFORM_OS_WINDOWS
   UINT wm_taskbarcreated;
-#endif
+#  endif
 #endif
 };
-
 
 #endif // STATUSICON_HH

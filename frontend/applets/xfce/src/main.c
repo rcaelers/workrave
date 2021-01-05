@@ -16,7 +16,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <gdk/gdk.h>
@@ -32,7 +32,7 @@
 
 typedef struct _WorkraveApplet
 {
-  XfcePanelPlugin* plugin;
+  XfcePanelPlugin *plugin;
 
   WorkraveTimerboxControl *timerbox_control;
   GtkImage *image;
@@ -56,31 +56,28 @@ struct Menuitems
   char *dbuscmd;
 };
 
-static struct Menuitems menu_data[] =
-  {
-    { MENU_COMMAND_OPEN,                  TRUE,  "OpenMain"          },
-    { MENU_COMMAND_PREFERENCES,           FALSE, "Preferences"       },
-    { MENU_COMMAND_EXERCISES,             FALSE, "Exercises"         },
-    { MENU_COMMAND_REST_BREAK,            FALSE, "RestBreak"         },
-    { MENU_COMMAND_MODE_SUBMENU,          FALSE, NULL                },
-    { MENU_COMMAND_MODE_NORMAL,           FALSE, NULL                },
-    { MENU_COMMAND_MODE_QUIET,            FALSE, NULL                },
-    { MENU_COMMAND_MODE_SUSPENDED,        FALSE, NULL                },
-    { MENU_COMMAND_NETWORK_SUBMENU,       FALSE, NULL                },
-    { MENU_COMMAND_NETWORK_CONNECT,       FALSE, "NetworkConnect"    },
-    { MENU_COMMAND_NETWORK_DISCONNECT,    FALSE, "NetworkDisconnect" },
-    { MENU_COMMAND_NETWORK_LOG,           FALSE, "NetworkLog"        },
-    { MENU_COMMAND_NETWORK_RECONNECT,     FALSE, "NetworkReconnect"  },
-    { MENU_COMMAND_STATISTICS,            FALSE, "Statistics"        },
-    { MENU_COMMAND_ABOUT,                 FALSE, NULL                },
-    { MENU_COMMAND_MODE_READING,          FALSE, "ReadingMode"       },
-    { MENU_COMMAND_QUIT,                  FALSE, "Quit"              }
-  };
+static struct Menuitems menu_data[] = {{MENU_COMMAND_OPEN, TRUE, "OpenMain"},
+                                       {MENU_COMMAND_PREFERENCES, FALSE, "Preferences"},
+                                       {MENU_COMMAND_EXERCISES, FALSE, "Exercises"},
+                                       {MENU_COMMAND_REST_BREAK, FALSE, "RestBreak"},
+                                       {MENU_COMMAND_MODE_SUBMENU, FALSE, NULL},
+                                       {MENU_COMMAND_MODE_NORMAL, FALSE, NULL},
+                                       {MENU_COMMAND_MODE_QUIET, FALSE, NULL},
+                                       {MENU_COMMAND_MODE_SUSPENDED, FALSE, NULL},
+                                       {MENU_COMMAND_NETWORK_SUBMENU, FALSE, NULL},
+                                       {MENU_COMMAND_NETWORK_CONNECT, FALSE, "NetworkConnect"},
+                                       {MENU_COMMAND_NETWORK_DISCONNECT, FALSE, "NetworkDisconnect"},
+                                       {MENU_COMMAND_NETWORK_LOG, FALSE, "NetworkLog"},
+                                       {MENU_COMMAND_NETWORK_RECONNECT, FALSE, "NetworkReconnect"},
+                                       {MENU_COMMAND_STATISTICS, FALSE, "Statistics"},
+                                       {MENU_COMMAND_ABOUT, FALSE, NULL},
+                                       {MENU_COMMAND_MODE_READING, FALSE, "ReadingMode"},
+                                       {MENU_COMMAND_QUIT, FALSE, "Quit"}};
 
 int
 lookup_menu_index_by_id(enum MenuCommand id)
 {
-  for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
+  for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
     {
       if (menu_data[i].id == id)
         {
@@ -105,15 +102,15 @@ lookup_menu_index_by_menu_item(WorkraveApplet *applet, GtkMenuItem *item)
   return -1;
 }
 
-
-void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
+void
+on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
-  WorkraveApplet *applet = (WorkraveApplet*)user_data;
-  applet->alive = alive;
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
+  applet->alive          = alive;
 
   if (!alive)
     {
-      for (int i = 0; i < sizeof(menu_data)/sizeof(struct Menuitems); i++)
+      for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
         {
           GtkMenuItem *item = applet->menu_items[i];
           if (item != NULL)
@@ -124,19 +121,20 @@ void on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
     }
 }
 
-void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
+void
+on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
 {
-  WorkraveApplet *applet = (WorkraveApplet*)user_data;
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
 
   GVariantIter *iter;
-  g_variant_get (parameters, "(a(sii))", &iter);
+  g_variant_get(parameters, "(a(sii))", &iter);
 
   char *text;
   int id;
   int flags;
 
   GSList *radio_group = NULL;
-  GtkWidget *menu = NULL;
+  GtkWidget *menu     = NULL;
   while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
     {
       int index = lookup_menu_index_by_id((enum MenuCommand)id);
@@ -150,7 +148,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
       if (flags & MENU_ITEM_FLAG_SUBMENU_END)
         {
           radio_group = NULL;
-          menu = NULL;
+          menu        = NULL;
         }
 
       else if (item == NULL)
@@ -163,7 +161,7 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
             }
           else if (flags & MENU_ITEM_FLAG_RADIO)
             {
-              item = GTK_MENU_ITEM(gtk_radio_menu_item_new_with_label(radio_group, text));
+              item        = GTK_MENU_ITEM(gtk_radio_menu_item_new_with_label(radio_group, text));
               radio_group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(item));
               g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_radio_changed), applet);
             }
@@ -206,9 +204,8 @@ void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data
         }
     }
 
-  g_variant_iter_free (iter);
+  g_variant_iter_free(iter);
 }
-
 
 static void
 dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
@@ -232,7 +229,7 @@ dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 static void
 on_menu_command(GtkMenuItem *item, gpointer user_data)
 {
-  WorkraveApplet *applet = (WorkraveApplet*)user_data;
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
 
   if (applet->inhibit > 0)
     {
@@ -245,7 +242,7 @@ on_menu_command(GtkMenuItem *item, gpointer user_data)
       return;
     }
 
-  switch(menu_data[index].id)
+  switch (menu_data[index].id)
     {
     case MENU_COMMAND_ABOUT:
       on_menu_about(item, applet);
@@ -262,7 +259,7 @@ on_menu_command(GtkMenuItem *item, gpointer user_data)
                               menu_data[index].autostart ? G_DBUS_CALL_FLAGS_NONE : G_DBUS_CALL_FLAGS_NO_AUTO_START,
                               -1,
                               NULL,
-                              (GAsyncReadyCallback) dbus_call_finish,
+                              (GAsyncReadyCallback)dbus_call_finish,
                               applet);
           }
       }
@@ -273,27 +270,38 @@ on_menu_command(GtkMenuItem *item, gpointer user_data)
 static void
 on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
 {
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
+  GdkPixbuf *pixbuf     = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
 
   gtk_container_set_border_width(GTK_CONTAINER(about), 5);
 
   gtk_show_about_dialog(NULL,
-                        "name", "Workrave",
-                        "program-name", "Workrave",
+                        "name",
+                        "Workrave",
+                        "program-name",
+                        "Workrave",
 #ifdef GIT_VERSION
-                        "version", PACKAGE_VERSION "\n(" GIT_VERSION ")",
+                        "version",
+                        PACKAGE_VERSION "\n(" GIT_VERSION ")",
 #else
-                        "version", PACKAGE_VERSION,
+                        "version",
+                        PACKAGE_VERSION,
 #endif
-                        "copyright", workrave_copyright,
-                        "website", "http://www.workrave.org",
-                        "website_label", "www.workrave.org",
-                        "comments", _("This program assists in the prevention and recovery"
-                                      " of Repetitive Strain Injury (RSI)."),
-                        "translator-credits", workrave_translators,
-                        "authors", workrave_authors,
-                        "logo", pixbuf,
+                        "copyright",
+                        workrave_copyright,
+                        "website",
+                        "http://www.workrave.org",
+                        "website_label",
+                        "www.workrave.org",
+                        "comments",
+                        _("This program assists in the prevention and recovery"
+                          " of Repetitive Strain Injury (RSI)."),
+                        "translator-credits",
+                        workrave_translators,
+                        "authors",
+                        workrave_authors,
+                        "logo",
+                        pixbuf,
                         NULL);
   g_object_unref(pixbuf);
 }
@@ -301,7 +309,7 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
 static void
 on_menu_check_changed(GtkMenuItem *item, gpointer user_data)
 {
-  WorkraveApplet *applet = (WorkraveApplet*)user_data;
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
 
   if (applet->inhibit > 0)
     {
@@ -329,7 +337,7 @@ on_menu_check_changed(GtkMenuItem *item, gpointer user_data)
                         G_DBUS_CALL_FLAGS_NO_AUTO_START,
                         -1,
                         NULL,
-                        (GAsyncReadyCallback) dbus_call_finish,
+                        (GAsyncReadyCallback)dbus_call_finish,
                         applet);
     }
 }
@@ -337,20 +345,20 @@ on_menu_check_changed(GtkMenuItem *item, gpointer user_data)
 static void
 on_menu_radio_changed(GtkMenuItem *item, gpointer user_data)
 {
-  WorkraveApplet *applet = (WorkraveApplet*)user_data;
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
 
   if (applet->inhibit > 0)
     {
       return;
     }
 
-  int index = lookup_menu_index_by_menu_item(applet,item);
+  int index = lookup_menu_index_by_menu_item(applet, item);
   if (index == -1)
     {
       return;
     }
 
-  switch(menu_data[index].id)
+  switch (menu_data[index].id)
     {
     case MENU_COMMAND_MODE_NORMAL:
       on_menu_mode_changed("normal", applet);
@@ -378,17 +386,18 @@ on_menu_mode_changed(const char *mode, WorkraveApplet *applet)
                         G_DBUS_CALL_FLAGS_NO_AUTO_START,
                         -1,
                         NULL,
-                        (GAsyncReadyCallback) dbus_call_finish,
+                        (GAsyncReadyCallback)dbus_call_finish,
                         &applet);
     }
 }
 
-static void workrave_applet_fill(WorkraveApplet *applet)
+static void
+workrave_applet_fill(WorkraveApplet *applet)
 {
   applet->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
-  applet->image = workrave_timerbox_control_get_image(applet->timerbox_control);
-  g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed),  applet);
-  g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed),  applet);
+  applet->image            = workrave_timerbox_control_get_image(applet->timerbox_control);
+  g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed), applet);
+  g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed), applet);
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
   workrave_timerbox_control_set_tray_icon_mode(applet->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_ALWAYS);
@@ -397,16 +406,17 @@ static void workrave_applet_fill(WorkraveApplet *applet)
   gtk_widget_show_all(GTK_WIDGET(applet->plugin));
 }
 
-static void workrave_applet_construct(XfcePanelPlugin *plugin)
+static void
+workrave_applet_construct(XfcePanelPlugin *plugin)
 {
-  WorkraveApplet *applet = g_slice_new0(WorkraveApplet);
-  applet->plugin = plugin;
-  applet->image = NULL;
+  WorkraveApplet *applet   = g_slice_new0(WorkraveApplet);
+  applet->plugin           = plugin;
+  applet->image            = NULL;
   applet->timerbox_control = NULL;
-  applet->alive = FALSE;
-  applet->inhibit = 0;
+  applet->alive            = FALSE;
+  applet->inhibit          = 0;
 
-  for (int i = 0; i < MENU_COMMAND_SIZEOF;i ++)
+  for (int i = 0; i < MENU_COMMAND_SIZEOF; i++)
     {
       applet->menu_items[i] = NULL;
     }

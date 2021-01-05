@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "ActivityMonitor.hh"
@@ -32,15 +32,15 @@
 #include <stdio.h>
 #include <sys/types.h>
 #if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# if HAVE_STDLIB_H
 #  include <stdlib.h>
-# endif
+#  include <stddef.h>
+#else
+#  if HAVE_STDLIB_H
+#    include <stdlib.h>
+#  endif
 #endif
 #if HAVE_UNISTD_H
-# include <unistd.h>
+#  include <unistd.h>
 #endif
 
 #include "IInputMonitor.hh"
@@ -49,19 +49,19 @@
 using namespace std;
 
 //! Constructor.
-ActivityMonitor::ActivityMonitor() :
-  prev_x(-10),
-  prev_y(-10),
-  button_is_pressed(false), 
-  listener(NULL)
+ActivityMonitor::ActivityMonitor()
+  : prev_x(-10)
+  , prev_y(-10)
+  , button_is_pressed(false)
+  , listener(NULL)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-  first_action_time = 0;
-  last_action_time = 0;
-  noise_threshold = 1 * G_USEC_PER_SEC;
+  first_action_time  = 0;
+  last_action_time   = 0;
+  noise_threshold    = 1 * G_USEC_PER_SEC;
   activity_threshold = 2 * G_USEC_PER_SEC;
-  idle_threshold = 5 * G_USEC_PER_SEC;
+  idle_threshold     = 5 * G_USEC_PER_SEC;
 
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
@@ -72,7 +72,6 @@ ActivityMonitor::ActivityMonitor() :
   TRACE_EXIT();
 }
 
-
 //! Destructor.
 ActivityMonitor::~ActivityMonitor()
 {
@@ -82,7 +81,6 @@ ActivityMonitor::~ActivityMonitor()
 
   TRACE_EXIT();
 }
-
 
 //! Terminates the monitor.
 void
@@ -98,7 +96,6 @@ ActivityMonitor::terminate()
   TRACE_EXIT();
 }
 
-
 //! Suspends the activity monitoring.
 void
 ActivityMonitor::suspend()
@@ -110,7 +107,6 @@ ActivityMonitor::suspend()
   activity_state.publish();
   TRACE_RETURN(activity_state);
 }
-
 
 //! Resumes the activity monitoring.
 void
@@ -124,7 +120,6 @@ ActivityMonitor::resume()
   TRACE_RETURN(activity_state);
 }
 
-
 //! Forces state te be idle.
 void
 ActivityMonitor::force_idle()
@@ -133,14 +128,13 @@ ActivityMonitor::force_idle()
   lock.lock();
   if (activity_state != ACTIVITY_SUSPENDED)
     {
-      activity_state = ACTIVITY_IDLE;
+      activity_state   = ACTIVITY_IDLE;
       last_action_time = 0;
     }
   lock.unlock();
   activity_state.publish();
   TRACE_RETURN(activity_state);
 }
-
 
 //! Returns the current state
 ActivityState
@@ -153,11 +147,10 @@ ActivityMonitor::get_current_state()
   if (activity_state == ACTIVITY_ACTIVE)
     {
       gint64 now = g_get_real_time();
-      gint64 tv = now - last_action_time;
+      gint64 tv  = now - last_action_time;
 
-      TRACE_MSG("Active: "
-                << (tv / G_USEC_PER_SEC)  << "." << tv<< " "
-                << (idle_threshold / G_USEC_PER_SEC) << " " << idle_threshold);
+      TRACE_MSG("Active: " << (tv / G_USEC_PER_SEC) << "." << tv << " " << (idle_threshold / G_USEC_PER_SEC) << " "
+                           << idle_threshold);
       if (tv > idle_threshold)
         {
           // No longer active.
@@ -171,13 +164,13 @@ ActivityMonitor::get_current_state()
   return activity_state;
 }
 
-
 //! Sets the operation parameters.
 void
 ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold = noise * 1000;
-  activity_threshold = activity * 1000;;
+  noise_threshold    = noise * 1000;
+  activity_threshold = activity * 1000;
+  ;
   idle_threshold = idle * 1000;
 
   this->sensitivity = sensitivity;
@@ -186,18 +179,15 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivi
   activity_state = ACTIVITY_IDLE;
 }
 
-
-
 //! Sets the operation parameters.
 void
 ActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity)
 {
-  noise = noise_threshold / 1000;
-  activity = activity_threshold /  1000;
-  idle = idle_threshold / 1000;
+  noise       = noise_threshold / 1000;
+  activity    = activity_threshold / 1000;
+  idle        = idle_threshold / 1000;
   sensitivity = this->sensitivity;
 }
-
 
 //! Shifts the internal time (after system clock has been set)
 void
@@ -217,7 +207,6 @@ ActivityMonitor::shift_time(int delta)
   lock.unlock();
 }
 
-
 //! Sets the callback listener.
 void
 ActivityMonitor::set_listener(ActivityMonitorListener *l)
@@ -226,7 +215,6 @@ ActivityMonitor::set_listener(ActivityMonitorListener *l)
   listener = l;
   lock.unlock();
 }
-
 
 //! Activity is reported by the input monitor.
 void
@@ -241,7 +229,7 @@ ActivityMonitor::action_notify()
     case ACTIVITY_IDLE:
       {
         first_action_time = now;
-        last_action_time = now;
+        last_action_time  = now;
 
         if (activity_threshold == 0)
           {
@@ -263,7 +251,7 @@ ActivityMonitor::action_notify()
           }
         else
           {
-            tv =  now - first_action_time;
+            tv = now - first_action_time;
             if (tv >= activity_threshold)
               {
                 activity_state = ACTIVITY_ACTIVE;
@@ -281,7 +269,6 @@ ActivityMonitor::action_notify()
   call_listener();
 }
 
-
 //! Mouse activity is reported by the input monitor.
 void
 ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
@@ -289,17 +276,15 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
-  prev_x = x;
-  prev_y = y;
+  prev_x            = x;
+  prev_y            = y;
 
-  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity
-      || wheel_delta != 0 || button_is_pressed)
+  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0 || button_is_pressed)
     {
       action_notify();
     }
   lock.unlock();
 }
-
 
 //! Mouse button activity is reported by the input monitor.
 void
@@ -317,7 +302,6 @@ ActivityMonitor::button_notify(bool is_press)
   lock.unlock();
 }
 
-
 //! Keyboard activity is reported by the input monitor.
 void
 ActivityMonitor::keyboard_notify(bool repeat)
@@ -328,7 +312,6 @@ ActivityMonitor::keyboard_notify(bool repeat)
   action_notify();
   lock.unlock();
 }
-
 
 //! Calls the callback listener.
 void

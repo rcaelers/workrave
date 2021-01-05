@@ -44,7 +44,6 @@ public:
   virtual void socket_closed(ISocket *con, void *data) = 0;
 };
 
-
 //! Asynchronous server socket callbacks.
 class ISocketServerListener
 {
@@ -56,17 +55,16 @@ public:
   virtual void socket_accepted(ISocketServer *server, ISocket *con) = 0;
 };
 
-
 //! TCP Socket.
 class ISocket
 {
 public:
-  ISocket() :
-    listener(NULL)
+  ISocket()
+    : listener(NULL)
   {
   }
 
-  virtual ~ISocket() {};
+  virtual ~ISocket(){};
 
   //! Create a connection to the specified host and port.
   virtual void connect(const std::string &hostname, int port) = 0;
@@ -94,17 +92,16 @@ protected:
   void *user_data;
 };
 
-
 //! TCP Listen ISocket.
 class ISocketServer
 {
 public:
-  ISocketServer() :
-    listener(NULL)
+  ISocketServer()
+    : listener(NULL)
   {
   }
 
-  virtual ~ISocketServer() {};
+  virtual ~ISocketServer(){};
 
   //! Listen at the specified port.
   /*! \pre set_listener called
@@ -119,14 +116,13 @@ protected:
   ISocketServerListener *listener;
 };
 
-
 //! TCP Socket abstraction.
 class SocketDriver
 {
 public:
   static SocketDriver *create();
 
-  virtual ~SocketDriver() {};
+  virtual ~SocketDriver(){};
 
   //! Create a new socket
   virtual ISocket *create_socket() = 0;
@@ -135,19 +131,16 @@ public:
   virtual ISocketServer *create_server() = 0;
 };
 
-
 //! Socket exception
 class SocketException : public Exception
 {
 public:
-  explicit SocketException(const std::string &detail) :
-    Exception(detail)
+  explicit SocketException(const std::string &detail)
+    : Exception(detail)
   {
   }
 
-  virtual ~SocketException() throw()
-  {
-  }
+  virtual ~SocketException() throw() {}
 };
 
 #include "SocketDriver.icc"

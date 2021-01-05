@@ -22,7 +22,8 @@
 
 #include <stdio.h>
 
-namespace workrave {
+namespace workrave
+{
   class IBreakResponse;
 }
 

@@ -33,7 +33,7 @@ namespace Gtk
 class TimeEntry : public Gtk::HBox
 {
 public:
-  TimeEntry(bool millis=false);
+  TimeEntry(bool millis = false);
   ~TimeEntry();
 
   time_t get_value();
@@ -69,8 +69,7 @@ private:
   bool millis;
 };
 
-
-inline TimeEntry::signal_value_changed_t&
+inline TimeEntry::signal_value_changed_t &
 TimeEntry::signal_value_changed()
 {
   return sig_value_changed;

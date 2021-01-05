@@ -31,7 +31,7 @@ class AppletWindow : public IAppletWindow
 {
 public:
   AppletWindow();
-  virtual ~AppletWindow();
+  virtual ~AppletWindow() = default;
 
   void init_applet() override;
   void update_applet() override;

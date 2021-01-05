@@ -21,7 +21,7 @@ libworkrave_common_la_SOURCES =  \
 			Diagnostics.cc \
 			${localesources}
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 ldadd_platform = 	win32/libworkrave-common-win32.la
 endif
 

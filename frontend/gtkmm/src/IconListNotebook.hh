@@ -39,10 +39,15 @@ private:
   struct ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
     Gtk::TreeModelColumn<Glib::ustring> text;
-    Gtk::TreeModelColumn<Gtk::Widget*> page;
-    Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > pixbuf;
+    Gtk::TreeModelColumn<Gtk::Widget *> page;
+    Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf>> pixbuf;
 
-    ModelColumns() { add(text); add(page); add(pixbuf); }
+    ModelColumns()
+    {
+      add(text);
+      add(page);
+      add(pixbuf);
+    }
   };
 
   Gtk::Notebook notebook;
@@ -50,7 +55,5 @@ private:
   Glib::RefPtr<Gtk::ListStore> list_store;
   ModelColumns model_columns;
 };
-
-
 
 #endif // ICON_LIST_NOTEBOOK_HH

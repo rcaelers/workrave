@@ -29,7 +29,7 @@
 #include <glib.h>
 
 //! Factory to create input monitors.
-class UnixInputMonitorFactory  : public IInputMonitorFactory
+class UnixInputMonitorFactory : public IInputMonitorFactory
 {
 public:
   UnixInputMonitorFactory();

@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -50,37 +50,36 @@
 
 #include "Util.hh"
 
-#ifdef PLATFORM_OS_WIN32
-#include "crashlog.h"
+#ifdef PLATFORM_OS_WINDOWS
+#  include "crashlog.h"
 #endif
 
 #include <glib-object.h>
 
 GUI *GUI::instance = NULL;
 
-const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
-
+const string GUI::CFG_KEY_GUI_BLOCK_MODE = "gui/breaks/block_mode";
 
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.
  *  \param argv all command line parameters.
  */
-GUI::GUI(int argc, char **argv)  :
-  configurator(NULL),
-  core(NULL),
-  sound_player(NULL),
-  break_window(NULL),
-  prelude_window(NULL),
-  main_window(NULL),
-  response(NULL),
-  break_window_destroy(false),
-  prelude_window_destroy(false),
-  active_break_id(BREAK_ID_NONE)
+GUI::GUI(int argc, char **argv)
+  : configurator(NULL)
+  , core(NULL)
+  , sound_player(NULL)
+  , break_window(NULL)
+  , prelude_window(NULL)
+  , main_window(NULL)
+  , response(NULL)
+  , break_window_destroy(false)
+  , prelude_window_destroy(false)
+  , active_break_id(BREAK_ID_NONE)
 {
   TRACE_ENTER("GUI:GUI");
 
-  assert(! instance);
+  assert(!instance);
   instance = this;
 
   this->argc = argc;
@@ -88,7 +87,6 @@ GUI::GUI(int argc, char **argv)  :
 
   TRACE_EXIT();
 }
-
 
 //! Destructor.
 GUI::~GUI()
@@ -103,7 +101,6 @@ GUI::~GUI()
   TRACE_EXIT();
 }
 
-
 //! Forces a restbreak.
 void
 GUI::restbreak_now()
@@ -111,15 +108,13 @@ GUI::restbreak_now()
   core->force_break(BREAK_ID_REST_BREAK, true);
 }
 
-
 gboolean
 GUI::static_on_timer(gpointer data)
 {
-  GUI *gui = (GUI*) data;
+  GUI *gui = (GUI *)data;
   gui->on_timer();
   return true;
 }
-
 
 //! The main entry point.
 void
@@ -127,7 +122,7 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   // Enable Windows structural exception handling.
   __try1(exception_handler);
 #endif
@@ -138,12 +133,11 @@ GUI::main()
   init_core();
   init_sound_player();
 
-  #ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   System::init();
 #else
   System::init(NULL);
 #endif
-
 
   // The main status window.
   main_window = new MainWindow();
@@ -163,14 +157,13 @@ GUI::main()
   main_window = NULL;
 
   System::clear();
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   // Disable Windows structural exception handling.
   __except1;
 #endif
 
   TRACE_EXIT();
 }
-
 
 //! Terminates the GUI.
 void
@@ -186,7 +179,6 @@ GUI::terminate()
 
   TRACE_EXIT();
 }
-
 
 //! Periodic heartbeat.
 bool
@@ -208,12 +200,11 @@ GUI::on_timer()
 }
 
 #ifdef NDEBUG
-static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
-                           const gchar *message, gpointer user_data)
+static void
+my_log_handler(const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer user_data)
 {
 }
 #endif
-
 
 //! Initializes the GUI
 void
@@ -228,17 +219,15 @@ void
 GUI::init_debug()
 {
 #ifdef NDEBUG
-  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
-  for (int i = 0; i < sizeof(domains)/sizeof(char *); i++)
+  char *domains[] = {NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject"};
+  for (int i = 0; i < sizeof(domains) / sizeof(char *); i++)
     {
-      g_log_set_handler(domains[i],
-                        (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
-                        my_log_handler, NULL);
+      g_log_set_handler(
+        domains[i], (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION), my_log_handler, NULL);
     }
 
 #endif
 }
-
 
 //! Initializes i18n.
 void
@@ -246,18 +235,17 @@ GUI::init_nls()
 {
 #ifdef ENABLE_NLS
   const char *locale_dir;
-#ifdef PLATFORM_OS_WIN32
+#  ifdef PLATFORM_OS_WINDOWS
   string dir = Util::get_application_directory() + "\\lib\\locale";
   locale_dir = dir.c_str();
-#else
+#  else
   locale_dir = "FIXME:";
-#endif
+#  endif
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
 #endif
 }
-
 
 //! Initializes the core.
 void
@@ -270,7 +258,6 @@ GUI::init_core()
   core->set_core_events_listener(this);
 }
 
-
 //! Initializes the sound player.
 void
 GUI::init_sound_player()
@@ -278,13 +265,12 @@ GUI::init_sound_player()
   sound_player = new SoundPlayer();
 }
 
-
 void
 GUI::core_event_notify(CoreEvent event)
 {
   TRACE_ENTER_MSG("GUI::core_event_notify", event)
   // FIXME: HACK
-  SoundEvent snd = (SoundEvent) event;
+  SoundEvent snd = (SoundEvent)event;
   if (sound_player != NULL)
     {
       TRACE_MSG("play");
@@ -293,22 +279,21 @@ GUI::core_event_notify(CoreEvent event)
   TRACE_EXIT();
 }
 
-
 void
 GUI::core_event_operation_mode_changed(const OperationMode m)
 {
-  (void) m;
+  (void)m;
 }
 
 //! Returns a break window for the specified break.
 IBreakWindow *
 GUI::new_break_window(BreakId break_id, bool user_initiated)
 {
-  IBreakWindow *ret = NULL;
+  IBreakWindow *ret    = NULL;
   BlockMode block_mode = get_block_mode();
-  bool ignorable = true;
+  bool ignorable       = true;
 
-  (void) user_initiated;
+  (void)user_initiated;
 
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
@@ -326,13 +311,11 @@ GUI::new_break_window(BreakId break_id, bool user_initiated)
   return ret;
 }
 
-
 void
 GUI::set_break_response(IBreakResponse *rep)
 {
   response = rep;
 }
-
 
 void
 GUI::create_prelude_window(BreakId break_id)
@@ -345,7 +328,6 @@ GUI::create_prelude_window(BreakId break_id)
   prelude_window = new PreludeWindow(break_id);
   prelude_window->set_response(response);
 }
-
 
 void
 GUI::create_break_window(BreakId break_id, BreakHint break_hint)
@@ -410,7 +392,6 @@ GUI::show_break_window()
   TRACE_EXIT();
 }
 
-
 void
 GUI::refresh_break_window()
 {
@@ -424,7 +405,6 @@ GUI::refresh_break_window()
       break_window->refresh();
     }
 }
-
 
 void
 GUI::set_break_progress(int value, int max_value)
@@ -440,7 +420,6 @@ GUI::set_break_progress(int value, int max_value)
     }
 }
 
-
 void
 GUI::set_prelude_stage(PreludeStage stage)
 {
@@ -449,7 +428,6 @@ GUI::set_prelude_stage(PreludeStage stage)
       prelude_window->set_stage(stage);
     }
 }
-
 
 void
 GUI::set_prelude_progress_text(PreludeProgressText text)
@@ -487,27 +465,21 @@ GUI::collect_garbage()
   TRACE_EXIT();
 }
 
-
 GUI::BlockMode
 GUI::get_block_mode()
 {
   bool b;
   int mode;
-  b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_GUI_BLOCK_MODE, mode);
-  if (! b)
+  b = CoreFactory::get_configurator()->get_value(CFG_KEY_GUI_BLOCK_MODE, mode);
+  if (!b)
     {
       mode = BLOCK_MODE_INPUT;
     }
-  return (BlockMode) mode;
+  return (BlockMode)mode;
 }
-
 
 void
 GUI::set_block_mode(BlockMode mode)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
+  CoreFactory::get_configurator()->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
 }
-
-

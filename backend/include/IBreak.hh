@@ -24,7 +24,8 @@
 
 #include <string.h>
 
-namespace workrave {
+namespace workrave
+{
 
   //! Interface to retrieve information about a break.
   class IBreak
@@ -68,6 +69,6 @@ namespace workrave {
     //! Has the maximum number of prelude been reached
     virtual bool is_max_preludes_reached() const = 0;
   };
-}
+} // namespace workrave
 
 #endif // IBREAK_HH

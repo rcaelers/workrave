@@ -85,7 +85,7 @@ done
 # Setup
 # ------------------------------------------------------------
 
-osx_minor_version=`/usr/bin/sw_vers | grep ProductVersion | cut -f2 -d'.'`
+macos_minor_version=`/usr/bin/sw_vers | grep ProductVersion | cut -f2 -d'.'`
 
 pkgrootdir=`pwd`/$PACKAGE
 pkgcontentsdir=$pkgrootdir/Contents
@@ -151,7 +151,7 @@ if [ $conf_copy_gtk_dylib = true ]; then
 fi
 
 cp Info.plist $pkgcontentsdir
-$INSTALL ../../../frontend/common/share/images/osx/workrave.icns  $pkgresourcesdir
+$INSTALL ../../../frontend/common/share/images/macos/workrave.icns  $pkgresourcesdir
 
 echo -n "APPL????" > $pkgcontentsdir/PkgInfo
 

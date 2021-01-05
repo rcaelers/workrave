@@ -18,33 +18,33 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_GSTREAMER
 
-#include "debug.hh"
+#  include "debug.hh"
 
-#include "IConfigurator.hh"
-#include "ICore.hh"
-#include "CoreFactory.hh"
+#  include "IConfigurator.hh"
+#  include "ICore.hh"
+#  include "CoreFactory.hh"
 
-#include "GstSoundPlayer.hh"
-#include "SoundPlayer.hh"
-#include "Sound.hh"
-#include "Util.hh"
-#include <debug.hh>
+#  include "GstSoundPlayer.hh"
+#  include "SoundPlayer.hh"
+#  include "Sound.hh"
+#  include "Util.hh"
+#  include <debug.hh>
 
 using namespace std;
 using namespace workrave;
 
-GstSoundPlayer::GstSoundPlayer() :
-  gst_ok(false)
+GstSoundPlayer::GstSoundPlayer()
+  : gst_ok(false)
 {
-	GError *error = NULL;
+  GError *error = NULL;
 
   gst_ok = gst_init_check(NULL, NULL, &error);
-	gst_registry_fork_set_enabled(FALSE);
+  gst_registry_fork_set_enabled(FALSE);
 
   if (!gst_ok)
     {
@@ -61,11 +61,10 @@ GstSoundPlayer::~GstSoundPlayer()
   TRACE_ENTER("GstSoundPlayer::~GstSoundPlayer");
   if (gst_ok)
     {
-  		gst_deinit();
+      gst_deinit();
     }
   TRACE_EXIT();
 }
-
 
 void
 GstSoundPlayer::init(ISoundDriverEvents *events)
@@ -95,20 +94,19 @@ GstSoundPlayer::capability(SoundCapability cap)
 void
 GstSoundPlayer::play_sound(SoundEvent snd)
 {
-  (void) snd;
+  (void)snd;
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", snd);
   TRACE_EXIT();
 }
-
 
 void
 GstSoundPlayer::play_sound(std::string wavfile)
 {
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile);
 
-	GstElement *play = NULL;
-	GstElement *sink = NULL;
-  GstBus *bus = NULL;
+  GstElement *play = NULL;
+  GstElement *sink = NULL;
+  GstBus *bus      = NULL;
 
   string method = "automatic";
 
@@ -140,8 +138,8 @@ GstSoundPlayer::play_sound(std::string wavfile)
   if (play != NULL)
     {
       WatchData *watch_data = new WatchData;
-      watch_data->player = this;
-      watch_data->play = play;
+      watch_data->player    = this;
+      watch_data->play      = play;
 
       bus = gst_pipeline_get_bus(GST_PIPELINE(play));
       gst_bus_add_watch(bus, bus_watch, watch_data);
@@ -154,10 +152,7 @@ GstSoundPlayer::play_sound(std::string wavfile)
       TRACE_MSG((float)volume);
       gst_element_set_state(play, GST_STATE_NULL);
 
-      g_object_set(G_OBJECT(play),
-                   "uri", uri,
-                   "volume", (float)(volume / 100.0),
-                   "audio-sink", sink, NULL);
+      g_object_set(G_OBJECT(play), "uri", uri, "volume", (float)(volume / 100.0), "audio-sink", sink, NULL);
 
       gst_element_set_state(play, GST_STATE_PLAYING);
 
@@ -168,18 +163,17 @@ GstSoundPlayer::play_sound(std::string wavfile)
   TRACE_EXIT();
 }
 
-
 gboolean
 GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
-  WatchData *watch_data = (WatchData *) data;
-  GstElement *play = watch_data->play;
-  GError *err = NULL;
-  gboolean ret = TRUE;
+  WatchData *watch_data = (WatchData *)data;
+  GstElement *play      = watch_data->play;
+  GError *err           = NULL;
+  gboolean ret          = TRUE;
 
-  (void) bus;
+  (void)bus;
 
-  switch (GST_MESSAGE_TYPE (msg))
+  switch (GST_MESSAGE_TYPE(msg))
     {
     case GST_MESSAGE_ERROR:
       gst_message_parse_error(msg, &err, NULL);
@@ -217,8 +211,8 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 bool
 GstSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
-  (void) snd;
-  (void) enabled;
+  (void)snd;
+  (void)enabled;
 
   return false;
 }
@@ -226,23 +220,23 @@ GstSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 void
 GstSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
-  (void) snd;
-  (void) enabled;
+  (void)snd;
+  (void)enabled;
 }
 
 bool
 GstSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
-  (void) snd;
-  (void) wav_file;
+  (void)snd;
+  (void)wav_file;
   return false;
 }
 
 void
 GstSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
-  (void) snd;
-  (void) wav_file;
+  (void)snd;
+  (void)wav_file;
 }
 
 #endif

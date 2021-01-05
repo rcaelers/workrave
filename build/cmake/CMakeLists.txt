@@ -78,9 +78,9 @@ include_directories(${CMAKE_LIBRARY_PATH})
 ######################################################################
 
 if (WIN32)
-  set(PLATFORM_OS_WIN32 1)
+  set(PLATFORM_OS_WINDOWS 1)
   if (MSVC)
-    set(PLATFORM_OS_WIN32_NATIVE 1)
+    set(PLATFORM_OS_WINDOWS_NATIVE 1)
   endif (MSVC)
 endif (WIN32)
 

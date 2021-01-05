@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES =	Makefile.in
 
 noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
 
-SUBDIRS = 		win32 x11 osx
+SUBDIRS = 		win32 x11 macos
 
 libworkrave_frontend_common_la_SOURCES = \
 			Text.cc \
@@ -19,11 +19,11 @@ libworkrave_frontend_common_la_SOURCES = \
 
 ldadd_platform=
 
-if PLATFORM_OS_WIN32
+if PLATFORM_OS_WINDOWS
 ldadd_platform += 	win32/libworkrave-frontend-common-win32.la
 endif
-if PLATFORM_OS_OSX
-ldadd_platform += 	osx/libworkrave-frontend-common-osx.la
+if PLATFORM_OS_MACOS
+ldadd_platform += 	macos/libworkrave-frontend-common-macos.la
 endif
 if PLATFORM_OS_UNIX
 ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
@@ -50,7 +50,7 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-W -I$(top_srcdir)/frontend/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/frontend/common/src/win32 \
-			-I$(top_srcdir)/frontend/common/src/osx \
+			-I$(top_srcdir)/frontend/common/src/macos \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
 			-I$(top_srcdir)/common/win32/harpoon/include

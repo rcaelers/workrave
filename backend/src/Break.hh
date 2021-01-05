@@ -28,17 +28,18 @@
 using namespace workrave;
 
 // Forward declarion of external interface.
-namespace workrave {
+namespace workrave
+{
   class IApp;
   class IConfigurator;
   class IBreak;
-}
+} // namespace workrave
 
 class BreakControl;
 
-class Break :
-  public IBreak,
-  public IConfiguratorListener
+class Break
+  : public IBreak
+  , public IConfiguratorListener
 {
 private:
   //! ID of the break.

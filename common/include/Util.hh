@@ -39,10 +39,10 @@ public:
     SEARCH_PATH_SIZEOF
   };
 
-  static const std::string& get_home_directory();
+  static const std::string &get_home_directory();
   static void set_home_directory(const std::string &home);
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WINDOWS
   static string get_application_directory();
   static bool registry_set_value(const char *path, const char *name, const char *value);
   static bool registry_get_value(const char *path, const char *name, char *out);

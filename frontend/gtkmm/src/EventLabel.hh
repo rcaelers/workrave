@@ -25,12 +25,10 @@
 class EventLabel : public Gtk::Label
 {
 public:
-  EventLabel()
-  {
-  }
+  EventLabel() {}
 
-  EventLabel(const Glib::ustring& label, bool mnemonic = false) :
-    Gtk::Label(label, mnemonic)
+  EventLabel(const Glib::ustring &label, bool mnemonic = false)
+    : Gtk::Label(label, mnemonic)
   {
   }
 
@@ -43,6 +41,5 @@ private:
 
   GdkWindow *event_window;
 };
-
 
 #endif // EVENTLABEL_HH

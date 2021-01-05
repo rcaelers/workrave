@@ -18,49 +18,47 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_DISTRIBUTION
 
-#include "debug.hh"
-#include <algorithm>
-#include <assert.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
+#  include "debug.hh"
+#  include <algorithm>
+#  include <assert.h>
+#  include <stdlib.h>
+#  include <stdio.h>
+#  include <stdarg.h>
+#  include <string.h>
 
-#include "DistributionManager.hh"
-#include "DistributionSocketLink.hh"
-#include "DistributionLogListener.hh"
-#include "DistributionListener.hh"
-#include "Configurator.hh"
-#include "CoreConfig.hh"
+#  include "DistributionManager.hh"
+#  include "DistributionSocketLink.hh"
+#  include "DistributionLogListener.hh"
+#  include "DistributionListener.hh"
+#  include "Configurator.hh"
+#  include "CoreConfig.hh"
 
-#ifdef PLATFORM_OS_WIN32
-#define snprintf _snprintf
-#define vsnprintf _vsnprintf
-#endif
+#  ifdef PLATFORM_OS_WINDOWS
+#    define snprintf _snprintf
+#    define vsnprintf _vsnprintf
+#  endif
 
-#define MAX_LOG_LEN (256)
+#  define MAX_LOG_LEN (256)
 
 //! Constructs a new DistributionManager.
-DistributionManager::DistributionManager() :
-  network_enabled(false),
-  server_enabled(false),
-  link(NULL),
-  state(NODE_ACTIVE)
+DistributionManager::DistributionManager()
+  : network_enabled(false)
+  , server_enabled(false)
+  , link(NULL)
+  , state(NODE_ACTIVE)
 {
 }
-
 
 //! Destructs this DistributionManager.
 DistributionManager::~DistributionManager()
 {
   delete link;
 }
-
 
 //! Initialize the DistributionManager from the specified Configurator.
 void
@@ -80,7 +78,6 @@ DistributionManager::init(Configurator *conf)
   configurator->add_listener(CoreConfig::CFG_KEY_DISTRIBUTION, this);
 }
 
-
 //! Periodic heartbeat.
 void
 DistributionManager::heartbeart()
@@ -92,14 +89,12 @@ DistributionManager::heartbeart()
     }
 }
 
-
 //! Returns the current distribution state of this node.
 DistributionManager::NodeState
 DistributionManager::get_state() const
 {
   return state;
 }
-
 
 //! Returns the number of peers in the network. This node excluded.
 int
@@ -115,7 +110,6 @@ DistributionManager::get_number_of_peers()
   return ret;
 }
 
-
 //! Returns true if this node is master.
 bool
 DistributionManager::is_master() const
@@ -123,14 +117,12 @@ DistributionManager::is_master() const
   return state == NODE_ACTIVE;
 }
 
-
 //! Returns the name of the current master (or "" if requesting node is master)
 string
 DistributionManager::get_master_id() const
 {
   return state == NODE_ACTIVE ? get_my_id() : current_master;
 }
-
 
 //! Returns the id of this node.
 string
@@ -145,7 +137,6 @@ DistributionManager::get_my_id() const
 
   return id;
 }
-
 
 //! Requests to become master.
 /*!
@@ -169,8 +160,6 @@ DistributionManager::claim()
   return ret;
 }
 
-
-
 //! Locks the current master status.
 /*!
  *  If this node has locked its master status, all requests from remote hosts
@@ -189,7 +178,6 @@ DistributionManager::set_lock_master(bool lock)
   return ret;
 }
 
-
 //! Connect to the specified URL.
 bool
 DistributionManager::connect(string url)
@@ -203,7 +191,6 @@ DistributionManager::connect(string url)
     }
   return ret;
 }
-
 
 //! Disconnects from client with the specified id.
 bool
@@ -219,7 +206,6 @@ DistributionManager::disconnect(string id)
   return ret;
 }
 
-
 //! Disconnects from all remote hosts.
 bool
 DistributionManager::disconnect_all()
@@ -234,7 +220,6 @@ DistributionManager::disconnect_all()
   return ret;
 }
 
-
 //! Reconnects to all remote hosts.
 bool
 DistributionManager::reconnect_all()
@@ -248,7 +233,6 @@ DistributionManager::reconnect_all()
     }
   return ret;
 }
-
 
 //! Register the specified state callback.
 bool
@@ -266,7 +250,6 @@ DistributionManager::register_client_message(DistributionClientMessageID id,
   return ret;
 }
 
-
 //! Unregister the specified state callback.
 bool
 DistributionManager::unregister_client_message(DistributionClientMessageID id)
@@ -280,7 +263,6 @@ DistributionManager::unregister_client_message(DistributionClientMessageID id)
     }
   return ret;
 }
-
 
 //! Register a control listener.
 bool
@@ -311,7 +293,6 @@ DistributionManager::add_listener(DistributionListener *listener)
   return ret;
 }
 
-
 //! Unregister a control listener.
 bool
 DistributionManager::remove_listener(DistributionListener *listener)
@@ -326,7 +307,7 @@ DistributionManager::remove_listener(DistributionListener *listener)
       if (listener == l)
         {
           // Found. Remove
-          i = listeners.erase(i);
+          i   = listeners.erase(i);
           ret = true;
         }
       else
@@ -337,7 +318,6 @@ DistributionManager::remove_listener(DistributionListener *listener)
 
   return ret;
 }
-
 
 //! Broadcasts a client message to all
 bool
@@ -352,7 +332,6 @@ DistributionManager::broadcast_client_message(DistributionClientMessageID id, Pa
   return ret;
 }
 
-
 //! Event from Link that our 'master' status changed.
 void
 DistributionManager::master_changed(bool new_master, string id)
@@ -364,7 +343,6 @@ DistributionManager::master_changed(bool new_master, string id)
 
   TRACE_EXIT();
 }
-
 
 //! Cleanup the peer's name?.
 void
@@ -391,7 +369,6 @@ DistributionManager::sanitize_peer(string &peer)
     }
 }
 
-
 //! Adds the specified peer.
 bool
 DistributionManager::add_peer(string peer)
@@ -416,7 +393,6 @@ DistributionManager::add_peer(string peer)
   return ret;
 }
 
-
 //! Removes the specified peer.
 bool
 DistributionManager::remove_peer(string peer)
@@ -439,7 +415,6 @@ DistributionManager::remove_peer(string peer)
   return ret;
 }
 
-
 void
 DistributionManager::set_peers(string peers, bool connect)
 {
@@ -448,7 +423,6 @@ DistributionManager::set_peers(string peers, bool connect)
   write_peers();
   TRACE_EXIT();
 }
-
 
 //
 void
@@ -461,7 +435,7 @@ DistributionManager::parse_peers(string peers, bool doconnect)
   while (pos != std::string::npos)
     {
       string peer = peers.substr(0, pos);
-      peers = peers.substr(pos + 1);
+      peers       = peers.substr(pos + 1);
 
       if (peer != "")
         {
@@ -489,7 +463,6 @@ DistributionManager::parse_peers(string peers, bool doconnect)
   TRACE_EXIT();
 }
 
-
 //! Read all disbution manager configuration.
 void
 DistributionManager::read_configuration()
@@ -498,7 +471,7 @@ DistributionManager::read_configuration()
 
   // Distributed operation enabled or not.
   network_enabled = get_enabled();
-  server_enabled = get_listening();
+  server_enabled  = get_listening();
 
   // Enable/Disable link.
   assert(link != NULL);
@@ -513,7 +486,7 @@ DistributionManager::read_configuration()
     }
   else
     {
-      string peer ;
+      string peer;
       is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_PEERS, peer);
       if (is_set && peer != "")
         {
@@ -521,7 +494,6 @@ DistributionManager::read_configuration()
         }
     }
 }
-
 
 void
 DistributionManager::write_peers()
@@ -542,7 +514,6 @@ DistributionManager::write_peers()
   TRACE_EXIT();
 }
 
-
 //! Notification that the specified configuration key has changed.
 void
 DistributionManager::config_changed_notify(const string &key)
@@ -555,7 +526,6 @@ DistributionManager::config_changed_notify(const string &key)
   TRACE_EXIT();
 }
 
-
 //!
 void
 DistributionManager::log(const char *fmt, ...)
@@ -564,17 +534,24 @@ DistributionManager::log(const char *fmt, ...)
 
   va_start(va, fmt);
 
-  time_t current_time = time (NULL);
-  struct tm *lt = localtime(&current_time);
+  time_t current_time = time(NULL);
+  struct tm *lt       = localtime(&current_time);
 
   char log_str[MAX_LOG_LEN - 32];
   vsnprintf(log_str, MAX_LOG_LEN - 32 - 1, fmt, va);
   log_str[MAX_LOG_LEN - 32 - 1] = '\0';
 
   char str[MAX_LOG_LEN];
-  snprintf(str, MAX_LOG_LEN - 1, "[%02d/%02d/%02d %02d:%02d:%02d] %s\n",
-           lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
-           lt->tm_hour, lt->tm_min, lt->tm_sec, log_str);
+  snprintf(str,
+           MAX_LOG_LEN - 1,
+           "[%02d/%02d/%02d %02d:%02d:%02d] %s\n",
+           lt->tm_mday,
+           lt->tm_mon + 1,
+           lt->tm_year + 1900,
+           lt->tm_hour,
+           lt->tm_min,
+           lt->tm_sec,
+           log_str);
   str[MAX_LOG_LEN - 1] = '\0';
 
   log_messages.push_back(str);
@@ -585,8 +562,6 @@ DistributionManager::log(const char *fmt, ...)
     }
   fire_log_event(str);
 }
-
-
 
 //! Adds the log listener.
 /*!
@@ -623,7 +598,6 @@ DistributionManager::add_log_listener(DistributionLogListener *listener)
   return ret;
 }
 
-
 //! Removes the log listener.
 /*!
  *  \param listener listener to stop monitoring.
@@ -644,7 +618,7 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
       if (listener == l)
         {
           // Found. Remove
-          i = log_listeners.erase(i);
+          i   = log_listeners.erase(i);
           ret = true;
         }
       else
@@ -655,8 +629,6 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
 
   return ret;
 }
-
-
 
 //! Fire a log event.
 void
@@ -677,7 +649,6 @@ DistributionManager::fire_log_event(string message)
 
   TRACE_EXIT();
 }
-
 
 void
 DistributionManager::fire_signon_client(char *id)
@@ -717,20 +688,17 @@ DistributionManager::fire_signoff_client(char *id)
   TRACE_EXIT();
 }
 
-
 void
 DistributionManager::signon_remote_client(char *client_id)
 {
   fire_signon_client(client_id);
 }
 
-
 void
 DistributionManager::signoff_remote_client(char *client_id)
 {
   fire_signoff_client(client_id);
 }
-
 
 //! Returns log messages.
 list<string>
@@ -739,7 +707,6 @@ DistributionManager::get_logs() const
   return log_messages;
 }
 
-
 //! Returns all peers.
 list<string>
 DistributionManager::get_peers() const
@@ -747,11 +714,10 @@ DistributionManager::get_peers() const
   return peer_urls;
 }
 
-
 bool
 DistributionManager::get_enabled() const
 {
-  bool ret = true;
+  bool ret    = true;
   bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED, ret);
   if (!is_set)
     {
@@ -761,20 +727,17 @@ DistributionManager::get_enabled() const
   return ret;
 }
 
-
 void
 DistributionManager::set_enabled(bool b)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED, b);
 }
 
-
 bool
 DistributionManager::get_listening() const
 {
-  bool ret = true;
-  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING,
-                                        ret);
+  bool ret    = true;
+  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING, ret);
   if (!is_set)
     {
       ret = false;
@@ -783,13 +746,11 @@ DistributionManager::get_listening() const
   return ret;
 }
 
-
 void
 DistributionManager::set_listening(bool b)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING, b);
 }
-
 
 string
 DistributionManager::get_username() const
@@ -799,13 +760,11 @@ DistributionManager::get_username() const
   return ret;
 }
 
-
 void
 DistributionManager::set_username(string name)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME, name);
 }
-
 
 string
 DistributionManager::get_password() const
@@ -815,13 +774,11 @@ DistributionManager::get_password() const
   return ret;
 }
 
-
 void
 DistributionManager::set_password(string name)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, name);
 }
-
 
 int
 DistributionManager::get_port() const
@@ -836,13 +793,11 @@ DistributionManager::get_port() const
   return ret;
 }
 
-
 void
 DistributionManager::set_port(int v)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PORT, v);
 }
-
 
 int
 DistributionManager::get_reconnect_attempts() const
@@ -857,13 +812,11 @@ DistributionManager::get_reconnect_attempts() const
   return ret;
 }
 
-
 void
 DistributionManager::set_reconnect_attempts(int v)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS, v);
 }
-
 
 int
 DistributionManager::get_reconnect_interval() const
@@ -878,12 +831,10 @@ DistributionManager::get_reconnect_interval() const
   return ret;
 }
 
-
 void
 DistributionManager::set_reconnect_interval(int v)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL, v);
 }
-
 
 #endif

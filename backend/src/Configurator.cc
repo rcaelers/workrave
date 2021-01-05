@@ -18,11 +18,11 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXHelpers.hh"
+#ifdef PLATFORM_OS_MACOS
+#  include "MacOSHelpers.hh"
 #endif
 
 #include "debug.hh"
@@ -39,18 +39,16 @@
 using namespace std;
 using namespace workrave;
 
-
 // Constructs a new configurator.
 Configurator::Configurator(IConfigBackend *backend)
 {
   this->auto_save_time = 0;
-  this->backend = backend;
+  this->backend        = backend;
   if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
     {
       dynamic_cast<IConfigBackendMonitoring *>(backend)->set_listener(this);
     }
 }
-
 
 // Destructs the configurator.
 Configurator::~Configurator()
@@ -58,13 +56,11 @@ Configurator::~Configurator()
   delete backend;
 }
 
-
 bool
 Configurator::load(std::string filename)
 {
   return backend->load(filename);
 }
-
 
 bool
 Configurator::save(std::string filename)
@@ -75,7 +71,6 @@ Configurator::save(std::string filename)
   return ret;
 }
 
-
 bool
 Configurator::save()
 {
@@ -85,18 +80,17 @@ Configurator::save()
   return ret;
 }
 
-
 void
 Configurator::heartbeat()
 {
   ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
+  time_t now  = core->get_time();
 
   DelayedListIter it = delayed_config.begin();
   while (it != delayed_config.end())
     {
       DelayedConfig &delayed = it->second;
-      DelayedListIter next = it;
+      DelayedListIter next   = it;
       next++;
 
       if (now >= delayed.until)
@@ -114,7 +108,7 @@ Configurator::heartbeat()
 
                   if (auto_save_time == 0)
                     {
-                      ICore *core = CoreFactory::get_core();
+                      ICore *core    = CoreFactory::get_core();
                       auto_save_time = core->get_time() + 30;
                     }
                 }
@@ -133,7 +127,6 @@ Configurator::heartbeat()
     }
 }
 
-
 void
 Configurator::set_delay(const std::string &key, int delay)
 {
@@ -145,20 +138,17 @@ Configurator::set_delay(const std::string &key, int delay)
     }
   else
     {
-      setting.key = key;
+      setting.key   = key;
       setting.delay = delay;
       settings[key] = setting;
     }
 }
-
-
 
 bool
 Configurator::remove_key(const std::string &key) const
 {
   return backend->remove_key(key);
 }
-
 
 bool
 Configurator::rename_key(const std::string &key, const std::string &new_key)
@@ -186,11 +176,10 @@ Configurator::rename_key(const std::string &key, const std::string &new_key)
   return ok;
 }
 
-
 bool
 Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flags)
 {
-  bool ret = true;
+  bool ret  = true;
   bool skip = false;
   Setting setting;
   string newkey;
@@ -219,9 +208,9 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
               ICore *core = CoreFactory::get_core();
 
               DelayedConfig &d = delayed_config[key];
-              d.key = (string)key;
-              d.value = value;
-              d.until = core->get_time() + setting.delay;
+              d.key            = (string)key;
+              d.value          = value;
+              d.until          = core->get_time() + setting.delay;
 
               skip = true;
             }
@@ -243,7 +232,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
               if (auto_save_time == 0)
                 {
-                  ICore *core = CoreFactory::get_core();
+                  ICore *core    = CoreFactory::get_core();
                   auto_save_time = core->get_time() + 30;
                 }
             }
@@ -253,7 +242,6 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
   TRACE_EXIT();
   return ret || skip;
 }
-
 
 bool
 Configurator::get_value(const std::string &key, VariantType type, Variant &out) const
@@ -271,8 +259,8 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
   if (it != delayed_config.end())
     {
       const DelayedConfig &delayed = it->second;
-      out = delayed.value;
-      ret = true;
+      out                          = delayed.value;
+      ret                          = true;
     }
 
   if (!ret)
@@ -282,15 +270,13 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
 
   if (ret && type != VARIANT_TYPE_NONE && out.type != type)
     {
-      ret = false;
+      ret      = false;
       out.type = VARIANT_TYPE_NONE;
     }
 
   TRACE_EXIT();
   return ret;
 }
-
-
 
 bool
 Configurator::get_value(const std::string &key, std::string &out) const
@@ -306,7 +292,6 @@ Configurator::get_value(const std::string &key, std::string &out) const
   return b;
 }
 
-
 bool
 Configurator::get_value(const std::string &key, bool &out) const
 {
@@ -320,7 +305,6 @@ Configurator::get_value(const std::string &key, bool &out) const
 
   return b;
 }
-
 
 bool
 Configurator::get_value(const std::string &key, int &out) const
@@ -336,7 +320,6 @@ Configurator::get_value(const std::string &key, int &out) const
   return b;
 }
 
-
 bool
 Configurator::get_value(const std::string &key, double &out) const
 {
@@ -351,20 +334,18 @@ Configurator::get_value(const std::string &key, double &out) const
   return b;
 }
 
-
 bool
 Configurator::set_value(const std::string &key, const std::string &v, ConfigFlags flags)
 {
   Variant value;
   bool ret = false;
 
-  value.type = VARIANT_TYPE_STRING;
+  value.type         = VARIANT_TYPE_STRING;
   value.string_value = v;
-  ret = set_value(key, value, flags);
+  ret                = set_value(key, value, flags);
 
   return ret;
 }
-
 
 bool
 Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags)
@@ -372,9 +353,9 @@ Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags
   Variant value;
   bool ret = false;
 
-  value.type = VARIANT_TYPE_STRING;
+  value.type         = VARIANT_TYPE_STRING;
   value.string_value = v;
-  ret = set_value(key, value, flags);
+  ret                = set_value(key, value, flags);
 
   return ret;
 }
@@ -385,13 +366,12 @@ Configurator::set_value(const std::string &key, int v, ConfigFlags flags)
   Variant value;
   bool ret = false;
 
-  value.type = VARIANT_TYPE_INT;
+  value.type      = VARIANT_TYPE_INT;
   value.int_value = v;
-  ret = set_value(key, value, flags);
+  ret             = set_value(key, value, flags);
 
   return ret;
 }
-
 
 bool
 Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
@@ -399,13 +379,12 @@ Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
   Variant value;
   bool ret = false;
 
-  value.type = VARIANT_TYPE_BOOL;
+  value.type       = VARIANT_TYPE_BOOL;
   value.bool_value = v;
-  ret = set_value(key, value, flags);
+  ret              = set_value(key, value, flags);
 
   return ret;
 }
-
 
 bool
 Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
@@ -413,61 +392,53 @@ Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
   Variant value;
   bool ret = false;
 
-  value.type = VARIANT_TYPE_DOUBLE;
+  value.type         = VARIANT_TYPE_DOUBLE;
   value.double_value = v;
-  ret = set_value(key, value, flags);
+  ret                = set_value(key, value, flags);
 
   return ret;
 }
-
 
 void
 Configurator::get_value_with_default(const string &key, int &out, const int def) const
 {
   bool b = get_value(key, out);
-  if (! b)
+  if (!b)
     {
       out = def;
-      b = true;
+      b   = true;
     }
 }
-
-
 
 void
 Configurator::get_value_with_default(const string &key, bool &out, const bool def) const
 {
   bool b = get_value(key, out);
-  if (! b)
+  if (!b)
     {
       out = def;
     }
 }
-
 
 void
-Configurator::get_value_with_default(const string &key, string &out,
-                                const string def) const
+Configurator::get_value_with_default(const string &key, string &out, const string def) const
 {
   bool b = get_value(key, out);
-  if (! b)
+  if (!b)
     {
       out = def;
     }
 }
-
 
 void
-Configurator::get_value_with_default(const string &key, double &out,
-                                const double def) const
+Configurator::get_value_with_default(const string &key, double &out, const double def) const
 {
   bool b = get_value(key, out);
-  if (! b)
+  if (!b)
     {
       out = def;
     }
 }
-
 
 bool
 Configurator::get_typed_value(const std::string &key, std::string &t) const
@@ -527,7 +498,6 @@ Configurator::get_typed_value(const std::string &key, std::string &t) const
   return b;
 }
 
-
 bool
 Configurator::set_typed_value(const std::string &key, const std::string &t)
 {
@@ -537,12 +507,12 @@ Configurator::set_typed_value(const std::string &key, const std::string &t)
 
   if (pos != string::npos)
     {
-      type = t.substr(0, pos);
+      type  = t.substr(0, pos);
       value = t.substr(pos + 1);
     }
   else
     {
-      type = "string";
+      type  = "string";
       value = t;
     }
 
@@ -571,11 +541,10 @@ Configurator::set_typed_value(const std::string &key, const std::string &t)
   return true;
 }
 
-
 bool
 Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener *listener)
 {
-  bool ret = true;
+  bool ret   = true;
   string key = key_prefix;
 
   strip_leading_slash(key);
@@ -610,7 +579,6 @@ Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener 
   return ret;
 }
 
-
 bool
 Configurator::remove_listener(IConfiguratorListener *listener)
 {
@@ -622,7 +590,7 @@ Configurator::remove_listener(IConfiguratorListener *listener)
       if (listener == i->second)
         {
           // Found. Remove
-          i = listeners.erase(i);
+          i   = listeners.erase(i);
           ret = true;
         }
       else
@@ -633,7 +601,6 @@ Configurator::remove_listener(IConfiguratorListener *listener)
 
   return ret;
 }
-
 
 bool
 Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListener *listener)
@@ -651,7 +618,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
       if (i->first == key_prefix && i->second == listener)
         {
           // Found. Remove
-          i = listeners.erase(i);
+          i   = listeners.erase(i);
           ret = true;
         }
       else
@@ -662,7 +629,6 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
 
   return ret;
 }
-
 
 bool
 Configurator::find_listener(IConfiguratorListener *listener, std::string &key) const
@@ -713,7 +679,6 @@ Configurator::fire_configurator_event(const string &key)
   TRACE_EXIT();
 }
 
-
 //! Removes the leading '/'.
 void
 Configurator::strip_leading_slash(string &key) const
@@ -727,7 +692,6 @@ Configurator::strip_leading_slash(string &key) const
         }
     }
 }
-
 
 //! Removes the trailing '/'.
 void
@@ -743,7 +707,6 @@ Configurator::strip_trailing_slash(string &key) const
     }
 }
 
-
 //! Adds add trailing '/' if it isn't there yet.
 void
 Configurator::add_trailing_slash(string &key) const
@@ -758,7 +721,6 @@ Configurator::add_trailing_slash(string &key) const
     }
 }
 
-
 bool
 Configurator::find_setting(const string &key, Setting &setting) const
 {
@@ -768,7 +730,7 @@ Configurator::find_setting(const string &key, Setting &setting) const
   if (it != settings.end())
     {
       setting = it->second;
-      ret = true;
+      ret     = true;
     }
 
   return ret;
@@ -779,4 +741,3 @@ Configurator::config_changed_notify(const std::string &key)
 {
   fire_configurator_event(key);
 }
-

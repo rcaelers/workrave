@@ -61,15 +61,14 @@ public:
   static const std::string CFG_KEY_TIMERBOX_ENABLED;
 
   enum SlotType
-    {
-      BREAK_WHEN_IMMINENT = 1,
-      BREAK_WHEN_FIRST = 2,
-      BREAK_SKIP = 4,
-      BREAK_EXCLUSIVE = 8,
-      BREAK_DEFAULT = 16,
-      BREAK_HIDE = 32
-    };
-
+  {
+    BREAK_WHEN_IMMINENT = 1,
+    BREAK_WHEN_FIRST    = 2,
+    BREAK_SKIP          = 4,
+    BREAK_EXCLUSIVE     = 8,
+    BREAK_DEFAULT       = 16,
+    BREAK_HIDE          = 32
+  };
 
 private:
   // IConfiguratorListener
@@ -82,7 +81,6 @@ private:
 
   void init_slot(int slot);
   void cycle_slots();
-
 
 private:
   //! View

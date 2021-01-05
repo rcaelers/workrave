@@ -33,7 +33,7 @@ namespace workrave
     public:
       virtual ~DBusBinding() {}
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_DBUSBINDING_HH

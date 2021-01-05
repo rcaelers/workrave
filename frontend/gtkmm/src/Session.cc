@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "Session.hh"
@@ -37,11 +37,10 @@ using namespace workrave;
 using namespace std;
 
 Session::Session()
-  : is_idle(false),
-    taking(false)
+  : is_idle(false)
+  , taking(false)
 {
 }
-
 
 void
 Session::init()
@@ -56,7 +55,7 @@ Session::set_idle(bool new_idle)
 {
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
 
-  bool auto_natural = false;
+  bool auto_natural     = false;
   IConfigurator *config = CoreFactory::get_configurator();
   config->get_value(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % BREAK_ID_REST_BREAK, auto_natural);
   ICore *core = CoreFactory::get_core();
@@ -75,22 +74,21 @@ Session::set_idle(bool new_idle)
       TRACE_MSG("taking " << taking);
       if (!taking)
         {
-          core->set_operation_mode_override( OPERATION_MODE_SUSPENDED, "screensaver" );
+          core->set_operation_mode_override(OPERATION_MODE_SUSPENDED, "screensaver");
         }
     }
   else if (!new_idle && is_idle && !taking)
     {
       TRACE_MSG("No longer idle");
-      core->remove_operation_mode_override( "screensaver" );
+      core->remove_operation_mode_override("screensaver");
 
       if (auto_natural)
         {
           TRACE_MSG("Automatic natural break enabled");
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
-          if (core->get_operation_mode() == OPERATION_MODE_NORMAL &&
-              rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
-              && rest_break->is_enabled()
+          if (core->get_operation_mode() == OPERATION_MODE_NORMAL
+              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()
               && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
@@ -116,8 +114,8 @@ Session::set_idle(bool new_idle)
 void
 Session::on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
-  (void) proxy;
-  (void) sender_name;
+  (void)proxy;
+  (void)sender_name;
 
   Session *self = (Session *)user_data;
   int session_status;
@@ -133,7 +131,7 @@ void
 Session::init_gnome()
 {
   TRACE_ENTER("Session::init_gnome");
-	GError *error = NULL;
+  GError *error = NULL;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                                     G_DBUS_PROXY_FLAGS_NONE,

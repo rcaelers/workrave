@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -37,18 +37,17 @@ using namespace std;
 using namespace workrave;
 
 W32InputMonitorFactory::W32InputMonitorFactory()
-  : actual_monitor_method{ "monitor.method", "" }
+  : actual_monitor_method{"monitor.method", ""}
 {
-  activity_monitor = NULL;
+  activity_monitor   = NULL;
   statistics_monitor = NULL;
 }
 
 void
 W32InputMonitorFactory::init(const char *display)
 {
-  (void) display;
+  (void)display;
 }
-
 
 //! Retrieves the input activity monitor
 IInputMonitor *
@@ -83,9 +82,7 @@ W32InputMonitorFactory::create_activity_monitor()
       string configure_monitor_method;
       int max_tries = 3;
 
-      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
-                                                              configure_monitor_method,
-                                                              "default");
+      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
       if (configure_monitor_method == "default")
         {
@@ -104,7 +101,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (actual_monitor_method == "lowlevel")
             {
-              monitor = new W32LowLevelMonitor();
+              monitor     = new W32LowLevelMonitor();
               initialized = monitor->init();
 
               if (!initialized)
@@ -119,7 +116,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "nohook")
             {
-              monitor = new W32AlternateMonitor();
+              monitor     = new W32AlternateMonitor();
               initialized = monitor->init();
 
               if (!initialized)
@@ -134,7 +131,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "normal")
             {
-              monitor = new W32InputMonitor();
+              monitor     = new W32InputMonitor();
               initialized = monitor->init();
 
               if (!initialized)
@@ -152,22 +149,22 @@ W32InputMonitorFactory::create_activity_monitor()
 
       if (!initialized)
         {
-          MessageBoxA( NULL,
-                       "Workrave must be able to monitor certain system "
-                       "events in order to determine when you are idle.\n\n"
+          MessageBoxA(NULL,
+                      "Workrave must be able to monitor certain system "
+                      "events in order to determine when you are idle.\n\n"
 
-                       "Attempts were made to monitor your system, "
-                       "but they were unsuccessful.\n\n"
+                      "Attempts were made to monitor your system, "
+                      "but they were unsuccessful.\n\n"
 
-                       "Workrave has reset itself to use its default monitor."
-                       "Please run Workrave again. If you see this message "
-                       "again, please file a bug report:\n\n"
+                      "Workrave has reset itself to use its default monitor."
+                      "Please run Workrave again. If you see this message "
+                      "again, please file a bug report:\n\n"
 
-                       "http://issues.workrave.org/\n\n"
+                      "http://issues.workrave.org/\n\n"
 
-                       "Workrave must exit now.\n",
-                       "Workrave",
-                       MB_OK );
+                      "Workrave must exit now.\n",
+                      "Workrave",
+                      MB_OK);
 
           CoreFactory::get_configurator()->set_value("advanced/monitor", "normal");
           CoreFactory::get_configurator()->save();
@@ -205,7 +202,7 @@ W32InputMonitorFactory::create_statistics_monitor()
   if (actual_monitor_method == "nohook")
     {
       IInputMonitor *monitor = new W32LowLevelMonitor();
-      bool initialized = monitor->init();
+      bool initialized       = monitor->init();
 
       if (!initialized)
         {

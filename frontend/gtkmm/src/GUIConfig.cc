@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "preinclude.h"
@@ -31,17 +31,17 @@
 #include "ICore.hh"
 #include "IBreak.hh"
 
-const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_break";
-const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE    = "gui/breaks/%b/skippable_break";
-const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";
-const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
+const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE       = "gui/breaks/%b/ignorable_break";
+const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE       = "gui/breaks/%b/skippable_break";
+const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES       = "gui/breaks/%b/exercises";
+const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL    = "gui/breaks/%b/auto_natural";
 const std::string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
-const std::string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
-const std::string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
-const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
-const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
-const std::string GUIConfig::CFG_KEY_AUTOSTART          = "gui/autostart";
-const std::string GUIConfig::CFG_KEY_ICONTHEME          = "gui/icontheme";
+const std::string GUIConfig::CFG_KEY_BLOCK_MODE            = "gui/breaks/block_mode";
+const std::string GUIConfig::CFG_KEY_LOCALE                = "gui/locale";
+const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED      = "gui/trayicon_enabled";
+const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED     = "gui/closewarn_enabled";
+const std::string GUIConfig::CFG_KEY_AUTOSTART             = "gui/autostart";
+const std::string GUIConfig::CFG_KEY_ICONTHEME             = "gui/icontheme";
 
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -51,8 +51,7 @@ const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_windo
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
 
 const std::string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
-const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
-
+const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED     = "gui/applet/icon_enabled";
 
 //!
 void
@@ -63,35 +62,23 @@ GUIConfig::init()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakId breakId = (BreakId)i;
-      
-      config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId,
-                        true,
-                        CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CFG_KEY_BREAK_EXERCISES % breakId,
-                        i == BREAK_ID_REST_BREAK ? 3 : 0,
-                        CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId, true, CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId,
-                        false,
-                        CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_EXERCISES % breakId, i == BREAK_ID_REST_BREAK ? 3 : 0, CONFIG_FLAG_DEFAULT);
+
+      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId, false, CONFIG_FLAG_DEFAULT);
 
       // for backward compatibility with settings of older versions, we set the default
       // default value of `skippable` to whatever `ignorable`. This works because the old
       // meaning of `ignorable` was "show postpone and skip"; the new meaning is
       // "show postpone".
       bool ignorable;
-      config->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % breakId, 
-                                     ignorable, 
-                                     true);
+      config->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % breakId, ignorable, true);
 
-      config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, 
-                        ignorable, 
-                        CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, ignorable, CONFIG_FLAG_DEFAULT);
 
-      config->set_value(CFG_KEY_BREAK_ENABLE_SHUTDOWN % breakId,
-                        true,
-                        CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_ENABLE_SHUTDOWN % breakId, true, CONFIG_FLAG_DEFAULT);
     }
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
@@ -99,29 +86,21 @@ GUIConfig::init()
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_DEFAULT);
 }
 
-
 //!
 bool
 GUIConfig::get_ignorable(BreakId id)
 {
   bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % id,
-                             rc,
-                             true);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % id, rc, true);
   return rc;
 }
-
 
 //!
 bool
 GUIConfig::get_skippable(BreakId id)
 {
   bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_SKIPPABLE % id,
-                             rc,
-                             true);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_BREAK_SKIPPABLE % id, rc, true);
   return rc;
 }
 
@@ -136,10 +115,7 @@ bool
 GUIConfig::get_shutdown_enabled(BreakId id)
 {
   bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_ENABLE_SHUTDOWN % id,
-                             rc,
-                             true);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_BREAK_ENABLE_SHUTDOWN % id, rc, true);
   return rc;
 }
 
@@ -148,13 +124,9 @@ bool
 GUIConfig::get_trayicon_enabled()
 {
   bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_TRAYICON_ENABLED,
-                             rc,
-                             true);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_TRAYICON_ENABLED, rc, true);
   return rc;
 }
-
 
 //!
 void
@@ -168,45 +140,36 @@ int
 GUIConfig::get_number_of_exercises(BreakId id)
 {
   int num;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BREAK_EXERCISES % id,
-                             num,
-                             0);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_BREAK_EXERCISES % id, num, 0);
   return num;
 }
-
 
 //!
 void
 GUIConfig::set_number_of_exercises(BreakId id, int num)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_BREAK_EXERCISES % id, num);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_BREAK_EXERCISES % id, num);
 }
-
 
 GUIConfig::BlockMode
 GUIConfig::get_block_mode()
 {
   int mode;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
-  return (BlockMode) mode;
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
+  return (BlockMode)mode;
 }
 
 void
 GUIConfig::set_block_mode(BlockMode mode)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_BLOCK_MODE, int(mode));
+  CoreFactory::get_configurator()->set_value(CFG_KEY_BLOCK_MODE, int(mode));
 }
 
 std::string
 GUIConfig::get_locale()
 {
   std::string ret = "";
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_LOCALE, ret, "");
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_LOCALE, ret, "");
 
   return ret;
 }
@@ -214,19 +177,17 @@ GUIConfig::get_locale()
 void
 GUIConfig::set_locale(std::string locale)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_LOCALE, locale);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_LOCALE, locale);
 }
-
 
 std::string
 GUIConfig::expand(const std::string &key, BreakId id)
 {
   IBreak *b = CoreFactory::get_core()->get_break(id);
 
-  std::string str = key;
+  std::string str            = key;
   std::string::size_type pos = 0;
-  std::string name = b->get_name();
+  std::string name           = b->get_name();
 
   while ((pos = str.find("%b", pos)) != std::string::npos)
     {
@@ -241,46 +202,35 @@ bool
 GUIConfig::get_always_on_top()
 {
   bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
-                             rc,
-                             false);
+  CoreFactory::get_configurator()->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, rc, false);
   return rc;
 }
-
 
 void
 GUIConfig::set_always_on_top(bool b)
 {
-  CoreFactory::get_configurator()
-    ->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+  CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
 }
-
 
 bool
 GUIConfig::get_start_in_tray()
 {
   bool rc;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc, false);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc, false);
   return rc;
 }
-
 
 void
 GUIConfig::set_start_in_tray(bool b)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
 }
-
 
 std::string
 GUIConfig::get_icon_theme()
 {
   std::string ret = "";
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_ICONTHEME, ret, "");
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_ICONTHEME, ret, "");
 
   return ret;
 }
@@ -288,17 +238,14 @@ GUIConfig::get_icon_theme()
 void
 GUIConfig::set_icon_theme(std::string theme)
 {
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_ICONTHEME, theme);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_ICONTHEME, theme);
 }
-
 
 bool
 GUIConfig::is_applet_fallback_enabled()
 {
   bool ret = true;
-  if (! CoreFactory::get_configurator()
-      ->get_value(CFG_KEY_APPLET_FALLBACK_ENABLED, ret))
+  if (!CoreFactory::get_configurator()->get_value(CFG_KEY_APPLET_FALLBACK_ENABLED, ret))
     {
       ret = false;
     }
@@ -315,8 +262,7 @@ bool
 GUIConfig::is_applet_icon_enabled()
 {
   bool ret = true;
-  if (! CoreFactory::get_configurator()
-      ->get_value(CFG_KEY_APPLET_ICON_ENABLED, ret))
+  if (!CoreFactory::get_configurator()->get_value(CFG_KEY_APPLET_ICON_ENABLED, ret))
     {
       ret = true;
     }

@@ -1,7 +1,7 @@
-#import "OSXStatusBarView.h"
+#import "MacOSStatusBarView.h"
 
 
-@implementation OSXStatusBarView
+@implementation MacOSStatusBarView
 
 - (id)initWithMenu:(NSMenu *)myMenu
 {
@@ -11,7 +11,7 @@
 
   for (int i = 0; i < 3; i++)
     {
-      timebars[i] = [OSXTimeBar alloc];
+      timebars[i] = [MacOSTimeBar alloc];
     }
     
   if (self) {
@@ -34,7 +34,7 @@
    secondaryValue:(int)secondaryValue
 secondaryMaxValue:(int)secondaryMaxValue;
 {
-  OSXTimeBar *timebar = timebars[id];
+  MacOSTimeBar *timebar = timebars[id];
 
   [timebar setText: text];
   [timebar setValue: primaryValue];

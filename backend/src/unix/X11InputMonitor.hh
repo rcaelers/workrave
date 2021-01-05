@@ -31,9 +31,9 @@
 #include "Thread.hh"
 
 //! Activity monitor for a local X server.
-class X11InputMonitor :
-  public InputMonitor,
-  public Runnable
+class X11InputMonitor
+  : public InputMonitor
+  , public Runnable
 {
 public:
   //! Constructor.

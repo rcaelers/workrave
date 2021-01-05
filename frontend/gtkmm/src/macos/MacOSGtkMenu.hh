@@ -1,6 +1,6 @@
-// OSXInputMonitorFactory.hh --- Factory to create input monitors.
+// MacOSGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXINPUTMONITORFACTORY_HH
-#define OSXINPUTMONITORFACTORY_HH
+#ifndef MacOSGTKMENU_HH
+#define MacOSGTKMENU_HH
 
-#include <stdlib.h>
+#include "config.h"
+
 #include <string>
 
-#include "IInputMonitor.hh"
-#include "IInputMonitorFactory.hh"
+#include "MainGtkMenu.hh"
 
-//! Factory to create input monitors.
-class OSXInputMonitorFactory : public IInputMonitorFactory
+#ifdef HAVE_IGE_MAC_INTEGRATION
+#  include "ige-mac-dock.h"
+#endif
+
+#ifdef HAVE_GTK_MAC_INTEGRATION
+#  include "gtk-mac-dock.h"
+#  define IgeMacDock GtkMacDock
+#endif
+
+class MacOSGtkMenu : public MainGtkMenu
 {
 public:
-  OSXInputMonitorFactory();
-  void init(const char *display);
-  IInputMonitor *get_monitor(MonitorCapability capability);
+  MacOSGtkMenu(bool show_open);
+  virtual ~MacOSGtkMenu();
+
+  virtual void create_ui();
+  virtual void popup(const guint button, const guint activate_time);
 
 private:
-  IInputMonitor *monitor;
+  static void dock_clicked(IgeMacDock *dock, void *data);
+  static void dock_quit(IgeMacDock *dock, void *data);
 };
 
-#endif // INPUTMONITORFACTORY_HH
+#endif // MacOSGTKMENU_HH

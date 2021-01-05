@@ -18,21 +18,21 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #ifdef HAVE_DBUS
-#include "dbus/IDBus.hh"
+#  include "dbus/IDBus.hh"
 #endif
 
 #ifdef HAVE_TESTS
 
-#include "nls.h"
+#  include "nls.h"
 
-#include "Test.hh"
-#include "CoreFactory.hh"
-#include "Core.hh"
-#include "IApp.hh"
+#  include "Test.hh"
+#  include "CoreFactory.hh"
+#  include "Core.hh"
+#  include "IApp.hh"
 
 Test *Test::instance = NULL;
 

@@ -26,19 +26,19 @@ namespace workrave
 {
   //! Events send from Core to GUI.
   enum CoreEvent
-    {
-      CORE_EVENT_NONE = -1,
-      CORE_EVENT_MONITOR_FAILURE = 0,
-      CORE_EVENT_SOUND_FIRST = 1,
-      CORE_EVENT_SOUND_BREAK_PRELUDE = CORE_EVENT_SOUND_FIRST,
-      CORE_EVENT_SOUND_BREAK_IGNORED,
-      CORE_EVENT_SOUND_REST_BREAK_STARTED,
-      CORE_EVENT_SOUND_REST_BREAK_ENDED,
-      CORE_EVENT_SOUND_MICRO_BREAK_STARTED,
-      CORE_EVENT_SOUND_MICRO_BREAK_ENDED,
-      CORE_EVENT_SOUND_DAILY_LIMIT,
-      CORE_EVENT_SOUND_LAST = CORE_EVENT_SOUND_DAILY_LIMIT,
-    };
+  {
+    CORE_EVENT_NONE                = -1,
+    CORE_EVENT_MONITOR_FAILURE     = 0,
+    CORE_EVENT_SOUND_FIRST         = 1,
+    CORE_EVENT_SOUND_BREAK_PRELUDE = CORE_EVENT_SOUND_FIRST,
+    CORE_EVENT_SOUND_BREAK_IGNORED,
+    CORE_EVENT_SOUND_REST_BREAK_STARTED,
+    CORE_EVENT_SOUND_REST_BREAK_ENDED,
+    CORE_EVENT_SOUND_MICRO_BREAK_STARTED,
+    CORE_EVENT_SOUND_MICRO_BREAK_ENDED,
+    CORE_EVENT_SOUND_DAILY_LIMIT,
+    CORE_EVENT_SOUND_LAST = CORE_EVENT_SOUND_DAILY_LIMIT,
+  };
 
   //! Listener for events comming from the Core.
   class ICoreEventListener
@@ -55,6 +55,6 @@ namespace workrave
     // Notification that the usage mode has changed..
     virtual void core_event_usage_mode_changed(const UsageMode m) = 0;
   };
-}
+} // namespace workrave
 
 #endif // ICOREEVENTLISTENER_HH

@@ -26,9 +26,9 @@ backend/src/Test.cc
 backend/src/TimePredFactory.cc
 backend/src/Timer.cc
 backend/src/XMLConfigurator.cc
-backend/src/osx/OSXConfigurator.cc
-backend/src/osx/OSXInputMonitor.cc
-backend/src/osx/OSXInputMonitorFactory.cc
+backend/src/macos/MacOSConfigurator.cc
+backend/src/macos/MacOSInputMonitor.cc
+backend/src/macos/MacOSInputMonitorFactory.cc
 backend/src/unix/GConfConfigurator.cc
 backend/src/unix/UnixInputMonitorFactory.cc
 backend/src/unix/X11InputMonitor.cc
@@ -68,8 +68,8 @@ frontend/common/src/SoundPlayer.cc
 frontend/common/src/System.cc
 frontend/common/src/Text.cc
 frontend/common/src/TimerBoxControl.cc
-frontend/common/src/osx/OSXSoundPlayer.cc
-frontend/common/src/osx/Sound.cc
+frontend/common/src/macos/MacOSSoundPlayer.cc
+frontend/common/src/macos/Sound.cc
 frontend/common/src/win32/Sound.cc
 frontend/common/src/win32/W32DirectSoundPlayer.cc
 frontend/common/src/win32/W32Mixer.cc
@@ -111,9 +111,9 @@ frontend/gtkmm/src/TimerPreferencesPanel.cc
 frontend/gtkmm/src/WindowHints.cc
 frontend/gtkmm/src/X11SystrayAppletWindow.cc
 frontend/gtkmm/src/main.cc
-frontend/gtkmm/src/osx/OSXAppletWindow.cc
-frontend/gtkmm/src/osx/OSXGtkMenu.cc
-frontend/gtkmm/src/osx/OSXUtil.cc
+frontend/gtkmm/src/macos/MacOSAppletWindow.cc
+frontend/gtkmm/src/macos/MacOSGtkMenu.cc
+frontend/gtkmm/src/macos/MacOSUtil.cc
 frontend/gtkmm/src/eggsmclient.c
 frontend/gtkmm/src/unix/desktop-window.c
 frontend/gtkmm/src/win32/DesktopWindow.cc

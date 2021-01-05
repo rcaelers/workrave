@@ -38,8 +38,7 @@ namespace Gtk
 class TimeBar;
 class Frame;
 
-class MicroBreakWindow :
-  public BreakWindow
+class MicroBreakWindow : public BreakWindow
 {
 public:
   MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
@@ -77,7 +76,5 @@ private:
   //! Label size has been fixed?
   bool fixed_size;
 };
-
-
 
 #endif // MICROBREAKWINDOW_HH

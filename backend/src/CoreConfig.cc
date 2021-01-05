@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <string>
@@ -29,32 +29,32 @@
 using namespace std;
 using namespace workrave;
 
-const string CoreConfig::CFG_KEY_TIMERS                    = "timers";
-const string CoreConfig::CFG_KEY_TIMER                     = "timers/%b";
+const string CoreConfig::CFG_KEY_TIMERS = "timers";
+const string CoreConfig::CFG_KEY_TIMER  = "timers/%b";
 
-const string CoreConfig::CFG_KEY_TIMER_LIMIT               = "timers/%b/limit";
-const string CoreConfig::CFG_KEY_TIMER_AUTO_RESET          = "timers/%b/auto_reset";
-const string CoreConfig::CFG_KEY_TIMER_RESET_PRED          = "timers/%b/reset_pred";
-const string CoreConfig::CFG_KEY_TIMER_SNOOZE              = "timers/%b/snooze";
-const string CoreConfig::CFG_KEY_TIMER_MONITOR             = "timers/%b/monitor";
-const string CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE  = "timers/%b/activity_sensitive";
+const string CoreConfig::CFG_KEY_TIMER_LIMIT              = "timers/%b/limit";
+const string CoreConfig::CFG_KEY_TIMER_AUTO_RESET         = "timers/%b/auto_reset";
+const string CoreConfig::CFG_KEY_TIMER_RESET_PRED         = "timers/%b/reset_pred";
+const string CoreConfig::CFG_KEY_TIMER_SNOOZE             = "timers/%b/snooze";
+const string CoreConfig::CFG_KEY_TIMER_MONITOR            = "timers/%b/monitor";
+const string CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "timers/%b/activity_sensitive";
 
-const string CoreConfig::CFG_KEY_BREAKS                    = "breaks";
-const string CoreConfig::CFG_KEY_BREAK                     = "breaks/%b";
+const string CoreConfig::CFG_KEY_BREAKS = "breaks";
+const string CoreConfig::CFG_KEY_BREAK  = "breaks/%b";
 
-const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES        = "breaks/%b/max_preludes";
-const string CoreConfig::CFG_KEY_BREAK_ENABLED             = "breaks/%b/enabled";
+const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES = "breaks/%b/max_preludes";
+const string CoreConfig::CFG_KEY_BREAK_ENABLED      = "breaks/%b/enabled";
 
-const string CoreConfig::CFG_KEY_MONITOR                   = "monitor";
+const string CoreConfig::CFG_KEY_MONITOR = "monitor";
 
-const string CoreConfig::CFG_KEY_MONITOR_NOISE             = "monitor/noise";
-const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY          = "monitor/activity";
-const string CoreConfig::CFG_KEY_MONITOR_IDLE              = "monitor/idle";
-const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY       = "monitor/sensitivity";
+const string CoreConfig::CFG_KEY_MONITOR_NOISE       = "monitor/noise";
+const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY    = "monitor/activity";
+const string CoreConfig::CFG_KEY_MONITOR_IDLE        = "monitor/idle";
+const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
 
-const string CoreConfig::CFG_KEY_GENERAL_DATADIR           = "general/datadir";
-const string CoreConfig::CFG_KEY_OPERATION_MODE            = "general/operation-mode";
-const string CoreConfig::CFG_KEY_USAGE_MODE                = "general/usage-mode";
+const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
+const string CoreConfig::CFG_KEY_OPERATION_MODE  = "general/operation-mode";
+const string CoreConfig::CFG_KEY_USAGE_MODE      = "general/usage-mode";
 
 const string CoreConfig::CFG_KEY_DISTRIBUTION              = "distribution";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED      = "distribution/enabled";
@@ -67,7 +67,6 @@ const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "distribution/passw
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "distribution/reconnect_attempts";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/reconnect_interval";
 
-
 bool
 CoreConfig::match(const std::string &str, const std::string &key, workrave::BreakId &id)
 {
@@ -77,7 +76,7 @@ CoreConfig::match(const std::string &str, const std::string &key, workrave::Brea
     {
       if (key % BreakId(i) == str)
         {
-          id = BreakId(i);
+          id  = BreakId(i);
           ret = true;
         }
     }

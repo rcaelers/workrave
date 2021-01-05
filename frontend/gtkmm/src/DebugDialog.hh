@@ -34,9 +34,9 @@ namespace Gtk
   class TextView;
 }
 
-class DebugDialog :
-  public Gtk::Dialog,
-  public DiagnosticsSink
+class DebugDialog
+  : public Gtk::Dialog
+  , public DiagnosticsSink
 {
 public:
   DebugDialog();

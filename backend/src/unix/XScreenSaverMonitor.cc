@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -37,15 +37,14 @@
 using namespace std;
 using namespace workrave;
 
-XScreenSaverMonitor::XScreenSaverMonitor() :
-  abort(false),
-  screen_saver_info(NULL)
+XScreenSaverMonitor::XScreenSaverMonitor()
+  : abort(false)
+  , screen_saver_info(NULL)
 {
   monitor_thread = new Thread(this);
   g_mutex_init(&mutex);
   g_cond_init(&cond);
 }
-
 
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
@@ -61,20 +60,20 @@ XScreenSaverMonitor::~XScreenSaverMonitor()
   TRACE_EXIT();
 }
 
-
 bool
 XScreenSaverMonitor::init()
 {
   int event_base;
   int error_base;
 
-  Bool has_extension = XScreenSaverQueryExtension(gdk_x11_display_get_xdisplay(gdk_display_get_default()), &event_base, &error_base);
+  Bool has_extension =
+    XScreenSaverQueryExtension(gdk_x11_display_get_xdisplay(gdk_display_get_default()), &event_base, &error_base);
 
   if (has_extension)
-  {
-    screen_saver_info = XScreenSaverAllocInfo();
-    monitor_thread->start();
-  }
+    {
+      screen_saver_info = XScreenSaverAllocInfo();
+      monitor_thread->start();
+    }
 
   return has_extension;
 }
@@ -95,7 +94,6 @@ XScreenSaverMonitor::terminate()
   TRACE_EXIT();
 }
 
-
 void
 XScreenSaverMonitor::run()
 {
@@ -104,7 +102,8 @@ XScreenSaverMonitor::run()
   g_mutex_lock(&mutex);
   while (!abort)
     {
-      XScreenSaverQueryInfo(gdk_x11_display_get_xdisplay(gdk_display_get_default()), gdk_x11_get_default_root_xwindow(), screen_saver_info);
+      XScreenSaverQueryInfo(
+        gdk_x11_display_get_xdisplay(gdk_display_get_default()), gdk_x11_get_default_root_xwindow(), screen_saver_info);
 
       if (screen_saver_info->idle < 1000)
         {

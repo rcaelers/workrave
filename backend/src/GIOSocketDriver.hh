@@ -21,17 +21,16 @@
 
 #if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
 
-#include <glib.h>
-#include <glib-object.h>
-#include <gio/gio.h>
+#  include <glib.h>
+#  include <glib-object.h>
+#  include <gio/gio.h>
 
-#include "SocketDriver.hh"
+#  include "SocketDriver.hh"
 
 using namespace workrave;
 
 //! Listen socket implementation using GIO
-class GIOSocketServer
-  : public ISocketServer
+class GIOSocketServer : public ISocketServer
 {
 public:
   GIOSocketServer();
@@ -41,20 +40,15 @@ public:
   virtual void listen(int port);
 
 private:
-  static gboolean static_socket_incoming(GSocketService *service,
-                                         GSocketConnection *connection,
-                                         GObject *src_object,
-                                         gpointer user_data);
-
+  static gboolean
+  static_socket_incoming(GSocketService *service, GSocketConnection *connection, GObject *src_object, gpointer user_data);
 
 private:
   GSocketService *service;
 };
 
-
 //! Socket implementation based on GIO
-class GIOSocket
-  : public ISocket
+class GIOSocket : public ISocket
 {
 public:
   GIOSocket();
@@ -72,13 +66,9 @@ private:
 
   static void static_connect_after_resolve(GObject *source_object, GAsyncResult *res, gpointer user_data);
 
-  static void static_connected_callback(GObject *source_object,
-                                        GAsyncResult *result,
-                                        gpointer user_data);
+  static void static_connected_callback(GObject *source_object, GAsyncResult *result, gpointer user_data);
 
-  static gboolean static_data_callback(GSocket *socket,
-                                   GIOCondition condition,
-                                   gpointer user_data);
+  static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
 
 private:
   GSocketConnection *connection;
@@ -88,9 +78,7 @@ private:
   int port;
 };
 
-
-class GIOSocketDriver
-  : public SocketDriver
+class GIOSocketDriver : public SocketDriver
 {
   //! Create a new socket
   ISocket *create_socket();

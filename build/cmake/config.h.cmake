@@ -2,8 +2,8 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define if compiling for the Win32 platform */
-#cmakedefine PLATFORM_OS_WIN32 
-#cmakedefine PLATFORM_OS_WIN32_NATIVE
+#cmakedefine PLATFORM_OS_WINDOWS 
+#cmakedefine PLATFORM_OS_WINDOWS_NATIVE
 
 #cmakedefine HAVE_LANGUAGE_SELECTION
 
@@ -406,7 +406,7 @@
 #define PACKAGE_TARNAME "workrave"
 
 /* Define if compiling for the OS X platform */
-/* #undef PLATFORM_OS_OSX */
+/* #undef PLATFORM_OS_MACOS */
 
 /* Define if compiling for a Unix platform */
 /* #undef PLATFORM_OS_UNIX */

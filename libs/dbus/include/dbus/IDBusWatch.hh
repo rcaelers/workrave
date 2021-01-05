@@ -32,7 +32,7 @@ namespace workrave
       virtual ~IDBusWatch() {}
       virtual void bus_name_presence(const std::string &name, bool present) = 0;
     };
-  }
-}
+  } // namespace dbus
+} // namespace workrave
 
 #endif // WORKRAVE_DBUS_IDBUSWATCH_HH

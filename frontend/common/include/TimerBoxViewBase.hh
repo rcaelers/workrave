@@ -31,24 +31,16 @@ class TimerBoxViewBase : public ITimerBoxView
 public:
   virtual ~TimerBoxViewBase() {}
 
-  virtual void set_tip(std::string tip)
-  {
-    (void) tip;
-  }
-  
-  virtual void set_icon(IconType icon)
-  {
-    (void) icon;
-  }
-  
-  virtual void update_view()
-  {
-  }
-  
+  virtual void set_tip(std::string tip) { (void)tip; }
+
+  virtual void set_icon(IconType icon) { (void)icon; }
+
+  virtual void update_view() {}
+
   virtual void set_geometry(Orientation orientation, int size)
   {
-    (void) orientation;
-    (void) size;
+    (void)orientation;
+    (void)size;
   }
 };
 

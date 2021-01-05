@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "nls.h"
@@ -41,33 +41,33 @@
 #include "dbus/DBusException.hh"
 #include "DBusGUI.hh"
 
-#define  WORKRAVE_INDICATOR_SERVICE_NAME     "org.workrave.Workrave"
-#define  WORKRAVE_INDICATOR_SERVICE_IFACE    "org.workrave.AppletInterface"
-#define  WORKRAVE_INDICATOR_SERVICE_OBJ      "/org/workrave/Workrave/UI"
+#define WORKRAVE_INDICATOR_SERVICE_NAME "org.workrave.Workrave"
+#define WORKRAVE_INDICATOR_SERVICE_IFACE "org.workrave.AppletInterface"
+#define WORKRAVE_INDICATOR_SERVICE_OBJ "/org/workrave/Workrave/UI"
 
-GenericDBusApplet::GenericDBusApplet() :
-  visible(false), embedded(false), dbus(NULL)
+GenericDBusApplet::GenericDBusApplet()
+  : visible(false)
+  , embedded(false)
+  , dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
-  timer_box_view = this;
+  timer_box_view    = this;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      data[i].bar_text = "";
-      data[i].bar_primary_color = 0;
-      data[i].bar_primary_val = 0;
-      data[i].bar_primary_max = 0;
+      data[i].bar_text            = "";
+      data[i].bar_primary_color   = 0;
+      data[i].bar_primary_val     = 0;
+      data[i].bar_primary_max     = 0;
       data[i].bar_secondary_color = 0;
-      data[i].bar_secondary_val = 0;
-      data[i].bar_secondary_max = 0;
+      data[i].bar_secondary_val   = 0;
+      data[i].bar_secondary_max   = 0;
     }
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
 }
 
-GenericDBusApplet::~GenericDBusApplet()
-{
-}
+GenericDBusApplet::~GenericDBusApplet() {}
 
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
@@ -81,18 +81,20 @@ void
 GenericDBusApplet::set_time_bar(BreakId id,
                                 std::string text,
                                 ITimeBar::ColorId primary_color,
-                                int primary_val, int primary_max,
+                                int primary_val,
+                                int primary_max,
                                 ITimeBar::ColorId secondary_color,
-                                int secondary_val, int secondary_max)
+                                int secondary_val,
+                                int secondary_max)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << text);
-  data[id].bar_text = text;
-  data[id].bar_primary_color = primary_color;
-  data[id].bar_primary_val = primary_val;
-  data[id].bar_primary_max = primary_max;
+  data[id].bar_text            = text;
+  data[id].bar_primary_color   = primary_color;
+  data[id].bar_primary_val     = primary_val;
+  data[id].bar_primary_max     = primary_max;
   data[id].bar_secondary_color = secondary_color;
-  data[id].bar_secondary_val = secondary_val;
-  data[id].bar_secondary_max = secondary_max;
+  data[id].bar_secondary_val   = secondary_val;
+  data[id].bar_secondary_max   = secondary_max;
   TRACE_EXIT();
 }
 
@@ -103,8 +105,8 @@ GenericDBusApplet::update_view()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
-  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                       data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+  iface->TimersUpdated(
+    WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }
@@ -117,9 +119,7 @@ GenericDBusApplet::init_applet()
       dbus = CoreFactory::get_dbus();
       if (dbus != NULL && dbus->is_available())
         {
-          dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ,
-                        WORKRAVE_INDICATOR_SERVICE_IFACE,
-                        this);
+          dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ, WORKRAVE_INDICATOR_SERVICE_IFACE, this);
         }
     }
   catch (workrave::dbus::DBusException &)
@@ -138,18 +138,18 @@ GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
       dbus->unwatch(*i);
     }
   active_bus_names.clear();
-  
+
   if (sender != "")
     {
       dbus->watch(sender, this);
     }
 
   if (!enable)
-  {
-    TRACE_MSG("Disabling");
-    visible = false;
-    visibility_changed_signal.emit(false);
-  }
+    {
+      TRACE_MSG("Disabling");
+      visible = false;
+      visibility_changed_signal.emit(false);
+    }
 
   TRACE_EXIT();
 }
@@ -160,47 +160,48 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   TRACE_ENTER("GenericDBusAppletMenu::resync");
 
   items.clear();
-  
-  add_menu_item(_("Open"),        MENU_COMMAND_OPEN,              MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES,       MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Rest break"),  MENU_COMMAND_REST_BREAK,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Exercises"),   MENU_COMMAND_EXERCISES,         MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
-  add_menu_item(_("Normal"),      MENU_COMMAND_MODE_NORMAL,       MENU_ITEM_FLAG_RADIO
-                | (mode == OPERATION_MODE_NORMAL ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Suspended"),   MENU_COMMAND_MODE_SUSPENDED,    MENU_ITEM_FLAG_RADIO
-                | (mode == OPERATION_MODE_SUSPENDED ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Quiet"),       MENU_COMMAND_MODE_QUIET,        MENU_ITEM_FLAG_RADIO
-                | (mode == OPERATION_MODE_QUIET ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Open"), MENU_COMMAND_OPEN, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Rest break"), MENU_COMMAND_REST_BREAK, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Exercises"), MENU_COMMAND_EXERCISES, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_BEGIN);
 
+  add_menu_item(_("Normal"),
+                MENU_COMMAND_MODE_NORMAL,
+                MENU_ITEM_FLAG_RADIO | (mode == OPERATION_MODE_NORMAL ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Suspended"),
+                MENU_COMMAND_MODE_SUSPENDED,
+                MENU_ITEM_FLAG_RADIO | (mode == OPERATION_MODE_SUSPENDED ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Quiet"),
+                MENU_COMMAND_MODE_QUIET,
+                MENU_ITEM_FLAG_RADIO | (mode == OPERATION_MODE_QUIET ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
-  add_menu_item(_("Mode"),        MENU_COMMAND_MODE_SUBMENU,      MENU_ITEM_FLAG_SUBMENU_END);
- 
+  add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
+
 #ifdef HAVE_DISTRIBUTION
-  add_menu_item(_("Network"),    MENU_COMMAND_NETWORK_SUBMENU,    MENU_ITEM_FLAG_SUBMENU_BEGIN);
-  add_menu_item(_("Connect"),    MENU_COMMAND_NETWORK_CONNECT,    MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Network"), MENU_COMMAND_NETWORK_SUBMENU, MENU_ITEM_FLAG_SUBMENU_BEGIN);
+  add_menu_item(_("Connect"), MENU_COMMAND_NETWORK_CONNECT, MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Reconnect"),  MENU_COMMAND_NETWORK_RECONNECT,  MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Show log"),   MENU_COMMAND_NETWORK_LOG,        MENU_ITEM_FLAG_CHECK
-                | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Reconnect"), MENU_COMMAND_NETWORK_RECONNECT, MENU_ITEM_FLAG_NONE);
+  add_menu_item(
+    _("Show log"), MENU_COMMAND_NETWORK_LOG, MENU_ITEM_FLAG_CHECK | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
-  add_menu_item(_("Network"),    MENU_COMMAND_NETWORK_SUBMENU,     MENU_ITEM_FLAG_SUBMENU_END);
-      
+  add_menu_item(_("Network"), MENU_COMMAND_NETWORK_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
+
 #endif
-  add_menu_item(_("Reading mode"), MENU_COMMAND_MODE_READING,      MENU_ITEM_FLAG_CHECK
-                | (usage == USAGE_MODE_READING ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Reading mode"),
+                MENU_COMMAND_MODE_READING,
+                MENU_ITEM_FLAG_CHECK | (usage == USAGE_MODE_READING ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
-
-  add_menu_item(_("Statistics"),   MENU_COMMAND_STATISTICS,        MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("About..."),     MENU_COMMAND_ABOUT,             MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Quit"),         MENU_COMMAND_QUIT,              MENU_ITEM_FLAG_NONE);
-
+  add_menu_item(_("Statistics"), MENU_COMMAND_STATISTICS, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("About..."), MENU_COMMAND_ABOUT, MENU_ITEM_FLAG_NONE);
+  add_menu_item(_("Quit"), MENU_COMMAND_QUIT, MENU_ITEM_FLAG_NONE);
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != NULL);
   iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
-  
+
   TRACE_EXIT();
 }
 
@@ -220,16 +221,16 @@ void
 GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
 {
   MenuItem item;
-  item.text = text;
+  item.text    = text;
   item.command = command;
-  item.flags = flags;
+  item.flags   = flags;
   items.push_back(item);
 }
 
 void
 GenericDBusApplet::applet_command(int command)
 {
-  IGUI *gui = GUI::get_instance();
+  IGUI *gui    = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
 }
@@ -237,7 +238,7 @@ GenericDBusApplet::applet_command(int command)
 void
 GenericDBusApplet::button_clicked(int button)
 {
-  (void) button;
+  (void)button;
   timer_box_control->force_cycle();
 }
 
@@ -262,7 +263,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
       if (active_bus_names.size() == 0)
         {
           TRACE_MSG("Disabling");
-          visible = false;
+          visible  = false;
           embedded = false;
           visibility_changed_signal.emit(false);
         }

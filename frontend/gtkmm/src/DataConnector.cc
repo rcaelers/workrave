@@ -20,7 +20,7 @@
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "nls.h"
@@ -53,19 +53,14 @@ DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
 namespace dc
 {
-  DataConnectionGtkEntryTwin *wrap(Gtk::Entry *w1, Gtk::Entry *w2)
-  {
-    return new DataConnectionGtkEntryTwin(w1, w2);
-  }
-}
-
+  DataConnectionGtkEntryTwin *wrap(Gtk::Entry *w1, Gtk::Entry *w2) { return new DataConnectionGtkEntryTwin(w1, w2); }
+} // namespace dc
 
 //! Construct a new data connector.
 DataConnector::DataConnector()
 {
   config = CoreFactory::get_configurator();
 }
-
 
 //! Destruct data connector.
 DataConnector::~DataConnector()
@@ -76,12 +71,9 @@ DataConnector::~DataConnector()
     }
 }
 
-
 //! Connect a widget to a configuration item.
 void
-DataConnector::connect(const string &setting,
-                       DataConnection *connection,
-                       dc::Flags flags)
+DataConnector::connect(const string &setting, DataConnection *connection, dc::Flags flags)
 {
   if (connection != NULL)
     {
@@ -95,7 +87,6 @@ DataConnector::connect(const string &setting,
       connections.push_back(mw);
     }
 }
-
 
 //! Connect a widget to a configuration item.
 void
@@ -118,13 +109,11 @@ DataConnector::connect(const string &setting,
     }
 }
 
-
 //! Construct a new data connection
 DataConnection::DataConnection()
 {
   config = CoreFactory::get_configurator();
 }
-
 
 //! Destruct data connection.
 DataConnection::~DataConnection()
@@ -132,13 +121,12 @@ DataConnection::~DataConnection()
   config->remove_listener(key, this);
 }
 
-
 //! Set connection flags and configuration key.
 void
 DataConnection::set(dc::Flags flags, const string &key)
 {
   this->flags = flags;
-  this->key = key;
+  this->key   = key;
 
   if ((flags & dc::NO_CONFIG) == 0)
     {
@@ -146,20 +134,17 @@ DataConnection::set(dc::Flags flags, const string &key)
     }
 }
 
-
 /***********************************************************************
  *                                                                     *
  * Text Entry                                                          *
  *                                                                     *
  ***********************************************************************/
 
-
 //! Initialize connection.
 void
 DataConnectionGtkEntry::init()
 {
-  widget->signal_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkEntry::widget_changed_notify));
+  widget->signal_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkEntry::widget_changed_notify));
   config_changed_notify(key);
 }
 
@@ -201,7 +186,6 @@ DataConnectionGtkEntry::config_changed_notify(const string &key)
     }
 }
 
-
 /***********************************************************************
  *                                                                     *
  * Spin Button                                                         *
@@ -212,10 +196,8 @@ DataConnectionGtkEntry::config_changed_notify(const string &key)
 void
 DataConnectionGtkSpinButton::init()
 {
-  widget->signal_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkSpinButton::widget_changed_notify));
-  widget->signal_value_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkSpinButton::widget_changed_notify));
+  widget->signal_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkSpinButton::widget_changed_notify));
+  widget->signal_value_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkSpinButton::widget_changed_notify));
   config_changed_notify(key);
 }
 
@@ -258,7 +240,6 @@ DataConnectionGtkSpinButton::config_changed_notify(const string &key)
     }
 }
 
-
 /***********************************************************************
  *                                                                     *
  * Spin Button                                                         *
@@ -269,11 +250,9 @@ DataConnectionGtkSpinButton::config_changed_notify(const string &key)
 void
 DataConnectionGtkCheckButton::init()
 {
-  widget->signal_toggled()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkCheckButton::widget_changed_notify));
+  widget->signal_toggled().connect(sigc::mem_fun(*this, &DataConnectionGtkCheckButton::widget_changed_notify));
   config_changed_notify(key);
 }
-
 
 //! Configuration item changed value.
 void
@@ -292,7 +271,6 @@ DataConnectionGtkCheckButton::widget_changed_notify()
       config->set_value(key, value);
     }
 }
-
 
 //! Configuration item changed value.
 void
@@ -314,7 +292,6 @@ DataConnectionGtkCheckButton::config_changed_notify(const string &key)
     }
 }
 
-
 /***********************************************************************
  *                                                                     *
  * Spin Button                                                         *
@@ -325,11 +302,9 @@ DataConnectionGtkCheckButton::config_changed_notify(const string &key)
 void
 DataConnectionGtkComboBox::init()
 {
-  widget->signal_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkComboBox::widget_changed_notify));
+  widget->signal_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkComboBox::widget_changed_notify));
   config_changed_notify(key);
 }
-
 
 //! Configuration item changed value.
 void
@@ -380,8 +355,7 @@ DataConnectionGtkComboBox::config_changed_notify(const string &key)
 void
 DataConnectionGtkAdjustment::init()
 {
-  widget->signal_value_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkAdjustment::widget_changed_notify));
+  widget->signal_value_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkAdjustment::widget_changed_notify));
   config_changed_notify(key);
 }
 
@@ -430,13 +404,11 @@ DataConnectionGtkAdjustment::config_changed_notify(const string &key)
  *                                                                     *
  ***********************************************************************/
 
-
 //! Initialize connection.
 void
 DataConnectionTimeEntry::init()
 {
-  widget->signal_value_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionTimeEntry::widget_changed_notify));
+  widget->signal_value_changed().connect(sigc::mem_fun(*this, &DataConnectionTimeEntry::widget_changed_notify));
   config_changed_notify(key);
 }
 
@@ -489,13 +461,10 @@ DataConnectionTimeEntry::config_changed_notify(const string &key)
 void
 DataConnectionGtkEntryTwin::init()
 {
-  widget1->signal_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkEntryTwin::widget_changed_notify));
-  widget2->signal_changed()
-    .connect(sigc::mem_fun(*this, &DataConnectionGtkEntryTwin::widget_changed_notify));
+  widget1->signal_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkEntryTwin::widget_changed_notify));
+  widget2->signal_changed().connect(sigc::mem_fun(*this, &DataConnectionGtkEntryTwin::widget_changed_notify));
   config_changed_notify(key);
 }
-
 
 //! Widget changed value.
 void
@@ -567,5 +536,3 @@ DataConnectionGtkEntryTwin::config_changed_notify(const string &key)
         }
     }
 }
-
-

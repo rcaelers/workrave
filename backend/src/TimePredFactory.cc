@@ -18,7 +18,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "TimePredFactory.hh"
@@ -30,7 +30,7 @@ TimePred *
 TimePredFactory::create_time_pred(string spec)
 {
   TimePred *pred = 0;
-  bool ok = false;
+  bool ok        = false;
 
   std::string type;
   std::string::size_type pos = spec.find('/');
@@ -43,8 +43,8 @@ TimePredFactory::create_time_pred(string spec)
       if (type == "day")
         {
           DayTimePred *dayPred = new DayTimePred();
-          ok = dayPred->init(spec);
-          pred = dayPred;
+          ok                   = dayPred->init(spec);
+          pred                 = dayPred;
         }
     }
 

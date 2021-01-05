@@ -33,7 +33,7 @@ namespace Gtk
   class Calendar;
   class Notebook;
   class Widget;
-}
+} // namespace Gtk
 
 using namespace workrave;
 
@@ -62,7 +62,7 @@ private:
 
   /** Daily time. */
   Gtk::Label *daily_usage_time_label;
- 
+
   /** Weekly time. */
   Gtk::Label *weekly_usage_time_label;
 
@@ -91,7 +91,7 @@ private:
   Gtk::Button *delete_btn;
 
   bool update_usage_real_time;
-  
+
   void on_history_delete_all();
 
   void init_gui();

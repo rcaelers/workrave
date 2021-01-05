@@ -1,6 +1,6 @@
 // DBusProxy-gio.hh --- support for simple DBUS method execution
 //
-// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl> 
+// Copyright (C) 2014 Mateusz Jończyk <mat.jonczyk@o2.pl>
 // All rights reserved.
 // It is possible that it uses some code and ideas from the KShutdown utility:
 //              file src/actions/lock.cpp
@@ -25,7 +25,7 @@
 #define DBUSPROXYGIO_HH
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include "debug.hh"
@@ -35,7 +35,7 @@
 #include <string>
 #include <set>
 
-class DBusProxy 
+class DBusProxy
 {
 private:
   GDBusProxy *proxy;
@@ -43,38 +43,40 @@ private:
   GDBusProxyFlags flags;
 
 public:
-  DBusProxy (): proxy(NULL), error(NULL), flags(G_DBUS_PROXY_FLAGS_NONE) {}
-  
+  DBusProxy()
+    : proxy(NULL)
+    , error(NULL)
+    , flags(G_DBUS_PROXY_FLAGS_NONE)
+  {
+  }
+
   ~DBusProxy() { clear(); }
 
-  bool init(GBusType bus_type, const char *name, const char *object_path, 
-              const char *interface_name,
-              GDBusProxyFlags flags_in =
-                  static_cast<GDBusProxyFlags>(
-                      G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-                      G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS)
-              );
+  bool init(GBusType bus_type,
+            const char *name,
+            const char *object_path,
+            const char *interface_name,
+            GDBusProxyFlags flags_in = static_cast<GDBusProxyFlags>(G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                                    | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS));
 
-  bool init_with_connection(GDBusConnection *connection, const char *name, const char *object_path, 
-              const char *interface_name,
-              GDBusProxyFlags flags_in =
-                  static_cast<GDBusProxyFlags>(
-                      G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-                      G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS)
-              );
+  bool init_with_connection(GDBusConnection *connection,
+                            const char *name,
+                            const char *object_path,
+                            const char *interface_name,
+                            GDBusProxyFlags flags_in = static_cast<GDBusProxyFlags>(G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
+                                                                                    | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS));
 
-  //Consumes (=deletes) method_parameters if it is floating
-  //method_result may be null, in this case the result of the method is ignored
+  // Consumes (=deletes) method_parameters if it is floating
+  // method_result may be null, in this case the result of the method is ignored
   bool call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result);
 
-  //Calls method asyncronously and does not accept result (no callback will be run)
-  //Consumes (=deletes) method_parameters if it is floating
+  // Calls method asyncronously and does not accept result (no callback will be run)
+  // Consumes (=deletes) method_parameters if it is floating
   bool call_method_asynch_no_result(const char *method_name, GVariant *method_parameters);
-
 
   void clear()
   {
-    if (error != NULL) 
+    if (error != NULL)
       {
         g_error_free(error);
         error = NULL;
@@ -86,11 +88,7 @@ public:
       }
   }
 
-
-  bool is_valid()
-  {
-    return proxy != NULL;
-  }
+  bool is_valid() { return proxy != NULL; }
 
   gchar *get_last_error_message()
   {
@@ -99,7 +97,6 @@ public:
     else
       return error->message;
   }
-
 };
 
 #endif

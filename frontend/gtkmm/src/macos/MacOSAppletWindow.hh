@@ -1,4 +1,4 @@
-// OSXAppletWindow.hh --- Applet window
+// MacOSAppletWindow.hh --- Applet window
 //
 // Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef OSXAPPLETWINDOW_HH
-#define OSXAPPLETWINDOW_HH
+#ifndef MacOSAPPLETWINDOW_HH
+#define MacOSAPPLETWINDOW_HH
 
 #include "preinclude.h"
 #include <string>
@@ -29,27 +29,31 @@
 
 #import "ColorId.h"
 
-@class OSXStatusBarView;
+@class MacOSStatusBarView;
 
-class OSXAppletWindow : public AppletWindow, public TimerBoxViewBase
+class MacOSAppletWindow
+  : public AppletWindow
+  , public TimerBoxViewBase
 {
 public:
-  OSXAppletWindow();
-  virtual ~OSXAppletWindow();
+  MacOSAppletWindow();
+  virtual ~MacOSAppletWindow();
 
   bool is_visible() const override;
 
-  void set_slot(BreakId  id, int slot) override;
+  void set_slot(BreakId id, int slot) override;
   void set_time_bar(BreakId id,
                     std::string text,
                     ITimeBar::ColorId primary_color,
-                    int primary_value, int primary_max,
+                    int primary_value,
+                    int primary_max,
                     ITimeBar::ColorId secondary_color,
-                    int secondary_value, int secondary_max) override;
+                    int secondary_value,
+                    int secondary_max) override;
 
 private:
   ColorId convertColorId(ITimeBar::ColorId colorId);
-  OSXStatusBarView *view;
+  MacOSStatusBarView *view;
 };
 
-#endif // OSXAPPLETWINDOW_HH
+#endif // MacOSAPPLETWINDOW_HH

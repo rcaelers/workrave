@@ -1,6 +1,6 @@
 // main.cc --- Main
 //
-// Copyright (C) 2010 Rob Caelers 
+// Copyright (C) 2010 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,23 +18,20 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#  include "config.h"
 #endif
 
 #include <fstream>
 #include <stdio.h>
 #include <windows.h>
 
-
 #include "HarpoonHelper.h"
-#include "Debug.h" 
+#include "Debug.h"
 
-int WINAPI WinMain (HINSTANCE hInstance,
-                    HINSTANCE hPrevInstance,
-                    PSTR szCmdLine,
-                    int iCmdShow)
+int WINAPI
+WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-#ifndef NDEBUG 
+#ifndef NDEBUG
   Debug::init();
 #endif
 
