@@ -31,6 +31,7 @@ case "$WORKRAVE_ENV" in
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_dist/build
         SCRIPTS_DIR=${SOURCES_DIR}/build
+        PREBUILT_DIR=${WORKSPACE}/prebuilt
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
 
