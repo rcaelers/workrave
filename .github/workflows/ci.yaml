@@ -190,7 +190,7 @@ jobs:
              fi
         env:
            WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github
+           WORKRAVE_ENV: github-docker
            WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
            CONF_GTK_VER: ${{ matrix.config.gtk_version }}
