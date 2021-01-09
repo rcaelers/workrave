@@ -1,5 +1,3 @@
-// DBusBinding-qt5.hh --- DBUS interface
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -31,7 +29,7 @@ namespace workrave
     class DBusBinding
     {
     public:
-      virtual ~DBusBinding() {}
+      virtual ~DBusBinding() = default;
     };
   } // namespace dbus
 } // namespace workrave

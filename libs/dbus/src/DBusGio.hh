@@ -43,71 +43,63 @@ namespace workrave
       , public IDBusPrivateGio
     {
     public:
-      typedef std::shared_ptr<DBusGio> Ptr;
+      using Ptr = std::shared_ptr<DBusGio>;
 
     public:
       DBusGio();
-      virtual ~DBusGio();
+      ~DBusGio() override;
 
-      virtual void init();
-      virtual void register_service(const std::string &service, IDBusWatch *cb = nullptr);
-      virtual void register_object_path(const std::string &object_path);
-      virtual void connect(const std::string &path, const std::string &interface_name, void *object);
-      virtual void disconnect(const std::string &path, const std::string &interface_name);
-      virtual void register_binding(const std::string &interface_name, DBusBinding *binding);
-      virtual DBusBinding *find_binding(const std::string &interface_name) const;
+      void init() override;
+      void register_service(const std::string &service, IDBusWatch *cb = nullptr) override;
+      void register_object_path(const std::string &object_path) override;
+      void connect(const std::string &path, const std::string &interface_name, void *object) override;
+      void disconnect(const std::string &path, const std::string &interface_name) override;
+      void register_binding(const std::string &interface_name, DBusBinding *binding) override;
+      DBusBinding *find_binding(const std::string &interface_name) const override;
 
-      virtual bool is_available() const;
-      virtual bool is_running(const std::string &name) const;
+      bool is_available() const override;
+      bool is_running(const std::string &name) const override;
 
-      virtual GDBusConnection *get_connection() const { return connection; }
+      GDBusConnection *get_connection() const override { return connection; }
 
-      void watch(const std::string &name, IDBusWatch *cb);
-      void unwatch(const std::string &name);
+      void watch(const std::string &name, IDBusWatch *cb) override;
+      void unwatch(const std::string &name) override;
 
     private:
-      typedef std::map<std::string, DBusBinding *> Bindings;
-      typedef Bindings::iterator BindingIter;
-      typedef Bindings::const_iterator BindingCIter;
+      using Bindings     = std::map<std::string, DBusBinding *>;
+      using BindingIter  = Bindings::iterator;
+      using BindingCIter = Bindings::const_iterator;
 
-      typedef std::map<std::string, guint> Services;
-      typedef Services::iterator ServicesIter;
-      typedef Services::const_iterator ServicesCIter;
+      using Services      = std::map<std::string, guint>;
+      using ServicesIter  = Services::iterator;
+      using ServicesCIter = Services::const_iterator;
 
       struct InterfaceData
       {
-        InterfaceData()
-          : introspection_data(NULL)
-          , registration_id(0)
-          , object(NULL)
-        {
-        }
+        InterfaceData() = default;
 
         std::string object_path;
         std::string interface_name;
-        GDBusNodeInfo *introspection_data;
-        guint registration_id;
-        void *object;
+        GDBusNodeInfo *introspection_data{nullptr};
+        guint registration_id{0};
+        void *object{nullptr};
       };
 
-      typedef std::map<std::string, InterfaceData> Interfaces;
-      typedef Interfaces::iterator InterfaceIter;
-      typedef Interfaces::const_iterator InterfaceCIter;
+      using Interfaces     = std::map<std::string, InterfaceData>;
+      using InterfaceIter  = Interfaces::iterator;
+      using InterfaceCIter = Interfaces::const_iterator;
 
       struct ObjectData
       {
-        ObjectData()
-          : registered(false)
-        {
-        }
+        ObjectData() = default;
 
         Interfaces interfaces;
-        bool registered;
+        bool registered{false};
       };
 
-      typedef std::map<std::string, ObjectData> Objects;
-      typedef Objects::iterator ObjectIter;
-      typedef Objects::const_iterator ObjectCIter;
+      using Objects     = std::map<std::string, ObjectData>;
+      using ObjectIter  = Objects::iterator;
+      using ObjectCIter = Objects::const_iterator;
 
       struct WatchData
       {
@@ -116,9 +108,9 @@ namespace workrave
         bool seen;
       };
 
-      typedef std::map<std::string, WatchData> Watched;
-      typedef Watched::iterator WatchIter;
-      typedef Watched::const_iterator WatchCIter;
+      using Watched    = std::map<std::string, WatchData>;
+      using WatchIter  = Watched::iterator;
+      using WatchCIter = Watched::const_iterator;
 
       void *find_object(const std::string &path, const std::string &interface_name) const;
       void send() const;
@@ -174,7 +166,7 @@ namespace workrave
       //
       Watched watched;
 
-      GDBusConnection *connection;
+      GDBusConnection *connection{nullptr};
 
       static const GDBusInterfaceVTable interface_vtable;
     };

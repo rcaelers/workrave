@@ -30,7 +30,7 @@
 
 #include "dbus/IDBus.hh"
 
-#if defined(DBUS_BACKEND_QT5)
+#if defined(DBUS_BACKEND_QT)
 #  include "DBusTestQt.hh"
 #elif defined(DBUS_BACKEND_GIO)
 #  undef signals

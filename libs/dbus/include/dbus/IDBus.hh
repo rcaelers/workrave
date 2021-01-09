@@ -34,10 +34,10 @@ namespace workrave
     class IDBus
     {
     public:
-      typedef std::shared_ptr<IDBus> Ptr;
+      using Ptr = std::shared_ptr<IDBus>;
 
     public:
-      virtual ~IDBus() {}
+      virtual ~IDBus() = default;
 
       virtual void init()                                                                                   = 0;
       virtual void register_service(const std::string &service, IDBusWatch *cb = nullptr)                   = 0;

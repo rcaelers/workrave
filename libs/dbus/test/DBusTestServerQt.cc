@@ -1,5 +1,3 @@
-// DBusTestServerQt5.cc
-//
 // Copyright (C) 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -26,12 +24,12 @@
 
 #include "debug.hh"
 
-#include "DBusTestServerQt5.hh"
+#include "DBusTestServerQt.hh"
 #include "DBusTestQt.hh"
 
 #include "dbus/IDBus.hh"
 
-#include "DBusQt5.hh"
+#include "DBusQt.hh"
 
 #define WORKRAVE_TEST_PATH "/org/workrave/Workrave/Test"
 #define WORKRAVE_TEST_INTERFACE "org.workrave.TestInterface"
@@ -41,20 +39,20 @@ using namespace std;
 using namespace org::workrave::test;
 
 //! Constructor.
-DBusTestServerQt5::DBusTestServerQt5() {}
+DBusTestServerQt::DBusTestServerQt() {}
 
 //! Destructor.
-DBusTestServerQt5::~DBusTestServerQt5() = default;
+DBusTestServerQt::~DBusTestServerQt() = default;
 
 int
 main(int argc, char **argv)
 {
-  DBusTestServerQt5 s;
+  DBusTestServerQt s;
   s.run(argc, argv);
 }
 
 void
-DBusTestServerQt5::run(int argc, char **argv)
+DBusTestServerQt::run(int argc, char **argv)
 {
 #ifdef TRACING
   Debug::name(std::string("server"));
@@ -70,7 +68,7 @@ DBusTestServerQt5::run(int argc, char **argv)
       qDBusRegisterMetaType<QList<DBusTestData::Data>>();
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
 
-      dbus = std::make_shared<workrave::dbus::DBusQt5>();
+      dbus = std::make_shared<workrave::dbus::DBusQt>();
 
       dbus->init();
 
@@ -89,7 +87,7 @@ DBusTestServerQt5::run(int argc, char **argv)
     }
 }
 void
-DBusTestServerQt5::test_fire_signal()
+DBusTestServerQt::test_fire_signal()
 {
   org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
 
@@ -134,7 +132,7 @@ DBusTestServerQt5::test_fire_signal()
 }
 
 void
-DBusTestServerQt5::test_fire_signal_without_args()
+DBusTestServerQt::test_fire_signal_without_args()
 {
   org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
 
@@ -145,7 +143,7 @@ DBusTestServerQt5::test_fire_signal_without_args()
 }
 
 void
-DBusTestServerQt5::test_fire_signal_with_ref()
+DBusTestServerQt::test_fire_signal_with_ref()
 {
   org_workrave_TestInterface *test = org_workrave_TestInterface::instance(dbus);
 

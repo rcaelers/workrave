@@ -33,7 +33,7 @@ DBusTestData::DBusTestData() = default;
 //! Destructor.
 DBusTestData::~DBusTestData() = default;
 
-#ifdef DBUS_BACKEND_QT5
+#ifdef DBUS_BACKEND_QT
 QDBusArgument &
 operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message)
 {

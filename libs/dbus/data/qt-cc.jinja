@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <boost/lexical_cast.hpp>
 
-#include "dbus/DBusBindingQt5.hh"
+#include "dbus/DBusBindingQt.hh"
 #include "dbus/DBusException.hh"
 #include "{{ model.include_filename }}.hh"
 
@@ -20,7 +20,7 @@ using namespace workrave::dbus;
 // Marshaller
 //
 
-class {{ model.name }}_Marshall : public DBusMarshallQt5
+class {{ model.name }}_Marshall : public DBusMarshallQt
 {
 public:
 {% for enum in model.enums %}
@@ -367,7 +367,7 @@ namespace {{ ns }} // interface {{ interface.name }} namespace
 {
 {% endfor %}
 
-class {{ interface.qname }}_Stub : public DBusBindingQt5, public {{ interface.qname }}, public {{ model.name }}_Marshall
+class {{ interface.qname }}_Stub : public DBusBindingQt, public {{ interface.qname }}, public {{ model.name }}_Marshall
 {
 private:
   typedef void ({{ interface.qname }}_Stub::*DBusMethodPointer)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
@@ -428,7 +428,7 @@ private:
 }
 
 {{ interface.qname }}_Stub::{{ interface.qname }}_Stub(IDBus::Ptr dbus)
-  : DBusBindingQt5(dbus)
+  : DBusBindingQt(dbus)
 {
 }
 
@@ -601,7 +601,7 @@ void {{ interface.qname }}_Stub::{{ signal.qname }}(const string &path
   {% endfor %}
 {% endif %}
 
-  IDBusPrivateQt5::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt5>(dbus);
+  IDBusPrivateQt::Ptr priv = std::dynamic_pointer_cast<IDBusPrivateQt>(dbus);
   priv->get_connection().send(sig);
 }
 

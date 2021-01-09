@@ -33,9 +33,9 @@ namespace workrave
     class IDBusPrivateGio
     {
     public:
-      typedef std::shared_ptr<IDBusPrivateGio> Ptr;
+      using Ptr = std::shared_ptr<IDBusPrivateGio>;
 
-      virtual ~IDBusPrivateGio() {}
+      virtual ~IDBusPrivateGio() = default;
 
       virtual GDBusConnection *get_connection() const = 0;
     };
@@ -44,7 +44,7 @@ namespace workrave
     {
     public:
       explicit DBusBindingGio(IDBus::Ptr dbus);
-      virtual ~DBusBindingGio();
+      ~DBusBindingGio() override;
 
       virtual const char *get_interface_introspect() = 0;
       virtual void call(const std::string &method,

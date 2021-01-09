@@ -23,7 +23,7 @@
 #include <string>
 #include <set>
 
-#if defined(DBUS_BACKEND_QT5)
+#if defined(DBUS_BACKEND_QT)
 #  include <QDBusArgument>
 #  include <QMetaType>
 #elif defined(DBUS_BACKEND_GIO)

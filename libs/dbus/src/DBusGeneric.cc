@@ -22,7 +22,7 @@
 #endif
 
 #include "debug.hh"
-#include <string.h>
+#include <cstring>
 
 #include <string>
 #include <list>
@@ -36,7 +36,7 @@ using namespace workrave;
 using namespace workrave::dbus;
 
 //! Construct a new D-BUS bridge
-DBusGeneric::DBusGeneric() {}
+DBusGeneric::DBusGeneric() = default;
 
 //! Destruct the D-BUS bridge
 DBusGeneric::~DBusGeneric() = default;
@@ -51,7 +51,7 @@ DBusGeneric::connect(const std::string &object_path, const std::string &interfac
       throw DBusException("No such interface");
     }
 
-  ObjectIter it = objects.find(object_path);
+  auto it = objects.find(object_path);
   if (it != objects.end())
     {
       Interfaces &interfaces = it->second;
@@ -70,7 +70,7 @@ DBusGeneric::connect(const std::string &object_path, const std::string &interfac
 void
 DBusGeneric::disconnect(const std::string &object_path, const std::string &interface_name)
 {
-  ObjectIter it = objects.find(object_path);
+  auto it = objects.find(object_path);
   if (it != objects.end())
     {
       Interfaces &interfaces = it->second;
@@ -92,7 +92,7 @@ DBusGeneric::find_binding(const std::string &interface_name) const
 {
   DBusBinding *ret = nullptr;
 
-  BindingCIter it = bindings.find(interface_name);
+  auto it = bindings.find(interface_name);
   if (it != bindings.end())
     {
       ret = it->second;
@@ -106,10 +106,10 @@ DBusGeneric::find_object(const std::string &path, const std::string &interface_n
 {
   void *cobject = nullptr;
 
-  ObjectCIter object_it = objects.find(path);
+  auto object_it = objects.find(path);
   if (object_it != objects.end())
     {
-      InterfaceCIter interface_it = object_it->second.find(interface_name);
+      auto interface_it = object_it->second.find(interface_name);
 
       if (interface_it != object_it->second.end())
         {

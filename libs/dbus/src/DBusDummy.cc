@@ -27,7 +27,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusDummy::DBusDummy() {}
+DBusDummy::DBusDummy() = default;
 
 DBusDummy::~DBusDummy() = default;
 

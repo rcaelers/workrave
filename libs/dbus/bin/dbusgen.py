@@ -198,7 +198,7 @@ class TopNode(NodeBase):
         self.types['bool']= TypeNode('bool','b')
         self.types['double']= TypeNode('double','d')
 
-        if self.backend == 'qt5':
+        if self.backend == 'qt':
             self.types['string']= QStringTypeNode()
         else:
             self.types['string']= TypeNode('std::string','s')
