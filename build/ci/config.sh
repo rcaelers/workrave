@@ -4,53 +4,45 @@ case "$WORKRAVE_ENV" in
         WORKSPACE=/workspace
         OUTPUT_DIR=${WORKSPACE}/output
         SOURCES_DIR=${WORKSPACE}/source
+        BUILD_DIR=${WORKSPACE}/build
         DEPLOY_DIR=${WORKSPACE}/deploy
-        SECRETS_DIR=${WORKSPACE}/secrets
         PREBUILT_DIR=${WORKSPACE}/prebuilt
         SCRIPTS_DIR=${WORKSPACE}/scripts
         CI_DIR=${SCRIPTS_DIR}/ci
-
-        BUILD_DIR=${WORKSPACE}/build
         ;;
 
     inline)
         echo "Running inline"
         WORKSPACE=/workspace
-        OUTPUT_DIR=${WORKSPACE}/output
         SOURCES_DIR=${WORKSPACE}/source
+        OUTPUT_DIR=${SOURCES_DIR}/_output
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_build
-        SECRETS_DIR=${WORKSPACE}/secrets
         PREBUILT_DIR=${WORKSPACE}/prebuilt
         SCRIPTS_DIR=${SOURCES_DIR}/build
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
 
-    travis)
-        echo "Running on Travis"
+    github-docker)
+        echo "Running on Github in docker"
         WORKSPACE=/workspace
         OUTPUT_DIR=${WORKSPACE}/output
         SOURCES_DIR=${WORKSPACE}/source
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_dist/build
-        SECRETS_DIR=${SOURCES_DIR}/_dist/secrets
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
-        SCRIPTS_DIR=$${SOURCES_DIR}/build
+        SCRIPTS_DIR=${SOURCES_DIR}/build
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
 
     github)
         echo "Running on Github"
-        WORKSPACE=/workspace
+        WORKSPACE=$GITHUB_WORKSPACE
+        SOURCES_DIR=${WORKSPACE}
         OUTPUT_DIR=${WORKSPACE}/output
-        SOURCES_DIR=${WORKSPACE}/source
         DEPLOY_DIR=${SOURCES_DIR}/_deploy
         BUILD_DIR=${SOURCES_DIR}/_dist/build
-        PREBUILT_DIR=${WORKSPACE}/prebuilt
-        SCRIPTS_DIR=${SOURCES_DIR}/build
-        CI_DIR=${SCRIPTS_DIR}/ci
+        CI_DIR=${SOURCES_DIR}/build/ci
         ;;
-
     *)
         echo "Unknown environment"
        ;;
@@ -92,8 +84,8 @@ case "$WORKRAVE_ENV" in
         export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
         ;;
 
-    travis)
-        export WORKRAVE_JOB_NUMBER=$TRAVIS_JOB_NUMBER
+    github-docker)
+        export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
         export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
         ;;
 
