@@ -32,34 +32,21 @@
 
 #include "InputMonitor.hh"
 
-//! Activity monitor for a local X server.
 class XScreenSaverMonitor : public InputMonitor
 {
 public:
-  //! Constructor.
-  XScreenSaverMonitor();
-
-  //! Destructor.
+  XScreenSaverMonitor() = default;
   ~XScreenSaverMonitor() override;
 
-  //! Initialize
   bool init() override;
-
-  //! Terminate the monitor.
   void terminate() override;
 
 private:
-  //! The monitor's execution thread.
   virtual void run();
 
 private:
-  //! Abort the main loop
   bool abort{false};
-
-  //! The activity monitor thread.
   std::shared_ptr<boost::thread> monitor_thread;
-
-  //
   XScreenSaverInfo *screen_saver_info{nullptr};
   Display *xdisplay;
   Drawable root;

@@ -89,7 +89,7 @@ public:
   using Ptr = std::shared_ptr<SoundTheme>;
 
   SoundTheme();
-  virtual ~SoundTheme();
+  virtual ~SoundTheme() = default;
 
   void init();
   void play_sound(SoundEvent snd, bool mute_after_playback = false);

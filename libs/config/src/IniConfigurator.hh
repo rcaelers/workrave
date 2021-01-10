@@ -30,8 +30,8 @@
 class IniConfigurator : public virtual IConfigBackend
 {
 public:
-  IniConfigurator();
-  ~IniConfigurator() override;
+  IniConfigurator() = default;
+  ~IniConfigurator() override = default;
 
   bool load(std::string filename) override;
   bool save(std::string filename) override;

@@ -35,8 +35,8 @@
 class DBusTestServer
 {
 public:
-  DBusTestServer();
-  virtual ~DBusTestServer();
+  DBusTestServer() = default;
+  virtual ~DBusTestServer() = default;
 
   virtual void run(int argc, char **argv) = 0;
 

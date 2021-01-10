@@ -31,7 +31,7 @@ namespace Gtk
 class UnixGrab : public Grab
 {
 public:
-  UnixGrab();
+  UnixGrab() = default;
 
   bool can_grab() override;
   void grab(GdkWindow *window) override;

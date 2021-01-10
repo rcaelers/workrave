@@ -37,10 +37,6 @@
 
 using namespace std;
 
-IniConfigurator::IniConfigurator() = default;
-
-IniConfigurator::~IniConfigurator() = default;
-
 bool
 IniConfigurator::load(string filename)
 {

@@ -58,9 +58,6 @@ BreakStateModel::BreakStateModel(BreakId id,
 {
 }
 
-//! Destructor.
-BreakStateModel::~BreakStateModel() = default;
-
 void
 BreakStateModel::process()
 {

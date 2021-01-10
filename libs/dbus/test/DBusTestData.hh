@@ -153,8 +153,8 @@ public:
     return ret;
   }
 
-  DBusTestData();
-  virtual ~DBusTestData();
+  DBusTestData() = default;
+  virtual ~DBusTestData() = default;
 };
 
 #ifdef DBUS_BACKEND_QT

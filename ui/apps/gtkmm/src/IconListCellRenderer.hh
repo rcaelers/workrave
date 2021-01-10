@@ -28,7 +28,7 @@ class IconListCellRenderer : public Gtk::CellRenderer
 {
 public:
   IconListCellRenderer();
-  ~IconListCellRenderer() override;
+  ~IconListCellRenderer() override = default;
 
   Glib::PropertyProxy<Glib::ustring> property_text();
   Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf>> property_pixbuf();

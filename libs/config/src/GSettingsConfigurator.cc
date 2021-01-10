@@ -47,8 +47,6 @@ GSettingsConfigurator::GSettingsConfigurator()
   add_children();
 }
 
-GSettingsConfigurator::~GSettingsConfigurator() = default;
-
 bool
 GSettingsConfigurator::load(string filename)
 {

@@ -27,8 +27,6 @@
 #include "commonui/ITimerBoxView.hh"
 #include "commonui/TimerBoxControl.hh"
 
-AppletWindow::AppletWindow() = default;
-
 void
 AppletWindow::set_applet_tooltip(const std::string &tip)
 {

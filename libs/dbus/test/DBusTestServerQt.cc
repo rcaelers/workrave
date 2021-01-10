@@ -38,12 +38,6 @@
 using namespace std;
 using namespace org::workrave::test;
 
-//! Constructor.
-DBusTestServerQt::DBusTestServerQt() {}
-
-//! Destructor.
-DBusTestServerQt::~DBusTestServerQt() = default;
-
 int
 main(int argc, char **argv)
 {

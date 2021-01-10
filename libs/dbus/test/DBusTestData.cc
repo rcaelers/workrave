@@ -27,12 +27,6 @@
 
 #include "dbus/IDBus.hh"
 
-//! Constructor.
-DBusTestData::DBusTestData() = default;
-
-//! Destructor.
-DBusTestData::~DBusTestData() = default;
-
 #ifdef DBUS_BACKEND_QT
 QDBusArgument &
 operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message)

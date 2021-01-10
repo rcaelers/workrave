@@ -73,8 +73,6 @@ TimeEntry::TimeEntry()
   pack_start(*secs, false, false);
 }
 
-TimeEntry::~TimeEntry() = default;
-
 void
 TimeEntry::set_value(time_t t)
 {

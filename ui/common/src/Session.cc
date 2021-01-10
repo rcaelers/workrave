@@ -34,8 +34,6 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace std;
 
-Session::Session() = default;
-
 void
 Session::init()
 {

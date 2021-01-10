@@ -34,8 +34,8 @@ class GenericDBusApplet;
 class IndicatorAppletMenu : public MenuBase
 {
 public:
-  IndicatorAppletMenu();
-  ~IndicatorAppletMenu() override;
+  IndicatorAppletMenu() = default;
+  ~IndicatorAppletMenu() override = default;
 
   void init() override;
   void resync(workrave::OperationMode mode, workrave::UsageMode usage) override;

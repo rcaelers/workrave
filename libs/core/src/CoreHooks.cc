@@ -25,14 +25,6 @@
 
 #include "CoreHooks.hh"
 
-CoreHooks::CoreHooks()
-{
-  TRACE_ENTER("CoreHooks::CoreHooks");
-  TRACE_EXIT();
-}
-
-CoreHooks::~CoreHooks() = default;
-
 #ifdef HAVE_TESTS
 std::function<workrave::config::IConfigurator::Ptr()> &
 CoreHooks::hook_create_configurator()

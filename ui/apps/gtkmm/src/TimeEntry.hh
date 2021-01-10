@@ -32,7 +32,7 @@ class TimeEntry : public Gtk::HBox
 {
 public:
   TimeEntry();
-  ~TimeEntry() override;
+  ~TimeEntry() override = default;
 
   time_t get_value();
   void set_value(time_t time);

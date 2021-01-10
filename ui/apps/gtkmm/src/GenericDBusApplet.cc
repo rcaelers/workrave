@@ -64,8 +64,6 @@ GenericDBusApplet::GenericDBusApplet()
   connections.add(GUIConfig::trayicon_enabled().connect([this](bool enabled) { send_tray_icon_enabled(); }));
 }
 
-GenericDBusApplet::~GenericDBusApplet() = default;
-
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
 {

@@ -37,7 +37,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-//! Construct a new D-BUS bridge
 DBusQt::DBusQt()
   : connection(QDBusConnection::sessionBus())
   , watcher(this)
@@ -45,10 +44,6 @@ DBusQt::DBusQt()
   watcher.setConnection(connection);
 }
 
-//! Destruct the D-BUS bridge
-DBusQt::~DBusQt() = default;
-
-//! Initialize D-BUS bridge
 void
 DBusQt::init()
 {
@@ -57,7 +52,6 @@ DBusQt::init()
   QObject::connect(&watcher, &QDBusServiceWatcher::serviceUnregistered, this, &DBusQt::on_service_unregistered);
 }
 
-//! Registers the specified service
 void
 DBusQt::register_service(const std::string &service, IDBusWatch *cb)
 {
@@ -65,7 +59,6 @@ DBusQt::register_service(const std::string &service, IDBusWatch *cb)
   connection.registerService(QString::fromStdString(service));
 }
 
-//! Registers the specified object path
 void
 DBusQt::register_object_path(const string &object_path)
 {

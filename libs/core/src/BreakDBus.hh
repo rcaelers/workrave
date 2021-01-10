@@ -32,7 +32,7 @@ public:
 
 public:
   BreakDBus(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, workrave::dbus::IDBus::Ptr dbus);
-  virtual ~BreakDBus();
+  virtual ~BreakDBus() = default;
 
 private:
   void on_break_stage_changed(BreakStage stage);

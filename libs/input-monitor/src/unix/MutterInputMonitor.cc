@@ -27,8 +27,6 @@
 
 using namespace std;
 
-MutterInputMonitor::MutterInputMonitor() = default;
-
 MutterInputMonitor::~MutterInputMonitor()
 {
   if (monitor_thread)

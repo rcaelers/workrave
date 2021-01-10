@@ -37,8 +37,6 @@
 using namespace std;
 using namespace workrave::utils;
 
-XScreenSaverMonitor::XScreenSaverMonitor() = default;
-
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
   TRACE_ENTER("XScreenSaverMonitor::~XScreenSaverMonitor");

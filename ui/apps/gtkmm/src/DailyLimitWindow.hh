@@ -29,7 +29,7 @@ class DailyLimitWindow : public BreakWindow
 {
 public:
   DailyLimitWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  ~DailyLimitWindow() override;
+  ~DailyLimitWindow() override = default;
 
   void set_progress(int value, int max_value) override;
 

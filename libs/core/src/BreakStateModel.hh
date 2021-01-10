@@ -57,7 +57,7 @@ public:
                   Timer::Ptr timer,
                   IActivityMonitor::Ptr activity_monitor,
                   CoreHooks::Ptr hooks);
-  ~BreakStateModel() override;
+  ~BreakStateModel() override = default;
 
   void process();
 

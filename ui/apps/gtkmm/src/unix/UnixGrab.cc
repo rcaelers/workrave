@@ -30,8 +30,6 @@
 
 using namespace workrave::utils;
 
-UnixGrab::UnixGrab() = default;
-
 bool
 UnixGrab::can_grab()
 {

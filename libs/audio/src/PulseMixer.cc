@@ -25,8 +25,6 @@
 
 using namespace std;
 
-PulseMixer::PulseMixer() = default;
-
 PulseMixer::~PulseMixer()
 {
   pa_context_unref(context);
