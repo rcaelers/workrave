@@ -73,9 +73,6 @@ StatisticsDialog::StatisticsDialog()
   display_calendar_date();
 }
 
-//! Destructor.
-StatisticsDialog::~StatisticsDialog() = default;
-
 int
 StatisticsDialog::run()
 {

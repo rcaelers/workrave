@@ -36,8 +36,6 @@ ActivityMonitorStub::ActivityMonitorStub()
 {
 }
 
-ActivityMonitorStub::~ActivityMonitorStub() = default;
-
 void
 ActivityMonitorStub::set_active(bool active)
 {

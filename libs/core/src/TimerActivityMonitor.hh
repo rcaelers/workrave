@@ -32,7 +32,7 @@ public:
 
 public:
   TimerActivityMonitor(IActivityMonitor::Ptr monitor, Timer::Ptr timer);
-  virtual ~TimerActivityMonitor();
+  virtual ~TimerActivityMonitor() = default;
 
   void suspend();
   void resume();

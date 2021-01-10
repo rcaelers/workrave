@@ -46,7 +46,7 @@ namespace workrave
 
     public:
       DBusQt();
-      ~DBusQt() override;
+      ~DBusQt() override = default;
 
       // IDBus
       void init() override;

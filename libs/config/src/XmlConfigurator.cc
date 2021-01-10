@@ -32,10 +32,6 @@
 
 using namespace std;
 
-XmlConfigurator::XmlConfigurator() = default;
-
-XmlConfigurator::~XmlConfigurator() = default;
-
 bool
 XmlConfigurator::load(string filename)
 {

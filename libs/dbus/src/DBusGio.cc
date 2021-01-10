@@ -45,10 +45,6 @@ const GDBusInterfaceVTable DBusGio::interface_vtable = {&DBusGio::on_method_call
                                                           nullptr,
                                                         }};
 
-//! Construct a new D-BUS bridge
-DBusGio::DBusGio() = default;
-
-//! Destruct the D-BUS bridge
 DBusGio::~DBusGio()
 {
   for (auto &service: services)
@@ -73,13 +69,11 @@ DBusGio::~DBusGio()
     }
 }
 
-//! Initialize D-BUS bridge
 void
 DBusGio::init()
 {
 }
 
-//! Registers the specified service
 void
 DBusGio::register_service(const std::string &service_name, IDBusWatch *cb)
 {
@@ -104,7 +98,6 @@ DBusGio::register_service(const std::string &service_name, IDBusWatch *cb)
     }
 }
 
-//! Registers the specified object path
 void
 DBusGio::register_object_path(const string &object_path)
 {
@@ -144,7 +137,6 @@ DBusGio::update_object_registration(InterfaceData &data)
   TRACE_EXIT();
 }
 
-//! Connect a D-DBUS object/interface to a C object
 void
 DBusGio::connect(const std::string &object_path, const std::string &interface_name, void *object)
 {
@@ -179,7 +171,6 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
     }
 }
 
-//! Disconnect a D-DBUS object/interface to a C object
 void
 DBusGio::disconnect(const std::string &object_path, const std::string &interface_name)
 {
@@ -202,14 +193,12 @@ DBusGio::disconnect(const std::string &object_path, const std::string &interface
     }
 }
 
-//! Register an interface binding
 void
 DBusGio::register_binding(const std::string &name, DBusBinding *interface)
 {
   bindings[name] = interface;
 }
 
-//! Find an interface binding
 DBusBinding *
 DBusGio::find_binding(const std::string &interface_name) const
 {

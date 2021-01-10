@@ -30,15 +30,10 @@
 class MutterInputMonitor : public InputMonitor
 {
 public:
-  MutterInputMonitor();
+  MutterInputMonitor() = default;
+ ~MutterInputMonitor() override;
 
-  //! Destructor.
-  ~MutterInputMonitor() override;
-
-  //! Initialize
   bool init() override;
-
-  //! Terminate the monitor.
   void terminate() override;
 
 private:
@@ -49,7 +44,6 @@ private:
   static void on_register_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
   static void on_unregister_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
 
-  //! The monitor's execution thread.
   virtual void run();
 
   bool register_active_watch();

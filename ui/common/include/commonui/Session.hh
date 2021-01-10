@@ -31,7 +31,7 @@ class Session
 public:
   using Ptr = std::shared_ptr<Session>;
 
-  Session();
+  Session() = default;
   void init();
 
   void set_idle(bool idle);

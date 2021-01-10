@@ -56,8 +56,6 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
     }
 }
 
-BreakDBus::~BreakDBus() = default;
-
 void
 BreakDBus::on_break_event(BreakEvent event)
 {

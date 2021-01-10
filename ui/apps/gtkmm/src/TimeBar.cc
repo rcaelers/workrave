@@ -61,8 +61,6 @@ TimeBar::TimeBar()
   GtkUtil::set_theme_fg_color(this);
 }
 
-TimeBar::~TimeBar() = default;
-
 void
 TimeBar::set_progress(int value, int max_value)
 {

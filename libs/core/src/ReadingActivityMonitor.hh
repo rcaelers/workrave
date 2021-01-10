@@ -36,7 +36,7 @@ public:
 
 public:
   ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes);
-  ~ReadingActivityMonitor() override;
+  ~ReadingActivityMonitor() override = default;
 
   void handle_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
 

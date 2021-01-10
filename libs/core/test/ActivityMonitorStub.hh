@@ -29,7 +29,7 @@ public:
 
 public:
   ActivityMonitorStub();
-  ~ActivityMonitorStub() override;
+  ~ActivityMonitorStub() override = default;
 
   void set_active(bool active);
 

@@ -30,7 +30,7 @@
 class PulseMixer : public IMixer
 {
 public:
-  PulseMixer();
+  PulseMixer() = default;
   ~PulseMixer() override;
 
   void init() override;

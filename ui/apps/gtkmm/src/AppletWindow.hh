@@ -28,7 +28,7 @@ class ITimerBoxView;
 class AppletWindow : public IAppletWindow
 {
 public:
-  AppletWindow();
+  AppletWindow() = default;
   ~AppletWindow() override = default;
 
   void init_applet() override;
