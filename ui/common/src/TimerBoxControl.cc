@@ -32,6 +32,7 @@
 #endif
 
 #include <iostream>
+#include <utility>
 
 #include "debug.hh"
 
@@ -48,7 +49,7 @@ using namespace workrave::config;
 TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView *v)
   : view(v)
   , cycle_time(10)
-  , name(n)
+  , name(std::move(n))
   , force_duration(0)
   , force_empty(false)
 {

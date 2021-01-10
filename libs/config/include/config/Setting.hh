@@ -20,6 +20,7 @@
 
 #include <boost/signals2.hpp>
 #include <boost/noncopyable.hpp>
+#include <utility>
 
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
@@ -43,9 +44,9 @@ namespace workrave
       using NotifyType = boost::signals2::signal<void()>;
 
     public:
-      explicit SettingGroup(workrave::config::IConfigurator::Ptr config, const std::string &setting)
+      explicit SettingGroup(workrave::config::IConfigurator::Ptr config, std::string setting)
         : config(config)
-        , setting(setting)
+        , setting(std::move(setting))
       {
       }
 
@@ -87,18 +88,18 @@ namespace workrave
       using NotifyType = boost::signals2::signal<void(const R &)>;
 
     public:
-      explicit Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting)
+      explicit Setting(workrave::config::IConfigurator::Ptr config, std::string setting)
         : config(config)
-        , setting(setting)
+        , setting(std::move(setting))
         , has_default_value(false)
       {
       }
 
-      Setting(workrave::config::IConfigurator::Ptr config, const std::string &setting, R default_value)
+      Setting(workrave::config::IConfigurator::Ptr config, std::string setting, R default_value)
         : config(config)
-        , setting(setting)
+        , setting(std::move(setting))
         , has_default_value(true)
-        , default_value(default_value)
+        , default_value(std::move(default_value))
       {
       }
 

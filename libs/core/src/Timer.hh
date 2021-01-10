@@ -73,7 +73,7 @@ public:
 
 public:
   // Construction/Destruction.
-  explicit Timer(const std::string &id);
+  explicit Timer(std::string id);
   virtual ~Timer();
 
   // Control

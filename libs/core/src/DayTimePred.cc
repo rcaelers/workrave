@@ -24,7 +24,7 @@
 #include <cstdlib>
 #include <string>
 #include <cstdio>
-#include <time.h>
+#include <ctime>
 
 #include "DayTimePred.hh"
 

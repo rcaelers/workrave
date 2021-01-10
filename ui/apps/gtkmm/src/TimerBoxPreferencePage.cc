@@ -23,6 +23,8 @@
 
 #include <gtkmm.h>
 
+#include <utility>
+
 #include "commonui/nls.h"
 #include "debug.hh"
 
@@ -42,7 +44,7 @@
 //! Constructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   : Gtk::HBox(false, 6)
-  , name(n)
+  , name(std::move(n))
 {
   TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
 

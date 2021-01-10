@@ -22,6 +22,7 @@
 
 #include <list>
 #include <string>
+#include <utility>
 
 struct Exercise
 {
@@ -34,8 +35,8 @@ public:
     int duration;
     bool mirror_x;
 
-    Image(const std::string &img, int dur, bool mx)
-      : image(img)
+    Image(std::string img, int dur, bool mx)
+      : image(std::move(img))
       , duration(dur)
       , mirror_x(mx)
     {
