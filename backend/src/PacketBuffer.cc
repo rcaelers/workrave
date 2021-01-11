@@ -24,25 +24,17 @@
 
 #include "debug.hh"
 
-#include <string.h>
-#include <assert.h>
+#include <cassert>
+#include <cstring>
 
 #include "PacketBuffer.hh"
 
-PacketBuffer::PacketBuffer()
-  : buffer(NULL)
-  , read_ptr(NULL)
-  , write_ptr(NULL)
-  , buffer_size(0)
-  , original_buffer(NULL)
-  , original_buffer_size(0)
-{
-}
+PacketBuffer::PacketBuffer() = default;
 
 PacketBuffer::~PacketBuffer()
 {
   narrow(0, -1);
-  if (buffer != NULL)
+  if (buffer != nullptr)
     {
       g_free(buffer);
     }
@@ -53,7 +45,7 @@ PacketBuffer::create(int size)
 {
   narrow(0, -1);
 
-  if (buffer != NULL)
+  if (buffer != nullptr)
     {
       g_free(buffer);
     }
@@ -63,9 +55,9 @@ PacketBuffer::create(int size)
       size = 1024;
     }
 
-  buffer      = g_new(guint8, size);
-  read_ptr    = buffer;
-  write_ptr   = buffer;
+  buffer = g_new(guint8, size);
+  read_ptr = buffer;
+  write_ptr = buffer;
   buffer_size = size;
 }
 
@@ -80,9 +72,9 @@ PacketBuffer::resize(int size)
       size = 1024;
     }
 
-  if (size != buffer_size && buffer != NULL)
+  if (size != buffer_size && buffer != nullptr)
     {
-      int read_offset  = read_ptr - buffer;
+      int read_offset = read_ptr - buffer;
       int write_offset = write_ptr - buffer;
 
       if (read_offset >= size)
@@ -101,8 +93,8 @@ PacketBuffer::resize(int size)
 
       // TRACE_MSG(buffer);
 
-      read_ptr    = buffer + read_offset;
-      write_ptr   = buffer + write_offset;
+      read_ptr = buffer + read_offset;
+      write_ptr = buffer + write_offset;
       buffer_size = size;
     }
   // TRACE_EXIT();
@@ -156,7 +148,7 @@ void
 PacketBuffer::pack_string(const gchar *data)
 {
   int size = 0;
-  if (data != NULL)
+  if (data != nullptr)
     {
       size = strlen(data);
     }
@@ -179,7 +171,7 @@ void
 PacketBuffer::poke_string(int pos, const gchar *data)
 {
   int size = 0;
-  if (data != NULL)
+  if (data != nullptr)
     {
       size = strlen(data);
     }
@@ -206,8 +198,8 @@ PacketBuffer::pack_ushort(guint16 data)
     }
 
   guint8 *w = (guint8 *)write_ptr;
-  w[0]      = ((data & 0x0000ff00) >> 8);
-  w[1]      = ((data & 0x000000ff));
+  w[0] = ((data & 0x0000ff00) >> 8);
+  w[1] = ((data & 0x000000ff));
 
   write_ptr += 2;
 }
@@ -221,10 +213,10 @@ PacketBuffer::pack_ulong(guint32 data)
     }
 
   guint8 *w = (guint8 *)write_ptr;
-  w[0]      = ((data & 0xff000000) >> 24);
-  w[1]      = ((data & 0x00ff0000) >> 16);
-  w[2]      = ((data & 0x0000ff00) >> 8);
-  w[3]      = ((data & 0x000000ff));
+  w[0] = ((data & 0xff000000) >> 24);
+  w[1] = ((data & 0x00ff0000) >> 16);
+  w[2] = ((data & 0x0000ff00) >> 8);
+  w[3] = ((data & 0x000000ff));
 
   write_ptr += 4;
 }
@@ -262,14 +254,14 @@ PacketBuffer::poke_ushort(int pos, guint16 data)
 
   guint8 *w = (guint8 *)buffer;
 
-  w[pos]     = ((data & 0x0000ff00) >> 8);
+  w[pos] = ((data & 0x0000ff00) >> 8);
   w[pos + 1] = ((data & 0x000000ff));
 }
 
 int
 PacketBuffer::unpack(guint8 **data)
 {
-  g_assert(data != NULL);
+  g_assert(data != nullptr);
 
   int size = unpack_ushort();
 
@@ -292,7 +284,7 @@ PacketBuffer::unpack(guint8 **data)
 int
 PacketBuffer::unpack_raw(guint8 **data, int size)
 {
-  g_assert(data != NULL);
+  g_assert(data != nullptr);
 
   guint8 *r = (guint8 *)read_ptr;
 
@@ -313,7 +305,7 @@ PacketBuffer::unpack_raw(guint8 **data, int size)
 gchar *
 PacketBuffer::unpack_string()
 {
-  gchar *str = NULL;
+  gchar *str = nullptr;
 
   if (read_ptr + 2 <= buffer + buffer_size)
     {
@@ -339,7 +331,7 @@ guint32
 PacketBuffer::unpack_ulong()
 {
   guint32 ret = 0;
-  guint8 *r   = (guint8 *)read_ptr;
+  guint8 *r = (guint8 *)read_ptr;
 
   if (read_ptr + 4 <= buffer + buffer_size)
     {
@@ -354,7 +346,7 @@ guint16
 PacketBuffer::unpack_ushort()
 {
   guint16 ret = 0;
-  guint8 *r   = (guint8 *)read_ptr;
+  guint8 *r = (guint8 *)read_ptr;
 
   if (read_ptr + 2 <= write_ptr)
     {
@@ -380,7 +372,7 @@ PacketBuffer::unpack_byte()
 int
 PacketBuffer::peek(int pos, guint8 **data)
 {
-  g_assert(data != NULL);
+  g_assert(data != nullptr);
 
   int size = peek_ushort(pos);
 
@@ -400,7 +392,7 @@ PacketBuffer::peek(int pos, guint8 **data)
 gchar *
 PacketBuffer::peek_string(int pos)
 {
-  gchar *str = NULL;
+  gchar *str = nullptr;
 
   if (read_ptr + pos + 2 <= buffer + buffer_size)
     {
@@ -438,7 +430,7 @@ PacketBuffer::peek_ushort(int pos)
   if (read_ptr + pos + 2 <= write_ptr)
     {
       guint8 *r = (guint8 *)read_ptr;
-      ret       = (r[pos] << 8) + r[pos + 1];
+      ret = (r[pos] << 8) + r[pos + 1];
     }
   return ret;
 }
@@ -503,13 +495,13 @@ PacketBuffer::narrow(int pos, int size)
   // TRACE_ENTER_MSG("PacketBuffer::narrow", pos << " " << size);
   if (pos == 0 && size == -1)
     {
-      if (original_buffer != NULL)
+      if (original_buffer != nullptr)
         {
           // unnarrow.
-          buffer               = original_buffer;
-          buffer_size          = original_buffer_size;
+          buffer = original_buffer;
+          buffer_size = original_buffer_size;
           original_buffer_size = 0;
-          original_buffer      = NULL;
+          original_buffer = nullptr;
         }
     }
   else
@@ -519,9 +511,9 @@ PacketBuffer::narrow(int pos, int size)
           pos = bytes_read();
         }
 
-      if (original_buffer == NULL)
+      if (original_buffer == nullptr)
         {
-          original_buffer      = buffer;
+          original_buffer = buffer;
           original_buffer_size = buffer_size;
         }
 
@@ -530,9 +522,9 @@ PacketBuffer::narrow(int pos, int size)
           size = original_buffer_size - pos;
         }
 
-      buffer      = original_buffer + pos;
+      buffer = original_buffer + pos;
       buffer_size = size;
-      read_ptr    = buffer;
+      read_ptr = buffer;
     }
   // TRACE_EXIT();
 }

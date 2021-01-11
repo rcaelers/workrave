@@ -34,17 +34,17 @@ class GIOSocketServer : public ISocketServer
 {
 public:
   GIOSocketServer();
-  virtual ~GIOSocketServer();
+  ~GIOSocketServer() override;
 
   // ISocketServer  interface
-  virtual void listen(int port);
+  void listen(int port) override;
 
 private:
   static gboolean
   static_socket_incoming(GSocketService *service, GSocketConnection *connection, GObject *src_object, gpointer user_data);
 
 private:
-  GSocketService *service;
+  GSocketService *service{nullptr};
 };
 
 //! Socket implementation based on GIO
@@ -53,13 +53,13 @@ class GIOSocket : public ISocket
 public:
   GIOSocket();
   GIOSocket(GSocketConnection *connection);
-  virtual ~GIOSocket();
+  ~GIOSocket() override;
 
   // ISocket interface
-  virtual void connect(const std::string &hostname, int port);
-  virtual void read(void *buf, int count, int &bytes_read);
-  virtual void write(void *buf, int count, int &bytes_written);
-  virtual void close();
+  void connect(const std::string &hostname, int port) override;
+  void read(void *buf, int count, int &bytes_read) override;
+  void write(void *buf, int count, int &bytes_written) override;
+  void close() override;
 
 private:
   void connect(GInetAddress *inet_addr, int port);
@@ -71,20 +71,20 @@ private:
   static gboolean static_data_callback(GSocket *socket, GIOCondition condition, gpointer user_data);
 
 private:
-  GSocketConnection *connection;
-  GSocket *socket;
-  GResolver *resolver;
-  GSource *source;
-  int port;
+  GSocketConnection *connection{nullptr};
+  GSocket *socket{nullptr};
+  GResolver *resolver{nullptr};
+  GSource *source{nullptr};
+  int port{0};
 };
 
 class GIOSocketDriver : public SocketDriver
 {
   //! Create a new socket
-  ISocket *create_socket();
+  ISocket *create_socket() override;
 
   //! Create a new listen socket
-  ISocketServer *create_server();
+  ISocketServer *create_server() override;
 };
 
 #endif

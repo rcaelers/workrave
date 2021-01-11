@@ -76,7 +76,7 @@ registry_get_value(const char *path, const char *name, char *out)
     {
       DWORD type, size;
       size = MAX_PATH;
-      err  = RegQueryValueEx(handle, name, 0, &type, (LPBYTE)out, &size);
+      err = RegQueryValueEx(handle, name, 0, &type, (LPBYTE)out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -251,7 +251,7 @@ W32DirectSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_
   registry_set_value(key, NULL, wav_file.c_str());
 
   bool enabled = false;
-  bool valid   = get_sound_enabled(snd, enabled);
+  bool valid = get_sound_enabled(snd, enabled);
 
   if (!valid || enabled)
     {
@@ -294,13 +294,13 @@ SoundClip::SoundClip(const string &filename, ISoundDriverEvents *events)
   TRACE_ENTER("SoundClip::SoundClip");
 
   this->direct_sound = NULL;
-  this->filename     = filename;
-  this->events       = events;
+  this->filename = filename;
+  this->events = events;
 
-  wave_file         = NULL;
-  sound_buffer      = NULL;
+  wave_file = NULL;
+  sound_buffer = NULL;
   sound_buffer_size = 0;
-  stop_event        = NULL;
+  stop_event = NULL;
 
   TRACE_EXIT();
 }
@@ -363,11 +363,11 @@ SoundClip::init()
 
   DSBUFFERDESC dsbd;
   ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
-  dsbd.dwSize          = sizeof(DSBUFFERDESC);
-  dsbd.dwFlags         = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLPOSITIONNOTIFY;
-  dsbd.dwBufferBytes   = sound_buffer_size;
+  dsbd.dwSize = sizeof(DSBUFFERDESC);
+  dsbd.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLPOSITIONNOTIFY;
+  dsbd.dwBufferBytes = sound_buffer_size;
   dsbd.guid3DAlgorithm = GUID_NULL;
-  dsbd.lpwfxFormat     = wave_file->get_format();
+  dsbd.lpwfxFormat = wave_file->get_format();
 
   hr = direct_sound->CreateSoundBuffer(&dsbd, &sound_buffer, NULL);
   if (FAILED(hr) || sound_buffer == NULL)
@@ -387,7 +387,7 @@ SoundClip::init()
   stop_event = CreateEvent(0, false, false, 0);
 
   DSBPOSITIONNOTIFY pn;
-  pn.dwOffset     = DSBPN_OFFSETSTOP;
+  pn.dwOffset = DSBPN_OFFSETSTOP;
   pn.hEventNotify = stop_event;
 
   hr = notify->SetNotificationPositions(1, &pn);
@@ -413,7 +413,7 @@ SoundClip::fill_buffer()
   TRACE_ENTER("SoundClip::fill_buffer");
 
   HRESULT hr;
-  VOID *locked_sound_buffer      = NULL;
+  VOID *locked_sound_buffer = NULL;
   DWORD locked_sound_buffer_size = 0;
 
   restore_buffer();
@@ -523,7 +523,7 @@ WaveFile::WaveFile(const string &filename)
   : filename(filename)
 {
   TRACE_ENTER("WaveFile::WaveFile");
-  mmio        = NULL;
+  mmio = NULL;
   sample_size = 0;
 
   memset((void *)&child, 0, sizeof(child));

@@ -43,7 +43,7 @@ class Break
 {
 private:
   //! ID of the break.
-  BreakId break_id;
+  BreakId break_id{BREAK_ID_NONE};
 
   //! Name of the break (used in configuration)
   std::string break_name;
@@ -52,26 +52,26 @@ private:
   std::string break_prefix;
 
   //! The Configurator
-  IConfigurator *config;
+  IConfigurator *config{nullptr};
 
   //!
-  IApp *application;
+  IApp *application{nullptr};
 
   //! Interface pointer to the timer.
-  Timer *timer;
+  Timer *timer{nullptr};
 
   //! Interface pointer to the break controller.
-  BreakControl *break_control;
+  BreakControl *break_control{nullptr};
 
   //! Break enabled?
-  bool enabled;
+  bool enabled{true};
 
   //!
-  UsageMode usage_mode;
+  UsageMode usage_mode{USAGE_MODE_NORMAL};
 
 public:
   Break();
-  virtual ~Break();
+  ~Break() override;
 
   void init(BreakId id, IApp *app);
 
@@ -79,23 +79,23 @@ public:
   static std::string get_name(BreakId id);
 
   std::string expand(const std::string &str);
-  std::string get_name() const;
-  BreakId get_id() const;
+  std::string get_name() const override;
+  BreakId get_id() const override;
 
   Timer *get_timer() const;
   BreakControl *get_break_control();
 
   // IBreak
-  virtual bool is_enabled() const;
-  virtual bool is_running() const;
-  virtual time_t get_elapsed_time() const;
-  virtual time_t get_elapsed_idle_time() const;
-  virtual time_t get_auto_reset() const;
-  virtual bool is_auto_reset_enabled() const;
-  virtual time_t get_limit() const;
-  virtual bool is_limit_enabled() const;
-  virtual bool is_taking() const;
-  virtual bool is_max_preludes_reached() const;
+  bool is_enabled() const override;
+  bool is_running() const override;
+  time_t get_elapsed_time() const override;
+  time_t get_elapsed_idle_time() const override;
+  time_t get_auto_reset() const override;
+  bool is_auto_reset_enabled() const override;
+  time_t get_limit() const override;
+  bool is_limit_enabled() const override;
+  bool is_taking() const override;
+  bool is_max_preludes_reached() const override;
 
   void set_usage_mode(UsageMode mode);
 
@@ -104,7 +104,7 @@ public:
   void override(BreakId id);
 
 private:
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
 
 private:
   void init_defaults();

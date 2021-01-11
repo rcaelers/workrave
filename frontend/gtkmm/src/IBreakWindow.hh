@@ -20,7 +20,7 @@
 #ifndef IBREAKWINDOW_HH
 #define IBREAKWINDOW_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 namespace workrave
 {
@@ -32,7 +32,7 @@ using namespace workrave;
 class IBreakWindow
 {
 public:
-  virtual ~IBreakWindow() {}
+  virtual ~IBreakWindow() = default;
 
   //! Initializes the break window.
   virtual void init() = 0;

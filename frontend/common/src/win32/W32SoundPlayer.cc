@@ -58,7 +58,7 @@ registry_get_value(const char *path, const char *name, char *out)
     {
       DWORD type, size;
       size = MAX_PATH;
-      err  = RegQueryValueEx(handle, name, 0, &type, (LPBYTE)out, &size);
+      err = RegQueryValueEx(handle, name, 0, &type, (LPBYTE)out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -228,7 +228,7 @@ W32SoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
   registry_set_value(key, NULL, wav_file.c_str());
 
   bool enabled = false;
-  bool valid   = get_sound_enabled(snd, enabled);
+  bool valid = get_sound_enabled(snd, enabled);
 
   if (!valid || enabled)
     {
@@ -281,7 +281,7 @@ W32SoundPlayer::open()
   wave_event = CreateEvent(NULL, FALSE, FALSE, NULL);
 
   number_of_buffers = 16;
-  buffer_position   = 0;
+  buffer_position = 0;
 
   res = waveOutOpen(&waveout, WAVE_MAPPER, &format, (DWORD)wave_event, (DWORD)0, CALLBACK_EVENT);
   if (res != MMSYSERR_NOERROR)
@@ -374,9 +374,9 @@ W32SoundPlayer::flush_buffer(int i)
 
   if (buffers[i]->dwBytesRecorded != 0)
     {
-      buffers[i]->dwBufferLength  = buffers[i]->dwBytesRecorded;
+      buffers[i]->dwBufferLength = buffers[i]->dwBytesRecorded;
       buffers[i]->dwBytesRecorded = 0;
-      buffers[i]->dwFlags         = 0;
+      buffers[i]->dwFlags = 0;
 
       res = waveOutPrepareHeader(waveout, buffers[i], sizeof(WAVEHDR));
       if (res != MMSYSERR_NOERROR)
@@ -427,7 +427,7 @@ W32SoundPlayer::close(void)
   free(sample);
 
   buffers = NULL;
-  sample  = NULL;
+  sample = NULL;
 
   res = waveOutClose(waveout);
   if (res != MMSYSERR_NOERROR)
@@ -496,13 +496,13 @@ W32SoundPlayer::load_wav_file(const string &filename)
   memset((void *)&child, 0, sizeof(child));
 
   parent.ckid = mmioFOURCC('d', 'a', 't', 'a');
-  res         = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
+  res = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("mmioAscend");
     }
 
-  sample      = (unsigned char *)malloc(child.cksize);
+  sample = (unsigned char *)malloc(child.cksize);
   sample_size = child.cksize;
   if (sample == NULL)
     {

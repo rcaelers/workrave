@@ -20,11 +20,11 @@
 #ifndef STATISTICS_HH
 #define STATISTICS_HH
 
-#include <iostream>
+#include <cstring>
+#include <ctime>
 #include <fstream>
+#include <iostream>
 #include <vector>
-#include <time.h>
-#include <string.h>
 
 #include "IStatistics.hh"
 #include "IInputMonitorListener.hh"
@@ -92,7 +92,7 @@ private:
         }
 
       // Empty marker.
-      start.tm_year    = 0;
+      start.tm_year = 0;
       total_mouse_time = 0;
     }
 
@@ -110,33 +110,33 @@ public:
   Statistics();
 
   //! Destructor
-  virtual ~Statistics();
+  ~Statistics() override;
 
-  bool delete_all_history();
+  bool delete_all_history() override;
 
 public:
   void init(Core *core);
-  void update();
-  void dump();
+  void update() override;
+  void dump() override;
   void start_new_day();
 
   void increment_break_counter(BreakId, StatsBreakValueType st);
   void set_break_counter(BreakId bt, StatsBreakValueType st, int value);
   void add_break_counter(BreakId bt, StatsBreakValueType st, int value);
 
-  DailyStatsImpl *get_current_day() const;
-  DailyStatsImpl *get_day(int day) const;
-  void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
+  DailyStatsImpl *get_current_day() const override;
+  DailyStatsImpl *get_day(int day) const override;
+  void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const override;
 
-  int get_history_size() const;
+  int get_history_size() const override;
   void set_counter(StatsValueType t, int value);
   int64_t get_counter(StatsValueType t);
 
 private:
-  void action_notify();
-  void mouse_notify(int x, int y, int wheel = 0);
-  void button_notify(bool is_press);
-  void keyboard_notify(bool repeat);
+  void action_notify() override;
+  void mouse_notify(int x, int y, int wheel = 0) override;
+  void button_notify(bool is_press) override;
+  void keyboard_notify(bool repeat) override;
 
   bool load_current_day();
   void update_current_day(bool active);
@@ -154,26 +154,26 @@ private:
 
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer);
+  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) override;
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer) override;
   bool pack_stats(PacketBuffer &buffer, const DailyStatsImpl *stats);
 #endif
 
 private:
   //! Interface to the core_control.
-  Core *core;
+  Core *core{nullptr};
 
   //! Mouse/Keyboard monitoring.
-  IInputMonitor *input_monitor;
+  IInputMonitor *input_monitor{nullptr};
 
   //! Last time a mouse event was received.
-  gint64 last_mouse_time;
+  gint64 last_mouse_time{0};
 
   //! Statistics of current day.
-  DailyStatsImpl *current_day;
+  DailyStatsImpl *current_day{nullptr};
 
   //! Has the user been active on the current day?
-  bool been_active;
+  bool been_active{false};
 
   //! History
   History history;
@@ -182,16 +182,16 @@ private:
   Mutex lock;
 
   //! Previous X coordinate
-  int prev_x;
+  int prev_x{-1};
 
   //! Previous Y coordinate
-  int prev_y;
+  int prev_y{-1};
 
   //! Previous X-click coordinate
-  int click_x;
+  int click_x{-1};
 
   //! Previous Y-click coordinate
-  int click_y;
+  int click_y{-1};
 };
 
 #endif // STATISTICS_HH

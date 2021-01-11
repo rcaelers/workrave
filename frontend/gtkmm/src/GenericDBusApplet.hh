@@ -65,7 +65,7 @@ public:
   typedef std::list<MenuItem> MenuItems;
 
   GenericDBusApplet();
-  virtual ~GenericDBusApplet();
+  ~GenericDBusApplet() override;
 
   // DBus
   virtual void get_menu(MenuItems &out) const;
@@ -105,8 +105,8 @@ private:
   void send_tray_icon_enabled();
 
 private:
-  bool visible;
-  bool embedded;
+  bool visible{false};
+  bool embedded{false};
   TimerData data[BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;

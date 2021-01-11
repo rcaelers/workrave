@@ -90,10 +90,10 @@ W32LowLevelMonitor::W32LowLevelMonitor()
 
   singleton = this;
 
-  dispatch       = new thread_struct;
+  dispatch = new thread_struct;
   dispatch->name = "Dispatch";
 
-  callback       = new thread_struct;
+  callback = new thread_struct;
   callback->name = "Callback";
 
   k_hook = NULL;
@@ -119,8 +119,8 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
   delete dispatch;
   delete callback;
 
-  dispatch  = NULL;
-  callback  = NULL;
+  dispatch = NULL;
+  callback = NULL;
   singleton = NULL;
 
   TRACE_EXIT();
@@ -190,7 +190,7 @@ W32LowLevelMonitor::wait_for_thread_queue(thread_struct *thread)
   while (thread->active == false);
 
   SetLastError(0);
-  BOOL ret  = PostThreadMessageW(thread->id, 0xFFFF, 0, 0);
+  BOOL ret = PostThreadMessageW(thread->id, 0xFFFF, 0, 0);
   DWORD gle = GetLastError();
 
   if (!ret || gle)

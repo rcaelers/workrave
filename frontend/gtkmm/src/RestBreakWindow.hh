@@ -20,7 +20,7 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 class TimeBar;
 
@@ -37,14 +37,14 @@ class RestBreakWindow : public BreakWindow
 {
 public:
   RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~RestBreakWindow();
+  ~RestBreakWindow() override;
 
-  void start();
-  void set_progress(int value, int max_value);
-  void update_break_window();
+  void start() override;
+  void set_progress(int value, int max_value) override;
+  void update_break_window() override;
 
 protected:
-  Gtk::Widget *create_gui();
+  Gtk::Widget *create_gui() override;
   void draw_time_bar();
 
 private:
@@ -61,20 +61,20 @@ private:
 
 private:
   //! The Time
-  TimeBar *timebar;
+  TimeBar *timebar{nullptr};
 
   //! Progress
-  int progress_value;
+  int progress_value{0};
 
   //! Progress
-  int progress_max_value;
+  int progress_max_value{0};
 
 #ifdef HAVE_EXERCISES
-  Gtk::HBox *pluggable_panel;
+  Gtk::HBox *pluggable_panel{nullptr};
 #endif
 
   //! Is currently flashing because user is active?
-  bool is_flashing;
+  bool is_flashing{false};
 };
 
 #endif // RESTBREAKWINDOW_HH

@@ -42,7 +42,7 @@
 class TimePred
 {
 public:
-  virtual ~TimePred() {}
+  virtual ~TimePred() = default;
 
   //! Set the last time the predicate matched.
   virtual void set_last(time_t lastTime) { last_time = lastTime; }
@@ -55,7 +55,7 @@ public:
 
 protected:
   //! Last time the predicate matched.
-  time_t last_time;
+  time_t last_time{0};
 };
 
 #endif // TIMEPRED_HH

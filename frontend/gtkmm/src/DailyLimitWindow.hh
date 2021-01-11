@@ -20,7 +20,7 @@
 #ifndef DAILYLIMITWINDOW_HH
 #define DAILYLIMITWINDOW_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "BreakWindow.hh"
 #include "GUIConfig.hh"
@@ -29,12 +29,12 @@ class DailyLimitWindow : public BreakWindow
 {
 public:
   DailyLimitWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~DailyLimitWindow();
+  ~DailyLimitWindow() override;
 
-  void set_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
 
 protected:
-  Gtk::Widget *create_gui();
+  Gtk::Widget *create_gui() override;
 };
 
 #endif // DAILYLIMITWINDOW_HH

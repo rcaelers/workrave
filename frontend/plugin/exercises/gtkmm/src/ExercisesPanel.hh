@@ -41,13 +41,13 @@ class ExercisesPanel : public Gtk::HBox
 {
 public:
   ExercisesPanel(Gtk::ButtonBox *dialog_action_area);
-  ~ExercisesPanel();
+  ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
   sigc::signal0<void> &signal_stop() { return stop_signal; }
 
 protected:
-  void on_realize();
+  void on_realize() override;
 
 private:
   void reset();
@@ -77,23 +77,23 @@ private:
   Gtk::ProgressBar progress_bar;
   Gtk::TextView description_text;
   Gtk::ScrolledWindow description_scroll;
-  Gtk::Button *back_button;
-  Gtk::Button *pause_button;
-  Gtk::Button *forward_button;
-  Gtk::Button *stop_button;
+  Gtk::Button *back_button{nullptr};
+  Gtk::Button *pause_button{nullptr};
+  Gtk::Button *forward_button{nullptr};
+  Gtk::Button *stop_button{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
   sigc::connection heartbeat_signal;
-  int exercise_time;
-  int seq_time;
-  bool paused;
-  bool stopped;
+  int exercise_time{};
+  int seq_time{};
+  bool paused{};
+  bool stopped{};
   sigc::signal0<void> stop_signal;
   bool standalone;
-  int exercise_num;
+  int exercise_num{};
   int exercise_count;
   static int exercises_pointer;
 };

@@ -20,7 +20,7 @@
 #ifndef IINPUTMONITORFACTORY_HH
 #define IINPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 class IInputMonitor;
@@ -35,9 +35,9 @@ public:
     CAPABILITY_STATISTICS
   };
 
-  virtual ~IInputMonitorFactory() {}
+  virtual ~IInputMonitorFactory() = default;
 
-  virtual void init(const char *display)                           = 0;
+  virtual void init(const char *display) = 0;
   virtual IInputMonitor *get_monitor(MonitorCapability capability) = 0;
 };
 

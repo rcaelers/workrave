@@ -34,11 +34,11 @@ class GenericDBusApplet;
 class IndicatorAppletMenu : public MenuBase
 {
 public:
-  IndicatorAppletMenu();
-  virtual ~IndicatorAppletMenu();
+  IndicatorAppletMenu() = default;
+  ~IndicatorAppletMenu() override = default;
 
-  virtual void init();
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  void init() override;
+  void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) override;
 
 private:
   enum MenuItemType
@@ -59,8 +59,8 @@ private:
   void menu_item_activated(DbusmenuMenuitem *mi);
 
 private:
-  DbusmenuServer *server;
-  DbusmenuMenuitem *root;
+  DbusmenuServer *server{nullptr};
+  DbusmenuMenuitem *root{nullptr};
   DbusmenuMenuitem *menu_items[MENU_COMMAND_SIZEOF];
 };
 

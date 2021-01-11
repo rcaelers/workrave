@@ -27,7 +27,7 @@
 #ifdef HAVE_DISTRIBUTION
 
 #  include "debug.hh"
-#  include <assert.h>
+#  include <cassert>
 
 #  include <iostream>
 #  include <fstream>
@@ -35,11 +35,11 @@
 
 #  include "nls.h"
 
-#  include <stdio.h>
-#  include <stdlib.h>
-#  include <string.h>
+#  include <cstdio>
+#  include <cstdlib>
+#  include <cstring>
 
-#  include <signal.h>
+#  include <csignal>
 
 #  include "Configurator.hh"
 #  include "CoreConfig.hh"
@@ -61,20 +61,7 @@ using namespace std;
  *  \param conf Configurator to use.
  */
 DistributionSocketLink::DistributionSocketLink(Configurator *conf)
-  : dist_manager(NULL)
-  , configurator(conf)
-  , username(NULL)
-  , password(NULL)
-  , master_client(NULL)
-  , i_am_master(false)
-  , master_locked(false)
-  , server_port(DEFAULT_PORT)
-  , server_socket(NULL)
-  , network_enabled(false)
-  , server_enabled(false)
-  , reconnect_attempts(DEFAULT_ATTEMPTS)
-  , reconnect_interval(DEFAULT_INTERVAL)
-  , heartbeat_count(0)
+  : configurator(conf)
 {
   socket_driver = SocketDriver::create();
   init_my_id();
@@ -83,7 +70,7 @@ DistributionSocketLink::DistributionSocketLink(Configurator *conf)
 //! Destructs the socket link.
 DistributionSocketLink::~DistributionSocketLink()
 {
-  remove_client(NULL);
+  remove_client(nullptr);
 
   g_free(username);
   g_free(password);
@@ -98,8 +85,8 @@ DistributionSocketLink::init()
   TRACE_ENTER("DistributionSocketLink::init");
 
   // I'm master.
-  master_client = NULL;
-  i_am_master   = true;
+  master_client = nullptr;
+  i_am_master = true;
 
   // Read all tcp link configuration.
   read_configuration();
@@ -118,7 +105,7 @@ DistributionSocketLink::heartbeat()
       TRACE_ENTER("DistributionSocketLink::heartbeat");
       heartbeat_count++;
 
-      time_t current_time = time(NULL);
+      time_t current_time = time(nullptr);
 
       // See if we have some clients that need reconncting.
       list<Client *>::iterator i = clients.begin();
@@ -126,14 +113,14 @@ DistributionSocketLink::heartbeat()
         {
           Client *c = *i;
           if (c->type == CLIENTTYPE_DIRECT && c->reconnect_count > 0 && c->reconnect_time != 0 && current_time >= c->reconnect_time
-              && c->hostname != NULL)
+              && c->hostname != nullptr)
             {
               c->reconnect_count--;
               c->reconnect_time = 0;
 
-              dist_manager->log(_("Reconnecting to %s."), c->id == NULL ? "Unknown" : c->id);
+              dist_manager->log(_("Reconnecting to %s."), c->id == nullptr ? "Unknown" : c->id);
 
-              if (c->socket != NULL)
+              if (c->socket != nullptr)
                 {
                   c->socket->close();
                   delete c->socket;
@@ -163,7 +150,7 @@ void
 DistributionSocketLink::init_my_id()
 {
   TRACE_ENTER("DistributionSocketLink::init_my_id");
-  bool ok           = false;
+  bool ok = false;
   string idfilename = Util::get_home_directory() + "id";
 
   if (Util::file_exists(idfilename))
@@ -211,7 +198,7 @@ DistributionSocketLink::get_number_of_peers()
   while (i != clients.end())
     {
       Client *c = *i;
-      if (c->socket != NULL)
+      if (c->socket != nullptr)
         {
           count++;
         }
@@ -254,7 +241,7 @@ DistributionSocketLink::connect(string url)
           port = hostport.substr(pos + 1);
         }
 
-      add_client(NULL, (gchar *)host.c_str(), atoi(port.c_str()), CLIENTTYPE_DIRECT);
+      add_client(nullptr, (gchar *)host.c_str(), atoi(port.c_str()), CLIENTTYPE_DIRECT);
     }
   TRACE_EXIT();
 }
@@ -265,7 +252,7 @@ DistributionSocketLink::disconnect(string id)
 {
   TRACE_ENTER_MSG("DistributionSocketLink::disconnect", id);
   Client *c = find_client_by_id((gchar *)id.c_str());
-  if (c != NULL)
+  if (c != nullptr)
     {
       TRACE_MSG("close");
       close_client(c);
@@ -279,9 +266,9 @@ DistributionSocketLink::disconnect_all()
 {
   TRACE_ENTER("DistributionSocketLink::disconnect_all");
   list<Client *>::iterator i = clients.begin();
-  bool ret                   = false;
+  bool ret = false;
 
-  master_client = NULL;
+  master_client = nullptr;
 
   while (i != clients.end())
     {
@@ -302,7 +289,7 @@ DistributionSocketLink::reconnect_all()
 {
   TRACE_ENTER("DistributionSocketLink::reconnect_all");
   list<Client *>::iterator i = clients.begin();
-  bool ret                   = false;
+  bool ret = false;
 
   while (i != clients.end())
     {
@@ -328,7 +315,7 @@ DistributionSocketLink::claim()
   TRACE_ENTER("DistributionSocketLink::claim");
   bool ret = true;
 
-  if (master_client != NULL)
+  if (master_client != nullptr)
     {
       // Another client is master. Politely request to become
       // master client.
@@ -412,7 +399,7 @@ DistributionSocketLink::set_server_enabled(bool enabled)
       return ret;
     }
 
-  if (server_socket == NULL && enabled)
+  if (server_socket == nullptr && enabled)
     {
       // Switching from disabled to enabled;
       if (!start_async_server())
@@ -422,16 +409,16 @@ DistributionSocketLink::set_server_enabled(bool enabled)
           enabled = false;
         }
     }
-  else if (server_socket != NULL && !enabled)
+  else if (server_socket != nullptr && !enabled)
     {
       // Switching from enabled to disabled.
-      if (server_socket != NULL)
+      if (server_socket != nullptr)
         {
           dist_manager->log(_("Disabling network operation."));
 
           delete server_socket;
         }
-      server_socket = NULL;
+      server_socket = nullptr;
       disconnect_all();
     }
 
@@ -448,7 +435,7 @@ DistributionSocketLink::register_client_message(DistributionClientMessageID id,
 {
   ClientMessageListener sl;
   sl.listener = callback;
-  sl.type     = type;
+  sl.type = type;
 
   client_message_map[id] = sl;
 
@@ -490,7 +477,7 @@ DistributionSocketLink::broadcast_client_message(DistributionClientMessageID dsi
 bool
 DistributionSocketLink::client_is_me(gchar *id)
 {
-  return id != NULL && strcmp(id, my_id.str().c_str()) == 0;
+  return id != nullptr && strcmp(id, my_id.str().c_str()) == 0;
 }
 
 //! Returns whether the specified client exists.
@@ -508,7 +495,7 @@ DistributionSocketLink::exists_client(gchar *id)
   if (!ret)
     {
       Client *c = find_client_by_id(id);
-      ret       = (c != NULL);
+      ret = (c != nullptr);
     }
 
   TRACE_EXIT();
@@ -520,14 +507,14 @@ bool
 DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType type, Client *peer)
 {
   TRACE_ENTER_MSG("DistributionSocketLink::add_client",
-                  (id != NULL ? id : "NULL") << " " << (host != NULL ? host : "NULL") << " " << port);
+                  (id != nullptr ? id : "NULL") << " " << (host != nullptr ? host : "NULL") << " " << port);
 
-  gchar *canonical_host = NULL;
+  gchar *canonical_host = nullptr;
 
   Client *c = find_client_by_canonicalname(host, port);
-  if (c != NULL && c->type == CLIENTTYPE_SIGNEDOFF && type == CLIENTTYPE_DIRECT)
+  if (c != nullptr && c->type == CLIENTTYPE_SIGNEDOFF && type == CLIENTTYPE_DIRECT)
     {
-      if (c->id != NULL)
+      if (c->id != nullptr)
         {
           dist_manager->signon_remote_client(c->id);
         }
@@ -535,7 +522,7 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
       c->type = type;
       dist_manager->log(_("Connecting to %s."), host);
 
-      if (c->socket != NULL)
+      if (c->socket != nullptr)
         {
           c->socket->close();
           delete c->socket;
@@ -558,12 +545,12 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
       client->peer = peer;
       client->packet.create();
       client->hostname = g_strdup(host);
-      client->id       = g_strdup(id);
-      client->port     = port;
+      client->id = g_strdup(id);
+      client->port = port;
 
       clients.push_back(client);
 
-      if (client->id != NULL)
+      if (client->id != nullptr)
         {
           dist_manager->signon_remote_client(client->id);
         }
@@ -572,7 +559,7 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
         {
           dist_manager->log(_("Connecting to %s."), host);
 
-          if (client->socket != NULL)
+          if (client->socket != nullptr)
             {
               client->socket->close();
               delete client->socket;
@@ -610,7 +597,7 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id)
       // Already have a client with this name/port
       Client *old_client = find_client_by_id(id);
 
-      if (old_client == NULL)
+      if (old_client == nullptr)
         {
           // Iek this is me.
           TRACE_MSG("It'me me");
@@ -622,7 +609,7 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id)
           // It's a remote client, but not the same one.
 
           bool reuse =
-            ((old_client->type == CLIENTTYPE_DIRECT || old_client->type == CLIENTTYPE_SIGNEDOFF) && old_client->socket == NULL);
+            ((old_client->type == CLIENTTYPE_DIRECT || old_client->type == CLIENTTYPE_SIGNEDOFF) && old_client->socket == nullptr);
 
           TRACE_MSG("reuse " << reuse);
           if (reuse)
@@ -649,11 +636,11 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id)
       // No duplicate, so change the canonical name.
       g_free(client->id);
       g_free(client->hostname);
-      client->id       = g_strdup(id);
-      client->hostname = NULL;
-      client->port     = 0;
+      client->id = g_strdup(id);
+      client->hostname = nullptr;
+      client->port = 0;
 
-      if (client->id != NULL)
+      if (client->id != nullptr)
         {
           dist_manager->signon_remote_client(client->id);
         }
@@ -678,14 +665,14 @@ DistributionSocketLink::remove_client(Client *client)
 
   while (i != clients.end())
     {
-      if (client == NULL || *i == client || (*i)->peer == client)
+      if (client == nullptr || *i == client || (*i)->peer == client)
         {
-          if ((*i)->id != NULL)
+          if ((*i)->id != nullptr)
             {
               dist_manager->signoff_remote_client((*i)->id);
             }
 
-          dist_manager->log(_("Removing client %s."), (*i)->id == NULL ? "Unknown" : (*i)->id);
+          dist_manager->log(_("Removing client %s."), (*i)->id == nullptr ? "Unknown" : (*i)->id);
           delete *i;
           i = clients.erase(i);
         }
@@ -698,7 +685,7 @@ DistributionSocketLink::remove_client(Client *client)
   if (client == master_client)
     {
       // Client to be removed is master. Unset master client.
-      master_client = NULL;
+      master_client = nullptr;
     }
   TRACE_EXIT();
 }
@@ -716,10 +703,10 @@ DistributionSocketLink::remove_peer_clients(Client *client)
         {
           TRACE_MSG("Client " << (*i)->peer->id << " is peer of " << client->id);
 
-          dist_manager->log(_("Removing client %s."), (*i)->id == NULL ? "Unknown" : (*i)->id);
-          send_signoff(NULL, *i);
+          dist_manager->log(_("Removing client %s."), (*i)->id == nullptr ? "Unknown" : (*i)->id);
+          send_signoff(nullptr, *i);
 
-          if ((*i)->id != NULL)
+          if ((*i)->id != nullptr)
             {
               dist_manager->signoff_remote_client((*i)->id);
             }
@@ -727,7 +714,7 @@ DistributionSocketLink::remove_peer_clients(Client *client)
           if (client == master_client)
             {
               // Connection to master is lost. Unset master client.
-              set_master(NULL);
+              set_master(nullptr);
             }
 
           delete *i;
@@ -745,9 +732,9 @@ DistributionSocketLink::remove_peer_clients(Client *client)
 void
 DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/)
 {
-  TRACE_ENTER_MSG("DistributionSocketLink::close_client", (client->id != NULL ? client->id : "Unknown") << " " << reconnect);
+  TRACE_ENTER_MSG("DistributionSocketLink::close_client", (client->id != nullptr ? client->id : "Unknown") << " " << reconnect);
 
-  if (client->id != NULL)
+  if (client->id != nullptr)
     {
       dist_manager->signoff_remote_client(client->id);
     }
@@ -755,56 +742,56 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
   if (client == master_client)
     {
       // Client to be closed is master. Unset master client.
-      set_master(NULL);
+      set_master(nullptr);
     }
 
   if (client->type == CLIENTTYPE_DIRECT)
     {
       TRACE_MSG("Is direct");
       // Closing direct connection.
-      dist_manager->log(_("Disconnecting %s"), client->id != NULL ? client->id : "Unknown");
+      dist_manager->log(_("Disconnecting %s"), client->id != nullptr ? client->id : "Unknown");
 
       // Inform the client that we are disconnecting.
-      send_signoff(client, NULL);
+      send_signoff(client, nullptr);
 
-      if (client->socket != NULL)
+      if (client->socket != nullptr)
         {
           TRACE_MSG("Still connected");
           // Still connected. Disconect.
           delete client->socket;
-          client->socket = NULL;
+          client->socket = nullptr;
 
           if (reconnect)
             {
               TRACE_MSG("must reconnected");
               client->reconnect_count = reconnect_attempts;
-              client->reconnect_time  = time(NULL) + 5;
+              client->reconnect_time = time(nullptr) + 5;
             }
           else
             {
               TRACE_MSG("set signed off");
               client->reconnect_count = 0;
-              client->reconnect_time  = 0;
-              client->type            = CLIENTTYPE_SIGNEDOFF;
+              client->reconnect_time = 0;
+              client->type = CLIENTTYPE_SIGNEDOFF;
             }
         }
 
-      send_signoff(NULL, client);
+      send_signoff(nullptr, client);
       remove_peer_clients(client);
     }
   else if (client->type == CLIENTTYPE_SIGNEDOFF)
     {
       TRACE_MSG("is signed off");
-      if (client->socket != NULL)
+      if (client->socket != nullptr)
         {
           TRACE_MSG("still connected");
 
           // Still connected. Disconect.
           delete client->socket;
-          client->socket = NULL;
+          client->socket = nullptr;
 
           client->reconnect_count = 0;
-          client->reconnect_time  = 0;
+          client->reconnect_time = 0;
         }
 
       remove_peer_clients(client);
@@ -817,7 +804,7 @@ bool
 DistributionSocketLink::is_client_valid(Client *client)
 {
   list<Client *>::iterator i = clients.begin();
-  bool ret                   = false;
+  bool ret = false;
 
   while (!ret && i != clients.end())
     {
@@ -835,12 +822,12 @@ DistributionSocketLink::is_client_valid(Client *client)
 DistributionSocketLink::Client *
 DistributionSocketLink::find_client_by_canonicalname(gchar *name, gint port)
 {
-  Client *ret                = NULL;
+  Client *ret = nullptr;
   list<Client *>::iterator i = clients.begin();
 
   while (i != clients.end())
     {
-      if ((*i)->port == port && (*i)->hostname != NULL && strcmp((*i)->hostname, name) == 0)
+      if ((*i)->port == port && (*i)->hostname != nullptr && strcmp((*i)->hostname, name) == 0)
         {
           ret = *i;
         }
@@ -853,12 +840,12 @@ DistributionSocketLink::find_client_by_canonicalname(gchar *name, gint port)
 DistributionSocketLink::Client *
 DistributionSocketLink::find_client_by_id(gchar *id)
 {
-  Client *ret                = NULL;
+  Client *ret = nullptr;
   list<Client *>::iterator i = clients.begin();
 
   while (i != clients.end())
     {
-      if ((*i)->id != NULL && strcmp((*i)->id, id) == 0)
+      if ((*i)->id != nullptr && strcmp((*i)->id, id) == 0)
         {
           ret = *i;
         }
@@ -877,7 +864,7 @@ DistributionSocketLink::get_master() const
     {
       id = get_my_id();
     }
-  else if (master_client != NULL && master_client->id != NULL)
+  else if (master_client != nullptr && master_client->id != nullptr)
     {
       id = master_client->id;
     }
@@ -890,11 +877,11 @@ DistributionSocketLink::set_master(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::set_master")
   master_client = client;
-  i_am_master   = false;
+  i_am_master = false;
 
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
-      dist_manager->master_changed(false, client != NULL ? client->id : "");
+      dist_manager->master_changed(false, client != nullptr ? client->id : "");
     }
   TRACE_EXIT();
 }
@@ -904,10 +891,10 @@ void
 DistributionSocketLink::set_me_master()
 {
   TRACE_ENTER("DistributionSocketLink::set_me_master");
-  master_client = NULL;
-  i_am_master   = true;
+  master_client = nullptr;
+  i_am_master = true;
 
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       dist_manager->master_changed(true, get_my_id());
     }
@@ -922,10 +909,10 @@ DistributionSocketLink::set_master_by_id(gchar *id)
 
   Client *c = find_client_by_id(id);
 
-  if (c != NULL)
+  if (c != nullptr)
     {
       // It's a remote client. mark it master.
-      dist_manager->log(_("Client %s is now master."), c->id == NULL ? "Unknown" : c->id);
+      dist_manager->log(_("Client %s is now master."), c->id == nullptr ? "Unknown" : c->id);
       set_master(c);
     }
   else if (strcmp(id, get_my_id().c_str()) == 0)
@@ -963,7 +950,7 @@ DistributionSocketLink::send_packet_broadcast(PacketBuffer &packet)
 {
   TRACE_ENTER("DistributionSocketLink::send_packet_broadcast");
 
-  send_packet_except(packet, NULL);
+  send_packet_except(packet, nullptr);
 
   TRACE_EXIT();
 }
@@ -984,7 +971,7 @@ DistributionSocketLink::send_packet_except(PacketBuffer &packet, Client *client)
     {
       Client *c = *i;
 
-      if (c != client && c->socket != NULL)
+      if (c != client && c->socket != nullptr)
         {
           int bytes_written = 0;
           try
@@ -1008,11 +995,11 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
 {
   TRACE_ENTER("DistributionSocketLink::send_packet");
 
-  if (client != NULL && client->type == CLIENTTYPE_ROUTED)
+  if (client != nullptr && client->type == CLIENTTYPE_ROUTED)
     {
       TRACE_MSG("Must route packet.");
 
-      if (client->id == NULL)
+      if (client->id == nullptr)
         {
           TRACE_MSG("Client's ID == NULL");
         }
@@ -1020,7 +1007,7 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
       packet.restart_read();
       int flags = packet.peek_byte(3);
 
-      if (!(flags & PACKETFLAG_DEST) && client->id != NULL)
+      if (!(flags & PACKETFLAG_DEST) && client->id != nullptr)
         {
           assert(!(flags & PACKETFLAG_SOURCE));
 
@@ -1034,9 +1021,9 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
       client = client->peer;
     }
 
-  if (client != NULL && client->socket != NULL)
+  if (client != nullptr && client->socket != nullptr)
     {
-      if (client->id != NULL)
+      if (client->id != nullptr)
         {
           TRACE_MSG("Sending to " << client->id);
         }
@@ -1073,17 +1060,17 @@ DistributionSocketLink::process_client_packet(Client *client)
   g_assert(size == packet.bytes_written());
 
   gint version = packet.unpack_byte();
-  gint flags   = packet.unpack_byte();
+  gint flags = packet.unpack_byte();
 
   gint type = packet.unpack_ushort();
   TRACE_MSG("type = " << type);
-  if (client != NULL && client->id != NULL)
+  if (client != nullptr && client->id != nullptr)
     {
       TRACE_MSG("From = " << client->id);
     }
 
   Client *source = client;
-  bool forward   = true;
+  bool forward = true;
   if (flags & PACKETFLAG_SOURCE)
     {
       gchar *id = packet.unpack_string();
@@ -1094,22 +1081,22 @@ DistributionSocketLink::process_client_packet(Client *client)
 
           source = find_client_by_id(id);
 
-          if (source == NULL)
+          if (source == nullptr)
             {
               TRACE_MSG("Unknown source. Dropping");
             }
           else if (source != client && source->peer != client)
             {
               TRACE_MSG("Illegal source in routing.");
-              source = NULL;
+              source = nullptr;
             }
         }
       else
         {
           TRACE_MSG("Cycle detected.");
-          type   = 0;
-          flags  = 0;
-          source = NULL;
+          type = 0;
+          flags = 0;
+          source = nullptr;
 
           // Duplicate client. inform client that it's bogus and close.
           //           dist_manager->log(_("Client %s:%d is duplicate."), client->hostname, client->port);
@@ -1124,25 +1111,25 @@ DistributionSocketLink::process_client_packet(Client *client)
     {
       gchar *id = packet.unpack_string();
 
-      if (id != NULL && !client_is_me(id))
+      if (id != nullptr && !client_is_me(id))
         {
           TRACE_MSG("Destination = " << id);
           Client *dest = find_client_by_id(id);
 
-          if (dest != NULL)
+          if (dest != nullptr)
             {
               TRACE_MSG("Forwarding to destination");
               forward_packet(packet, dest, source);
             }
 
-          source = NULL;
+          source = nullptr;
         }
       g_free(id);
     }
 
   TRACE_MSG("size = " << size << ", version = " << version << ", flags = " << flags);
 
-  if (source != NULL || type == PACKET_CLIENT_LIST)
+  if (source != nullptr || type == PACKET_CLIENT_LIST)
     {
       switch (type)
         {
@@ -1214,7 +1201,7 @@ DistributionSocketLink::forward_packet_except(PacketBuffer &packet, Client *clie
 
   packet.restart_read();
   int flags = packet.peek_byte(3);
-  if (!(flags & PACKETFLAG_SOURCE) && source->id != NULL)
+  if (!(flags & PACKETFLAG_SOURCE) && source->id != nullptr)
     {
       TRACE_MSG("Add source " << source->id);
       packet.poke_byte(3, flags | PACKETFLAG_SOURCE);
@@ -1233,7 +1220,7 @@ DistributionSocketLink::forward_packet(PacketBuffer &packet, Client *dest, Clien
 
   packet.restart_read();
   int flags = packet.peek_byte(3);
-  if (!(flags & PACKETFLAG_SOURCE) && source->id != NULL)
+  if (!(flags & PACKETFLAG_SOURCE) && source->id != nullptr)
     {
       TRACE_MSG("Add source " << source->id);
       packet.poke_byte(3, flags | PACKETFLAG_SOURCE);
@@ -1269,7 +1256,7 @@ DistributionSocketLink::send_hello1(Client *client)
   packet.create();
   init_packet(packet, PACKET_HELLO1);
 
-  string rnd        = get_random_string();
+  string rnd = get_random_string();
   client->challenge = rnd;
 
   TRACE_MSG(username << " " << get_my_id() << " " << rnd);
@@ -1289,21 +1276,21 @@ DistributionSocketLink::handle_hello1(PacketBuffer &packet, Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_hello1");
 
   gchar *user = packet.unpack_string();
-  gchar *id   = packet.unpack_string();
-  gchar *rnd  = packet.unpack_string();
+  gchar *id = packet.unpack_string();
+  gchar *rnd = packet.unpack_string();
 
   TRACE_MSG(user << " " << id << " " << rnd);
 
-  dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
+  dist_manager->log(_("Client %s saying hello."), id != nullptr ? id : "Unknown");
 
-  if (user != NULL && (username == NULL || (strcmp(username, user) == 0)))
+  if (user != nullptr && (username == nullptr || (strcmp(username, user) == 0)))
     {
       send_hello2(client, rnd);
     }
   else
     {
       // Incorrect user.
-      dist_manager->log(_("Client %s access denied."), id != NULL ? id : "Unknown");
+      dist_manager->log(_("Client %s access denied."), id != nullptr ? id : "Unknown");
       remove_client(client);
     }
 
@@ -1349,19 +1336,19 @@ DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
 
   gchar *user = packet.unpack_string();
   gchar *pass = packet.unpack_string();
-  gchar *id   = packet.unpack_string();
+  gchar *id = packet.unpack_string();
 
   TRACE_MSG(user << " " << pass << " " << id << " " << client->challenge);
 
-  dist_manager->log(_("Client %s saying hello."), id != NULL ? id : "Unknown");
+  dist_manager->log(_("Client %s saying hello."), id != nullptr ? id : "Unknown");
 
   GHmac *hmac = g_hmac_new(G_CHECKSUM_SHA1, (const guchar *)password, strlen(password));
   g_hmac_update(hmac, (const guchar *)username, strlen(username));
   g_hmac_update(hmac, (const guchar *)client->challenge.c_str(), client->challenge.length());
   g_hmac_update(hmac, (const guchar *)id, strlen(id));
 
-  if (user != NULL && pass != NULL && (username == NULL || (strcmp(username, user) == 0))
-      && (password == NULL || (strcmp(g_hmac_get_string(hmac), pass) == 0)))
+  if (user != nullptr && pass != nullptr && (username == nullptr || (strcmp(username, user) == 0))
+      && (password == nullptr || (strcmp(g_hmac_get_string(hmac), pass) == 0)))
     {
       bool ok = set_client_id(client, id);
 
@@ -1374,7 +1361,7 @@ DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
       else
         {
           // Duplicate client. inform client that it's bogus and close.
-          dist_manager->log(_("Client %s is duplicate."), id != NULL ? id : "Unknown");
+          dist_manager->log(_("Client %s is duplicate."), id != nullptr ? id : "Unknown");
 
           send_duplicate(client);
           remove_client(client);
@@ -1383,7 +1370,7 @@ DistributionSocketLink::handle_hello2(PacketBuffer &packet, Client *client)
   else
     {
       // Incorrect password.
-      dist_manager->log(_("Client %s access denied."), id != NULL ? id : "Unknown");
+      dist_manager->log(_("Client %s access denied."), id != nullptr ? id : "Unknown");
       remove_client(client);
     }
 
@@ -1407,9 +1394,9 @@ DistributionSocketLink::send_signoff(Client *to, Client *signedoff_client)
   packet.create();
   init_packet(packet, PACKET_SIGNOFF);
 
-  if (signedoff_client != NULL)
+  if (signedoff_client != nullptr)
     {
-      TRACE_MSG("remote client " << (signedoff_client->id != NULL ? signedoff_client->id : "?"));
+      TRACE_MSG("remote client " << (signedoff_client->id != nullptr ? signedoff_client->id : "?"));
       packet.pack_string(signedoff_client->id);
     }
   else
@@ -1418,9 +1405,9 @@ DistributionSocketLink::send_signoff(Client *to, Client *signedoff_client)
       packet.pack_string(get_my_id());
     }
 
-  if (to != NULL)
+  if (to != nullptr)
     {
-      TRACE_MSG("sending to " << (to->id != NULL ? to->id : "?"));
+      TRACE_MSG("sending to " << (to->id != nullptr ? to->id : "?"));
       send_packet(to, packet);
     }
   else
@@ -1443,17 +1430,17 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
     }
 
   gchar *id = packet.unpack_string();
-  Client *c = NULL;
+  Client *c = nullptr;
 
-  if (id != NULL)
+  if (id != nullptr)
     {
       c = find_client_by_id(id);
       g_free(id);
     }
 
-  if (c != NULL)
+  if (c != nullptr)
     {
-      dist_manager->log(_("Client %s signed off."), c->id == NULL ? "Unknown" : c->id);
+      dist_manager->log(_("Client %s signed off."), c->id == nullptr ? "Unknown" : c->id);
 
       if (c->type == CLIENTTYPE_DIRECT)
         {
@@ -1461,11 +1448,11 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
           c->type = CLIENTTYPE_SIGNEDOFF;
           remove_peer_clients(c);
 
-          if (c->socket != NULL)
+          if (c->socket != nullptr)
             {
               TRACE_MSG("Remove connection");
               delete c->socket;
-              c->socket = NULL;
+              c->socket = nullptr;
             }
 
           remove_client(c);
@@ -1501,7 +1488,7 @@ DistributionSocketLink::handle_duplicate(PacketBuffer &packet, Client *client)
 {
   (void)packet;
   TRACE_ENTER("DistributionSocketLink::handle_duplicate");
-  dist_manager->log(_("Client %s is duplicate."), client->id == NULL ? "Unknown" : client->id);
+  dist_manager->log(_("Client %s is duplicate."), client->id == nullptr ? "Unknown" : client->id);
   remove_client(client);
 
   TRACE_EXIT();
@@ -1533,11 +1520,11 @@ DistributionSocketLink::handle_welcome(PacketBuffer &packet, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_welcome");
 
-  gchar *id   = packet.unpack_string();
+  gchar *id = packet.unpack_string();
   gchar *name = packet.unpack_string();
   /*gint port = */ packet.unpack_ushort();
 
-  dist_manager->log(_("Client %s is welcoming us."), id == NULL ? "Unknown" : id);
+  dist_manager->log(_("Client %s is welcoming us."), id == nullptr ? "Unknown" : id);
 
   bool ok = set_client_id(client, id);
 
@@ -1548,7 +1535,7 @@ DistributionSocketLink::handle_welcome(PacketBuffer &packet, Client *client)
       // The connected client offers the master client.
       // This info will be received in the client list.
       // So, we no longer know who's master...
-      set_master(NULL);
+      set_master(nullptr);
 
       // All, ok. Send list of known client.
       // WITHOUT info about who's master on out side.
@@ -1579,7 +1566,7 @@ DistributionSocketLink::send_client_list(Client *client, bool except)
       packet.create();
       init_packet(packet, PACKET_CLIENT_LIST);
 
-      int count        = 1;
+      int count = 1;
       gint clients_pos = packet.bytes_written();
 
       packet.pack_ushort(0); // number of clients in the list
@@ -1605,7 +1592,7 @@ DistributionSocketLink::send_client_list(Client *client, bool except)
         {
           Client *c = *i;
 
-          if (c->id != NULL)
+          if (c->id != nullptr)
             {
               count++;
               pos = packet.bytes_written();
@@ -1661,31 +1648,31 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
 
   // Extract data.
   gint num_clients = packet.unpack_ushort();
-  gint flags       = packet.unpack_ushort();
+  gint flags = packet.unpack_ushort();
   (void)flags;
 
-  gchar *master_id = NULL;
+  gchar *master_id = nullptr;
 
   gchar **names = new gchar *[num_clients];
-  gchar **ids   = new gchar *[num_clients];
-  gint *ports   = new gint[num_clients];
+  gchar **ids = new gchar *[num_clients];
+  gint *ports = new gint[num_clients];
 
   bool ok = true;
 
   // Loop over remote clients.
   for (int i = 0; i < num_clients; i++)
     {
-      names[i] = NULL;
-      ids[i]   = NULL;
+      names[i] = nullptr;
+      ids[i] = nullptr;
       ports[i] = 0;
 
       // Extract data.
-      gint pos    = packet.bytes_read();
-      gint size   = packet.unpack_ushort();
-      gint flags  = packet.unpack_ushort();
-      gchar *id   = packet.unpack_string();
+      gint pos = packet.bytes_read();
+      gint size = packet.unpack_ushort();
+      gint flags = packet.unpack_ushort();
+      gchar *id = packet.unpack_string();
       gchar *name = packet.unpack_string();
-      gint port   = packet.unpack_ushort();
+      gint port = packet.unpack_ushort();
 
       if (flags & CLIENTLIST_MASTER)
         {
@@ -1693,17 +1680,17 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
           TRACE_MSG("Master: " << master_id);
         }
 
-      if (id != NULL)
+      if (id != nullptr)
         {
           if (!exists_client(id))
             {
               // A new client
               TRACE_MSG("new client: " << id);
               names[i] = name;
-              ids[i]   = id;
+              ids[i] = id;
               ports[i] = port;
             }
-          else if (client != NULL && direct == client && !client_is_me(id) && strcmp(client->id, id) != 0)
+          else if (client != nullptr && direct == client && !client_is_me(id) && strcmp(client->id, id) != 0)
             {
               TRACE_MSG("Strange client: " << id);
               ok = false;
@@ -1721,7 +1708,7 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
   if (ok)
     {
       // And send the list of client we are connected to.
-      if (client != NULL && direct == client && !client->sent_client_list)
+      if (client != nullptr && direct == client && !client->sent_client_list)
         {
           client->sent_client_list = true;
           send_client_list(client);
@@ -1730,13 +1717,13 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
       TRACE_MSG("Adding: ");
       for (int i = 0; i < num_clients; i++)
         {
-          if (ids[i] != NULL && names[i] != NULL)
+          if (ids[i] != nullptr && names[i] != nullptr)
             {
               add_client(ids[i], names[i], ports[i], CLIENTTYPE_ROUTED, direct);
             }
         }
 
-      if (master_id != NULL)
+      if (master_id != nullptr)
         {
           set_master_by_id(master_id);
           TRACE_MSG(master_id << " is now master");
@@ -1747,7 +1734,7 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
   else
     {
       TRACE_MSG("Dup: ");
-      dist_manager->log(_("Client %s is duplicate."), client->id != NULL ? client->id : "Unknown");
+      dist_manager->log(_("Client %s is duplicate."), client->id != nullptr ? client->id : "Unknown");
 
       send_duplicate(client);
       remove_client(client);
@@ -1776,24 +1763,24 @@ DistributionSocketLink::send_claim(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::send_claim");
 
-  if (client->next_claim_time == 0 || time(NULL) >= client->next_claim_time)
+  if (client->next_claim_time == 0 || time(nullptr) >= client->next_claim_time)
     {
       PacketBuffer packet;
 
-      dist_manager->log(_("Requesting master status from %s."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Requesting master status from %s."), client->id == nullptr ? "Unknown" : client->id);
 
       packet.create();
       init_packet(packet, PACKET_CLAIM);
 
       packet.pack_ushort(0);
 
-      client->next_claim_time = time(NULL) + 10;
+      client->next_claim_time = time(nullptr) + 10;
 
       send_packet(client, packet);
 
       if (client->claim_count >= 3)
         {
-          dist_manager->log(_("Client timeout from %s."), client->id == NULL ? "Unknown" : client->id);
+          dist_manager->log(_("Client timeout from %s."), client->id == nullptr ? "Unknown" : client->id);
 
           close_client(client, client->outbound);
         }
@@ -1819,12 +1806,12 @@ DistributionSocketLink::handle_claim(PacketBuffer &packet, Client *client)
 
   if (i_am_master && master_locked)
     {
-      dist_manager->log(_("Rejecting master request from client %s."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Rejecting master request from client %s."), client->id == nullptr ? "Unknown" : client->id);
       send_claim_reject(client);
     }
   else
     {
-      dist_manager->log(_("Acknowledging master request from client %s."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Acknowledging master request from client %s."), client->id == nullptr ? "Unknown" : client->id);
 
       bool was_master = i_am_master;
 
@@ -1877,11 +1864,11 @@ DistributionSocketLink::handle_claim_reject(PacketBuffer &packet, Client *client
 
   if (client != master_client)
     {
-      dist_manager->log(_("Non-master client %s rejected master request."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Non-master client %s rejected master request."), client->id == nullptr ? "Unknown" : client->id);
     }
   else
     {
-      dist_manager->log(_("Client %s rejected master request, delaying."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Client %s rejected master request, delaying."), client->id == nullptr ? "Unknown" : client->id);
       client->reject_count++;
       int count = client->reject_count;
 
@@ -1890,7 +1877,7 @@ DistributionSocketLink::handle_claim_reject(PacketBuffer &packet, Client *client
           count = 6;
         }
 
-      client->next_claim_time = time(NULL) + 5 * count;
+      client->next_claim_time = time(nullptr) + 5 * count;
     }
 
   TRACE_EXIT();
@@ -1909,12 +1896,12 @@ DistributionSocketLink::send_new_master(Client *client)
 
   string id;
 
-  if (master_client == NULL)
+  if (master_client == nullptr)
     {
       // I've become master
       id = get_my_id();
     }
-  else if (master_client->id != NULL)
+  else if (master_client->id != nullptr)
     {
       // Another remote client becomes master
       id = master_client->id;
@@ -1923,7 +1910,7 @@ DistributionSocketLink::send_new_master(Client *client)
   packet.pack_string(id);
   packet.pack_ushort(0);
 
-  if (client != NULL)
+  if (client != nullptr)
     {
       send_packet(client, packet);
     }
@@ -1955,9 +1942,9 @@ DistributionSocketLink::handle_new_master(PacketBuffer &packet, Client *client)
   gchar *id = packet.unpack_string();
   /* gint count = */ packet.unpack_ushort();
 
-  dist_manager->log(_("Client %s is now the new master."), id == NULL ? "Unknown" : id);
+  dist_manager->log(_("Client %s is now the new master."), id == nullptr ? "Unknown" : id);
 
-  if (client->id != NULL)
+  if (client->id != nullptr)
     {
       TRACE_MSG("new master from " << client->id << " -> " << id);
     }
@@ -1988,7 +1975,7 @@ DistributionSocketLink::send_client_message(DistributionClientMessageType type)
   while (i != client_message_map.end())
     {
       DistributionClientMessageID id = i->first;
-      ClientMessageListener &sl      = i->second;
+      ClientMessageListener &sl = i->second;
 
       IDistributionClientMessage *itf = sl.listener;
 
@@ -2029,7 +2016,7 @@ DistributionSocketLink::handle_client_message(PacketBuffer &packet, Client *clie
 
   gchar *id = packet.unpack_string();
 
-  if (id != NULL)
+  if (id != nullptr)
     {
       // TRACE_MSG("id = " << id);
 
@@ -2044,7 +2031,7 @@ DistributionSocketLink::handle_client_message(PacketBuffer &packet, Client *clie
   for (int i = 0; i < size; i++)
     {
       DistributionClientMessageID id = (DistributionClientMessageID)packet.unpack_ushort();
-      gint datalen                   = packet.read_size(pos);
+      gint datalen = packet.read_size(pos);
 
       TRACE_MSG("len = " << datalen << " " << id);
 
@@ -2079,7 +2066,7 @@ DistributionSocketLink::start_async_server()
       /* Create the server */
       server_socket = socket_driver->create_server();
 
-      if (server_socket != NULL)
+      if (server_socket != nullptr)
         {
           server_socket->set_listener(this);
           server_socket->listen(server_port);
@@ -2101,22 +2088,22 @@ DistributionSocketLink::socket_accepted(ISocketServer *scon, ISocket *ccon)
   (void)scon;
 
   TRACE_ENTER("DistributionSocketLink::socket_accepted");
-  if (ccon != NULL)
+  if (ccon != nullptr)
     {
       dist_manager->log(_("Accepted new client."));
 
       Client *client = new Client;
-      client->type   = CLIENTTYPE_DIRECT;
-      client->peer   = NULL;
+      client->type = CLIENTTYPE_DIRECT;
+      client->peer = nullptr;
       client->packet.create();
 
       TRACE_RETURN(client->packet.bytes_available());
-      client->socket          = ccon;
-      client->hostname        = NULL;
-      client->id              = NULL;
-      client->port            = 0;
+      client->socket = ccon;
+      client->hostname = nullptr;
+      client->id = nullptr;
+      client->port = 0;
       client->reconnect_count = 0;
-      client->reconnect_time  = 0;
+      client->reconnect_time = 0;
 
       ccon->set_data(client);
       ccon->set_listener(this);
@@ -2134,7 +2121,7 @@ DistributionSocketLink::socket_io(ISocket *con, void *data)
   bool ret = true;
 
   Client *client = (Client *)data;
-  g_assert(client != NULL);
+  g_assert(client != nullptr);
 
   TRACE_MSG("1");
 
@@ -2144,7 +2131,7 @@ DistributionSocketLink::socket_io(ISocket *con, void *data)
       return;
     }
 
-  int bytes_read    = 0;
+  int bytes_read = 0;
   int bytes_to_read = 4;
 
   TRACE_MSG("2 " << client->packet.bytes_available());
@@ -2178,12 +2165,12 @@ DistributionSocketLink::socket_io(ISocket *con, void *data)
 
   if (!ok)
     {
-      dist_manager->log(_("Client %s read error, closing."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Client %s read error, closing."), client->id == nullptr ? "Unknown" : client->id);
       ret = false;
     }
   else if (bytes_read == 0)
     {
-      dist_manager->log(_("Client %s closed connection."), client->id == NULL ? "Unknown" : client->id);
+      dist_manager->log(_("Client %s closed connection."), client->id == nullptr ? "Unknown" : client->id);
       ret = false;
     }
   else
@@ -2213,8 +2200,8 @@ DistributionSocketLink::socket_connected(ISocket *con, void *data)
 
   Client *client = (Client *)data;
 
-  g_assert(client != NULL);
-  g_assert(con != NULL);
+  g_assert(client != nullptr);
+  g_assert(con != nullptr);
 
   if (!is_client_valid(client) && client->type == CLIENTTYPE_DIRECT)
     {
@@ -2222,12 +2209,12 @@ DistributionSocketLink::socket_connected(ISocket *con, void *data)
       return;
     }
 
-  dist_manager->log(_("Client %s connected."), client->id != NULL ? client->id : "Unknown");
+  dist_manager->log(_("Client %s connected."), client->id != nullptr ? client->id : "Unknown");
 
   client->reconnect_count = 0;
-  client->reconnect_time  = 0;
-  client->outbound        = true;
-  client->socket          = con;
+  client->reconnect_time = 0;
+  client->outbound = true;
+  client->socket = con;
 
   TRACE_EXIT();
 }
@@ -2239,7 +2226,7 @@ DistributionSocketLink::socket_closed(ISocket *con, void *data)
   (void)con;
 
   Client *client = (Client *)data;
-  assert(client != NULL);
+  assert(client != nullptr);
 
   if (!is_client_valid(client) && client->type == CLIENTTYPE_DIRECT)
     {
@@ -2248,14 +2235,14 @@ DistributionSocketLink::socket_closed(ISocket *con, void *data)
     }
 
   // Socket error. Disable client.
-  if (client->socket != NULL)
+  if (client->socket != nullptr)
     {
-      dist_manager->log(_("Client %s closed connection."), client->id != NULL ? client->id : "Unknown");
+      dist_manager->log(_("Client %s closed connection."), client->id != nullptr ? client->id : "Unknown");
       close_client(client, client->outbound);
     }
   else
     {
-      dist_manager->log(_("Could not connect to client %s."), client->id != NULL ? client->id : "Unknown");
+      dist_manager->log(_("Could not connect to client %s."), client->id != nullptr ? client->id : "Unknown");
       remove_client(client);
     }
 
@@ -2270,7 +2257,7 @@ DistributionSocketLink::read_configuration()
   int old_port = server_port;
 
   const char *port = getenv("WORKRAVE_PORT");
-  if (port != NULL)
+  if (port != nullptr)
     {
       server_port = atoi(port);
     }
@@ -2289,11 +2276,11 @@ DistributionSocketLink::read_configuration()
   reconnect_attempts = dist_manager->get_reconnect_attempts();
 
   string str;
-  str      = dist_manager->get_username();
-  username = str != "" ? g_strdup(str.c_str()) : NULL;
+  str = dist_manager->get_username();
+  username = str != "" ? g_strdup(str.c_str()) : nullptr;
 
-  str      = dist_manager->get_password();
-  password = str != "" ? g_strdup(str.c_str()) : NULL;
+  str = dist_manager->get_password();
+  password = str != "" ? g_strdup(str.c_str()) : nullptr;
   TRACE_EXIT();
 }
 

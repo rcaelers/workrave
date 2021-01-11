@@ -20,7 +20,7 @@
 #ifndef DEBUG_HH
 #define DEBUG_HH
 
-#include <assert.h>
+#include <cassert>
 
 #ifndef TRACING
 

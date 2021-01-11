@@ -58,10 +58,10 @@ struct Fixture
     Debug::name(string("main"));
 #endif
 
-    int argc     = 1;
+    int argc = 1;
     char argv1[] = "test";
     char *argv[] = {argv1, nullptr};
-    app          = new QCoreApplication(argc, argv);
+    app = new QCoreApplication(argc, argv);
 
     qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypes>();
     qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypesReorder>();
@@ -88,18 +88,18 @@ static void
 test_dbus_basic(const char *method)
 {
   DBusTestData::StructWithAllBasicTypes inpar;
-  inpar.m_int    = -7;
-  inpar.m_uint8  = 67;
-  inpar.m_int16  = 2345;
+  inpar.m_int = -7;
+  inpar.m_uint8 = 67;
+  inpar.m_int16 = 2345;
   inpar.m_uint16 = 19834;
-  inpar.m_int32  = 3937628;
+  inpar.m_int32 = 3937628;
   inpar.m_uint32 = 45432;
-  inpar.m_int64  = 46583739;
+  inpar.m_int64 = 46583739;
   inpar.m_uint64 = 3439478327;
   inpar.m_string = "Hello";
-  inpar.m_bool   = true;
+  inpar.m_bool = true;
   inpar.m_double = 3.14;
-  inpar.m_enum   = DBusTestData::TWO;
+  inpar.m_enum = DBusTestData::TWO;
 
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, method);
@@ -122,17 +122,17 @@ test_dbus_basic(const char *method)
   QList<QVariant> arguments = reply.arguments();
   BOOST_REQUIRE_EQUAL(arguments.count(), 12);
 
-  int r_int                 = arguments.at(0).value<int>();
-  uint8_t r_uint8           = arguments.at(1).value<uint8_t>();
-  int16_t r_int16           = arguments.at(2).value<int16_t>();
-  uint16_t r_uint16         = arguments.at(3).value<uint16_t>();
-  int32_t r_int32           = arguments.at(4).value<int32_t>();
-  uint32_t r_uint32         = arguments.at(5).value<uint32_t>();
-  int64_t r_int64           = arguments.at(6).value<qlonglong>();
-  uint64_t r_uint64         = arguments.at(7).value<qulonglong>();
-  std::string r_string      = arguments.at(8).value<QString>().toStdString();
-  bool r_bool               = arguments.at(9).value<bool>();
-  double r_double           = arguments.at(10).value<double>();
+  int r_int = arguments.at(0).value<int>();
+  uint8_t r_uint8 = arguments.at(1).value<uint8_t>();
+  int16_t r_int16 = arguments.at(2).value<int16_t>();
+  uint16_t r_uint16 = arguments.at(3).value<uint16_t>();
+  int32_t r_int32 = arguments.at(4).value<int32_t>();
+  uint32_t r_uint32 = arguments.at(5).value<uint32_t>();
+  int64_t r_int64 = arguments.at(6).value<qlonglong>();
+  uint64_t r_uint64 = arguments.at(7).value<qulonglong>();
+  std::string r_string = arguments.at(8).value<QString>().toStdString();
+  bool r_bool = arguments.at(9).value<bool>();
+  double r_double = arguments.at(10).value<double>();
   DBusTestData::Enum r_enum = DBusTestData::str_to_enum(arguments.at(11).value<QString>().toStdString());
 
   BOOST_CHECK_EQUAL(r_int, inpar.m_int + 1);
@@ -163,21 +163,21 @@ static void
 test_dbus_struct(const char *method)
 {
   DBusTestData::StructWithAllBasicTypes inpar;
-  inpar.m_int    = -7;
-  inpar.m_uint8  = 67;
-  inpar.m_int16  = 2345;
+  inpar.m_int = -7;
+  inpar.m_uint8 = 67;
+  inpar.m_int16 = 2345;
   inpar.m_uint16 = 19834;
-  inpar.m_int32  = 3937628;
+  inpar.m_int32 = 3937628;
   inpar.m_uint32 = 45432;
-  inpar.m_int64  = 46583739;
+  inpar.m_int64 = 46583739;
   inpar.m_uint64 = 3439478327;
   inpar.m_string = "Hello";
-  inpar.m_bool   = true;
+  inpar.m_bool = true;
   inpar.m_double = 3.14;
-  inpar.m_enum   = DBusTestData::TWO;
+  inpar.m_enum = DBusTestData::TWO;
 
   QDBusConnection con = QDBusConnection::sessionBus();
-  QDBusMessage msg    = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, method);
+  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, method);
   msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
 
   QDBusMessage reply = con.call(msg);
@@ -223,7 +223,7 @@ BOOST_AUTO_TEST_CASE(test_dbus_list_of_struct)
   inpar.append(DBusTestData::Data(13, 24));
 
   QDBusConnection con = QDBusConnection::sessionBus();
-  QDBusMessage msg    = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "List");
+  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "List");
   msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
 
   QDBusMessage reply = con.call(msg);
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE(test_dbus_map_of_struct)
   inpar[QString("4")] = DBusTestData::Data(13, 24);
 
   QDBusConnection con = QDBusConnection::sessionBus();
-  QDBusMessage msg    = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "Map");
+  QDBusMessage msg = QDBusMessage::createMethodCall(WORKRAVE_TEST_SERVICE, WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, "Map");
   msg.setArguments(QVariantList() << QVariant::fromValue(inpar));
 
   QDBusMessage reply = con.call(msg);
@@ -367,18 +367,18 @@ BOOST_AUTO_TEST_CASE(test_test_signal)
 BOOST_AUTO_TEST_CASE(test_test_error_basic)
 {
   DBusTestData::StructWithAllBasicTypes inpar;
-  inpar.m_int    = -7;
-  inpar.m_uint8  = 67;
-  inpar.m_int16  = 2345;
+  inpar.m_int = -7;
+  inpar.m_uint8 = 67;
+  inpar.m_int16 = 2345;
   inpar.m_uint16 = 19834;
-  inpar.m_int32  = 3937628;
+  inpar.m_int32 = 3937628;
   inpar.m_uint32 = 45432;
-  inpar.m_int64  = 46583739;
+  inpar.m_int64 = 46583739;
   inpar.m_uint64 = 3439478327;
   inpar.m_string = "Hello";
-  inpar.m_bool   = true;
+  inpar.m_bool = true;
   inpar.m_double = 3.14;
-  inpar.m_enum   = DBusTestData::TWO;
+  inpar.m_enum = DBusTestData::TWO;
 
   QDBusConnection connection = QDBusConnection::sessionBus();
   QDBusMessage message =
@@ -403,18 +403,18 @@ BOOST_AUTO_TEST_CASE(test_test_error_basic)
 BOOST_AUTO_TEST_CASE(test_test_error_struct)
 {
   DBusTestData::StructWithAllBasicTypesReorder inpar;
-  inpar.m_int    = -7;
-  inpar.m_uint8  = 67;
-  inpar.m_int16  = 2345;
+  inpar.m_int = -7;
+  inpar.m_uint8 = 67;
+  inpar.m_int16 = 2345;
   inpar.m_uint16 = 19834;
-  inpar.m_int32  = 3937628;
+  inpar.m_int32 = 3937628;
   inpar.m_uint32 = 45432;
-  inpar.m_int64  = 46583739;
+  inpar.m_int64 = 46583739;
   inpar.m_uint64 = 3439478327;
   inpar.m_string = "Hello";
-  inpar.m_bool   = true;
+  inpar.m_bool = true;
   inpar.m_double = 3.14;
-  inpar.m_enum   = DBusTestData::TWO;
+  inpar.m_enum = DBusTestData::TWO;
 
   QDBusConnection con = QDBusConnection::sessionBus();
   QDBusMessage msg =

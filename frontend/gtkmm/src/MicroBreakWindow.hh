@@ -20,7 +20,7 @@
 #ifndef MICROBREAKWINDOW_HH
 #define MICROBREAKWINDOW_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "BreakWindow.hh"
 #include "GUIConfig.hh"
@@ -42,39 +42,39 @@ class MicroBreakWindow : public BreakWindow
 {
 public:
   MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
-  virtual ~MicroBreakWindow();
+  ~MicroBreakWindow() override;
 
-  void set_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
   void heartbeat();
 
 protected:
-  Gtk::Widget *create_gui();
+  Gtk::Widget *create_gui() override;
   void on_restbreaknow_button_clicked();
 
 private:
-  void update_break_window();
+  void update_break_window() override;
   void update_time_bar();
   void update_label();
   Gtk::Button *create_restbreaknow_button(bool label);
 
 private:
   //! Time bar
-  TimeBar *time_bar;
+  TimeBar *time_bar{nullptr};
 
   // Label
-  Gtk::Label *label;
+  Gtk::Label *label{nullptr};
 
   //! Progress
-  int progress_value;
+  int progress_value{0};
 
   //! Progress
-  int progress_max_value;
+  int progress_max_value{0};
 
   //! Is currently flashing because user is active?
-  bool is_flashing;
+  bool is_flashing{false};
 
   //! Label size has been fixed?
-  bool fixed_size;
+  bool fixed_size{false};
 };
 
 #endif // MICROBREAKWINDOW_HH

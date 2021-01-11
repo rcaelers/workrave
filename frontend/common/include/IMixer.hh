@@ -26,7 +26,7 @@
 class IMixer
 {
 public:
-  virtual ~IMixer() {}
+  virtual ~IMixer() = default;
 
   virtual void init() = 0;
 

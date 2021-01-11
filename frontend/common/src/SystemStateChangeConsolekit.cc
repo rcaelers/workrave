@@ -12,7 +12,7 @@
 #endif
 
 #ifdef HAVE_STRING_H
-#  include <string.h>
+#  include <cstring>
 #endif
 
 #ifdef HAVE_STRINGS_H
@@ -42,7 +42,7 @@ SystemStateChangeConsolekit::SystemStateChangeConsolekit(GDBusConnection *connec
   else
     {
       GVariant *result;
-      if (!proxy.call_method("CanStop", NULL, &result))
+      if (!proxy.call_method("CanStop", nullptr, &result))
         {
           TRACE_MSG(false);
           can_shutdown = false;
@@ -63,7 +63,7 @@ bool
 SystemStateChangeConsolekit::shutdown()
 {
   TRACE_ENTER("SystemStateChangeConsolekit::shutdown");
-  bool r = proxy.call_method("Stop", NULL, NULL);
+  bool r = proxy.call_method("Stop", nullptr, nullptr);
   TRACE_RETURN(r);
   return r;
 }

@@ -27,11 +27,7 @@
 #include "Frame.hh"
 
 Frame::Frame()
-  : frame_width(1)
-  , frame_color(Gdk::Color("black"))
-  , frame_style(STYLE_SOLID)
-  , frame_visible(true)
-  , flash_delay(-1)
+  : frame_color(Gdk::Color("black"))
 {
 }
 
@@ -55,7 +51,7 @@ void
 Frame::set_frame_style(const Style style)
 {
   frame_style = style;
-  int dfw     = 1;
+  int dfw = 1;
   switch (style)
     {
     case STYLE_BREAK_WINDOW:
@@ -125,7 +121,7 @@ void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
   Gtk::Widget *widget = get_child();
-  guint b             = get_border_width() + frame_width;
+  guint b = get_border_width() + frame_width;
 
   Gtk::Allocation alloc;
   alloc.set_x(allocation.get_x() + b);
@@ -195,8 +191,8 @@ Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   // Physical width/height
   Gtk::Allocation allocation = get_allocation();
-  int width                  = allocation.get_width();
-  int height                 = allocation.get_height();
+  int width = allocation.get_width();
+  int height = allocation.get_height();
 
   switch (frame_style)
     {
@@ -265,7 +261,7 @@ Frame::on_realize()
   Gtk::Bin::on_realize();
 
   Glib::RefPtr<Gdk::Window> window = get_window();
-  gc                               = Gdk::GC::create(window);
+  gc = Gdk::GC::create(window);
 
   color_black.set_rgb(0, 0, 0);
 #  if 1 // FIXME: bug66
@@ -289,16 +285,16 @@ bool
 Frame::on_expose_event(GdkEventExpose *e)
 {
   Glib::RefPtr<Gdk::Window> window = get_window();
-  Glib::RefPtr<Gtk::Style> style   = get_style();
+  Glib::RefPtr<Gtk::Style> style = get_style();
 
   Gdk::Color bgCol = style->get_background(Gtk::STATE_NORMAL);
 
   // FIXME:
   Gtk::Allocation gtkmmalloc = get_allocation();
   GtkAllocation alloc;
-  alloc.x      = gtkmmalloc.get_x();
-  alloc.y      = gtkmmalloc.get_y();
-  alloc.width  = gtkmmalloc.get_width();
+  alloc.x = gtkmmalloc.get_x();
+  alloc.y = gtkmmalloc.get_y();
+  alloc.width = gtkmmalloc.get_width();
   alloc.height = gtkmmalloc.get_height();
 
   switch (frame_style)

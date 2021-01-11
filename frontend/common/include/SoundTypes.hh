@@ -31,7 +31,7 @@ enum SoundCapability
 
 enum SoundEvent
 {
-  SOUND_MIN           = 0,
+  SOUND_MIN = 0,
   SOUND_BREAK_PRELUDE = 0,
   SOUND_BREAK_IGNORED,
   SOUND_REST_BREAK_STARTED,

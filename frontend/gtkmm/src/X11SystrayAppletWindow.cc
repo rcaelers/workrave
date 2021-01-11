@@ -71,7 +71,7 @@ void
 X11SystrayAppletWindow::notify_callback()
 {
   TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
-  if (tray_icon != NULL && embedded)
+  if (tray_icon != nullptr && embedded)
     {
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
@@ -120,7 +120,7 @@ X11SystrayAppletWindow::activate()
 
   tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
 
-  if (tray_icon != NULL)
+  if (tray_icon != nullptr)
     {
       g_signal_connect(tray_icon, "notify", G_CALLBACK(static_notify_callback), this);
 
@@ -132,8 +132,8 @@ X11SystrayAppletWindow::activate()
       eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
-      view              = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
-      timer_box_view    = view;
+      view = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
+      timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 
       Gtk::VBox *box = manage(new Gtk::VBox());
@@ -179,25 +179,25 @@ X11SystrayAppletWindow::deactivate()
 
   if (applet_active)
     {
-      if (plug != NULL)
+      if (plug != nullptr)
         {
           plug->remove();
           delete plug;
-          plug = NULL;
+          plug = nullptr;
         }
-      if (container != NULL)
+      if (container != nullptr)
         {
           container->remove();
           delete container;
-          container = NULL;
+          container = nullptr;
         }
 
       delete timer_box_control;
-      timer_box_control = NULL;
+      timer_box_control = nullptr;
 
       delete timer_box_view;
-      timer_box_view = NULL;
-      view           = NULL;
+      timer_box_view = nullptr;
+      view = nullptr;
 
       visibility_changed_signal.emit(false);
     }
@@ -237,8 +237,8 @@ X11SystrayAppletWindow::on_embedded()
           orientation = ORIENTATION_LEFT;
         }
 
-      embedded           = true;
-      applet_size        = 24;
+      embedded = true;
+      applet_size = 24;
       applet_orientation = orientation;
 
       view->set_geometry(applet_orientation, applet_size);
@@ -263,7 +263,7 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3)
         {
-          IGUI *gui    = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
           menus->popup(Menus::MENU_MAINAPPLET, 0 /*event->button */, event->time);
           ret = true;
@@ -350,7 +350,7 @@ void
 X11SystrayAppletWindow::read_configuration()
 {
   bool previous_enabled = enabled;
-  enabled               = GUIConfig::is_applet_fallback_enabled();
+  enabled = GUIConfig::is_applet_fallback_enabled();
 
   if (!previous_enabled && enabled)
     {

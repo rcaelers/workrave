@@ -25,7 +25,7 @@
 class EventLabel : public Gtk::Label
 {
 public:
-  EventLabel() {}
+  EventLabel() = default;
 
   EventLabel(const Glib::ustring &label, bool mnemonic = false)
     : Gtk::Label(label, mnemonic)
@@ -33,13 +33,13 @@ public:
   }
 
 private:
-  void on_realize();
-  void on_unrealize();
-  bool on_map_event(GdkEventAny *event);
-  bool on_unmap_event(GdkEventAny *event);
-  void on_size_allocate(Gtk::Allocation &allocation);
+  void on_realize() override;
+  void on_unrealize() override;
+  bool on_map_event(GdkEventAny *event) override;
+  bool on_unmap_event(GdkEventAny *event) override;
+  void on_size_allocate(Gtk::Allocation &allocation) override;
 
-  GdkWindow *event_window;
+  GdkWindow *event_window{nullptr};
 };
 
 #endif // EVENTLABEL_HH

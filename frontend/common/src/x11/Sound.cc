@@ -24,7 +24,7 @@
 #include "Sound.hh"
 
 #include <X11/Xlib.h>
-#include <time.h>
+#include <ctime>
 
 void
 Sound::beep(Display *x11, int freq, int millis)
@@ -39,15 +39,15 @@ Sound::beep(Display *x11, int freq, int millis)
   XChangeKeyboardControl(x11, KBBellDuration | KBBellPitch, &values);
   XBell(x11, state.bell_percent);
 
-  values.bell_pitch    = state.bell_pitch;
+  values.bell_pitch = state.bell_pitch;
   values.bell_duration = state.bell_duration;
   XChangeKeyboardControl(x11, KBBellDuration | KBBellPitch, &values);
 
 #ifdef HAVE_NANOSLEEP
   struct timespec tv;
-  tv.tv_sec  = millis / 1000;
+  tv.tv_sec = millis / 1000;
   tv.tv_nsec = (millis % 1000) * 1000000;
-  nanosleep(&tv, 0);
+  nanosleep(&tv, nullptr);
 #else
 #  error No nanosleep
 #endif

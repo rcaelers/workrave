@@ -24,10 +24,10 @@
 #include "debug.hh"
 #include "nls.h"
 
+#include <cstdio>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstring>
 #include <vector>
-#include <string.h>
 
 #include "Locale.hh"
 #include "StringUtil.hh"
@@ -53,12 +53,12 @@ compare_countries(const void *a, const void *b)
 bool
 Locale::get_language(const string &code, string &language)
 {
-  language_t key = {code.c_str(), NULL};
+  language_t key = {code.c_str(), nullptr};
   language_t *val;
 
   val = (language_t *)bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages);
 
-  if (val != NULL)
+  if (val != nullptr)
     {
       language = val->lang;
       return true;
@@ -69,12 +69,12 @@ Locale::get_language(const string &code, string &language)
 bool
 Locale::get_country(const string &code, string &country)
 {
-  country_t key = {code.c_str(), NULL};
+  country_t key = {code.c_str(), nullptr};
   country_t *val;
 
   val = (country_t *)bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries);
 
-  if (val != NULL)
+  if (val != nullptr)
     {
       country = val->country;
       return true;
@@ -107,12 +107,12 @@ Locale::get_locale()
   string ret;
   const char *lang_env = g_getenv("LANGUAGE");
 
-  if (lang_env == NULL)
+  if (lang_env == nullptr)
     {
       lang_env = g_getenv("LANG");
     }
 
-  if (lang_env != NULL)
+  if (lang_env != nullptr)
     {
       ret = lang_env;
     }
@@ -259,14 +259,14 @@ Locale::get_week_start()
     unsigned int word;
     char *string;
   } langinfo;
-  gint week_1stday   = 0;
+  gint week_1stday = 0;
   gint first_weekday = 1;
   guint week_origin;
 
   langinfo.string = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
-  first_weekday   = langinfo.string[0];
+  first_weekday = langinfo.string[0];
   langinfo.string = nl_langinfo(_NL_TIME_WEEK_1STDAY);
-  week_origin     = langinfo.word;
+  week_origin = langinfo.word;
   if (week_origin == 19971130) /* Sunday */
     week_1stday = 0;
   else if (week_origin == 19971201) /* Monday */

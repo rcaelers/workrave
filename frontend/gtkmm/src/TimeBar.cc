@@ -25,18 +25,18 @@
 
 #include "debug.hh"
 
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
 
 #include "TimeBar.hh"
 #include "Text.hh"
 #include "GtkUtil.hh"
 
-const int MARGINX                   = 4;
-const int MARGINY                   = 2;
-const int MIN_HORIZONTAL_BAR_WIDTH  = 12;
+const int MARGINX = 4;
+const int MARGINY = 2;
+const int MIN_HORIZONTAL_BAR_WIDTH = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
@@ -53,12 +53,6 @@ Gdk::Color TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] = {
 
 //! Constructor
 TimeBar::TimeBar()
-  : bar_value(0)
-  , bar_max_value(0)
-  , secondary_bar_value(0)
-  , secondary_bar_max_value(0)
-  , bar_text_align(0)
-  , rotation(0)
 {
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::BUTTON_PRESS_MASK);
@@ -71,7 +65,7 @@ TimeBar::TimeBar()
 }
 
 //! Destructor
-TimeBar::~TimeBar() {}
+TimeBar::~TimeBar() = default;
 
 //! Sets the time progress to be displayed.
 void
@@ -82,7 +76,7 @@ TimeBar::set_progress(int value, int max_value)
       value = max_value;
     }
 
-  bar_value     = value;
+  bar_value = value;
   bar_max_value = max_value;
 }
 
@@ -95,7 +89,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
       value = max_value;
     }
 
-  secondary_bar_value     = value;
+  secondary_bar_value = value;
   secondary_bar_max_value = max_value;
 }
 
@@ -173,12 +167,12 @@ TimeBar::get_preferred_size(int &width, int &height) const
   // Not sure why create_pango_layout is not const...
   Glib::RefPtr<Pango::Layout> pl = const_cast<TimeBar *>(this)->create_pango_layout(bar_text);
 
-  string min_string                 = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
+  string min_string = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
   Glib::RefPtr<Pango::Layout> plmin = const_cast<TimeBar *>(this)->create_pango_layout(min_string);
 
-  Glib::RefPtr<Pango::Context> pcl   = pl->get_context();
+  Glib::RefPtr<Pango::Context> pcl = pl->get_context();
   Glib::RefPtr<Pango::Context> pcmin = plmin->get_context();
-  Pango::Matrix matrix               = PANGO_MATRIX_INIT;
+  Pango::Matrix matrix = PANGO_MATRIX_INIT;
 
   pango_matrix_rotate(&matrix, 360 - rotation);
 
@@ -194,7 +188,7 @@ TimeBar::get_preferred_size(int &width, int &height) const
   if (mheight > height)
     height = mheight;
 
-  width  = width + 2 * MARGINX;
+  width = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
@@ -210,11 +204,11 @@ TimeBar::on_realize()
 
   // Now we can allocate any additional resources we need
   Glib::RefPtr<Gdk::Window> window = get_window();
-  window_gc                        = Gdk::GC::create(window);
+  window_gc = Gdk::GC::create(window);
 
   Glib::RefPtr<Gtk::Style> style = get_style();
-  Gdk::Color bg                  = style->get_bg(Gtk::STATE_NORMAL);
-  bar_colors[COLOR_ID_BG]        = bg;
+  Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
+  bar_colors[COLOR_ID_BG] = bg;
 
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
   for (int i = 0; i < COLOR_ID_SIZEOF; i++)
@@ -233,12 +227,12 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 
   if (rotation == 0 || rotation == 180)
     {
-      requisition->width  = width;
+      requisition->width = width;
       requisition->height = height;
     }
   else
     {
-      requisition->width  = height;
+      requisition->width = height;
       requisition->height = width;
     }
 }
@@ -247,7 +241,7 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 bool
 TimeBar::on_expose_event(GdkEventExpose *e)
 {
-  const int border_size      = 2;
+  const int border_size = 2;
   Gtk::Allocation allocation = get_allocation();
 
   Glib::RefPtr<Gdk::Window> window = get_window();
@@ -280,7 +274,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Gdk::Rectangle area(&e->area);
   Glib::RefPtr<Gtk::Style> style = get_style();
 
-  Gdk::Color bg           = style->get_bg(Gtk::STATE_NORMAL);
+  Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
   bar_colors[COLOR_ID_BG] = bg;
 
   // Draw background
@@ -370,7 +364,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
 
   // Text
   window_gc->set_foreground(bar_text_color);
-  Glib::RefPtr<Pango::Layout> pl1  = create_pango_layout(bar_text);
+  Glib::RefPtr<Pango::Layout> pl1 = create_pango_layout(bar_text);
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
 
   Pango::Matrix matrix = PANGO_MATRIX_INIT;

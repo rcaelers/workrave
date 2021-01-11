@@ -23,9 +23,9 @@
 
 #include "debug.hh"
 
-#include <math.h>
+#include <cmath>
 
-#include <stdio.h>
+#include <cstdio>
 #include <sys/types.h>
 
 #if TIME_WITH_SYS_TIME
@@ -43,8 +43,8 @@
 #  include <sys/select.h>
 #endif
 #if STDC_HEADERS
-#  include <stdlib.h>
-#  include <stddef.h>
+#  include <cstddef>
+#  include <cstdlib>
 #else
 #  if HAVE_STDLIB_H
 #    include <stdlib.h>
@@ -110,7 +110,7 @@ XNextEventTimed(Display *dsp, XEvent *event_return, long millis)
     }
 
   struct timeval tv;
-  tv.tv_sec  = millis / 1000;
+  tv.tv_sec = millis / 1000;
   tv.tv_usec = (millis % 1000) * 1000;
 
   XFlush(dsp);
@@ -125,7 +125,7 @@ XNextEventTimed(Display *dsp, XEvent *event_return, long millis)
       fd_set readset;
       FD_ZERO(&readset);
       FD_SET(fd, &readset);
-      if (select(fd + 1, &readset, NULL, NULL, &tv) <= 0)
+      if (select(fd + 1, &readset, nullptr, nullptr, &tv) <= 0)
         {
           return False;
         }
@@ -146,8 +146,6 @@ XNextEventTimed(Display *dsp, XEvent *event_return, long millis)
 
 X11InputMonitor::X11InputMonitor(const char *display_name)
   : x11_display_name(display_name)
-  , x11_display(NULL)
-  , abort(false)
 {
   monitor_thread = new Thread(this);
 }
@@ -156,7 +154,7 @@ X11InputMonitor::X11InputMonitor(const char *display_name)
 X11InputMonitor::~X11InputMonitor()
 {
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
-  if (monitor_thread != NULL)
+  if (monitor_thread != nullptr)
     {
       monitor_thread->wait();
       delete monitor_thread;
@@ -188,7 +186,7 @@ X11InputMonitor::run()
 {
   TRACE_ENTER("X11InputMonitor::run");
 
-  if ((x11_display = XOpenDisplay(x11_display_name)) == NULL)
+  if ((x11_display = XOpenDisplay(x11_display_name)) == nullptr)
     {
       return;
     }
@@ -328,7 +326,7 @@ X11InputMonitor::handle_button(XEvent *event)
   XAllowEvents(x11_display, ReplayPointer, CurrentTime);
   XSync(x11_display, 0);
 
-  if (event != NULL)
+  if (event != nullptr)
     {
       // FIXME: this is a hack. XGrabButton does not generate a button release
       // event...

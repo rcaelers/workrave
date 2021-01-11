@@ -36,7 +36,7 @@ class MainGtkMenu : public MenuBase
 {
 public:
   MainGtkMenu(bool show_open);
-  virtual ~MainGtkMenu();
+  ~MainGtkMenu() override = default;
 
   void add_stock_item(const Glib::RefPtr<Gtk::IconFactory> &factory,
                       const std::string &path,
@@ -49,9 +49,9 @@ public:
   virtual void create_ui();
   virtual void post_init() {}
 
-  virtual void init();
-  virtual void popup(const guint button, const guint activate_time);
-  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
+  void init() override;
+  void popup(const guint button, const guint activate_time) override;
+  void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) override;
 
 private:
   void on_menu_network_log();
@@ -71,10 +71,10 @@ protected:
   Glib::RefPtr<Gtk::ActionGroup> action_group;
 
   //!
-  Gtk::Menu *popup_menu;
+  Gtk::Menu *popup_menu{nullptr};
 
   //!
-  bool show_open;
+  bool show_open{false};
 };
 
 #endif // MAINGTKMENU_HH

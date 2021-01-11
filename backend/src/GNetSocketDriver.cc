@@ -31,13 +31,7 @@
 using namespace std;
 
 //! Creates a new listen socket.
-GNetSocketServer::GNetSocketServer()
-  : socket(NULL)
-  , iochannel(NULL)
-  , watch_flags(0)
-  , watch(0)
-{
-}
+GNetSocketServer::GNetSocketServer() {}
 
 //! Destructs the listen socket.
 GNetSocketServer::~GNetSocketServer()
@@ -169,10 +163,10 @@ GNetSocket::async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnect
         }
       else
         {
-          socket      = socket;
-          iochannel   = gnet_tcp_socket_get_io_channel(socket);
+          socket = socket;
+          iochannel = gnet_tcp_socket_get_io_channel(socket);
           watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-          watch       = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
+          watch = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
 
           if (listener != NULL)
             {
@@ -193,7 +187,7 @@ void
 GNetSocket::static_async_connected(GTcpSocket *socket, GTcpSocketConnectAsyncStatus status, gpointer data)
 {
   GNetSocket *con = (GNetSocket *)data;
-  GInetAddr *ia   = NULL;
+  GInetAddr *ia = NULL;
   if (socket != NULL)
     {
       ia = gnet_tcp_socket_get_remote_inetaddr(socket);
@@ -206,19 +200,13 @@ GNetSocket::static_async_connected(GTcpSocket *socket, GTcpSocketConnectAsyncSta
 GNetSocket::GNetSocket(GTcpSocket *socket)
   : socket(socket)
 {
-  iochannel   = gnet_tcp_socket_get_io_channel(socket);
+  iochannel = gnet_tcp_socket_get_io_channel(socket);
   watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-  watch       = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
+  watch = g_io_add_watch(iochannel, (GIOCondition)watch_flags, static_async_io, this);
 }
 
 //! Creates a new connection.
-GNetSocket::GNetSocket()
-  : socket(NULL)
-  , iochannel(NULL)
-  , watch_flags(0)
-  , watch(0)
-{
-}
+GNetSocket::GNetSocket() {}
 
 //! Destructs the connection.
 GNetSocket::~GNetSocket()
@@ -272,7 +260,7 @@ GNetSocket::write(void *buf, int count, int &bytes_written)
     }
 
   gsize num_written = 0;
-  GIOError error    = g_io_channel_write(iochannel, (char *)buf, (gsize)count, &num_written);
+  GIOError error = g_io_channel_write(iochannel, (char *)buf, (gsize)count, &num_written);
 
   if (error != G_IO_ERROR_NONE)
     {
@@ -306,7 +294,7 @@ GNetSocket::close()
       g_source_remove(watch);
     }
 
-  watch       = 0;
+  watch = 0;
   watch_flags = 0;
 }
 

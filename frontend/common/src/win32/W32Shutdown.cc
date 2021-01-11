@@ -81,7 +81,7 @@ W32Shutdown::W32Shutdown()
 bool
 W32Shutdown::shutdown_helper(bool for_real)
 {
-  bool ret                       = false;
+  bool ret = false;
   IShellDispatch *pShellDispatch = NULL;
   if (SUCCEEDED(::CoCreateInstance(CLSID_Shell, NULL, CLSCTX_SERVER, IID_IShellDispatch, (LPVOID *)&pShellDispatch)))
     {

@@ -24,8 +24,8 @@
 #include "preinclude.h"
 
 #include "debug.hh"
+#include <cstdio>
 #include <fstream>
-#include <stdio.h>
 
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WINDOWS

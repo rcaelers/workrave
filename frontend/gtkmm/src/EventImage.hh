@@ -25,7 +25,7 @@
 class EventImage : public Gtk::Image
 {
 public:
-  EventImage() {}
+  EventImage() = default;
 
   EventImage(const Glib::ustring &file, bool mnemonic = false)
     : Gtk::Image(file)
@@ -34,13 +34,13 @@ public:
   }
 
 private:
-  void on_realize();
-  void on_unrealize();
-  bool on_map_event(GdkEventAny *event);
-  bool on_unmap_event(GdkEventAny *event);
-  void on_size_allocate(Gtk::Allocation &allocation);
+  void on_realize() override;
+  void on_unrealize() override;
+  bool on_map_event(GdkEventAny *event) override;
+  bool on_unmap_event(GdkEventAny *event) override;
+  void on_size_allocate(Gtk::Allocation &allocation) override;
 
-  GdkWindow *event_window;
+  GdkWindow *event_window{nullptr};
 };
 
 #endif // EVENTIMAGE_HH

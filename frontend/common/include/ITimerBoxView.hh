@@ -38,9 +38,9 @@ public:
     ICON_SUSPENDED
   };
 
-  virtual ~ITimerBoxView() {}
+  virtual ~ITimerBoxView() = default;
 
-  virtual void set_slot(BreakId id, int slot)                  = 0;
+  virtual void set_slot(BreakId id, int slot) = 0;
   virtual void set_time_bar(BreakId id,
                             std::string text,
                             ITimeBar::ColorId primary_color,
@@ -48,10 +48,10 @@ public:
                             int primary_max,
                             ITimeBar::ColorId secondary_color,
                             int secondary_value,
-                            int secondary_max)                 = 0;
-  virtual void set_tip(std::string tip)                        = 0;
-  virtual void set_icon(IconType icon)                         = 0;
-  virtual void update_view()                                   = 0;
+                            int secondary_max) = 0;
+  virtual void set_tip(std::string tip) = 0;
+  virtual void set_icon(IconType icon) = 0;
+  virtual void update_view() = 0;
   virtual void set_geometry(Orientation orientation, int size) = 0;
 };
 

@@ -45,16 +45,16 @@ W32AppletWindow::W32AppletWindow()
   memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
   memset(&menu_data, 0, sizeof(AppletMenuData));
 
-  thread_id              = 0;
-  thread_handle          = NULL;
-  timer_box_view         = this;
-  applet_window          = NULL;
+  thread_id = 0;
+  thread_handle = NULL;
+  timer_box_view = this;
+  applet_window = NULL;
   heartbeat_data.enabled = true;
-  local_applet_window    = NULL;
+  local_applet_window = NULL;
   init_menu(NULL);
 
   ::InitializeCriticalSection(&heartbeat_data_lock);
-  thread_abort_event   = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+  thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
   timer_box_control = new TimerBoxControl("applet", *this);
@@ -96,7 +96,7 @@ static HWND
 RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
 {
   static char buf[80];
-  int num  = GetClassNameA(hwnd, buf, sizeof(buf) - 1);
+  int num = GetClassNameA(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
@@ -141,12 +141,12 @@ W32AppletWindow::set_time_bar(BreakId id,
   TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << text);
   strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH - 1);
   heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH - 1] = '\0';
-  heartbeat_data.bar_primary_color[id]                        = primary_color;
-  heartbeat_data.bar_primary_val[id]                          = primary_val;
-  heartbeat_data.bar_primary_max[id]                          = primary_max;
-  heartbeat_data.bar_secondary_color[id]                      = secondary_color;
-  heartbeat_data.bar_secondary_val[id]                        = secondary_val;
-  heartbeat_data.bar_secondary_max[id]                        = secondary_max;
+  heartbeat_data.bar_primary_color[id] = primary_color;
+  heartbeat_data.bar_primary_val[id] = primary_val;
+  heartbeat_data.bar_primary_max[id] = primary_max;
+  heartbeat_data.bar_secondary_color[id] = secondary_color;
+  heartbeat_data.bar_secondary_val[id] = secondary_val;
+  heartbeat_data.bar_secondary_max[id] = secondary_max;
   TRACE_EXIT();
 }
 
@@ -167,7 +167,7 @@ W32AppletWindow::update_view()
             {
               memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
               local_applet_window = applet_window;
-              menu_sent           = true;
+              menu_sent = true;
             }
 
           SetEvent(heartbeat_data_event);
@@ -222,9 +222,9 @@ W32AppletWindow::update_applet_window()
   HWND previous_applet_window = applet_window;
   if (applet_window == NULL || !IsWindow(applet_window))
     {
-      HWND taskbar  = FindWindowA("Shell_TrayWnd", NULL);
+      HWND taskbar = FindWindowA("Shell_TrayWnd", NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
-      menu_sent     = false;
+      menu_sent = false;
     }
 
   if (previous_applet_window == NULL && applet_window != NULL)
@@ -289,7 +289,7 @@ W32AppletWindow::run_event_pipe()
       the index returned by WaitForMultipleObjectsEx() corresponds to the first
       signaled event in the array if more than one is signaled
       */
-      HANDLE events[2]       = {thread_abort_event, heartbeat_data_event};
+      HANDLE events[2] = {thread_abort_event, heartbeat_data_event};
       int const events_count = (sizeof(events) / sizeof(events[0]));
 
       DWORD wait_result = WaitForMultipleObjectsEx(events_count, events, FALSE, INFINITE, FALSE);
@@ -315,7 +315,7 @@ void
 W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
-  menu_sent           = false;
+  menu_sent = false;
 
   /*
     As noted in frontend/win32/applet/include/applet.hh:
@@ -328,7 +328,7 @@ void
 W32AppletWindow::add_menu(const char *text, short cmd, int flags)
 {
   AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
-  d->command            = cmd;
+  d->command = cmd;
   strcpy(d->text, text);
   d->flags = flags;
 }
@@ -344,7 +344,7 @@ bool
 W32AppletWindow::on_applet_command(int command)
 {
   TRACE_ENTER_MSG("W32AppletWindow::on_applet_command", command);
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
   TRACE_EXIT();
@@ -355,7 +355,7 @@ GdkFilterReturn
 W32AppletWindow::win32_filter_func(void *xevent, GdkEvent *event)
 {
   (void)event;
-  MSG *msg            = (MSG *)xevent;
+  MSG *msg = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
 
   switch (msg->message)

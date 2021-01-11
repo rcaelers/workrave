@@ -39,10 +39,8 @@
 #include "MutterInputMonitor.hh"
 
 UnixInputMonitorFactory::UnixInputMonitorFactory()
-  : error_reported(false)
-  , actual_monitor_method{"monitor.method", ""}
+  : actual_monitor_method{"monitor.method", ""}
 {
-  monitor = NULL;
 }
 
 void
@@ -58,7 +56,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
   TRACE_ENTER("UnixInputMonitorFactory::get_monitor");
   (void)capability;
 
-  if (monitor == NULL)
+  if (monitor == nullptr)
     {
       bool initialized = false;
       string configure_monitor_method;
@@ -117,7 +115,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
             }
 
           delete monitor;
-          monitor = NULL;
+          monitor = nullptr;
 
           loop++;
           if (loop == available_monitors.end())
@@ -138,7 +136,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           if (!error_reported)
             {
               error_reported = true;
-              g_idle_add(static_report_failure, NULL);
+              g_idle_add(static_report_failure, nullptr);
             }
 
           CoreFactory::get_configurator()->set_value("advanced/monitor", "default");

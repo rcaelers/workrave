@@ -35,13 +35,13 @@ public:
   MutterInputMonitor();
 
   //! Destructor.
-  virtual ~MutterInputMonitor();
+  ~MutterInputMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   static void
@@ -52,7 +52,7 @@ private:
   static void on_unregister_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
 
   //! The monitor's execution thread.
-  virtual void run();
+  void run() override;
 
   bool register_active_watch();
   bool unregister_active_watch();
@@ -67,8 +67,8 @@ private:
 private:
   static const int GSM_INHIBITOR_FLAG_IDLE = 8;
 
-  GDBusProxy *idle_proxy    = NULL;
-  GDBusProxy *session_proxy = NULL;
+  GDBusProxy *idle_proxy = nullptr;
+  GDBusProxy *session_proxy = nullptr;
   std::atomic<bool> active{false};
   std::atomic<bool> inhibited{false};
   TracedField<bool> trace_active{"monitor.mutter.active", false};
@@ -76,10 +76,10 @@ private:
   TracedField<guint> watch_active{"monitor.mutter.watch_active", 0};
   TracedField<guint> watch_idle{"monitor.mutter.watch_idle", 0};
 
-  bool abort             = false;
-  Thread *monitor_thread = NULL;
-  GMutex mutex;
-  GCond cond;
+  bool abort = false;
+  Thread *monitor_thread = nullptr;
+  GMutex mutex{};
+  GCond cond{};
 };
 
 #endif // MUTTERINPUTMONITOR_HH

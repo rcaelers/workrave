@@ -33,27 +33,24 @@ public:
   //! Constructs an activity monitor that depends on specified timer.
   TimerActivityMonitor(Timer *t)
     : timer(t)
-    , suspended(false)
-    , forced_idle(false)
-
   {
     Core *core = Core::get_instance();
-    monitor    = core->get_activity_monitor();
+    monitor = core->get_activity_monitor();
   }
 
-  virtual ~TimerActivityMonitor() {}
+  ~TimerActivityMonitor() override = default;
 
   //! Stops the activity monitoring.
-  void terminate() {}
+  void terminate() override {}
 
   //! Suspends the activity monitoring.
-  void suspend() { suspended = true; }
+  void suspend() override { suspended = true; }
 
   //! Resumes the activity monitoring.
-  void resume() { suspended = false; }
+  void resume() override { suspended = false; }
 
   //! Returns the current state
-  ActivityState get_current_state()
+  ActivityState get_current_state() override
   {
     TRACE_ENTER("TimerActivityMonitor::get_current_state");
     if (forced_idle)
@@ -80,8 +77,8 @@ public:
       }
 
     TimerState state = timer->get_state();
-    time_t idle      = timer->get_elapsed_idle_time();
-    time_t reset     = timer->get_auto_reset();
+    time_t idle = timer->get_elapsed_idle_time();
+    time_t reset = timer->get_auto_reset();
 
     if (state == STATE_STOPPED && idle >= reset)
       {
@@ -96,7 +93,7 @@ public:
   }
 
   //! Force state to be idle.
-  void force_idle()
+  void force_idle() override
   {
     TRACE_ENTER("TimerActivityMonitor::force_idle");
     TRACE_MSG("Forcing idle");
@@ -106,20 +103,20 @@ public:
 
   // Returns the collected statistics.
   //! Sets the activity listener of this monitor.
-  void set_listener(ActivityMonitorListener *l) { (void)l; }
+  void set_listener(ActivityMonitorListener *l) override { (void)l; }
 
 private:
   //! Reference monitor
-  IActivityMonitor *monitor;
+  IActivityMonitor *monitor{nullptr};
 
   //! Reference timer.
-  Timer *timer;
+  Timer *timer{nullptr};
 
   //! Monitor suspended?
-  bool suspended;
+  bool suspended{false};
 
   //! Is this timer forced idle?
-  bool forced_idle;
+  bool forced_idle{false};
 };
 
 #endif // TIMERACTIVITYMONITOR_HH

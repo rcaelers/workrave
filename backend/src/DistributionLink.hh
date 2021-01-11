@@ -31,7 +31,7 @@ class PacketBuffer;
 class DistributionLink
 {
 public:
-  virtual ~DistributionLink() {}
+  virtual ~DistributionLink() = default;
 
   //! Returns the ID of the node.
   virtual std::string get_my_id() const = 0;
@@ -44,7 +44,7 @@ public:
 
   //! Enable/Disable distributed operation.
   virtual bool set_network_enabled(bool enabled) = 0;
-  virtual bool set_server_enabled(bool enabled)  = 0;
+  virtual bool set_server_enabled(bool enabled) = 0;
 
   //! Periodic heartbeat.
   virtual void heartbeat() = 0;

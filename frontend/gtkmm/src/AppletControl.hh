@@ -38,7 +38,7 @@ public:
     MacOS,
   };
 
-  AppletControl()  = default;
+  AppletControl() = default;
   ~AppletControl() = default;
 
   void init();
@@ -52,7 +52,6 @@ public:
 private:
   std::map<AppletType, std::shared_ptr<IAppletWindow>> applets;
 
-  bool enabled{false};
   bool visible{false};
 
   sigc::signal<void> visibility_changed_signal;

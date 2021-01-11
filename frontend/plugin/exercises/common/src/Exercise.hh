@@ -36,7 +36,7 @@ public:
     bool mirror_x;
     Image(const char *img, int dur, bool mx)
     {
-      image    = img;
+      image = img;
       duration = dur;
       mirror_x = mx;
     }
@@ -44,7 +44,7 @@ public:
 
   std::string title;
   std::string description;
-  int duration;
+  int duration{0};
   std::list<Image> sequence;
 
 public:

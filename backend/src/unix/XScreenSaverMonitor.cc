@@ -38,8 +38,7 @@ using namespace std;
 using namespace workrave;
 
 XScreenSaverMonitor::XScreenSaverMonitor()
-  : abort(false)
-  , screen_saver_info(NULL)
+
 {
   monitor_thread = new Thread(this);
   g_mutex_init(&mutex);
@@ -49,7 +48,7 @@ XScreenSaverMonitor::XScreenSaverMonitor()
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
   TRACE_ENTER("XScreenSaverMonitor::~XScreenSaverMonitor");
-  if (monitor_thread != NULL)
+  if (monitor_thread != nullptr)
     {
       monitor_thread->wait();
       delete monitor_thread;
@@ -89,7 +88,7 @@ XScreenSaverMonitor::terminate()
   g_mutex_unlock(&mutex);
 
   monitor_thread->wait();
-  monitor_thread = NULL;
+  monitor_thread = nullptr;
 
   TRACE_EXIT();
 }

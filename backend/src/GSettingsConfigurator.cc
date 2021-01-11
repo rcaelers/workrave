@@ -41,12 +41,12 @@ static string underscore_exceptions[] = {
 GSettingsConfigurator::GSettingsConfigurator()
 {
   schema_base = "org.workrave";
-  path_base   = "/org/workrave/";
+  path_base = "/org/workrave/";
 
   add_children();
 }
 
-GSettingsConfigurator::~GSettingsConfigurator() {}
+GSettingsConfigurator::~GSettingsConfigurator() = default;
 
 bool
 GSettingsConfigurator::load(string filename)
@@ -83,10 +83,10 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
 
   string key;
   GSettings *child = get_settings(full_path, key);
-  if (child != NULL)
+  if (child != nullptr)
     {
       GVariant *value = g_settings_get_value(child, key.c_str());
-      if (value != NULL)
+      if (value != nullptr)
         {
           if (type == VARIANT_TYPE_NONE)
             {
@@ -110,28 +110,28 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
                 }
             }
 
-          ret                            = false;
+          ret = false;
           const GVariantType *value_type = g_variant_get_type(value);
 
           if (g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
             {
               out.int_value = g_settings_get_int(child, key.c_str());
-              ret           = true;
+              ret = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
             {
               out.bool_value = g_settings_get_boolean(child, key.c_str());
-              ret            = true;
+              ret = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
             {
               out.double_value = g_settings_get_double(child, key.c_str());
-              ret              = true;
+              ret = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
             {
               out.string_value = g_settings_get_string(child, key.c_str());
-              ret              = true;
+              ret = true;
             }
 
           // g_variant_unref(value);
@@ -154,7 +154,7 @@ GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
   string key;
   GSettings *child = get_settings(full_path, key);
 
-  if (child != NULL)
+  if (child != nullptr)
     {
       switch (value.type)
         {
@@ -213,10 +213,10 @@ GSettingsConfigurator::add_children()
 
   GSettingsSchemaSource *global_schema_source = g_settings_schema_source_get_default();
 
-  gchar **schemas = NULL;
-  g_settings_schema_source_list_schemas(global_schema_source, TRUE, &schemas, NULL);
+  gchar **schemas = nullptr;
+  g_settings_schema_source_list_schemas(global_schema_source, TRUE, &schemas, nullptr);
 
-  for (int i = 0; schemas[i] != NULL; i++)
+  for (int i = 0; schemas[i] != nullptr; i++)
     {
       if (g_ascii_strncasecmp(schemas[i], schema_base.c_str(), len) == 0)
         {
@@ -237,7 +237,7 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   gchar *path;
   g_object_get(gsettings, "path", &path, NULL);
 
-  string tmp     = StringUtil::search_replace(string(path) + key, "/org/workrave/", "");
+  string tmp = StringUtil::search_replace(string(path) + key, "/org/workrave/", "");
   string changed = StringUtil::search_replace(tmp, "-", "_");
   TRACE_MSG(changed);
 
@@ -262,17 +262,17 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
 void
 GSettingsConfigurator::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s     = key.c_str();
+  const char *s = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
       parent = key.substr(0, slash - s);
-      child  = slash + 1;
+      child = slash + 1;
     }
   else
     {
       parent = "";
-      child  = "";
+      child = "";
     }
 }
 
@@ -291,7 +291,7 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   if (i == settings.end())
     {
       TRACE_RETURN("NULL");
-      return NULL;
+      return nullptr;
     }
 
   TRACE_EXIT();

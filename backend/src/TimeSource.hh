@@ -35,7 +35,7 @@
 class TimeSource
 {
 public:
-  virtual ~TimeSource() {}
+  virtual ~TimeSource() = default;
 
   //! Returns the time of this source.
   virtual time_t get_time() const = 0;

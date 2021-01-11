@@ -84,7 +84,7 @@ AppletControl::on_applet_visibility_changed(AppletType type, bool visible)
   // TODO: REFACTOR
   if (visible)
     {
-      IGUI *gui    = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->resync();
     }

@@ -44,16 +44,16 @@ private:
 
 private:
   //! GNet socket
-  GTcpSocket *socket;
+  GTcpSocket *socket{nullptr};
 
   //! Glib IOChannel
-  GIOChannel *iochannel;
+  GIOChannel *iochannel{nullptr};
 
   //! I/O Events we are monitoring.
-  gint watch_flags;
+  gint watch_flags{0};
 
   //! Our watch ID
-  guint watch;
+  guint watch{0};
 };
 
 //! Socket implementation based on GNet
@@ -79,16 +79,16 @@ private:
 
 private:
   //! GNet socket
-  GTcpSocket *socket;
+  GTcpSocket *socket{nullptr};
 
   //! Glib IOChannel
-  GIOChannel *iochannel;
+  GIOChannel *iochannel{nullptr};
 
   //! I/O Events we are monitoring
-  gint watch_flags;
+  gint watch_flags{0};
 
   //! Our watch ID
-  guint watch;
+  guint watch{0};
 };
 
 class GNetSocketDriver : public SocketDriver

@@ -43,7 +43,7 @@ class TimerBoxPreferencePage
 {
 public:
   TimerBoxPreferencePage(std::string name);
-  ~TimerBoxPreferencePage();
+  ~TimerBoxPreferencePage() override;
 
 private:
   void create_page();
@@ -58,7 +58,7 @@ private:
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
 
-  void config_changed_notify(const string &key);
+  void config_changed_notify(const string &key) override;
 
   string name;
 

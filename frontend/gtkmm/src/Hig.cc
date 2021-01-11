@@ -22,13 +22,12 @@ HigDialog::HigDialog(const Glib::ustring &title, bool modal, bool use_separator)
   (void)use_separator;
 
   set_hig_defaults();
-  vbox = NULL;
 }
 
 Gtk::VBox *
 HigDialog::get_vbox()
 {
-  if (vbox == NULL)
+  if (vbox == nullptr)
     {
       vbox = Gtk::manage(new Gtk::VBox());
       vbox->set_border_width(6);
@@ -135,10 +134,10 @@ HigCategoriesPanel::add(Gtk::Widget &panel)
 Glib::ustring
 HigUtil::create_alert_text(const char *caption, const char *body)
 {
-  Glib::ustring txt = "<span weight=\"bold\" size=\"larger\">";
+  Glib::ustring txt = R"(<span weight="bold" size="larger">)";
   txt += caption;
   txt += "</span>";
-  if (body != NULL)
+  if (body != nullptr)
     {
       txt += "\n\n";
       txt += body;

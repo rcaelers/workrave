@@ -36,25 +36,25 @@ class PreludeWindow
 {
 public:
   PreludeWindow(HeadInfo &head, BreakId break_id);
-  virtual ~PreludeWindow();
+  ~PreludeWindow() override;
 
-  void start();
-  void stop();
-  void destroy();
-  void refresh();
-  void set_progress(int value, int max_value);
-  void set_stage(IApp::PreludeStage stage);
-  void set_progress_text(IApp::PreludeProgressText text);
+  void start() override;
+  void stop() override;
+  void destroy() override;
+  void refresh() override;
+  void set_progress(int value, int max_value) override;
+  void set_stage(IApp::PreludeStage stage) override;
+  void set_progress_text(IApp::PreludeProgressText text) override;
 
 private:
   void on_frame_flash_event(bool frame_visible);
-  void add(Gtk::Widget &widget);
+  void add(Gtk::Widget &widget) override;
 
 #ifdef PLATFORM_OS_WINDOWS
   void init_avoid_pointer_polling();
   bool on_avoid_pointer_timer_event();
 #else
-  bool on_enter_notify_event(GdkEventCrossing *event);
+  bool on_enter_notify_event(GdkEventCrossing *event) override;
 #endif
   void get_pointer_location(int &x, int &y);
   void avoid_pointer();
@@ -71,24 +71,24 @@ private:
   //! Avoid time signal
   sigc::connection avoid_signal;
 
-  int gdk_offset_x;
-  int gdk_offset_y;
+  int gdk_offset_x{0};
+  int gdk_offset_y{0};
 #endif
 
   //! Avoid margin.
-  const int SCREEN_MARGIN;
+  const int SCREEN_MARGIN{20};
 
   //! Did we avoid the pointer?
-  bool did_avoid;
+  bool did_avoid{false};
 
   //! Time bar
-  TimeBar *time_bar;
+  TimeBar *time_bar{nullptr};
 
   //! Frame
-  Frame *frame;
+  Frame *frame{nullptr};
 
   //! Frame
-  Frame *window_frame;
+  Frame *window_frame{nullptr};
 
   //! Warn color
   Gdk::Color color_warn;
@@ -97,26 +97,26 @@ private:
   Gdk::Color color_alert;
 
   //! Label
-  Gtk::Label *label;
+  Gtk::Label *label{nullptr};
 
   //! Icon
-  Gtk::Image *image_icon;
+  Gtk::Image *image_icon{nullptr};
 
   //! Final prelude
   std::string progress_text;
 
   //! Progress values
-  int progress_value;
-  int progress_max_value;
+  int progress_value{0};
+  int progress_max_value{0};
 
   //! Flash
-  bool flash_visible;
+  bool flash_visible{false};
 
   //! Head
   HeadInfo head;
 
   // Aligment in Waylang
-  Gtk::Alignment *align;
+  Gtk::Alignment *align{nullptr};
 };
 
 #endif // PRELUDEWINDOW_HH

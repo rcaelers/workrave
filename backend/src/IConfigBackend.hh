@@ -34,24 +34,24 @@ using namespace workrave;
 class IConfigBackend
 {
 public:
-  virtual ~IConfigBackend() {}
+  virtual ~IConfigBackend() = default;
 
   virtual bool load(std::string filename) = 0;
   virtual bool save(std::string filename) = 0;
-  virtual bool save()                     = 0;
+  virtual bool save() = 0;
 
-  virtual bool remove_key(const std::string &key)                                        = 0;
+  virtual bool remove_key(const std::string &key) = 0;
   virtual bool get_value(const std::string &key, VariantType type, Variant &value) const = 0;
-  virtual bool set_value(const std::string &key, Variant &value)                         = 0;
+  virtual bool set_value(const std::string &key, Variant &value) = 0;
 };
 
 class IConfigBackendMonitoring
 {
 public:
-  virtual ~IConfigBackendMonitoring() {}
+  virtual ~IConfigBackendMonitoring() = default;
 
-  virtual void set_listener(IConfiguratorListener *listener)  = 0;
-  virtual bool add_listener(const std::string &key_prefix)    = 0;
+  virtual void set_listener(IConfiguratorListener *listener) = 0;
+  virtual bool add_listener(const std::string &key_prefix) = 0;
   virtual bool remove_listener(const std::string &key_prefix) = 0;
 };
 

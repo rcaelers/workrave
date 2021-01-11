@@ -43,15 +43,6 @@
 
 using namespace std;
 
-//! Constructor.
-IndicatorAppletMenu::IndicatorAppletMenu() {}
-
-//! Destructor.
-IndicatorAppletMenu::~IndicatorAppletMenu()
-{
-  // FIXME: cleanup.
-}
-
 DbusmenuMenuitem *
 IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *label)
 {
@@ -106,7 +97,7 @@ void
 IndicatorAppletMenu::init()
 {
   server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
-  root   = dbusmenu_menuitem_new();
+  root = dbusmenu_menuitem_new();
   dbusmenu_server_set_root(server, root);
   dbusmenu_menuitem_property_set_bool(root, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
 
@@ -173,7 +164,7 @@ IndicatorAppletMenu::menu_item_activated(DbusmenuMenuitem *mi)
   int command = find_menu_item(mi);
   if (command != -1)
     {
-      IGUI *gui    = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->applet_command(command);
     }

@@ -27,25 +27,20 @@ using namespace workrave;
 class FakeActivityMonitor : public IActivityMonitor
 {
 public:
-  FakeActivityMonitor()
-    : suspended(false)
-    , state(ACTIVITY_IDLE)
-  {
-  }
-
-  virtual ~FakeActivityMonitor() {}
+  FakeActivityMonitor() = default;
+  ~FakeActivityMonitor() override = default;
 
   //! Stops the activity monitoring.
-  void terminate() {}
+  void terminate() override {}
 
   //! Suspends the activity monitoring.
-  void suspend() { suspended = true; }
+  void suspend() override { suspended = true; }
 
   //! Resumes the activity monitoring.
-  void resume() { suspended = false; }
+  void resume() override { suspended = false; }
 
   //! Returns the current state
-  ActivityState get_current_state()
+  ActivityState get_current_state() override
   {
     if (suspended)
       {
@@ -56,18 +51,18 @@ public:
   }
 
   //! Force state to be idle.
-  void force_idle() { state = ACTIVITY_IDLE; }
+  void force_idle() override { state = ACTIVITY_IDLE; }
 
   void set_state(ActivityState s) { state = s; }
 
-  void set_listener(ActivityMonitorListener *l) { (void)l; }
+  void set_listener(ActivityMonitorListener *l) override { (void)l; }
 
 private:
   //! Monitor suspended?
-  bool suspended;
+  bool suspended{false};
 
   //! Current state
-  ActivityState state;
+  ActivityState state{ACTIVITY_IDLE};
 };
 
 #endif // FAKEACTIVITYMONITOR_HH

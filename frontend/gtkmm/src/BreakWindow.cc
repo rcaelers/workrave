@@ -21,7 +21,7 @@
 
 #include <ctime>
 
-#include <string.h>
+#include <cstring>
 
 #ifdef HAVE_STRINGS_H
 #  include <strings.h>
@@ -43,8 +43,8 @@
 #  undef max
 #endif
 
+#include <cmath>
 #include <gtkmm.h>
-#include <math.h>
 
 #include "BreakWindow.hh"
 
@@ -76,24 +76,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , block_mode(mode)
   , break_flags(break_flags)
-  , frame(NULL)
-  , break_response(NULL)
   , break_id(break_id)
-  , gui(NULL)
-  , visible(false)
-  , sysoper_model_columns(NULL)
-  , accel_added(false)
-  , accel_group(NULL)
-  , lock_button(NULL)
-  , postpone_button(NULL)
-  , skip_button(NULL)
-  , sysoper_combobox(NULL)
-  , progress_bar(NULL)
-#ifdef PLATFORM_OS_WINDOWS
-  , desktop_window(NULL)
-  , force_focus_on_break_start(false)
-  , parent(0)
-#endif
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
 
@@ -159,7 +142,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 #endif
 
   ICore *core = CoreFactory::get_core();
-  assert(core != NULL);
+  assert(core != nullptr);
   core->set_insist_policy(initial_ignore_activity ? ICore::INSIST_POLICY_IGNORE : ICore::INSIST_POLICY_HALT);
   TRACE_EXIT();
 }
@@ -168,7 +151,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 void
 BreakWindow::init_gui()
 {
-  if (gui == NULL)
+  if (gui == nullptr)
     {
       gui = Gtk::manage(create_gui());
 
@@ -249,7 +232,7 @@ BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
@@ -275,27 +258,27 @@ BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperatio
   switch (type)
     {
     case System::SystemOperation::SYSTEM_OPERATION_NONE:
-      *name      = _("Lock...");
+      *name = _("Lock...");
       *icon_name = "lock.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN:
-      *name      = _("Lock");
+      *name = _("Lock");
       *icon_name = "lock.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-      *name      = _("Shutdown");
+      *name = _("Shutdown");
       *icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
-      *name      = _("Suspend");
+      *name = _("Suspend");
       *icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-      *name      = _("Hibernate");
+      *name = _("Hibernate");
       *icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-      *name      = _("Suspend hybrid");
+      *name = _("Suspend hybrid");
       *icon_name = "shutdown.png";
       break;
     default:
@@ -318,7 +301,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, Sy
       row[sysoper_model_columns->icon] = GtkUtil::create_pixbuf(icon_name);
     }
   row[sysoper_model_columns->name] = Glib::ustring(name);
-  row[sysoper_model_columns->id]   = type;
+  row[sysoper_model_columns->id] = type;
   TRACE_EXIT()
 }
 
@@ -332,11 +315,11 @@ BreakWindow::create_sysoper_combobox()
 {
   TRACE_ENTER("BreakWindow::create_sysoper_combobox");
   supported_system_operations = System::get_supported_system_operations();
-  bool has_button_images      = GtkUtil::has_button_images();
+  bool has_button_images = GtkUtil::has_button_images();
 
   if (supported_system_operations.empty())
     {
-      return NULL;
+      return nullptr;
     }
 
   sysoper_model_columns = new SysoperModelColumns(has_button_images);
@@ -356,9 +339,9 @@ BreakWindow::create_sysoper_combobox()
   if (model->children().empty())
     {
       delete sysoper_model_columns;
-      sysoper_model_columns = NULL;
+      sysoper_model_columns = nullptr;
       TRACE_EXIT();
-      return NULL;
+      return nullptr;
     }
 
   Gtk::ComboBox *comboBox = new Gtk::ComboBox();
@@ -401,7 +384,7 @@ BreakWindow::on_sysoper_combobox_changed()
     }
 
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
   gui->interrupt_grab();
 
   System::execute(row[sysoper_model_columns->id]);
@@ -461,10 +444,11 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ((postpone_button != NULL && !postpone_button->get_sensitive()) || (skip_button != NULL && !skip_button->get_sensitive()))
+  if ((postpone_button != nullptr && !postpone_button->get_sensitive())
+      || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
-      bool skip_locked         = false;
-      bool postpone_locked     = false;
+      bool skip_locked = false;
+      bool postpone_locked = false;
       BreakId overdue_break_id = BREAK_ID_NONE;
       check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -473,7 +457,7 @@ BreakWindow::update_skip_postpone_lock()
           if (overdue_break_id != BREAK_ID_NONE)
             {
               ICore *core = CoreFactory::get_core();
-              IBreak *b   = core->get_break(BreakId(overdue_break_id));
+              IBreak *b = core->get_break(BreakId(overdue_break_id));
               progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / b->get_auto_reset());
             }
           else
@@ -482,12 +466,12 @@ BreakWindow::update_skip_postpone_lock()
             }
         }
 
-      if (!postpone_locked && postpone_button != NULL)
+      if (!postpone_locked && postpone_button != nullptr)
         {
           postpone_button->set_has_tooltip(false);
           postpone_button->set_sensitive(true);
         }
-      if (!skip_locked && skip_button != NULL)
+      if (!skip_locked && skip_button != nullptr)
         {
           skip_button->set_has_tooltip(false);
           skip_button->set_sensitive(true);
@@ -518,7 +502,7 @@ void
 BreakWindow::on_postpone_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  if (break_response != NULL)
+  if (break_response != nullptr)
     {
       break_response->postpone_break(break_id);
     }
@@ -529,7 +513,7 @@ BreakWindow::on_postpone_button_clicked()
 void
 BreakWindow::on_skip_button_clicked()
 {
-  if (break_response != NULL)
+  if (break_response != nullptr)
     {
       break_response->skip_break(break_id);
     }
@@ -540,7 +524,7 @@ void
 BreakWindow::on_lock_button_clicked()
 {
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
   gui->interrupt_grab();
   System::execute(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN);
 }
@@ -550,18 +534,18 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
 {
   TRACE_ENTER("BreakWindow::check_skip_postpone_lock");
 
-  skip_locked      = false;
-  postpone_locked  = false;
+  skip_locked = false;
+  postpone_locked = false;
   overdue_break_id = BREAK_ID_NONE;
 
-  ICore *core        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (mode == OPERATION_MODE_NORMAL)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
-          IBreak *b    = core->get_break(BreakId(id));
+          IBreak *b = core->get_break(BreakId(id));
           bool overdue = b->get_elapsed_time() > b->get_limit();
 
           if ((!(break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
@@ -596,11 +580,11 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
   Gtk::VBox *vbox = new Gtk::VBox(false, 0);
 
   button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
-  box_size_group    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      Gtk::HBox *top_box    = Gtk::manage(new Gtk::HBox(false, 0));
+      Gtk::HBox *top_box = Gtk::manage(new Gtk::HBox(false, 0));
       Gtk::HBox *bottom_box = Gtk::manage(new Gtk::HBox(false, 6));
 
       vbox->pack_end(*bottom_box, Gtk::PACK_SHRINK, 2);
@@ -610,8 +594,8 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
           Gtk::HButtonBox *button_box = Gtk::manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
           bottom_box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
 
-          bool skip_locked         = false;
-          bool postpone_locked     = false;
+          bool skip_locked = false;
+          bool postpone_locked = false;
           BreakId overdue_break_id = BREAK_ID_NONE;
           check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -684,7 +668,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
                 "progress, trough {\n"
                 "min-width: 1px;\n"
                 "}";
-              Glib::RefPtr<Gtk::CssProvider> css_provider   = Gtk::CssProvider::create();
+              Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
               Glib::RefPtr<Gtk::StyleContext> style_context = progress_bar->get_style_context();
               css_provider->load_from_data(style);
               style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -698,7 +682,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
           if (shutdownable)
             {
               sysoper_combobox = create_sysoper_combobox();
-              if (sysoper_combobox != NULL)
+              if (sysoper_combobox != nullptr)
                 {
                   bottom_box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
                 }
@@ -706,7 +690,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
           else
             {
               lock_button = create_lock_button();
-              if (lock_button != NULL)
+              if (lock_button != nullptr)
                 {
                   bottom_box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
                 }
@@ -732,7 +716,7 @@ disable_button_focus(GtkWidget *w)
 {
   if (GTK_IS_CONTAINER(w))
     {
-      gtk_container_forall(GTK_CONTAINER(w), (GtkCallback)disable_button_focus, NULL);
+      gtk_container_forall(GTK_CONTAINER(w), (GtkCallback)disable_button_focus, nullptr);
     }
 
   if (GTK_IS_BUTTON(w))
@@ -771,8 +755,8 @@ BreakWindow::start()
 #ifdef PLATFORM_OS_WINDOWS
   if (force_focus_on_break_start && (this->head.count == 0))
     {
-      HWND hwnd                                               = (HWND)GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
-      bool focused                                            = W32ForceFocus::ForceWindowFocus(hwnd);
+      HWND hwnd = (HWND)GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
+      bool focused = W32ForceFocus::ForceWindowFocus(hwnd);
       bool this_is_a_dummy_var_to_fool_visual_studio_debugger = focused;
     }
 #endif
@@ -780,7 +764,7 @@ BreakWindow::start()
   // In case the show_all resized the window...
   center();
 
-  if (sysoper_combobox != NULL)
+  if (sysoper_combobox != nullptr)
     {
       // Setting "can focus" of the sysoper combobox to false is not enough to
       // prevent the combobox from taking the focus. A combobox has an internal
@@ -793,7 +777,7 @@ BreakWindow::start()
       GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
       if (gtk_widget_is_toplevel(toplevel))
         {
-          gtk_window_set_focus(GTK_WINDOW(toplevel), NULL);
+          gtk_window_set_focus(GTK_WINDOW(toplevel), nullptr);
         }
     }
 
@@ -806,7 +790,7 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }

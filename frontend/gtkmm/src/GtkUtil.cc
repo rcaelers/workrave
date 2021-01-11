@@ -54,8 +54,8 @@ GtkUtil::has_button_images()
   // Bypassing gtkmm is necessary, because it does not offer
   // a find_property method yet.
   GtkSettings *settings = gtk_settings_get_default();
-  GObjectClass *klazz   = G_OBJECT_GET_CLASS(G_OBJECT(settings));
-  bool ret              = true;
+  GObjectClass *klazz = G_OBJECT_GET_CLASS(G_OBJECT(settings));
+  bool ret = true;
   if (g_object_class_find_property(klazz, "gtk-button-images"))
     {
       gboolean gbi;
@@ -76,19 +76,19 @@ GtkUtil::create_custom_stock_button(const char *label_text, const Gtk::StockID &
 void
 GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, const Gtk::StockID &stock_id)
 {
-  Gtk::Image *img = NULL;
+  Gtk::Image *img = nullptr;
 
   if (has_button_images() || !label_text)
     {
       img = Gtk::manage(new Gtk::Image(stock_id, Gtk::ICON_SIZE_BUTTON));
     }
   btn->remove();
-  if (label_text != NULL)
+  if (label_text != nullptr)
     {
-      Gtk::Label *label     = Gtk::manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox       = Gtk::manage(new Gtk::HBox(false, 2));
+      Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-      if (img != NULL)
+      if (img != nullptr)
         {
           hbox->pack_start(*img, false, false, 0);
         }
@@ -110,23 +110,23 @@ Gtk::Button *
 GtkUtil::create_image_button(const char *label_text, const char *image_file, bool label)
 {
   Gtk::Button *btn = new Gtk::Button();
-  Gtk::Image *img  = NULL;
+  Gtk::Image *img = nullptr;
   if (has_button_images())
     {
       string icon = Util::complete_directory(image_file, Util::SEARCH_PATH_IMAGES);
-      img         = Gtk::manage(new Gtk::Image(icon));
+      img = Gtk::manage(new Gtk::Image(icon));
     }
   else
     {
       /* Button witout images must have a label */
       label = true;
     }
-  if (label_text != NULL && label)
+  if (label_text != nullptr && label)
     {
-      Gtk::Label *label     = Gtk::manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox       = Gtk::manage(new Gtk::HBox(false, 2));
+      Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-      if (img != NULL)
+      if (img != nullptr)
         {
           hbox->pack_start(*img, false, false, 0);
         }
@@ -148,7 +148,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {
-  Gtk::HBox *box  = new Gtk::HBox(false, 3);
+  Gtk::HBox *box = new Gtk::HBox(false, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   box->pack_start(*img, false, false, 0);
@@ -160,7 +160,7 @@ Gtk::Widget *
 GtkUtil::create_label_for_break(BreakId id)
 {
   // FIXME: duplicate:
-  const char *icons[]  = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
+  const char *icons[] = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
   const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
 
   string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
@@ -260,16 +260,16 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
   gint a;
 
   if (!src)
-    return NULL;
+    return nullptr;
 
-  w         = gdk_pixbuf_get_width(src);
-  h         = gdk_pixbuf_get_height(src);
+  w = gdk_pixbuf_get_width(src);
+  h = gdk_pixbuf_get_height(src);
   has_alpha = gdk_pixbuf_get_has_alpha(src);
-  srs       = gdk_pixbuf_get_rowstride(src);
-  s_pix     = gdk_pixbuf_get_pixels(src);
+  srs = gdk_pixbuf_get_rowstride(src);
+  s_pix = gdk_pixbuf_get_pixels(src);
 
-  dest  = gdk_pixbuf_new(GDK_COLORSPACE_RGB, has_alpha, 8, w, h);
-  drs   = gdk_pixbuf_get_rowstride(dest);
+  dest = gdk_pixbuf_new(GDK_COLORSPACE_RGB, has_alpha, 8, w, h);
+  drs = gdk_pixbuf_get_rowstride(dest);
   d_pix = gdk_pixbuf_get_pixels(dest);
 
   a = has_alpha ? 4 : 3;
@@ -317,7 +317,7 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
 Glib::RefPtr<Gdk::Pixbuf>
 GtkUtil::flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical)
 {
-  GdkPixbuf *pb     = pixbuf->gobj();
+  GdkPixbuf *pb = pixbuf->gobj();
   GdkPixbuf *pbflip = pixbuf_copy_mirror(pb, horizontal, vertical);
   return Glib::wrap(pbflip, false);
 }
@@ -351,7 +351,7 @@ void
 GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
 {
   Gtk::Label *label = (Gtk::Label *)widget->get_data(*label_quark);
-  if (label != NULL)
+  if (label != nullptr)
     {
       guint mnemonic = label->get_mnemonic_keyval();
 #ifdef HAVE_GTK3
@@ -372,7 +372,7 @@ returns the visible tooltip window or NULL
 GtkWindow *
 GtkUtil::get_visible_tooltip_window()
 {
-  GtkWindow *func_retval = NULL;
+  GtkWindow *func_retval = nullptr;
 
   GList *list = gtk_window_list_toplevels();
   for (GList *item = list; item; item = item->next)
@@ -416,7 +416,7 @@ GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
     "color: @theme_fg_color;\n"
     "}";
 
-  Glib::RefPtr<Gtk::CssProvider> css_provider   = Gtk::CssProvider::create();
+  Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
   Glib::RefPtr<Gtk::StyleContext> style_context = widget->get_style_context();
 
   css_provider->load_from_data(style);
@@ -464,7 +464,7 @@ Gtk::Image *
 GtkUtil::create_image(const std::string &name)
 {
   std::string filename = get_image_filename(name);
-  Gtk::Image *ret      = NULL;
+  Gtk::Image *ret = nullptr;
 
   try
     {

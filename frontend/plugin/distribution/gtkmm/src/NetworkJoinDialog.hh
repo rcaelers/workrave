@@ -20,8 +20,8 @@
 #ifndef NETWORKJOINDIALOG_HH
 #define NETWORKJOINDIALOG_HH
 
+#include <cstdio>
 #include <string>
-#include <stdio.h>
 
 #include "preinclude.h"
 #include "Hig.hh"
@@ -40,7 +40,7 @@ class NetworkJoinDialog : public HigDialog
 {
 public:
   NetworkJoinDialog();
-  ~NetworkJoinDialog();
+  ~NetworkJoinDialog() override;
 
   std::string get_connect_url();
 

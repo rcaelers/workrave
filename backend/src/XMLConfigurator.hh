@@ -37,26 +37,26 @@ class XMLConfigurator
 public:
   XMLConfigurator();
   XMLConfigurator(XMLConfigurator *parent);
-  virtual ~XMLConfigurator();
+  ~XMLConfigurator() override;
 
   // Pure virtuals from Configurator
-  virtual bool load(std::string filename);
-  virtual bool save(std::string filename);
-  virtual bool save();
+  bool load(std::string filename) override;
+  bool save(std::string filename) override;
+  bool save() override;
 
-  virtual bool remove_key(const std::string &key);
+  bool remove_key(const std::string &key) override;
 
-  virtual bool get_config_value(const std::string &key, std::string &out) const;
-  virtual bool get_config_value(const std::string &key, bool &out) const;
-  virtual bool get_config_value(const std::string &key, int &out) const;
-  virtual bool get_config_value(const std::string &key, long &out) const;
-  virtual bool get_config_value(const std::string &key, double &out) const;
+  bool get_config_value(const std::string &key, std::string &out) const override;
+  bool get_config_value(const std::string &key, bool &out) const override;
+  bool get_config_value(const std::string &key, int &out) const override;
+  bool get_config_value(const std::string &key, long &out) const override;
+  bool get_config_value(const std::string &key, double &out) const override;
 
-  virtual bool set_config_value(const std::string &key, std::string v);
-  virtual bool set_config_value(const std::string &key, int v);
-  virtual bool set_config_value(const std::string &key, long v);
-  virtual bool set_config_value(const std::string &key, bool v);
-  virtual bool set_config_value(const std::string &key, double v);
+  bool set_config_value(const std::string &key, std::string v) override;
+  bool set_config_value(const std::string &key, int v) override;
+  bool set_config_value(const std::string &key, long v) override;
+  bool set_config_value(const std::string &key, bool v) override;
+  bool set_config_value(const std::string &key, double v) override;
 
 private:
   void init(GdomeNode *node);
@@ -72,7 +72,7 @@ private:
   {
     node_name = name;
 
-    if (parent != NULL)
+    if (parent != nullptr)
       {
         node_path = parent->getPath() + node_name + "/";
       }
@@ -85,7 +85,7 @@ private:
   typedef std::map<std::string, XMLConfigurator *> Children;
 
   //! Parent
-  XMLConfigurator *parent;
+  XMLConfigurator *parent{nullptr};
 
   //! File name of the last 'load'.
   std::string last_file_name;

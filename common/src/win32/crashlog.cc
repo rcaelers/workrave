@@ -98,7 +98,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
     '\0',
   };
   WCHAR crashlog[] = L"\\workrave-crashlog.txt";
-  WCHAR *wbuffer   = NULL;
+  WCHAR *wbuffer = NULL;
   WCHAR *p_wbuffer = NULL;
   FILE *log;
   DWORD(WINAPI * GetEnvironmentVariableW)(LPCWSTR, LPWSTR, DWORD);
@@ -130,7 +130,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
 
       wcsncpy(env_var, L"APPDATA", 19);
       env_var[19] = '\0';
-      bufsize     = (*GetEnvironmentVariableW)(env_var, NULL, 0);
+      bufsize = (*GetEnvironmentVariableW)(env_var, NULL, 0);
       // bufsize is size in wide chars, including null
 
       if (!bufsize)
@@ -138,10 +138,10 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
         {
           wcsncpy(env_var, L"TEMP", 19);
           env_var[19] = '\0';
-          bufsize     = (*GetEnvironmentVariableW)(env_var, NULL, 0);
+          bufsize = (*GetEnvironmentVariableW)(env_var, NULL, 0);
         }
 
-      ret     = 0;
+      ret = 0;
       wbuffer = NULL;
 
       if (bufsize)
@@ -151,7 +151,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
             {
               wcscpy(wbuffer, L"\\\\?\\");
               p_wbuffer = wbuffer + 4;
-              ret       = (*GetEnvironmentVariableW)(env_var, p_wbuffer, bufsize);
+              ret = (*GetEnvironmentVariableW)(env_var, p_wbuffer, bufsize);
             }
         }
 
@@ -202,7 +202,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
       handle =
         (*CreateFileW)(p_wbuffer, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-      fd  = _open_osfhandle((intptr_t)handle, _O_APPEND | _O_TEXT);
+      fd = _open_osfhandle((intptr_t)handle, _O_APPEND | _O_TEXT);
       log = _fdopen(fd, "w");
     }
   else // if( GetVersion() & (DWORD) 0x80000000 )
@@ -285,7 +285,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
 
   // write locale info:
   char *buffer = NULL;
-  int bufsize  = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, buffer, 0);
+  int bufsize = GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, buffer, 0);
 
   if (bufsize)
     buffer = (char *)calloc(bufsize + 1, 1);
@@ -436,7 +436,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
             exception_record->ExceptionInformation[0] ? "writing to" : "reading from",
             exception_record->ExceptionInformation[1]);
 
-  DWORD pid      = GetCurrentProcessId();
+  DWORD pid = GetCurrentProcessId();
   HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pid);
 
   dump_registers(log, context_record);
@@ -467,7 +467,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
         // Low memory...
         {
           // % + % + null = 3 extra
-          size    = wcslen(one) + wcslen(env_var) + wcslen(crashlog) + wcslen(two) + 3;
+          size = wcslen(one) + wcslen(env_var) + wcslen(crashlog) + wcslen(two) + 3;
           message = (WCHAR *)calloc(size, sizeof(WCHAR));
           if (message)
             {
@@ -515,11 +515,11 @@ stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT context_record)
     {
       stack_frame->Reserved[0] = 1;
 
-      stack_frame->AddrPC.Mode      = AddrModeFlat;
-      stack_frame->AddrPC.Offset    = context_record->Eip;
-      stack_frame->AddrStack.Mode   = AddrModeFlat;
+      stack_frame->AddrPC.Mode = AddrModeFlat;
+      stack_frame->AddrPC.Offset = context_record->Eip;
+      stack_frame->AddrStack.Mode = AddrModeFlat;
       stack_frame->AddrStack.Offset = context_record->Esp;
-      stack_frame->AddrFrame.Mode   = AddrModeFlat;
+      stack_frame->AddrFrame.Mode = AddrModeFlat;
       stack_frame->AddrFrame.Offset = context_record->Ebp;
 
       stack_frame->AddrReturn.Mode = AddrModeFlat;
@@ -559,12 +559,12 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
   fprintf(log, "Stack trace:\n\n");
 
   ZeroMemory(&sf, sizeof(STACKFRAME));
-  sf.AddrPC.Offset    = context->Eip;
-  sf.AddrPC.Mode      = AddrModeFlat;
+  sf.AddrPC.Offset = context->Eip;
+  sf.AddrPC.Mode = AddrModeFlat;
   sf.AddrStack.Offset = context->Esp;
-  sf.AddrStack.Mode   = AddrModeFlat;
+  sf.AddrStack.Mode = AddrModeFlat;
   sf.AddrFrame.Offset = context->Ebp;
-  sf.AddrFrame.Mode   = AddrModeFlat;
+  sf.AddrFrame.Mode = AddrModeFlat;
 
   fprintf(log, "PC        Frame     Ret\n");
 
@@ -619,7 +619,7 @@ print_module_list(FILE *log)
   BOOL(WINAPI * EnumProcessModules)(HANDLE, HMODULE *, DWORD, LPDWORD);
 
   EnumProcessModules = NULL;
-  lib                = LoadLibrary("psapi.dll");
+  lib = LoadLibrary("psapi.dll");
   if (lib != NULL)
     {
       EnumProcessModules = (BOOL(WINAPI *)(HANDLE, HMODULE *, DWORD, LPDWORD))GetProcAddress(lib, "EnumProcessModules");

@@ -20,12 +20,12 @@
 #ifndef CORE_HH
 #define CORE_HH
 
-#include <stdio.h>
-#include <sys/types.h>
+#include <cstdio>
 #include <sys/stat.h>
+#include <sys/types.h>
 #if STDC_HEADERS
-#  include <stdlib.h>
-#  include <stddef.h>
+#  include <cstddef>
+#  include <cstdlib>
 #else
 #  if HAVE_STDLIB_H
 #    include <stdlib.h>
@@ -95,40 +95,40 @@ class Core
 {
 public:
   Core();
-  virtual ~Core();
+  ~Core() override;
 
   static Core *get_instance();
 
   Timer *get_timer(std::string name) const;
   Timer *get_timer(BreakId id) const;
-  Break *get_break(BreakId id);
-  Break *get_break(std::string name);
+  Break *get_break(BreakId id) override;
+  Break *get_break(std::string name) override;
   Configurator *get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
-  bool is_user_active() const;
+  bool is_user_active() const override;
   std::string get_break_stage(BreakId id);
 
 #ifdef HAVE_DISTRIBUTION
-  DistributionManager *get_distribution_manager() const;
+  DistributionManager *get_distribution_manager() const override;
 #endif
-  Statistics *get_statistics() const;
-  void set_core_events_listener(ICoreEventListener *l);
-  void force_break(BreakId id, BreakHint break_hint);
-  void time_changed();
-  void set_powersave(bool down);
+  Statistics *get_statistics() const override;
+  void set_core_events_listener(ICoreEventListener *l) override;
+  void force_break(BreakId id, BreakHint break_hint) override;
+  void time_changed() override;
+  void set_powersave(bool down) override;
 
-  time_t get_time() const;
+  time_t get_time() const override;
   void post_event(CoreEvent event);
 
-  OperationMode get_operation_mode();
-  OperationMode get_operation_mode_regular();
-  bool is_operation_mode_an_override();
-  void set_operation_mode(OperationMode mode);
-  void set_operation_mode_override(OperationMode mode, const std::string &id);
-  void remove_operation_mode_override(const std::string &id);
+  OperationMode get_operation_mode() override;
+  OperationMode get_operation_mode_regular() override;
+  bool is_operation_mode_an_override() override;
+  void set_operation_mode(OperationMode mode) override;
+  void set_operation_mode_override(OperationMode mode, const std::string &id) override;
+  void remove_operation_mode_override(const std::string &id) override;
 
-  UsageMode get_usage_mode();
-  void set_usage_mode(UsageMode mode);
+  UsageMode get_usage_mode() override;
+  void set_usage_mode(UsageMode mode) override;
 
   void set_freeze_all_breaks(bool freeze);
   void set_insensitive_mode_all_breaks(InsensitiveMode mode);
@@ -139,7 +139,7 @@ public:
   void freeze();
   void defrost();
 
-  void force_idle();
+  void force_idle() override;
   void force_idle(BreakId break_id);
 
   ActivityState get_current_monitor_state() const;
@@ -154,8 +154,8 @@ public:
   void get_timer_overdue(BreakId id, int *value);
 
   // BreakResponseInterface
-  void postpone_break(BreakId break_id);
-  void skip_break(BreakId break_id);
+  void postpone_break(BreakId break_id) override;
+  void skip_break(BreakId break_id) override;
 
 #ifdef HAVE_DBUS
   workrave::dbus::IDBus::Ptr get_dbus() { return dbus; }
@@ -169,7 +169,7 @@ private:
   };
 #endif
 
-  void init(int argc, char **argv, IApp *application, const char *display_name);
+  void init(int argc, char **argv, IApp *application, const char *display_name) override;
   void init_breaks();
   void init_configurator();
   void init_monitor(const char *display_name);
@@ -178,8 +178,8 @@ private:
   void init_statistics();
 
   void load_monitor_config();
-  void config_changed_notify(const std::string &key);
-  void heartbeat();
+  void config_changed_notify(const std::string &key) override;
+  void heartbeat() override;
   void timer_action(BreakId id, TimerInfo info);
   void process_distribution();
   void process_state();
@@ -195,15 +195,15 @@ private:
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
 
-  void set_insist_policy(ICore::InsistPolicy p);
+  void set_insist_policy(ICore::InsistPolicy p) override;
   ICore::InsistPolicy get_insist_policy() const;
 
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
 
 #ifdef HAVE_DISTRIBUTION
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer);
+  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) override;
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer) override;
 
   bool request_break_state(PacketBuffer &buffer);
   bool set_break_state(bool master, PacketBuffer &buffer);
@@ -225,8 +225,8 @@ private:
   void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param);
   bool set_break_control(PacketBuffer &buffer);
 
-  void signon_remote_client(string client_id);
-  void signoff_remote_client(string client_id);
+  void signon_remote_client(string client_id) override;
+  void signoff_remote_client(string client_id) override;
   void compute_timers();
 #endif // HAVE_DISTRIBUTION
 
@@ -235,70 +235,71 @@ private:
   static Core *instance;
 
   //! Number of command line arguments passed to the program.
-  int argc;
+  int argc{};
 
   //! Command line arguments passed to the program.
-  char **argv;
+  char **argv{};
 
   //! The current time.
-  time_t current_time;
+  time_t current_time{0};
 
   //! The time we last processed the timers.
-  time_t last_process_time;
+  time_t last_process_time{0};
 
   //! Are we the master node??
-  TracedField<bool> master_node;
+  TracedField<bool> master_node{"core.master_node", true};
+  ;
 
   //! List of breaks.
   Break breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  Configurator *configurator;
+  Configurator *configurator{nullptr};
 
   //! The activity monitor
-  ActivityMonitor *monitor;
+  ActivityMonitor *monitor{nullptr};
 
   //! GUI Widget factory.
-  IApp *application;
+  IApp *application{nullptr};
 
   //! The statistics collector.
-  Statistics *statistics;
+  Statistics *statistics{nullptr};
 
   //! Current operation mode.
-  TracedField<OperationMode> operation_mode;
+  TracedField<OperationMode> operation_mode{"core.operation_mode", OPERATION_MODE_NORMAL};
 
   //! The same as operation_mode unless operation_mode is an override mode.
-  TracedField<OperationMode> operation_mode_regular;
+  TracedField<OperationMode> operation_mode_regular{"core.operation_mode_regular", OPERATION_MODE_NORMAL};
 
   //! Active operation mode overrides.
   std::map<std::string, OperationMode> operation_mode_overrides;
 
   //! Current usage mode.
-  TracedField<UsageMode> usage_mode;
+  TracedField<UsageMode> usage_mode{"core.usage_mode", USAGE_MODE_NORMAL};
 
   //! Where to send core events to?
-  ICoreEventListener *core_event_listener;
+  ICoreEventListener *core_event_listener{nullptr};
 
   //! Did the OS announce a powersave?
-  TracedField<bool> powersave;
+  TracedField<bool> powersave{"core.powersave", false};
 
   //! Time the OS announces a resume from powersave
-  time_t powersave_resume_time;
+  time_t powersave_resume_time{0};
 
   //! What to do with activity during insisted break?
-  TracedField<ICore::InsistPolicy> insist_policy;
+  TracedField<ICore::InsistPolicy> insist_policy{"core.insist_policy", ICore::INSIST_POLICY_HALT};
 
   //! Policy currently in effect.
-  TracedField<ICore::InsistPolicy> active_insist_policy;
+  TracedField<ICore::InsistPolicy> active_insist_policy{"core.active_insist_policy", ICore::INSIST_POLICY_INVALID};
 
   //! Resumes this break if current break ends.
-  TracedField<BreakId> resume_break;
+  TracedField<BreakId> resume_break{"core.resume_break", BREAK_ID_NONE};
 
   //! Current local monitor state.
-  TracedField<ActivityState> local_state;
+  TracedField<ActivityState> local_state{"core.local_state", ACTIVITY_IDLE};
 
   //! Current overall monitor state.
-  TracedField<ActivityState> monitor_state;
+  TracedField<ActivityState> monitor_state{"core.monitor_state", ACTIVITY_UNKNOWN};
 
 #ifdef HAVE_DBUS
   //! DBUS bridge
@@ -307,17 +308,17 @@ private:
 
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
-  DistributionManager *dist_manager;
+  DistributionManager *dist_manager{nullptr};
 
   //! State of the remote master.
-  TracedField<ActivityState> remote_state;
+  TracedField<ActivityState> remote_state{"core.remote_state", ACTIVITY_IDLE};
 
   //! Manager that collects idle times of all clients.
-  IdleLogManager *idlelog_manager;
+  IdleLogManager *idlelog_manager{nullptr};
 
 #  ifndef NDEBUG
   //! A fake activity monitor for testing puposes.
-  FakeActivityMonitor *fake_monitor;
+  FakeActivityMonitor *fake_monitor{nullptr};
 #  endif
 #endif
 
@@ -333,7 +334,7 @@ private:
 inline Core *
 Core::get_instance()
 {
-  if (instance == NULL)
+  if (instance == nullptr)
     {
       instance = new Core();
     }

@@ -22,7 +22,7 @@
 
 #include "ICore.hh"
 
-#include <string.h>
+#include <cstring>
 
 namespace workrave
 {
@@ -31,7 +31,7 @@ namespace workrave
   class IBreak
   {
   public:
-    virtual ~IBreak() {}
+    virtual ~IBreak() = default;
 
     //! Returns the name of the break.
     virtual std::string get_name() const = 0;

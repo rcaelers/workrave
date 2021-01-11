@@ -31,27 +31,27 @@
 #include "ICore.hh"
 #include "IBreak.hh"
 
-const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE       = "gui/breaks/%b/ignorable_break";
-const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE       = "gui/breaks/%b/skippable_break";
-const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES       = "gui/breaks/%b/exercises";
-const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL    = "gui/breaks/%b/auto_natural";
+const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
+const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";
+const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
+const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const std::string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
-const std::string GUIConfig::CFG_KEY_BLOCK_MODE            = "gui/breaks/block_mode";
-const std::string GUIConfig::CFG_KEY_LOCALE                = "gui/locale";
-const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED      = "gui/trayicon_enabled";
-const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED     = "gui/closewarn_enabled";
-const std::string GUIConfig::CFG_KEY_AUTOSTART             = "gui/autostart";
-const std::string GUIConfig::CFG_KEY_ICONTHEME             = "gui/icontheme";
+const std::string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
+const std::string GUIConfig::CFG_KEY_LOCALE = "gui/locale";
+const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
+const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
+const std::string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
+const std::string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
 
-const std::string GUIConfig::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
-const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_X             = "gui/main_window/x";
-const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
-const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_X = "gui/main_window/x";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_Y = "gui/main_window/y";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD = "gui/main_window/head";
 
 const std::string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
-const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED     = "gui/applet/icon_enabled";
+const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
 
 //!
 void
@@ -185,9 +185,9 @@ GUIConfig::expand(const std::string &key, BreakId id)
 {
   IBreak *b = CoreFactory::get_core()->get_break(id);
 
-  std::string str            = key;
+  std::string str = key;
   std::string::size_type pos = 0;
-  std::string name           = b->get_name();
+  std::string name = b->get_name();
 
   while ((pos = str.find("%b", pos)) != std::string::npos)
     {

@@ -22,7 +22,7 @@ namespace workrave
   class DistributionLogListener
   {
   public:
-    virtual ~DistributionLogListener() {}
+    virtual ~DistributionLogListener() = default;
 
     //! Notification that a new log message has arrived.
     virtual void distribution_log(string msg) = 0;

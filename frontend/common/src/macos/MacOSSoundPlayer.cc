@@ -70,7 +70,7 @@ void
 MacOSSoundPlayer::run()
 {
   NSString *filename = [NSString stringWithUTF8String:wav_file];
-  NSSound *sound     = [soundDictionary objectForKey:filename];
+  NSSound *sound = [soundDictionary objectForKey:filename];
   if (sound == nil)
     {
       sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];

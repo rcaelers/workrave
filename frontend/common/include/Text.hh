@@ -20,8 +20,8 @@
 #ifndef TEXT_HH
 #define TEXT_HH
 
+#include <ctime>
 #include <string>
-#include <time.h>
 
 class Text
 {

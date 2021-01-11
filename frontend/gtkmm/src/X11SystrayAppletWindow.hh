@@ -21,7 +21,7 @@
 #define X11SYSTRAYAPPLETWINDOW_HH
 
 #include "preinclude.h"
-#include <stdio.h>
+#include <cstdio>
 
 #include "IConfiguratorListener.hh"
 #include "AppletWindow.hh"
@@ -47,7 +47,7 @@ class X11SystrayAppletWindow
 {
 public:
   X11SystrayAppletWindow();
-  virtual ~X11SystrayAppletWindow();
+  ~X11SystrayAppletWindow() override;
 
   bool is_visible() const override;
 
@@ -93,7 +93,7 @@ private:
   bool on_delete_event(GdkEventAny *);
   void on_size_allocate(Gtk::Allocation &allocation);
 
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
   void read_configuration();
 };
 

@@ -50,23 +50,6 @@
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
-  ,
-#ifdef PLATFORM_OS_WINDOWS
-  gdk_offset_x(0)
-  , gdk_offset_y(0)
-  ,
-#endif
-  SCREEN_MARGIN(20)
-  , did_avoid(false)
-  , time_bar(NULL)
-  , frame(NULL)
-  , window_frame(NULL)
-  , label(NULL)
-  , image_icon(NULL)
-  , progress_value(0)
-  , progress_max_value(0)
-  , flash_visible(false)
-  , align(NULL)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
 
@@ -95,7 +78,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   realize();
 
   time_bar = Gtk::manage(new TimeBar);
-  label    = Gtk::manage(new Gtk::Label());
+  label = Gtk::manage(new Gtk::Label());
 
   Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
   vbox->pack_start(*label, false, false, 0);
@@ -114,23 +97,23 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   frame->add(*hbox);
   frame->signal_flash().connect(sigc::mem_fun(*this, &PreludeWindow::on_frame_flash_event));
   flash_visible = true;
-  color_warn    = Gdk::Color("orange");
-  color_alert   = Gdk::Color("red");
+  color_warn = Gdk::Color("orange");
+  color_alert = Gdk::Color("red");
 
   add(*frame);
 
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
-      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), NULL));
+      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), nullptr));
       break;
 
     case BREAK_ID_REST_BREAK:
-      label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), NULL));
+      label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), nullptr));
       break;
 
     case BREAK_ID_DAILY_LIMIT:
-      label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), NULL));
+      label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), nullptr));
       break;
 
     default:
@@ -277,7 +260,7 @@ PreludeWindow::refresh()
   if (hwnd)
     {
       HWND hAncestor = GetAncestor(hwnd, GA_ROOT);
-      HWND hDesktop  = GetDesktopWindow();
+      HWND hDesktop = GetDesktopWindow();
       if (hAncestor && hDesktop && hAncestor != hDesktop)
         hwnd = hAncestor;
       // Set toplevel window topmost!
@@ -289,7 +272,7 @@ PreludeWindow::refresh()
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  progress_value     = value;
+  progress_value = value;
   progress_max_value = max_value;
   refresh();
 }
@@ -316,7 +299,7 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 void
 PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
-  const char *icon = NULL;
+  const char *icon = nullptr;
   switch (stage)
     {
     case IApp::STAGE_INITIAL:
@@ -348,7 +331,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
         }
       break;
     }
-  if (icon != NULL)
+  if (icon != nullptr)
     {
       string file = GtkUtil::get_image_filename(icon);
       image_icon->set(file);
@@ -407,8 +390,8 @@ PreludeWindow::on_avoid_pointer_timer_event()
 
   int width, height;
   Gtk::Allocation a = frame->get_allocation();
-  width             = a.get_width();
-  height            = a.get_height();
+  width = a.get_width();
+  height = a.get_height();
 
   int px = p.x - gdk_offset_x;
   int py = p.y - gdk_offset_y;
@@ -452,10 +435,10 @@ PreludeWindow::avoid_pointer()
   if (GtkUtil::running_on_wayland())
     {
       Gtk::Allocation a = frame->get_allocation();
-      winx              = a.get_x();
-      winy              = a.get_y();
-      width             = a.get_width();
-      height            = a.get_height();
+      winx = a.get_x();
+      winy = a.get_y();
+      width = a.get_width();
+      height = a.get_height();
     }
   else
     {
@@ -467,8 +450,8 @@ PreludeWindow::avoid_pointer()
 #endif
 
   int screen_height = head.get_height();
-  int top_y         = head.get_y() + SCREEN_MARGIN;
-  int bottom_y      = head.get_y() + screen_height - height - SCREEN_MARGIN;
+  int top_y = head.get_y() + SCREEN_MARGIN;
+  int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
 
   if (winy > screen_height / 2)
     {
@@ -556,9 +539,9 @@ void
 PreludeWindow::get_pointer_location(int &x, int &y)
 {
 #ifdef HAVE_GTK3
-  Glib::RefPtr<Gdk::Display> display              = Gdk::Display::get_default();
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::DeviceManager> device_manager = display->get_device_manager();
-  Glib::RefPtr<Gdk::Device> device                = device_manager->get_client_pointer();
+  Glib::RefPtr<Gdk::Device> device = device_manager->get_client_pointer();
   device->get_position(x, y);
 #else  // HAVE_GTK3
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();

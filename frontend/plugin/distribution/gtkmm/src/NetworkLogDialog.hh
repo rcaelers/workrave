@@ -20,7 +20,7 @@
 #ifndef NETWORKLOGDIALOG_HH
 #define NETWORKLOGDIALOG_HH
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "preinclude.h"
 #include <string>
@@ -48,16 +48,16 @@ class NetworkLogDialog
 {
 public:
   NetworkLogDialog();
-  ~NetworkLogDialog();
+  ~NetworkLogDialog() override;
 
   int run();
 
 private:
   void init();
-  void distribution_log(string msg);
-  void on_response(int response);
+  void distribution_log(string msg) override;
+  void on_response(int response) override;
 
-  Gtk::TextView *text_view;
+  Gtk::TextView *text_view{nullptr};
   Gtk::ScrolledWindow scrolled_window;
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
 };

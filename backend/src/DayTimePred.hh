@@ -28,17 +28,17 @@ public:
   bool init(std::string spec);
   bool init(int hour, int min);
 
-  void set_last(time_t lastTime);
-  time_t get_next();
+  void set_last(time_t lastTime) override;
+  time_t get_next() override;
   time_t get_time_offset();
-  std::string to_string() const;
+  std::string to_string() const override;
 
 private:
   int days_in_month(int month, int year);
   int time_cmp(int h1, int m1, int h2, int m2);
 
-  int pred_hour;
-  int pred_min;
+  int pred_hour{0};
+  int pred_min{0};
 };
 
 #endif // DAYTIMEPRED_HH

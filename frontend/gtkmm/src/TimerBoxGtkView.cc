@@ -54,17 +54,6 @@ using namespace std;
 TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
   : menu(menu)
   , transparent(transparent)
-  , reconfigure(true)
-  , sheep(NULL)
-  , sheep_eventbox(NULL)
-  , orientation(ORIENTATION_UP)
-  , size(0)
-  , table_rows(-1)
-  , table_columns(-1)
-  , table_reverse(false)
-  , visible_count(-1)
-  , rotation(0)
-  , sheep_only(false)
 {
   init();
 }
@@ -78,19 +67,19 @@ TimerBoxGtkView::~TimerBoxGtkView()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (labels[i] != NULL)
+      if (labels[i] != nullptr)
         labels[i]->unreference();
       delete labels[i];
 
-      if (bars[i] != NULL)
+      if (bars[i] != nullptr)
         bars[i]->unreference();
       delete bars[i];
     }
 
-  if (sheep != NULL)
+  if (sheep != nullptr)
     sheep->unreference();
 
-  if (sheep_eventbox != NULL)
+  if (sheep_eventbox != nullptr)
     {
       sheep_eventbox->unreference();
       // FIXME: check if this is needed/Okay.
@@ -105,7 +94,7 @@ TimerBoxGtkView::set_geometry(Orientation orientation, int size)
 {
   TRACE_ENTER_MSG("TimerBoxGtkView::set_geometry", orientation << " " << size);
   this->orientation = orientation;
-  this->size        = size;
+  this->size = size;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -122,9 +111,9 @@ TimerBoxGtkView::init()
 {
   TRACE_ENTER("TimerBoxGtkView::init");
 
-  if (sheep != NULL)
+  if (sheep != nullptr)
     sheep->unreference();
-  if (sheep_eventbox != NULL)
+  if (sheep_eventbox != nullptr)
     sheep_eventbox->unreference();
 
   sheep_eventbox = new Gtk::EventBox;
@@ -133,7 +122,7 @@ TimerBoxGtkView::init()
   sheep_eventbox->property_visible_window() = false;
 
   string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
-  sheep             = Gtk::manage(new Gtk::Image(sheep_file));
+  sheep = Gtk::manage(new Gtk::Image(sheep_file));
   sheep_eventbox->set_tooltip_text("Workrave");
 
   sheep_eventbox->add(*sheep);
@@ -184,7 +173,7 @@ TimerBoxGtkView::init_widgets()
             "padding-bottom: 1px;\n"
             "}";
 
-          Glib::RefPtr<Gtk::CssProvider> css_provider   = Gtk::CssProvider::create();
+          Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
           Glib::RefPtr<Gtk::StyleContext> style_context = b->get_style_context();
 
           css_provider->load_from_data(button_style);
@@ -193,7 +182,7 @@ TimerBoxGtkView::init_widgets()
 
           b->set_tooltip_text(_("Take rest break now"));
 
-          IGUI *gui    = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
 
           b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
@@ -257,10 +246,10 @@ TimerBoxGtkView::init_table()
   TRACE_MSG("number_of_timers = " << number_of_timers);
 
   // Compute table dimensions.
-  int rows    = number_of_timers;
+  int rows = number_of_timers;
   int columns = 1;
   int reverse = false;
-  int tsize   = size;
+  int tsize = size;
 
   rotation = 0;
 
@@ -317,17 +306,17 @@ TimerBoxGtkView::init_table()
       if (tsize > bar_size.width + label_size.width + 8)
         {
           columns = 2;
-          rows    = number_of_timers;
+          rows = number_of_timers;
         }
       else if (tsize > bar_size.width + 2)
         {
           columns = 1;
-          rows    = 2 * number_of_timers;
+          rows = 2 * number_of_timers;
         }
       else
         {
           columns = 1;
-          rows    = 2 * number_of_timers;
+          rows = 2 * number_of_timers;
 
           if (orientation == ORIENTATION_LEFT)
             {
@@ -336,7 +325,7 @@ TimerBoxGtkView::init_table()
           else
             {
               rotation = 270;
-              reverse  = true;
+              reverse = true;
             }
         }
       if (rows <= 0)
@@ -404,7 +393,7 @@ TimerBoxGtkView::init_table()
     // show_all();
 
     table_columns = columns;
-    table_rows    = rows;
+    table_rows = rows;
     table_reverse = reverse;
   }
 
@@ -418,7 +407,7 @@ TimerBoxGtkView::init_table()
   // Fill table.
   for (int i = 0; i < number_of_timers; i++)
     {
-      int id  = new_content[i];
+      int id = new_content[i];
       int cid = current_content[i];
 
       if (id != cid)
@@ -474,7 +463,7 @@ TimerBoxGtkView::set_slot(BreakId id, int slot)
   if (current_content[slot] != id)
     {
       new_content[slot] = id;
-      reconfigure       = true;
+      reconfigure = true;
     }
 }
 
@@ -562,7 +551,7 @@ TimerBoxGtkView::set_sheep_only(bool sheep_only)
   if (this->sheep_only != sheep_only)
     {
       this->sheep_only = sheep_only;
-      reconfigure      = true;
+      reconfigure = true;
       update_view();
     }
   TRACE_EXIT();
@@ -582,7 +571,7 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
 
   if (button == 3 && menu != Menus::MENU_NONE)
     {
-      IGUI *gui    = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->popup(menu, 0 /*event->button */, 0);
       ret = true;

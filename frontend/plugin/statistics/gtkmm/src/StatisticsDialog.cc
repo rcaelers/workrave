@@ -37,9 +37,9 @@
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include <assert.h>
+#include <cassert>
+#include <cstdio>
 #include <sstream>
-#include <stdio.h>
 
 #include <ctime>
 #include <cstring>
@@ -60,19 +60,14 @@
 
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false)
-  , statistics(NULL)
-  , daily_usage_time_label(NULL)
-  , weekly_usage_time_label(NULL)
-  , monthly_usage_time_label(NULL)
-  , date_label(NULL)
-  , update_usage_real_time(false)
+
 {
   ICore *core = CoreFactory::get_core();
-  statistics  = core->get_statistics();
+  statistics = core->get_statistics();
 
   for (int i = 0; i < 5; i++)
     {
-      activity_labels[i] = NULL;
+      activity_labels[i] = nullptr;
     }
 
   init_gui();
@@ -80,7 +75,7 @@ StatisticsDialog::StatisticsDialog()
 }
 
 //! Destructor.
-StatisticsDialog::~StatisticsDialog() {}
+StatisticsDialog::~StatisticsDialog() = default;
 
 int
 StatisticsDialog::run()
@@ -114,13 +109,13 @@ StatisticsDialog::init_gui()
 
   // Button box.
   Gtk::HBox *btnbox = Gtk::manage(new Gtk::HBox(false, 6));
-  first_btn         = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, Gtk::Stock::GOTO_FIRST));
+  first_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GOTO_FIRST));
   first_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
-  last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, Gtk::Stock::GOTO_LAST));
+  last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GOTO_LAST));
   last_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_last));
-  back_btn = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, Gtk::Stock::GO_BACK));
+  back_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GO_BACK));
   back_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_back));
-  forward_btn = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, Gtk::Stock::GO_FORWARD));
+  forward_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GO_FORWARD));
   forward_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_forward));
 
   btnbox->pack_start(*first_btn, true, true, 0);
@@ -143,7 +138,7 @@ StatisticsDialog::init_gui()
 
   // Stats box
   HigCategoriesPanel *navbox = Gtk::manage(new HigCategoriesPanel());
-  HigCategoryPanel *statbox  = Gtk::manage(new HigCategoryPanel(_("Statistics")));
+  HigCategoryPanel *statbox = Gtk::manage(new HigCategoryPanel(_("Statistics")));
   statbox->add_label(_("Date:"), *date_label);
   statbox->add_widget(*tnotebook);
   navbox->add(*statbox);
@@ -174,7 +169,7 @@ StatisticsDialog::init_gui()
 void
 StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box  = Gtk::manage(new Gtk::HBox(false, 3));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Breaks")));
   box->pack_start(*lab, false, false, 0);
 
@@ -245,8 +240,8 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
   y++;
 
-  daily_usage_time_label   = Gtk::manage(new Gtk::Label());
-  weekly_usage_time_label  = Gtk::manage(new Gtk::Label());
+  daily_usage_time_label = Gtk::manage(new Gtk::Label());
+  weekly_usage_time_label = Gtk::manage(new Gtk::Label());
   monthly_usage_time_label = Gtk::manage(new Gtk::Label());
 
   vrule = Gtk::manage(new Gtk::VSeparator());
@@ -291,7 +286,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 void
 StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box  = Gtk::manage(new Gtk::HBox(false, 3));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Activity")));
   box->pack_start(*lab, false, false, 0);
 
@@ -336,10 +331,10 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 void
 StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 {
-  IStatistics::DailyStats empty;
+  IStatistics::DailyStats empty{};
   bool is_empty;
 
-  is_empty = stats == NULL;
+  is_empty = stats == nullptr;
   if (is_empty)
     {
       stats = &empty;
@@ -407,7 +402,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 
   stringstream ss;
 
-  if (activity_labels[0] != NULL)
+  if (activity_labels[0] != nullptr)
     {
       // Label not available is OS X
 
@@ -446,25 +441,25 @@ StatisticsDialog::display_week_statistics()
   guint y, m, d;
   calendar->get_date(y, m, d);
 
-  std::tm timeinfo;
+  std::tm timeinfo{};
   std::memset(&timeinfo, 0, sizeof(timeinfo));
   timeinfo.tm_mday = d;
-  timeinfo.tm_mon  = m;
+  timeinfo.tm_mon = m;
   timeinfo.tm_year = y - 1900;
 
-  std::time_t t           = std::mktime(&timeinfo);
+  std::time_t t = std::mktime(&timeinfo);
   std::tm const *time_loc = std::localtime(&t);
 
-  int offset         = (time_loc->tm_wday - Locale::get_week_start() + 7) % 7;
+  int offset = (time_loc->tm_wday - Locale::get_week_start() + 7) % 7;
   int64_t total_week = 0;
   for (int i = 0; i < 7; i++)
     {
       std::memset(&timeinfo, 0, sizeof(timeinfo));
       timeinfo.tm_mday = d - offset + i;
-      timeinfo.tm_mon  = m;
+      timeinfo.tm_mon = m;
       timeinfo.tm_year = y - 1900;
-      t                = std::mktime(&timeinfo);
-      time_loc         = std::localtime(&t);
+      t = std::mktime(&timeinfo);
+      time_loc = std::localtime(&t);
 
       int idx, next, prev;
       statistics->get_day_index_by_date(time_loc->tm_year + 1900, time_loc->tm_mon + 1, time_loc->tm_mday, idx, next, prev);
@@ -472,7 +467,7 @@ StatisticsDialog::display_week_statistics()
       if (idx >= 0)
         {
           IStatistics::DailyStats *stats = statistics->get_day(idx);
-          if (stats != NULL)
+          if (stats != nullptr)
             {
               total_week += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
             }
@@ -520,7 +515,7 @@ StatisticsDialog::display_month_statistics()
       if (idx >= 0)
         {
           IStatistics::DailyStats *stats = statistics->get_day(idx);
-          if (stats != NULL)
+          if (stats != nullptr)
             {
               total_month += stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
             }
@@ -550,7 +545,7 @@ StatisticsDialog::clear_display_statistics()
     }
   for (int i = 0; i <= 4; i++)
     {
-      if (activity_labels[i] != NULL)
+      if (activity_labels[i] != nullptr)
         {
           activity_labels[i]->set_text("");
         }
@@ -591,7 +586,7 @@ StatisticsDialog::display_calendar_date()
 {
   int idx, next, prev;
   get_calendar_day_index(idx, next, prev);
-  IStatistics::DailyStats *stats = NULL;
+  IStatistics::DailyStats *stats = nullptr;
   if (idx >= 0)
     {
       stats = statistics->get_day(idx);

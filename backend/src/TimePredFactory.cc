@@ -29,8 +29,8 @@ using namespace std;
 TimePred *
 TimePredFactory::create_time_pred(string spec)
 {
-  TimePred *pred = 0;
-  bool ok        = false;
+  TimePred *pred = nullptr;
+  bool ok = false;
 
   std::string type;
   std::string::size_type pos = spec.find('/');
@@ -43,15 +43,15 @@ TimePredFactory::create_time_pred(string spec)
       if (type == "day")
         {
           DayTimePred *dayPred = new DayTimePred();
-          ok                   = dayPred->init(spec);
-          pred                 = dayPred;
+          ok = dayPred->init(spec);
+          pred = dayPred;
         }
     }
 
   if (pred && !ok)
     {
       delete pred;
-      pred = NULL;
+      pred = nullptr;
     }
 
   return pred;

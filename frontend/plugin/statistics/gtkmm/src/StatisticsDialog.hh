@@ -41,7 +41,7 @@ class StatisticsDialog : public HigDialog
 {
 public:
   StatisticsDialog();
-  ~StatisticsDialog();
+  ~StatisticsDialog() override;
 
   static const int BREAK_STATS = 7;
 
@@ -49,48 +49,48 @@ public:
 
 private:
   /** Stats */
-  IStatistics *statistics;
+  IStatistics *statistics{nullptr};
 
   /** Labels for break stats. */
-  Gtk::Label *break_labels[BREAK_ID_SIZEOF][9];
+  Gtk::Label *break_labels[BREAK_ID_SIZEOF][9]{};
 
   /** Labels for break stats. */
-  Gtk::Label *activity_labels[5];
+  Gtk::Label *activity_labels[5]{};
 
   /** Usage label */
-  Gtk::Label *usage_label;
+  Gtk::Label *usage_label{nullptr};
 
   /** Daily time. */
-  Gtk::Label *daily_usage_time_label;
+  Gtk::Label *daily_usage_time_label{nullptr};
 
   /** Weekly time. */
-  Gtk::Label *weekly_usage_time_label;
+  Gtk::Label *weekly_usage_time_label{nullptr};
 
   /** Monthly time */
-  Gtk::Label *monthly_usage_time_label;
+  Gtk::Label *monthly_usage_time_label{nullptr};
 
   /** Labels indicating the start time of the visible data. */
-  Gtk::Label *date_label;
+  Gtk::Label *date_label{nullptr};
 
   /** Calendar */
-  Gtk::Calendar *calendar;
+  Gtk::Calendar *calendar{nullptr};
 
   /** Forward button */
-  Gtk::Button *forward_btn;
+  Gtk::Button *forward_btn{nullptr};
 
   /** Back button */
-  Gtk::Button *back_btn;
+  Gtk::Button *back_btn{nullptr};
 
   /** Last button */
-  Gtk::Button *last_btn;
+  Gtk::Button *last_btn{nullptr};
 
   /** First button */
-  Gtk::Button *first_btn;
+  Gtk::Button *first_btn{nullptr};
 
   /** Delete button */
-  Gtk::Button *delete_btn;
+  Gtk::Button *delete_btn{nullptr};
 
-  bool update_usage_real_time;
+  bool update_usage_real_time{false};
 
   void on_history_delete_all();
 

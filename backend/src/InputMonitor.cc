@@ -21,29 +21,25 @@
 #  include "config.h"
 #endif
 
-#include <assert.h>
+#include <cassert>
 
 #include "InputMonitor.hh"
 
-InputMonitor::InputMonitor()
-  : activity_listener(NULL)
-  , statistics_listener(NULL)
-{
-}
+InputMonitor::InputMonitor() = default;
 
-InputMonitor::~InputMonitor() {}
+InputMonitor::~InputMonitor() = default;
 
 void
 InputMonitor::subscribe_activity(IInputMonitorListener *listener)
 {
-  assert(activity_listener == NULL);
+  assert(activity_listener == nullptr);
   activity_listener = listener;
 }
 
 void
 InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
 {
-  assert(statistics_listener == NULL);
+  assert(statistics_listener == nullptr);
   statistics_listener = listener;
 }
 
@@ -51,14 +47,14 @@ void
 InputMonitor::unsubscribe_activity(IInputMonitorListener *listener)
 {
   (void)listener;
-  assert(activity_listener != NULL);
-  activity_listener = NULL;
+  assert(activity_listener != nullptr);
+  activity_listener = nullptr;
 }
 
 void
 InputMonitor::unsubscribe_statistics(IInputMonitorListener *listener)
 {
   (void)listener;
-  assert(statistics_listener != NULL);
-  statistics_listener = NULL;
+  assert(statistics_listener != nullptr);
+  statistics_listener = nullptr;
 }

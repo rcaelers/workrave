@@ -36,7 +36,7 @@ public:
   void unlock() { g_rec_mutex_unlock(&gmutex); }
 
 private:
-  GRecMutex gmutex;
+  GRecMutex gmutex{};
 };
 
 #else

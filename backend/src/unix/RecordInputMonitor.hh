@@ -42,17 +42,17 @@ public:
   RecordInputMonitor(const char *display_name);
 
   //! Destructor.
-  virtual ~RecordInputMonitor();
+  ~RecordInputMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   //! The monitor's execution thread.
-  virtual void run();
+  void run() override;
 
   void error_trap_enter();
   void error_trap_exit();

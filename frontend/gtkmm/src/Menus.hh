@@ -108,31 +108,31 @@ public:
 
 private:
   //! Interface to the GUI.
-  IGUI *gui;
+  IGUI *gui{nullptr};
 
 #ifdef HAVE_DISTRIBUTION
-  NetworkLogDialog *network_log_dialog;
-  NetworkJoinDialog *network_join_dialog;
+  NetworkLogDialog *network_log_dialog{nullptr};
+  NetworkJoinDialog *network_join_dialog{nullptr};
 #endif
 
   // The Statistics dialog.
-  StatisticsDialog *statistics_dialog;
+  StatisticsDialog *statistics_dialog{nullptr};
 
   // The Statistics dialog.
-  PreferencesDialog *preferences_dialog;
+  PreferencesDialog *preferences_dialog{nullptr};
 
   // The Debug dialog.
-  DebugDialog *debug_dialog;
+  DebugDialog *debug_dialog{nullptr};
 
 #ifdef HAVE_EXERCISES
   // The exercises dialog.
-  ExercisesDialog *exercises_dialog;
+  ExercisesDialog *exercises_dialog{nullptr};
 #endif
 
   //! Different kind of menus
-  IMenu *menus[MENU_SIZEOF];
+  IMenu *menus[MENU_SIZEOF]{};
 
-  Gtk::AboutDialog *about;
+  Gtk::AboutDialog *about{nullptr};
 };
 
 #endif // MENUS_HH

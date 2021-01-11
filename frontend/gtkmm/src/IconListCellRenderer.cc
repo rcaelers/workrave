@@ -40,7 +40,7 @@ IconListCellRenderer::IconListCellRenderer()
   update_properties();
 }
 
-IconListCellRenderer::~IconListCellRenderer() {}
+IconListCellRenderer::~IconListCellRenderer() = default;
 
 Glib::PropertyProxy<Glib::ustring>
 IconListCellRenderer::property_text()
@@ -57,7 +57,7 @@ IconListCellRenderer::property_pixbuf()
 void
 IconListCellRenderer::update_properties()
 {
-  text_renderer.property_text()     = property_text_;
+  text_renderer.property_text() = property_text_;
   pixbuf_renderer.property_pixbuf() = property_pixbuf_;
 }
 
@@ -230,24 +230,24 @@ IconListCellRenderer::render_vfunc(const Glib::RefPtr<Gdk::Drawable> &window,
   GdkRectangle pixbuf_area;
   int width, height;
 
-  GdkRectangle *ca       = (GdkRectangle *)cell_area.gobj();
-  GtkWidget *widg        = widget.gobj();
-  GdkWindow *wind        = window->gobj();
+  GdkRectangle *ca = (GdkRectangle *)cell_area.gobj();
+  GtkWidget *widg = widget.gobj();
+  GdkWindow *wind = window->gobj();
   GtkCellRenderer *prend = GTK_CELL_RENDERER(pixbuf_renderer.gobj());
   gtk_cell_renderer_get_size(prend, widg, ca, NULL, NULL, &width, &height);
 
-  pixbuf_area.y      = ca->y;
-  pixbuf_area.x      = ca->x;
+  pixbuf_area.y = ca->y;
+  pixbuf_area.x = ca->x;
   pixbuf_area.height = height;
-  pixbuf_area.width  = ca->width;
+  pixbuf_area.width = ca->width;
 
   GtkCellRenderer *trend = GTK_CELL_RENDERER(text_renderer.gobj());
   gtk_cell_renderer_get_size(trend, widg, ca, NULL, NULL, &width, &height);
 
-  text_area.x      = ca->x + (ca->width - width) / 2;
-  text_area.y      = ca->y + (pixbuf_area.height + PAD);
+  text_area.x = ca->x + (ca->width - width) / 2;
+  text_area.y = ca->y + (pixbuf_area.height + PAD);
   text_area.height = height;
-  text_area.width  = width;
+  text_area.width = width;
 
   gtk_cell_renderer_render(prend,
                            wind,

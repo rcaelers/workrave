@@ -27,10 +27,10 @@
 
 #include "debug.hh"
 
+#include <cmath>
+#include <cstdio>
+#include <ctime>
 #include <sstream>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
@@ -62,27 +62,6 @@ Timer::Timer(const std::string &timer_id)
   , timer_frozen{timer_id + ".timer.frozen", false}
   , activity_state{timer_id + ".timer.activity_state", ACTIVITY_UNKNOWN}
   , timer_state{timer_id + ".timer.state", STATE_INVALID}
-  , snooze_interval(60)
-  , snooze_on_active(true)
-  , snooze_inhibited(false)
-  , limit_enabled(true)
-  , limit_interval(600)
-  , autoreset_enabled(true)
-  , autoreset_interval(120)
-  , autoreset_interval_predicate(NULL)
-  , elapsed_time(0)
-  , elapsed_idle_time(0)
-  , last_limit_time(0)
-  , last_limit_elapsed(0)
-  , last_start_time(0)
-  , last_reset_time(0)
-  , last_stop_time(0)
-  , next_reset_time(0)
-  , last_pred_reset_time(0)
-  , next_pred_reset_time(0)
-  , next_limit_time(0)
-  , total_overdue_time(0)
-  , activity_monitor(NULL)
   , activity_sensitive{timer_id + ".timer.activity_sensitive", true}
   , insensitive_mode{timer_id + ".timer.insensitive_mode", INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED}
 {
@@ -104,7 +83,7 @@ Timer::enable()
 
   if (!timer_enabled)
     {
-      timer_enabled    = true;
+      timer_enabled = true;
       snooze_inhibited = false;
       snooze_on_active = true;
       stop_timer();
@@ -118,7 +97,7 @@ Timer::enable()
       if (limit_enabled && get_elapsed_time() >= limit_interval)
         {
           // Break is overdue, force a snooze.
-          last_limit_time    = core->get_time();
+          last_limit_time = core->get_time();
           last_limit_elapsed = 0;
           compute_next_limit_time();
         }
@@ -141,7 +120,7 @@ Timer::disable()
       stop_timer();
 
       last_start_time = 0;
-      last_stop_time  = 0;
+      last_stop_time = 0;
       last_reset_time = 0;
       next_limit_time = 0;
       next_reset_time = 0;
@@ -179,7 +158,7 @@ Timer::set_limit(int limit_time)
   if (get_elapsed_time() < limit_time)
     {
       // limit increased, pretend there was no limit-reached yet.
-      last_limit_time    = 0;
+      last_limit_time = 0;
       last_limit_elapsed = 0;
     }
 
@@ -248,7 +227,7 @@ Timer::set_activity_sensitive(bool a)
   TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
 
   activity_sensitive = a;
-  activity_state     = ACTIVITY_UNKNOWN;
+  activity_state = ACTIVITY_UNKNOWN;
 
   if (!activity_sensitive)
     {
@@ -407,21 +386,21 @@ Timer::reset_timer()
     }
 
   // Full reset.
-  elapsed_time       = 0;
-  last_limit_time    = 0;
+  elapsed_time = 0;
+  last_limit_time = 0;
   last_limit_elapsed = 0;
-  last_reset_time    = core->get_time();
-  snooze_inhibited   = false;
-  snooze_on_active   = true;
+  last_reset_time = core->get_time();
+  snooze_inhibited = false;
+  snooze_on_active = true;
 
   if (timer_state == STATE_RUNNING)
     {
       // The timer is reset while running, Pretend the timer just started.
       last_start_time = core->get_time();
-      last_stop_time  = 0;
+      last_stop_time = 0;
 
       compute_next_limit_time();
-      next_reset_time   = 0;
+      next_reset_time = 0;
       elapsed_idle_time = 0;
     }
   else
@@ -434,7 +413,7 @@ Timer::reset_timer()
       if (autoreset_enabled && autoreset_interval != 0)
         {
           elapsed_idle_time = autoreset_interval;
-          last_stop_time    = core->get_time();
+          last_stop_time = core->get_time();
         }
     }
 
@@ -455,7 +434,7 @@ Timer::start_timer()
       if (!timer_frozen)
         {
           // Timer is not frozen, so let's start.
-          last_start_time   = core->get_time();
+          last_start_time = core->get_time();
           elapsed_idle_time = 0;
         }
       else
@@ -471,7 +450,7 @@ Timer::start_timer()
         }
 
       // Reset values that are only used when the timer is not running.
-      last_stop_time  = 0;
+      last_stop_time = 0;
       next_reset_time = 0;
 
       // update state.
@@ -536,8 +515,8 @@ Timer::snooze_timer()
       // recompute.
       snooze_on_active = true;
 
-      next_limit_time    = 0;
-      last_limit_time    = core->get_time();
+      next_limit_time = 0;
+      last_limit_time = core->get_time();
       last_limit_elapsed = get_elapsed_time();
       compute_next_limit_time();
 
@@ -576,7 +555,7 @@ Timer::freeze_timer(bool freeze)
           // defrost timer.
           if (timer_state == STATE_RUNNING)
             {
-              last_start_time   = core->get_time();
+              last_start_time = core->get_time();
               elapsed_idle_time = 0;
 
               compute_next_limit_time();
@@ -588,7 +567,7 @@ Timer::freeze_timer(bool freeze)
   if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
     {
       TRACE_MSG("fix746");
-      last_start_time   = core->get_time();
+      last_start_time = core->get_time();
       elapsed_idle_time = 0;
       compute_next_limit_time();
     }
@@ -636,7 +615,7 @@ time_t
 Timer::get_total_overdue_time() const
 {
   TRACE_ENTER("Timer::get_total_overdue_time");
-  time_t ret     = total_overdue_time;
+  time_t ret = total_overdue_time;
   time_t elapsed = get_elapsed_time();
 
   TRACE_MSG(ret << " " << elapsed);
@@ -699,8 +678,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   time_t current_time = core->get_time();
 
   // Default event to return.
-  info.event        = TIMER_EVENT_NONE;
-  info.idle_time    = get_elapsed_idle_time();
+  info.event = TIMER_EVENT_NONE;
+  info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
 
   TRACE_MSG("idle_time = " << info.idle_time);
@@ -711,7 +690,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
 
-  if (activity_monitor != NULL)
+  if (activity_monitor != nullptr)
     {
       // The timer uses its own activity monitor and ignores the 'global'
       // activity monitor state (ie. new_activity_state). So get the state
@@ -797,8 +776,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   else if (next_limit_time != 0 && current_time >= next_limit_time)
     {
       // A next limit time was set and the current time >= limit time.
-      next_limit_time    = 0;
-      last_limit_time    = core->get_time();
+      next_limit_time = 0;
+      last_limit_time = core->get_time();
       last_limit_elapsed = get_elapsed_time();
 
       snooze_on_active = true;
@@ -854,15 +833,15 @@ Timer::deserialize_state(const std::string &state, int version)
   TRACE_ENTER("Timer::deserialize_state");
   istringstream ss(state);
 
-  time_t saveTime  = 0;
-  time_t elapsed   = 0;
+  time_t saveTime = 0;
+  time_t elapsed = 0;
   time_t lastReset = 0;
-  time_t overdue   = 0;
-  time_t now       = core->get_time();
-  time_t llt       = 0;
-  time_t lle       = 0;
-  time_t tz        = 0;
-  bool si          = false;
+  time_t overdue = 0;
+  time_t now = core->get_time();
+  time_t llt = 0;
+  time_t lle = 0;
+  time_t tz = 0;
+  bool si = false;
 
   ss >> saveTime >> elapsed >> lastReset >> overdue >> si >> llt >> lle;
 
@@ -884,10 +863,10 @@ Timer::deserialize_state(const std::string &state, int version)
   TRACE_MSG(snooze_inhibited);
 
   last_pred_reset_time = lastReset;
-  total_overdue_time   = overdue;
-  elapsed_time         = 0;
-  last_start_time      = 0;
-  last_stop_time       = 0;
+  total_overdue_time = overdue;
+  elapsed_time = 0;
+  last_start_time = 0;
+  last_stop_time = 0;
 
   bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (now - saveTime > autoreset_interval));
 
@@ -897,14 +876,14 @@ Timer::deserialize_state(const std::string &state, int version)
         {
           next_reset_time = now + autoreset_interval;
         }
-      elapsed_time     = elapsed;
+      elapsed_time = elapsed;
       snooze_inhibited = si;
     }
 
   // overdue, so snooze
   if (limit_enabled && get_elapsed_time() >= limit_interval)
     {
-      last_limit_time    = llt;
+      last_limit_time = llt;
       last_limit_elapsed = lle;
 
       compute_next_limit_time();
@@ -921,7 +900,7 @@ Timer::set_state(int elapsed, int idle, int overdue)
 {
   TRACE_ENTER_MSG("Timer::set_state", elapsed << " " << idle << " " << overdue);
 
-  elapsed_time      = elapsed;
+  elapsed_time = elapsed;
   elapsed_idle_time = idle;
 
   if (last_start_time != 0)
@@ -958,11 +937,11 @@ Timer::set_state(int elapsed, int idle, int overdue)
 void
 Timer::set_values(int elapsed, int idle)
 {
-  elapsed_time      = elapsed;
+  elapsed_time = elapsed;
   elapsed_idle_time = idle;
 
   last_start_time = 0;
-  last_stop_time  = 0;
+  last_stop_time = 0;
 
   if (timer_state == STATE_RUNNING)
     {
@@ -983,14 +962,14 @@ Timer::set_state_data(const TimerStateData &data)
 {
   time_t time_diff = core->get_time() - data.current_time;
 
-  elapsed_time         = data.elapsed_time;
-  elapsed_idle_time    = data.elapsed_idle_time;
+  elapsed_time = data.elapsed_time;
+  elapsed_idle_time = data.elapsed_idle_time;
   last_pred_reset_time = data.last_pred_reset_time;
-  total_overdue_time   = data.total_overdue_time;
+  total_overdue_time = data.total_overdue_time;
 
-  last_limit_time    = data.last_limit_time;
+  last_limit_time = data.last_limit_time;
   last_limit_elapsed = data.last_limit_elapsed;
-  snooze_inhibited   = data.snooze_inhibited;
+  snooze_inhibited = data.snooze_inhibited;
 
   if (last_pred_reset_time > 0)
     {
@@ -1003,7 +982,7 @@ Timer::set_state_data(const TimerStateData &data)
     }
 
   last_start_time = 0;
-  last_stop_time  = 0;
+  last_stop_time = 0;
 
   if (timer_state == STATE_RUNNING)
     {
@@ -1025,14 +1004,14 @@ Timer::get_state_data(TimerStateData &data)
   TRACE_ENTER("Timer::get_state_data");
   data.current_time = core->get_time();
 
-  data.elapsed_time         = get_elapsed_time();
-  data.elapsed_idle_time    = get_elapsed_idle_time();
+  data.elapsed_time = get_elapsed_time();
+  data.elapsed_idle_time = get_elapsed_idle_time();
   data.last_pred_reset_time = last_pred_reset_time;
-  data.total_overdue_time   = total_overdue_time;
+  data.total_overdue_time = total_overdue_time;
 
-  data.last_limit_time    = last_limit_time;
+  data.last_limit_time = last_limit_time;
   data.last_limit_elapsed = last_limit_elapsed;
-  data.snooze_inhibited   = snooze_inhibited;
+  data.snooze_inhibited = snooze_inhibited;
 
   TRACE_MSG("elapsed = " << data.elapsed_time);
   TRACE_EXIT();

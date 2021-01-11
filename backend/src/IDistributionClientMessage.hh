@@ -23,27 +23,27 @@ class PacketBuffer;
 
 enum DistributionClientMessageID
 {
-  DCM_TIMERS       = 0x0010,
-  DCM_MONITOR      = 0x0011,
-  DCM_IDLELOG      = 0x0012,
-  DCM_SCRIPT       = 0x0013,
-  DCM_CONFIG       = 0x0014,
-  DCM_BREAKS       = 0x0020,
-  DCM_STATS        = 0x0030,
+  DCM_TIMERS = 0x0010,
+  DCM_MONITOR = 0x0011,
+  DCM_IDLELOG = 0x0012,
+  DCM_SCRIPT = 0x0013,
+  DCM_CONFIG = 0x0014,
+  DCM_BREAKS = 0x0020,
+  DCM_STATS = 0x0030,
   DCM_BREAKCONTROL = 0x0040,
 };
 
 enum DistributionClientMessageType
 {
   DCMT_PASSIVE = 0x0000,
-  DCMT_MASTER  = 0x0010,
-  DCMT_SIGNON  = 0x0020,
+  DCMT_MASTER = 0x0010,
+  DCMT_SIGNON = 0x0020,
 };
 
 class IDistributionClientMessage
 {
 public:
-  virtual ~IDistributionClientMessage() {}
+  virtual ~IDistributionClientMessage() = default;
 
   virtual bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) = 0;
 

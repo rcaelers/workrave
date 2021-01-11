@@ -26,7 +26,7 @@
 class ISoundDriverEvents
 {
 public:
-  virtual ~ISoundDriverEvents() {}
+  virtual ~ISoundDriverEvents() = default;
 
   virtual void eos_event() = 0;
 };
@@ -34,16 +34,16 @@ public:
 class ISoundDriver
 {
 public:
-  virtual ~ISoundDriver() {}
+  virtual ~ISoundDriver() = default;
 
-  virtual void init(ISoundDriverEvents *events = NULL) = 0;
+  virtual void init(ISoundDriverEvents *events = nullptr) = 0;
 
   //!
   virtual bool capability(SoundCapability cap) = 0;
 
-  virtual bool get_sound_enabled(SoundEvent snd, bool &enabled)                = 0;
-  virtual void set_sound_enabled(SoundEvent snd, bool enabled)                 = 0;
-  virtual bool get_sound_wav_file(SoundEvent snd, std::string &filename)       = 0;
+  virtual bool get_sound_enabled(SoundEvent snd, bool &enabled) = 0;
+  virtual void set_sound_enabled(SoundEvent snd, bool enabled) = 0;
+  virtual bool get_sound_wav_file(SoundEvent snd, std::string &filename) = 0;
   virtual void set_sound_wav_file(SoundEvent snd, const std::string &wav_file) = 0;
 
   //! Plays sound, returns immediately.

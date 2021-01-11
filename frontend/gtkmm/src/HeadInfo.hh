@@ -41,8 +41,8 @@ public:
   int get_y() const;
 
   Glib::RefPtr<Gdk::Screen> screen;
-  int monitor;
-  int count;
+  int monitor{0};
+  int count{0};
   Gdk::Rectangle geometry;
 };
 

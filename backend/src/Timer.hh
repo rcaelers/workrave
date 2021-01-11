@@ -238,70 +238,70 @@ private:
   TracedField<TimerState> timer_state;
 
   //! Default snooze time
-  time_t snooze_interval;
+  time_t snooze_interval{60};
 
   //! Snooze on active time instead of on actual time.
-  bool snooze_on_active;
+  bool snooze_on_active{true};
 
   //! Don't snooze til next reset or changes.
-  bool snooze_inhibited;
+  bool snooze_inhibited{false};
 
   //! Is the timer limit enabled?
-  bool limit_enabled;
+  bool limit_enabled{true};
 
   //! Timer limit interval.
-  time_t limit_interval;
+  time_t limit_interval{600};
 
   //! Is the timer auto reset enabled?
-  bool autoreset_enabled;
+  bool autoreset_enabled{true};
 
   //! Automatic reset time interval.
-  time_t autoreset_interval;
+  time_t autoreset_interval{120};
 
   //! Auto reset time predicate. (or NULL if not used)
-  TimePred *autoreset_interval_predicate;
+  TimePred *autoreset_interval_predicate{nullptr};
 
   //! Elapsed time.
-  time_t elapsed_time;
+  time_t elapsed_time{0};
 
   //! Elapsed Idle time.
-  time_t elapsed_idle_time;
+  time_t elapsed_idle_time{0};
 
   //! Last time the limit was reached.
-  time_t last_limit_time;
+  time_t last_limit_time{0};
 
   //! The total elapsed time the last time the limit was reached.
-  time_t last_limit_elapsed;
+  time_t last_limit_elapsed{0};
 
   //! Time when the timer was last started.
-  time_t last_start_time;
+  time_t last_start_time{0};
 
   //! Time when the timer was last reset.
-  time_t last_reset_time;
+  time_t last_reset_time{0};
 
   //! Time when the timer was last stopped.
-  time_t last_stop_time;
+  time_t last_stop_time{0};
 
   //! Next automatic reset time.
-  time_t next_reset_time;
+  time_t next_reset_time{0};
 
   //! Time when the timer was last reset because of a predicate.
-  time_t last_pred_reset_time;
+  time_t last_pred_reset_time{0};
 
   //! Next automatic predicate reset time.
-  time_t next_pred_reset_time;
+  time_t next_pred_reset_time{0};
 
   //! Next limit time.
-  time_t next_limit_time;
+  time_t next_limit_time{0};
 
   //! Total overdue time.
-  time_t total_overdue_time;
+  time_t total_overdue_time{0};
 
   //! Core
-  workrave::ICore *core;
+  workrave::ICore *core{nullptr};
 
   //! Activity Mobnitor to use.
-  IActivityMonitor *activity_monitor;
+  IActivityMonitor *activity_monitor{nullptr};
 
   //!  Is this timer sensitive for activity
   TracedField<bool> activity_sensitive;

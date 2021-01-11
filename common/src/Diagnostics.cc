@@ -1,14 +1,14 @@
 #include "Diagnostics.hh"
 
-#include <time.h>
+#include <ctime>
 
 bool TracedFieldBase::debug = false;
 
 void
 Diagnostics::enable(DiagnosticsSink *sink)
 {
-  this->sink             = sink;
-  enabled                = true;
+  this->sink = sink;
+  enabled = true;
   TracedFieldBase::debug = true;
   for (const auto &kv: topics)
     {
@@ -19,8 +19,8 @@ Diagnostics::enable(DiagnosticsSink *sink)
 void
 Diagnostics::disable()
 {
-  enabled                = false;
-  sink                   = nullptr;
+  enabled = false;
+  sink = nullptr;
   TracedFieldBase::debug = false;
 }
 

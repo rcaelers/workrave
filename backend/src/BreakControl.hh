@@ -62,7 +62,7 @@ public:
   };
 
   BreakControl(BreakId id, const std::string &break_name, IApp *app, Timer *timer);
-  virtual ~BreakControl();
+  ~BreakControl() override;
 
   // BreakInterface
   void start_break();
@@ -77,7 +77,7 @@ public:
   bool is_max_preludes_reached() const;
 
   // ActivityMonitorListener
-  bool action_notify();
+  bool action_notify() override;
 
   // Configuration
   void set_max_preludes(int m);
@@ -121,22 +121,22 @@ private:
   std::string break_name;
 
   //! The Controller.
-  Core *core;
+  Core *core{nullptr};
 
   //! GUI Factory used to create the break/prelude windows.
-  IApp *application;
+  IApp *application{nullptr};
 
   //! Interface to the timer controlling the break.
-  Timer *break_timer;
+  Timer *break_timer{nullptr};
 
   //! Current stage in the break.
   TracedField<BreakStage> break_stage;
 
   //! This is a final prelude prompt, forcing break after this prelude
-  bool reached_max_prelude;
+  bool reached_max_prelude{false};
 
   //! How long is the prelude active.
-  int prelude_time;
+  int prelude_time{0};
 
   //! How many times have we preluded (since the limit was reached)
   TracedField<int> prelude_count;
@@ -145,13 +145,13 @@ private:
   TracedField<bool> forced_break;
 
   //! After how many preludes do we force a break or give up?
-  int max_number_of_preludes;
+  int max_number_of_preludes{2};
 
   //! Is this a break that is not controlled by the timer.
   TracedField<bool> fake_break;
 
   //! Fake break counter.
-  time_t fake_break_count;
+  time_t fake_break_count{0};
 
   //! Break will be stopped because the user pressed postpone/skip.
   TracedField<bool> user_abort;
@@ -160,7 +160,7 @@ private:
   TracedField<bool> delayed_abort;
 
   //! Break hint if break has been started.
-  BreakHint break_hint;
+  BreakHint break_hint{BREAK_HINT_NONE};
 };
 
 #endif // BREAKCONTROL_HH

@@ -26,7 +26,7 @@
 #  include "config.h"
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 
 #include <gtkmm/box.h>
@@ -52,7 +52,7 @@ class TimerPreferencesPanel : public Gtk::VBox
 {
 public:
   TimerPreferencesPanel(BreakId timer, Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
-  ~TimerPreferencesPanel();
+  ~TimerPreferencesPanel() override;
 
 private:
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
@@ -72,32 +72,32 @@ private:
   void enable_buttons();
 
   BreakId break_id;
-  DataConnector *connector;
+  DataConnector *connector{nullptr};
 
-  Gtk::CheckButton *ignorable_cb;
-  Gtk::CheckButton *skippable_cb;
-  Gtk::CheckButton *activity_sensitive_cb;
+  Gtk::CheckButton *ignorable_cb{nullptr};
+  Gtk::CheckButton *skippable_cb{nullptr};
+  Gtk::CheckButton *activity_sensitive_cb{nullptr};
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
-  Gtk::CheckButton *monitor_cb;
+  Gtk::CheckButton *monitor_cb{nullptr};
 #endif
-  Gtk::CheckButton *prelude_cb;
-  Gtk::CheckButton *has_max_prelude_cb;
-  TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;
-  Gtk::SpinButton *max_prelude_spin;
+  Gtk::CheckButton *prelude_cb{nullptr};
+  Gtk::CheckButton *has_max_prelude_cb{nullptr};
+  TimeEntry *limit_tim{nullptr}, *auto_reset_tim{nullptr}, *snooze_tim{nullptr};
+  Gtk::SpinButton *max_prelude_spin{nullptr};
 #ifdef HAVE_GTK3
-  Glib::RefPtr<Gtk::Adjustment> max_prelude_adjustment;
+  Glib::RefPtr<Gtk::Adjustment> max_prelude_adjustment{Gtk::Adjustment::create(0, 1, 100)};
 #else
-  Gtk::Adjustment max_prelude_adjustment;
+  Gtk::Adjustment max_prelude_adjustment{0, 1, 100};
 #endif
-  Gtk::CheckButton *allow_shutdown_cb;
-  Gtk::CheckButton *enabled_cb;
-  Gtk::CheckButton *auto_natural_cb;
+  Gtk::CheckButton *allow_shutdown_cb{nullptr};
+  Gtk::CheckButton *enabled_cb{nullptr};
+  Gtk::CheckButton *auto_natural_cb{nullptr};
 #ifdef HAVE_EXERCISES
-  Gtk::SpinButton *exercises_spin;
+  Gtk::SpinButton *exercises_spin{nullptr};
 #  ifdef HAVE_GTK3
-  Glib::RefPtr<Gtk::Adjustment> exercises_adjustment;
+  Glib::RefPtr<Gtk::Adjustment> exercises_adjustment{Gtk::Adjustment::create(0, 0, 10)};
 #  else
-  Gtk::Adjustment exercises_adjustment;
+  Gtk::Adjustment exercises_adjustment{0, 0, 10};
 #  endif
 #endif
 };

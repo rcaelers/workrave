@@ -67,25 +67,25 @@ using namespace workrave;
 class IGUI
 {
 public:
-  virtual ~IGUI() {}
+  virtual ~IGUI() = default;
 
   virtual sigc::signal0<void> &signal_heartbeat() = 0;
 
-  virtual Menus *get_menus() const              = 0;
-  virtual MainWindow *get_main_window() const   = 0;
+  virtual Menus *get_menus() const = 0;
+  virtual MainWindow *get_main_window() const = 0;
   virtual SoundPlayer *get_sound_player() const = 0;
 
   virtual void open_main_window() = 0;
-  virtual void restbreak_now()    = 0;
+  virtual void restbreak_now() = 0;
 
   virtual void interrupt_grab() = 0;
 
-  virtual int get_number_of_heads() const                                   = 0;
-  virtual HeadInfo &get_head(int head)                                      = 0;
-  virtual int map_to_head(int &x, int &y)                                   = 0;
-  virtual void map_from_head(int &x, int &y, int head)                      = 0;
+  virtual int get_number_of_heads() const = 0;
+  virtual HeadInfo &get_head(int head) = 0;
+  virtual int map_to_head(int &x, int &y) = 0;
+  virtual void map_from_head(int &x, int &y, int head) = 0;
   virtual bool bound_head(int &x, int &y, int width, int height, int &head) = 0;
-  virtual void terminate()                                                  = 0;
+  virtual void terminate() = 0;
 };
 
 class GUI
@@ -102,53 +102,53 @@ class GUI
 {
 public:
   GUI(int argc, char **argv);
-  virtual ~GUI();
+  ~GUI() override;
 
   static IGUI *get_instance();
 
   AppletControl *get_applet_control() const;
-  MainWindow *get_main_window() const;
-  SoundPlayer *get_sound_player() const;
-  Menus *get_menus() const;
+  MainWindow *get_main_window() const override;
+  SoundPlayer *get_sound_player() const override;
+  Menus *get_menus() const override;
 
   void main();
 
   // GUIFactoryInterface methods
-  virtual void set_break_response(IBreakResponse *rep);
-  virtual void create_prelude_window(BreakId break_id);
-  virtual void create_break_window(BreakId break_id, BreakHint break_hint);
-  virtual void hide_break_window();
-  virtual void show_break_window();
-  virtual void refresh_break_window();
-  virtual void set_break_progress(int value, int max_value);
-  virtual void set_prelude_stage(PreludeStage stage);
-  virtual void set_prelude_progress_text(PreludeProgressText text);
-  virtual void terminate();
+  void set_break_response(IBreakResponse *rep) override;
+  void create_prelude_window(BreakId break_id) override;
+  void create_break_window(BreakId break_id, BreakHint break_hint) override;
+  void hide_break_window() override;
+  void show_break_window() override;
+  void refresh_break_window() override;
+  void set_break_progress(int value, int max_value) override;
+  void set_prelude_stage(PreludeStage stage) override;
+  void set_prelude_progress_text(PreludeProgressText text) override;
+  void terminate() override;
 
   //
-  void core_event_notify(const CoreEvent event);
-  void core_event_operation_mode_changed(const OperationMode m);
-  void core_event_usage_mode_changed(const UsageMode m);
+  void core_event_notify(const CoreEvent event) override;
+  void core_event_operation_mode_changed(const OperationMode m) override;
+  void core_event_usage_mode_changed(const UsageMode m) override;
 
 #ifdef HAVE_DBUS
-  virtual void bus_name_presence(const std::string &name, bool present);
+  void bus_name_presence(const std::string &name, bool present) override;
 #endif
 
   // Internal public methods
-  void restbreak_now();
-  void open_main_window();
+  void restbreak_now() override;
+  void open_main_window() override;
   void close_main_window();
   void init_multihead();
 
   // Prefs
   // Misc
-  sigc::signal0<void> &signal_heartbeat();
-  HeadInfo &get_head(int head);
-  int get_number_of_heads() const;
-  int map_to_head(int &x, int &y);
-  void map_from_head(int &x, int &y, int head);
-  bool bound_head(int &x, int &y, int width, int height, int &head);
-  void interrupt_grab();
+  sigc::signal0<void> &signal_heartbeat() override;
+  HeadInfo &get_head(int head) override;
+  int get_number_of_heads() const override;
+  int map_to_head(int &x, int &y) override;
+  void map_from_head(int &x, int &y, int head) override;
+  bool bound_head(int &x, int &y, int width, int height, int &head) override;
+  void interrupt_grab() override;
 
 private:
   std::string get_timers_tooltip();
@@ -176,7 +176,7 @@ private:
 #endif
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
 
   bool grab();
   void ungrab();
@@ -207,87 +207,87 @@ private:
 #endif
 
   //! The Core controller
-  ICore *core;
+  ICore *core{nullptr};
 
   //! The sound player
-  SoundPlayer *sound_player;
+  SoundPlayer *sound_player{nullptr};
 
   //! Interface to the break window.
-  IBreakWindow **break_windows;
+  IBreakWindow **break_windows{nullptr};
 
   //! Interface to the prelude windows.
-  PreludeWindow **prelude_windows;
+  PreludeWindow **prelude_windows{nullptr};
 
   //! Number of active prelude windows;
-  int active_break_count;
+  int active_break_count{0};
 
   //! Number of active prelude windows;
-  int active_prelude_count;
+  int active_prelude_count{0};
 
   //! Reponse interface for breaks
-  IBreakResponse *response;
+  IBreakResponse *response{nullptr};
 
   //! Current active break.
-  BreakId active_break_id;
+  BreakId active_break_id{BREAK_ID_NONE};
 
   //! The number of command line arguments.
-  int argc;
+  int argc{0};
 
   //! The command line arguments.
-  char **argv;
+  char **argv{nullptr};
 
   //! The main window, shows the timers.
-  MainWindow *main_window;
+  MainWindow *main_window{nullptr};
 
   //! Menus
-  Menus *menus;
+  Menus *menus{nullptr};
 
   //! Heartbeat signal
   sigc::signal0<void> heartbeat_signal;
 
   //! Destroy break window on next heartbeat?
-  bool break_window_destroy;
+  bool break_window_destroy{false};
 
   //! Destroy prelude window on next heartbeat?
-  bool prelude_window_destroy;
+  bool prelude_window_destroy{false};
 
   //! Information on all heads.
-  HeadInfo *heads;
+  HeadInfo *heads{nullptr};
 
   //! Number of heads
-  int num_heads;
+  int num_heads{-1};
 
   //! Width of the screen.
-  int screen_width;
+  int screen_width{-1};
 
   //! Height of the screen.
-  int screen_height;
+  int screen_height{-1};
 
 #ifdef PLATFORM_OS_UNIX
   //! Do we want a keyboard/pointer grab
-  bool grab_wanted;
+  bool grab_wanted{false};
 
   //! Connection to the grab retry timeout timer.
   sigc::connection grab_retry_connection;
 #endif
 
   //! Grab
-  WindowHints::Grab *grab_handle;
+  WindowHints::Grab *grab_handle{nullptr};
 
   //! Status icon
-  StatusIcon *status_icon;
+  StatusIcon *status_icon{nullptr};
 
   //! The applet controller
-  AppletControl *applet_control;
+  AppletControl *applet_control{nullptr};
 
   //!
-  Session *session;
+  Session *session{nullptr};
 
   //
-  bool muted;
+  bool muted{false};
 
   //
-  bool closewarn_shown;
+  bool closewarn_shown{false};
 
   // UI Event connections
   std::list<sigc::connection> event_connections;

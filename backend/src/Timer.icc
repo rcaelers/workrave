@@ -131,7 +131,7 @@ Timer::get_activity_monitor() const
 inline bool
 Timer::has_activity_monitor() const
 {
-  return activity_monitor != NULL;
+  return activity_monitor != nullptr;
 }
 
 

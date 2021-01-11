@@ -34,7 +34,7 @@ class TimeEntry : public Gtk::HBox
 {
 public:
   TimeEntry(bool millis = false);
-  ~TimeEntry();
+  ~TimeEntry() override;
 
   time_t get_value();
   void set_value(time_t time);
@@ -52,9 +52,9 @@ private:
   void update(Gtk::SpinButton *spin);
 
 private:
-  Gtk::SpinButton *hrs;
-  Gtk::SpinButton *mins;
-  Gtk::SpinButton *secs;
+  Gtk::SpinButton *hrs{nullptr};
+  Gtk::SpinButton *mins{nullptr};
+  Gtk::SpinButton *secs{nullptr};
 
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> hours_adjustment;

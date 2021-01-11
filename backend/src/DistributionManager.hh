@@ -53,18 +53,18 @@ public:
   };
 
   DistributionManager();
-  virtual ~DistributionManager();
+  ~DistributionManager() override;
 
   NodeState get_state() const;
   void init(Configurator *conf);
   void heartbeart();
-  bool is_master() const;
+  bool is_master() const override;
   string get_master_id() const;
   string get_my_id() const;
-  int get_number_of_peers();
+  int get_number_of_peers() override;
   bool claim();
   bool set_lock_master(bool lock);
-  bool connect(string url);
+  bool connect(string url) override;
   bool disconnect(string id);
   bool
   register_client_message(DistributionClientMessageID id, DistributionClientMessageType type, IDistributionClientMessage *callback);
@@ -74,38 +74,38 @@ public:
   bool remove_listener(DistributionListener *listener);
 
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool add_peer(string peer);
-  bool remove_peer(string peer);
-  bool disconnect_all();
-  bool reconnect_all();
-  void set_peers(string peers, bool connect = true);
-  list<string> get_peers() const;
+  bool add_peer(string peer) override;
+  bool remove_peer(string peer) override;
+  bool disconnect_all() override;
+  bool reconnect_all() override;
+  void set_peers(string peers, bool connect = true) override;
+  list<string> get_peers() const override;
 
   // Logging.
-  bool add_log_listener(DistributionLogListener *listener);
-  bool remove_log_listener(DistributionLogListener *listener);
-  list<string> get_logs() const;
+  bool add_log_listener(DistributionLogListener *listener) override;
+  bool remove_log_listener(DistributionLogListener *listener) override;
+  list<string> get_logs() const override;
 
-  bool get_enabled() const;
-  void set_enabled(bool b);
+  bool get_enabled() const override;
+  void set_enabled(bool b) override;
 
-  bool get_listening() const;
-  void set_listening(bool b);
+  bool get_listening() const override;
+  void set_listening(bool b) override;
 
-  string get_username() const;
-  void set_username(string name);
+  string get_username() const override;
+  void set_username(string name) override;
 
-  string get_password() const;
-  void set_password(string name);
+  string get_password() const override;
+  void set_password(string name) override;
 
-  int get_port() const;
-  void set_port(int v);
+  int get_port() const override;
+  void set_port(int v) override;
 
-  int get_reconnect_attempts() const;
-  void set_reconnect_attempts(int v);
+  int get_reconnect_attempts() const override;
+  void set_reconnect_attempts(int v) override;
 
-  int get_reconnect_interval() const;
-  void set_reconnect_interval(int v);
+  int get_reconnect_interval() const override;
+  void set_reconnect_interval(int v) override;
 
   // DistributionLinkListener
   void master_changed(bool result, std::string id);
@@ -118,7 +118,7 @@ private:
   void parse_peers(string peers, bool connect = true);
   void write_peers();
   void read_configuration();
-  void config_changed_notify(const string &key);
+  void config_changed_notify(const string &key) override;
 
   void fire_log_event(string message);
   void fire_signon_client(char *id);
@@ -132,17 +132,17 @@ private:
   typedef std::list<DistributionListener *>::iterator ListenerIter;
 
   //! Is distribution operation enabled?
-  bool network_enabled;
-  bool server_enabled;
+  bool network_enabled{false};
+  bool server_enabled{false};
 
   //! Access to the configuration.
-  Configurator *configurator;
+  Configurator *configurator{nullptr};
 
   //! Link to other clients
-  DistributionLink *link;
+  DistributionLink *link{nullptr};
 
   //! Current State
-  NodeState state;
+  NodeState state{NODE_ACTIVE};
 
   //! All peers
   list<string> peer_urls;

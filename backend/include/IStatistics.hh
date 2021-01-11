@@ -20,12 +20,12 @@
 #ifndef ISTATISTICS_HH
 #define ISTATISTICS_HH
 
-#include <time.h>
+#include <ctime>
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 typedef __int64 int64_t;
 #else
-#  include <stdint.h>
+#  include <cstdint>
 #endif
 
 #include "ICore.hh"
@@ -78,15 +78,15 @@ namespace workrave
     };
 
   public:
-    virtual ~IStatistics() {}
+    virtual ~IStatistics() = default;
 
-    virtual bool delete_all_history()                                                             = 0;
-    virtual void update()                                                                         = 0;
-    virtual DailyStats *get_current_day() const                                                   = 0;
-    virtual DailyStats *get_day(int day) const                                                    = 0;
+    virtual bool delete_all_history() = 0;
+    virtual void update() = 0;
+    virtual DailyStats *get_current_day() const = 0;
+    virtual DailyStats *get_day(int day) const = 0;
     virtual void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const = 0;
-    virtual int get_history_size() const                                                          = 0;
-    virtual void dump()                                                                           = 0;
+    virtual int get_history_size() const = 0;
+    virtual void dump() = 0;
   };
 } // namespace workrave
 

@@ -32,7 +32,7 @@ class TimerBoxControl : public IConfiguratorListener
 {
 public:
   TimerBoxControl(std::string name, ITimerBoxView &view);
-  virtual ~TimerBoxControl();
+  ~TimerBoxControl() override;
 
   void init();
   void update();
@@ -63,16 +63,16 @@ public:
   enum SlotType
   {
     BREAK_WHEN_IMMINENT = 1,
-    BREAK_WHEN_FIRST    = 2,
-    BREAK_SKIP          = 4,
-    BREAK_EXCLUSIVE     = 8,
-    BREAK_DEFAULT       = 16,
-    BREAK_HIDE          = 32
+    BREAK_WHEN_FIRST = 2,
+    BREAK_SKIP = 4,
+    BREAK_EXCLUSIVE = 8,
+    BREAK_DEFAULT = 16,
+    BREAK_HIDE = 32
   };
 
 private:
   // IConfiguratorListener
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
   void update_widgets();
   void init_table();
   void init_icon();
@@ -84,28 +84,28 @@ private:
 
 private:
   //! View
-  ITimerBoxView *view;
+  ITimerBoxView *view{nullptr};
 
   //! Reconfigure the panel.
-  bool reconfigure;
+  bool reconfigure{false};
 
   //! Duration of each cycle.
-  int cycle_time;
+  int cycle_time{10};
 
   //! Positions for the break timers.
-  int break_position[BREAK_ID_SIZEOF];
+  int break_position[BREAK_ID_SIZEOF]{};
 
   //! Flags for the break timers.
-  int break_flags[BREAK_ID_SIZEOF];
+  int break_flags[BREAK_ID_SIZEOF]{};
 
   //! Imminent threshold for the timers.
-  int break_imminent_time[BREAK_ID_SIZEOF];
+  int break_imminent_time[BREAK_ID_SIZEOF]{};
 
   //! Computed slot contents.
-  int break_slots[BREAK_ID_SIZEOF][BREAK_ID_SIZEOF];
+  int break_slots[BREAK_ID_SIZEOF][BREAK_ID_SIZEOF]{};
 
   //! Current cycle for each slot.
-  int break_slot_cycle[BREAK_ID_SIZEOF];
+  int break_slot_cycle[BREAK_ID_SIZEOF]{};
 
   //! Name
   std::string name;
@@ -114,10 +114,10 @@ private:
   OperationMode operation_mode;
 
   //!
-  int force_duration;
+  int force_duration{0};
 
   //! Never show any timers.
-  bool force_empty;
+  bool force_empty{false};
 };
 
 #endif // TIMERBOXCONTROL_HH
