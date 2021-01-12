@@ -19,6 +19,8 @@ https://github.com/rcaelers/workrave/issues
 ** The cinnamon applet is no longer bouncing up and down (#253)
 ** Initial support for icon themes.
 ** Fix build issue with libayatana-indicator3.
+** Fix issue where Workrave shows 2 status icons on Linux (#258)
+** Updated Dutch translation (Matthias Huijgen)
 
 * Workrave 1.10.44
 

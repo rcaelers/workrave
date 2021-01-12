@@ -20,6 +20,7 @@ releases:
       - Initial support for icon themes.
       - Fix build issue with libayatana-indicator3.
       - Fix issue where Workrave shows 2 status icons on Linux (#258)
+      - Updated Dutch translation (Matthias Huijgen)
 
   - version: 1.10.44
     date: 2020-05-09T12:52:50+02:00
