@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2020-04-13 09:01+0800\n"
-"PO-Revision-Date: 2020-12-01 12:08+0000\n"
+"PO-Revision-Date: 2021-01-15 12:16+0000\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language: \n"
@@ -56,7 +56,7 @@ msgstr "Masterverzoek van client %s bevestigen."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
 msgid "Active computer usage"
-msgstr ""
+msgstr "Actief computergebruik"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:344
 msgid "Activity"
@@ -68,7 +68,7 @@ msgstr "Geavanceerd"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr "Sta inkomende verbindingen toe"
+msgstr "Inkomende verbindingen toestaan"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:118
 msgid "Applet"
@@ -76,13 +76,13 @@ msgstr "Applet"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
-msgstr "Applet actief"
+msgstr "Applet ingeschakeld"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.h:1
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"Dit programma helpt bij het voorkomen en genezen van Repetitive Strain "
+"Dit programma helpt bij het voorkomen en herstellen van Repetitive Strain "
 "Injury (RSI)."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
@@ -92,12 +92,12 @@ msgstr "Achterwaarts schouders strekken"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:177
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:181
 msgid "Block input"
-msgstr "Blokkeer invoer"
+msgstr "Invoer blokkeren"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:178
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:182
 msgid "Block input and screen"
-msgstr "Blokkeer invoer en scherm"
+msgstr "Invoer en scherm blokkeren"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:204
 msgid "Block mode:"
@@ -105,7 +105,7 @@ msgstr "Blokkeermodus:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:249
 msgid "Break duration:"
-msgstr "Pauze tijdsduur:"
+msgstr "Pauzeduur:"
 
 #: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break ignored"
@@ -161,7 +161,7 @@ msgstr "Client %s krijgt geen toegang."
 #: ../backend/src/DistributionSocketLink.cc:2348
 #, c-format
 msgid "Client %s closed connection."
-msgstr "Client %s heeft de connectie gesloten."
+msgstr "Client %s heeft de verbinding verbroken."
 
 #: ../backend/src/DistributionSocketLink.cc:2318
 #, c-format
@@ -174,7 +174,7 @@ msgstr "Client %s heeft verbinding gemaakt."
 #: ../backend/src/DistributionSocketLink.cc:1820
 #, c-format
 msgid "Client %s is duplicate."
-msgstr "Client %s komt vaker voor."
+msgstr "Client %s komt al voor in de lijst."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:973
@@ -222,7 +222,7 @@ msgstr "Client reageerde niet op tijd vanaf %s."
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
 msgid "Connect"
-msgstr "Maak verbinding"
+msgstr "Verbinding maken"
 
 #: ../backend/src/DistributionSocketLink.cc:566
 #: ../backend/src/DistributionSocketLink.cc:603
@@ -248,7 +248,7 @@ msgid ""
 msgstr ""
 "Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt openen. "
 "Open nu je ogen en kijk in de duisternis van je handpalmen. Deze oefening "
-"geeft meer rust dan dat je je ogen alleen maar sluit."
+"geeft meer rust dan wanneer je je ogen alleen maar sluit."
 
 #: ../frontend/common/src/SoundPlayer.cc:606
 msgid "Custom"
@@ -256,7 +256,7 @@ msgstr "Aangepast"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
 msgid "Cycle time:"
-msgstr "Tijd tussen pauzewissel:"
+msgstr "Afwisseltijd:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
 msgid "Daily"
@@ -290,7 +290,7 @@ msgstr "Datum:"
 #. Delete button
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Delete all statistics history"
-msgstr "Verwijder alle statistiek geschiedenis"
+msgstr "Alle statistieken verwijderen"
 
 #: ../backend/src/DistributionSocketLink.cc:450
 msgid "Disabling network operation."
@@ -303,13 +303,13 @@ msgstr "Verdwijnt over %s"
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
 msgid "Disconnect"
-msgstr "Verbreek verbinding"
+msgstr "Verbinding verbreken"
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:803
 #, c-format
 msgid "Disconnecting %s"
-msgstr "Verbinding verbroken met %s."
+msgstr "Verbinding verbroken met %s"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
 msgid "Display"
@@ -321,38 +321,36 @@ msgstr "Effectieve muisbeweging:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
 msgid "Enable networking"
-msgstr "Activeer netwerk ondersteuning"
+msgstr "Netwerkondersteuning inschakelen"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-"Activeer de mogelijkheid om de computer af te sluiten vanaf het rustpauze "
-"scherm"
+msgstr "Het afsluiten van de computer vanuit het rustpauze-scherm inschakelen"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:567
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
-"Activeer deze optie indien Workrave niet correct muis en toetsenbord\n"
-"gebruik monitort."
+"Schakel deze optie in als Workrave muis- en toetsenbordgebruik\n"
+"niet correct monitort."
 
 #. Enabled/Disabled checkbox
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
 msgid "Enable timer"
-msgstr "Activeer klok"
+msgstr "Timer inschakelen"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
 msgid "End exercises"
-msgstr "Stop oefeningen"
+msgstr "Oefeningen stoppen"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
-"Geef de machine naam en poort nummer van een\n"
-"computer uit het netwerk op."
+"Geef de computernaam en poortnummer van een\n"
+"computer in het netwerk op."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:756
 msgid "Error"
@@ -364,7 +362,7 @@ msgstr "Gebeurtenis"
 
 #: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercise change"
-msgstr "Volgende stap in oefening"
+msgstr "Volgende oefening"
 
 #: ../frontend/common/src/SoundPlayer.cc:123
 msgid "Exercise ended"
@@ -410,19 +408,19 @@ msgstr "Hibernate"
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
 msgid "Hide"
-msgstr "Verberg"
+msgstr "Verbergen"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
 msgid "Host name"
-msgstr "Machinenaam"
+msgstr "Computernaam"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
 msgid "Host name:"
-msgstr "Machinenaam:"
+msgstr "Computernaam:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
 msgid "Hosts"
-msgstr "Machines"
+msgstr "Computers"
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:980
@@ -431,7 +429,7 @@ msgstr "Ik ben nu de master."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:746
 msgid "Info"
-msgstr "Informatie"
+msgstr "Info"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
@@ -480,10 +478,10 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"Kijk naar de hoek links-boven van de buitenrand van je monitor. Volg "
-"langzaam met je ogen de buitenrand van de monitor naar de hoek rechts-boven. "
-"Vervolg de beweging naar de volgende hoek, totdat je twee keer rond geweest "
-"bent. Herhaal daarna de beweging in tegengestelde richting."
+"Kijk naar de hoek linksboven van de buitenrand van je monitor. Volg langzaam "
+"met je ogen de buitenrand van de monitor naar de hoek rechtsboven. Vervolg "
+"de beweging naar de volgende hoek, totdat je twee keer rond geweest bent. "
+"Herhaal daarna de beweging in tegengestelde richting."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid ""
@@ -493,7 +491,7 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"Zoek naar het verste punt dat je kan zien achter je monitor. Focus je ogen "
+"Zoek naar het verste punt dat je kunt zien achter je monitor. Focus je ogen "
 "op dit punt. Na een paar seconden focus je op de rand van je monitor. "
 "Herhaal dit. Als je niet ver achter je monitor kunt kijken, gebruik dan een "
 "pen en zoek een ander punt."
@@ -504,11 +502,11 @@ msgstr "Kijken in de duisternis"
 
 #: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr "Zorg ervoor dat de RECORD extensie in de X server ingeschakeld is."
+msgstr "Zorg ervoor dat de RECORD-extensie op de X-server ingeschakeld is."
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
 msgid "Maximum number of prompts:"
-msgstr "Max. aantal verzoeken:"
+msgstr "Maximaal aantal verzoeken:"
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
@@ -574,7 +572,7 @@ msgstr "Beweeg de schouders op en neer"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:386
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Schakel geluid uit tijdens rustpauze en dagelijkse limiet"
+msgstr "Geluid uitschakelen tijdens rustpauze en dagelijkse limiet"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:222
 msgid "Natural breaks taken"
@@ -597,12 +595,12 @@ msgstr "Netwerk"
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
 msgid "Network connect"
-msgstr "Netwerk verbinding"
+msgstr "Netwerkverbinding"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
 msgid "Network log"
-msgstr "Netwerk logboek"
+msgstr "Netwerklogboek"
 
 #: ../backend/src/DistributionSocketLink.cc:2174
 msgid "Network operation started."
@@ -610,7 +608,7 @@ msgstr "Netwerkfuncties gestart."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Next exercise"
-msgstr "Volgende oefening:"
+msgstr "Volgende oefening"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
@@ -655,7 +653,7 @@ msgstr ""
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
 msgid "Open"
-msgstr "Open"
+msgstr "Openen"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:202
@@ -665,7 +663,7 @@ msgstr "Opties"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:237
 msgid "Overdue time"
-msgstr "Overtijd"
+msgstr "Achterstallige tijd"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
 msgid "Password:"
@@ -673,32 +671,32 @@ msgstr "Wachtwoord:"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
 msgid "Pause"
-msgstr "Pauzeer"
+msgstr "Pauzeren"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:494
 msgid "Pause exercises"
-msgstr "Pauzeer oefeningen:"
+msgstr "Oefeningen pauzeren"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place all timers in one spot"
-msgstr "Plaats alle klokken op dezelfde plek"
+msgstr "Alle timers afwisselend op één plek"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place micro-break and rest break in one spot"
-msgstr "Plaats micropauze en rustpauze op één plek"
+msgstr "Micropauze en rustpauze afwisselend op één plek"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:93
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place rest break and daily limit in one spot"
-msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
+msgstr "Rustpauze en dagelijkse limiet afwisselend op één plek"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"
-msgstr "Plaats de klokken naast elkaar"
+msgstr "Alle timers onder elkaar"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Placement:"
@@ -713,12 +711,12 @@ msgstr "Afspelen"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:352
 msgid "Play sounds using built-in speaker"
-msgstr "Speel geluiden met behulp van de ingebouwde speaker"
+msgstr "Geluiden via de ingebouwde speaker afspelen"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:347
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Play sounds using sound card"
-msgstr "Speel geluiden met behulp van de geluidskaart"
+msgstr "Geluiden via de geluidskaart afspelen"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
 msgid "Please relax for a few seconds"
@@ -749,7 +747,7 @@ msgstr "Vorige oefening"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
 msgid "Prompt before breaking"
-msgstr "Vraag alvorens te pauzeren"
+msgstr "Vragen alvorens te pauzeren"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:217
 msgid "Prompted breaks taken"
@@ -785,10 +783,10 @@ msgstr "Stil"
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:223
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
 msgid "Quit"
-msgstr "Beeeindigen"
+msgstr "Afsluiten"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
+#:  ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
@@ -804,7 +802,7 @@ msgstr "Opnieuw verbinden"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
 msgid "Reconnect attempts:"
-msgstr "Aantal pogingen tot verbinding:"
+msgstr "Aantal verbindingspogingen:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Reconnect interval:"
@@ -813,7 +811,7 @@ msgstr "Interval tussen pogingen:"
 #: ../backend/src/DistributionSocketLink.cc:140
 #, c-format
 msgid "Reconnecting to %s."
-msgstr "Opnieuw aan het verbinden met cliënt %s."
+msgstr "Opnieuw aan het verbinden met client %s."
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:179
 msgid "Regard micro-breaks as activity"
@@ -822,7 +820,7 @@ msgstr "Micropauzes tellen als werktijd"
 #: ../backend/src/DistributionSocketLink.cc:1898
 #, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Verzoek tot master van client %s geweigerd."
+msgstr "Masteraanvraag van client %s geweigerd."
 
 #: ../backend/src/DistributionSocketLink.cc:721
 #: ../backend/src/DistributionSocketLink.cc:754
@@ -872,11 +870,11 @@ msgstr "Rustpauze:"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
 msgid "Resume"
-msgstr "Ga verder"
+msgstr "Hervatten"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:492
 msgid "Resume exercises"
-msgstr "Vervolg oefeningen"
+msgstr "Oefeningen hervatten"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid ""
@@ -890,7 +888,7 @@ msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
 msgid "Server port:"
-msgstr "Server poort:"
+msgstr "Serverpoort:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
@@ -903,43 +901,43 @@ msgstr "Schouder-arm strekken"
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:119
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Show"
-msgstr "Toon"
+msgstr "Weergeven"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
 msgid "Show 'Postpone' button"
-msgstr "Toon 'Uitstellen'"
+msgstr "Knop 'Uitstellen' weergeven"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
 msgid "Show 'Skip' button"
-msgstr "Toon 'Overslaan'"
+msgstr "Knop 'Overslaan' weergeven"
 
 #: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:165
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:113
 msgid "Show _log"
-msgstr "Toon _logboek"
+msgstr "_Logboek weergeven"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
+#:  ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
 #: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
 #: ../frontend/applets/mate/src/main-gtk2.c:313
 #: ../frontend/applets/mate/src/main-gtk3.c:354
 msgid "Show log"
-msgstr "Toon _logboek"
+msgstr "Logboek weergeven"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Show only when this timer is first due"
-msgstr "Toon alleen als deze als eerste afloopt"
+msgstr "Alleen weergeven als deze als eerste afloopt (bij afwisselende plaatsing)"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:133
 msgid "Show status window"
-msgstr "Toon statusvenster"
+msgstr "Statusvenster weergeven"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Show system tray icon"
-msgstr "Toon het notificatiepictogram"
+msgstr "Systeemvakpictogram weergeven"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:304
 msgid "Shutdown"
@@ -958,11 +956,11 @@ msgstr "Geluiden:"
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:340
 msgid "Sound Options"
-msgstr "Geluid opties"
+msgstr "Geluidsopties"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:404
 msgid "Sound Theme:"
-msgstr "Geluid thema:"
+msgstr "Geluidsthema:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:380
 msgid "Sound:"
@@ -978,17 +976,17 @@ msgid ""
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
 "with the left arm."
 msgstr ""
-"Draai je rechterarm langzaam rond als een vliegtuig propellor naast je "
-"lichaam. Doe dit 4 keer voorwaarts, 4 keer achterwaarts en ontspan een paar "
-"seconden. Herhaal dit voor de linkerarm."
+"Draai je rechterarm langzaam rond als een vliegtuigpropellor naast je "
+"lichaam. Doe dit vier keer voorwaarts, vier keer achterwaarts en ontspan een "
+"paar seconden. Herhaal dit voor de linkerarm."
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:307
 msgid "Start Workrave on logon"
-msgstr "Start Workrave wanneer Windows start"
+msgstr "Workrave starten wanneer Windows start"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
 msgid "Start restbreak when screen is locked"
-msgstr "Start rustpauze zodra het scherm vergrendeld wordt"
+msgstr "Rustpauze starten zodra het scherm vergrendeld wordt"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
@@ -998,9 +996,9 @@ msgid ""
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
 "Begin met je hoofd in een comfortabele rechte positie. Kantel dan langzaam "
-"je hoofd naar je rechter schouder toe, en strek daarme de spieren aan de "
+"je hoofd naar je rechterschouder toe, en strek daarmee de spieren aan de "
 "linkerkant van je nek. Hou deze positie 5 seconden vast. Daarna kantel je je "
-"hoofd naar de linker schouder toe om de rechter nekspieren te strekken. "
+"hoofd naar de linkerschouder toe om de rechter nekspieren te strekken. "
 "Herhaal deze oefening twee keer voor elke kant."
 
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:221
@@ -1026,7 +1024,7 @@ msgstr "Hybride slaapstand"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Suspend timer when inactive"
-msgstr "Stop de klok tijdens inactiviteit"
+msgstr "Timer stoppen bij inactiviteit"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
@@ -1050,20 +1048,20 @@ msgstr "Neem nu een rustpauze"
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
-"De bestanden met de statistiek geschiedenis konden niet gewist worden.\n"
+"De bestanden met de statistiekgeschiedenis konden niet gewist worden.\n"
 "Nogmaals proberen?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:743
 msgid "The files containing your statistics history have been deleted."
-msgstr "De statistiek geschiedenis bestanden zijn gewist."
+msgstr "De bestanden met statistiekgeschiedenis zijn gewist."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"De volgende lijst is een lijst van machines waarheen Workrave een\n"
-"verbinding maakt tijdens het opstarten. Klik op de machinenaam\n"
+"De volgende lijst is een lijst van computers waarnaar Workrave een\n"
+"verbinding maakt tijdens het opstarten. Klik op de computernaam\n"
 "of poortnummer om deze te bewerken."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
@@ -1102,12 +1100,11 @@ msgstr "Het statusvenster blijft boven alle andere vensters"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:248
 msgid "The total computer usage for the selected day"
-msgstr "Het totale computer gebruikvoor de geselecteerde dag"
+msgstr "Het totale computergebruik voor de geselecteerde dag"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:258
 msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-"Het totale computergebruik voor de hele maand van de geselecteerde dag"
+msgstr "Het totale computergebruik voor de hele maand van de geselecteerde dag"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:253
 msgid "The total computer usage for the whole week of the selected day"
@@ -1135,15 +1132,15 @@ msgstr "De totale muisbeweging gemeten op het scherm"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:238
 msgid "The total time this break was overdue"
-msgstr "De totale tijd die je overtijd was"
+msgstr "De totale tijd dat deze pauze te laat was"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:355
 msgid "The total time you were using the mouse"
-msgstr "De tijdsduur gedurende welke je de muis gebruikte"
+msgstr "De totale tijd dat je de muis gebruikte"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:221
 msgid "This is your natural rest break."
-msgstr "Dit is een zelfstandig genomen pauze..."
+msgstr "Dit is een zelfstandig genomen pauze."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:227
 msgid ""
@@ -1166,7 +1163,7 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Dit programma helpt bij het voorkomen en genezen van Repetitive Strain "
+"Dit programma helpt bij het voorkomen en herstellen van Repetitive Strain "
 "Injury (RSI)."
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
@@ -1186,7 +1183,7 @@ msgstr "Tijd voor een micropauze?"
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 msgid "Timers"
-msgstr "Tijden"
+msgstr "Timers"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
@@ -1210,7 +1207,7 @@ msgstr "Gebruik"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:561
 msgid "Use alternate monitor"
-msgstr "Gebruik alternatieve activiteitmonitor"
+msgstr "Alternatieve activiteitmonitor gebruiken"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:127
 msgid "User interface"
@@ -1226,7 +1223,7 @@ msgstr "Volume:"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:227
 msgid "Wait"
-msgstr "Wacht"
+msgstr "Wachten"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:726
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:730
@@ -1235,7 +1232,7 @@ msgstr "Waarschuwing"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:460
 msgid "Wavefiles"
-msgstr "Geluidbestanden"
+msgstr "Geluidsbestanden"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:252
 msgid "Weekly"
@@ -1247,11 +1244,13 @@ msgstr "Workrave"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
 msgid "Workrave Applet"
-msgstr "Workrave Applet"
+msgstr "Workrave-applet"
 
 #: ../frontend/gtkmm/src/GUI.cc:965
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "Workrave kon geen toetsenbord en muis activiteit monitoren.\n"
+msgid ""
+"Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+"Workrave kon geen toetsenbord- en muisactiviteit monitoren.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
 msgid "Workrave failed to start"
@@ -1259,15 +1258,14 @@ msgstr "Workrave kon niet gestart worden"
 
 #: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-"Workrave is in stille modus. Pauze vensters zullen niet getoond worden."
+msgstr "Workrave is in stille modus. Pauzevensters zullen niet getoond worden."
 
 #: ../frontend/gtkmm/src/GUI.cc:1379
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
-"Workrave is in uitgeschakelde modus. Muis en toetsenbord activiteit\n"
+"Workrave is in uitgeschakelde modus. Muis- en toetsenbordactiviteit\n"
 "wordt niet gemonitord."
 
 #: ../frontend/gtkmm/src/GUI.cc:338
@@ -1283,15 +1281,19 @@ msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
+"U kunt deze pauze niet uitstellen terwijl er nog een achterstallige pauze is "
+"die niet kan worden uitgesteld."
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:663
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
+"Je kunt deze pauze niet overslaan terwijl er nog een achterstallige pauze is "
+"die niet kan worden overgeslagen."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:727
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr "De gehele statistiek geschiedenis wordt gewist. Doorgaan?"
+msgstr "De gehele statistiekgeschiedenis wordt gewist. Doorgaan?"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -1324,7 +1326,7 @@ msgstr "_Over"
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
 msgid "_Connect"
-msgstr "Maak verbinding"
+msgstr "Verbinding _maken"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
@@ -1335,7 +1337,7 @@ msgstr "Maak verbinding"
 #: ../frontend/applets/mate/src/main-gtk2.c:294
 #: ../frontend/applets/mate/src/main-gtk3.c:335
 msgid "_Disconnect"
-msgstr "Verbreek verbinding"
+msgstr "Verbinding _verbreken"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
@@ -1343,7 +1345,7 @@ msgstr "Verbreek verbinding"
 #: ../frontend/applets/mate/src/main-gtk2.c:274
 #: ../frontend/applets/mate/src/main-gtk3.c:315
 msgid "_Exercises"
-msgstr "Oefeningen"
+msgstr "_Oefeningen"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
@@ -1351,7 +1353,7 @@ msgstr "Oefeningen"
 #: ../frontend/applets/mate/src/main-gtk2.c:290
 #: ../frontend/applets/mate/src/main-gtk3.c:331
 msgid "_Join"
-msgstr "Toetreden"
+msgstr "_Deelnemen"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
@@ -1388,7 +1390,7 @@ msgstr "_Normaal"
 #: ../frontend/applets/mate/src/main-gtk2.c:262
 #: ../frontend/applets/mate/src/main-gtk3.c:303
 msgid "_Open"
-msgstr "_Open"
+msgstr "_Openen"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:468
 msgid "_Postpone"
@@ -1410,7 +1412,7 @@ msgstr "_Voorkeuren"
 #: ../frontend/applets/mate/src/main-gtk2.c:306
 #: ../frontend/applets/mate/src/main-gtk3.c:347
 msgid "_Quit"
-msgstr "_Beëindigen"
+msgstr "_Afsluiten"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 msgid "_Reading mode"
@@ -1472,13 +1474,12 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "settings.  You can choose from various presets, or define your own\n"
 #~ "custom settings."
 #~ msgstr ""
-#~ "In dit paneel kun je de activiteit detectie instellen. Je hebt de\n"
-#~ "keuze uit enkele standaard instellingen, of je kunt je eigen "
-#~ "instellingen\n"
-#~ "kiezen."
+#~ "De detectie van activiteit en inactiviteit kan worden verfijnd\n"
+#~ "via de monitorinstellingen. U kunt kiezen uit verschillende\n"
+#~ "voorinstellingen of uw eigen aangepaste instellingen definiëren."
 
 #~ msgid "Block all"
-#~ msgstr "Blokkeer alles"
+#~ msgstr "Alles blokkeren"
 
 #~ msgid "Break in"
 #~ msgstr "Pauze over"
@@ -1495,25 +1496,25 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "for each time you breathe in and out. To extra relax your eyes, try "
 #~ "closing them in micro pauses too."
 #~ msgstr ""
-#~ "Sluit je ogen en adem langzaam zo lang mogelijk, maar ontspannen uit. "
-#~ "Adem langzaam in. Probeer voor elke keer in- of uitademen tot 8 te "
-#~ "tellen. Om je ogen vaker te ontspannen kun je de oefening ook in een "
-#~ "micropauze doen."
+#~ "Sluit je ogen, adem zo lang mogelijk uit en probeer te ontspannen. "
+#~ "Doe het bij het inademen opnieuw zo langzaam mogelijk. Probeer langzaam "
+#~ "tot 8 te tellen voor elke keer dat u in- en uitademt. Om uw ogen extra "
+#~ "te ontspannen, kunt u ze ook in micropauzes sluiten."
 
 #~ msgid "Connect at start-up"
-#~ msgstr "Maak verbinding bij opstarten"
+#~ msgstr "Verbinding maken bij opstarten"
 
 #~ msgid "Credits"
 #~ msgstr "Credits"
 
 #~ msgid "Custom settings"
-#~ msgstr "Eigen instellingen"
+#~ msgstr "Aangepaste instellingen"
 
 #~ msgid "Daily usage"
 #~ msgstr "Dagelijks gebruik"
 
 #~ msgid "Default break:"
-#~ msgstr "Standaard pauze:"
+#~ msgstr "Standaardpauze:"
 
 #~ msgid "Disappears in"
 #~ msgstr "Verdwijnt over"
@@ -1522,7 +1523,7 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr "Vuist rollen"
 
 #~ msgid "Force break after maximum exceeded"
-#~ msgstr "Forceer pauze na maximum"
+#~ msgstr "Pauze forceren na overschrijding van maximum"
 
 #~ msgid ""
 #~ "Go stand face to a wall (or something) and put your hands at shoulder "
@@ -1530,20 +1531,21 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "wall, without changing the angle of your elbows. Then push your body back "
 #~ "from the wall again without changing the angle of the elbows."
 #~ msgstr ""
-#~ "Ga met je gezicht naar de muur staan en plaats je handen op schouder "
-#~ "hoogte tegen de muur met licht gebogen ellebogen. Duw je lichaam naar de "
-#~ "muur toe zonder de hoek van de ellebogen te veranderen. Duw daarna je "
-#~ "lichaam van de muur af zonder de hoek van de ellebogen te veranderen."
+#~ "Ga met je gezicht tegen een muur staan en zet je handen er op"
+#~ "schouderhoogte tegenaan met je ellebogen licht gebogen. Duw je 
+#~ "lichaam tegen de muur, zonder de hoek van je ellebogen te veranderen. 
+#~ "Duw vervolgens je lichaam weer van de muur af zonder de hoek van de 
+#~ "ellebogen te veranderen."
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #, fuzzy
 #~ msgid "History"
-#~ msgstr "Historie:"
+#~ msgstr "Geschiedenis"
 
 #~ msgid "I could not initialize Bonobo"
-#~ msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
+#~ msgstr "Bonobo kon niet geïnitialiseerd worden"
 
 #~ msgid "Identity"
 #~ msgstr "Identiteit"
@@ -1552,7 +1554,7 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr "Inactieve tijd (ms)"
 
 #~ msgid "If set, this break will be shown in the applet."
-#~ msgstr "Toon de pauze in de applet."
+#~ msgstr "Indien ingesteld, wordt deze pauze in de applet weergegeven."
 
 #~ msgid "Inactive"
 #~ msgstr "Inactief"
@@ -1568,16 +1570,16 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "seconden vast en ontspan opnieuw."
 
 #~ msgid "Layout"
-#~ msgstr "Layout"
+#~ msgstr "Indeling"
 
 #~ msgid "Micro-pause ended"
-#~ msgstr "Einde micro-pauze"
+#~ msgstr "Einde micropauze"
 
 #~ msgid "Monitoring"
-#~ msgstr "Activiteit detectie"
+#~ msgstr "Monitoring"
 
 #~ msgid "Monitoring preset"
-#~ msgstr "Detectie type"
+#~ msgstr "Monitoring-voorinstelling"
 
 #~ msgid "Move the shoulder blades"
 #~ msgstr "Beweeg de schouderbladen"
@@ -1586,7 +1588,7 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr "Rekken van de nek"
 
 #~ msgid "Noise time (ms)"
-#~ msgstr "Ruis (ms)"
+#~ msgstr "Ruistijd (ms)"
 
 #~ msgid "None"
 #~ msgstr "Geen"
@@ -1595,11 +1597,11 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr "Oriëntatie"
 
 #, fuzzy
-#~ msgid "Postponsed"
-#~ msgstr "Uitstellen"
+#~ msgid "Postponed"
+#~ msgstr "Uitgesteld"
 
 #~ msgid "Preset"
-#~ msgstr "Standaard instelling"
+#~ msgstr "Voorinstelling"
 
 #~ msgid ""
 #~ "Put your underarm on a table and make a fist. Roll your fist away from "
@@ -1609,12 +1611,12 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr ""
 #~ "Leg je onderarm op tafel en maak een vuist. Rol je vuist nu van je af, "
 #~ "totdat deze op de knokkels steunt. Houd je arm 2 seconden vast en laat "
-#~ "hem terug rollen. Herhaal dit 5 keer voor elke hand. Als de spanning van "
+#~ "hem terugrollen. Herhaal dit 5 keer voor elke hand. Als de spanning van "
 #~ "de spier te groot is, laat je vingers dan op de tafel rusten bij het "
 #~ "rollen."
 
 #~ msgid "Reading Mode"
-#~ msgstr "Lees modus"
+#~ msgstr "Leesmodus"
 
 #~ msgid "Relax the eyes"
 #~ msgstr "Ontspan de ogen"
@@ -1626,30 +1628,30 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr "Rustpauze"
 
 #~ msgid "Show break at position:"
-#~ msgstr "Toon pauze op plek:"
+#~ msgstr "Pauze weergeven op plek:"
 
 #~ msgid "Show exclusively:"
-#~ msgstr "Toon pauze exclusief:"
+#~ msgstr "Alleen weergeven:"
 
 #~ msgid "Show only when first:"
-#~ msgstr "Toon alleen als eerste pauze:"
+#~ msgstr "Alleen weergeven als eerste:"
 
 #~ msgid "Show only when imminent in:"
-#~ msgstr "Toon alleen als pauze begint binnen:"
+#~ msgstr "Alleen weergeven als pauze begint binnen:"
 
 #~ msgid "Silent in"
 #~ msgstr "Stil over"
 
 #, fuzzy
 #~ msgid "Skipped"
-#~ msgstr "Overslaan"
+#~ msgstr "Overgeslagen"
 
 #~ msgid ""
 #~ "Stand by your desk and place both your palms on the desk with the fingers "
 #~ "pointing toward your body. Gently stretch your wrists and lower arms."
 #~ msgstr ""
-#~ "Ga naast je bureau staan en plaats beide handpalmen op het bureau zodanig "
-#~ "dat je vingers naar je lichaam toe wijzen. Strek voorzichtig je polsen en "
+#~ "Ga naast je bureau staan en plaats beide handpalmen op het bureau, zodanig "
+#~ "dat je vingers naar je lichaam toewijzen. Strek voorzichtig je polsen en "
 #~ "je onderarmen."
 
 #~ msgid ""
@@ -1662,18 +1664,18 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ msgstr ""
 #~ "Ga staan en probeer met je handen het plafond te raken zonder je hakken "
 #~ "op te lichten. Houd dat een paar seconden vast. Laat dan je handen "
-#~ "langzaam en gestrekt naar de grond zakken.  Maak de beweging af door je "
+#~ "langzaam en gestrekt naar de grond zakken. Maak de beweging af door je "
 #~ "rug te buigen, totdat je je handen (bijna) voor je schoenen op de grond "
 #~ "kunt plaatsen. Rol je rug weer langzaam recht, te beginnen bij je heupen, "
 #~ "totdat je weer rechtop staat."
 
 #, fuzzy
 #~ msgid "Start time:"
-#~ msgstr "<b>Start tijd:</b>"
+#~ msgstr "<b>Starttijd:</b>"
 
 #, fuzzy
 #~ msgid "Starting %s"
-#~ msgstr "Stil over %s"
+#~ msgstr "Starten van %s"
 
 #~ msgid "Stretch your back"
 #~ msgstr "Rek je rug"
@@ -1689,21 +1691,21 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "two events is greater then 'Activity time' but\n"
 #~ "smaller then 'Noise time'."
 #~ msgstr ""
-#~ "De klokken worden gestart als gedurende 'Actieve\n"
-#~ "tijd' geen inactiviteit langer dan 'Ruis' optreedt.\n"
-#~ "Voor 'Ruis' waarden groter dan 'Actieve tijd'\n"
-#~ "starten de klokken als de tijd tussen twee\n"
+#~ "De timers worden gestart als gedurende 'Actieve\n"
+#~ "tijd' geen inactiviteit langer dan 'Ruistijd' optreedt.\n"
+#~ "Voor 'Ruistijd'-waarden groter dan 'Actieve tijd'\n"
+#~ "starten de timers als de tijd tussen twee\n"
 #~ "gebeurtenissen groter is dan 'Actieve tijd' maar\n"
-#~ "kleiner dan 'Ruis'."
+#~ "kleiner dan 'Ruistijd'."
 
 #~ msgid ""
 #~ "This dialog allows you to change the settings of the timers.  Each unit\n"
 #~ "of time is broken down into hours, minutes and seconds (also known as\n"
 #~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
 #~ msgstr ""
-#~ "In dit scherm kun je de instellingen van de klokken wijzigen. De tijd\n"
-#~ "wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
-#~ "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
+#~ "In dit dialoogvenster kun je de instellingen van de timers wijzigen. Elke\n"
+#~ "tijdseenheid is onderverdeeld in uren, minuten en seconden (ook wel bekend\n"
+#~ "als het \"uu:mm:ss\"-formaat). Deze kunnen afzonderlijk aangepast worden."
 
 #, fuzzy
 #~ msgid ""
@@ -1716,33 +1718,33 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "minuten rond, strek, en ontspan."
 
 #~ msgid "Timer ignores activity"
-#~ msgstr "Micro-pauzes tellen als werktijd"
+#~ msgstr "Timer negeert activiteit"
 
 #~ msgid "Total breaks"
-#~ msgstr "Aantal pauzes"
+#~ msgstr "Totaal aantal pauzes"
 
 #~ msgid "Total mouse time:"
-#~ msgstr "Muis gebruik:"
+#~ msgstr "Totale muistijd:"
 
 #~ msgid ""
 #~ "When multiple breaks are shown on a certain position, this value "
 #~ "indicates the time each break is shown."
 #~ msgstr ""
-#~ "De tijdsduur gedurende welke de pauze getoond wordt wanneer meerdere "
-#~ "pauzes dezelfde plek delen."
+#~ "Als er meerdere pauze-timers op een bepaalde positie worden weergegeven, "
+#~ "geeft deze waarde de tijd aan dat elke pauze wordt weergegeven."
 
 #~ msgid "Wrist and lower arm desk stretch"
 #~ msgstr "Pols en onderarm strekken"
 
 #~ msgid "You can configure the applet related settings from here."
 #~ msgstr ""
-#~ "In dit scherm kun je instellingen die betrekking hebben tot de\n"
-#~ "applet wijzigen."
+#~ "In dit scherm kun je instellingen wijzigen die betrekking hebben\n"
+#~ "op de applet."
 
 #~ msgid "You can configure the user interface related settings from here."
 #~ msgstr ""
-#~ "In dit scherm kun je instellingen die betrekking hebben tot het\n"
-#~ "gebruikers interface wijzigen."
+#~ "In dit scherm kun je instellingen wijzigen die betrekking hebben\n"
+#~ "op de gebruikersinterface."
 
 #~ msgid ""
 #~ "You can connect several instances of Workrave in a network. All "
@@ -1751,28 +1753,29 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "of your breaks even if you switch computers."
 #~ msgstr ""
 #~ "Het is mogelijk om meerdere instanties van het programma in een\n"
-#~ "netwerk met elkaar te verbinden en de pauze informatie te delen."
+#~ "netwerk met elkaar te verbinden en de pauze-informatie te delen\n."
+#~ "Hiermee word je aan je pauzes herinnerd, zelfs als je van computer wisselt."
 
 #~ msgid "_About..."
-#~ msgstr "Info..."
+#~ msgstr "Over..."
 
 #~ msgid "_Connect..."
-#~ msgstr "Maak verbinding..."
+#~ msgstr "Verbinding _maken..."
 
 #~ msgid "_Credits"
 #~ msgstr "_Credits"
 
 #~ msgid "_Documented by"
-#~ msgstr "Documentatie door"
+#~ msgstr "_Documentatie door"
 
 #~ msgid "_Quiet"
 #~ msgstr "_Stil"
 
 #~ msgid "_Show Log..."
-#~ msgstr "Toon _logboek"
+#~ msgstr "Logboek _weergeven..."
 
 #~ msgid "_Translated by"
-#~ msgstr "Vertaald door"
+#~ msgstr "_Vertaald door"
 
 #~ msgid "_Written by"
-#~ msgstr "Geschreven door"
+#~ msgstr "_Geschreven door"
