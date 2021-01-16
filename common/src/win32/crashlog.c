@@ -480,8 +480,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
       snprintf(crash_text,
                1023,
                "Workrave has unexpectedly crashed. A crash log has been saved to "
-               "%s. Please mail this file to crashes@workrave.org or "
-               "file a bugreport at: http://issues.workrave.org/. "
+               "%s. Please file a bugreport at: http://issues.workrave.org/. "
                "Thanks.",
                crash_log_name);
       MessageBoxA(NULL, crash_text, "Exception", MB_OK);
