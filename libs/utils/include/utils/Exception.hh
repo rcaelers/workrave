@@ -22,6 +22,7 @@
 
 #include <string>
 #include <exception>
+#include <utility>
 
 namespace workrave
 {
@@ -30,8 +31,8 @@ namespace workrave
     class Exception : public std::exception
     {
     public:
-      explicit Exception(const std::string &detail)
-        : detailed_information(detail)
+      explicit Exception(std::string detail)
+        : detailed_information(std::move(detail))
       {
       }
 

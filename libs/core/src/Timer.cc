@@ -36,13 +36,14 @@
 #include <cstdio>
 #include <cmath>
 #include <ctime>
+#include <utility>
 
 #include "DayTimePred.hh"
 
 using namespace std;
 using namespace workrave::utils;
 
-Timer::Timer(const std::string &id)
+Timer::Timer(std::string id)
   : timer_enabled(false)
   , timer_frozen(false)
   , timer_state(STATE_INVALID)
@@ -64,7 +65,7 @@ Timer::Timer(const std::string &id)
   , next_reset_time(0)
   , next_daily_reset_time(0)
   , next_limit_time(0)
-  , timer_id(id)
+  , timer_id(std::move(id))
 {
 }
 

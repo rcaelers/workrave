@@ -114,8 +114,8 @@ public:
       }
   }
 
-  TracedField(const std::string &name, const value_type &initial, bool manual = false) noexcept
-    : _name{name}
+  TracedField(std::string name, const value_type &initial, bool manual = false) noexcept
+    : _name{std::move(name)}
     , _value{initial}
     , _manual{manual}
   {
