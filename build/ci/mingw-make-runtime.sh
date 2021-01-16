@@ -126,6 +126,9 @@ for lang in $ALL_LINGUAS; do
     copy_dir share locale/$lang lib
 done
 
+msgunfmt $TARGETDIR/lib/locale/nl/LC_MESSAGES/gtk20.mo | sed '/Pre_vious"/!b;n;cmsgstr \"_Vorige\"' | msgfmt -o $TARGETDIR/lib/locale/nl/LC_MESSAGES/gtk20-new.mo  -
+mv $TARGETDIR/lib/locale/nl/LC_MESSAGES/gtk20-new.mo $TARGETDIR/lib/locale/nl/LC_MESSAGES/gtk20.mo
+
 TARGETDIR=$RUNTIMEDIR/runtime-wimp
 
 if [ -f $CROSSROOT/lib/gtk-2.0/$GTKVER/engines/libwimp.dll ]; then
