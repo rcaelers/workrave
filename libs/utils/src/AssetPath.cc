@@ -304,7 +304,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::st
       boost::filesystem::path full_path;
       full_path = (*i);
       full_path /= path;
-      found         = boost::filesystem::is_regular_file(full_path);
+      found = boost::filesystem::is_regular_file(full_path);
       complete_path = full_path.string();
     }
 

@@ -29,7 +29,7 @@
 class MacOSConfigurator : public virtual IConfigBackend
 {
 public:
-  MacOSConfigurator()           = default;
+  MacOSConfigurator() = default;
   ~MacOSConfigurator() override = default;
 
   bool load(std::string filename) override;

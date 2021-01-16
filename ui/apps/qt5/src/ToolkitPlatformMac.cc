@@ -45,7 +45,7 @@ public:
 
 private:
   NSRunningApplication *active_app = nil;
-  bool active_app_hidden           = false;
+  bool active_app_hidden = false;
 };
 
 ToolkitPlatformMac::ToolkitPlatformMac()
@@ -95,7 +95,7 @@ ToolkitPlatformMac::Pimpl::get_desktop_image()
   QPixmap pixmap;
 
   CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionAll /*OnScreenOnly*/, kCGNullWindowID);
-  CFIndex numWindows    = CFArrayGetCount(windowList);
+  CFIndex numWindows = CFArrayGetCount(windowList);
 
   for (int i = 0; i < (int)numWindows; i++)
     {
@@ -132,7 +132,7 @@ ToolkitPlatformMac::Pimpl::get_desktop_image()
 void
 ToolkitPlatformMac::Pimpl::foreground()
 {
-  active_app        = [[NSWorkspace sharedWorkspace] frontmostApplication];
+  active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
   active_app_hidden = [NSApp isHidden];
   [NSApp activateIgnoringOtherApps:YES];
 }

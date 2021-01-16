@@ -40,7 +40,7 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
                  | Qt::CustomizeWindowHint);
 
-  timer_box_view    = new TimerBoxView;
+  timer_box_view = new TimerBoxView;
   timer_box_control = std::make_shared<TimerBoxControl>("main_window", timer_box_view);
 
   QVBoxLayout *layout = new QVBoxLayout();
@@ -80,12 +80,12 @@ MainWindow::move_to_start_position()
 {
   TRACE_ENTER("MainWindow:move_to_start_position");
 
-  int x    = GUIConfig::main_window_x()();
-  int y    = GUIConfig::main_window_y()();
+  int x = GUIConfig::main_window_x()();
+  int y = GUIConfig::main_window_y()();
   int head = GUIConfig::main_window_head()();
 
   QList<QScreen *> screens = QGuiApplication::screens();
-  QScreen *screen          = nullptr;
+  QScreen *screen = nullptr;
 
   if (head < 0 || head >= screens.size())
     {
@@ -132,7 +132,7 @@ MainWindow::moveEvent(QMoveEvent *event)
       GUIConfig::main_window_x().set(frameGeometry().x());
       GUIConfig::main_window_y().set(frameGeometry().y());
 
-      QScreen *screen  = window()->windowHandle()->screen();
+      QScreen *screen = window()->windowHandle()->screen();
       int screen_index = QGuiApplication::screens().indexOf(screen);
       GUIConfig::main_window_head().set(screen_index);
     }

@@ -36,7 +36,7 @@ using namespace workrave;
 W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config)
   : config(config)
 {
-  activity_monitor   = NULL;
+  activity_monitor = NULL;
   statistics_monitor = NULL;
 }
 
@@ -98,7 +98,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (actual_monitor_method == "lowlevel")
             {
-              monitor     = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
+              monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
@@ -112,7 +112,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "nohook")
             {
-              monitor     = IInputMonitor::Ptr(new W32AlternateMonitor(config));
+              monitor = IInputMonitor::Ptr(new W32AlternateMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
@@ -127,7 +127,7 @@ W32InputMonitorFactory::create_activity_monitor()
           else if (actual_monitor_method == "normal")
             {
 #ifdef HAVE_HARPOON
-              monitor     = IInputMonitor::Ptr(new W32InputMonitor(config));
+              monitor = IInputMonitor::Ptr(new W32InputMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
@@ -201,7 +201,7 @@ W32InputMonitorFactory::create_statistics_monitor()
   if (actual_monitor_method == "nohook")
     {
       IInputMonitor::Ptr monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
-      bool initialized           = monitor->init();
+      bool initialized = monitor->init();
 
       if (!initialized)
         {

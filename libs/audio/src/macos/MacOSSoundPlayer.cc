@@ -1,5 +1,3 @@
-// MacOSSoundPlayer.cc --- Sound player
-//
 // Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
@@ -62,7 +60,7 @@ public:
   Private()
   {
     soundDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
-    delegate        = [SoundDelegate alloc];
+    delegate = [SoundDelegate alloc];
   }
 
   ~Private() { [soundDictionary removeAllObjects]; }
@@ -98,7 +96,7 @@ void
 MacOSSoundPlayer::play_sound(std::string file, int volume)
 {
   NSString *filename = [NSString stringWithUTF8String:file.c_str()];
-  NSSound *sound     = [priv->soundDictionary objectForKey:filename];
+  NSSound *sound = [priv->soundDictionary objectForKey:filename];
   if (sound == nil)
     {
       sound = [[NSSound alloc] initWithContentsOfFile:filename byReference:NO];

@@ -47,9 +47,9 @@ private:
     thread_struct()
     {
       active = false;
-      id     = 0;
+      id = 0;
       handle = NULL;
-      name   = NULL;
+      name = NULL;
     }
   };
   static thread_struct *dispatch, *callback;

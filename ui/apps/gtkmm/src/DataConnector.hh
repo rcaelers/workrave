@@ -46,7 +46,7 @@ namespace dc
 {
   enum Flags
   {
-    NONE      = 0,
+    NONE = 0,
     NO_CONFIG = 1,
     NO_WIDGET = 2,
   };
@@ -88,7 +88,7 @@ private:
     DataConnection *connection;
   };
 
-  using Widgets    = std::list<MonitoredWidget>;
+  using Widgets = std::list<MonitoredWidget>;
   using WidgetIter = Widgets::iterator;
 
   //!

@@ -91,7 +91,7 @@ void
 SubMenuEntry::init()
 {
   MenuNode::Ptr menu_node = get_menu_node();
-  MenuNodeFilter filter   = get_filter();
+  MenuNodeFilter filter = get_filter();
 
   menu->clear();
   for (const MenuNode::Ptr &menu_to_add: get_menu_node()->get_menu_items())

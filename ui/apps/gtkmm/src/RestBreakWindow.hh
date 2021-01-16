@@ -59,18 +59,18 @@ private:
 
 private:
   //! The Time
-  TimeBar *timebar;
+  TimeBar *timebar{nullptr};
 
   //! Progress
-  int progress_value;
+  int progress_value{0};
 
   //! Progress
-  int progress_max_value;
+  int progress_max_value{0};
 
-  Gtk::HBox *pluggable_panel;
+  Gtk::HBox *pluggable_panel{nullptr};
 
   //! Is currently flashing because user is active?
-  bool is_flashing;
+  bool is_flashing{false};
 };
 
 #endif // RESTBREAKWINDOW_HH

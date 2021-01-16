@@ -61,7 +61,7 @@ namespace workrave
     };
 
     using BreakStats = int[STATS_BREAKVALUE_SIZEOF];
-    using MiscStats  = int64_t[STATS_VALUE_SIZEOF];
+    using MiscStats = int64_t[STATS_VALUE_SIZEOF];
 
     struct DailyStats
     {
@@ -81,13 +81,13 @@ namespace workrave
   public:
     virtual ~IStatistics() = default;
 
-    virtual bool delete_all_history()                                                             = 0;
-    virtual void update()                                                                         = 0;
-    virtual DailyStats *get_current_day() const                                                   = 0;
-    virtual DailyStats *get_day(int day) const                                                    = 0;
+    virtual bool delete_all_history() = 0;
+    virtual void update() = 0;
+    virtual DailyStats *get_current_day() const = 0;
+    virtual DailyStats *get_day(int day) const = 0;
     virtual void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const = 0;
-    virtual int get_history_size() const                                                          = 0;
-    virtual void dump()                                                                           = 0;
+    virtual int get_history_size() const = 0;
+    virtual void dump() = 0;
   };
 } // namespace workrave
 

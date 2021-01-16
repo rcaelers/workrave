@@ -51,13 +51,13 @@ private:
   IStatistics::Ptr statistics;
 
   /** Labels for break stats. */
-  Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9];
+  Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9]{};
 
   /** Labels for break stats. */
-  Gtk::Label *activity_labels[5];
+  Gtk::Label *activity_labels[5]{};
 
   /** Usage label */
-  Gtk::Label *usage_label;
+  Gtk::Label *usage_label{nullptr};
 
   /** Daily time. */
   Gtk::Label *daily_usage_time_label{nullptr};
@@ -72,22 +72,22 @@ private:
   Gtk::Label *date_label{nullptr};
 
   /** Calendar */
-  Gtk::Calendar *calendar;
+  Gtk::Calendar *calendar{nullptr};
 
   /** Forward button */
-  Gtk::Button *forward_btn;
+  Gtk::Button *forward_btn{nullptr};
 
   /** Back button */
-  Gtk::Button *back_btn;
+  Gtk::Button *back_btn{nullptr};
 
   /** Last button */
-  Gtk::Button *last_btn;
+  Gtk::Button *last_btn{nullptr};
 
   /** First button */
-  Gtk::Button *first_btn;
+  Gtk::Button *first_btn{nullptr};
 
   /** Delete button */
-  Gtk::Button *delete_btn;
+  Gtk::Button *delete_btn{nullptr};
 
   bool update_usage_real_time{false};
 

@@ -40,7 +40,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
 
   TRACE_MSG("Head: " << x << ", " << y << ", " << w << ", " << h << " " << head.monitor);
 
-  POINT pt         = {x, y};
+  POINT pt = {x, y};
   HMONITOR monitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
   if (monitor)
     {

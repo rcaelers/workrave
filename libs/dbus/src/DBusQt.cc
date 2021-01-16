@@ -80,7 +80,7 @@ bool
 DBusQt::is_running(const std::string &name) const
 {
   QDBusConnectionInterface *i = connection.interface();
-  QDBusReply<QString> reply   = i->serviceOwner(QString::fromStdString(name));
+  QDBusReply<QString> reply = i->serviceOwner(QString::fromStdString(name));
   return reply.isValid();
 }
 
@@ -90,7 +90,7 @@ DBusQt::watch(const std::string &name, IDBusWatch *cb)
   watcher.addWatchedService(QString::fromStdString(name));
 
   watched[name].callback = cb;
-  watched[name].seen     = false;
+  watched[name].seen = false;
 }
 
 void
@@ -110,7 +110,7 @@ DBusQt::introspect(const QString &path) const
     {
       for (auto &interface: object_it->second)
         {
-          string interface_name  = interface.first;
+          string interface_name = interface.first;
           DBusBindingQt *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
           if (binding != nullptr)
             {
@@ -125,8 +125,8 @@ DBusQt::introspect(const QString &path) const
 bool
 DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connection)
 {
-  bool success          = false;
-  string path           = message.path().toStdString();
+  bool success = false;
+  string path = message.path().toStdString();
   string interface_name = message.interface().toStdString();
 
   try
@@ -166,7 +166,7 @@ DBusQt::on_service_registered(const QString &name)
   if (watched.find(service_name) != watched.end())
     {
       WatchData &w = watched[service_name];
-      w.seen       = true;
+      w.seen = true;
       w.callback->bus_name_presence(service_name, true);
     }
 }

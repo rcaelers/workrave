@@ -45,7 +45,6 @@ using namespace workrave::utils;
 Configurator::Configurator(IConfigBackend *backend)
   : backend(backend)
 {
-  this->auto_save_time = 0;
   if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
     {
       dynamic_cast<IConfigBackendMonitoring *>(backend)->set_listener(this);
@@ -91,7 +90,7 @@ Configurator::heartbeat()
   while (it != delayed_config.end())
     {
       DelayedConfig &delayed = it->second;
-      auto next              = it;
+      auto next = it;
       next++;
 
       if (now >= delayed.until)
@@ -138,7 +137,7 @@ Configurator::set_delay(const std::string &key, int delay)
     }
   else
     {
-      setting.key   = key;
+      setting.key = key;
       setting.delay = delay;
       settings[key] = setting;
     }
@@ -179,7 +178,7 @@ Configurator::rename_key(const std::string &key, const std::string &new_key)
 bool
 Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flags)
 {
-  bool ret  = true;
+  bool ret = true;
   bool skip = false;
   Setting setting;
   string newkey;
@@ -206,9 +205,9 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
           if (setting.delay)
             {
               DelayedConfig &d = delayed_config[key];
-              d.key            = key;
-              d.value          = value;
-              d.until          = TimeSource::get_monotonic_time_sec() + setting.delay;
+              d.key = key;
+              d.value = value;
+              d.until = TimeSource::get_monotonic_time_sec() + setting.delay;
 
               skip = true;
             }
@@ -255,8 +254,8 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
   if (it != delayed_config.end())
     {
       const DelayedConfig &delayed = it->second;
-      out                          = delayed.value;
-      ret                          = true;
+      out = delayed.value;
+      ret = true;
     }
 
   if (!ret)
@@ -266,7 +265,7 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
 
   if (ret && type != VARIANT_TYPE_NONE && out.type != type)
     {
-      ret      = false;
+      ret = false;
       out.type = VARIANT_TYPE_NONE;
     }
 
@@ -336,9 +335,9 @@ Configurator::set_value(const std::string &key, const std::string &v, ConfigFlag
   Variant value;
   bool ret = false;
 
-  value.type         = VARIANT_TYPE_STRING;
+  value.type = VARIANT_TYPE_STRING;
   value.string_value = v;
-  ret                = set_value(key, value, flags);
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -349,9 +348,9 @@ Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags
   Variant value;
   bool ret = false;
 
-  value.type         = VARIANT_TYPE_STRING;
+  value.type = VARIANT_TYPE_STRING;
   value.string_value = v;
-  ret                = set_value(key, value, flags);
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -362,9 +361,9 @@ Configurator::set_value(const std::string &key, int v, ConfigFlags flags)
   Variant value;
   bool ret = false;
 
-  value.type      = VARIANT_TYPE_INT;
+  value.type = VARIANT_TYPE_INT;
   value.int_value = v;
-  ret             = set_value(key, value, flags);
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -375,9 +374,9 @@ Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
   Variant value;
   bool ret = false;
 
-  value.type       = VARIANT_TYPE_BOOL;
+  value.type = VARIANT_TYPE_BOOL;
   value.bool_value = v;
-  ret              = set_value(key, value, flags);
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -388,9 +387,9 @@ Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
   Variant value;
   bool ret = false;
 
-  value.type         = VARIANT_TYPE_DOUBLE;
+  value.type = VARIANT_TYPE_DOUBLE;
   value.double_value = v;
-  ret                = set_value(key, value, flags);
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -502,12 +501,12 @@ Configurator::set_typed_value(const std::string &key, const std::string &t)
 
   if (pos != string::npos)
     {
-      type  = t.substr(0, pos);
+      type = t.substr(0, pos);
       value = t.substr(pos + 1);
     }
   else
     {
-      type  = "string";
+      type = "string";
       value = t;
     }
 
@@ -539,7 +538,7 @@ Configurator::set_typed_value(const std::string &key, const std::string &t)
 bool
 Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener *listener)
 {
-  bool ret   = true;
+  bool ret = true;
   string key = key_prefix;
 
   strip_leading_slash(key);
@@ -585,7 +584,7 @@ Configurator::remove_listener(IConfiguratorListener *listener)
       if (listener == i->second)
         {
           // Found. Remove
-          i   = listeners.erase(i);
+          i = listeners.erase(i);
           ret = true;
         }
       else
@@ -613,7 +612,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
       if (i->first == key_prefix && i->second == listener)
         {
           // Found. Remove
-          i   = listeners.erase(i);
+          i = listeners.erase(i);
           ret = true;
         }
       else
@@ -725,7 +724,7 @@ Configurator::find_setting(const string &key, Setting &setting) const
   if (it != settings.end())
     {
       setting = it->second;
-      ret     = true;
+      ret = true;
     }
 
   return ret;

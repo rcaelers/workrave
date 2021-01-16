@@ -46,10 +46,6 @@ using namespace workrave::utils;
 //! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode)
-  , progress_value(0)
-  , progress_max_value(0)
-  , is_flashing(false)
-  , fixed_size(false)
 {
   set_title(_("Micro-break"));
 }
@@ -79,7 +75,7 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
   // Button box at the bottom.
-  ICore::Ptr core       = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr restbreak = core->get_break(BREAK_ID_REST_BREAK);
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
@@ -156,14 +152,14 @@ MicroBreakWindow::update_time_bar()
   TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
 
   time_t time = progress_max_value - progress_value;
-  string s    = _("Micro-break");
+  string s = _("Micro-break");
   s += ' ';
   s += Text::time_to_string(time);
 
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
-  ICore::Ptr core  = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
     {
@@ -194,7 +190,7 @@ MicroBreakWindow::update_label()
   ICore::Ptr core = Backend::get_core();
 
   IBreak::Ptr restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
-  IBreak::Ptr daily_timer     = core->get_break(BREAK_ID_DAILY_LIMIT);
+  IBreak::Ptr daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
@@ -277,5 +273,5 @@ void
 MicroBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value     = value;
+  progress_value = value;
 }

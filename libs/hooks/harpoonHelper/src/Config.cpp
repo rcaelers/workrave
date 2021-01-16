@@ -69,13 +69,13 @@ Config::get_value(const string &key, string &out) const
           return false;
         }
 
-      err          = RegQueryValueExA(handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size);
+      err = RegQueryValueExA(handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size);
       buffer[size] = '\0';
 
       if (err == ERROR_SUCCESS && type == REG_SZ)
         {
           out = buffer;
-          rc  = true;
+          rc = true;
         }
 
       RegCloseKey(handle);
@@ -99,7 +99,7 @@ Config::get_value(const string &key, int &out) const
   if (rc)
     {
       int f = sscanf(s.c_str(), "%d", &out);
-      rc    = (f == 1);
+      rc = (f == 1);
     }
   return rc;
 }
@@ -127,17 +127,17 @@ Config::key_add_part(string s, string t) const
 void
 Config::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s     = key.c_str();
+  const char *s = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
       parent = key.substr(0, slash - s);
-      child  = slash + 1;
+      child = slash + 1;
     }
   else
     {
       parent = "";
-      child  = "";
+      child = "";
     }
 }
 

@@ -108,7 +108,7 @@ Core::init(IApp *app, const char *display_name)
   statistics->init();
 
   core_modes = std::make_shared<CoreModes>(monitor);
-  core_dbus  = std::make_shared<CoreDBus>(core_modes, dbus);
+  core_dbus = std::make_shared<CoreDBus>(core_modes, dbus);
 
   breaks_control = std::make_shared<BreaksControl>(application, monitor, core_modes, statistics, dbus, hooks);
   breaks_control->init();
@@ -141,7 +141,7 @@ Core::init_configurator()
       if (configurator == nullptr)
         {
           string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
-          configurator      = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
+          configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
           if (configurator)
             {
@@ -160,7 +160,7 @@ Core::init_configurator()
 
       if (configurator == nullptr)
         {
-          ini_file     = AssetPath::get_home_directory() + "workrave.ini";
+          ini_file = AssetPath::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
 
           if (configurator)

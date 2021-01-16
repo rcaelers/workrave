@@ -84,9 +84,9 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
 
   if (dialog_action_area != nullptr)
     {
-      back_button    = Gtk::manage(GtkUtil::create_custom_stock_button(_("Previous"), PREVIOUS_BUTTON_ID));
+      back_button = Gtk::manage(GtkUtil::create_custom_stock_button(_("Previous"), PREVIOUS_BUTTON_ID));
       forward_button = Gtk::manage(GtkUtil::create_custom_stock_button(_("Next"), NEXT_BUTTON_ID));
-      stop_button    = nullptr;
+      stop_button = nullptr;
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
@@ -95,12 +95,12 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
     }
   else
     {
-      back_button    = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, PREVIOUS_BUTTON_ID));
+      back_button = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, PREVIOUS_BUTTON_ID));
       forward_button = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, NEXT_BUTTON_ID));
-      stop_button    = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, CLOSE_BUTTON_ID));
+      stop_button = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, CLOSE_BUTTON_ID));
       stop_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
-      Gtk::HBox *button_box    = Gtk::manage(new Gtk::HBox());
+      Gtk::HBox *button_box = Gtk::manage(new Gtk::HBox());
       Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
       string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
@@ -125,7 +125,7 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
     "background-image: none;\n"
     "}";
 
-  Glib::RefPtr<Gtk::CssProvider> css_provider   = Gtk::CssProvider::create();
+  Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
   Glib::RefPtr<Gtk::StyleContext> style_context = description_text.get_style_context();
 
   css_provider->load_from_data(style);
@@ -183,7 +183,7 @@ ExercisesPanel::~ExercisesPanel()
 void
 ExercisesPanel::reset()
 {
-  int i             = adjust_exercises_pointer(1);
+  int i = adjust_exercises_pointer(1);
   exercise_iterator = shuffled_exercises.begin();
   while (i > 0)
     {
@@ -191,8 +191,8 @@ ExercisesPanel::reset()
       i--;
     }
   exercise_num = 0;
-  paused       = false;
-  stopped      = false;
+  paused = false;
+  stopped = false;
   refresh_pause();
   start_exercise();
 }
@@ -205,10 +205,10 @@ ExercisesPanel::start_exercise()
       const Exercise &exercise = *exercise_iterator;
 
       Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
-      std::string txt                   = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
+      std::string txt = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
       text_buffer_set_markup(buf->gobj(), txt.c_str(), static_cast<gint>(txt.length()));
-      exercise_time  = 0;
-      seq_time       = 0;
+      exercise_time = 0;
+      seq_time = 0;
       image_iterator = exercise.sequence.end();
       refresh_progress();
       refresh_sequence();
@@ -231,7 +231,7 @@ ExercisesPanel::show_image()
   else
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
-      Glib::RefPtr<Gdk::Pixbuf> flip   = GtkUtil::flip_pixbuf(pixbuf, true, false);
+      Glib::RefPtr<Gdk::Pixbuf> flip = GtkUtil::flip_pixbuf(pixbuf, true, false);
       image.set(flip);
     }
 
@@ -315,7 +315,7 @@ ExercisesPanel::on_go_forward()
 void
 ExercisesPanel::refresh_pause()
 {
-  const char *icon  = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
+  const char *icon = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
   const char *label = paused ? _("Resume") : _("Pause");
   GtkUtil::update_custom_stock_button(pause_button, standalone ? label : nullptr, icon);
   if (paused)

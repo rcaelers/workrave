@@ -191,14 +191,14 @@ void
 workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode)
 {
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
-  priv->tray_icon_mode                 = mode;
+  priv->tray_icon_mode = mode;
   workrave_timerbox_control_update_show_tray_icon(self);
 }
 
 void
 workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show)
 {
-  WorkraveTimerboxControlPrivate *priv     = workrave_timerbox_control_get_instance_private(self);
+  WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
   priv->tray_icon_visible_when_not_running = show;
 
   workrave_timerbox_control_update_show_tray_icon(self);
@@ -234,7 +234,7 @@ workrave_timerbox_control_class_init(WorkraveTimerboxControlClass *klass)
                                         1,
                                         G_TYPE_BOOLEAN);
 
-  object_class->dispose  = workrave_timerbox_control_dispose;
+  object_class->dispose = workrave_timerbox_control_dispose;
   object_class->finalize = workrave_timerbox_control_finalize;
 }
 
@@ -243,25 +243,25 @@ workrave_timerbox_control_init(WorkraveTimerboxControl *self)
 {
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
-  priv->image                              = NULL;
-  priv->applet_proxy                       = NULL;
-  priv->applet_proxy_cancel                = NULL;
-  priv->core_proxy                         = NULL;
-  priv->core_proxy_cancel                  = NULL;
-  priv->control_proxy                      = NULL;
-  priv->control_proxy_cancel               = NULL;
-  priv->owner_id                           = 0;
-  priv->watch_id                           = 0;
-  priv->workrave_running                   = FALSE;
-  priv->alive                              = FALSE;
-  priv->tray_icon_enabled                  = FALSE;
-  priv->tray_icon_mode                     = WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW;
+  priv->image = NULL;
+  priv->applet_proxy = NULL;
+  priv->applet_proxy_cancel = NULL;
+  priv->core_proxy = NULL;
+  priv->core_proxy_cancel = NULL;
+  priv->control_proxy = NULL;
+  priv->control_proxy_cancel = NULL;
+  priv->owner_id = 0;
+  priv->watch_id = 0;
+  priv->workrave_running = FALSE;
+  priv->alive = FALSE;
+  priv->tray_icon_enabled = FALSE;
+  priv->tray_icon_mode = WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW;
   priv->tray_icon_visible_when_not_running = FALSE;
-  priv->timer                              = 0;
-  priv->startup_timer                      = 0;
-  priv->startup_count                      = 0;
-  priv->timerbox                           = NULL;
-  priv->update_count                       = 0;
+  priv->timer = 0;
+  priv->startup_timer = 0;
+  priv->startup_count = 0;
+  priv->timerbox = NULL;
+  priv->update_count = 0;
 
   priv->timerbox = g_object_new(WORKRAVE_TYPE_TIMERBOX, NULL);
 
@@ -279,7 +279,7 @@ workrave_timerbox_control_init(WorkraveTimerboxControl *self)
 static void
 workrave_timerbox_control_dispose(GObject *object)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(object);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(object);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
   if (priv->watch_id != 0)
@@ -388,8 +388,8 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
 
   if (error == NULL)
     {
-      priv->timer        = g_timeout_add_seconds(10, on_timer, self);
-      priv->alive        = TRUE;
+      priv->timer = g_timeout_add_seconds(10, on_timer, self);
+      priv->alive = TRUE;
       priv->update_count = 0;
       g_signal_emit(self, signals[ALIVE_CHANGED], 0, TRUE);
     }
@@ -435,7 +435,7 @@ workrave_timerbox_control_stop(WorkraveTimerboxControl *self)
 static gboolean
 on_start_delay(gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
   workrave_timerbox_control_start(self);
@@ -461,8 +461,8 @@ static void
 workrave_timerbox_control_create_dbus(WorkraveTimerboxControl *self)
 {
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
-  GSettings *settings                  = g_settings_new("org.workrave.gui");
-  gboolean autostart                   = g_settings_get_boolean(settings, "autostart");
+  GSettings *settings = g_settings_new("org.workrave.gui");
+  gboolean autostart = g_settings_get_boolean(settings, "autostart");
   g_object_unref(settings);
 
   GDBusProxyFlags flags = autostart ? 0 : G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START;
@@ -504,7 +504,7 @@ workrave_timerbox_control_create_dbus(WorkraveTimerboxControl *self)
 static gboolean
 on_timer(gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
   if (priv->alive && priv->update_count == 0)
@@ -521,10 +521,10 @@ on_timer(gpointer user_data)
 static void
 on_dbus_applet_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
-  GError *error     = NULL;
+  GError *error = NULL;
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
 
   if (priv->applet_proxy_cancel != NULL)
@@ -550,10 +550,10 @@ on_dbus_applet_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 static void
 on_dbus_core_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
-  GError *error     = NULL;
+  GError *error = NULL;
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
 
   if (priv->core_proxy_cancel != NULL)
@@ -579,10 +579,10 @@ on_dbus_core_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 static void
 on_dbus_control_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
-  GError *error     = NULL;
+  GError *error = NULL;
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
 
   if (priv->control_proxy_cancel != NULL)
@@ -608,7 +608,7 @@ on_dbus_control_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 static void
 on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
 
   if (g_strcmp0(signal_name, "TimersUpdated") == 0)
@@ -711,17 +711,17 @@ on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_da
 static void
 on_workrave_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
-  priv->workrave_running               = TRUE;
+  priv->workrave_running = TRUE;
   workrave_timerbox_control_check(self);
 }
 
 static void
 on_workrave_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
-  WorkraveTimerboxControl *self        = WORKRAVE_TIMERBOX_CONTROL(user_data);
+  WorkraveTimerboxControl *self = WORKRAVE_TIMERBOX_CONTROL(user_data);
   WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
-  priv->workrave_running               = FALSE;
+  priv->workrave_running = FALSE;
   workrave_timerbox_control_stop(self);
 }

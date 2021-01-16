@@ -31,7 +31,7 @@ class MutterInputMonitor : public InputMonitor
 {
 public:
   MutterInputMonitor() = default;
- ~MutterInputMonitor() override;
+  ~MutterInputMonitor() override;
 
   bool init() override;
   void terminate() override;
@@ -59,12 +59,12 @@ private:
 private:
   static const int GSM_INHIBITOR_FLAG_IDLE = 8;
 
-  GDBusProxy *idle_proxy    = nullptr;
+  GDBusProxy *idle_proxy = nullptr;
   GDBusProxy *session_proxy = nullptr;
   std::atomic<bool> active{false};
   std::atomic<bool> inhibited{false};
   guint watch_active = 0;
-  guint watch_idle   = 0;
+  guint watch_idle = 0;
 
   bool abort = false;
   std::shared_ptr<boost::thread> monitor_thread;

@@ -48,7 +48,7 @@ Session::set_idle(bool new_idle)
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
 
   bool auto_natural = GUIConfig::break_auto_natural(BREAK_ID_REST_BREAK)();
-  ICore::Ptr core   = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
 
   if (core->get_usage_mode() == UsageMode::Reading)
     {

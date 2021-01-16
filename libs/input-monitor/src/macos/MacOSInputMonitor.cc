@@ -69,7 +69,7 @@ MacOSInputMonitor::get_event_count()
                                        kCGEventScrollWheel,
                                        kCGEventTabletPointer,
                                        kCGEventTabletProximity};
-  uint64_t count                    = 0;
+  uint64_t count = 0;
   for (auto event: events)
     {
       count += CGEventSourceCounterForEventType(kCGEventSourceStateCombinedSessionState, event);

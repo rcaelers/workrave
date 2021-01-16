@@ -118,15 +118,15 @@ Menus::init(AppletControl *applet_control)
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  applet_window                                      = applet_control->get_applet_window(AppletControl::AppletType::Windows);
+  applet_window = applet_control->get_applet_window(AppletControl::AppletType::Windows);
   std::shared_ptr<W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
-  menus[MENU_APPLET_W32]                             = new W32AppletMenu(w32_applet_window.get());
+  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window.get());
 #endif
 
 #if defined(HAVE_DBUS)
-  applet_window                                       = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
+  applet_window = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
   std::shared_ptr<GenericDBusApplet> indicator_applet = std::dynamic_pointer_cast<GenericDBusApplet>(applet_window);
-  menus[MENU_APPLET_GENERICDBUS]                      = indicator_applet.get();
+  menus[MENU_APPLET_GENERICDBUS] = indicator_applet.get();
 
 #  if defined(HAVE_INDICATOR)
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
@@ -281,7 +281,7 @@ Menus::on_menu_statistics()
 {
   if (statistics_dialog == nullptr)
     {
-      ICore::Ptr core        = Backend::get_core();
+      ICore::Ptr core = Backend::get_core();
       IStatistics::Ptr stats = core->get_statistics();
       stats->update();
 
@@ -322,10 +322,10 @@ Menus::on_menu_about()
   if (about == nullptr)
     {
       int *ptr = nullptr;
-      *ptr     = 10;
+      *ptr = 10;
 
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
-      about                            = new Gtk::AboutDialog;
+      about = new Gtk::AboutDialog;
 
       about->set_name("Workrave");
       std::vector<Glib::ustring> authors;

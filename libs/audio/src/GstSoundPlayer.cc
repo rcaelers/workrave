@@ -75,9 +75,9 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
 
   if (play != nullptr)
     {
-      auto *watch_data   = new WatchData;
+      auto *watch_data = new WatchData;
       watch_data->player = this;
-      watch_data->play   = play;
+      watch_data->play = play;
 
       GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(play));
       gst_bus_add_watch(bus, bus_watch, watch_data);
@@ -102,8 +102,8 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
   auto *watch_data = (WatchData *)data;
   GstElement *play = watch_data->play;
-  GError *err      = nullptr;
-  gboolean ret     = TRUE;
+  GError *err = nullptr;
+  gboolean ret = TRUE;
 
   (void)bus;
 

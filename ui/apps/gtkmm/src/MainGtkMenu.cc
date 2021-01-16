@@ -40,8 +40,7 @@ using namespace workrave::utils;
 
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
-  : popup_menu(nullptr)
-  , show_open(show_open)
+  : show_open(show_open)
 {
 }
 
@@ -61,8 +60,8 @@ MainGtkMenu::init()
 void
 MainGtkMenu::create_actions()
 {
-  IGUI *gui               = GUI::get_instance();
-  Menus *menus            = gui->get_menus();
+  IGUI *gui = GUI::get_instance();
+  Menus *menus = gui->get_menus();
   MainWindow *main_window = gui->get_main_window();
 
   if (!main_window->get_action_group("app"))
@@ -108,7 +107,7 @@ MainGtkMenu::create_menu()
   app_menu->append_section(section2);
 
   auto mode_menu = Gio::Menu::create();
-  item           = Gio::MenuItem::create(_("Normal"), "app.mode");
+  item = Gio::MenuItem::create(_("Normal"), "app.mode");
   item->set_attribute_value("target",
                             Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Normal)));
   mode_menu->append_item(item);
@@ -137,7 +136,7 @@ MainGtkMenu::create_menu()
 
   popup_menu = std::make_unique<Gtk::Menu>(app_menu);
 
-  IGUI *gui               = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
   popup_menu->attach_to_widget(*main_window);
 }
@@ -174,7 +173,7 @@ MainGtkMenu::on_menu_mode(int mode)
 {
   Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))->change_state(mode);
 
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
 
   switch (static_cast<OperationMode>(mode))
@@ -207,7 +206,7 @@ MainGtkMenu::on_menu_reading()
   active = !active;
   action->change_state(active);
 
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->on_menu_reading(active);
 }

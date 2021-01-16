@@ -55,7 +55,7 @@ protected:
   std::unique_ptr<Gtk::Menu> popup_menu;
 
   //!
-  bool show_open;
+  bool show_open{false};
 };
 
 #endif // MAINGTKMENU_HH

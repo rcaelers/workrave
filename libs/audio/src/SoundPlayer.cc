@@ -79,9 +79,6 @@ SoundPlayer::SoundPlayer()
     nullptr
 #endif
     ;
-
-  must_unmute  = false;
-  delayed_mute = false;
 }
 
 SoundPlayer::~SoundPlayer()

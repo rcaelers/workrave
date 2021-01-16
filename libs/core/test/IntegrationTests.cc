@@ -135,12 +135,12 @@ public:
   {
     core = workrave::CoreFactory::create();
 
-    ICoreHooks::Ptr hooks          = core->get_hooks();
+    ICoreHooks::Ptr hooks = core->get_hooks();
     ICoreTestHooks::Ptr test_hooks = std::dynamic_pointer_cast<ICoreTestHooks>(hooks);
 
     test_hooks->hook_create_configurator() = std::bind(&Backend::on_create_configurator, this);
-    test_hooks->hook_create_monitor()      = std::bind(&Backend::on_create_monitor, this);
-    test_hooks->hook_load_timer_state()    = std::bind(&Backend::on_load_timer_state, this, std::placeholders::_1);
+    test_hooks->hook_create_monitor() = std::bind(&Backend::on_create_monitor, this);
+    test_hooks->hook_load_timer_state() = std::bind(&Backend::on_load_timer_state, this, std::placeholders::_1);
 
     core->init(this, "");
 
@@ -209,7 +209,7 @@ public:
                 user_active = active;
               }
             monitor->set_active(user_active);
-            did_refresh  = false;
+            did_refresh = false;
             need_refresh = false;
             TimeSource::sync();
             core->heartbeat();
@@ -283,7 +283,7 @@ public:
           {
             if (expected.second == actual.second && !actual.second.seen)
               {
-                actual.second.seen   = true;
+                actual.second.seen = true;
                 expected.second.seen = true;
                 break;
               }
@@ -359,12 +359,12 @@ public:
 
     active_prelude = break_id;
     prelude_count[break_id]++;
-    timer                = 0;
-    prelude_stage_set    = false;
-    prelude_text_set     = false;
+    timer = 0;
+    prelude_stage_set = false;
+    prelude_text_set = false;
     prelude_progress_set = false;
-    last_value           = -1;
-    last_max_value       = 0;
+    last_value = -1;
+    last_max_value = 0;
   }
 
   void create_break_window(BreakId break_id, BreakHint break_hint) override
@@ -392,9 +392,9 @@ public:
     BOOST_REQUIRE_EQUAL(active_break, BREAK_ID_NONE);
     BOOST_REQUIRE_EQUAL(active_prelude, BREAK_ID_NONE);
 
-    active_break   = break_id;
-    timer          = 0;
-    last_value     = -1;
+    active_break = break_id;
+    timer = 0;
+    last_value = -1;
     last_max_value = 0;
   }
 
@@ -408,7 +408,7 @@ public:
       {
         log("hide");
       }
-    active_break   = BREAK_ID_NONE;
+    active_break = BREAK_ID_NONE;
     active_prelude = BREAK_ID_NONE;
   }
 
@@ -447,7 +447,7 @@ public:
     // TODO: remove forced_break from check after fixing code.
     BOOST_REQUIRE(forced_break || active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
 
-    last_value     = value;
+    last_value = value;
     last_max_value = max_value;
 
     if (active_break != BREAK_ID_NONE)
@@ -469,7 +469,7 @@ public:
 
     BOOST_REQUIRE(active_break != BREAK_ID_NONE || active_prelude != BREAK_ID_NONE);
 
-    need_refresh      = true;
+    need_refresh = true;
     prelude_stage_set = true;
   }
 
@@ -488,7 +488,7 @@ public:
         BOOST_REQUIRE_EQUAL(text, IApp::PROGRESS_TEXT_BREAK_IN);
       }
 
-    need_refresh     = true;
+    need_refresh = true;
     prelude_text_set = true;
   }
 
@@ -1795,8 +1795,8 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_when_timer_is_disabled)
   tick(true, 10);
   tick(false, 10);
 
-  forced_break     = true;
-  fake_break       = true;
+  forced_break = true;
+  fake_break = true;
   fake_break_delta = 1;
 
   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
@@ -1822,8 +1822,8 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_when_break_is_idle)
 
   tick(false, 500);
 
-  forced_break     = true;
-  fake_break       = true;
+  forced_break = true;
+  fake_break = true;
   fake_break_delta = 1;
 
   core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);

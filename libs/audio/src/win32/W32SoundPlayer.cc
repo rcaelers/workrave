@@ -1,5 +1,3 @@
-// W32SoundPlayer.cc --- Sound player
-//
 // Copyright (C) 2002 - 2008, 2010, 2012, 2013 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
@@ -126,7 +124,7 @@ W32SoundPlayer::open()
   wave_event = CreateEvent(NULL, FALSE, FALSE, NULL);
 
   number_of_buffers = 16;
-  buffer_position   = 0;
+  buffer_position = 0;
 
   res = waveOutOpen(&waveout, WAVE_MAPPER, &format, (DWORD_PTR)wave_event, (DWORD_PTR)0, CALLBACK_EVENT);
   if (res != MMSYSERR_NOERROR)
@@ -141,8 +139,8 @@ W32SoundPlayer::open()
     }
 
   int vol = volume;
-  vol     = (vol * 0xFFFF / 100);
-  vol     = vol | (vol << 16);
+  vol = (vol * 0xFFFF / 100);
+  vol = vol | (vol << 16);
 
   res = waveOutSetVolume(waveout, vol);
   if (res != MMSYSERR_NOERROR)
@@ -217,9 +215,9 @@ W32SoundPlayer::flush_buffer(int i)
 
   if (buffers[i]->dwBytesRecorded != 0)
     {
-      buffers[i]->dwBufferLength  = buffers[i]->dwBytesRecorded;
+      buffers[i]->dwBufferLength = buffers[i]->dwBytesRecorded;
       buffers[i]->dwBytesRecorded = 0;
-      buffers[i]->dwFlags         = 0;
+      buffers[i]->dwFlags = 0;
 
       res = waveOutPrepareHeader(waveout, buffers[i], sizeof(WAVEHDR));
       if (res != MMSYSERR_NOERROR)
@@ -270,7 +268,7 @@ W32SoundPlayer::close(void)
   free(sample);
 
   buffers = NULL;
-  sample  = NULL;
+  sample = NULL;
 
   res = waveOutClose(waveout);
   if (res != MMSYSERR_NOERROR)
@@ -339,13 +337,13 @@ W32SoundPlayer::load_wav_file(const string &filename)
   memset((void *)&child, 0, sizeof(child));
 
   parent.ckid = mmioFOURCC('d', 'a', 't', 'a');
-  res         = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
+  res = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("mmioAscend");
     }
 
-  sample      = (unsigned char *)malloc(child.cksize);
+  sample = (unsigned char *)malloc(child.cksize);
   sample_size = child.cksize;
   if (sample == NULL)
     {

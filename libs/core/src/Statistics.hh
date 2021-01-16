@@ -89,8 +89,8 @@ private:
     bool is_empty() const { return start.tm_year == 0; }
   };
 
-  using History      = std::vector<DailyStatsImpl *>;
-  using HistoryIter  = std::vector<DailyStatsImpl *>::iterator;
+  using History = std::vector<DailyStatsImpl *>;
+  using HistoryIter = std::vector<DailyStatsImpl *>::iterator;
   using HistoryRIter = std::vector<DailyStatsImpl *>::reverse_iterator;
 
 public:

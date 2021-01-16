@@ -38,8 +38,8 @@ public:
   int get_x() const;
   int get_y() const;
 
-  int monitor;
-  int count;
+  int monitor{0};
+  int count{0};
   Gdk::Rectangle geometry;
 };
 

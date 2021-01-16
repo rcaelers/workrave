@@ -74,7 +74,7 @@ MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &
   TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
 
   NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
-  out.type            = type;
+  out.type = type;
 
   if ([[NSUserDefaults standardUserDefaults] objectForKey:keystring] != nil)
     {
@@ -147,7 +147,7 @@ MacOSConfigurator::set_value(const std::string &key, Variant &value)
 
     case VARIANT_TYPE_STRING:
       {
-        string val             = value.string_value;
+        string val = value.string_value;
         NSString *string_value = [NSString stringWithCString:val.c_str() encoding:NSASCIIStringEncoding];
         [[NSUserDefaults standardUserDefaults] setObject:string_value forKey:keystring];
       }

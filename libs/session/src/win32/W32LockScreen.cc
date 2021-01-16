@@ -20,7 +20,7 @@
 #include "W32LockScreen.hh"
 
 W32LockScreen::LockWorkStationFunc W32LockScreen::lock_func = NULL;
-HINSTANCE W32LockScreen::user32_dll                         = NULL;
+HINSTANCE W32LockScreen::user32_dll = NULL;
 
 W32LockScreen::W32LockScreen()
 {

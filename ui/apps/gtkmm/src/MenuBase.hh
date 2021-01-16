@@ -31,7 +31,7 @@ public:
 
   void init() override {}
 
-  virtual void add_accel(Gtk::Window &window) { (void)window; }
+  void add_accel(Gtk::Window &window) { (void)window; }
 
   void popup(const guint button, const guint activate_time) override
   {

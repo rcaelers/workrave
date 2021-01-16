@@ -40,11 +40,11 @@ namespace workrave
       {
       }
 
-      // FIXME: implement what
+      ~Exception() override = default;
+
       virtual std::string details() const { return detailed_information; }
 
     private:
-      //
       std::string detailed_information;
     };
   } // namespace utils

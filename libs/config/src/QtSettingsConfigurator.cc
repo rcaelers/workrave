@@ -84,7 +84,7 @@ QtSettingsConfigurator::qt_get_value(const string &key, bool &exists) const
       const QString qkey = qt_key(key);
       if (settings->contains(qkey))
         {
-          var    = settings->value(qkey);
+          var = settings->value(qkey);
           exists = true;
         }
     }
@@ -106,7 +106,7 @@ QtSettingsConfigurator::get_config_value(const string &key, string &out) const
   if (exists)
     {
       QString qout = var.toString();
-      out          = qout.toStdString();
+      out = qout.toStdString();
     }
   return exists;
 }
@@ -166,7 +166,7 @@ QtSettingsConfigurator::set_config_value(const string &key, string v)
   if (settings)
     {
       const QString qkey = qt_key(key);
-      QVariant qval      = v.c_str();
+      QVariant qval = v.c_str();
       settings->setValue(qkey, qval);
       ok = true;
     }
@@ -180,7 +180,7 @@ QtSettingsConfigurator::set_config_value(const string &key, int v)
   if (settings)
     {
       const QString qkey = qt_key(key);
-      QVariant qval      = v;
+      QVariant qval = v;
       settings->setValue(qkey, qval);
       ok = true;
     }
@@ -194,7 +194,7 @@ QtSettingsConfigurator::set_config_value(const string &key, long v)
   if (settings)
     {
       const QString qkey = qt_key(key);
-      QVariant qval      = static_cast<int>(v); // QT no long?
+      QVariant qval = static_cast<int>(v); // QT no long?
       settings->setValue(qkey, qval);
       ok = true;
     }
@@ -208,7 +208,7 @@ QtSettingsConfigurator::set_config_value(const string &key, bool v)
   if (settings)
     {
       const QString qkey = qt_key(key);
-      QVariant qval      = v;
+      QVariant qval = v;
       settings->setValue(qkey, qval);
       ok = true;
     }
@@ -222,7 +222,7 @@ QtSettingsConfigurator::set_config_value(const string &key, double v)
   if (settings)
     {
       const QString qkey = qt_key(key);
-      QVariant qval      = v;
+      QVariant qval = v;
       settings->setValue(qkey, qval);
       ok = true;
     }

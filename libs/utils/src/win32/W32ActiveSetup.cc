@@ -172,16 +172,16 @@ W32ActiveSetup::is_guid_enabled(const wstring &guid)
   keyname += guid;
 
   HKEY hkey = NULL;
-  LONG ret  = RegOpenKeyExW(
+  LONG ret = RegOpenKeyExW(
     HKEY_LOCAL_MACHINE, keyname.c_str(), 0, (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view), &hkey);
 
   if (ret)
     return false;
 
-  DWORD type    = REG_NONE;
-  DWORD data    = 0;
+  DWORD type = REG_NONE;
+  DWORD data = 0;
   DWORD bytelen = sizeof(data);
-  ret           = RegQueryValueExW(hkey, L"IsInstalled", NULL, &type, (LPBYTE)&data, &bytelen);
+  ret = RegQueryValueExW(hkey, L"IsInstalled", NULL, &type, (LPBYTE)&data, &bytelen);
 
   CloseHandle(hkey);
 
@@ -465,7 +465,7 @@ DWORD WINAPI
 W32ActiveSetup::create_process(LPVOID lpParam)
 {
   DWORD exit_code = ((DWORD)-1);
-  WCHAR *command  = (WCHAR *)lpParam;
+  WCHAR *command = (WCHAR *)lpParam;
   STARTUPINFOW si = {
     sizeof(si),
   };
@@ -477,10 +477,10 @@ W32ActiveSetup::create_process(LPVOID lpParam)
   if (!command || !*command)
     return exit_code;
 
-  void *OldValue                                          = NULL;
-  bool wow64_disabled                                     = false;
+  void *OldValue = NULL;
+  bool wow64_disabled = false;
   BOOL(WINAPI * pWow64DisableWow64FsRedirection)(void **) = NULL;
-  BOOL(WINAPI * pWow64RevertWow64FsRedirection)(void *)   = NULL;
+  BOOL(WINAPI * pWow64RevertWow64FsRedirection)(void *) = NULL;
 
   if (W32ActiveSetup::is_os_64())
     {

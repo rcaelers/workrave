@@ -55,7 +55,7 @@ extern "C"
 
   typedef enum
   {
-    HARPOON_NOTHING      = -1,
+    HARPOON_NOTHING = -1,
     HARPOON_BUTTON_PRESS = 0,
     HARPOON_BUTTON_RELEASE,
     HARPOON_2BUTTON_PRESS,

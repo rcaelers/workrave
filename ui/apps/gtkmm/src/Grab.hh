@@ -25,9 +25,9 @@ class Grab
 public:
   static Grab *instance();
 
-  virtual bool can_grab()              = 0;
+  virtual bool can_grab() = 0;
   virtual void grab(GdkWindow *window) = 0;
-  virtual void ungrab()                = 0;
+  virtual void ungrab() = 0;
 };
 
 #endif // GRAB_HH

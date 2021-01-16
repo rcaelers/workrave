@@ -102,7 +102,7 @@ void
 DataConnection::set(dc::Flags flags, const std::string &key)
 {
   this->flags = flags;
-  this->key   = key;
+  this->key = key;
 
   if ((flags & dc::NO_CONFIG) == 0)
     {

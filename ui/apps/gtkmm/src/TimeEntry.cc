@@ -36,9 +36,7 @@
 
 TimeEntry::TimeEntry()
   : Gtk::HBox(false, 1)
-  ,
-
-  hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
+  , hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
   , mins_adjustment(Gtk::Adjustment::create(0, 0, 59))
   , secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
 {
@@ -94,7 +92,7 @@ void
 TimeEntry::update(Gtk::SpinButton *spin)
 {
   // Needless to say, this kinda sucks.
-  Glib::ustring s  = spin->get_text();
+  Glib::ustring s = spin->get_text();
   const gchar *txt = s.c_str();
   if (txt != nullptr && *txt != 0)
     {

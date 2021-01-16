@@ -152,7 +152,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       else if (event == BreakEvent::BreakIdle)
         {
           TRACE_MSG("Prelude -> Active");
-          state       = Active;
+          state = Active;
           forced_idle = false;
         }
       break;
@@ -163,7 +163,7 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
           if (break_id == BREAK_ID_MICRO_BREAK)
             {
               TRACE_MSG("Taking -> Active");
-              state       = Active;
+              state = Active;
               forced_idle = false;
             }
           else

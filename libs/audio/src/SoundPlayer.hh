@@ -38,10 +38,10 @@ public:
   void eos_event() override;
 
 private:
-  ISoundDriver *driver;
-  IMixer *mixer;
-  bool delayed_mute;
-  bool must_unmute;
+  ISoundDriver *driver{nullptr};
+  IMixer *mixer{nullptr};
+  bool delayed_mute{false};
+  bool must_unmute{false};
 };
 
 #endif // SOUNDPLAYER_HH

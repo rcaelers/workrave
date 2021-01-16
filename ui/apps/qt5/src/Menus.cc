@@ -26,18 +26,18 @@
 
 using namespace workrave;
 
-const std::string Menus::PREFERENCES    = "workrave:preferences";
-const std::string Menus::EXERCISES      = "workrave:exercises";
-const std::string Menus::REST_BREAK     = "workrave:restbreak";
-const std::string Menus::MODE           = "workrave:mode";
-const std::string Menus::MODE_NORMAL    = "workrave:mode_normal";
-const std::string Menus::MODE_QUIET     = "workrave:mode_quiet";
+const std::string Menus::PREFERENCES = "workrave:preferences";
+const std::string Menus::EXERCISES = "workrave:exercises";
+const std::string Menus::REST_BREAK = "workrave:restbreak";
+const std::string Menus::MODE = "workrave:mode";
+const std::string Menus::MODE_NORMAL = "workrave:mode_normal";
+const std::string Menus::MODE_QUIET = "workrave:mode_quiet";
 const std::string Menus::MODE_SUSPENDED = "workrave:mode_suspended";
-const std::string Menus::STATISTICS     = "workrave:statistics";
-const std::string Menus::ABOUT          = "workrave:about";
-const std::string Menus::MODE_READING   = "workrave:mode_reading";
-const std::string Menus::OPEN           = "workrave:open";
-const std::string Menus::QUIT           = "workrave:quit";
+const std::string Menus::STATISTICS = "workrave:statistics";
+const std::string Menus::ABOUT = "workrave:about";
+const std::string Menus::MODE_READING = "workrave:mode_reading";
+const std::string Menus::OPEN = "workrave:open";
+const std::string Menus::QUIT = "workrave:quit";
 
 Menus::Menus(std::shared_ptr<IApplication> app, std::shared_ptr<IToolkit> toolkit, std::shared_ptr<workrave::ICore> core)
   : app(app)
@@ -58,7 +58,7 @@ void
 Menus::init()
 {
   workrave::OperationMode mode = core->get_operation_mode();
-  workrave::UsageMode usage    = core->get_usage_mode();
+  workrave::UsageMode usage = core->get_usage_mode();
 
   MenuNode::Ptr root = menu_model->get_root();
 

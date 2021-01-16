@@ -31,7 +31,7 @@ public:
   using Ptr = std::shared_ptr<CoreHooks>;
 
   CoreHooks() = default;
-  ~CoreHooks() override  = default;
+  ~CoreHooks() override = default;
 
 #ifdef HAVE_TESTS
   std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() override;

@@ -56,7 +56,7 @@ TimeBar::set_progress(int value, int max_value)
       value = max_value;
     }
 
-  bar_value     = value;
+  bar_value = value;
   bar_max_value = max_value;
 }
 
@@ -68,7 +68,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
       value = max_value;
     }
 
-  secondary_bar_value     = value;
+  secondary_bar_value = value;
   secondary_bar_max_value = max_value;
 }
 
@@ -105,18 +105,18 @@ TimeBar::update()
 QSize
 TimeBar::minimumSizeHint() const
 {
-  int width  = fontMetrics().horizontalAdvance(bar_text);
+  int width = fontMetrics().horizontalAdvance(bar_text);
   int height = fontMetrics().height();
 
   QString full_text = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
-  int full_width    = fontMetrics().horizontalAdvance(full_text);
+  int full_width = fontMetrics().horizontalAdvance(full_text);
 
   if (full_width > width)
     {
       width = full_width;
     }
 
-  width  = width + 2 * MARGINX;
+  width = width + 2 * MARGINX;
   height = std::max(height + 2 * MARGINY, 20);
 
   return QSize(width, height);
@@ -143,9 +143,9 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
 
   QStyleOptionFrame option;
   option.initFrom(this);
-  option.features     = QStyleOptionFrame::Flat;
-  option.frameShape   = QFrame::Panel;
-  option.lineWidth    = 2;
+  option.features = QStyleOptionFrame::Flat;
+  option.frameShape = QFrame::Panel;
+  option.lineWidth = 2;
   option.midLineWidth = 0;
 
   painter.drawPrimitive(QStyle::PE_Frame, option);
@@ -219,7 +219,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
       painter.fillRect(border_size, border_size, bar_width, bar_height, bar_colors[bar_color]);
     }
 
-  int text_width  = painter.fontMetrics().horizontalAdvance(bar_text);
+  int text_width = painter.fontMetrics().horizontalAdvance(bar_text);
   int text_height = painter.fontMetrics().height();
 
   int text_x;

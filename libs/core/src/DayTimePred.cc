@@ -58,7 +58,7 @@ bool
 DayTimePred::init(int hour, int min)
 {
   pred_hour = hour;
-  pred_min  = min;
+  pred_min = min;
 
   return true;
 }
@@ -66,7 +66,7 @@ DayTimePred::init(int hour, int min)
 bool
 DayTimePred::init(std::string spec)
 {
-  bool ret                   = false;
+  bool ret = false;
   std::string::size_type pos = spec.find(':');
 
   if (pos != std::string::npos)
@@ -74,7 +74,7 @@ DayTimePred::init(std::string spec)
       std::string hours;
       std::string minutes;
 
-      hours   = spec.substr(0, pos);
+      hours = spec.substr(0, pos);
       minutes = spec.substr(pos + 1);
 
       ret = init(atoi(hours.c_str()), atoi(minutes.c_str()));
@@ -120,8 +120,8 @@ DayTimePred::get_next(time_t last_time)
           ret->tm_mday++;
         }
 
-      ret->tm_sec  = 0;
-      ret->tm_min  = pred_min;
+      ret->tm_sec = 0;
+      ret->tm_min = pred_min;
       ret->tm_hour = pred_hour;
 
       if (ret->tm_mday > days_in_month(ret->tm_mon, ret->tm_year + 1900))

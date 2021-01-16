@@ -25,8 +25,6 @@
 
 #include "IAppletWindow.hh"
 
-#include "utils/ScopedConnections.hh"
-
 class AppletControl
 {
 public:
@@ -38,7 +36,7 @@ public:
     MacOS,
   };
 
-  AppletControl()  = default;
+  AppletControl() = default;
   ~AppletControl() = default;
 
   void init();
@@ -55,8 +53,6 @@ private:
   bool visible{false};
 
   sigc::signal<void> visibility_changed_signal;
-
-  scoped_connections connections;
 
 private:
   void on_applet_visibility_changed(AppletType type, bool visible);

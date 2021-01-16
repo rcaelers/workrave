@@ -29,7 +29,7 @@
 using namespace workrave::utils;
 
 ITimeSource::Ptr TimeSource::source;
-int64_t TimeSource::synced_real_time      = 0;
+int64_t TimeSource::synced_real_time = 0;
 int64_t TimeSource::synced_monotonic_time = 0;
 
 int64_t
@@ -88,5 +88,5 @@ void
 TimeSource::sync()
 {
   synced_monotonic_time = get_monotonic_time_usec();
-  synced_real_time      = get_real_time_usec();
+  synced_real_time = get_real_time_usec();
 }

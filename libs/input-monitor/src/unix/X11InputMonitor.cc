@@ -73,7 +73,7 @@ XNextEventTimed(Display *dsp, XEvent *event_return, long millis)
     }
 
   struct timeval tv;
-  tv.tv_sec  = millis / 1000;
+  tv.tv_sec = millis / 1000;
   tv.tv_usec = (millis % 1000) * 1000;
 
   XFlush(dsp);

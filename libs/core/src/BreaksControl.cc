@@ -34,7 +34,7 @@
 #include "TimerActivityMonitor.hh"
 
 static const char *WORKRAVESTATE = "WorkRaveState";
-static const int SAVESTATETIME   = 60;
+static const int SAVESTATETIME = 60;
 
 using namespace std;
 using namespace workrave;
@@ -259,7 +259,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
           Timer::Ptr timer = timers[break_id];
 
           int64_t duration = timer->get_auto_reset();
-          int64_t now      = TimeSource::get_monotonic_time_sec_sync();
+          int64_t now = TimeSource::get_monotonic_time_sec_sync();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
@@ -471,7 +471,7 @@ BreaksControl::load_state()
   ifstream state_file(ss.str().c_str());
 
   int version = 0;
-  bool ok     = state_file.good();
+  bool ok = state_file.good();
 
   if (ok)
     {

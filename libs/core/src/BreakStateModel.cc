@@ -159,11 +159,11 @@ BreakStateModel::start_break()
 {
   TRACE_ENTER_MSG("BreakStateModel::start_break", break_id);
 
-  break_hint    = BREAK_HINT_NONE;
-  forced_break  = false;
-  fake_break    = false;
-  prelude_time  = 0;
-  user_abort    = false;
+  break_hint = BREAK_HINT_NONE;
+  forced_break = false;
+  fake_break = false;
+  prelude_time = 0;
+  user_abort = false;
   delayed_abort = false;
 
   if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
@@ -184,11 +184,11 @@ BreakStateModel::force_start_break(BreakHint hint)
 {
   TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id);
 
-  break_hint    = hint;
-  forced_break  = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
-  fake_break    = false;
-  prelude_time  = 0;
-  user_abort    = false;
+  break_hint = hint;
+  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
+  fake_break = false;
+  prelude_time = 0;
+  user_abort = false;
   delayed_abort = false;
 
   if (timer->is_auto_reset_enabled())
@@ -199,7 +199,7 @@ BreakStateModel::force_start_break(BreakHint hint)
       if (idle >= timer->get_auto_reset() || !timer->is_enabled())
         {
           TRACE_MSG("Faking break");
-          fake_break       = true;
+          fake_break = true;
           fake_break_count = timer->get_auto_reset();
         }
     }
@@ -271,7 +271,7 @@ BreakStateModel::stop_break()
   break_hint = BREAK_HINT_NONE;
   goto_stage(BreakStage::None);
   prelude_count = 0;
-  fake_break    = false;
+  fake_break = false;
 
   break_event_signal(BreakEvent::BreakStop);
 
@@ -403,7 +403,7 @@ void
 BreakStateModel::break_window_update()
 {
   int64_t duration = timer->get_auto_reset();
-  int64_t idle     = 0;
+  int64_t idle = 0;
 
   if (fake_break)
     {
@@ -439,7 +439,7 @@ BreakStateModel::break_window_stop()
     {
       // Update statistics and play sound if the break end
       // was "natural"
-      int64_t idle  = timer->get_elapsed_idle_time();
+      int64_t idle = timer->get_elapsed_idle_time();
       int64_t reset = timer->get_auto_reset();
 
       if (idle >= reset && !user_abort)

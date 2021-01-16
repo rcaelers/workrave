@@ -52,7 +52,7 @@ Debug::trace_string()
   char logtime[256];
 
 #  ifdef HAVE_TESTS
-  auto t          = static_cast<time_t>(TimeSource::get_real_time_sec());
+  auto t = static_cast<time_t>(TimeSource::get_real_time_sec());
   struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 
@@ -77,7 +77,7 @@ Debug::trace_string()
 
 #  else
 
-  auto t          = (time_t)TimeSource::get_real_time_sec();
+  auto t = (time_t)TimeSource::get_real_time_sec();
   struct tm *tmlt = localtime(&t);
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 

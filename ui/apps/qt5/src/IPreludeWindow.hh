@@ -29,11 +29,11 @@ public:
 
   typedef std::shared_ptr<IPreludeWindow> Ptr;
 
-  virtual void start()                                                     = 0;
-  virtual void stop()                                                      = 0;
-  virtual void refresh()                                                   = 0;
-  virtual void set_progress(int value, int max_value)                      = 0;
-  virtual void set_stage(workrave::IApp::PreludeStage stage)               = 0;
+  virtual void start() = 0;
+  virtual void stop() = 0;
+  virtual void refresh() = 0;
+  virtual void set_progress(int value, int max_value) = 0;
+  virtual void set_stage(workrave::IApp::PreludeStage stage) = 0;
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
 };
 

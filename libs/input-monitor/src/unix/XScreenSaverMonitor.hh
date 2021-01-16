@@ -48,7 +48,7 @@ private:
   bool abort{false};
   std::shared_ptr<boost::thread> monitor_thread;
   XScreenSaverInfo *screen_saver_info{nullptr};
-  Display *xdisplay;
+  Display *xdisplay{nullptr};
   Drawable root;
 
   boost::mutex mutex;

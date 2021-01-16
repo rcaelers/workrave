@@ -40,25 +40,25 @@ public:
 
   explicit Variant(std::string v)
   {
-    type         = VARIANT_TYPE_STRING;
+    type = VARIANT_TYPE_STRING;
     string_value = v;
   }
 
   explicit Variant(int v)
   {
-    type      = VARIANT_TYPE_INT;
+    type = VARIANT_TYPE_INT;
     int_value = v;
   }
 
   explicit Variant(bool v)
   {
-    type       = VARIANT_TYPE_BOOL;
+    type = VARIANT_TYPE_BOOL;
     bool_value = v;
   }
 
   explicit Variant(double v)
   {
-    type         = VARIANT_TYPE_DOUBLE;
+    type = VARIANT_TYPE_DOUBLE;
     double_value = v;
   }
 

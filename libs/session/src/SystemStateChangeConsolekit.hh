@@ -39,9 +39,7 @@ class SystemStateChangeConsolekit : public ISystemStateChangeMethod
 public:
   static const char *dbus_name;
   explicit SystemStateChangeConsolekit(GDBusConnection *connection);
-
   ~SystemStateChangeConsolekit() override = default;
-  ;
 
   bool shutdown() override;
   bool canShutdown() override { return can_shutdown; }

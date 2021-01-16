@@ -38,10 +38,10 @@ TimerBoxView::TimerBoxView()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      new_content[i]     = BREAK_ID_NONE;
+      new_content[i] = BREAK_ID_NONE;
       current_content[i] = BREAK_ID_NONE;
-      labels[i]          = nullptr;
-      bars[i]            = nullptr;
+      labels[i] = nullptr;
+      bars[i] = nullptr;
     }
 
   init();
@@ -166,7 +166,7 @@ TimerBoxView::init_table()
   // Fill table.
   for (int i = 0; i < number_of_timers; i++)
     {
-      int id  = new_content[i];
+      int id = new_content[i];
       int cid = current_content[i];
 
       if (id != cid)
@@ -217,7 +217,7 @@ TimerBoxView::set_slot(BreakId id, int slot)
   if (new_content[slot] != id)
     {
       new_content[slot] = id;
-      reconfigure       = true;
+      reconfigure = true;
     }
 }
 

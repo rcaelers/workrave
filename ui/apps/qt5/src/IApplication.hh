@@ -29,7 +29,7 @@ public:
   virtual ~IApplication() = default;
 
   virtual void restbreak_now() = 0;
-  virtual void terminate()     = 0;
+  virtual void terminate() = 0;
 };
 
 #endif // IAPPLICATION_HH

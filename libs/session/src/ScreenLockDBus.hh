@@ -40,7 +40,6 @@ public:
                  const char *dbus_method_to_check_existence);
 
   ~ScreenLockDBus() override = default;
-  ;
 
   bool is_lock_supported() override { return proxy.is_valid(); };
   bool lock() override;

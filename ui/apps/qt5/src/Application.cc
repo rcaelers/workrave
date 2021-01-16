@@ -259,7 +259,7 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
     {
       if (event_mapping.id == break_id && event_mapping.break_event == event)
         {
-          bool mute      = false;
+          bool mute = false;
           SoundEvent snd = event_mapping.sound_event;
           TRACE_MSG("play " << static_cast<std::underlying_type<BreakEvent>::type>(event));
 
@@ -330,8 +330,8 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   hide_break_window();
 
   BreakFlags break_flags = BREAK_FLAGS_NONE;
-  bool ignorable         = GUIConfig::break_ignorable(break_id)();
-  bool skippable         = GUIConfig::break_skippable(break_id)();
+  bool ignorable = GUIConfig::break_ignorable(break_id)();
+  bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
     {

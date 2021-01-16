@@ -42,7 +42,7 @@
 #include "input-monitor/IInputMonitor.hh"
 
 static const char *WORKRAVESTATS = "WorkRaveStats";
-static const int STATSVERSION    = 4;
+static const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 
@@ -91,7 +91,7 @@ Statistics::init()
     }
 
   current_day = nullptr;
-  bool ok     = load_current_day();
+  bool ok = load_current_day();
   if (!ok)
     {
       start_new_day();
@@ -108,14 +108,14 @@ Statistics::update()
 
   if (monitor->is_active())
     {
-      const time_t now  = time(nullptr);
-      struct tm *tmnow  = localtime(&now);
+      const time_t now = time(nullptr);
+      struct tm *tmnow = localtime(&now);
       current_day->stop = *tmnow;
 
       if (!been_active)
         {
           current_day->start = *tmnow;
-          been_active        = true;
+          been_active = true;
         }
     }
   save_day(current_day);
@@ -187,7 +187,7 @@ Statistics::start_new_day()
       been_active = false;
 
       current_day->start = *tmnow;
-      current_day->stop  = *tmnow;
+      current_day->stop = *tmnow;
     }
 
   update();
@@ -282,7 +282,7 @@ Statistics::add_history(DailyStatsImpl *stats)
   else
     {
       bool found = false;
-      auto i     = history.rbegin();
+      auto i = history.rbegin();
       while (i != history.rend())
         {
           DailyStatsImpl *ref = *i;
@@ -291,7 +291,7 @@ Statistics::add_history(DailyStatsImpl *stats)
               && stats->start.tm_mday == ref->start.tm_mday)
             {
               delete *i;
-              *i    = stats;
+              *i = stats;
               found = true;
               break;
             }
@@ -509,7 +509,7 @@ Statistics::set_break_counter(BreakId bt, StatsBreakValueType st, int value)
     }
 
   BreakStats &bs = current_day->break_stats[bt];
-  bs[st]         = value;
+  bs[st] = value;
 }
 
 void
@@ -608,7 +608,7 @@ Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int 
   idx = next = prev = -1;
   for (int i = 0; i <= static_cast<int>(history.size()); i++)
     {
-      int j                 = static_cast<int>(history.size() - i);
+      int j = static_cast<int>(history.size() - i);
       DailyStatsImpl *stats = j == 0 ? current_day : history[i];
       if (idx < 0 && stats->starts_at_date(y, m, d))
         {
@@ -686,7 +686,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
       if (delta_x < MAX_JUMP && delta_y < MAX_JUMP && (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0))
         {
           int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-          int distance     = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
+          int distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
@@ -695,7 +695,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
             }
 
           auto now = std::chrono::system_clock::now();
-          auto tv  = now - last_mouse_time;
+          auto tv = now - last_mouse_time;
 
           if (tv < std::chrono::seconds(1))
             {

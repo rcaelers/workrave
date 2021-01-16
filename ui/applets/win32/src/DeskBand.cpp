@@ -30,20 +30,20 @@
 
 CDeskBand::CDeskBand()
 {
-  m_pSite           = NULL;
-  m_hWnd            = NULL;
-  m_hwndParent      = NULL;
-  m_bFocus          = FALSE;
-  m_dwViewMode      = 0;
-  m_dwBandID        = 0;
-  m_TimerBox        = NULL;
-  m_HasAppletMenu   = FALSE;
-  m_LastCopyData    = 0;
-  m_ObjRefCount     = 1;
-  m_preferredWidth  = DB_MIN_SIZE_X;
+  m_pSite = NULL;
+  m_hWnd = NULL;
+  m_hwndParent = NULL;
+  m_bFocus = FALSE;
+  m_dwViewMode = 0;
+  m_dwBandID = 0;
+  m_TimerBox = NULL;
+  m_HasAppletMenu = FALSE;
+  m_LastCopyData = 0;
+  m_ObjRefCount = 1;
+  m_preferredWidth = DB_MIN_SIZE_X;
   m_preferredHeight = DB_MIN_SIZE_Y;
-  m_minimumWidth    = DB_MIN_SIZE_X;
-  m_minimumHeight   = DB_MIN_SIZE_Y;
+  m_minimumWidth = DB_MIN_SIZE_X;
+  m_minimumHeight = DB_MIN_SIZE_Y;
 
   g_DllRefCount++;
 }
@@ -319,7 +319,7 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO *pdbi)
   TRACE_ENTER_MSG("CDeskBand::GetBandInfo", dwBandID << " " << dwViewMode);
   if (pdbi)
     {
-      m_dwBandID   = dwBandID;
+      m_dwBandID = dwBandID;
       m_dwViewMode = dwViewMode;
 
       if (pdbi->dwMask & DBIM_MINSIZE)
@@ -470,7 +470,7 @@ CDeskBand::QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT i
   if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow(get_command_window()))
     return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 
-  int m       = 0;
+  int m = 0;
   HMENU popup = NULL;
   while (m < m_AppletMenu.num_items)
     {
@@ -478,7 +478,7 @@ CDeskBand::QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT i
       wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH * 2];
       MultiByteToWideChar(CP_UTF8, 0, d->text, -1, textw, sizeof(textw) / sizeof(textw[0]));
       wchar_t *abbrev = wcschr(textw, '_');
-      UINT flags      = MF_STRING | MF_BYPOSITION;
+      UINT flags = MF_STRING | MF_BYPOSITION;
       if (d->flags & APPLET_MENU_FLAG_SELECTED)
         {
           flags |= MF_CHECKED;
@@ -545,7 +545,7 @@ LRESULT CALLBACK
 CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER("CDeskBand::WndProc");
-  LRESULT lResult  = 0;
+  LRESULT lResult = 0;
   CDeskBand *pThis = (CDeskBand *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
@@ -553,7 +553,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis               = (CDeskBand *)(lpcs->lpCreateParams);
+        pThis = (CDeskBand *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
         SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
@@ -643,7 +643,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
   m_LastCopyData = time(NULL);
   if (copy_data->dwData == APPLET_MESSAGE_MENU && copy_data->cbData == sizeof(AppletMenuData))
     {
-      m_AppletMenu    = *((AppletMenuData *)copy_data->lpData);
+      m_AppletMenu = *((AppletMenuData *)copy_data->lpData);
       m_HasAppletMenu = TRUE;
     }
   else if (m_TimerBox != NULL && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT && copy_data->cbData == sizeof(AppletHeartbeatData))
@@ -743,15 +743,15 @@ CDeskBand::RegisterAndCreateWindow()
       if (!GetClassInfo(g_hInst, DB_CLASS_NAME, &wc))
         {
           ZeroMemory(&wc, sizeof(wc));
-          wc.style         = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
-          wc.lpfnWndProc   = (WNDPROC)WndProc;
-          wc.cbClsExtra    = 0;
-          wc.cbWndExtra    = 0;
-          wc.hInstance     = g_hInst;
-          wc.hIcon         = NULL;
-          wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+          wc.style = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
+          wc.lpfnWndProc = (WNDPROC)WndProc;
+          wc.cbClsExtra = 0;
+          wc.cbWndExtra = 0;
+          wc.hInstance = g_hInst;
+          wc.hIcon = NULL;
+          wc.hCursor = LoadCursor(NULL, IDC_ARROW);
           wc.hbrBackground = NULL; //(HBRUSH)(COLOR_WINDOWFRAME+1);
-          wc.lpszMenuName  = NULL;
+          wc.lpszMenuName = NULL;
           wc.lpszClassName = DB_CLASS_NAME;
 
           if (!RegisterClass(&wc))
@@ -805,12 +805,12 @@ CDeskBand::UpdateDeskband()
 
   int preferredWidth, preferredHeight;
   m_TimerBox->get_preferred_size(preferredWidth, preferredHeight);
-  preferredWidth  = __max(DB_MIN_SIZE_X, preferredWidth);
+  preferredWidth = __max(DB_MIN_SIZE_X, preferredWidth);
   preferredHeight = __max(DB_MIN_SIZE_Y, preferredHeight);
 
   int minimumWidth, minimumHeight;
   m_TimerBox->get_minimum_size(minimumWidth, minimumHeight);
-  minimumWidth  = __max(DB_MIN_SIZE_X, minimumWidth);
+  minimumWidth = __max(DB_MIN_SIZE_X, minimumWidth);
   minimumHeight = __max(DB_MIN_SIZE_Y, minimumHeight);
 
   TRACE_MSG("w x h: " << preferredWidth << " " << preferredHeight << " old: " << m_preferredWidth << " " << m_preferredHeight);
@@ -819,10 +819,10 @@ CDeskBand::UpdateDeskband()
   if (preferredWidth != m_preferredWidth || preferredHeight != m_preferredHeight || minimumWidth != m_minimumWidth
       || minimumHeight != m_minimumHeight)
     {
-      m_preferredWidth  = preferredWidth;
+      m_preferredWidth = preferredWidth;
       m_preferredHeight = preferredHeight;
-      m_minimumWidth    = minimumWidth;
-      m_minimumHeight   = minimumHeight;
+      m_minimumWidth = minimumWidth;
+      m_minimumHeight = minimumHeight;
 
       IOleCommandTarget *oleCommandTarget;
       HRESULT hr = GetSite(IID_IOleCommandTarget, (LPVOID *)&oleCommandTarget);
@@ -830,8 +830,8 @@ CDeskBand::UpdateDeskband()
       if (SUCCEEDED(hr))
         {
           VARIANTARG v = {0};
-          v.vt         = VT_I4;
-          v.lVal       = m_dwBandID;
+          v.vt = VT_I4;
+          v.lVal = m_dwBandID;
 
           oleCommandTarget->Exec(&CGID_DeskBand, DBID_BANDINFOCHANGED, OLECMDEXECOPT_DODEFAULT, &v, NULL);
           oleCommandTarget->Release();

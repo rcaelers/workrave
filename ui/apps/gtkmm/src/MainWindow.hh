@@ -36,7 +36,7 @@ class TimerBoxGtkView;
 class MainWindow : public Gtk::Window
 {
 public:
-  MainWindow();
+  MainWindow() = default;
   ~MainWindow() override;
 
   void init();
@@ -71,17 +71,17 @@ private:
   TimerBoxGtkView *timer_box_view{nullptr};
 
 #ifdef PLATFORM_OS_UNIX
-  Gtk::Window *leader;
+  Gtk::Window *leader{nullptr};
 #endif
 
   //! Location of main window.
-  Gdk::Point window_location;
+  Gdk::Point window_location{-1, -1};
 
   //! Location of main window relative to current head
-  Gdk::Point window_head_location;
+  Gdk::Point window_head_location{-1, -1};
 
   //! Relocated location of main window
-  Gdk::Point window_relocated_location;
+  Gdk::Point window_relocated_location{-1, -1};
 
   //! Event triggered when the main window has been closed by the user
   sigc::signal<void> closed_signal;
@@ -115,9 +115,9 @@ private:
 
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-  HWND win32_main_hwnd;
-  HINSTANCE win32_hinstance;
-  int show_retry_count;
+  HWND win32_main_hwnd{0};
+  HINSTANCE win32_hinstance{0};
+  int show_retry_count{0};
   sigc::connection timeout_connection;
 #endif
 };

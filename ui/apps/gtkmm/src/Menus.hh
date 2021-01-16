@@ -113,7 +113,7 @@ private:
   ExercisesDialog *exercises_dialog{nullptr};
 
   //! Different kind of menus
-  IMenu *menus[MENU_SIZEOF];
+  IMenu *menus[MENU_SIZEOF]{};
 
   Gtk::AboutDialog *about{nullptr};
 

@@ -86,7 +86,7 @@ class TracedField : public TracedFieldBase
 {
 public:
   using value_type = ValueType;
-  using base_type  = TracedField<ValueType>;
+  using base_type = TracedField<ValueType>;
 
   explicit TracedField(const TracedField &p) noexcept
     : _name{p._name}
@@ -173,7 +173,7 @@ public:
     if (debug && _manual && (_last_published_value != _value || !_last_published_value_valid))
       {
         Diagnostics::instance().report(_name, _value);
-        _last_published_value       = _value;
+        _last_published_value = _value;
         _last_published_value_valid = true;
       }
   }

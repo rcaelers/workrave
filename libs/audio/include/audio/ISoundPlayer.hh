@@ -39,9 +39,9 @@ namespace workrave::audio
 
     virtual ~ISoundPlayer() = default;
 
-    virtual void init()                                                                       = 0;
-    virtual bool capability(SoundCapability cap)                                              = 0;
-    virtual void restore_mute()                                                               = 0;
+    virtual void init() = 0;
+    virtual bool capability(SoundCapability cap) = 0;
+    virtual void restore_mute() = 0;
     virtual void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) = 0;
   };
 

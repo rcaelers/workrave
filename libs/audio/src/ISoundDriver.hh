@@ -28,9 +28,9 @@ class ISoundDriver
 public:
   virtual ~ISoundDriver() = default;
 
-  virtual void init(ISoundPlayerEvents *events = nullptr)       = 0;
+  virtual void init(ISoundPlayerEvents *events = nullptr) = 0;
   virtual bool capability(workrave::audio::SoundCapability cap) = 0;
-  virtual void play_sound(std::string wavfile, int volume)      = 0;
+  virtual void play_sound(std::string wavfile, int volume) = 0;
 };
 
 #endif // ISOUNDDRIVER_HH

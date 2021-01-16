@@ -46,7 +46,7 @@ Platform::registry_get_value(const char *path, const char *name, char *out)
     {
       DWORD type, size;
       size = MAX_PATH;
-      err  = RegQueryValueExA(handle, name, 0, &type, (LPBYTE)out, &size);
+      err = RegQueryValueExA(handle, name, 0, &type, (LPBYTE)out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;

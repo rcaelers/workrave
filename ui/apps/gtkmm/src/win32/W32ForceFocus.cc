@@ -64,13 +64,13 @@ and then passed to a worker thread which will try each of the functions specifie
 */
 enum functions
 {
-  NO_FUNCTIONS               = 0x00,
-  ALT_KEYPRESS               = (1 << 0),
-  ATTACH_INPUT               = (1 << 1),
-  MINIMIZE_RESTORE           = (1 << 2),
+  NO_FUNCTIONS = 0x00,
+  ALT_KEYPRESS = (1 << 0),
+  ATTACH_INPUT = (1 << 1),
+  MINIMIZE_RESTORE = (1 << 2),
   DISABLE_FOREGROUND_TIMEOUT = (1 << 3), // not implemented
-  RESET_FOREGROUND_TIMEOUT   = (1 << 4), // not implemented
-  ALL_FUNCTIONS              = 0xFF
+  RESET_FOREGROUND_TIMEOUT = (1 << 4),   // not implemented
+  ALL_FUNCTIONS = 0xFF
 };
 
 /* W32ForceFocus::GetFunctions()
@@ -95,7 +95,7 @@ W32ForceFocus::GetFunctions()
   W32CriticalSection::Guard guard(cs_GetFunctions);
 
   static bool func_initialized = false;
-  static DWORD flags           = 0;
+  static DWORD flags = 0;
 
   if (func_initialized)
     return flags;
@@ -422,7 +422,7 @@ W32ForceFocus::ForceWindowFocus(HWND hwnd,
     }
 
   ti.retval = 0;
-  ti.hwnd   = hwnd;
+  ti.hwnd = hwnd;
 
   ti.flags = GetFunctions();
   if (!ti.flags)

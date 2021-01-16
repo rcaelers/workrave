@@ -33,7 +33,7 @@ get_desktop_window(Window the_window)
   unsigned int nchildren;
   Window w, root, *children, parent;
 
-  prop  = XInternAtom(GDK_DISPLAY(), "_XROOTPMAP_ID", True);
+  prop = XInternAtom(GDK_DISPLAY(), "_XROOTPMAP_ID", True);
   prop2 = XInternAtom(GDK_DISPLAY(), "_XROOTCOLOR_PIXEL", True);
 
   if (prop == None && prop2 == None)
@@ -104,7 +104,7 @@ set_desktop_background(GdkWindow *window)
 
   if (xpm != None)
     {
-      GdkScreen *screen   = gdk_window_get_screen(window);
+      GdkScreen *screen = gdk_window_get_screen(window);
       GdkDisplay *display = gdk_window_get_display(window);
       Window root_return;
       int x, y;

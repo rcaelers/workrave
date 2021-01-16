@@ -30,7 +30,7 @@
 class XmlConfigurator : public virtual IConfigBackend
 {
 public:
-  XmlConfigurator()           = default;
+  XmlConfigurator() = default;
   ~XmlConfigurator() override = default;
 
   bool load(std::string filename) override;

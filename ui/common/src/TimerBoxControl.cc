@@ -59,7 +59,7 @@ TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView *v)
 void
 TimerBoxControl::update()
 {
-  ICore::Ptr core    = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (reconfigure)
@@ -127,8 +127,8 @@ TimerBoxControl::init()
     {
       connections.add(CoreConfig::break_enabled(BreakId(i)).connect([this](bool b) { load_configuration(); }));
 
-      break_position[i]      = i;
-      break_flags[i]         = 0;
+      break_position[i] = i;
+      break_flags[i] = 0;
       break_imminent_time[i] = 0;
 
       for (int j = 0; j < BREAK_ID_SIZEOF; j++)
@@ -151,7 +151,7 @@ TimerBoxControl::update_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b   = core->get_break(count);
+      IBreak::Ptr b = core->get_break(count);
 
       time_t value;
       TimerColorId primary_color;
@@ -161,10 +161,10 @@ TimerBoxControl::update_widgets()
 
       // Collect some data.
       time_t maxActiveTime = b->get_limit();
-      time_t activeTime    = b->get_elapsed_time();
+      time_t activeTime = b->get_elapsed_time();
       time_t breakDuration = b->get_auto_reset();
-      time_t idleTime      = b->get_elapsed_idle_time();
-      bool overdue         = (maxActiveTime < activeTime);
+      time_t idleTime = b->get_elapsed_idle_time();
+      bool overdue = (maxActiveTime < activeTime);
 
       // Set the value
       if (b->is_limit_enabled() && maxActiveTime != 0)
@@ -177,7 +177,7 @@ TimerBoxControl::update_widgets()
         }
       // And set the bar.
       secondary_val = secondary_max = 0;
-      secondary_color               = TimerColorId::Inactive;
+      secondary_color = TimerColorId::Inactive;
 
       // Timer is running, show elapsed time.
       primary_val = static_cast<int>(activeTime);
@@ -189,8 +189,8 @@ TimerBoxControl::update_widgets()
         {
           // resting.
           secondary_color = TimerColorId::Inactive;
-          secondary_val   = static_cast<int>(idleTime);
-          secondary_max   = static_cast<int>(breakDuration);
+          secondary_val = static_cast<int>(idleTime);
+          secondary_max = static_cast<int>(breakDuration);
         }
 
       view->set_time_bar(BreakId(count),
@@ -249,7 +249,7 @@ TimerBoxControl::init_table()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           int cycle = break_slot_cycle[i];
-          int id    = break_slots[i][cycle]; // break id
+          int id = break_slots[i][cycle]; // break id
           if (id != -1)
             {
               view->set_slot(BreakId(id), slot);
@@ -276,7 +276,7 @@ TimerBoxControl::init_slot(int slot)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b   = core->get_break(BreakId(i));
+      IBreak::Ptr b = core->get_break(BreakId(i));
 
       bool on = b->is_enabled();
 
@@ -294,11 +294,11 @@ TimerBoxControl::init_slot(int slot)
 
   for (int i = 0; i < count; i++)
     {
-      int id    = breaks_id[i];
+      int id = breaks_id[i];
       int flags = break_flags[id];
 
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b   = core->get_break(i);
+      IBreak::Ptr b = core->get_break(i);
 
       time_t time_left = b->get_limit() - b->get_elapsed_time();
 
@@ -312,14 +312,14 @@ TimerBoxControl::init_slot(int slot)
       if (!(flags & GUIConfig::BREAK_SKIP) && (first_id == -1 || time_left < first))
         {
           first_id = id;
-          first    = time_left;
+          first = time_left;
         }
     }
 
   // Exclude break if not first.
   for (int i = 0; i < count; i++)
     {
-      int id    = breaks_id[i];
+      int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & GUIConfig::BREAK_SKIP))
@@ -332,11 +332,11 @@ TimerBoxControl::init_slot(int slot)
     }
 
   // Exclude breaks if not exclusive.
-  bool have_one   = false;
+  bool have_one = false;
   int breaks_left = 0;
   for (int i = 0; i < count; i++)
     {
-      int id    = breaks_id[i];
+      int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & GUIConfig::BREAK_SKIP))
@@ -359,7 +359,7 @@ TimerBoxControl::init_slot(int slot)
     {
       for (int i = 0; i < count; i++)
         {
-          int id    = breaks_id[i];
+          int id = breaks_id[i];
           int flags = break_flags[id];
 
           if (flags & GUIConfig::BREAK_DEFAULT && flags & GUIConfig::BREAK_SKIP)
@@ -378,7 +378,7 @@ TimerBoxControl::init_slot(int slot)
   int new_count = 0;
   for (int i = 0; i < count; i++)
     {
-      int id    = breaks_id[i];
+      int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & GUIConfig::BREAK_SKIP))
@@ -413,8 +413,8 @@ TimerBoxControl::load_configuration()
     {
       BreakId bid = i;
 
-      break_position[i]      = GUIConfig::timerbox_slot(name, bid)();
-      break_flags[i]         = GUIConfig::timerbox_flags(name, bid)();
+      break_position[i] = GUIConfig::timerbox_slot(name, bid)();
+      break_flags[i] = GUIConfig::timerbox_flags(name, bid)();
       break_imminent_time[i] = GUIConfig::timerbox_imminent(name, bid)();
 
       break_slot_cycle[i] = 0;

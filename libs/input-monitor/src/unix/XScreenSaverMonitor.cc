@@ -55,7 +55,7 @@ XScreenSaverMonitor::init()
   int error_base;
 
   xdisplay = static_cast<Display *>(Platform::get_default_display());
-  root     = reinterpret_cast<Drawable>(Platform::get_default_root_window());
+  root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
 
   Bool has_extension = False;
   if (xdisplay != nullptr)
@@ -68,7 +68,7 @@ XScreenSaverMonitor::init()
     {
 
       screen_saver_info = XScreenSaverAllocInfo();
-      monitor_thread    = std::make_shared<boost::thread>([this] { run(); });
+      monitor_thread = std::make_shared<boost::thread>([this] { run(); });
     }
 
   TRACE_RETURN(has_extension);

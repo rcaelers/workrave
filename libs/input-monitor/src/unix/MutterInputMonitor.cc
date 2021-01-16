@@ -56,7 +56,7 @@ MutterInputMonitor::init_idle_monitor()
 {
   TRACE_ENTER("MutterInputMonitor::init");
   GError *error = nullptr;
-  bool result   = true;
+  bool result = true;
 
   idle_proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
                                              G_DBUS_PROXY_FLAGS_NONE,
@@ -107,7 +107,7 @@ MutterInputMonitor::init_inhibitors()
       g_signal_connect(session_proxy, "g-properties-changed", G_CALLBACK(on_session_manager_property_changed), this);
 
       GVariant *v = g_dbus_proxy_get_cached_property(session_proxy, "InhibitedActions");
-      inhibited   = (g_variant_get_uint32(v) & GSM_INHIBITOR_FLAG_IDLE) != 0;
+      inhibited = (g_variant_get_uint32(v) & GSM_INHIBITOR_FLAG_IDLE) != 0;
       TRACE_MSG("Inhibited:" << g_variant_get_uint32(v) << " " << inhibited);
       g_variant_unref(v);
     }
@@ -149,9 +149,9 @@ void
 MutterInputMonitor::on_register_active_watch_reply(GObject *object, GAsyncResult *res, gpointer user_data)
 {
   TRACE_ENTER("MutterInputMonitor::on_register_active_watch_reply");
-  GError *error     = nullptr;
+  GError *error = nullptr;
   GDBusProxy *proxy = G_DBUS_PROXY(object);
-  auto *self        = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   GVariant *params = g_dbus_proxy_call_finish(proxy, res, &error);
   if (error)
@@ -211,9 +211,9 @@ void
 MutterInputMonitor::on_unregister_active_watch_reply(GObject *object, GAsyncResult *res, gpointer user_data)
 {
   TRACE_ENTER("MutterInputMonitor::on_unregister_active_watch_reply");
-  GError *error     = nullptr;
+  GError *error = nullptr;
   GDBusProxy *proxy = G_DBUS_PROXY(object);
-  auto *self        = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   g_dbus_proxy_call_finish(proxy, res, &error);
   if (error)

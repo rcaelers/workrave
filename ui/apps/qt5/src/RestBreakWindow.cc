@@ -80,7 +80,7 @@ RestBreakWindow::update_break_window()
 void
 RestBreakWindow::set_progress(int value, int max_value)
 {
-  time_t time  = max_value - value;
+  time_t time = max_value - value;
   QString text = qstr(qformat(tr("Rest break for %s")) % Text::time_to_string(time, true));
 
   timebar->set_progress(value, max_value);

@@ -49,12 +49,12 @@ exercise_parse_update_i18n_attribute(const char *const *languages,
   if (languages != nullptr)
     {
       const char *nl = new_lang.c_str();
-      size_t nl_len  = strlen(nl);
+      size_t nl_len = strlen(nl);
       int r;
 
       if (!nl_len)
         {
-          nl     = "en";
+          nl = "en";
           nl_len = 2;
         }
 
@@ -75,20 +75,20 @@ exercise_parse_update_i18n_attribute(const char *const *languages,
             {
               // ...and no previous value existed, so we're happy with just anything..
               cur_value = new_value;
-              cur_rank  = 9999;
+              cur_rank = 9999;
             }
           else if (cur_rank == 9999 && !strcmp(nl, "en"))
             {
               // ...but we really prefer to default to English
               cur_value = new_value;
-              cur_rank  = 9998;
+              cur_rank = 9998;
             }
         }
       else
         {
           // Language found
           cur_value = new_value;
-          cur_rank  = r;
+          cur_rank = r;
         }
     }
   else
@@ -130,7 +130,7 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
           exercises.emplace_back();
           Exercise &exercise = exercises.back();
 
-          int title_lang_rank       = -1;
+          int title_lang_rank = -1;
           int description_lang_rank = -1;
 
           for (boost::property_tree::ptree::value_type &ve: v.second)
@@ -158,7 +158,7 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
                       if (vs.first == "image")
                         {
                           int duration = vs.second.get<int>("<xmlattr>.duration", 1);
-                          auto src     = vs.second.get<string>("<xmlattr>.src");
+                          auto src = vs.second.get<string>("<xmlattr>.src");
                           bool mirrorx = vs.second.get<string>("<xmlattr>.mirrorx", "no") == "yes";
 
                           exercise.sequence.emplace_back(src, duration, mirrorx);

@@ -59,7 +59,7 @@ private:
   workrave::BreakId break_id;
   QScreen *screen{nullptr};
 
-  int progress_value     = 0;
+  int progress_value = 0;
   int progress_max_value = 1;
 
   bool flash_visible = false;

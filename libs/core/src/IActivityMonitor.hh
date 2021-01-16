@@ -39,12 +39,12 @@ public:
 public:
   virtual ~IActivityMonitor() = default;
 
-  virtual void init()                                        = 0;
-  virtual void terminate()                                   = 0;
-  virtual void suspend()                                     = 0;
-  virtual void resume()                                      = 0;
-  virtual void force_idle()                                  = 0;
-  virtual bool is_active()                                   = 0;
+  virtual void init() = 0;
+  virtual void terminate() = 0;
+  virtual void suspend() = 0;
+  virtual void resume() = 0;
+  virtual void force_idle() = 0;
+  virtual bool is_active() = 0;
   virtual void set_listener(IActivityMonitorListener::Ptr l) = 0;
 };
 

@@ -48,7 +48,7 @@ HarpoonHelper::init(HINSTANCE hInstance)
 
   DWORD dwStyle, dwExStyle;
 
-  dwStyle   = WS_OVERLAPPED;
+  dwStyle = WS_OVERLAPPED;
   dwExStyle = WS_EX_TOOLWINDOW;
 
   WNDCLASSEX wclass = {
@@ -80,8 +80,8 @@ HarpoonHelper::init(HINSTANCE hInstance)
 
   init_critical_filename_list();
 
-  bool debug             = false;
-  bool mouse_lowlevel    = false;
+  bool debug = false;
+  bool mouse_lowlevel = false;
   bool keyboard_lowlevel = true;
 
   if (LOBYTE(LOWORD(GetVersion())) >= 6)

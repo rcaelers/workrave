@@ -56,21 +56,21 @@ public:
 
   virtual sigc::signal0<void> &signal_heartbeat() = 0;
 
-  virtual Menus *get_menus() const                = 0;
-  virtual MainWindow *get_main_window() const     = 0;
+  virtual Menus *get_menus() const = 0;
+  virtual MainWindow *get_main_window() const = 0;
   virtual SoundTheme::Ptr get_sound_theme() const = 0;
 
   virtual void open_main_window() = 0;
-  virtual void restbreak_now()    = 0;
+  virtual void restbreak_now() = 0;
 
   virtual void interrupt_grab() = 0;
 
-  virtual int get_number_of_heads() const                                   = 0;
-  virtual HeadInfo &get_head(int head)                                      = 0;
-  virtual int map_to_head(int &x, int &y)                                   = 0;
-  virtual void map_from_head(int &x, int &y, int head)                      = 0;
+  virtual int get_number_of_heads() const = 0;
+  virtual HeadInfo &get_head(int head) = 0;
+  virtual int map_to_head(int &x, int &y) = 0;
+  virtual void map_from_head(int &x, int &y, int head) = 0;
   virtual bool bound_head(int &x, int &y, int width, int height, int &head) = 0;
-  virtual void terminate()                                                  = 0;
+  virtual void terminate() = 0;
 };
 
 class GUI
@@ -183,67 +183,67 @@ private:
   SoundTheme::Ptr sound_theme;
 
   //! Interface to the break window.
-  IBreakWindow **break_windows;
+  IBreakWindow **break_windows{nullptr};
 
   //! Interface to the prelude windows.
-  PreludeWindow **prelude_windows;
+  PreludeWindow **prelude_windows{nullptr};
 
   //! Number of active prelude windows;
-  int active_break_count;
+  int active_break_count{0};
 
   //! Number of active prelude windows;
-  int active_prelude_count;
+  int active_prelude_count{0};
 
   //! Current active break.
-  workrave::BreakId active_break_id;
+  workrave::BreakId active_break_id{workrave::BREAK_ID_NONE};
 
   //! The number of command line arguments.
-  int argc;
+  int argc{0};
 
   //! The command line arguments.
-  char **argv;
+  char **argv{nullptr};
 
   //! The main window, shows the timers.
-  MainWindow *main_window;
+  MainWindow *main_window{nullptr};
 
   //! Menus
-  Menus *menus;
+  Menus *menus{nullptr};
 
   //! Heartbeat signal
   sigc::signal0<void> heartbeat_signal;
 
   //! Destroy break window on next heartbeat?
-  bool break_window_destroy;
+  bool break_window_destroy{false};
 
   //! Destroy prelude window on next heartbeat?
-  bool prelude_window_destroy;
+  bool prelude_window_destroy{false};
 
   //! Information on all heads.
-  HeadInfo *heads;
+  HeadInfo *heads{nullptr};
 
   //! Number of heads
-  int num_heads;
+  int num_heads{-1};
 
   //! Width of the screen.
-  int screen_width;
+  int screen_width{-1};
 
   //! Height of the screen.
-  int screen_height;
+  int screen_height{-1};
 
   //! Status icon
-  StatusIcon *status_icon;
+  StatusIcon *status_icon{nullptr};
 
   //! The applet controller
-  AppletControl *applet_control;
+  AppletControl *applet_control{nullptr};
 
   //!
-  Session *session;
+  Session *session{nullptr};
 
   //
-  bool muted;
+  bool muted{false};
 
   //
-  bool closewarn_shown;
+  bool closewarn_shown{false};
 
   // UI Event connections
   std::list<sigc::connection> event_connections;

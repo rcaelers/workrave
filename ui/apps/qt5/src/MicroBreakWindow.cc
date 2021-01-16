@@ -46,7 +46,7 @@ MicroBreakWindow::create_gui()
   time_bar = new TimeBar;
   time_bar->set_text("Microbreak 0:32"); // FIXME:
 
-  label         = new QLabel;
+  label = new QLabel;
   QLabel *image = UiUtil::create_image_label("micro-break.png");
 
   QHBoxLayout *hbox = new QHBoxLayout;
@@ -57,7 +57,7 @@ MicroBreakWindow::create_gui()
   box->addLayout(hbox);
   box->addWidget(time_bar);
 
-  ICore::Ptr core       = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   IBreak::Ptr restbreak = core->get_break(BREAK_ID_REST_BREAK);
 
   // QHBoxLayout *button_box = new QHBoxLayout;
@@ -90,7 +90,7 @@ MicroBreakWindow::update_label()
   ICore::Ptr core = Backend::get_core();
 
   IBreak::Ptr restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
-  IBreak::Ptr daily_timer     = core->get_break(BREAK_ID_DAILY_LIMIT);
+  IBreak::Ptr daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
@@ -151,7 +151,7 @@ void
 MicroBreakWindow::set_progress(int value, int max_value)
 {
   time_t time = max_value - value;
-  QString s   = Ui::get_break_name(BREAK_ID_MICRO_BREAK);
+  QString s = Ui::get_break_name(BREAK_ID_MICRO_BREAK);
   s += ' ';
   s += Text::time_to_string(time);
 

@@ -44,7 +44,6 @@ private:
 
 public:
   DBusProxy() = default;
-
   ~DBusProxy() { clear(); }
 
   bool init(GBusType bus_type,

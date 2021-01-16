@@ -32,7 +32,7 @@ public:
 private:
   void set_hig_defaults();
 
-  Gtk::VBox *vbox;
+  Gtk::VBox *vbox{nullptr};
 };
 
 class HigCategoryPanel : public Gtk::VBox
@@ -51,7 +51,7 @@ public:
 private:
   void init(Gtk::Widget &lab, bool fill = false);
 
-  Gtk::VBox *options_box;
+  Gtk::VBox *options_box{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> size_group;
 };
 

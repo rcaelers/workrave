@@ -66,7 +66,7 @@ Timer::create(string name, int64_t interval, Callback callback)
       timers[id] = new Info();
     }
 
-  Info *info     = timers[id];
+  Info *info = timers[id];
   info->callback = callback;
 
 #ifdef HAVE_TESTS
@@ -166,7 +166,7 @@ Timer::set_simulated(bool on)
   if (on)
     {
       TimeSource::source = shared_from_this();
-      current_time       = g_get_monotonic_time();
+      current_time = g_get_monotonic_time();
 
       for (TimerMapIter i = timers.begin(); i != timers.end(); i++)
         {

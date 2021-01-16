@@ -51,7 +51,7 @@ namespace workrave
                         void *object,
                         GDBusMethodInvocation *invocation,
                         const std::string &sender,
-                        GVariant *inargs)            = 0;
+                        GVariant *inargs) = 0;
 
     protected:
       IDBus::Ptr dbus;

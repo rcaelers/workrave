@@ -66,7 +66,6 @@
 #  include "desktop-window.h"
 #endif
 
-using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -78,25 +77,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , block_mode(mode)
   , break_flags(break_flags)
-  , frame(nullptr)
-  , fullscreen_grab(false)
-  , gui(nullptr)
-  , visible(false)
-  , sysoper_model_columns(nullptr)
-  , accel_added(false)
-  , accel_group(nullptr)
-  , postpone_button(nullptr)
-  , skip_button(nullptr)
-  , sysoper_combobox(nullptr)
-  , progress_bar(nullptr)
-#ifdef PLATFORM_OS_WINDOWS
-  , desktop_window(NULL)
-  , force_focus_on_break_start(false)
-  , parent(0)
-#endif
+  , break_id(break_id)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
-  this->break_id = break_id;
 
   fullscreen_grab = !Grab::instance()->can_grab();
 
@@ -268,27 +251,27 @@ BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperatio
   switch (type)
     {
     case System::SystemOperation::SYSTEM_OPERATION_NONE:
-      *name      = _("Lock...");
+      *name = _("Lock...");
       *icon_name = "lock.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN:
-      *name      = _("Lock");
+      *name = _("Lock");
       *icon_name = "lock.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-      *name      = _("Shutdown");
+      *name = _("Shutdown");
       *icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
-      *name      = _("Suspend");
+      *name = _("Suspend");
       *icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-      *name      = _("Hibernate");
+      *name = _("Hibernate");
       *icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-      *name      = _("Suspend hybrid");
+      *name = _("Suspend hybrid");
       *icon_name = "shutdown.png";
       break;
     default:
@@ -311,7 +294,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, Sy
       row[sysoper_model_columns->icon] = GtkUtil::create_pixbuf(icon_name);
     }
   row[sysoper_model_columns->name] = Glib::ustring(name);
-  row[sysoper_model_columns->id]   = type;
+  row[sysoper_model_columns->id] = type;
   TRACE_EXIT()
 }
 
@@ -325,7 +308,7 @@ BreakWindow::create_sysoper_combobox()
 {
   TRACE_ENTER("BreakWindow::create_sysoper_combobox");
   supported_system_operations = System::get_supported_system_operations();
-  bool has_button_images      = GtkUtil::has_button_images();
+  bool has_button_images = GtkUtil::has_button_images();
 
   if (supported_system_operations.empty())
     {
@@ -443,8 +426,8 @@ BreakWindow::update_skip_postpone_lock()
   if ((postpone_button != nullptr && !postpone_button->get_sensitive())
       || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
-      bool skip_locked         = false;
-      bool postpone_locked     = false;
+      bool skip_locked = false;
+      bool postpone_locked = false;
       BreakId overdue_break_id = BREAK_ID_NONE;
       check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -453,7 +436,7 @@ BreakWindow::update_skip_postpone_lock()
           if (overdue_break_id != BREAK_ID_NONE)
             {
               ICore::Ptr core = Backend::get_core();
-              IBreak::Ptr b   = core->get_break(overdue_break_id);
+              IBreak::Ptr b = core->get_break(overdue_break_id);
 
               progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / b->get_auto_reset());
             }
@@ -493,7 +476,7 @@ BreakWindow::on_postpone_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
   ICore::Ptr core = Backend::get_core();
-  IBreak::Ptr b   = core->get_break(break_id);
+  IBreak::Ptr b = core->get_break(break_id);
 
   b->postpone_break();
   TRACE_EXIT();
@@ -505,7 +488,7 @@ BreakWindow::on_skip_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
   ICore::Ptr core = Backend::get_core();
-  IBreak::Ptr b   = core->get_break(break_id);
+  IBreak::Ptr b = core->get_break(break_id);
 
   b->skip_break();
 
@@ -525,12 +508,13 @@ BreakWindow::on_lock_button_clicked()
 void
 BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
 {
-  TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  skip_locked      = false;
-  postpone_locked  = false;
+  TRACE_ENTER("BreakWindow::check_skip_postpone_lock");
+
+  skip_locked = false;
+  postpone_locked = false;
   overdue_break_id = BREAK_ID_NONE;
 
-  ICore::Ptr core    = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (mode == OperationMode::Normal)
@@ -572,11 +556,11 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
   auto *vbox = new Gtk::VBox(false, 0);
 
   button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
-  box_size_group    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      Gtk::HBox *top_box    = Gtk::manage(new Gtk::HBox(false, 0));
+      Gtk::HBox *top_box = Gtk::manage(new Gtk::HBox(false, 0));
       Gtk::HBox *bottom_box = Gtk::manage(new Gtk::HBox(false, 6));
 
       vbox->pack_end(*bottom_box, Gtk::PACK_SHRINK, 2);
@@ -586,8 +570,8 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
           Gtk::HButtonBox *button_box = Gtk::manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
           bottom_box->pack_end(*button_box, Gtk::PACK_SHRINK, 0);
 
-          bool skip_locked         = false;
-          bool postpone_locked     = false;
+          bool skip_locked = false;
+          bool postpone_locked = false;
           BreakId overdue_break_id = BREAK_ID_NONE;
           check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -655,7 +639,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
                 "progress, trough {\n"
                 "min-width: 1px;\n"
                 "}";
-              Glib::RefPtr<Gtk::CssProvider> css_provider   = Gtk::CssProvider::create();
+              Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
               Glib::RefPtr<Gtk::StyleContext> style_context = progress_bar->get_style_context();
               css_provider->load_from_data(style);
               style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

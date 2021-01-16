@@ -45,17 +45,17 @@ namespace workrave
       ~DBusException() override = default;
     };
 
-    using message_info       = boost::error_info<struct tag_message_info, std::string>;
-    using error_code_info    = boost::error_info<struct tag_error_code_info, std::string>;
-    using object_info        = boost::error_info<struct tag_oject_info, std::string>;
-    using interface_info     = boost::error_info<struct tag_interface_info, std::string>;
-    using method_info        = boost::error_info<struct tag_method_info, std::string>;
-    using argument_info      = boost::error_info<struct tag_argument_info, std::string>;
-    using actual_type_info   = boost::error_info<struct tag_type_info, std::string>;
+    using message_info = boost::error_info<struct tag_message_info, std::string>;
+    using error_code_info = boost::error_info<struct tag_error_code_info, std::string>;
+    using object_info = boost::error_info<struct tag_oject_info, std::string>;
+    using interface_info = boost::error_info<struct tag_interface_info, std::string>;
+    using method_info = boost::error_info<struct tag_method_info, std::string>;
+    using argument_info = boost::error_info<struct tag_argument_info, std::string>;
+    using actual_type_info = boost::error_info<struct tag_type_info, std::string>;
     using expected_type_info = boost::error_info<struct tag_expected_type_info, std::string>;
-    using field_info         = boost::error_info<struct tag_field_info, std::string>;
-    using parameter_info     = boost::error_info<struct tag_parameter_info, std::string>;
-    using field_path_info    = boost::error_info<struct tag_field_path_info, std::string>;
+    using field_info = boost::error_info<struct tag_field_info, std::string>;
+    using parameter_info = boost::error_info<struct tag_parameter_info, std::string>;
+    using field_path_info = boost::error_info<struct tag_field_path_info, std::string>;
 
     class DBusRemoteException
       : public virtual boost::exception

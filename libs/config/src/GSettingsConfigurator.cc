@@ -42,7 +42,7 @@ static string underscore_exceptions[] = {
 GSettingsConfigurator::GSettingsConfigurator()
 {
   schema_base = "org.workrave";
-  path_base   = "/org/workrave/";
+  path_base = "/org/workrave/";
 
   add_children();
 }
@@ -109,28 +109,28 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
                 }
             }
 
-          ret                            = false;
+          ret = false;
           const GVariantType *value_type = g_variant_get_type(value);
 
           if (g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
             {
               out.int_value = g_settings_get_int(child, key.c_str());
-              ret           = true;
+              ret = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
             {
               out.bool_value = g_settings_get_boolean(child, key.c_str());
-              ret            = true;
+              ret = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
             {
               out.double_value = g_settings_get_double(child, key.c_str());
-              ret              = true;
+              ret = true;
             }
           else if (g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
             {
               out.string_value = g_settings_get_string(child, key.c_str());
-              ret              = true;
+              ret = true;
             }
 
           // g_variant_unref(value);
@@ -235,7 +235,7 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   gchar *path;
   g_object_get(gsettings, "path", &path, NULL);
 
-  string tmp     = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
+  string tmp = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
   string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_MSG(changed);
 
@@ -260,17 +260,17 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
 void
 GSettingsConfigurator::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s     = key.c_str();
+  const char *s = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
       parent = key.substr(0, slash - s);
-      child  = slash + 1;
+      child = slash + 1;
     }
   else
     {
       parent = "";
-      child  = "";
+      child = "";
     }
 }
 

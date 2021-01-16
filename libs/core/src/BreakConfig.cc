@@ -117,7 +117,7 @@ DayTimePred *
 BreakConfig::create_time_pred(string spec)
 {
   DayTimePred *pred = nullptr;
-  bool ok           = false;
+  bool ok = false;
 
   std::string type;
   std::string::size_type pos = spec.find('/');
@@ -130,8 +130,8 @@ BreakConfig::create_time_pred(string spec)
       if (type == "day")
         {
           auto *dayPred = new DayTimePred();
-          ok            = dayPred->init(spec);
-          pred          = dayPred;
+          ok = dayPred->init(spec);
+          pred = dayPred;
         }
     }
 

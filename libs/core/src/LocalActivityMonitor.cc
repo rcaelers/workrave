@@ -110,7 +110,7 @@ LocalActivityMonitor::force_idle()
   lock.lock();
   if (state != ACTIVITY_MONITOR_SUSPENDED)
     {
-      state            = ACTIVITY_MONITOR_FORCED_IDLE;
+      state = ACTIVITY_MONITOR_FORCED_IDLE;
       last_action_time = 0;
     }
   lock.unlock();
@@ -151,9 +151,9 @@ LocalActivityMonitor::process_state()
 void
 LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold    = noise * 1000;
+  noise_threshold = noise * 1000;
   activity_threshold = activity * 1000;
-  idle_threshold     = idle * 1000;
+  idle_threshold = idle * 1000;
 
   this->sensitivity = sensitivity;
 
@@ -165,9 +165,9 @@ LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sens
 void
 LocalActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity) const
 {
-  noise       = static_cast<int>(noise_threshold / 1000);
-  activity    = static_cast<int>(activity_threshold / 1000);
-  idle        = static_cast<int>(idle_threshold / 1000);
+  noise = static_cast<int>(noise_threshold / 1000);
+  activity = static_cast<int>(activity_threshold / 1000);
+  idle = static_cast<int>(idle_threshold / 1000);
   sensitivity = this->sensitivity;
 }
 
@@ -193,7 +193,7 @@ LocalActivityMonitor::action_notify()
     case ACTIVITY_MONITOR_FORCED_IDLE:
       {
         first_action_time = now;
-        last_action_time  = now;
+        last_action_time = now;
 
         if (activity_threshold == 0)
           {
@@ -241,8 +241,8 @@ LocalActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
-  prev_x            = x;
-  prev_y            = y;
+  prev_x = x;
+  prev_y = y;
 
   if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0 || button_is_pressed)
     {
@@ -307,9 +307,9 @@ LocalActivityMonitor::load_config()
 {
   TRACE_ENTER("LocalActivityMonitor::load_config");
 
-  int noise       = CoreConfig::monitor_noise()();
-  int activity    = CoreConfig::monitor_activity()();
-  int idle        = CoreConfig::monitor_idle()();
+  int noise = CoreConfig::monitor_noise()();
+  int activity = CoreConfig::monitor_activity()();
+  int idle = CoreConfig::monitor_idle()();
   int sensitivity = CoreConfig::monitor_sensitivity()();
 
   // Pre 1.0 compatibility...

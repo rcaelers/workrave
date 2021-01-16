@@ -59,7 +59,7 @@ run(int argc, char **argv)
 #endif
 
   std::shared_ptr<IToolkit> toolkit = std::make_shared<Toolkit>(argc, argv);
-  std::shared_ptr<Application> app  = std::make_shared<Application>(argc, argv, toolkit);
+  std::shared_ptr<Application> app = std::make_shared<Application>(argc, argv, toolkit);
   app->main();
 
   return 0;

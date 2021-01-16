@@ -32,8 +32,8 @@
 #include "Text.hh"
 #include "GtkUtil.hh"
 
-const int MARGINX                   = 4;
-const int MARGINY                   = 2;
+const int MARGINX = 4;
+const int MARGINY = 2;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
@@ -69,7 +69,7 @@ TimeBar::set_progress(int value, int max_value)
       value = max_value;
     }
 
-  bar_value     = value;
+  bar_value = value;
   bar_max_value = max_value;
 }
 
@@ -81,7 +81,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
       value = max_value;
     }
 
-  secondary_bar_value     = value;
+  secondary_bar_value = value;
   secondary_bar_max_value = max_value;
 }
 
@@ -146,12 +146,12 @@ TimeBar::get_preferred_size(int &width, int &height) const
   // Not sure why create_pango_layout is not const...
   Glib::RefPtr<Pango::Layout> pl = const_cast<TimeBar *>(this)->create_pango_layout(bar_text);
 
-  string min_string                 = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
+  string min_string = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
   Glib::RefPtr<Pango::Layout> plmin = const_cast<TimeBar *>(this)->create_pango_layout(min_string);
 
-  Glib::RefPtr<Pango::Context> pcl   = pl->get_context();
+  Glib::RefPtr<Pango::Context> pcl = pl->get_context();
   Glib::RefPtr<Pango::Context> pcmin = plmin->get_context();
-  Pango::Matrix matrix               = PANGO_MATRIX_INIT;
+  Pango::Matrix matrix = PANGO_MATRIX_INIT;
 
   pango_matrix_rotate(&matrix, 360 - rotation);
 
@@ -167,7 +167,7 @@ TimeBar::get_preferred_size(int &width, int &height) const
   if (mheight > height)
     height = mheight;
 
-  width  = width + 2 * MARGINX;
+  width = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
@@ -227,7 +227,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   const int border_size = 1;
 
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-  Gtk::Allocation allocation                    = get_allocation();
+  Gtk::Allocation allocation = get_allocation();
 
   style_context->context_save();
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
@@ -361,7 +361,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   Pango::Matrix matrix = PANGO_MATRIX_INIT;
   pango_matrix_rotate(&matrix, 360 - rotation);
 
-  Glib::RefPtr<Pango::Layout> pl1  = create_pango_layout(bar_text);
+  Glib::RefPtr<Pango::Layout> pl1 = create_pango_layout(bar_text);
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
 
   pc1->set_matrix(matrix);

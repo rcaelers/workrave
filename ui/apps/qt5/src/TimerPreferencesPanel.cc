@@ -56,8 +56,8 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id,
   layout->addLayout(grid);
 
   QWidget *prelude = create_prelude_panel();
-  QWidget *timers  = create_timers_panel();
-  QWidget *option  = create_options_panel();
+  QWidget *timers = create_timers_panel();
+  QWidget *option = create_options_panel();
 
   grid->addWidget(timers, 0, 0);
   grid->addWidget(prelude, 0, 1);
@@ -72,7 +72,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId break_id,
 QWidget *
 TimerPreferencesPanel::create_prelude_panel()
 {
-  QGroupBox *box      = new QGroupBox(tr("Break prompting"));
+  QGroupBox *box = new QGroupBox(tr("Break prompting"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
 
@@ -80,8 +80,8 @@ TimerPreferencesPanel::create_prelude_panel()
   layout->addWidget(prelude_cb);
 
   QHBoxLayout *max_box = new QHBoxLayout;
-  has_max_prelude_cb   = new QCheckBox(tr("Maximum number of prompts:"));
-  max_prelude_spin     = new QSpinBox;
+  has_max_prelude_cb = new QCheckBox(tr("Maximum number of prompts:"));
+  max_prelude_spin = new QSpinBox;
   max_box->addWidget(has_max_prelude_cb);
   max_box->addWidget(max_prelude_spin);
   layout->addLayout(max_box);
@@ -106,7 +106,7 @@ TimerPreferencesPanel::create_prelude_panel()
 QWidget *
 TimerPreferencesPanel::create_options_panel()
 {
-  QGroupBox *box      = new QGroupBox(tr("Options"));
+  QGroupBox *box = new QGroupBox(tr("Options"));
   QVBoxLayout *layout = new QVBoxLayout;
   box->setLayout(layout);
 
@@ -128,8 +128,8 @@ TimerPreferencesPanel::create_options_panel()
   if (break_id == BREAK_ID_REST_BREAK)
     {
       QHBoxLayout *exercises_box = new QHBoxLayout;
-      QLabel *exercises_lab      = new QLabel(tr("Number of exercises:"));
-      exercises_spin             = new QSpinBox;
+      QLabel *exercises_lab = new QLabel(tr("Number of exercises:"));
+      exercises_spin = new QSpinBox;
 
       exercises_box->addWidget(exercises_lab);
       exercises_box->addWidget(exercises_spin);
@@ -153,13 +153,13 @@ TimerPreferencesPanel::create_options_panel()
 QWidget *
 TimerPreferencesPanel::create_timers_panel()
 {
-  QGroupBox *box      = new QGroupBox(tr("Timers"));
+  QGroupBox *box = new QGroupBox(tr("Timers"));
   QGridLayout *layout = new QGridLayout;
   box->setLayout(layout);
 
   int row = 0;
 
-  limit_tim         = new TimeEntry();
+  limit_tim = new TimeEntry();
   QLabel *limit_lab = new QLabel(break_id == BREAK_ID_DAILY_LIMIT ? tr("Time before end:") : tr("Time between breaks:"));
 
   layout->addWidget(limit_lab, row, 0);
@@ -170,7 +170,7 @@ TimerPreferencesPanel::create_timers_panel()
 
   if (break_id != BREAK_ID_DAILY_LIMIT)
     {
-      auto_reset_tim         = new TimeEntry();
+      auto_reset_tim = new TimeEntry();
       QLabel *auto_reset_lab = new QLabel(tr("Break duration:"));
 
       layout->addWidget(auto_reset_lab, row, 0);
@@ -205,9 +205,9 @@ TimerPreferencesPanel::create_timers_panel()
 void
 TimerPreferencesPanel::set_prelude_sensitivity()
 {
-  bool on           = enabled_cb->checkState() == Qt::Checked;
+  bool on = enabled_cb->checkState() == Qt::Checked;
   bool has_preludes = prelude_cb->checkState() == Qt::Checked;
-  bool has_max      = has_max_prelude_cb->checkState() == Qt::Checked;
+  bool has_max = has_max_prelude_cb->checkState() == Qt::Checked;
   has_max_prelude_cb->setEnabled(has_preludes && on);
   max_prelude_spin->setEnabled(has_preludes && has_max && on);
 }

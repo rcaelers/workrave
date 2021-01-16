@@ -192,10 +192,10 @@ RecordInputMonitor::handle_xrecord_button_event(XRecordInterceptData *data)
 void
 RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordInterceptData *data)
 {
-  auto *event           = (deviceKeyButtonPointer *)data->data;
+  auto *event = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
-  static int detail     = 0;
-  static int state      = 0;
+  static int detail = 0;
+  static int state = 0;
 
   if (press)
     {
@@ -206,27 +206,27 @@ RecordInputMonitor::handle_xrecord_device_key_event(bool press, XRecordIntercept
           fire_keyboard(state == event->state && detail == event->detail);
 
           detail = event->detail;
-          state  = event->state;
+          state = event->state;
         }
     }
   else
     {
       detail = 0;
-      state  = 0;
+      state = 0;
     }
 }
 
 void
 RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *data)
 {
-  auto *event           = (deviceKeyButtonPointer *)data->data;
+  auto *event = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
 
   if (event->time != last_time)
     {
       last_time = event->time;
-      int x     = event->root_x;
-      int y     = event->root_y;
+      int x = event->root_x;
+      int y = event->root_y;
 
       fire_mouse(x, y, 0);
     }
@@ -235,7 +235,7 @@ RecordInputMonitor::handle_xrecord_device_motion_event(XRecordInterceptData *dat
 void
 RecordInputMonitor::handle_xrecord_device_button_event(XRecordInterceptData *data)
 {
-  auto *event           = (deviceKeyButtonPointer *)data->data;
+  auto *event = (deviceKeyButtonPointer *)data->data;
   static Time last_time = 0;
 
   if (event->time != last_time)
@@ -314,9 +314,9 @@ RecordInputMonitor::init_xrecord()
 
   if (x11_display != nullptr && XRecordQueryVersion(x11_display, &major, &minor))
     {
-      xrecord_context  = 0;
+      xrecord_context = 0;
       xrecord_datalink = nullptr;
-      use_xrecord      = true;
+      use_xrecord = true;
 
       // Receive from ALL clients, including future clients.
       XRecordClientSpec client = XRecordAllClients;
@@ -335,13 +335,13 @@ RecordInputMonitor::init_xrecord()
             {
               TRACE_MSG("Using XI Events");
               recordRange->device_events.first = xi_event_base + XI_DeviceKeyPress;
-              recordRange->device_events.last  = xi_event_base + XI_DeviceMotionNotify;
+              recordRange->device_events.last = xi_event_base + XI_DeviceMotionNotify;
             }
           else
             {
               TRACE_MSG("Using Core Events");
               recordRange->device_events.first = KeyPress;
-              recordRange->device_events.last  = MotionNotify;
+              recordRange->device_events.last = MotionNotify;
             }
 
           // And create the XRECORD context.
@@ -361,7 +361,7 @@ RecordInputMonitor::init_xrecord()
         {
           XRecordFreeContext(x11_display, xrecord_context);
           xrecord_context = 0;
-          use_xrecord     = false;
+          use_xrecord = false;
         }
     }
 

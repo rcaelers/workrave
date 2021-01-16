@@ -36,8 +36,8 @@ namespace workrave
         std::string country_name;
       };
 
-      using LanguageMap      = std::map<std::string, Language>;
-      using LanguageMapIter  = LanguageMap::iterator;
+      using LanguageMap = std::map<std::string, Language>;
+      using LanguageMapIter = LanguageMap::iterator;
       using LanguageMapCIter = LanguageMap::const_iterator;
 
       static bool get_language(const std::string &code, std::string &language);

@@ -188,7 +188,7 @@ PreludeWindow::refresh()
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  progress_value     = value;
+  progress_value = value;
   progress_max_value = max_value;
   refresh();
 }
@@ -282,10 +282,10 @@ PreludeWindow::avoid_pointer(int px, int py)
   py = rect.height() - py;
 
   int screen_height = rect.height();
-  int top_y         = rect.y() + SCREEN_MARGIN;
-  int bottom_y      = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
-  int winy          = geo.y();
-  int winx          = geo.x();
+  int top_y = rect.y() + SCREEN_MARGIN;
+  int bottom_y = rect.y() + screen_height - geo.height() - SCREEN_MARGIN;
+  int winy = geo.y();
+  int winx = geo.x();
 
 #ifdef PLATFORM_OS_MACOS
   if (!geo.contains(px, py))

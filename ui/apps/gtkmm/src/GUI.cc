@@ -113,23 +113,6 @@ using namespace workrave::utils;
  *  \param argv all command line parameters.
  */
 GUI::GUI(int argc, char **argv)
-  : break_windows(nullptr)
-  , prelude_windows(nullptr)
-  , active_break_count(0)
-  , active_prelude_count(0)
-  , active_break_id(BREAK_ID_NONE)
-  , main_window(nullptr)
-  , menus(nullptr)
-  , break_window_destroy(false)
-  , prelude_window_destroy(false)
-  , heads(nullptr)
-  , num_heads(-1)
-  , screen_width(-1)
-  , screen_height(-1)
-  , status_icon(nullptr)
-  , applet_control(nullptr)
-  , muted(false)
-  , closewarn_shown(false)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -192,7 +175,7 @@ GUI::main()
   app->set_option_group(*option_group)
 #endif
 
-    init_core();
+  init_core();
   init_nls();
   init_debug();
   init_sound_player();
@@ -381,7 +364,7 @@ GUI::init_session()
 
 #if defined(PLATFORM_OS_WIN32)
   EggSMClient *client = NULL;
-  client              = egg_sm_client_get();
+  client = egg_sm_client_get();
   if (client)
     {
       g_signal_connect(client, "quit", G_CALLBACK(session_quit_cb), this);
@@ -508,7 +491,7 @@ GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  Glib::RefPtr<Gdk::Screen> screen   = display->get_default_screen();
+  Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
   screen->signal_monitors_changed().connect(sigc::mem_fun(*this, &GUI::update_multihead));
 
   update_multihead();
@@ -535,10 +518,10 @@ GUI::init_multihead_mem(int new_num_heads)
       heads = new HeadInfo[new_num_heads];
 
       PreludeWindow **old_prelude_windows = prelude_windows;
-      IBreakWindow **old_break_windows    = break_windows;
+      IBreakWindow **old_break_windows = break_windows;
 
       prelude_windows = new PreludeWindow *[new_num_heads]; /* LEAK */
-      break_windows   = new IBreakWindow *[new_num_heads];  /* LEAK */
+      break_windows = new IBreakWindow *[new_num_heads];    /* LEAK */
 
       int max_heads = new_num_heads > num_heads ? new_num_heads : num_heads;
 
@@ -550,12 +533,12 @@ GUI::init_multihead_mem(int new_num_heads)
               if (i < num_heads)
                 {
                   prelude_windows[i] = old_prelude_windows[i];
-                  break_windows[i]   = old_break_windows[i];
+                  break_windows[i] = old_break_windows[i];
                 }
               else
                 {
                   prelude_windows[i] = nullptr;
-                  break_windows[i]   = nullptr;
+                  break_windows[i] = nullptr;
                 }
             }
 
@@ -597,7 +580,7 @@ GUI::init_multihead_desktop()
 {
   TRACE_ENTER("GUI::init_multihead_desktop");
 
-  int width  = 0;
+  int width = 0;
   int height = 0;
 
   for (int i = 0; i < num_heads; i++)
@@ -622,7 +605,7 @@ GUI::init_multihead_desktop()
         {
           main_window->relocate_window(width, height);
         }
-      screen_width  = width;
+      screen_width = width;
       screen_height = height;
     }
 }
@@ -658,8 +641,8 @@ GUI::init_gtk_multihead()
 
       if (!overlap)
         {
-          heads[count].monitor  = j;
-          heads[count].count    = count;
+          heads[count].monitor = j;
+          heads[count].count = count;
           heads[count].geometry = rect;
           count++;
         }
@@ -807,7 +790,7 @@ GUI::init_startup_warnings()
 IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
 {
-  IBreakWindow *ret               = nullptr;
+  IBreakWindow *ret = nullptr;
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
@@ -947,8 +930,8 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
   collect_garbage();
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
-  bool ignorable                      = GUIConfig::break_ignorable(break_id)();
-  bool skippable                      = GUIConfig::break_skippable(break_id)();
+  bool ignorable = GUIConfig::break_ignorable(break_id)();
+  bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BREAK_HINT_USER_INITIATED)
     {
@@ -1139,7 +1122,7 @@ GUI::collect_garbage()
             }
         }
       prelude_window_destroy = false;
-      active_prelude_count   = 0;
+      active_prelude_count = 0;
     }
 
   if (break_window_destroy)
@@ -1159,7 +1142,7 @@ GUI::collect_garbage()
             }
         }
       break_window_destroy = false;
-      active_break_count   = 0;
+      active_break_count = 0;
     }
   TRACE_EXIT();
 }
@@ -1221,9 +1204,9 @@ GUI::map_to_head(int &x, int &y)
     {
       int left, top, width, height;
 
-      left   = heads[i].get_x();
-      top    = heads[i].get_y();
-      width  = heads[i].get_width();
+      left = heads[i].get_x();
+      top = heads[i].get_y();
+      width = heads[i].get_width();
       height = heads[i].get_height();
 
       if (x >= left && y >= top && x < left + width && y < top + height)
@@ -1286,36 +1269,36 @@ GUI::bound_head(int &x, int &y, int width, int height, int &head)
   HeadInfo &h = get_head(head);
   if (x < -h.get_width())
     {
-      x   = 0;
+      x = 0;
       ret = true;
     }
   if (y < -h.get_height())
     {
-      y   = 0;
+      y = 0;
       ret = true;
     }
 
   // Make sure something remains visible..
   if (x > -10 && x < 0)
     {
-      x   = -10;
+      x = -10;
       ret = true;
     }
   if (y > -10 && y < 0)
     {
-      y   = -10;
+      y = -10;
       ret = true;
     }
 
   if (x + width >= h.get_width())
     {
-      x   = h.get_width() - width - 10;
+      x = h.get_width() - width - 10;
       ret = true;
     }
 
   if (y + height >= h.get_height())
     {
-      y   = h.get_height() - height - 10;
+      y = h.get_height() - height - 10;
       ret = true;
     }
 
@@ -1327,7 +1310,7 @@ GUI::get_timers_tooltip()
 {
   // FIXME: duplicate
   const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
-  string tip           = "";
+  string tip = "";
 
   OperationMode mode = core->get_operation_mode();
   switch (mode)
@@ -1352,13 +1335,13 @@ GUI::get_timers_tooltip()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       IBreak::Ptr b = core->get_break(BreakId(count));
-      bool on       = b->is_enabled();
+      bool on = b->is_enabled();
 
       if (on)
         {
           // Collect some data.
           time_t maxActiveTime = b->get_limit();
-          time_t activeTime    = b->get_elapsed_time();
+          time_t activeTime = b->get_elapsed_time();
           std::string text;
 
           // Set the text
@@ -1431,7 +1414,7 @@ static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, {0xb0, 0x76
 void
 GUI::win32_init_filter()
 {
-  GtkWidget *window     = (GtkWidget *)main_window->gobj();
+  GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(window);
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 
@@ -1441,9 +1424,9 @@ GUI::win32_init_filter()
 
   DEV_BROADCAST_DEVICEINTERFACE notification;
   ZeroMemory(&notification, sizeof(notification));
-  notification.dbcc_size       = sizeof(notification);
+  notification.dbcc_size = sizeof(notification);
   notification.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
-  notification.dbcc_classguid  = GUID_DEVINTERFACE_MONITOR;
+  notification.dbcc_classguid = GUID_DEVINTERFACE_MONITOR;
   RegisterDeviceNotification(hwnd, &notification, DEVICE_NOTIFY_WINDOW_HANDLE);
 }
 
@@ -1454,7 +1437,7 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
   (void)event;
   GUI *gui = static_cast<GUI *>(data);
 
-  MSG *msg            = (MSG *)xevent;
+  MSG *msg = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {

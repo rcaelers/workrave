@@ -20,10 +20,6 @@
 #ifndef LOCKSCREEN_HH_
 #define LOCKSCREEN_HH_
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
 #include "session/IScreenLockMethod.hh"
 
 #include <windows.h>

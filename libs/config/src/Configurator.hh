@@ -81,8 +81,8 @@ public:
   bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const override;
 
 private:
-  using Listeners     = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
-  using ListenerIter  = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>::iterator;
+  using Listeners = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
+  using ListenerIter = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>::iterator;
   using ListenerCIter = std::list<std::pair<std::string, IConfiguratorListener *>>::const_iterator;
 
   //! Configuration change listeners.
@@ -102,12 +102,12 @@ private:
     int delay;
   };
 
-  using DelayedList      = std::map<std::string, DelayedConfig>;
-  using DelayedListIter  = DelayedList::iterator;
+  using DelayedList = std::map<std::string, DelayedConfig>;
+  using DelayedListIter = DelayedList::iterator;
   using DelayedListCIter = DelayedList::const_iterator;
 
-  using Settings     = std::map<std::string, Setting>;
-  using SettingIter  = std::map<std::string, Setting>::iterator;
+  using Settings = std::map<std::string, Setting>;
+  using SettingIter = std::map<std::string, Setting>::iterator;
   using SettingCIter = std::map<std::string, Setting>::const_iterator;
 
 private:
@@ -131,10 +131,10 @@ private:
   DelayedList delayed_config;
 
   //! The backend in use.
-  IConfigBackend *backend;
+  IConfigBackend *backend{nullptr};
 
   //! Next auto save time.
-  time_t auto_save_time;
+  time_t auto_save_time{0};
 };
 
 #endif // CONFIGURATOR_HH

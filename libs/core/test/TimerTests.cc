@@ -40,7 +40,7 @@ class Fixture
 public:
   Fixture()
   {
-    sim   = SimulatedTime::create();
+    sim = SimulatedTime::create();
     timer = std::make_shared<Timer>("test");
   }
 

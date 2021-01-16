@@ -56,11 +56,11 @@ class BreakWindow
 public:
   enum BreakFlags
   {
-    BREAK_FLAGS_NONE           = 0,
-    BREAK_FLAGS_POSTPONABLE    = 1 << 0,
-    BREAK_FLAGS_SKIPPABLE      = 1 << 1,
-    BREAK_FLAGS_NO_EXERCISES   = 1 << 2,
-    BREAK_FLAGS_NATURAL        = 1 << 3,
+    BREAK_FLAGS_NONE = 0,
+    BREAK_FLAGS_POSTPONABLE = 1 << 0,
+    BREAK_FLAGS_SKIPPABLE = 1 << 1,
+    BREAK_FLAGS_NO_EXERCISES = 1 << 2,
+    BREAK_FLAGS_NATURAL = 1 << 3,
     BREAK_FLAGS_USER_INITIATED = 1 << 4
   };
 
@@ -106,7 +106,7 @@ protected:
   BreakFlags break_flags;
 
   //! Flash frame
-  Frame *frame;
+  Frame *frame{nullptr};
 
   //! Use fullscreen window to perform blocking
   bool fullscreen_grab;
@@ -136,29 +136,29 @@ private:
   workrave::BreakId break_id;
 
   //! GUI
-  Gtk::Widget *gui;
+  Gtk::Widget *gui{nullptr};
 
   //! Break windows visible?
-  bool visible;
+  bool visible{false};
 
   // Supported system operations (like suspend, hibernate, shutdown)
   std::vector<System::SystemOperation> supported_system_operations;
-  SysoperModelColumns *sysoper_model_columns;
+  SysoperModelColumns *sysoper_model_columns{nullptr};
 
-  bool accel_added;
+  bool accel_added{false};
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
-  Gtk::Button *lock_button;
-  Gtk::Button *postpone_button;
-  Gtk::Button *skip_button;
-  Gtk::ComboBox *sysoper_combobox;
-  Gtk::ProgressBar *progress_bar;
+  Gtk::Button *lock_button{nullptr};
+  Gtk::Button *postpone_button{nullptr};
+  Gtk::Button *skip_button{nullptr};
+  Gtk::ComboBox *sysoper_combobox{nullptr};
+  Gtk::ProgressBar *progress_bar{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> box_size_group;
   Glib::RefPtr<Gtk::SizeGroup> button_size_group;
 
 #ifdef PLATFORM_OS_WINDOWS
-  DesktopWindow *desktop_window;
-  bool force_focus_on_break_start;
-  long parent;
+  DesktopWindow *desktop_window{nullptr};
+  bool force_focus_on_break_start{false};
+  long parent{0};
 #endif
 
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);

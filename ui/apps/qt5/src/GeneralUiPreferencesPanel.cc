@@ -89,7 +89,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
   all_linguas.push_back("en");
 
   languages_combo = new QComboBox();
-  model           = new QStandardItemModel(static_cast<int>(all_linguas.size()), 2);
+  model = new QStandardItemModel(static_cast<int>(all_linguas.size()), 2);
 
   QTreeView *languages_view = new QTreeView;
   languages_combo->setView(languages_view);
@@ -111,7 +111,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
 
   QLocale current_locale;
 
-  int row      = 1;
+  int row = 1;
   int selected = 0;
   for (auto code: all_linguas)
     {
@@ -123,7 +123,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel()
       QLocale l(QString::fromStdString(code));
 
       QString language = l.nativeLanguageName();
-      QString country  = l.nativeCountryName();
+      QString country = l.nativeCountryName();
 
       if (language == "")
         {

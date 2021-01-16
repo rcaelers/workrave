@@ -34,11 +34,11 @@ public:
   enum SlotType
   {
     BREAK_WHEN_IMMINENT = 1,
-    BREAK_WHEN_FIRST    = 2,
-    BREAK_SKIP          = 4,
-    BREAK_EXCLUSIVE     = 8,
-    BREAK_DEFAULT       = 16,
-    BREAK_HIDE          = 32
+    BREAK_WHEN_FIRST = 2,
+    BREAK_SKIP = 4,
+    BREAK_EXCLUSIVE = 8,
+    BREAK_DEFAULT = 16,
+    BREAK_HIDE = 32
   };
 
   static workrave::config::Setting<bool> &break_auto_natural(workrave::BreakId break_id);

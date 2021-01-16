@@ -52,25 +52,23 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId t,
                                              Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                                              Glib::RefPtr<Gtk::SizeGroup> vsize_group)
   : Gtk::VBox(false, 6)
-  , max_prelude_adjustment(Gtk::Adjustment::create(0, 1, 100))
-  , exercises_adjustment(Gtk::Adjustment::create(0, 0, 10))
 {
   connector = new DataConnector();
-  break_id  = t;
+  break_id = t;
 
   Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
 
   // Enabled/Disabled checkbox
   Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Enable timer"), true));
-  enabled_cb              = Gtk::manage(new Gtk::CheckButton());
+  enabled_cb = Gtk::manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
 
   HigCategoriesPanel *categories = Gtk::manage(new HigCategoriesPanel());
 
   Gtk::Widget *prelude_frame = Gtk::manage(create_prelude_panel());
-  Gtk::Widget *timers_frame  = Gtk::manage(create_timers_panel(hsize_group, vsize_group));
-  Gtk::Widget *opts_frame    = Gtk::manage(create_options_panel());
+  Gtk::Widget *timers_frame = Gtk::manage(create_timers_panel(hsize_group, vsize_group));
+  Gtk::Widget *opts_frame = Gtk::manage(create_options_panel());
 
   categories->add(*timers_frame);
   categories->add(*opts_frame);
@@ -105,7 +103,7 @@ TimerPreferencesPanel::create_prelude_panel()
 
   Gtk::HBox *max_box = Gtk::manage(new Gtk::HBox());
   has_max_prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Maximum number of prompts:")));
-  max_prelude_spin   = Gtk::manage(new Gtk::SpinButton(max_prelude_adjustment));
+  max_prelude_spin = Gtk::manage(new Gtk::SpinButton(max_prelude_adjustment));
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add_widget(*max_box);
@@ -140,9 +138,9 @@ TimerPreferencesPanel::create_options_panel()
   hig->add_widget(*skippable_cb);
 
   // Break specific options
-  exercises_spin    = nullptr;
-  monitor_cb        = nullptr;
-  auto_natural_cb   = nullptr;
+  exercises_spin = nullptr;
+  monitor_cb = nullptr;
+  auto_natural_cb = nullptr;
   allow_shutdown_cb = nullptr;
 
   if (break_id == BREAK_ID_DAILY_LIMIT)
@@ -212,7 +210,7 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gr
     }
 
   // Snooze time
-  snooze_tim             = Gtk::manage(new TimeEntry());
+  snooze_tim = Gtk::manage(new TimeEntry());
   Gtk::Label *snooze_lab = hig->add_label(_("Postpone time:"), *snooze_tim);
   hsize_group->add_widget(*snooze_lab);
 
@@ -228,9 +226,9 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gr
 void
 TimerPreferencesPanel::set_prelude_sensitivity()
 {
-  bool on           = enabled_cb->get_active();
+  bool on = enabled_cb->get_active();
   bool has_preludes = prelude_cb->get_active();
-  bool has_max      = has_max_prelude_cb->get_active();
+  bool has_max = has_max_prelude_cb->get_active();
   has_max_prelude_cb->set_sensitive(has_preludes && on);
   max_prelude_spin->set_sensitive(has_preludes && has_max && on);
 }

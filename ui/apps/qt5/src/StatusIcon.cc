@@ -31,9 +31,9 @@ using namespace workrave;
 
 StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
 {
-  mode_icons[workrave::OperationMode::Normal]    = UiUtil::create_icon("workrave-icon-medium.png");
+  mode_icons[workrave::OperationMode::Normal] = UiUtil::create_icon("workrave-icon-medium.png");
   mode_icons[workrave::OperationMode::Suspended] = UiUtil::create_icon("workrave-suspended-icon-medium.png");
-  mode_icons[workrave::OperationMode::Quiet]     = UiUtil::create_icon("workrave-quiet-icon-medium.png");
+  mode_icons[workrave::OperationMode::Quiet] = UiUtil::create_icon("workrave-quiet-icon-medium.png");
 
   tray_icon = std::make_shared<QSystemTrayIcon>();
 

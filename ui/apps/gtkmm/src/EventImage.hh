@@ -40,7 +40,7 @@ private:
   bool on_unmap_event(GdkEventAny *event) override;
   void on_size_allocate(Gtk::Allocation &allocation) override;
 
-  GdkWindow *event_window;
+  GdkWindow *event_window{nullptr};
 };
 
 #endif // EVENTIMAGE_HH

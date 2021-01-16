@@ -69,10 +69,10 @@ private:
   void on_sound_changed();
   void on_block_changed();
 
-  Gtk::ComboBoxText *sound_button;
-  Gtk::ComboBoxText *block_button;
-  Gtk::ComboBoxText *sound_theme_button;
-  Gtk::ComboBoxText *icon_theme_button;
+  Gtk::ComboBoxText *sound_button{nullptr};
+  Gtk::ComboBoxText *block_button{nullptr};
+  Gtk::ComboBoxText *sound_theme_button{nullptr};
+  Gtk::ComboBoxText *icon_theme_button{nullptr};
 
   IconListNotebook notebook;
 
@@ -130,15 +130,15 @@ private:
   Glib::RefPtr<Gtk::ListStore> sound_store;
   Gtk::CellRendererToggle sound_enabled_cellrenderer;
   Gtk::CellRendererText sound_event_cellrenderer;
-  Gtk::HScale *sound_volume_scale;
-  Gtk::Button *sound_play_button;
+  Gtk::HScale *sound_volume_scale{nullptr};
+  Gtk::Button *sound_play_button{nullptr};
   int inhibit_events;
-  Gtk::CheckButton *mute_cb;
+  Gtk::CheckButton *mute_cb{nullptr};
 
-  Gtk::FileChooserButton *fsbutton;
+  Gtk::FileChooserButton *fsbutton{nullptr};
   Glib::RefPtr<Gtk::FileFilter> filefilter;
   std::string fsbutton_filename;
-  Gtk::CheckButton *trayicon_cb;
+  Gtk::CheckButton *trayicon_cb{nullptr};
 
   void on_sound_enabled(const Glib::ustring &path_stringxo);
   void on_sound_play();
@@ -151,19 +151,19 @@ private:
   void on_icon_theme_changed();
   void update_icon_theme_combo();
 
-  Gtk::CheckButton *autostart_cb;
+  Gtk::CheckButton *autostart_cb{nullptr};
   void on_autostart_toggled();
 
 #if defined(PLATFORM_OS_WINDOWS)
-  Gtk::Button *debug_btn;
+  Gtk::Button *debug_btn{nullptr};
   void on_debug_pressed();
 
   Gtk::Widget *create_monitoring_page();
 
-  Gtk::CheckButton *monitor_type_cb;
+  Gtk::CheckButton *monitor_type_cb{nullptr};
   void on_monitor_type_toggled();
 
-  Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment;
+  Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment{Gtk::Adjustment::create(3, 0, 100)};
   Gtk::HBox *sensitivity_box;
 #endif
 };

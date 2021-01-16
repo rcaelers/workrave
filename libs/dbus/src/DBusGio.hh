@@ -66,12 +66,12 @@ namespace workrave
       void unwatch(const std::string &name) override;
 
     private:
-      using Bindings     = std::map<std::string, DBusBinding *>;
-      using BindingIter  = Bindings::iterator;
+      using Bindings = std::map<std::string, DBusBinding *>;
+      using BindingIter = Bindings::iterator;
       using BindingCIter = Bindings::const_iterator;
 
-      using Services      = std::map<std::string, guint>;
-      using ServicesIter  = Services::iterator;
+      using Services = std::map<std::string, guint>;
+      using ServicesIter = Services::iterator;
       using ServicesCIter = Services::const_iterator;
 
       struct InterfaceData
@@ -85,8 +85,8 @@ namespace workrave
         void *object{nullptr};
       };
 
-      using Interfaces     = std::map<std::string, InterfaceData>;
-      using InterfaceIter  = Interfaces::iterator;
+      using Interfaces = std::map<std::string, InterfaceData>;
+      using InterfaceIter = Interfaces::iterator;
       using InterfaceCIter = Interfaces::const_iterator;
 
       struct ObjectData
@@ -97,8 +97,8 @@ namespace workrave
         bool registered{false};
       };
 
-      using Objects     = std::map<std::string, ObjectData>;
-      using ObjectIter  = Objects::iterator;
+      using Objects = std::map<std::string, ObjectData>;
+      using ObjectIter = Objects::iterator;
       using ObjectCIter = Objects::const_iterator;
 
       struct WatchData
@@ -108,8 +108,8 @@ namespace workrave
         bool seen;
       };
 
-      using Watched    = std::map<std::string, WatchData>;
-      using WatchIter  = Watched::iterator;
+      using Watched = std::map<std::string, WatchData>;
+      using WatchIter = Watched::iterator;
       using WatchCIter = Watched::const_iterator;
 
       void *find_object(const std::string &path, const std::string &interface_name) const;

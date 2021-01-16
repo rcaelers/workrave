@@ -64,10 +64,6 @@ using namespace workrave::utils;
  */
 RestBreakWindow::RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode)
-  , timebar(nullptr)
-  , progress_value(0)
-  , progress_max_value(0)
-  , is_flashing(false)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
   set_title(_("Rest break"));
@@ -137,7 +133,7 @@ void
 RestBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value     = value;
+  progress_value = value;
 }
 
 //! Draws the timer bar.
@@ -152,7 +148,7 @@ RestBreakWindow::draw_time_bar()
 
   timebar->set_text(s);
 
-  ICore::Ptr core  = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
     {
@@ -269,7 +265,7 @@ RestBreakWindow::install_info_panel()
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);
 
-      int width_delta  = (new_size.width - old_size.width) / 2;
+      int width_delta = (new_size.width - old_size.width) / 2;
       int height_delta = (new_size.height - old_size.height) / 2;
 
       int x, y;

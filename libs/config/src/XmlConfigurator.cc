@@ -41,7 +41,7 @@ XmlConfigurator::load(string filename)
   try
     {
       boost::property_tree::xml_parser::read_xml(filename, pt);
-      ret           = !pt.empty();
+      ret = !pt.empty();
       last_filename = filename;
     }
   catch (boost::property_tree::xml_parser_error &)
@@ -96,7 +96,7 @@ XmlConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
 {
   TRACE_ENTER_MSG("XmlConfigurator::get_value", key);
 
-  bool ret       = true;
+  bool ret = true;
   string xmlpath = path(key);
 
   out.type = type;
@@ -118,7 +118,7 @@ XmlConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
           break;
 
         case VARIANT_TYPE_NONE:
-          out.type         = VARIANT_TYPE_STRING;
+          out.type = VARIANT_TYPE_STRING;
           out.string_value = pt.get<string>(xmlpath);
           break;
 

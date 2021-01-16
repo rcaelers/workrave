@@ -55,7 +55,7 @@ IconListCellRenderer::property_pixbuf()
 void
 IconListCellRenderer::update_properties()
 {
-  text_renderer.property_text()     = property_text_;
+  text_renderer.property_text() = property_text_;
   pixbuf_renderer.property_pixbuf() = property_pixbuf_;
 }
 

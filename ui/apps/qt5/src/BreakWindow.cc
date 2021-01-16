@@ -77,7 +77,7 @@ BreakWindow::init()
     }
 
   size_group = std::make_shared<SizeGroup>(Qt::Horizontal);
-  gui        = create_gui();
+  gui = create_gui();
 
   inner_layout->addWidget(gui);
   inner_layout->addLayout(create_break_buttons(true, true));
@@ -164,27 +164,27 @@ BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperatio
   switch (type)
     {
     case System::SystemOperation::SYSTEM_OPERATION_NONE:
-      name      = tr("Lock...");
+      name = tr("Lock...");
       icon_name = "lock.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN:
-      name      = tr("Lock");
+      name = tr("Lock");
       icon_name = "lock.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-      name      = tr("Shutdown");
+      name = tr("Shutdown");
       icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
-      name      = tr("Suspend");
+      name = tr("Suspend");
       icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-      name      = tr("Hibernate");
+      name = tr("Hibernate");
       icon_name = "shutdown.png";
       break;
     case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-      name      = tr("Suspend hybrid");
+      name = tr("Suspend hybrid");
       icon_name = "shutdown.png";
       break;
     default:
@@ -281,7 +281,7 @@ void
 BreakWindow::on_postpone_button_clicked()
 {
   ICore::Ptr core = Backend::get_core();
-  IBreak::Ptr b   = core->get_break(break_id);
+  IBreak::Ptr b = core->get_break(break_id);
 
   b->postpone_break();
 }
@@ -290,7 +290,7 @@ void
 BreakWindow::on_skip_button_clicked()
 {
   ICore::Ptr core = Backend::get_core();
-  IBreak::Ptr b   = core->get_break(break_id);
+  IBreak::Ptr b = core->get_break(break_id);
 
   b->skip_break();
 }
@@ -299,11 +299,11 @@ void
 BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  skip_locked      = false;
-  postpone_locked  = false;
+  skip_locked = false;
+  postpone_locked = false;
   overdue_break_id = BREAK_ID_NONE;
 
-  ICore::Ptr core    = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (mode == OperationMode::Normal)
@@ -340,8 +340,8 @@ BreakWindow::update_skip_postpone_lock()
 {
   if ((postpone_button != NULL && !postpone_button->isEnabled()) || (skip_button != NULL && !skip_button->isEnabled()))
     {
-      bool skip_locked         = false;
-      bool postpone_locked     = false;
+      bool skip_locked = false;
+      bool postpone_locked = false;
       BreakId overdue_break_id = BREAK_ID_NONE;
       check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -350,7 +350,7 @@ BreakWindow::update_skip_postpone_lock()
           if (overdue_break_id != BREAK_ID_NONE)
             {
               ICore::Ptr core = Backend::get_core();
-              IBreak::Ptr b   = core->get_break(overdue_break_id);
+              IBreak::Ptr b = core->get_break(overdue_break_id);
 
               progress_bar->setRange(0, b->get_auto_reset());
               progress_bar->setValue(b->get_elapsed_idle_time());
@@ -401,8 +401,8 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable)
 
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          bool skip_locked         = false;
-          bool postpone_locked     = false;
+          bool skip_locked = false;
+          bool postpone_locked = false;
           BreakId overdue_break_id = BREAK_ID_NONE;
           check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
@@ -524,7 +524,7 @@ BreakWindow::refresh()
 void
 BreakWindow::update_flashing_border()
 {
-  ICore::Ptr core  = Backend::get_core();
+  ICore::Ptr core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
     {

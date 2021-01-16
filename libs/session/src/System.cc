@@ -33,8 +33,6 @@
 #  include <glib.h>
 #endif
 
-#include <boost/format.hpp>
-
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
@@ -80,7 +78,7 @@ std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS_GIO)
 GDBusConnection *System::session_connection = nullptr;
-GDBusConnection *System::system_connection  = nullptr;
+GDBusConnection *System::system_connection = nullptr;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -90,7 +88,7 @@ System::init_DBus()
 {
   TRACE_ENTER("System::init_dbus()");
 
-  GError *error      = nullptr;
+  GError *error = nullptr;
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
   if (error != nullptr)
     {
@@ -270,7 +268,7 @@ System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, b
 {
   TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
   IScreenLockMethod *lock_method = nullptr;
-  lock_method                    = new ScreenLockCommandline(command_name, parameters, async);
+  lock_method = new ScreenLockCommandline(command_name, parameters, async);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
@@ -474,15 +472,16 @@ System::init()
 void
 System::clear()
 {
-  for (auto &lock_command: lock_commands)
+  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin(); iter != lock_commands.end(); ++iter)
     {
-      delete lock_command;
+      delete *iter;
     }
   lock_commands.clear();
 
-  for (auto &system_state_command: system_state_commands)
+  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin(); iter != system_state_commands.end();
+       ++iter)
     {
-      delete system_state_command;
+      delete *iter;
     }
   system_state_commands.clear();
 

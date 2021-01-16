@@ -40,7 +40,7 @@ void
 ActivityMonitorStub::set_active(bool active)
 {
   this->active = active;
-  forced_idle  = false;
+  forced_idle = false;
 }
 
 void

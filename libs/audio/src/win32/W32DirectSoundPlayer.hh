@@ -29,8 +29,8 @@
 class W32DirectSoundPlayer : public ISoundDriver
 {
 public:
-  W32DirectSoundPlayer();
-  virtual ~W32DirectSoundPlayer();
+  W32DirectSoundPlayer() = default;
+  virtual ~W32DirectSoundPlayer() = default;
 
   void init(ISoundPlayerEvents *events);
   bool capability(workrave::audio::SoundCapability cap);

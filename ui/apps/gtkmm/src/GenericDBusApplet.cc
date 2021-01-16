@@ -43,22 +43,20 @@
 #define WORKRAVE_INDICATOR_SERVICE_IFACE "org.workrave.AppletInterface"
 #define WORKRAVE_INDICATOR_SERVICE_OBJ "/org/workrave/Workrave/UI"
 
-using namespace std;
-
 GenericDBusApplet::GenericDBusApplet()
 {
   timer_box_control = new TimerBoxControl("applet", this);
-  timer_box_view    = this;
+  timer_box_view = this;
 
   for (auto &i: data)
     {
-      i.bar_text            = "";
-      i.bar_primary_color   = 0;
-      i.bar_primary_val     = 0;
-      i.bar_primary_max     = 0;
+      i.bar_text = "";
+      i.bar_primary_color = 0;
+      i.bar_primary_val = 0;
+      i.bar_primary_max = 0;
       i.bar_secondary_color = 0;
-      i.bar_secondary_val   = 0;
-      i.bar_secondary_max   = 0;
+      i.bar_secondary_val = 0;
+      i.bar_secondary_max = 0;
     }
 
   connections.add(GUIConfig::trayicon_enabled().connect([this](bool enabled) { send_tray_icon_enabled(); }));
@@ -83,13 +81,13 @@ GenericDBusApplet::set_time_bar(BreakId id,
                                 int secondary_max)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << value);
-  data[id].bar_text            = Text::time_to_string(value);
-  data[id].bar_primary_color   = (int)primary_color;
-  data[id].bar_primary_val     = primary_val;
-  data[id].bar_primary_max     = primary_max;
+  data[id].bar_text = Text::time_to_string(value);
+  data[id].bar_primary_color = (int)primary_color;
+  data[id].bar_primary_val = primary_val;
+  data[id].bar_primary_max = primary_max;
   data[id].bar_secondary_color = (int)secondary_color;
-  data[id].bar_secondary_val   = secondary_val;
-  data[id].bar_secondary_max   = secondary_max;
+  data[id].bar_secondary_val = secondary_val;
+  data[id].bar_secondary_max = secondary_max;
   TRACE_EXIT();
 }
 
@@ -123,7 +121,7 @@ GenericDBusApplet::init_applet()
 }
 
 void
-GenericDBusApplet::applet_embed(bool enable, const string &sender)
+GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
   embedded = enable;
@@ -205,16 +203,16 @@ void
 GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
 {
   MenuItem item;
-  item.text    = text;
+  item.text = text;
   item.command = command;
-  item.flags   = flags;
+  item.flags = flags;
   items.push_back(item);
 }
 
 void
 GenericDBusApplet::applet_command(int command)
 {
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
 }
@@ -247,7 +245,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
       if (active_bus_names.size() == 0)
         {
           TRACE_MSG("Disabling");
-          visible  = false;
+          visible = false;
           embedded = false;
           visibility_changed_signal.emit(false);
         }

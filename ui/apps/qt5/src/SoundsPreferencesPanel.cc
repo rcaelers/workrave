@@ -94,7 +94,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(SoundTheme::Ptr sound_theme)
   QObject::connect(sound_theme_button, signal, this, &SoundsPreferencesPanel::on_sound_theme_changed);
 
   sounds_model = new QStandardItemModel();
-  sounds_view  = new QTreeView;
+  sounds_view = new QTreeView;
   sound_events_layout->addWidget(sounds_view);
 
   sounds_view->setModel(sounds_model);
@@ -158,12 +158,12 @@ SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex &index)
 void
 SoundsPreferencesPanel::on_select_sound()
 {
-  SoundEvent event     = currentEvent();
+  SoundEvent event = currentEvent();
   std::string filename = SoundTheme::sound_event(event)();
   if (filename != "")
     {
       boost::filesystem::path path(filename);
-      boost::filesystem::path dirname  = path.parent_path();
+      boost::filesystem::path dirname = path.parent_path();
       boost::filesystem::path basename = path.filename();
 
       QFileDialog *fd = new QFileDialog(this);
@@ -180,7 +180,7 @@ SoundsPreferencesPanel::on_select_sound()
 void
 SoundsPreferencesPanel::on_play_sound()
 {
-  SoundEvent event     = currentEvent();
+  SoundEvent event = currentEvent();
   std::string filename = SoundTheme::sound_event(event)();
   if (filename != "")
     {
@@ -200,8 +200,8 @@ void
 SoundsPreferencesPanel::on_sound_item_changed(QStandardItem *item)
 {
   QStandardItem *iditem = sounds_model->item(item->index().row(), 2);
-  std::string id        = iditem->text().toStdString();
-  SoundEvent event      = SoundTheme::sound_id_to_event(id);
+  std::string id = iditem->text().toStdString();
+  SoundEvent event = SoundTheme::sound_id_to_event(id);
 
   bool enabled = item->checkState() == Qt::Checked;
   SoundTheme::sound_event_enabled(event).set(enabled);
@@ -210,7 +210,7 @@ SoundsPreferencesPanel::on_sound_item_changed(QStandardItem *item)
 void
 SoundsPreferencesPanel::on_sound_theme_changed(int index)
 {
-  QStandardItem *item  = sound_theme_model->item(index);
+  QStandardItem *item = sound_theme_model->item(index);
   std::string theme_id = item->data().toString().toStdString();
   sound_theme->activate_theme(theme_id);
 }
@@ -249,7 +249,7 @@ SoundEvent
 SoundsPreferencesPanel::currentEvent() const
 {
   const QModelIndex &index = sounds_view->currentIndex();
-  QStandardItem *item      = sounds_model->item(index.row(), 2);
-  std::string id           = item->text().toStdString();
+  QStandardItem *item = sounds_model->item(index.row(), 2);
+  std::string id = item->text().toStdString();
   return SoundTheme::sound_id_to_event(id);
 }

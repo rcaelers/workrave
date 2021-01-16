@@ -41,8 +41,8 @@ DBusMessage *
 DBusBindingFreeDesktop::call(const std::string &method, void *object, DBusMessage *message)
 {
   DBusMessage *ret = NULL;
-  bool found       = false;
-  int count        = 0;
+  bool found = false;
+  int count = 0;
 
   DBusIntrospect *table = get_method_introspect();
   while (!found && table[count].name != NULL)

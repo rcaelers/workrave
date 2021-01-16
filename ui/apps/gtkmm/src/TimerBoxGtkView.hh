@@ -84,52 +84,52 @@ private:
   bool transparent;
 
   //! Reconfigure the panel.
-  bool reconfigure;
+  bool reconfigure{true};
 
   //! Array of time labels
-  Gtk::Widget *labels[BREAK_ID_SIZEOF];
+  Gtk::Widget *labels[BREAK_ID_SIZEOF]{};
 
   //! Array of time bar widgets.
-  TimeBar *bars[BREAK_ID_SIZEOF];
+  TimeBar *bars[BREAK_ID_SIZEOF]{};
 
   //! Break images
-  Gtk::Image *images[BREAK_ID_SIZEOF];
+  Gtk::Image *images[BREAK_ID_SIZEOF]{};
 
   //! Sheep
-  Gtk::Image *sheep;
+  Gtk::Image *sheep{nullptr};
 
   //! Sheep
-  Gtk::EventBox *sheep_eventbox;
+  Gtk::EventBox *sheep_eventbox{nullptr};
 
   //! orientation.
-  Orientation orientation;
+  Orientation orientation{ORIENTATION_UP};
 
   //! Size
-  int size;
+  int size{0};
 
   //! Rows
-  int table_rows;
+  int table_rows{-1};
 
   //! Columns
-  int table_columns;
+  int table_columns{-1};
 
   //! Reverse
-  int table_reverse;
+  bool table_reverse{false};
 
   //! Current slot content.
-  int current_content[workrave::BREAK_ID_SIZEOF];
+  int current_content[workrave::BREAK_ID_SIZEOF]{};
 
   //! New slot content.
-  int new_content[workrave::BREAK_ID_SIZEOF];
+  int new_content[workrave::BREAK_ID_SIZEOF]{};
 
   //! Number of visible breaks.
-  int visible_count;
+  int visible_count{-1};
 
   //! Rotation (clockwise in degress)
-  int rotation;
+  int rotation{0};
 
   //! Only show the sheep
-  bool sheep_only;
+  bool sheep_only{false};
 
   scoped_connections connections;
 };

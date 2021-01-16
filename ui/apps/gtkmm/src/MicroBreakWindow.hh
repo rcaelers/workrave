@@ -59,22 +59,22 @@ private:
 
 private:
   //! Time bar
-  TimeBar *time_bar;
+  TimeBar *time_bar{nullptr};
 
   // Label
-  Gtk::Label *label;
+  Gtk::Label *label{nullptr};
 
   //! Progress
-  int progress_value;
+  int progress_value{0};
 
   //! Progress
-  int progress_max_value;
+  int progress_max_value{0};
 
   //! Is currently flashing because user is active?
-  bool is_flashing;
+  bool is_flashing{false};
 
   //! Label size has been fixed?
-  bool fixed_size;
+  bool fixed_size{false};
 };
 
 #endif // MICROBREAKWINDOW_HH

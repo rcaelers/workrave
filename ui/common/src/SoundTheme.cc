@@ -101,11 +101,11 @@ SoundTheme::SoundRegistry SoundTheme::sound_registry[] = {
   },
 };
 
-const string SoundTheme::CFG_KEY_SOUND_ENABLED       = "sound/enabled";
-const string SoundTheme::CFG_KEY_SOUND_DEVICE        = "sound/device";
-const string SoundTheme::CFG_KEY_SOUND_VOLUME        = "sound/volume";
-const string SoundTheme::CFG_KEY_SOUND_MUTE          = "sound/mute";
-const string SoundTheme::CFG_KEY_SOUND_EVENT         = "sound/events/";
+const string SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
+const string SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
+const string SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const string SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
+const string SoundTheme::CFG_KEY_SOUND_EVENT = "sound/events/";
 const string SoundTheme::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
 
 workrave::config::Setting<bool> &
@@ -282,7 +282,7 @@ SoundTheme::load_sound_theme(const string &themedir)
       boost::property_tree::ptree pt;
       boost::property_tree::ini_parser::read_ini(file.string(), pt);
 
-      theme->theme_id    = path.stem().string();
+      theme->theme_id = path.stem().string();
       theme->description = pt.get<std::string>("general.description");
       TRACE_MSG("id = " << theme->theme_id);
       TRACE_MSG("descr = " << theme->description);
@@ -296,7 +296,7 @@ SoundTheme::load_sound_theme(const string &themedir)
           soundpath = canonical(soundpath);
 
           SoundInfo sound_info;
-          sound_info.event    = sound_id_to_event(snd.id);
+          sound_info.event = sound_id_to_event(snd.id);
           sound_info.filename = soundpath.string();
           theme->sounds.push_back(sound_info);
         }
@@ -337,13 +337,13 @@ SoundTheme::get_active_theme()
     }
 
   ThemeInfo::Ptr theme(new ThemeInfo);
-  theme->theme_id    = "custom";
+  theme->theme_id = "custom";
   theme->description = "";
 
   for (SoundRegistry &snd: sound_registry)
     {
       SoundInfo sound_info;
-      sound_info.event    = sound_id_to_event(snd.id);
+      sound_info.event = sound_id_to_event(snd.id);
       sound_info.filename = SoundTheme::sound_event(snd.event)();
       theme->sounds.push_back(sound_info);
     }
@@ -414,7 +414,7 @@ SoundTheme::win32_remove_deprecated_appevents()
                         "WorkraveExercisesEnded",
                         "WorkraveExerciseStep"};
 
-  string schemes      = "AppEvents\\Schemes\\Apps\\Workrave\\";
+  string schemes = "AppEvents\\Schemes\\Apps\\Workrave\\";
   string event_labels = "AppEvents\\EventLabels\\";
 
   for (string id: ids)

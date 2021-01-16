@@ -79,7 +79,7 @@ Timer::enable()
   TRACE_ENTER_MSG("Timer::enable", timer_id << " " << timer_enabled);
   if (!timer_enabled)
     {
-      timer_enabled    = true;
+      timer_enabled = true;
       snooze_inhibited = false;
       stop_timer();
 
@@ -114,7 +114,7 @@ Timer::disable()
       stop_timer();
 
       last_start_time = 0;
-      last_stop_time  = 0;
+      last_stop_time = 0;
       last_reset_time = 0;
       next_limit_time = 0;
       next_reset_time = 0;
@@ -136,7 +136,7 @@ Timer::snooze_timer()
 
   if (timer_enabled)
     {
-      next_limit_time                = 0;
+      next_limit_time = 0;
       elapsed_timespan_at_last_limit = get_elapsed_time();
       compute_next_limit_time();
     }
@@ -173,7 +173,7 @@ Timer::start_timer()
       if (!timer_frozen)
         {
           // Timer is not frozen, so let's start.
-          last_start_time       = TimeSource::get_monotonic_time_sec_sync();
+          last_start_time = TimeSource::get_monotonic_time_sec_sync();
           elapsed_idle_timespan = 0;
         }
       else
@@ -189,7 +189,7 @@ Timer::start_timer()
         }
 
       // Reset values that are only used when the timer is not running.
-      last_stop_time  = 0;
+      last_stop_time = 0;
       next_reset_time = 0;
 
       // update state.
@@ -251,19 +251,19 @@ Timer::reset_timer()
     }
 
   // Full reset.
-  elapsed_timespan               = 0;
+  elapsed_timespan = 0;
   elapsed_timespan_at_last_limit = 0;
-  last_reset_time                = TimeSource::get_monotonic_time_sec_sync();
-  snooze_inhibited               = false;
+  last_reset_time = TimeSource::get_monotonic_time_sec_sync();
+  snooze_inhibited = false;
 
   if (timer_state == STATE_RUNNING)
     {
       // The timer is reset while running, Pretend the timer just started.
       last_start_time = TimeSource::get_monotonic_time_sec_sync();
-      last_stop_time  = 0;
+      last_stop_time = 0;
 
       compute_next_limit_time();
-      next_reset_time       = 0;
+      next_reset_time = 0;
       elapsed_idle_timespan = 0;
     }
   else
@@ -276,7 +276,7 @@ Timer::reset_timer()
       if (is_auto_reset_enabled())
         {
           elapsed_idle_timespan = auto_reset_interval;
-          last_stop_time        = TimeSource::get_monotonic_time_sec_sync();
+          last_stop_time = TimeSource::get_monotonic_time_sec_sync();
         }
     }
 
@@ -312,7 +312,7 @@ Timer::freeze_timer(bool freeze)
           // defrost timer.
           if (timer_state == STATE_RUNNING)
             {
-              last_start_time       = TimeSource::get_monotonic_time_sec_sync();
+              last_start_time = TimeSource::get_monotonic_time_sec_sync();
               elapsed_idle_timespan = 0;
 
               compute_next_limit_time();
@@ -334,7 +334,7 @@ Timer::process(bool user_is_active)
             << " nr:" << next_reset_time << " nl:" << next_limit_time);
 
   int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
-  TimerEvent event     = TIMER_EVENT_NONE;
+  TimerEvent event = TIMER_EVENT_NONE;
 
   if (timer_enabled)
     {
@@ -365,7 +365,7 @@ Timer::process(bool user_is_active)
     {
       TRACE_MSG("limit");
       // A next limit time was set and the current time >= limit time.
-      next_limit_time                = 0;
+      next_limit_time = 0;
       elapsed_timespan_at_last_limit = get_elapsed_time();
 
       compute_next_limit_time();
@@ -379,7 +379,7 @@ Timer::process(bool user_is_active)
       reset_timer();
 
       bool natural = is_limit_enabled() && limit_interval >= get_elapsed_time();
-      event        = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
+      event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
       if (natural)
         {
           TRACE_MSG("natural");
@@ -552,13 +552,13 @@ Timer::deserialize_state(const std::string &state, int version)
   TRACE_ENTER("Timer::deserialize_state");
   istringstream ss(state);
 
-  int64_t save_time  = 0;
-  int64_t elapsed    = 0;
+  int64_t save_time = 0;
+  int64_t elapsed = 0;
   int64_t last_reset = 0;
-  int64_t overdue    = 0;
-  int64_t llt        = 0;
-  int64_t lle        = 0;
-  bool si            = false;
+  int64_t overdue = 0;
+  int64_t llt = 0;
+  int64_t lle = 0;
+  bool si = false;
 
   ss >> save_time >> elapsed >> last_reset >> overdue >> si >> llt >> lle;
 
@@ -578,11 +578,11 @@ Timer::deserialize_state(const std::string &state, int version)
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);
 
-  last_daily_reset_time  = last_reset;
+  last_daily_reset_time = last_reset;
   total_overdue_timespan = overdue;
-  elapsed_timespan       = 0;
-  last_start_time        = 0;
-  last_stop_time         = 0;
+  elapsed_timespan = 0;
+  last_start_time = 0;
+  last_stop_time = 0;
 
   bool tooOld = (is_auto_reset_enabled() && (TimeSource::get_real_time_sec_sync() - save_time > auto_reset_interval));
 
@@ -651,7 +651,7 @@ Timer::deserialize_state(const std::string &state, int version)
 int64_t
 Timer::get_total_overdue_time() const
 {
-  int64_t ret     = total_overdue_timespan;
+  int64_t ret = total_overdue_timespan;
   int64_t elapsed = get_elapsed_time();
 
   if (is_limit_enabled() && elapsed > limit_interval)

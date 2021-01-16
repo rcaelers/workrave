@@ -34,12 +34,12 @@ EventImage::on_realize()
 
   GtkAllocation allocation;
   gtk_widget_get_allocation(widget, &allocation);
-  attributes.x      = allocation.x;
-  attributes.y      = allocation.y;
-  attributes.width  = allocation.width;
+  attributes.x = allocation.x;
+  attributes.y = allocation.y;
+  attributes.width = allocation.width;
   attributes.height = allocation.height;
 
-  attributes.wclass     = GDK_INPUT_ONLY;
+  attributes.wclass = GDK_INPUT_ONLY;
   attributes.event_mask = gtk_widget_get_events(widget);
   attributes.event_mask |= (GDK_EXPOSURE_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
                             | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);

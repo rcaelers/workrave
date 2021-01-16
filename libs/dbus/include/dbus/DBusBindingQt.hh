@@ -49,7 +49,7 @@ namespace workrave
       explicit DBusBindingQt(IDBus::Ptr dbus);
       ~DBusBindingQt() override = default;
 
-      virtual const char *get_interface_introspect()                                                  = 0;
+      virtual const char *get_interface_introspect() = 0;
       virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) = 0;
 
     protected:

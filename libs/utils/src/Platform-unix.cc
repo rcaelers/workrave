@@ -96,7 +96,7 @@ Platform::get_default_display_name()
   if (native != NULL)
     {
       void *xdisplay = native->nativeResourceForScreen("display", QGuiApplication::primaryScreen());
-      char *name     = XDisplayString(static_cast<Display *>(xdisplay));
+      char *name = XDisplayString(static_cast<Display *>(xdisplay));
       if (name != NULL)
         {
           ret = name;
@@ -115,7 +115,7 @@ Platform::get_default_root_window()
   return gdk_x11_get_default_root_xwindow();
 #  elif defined(HAVE_QT)
   QDesktopWidget *desktop = QApplication::desktop();
-  QWindow *window         = desktop->windowHandle();
+  QWindow *window = desktop->windowHandle();
   return window->winId();
 #  else
 #    error Platform unsupported

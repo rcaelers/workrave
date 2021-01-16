@@ -74,8 +74,8 @@ TimerActivityMonitor::is_active()
       return false;
     }
 
-  bool running  = timer->is_running();
-  int64_t idle  = timer->get_elapsed_idle_time();
+  bool running = timer->is_running();
+  int64_t idle = timer->get_elapsed_idle_time();
   int64_t reset = timer->get_auto_reset();
 
   if (!running && idle >= reset)

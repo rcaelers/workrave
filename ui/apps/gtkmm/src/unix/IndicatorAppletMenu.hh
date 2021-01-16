@@ -59,8 +59,8 @@ private:
   void menu_item_activated(DbusmenuMenuitem *mi);
 
 private:
-  DbusmenuServer *server;
-  DbusmenuMenuitem *root;
+  DbusmenuServer *server{nullptr};
+  DbusmenuMenuitem *root{nullptr};
   DbusmenuMenuitem *menu_items[MENU_COMMAND_SIZEOF];
 };
 

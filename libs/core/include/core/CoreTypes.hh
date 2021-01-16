@@ -77,11 +77,11 @@ namespace workrave
 
   using BreakId = int;
 
-  const int BREAK_ID_NONE        = -1;
+  const int BREAK_ID_NONE = -1;
   const int BREAK_ID_MICRO_BREAK = 0;
-  const int BREAK_ID_REST_BREAK  = 1;
+  const int BREAK_ID_REST_BREAK = 1;
   const int BREAK_ID_DAILY_LIMIT = 2;
-  const int BREAK_ID_SIZEOF      = 3;
+  const int BREAK_ID_SIZEOF = 3;
 
   enum BreakHint
   {

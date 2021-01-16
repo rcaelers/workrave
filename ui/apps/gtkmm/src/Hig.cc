@@ -35,7 +35,6 @@ HigDialog::HigDialog(const Glib::ustring &title, bool modal, bool use_separator)
   (void)use_separator;
 
   set_hig_defaults();
-  vbox = nullptr;
 }
 
 Gtk::VBox *

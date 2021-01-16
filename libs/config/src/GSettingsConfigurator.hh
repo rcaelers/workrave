@@ -50,13 +50,13 @@ public:
 
 private:
   //! Send changes to.
-  workrave::config::IConfiguratorListener *listener;
+  workrave::config::IConfiguratorListener *listener{nullptr};
 
   std::string schema_base;
   std::string path_base;
 
-  using SettingsMap   = std::map<std::string, GSettings *>;
-  using SettingsIter  = SettingsMap::iterator;
+  using SettingsMap = std::map<std::string, GSettings *>;
+  using SettingsIter = SettingsMap::iterator;
   using SettingsCIter = SettingsMap::const_iterator;
 
   //!

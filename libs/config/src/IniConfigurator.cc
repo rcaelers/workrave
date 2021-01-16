@@ -46,7 +46,7 @@ IniConfigurator::load(string filename)
   try
     {
       boost::property_tree::ini_parser::read_ini(filename, pt);
-      ret           = !pt.empty();
+      ret = !pt.empty();
       last_filename = filename;
     }
   catch (boost::property_tree::ini_parser_error &)
@@ -102,7 +102,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
 {
   TRACE_ENTER_MSG("IniConfigurator::get_value", key);
 
-  bool ret                                      = true;
+  bool ret = true;
   boost::property_tree::ptree::path_type inikey = path(key);
 
   out.type = type;
@@ -124,7 +124,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
           break;
 
         case VARIANT_TYPE_NONE:
-          out.type         = VARIANT_TYPE_STRING;
+          out.type = VARIANT_TYPE_STRING;
           out.string_value = pt.get<string>(inikey);
           break;
 
@@ -183,7 +183,7 @@ boost::property_tree::ptree::path_type
 IniConfigurator::path(const string &key) const
 {
   string new_key = key;
-  bool first     = true;
+  bool first = true;
   for (auto &c: new_key)
     {
       if (c == '/')

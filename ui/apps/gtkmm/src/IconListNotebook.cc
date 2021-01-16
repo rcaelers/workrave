@@ -45,7 +45,7 @@ IconListNotebook::IconListNotebook()
   icon_list.set_model(list_store);
 
   auto *renderer = new IconListCellRenderer();
-  auto *tvc      = new Gtk::TreeViewColumn("Bla", *Gtk::manage(renderer));
+  auto *tvc = new Gtk::TreeViewColumn("Bla", *Gtk::manage(renderer));
   icon_list.append_column(*Gtk::manage(tvc));
   tvc->add_attribute(renderer->property_text(), model_columns.text);
   tvc->add_attribute(renderer->property_pixbuf(), model_columns.pixbuf);
@@ -67,7 +67,7 @@ IconListNotebook::on_page_changed()
   if (const Gtk::TreeModel::iterator selected = icon_list.get_selection()->get_selected())
     {
       Gtk::Widget *page = (*selected)[model_columns.page];
-      int page_num      = gtk_notebook_page_num(notebook.gobj(), page->gobj());
+      int page_num = gtk_notebook_page_num(notebook.gobj(), page->gobj());
       notebook.set_current_page(page_num);
     }
 }
@@ -76,8 +76,8 @@ void
 IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf, Gtk::Widget &widget)
 {
   notebook.append_page(widget, name);
-  Gtk::TreeRow row          = *list_store->append();
-  row[model_columns.text]   = Glib::ustring(name);
+  Gtk::TreeRow row = *list_store->append();
+  row[model_columns.text] = Glib::ustring(name);
   row[model_columns.pixbuf] = pixbuf;
-  row[model_columns.page]   = &widget;
+  row[model_columns.page] = &widget;
 }

@@ -49,7 +49,7 @@ void
 Frame::set_frame_style(const Style style)
 {
   frame_style = style;
-  int dfw     = 1;
+  int dfw = 1;
   switch (style)
     {
     case STYLE_BREAK_WINDOW:
@@ -111,7 +111,7 @@ void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
   Gtk::Widget *widget = get_child();
-  guint b             = get_border_width() + frame_width;
+  guint b = get_border_width() + frame_width;
 
   Gtk::Allocation alloc;
   alloc.set_x(allocation.get_x() + b);
@@ -180,8 +180,8 @@ Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   // Physical width/height
   Gtk::Allocation allocation = get_allocation();
-  int width                  = allocation.get_width();
-  int height                 = allocation.get_height();
+  int width = allocation.get_width();
+  int height = allocation.get_height();
 
   switch (frame_style)
     {

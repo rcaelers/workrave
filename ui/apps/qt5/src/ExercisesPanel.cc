@@ -90,7 +90,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   else
     {
       QHBoxLayout *button_box = new QHBoxLayout;
-      QLabel *browse_label    = new QLabel;
+      QLabel *browse_label = new QLabel;
 
       QString browse_label_text = "<b>";
       browse_label_text += tr("Exercises player");
@@ -134,7 +134,7 @@ ExercisesPanel::~ExercisesPanel() {}
 void
 ExercisesPanel::reset()
 {
-  int i             = adjust_exercises_pointer(1);
+  int i = adjust_exercises_pointer(1);
   exercise_iterator = shuffled_exercises.begin();
   while (i > 0)
     {
@@ -142,8 +142,8 @@ ExercisesPanel::reset()
       i--;
     }
   exercise_num = 0;
-  paused       = false;
-  stopped      = false;
+  paused = false;
+  stopped = false;
   refresh_pause();
   start_exercise();
 }
@@ -158,8 +158,8 @@ ExercisesPanel::start_exercise()
       QString txt = UiUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
 
       description_text->setText(txt);
-      exercise_time  = 0;
-      seq_time       = 0;
+      exercise_time = 0;
+      seq_time = 0;
       image_iterator = exercise.sequence.end();
       refresh_progress();
       refresh_sequence();

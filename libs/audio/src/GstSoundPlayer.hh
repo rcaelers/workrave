@@ -36,12 +36,12 @@ public:
 
 private:
   gboolean gst_ok{false};
-  ISoundPlayerEvents *events;
+  ISoundPlayerEvents *events{nullptr};
 
   struct WatchData
   {
-    GstSoundPlayer *player;
-    GstElement *play;
+    GstSoundPlayer *player{nullptr};
+    GstElement *play{nullptr};
   };
 };
 

@@ -71,11 +71,11 @@ private:
   sigc::signal<void, std::string> balloon_activate_signal;
 
 #ifdef USE_W32STATUSICON
-  W32StatusIcon *status_icon;
+  W32StatusIcon *status_icon{nullptr};
 #else
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
 #  ifdef PLATFORM_OS_WINDOWS
-  UINT wm_taskbarcreated;
+  UINT wm_taskbarcreated{0};
 #  endif
 #endif
 };

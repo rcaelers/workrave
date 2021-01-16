@@ -44,7 +44,7 @@ void
 Frame::set_frame_style(const Style style)
 {
   frame_style = style;
-  int dfw     = 1;
+  int dfw = 1;
   switch (style)
     {
     case Style::BreakWindow:
@@ -68,7 +68,7 @@ Frame::set_frame_width(int frame, int border)
 {
   QRect fr = get_frame_rect();
 
-  frame_width  = frame;
+  frame_width = frame;
   border_width = border;
 
   QRect cr = fr.isValid() ? fr : rect();
@@ -123,8 +123,8 @@ Frame::paintEvent(QPaintEvent *pe)
   QStyleOptionFrame opt;
   opt.initFrom(this);
 
-  opt.rect         = fr;
-  opt.lineWidth    = 1;
+  opt.rect = fr;
+  opt.lineWidth = 1;
   opt.midLineWidth = 0;
   opt.state |= QStyle::State_Raised;
   opt.frameShape = QFrame::Panel;

@@ -257,14 +257,14 @@ PulseMixer::update_sink(const pa_sink_info &info)
     }
   else
     {
-      sink_info         = new SinkInfo();
+      sink_info = new SinkInfo();
       sinks[info.index] = sink_info;
     }
 
-  sink_info->index       = info.index;
-  sink_info->name        = info.name;
+  sink_info->index = info.index;
+  sink_info->name = info.name;
   sink_info->description = info.description;
-  sink_info->mute        = info.mute;
+  sink_info->mute = info.mute;
 
   TRACE_MSG(info.name << " " << info.mute << " " << info.index);
 

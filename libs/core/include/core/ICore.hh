@@ -45,7 +45,7 @@ namespace workrave
     virtual ~ICore() = default;
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
-    virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed()         = 0;
+    virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;
 
     //! Initialize the Core. Must be called first.
     virtual void init(workrave::IApp *app, const char *display) = 0;

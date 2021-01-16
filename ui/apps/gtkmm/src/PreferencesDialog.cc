@@ -72,27 +72,10 @@ using namespace std;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
   : HigDialog(_("Preferences"), false, false)
-  , sound_button(nullptr)
-  , block_button(nullptr)
-  , sound_theme_button(nullptr)
-  , icon_theme_button(nullptr)
-  , sound_theme(sound_theme)
-  , connector(nullptr)
-  , sound_volume_scale(nullptr)
-  , sound_play_button(nullptr)
-  , mute_cb(nullptr)
-  , fsbutton(nullptr)
-  , filefilter(nullptr)
-  , trayicon_cb(nullptr)
-  , autostart_cb(nullptr)
-#ifdef PLATFORM_OS_WINDOWS
-  , sensitivity_adjustment(Gtk::Adjustment::create(3, 0, 100))
-  , sensitivity_box(nullptr)
-#endif
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
-  connector      = new DataConnector();
+  connector = new DataConnector();
   inhibit_events = 0;
 
   // Pages
@@ -139,8 +122,8 @@ PreferencesDialog::~PreferencesDialog()
 
 #if defined(HAVE_LANGUAGE_SELECTION)
   const Gtk::TreeModel::iterator &iter = languages_combo.get_active();
-  const Gtk::TreeModel::Row row        = *iter;
-  const Glib::ustring code             = row[languages_columns.code];
+  const Gtk::TreeModel::Row row = *iter;
+  const Glib::ustring code = row[languages_columns.code];
 
   GUIConfig::locale().set(code);
 #endif
@@ -203,11 +186,11 @@ PreferencesDialog::create_gui_page()
   Locale::get_all_languages_in_current_locale(languages_current_locale);
   Locale::get_all_languages_in_native_locale(languages_native_locale);
 
-  Gtk::TreeModel::iterator iter  = languages_model->append();
-  Gtk::TreeModel::Row row        = *iter;
+  Gtk::TreeModel::iterator iter = languages_model->append();
+  Gtk::TreeModel::Row row = *iter;
   row[languages_columns.current] = _("System default");
-  row[languages_columns.native]  = "";
-  row[languages_columns.code]    = "";
+  row[languages_columns.native] = "";
+  row[languages_columns.code] = "";
   row[languages_columns.enabled] = true;
 
   Gtk::TreeModel::iterator selected = iter;
@@ -216,9 +199,9 @@ PreferencesDialog::create_gui_page()
     {
       string code = *i;
 
-      iter                           = languages_model->append();
-      row                            = *iter;
-      row[languages_columns.code]    = code;
+      iter = languages_model->append();
+      row = *iter;
+      row[languages_columns.code] = code;
       row[languages_columns.enabled] = true;
 
       if (current_locale == code)
@@ -248,7 +231,7 @@ PreferencesDialog::create_gui_page()
           Glib::RefPtr<Pango::Layout> pl = create_pango_layout(txt);
           if (pl->get_unknown_glyphs_count() > 0)
             {
-              txt                            = _("(font not available)");
+              txt = _("(font not available)");
               row[languages_columns.enabled] = false;
             }
 
@@ -276,13 +259,13 @@ PreferencesDialog::create_gui_page()
   show_autostart = true;
 #elif defined(PLATFORM_OS_UNIX)
   const char *desktop = g_getenv("XDG_CURRENT_DESKTOP");
-  show_autostart      = (g_strcmp0(desktop, "Unity") == 0);
+  show_autostart = (g_strcmp0(desktop, "Unity") == 0);
 #endif
 
   if (show_autostart)
     {
       Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on logon"), false));
-      autostart_cb              = Gtk::manage(new Gtk::CheckButton());
+      autostart_cb = Gtk::manage(new Gtk::CheckButton());
       autostart_cb->add(*autostart_lab);
       autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
       panel->add_widget(*autostart_cb);
@@ -297,7 +280,7 @@ PreferencesDialog::create_gui_page()
     }
 
   Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
-  trayicon_cb              = Gtk::manage(new Gtk::CheckButton());
+  trayicon_cb = Gtk::manage(new Gtk::CheckButton());
   trayicon_cb->add(*trayicon_lab);
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
@@ -322,7 +305,7 @@ PreferencesDialog::create_sounds_page()
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Sound Options")));
   panel->pack_start(*hig, false, false, 0);
 
-  IGUI *gui           = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundTheme::Ptr snd = gui->get_sound_theme();
 
   // Sound types
@@ -389,24 +372,24 @@ PreferencesDialog::create_sounds_page()
       bool sound_enabled = SoundTheme::sound_event_enabled(snd.event)();
 
       Gtk::TreeModel::iterator iter = sound_store->append();
-      Gtk::TreeModel::Row row       = *iter;
+      Gtk::TreeModel::Row row = *iter;
 
-      row[sound_model.enabled]     = sound_enabled;
-      row[sound_model.selectable]  = true;
+      row[sound_model.enabled] = sound_enabled;
+      row[sound_model.selectable] = true;
       row[sound_model.description] = Ui::get_sound_event_name(snd.event);
-      row[sound_model.label]       = SoundTheme::sound_event_to_id(snd.event);
+      row[sound_model.label] = SoundTheme::sound_event_to_id(snd.event);
     }
 
   sound_treeview.set_rules_hint();
   sound_treeview.set_search_column(sound_model.description.index());
 
-  int cols_count              = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
+  int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
   Gtk::TreeViewColumn *column = sound_treeview.get_column(cols_count - 1);
 
   auto *cell = dynamic_cast<Gtk::CellRendererToggle *>(sound_treeview.get_column_cell_renderer(cols_count - 1));
 
   cols_count = sound_treeview.append_column(_("Event"), sound_model.description);
-  column     = sound_treeview.get_column(cols_count - 1);
+  column = sound_treeview.get_column(cols_count - 1);
   column->set_fixed_width(40);
 
   Gtk::ScrolledWindow *sound_scroll = Gtk::manage(new Gtk::ScrolledWindow());
@@ -437,7 +420,7 @@ PreferencesDialog::create_sounds_page()
 
   hig->add_widget(*hbox);
 
-  Gtk::HBox *selector_hbox         = Gtk::manage(new Gtk::HBox(false, 0));
+  Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
   Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));
 
   selector_hbox->pack_end(*selector_playbutton, false, false, 0);
@@ -482,14 +465,14 @@ PreferencesDialog::create_timer_page()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       // Label
-      Gtk::Widget *box          = Gtk::manage(GtkUtil::create_label_for_break((BreakId)i));
+      Gtk::Widget *box = Gtk::manage(GtkUtil::create_label_for_break((BreakId)i));
       TimerPreferencesPanel *tp = Gtk::manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
       box->show_all();
       tnotebook->append_page(*tp, *box);
     }
 
 #if defined(PLATFORM_OS_WINDOWS)
-  Gtk::Widget *box             = Gtk::manage(GtkUtil::create_label("Monitoring", false));
+  Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
   tnotebook->append_page(*monitoring_page, *box);
@@ -506,7 +489,7 @@ PreferencesDialog::create_monitoring_page()
   panel->set_border_width(12);
 
   Gtk::Label *monitor_type_lab = Gtk::manage(GtkUtil::create_label(_("Use alternate monitor"), false));
-  monitor_type_cb              = Gtk::manage(new Gtk::CheckButton());
+  monitor_type_cb = Gtk::manage(new Gtk::CheckButton());
   monitor_type_cb->add(*monitor_type_lab);
   monitor_type_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_monitor_type_toggled));
   panel->pack_start(*monitor_type_cb, false, false, 0);
@@ -518,8 +501,8 @@ PreferencesDialog::create_monitoring_page()
     Gtk::manage(GtkUtil::create_label(_("Workrave needs to be restarted manually after changing this setting"), false));
   panel->pack_start(*monitor_type_help2, false, false, 0);
 
-  sensitivity_box                   = Gtk::manage(new Gtk::HBox());
-  Gtk::Widget *sensitivity_lab      = Gtk::manage(GtkUtil::create_label_with_tooltip(
+  sensitivity_box = Gtk::manage(new Gtk::HBox());
+  Gtk::Widget *sensitivity_lab = Gtk::manage(GtkUtil::create_label_with_tooltip(
     _("Mouse sensitivity:"), _("Number of pixels the mouse should move before it is considered activity.")));
   Gtk::SpinButton *sensitivity_spin = Gtk::manage(new Gtk::SpinButton(sensitivity_adjustment));
   sensitivity_box->pack_start(*sensitivity_lab, false, false, 0);
@@ -569,7 +552,7 @@ PreferencesDialog::add_page(const char *label, const char *image, Gtk::Widget &w
 void
 PreferencesDialog::on_sound_changed()
 {
-  IGUI *gui           = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundTheme::Ptr snd = gui->get_sound_theme();
 
   int idx = sound_button->get_active_row_number();
@@ -664,8 +647,8 @@ PreferencesDialog::on_current_cell_data(const Gtk::TreeModel::const_iterator &it
   if (iter)
     {
       Gtk::TreeModel::Row row = *iter;
-      Glib::ustring name      = row[languages_columns.current];
-      bool enabled            = row[languages_columns.enabled];
+      Glib::ustring name = row[languages_columns.current];
+      bool enabled = row[languages_columns.enabled];
 
       current_cellrenderer.set_property("text", name);
       current_cellrenderer.set_property("sensitive", enabled);
@@ -678,8 +661,8 @@ PreferencesDialog::on_native_cell_data(const Gtk::TreeModel::const_iterator &ite
   if (iter)
     {
       Gtk::TreeModel::Row row = *iter;
-      Glib::ustring name      = row[languages_columns.native];
-      bool enabled            = row[languages_columns.enabled];
+      Glib::ustring name = row[languages_columns.native];
+      bool enabled = row[languages_columns.enabled];
 
       native_cellrenderer.set_property("text", name);
       native_cellrenderer.set_property("sensitive", enabled);
@@ -691,10 +674,10 @@ PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator &iter1, c
 {
   Gtk::TreeModel::Row row1 = *iter1;
   Gtk::TreeModel::Row row2 = *iter2;
-  Glib::ustring name1      = row1[languages_columns.current];
-  Glib::ustring name2      = row2[languages_columns.current];
-  Glib::ustring code1      = row1[languages_columns.code];
-  Glib::ustring code2      = row2[languages_columns.code];
+  Glib::ustring name1 = row1[languages_columns.current];
+  Glib::ustring name2 = row2[languages_columns.current];
+  Glib::ustring code1 = row1[languages_columns.code];
+  Glib::ustring code2 = row2[languages_columns.code];
 
   if (code1 == "")
     {
@@ -749,7 +732,7 @@ PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
   if (iter)
     {
       Gtk::TreeRow row = *iter;
-      string id        = (Glib::ustring)row[sound_model.label];
+      string id = (Glib::ustring)row[sound_model.label];
       SoundEvent event = SoundTheme::sound_id_to_event(id);
 
       SoundTheme::sound_event_enabled(event).set(row[sound_model.enabled]);
@@ -760,19 +743,19 @@ void
 PreferencesDialog::on_sound_play()
 {
   Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-  Gtk::TreeModel::iterator iter              = selection->get_selected();
+  Gtk::TreeModel::iterator iter = selection->get_selected();
 
   if (iter)
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string id        = (Glib::ustring)row[sound_model.label];
+      string id = (Glib::ustring)row[sound_model.label];
       SoundEvent event = SoundTheme::sound_id_to_event(id);
 
       std::string filename = SoundTheme::sound_event(event)();
       if (filename != "")
         {
-          IGUI *gui           = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           SoundTheme::Ptr snd = gui->get_sound_theme();
           snd->play_sound(filename);
         }
@@ -784,7 +767,7 @@ PreferencesDialog::on_sound_filechooser_play()
 {
   string filename = fsbutton->get_filename();
 
-  IGUI *gui           = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   SoundTheme::Ptr snd = gui->get_sound_theme();
   snd->play_sound(filename);
 }
@@ -802,7 +785,7 @@ PreferencesDialog::on_sound_filechooser_select()
       TRACE_MSG("ok");
 
       Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-      Gtk::TreeModel::iterator iter              = selection->get_selected();
+      Gtk::TreeModel::iterator iter = selection->get_selected();
 
       if (iter)
         {
@@ -810,7 +793,7 @@ PreferencesDialog::on_sound_filechooser_select()
 
           TRACE_MSG(row[sound_model.label]);
 
-          string id        = (Glib::ustring)row[sound_model.label];
+          string id = (Glib::ustring)row[sound_model.label];
           SoundEvent event = SoundTheme::sound_id_to_event(id);
           SoundTheme::sound_event(event).set(filename);
 
@@ -828,15 +811,15 @@ PreferencesDialog::on_sound_events_changed()
 {
   TRACE_ENTER("PreferencesDialog::on_sound_events_changed");
   Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-  Gtk::TreeModel::iterator iter              = selection->get_selected();
+  Gtk::TreeModel::iterator iter = selection->get_selected();
 
   if (iter)
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string id        = (Glib::ustring)row[sound_model.label];
+      string id = (Glib::ustring)row[sound_model.label];
       SoundEvent event = SoundTheme::sound_id_to_event(id);
-      string filename  = SoundTheme::sound_event(event)();
+      string filename = SoundTheme::sound_event(event)();
 
       TRACE_MSG(filename);
 
@@ -866,14 +849,14 @@ PreferencesDialog::on_sound_theme_changed()
       sound_theme->activate_theme(theme_id);
 
       Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-      Gtk::TreeModel::iterator iter              = selection->get_selected();
+      Gtk::TreeModel::iterator iter = selection->get_selected();
 
       if (iter)
         {
           Gtk::TreeModel::Row row = *iter;
-          string id               = (Glib::ustring)row[sound_model.label];
-          SoundEvent event        = SoundTheme::sound_id_to_event(id);
-          string filename         = SoundTheme::sound_event(event)();
+          string id = (Glib::ustring)row[sound_model.label];
+          SoundEvent event = SoundTheme::sound_id_to_event(id);
+          string filename = SoundTheme::sound_event(event)();
 
           if (filename != "")
             {
@@ -978,7 +961,7 @@ PreferencesDialog::update_icon_theme_combo()
       icon_theme_button->set_active(0);
 
       std::string current_icontheme = GUIConfig::icon_theme()();
-      int idx                       = 1;
+      int idx = 1;
       for (auto &theme: themes)
         {
 #if GTKMM_CHECK_VERSION(2, 24, 0)
@@ -1002,7 +985,7 @@ PreferencesDialog::update_icon_theme_combo()
 void
 PreferencesDialog::on_debug_pressed()
 {
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->on_menu_debug();
 }

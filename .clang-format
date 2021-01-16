@@ -3,7 +3,7 @@ Language:        Cpp
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 AlignConsecutiveMacros: false
-AlignConsecutiveAssignments: true
+AlignConsecutiveAssignments: false
 AlignConsecutiveBitFields: false
 # false until https://reviews.llvm.org/D27651 is solved
 AlignConsecutiveDeclarations: false

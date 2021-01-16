@@ -41,7 +41,7 @@ namespace workrave
 
       virtual ~IInputMonitorFactory() = default;
 
-      virtual void init(const char *display)                                  = 0;
+      virtual void init(const char *display) = 0;
       virtual IInputMonitor::Ptr create_monitor(MonitorCapability capability) = 0;
     };
   } // namespace input_monitor
