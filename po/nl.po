@@ -1532,9 +1532,9 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 #~ "from the wall again without changing the angle of the elbows."
 #~ msgstr ""
 #~ "Ga met je gezicht tegen een muur staan en zet je handen er op"
-#~ "schouderhoogte tegenaan met je ellebogen licht gebogen. Duw je 
-#~ "lichaam tegen de muur, zonder de hoek van je ellebogen te veranderen. 
-#~ "Duw vervolgens je lichaam weer van de muur af zonder de hoek van de 
+#~ "schouderhoogte tegenaan met je ellebogen licht gebogen. Duw je "
+#~ "lichaam tegen de muur, zonder de hoek van je ellebogen te veranderen. "
+#~ "Duw vervolgens je lichaam weer van de muur af zonder de hoek van de "
 #~ "ellebogen te veranderen."
 
 #~ msgid "Hide main window at start-up"
