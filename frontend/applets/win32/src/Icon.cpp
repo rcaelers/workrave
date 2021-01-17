@@ -27,12 +27,13 @@
 
 #define ICON_CLASS_NAME "WorkraveIcon"
 
-Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskband)
-  : deskband(deskband)
+Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, int size, CDeskBand *deskband)
+  : deskband(deskband),
+    size(size)
 {
   init(hinst);
-  icon = (HICON)LoadImage(hinst, resource, IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-  hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this);
+  icon = (HICON)LoadImage(hinst, resource, IMAGE_ICON, size, size, LR_DEFAULTCOLOR);
+  hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, size, size, parent, NULL, hinst, (LPVOID)this);
 
   paint_helper = new PaintHelper(hwnd);
 }
@@ -89,8 +90,8 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 void
 Icon::get_size(int &w, int &h) const
 {
-  w = 16;
-  h = 16;
+  w = size;
+  h = size;
 }
 
 LRESULT
@@ -101,7 +102,7 @@ Icon::on_paint()
   HDC dc = paint_helper->BeginPaint();
   if (dc != NULL)
     {
-      paint_helper->DrawIcon(0, 0, icon, 16, 16);
+      paint_helper->DrawIcon(0, 0, icon, size, size);
       paint_helper->EndPaint();
     }
   TRACE_EXIT();

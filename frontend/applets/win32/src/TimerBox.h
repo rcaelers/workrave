@@ -44,31 +44,35 @@ public:
   void get_preferred_size(int &width, int &height) const;
   void get_minimum_size(int &width, int &height) const;
   void update(bool repaint);
+  void update_dpi();
   void set_enabled(bool enabled);
 
 private:
+  void init_icons();
   void update_sheep(TransparentDamageControl &ctrl);
   void update_time_bars(TransparentDamageControl &ctrl);
   void update_dimensions();
 
-  TimeBar *slot_to_time_bar[BREAK_ID_SIZEOF];
-  HWND parent_window;
-  Icon *sheep_icon;
+  TimeBar *slot_to_time_bar[BREAK_ID_SIZEOF]{};
+  CDeskBand *deskband{nullptr};
+  HWND parent_window{};
+  HINSTANCE hinstance{};
+  Icon *sheep_icon{nullptr};
   Icon *break_to_icon[BREAK_ID_SIZEOF];
   BreakId slot_to_break[BREAK_ID_SIZEOF];
   short break_to_slot[BREAK_ID_SIZEOF];
   bool break_visible[BREAK_ID_SIZEOF];
-  bool enabled;
-  short filled_slots;
-  int width;
-  int height;
-  int preferred_width;
-  int preferred_height;
-  int minimum_width;
-  int minimum_height;
+  bool enabled{false};
+  short filled_slots{0};
+  int width{0};
+  int height{0};
+  int preferred_width{-1};
+  int preferred_height{-1};
+  int minimum_width{-1};
+  int minimum_height{-1};
   int icon_bar_width;
-  int rows;
-  int columns;
+  int rows{0};
+  int columns{0};
 };
 
 #endif // TIMERBOX_H

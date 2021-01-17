@@ -30,28 +30,22 @@ const int PADDING_X = 2;
 const int PADDING_Y = 2;
 
 TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
+  : parent_window(parent)
+  , hinstance(hinst)
+  , deskband(deskband)
 {
-  const char *icon_ids[] = {"micropause", "restbreak", "dailylimit"};
-  sheep_icon             = new Icon(parent, hinst, "workrave", deskband);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       slot_to_time_bar[i] = new TimeBar(parent, hinst, deskband);
-      break_to_icon[i]    = new Icon(parent, hinst, icon_ids[i], deskband);
+      break_to_icon[i]    = NULL;
 
       break_visible[i] = false;
       slot_to_break[i] = BREAK_ID_NONE;
       break_to_slot[i] = -1;
     }
-  filled_slots     = 0;
-  enabled          = false;
-  parent_window    = parent;
-  preferred_width  = -1;
-  preferred_height = -1;
-  minimum_width    = -1;
-  minimum_height   = -1;
-  rows             = 0;
-  columns          = 0;
+
+  init_icons();
 }
 
 TimerBox::~TimerBox()
@@ -138,6 +132,49 @@ TimerBox::update(bool repaint)
   update_sheep(ctrl);
   TRACE_MSG("end paint");
   ctrl.EndPaint();
+  TRACE_EXIT();
+}
+
+void 
+TimerBox::update_dpi()
+{
+  init_icons();
+}
+
+void
+TimerBox::init_icons()
+{
+  TRACE_ENTER("TimerBox::update_icons");
+  const char *icon_ids[] = {"micropause", "restbreak", "dailylimit"};
+
+  UINT dpi = GetDpiForWindow(parent_window);
+  TRACE_MSG("dpi " << dpi);
+  int size = 16;
+  if (dpi >= 192)
+    {
+      size = 32;
+    }
+  else if (dpi >= 144)
+    {
+      size = 24;
+    }
+
+  TRACE_MSG("size " << size);
+  if (sheep_icon != nullptr)
+    {
+      delete sheep_icon;
+    }
+
+  sheep_icon = new Icon(parent_window, hinstance, "workrave", size, deskband);
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      if (break_to_icon[i] != NULL)
+        {
+          delete break_to_icon[i];
+        }
+      break_to_icon[i] = new Icon(parent_window, hinstance, icon_ids[i], size, deskband);
+    }
   TRACE_EXIT();
 }
 

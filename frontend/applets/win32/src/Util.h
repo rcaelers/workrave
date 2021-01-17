@@ -32,16 +32,16 @@ public:
   void EndPaint();
 
 private:
-  int hide_windows_num;
-  HWND hide_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE];
+  int hide_windows_num{0};
+  HWND hide_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE]{};
   struct ShowWindowData
   {
     HWND hwnd;
     int x, y;
   };
-  ShowWindowData show_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE];
-  int show_windows_num;
-  BOOL repaint;
+  ShowWindowData show_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE]{};
+  int show_windows_num{0};
+  BOOL repaint{false};
 };
 
 #endif // UTIL_H

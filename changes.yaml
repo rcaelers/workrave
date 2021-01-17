@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.10.45
-    date: 2020-12-01T12:52:50+01:00
+    date: 2021-01-20T00:00:00+01:00
     short: |-
       Workrave 1.10.45 has been released. This release adds a new sound theme and several small improvements.
     changes:
@@ -21,6 +21,7 @@ releases:
       - Fix build issue with libayatana-indicator3.
       - Fix issue where Workrave shows 2 status icons on Linux (#258)
       - Updated Dutch translation (Matthias Huijgen)
+      - Support High-DPI displays in the Windows Applet.
 
   - version: 1.10.44
     date: 2020-05-09T12:52:50+02:00
