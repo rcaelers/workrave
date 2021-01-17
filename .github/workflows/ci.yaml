@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - branch_v1_10
+    tags:
+      - 'v1_10_*'
   pull_request:
     branches:
       - branch_v1_10
@@ -34,7 +36,7 @@ jobs:
             frontend/applets/win32/src/Debug/workrave-applet.dll
 
   build-mingw:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ build-windows ]
     strategy:
       matrix:
@@ -60,18 +62,6 @@ jobs:
             upload: false
 
     steps:
-      - name: Prepare
-        run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-          elif [[ $GITHUB_REF == refs/heads/branch_v1_10 ]]; then
-            echo ::set-output name=version::latest
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/heads/}
-          else
-            echo ::set-output name=version::dev
-          fi
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -95,7 +85,7 @@ jobs:
         env:
            WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
            WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
+           WORKRAVE_JOB_INDEX: m${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
            CONF_GTK_VER: ${{ matrix.config.gtk_version }}
            CONF_ENABLE: ${{ matrix.config.enable }}
@@ -108,11 +98,11 @@ jobs:
         uses: actions/upload-artifact@v2
         if: ${{ matrix.config.upload }}
         with:
-          name: binaries
+          name: artifacts
           path: _deploy
 
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       max-parallel: 20
@@ -162,18 +152,6 @@ jobs:
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
     steps:
-      - name: Prepare
-        run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-          elif [[ $GITHUB_REF == refs/heads/branch_v1_10 ]]; then
-            echo ::set-output name=version::latest
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/heads/}
-          else
-            echo ::set-output name=version::dev
-          fi
-        
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -191,7 +169,7 @@ jobs:
         env:
            WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
            WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
+           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
            CONF_GTK_VER: ${{ matrix.config.gtk_version }}
            CONF_ENABLE: ${{ matrix.config.enable }}
@@ -204,11 +182,11 @@ jobs:
         uses: actions/upload-artifact@v2
         if: ${{ matrix.config.upload }}
         with:
-          name: binaries
+          name: artifacts
           path: _deploy
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ build-linux, build-mingw ]
     if: github.event_name == 'push'
     steps:
@@ -218,7 +196,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: binaries
+          name: artifacts
           path: _deploy
 
       - name: Upload artifacts to MinIO
@@ -242,8 +220,109 @@ jobs:
            WORKSPACE: ${{ github.workspace }}
            SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
+  release:
+    runs-on: ubuntu-20.04
+    needs: [ build-linux, build-mingw ]
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts
+          path: artifacts
+
+      - name: Prepare
+        id: prepare
+        run: |
+          TAG=${GITHUB_REF#refs/*/}
+          VERSION=$(echo $TAG | sed -e 's/_/./g' -e 's/-.*//g')
+
+          echo "TAG=${TAG}" >> $GITHUB_ENV
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+          CATALOGS=$( find ${{ github.workspace }}/artifacts/ -name "job-catalog*" )
+
+          PORTABLE=$(jq -r '.builds[].artifacts[] | select(.kind == "portable" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
+          PORTABLE=$(find ${{ github.workspace }}/artifacts/ -name $PORTABLE)
+          echo ::set-output name=portable_file::${PORTABLE}
+          echo ::set-output name=portable_name::workrave-win32-${VERSION}-portable.zip
+
+          INSTALLER=$(jq -r '.builds[].artifacts[] | select(.kind == "installer" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
+          INSTALLER=$(find ${{ github.workspace }}/artifacts/ -name $INSTALLER)
+          echo ::set-output name=installer_file::${INSTALLER}
+          echo ::set-output name=installer_name::workrave-win32-${VERSION}.exe
+
+          SOURCE=$(jq -r '.builds[].artifacts[] | select(.kind == "source" and .platform == "all" and .configuration=="none") | .filename' ${CATALOGS})
+          SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
+          echo ::set-output name=source_file::${SOURCE}
+          echo ::set-output name=source_name::workrave-${VERSION}.tar.gz
+
+      - name: Generate news
+        run: |
+          cd ${{ github.workspace }}/build/newsgen
+          npm i
+          cd ${{ github.workspace }}
+          node ${{ github.workspace }}/build/newsgen/main.js \
+            --input "${{ github.workspace }}/changes.yaml" \
+            --template github \
+            --single \
+            --release $(echo $VERSION | sed -e 's/^v//g') \
+            --output "github-release-news"
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ env.VERSION }}
+          body_path: ${{ github.workspace }}/github-release-news
+          draft: true
+          prerelease: false
+
+      - name: Upload portable
+        if: steps.prepare.outputs.portable_file
+        id: upload-portable
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.prepare.outputs.portable_file }}
+          asset_name: ${{ steps.prepare.outputs.portable_name }}
+          asset_content_type: application/zip
+
+      - name: Upload installer
+        if: steps.prepare.outputs.installer_file
+        id: upload-installer
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.prepare.outputs.installer_file }}
+          asset_name: ${{ steps.prepare.outputs.installer_name }}
+          asset_content_type: application/zip
+
+      - name: Upload source
+        if: steps.prepare.outputs.source_file
+        id: upload-source
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.prepare.outputs.source_file }}
+          asset_name: ${{ steps.prepare.outputs.source_name }}
+          asset_content_type: application/zip
+
   website:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event_name == 'push'
     needs: [ deploy ]
     steps:
