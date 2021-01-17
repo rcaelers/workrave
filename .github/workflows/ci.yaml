@@ -307,7 +307,7 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.prepare.outputs.installer_file }}
           asset_name: ${{ steps.prepare.outputs.installer_name }}
-          asset_content_type: application/zip
+          asset_content_type: application/octet-stream
 
       - name: Upload source
         if: steps.prepare.outputs.source_file
@@ -319,7 +319,7 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.prepare.outputs.source_file }}
           asset_name: ${{ steps.prepare.outputs.source_name }}
-          asset_content_type: application/zip
+          asset_content_type: application/gzip
 
   website:
     runs-on: ubuntu-20.04
