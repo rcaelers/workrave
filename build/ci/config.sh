@@ -7,6 +7,7 @@ case "$WORKRAVE_ENV" in
         BUILD_DIR=${WORKSPACE}/build
         DEPLOY_DIR=${WORKSPACE}/deploy
         PREBUILT_DIR=${WORKSPACE}/prebuilt
+        SECRETS_DIR=${WORKSPACE}/secrets
         SCRIPTS_DIR=${WORKSPACE}/scripts
         CI_DIR=${SCRIPTS_DIR}/ci
         ;;
