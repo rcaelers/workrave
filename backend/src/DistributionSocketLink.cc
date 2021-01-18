@@ -320,7 +320,7 @@ DistributionSocketLink::reconnect_all()
 
 //! Attempt to become the master node.
 /*!
- *  \return true if the claim was successfull.
+ *  \return true if the claim was successful.
  */
 bool
 DistributionSocketLink::claim()
@@ -770,7 +770,7 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
       if (client->socket != NULL)
         {
           TRACE_MSG("Still connected");
-          // Still connected. Disconect.
+          // Still connected. Disconnect.
           delete client->socket;
           client->socket = NULL;
 
@@ -799,7 +799,7 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
         {
           TRACE_MSG("still connected");
 
-          // Still connected. Disconect.
+          // Still connected. Disconnect.
           delete client->socket;
           client->socket = NULL;
 

@@ -121,7 +121,7 @@ private:
   //!
   MainWindow *main_window;
 
-  //! Reponse interface for breaks
+  //! Response interface for breaks
   IBreakResponse *response;
 
   //! Destroy break window on next heartbeat?

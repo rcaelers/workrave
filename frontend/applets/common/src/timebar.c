@@ -171,7 +171,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
           overlap_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
           break;
         default:
-          // We could abort() becaue this is not supported
+          // We could abort() because this is not supported
           // but there are some weird boundary cases
           // in which this still happens.. need to check
           // this out some time.
