@@ -115,7 +115,7 @@ private:
   //! Head
   HeadInfo head;
 
-  // Aligment in Waylang
+  // Alignment in Waylang
   Gtk::Alignment *align;
 };
 

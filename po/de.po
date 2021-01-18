@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: Workrave 1.8.4\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2020-04-13 09:01+0800\n"
-"PO-Revision-Date: 2013-06-16 19:00+0200\n"
+"PO-Revision-Date: 2021-01-18 11:02+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
-"Language: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
 
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
@@ -454,7 +455,7 @@ msgstr "Übung beendet"
 
 #: ../frontend/common/src/SoundPlayer.cc:606
 msgid "Custom"
-msgstr ""
+msgstr "Benutzerdefiniert"
 
 # src/app/Text.cc:75
 #: ../frontend/common/src/Text.cc:78
@@ -522,12 +523,16 @@ msgstr "_Aufschieben"
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
+"Sie können diese Pause nicht überspringen, solange eine andere nicht "
+"überspringbare Pause überfällig ist."
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:677
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
+"Sie können diese Pause nicht verschieben, solange eine andere nicht "
+"verschiebbare Pause überfällig ist."
 
 # src/app/gtkmm/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
@@ -545,6 +550,9 @@ msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave läuft noch. Sie können auf Workrave zugreifen, indem Sie auf das "
+"Symbol für weiße Schafe klicken. Klicken Sie auf diese Sprechblase, um diese "
+"Nachricht zu deaktivieren"
 
 # src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:2
 #: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
@@ -557,21 +565,27 @@ msgstr "Läuft Workrave bereits?"
 
 #: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "Workrave konnte Ihre Tastatur- und Mausaktivität nicht überwachen.\n"
 
 #: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
+"Stellen Sie sicher, dass die RECORD-Erweiterung auf dem X-Server aktiviert "
+"ist."
 
 #: ../frontend/gtkmm/src/GUI.cc:1379
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
+"Workrave befindet sich im angehaltenen Modus. Maus- und Tastaturaktivitäten "
+"werden nicht überwacht."
 
 #: ../frontend/gtkmm/src/GUI.cc:1385
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
+"Workrave befindet sich im leisen Modus. Es werden keine "
+"Unterbrechungsfenster angezeigt."
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
@@ -922,6 +936,8 @@ msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
+"Aktivieren Sie diese Option, wenn Workrave nicht erkennt, wann Sie Ihren "
+"Computer verwenden"
 
 # src/app/gtkmm/StatisticsDialog.cc:290
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:571
@@ -933,6 +949,8 @@ msgstr "Mausbewegung insgesamt:"
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
+"Anzahl der Pixel, die sich die Maus bewegen soll, bevor sie als aktiv "
+"betrachtet wird."
 
 # src/app/gtkmm/PreludeWindow.cc:81
 #: ../frontend/gtkmm/src/PreludeWindow.cc:140
@@ -1146,6 +1164,7 @@ msgstr "Ruhepause starten wenn Bildschirm gesperrt wird"
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
+"Aktivieren Sie das Herunterfahren des Computers über den Ruhebildschirm"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
@@ -1462,23 +1481,23 @@ msgstr "Übungsabspieler"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 msgid "Previous exercise"
-msgstr ""
+msgstr "Vorherige Übung"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Next exercise"
-msgstr "Anzahl der Übungen"
+msgstr "Nächste Übung"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:494
 msgid "Pause exercises"
-msgstr "Anzahl der Übungen"
+msgstr "Pausiere Übungen"
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
 msgid "End exercises"
-msgstr "Übungen"
+msgstr "Beende Übungen"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
@@ -1493,7 +1512,7 @@ msgstr "Pause"
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:492
 msgid "Resume exercises"
-msgstr "Anzahl der Übungen"
+msgstr "Wiederaufnehmen der Übungen"
 
 # src/app/gtkmm/StatisticsDialog.cc:124
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
@@ -1503,7 +1522,7 @@ msgstr "Verlauf betrachten"
 #. Delete button
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "Löschen Sie den gesamten Statistikverlauf"
 
 # src/app/gtkmm/StatisticsDialog.cc:131
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:165
@@ -1591,11 +1610,11 @@ msgstr "Gesamte Zeit, die diese Pause überfällig war."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:242
 msgid "Usage"
-msgstr ""
+msgstr "Benutzung"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
 msgid "Active computer usage"
-msgstr ""
+msgstr "Aktive Computernutzung"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
@@ -1612,19 +1631,21 @@ msgstr "Gesamte Computernutzung"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:252
 msgid "Weekly"
-msgstr ""
+msgstr "Wöchentlich"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:253
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
+"Die gesamte Computernutzung für die gesamte Woche des ausgewählten Tages"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:257
 msgid "Monthly"
-msgstr ""
+msgstr "Monatlich"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:258
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
+"Die gesamte Computernutzung für den gesamten Monat des ausgewählten Tages"
 
 # src/app/gtkmm/StatisticsDialog.cc:276
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:344
@@ -1694,19 +1715,20 @@ msgstr "%s, von %s bis %s"
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:726
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:730
 msgid "Warning"
-msgstr ""
+msgstr "Warnung"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:727
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
+"Sie haben sich entschieden, Ihren Statistikverlauf zu löschen. Fortsetzen?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:742
 msgid "Files deleted!"
-msgstr ""
+msgstr "Dateien gelöscht!"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:743
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "Die Dateien mit Ihrem Statistikverlauf wurden gelöscht."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:746
 msgid "Info"
@@ -1714,12 +1736,14 @@ msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:752
 msgid "File deletion failed!"
-msgstr ""
+msgstr "Löschen der Datei fehlgeschlagen!"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:753
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
+"Die Dateien mit Ihrem Statistikverlauf konnten nicht gelöscht werden. "
+"Versuchen Sie es nochmal?"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:756
 msgid "Error"

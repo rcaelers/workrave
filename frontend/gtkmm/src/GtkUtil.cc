@@ -118,7 +118,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
     }
   else
     {
-      /* Button witout images must have a label */
+      /* Button without images must have a label */
       label = true;
     }
   if (label_text != NULL && label)

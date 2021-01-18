@@ -224,7 +224,7 @@ private:
   //! Number of active prelude windows;
   int active_prelude_count;
 
-  //! Reponse interface for breaks
+  //! Response interface for breaks
   IBreakResponse *response;
 
   //! Current active break.
