@@ -45,8 +45,6 @@ RUN \
     libgirepository1.0-dev \
     libgstreamer1.0-dev \
     libgtk-3-dev \
-    libgtk2.0-dev \
-    libgtkmm-2.4-dev \
     libgtkmm-3.0-dev \
     libindicator3-dev \
     libmate-panel-applet-dev \
@@ -64,7 +62,9 @@ RUN \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \
+    qtbase5-dev-tools \
     qtbase5-private-dev \
+    qttools5-dev \
     qttools5-dev-tools \
     xfce4-panel-dev && \
   apt-get clean

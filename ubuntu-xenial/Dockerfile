@@ -1,6 +1,6 @@
 FROM ubuntu:xenial
 
-MAINTAINER Rob Caelers <rob.caelers@gmail.com>
+LABEL maintainer "Rob Caelers <rob.caelers@gmail.com>"
 
 RUN \
   export DEBIAN_FRONTEND=noninteractive && \
@@ -44,6 +44,7 @@ RUN \
     libpulse-dev \
     libqt5svg5-dev \
     libqt5x11extras5-dev \
+    libxfce4panel-2.0-dev \
     libssl-dev \
     libtool \
     libxi-dev \
@@ -53,7 +54,9 @@ RUN \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \
+    qtbase5-dev-tools \
     qtbase5-private-dev \
+    qttools5-dev \
     qttools5-dev-tools \
     xfce4-panel-dev && \
   apt-get clean
