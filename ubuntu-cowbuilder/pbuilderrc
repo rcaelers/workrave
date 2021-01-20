@@ -1,0 +1,203 @@
+# pbuilder defaults; edit /etc/pbuilderrc to override these and see
+# pbuilderrc.5 for documentation
+
+# Set how much output you want from pbuilder, valid values are
+# E => errors only
+# W => errors and warnings
+# I => errors, warnings and informational
+# D => all of the above and debug messages
+LOGLEVEL=I
+# if positive, some log messagges (errors, warnings, debugs) will be colored
+# auto => try automatically detection
+# yes  => always use colors
+# no   => never use colors
+USECOLORS=auto
+
+
+# Codenames for Debian suites according to their alias. Update these when
+# needed.
+UNSTABLE_CODENAME="sid"
+TESTING_CODENAME="buster"
+STABLE_CODENAME="stretch"
+STABLE_BACKPORTS_SUITE="$STABLE_CODENAME-backports"
+OLDSTABLE_CODENAME="jessie"
+
+# List of Debian suites.
+DEBIAN_SUITES=($UNSTABLE_CODENAME $TESTING_CODENAME $STABLE_CODENAME $STABLE_BACKPORTS_SUITE $OLDSTABLE_CODENAME
+    "experimental" "unstable" "testing" "stable")
+
+# List of Ubuntu suites. Update these when needed.
+UBUNTU_SUITES=("hirsute" "groovy" "focal" "bionic" "xenial")
+
+# Mirrors to use. Update these to your preferred mirror.
+DEBIAN_MIRROR="deb.debian.org"
+UBUNTU_MIRROR="archive.ubuntu.com"
+
+NAME="$DIST"
+if [ -n "${ARCH}" ]; then
+    NAME="$NAME-$ARCH"
+    DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
+fi
+
+DISTRIBUTION="$DIST"
+
+#BASETGZ=/var/cache/pbuilder/base.tgz
+BASEPATH=/var/cache/pbuilder/base-$NAME.cow
+#EXTRAPACKAGES=""
+#export DEBIAN_BUILDARCH=athlon
+BUILDPLACE=/var/cache/pbuilder/build
+# directory inside the chroot where the build happens. See #789404
+BUILDDIR=/build
+# what be used as value for HOME during builds.  See #441052
+# The default value prevents builds to write on HOME, which is prevented on
+# Debian buildds too.  You can set it to $BUILDDIR to get a working HOME, if
+# you need to.
+BUILD_HOME=/nonexistent
+#MIRRORSITE=http://archive.ubuntu.com/ubuntu
+#OTHERMIRROR="deb http://www.home.com/updates/ ./"
+#export http_proxy=http://your-proxy:8080/
+USESHM=no
+USEPROC=no
+USEDEVFS=no
+USEDEVPTS=no
+USESYSFS=no
+USENETWORK=no
+USECGROUP=yes
+BUILDRESULT=/var/cache/pbuilder/result/
+
+# specifying the distribution forces the distribution on "pbuilder update"
+# DISTRIBUTION=devel
+# specifying the architecture passes --arch= to debootstrap; the default is
+# to use the architecture of the host
+#ARCHITECTURE=$(dpkg --print-architecture)
+# specifying the components of the distribution, for instance to enable all
+# components on Debian use "main contrib non-free" and on Ubuntu "main
+# restricted universe multiverse"
+#COMPONENTS="main universe"
+#specify the cache for APT
+APTCACHE="/var/cache/pbuilder/aptcache/"
+APTCACHEHARDLINK="no"
+REMOVEPACKAGES=""
+#HOOKDIR="/usr/lib/pbuilder/hooks"
+HOOKDIR=""
+EATMYDATA=no
+# NB: this var is private to pbuilder; ccache uses "CCACHE_DIR" instead
+# CCACHEDIR="/var/cache/pbuilder/ccache"
+CCACHEDIR=""
+
+# make debconf not interact with user
+export DEBIAN_FRONTEND="noninteractive"
+
+#for pbuilder debuild
+BUILDSOURCEROOTCMD="" #fakeroot"
+PBUILDERROOTCMD="" #sudo -E"
+# use cowbuilder for pdebuild
+PDEBUILD_PBUILDER="cowbuilder"
+
+# Whether to generate an additional .changes file for a source-only upload,
+# whilst still producing a full .changes file for any binary packages built.
+SOURCE_ONLY_CHANGES=no
+
+# additional build results to copy out of the package build area
+#ADDITIONAL_BUILDRESULTS=(xunit.xml .coverage)
+
+# command to satisfy build-dependencies; the default is an internal shell
+# implementation which is relatively slow; there are two alternate
+# implementations, the "experimental" implementation,
+# "pbuilder-satisfydepends-experimental", which might be useful to pull
+# packages from experimental or from repositories with a low APT Pin Priority,
+# and the "aptitude" implementation, which will resolve build-dependencies and
+# build-conflicts with aptitude which helps dealing with complex cases but does
+# not support unsigned APT repositories
+PBUILDERSATISFYDEPENDSCMD="/usr/lib/pbuilder/pbuilder-satisfydepends"
+
+# Arguments for $PBUILDERSATISFYDEPENDSCMD.
+# PBUILDERSATISFYDEPENDSOPT=()
+
+# You can optionally make pbuilder accept untrusted repositories by setting
+# this option to yes, but this may allow remote attackers to compromise the
+# system. Better set a valid key for the signed (local) repository with
+# $APTKEYRINGS (see below).
+ALLOWUNTRUSTED=no
+
+# Option to pass to apt-get always.
+export APTGETOPT=()
+# Option to pass to aptitude always.
+export APTITUDEOPT=()
+
+# Whether to use debdelta or not.  If "yes" debdelta will be installed in the
+# chroot
+DEBDELTA=no
+
+#Command-line option passed on to dpkg-buildpackage.
+#DEBBUILDOPTS="-IXXX -iXXX"
+DEBBUILDOPTS=""
+
+#APT configuration files directory
+APTCONFDIR=""
+
+# the username and ID used by pbuilder, inside chroot. Needs fakeroot, really
+BUILDUSERID=1234
+BUILDUSERNAME=pbuilder
+
+# BINDMOUNTS is a space separated list of things to mount
+# inside the chroot.
+BINDMOUNTS=""
+
+# Set the debootstrap variant to 'buildd' type.
+DEBOOTSTRAPOPTS=(
+    '--variant=buildd'
+    '--force-check-gpg'
+    )
+# or unset it to make it not a buildd type.
+# unset DEBOOTSTRAPOPTS
+
+# Keyrings to use for package verification with apt, not used for debootstrap
+# (use DEBOOTSTRAPOPTS). By default the debian-archive-keyring package inside
+# the chroot is used.
+APTKEYRINGS=()
+
+# Set the PATH I am going to use inside pbuilder: default is "/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+
+# SHELL variable is used inside pbuilder by commands like 'su'; and they need sane values
+export SHELL=/bin/bash
+
+# The name of debootstrap command, you might want "cdebootstrap".
+DEBOOTSTRAP="debootstrap"
+
+# default file extension for pkgname-logfile
+PKGNAME_LOGFILE_EXTENSION="_$(dpkg --print-architecture).build"
+
+# default PKGNAME_LOGFILE
+PKGNAME_LOGFILE=""
+
+# default AUTOCLEANAPTCACHE
+AUTOCLEANAPTCACHE=""
+
+#default COMPRESSPROG
+COMPRESSPROG="gzip"
+
+# pbuilder copies some configuration files (like /etc/hosts or /etc/hostname)
+# from the host system into the chroot.  If the directory specified here
+# exists and contains one of the copied files (without the leading /etc) that
+# file will be copied from here instead of the system one
+CONFDIR="/etc/pbuilder/conf_files"
+
+if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
+    # Debian configuration
+    MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
+    COMPONENTS="main contrib non-free"
+    if $(echo "$STABLE_CODENAME stable" | grep -q $DIST); then
+        OTHERMIRROR="$OTHERMIRROR | deb $MIRRORSITE $STABLE_BACKPORTS_SUITE $COMPONENTS"
+    fi
+elif $(echo ${UBUNTU_SUITES[@]} | grep -q $DIST); then
+    # Ubuntu configuration
+    MIRRORSITE="http://$UBUNTU_MIRROR/ubuntu/"
+    COMPONENTS="main restricted universe multiverse"
+else
+    echo "Unknown distribution: $DIST"
+    exit 1
+fi
+
+echo "DIST is $DIST"
