@@ -289,7 +289,7 @@ releases:
     date: 2014-08-15T19:31:40+02:00
     changes:
       - |-
-        Updated tranlations:
+        Updated translations:
         - Danish (Frederik Svarre)
       - Updates Desktop files (Francois Marier, Mike Manger)
 
@@ -352,7 +352,7 @@ releases:
         - Configuration in GSettings (instead of GConf)
         - GIO based DBus (instead of freedesktop.org DBus)
       - |-
-        Obsolete KDE3 support has been droppped.
+        Obsolete KDE3 support has been dropped.
       - |-
         Translation updates:
         - Mykola Rykov translated Workrave into Ukrainian.
@@ -409,7 +409,7 @@ releases:
         - Audio is now unmuted when the user becomes active after the break has
           ended instead of immediately after the break ended.
       - |-
-        By default, the RECORD extention is now mandatory on X windows systems.
+        By default, the RECORD extension is now mandatory on X windows systems.
       - |-
         Bug fixes:
         - Fixed crash on Windows systems without audio installed.
@@ -434,7 +434,7 @@ releases:
       - |-
         The Workrave applet is functional again on Windows 7
       - |-
-        Updated tranlations:
+        Updated translations:
         - Brazilian Portuguese
         - Catalan
         - Hungarian
@@ -892,7 +892,7 @@ releases:
       - |-
         The window prompting you to brake now moves earlier to the top of the
         screen so that it does not interfere too much. Furthermore, the window
-        has a new and improved "evasive manouvers" algorithm.
+        has a new and improved "evasive maneuvers" algorithm.
 
   - version: 0.2.0
     date: 2002-09-26T17:44:37+00:00

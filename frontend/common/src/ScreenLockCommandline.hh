@@ -31,7 +31,7 @@ class ScreenLockCommandline : public IScreenLockMethod
 public:
   // the parameter 'parameters' may be NULL, in which case it is assumed that the
   // program does not take any parameters
-  // async - whether to invoke the program syncronously (async = false, wait for the command
+  // async - whether to invoke the program synchronously (async = false, wait for the command
   // to complete) or asynchronously (async = true)
   ScreenLockCommandline(const char *program_name, const char *parameters, bool async = false);
   ~ScreenLockCommandline()
