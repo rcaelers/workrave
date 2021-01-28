@@ -303,7 +303,7 @@ private:
   //! My name
   // gchar *myname;
 
-  //! My ID accross the network.
+  //! My ID across the network.
   // gchar *myid;
 
   //! My server port

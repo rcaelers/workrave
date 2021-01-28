@@ -1,7 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 BASEDIR=$(dirname "$0")
-source ${BASEDIR}/config.sh
+source ${BASEDIR}/../ci/config.sh
 
 usage() {
     echo "Usage: $0 " 1>&2
@@ -79,6 +79,8 @@ build_sources() {
     tar xzfC ${SOURCES_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz "${BUILD_DIR}"
     cp -a "${DEBIAN_PACKAGING_DIR}/debian" "$BUILD_DIR/workrave-${WORKRAVE_VERSION}/debian"
     cp -a ${SOURCE_TARFILE} "${BUILD_DIR}/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
+
+    cp ${SOURCE_TARFILE} "$DEPLOY_DIR/workrave-${WORKRAVE_VERSION}.tar.gz"
 }
 
 build_changelog() {
@@ -121,6 +123,12 @@ build_single() {
     cd "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}"
     debuild -p"gpg --passphrase-file ${SECRETS_DIR}/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -kEC02F3CD5A24B1DE -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
+    rm -rf "$DEPLOY_DIR/$series"
+    mkdir -p "$DEPLOY_DIR/$series"
+    ls -la "$BUILD_DIR/$series"
+    cp -a $BUILD_DIR/$series/workrave_${WORKRAVE_VERSION}-ppa* "$DEPLOY_DIR/$series"
+    cp -a ${SOURCE_TARFILE} "$DEPLOY_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
+
     if [[ -z "$WORKRAVE_RELEASE_TAG" ]]; then
         echo "No tag build."
         if [[ $series == `lsb_release -cs` ]]; then
@@ -139,7 +147,7 @@ build_single() {
 }
 
 build_all() {
-    for series in hirsute groovy focal eoan disco bionic xenial trusty; do
+    for series in hirsute groovy focal bionic xenial; do
         build_single $series
     done
 }

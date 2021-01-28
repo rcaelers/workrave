@@ -41,7 +41,7 @@ operator<<(std::ostream &stream, ActivityState mode)
   switch (mode)
     {
     case ACTIVITY_UNKNOWN:
-      stream << "unknonw";
+      stream << "unknown";
       break;
     case ACTIVITY_SUSPENDED:
       stream << "suspended";

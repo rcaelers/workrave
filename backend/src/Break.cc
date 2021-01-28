@@ -78,7 +78,7 @@ struct Defaults
                         3,
                       }};
 
-//! Constucts a new Break
+//! Constructs a new Break
 Break::Break()
   : break_id(BREAK_ID_NONE)
   , config(NULL)

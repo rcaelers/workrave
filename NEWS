@@ -22,6 +22,7 @@ https://github.com/rcaelers/workrave/issues
 ** Fix issue where Workrave shows 2 status icons on Linux (#258)
 ** Updated Dutch translation (Matthias Huijgen)
 ** Support High-DPI displays in the Windows Applet.
+** Updated French translation (Darialalala)
 
 * Workrave 1.10.44
 
@@ -226,7 +227,7 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.10.5
 
-** Updated tranlations:
+** Updated translations:
    - Danish (Frederik Svarre)
 ** Updates Desktop files (Francois Marier, Mike Manger)
 
@@ -275,7 +276,7 @@ https://github.com/rcaelers/workrave/issues
    - Gtk3/Gtkmm3 (only on Gnome 3; Gtk2/Gtkmm2 is still used on Gnome 2)
    - Configuration in GSettings (instead of GConf)
    - GIO based DBus (instead of freedesktop.org DBus)
-** Obsolete KDE3 support has been droppped.
+** Obsolete KDE3 support has been dropped.
 ** Translation updates:
    - Mykola Rykov translated Workrave into Ukrainian.
    - Ivan Barkovic translated Workave into Croatian.
@@ -316,7 +317,7 @@ https://github.com/rcaelers/workrave/issues
    - Audio is now muted after the start break sound is played.
    - Audio is now unmuted when the user becomes active after the break has ended
      instead of immediately after the break ended.
-** By default, the RECORD extention is now mandatory on X windows systems.
+** By default, the RECORD extension is now mandatory on X windows systems.
 ** Bug fixes:
    - Fixed crash on Windows systems without audio installed.
    - Fixed translucency of Deskband applet on Windows 7/Vista.
@@ -333,7 +334,7 @@ https://github.com/rcaelers/workrave/issues
 ** Workrave now properly remembers the Window hide/show notification icon
    settings.
 ** The Workrave applet is functional again on Windows 7
-** Updated tranlations:
+** Updated translations:
    - Brazilian Portuguese
    - Catalan
    - Hungarian
@@ -642,7 +643,7 @@ https://github.com/rcaelers/workrave/issues
    internal PC speaker.
 ** The window prompting you to brake now moves earlier to the top of the screen
    so that it does not interfere too much. Furthermore, the window has a new and
-   improved "evasive manouvers" algorithm.
+   improved "evasive maneuvers" algorithm.
 
 * Workrave 0.2.0
 
