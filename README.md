@@ -18,11 +18,9 @@ Please visit http://www.workrave.org for more information.
   sudo add-apt-repository ppa:rob-caelers/workrave  
   sudo apt-get update
   ```
-- Arch Linux: use `sudo pacman -S workrave` to install from the community repository
-- FreeBSD:
-  ```
-  pkg install workrave
-  ```
+- Arch Linux users: use `sudo pacman -S workrave` to install from the community repository
+- Ubuntu and Debian users: `sudo apt-get install workrave`
+- FreeBSD users: `pkg install workrave`
 
 
 ## Build
