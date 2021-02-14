@@ -56,6 +56,7 @@ MutterInputMonitor::init()
   if (result)
     {
       init_inhibitors();
+      init_service_monitor();
     }
 
   TRACE_EXIT();
@@ -133,6 +134,41 @@ MutterInputMonitor::init_inhibitors()
   TRACE_EXIT();
 }
 
+void
+MutterInputMonitor::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
+{
+  TRACE_ENTER_MSG("MutterInputMonitor::on_bus_name_appeared", name);
+  (void)connection;
+  (void)name;
+  (void)name_owner;
+  auto *self = (MutterInputMonitor *)user_data;
+  if (self->watch_active != 0u)
+  {
+    self->register_active_watch();
+  }
+  if (self->watch_idle != 0u)
+  {
+    self->register_idle_watch();
+  }
+  TRACE_EXIT();
+}
+
+void
+MutterInputMonitor::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
+{
+  (void)connection;
+  (void)name;
+  (void)user_data;
+}
+
+void
+MutterInputMonitor::init_service_monitor()
+{
+  TRACE_ENTER("MutterInputMonitor::init_service_monitor");
+  watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION, "org.gnome.Mutter.IdleMonitor", G_BUS_NAME_WATCHER_FLAGS_NONE, on_bus_name_appeared, on_bus_name_vanished, this, nullptr);
+  TRACE_EXIT();
+}
+
 bool
 MutterInputMonitor::register_active_watch()
 {
@@ -160,8 +196,7 @@ void
 MutterInputMonitor::register_active_watch_async()
 {
   TRACE_ENTER("MutterInputMonitor::register_active_watch_aync");
-  g_dbus_proxy_call(
-    idle_proxy, "AddUserActiveWatch", NULL, G_DBUS_CALL_FLAGS_NONE, 10000, NULL, on_register_active_watch_reply, this);
+  g_dbus_proxy_call(idle_proxy, "AddUserActiveWatch", NULL, G_DBUS_CALL_FLAGS_NONE, 10000, NULL, on_register_active_watch_reply, this);
   TRACE_EXIT();
 }
 
@@ -194,8 +229,7 @@ MutterInputMonitor::unregister_active_watch()
   GError *error = NULL;
   if (watch_active != 0u)
     {
-      GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
+      GVariant *result = g_dbus_proxy_call_sync(idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
       if (error == NULL)
         {
           g_variant_unref(result);

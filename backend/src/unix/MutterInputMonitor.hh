@@ -44,12 +44,14 @@ public:
   virtual void terminate();
 
 private:
-  static void
-  on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+  static void on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
   static void on_session_manager_property_changed(GDBusProxy *session, GVariant *changed, char **invalidated, gpointer user_data);
 
   static void on_register_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
   static void on_unregister_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
+
+  static void on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data);
+  static void on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data);
 
   //! The monitor's execution thread.
   virtual void run();
@@ -63,6 +65,7 @@ private:
 
   bool init_idle_monitor();
   void init_inhibitors();
+  void init_service_monitor();
 
 private:
   static const int GSM_INHIBITOR_FLAG_IDLE = 8;
@@ -80,6 +83,7 @@ private:
   Thread *monitor_thread = NULL;
   GMutex mutex;
   GCond cond;
+  guint watch_id{0};
 };
 
 #endif // MUTTERINPUTMONITOR_HH
