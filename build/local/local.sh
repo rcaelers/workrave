@@ -1,4 +1,15 @@
-#!/bin/bash -ex
+#!/bin/bash -e
+
+run_docker_build() {
+    printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g'
+    docker run --rm \
+        -v "$SOURCE_DIR:/workspace/source" \
+        -v "$DEPLOY_DIR:/workspace/deploy" \
+        -v "$SCRIPTS_DIR:/workspace/scripts" \
+        $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
+        rcaelers/workrave-build:${DOCKER_IMAGE} \
+        sh -xc "/workspace/scripts/ci/build.sh"
+}
 
 run_docker_ppa() {
     if [ -n "$DEBIAN_DIR" ]; then
@@ -11,17 +22,38 @@ run_docker_ppa() {
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         rcaelers/workrave-build:${DOCKER_IMAGE} \
-        sh -c "/workspace/scripts/local/ppa.sh -p $PPA $DRYRUN"
+        sh -c "/workspace/scripts/ci/ppa.sh -p $PPA $DRYRUN"
 }
 
-run_docker_deb() {
-    docker run --rm \
-        -v "$DEPLOY_DIR:/workspace/deploy" \
-        -v "$SCRIPTS_DIR:/workspace/scripts" \
-        rcaelers/workrave-build:cowbuilder \
-        sh -c "/workspace/scripts/local/cow-build.sh"
-}
+upload() {
+    if [ -n "$WORKRAVE_RELEASE_TAG" ]; then
+        echo github-release release \
+            --user "rcaelers" \
+            --repo "workrave" \
+            --tag "$WORKRAVE_RELEASE_TAG" \
+            --name "Workrave $VERSION" \
+            --description "New release" \
+            --draft
 
+        shopt -s nullglob
+        cd $DEPLOY_DIR
+        for file in *.exe *.tar.gz; do
+            echo github-release upload \
+                --user "rcaelers" \
+                --repo "workrave" \
+                --tag "$WORKRAVE_RELEASE_TAG" \
+                --name $file \
+                --file $file
+        done
+
+        echo github-release edit \
+            --user "rcaelers" \
+            --repo "workrave" \
+            --tag "$WORKRAVE_RELEASE_TAG" \
+            --name "Workrave $VERSION" \
+            --description "New release"
+    fi
+}
 
 init_newsgen() {
     cd ${SCRIPTS_DIR}/newsgen
@@ -32,10 +64,10 @@ init() {
     if [ ! -d "${WORKSPACE_DIR}" ]; then
         mkdir -p "${WORKSPACE_DIR}"
     fi
-    if [ -d "$DEPLOY_DIR" ]; then
-        rm -rf "$DEPLOY_DIR"
+    if [ -d "${WORKSPACE_DIR}/deploy" ]; then
+        rm -rf ${WORKSPACE_DIR}/deploy
     fi
-    mkdir -p "$DEPLOY_DIR"
+    mkdir -p "${WORKSPACE_DIR}/deploy"
 
     cd $WORKSPACE_DIR
 
@@ -66,7 +98,16 @@ init() {
     init_newsgen
 }
 
-generate_blog() {
+generate_news() {
+    series=$1
+
+    cd /
+    node ${SCRIPTS_DIR}/newsgen/main.js \
+        --input "${SOURCE_DIR}/changes.yaml" \
+        --template github \
+        --release `echo $VERSION | sed -e 's/^v//g'` \
+        --output "$WORKSPACE_DIR/deploy/NEWS"
+
     cd ${SOURCE_DIR}
     DIR_DATE=`date +"%Y_%m_%d"`
     DIR_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g'`
@@ -97,13 +138,10 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "bt:C:D:R:S:W:B:p:d" o; do
+    while getopts "t:C:D:R:S:W:B:p:d" o; do
         case "${o}" in
         p)
             PPA="${OPTARG}"
-            ;;
-        b)
-            BUILD_DEP=1
             ;;
         d)
             DRYRUN=-d
@@ -137,10 +175,8 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
-BUILD_DEP=
 DEBIAN_DIR=
 WEBSITE_DIR=
-SECRETS_DIR=
 WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
 SCRIPTS_DIR=${WORKSPACE_DIR}/source/build/
 REPO=https://github.com/rcaelers/workrave.git
@@ -163,13 +199,25 @@ DEPLOY_DIR=$WORKSPACE_DIR/deploy
 export WORKRAVE_ENV=local
 init
 
+export CONF_COMPILER="gcc"
+export CONF_CONFIGURATION="Release"
+export DOCKER_IMAGE="mingw-gtk2"
+setup
+run_docker_build
+
+CONF_COMPILER="gcc"
+CONF_CONFIGURATION="Debug"
+CONF_DOCKER_IMAGE="mingw-gtk2"
+setup
+run_docker_build
+
 DOCKER_IMAGE="ubuntu-groovy"
 setup
 run_docker_ppa
 
-if [ -n $BUILD_DEP ]; then
-    echo Build all debian packages.
-    run_docker_deb
-fi
+generate_news
 
-generate_blog
+if [ -z $DRYRUN ]; then
+  echo uploading
+  upload
+fi

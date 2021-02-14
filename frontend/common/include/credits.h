@@ -64,6 +64,8 @@ const char *workrave_translators =
   "Thomas Basset\n"
   /* fr 2 */
   "Benjamin Siband\n"
+  /* fr 3 */
+  "Darialalala\n"
   /* fa */
   "Moein Gh\n"
   /* ga */
