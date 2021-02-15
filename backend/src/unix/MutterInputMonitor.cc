@@ -36,6 +36,19 @@ MutterInputMonitor::MutterInputMonitor()
 
 MutterInputMonitor::~MutterInputMonitor()
 {
+  if (watch_id != 0)
+  {
+    g_bus_unwatch_name(watch_id);
+  }
+  if (idle_proxy != nullptr)
+  {
+    g_object_unref(idle_proxy);
+  }
+  if (session_proxy != nullptr)
+  {
+    g_object_unref(session_proxy);
+  }
+
   if (monitor_thread != NULL)
     {
       monitor_thread->wait();
@@ -154,18 +167,10 @@ MutterInputMonitor::on_bus_name_appeared(GDBusConnection *connection, const gcha
 }
 
 void
-MutterInputMonitor::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
-{
-  (void)connection;
-  (void)name;
-  (void)user_data;
-}
-
-void
 MutterInputMonitor::init_service_monitor()
 {
   TRACE_ENTER("MutterInputMonitor::init_service_monitor");
-  watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION, "org.gnome.Mutter.IdleMonitor", G_BUS_NAME_WATCHER_FLAGS_NONE, on_bus_name_appeared, on_bus_name_vanished, this, nullptr);
+  watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION, "org.gnome.Mutter.IdleMonitor", G_BUS_NAME_WATCHER_FLAGS_NONE, on_bus_name_appeared, nullptr, this, nullptr);
   TRACE_EXIT();
 }
 
