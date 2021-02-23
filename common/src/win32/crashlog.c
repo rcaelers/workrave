@@ -459,7 +459,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
           message = (WCHAR *)calloc(size, sizeof(WCHAR));
           if (message)
             {
-              snwprintf(message, size - 1, L"%ws%%%ws%%%ws%ws", one, env_var, crashlog, two);
+              snwprintf(message, size - 1, L"%S%S%S%S", one, env_var, crashlog, two);
               message[size - 1] = L'\0';
             }
           else
@@ -469,7 +469,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
       else
         // A buffer was allocated with enough memory to hold p_wbuffer
         {
-          snwprintf(message, size - 1, L"%ws%ws%ws", one, p_wbuffer, two);
+          snwprintf(message, size - 1, L"%S%S%S", one, p_wbuffer, two);
           message[size - 1] = L'\0';
         }
 
