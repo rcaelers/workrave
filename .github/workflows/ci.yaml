@@ -145,6 +145,7 @@ jobs:
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            experimental: true
 
           - image: debian-testing
             compiler: gcc
@@ -164,7 +165,7 @@ jobs:
                    -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build.sh"
+                   sh -c "/workspace/source/build/ci/build.sh" || $FAILURE_ACTION
              fi
         env:
            WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
@@ -177,6 +178,7 @@ jobs:
            CONF_DISTCHECK: ${{ matrix.config.distcheck }}
            CONF_CONFIGURATION: ${{ matrix.config.configuration }}
            DOCKER_IMAGE: ${{ matrix.config.image }}
+           FAILURE_ACTION: ${{ matrix.config.experimental == true }}
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v2
