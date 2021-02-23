@@ -48,7 +48,7 @@
       <description></description>
     </key>
     <key type="b" name="fallback-enabled">
-      <default>true</default>
+      <default>false</default>
       <summary></summary>
       <description></description>
     </key>
