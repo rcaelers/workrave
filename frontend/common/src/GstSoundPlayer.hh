@@ -37,11 +37,6 @@ public:
   void play_sound(SoundEvent snd);
   void play_sound(std::string wavfile);
 
-  bool get_sound_enabled(SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
-  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
-
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:

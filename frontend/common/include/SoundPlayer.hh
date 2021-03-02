@@ -76,7 +76,6 @@ public:
   void get_sound_themes(std::vector<Theme> &themes);
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
-  void sync_settings();
 
   void eos_event();
 
