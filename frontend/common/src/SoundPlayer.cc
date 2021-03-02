@@ -42,6 +42,7 @@
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "Util.hh"
+#include "StringUtil.hh"
 
 #if defined HAVE_GSTREAMER
 #  include "GstSoundPlayer.hh"
@@ -633,24 +634,41 @@ SoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 bool
 SoundPlayer::get_sound_wav_file(SoundEvent snd, string &filename)
 {
+  TRACE_ENTER("SpeakerPlayer::get_sound_wav_file");
   bool ret = false;
   filename = "";
 
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
-      ret =
-        CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
+      ret = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
+#ifdef PLATFORM_OS_WINDOWS
+      string appdir = Util::get_application_directory();
+      TRACE_MSG("wav_file =" << filename << " appdir = " << appdir);
+      filename = StringUtil::search_replace(filename, "@appdir@", appdir);
+      TRACE_MSG("wav_file =" << filename);
+#endif
     }
+  TRACE_EXIT();
   return ret;
 }
 
 void
 SoundPlayer::set_sound_wav_file(SoundEvent snd, const string &wav_file)
 {
+  TRACE_ENTER("SpeakerPlayer::set_sound_wav_file");
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
+#ifdef PLATFORM_OS_WINDOWS
+      string appdir = Util::get_application_directory();
+      TRACE_MSG("wav_file =" << wav_file << " appdir = " << appdir);
+      std::string rel_wav_file = StringUtil::search_replace(wav_file, appdir, "@appdir@");
+      TRACE_MSG("wav_file =" << wav_file);
+      CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, rel_wav_file);
+#else
       CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, wav_file);
+#endif
     }
+  TRACE_EXIT();
 }
 
 bool
