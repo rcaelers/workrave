@@ -92,14 +92,6 @@ GstSoundPlayer::capability(SoundCapability cap)
 }
 
 void
-GstSoundPlayer::play_sound(SoundEvent snd)
-{
-  (void)snd;
-  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", snd);
-  TRACE_EXIT();
-}
-
-void
 GstSoundPlayer::play_sound(std::string wavfile)
 {
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile);

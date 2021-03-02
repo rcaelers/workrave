@@ -50,13 +50,6 @@ W32SoundPlayer::W32SoundPlayer() {}
 
 W32SoundPlayer::~W32SoundPlayer() {}
 
-void
-W32SoundPlayer::play_sound(SoundEvent snd)
-{
-  TRACE_ENTER_MSG("W32SoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name);
-  TRACE_EXIT();
-}
-
 bool
 W32SoundPlayer::capability(SoundCapability cap)
 {

@@ -51,12 +51,6 @@ MacOSSoundPlayer::capability(SoundCapability cap)
 }
 
 void
-MacOSSoundPlayer::play_sound(SoundEvent snd)
-{
-  (void)snd;
-}
-
-void
 MacOSSoundPlayer::play_sound(string file)
 {
   if (wav_file == NULL)

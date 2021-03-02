@@ -37,8 +37,6 @@ public:
   void init(ISoundDriverEvents *){};
   bool capability(SoundCapability cap);
   void play_sound(std::string wavfile);
-  void play_sound(SoundEvent snd);
-
 
 private:
   void run();

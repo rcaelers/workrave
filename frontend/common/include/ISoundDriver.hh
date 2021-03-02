@@ -41,10 +41,6 @@ public:
   //!
   virtual bool capability(SoundCapability cap) = 0;
 
-
-  //! Plays sound, returns immediately.
-  virtual void play_sound(SoundEvent snd) = 0;
-
   //! Plays sound, returns immediately.
   virtual void play_sound(std::string wavfile) = 0;
 };

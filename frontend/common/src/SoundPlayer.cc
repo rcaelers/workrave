@@ -502,23 +502,16 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
 
           if (get_device() == DEVICE_SOUNDCARD && driver != NULL)
             {
-              if (driver->capability(SOUND_CAP_EVENTS))
+              string filename;
+              bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
+
+              if (valid)
                 {
-                  driver->play_sound(snd);
+                  driver->play_sound(filename);
                 }
               else
                 {
-                  string filename;
-                  bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
-
-                  if (valid)
-                    {
-                      driver->play_sound(filename);
-                    }
-                  else
-                    {
-                      delayed_mute = false;
-                    }
+                  delayed_mute = false;
                 }
             }
           else

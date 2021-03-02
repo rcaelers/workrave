@@ -77,13 +77,6 @@ W32DirectSoundPlayer::init(ISoundDriverEvents *events)
   this->events = events;
 }
 
-void
-W32DirectSoundPlayer::play_sound(SoundEvent snd)
-{
-  TRACE_ENTER_MSG("W32DirectSoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name);
-  TRACE_EXIT();
-}
-
 bool
 W32DirectSoundPlayer::capability(SoundCapability cap)
 {

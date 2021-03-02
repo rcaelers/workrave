@@ -34,7 +34,6 @@ public:
 
   void init(ISoundDriverEvents *events);
   bool capability(SoundCapability cap);
-  void play_sound(SoundEvent snd);
   void play_sound(std::string wavfile);
 
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
