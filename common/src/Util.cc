@@ -288,6 +288,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\images");
 #  endif
       searchPath.insert(app_dir + "\\share\\images");
+      searchPath.insert(app_dir + "\\share\\icons");
 
 #elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
