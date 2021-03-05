@@ -82,6 +82,11 @@ public:
 private:
   void register_sound_events(std::string theme = "");
 
+#ifdef PLATFORM_OS_WINDOWS
+  void win32_remove_deprecated_appevents();
+  static void registry_set_value(const char *path, const char *name, const char *value);
+#endif
+
 public:
   static const char *CFG_KEY_SOUND_ENABLED;
   static const char *CFG_KEY_SOUND_DEVICE;

@@ -238,6 +238,11 @@ SoundPlayer::SoundPlayer()
 
   must_unmute  = false;
   delayed_mute = false;
+
+#ifdef PLATFORM_OS_WINDOWS
+  win32_remove_deprecated_appevents();
+#endif
+
 }
 
 SoundPlayer::~SoundPlayer()
@@ -717,3 +722,59 @@ SoundPlayer::eos_event()
     }
   TRACE_EXIT();
 }
+
+#ifdef PLATFORM_OS_WINDOWS
+void
+SoundPlayer::registry_set_value(const char *path, const char *name, const char *value)
+{
+  HKEY handle;
+  DWORD disp;
+  LONG err;
+
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
+  if (err == ERROR_SUCCESS)
+    {
+      if (value != NULL)
+        {
+          err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *)value, static_cast<DWORD>(strlen(value) + 1));
+        }
+      else
+        {
+          err = RegDeleteValue(handle, name);
+        }
+      RegCloseKey(handle);
+    }
+}
+void
+SoundPlayer::win32_remove_deprecated_appevents()
+{
+  const string ids[] = {"WorkraveBreakPrelude",
+                        "WorkraveBreakIgnored",
+                        "WorkraveRestBreakStarted",
+                        "WorkraveRestBreakEnded",
+                        "WorkraveMicroBreakStarted",
+                        "WorkraveMicroBreakEnded",
+                        "WorkraveDailyLimit",
+                        "WorkraveExerciseEnded",
+                        "WorkraveExercisesEnded",
+                        "WorkraveExerciseStep"};
+
+  string schemes = "AppEvents\\Schemes\\Apps\\Workrave\\";
+  string event_labels = "AppEvents\\EventLabels\\";
+
+  for (string id: ids)
+    {
+      string key = schemes + id + "\\.current";
+      SoundPlayer::registry_set_value(key.c_str(), NULL, NULL);
+      key = schemes + id + "\\.default";
+      SoundPlayer::registry_set_value(key.c_str(), NULL, NULL);
+      key = schemes + id;
+      SoundPlayer::registry_set_value(key.c_str(), NULL, NULL);
+      key = event_labels + id;
+      SoundPlayer::registry_set_value(key.c_str(), NULL, NULL);
+    }
+
+  // FIXME: used in ChangeAutoRun.c
+  SoundPlayer::registry_set_value(schemes.c_str(), NULL, "");
+}
+#endif
