@@ -314,8 +314,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
       const string &filename = *it;
 
       bool enabled = false;
-      bool valid   = CoreFactory::get_configurator()->get_value(
-        string(CFG_KEY_SOUND_EVENTS) + sound_registry[idx].id + CFG_KEY_SOUND_EVENTS_ENABLED, enabled);
+      bool valid = get_sound_enabled((SoundEvent)idx, enabled);
 
       if (!valid)
         {
@@ -323,7 +322,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
         }
 
       string current_filename;
-      valid = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) + sound_registry[idx].id, current_filename);
+      valid = get_sound_wav_file((SoundEvent)idx, current_filename);
 
       if (valid && !g_file_test(current_filename.c_str(), G_FILE_TEST_IS_REGULAR))
         {
@@ -388,7 +387,8 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
                   if (is_current)
                     {
                       string current = "";
-                      CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) + snd->id, current);
+                      get_sound_wav_file((SoundEvent)i, current);
+                      TRACE_MSG("current =" << current);
 
                       if (current != string(sound_pathname))
                         {
@@ -472,8 +472,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
         {
           string file;
 
-          SoundRegistry *snd = &sound_registry[i];
-          bool valid         = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) + snd->id, file);
+          valid = get_sound_wav_file((SoundEvent)i, file);
           if (valid && file != "")
             {
               active_theme.files.push_back(file);
