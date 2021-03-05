@@ -145,7 +145,6 @@ jobs:
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-            experimental: true
 
           - image: debian-testing
             compiler: gcc
