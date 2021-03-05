@@ -1054,7 +1054,7 @@ if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
     LANGFILE="./frontend/gtkmm/win32/setup/lang.iss"
 
-    ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' )"
+    ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' | awk '{$1=$1;print}')"
     AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
