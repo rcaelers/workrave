@@ -2,6 +2,7 @@ name: CI
 on:
   push:
     branches:
+      - topic/tidy
       - branch_v1_10
     tags:
       - 'v1_10_*'
