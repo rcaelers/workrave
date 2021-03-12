@@ -190,7 +190,7 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     needs: [ build-linux, build-mingw ]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' &&  github.ref == 'refs/heads/branch_v1_10'
     steps:
       - uses: actions/checkout@v2
         with:
