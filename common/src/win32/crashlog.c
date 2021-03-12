@@ -459,7 +459,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
           message = (WCHAR *)calloc(size, sizeof(WCHAR));
           if (message)
             {
-              snwprintf(message, size - 1, L"%ws%%%ws%%%ws%ws", one, env_var, crashlog, two);
+              snwprintf(message, size - 1, L"%S%S%S%S", one, env_var, crashlog, two);
               message[size - 1] = L'\0';
             }
           else
@@ -469,7 +469,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
       else
         // A buffer was allocated with enough memory to hold p_wbuffer
         {
-          snwprintf(message, size - 1, L"%ws%ws%ws", one, p_wbuffer, two);
+          snwprintf(message, size - 1, L"%S%S%S", one, p_wbuffer, two);
           message[size - 1] = L'\0';
         }
 
@@ -480,8 +480,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
       snprintf(crash_text,
                1023,
                "Workrave has unexpectedly crashed. A crash log has been saved to "
-               "%s. Please mail this file to crashes@workrave.org or "
-               "file a bugreport at: http://issues.workrave.org/. "
+               "%s. Please file a bugreport at: http://issues.workrave.org/. "
                "Thanks.",
                crash_log_name);
       MessageBoxA(NULL, crash_text, "Exception", MB_OK);

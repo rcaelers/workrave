@@ -76,12 +76,16 @@ public:
   void get_sound_themes(std::vector<Theme> &themes);
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
-  void sync_settings();
 
   void eos_event() override;
 
 private:
   void register_sound_events(std::string theme = "");
+
+#ifdef PLATFORM_OS_WINDOWS
+  void win32_remove_deprecated_appevents();
+  static void registry_set_value(const char *path, const char *name, const char *value);
+#endif
 
 public:
   static const char *CFG_KEY_SOUND_ENABLED;

@@ -131,7 +131,7 @@ private:
   //! Number of visible breaks.
   int visible_count{-1};
 
-  //! Rotation (clockwise in degress)
+  //! Rotation (clockwise in degrees)
   int rotation{0};
 
   //! Only show the sheep

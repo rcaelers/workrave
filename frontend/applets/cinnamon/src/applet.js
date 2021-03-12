@@ -376,8 +376,7 @@ MyApplet.prototype = {
 
     _updateTrayIcon : function(enabled) {
         this._force_icon = enabled;
-        //Never force icon, cinnamon shows tray icon
-        //this._timerbox.set_force_icon(this._force_icon);
+        this._timerbox.set_force_icon(this._force_icon);
     },
 
     _updateMenu : function(menuitems) {

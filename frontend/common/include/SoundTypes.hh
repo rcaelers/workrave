@@ -22,7 +22,6 @@
 
 enum SoundCapability
 {
-  SOUND_CAP_EVENTS = 0,
   SOUND_CAP_EDIT,
   SOUND_CAP_VOLUME,
   SOUND_CAP_MUTE,

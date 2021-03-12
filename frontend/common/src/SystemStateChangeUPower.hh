@@ -35,7 +35,7 @@
 //    - these are implemented since a long time ago
 //    - http://upower.freedesktop.org/docs/KbdBacklight.html
 //      - control of keyboard backlight, may be usable in addition to dpms
-//    - we may use libupower, but it is unneccessary
+//    - we may use libupower, but it is unnecessary
 
 class SystemStateChangeUPower : public ISystemStateChangeMethod
 {

@@ -51,12 +51,6 @@ MacOSSoundPlayer::capability(SoundCapability cap)
 }
 
 void
-MacOSSoundPlayer::play_sound(SoundEvent snd)
-{
-  (void)snd;
-}
-
-void
 MacOSSoundPlayer::play_sound(string file)
 {
   if (wav_file == NULL)
@@ -82,32 +76,3 @@ MacOSSoundPlayer::run()
   wav_file = NULL;
 }
 
-bool
-MacOSSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
-{
-  (void)snd;
-  (void)enabled;
-  return false;
-}
-
-void
-MacOSSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
-{
-  (void)snd;
-  (void)enabled;
-}
-
-bool
-MacOSSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
-{
-  (void)snd;
-  (void)wav_file;
-  return false;
-}
-
-void
-MacOSSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
-{
-  (void)snd;
-  (void)wav_file;
-}

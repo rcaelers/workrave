@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.10.45
-    date: 2020-12-01T12:52:50+01:00
+    date: 2021-03-12T11:23:48+01:00
     short: |-
       Workrave 1.10.45 has been released. This release adds a new sound theme and several small improvements.
     changes:
@@ -12,14 +12,24 @@ releases:
         when the micro break is overdue, and the maximum number of break prompts
         was reached.
       - A new sound theme calls 'Bells' has been added (#225, Pieter De Decker)
-      - Updated Chinese translation (#232, wintertee).
-      - Fixed typo in the Italian translation (#234, albanobattistella)
-      - Fixed a deprecation warning in the Gnome Shell applet (#251)
+      - Added support for High-DPI displays in the Windows Applet.
       - The Windows applet now correctly enforces a minimum size (#252)
-      - The cinnamon applet is no longer bouncing up and down (#253)
       - Initial support for icon themes.
-      - Fix build issue with libayatana-indicator3.
-      - Fix issue where Workrave shows 2 status icons on Linux (#258)
+      - |-
+        Fixes:
+        - Fixed build issue with libayatana-indicator3
+        - Fixed issue where Workrave would show 2 status icons on Linux (#258)
+        - Fixed a deprecation warning in the Gnome Shell applet (#251)
+        - The cinnamon applet is no longer bouncing up and down (#253)
+        - Fixed issue where the current language was always "Unrecognized language"
+        - Fixed issue where activity monitoring would stop after restarting Gnome Shell
+        - Fixed issue that caused the main window to disappear (#244, 259)
+      - |-
+        Translation updates:
+        - Updated Chinese translation (#232, wintertee)
+        - Updated French translation (Darialalala)
+        - Updated Dutch translation (Matthias Huijgen)
+        - Fixed typo in the Italian translation (#234, albanobattistella)
 
   - version: 1.10.44
     date: 2020-05-09T12:52:50+02:00
@@ -286,7 +296,7 @@ releases:
     date: 2014-08-15T19:31:40+02:00
     changes:
       - |-
-        Updated tranlations:
+        Updated translations:
         - Danish (Frederik Svarre)
       - Updates Desktop files (Francois Marier, Mike Manger)
 
@@ -349,7 +359,7 @@ releases:
         - Configuration in GSettings (instead of GConf)
         - GIO based DBus (instead of freedesktop.org DBus)
       - |-
-        Obsolete KDE3 support has been droppped.
+        Obsolete KDE3 support has been dropped.
       - |-
         Translation updates:
         - Mykola Rykov translated Workrave into Ukrainian.
@@ -406,7 +416,7 @@ releases:
         - Audio is now unmuted when the user becomes active after the break has
           ended instead of immediately after the break ended.
       - |-
-        By default, the RECORD extention is now mandatory on X windows systems.
+        By default, the RECORD extension is now mandatory on X windows systems.
       - |-
         Bug fixes:
         - Fixed crash on Windows systems without audio installed.
@@ -431,7 +441,7 @@ releases:
       - |-
         The Workrave applet is functional again on Windows 7
       - |-
-        Updated tranlations:
+        Updated translations:
         - Brazilian Portuguese
         - Catalan
         - Hungarian
@@ -889,7 +899,7 @@ releases:
       - |-
         The window prompting you to brake now moves earlier to the top of the
         screen so that it does not interfere too much. Furthermore, the window
-        has a new and improved "evasive manouvers" algorithm.
+        has a new and improved "evasive maneuvers" algorithm.
 
   - version: 0.2.0
     date: 2002-09-26T17:44:37+00:00

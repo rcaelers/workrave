@@ -214,7 +214,7 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_NONE:
       {
-        // Teminate the break.
+        // Terminate the break.
         core->set_insensitive_mode_all_breaks(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();

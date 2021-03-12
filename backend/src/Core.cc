@@ -552,7 +552,7 @@ Core::set_operation_mode_override(OperationMode mode, const std::string &id)
   set_operation_mode_internal(mode, false, id);
 }
 
-//! Removes the overriden operation mode.
+//! Removes the overridden operation mode.
 void
 Core::remove_operation_mode_override(const std::string &id)
 {
@@ -1392,7 +1392,7 @@ Core::process_timewarp()
 
 #endif
 
-//! Notication of a timer action.
+//! Notification of a timer action.
 /*!
  *  \param timerId ID of the timer that caused the action.
  *  \param action action that is performed by the timer.
@@ -1489,7 +1489,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
         }
     }
 
-  // Stop microbreak when a restbreak starts. should not happend.
+  // Stop microbreak when a restbreak starts. should not happened.
   // restbreak should be advanced.
   for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
     {
@@ -1682,7 +1682,7 @@ Core::post_event(CoreEvent event)
     }
 }
 
-//! Excecute the insist policy.
+//! Execute the insist policy.
 void
 Core::freeze()
 {

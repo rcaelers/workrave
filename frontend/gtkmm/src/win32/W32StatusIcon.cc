@@ -1,4 +1,4 @@
-// W32StatusIcon.cc --- Window Notifcation Icon
+// W32StatusIcon.cc --- Window Notification Icon
 //
 // Copyright (C) 2010, 2011, 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -510,7 +510,7 @@ pixbuf_to_hbitmaps_normal(GdkPixbuf *pixbuf, HBITMAP *color, HBITMAP *mask)
       return FALSE;
     }
 
-  /* rows are always aligned on 4-byte boundarys */
+  /* rows are always aligned on 4-byte boundaries */
   bmstride = size * 3;
   if (bmstride % 4 != 0)
     bmstride += 4 - (bmstride % 4);

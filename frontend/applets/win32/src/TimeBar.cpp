@@ -41,14 +41,6 @@ TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
 {
   init(hinst);
 
-  bar_text[0]             = 0;
-  bar_max_value           = 100;
-  bar_value               = 0;
-  secondary_bar_max_value = 0;
-  secondary_bar_value     = 100;
-  secondary_bar_color     = ITimeBar::COLOR_ID_INACTIVE;
-  bar_color               = ITimeBar::COLOR_ID_ACTIVE;
-
   hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, (LPVOID)this);
 
   paint_helper = new PaintHelper(hwnd);

@@ -104,7 +104,7 @@ BreakWindow::refresh()
   cout << "BREAK " << break_id << " : " << progress_value << "/" << progress_max_value << endl;
 }
 
-//! Sets the break progess.
+//! Sets the break progress.
 void
 BreakWindow::set_progress(int value, int max_value)
 {

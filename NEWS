@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 01 December 2020
+Workrave NEWS -- history of user-visible changes. 12 March 2021
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -12,13 +12,23 @@ https://github.com/rcaelers/workrave/issues
    the rest break window. The postpone button is now disabled when the micro
    break is overdue, and the maximum number of break prompts was reached.
 ** A new sound theme calls 'Bells' has been added (#225, Pieter De Decker)
-** Updated Chinese translation (#232, wintertee).
-** Fixed typo in the Italian translation (#234, albanobattistella)
-** Fixed a deprecation warning in the Gnome Shell applet (#251)
+** Added support for High-DPI displays in the Windows Applet.
 ** The Windows applet now correctly enforces a minimum size (#252)
-** The cinnamon applet is no longer bouncing up and down (#253)
 ** Initial support for icon themes.
-** Fix build issue with libayatana-indicator3.
+** Fixes:
+   - Fixed build issue with libayatana-indicator3
+   - Fixed issue where Workrave would show 2 status icons on Linux (#258)
+   - Fixed a deprecation warning in the Gnome Shell applet (#251)
+   - The cinnamon applet is no longer bouncing up and down (#253)
+   - Fixed issue where the current language was always "Unrecognized language"
+   - Fixed issue where activity monitoring would stop after restarting Gnome
+     Shell
+   - Fixed issue that caused the main window to disappear (#244, 259)
+** Translation updates:
+   - Updated Chinese translation (#232, wintertee)
+   - Updated French translation (Darialalala)
+   - Updated Dutch translation (Matthias Huijgen)
+   - Fixed typo in the Italian translation (#234, albanobattistella)
 
 * Workrave 1.10.44
 
@@ -223,7 +233,7 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.10.5
 
-** Updated tranlations:
+** Updated translations:
    - Danish (Frederik Svarre)
 ** Updates Desktop files (Francois Marier, Mike Manger)
 
@@ -272,7 +282,7 @@ https://github.com/rcaelers/workrave/issues
    - Gtk3/Gtkmm3 (only on Gnome 3; Gtk2/Gtkmm2 is still used on Gnome 2)
    - Configuration in GSettings (instead of GConf)
    - GIO based DBus (instead of freedesktop.org DBus)
-** Obsolete KDE3 support has been droppped.
+** Obsolete KDE3 support has been dropped.
 ** Translation updates:
    - Mykola Rykov translated Workrave into Ukrainian.
    - Ivan Barkovic translated Workave into Croatian.
@@ -313,7 +323,7 @@ https://github.com/rcaelers/workrave/issues
    - Audio is now muted after the start break sound is played.
    - Audio is now unmuted when the user becomes active after the break has ended
      instead of immediately after the break ended.
-** By default, the RECORD extention is now mandatory on X windows systems.
+** By default, the RECORD extension is now mandatory on X windows systems.
 ** Bug fixes:
    - Fixed crash on Windows systems without audio installed.
    - Fixed translucency of Deskband applet on Windows 7/Vista.
@@ -330,7 +340,7 @@ https://github.com/rcaelers/workrave/issues
 ** Workrave now properly remembers the Window hide/show notification icon
    settings.
 ** The Workrave applet is functional again on Windows 7
-** Updated tranlations:
+** Updated translations:
    - Brazilian Portuguese
    - Catalan
    - Hungarian
@@ -639,7 +649,7 @@ https://github.com/rcaelers/workrave/issues
    internal PC speaker.
 ** The window prompting you to brake now moves earlier to the top of the screen
    so that it does not interfere too much. Furthermore, the window has a new and
-   improved "evasive manouvers" algorithm.
+   improved "evasive maneuvers" algorithm.
 
 * Workrave 0.2.0
 
@@ -661,7 +671,7 @@ https://github.com/rcaelers/workrave/issues
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2020 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2021 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the

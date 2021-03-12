@@ -53,12 +53,12 @@ public:
   static void Init();
 
 private:
-  HPAINTBUFFER paint_buffer;
-  PAINTSTRUCT ps;
-  HWND hwnd;
-  HDC hdc;
-  HDC paint_hdc;
-  bool alpha_set;
+  HPAINTBUFFER paint_buffer{nullptr};
+  PAINTSTRUCT ps{};
+  HWND hwnd{};
+  HDC hdc{};
+  HDC paint_hdc{};
+  bool alpha_set{false};
 
   static bool composition_enabled;
   static bool composition_available;

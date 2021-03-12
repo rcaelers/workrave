@@ -794,16 +794,15 @@ PreferencesDialog::on_sound_play()
 
   if (iter)
     {
+      IGUI *gui        = GUI::get_instance();
+      SoundPlayer *snd = gui->get_sound_player();
       Gtk::TreeModel::Row row = *iter;
 
       string filename;
-      bool valid =
-        CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + row[sound_model.label], filename);
+      bool valid = snd->get_sound_wav_file((SoundEvent)(int)row[sound_model.event], filename);
 
       if (valid && filename != "")
         {
-          IGUI *gui = GUI::get_instance();
-          SoundPlayer *snd = gui->get_sound_player();
           snd->play_sound(filename);
         }
     }
@@ -863,11 +862,11 @@ PreferencesDialog::on_sound_events_changed()
     {
       Gtk::TreeModel::Row row = *iter;
 
-      string event = (Glib::ustring)row[sound_model.label];
-      string filename;
-      bool valid =
-        CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + row[sound_model.label], filename);
+      IGUI *gui        = GUI::get_instance();
+      SoundPlayer *snd = gui->get_sound_player();
 
+      string filename;
+      bool valid = snd->get_sound_wav_file((SoundEvent)(int)row[sound_model.event], filename);
       TRACE_MSG(filename);
 
       if (valid && filename != "")
@@ -903,9 +902,7 @@ PreferencesDialog::on_sound_theme_changed()
           Gtk::TreeModel::Row row = *iter;
           string event = (Glib::ustring)row[sound_model.label];
           string filename;
-
-          bool valid = CoreFactory::get_configurator()->get_value(
-            string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + row[sound_model.label], filename);
+          bool valid = snd->get_sound_wav_file((SoundEvent)(int)row[sound_model.event], filename);
 
           if (valid && filename != "")
             {

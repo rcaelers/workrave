@@ -78,5 +78,6 @@ Makefile.in
 /_dist
 /_deploy
 /_build
+/_vsbuild
 /.vscode
 

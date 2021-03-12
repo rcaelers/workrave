@@ -890,7 +890,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
 
   if (stats_to_history)
     {
-      // this should not happend. but just to avoid a potential memory leak...
+      // this should not happened. but just to avoid a potential memory leak...
       TRACE_MSG("Save to history");
       day_to_history(stats);
       stats_to_history = false;
