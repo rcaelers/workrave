@@ -152,7 +152,8 @@ build_single() {
 }
 
 build_all() {
-    for series in hirsute groovy focal bionic xenial; do
+    # hirsute is broken: https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1916485
+    for series in groovy focal bionic xenial; do
         build_single $series
     done
 }
