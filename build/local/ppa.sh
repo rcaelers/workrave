@@ -9,13 +9,16 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "p:d" o; do
+    while getopts "p:dP" o; do
         case "${o}" in
         p)
             PPA="${OPTARG}"
             ;;
         d)
             DRYRUN=1
+            ;;
+        P)
+            PRERELEASE=1
             ;;
         *)
             usage
@@ -137,10 +140,12 @@ build_single() {
     else
         echo "Tag build : WORKRAVE_RELEASE_TAG"
         cd "$BUILD_DIR/$series"
-        if [ -z $DRYRUN ]; then
-            dput -d $WORKRAVE_PPA workrave_*_source.changes
-        else
+        if [ -n $DRYRUN ]; then
             echo Dryrun.
+        elif [ -n $PRERELEASE ]; then
+            dput -d $WORKRAVE_TESTING_PPA workrave_*_source.changes
+        else
+            dput -d $WORKRAVE_PPA workrave_*_source.changes
         fi
 
     fi
@@ -153,6 +158,7 @@ build_all() {
 }
 
 DRYRUN=
+PRERELEASE=
 SOURCE_TARFILE=${SOURCES_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz
 
 parse_arguments $*
