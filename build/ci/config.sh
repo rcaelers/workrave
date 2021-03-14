@@ -56,7 +56,8 @@ MINGW_ENV=${CI_DIR}/mingw-env
 
 export DEBFULLNAME="Rob Caelers"
 export DEBEMAIL="robc@krandor.org"
-export WORKRAVE_PPA=ppa:rob-caelers/workrave-snapshots
+export WORKRAVE_PPA=ppa:rob-caelers/workrave
+export WORKRAVE_TESTING_PPA=ppa:rob-caelers/workrave-testing
 
 cd ${SOURCES_DIR}
 

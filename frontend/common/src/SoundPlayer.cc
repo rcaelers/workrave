@@ -330,10 +330,6 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
         }
 
       idx++;
-    }
-}
-
-void
 SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER_MSG("SoundPlayer::load_sound_theme", themefilename);
@@ -416,7 +412,6 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
   TRACE_ENTER("SoundPlayer::get_sound_themes");
   set<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
   bool has_active = false;
-
   for (set<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
     {
       GDir *dir = g_dir_open(it->c_str(), 0, nullptr);
@@ -501,7 +496,6 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
             }
 
           if (get_device() == DEVICE_SOUNDCARD && driver != nullptr)
-            {
               string filename;
               bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
 

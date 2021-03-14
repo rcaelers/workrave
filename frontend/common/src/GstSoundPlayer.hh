@@ -35,7 +35,6 @@ public:
   void init(ISoundDriverEvents *events) override;
   bool capability(SoundCapability cap) override;
   void play_sound(std::string wavfile) override;
-
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
