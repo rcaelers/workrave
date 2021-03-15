@@ -30,11 +30,11 @@ static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr,
 static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height);
 static void workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, int *sbar_width, int *bar_height);
 
-const int MARGINX                   = 4;
-const int MARGINY                   = 2;
-const int MIN_HORIZONTAL_BAR_WIDTH  = 12;
+const int MARGINX = 4;
+const int MARGINY = 2;
+const int MIN_HORIZONTAL_BAR_WIDTH = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
-const int BORDER_SIZE               = 2;
+const int BORDER_SIZE = 2;
 
 enum
 {
@@ -120,15 +120,15 @@ workrave_timebar_init(WorkraveTimebar *self)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  priv->bar_color           = COLOR_ID_INACTIVE_OVER_OVERDUE;
+  priv->bar_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
   priv->secondary_bar_color = COLOR_ID_2_ACTIVE_DURING_BREAK;
 
   gdk_rgba_parse(&priv->bar_text_color, "black");
-  priv->bar_value               = 20;
-  priv->bar_max_value           = 50;
-  priv->secondary_bar_value     = 100;
+  priv->bar_value = 20;
+  priv->bar_max_value = 50;
+  priv->secondary_bar_value = 100;
   priv->secondary_bar_max_value = 600;
-  priv->bar_text                = g_strdup("");
+  priv->bar_text = g_strdup("");
 
   workrave_timebar_init_ui(self);
 }
@@ -145,7 +145,7 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
   // Frame
   workrave_timebar_draw_frame(self, cr, priv->width, priv->height);
 
-  int bar_width  = 0;
+  int bar_width = 0;
   int sbar_width = 0;
   int bar_height = 0;
   workrave_timebar_compute_bar_dimensions(self, &bar_width, &sbar_width, &bar_height);
@@ -252,7 +252,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
   gtk_style_context_set_path(priv->style_context, path);
   gtk_style_context_add_class(priv->style_context, GTK_STYLE_CLASS_TROUGH);
 
-  GdkScreen *screen   = gdk_screen_get_default();
+  GdkScreen *screen = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
 
   PangoFontDescription *font_desc = NULL;
@@ -266,7 +266,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
   pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
 
-  priv->width  = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
+  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
   priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 
   gtk_widget_path_free(path);
@@ -297,7 +297,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  GdkScreen *screen   = gdk_screen_get_default();
+  GdkScreen *screen = gdk_screen_get_default();
   priv->pango_context = gdk_pango_context_get_for_screen(screen);
 
   const PangoFontDescription *font_desc = pango_font_description_from_string("Sans 10");
@@ -310,7 +310,7 @@ workrave_timebar_init_ui(WorkraveTimebar *self)
 
   pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
 
-  priv->width  = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
+  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
   priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
@@ -377,9 +377,9 @@ workrave_timebar_set_progress(WorkraveTimebar *self, int value, int max_value, W
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  priv->bar_value     = value <= max_value ? value : max_value;
+  priv->bar_value = value <= max_value ? value : max_value;
   priv->bar_max_value = max_value;
-  priv->bar_color     = color;
+  priv->bar_color = color;
 }
 
 void
@@ -387,9 +387,9 @@ workrave_timebar_set_secondary_progress(WorkraveTimebar *self, int value, int ma
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  priv->secondary_bar_value     = value <= max_value ? value : max_value;
+  priv->secondary_bar_value = value <= max_value ? value : max_value;
   priv->secondary_bar_max_value = max_value;
-  priv->secondary_bar_color     = color;
+  priv->secondary_bar_color = color;
 }
 
 void
@@ -412,6 +412,6 @@ workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  *width  = priv->width;
+  *width = priv->width;
   *height = priv->height;
 }

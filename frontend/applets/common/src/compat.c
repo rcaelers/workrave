@@ -122,7 +122,7 @@ gdk_pixbuf_get_from_surface(cairo_surface_t *surface, gint src_x, gint src_y, gi
   g_return_val_if_fail(width > 0 && height > 0, NULL);
 
   content = (cairo_content_t)(cairo_surface_get_content(surface) | CAIRO_CONTENT_COLOR);
-  dest    = gdk_pixbuf_new(GDK_COLORSPACE_RGB, !!(content & CAIRO_CONTENT_ALPHA), 8, width, height);
+  dest = gdk_pixbuf_new(GDK_COLORSPACE_RGB, !!(content & CAIRO_CONTENT_ALPHA), 8, width, height);
 
   surface = gdk_cairo_surface_coerce_to_image(surface, content, src_x, src_y, width, height);
   cairo_surface_flush(surface);

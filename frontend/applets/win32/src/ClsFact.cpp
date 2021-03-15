@@ -83,7 +83,7 @@ STDMETHODIMP
 CClassFactory::CreateInstance(LPUNKNOWN pUnknown, REFIID riid, LPVOID *ppObject)
 {
   HRESULT hResult = E_FAIL;
-  LPVOID pTemp    = NULL;
+  LPVOID pTemp = NULL;
 
   *ppObject = NULL;
 

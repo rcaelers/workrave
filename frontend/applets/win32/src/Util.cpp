@@ -62,7 +62,7 @@ TransparentDamageControl::BeginPaint(BOOL rp)
 {
   hide_windows_num = 0;
   show_windows_num = 0;
-  repaint          = rp;
+  repaint = rp;
 }
 
 void
@@ -80,9 +80,9 @@ TransparentDamageControl::ShowWindow(HWND hwnd, int x, int y)
   if (hide_windows_num < TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE)
     {
       ShowWindowData *d = &show_windows[show_windows_num++];
-      d->hwnd           = hwnd;
-      d->x              = x;
-      d->y              = y;
+      d->hwnd = hwnd;
+      d->x = x;
+      d->y = y;
     }
 }
 

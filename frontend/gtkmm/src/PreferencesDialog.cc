@@ -794,7 +794,7 @@ PreferencesDialog::on_sound_play()
 
   if (iter)
     {
-      IGUI *gui        = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       SoundPlayer *snd = gui->get_sound_player();
       Gtk::TreeModel::Row row = *iter;
 
@@ -862,7 +862,7 @@ PreferencesDialog::on_sound_events_changed()
     {
       Gtk::TreeModel::Row row = *iter;
 
-      IGUI *gui        = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       SoundPlayer *snd = gui->get_sound_player();
 
       string filename;

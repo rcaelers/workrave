@@ -101,7 +101,7 @@ void
 on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  applet->priv->alive    = alive;
+  applet->priv->alive = alive;
 
   if (!alive)
     {
@@ -186,7 +186,7 @@ dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 static void
 on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 {
-  GdkPixbuf *pixbuf     = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
 
   gtk_container_set_border_width(GTK_CONTAINER(about), 5);
@@ -251,7 +251,7 @@ on_menu_toggle(GtkAction *action, WorkraveApplet *applet)
   if (GTK_IS_TOGGLE_ACTION(action))
     {
       GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
-      new_state               = gtk_toggle_action_get_active(toggle);
+      new_state = gtk_toggle_action_get_active(toggle);
     }
 
   int index = lookup_menu_index_by_action(gtk_action_get_name(action));
@@ -278,13 +278,13 @@ static void
 on_menu_mode_changed(GtkRadioAction *action, GtkRadioAction *current, gpointer user_data)
 {
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-  const char *modes[]    = {"normal", "suspended", "quiet"};
-  int mode               = 0;
+  const char *modes[] = {"normal", "suspended", "quiet"};
+  int mode = 0;
 
   if (GTK_IS_RADIO_ACTION(action))
     {
       GtkRadioAction *toggle = GTK_RADIO_ACTION(action);
-      mode                   = gtk_radio_action_get_current_value(toggle);
+      mode = gtk_radio_action_get_current_value(toggle);
     }
 
   if (mode >= 0 && mode < G_N_ELEMENTS(modes))
@@ -379,7 +379,7 @@ static void
 workrave_applet_fill(WorkraveApplet *applet)
 {
   applet->priv->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
-  applet->priv->image            = workrave_timerbox_control_get_image(applet->priv->timerbox_control);
+  applet->priv->image = workrave_timerbox_control_get_image(applet->priv->timerbox_control);
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed), applet);
   g_signal_connect(G_OBJECT(applet->priv->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed), applet);
 
@@ -420,10 +420,10 @@ workrave_applet_init(WorkraveApplet *applet)
 
   WorkraveAppletPrivate *priv = applet->priv;
 
-  priv->action_group     = NULL;
-  priv->image            = NULL;
+  priv->action_group = NULL;
+  priv->image = NULL;
   priv->timerbox_control = NULL;
-  priv->alive            = FALSE;
+  priv->alive = FALSE;
 
   workrave_applet_fill(applet);
 }

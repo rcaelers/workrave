@@ -284,7 +284,6 @@ SoundPlayer::register_sound_events(string theme)
       theme = "default";
     }
 
-
   gchar *path = g_build_filename(theme.c_str(), "soundtheme", NULL);
   if (path != nullptr)
     {
@@ -330,6 +329,10 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
         }
 
       idx++;
+    }
+}
+
+void
 SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER_MSG("SoundPlayer::load_sound_theme", themefilename);
@@ -496,23 +499,22 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
             }
 
           if (get_device() == DEVICE_SOUNDCARD && driver != nullptr)
-              string filename;
-              bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
+            string filename;
+          bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
 
-              if (valid)
-                {
-                  driver->play_sound(filename);
-                }
-              else
-                {
-                  delayed_mute = false;
-                }
+          if (valid)
+            {
+              driver->play_sound(filename);
             }
           else
             {
-              Thread *t = new SpeakerPlayer(beep_map[snd]);
-              t->start();
+              delayed_mute = false;
             }
+        }
+      else
+        {
+          Thread *t = new SpeakerPlayer(beep_map[snd]);
+          t->start();
         }
     }
   TRACE_EXIT();
@@ -633,7 +635,8 @@ SoundPlayer::get_sound_wav_file(SoundEvent snd, string &filename)
 
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
-      ret = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
+      ret =
+        CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
 #ifdef PLATFORM_OS_WINDOWS
       string appdir = Util::get_application_directory();
       TRACE_MSG("wav_file =" << filename << " appdir = " << appdir);

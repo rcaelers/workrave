@@ -75,4 +75,3 @@ MacOSSoundPlayer::run()
   free((void *)wav_file);
   wav_file = NULL;
 }
-

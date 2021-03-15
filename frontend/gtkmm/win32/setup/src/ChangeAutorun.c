@@ -185,7 +185,7 @@ BOOL g_verbose = FALSE;
 enum users
 {
   IGNORE_THIS_TAG = -1, /* force gcc signed enum */
-  ALL_USERS       = 0,
+  ALL_USERS = 0,
   NEW_USERS,
   UPDATE_EXISTING_AUTORUN_ONLY,
   INVALID
@@ -195,8 +195,8 @@ enum users
 void
 show_message(const int line, const char *function, const TCHAR *message, const TCHAR *title, const TCHAR *data, const TCHAR *data2)
 {
-  TCHAR *buffer         = NULL;
-  int length_buffer     = 0;
+  TCHAR *buffer = NULL;
+  int length_buffer = 0;
   int max_length_buffer = 1024;
 
   if (data)
@@ -259,7 +259,7 @@ BOOL
 regkey_test_read(HKEY mainkey, const TCHAR *subkey)
 {
   HKEY hkey = NULL;
-  LONG ret  = 0;
+  LONG ret = 0;
 
   ret = RegOpenKeyEx(mainkey, subkey, 0, STANDARD_RIGHTS_READ, &hkey);
 
@@ -310,9 +310,9 @@ initialized, those that couldn't be initialized will be cleared and this functio
 BOOL
 init_global_variables()
 {
-  int i                         = 0;
-  TCHAR *temp                   = NULL;
-  int length_target             = 0;
+  int i = 0;
+  TCHAR *temp = NULL;
+  int length_target = 0;
   int max_length_target_command = 0;
 
   free_global_variables();
@@ -372,7 +372,7 @@ init_global_variables()
   /* target_fullname
   Append the executable name (TARGET) to target_directory.
   */
-  length_target          = _tcslen(_T(TARGET));
+  length_target = _tcslen(_T(TARGET));
   length_target_fullname = length_target_directory + length_target;
 
   target_fullname = malloc((length_target_fullname + 1) * sizeof(TCHAR));
@@ -487,7 +487,7 @@ the existence of HKCU registry key HKCU_PROJECT_KEY.
 BOOL
 add_autorun_entry(enum users users)
 {
-  LONG ret  = 0;
+  LONG ret = 0;
   HKEY hkey = NULL;
 
   if (!target_command)
@@ -550,7 +550,7 @@ add_autorun_entry(enum users users)
 BOOL
 remove_autorun_entry()
 {
-  LONG ret  = 0;
+  LONG ret = 0;
   HKEY hkey = NULL;
 
   ret = RegOpenKeyEx(HKEY_CURRENT_USER, _T(HKCU_AUTORUN_KEY), 0, (KEY_READ | KEY_WRITE), &hkey);
@@ -597,7 +597,7 @@ remove_autorun_entry()
 BOOL
 remove_activesetup_entry()
 {
-  BOOL deleted                                                 = FALSE;
+  BOOL deleted = FALSE;
   LONG(WINAPI * pRegDeleteKeyEx)(HKEY, LPCTSTR, REGSAM, DWORD) = NULL;
 
   TCHAR *subkey_default = _T("SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\") _T(ACTIVE_SETUP_GUID);
@@ -747,7 +747,7 @@ int APIENTRY
 WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
   int i = 0, j = 0;
-  int argc    = 0;
+  int argc = 0;
   char **argv = NULL;
 
   SetErrorMode((SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX));

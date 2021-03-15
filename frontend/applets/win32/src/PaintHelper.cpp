@@ -8,14 +8,14 @@
 
 using namespace std;
 
-BEGIN_BUFFERED_PAINT PaintHelper::BeginBufferedPaint        = NULL;
-END_BUFFERED_PAINT PaintHelper::EndBufferedPaint            = NULL;
+BEGIN_BUFFERED_PAINT PaintHelper::BeginBufferedPaint = NULL;
+END_BUFFERED_PAINT PaintHelper::EndBufferedPaint = NULL;
 BUFFERED_PAINT_SET_ALPHA PaintHelper::BufferedPaintSetAlpha = NULL;
-BUFFERED_PAINT_UNINIT PaintHelper::BufferedPaintUnInit      = NULL;
-BUFFERED_PAINT_INIT PaintHelper::BufferedPaintInit          = NULL;
-GET_BUFFERED_PAINT_BITS PaintHelper::GetBufferedPaintBits   = NULL;
+BUFFERED_PAINT_UNINIT PaintHelper::BufferedPaintUnInit = NULL;
+BUFFERED_PAINT_INIT PaintHelper::BufferedPaintInit = NULL;
+GET_BUFFERED_PAINT_BITS PaintHelper::GetBufferedPaintBits = NULL;
 
-bool PaintHelper::composition_enabled   = false;
+bool PaintHelper::composition_enabled = false;
 bool PaintHelper::composition_available = false;
 
 PaintHelper::PaintHelper(HWND hwnd)
@@ -31,7 +31,7 @@ HDC
 PaintHelper::BeginPaint()
 {
   TRACE_ENTER("PaintHelper::BeginPaint");
-  hdc       = ::BeginPaint(hwnd, &ps);
+  hdc = ::BeginPaint(hwnd, &ps);
   paint_hdc = hdc;
 
   if (hdc)
@@ -44,8 +44,8 @@ PaintHelper::BeginPaint()
           GetClientRect(hwnd, &rc);
 
           paint_params.dwFlags = BPPF_ERASE;
-          paint_params.cbSize  = sizeof(paint_params);
-          paint_buffer         = BeginBufferedPaint(hdc, &rc, BPBF_TOPDOWNDIB, &paint_params, &paint_hdc);
+          paint_params.cbSize = sizeof(paint_params);
+          paint_buffer = BeginBufferedPaint(hdc, &rc, BPBF_TOPDOWNDIB, &paint_params, &paint_hdc);
           PatBlt(paint_hdc, 0, 0, rc.right - rc.left, rc.bottom - rc.top, BLACKNESS);
           BufferedPaintSetAlpha(paint_buffer, 0, 255);
           alpha_set = false;
@@ -105,7 +105,7 @@ PaintHelper::FixIconAlpha(HICON icon)
 
   if (SUCCEEDED(hr))
     {
-      HDC hdc        = GetDC(0);
+      HDC hdc = GetDC(0);
       BITMAPINFO bmi = {
         0,
       };
@@ -114,16 +114,16 @@ PaintHelper::FixIconAlpha(HICON icon)
 
       if (GetDIBits(hdc, icon_info.hbmColor, 0, 0, 0, &bmi, DIB_RGB_COLORS))
         {
-          int icon_width  = abs(bmi.bmiHeader.biWidth);
+          int icon_width = abs(bmi.bmiHeader.biWidth);
           int icon_height = abs(bmi.bmiHeader.biHeight);
 
-          bmi.bmiHeader.biWidth       = icon_width;
-          bmi.bmiHeader.biHeight      = -icon_height;
+          bmi.bmiHeader.biWidth = icon_width;
+          bmi.bmiHeader.biHeight = -icon_height;
           bmi.bmiHeader.biCompression = BI_RGB;
-          bmi.bmiHeader.biBitCount    = 32;
-          bmi.bmiHeader.biPlanes      = 1;
+          bmi.bmiHeader.biBitCount = 32;
+          bmi.bmiHeader.biPlanes = 1;
 
-          int row_delta            = row_size - bmi.bmiHeader.biWidth;
+          int row_delta = row_size - bmi.bmiHeader.biWidth;
           unsigned char *mask_data = (unsigned char *)malloc(icon_width * icon_height * 4);
 
           if (GetDIBits(hdc, icon_info.hbmMask, 0, abs(bmi.bmiHeader.biHeight), mask_data, &bmi, DIB_RGB_COLORS))
@@ -177,16 +177,16 @@ PaintHelper::Init()
   HINSTANCE handle = LoadLibrary("UxTheme.dll");
 
   composition_available = false;
-  composition_enabled   = false;
+  composition_enabled = false;
 
   if (handle != NULL)
     {
-      BeginBufferedPaint    = (BEGIN_BUFFERED_PAINT)::GetProcAddress(handle, "BeginBufferedPaint");
-      EndBufferedPaint      = (END_BUFFERED_PAINT)::GetProcAddress(handle, "EndBufferedPaint");
+      BeginBufferedPaint = (BEGIN_BUFFERED_PAINT)::GetProcAddress(handle, "BeginBufferedPaint");
+      EndBufferedPaint = (END_BUFFERED_PAINT)::GetProcAddress(handle, "EndBufferedPaint");
       BufferedPaintSetAlpha = (BUFFERED_PAINT_SET_ALPHA)::GetProcAddress(handle, "BufferedPaintSetAlpha");
-      BufferedPaintUnInit   = (BUFFERED_PAINT_UNINIT)::GetProcAddress(handle, "BufferedPaintUnInit");
-      BufferedPaintInit     = (BUFFERED_PAINT_INIT)::GetProcAddress(handle, "BufferedPaintInit");
-      GetBufferedPaintBits  = (GET_BUFFERED_PAINT_BITS)::GetProcAddress(handle, "GetBufferedPaintBits");
+      BufferedPaintUnInit = (BUFFERED_PAINT_UNINIT)::GetProcAddress(handle, "BufferedPaintUnInit");
+      BufferedPaintInit = (BUFFERED_PAINT_INIT)::GetProcAddress(handle, "BufferedPaintInit");
+      GetBufferedPaintBits = (GET_BUFFERED_PAINT_BITS)::GetProcAddress(handle, "GetBufferedPaintBits");
 
       if (BeginBufferedPaint != NULL && EndBufferedPaint != NULL && BufferedPaintSetAlpha != NULL && BufferedPaintUnInit != NULL
           && BufferedPaintInit != NULL && GetBufferedPaintBits != NULL)
