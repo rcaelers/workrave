@@ -172,11 +172,6 @@ GUI::main()
   XInitThreads();
 #endif
 
-  if (!Glib::thread_supported())
-    {
-      Glib::thread_init();
-    }
-
 #ifdef HAVE_GTK3
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
