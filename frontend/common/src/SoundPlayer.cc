@@ -499,22 +499,24 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
             }
 
           if (get_device() == DEVICE_SOUNDCARD && driver != nullptr)
-            string filename;
-          bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
-
-          if (valid)
             {
-              driver->play_sound(filename);
+              string filename;
+              bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
+
+              if (valid)
+                {
+                  driver->play_sound(filename);
+                }
+              else
+                {
+                  delayed_mute = false;
+                }
             }
           else
             {
-              delayed_mute = false;
+              Thread *t = new SpeakerPlayer(beep_map[snd]);
+              t->start();
             }
-        }
-      else
-        {
-          Thread *t = new SpeakerPlayer(beep_map[snd]);
-          t->start();
         }
     }
   TRACE_EXIT();
