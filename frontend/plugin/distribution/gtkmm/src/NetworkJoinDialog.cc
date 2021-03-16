@@ -56,11 +56,11 @@ NetworkJoinDialog::NetworkJoinDialog()
 {
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
-  ICore *core                        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
 
   // Icon
-  Gtk::Image *title_img   = GtkUtil::create_image("network.png");
+  Gtk::Image *title_img = GtkUtil::create_image("network.png");
   Gtk::Alignment *img_aln = Gtk::manage(new Gtk::Alignment
 #  ifdef HAVE_GTK3
                                         (Gtk::ALIGN_START, Gtk::ALIGN_END, 0.0, 0.0));
@@ -71,7 +71,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   img_aln->add(*title_img);
 
   Gtk::Label *title_lab = Gtk::manage(new Gtk::Label());
-  Glib::ustring text    = HigUtil::create_alert_text(_("Network connect"),
+  Glib::ustring text = HigUtil::create_alert_text(_("Network connect"),
                                                   _("Enter the host name and port number of a computer\n"
                                                     "in the network you wish to connect to."));
   title_lab->set_markup(text);

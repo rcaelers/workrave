@@ -91,7 +91,7 @@ void
 StatusIcon::insert_icon()
 {
   // Create status icon
-  ICore *core        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode_regular();
 
 #ifdef USE_W32STATUSICON
@@ -172,7 +172,7 @@ StatusIcon::on_popup_menu(guint button, guint activate_time)
   (void)button;
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
 }
@@ -226,7 +226,7 @@ GdkFilterReturn
 StatusIcon::win32_filter_func(void *xevent, GdkEvent *event)
 {
   (void)event;
-  MSG *msg            = (MSG *)xevent;
+  MSG *msg = (MSG *)xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   if (msg->message == wm_taskbarcreated)
     {

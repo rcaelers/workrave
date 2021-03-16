@@ -51,7 +51,7 @@
 GdkSeat *WindowHints::seat = NULL;
 #  else
 GdkDevice *WindowHints::keyboard = NULL;
-GdkDevice *WindowHints::pointer  = NULL;
+GdkDevice *WindowHints::pointer = NULL;
 #  endif
 #endif
 
@@ -118,7 +118,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
       if (num_windows > 0)
         {
           GdkDisplay *display = gdk_window_get_display(windows[0]);
-          seat                = gdk_display_get_default_seat(display);
+          seat = gdk_display_get_default_seat(display);
 
           GdkGrabStatus grabStatus = gdk_seat_grab(seat, windows[0], GDK_SEAT_CAPABILITY_ALL, TRUE, NULL, NULL, NULL, NULL);
           if (grabStatus == GDK_GRAB_SUCCESS)
@@ -137,9 +137,9 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
           GdkDevice *device = gtk_get_current_event_device();
           if (device == NULL)
             {
-              GdkDisplay *display              = gdk_window_get_display(windows[0]);
+              GdkDisplay *display = gdk_window_get_display(windows[0]);
               GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
-              device                           = gdk_device_manager_get_client_pointer(device_manager);
+              device = gdk_device_manager_get_client_pointer(device_manager);
             }
 
           if (device != NULL)
@@ -147,11 +147,11 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
               if (gdk_device_get_source(device) == GDK_SOURCE_KEYBOARD)
                 {
                   keyboard = device;
-                  pointer  = gdk_device_get_associated_device(device);
+                  pointer = gdk_device_get_associated_device(device);
                 }
               else
                 {
-                  pointer  = device;
+                  pointer = device;
                   keyboard = gdk_device_get_associated_device(device);
                 }
             }

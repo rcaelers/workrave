@@ -32,7 +32,7 @@ DBusProxy::init_with_connection(GDBusConnection *connection,
 {
   TRACE_ENTER_MSG("DBus_proxy::init_with_connection", name);
   this->flags = flags_in;
-  proxy       = g_dbus_proxy_new_sync(connection, flags, NULL, name, object_path, interface_name, NULL, &error);
+  proxy = g_dbus_proxy_new_sync(connection, flags, NULL, name, object_path, interface_name, NULL, &error);
 
   if (error != NULL)
     {
@@ -48,8 +48,8 @@ DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, co
 {
   TRACE_ENTER_MSG("DBus_proxy::init", name);
   this->flags = flags_in;
-  error       = NULL;
-  proxy       = g_dbus_proxy_new_for_bus_sync(bus_type, flags, NULL, name, object_path, interface_name, NULL, &error);
+  error = NULL;
+  proxy = g_dbus_proxy_new_for_bus_sync(bus_type, flags, NULL, name, object_path, interface_name, NULL, &error);
 
   if (error != NULL)
     {

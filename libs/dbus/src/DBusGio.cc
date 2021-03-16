@@ -97,9 +97,9 @@ DBusGio::register_service(const std::string &service_name, IDBusWatch *cb)
 
   if (cb != nullptr)
     {
-      watched[service_name].id       = owner_id;
+      watched[service_name].id = owner_id;
       watched[service_name].callback = cb;
-      watched[service_name].seen     = false;
+      watched[service_name].seen = false;
     }
 }
 
@@ -128,7 +128,7 @@ DBusGio::update_object_registration(InterfaceData &data)
   string introspection_xml = get_introspect(data.object_path, data.interface_name);
   TRACE_MSG("Intro: %s" << introspection_xml);
 
-  GError *error           = nullptr;
+  GError *error = nullptr;
   data.introspection_data = g_dbus_node_info_new_for_xml(introspection_xml.c_str(), &error);
 
   if (error != nullptr)
@@ -168,9 +168,9 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
     }
 
   InterfaceData &interface_data = object_data.interfaces[interface_name];
-  interface_data.object_path    = object_path;
+  interface_data.object_path = object_path;
   interface_data.interface_name = interface_name;
-  interface_data.object         = object;
+  interface_data.object = object;
 
   if (object_data.registered)
     {
@@ -246,7 +246,7 @@ bool
 DBusGio::is_running(const std::string &name) const
 {
   TRACE_ENTER("DBusGio::is_running");
-  GError *error    = nullptr;
+  GError *error = nullptr;
   gboolean running = FALSE;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
@@ -277,7 +277,7 @@ DBusGio::is_running(const std::string &name) const
       else
         {
           GVariant *first = g_variant_get_child_value(result, 0);
-          running         = g_variant_get_boolean(first);
+          running = g_variant_get_boolean(first);
           g_variant_unref(first);
           g_variant_unref(result);
         }
@@ -326,7 +326,7 @@ DBusGio::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, co
 {
   (void)connection;
   (void)name_owner;
-  auto *dbus               = (DBusGio *)user_data;
+  auto *dbus = (DBusGio *)user_data;
   dbus->watched[name].seen = true;
   dbus->bus_name_presence(name, true);
 }
@@ -357,8 +357,8 @@ DBusGio::watch(const std::string &name, IDBusWatch *cb)
   guint id = g_bus_watch_name_on_connection(
     connection, name.c_str(), G_BUS_NAME_WATCHER_FLAGS_NONE, on_bus_name_appeared, on_bus_name_vanished, this, nullptr);
   watched[name].callback = cb;
-  watched[name].id       = id;
-  watched[name].seen     = false;
+  watched[name].id = id;
+  watched[name].seen = false;
 }
 
 void
@@ -491,7 +491,7 @@ DBusGio::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointe
   (void)name;
   TRACE_ENTER_MSG("DBusGio::on_bus_acquired", name);
 
-  auto *self       = (DBusGio *)user_data;
+  auto *self = (DBusGio *)user_data;
   self->connection = connection;
 
   for (auto object_it = self->objects.begin(); object_it != self->objects.end(); object_it++)

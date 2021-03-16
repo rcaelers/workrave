@@ -39,7 +39,7 @@ using namespace workrave;
 W32InputMonitorFactory::W32InputMonitorFactory()
   : actual_monitor_method{"monitor.method", ""}
 {
-  activity_monitor   = NULL;
+  activity_monitor = NULL;
   statistics_monitor = NULL;
 }
 
@@ -101,7 +101,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (actual_monitor_method == "lowlevel")
             {
-              monitor     = new W32LowLevelMonitor();
+              monitor = new W32LowLevelMonitor();
               initialized = monitor->init();
 
               if (!initialized)
@@ -116,7 +116,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "nohook")
             {
-              monitor     = new W32AlternateMonitor();
+              monitor = new W32AlternateMonitor();
               initialized = monitor->init();
 
               if (!initialized)
@@ -131,7 +131,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "normal")
             {
-              monitor     = new W32InputMonitor();
+              monitor = new W32InputMonitor();
               initialized = monitor->init();
 
               if (!initialized)
@@ -202,7 +202,7 @@ W32InputMonitorFactory::create_statistics_monitor()
   if (actual_monitor_method == "nohook")
     {
       IInputMonitor *monitor = new W32LowLevelMonitor();
-      bool initialized       = monitor->init();
+      bool initialized = monitor->init();
 
       if (!initialized)
         {

@@ -72,18 +72,18 @@ DBusTestServer::test_basic_out_ref(int i_int,
                                    double &o_double,
                                    DBusTestData::Enum &o_enum)
 {
-  o_int    = i_int + 1;
-  o_uint8  = i_uint8 + 2;
-  o_int16  = i_int16 + 3;
+  o_int = i_int + 1;
+  o_uint8 = i_uint8 + 2;
+  o_int16 = i_int16 + 3;
   o_uint16 = i_uint16 + 4;
-  o_int32  = i_int32 + 5;
+  o_int32 = i_int32 + 5;
   o_uint32 = i_uint32 + 6;
-  o_int64  = i_int64 + 7;
+  o_int64 = i_int64 + 7;
   o_uint64 = i_uint64 + 8;
   o_string = i_string + " World";
-  o_bool   = !i_bool;
+  o_bool = !i_bool;
   o_double = i_double + 1.1;
-  o_enum   = i_enum;
+  o_enum = i_enum;
 }
 
 void
@@ -112,53 +112,53 @@ DBusTestServer::test_basic_out_ptr(int i_int,
                                    double *o_double,
                                    DBusTestData::Enum *o_enum)
 {
-  *o_int    = i_int + 1;
-  *o_uint8  = i_uint8 + 2;
-  *o_int16  = i_int16 + 3;
+  *o_int = i_int + 1;
+  *o_uint8 = i_uint8 + 2;
+  *o_int16 = i_int16 + 3;
   *o_uint16 = i_uint16 + 4;
-  *o_int32  = i_int32 + 5;
+  *o_int32 = i_int32 + 5;
   *o_uint32 = i_uint32 + 6;
-  *o_int64  = i_int64 + 7;
+  *o_int64 = i_int64 + 7;
   *o_uint64 = i_uint64 + 8;
   *o_string = i_string + " World";
-  *o_bool   = !i_bool;
+  *o_bool = !i_bool;
   *o_double = i_double + 1.1;
-  *o_enum   = i_enum;
+  *o_enum = i_enum;
 }
 
 void
 DBusTestServer::test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct,
                                     DBusTestData::StructWithAllBasicTypes &o_struct)
 {
-  o_struct.m_int    = i_struct.m_int + 1;
-  o_struct.m_uint8  = i_struct.m_uint8 + 2;
-  o_struct.m_int16  = i_struct.m_int16 + 3;
+  o_struct.m_int = i_struct.m_int + 1;
+  o_struct.m_uint8 = i_struct.m_uint8 + 2;
+  o_struct.m_int16 = i_struct.m_int16 + 3;
   o_struct.m_uint16 = i_struct.m_uint16 + 4;
-  o_struct.m_int32  = i_struct.m_int32 + 5;
+  o_struct.m_int32 = i_struct.m_int32 + 5;
   o_struct.m_uint32 = i_struct.m_uint32 + 6;
-  o_struct.m_int64  = i_struct.m_int64 + 7;
+  o_struct.m_int64 = i_struct.m_int64 + 7;
   o_struct.m_uint64 = i_struct.m_uint64 + 8;
   o_struct.m_string = i_struct.m_string + " World";
-  o_struct.m_bool   = !i_struct.m_bool;
+  o_struct.m_bool = !i_struct.m_bool;
   o_struct.m_double = i_struct.m_double + 1.1;
-  o_struct.m_enum   = i_struct.m_enum;
+  o_struct.m_enum = i_struct.m_enum;
 }
 
 void
 DBusTestServer::test_struct_out_ptr(DBusTestData::StructWithAllBasicTypes i_struct, DBusTestData::StructWithAllBasicTypes *o_struct)
 {
-  o_struct->m_int    = i_struct.m_int + 1;
-  o_struct->m_uint8  = i_struct.m_uint8 + 2;
-  o_struct->m_int16  = i_struct.m_int16 + 3;
+  o_struct->m_int = i_struct.m_int + 1;
+  o_struct->m_uint8 = i_struct.m_uint8 + 2;
+  o_struct->m_int16 = i_struct.m_int16 + 3;
   o_struct->m_uint16 = i_struct.m_uint16 + 4;
-  o_struct->m_int32  = i_struct.m_int32 + 5;
+  o_struct->m_int32 = i_struct.m_int32 + 5;
   o_struct->m_uint32 = i_struct.m_uint32 + 6;
-  o_struct->m_int64  = i_struct.m_int64 + 7;
+  o_struct->m_int64 = i_struct.m_int64 + 7;
   o_struct->m_uint64 = i_struct.m_uint64 + 8;
   o_struct->m_string = i_struct.m_string + " World";
-  o_struct->m_bool   = !i_struct.m_bool;
+  o_struct->m_bool = !i_struct.m_bool;
   o_struct->m_double = i_struct.m_double + 1.1;
-  o_struct->m_enum   = i_struct.m_enum;
+  o_struct->m_enum = i_struct.m_enum;
 }
 
 std::string

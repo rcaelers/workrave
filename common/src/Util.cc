@@ -113,7 +113,7 @@ Util::get_home_directory()
 
           strcat(buf, "\\Workrave");
           BOOL dirok = FALSE;
-          dirok      = CreateDirectory(buf, NULL);
+          dirok = CreateDirectory(buf, NULL);
           if (!dirok)
             {
               if (GetLastError() == ERROR_ALREADY_EXISTS)
@@ -168,7 +168,7 @@ bool
 Util::file_exists(string path)
 {
   // 'stat' might be faster. but this is portable..
-  FILE *f  = NULL;
+  FILE *f = NULL;
   bool ret = false;
 
   f = fopen(path.c_str(), "r");
@@ -212,7 +212,7 @@ Util::registry_get_value(const char *path, const char *name, char *out)
     {
       DWORD type, size;
       size = MAX_PATH;
-      err  = RegQueryValueExA(handle, name, 0, &type, (LPBYTE)out, &size);
+      err = RegQueryValueExA(handle, name, 0, &type, (LPBYTE)out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -371,7 +371,7 @@ Util::complete_directory(string path, Util::SearchPathId type)
   for (set<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
     {
       fullPath = (*i) + G_DIR_SEPARATOR_S + path;
-      found    = file_exists(fullPath);
+      found = file_exists(fullPath);
     }
 
   if (!found)
@@ -393,7 +393,7 @@ Util::complete_directory(string path, Util::SearchPathId type, std::string &comp
   for (set<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
     {
       completed_path = (*i) + G_DIR_SEPARATOR_S + path;
-      found          = file_exists(completed_path);
+      found = file_exists(completed_path);
     }
 
   return found;

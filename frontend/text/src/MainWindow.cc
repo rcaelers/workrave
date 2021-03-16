@@ -40,13 +40,13 @@
 #include "IConfigurator.hh"
 #include "IStatistics.hh"
 
-const string MainWindow::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
+const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 
 const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
 
-const string MainWindow::CFG_KEY_MAIN_WINDOW_X    = "gui/main_window/x";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_Y    = "gui/main_window/y";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_X = "gui/main_window/x";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_Y = "gui/main_window/y";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD = "gui/main_window/head";
 
 //! Constructor.
@@ -77,7 +77,7 @@ MainWindow::init()
 
   enabled = TimerBoxControl::is_enabled("main_window");
 
-  timer_box_view    = new TimerBoxTextView();
+  timer_box_view = new TimerBoxTextView();
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
 
   IConfigurator *config = CoreFactory::get_configurator();

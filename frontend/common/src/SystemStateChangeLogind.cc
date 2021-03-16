@@ -49,17 +49,17 @@ SystemStateChangeLogind::SystemStateChangeLogind(GDBusConnection *connection)
 
   if (!proxy.is_valid())
     {
-      can_shutdown       = false;
-      can_suspend        = false;
-      can_hibernate      = false;
+      can_shutdown = false;
+      can_suspend = false;
+      can_hibernate = false;
       can_suspend_hybrid = false;
     }
   else
     {
       // CanPowerOff(), CanReboot(), CanSuspend(), CanHibernate(), CanHybridSleep()
-      can_shutdown       = check_method("CanPowerOff");
-      can_suspend        = check_method("CanSuspend");
-      can_hibernate      = check_method("CanHibernate");
+      can_shutdown = check_method("CanPowerOff");
+      can_suspend = check_method("CanSuspend");
+      can_hibernate = check_method("CanHibernate");
       can_suspend_hybrid = check_method("CanHybridSleep");
     }
   TRACE_EXIT();

@@ -158,7 +158,7 @@ void
 TimeEntry::update(Gtk::SpinButton *spin)
 {
   // Needless to say, this kinda sucks.
-  Glib::ustring s  = spin->get_text();
+  Glib::ustring s = spin->get_text();
   const gchar *txt = s.c_str();
   if (txt != NULL && *txt != 0)
     {

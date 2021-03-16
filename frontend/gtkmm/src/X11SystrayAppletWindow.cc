@@ -132,8 +132,8 @@ X11SystrayAppletWindow::activate()
       eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
-      view              = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
-      timer_box_view    = view;
+      view = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
+      timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 
       Gtk::VBox *box = manage(new Gtk::VBox());
@@ -197,7 +197,7 @@ X11SystrayAppletWindow::deactivate()
 
       delete timer_box_view;
       timer_box_view = NULL;
-      view           = NULL;
+      view = NULL;
 
       visibility_changed_signal.emit(false);
     }
@@ -237,8 +237,8 @@ X11SystrayAppletWindow::on_embedded()
           orientation = ORIENTATION_LEFT;
         }
 
-      embedded           = true;
-      applet_size        = 24;
+      embedded = true;
+      applet_size = 24;
       applet_orientation = orientation;
 
       view->set_geometry(applet_orientation, applet_size);
@@ -263,7 +263,7 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3)
         {
-          IGUI *gui    = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
           menus->popup(Menus::MENU_MAINAPPLET, 0 /*event->button */, event->time);
           ret = true;
@@ -350,7 +350,7 @@ void
 X11SystrayAppletWindow::read_configuration()
 {
   bool previous_enabled = enabled;
-  enabled               = GUIConfig::is_applet_fallback_enabled();
+  enabled = GUIConfig::is_applet_fallback_enabled();
 
   if (!previous_enabled && enabled)
     {

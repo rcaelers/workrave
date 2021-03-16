@@ -39,7 +39,7 @@ namespace workrave
   //! ID of a break.
   enum BreakId
   {
-    BREAK_ID_NONE        = -1,
+    BREAK_ID_NONE = -1,
     BREAK_ID_MICRO_BREAK = 0,
     BREAK_ID_REST_BREAK,
     BREAK_ID_DAILY_LIMIT,

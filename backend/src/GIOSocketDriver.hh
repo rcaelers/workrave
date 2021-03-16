@@ -40,8 +40,10 @@ public:
   virtual void listen(int port);
 
 private:
-  static gboolean
-  static_socket_incoming(GSocketService *service, GSocketConnection *connection, GObject *src_object, gpointer user_data);
+  static gboolean static_socket_incoming(GSocketService *service,
+                                         GSocketConnection *connection,
+                                         GObject *src_object,
+                                         gpointer user_data);
 
 private:
   GSocketService *service;

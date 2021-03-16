@@ -34,11 +34,11 @@ MacOSAppletWindow::MacOSAppletWindow()
 {
   TRACE_ENTER("MacOSAppletWindow::MacOSAppletWindow");
 
-  timer_box_view    = this;
+  timer_box_view = this;
   timer_box_control = new TimerBoxControl("applet", *this);
 
   NSMenu *menu = [[NSMenu alloc] init];
-  view         = [[MacOSStatusBarView alloc] initWithMenu:menu];
+  view = [[MacOSStatusBarView alloc] initWithMenu:menu];
 
   int i;
   while ([menu numberOfItems] > 0)

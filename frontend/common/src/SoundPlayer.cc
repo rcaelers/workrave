@@ -63,11 +63,11 @@
 
 #include <gdk/gdk.h>
 
-const char *SoundPlayer::CFG_KEY_SOUND_ENABLED        = "sound/enabled";
-const char *SoundPlayer::CFG_KEY_SOUND_DEVICE         = "sound/device";
-const char *SoundPlayer::CFG_KEY_SOUND_VOLUME         = "sound/volume";
-const char *SoundPlayer::CFG_KEY_SOUND_MUTE           = "sound/mute";
-const char *SoundPlayer::CFG_KEY_SOUND_EVENTS         = "sound/events/";
+const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
+const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
+const char *SoundPlayer::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const char *SoundPlayer::CFG_KEY_SOUND_MUTE = "sound/mute";
+const char *SoundPlayer::CFG_KEY_SOUND_EVENTS = "sound/events/";
 const char *SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
 using namespace workrave;
@@ -236,13 +236,12 @@ SoundPlayer::SoundPlayer()
 #endif
     ;
 
-  must_unmute  = false;
+  must_unmute = false;
   delayed_mute = false;
 
 #ifdef PLATFORM_OS_WINDOWS
   win32_remove_deprecated_appevents();
 #endif
-
 }
 
 SoundPlayer::~SoundPlayer()
@@ -288,7 +287,6 @@ SoundPlayer::register_sound_events(string theme)
     {
       theme = "default";
     }
-
 
   gchar *path = g_build_filename(theme.c_str(), "soundtheme", NULL);
   if (path != NULL)
@@ -343,7 +341,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER_MSG("SoundPlayer::load_sound_theme", themefilename);
 
-  gboolean r      = TRUE;
+  gboolean r = TRUE;
   bool is_current = true;
 
   GKeyFile *config = g_key_file_new();
@@ -366,7 +364,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       int size = sizeof(sound_registry) / sizeof(sound_registry[0]);
       for (int i = 0; i < size; i++)
         {
-          SoundRegistry *snd   = &sound_registry[i];
+          SoundRegistry *snd = &sound_registry[i];
           char *sound_pathname = NULL;
 
           char *filename = g_key_file_get_string(config, snd->id, "file", NULL);
@@ -420,7 +418,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 {
   TRACE_ENTER("SoundPlayer::get_sound_themes");
   set<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
-  bool has_active        = false;
+  bool has_active = false;
 
   for (set<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
     {
@@ -464,7 +462,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
     {
       Theme active_theme;
 
-      active_theme.active      = true;
+      active_theme.active = true;
       active_theme.description = _("Custom");
 
       bool valid = true;
@@ -495,7 +493,7 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
   if (is_enabled() && snd >= SOUND_MIN && snd < SOUND_MAX)
     {
       bool enabled = false;
-      bool valid   = SoundPlayer::get_sound_enabled(snd, enabled);
+      bool valid = SoundPlayer::get_sound_enabled(snd, enabled);
 
       if (valid && enabled)
         {
@@ -644,7 +642,8 @@ SoundPlayer::get_sound_wav_file(SoundEvent snd, string &filename)
 
   if (snd >= SOUND_MIN && snd < SOUND_MAX)
     {
-      ret = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
+      ret =
+        CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) + sound_registry[snd].id, filename);
 #ifdef PLATFORM_OS_WINDOWS
       string appdir = Util::get_application_directory();
       TRACE_MSG("wav_file =" << filename << " appdir = " << appdir);

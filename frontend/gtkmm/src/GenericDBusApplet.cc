@@ -51,17 +51,17 @@ GenericDBusApplet::GenericDBusApplet()
   , dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
-  timer_box_view    = this;
+  timer_box_view = this;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      data[i].bar_text            = "";
-      data[i].bar_primary_color   = 0;
-      data[i].bar_primary_val     = 0;
-      data[i].bar_primary_max     = 0;
+      data[i].bar_text = "";
+      data[i].bar_primary_color = 0;
+      data[i].bar_primary_val = 0;
+      data[i].bar_primary_max = 0;
       data[i].bar_secondary_color = 0;
-      data[i].bar_secondary_val   = 0;
-      data[i].bar_secondary_max   = 0;
+      data[i].bar_secondary_val = 0;
+      data[i].bar_secondary_max = 0;
     }
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
@@ -88,13 +88,13 @@ GenericDBusApplet::set_time_bar(BreakId id,
                                 int secondary_max)
 {
   TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << text);
-  data[id].bar_text            = text;
-  data[id].bar_primary_color   = primary_color;
-  data[id].bar_primary_val     = primary_val;
-  data[id].bar_primary_max     = primary_max;
+  data[id].bar_text = text;
+  data[id].bar_primary_color = primary_color;
+  data[id].bar_primary_val = primary_val;
+  data[id].bar_primary_max = primary_max;
   data[id].bar_secondary_color = secondary_color;
-  data[id].bar_secondary_val   = secondary_val;
-  data[id].bar_secondary_max   = secondary_max;
+  data[id].bar_secondary_val = secondary_val;
+  data[id].bar_secondary_max = secondary_max;
   TRACE_EXIT();
 }
 
@@ -221,16 +221,16 @@ void
 GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
 {
   MenuItem item;
-  item.text    = text;
+  item.text = text;
   item.command = command;
-  item.flags   = flags;
+  item.flags = flags;
   items.push_back(item);
 }
 
 void
 GenericDBusApplet::applet_command(int command)
 {
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
   menus->applet_command(command);
 }
@@ -263,7 +263,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
       if (active_bus_names.size() == 0)
         {
           TRACE_MSG("Disabling");
-          visible  = false;
+          visible = false;
           embedded = false;
           visibility_changed_signal.emit(false);
         }

@@ -49,7 +49,7 @@ using namespace workrave;
 using namespace std;
 
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
-HWND Harpoon::helper_window  = NULL;
+HWND Harpoon::helper_window = NULL;
 bool Harpoon::helper_started = false;
 
 Harpoon::Harpoon() {}
@@ -306,7 +306,7 @@ Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
 {
   TRACE_ENTER("Harpoon::recursive_find_window");
   static char buf[80];
-  int num  = GetClassName(hwnd, buf, sizeof(buf) - 1);
+  int num = GetClassName(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
@@ -357,8 +357,8 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       string install_dir = g_win32_get_package_installation_directory_of_module(NULL);
-      string helper      = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "WorkraveHelper.exe";
-      string args        = helper + " " + g_get_prgname();
+      string helper = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "WorkraveHelper.exe";
+      string args = helper + " " + g_get_prgname();
 
       TRACE_MSG(install_dir.c_str());
       TRACE_MSG(helper.c_str());
@@ -367,7 +367,7 @@ Harpoon::start_harpoon_helper()
       if (CreateProcessA(helper.c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
           helper_started = true;
-          helper_window  = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+          helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
         }
       else
         {
@@ -391,7 +391,7 @@ Harpoon::stop_harpoon_helper()
   if (helper_window != NULL)
     {
       PostMessage(helper_window, WM_USER + HARPOON_HELPER_EXIT, 0, 0);
-      helper_window  = NULL;
+      helper_window = NULL;
       helper_started = false;
     }
   TRACE_EXIT();

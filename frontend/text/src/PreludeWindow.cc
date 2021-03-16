@@ -127,7 +127,7 @@ PreludeWindow::refresh()
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  progress_value     = value;
+  progress_value = value;
   progress_max_value = max_value;
   refresh();
 }

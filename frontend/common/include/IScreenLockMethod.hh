@@ -26,7 +26,7 @@ class /*interface*/ IScreenLockMethod
 public:
   virtual ~IScreenLockMethod(){};
   virtual bool is_lock_supported() = 0;
-  virtual bool lock()              = 0;
+  virtual bool lock() = 0;
 };
 
 #endif

@@ -47,7 +47,7 @@
 #endif
 
 const char *WORKRAVESTATS = "WorkRaveStats";
-const int STATSVERSION    = 4;
+const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 
@@ -99,7 +99,7 @@ Statistics::init(Core *control)
 #endif
 
   current_day = NULL;
-  bool ok     = load_current_day();
+  bool ok = load_current_day();
   if (!ok)
     {
       start_new_day();
@@ -115,7 +115,7 @@ Statistics::update()
   TRACE_ENTER("Statistics::update");
 
   IActivityMonitor *monitor = core->get_activity_monitor();
-  ActivityState state       = monitor->get_current_state();
+  ActivityState state = monitor->get_current_state();
 
   if (state == ACTIVITY_ACTIVE && !been_active)
     {
@@ -123,7 +123,7 @@ Statistics::update()
       struct tm *tmnow = localtime(&now);
 
       current_day->start = *tmnow;
-      current_day->stop  = *tmnow;
+      current_day->stop = *tmnow;
 
       been_active = true;
     }
@@ -192,7 +192,7 @@ Statistics::start_new_day()
       been_active = false;
 
       current_day->start = *tmnow;
-      current_day->stop  = *tmnow;
+      current_day->stop = *tmnow;
     }
 
   update_current_day(false);
@@ -300,7 +300,7 @@ Statistics::add_history(DailyStatsImpl *stats)
     }
   else
     {
-      bool found     = false;
+      bool found = false;
       HistoryRIter i = history.rbegin();
       while (i != history.rend())
         {
@@ -310,7 +310,7 @@ Statistics::add_history(DailyStatsImpl *stats)
               && stats->start.tm_mday == ref->start.tm_mday)
             {
               delete *i;
-              *i    = stats;
+              *i = stats;
               found = true;
               break;
             }
@@ -529,7 +529,7 @@ Statistics::set_break_counter(BreakId bt, StatsBreakValueType st, int value)
     }
 
   BreakStats &bs = current_day->break_stats[bt];
-  bs[st]         = value;
+  bs[st] = value;
 }
 
 void
@@ -632,7 +632,7 @@ Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int 
   idx = next = prev = -1;
   for (int i = 0; i <= int(history.size()); i++)
     {
-      int j                 = history.size() - i;
+      int j = history.size() - i;
       DailyStatsImpl *stats = j == 0 ? current_day : history[i];
       if (idx < 0 && stats->starts_at_date(y, m, d))
         {
@@ -677,8 +677,8 @@ Statistics::update_current_day(bool active)
 
       if (active)
         {
-          const time_t now  = core->get_time();
-          struct tm *tmnow  = localtime(&now);
+          const time_t now = core->get_time();
+          struct tm *tmnow = localtime(&now);
           current_day->stop = *tmnow;
         }
 
@@ -791,7 +791,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
   return false;
 
   DailyStatsImpl *stats = NULL;
-  int pos               = 0;
+  int pos = 0;
   bool stats_to_history = false;
 
   while (buffer.bytes_available() > 0)
@@ -805,7 +805,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
           break;
 
         case STATS_MARKER_HISTORY:
-          stats            = new DailyStatsImpl();
+          stats = new DailyStatsImpl();
           stats_to_history = true;
           break;
 
@@ -815,10 +815,10 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
             (void)size;
 
             stats->start.tm_mday = buffer.unpack_byte();
-            stats->start.tm_mon  = buffer.unpack_byte();
+            stats->start.tm_mon = buffer.unpack_byte();
             stats->start.tm_year = buffer.unpack_ushort();
             stats->start.tm_hour = buffer.unpack_byte();
-            stats->start.tm_min  = buffer.unpack_byte();
+            stats->start.tm_min = buffer.unpack_byte();
           }
           break;
 
@@ -828,17 +828,17 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
             (void)size;
 
             stats->stop.tm_mday = buffer.unpack_byte();
-            stats->stop.tm_mon  = buffer.unpack_byte();
+            stats->stop.tm_mon = buffer.unpack_byte();
             stats->stop.tm_year = buffer.unpack_ushort();
             stats->stop.tm_hour = buffer.unpack_byte();
-            stats->stop.tm_min  = buffer.unpack_byte();
+            stats->stop.tm_min = buffer.unpack_byte();
           }
           break;
 
         case STATS_MARKER_BREAK_STATS:
           {
             int size = buffer.read_size(pos);
-            int bt   = buffer.unpack_byte();
+            int bt = buffer.unpack_byte();
             (void)size;
 
             BreakStats &bs = stats->break_stats[bt];
@@ -861,7 +861,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
 
         case STATS_MARKER_MISC_STATS:
           {
-            int size  = buffer.read_size(pos);
+            int size = buffer.read_size(pos);
             int count = buffer.unpack_ushort();
             (void)size;
 
@@ -959,7 +959,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
       if (delta_x < MAX_JUMP && delta_y < MAX_JUMP && (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0))
         {
           int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-          int distance     = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          int distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
@@ -968,7 +968,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
             }
 
           gint64 now = g_get_real_time();
-          gint64 tv  = now - last_mouse_time;
+          gint64 tv = now - last_mouse_time;
 
           int tv_sec = tv / G_USEC_PER_SEC;
           if (last_mouse_time != 0 && tv_sec >= 0 && tv_sec < 1)

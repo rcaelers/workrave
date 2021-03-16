@@ -15,12 +15,12 @@ typedef BOOL(__stdcall *ENUMPROCESSES)(DWORD *, DWORD, DWORD *);
 typedef BOOL(__stdcall *ENUMPROCESSMODULES)(HANDLE, HMODULE *, DWORD, LPDWORD);
 
 static QUERYFULLPROCESSIMAGENAME pfnQueryFullProcessImageName = NULL;
-static GETMODULEFILENAMEEX pfnGetModuleFileNameEx             = NULL;
-static ENUMPROCESSES pfnEnumProcesses                         = NULL;
-static ENUMPROCESSMODULES pfnEnumProcessModules               = NULL;
-static GETMODULEBASENAME pfnGetModuleBaseName                 = NULL;
+static GETMODULEFILENAMEEX pfnGetModuleFileNameEx = NULL;
+static ENUMPROCESSES pfnEnumProcesses = NULL;
+static ENUMPROCESSMODULES pfnEnumProcessModules = NULL;
+static GETMODULEBASENAME pfnGetModuleBaseName = NULL;
 
-static BOOL success  = FALSE;
+static BOOL success = FALSE;
 static BOOL simulate = FALSE;
 
 #define MAX_CLASS_NAME (128)
@@ -36,9 +36,9 @@ enum Kind
 static BOOL
 GetProcessName(HWND hwnd, char *buf, size_t buf_size)
 {
-  HANDLE process_handle   = NULL;
+  HANDLE process_handle = NULL;
   BOOL process_name_found = FALSE;
-  DWORD processid         = 0;
+  DWORD processid = 0;
 
   if (GetWindowThreadProcessId(hwnd, &processid) && processid != 0)
     {
@@ -97,7 +97,7 @@ EnumWindowsProc(HWND hwnd, long lParam)
   char processName[2 * MAX_PATH] = {
     0,
   };
-  int n          = 0;
+  int n = 0;
   enum Kind kind = KIND_NONE;
 
   n = GetClassName(hwnd, (LPSTR)className, sizeof(className) - 1);
@@ -150,7 +150,7 @@ EnumWindowsProc(HWND hwnd, long lParam)
 static void
 FindOrZapWorkrave()
 {
-  HINSTANCE psapi    = NULL;
+  HINSTANCE psapi = NULL;
   HINSTANCE kernel32 = LoadLibrary("kernel32.dll");
 
   if (kernel32 != NULL)
@@ -160,7 +160,7 @@ FindOrZapWorkrave()
 
   if (pfnQueryFullProcessImageName == NULL)
     {
-      psapi                  = LoadLibrary("psapi.dll");
+      psapi = LoadLibrary("psapi.dll");
       pfnGetModuleFileNameEx = (GETMODULEFILENAMEEX)GetProcAddress(psapi, "GetModuleFileNameExA");
     }
 
@@ -183,7 +183,7 @@ FindOrZapWorkrave()
 BOOL
 FindWorkrave()
 {
-  success  = FALSE;
+  success = FALSE;
   simulate = TRUE;
 
   FindOrZapWorkrave();
@@ -194,7 +194,7 @@ FindWorkrave()
 BOOL
 ZapWorkrave()
 {
-  success  = FALSE;
+  success = FALSE;
   simulate = FALSE;
 
   FindOrZapWorkrave();
@@ -206,25 +206,25 @@ BOOL
 KillProcess(char *proces_name_to_kill)
 {
   HINSTANCE psapi = psapi = LoadLibrary("psapi.dll");
-  BOOL ret                = FALSE;
+  BOOL ret = FALSE;
 
-  pfnEnumProcesses      = (ENUMPROCESSES)GetProcAddress(psapi, "EnumProcesses");
-  pfnGetModuleBaseName  = (GETMODULEBASENAME)GetProcAddress(psapi, "GetModuleBaseNameA");
+  pfnEnumProcesses = (ENUMPROCESSES)GetProcAddress(psapi, "EnumProcesses");
+  pfnGetModuleBaseName = (GETMODULEBASENAME)GetProcAddress(psapi, "GetModuleBaseNameA");
   pfnEnumProcessModules = (ENUMPROCESSMODULES)GetProcAddress(psapi, "EnumProcessModules");
 
   if (pfnEnumProcesses != NULL && pfnGetModuleBaseName != NULL && pfnEnumProcessModules != NULL)
     {
-      DWORD i      = 0;
-      DWORD count  = 0;
+      DWORD i = 0;
+      DWORD count = 0;
       DWORD needed = 0;
-      DWORD *pids  = NULL;
-      BOOL ret     = FALSE;
+      DWORD *pids = NULL;
+      BOOL ret = FALSE;
 
       do
         {
           count += 1024;
           pids = realloc(pids, count * sizeof(DWORD));
-          ret  = pfnEnumProcesses(pids, count * sizeof(DWORD), &needed);
+          ret = pfnEnumProcesses(pids, count * sizeof(DWORD), &needed);
         }
       while (ret && needed > (count * sizeof(DWORD)));
 
@@ -234,8 +234,8 @@ KillProcess(char *proces_name_to_kill)
 
           for (i = 0; i < count; i++)
             {
-              DWORD pid                   = pids[i];
-              HANDLE process_handle       = NULL;
+              DWORD pid = pids[i];
+              HANDLE process_handle = NULL;
               char process_name[MAX_PATH] = "";
 
               if (pid == 0)

@@ -103,9 +103,9 @@ public:
 
   void test_map_of_struct(DBusTestData::DataMap i_data, DBusTestData::DataMap &o_data);
 
-  virtual void test_fire_signal()              = 0;
+  virtual void test_fire_signal() = 0;
   virtual void test_fire_signal_without_args() = 0;
-  virtual void test_fire_signal_with_ref()     = 0;
+  virtual void test_fire_signal_with_ref() = 0;
 };
 
 #endif // DBUSTESTSERVER_HH

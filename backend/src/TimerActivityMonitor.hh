@@ -38,7 +38,7 @@ public:
 
   {
     Core *core = Core::get_instance();
-    monitor    = core->get_activity_monitor();
+    monitor = core->get_activity_monitor();
   }
 
   virtual ~TimerActivityMonitor() {}
@@ -80,8 +80,8 @@ public:
       }
 
     TimerState state = timer->get_state();
-    time_t idle      = timer->get_elapsed_idle_time();
-    time_t reset     = timer->get_auto_reset();
+    time_t idle = timer->get_elapsed_idle_time();
+    time_t reset = timer->get_auto_reset();
 
     if (state == STATE_STOPPED && idle >= reset)
       {

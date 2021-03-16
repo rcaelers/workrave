@@ -159,7 +159,7 @@ void
 RestBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value     = value;
+  progress_value = value;
 }
 
 //! Draws the timer bar.
@@ -174,7 +174,7 @@ RestBreakWindow::draw_time_bar()
 
   timebar->set_text(s);
 
-  ICore *core      = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
   if (frame != NULL)
     {
@@ -300,7 +300,7 @@ RestBreakWindow::install_info_panel()
       Gtk::Requisition new_size = size_request();
 #  endif
 
-      int width_delta  = (new_size.width - old_size.width) / 2;
+      int width_delta = (new_size.width - old_size.width) / 2;
       int height_delta = (new_size.height - old_size.height) / 2;
 
       int x, y;

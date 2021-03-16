@@ -48,19 +48,19 @@
 #  pragma comment(linker, "/SECTION:.shared,RWS")
 #  pragma data_seg(".shared")
 #endif
-HWND DLLSHARE(notification_window)                                 = NULL;
-HHOOK DLLSHARE(mouse_hook)                                         = NULL;
-HHOOK DLLSHARE(mouse_ll_hook)                                      = NULL;
-HHOOK DLLSHARE(keyboard_hook)                                      = NULL;
-HHOOK DLLSHARE(keyboard_ll_hook)                                   = NULL;
-HHOOK DLLSHARE(msg_hook)                                           = NULL;
-BOOL DLLSHARE(block_input)                                         = FALSE;
-BOOL DLLSHARE(initialized)                                         = FALSE;
+HWND DLLSHARE(notification_window) = NULL;
+HHOOK DLLSHARE(mouse_hook) = NULL;
+HHOOK DLLSHARE(mouse_ll_hook) = NULL;
+HHOOK DLLSHARE(keyboard_hook) = NULL;
+HHOOK DLLSHARE(keyboard_ll_hook) = NULL;
+HHOOK DLLSHARE(msg_hook) = NULL;
+BOOL DLLSHARE(block_input) = FALSE;
+BOOL DLLSHARE(initialized) = FALSE;
 char DLLSHARE(critical_file_list[HARPOON_MAX_UNBLOCKED_APPS][511]) = {
   0,
 };
 HWND DLLSHARE(debug_hwnd) = NULL;
-int DLLSHARE(debug)       = FALSE;
+int DLLSHARE(debug) = FALSE;
 
 #if !defined(__GNUC__)
 #  pragma data_seg()
@@ -85,9 +85,9 @@ static void debug_process_menu_selection(WORD);
 static void debug_save_data();
 static HMENU menu = NULL;
 
-static HANDLE dll_handle                      = NULL;
+static HANDLE dll_handle = NULL;
 static volatile HarpoonHookFunc user_callback = NULL;
-static ATOM notification_class                = 0;
+static ATOM notification_class = 0;
 
 #if (_WIN32_WINNT < 0x0500)
 typedef struct
@@ -273,12 +273,12 @@ harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
               if (evt.type == HARPOON_MOUSE_WHEEL)
                 {
                   evt.mouse.button = -1;
-                  evt.mouse.wheel  = (int)wParam;
+                  evt.mouse.wheel = (int)wParam;
                 }
               else
                 {
                   evt.mouse.button = (int)wParam;
-                  evt.mouse.wheel  = 0;
+                  evt.mouse.wheel = 0;
                 }
               break;
 
@@ -308,10 +308,10 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
   if (code == HC_ACTION)
     {
       PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT)lpar;
-      HarpoonEventType evt  = HARPOON_NOTHING;
-      int button            = -1;
-      int x                 = pmhs->pt.x;
-      int y                 = pmhs->pt.y;
+      HarpoonEventType evt = HARPOON_NOTHING;
+      int button = -1;
+      int x = pmhs->pt.x;
+      int y = pmhs->pt.y;
 
       // If WH_MOUSE_LL is hooked,
       // WH_MOUSE messages are not appended to the debug window.
@@ -323,7 +323,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCLBUTTONDOWN");
         case WM_LBUTTONDOWN:
           button = 0;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_LBUTTONDOWN)
             debug_send_message("WH_MOUSE: WM_LBUTTONDOWN");
           break;
@@ -332,7 +332,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCMBUTTONDOWN");
         case WM_MBUTTONDOWN:
           button = 1;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_MBUTTONDOWN)
             debug_send_message("WH_MOUSE: WM_MBUTTONDOWN");
           break;
@@ -341,7 +341,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCRBUTTONDOWN");
         case WM_RBUTTONDOWN:
           button = 2;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_RBUTTONDOWN)
             debug_send_message("WH_MOUSE: WM_RBUTTONDOWN");
           break;
@@ -350,7 +350,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCXBUTTONDOWN");
         case WM_XBUTTONDOWN:
           button = (HIWORD(wpar) == XBUTTON1) ? 3 : 4;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_XBUTTONDOWN)
             debug_send_message("WH_MOUSE: WM_XBUTTONDOWN");
           break;
@@ -360,7 +360,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCLBUTTONUP");
         case WM_LBUTTONUP:
           button = 0;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if (debug && !mouse_ll_hook && wpar == WM_LBUTTONUP)
             debug_send_message("WH_MOUSE: WM_LBUTTONUP");
           break;
@@ -369,7 +369,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCMBUTTONUP");
         case WM_MBUTTONUP:
           button = 1;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if (debug && !mouse_ll_hook && wpar == WM_MBUTTONUP)
             debug_send_message("WH_MOUSE: WM_MBUTTONUP");
           break;
@@ -378,7 +378,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCRBUTTONUP");
         case WM_RBUTTONUP:
           button = 2;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if (debug && !mouse_ll_hook && wpar == WM_RBUTTONUP)
             debug_send_message("WH_MOUSE: WM_RBUTTONUP");
           break;
@@ -387,7 +387,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCXBUTTONUP");
         case WM_XBUTTONUP:
           button = (HIWORD(wpar) == XBUTTON1) ? 3 : 4;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if (debug && !mouse_ll_hook && wpar == WM_XBUTTONUP)
             debug_send_message("WH_MOUSE: WM_XBUTTONUP");
           break;
@@ -397,7 +397,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCLBUTTONDBLCLK");
         case WM_LBUTTONDBLCLK:
           button = 0;
-          evt    = HARPOON_2BUTTON_PRESS;
+          evt = HARPOON_2BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_LBUTTONDBLCLK)
             debug_send_message("WH_MOUSE: WM_LBUTTONDBLCLK");
           break;
@@ -406,7 +406,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCMBUTTONDBLCLK");
         case WM_MBUTTONDBLCLK:
           button = 1;
-          evt    = HARPOON_2BUTTON_PRESS;
+          evt = HARPOON_2BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_MBUTTONDBLCLK)
             debug_send_message("WH_MOUSE: WM_MBUTTONDBLCLK");
           break;
@@ -415,7 +415,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCRBUTTONDBLCLK");
         case WM_RBUTTONDBLCLK:
           button = 2;
-          evt    = HARPOON_2BUTTON_PRESS;
+          evt = HARPOON_2BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_RBUTTONDBLCLK)
             debug_send_message("WH_MOUSE: WM_RBUTTONDBLCLK");
           break;
@@ -424,20 +424,20 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
             debug_send_message("WH_MOUSE: WM_NCXBUTTONDBLCLK");
         case WM_XBUTTONDBLCLK:
           button = (HIWORD(wpar) == XBUTTON1) ? 3 : 4;
-          evt    = HARPOON_2BUTTON_PRESS;
+          evt = HARPOON_2BUTTON_PRESS;
           if (debug && !mouse_ll_hook && wpar == WM_XBUTTONDBLCLK)
             debug_send_message("WH_MOUSE: WM_XBUTTONDBLCLK");
           break;
 
         case WM_MOUSEWHEEL:
-          evt    = HARPOON_MOUSE_WHEEL;
+          evt = HARPOON_MOUSE_WHEEL;
           button = 1;
           if (debug && !mouse_ll_hook)
             debug_send_message("WH_MOUSE: WM_MOUSEWHEEL");
           break;
 #ifdef WM_MOUSEHWHEEL
         case WM_MOUSEHWHEEL:
-          evt    = HARPOON_MOUSE_WHEEL;
+          evt = HARPOON_MOUSE_WHEEL;
           button = 2;
           if (debug && !mouse_ll_hook)
             debug_send_message("WH_MOUSE: WM_MOUSEHWHEEL");
@@ -477,62 +477,62 @@ harpoon_mouse_ll_hook(int code, WPARAM wpar, LPARAM lpar)
     {
       PMSLLHOOKSTRUCT pmhs = (PMSLLHOOKSTRUCT)lpar;
       HarpoonEventType evt = HARPOON_NOTHING;
-      int button           = -1;
-      int x                = pmhs->pt.x;
-      int y                = pmhs->pt.y;
+      int button = -1;
+      int x = pmhs->pt.x;
+      int y = pmhs->pt.y;
 
       switch (wpar)
         {
         case WM_LBUTTONDOWN:
           button = 0;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if_debug_send_message("WH_MOUSE_LL: WM_LBUTTONDOWN");
           break;
         case WM_MBUTTONDOWN:
           button = 1;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if_debug_send_message("WH_MOUSE_LL: WM_MBUTTONDOWN");
           break;
         case WM_RBUTTONDOWN:
           button = 2;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if_debug_send_message("WH_MOUSE_LL: WM_RBUTTONDOWN");
           break;
         case WM_XBUTTONDOWN:
           button = (HIWORD(wpar) == XBUTTON1) ? 3 : 4;
-          evt    = HARPOON_BUTTON_PRESS;
+          evt = HARPOON_BUTTON_PRESS;
           if_debug_send_message("WH_MOUSE_LL: WM_XBUTTONDOWN");
           break;
 
         case WM_LBUTTONUP:
           button = 0;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if_debug_send_message("WH_MOUSE_LL: WM_LBUTTONUP");
           break;
         case WM_MBUTTONUP:
           button = 1;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if_debug_send_message("WH_MOUSE_LL: WM_MBUTTONUP");
           break;
         case WM_RBUTTONUP:
           button = 2;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if_debug_send_message("WH_MOUSE_LL: WM_RBUTTONUP");
           break;
         case WM_XBUTTONUP:
           button = (HIWORD(wpar) == XBUTTON1) ? 3 : 4;
-          evt    = HARPOON_BUTTON_RELEASE;
+          evt = HARPOON_BUTTON_RELEASE;
           if_debug_send_message("WH_MOUSE_LL: WM_XBUTTONUP");
           break;
 
         case WM_MOUSEWHEEL:
-          evt    = HARPOON_MOUSE_WHEEL;
+          evt = HARPOON_MOUSE_WHEEL;
           button = 1;
           if_debug_send_message("WH_MOUSE_LL: WM_MOUSEWHEEL");
           break;
 #ifdef WM_MOUSEHWHEEL
         case WM_MOUSEHWHEEL:
-          evt    = HARPOON_MOUSE_WHEEL;
+          evt = HARPOON_MOUSE_WHEEL;
           button = 2;
           if_debug_send_message("WH_MOUSE_LL: WM_MOUSEHWHEEL");
           break;
@@ -591,7 +591,7 @@ harpoon_supports_keyboard_ll(void)
         {
           /* Check for min. SP3. */
           DWORD sp = harpoon_get_service_pack();
-          ret      = (sp >= 0x300);
+          ret = (sp >= 0x300);
         }
     }
   return ret;
@@ -604,7 +604,7 @@ harpoon_keyboard_hook(int code, WPARAM wpar, LPARAM lpar)
   BOOL forcecallnext = FALSE;
   if (code == HC_ACTION)
     {
-      BOOL pressed     = (lpar & (1 << 31)) == 0;
+      BOOL pressed = (lpar & (1 << 31)) == 0;
       BOOL prevpressed = (lpar & (1 << 30)) != 0;
       HarpoonEventType evt;
       int flags = 0;
@@ -613,7 +613,7 @@ harpoon_keyboard_hook(int code, WPARAM wpar, LPARAM lpar)
           flags |= HARPOON_KEY_REPEAT_FLAG;
         }
 
-      evt           = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
+      evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
       forcecallnext = !pressed;
 
       /*
@@ -644,8 +644,8 @@ harpoon_keyboard_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   if (code == HC_ACTION)
     {
       KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *)lpar;
-      BOOL pressed        = !(kb->flags & (1 << 7));
-      forcecallnext       = !pressed;
+      BOOL pressed = !(kb->flags & (1 << 7));
+      forcecallnext = !pressed;
 
       // The low level hook also intercepts keys injected using keybd_event.
       // Some application use this function to toggle the keyboard lights...
@@ -665,7 +665,7 @@ harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
   BOOL forcecallnext = FALSE;
   if (code == HC_ACTION)
     {
-      BOOL pressed  = (lpar & (1 << 31)) == 0;
+      BOOL pressed = (lpar & (1 << 31)) == 0;
       forcecallnext = !pressed;
       if_debug_send_message("WH_KEYBOARD");
     }
@@ -743,10 +743,10 @@ harpoon_init(char imported_critical_file_list[][511], BOOL debug_harpoon)
   if (debug_harpoon)
     // The notification window should be visible and have a menu.
     {
-      dwStyle   = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+      dwStyle = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
       dwExStyle = WS_EX_APPWINDOW | WS_EX_STATICEDGE;
 
-      menu       = CreateMenu();
+      menu = CreateMenu();
       menu_popup = CreatePopupMenu();
       if (menu && menu_popup)
         {
@@ -767,7 +767,7 @@ harpoon_init(char imported_critical_file_list[][511], BOOL debug_harpoon)
     }
   else
     {
-      dwStyle   = WS_OVERLAPPED;
+      dwStyle = WS_OVERLAPPED;
       dwExStyle = WS_EX_TOOLWINDOW;
       menu = menu_popup = NULL;
     }
@@ -855,8 +855,8 @@ harpoon_exit(void)
 
   initialized = FALSE;
   block_input = FALSE;
-  debug       = FALSE;
-  debug_hwnd  = NULL;
+  debug = FALSE;
+  debug_hwnd = NULL;
 
   if (notification_window)
     {
@@ -1134,8 +1134,8 @@ HARPOON_API char *
 _mbstrncpy_lowercase(const char *out, const char *in, int bytes)
 // keep this code out of dllmain. don't call from dllmain.
 {
-  int mb              = 0;
-  unsigned char *src  = (unsigned char *)in;
+  int mb = 0;
+  unsigned char *src = (unsigned char *)in;
   unsigned char *dest = (unsigned char *)out;
 
   if (bytes <= 0 || !in || !out)
@@ -1187,9 +1187,9 @@ buffer len is 1024 - 540 = ~480 max str len
 */
 {
   static char str_previous_call[100] = {'\0'};
-  static WORD wHour_previous_call    = 0;
-  static WORD wMinute_previous_call  = 0;
-  static WORD wSecond_previous_call  = 0;
+  static WORD wHour_previous_call = 0;
+  static WORD wMinute_previous_call = 0;
+  static WORD wSecond_previous_call = 0;
 
   char buffer[1024];
   char mer[3] = "AM";
@@ -1215,7 +1215,7 @@ buffer len is 1024 - 540 = ~480 max str len
     {
       wSecond_previous_call = local.wSecond;
       wMinute_previous_call = local.wMinute;
-      wHour_previous_call   = local.wHour;
+      wHour_previous_call = local.wHour;
       strncpy(str_previous_call, str, 99);
       str_previous_call[99] = '\0';
     }
@@ -1224,7 +1224,7 @@ buffer len is 1024 - 540 = ~480 max str len
     // Make clock 12 hour, set meridiem identifier to PM
     {
       local.wHour = local.wHour - 12;
-      mer[0]      = 'P';
+      mer[0] = 'P';
     }
   else if (local.wHour == 0) // 12am
     local.wHour = (WORD)12;
@@ -1312,7 +1312,7 @@ debug_save_data()
 {
   char *buffer;
   char filename[MAX_PATH] = {'\0'};
-  int unload              = FALSE;
+  int unload = FALSE;
   HANDLE handle;
   HMODULE hmm;
   DWORD ret, text_length;

@@ -36,7 +36,7 @@ public:
     bool mirror_x;
     Image(const char *img, int dur, bool mx)
     {
-      image    = img;
+      image = img;
       duration = dur;
       mirror_x = mx;
     }

@@ -23,15 +23,15 @@
 
 Thread::Thread(Runnable *runnable, bool autodelete)
 {
-  thread_handle    = NULL;
-  this->runnable   = runnable;
+  thread_handle = NULL;
+  this->runnable = runnable;
   this->autodelete = autodelete;
 }
 
 Thread::Thread(bool autodelete)
 {
-  thread_handle    = NULL;
-  this->runnable   = NULL;
+  thread_handle = NULL;
+  this->runnable = NULL;
   this->autodelete = autodelete;
 }
 

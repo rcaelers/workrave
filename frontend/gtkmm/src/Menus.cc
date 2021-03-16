@@ -136,15 +136,15 @@ Menus::init(AppletControl *applet_control)
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  applet_window                                      = applet_control->get_applet_window(AppletControl::AppletType::Windows);
+  applet_window = applet_control->get_applet_window(AppletControl::AppletType::Windows);
   std::shared_ptr<W32AppletWindow> w32_applet_window = std::dynamic_pointer_cast<W32AppletWindow>(applet_window);
-  menus[MENU_APPLET_W32]                             = new W32AppletMenu(w32_applet_window.get());
+  menus[MENU_APPLET_W32] = new W32AppletMenu(w32_applet_window.get());
 #endif
 
 #if defined(HAVE_DBUS)
-  applet_window                                       = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
+  applet_window = applet_control->get_applet_window(AppletControl::AppletType::GenericDBus);
   std::shared_ptr<GenericDBusApplet> indicator_applet = std::dynamic_pointer_cast<GenericDBusApplet>(applet_window);
-  menus[MENU_APPLET_GENERICDBUS]                      = indicator_applet.get();
+  menus[MENU_APPLET_GENERICDBUS] = indicator_applet.get();
 
 #  if defined(HAVE_INDICATOR)
   menus[MENU_APPLET_INDICATOR] = new IndicatorAppletMenu();
@@ -302,7 +302,7 @@ Menus::on_menu_statistics()
 {
   if (statistics_dialog == NULL)
     {
-      ICore *core        = CoreFactory::get_core();
+      ICore *core = CoreFactory::get_core();
       IStatistics *stats = core->get_statistics();
       stats->update();
 
@@ -341,7 +341,7 @@ Menus::on_menu_about()
   if (about == NULL)
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
-      about                            = new Gtk::AboutDialog;
+      about = new Gtk::AboutDialog;
 
       about->set_name("Workrave");
 #ifdef HAVE_GTK3
@@ -421,9 +421,9 @@ Menus::on_network_join_response(int response)
 
   if (response == Gtk::RESPONSE_OK)
     {
-      ICore *core                        = CoreFactory::get_core();
+      ICore *core = CoreFactory::get_core();
       IDistributionManager *dist_manager = core->get_distribution_manager();
-      std::string peer                   = network_join_dialog->get_connect_url();
+      std::string peer = network_join_dialog->get_connect_url();
       dist_manager->connect(peer);
       CoreFactory::get_configurator()->save();
     }
@@ -437,7 +437,7 @@ void
 Menus::on_menu_network_leave()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core                        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
@@ -450,7 +450,7 @@ void
 Menus::on_menu_network_reconnect()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core                        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {

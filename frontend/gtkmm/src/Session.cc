@@ -55,7 +55,7 @@ Session::set_idle(bool new_idle)
 {
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
 
-  bool auto_natural     = false;
+  bool auto_natural = false;
   IConfigurator *config = CoreFactory::get_configurator();
   config->get_value(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % BREAK_ID_REST_BREAK, auto_natural);
   ICore *core = CoreFactory::get_core();

@@ -63,9 +63,9 @@ PacketBuffer::create(int size)
       size = 1024;
     }
 
-  buffer      = g_new(guint8, size);
-  read_ptr    = buffer;
-  write_ptr   = buffer;
+  buffer = g_new(guint8, size);
+  read_ptr = buffer;
+  write_ptr = buffer;
   buffer_size = size;
 }
 
@@ -82,7 +82,7 @@ PacketBuffer::resize(int size)
 
   if (size != buffer_size && buffer != NULL)
     {
-      int read_offset  = read_ptr - buffer;
+      int read_offset = read_ptr - buffer;
       int write_offset = write_ptr - buffer;
 
       if (read_offset >= size)
@@ -101,8 +101,8 @@ PacketBuffer::resize(int size)
 
       // TRACE_MSG(buffer);
 
-      read_ptr    = buffer + read_offset;
-      write_ptr   = buffer + write_offset;
+      read_ptr = buffer + read_offset;
+      write_ptr = buffer + write_offset;
       buffer_size = size;
     }
   // TRACE_EXIT();
@@ -206,8 +206,8 @@ PacketBuffer::pack_ushort(guint16 data)
     }
 
   guint8 *w = (guint8 *)write_ptr;
-  w[0]      = ((data & 0x0000ff00) >> 8);
-  w[1]      = ((data & 0x000000ff));
+  w[0] = ((data & 0x0000ff00) >> 8);
+  w[1] = ((data & 0x000000ff));
 
   write_ptr += 2;
 }
@@ -221,10 +221,10 @@ PacketBuffer::pack_ulong(guint32 data)
     }
 
   guint8 *w = (guint8 *)write_ptr;
-  w[0]      = ((data & 0xff000000) >> 24);
-  w[1]      = ((data & 0x00ff0000) >> 16);
-  w[2]      = ((data & 0x0000ff00) >> 8);
-  w[3]      = ((data & 0x000000ff));
+  w[0] = ((data & 0xff000000) >> 24);
+  w[1] = ((data & 0x00ff0000) >> 16);
+  w[2] = ((data & 0x0000ff00) >> 8);
+  w[3] = ((data & 0x000000ff));
 
   write_ptr += 4;
 }
@@ -262,7 +262,7 @@ PacketBuffer::poke_ushort(int pos, guint16 data)
 
   guint8 *w = (guint8 *)buffer;
 
-  w[pos]     = ((data & 0x0000ff00) >> 8);
+  w[pos] = ((data & 0x0000ff00) >> 8);
   w[pos + 1] = ((data & 0x000000ff));
 }
 
@@ -339,7 +339,7 @@ guint32
 PacketBuffer::unpack_ulong()
 {
   guint32 ret = 0;
-  guint8 *r   = (guint8 *)read_ptr;
+  guint8 *r = (guint8 *)read_ptr;
 
   if (read_ptr + 4 <= buffer + buffer_size)
     {
@@ -354,7 +354,7 @@ guint16
 PacketBuffer::unpack_ushort()
 {
   guint16 ret = 0;
-  guint8 *r   = (guint8 *)read_ptr;
+  guint8 *r = (guint8 *)read_ptr;
 
   if (read_ptr + 2 <= write_ptr)
     {
@@ -438,7 +438,7 @@ PacketBuffer::peek_ushort(int pos)
   if (read_ptr + pos + 2 <= write_ptr)
     {
       guint8 *r = (guint8 *)read_ptr;
-      ret       = (r[pos] << 8) + r[pos + 1];
+      ret = (r[pos] << 8) + r[pos + 1];
     }
   return ret;
 }
@@ -506,10 +506,10 @@ PacketBuffer::narrow(int pos, int size)
       if (original_buffer != NULL)
         {
           // unnarrow.
-          buffer               = original_buffer;
-          buffer_size          = original_buffer_size;
+          buffer = original_buffer;
+          buffer_size = original_buffer_size;
           original_buffer_size = 0;
-          original_buffer      = NULL;
+          original_buffer = NULL;
         }
     }
   else
@@ -521,7 +521,7 @@ PacketBuffer::narrow(int pos, int size)
 
       if (original_buffer == NULL)
         {
-          original_buffer      = buffer;
+          original_buffer = buffer;
           original_buffer_size = buffer_size;
         }
 
@@ -530,9 +530,9 @@ PacketBuffer::narrow(int pos, int size)
           size = original_buffer_size - pos;
         }
 
-      buffer      = original_buffer + pos;
+      buffer = original_buffer + pos;
       buffer_size = size;
-      read_ptr    = buffer;
+      read_ptr = buffer;
     }
   // TRACE_EXIT();
 }

@@ -81,7 +81,7 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
   // Button box at the bottom.
-  ICore *core       = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IBreak *restbreak = core->get_break(BREAK_ID_REST_BREAK);
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
@@ -162,14 +162,14 @@ MicroBreakWindow::update_time_bar()
   TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
 
   time_t time = progress_max_value - progress_value;
-  string s    = _("Micro-break");
+  string s = _("Micro-break");
   s += ' ';
   s += Text::time_to_string(time);
 
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
-  ICore *core      = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
   if (frame != NULL)
     {
@@ -200,7 +200,7 @@ MicroBreakWindow::update_label()
   ICore *core = CoreFactory::get_core();
 
   IBreak *restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
-  IBreak *daily_timer     = core->get_break(BREAK_ID_DAILY_LIMIT);
+  IBreak *daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
@@ -287,5 +287,5 @@ void
 MicroBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
-  progress_value     = value;
+  progress_value = value;
 }

@@ -48,9 +48,9 @@
 
 using namespace workrave;
 
-bool W32Compat::ime_magic           = false;
+bool W32Compat::ime_magic = false;
 bool W32Compat::reset_window_always = false;
-bool W32Compat::reset_window_never  = false;
+bool W32Compat::reset_window_never = false;
 
 W32Compat::SWITCHTOTHISWINDOWPROC W32Compat::switch_to_this_window_proc = NULL;
 
@@ -197,9 +197,9 @@ W32Compat::ResetWindow(HWND hwnd, bool topmost)
   if (!IsWindow(hwnd) || reset_window_never)
     return;
 
-  const bool DEBUG         = false;
-  bool reset               = false;
-  DWORD gwl_exstyle        = 0;
+  const bool DEBUG = false;
+  bool reset = false;
+  DWORD gwl_exstyle = 0;
   DWORD valid_exstyle_diff = 0;
 
   WINDOWINFO gwi;
@@ -305,7 +305,7 @@ W32Compat::IsOurWinStationConnected()
 {
   init();
 
-  bool func_retval     = false;
+  bool func_retval = false;
   DWORD bytes_returned = 0;
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
@@ -343,7 +343,7 @@ W32Compat::IsOurWinStationLocked()
 {
   init();
 
-  BOOL locked          = FALSE;
+  BOOL locked = FALSE;
   DWORD bytes_returned = 0;
 
   if (!WinStationQueryInformationW(WTS_CURRENT_SERVER_HANDLE, // SERVERNAME_CURRENT
@@ -377,7 +377,7 @@ W32Compat::IsOurDesktopVisible()
   bool func_retval = false;
 
   HDESK input_desktop_handle = NULL;
-  HDESK our_desktop_handle   = NULL;
+  HDESK our_desktop_handle = NULL;
 
   wchar_t input_desktop_name[MAX_PATH] = {
     L'\0',
@@ -386,7 +386,7 @@ W32Compat::IsOurDesktopVisible()
     L'\0',
   };
 
-  BOOL ret           = 0;
+  BOOL ret = 0;
   DWORD bytes_needed = 0;
 
   /*
@@ -410,7 +410,7 @@ W32Compat::IsOurDesktopVisible()
     goto cleanup;
 
   bytes_needed = 0;
-  ret          = GetUserObjectInformationW(our_desktop_handle, UOI_NAME, our_desktop_name, sizeof(our_desktop_name), &bytes_needed);
+  ret = GetUserObjectInformationW(our_desktop_handle, UOI_NAME, our_desktop_name, sizeof(our_desktop_name), &bytes_needed);
   if (!ret || (bytes_needed > sizeof(our_desktop_name)))
     goto cleanup;
 
@@ -444,7 +444,7 @@ Refresh a BreakWindow:
 void
 W32Compat::RefreshBreakWindow(BreakWindow &window)
 {
-  ICore *core      = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
 
   // GTK keyboard shortcuts can be accessed by using the ALT key. This appear

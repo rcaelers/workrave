@@ -108,7 +108,7 @@ TimerBoxPreferencePage::create_page()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Gtk::ComboBoxText *display_button = Gtk::manage(new Gtk::ComboBoxText());
-      timer_display_button[i]           = display_button;
+      timer_display_button[i] = display_button;
 
 #if GTKMM_CHECK_VERSION(2, 24, 0)
       display_button->append(_("Hide"));
@@ -134,7 +134,7 @@ TimerBoxPreferencePage::create_page()
         }
 
       Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
-      enabled_cb              = Gtk::manage(new Gtk::CheckButton());
+      enabled_cb = Gtk::manage(new Gtk::CheckButton());
       enabled_cb->add(*enabled_lab);
       hig->add_widget(*enabled_cb);
     }
@@ -157,12 +157,12 @@ TimerBoxPreferencePage::create_page()
   if (name == "applet")
     {
       Gtk::Label *applet_fallback_enabled_lab = Gtk::manage(GtkUtil::create_label(_("Fallback applet enabled"), false));
-      applet_fallback_enabled_cb              = Gtk::manage(new Gtk::CheckButton());
+      applet_fallback_enabled_cb = Gtk::manage(new Gtk::CheckButton());
       applet_fallback_enabled_cb->add(*applet_fallback_enabled_lab);
       hig->add_widget(*applet_fallback_enabled_cb);
 
       Gtk::Label *applet_icon_enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status icon"), false));
-      applet_icon_enabled_cb              = Gtk::manage(new Gtk::CheckButton());
+      applet_icon_enabled_cb = Gtk::manage(new Gtk::CheckButton());
       applet_icon_enabled_cb->add(*applet_icon_enabled_lab);
       hig->add_widget(*applet_icon_enabled_cb);
     }
@@ -295,27 +295,27 @@ TimerBoxPreferencePage::on_place_changed()
     {
     case 0:
       slots[BREAK_ID_MICRO_BREAK] = 0;
-      slots[BREAK_ID_REST_BREAK]  = 1;
+      slots[BREAK_ID_REST_BREAK] = 1;
       slots[BREAK_ID_DAILY_LIMIT] = 2;
       break;
     case 1:
       slots[BREAK_ID_MICRO_BREAK] = 0;
-      slots[BREAK_ID_REST_BREAK]  = 0;
+      slots[BREAK_ID_REST_BREAK] = 0;
       slots[BREAK_ID_DAILY_LIMIT] = 1;
       break;
     case 2:
       slots[BREAK_ID_MICRO_BREAK] = 0;
-      slots[BREAK_ID_REST_BREAK]  = 1;
+      slots[BREAK_ID_REST_BREAK] = 1;
       slots[BREAK_ID_DAILY_LIMIT] = 1;
       break;
     case 3:
       slots[BREAK_ID_MICRO_BREAK] = 0;
-      slots[BREAK_ID_REST_BREAK]  = 0;
+      slots[BREAK_ID_REST_BREAK] = 0;
       slots[BREAK_ID_DAILY_LIMIT] = 0;
       break;
     default:
       slots[BREAK_ID_MICRO_BREAK] = -1;
-      slots[BREAK_ID_REST_BREAK]  = -1;
+      slots[BREAK_ID_REST_BREAK] = -1;
       slots[BREAK_ID_DAILY_LIMIT] = -1;
     }
 
@@ -329,7 +329,7 @@ TimerBoxPreferencePage::on_place_changed()
 void
 TimerBoxPreferencePage::on_display_changed(int break_id)
 {
-  int sel   = timer_display_button[break_id]->get_active_row_number();
+  int sel = timer_display_button[break_id]->get_active_row_number();
   int flags = 0;
   switch (sel)
     {

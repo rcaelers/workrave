@@ -51,7 +51,7 @@ DebugDialog::DebugDialog()
   set_default_size(1024, 800);
 
   text_buffer = Gtk::TextBuffer::create();
-  text_view   = Gtk::manage(new Gtk::TextView(text_buffer));
+  text_view = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(false);
   text_view->set_editable(false);
 
@@ -81,7 +81,7 @@ void
 DebugDialog::diagnostics_log(const std::string &log)
 {
   Gtk::TextIter iter = text_buffer->end();
-  iter               = text_buffer->insert(iter, log + "\n");
+  iter = text_buffer->insert(iter, log + "\n");
 #ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
 #else

@@ -100,13 +100,13 @@ BreakControl::heartbeat()
       // Prefer the running state of the break timer as input for
       // our current activity.
       TimerState tstate = break_timer->get_state();
-      is_idle           = (tstate == STATE_STOPPED);
+      is_idle = (tstate == STATE_STOPPED);
     }
   else
     {
       // Unless the timer has its own activity monitor.
       ActivityState activity_state = core->get_current_monitor_state();
-      is_idle                      = (activity_state != ACTIVITY_ACTIVE);
+      is_idle = (activity_state != ACTIVITY_ACTIVE);
     }
 
   TRACE_MSG("stage = " << break_stage);
@@ -237,7 +237,7 @@ BreakControl::goto_stage(BreakStage stage)
           {
             // Update statistics and play sound if the break end
             // was "natural"
-            time_t idle  = break_timer->get_elapsed_idle_time();
+            time_t idle = break_timer->get_elapsed_idle_time();
             time_t reset = break_timer->get_auto_reset();
 
             if (idle >= reset && !user_abort)
@@ -350,7 +350,7 @@ BreakControl::update_break_window()
 {
   assert(break_timer != NULL);
   time_t duration = break_timer->get_auto_reset();
-  time_t idle     = 0;
+  time_t idle = 0;
 
   if (fake_break)
     {
@@ -381,11 +381,11 @@ BreakControl::start_break()
 {
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
 
-  break_hint    = BREAK_HINT_NONE;
-  forced_break  = false;
-  fake_break    = false;
-  prelude_time  = 0;
-  user_abort    = false;
+  break_hint = BREAK_HINT_NONE;
+  forced_break = false;
+  fake_break = false;
+  prelude_time = 0;
+  user_abort = false;
   delayed_abort = false;
 
   reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
@@ -426,11 +426,11 @@ BreakControl::force_start_break(BreakHint hint)
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
-  break_hint    = hint;
-  forced_break  = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
-  fake_break    = false;
-  prelude_time  = 0;
-  user_abort    = false;
+  break_hint = hint;
+  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
+  fake_break = false;
+  prelude_time = 0;
+  user_abort = false;
   delayed_abort = false;
 
   if (break_timer->is_auto_reset_enabled())
@@ -441,7 +441,7 @@ BreakControl::force_start_break(BreakHint hint)
       if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {
           TRACE_MSG("Faking break");
-          fake_break       = true;
+          fake_break = true;
           fake_break_count = break_timer->get_auto_reset();
         }
     }
@@ -679,9 +679,9 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
   TRACE_MSG("forced = " << data.forced_break << " prelude = " << data.prelude_count << " stage = " << data.break_stage
                         << " final = " << reached_max_prelude << " time = " << data.prelude_time);
 
-  forced_break  = data.forced_break;
+  forced_break = data.forced_break;
   prelude_count = data.prelude_count;
-  prelude_time  = data.prelude_time;
+  prelude_time = data.prelude_time;
 
   TRACE_EXIT();
 }
@@ -690,11 +690,11 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 void
 BreakControl::get_state_data(BreakStateData &data)
 {
-  data.forced_break        = forced_break;
-  data.prelude_count       = prelude_count;
-  data.break_stage         = break_stage;
+  data.forced_break = forced_break;
+  data.prelude_count = prelude_count;
+  data.break_stage = break_stage;
   data.reached_max_prelude = reached_max_prelude;
-  data.prelude_time        = prelude_time;
+  data.prelude_time = prelude_time;
 }
 
 //! Plays the specified sound unless action is user initiated.
@@ -713,7 +713,7 @@ void
 BreakControl::send_postponed()
 {
 #ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr dbus   = core->get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
   if (iface != NULL)
@@ -727,7 +727,7 @@ void
 BreakControl::send_skipped()
 {
 #ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr dbus   = core->get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
   if (iface != NULL)
@@ -783,7 +783,7 @@ BreakControl::send_signal(BreakStage stage)
 
   if (progress != "")
     {
-      workrave::dbus::IDBus::Ptr dbus   = core->get_dbus();
+      workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
       if (iface != NULL)

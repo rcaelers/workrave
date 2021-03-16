@@ -46,11 +46,19 @@ protected:
                             Gtk::CellRendererState flags);
 
 #else
-  virtual void
-  get_size_vfunc(Gtk::Widget &widget, const Gdk::Rectangle *cell_area, int *x_offset, int *y_offset, int *width, int *height) const;
+  virtual void get_size_vfunc(Gtk::Widget &widget,
+                              const Gdk::Rectangle *cell_area,
+                              int *x_offset,
+                              int *y_offset,
+                              int *width,
+                              int *height) const;
 
-  virtual void
-  get_size_vfunc(Gtk::Widget &widget, const Gdk::Rectangle *cell_area, int *x_offset, int *y_offset, int *width, int *height);
+  virtual void get_size_vfunc(Gtk::Widget &widget,
+                              const Gdk::Rectangle *cell_area,
+                              int *x_offset,
+                              int *y_offset,
+                              int *width,
+                              int *height);
 
   virtual void render_vfunc(const Glib::RefPtr<Gdk::Drawable> &window,
                             Gtk::Widget &widget,

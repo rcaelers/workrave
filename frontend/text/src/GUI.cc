@@ -289,9 +289,9 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 IBreakWindow *
 GUI::new_break_window(BreakId break_id, bool user_initiated)
 {
-  IBreakWindow *ret    = NULL;
+  IBreakWindow *ret = NULL;
   BlockMode block_mode = get_block_mode();
-  bool ignorable       = true;
+  bool ignorable = true;
 
   (void)user_initiated;
 

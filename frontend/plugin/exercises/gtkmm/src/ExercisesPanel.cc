@@ -222,9 +222,9 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
 
   if (dialog_action_area != NULL)
     {
-      back_button    = Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
+      back_button = Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
       forward_button = Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
-      stop_button    = NULL;
+      stop_button = NULL;
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
@@ -233,13 +233,13 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
     }
   else
     {
-      back_button    = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, PREVIOUS_BUTTON_ID));
+      back_button = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, PREVIOUS_BUTTON_ID));
       forward_button = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, NEXT_BUTTON_ID));
 
       stop_button = Gtk::manage(GtkUtil::create_custom_stock_button(NULL, CLOSE_BUTTON_ID));
       stop_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
-      Gtk::HBox *button_box    = Gtk::manage(new Gtk::HBox());
+      Gtk::HBox *button_box = Gtk::manage(new Gtk::HBox());
       Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
       string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
@@ -321,7 +321,7 @@ ExercisesPanel::~ExercisesPanel()
 void
 ExercisesPanel::reset()
 {
-  int i             = adjust_exercises_pointer(1);
+  int i = adjust_exercises_pointer(1);
   exercise_iterator = shuffled_exercises.begin();
   while (i > 0)
     {
@@ -329,8 +329,8 @@ ExercisesPanel::reset()
       i--;
     }
   exercise_num = 0;
-  paused       = false;
-  stopped      = false;
+  paused = false;
+  stopped = false;
   refresh_pause();
   start_exercise();
 }
@@ -343,10 +343,10 @@ ExercisesPanel::start_exercise()
       const Exercise &exercise = *exercise_iterator;
 
       Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
-      std::string txt                   = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
+      std::string txt = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
       text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
-      exercise_time  = 0;
-      seq_time       = 0;
+      exercise_time = 0;
+      seq_time = 0;
       image_iterator = exercise.sequence.end();
       refresh_progress();
       refresh_sequence();
@@ -369,7 +369,7 @@ ExercisesPanel::show_image()
   else
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
-      Glib::RefPtr<Gdk::Pixbuf> flip   = GtkUtil::flip_pixbuf(pixbuf, true, false);
+      Glib::RefPtr<Gdk::Pixbuf> flip = GtkUtil::flip_pixbuf(pixbuf, true, false);
       image.set(flip);
     }
 
@@ -455,7 +455,7 @@ void
 ExercisesPanel::refresh_pause()
 {
   Gtk::StockID stock_id = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
-  const char *label     = paused ? _("Resume") : _("Pause");
+  const char *label = paused ? _("Resume") : _("Pause");
   GtkUtil::update_custom_stock_button(pause_button, standalone ? label : NULL, stock_id);
   if (paused)
     pause_button->set_tooltip_text(_("Resume exercises"));

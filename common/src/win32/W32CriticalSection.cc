@@ -148,9 +148,9 @@ W32CriticalSection::AdvancedGuard::TryLock(W32CriticalSection &cs)
 bool
 W32CriticalSection::AdvancedGuard::TryLockFor(W32CriticalSection &cs, const DWORD milliseconds)
 {
-  const int spin    = (milliseconds ? 4000 : 1);
+  const int spin = (milliseconds ? 4000 : 1);
   const DWORD start = GetTickCount();
-  DWORD remaining   = milliseconds;
+  DWORD remaining = milliseconds;
 
   for (DWORD interval = 1; /**/; interval *= 2)
     {

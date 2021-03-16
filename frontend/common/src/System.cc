@@ -77,7 +77,7 @@ std::vector<System::SystemOperation> System::supported_system_operations;
 
 #if defined(PLATFORM_OS_UNIX) && defined(HAVE_DBUS)
 GDBusConnection *System::session_connection = NULL;
-GDBusConnection *System::system_connection  = NULL;
+GDBusConnection *System::system_connection = NULL;
 #endif
 
 #if defined(PLATFORM_OS_UNIX)
@@ -87,7 +87,7 @@ System::init_DBus()
 {
   TRACE_ENTER("System::init_dbus()");
 
-  GError *error      = NULL;
+  GError *error = NULL;
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
   if (error != NULL)
     {
@@ -210,7 +210,7 @@ System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, b
 {
   TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
   IScreenLockMethod *lock_method = NULL;
-  lock_method                    = new ScreenLockCommandline(command_name, parameters, async);
+  lock_method = new ScreenLockCommandline(command_name, parameters, async);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;

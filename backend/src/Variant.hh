@@ -42,31 +42,31 @@ public:
 
   Variant(std::string v)
   {
-    type         = VARIANT_TYPE_STRING;
+    type = VARIANT_TYPE_STRING;
     string_value = v;
   }
 
   Variant(int v)
   {
-    type      = VARIANT_TYPE_INT;
+    type = VARIANT_TYPE_INT;
     int_value = v;
   }
 
   Variant(long v)
   {
-    type      = VARIANT_TYPE_LONG;
+    type = VARIANT_TYPE_LONG;
     int_value = v;
   }
 
   Variant(bool v)
   {
-    type       = VARIANT_TYPE_BOOL;
+    type = VARIANT_TYPE_BOOL;
     bool_value = v;
   }
 
   Variant(double v)
   {
-    type         = VARIANT_TYPE_DOUBLE;
+    type = VARIANT_TYPE_DOUBLE;
     double_value = v;
   }
 

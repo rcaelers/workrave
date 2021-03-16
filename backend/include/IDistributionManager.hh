@@ -32,22 +32,22 @@ namespace workrave
   public:
     virtual ~IDistributionManager() {}
 
-    virtual bool is_master() const    = 0;
+    virtual bool is_master() const = 0;
     virtual int get_number_of_peers() = 0;
-    virtual bool connect(string url)  = 0;
+    virtual bool connect(string url) = 0;
 
     virtual bool disconnect_all() = 0;
-    virtual bool reconnect_all()  = 0;
+    virtual bool reconnect_all() = 0;
 
-    virtual bool add_log_listener(DistributionLogListener *listener)    = 0;
+    virtual bool add_log_listener(DistributionLogListener *listener) = 0;
     virtual bool remove_log_listener(DistributionLogListener *listener) = 0;
-    virtual list<string> get_logs() const                               = 0;
+    virtual list<string> get_logs() const = 0;
 
-    virtual bool add_peer(string peer)    = 0;
+    virtual bool add_peer(string peer) = 0;
     virtual bool remove_peer(string peer) = 0;
 
     virtual void set_peers(string peers, bool connect = true) = 0;
-    virtual list<string> get_peers() const                    = 0;
+    virtual list<string> get_peers() const = 0;
 
     virtual bool get_enabled() const = 0;
     virtual void set_enabled(bool b) = 0;
@@ -55,10 +55,10 @@ namespace workrave
     virtual bool get_listening() const = 0;
     virtual void set_listening(bool b) = 0;
 
-    virtual string get_username() const    = 0;
+    virtual string get_username() const = 0;
     virtual void set_username(string name) = 0;
 
-    virtual string get_password() const    = 0;
+    virtual string get_password() const = 0;
     virtual void set_password(string name) = 0;
 
     virtual int get_port() const = 0;

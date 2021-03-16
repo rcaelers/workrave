@@ -110,7 +110,7 @@ WRID::str() const
 
   for (unsigned int i = 0; i < RAW_LENGTH; i++)
     {
-      uuid_str[2 * i]     = hex[(id[i] & 0xf0) >> 4];
+      uuid_str[2 * i] = hex[(id[i] & 0xf0) >> 4];
       uuid_str[2 * i + 1] = hex[id[i] & 0x0f];
     }
   uuid_str[STR_LENGTH] = '\0';
@@ -130,7 +130,7 @@ WRID::create()
   gint64 now = g_get_real_time();
 
   guint32 *id32 = ((guint32 *)&id);
-  id32[3]       = GUINT32_TO_BE(now / G_USEC_PER_SEC);
+  id32[3] = GUINT32_TO_BE(now / G_USEC_PER_SEC);
 
   get_random_bytes(id, sizeof(id) - 4);
 }
@@ -139,7 +139,7 @@ bool
 WRID::set(const std::string &str)
 {
   size_t len = str.length();
-  bool ret   = true;
+  bool ret = true;
 
   if (len != STR_LENGTH)
     {
@@ -170,7 +170,7 @@ WRID::set(const std::string &str)
           else
             {
               nibble = 0;
-              ret    = false;
+              ret = false;
             }
 
           if (i % 2 == 0)
@@ -192,7 +192,7 @@ WRID::set(const std::string &str)
 void
 WRID::get_random_bytes(unsigned char *buf, size_t length)
 {
-  int fd  = -1;
+  int fd = -1;
   bool ok = false;
 
   do

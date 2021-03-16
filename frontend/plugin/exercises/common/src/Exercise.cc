@@ -90,7 +90,7 @@ exercise_parser_start_element(GMarkupParseContext *,
       ep->exercises->push_back(Exercise());
       ep->exercise = &(ep->exercises->back());
 
-      ep->title_lang_rank       = -1;
+      ep->title_lang_rank = -1;
       ep->description_lang_rank = -1;
     }
   else if (!strcmp(element_name, "sequence"))
@@ -107,15 +107,15 @@ exercise_parser_start_element(GMarkupParseContext *,
     }
   else if (!strcmp(element_name, "image"))
     {
-      int dur               = 1;
+      int dur = 1;
       const gchar *duration = exercise_parse_lookup_attribute("duration", attribute_names, attribute_values);
       if (duration)
         {
           dur = atoi(duration);
         }
-      const gchar *src     = exercise_parse_lookup_attribute("src", attribute_names, attribute_values);
+      const gchar *src = exercise_parse_lookup_attribute("src", attribute_names, attribute_values);
       const gchar *mirrorx = exercise_parse_lookup_attribute("mirrorx", attribute_names, attribute_values);
-      bool mx              = mirrorx != NULL && !strcmp(mirrorx, "yes");
+      bool mx = mirrorx != NULL && !strcmp(mirrorx, "yes");
       if (src != NULL && strlen(src) > 0)
         {
           TRACE_MSG("Image src=" << src);
@@ -128,8 +128,8 @@ exercise_parser_start_element(GMarkupParseContext *,
   else if (!strcmp(element_name, "title") || !strcmp(element_name, "description"))
     {
       const gchar *value = exercise_parse_lookup_attribute("xml:lang", attribute_names, attribute_values);
-      ep->lang           = value ? value : "";
-      ep->cdata          = "";
+      ep->lang = value ? value : "";
+      ep->cdata = "";
     }
   else
     {
@@ -151,12 +151,12 @@ exercise_parse_update_i18n_attribute(const gchar *const *languages,
   if (languages != NULL)
     {
       const char *nl = new_lang.c_str();
-      int nl_len     = strlen(nl);
+      int nl_len = strlen(nl);
       int r;
 
       if (!nl_len)
         {
-          nl     = "en";
+          nl = "en";
           nl_len = 2;
         }
 
@@ -177,20 +177,20 @@ exercise_parse_update_i18n_attribute(const gchar *const *languages,
             {
               // ...and no previous value existed, so we're happy with just anything..
               cur_value = new_value;
-              cur_rank  = 9999;
+              cur_rank = 9999;
             }
           else if (cur_rank == 9999 && !strcmp(nl, "en"))
             {
               // ...but we really prefer to default to English
               cur_value = new_value;
-              cur_rank  = 9998;
+              cur_rank = 9998;
             }
         }
       else
         {
           // Language found
           cur_value = new_value;
-          cur_rank  = r;
+          cur_rank = r;
         }
     }
   else
@@ -245,8 +245,8 @@ ExerciseParser::ExerciseParser(std::list<Exercise> &exe)
 {
   TRACE_ENTER("ExerciseParser::ExerciseParser");
   exercises = &exe;
-  exercise  = NULL;
-  lang      = "";
+  exercise = NULL;
+  lang = "";
 
   i18n_languages = g_get_language_names();
 
@@ -264,16 +264,16 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exe)
     {
       GMarkupParser parser;
 
-      parser.text          = exercise_parser_text;
+      parser.text = exercise_parser_text;
       parser.start_element = exercise_parser_start_element;
-      parser.end_element   = exercise_parser_end_element;
-      parser.text          = exercise_parser_text;
-      parser.passthrough   = NULL;
-      parser.error         = NULL;
+      parser.end_element = exercise_parser_end_element;
+      parser.text = exercise_parser_text;
+      parser.passthrough = NULL;
+      parser.error = NULL;
 
       ExerciseParser eparser(exe);
       GMarkupParseContext *context = g_markup_parse_context_new(&parser, (GMarkupParseFlags)0, &eparser, NULL);
-      GError *error                = NULL;
+      GError *error = NULL;
 
       char buf[1024];
       while (true)

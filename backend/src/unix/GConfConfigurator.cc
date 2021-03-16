@@ -39,7 +39,7 @@ using namespace std;
 GConfConfigurator::GConfConfigurator()
 {
   gconf_client = gconf_client_get_default();
-  gconf_root   = "/apps/workrave";
+  gconf_root = "/apps/workrave";
 
 #ifndef NDEBUG
   const char *env = getenv("WORKRAVE_GCONF_ROOT");
@@ -106,7 +106,7 @@ GConfConfigurator::save()
 bool
 GConfConfigurator::get_value(const string &key, GConfValue **value) const
 {
-  bool ret      = true;
+  bool ret = true;
   GError *error = NULL;
 
   string full_key = gconf_root + "/" + key;
@@ -134,7 +134,7 @@ GConfConfigurator::get_value(const string &key, GConfValue **value) const
 bool
 GConfConfigurator::remove_key(const std::string &key)
 {
-  bool ret      = true;
+  bool ret = true;
   GError *error = NULL;
 
   string full_key = gconf_root + "/" + key;
@@ -192,7 +192,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type, Variant &
           if (value->type == GCONF_VALUE_INT)
             {
               out.int_value = gconf_value_get_int(value);
-              ret           = true;
+              ret = true;
             }
           break;
 
@@ -200,7 +200,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type, Variant &
           if (value->type == GCONF_VALUE_BOOL)
             {
               out.bool_value = gconf_value_get_bool(value);
-              ret            = true;
+              ret = true;
             }
           break;
 
@@ -208,7 +208,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type, Variant &
           if (value->type == GCONF_VALUE_FLOAT)
             {
               out.double_value = gconf_value_get_float(value);
-              ret              = true;
+              ret = true;
             }
           break;
 
@@ -216,7 +216,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type, Variant &
           if (value->type == GCONF_VALUE_STRING)
             {
               out.string_value = gconf_value_get_string(value);
-              ret              = true;
+              ret = true;
             }
           break;
 
@@ -239,7 +239,7 @@ GConfConfigurator::get_value(const std::string &key, VariantType type, Variant &
 bool
 GConfConfigurator::set_value(const std::string &key, Variant &value)
 {
-  bool ret      = true;
+  bool ret = true;
   GError *error = NULL;
 
   string full_key = gconf_root + "/" + key;
@@ -293,8 +293,8 @@ GConfConfigurator::add_listener(const string &key_prefix)
   TRACE_ENTER_MSG("GConfConfigurator::add_listener", key_prefix);
 
   string full_key = gconf_root + "/" + key_prefix;
-  GError *error   = NULL;
-  guint id        = 0;
+  GError *error = NULL;
+  guint id = 0;
 
   int len = full_key.length();
   if (len > 0)

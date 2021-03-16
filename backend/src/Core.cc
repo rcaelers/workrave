@@ -81,7 +81,7 @@
 Core *Core::instance = NULL;
 
 const char *WORKRAVESTATE = "WorkRaveState";
-const int SAVESTATETIME   = 60;
+const int SAVESTATETIME = 60;
 
 #define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/Core"
 #define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
@@ -166,8 +166,8 @@ void
 Core::init(int argc, char **argv, IApp *app, const char *display_name)
 {
   application = app;
-  this->argc  = argc;
-  this->argv  = argv;
+  this->argc = argc;
+  this->argv = argv;
 
   init_configurator();
   init_monitor(display_name);
@@ -207,7 +207,7 @@ Core::init_configurator()
       if (configurator == NULL)
         {
           string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-          configurator      = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
+          configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
 #  if defined(PLATFORM_OS_UNIX)
           if (configFile == "" || configFile == "config.xml")
@@ -223,7 +223,7 @@ Core::init_configurator()
 #endif
       if (configurator == NULL)
         {
-          ini_file     = Util::get_home_directory() + "workrave.ini";
+          ini_file = Util::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
           configurator->load(ini_file);
           configurator->save(ini_file);
@@ -271,7 +271,7 @@ Core::init_monitor(const char *display_name)
 {
 #ifdef HAVE_DISTRIBUTION
 #  ifndef NDEBUG
-  fake_monitor    = NULL;
+  fake_monitor = NULL;
   const char *env = getenv("WORKRAVE_FAKE");
   if (env != NULL)
     {
@@ -836,7 +836,7 @@ Core::do_force_break(BreakId id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("Core::do_force_break", id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
-  BreakControl *breaker            = breaks[id].get_break_control();
+  BreakControl *breaker = breaks[id].get_break_control();
 
   if (id == BREAK_ID_REST_BREAK && (microbreak_control->get_break_state() == BreakControl::BREAK_ACTIVE))
     {
@@ -882,7 +882,7 @@ Core::set_powersave(bool down)
           // Computer is going down
           set_operation_mode_override(OPERATION_MODE_SUSPENDED, "powersave");
           powersave_resume_time = 0;
-          powersave             = true;
+          powersave = true;
         }
 
       save_state();
@@ -1218,21 +1218,21 @@ void
 Core::is_timer_running(BreakId id, bool &value)
 {
   Timer *timer = get_timer(id);
-  value        = timer->get_state() == STATE_RUNNING;
+  value = timer->get_state() == STATE_RUNNING;
 }
 
 void
 Core::get_timer_idle(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value       = (int)timer->get_elapsed_idle_time();
+  *value = (int)timer->get_elapsed_idle_time();
 }
 
 void
 Core::get_timer_elapsed(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value       = (int)timer->get_elapsed_time();
+  *value = (int)timer->get_elapsed_time();
 }
 
 void
@@ -1245,7 +1245,7 @@ Core::get_timer_remaining(BreakId id, int *value)
   if (timer->is_limit_enabled())
     {
       int remaining = timer->get_limit() - timer->get_elapsed_time();
-      *value        = remaining >= 0 ? remaining : 0;
+      *value = remaining >= 0 ? remaining : 0;
     }
 }
 
@@ -1253,7 +1253,7 @@ void
 Core::get_timer_overdue(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value       = (int)timer->get_total_overdue_time();
+  *value = (int)timer->get_total_overdue_time();
 }
 
 //! Processes all timers.
@@ -1358,7 +1358,7 @@ Core::process_timewarp()
                 }
 
               monitor_state = ACTIVITY_IDLE;
-              ret           = true;
+              ret = true;
             }
           else
             {
@@ -1374,7 +1374,7 @@ Core::process_timewarp()
         {
           TRACE_MSG("End of time warp after powersave");
 
-          powersave             = false;
+          powersave = false;
           powersave_resume_time = 0;
         }
     }
@@ -1403,13 +1403,13 @@ Core::process_timewarp()
 
           int save_current_time = current_time;
 
-          current_time  = last_process_time + 1;
+          current_time = last_process_time + 1;
           monitor_state = ACTIVITY_IDLE;
 
           process_timers();
 
           current_time = save_current_time;
-          ret          = true;
+          ret = true;
         }
     }
 
@@ -1434,7 +1434,7 @@ Core::timer_action(BreakId id, TimerInfo info)
     }
 
   BreakControl *breaker = breaks[id].get_break_control();
-  Timer *timer          = breaks[id].get_timer();
+  Timer *timer = breaks[id].get_timer();
 
   assert(breaker != NULL && timer != NULL);
 
@@ -1500,7 +1500,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
           Timer *timer = breaks[break_id].get_timer();
 
           time_t duration = timer->get_auto_reset();
-          time_t now      = get_time();
+          time_t now = get_time();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
@@ -1657,7 +1657,7 @@ Core::load_state()
   ifstream stateFile(ss.str().c_str());
 
   int version = 0;
-  bool ok     = stateFile.good();
+  bool ok = stateFile.good();
 
   if (ok)
     {
@@ -1922,11 +1922,11 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
 
       if (data_size > 0)
         {
-          state_data.forced_break        = buffer.unpack_byte();
+          state_data.forced_break = buffer.unpack_byte();
           state_data.reached_max_prelude = buffer.unpack_byte();
-          state_data.prelude_count       = buffer.unpack_ulong();
-          state_data.break_stage         = buffer.unpack_ulong();
-          state_data.prelude_time        = buffer.unpack_ulong();
+          state_data.prelude_count = buffer.unpack_ulong();
+          state_data.break_stage = buffer.unpack_ulong();
+          state_data.prelude_time = buffer.unpack_ulong();
 
           bi->set_state_data(master, state_data);
         }
@@ -1996,15 +1996,15 @@ Core::set_timer_state(PacketBuffer &buffer)
 
       buffer.unpack_ushort();
 
-      state_data.current_time         = buffer.unpack_ulong();
-      state_data.elapsed_time         = buffer.unpack_ulong();
-      state_data.elapsed_idle_time    = buffer.unpack_ulong();
+      state_data.current_time = buffer.unpack_ulong();
+      state_data.elapsed_time = buffer.unpack_ulong();
+      state_data.elapsed_idle_time = buffer.unpack_ulong();
       state_data.last_pred_reset_time = buffer.unpack_ulong();
-      state_data.total_overdue_time   = buffer.unpack_ulong();
+      state_data.total_overdue_time = buffer.unpack_ulong();
 
-      state_data.last_limit_time    = buffer.unpack_ulong();
+      state_data.last_limit_time = buffer.unpack_ulong();
       state_data.last_limit_elapsed = buffer.unpack_ulong();
-      state_data.snooze_inhibited   = buffer.unpack_ushort();
+      state_data.snooze_inhibited = buffer.unpack_ushort();
 
       TRACE_MSG("state = " << state_data.current_time << " " << state_data.elapsed_time << " " << state_data.elapsed_idle_time
                            << " " << state_data.last_pred_reset_time << " " << state_data.total_overdue_time);
@@ -2084,7 +2084,7 @@ Core::compute_timers()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       int autoreset = breaks[i].get_timer()->get_auto_reset();
-      int idle      = idlelog_manager->compute_idle_time();
+      int idle = idlelog_manager->compute_idle_time();
 
       if (autoreset != 0)
         {
@@ -2143,7 +2143,7 @@ Core::set_break_control(PacketBuffer &buffer)
 
   if (data_size >= 4)
     {
-      BreakId break_id            = (BreakId)buffer.unpack_ushort();
+      BreakId break_id = (BreakId)buffer.unpack_ushort();
       BreakControlMessage message = (BreakControlMessage)buffer.unpack_ushort();
 
       switch (message)
@@ -2192,9 +2192,9 @@ namespace workrave
   {
     IBreak *b = Core::get_instance()->get_break(id);
 
-    string str            = key;
+    string str = key;
     string::size_type pos = 0;
-    string name           = b->get_name();
+    string name = b->get_name();
 
     while ((pos = str.find("%b", pos)) != string::npos)
       {

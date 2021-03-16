@@ -138,7 +138,7 @@ private:
           current_interval.active_time += (current_time - last_active_begin_time);
           total_active_time += (current_time - last_active_begin_time);
 
-          last_active_time       = 0;
+          last_active_time = 0;
           last_active_begin_time = 0;
         }
     }

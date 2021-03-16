@@ -142,7 +142,7 @@ MacOSGtkMenu::create_ui()
   IgeMacMenuGroup *group;
   IgeMacDock *dock;
 
-  Gtk::MenuBar *menu  = dynamic_cast<Gtk::MenuBar *>(ui_manager->get_widget("/Menu"));
+  Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar *>(ui_manager->get_widget("/Menu"));
   Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem *>(ui_manager->get_widget("/Apple/Quit"));
 
   ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(menu->gobj()));

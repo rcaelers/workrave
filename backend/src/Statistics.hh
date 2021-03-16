@@ -92,7 +92,7 @@ private:
         }
 
       // Empty marker.
-      start.tm_year    = 0;
+      start.tm_year = 0;
       total_mouse_time = 0;
     }
 

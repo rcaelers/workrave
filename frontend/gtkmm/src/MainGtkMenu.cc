@@ -106,7 +106,7 @@ MainGtkMenu::init()
       ui_manager->insert_action_group(action_group);
     }
 
-  IGUI *gui               = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
   main_window->add_accel_group(ui_manager->get_accel_group());
 }
@@ -114,7 +114,7 @@ MainGtkMenu::init()
 void
 MainGtkMenu::create_actions()
 {
-  IGUI *gui    = GUI::get_instance();
+  IGUI *gui = GUI::get_instance();
   Menus *menus = gui->get_menus();
 
   action_group = Gtk::ActionGroup::create();
@@ -242,7 +242,7 @@ void
 MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   Gtk::CheckMenuItem *item = NULL;
-  const char *menu_name    = NULL;
+  const char *menu_name = NULL;
 
   switch (mode)
     {
@@ -290,13 +290,13 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 void
 MainGtkMenu::on_menu_network_log()
 {
-  Glib::RefPtr<Gtk::Action> act        = ui_manager->get_action("/Menu/Network/ShowLog");
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Network/ShowLog");
   Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
 
   if (ract)
     {
-      bool active  = ract->get_active();
-      IGUI *gui    = GUI::get_instance();
+      bool active = ract->get_active();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->on_menu_network_log(active);
     }
@@ -305,7 +305,7 @@ MainGtkMenu::on_menu_network_log()
 void
 MainGtkMenu::on_menu_normal()
 {
-  Glib::RefPtr<Gtk::Action> act       = ui_manager->get_action("/Menu/Mode/Normal");
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Normal");
   Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
 
   if (ract)
@@ -313,7 +313,7 @@ MainGtkMenu::on_menu_normal()
       bool active = ract->get_active();
       if (active)
         {
-          IGUI *gui    = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
           menus->on_menu_normal();
         }
@@ -323,7 +323,7 @@ MainGtkMenu::on_menu_normal()
 void
 MainGtkMenu::on_menu_suspend()
 {
-  Glib::RefPtr<Gtk::Action> act       = ui_manager->get_action("/Menu/Mode/Suspended");
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Suspended");
   Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
 
   if (ract)
@@ -331,7 +331,7 @@ MainGtkMenu::on_menu_suspend()
       bool active = ract->get_active();
       if (active)
         {
-          IGUI *gui    = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
 
           menus->on_menu_suspend();
@@ -342,7 +342,7 @@ MainGtkMenu::on_menu_suspend()
 void
 MainGtkMenu::on_menu_quiet()
 {
-  Glib::RefPtr<Gtk::Action> act       = ui_manager->get_action("/Menu/Mode/Quiet");
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Quiet");
   Glib::RefPtr<Gtk::RadioAction> ract = Glib::RefPtr<Gtk::RadioAction>::cast_dynamic(act);
 
   if (ract)
@@ -350,7 +350,7 @@ MainGtkMenu::on_menu_quiet()
       bool active = ract->get_active();
       if (active)
         {
-          IGUI *gui    = GUI::get_instance();
+          IGUI *gui = GUI::get_instance();
           Menus *menus = gui->get_menus();
 
           menus->on_menu_quiet();
@@ -361,13 +361,13 @@ MainGtkMenu::on_menu_quiet()
 void
 MainGtkMenu::on_menu_reading()
 {
-  Glib::RefPtr<Gtk::Action> act        = ui_manager->get_action("/Menu/Reading");
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Reading");
   Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
 
   if (ract)
     {
-      bool active  = ract->get_active();
-      IGUI *gui    = GUI::get_instance();
+      bool active = ract->get_active();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
 
       menus->on_menu_reading(active);

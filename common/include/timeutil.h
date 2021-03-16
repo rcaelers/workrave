@@ -31,13 +31,13 @@
 
 #define tvRESETTIME(tv) \
   {                     \
-    (tv).tv_sec  = 0;   \
+    (tv).tv_sec = 0;    \
     (tv).tv_usec = 0;   \
   }
 
 #define tvSETTIME(tv, sec, usec) \
   {                              \
-    (tv).tv_sec  = (sec);        \
+    (tv).tv_sec = (sec);         \
     (tv).tv_usec = (usec);       \
   }
 

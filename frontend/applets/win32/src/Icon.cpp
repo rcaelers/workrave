@@ -28,8 +28,8 @@
 #define ICON_CLASS_NAME "WorkraveIcon"
 
 Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, int size, CDeskBand *deskband)
-  : deskband(deskband),
-    size(size)
+  : deskband(deskband)
+  , size(size)
 {
   init(hinst);
   icon = (HICON)LoadImage(hinst, resource, IMAGE_ICON, size, size, LR_DEFAULTCOLOR);
@@ -49,14 +49,14 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER("Icon::WndProc");
   LRESULT lResult = 0;
-  Icon *pThis     = (Icon *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+  Icon *pThis = (Icon *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis               = (Icon *)(lpcs->lpCreateParams);
+        pThis = (Icon *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
         SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
       }
@@ -117,15 +117,15 @@ Icon::init(HINSTANCE hinst)
   if (!GetClassInfo(hinst, ICON_CLASS_NAME, &wc))
     {
       ZeroMemory(&wc, sizeof(wc));
-      wc.style         = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
-      wc.lpfnWndProc   = (WNDPROC)wnd_proc;
-      wc.cbClsExtra    = 0;
-      wc.cbWndExtra    = 0;
-      wc.hInstance     = hinst;
-      wc.hIcon         = NULL;
-      wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+      wc.style = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;
+      wc.lpfnWndProc = (WNDPROC)wnd_proc;
+      wc.cbClsExtra = 0;
+      wc.cbWndExtra = 0;
+      wc.hInstance = hinst;
+      wc.hIcon = NULL;
+      wc.hCursor = LoadCursor(NULL, IDC_ARROW);
       wc.hbrBackground = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
-      wc.lpszMenuName  = NULL;
+      wc.lpszMenuName = NULL;
       wc.lpszClassName = ICON_CLASS_NAME;
 
       RegisterClass(&wc);

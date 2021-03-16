@@ -307,7 +307,7 @@ DistributionManager::remove_listener(DistributionListener *listener)
       if (listener == l)
         {
           // Found. Remove
-          i   = listeners.erase(i);
+          i = listeners.erase(i);
           ret = true;
         }
       else
@@ -435,7 +435,7 @@ DistributionManager::parse_peers(string peers, bool doconnect)
   while (pos != std::string::npos)
     {
       string peer = peers.substr(0, pos);
-      peers       = peers.substr(pos + 1);
+      peers = peers.substr(pos + 1);
 
       if (peer != "")
         {
@@ -471,7 +471,7 @@ DistributionManager::read_configuration()
 
   // Distributed operation enabled or not.
   network_enabled = get_enabled();
-  server_enabled  = get_listening();
+  server_enabled = get_listening();
 
   // Enable/Disable link.
   assert(link != NULL);
@@ -535,7 +535,7 @@ DistributionManager::log(const char *fmt, ...)
   va_start(va, fmt);
 
   time_t current_time = time(NULL);
-  struct tm *lt       = localtime(&current_time);
+  struct tm *lt = localtime(&current_time);
 
   char log_str[MAX_LOG_LEN - 32];
   vsnprintf(log_str, MAX_LOG_LEN - 32 - 1, fmt, va);
@@ -618,7 +618,7 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
       if (listener == l)
         {
           // Found. Remove
-          i   = log_listeners.erase(i);
+          i = log_listeners.erase(i);
           ret = true;
         }
       else
@@ -717,7 +717,7 @@ DistributionManager::get_peers() const
 bool
 DistributionManager::get_enabled() const
 {
-  bool ret    = true;
+  bool ret = true;
   bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED, ret);
   if (!is_set)
     {
@@ -736,7 +736,7 @@ DistributionManager::set_enabled(bool b)
 bool
 DistributionManager::get_listening() const
 {
-  bool ret    = true;
+  bool ret = true;
   bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING, ret);
   if (!is_set)
     {

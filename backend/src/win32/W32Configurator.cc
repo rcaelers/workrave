@@ -75,7 +75,7 @@ W32Configurator::remove_key(const std::string &key)
       DWORD size;
       char buf[256]; // FIXME: yuck, should be dynamic.
       size = sizeof(buf);
-      err  = RegDeleteKey(handle, c.c_str());
+      err = RegDeleteKey(handle, c.c_str());
       if (err == ERROR_SUCCESS)
         {
           rc = true;
@@ -124,13 +124,13 @@ W32Configurator::get_config_value(const string &key, string &out) const
           return false;
         }
 
-      err          = RegQueryValueExA(handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size);
+      err = RegQueryValueExA(handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size);
       buffer[size] = '\0';
 
       if (err == ERROR_SUCCESS && type == REG_SZ)
         {
           out = buffer;
-          rc  = true;
+          rc = true;
         }
 
       RegCloseKey(handle);
@@ -183,7 +183,7 @@ W32Configurator::get_config_value(const string &key, long &out) const
   if (rc)
     {
       int f = sscanf(s.c_str(), "%ld", &out);
-      rc    = (f == 1);
+      rc = (f == 1);
     }
   return rc;
 }
@@ -201,7 +201,7 @@ W32Configurator::get_config_value(const string &key, double &out) const
   if (rc)
     {
       int f = sscanf(s.c_str(), "%lf", &out);
-      rc    = (f == 1);
+      rc = (f == 1);
     }
   return rc;
 }
@@ -274,17 +274,17 @@ W32Configurator::key_add_part(string s, string t) const
 void
 W32Configurator::key_split(const string &key, string &parent, string &child) const
 {
-  const char *s     = key.c_str();
+  const char *s = key.c_str();
   const char *slash = strrchr(s, '/');
   if (slash)
     {
       parent = key.substr(0, slash - s);
-      child  = slash + 1;
+      child = slash + 1;
     }
   else
     {
       parent = "";
-      child  = "";
+      child = "";
     }
 }
 

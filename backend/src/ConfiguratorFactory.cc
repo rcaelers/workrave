@@ -49,7 +49,7 @@
 Configurator *
 ConfiguratorFactory::create(Format fmt)
 {
-  Configurator *c   = NULL;
+  Configurator *c = NULL;
   IConfigBackend *b = NULL;
 
 #ifdef HAVE_GDOME

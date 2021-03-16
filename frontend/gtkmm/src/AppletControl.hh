@@ -38,7 +38,7 @@ public:
     MacOS,
   };
 
-  AppletControl()  = default;
+  AppletControl() = default;
   ~AppletControl() = default;
 
   void init();

@@ -81,7 +81,7 @@ NetworkLogDialog::NetworkLogDialog()
 NetworkLogDialog::~NetworkLogDialog()
 {
   TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
-  ICore *core                        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
@@ -94,7 +94,7 @@ void
 NetworkLogDialog::distribution_log(std::string msg)
 {
   Gtk::TextIter iter = text_buffer->end();
-  iter               = text_buffer->insert(iter, msg);
+  iter = text_buffer->insert(iter, msg);
 #  ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
 #  else
@@ -106,7 +106,7 @@ NetworkLogDialog::distribution_log(std::string msg)
 void
 NetworkLogDialog::init()
 {
-  ICore *core                        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
 
   Gtk::TextIter iter = text_buffer->end();
@@ -146,7 +146,7 @@ NetworkLogDialog::on_response(int response)
 {
   (void)response;
   TRACE_ENTER("NetworkLogDialog::on_response")
-  ICore *core                        = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {

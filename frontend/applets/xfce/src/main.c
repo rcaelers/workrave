@@ -106,7 +106,7 @@ void
 on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
   WorkraveApplet *applet = (WorkraveApplet *)user_data;
-  applet->alive          = alive;
+  applet->alive = alive;
 
   if (!alive)
     {
@@ -134,7 +134,7 @@ on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
   int flags;
 
   GSList *radio_group = NULL;
-  GtkWidget *menu     = NULL;
+  GtkWidget *menu = NULL;
   while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
     {
       int index = lookup_menu_index_by_id((enum MenuCommand)id);
@@ -148,7 +148,7 @@ on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
       if (flags & MENU_ITEM_FLAG_SUBMENU_END)
         {
           radio_group = NULL;
-          menu        = NULL;
+          menu = NULL;
         }
 
       else if (item == NULL)
@@ -161,7 +161,7 @@ on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
             }
           else if (flags & MENU_ITEM_FLAG_RADIO)
             {
-              item        = GTK_MENU_ITEM(gtk_radio_menu_item_new_with_label(radio_group, text));
+              item = GTK_MENU_ITEM(gtk_radio_menu_item_new_with_label(radio_group, text));
               radio_group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(item));
               g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_radio_changed), applet);
             }
@@ -270,7 +270,7 @@ on_menu_command(GtkMenuItem *item, gpointer user_data)
 static void
 on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
 {
-  GdkPixbuf *pixbuf     = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
 
   gtk_container_set_border_width(GTK_CONTAINER(about), 5);
@@ -395,7 +395,7 @@ static void
 workrave_applet_fill(WorkraveApplet *applet)
 {
   applet->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
-  applet->image            = workrave_timerbox_control_get_image(applet->timerbox_control);
+  applet->image = workrave_timerbox_control_get_image(applet->timerbox_control);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed), applet);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed), applet);
 
@@ -409,12 +409,12 @@ workrave_applet_fill(WorkraveApplet *applet)
 static void
 workrave_applet_construct(XfcePanelPlugin *plugin)
 {
-  WorkraveApplet *applet   = g_slice_new0(WorkraveApplet);
-  applet->plugin           = plugin;
-  applet->image            = NULL;
+  WorkraveApplet *applet = g_slice_new0(WorkraveApplet);
+  applet->plugin = plugin;
+  applet->image = NULL;
   applet->timerbox_control = NULL;
-  applet->alive            = FALSE;
-  applet->inhibit          = 0;
+  applet->alive = FALSE;
+  applet->inhibit = 0;
 
   for (int i = 0; i < MENU_COMMAND_SIZEOF; i++)
     {

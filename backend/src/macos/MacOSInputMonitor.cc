@@ -30,7 +30,7 @@ MacOSInputMonitor::MacOSInputMonitor()
   : terminate_loop(false)
 {
   monitor_thread = new Thread(this);
-  io_service     = NULL;
+  io_service = NULL;
 }
 
 MacOSInputMonitor::~MacOSInputMonitor()

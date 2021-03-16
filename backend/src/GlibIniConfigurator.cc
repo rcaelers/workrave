@@ -55,7 +55,7 @@ bool
 GlibIniConfigurator::load(string filename)
 {
   GError *error = NULL;
-  gboolean r    = TRUE;
+  gboolean r = TRUE;
 
   last_filename = filename;
 
@@ -81,7 +81,7 @@ bool
 GlibIniConfigurator::save(string filename)
 {
   GError *error = NULL;
-  char *str     = g_key_file_to_data(config, NULL, &error);
+  char *str = g_key_file_to_data(config, NULL, &error);
 
   TRACE_ENTER_MSG("GlibIniConfigurator::save", filename);
   if (error != NULL)
@@ -115,7 +115,7 @@ GlibIniConfigurator::save()
 bool
 GlibIniConfigurator::remove_key(const std::string &key)
 {
-  bool ret      = true;
+  bool ret = true;
   GError *error = NULL;
   string group;
   string inikey;
@@ -139,7 +139,7 @@ GlibIniConfigurator::remove_key(const std::string &key)
 bool
 GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
-  bool ret      = false;
+  bool ret = false;
   GError *error = NULL;
   string group;
   string inikey;
@@ -252,16 +252,16 @@ GlibIniConfigurator::set_value(const std::string &key, Variant &value)
 void
 GlibIniConfigurator::split_key(const string &key, string &group, string &out_key) const
 {
-  const char *s     = key.c_str();
+  const char *s = key.c_str();
   const char *slash = strchr(s, '/');
   if (slash)
     {
-      group   = key.substr(0, slash - s);
+      group = key.substr(0, slash - s);
       out_key = slash + 1;
     }
   else
     {
-      group   = "";
+      group = "";
       out_key = "";
     }
 }

@@ -51,7 +51,7 @@
 
 #ifdef PLATFORM_OS_WINDOWS
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
-const UINT MYWM_TRAY_MESSAGE      = WM_USER + 0x100;
+const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 #endif
 
 using namespace std;
@@ -111,8 +111,8 @@ MainWindow::is_visible() const
 {
 #if defined(PLATFORM_OS_WINDOWS)
   const GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window   = gtk_widget_get_window(GTK_WIDGET(window));
-  HWND hwnd               = (HWND)GDK_WINDOW_HWND(gdk_window);
+  GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
   return IsWindowVisible(hwnd);
 #elif defined(HAVE_GTK3)
   return get_visible();
@@ -275,7 +275,7 @@ MainWindow::init()
 
   enabled = TimerBoxControl::is_enabled("main_window");
 
-  timer_box_view    = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
+  timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
@@ -382,7 +382,7 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
-  bool new_enabled   = TimerBoxControl::is_enabled("main_window");
+  bool new_enabled = TimerBoxControl::is_enabled("main_window");
   bool always_on_top = GUIConfig::get_always_on_top();
 
   TRACE_MSG("can_close " << new_enabled);
@@ -458,7 +458,7 @@ MainWindow::on_timer_view_button_press_event(GdkEventButton *event)
 
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
-      IGUI *gui    = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       Menus *menus = gui->get_menus();
       menus->popup(Menus::MENU_MAINWINDOW, event->button, event->time);
       ret = true;
@@ -488,9 +488,9 @@ MainWindow::win32_show(bool b)
   bool retry = false;
 
   // Gtk's hide() seems to quit the program.
-  GtkWidget *window     = Gtk::Widget::gobj();
+  GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(window);
-  HWND hwnd             = (HWND)GDK_WINDOW_HWND(gdk_window);
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
   visibility_changed_signal.emit();
 
@@ -570,9 +570,9 @@ MainWindow::win32_init()
   SetWindowLong(win32_main_hwnd, GWL_USERDATA, (LONG)this);
 
   // Reassign ownership
-  GtkWidget *window     = Gtk::Widget::gobj();
+  GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(window);
-  HWND hwnd             = (HWND)GDK_WINDOW_HWND(gdk_window);
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
   SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG)win32_main_hwnd);
 
   TRACE_EXIT();
@@ -680,9 +680,9 @@ MainWindow::locate_window(GdkEventConfigure *event)
   // Returns bogus results on windows...sometime.
   if (event != NULL)
     {
-      x      = event->x;
-      y      = event->y;
-      width  = event->width;
+      x = event->x;
+      y = event->y;
+      width = event->width;
       height = event->height;
     }
   else
@@ -701,7 +701,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
     on_size_request(&min_size);
 #endif
 
-      width  = min_size.width;
+      width = min_size.width;
       height = min_size.height;
     }
 
@@ -763,7 +763,7 @@ MainWindow::relocate_window(int width, int height)
       x = window_head_location.get_x();
       y = window_head_location.get_y();
 
-      IGUI *gui     = GUI::get_instance();
+      IGUI *gui = GUI::get_instance();
       int num_heads = gui->get_number_of_heads();
       for (int i = 0; i < num_heads; i++)
         {

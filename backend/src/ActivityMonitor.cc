@@ -57,11 +57,11 @@ ActivityMonitor::ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-  first_action_time  = 0;
-  last_action_time   = 0;
-  noise_threshold    = 1 * G_USEC_PER_SEC;
+  first_action_time = 0;
+  last_action_time = 0;
+  noise_threshold = 1 * G_USEC_PER_SEC;
   activity_threshold = 2 * G_USEC_PER_SEC;
-  idle_threshold     = 5 * G_USEC_PER_SEC;
+  idle_threshold = 5 * G_USEC_PER_SEC;
 
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   if (input_monitor != NULL)
@@ -128,7 +128,7 @@ ActivityMonitor::force_idle()
   lock.lock();
   if (activity_state != ACTIVITY_SUSPENDED)
     {
-      activity_state   = ACTIVITY_IDLE;
+      activity_state = ACTIVITY_IDLE;
       last_action_time = 0;
     }
   lock.unlock();
@@ -147,7 +147,7 @@ ActivityMonitor::get_current_state()
   if (activity_state == ACTIVITY_ACTIVE)
     {
       gint64 now = g_get_real_time();
-      gint64 tv  = now - last_action_time;
+      gint64 tv = now - last_action_time;
 
       TRACE_MSG("Active: " << (tv / G_USEC_PER_SEC) << "." << tv << " " << (idle_threshold / G_USEC_PER_SEC) << " "
                            << idle_threshold);
@@ -168,7 +168,7 @@ ActivityMonitor::get_current_state()
 void
 ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold    = noise * 1000;
+  noise_threshold = noise * 1000;
   activity_threshold = activity * 1000;
   ;
   idle_threshold = idle * 1000;
@@ -183,9 +183,9 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivi
 void
 ActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensitivity)
 {
-  noise       = noise_threshold / 1000;
-  activity    = activity_threshold / 1000;
-  idle        = idle_threshold / 1000;
+  noise = noise_threshold / 1000;
+  activity = activity_threshold / 1000;
+  idle = idle_threshold / 1000;
   sensitivity = this->sensitivity;
 }
 
@@ -229,7 +229,7 @@ ActivityMonitor::action_notify()
     case ACTIVITY_IDLE:
       {
         first_action_time = now;
-        last_action_time  = now;
+        last_action_time = now;
 
         if (activity_threshold == 0)
           {
@@ -276,8 +276,8 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
-  prev_x            = x;
-  prev_y            = y;
+  prev_x = x;
+  prev_y = y;
 
   if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0 || button_is_pressed)
     {

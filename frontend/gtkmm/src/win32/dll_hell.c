@@ -130,7 +130,7 @@ void
 dll_hell_check()
 {
   char path[MAX_PATH];
-  DWORD plen     = MAX_PATH;
+  DWORD plen = MAX_PATH;
   int common_gtk = FALSE;
   BOOL gotreg;
 

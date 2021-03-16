@@ -32,7 +32,7 @@ bool
 EventButton::on_button_press_event(GdkEventButton *event)
 {
   bool handled = button_pressed.emit(event->button);
-  bool ret     = true;
+  bool ret = true;
 
   if (!handled)
     {

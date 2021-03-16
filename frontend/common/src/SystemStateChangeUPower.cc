@@ -54,12 +54,12 @@ SystemStateChangeUPower::SystemStateChangeUPower(GDBusConnection *connection)
 
   if (!proxy.is_valid() || !property_proxy.is_valid())
     {
-      can_suspend   = false;
+      can_suspend = false;
       can_hibernate = false;
     }
   else
     {
-      can_suspend   = check_method("SuspendAllowed") && check_property("CanSuspend");
+      can_suspend = check_method("SuspendAllowed") && check_property("CanSuspend");
       can_hibernate = check_method("HibernateAllowed") && check_property("CanHibernate");
     }
   TRACE_EXIT();

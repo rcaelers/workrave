@@ -62,7 +62,7 @@ DBusGeneric::connect(const std::string &object_path, const std::string &interfac
     {
       Interfaces interfaces;
       interfaces[interface_name] = cobject;
-      objects[object_path]       = interfaces;
+      objects[object_path] = interfaces;
     }
 }
 

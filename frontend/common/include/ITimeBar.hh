@@ -40,13 +40,13 @@ public:
 
   virtual ~ITimeBar() {}
 
-  virtual void set_progress(int value, int max_value)           = 0;
+  virtual void set_progress(int value, int max_value) = 0;
   virtual void set_secondary_progress(int value, int max_value) = 0;
 
   virtual void set_text(std::string text) = 0;
 
-  virtual void update()                               = 0;
-  virtual void set_bar_color(ColorId color)           = 0;
+  virtual void update() = 0;
+  virtual void set_bar_color(ColorId color) = 0;
   virtual void set_secondary_bar_color(ColorId color) = 0;
 };
 

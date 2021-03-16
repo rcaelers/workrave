@@ -57,27 +57,27 @@ public:
 private:
   enum PacketCommand
   {
-    PACKET_HELLO1       = 0x0001,
-    PACKET_CLAIM        = 0x0002,
-    PACKET_CLIENT_LIST  = 0x0003,
-    PACKET_WELCOME      = 0x0004,
-    PACKET_NEW_MASTER   = 0x0005,
-    PACKET_CLIENTMSG    = 0x0006,
-    PACKET_DUPLICATE    = 0x0007,
+    PACKET_HELLO1 = 0x0001,
+    PACKET_CLAIM = 0x0002,
+    PACKET_CLIENT_LIST = 0x0003,
+    PACKET_WELCOME = 0x0004,
+    PACKET_NEW_MASTER = 0x0005,
+    PACKET_CLIENTMSG = 0x0006,
+    PACKET_DUPLICATE = 0x0007,
     PACKET_CLAIM_REJECT = 0x0008,
-    PACKET_SIGNOFF      = 0x0009,
-    PACKET_HELLO2       = 0x000A,
+    PACKET_SIGNOFF = 0x0009,
+    PACKET_HELLO2 = 0x000A,
   };
 
   enum PacketFlags
   {
     PACKETFLAG_SOURCE = 0x0001,
-    PACKETFLAG_DEST   = 0x0002,
+    PACKETFLAG_DEST = 0x0002,
   };
 
   enum ClientListFlags
   {
-    CLIENTLIST_ME     = 1,
+    CLIENTLIST_ME = 1,
     CLIENTLIST_MASTER = 2,
   };
 
@@ -95,9 +95,9 @@ private:
 
   enum ClientType
   {
-    CLIENTTYPE_UNKNOWN   = 1,
-    CLIENTTYPE_DIRECT    = 2,
-    CLIENTTYPE_ROUTED    = 3,
+    CLIENTTYPE_UNKNOWN = 1,
+    CLIENTTYPE_DIRECT = 2,
+    CLIENTTYPE_ROUTED = 3,
     CLIENTTYPE_SIGNEDOFF = 4,
   };
 
@@ -203,8 +203,9 @@ public:
   bool claim();
   bool set_lock_master(bool lock);
 
-  bool
-  register_client_message(DistributionClientMessageID id, DistributionClientMessageType type, IDistributionClientMessage *callback);
+  bool register_client_message(DistributionClientMessageID id,
+                               DistributionClientMessageType type,
+                               IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
 

@@ -38,7 +38,7 @@ TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       slot_to_time_bar[i] = new TimeBar(parent, hinst, deskband);
-      break_to_icon[i]    = NULL;
+      break_to_icon[i] = NULL;
 
       break_visible[i] = false;
       slot_to_break[i] = BREAK_ID_NONE;
@@ -95,7 +95,7 @@ void
 TimerBox::set_size(int w, int h)
 {
   TRACE_ENTER_MSG("TimerBox::set_size", w << " " << h);
-  width  = w;
+  width = w;
   height = h;
   TRACE_EXIT();
 }
@@ -135,7 +135,7 @@ TimerBox::update(bool repaint)
   TRACE_EXIT();
 }
 
-void 
+void
 TimerBox::update_dpi()
 {
   init_icons();
@@ -214,16 +214,16 @@ TimerBox::update_dimensions()
       icon_bar_width = icon_width + 2 * PADDING_X + bar_w;
 
       int max_columns = __max(1, width / icon_bar_width);
-      int max_rows    = __max(1, (height + PADDING_Y) / (__max(icon_height, bar_h) + PADDING_Y));
+      int max_rows = __max(1, (height + PADDING_Y) / (__max(icon_height, bar_h) + PADDING_Y));
 
-      rows            = __max(1, __min(max_rows, (filled_slots + max_columns - 1) / max_columns));
-      columns         = (filled_slots + rows - 1) / rows;
+      rows = __max(1, __min(max_rows, (filled_slots + max_columns - 1) / max_columns));
+      columns = (filled_slots + rows - 1) / rows;
       int min_columns = (filled_slots + max_rows - 1) / max_rows;
 
-      preferred_width  = columns * icon_bar_width + (columns - 1) * PADDING_X;
+      preferred_width = columns * icon_bar_width + (columns - 1) * PADDING_X;
       preferred_height = rows * __max(icon_height, bar_h) + (rows - 1) * PADDING_Y;
 
-      minimum_width  = min_columns * icon_bar_width + (min_columns - 1) * PADDING_X;
+      minimum_width = min_columns * icon_bar_width + (min_columns - 1) * PADDING_X;
       minimum_height = preferred_height;
 
       TRACE_MSG("icon: " << icon_width << " " << icon_height);
@@ -237,7 +237,7 @@ TimerBox::update_dimensions()
   else
     {
       sheep_icon->get_size(preferred_width, preferred_height);
-      minimum_width  = preferred_width;
+      minimum_width = preferred_width;
       minimum_height = preferred_height;
       TRACE_MSG("only sheep");
       TRACE_MSG("pref" << preferred_width << " " << preferred_height);
@@ -262,7 +262,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
       y = __max(0, (height - preferred_height) / 2);
 
       int icon_dy = 0;
-      int bar_dy  = 0;
+      int bar_dy = 0;
 
       if (bar_h > icon_height)
         {
@@ -290,7 +290,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
               if (current_column >= columns)
                 {
                   current_column = 0;
-                  x              = 0;
+                  x = 0;
                   y += __max(icon_height, bar_h) + PADDING_Y;
                 }
             }
@@ -321,7 +321,7 @@ TimerBox::get_time_bar(BreakId timer) const
 {
   TRACE_ENTER_MSG("TimerBox::get_time_bat", timer);
   TimeBar *ret = NULL;
-  int slot     = break_to_slot[timer];
+  int slot = break_to_slot[timer];
   if (slot >= 0)
     {
       ret = slot_to_time_bar[slot];
