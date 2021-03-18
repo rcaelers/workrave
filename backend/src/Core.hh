@@ -248,7 +248,6 @@ private:
 
   //! Are we the master node??
   TracedField<bool> master_node{"core.master_node", true};
-  ;
 
   //! List of breaks.
   Break breaks[BREAK_ID_SIZEOF];

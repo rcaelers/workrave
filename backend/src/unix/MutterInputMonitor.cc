@@ -310,7 +310,6 @@ MutterInputMonitor::register_idle_watch()
   if (error == nullptr)
     {
       guint watch = 0;
-      ;
       g_variant_get(reply, "(u)", &watch);
       watch_idle = watch;
       g_variant_unref(reply);

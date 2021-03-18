@@ -61,7 +61,6 @@ class ISocket
 public:
   ISocket() = default;
   virtual ~ISocket() = default;
-  ;
 
   //! Create a connection to the specified host and port.
   virtual void connect(const std::string &hostname, int port) = 0;
@@ -99,7 +98,6 @@ public:
   }
 
   virtual ~ISocketServer() = default;
-  ;
 
   //! Listen at the specified port.
   /*! \pre set_listener called
@@ -121,7 +119,6 @@ public:
   static SocketDriver *create();
 
   virtual ~SocketDriver() = default;
-  ;
 
   //! Create a new socket
   virtual ISocket *create_socket() = 0;

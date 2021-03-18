@@ -165,7 +165,6 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivi
 {
   noise_threshold = noise * 1000;
   activity_threshold = activity * 1000;
-  ;
   idle_threshold = idle * 1000;
 
   this->sensitivity = sensitivity;

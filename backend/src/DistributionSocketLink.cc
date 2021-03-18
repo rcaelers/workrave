@@ -1643,7 +1643,6 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
     {
       TRACE_EXIT();
       return false;
-      ;
     }
 
   // Extract data.
