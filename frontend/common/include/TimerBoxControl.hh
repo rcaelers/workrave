@@ -111,7 +111,7 @@ private:
   std::string name;
 
   //! Last known operation mode
-  OperationMode operation_mode;
+  OperationMode operation_mode{};
 
   //!
   int force_duration{0};
