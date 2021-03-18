@@ -29,7 +29,7 @@
 class PacketBuffer
 {
 public:
-  PacketBuffer();
+  PacketBuffer() = default;
   PacketBuffer(int size);
   ~PacketBuffer();
 

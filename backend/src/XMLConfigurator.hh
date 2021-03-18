@@ -35,7 +35,7 @@ class XMLConfigurator
   , public virtual ConfigBackendAdapter
 {
 public:
-  XMLConfigurator();
+  XMLConfigurator() = default;
   XMLConfigurator(XMLConfigurator *parent);
   ~XMLConfigurator() override;
 

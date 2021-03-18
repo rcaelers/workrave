@@ -29,8 +29,6 @@
 
 #include "PacketBuffer.hh"
 
-PacketBuffer::PacketBuffer() = default;
-
 PacketBuffer::~PacketBuffer()
 {
   narrow(0, -1);

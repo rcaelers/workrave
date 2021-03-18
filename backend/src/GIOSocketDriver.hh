@@ -33,7 +33,7 @@ using namespace workrave;
 class GIOSocketServer : public ISocketServer
 {
 public:
-  GIOSocketServer();
+  GIOSocketServer() = default;
   ~GIOSocketServer() override;
 
   // ISocketServer  interface

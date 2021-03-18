@@ -64,8 +64,6 @@ GenericDBusApplet::GenericDBusApplet()
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
 }
 
-GenericDBusApplet::~GenericDBusApplet() = default;
-
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
 {

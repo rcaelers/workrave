@@ -52,7 +52,7 @@ public:
     NODE_STANDBY
   };
 
-  DistributionManager();
+  DistributionManager() = default;
   ~DistributionManager() override;
 
   NodeState get_state() const;

@@ -25,10 +25,6 @@
 
 #include "InputMonitor.hh"
 
-InputMonitor::InputMonitor() = default;
-
-InputMonitor::~InputMonitor() = default;
-
 void
 InputMonitor::subscribe_activity(IInputMonitorListener *listener)
 {

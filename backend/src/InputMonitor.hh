@@ -31,8 +31,8 @@ class IInputMonitorListener;
 class InputMonitor : public IInputMonitor
 {
 public:
-  InputMonitor();
-  ~InputMonitor() override;
+  InputMonitor() = default;
+  ~InputMonitor() override = default;
 
   void subscribe_activity(IInputMonitorListener *listener) override;
   void subscribe_statistics(IInputMonitorListener *listener) override;

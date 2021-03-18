@@ -38,8 +38,6 @@
 
 using namespace std;
 
-GlibIniConfigurator::GlibIniConfigurator() = default;
-
 GlibIniConfigurator::~GlibIniConfigurator()
 {
   if (config != nullptr)

@@ -34,7 +34,7 @@ class GSettingsConfigurator
 {
 public:
   GSettingsConfigurator();
-  ~GSettingsConfigurator() override;
+  ~GSettingsConfigurator() override = default;
 
   bool load(std::string filename) override;
   bool save(std::string filename) override;

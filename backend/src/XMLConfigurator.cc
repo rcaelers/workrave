@@ -31,19 +31,11 @@
 
 using namespace std;
 
-//! Constructor
-XMLConfigurator::XMLConfigurator() = default;
-
-//! Constructor
-/*!
- *  \param parent pointer to the parent XML node.
- */
 XMLConfigurator::XMLConfigurator(XMLConfigurator *p)
   : parent(p)
 {
 }
 
-//! Destructor
 XMLConfigurator::~XMLConfigurator()
 {
   Children::const_iterator i;

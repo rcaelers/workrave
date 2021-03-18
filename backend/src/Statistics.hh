@@ -106,10 +106,7 @@ private:
   typedef std::vector<DailyStatsImpl *>::reverse_iterator HistoryRIter;
 
 public:
-  //! Constructor.
-  Statistics();
-
-  //! Destructor
+  Statistics() = default;
   ~Statistics() override;
 
   bool delete_all_history() override;

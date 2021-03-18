@@ -28,9 +28,6 @@
 
 using namespace std;
 
-//! Creates a new listen socket.
-GIOSocketServer::GIOSocketServer() = default;
-
 //! Destructs the listen socket.
 GIOSocketServer::~GIOSocketServer()
 {

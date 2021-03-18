@@ -31,7 +31,7 @@
 class GlibIniConfigurator : public virtual IConfigBackend
 {
 public:
-  GlibIniConfigurator();
+  GlibIniConfigurator() = default;
   ~GlibIniConfigurator() override;
 
   bool load(std::string filename) override;

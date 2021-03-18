@@ -45,9 +45,6 @@
 
 #  define MAX_LOG_LEN (256)
 
-//! Constructs a new DistributionManager.
-DistributionManager::DistributionManager() = default;
-
 //! Destructs this DistributionManager.
 DistributionManager::~DistributionManager()
 {

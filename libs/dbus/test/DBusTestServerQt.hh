@@ -34,8 +34,8 @@
 class DBusTestServerQt : DBusTestServer
 {
 public:
-  DBusTestServerQt();
-  virtual ~DBusTestServerQt();
+  DBusTestServerQt() = default;
+  virtual ~DBusTestServerQt() = default;
 
   void run(int argc, char **argv);
 

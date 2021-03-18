@@ -62,8 +62,6 @@ StatusIcon::StatusIcon()
   TRACE_EXIT();
 }
 
-StatusIcon::~StatusIcon() = default;
-
 void
 StatusIcon::init()
 {

@@ -51,10 +51,6 @@ const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 
-//! Constructor
-Statistics::Statistics() = default;
-
-//! Destructor
 Statistics::~Statistics()
 {
   update();

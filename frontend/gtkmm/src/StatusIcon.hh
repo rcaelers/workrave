@@ -56,7 +56,7 @@ class StatusIcon : public IConfiguratorListener
 {
 public:
   StatusIcon();
-  ~StatusIcon() override;
+  ~StatusIcon() override = default;
 
   void init();
   void set_operation_mode(OperationMode m);

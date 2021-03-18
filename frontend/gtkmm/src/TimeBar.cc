@@ -51,7 +51,6 @@ Gdk::Color TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] = {
   Gdk::Color("lightgreen"),
 };
 
-//! Constructor
 TimeBar::TimeBar()
 {
   add_events(Gdk::EXPOSURE_MASK);
@@ -63,9 +62,6 @@ TimeBar::TimeBar()
 
   GtkUtil::set_theme_fg_color(this);
 }
-
-//! Destructor
-TimeBar::~TimeBar() = default;
 
 //! Sets the time progress to be displayed.
 void

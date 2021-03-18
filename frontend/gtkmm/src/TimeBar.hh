@@ -33,7 +33,7 @@ class TimeBar
 {
 public:
   TimeBar();
-  ~TimeBar() override;
+  ~TimeBar() override = default;
 
   void set_progress(int value, int max_value) override;
   void set_secondary_progress(int value, int max_value) override;
