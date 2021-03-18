@@ -24,8 +24,8 @@
 #endif
 
 #include "debug.hh"
+#include <cassert>
 #include <string>
-#include <assert.h>
 
 #ifdef PLATFORM_OS_MACOS
 #  if HAVE_IGE_MAC_INTEGRATION
@@ -62,7 +62,7 @@ StatusIcon::StatusIcon()
   TRACE_EXIT();
 }
 
-StatusIcon::~StatusIcon() {}
+StatusIcon::~StatusIcon() = default;
 
 void
 StatusIcon::init()

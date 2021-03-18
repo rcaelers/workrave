@@ -25,8 +25,8 @@
 #include "nls.h"
 
 #ifdef HAVE_REALPATH
-#  include <limits.h>
-#  include <stdlib.h>
+#  include <climits>
+#  include <cstdlib>
 #endif
 
 #include <list>
@@ -154,7 +154,7 @@ class SpeakerPlayer : public Thread
 {
 public:
   SpeakerPlayer(short (*beeps)[2]);
-  void run();
+  void run() override;
 
 private:
   short (*beeps)[2];
@@ -232,13 +232,9 @@ SoundPlayer::SoundPlayer()
 #elif defined PLATFORM_OS_WINDOWS
     new W32Mixer()
 #else
-    NULL
+    nullptr
 #endif
     ;
-
-  must_unmute = false;
-  delayed_mute = false;
-
 #ifdef PLATFORM_OS_WINDOWS
   win32_remove_deprecated_appevents();
 #endif
@@ -252,12 +248,12 @@ SoundPlayer::~SoundPlayer()
 void
 SoundPlayer::init()
 {
-  if (driver != NULL)
+  if (driver != nullptr)
     {
       driver->init(this);
     }
 
-  if (mixer != NULL)
+  if (mixer != nullptr)
     {
       mixer->init();
     }
@@ -289,7 +285,7 @@ SoundPlayer::register_sound_events(string theme)
     }
 
   gchar *path = g_build_filename(theme.c_str(), "soundtheme", NULL);
-  if (path != NULL)
+  if (path != nullptr)
     {
       string file = Util::complete_directory(path, Util::SEARCH_PATH_SOUNDS);
       TRACE_MSG(file);
@@ -346,7 +342,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 
   GKeyFile *config = g_key_file_new();
 
-  r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, NULL);
+  r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, nullptr);
   TRACE_MSG("load " << r);
 
   if (r)
@@ -354,8 +350,8 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       gchar *themedir = g_path_get_dirname(themefilename.c_str());
       TRACE_MSG(themedir);
 
-      char *desc = g_key_file_get_string(config, "general", "description", NULL);
-      if (desc != NULL)
+      char *desc = g_key_file_get_string(config, "general", "description", nullptr);
+      if (desc != nullptr)
         {
           theme.description = desc;
           g_free(desc);
@@ -365,17 +361,17 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       for (int i = 0; i < size; i++)
         {
           SoundRegistry *snd = &sound_registry[i];
-          char *sound_pathname = NULL;
+          char *sound_pathname = nullptr;
 
-          char *filename = g_key_file_get_string(config, snd->id, "file", NULL);
-          if (filename != NULL)
+          char *filename = g_key_file_get_string(config, snd->id, "file", nullptr);
+          if (filename != nullptr)
             {
               gchar *pathname = g_build_filename(themedir, filename, NULL);
-              if (pathname != NULL)
+              if (pathname != nullptr)
                 {
 #ifdef HAVE_REALPATH
-                  sound_pathname = realpath(pathname, NULL);
-                  if (sound_pathname == NULL)
+                  sound_pathname = realpath(pathname, nullptr);
+                  if (sound_pathname == nullptr)
                     {
                       sound_pathname = g_strdup(pathname);
                     }
@@ -398,8 +394,8 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
               g_free(filename);
             }
 
-          TRACE_MSG((sound_pathname != NULL ? sound_pathname : "No Sound"));
-          theme.files.push_back((sound_pathname != NULL ? sound_pathname : ""));
+          TRACE_MSG((sound_pathname != nullptr ? sound_pathname : "No Sound"));
+          theme.files.push_back((sound_pathname != nullptr ? sound_pathname : ""));
           g_free(sound_pathname);
         }
 
@@ -419,23 +415,22 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
   TRACE_ENTER("SoundPlayer::get_sound_themes");
   set<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
   bool has_active = false;
-
   for (set<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
     {
-      GDir *dir = g_dir_open(it->c_str(), 0, NULL);
+      GDir *dir = g_dir_open(it->c_str(), 0, nullptr);
 
-      if (dir != NULL)
+      if (dir != nullptr)
         {
           const char *file;
-          while ((file = g_dir_read_name(dir)) != NULL)
+          while ((file = g_dir_read_name(dir)) != nullptr)
             {
               gchar *test_path = g_build_filename(it->c_str(), file, NULL);
 
-              if (test_path != NULL && g_file_test(test_path, G_FILE_TEST_IS_DIR))
+              if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
                   char *path = g_build_filename(it->c_str(), file, "soundtheme", NULL);
 
-                  if (path != NULL && g_file_test(path, G_FILE_TEST_IS_REGULAR))
+                  if (path != nullptr && g_file_test(path, G_FILE_TEST_IS_REGULAR))
                     {
                       Theme theme;
 
@@ -498,12 +493,12 @@ SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
       if (valid && enabled)
         {
           delayed_mute = false;
-          if (mute_after_playback && mixer != NULL && driver != NULL && driver->capability(SOUND_CAP_EOS_EVENT))
+          if (mute_after_playback && mixer != nullptr && driver != nullptr && driver->capability(SOUND_CAP_EOS_EVENT))
             {
               delayed_mute = true;
             }
 
-          if (get_device() == DEVICE_SOUNDCARD && driver != NULL)
+          if (get_device() == DEVICE_SOUNDCARD && driver != nullptr)
             {
               string filename;
               bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
@@ -533,7 +528,7 @@ SoundPlayer::play_sound(string wavfile)
   TRACE_ENTER("SoundPlayer::play_sound");
   if (is_enabled())
     {
-      if (get_device() == DEVICE_SOUNDCARD && driver != NULL)
+      if (get_device() == DEVICE_SOUNDCARD && driver != nullptr)
         {
           driver->play_sound(wavfile);
         }
@@ -679,12 +674,12 @@ SoundPlayer::capability(SoundCapability cap)
 {
   bool ret = false;
 
-  if (mixer != NULL && cap == SOUND_CAP_MUTE)
+  if (mixer != nullptr && cap == SOUND_CAP_MUTE)
     {
       ret = true;
     }
 
-  if (!ret && driver != NULL)
+  if (!ret && driver != nullptr)
     {
       ret = driver->capability(cap);
     }
@@ -697,7 +692,7 @@ SoundPlayer::restore_mute()
 {
   TRACE_ENTER("SoundPlayer::restore_mute");
 
-  if (mixer != NULL && must_unmute)
+  if (mixer != nullptr && must_unmute)
     {
       mixer->set_mute(false);
     }
@@ -709,7 +704,7 @@ void
 SoundPlayer::eos_event()
 {
   TRACE_ENTER("SoundPlayer::eos_event");
-  if (delayed_mute && mixer != NULL)
+  if (delayed_mute && mixer != nullptr)
     {
       TRACE_MSG("delayed muting");
       bool was_muted = mixer->set_mute(true);

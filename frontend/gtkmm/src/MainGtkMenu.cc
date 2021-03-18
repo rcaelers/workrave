@@ -42,13 +42,9 @@ using namespace std;
 
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
-  : popup_menu(NULL)
-  , show_open(show_open)
+  : show_open(show_open)
 {
 }
-
-//! Destructor.
-MainGtkMenu::~MainGtkMenu() {}
 
 void
 MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory> &factory,
@@ -91,7 +87,7 @@ MainGtkMenu::register_stock_items()
 void
 MainGtkMenu::init()
 {
-  if (popup_menu == NULL)
+  if (popup_menu == nullptr)
     {
       register_stock_items();
       create_actions();
@@ -232,7 +228,7 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 {
   (void)button;
 
-  if (popup_menu != NULL)
+  if (popup_menu != nullptr)
     {
       popup_menu->popup(button, activate_time);
     }
@@ -241,8 +237,8 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 void
 MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
-  Gtk::CheckMenuItem *item = NULL;
-  const char *menu_name = NULL;
+  Gtk::CheckMenuItem *item = nullptr;
+  const char *menu_name = nullptr;
 
   switch (mode)
     {
@@ -272,7 +268,7 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
     }
 
   item = dynamic_cast<Gtk::CheckMenuItem *>(ui_manager->get_widget("/Menu/Network/ShowLog"));
-  if (item != NULL)
+  if (item != nullptr)
     {
       item->set_active(show_log);
     }

@@ -34,7 +34,7 @@ using namespace workrave;
 class IConfigBackend
 {
 public:
-  virtual ~IConfigBackend() {}
+  virtual ~IConfigBackend() = default;
 
   virtual bool load(std::string filename) = 0;
   virtual bool save(std::string filename) = 0;
@@ -48,7 +48,7 @@ public:
 class IConfigBackendMonitoring
 {
 public:
-  virtual ~IConfigBackendMonitoring() {}
+  virtual ~IConfigBackendMonitoring() = default;
 
   virtual void set_listener(IConfiguratorListener *listener) = 0;
   virtual bool add_listener(const std::string &key_prefix) = 0;

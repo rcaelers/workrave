@@ -38,10 +38,10 @@ public:
                  const char *dbus_lock_method,
                  const char *dbus_method_to_check_existence);
 
-  virtual ~ScreenLockDBus(){};
+  ~ScreenLockDBus() override = default;
 
-  virtual bool is_lock_supported() { return proxy.is_valid(); };
-  virtual bool lock();
+  bool is_lock_supported() override { return proxy.is_valid(); };
+  bool lock() override;
 
 private:
   const char *dbus_lock_method;

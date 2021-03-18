@@ -23,15 +23,15 @@
 
 Thread::Thread(Runnable *runnable, bool autodelete)
 {
-  thread_handle = NULL;
+  thread_handle = nullptr;
   this->runnable = runnable;
   this->autodelete = autodelete;
 }
 
 Thread::Thread(bool autodelete)
 {
-  thread_handle = NULL;
-  this->runnable = NULL;
+  thread_handle = nullptr;
+  this->runnable = nullptr;
   this->autodelete = autodelete;
 }
 
@@ -43,16 +43,16 @@ Thread::~Thread()
 void
 Thread::start()
 {
-  if (thread_handle == NULL)
+  if (thread_handle == nullptr)
     {
-      GError *error = NULL;
+      GError *error = nullptr;
 
 #if GLIB_CHECK_VERSION(2, 31, 18)
       thread_handle = g_thread_try_new("workrave", thread_handler, this, &error);
 #else
       thread_handle = g_thread_create(thread_handler, this, TRUE, &error);
 #endif
-      if (error != NULL)
+      if (error != nullptr)
         {
           g_error_free(error);
         }
@@ -62,17 +62,17 @@ Thread::start()
 void
 Thread::wait()
 {
-  if (thread_handle != NULL)
+  if (thread_handle != nullptr)
     {
       g_thread_join(thread_handle);
-      thread_handle = NULL;
+      thread_handle = nullptr;
     }
 }
 
 void
 Thread::run()
 {
-  if (runnable != NULL)
+  if (runnable != nullptr)
     {
       runnable->run();
     }
@@ -82,14 +82,14 @@ void
 Thread::internal_run()
 {
   run();
-  thread_handle = NULL;
+  thread_handle = nullptr;
 }
 
 gpointer
 Thread::thread_handler(gpointer data)
 {
   Thread *t = (Thread *)data;
-  if (t != NULL)
+  if (t != nullptr)
     {
       t->internal_run();
       if (t->autodelete)
@@ -98,5 +98,5 @@ Thread::thread_handler(gpointer data)
         }
     }
 
-  return 0;
+  return nullptr;
 }

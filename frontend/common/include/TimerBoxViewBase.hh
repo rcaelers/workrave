@@ -29,15 +29,15 @@ using namespace workrave;
 class TimerBoxViewBase : public ITimerBoxView
 {
 public:
-  virtual ~TimerBoxViewBase() {}
+  ~TimerBoxViewBase() override = default;
 
-  virtual void set_tip(std::string tip) { (void)tip; }
+  void set_tip(std::string tip) override { (void)tip; }
 
-  virtual void set_icon(IconType icon) { (void)icon; }
+  void set_icon(IconType icon) override { (void)icon; }
 
-  virtual void update_view() {}
+  void update_view() override {}
 
-  virtual void set_geometry(Orientation orientation, int size)
+  void set_geometry(Orientation orientation, int size) override
   {
     (void)orientation;
     (void)size;

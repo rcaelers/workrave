@@ -63,7 +63,7 @@ operator<<(std::ostream &stream, ActivityState mode)
 class IActivityMonitor
 {
 public:
-  virtual ~IActivityMonitor() {}
+  virtual ~IActivityMonitor() = default;
 
   //! Stops the activity monitoring.
   virtual void terminate() = 0;

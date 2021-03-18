@@ -48,10 +48,6 @@ using namespace std;
 //! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode)
-  , progress_value(0)
-  , progress_max_value(0)
-  , is_flashing(false)
-  , fixed_size(false)
 {
   set_title(_("Micro-break"));
 }
@@ -171,7 +167,7 @@ MicroBreakWindow::update_time_bar()
 
   ICore *core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       if (user_active && !is_flashing)
         {

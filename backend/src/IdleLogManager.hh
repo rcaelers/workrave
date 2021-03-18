@@ -19,12 +19,12 @@
 #ifndef IDLELOGMANAGER_HH
 #define IDLELOGMANAGER_HH
 
-#include <stdio.h>
-#include <sys/types.h>
+#include <cstdio>
 #include <sys/stat.h>
+#include <sys/types.h>
 #if STDC_HEADERS
-#  include <stdlib.h>
-#  include <stddef.h>
+#  include <cstddef>
+#  include <cstdlib>
 #else
 #  if HAVE_STDLIB_H
 #    include <stdlib.h>
@@ -52,38 +52,29 @@ private:
   // A Single idle time interval
   struct IdleInterval
   {
-    IdleInterval()
-      : begin_time(0)
-      , end_idle_time(0)
-      , end_time(0)
-      , active_time(0)
-      , to_be_saved(false)
-    {
-    }
+    IdleInterval() = default;
 
     IdleInterval(time_t b, time_t e)
       : begin_time(b)
       , end_idle_time(e)
       , end_time(e)
-      , active_time(0)
-      , to_be_saved(false)
     {
     }
 
     //! Start time of idle interval
-    time_t begin_time;
+    time_t begin_time{0};
 
     //! End time of idle interval (and start of active part)
-    time_t end_idle_time;
+    time_t end_idle_time{0};
 
     //! End time of active interval.
-    time_t end_time;
+    time_t end_time{0};
 
     //! Elapsed active time AFTER the idle interval.
-    time_t active_time;
+    time_t active_time{0};
 
     //! Yet to be saved
-    bool to_be_saved;
+    bool to_be_saved{false};
   };
 
   typedef list<IdleInterval> IdleLog;
@@ -93,15 +84,7 @@ private:
   //! Idle information of a single client.
   struct ClientInfo
   {
-    ClientInfo()
-      : state(ACTIVITY_UNKNOWN)
-      , master(false)
-      , total_active_time(0)
-      , last_active_begin_time(0)
-      , last_active_time(0)
-      , last_update_time()
-    {
-    }
+    ClientInfo() = default;
 
     //! ID
     string client_id;
@@ -113,22 +96,22 @@ private:
     IdleInterval current_interval;
 
     //! Last known state
-    ActivityState state;
+    ActivityState state{ACTIVITY_UNKNOWN};
 
     //! Last known master status;
-    bool master;
+    bool master{false};
 
     //! Total active time since daily reset.
-    time_t total_active_time;
+    time_t total_active_time{0};
 
     //! Start time of last active period.
-    time_t last_active_begin_time;
+    time_t last_active_begin_time{0};
 
     //! Total active time since last_active_begin_time
-    time_t last_active_time;
+    time_t last_active_time{0};
 
     //! Last time this idle log was updated.
-    time_t last_update_time;
+    time_t last_update_time{0};
 
     //! Update the active time of the most recent idle interval.
     void update_active_time(time_t current_time)
@@ -155,10 +138,10 @@ private:
   ClientMap clients;
 
   //! Time
-  const TimeSource *time_source;
+  const TimeSource *time_source{nullptr};
 
   //! Last time we performed an expiration run.
-  time_t last_expiration_time;
+  time_t last_expiration_time{0};
 
 public:
   IdleLogManager(string myid, const TimeSource *control);

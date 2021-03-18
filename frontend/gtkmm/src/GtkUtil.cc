@@ -76,19 +76,19 @@ GtkUtil::create_custom_stock_button(const char *label_text, const Gtk::StockID &
 void
 GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, const Gtk::StockID &stock_id)
 {
-  Gtk::Image *img = NULL;
+  Gtk::Image *img = nullptr;
 
   if (has_button_images() || !label_text)
     {
       img = Gtk::manage(new Gtk::Image(stock_id, Gtk::ICON_SIZE_BUTTON));
     }
   btn->remove();
-  if (label_text != NULL)
+  if (label_text != nullptr)
     {
       Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
       Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-      if (img != NULL)
+      if (img != nullptr)
         {
           hbox->pack_start(*img, false, false, 0);
         }
@@ -110,7 +110,7 @@ Gtk::Button *
 GtkUtil::create_image_button(const char *label_text, const char *image_file, bool label)
 {
   Gtk::Button *btn = new Gtk::Button();
-  Gtk::Image *img = NULL;
+  Gtk::Image *img = nullptr;
   if (has_button_images())
     {
       string icon = Util::complete_directory(image_file, Util::SEARCH_PATH_IMAGES);
@@ -121,12 +121,12 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
       /* Button without images must have a label */
       label = true;
     }
-  if (label_text != NULL && label)
+  if (label_text != nullptr && label)
     {
       Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
       Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-      if (img != NULL)
+      if (img != nullptr)
         {
           hbox->pack_start(*img, false, false, 0);
         }
@@ -260,7 +260,7 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
   gint a;
 
   if (!src)
-    return NULL;
+    return nullptr;
 
   w = gdk_pixbuf_get_width(src);
   h = gdk_pixbuf_get_height(src);
@@ -351,7 +351,7 @@ void
 GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
 {
   Gtk::Label *label = (Gtk::Label *)widget->get_data(*label_quark);
-  if (label != NULL)
+  if (label != nullptr)
     {
       guint mnemonic = label->get_mnemonic_keyval();
 #ifdef HAVE_GTK3
@@ -372,7 +372,7 @@ returns the visible tooltip window or NULL
 GtkWindow *
 GtkUtil::get_visible_tooltip_window()
 {
-  GtkWindow *func_retval = NULL;
+  GtkWindow *func_retval = nullptr;
 
   GList *list = gtk_window_list_toplevels();
   for (GList *item = list; item; item = item->next)
@@ -464,7 +464,7 @@ Gtk::Image *
 GtkUtil::create_image(const std::string &name)
 {
   std::string filename = get_image_filename(name);
-  Gtk::Image *ret = NULL;
+  Gtk::Image *ret = nullptr;
 
   try
     {

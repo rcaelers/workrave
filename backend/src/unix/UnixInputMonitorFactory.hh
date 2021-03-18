@@ -20,7 +20,7 @@
 #ifndef UNIXINPUTMONITORFACTORY_HH
 #define UNIXINPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "IInputMonitorFactory.hh"
@@ -34,16 +34,16 @@ class UnixInputMonitorFactory : public IInputMonitorFactory
 public:
   UnixInputMonitorFactory();
 
-  virtual void init(const char *display);
-  virtual IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
+  void init(const char *display) override;
+  IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability) override;
 
 private:
   static gboolean static_report_failure(void *data);
 
-  bool error_reported;
+  bool error_reported{false};
   TracedField<std::string> actual_monitor_method;
-  IInputMonitor *monitor;
-  const char *display;
+  IInputMonitor *monitor{nullptr};
+  const char *display{nullptr};
 };
 
 #endif // UNIXINPUTMONITORFACTORY_HH

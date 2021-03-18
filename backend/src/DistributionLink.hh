@@ -31,7 +31,7 @@ class PacketBuffer;
 class DistributionLink
 {
 public:
-  virtual ~DistributionLink() {}
+  virtual ~DistributionLink() = default;
 
   //! Returns the ID of the node.
   virtual std::string get_my_id() const = 0;

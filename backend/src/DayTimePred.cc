@@ -21,9 +21,9 @@
 #  include "config.h"
 #endif
 
+#include <cstdio>
 #include <cstdlib>
 #include <string>
-#include <stdio.h>
 
 #include "ICore.hh"
 #include "CoreFactory.hh"
@@ -129,7 +129,7 @@ DayTimePred::get_next()
 
   ret = localtime(&last_time);
 
-  if (ret != NULL)
+  if (ret != nullptr)
     {
       if (time_cmp(ret->tm_hour, ret->tm_min, pred_hour, pred_min) >= 0)
         {

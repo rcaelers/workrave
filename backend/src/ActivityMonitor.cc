@@ -26,14 +26,14 @@
 
 #include "debug.hh"
 #include "timeutil.h"
-#include <assert.h>
-#include <math.h>
+#include <cassert>
+#include <cmath>
 
-#include <stdio.h>
+#include <cstdio>
 #include <sys/types.h>
 #if STDC_HEADERS
-#  include <stdlib.h>
-#  include <stddef.h>
+#  include <cstddef>
+#  include <cstdlib>
 #else
 #  if HAVE_STDLIB_H
 #    include <stdlib.h>
@@ -50,21 +50,16 @@ using namespace std;
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor()
-  : prev_x(-10)
-  , prev_y(-10)
-  , button_is_pressed(false)
-  , listener(NULL)
+
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-  first_action_time = 0;
-  last_action_time = 0;
   noise_threshold = 1 * G_USEC_PER_SEC;
   activity_threshold = 2 * G_USEC_PER_SEC;
   idle_threshold = 5 * G_USEC_PER_SEC;
 
   input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
-  if (input_monitor != NULL)
+  if (input_monitor != nullptr)
     {
       input_monitor->subscribe_activity(this);
     }
@@ -88,7 +83,7 @@ ActivityMonitor::terminate()
 {
   TRACE_ENTER("ActivityMonitor::terminate");
 
-  if (input_monitor != NULL)
+  if (input_monitor != nullptr)
     {
       input_monitor->terminate();
     }
@@ -317,20 +312,20 @@ ActivityMonitor::keyboard_notify(bool repeat)
 void
 ActivityMonitor::call_listener()
 {
-  ActivityMonitorListener *l = NULL;
+  ActivityMonitorListener *l = nullptr;
 
   lock.lock();
   l = listener;
   lock.unlock();
 
-  if (l != NULL)
+  if (l != nullptr)
     {
       // Listener is set.
       if (!l->action_notify())
         {
           // Remove listener.
           lock.lock();
-          listener = NULL;
+          listener = nullptr;
           lock.unlock();
         }
     }

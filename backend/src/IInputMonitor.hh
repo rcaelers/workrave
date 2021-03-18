@@ -27,7 +27,7 @@ class IInputMonitorListener;
 class IInputMonitor
 {
 public:
-  virtual ~IInputMonitor() {}
+  virtual ~IInputMonitor() = default;
 
   //! Initializes the activity monitor.
   virtual bool init() = 0;

@@ -27,25 +27,22 @@
 
 #include "debug.hh"
 
-#include <string.h>
-#include <sstream>
-#include <assert.h>
-#include <iostream>
+#include <cassert>
+#include <cstring>
 #include <fstream>
+#include <iostream>
+#include <sstream>
 
 #include "GlibIniConfigurator.hh"
 #include <glib.h>
 
 using namespace std;
 
-GlibIniConfigurator::GlibIniConfigurator()
-  : config(NULL)
-{
-}
+GlibIniConfigurator::GlibIniConfigurator() = default;
 
 GlibIniConfigurator::~GlibIniConfigurator()
 {
-  if (config != NULL)
+  if (config != nullptr)
     {
       g_key_file_free(config);
     }
@@ -54,7 +51,7 @@ GlibIniConfigurator::~GlibIniConfigurator()
 bool
 GlibIniConfigurator::load(string filename)
 {
-  GError *error = NULL;
+  GError *error = nullptr;
   gboolean r = TRUE;
 
   last_filename = filename;
@@ -68,23 +65,23 @@ GlibIniConfigurator::load(string filename)
     {
     }
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       g_error_free(error);
     }
 
   TRACE_EXIT();
-  return error == NULL;
+  return error == nullptr;
 }
 
 bool
 GlibIniConfigurator::save(string filename)
 {
-  GError *error = NULL;
-  char *str = g_key_file_to_data(config, NULL, &error);
+  GError *error = nullptr;
+  char *str = g_key_file_to_data(config, nullptr, &error);
 
   TRACE_ENTER_MSG("GlibIniConfigurator::save", filename);
-  if (error != NULL)
+  if (error != nullptr)
     {
       g_error_free(error);
     }
@@ -97,13 +94,13 @@ GlibIniConfigurator::save(string filename)
       config_file.close();
     }
 
-  if (str != NULL)
+  if (str != nullptr)
     {
       g_free(str);
     }
 
   TRACE_EXIT();
-  return error == NULL;
+  return error == nullptr;
 }
 
 bool
@@ -116,7 +113,7 @@ bool
 GlibIniConfigurator::remove_key(const std::string &key)
 {
   bool ret = true;
-  GError *error = NULL;
+  GError *error = nullptr;
   string group;
   string inikey;
 
@@ -126,7 +123,7 @@ GlibIniConfigurator::remove_key(const std::string &key)
 
   g_key_file_remove_key(config, group.c_str(), inikey.c_str(), &error);
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       g_error_free(error);
       ret = false;
@@ -140,7 +137,7 @@ bool
 GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   bool ret = false;
-  GError *error = NULL;
+  GError *error = nullptr;
   string group;
   string inikey;
 
@@ -151,7 +148,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant
   out.type = type;
 
   gboolean has_key = g_key_file_has_key(config, group.c_str(), inikey.c_str(), &error);
-  if (has_key == TRUE && error == NULL)
+  if (has_key == TRUE && error == nullptr)
     {
       ret = true;
 
@@ -168,7 +165,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant
         case VARIANT_TYPE_DOUBLE:
           {
             char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
-            if (error == NULL && s != NULL)
+            if (error == nullptr && s != nullptr)
               {
                 sscanf(s, "%lf", &out.double_value);
               }
@@ -182,7 +179,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant
         case VARIANT_TYPE_STRING:
           {
             char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
-            if (error == NULL && s != NULL)
+            if (error == nullptr && s != nullptr)
               {
                 out.string_value = s;
               }
@@ -195,7 +192,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type, Variant
         }
     }
 
-  if (error != NULL)
+  if (error != nullptr)
     {
       g_error_free(error);
       ret = false;

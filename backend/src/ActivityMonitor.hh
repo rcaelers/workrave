@@ -46,32 +46,32 @@ class ActivityMonitor
 {
 public:
   ActivityMonitor();
-  virtual ~ActivityMonitor();
+  ~ActivityMonitor() override;
 
-  void terminate();
-  void suspend();
-  void resume();
-  void force_idle();
+  void terminate() override;
+  void suspend() override;
+  void resume() override;
+  void force_idle() override;
   void shift_time(int delta);
 
-  ActivityState get_current_state();
+  ActivityState get_current_state() override;
 
   void set_parameters(int noise, int activity, int idle, int sensitivity);
   void get_parameters(int &noise, int &activity, int &idle, int &sensitivity);
 
-  void set_listener(ActivityMonitorListener *l);
+  void set_listener(ActivityMonitorListener *l) override;
 
-  void action_notify();
-  void mouse_notify(int x, int y, int wheel = 0);
-  void button_notify(bool is_press);
-  void keyboard_notify(bool repeat);
+  void action_notify() override;
+  void mouse_notify(int x, int y, int wheel = 0) override;
+  void button_notify(bool is_press) override;
+  void keyboard_notify(bool repeat) override;
 
 private:
   void call_listener();
 
 private:
   //! The actual monitoring driver.
-  IInputMonitor *input_monitor;
+  IInputMonitor *input_monitor{nullptr};
 
   //! the current state.
   TracedField<ActivityState> activity_state{"monitor.activity_state", ACTIVITY_IDLE, true};
@@ -80,19 +80,19 @@ private:
   Mutex lock;
 
   //! Previous X coordinate
-  int prev_x;
+  int prev_x{-10};
 
   //! Previous Y coordinate
-  int prev_y;
+  int prev_y{-10};
 
   //! Is the button currently pressed?
-  bool button_is_pressed;
+  bool button_is_pressed{false};
 
   //! Last time activity was detected
-  gint64 last_action_time;
+  gint64 last_action_time{0};
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  gint64 first_action_time;
+  gint64 first_action_time{0};
 
   //! The noise threshold
   TracedField<gint64> noise_threshold{"monitor.noise_threshold", 0};
@@ -107,7 +107,7 @@ private:
   TracedField<int> sensitivity{"monitor.sensitivity", 3};
 
   //! Activity listener.
-  ActivityMonitorListener *listener;
+  ActivityMonitorListener *listener{nullptr};
 };
 
 #endif // ACTIVITYMONITOR_HH

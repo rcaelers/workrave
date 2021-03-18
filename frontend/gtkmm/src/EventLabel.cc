@@ -68,9 +68,9 @@ EventLabel::on_unrealize()
 {
   if (event_window)
     {
-      gdk_window_set_user_data(event_window, NULL);
+      gdk_window_set_user_data(event_window, nullptr);
       gdk_window_destroy(event_window);
-      event_window = NULL;
+      event_window = nullptr;
     }
 
   Gtk::Label::on_unrealize();

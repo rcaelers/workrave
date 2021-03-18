@@ -56,7 +56,7 @@ class StatusIcon : public IConfiguratorListener
 {
 public:
   StatusIcon();
-  ~StatusIcon();
+  ~StatusIcon() override;
 
   void init();
   void set_operation_mode(OperationMode m);
@@ -75,7 +75,7 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   void on_embedded_changed();
 
-  void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
 
 #if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
   GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
@@ -100,11 +100,11 @@ private:
   sigc::signal<void, std::string> balloon_activate_signal;
 
 #ifdef USE_W32STATUSICON
-  W32StatusIcon *status_icon;
+  W32StatusIcon *status_icon{nullptr};
 #else
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
 #  ifdef PLATFORM_OS_WINDOWS
-  UINT wm_taskbarcreated;
+  UINT wm_taskbarcreated{0};
 #  endif
 #endif
 };

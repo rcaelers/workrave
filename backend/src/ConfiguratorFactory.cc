@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "Configurator.hh"
 #include "ConfiguratorFactory.hh"
@@ -49,8 +49,8 @@
 Configurator *
 ConfiguratorFactory::create(Format fmt)
 {
-  Configurator *c = NULL;
-  IConfigBackend *b = NULL;
+  Configurator *c = nullptr;
+  IConfigBackend *b = nullptr;
 
 #ifdef HAVE_GDOME
   if (fmt == FormatXml)
@@ -101,7 +101,7 @@ ConfiguratorFactory::create(Format fmt)
 #endif
     }
 
-  if (b != NULL)
+  if (b != nullptr)
     {
       c = new Configurator(b);
     }

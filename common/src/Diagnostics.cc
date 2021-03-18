@@ -1,6 +1,6 @@
 #include "Diagnostics.hh"
 
-#include <time.h>
+#include <ctime>
 
 bool TracedFieldBase::debug = false;
 

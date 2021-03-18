@@ -27,8 +27,8 @@
 #  include "MacOSHelpers.hh"
 #endif
 
+#include <cstdio>
 #include <cstdlib>
-#include <stdio.h>
 #include <sstream>
 
 #include "StringUtil.hh"

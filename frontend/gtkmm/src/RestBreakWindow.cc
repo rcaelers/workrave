@@ -71,10 +71,6 @@ const int MARGINY = 8;
  */
 RestBreakWindow::RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode)
-  , timebar(NULL)
-  , progress_value(0)
-  , progress_max_value(0)
-  , is_flashing(false)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
   set_title(_("Rest break"));
@@ -176,7 +172,7 @@ RestBreakWindow::draw_time_bar()
 
   ICore *core = CoreFactory::get_core();
   bool user_active = core->is_user_active();
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       if (user_active && !is_flashing)
         {
@@ -263,7 +259,7 @@ RestBreakWindow::install_exercises_panel()
     {
       set_ignore_activity(true);
       clear_pluggable_panel();
-      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(NULL));
+      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(nullptr));
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect(sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
@@ -319,7 +315,7 @@ void
 RestBreakWindow::set_ignore_activity(bool i)
 {
   ICore *core = CoreFactory::get_core();
-  assert(core != NULL);
+  assert(core != nullptr);
 
 #ifdef PLATFORM_OS_WINDOWS
   if (W32ForceFocus::GetForceFocusValue())

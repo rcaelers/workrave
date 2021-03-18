@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "WindowHints.hh"
 
@@ -48,10 +48,10 @@
 #  include "GtkUtil.hh"
 
 #  if GTK_CHECK_VERSION(3, 24, 0)
-GdkSeat *WindowHints::seat = NULL;
+GdkSeat *WindowHints::seat = nullptr;
 #  else
-GdkDevice *WindowHints::keyboard = NULL;
-GdkDevice *WindowHints::pointer = NULL;
+GdkDevice *WindowHints::keyboard = nullptr;
+GdkDevice *WindowHints::pointer = nullptr;
 #  endif
 #endif
 
@@ -89,7 +89,7 @@ WindowHints::Grab *
 WindowHints::grab(int num_windows, GdkWindow **windows)
 {
   TRACE_ENTER("WindowHints::grab");
-  WindowHints::Grab *handle = NULL;
+  WindowHints::Grab *handle = nullptr;
 
 #if defined(PLATFORM_OS_WINDOWS)
   if (num_windows > 0)
@@ -120,7 +120,8 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
           GdkDisplay *display = gdk_window_get_display(windows[0]);
           seat = gdk_display_get_default_seat(display);
 
-          GdkGrabStatus grabStatus = gdk_seat_grab(seat, windows[0], GDK_SEAT_CAPABILITY_ALL, TRUE, NULL, NULL, NULL, NULL);
+          GdkGrabStatus grabStatus =
+            gdk_seat_grab(seat, windows[0], GDK_SEAT_CAPABILITY_ALL, TRUE, nullptr, nullptr, nullptr, nullptr);
           if (grabStatus == GDK_GRAB_SUCCESS)
             {
               // A bit of a hack, but GTK does not need any data in the handle.

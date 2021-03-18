@@ -24,7 +24,7 @@
 #include "Sound.hh"
 
 #include <X11/Xlib.h>
-#include <time.h>
+#include <ctime>
 
 void
 Sound::beep(Display *x11, int freq, int millis)
@@ -47,7 +47,7 @@ Sound::beep(Display *x11, int freq, int millis)
   struct timespec tv;
   tv.tv_sec = millis / 1000;
   tv.tv_nsec = (millis % 1000) * 1000000;
-  nanosleep(&tv, 0);
+  nanosleep(&tv, nullptr);
 #else
 #  error No nanosleep
 #endif

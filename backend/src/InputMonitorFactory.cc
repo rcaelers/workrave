@@ -32,12 +32,12 @@
 
 #include "nls.h"
 
-IInputMonitorFactory *InputMonitorFactory::factory = NULL;
+IInputMonitorFactory *InputMonitorFactory::factory = nullptr;
 
 void
 InputMonitorFactory::init(const char *display)
 {
-  if (factory == NULL)
+  if (factory == nullptr)
     {
 #if defined(PLATFORM_OS_WINDOWS)
       factory = new W32InputMonitorFactory();
@@ -48,7 +48,7 @@ InputMonitorFactory::init(const char *display)
 #endif
     }
 
-  if (factory != NULL)
+  if (factory != nullptr)
     {
       factory->init(display);
     }
@@ -57,10 +57,10 @@ InputMonitorFactory::init(const char *display)
 IInputMonitor *
 InputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
-  if (factory != NULL)
+  if (factory != nullptr)
     {
       return factory->get_monitor(capability);
     }
 
-  return NULL;
+  return nullptr;
 }

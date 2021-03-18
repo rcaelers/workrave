@@ -27,7 +27,7 @@
 class Session
 {
 public:
-  Session();
+  Session() = default;
   void init();
 
   void set_idle(bool idle);
@@ -41,8 +41,8 @@ private:
 #endif
 
 private:
-  bool is_idle;
-  bool taking;
+  bool is_idle{false};
+  bool taking{false};
 };
 
 #endif // SESSION_HH

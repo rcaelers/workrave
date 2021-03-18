@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include <assert.h>
+#include <cassert>
 
 #include "CoreFactory.hh"
 #include "Configurator.hh"
@@ -37,7 +37,7 @@ IConfigurator *
 CoreFactory::get_configurator()
 {
   Core *core = Core::get_instance();
-  assert(core != NULL);
+  assert(core != nullptr);
 
   return core->get_configurator();
 }
@@ -47,7 +47,7 @@ workrave::dbus::IDBus::Ptr
 CoreFactory::get_dbus()
 {
   Core *core = Core::get_instance();
-  assert(core != NULL);
+  assert(core != nullptr);
 
   return core->get_dbus();
 }

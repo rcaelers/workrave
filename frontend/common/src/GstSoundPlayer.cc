@@ -39,11 +39,11 @@ using namespace std;
 using namespace workrave;
 
 GstSoundPlayer::GstSoundPlayer()
-  : gst_ok(false)
-{
-  GError *error = NULL;
 
-  gst_ok = gst_init_check(NULL, NULL, &error);
+{
+  GError *error = nullptr;
+
+  gst_ok = gst_init_check(nullptr, nullptr, &error);
   gst_registry_fork_set_enabled(FALSE);
 
   if (!gst_ok)
@@ -51,7 +51,7 @@ GstSoundPlayer::GstSoundPlayer()
       if (error)
         {
           g_error_free(error);
-          error = NULL;
+          error = nullptr;
         }
     }
 }
@@ -96,9 +96,9 @@ GstSoundPlayer::play_sound(std::string wavfile)
 {
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile);
 
-  GstElement *play = NULL;
-  GstElement *sink = NULL;
-  GstBus *bus = NULL;
+  GstElement *play = nullptr;
+  GstElement *sink = nullptr;
+  GstBus *bus = nullptr;
 
   string method = "automatic";
 
@@ -122,12 +122,12 @@ GstSoundPlayer::play_sound(std::string wavfile)
       sink = gst_element_factory_make("alsasink", "sink");
     }
 
-  if (sink != NULL)
+  if (sink != nullptr)
     {
       play = gst_element_factory_make("playbin", "play");
     }
 
-  if (play != NULL)
+  if (play != nullptr)
     {
       WatchData *watch_data = new WatchData;
       watch_data->player = this;
@@ -160,7 +160,7 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
   WatchData *watch_data = (WatchData *)data;
   GstElement *play = watch_data->play;
-  GError *err = NULL;
+  GError *err = nullptr;
   gboolean ret = TRUE;
 
   (void)bus;
@@ -168,7 +168,7 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
   switch (GST_MESSAGE_TYPE(msg))
     {
     case GST_MESSAGE_ERROR:
-      gst_message_parse_error(msg, &err, NULL);
+      gst_message_parse_error(msg, &err, nullptr);
       g_error_free(err);
       /* FALLTHROUGH */
 
@@ -177,14 +177,14 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
       gst_object_unref(GST_OBJECT(play));
       ret = FALSE;
 
-      if (watch_data->player->events != NULL)
+      if (watch_data->player->events != nullptr)
         {
           watch_data->player->events->eos_event();
         }
       break;
 
     case GST_MESSAGE_WARNING:
-      gst_message_parse_warning(msg, &err, NULL);
+      gst_message_parse_warning(msg, &err, nullptr);
       g_error_free(err);
       break;
 

@@ -63,7 +63,7 @@ NetworkPreferencePage::NetworkPreferencePage()
 
   ICore *core = CoreFactory::get_core();
   dist_manager = core->get_distribution_manager();
-  assert(dist_manager != NULL);
+  assert(dist_manager != nullptr);
 
   create_general_page(tnotebook);
   create_peers_page(tnotebook);
@@ -184,8 +184,8 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   Glib::RefPtr<Gtk::TreeSelection> selection = peers_list->get_selection();
   selection->set_mode(Gtk::SELECTION_MULTIPLE);
 
-  Gtk::CellRendererText *renderer = NULL;
-  Gtk::TreeViewColumn *column = NULL;
+  Gtk::CellRendererText *renderer = nullptr;
+  Gtk::TreeViewColumn *column = nullptr;
   int cols_count = 0;
 
   renderer = Gtk::manage(new Gtk::CellRendererText());

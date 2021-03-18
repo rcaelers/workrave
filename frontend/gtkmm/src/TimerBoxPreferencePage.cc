@@ -44,7 +44,7 @@
 TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   : Gtk::HBox(false, 6)
   , name(n)
-  , ontop_cb(nullptr)
+
 {
   TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
 
@@ -59,7 +59,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore *core = CoreFactory::get_core();
-      assert(core != NULL);
+      assert(core != nullptr);
 
       config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
     }
@@ -355,7 +355,7 @@ TimerBoxPreferencePage::enable_buttons()
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timer_display_button[i]->get_active() == 0)
+      if (timer_display_button[i]->get_active())
         {
           count++;
         }
@@ -367,7 +367,7 @@ TimerBoxPreferencePage::enable_buttons()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           ICore *core = CoreFactory::get_core();
-          assert(core != NULL);
+          assert(core != nullptr);
 
           IBreak *b = core->get_break(BreakId(i));
 
@@ -381,7 +381,7 @@ TimerBoxPreferencePage::enable_buttons()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           ICore *core = CoreFactory::get_core();
-          assert(core != NULL);
+          assert(core != nullptr);
 
           IBreak *b = core->get_break(BreakId(i));
           timer_display_button[i]->set_sensitive(b->is_enabled());
@@ -397,7 +397,7 @@ TimerBoxPreferencePage::enable_buttons()
       enabled_cb->set_sensitive(count != 3);
       place_button->set_sensitive(count != 3);
       cycle_entry->set_sensitive(count != 3);
-      if (ontop_cb != NULL)
+      if (ontop_cb != nullptr)
         {
           ontop_cb->set_sensitive(count != 3);
         }

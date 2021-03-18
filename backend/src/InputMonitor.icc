@@ -20,7 +20,7 @@
 inline void
 InputMonitor::fire_action()
 {
-  if (activity_listener != NULL)
+  if (activity_listener != nullptr)
     {
       activity_listener->action_notify();
     }
@@ -30,11 +30,11 @@ InputMonitor::fire_action()
 inline void
 InputMonitor::fire_mouse(int x, int y, int wheel)
 {
-  if (activity_listener != NULL)
+  if (activity_listener != nullptr)
     {
       activity_listener->mouse_notify(x, y, wheel);
     }
-  if (statistics_listener != NULL)
+  if (statistics_listener != nullptr)
     {
       statistics_listener->mouse_notify(x, y, wheel);
     }
@@ -44,11 +44,11 @@ InputMonitor::fire_mouse(int x, int y, int wheel)
 inline void
 InputMonitor::fire_button(bool is_press)
 {
-  if (activity_listener != NULL)
+  if (activity_listener != nullptr)
     {
       activity_listener->button_notify(is_press);
     }
-  if (statistics_listener != NULL)
+  if (statistics_listener != nullptr)
     {
       statistics_listener->button_notify(is_press);
     }
@@ -58,11 +58,11 @@ InputMonitor::fire_button(bool is_press)
 inline void
 InputMonitor::fire_keyboard(bool repeat)
 {
-  if (activity_listener != NULL)
+  if (activity_listener != nullptr)
     {
       activity_listener->keyboard_notify(repeat);
     }
-  if (statistics_listener != NULL)
+  if (statistics_listener != nullptr)
     {
       statistics_listener->keyboard_notify(repeat);
     }

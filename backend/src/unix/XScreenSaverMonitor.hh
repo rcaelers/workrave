@@ -41,30 +41,30 @@ public:
   XScreenSaverMonitor();
 
   //! Destructor.
-  virtual ~XScreenSaverMonitor();
+  ~XScreenSaverMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   //! The monitor's execution thread.
-  virtual void run();
+  void run() override;
 
 private:
   //! Abort the main loop
-  bool abort;
+  bool abort{false};
 
   //! The activity monitor thread.
   Thread *monitor_thread;
 
   //
-  XScreenSaverInfo *screen_saver_info;
+  XScreenSaverInfo *screen_saver_info{nullptr};
 
-  GMutex mutex;
-  GCond cond;
+  GMutex mutex{};
+  GCond cond{};
 };
 
 #endif // XSCREENSAVERMONITOR_HH

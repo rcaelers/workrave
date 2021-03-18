@@ -44,7 +44,7 @@ Configurator::Configurator(IConfigBackend *backend)
 {
   this->auto_save_time = 0;
   this->backend = backend;
-  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
+  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
     {
       dynamic_cast<IConfigBackendMonitoring *>(backend)->set_listener(this);
     }
@@ -100,7 +100,7 @@ Configurator::heartbeat()
 
           bool b = backend->set_value(delayed.key, delayed.value);
 
-          if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
+          if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == nullptr)
             {
               if (!old_value_valid || old_value != delayed.value)
                 {
@@ -224,7 +224,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
       ret = backend->set_value(newkey, value);
 
-      if (ret && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
+      if (ret && dynamic_cast<IConfigBackendMonitoring *>(backend) == nullptr)
         {
           if (!old_value_valid || old_value != value)
             {
@@ -550,7 +550,7 @@ Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener 
   strip_leading_slash(key);
   strip_trailing_slash(key);
 
-  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
+  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
     {
       ret = dynamic_cast<IConfigBackendMonitoring *>(backend)->add_listener(key_prefix);
     }
@@ -607,7 +607,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
 {
   bool ret = false;
 
-  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
+  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
     {
       dynamic_cast<IConfigBackendMonitoring *>(backend)->remove_listener(key_prefix);
     }
@@ -668,7 +668,7 @@ Configurator::fire_configurator_event(const string &key)
       if (k.substr(0, prefix.length()) == prefix)
         {
           IConfiguratorListener *l = i->second;
-          if (l != NULL)
+          if (l != nullptr)
             {
               l->config_changed_notify(k);
             }

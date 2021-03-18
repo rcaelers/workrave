@@ -23,7 +23,7 @@
 
 #include "debug.hh"
 
-#include <assert.h>
+#include <cassert>
 #include <string>
 
 #include "BreakControl.hh"
@@ -62,19 +62,14 @@ BreakControl::BreakControl(BreakId id, const std::string &break_name, IApp *app,
   , application(app)
   , break_timer(timer)
   , break_stage{break_name + ".break.state", STAGE_NONE}
-  , reached_max_prelude(false)
-  , prelude_time(0)
   , prelude_count{break_name + ".break.prelude_count", 0}
   , forced_break{break_name + ".break.forced", false}
-  , max_number_of_preludes(2)
   , fake_break{break_name + ".break.fake", false}
-  , fake_break_count(0)
   , user_abort{break_name + ".break.user_abort", false}
   , delayed_abort{break_name + ".break.delayed_abort", false}
-  , break_hint(BREAK_HINT_NONE)
 {
-  assert(break_timer != NULL);
-  assert(application != NULL);
+  assert(break_timer != nullptr);
+  assert(application != nullptr);
 
   core = Core::get_instance();
 }
@@ -135,7 +130,7 @@ BreakControl::heartbeat()
 
     case STAGE_PRELUDE:
       {
-        assert(application != NULL);
+        assert(application != nullptr);
 
         TRACE_MSG("prelude time = " << prelude_time);
 
@@ -348,7 +343,7 @@ BreakControl::update_prelude_window()
 void
 BreakControl::update_break_window()
 {
-  assert(break_timer != NULL);
+  assert(break_timer != nullptr);
   time_t duration = break_timer->get_auto_reset();
   time_t idle = 0;
 
@@ -716,7 +711,7 @@ BreakControl::send_postponed()
   workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
-  if (iface != NULL)
+  if (iface != nullptr)
     {
       iface->BreakPostponed("/org/workrave/Workrave/Core", break_id);
     }
@@ -730,7 +725,7 @@ BreakControl::send_skipped()
   workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
-  if (iface != NULL)
+  if (iface != nullptr)
     {
       iface->BreakSkipped("/org/workrave/Workrave/Core", break_id);
     }
@@ -786,7 +781,7 @@ BreakControl::send_signal(BreakStage stage)
       workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
-      if (iface != NULL)
+      if (iface != nullptr)
         {
           switch (break_id)
             {

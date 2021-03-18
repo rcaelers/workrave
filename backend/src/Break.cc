@@ -80,13 +80,7 @@ struct Defaults
 
 //! Constructs a new Break
 Break::Break()
-  : break_id(BREAK_ID_NONE)
-  , config(NULL)
-  , application(NULL)
-  , timer(NULL)
-  , break_control(NULL)
-  , enabled(true)
-  , usage_mode(USAGE_MODE_NORMAL)
+
 {
   TRACE_ENTER("Break:Break");
   TRACE_EXIT()
@@ -279,7 +273,7 @@ Break::load_timer_config()
     {
       Core *core = Core::get_instance();
       Timer *master = core->get_timer(monitor_name);
-      if (master != NULL)
+      if (master != nullptr)
         {
           TRACE_MSG("found master timer");
           TimerActivityMonitor *am = new TimerActivityMonitor(master);
@@ -288,7 +282,7 @@ Break::load_timer_config()
     }
   else
     {
-      timer->set_activity_monitor(NULL);
+      timer->set_activity_monitor(nullptr);
     }
   TRACE_EXIT();
 }

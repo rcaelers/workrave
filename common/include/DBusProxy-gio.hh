@@ -38,18 +38,12 @@
 class DBusProxy
 {
 private:
-  GDBusProxy *proxy;
-  GError *error;
-  GDBusProxyFlags flags;
+  GDBusProxy *proxy{nullptr};
+  GError *error{nullptr};
+  GDBusProxyFlags flags{G_DBUS_PROXY_FLAGS_NONE};
 
 public:
-  DBusProxy()
-    : proxy(NULL)
-    , error(NULL)
-    , flags(G_DBUS_PROXY_FLAGS_NONE)
-  {
-  }
-
+  DBusProxy() = default;
   ~DBusProxy() { clear(); }
 
   bool init(GBusType bus_type,
@@ -76,24 +70,24 @@ public:
 
   void clear()
   {
-    if (error != NULL)
+    if (error != nullptr)
       {
         g_error_free(error);
-        error = NULL;
+        error = nullptr;
       }
-    if (proxy != NULL)
+    if (proxy != nullptr)
       {
         g_object_unref(proxy);
-        proxy = NULL;
+        proxy = nullptr;
       }
   }
 
-  bool is_valid() { return proxy != NULL; }
+  bool is_valid() { return proxy != nullptr; }
 
   gchar *get_last_error_message()
   {
-    if (error == NULL)
-      return NULL;
+    if (error == nullptr)
+      return nullptr;
     else
       return error->message;
   }

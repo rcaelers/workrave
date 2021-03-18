@@ -20,7 +20,7 @@
 #ifndef INPUTMONITORFACTORY_HH
 #define INPUTMONITORFACTORY_HH
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include "IInputMonitorFactory.hh"

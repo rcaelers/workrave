@@ -38,7 +38,7 @@ public:
     ICON_SUSPENDED
   };
 
-  virtual ~ITimerBoxView() {}
+  virtual ~ITimerBoxView() = default;
 
   virtual void set_slot(BreakId id, int slot) = 0;
   virtual void set_time_bar(BreakId id,

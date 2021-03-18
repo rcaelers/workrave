@@ -48,7 +48,7 @@ namespace workrave
       PROGRESS_TEXT_SILENT_IN,
     };
 
-    virtual ~IApp() {}
+    virtual ~IApp() = default;
 
     //! Set the response interface that must the used by the GUI to respond.
     virtual void set_break_response(IBreakResponse *rep) = 0;

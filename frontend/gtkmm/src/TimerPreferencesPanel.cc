@@ -53,17 +53,6 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId t,
                                              Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                                              Glib::RefPtr<Gtk::SizeGroup> vsize_group)
   : Gtk::VBox(false, 6)
-#ifdef HAVE_GTK3
-  , max_prelude_adjustment(Gtk::Adjustment::create(0, 1, 100))
-#  ifdef HAVE_EXERCISES
-  , exercises_adjustment(Gtk::Adjustment::create(0, 0, 10))
-#  endif
-#else
-  , max_prelude_adjustment(0, 1, 100)
-#  ifdef HAVE_EXERCISES
-  , exercises_adjustment(0, 0, 10)
-#  endif
-#endif
 {
   connector = new DataConnector();
   break_id = t;
@@ -157,13 +146,13 @@ TimerPreferencesPanel::create_options_panel()
 
   // Break specific options
 #ifdef HAVE_EXERCISES
-  exercises_spin = NULL;
+  exercises_spin = nullptr;
 #endif
 
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
-  monitor_cb = NULL;
-  auto_natural_cb = NULL;
-  allow_shutdown_cb = NULL;
+  monitor_cb = nullptr;
+  auto_natural_cb = nullptr;
+  allow_shutdown_cb = nullptr;
 
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -236,7 +225,7 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gr
     }
   else
     {
-      auto_reset_tim = NULL;
+      auto_reset_tim = nullptr;
     }
 
   // Snooze time
@@ -406,7 +395,7 @@ TimerPreferencesPanel::enable_buttons()
   snooze_tim->set_sensitive(on);
 
 #ifdef HAVE_EXERCISES
-  if (exercises_spin != NULL)
+  if (exercises_spin != nullptr)
     {
       exercises_spin->set_sensitive(on);
     }

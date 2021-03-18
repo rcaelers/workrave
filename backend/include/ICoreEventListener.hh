@@ -44,7 +44,7 @@ namespace workrave
   class ICoreEventListener
   {
   public:
-    virtual ~ICoreEventListener() {}
+    virtual ~ICoreEventListener() = default;
 
     // Notification of a core event.
     virtual void core_event_notify(const CoreEvent event) = 0;

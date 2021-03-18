@@ -87,27 +87,12 @@
  *  \param control Interface to the controller.
  */
 Menus::Menus()
-  :
-#ifdef HAVE_DISTRIBUTION
-  network_log_dialog(NULL)
-  , network_join_dialog(NULL)
-  ,
-#endif
-  statistics_dialog(NULL)
-  , preferences_dialog(NULL)
-  , debug_dialog(NULL)
-  ,
-#ifdef HAVE_EXERCISES
-  exercises_dialog(NULL)
-  ,
-#endif
-  about(NULL)
 {
   gui = GUI::get_instance();
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      menus[i] = NULL;
+      menus[i] = nullptr;
     }
 }
 
@@ -249,7 +234,7 @@ Menus::on_menu_reading(bool reading)
 void
 Menus::on_menu_preferences()
 {
-  if (preferences_dialog == NULL)
+  if (preferences_dialog == nullptr)
     {
       preferences_dialog = new PreferencesDialog();
       preferences_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_preferences_response));
@@ -268,7 +253,7 @@ void
 Menus::on_menu_exercises()
 {
   TRACE_ENTER("Menus::on_menu_exercises");
-  if (exercises_dialog == NULL)
+  if (exercises_dialog == nullptr)
     {
       exercises_dialog = new ExercisesDialog();
       exercises_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_exercises_response));
@@ -287,11 +272,11 @@ Menus::on_exercises_response(int response)
 {
   (void)response;
 
-  assert(exercises_dialog != NULL);
+  assert(exercises_dialog != nullptr);
   exercises_dialog->hide();
 
   delete exercises_dialog;
-  exercises_dialog = NULL;
+  exercises_dialog = nullptr;
 }
 
 #endif
@@ -300,7 +285,7 @@ Menus::on_exercises_response(int response)
 void
 Menus::on_menu_statistics()
 {
-  if (statistics_dialog == NULL)
+  if (statistics_dialog == nullptr)
     {
       ICore *core = CoreFactory::get_core();
       IStatistics *stats = core->get_statistics();
@@ -321,7 +306,7 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_debug()
 {
-  if (debug_dialog == NULL)
+  if (debug_dialog == nullptr)
     {
       debug_dialog = new DebugDialog();
       debug_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_debug_response));
@@ -338,7 +323,7 @@ Menus::on_menu_debug()
 void
 Menus::on_menu_about()
 {
-  if (about == NULL)
+  if (about == nullptr)
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
       about = new Gtk::AboutDialog;
@@ -346,7 +331,7 @@ Menus::on_menu_about()
       about->set_name("Workrave");
 #ifdef HAVE_GTK3
       std::vector<Glib::ustring> authors;
-      for (int index = 0; workrave_authors[index] != NULL; index++)
+      for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
           authors.push_back(workrave_authors[index]);
         }
@@ -394,14 +379,14 @@ Menus::on_about_response(int response)
   (void)response;
 
   delete about;
-  about = NULL;
+  about = nullptr;
 }
 
 void
 Menus::on_menu_network_join()
 {
 #ifdef HAVE_DISTRIBUTION
-  if (network_join_dialog == NULL)
+  if (network_join_dialog == nullptr)
     {
       network_join_dialog = new NetworkJoinDialog();
       network_join_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_network_join_response));
@@ -416,7 +401,7 @@ Menus::on_network_join_response(int response)
 {
   (void)response;
 
-  assert(network_join_dialog != NULL);
+  assert(network_join_dialog != nullptr);
   network_join_dialog->hide();
 
   if (response == Gtk::RESPONSE_OK)
@@ -429,7 +414,7 @@ Menus::on_network_join_response(int response)
     }
 
   delete network_join_dialog;
-  network_join_dialog = NULL;
+  network_join_dialog = nullptr;
 }
 #endif
 
@@ -439,7 +424,7 @@ Menus::on_menu_network_leave()
 #ifdef HAVE_DISTRIBUTION
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       dist_manager->disconnect_all();
     }
@@ -452,7 +437,7 @@ Menus::on_menu_network_reconnect()
 #ifdef HAVE_DISTRIBUTION
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       dist_manager->reconnect_all();
     }
@@ -467,7 +452,7 @@ Menus::on_menu_network_log(bool active)
 
   if (active)
     {
-      if (network_log_dialog == NULL)
+      if (network_log_dialog == nullptr)
         {
           network_log_dialog = new NetworkLogDialog();
           network_log_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_network_log_response));
@@ -477,11 +462,11 @@ Menus::on_menu_network_log(bool active)
           network_log_dialog->run();
         }
     }
-  else if (network_log_dialog != NULL)
+  else if (network_log_dialog != nullptr)
     {
       network_log_dialog->hide();
       delete network_log_dialog;
-      network_log_dialog = NULL;
+      network_log_dialog = nullptr;
       resync();
     }
 
@@ -496,12 +481,12 @@ Menus::on_network_log_response(int response)
   TRACE_ENTER_MSG("Menus::on_network_log_response", response);
   (void)response;
 
-  assert(network_log_dialog != NULL);
+  assert(network_log_dialog != nullptr);
 
   network_log_dialog->hide();
 
   // done by gtkmm ??? delete network_log_dialog;
-  network_log_dialog = NULL;
+  network_log_dialog = nullptr;
 
   resync();
 
@@ -514,11 +499,11 @@ Menus::on_statistics_response(int response)
 {
   (void)response;
 
-  assert(statistics_dialog != NULL);
+  assert(statistics_dialog != nullptr);
   statistics_dialog->hide();
 
   delete statistics_dialog;
-  statistics_dialog = NULL;
+  statistics_dialog = nullptr;
 }
 
 void
@@ -526,13 +511,13 @@ Menus::on_preferences_response(int response)
 {
   (void)response;
 
-  assert(preferences_dialog != NULL);
+  assert(preferences_dialog != nullptr);
   preferences_dialog->hide();
 
   CoreFactory::get_configurator()->save();
 
   delete preferences_dialog;
-  preferences_dialog = NULL;
+  preferences_dialog = nullptr;
 }
 
 void
@@ -540,11 +525,11 @@ Menus::on_debug_response(int response)
 {
   (void)response;
 
-  assert(debug_dialog != NULL);
+  assert(debug_dialog != nullptr);
   debug_dialog->hide();
 
   delete debug_dialog;
-  debug_dialog = NULL;
+  debug_dialog = nullptr;
 }
 
 void
@@ -583,7 +568,7 @@ Menus::applet_command(short cmd)
       break;
 #ifdef HAVE_DISTRIBUTION
     case MENU_COMMAND_NETWORK_LOG:
-      on_menu_network_log(network_log_dialog == NULL);
+      on_menu_network_log(network_log_dialog == nullptr);
       break;
     case MENU_COMMAND_NETWORK_RECONNECT:
       on_menu_network_reconnect();
@@ -617,7 +602,7 @@ Menus::resync()
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      if (menus[i] != NULL)
+      if (menus[i] != nullptr)
         {
           ICore *core = CoreFactory::get_core();
 
@@ -631,7 +616,7 @@ Menus::resync()
           menus[i]->resync(core->get_operation_mode_regular(),
                            core->get_usage_mode(),
 #ifdef HAVE_DISTRIBUTION
-                           network_log_dialog != NULL);
+                           network_log_dialog != nullptr);
 #else
                            false);
 #endif
@@ -651,7 +636,7 @@ Menus::locale_changed()
 
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      if (menus[i] != NULL)
+      if (menus[i] != nullptr)
         {
           menus[i]->init();
         }

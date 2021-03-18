@@ -31,8 +31,8 @@ using namespace workrave;
 class ISocketListener
 {
 public:
-  ISocketListener() {}
-  virtual ~ISocketListener() {}
+  ISocketListener() = default;
+  virtual ~ISocketListener() = default;
 
   //! The specified socket is now connected.
   virtual void socket_connected(ISocket *con, void *data) = 0;
@@ -48,8 +48,8 @@ public:
 class ISocketServerListener
 {
 public:
-  ISocketServerListener() {}
-  virtual ~ISocketServerListener() {}
+  ISocketServerListener() = default;
+  virtual ~ISocketServerListener() = default;
 
   //! The specified server socket has accepted a new connection
   virtual void socket_accepted(ISocketServer *server, ISocket *con) = 0;
@@ -59,12 +59,9 @@ public:
 class ISocket
 {
 public:
-  ISocket()
-    : listener(NULL)
-  {
-  }
-
-  virtual ~ISocket(){};
+  ISocket() = default;
+  virtual ~ISocket() = default;
+  ;
 
   //! Create a connection to the specified host and port.
   virtual void connect(const std::string &hostname, int port) = 0;
@@ -86,10 +83,10 @@ public:
 
 protected:
   //! Listener that received notifications of socket events.
-  ISocketListener *listener;
+  ISocketListener *listener{nullptr};
 
   // User data for callback.
-  void *user_data;
+  void *user_data{nullptr};
 };
 
 //! TCP Listen ISocket.
@@ -97,11 +94,12 @@ class ISocketServer
 {
 public:
   ISocketServer()
-    : listener(NULL)
+    : listener(nullptr)
   {
   }
 
-  virtual ~ISocketServer(){};
+  virtual ~ISocketServer() = default;
+  ;
 
   //! Listen at the specified port.
   /*! \pre set_listener called
@@ -122,7 +120,8 @@ class SocketDriver
 public:
   static SocketDriver *create();
 
-  virtual ~SocketDriver(){};
+  virtual ~SocketDriver() = default;
+  ;
 
   //! Create a new socket
   virtual ISocket *create_socket() = 0;
@@ -140,7 +139,7 @@ public:
   {
   }
 
-  virtual ~SocketException() throw() {}
+  ~SocketException() throw() override = default;
 };
 
 #include "SocketDriver.icc"

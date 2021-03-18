@@ -27,7 +27,7 @@
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include <assert.h>
+#include <cassert>
 
 #include <gtkmm/notebook.h>
 #include <gtkmm/stock.h>
@@ -73,19 +73,6 @@ using namespace std;
 
 PreferencesDialog::PreferencesDialog()
   : HigDialog(_("Preferences"), false, false)
-  , sound_button(NULL)
-  , block_button(NULL)
-  , sound_theme_button(NULL)
-  , icon_theme_button(NULL)
-  , connector(NULL)
-  , sound_volume_scale(NULL)
-  , sound_play_button(NULL)
-  , fsbutton(NULL)
-  , filefilter(NULL)
-#ifdef PLATFORM_OS_WINDOWS
-  , sensitivity_adjustment(3, 0, 100)
-  , sensitivity_box(NULL)
-#endif
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -312,7 +299,7 @@ PreferencesDialog::create_gui_page()
   panel->add_widget(*trayicon_cb, false, false);
 
   update_icon_theme_combo();
-  if (icon_theme_button != NULL)
+  if (icon_theme_button != nullptr)
     {
       panel->add_label(_("Icon Theme:"), *icon_theme_button);
     }
@@ -624,19 +611,19 @@ PreferencesDialog::update_senstives()
       SoundPlayer::Device dev = idx == 1 ? SoundPlayer::DEVICE_SOUNDCARD : SoundPlayer::DEVICE_SPEAKER;
 
       sound_treeview.set_sensitive(dev == SoundPlayer::DEVICE_SOUNDCARD);
-      if (sound_theme_button != NULL)
+      if (sound_theme_button != nullptr)
         {
           sound_theme_button->set_sensitive(dev == SoundPlayer::DEVICE_SOUNDCARD);
         }
-      if (sound_volume_scale != NULL)
+      if (sound_volume_scale != nullptr)
         {
           sound_volume_scale->set_sensitive(dev == SoundPlayer::DEVICE_SOUNDCARD);
         }
-      if (sound_play_button != NULL)
+      if (sound_play_button != nullptr)
         {
           sound_play_button->set_sensitive(dev == SoundPlayer::DEVICE_SOUNDCARD);
         }
-      if (fsbutton != NULL)
+      if (fsbutton != nullptr)
         {
           fsbutton->set_sensitive(dev == SoundPlayer::DEVICE_SOUNDCARD);
         }
@@ -994,15 +981,15 @@ PreferencesDialog::update_icon_theme_combo()
           continue;
         }
 
-      GDir *dir = g_dir_open(dirname.c_str(), 0, NULL);
-      if (dir != NULL)
+      GDir *dir = g_dir_open(dirname.c_str(), 0, nullptr);
+      if (dir != nullptr)
         {
           const char *file;
-          while ((file = g_dir_read_name(dir)) != NULL)
+          while ((file = g_dir_read_name(dir)) != nullptr)
             {
 
               gchar *test_path = g_build_filename(dirname.c_str(), file, NULL);
-              if (test_path != NULL && g_file_test(test_path, G_FILE_TEST_IS_DIR))
+              if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
                   themes.push_back(file);
                 }

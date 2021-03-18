@@ -84,7 +84,7 @@ namespace workrave
   class ICore
   {
   public:
-    virtual ~ICore() {}
+    virtual ~ICore() = default;
 
     //! The way a break is insisted.
     enum InsistPolicy

@@ -57,10 +57,7 @@ const std::string TimerBoxControl::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 //! Constructor.
 TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v)
   : view(&v)
-  , cycle_time(10)
   , name(n)
-  , force_duration(0)
-  , force_empty(false)
 {
   init();
 }
@@ -86,14 +83,13 @@ TimerBoxControl::update()
 
       operation_mode = mode;
       init_icon();
-
       reconfigure = false;
     }
   else
     {
       if (force_duration == 0)
         {
-          time_t t = time(NULL);
+          time_t t = time(nullptr);
           if (t % cycle_time == 0)
             {
               init_table();
@@ -180,7 +176,7 @@ TimerBoxControl::update_widgets()
       ITimeBar::ColorId secondary_color;
       int secondary_val, secondary_max;
 
-      if (b == NULL)
+      if (b == nullptr)
         {
           continue;
         }

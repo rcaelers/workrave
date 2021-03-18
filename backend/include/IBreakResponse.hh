@@ -28,7 +28,7 @@ namespace workrave
   class IBreakResponse
   {
   public:
-    virtual ~IBreakResponse() {}
+    virtual ~IBreakResponse() = default;
 
     //! Request to postpone the break.
     virtual void postpone_break(BreakId break_id) = 0;

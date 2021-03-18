@@ -24,7 +24,7 @@
 class ActivityMonitorListener
 {
 public:
-  virtual ~ActivityMonitorListener() {}
+  virtual ~ActivityMonitorListener() = default;
 
   // Notification that the user is currently active.
   virtual bool action_notify() = 0;

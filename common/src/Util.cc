@@ -27,8 +27,8 @@
 #  include "MacOSHelpers.hh"
 #endif
 
+#include <cstdio>
 #include <cstdlib>
-#include <stdio.h>
 #include <sstream>
 
 #ifdef HAVE_UNISTD_H
@@ -90,12 +90,12 @@ Util::get_home_directory()
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
       const char *home = getenv("WORKRAVE_HOME");
 
-      if (home == NULL)
+      if (home == nullptr)
         {
           home = getenv("HOME");
         }
 
-      if (home != NULL)
+      if (home != nullptr)
         {
           ret = home;
           ret += "/.workrave/";
@@ -168,11 +168,11 @@ bool
 Util::file_exists(string path)
 {
   // 'stat' might be faster. but this is portable..
-  FILE *f = NULL;
+  FILE *f = nullptr;
   bool ret = false;
 
   f = fopen(path.c_str(), "r");
-  if (f != NULL)
+  if (f != nullptr)
     {
       fclose(f);
       ret = true;
@@ -407,12 +407,12 @@ Util::running_gnome()
 #ifdef PLATFORM_OS_UNIX
   gchar *tmp = g_find_program_in_path("gnome-open");
 
-  if (tmp != NULL)
+  if (tmp != nullptr)
     {
       g_free(tmp);
       tmp = (gchar *)g_getenv("GNOME_DESKTOP_SESSION_ID");
 
-      ret = ((tmp != NULL) && (*tmp != '\0'));
+      ret = ((tmp != nullptr) && (*tmp != '\0'));
     }
 #endif
   return ret;

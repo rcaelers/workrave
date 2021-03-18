@@ -40,17 +40,17 @@ public:
   X11InputMonitor(const char *display_name);
 
   //! Destructor.
-  virtual ~X11InputMonitor();
+  ~X11InputMonitor() override;
 
   //! Initialize
-  virtual bool init();
+  bool init() override;
 
   //! Terminate the monitor.
-  virtual void terminate();
+  void terminate() override;
 
 private:
   //! The monitor's execution thread.
-  virtual void run();
+  void run() override;
 
   void error_trap_enter();
   void error_trap_exit();
@@ -73,19 +73,19 @@ private:
 
 private:
   //! The X11 display name.
-  const char *x11_display_name;
+  const char *x11_display_name{nullptr};
 
   //! The X11 display handle.
-  Display *x11_display;
+  Display *x11_display{nullptr};
 
   //! The X11 root window handle.
-  Window root_window;
+  Window root_window{};
 
   //! Abort the main loop
-  bool abort;
+  bool abort{false};
 
   //! The activity monitor thread.
-  Thread *monitor_thread;
+  Thread *monitor_thread{nullptr};
 };
 
 #endif // X11INPUTMONITOR_HH

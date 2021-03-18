@@ -23,7 +23,7 @@
 class DistributionListener
 {
 public:
-  virtual ~DistributionListener() {}
+  virtual ~DistributionListener() = default;
 
   //! A remote client has signed on.
   virtual void signon_remote_client(string client_id) = 0;

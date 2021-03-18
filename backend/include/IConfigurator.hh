@@ -47,7 +47,7 @@ namespace workrave
   class IConfigurator
   {
   public:
-    virtual ~IConfigurator() {}
+    virtual ~IConfigurator() = default;
 
     virtual void set_delay(const std::string &key, int delay) = 0;
 

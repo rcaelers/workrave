@@ -25,10 +25,10 @@
 
 #include "debug.hh"
 
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
 
 #include "TimeBar.hh"
 #include "Text.hh"
@@ -53,12 +53,6 @@ Gdk::Color TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] = {
 
 //! Constructor
 TimeBar::TimeBar()
-  : bar_value(0)
-  , bar_max_value(0)
-  , secondary_bar_value(0)
-  , secondary_bar_max_value(0)
-  , bar_text_align(0)
-  , rotation(0)
 {
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::BUTTON_PRESS_MASK);
@@ -71,7 +65,7 @@ TimeBar::TimeBar()
 }
 
 //! Destructor
-TimeBar::~TimeBar() {}
+TimeBar::~TimeBar() = default;
 
 //! Sets the time progress to be displayed.
 void

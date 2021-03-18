@@ -29,12 +29,6 @@
 #include "ITimerBoxView.hh"
 #include "TimerBoxControl.hh"
 
-AppletWindow::AppletWindow()
-  : timer_box_view(nullptr)
-  , timer_box_control(nullptr)
-{
-}
-
 void
 AppletWindow::set_applet_tooltip(const std::string &tip)
 {

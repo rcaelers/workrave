@@ -47,11 +47,11 @@ class TimerBoxGtkView
 {
 public:
   TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
-  virtual ~TimerBoxGtkView();
+  ~TimerBoxGtkView() override;
 
-  void set_geometry(Orientation orientation, int size);
+  void set_geometry(Orientation orientation, int size) override;
   int get_visible_count() const;
-  void set_slot(BreakId id, int slot);
+  void set_slot(BreakId id, int slot) override;
   void set_time_bar(BreakId id,
                     std::string text,
                     TimeBar::ColorId primary_color,
@@ -59,17 +59,17 @@ public:
                     int primary_max,
                     TimeBar::ColorId secondary_color,
                     int secondary_value,
-                    int secondary_max);
-  void set_tip(std::string tip);
-  void set_icon(IconType icon);
-  void update_view();
+                    int secondary_max) override;
+  void set_tip(std::string tip) override;
+  void set_icon(IconType icon) override;
+  void update_view() override;
   void set_enabled(bool enabled);
 
   void set_sheep_only(bool sheep_only);
   bool is_sheep_only() const;
 
 #ifdef HAVE_GTK3
-  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr);
+  bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 #endif
 
 private:
@@ -81,7 +81,7 @@ private:
   bool on_restbreak_button_press_event(int button);
   int get_number_of_timers() const;
 
-  virtual void config_changed_notify(const std::string &key);
+  void config_changed_notify(const std::string &key) override;
 
   //! What menu to active on click
   Menus::MenuKind menu;
@@ -90,52 +90,52 @@ private:
   bool transparent;
 
   //! Reconfigure the panel.
-  bool reconfigure;
+  bool reconfigure{true};
 
   //! Array of time labels
-  Gtk::Widget *labels[BREAK_ID_SIZEOF];
+  Gtk::Widget *labels[BREAK_ID_SIZEOF]{};
 
   //! Array of time bar widgets.
-  TimeBar *bars[BREAK_ID_SIZEOF];
+  TimeBar *bars[BREAK_ID_SIZEOF]{};
 
   //! Break images
-  Gtk::Image *images[BREAK_ID_SIZEOF];
+  Gtk::Image *images[BREAK_ID_SIZEOF]{};
 
   //! Sheep
-  Gtk::Image *sheep;
+  Gtk::Image *sheep{nullptr};
 
   //! Sheep
-  Gtk::EventBox *sheep_eventbox;
+  Gtk::EventBox *sheep_eventbox{nullptr};
 
   //! orientation.
-  Orientation orientation;
+  Orientation orientation{ORIENTATION_UP};
 
   //! Size
-  int size;
+  int size{0};
 
   //! Rows
-  int table_rows;
+  int table_rows{-1};
 
   //! Columns
-  int table_columns;
+  int table_columns{-1};
 
   //! Reverse
-  int table_reverse;
+  bool table_reverse{false};
 
   //! Current slot content.
-  int current_content[BREAK_ID_SIZEOF];
+  int current_content[BREAK_ID_SIZEOF]{};
 
   //! New slot content.
-  int new_content[BREAK_ID_SIZEOF];
+  int new_content[BREAK_ID_SIZEOF]{};
 
   //! Number of visible breaks.
-  int visible_count;
+  int visible_count{-1};
 
   //! Rotation (clockwise in degrees)
-  int rotation;
+  int rotation{0};
 
   //! Only show the sheep
-  bool sheep_only;
+  bool sheep_only{false};
 };
 
 inline int

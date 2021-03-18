@@ -27,10 +27,10 @@
 
 #include "debug.hh"
 
-#include <stdlib.h>
-#include <assert.h>
-#include <iostream>
+#include <cassert>
+#include <cstdlib>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 
 #include "Core.hh"
@@ -78,7 +78,7 @@
 #  endif
 #endif
 
-Core *Core::instance = NULL;
+Core *Core::instance = nullptr;
 
 const char *WORKRAVESTATE = "WorkRaveState";
 const int SAVESTATETIME = 60;
@@ -88,36 +88,9 @@ const int SAVESTATETIME = 60;
 
 //! Constructs a new Core.
 Core::Core()
-  : last_process_time(0)
-  , master_node{"core.master_node", true}
-  , configurator(NULL)
-  , monitor(NULL)
-  , application(NULL)
-  , statistics(NULL)
-  , operation_mode{"core.operation_mode", OPERATION_MODE_NORMAL}
-  , operation_mode_regular{"core.operation_mode_regular", OPERATION_MODE_NORMAL}
-  , usage_mode{"core.usage_mode", USAGE_MODE_NORMAL}
-  , core_event_listener(NULL)
-  , powersave{"core.powersave", false}
-  , powersave_resume_time(0)
-  , insist_policy{"core.insist_policy", ICore::INSIST_POLICY_HALT}
-  , active_insist_policy{"core.active_insist_policy", ICore::INSIST_POLICY_INVALID}
-  , resume_break{"core.resume_break", BREAK_ID_NONE}
-  , local_state{"core.local_state", ACTIVITY_IDLE}
-  , monitor_state
-{
-  "core.monitor_state", ACTIVITY_UNKNOWN
-}
-#ifdef HAVE_DISTRIBUTION
-, dist_manager(NULL), remote_state{"core.remote_state", ACTIVITY_IDLE}, idlelog_manager(NULL)
-#  ifndef NDEBUG
-                                                                          ,
-  fake_monitor(NULL)
-#  endif
-#endif
 {
   TRACE_ENTER("Core::Core");
-  current_time = time(NULL);
+  current_time = time(nullptr);
 
   assert(!instance);
   instance = this;
@@ -132,7 +105,7 @@ Core::~Core()
 
   save_state();
 
-  if (monitor != NULL)
+  if (monitor != nullptr)
     {
       monitor->terminate();
     }
@@ -142,7 +115,7 @@ Core::~Core()
   delete configurator;
 
 #ifdef HAVE_DISTRIBUTION
-  if (idlelog_manager != NULL)
+  if (idlelog_manager != nullptr)
     {
       idlelog_manager->terminate();
       delete idlelog_manager;
@@ -204,7 +177,7 @@ Core::init_configurator()
 
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 #if defined(HAVE_GDOME)
-      if (configurator == NULL)
+      if (configurator == nullptr)
         {
           string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
@@ -221,7 +194,7 @@ Core::init_configurator()
             }
         }
 #endif
-      if (configurator == NULL)
+      if (configurator == nullptr)
         {
           ini_file = Util::get_home_directory() + "workrave.ini";
           configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
@@ -271,9 +244,9 @@ Core::init_monitor(const char *display_name)
 {
 #ifdef HAVE_DISTRIBUTION
 #  ifndef NDEBUG
-  fake_monitor = NULL;
+  fake_monitor = nullptr;
   const char *env = getenv("WORKRAVE_FAKE");
-  if (env != NULL)
+  if (env != nullptr)
     {
       fake_monitor = new FakeActivityMonitor();
     }
@@ -307,7 +280,7 @@ void
 Core::init_distribution_manager()
 {
   dist_manager = new DistributionManager();
-  assert(dist_manager != NULL);
+  assert(dist_manager != nullptr);
 
   dist_manager->init(configurator);
   dist_manager->register_client_message(DCM_BREAKS, DCMT_MASTER, this);
@@ -342,8 +315,8 @@ Core::load_monitor_config()
   int idle;
   int sensitivity;
 
-  assert(configurator != NULL);
-  assert(monitor != NULL);
+  assert(configurator != nullptr);
+  assert(monitor != nullptr);
 
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
     noise = 9000;
@@ -454,7 +427,7 @@ Core::get_timer(BreakId id) const
     }
   else
     {
-      return NULL;
+      return nullptr;
     }
 }
 
@@ -469,7 +442,7 @@ Core::get_timer(string name) const
           return breaks[i].get_timer();
         }
     }
-  return NULL;
+  return nullptr;
 }
 
 //! Returns the configurator.
@@ -512,7 +485,7 @@ Core::get_break(std::string name)
           return &breaks[i];
         }
     }
-  return NULL;
+  return nullptr;
 }
 
 std::string
@@ -613,7 +586,7 @@ Core::remove_operation_mode_override(const std::string &id)
 
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != NULL)
+          if (iface != nullptr)
             {
               iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
             }
@@ -754,7 +727,7 @@ Core::set_operation_mode_internal(OperationMode mode,
 
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != NULL)
+          if (iface != nullptr)
             {
               iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
             }
@@ -797,13 +770,13 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
           get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
         }
 
-      if (core_event_listener != NULL)
+      if (core_event_listener != nullptr)
         {
           core_event_listener->core_event_usage_mode_changed(mode);
 
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != NULL)
+          if (iface != nullptr)
             {
               iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
             }
@@ -957,7 +930,7 @@ Core::force_idle(BreakId break_id)
       if (break_id == BREAK_ID_NONE || i == break_id)
         {
           IActivityMonitor *am = breaks[i].get_timer()->get_activity_monitor();
-          if (am != NULL)
+          if (am != nullptr)
             {
               am->force_idle();
             }
@@ -1052,10 +1025,10 @@ void
 Core::heartbeat()
 {
   TRACE_ENTER("Core::heartbeat");
-  assert(application != NULL);
+  assert(application != nullptr);
 
   // Set current time.
-  current_time = time(NULL);
+  current_time = time(nullptr);
 
   // Performs timewarp checking.
   bool warped = process_timewarp();
@@ -1079,7 +1052,7 @@ Core::heartbeat()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakControl *bc = breaks[i].get_break_control();
-      if (bc != NULL && bc->need_heartbeat())
+      if (bc != nullptr && bc->need_heartbeat())
         {
           bc->heartbeat();
         }
@@ -1112,7 +1085,7 @@ Core::process_distribution()
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
 
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       dist_manager->heartbeart();
       dist_manager->set_lock_master(state == ACTIVITY_ACTIVE);
@@ -1173,7 +1146,7 @@ Core::process_state()
   monitor_state = local_state;
 
 #if defined(HAVE_DISTRIBUTION) && !defined(NDEBUG)
-  if (fake_monitor != NULL)
+  if (fake_monitor != nullptr)
     {
       monitor_state = fake_monitor->get_current_state();
     }
@@ -1436,7 +1409,7 @@ Core::timer_action(BreakId id, TimerInfo info)
   BreakControl *breaker = breaks[id].get_break_control();
   Timer *timer = breaks[id].get_timer();
 
-  assert(breaker != NULL && timer != NULL);
+  assert(breaker != nullptr && timer != nullptr);
 
   switch (info.event)
     {
@@ -1488,7 +1461,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK].is_enabled())
     {
       Timer *rb_timer = breaks[BREAK_ID_REST_BREAK].get_timer();
-      assert(rb_timer != NULL);
+      assert(rb_timer != nullptr);
 
       bool activity_sensitive = breaks[BREAK_ID_REST_BREAK].get_timer_activity_sensitive();
 
@@ -1541,7 +1514,7 @@ Core::set_freeze_all_breaks(bool freeze)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
-      assert(t != NULL);
+      assert(t != nullptr);
       if (!t->has_activity_monitor())
         {
           t->freeze_timer(freeze);
@@ -1555,7 +1528,7 @@ Core::set_insensitive_mode_all_breaks(InsensitiveMode mode)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
-      assert(t != NULL);
+      assert(t != nullptr);
       t->set_insensitive_mode(mode);
     }
 }
@@ -1567,7 +1540,7 @@ Core::stop_all_breaks()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakControl *bc = breaks[i].get_break_control();
-      assert(bc != NULL);
+      assert(bc != nullptr);
       bc->stop_break();
     }
 }
@@ -1584,7 +1557,7 @@ Core::daily_reset()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
-      assert(t != NULL);
+      assert(t != nullptr);
 
       time_t overdue = t->get_total_overdue_time();
 
@@ -1703,7 +1676,7 @@ Core::load_state()
 void
 Core::post_event(CoreEvent event)
 {
-  if (core_event_listener != NULL)
+  if (core_event_listener != nullptr)
     {
       core_event_listener->core_event_notify(event);
     }
@@ -1877,9 +1850,9 @@ Core::request_break_state(PacketBuffer &buffer)
     {
       BreakControl *bi = breaks[i].get_break_control();
 
-      if (bi != NULL)
+      if (bi != nullptr)
         {
-          BreakControl::BreakStateData state_data;
+          BreakControl::BreakStateData state_data{};
           bi->get_state_data(state_data);
 
           int pos = buffer.bytes_written();
@@ -1916,7 +1889,7 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
     {
       BreakControl *bi = breaks[i].get_break_control();
 
-      BreakControl::BreakStateData state_data;
+      BreakControl::BreakStateData state_data{};
 
       int data_size = buffer.unpack_ushort();
 
@@ -1947,7 +1920,7 @@ Core::request_timer_state(PacketBuffer &buffer) const
       Timer *t = breaks[i].get_timer();
       buffer.pack_string(t->get_id().c_str());
 
-      Timer::TimerStateData state_data;
+      Timer::TimerStateData state_data{};
 
       t->get_state_data(state_data);
 
@@ -1984,7 +1957,7 @@ Core::set_timer_state(PacketBuffer &buffer)
       gchar *id = buffer.unpack_string();
       TRACE_MSG("id = " << id);
 
-      if (id == NULL)
+      if (id == nullptr)
         {
           TRACE_EXIT();
           return false;
@@ -1992,7 +1965,7 @@ Core::set_timer_state(PacketBuffer &buffer)
 
       Timer *t = (Timer *)get_timer(id);
 
-      Timer::TimerStateData state_data;
+      Timer::TimerStateData state_data{};
 
       buffer.unpack_ushort();
 
@@ -2009,7 +1982,7 @@ Core::set_timer_state(PacketBuffer &buffer)
       TRACE_MSG("state = " << state_data.current_time << " " << state_data.elapsed_time << " " << state_data.elapsed_idle_time
                            << " " << state_data.last_pred_reset_time << " " << state_data.total_overdue_time);
 
-      if (t != NULL)
+      if (t != nullptr)
         {
           t->set_state_data(state_data);
         }

@@ -24,7 +24,7 @@
 #  include "config.h"
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "preinclude.h"
 
@@ -72,19 +72,19 @@ public:
   };
 
   BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode block_mode);
-  virtual ~BreakWindow();
+  ~BreakWindow() override;
 
-  void set_response(IBreakResponse *bri);
+  void set_response(IBreakResponse *bri) override;
 
-  virtual void init();
-  virtual void start();
-  virtual void stop();
-  virtual void destroy();
-  virtual void refresh();
+  void init() override;
+  void start() override;
+  void stop() override;
+  void destroy() override;
+  void refresh() override;
 
   virtual void update_break_window();
 
-  Glib::RefPtr<Gdk::Window> get_gdk_window();
+  Glib::RefPtr<Gdk::Window> get_gdk_window() override;
 
 protected:
   virtual Gtk::Widget *create_gui() = 0;
@@ -97,7 +97,7 @@ protected:
   void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
-  bool on_delete_event(GdkEventAny *);
+  bool on_delete_event(GdkEventAny *) override;
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 
@@ -116,7 +116,7 @@ protected:
   BreakFlags break_flags;
 
   //! Flash frame
-  Frame *frame;
+  Frame *frame{nullptr};
 
 private:
   class SysoperModelColumns : public Gtk::TreeModelColumnRecord
@@ -140,35 +140,35 @@ private:
   };
 
   //! Send response to this interface.
-  IBreakResponse *break_response;
+  IBreakResponse *break_response{nullptr};
 
   //! Break ID
   BreakId break_id;
 
   //! GUI
-  Gtk::Widget *gui;
+  Gtk::Widget *gui{nullptr};
 
   //! Break windows visible?
-  bool visible;
+  bool visible{false};
 
   // Supported system operations (like suspend, hibernate, shutdown)
   std::vector<System::SystemOperation> supported_system_operations;
-  SysoperModelColumns *sysoper_model_columns;
+  SysoperModelColumns *sysoper_model_columns{nullptr};
 
-  bool accel_added;
+  bool accel_added{false};
   Glib::RefPtr<Gtk::AccelGroup> accel_group;
-  Gtk::Button *lock_button;
-  Gtk::Button *postpone_button;
-  Gtk::Button *skip_button;
-  Gtk::ComboBox *sysoper_combobox;
-  Gtk::ProgressBar *progress_bar;
+  Gtk::Button *lock_button{nullptr};
+  Gtk::Button *postpone_button{nullptr};
+  Gtk::Button *skip_button{nullptr};
+  Gtk::ComboBox *sysoper_combobox{nullptr};
+  Gtk::ProgressBar *progress_bar{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> box_size_group;
   Glib::RefPtr<Gtk::SizeGroup> button_size_group;
 
 #ifdef PLATFORM_OS_WINDOWS
-  DesktopWindow *desktop_window;
-  bool force_focus_on_break_start;
-  long parent;
+  DesktopWindow *desktop_window{nullptr};
+  bool force_focus_on_break_start{false};
+  long parent{0};
 #endif
 
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);
@@ -176,8 +176,8 @@ private:
   void on_sysoper_combobox_changed();
 
 #ifdef HAVE_GTK3
-  virtual bool on_draw(const ::Cairo::RefPtr<::Cairo::Context> &cr);
-  void on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen);
+  bool on_draw(const ::Cairo::RefPtr<::Cairo::Context> &cr) override;
+  void on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen) override;
 #endif
 };
 

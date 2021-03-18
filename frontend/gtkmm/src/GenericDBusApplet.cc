@@ -46,9 +46,6 @@
 #define WORKRAVE_INDICATOR_SERVICE_OBJ "/org/workrave/Workrave/UI"
 
 GenericDBusApplet::GenericDBusApplet()
-  : visible(false)
-  , embedded(false)
-  , dbus(NULL)
 {
   timer_box_control = new TimerBoxControl("applet", *this);
   timer_box_view = this;
@@ -67,7 +64,7 @@ GenericDBusApplet::GenericDBusApplet()
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
 }
 
-GenericDBusApplet::~GenericDBusApplet() {}
+GenericDBusApplet::~GenericDBusApplet() = default;
 
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
@@ -104,7 +101,7 @@ GenericDBusApplet::update_view()
   TRACE_ENTER("GenericDBusApplet::update_view");
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->TimersUpdated(
     WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
@@ -117,7 +114,7 @@ GenericDBusApplet::init_applet()
   try
     {
       dbus = CoreFactory::get_dbus();
-      if (dbus != NULL && dbus->is_available())
+      if (dbus != nullptr && dbus->is_available())
         {
           dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ, WORKRAVE_INDICATOR_SERVICE_IFACE, this);
         }
@@ -199,7 +196,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   add_menu_item(_("Quit"), MENU_COMMAND_QUIT, MENU_ITEM_FLAG_NONE);
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
 
   TRACE_EXIT();
@@ -290,7 +287,7 @@ GenericDBusApplet::send_tray_icon_enabled()
   bool on = GUIConfig::is_applet_icon_enabled();
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != NULL);
+  assert(iface != nullptr);
   iface->TrayIconUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, on);
 
   TRACE_EXIT();

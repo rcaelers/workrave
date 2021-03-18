@@ -21,7 +21,7 @@
 
 #include <ctime>
 
-#include <string.h>
+#include <cstring>
 
 #ifdef HAVE_STRINGS_H
 #  include <strings.h>
@@ -43,8 +43,8 @@
 #  undef max
 #endif
 
+#include <cmath>
 #include <gtkmm.h>
-#include <math.h>
 
 #include "BreakWindow.hh"
 
@@ -76,24 +76,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , block_mode(mode)
   , break_flags(break_flags)
-  , frame(NULL)
-  , break_response(NULL)
   , break_id(break_id)
-  , gui(NULL)
-  , visible(false)
-  , sysoper_model_columns(NULL)
-  , accel_added(false)
-  , accel_group(NULL)
-  , lock_button(NULL)
-  , postpone_button(NULL)
-  , skip_button(NULL)
-  , sysoper_combobox(NULL)
-  , progress_bar(NULL)
-#ifdef PLATFORM_OS_WINDOWS
-  , desktop_window(NULL)
-  , force_focus_on_break_start(false)
-  , parent(0)
-#endif
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
 
@@ -159,7 +142,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 #endif
 
   ICore *core = CoreFactory::get_core();
-  assert(core != NULL);
+  assert(core != nullptr);
   core->set_insist_policy(initial_ignore_activity ? ICore::INSIST_POLICY_IGNORE : ICore::INSIST_POLICY_HALT);
   TRACE_EXIT();
 }
@@ -168,7 +151,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 void
 BreakWindow::init_gui()
 {
-  if (gui == NULL)
+  if (gui == nullptr)
     {
       gui = Gtk::manage(create_gui());
 
@@ -249,7 +232,7 @@ BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }
@@ -336,7 +319,7 @@ BreakWindow::create_sysoper_combobox()
 
   if (supported_system_operations.empty())
     {
-      return NULL;
+      return nullptr;
     }
 
   sysoper_model_columns = new SysoperModelColumns(has_button_images);
@@ -356,9 +339,9 @@ BreakWindow::create_sysoper_combobox()
   if (model->children().empty())
     {
       delete sysoper_model_columns;
-      sysoper_model_columns = NULL;
+      sysoper_model_columns = nullptr;
       TRACE_EXIT();
-      return NULL;
+      return nullptr;
     }
 
   Gtk::ComboBox *comboBox = new Gtk::ComboBox();
@@ -401,7 +384,7 @@ BreakWindow::on_sysoper_combobox_changed()
     }
 
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
   gui->interrupt_grab();
 
   System::execute(row[sysoper_model_columns->id]);
@@ -461,7 +444,8 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ((postpone_button != NULL && !postpone_button->get_sensitive()) || (skip_button != NULL && !skip_button->get_sensitive()))
+  if ((postpone_button != nullptr && !postpone_button->get_sensitive())
+      || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
       bool skip_locked = false;
       bool postpone_locked = false;
@@ -482,12 +466,12 @@ BreakWindow::update_skip_postpone_lock()
             }
         }
 
-      if (!postpone_locked && postpone_button != NULL)
+      if (!postpone_locked && postpone_button != nullptr)
         {
           postpone_button->set_has_tooltip(false);
           postpone_button->set_sensitive(true);
         }
-      if (!skip_locked && skip_button != NULL)
+      if (!skip_locked && skip_button != nullptr)
         {
           skip_button->set_has_tooltip(false);
           skip_button->set_sensitive(true);
@@ -518,7 +502,7 @@ void
 BreakWindow::on_postpone_button_clicked()
 {
   TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
-  if (break_response != NULL)
+  if (break_response != nullptr)
     {
       break_response->postpone_break(break_id);
     }
@@ -529,7 +513,7 @@ BreakWindow::on_postpone_button_clicked()
 void
 BreakWindow::on_skip_button_clicked()
 {
-  if (break_response != NULL)
+  if (break_response != nullptr)
     {
       break_response->skip_break(break_id);
     }
@@ -540,7 +524,7 @@ void
 BreakWindow::on_lock_button_clicked()
 {
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
   gui->interrupt_grab();
   System::execute(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN);
 }
@@ -698,7 +682,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
           if (shutdownable)
             {
               sysoper_combobox = create_sysoper_combobox();
-              if (sysoper_combobox != NULL)
+              if (sysoper_combobox != nullptr)
                 {
                   bottom_box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
                 }
@@ -706,7 +690,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
           else
             {
               lock_button = create_lock_button();
-              if (lock_button != NULL)
+              if (lock_button != nullptr)
                 {
                   bottom_box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
                 }
@@ -732,7 +716,7 @@ disable_button_focus(GtkWidget *w)
 {
   if (GTK_IS_CONTAINER(w))
     {
-      gtk_container_forall(GTK_CONTAINER(w), (GtkCallback)disable_button_focus, NULL);
+      gtk_container_forall(GTK_CONTAINER(w), (GtkCallback)disable_button_focus, nullptr);
     }
 
   if (GTK_IS_BUTTON(w))
@@ -780,7 +764,7 @@ BreakWindow::start()
   // In case the show_all resized the window...
   center();
 
-  if (sysoper_combobox != NULL)
+  if (sysoper_combobox != nullptr)
     {
       // Setting "can focus" of the sysoper combobox to false is not enough to
       // prevent the combobox from taking the focus. A combobox has an internal
@@ -793,7 +777,7 @@ BreakWindow::start()
       GtkWidget *toplevel = gtk_widget_get_toplevel(GTK_WIDGET(sysoper_combobox->gobj()));
       if (gtk_widget_is_toplevel(toplevel))
         {
-          gtk_window_set_focus(GTK_WINDOW(toplevel), NULL);
+          gtk_window_set_focus(GTK_WINDOW(toplevel), nullptr);
         }
     }
 
@@ -806,7 +790,7 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  if (frame != NULL)
+  if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
     }

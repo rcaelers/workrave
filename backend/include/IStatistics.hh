@@ -20,12 +20,12 @@
 #ifndef ISTATISTICS_HH
 #define ISTATISTICS_HH
 
-#include <time.h>
+#include <ctime>
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 typedef __int64 int64_t;
 #else
-#  include <stdint.h>
+#  include <cstdint>
 #endif
 
 #include "ICore.hh"
@@ -78,7 +78,7 @@ namespace workrave
     };
 
   public:
-    virtual ~IStatistics() {}
+    virtual ~IStatistics() = default;
 
     virtual bool delete_all_history() = 0;
     virtual void update() = 0;

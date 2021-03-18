@@ -54,17 +54,6 @@ using namespace std;
 TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
   : menu(menu)
   , transparent(transparent)
-  , reconfigure(true)
-  , sheep(NULL)
-  , sheep_eventbox(NULL)
-  , orientation(ORIENTATION_UP)
-  , size(0)
-  , table_rows(-1)
-  , table_columns(-1)
-  , table_reverse(false)
-  , visible_count(-1)
-  , rotation(0)
-  , sheep_only(false)
 {
   init();
 }
@@ -78,19 +67,19 @@ TimerBoxGtkView::~TimerBoxGtkView()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (labels[i] != NULL)
+      if (labels[i] != nullptr)
         labels[i]->unreference();
       delete labels[i];
 
-      if (bars[i] != NULL)
+      if (bars[i] != nullptr)
         bars[i]->unreference();
       delete bars[i];
     }
 
-  if (sheep != NULL)
+  if (sheep != nullptr)
     sheep->unreference();
 
-  if (sheep_eventbox != NULL)
+  if (sheep_eventbox != nullptr)
     {
       sheep_eventbox->unreference();
       // FIXME: check if this is needed/Okay.
@@ -122,9 +111,9 @@ TimerBoxGtkView::init()
 {
   TRACE_ENTER("TimerBoxGtkView::init");
 
-  if (sheep != NULL)
+  if (sheep != nullptr)
     sheep->unreference();
-  if (sheep_eventbox != NULL)
+  if (sheep_eventbox != nullptr)
     sheep_eventbox->unreference();
 
   sheep_eventbox = new Gtk::EventBox;

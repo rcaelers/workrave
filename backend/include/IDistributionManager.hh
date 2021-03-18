@@ -30,7 +30,7 @@ namespace workrave
   class IDistributionManager
   {
   public:
-    virtual ~IDistributionManager() {}
+    virtual ~IDistributionManager() = default;
 
     virtual bool is_master() const = 0;
     virtual int get_number_of_peers() = 0;

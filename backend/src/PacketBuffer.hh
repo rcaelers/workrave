@@ -86,13 +86,13 @@ public:
   void restart_read() { read_ptr = buffer; }
 
 public:
-  guint8 *buffer;
-  guint8 *read_ptr;
-  guint8 *write_ptr;
-  int buffer_size;
+  guint8 *buffer{nullptr};
+  guint8 *read_ptr{nullptr};
+  guint8 *write_ptr{nullptr};
+  int buffer_size{0};
 
-  guint8 *original_buffer;
-  int original_buffer_size;
+  guint8 *original_buffer{nullptr};
+  int original_buffer_size{0};
 };
 
 #endif

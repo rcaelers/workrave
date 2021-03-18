@@ -38,8 +38,8 @@
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include <stdio.h>
-#include <assert.h>
+#include <cassert>
+#include <cstdio>
 #include <fcntl.h>
 
 #include "GUI.hh"
@@ -110,7 +110,7 @@
 #  include "gtkosxapplication.h"
 #endif
 
-GUI *GUI::instance = NULL;
+GUI *GUI::instance = nullptr;
 
 //! GUI Constructor.
 /*!
@@ -118,32 +118,6 @@ GUI *GUI::instance = NULL;
  *  \param argv all command line parameters.
  */
 GUI::GUI(int argc, char **argv)
-  : core(NULL)
-  , sound_player(NULL)
-  , break_windows(NULL)
-  , prelude_windows(NULL)
-  , active_break_count(0)
-  , active_prelude_count(0)
-  , response(NULL)
-  , active_break_id(BREAK_ID_NONE)
-  , main_window(NULL)
-  , menus(0)
-  , break_window_destroy(false)
-  , prelude_window_destroy(false)
-  , heads(NULL)
-  , num_heads(-1)
-  , screen_width(-1)
-  , screen_height(-1)
-  ,
-#if defined(PLATFORM_OS_UNIX)
-  grab_wanted(false)
-  ,
-#endif
-  grab_handle(NULL)
-  , status_icon(NULL)
-  , applet_control(NULL)
-  , muted(false)
-  , closewarn_shown(false)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -162,7 +136,7 @@ GUI::~GUI()
   TRACE_ENTER("GUI:~GUI");
 
   assert(instance);
-  instance = NULL;
+  instance = nullptr;
 
   ungrab();
 
@@ -197,11 +171,6 @@ GUI::main()
 #ifdef PLATFORM_OS_UNIX
   XInitThreads();
 #endif
-
-  if (!Glib::thread_supported())
-    {
-      Glib::thread_init();
-    }
 
 #ifdef HAVE_GTK3
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
@@ -268,10 +237,10 @@ GUI::main()
     }
 
   delete main_window;
-  main_window = NULL;
+  main_window = nullptr;
 
   delete applet_control;
-  applet_control = NULL;
+  applet_control = nullptr;
 
 #if !defined(HAVE_GTK3)
   delete kit;
@@ -289,7 +258,7 @@ GUI::terminate()
   // HACK: Without it status icon keeps on dangling in tray
   // Nicer solution: nicely cleanup complete gui ~GUI()
   delete status_icon;
-  status_icon = 0;
+  status_icon = nullptr;
 
   CoreFactory::get_configurator()->save();
 
@@ -391,7 +360,7 @@ GUI::init_platform()
   System::init();
 #endif
 
-  srand((unsigned int)time(NULL));
+  srand((unsigned int)time(nullptr));
   TRACE_EXIT();
 }
 
@@ -538,7 +507,7 @@ GUI::init_nls()
 void
 GUI::init_core()
 {
-  const char *display_name = NULL;
+  const char *display_name = nullptr;
 
 #if defined(PLATFORM_OS_UNIX)
   display_name = gdk_display_get_name(gdk_display_get_default());
@@ -590,8 +559,8 @@ GUI::init_multihead_mem(int new_num_heads)
                 }
               else
                 {
-                  prelude_windows[i] = NULL;
-                  break_windows[i] = NULL;
+                  prelude_windows[i] = nullptr;
+                  break_windows[i] = nullptr;
                 }
             }
 
@@ -599,11 +568,11 @@ GUI::init_multihead_mem(int new_num_heads)
             {
               // Number of heads get smaller,
               // destroy breaks/preludes
-              if (old_prelude_windows != NULL && old_prelude_windows[i] != NULL)
+              if (old_prelude_windows != nullptr && old_prelude_windows[i] != nullptr)
                 {
                   old_prelude_windows[i]->destroy();
                 }
-              if (old_break_windows != NULL && old_break_windows[i] != NULL)
+              if (old_break_windows != nullptr && old_break_windows[i] != nullptr)
                 {
                   old_break_windows[i]->destroy();
                 }
@@ -654,7 +623,7 @@ GUI::init_multihead_desktop()
   TRACE_MSG("width x height " << width << " " << height);
   if (screen_width != width || screen_height != height)
     {
-      if (main_window != NULL)
+      if (main_window != nullptr)
         {
           main_window->relocate_window(width, height);
         }
@@ -860,7 +829,7 @@ GUI::init_startup_warnings()
 IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
 {
-  IBreakWindow *ret = NULL;
+  IBreakWindow *ret = nullptr;
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
@@ -903,7 +872,7 @@ GUI::core_event_notify(const CoreEvent event)
 {
   TRACE_ENTER_MSG("GUI::core_event_sound_notify", event);
 
-  if (sound_player != NULL)
+  if (sound_player != nullptr)
     {
       if (event >= CORE_EVENT_SOUND_FIRST && event <= CORE_EVENT_SOUND_LAST)
         {
@@ -1065,7 +1034,7 @@ GUI::hide_break_window()
 
   for (int i = 0; i < active_prelude_count; i++)
     {
-      if (prelude_windows[i] != NULL)
+      if (prelude_windows[i] != nullptr)
         {
           prelude_windows[i]->stop();
         }
@@ -1077,7 +1046,7 @@ GUI::hide_break_window()
 
   for (int i = 0; i < active_break_count; i++)
     {
-      if (break_windows[i] != NULL)
+      if (break_windows[i] != nullptr)
         {
           break_windows[i]->stop();
         }
@@ -1100,14 +1069,14 @@ GUI::show_break_window()
 
   for (int i = 0; i < active_prelude_count; i++)
     {
-      if (prelude_windows[i] != NULL)
+      if (prelude_windows[i] != nullptr)
         {
           prelude_windows[i]->start();
         }
     }
   for (int i = 0; i < active_break_count; i++)
     {
-      if (break_windows[i] != NULL)
+      if (break_windows[i] != nullptr)
         {
           break_windows[i]->start();
         }
@@ -1126,14 +1095,14 @@ GUI::refresh_break_window()
 {
   for (int i = 0; i < active_prelude_count; i++)
     {
-      if (prelude_windows[i] != NULL)
+      if (prelude_windows[i] != nullptr)
         {
           prelude_windows[i]->refresh();
         }
     }
   for (int i = 0; i < active_break_count; i++)
     {
-      if (break_windows[i] != NULL)
+      if (break_windows[i] != nullptr)
         {
           break_windows[i]->refresh();
         }
@@ -1145,7 +1114,7 @@ GUI::set_break_progress(int value, int max_value)
 {
   for (int i = 0; i < active_prelude_count; i++)
     {
-      if (prelude_windows[i] != NULL)
+      if (prelude_windows[i] != nullptr)
         {
           prelude_windows[i]->set_progress(value, max_value);
         }
@@ -1153,7 +1122,7 @@ GUI::set_break_progress(int value, int max_value)
 
   for (int i = 0; i < active_break_count; i++)
     {
-      if (break_windows[i] != NULL)
+      if (break_windows[i] != nullptr)
         {
           break_windows[i]->set_progress(value, max_value);
         }
@@ -1165,7 +1134,7 @@ GUI::set_prelude_stage(PreludeStage stage)
 {
   for (int i = 0; i < active_prelude_count; i++)
     {
-      if (prelude_windows[i] != NULL)
+      if (prelude_windows[i] != nullptr)
         {
           prelude_windows[i]->set_stage(stage);
         }
@@ -1177,7 +1146,7 @@ GUI::set_prelude_progress_text(PreludeProgressText text)
 {
   for (int i = 0; i < active_prelude_count; i++)
     {
-      if (prelude_windows[i] != NULL)
+      if (prelude_windows[i] != nullptr)
         {
           prelude_windows[i]->set_progress_text(text);
         }
@@ -1191,14 +1160,14 @@ GUI::collect_garbage()
   TRACE_ENTER("GUI::collect_garbage");
   if (prelude_window_destroy)
     {
-      if (prelude_windows != NULL)
+      if (prelude_windows != nullptr)
         {
           for (int i = 0; i < active_prelude_count; i++)
             {
-              if (prelude_windows[i] != NULL)
+              if (prelude_windows[i] != nullptr)
                 {
                   prelude_windows[i]->destroy();
-                  prelude_windows[i] = NULL;
+                  prelude_windows[i] = nullptr;
                 }
             }
         }
@@ -1208,17 +1177,17 @@ GUI::collect_garbage()
 
   if (break_window_destroy)
     {
-      if (break_windows != NULL)
+      if (break_windows != nullptr)
         {
           TRACE_MSG("1");
           for (int i = 0; i < active_break_count; i++)
             {
               TRACE_MSG("2 " << i);
-              if (break_windows[i] != NULL)
+              if (break_windows[i] != nullptr)
                 {
                   TRACE_MSG("3");
                   break_windows[i]->destroy();
-                  break_windows[i] = NULL;
+                  break_windows[i] = nullptr;
                 }
             }
         }
@@ -1232,7 +1201,7 @@ GUI::collect_garbage()
 bool
 GUI::grab()
 {
-  if (break_windows != NULL && active_break_count > 0)
+  if (break_windows != nullptr && active_break_count > 0)
     {
       GdkWindow **windows = new GdkWindow *[active_break_count];
 
@@ -1258,7 +1227,7 @@ GUI::grab()
 
       delete[] windows;
     }
-  return grab_handle != NULL;
+  return grab_handle != nullptr;
 }
 
 //! Releases the pointer and keyboard grab
@@ -1274,7 +1243,7 @@ GUI::ungrab()
       grab_retry_connection.disconnect();
 #endif
       WindowHints::ungrab(grab_handle);
-      grab_handle = NULL;
+      grab_handle = nullptr;
     }
 }
 
@@ -1287,7 +1256,7 @@ GUI::interrupt_grab()
       grab_wanted = true;
 
       WindowHints::ungrab(grab_handle);
-      grab_handle = NULL;
+      grab_handle = nullptr;
       if (!grab_retry_connection.connected())
         {
           Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
@@ -1484,7 +1453,7 @@ GUI::get_timers_tooltip()
       IBreak *b = core->get_break(BreakId(count));
       bool on = b->is_enabled();
 
-      if (b != NULL && on)
+      if (b != nullptr && on)
         {
           // Collect some data.
           time_t maxActiveTime = b->get_limit();

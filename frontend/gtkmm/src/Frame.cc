@@ -27,11 +27,7 @@
 #include "Frame.hh"
 
 Frame::Frame()
-  : frame_width(1)
-  , frame_color(Gdk::Color("black"))
-  , frame_style(STYLE_SOLID)
-  , frame_visible(true)
-  , flash_delay(-1)
+  : frame_color(Gdk::Color("black"))
 {
 }
 

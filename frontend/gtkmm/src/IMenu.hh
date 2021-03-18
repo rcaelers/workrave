@@ -29,8 +29,8 @@
 class IMenu
 {
 public:
-  IMenu() {}
-  virtual ~IMenu() {}
+  IMenu() = default;
+  virtual ~IMenu() = default;
 
   virtual void init() = 0;
   virtual void add_accel(Gtk::Window &window) = 0;

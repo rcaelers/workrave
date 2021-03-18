@@ -26,7 +26,7 @@
 class IPreludeWindow
 {
 public:
-  virtual ~IPreludeWindow() {}
+  virtual ~IPreludeWindow() = default;
 
   //! Starts (i.e. shows) the prelude window.
   virtual void start() = 0;

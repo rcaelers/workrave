@@ -25,7 +25,7 @@
 #endif
 
 #ifdef HAVE_STRING_H
-#  include <string.h>
+#  include <cstring>
 #endif
 
 #ifdef HAVE_STRINGS_H
@@ -71,7 +71,7 @@ SystemStateChangeUPower::check_method(const char *method_name)
   TRACE_ENTER_MSG("SystemStateChangeUPower::check_method", method_name);
 
   GVariant *result;
-  if (!proxy.call_method(method_name, NULL, &result))
+  if (!proxy.call_method(method_name, nullptr, &result))
     {
       TRACE_MSG2(method_name, "failed");
       TRACE_RETURN(false);
@@ -105,7 +105,7 @@ SystemStateChangeUPower::check_property(const char *property_name)
 
   GVariant *content;
   g_variant_get(result, "(v)", &content);
-  if (content == NULL)
+  if (content == nullptr)
     {
       return false;
     }
@@ -125,7 +125,7 @@ SystemStateChangeUPower::execute(const char *method_name)
 {
   TRACE_ENTER_MSG("SystemStateChangeUPower::execute", method_name);
 
-  bool ret = proxy.call_method_asynch_no_result(method_name, NULL);
+  bool ret = proxy.call_method_asynch_no_result(method_name, nullptr);
 
   TRACE_RETURN(ret);
   return ret;

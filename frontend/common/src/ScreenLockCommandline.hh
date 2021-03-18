@@ -23,7 +23,7 @@
 #define SYSTEMLOCKCOMMANDLINE_HH
 
 #include "IScreenLockMethod.hh"
-#include "stdlib.h"
+#include <cstdlib>
 // A method of locking the screen that
 // does that by executing a command
 class ScreenLockCommandline : public IScreenLockMethod
@@ -34,17 +34,17 @@ public:
   // async - whether to invoke the program synchronously (async = false, wait for the command
   // to complete) or asynchronously (async = true)
   ScreenLockCommandline(const char *program_name, const char *parameters, bool async = false);
-  ~ScreenLockCommandline()
+  ~ScreenLockCommandline() override
   {
-    if (cmd != NULL)
+    if (cmd != nullptr)
       {
         free(cmd);
-        cmd = NULL;
+        cmd = nullptr;
       }
   }
 
-  virtual bool is_lock_supported() { return cmd != NULL; }
-  virtual bool lock();
+  bool is_lock_supported() override { return cmd != nullptr; }
+  bool lock() override;
 
 private:
   bool invoke(const gchar *command, bool async);

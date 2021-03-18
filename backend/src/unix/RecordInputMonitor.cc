@@ -23,9 +23,9 @@
 
 #include "debug.hh"
 
-#include <math.h>
+#include <cmath>
 
-#include <stdio.h>
+#include <cstdio>
 #include <sys/types.h>
 
 #if TIME_WITH_SYS_TIME
@@ -43,8 +43,8 @@
 #  include <sys/select.h>
 #endif
 #if STDC_HEADERS
-#  include <stdlib.h>
-#  include <stddef.h>
+#  include <cstddef>
+#  include <cstdlib>
 #else
 #  if HAVE_STDLIB_H
 #    include <stdlib.h>
@@ -103,10 +103,10 @@ errorHandler(Display *dpy, XErrorEvent *error)
 
 RecordInputMonitor::RecordInputMonitor(const char *display_name)
   : x11_display_name(display_name)
-  , x11_display(NULL)
+  , x11_display(nullptr)
   , abort(false)
   , xrecord_context(0)
-  , xrecord_datalink(NULL)
+  , xrecord_datalink(nullptr)
 {
   monitor_thread = new Thread(this);
 }
@@ -114,13 +114,13 @@ RecordInputMonitor::RecordInputMonitor(const char *display_name)
 RecordInputMonitor::~RecordInputMonitor()
 {
   TRACE_ENTER("RecordInputMonitor::~RecordInputMonitor");
-  if (monitor_thread != NULL)
+  if (monitor_thread != nullptr)
     {
       monitor_thread->wait();
       delete monitor_thread;
     }
 
-  if (xrecord_datalink != NULL)
+  if (xrecord_datalink != nullptr)
     {
       XCloseDisplay(xrecord_datalink);
     }
@@ -161,7 +161,7 @@ RecordInputMonitor::run()
   if (XRecordEnableContext(xrecord_datalink, xrecord_context, &handle_xrecord_callback, (XPointer)this))
     {
       error_trap_exit();
-      xrecord_datalink = NULL;
+      xrecord_datalink = nullptr;
     }
 
   TRACE_EXIT();
@@ -200,7 +200,7 @@ RecordInputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *dat
 {
   xEvent *event = (xEvent *)data->data;
 
-  if (event != NULL)
+  if (event != nullptr)
     {
       int x = event->u.keyButtonPointer.rootX;
       int y = event->u.keyButtonPointer.rootY;
@@ -218,7 +218,7 @@ RecordInputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *dat
 {
   xEvent *event = (xEvent *)data->data;
 
-  if (event != NULL)
+  if (event != nullptr)
     {
       fire_button(event->u.u.type == ButtonPress);
     }
@@ -332,7 +332,7 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
       break;
     }
 
-  if (data != NULL)
+  if (data != nullptr)
     {
       XRecordFreeData(data);
     }
@@ -348,10 +348,10 @@ RecordInputMonitor::init_xrecord()
 
   x11_display = XOpenDisplay(x11_display_name);
 
-  if (x11_display != NULL && XRecordQueryVersion(x11_display, &major, &minor))
+  if (x11_display != nullptr && XRecordQueryVersion(x11_display, &major, &minor))
     {
       xrecord_context = 0;
-      xrecord_datalink = NULL;
+      xrecord_datalink = nullptr;
       use_xrecord = true;
 
       // Receive from ALL clients, including future clients.
@@ -360,7 +360,7 @@ RecordInputMonitor::init_xrecord()
       // Receive KeyPress, KeyRelease, ButtonPress, ButtonRelease and
       // MotionNotify events.
       XRecordRange *recordRange = XRecordAllocRange();
-      if (recordRange != NULL)
+      if (recordRange != nullptr)
         {
           memset(recordRange, 0, sizeof(XRecordRange));
 
@@ -393,7 +393,7 @@ RecordInputMonitor::init_xrecord()
           xrecord_datalink = XOpenDisplay(x11_display_name);
         }
 
-      if (xrecord_datalink == NULL)
+      if (xrecord_datalink == nullptr)
         {
           XRecordFreeContext(x11_display, xrecord_context);
           xrecord_context = 0;
@@ -416,7 +416,7 @@ RecordInputMonitor::stop_xrecord()
   XRecordFreeContext(x11_display, xrecord_context);
   XFlush(xrecord_datalink);
   XCloseDisplay(x11_display);
-  x11_display = NULL;
+  x11_display = nullptr;
 
   TRACE_EXIT();
   return true;

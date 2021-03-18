@@ -44,7 +44,7 @@ public:
 
   std::string title;
   std::string description;
-  int duration;
+  int duration{0};
   std::list<Image> sequence;
 
 public:

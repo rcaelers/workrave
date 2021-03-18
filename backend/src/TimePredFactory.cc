@@ -29,7 +29,7 @@ using namespace std;
 TimePred *
 TimePredFactory::create_time_pred(string spec)
 {
-  TimePred *pred = 0;
+  TimePred *pred = nullptr;
   bool ok = false;
 
   std::string type;
@@ -51,7 +51,7 @@ TimePredFactory::create_time_pred(string spec)
   if (pred && !ok)
     {
       delete pred;
-      pred = NULL;
+      pred = nullptr;
     }
 
   return pred;

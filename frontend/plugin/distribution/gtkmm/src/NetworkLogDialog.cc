@@ -28,7 +28,7 @@
 #  ifdef HAVE_UNISTD_H
 #    include <unistd.h>
 #  endif
-#  include <assert.h>
+#  include <cassert>
 
 #  include <gtkmm/textview.h>
 #  include <gtkmm/textbuffer.h>
@@ -83,7 +83,7 @@ NetworkLogDialog::~NetworkLogDialog()
   TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       dist_manager->remove_log_listener(this);
     }
@@ -111,7 +111,7 @@ NetworkLogDialog::init()
 
   Gtk::TextIter iter = text_buffer->end();
 
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       list<string> logs = dist_manager->get_logs();
 
@@ -148,7 +148,7 @@ NetworkLogDialog::on_response(int response)
   TRACE_ENTER("NetworkLogDialog::on_response")
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
+  if (dist_manager != nullptr)
     {
       dist_manager->remove_log_listener(this);
     }

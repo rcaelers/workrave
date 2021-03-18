@@ -25,11 +25,11 @@
 
 #  include "debug.hh"
 #  include <algorithm>
-#  include <assert.h>
-#  include <stdlib.h>
-#  include <stdio.h>
-#  include <stdarg.h>
-#  include <string.h>
+#  include <cassert>
+#  include <cstdarg>
+#  include <cstdio>
+#  include <cstdlib>
+#  include <cstring>
 
 #  include "DistributionManager.hh"
 #  include "DistributionSocketLink.hh"
@@ -46,13 +46,7 @@
 #  define MAX_LOG_LEN (256)
 
 //! Constructs a new DistributionManager.
-DistributionManager::DistributionManager()
-  : network_enabled(false)
-  , server_enabled(false)
-  , link(NULL)
-  , state(NODE_ACTIVE)
-{
-}
+DistributionManager::DistributionManager() = default;
 
 //! Destructs this DistributionManager.
 DistributionManager::~DistributionManager()
@@ -83,7 +77,7 @@ void
 DistributionManager::heartbeart()
 {
   // Forward heartbeat to link.
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->heartbeat();
     }
@@ -102,7 +96,7 @@ DistributionManager::get_number_of_peers()
 {
   int ret = 0;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       ret = link->get_number_of_peers();
     }
@@ -130,7 +124,7 @@ DistributionManager::get_my_id() const
 {
   string id;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       id = link->get_my_id();
     }
@@ -147,7 +141,7 @@ DistributionManager::claim()
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       ret = link->claim();
     }
@@ -170,7 +164,7 @@ DistributionManager::set_lock_master(bool lock)
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       ret = link->set_lock_master(lock);
     }
@@ -184,7 +178,7 @@ DistributionManager::connect(string url)
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->connect(url);
       ret = true;
@@ -198,7 +192,7 @@ DistributionManager::disconnect(string id)
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->disconnect(id);
       ret = true;
@@ -212,7 +206,7 @@ DistributionManager::disconnect_all()
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->disconnect_all();
       ret = true;
@@ -226,7 +220,7 @@ DistributionManager::reconnect_all()
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->reconnect_all();
       ret = true;
@@ -242,7 +236,7 @@ DistributionManager::register_client_message(DistributionClientMessageID id,
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->register_client_message(id, type, callback);
       ret = true;
@@ -256,7 +250,7 @@ DistributionManager::unregister_client_message(DistributionClientMessageID id)
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       link->unregister_client_message(id);
       ret = true;
@@ -325,7 +319,7 @@ DistributionManager::broadcast_client_message(DistributionClientMessageID id, Pa
 {
   bool ret = false;
 
-  if (link != NULL)
+  if (link != nullptr)
     {
       ret = link->broadcast_client_message(id, buffer);
     }
@@ -474,13 +468,13 @@ DistributionManager::read_configuration()
   server_enabled = get_listening();
 
   // Enable/Disable link.
-  assert(link != NULL);
+  assert(link != nullptr);
   link->set_network_enabled(network_enabled);
   link->set_server_enabled(server_enabled);
 
   // Peers
   const char *env = getenv("WORKRAVE_URL");
-  if (env != NULL)
+  if (env != nullptr)
     {
       parse_peers(env);
     }
@@ -534,7 +528,7 @@ DistributionManager::log(const char *fmt, ...)
 
   va_start(va, fmt);
 
-  time_t current_time = time(NULL);
+  time_t current_time = time(nullptr);
   struct tm *lt = localtime(&current_time);
 
   char log_str[MAX_LOG_LEN - 32];
@@ -640,7 +634,7 @@ DistributionManager::fire_log_event(string message)
   while (i != log_listeners.end())
     {
       DistributionLogListener *l = *i;
-      if (l != NULL)
+      if (l != nullptr)
         {
           l->distribution_log(message);
         }
@@ -659,7 +653,7 @@ DistributionManager::fire_signon_client(char *id)
   while (i != listeners.end())
     {
       DistributionListener *l = *i;
-      if (l != NULL)
+      if (l != nullptr)
         {
           l->signon_remote_client(id);
         }
@@ -678,7 +672,7 @@ DistributionManager::fire_signoff_client(char *id)
   while (i != listeners.end())
     {
       DistributionListener *l = *i;
-      if (l != NULL)
+      if (l != nullptr)
         {
           l->signoff_remote_client(id);
         }

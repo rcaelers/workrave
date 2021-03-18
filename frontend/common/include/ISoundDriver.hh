@@ -26,7 +26,7 @@
 class ISoundDriverEvents
 {
 public:
-  virtual ~ISoundDriverEvents() {}
+  virtual ~ISoundDriverEvents() = default;
 
   virtual void eos_event() = 0;
 };
@@ -34,9 +34,9 @@ public:
 class ISoundDriver
 {
 public:
-  virtual ~ISoundDriver() {}
+  virtual ~ISoundDriver() = default;
 
-  virtual void init(ISoundDriverEvents *events = NULL) = 0;
+  virtual void init(ISoundDriverEvents *events = nullptr) = 0;
 
   //!
   virtual bool capability(SoundCapability cap) = 0;

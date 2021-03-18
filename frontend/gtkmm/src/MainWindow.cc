@@ -56,29 +56,6 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 using namespace std;
 
-//! Constructor.
-/*!
- *  \param gui the main GUI entry point.
- *  \param control Interface to the controller.
- */
-MainWindow::MainWindow()
-  : enabled(true)
-  , can_close(true)
-  , timer_box_control(NULL)
-  , timer_box_view(NULL)
-  , window_location(-1, -1)
-  , window_head_location(-1, -1)
-  , window_relocated_location(-1, -1)
-{
-#ifdef PLATFORM_OS_UNIX
-  leader = NULL;
-#endif
-#ifdef PLATFORM_OS_WINDOWS
-  show_retry_count = 0;
-#endif
-}
-
-//! Destructor.
 MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
@@ -423,7 +400,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
   IGUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  assert(gui != nullptr);
 
 #if defined(PLATFORM_OS_WINDOWS)
   win32_show(false);
@@ -678,7 +655,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
 #ifndef PLATFORM_OS_WINDOWS
   // Returns bogus results on windows...sometime.
-  if (event != NULL)
+  if (event != nullptr)
     {
       x = event->x;
       y = event->y;

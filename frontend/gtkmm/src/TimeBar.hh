@@ -33,16 +33,16 @@ class TimeBar
 {
 public:
   TimeBar();
-  virtual ~TimeBar();
+  ~TimeBar() override;
 
-  void set_progress(int value, int max_value);
-  void set_secondary_progress(int value, int max_value);
+  void set_progress(int value, int max_value) override;
+  void set_secondary_progress(int value, int max_value) override;
 
-  void set_text(std::string text);
+  void set_text(std::string text) override;
 
-  void update();
-  void set_bar_color(ColorId color);
-  void set_secondary_bar_color(ColorId color);
+  void update() override;
+  void set_bar_color(ColorId color) override;
+  void set_secondary_bar_color(ColorId color) override;
   void set_text_alignment(int align);
 
   void set_border_size(int size);
@@ -71,13 +71,13 @@ private:
 
 protected:
 #ifdef HAVE_GTK3
-  virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
-  virtual void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const;
-  virtual void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const;
-  virtual void get_preferred_width_for_height_vfunc(int height, int &minimum_width, int &natural_width) const;
-  virtual void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const;
-  virtual void on_size_allocate(Gtk::Allocation &allocation);
-  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr);
+  Gtk::SizeRequestMode get_request_mode_vfunc() const override;
+  void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const override;
+  void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const override;
+  void get_preferred_width_for_height_vfunc(int height, int &minimum_width, int &natural_width) const override;
+  void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const override;
+  void on_size_allocate(Gtk::Allocation &allocation) override;
+  bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 #else
   virtual void on_realize();
   virtual bool on_expose_event(GdkEventExpose *event);
@@ -103,25 +103,25 @@ private:
   Gdk::Color bar_text_color;
 
   //! The current value.
-  int bar_value;
+  int bar_value{0};
 
   //! The maximum value.
-  int bar_max_value;
+  int bar_max_value{0};
 
   //! The current value.
-  int secondary_bar_value;
+  int secondary_bar_value{0};
 
   //! The maximum value.
-  int secondary_bar_max_value;
+  int secondary_bar_max_value{0};
 
   //! Text to show;
   std::string bar_text;
 
   //! Text alignment
-  int bar_text_align;
+  int bar_text_align{0};
 
   //! Bar rotation (clockwise degrees)
-  int rotation;
+  int rotation{0};
 };
 
 #endif // TIMEBAR_HH

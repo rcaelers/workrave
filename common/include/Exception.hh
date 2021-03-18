@@ -38,7 +38,7 @@ namespace workrave
       detailed_information = parent.details() + ", " + detail;
     }
 
-    virtual ~Exception() throw() {}
+    ~Exception() throw() override = default;
 
     virtual std::string details() const throw() { return detailed_information; }
 

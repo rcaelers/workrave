@@ -27,10 +27,10 @@
 
 #include "debug.hh"
 
+#include <cmath>
+#include <cstdio>
+#include <ctime>
 #include <sstream>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
@@ -62,27 +62,6 @@ Timer::Timer(const std::string &timer_id)
   , timer_frozen{timer_id + ".timer.frozen", false}
   , activity_state{timer_id + ".timer.activity_state", ACTIVITY_UNKNOWN}
   , timer_state{timer_id + ".timer.state", STATE_INVALID}
-  , snooze_interval(60)
-  , snooze_on_active(true)
-  , snooze_inhibited(false)
-  , limit_enabled(true)
-  , limit_interval(600)
-  , autoreset_enabled(true)
-  , autoreset_interval(120)
-  , autoreset_interval_predicate(NULL)
-  , elapsed_time(0)
-  , elapsed_idle_time(0)
-  , last_limit_time(0)
-  , last_limit_elapsed(0)
-  , last_start_time(0)
-  , last_reset_time(0)
-  , last_stop_time(0)
-  , next_reset_time(0)
-  , last_pred_reset_time(0)
-  , next_pred_reset_time(0)
-  , next_limit_time(0)
-  , total_overdue_time(0)
-  , activity_monitor(NULL)
   , activity_sensitive{timer_id + ".timer.activity_sensitive", true}
   , insensitive_mode{timer_id + ".timer.insensitive_mode", INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED}
 {
@@ -711,7 +690,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
 
-  if (activity_monitor != NULL)
+  if (activity_monitor != nullptr)
     {
       // The timer uses its own activity monitor and ignores the 'global'
       // activity monitor state (ie. new_activity_state). So get the state

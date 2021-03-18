@@ -43,7 +43,7 @@ enum DistributionClientMessageType
 class IDistributionClientMessage
 {
 public:
-  virtual ~IDistributionClientMessage() {}
+  virtual ~IDistributionClientMessage() = default;
 
   virtual bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) = 0;
 

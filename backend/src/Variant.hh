@@ -38,7 +38,7 @@ enum VariantType
 class Variant
 {
 public:
-  Variant() {}
+  Variant() = default;
 
   Variant(std::string v)
   {

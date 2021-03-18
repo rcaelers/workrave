@@ -43,15 +43,6 @@
 
 using namespace std;
 
-//! Constructor.
-IndicatorAppletMenu::IndicatorAppletMenu() {}
-
-//! Destructor.
-IndicatorAppletMenu::~IndicatorAppletMenu()
-{
-  // FIXME: cleanup.
-}
-
 DbusmenuMenuitem *
 IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *label)
 {

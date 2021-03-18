@@ -32,23 +32,22 @@ public:
   GstSoundPlayer();
   virtual ~GstSoundPlayer();
 
-  void init(ISoundDriverEvents *events);
-  bool capability(SoundCapability cap);
-  void play_sound(std::string wavfile);
-
+  void init(ISoundDriverEvents *events) override;
+  bool capability(SoundCapability cap) override;
+  void play_sound(std::string wavfile) override;
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
   //! GStreamer init OK.
-  gboolean gst_ok;
+  gboolean gst_ok{false};
 
   //!
-  ISoundDriverEvents *events;
+  ISoundDriverEvents *events{nullptr};
 
   struct WatchData
   {
-    GstSoundPlayer *player;
-    GstElement *play;
+    GstSoundPlayer *player{nullptr};
+    GstElement *play{nullptr};
   };
 };
 

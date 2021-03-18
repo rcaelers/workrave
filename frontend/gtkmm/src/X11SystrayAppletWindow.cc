@@ -71,7 +71,7 @@ void
 X11SystrayAppletWindow::notify_callback()
 {
   TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
-  if (tray_icon != NULL && embedded)
+  if (tray_icon != nullptr && embedded)
     {
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
@@ -120,7 +120,7 @@ X11SystrayAppletWindow::activate()
 
   tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
 
-  if (tray_icon != NULL)
+  if (tray_icon != nullptr)
     {
       g_signal_connect(tray_icon, "notify", G_CALLBACK(static_notify_callback), this);
 
@@ -179,25 +179,25 @@ X11SystrayAppletWindow::deactivate()
 
   if (applet_active)
     {
-      if (plug != NULL)
+      if (plug != nullptr)
         {
           plug->remove();
           delete plug;
-          plug = NULL;
+          plug = nullptr;
         }
-      if (container != NULL)
+      if (container != nullptr)
         {
           container->remove();
           delete container;
-          container = NULL;
+          container = nullptr;
         }
 
       delete timer_box_control;
-      timer_box_control = NULL;
+      timer_box_control = nullptr;
 
       delete timer_box_view;
-      timer_box_view = NULL;
-      view = NULL;
+      timer_box_view = nullptr;
+      view = nullptr;
 
       visibility_changed_signal.emit(false);
     }

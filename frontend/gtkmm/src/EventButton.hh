@@ -25,12 +25,12 @@
 class EventButton : public Gtk::Button
 {
 public:
-  EventButton() {}
+  EventButton() = default;
 
   sigc::signal<bool, int> button_pressed;
 
 private:
-  bool on_button_press_event(GdkEventButton *event);
+  bool on_button_press_event(GdkEventButton *event) override;
 };
 
 #endif // EVENTBUTTON_HH

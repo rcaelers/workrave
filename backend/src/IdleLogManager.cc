@@ -27,9 +27,9 @@
 #include "nls.h"
 
 #include "debug.hh"
+#include <cassert>
 #include <fstream>
 #include <sstream>
-#include <assert.h>
 
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
@@ -551,7 +551,7 @@ IdleLogManager::unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, time_t &pac
 
       char *id = buffer.unpack_string();
 
-      if (id != NULL)
+      if (id != nullptr)
         {
           ci.client_id = id;
         }
@@ -586,7 +586,7 @@ IdleLogManager::unlink_idlelog(PacketBuffer &buffer) const
       buffer.unpack_ulong(); // skip pack time.
       char *id = buffer.unpack_string();
 
-      if (id != NULL)
+      if (id != nullptr)
         {
           stringstream ss;
           ss << Util::get_home_directory();
@@ -684,7 +684,7 @@ IdleLogManager::load_index()
           TRACE_MSG("Version - ok");
 
           char *id = buffer.unpack_string();
-          if (id != NULL)
+          if (id != nullptr)
             {
               TRACE_MSG("id = " << id);
             }
@@ -712,7 +712,7 @@ IdleLogManager::load_index()
           TRACE_MSG("Old version - deleting logs of old version");
 
           char *id = buffer.unpack_string();
-          if (id != NULL)
+          if (id != nullptr)
             {
               TRACE_MSG("id = " << id);
             }

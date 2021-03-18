@@ -43,7 +43,7 @@ public:
   public:
     std::string description;
     std::vector<std::string> files;
-    bool active;
+    bool active{};
   };
 
   struct SoundRegistry
@@ -55,7 +55,7 @@ public:
   };
 
   SoundPlayer();
-  virtual ~SoundPlayer();
+  ~SoundPlayer() override;
   void play_sound(SoundEvent snd, bool mute_after_playback = false);
   void play_sound(std::string wavfile);
 
@@ -77,7 +77,7 @@ public:
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
 
-  void eos_event();
+  void eos_event() override;
 
 private:
   void register_sound_events(std::string theme = "");
@@ -98,10 +98,10 @@ public:
   static SoundRegistry sound_registry[SOUND_MAX];
 
 private:
-  ISoundDriver *driver;
-  IMixer *mixer;
-  bool delayed_mute;
-  bool must_unmute;
+  ISoundDriver *driver{nullptr};
+  IMixer *mixer{nullptr};
+  bool delayed_mute{false};
+  bool must_unmute{false};
 };
 
 #endif // SOUNDPLAYER_HH

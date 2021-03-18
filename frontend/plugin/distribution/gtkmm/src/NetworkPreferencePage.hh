@@ -20,7 +20,7 @@
 #ifndef NETWORKPREFERENCEPAGE_HH
 #define NETWORKPREFERENCEPAGE_HH
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 
 #include "preinclude.h"
@@ -53,7 +53,7 @@ class NetworkPreferencePage : public Gtk::VBox
 {
 public:
   NetworkPreferencePage();
-  ~NetworkPreferencePage();
+  ~NetworkPreferencePage() override;
 
 private:
   void init_page_values();
@@ -82,18 +82,18 @@ private:
   void remove_peer(const Gtk::TreeModel::iterator &iter);
   void parse_peers(const std::string &peer, std::string &hostname, std::string &port);
 
-  IDistributionManager *dist_manager;
+  IDistributionManager *dist_manager{nullptr};
 
-  Gtk::Entry *username_entry;
-  Gtk::Entry *password_entry;
-  Gtk::CheckButton *enabled_cb;
-  Gtk::CheckButton *listening_cb;
-  Gtk::SpinButton *port_entry;
-  Gtk::SpinButton *attempts_entry;
-  Gtk::SpinButton *interval_entry;
+  Gtk::Entry *username_entry{nullptr};
+  Gtk::Entry *password_entry{nullptr};
+  Gtk::CheckButton *enabled_cb{nullptr};
+  Gtk::CheckButton *listening_cb{nullptr};
+  Gtk::SpinButton *port_entry{nullptr};
+  Gtk::SpinButton *attempts_entry{nullptr};
+  Gtk::SpinButton *interval_entry{nullptr};
 
-  Gtk::Button *remove_btn;
-  Gtk::Button *add_btn;
+  Gtk::Button *remove_btn{nullptr};
+  Gtk::Button *add_btn{nullptr};
 
   struct ModelColumns : public Gtk::TreeModelColumnRecord
   {
@@ -107,7 +107,7 @@ private:
     }
   };
 
-  Gtk::TreeView *peers_list;
+  Gtk::TreeView *peers_list{nullptr};
   Glib::RefPtr<Gtk::ListStore> peers_store;
   ModelColumns peers_columns;
 };

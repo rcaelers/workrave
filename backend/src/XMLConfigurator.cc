@@ -22,9 +22,9 @@
 #endif
 
 #include "debug.hh"
-#include <sstream>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
+#include <sstream>
 
 #include "Util.hh"
 #include "XMLConfigurator.hh"
@@ -32,10 +32,7 @@
 using namespace std;
 
 //! Constructor
-XMLConfigurator::XMLConfigurator()
-  : parent(NULL)
-{
-}
+XMLConfigurator::XMLConfigurator() = default;
 
 //! Constructor
 /*!
@@ -63,7 +60,7 @@ XMLConfigurator::load(string filename)
 
   last_file_name = filename;
 
-  GdomeElement *root = NULL;
+  GdomeElement *root = nullptr;
   GdomeException exc;
 
   // Create URI from filename
@@ -72,18 +69,18 @@ XMLConfigurator::load(string filename)
   if (Util::file_exists(filename))
     {
       // First get a DOMImplementation reference
-      GdomeDOMImplementation *domImpl = NULL;
+      GdomeDOMImplementation *domImpl = nullptr;
       domImpl = gdome_di_mkref();
 
       // Load XML from file.
       GdomeDocument *doc = gdome_di_createDocFromURI(domImpl, uri.c_str(), GDOME_LOAD_PARSING, &exc);
 
-      if (doc != NULL)
+      if (doc != nullptr)
         {
           // Get root element
           root = gdome_doc_documentElement(doc, &exc);
 
-          if (root != NULL)
+          if (root != nullptr)
             {
               GdomeNode *node = GDOME_N(root);
               init(node);
@@ -98,7 +95,7 @@ XMLConfigurator::load(string filename)
     }
 
   TRACE_EXIT();
-  return root != NULL;
+  return root != nullptr;
 }
 
 bool
@@ -110,16 +107,16 @@ XMLConfigurator::save(string filename)
   GdomeException exc;
 
   // First get a DOMImplementation reference
-  GdomeDOMImplementation *domImpl = NULL;
+  GdomeDOMImplementation *domImpl = nullptr;
   domImpl = gdome_di_mkref();
 
   // Create Doc
-  GdomeDocument *doc = NULL;
-  GdomeElement *root = NULL;
+  GdomeDocument *doc = nullptr;
+  GdomeElement *root = nullptr;
 
   save_to(domImpl, &doc, root);
 
-  if (doc != NULL)
+  if (doc != nullptr)
     {
       /* Save the created document */
       gdome_di_saveDocToFile(domImpl, doc, filename.c_str(), GDOME_SAVE_STANDARD, &exc);
@@ -156,7 +153,7 @@ XMLConfigurator::get_config_value(const string &key, string &out) const
   if (path != "")
     {
       XMLConfigurator *child = get_child(path);
-      if (child != NULL)
+      if (child != nullptr)
         {
           ret = child->get_config_value(stripped_key, out);
         }
@@ -243,14 +240,14 @@ XMLConfigurator::set_config_value(const string &key, string v)
   if (path != "")
     {
       XMLConfigurator *child = get_child(path);
-      if (child != NULL)
+      if (child != nullptr)
         {
           ret = child->set_config_value(stripped_key, v);
         }
       else if (create_child(path))
         {
           child = get_child(path);
-          if (child != NULL)
+          if (child != nullptr)
             {
               ret = child->set_config_value(stripped_key, v);
             }
@@ -326,7 +323,7 @@ XMLConfigurator::init(GdomeNode *node)
   GdomeDOMString *nodeName = gdome_n_nodeName(node, &exc);
   GdomeDOMString *nodeValue = gdome_n_nodeValue(node, &exc);
 
-  if (nodeName != NULL)
+  if (nodeName != nullptr)
     {
       setName(nodeName->str);
       xml_node_name = nodeName->str;
@@ -344,7 +341,7 @@ XMLConfigurator::init(GdomeNode *node)
       {
         GdomeNode *child = gdome_n_firstChild(node, &exc);
 
-        while (child != NULL)
+        while (child != nullptr)
           {
             if (gdome_n_nodeType(child, &exc) == GDOME_ELEMENT_NODE)
               {
@@ -371,7 +368,7 @@ XMLConfigurator::init(GdomeNode *node)
             GdomeDOMString *k = gdome_n_nodeName(attribute, &exc);
             GdomeDOMString *v = gdome_n_nodeValue(attribute, &exc);
 
-            if (k != NULL && v != NULL)
+            if (k != nullptr && v != nullptr)
               {
                 string key = k->str;
                 string value = v->str;
@@ -385,16 +382,16 @@ XMLConfigurator::init(GdomeNode *node)
                   }
               }
 
-            if (k != NULL)
+            if (k != nullptr)
               gdome_str_unref(k);
 
-            if (v != NULL)
+            if (v != nullptr)
               gdome_str_unref(v);
           }
 
         GdomeNode *child = gdome_n_firstChild(node, &exc);
 
-        while (child != NULL)
+        while (child != nullptr)
           {
             if (gdome_n_nodeType(child, &exc) == GDOME_ELEMENT_NODE)
               {
@@ -412,10 +409,10 @@ XMLConfigurator::init(GdomeNode *node)
       cerr << "Unrecognized node type = " << nodeType << endl;
     }
 
-  if (nodeName != NULL)
+  if (nodeName != nullptr)
     gdome_str_unref(nodeName);
 
-  if (nodeValue != NULL)
+  if (nodeValue != nullptr)
     gdome_str_unref(nodeValue);
 
   TRACE_EXIT();
@@ -427,10 +424,10 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
   TRACE_ENTER_MSG("XMLConfigurator::save_to", node_name);
 
   GdomeException exc;
-  GdomeElement *elem = NULL;
+  GdomeElement *elem = nullptr;
 
   /* Create a new element */
-  GdomeDOMString *name = NULL;
+  GdomeDOMString *name = nullptr;
 
   if (node_name == "")
     {
@@ -444,19 +441,19 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
     {
       GdomeDOMString *node_name = gdome_n_nodeName((GdomeNode *)node, &exc);
 
-      if (node_name != NULL)
+      if (node_name != nullptr)
         {
           xml_node_name = node_name->str;
           gdome_str_unref(node_name);
         }
     }
 
-  if (node == NULL || *doc == NULL)
+  if (node == nullptr || *doc == nullptr)
     {
       // Top level node -> Create Doc
-      *doc = gdome_di_createDocument(impl, NULL, name, NULL, &exc);
+      *doc = gdome_di_createDocument(impl, nullptr, name, nullptr, &exc);
 
-      if (doc != NULL)
+      if (doc != nullptr)
         {
           // Get root element
           elem = gdome_doc_documentElement(*doc, &exc);
@@ -488,8 +485,8 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
   Attributes::iterator i = node_attributes.begin();
   while (i != node_attributes.end())
     {
-      GdomeDOMString *name = NULL;
-      GdomeDOMString *value = NULL;
+      GdomeDOMString *name = nullptr;
+      GdomeDOMString *value = nullptr;
 
       name = gdome_str_mkref((*i).first.c_str());
       value = gdome_str_mkref((*i).second.c_str());
@@ -536,7 +533,7 @@ XMLConfigurator::get_child(const string &key) const
 {
   TRACE_ENTER_MSG("XMLConfigurator::get_config_value_child", key << "(" << node_name << ")");
 
-  XMLConfigurator *ret = NULL;
+  XMLConfigurator *ret = nullptr;
 
   std::string::size_type pos = key.find('/');
 
@@ -577,7 +574,7 @@ XMLConfigurator::get_child(const string &key) const
       TRACE_MSG("not found");
     }
 
-  TRACE_RETURN(" " << (ret != NULL));
+  TRACE_RETURN(" " << (ret != nullptr));
   return ret;
 }
 

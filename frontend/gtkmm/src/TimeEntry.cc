@@ -38,16 +38,12 @@
 
 TimeEntry::TimeEntry(bool millis)
   : Gtk::HBox(false, 1)
-  , hrs(NULL)
-  , mins(NULL)
-  , secs(NULL)
-  ,
 #ifdef HAVE_GTK3
-  hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
+  , hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
   , mins_adjustment(Gtk::Adjustment::create(0, 0, 59))
   , secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
 #else
-  hours_adjustment(0, 0, 23)
+  , hours_adjustment(0, 0, 23)
   , mins_adjustment(0, 0, 59)
   , secs_adjustment(0, 0, 59)
 #endif
@@ -160,10 +156,10 @@ TimeEntry::update(Gtk::SpinButton *spin)
   // Needless to say, this kinda sucks.
   Glib::ustring s = spin->get_text();
   const gchar *txt = s.c_str();
-  if (txt != NULL && *txt != 0)
+  if (txt != nullptr && *txt != 0)
     {
-      gchar *err = NULL;
-      if (err == NULL || *err == 0)
+      gchar *err = nullptr;
+      if (err == nullptr || *err == 0)
         {
           spin->update();
         }

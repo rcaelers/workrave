@@ -20,9 +20,9 @@
 #ifndef INPUTMONITOR_HH
 #define INPUTMONITOR_HH
 
-#include <stdlib.h>
 #include "IInputMonitor.hh"
 #include "IInputMonitorListener.hh"
+#include <cstdlib>
 
 // Forward declarion of internal interfaces.
 class IInputMonitorListener;
@@ -32,12 +32,12 @@ class InputMonitor : public IInputMonitor
 {
 public:
   InputMonitor();
-  virtual ~InputMonitor();
+  ~InputMonitor() override;
 
-  virtual void subscribe_activity(IInputMonitorListener *listener);
-  virtual void subscribe_statistics(IInputMonitorListener *listener);
-  virtual void unsubscribe_activity(IInputMonitorListener *listener);
-  virtual void unsubscribe_statistics(IInputMonitorListener *listener);
+  void subscribe_activity(IInputMonitorListener *listener) override;
+  void subscribe_statistics(IInputMonitorListener *listener) override;
+  void unsubscribe_activity(IInputMonitorListener *listener) override;
+  void unsubscribe_statistics(IInputMonitorListener *listener) override;
 
 protected:
   void fire_action();
@@ -47,10 +47,10 @@ protected:
 
 private:
   //!
-  IInputMonitorListener *activity_listener;
+  IInputMonitorListener *activity_listener{nullptr};
 
   //!
-  IInputMonitorListener *statistics_listener;
+  IInputMonitorListener *statistics_listener{nullptr};
 };
 
 #include "InputMonitor.icc"
