@@ -48,8 +48,8 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
 RUN mkdir -p /workspace
 
 RUN cd /workspace && \
-    curl -O http://files.jrsoftware.org/is/6/innosetup-6.0.5.exe && \
-    innoextract -d /workspace/inno ./innosetup-6.0.5.exe && rm ./innosetup-6.0.5.exe
+    curl -O http://files.jrsoftware.org/is/6/innosetup-6.1.2.exe && \
+    innoextract -d /workspace/inno ./innosetup-6.1.2.exe && rm ./innosetup-6.1.2.exe
 
 RUN cd /workspace && \
     curl -O https://snapshots.workrave.org/prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
