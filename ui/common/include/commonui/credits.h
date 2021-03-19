@@ -88,8 +88,10 @@ const char *workrave_translators =
   "김재용\n"
   /* lt */
   "Artūras Šlajus\n"
-  /* nl */
+  /* nl 1 */
   "Raymond Penners\n"
+  /* nl 2 */
+  "Matthias Huijgen\n"
   /* no */
   "Morten Lunde\n"
   /* pl */
@@ -128,6 +130,7 @@ const char *workrave_translators =
   "Rex Tsai\n"
   /* zh_TW */
   "Daniel YC Lin (林原志)\n"
-  /* zh_TW */ "Yuenfu Chiu\n";
+  /* zh_TW */
+  "Yuenfu Chiu\n";
 
 #endif /* CREDITS_H */
