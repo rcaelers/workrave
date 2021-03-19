@@ -4,6 +4,9 @@ run_docker_ppa() {
     if [ -n "$DEBIAN_DIR" ]; then
         DEBVOL="-v $DEBIAN_DIR:/workspace/debian"
     fi
+    if [ -n "$PRERELEASE" ]; then
+        PRERELEASE_ARG="-P"
+    fi
     docker run --rm \
         -v "$SOURCE_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
@@ -11,7 +14,7 @@ run_docker_ppa() {
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         rcaelers/workrave-build:${DOCKER_IMAGE} \
-        sh -c "/workspace/scripts/local/ppa.sh -p $PPA $DRYRUN"
+        sh -c "/workspace/scripts/local/ppa.sh -p $PPA $DRYRUN $PRERELEASE_ARG"
 }
 
 run_docker_deb() {
@@ -97,13 +100,13 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "bt:C:D:R:S:W:B:p:d" o; do
+    while getopts "bt:C:D:R:S:W:B:p:dP" o; do
         case "${o}" in
         p)
             PPA="${OPTARG}"
             ;;
         b)
-            BUILD_DEP=1
+            BUILD_DEB=1
             ;;
         d)
             DRYRUN=-d
@@ -113,6 +116,9 @@ parse_arguments() {
             ;;
         C)
             SCRIPTS_DIR="${OPTARG}"
+            ;;
+        P)
+            PRERELEASE=1
             ;;
         D)
             DEBIAN_DIR="${OPTARG}"
@@ -137,7 +143,8 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
-BUILD_DEP=
+BUILD_DEB=
+PRERELEASE=
 DEBIAN_DIR=
 WEBSITE_DIR=
 SECRETS_DIR=
@@ -167,7 +174,7 @@ DOCKER_IMAGE="ubuntu-groovy"
 setup
 run_docker_ppa
 
-if [ -n $BUILD_DEP ]; then
+if [ -n $BUILD_DEB ]; then
     echo Build all debian packages.
     run_docker_deb
 fi
