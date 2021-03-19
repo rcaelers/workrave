@@ -45,6 +45,7 @@ MutterInputMonitor::init()
   if (result)
     {
       init_inhibitors();
+      init_service_monitor();
     }
 
   TRACE_EXIT();
@@ -111,6 +112,41 @@ MutterInputMonitor::init_inhibitors()
       TRACE_MSG("Inhibited:" << g_variant_get_uint32(v) << " " << inhibited);
       g_variant_unref(v);
     }
+  TRACE_EXIT();
+}
+
+void
+MutterInputMonitor::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
+{
+  TRACE_ENTER_MSG("MutterInputMonitor::on_bus_name_appeared", name);
+  (void)connection;
+  (void)name;
+  (void)name_owner;
+  auto *self = (MutterInputMonitor *)user_data;
+  if (self->watch_active != 0u)
+  {
+    self->register_active_watch();
+  }
+  if (self->watch_idle != 0u)
+  {
+    self->register_idle_watch();
+  }
+  TRACE_EXIT();
+}
+
+void
+MutterInputMonitor::on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
+{
+  (void)connection;
+  (void)name;
+  (void)user_data;
+}
+
+void
+MutterInputMonitor::init_service_monitor()
+{
+  TRACE_ENTER("MutterInputMonitor::init_service_monitor");
+  watch_id = g_bus_watch_name(G_BUS_TYPE_SESSION, "org.gnome.Mutter.IdleMonitor", G_BUS_NAME_WATCHER_FLAGS_NONE, on_bus_name_appeared, on_bus_name_vanished, this, nullptr);
   TRACE_EXIT();
 }
 
