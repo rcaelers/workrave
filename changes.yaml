@@ -22,6 +22,7 @@ releases:
       - Fix issue where Workrave shows 2 status icons on Linux (#258)
       - Updated Dutch translation (Matthias Huijgen)
       - Support High-DPI displays in the Windows Applet.
+      - Updated French translation (Darialalala)
 
   - version: 1.10.44
     date: 2020-05-09T12:52:50+02:00
