@@ -1,4 +1,4 @@
-// W32StatusIcon.hh --- Window Notifcation Icon
+// W32StatusIcon.hh --- Window Notification Icon
 //
 // Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.

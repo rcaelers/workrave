@@ -77,7 +77,7 @@ namespace workrave
     //! Temporarily overrides the operation mode.
     virtual void set_operation_mode_override(workrave::OperationMode mode, const std::string &id) = 0;
 
-    //! Removes the overriden operation mode.
+    //! Removes the overridden operation mode.
     virtual void remove_operation_mode_override(const std::string &id) = 0;
 
     //! Checks if operation_mode is an override.

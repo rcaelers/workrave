@@ -777,7 +777,7 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override)
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_while_overriden)
+BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_while_overridden)
 {
   init();
 

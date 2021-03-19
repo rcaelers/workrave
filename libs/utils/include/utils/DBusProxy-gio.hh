@@ -64,7 +64,7 @@ public:
   // method_result may be null, in this case the result of the method is ignored
   bool call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result);
 
-  // Calls method asyncronously and does not accept result (no callback will be run)
+  // Calls method asynchronously and does not accept result (no callback will be run)
   // Consumes (=deletes) method_parameters if it is floating
   bool call_method_asynch_no_result(const char *method_name, GVariant *method_parameters);
 

@@ -112,7 +112,7 @@ private:
   //! Head
   HeadInfo head;
 
-  // Aligment in Waylang
+  // Alignment in Wayland
   Gtk::Alignment *align{nullptr};
 };
 

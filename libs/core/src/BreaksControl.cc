@@ -275,7 +275,7 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
         }
     }
 
-  // Stop microbreak when a restbreak starts. should not happend.
+  // Stop microbreak when a restbreak starts. should not happened.
   // restbreak should be advanced.
   for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
     {
@@ -307,7 +307,7 @@ BreaksControl::set_insist_policy(InsistPolicy p)
   TRACE_EXIT();
 }
 
-//! Excecute the insist policy.
+//! Exceute the insist policy.
 void
 BreaksControl::freeze()
 {

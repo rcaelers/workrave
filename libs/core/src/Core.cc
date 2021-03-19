@@ -317,7 +317,7 @@ Core::set_operation_mode_override(OperationMode mode, const std::string &id)
   core_modes->set_operation_mode_override(mode, id);
 }
 
-//! Removes the overriden operation mode.
+//! Removes the overridden operation mode.
 void
 Core::remove_operation_mode_override(const std::string &id)
 {

@@ -102,7 +102,7 @@ CoreModes::set_operation_mode_override(OperationMode mode, const std::string &id
   set_operation_mode_internal(mode, false, id);
 }
 
-//! Removes the overriden operation mode.
+//! Removes the overridden operation mode.
 void
 CoreModes::remove_operation_mode_override(const std::string &id)
 {
