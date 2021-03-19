@@ -29,9 +29,9 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
 
   add_definitions(
     -DWIN32
-    -DWINVER=0x400
+    -DWINVER=0xA00
     -D_USRDLL
-    -D_WIN32_WINNT=0x0601
+    -D_WIN32_WINNT=0x0A00
     -D_WINDOWS
   )
 

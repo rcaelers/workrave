@@ -28,7 +28,7 @@ class PaintHelper;
 class Icon
 {
 public:
-  Icon(HWND hwnd, HINSTANCE hinst, const char *resource, CDeskBand *deskband);
+  Icon(HWND hwnd, HINSTANCE hinst, const char *resource, int size, CDeskBand *deskband);
   ~Icon();
 
   HWND get_handle() const { return hwnd; };
@@ -36,10 +36,11 @@ public:
   void update();
 
 private:
-  CDeskBand *deskband;
-  HWND hwnd;
-  HICON icon;
-  PaintHelper *paint_helper;
+  CDeskBand *deskband{nullptr};
+  HWND hwnd{};
+  HICON icon{};
+  PaintHelper *paint_helper{nullptr};
+  int size{16};
   static void init(HINSTANCE hinst);
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
   LRESULT on_paint();

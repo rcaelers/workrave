@@ -19,7 +19,6 @@ bool PaintHelper::composition_enabled = false;
 bool PaintHelper::composition_available = false;
 
 PaintHelper::PaintHelper(HWND hwnd)
-  : paint_buffer(NULL)
 {
   TRACE_ENTER_MSG("PaintHelper::PaintHelper", hwnd);
   this->hwnd = hwnd;

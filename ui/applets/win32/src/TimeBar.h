@@ -49,17 +49,17 @@ public:
   HWND get_handle() const { return hwnd; };
 
 private:
-  CDeskBand *deskband;
-  HWND hwnd;
-  int width, height;
-  int bar_max_value;
-  int bar_value;
-  int secondary_bar_max_value;
-  int secondary_bar_value;
-  TimerColorId secondary_bar_color;
-  TimerColorId bar_color;
-  char bar_text[APPLET_BAR_TEXT_MAX_LENGTH];
-  PaintHelper *paint_helper;
+  CDeskBand *deskband{nullptr};
+  HWND hwnd{};
+  int width{0}, height{0};
+  int bar_max_value{100};
+  int bar_value{0};
+  int secondary_bar_max_value{0};
+  int secondary_bar_value{100};
+  TimerColorId secondary_bar_color{TimerColorId::Inactive};
+  TimerColorId bar_color{TimerColorId::Active};
+  char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{0,};
+  PaintHelper *paint_helper{nullptr};
 
   static HFONT bar_font;
   static std::map<TimerColorId, HBRUSH> bar_colors;

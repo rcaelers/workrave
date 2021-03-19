@@ -18,7 +18,9 @@
 //
 // $Id$
 
+#include <windows.h>
 #include <windowsx.h>
+#include <winuser.h>
 
 #include "DeskBand.h"
 #include "TimeBar.h"
@@ -28,23 +30,12 @@
 #include "Debug.h"
 #include "PaintHelper.h"
 
+#if !defined(WM_DPICHANGED)
+#define WM_DPICHANGED 0x02E0
+#endif
+
 CDeskBand::CDeskBand()
 {
-  m_pSite = NULL;
-  m_hWnd = NULL;
-  m_hwndParent = NULL;
-  m_bFocus = FALSE;
-  m_dwViewMode = 0;
-  m_dwBandID = 0;
-  m_TimerBox = NULL;
-  m_HasAppletMenu = FALSE;
-  m_LastCopyData = 0;
-  m_ObjRefCount = 1;
-  m_preferredWidth = DB_MIN_SIZE_X;
-  m_preferredHeight = DB_MIN_SIZE_Y;
-  m_minimumWidth = DB_MIN_SIZE_X;
-  m_minimumHeight = DB_MIN_SIZE_Y;
-
   g_DllRefCount++;
 }
 
@@ -602,6 +593,9 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     case WM_LBUTTONUP:
       SendMessage((HWND)LongToHandle(pThis->m_AppletMenu.command_window), WM_USER + 1, 0, 0);
       break;
+
+    case WM_DPICHANGED:
+        pThis->OnDPIChanged();
     }
 
   if (uMessage != WM_ERASEBKGND)
@@ -793,6 +787,18 @@ CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
   if (m_TimerBox != NULL)
     {
       m_TimerBox->update(true);
+    }
+  TRACE_EXIT();
+  return 0;
+}
+
+LRESULT
+CDeskBand::OnDPIChanged()
+{
+  TRACE_ENTER("CDeskBand::OnDPIChanged");
+  if (m_TimerBox != NULL)
+    {
+      m_TimerBox->update_dpi();
     }
   TRACE_EXIT();
   return 0;

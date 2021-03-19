@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 01 December 2020
+Workrave NEWS -- history of user-visible changes. 20 January 2021
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -21,6 +21,7 @@ https://github.com/rcaelers/workrave/issues
 ** Fix build issue with libayatana-indicator3.
 ** Fix issue where Workrave shows 2 status icons on Linux (#258)
 ** Updated Dutch translation (Matthias Huijgen)
+** Support High-DPI displays in the Windows Applet.
 
 * Workrave 1.10.44
 

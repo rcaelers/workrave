@@ -42,7 +42,7 @@ class CDeskBand
   , public IContextMenu
 {
 protected:
-  DWORD m_ObjRefCount;
+  DWORD m_ObjRefCount{1};
 
 public:
   CDeskBand();
@@ -94,21 +94,21 @@ public:
   HWND get_command_window() const;
 
 private:
-  BOOL m_bFocus;
-  HWND m_hwndParent;
-  HWND m_hWnd;
-  DWORD m_dwViewMode;
-  DWORD m_dwBandID;
-  IInputObjectSite *m_pSite;
-  TimerBox *m_TimerBox;
-  time_t m_LastCopyData;
-  AppletMenuData m_AppletMenu;
-  BOOL m_HasAppletMenu;
-  BOOL m_CompositionEnabled;
-  int m_preferredWidth;
-  int m_preferredHeight;
-  int m_minimumWidth;
-  int m_minimumHeight;
+  BOOL m_bFocus{FALSE};
+  HWND m_hwndParent{nullptr};
+  HWND m_hWnd{nullptr};
+  DWORD m_dwViewMode{0};
+  DWORD m_dwBandID{0};
+  IInputObjectSite *m_pSite{nullptr};
+  TimerBox *m_TimerBox{nullptr};
+  time_t m_LastCopyData{0};
+  AppletMenuData m_AppletMenu{};
+  BOOL m_HasAppletMenu{FALSE};
+  BOOL m_CompositionEnabled{FALSE};
+  int m_preferredWidth{DB_MIN_SIZE_X};
+  int m_preferredHeight{DB_MIN_SIZE_Y};
+  int m_minimumWidth{DB_MIN_SIZE_X};
+  int m_minimumHeight{DB_MIN_SIZE_Y};
 
 private:
   void FocusChange(BOOL);
@@ -120,6 +120,7 @@ private:
   LRESULT OnSize(LPARAM);
   LRESULT OnTimer(WPARAM wParam, LPARAM lParam);
   LRESULT OnWindowPosChanging(WPARAM wParam, LPARAM lParam);
+  LRESULT OnDPIChanged();
   BOOL RegisterAndCreateWindow();
   void UpdateDeskband();
 };
