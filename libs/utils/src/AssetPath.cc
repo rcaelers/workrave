@@ -207,6 +207,7 @@ AssetPath::get_search_path(SearchPathId type)
       searchPath.insert("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WINDOWS)
       searchPath.insert(app_dir + "\\share\\images");
+      searchPath.insert(app_dir + "\\share\\icons");
 
 #elif defined(PLATFORM_OS_MACOS)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
