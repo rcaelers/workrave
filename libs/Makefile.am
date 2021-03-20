@@ -1,3 +1,3 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = dbus
+SUBDIRS = utils config hooks input-monitor audio dbus session core
