@@ -48,7 +48,7 @@
 #  include <strings.h>
 #endif
 
-#include "System.hh"
+#include "session/System.hh"
 #include "debug.hh"
 
 #if defined(PLATFORM_OS_UNIX)

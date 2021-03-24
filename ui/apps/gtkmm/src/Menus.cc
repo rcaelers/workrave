@@ -25,7 +25,7 @@
 
 #include "nls.h"
 #include "debug.hh"
-#include "credits.h"
+#include "commonui/credits.h"
 
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
@@ -39,21 +39,21 @@
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
 #include "DebugDialog.hh"
-#include "IStatistics.hh"
+#include "core/IStatistics.hh"
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "core/ICore.hh"
+#include "config/IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#  include "IDistributionManager.hh"
+#  include "core/IDistributionManager.hh"
 #  include "NetworkJoinDialog.hh"
 #  include "NetworkLogDialog.hh"
 #endif
 
 #ifdef HAVE_EXERCISES
 #  include "ExercisesDialog.hh"
-#  include "Exercise.hh"
+#  include "commonui/Exercise.hh"
 #endif
 
 #include "MainGtkMenu.hh"
@@ -79,7 +79,7 @@
 #  include "MacOSGtkMenu.hh"
 #endif
 
-#include "MenuEnums.hh"
+#include "commonui/MenuEnums.hh"
 
 //! Constructor.
 /*!

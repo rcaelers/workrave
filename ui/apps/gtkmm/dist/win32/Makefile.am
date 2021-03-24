@@ -5,6 +5,6 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in setup.iss lang.iss
 
-SUBDIRS = 		setup
-
 EXTRA_DIST = workrave.ini Workrave.lnk WizModernImage.bmp WizModernSmall.bmp
+
+SUBDIRS = src

@@ -33,18 +33,18 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
-#include "IConfigurator.hh"
-#include "IBreak.hh"
+#include "core/CoreFactory.hh"
+#include "core/ICore.hh"
+#include "config/IConfigurator.hh"
+#include "core/IBreak.hh"
 
 #include "TimeEntry.hh"
 #include "TimerPreferencesPanel.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
 
-#include "GUIConfig.hh"
-#include "CoreConfig.hh"
+#include "commonui/GUIConfig.hh"
+#include "core/CoreConfig.hh"
 #include "DataConnector.hh"
 
 using namespace std;

@@ -23,7 +23,7 @@
 class ISocket;
 class ISocketServer;
 
-#include "Exception.hh"
+#include "utils/Exception.hh"
 
 using namespace workrave;
 

@@ -20,7 +20,7 @@
 #ifndef LOCKSCREEN_HH_
 #define LOCKSCREEN_HH_
 
-#include "IScreenLockMethod.hh"
+#include "session/IScreenLockMethod.hh"
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"

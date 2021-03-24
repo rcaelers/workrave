@@ -22,8 +22,8 @@
 
 #include <string>
 
-#include "ICore.hh"
-#include "IConfiguratorListener.hh"
+#include "core/ICore.hh"
+#include "config/IConfiguratorListener.hh"
 #include "ITimerBoxView.hh"
 
 using namespace workrave;

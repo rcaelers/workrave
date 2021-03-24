@@ -55,7 +55,7 @@ potential crash.
 #include <iterator>
 #include <string>
 
-#include "W32ActiveSetup.hh"
+#include "utils/W32ActiveSetup.hh"
 
 using namespace std;
 
@@ -101,7 +101,7 @@ W32ActiveSetup::get_user_profile_dir()
   if (buffer.size() && *buffer.begin())
     return &buffer[0];
 
-  WCHAR *env_var = L"USERPROFILE";
+  LPCWSTR env_var = L"USERPROFILE";
 
   DWORD ret = GetEnvironmentVariableW(env_var, NULL, 0);
   if (!ret || (ret > 32767))
@@ -109,7 +109,7 @@ W32ActiveSetup::get_user_profile_dir()
 
   buffer.resize(ret);
 
-  ret = GetEnvironmentVariableW(env_var, &buffer[0], buffer.size());
+  ret = GetEnvironmentVariableW(env_var, &buffer[0], static_cast<DWORD>(buffer.size()));
   if (!ret || (ret >= buffer.size()) || !*buffer.begin())
     return NULL;
 
@@ -284,7 +284,8 @@ W32ActiveSetup::write_to_registry_value(const wstring &guid, const wstring &valu
   if (ret)
     return false;
 
-  ret = RegSetValueExW(hkey, value.c_str(), 0, REG_SZ, (const BYTE *)data.c_str(), ((data.length() + 1) * sizeof(wchar_t)));
+  ret = RegSetValueExW(
+    hkey, value.c_str(), 0, REG_SZ, (const BYTE *)data.c_str(), static_cast<int>((data.length() + 1) * sizeof(wchar_t)));
 
   CloseHandle(hkey);
 

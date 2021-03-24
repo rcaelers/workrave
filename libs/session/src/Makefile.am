@@ -1,56 +1,38 @@
-# Process this file with automake to produce Makefile.in
-#
-# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
-#
-
 MAINTAINERCLEANFILES =	Makefile.in
 
-noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
+noinst_LTLIBRARIES = libworkrave-session.la
 
-SUBDIRS = 		win32 x11 macos
+SUBDIRS =	win32
 
-libworkrave_frontend_common_la_SOURCES = \
-			Text.cc \
-			SoundPlayer.cc \
-			GstSoundPlayer.cc \
-			PulseMixer.cc \
-			System.cc \
-			TimerBoxControl.cc
+cflags =
+sources = 	System.cc
 
-ldadd_platform=
-
-if PLATFORM_OS_WINDOWS
-ldadd_platform += 	win32/libworkrave-frontend-common-win32.la
-endif
-if PLATFORM_OS_MACOS
-ldadd_platform += 	macos/libworkrave-frontend-common-macos.la
-endif
 if PLATFORM_OS_UNIX
-ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
-libworkrave_frontend_common_la_SOURCES += \
-			ScreenLockCommandline.cc
+sources += 	ScreenLockCommandline.cc
 
 if HAVE_DBUS
-libworkrave_frontend_common_la_SOURCES += \
-			ScreenLockDBus.cc	\
+sources +=	ScreenLockDBus.cc	\
 			SystemStateChangeConsolekit.cc \
 			SystemStateChangeUPower.cc \
 			SystemStateChangeLogind.cc
 endif
 endif
 
-libworkrave_frontend_common_la_LIBADD=${ldadd_platform}
+if PLATFORM_OS_WINDOWS
+sources += 	win32/W32LockScreen.cc \
+			win32/W32Shutdown.cc
+cflags += 	-I$(top_srcdir)/libs/session/src/win32
+endif
 
-EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
-			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
+libworkrave_session_la_SOURCES = ${sources}
 
-libworkrave_frontend_common_la_CXXFLAGS = \
+EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
+			 $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
+
+DEFS = @DEFS@ -I. -I$(top_srcdir)/libs/session/include
+
+libworkrave_session_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			-W -I$(top_srcdir)/frontend/common/src/ \
-			-I$(top_srcdir)/frontend/common/include \
-			-I$(top_srcdir)/frontend/common/src/win32 \
-			-I$(top_srcdir)/frontend/common/src/macos \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
-			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
-			-I$(top_srcdir)/common/win32/harpoon/include
+			-D_XOPEN_SOURCE=600 @X_CFLAGS@ ${cflags} \
+			@WR_COMMON_INCLUDES@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
+			-I

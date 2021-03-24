@@ -25,7 +25,7 @@
 #include <gtkmm.h>
 #include <gdkmm.h>
 
-#include "ITimeBar.hh"
+#include "commonui/ITimeBar.hh"
 
 class TimeBar
   : public Gtk::DrawingArea

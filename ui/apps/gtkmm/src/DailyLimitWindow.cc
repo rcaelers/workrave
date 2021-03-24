@@ -33,7 +33,7 @@
 #include <gtkmm/button.h>
 
 #include "GUI.hh"
-#include "IBreakResponse.hh"
+#include "core/IBreakResponse.hh"
 #include "WindowHints.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"

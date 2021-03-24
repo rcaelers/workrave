@@ -26,9 +26,9 @@
 #include <iostream>
 #include <vector>
 
-#include "IStatistics.hh"
-#include "IInputMonitorListener.hh"
-#include "Mutex.hh"
+#include "core/IStatistics.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+#include "utils/Mutex.hh"
 
 // Forward declarion of external interface.
 namespace workrave

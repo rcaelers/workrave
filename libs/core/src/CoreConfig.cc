@@ -23,8 +23,8 @@
 
 #include <string>
 
-#include "CoreConfig.hh"
-#include "ICore.hh"
+#include "core/CoreConfig.hh"
+#include "core/ICore.hh"
 
 using namespace std;
 using namespace workrave;

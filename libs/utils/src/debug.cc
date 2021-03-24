@@ -31,7 +31,7 @@
 #    include <windows.h>
 #  endif
 
-#  include "Mutex.hh"
+#  include "utils/Mutex.hh"
 #  include "debug.hh"
 
 using namespace std;

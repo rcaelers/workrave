@@ -11,7 +11,7 @@ WORKRAVE_VERSION=`cat ${SOURCES_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut 
 
 prepare_runtime()
 {
-    cd ${SOURCES_DIR}/frontend/gtkmm/win32/setup/
+    cd ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32
     ${MINGW_MAKE_RUNTIME} ${SOURCES_DIR}
 }
 
@@ -24,7 +24,7 @@ prepare_prebuilt()
     mkdir Release
     cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}/harpoon.dll Release
     cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}64/harpoon64.dll Release
-    cd ${SOURCES_DIR}/frontend/applets/win32/src
+    cd ${SOURCES_DIR}/ui/applets/win32/src
     mkdir Release
     cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}/workrave-applet.dll Release
     cp -a ${WORKSPACE}/prebuilt/${CONFIGURATION}64/workrave-applet64.dll Release
@@ -43,16 +43,16 @@ build()
 
     bash ./build/win32/autogencross.sh ${CONF_FLAGS} ${EXTRA_CONF} && \
         make && \
-        cp -a ${SOURCES_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/frontend/gtkmm/src && \
-        $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe >${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym && \
+        cp -a ${SOURCES_DIR}/ui/apps/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/ui/apps/gtkmm/src && \
+        $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.exe >${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.sym && \
         if [ $CONFIGURATION == "Release" ]; then \
-            $TARGET-strip ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe; \
+            $TARGET-strip ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.exe; \
         fi
 }
 
 make_installer()
 {
-    cd ${SOURCES_DIR}/frontend/gtkmm/win32/setup/
+    cd ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32
     unix2dos setup.iss
     wine "${ISCC}" setup.iss
 
@@ -72,8 +72,8 @@ make_installer()
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
+        mv ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
+        bzip2 -c ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
 
     else
         echo "Tag build : $TRAVIS_TAG"
@@ -84,8 +84,8 @@ make_installer()
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
+        mv ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Output/setup.exe ${DEPLOY_DIR}/${installerFilename}
+        bzip2 -c ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
     fi
 
     ${SOURCES_DIR}/build/travis/catalog.sh -f ${installerFilename} -k installer -c ${CONFIG} -p windows

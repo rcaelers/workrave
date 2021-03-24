@@ -37,12 +37,12 @@
 #endif
 
 #include "GUI.hh"
-#include "Util.hh"
+#include "utils/Util.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
 #include "EventImage.hh"
 #include "HeadInfo.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 
 using namespace std;
 

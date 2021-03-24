@@ -25,7 +25,7 @@
 #include <gtkmm/dialog.h>
 #include <gtkmm/textbuffer.h>
 
-#include "Diagnostics.hh"
+#include "utils/Diagnostics.hh"
 
 using namespace std;
 

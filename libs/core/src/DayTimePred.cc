@@ -25,8 +25,8 @@
 #include <cstdlib>
 #include <string>
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
 #include "DayTimePred.hh"
 
 using namespace std;

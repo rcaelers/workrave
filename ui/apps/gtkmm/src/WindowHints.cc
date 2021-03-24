@@ -35,7 +35,7 @@
 #  include <windows.h>
 #  include <gtk/gtk.h>
 #  include <gdk/gdkwin32.h>
-#  include "Harpoon.hh"
+#  include "input-monitor/Harpoon.hh"
 #  ifdef PLATFORM_OS_WINDOWS_NATIVE
 #    undef max
 #  endif

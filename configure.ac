@@ -21,7 +21,7 @@ AC_INIT([workrave],
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AC_CONFIG_SRCDIR([backend/include/ICore.hh])
+AC_CONFIG_SRCDIR([libs/core/include/core/ICore.hh])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
@@ -984,23 +984,20 @@ then
    variant="$variant x11 unix"
 fi
 
-WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
-WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include -I\$(top_srcdir)/libs/dbus/include"
-WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/frontend/common/include"
+WR_BACKEND_INCLUDES=""
+WR_COMMON_INCLUDES="-I\$(top_srcdir)/libs/hooks/harpoon/include"
+WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/ui/common/include"
+WR_LDADD="-L\$(top_srcdir)/ui/common/src"
 
-for v in $variant; do
-    if test -d common/src/$v
-    then
-       WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I\$(top_srcdir)/common/include/$v"
-    fi
+for l in audio config core dbus input-monitor session utils; do
+    WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I\$(top_srcdir)/libs/$l/include"
+    WR_LDFLAGS="$WR_LDFLAGS -L\$(top_builddir)/libs/$l/src/"
 done
 
-WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common"
+
 if test "x$config_dbus" = "xyes"; then
   WR_LDADD="$WR_LDADD -lworkrave-dbus"
 fi
-
-WR_LDFLAGS="-L\$(top_builddir)/common/src/ -L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src -L\$(top_builddir)/libs/dbus/src/"
 
 AC_SUBST(WR_LDADD)
 AC_SUBST(WR_LDFLAGS)
@@ -1048,7 +1045,7 @@ dnl
 
 if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
-    LANGFILE="./frontend/gtkmm/win32/setup/lang.iss"
+    LANGFILE="./ui/apps/gtkmm/dist/win32/lang.iss"
 
     ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' | awk '{$1=$1;print}')"
     AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
@@ -1056,7 +1053,7 @@ then
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
     echo -en "\r\n" >> $LANGFILE
     for a in $ALL_LINGUAS; do
-        X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
+        X="Source: \"..\\..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
         echo -n $X     >> $LANGFILE
         echo -en "\r\n" >> $LANGFILE
     done
@@ -1067,115 +1064,127 @@ dnl Makefile output
 dnl
 
 AC_CONFIG_FILES([Makefile
-             backend/Makefile
-             backend/test/Makefile
-             backend/src/Makefile
-             backend/src/org.workrave.gschema.xml.in
-             backend/src/unix/Makefile
-             backend/src/macos/Makefile
-             backend/src/win32/Makefile
-             backend/include/Makefile
-             common/Makefile
-             common/bin/Makefile
-             common/src/Makefile
-             common/src/win32/Makefile
-             common/include/Makefile
-             common/include/win32/Makefile
-             common/win32/Makefile
-             common/win32/harpoon/Makefile
-             common/win32/harpoon/include/Makefile
-             common/win32/harpoon/src/Makefile
-             common/win32/harpoonHelper/Makefile
-             common/win32/harpoonHelper/include/Makefile
-             common/win32/harpoonHelper/src/Makefile
-             libs/Makefile
-             libs/dbus/Makefile
-             libs/dbus/bin/Makefile
-             libs/dbus/data/Makefile
-             libs/dbus/include/Makefile
-             libs/dbus/include/dbus/Makefile
-             libs/dbus/src/Makefile
-             frontend/Makefile
-             frontend/common/Makefile
-             frontend/common/include/Makefile
-             frontend/common/share/Makefile
-             frontend/common/share/sounds/Makefile
-             frontend/common/share/sounds/bells/Makefile
-             frontend/common/share/sounds/subtle/Makefile
-             frontend/common/share/sounds/default/Makefile
-             frontend/common/share/images/Makefile
-             frontend/common/share/images/16x16/Makefile
-             frontend/common/share/images/24x24/Makefile
-             frontend/common/share/images/32x32/Makefile
-             frontend/common/share/images/48x48/Makefile
-             frontend/common/share/images/64x64/Makefile
-             frontend/common/share/images/96x96/Makefile
-             frontend/common/share/images/128x128/Makefile
-             frontend/common/share/images/scalable/Makefile
-             frontend/common/share/images/win32/Makefile
-             frontend/common/share/images/macos/Makefile
-             frontend/common/src/Makefile
-             frontend/common/src/win32/Makefile
-             frontend/common/src/x11/Makefile
-             frontend/common/src/macos/Makefile
-             frontend/applets/Makefile
-             frontend/applets/win32/Makefile
-             frontend/applets/win32/src/Makefile
-             frontend/applets/win32/include/Makefile
-             frontend/applets/common/Makefile
-             frontend/applets/common/src/Makefile
-             frontend/applets/common/include/Makefile
-             frontend/applets/gnome3/Makefile
-             frontend/applets/gnome3/src/Makefile
-             frontend/applets/indicator/Makefile
-             frontend/applets/indicator/src/Makefile
-             frontend/applets/indicator/include/Makefile
-             frontend/applets/xfce/Makefile
-             frontend/applets/xfce/src/Makefile
-             frontend/applets/xfce/include/Makefile
-             frontend/applets/mate/Makefile
-             frontend/applets/mate/src/Makefile
-             frontend/applets/mate/include/Makefile
-             frontend/applets/gnome-shell/Makefile
-             frontend/applets/gnome-shell/src/Makefile
-             frontend/applets/cinnamon/Makefile
-             frontend/applets/cinnamon/src/Makefile
-             frontend/gtkmm/Makefile
-             frontend/gtkmm/macos/Makefile
-             frontend/gtkmm/win32/Makefile
-             frontend/gtkmm/win32/setup/Makefile
-             frontend/gtkmm/win32/setup/setup.iss
-             frontend/gtkmm/win32/setup/src/Makefile
-             frontend/gtkmm/src/Makefile
-             frontend/gtkmm/src/org.workrave.gui.gschema.xml.in
-             frontend/gtkmm/src/win32/Makefile
-             frontend/gtkmm/src/unix/Makefile
-             frontend/gtkmm/src/macos/Makefile
-             frontend/text/Makefile
-             frontend/text/src/Makefile
-             frontend/plugin/Makefile
-             frontend/plugin/distribution/Makefile
-             frontend/plugin/distribution/gtkmm/Makefile
-             frontend/plugin/distribution/gtkmm/src/Makefile
-             frontend/plugin/statistics/Makefile
-             frontend/plugin/statistics/gtkmm/Makefile
-             frontend/plugin/statistics/gtkmm/src/Makefile
-             frontend/plugin/exercises/Makefile
-             frontend/plugin/exercises/common/Makefile
-             frontend/plugin/exercises/common/share/Makefile
-             frontend/plugin/exercises/common/src/Makefile
-             frontend/plugin/exercises/gtkmm/Makefile
-             frontend/plugin/exercises/gtkmm/src/Makefile
-             po/Makefile.in
-             contrib/Makefile
-             contrib/plot/Makefile
-             contrib/send_menu_command/Makefile
-             contrib/send_menu_command/win32/Makefile
-             contrib/send_dbus_command/Makefile
-             contrib/send_dbus_command/kde/Makefile
-             build/Makefile
-             m4/Makefile
-])
+                 build/Makefile
+                 contrib/Makefile
+                 contrib/plot/Makefile
+                 contrib/send_dbus_command/kde/Makefile
+                 contrib/send_dbus_command/Makefile
+                 contrib/send_menu_command/Makefile
+                 contrib/send_menu_command/win32/Makefile
+                 libs/audio/include/audio/Makefile
+                 libs/audio/include/Makefile
+                 libs/audio/Makefile
+                 libs/audio/src/macos/Makefile
+                 libs/audio/src/Makefile
+                 libs/audio/src/win32/Makefile
+                 libs/audio/src/x11/Makefile
+                 libs/config/include/config/Makefile
+                 libs/config/include/Makefile
+                 libs/config/Makefile
+                 libs/config/src/macos/Makefile
+                 libs/config/src/Makefile
+                 libs/config/src/unix/Makefile
+                 libs/config/src/win32/Makefile
+                 libs/core/include/core/Makefile
+                 libs/core/include/Makefile
+                 libs/core/Makefile
+                 libs/core/src/Makefile
+                 libs/core/src/win32/Makefile
+                 libs/core/test/Makefile
+                 libs/dbus/bin/Makefile
+                 libs/dbus/data/Makefile
+                 libs/dbus/include/dbus/Makefile
+                 libs/dbus/include/Makefile
+                 libs/dbus/Makefile
+                 libs/dbus/src/Makefile
+                 libs/hooks/harpoonHelper/include/Makefile
+                 libs/hooks/harpoonHelper/Makefile
+                 libs/hooks/harpoonHelper/src/Makefile
+                 libs/hooks/harpoon/include/Makefile
+                 libs/hooks/harpoon/Makefile
+                 libs/hooks/harpoon/src/Makefile
+                 libs/hooks/Makefile
+                 libs/input-monitor/include/input-monitor/Makefile
+                 libs/input-monitor/include/Makefile
+                 libs/input-monitor/Makefile
+                 libs/input-monitor/src/macos/Makefile
+                 libs/input-monitor/src/Makefile
+                 libs/input-monitor/src/unix/Makefile
+                 libs/input-monitor/src/win32/Makefile
+                 libs/Makefile
+                 libs/session/include/Makefile
+                 libs/session/include/session/Makefile
+                 libs/session/Makefile
+                 libs/session/src/Makefile
+                 libs/session/src/win32/Makefile
+                 libs/utils/bin/Makefile
+                 libs/utils/include/Makefile
+                 libs/utils/include/utils/Makefile
+                 libs/utils/Makefile
+                 libs/utils/src/Makefile
+                 libs/utils/src/win32/Makefile
+                 m4/Makefile
+                 ui/applets/cinnamon/Makefile
+                 ui/applets/cinnamon/src/Makefile
+                 ui/applets/common/include/Makefile
+                 ui/applets/common/Makefile
+                 ui/applets/common/src/Makefile
+                 ui/applets/gnome3/Makefile
+                 ui/applets/gnome3/src/Makefile
+                 ui/applets/gnome-shell/Makefile
+                 ui/applets/gnome-shell/src/Makefile
+                 ui/applets/indicator/include/Makefile
+                 ui/applets/indicator/Makefile
+                 ui/applets/indicator/src/Makefile
+                 ui/applets/Makefile
+                 ui/applets/mate/include/Makefile
+                 ui/applets/mate/Makefile
+                 ui/applets/mate/src/Makefile
+                 ui/applets/win32/include/Makefile
+                 ui/applets/win32/Makefile
+                 ui/applets/win32/src/Makefile
+                 ui/applets/xfce/include/Makefile
+                 ui/applets/xfce/Makefile
+                 ui/applets/xfce/src/Makefile
+                 ui/apps/gtkmm/dist/macos/Makefile
+                 ui/apps/gtkmm/dist/Makefile
+                 ui/apps/gtkmm/dist/win32/Makefile
+                 ui/apps/gtkmm/dist/win32/src/Makefile
+                 ui/apps/gtkmm/Makefile
+                 ui/apps/gtkmm/src/macos/Makefile
+                 ui/apps/gtkmm/src/Makefile
+                 ui/apps/gtkmm/src/unix/Makefile
+                 ui/apps/gtkmm/src/win32/Makefile
+                 ui/apps/Makefile
+                 ui/apps/text/Makefile
+                 ui/apps/text/src/Makefile
+                 ui/common/include/commonui/Makefile
+                 ui/common/include/Makefile
+                 ui/common/Makefile
+                 ui/common/src/Makefile
+                 ui/data/exercises/Makefile
+                 ui/data/images/128x128/Makefile
+                 ui/data/images/16x16/Makefile
+                 ui/data/images/24x24/Makefile
+                 ui/data/images/32x32/Makefile
+                 ui/data/images/48x48/Makefile
+                 ui/data/images/64x64/Makefile
+                 ui/data/images/96x96/Makefile
+                 ui/data/images/macos/Makefile
+                 ui/data/images/Makefile
+                 ui/data/images/scalable/Makefile
+                 ui/data/images/win32/Makefile
+                 ui/data/Makefile
+                 ui/data/sounds/bells/Makefile
+                 ui/data/sounds/default/Makefile
+                 ui/data/sounds/Makefile
+                 ui/data/sounds/subtle/Makefile
+                 ui/Makefile
+                 po/Makefile.in
+                 libs/core//src/org.workrave.gschema.xml.in
+                 ui/apps/gtkmm/src/org.workrave.gui.gschema.xml.in
+                 ui/apps/gtkmm/dist/win32/setup.iss
+                ])
 
 AC_OUTPUT
 

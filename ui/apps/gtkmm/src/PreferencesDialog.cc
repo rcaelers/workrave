@@ -38,7 +38,7 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/filechooserbutton.h>
 
-#include "StringUtil.hh"
+#include "utils/StringUtil.hh"
 #include "Locale.hh"
 
 #include "GtkUtil.hh"
@@ -47,15 +47,15 @@
 #include "TimeEntry.hh"
 #include "TimerBoxPreferencePage.hh"
 #include "TimerPreferencesPanel.hh"
-#include "Util.hh"
+#include "utils/Util.hh"
 #include "GUI.hh"
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 #include "DataConnector.hh"
 #include "Menus.hh"
 
-#include "CoreFactory.hh"
-#include "CoreConfig.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "core/CoreConfig.hh"
+#include "config/IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "NetworkPreferencePage.hh"

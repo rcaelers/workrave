@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include "Sound.hh"
+#include "audio/Sound.hh"
 
 #include <X11/Xlib.h>
 #include <ctime>

@@ -23,8 +23,8 @@
 #include <cstdlib>
 #include <string>
 
-#include "IInputMonitorFactory.hh"
-#include "Diagnostics.hh"
+#include "input-monitor/IInputMonitorFactory.hh"
+#include "utils/Diagnostics.hh"
 
 #include <glib.h>
 

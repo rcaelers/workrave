@@ -33,10 +33,10 @@
 
 #  include "DistributionManager.hh"
 #  include "DistributionSocketLink.hh"
-#  include "DistributionLogListener.hh"
+#  include "core/DistributionLogListener.hh"
 #  include "DistributionListener.hh"
-#  include "Configurator.hh"
-#  include "CoreConfig.hh"
+#  include "config/IConfigurator.hh"
+#  include "core/CoreConfig.hh"
 
 #  ifdef PLATFORM_OS_WINDOWS
 #    define snprintf _snprintf
@@ -53,7 +53,7 @@ DistributionManager::~DistributionManager()
 
 //! Initialize the DistributionManager from the specified Configurator.
 void
-DistributionManager::init(Configurator *conf)
+DistributionManager::init(IConfigurator *conf)
 {
   configurator = conf;
 

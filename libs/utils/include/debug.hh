@@ -39,7 +39,7 @@
 #  include <ctime>
 #  include <string>
 
-#  include "Mutex.hh"
+#  include "utils/Mutex.hh"
 
 extern Mutex g_log_mutex;
 extern std::ofstream g_log_stream;

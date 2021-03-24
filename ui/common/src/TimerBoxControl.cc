@@ -34,15 +34,15 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "TimerBoxControl.hh"
-#include "ITimeBar.hh"
-#include "Util.hh"
-#include "Text.hh"
+#include "commonui/TimerBoxControl.hh"
+#include "commonui/ITimeBar.hh"
+#include "utils/Util.hh"
+#include "commonui/Text.hh"
 
-#include "CoreFactory.hh"
-#include "CoreConfig.hh"
-#include "IBreak.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "core/CoreConfig.hh"
+#include "core/IBreak.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave;
 using namespace std;

@@ -49,12 +49,12 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
 
 #include "StatisticsDialog.hh"
-#include "Text.hh"
-#include "Util.hh"
+#include "commonui/Text.hh"
+#include "utils/Util.hh"
 #include "GtkUtil.hh"
 #include "Locale.hh"
 

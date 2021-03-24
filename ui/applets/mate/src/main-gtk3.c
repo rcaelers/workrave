@@ -20,9 +20,9 @@
 #endif
 
 #include "control.h"
-#include "MenuEnums.hh"
+#include "commonui/MenuEnums.hh"
 
-#include "credits.h"
+#include "commonui/credits.h"
 #include "nls.h"
 
 #include <mate-panel-applet.h>

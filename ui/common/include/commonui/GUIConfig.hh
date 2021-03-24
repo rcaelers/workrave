@@ -20,7 +20,7 @@
 #ifndef GUICONFIG_HH
 #define GUICONFIG_HH
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 using namespace workrave;
 

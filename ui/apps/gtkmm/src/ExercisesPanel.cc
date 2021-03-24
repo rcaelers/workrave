@@ -32,10 +32,10 @@
 #  include "ExercisesPanel.hh"
 #  include "GtkUtil.hh"
 #  include "GUI.hh"
-#  include "Util.hh"
+#  include "utils/Util.hh"
 #  include "Hig.hh"
 #  include "nls.h"
-#  include "SoundPlayer.hh"
+#  include "audio/SoundPlayer.hh"
 #  include "debug.hh"
 
 using namespace std;

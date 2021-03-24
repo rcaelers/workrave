@@ -31,8 +31,8 @@
 
 #include "DataConnector.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave;
 using namespace std;

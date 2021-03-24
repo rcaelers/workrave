@@ -139,7 +139,7 @@ make install -C ../../../ \
 
 if [ $conf_symlink = true ]; then
     rm -rf $pkgexecdir/workrave
-    ln -s ../../../frontend/gtkmm/src/workrave $pkgexecdir
+    ln -s ../../../ui/apps/gtkmm/src/workrave $pkgexecdir
 fi
     
 rm -rf $pkgrootdir/lib

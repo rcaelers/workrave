@@ -21,7 +21,7 @@
 #define IMIXER_HH
 
 #include <string>
-#include "SoundPlayer.hh"
+#include "audio/SoundPlayer.hh"
 
 class IMixer
 {

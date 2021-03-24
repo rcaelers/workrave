@@ -46,7 +46,7 @@
 #endif
 
 #include "GUI.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 #include "Menus.hh" // REFACTOR
 
 using namespace workrave;

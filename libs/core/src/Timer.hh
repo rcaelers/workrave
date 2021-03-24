@@ -35,7 +35,7 @@
 #include <list>
 
 #include "IActivityMonitor.hh"
-#include "Diagnostics.hh"
+#include "utils/Diagnostics.hh"
 
 class TimeSource;
 class TimePred;

@@ -49,6 +49,8 @@ namespace workrave
   public:
     virtual ~IConfigurator() = default;
 
+    virtual void heartbeat() = 0;
+
     virtual void set_delay(const std::string &key, int delay) = 0;
 
     virtual bool load(std::string filename) = 0;

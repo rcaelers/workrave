@@ -26,9 +26,9 @@
 #include <list>
 #include <map>
 
-#include "Mutex.hh"
-#include "IConfigurator.hh"
-#include "IConfiguratorListener.hh"
+#include "utils/Mutex.hh"
+#include "config/IConfigurator.hh"
+#include "config/IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
 
 using namespace workrave;
@@ -51,7 +51,7 @@ public:
   Configurator(IConfigBackend *backend);
   ~Configurator() override;
 
-  void heartbeat();
+  void heartbeat() override;
 
   // IConfigurator
   void set_delay(const std::string &name, int delay) override;

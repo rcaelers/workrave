@@ -1,30 +1,39 @@
-# Process this file with automake to produce Makefile.in
-#
-# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
-#
-
 MAINTAINERCLEANFILES =	Makefile.in
 
-noinst_LTLIBRARIES = libworkrave-frontend-common.la
+noinst_LTLIBRARIES = libworkrave-audio.la
 
 SUBDIRS = win32 x11 macos
 
-libworkrave_frontend_common_la_SOURCES = \
-			SoundPlayer.cc \
+cflags  =
+sources = 	SoundPlayer.cc \
 			GstSoundPlayer.cc \
 			PulseMixer.cc
 
-EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
-			 $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
+if PLATFORM_OS_WINDOWS
+sources +=  win32/W32Mixer.cc win32/W32SoundPlayer.cc win32/Sound.cc
+if HAVE_DSOUND
+sources += 	win32/W32DirectSoundPlayer.cc
+endif
+cflags +=	-I$(top_srcdir)/libs/audio/src/win32
+endif
 
-libworkrave_frontend_common_la_CXXFLAGS = \
+if PLATFORM_OS_MACOS
+sources += 	macos/MacOSSoundPlayer.cc macos/Sound.cc
+cflags += 	-I$(top_srcdir)/libs/audio/src/macos
+endif
+
+if PLATFORM_OS_UNIX
+sources += 	x11/Sound.cc
+cflags += -	I$(top_srcdir)/libs/audio/src/x11
+endif
+
+libworkrave_audio_la_SOURCES = ${sources}
+
+libworkrave_audio_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			-W \
-			-I$(top_srcdir)/frontend/common/src/ \
-			-I$(top_srcdir)/frontend/common/include \
-			-I$(top_srcdir)/frontend/common/src/win32 \
-			-I$(top_srcdir)/frontend/common/src/macos \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
-			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
-			-I$(top_srcdir)/common/win32/harpoon/include
+			@WR_COMMON_INCLUDES@ ${cflags} \
+			@PULSE_CFLAGS@ @GLIB_CFLAGS@ @GTK_CFLAGS@ @GSTREAMER_CFLAGS@
+
+EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
+			 $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)

@@ -29,7 +29,7 @@
 
 #include <glib.h>
 
-#include "WRID.hh"
+#include "utils/WRID.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
@@ -42,8 +42,6 @@
 #  include <sys/types.h>
 #  include <unistd.h>
 #endif
-
-#include "WRID.hh"
 
 using namespace workrave;
 

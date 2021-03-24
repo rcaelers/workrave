@@ -23,9 +23,9 @@
 #include "preinclude.h"
 #include <cstdio>
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 #include "AppletWindow.hh"
-#include "Orientation.hh"
+#include "commonui/Orientation.hh"
 
 #include <sigc++/trackable.h>
 #include <gtkmm/bin.h>

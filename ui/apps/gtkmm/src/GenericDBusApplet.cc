@@ -30,12 +30,12 @@
 
 #include "GenericDBusApplet.hh"
 
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
-#include "MenuEnums.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "commonui/MenuEnums.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 
 #include "dbus/IDBus.hh"
 #include "dbus/DBusException.hh"

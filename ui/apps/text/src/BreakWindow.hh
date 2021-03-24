@@ -24,7 +24,7 @@
 
 #include "preinclude.h"
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "IBreakWindow.hh"
 #include "GUI.hh"
 

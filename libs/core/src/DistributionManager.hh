@@ -24,9 +24,10 @@
 
 using namespace std;
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfigurator.hh"
+#include "config/IConfiguratorListener.hh"
 #include "IDistributionClientMessage.hh"
-#include "IDistributionManager.hh"
+#include "core/IDistributionManager.hh"
 
 using namespace workrave;
 namespace workrave
@@ -56,7 +57,7 @@ public:
   ~DistributionManager() override;
 
   NodeState get_state() const;
-  void init(Configurator *conf);
+  void init(IConfigurator *conf);
   void heartbeart();
   bool is_master() const override;
   string get_master_id() const;
@@ -137,7 +138,7 @@ private:
   bool server_enabled{false};
 
   //! Access to the configuration.
-  Configurator *configurator{nullptr};
+  IConfigurator *configurator{nullptr};
 
   //! Link to other clients
   DistributionLink *link{nullptr};

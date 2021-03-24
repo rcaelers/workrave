@@ -20,9 +20,9 @@
 #ifndef BREAK_HH
 #define BREAK_HH
 
-#include "ICore.hh"
-#include "IConfiguratorListener.hh"
-#include "IBreak.hh"
+#include "core/ICore.hh"
+#include "config/IConfiguratorListener.hh"
+#include "core/IBreak.hh"
 #include "Timer.hh"
 
 using namespace workrave;

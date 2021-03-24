@@ -34,11 +34,11 @@
 #include <cctype>
 #include <algorithm>
 
-#include "StringUtil.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "utils/StringUtil.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 #include "W32Compat.hh"
-#include "W32CriticalSection.hh"
+#include "utils/W32CriticalSection.hh"
 #include "W32ForceFocus.hh"
 
 using namespace std;

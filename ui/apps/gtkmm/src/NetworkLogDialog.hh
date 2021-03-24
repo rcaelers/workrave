@@ -38,7 +38,7 @@ namespace Gtk
   class TextView;
 }
 
-#include "DistributionLogListener.hh"
+#include "core/DistributionLogListener.hh"
 
 using namespace workrave;
 

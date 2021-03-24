@@ -21,7 +21,7 @@
 #define IPRELUDEWINDOW_HH
 
 #include <string>
-#include "IApp.hh"
+#include "core/IApp.hh"
 
 class IPreludeWindow
 {

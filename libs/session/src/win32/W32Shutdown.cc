@@ -23,8 +23,8 @@
 #include <shldisp.h>
 #include "harpoon.h"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave;
 

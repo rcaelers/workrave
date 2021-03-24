@@ -32,17 +32,17 @@
 #include <list>
 #include <set>
 
-#include "Thread.hh"
+#include "utils/Thread.hh"
 
-#include "Sound.hh"
-#include "SoundPlayer.hh"
-#include "ISoundDriver.hh"
+#include "audio/Sound.hh"
+#include "audio/SoundPlayer.hh"
+#include "audio/ISoundDriver.hh"
 #include "IMixer.hh"
 
-#include "IConfigurator.hh"
-#include "CoreFactory.hh"
-#include "Util.hh"
-#include "StringUtil.hh"
+#include "config/IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "utils/Util.hh"
+#include "utils/StringUtil.hh"
 
 #if defined HAVE_GSTREAMER
 #  include "GstSoundPlayer.hh"

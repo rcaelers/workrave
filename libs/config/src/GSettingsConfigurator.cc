@@ -27,8 +27,7 @@
 
 #  include "GSettingsConfigurator.hh"
 #  include "Configurator.hh"
-#  include "Core.hh"
-#  include "StringUtil.hh"
+#  include "utils/StringUtil.hh"
 
 using namespace workrave;
 using namespace std;

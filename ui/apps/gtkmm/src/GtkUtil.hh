@@ -32,7 +32,7 @@
 
 #include <string>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 class HeadInfo;
 class EventImage;

@@ -32,14 +32,14 @@
 #include <ctime>
 #include <sstream>
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
+#include "core/CoreFactory.hh"
+#include "core/ICore.hh"
 
 #include "Timer.hh"
 #include "TimePredFactory.hh"
 #include "TimePred.hh"
-#include "TimeSource.hh"
-#include "timeutil.h"
+#include "utils/TimeSource.hh"
+#include "utils/timeutil.h"
 
 using namespace std;
 using namespace workrave;

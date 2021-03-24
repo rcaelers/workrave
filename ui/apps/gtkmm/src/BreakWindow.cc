@@ -49,16 +49,16 @@
 #include "BreakWindow.hh"
 
 #include "GUI.hh"
-#include "IBreak.hh"
-#include "IBreakResponse.hh"
+#include "core/IBreak.hh"
+#include "core/IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-#include "System.hh"
-#include "Util.hh"
-#include "ICore.hh"
-#include "IConfigurator.hh"
-#include "CoreFactory.hh"
+#include "session/System.hh"
+#include "utils/Util.hh"
+#include "core/ICore.hh"
+#include "config/IConfigurator.hh"
+#include "core/CoreFactory.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "DesktopWindow.hh"

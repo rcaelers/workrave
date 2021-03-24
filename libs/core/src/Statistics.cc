@@ -35,12 +35,12 @@
 #include "Statistics.hh"
 
 #include "Core.hh"
-#include "Util.hh"
+#include "utils/Util.hh"
 #include "Timer.hh"
 #include "TimePred.hh"
-#include "InputMonitorFactory.hh"
-#include "IInputMonitor.hh"
-#include "timeutil.h"
+#include "input-monitor/InputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "utils/timeutil.h"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "DistributionManager.hh"

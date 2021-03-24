@@ -28,9 +28,9 @@
 #include "Hig.hh"
 
 #include "IconListNotebook.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
-#include "SoundPlayer.hh"
+#include "audio/SoundPlayer.hh"
 
 #include <gtkmm.h>
 //#include <gtkmmconfig.h>

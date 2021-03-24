@@ -25,15 +25,15 @@
 
 #include "Break.hh"
 
-#include "IConfigurator.hh"
-#include "ICore.hh"
-#include "CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
 
 #include "BreakControl.hh"
 #include "Timer.hh"
 #include "TimerActivityMonitor.hh"
 
-#include "CoreConfig.hh"
+#include "core/CoreConfig.hh"
 
 using namespace std;
 

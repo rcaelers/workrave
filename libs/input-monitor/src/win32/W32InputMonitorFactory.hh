@@ -23,8 +23,8 @@
 #include <stdlib.h>
 #include <string>
 
-#include "IInputMonitorFactory.hh"
-#include "Diagnostics.hh"
+#include "input-monitor/IInputMonitorFactory.hh"
+#include "utils/Diagnostics.hh"
 
 //! Factory to create input monitors.
 class W32InputMonitorFactory : public IInputMonitorFactory

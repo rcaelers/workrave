@@ -40,10 +40,10 @@
 
 #  include "NetworkLogDialog.hh"
 
-#  include "ICore.hh"
-#  include "CoreFactory.hh"
-#  include "IDistributionManager.hh"
-#  include "Util.hh"
+#  include "core/ICore.hh"
+#  include "core/CoreFactory.hh"
+#  include "core/IDistributionManager.hh"
+#  include "utils/Util.hh"
 
 NetworkLogDialog::NetworkLogDialog()
 #  ifdef HAVE_GTK3

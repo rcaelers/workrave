@@ -22,8 +22,6 @@
 
 #include <gio/gio.h>
 
-#include "ICore.hh"
-
 class Session
 {
 public:

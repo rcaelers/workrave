@@ -40,11 +40,11 @@
 #include <list>
 #include <gtkmm.h>
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 
 #include "TimerBoxGtkView.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 #include "GUI.hh"
 #include "GtkUtil.hh"
 #include "Menus.hh"

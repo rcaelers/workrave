@@ -23,8 +23,8 @@
 #include <stdlib.h>
 #include <string>
 
-#include "IInputMonitor.hh"
-#include "IInputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorFactory.hh"
 
 //! Factory to create input monitors.
 class MacOSInputMonitorFactory : public IInputMonitorFactory

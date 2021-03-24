@@ -61,7 +61,7 @@ jay satiro, workrave project, september 2007
 #include "debug.hh"
 #include <sstream>
 #include "W32LowLevelMonitor.hh"
-#include "Harpoon.hh"
+#include "input-monitor/Harpoon.hh"
 
 W32LowLevelMonitor *W32LowLevelMonitor::singleton = NULL;
 

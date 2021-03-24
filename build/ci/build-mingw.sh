@@ -7,24 +7,24 @@ source ${BASEDIR}/config.sh
 
 prepare_runtime()
 {
-    cd ${SOURCES_DIR}/frontend/gtkmm/win32/setup/
+    cd ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/
     ${MINGW_MAKE_RUNTIME} ${SOURCES_DIR}
 }
 
 prepare_prebuilt()
 {
-    cd ${SOURCES_DIR}/common/win32/harpoonHelper/src
+    cd ${SOURCES_DIR}/libs/hooks/harpoonHelper/src
     if [ ! -d Release ]; then
         mkdir Release
     fi
     cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}64/harpoonHelper.exe Release
-    cd ${SOURCES_DIR}/common/win32/harpoon/src
+    cd ${SOURCES_DIR}/libs/hooks/harpoon/src
     if [ ! -d Release ]; then
         mkdir Release
     fi
     cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}/harpoon.dll Release
     cp -a ${PREBUILT_DIR}/${CONF_CONFIGURATION}64/harpoon64.dll Release
-    cd ${SOURCES_DIR}/frontend/applets/win32/src
+    cd ${SOURCES_DIR}/ui/applets/win32/src
     if [ ! -d Release ]; then
         mkdir Release
     fi
@@ -55,16 +55,16 @@ build()
 
     ./configure ${CONF_FLAGS} ${EXTRA_CONF}
     make -j4
-    cp -a ${SOURCES_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/frontend/gtkmm/src
-    $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe >${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym
+    cp -a ${SOURCES_DIR}/ui/apps/gtkmm/src/.libs/workrave.exe ${SOURCES_DIR}/ui/apps/gtkmm/src
+    $TARGET-nm -nosC --line-numbers ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.exe >${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.sym
     if [ $CONF_CONFIGURATION == "Release" ]; then
-        $TARGET-strip ${SOURCES_DIR}/frontend/gtkmm/src/workrave.exe;
+        $TARGET-strip ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.exe;
     fi
 }
 
 make_installer()
 {
-    cd ${SOURCES_DIR}/frontend/gtkmm/win32/setup/
+    cd ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32
     unix2dos setup.iss
     wine "${ISCC}" setup.iss
 
@@ -84,8 +84,8 @@ make_installer()
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/*setup.exe ${DEPLOY_DIR}/${installerFilename}
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
+        mv ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Output/*setup.exe ${DEPLOY_DIR}/${installerFilename}
+        bzip2 -c ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
 
     else
         echo "Tag build : $WORKRAVE_TAG"
@@ -94,8 +94,8 @@ make_installer()
         installerFilename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym.bz2
 
-        mv ${SOURCES_DIR}/frontend/gtkmm/win32/setup/Output/*setup.exe ${DEPLOY_DIR}/${installerFilename}
-        bzip2 -c ${SOURCES_DIR}/frontend/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
+        mv ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Output/*setup.exe ${DEPLOY_DIR}/${installerFilename}
+        bzip2 -c ${SOURCES_DIR}/ui/apps/gtkmm/src/workrave.sym >${DEPLOY_DIR}/${symbolsFilename}
     fi
 
     ${CI_DIR}/catalog.sh -f ${installerFilename} -k installer -c ${CATALOG_CONFIG} -p windows
@@ -111,8 +111,8 @@ make_installer()
     mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
 
     rm -f ${PORTABLE_DIR}/Workrave/libzapper-0.dll
-    cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
-    cp -a ${SOURCES_DIR}/frontend/gtkmm/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
+    cp -a ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
+    cp -a ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
 
     cd ${PORTABLE_DIR}
     zip -9 -r ${DEPLOY_DIR}/${portableFilename} .

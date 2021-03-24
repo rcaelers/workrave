@@ -48,10 +48,10 @@
 #  include "Hig.hh"
 #  include "GtkUtil.hh"
 
-#  include "ICore.hh"
-#  include "CoreFactory.hh"
-#  include "IConfigurator.hh"
-#  include "IDistributionManager.hh"
+#  include "core/ICore.hh"
+#  include "core/CoreFactory.hh"
+#  include "config/IConfigurator.hh"
+#  include "core/IDistributionManager.hh"
 
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::VBox(false, 6)

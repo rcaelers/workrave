@@ -18,7 +18,7 @@
 //
 
 #include <windows.h>
-#include "Sound.hh"
+#include "audio/Sound.hh"
 
 void
 Sound::beep(int frequency, int millis)

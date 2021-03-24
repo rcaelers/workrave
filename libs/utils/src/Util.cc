@@ -62,7 +62,7 @@ extern "C"
 // (end of hack)
 #endif
 
-#include "Util.hh"
+#include "utils/Util.hh"
 
 #include <glib.h>
 
@@ -230,7 +230,7 @@ Util::registry_set_value(const char *path, const char *name, const char *value)
   DWORD disp;
   LONG err;
 
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
       if (value != NULL)

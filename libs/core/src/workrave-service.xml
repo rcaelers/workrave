@@ -3,7 +3,7 @@
 <unit name="DBusWorkrave">
     <import>
         <include name="Core.hh"/>
-        <include name="IConfigurator.hh"/>
+        <include name="config/IConfigurator.hh"/>
     </import>
 
     <enum name="break_id" csymbol="BreakId">

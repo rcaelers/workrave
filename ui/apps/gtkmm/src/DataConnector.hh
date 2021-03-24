@@ -24,8 +24,8 @@
 #include <list>
 #include <sigc++/sigc++.h>
 
-#include "IConfiguratorListener.hh"
-#include "ICore.hh"
+#include "config/IConfiguratorListener.hh"
+#include "core/ICore.hh"
 
 namespace workrave
 {

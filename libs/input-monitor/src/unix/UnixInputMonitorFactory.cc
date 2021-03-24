@@ -27,16 +27,19 @@
 
 #include "debug.hh"
 
-#include "Core.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "StringUtil.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "utils/StringUtil.hh"
 
 #include "UnixInputMonitorFactory.hh"
 #include "RecordInputMonitor.hh"
 #include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
 #include "MutterInputMonitor.hh"
+
+using namespace std;
+using namespace workrave;
 
 UnixInputMonitorFactory::UnixInputMonitorFactory()
   : actual_monitor_method{"monitor.method", ""}
@@ -167,7 +170,7 @@ UnixInputMonitorFactory::static_report_failure(void *data)
 {
   (void)data;
 
-  Core *core = Core::get_instance();
+  ICore *core = CoreFactory::get_core();
   core->post_event(CORE_EVENT_MONITOR_FAILURE);
 
   return FALSE;

@@ -30,15 +30,15 @@
 
 #include "TimerBoxPreferencePage.hh"
 
-#include "IBreak.hh"
-#include "IConfigurator.hh"
-#include "CoreFactory.hh"
-#include "ICore.hh"
-#include "CoreConfig.hh"
+#include "core/IBreak.hh"
+#include "config/IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "core/ICore.hh"
+#include "core/CoreConfig.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
-#include "GUIConfig.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/TimerBoxControl.hh"
 
 //! Constructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)

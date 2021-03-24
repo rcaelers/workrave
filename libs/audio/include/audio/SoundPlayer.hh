@@ -25,7 +25,7 @@
 #include <vector>
 #include <map>
 
-#include "ISoundDriver.hh"
+#include "audio/ISoundDriver.hh"
 
 class IMixer;
 

@@ -23,9 +23,9 @@
 #include <gio/gio.h>
 #include <atomic>
 
-#include "Runnable.hh"
-#include "Thread.hh"
-#include "Diagnostics.hh"
+#include "utils/Runnable.hh"
+#include "utils/Thread.hh"
+#include "utils/Diagnostics.hh"
 
 class MutterInputMonitor
   : public InputMonitor

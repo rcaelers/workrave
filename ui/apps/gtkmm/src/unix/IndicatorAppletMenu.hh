@@ -27,7 +27,7 @@
 
 #include "Menus.hh"
 #include "MenuBase.hh"
-#include "MenuEnums.hh"
+#include "commonui/MenuEnums.hh"
 
 class GenericDBusApplet;
 

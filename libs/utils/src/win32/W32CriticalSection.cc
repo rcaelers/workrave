@@ -21,7 +21,7 @@
 
 #include <list>
 
-#include "W32CriticalSection.hh"
+#include "utils/W32CriticalSection.hh"
 
 /* A critical section is a fast and light thread synchronization object in Windows. Critical
 sections are used by creating a CRITICAL_SECTION object which must be initialized, can be locked

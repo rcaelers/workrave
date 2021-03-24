@@ -33,11 +33,11 @@
 
 #include "W32SoundPlayer.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "SoundPlayer.hh"
-#include "Exception.hh"
-#include "Util.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "audio/SoundPlayer.hh"
+#include "utils/Exception.hh"
+#include "utils/Util.hh"
 
 #define SAMPLE_BITS (8)
 #define WAVE_BUFFER_SIZE (4096)

@@ -36,10 +36,10 @@
 #  include <IOKit/IOKitLib.h>
 #endif
 
-#include "InputMonitor.hh"
-#include "IInputMonitorListener.hh"
-#include "Runnable.hh"
-#include "Thread.hh"
+#include "input-monitor/InputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+#include "utils/Runnable.hh"
+#include "utils/Thread.hh"
 
 //! Activity monitor for MacOS.
 class MacOSInputMonitor

@@ -21,7 +21,7 @@
 #define ISOUNDDRIVER_HH
 
 #include <string>
-#include "SoundTypes.hh"
+#include "audio/SoundTypes.hh"
 
 class ISoundDriverEvents
 {

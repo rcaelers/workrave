@@ -1,3 +1,3 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = common data applet apps
+SUBDIRS = common data applets apps

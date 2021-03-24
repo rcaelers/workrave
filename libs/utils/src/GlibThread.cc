@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "GlibThread.hh"
+#include "utils/GlibThread.hh"
 
 #include <glib.h>
 

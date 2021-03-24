@@ -28,11 +28,11 @@
 
 #include "X11SystrayAppletWindow.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 #include "GUI.hh"
 #include "TimerBoxGtkView.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 #include "Menus.hh"
 
 #include "gtktrayicon.h"

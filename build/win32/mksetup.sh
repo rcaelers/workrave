@@ -10,7 +10,7 @@ export TINDERBOX_BUILD=yes
 
 unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
-cd ${WORKRAVE_GIT_DIR}/frontend/gtkmm/win32/setup/
+cd ${WORKRAVE_GIT_DIR}/ui/apps/gtkmm/dist/win32
 ${WIN32_MAKERUNTIME} ${WORKRAVE_GIT_DIR}
 
 cd ${WORKRAVE_GIT_DIR}/common/win32/harpoonHelper/src
@@ -20,7 +20,7 @@ cd ${WORKRAVE_GIT_DIR}/common/win32/harpoon/src
 mkdir Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug/harpoon.dll Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/harpoon64.dll Release
-cd ${WORKRAVE_GIT_DIR}/frontend/applets/win32/src
+cd ${WORKRAVE_GIT_DIR}/ui/applets/win32/src
 mkdir Release;
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug/workrave-applet.dll Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/workrave-applet.dll Release/workrave-applet64.dll
@@ -30,8 +30,8 @@ cd ${WORKRAVE_GIT_DIR}
 ${WORKRAVE_GIT_DIR}/build/win32/autogencross.sh || exit 1
 
 make || exit 1
-cp -a ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src/.libs/workrave.exe ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src
+cp -a ${WORKRAVE_GIT_DIR}/ui/apps/gtkmm/src/.libs/workrave.exe ${WORKRAVE_GIT_DIR}/ui/apps/gtkmm/src
 
-cd ${WORKRAVE_GIT_DIR}/frontend/gtkmm/win32/setup
+cd ${WORKRAVE_GIT_DIR}/ui/apps/gtkmm/win32/setup
 unix2dos setup.iss
 wine "${WIN32_ISCC}" setup.iss

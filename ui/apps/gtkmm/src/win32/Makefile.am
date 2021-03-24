@@ -5,13 +5,10 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
-			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
-
 if HAVE_APP_GTKMM
 if PLATFORM_OS_WINDOWS
-noinst_LTLIBRARIES = 	libworkrave-frontend-gtkmm-win32.la
-libworkrave_frontend_gtkmm_win32_la_SOURCES = \
+noinst_LTLIBRARIES = 	libworkrave-ui-gtkmm-win32.la
+libworkrave_ui_gtkmm_win32_la_SOURCES = \
 			dll_hell.c \
 			DesktopWindow.cc \
 			W32AppletWindow.cc \
@@ -19,19 +16,22 @@ libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			W32AppletMenu.cc \
 			W32TrayMenu.cc \
 			W32StatusIcon.cc \
-			W32ForceFocus.cc
+			W32ForceFocus.cc \
+			eggsmclient.c \
+			eggsmclient-win32.c
 
-libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
-			-W  -I$(top_srcdir)/frontend/common/include \
+libworkrave_ui_gtkmm_win32_la_CFLAGS = \
+			-I$(top_srcdir)/ui/common/include \
 			-I$(top_srcdir)/backend/include \
-			-I$(top_srcdir)/frontend/applets/win32/include \
-			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ \
-                        -I $(top_srcdir)/common/include/win32 \
-                        -I $(top_srcdir)/common/include
+			-I$(top_srcdir)/ui/applets/win32/include \
+			-I$(top_srcdir)/ui/apps/gtkmm/src \
+			@GTK_CFLAGS@ @WR_COMMON_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@
 
-
-libworkrave_frontend_gtkmm_win32_la_CXXFLAGS = \
-			$(libworkrave_frontend_gtkmm_win32_la_CFLAGS)
+libworkrave_ui_gtkmm_win32_la_CXXFLAGS = \
+			$(libworkrave_ui_gtkmm_win32_la_CFLAGS)
 
 endif
 endif
+
+EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
+			 $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)

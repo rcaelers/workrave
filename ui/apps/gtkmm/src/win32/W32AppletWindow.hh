@@ -26,8 +26,8 @@
 #include <string>
 #include <gdk/gdkwin32.h>
 
-#include "TimerBoxViewBase.hh"
-#include "ITimeBar.hh"
+#include "commonui/TimerBoxViewBase.hh"
+#include "commonui/ITimeBar.hh"
 #include "Applet.hh"
 #include "AppletWindow.hh"
 

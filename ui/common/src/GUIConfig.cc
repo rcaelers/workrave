@@ -21,15 +21,14 @@
 #  include "config.h"
 #endif
 
-#include "preinclude.h"
 #include "nls.h"
 #include "debug.hh"
 
-#include "GUIConfig.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "ICore.hh"
-#include "IBreak.hh"
+#include "commonui/GUIConfig.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "core/ICore.hh"
+#include "core/IBreak.hh"
 
 const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
 const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";

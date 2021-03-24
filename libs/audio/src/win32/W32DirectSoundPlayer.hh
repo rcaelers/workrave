@@ -20,7 +20,7 @@
 #ifndef W32DIRECTSOUNDPLAYER_HH
 #define W32DIRECTSOUNDPLAYER_HH
 
-#include "ISoundDriver.hh"
+#include "audio/ISoundDriver.hh"
 
 #include <windows.h>
 #if defined(HAVE_DXERR_H)

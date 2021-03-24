@@ -35,22 +35,22 @@
 
 #include "Core.hh"
 
-#include "Util.hh"
-#include "IApp.hh"
-#include "ICoreEventListener.hh"
+#include "utils/Util.hh"
+#include "core/IApp.hh"
+#include "core/ICoreEventListener.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
-#include "ConfiguratorFactory.hh"
-#include "Configurator.hh"
-#include "CoreConfig.hh"
+#include "config/ConfiguratorFactory.hh"
+#include "config/IConfigurator.hh"
+#include "core/CoreConfig.hh"
 #include "Statistics.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
 #include "TimePredFactory.hh"
 #include "TimePred.hh"
-#include "TimeSource.hh"
-#include "InputMonitorFactory.hh"
+#include "utils/TimeSource.hh"
+#include "input-monitor/InputMonitorFactory.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "DistributionManager.hh"
@@ -446,7 +446,7 @@ Core::get_timer(string name) const
 }
 
 //! Returns the configurator.
-Configurator *
+IConfigurator *
 Core::get_configurator() const
 {
   return configurator;

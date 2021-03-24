@@ -29,13 +29,13 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "Text.hh"
-#include "Util.hh"
+#include "commonui/Text.hh"
+#include "utils/Util.hh"
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
+#include "core/CoreFactory.hh"
+#include "core/ICore.hh"
 
-#include "IBreakResponse.hh"
+#include "core/IBreakResponse.hh"
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"

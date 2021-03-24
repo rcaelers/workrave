@@ -20,8 +20,8 @@
 #ifndef INPUTMONITOR_HH
 #define INPUTMONITOR_HH
 
-#include "IInputMonitor.hh"
-#include "IInputMonitorListener.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
 #include <cstdlib>
 
 // Forward declarion of internal interfaces.

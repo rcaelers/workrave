@@ -58,7 +58,7 @@ git-pull:
 workrave-win32-dir=\
 	( cd ${1}; \
     git clean -fdx; \
-	  cd ${1}/frontend/gtkmm/win32/setup/; \
+	  cd ${1}/ui/apps/gtkmm/dist/win32; \
 	  ${WIN32_MAKERUNTIME} ${WORKRAVE_GIT_DIR}; )
 
 workrave-win32-build=\
@@ -69,28 +69,28 @@ workrave-win32-build=\
     mkdir Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/harpoon.dll Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/harpoon64.dll Release; \
-    cd ${1}/frontend/applets/win32/src; \
+    cd ${1}/ui/applets/win32/src; \
     mkdir Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/workrave-applet.dll Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet64.dll Release); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
 	  bash ./build/win32/autogencross.sh ${CONF_FLAGS} ${2} && make ; \
-	  cp -a ${1}/frontend/gtkmm/src/.libs/workrave.exe ${1}/frontend/gtkmm/src; \
-	  $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym)
+	  cp -a ${1}/ui/apps/gtkmm/src/.libs/workrave.exe ${1}/ui/apps/gtkmm/src; \
+	  $$TARGET-nm -nosC --line-numbers ${1}/ui/apps/gtkmm/src/workrave.exe >${1}/ui/apps/gtkmm/src/workrave.sym)
 
 workrave-win32-strip=\
 	(  . ${WIN32_MINGW_ENV}; \
-	$$TARGET-strip ${1}/frontend/gtkmm/src/workrave.exe )
+	$$TARGET-strip ${1}/ui/apps/gtkmm/src/workrave.exe )
 
 workrave-win32-setup=\
-	( cd ${1}/frontend/gtkmm/win32/setup/; \
+	( cd ${1}/ui/apps/gtkmm/dist/win32; \
 	  unix2dos setup.iss; \
 	  wine "${WIN32_ISCC}" setup.iss ); \
 	( cd ${WORKRAVE_GIT_DIR}; \
 	  git status; ); \
-	  mv ${1}/frontend/gtkmm/win32/setup/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.exe; \
-	  bzip2 -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.sym.bz2;
+	  mv ${1}/ui/apps/gtkmm/dist/win32/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.exe; \
+	  bzip2 -c ${1}/ui/apps/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-${2}.sym.bz2;
 
 workrave-win32-release-dir:
 	$(call workrave-win32-dir,${WORKRAVE_GIT_DIR})
@@ -110,7 +110,7 @@ workrave-win32-debug-build: workrave-win32-debug-dir
 
 workrave-win32-debug-setup: workrave-win32-debug-build
 	$(call workrave-win32-setup,${WORKRAVE_GIT_DIR},debug-installer)
-	( cd ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src; \
+	( cd ${WORKRAVE_GIT_DIR}/ui/apps/gtkmm/src; \
 	  zip ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_LONG_GIT_VERSION}-${BUILD_DATE}-debug.zip workrave.exe )
 
 workrave-win32-all: \

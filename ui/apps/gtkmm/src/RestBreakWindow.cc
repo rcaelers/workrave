@@ -43,22 +43,22 @@ const int TIMEOUT = 1000;
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"
-#include "Text.hh"
+#include "commonui/Text.hh"
 #include "TimeBar.hh"
-#include "Util.hh"
+#include "utils/Util.hh"
 #include "WindowHints.hh"
 
-#include "IBreak.hh"
-#include "IBreakResponse.hh"
+#include "core/IBreak.hh"
+#include "core/IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
 
-#include "ICore.hh"
-#include "IConfigurator.hh"
-#include "CoreFactory.hh"
+#include "core/ICore.hh"
+#include "config/IConfigurator.hh"
+#include "core/CoreFactory.hh"
 
 #ifdef HAVE_EXERCISES
-#  include "Exercise.hh"
+#  include "commonui/Exercise.hh"
 #  include "ExercisesPanel.hh"
 #endif
 

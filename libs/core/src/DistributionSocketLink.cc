@@ -41,14 +41,14 @@
 
 #  include <csignal>
 
-#  include "Configurator.hh"
-#  include "CoreConfig.hh"
+#  include "config/IConfigurator.hh"
+#  include "core/CoreConfig.hh"
 
 #  include "DistributionManager.hh"
 #  include "DistributionLink.hh"
 #  include "DistributionSocketLink.hh"
 
-#  include "Util.hh"
+#  include "utils/Util.hh"
 
 #  ifdef PLATFORM_OS_WINDOWS
 #    include "win32/ghmac.h"
@@ -60,7 +60,7 @@ using namespace std;
 /*!
  *  \param conf Configurator to use.
  */
-DistributionSocketLink::DistributionSocketLink(Configurator *conf)
+DistributionSocketLink::DistributionSocketLink(IConfigurator *conf)
   : configurator(conf)
 {
   socket_driver = SocketDriver::create();

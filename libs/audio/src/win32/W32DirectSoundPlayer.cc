@@ -44,11 +44,11 @@
 #include <glib.h>
 #include "W32DirectSoundPlayer.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "SoundPlayer.hh"
-#include "Exception.hh"
-#include "Util.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "audio/SoundPlayer.hh"
+#include "utils/Exception.hh"
+#include "utils/Util.hh"
 
 #define SAMPLE_BITS (8)
 #define WAVE_BUFFER_SIZE (4096)
@@ -125,7 +125,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
           clip->play();
         }
     }
-  catch (Exception e)
+  catch (Exception &e)
     {
       TRACE_MSG("Exception: " << e.details());
     }
@@ -334,7 +334,7 @@ SoundClip::play()
       fill_buffer();
     }
 
-  HRESULT hr = sound_buffer->Play(0, 0, 0);
+  sound_buffer->Play(0, 0, 0);
 
   WaitForSingleObject(stop_event, INFINITE);
   if (events != NULL)

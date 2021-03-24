@@ -23,7 +23,7 @@
 #include <boost/exception/all.hpp>
 #include <iostream>
 
-#include "Exception.hh"
+#include "utils/Exception.hh"
 
 namespace workrave
 {

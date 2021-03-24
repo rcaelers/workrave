@@ -22,8 +22,8 @@
 #include "MutterInputMonitor.hh"
 
 #include "debug.hh"
-#include "IInputMonitorListener.hh"
-#include "Diagnostics.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+#include "utils/Diagnostics.hh"
 
 using namespace std;
 

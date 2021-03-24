@@ -43,12 +43,12 @@
 #include "StatusIcon.hh"
 
 #include "GUI.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "GUIConfig.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "commonui/GUIConfig.hh"
 #include "Menus.hh"
 #include "GtkUtil.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 
 using namespace std;
 

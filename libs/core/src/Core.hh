@@ -44,15 +44,15 @@
 #include <map>
 
 #include "Break.hh"
-#include "IBreakResponse.hh"
+#include "core/IBreakResponse.hh"
 #include "IActivityMonitor.hh"
-#include "ICore.hh"
-#include "ICoreEventListener.hh"
-#include "IConfiguratorListener.hh"
-#include "TimeSource.hh"
+#include "core/ICore.hh"
+#include "core/ICoreEventListener.hh"
+#include "config/IConfiguratorListener.hh"
+#include "utils/TimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
-#include "Diagnostics.hh"
+#include "utils/Diagnostics.hh"
 
 #ifdef HAVE_DBUS
 #  include "dbus/IDBus.hh"
@@ -69,7 +69,6 @@ namespace workrave
 } // namespace workrave
 
 class ActivityMonitor;
-class Configurator;
 class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
@@ -103,7 +102,7 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id) override;
   Break *get_break(std::string name) override;
-  Configurator *get_configurator() const;
+  IConfigurator *get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
   bool is_user_active() const override;
   std::string get_break_stage(BreakId id);
@@ -118,7 +117,7 @@ public:
   void set_powersave(bool down) override;
 
   time_t get_time() const override;
-  void post_event(CoreEvent event);
+  void post_event(CoreEvent event) override;
 
   OperationMode get_operation_mode() override;
   OperationMode get_operation_mode_regular() override;
@@ -253,7 +252,7 @@ private:
   Break breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  Configurator *configurator{nullptr};
+  IConfigurator *configurator{nullptr};
 
   //! The activity monitor
   ActivityMonitor *monitor{nullptr};

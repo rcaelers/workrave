@@ -20,7 +20,7 @@
 #ifndef GSTSOUNDPLAYER_HH
 #define GSTSOUNDPLAYER_HH
 
-#include <ISoundDriver.hh>
+#include "audio/ISoundDriver.hh"
 
 #ifdef HAVE_GSTREAMER
 

@@ -25,10 +25,10 @@
 #include <string>
 #include <set>
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 
 #include "AppletWindow.hh"
-#include "TimerBoxViewBase.hh"
+#include "commonui/TimerBoxViewBase.hh"
 #include "MenuBase.hh"
 #include "dbus/IDBus.hh"
 #include "dbus/IDBusWatch.hh"

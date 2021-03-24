@@ -28,8 +28,8 @@ namespace Gtk
   class CheckButton;
 } // namespace Gtk
 
-#include "ICore.hh"
-#include "IConfiguratorListener.hh"
+#include "core/ICore.hh"
+#include "config/IConfiguratorListener.hh"
 
 #include <string>
 #include <gtkmm/box.h>

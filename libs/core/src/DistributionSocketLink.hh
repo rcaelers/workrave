@@ -35,17 +35,16 @@
 
 #include "DistributionLink.hh"
 #include "IDistributionClientMessage.hh"
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
 #include "SocketDriver.hh"
-#include "WRID.hh"
+#include "utils/WRID.hh"
 
 #define DEFAULT_PORT (27273)
 #define DEFAULT_INTERVAL (15)
 #define DEFAULT_ATTEMPTS (5)
 
-class Configurator;
 
 class DistributionSocketLink
   : public DistributionLink
@@ -162,7 +161,7 @@ private:
   };
 
 public:
-  DistributionSocketLink(Configurator *conf);
+  DistributionSocketLink(IConfigurator *conf);
   ~DistributionSocketLink() override;
 
   void init_my_id();
@@ -256,7 +255,7 @@ private:
   SocketDriver *socket_driver{nullptr};
 
   //! The configuration access.
-  Configurator *configurator{nullptr};
+  IConfigurator *configurator{nullptr};
 
   //! My ID
   WRID my_id;

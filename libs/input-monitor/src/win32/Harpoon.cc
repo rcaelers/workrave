@@ -34,14 +34,14 @@
 #include <tchar.h>
 
 #include "debug.hh"
-#include "Harpoon.hh"
+#include "input-monitor/Harpoon.hh"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "Util.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "utils/Util.hh"
 
-#include "timeutil.h"
+#include "utils/timeutil.h"
 #include "harpoon.h"
 #include "HarpoonHelper.h"
 

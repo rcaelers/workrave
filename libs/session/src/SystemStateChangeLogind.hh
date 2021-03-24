@@ -25,9 +25,9 @@
 #  include "config.h"
 #endif
 
-#include "DBusProxy.hh"
+#include "utils/DBusProxy.hh"
 
-#include "ISystemStateChangeMethod.hh"
+#include "session/ISystemStateChangeMethod.hh"
 
 // http://www.freedesktop.org/wiki/Software/systemd/logind/
 //

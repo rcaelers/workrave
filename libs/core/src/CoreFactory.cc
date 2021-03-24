@@ -23,8 +23,8 @@
 
 #include <cassert>
 
-#include "CoreFactory.hh"
-#include "Configurator.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 #include "Core.hh"
 
 ICore *

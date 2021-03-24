@@ -1,8 +1,8 @@
-MAINTAINERCLEANFILES = 	Makefile.in
+MAINTAINERCLEANFILES =  Makefile.in
 
 if HAVE_DBUS
 
-noinst_LTLIBRARIES = 	libworkrave-dbus.la
+noinst_LTLIBRARIES = libworkrave-dbus.la
 
 libworkrave_dbus_la_SOURCES =  DBusFactory.cc \
                                DBusException.cc \
@@ -11,10 +11,8 @@ libworkrave_dbus_la_SOURCES =  DBusFactory.cc \
                                DBusGeneric.cc \
                                DBusBindingGio.cc
 
-libworkrave_dbus_la_LIBADD = ${ldadd_platform}
-
-AM_CPPFLAGS = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
-			-D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
+AM_CPPFLAGS = -W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
+              -D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)
 

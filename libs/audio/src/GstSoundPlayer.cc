@@ -25,15 +25,15 @@
 
 #  include "debug.hh"
 
-#  include "IConfigurator.hh"
-#  include "ICore.hh"
-#  include "CoreFactory.hh"
+#  include "config/IConfigurator.hh"
+#  include "core/ICore.hh"
+#  include "core/CoreFactory.hh"
 
 #  include "GstSoundPlayer.hh"
-#  include "SoundPlayer.hh"
-#  include "Sound.hh"
-#  include "Util.hh"
-#  include <debug.hh>
+#  include "audio/SoundPlayer.hh"
+#  include "audio/Sound.hh"
+#  include "utils/Util.hh"
+#  include "debug.hh"
 
 using namespace std;
 using namespace workrave;

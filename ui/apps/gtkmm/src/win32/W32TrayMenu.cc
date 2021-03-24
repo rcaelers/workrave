@@ -43,7 +43,7 @@
 #include "gdk/gdkwindow.h"
 #include <glib/gmain.h>
 
-#include "Util.hh"
+#include "utils/Util.hh"
 
 using namespace std;
 

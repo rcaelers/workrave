@@ -43,10 +43,10 @@
 
 #  include "NetworkJoinDialog.hh"
 
-#  include "CoreFactory.hh"
-#  include "IDistributionManager.hh"
-#  include "IConfigurator.hh"
-#  include "Util.hh"
+#  include "core/CoreFactory.hh"
+#  include "core/IDistributionManager.hh"
+#  include "config/IConfigurator.hh"
+#  include "utils/Util.hh"
 #  include "GtkUtil.hh"
 
 using namespace workrave;

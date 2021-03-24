@@ -25,8 +25,8 @@
 
 #include "debug.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 
 #include "W32InputMonitorFactory.hh"
 #include "W32InputMonitor.hh"

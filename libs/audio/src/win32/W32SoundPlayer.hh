@@ -20,7 +20,7 @@
 #ifndef W32SOUNDPLAYER_HH
 #define W32SOUNDPLAYER_HH
 
-#include "ISoundDriver.hh"
+#include "audio/ISoundDriver.hh"
 
 class W32SoundPlayer : public ISoundDriver
 {

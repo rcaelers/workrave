@@ -31,9 +31,9 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "Util.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
+#include "utils/Util.hh"
 
 #include "Hig.hh"
 

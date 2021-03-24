@@ -24,8 +24,6 @@
 #  include "MacOSHelpers.hh"
 #endif
 
-#include "nls.h"
-
 #include "debug.hh"
 #include <cassert>
 #include <fstream>
@@ -35,9 +33,9 @@
 #  include <unistd.h>
 #endif
 
-#include "Util.hh"
+#include "utils/Util.hh"
 #include "IdleLogManager.hh"
-#include "TimeSource.hh"
+#include "utils/TimeSource.hh"
 #include "PacketBuffer.hh"
 
 #define IDLELOG_MAXSIZE (4000)

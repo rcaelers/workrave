@@ -27,15 +27,11 @@
 
 #include "XScreenSaverMonitor.hh"
 
-#include "Core.hh"
-#include "ICore.hh"
-#include "ICoreEventListener.hh"
-#include "IInputMonitorListener.hh"
+#include "input-monitor/IInputMonitorListener.hh"
 
-#include "Thread.hh"
+#include "utils/Thread.hh"
 
 using namespace std;
-using namespace workrave;
 
 XScreenSaverMonitor::XScreenSaverMonitor()
 

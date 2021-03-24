@@ -30,7 +30,7 @@
 #include "Util.hh"
 
 #include "CoreFactory.hh"
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include "IBreakResponse.hh"
 #include "PreludeWindow.hh"

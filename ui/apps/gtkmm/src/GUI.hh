@@ -30,9 +30,9 @@
 #endif
 
 #include "HeadInfo.hh"
-#include "ICoreEventListener.hh"
-#include "IConfiguratorListener.hh"
-#include "IApp.hh"
+#include "core/ICoreEventListener.hh"
+#include "config/IConfiguratorListener.hh"
+#include "core/IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 

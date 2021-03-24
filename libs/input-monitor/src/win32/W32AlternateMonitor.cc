@@ -40,9 +40,9 @@
 #  endif
 
 #  include "W32AlternateMonitor.hh"
-#  include "Harpoon.hh"
-#  include "CoreFactory.hh"
-#  include "IConfigurator.hh"
+#  include "input-monitor/Harpoon.hh"
+#  include "core/CoreFactory.hh"
+#  include "config/IConfigurator.hh"
 
 using namespace workrave;
 

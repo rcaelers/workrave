@@ -26,7 +26,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "Util.hh"
+#include "utils/Util.hh"
 #include "XMLConfigurator.hh"
 
 using namespace std;

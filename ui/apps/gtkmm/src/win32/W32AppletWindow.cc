@@ -26,7 +26,7 @@
 #include "debug.hh"
 
 #include "W32AppletWindow.hh"
-#include "TimerBoxControl.hh"
+#include "commonui/TimerBoxControl.hh"
 
 #if defined(interface)
 #  undef interface

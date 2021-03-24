@@ -24,7 +24,7 @@
 
 class TimeBar;
 
-#include "GUIConfig.hh"
+#include "commonui/GUIConfig.hh"
 #include "BreakWindow.hh"
 
 namespace Gtk

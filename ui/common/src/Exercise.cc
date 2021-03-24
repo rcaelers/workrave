@@ -23,8 +23,8 @@
 
 #ifdef HAVE_EXERCISES
 
-#  include "Exercise.hh"
-#  include "Util.hh"
+#  include "commonui/Exercise.hh"
+#  include "utils/Util.hh"
 #  include "nls.h"
 #  include "debug.hh"
 

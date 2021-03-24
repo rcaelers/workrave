@@ -38,15 +38,15 @@
 #include "EventButton.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
-#include "Util.hh"
-#include "Text.hh"
+#include "utils/Util.hh"
+#include "commonui/Text.hh"
 #include "Menus.hh"
 #include "GUI.hh"
 #include "GtkUtil.hh"
 
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "IBreak.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
+#include "core/IBreak.hh"
 
 using namespace std;
 

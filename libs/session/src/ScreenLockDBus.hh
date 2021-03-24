@@ -20,8 +20,8 @@
 
 #ifndef SYSTEMLOCKDBUS_HH
 #define SYSTEMLOCKDBUS_HH
-#include "IScreenLockMethod.hh"
-#include "DBusProxy.hh"
+#include "session/IScreenLockMethod.hh"
+#include "utils/DBusProxy.hh"
 
 class ScreenLockDBus : public IScreenLockMethod
 {

@@ -66,21 +66,17 @@
 
 #include "X11InputMonitor.hh"
 
-#include "Core.hh"
-#include "ICore.hh"
-#include "ICoreEventListener.hh"
-#include "IInputMonitorListener.hh"
+#include "input-monitor/IInputMonitorListener.hh"
 
-#include "timeutil.h"
+#include "utils/timeutil.h"
 
 #ifdef HAVE_APP_GTK
 #  include <gdk/gdkx.h>
 #endif
 
-#include "Thread.hh"
+#include "utils/Thread.hh"
 
 using namespace std;
-using namespace workrave;
 
 #ifndef HAVE_APP_GTK
 static int (*old_handler)(Display *dpy, XErrorEvent *error);

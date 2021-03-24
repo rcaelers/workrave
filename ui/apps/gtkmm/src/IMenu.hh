@@ -22,7 +22,7 @@
 
 #include <string>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 #include <gtkmm/window.h>
 

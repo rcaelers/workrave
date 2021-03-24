@@ -28,10 +28,10 @@
 
 #include "BreakControl.hh"
 
-#include "IBreak.hh"
+#include "core/IBreak.hh"
 #include "Core.hh"
 #include "Statistics.hh"
-#include "IApp.hh"
+#include "core/IApp.hh"
 #include "IActivityMonitor.hh"
 #include "ActivityMonitorListener.hh"
 #include "Timer.hh"

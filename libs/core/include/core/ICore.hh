@@ -24,6 +24,7 @@
 #include <iostream>
 
 #include "enum.h"
+#include "ICoreEventListener.hh"
 
 namespace workrave
 {
@@ -172,6 +173,9 @@ namespace workrave
 
     //! Return the current time
     virtual void force_idle() = 0;
+
+    virtual void post_event(CoreEvent event) = 0;
+
   };
 
   std::string operator%(const std::string &key, BreakId id);

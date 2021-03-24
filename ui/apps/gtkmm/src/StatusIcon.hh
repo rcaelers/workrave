@@ -32,8 +32,8 @@
 #endif
 #include <gtkmm/statusicon.h>
 
-#include "ICore.hh"
-#include "IConfiguratorListener.hh"
+#include "core/ICore.hh"
+#include "config/IConfiguratorListener.hh"
 
 #ifndef WR_CHECK_VERSION
 #  define WR_CHECK_VERSION(comp, major, minor, micro)                                                      \

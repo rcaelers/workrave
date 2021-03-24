@@ -27,10 +27,10 @@
 
 #ifdef PLATFORM_OS_WINDOWS
 #  include <windows.h>
-#  include "TimerBoxControl.hh"
+#  include "commonui/TimerBoxControl.hh"
 #endif
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 
 class TimerBoxControl;
 class TimerBoxGtkView;

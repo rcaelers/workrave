@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include "Text.hh"
+#include "commonui/Text.hh"
 
 #include <cstdio>
 

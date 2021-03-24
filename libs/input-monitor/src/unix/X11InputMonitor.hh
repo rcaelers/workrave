@@ -27,8 +27,8 @@
 
 #include "InputMonitor.hh"
 
-#include "Runnable.hh"
-#include "Thread.hh"
+#include "utils/Runnable.hh"
+#include "utils/Thread.hh"
 
 //! Activity monitor for a local X server.
 class X11InputMonitor

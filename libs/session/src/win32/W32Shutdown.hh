@@ -22,7 +22,7 @@
 #  include "config.h"
 #endif
 
-#include "ISystemStateChangeMethod.hh"
+#include "session/ISystemStateChangeMethod.hh"
 
 class W32Shutdown : public ISystemStateChangeMethod
 {

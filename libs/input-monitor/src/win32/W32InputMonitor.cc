@@ -29,12 +29,12 @@
 #include "debug.hh"
 #include "W32InputMonitor.hh"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
+#include "config/IConfigurator.hh"
 
-#include "timeutil.h"
-#include "Harpoon.hh"
+#include "utils/timeutil.h"
+#include "input-monitor/Harpoon.hh"
 
 #ifndef HAVE_STRUCT_MOUSEHOOKSTRUCT
 typedef struct tagMOUSEHOOKSTRUCT

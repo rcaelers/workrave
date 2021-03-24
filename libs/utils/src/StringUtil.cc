@@ -31,7 +31,7 @@
 #include <cstdlib>
 #include <sstream>
 
-#include "StringUtil.hh"
+#include "utils/StringUtil.hh"
 
 using namespace std;
 

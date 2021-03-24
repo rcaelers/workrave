@@ -30,7 +30,7 @@
 #include <vector>
 
 #include "Locale.hh"
-#include "StringUtil.hh"
+#include "utils/StringUtil.hh"
 
 #include "locale.inc"
 

@@ -17,23 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
-#include "Session.hh"
+#include "commonui/Session.hh"
 
-#include "nls.h"
 #include "debug.hh"
 
-#include "IConfigurator.hh"
-#include "GUIConfig.hh"
-#include "CoreFactory.hh"
-#include "IBreak.hh"
+#include "config/IConfigurator.hh"
+#include "commonui/GUIConfig.hh"
+#include "core/CoreFactory.hh"
+#include "core/IBreak.hh"
 
-using namespace workrave;
 using namespace std;
 
 void

@@ -18,7 +18,7 @@
 #  include "config.h"
 #endif
 
-#include "InputMonitorFactory.hh"
+#include "input-monitor/InputMonitorFactory.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
 #  include "W32InputMonitorFactory.hh"
@@ -29,8 +29,6 @@
 #ifdef PLATFORM_OS_UNIX
 #  include "UnixInputMonitorFactory.hh"
 #endif
-
-#include "nls.h"
 
 IInputMonitorFactory *InputMonitorFactory::factory = nullptr;
 

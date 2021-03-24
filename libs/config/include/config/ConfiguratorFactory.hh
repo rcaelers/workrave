@@ -20,8 +20,7 @@
 #ifndef CONFIGURATORFACTORY_HH
 #define CONFIGURATORFACTORY_HH
 
-// Forward declarion of internal interfaces.
-class Configurator;
+#include "IConfigurator.hh"
 
 //! Factory that creates configurators
 class ConfiguratorFactory
@@ -35,7 +34,7 @@ public:
   };
 
   //! Creates a link server of the specified type.
-  static Configurator *create(Format fmt);
+  static workrave::IConfigurator *create(Format fmt);
 };
 
 #endif // CONFIGURATORFACTORY_HH

@@ -23,8 +23,8 @@
 
 #include "debug.hh"
 #include "MacOSInputMonitor.hh"
-#include "IInputMonitorListener.hh"
-#include "Thread.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+#include "utils/Thread.hh"
 
 MacOSInputMonitor::MacOSInputMonitor()
   : terminate_loop(false)

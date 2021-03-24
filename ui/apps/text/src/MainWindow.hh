@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include "IConfiguratorListener.hh"
+#include "config/IConfiguratorListener.hh"
 
 class GUI;
 class TimerBoxControl;

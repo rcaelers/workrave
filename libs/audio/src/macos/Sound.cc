@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include "Sound.hh"
+#include "audio/Sound.hh"
 
 void
 Sound::beep(int freq, int millis)

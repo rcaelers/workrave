@@ -36,7 +36,7 @@
 #  include "debug.hh"
 
 #  include "ExercisesDialog.hh"
-#  include "Exercise.hh"
+#  include "commonui/Exercise.hh"
 
 ExercisesDialog::ExercisesDialog()
   : HigDialog(_("Exercises"), false, false)

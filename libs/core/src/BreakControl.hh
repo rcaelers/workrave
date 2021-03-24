@@ -20,12 +20,12 @@
 #ifndef BREAKCONTROL_HH
 #define BREAKCONTROL_HH
 
-#include "ICore.hh"
-#include "ICoreEventListener.hh"
-#include "IBreak.hh"
-#include "IBreakResponse.hh"
+#include "core/ICore.hh"
+#include "core/ICoreEventListener.hh"
+#include "core/IBreak.hh"
+#include "core/IBreakResponse.hh"
 #include "ActivityMonitorListener.hh"
-#include "Diagnostics.hh"
+#include "utils/Diagnostics.hh"
 
 using namespace workrave;
 

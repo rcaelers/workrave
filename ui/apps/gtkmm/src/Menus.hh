@@ -23,7 +23,7 @@
 #include <sigc++/trackable.h>
 #include <gtkmm/aboutdialog.h>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 
 class IGUI;
 class NetworkLogDialog;

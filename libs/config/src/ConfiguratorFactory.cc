@@ -24,7 +24,7 @@
 #include <cstdlib>
 
 #include "Configurator.hh"
-#include "ConfiguratorFactory.hh"
+#include "config/ConfiguratorFactory.hh"
 
 #ifdef HAVE_GLIB
 #  include "GlibIniConfigurator.hh"
@@ -46,7 +46,7 @@
 #endif
 
 //! Creates a configurator of the specified type.
-Configurator *
+IConfigurator *
 ConfiguratorFactory::create(Format fmt)
 {
   Configurator *c = nullptr;

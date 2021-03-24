@@ -25,8 +25,8 @@
 #include <string>
 #include <gtkmm.h>
 
-#include "IConfiguratorListener.hh"
-#include "ITimerBoxView.hh"
+#include "config/IConfiguratorListener.hh"
+#include "commonui/ITimerBoxView.hh"
 #include "TimeBar.hh"
 #include "Menus.hh"
 

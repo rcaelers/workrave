@@ -30,12 +30,12 @@
 
 #include <gtkmm.h>
 
-#include "ICore.hh"
+#include "core/ICore.hh"
 #include "IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
-#include "GUIConfig.hh"
-#include "System.hh"
+#include "commonui/GUIConfig.hh"
+#include "session/System.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
 class DesktopWindow;

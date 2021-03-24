@@ -22,7 +22,7 @@
 #ifndef SYSTEMLOCKCOMMANDLINE_HH
 #define SYSTEMLOCKCOMMANDLINE_HH
 
-#include "IScreenLockMethod.hh"
+#include "session/IScreenLockMethod.hh"
 #include <cstdlib>
 // A method of locking the screen that
 // does that by executing a command
