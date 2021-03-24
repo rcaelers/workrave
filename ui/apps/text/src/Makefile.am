@@ -15,7 +15,7 @@ workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc M
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
-			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I. @WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 			@X_CFLAGS@ \
 			@GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
@@ -27,7 +27,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${EXERCISES_HOME}/common/src 
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I. @WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GTK_CFLAGS@ @GSTREAMER_CFLAGS@\
 			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \

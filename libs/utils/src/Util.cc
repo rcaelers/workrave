@@ -285,7 +285,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.insert("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WINDOWS)
 #  if defined(DATA_PATH)
-      searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\images");
+      searchPath.insert(string(DATA_PATH) + "ui\\data\\images");
 #  endif
       searchPath.insert(app_dir + "\\share\\images");
       searchPath.insert(app_dir + "\\share\\icons");
@@ -308,7 +308,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.insert("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WINDOWS)
 #  if defined(DATA_PATH)
-      searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\sounds");
+      searchPath.insert(string(DATA_PATH) + "ui\\data\\sounds");
 #  endif
       searchPath.insert(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_MACOS)
@@ -344,7 +344,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WINDOWS)
 #  if defined(DATA_PATH)
-      searchPath.insert(string(DATA_PATH) + "frontend\\plugin\\exercises\\common\\share");
+      searchPath.insert(string(DATA_PATH) + "ui\\data\\exercises");
 #  endif
       searchPath.insert(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_MACOS)

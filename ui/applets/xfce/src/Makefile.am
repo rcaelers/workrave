@@ -9,7 +9,7 @@ plugindir = $(libdir)/xfce4/panel-plugins
 xfce4_workrave_plugin_SOURCES = main.c
 
 xfce4_workrave_plugin_CFLAGS =	-Wall -std=c99 \
-				@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBXFCE4UTIL_CFLAGS) 	$(LIBXFCEGUI4_CFLAGS) $(LIBXFCE4PANEL_CFLAGS) \
 				-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
@@ -31,7 +31,7 @@ plugindir = $(libdir)/xfce4/panel/plugins
 libworkrave_plugin_la_SOURCES = main.c
 
 libworkrave_plugin_la_CFLAGS =	-Wall -std=c99 \
-				@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBXFCE4UTIL_CFLAGS) 	$(LIBXFCEGUI4_CFLAGS) $(LIBXFCE4PANEL_CFLAGS) \
 				-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""

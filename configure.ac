@@ -984,9 +984,8 @@ then
    variant="$variant x11 unix"
 fi
 
-WR_BACKEND_INCLUDES=""
 WR_COMMON_INCLUDES="-I\$(top_srcdir)/libs/hooks/harpoon/include"
-WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/ui/common/include"
+WR_UI_COMMON_INCLUDES="-I\$(top_srcdir)/ui/common/include"
 WR_LDADD="-L\$(top_srcdir)/ui/common/src"
 
 for l in audio config core dbus input-monitor session utils; do
@@ -1002,9 +1001,8 @@ fi
 AC_SUBST(WR_LDADD)
 AC_SUBST(WR_LDFLAGS)
 
-AC_SUBST(WR_FRONTEND_COMMON_INCLUDES)
+AC_SUBST(WR_UI_COMMON_INCLUDES)
 AC_SUBST(WR_COMMON_INCLUDES)
-AC_SUBST(WR_BACKEND_INCLUDES)
 
 dnl
 dnl Defines

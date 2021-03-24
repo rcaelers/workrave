@@ -22,10 +22,9 @@ libworkrave_ui_gtkmm_win32_la_SOURCES = \
 
 libworkrave_ui_gtkmm_win32_la_CFLAGS = \
 			-I$(top_srcdir)/ui/common/include \
-			-I$(top_srcdir)/backend/include \
 			-I$(top_srcdir)/ui/applets/win32/include \
 			-I$(top_srcdir)/ui/apps/gtkmm/src \
-			@GTK_CFLAGS@ @WR_COMMON_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@
+			@GTK_CFLAGS@ @WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@
 
 libworkrave_ui_gtkmm_win32_la_CXXFLAGS = \
 			$(libworkrave_ui_gtkmm_win32_la_CFLAGS)

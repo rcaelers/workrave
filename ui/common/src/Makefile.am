@@ -15,4 +15,4 @@ EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 libworkrave_ui_common_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			@WR_COMMON_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ @GLIB_CFLAGS@
+			@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ @GLIB_CFLAGS@

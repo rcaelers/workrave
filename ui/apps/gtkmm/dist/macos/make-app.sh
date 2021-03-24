@@ -151,7 +151,7 @@ if [ $conf_copy_gtk_dylib = true ]; then
 fi
 
 cp Info.plist $pkgcontentsdir
-$INSTALL ../../../frontend/common/share/images/macos/workrave.icns  $pkgresourcesdir
+$INSTALL ../../../u!i/data/images/macos/workrave.icns  $pkgresourcesdir
 
 echo -n "APPL????" > $pkgcontentsdir/PkgInfo
 

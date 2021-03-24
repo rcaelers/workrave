@@ -38,9 +38,8 @@ AM_CPPFLAGS = -I$(srcdir)
 
 FLAGS = \
 	@GNOME3_CFLAGS@ \
-	@WR_FRONTEND_COMMON_INCLUDES@ \
+	@WR_UI_COMMON_INCLUDES@ \
 	@WR_COMMON_INCLUDES@ \
-	@WR_BACKEND_INCLUDES@ \
 	-std=c99 \
 	-I$(srcdir)/../include \
 	-I$(srcdir)/../../common/include \
@@ -103,7 +102,7 @@ $(applet_in_files): $(applet_in_files).in Makefile
 
 AM_CPPFLAGS 			= -I$(srcdir)
 
-FLAGS				= @GNOME3_CFLAGS@ @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+FLAGS				= @GNOME3_CFLAGS@ @WR_UI_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ \
 				  -std=c99 -I$(srcdir)/../include -I$(srcdir)/../../common/include \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${xmluidir}\"" \

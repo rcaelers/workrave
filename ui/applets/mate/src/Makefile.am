@@ -15,7 +15,7 @@ if HAVE_MATE_GTK2
 workrave_applet_SOURCES = main-gtk2.c
 
 workrave_applet_CFLAGS =	-Wall -std=c99 -DPANEL_MATE \
-				@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBMATEPANEL_CFLAGS) \
 				-DMATELOCALEDIR=\""$(datadir)/locale"\" \
@@ -33,7 +33,7 @@ if HAVE_MATE_GTK3
 workrave_applet_SOURCES = main-gtk3.c
 
 workrave_applet_CFLAGS =	-Wall -std=c99 -DPANEL_MATE \
-				@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBMATEPANEL_CFLAGS) \
 				-DMATELOCALEDIR=\""$(datadir)/locale"\" \
