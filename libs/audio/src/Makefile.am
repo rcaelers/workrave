@@ -24,7 +24,7 @@ endif
 
 if PLATFORM_OS_UNIX
 sources += 	x11/Sound.cc
-cflags += -	I$(top_srcdir)/libs/audio/src/x11
+cflags +=  	-I$(top_srcdir)/libs/audio/src/x11
 endif
 
 libworkrave_audio_la_SOURCES = ${sources}

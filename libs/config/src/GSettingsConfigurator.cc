@@ -24,6 +24,7 @@
 #ifdef HAVE_GSETTINGS
 
 #  include "debug.hh"
+#  include <string.h>
 
 #  include "GSettingsConfigurator.hh"
 #  include "Configurator.hh"
