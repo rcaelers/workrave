@@ -24,17 +24,17 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Build
-        run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
+        run: msbuild ui/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: applet
           path: |
-            frontend/applets/win32/src/x64/Release/workrave-applet64.dll
-            frontend/applets/win32/src/Release/workrave-applet.dll
-            frontend/applets/win32/src/x64/Debug/workrave-applet64.dll
-            frontend/applets/win32/src/Debug/workrave-applet.dll
+            ui/applets/win32/src/x64/Release/workrave-applet64.dll
+            ui/applets/win32/src/Release/workrave-applet.dll
+            ui/applets/win32/src/x64/Debug/workrave-applet64.dll
+            ui/applets/win32/src/Debug/workrave-applet.dll
 
   build-mingw:
     runs-on: ubuntu-20.04
