@@ -34,6 +34,4 @@ endif
 CLEANFILES = \
 	$(BUILT_SOURCES)
 
-EXTRA_DIST = 
-
-
+EXTRA_DIST = test.c

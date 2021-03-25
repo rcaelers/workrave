@@ -14,7 +14,7 @@ DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 SUBDIRS = m4 po libs ui
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
-EXTRA_DIST = 	config.xml README.md autogen.sh changes.yaml
+EXTRA_DIST = 	config.xml README.md autogen.sh changes.yaml .clang-format
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-localinstall
 
@@ -39,3 +39,6 @@ AUTHORS.txt: AUTHORS
 
 COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
+
+distclean-local:
+	rm -rf po/.intltool-merge-cache.lock

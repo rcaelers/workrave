@@ -2,6 +2,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
 			 $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
+			 $(wildcard $(srcdir)/*.mm) $(wildcard $(srcdir)/*.m)
 
 if PLATFORM_OS_MACOS
 
@@ -13,8 +14,8 @@ libworkrave_ui_gtkmm_macos_la_SOURCES = \
 			AppController.m \
 			MacOSGtkMenu.cc \
 			MacOSAppletWindow.cc \
-			MacOSStatusBarView.m \
-			MacOSTimeBar.m
+			MacOSStatusBarView.mm \
+			MacOSTimeBar.mm
 
 libworkrave_ui_gtkmm_macos_la_OBJCFLAGS = \
 			@X_CFLAGS@ -xobjective-c++ \

@@ -90,4 +90,5 @@ DISTCLEANFILES = org.workrave.gschema.xml
 
 EXTRA_DIST =	$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
 				$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \
-				org.workrave.Workrave.service.in $(gsettings_SCHEMAS:.xml=.xml.in.in)
+				org.workrave.Workrave.service.in $(gsettings_SCHEMAS:.xml=.xml.in.in) \
+				dbus-example.py facedetect.py

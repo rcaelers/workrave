@@ -42,5 +42,5 @@ libworkrave_input_monitor_la_CFLAGS = \
 
 libworkrave_input_monitor_la_CXXFLAGS = ${libworkrave_input_monitor_la_CFLAGS}
 
-EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
-			 $(wildcard $(srcdir)/*.h)
+EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.icc) \
+			 $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h)

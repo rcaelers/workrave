@@ -986,7 +986,7 @@ fi
 
 WR_COMMON_INCLUDES="-I\$(top_srcdir)/libs/hooks/harpoon/include"
 WR_UI_COMMON_INCLUDES="-I\$(top_srcdir)/ui/common/include"
-WR_LDADD="-L\$(top_srcdir)/ui/common/src"
+WR_LDADD="-L\$(top_builddir)/ui/common/src"
 
 for l in audio config core dbus input-monitor session utils; do
     WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I\$(top_srcdir)/libs/$l/include"
@@ -1064,11 +1064,13 @@ dnl
 AC_CONFIG_FILES([Makefile
                  build/Makefile
                  contrib/Makefile
+                 contrib/mouse-speed/Makefile
                  contrib/plot/Makefile
                  contrib/send_dbus_command/kde/Makefile
                  contrib/send_dbus_command/Makefile
                  contrib/send_menu_command/Makefile
                  contrib/send_menu_command/win32/Makefile
+                 contrib/suspend-workrave-on-screensaver-activation/Makefile
                  libs/audio/include/audio/Makefile
                  libs/audio/include/Makefile
                  libs/audio/Makefile
@@ -1095,6 +1097,7 @@ AC_CONFIG_FILES([Makefile
                  libs/dbus/include/Makefile
                  libs/dbus/Makefile
                  libs/dbus/src/Makefile
+                 libs/dbus/test/Makefile
                  libs/hooks/harpoonHelper/include/Makefile
                  libs/hooks/harpoonHelper/Makefile
                  libs/hooks/harpoonHelper/src/Makefile

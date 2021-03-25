@@ -16,4 +16,4 @@ xml_DATA = 		$(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST = 		${exercises_DATA} $(xml_in_files) $(xml_DATA)
+EXTRA_DIST = 		${exercises_DATA} $(xml_in_files) $(xml_DATA) $(wildcard $(srcdir)/*.xcf)

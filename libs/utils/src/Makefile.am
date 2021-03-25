@@ -26,9 +26,4 @@ AM_CPPFLAGS = 	-Wall -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADI
 				-D_XOPEN_SOURCE=600 ${cflags} \
 				@GLIB_CFLAGS@ @WR_COMMON_INCLUDES@
 
-Locale.cc:	locale.inc
-
-locale.inc:
-			$(PYTHON) $(top_srcdir)/common/bin/create_locale.py > locale.inc
-
-EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) locale.inc
+EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) #$(builddir)/locale.inc

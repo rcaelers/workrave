@@ -12,3 +12,5 @@ clean-local:
 dmg:
 	./make-app.sh
 	./make-image.sh
+
+EXTRA_DIST = Info.plist.in Workrave.webloc dmg.applescript dmg_background.png fonts.conf import-frameworks.sh make-app.sh make-image.sh relocate-framework.sh workrave

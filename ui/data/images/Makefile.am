@@ -14,4 +14,4 @@ images_DATA = 		$(wildcard $(srcdir)/*.png) $(wildcard $(srcdir)/*.ico) $(wildca
 svgdir = 		$(datadir)/icons/hicolor/scalable/$(category)
 svg_DATA = 		workrave-sheep.svg
 
-EXTRA_DIST = 		${images_DATA} $(icons_DATA) $(svg_DATA)
+EXTRA_DIST = 		${images_DATA} $(icons_DATA) $(svg_DATA) $(wildcard $(srcdir)/*.svg) $(wildcard $(srcdir)/*.xcf)

@@ -58,6 +58,12 @@ sources +=	unix/gtktrayicon.c
 endif
 endif
 
+resource.rc: resource.rc.in
+	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
+	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
+		$(srcdir)/$@.in > $@
+
+
 if PLATFORM_OS_WINDOWS
 cflags 	+=	-I$(srcdir)/win32/
 cflags  +=	-I$(top_srcdir)/libs/hooks/harpoon/include \
@@ -69,11 +75,6 @@ ldflags +=	-L$(srcdir)/win32 -lworkrave-ui-gtkmm-win32
 WINDRES ?= 		"windres"
 .rc.o:
 	${WINDRES} -o $@ $<
-
-resource.rc: resource.rc.in
-	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
-	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
-		$(srcdir)/$@.in > $@
 
 sources +=	resource.rc
 WIN32LIBS =	$(top_builddir)/libs/hooks/harpoon/src/Release/harpoon.dll \
@@ -134,7 +135,7 @@ BUILT_SOURCES = DBusGUI.cc DBusGUI.hh
 
 DBusGUI.cc: workrave-gui.xml \
 			$(top_srcdir)/libs/dbus/bin/dbusgen.py \
-		  $(top_srcdir)/libs/dbus/data/gio-cc.jinja
+		    $(top_srcdir)/libs/dbus/data/gio-cc.jinja
 			$(PYTHON) $(top_srcdir)/libs/dbus/bin/dbusgen.py $(srcdir)/workrave-gui.xml $(top_srcdir)/libs/dbus/data/gio-cc.jinja DBusGUI.cc
 
 DBusGUI.hh:  workrave-gui.xml \
@@ -195,4 +196,5 @@ workrave_LDADD =	-lworkrave-audio -lworkrave-core -lworkrave-config  \
 endif
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
-	     	workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
+	     	workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml \
+			resource.rc.in locale.inc preinclude.h workrave.manifest

@@ -47,3 +47,5 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ \
 			@GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${MacOSLIBS} ${WIN32CONSOLE}
 endif
+
+EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh)
