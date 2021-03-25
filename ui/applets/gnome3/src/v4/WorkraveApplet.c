@@ -21,9 +21,9 @@
 
 #include "WorkraveApplet.h"
 #include "control.h"
-#include "MenuEnums.hh"
+#include "commonui/MenuEnums.hh"
 
-#include "credits.h"
+#include "commonui/credits.h"
 #include "nls.h"
 
 #include <panel-applet.h>
