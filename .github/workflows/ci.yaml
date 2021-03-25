@@ -42,25 +42,15 @@ jobs:
     strategy:
       matrix:
         config:
-          - image: mingw-gtk2
+          - image: mingw-gtk
             configuration: Release
-            compiler: gcc
-            upload: true
-            
-          - image: mingw-gtk2
-            configuration: Debug
             compiler: gcc
             upload: true
 
           - image: mingw-gtk
-            configuration: Release
-            compiler: gcc
-            upload: false
-
-          - image: mingw-gtk
             configuration: Debug
             compiler: gcc
-            upload: false
+            upload: true
 
     steps:
       - uses: actions/checkout@v2
