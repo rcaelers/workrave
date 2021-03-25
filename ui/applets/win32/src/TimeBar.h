@@ -23,7 +23,7 @@
 #include <windows.h>
 #include <time.h>
 
-#include "ITimeBar.hh"
+#include "commonui\ITimeBar.hh"
 #include "Applet.hh"
 
 class CDeskBand;
