@@ -2,10 +2,11 @@ EXTRA_DIST 	= org.workrave.WorkraveApplet.panel-applet.in.in 		\
 		  libgnome-panel/WorkraveApplet.c 				\
 		  libgnome-panel/WorkraveApplet.h 				\
 		  libgnome-panel/WorkraveModule.c 				\
-		  libgnome-panel/workrave-gnome-applet-menu.xml 		\
-	  	  v4/WorkraveApplet.c				 		\
-	  	  v5/WorkraveApplet.c				 		\
-		  WorkraveApplet.h				 		\
+			libgnome-panel/workrave-gnome-applet-menu.xml 		\
+		  v4/WorkraveApplet.c				 		\
+		  v4/WorkraveApplet.h				 		\
+		  v5/WorkraveApplet.c				 		\
+		  v5/WorkraveApplet.h				 		\
 		  v4/workrave-gnome-applet-menu.xml				\
 		  v5/workrave-gnome-applet-menu.xml
 
