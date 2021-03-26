@@ -37,9 +37,11 @@
 
 #ifdef HAVE_APP_GTK
 #  include <gdk/gdkx.h>
-
-#  include <memory>
 #endif
+
+
+#include <memory>
+#include <chrono>
 
 using namespace std;
 
@@ -92,7 +94,7 @@ RecordInputMonitor::init()
   bool ok = init_xrecord();
   if (ok)
     {
-      monitor_thread = std::make_shared<boost::thread>([this] { run(); });
+      monitor_thread = std::make_shared<std::thread>([this] { run(); });
     }
   return ok;
 }

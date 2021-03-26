@@ -35,7 +35,7 @@
 #  include <boost/test/included/unit_test.hpp>
 #endif
 
-#include <boost/thread.hpp>
+#include <thread>
 #include <boost/thread/future.hpp>
 #include <boost/thread/barrier.hpp>
 #include <boost/signals2.hpp>

@@ -18,9 +18,9 @@
 #ifndef MUTTERINPUTMONITOR_HH
 #define MUTTERINPUTMONITOR_HH
 
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition_variable.hpp>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include "InputMonitor.hh"
 
@@ -69,10 +69,10 @@ private:
   guint watch_idle = 0;
 
   bool abort = false;
-  std::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<std::thread> monitor_thread;
 
-  boost::mutex mutex;
-  boost::condition_variable cond;
+  std::mutex mutex;
+  std::condition_variable cond;
   guint watch_id{0};
 };
 

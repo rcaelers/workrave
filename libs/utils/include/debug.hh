@@ -37,11 +37,12 @@
 #  include <fstream>
 #  include <ctime>
 
-#  include <boost/thread.hpp>
-#  include <boost/thread/mutex.hpp>
+#  include <map>
+#  include <thread>
+#  include <mutex>
 
-extern boost::recursive_mutex g_log_mutex;
-extern std::map<boost::thread::id, std::ofstream *> g_log_streams;
+extern std::recursive_mutex g_log_mutex;
+extern std::map<std::thread::id, std::ofstream *> g_log_streams;
 
 class Debug
 {

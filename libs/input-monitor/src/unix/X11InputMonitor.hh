@@ -22,7 +22,7 @@
 
 #include <string>
 
-#include <boost/thread.hpp>
+#include <thread>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -82,7 +82,7 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  std::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<std::thread> monitor_thread;
 };
 
 #endif // X11INPUTMONITOR_HH

@@ -18,7 +18,7 @@
 #ifndef MACOSINPUTMONITOR_HH
 #define MACOSINPUTMONITOR_HH
 
-#include <boost/thread.hpp>
+#include <thread>
 
 // #include <CoreFoundation/CoreFoundation.h>
 // #include <IOKit/IOKitLib.h>
@@ -41,7 +41,7 @@ private:
 
 private:
   bool terminate_loop = false;
-  std::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<std::thread> monitor_thread;
   int last_event_count = 0;
 };
 

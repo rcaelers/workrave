@@ -20,8 +20,8 @@
 #ifndef LOCALACTIVITYMONITOR_HH
 #define LOCALACTIVITYMONITOR_HH
 
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
+#include <thread>
+#include <mutex>
 
 #include "IActivityMonitor.hh"
 
@@ -86,7 +86,7 @@ private:
   LocalActivityMonitorState state{ACTIVITY_MONITOR_IDLE};
 
   //! Internal locking
-  boost::recursive_mutex lock;
+  std::recursive_mutex lock;
 
   //! Previous X coordinate
   int prev_x{-10};

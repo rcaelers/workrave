@@ -39,7 +39,7 @@ MacOSInputMonitor::~MacOSInputMonitor()
 bool
 MacOSInputMonitor::init()
 {
-  monitor_thread = std::shared_ptr<boost::thread>(new boost::thread(std::bind(&MacOSInputMonitor::run, this)));
+  monitor_thread = std::shared_ptr<std::thread>(new std::thread(std::bind(&MacOSInputMonitor::run, this)));
   return true;
 }
 

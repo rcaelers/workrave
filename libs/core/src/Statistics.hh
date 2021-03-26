@@ -21,8 +21,8 @@
 #define STATISTICS_HH
 
 #include <memory>
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
+#include <thread>
+#include <mutex>
 
 #include <chrono>
 
@@ -158,7 +158,7 @@ private:
   History history;
 
   //! Internal locking
-  boost::mutex lock;
+  std::mutex lock;
 
   //! Previous X coordinate
   int prev_x;

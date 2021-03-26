@@ -21,7 +21,7 @@
 #endif
 
 #include <boost/lexical_cast.hpp>
-#include <boost/thread.hpp>
+#include <thread>
 
 #include "debug.hh"
 #include "utils/Timer.hh"
@@ -58,7 +58,7 @@ Timer::create(string name, int64_t interval, Callback callback)
   TRACE_ENTER_MSG("Timer::create", name << " " << interval);
   g_timer_mutex.lock();
 
-  string id = name + "." + boost::lexical_cast<std::string>(boost::this_thread::get_id());
+  string id = name + "." + boost::lexical_cast<std::string>(std::this_thread::get_id());
 
   TRACE_MSG("id = " << id);
   if (timers.find(id) == timers.end())
@@ -103,7 +103,7 @@ Timer::destroy(string name)
 {
   TRACE_ENTER_MSG("Timer::destroy", name);
   g_timer_mutex.lock();
-  string id = name + "." + boost::lexical_cast<std::string>(boost::this_thread::get_id());
+  string id = name + "." + boost::lexical_cast<std::string>(std::this_thread::get_id());
   TRACE_MSG("id = " << id);
 
   if (timers.find(id) != timers.end())

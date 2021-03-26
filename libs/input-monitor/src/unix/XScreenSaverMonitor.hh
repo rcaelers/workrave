@@ -22,9 +22,9 @@
 
 #include <string>
 
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition_variable.hpp>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -46,13 +46,13 @@ private:
 
 private:
   bool abort{false};
-  std::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<std::thread> monitor_thread;
   XScreenSaverInfo *screen_saver_info{nullptr};
   Display *xdisplay{nullptr};
   Drawable root;
 
-  boost::mutex mutex;
-  boost::condition_variable cond;
+  std::mutex mutex;
+  std::condition_variable cond;
 };
 
 #endif // XSCREENSAVERMONITOR_HH

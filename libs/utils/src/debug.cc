@@ -26,7 +26,7 @@
 #  include <sstream>
 #  include <chrono>
 
-#  include <boost/thread/tss.hpp>
+#  include <thread>
 #  include <boost/filesystem.hpp>
 
 #  ifdef PLATFORM_OS_WINDOWS
@@ -40,10 +40,10 @@
 using namespace std;
 using namespace workrave::utils;
 
-boost::recursive_mutex g_log_mutex;
-std::map<boost::thread::id, std::ofstream *> g_log_streams;
+std::recursive_mutex g_log_mutex;
+std::map<std::thread::id, std::ofstream *> g_log_streams;
 
-static boost::thread_specific_ptr<std::string> g_thread_name;
+static thread_local std::string g_thread_name;
 static std::string g_prefix;
 
 std::string
@@ -72,7 +72,7 @@ Debug::trace_string()
       ss << " " << logtime << "." << (ms % 1000000) / 1000;
     }
 
-  ss << " " << boost::this_thread::get_id() /* g_thread_self() */ << " ";
+  ss << " " << std::this_thread::get_id() /* g_thread_self() */ << " ";
   return ss.str();
 
 #  else
@@ -82,7 +82,7 @@ Debug::trace_string()
   strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
 
   stringstream ss;
-  ss << logtime << " " << boost::this_thread::get_id() /* g_thread_self() */ << " ";
+  ss << logtime << " " << std::this_thread::get_id() /* g_thread_self() */ << " ";
   return ss.str();
 #  endif
 }
@@ -97,14 +97,14 @@ void
 Debug::name(const std::string &name)
 {
   g_log_mutex.lock();
-  if (g_log_streams.find(boost::this_thread::get_id()) != g_log_streams.end())
+  if (g_log_streams.find(std::this_thread::get_id()) != g_log_streams.end())
     {
-      g_log_streams[boost::this_thread::get_id()]->close();
-      delete g_log_streams[boost::this_thread::get_id()];
-      g_log_streams.erase(boost::this_thread::get_id());
+      g_log_streams[std::this_thread::get_id()]->close();
+      delete g_log_streams[std::this_thread::get_id()];
+      g_log_streams.erase(std::this_thread::get_id());
     }
 
-  g_thread_name.reset(new std::string(g_prefix + name));
+  g_thread_name = g_prefix + name;
   g_log_mutex.unlock();
 }
 
@@ -112,7 +112,7 @@ std::ofstream &
 Debug::stream()
 {
   g_log_mutex.lock();
-  if (g_log_streams.find(boost::this_thread::get_id()) == g_log_streams.end())
+  if (g_log_streams.find(std::this_thread::get_id()) == g_log_streams.end())
     {
       std::string debug_filename;
 
@@ -148,18 +148,18 @@ Debug::stream()
       strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);
 
       stringstream ss;
-      ss << debug_filename << logfile << "-" << boost::this_thread::get_id();
+      ss << debug_filename << logfile << "-" << std::this_thread::get_id();
 
-      if (g_thread_name.get() != nullptr)
+      if (g_thread_name != "")
         {
-          ss << "-" << *g_thread_name;
+          ss << "-" << g_thread_name;
         }
 
-      g_log_streams[boost::this_thread::get_id()] = new std::ofstream();
-      g_log_streams[boost::this_thread::get_id()]->open(ss.str().c_str(), std::ios::app);
+      g_log_streams[std::this_thread::get_id()] = new std::ofstream();
+      g_log_streams[std::this_thread::get_id()]->open(ss.str().c_str(), std::ios::app);
     }
 
-  std::ofstream *ret = g_log_streams[boost::this_thread::get_id()];
+  std::ofstream *ret = g_log_streams[std::this_thread::get_id()];
   g_log_mutex.unlock();
   return *ret;
 }

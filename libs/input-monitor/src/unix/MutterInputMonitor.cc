@@ -16,10 +16,11 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#  include <memory>
-
 #  include "config.h"
 #endif
+
+#include <memory>
+#include <chrono>
 
 #include "MutterInputMonitor.hh"
 
@@ -89,7 +90,7 @@ MutterInputMonitor::init_idle_monitor()
 
       if (result)
         {
-          monitor_thread = std::make_shared<boost::thread>([this] { run(); });
+          monitor_thread = std::make_shared<std::thread>([this] { run(); });
         }
     }
   else
@@ -385,7 +386,7 @@ MutterInputMonitor::run()
   TRACE_ENTER("MutterInputMonitor::run");
 
   {
-    boost::mutex::scoped_lock lock(mutex);
+    std::unique_lock lock(mutex);
 
     while (!abort)
       {
@@ -395,8 +396,7 @@ MutterInputMonitor::run()
           {
             GError *error = nullptr;
             guint64 idletime;
-            GVariant *reply =
-              g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+            GVariant *reply = g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
             if (error == nullptr)
               {
 
@@ -417,8 +417,7 @@ MutterInputMonitor::run()
             fire_action();
           }
 
-        boost::system_time timeout = boost::get_system_time() + boost::posix_time::milliseconds(1000);
-        cond.timed_wait(lock, timeout);
+        cond.wait_for(lock, std::chrono::milliseconds(1000));
       }
   }
 

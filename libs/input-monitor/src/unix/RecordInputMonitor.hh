@@ -20,7 +20,7 @@
 #ifndef RECORDINPUTMONITOR_HH
 #define RECORDINPUTMONITOR_HH
 
-#include <boost/thread.hpp>
+#include <thread>
 
 #include <string>
 
@@ -80,7 +80,7 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  std::shared_ptr<boost::thread> monitor_thread;
+  std::shared_ptr<std::thread> monitor_thread;
 
   //! XRecord context. Defines clients and events to capture.
   XRecordContext xrecord_context;

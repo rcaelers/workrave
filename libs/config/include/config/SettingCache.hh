@@ -20,7 +20,6 @@
 
 #include <map>
 #include <utility>
-#include <boost/any.hpp>
 #include <boost/noncopyable.hpp>
 
 #include "config/IConfigurator.hh"

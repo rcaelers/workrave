@@ -25,9 +25,10 @@
 
 #ifdef HAVE_GTK
 #  include <gdk/gdkx.h>
-
-#  include <memory>
 #endif
+
+#include <memory>
+#include <chrono>
 
 #include "XScreenSaverMonitor.hh"
 
@@ -68,7 +69,7 @@ XScreenSaverMonitor::init()
     {
 
       screen_saver_info = XScreenSaverAllocInfo();
-      monitor_thread = std::make_shared<boost::thread>([this] { run(); });
+      monitor_thread = std::make_shared<std::thread>([this] { run(); });
     }
 
   TRACE_RETURN(has_extension);
@@ -96,9 +97,9 @@ XScreenSaverMonitor::run()
   TRACE_ENTER("XScreenSaverMonitor::run");
 
   {
-    boost::mutex::scoped_lock lock(mutex);
+    std::unique_lock lock(mutex);
     while (!abort)
-      {
+    {
         XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
 
         if (screen_saver_info->idle < 1000)
@@ -108,8 +109,7 @@ XScreenSaverMonitor::run()
             fire_action();
           }
 
-        boost::system_time timeout = boost::get_system_time() + boost::posix_time::milliseconds(1000);
-        cond.timed_wait(lock, timeout);
+        cond.wait_for(lock, std::chrono::milliseconds(1000));
       }
   }
 
