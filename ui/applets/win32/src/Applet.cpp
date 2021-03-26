@@ -35,7 +35,7 @@
 #pragma data_seg()
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
-BOOL RegisterServer(CLSID, LPTSTR, BOOL reg);
+BOOL RegisterServer(CLSID, LPCTSTR, BOOL reg);
 BOOL RegisterComCat(CLSID, CATID, BOOL reg);
 
 HINSTANCE g_hInst;
@@ -149,15 +149,14 @@ DllRegisterServer()
 typedef struct
 {
   HKEY hRootKey;
-  LPTSTR szSubKey; // TCHAR szSubKey[MAX_PATH];
-  LPTSTR lpszValueName;
-  LPTSTR szData; // TCHAR szData[MAX_PATH];
+  LPCTSTR szSubKey; // TCHAR szSubKey[MAX_PATH];
+  LPCTSTR lpszValueName;
+  LPCTSTR szData; // TCHAR szData[MAX_PATH];
 } DOREGSTRUCT, *LPDOREGSTRUCT;
 
 BOOL
-RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
+RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
 {
-  int i;
   HKEY hKey;
   LRESULT lResult;
   DWORD dwDisp;
@@ -200,7 +199,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
   if (reg)
     {
       // register the CLSID entries
-      for (i = 0; i < sizeof(ClsidEntries) / sizeof(ClsidEntries[0]); i++)
+      for (size_t i = 0; i < sizeof(ClsidEntries) / sizeof(ClsidEntries[0]); i++)
         {
           // create the sub key string - for this case, insert the file extension
           wsprintf(szSubKey, ClsidEntries[i].szSubKey, szCLSID);
@@ -215,7 +214,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
               // if necessary, create the value string
               wsprintf(szData, ClsidEntries[i].szData, szModule);
 
-              lResult = RegSetValueEx(hKey, ClsidEntries[i].lpszValueName, 0, REG_SZ, (LPBYTE)szData, lstrlen(szData) + 1);
+              lResult = RegSetValueEx(hKey, ClsidEntries[i].lpszValueName, 0, REG_SZ, (const BYTE *)szData, lstrlen(szData) + 1);
 
               RegCloseKey(hKey);
             }

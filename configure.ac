@@ -32,7 +32,7 @@ GNOME_SHELL_VERSION=3.26.1
 AC_SUBST(GNOME_SHELL_VERSION)
 
 if test -n "$WORKRAVE_GIT_VERSION"; then
-    AC_DEFINE_UNQUOTED(GIT_VERSION, "$WORKRAVE_GIT_VERSION", [GIT Version])
+    AC_DEFINE_UNQUOTED(WORKRAVE_GIT_VERSION, "$WORKRAVE_GIT_VERSION", [GIT Version])
 fi
 
 
@@ -505,6 +505,7 @@ then
     AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
 
     AC_DEFINE(HAVE_DBUS, , [DBus support])
+    AC_DEFINE(HAVE_DBUS_GIO, , [DBus support])
 
     AS_AC_EXPAND(DATADIR, "$datadir")
     DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
@@ -516,6 +517,7 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$config_dbus = xyes)
+AM_CONDITIONAL(HAVE_DBUS_GIO, test x$config_dbus = xyes)
 AM_CONDITIONAL(HAVE_PYTHON_JINJA2, test x$HAVE_PYMOD_jinja2 = xyes)
 
 

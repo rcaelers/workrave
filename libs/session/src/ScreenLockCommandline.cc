@@ -66,7 +66,7 @@ ScreenLockCommandline::invoke(const gchar *command, bool async)
           g_error_free(error);
           return false;
         }
-      return WEXITSTATUS(exit_code) == 0;
+      return g_spawn_check_exit_status(exit_code, nullptr);
     }
   else
     {

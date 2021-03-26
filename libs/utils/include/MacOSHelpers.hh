@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MacOS_HELPERS_HH
-#define MacOS_HELPERS_HH
+#ifndef WORKRAVE_UTILS_MACOS_HELPERS_HH
+#define WORKRAVE_UTILS_MACOS_HELPERS_HH
 
 #include <pthread.h>
 

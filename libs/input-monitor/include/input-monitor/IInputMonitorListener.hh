@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef INPUTMONITORLISTENER_HH
-#define INPUTMONITORLISTENER_HH
+#ifndef WORKRAVE_INPUT_MONITOR_INPUTMONITORLISTENER_HH
+#define WORKRAVE_INPUT_MONITOR_INPUTMONITORLISTENER_HH
 
 #include <string>
 
@@ -41,4 +41,4 @@ public:
   virtual void keyboard_notify(bool repeat) = 0;
 };
 
-#endif // IINPUTMONITORLISTENER_HH
+#endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITORLISTENER_HH

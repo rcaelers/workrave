@@ -36,8 +36,8 @@ namespace workrave
       using Ptr = std::shared_ptr<DBusDummy>;
 
     public:
-      DBusDummy();
-      ~DBusDummy() override;
+      DBusDummy() = default;
+      ~DBusDummy() override = default;
 
       // IDBus
       void init() override;

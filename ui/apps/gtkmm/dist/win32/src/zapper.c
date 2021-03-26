@@ -1,12 +1,15 @@
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "zapper.h"
 
-#pragma comment(lib, "user32.lib")
+#ifdef _MSC_VER
+#  pragma comment(lib, "user32.lib")
 
-#pragma warning(push)
-#pragma warning(disable : 4100) // unreferenced formal parameter
+#  pragma warning(push)
+#  pragma warning(disable : 4100) // unreferenced formal parameter
+#endif
 
 typedef DWORD(__stdcall *QUERYFULLPROCESSIMAGENAME)(HANDLE, DWORD, LPTSTR, PDWORD);
 typedef DWORD(__stdcall *GETMODULEFILENAMEEX)(HANDLE, HMODULE, LPTSTR, DWORD);
@@ -86,7 +89,7 @@ SendQuit(HWND hwnd, enum Kind kind)
 }
 
 BOOL CALLBACK
-EnumWindowsProc(HWND hwnd, long lParam)
+EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
   char className[MAX_CLASS_NAME] = {
     0,
@@ -148,7 +151,7 @@ EnumWindowsProc(HWND hwnd, long lParam)
 }
 
 static void
-FindOrZapWorkrave()
+FindOrZapWorkrave(void)
 {
   HINSTANCE psapi = NULL;
   HINSTANCE kernel32 = LoadLibrary("kernel32.dll");
@@ -166,7 +169,7 @@ FindOrZapWorkrave()
 
   if (pfnQueryFullProcessImageName != NULL || pfnGetModuleFileNameEx != NULL)
     {
-      EnumWindows(EnumWindowsProc, 0);
+      EnumWindows(EnumWindowsProc, 0L);
     }
 
   if (kernel32 != NULL)
@@ -181,7 +184,7 @@ FindOrZapWorkrave()
 }
 
 BOOL
-FindWorkrave()
+FindWorkrave(void)
 {
   success = FALSE;
   simulate = TRUE;
@@ -192,7 +195,7 @@ FindWorkrave()
 }
 
 BOOL
-ZapWorkrave()
+ZapWorkrave(void)
 {
   success = FALSE;
   simulate = FALSE;
@@ -218,7 +221,6 @@ KillProcess(char *proces_name_to_kill)
       DWORD count = 0;
       DWORD needed = 0;
       DWORD *pids = NULL;
-      BOOL ret = FALSE;
 
       do
         {
@@ -277,4 +279,6 @@ KillProcess(char *proces_name_to_kill)
   return ret;
 }
 
-#pragma warning(pop)
+#ifdef _MSC_VER
+#  pragma warning(pop)
+#endif

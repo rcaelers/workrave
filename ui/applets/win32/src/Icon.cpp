@@ -74,7 +74,7 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_LBUTTONUP:
-      SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, NULL);
+      SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, 0);
       break;
     }
 

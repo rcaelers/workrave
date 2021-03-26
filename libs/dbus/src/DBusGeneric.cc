@@ -35,12 +35,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-//! Construct a new D-BUS bridge
-DBusGeneric::DBusGeneric() = default;
-
-//! Destruct the D-BUS bridge
-DBusGeneric::~DBusGeneric() = default;
-
 //! Connect a D-DBUS object/interface to a C object
 void
 DBusGeneric::connect(const std::string &object_path, const std::string &interface_name, void *cobject)

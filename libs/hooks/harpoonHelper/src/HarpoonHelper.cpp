@@ -168,7 +168,7 @@ HarpoonHelper::init_critical_filename_list()
           sprintf(loc, "advanced/critical_files/file%d", i);
           if (config.get_value(loc, buffer))
             {
-              strncpy_s(critical_filename_list[i + 2], buffer.c_str(), 510);
+              strcpy_s(critical_filename_list[i + 2], 510, buffer.c_str());
               critical_filename_list[i][510] = '\0';
             }
         }
@@ -285,6 +285,10 @@ HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
         case HARPOON_HELPER_UNBLOCK:
           TRACE_MSG("unblock");
           harpoon_unblock_input();
+          break;
+
+        case HARPOON_HELPER_NOTHING:
+        case HARPOON_HELPER_EVENT__SIZEOF:
           break;
         }
     }

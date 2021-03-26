@@ -20,10 +20,10 @@
 #endif
 
 #include "control.h"
-#include "commonui/MenuEnums.hh"
 
 #include "commonui/credits.h"
 #include "nls.h"
+#include "commonui/MenuEnums.hh"
 
 #include <mate-panel-applet.h>
 #include <glib-object.h>
@@ -193,9 +193,9 @@ on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
   gtk_show_about_dialog(NULL,
                         "name",
                         "Workrave",
-#ifdef GIT_VERSION
+#ifdef WORKRAVE_WORKRAVE_GIT_VERSION
                         "version",
-                        PACKAGE_VERSION "\n(" GIT_VERSION ")",
+                        PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
 #else
                         "version",
                         PACKAGE_VERSION,

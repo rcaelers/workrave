@@ -54,9 +54,9 @@ private:
   void update_dimensions();
 
   TimeBar *slot_to_time_bar[BREAK_ID_SIZEOF]{};
-  CDeskBand *deskband{nullptr};
   HWND parent_window{};
   HINSTANCE hinstance{};
+  CDeskBand *deskband{nullptr};
   Icon *sheep_icon{nullptr};
   Icon *break_to_icon[BREAK_ID_SIZEOF];
   BreakId slot_to_break[BREAK_ID_SIZEOF];

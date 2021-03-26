@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IINPUTMONITORFACTORY_HH
-#define IINPUTMONITORFACTORY_HH
+#ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
+#define WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
 
 #include <cstdlib>
 #include <string>
@@ -41,4 +41,4 @@ public:
   virtual IInputMonitor *get_monitor(MonitorCapability capability) = 0;
 };
 
-#endif // IINPUTMONITORFACTORY_HH
+#endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH

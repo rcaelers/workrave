@@ -1,8 +1,8 @@
 #include "PaintHelper.h"
 #include "Debug.h"
 
-#include <Uxtheme.h>
-#include <GdiPlus.h>
+#include <uxtheme.h>
+#include <gdiplus.h>
 
 #include <string>
 

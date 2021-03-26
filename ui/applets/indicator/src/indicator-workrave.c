@@ -81,7 +81,6 @@ struct _IndicatorWorkraveClass
 struct _IndicatorWorkrave
 {
   IndicatorObject parent;
-  IndicatorWorkravePrivate *priv;
 };
 
 struct _IndicatorWorkravePrivate
@@ -131,7 +130,6 @@ struct _MenuItemData
   GtkWidget *label;
 };
 
-#define INDICATOR_WORKRAVE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE((o), INDICATOR_WORKRAVE_TYPE, IndicatorWorkravePrivate))
 
 GType indicator_workrave_get_type(void);
 
@@ -160,14 +158,13 @@ static void on_workrave_vanished(GDBusConnection *connection, const gchar *name,
 INDICATOR_SET_VERSION
 INDICATOR_SET_TYPE(INDICATOR_WORKRAVE_TYPE)
 
-G_DEFINE_TYPE(IndicatorWorkrave, indicator_workrave, INDICATOR_OBJECT_TYPE);
+G_DEFINE_TYPE_WITH_CODE(IndicatorWorkrave, indicator_workrave, INDICATOR_OBJECT_TYPE, G_ADD_PRIVATE(IndicatorWorkrave));
 
 static void
 indicator_workrave_class_init(IndicatorWorkraveClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-  g_type_class_add_private(klass, sizeof(IndicatorWorkravePrivate));
 
   object_class->dispose = indicator_workrave_dispose;
   object_class->finalize = indicator_workrave_finalize;
@@ -182,8 +179,7 @@ indicator_workrave_class_init(IndicatorWorkraveClass *klass)
 static void
 indicator_workrave_init(IndicatorWorkrave *self)
 {
-  self->priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   priv->label = NULL;
   priv->image = NULL;
@@ -221,7 +217,7 @@ static void
 indicator_workrave_dispose(GObject *object)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(object);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   if (priv->watch_id != 0)
     {
@@ -273,7 +269,7 @@ static GtkImage *
 get_icon(IndicatorObject *io)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(io);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   if (priv->image == NULL)
     {
@@ -292,14 +288,15 @@ static GtkMenu *
 get_menu(IndicatorObject *io)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(io);
-  return GTK_MENU(self->priv->menu);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
+  return GTK_MENU(priv->menu);
 }
 
 static const gchar *
 get_accessible_desc(IndicatorObject *io)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(io);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
   const gchar *name = NULL;
 
   if (priv->label != NULL)
@@ -312,7 +309,7 @@ get_accessible_desc(IndicatorObject *io)
 static void
 indicator_workrave_start(IndicatorWorkrave *self)
 {
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   if (priv->alive)
     {
@@ -394,7 +391,7 @@ indicator_workrave_start(IndicatorWorkrave *self)
 static void
 indicator_workrave_stop(IndicatorWorkrave *self)
 {
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
   if (priv->alive)
     {
       if (priv->timer != 0)
@@ -426,7 +423,7 @@ static gboolean
 on_start_delay(gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   indicator_workrave_start(self);
   priv->startup_count++;
@@ -437,7 +434,7 @@ on_start_delay(gpointer user_data)
 static void
 indicator_workrave_check(IndicatorWorkrave *self)
 {
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
   if (priv->workrave_running && priv->workrave_ui_proxy != NULL && priv->workrave_core_proxy != NULL)
     {
       // The Workrave interface may be started after the service becomes
@@ -450,7 +447,7 @@ indicator_workrave_check(IndicatorWorkrave *self)
 static void
 indicator_workrave_create_dbus(IndicatorWorkrave *self)
 {
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
   GSettings *settings = g_settings_new("org.workrave.gui");
   gboolean autostart = g_settings_get_boolean(settings, "autostart");
   g_object_unref(settings);
@@ -484,7 +481,7 @@ static gboolean
 on_timer(gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   if (priv->alive && priv->update_count == 0)
     {
@@ -501,7 +498,7 @@ static void
 on_dbus_ui_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   GError *error = NULL;
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
@@ -530,7 +527,7 @@ static void
 on_dbus_core_ready(GObject *object, GAsyncResult *res, gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   GError *error = NULL;
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_finish(res, &error);
@@ -559,7 +556,7 @@ static void
 on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   if (g_strcmp0(signal_name, "TimersUpdated") == 0)
     {
@@ -585,7 +582,7 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 static void
 on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
 {
-  IndicatorWorkravePrivate *priv = INDICATOR_WORKRAVE_GET_PRIVATE(self);
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
   if (!priv->alive)
     {
@@ -597,7 +594,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
   TimerData td[BREAK_ID_SIZEOF];
 
   g_variant_get(parameters,
-                "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
+                "((siiiiiii)(siiiiiii)(siiiiiii))",
                 &td[BREAK_ID_MICRO_BREAK].bar_text,
                 &td[BREAK_ID_MICRO_BREAK].slot,
                 &td[BREAK_ID_MICRO_BREAK].bar_secondary_color,
@@ -657,7 +654,8 @@ static void
 on_workrave_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  self->priv->workrave_running = TRUE;
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
+  priv->workrave_running = TRUE;
   indicator_workrave_check(self);
 }
 
@@ -665,6 +663,7 @@ static void
 on_workrave_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
   IndicatorWorkrave *self = INDICATOR_WORKRAVE(user_data);
-  self->priv->workrave_running = FALSE;
+  IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
+  priv->workrave_running = FALSE;
   indicator_workrave_stop(self);
 }

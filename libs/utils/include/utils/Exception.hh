@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef EXCEPTION_HH
-#define EXCEPTION_HH
+#ifndef WORKRAVE_UTILS_EXCEPTION_HH
+#define WORKRAVE_UTILS_EXCEPTION_HH
 
 #include <string>
 #include <exception>
@@ -48,4 +48,4 @@ namespace workrave
   };
 }; // namespace workrave
 
-#endif // EXCEPTION_HH
+#endif // WORKRAVE_UTILS_EXCEPTION_HH

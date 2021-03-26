@@ -18,7 +18,9 @@
 //
 // $Id$
 
+#include <windows.h>
 #include <windowsx.h>
+#include <winuser.h>
 
 #include "DeskBand.h"
 #include "TimeBar.h"
@@ -27,6 +29,9 @@
 #include "Applet.hh"
 #include "Debug.h"
 #include "PaintHelper.h"
+#if !defined(WM_DPICHANGED)
+#define WM_DPICHANGED 0x02E0
+#endif
 
 CDeskBand::CDeskBand()
 {
@@ -508,7 +513,7 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 
   if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow(get_command_window()))
     {
-      SendMessage(get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, NULL);
+      SendMessage(get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, 0);
       ret = NOERROR;
     }
   else
@@ -585,7 +590,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_LBUTTONUP:
-      SendMessage((HWND)LongToHandle(pThis->m_AppletMenu.command_window), WM_USER + 1, 0, NULL);
+      SendMessage((HWND)LongToHandle(pThis->m_AppletMenu.command_window), WM_USER + 1, 0, 0);
       break;
 
     case WM_DPICHANGED:

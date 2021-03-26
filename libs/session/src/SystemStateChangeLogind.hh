@@ -40,7 +40,7 @@
 class SystemStateChangeLogind : public ISystemStateChangeMethod
 {
 public:
-  SystemStateChangeLogind(GDBusConnection *connection);
+  explicit SystemStateChangeLogind(GDBusConnection *connection);
   ~SystemStateChangeLogind() override = default;
 
   // PowerOff(), Reboot(), Suspend(), Hibernate(), HybridSleep()

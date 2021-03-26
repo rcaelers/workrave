@@ -23,13 +23,8 @@
 #  include <glib.h>
 #endif
 
-#ifdef HAVE_STRING_H
-#  include <cstring>
-#endif
-
-#ifdef HAVE_STRINGS_H
-#  include <strings.h>
-#endif
+#include <cstring>
+#include <strings.h>
 
 #include <iostream>
 #include "debug.hh"
@@ -88,7 +83,7 @@ SystemStateChangeLogind::check_method(const char *method_name)
       return false;
     }
 
-  TRACE_MSG2("Method returned:", cresult);
+  TRACE_MSG("Method returned: " << cresult);
   if (strcmp(cresult, "yes") == 0)
     {
       ret = true;

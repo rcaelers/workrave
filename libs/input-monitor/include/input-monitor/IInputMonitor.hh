@@ -1,6 +1,6 @@
 // IInputMonitor.hh --- Interface definition for the Input monitors.
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IINPUTMONITOR_HH
-#define IINPUTMONITOR_HH
+#ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
+#define WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 
 // Forward declarion of internal interfaces.
 class IInputMonitorListener;
@@ -48,4 +48,4 @@ public:
   virtual void unsubscribe_statistics(IInputMonitorListener *listener) = 0;
 };
 
-#endif // IINPUTMONITOR_HH
+#endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH

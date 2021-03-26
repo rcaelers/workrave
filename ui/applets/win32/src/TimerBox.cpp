@@ -18,6 +18,8 @@
 //
 // $Id$
 
+#include <windows.h>
+#include <winuser.h>
 #include "TimerBox.h"
 #include "TimeBar.h"
 #include "Util.h"
@@ -147,7 +149,11 @@ TimerBox::init_icons()
   TRACE_ENTER("TimerBox::update_icons");
   const char *icon_ids[] = {"micropause", "restbreak", "dailylimit"};
 
+#ifdef _WIN64
   UINT dpi = GetDpiForWindow(parent_window);
+#else
+  UINT dpi = 96;
+#endif
   TRACE_MSG("dpi " << dpi);
   int size = 16;
   if (dpi >= 192)

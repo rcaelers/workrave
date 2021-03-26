@@ -46,7 +46,7 @@ namespace workrave
       using Ptr = std::shared_ptr<DBusGio>;
 
     public:
-      DBusGio();
+      DBusGio() = default;
       ~DBusGio() override;
 
       void init() override;

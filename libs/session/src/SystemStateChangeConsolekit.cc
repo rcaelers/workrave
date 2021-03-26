@@ -11,15 +11,10 @@
 #  include <glib.h>
 #endif
 
-#ifdef HAVE_STRING_H
-#  include <cstring>
-#endif
-
-#ifdef HAVE_STRINGS_H
-#  include <strings.h>
-#endif
-
+#include <cstring>
+#include <strings.h>
 #include <iostream>
+
 #include "debug.hh"
 
 const char *SystemStateChangeConsolekit::dbus_name = "org.freedesktop.ConsoleKit";

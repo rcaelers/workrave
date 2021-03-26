@@ -177,7 +177,7 @@ is_app_blocked()
       // exec_filename[]should now contain the process filename
 
       for (i = 0; i < HARPOON_MAX_UNBLOCKED_APPS; ++i)
-        if (strncmp(exec_filename, critical_file_list[i], 510) == 0)
+        if (strncmp((char *)exec_filename, critical_file_list[i], 510) == 0)
           exec_filename_critical = TRUE;
 
       if (exec_filename_critical)
@@ -675,8 +675,6 @@ harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
-  BOOL forcecallnext = TRUE;
-
   if (code >= 0)
     {
       // if (is_app_blocked() && block_input)
@@ -1061,12 +1059,12 @@ _get_exec_filename()
   DWORD ret;
   unsigned char *p, *buffer;
 
-  for (size = 1024, buffer = NULL; buffer = realloc(buffer, size + 1); size *= 2)
+  for (size = 1024, buffer = NULL; (buffer = realloc(buffer, size + 1)) != NULL; size *= 2)
     // This doubles the buffer until it can hold the filename.
     {
       SetLastError(NO_ERROR);
 
-      ret = GetModuleFileNameA(NULL, buffer, size);
+      ret = GetModuleFileNameA(NULL, (char *)buffer, size);
 
       if (ret && GetLastError() == NO_ERROR)
         break;
@@ -1094,14 +1092,14 @@ _get_exec_filename()
   // http://codesnipers.com/?q=node/34
 
   // Search the path to find where the filename starts:
-  if (p = (unsigned char *)_mbsrchr(buffer, '\\'))
+  if ((p = _mbsrchr(buffer, '\\')) != NULL)
     // Point to first (mb) filename character
     ++p;
   else
     // No path. Probably a Windows Me/98/95 filename
     p = buffer;
 
-  _mbstrncpy_lowercase(exec_filename, p, 510);
+  _mbstrncpy_lowercase((char *)exec_filename, (char *)p, 510);
   exec_filename[510] = '\0';
 
   free(buffer);
@@ -1154,7 +1152,7 @@ _mbstrncpy_lowercase(const char *out, const char *in, int bytes)
       if (--bytes == 0)
         break;
 
-      if (*dest = (unsigned char)(mb >> 8))
+      if ((*dest = (unsigned char)(mb >> 8)) != 0)
         {
           ++dest;
 
@@ -1231,7 +1229,7 @@ buffer len is 1024 - 540 = ~480 max str len
 
   snprintf(buffer,
            1023,
-           "%u:%02u:%02u %s:\t%s (%u):\t %s\r\n",
+           "%lu:%02lu:%02lu %s:\t%s (%lu):\t %s\r\n",
            (DWORD)local.wHour,
            (DWORD)local.wMinute,
            (DWORD)local.wSecond,

@@ -22,9 +22,9 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
-
 #include "ScreenLockDBus.hh"
+
+#include "debug.hh"
 
 ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
                                const char *dbus_name,

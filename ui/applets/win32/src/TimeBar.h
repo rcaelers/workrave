@@ -23,7 +23,7 @@
 #include <windows.h>
 #include <time.h>
 
-#include "commonui\ITimeBar.hh"
+#include "commonui/ITimeBar.hh"
 #include "Applet.hh"
 
 class CDeskBand;
@@ -57,9 +57,7 @@ private:
   int secondary_bar_value{100};
   ITimeBar::ColorId secondary_bar_color{ITimeBar::COLOR_ID_INACTIVE};
   ITimeBar::ColorId bar_color{ITimeBar::COLOR_ID_ACTIVE};
-  char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{
-    0,
-  };
+  char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{0,};
   PaintHelper *paint_helper{nullptr};
 
   static HFONT bar_font;

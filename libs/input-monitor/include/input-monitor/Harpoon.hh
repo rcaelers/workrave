@@ -1,6 +1,6 @@
 // Harpoon.hh --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2004, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -20,26 +20,15 @@
 
 //
 
-#ifndef HARPOON_HH
-#define HARPOON_HH
+#ifndef WORKRAVE_INPUT_MONITOR_HARPOON_HH
+#define WORKRAVE_INPUT_MONITOR_HARPOON_HH
 
-#if TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  if HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
 
 #include <windows.h>
 #include "harpoon.h"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
-//! Activity monitor for a local X server.
 class Harpoon
 {
 public:
@@ -69,4 +58,4 @@ private:
   static bool helper_started;
   static char critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 };
-#endif // HARPOON_HH
+#endif // WORKRAVE_INPUT_MONITOR_HARPOON_HH

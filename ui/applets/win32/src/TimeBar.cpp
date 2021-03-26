@@ -73,7 +73,7 @@ TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       return pThis->on_paint();
 
     case WM_LBUTTONUP:
-      SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, NULL);
+      SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, 0);
       break;
     }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);

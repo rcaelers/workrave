@@ -1,6 +1,4 @@
-// System.hh
-//
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,7 +28,7 @@
 
 #include <vector>
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS_GIO)
 #  include <glib.h>
 #  include <gio/gio.h>
 #endif
@@ -93,7 +91,7 @@ private:
   static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)
 
-#  ifdef HAVE_DBUS
+#  ifdef HAVE_DBUS_GIO
   static void init_DBus();
   static void init_DBus_lock_commands();
   static inline bool add_DBus_lock_cmd(const char *dbus_name,
@@ -113,6 +111,10 @@ private:
   static void init_cmdline_lock_commands(const char *display);
   static bool invoke(const gchar *command, bool async = false);
 #endif // defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_WINDOWS)
+  static void init_windows_lock_commands();
+  static void init_windows_system_state_commands();
+#endif // PLATFORM_OS_WINDOWS
 };
 
 #endif // SYSTEM_HH

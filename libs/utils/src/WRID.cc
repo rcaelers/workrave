@@ -35,13 +35,14 @@
 #  include <windows.h>
 #  include <wincrypt.h>
 #elif defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-#  include <cerrno>
-#  include <cstring>
-#  include <fcntl.h>
-#  include <sys/stat.h>
 #  include <sys/types.h>
+#  include <sys/stat.h>
+#  include <fcntl.h>
 #  include <unistd.h>
+#  include <errno.h>
+#  include <string.h>
 #endif
+
 
 using namespace workrave;
 

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMESOURCE_HH
-#define TIMESOURCE_HH
+#ifndef WORKRAVE_UTILS_TIMESOURCE_HH
+#define WORKRAVE_UTILS_TIMESOURCE_HH
 
 #if TIME_WITH_SYS_TIME
 #  include <sys/time.h>
@@ -41,4 +41,4 @@ public:
   virtual time_t get_time() const = 0;
 };
 
-#endif // TIMESOURCE_HH
+#endif // WORKRAVE_UTILS_TIMESOURCE_HH

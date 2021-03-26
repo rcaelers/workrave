@@ -39,8 +39,8 @@ namespace workrave
       using Ptr = std::shared_ptr<DBusGeneric>;
 
     public:
-      DBusGeneric();
-      ~DBusGeneric() override;
+      DBusGeneric() = default;
+      ~DBusGeneric() override = default;
 
       void connect(const std::string &path, const std::string &interface_name, void *object) override;
       void disconnect(const std::string &path, const std::string &interface_name) override;

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DEBUG_HH
-#define DEBUG_HH
+#ifndef WORKRAVE_UTILS_DEBUG_HH
+#define WORKRAVE_UTILS_DEBUG_HH
 
 #include <cassert>
 
@@ -85,4 +85,4 @@ public:
 
 #endif // TRACING
 
-#endif // DEBUG_HH
+#endif // WORKRAVE_UTILS_DEBUG_HH

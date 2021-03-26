@@ -40,8 +40,9 @@
 class SystemStateChangeUPower : public ISystemStateChangeMethod
 {
 public:
-  SystemStateChangeUPower(GDBusConnection *connection);
+  explicit SystemStateChangeUPower(GDBusConnection *connection);
   ~SystemStateChangeUPower() override = default;
+
   bool suspend() override { return execute("Suspend"); }
   bool hibernate() override { return execute("Hibernate"); }
 

@@ -24,7 +24,7 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUS_GIO
 #  include "DBusProxy-gio.hh"
 #else
 #  error "This header file requires DBUS_GIO"

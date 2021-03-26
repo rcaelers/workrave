@@ -36,8 +36,6 @@ DBusBindingGio::DBusBindingGio(IDBus::Ptr dbus)
 {
 }
 
-DBusBindingGio::~DBusBindingGio() = default;
-
 void
 DBusMarshallGio::get_int(GVariant *v, int *value)
 {

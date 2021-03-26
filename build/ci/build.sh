@@ -8,7 +8,7 @@ case "$DOCKER_IMAGE" in
         ${CI_DIR}/build-mingw.sh
         ;;
 
-    mingw-gtk)
+    mingw-gtk*)
         ${CI_DIR}/build-mingw.sh
         ;;
 
