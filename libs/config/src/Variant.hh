@@ -23,7 +23,6 @@
 #include "debug.hh"
 
 #include <string>
-using namespace std;
 
 enum VariantType
 {

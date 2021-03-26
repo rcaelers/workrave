@@ -172,9 +172,9 @@ public:
   void heartbeat() override;
   bool set_network_enabled(bool enabled) override;
   bool set_server_enabled(bool enabled) override;
-  void set_user(string user, string password) override;
-  void connect(string url) override;
-  void disconnect(string id) override;
+  void set_user(std::string user, std::string password) override;
+  void connect(std::string url) override;
+  void disconnect(std::string id) override;
   bool disconnect_all() override;
   bool reconnect_all() override;
   bool claim() override;
@@ -204,7 +204,7 @@ private:
 
   bool set_client_id(Client *client, gchar *id);
 
-  string get_master() const;
+  std::string get_master() const;
   void set_master_by_id(gchar *id);
   void set_master(Client *client);
   void set_me_master();
@@ -242,12 +242,12 @@ private:
   bool start_async_server();
 
   void read_configuration();
-  void config_changed_notify(const string &key) override;
+  void config_changed_notify(const std::string &key) override;
 
   std::string get_random_string() const;
 
 private:
-  typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
+  typedef std::map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
 
   //! The distribution manager.
   DistributionManager *dist_manager{nullptr};
@@ -267,7 +267,7 @@ private:
   gchar *password{nullptr};
 
   //! All clients.
-  list<Client *> clients;
+  std::list<Client *> clients;
 
   //! Active client
   Client *master_client{nullptr};

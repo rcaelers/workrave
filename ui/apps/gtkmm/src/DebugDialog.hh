@@ -27,8 +27,6 @@
 
 #include "utils/Diagnostics.hh"
 
-using namespace std;
-
 namespace Gtk
 {
   class TextView;

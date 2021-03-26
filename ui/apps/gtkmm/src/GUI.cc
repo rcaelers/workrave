@@ -112,6 +112,8 @@
 
 GUI *GUI::instance = nullptr;
 
+using namespace std;
+
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.

@@ -34,12 +34,9 @@ namespace Gtk
 #include <string>
 #include <gtkmm/box.h>
 
-using namespace workrave;
-using namespace std;
-
 class TimerBoxPreferencePage
   : public Gtk::HBox
-  , public IConfiguratorListener
+  , public workrave::IConfiguratorListener
 {
 public:
   TimerBoxPreferencePage(std::string name);
@@ -58,14 +55,14 @@ private:
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
 
-  void config_changed_notify(const string &key) override;
+  void config_changed_notify(const std::string &key) override;
 
-  string name;
+  std::string name;
 
   Gtk::CheckButton *ontop_cb{nullptr};
   Gtk::CheckButton *enabled_cb{nullptr};
   Gtk::ComboBoxText *place_button{nullptr};
-  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF] = {
+  Gtk::ComboBoxText *timer_display_button[workrave::BREAK_ID_SIZEOF] = {
     nullptr,
   };
   Gtk::SpinButton *cycle_entry{nullptr};

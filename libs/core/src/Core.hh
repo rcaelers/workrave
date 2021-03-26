@@ -224,8 +224,8 @@ private:
   void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param);
   bool set_break_control(PacketBuffer &buffer);
 
-  void signon_remote_client(string client_id) override;
-  void signoff_remote_client(string client_id) override;
+  void signon_remote_client(std::string client_id) override;
+  void signoff_remote_client(std::string client_id) override;
   void compute_timers();
 #endif // HAVE_DISTRIBUTION
 

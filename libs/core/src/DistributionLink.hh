@@ -50,13 +50,13 @@ public:
   virtual void heartbeat() = 0;
 
   //! Sets the username and password.
-  virtual void set_user(string username, string password) = 0;
+  virtual void set_user(std::string username, std::string password) = 0;
 
   //! Connects to a certain host.
-  virtual void connect(string url) = 0;
+  virtual void connect(std::string url) = 0;
 
   //! Disconnect the specified client.
-  virtual void disconnect(string id) = 0;
+  virtual void disconnect(std::string id) = 0;
 
   //! Request to become master.
   virtual bool claim() = 0;

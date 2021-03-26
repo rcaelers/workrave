@@ -71,7 +71,7 @@ redistribute under GNU terms.
 */
 
 void
-W32SoundPlayer::play_sound(string wavfile)
+W32SoundPlayer::play_sound(std::string wavfile)
 {
   TRACE_ENTER_MSG("W32SoundPlayer::play_sound", wavfile);
 
@@ -288,7 +288,7 @@ W32SoundPlayer::close(void)
 }
 
 void
-W32SoundPlayer::load_wav_file(const string &filename)
+W32SoundPlayer::load_wav_file(const std::string &filename)
 {
   MMRESULT res;
 

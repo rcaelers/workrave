@@ -31,10 +31,6 @@
 #include "config/IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
 
-using namespace workrave;
-using namespace std;
-
-// Forward declarion of external interface.
 namespace workrave
 {
   class IConfiguratorListener;
@@ -68,7 +64,7 @@ public:
   bool get_value(const std::string &key, int &out) const override;
   bool get_value(const std::string &key, double &out) const override;
 
-  void get_value_with_default(const std::string &key, std::string &out, string s) const override;
+  void get_value_with_default(const std::string &key, std::string &out, std::string s) const override;
   void get_value_with_default(const std::string &key, bool &out, const bool def) const override;
   void get_value_with_default(const std::string &key, int &out, const int def) const override;
   void get_value_with_default(const std::string &key, double &out, const double def) const override;
@@ -118,7 +114,7 @@ private:
   typedef std::map<std::string, Setting>::const_iterator SettingCIter;
 
 private:
-  bool find_setting(const string &name, Setting &setting) const;
+  bool find_setting(const std::string &name, Setting &setting) const;
 
   bool set_value(const std::string &key, Variant &value, ConfigFlags flags = CONFIG_FLAG_NONE);
   bool get_value(const std::string &key, VariantType type, Variant &value) const;

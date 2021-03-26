@@ -44,6 +44,8 @@
 #define IDLELOG_VERSION (3)
 #define IDLELOG_INTERVAL_SIZE (17)
 
+using namespace std;
+
 //! Constructs a new idlelog manager.
 IdleLogManager::IdleLogManager(string myid, const TimeSource *time_source)
 {

@@ -86,6 +86,8 @@ const int SAVESTATETIME = 60;
 #define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/Core"
 #define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
 
+using namespace std;
+
 //! Constructs a new Core.
 Core::Core()
 {

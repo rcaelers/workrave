@@ -63,7 +63,7 @@ private:
   SettingsMap settings;
 
   void add_children();
-  void key_split(const string &key, string &parent, std::string &child) const;
+  void key_split(const std::string &key, std::string &parent, std::string &child) const;
   GSettings *get_settings(const std::string &path, std::string &key) const;
 
   static void on_settings_changed(GSettings *settings, const gchar *key, void *user_data);

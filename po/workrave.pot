@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-03-25 21:57+0000\n"
+"POT-Creation-Date: 2021-03-26 22:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ../ui/applets/mate/src/main-gtk2.c:377
-#: ../ui/applets/mate/src/main-gtk3.c:341 ../ui/apps/gtkmm/src/GUI.cc:1435
+#: ../ui/applets/mate/src/main-gtk3.c:341 ../ui/apps/gtkmm/src/GUI.cc:1437
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:168
 msgid "Suspended"
 msgstr ""
@@ -83,7 +83,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ../ui/applets/mate/src/main-gtk2.c:379
-#: ../ui/applets/mate/src/main-gtk3.c:343 ../ui/apps/gtkmm/src/GUI.cc:1439
+#: ../ui/applets/mate/src/main-gtk3.c:343 ../ui/apps/gtkmm/src/GUI.cc:1441
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:171
 msgid "Quiet"
 msgstr ""
@@ -384,8 +384,8 @@ msgid "Exercises"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/MainGtkMenu.cc:159
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:62
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:138
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:64
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:140
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
@@ -397,20 +397,20 @@ msgstr ""
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:52
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:161
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
-#: ../ui/apps/gtkmm/src/GUI.cc:1428
+#: ../ui/apps/gtkmm/src/GUI.cc:1430
 msgid "Micro-break"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:164
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:136
-#: ../ui/apps/gtkmm/src/GUI.cc:1428 ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../ui/apps/gtkmm/src/GUI.cc:1430 ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:211
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 msgid "Rest break"
 msgstr ""
 
 #. label
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:164 ../ui/apps/gtkmm/src/GUI.cc:1428
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:164 ../ui/apps/gtkmm/src/GUI.cc:1430
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:47
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:54
 #: ../libs/audio/src/SoundPlayer.cc:89
@@ -441,29 +441,29 @@ msgstr ""
 msgid "Daily limit %s overdue"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:108
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:110
 msgid "Time for a micro-break?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:112
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
 msgid "You need a rest break..."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:116
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
 msgid "You should stop for today..."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:286
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:288
 #, c-format
 msgid "Break in %s"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:290
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:292
 #, c-format
 msgid "Disappears in %s"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreludeWindow.cc:294
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:296
 #, c-format
 msgid "Silent in %s"
 msgstr ""
@@ -512,232 +512,232 @@ msgid ""
 msgstr ""
 
 #. Navigation box
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:127
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:129
 msgid "Browse history"
 msgstr ""
 
 #. Delete button
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:132
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:134
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:139
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:141
 msgid "Date:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:170
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:172
 msgid "Breaks"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:178
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:180
 msgid "Break prompts"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:179
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:181
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:183
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:185
 msgid "Repeated prompts"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:183
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:185
 msgid "The number of times you were repeatedly prompted to break"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:186
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:188
 msgid "Prompted breaks taken"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:186
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:188
 msgid "The number of times you took a break when being prompted"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:189
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:191
 msgid "Natural breaks taken"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:189
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:191
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:191
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:193
 msgid "Breaks skipped"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:191
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:193
 msgid "The number of breaks you skipped"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:193
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:195
 msgid "Breaks postponed"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:193
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:195
 msgid "The number of breaks you postponed"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:195
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:197
 msgid "Overdue time"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:195
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:197
 msgid "The total time this break was overdue"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:197
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:199
 msgid "Usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:197
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:199
 msgid "Active computer usage"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:200
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:202
 msgid "Daily"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:200
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:202
 msgid "The total computer usage for the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:203
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:205
 msgid "Weekly"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:203
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:205
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:208
 msgid "Monthly"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:206
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:208
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:287
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:289
 msgid "Activity"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:296
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:298
 msgid "Mouse usage:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:296
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:298
 msgid "The total time you were using the mouse"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:298
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:300
 msgid "Mouse movement:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:298
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:300
 msgid "The total on-screen mouse movement"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:300
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:302
 msgid "Effective mouse movement:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:301
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:303
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:304
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:306
 msgid "Mouse button clicks:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:304
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:306
 msgid "The total number of mouse button clicks"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:305
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:307
 msgid "Keystrokes:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:305
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:307
 msgid "The total number of keys pressed"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:353
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:355
 #, c-format
 msgid "%s, from %s to %s"
 msgstr ""
 
 #. Confirm the user's intention
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:649
 #: ../ui/apps/gtkmm/src/StatisticsDialog.cc:651
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:653
 msgid "Warning"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:649
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:651
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:662
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:664
 msgid "Files deleted!"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:663
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:665
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:665
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:667
 msgid "Info"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:670
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:672
 msgid "File deletion failed!"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:671
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:673
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:673
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:675
 msgid "Error"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:301
+#: ../ui/apps/gtkmm/src/GUI.cc:303
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:786 ../ui/apps/gtkmm/src/GUI.cc:903
+#: ../ui/apps/gtkmm/src/GUI.cc:788 ../ui/apps/gtkmm/src/GUI.cc:905
 msgid "Workrave failed to start"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:787
+#: ../ui/apps/gtkmm/src/GUI.cc:789
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:898
+#: ../ui/apps/gtkmm/src/GUI.cc:900
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:901
+#: ../ui/apps/gtkmm/src/GUI.cc:903
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1296
+#: ../ui/apps/gtkmm/src/GUI.cc:1298
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1302
+#: ../ui/apps/gtkmm/src/GUI.cc:1304
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1435 ../ui/apps/gtkmm/src/GUI.cc:1439
+#: ../ui/apps/gtkmm/src/GUI.cc:1437 ../ui/apps/gtkmm/src/GUI.cc:1441
 msgid "Mode: "
 msgstr ""
 
@@ -761,261 +761,261 @@ msgid ""
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
-msgid "Place timers next to each other"
-msgstr ""
-
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:94
-msgid "Place micro-break and rest break in one spot"
-msgstr ""
-
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
-msgid "Place rest break and daily limit in one spot"
+msgid "Place timers next to each other"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
+msgid "Place micro-break and rest break in one spot"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:97
+msgid "Place rest break and daily limit in one spot"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place all timers in one spot"
-msgstr ""
-
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
-msgid "Hide"
-msgstr ""
-
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:119
-msgid "Show"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
 #: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
+msgid "Hide"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:121
+msgid "Show"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:122
 msgid "Show only when this timer is first due"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Display"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
 msgid "The status window stays always on top of other windows"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:136
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
 msgid "Show status window"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:147
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:149
 msgid "Placement:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:148
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
 msgid "Cycle time:"
 msgstr ""
 
 #. Notebook
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:207
 msgid "Timers"
 msgstr ""
 
 #. Layout
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
 msgid "Micro-break:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:154
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
 msgid "Rest break:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Daily limit:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Fallback applet enabled"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Show status icon"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:75
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 msgid "Preferences"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:88
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:112
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:90
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:114
 msgid "General"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:93
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:95
 msgid "Sounds"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:97
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:99
 msgid "Status Window"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:101
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:103
 msgid "Applet"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:110
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "User interface"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:112
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:114
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:178
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:185
 msgid "Network"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:156
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:160
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:158
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:162
 msgid "No blocking"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:157
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:161
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:159
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:158
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:162
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:160
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:164
 msgid "Block input and screen"
 msgstr ""
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:181
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:183
 #: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:131
 msgid "Options"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:183
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:203
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:246
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:248
 msgid "(font not available)"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:265
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:267
 msgid "Language:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:279
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:281
 msgid "Start Workrave on logon"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:294
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:304
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:306
 msgid "Icon Theme:"
 msgstr ""
 
 #. Options
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:317
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:319
 msgid "Sound Options"
-msgstr ""
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:323
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:327
-msgid "No sounds"
-msgstr ""
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:324
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:328
-msgid "Play sounds using sound card"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/PreferencesDialog.cc:325
 #: ../ui/apps/gtkmm/src/PreferencesDialog.cc:329
+msgid "No sounds"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:326
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
+msgid "Play sounds using sound card"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:327
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:331
 msgid "Play sounds using built-in speaker"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:354
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:356
 msgid "Volume:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:357
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:359
 msgid "Sound:"
 msgstr ""
 
 #. Volume
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:362
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
 msgid "Mute sounds during rest break and daily limit"
 msgstr ""
 
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:372
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
 msgid "Sound Events"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:380
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:382
 msgid "Sound Theme:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:403
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:422
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:450
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:405
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:424
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:452
 msgid "Play"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:409
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:411
 msgid "Event"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:425
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:427
 msgid "Choose a sound"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:435
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:437
 msgid "Wavefiles"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:524
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:526
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:531
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:533
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:534
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:536
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:539
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:541
 msgid "Mouse sensitivity:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:539
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:541
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:555
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:557
 msgid "Debug monitoring"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:1007
 #: ../ui/apps/gtkmm/src/PreferencesDialog.cc:1009
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:1011
 msgid "Default"
 msgstr ""
 
@@ -1158,57 +1158,57 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:93
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:95
 msgid "Enable networking"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:100
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:102
 msgid "Username:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:101
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "Password:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:107
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:109
 msgid "Allow incoming connections"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:123
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:125
 msgid "Server settings"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
 msgid "Server port:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:146
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
 msgid "Reconnect attempts:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:149
 msgid "Reconnect interval:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:150
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:152
 msgid "Advanced"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:165
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:167
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:192
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:194
 msgid "Host name"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:201
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:203
 msgid "Port"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:239
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:241
 msgid "Hosts"
 msgstr ""
 
@@ -1252,8 +1252,8 @@ msgstr ""
 msgid "Resume exercises"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/NetworkLogDialog.cc:50
 #: ../ui/apps/gtkmm/src/NetworkLogDialog.cc:52
+#: ../ui/apps/gtkmm/src/NetworkLogDialog.cc:54
 msgid "Network log"
 msgstr ""
 

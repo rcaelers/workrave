@@ -45,6 +45,8 @@
 
 #  define MAX_LOG_LEN (256)
 
+using namespace std;
+
 //! Destructs this DistributionManager.
 DistributionManager::~DistributionManager()
 {

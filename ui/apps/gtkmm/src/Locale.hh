@@ -25,8 +25,6 @@
 
 #include <glib.h>
 
-using namespace std;
-
 class Locale
 {
 public:
@@ -48,7 +46,7 @@ public:
 
   static void set_locale(const std::string &code);
   static std::string get_locale();
-  static void lookup(const string &domain, string &str);
+  static void lookup(const std::string &domain, std::string &str);
 
   static LanguageMap languages_native_locale;
 
