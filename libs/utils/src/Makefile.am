@@ -22,7 +22,7 @@ endif
 
 libworkrave_utils_la_SOURCES = ${sources}
 
-AM_CPPFLAGS = 	-Wall -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
+AM_CPPFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
 				-D_XOPEN_SOURCE=600 ${cflags} \
 				@GLIB_CFLAGS@ @WR_COMMON_INCLUDES@
 

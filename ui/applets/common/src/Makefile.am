@@ -17,7 +17,7 @@ libworkrave_private_1_0_la_SOURCES = \
 	timerbox.c \
 	control.c
 libworkrave_private_1_0_la_CFLAGS = \
-	-Wall -std=c99 $(GTK_CFLAGS) -I$(srcdir)/../include \
+	-std=c99 $(GTK_CFLAGS) -I$(srcdir)/../include \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_private_1_0_la_LIBADD = \
 	$(GTK_LIBS)
@@ -51,7 +51,7 @@ libworkrave_gtk2_private_1_0_la_SOURCES = \
 	control.c \
 	compat.c
 libworkrave_gtk2_private_1_0_la_CFLAGS = \
-	-Wall -DUSE_GTK2 -std=c99 $(GTK2_CFLAGS) -I$(srcdir)/../include \
+	-DUSE_GTK2 -std=c99 $(GTK2_CFLAGS) -I$(srcdir)/../include \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_gtk2_private_1_0_la_LIBADD = \
 	$(GTK2_LIBS)

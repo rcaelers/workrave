@@ -14,7 +14,7 @@ if HAVE_MATE_GTK2
 
 workrave_applet_SOURCES = main-gtk2.c
 
-workrave_applet_CFLAGS =	-Wall -std=c99 -DPANEL_MATE \
+workrave_applet_CFLAGS = -std=c99 -DPANEL_MATE \
 				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBMATEPANEL_CFLAGS) \
@@ -32,7 +32,7 @@ if HAVE_MATE_GTK3
 ## Mate doesn't support GSimpleActionGroup in panel, so use Gtk2 code for now...
 workrave_applet_SOURCES = main-gtk3.c
 
-workrave_applet_CFLAGS =	-Wall -std=c99 -DPANEL_MATE \
+workrave_applet_CFLAGS = -std=c99 -DPANEL_MATE \
 				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
 				$(LIBMATEPANEL_CFLAGS) \

@@ -11,7 +11,7 @@ libworkrave_dbus_la_SOURCES =  DBusFactory.cc \
                                DBusGeneric.cc \
                                DBusBindingGio.cc
 
-AM_CPPFLAGS = -W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
+AM_CPPFLAGS = -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
               -D_XOPEN_SOURCE=600 @WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

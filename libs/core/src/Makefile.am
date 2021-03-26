@@ -78,7 +78,7 @@ DEFS = 	@DEFS@ -I. -I $(top_srcdir)/core/include
 libworkrave_core_la_SOURCES = ${sources}
 
 libworkrave_core_la_CFLAGS = \
-			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} @WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ \

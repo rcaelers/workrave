@@ -8,7 +8,7 @@ libworkrave_la_SOURCES = \
 	indicator-workrave.c
 libworkrave_la_CFLAGS = \
 	$(INDICATOR_CFLAGS) \
-	-Wall -std=c99 -I$(srcdir)/../include -I$(srcdir)/../../common/include \
+	-std=c99 -I$(srcdir)/../include -I$(srcdir)/../../common/include \
 	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
 libworkrave_la_LIBADD = \
@@ -20,7 +20,7 @@ libworkrave_la_LDFLAGS = \
 #indicator_workrave_test_SOURCES = \
 #	test.c 
 #indicator_workrave_test_CFLAGS = \
-#	-Wall -std=c99 $(GTK_CFLAGS)  -I../include -I../../common/include \
+#	-std=c99 $(GTK_CFLAGS)  -I../include -I../../common/include \
 #	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
 #	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 #	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""

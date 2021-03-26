@@ -35,7 +35,7 @@ endif
 libworkrave_input_monitor_la_SOURCES = ${sources}
 
 libworkrave_input_monitor_la_CFLAGS = \
-			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${cflags} @WR_COMMON_INCLUDES@ -I$(top_srcdir)/libs/input-monitor/src \
 			@GLIB_CFLAGS@

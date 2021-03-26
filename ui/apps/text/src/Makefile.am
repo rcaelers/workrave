@@ -13,7 +13,7 @@ bin_PROGRAMS = 		workrave
 workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc MainWindow.cc \
 			main.cc
 
-workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
+workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DATADIR="\"${datadir}\""  \
 			-I. @WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 			@X_CFLAGS@ \
