@@ -196,6 +196,8 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[ extern long timezon
          AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
          AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
 
+AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
+
 dnl Update version and date.
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
@@ -501,9 +503,6 @@ fi
 
 if test "x$config_dbus" = "xyes"
 then
-    # For now, only needed for DBus.
-    AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
-
     AC_DEFINE(HAVE_DBUS, , [DBus support])
     AC_DEFINE(HAVE_DBUS_GIO, , [DBus support])
 
@@ -1014,6 +1013,7 @@ config_tests=no
 if test "x$enable_tests" = "xyes"; then
    config_tests=yes
    AC_DEFINE([HAVE_TESTS], , [Define if test code is enabled])
+   AX_BOOST_UNIT_TEST_FRAMEWORK
 fi
 AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
 
