@@ -53,7 +53,7 @@ DistributionManager::~DistributionManager()
 
 //! Initialize the DistributionManager from the specified Configurator.
 void
-DistributionManager::init(IConfigurator *conf)
+DistributionManager::init(workrave::config::IConfigurator::Ptr conf)
 {
   configurator = conf;
 

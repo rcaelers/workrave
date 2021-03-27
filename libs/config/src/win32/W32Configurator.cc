@@ -1,5 +1,3 @@
-// W32Configurator.cc --- Configuration Access
-//
 // Copyright (C) 2002, 2005, 2006, 2007, 2009, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
@@ -27,7 +25,6 @@
 #include "debug.hh"
 #include "W32Configurator.hh"
 
-using namespace std;
 
 W32Configurator::W32Configurator()
 {
@@ -37,14 +34,14 @@ W32Configurator::W32Configurator()
 W32Configurator::~W32Configurator() {}
 
 bool
-W32Configurator::load(string filename)
+W32Configurator::load(std::string filename)
 {
   (void)filename;
   return true;
 }
 
 bool
-W32Configurator::save(string filename)
+W32Configurator::save(std::string filename)
 {
   (void)filename;
   return true;
@@ -63,7 +60,7 @@ W32Configurator::remove_key(const std::string &key)
 
   HKEY handle;
   bool rc = false;
-  string k, p, p32, c;
+  std::string k, p, p32, c;
   LONG err;
 
   k = key_add_part(key_root, key);
@@ -72,9 +69,6 @@ W32Configurator::remove_key(const std::string &key)
   err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
   if (err == ERROR_SUCCESS)
     {
-      DWORD size;
-      char buf[256]; // FIXME: yuck, should be dynamic.
-      size = sizeof(buf);
       err = RegDeleteKey(handle, c.c_str());
       if (err == ERROR_SUCCESS)
         {
@@ -88,13 +82,13 @@ W32Configurator::remove_key(const std::string &key)
 }
 
 bool
-W32Configurator::get_config_value(const string &key, string &out) const
+W32Configurator::get_config_value(const std::string &key, std::string &out) const
 {
   TRACE_ENTER_MSG("W32Configurator::get_config_value", key << "," << out);
 
   HKEY handle;
   bool rc = false;
-  string k, p, p32, c;
+  std::string k, p, p32, c;
   LONG err;
 
   k = key_add_part(key_root, key);
@@ -142,7 +136,7 @@ W32Configurator::get_config_value(const string &key, string &out) const
 }
 
 bool
-W32Configurator::get_config_value(const string &key, bool &out) const
+W32Configurator::get_config_value(const std::string &key, bool &out) const
 {
   long l;
   bool rc = get_config_value(key, l);
@@ -159,7 +153,7 @@ W32Configurator::get_config_value(const string &key, bool &out) const
  *  \retval false attribute not found.
  */
 bool
-W32Configurator::get_config_value(const string &key, int &out) const
+W32Configurator::get_config_value(const std::string &key, int &out) const
 {
   long l;
   bool rc = get_config_value(key, l);
@@ -176,9 +170,9 @@ W32Configurator::get_config_value(const string &key, int &out) const
  *  \retval false attribute not found.
  */
 bool
-W32Configurator::get_config_value(const string &key, long &out) const
+W32Configurator::get_config_value(const std::string &key, long &out) const
 {
-  string s;
+  std::string s;
   bool rc = get_config_value(key, s);
   if (rc)
     {
@@ -194,9 +188,9 @@ W32Configurator::get_config_value(const string &key, long &out) const
  *  \retval false attribute not found.
  */
 bool
-W32Configurator::get_config_value(const string &key, double &out) const
+W32Configurator::get_config_value(const std::string &key, double &out) const
 {
-  string s;
+  std::string s;
   bool rc = get_config_value(key, s);
   if (rc)
     {
@@ -207,23 +201,23 @@ W32Configurator::get_config_value(const string &key, double &out) const
 }
 
 bool
-W32Configurator::set_config_value(const string &key, string v)
+W32Configurator::set_config_value(const std::string &key, std::string v)
 {
   TRACE_ENTER_MSG("W32Configurator::set_config_value", key << "," << v);
 
   HKEY handle;
   bool rc = false;
-  string k, p, p32, c;
+  std::string k, p, p32, c;
   DWORD disp;
   LONG err;
 
   k = key_add_part(key_root, key);
   key_split(k, p, c);
   p32 = key_win32ify(p);
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
-      err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *)v.c_str(), v.length() + 1);
+      err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *)v.c_str(), static_cast<DWORD>(v.length() + 1));
       RegCloseKey(handle);
       rc = (err == ERROR_SUCCESS);
     }
@@ -232,47 +226,47 @@ W32Configurator::set_config_value(const string &key, string v)
 }
 
 bool
-W32Configurator::set_config_value(const string &key, int v)
+W32Configurator::set_config_value(const std::string &key, int v)
 {
   char buf[32];
   sprintf(buf, "%d", v);
-  return set_config_value(key, string(buf));
+  return set_config_value(key, std::string(buf));
 }
 
 bool
-W32Configurator::set_config_value(const string &key, long v)
+W32Configurator::set_config_value(const std::string &key, long v)
 {
   char buf[32];
   sprintf(buf, "%ld", v);
-  return set_config_value(key, string(buf));
+  return set_config_value(key, std::string(buf));
 }
 
 bool
-W32Configurator::set_config_value(const string &key, bool v)
+W32Configurator::set_config_value(const std::string &key, bool v)
 {
   char buf[32];
   sprintf(buf, "%d", v ? 1 : 0);
-  return set_config_value(key, string(buf));
+  return set_config_value(key, std::string(buf));
 }
 
 bool
-W32Configurator::set_config_value(const string &key, double v)
+W32Configurator::set_config_value(const std::string &key, double v)
 {
   char buf[32];
   sprintf(buf, "%f", v);
-  return set_config_value(key, string(buf));
+  return set_config_value(key, std::string(buf));
 }
 
-string
-W32Configurator::key_add_part(string s, string t) const
+std::string
+W32Configurator::key_add_part(std::string s, std::string t) const
 {
-  string ret = s;
+  std::string ret = s;
   add_trailing_slash(ret);
   return ret + t;
 }
 
 void
-W32Configurator::key_split(const string &key, string &parent, string &child) const
+W32Configurator::key_split(const std::string &key, std::string &parent, std::string &child) const
 {
   const char *s = key.c_str();
   const char *slash = strrchr(s, '/');
@@ -288,10 +282,10 @@ W32Configurator::key_split(const string &key, string &parent, string &child) con
     }
 }
 
-string
-W32Configurator::key_win32ify(const string &key) const
+std::string
+W32Configurator::key_win32ify(const std::string &key) const
 {
-  string rc = key;
+  std::string rc = key;
   strip_trailing_slash(rc);
   for (unsigned int i = 0; i < rc.length(); i++)
     {
@@ -305,9 +299,9 @@ W32Configurator::key_win32ify(const string &key) const
 
 //! Removes the trailing '/'.
 void
-W32Configurator::strip_trailing_slash(string &key) const
+W32Configurator::strip_trailing_slash(std::string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] == '/')
@@ -319,9 +313,9 @@ W32Configurator::strip_trailing_slash(string &key) const
 
 //! Adds add trailing '/' if it isn't there yet.
 void
-W32Configurator::add_trailing_slash(string &key) const
+W32Configurator::add_trailing_slash(std::string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] != '/')

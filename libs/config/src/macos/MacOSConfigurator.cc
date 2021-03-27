@@ -1,6 +1,4 @@
-// MacOSConfigurator.cc --- Configuration Access
-//
-// Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,15 +25,11 @@
 #import <Foundation/NSString.h>
 
 #include <string>
-#include <string.h>
+#include <cstring>
 
 #include "MacOSConfigurator.hh"
 
 using namespace std;
-
-MacOSConfigurator::MacOSConfigurator() {}
-
-MacOSConfigurator::~MacOSConfigurator() {}
 
 bool
 MacOSConfigurator::load(string filename)
@@ -101,6 +95,7 @@ MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &
         case VARIANT_TYPE_NONE:
           out.type = VARIANT_TYPE_STRING;
           // FALLTHROUGH
+          [[clang::fallthrough]];
 
         case VARIANT_TYPE_STRING:
           {
@@ -115,13 +110,10 @@ MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &
               }
           }
           break;
-
-        default:
-          ret = false;
         }
     }
 
-  TRACE_EXIT();
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -130,6 +122,7 @@ MacOSConfigurator::set_value(const std::string &key, Variant &value)
 {
   bool ret = true;
 
+  TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
   NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
 
   switch (value.type)
@@ -157,10 +150,8 @@ MacOSConfigurator::set_value(const std::string &key, Variant &value)
         [[NSUserDefaults standardUserDefaults] setObject:string_value forKey:keystring];
       }
       break;
-
-    default:
-      ret = false;
     }
 
+  TRACE_RETURN(ret);
   return ret;
 }

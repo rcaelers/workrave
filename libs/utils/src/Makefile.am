@@ -10,6 +10,7 @@ sources = 	DBusProxy-gio.cc \
 			Diagnostics.cc \
 			GlibThread.cc \
 			StringUtil.cc \
+			TimeSource.cc \
 			Util.cc \
 			WRID.cc
 

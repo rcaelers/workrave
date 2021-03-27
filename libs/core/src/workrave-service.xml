@@ -137,7 +137,7 @@
 
     </interface>
 
-    <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
+    <interface name="org.workrave.ConfigInterface" csymbol="workrave::config::IConfigurator">
         <import>
             <include name="IConfigurator.hh"/>
             <namespace name="workrave"/>

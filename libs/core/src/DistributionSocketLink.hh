@@ -48,7 +48,7 @@
 
 class DistributionSocketLink
   : public DistributionLink
-  , public IConfiguratorListener
+  , public workrave::config::IConfiguratorListener
   , public ISocketServerListener
   , public ISocketListener
 {
@@ -161,7 +161,7 @@ private:
   };
 
 public:
-  DistributionSocketLink(IConfigurator *conf);
+  DistributionSocketLink(workrave::config::IConfigurator::Ptr conf);
   ~DistributionSocketLink() override;
 
   void init_my_id();
@@ -255,7 +255,7 @@ private:
   SocketDriver *socket_driver{nullptr};
 
   //! The configuration access.
-  IConfigurator *configurator{nullptr};
+  workrave::config::IConfigurator::Ptr configurator{nullptr};
 
   //! My ID
   WRID my_id;

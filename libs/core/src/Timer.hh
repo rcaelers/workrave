@@ -37,9 +37,7 @@
 #include "IActivityMonitor.hh"
 #include "utils/Diagnostics.hh"
 
-class TimeSource;
 class TimePred;
-class DataNode;
 
 namespace workrave
 {

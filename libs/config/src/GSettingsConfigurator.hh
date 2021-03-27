@@ -1,5 +1,3 @@
-// GConfConfigurator.hh
-//
 // Copyright (C) 2011 Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -44,26 +42,26 @@ public:
   bool get_value(const std::string &key, VariantType type, Variant &value) const override;
   bool set_value(const std::string &key, Variant &value) override;
 
-  void set_listener(IConfiguratorListener *listener) override;
+  void set_listener(workrave::config::IConfiguratorListener *listener) override;
   bool add_listener(const std::string &key_prefix) override;
   bool remove_listener(const std::string &key_prefix) override;
 
 private:
   //! Send changes to.
-  IConfiguratorListener *listener{nullptr};
+  workrave::config::IConfiguratorListener *listener{nullptr};
 
   std::string schema_base;
   std::string path_base;
 
-  typedef std::map<std::string, GSettings *> SettingsMap;
-  typedef SettingsMap::iterator SettingsIter;
-  typedef SettingsMap::const_iterator SettingsCIter;
+  using SettingsMap = std::map<std::string, GSettings *>;
+  // using SettingsIter = SettingsMap::iterator;
+  // using SettingsCIter = SettingsMap::const_iterator;
 
   //!
   SettingsMap settings;
 
   void add_children();
-  void key_split(const string &key, string &parent, std::string &child) const;
+  void key_split(const std::string &key, std::string &parent, std::string &child) const;
   GSettings *get_settings(const std::string &path, std::string &key) const;
 
   static void on_settings_changed(GSettings *settings, const gchar *key, void *user_data);

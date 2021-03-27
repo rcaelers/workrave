@@ -1,6 +1,4 @@
-// XMLConfigurator.hh
-//
-// Copyright (C) 2001, 2002, 2006, 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2006, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +15,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef XMLCONFIGURATOR_HH
-#define XMLCONFIGURATOR_HH
+#ifndef QTSETTINGSCONFIGURATOR_HH
+#define QTSETTINGSCONFIGURATOR_HH
 
-#include <string>
-#include <list>
-#include <map>
-
-#undef interface
-#include <gdome.h>
-
+#include <QSettings>
 #include "IConfigBackend.hh"
 #include "ConfigBackendAdapter.hh"
 
-class XMLConfigurator
+class QtSettingsConfigurator
   : public virtual IConfigBackend
   , public virtual ConfigBackendAdapter
 {
 public:
-  XMLConfigurator() = default;
-  XMLConfigurator(XMLConfigurator *parent);
-  ~XMLConfigurator() override;
+  explicit QtSettingsConfigurator(QSettings *settings = nullptr);
+  ~QtSettingsConfigurator() override;
 
-  // Pure virtuals from Configurator
   bool load(std::string filename) override;
   bool save(std::string filename) override;
   bool save() override;
@@ -58,52 +48,12 @@ public:
   bool set_config_value(const std::string &key, bool v) override;
   bool set_config_value(const std::string &key, double v) override;
 
-private:
-  void init(GdomeNode *node);
-  void save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, GdomeElement *node);
-  std::string strip_path(std::string &key) const;
-  XMLConfigurator *get_child(const std::string &key) const;
-  std::list<XMLConfigurator *> get_all_children() const;
-  virtual bool create_child(const std::string &key);
+protected:
+  QVariant qt_get_value(const std::string &key, bool &exists) const;
+  QString qt_key(const std::string &key) const;
+  void dispose();
 
-  std::string getName() const { return node_name; }
-
-  void setName(std::string name)
-  {
-    node_name = name;
-
-    if (parent != nullptr)
-      {
-        node_path = parent->getPath() + node_name + "/";
-      }
-  }
-
-  std::string getPath() const { return node_path; }
-
-private:
-  typedef std::map<std::string, std::string> Attributes;
-  typedef std::map<std::string, XMLConfigurator *> Children;
-
-  //! Parent
-  XMLConfigurator *parent{nullptr};
-
-  //! File name of the last 'load'.
-  std::string last_file_name;
-
-  //! Name in XML file.
-  std::string xml_node_name;
-
-  //! My name (relative to parent)
-  std::string node_name;
-
-  //! My path (absolute name);
-  std::string node_path;
-
-  //! All child nodes.
-  Children node_children;
-
-  //! All attributes
-  Attributes node_attributes;
+  QSettings *settings;
 };
 
-#endif // XMLCONFIGURATOR_HH
+#endif // QTSETTIGNSCONFIGURATOR_HH

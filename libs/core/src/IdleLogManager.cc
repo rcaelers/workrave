@@ -44,11 +44,12 @@
 #define IDLELOG_VERSION (3)
 #define IDLELOG_INTERVAL_SIZE (17)
 
+using namespace workrave::utils;
+
 //! Constructs a new idlelog manager.
-IdleLogManager::IdleLogManager(string myid, const TimeSource *time_source)
+IdleLogManager::IdleLogManager(string myid)
 {
   this->myid = myid;
-  this->time_source = time_source;
   this->last_expiration_time = 0;
 }
 
@@ -100,7 +101,7 @@ IdleLogManager::reset()
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &info = (*i).second;
-      info.update_active_time(time_source->get_time());
+      info.update_active_time(TimeSource::get_monotonic_time_sec() );
       info.total_active_time = 0;
     }
 }
@@ -118,7 +119,7 @@ IdleLogManager::init()
       TRACE_MSG("Didn't find myself");
 
       ClientInfo &myinfo = clients[myid];
-      myinfo.current_interval = IdleInterval(1, time_source->get_time());
+      myinfo.current_interval = IdleInterval(1, TimeSource::get_monotonic_time_sec() );
       myinfo.client_id = myid;
 
       save();
@@ -126,7 +127,7 @@ IdleLogManager::init()
   else
     {
       ClientInfo &myinfo = clients[myid];
-      myinfo.current_interval = IdleInterval(time_source->get_time(), time_source->get_time());
+      myinfo.current_interval = IdleInterval(TimeSource::get_monotonic_time_sec() , TimeSource::get_monotonic_time_sec() );
     }
 
   TRACE_EXIT();
@@ -143,7 +144,7 @@ IdleLogManager::terminate()
 void
 IdleLogManager::expire()
 {
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
   if (last_expiration_time == 0)
     {
       last_expiration_time = current_time + IDLELOG_INTERVAL;
@@ -168,7 +169,7 @@ IdleLogManager::expire(ClientInfo &info)
       info.idlelog.resize(IDLELOG_MAXSIZE);
     }
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
   int count = 0;
   for (IdleLogRIter i = info.idlelog.rbegin(); i != info.idlelog.rend(); i++)
     {
@@ -206,7 +207,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
   // Did the state/master status change?
   bool changed = state != info.state; // RC: removed... || master != info.master;
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
   IdleInterval *idle = &(info.current_interval);
   idle->end_time = current_time;
 
@@ -302,7 +303,7 @@ time_t
 IdleLogManager::compute_total_active_time()
 {
   TRACE_ENTER("IdleLogManager::compute_total_active_time");
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
   time_t active_time = 0;
   for (ClientMapIter it = clients.begin(); it != clients.end(); it++)
     {
@@ -320,7 +321,7 @@ IdleLogManager::compute_active_time(int length)
 {
   TRACE_ENTER("IdleLogManager::compute_active_time");
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
 
   // Number of client.
   int size = clients.size();
@@ -442,7 +443,7 @@ IdleLogManager::compute_idle_time()
 {
   TRACE_ENTER("IdleLogManager::compute_idle_time");
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
 
   int count = 0;
   time_t latest_start_time = 0;
@@ -519,7 +520,7 @@ IdleLogManager::unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, t
 void
 IdleLogManager::pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const
 {
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
 
   // Add size.
   int pos = 0;
@@ -623,7 +624,7 @@ IdleLogManager::save_index()
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &info = (*i).second;
-      info.update_active_time(time_source->get_time());
+      info.update_active_time(TimeSource::get_monotonic_time_sec() );
       TRACE_MSG("Saving " << i->first << " " << info.client_id);
 
       pack_idlelog(buffer, info);
@@ -730,7 +731,7 @@ IdleLogManager::load_index()
 void
 IdleLogManager::save_idlelog(ClientInfo &info)
 {
-  info.update_active_time(time_source->get_time());
+  info.update_active_time(TimeSource::get_monotonic_time_sec() );
 
   PacketBuffer buffer;
   buffer.create();
@@ -757,7 +758,7 @@ IdleLogManager::load_idlelog(ClientInfo &info)
 {
   TRACE_ENTER("IdleLogManager::load_idlelog()");
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
 
   stringstream ss;
   ss << Util::get_home_directory();
@@ -846,7 +847,7 @@ IdleLogManager::save()
 void
 IdleLogManager::update_idlelog(ClientInfo &info, const IdleInterval &idle)
 {
-  info.update_active_time(time_source->get_time());
+  info.update_active_time(TimeSource::get_monotonic_time_sec() );
 
   PacketBuffer buffer;
   buffer.create();
@@ -873,7 +874,7 @@ IdleLogManager::get_idlelog(PacketBuffer &buffer)
   ClientInfo &myinfo = clients[myid];
 
   // First make sure that all data is up-to-date.
-  myinfo.update_active_time(time_source->get_time());
+  myinfo.update_active_time(TimeSource::get_monotonic_time_sec() );
 
   // Pack header.
   pack_idlelog(buffer, myinfo);
@@ -898,7 +899,7 @@ IdleLogManager::set_idlelog(PacketBuffer &buffer)
   ClientInfo info;
   unpack_idlelog(buffer, info, pack_time, num_intervals);
 
-  delta_time = pack_time - time_source->get_time();
+  delta_time = pack_time - TimeSource::get_monotonic_time_sec();
   clients[info.client_id] = info;
   info.last_update_time = 0;
 
@@ -924,7 +925,7 @@ IdleLogManager::signon_remote_client(string client_id)
 {
   TRACE_ENTER_MSG("signon_remote_client", client_id);
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
 
   ClientInfo &info = clients[client_id];
   info.idlelog.push_front(IdleInterval(1, current_time));
@@ -1018,7 +1019,7 @@ IdleLogManager::fix_idlelog(ClientInfo &info)
 {
   TRACE_ENTER("IdleLogManager::fix_idlelog");
 
-  time_t current_time = time_source->get_time();
+  time_t current_time = TimeSource::get_monotonic_time_sec();
   info.update_active_time(current_time);
 
   time_t next_time = -1;

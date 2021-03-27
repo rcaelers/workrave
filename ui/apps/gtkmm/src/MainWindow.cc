@@ -345,7 +345,7 @@ MainWindow::init()
   setup();
   set_title("Workrave");
 
-  IConfigurator *config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
@@ -569,7 +569,7 @@ MainWindow::get_start_position(int &x, int &y, int &head)
 {
   TRACE_ENTER("MainWindow::get_start_position");
   // FIXME: Default to right-bottom instead of 256x256
-  IConfigurator *cfg = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr cfg = CoreFactory::get_configurator();
   cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x, 256);
   cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y, 256);
   cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
@@ -585,7 +585,7 @@ void
 MainWindow::set_start_position(int x, int y, int head)
 {
   TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y << " " << head);
-  IConfigurator *cfg = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr cfg = CoreFactory::get_configurator();
   cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x);
   cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y);
   cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head);

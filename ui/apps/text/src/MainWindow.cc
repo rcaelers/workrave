@@ -80,7 +80,7 @@ MainWindow::init()
   timer_box_view = new TimerBoxTextView();
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
 
-  IConfigurator *config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
   TRACE_EXIT();

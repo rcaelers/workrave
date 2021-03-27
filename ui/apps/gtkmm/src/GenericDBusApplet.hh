@@ -40,7 +40,7 @@ class GenericDBusApplet
   , public TimerBoxViewBase
   , public MenuBase
   , public workrave::dbus::IDBusWatch
-  , public IConfiguratorListener
+  , public workrave::config::IConfiguratorListener
 {
 public:
   struct TimerData

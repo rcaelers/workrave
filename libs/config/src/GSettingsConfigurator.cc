@@ -1,6 +1,4 @@
-// GSettingsConfigurator.cc --- Configuration Access
-//
-// Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,13 +22,14 @@
 #ifdef HAVE_GSETTINGS
 
 #  include "debug.hh"
-#  include <string.h>
+#  include <cstring>
+#  include <boost/algorithm/string/replace.hpp>
 
 #  include "GSettingsConfigurator.hh"
 #  include "Configurator.hh"
-#  include "utils/StringUtil.hh"
 
 using namespace workrave;
+using namespace workrave::config;
 using namespace std;
 
 static string underscore_exceptions[] = {
@@ -209,10 +208,8 @@ GSettingsConfigurator::add_children()
   TRACE_ENTER("GSettingsConfigurator::add_children");
   int len = schema_base.length();
 
-  GSettingsSchemaSource *global_schema_source = g_settings_schema_source_get_default();
-
   gchar **schemas = nullptr;
-  g_settings_schema_source_list_schemas(global_schema_source, TRUE, &schemas, nullptr);
+  g_settings_schema_source_list_schemas(g_settings_schema_source_get_default(), TRUE, &schemas, nullptr);
 
   for (int i = 0; schemas[i] != nullptr; i++)
     {
@@ -235,22 +232,22 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
   gchar *path;
   g_object_get(gsettings, "path", &path, NULL);
 
-  string tmp = StringUtil::search_replace(string(path) + key, "/org/workrave/", "");
-  string changed = StringUtil::search_replace(tmp, "-", "_");
+  string tmp = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
+  string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_MSG(changed);
 
-  for (unsigned int i = 0; i < sizeof(underscore_exceptions) / sizeof(string); i++)
+  for (auto &underscore_exception: underscore_exceptions)
     {
-      string mangled = StringUtil::search_replace(underscore_exceptions[i], "-", "_");
+      string mangled = boost::algorithm::replace_all_copy(underscore_exception, "-", "_");
       if (mangled == changed)
         {
-          changed = underscore_exceptions[i];
+          changed = underscore_exception;
           TRACE_MSG(" exception: " << changed);
           break;
         }
     }
 
-  GSettingsConfigurator *self = (GSettingsConfigurator *)user_data;
+  auto *self = (GSettingsConfigurator *)user_data;
   self->listener->config_changed_notify(changed);
 
   g_free(path);
@@ -280,12 +277,14 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   TRACE_ENTER_MSG("GSettingsConfigurator::get_settings", full_path);
 
   string path;
-  key_split(StringUtil::search_replace(full_path, "_", "-"), path, key);
-  string schema = StringUtil::search_replace(path, "/", ".");
+
+  string tmp = boost::algorithm::replace_all_copy(full_path, "_", "-");
+  key_split(tmp, path, key);
+  string schema = boost::algorithm::replace_all_copy(path, "/", ".");
 
   TRACE_MSG(key << " " << path << " " << schema);
 
-  SettingsCIter i = settings.find(schema_base + "." + schema);
+  auto i = settings.find(schema_base + "." + schema);
   if (i == settings.end())
     {
       TRACE_RETURN("NULL");

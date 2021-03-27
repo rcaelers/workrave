@@ -32,7 +32,7 @@ class TimerBoxTextView;
 
 using namespace workrave;
 
-class MainWindow : public IConfiguratorListener
+class MainWindow : public workrave::config::IConfiguratorListener
 {
 public:
   MainWindow();

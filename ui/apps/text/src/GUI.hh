@@ -35,12 +35,6 @@ class MainWindow;
 
 using namespace workrave;
 
-namespace workrave
-{
-  // Core interfaces
-  class IConfigurator;
-} // namespace workrave
-
 class GUI
   : public IApp
   , public ICoreEventListener
@@ -104,7 +98,7 @@ private:
   static GUI *instance;
 
   //! The Configurator.
-  IConfigurator *configurator;
+  workrave::config::IConfigurator::Ptr configurator;
 
   //! The Core controller
   ICore *core;

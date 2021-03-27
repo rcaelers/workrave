@@ -39,7 +39,7 @@ using namespace std;
 
 class TimerBoxPreferencePage
   : public Gtk::HBox
-  , public IConfiguratorListener
+  , public workrave::config::IConfiguratorListener
 {
 public:
   TimerBoxPreferencePage(std::string name);

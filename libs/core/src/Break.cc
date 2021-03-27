@@ -168,21 +168,21 @@ Break::init_defaults()
 
   // Set defaults.
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, def.limit, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, def.limit, workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, def.auto_reset, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, def.auto_reset, workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, def.resetpred, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, def.resetpred, workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, def.snooze, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, def.snooze, workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, "", CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, "", workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, true, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, true, workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, def.max_preludes, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, def.max_preludes, workrave::config::CONFIG_FLAG_INITIAL);
 
-  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, true, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, true, workrave::config::CONFIG_FLAG_INITIAL);
 }
 
 //! Returns the id of the break

@@ -52,7 +52,7 @@ using namespace workrave;
 
 class W32StatusIcon;
 
-class StatusIcon : public IConfiguratorListener
+class StatusIcon : public workrave::config::IConfiguratorListener
 {
 public:
   StatusIcon();

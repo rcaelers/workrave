@@ -1,6 +1,4 @@
-// Configurator.hh
-//
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 //
 // All rights reserved.
@@ -26,29 +24,17 @@
 #include <list>
 #include <map>
 
-#include "utils/Mutex.hh"
-#include "config/IConfigurator.hh"
-#include "config/IConfiguratorListener.hh"
+#include "IConfigurator.hh"
+#include "IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
-
-using namespace workrave;
-using namespace std;
-
-// Forward declarion of external interface.
-namespace workrave
-{
-  class IConfiguratorListener;
-}
 #include "Variant.hh"
 
-class IConfigBackend;
-
 class Configurator
-  : public IConfigurator
-  , public IConfiguratorListener
+  : public workrave::config::IConfigurator
+  , public workrave::config::IConfiguratorListener
 {
 public:
-  Configurator(IConfigBackend *backend);
+  explicit Configurator(IConfigBackend *backend);
   ~Configurator() override;
 
   void heartbeat() override;
@@ -68,29 +54,35 @@ public:
   bool get_value(const std::string &key, int &out) const override;
   bool get_value(const std::string &key, double &out) const override;
 
-  void get_value_with_default(const std::string &key, std::string &out, string s) const override;
+  void get_value_with_default(const std::string &key, std::string &out, std::string s) const override;
   void get_value_with_default(const std::string &key, bool &out, const bool def) const override;
   void get_value_with_default(const std::string &key, int &out, const int def) const override;
   void get_value_with_default(const std::string &key, double &out, const double def) const override;
 
-  bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, int v, ConfigFlags flags = CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, bool v, ConfigFlags flags = CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, double v, ConfigFlags flags = CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key,
+                 const std::string &v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key,
+                 const char *v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key,
+                 double v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
   bool get_typed_value(const std::string &key, std::string &t) const override;
   bool set_typed_value(const std::string &key, const std::string &t) override;
 
-  bool add_listener(const std::string &key_prefix, IConfiguratorListener *listener) override;
-  bool remove_listener(IConfiguratorListener *listener) override;
-  bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener) override;
-  bool find_listener(IConfiguratorListener *listener, std::string &key) const override;
+  bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
+  bool remove_listener(workrave::config::IConfiguratorListener *listener) override;
+  bool remove_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
+  bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const override;
 
 private:
-  typedef std::list<std::pair<std::string, IConfiguratorListener *>> Listeners;
-  typedef std::list<std::pair<std::string, IConfiguratorListener *>>::iterator ListenerIter;
-  typedef std::list<std::pair<std::string, IConfiguratorListener *>>::const_iterator ListenerCIter;
+  using Listeners = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
+  // using ListenerIter = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>::iterator;
+  // using ListenerCIter = std::list<std::pair<std::string, IConfiguratorListener *>>::const_iterator;
 
   //! Configuration change listeners.
   Listeners listeners;
@@ -109,18 +101,18 @@ private:
     int delay;
   };
 
-  typedef std::map<std::string, DelayedConfig> DelayedList;
-  typedef DelayedList::iterator DelayedListIter;
-  typedef DelayedList::const_iterator DelayedListCIter;
+  using DelayedList = std::map<std::string, DelayedConfig>;
+  // using DelayedListIter = DelayedList::iterator;
+  // using DelayedListCIter = DelayedList::const_iterator;
 
-  typedef std::map<std::string, Setting> Settings;
-  typedef std::map<std::string, Setting>::iterator SettingIter;
-  typedef std::map<std::string, Setting>::const_iterator SettingCIter;
+  using Settings = std::map<std::string, Setting>;
+  // using SettingIter = std::map<std::string, Setting>::iterator;
+  // using SettingCIter = std::map<std::string, Setting>::const_iterator;
 
 private:
-  bool find_setting(const string &name, Setting &setting) const;
+  bool find_setting(const std::string &name, Setting &setting) const;
 
-  bool set_value(const std::string &key, Variant &value, ConfigFlags flags = CONFIG_FLAG_NONE);
+  bool set_value(const std::string &key, Variant &value, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
   bool get_value(const std::string &key, VariantType type, Variant &value) const;
 
   void fire_configurator_event(const std::string &key);

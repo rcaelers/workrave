@@ -43,7 +43,7 @@ namespace Gtk
 class TimerBoxGtkView
   : public Gtk::Table
   , public ITimerBoxView
-  , public IConfiguratorListener
+  , public workrave::config::IConfiguratorListener
 {
 public:
   TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);

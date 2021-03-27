@@ -44,7 +44,7 @@
  */
 X11SystrayAppletWindow::X11SystrayAppletWindow()
 {
-  IConfigurator *config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED, this);
   read_configuration();
 }

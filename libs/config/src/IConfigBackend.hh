@@ -1,6 +1,4 @@
-// IConfigBackend.hh
-//
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,10 +22,11 @@
 
 namespace workrave
 {
-  class IConfiguratorListener;
-}
-
-using namespace workrave;
+  namespace config
+  {
+    class IConfiguratorListener;
+  }
+} // namespace workrave
 
 #include "Variant.hh"
 
@@ -50,7 +49,7 @@ class IConfigBackendMonitoring
 public:
   virtual ~IConfigBackendMonitoring() = default;
 
-  virtual void set_listener(IConfiguratorListener *listener) = 0;
+  virtual void set_listener(workrave::config::IConfiguratorListener *listener) = 0;
   virtual bool add_listener(const std::string &key_prefix) = 0;
   virtual bool remove_listener(const std::string &key_prefix) = 0;
 };

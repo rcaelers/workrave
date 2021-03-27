@@ -41,7 +41,7 @@ class AppletControl;
 using namespace workrave;
 
 class X11SystrayAppletWindow
-  : public IConfiguratorListener
+  : public workrave::config::IConfiguratorListener
   , public sigc::trackable
   , public AppletWindow
 {

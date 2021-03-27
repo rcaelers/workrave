@@ -1,6 +1,4 @@
-// ConfiguratorFactory.cc
-//
-// Copyright (C) 2007, 2008, 2011 Rob Caelers
+// Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,20 +21,14 @@
 
 #include <cstdlib>
 
+#include "IConfigurator.hh"
+#include "ConfiguratorFactory.hh"
 #include "Configurator.hh"
-#include "config/ConfiguratorFactory.hh"
 
-#ifdef HAVE_GLIB
-#  include "GlibIniConfigurator.hh"
-#endif
+#include "IniConfigurator.hh"
+#include "XmlConfigurator.hh"
 #ifdef HAVE_GSETTINGS
 #  include "GSettingsConfigurator.hh"
-#endif
-#ifdef HAVE_GDOME
-#  include "XMLConfigurator.hh"
-#endif
-#ifdef HAVE_GCONF
-#  include "GConfConfigurator.hh"
 #endif
 #ifdef PLATFORM_OS_WINDOWS
 #  include "W32Configurator.hh"
@@ -44,61 +36,40 @@
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSConfigurator.hh"
 #endif
+#ifdef HAVE_QT5
+#  include "QtSettingsConfigurator.hh"
+#endif
+
+using namespace workrave::config;
 
 //! Creates a configurator of the specified type.
-IConfigurator *
-ConfiguratorFactory::create(Format fmt)
+IConfigurator::Ptr
+ConfiguratorFactory::create(ConfigFileFormat fmt)
 {
   Configurator *c = nullptr;
   IConfigBackend *b = nullptr;
 
-#ifdef HAVE_GDOME
-  if (fmt == FormatXml)
+  if (fmt == ConfigFileFormat::Native)
     {
-      b = new XMLConfigurator();
-    }
-  else
-#endif
-
-#if HAVE_GSETTINGS
-    if (fmt == FormatNative)
-    {
-      b = new GSettingsConfigurator();
-    }
-  else
-#endif
-
-#ifdef HAVE_GCONF
-    if (fmt == FormatNative)
-    {
-      b = new GConfConfigurator();
-    }
-  else
-#endif
-
-#ifdef PLATFORM_OS_WINDOWS
-    if (fmt == FormatNative)
-    {
+#if defined(PLATFORM_OS_WINDOWS)
       b = new W32Configurator();
-    }
-  else
-#endif
-
-#ifdef PLATFORM_OS_MACOS
-    if (fmt == FormatNative)
-    {
+#elif defined(PLATFORM_OS_MACOS)
       b = new MacOSConfigurator();
+#elif defined(HAVE_QT5)
+      b = new QtSettingsConfigurator();
+#elif defined(HAVE_GSETTINGS)
+      b = new GSettingsConfigurator();
+#endif
     }
-  else
-#endif
 
-    if (fmt == FormatIni)
+  if (fmt == ConfigFileFormat::Xml)
     {
-#ifdef HAVE_GLIB
-      b = new GlibIniConfigurator();
-#else
-#  error Not ported
-#endif
+      b = new XmlConfigurator();
+    }
+
+  if (fmt == ConfigFileFormat::Ini)
+    {
+      b = new IniConfigurator();
     }
 
   if (b != nullptr)
@@ -106,5 +77,5 @@ ConfiguratorFactory::create(Format fmt)
       c = new Configurator(b);
     }
 
-  return c;
+  return IConfigurator::Ptr(c);
 }

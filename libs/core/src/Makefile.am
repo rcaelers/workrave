@@ -10,7 +10,6 @@ sources = 	ActivityMonitor.cc \
 			Core.cc \
 			CoreConfig.cc \
 			CoreFactory.cc \
-			IdleLogManager.cc \
 			Statistics.cc \
 			TimePredFactory.cc \
 			Timer.cc \
@@ -22,6 +21,7 @@ sources += 	DistributionManager.cc \
 			DistributionSocketLink.cc \
 			PacketBuffer.cc \
 			SocketDriver.cc \
+			IdleLogManager.cc \
 			GIOSocketDriver.cc
 if HAVE_GNET
 sources +=	GNetSocketDriver.cc

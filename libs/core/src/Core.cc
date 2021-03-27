@@ -86,11 +86,14 @@ const int SAVESTATETIME = 60;
 #define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/Core"
 #define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
 
+using namespace workrave::utils;
+using namespace workrave::config;
+
 //! Constructs a new Core.
 Core::Core()
 {
   TRACE_ENTER("Core::Core");
-  current_time = time(nullptr);
+  current_time = TimeSource::get_monotonic_time_sec();
 
   assert(!instance);
   instance = this;
@@ -112,7 +115,6 @@ Core::~Core()
 
   delete statistics;
   delete monitor;
-  delete configurator;
 
 #ifdef HAVE_DISTRIBUTION
   if (idlelog_manager != nullptr)
@@ -165,7 +167,7 @@ Core::init_configurator()
 
   if (Util::file_exists(ini_file))
     {
-      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+      configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
       configurator->load(ini_file);
     }
   else
@@ -175,12 +177,12 @@ Core::init_configurator()
       g_type_init();
 #endif
 
-      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
+      configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
 #if defined(HAVE_GDOME)
       if (configurator == nullptr)
         {
           string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-          configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
+          configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
 #  if defined(PLATFORM_OS_UNIX)
           if (configFile == "" || configFile == "config.xml")
@@ -197,7 +199,7 @@ Core::init_configurator()
       if (configurator == nullptr)
         {
           ini_file = Util::get_home_directory() + "workrave.ini";
-          configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
           configurator->load(ini_file);
           configurator->save(ini_file);
         }
@@ -224,7 +226,7 @@ Core::init_bus()
       init_DBusWorkrave(dbus);
 
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
-      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator);
+      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
       dbus->register_object_path(DBUS_PATH_WORKRAVE);
 
 #  ifdef HAVE_TESTS
@@ -255,7 +257,7 @@ Core::init_monitor(const char *display_name)
 
   InputMonitorFactory::init(display_name);
 
-  configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, CONFIG_FLAG_DEFAULT);
+  configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, workrave::config::CONFIG_FLAG_INITIAL);
 
   monitor = new ActivityMonitor();
   load_monitor_config();
@@ -291,7 +293,7 @@ Core::init_distribution_manager()
 
   dist_manager->add_listener(this);
 
-  idlelog_manager = new IdleLogManager(dist_manager->get_my_id(), this);
+  idlelog_manager = new IdleLogManager(dist_manager->get_my_id());
   idlelog_manager->init();
 }
 #endif
@@ -446,7 +448,7 @@ Core::get_timer(string name) const
 }
 
 //! Returns the configurator.
-IConfigurator *
+workrave::config::IConfigurator::Ptr
 Core::get_configurator() const
 {
   return configurator;
@@ -1028,7 +1030,7 @@ Core::heartbeat()
   assert(application != nullptr);
 
   // Set current time.
-  current_time = time(nullptr);
+  current_time = TimeSource::get_monotonic_time_sec();
 
   // Performs timewarp checking.
   bool warped = process_timewarp();

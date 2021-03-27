@@ -49,7 +49,6 @@
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
 #include "config/IConfiguratorListener.hh"
-#include "utils/TimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
 #include "utils/Diagnostics.hh"
@@ -87,9 +86,8 @@ class Core
   , public DistributionListener
   ,
 #endif
-  public TimeSource
-  , public ICore
-  , public IConfiguratorListener
+    public ICore
+  , public workrave::config::IConfiguratorListener
   , public IBreakResponse
 {
 public:
@@ -102,7 +100,7 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id) override;
   Break *get_break(std::string name) override;
-  IConfigurator *get_configurator() const;
+  workrave::config::IConfigurator::Ptr get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
   bool is_user_active() const override;
   std::string get_break_stage(BreakId id);
@@ -252,7 +250,7 @@ private:
   Break breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  IConfigurator *configurator{nullptr};
+  workrave::config::IConfigurator::Ptr configurator{nullptr};
 
   //! The activity monitor
   ActivityMonitor *monitor{nullptr};

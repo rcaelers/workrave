@@ -1,6 +1,4 @@
-// CoreFactory.cc
-//
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,34 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <cassert>
+#include "config/SettingCache.hh"
 
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-#include "Core.hh"
-
-ICore *
-CoreFactory::get_core()
-{
-  return Core::get_instance();
-}
-
-workrave::config::IConfigurator::Ptr
-CoreFactory::get_configurator()
-{
-  Core *core = Core::get_instance();
-  assert(core != nullptr);
-
-  return core->get_configurator();
-}
-
-#ifdef HAVE_DBUS
-workrave::dbus::IDBus::Ptr
-CoreFactory::get_dbus()
-{
-  Core *core = Core::get_instance();
-  assert(core != nullptr);
-
-  return core->get_dbus();
-}
-#endif
+std::map<std::string, workrave::config::SettingBase *> workrave::config::SettingCache::cache;

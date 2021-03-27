@@ -1,5 +1,3 @@
-// IConfigBackend.hh
-//
 // Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -56,10 +54,8 @@ public:
       case VARIANT_TYPE_NONE:
       case VARIANT_TYPE_STRING:
         return get_config_value(key, value.string_value);
-
-      default:
-        return false;
       }
+    return false;
   }
 
   bool set_value(const std::string &key, Variant &value) override
@@ -80,10 +76,8 @@ public:
 
       case VARIANT_TYPE_STRING:
         return set_config_value(key, value.string_value);
-
-      default:
-        return false;
       }
+    return false;
   }
 };
 

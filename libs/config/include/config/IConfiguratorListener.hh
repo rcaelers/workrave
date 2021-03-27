@@ -1,6 +1,4 @@
-// IConfiguratorListener.hh -- Listen for configuration changes.
-//
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -14,22 +12,25 @@
 // GNU General Public License for more details.
 //
 
-#ifndef ICONFIGURATORLISTENER_HH
-#define ICONFIGURATORLISTENER_HH
+#ifndef WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH
+#define WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH
 
 #include <string>
 
 namespace workrave
 {
-  //! Listener to receive notifications of changed configuration.
-  class IConfiguratorListener
+  namespace config
   {
-  public:
-    virtual ~IConfiguratorListener() = default;
+    //! Listener to receive notifications of changed configuration.
+    class IConfiguratorListener
+    {
+    public:
+      virtual ~IConfiguratorListener() = default;
 
-    //! The configuration item with specified key has changed.
-    virtual void config_changed_notify(const std::string &key) = 0;
-  };
+      //! The configuration item with specified key has changed.
+      virtual void config_changed_notify(const std::string &key) = 0;
+    };
+  } // namespace config
 } // namespace workrave
 
-#endif // ICONFIGURATORLISTENER_HH
+#endif // WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH

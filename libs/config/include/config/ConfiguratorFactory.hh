@@ -1,6 +1,4 @@
-// configuratorfactory.hh
-//
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,24 +15,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef CONFIGURATORFACTORY_HH
-#define CONFIGURATORFACTORY_HH
+#ifndef WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH
+#define WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH
 
 #include "IConfigurator.hh"
 
-//! Factory that creates configurators
-class ConfiguratorFactory
+namespace workrave
 {
-public:
-  enum Format
+  namespace config
   {
-    FormatIni,
-    FormatXml,
-    FormatNative
-  };
+    enum class ConfigFileFormat
+    {
+      Ini,
+      Xml,
+      Native
+    };
 
-  //! Creates a link server of the specified type.
-  static workrave::IConfigurator *create(Format fmt);
-};
+    class ConfiguratorFactory
+    {
+    public:
+      static IConfigurator::Ptr create(ConfigFileFormat fmt);
+    };
+  } // namespace config
+} // namespace workrave
 
-#endif // CONFIGURATORFACTORY_HH
+#endif // WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH

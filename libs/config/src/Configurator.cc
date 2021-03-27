@@ -1,6 +1,4 @@
-// Configurator.cc --- Configuration Access
-//
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,19 +29,20 @@
 
 #include "Configurator.hh"
 
+#include "utils/TimeSource.hh"
+
+#include "IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
-#include "core/ICore.hh"
-#include "core/CoreFactory.hh"
-#include "config/IConfiguratorListener.hh"
 
 using namespace std;
 using namespace workrave;
+using namespace workrave::config;
+using namespace workrave::utils;
 
 // Constructs a new configurator.
 Configurator::Configurator(IConfigBackend *backend)
+  : backend(backend)
 {
-  this->auto_save_time = 0;
-  this->backend = backend;
   if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
     {
       dynamic_cast<IConfigBackendMonitoring *>(backend)->set_listener(this);
@@ -83,14 +82,13 @@ Configurator::save()
 void
 Configurator::heartbeat()
 {
-  ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
+  time_t now = TimeSource::get_monotonic_time_sec();
 
-  DelayedListIter it = delayed_config.begin();
+  auto it = delayed_config.begin();
   while (it != delayed_config.end())
     {
       DelayedConfig &delayed = it->second;
-      DelayedListIter next = it;
+      auto next = it;
       next++;
 
       if (now >= delayed.until)
@@ -108,8 +106,7 @@ Configurator::heartbeat()
 
                   if (auto_save_time == 0)
                     {
-                      ICore *core = CoreFactory::get_core();
-                      auto_save_time = core->get_time() + 30;
+                      auto_save_time = TimeSource::get_monotonic_time_sec() + 30;
                     }
                 }
             }
@@ -186,7 +183,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
   TRACE_ENTER_MSG("Configurator::set_value", key);
 
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
+  if ((flags & CONFIG_FLAG_INITIAL) != 0)
     {
       skip = get_value(key, value.type, value);
     }
@@ -205,12 +202,10 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
         {
           if (setting.delay)
             {
-              ICore *core = CoreFactory::get_core();
-
               DelayedConfig &d = delayed_config[key];
-              d.key = (string)key;
+              d.key = key;
               d.value = value;
-              d.until = core->get_time() + setting.delay;
+              d.until = TimeSource::get_monotonic_time_sec() + setting.delay;
 
               skip = true;
             }
@@ -232,8 +227,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
 
               if (auto_save_time == 0)
                 {
-                  ICore *core = CoreFactory::get_core();
-                  auto_save_time = core->get_time() + 30;
+                  auto_save_time = TimeSource::get_monotonic_time_sec() + 30;
                 }
             }
         }
@@ -247,7 +241,6 @@ bool
 Configurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   bool ret = false;
-  Setting setting;
 
   TRACE_ENTER_MSG("Configurator::get_value", key);
 
@@ -255,7 +248,7 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
   strip_trailing_slash(newkey);
   strip_leading_slash(newkey);
 
-  DelayedListCIter it = delayed_config.find(newkey);
+  auto it = delayed_config.find(newkey);
   if (it != delayed_config.end())
     {
       const DelayedConfig &delayed = it->second;
@@ -274,7 +267,7 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
       out.type = VARIANT_TYPE_NONE;
     }
 
-  TRACE_EXIT();
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -406,7 +399,6 @@ Configurator::get_value_with_default(const string &key, int &out, const int def)
   if (!b)
     {
       out = def;
-      b = true;
     }
 }
 
@@ -557,7 +549,7 @@ Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener 
 
   if (ret)
     {
-      ListenerIter i = listeners.begin();
+      auto i = listeners.begin();
       while (ret && i != listeners.end())
         {
           if (key == i->first && listener == i->second)
@@ -584,7 +576,7 @@ Configurator::remove_listener(IConfiguratorListener *listener)
 {
   bool ret = false;
 
-  ListenerIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       if (listener == i->second)
@@ -612,7 +604,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
       dynamic_cast<IConfigBackendMonitoring *>(backend)->remove_listener(key_prefix);
     }
 
-  ListenerIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       if (i->first == key_prefix && i->second == listener)
@@ -635,7 +627,7 @@ Configurator::find_listener(IConfiguratorListener *listener, std::string &key) c
 {
   bool ret = false;
 
-  ListenerCIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       if (listener == i->second)
@@ -660,7 +652,7 @@ Configurator::fire_configurator_event(const string &key)
   strip_leading_slash(k);
   strip_trailing_slash(k);
 
-  ListenerIter i = listeners.begin();
+  auto i = listeners.begin();
   while (i != listeners.end())
     {
       string prefix = i->first;
@@ -683,7 +675,7 @@ Configurator::fire_configurator_event(const string &key)
 void
 Configurator::strip_leading_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 1)
     {
       if (key[0] == '/')
@@ -697,7 +689,7 @@ Configurator::strip_leading_slash(string &key) const
 void
 Configurator::strip_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] == '/')
@@ -711,7 +703,7 @@ Configurator::strip_trailing_slash(string &key) const
 void
 Configurator::add_trailing_slash(string &key) const
 {
-  int len = key.length();
+  size_t len = key.length();
   if (len > 0)
     {
       if (key[len - 1] != '/')
@@ -726,7 +718,7 @@ Configurator::find_setting(const string &key, Setting &setting) const
 {
   bool ret = false;
 
-  SettingCIter it = settings.find(key);
+  auto it = settings.find(key);
   if (it != settings.end())
     {
       setting = it->second;

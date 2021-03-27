@@ -1,6 +1,4 @@
-// IConfigurator.hh -- Interface to the Workrave configuration
-//
-// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,73 +15,84 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICONFIGURATOR_HH
-#define ICONFIGURATOR_HH
+#ifndef WORKRAVE_CONFIG_ICONFIGURATOR_HH
+#define WORKRAVE_CONFIG_ICONFIGURATOR_HH
 
+#include <memory>
 #include <string>
-#include <list>
-#include <map>
 
 namespace workrave
 {
-
-  // Forward declaratons
-  class IConfiguratorListener;
-
-  //! Hints on how to set a configuration value.
-  enum ConfigFlags
+  namespace config
   {
-    //! No special hints.
-    CONFIG_FLAG_NONE = 0,
+    class IConfiguratorListener;
 
-    //! The default value is set.
-    CONFIG_FLAG_DEFAULT = 1,
+    //! Hints on how to set a configuration value.
+    enum ConfigFlags
+    {
+      //! No special hints.
+      CONFIG_FLAG_NONE = 0,
 
-    //! The value must be set immediately, without delay.
-    CONFIG_FLAG_IMMEDIATE = 2,
-  };
+      //! The initial value is set.
+      CONFIG_FLAG_INITIAL = 1,
 
-  //! Interface to access the configuration.
-  class IConfigurator
-  {
-  public:
-    virtual ~IConfigurator() = default;
+      //! The value must be set immediately, without delay.
+      CONFIG_FLAG_IMMEDIATE = 2
+    };
 
-    virtual void heartbeat() = 0;
+    class IConfigurator
+    {
+    public:
+      using Ptr = std::shared_ptr<IConfigurator>;
 
-    virtual void set_delay(const std::string &key, int delay) = 0;
+    public:
+      virtual ~IConfigurator() = default;
 
-    virtual bool load(std::string filename) = 0;
-    virtual bool save(std::string filename) = 0;
-    virtual bool save() = 0;
+      virtual void set_delay(const std::string &key, int delay) = 0;
 
-    virtual bool remove_key(const std::string &key) const = 0;
-    virtual bool rename_key(const std::string &key, const std::string &new_key) = 0;
+      virtual void heartbeat() = 0;
+      virtual bool load(std::string filename) = 0;
+      virtual bool save(std::string filename) = 0;
+      virtual bool save() = 0;
 
-    virtual bool get_value(const std::string &key, std::string &out) const = 0;
-    virtual bool get_value(const std::string &key, bool &out) const = 0;
-    virtual bool get_value(const std::string &key, int &out) const = 0;
-    virtual bool get_value(const std::string &key, double &out) const = 0;
+      virtual bool remove_key(const std::string &key) const = 0;
+      virtual bool rename_key(const std::string &key, const std::string &new_key) = 0;
 
-    virtual void get_value_with_default(const std::string &key, std::string &out, std::string s) const = 0;
-    virtual void get_value_with_default(const std::string &key, bool &out, const bool def) const = 0;
-    virtual void get_value_with_default(const std::string &key, int &out, const int def) const = 0;
-    virtual void get_value_with_default(const std::string &key, double &out, const double def) const = 0;
+      virtual bool get_value(const std::string &key, std::string &out) const = 0;
+      virtual bool get_value(const std::string &key, bool &out) const = 0;
+      virtual bool get_value(const std::string &key, int &out) const = 0;
+      virtual bool get_value(const std::string &key, double &out) const = 0;
 
-    virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, int v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, bool v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
-    virtual bool set_value(const std::string &key, double v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
+      virtual void get_value_with_default(const std::string &key, std::string &out, std::string s) const = 0;
+      virtual void get_value_with_default(const std::string &key, bool &out, const bool def) const = 0;
+      virtual void get_value_with_default(const std::string &key, int &out, const int def) const = 0;
+      virtual void get_value_with_default(const std::string &key, double &out, const double def) const = 0;
 
-    virtual bool get_typed_value(const std::string &key, std::string &t) const = 0;
-    virtual bool set_typed_value(const std::string &key, const std::string &t) = 0;
+      virtual bool set_value(const std::string &key,
+                             const std::string &v,
+                             workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key,
+                             const char *v,
+                             workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key,
+                             int v,
+                             workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key,
+                             bool v,
+                             workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+      virtual bool set_value(const std::string &key,
+                             double v,
+                             workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
 
-    virtual bool add_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
-    virtual bool remove_listener(IConfiguratorListener *listener) = 0;
-    virtual bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
-    virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const = 0;
-  };
+      virtual bool get_typed_value(const std::string &key, std::string &t) const = 0;
+      virtual bool set_typed_value(const std::string &key, const std::string &t) = 0;
+
+      virtual bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) = 0;
+      virtual bool remove_listener(workrave::config::IConfiguratorListener *listener) = 0;
+      virtual bool remove_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) = 0;
+      virtual bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const = 0;
+    };
+  } // namespace config
 } // namespace workrave
 
-#endif // ICONFIGURATOR_HH
+#endif // WORKRAVE_CONFIG_ICONFIGURATOR_HH

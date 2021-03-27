@@ -24,6 +24,7 @@
 #include <list>
 #include <sigc++/sigc++.h>
 
+#include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 #include "core/ICore.hh"
 
@@ -84,10 +85,10 @@ private:
   Widgets connections;
 
   //!
-  workrave::IConfigurator *config;
+  workrave::config::IConfigurator::Ptr config;
 };
 
-class DataConnection : public workrave::IConfiguratorListener
+class DataConnection : public workrave::config::IConfiguratorListener
 {
 public:
   DataConnection();
@@ -99,7 +100,7 @@ public:
   sigc::signal<bool, const std::string &, bool> intercept;
 
 protected:
-  workrave::IConfigurator *config;
+  workrave::config::IConfigurator::Ptr config;
   std::string key;
   dc::Flags flags;
 };

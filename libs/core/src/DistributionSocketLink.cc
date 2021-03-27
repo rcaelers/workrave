@@ -60,7 +60,7 @@ using namespace std;
 /*!
  *  \param conf Configurator to use.
  */
-DistributionSocketLink::DistributionSocketLink(IConfigurator *conf)
+DistributionSocketLink::DistributionSocketLink(workrave::config::IConfigurator::Ptr conf)
   : configurator(conf)
 {
   socket_driver = SocketDriver::create();

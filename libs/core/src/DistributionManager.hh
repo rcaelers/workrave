@@ -43,7 +43,7 @@ class PacketBuffer;
 
 class DistributionManager
   : public IDistributionManager
-  , public IConfiguratorListener
+  , public workrave::config::IConfiguratorListener
 {
 public:
   enum NodeState
@@ -57,7 +57,7 @@ public:
   ~DistributionManager() override;
 
   NodeState get_state() const;
-  void init(IConfigurator *conf);
+  void init(workrave::config::IConfigurator::Ptr conf);
   void heartbeart();
   bool is_master() const override;
   string get_master_id() const;
@@ -138,7 +138,7 @@ private:
   bool server_enabled{false};
 
   //! Access to the configuration.
-  IConfigurator *configurator{nullptr};
+  workrave::config::IConfigurator::Ptr configurator{nullptr};
 
   //! Link to other clients
   DistributionLink *link{nullptr};

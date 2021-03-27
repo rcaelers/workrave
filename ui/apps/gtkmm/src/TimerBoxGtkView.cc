@@ -62,7 +62,7 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
 TimerBoxGtkView::~TimerBoxGtkView()
 {
   TRACE_ENTER("TimerBoxGtkView::~TimerBoxGtkView");
-  IConfigurator *config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->remove_listener(this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -139,7 +139,7 @@ TimerBoxGtkView::init()
       bars[i]->reference();
     }
 
-  IConfigurator *config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
   config->add_listener(GUIConfig::CFG_KEY_ICONTHEME, this);
 
   reconfigure = true;

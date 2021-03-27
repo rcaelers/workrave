@@ -1,5 +1,3 @@
-// Variant.hh
-//
 // Copyright (C) 2001 - 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -23,13 +21,11 @@
 #include "debug.hh"
 
 #include <string>
-using namespace std;
 
 enum VariantType
 {
   VARIANT_TYPE_NONE,
   VARIANT_TYPE_INT,
-  VARIANT_TYPE_LONG,
   VARIANT_TYPE_BOOL,
   VARIANT_TYPE_DOUBLE,
   VARIANT_TYPE_STRING
@@ -40,47 +36,37 @@ class Variant
 public:
   Variant() = default;
 
-  Variant(std::string v)
+  explicit Variant(std::string v)
   {
     type = VARIANT_TYPE_STRING;
     string_value = v;
   }
 
-  Variant(int v)
+  explicit Variant(int v)
   {
     type = VARIANT_TYPE_INT;
     int_value = v;
   }
 
-  Variant(long v)
-  {
-    type = VARIANT_TYPE_LONG;
-    int_value = v;
-  }
-
-  Variant(bool v)
+  explicit Variant(bool v)
   {
     type = VARIANT_TYPE_BOOL;
     bool_value = v;
   }
 
-  Variant(double v)
+  explicit Variant(double v)
   {
     type = VARIANT_TYPE_DOUBLE;
     double_value = v;
   }
 
-  Variant(const Variant &rhs)
+  explicit Variant(const Variant &rhs)
   {
     type = rhs.type;
     switch (rhs.type)
       {
       case VARIANT_TYPE_INT:
         int_value = rhs.int_value;
-        break;
-
-      case VARIANT_TYPE_LONG:
-        long_value = rhs.long_value;
         break;
 
       case VARIANT_TYPE_BOOL:
@@ -96,7 +82,6 @@ public:
         break;
 
       case VARIANT_TYPE_NONE:
-      default:
         break;
       }
   }
@@ -112,10 +97,6 @@ public:
             int_value = lid.int_value;
             break;
 
-          case VARIANT_TYPE_LONG:
-            long_value = lid.long_value;
-            break;
-
           case VARIANT_TYPE_BOOL:
             bool_value = lid.bool_value;
             break;
@@ -129,16 +110,15 @@ public:
             break;
 
           case VARIANT_TYPE_NONE:
-          default:
             break;
           }
       }
     return *this;
   }
 
-  bool operator!=(const Variant &lid) { return !operator==(lid); }
+  bool operator!=(const Variant &lid) const { return !operator==(lid); }
 
-  bool operator==(const Variant &lid)
+  bool operator==(const Variant &lid) const
   {
     if (type != lid.type)
       {
@@ -149,33 +129,28 @@ public:
       {
       case VARIANT_TYPE_INT:
         return int_value == lid.int_value;
-        break;
-
-      case VARIANT_TYPE_LONG:
-        return long_value == lid.long_value;
-        break;
 
       case VARIANT_TYPE_BOOL:
         return bool_value == lid.bool_value;
-        break;
 
+        // FIXME: float compare
       case VARIANT_TYPE_DOUBLE:
         return double_value == lid.double_value;
-        break;
 
+        // FIXME: float compare
       case VARIANT_TYPE_STRING:
         return string_value == lid.string_value;
-        break;
 
       case VARIANT_TYPE_NONE:
-      default:
         return false;
       }
+
+    return false;
   }
 
   virtual ~Variant() { type = VARIANT_TYPE_NONE; }
 
-  VariantType get_type() { return type; }
+  VariantType get_type() const { return type; }
 
   // private:
   VariantType type;
@@ -184,7 +159,6 @@ public:
   union
   {
     int int_value;
-    long long_value;
     bool bool_value;
     double double_value;
   };

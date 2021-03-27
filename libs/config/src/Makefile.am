@@ -1,17 +1,18 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = unix win32 macos
+SUBDIRS = win32 macos
 
 noinst_LTLIBRARIES = libworkrave-config.la
 
 cflags =
 sources =   Configurator.cc \
 			ConfiguratorFactory.cc \
-			GlibIniConfigurator.cc \
-			GSettingsConfigurator.cc
+			IniConfigurator.cc \
+			XmlConfigurator.cc \
+			SettingCache.cc
 
-if HAVE_GDOME
-sources += 	XMLConfigurator.cc
+if HAVE_GSETTINGS
+sources +=	GSettingsConfigurator.cc
 endif
 
 if PLATFORM_OS_WINDOWS
@@ -24,12 +25,7 @@ sources += 	macos/MacOSConfigurator.cc
 cflags += 	-I$(top_srcdir)/libs/config/src/macos
 endif
 
-if HAVE_GCONF
-sources += 	unix/GConfConfigurator.cc
-cflags += 	-I$(top_srcdir)/libs/config/src/unix
-endif
-
-DEFS = @DEFS@ -I. -I$(top_srcdir)/libs/config/include
+DEFS = @DEFS@
 
 libworkrave_config_la_SOURCES = ${sources}
 
@@ -37,6 +33,7 @@ libworkrave_config_la_CFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${cflags} @WR_COMMON_INCLUDES@ \
+			-I. -I$(top_srcdir)/libs/config/include -I$(top_srcdir)/libs/config/include/config \
 			@GLIB_CFLAGS@ @GDOME_CFLAGS@ \
 			@GCONF_CFLAGS@
 

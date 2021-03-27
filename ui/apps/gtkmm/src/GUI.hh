@@ -92,7 +92,7 @@ class GUI
   : public IGUI
   , public IApp
   , public ICoreEventListener
-  , public IConfiguratorListener
+  , public workrave::config::IConfiguratorListener
   ,
 #ifdef HAVE_DBUS
     public workrave::dbus::IDBusWatch

@@ -28,7 +28,7 @@
 
 using namespace workrave;
 
-class TimerBoxControl : public IConfiguratorListener
+class TimerBoxControl : public workrave::config::IConfiguratorListener
 {
 public:
   TimerBoxControl(std::string name, ITimerBoxView &view);

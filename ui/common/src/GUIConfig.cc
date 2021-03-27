@@ -56,17 +56,17 @@ const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enab
 void
 GUIConfig::init()
 {
-  IConfigurator *config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakId breakId = (BreakId)i;
 
-      config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId, true, CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_IGNORABLE % breakId, true, workrave::config::CONFIG_FLAG_INITIAL);
 
-      config->set_value(CFG_KEY_BREAK_EXERCISES % breakId, i == BREAK_ID_REST_BREAK ? 3 : 0, CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_EXERCISES % breakId, i == BREAK_ID_REST_BREAK ? 3 : 0, workrave::config::CONFIG_FLAG_INITIAL);
 
-      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId, false, CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % breakId, false, workrave::config::CONFIG_FLAG_INITIAL);
 
       // for backward compatibility with settings of older versions, we set the default
       // default value of `skippable` to whatever `ignorable`. This works because the old
@@ -75,14 +75,14 @@ GUIConfig::init()
       bool ignorable;
       config->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % breakId, ignorable, true);
 
-      config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, ignorable, CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_SKIPPABLE % breakId, ignorable, workrave::config::CONFIG_FLAG_INITIAL);
 
-      config->set_value(CFG_KEY_BREAK_ENABLE_SHUTDOWN % breakId, true, CONFIG_FLAG_DEFAULT);
+      config->set_value(CFG_KEY_BREAK_ENABLE_SHUTDOWN % breakId, true, workrave::config::CONFIG_FLAG_INITIAL);
     }
 
-  config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
-  config->set_value(CFG_KEY_TRAYICON_ENABLED, true, CONFIG_FLAG_DEFAULT);
-  config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_DEFAULT);
+  config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, workrave::config::CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_TRAYICON_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
 }
 
 //!

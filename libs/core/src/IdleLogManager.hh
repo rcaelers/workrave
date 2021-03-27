@@ -43,7 +43,6 @@ using namespace std;
 
 #include "ActivityMonitor.hh"
 
-class TimeSource;
 class PacketBuffer;
 
 class IdleLogManager
@@ -137,14 +136,11 @@ private:
   //! Info about all clients.
   ClientMap clients;
 
-  //! Time
-  const TimeSource *time_source{nullptr};
-
   //! Last time we performed an expiration run.
   time_t last_expiration_time{0};
 
 public:
-  IdleLogManager(string myid, const TimeSource *control);
+  IdleLogManager(string myid);
 
   void update_all_idlelogs(string master_id, ActivityState state);
   void reset();

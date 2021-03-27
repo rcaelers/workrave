@@ -1,6 +1,4 @@
-// IniConfigurator.hh
-//
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,22 +15,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GLIBINICONFIGURATOR_HH
-#define GLIBINICONFIGURATOR_HH
+#ifndef XMLCONFIGURATOR_HH
+#define XMLCONFIGURATOR_HH
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 #include <string>
-#include <list>
-#include <map>
-
-#include <glib.h>
 
 #include "IConfigBackend.hh"
 
-class GlibIniConfigurator : public virtual IConfigBackend
+class XmlConfigurator : public virtual IConfigBackend
 {
 public:
-  GlibIniConfigurator() = default;
-  ~GlibIniConfigurator() override;
+  XmlConfigurator() = default;
+  ~XmlConfigurator() override = default;
 
   bool load(std::string filename) override;
   bool save(std::string filename) override;
@@ -43,13 +40,12 @@ public:
   bool set_value(const std::string &key, Variant &value) override;
 
 private:
-  void split_key(const std::string &key, std::string &group, std::string &out_key) const;
-  std::string key_inify(const std::string &key) const;
+  std::string path(const std::string &key) const;
 
 private:
-  GKeyFile *config{nullptr};
+  boost::property_tree::ptree pt;
 
   std::string last_filename;
 };
 
-#endif // GLIBINICONFIGURATOR_HH
+#endif // XMLCONFIGURATOR_HH

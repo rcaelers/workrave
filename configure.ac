@@ -1087,7 +1087,6 @@ AC_CONFIG_FILES([Makefile
                  libs/config/Makefile
                  libs/config/src/macos/Makefile
                  libs/config/src/Makefile
-                 libs/config/src/unix/Makefile
                  libs/config/src/win32/Makefile
                  libs/core/include/core/Makefile
                  libs/core/include/Makefile

@@ -1,6 +1,4 @@
-// CoreFactory.hh --- The main access point to the Core
-//
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,32 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef COREFACTORY_HH
-#define COREFACTORY_HH
-
-#ifdef HAVE_DBUS
-#  include "dbus/IDBus.hh"
-#endif
+#ifndef WORKRAVE_CONFIG_CONFIGURATOR_HH
+#define WORKRAVE_CONFIG_CONFIGURATOR_HH
 
 #include "config/IConfigurator.hh"
-#include "core/ICore.hh"
+#include "config/IConfiguratorListener.hh"
+#include "config/ConfiguratorFactory.hh"
 
-namespace workrave
-{
-  class CoreFactory
-  {
-  public:
-    //! Returns the interface to the core.
-    static ICore *get_core();
-
-    //! Returns the interface to the core's configurator.
-    static workrave::config::IConfigurator::Ptr get_configurator();
-
-#ifdef HAVE_DBUS
-    //! Returns the interface to the DBUS facility.
-    static workrave::dbus::IDBus::Ptr get_dbus();
-#endif
-  };
-} // namespace workrave
-
-#endif // COREFACTORY_HH
+#endif // WORKRAVE_CONFIG_CONFIGURATOR_HH

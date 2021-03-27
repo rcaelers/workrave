@@ -1,4 +1,4 @@
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,20 +15,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MACOSCONFIGURATOR_HH
-#define MACOSCONFIGURATOR_HH
+#ifndef INICONFIGURATOR_HH
+#define INICONFIGURATOR_HH
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
 
 #include <string>
-#include <list>
-#include <map>
 
 #include "IConfigBackend.hh"
 
-class MacOSConfigurator : public virtual IConfigBackend
+class IniConfigurator : public virtual IConfigBackend
 {
 public:
-  MacOSConfigurator() = default;
-  ~MacOSConfigurator() override = default;
+  IniConfigurator() = default;
+  ~IniConfigurator() override = default;
 
   bool load(std::string filename) override;
   bool save(std::string filename) override;
@@ -37,6 +38,14 @@ public:
   bool remove_key(const std::string &key) override;
   bool get_value(const std::string &key, VariantType type, Variant &value) const override;
   bool set_value(const std::string &key, Variant &value) override;
+
+private:
+  boost::property_tree::ptree::path_type path(const std::string &key) const;
+
+private:
+  boost::property_tree::ptree pt;
+
+  std::string last_filename;
 };
 
-#endif // MACOSCONFIGURATOR_HH
+#endif // INICONFIGURATOR_HH

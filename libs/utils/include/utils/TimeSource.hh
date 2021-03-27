@@ -1,6 +1,6 @@
 // TimeSource.hh --- The Time
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,25 +20,45 @@
 #ifndef WORKRAVE_UTILS_TIMESOURCE_HH
 #define WORKRAVE_UTILS_TIMESOURCE_HH
 
-#if TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  if HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
+#include "ITimeSource.hh"
 
-//! A source of time.
-class TimeSource
+namespace workrave
 {
-public:
-  virtual ~TimeSource() = default;
+  namespace utils
+  {
+    //! A source of time.
+    class TimeSource
+    {
+    public:
+      static const int64_t TIME_USEC_PER_SEC = 1000000;
 
-  //! Returns the time of this source.
-  virtual time_t get_time() const = 0;
-};
+      //! Returns the system wall-clock time.
+      static int64_t get_real_time_usec();
+
+      //! Returns the system monotonic time, if available.
+      static int64_t get_monotonic_time_usec();
+
+      //! Returns the system wall-clock time in seconds.
+      static int64_t get_real_time_sec();
+
+      //! Returns the system monotonic time in seconds, if available.
+      static int64_t get_monotonic_time_sec();
+
+      //! Returns the system wall-clock time synchronized with core in seconds.
+      static int64_t get_real_time_sec_sync();
+
+      //! Returns the system monotonic time synchronized with core in seconds, if available.
+      static int64_t get_monotonic_time_sec_sync();
+
+      //! Synchronize current time.
+      static void sync();
+
+    public:
+      static ITimeSource::Ptr source;
+      static int64_t synced_real_time;
+      static int64_t synced_monotonic_time;
+    };
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_TIMESOURCE_HH
