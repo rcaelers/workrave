@@ -24,17 +24,17 @@ namespace workrave
 {
   namespace config
   {
+    enum class ConfigFileFormat
+    {
+      Ini,
+      Xml,
+      Native
+    };
+
     class ConfiguratorFactory
     {
     public:
-      enum Format
-      {
-        FormatIni,
-        FormatXml,
-        FormatNative
-      };
-
-      static IConfigurator::Ptr create(Format fmt);
+      static IConfigurator::Ptr create(ConfigFileFormat fmt);
     };
   } // namespace config
 } // namespace workrave

@@ -46,12 +46,12 @@ using namespace workrave::config;
 
 //! Creates a configurator of the specified type.
 IConfigurator::Ptr
-ConfiguratorFactory::create(Format fmt)
+ConfiguratorFactory::create(ConfigFileFormat fmt)
 {
   Configurator *c = nullptr;
   IConfigBackend *b = nullptr;
 
-  if (fmt == FormatNative)
+  if (fmt == ConfigFileFormat::Native)
     {
 #if defined(PLATFORM_OS_WINDOWS)
       b = new W32Configurator();
@@ -64,12 +64,12 @@ ConfiguratorFactory::create(Format fmt)
 #endif
     }
 
-  if (fmt == FormatXml)
+  if (fmt == ConfigFileFormat::Xml)
     {
       b = new XmlConfigurator();
     }
 
-  if (fmt == FormatIni)
+  if (fmt == ConfigFileFormat::Ini)
     {
       b = new IniConfigurator();
     }

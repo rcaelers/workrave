@@ -69,8 +69,9 @@ public:
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
   bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
   bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool
-  set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key,
+                 double v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
   bool get_typed_value(const std::string &key, std::string &t) const override;
   bool set_typed_value(const std::string &key, const std::string &t) override;
