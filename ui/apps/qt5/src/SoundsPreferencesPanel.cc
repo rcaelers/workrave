@@ -21,7 +21,7 @@
 
 #include "SoundsPreferencesPanel.hh"
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include <QtGui>
 #include <QStyle>
@@ -162,9 +162,9 @@ SoundsPreferencesPanel::on_select_sound()
   std::string filename = SoundTheme::sound_event(event)();
   if (filename != "")
     {
-      boost::filesystem::path path(filename);
-      boost::filesystem::path dirname = path.parent_path();
-      boost::filesystem::path basename = path.filename();
+      std::filesystem::path path(filename);
+      std::filesystem::path dirname = path.parent_path();
+      std::filesystem::path basename = path.filename();
 
       QFileDialog *fd = new QFileDialog(this);
       fd->setAttribute(Qt::WA_DeleteOnClose, true);

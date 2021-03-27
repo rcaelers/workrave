@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include "debug.hh"
 
@@ -189,8 +189,8 @@ AssetPath::get_search_path(SearchPathId type)
 
   _NSGetExecutablePath(execpath, &pathsz);
 
-  boost::filesystem::path p(execpath);
-  boost::filesystem::path dir = p.parent_path();
+  std::filesystem::path p(execpath);
+  std::filesystem::path dir = p.parent_path();
   string app_dir = dir.string();
 #endif
 
@@ -272,7 +272,7 @@ AssetPath::get_search_path(SearchPathId type)
 string
 AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
 {
-  boost::filesystem::path full_path;
+  std::filesystem::path full_path;
   bool found = false;
 
   const set<string> &search_path = get_search_path(type);
@@ -281,7 +281,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
     {
       full_path = (*i);
       full_path /= path;
-      found = boost::filesystem::is_regular_file(full_path);
+      found = std::filesystem::is_regular_file(full_path);
     }
 
   if (!found)
@@ -302,10 +302,10 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::st
 
   for (auto i = search_path.begin(); !found && i != search_path.end(); ++i)
     {
-      boost::filesystem::path full_path;
+      std::filesystem::path full_path;
       full_path = (*i);
       full_path /= path;
-      found = boost::filesystem::is_regular_file(full_path);
+      found = std::filesystem::is_regular_file(full_path);
       complete_path = full_path.string();
     }
 

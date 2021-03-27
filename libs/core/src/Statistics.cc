@@ -23,7 +23,7 @@
 
 #include "Statistics.hh"
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSHelpers.hh"
@@ -128,9 +128,9 @@ Statistics::delete_all_history()
   update();
 
   string histfile = AssetPath::get_home_directory() + "historystats";
-  boost::filesystem::path histpath(histfile);
+  std::filesystem::path histpath(histfile);
 
-  if (boost::filesystem::is_regular_file(histpath) && std::remove(histfile.c_str()))
+  if (std::filesystem::is_regular_file(histpath) && std::remove(histfile.c_str()))
     {
       return false;
     }
@@ -145,9 +145,9 @@ Statistics::delete_all_history()
     }
 
   string todayfile = AssetPath::get_home_directory() + "todaystats";
-  boost::filesystem::path todaypath(todayfile);
+  std::filesystem::path todaypath(todayfile);
 
-  if (boost::filesystem::is_regular_file(todaypath) && std::remove(todayfile.c_str()))
+  if (std::filesystem::is_regular_file(todaypath) && std::remove(todayfile.c_str()))
     {
       return false;
     }
@@ -205,8 +205,8 @@ Statistics::day_to_history(DailyStatsImpl *stats)
   ss << AssetPath::get_home_directory();
   ss << "historystats" << ends;
 
-  boost::filesystem::path path(ss.str());
-  bool exists = boost::filesystem::is_regular_file(path);
+  std::filesystem::path path(ss.str());
+  bool exists = std::filesystem::is_regular_file(path);
 
   ofstream stats_file(ss.str().c_str(), ios::app);
 

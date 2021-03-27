@@ -25,7 +25,7 @@
 
 #include "debug.hh"
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include "Core.hh"
 
@@ -129,7 +129,7 @@ Core::init_configurator()
 #endif
 
   // LCOV_EXCL_START
-  if (!configurator && boost::filesystem::is_regular_file(ini_file))
+  if (!configurator && std::filesystem::is_regular_file(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
       configurator->load(ini_file);

@@ -24,7 +24,7 @@
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include <iostream>
 #include <fstream>
@@ -124,9 +124,9 @@ public:
   void init_log_file()
   {
     string test_name = boost::unit_test::framework::current_test_case().p_name;
-    boost::filesystem::path result_file_name;
+    std::filesystem::path result_file_name;
     result_file_name /= "results";
-    boost::filesystem::create_directory(result_file_name);
+    std::filesystem::create_directory(result_file_name);
     result_file_name /= test_name + ".txt";
     out.open(result_file_name.string().c_str());
   }

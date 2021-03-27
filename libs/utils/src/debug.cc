@@ -27,7 +27,7 @@
 #  include <chrono>
 
 #  include <thread>
-#  include <boost/filesystem.hpp>
+#  include <filesystem>
 
 #  ifdef PLATFORM_OS_WINDOWS
 #    define WIN32_LEAN_AND_MEAN
@@ -129,8 +129,8 @@ Debug::stream()
           debug_filename = path_buffer;
         }
 
-      boost::filesystem::path dir(debug_filename);
-      boost::filesystem::create_directory(dir);
+      std::filesystem::path dir(debug_filename);
+      std::filesystem::create_directory(dir);
 
 #  elif defined(PLATFORM_OS_MACOS)
       debug_filename = "/tmp/";

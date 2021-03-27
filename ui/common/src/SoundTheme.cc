@@ -23,7 +23,7 @@
 
 #include "commonui/SoundTheme.hh"
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <boost/format.hpp>
@@ -208,8 +208,8 @@ SoundTheme::register_sound_events()
     {
       for (SoundInfo sound: theme->sounds)
         {
-          boost::filesystem::path path(SoundTheme::sound_event(sound.event)());
-          if (!boost::filesystem::is_regular_file(path))
+          std::filesystem::path path(SoundTheme::sound_event(sound.event)());
+          if (!std::filesystem::is_regular_file(path))
             {
               SoundTheme::sound_event(sound.event).set(sound.filename);
             }
@@ -242,17 +242,17 @@ SoundTheme::load_themes()
 
   for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS))
     {
-      boost::filesystem::path dirpath(dirname);
+      std::filesystem::path dirpath(dirname);
 
-      if (!boost::filesystem::is_directory(dirpath))
+      if (!std::filesystem::is_directory(dirpath))
         {
           continue;
         }
 
-      boost::filesystem::directory_iterator dir_end;
-      for (boost::filesystem::directory_iterator it(dirname); it != dir_end; ++it)
+      std::filesystem::directory_iterator dir_end;
+      for (std::filesystem::directory_iterator it(dirname); it != dir_end; ++it)
         {
-          if (boost::filesystem::is_directory(it->status()))
+          if (std::filesystem::is_directory(it->status()))
             {
               ThemeInfo::Ptr theme = load_sound_theme(it->path().string());
               if (theme)
@@ -274,10 +274,10 @@ SoundTheme::load_sound_theme(const string &themedir)
 
   try
     {
-      boost::filesystem::path file = themedir;
+      std::filesystem::path file = themedir;
       file /= "soundtheme";
 
-      boost::filesystem::path path(themedir);
+      std::filesystem::path path(themedir);
 
       boost::property_tree::ptree pt;
       boost::property_tree::ini_parser::read_ini(file.string(), pt);
@@ -291,7 +291,7 @@ SoundTheme::load_sound_theme(const string &themedir)
         {
           auto filename = pt.get<std::string>(snd.id + ".file");
 
-          boost::filesystem::path soundpath(themedir);
+          std::filesystem::path soundpath(themedir);
           soundpath /= filename;
           soundpath = canonical(soundpath);
 
