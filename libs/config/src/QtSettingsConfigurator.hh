@@ -1,5 +1,3 @@
-// QtSettingsConfigurator.hh
-//
 // Copyright (C) 2006, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

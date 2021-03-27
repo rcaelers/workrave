@@ -1,5 +1,3 @@
-// IniConfigurator.cc --- Configuration Access
-//
 // Copyright (C) 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -25,15 +23,12 @@
 #  include "MacOSHelpers.hh"
 #endif
 
-#include "debug.hh"
+#include "IniConfigurator.hh"
 
-#include <cstring>
-#include <sstream>
-#include <cassert>
 #include <iostream>
 #include <fstream>
 
-#include "IniConfigurator.hh"
+#include "debug.hh"
 
 using namespace std;
 
@@ -90,8 +85,6 @@ IniConfigurator::remove_key(const std::string &key)
 
   TRACE_ENTER_MSG("IniConfigurator::remove_key", key);
   boost::property_tree::ptree::path_type inikey = path(key);
-
-  //  pt.erase(inikey);
 
   TRACE_EXIT();
   return ret;

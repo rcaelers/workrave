@@ -28,8 +28,8 @@
 #define ICON_CLASS_NAME "WorkraveIcon"
 
 Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, int size, CDeskBand *deskband)
-  : deskband(deskband),
-    size(size)
+  : deskband(deskband)
+  , size(size)
 {
   init(hinst);
   icon = (HICON)LoadImage(hinst, resource, IMAGE_ICON, size, size, LR_DEFAULTCOLOR);

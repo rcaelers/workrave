@@ -1,5 +1,3 @@
-// ConfiguratorFactory.cc
-//
 // Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers
 // All rights reserved.
 //

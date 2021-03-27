@@ -1,5 +1,3 @@
-// GSettingsConfigurator.cc --- Configuration Access
-//
 // Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -210,7 +208,6 @@ GSettingsConfigurator::add_children()
   TRACE_ENTER("GSettingsConfigurator::add_children");
   int len = schema_base.length();
 
-  // deprecated: const char* const *schemas = g_settings_schema_source_list_schemas();
   gchar **schemas = nullptr;
   g_settings_schema_source_list_schemas(g_settings_schema_source_get_default(), TRUE, &schemas, nullptr);
 

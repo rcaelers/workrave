@@ -43,7 +43,6 @@
 #  include <string.h>
 #endif
 
-#include "WRID.hh"
 
 using namespace workrave;
 

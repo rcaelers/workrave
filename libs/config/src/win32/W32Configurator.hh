@@ -1,5 +1,3 @@
-// W32Configurator.hh
-//
 // Copyright (C) 2002, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
@@ -21,7 +19,6 @@
 #define W32CONFIGURATOR_HH
 
 #include <string>
-#include <list>
 
 #include <windows.h>
 #include "IConfigBackend.hh"

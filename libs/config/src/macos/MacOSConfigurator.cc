@@ -1,5 +1,3 @@
-// MacOSConfigurator.cc --- Configuration Access
-//
 // Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

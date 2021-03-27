@@ -1,5 +1,3 @@
-// Variant.hh
-//
 // Copyright (C) 2001 - 2008, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

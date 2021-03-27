@@ -1,5 +1,3 @@
-// QtSettingsConfigurator.cc
-//
 // Copyright (C) 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.

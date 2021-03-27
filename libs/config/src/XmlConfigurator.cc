@@ -1,5 +1,3 @@
-// XmlConfigurator.cc --- Configuration Access
-//
 // Copyright (C) 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -21,14 +19,15 @@
 #  include "config.h"
 #endif
 
-#include <boost/algorithm/string.hpp>
-#include "debug.hh"
+#include "XmlConfigurator.hh"
 
 #include <cstring>
 #include <iostream>
 #include <fstream>
 
-#include "XmlConfigurator.hh"
+#include <boost/algorithm/string.hpp>
+
+#include "debug.hh"
 
 using namespace std;
 

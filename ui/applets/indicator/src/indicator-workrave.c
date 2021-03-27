@@ -168,8 +168,6 @@ indicator_workrave_init(IndicatorWorkrave *self)
 {
   IndicatorWorkravePrivate *priv = indicator_workrave_get_instance_private(self);
 
-  indicator_workrave_get_instance_private(self);
-
   priv->label = NULL;
   priv->image = NULL;
   priv->menu = NULL;
