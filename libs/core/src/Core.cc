@@ -88,6 +88,8 @@ const int SAVESTATETIME = 60;
 
 using namespace workrave::utils;
 using namespace workrave::config;
+using namespace std;
+
 
 //! Constructs a new Core.
 Core::Core()

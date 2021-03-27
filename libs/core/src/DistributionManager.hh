@@ -22,8 +22,6 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 #include "IDistributionClientMessage.hh"
@@ -60,13 +58,13 @@ public:
   void init(workrave::config::IConfigurator::Ptr conf);
   void heartbeart();
   bool is_master() const override;
-  string get_master_id() const;
-  string get_my_id() const;
+  std::string get_master_id() const;
+  std::string get_my_id() const;
   int get_number_of_peers() override;
   bool claim();
   bool set_lock_master(bool lock);
-  bool connect(string url) override;
-  bool disconnect(string id);
+  bool connect(std::string url) override;
+  bool disconnect(std::string id);
   bool register_client_message(DistributionClientMessageID id,
                                DistributionClientMessageType type,
                                IDistributionClientMessage *callback);
@@ -76,17 +74,17 @@ public:
   bool remove_listener(DistributionListener *listener);
 
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool add_peer(string peer) override;
-  bool remove_peer(string peer) override;
+  bool add_peer(std::string peer) override;
+  bool remove_peer(std::string peer) override;
   bool disconnect_all() override;
   bool reconnect_all() override;
-  void set_peers(string peers, bool connect = true) override;
-  list<string> get_peers() const override;
+  void set_peers(std::string peers, bool connect = true) override;
+  std::list<std::string> get_peers() const override;
 
   // Logging.
   bool add_log_listener(DistributionLogListener *listener) override;
   bool remove_log_listener(DistributionLogListener *listener) override;
-  list<string> get_logs() const override;
+  std::list<std::string> get_logs() const override;
 
   bool get_enabled() const override;
   void set_enabled(bool b) override;
@@ -94,11 +92,11 @@ public:
   bool get_listening() const override;
   void set_listening(bool b) override;
 
-  string get_username() const override;
-  void set_username(string name) override;
+  std::string get_username() const override;
+  void set_username(std::string name) override;
 
-  string get_password() const override;
-  void set_password(string name) override;
+  std::string get_password() const override;
+  void set_password(std::string name) override;
 
   int get_port() const override;
   void set_port(int v) override;
@@ -116,13 +114,13 @@ public:
   void log(const char *fmt, ...);
 
 private:
-  void sanitize_peer(string &peer);
-  void parse_peers(string peers, bool connect = true);
+  void sanitize_peer(std::string &peer);
+  void parse_peers(std::string peers, bool connect = true);
   void write_peers();
   void read_configuration();
-  void config_changed_notify(const string &key) override;
+  void config_changed_notify(const std::string &key) override;
 
-  void fire_log_event(string message);
+  void fire_log_event(std::string message);
   void fire_signon_client(char *id);
   void fire_signoff_client(char *id);
 
@@ -147,10 +145,10 @@ private:
   NodeState state{NODE_ACTIVE};
 
   //! All peers
-  list<string> peer_urls;
+  std::list<std::string> peer_urls;
 
   // ! All log messages
-  list<string> log_messages;
+  std::list<std::string> log_messages;
 
   //! Log listeners.
   LogListeners log_listeners;
@@ -159,7 +157,7 @@ private:
   Listeners listeners;
 
   //! Current master.
-  string current_master;
+  std::string current_master;
 };
 
 #endif // DISTRIBUTIOMANAGER_HH

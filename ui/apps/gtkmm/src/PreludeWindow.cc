@@ -47,6 +47,8 @@
 #  include <gdk/gdkwin32.h>
 #endif
 
+using namespace std;
+
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)

@@ -26,10 +26,10 @@ public:
   virtual ~DistributionListener() = default;
 
   //! A remote client has signed on.
-  virtual void signon_remote_client(string client_id) = 0;
+  virtual void signon_remote_client(std::string client_id) = 0;
 
   //! A remote client has signed off.
-  virtual void signoff_remote_client(string client_id) = 0;
+  virtual void signoff_remote_client(std::string client_id) = 0;
 };
 
 #endif // DISTRIBUTIONLISTENER_HH

@@ -19,7 +19,6 @@
 #define W32CONFIGURATOR_HH
 
 #include <string>
-#include <list>
 
 #include <windows.h>
 #include "IConfigBackend.hh"

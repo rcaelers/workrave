@@ -58,6 +58,8 @@
 #include "GtkUtil.hh"
 #include "Locale.hh"
 
+using namespace std;
+
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false)
 

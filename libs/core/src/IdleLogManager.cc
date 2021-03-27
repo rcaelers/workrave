@@ -45,6 +45,7 @@
 #define IDLELOG_INTERVAL_SIZE (17)
 
 using namespace workrave::utils;
+using namespace std;
 
 //! Constructs a new idlelog manager.
 IdleLogManager::IdleLogManager(string myid)

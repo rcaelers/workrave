@@ -96,7 +96,7 @@ W32DirectSoundPlayer::capability(SoundCapability cap)
 }
 
 void
-W32DirectSoundPlayer::play_sound(string wavfile)
+W32DirectSoundPlayer::play_sound(std::string wavfile)
 {
   TRACE_ENTER_MSG("W32DirectSoundPlayer::play_sound", wavfile);
 
@@ -139,7 +139,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
   return (DWORD)0;
 }
 
-SoundClip::SoundClip(const string &filename, ISoundDriverEvents *events)
+SoundClip::SoundClip(const std::string &filename, ISoundDriverEvents *events)
 {
   TRACE_ENTER("SoundClip::SoundClip");
 
@@ -192,13 +192,13 @@ SoundClip::init()
   hr = DirectSoundCreate8(NULL, &direct_sound, NULL);
   if (FAILED(hr) || direct_sound == NULL)
     {
-      throw Exception(string("DirectSoundCreate8") + DXGetErrorString8(hr));
+      throw Exception(std::string("DirectSoundCreate8") + DXGetErrorString8(hr));
     }
 
   hr = direct_sound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY);
   if (FAILED(hr))
     {
-      throw Exception(string("IDirectSound_SetCooperativeLevel") + DXGetErrorString8(hr));
+      throw Exception(std::string("IDirectSound_SetCooperativeLevel") + DXGetErrorString8(hr));
     }
 
   wave_file = new WaveFile(filename);
@@ -208,7 +208,7 @@ SoundClip::init()
   if (sound_buffer_size <= 0)
     {
       TRACE_RETURN("Exception: WAV has zero size");
-      throw Exception(string("WAV has zero size"));
+      throw Exception(std::string("WAV has zero size"));
     }
 
   DSBUFFERDESC dsbd;
@@ -223,7 +223,7 @@ SoundClip::init()
   if (FAILED(hr) || sound_buffer == NULL)
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_CreateSoundBuffer");
-      throw Exception(string("IDirectSoundBuffer_CreateSoundBuffer") + DXGetErrorString8(hr));
+      throw Exception(std::string("IDirectSoundBuffer_CreateSoundBuffer") + DXGetErrorString8(hr));
     }
 
   LPDIRECTSOUNDNOTIFY notify;
@@ -231,7 +231,7 @@ SoundClip::init()
   if (FAILED(hr) || notify == NULL)
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_QueryInterface IDirectSoundNotify" << DXGetErrorString8(hr));
-      throw Exception(string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify") + DXGetErrorString8(hr));
+      throw Exception(std::string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify") + DXGetErrorString8(hr));
     }
 
   stop_event = CreateEvent(0, false, false, 0);
@@ -244,7 +244,7 @@ SoundClip::init()
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSoundNotify_SetPositionNotify" << DXGetErrorString8(hr));
-      throw Exception(string("IDirectSoundNotify_SetPositionNotify") + DXGetErrorString8(hr));
+      throw Exception(std::string("IDirectSoundNotify_SetPositionNotify") + DXGetErrorString8(hr));
     }
   notify->Release();
 
@@ -272,7 +272,7 @@ SoundClip::fill_buffer()
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_Lock");
-      throw Exception(string("IDirectSoundBuffer_Lock") + DXGetErrorString8(hr));
+      throw Exception(std::string("IDirectSoundBuffer_Lock") + DXGetErrorString8(hr));
     }
 
   wave_file->reset_file();
@@ -302,7 +302,7 @@ SoundClip::is_buffer_lost()
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSound_GetStatus");
-      throw Exception(string("IDirectSound_GetStatus") + DXGetErrorString8(hr));
+      throw Exception(std::string("IDirectSound_GetStatus") + DXGetErrorString8(hr));
     }
 
   TRACE_EXIT();
@@ -369,7 +369,7 @@ SoundClip::set_volume(int volume)
   TRACE_EXIT();
 }
 
-WaveFile::WaveFile(const string &filename)
+WaveFile::WaveFile(const std::string &filename)
   : filename(filename)
 {
   TRACE_ENTER("WaveFile::WaveFile");

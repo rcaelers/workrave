@@ -51,6 +51,8 @@ const int STATSVERSION = 4;
 
 #define MAX_JUMP (10000)
 
+using namespace std;
+
 Statistics::~Statistics()
 {
   update();

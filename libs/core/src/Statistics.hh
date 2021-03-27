@@ -41,16 +41,13 @@ class PacketBuffer;
 class Core;
 class IInputMonitor;
 
-using namespace workrave;
-using namespace std;
-
 #ifdef HAVE_DISTRIBUTION
 #  include "IDistributionClientMessage.hh"
 #  include "PacketBuffer.hh"
 #endif
 
 class Statistics
-  : public IStatistics
+  : public workrave::IStatistics
   , public IInputMonitorListener
 #ifdef HAVE_DISTRIBUTION
   , public IDistributionClientMessage
@@ -78,7 +75,7 @@ private:
       memset((void *)&start, 0, sizeof(start));
       memset((void *)&stop, 0, sizeof(stop));
 
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
         {
           for (int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
             {
@@ -117,9 +114,9 @@ public:
   void dump() override;
   void start_new_day();
 
-  void increment_break_counter(BreakId, StatsBreakValueType st);
-  void set_break_counter(BreakId bt, StatsBreakValueType st, int value);
-  void add_break_counter(BreakId bt, StatsBreakValueType st, int value);
+  void increment_break_counter(workrave::BreakId, StatsBreakValueType st);
+  void set_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
+  void add_break_counter(workrave::BreakId bt, StatsBreakValueType st, int value);
 
   DailyStatsImpl *get_current_day() const override;
   DailyStatsImpl *get_day(int day) const override;

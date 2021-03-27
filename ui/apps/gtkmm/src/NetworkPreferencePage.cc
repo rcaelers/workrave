@@ -53,6 +53,8 @@
 #  include "config/IConfigurator.hh"
 #  include "core/IDistributionManager.hh"
 
+using namespace std;
+
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::VBox(false, 6)
 {

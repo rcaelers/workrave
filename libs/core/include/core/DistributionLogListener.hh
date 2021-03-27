@@ -25,7 +25,7 @@ namespace workrave
     virtual ~DistributionLogListener() = default;
 
     //! Notification that a new log message has arrived.
-    virtual void distribution_log(string msg) = 0;
+    virtual void distribution_log(std::string msg) = 0;
   };
 } // namespace workrave
 

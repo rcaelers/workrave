@@ -61,6 +61,8 @@
 #  include "NetworkPreferencePage.hh"
 #endif
 
+using namespace std;
+
 #ifndef WR_CHECK_VERSION
 #  define WR_CHECK_VERSION(comp, major, minor, micro)                                                      \
     (comp##_MAJOR_VERSION > (major) || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) \

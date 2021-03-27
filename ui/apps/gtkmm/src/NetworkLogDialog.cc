@@ -45,6 +45,8 @@
 #  include "core/IDistributionManager.hh"
 #  include "utils/Util.hh"
 
+using namespace std;
+
 NetworkLogDialog::NetworkLogDialog()
 #  ifdef HAVE_GTK3
   : Gtk::Dialog(_("Network log"), false)

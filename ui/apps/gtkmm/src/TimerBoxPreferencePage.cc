@@ -40,6 +40,8 @@
 #include "commonui/GUIConfig.hh"
 #include "commonui/TimerBoxControl.hh"
 
+using namespace std;
+
 //! Constructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   : Gtk::HBox(false, 6)

@@ -31,8 +31,6 @@ class TimeEntry;
 #include <gtkmm/dialog.h>
 #include <gtkmm/textbuffer.h>
 
-using namespace std;
-
 namespace Gtk
 {
   class TextView;
@@ -54,7 +52,7 @@ public:
 
 private:
   void init();
-  void distribution_log(string msg) override;
+  void distribution_log(std::string msg) override;
   void on_response(int response) override;
 
   Gtk::TextView *text_view{nullptr};

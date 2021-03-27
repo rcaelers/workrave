@@ -39,8 +39,6 @@
 #include <list>
 #include <map>
 
-using namespace std;
-
 #include "ActivityMonitor.hh"
 
 class PacketBuffer;
@@ -76,7 +74,7 @@ private:
     bool to_be_saved{false};
   };
 
-  typedef list<IdleInterval> IdleLog;
+  typedef std::list<IdleInterval> IdleLog;
   typedef IdleLog::iterator IdleLogIter;
   typedef IdleLog::reverse_iterator IdleLogRIter;
 
@@ -86,7 +84,7 @@ private:
     ClientInfo() = default;
 
     //! ID
-    string client_id;
+    std::string client_id;
 
     //! List of idle period of this client.
     IdleLog idlelog;
@@ -126,12 +124,12 @@ private:
     }
   };
 
-  typedef map<string, ClientInfo> ClientMap;
+  typedef std::map<std::string, ClientInfo> ClientMap;
   typedef ClientMap::iterator ClientMapIter;
 
 private:
   // My ID
-  string myid;
+  std::string myid;
 
   //! Info about all clients.
   ClientMap clients;
@@ -140,15 +138,15 @@ private:
   time_t last_expiration_time{0};
 
 public:
-  IdleLogManager(string myid);
+  IdleLogManager(std::string myid);
 
-  void update_all_idlelogs(string master_id, ActivityState state);
+  void update_all_idlelogs(std::string master_id, ActivityState state);
   void reset();
   void init();
   void terminate();
 
-  void signon_remote_client(string client_id);
-  void signoff_remote_client(string client_id);
+  void signon_remote_client(std::string client_id);
+  void signoff_remote_client(std::string client_id);
 
   void get_idlelog(PacketBuffer &buffer);
   void set_idlelog(PacketBuffer &buffer);
