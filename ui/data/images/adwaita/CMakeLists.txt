@@ -1,0 +1,6 @@
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/scalable/
+  DESTINATION ${DATADIR}/images
+  FILES_MATCHING
+  PATTERN "*.svg"
+  )
