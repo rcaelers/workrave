@@ -117,7 +117,7 @@ libs/config/src/ConfiguratorFactory.cc
 libs/config/src/GSettingsConfigurator.cc
 libs/config/src/XmlConfigurator.cc
 libs/config/src/win32/W32Configurator.cc
-libs/config/src/GlibIniConfigurator.cc
+libs/config/src/IniConfigurator.cc
 libs/dbus/test/DBusTestServerQt.cc
 libs/dbus/test/DBusTestData.cc
 libs/dbus/test/DBusTestServerGio.cc
