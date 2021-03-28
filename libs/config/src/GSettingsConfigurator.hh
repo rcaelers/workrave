@@ -54,8 +54,6 @@ private:
   std::string path_base;
 
   using SettingsMap = std::map<std::string, GSettings *>;
-  // using SettingsIter = SettingsMap::iterator;
-  // using SettingsCIter = SettingsMap::const_iterator;
 
   //!
   SettingsMap settings;

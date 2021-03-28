@@ -3,8 +3,7 @@ add_library(workrave-libs-config STATIC
   ConfiguratorFactory.cc
   IniConfigurator.cc
   XmlConfigurator.cc
-  SettingCache.cc
-  )
+  SettingCache.cc)
 
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-config PRIVATE win32/W32Configurator.cc)

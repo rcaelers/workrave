@@ -81,8 +81,6 @@ public:
 
 private:
   using Listeners = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
-  // using ListenerIter = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>::iterator;
-  // using ListenerCIter = std::list<std::pair<std::string, IConfiguratorListener *>>::const_iterator;
 
   //! Configuration change listeners.
   Listeners listeners;
@@ -102,12 +100,7 @@ private:
   };
 
   using DelayedList = std::map<std::string, DelayedConfig>;
-  // using DelayedListIter = DelayedList::iterator;
-  // using DelayedListCIter = DelayedList::const_iterator;
-
   using Settings = std::map<std::string, Setting>;
-  // using SettingIter = std::map<std::string, Setting>::iterator;
-  // using SettingCIter = std::map<std::string, Setting>::const_iterator;
 
 private:
   bool find_setting(const std::string &name, Setting &setting) const;

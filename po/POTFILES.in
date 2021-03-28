@@ -114,9 +114,8 @@ libs/core/src/LocalActivityMonitor.cc
 libs/config/src/Configurator.cc
 libs/config/src/macos/MacOSConfigurator.cc
 libs/config/src/ConfiguratorFactory.cc
-libs/config/src/unix/GConfConfigurator.cc
 libs/config/src/GSettingsConfigurator.cc
-libs/config/src/XMLConfigurator.cc
+libs/config/src/XmlConfigurator.cc
 libs/config/src/win32/W32Configurator.cc
 libs/config/src/GlibIniConfigurator.cc
 libs/dbus/test/DBusTestServerQt.cc
