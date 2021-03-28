@@ -1,6 +1,6 @@
 // W32InputMonitor.hh --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2004, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,28 +20,20 @@
 #ifndef W32INPUTMONITOR_HH
 #define W32INPUTMONITOR_HH
 
-#if TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  if HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
-
 #include <windows.h>
 #include "InputMonitor.hh"
+#include "config/IConfigurator.hh"
 
 typedef union HarpoonEventUnion HarpoonEvent;
+
+using namespace workrave::config;
 
 //! Activity monitor for a local X server.
 class W32InputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
-  W32InputMonitor();
+  W32InputMonitor(workrave::config::IConfigurator::Ptr config);
 
   //! Destructor.
   virtual ~W32InputMonitor();
@@ -52,6 +44,8 @@ public:
 private:
   static W32InputMonitor *singleton;
   static void on_harpoon_event(HarpoonEvent *event);
+
+  workrave::config::IConfigurator::Ptr config;
 };
 
 #endif // W32INPUTMONITOR_HH

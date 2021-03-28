@@ -21,18 +21,13 @@
 
 #include "MutterInputMonitor.hh"
 
+#include <memory>
+#include <chrono>
+
 #include "debug.hh"
-#include "input-monitor/IInputMonitorListener.hh"
 #include "utils/Diagnostics.hh"
 
 using namespace std;
-
-MutterInputMonitor::MutterInputMonitor()
-{
-  monitor_thread = new Thread(this);
-  g_mutex_init(&mutex);
-  g_cond_init(&cond);
-}
 
 MutterInputMonitor::~MutterInputMonitor()
 {
@@ -49,14 +44,10 @@ MutterInputMonitor::~MutterInputMonitor()
       g_object_unref(session_proxy);
     }
 
-  if (monitor_thread != nullptr)
+  if (monitor_thread)
     {
-      monitor_thread->wait();
-      delete monitor_thread;
+      monitor_thread->join();
     }
-
-  g_mutex_clear(&mutex);
-  g_cond_clear(&cond);
 }
 
 bool
@@ -107,7 +98,7 @@ MutterInputMonitor::init_idle_monitor()
 
       if (result)
         {
-          monitor_thread->start();
+          monitor_thread = std::make_shared<std::thread>([this] { run(); });
         }
     }
   else
@@ -222,7 +213,7 @@ MutterInputMonitor::on_register_active_watch_reply(GObject *object, GAsyncResult
   TRACE_ENTER("MutterInputMonitor::on_register_active_watch_reply");
   GError *error = nullptr;
   GDBusProxy *proxy = G_DBUS_PROXY(object);
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   GVariant *params = g_dbus_proxy_call_finish(proxy, res, &error);
   if (error)
@@ -246,7 +237,7 @@ MutterInputMonitor::unregister_active_watch()
   if (watch_active != 0u)
     {
       GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
+        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
       if (error == nullptr)
         {
           g_variant_unref(result);
@@ -273,7 +264,7 @@ MutterInputMonitor::unregister_active_watch_async()
                         g_variant_new("(u)", watch_active),
                         G_DBUS_CALL_FLAGS_NONE,
                         10000,
-                        NULL,
+                        nullptr,
                         on_unregister_active_watch_reply,
                         this);
     }
@@ -286,7 +277,7 @@ MutterInputMonitor::on_unregister_active_watch_reply(GObject *object, GAsyncResu
   TRACE_ENTER("MutterInputMonitor::on_unregister_active_watch_reply");
   GError *error = nullptr;
   GDBusProxy *proxy = G_DBUS_PROXY(object);
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   g_dbus_proxy_call_finish(proxy, res, &error);
   if (error)
@@ -331,7 +322,7 @@ MutterInputMonitor::unregister_idle_watch()
   if (watch_idle != 0u)
     {
       GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_idle), G_DBUS_CALL_FLAGS_NONE, 10000, NULL, &error);
+        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_idle), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
       if (error == nullptr)
         {
           g_variant_unref(result);
@@ -353,13 +344,12 @@ MutterInputMonitor::terminate()
   unregister_idle_watch();
   unregister_active_watch();
 
-  g_mutex_lock(&mutex);
+  mutex.lock();
   abort = true;
-  g_cond_broadcast(&cond);
-  g_mutex_unlock(&mutex);
+  cond.notify_all();
+  mutex.unlock();
 
-  monitor_thread->wait();
-  monitor_thread = nullptr;
+  monitor_thread->join();
 }
 
 void
@@ -372,7 +362,7 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy,
   (void)proxy;
   (void)sender_name;
 
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   if (g_strcmp0(signal_name, "WatchFired") == 0)
     {
@@ -409,7 +399,7 @@ MutterInputMonitor::on_session_manager_property_changed(GDBusProxy *session,
   (void)session;
   (void)invalidated;
 
-  MutterInputMonitor *self = (MutterInputMonitor *)user_data;
+  auto *self = (MutterInputMonitor *)user_data;
 
   GVariant *v = g_variant_lookup_value(changed, "InhibitedActions", G_VARIANT_TYPE_UINT32);
   if (v != nullptr)
@@ -427,42 +417,42 @@ MutterInputMonitor::run()
 {
   TRACE_ENTER("MutterInputMonitor::run");
 
-  g_mutex_lock(&mutex);
-  while (!abort)
-    {
-      bool local_active = active;
+  {
+    std::unique_lock lock(mutex);
+    while (!abort)
+      {
+        bool local_active = active;
 
-      if (inhibited)
-        {
-          GError *error = nullptr;
-          guint64 idletime;
-          GVariant *reply =
-            g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
-          if (error == nullptr)
-            {
+        if (inhibited)
+          {
+            GError *error = nullptr;
+            guint64 idletime;
+            GVariant *reply =
+              g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+            if (error == nullptr)
+              {
 
-              g_variant_get(reply, "(t)", &idletime);
-              g_variant_unref(reply);
-              Diagnostics::instance().log("mutter: " + std::to_string(idletime));
-              local_active = idletime < 1000;
-            }
-          else
-            {
-              TRACE_MSG("Error: " << error->message);
-              g_error_free(error);
-            }
-        }
+                g_variant_get(reply, "(t)", &idletime);
+                g_variant_unref(reply);
+                Diagnostics::instance().log("mutter: " + std::to_string(idletime));
+                local_active = idletime < 1000;
+              }
+            else
+              {
+                TRACE_MSG("Error: " << error->message);
+                g_error_free(error);
+              }
+          }
 
-      if (local_active)
-        {
-          /* Notify the activity monitor */
-          fire_action();
-        }
+        if (local_active)
+          {
+            /* Notify the activity monitor */
+            fire_action();
+          }
 
-      gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
-      g_cond_wait_until(&cond, &mutex, end_time);
-    }
-  g_mutex_unlock(&mutex);
+        cond.wait_for(lock, std::chrono::milliseconds(1000));
+      }
+  }
 
   TRACE_EXIT();
 }

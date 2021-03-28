@@ -1,6 +1,4 @@
-// XScreenSaverMonitor.cc --- ActivityMonitor for X11
-//
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,53 +21,56 @@
 
 #include "debug.hh"
 
-#include <gdk/gdkx.h>
+#ifdef HAVE_GTK
+#  include <gdk/gdkx.h>
+#endif
+
+#include <memory>
+#include <chrono>
 
 #include "XScreenSaverMonitor.hh"
 
 #include "input-monitor/IInputMonitorListener.hh"
-
-#include "utils/Thread.hh"
+#include "utils/Platform.hh"
 
 using namespace std;
-
-XScreenSaverMonitor::XScreenSaverMonitor()
-
-{
-  monitor_thread = new Thread(this);
-  g_mutex_init(&mutex);
-  g_cond_init(&cond);
-}
+using namespace workrave::utils;
 
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
   TRACE_ENTER("XScreenSaverMonitor::~XScreenSaverMonitor");
-  if (monitor_thread != nullptr)
+  if (monitor_thread)
     {
-      monitor_thread->wait();
-      delete monitor_thread;
+      monitor_thread->join();
     }
-
-  g_mutex_clear(&mutex);
-  g_cond_clear(&cond);
   TRACE_EXIT();
 }
 
 bool
 XScreenSaverMonitor::init()
 {
+  TRACE_ENTER("XScreenSaverMonitor::init");
   int event_base;
   int error_base;
 
-  Bool has_extension =
-    XScreenSaverQueryExtension(gdk_x11_display_get_xdisplay(gdk_display_get_default()), &event_base, &error_base);
+  xdisplay = static_cast<Display *>(Platform::get_default_display());
+  root = reinterpret_cast<Drawable>(Platform::get_default_root_window());
+
+  Bool has_extension = False;
+  if (xdisplay != nullptr)
+    {
+      TRACE_MSG("xdisplay ok");
+      has_extension = XScreenSaverQueryExtension(xdisplay, &event_base, &error_base);
+    }
 
   if (has_extension)
     {
+
       screen_saver_info = XScreenSaverAllocInfo();
-      monitor_thread->start();
+      monitor_thread = std::make_shared<std::thread>([this] { run(); });
     }
 
+  TRACE_RETURN(has_extension);
   return has_extension;
 }
 
@@ -78,13 +79,12 @@ XScreenSaverMonitor::terminate()
 {
   TRACE_ENTER("XScreenSaverMonitor::terminate");
 
-  g_mutex_lock(&mutex);
+  mutex.lock();
   abort = true;
-  g_cond_broadcast(&cond);
-  g_mutex_unlock(&mutex);
+  cond.notify_all();
+  mutex.unlock();
 
-  monitor_thread->wait();
-  monitor_thread = nullptr;
+  monitor_thread->join();
 
   TRACE_EXIT();
 }
@@ -94,26 +94,22 @@ XScreenSaverMonitor::run()
 {
   TRACE_ENTER("XScreenSaverMonitor::run");
 
-  g_mutex_lock(&mutex);
-  while (!abort)
-    {
-      XScreenSaverQueryInfo(
-        gdk_x11_display_get_xdisplay(gdk_display_get_default()), gdk_x11_get_default_root_xwindow(), screen_saver_info);
+  {
+    std::unique_lock lock(mutex);
+    while (!abort)
+      {
+        XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
 
-      if (screen_saver_info->idle < 1000)
-        {
-          /* Notify the activity monitor */
-          fire_action();
-        }
+        if (screen_saver_info->idle < 1000)
+          {
+            TRACE_MSG("action");
+            /* Notify the activity monitor */
+            fire_action();
+          }
 
-#if GLIB_CHECK_VERSION(2, 32, 0)
-      gint64 end_time = g_get_monotonic_time() + G_TIME_SPAN_SECOND;
-      g_cond_wait_until(&cond, &mutex, end_time);
-#else
-      g_usleep(500000);
-#endif
-    }
-  g_mutex_unlock(&mutex);
+        cond.wait_for(lock, std::chrono::milliseconds(1000));
+      }
+  }
 
   TRACE_EXIT();
 }

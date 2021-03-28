@@ -1,6 +1,4 @@
-// InputMonitor.cc
-//
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,36 +19,54 @@
 #  include "config.h"
 #endif
 
-#include <cassert>
-
 #include "InputMonitor.hh"
 
+using namespace workrave::input_monitor;
+
 void
-InputMonitor::subscribe_activity(IInputMonitorListener *listener)
+InputMonitor::subscribe(IInputMonitorListener *listener)
 {
-  assert(activity_listener == nullptr);
-  activity_listener = listener;
+  listeners.push_back(listener);
 }
 
 void
-InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
+InputMonitor::unsubscribe(IInputMonitorListener *listener)
 {
-  assert(statistics_listener == nullptr);
-  statistics_listener = listener;
+  listeners.remove(listener);
 }
 
 void
-InputMonitor::unsubscribe_activity(IInputMonitorListener *listener)
+InputMonitor::fire_action()
 {
-  (void)listener;
-  assert(activity_listener != nullptr);
-  activity_listener = nullptr;
+  for (auto &l: listeners)
+    {
+      l->action_notify();
+    }
 }
 
 void
-InputMonitor::unsubscribe_statistics(IInputMonitorListener *listener)
+InputMonitor::fire_mouse(int x, int y, int wheel)
 {
-  (void)listener;
-  assert(statistics_listener != nullptr);
-  statistics_listener = nullptr;
+  for (auto &l: listeners)
+    {
+      l->mouse_notify(x, y, wheel);
+    }
+}
+
+void
+InputMonitor::fire_button(bool is_press)
+{
+  for (auto &l: listeners)
+    {
+      l->button_notify(is_press);
+    }
+}
+
+void
+InputMonitor::fire_keyboard(bool repeat)
+{
+  for (auto &l: listeners)
+    {
+      l->keyboard_notify(repeat);
+    }
 }

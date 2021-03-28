@@ -1,6 +1,6 @@
 // W32InputMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010, 2012, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,11 +29,6 @@
 #include "debug.hh"
 #include "W32InputMonitor.hh"
 
-#include "core/ICore.hh"
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-
-#include "utils/timeutil.h"
 #include "input-monitor/Harpoon.hh"
 
 #ifndef HAVE_STRUCT_MOUSEHOOKSTRUCT
@@ -56,7 +51,10 @@ typedef struct
 
 W32InputMonitor *W32InputMonitor::singleton = NULL;
 
-W32InputMonitor::W32InputMonitor() {}
+W32InputMonitor::W32InputMonitor(IConfigurator::Ptr config)
+  : config(config)
+{
+}
 
 W32InputMonitor::~W32InputMonitor()
 {
@@ -69,7 +67,7 @@ W32InputMonitor::init()
   if (singleton == NULL)
     {
       singleton = this;
-      return Harpoon::init(on_harpoon_event);
+      return Harpoon::init(config, on_harpoon_event);
     }
   else
     {

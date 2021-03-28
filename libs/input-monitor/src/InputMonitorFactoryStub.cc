@@ -1,3 +1,5 @@
+// InputMonitorFactory.cc
+//
 // Copyright (C) 2003, 2004, 2005, 2007, 2012, 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
@@ -17,49 +19,37 @@
 #endif
 
 #include "input-monitor/InputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
-#  include "W32InputMonitorFactory.hh"
-#endif
-#ifdef PLATFORM_OS_MACOS
-#  include "MacOSInputMonitorFactory.hh"
-#endif
-#ifdef PLATFORM_OS_UNIX
-#  include "UnixInputMonitorFactory.hh"
-#endif
+#include "config/IConfigurator.hh"
 
-using namespace workrave::config;
 using namespace workrave::input_monitor;
+using namespace workrave::config;
 
-workrave::input_monitor::IInputMonitorFactory *workrave::input_monitor::InputMonitorFactory::factory = nullptr;
+class InputMonitorStub : public IInputMonitor
+{
+public:
+  ~InputMonitorStub() override = default;
+
+  bool init() override { return true; }
+
+  void terminate() override {}
+
+  void subscribe(IInputMonitorListener *listener) override { (void)listener; }
+
+  void unsubscribe(IInputMonitorListener *listener) override { (void)listener; }
+};
 
 void
 InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
 {
-  if (factory == nullptr)
-    {
-#if defined(PLATFORM_OS_WINDOWS)
-      factory = new W32InputMonitorFactory(config);
-#elif defined(PLATFORM_OS_MACOS)
-      factory = new MacOSInputMonitorFactory(config);
-#elif defined(PLATFORM_OS_UNIX)
-      factory = new UnixInputMonitorFactory(config);
-#endif
-    }
-
-  if (factory != nullptr)
-    {
-      factory->init(display);
-    }
+  (void)config;
+  (void)display;
 }
 
 IInputMonitor::Ptr
 InputMonitorFactory::create_monitor(MonitorCapability capability)
 {
-  if (factory != nullptr)
-    {
-      return factory->create_monitor(capability);
-    }
-
-  return IInputMonitor::Ptr();
+  (void)capability;
+  return IInputMonitor::Ptr(new InputMonitorStub());
 }

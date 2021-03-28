@@ -66,7 +66,7 @@ Statistics::~Statistics()
 
   if (input_monitor != nullptr)
     {
-      input_monitor->unsubscribe_statistics(this);
+      input_monitor->unsubscribe(this);
     }
 }
 
@@ -76,10 +76,10 @@ Statistics::init(Core *control)
 {
   core = control;
 
-  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
+  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Statistics);
   if (input_monitor != nullptr)
     {
-      input_monitor->subscribe_statistics(this);
+      input_monitor->subscribe(this);
     }
 
 #ifdef HAVE_DISTRIBUTION

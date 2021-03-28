@@ -1,6 +1,4 @@
-// UnixInputMonitorFactory.cc -- Factory to create input monitors
-//
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,13 +22,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <boost/algorithm/string.hpp>
 
 #include "debug.hh"
 
-#include "core/ICore.hh"
-#include "core/CoreFactory.hh"
 #include "config/IConfigurator.hh"
-#include "utils/StringUtil.hh"
 
 #include "UnixInputMonitorFactory.hh"
 #include "RecordInputMonitor.hh"
@@ -40,10 +36,15 @@
 
 using namespace std;
 using namespace workrave;
+using namespace workrave::config;
+using namespace workrave::input_monitor;
 
-UnixInputMonitorFactory::UnixInputMonitorFactory()
+UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
   : actual_monitor_method{"monitor.method", ""}
+  , error_reported(false)
+  , config(config)
 {
+  monitor = nullptr;
 }
 
 void
@@ -53,10 +54,10 @@ UnixInputMonitorFactory::init(const char *display)
 }
 
 //! Retrieves the input activity monitor
-IInputMonitor *
-UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+IInputMonitor::Ptr
+UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
 {
-  TRACE_ENTER("UnixInputMonitorFactory::get_monitor");
+  TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
   (void)capability;
 
   if (monitor == nullptr)
@@ -65,13 +66,13 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
       string configure_monitor_method;
 
       vector<string> available_monitors;
-      StringUtil::split(HAVE_MONITORS, ',', available_monitors);
+      boost::split(available_monitors, HAVE_MONITORS, boost::is_any_of(","));
 
       TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
 
-      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
+      config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
-      vector<string>::const_iterator start = available_monitors.end();
+      auto start = available_monitors.end();
 
       if (configure_monitor_method != "default")
         {
@@ -85,28 +86,27 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           TRACE_MSG("Start first available");
         }
 
-      vector<string>::const_iterator loop = start;
-      string monitor_method;
-      while (1)
+      auto loop = start;
+      while (true)
         {
-          monitor_method = *loop;
-          TRACE_MSG("Test " << monitor_method);
+          actual_monitor_method = *loop;
+          TRACE_MSG("Test " << actual_monitor_method);
 
-          if (monitor_method == "record")
+          if (actual_monitor_method == "record")
             {
-              monitor = new RecordInputMonitor(display);
+              monitor = IInputMonitor::Ptr(new RecordInputMonitor(display));
             }
-          else if (monitor_method == "screensaver")
+          else if (actual_monitor_method == "screensaver")
             {
-              monitor = new XScreenSaverMonitor();
+              monitor = IInputMonitor::Ptr(new XScreenSaverMonitor());
             }
-          else if (monitor_method == "x11events")
+          else if (actual_monitor_method == "x11events")
             {
-              monitor = new X11InputMonitor(display);
+              monitor = IInputMonitor::Ptr(new X11InputMonitor(display));
             }
-          else if (monitor_method == "mutter")
+          else if (actual_monitor_method == "mutter")
             {
-              monitor = new MutterInputMonitor();
+              monitor = IInputMonitor::Ptr(new MutterInputMonitor());
             }
 
           initialized = monitor->init();
@@ -117,8 +117,7 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
               break;
             }
 
-          delete monitor;
-          monitor = nullptr;
+          monitor.reset();
 
           loop++;
           if (loop == available_monitors.end())
@@ -139,39 +138,38 @@ UnixInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability cap
           if (!error_reported)
             {
               error_reported = true;
-              g_idle_add(static_report_failure, nullptr);
+              // TODO: report failure.
+              // g_idle_add(static_report_failure, NULL);
             }
 
-          CoreFactory::get_configurator()->set_value("advanced/monitor", "default");
-          CoreFactory::get_configurator()->save();
+          config->set_value("advanced/monitor", "default");
+          config->save();
 
-          monitor_method = "";
+          actual_monitor_method = "";
         }
       else
         {
           if (configure_monitor_method != "default")
             {
-              CoreFactory::get_configurator()->set_value("advanced/monitor", actual_monitor_method);
-              CoreFactory::get_configurator()->save();
+              config->set_value("advanced/monitor", actual_monitor_method);
+              config->save();
             }
 
-          TRACE_MSG("using " << monitor_method);
+          TRACE_MSG("using " << actual_monitor_method);
         }
-
-      actual_monitor_method = monitor_method;
     }
 
   TRACE_EXIT();
   return monitor;
 }
 
-gboolean
-UnixInputMonitorFactory::static_report_failure(void *data)
-{
-  (void)data;
+// gboolean
+// UnixInputMonitorFactory::static_report_failure(void *data)
+// {
+//   (void)data;
 
-  ICore *core = CoreFactory::get_core();
-  core->post_event(CORE_EVENT_MONITOR_FAILURE);
+//   ICore *core = CoreFactory::get_core();
+//   core->post_event(CORE_EVENT_MONITOR_FAILURE);
 
-  return FALSE;
-}
+//   return FALSE;
+// }

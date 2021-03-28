@@ -1,6 +1,4 @@
-// MacOSInputMonitorFactory.hh --- Factory to create input monitors.
-//
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +15,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MacOSINPUTMONITORFACTORY_HH
-#define MacOSINPUTMONITORFACTORY_HH
-
-#include <stdlib.h>
-#include <string>
+#ifndef MACOSINPUTMONITORFACTORY_HH
+#define MACOSINPUTMONITORFACTORY_HH
 
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorFactory.hh"
+#include "config/IConfigurator.hh"
 
-//! Factory to create input monitors.
-class MacOSInputMonitorFactory : public IInputMonitorFactory
+class MacOSInputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
 {
 public:
-  MacOSInputMonitorFactory();
-  void init(const char *display);
-  IInputMonitor *get_monitor(MonitorCapability capability);
+  explicit MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
+
+  void init(const char *display) override;
+  workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability) override;
 
 private:
-  IInputMonitor *monitor;
+  workrave::input_monitor::IInputMonitor::Ptr monitor;
 };
 
 #endif // INPUTMONITORFACTORY_HH

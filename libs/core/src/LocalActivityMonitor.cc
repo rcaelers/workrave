@@ -58,7 +58,7 @@ ActivityMonitor::ActivityMonitor()
   activity_threshold = 2 * G_USEC_PER_SEC;
   idle_threshold = 5 * G_USEC_PER_SEC;
 
-  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
+  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe_activity(this);

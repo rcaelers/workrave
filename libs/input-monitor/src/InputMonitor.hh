@@ -1,6 +1,6 @@
 // InputMonitor.hh ---  Base class of an activity monitor
 //
-// Copyright (C) 2007, 2008, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,24 +20,17 @@
 #ifndef INPUTMONITOR_HH
 #define INPUTMONITOR_HH
 
+#include <list>
+
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include <cstdlib>
-
-// Forward declarion of internal interfaces.
-class IInputMonitorListener;
 
 //!  Base for activity monitors.
-class InputMonitor : public IInputMonitor
+class InputMonitor : public workrave::input_monitor::IInputMonitor
 {
 public:
-  InputMonitor() = default;
-  ~InputMonitor() override = default;
-
-  void subscribe_activity(IInputMonitorListener *listener) override;
-  void subscribe_statistics(IInputMonitorListener *listener) override;
-  void unsubscribe_activity(IInputMonitorListener *listener) override;
-  void unsubscribe_statistics(IInputMonitorListener *listener) override;
+  void subscribe(workrave::input_monitor::IInputMonitorListener *listener) override;
+  void unsubscribe(workrave::input_monitor::IInputMonitorListener *listener) override;
 
 protected:
   void fire_action();
@@ -46,13 +39,7 @@ protected:
   void fire_keyboard(bool repeat);
 
 private:
-  //!
-  IInputMonitorListener *activity_listener{nullptr};
-
-  //!
-  IInputMonitorListener *statistics_listener{nullptr};
+  std::list<workrave::input_monitor::IInputMonitorListener *> listeners;
 };
-
-#include "InputMonitor.icc"
 
 #endif // INPUTMONITOR_HH

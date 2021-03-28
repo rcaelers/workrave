@@ -1,6 +1,4 @@
-// InputMonitorFactory.hh --- Factory to create input monitors.
-//
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,20 +18,24 @@
 #ifndef WORKRAVE_INPUT_MONITOR_INPUTMONITORFACTORY_HH
 #define WORKRAVE_INPUT_MONITOR_INPUTMONITORFACTORY_HH
 
-#include <cstdlib>
-#include <string>
+#include "config/IConfigurator.hh"
+#include "input-monitor/IInputMonitorFactory.hh"
 
-#include "IInputMonitorFactory.hh"
-
-//! Factory to create input monitors.
-class InputMonitorFactory
+namespace workrave
 {
-public:
-  static void init(const char *display);
-  static IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability);
+  namespace input_monitor
+  {
+    //! Factory to create input monitors.
+    class InputMonitorFactory
+    {
+    public:
+      static void init(workrave::config::IConfigurator::Ptr config, const char *display);
+      static workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::MonitorCapability capability);
 
-private:
-  static IInputMonitorFactory *factory;
-};
+    private:
+      static workrave::input_monitor::IInputMonitorFactory *factory;
+    };
+  } // namespace input_monitor
+} // namespace workrave
 
 #endif // WORKRAVE_INPUT_MONITOR_INPUTMONITORFACTORY_HH

@@ -18,29 +18,24 @@
 #ifndef MUTTERINPUTMONITOR_HH
 #define MUTTERINPUTMONITOR_HH
 
+#include <thread>
+#include <mutex>
+#include <memory>
+#include <condition_variable>
+
 #include "InputMonitor.hh"
+#include "utils/Diagnostics.hh"
 
 #include <gio/gio.h>
 #include <atomic>
 
-#include "utils/Runnable.hh"
-#include "utils/Thread.hh"
-#include "utils/Diagnostics.hh"
-
-class MutterInputMonitor
-  : public InputMonitor
-  , public Runnable
+class MutterInputMonitor : public InputMonitor
 {
 public:
-  MutterInputMonitor();
-
-  //! Destructor.
+  MutterInputMonitor() = default;
   ~MutterInputMonitor() override;
 
-  //! Initialize
   bool init() override;
-
-  //! Terminate the monitor.
   void terminate() override;
 
 private:
@@ -56,8 +51,7 @@ private:
 
   static void on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data);
 
-  //! The monitor's execution thread.
-  void run() override;
+  virtual void run();
 
   bool register_active_watch();
   bool unregister_active_watch();
@@ -83,9 +77,9 @@ private:
   TracedField<guint> watch_idle{"monitor.mutter.watch_idle", 0};
 
   bool abort = false;
-  Thread *monitor_thread = nullptr;
-  GMutex mutex{};
-  GCond cond{};
+  std::shared_ptr<std::thread> monitor_thread;
+  std::mutex mutex;
+  std::condition_variable cond;
   guint watch_id{0};
 };
 

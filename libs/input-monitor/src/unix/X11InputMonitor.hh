@@ -1,6 +1,4 @@
-// X11InputMonitor.hh --- ActivityMonitor for X11
-//
-// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,18 +20,15 @@
 
 #include <string>
 
+#include <thread>
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
 #include "InputMonitor.hh"
 
-#include "utils/Runnable.hh"
-#include "utils/Thread.hh"
-
 //! Activity monitor for a local X server.
-class X11InputMonitor
-  : public InputMonitor
-  , public Runnable
+class X11InputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -50,7 +45,7 @@ public:
 
 private:
   //! The monitor's execution thread.
-  void run() override;
+  void run();
 
   void error_trap_enter();
   void error_trap_exit();
@@ -73,19 +68,19 @@ private:
 
 private:
   //! The X11 display name.
-  const char *x11_display_name{nullptr};
+  const char *x11_display_name;
 
   //! The X11 display handle.
-  Display *x11_display{nullptr};
+  Display *x11_display;
 
   //! The X11 root window handle.
-  Window root_window{};
+  Window root_window;
 
   //! Abort the main loop
-  bool abort{false};
+  bool abort;
 
   //! The activity monitor thread.
-  Thread *monitor_thread{nullptr};
+  std::shared_ptr<std::thread> monitor_thread;
 };
 
 #endif // X11INPUTMONITOR_HH

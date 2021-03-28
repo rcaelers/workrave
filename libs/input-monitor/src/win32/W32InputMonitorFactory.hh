@@ -1,6 +1,6 @@
 // W32InputMonitorFactory.hh --- Factory to create input monitors.
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,25 +24,29 @@
 #include <string>
 
 #include "input-monitor/IInputMonitorFactory.hh"
-#include "utils/Diagnostics.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "config/IConfigurator.hh"
+
+using namespace workrave::config;
+using namespace workrave::input_monitor;
 
 //! Factory to create input monitors.
-class W32InputMonitorFactory : public IInputMonitorFactory
+class W32InputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
 {
 public:
-  W32InputMonitorFactory();
+  W32InputMonitorFactory(workrave::config::IConfigurator::Ptr config);
   virtual void init(const char *display);
-  virtual IInputMonitor *get_monitor(MonitorCapability capability);
+  virtual workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability);
 
 private:
-  IInputMonitor *create_statistics_monitor();
-  IInputMonitor *create_activity_monitor();
+  workrave::input_monitor::IInputMonitor::Ptr create_statistics_monitor();
+  workrave::input_monitor::IInputMonitor::Ptr create_activity_monitor();
 
 private:
-  IInputMonitor *activity_monitor;
-  IInputMonitor *statistics_monitor;
-
-  TracedField<std::string> actual_monitor_method;
+  workrave::config::IConfigurator::Ptr config;
+  workrave::input_monitor::IInputMonitor::Ptr activity_monitor;
+  workrave::input_monitor::IInputMonitor::Ptr statistics_monitor;
+  std::string actual_monitor_method;
 };
 
 #endif // W32INPUTMONITORFACTORY_HH

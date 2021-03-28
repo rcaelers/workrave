@@ -1,5 +1,3 @@
-// RecordInputMonitor.hh --- ActivityMonitor for X11
-//
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -20,6 +18,7 @@
 #ifndef RECORDINPUTMONITOR_HH
 #define RECORDINPUTMONITOR_HH
 
+#include <thread>
 #include <string>
 
 #include <X11/X.h>
@@ -29,13 +28,8 @@
 
 #include "InputMonitor.hh"
 
-#include "utils/Runnable.hh"
-#include "utils/Thread.hh"
-
 //! Activity monitor for a local X server.
-class RecordInputMonitor
-  : public InputMonitor
-  , public Runnable
+class RecordInputMonitor : public InputMonitor
 {
 public:
   //! Constructor.
@@ -52,7 +46,7 @@ public:
 
 private:
   //! The monitor's execution thread.
-  void run() override;
+  void run();
 
   void error_trap_enter();
   void error_trap_exit();
@@ -63,12 +57,12 @@ private:
   //! Stop the capturing.
   bool stop_xrecord();
 
-  void handle_xrecord_handle_key_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_button_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data);
-  void handle_xrecord_handle_device_motion_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
+  void handle_xrecord_key_event(XRecordInterceptData *data);
+  void handle_xrecord_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_button_event(XRecordInterceptData *data);
+  void handle_xrecord_device_key_event(bool press, XRecordInterceptData *data);
+  void handle_xrecord_device_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_device_button_event(XRecordInterceptData *data);
 
   static void handle_xrecord_callback(XPointer closure, XRecordInterceptData *data);
 
@@ -83,7 +77,7 @@ private:
   bool abort;
 
   //! The activity monitor thread.
-  Thread *monitor_thread;
+  std::shared_ptr<std::thread> monitor_thread;
 
   //! XRecord context. Defines clients and events to capture.
   XRecordContext xrecord_context;

@@ -1,6 +1,4 @@
-// UnixInputMonitorFactory.hh --- Factory to create input monitors.
-//
-// Copyright (C) 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,30 +18,23 @@
 #ifndef UNIXINPUTMONITORFACTORY_HH
 #define UNIXINPUTMONITORFACTORY_HH
 
-#include <cstdlib>
-#include <string>
-
 #include "input-monitor/IInputMonitorFactory.hh"
-#include "utils/Diagnostics.hh"
-
-#include <glib.h>
 
 //! Factory to create input monitors.
-class UnixInputMonitorFactory : public IInputMonitorFactory
+class UnixInputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
 {
 public:
-  UnixInputMonitorFactory();
+  UnixInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
 
   void init(const char *display) override;
-  IInputMonitor *get_monitor(IInputMonitorFactory::MonitorCapability capability) override;
+  workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::MonitorCapability capability) override;
 
 private:
-  static gboolean static_report_failure(void *data);
-
-  bool error_reported{false};
-  TracedField<std::string> actual_monitor_method;
-  IInputMonitor *monitor{nullptr};
-  const char *display{nullptr};
+  bool error_reported;
+  std::string actual_monitor_method;
+  workrave::input_monitor::IInputMonitor::Ptr monitor;
+  const char *display;
+  workrave::config::IConfigurator::Ptr config;
 };
 
 #endif // UNIXINPUTMONITORFACTORY_HH

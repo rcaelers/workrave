@@ -26,7 +26,6 @@ InputMonitor::fire_action()
     }
 }
 
-
 inline void
 InputMonitor::fire_mouse(int x, int y, int wheel)
 {
@@ -40,7 +39,6 @@ InputMonitor::fire_mouse(int x, int y, int wheel)
     }
 }
 
-
 inline void
 InputMonitor::fire_button(bool is_press)
 {
@@ -53,7 +51,6 @@ InputMonitor::fire_button(bool is_press)
       statistics_listener->button_notify(is_press);
     }
 }
-
 
 inline void
 InputMonitor::fire_keyboard(bool repeat)

@@ -257,7 +257,7 @@ Core::init_monitor(const char *display_name)
 #  endif
 #endif
 
-  InputMonitorFactory::init(display_name);
+  workrave::input_monitor::InputMonitorFactory::init(configurator, display_name);
 
   configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, workrave::config::CONFIG_FLAG_INITIAL);
 

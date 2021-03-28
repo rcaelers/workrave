@@ -1,6 +1,4 @@
-// XScreenSaverMonitor.hh --- ActivityMonitor for X11
-//
-// Copyright (C) 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +18,9 @@
 #ifndef XSCREENSAVERMONITOR_HH
 #define XSCREENSAVERMONITOR_HH
 
-#include <string>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -28,43 +28,27 @@
 
 #include "InputMonitor.hh"
 
-#include "utils/Runnable.hh"
-#include "utils/Thread.hh"
-
-//! Activity monitor for a local X server.
-class XScreenSaverMonitor
-  : public InputMonitor
-  , public Runnable
+class XScreenSaverMonitor : public InputMonitor
 {
 public:
-  //! Constructor.
-  XScreenSaverMonitor();
-
-  //! Destructor.
+  XScreenSaverMonitor() = default;
   ~XScreenSaverMonitor() override;
 
-  //! Initialize
   bool init() override;
-
-  //! Terminate the monitor.
   void terminate() override;
 
 private:
-  //! The monitor's execution thread.
-  void run() override;
+  virtual void run();
 
 private:
-  //! Abort the main loop
   bool abort{false};
-
-  //! The activity monitor thread.
-  Thread *monitor_thread;
-
-  //
+  std::shared_ptr<std::thread> monitor_thread;
   XScreenSaverInfo *screen_saver_info{nullptr};
+  Display *xdisplay{nullptr};
+  Drawable root;
 
-  GMutex mutex{};
-  GCond cond{};
+  std::mutex mutex;
+  std::condition_variable cond;
 };
 
 #endif // XSCREENSAVERMONITOR_HH

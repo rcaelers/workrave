@@ -1,6 +1,4 @@
-// X11InputMonitor.cc --- ActivityMonitor for X11
-//
-// Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,38 +19,11 @@
 #  include "config.h"
 #endif
 
+#include "X11InputMonitor.hh"
+
+#include <memory>
+
 #include "debug.hh"
-
-#include <cmath>
-
-#include <cstdio>
-#include <sys/types.h>
-
-#if TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  if HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
-
-#ifdef HAVE_SYS_SELECT_H
-#  include <sys/select.h>
-#endif
-#if STDC_HEADERS
-#  include <cstddef>
-#  include <cstdlib>
-#else
-#  if HAVE_STDLIB_H
-#    include <stdlib.h>
-#  endif
-#endif
-#if HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
 
 // Solaris needs this...
 #define NEED_EVENTS
@@ -64,17 +35,11 @@
 #include <X11/extensions/XIproto.h>
 #include <X11/Xos.h>
 
-#include "X11InputMonitor.hh"
-
 #include "input-monitor/IInputMonitorListener.hh"
-
-#include "utils/timeutil.h"
 
 #ifdef HAVE_APP_GTK
 #  include <gdk/gdkx.h>
 #endif
-
-#include "utils/Thread.hh"
 
 using namespace std;
 
@@ -142,8 +107,9 @@ XNextEventTimed(Display *dsp, XEvent *event_return, long millis)
 
 X11InputMonitor::X11InputMonitor(const char *display_name)
   : x11_display_name(display_name)
+  , x11_display(nullptr)
+  , abort(false)
 {
-  monitor_thread = new Thread(this);
 }
 
 // FIXME: never executed....
@@ -152,8 +118,7 @@ X11InputMonitor::~X11InputMonitor()
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
   if (monitor_thread != nullptr)
     {
-      monitor_thread->wait();
-      delete monitor_thread;
+      monitor_thread->join();
     }
 
   TRACE_EXIT();
@@ -162,7 +127,7 @@ X11InputMonitor::~X11InputMonitor()
 bool
 X11InputMonitor::init()
 {
-  monitor_thread->start();
+  monitor_thread = std::make_shared<std::thread>([this] { run(); });
   return true;
 }
 
@@ -172,7 +137,7 @@ X11InputMonitor::terminate()
   TRACE_ENTER("X11InputMonitor::terminate");
 
   abort = true;
-  monitor_thread->wait();
+  monitor_thread->join();
 
   TRACE_EXIT();
 }
@@ -197,7 +162,7 @@ X11InputMonitor::run()
 
   error_trap_exit();
 
-  while (1)
+  while (true)
     {
       XEvent event;
       bool gotEvent = XNextEventTimed(x11_display, &event, 100);

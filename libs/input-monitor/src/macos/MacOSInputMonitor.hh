@@ -1,6 +1,4 @@
-// MacOSInputMonitor.hh --- ActivityMonitor for MacOS
-//
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,55 +15,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MacOSINPUTMONITOR_HH
-#define MacOSINPUTMONITOR_HH
+#ifndef MACOSINPUTMONITOR_HH
+#define MACOSINPUTMONITOR_HH
 
-#if TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  if HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
+#include <thread>
+#include <memory>
 
-#ifdef HAVE_IOKIT
-#  include <CoreFoundation/CoreFoundation.h>
-#  include <IOKit/IOKitLib.h>
-#endif
-
-#include "input-monitor/InputMonitor.hh"
+#include "InputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "utils/Runnable.hh"
-#include "utils/Thread.hh"
 
-//! Activity monitor for MacOS.
-class MacOSInputMonitor
-  : public InputMonitor
-  , public Runnable
+class MacOSInputMonitor : public InputMonitor
 {
 public:
-  //! Constructor.
-  MacOSInputMonitor();
+  MacOSInputMonitor() = default;
+  ~MacOSInputMonitor() override;
 
-  //! Destructor.
-  virtual ~MacOSInputMonitor();
-
-  bool init();
-  void terminate();
+  bool init() override;
+  void terminate() override;
   void run();
 
 private:
-  //! Terminate driver?
-  bool terminate_loop;
+  uint64_t get_event_count();
 
-  //! The activity monitor thread.
-  Thread *monitor_thread;
-
-  // OS X IO Service
-  io_service_t io_service;
+private:
+  bool terminate_loop = false;
+  std::shared_ptr<std::thread> monitor_thread;
+  int last_event_count = 0;
 };
 
-#endif // MacOSINPUTMONITOR_HH
+#endif // MACOSINPUTMONITOR_HH

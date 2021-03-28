@@ -1,6 +1,4 @@
-// IInputMonitorListener.hh
-//
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2010, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,25 +18,29 @@
 #ifndef WORKRAVE_INPUT_MONITOR_INPUTMONITORLISTENER_HH
 #define WORKRAVE_INPUT_MONITOR_INPUTMONITORLISTENER_HH
 
-#include <string>
-
-//! Listener for events from the input monitor.
-class IInputMonitorListener
+namespace workrave
 {
-public:
-  virtual ~IInputMonitorListener() = default;
+  namespace input_monitor
+  {
+    //! Listener for events from the input monitor.
+    class IInputMonitorListener
+    {
+    public:
+      virtual ~IInputMonitorListener() = default;
 
-  //! Generic user activity (if no details info is available)
-  virtual void action_notify() = 0;
+      //! Generic user activity (if no details info is available)
+      virtual void action_notify() = 0;
 
-  //! Reports mouse movement activity
-  virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
+      //! Reports mouse movement activity
+      virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
 
-  //! Reports mouse button activity
-  virtual void button_notify(bool is_press) = 0;
+      //! Reports mouse button activity
+      virtual void button_notify(bool is_press) = 0;
 
-  //! Reports keyboard activity
-  virtual void keyboard_notify(bool repeat) = 0;
-};
+      //! Reports keyboard activity
+      virtual void keyboard_notify(bool repeat) = 0;
+    };
+  } // namespace input_monitor
+} // namespace workrave
 
 #endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITORLISTENER_HH

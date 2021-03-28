@@ -1,6 +1,6 @@
 // W32InputMonitorFactory.cc -- Factory to create input monitors
 //
-// Copyright (C) 2007, 2008, 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,6 @@
 
 #include "debug.hh"
 
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-
 #include "W32InputMonitorFactory.hh"
 #include "W32InputMonitor.hh"
 #include "W32LowLevelMonitor.hh"
@@ -36,8 +33,8 @@
 using namespace std;
 using namespace workrave;
 
-W32InputMonitorFactory::W32InputMonitorFactory()
-  : actual_monitor_method{"monitor.method", ""}
+W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config)
+  : config(config)
 {
   activity_monitor = NULL;
   statistics_monitor = NULL;
@@ -50,27 +47,27 @@ W32InputMonitorFactory::init(const char *display)
 }
 
 //! Retrieves the input activity monitor
-IInputMonitor *
-W32InputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+IInputMonitor::Ptr
+W32InputMonitorFactory::create_monitor(MonitorCapability capability)
 {
-  if (capability == CAPABILITY_ACTIVITY)
+  if (capability == MonitorCapability::Activity)
     {
       return create_activity_monitor();
     }
-  else if (capability == CAPABILITY_STATISTICS)
+  else if (capability == MonitorCapability::Statistics)
     {
       return create_statistics_monitor();
     }
 
-  return NULL;
+  return IInputMonitor::Ptr();
 }
 
 //! Retrieves the input activity monitor
-IInputMonitor *
+IInputMonitor::Ptr
 W32InputMonitorFactory::create_activity_monitor()
 {
   TRACE_ENTER("W32InputMonitorFactory::create_activity_monitor");
-  IInputMonitor *monitor = NULL;
+  IInputMonitor::Ptr monitor = NULL;
 
   if (activity_monitor != NULL)
     {
@@ -82,7 +79,7 @@ W32InputMonitorFactory::create_activity_monitor()
       string configure_monitor_method;
       int max_tries = 3;
 
-      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
+      config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
       if (configure_monitor_method == "default")
         {
@@ -101,13 +98,12 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (actual_monitor_method == "lowlevel")
             {
-              monitor = new W32LowLevelMonitor();
+              monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
                 {
-                  delete monitor;
-                  monitor = NULL;
+                  monitor.reset();
 
                   actual_monitor_method = "nohook";
                   TRACE_MSG("failed to init");
@@ -116,13 +112,12 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "nohook")
             {
-              monitor = new W32AlternateMonitor();
+              monitor = IInputMonitor::Ptr(new W32AlternateMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
                 {
-                  delete monitor;
-                  monitor = NULL;
+                  monitor.reset();
 
                   actual_monitor_method = "normal";
                   TRACE_MSG("failed to init");
@@ -131,17 +126,21 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "normal")
             {
-              monitor = new W32InputMonitor();
+#ifdef HAVE_HARPOON
+              monitor = IInputMonitor::Ptr(new W32InputMonitor(config));
               initialized = monitor->init();
 
               if (!initialized)
                 {
-                  delete monitor;
-                  monitor = NULL;
+                  monitor.reset();
 
                   actual_monitor_method = "lowlevel";
                   TRACE_MSG("failed to init");
                 }
+#else
+              actual_monitor_method = "lowlevel";
+              TRACE_MSG("normal not available");
+#endif
             }
 
           max_tries--;
@@ -166,8 +165,8 @@ W32InputMonitorFactory::create_activity_monitor()
                       "Workrave",
                       MB_OK);
 
-          CoreFactory::get_configurator()->set_value("advanced/monitor", "normal");
-          CoreFactory::get_configurator()->save();
+          config->set_value("advanced/monitor", "normal");
+          config->save();
 
           actual_monitor_method = "";
         }
@@ -177,8 +176,8 @@ W32InputMonitorFactory::create_activity_monitor()
 
           if (configure_monitor_method != "default")
             {
-              CoreFactory::get_configurator()->set_value("advanced/monitor", actual_monitor_method);
-              CoreFactory::get_configurator()->save();
+              config->set_value("advanced/monitor", actual_monitor_method);
+              config->save();
             }
 
           TRACE_MSG("using " << actual_monitor_method);
@@ -190,7 +189,7 @@ W32InputMonitorFactory::create_activity_monitor()
 }
 
 //! Retrieves the current input monitor for detailed statistics
-IInputMonitor *
+IInputMonitor::Ptr
 W32InputMonitorFactory::create_statistics_monitor()
 {
   TRACE_ENTER("W32InputMonitorFactory::create_statistics_monitor");
@@ -201,14 +200,13 @@ W32InputMonitorFactory::create_statistics_monitor()
 
   if (actual_monitor_method == "nohook")
     {
-      IInputMonitor *monitor = new W32LowLevelMonitor();
+      IInputMonitor::Ptr monitor = IInputMonitor::Ptr(new W32LowLevelMonitor(config));
       bool initialized = monitor->init();
 
       if (!initialized)
         {
           TRACE_RETURN("failed to init lowlevel monitor");
-          delete monitor;
-          monitor = NULL;
+          monitor.reset();
         }
       else
         {
@@ -224,5 +222,5 @@ W32InputMonitorFactory::create_statistics_monitor()
     }
 
   TRACE_EXIT();
-  return NULL;
+  return IInputMonitor::Ptr();
 }

@@ -1,5 +1,3 @@
-// IInputMonitor.hh --- Interface definition for the Input monitors.
-//
 // Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -20,32 +18,35 @@
 #ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 #define WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH
 
-// Forward declarion of internal interfaces.
-class IInputMonitorListener;
+#include <memory>
 
-//! Interface that all input monitors must support.
-class IInputMonitor
+namespace workrave
 {
-public:
-  virtual ~IInputMonitor() = default;
+  namespace input_monitor
+  {
+    class IInputMonitorListener;
 
-  //! Initializes the activity monitor.
-  virtual bool init() = 0;
+    //! Interface that all input monitors must support.
+    class IInputMonitor
+    {
+    public:
+      using Ptr = std::shared_ptr<IInputMonitor>;
 
-  //! Stops the activity monitoring.
-  virtual void terminate() = 0;
+      virtual ~IInputMonitor() = default;
 
-  //! Subscribe for activity monitor.
-  virtual void subscribe_activity(IInputMonitorListener *listener) = 0;
+      //! Initializes the activity monitor.
+      virtual bool init() = 0;
 
-  //! Subscribe for statistics monitor.
-  virtual void subscribe_statistics(IInputMonitorListener *listener) = 0;
+      //! Stops the activity monitoring.
+      virtual void terminate() = 0;
 
-  //! Unsubscribe for activity monitor.
-  virtual void unsubscribe_activity(IInputMonitorListener *listener) = 0;
+      //! Subscribe for activity monitor.
+      virtual void subscribe(IInputMonitorListener *listener) = 0;
 
-  //! Unsubscribe for statistics monitor.
-  virtual void unsubscribe_statistics(IInputMonitorListener *listener) = 0;
-};
+      //! Unsubscribe for activity monitor.
+      virtual void unsubscribe(IInputMonitorListener *listener) = 0;
+    };
+  } // namespace input_monitor
+} // namespace workrave
 
 #endif // WORKRAVE_INPUT_MONITOR_IINPUTMONITOR_HH

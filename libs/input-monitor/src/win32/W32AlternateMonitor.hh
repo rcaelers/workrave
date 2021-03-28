@@ -1,6 +1,6 @@
 // W32AlternateMonitor.hh --- Alternate Activity monitor for win32
 //
-// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,16 @@
 
 #include <assert.h>
 #include <windows.h>
+
 #include "InputMonitor.hh"
+#include "config/IConfigurator.hh"
+
+using namespace workrave::config;
 
 class W32AlternateMonitor : public InputMonitor
 {
 public:
-  W32AlternateMonitor();
+  W32AlternateMonitor(workrave::config::IConfigurator::Ptr config);
   virtual ~W32AlternateMonitor();
   bool init();
   void terminate();
@@ -40,6 +44,7 @@ private:
   void Monitor();
   void Update(LASTINPUTINFO *);
 
+  workrave::config::IConfigurator::Ptr config;
   bool initialized;
   int interval;
   HANDLE thread_abort_event;

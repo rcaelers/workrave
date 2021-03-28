@@ -1,5 +1,3 @@
-// Harpoon.hh --- ActivityMonitor for W32
-//
 // Copyright (C) 2002, 2004, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
@@ -23,28 +21,25 @@
 #ifndef WORKRAVE_INPUT_MONITOR_HARPOON_HH
 #define WORKRAVE_INPUT_MONITOR_HARPOON_HH
 
-
 #include <windows.h>
 #include "harpoon.h"
+#include "config/IConfigurator.hh"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
 class Harpoon
 {
 public:
-  //! Constructor.
-  Harpoon();
-
-  //! Destructor.
+  Harpoon() = default;
   virtual ~Harpoon();
 
-  static bool init(HarpoonHookFunc func);
+  static bool init(workrave::config::IConfigurator::Ptr config, HarpoonHookFunc func);
   static void terminate();
   static void block_input();
   static void unblock_input();
 
 private:
-  static void init_critical_filename_list();
+  static void init_critical_filename_list(workrave::config::IConfigurator::Ptr config);
   static bool check_for_taskmgr_debugger(char *out);
   static void on_harpoon_event(HarpoonEvent *event);
 

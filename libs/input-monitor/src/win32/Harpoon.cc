@@ -1,5 +1,3 @@
-// Harpoon.cc --- ActivityMonitor for W32
-//
 // Copyright (C) 2007, 2010, 2013 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
 // Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
@@ -36,23 +34,19 @@
 #include "debug.hh"
 #include "input-monitor/Harpoon.hh"
 
-#include "core/ICore.hh"
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-#include "utils/Util.hh"
 
-#include "utils/timeutil.h"
 #include "harpoon.h"
 #include "HarpoonHelper.h"
 
+#include "utils/Platform.hh"
 using namespace workrave;
+using namespace workrave::config;
+using namespace workrave::utils;
 using namespace std;
 
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 HWND Harpoon::helper_window = NULL;
 bool Harpoon::helper_started = false;
-
-Harpoon::Harpoon() {}
 
 Harpoon::~Harpoon()
 {
@@ -60,15 +54,15 @@ Harpoon::~Harpoon()
 }
 
 bool
-Harpoon::init(HarpoonHookFunc func)
+Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 {
   TRACE_ENTER("Harpoon::init");
   assert(HARPOON_MAX_UNBLOCKED_APPS);
-  init_critical_filename_list();
+  init_critical_filename_list(config);
 
   bool debug, mouse_lowlevel, keyboard_lowlevel;
 
-  CoreFactory::get_configurator()->get_value_with_default("advanced/harpoon/debug", debug, false);
+  config->get_value_with_default("advanced/harpoon/debug", debug, false);
 
   bool default_mouse_lowlevel = false;
   if (LOBYTE(LOWORD(GetVersion())) >= 6)
@@ -76,10 +70,9 @@ Harpoon::init(HarpoonHookFunc func)
       default_mouse_lowlevel = true;
     }
 
-  CoreFactory::get_configurator()->get_value_with_default(
-    "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel);
+  config->get_value_with_default("advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel);
 
-  CoreFactory::get_configurator()->get_value_with_default("advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true);
+  config->get_value_with_default("advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true);
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
@@ -152,7 +145,7 @@ Harpoon::unblock_input()
 }
 
 void
-Harpoon::init_critical_filename_list()
+Harpoon::init_critical_filename_list(IConfigurator::Ptr config)
 {
   int i, filecount;
 
@@ -167,14 +160,14 @@ Harpoon::init_critical_filename_list()
     critical_filename_list[i][0] = '\0';
 
   filecount = 0;
-  if (!CoreFactory::get_configurator()->get_value("advanced/critical_files/filecount", filecount) || !filecount)
+  if (!config->get_value("advanced/critical_files/filecount", filecount) || !filecount)
     return;
 
   if (filecount >= HARPOON_MAX_UNBLOCKED_APPS)
     // This shouldn't happen
     {
       filecount = HARPOON_MAX_UNBLOCKED_APPS - 1;
-      CoreFactory::get_configurator()->set_value("advanced/critical_files/filecount", filecount);
+      config->set_value("advanced/critical_files/filecount", filecount);
     }
 
   char loc[40];
@@ -182,7 +175,7 @@ Harpoon::init_critical_filename_list()
   for (i = 1; i <= filecount; ++i)
     {
       sprintf(loc, "advanced/critical_files/file%d", i);
-      if (CoreFactory::get_configurator()->get_value(loc, buffer))
+      if (config->get_value(loc, buffer))
         {
           strncpy(critical_filename_list[i], buffer.c_str(), 510);
           critical_filename_list[i][510] = '\0';
@@ -356,9 +349,9 @@ Harpoon::start_harpoon_helper()
 
       ZeroMemory(&pi, sizeof(pi));
 
-      string install_dir = g_win32_get_package_installation_directory_of_module(NULL);
-      string helper = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "WorkraveHelper.exe";
-      string args = helper + " " + g_get_prgname();
+      std::string install_dir = Platform::get_application_directory();
+      string helper = install_dir + "\\lib32\\WorkraveHelper.exe";
+      string args = helper + " " + Platform::get_application_name();
 
       TRACE_MSG(install_dir.c_str());
       TRACE_MSG(helper.c_str());

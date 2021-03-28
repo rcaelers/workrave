@@ -1,6 +1,6 @@
 // W32AlternateMonitor.cc --- Alternate Activity monitor for win32
 //
-// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,14 +40,15 @@
 #  endif
 
 #  include "W32AlternateMonitor.hh"
-#  include "input-monitor/Harpoon.hh"
-#  include "core/CoreFactory.hh"
-#  include "config/IConfigurator.hh"
+#  ifdef HAVE_HARPOON
+#    include "input-monitor/Harpoon.hh"
+#  endif
 
 using namespace workrave;
 
-W32AlternateMonitor::W32AlternateMonitor()
-  : initialized(false)
+W32AlternateMonitor::W32AlternateMonitor(IConfigurator::Ptr config)
+  : config(config)
+  , initialized(false)
   , interval(500)
   , thread_abort_event(NULL)
   , thread_handle(NULL)
@@ -75,7 +76,7 @@ W32AlternateMonitor::init()
   if (initialized)
     goto cleanup;
 
-  CoreFactory::get_configurator()->get_value_with_default("advanced/interval", interval, 500);
+  config->get_value_with_default("advanced/interval", interval, 500);
 
   SetLastError(0);
   thread_abort_event = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -94,7 +95,9 @@ W32AlternateMonitor::init()
       goto cleanup;
     }
 
-  Harpoon::init(NULL);
+#  ifdef HAVE_HARPOON
+  Harpoon::init(config, NULL);
+#  endif
 
   initialized = true;
 
@@ -127,7 +130,9 @@ W32AlternateMonitor::terminate()
       thread_abort_event = NULL;
     }
 
+#  ifdef HAVE_HARPOON
   Harpoon::terminate();
+#  endif
 
   initialized = false;
 

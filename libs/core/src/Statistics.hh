@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "core/IStatistics.hh"
+#include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 #include "utils/Mutex.hh"
 
@@ -48,7 +49,7 @@ class IInputMonitor;
 
 class Statistics
   : public workrave::IStatistics
-  , public IInputMonitorListener
+  , public workrave::input_monitor::IInputMonitorListener
 #ifdef HAVE_DISTRIBUTION
   , public IDistributionClientMessage
 #endif
@@ -158,7 +159,7 @@ private:
   Core *core{nullptr};
 
   //! Mouse/Keyboard monitoring.
-  IInputMonitor *input_monitor{nullptr};
+  workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! Last time a mouse event was received.
   gint64 last_mouse_time{0};

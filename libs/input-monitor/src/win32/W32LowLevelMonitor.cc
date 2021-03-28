@@ -1,6 +1,6 @@
 // W32LowLevelMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007, 2010, 2012 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010, 2012, 2013 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -56,12 +56,15 @@ jay satiro, workrave project, september 2007
 #  include "config.h"
 #endif
 
-#include <windows.h>
-
 #include "debug.hh"
 #include <sstream>
+
+#include <windows.h>
+
 #include "W32LowLevelMonitor.hh"
-#include "input-monitor/Harpoon.hh"
+#ifdef HAVE_HARPOON
+#  include "input-monitor/Harpoon.hh"
+#endif
 
 W32LowLevelMonitor *W32LowLevelMonitor::singleton = NULL;
 
@@ -78,7 +81,8 @@ Therefore BOOL functions can return -1.
 MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
 
-W32LowLevelMonitor::W32LowLevelMonitor()
+W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
+  : config(config)
 {
   TRACE_ENTER("W32LowLevelMonitor::W32LowLevelMonitor");
 
@@ -157,7 +161,9 @@ W32LowLevelMonitor::init()
       return false;
     }
 
-  Harpoon::init(NULL);
+#ifdef HAVE_HARPOON
+  Harpoon::init(config, NULL);
+#endif
 
   TRACE_EXIT();
   return true;
@@ -217,7 +223,9 @@ W32LowLevelMonitor::terminate()
   terminate_thread(callback);
   terminate_thread(dispatch);
 
+#ifdef HAVE_HARPOON
   Harpoon::terminate();
+#endif
 }
 
 void
@@ -301,12 +309,12 @@ W32LowLevelMonitor::dispatch_thread()
             // msg.wParam == x coord
             // msg.lParam == y coord
             case WM_MOUSEMOVE:
-              fire_mouse(msg.wParam, msg.lParam, 0);
+              fire_mouse(static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 0);
               break;
 
             case WM_MOUSEWHEEL:
             case WM_MOUSEHWHEEL:
-              fire_mouse(msg.wParam, msg.lParam, 1);
+              fire_mouse(static_cast<int>(msg.wParam), static_cast<int>(msg.lParam), 1);
               break;
 
             case WM_LBUTTONDOWN:
@@ -421,7 +429,7 @@ W32LowLevelMonitor::k_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK
 W32LowLevelMonitor::m_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 {
-  DWORD flags = ((_MSLLHOOKSTRUCT *)lParam)->flags;
+  // DWORD flags = ( (_MSLLHOOKSTRUCT *) lParam )->flags;
 
   if (!nCode) // && !( flags & LLMHF_INJECTED ) )
               // If there is an event, and it's not injected, notify.

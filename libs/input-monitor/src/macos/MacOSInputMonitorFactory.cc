@@ -1,6 +1,4 @@
-// MacOSInputMonitorFactory.cc -- Factory to create input monitors
-//
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,19 +19,15 @@
 #  include "config.h"
 #endif
 
-#include <string>
-
-#include "debug.hh"
-
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-
 #include "MacOSInputMonitorFactory.hh"
 #include "MacOSInputMonitor.hh"
 
-MacOSInputMonitorFactory::MacOSInputMonitorFactory()
+using namespace workrave::input_monitor;
+
+MacOSInputMonitorFactory::MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config)
 {
-  monitor = NULL;
+  (void)config;
+  monitor = nullptr;
 }
 
 void
@@ -42,21 +36,19 @@ MacOSInputMonitorFactory::init(const char *display)
   (void)display;
 }
 
-//! Retrieves the input activity monitor
-IInputMonitor *
-MacOSInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+IInputMonitor::Ptr
+MacOSInputMonitorFactory::create_monitor(MonitorCapability capability)
 {
   (void)capability;
 
-  if (monitor == NULL)
+  if (monitor == nullptr)
     {
-      monitor = new MacOSInputMonitor();
+      monitor = std::make_shared<MacOSInputMonitor>();
 
       bool init_ok = monitor->init();
       if (!init_ok)
         {
-          delete monitor;
-          monitor = NULL;
+          monitor.reset();
         }
     }
 
