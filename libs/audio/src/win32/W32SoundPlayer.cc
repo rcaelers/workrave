@@ -43,6 +43,7 @@
 #define WAVE_BUFFER_SIZE (4096)
 
 using namespace workrave;
+using namespace workrave::utils;
 
 static std::string sound_filename;
 

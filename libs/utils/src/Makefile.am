@@ -36,4 +36,6 @@ libworkrave_utils_la_CXXFLAGS = \
 				-I$(top_srcdir)/libs/utils/include/utils \
 				@GLIB_CFLAGS@ @WR_COMMON_INCLUDES@
 
+libworkrave_utils_la_CFLAGS = ${libworkrave_utils_la_CXXFLAGS}
+
 EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) #$(builddir)/locale.inc
