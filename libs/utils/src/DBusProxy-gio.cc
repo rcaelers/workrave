@@ -20,7 +20,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "utils/DBusProxy-gio.hh"
+#include "DBusProxy-gio.hh"
 #include <iostream>
 
 bool

@@ -1,7 +1,7 @@
 add_library(workrave-libs-utils STATIC
   Diagnostics.cc
   TimeSource.cc
-  #AssetPath.cc
+  AssetPath.cc
   Util.cc
   StringUtil.cc
   WRID.cc
@@ -12,24 +12,23 @@ if (PLATFORM_OS_WINDOWS)
   target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 
-#if (PLATFORM_OS_UNIX)
-#  target_sources(workrave-libs-utils PRIVATE Platform-unix.cc)
-#endif()
+if (PLATFORM_OS_UNIX)
+  target_sources(workrave-libs-utils PRIVATE Platform-unix.cc)
+endif()
 
-#if (PLATFORM_OS_MACOS)
-#  target_sources(workrave-libs-utils PRIVATE Platform-unix.cc)
-#endif()
+if (PLATFORM_OS_MACOS)
+  target_sources(workrave-libs-utils PRIVATE Platform-unix.cc)
+endif()
 
-#if (NOT PLATFORM_OS_UNIX)
-#  target_sources(workrave-libs-utils PRIVATE Platform.cc)
-#endif()
+if (NOT PLATFORM_OS_UNIX)
+  target_sources(workrave-libs-utils PRIVATE Platform.cc)
+endif()
 
 if (HAVE_DBUS_GIO)
   target_sources(workrave-libs-utils PRIVATE DBusProxy-gio.cc)
 endif()
 
 if (HAVE_GTK)
-  target_sources(workrave-libs-utils PRIVATE GlibThread.cc)
   target_include_directories(workrave-libs-utils PRIVATE ${GTK_INCLUDE_DIRS})
 endif()
 

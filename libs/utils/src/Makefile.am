@@ -20,7 +20,7 @@ sources +=	win32/W32ActiveSetup.cc \
 	   	  	win32/W32CriticalSection.cc \
 		  	win32/crashlog.c \
 			Platform-win32.cc
-cflags += 	-I$(top_srcdir)/libs/session/src/win32
+cflags += 	-I$(top_srcdir)/libs/utils/src/win32
 endif
 
 if PLATFORM_OS_UNIX
@@ -30,8 +30,10 @@ endif
 
 libworkrave_utils_la_SOURCES = ${sources}
 
-AM_CPPFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
+libworkrave_utils_la_CXXFLAGS = \
+				-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
 				-D_XOPEN_SOURCE=600 ${cflags} \
+				-I$(top_srcdir)/libs/utils/include/utils \
 				@GLIB_CFLAGS@ @WR_COMMON_INCLUDES@
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) #$(builddir)/locale.inc

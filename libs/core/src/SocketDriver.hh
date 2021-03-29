@@ -128,7 +128,7 @@ public:
 };
 
 //! Socket exception
-class SocketException : public Exception
+class SocketException : public workrave::utils::Exception
 {
 public:
   explicit SocketException(const std::string &detail)

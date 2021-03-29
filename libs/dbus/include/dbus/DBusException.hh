@@ -34,7 +34,7 @@ namespace workrave
     extern const char *DBUS_ERROR_INVALID_ARGS;
     extern const char *DBUS_ERROR_UNKNOWN_METHOD;
 
-    class DBusException : public Exception
+    class DBusException : public workrave::utils::Exception
     {
     public:
       explicit DBusException(const std::string &detail)

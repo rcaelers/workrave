@@ -1,7 +1,3 @@
-// GUI.cc --- The WorkRave GUI
-//
-// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
-// All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -862,7 +858,7 @@ GUI::init_sound_player()
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
-  catch (Exception &)
+  catch (workrave::utils::Exception &)
     {
       TRACE_MSG("No sound");
     }

@@ -25,7 +25,6 @@
 #include "ActivityMonitorListener.hh"
 
 #include "debug.hh"
-#include "utils/timeutil.h"
 #include <assert.h>
 #include <math.h>
 

@@ -23,9 +23,8 @@
 #include <string>
 #include <map>
 
-#include <boost/thread/condition_variable.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/barrier.hpp>
+#include <condition_variable>
+#include <mutex>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -49,7 +48,7 @@ namespace workrave
       void notify()
       {
         TRACE_ENTER("Timer::notify");
-        boost::mutex::scoped_lock lock(mutex);
+        std::scoped_lock lock(mutex);
         count--;
         condition.notify_one();
         TRACE_MSG(count);
@@ -59,7 +58,7 @@ namespace workrave
       void wait()
       {
         TRACE_ENTER("Timer::wait");
-        boost::mutex::scoped_lock lock(mutex);
+        std::scoped_lock lock(mutex);
         while (count)
           {
             condition.wait(lock);
@@ -69,8 +68,8 @@ namespace workrave
       }
 
     private:
-      boost::mutex mutex;
-      boost::condition_variable condition;
+      std::mutex mutex;
+      std::condition_variable condition;
       unsigned long count;
     };
 #endif

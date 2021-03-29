@@ -1,6 +1,6 @@
 // Exception.hh --- Base exception
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,30 +22,33 @@
 
 #include <string>
 #include <exception>
+#include <utility>
 
 namespace workrave
 {
-  class Exception : public std::exception
+  namespace utils
   {
-  public:
-    explicit Exception(const std::string &detail)
-      : detailed_information(detail)
+    class Exception : public std::exception
     {
-    }
+    public:
+      explicit Exception(std::string detail)
+        : detailed_information(std::move(detail))
+      {
+      }
 
-    explicit Exception(const Exception &parent, const std::string &detail)
-    {
-      detailed_information = parent.details() + ", " + detail;
-    }
+      explicit Exception(const Exception &parent, const std::string &detail)
+        : detailed_information(parent.details() + ", " + detail)
+      {
+      }
 
-    ~Exception() throw() override = default;
+      ~Exception() override = default;
 
-    virtual std::string details() const throw() { return detailed_information; }
+      virtual std::string details() const { return detailed_information; }
 
-  private:
-    //
-    std::string detailed_information;
-  };
-}; // namespace workrave
+    private:
+      std::string detailed_information;
+    };
+  } // namespace utils
+} // namespace workrave
 
 #endif // WORKRAVE_UTILS_EXCEPTION_HH

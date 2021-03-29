@@ -40,7 +40,6 @@
 #include "TimePred.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
-#include "utils/timeutil.h"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "DistributionManager.hh"

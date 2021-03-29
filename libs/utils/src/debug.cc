@@ -1,6 +1,6 @@
 // debug.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011, 2012 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,75 +23,145 @@
 
 #ifdef TRACING
 
-#  include <glib.h>
-#  include <glib/gstdio.h>
+#  include <sstream>
+#  include <chrono>
+
+#  include <thread>
+#  include <filesystem>
 
 #  ifdef PLATFORM_OS_WINDOWS
 #    define WIN32_LEAN_AND_MEAN
-#    include <windows.h>
+#    include <windows.h> /* for GetFileAttributes */
 #  endif
 
-#  include "utils/Mutex.hh"
 #  include "debug.hh"
+#  include "utils/TimeSource.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
-Mutex g_log_mutex;
-std::ofstream g_log_stream;
+std::recursive_mutex g_log_mutex;
+std::map<std::thread::id, std::ofstream *> g_log_streams;
+
+static thread_local std::string g_thread_name;
+static std::string g_prefix;
 
 std::string
-Debug::trace_get_time()
+Debug::trace_string()
 {
-  char logtime[128];
-  time_t ltime;
+  char logtime[256];
 
-  time(&ltime);
-  struct tm *tmlt = localtime(&ltime);
-  strftime(logtime, 128, "%d%b%Y %H:%M:%S ", tmlt);
-  return logtime;
+#  ifdef HAVE_TESTS
+  auto t = static_cast<time_t>(TimeSource::get_real_time_sec());
+  struct tm *tmlt = localtime(&t);
+  strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
+
+  stringstream ss;
+  ss << logtime;
+
+  if (TimeSource::source)
+    {
+      auto tt = std::chrono::system_clock::now();
+      auto ms = std::chrono::duration_cast<std::chrono::microseconds>(tt.time_since_epoch()).count();
+
+      t = std::chrono::system_clock::to_time_t(tt);
+
+      tmlt = localtime(&t);
+
+      strftime(logtime, 256, "%H:%M:%S", tmlt);
+      ss << " " << logtime << "." << (ms % 1000000) / 1000;
+    }
+
+  ss << " " << std::this_thread::get_id() /* g_thread_self() */ << " ";
+  return ss.str();
+
+#  else
+
+  auto t = (time_t)TimeSource::get_real_time_sec();
+  struct tm *tmlt = localtime(&t);
+  strftime(logtime, 256, "%d%b%Y %H:%M:%S", tmlt);
+
+  stringstream ss;
+  ss << logtime << " " << std::this_thread::get_id() /* g_thread_self() */ << " ";
+  return ss.str();
+#  endif
 }
 
 void
-Debug::init()
+Debug::init(const std::string &name)
 {
-  std::string debug_filename;
+  g_prefix = name;
+}
+
+void
+Debug::name(const std::string &name)
+{
+  g_log_mutex.lock();
+  if (g_log_streams.find(std::this_thread::get_id()) != g_log_streams.end())
+    {
+      g_log_streams[std::this_thread::get_id()]->close();
+      delete g_log_streams[std::this_thread::get_id()];
+      g_log_streams.erase(std::this_thread::get_id());
+    }
+
+  g_thread_name = g_prefix + name;
+  g_log_mutex.unlock();
+}
+
+std::ofstream &
+Debug::stream()
+{
+  g_log_mutex.lock();
+  if (g_log_streams.find(std::this_thread::get_id()) == g_log_streams.end())
+    {
+      std::string debug_filename;
 
 #  if defined(WIN32) || defined(PLATFORM_OS_WINDOWS)
-  char path_buffer[MAX_PATH];
+      char path_buffer[MAX_PATH];
 
-  DWORD ret = GetTempPath(MAX_PATH, path_buffer);
-  if (ret > MAX_PATH || ret == 0)
-    {
-      debug_filename = "C:\\temp\\";
-    }
-  else
-    {
-      debug_filename = path_buffer;
-    }
+      DWORD ret = GetTempPath(MAX_PATH, path_buffer);
+      if (ret > MAX_PATH || ret == 0)
+        {
+          debug_filename = "C:\\temp\\";
+        }
+      else
+        {
+          debug_filename = path_buffer;
+        }
 
-  g_mkdir(debug_filename.c_str(), 0);
+      std::filesystem::path dir(debug_filename);
+      std::filesystem::create_directory(dir);
+
 #  elif defined(PLATFORM_OS_MACOS)
-  debug_filename = "/tmp/";
+      debug_filename = "/tmp/";
 #  elif defined(PLATFORM_OS_UNIX)
-  debug_filename = "/tmp/";
+      debug_filename = "/tmp/";
 #  else
 #    error Unknown platform.
 #  endif
 
-  char logfile[128];
-  time_t ltime;
+      char logfile[128];
+      time_t ltime;
 
-  time(&ltime);
-  struct tm *tmlt = localtime(&ltime);
-  strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);
+      time(&ltime);
+      struct tm *tmlt = localtime(&ltime);
+      strftime(logfile, 128, "workrave-%d%b%Y-%H%M%S", tmlt);
 
-  debug_filename += logfile;
+      stringstream ss;
+      ss << debug_filename << logfile << "-" << std::this_thread::get_id();
 
-  g_log_stream.open(debug_filename.c_str(), std::ios::app);
-  if (g_log_stream.is_open())
-    {
-      std::cerr.rdbuf(g_log_stream.rdbuf());
+      if (g_thread_name != "")
+        {
+          ss << "-" << g_thread_name;
+        }
+
+      g_log_streams[std::this_thread::get_id()] = new std::ofstream();
+      g_log_streams[std::this_thread::get_id()]->open(ss.str().c_str(), std::ios::app);
     }
+
+  std::ofstream *ret = g_log_streams[std::this_thread::get_id()];
+  g_log_mutex.unlock();
+  return *ret;
 }
 
 #endif

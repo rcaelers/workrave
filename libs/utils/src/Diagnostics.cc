@@ -1,4 +1,4 @@
-#include "utils/Diagnostics.hh"
+#include "Diagnostics.hh"
 
 #include <time.h>
 

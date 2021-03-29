@@ -39,7 +39,6 @@
 #include "TimePredFactory.hh"
 #include "TimePred.hh"
 #include "utils/TimeSource.hh"
-#include "utils/timeutil.h"
 
 using namespace std;
 using namespace workrave;

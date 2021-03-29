@@ -29,7 +29,7 @@
 
 #include <glib.h>
 
-#include "utils/WRID.hh"
+#include "WRID.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
