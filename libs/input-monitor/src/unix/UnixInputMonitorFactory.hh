@@ -19,6 +19,7 @@
 #define UNIXINPUTMONITORFACTORY_HH
 
 #include "input-monitor/IInputMonitorFactory.hh"
+#include "utils/Diagnostics.hh"
 
 //! Factory to create input monitors.
 class UnixInputMonitorFactory : public workrave::input_monitor::IInputMonitorFactory
@@ -31,7 +32,7 @@ public:
 
 private:
   bool error_reported;
-  std::string actual_monitor_method;
+  TracedField<std::string> actual_monitor_method;
   workrave::input_monitor::IInputMonitor::Ptr monitor;
   const char *display;
   workrave::config::IConfigurator::Ptr config;
