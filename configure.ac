@@ -255,15 +255,15 @@ config_tracing=no
 if test "x$enable_debug" = "xyes"
 then
    config_debug=yes
-   AM_CFLAGS="-O0 -g -Wall"
-   AM_CXXFLAGS="-O0 -g -Wall"
+   CFLAGS="-O0 -g -Wall -Wextra ${CFLAGS}"
+   CXXFLAGS="-O0 -g -Wall -Wextra ${CXXFLAGS}"
    LDFLAGS="${LDFLAGS} -g"
 
    AC_DEFINE([GLIBCXX_FORCE_NEW], , [Define for debugging purposes])
    AC_DEFINE([GLIBCPP_FORCE_NEW], , [Define for debugging purposes])
 else
-   AM_CFLAGS="-O2 -Wall"
-   AM_CXXFLAGS="-O2 -Wall"
+   CFLAGS="-O2 -Wall ${CFLAGS}"
+   CXXFLAGS="-O2 -Wall ${CXXFLAGS}"
    AC_DEFINE([NDEBUG], , [Define if debugging code should be disabled])
 fi
 
