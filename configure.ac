@@ -1083,7 +1083,6 @@ AC_CONFIG_FILES([Makefile
                  libs/audio/src/macos/Makefile
                  libs/audio/src/Makefile
                  libs/audio/src/win32/Makefile
-                 libs/audio/src/x11/Makefile
                  libs/config/include/config/Makefile
                  libs/config/include/Makefile
                  libs/config/Makefile

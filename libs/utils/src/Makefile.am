@@ -7,6 +7,7 @@ noinst_LTLIBRARIES = libworkrave-utils.la
 cflags=
 sources = 	DBusProxy-gio.cc \
 			debug.cc \
+			AssetPath.cc \
 			Diagnostics.cc \
 			GlibThread.cc \
 			Platform.cc \

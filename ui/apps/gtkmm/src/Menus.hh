@@ -24,6 +24,7 @@
 #include <gtkmm/aboutdialog.h>
 
 #include "core/ICore.hh"
+#include "commonui/SoundTheme.hh"
 
 class IGUI;
 class NetworkLogDialog;
@@ -45,7 +46,7 @@ using namespace workrave;
 class Menus : public sigc::trackable
 {
 public:
-  Menus();
+  explicit Menus(SoundTheme::Ptr sound_theme);
   ~Menus();
 
   //! Menus items to be synced.
@@ -133,6 +134,7 @@ private:
   IMenu *menus[MENU_SIZEOF]{};
 
   Gtk::AboutDialog *about{nullptr};
+  SoundTheme::Ptr sound_theme;
 };
 
 #endif // MENUS_HH

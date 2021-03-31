@@ -1,6 +1,4 @@
-// W32SoundPlayer.hh
-//
-// Copyright (C) 2002 - 2010 Raymond Penners, Ray Satiro, Rob Caelers
+// Copyright (C) 2002 - 2010, 2013 Raymond Penners, Ray Satiro, Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +18,7 @@
 #ifndef W32SOUNDPLAYER_HH
 #define W32SOUNDPLAYER_HH
 
-#include "audio/ISoundDriver.hh"
+#include "ISoundDriver.hh"
 
 class W32SoundPlayer : public ISoundDriver
 {
@@ -28,9 +26,9 @@ public:
   W32SoundPlayer();
   virtual ~W32SoundPlayer();
 
-  void init(ISoundDriverEvents *) {}
-  bool capability(SoundCapability cap);
-  void play_sound(std::string wavfile);
+  void init(ISoundPlayerEvents *) {}
+  bool capability(workrave::audio::SoundCapability cap);
+  void play_sound(std::string wavfile, int volume);
 
 protected:
   static DWORD WINAPI thread_Play(LPVOID);
@@ -40,7 +38,7 @@ private:
 
   void open();
   void close();
-  int write(unsigned char *buffer, size_t size);
+  size_t write(unsigned char *buffer, size_t size);
   void flush_buffer(int buffer);
   void load_wav_file(const std::string &filename);
 
@@ -53,6 +51,7 @@ private:
   unsigned char *sample;
   size_t sample_size;
   WAVEFORMATEX format;
+  int volume;
 };
 
 #endif // W32SOUNDPLAYER_HH

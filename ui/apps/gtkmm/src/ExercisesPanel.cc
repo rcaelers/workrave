@@ -1,6 +1,4 @@
-// ExercisesPanel.cc --- Exercises panel
-//
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,7 +33,7 @@
 #  include "utils/Util.hh"
 #  include "Hig.hh"
 #  include "nls.h"
-#  include "audio/SoundPlayer.hh"
+#  include "commonui/SoundTheme.hh"
 #  include "debug.hh"
 
 using namespace std;
@@ -179,7 +177,7 @@ text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
   g_return_if_fail(markup != nullptr);
 
   if (len < 0)
-    len = strlen(markup);
+    len = (gint)strlen(markup);
 
   gtk_text_buffer_get_bounds(buffer, &start, &end);
 
@@ -384,7 +382,6 @@ ExercisesPanel::refresh_sequence()
   const Exercise &exercise = *exercise_iterator;
   if (exercise_time >= seq_time && exercise.sequence.size() > 0)
     {
-      // FIXME: something is not right here...
       if (image_iterator == exercise.sequence.end())
         {
           image_iterator = exercise.sequence.begin();
@@ -400,8 +397,8 @@ ExercisesPanel::refresh_sequence()
       show_image();
       if (exercise_time != 0)
         {
-          SoundPlayer *snd = GUI::get_instance()->get_sound_player();
-          snd->play_sound(SOUND_EXERCISE_STEP);
+          SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
+          snd->play_sound(SoundEvent::ExerciseStep);
         }
     }
 
@@ -485,13 +482,13 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
-      SoundPlayer *snd = GUI::get_instance()->get_sound_player();
+      SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
-      snd->play_sound(stopped ? SOUND_EXERCISES_ENDED : SOUND_EXERCISE_ENDED);
+      snd->play_sound(stopped ? SoundEvent::ExercisesEnded : SoundEvent::ExerciseEnded);
     }
   else
     {

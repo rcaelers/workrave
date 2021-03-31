@@ -1,5 +1,3 @@
-// GstSoundPlayer.hh
-//
 // Copyright (C) 2008, 2009, 2010, 2013 Rob Caelers
 // All rights reserved.
 //
@@ -20,29 +18,25 @@
 #ifndef GSTSOUNDPLAYER_HH
 #define GSTSOUNDPLAYER_HH
 
-#include "audio/ISoundDriver.hh"
+#include "ISoundDriver.hh"
 
-#ifdef HAVE_GSTREAMER
-
-#  include <gst/gst.h>
+#include <gst/gst.h>
 
 class GstSoundPlayer : public ISoundDriver
 {
 public:
   GstSoundPlayer();
-  virtual ~GstSoundPlayer();
+  ~GstSoundPlayer() override;
 
-  void init(ISoundDriverEvents *events) override;
-  bool capability(SoundCapability cap) override;
-  void play_sound(std::string wavfile) override;
+  void init(ISoundPlayerEvents *events) override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void play_sound(std::string wavfile, int volume) override;
+
   static gboolean bus_watch(GstBus *bus, GstMessage *msg, gpointer data);
 
 private:
-  //! GStreamer init OK.
   gboolean gst_ok{false};
-
-  //!
-  ISoundDriverEvents *events{nullptr};
+  ISoundPlayerEvents *events{nullptr};
 
   struct WatchData
   {
@@ -50,7 +44,5 @@ private:
     GstElement *play{nullptr};
   };
 };
-
-#endif
 
 #endif // GSTSOUNDPLAYER_HH

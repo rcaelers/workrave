@@ -44,6 +44,7 @@ sources =   AppletControl.cc \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			TimerPreferencesPanel.cc \
+			Ui.cc \
 			WindowHints.cc \
 			main.cc
 
@@ -185,9 +186,9 @@ $(bin_PROGRAMS):	$(top_builddir)/libs/audio/src/libworkrave-audio.la \
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 
-workrave_LDADD =	-lworkrave-audio -lworkrave-core -lworkrave-config  \
+workrave_LDADD =	-lworkrave-ui-common -lworkrave-audio -lworkrave-core -lworkrave-config  \
 					-lworkrave-input-monitor -lworkrave-session \
-					-lworkrave-utils @WR_LDADD@ -lworkrave-ui-common \
+					-lworkrave-utils @WR_LDADD@ \
 					@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 					@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 					@PULSE_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \

@@ -1,6 +1,4 @@
-// PulseMixer.hh
-//
-// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,24 +18,23 @@
 #ifndef PULSEMIXER_HH
 #define PULSEMIXER_HH
 
-#include <IMixer.hh>
+#include <map>
+#include <string>
 
-#ifdef HAVE_PULSE
+#include <pulse/pulseaudio.h>
+#include <pulse/stream.h>
+#include <pulse/glib-mainloop.h>
 
-#  include <map>
-
-#  include <pulse/pulseaudio.h>
-#  include <pulse/stream.h>
-#  include <pulse/glib-mainloop.h>
+#include "IMixer.hh"
 
 class PulseMixer : public IMixer
 {
 public:
-  PulseMixer();
-  virtual ~PulseMixer();
+  PulseMixer() = default;
+  ~PulseMixer() override;
 
-  void init();
-  bool set_mute(bool on);
+  void init() override;
+  bool set_mute(bool on) override;
 
 private:
   static void context_state_cb(pa_context *c, void *user_data);
@@ -57,15 +54,13 @@ private:
     uint32_t index;
   };
 
-  pa_glib_mainloop *pa_mainloop;
-  pa_mainloop_api *pa_api;
-  pa_context *context;
+  pa_glib_mainloop *pa_mainloop{nullptr};
+  pa_mainloop_api *pa_api{nullptr};
+  pa_context *context{nullptr};
 
   std::map<uint32_t, SinkInfo *> sinks;
-  SinkInfo *default_sink_info;
+  SinkInfo *default_sink_info{nullptr};
   std::string default_sink_name;
 };
-
-#endif
 
 #endif // PULSEMIXER_HH

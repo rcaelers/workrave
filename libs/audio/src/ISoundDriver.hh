@@ -1,6 +1,4 @@
-// Sound.hh --- Sound class
-//
-// Copyright (C) 2002, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,11 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <windows.h>
-#include "audio/Sound.hh"
+#ifndef ISOUNDDRIVER_HH
+#define ISOUNDDRIVER_HH
 
-void
-Sound::beep(int frequency, int millis)
+#include <string>
+
+#include "audio/ISoundPlayer.hh"
+#include "ISoundPlayerEvents.hh"
+
+class ISoundDriver
 {
-  ::Beep(frequency, millis);
-}
+public:
+  virtual ~ISoundDriver() = default;
+
+  virtual void init(ISoundPlayerEvents *events = nullptr) = 0;
+  virtual bool capability(workrave::audio::SoundCapability cap) = 0;
+  virtual void play_sound(std::string wavfile, int volume) = 0;
+};
+
+#endif // ISOUNDDRIVER_HH

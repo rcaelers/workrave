@@ -1,6 +1,4 @@
-// GstSoundPlayer.cc --- Sound player
-//
-// Copyright (C) 2002 - 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,106 +19,54 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_GSTREAMER
+#include "debug.hh"
 
-#  include "debug.hh"
-
-#  include "config/IConfigurator.hh"
-#  include "core/ICore.hh"
-#  include "core/CoreFactory.hh"
-
-#  include "GstSoundPlayer.hh"
-#  include "audio/SoundPlayer.hh"
-#  include "audio/Sound.hh"
-#  include "utils/Util.hh"
-#  include "debug.hh"
+#include "GstSoundPlayer.hh"
+#include "ISoundPlayerEvents.hh"
 
 using namespace std;
-using namespace workrave;
 
 GstSoundPlayer::GstSoundPlayer()
-
 {
   GError *error = nullptr;
 
   gst_ok = gst_init_check(nullptr, nullptr, &error);
   gst_registry_fork_set_enabled(FALSE);
 
-  if (!gst_ok)
+  if (error != nullptr)
     {
-      if (error)
-        {
-          g_error_free(error);
-          error = nullptr;
-        }
+      g_error_free(error);
+      error = nullptr;
     }
 }
 
 GstSoundPlayer::~GstSoundPlayer()
 {
-  TRACE_ENTER("GstSoundPlayer::~GstSoundPlayer");
   if (gst_ok)
     {
       gst_deinit();
     }
-  TRACE_EXIT();
 }
 
 void
-GstSoundPlayer::init(ISoundDriverEvents *events)
+GstSoundPlayer::init(ISoundPlayerEvents *events)
 {
   this->events = events;
 }
 
 bool
-GstSoundPlayer::capability(SoundCapability cap)
+GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == SOUND_CAP_EDIT)
-    {
-      return true;
-    }
-  if (cap == SOUND_CAP_VOLUME)
-    {
-      return true;
-    }
-  if (cap == SOUND_CAP_EOS_EVENT)
-    {
-      return true;
-    }
-
-  return false;
+  return (cap == workrave::audio::SoundCapability::VOLUME || cap == workrave::audio::SoundCapability::EOS_EVENT);
 }
 
 void
-GstSoundPlayer::play_sound(std::string wavfile)
+GstSoundPlayer::play_sound(std::string wavfile, int volume)
 {
-  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile);
+  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile << " " << volume);
 
   GstElement *play = nullptr;
-  GstElement *sink = nullptr;
-  GstBus *bus = nullptr;
-
-  string method = "automatic";
-
-  if (method == "automatic")
-    {
-      if (Util::running_gnome())
-        {
-          sink = gst_element_factory_make("gconfaudiosink", "sink");
-        }
-      if (!sink)
-        {
-          sink = gst_element_factory_make("autoaudiosink", "sink");
-        }
-    }
-  else if (method == "esd")
-    {
-      sink = gst_element_factory_make("esdsink", "sink");
-    }
-  else if (method == "alsa")
-    {
-      sink = gst_element_factory_make("alsasink", "sink");
-    }
+  GstElement *sink = gst_element_factory_make("autoaudiosink", "sink");
 
   if (sink != nullptr)
     {
@@ -129,19 +75,15 @@ GstSoundPlayer::play_sound(std::string wavfile)
 
   if (play != nullptr)
     {
-      WatchData *watch_data = new WatchData;
+      auto *watch_data = new WatchData;
       watch_data->player = this;
       watch_data->play = play;
 
-      bus = gst_pipeline_get_bus(GST_PIPELINE(play));
+      GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(play));
       gst_bus_add_watch(bus, bus_watch, watch_data);
 
       char *uri = g_strdup_printf("file://%s", wavfile.c_str());
 
-      int volume = 100;
-      CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
-
-      TRACE_MSG((float)volume);
       gst_element_set_state(play, GST_STATE_NULL);
 
       g_object_set(G_OBJECT(play), "uri", uri, "volume", (float)(volume / 100.0), "audio-sink", sink, NULL);
@@ -158,7 +100,7 @@ GstSoundPlayer::play_sound(std::string wavfile)
 gboolean
 GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
-  WatchData *watch_data = (WatchData *)data;
+  auto *watch_data = (WatchData *)data;
   GstElement *play = watch_data->play;
   GError *err = nullptr;
   gboolean ret = TRUE;
@@ -199,5 +141,3 @@ GstSoundPlayer::bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 
   return ret;
 }
-
-#endif

@@ -1,6 +1,4 @@
-// Sound.hh --- Sound class
-//
-// Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 -  2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,25 +15,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOUND_HH
-#define SOUND_HH
+#ifndef SOUNDPLAYER_HH
+#define SOUNDPLAYER_HH
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#include "ISoundDriver.hh"
 
-#ifdef PLATFORM_OS_UNIX
-#  include <X11/Xlib.h>
-#endif
+class IMixer;
 
-class Sound
+class SoundPlayer
+  : public workrave::audio::ISoundPlayer
+  , public ISoundPlayerEvents
 {
 public:
-#ifdef PLATFORM_OS_UNIX
-  static void beep(Display *x11, int frequency, int millis);
-#else
-  static void beep(int frequency, int millis);
-#endif
+  SoundPlayer();
+  ~SoundPlayer() override;
+
+  void init() override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void restore_mute() override;
+  void play_sound(const std::string &wavfile, bool mute_after_playback, int volume) override;
+
+  void eos_event() override;
+
+private:
+  ISoundDriver *driver{nullptr};
+  IMixer *mixer{nullptr};
+  bool delayed_mute{false};
+  bool must_unmute{false};
 };
 
-#endif // SOUND_HH
+#endif // SOUNDPLAYER_HH

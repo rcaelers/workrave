@@ -20,26 +20,21 @@
 #ifndef W32DIRECTSOUNDPLAYER_HH
 #define W32DIRECTSOUNDPLAYER_HH
 
-#include "audio/ISoundDriver.hh"
+#include "ISoundDriver.hh"
 
 #include <windows.h>
-#if defined(HAVE_DXERR_H)
-#  include <dxerr.h>
-#elif defined(HAVE_DXERR8_H)
-#  include <dxerr8.h>
-#endif
 #include <dsound.h>
 #include <string>
 
 class W32DirectSoundPlayer : public ISoundDriver
 {
 public:
-  W32DirectSoundPlayer();
-  virtual ~W32DirectSoundPlayer();
+  W32DirectSoundPlayer() = default;
+  virtual ~W32DirectSoundPlayer() = default;
 
-  void init(ISoundDriverEvents *events);
-  bool capability(SoundCapability cap);
-  void play_sound(std::string wavfile);
+  void init(ISoundPlayerEvents *events);
+  bool capability(workrave::audio::SoundCapability cap);
+  void play_sound(std::string wavfile, int volume);
 
 private:
   static DWORD WINAPI play_thread(LPVOID);
@@ -47,7 +42,7 @@ private:
   void play();
 
 private:
-  ISoundDriverEvents *events;
+  ISoundPlayerEvents *events;
 };
 
 class WaveFile
@@ -59,7 +54,7 @@ public:
   void init();
 
   size_t read(BYTE *buffer, size_t size);
-  size_t get_size();
+  DWORD get_size();
 
   void reset_file();
   WAVEFORMATEX *get_format() { return &format; };
@@ -76,7 +71,7 @@ private:
 class SoundClip
 {
 public:
-  SoundClip(const std::string &filename, ISoundDriverEvents *events);
+  SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume);
   virtual ~SoundClip();
 
   void init();
@@ -87,6 +82,7 @@ private:
   void fill_buffer();
   bool is_buffer_lost();
   void restore_buffer();
+  std::string get_error_string(DWORD error_code);
 
 private:
   std::string filename;
@@ -95,7 +91,8 @@ private:
   LPDIRECTSOUNDBUFFER sound_buffer;
   DWORD sound_buffer_size;
   HANDLE stop_event;
-  ISoundDriverEvents *events;
+  ISoundPlayerEvents *events;
+  int volume;
 };
 
 #endif // W32DIRECTSOUNDPLAYER_HH

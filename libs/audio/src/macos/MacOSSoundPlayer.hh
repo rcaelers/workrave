@@ -1,6 +1,4 @@
-// MacOSSoundPlayer.hh
-//
-// Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,35 +15,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MacOSSOUNDPLAYER_HH
-#define MacOSSOUNDPLAYER_HH
+#ifndef MACOSSOUNDPLAYER_HH
+#define MACOSSOUNDPLAYER_HH
 
 #include "ISoundDriver.hh"
-#include "Thread.hh"
-#ifdef __OBJC__
-#  import "Foundation/Foundation.h"
-#endif
 
-class MacOSSoundPlayer
-  : public ISoundDriver
-  , public Thread
+class MacOSSoundPlayer : public ISoundDriver
 {
 public:
   MacOSSoundPlayer();
-  virtual ~MacOSSoundPlayer();
 
-  void init(ISoundDriverEvents *){};
-  bool capability(SoundCapability cap);
-  void play_sound(std::string wavfile);
+  void init(ISoundPlayerEvents *) override;
+  bool capability(workrave::audio::SoundCapability cap) override;
+  void play_sound(std::string wavfile, int volume) override;
+
+  void fire_eos();
 
 private:
-  void run();
+  ISoundPlayerEvents *events;
 
-  const char *wav_file;
-
-#ifdef __OBJC__
-  NSMutableDictionary *soundDictionary;
-#endif
+private:
+  class Private;
+  std::shared_ptr<Private> priv;
 };
 
-#endif // MacOSSOUNDPLAYER_HH
+#endif // MACOSSOUNDPLAYER_HH

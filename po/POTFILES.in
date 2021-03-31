@@ -83,6 +83,7 @@ ui/apps/gtkmm/src/NetworkJoinDialog.cc
 ui/apps/gtkmm/src/AppletWindow.cc
 ui/apps/gtkmm/src/GenericDBusApplet.cc
 ui/apps/gtkmm/src/TimerBoxGtkView.cc
+ui/apps/gtkmm/src/Ui.cc
 ui/apps/text/src/main.cc
 ui/apps/text/src/PreludeWindow.cc
 ui/apps/text/src/BreakWindow.cc
@@ -156,15 +157,12 @@ libs/utils/src/win32/crashlog.cc
 libs/utils/src/win32/W32ActiveSetup.cc
 libs/utils/src/win32/crashlog.c
 libs/audio/src/macos/MacOSSoundPlayer.cc
-libs/audio/src/macos/Sound.cc
 libs/audio/src/SoundPlayer.cc
 libs/audio/src/PulseMixer.cc
-libs/audio/src/x11/Sound.cc
 libs/audio/src/GstSoundPlayer.cc
 libs/audio/src/win32/W32Mixer.cc
 libs/audio/src/win32/W32DirectSoundPlayer.cc
 libs/audio/src/win32/W32SoundPlayer.cc
-libs/audio/src/win32/Sound.cc
 libs/hooks/harpoon/src/harpoon.c
 libs/session/src/ScreenLockDBus.cc
 libs/session/src/SystemStateChangeLogind.cc

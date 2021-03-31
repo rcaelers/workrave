@@ -86,7 +86,8 @@
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-Menus::Menus()
+Menus::Menus(SoundTheme::Ptr sound_theme)
+  : sound_theme(sound_theme)
 {
   gui = GUI::get_instance();
 
@@ -236,7 +237,7 @@ Menus::on_menu_preferences()
 {
   if (preferences_dialog == nullptr)
     {
-      preferences_dialog = new PreferencesDialog();
+      preferences_dialog = new PreferencesDialog(sound_theme);
       preferences_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_preferences_response));
 
       preferences_dialog->run();
@@ -351,8 +352,8 @@ Menus::on_menu_about()
       about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
 #endif
 
-#ifdef GIT_VERSION
-      about->set_version(PACKAGE_VERSION "\n(" GIT_VERSION ")");
+#ifdef WORKRAVE_GIT_VERSION
+      about->set_version(PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");
 #else
       about->set_version(PACKAGE_VERSION);
 #endif

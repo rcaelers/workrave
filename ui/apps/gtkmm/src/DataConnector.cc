@@ -1,6 +1,6 @@
 // DataConnector.cc --- Connect Gtkmm widget with Configuration items
 //
-// Copyright (C) 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,10 +31,12 @@
 
 #include "DataConnector.hh"
 
-#include "core/CoreFactory.hh"
 #include "config/IConfigurator.hh"
 
+#include "commonui/Backend.hh"
+
 using namespace workrave;
+using namespace workrave::config;
 using namespace std;
 
 // Define connector for standard gtkmm widgets.
@@ -59,15 +61,15 @@ namespace dc
 //! Construct a new data connector.
 DataConnector::DataConnector()
 {
-  config = CoreFactory::get_configurator();
+  config = Backend::get_configurator();
 }
 
 //! Destruct data connector.
 DataConnector::~DataConnector()
 {
-  for (WidgetIter i = connections.begin(); i != connections.end(); i++)
+  for (auto &connection: connections)
     {
-      delete i->connection;
+      delete connection.connection;
     }
 }
 
@@ -112,7 +114,7 @@ DataConnector::connect(const string &setting,
 //! Construct a new data connection
 DataConnection::DataConnection()
 {
-  config = CoreFactory::get_configurator();
+  config = Backend::get_configurator();
 }
 
 //! Destruct data connection.

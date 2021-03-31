@@ -1,6 +1,4 @@
-// W32Mixer.cc --- W32Audio mixer
-//
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,21 +19,15 @@
 #  include "config.h"
 #endif
 
-#include <windows.h>
-#include <initguid.h>
-#include <mmsystem.h>
 #include "debug.hh"
 
-#include "config/IConfigurator.hh"
-#include "core/ICore.hh"
-#include "core/CoreFactory.hh"
+#include <initguid.h>
 
 #include "W32Mixer.hh"
-#include "utils/Util.hh"
-#include "debug.hh"
 
-using namespace std;
-using namespace workrave;
+#include <windows.h>
+#include <mmsystem.h>
+#include <shobjidl.h>
 
 W32Mixer::W32Mixer()
   : endpoint_volume(NULL)
@@ -88,12 +80,11 @@ W32Mixer::init()
   IMMDeviceEnumerator *device_enum = NULL;
   IMMDevice *default_device = NULL;
 
-#ifdef _MSC_VER
-  // These symbols do not exist in the MSVC SDK. Use variable shadowing to compile without errors.
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
   const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
   const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
   const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);
-#endif //_MSC_VER
+#endif
 
   hr = CoCreateInstance(CLSID_MMDeviceEnumerator, NULL, CLSCTX_INPROC_SERVER, IID_IMMDeviceEnumerator, (LPVOID *)&device_enum);
   if (hr == S_OK)

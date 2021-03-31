@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Preferences Dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 #include "IconListNotebook.hh"
 #include "core/ICore.hh"
 
-#include "audio/SoundPlayer.hh"
+#include "commonui/SoundTheme.hh"
 
 #include <gtkmm.h>
 //#include <gtkmmconfig.h>
@@ -52,7 +52,7 @@ using namespace workrave;
 class PreferencesDialog : public HigDialog
 {
 public:
-  PreferencesDialog();
+  explicit PreferencesDialog(SoundTheme::Ptr sound_theme);
   ~PreferencesDialog() override;
 
   int run();
@@ -119,18 +119,16 @@ private:
       add(description);
       add(selectable);
       add(label);
-      add(event);
     }
 
     Gtk::TreeModelColumn<bool> enabled;
     Gtk::TreeModelColumn<Glib::ustring> description;
     Gtk::TreeModelColumn<bool> selectable;
     Gtk::TreeModelColumn<Glib::ustring> label;
-    Gtk::TreeModelColumn<int> event;
   };
 
-  DataConnector *connector{nullptr};
-  std::vector<SoundPlayer::Theme> sound_themes;
+  SoundTheme::Ptr sound_theme;
+  DataConnector *connector;
   Gtk::TreeView sound_treeview;
   SoundModel sound_model;
   Glib::RefPtr<Gtk::ListStore> sound_store;

@@ -1,6 +1,4 @@
-// GUI.hh --- The WorkRave GUI
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2020 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,6 +31,7 @@
 #include "core/ICoreEventListener.hh"
 #include "config/IConfiguratorListener.hh"
 #include "core/IApp.hh"
+#include "commonui/SoundTheme.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 
@@ -59,7 +58,6 @@ class Menus;
 // Generic GUI
 class BreakControl;
 class IBreakWindow;
-class SoundPlayer;
 class Session;
 
 using namespace workrave;
@@ -73,7 +71,7 @@ public:
 
   virtual Menus *get_menus() const = 0;
   virtual MainWindow *get_main_window() const = 0;
-  virtual SoundPlayer *get_sound_player() const = 0;
+  virtual SoundTheme::Ptr get_sound_theme() const = 0;
 
   virtual void open_main_window() = 0;
   virtual void restbreak_now() = 0;
@@ -108,7 +106,7 @@ public:
 
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const override;
-  SoundPlayer *get_sound_player() const override;
+  SoundTheme::Ptr get_sound_theme() const override;
   Menus *get_menus() const override;
 
   void main();
@@ -210,7 +208,7 @@ private:
   ICore *core{nullptr};
 
   //! The sound player
-  SoundPlayer *sound_player{nullptr};
+  SoundTheme::Ptr sound_theme;
 
   //! Interface to the break window.
   IBreakWindow **break_windows{nullptr};
@@ -315,10 +313,10 @@ GUI::get_main_window() const
 }
 
 //! Returns the sound player
-inline SoundPlayer *
-GUI::get_sound_player() const
+inline SoundTheme::Ptr
+GUI::get_sound_theme() const
 {
-  return sound_player;
+  return sound_theme;
 }
 
 //! Returns the sound player

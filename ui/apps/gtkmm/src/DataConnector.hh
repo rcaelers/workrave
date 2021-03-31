@@ -1,6 +1,6 @@
 // DataConnector.hh --- Connect widget with the configurator
 //
-// Copyright (C) 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,9 @@
 #include <list>
 #include <sigc++/sigc++.h>
 
-#include "config/IConfigurator.hh"
-#include "config/IConfiguratorListener.hh"
+#include "config/Config.hh"
+#include "config/Setting.hh"
 #include "core/ICore.hh"
-
-namespace workrave
-{
-  class IConfigurator;
-}
 
 class TimeEntry;
 
@@ -70,6 +65,21 @@ public:
                sigc::slot<bool, const std::string &, bool> slot,
                dc::Flags flags = dc::NONE);
 
+  template<class T, class R = T>
+  void connect(workrave::config::Setting<T, R> &setting, DataConnection *connection, dc::Flags flags = dc::NONE)
+  {
+    connect(setting.key(), connection, flags);
+  }
+
+  template<class T, class R = T>
+  void connect(workrave::config::Setting<T, R> &setting,
+               DataConnection *connection,
+               sigc::slot<bool, const std::string &, bool> slot,
+               dc::Flags flags = dc::NONE)
+  {
+    connect(setting.key(), connection, slot, flags);
+  }
+
 private:
   struct MonitoredWidget
   {
@@ -78,8 +88,8 @@ private:
     DataConnection *connection;
   };
 
-  typedef std::list<MonitoredWidget> Widgets;
-  typedef Widgets::iterator WidgetIter;
+  using Widgets = std::list<MonitoredWidget>;
+  using WidgetIter = Widgets::iterator;
 
   //!
   Widgets connections;

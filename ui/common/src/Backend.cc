@@ -1,6 +1,6 @@
-// Sound.cc --- Sound class
+// Backend.cc
 //
-// Copyright (C) 2002, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,38 @@
 #  include "config.h"
 #endif
 
-#include "audio/Sound.hh"
+#include "Backend.hh"
 
-void
-Sound::beep(int freq, int millis)
+#include "config/IConfigurator.hh"
+#include "core/ICore.hh"
+
+#include "core/CoreFactory.hh" // TODO
+
+using namespace workrave;
+using namespace workrave::config;
+using namespace workrave::dbus;
+
+// ICore::Ptr Backend::core;
+
+// ICore::Ptr
+// Backend::get_core()
+// {
+//   if (!core)
+//     {
+//       core = CoreFactory::create();
+//     }
+
+//   return core;
+// }
+
+IConfigurator::Ptr
+Backend::get_configurator()
 {
-  (void)freq;
-  (void)millis;
+  return CoreFactory::get_configurator(); // get_core()->get_configurator();
 }
+
+// IDBus::Ptr
+// Backend::get_dbus()
+// {
+//   return get_core()->get_dbus();
+// }

@@ -1,8 +1,8 @@
 set(SRC
-  # Backend.cc
+  Backend.cc
   Exercise.cc
   GUIConfig.cc
-  #SoundTheme.cc
+  SoundTheme.cc
   Session.cc
   Text.cc
   TimerBoxControl.cc

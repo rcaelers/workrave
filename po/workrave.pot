@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-03-26 22:04+0000\n"
+"POT-Creation-Date: 2021-03-31 09:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ../ui/applets/mate/src/main-gtk2.c:377
-#: ../ui/applets/mate/src/main-gtk3.c:341 ../ui/apps/gtkmm/src/GUI.cc:1437
+#: ../ui/applets/mate/src/main-gtk3.c:341 ../ui/apps/gtkmm/src/GUI.cc:1430
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:168
 msgid "Suspended"
 msgstr ""
@@ -83,7 +83,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ../ui/applets/mate/src/main-gtk2.c:379
-#: ../ui/applets/mate/src/main-gtk3.c:343 ../ui/apps/gtkmm/src/GUI.cc:1441
+#: ../ui/applets/mate/src/main-gtk3.c:343 ../ui/apps/gtkmm/src/GUI.cc:1434
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:171
 msgid "Quiet"
 msgstr ""
@@ -311,7 +311,7 @@ msgstr ""
 #: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:221
 #: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:211
 #: ../ui/applets/xfce/src/main.c:297 ../ui/applets/mate/src/main-gtk2.c:285
-#: ../ui/applets/mate/src/main-gtk3.c:210 ../ui/apps/gtkmm/src/Menus.cc:345
+#: ../ui/applets/mate/src/main-gtk3.c:210 ../ui/apps/gtkmm/src/Menus.cc:346
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -397,23 +397,22 @@ msgstr ""
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:52
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:161
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
-#: ../ui/apps/gtkmm/src/GUI.cc:1430
+#: ../ui/apps/gtkmm/src/GUI.cc:1423
 msgid "Micro-break"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/GtkUtil.cc:164
 #: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:136
-#: ../ui/apps/gtkmm/src/GUI.cc:1430 ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../ui/apps/gtkmm/src/GUI.cc:1423 ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
 #: ../ui/apps/gtkmm/src/RestBreakWindow.cc:211
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 msgid "Rest break"
 msgstr ""
 
 #. label
-#: ../ui/apps/gtkmm/src/GtkUtil.cc:164 ../ui/apps/gtkmm/src/GUI.cc:1430
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:164 ../ui/apps/gtkmm/src/GUI.cc:1423
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:47
 #: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:54
-#: ../libs/audio/src/SoundPlayer.cc:89
 msgid "Daily limit"
 msgstr ""
 
@@ -705,39 +704,39 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:303
+#: ../ui/apps/gtkmm/src/GUI.cc:299
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:788 ../ui/apps/gtkmm/src/GUI.cc:905
+#: ../ui/apps/gtkmm/src/GUI.cc:784 ../ui/apps/gtkmm/src/GUI.cc:898
 msgid "Workrave failed to start"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:789
+#: ../ui/apps/gtkmm/src/GUI.cc:785
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:900
+#: ../ui/apps/gtkmm/src/GUI.cc:893
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:903
+#: ../ui/apps/gtkmm/src/GUI.cc:896
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1298
+#: ../ui/apps/gtkmm/src/GUI.cc:1291
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1304
+#: ../ui/apps/gtkmm/src/GUI.cc:1297
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/GUI.cc:1437 ../ui/apps/gtkmm/src/GUI.cc:1441
+#: ../ui/apps/gtkmm/src/GUI.cc:1430 ../ui/apps/gtkmm/src/GUI.cc:1434
 msgid "Mode: "
 msgstr ""
 
@@ -844,19 +843,19 @@ msgstr ""
 msgid "Show status icon"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:77
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
 #: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 #: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 msgid "Preferences"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:90
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:92
 #: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:114
 msgid "General"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:95
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:96
 msgid "Sounds"
 msgstr ""
 
@@ -933,89 +932,84 @@ msgid "Sound Options"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/PreferencesDialog.cc:325
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:329
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:328
 msgid "No sounds"
 msgstr ""
 
 #: ../ui/apps/gtkmm/src/PreferencesDialog.cc:326
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:330
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:329
 msgid "Play sounds using sound card"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:327
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:331
-msgid "Play sounds using built-in speaker"
-msgstr ""
-
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:356
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:350
 msgid "Volume:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:359
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:353
 msgid "Sound:"
 msgstr ""
 
 #. Volume
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:364
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:358
 msgid "Mute sounds during rest break and daily limit"
 msgstr ""
 
 #. Sound themes
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
 msgid "Sound Events"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:382
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
 msgid "Sound Theme:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:405
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:424
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:452
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:397
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:415
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:443
 msgid "Play"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:411
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:402
 msgid "Event"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:427
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:418
 msgid "Choose a sound"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:437
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:526
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:516
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:533
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:523
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:536
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:526
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:541
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:531
 msgid "Mouse sensitivity:"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:541
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:531
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:557
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:547
 msgid "Debug monitoring"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:1009
-#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:1011
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:980
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:982
 msgid "Default"
 msgstr ""
 
@@ -1219,36 +1213,36 @@ msgid ""
 "find something else to do, such as reviewing a document."
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:246
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:244
 msgid "Exercises player"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:276
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:274
 msgid "Previous exercise"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:277
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:275
 msgid "Next exercise"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:278
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:464
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:276
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:461
 msgid "Pause exercises"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:282
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:280
 msgid "End exercises"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:459
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:456
 msgid "Resume"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:459
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:456
 msgid "Pause"
 msgstr ""
 
-#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:462
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:459
 msgid "Resume exercises"
 msgstr ""
 
@@ -1473,44 +1467,4 @@ msgstr ""
 #: ../libs/core/src/DistributionSocketLink.cc:2244
 #, c-format
 msgid "Could not connect to client %s."
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:77
-msgid "Break prompt"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:79
-msgid "Break ignored"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:81
-msgid "Rest break started"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:83
-msgid "Rest break ended"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:85
-msgid "Micro-break started"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:87
-msgid "Micro-break ended"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:91
-msgid "Exercise ended"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:93
-msgid "Exercises ended"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:95
-msgid "Exercise change"
-msgstr ""
-
-#: ../libs/audio/src/SoundPlayer.cc:461
-msgid "Custom"
 msgstr ""

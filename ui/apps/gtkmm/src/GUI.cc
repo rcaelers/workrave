@@ -1,3 +1,5 @@
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
+// All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -59,7 +61,7 @@
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
-#include "audio/SoundPlayer.hh"
+#include "commonui/SoundTheme.hh"
 #include "StatusIcon.hh"
 #include "session/System.hh"
 #include "commonui/Text.hh"
@@ -148,8 +150,6 @@ GUI::~GUI()
   delete[] break_windows;
   delete[] heads;
 
-  delete sound_player;
-
   TRACE_EXIT();
 }
 
@@ -210,7 +210,7 @@ GUI::main()
   init_startup_warnings();
 
 #ifdef HAVE_GTK_MAC_INTEGRATION
-  GtkosxApplication *theApp = (GtkosxApplication *)g_object_new(GTKMacOS_TYPE_APPLICATION, NULL);
+  GtkosxApplication *theApp = (GtkosxApplication *)g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
   gtkosx_application_set_dock_icon_pixbuf(theApp, gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL));
   gtkosx_application_ready(theApp);
 #endif
@@ -328,7 +328,7 @@ GUI::on_timer()
 
       if (user_active)
         {
-          sound_player->restore_mute();
+          sound_theme->restore_mute();
           muted = false;
         }
     }
@@ -709,7 +709,7 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
-  menus = new Menus();
+  menus = new Menus(sound_theme);
 
   // The main status window.
   main_window = new MainWindow();
@@ -855,8 +855,8 @@ GUI::init_sound_player()
       // Tell pulseaudio were are playing sound events
       g_setenv("PULSE_PROP_media.role", "event", TRUE);
 
-      sound_player = new SoundPlayer(); /* LEAK */
-      sound_player->init();
+      sound_theme = std::make_shared<SoundTheme>();
+      sound_theme->init();
     }
   catch (workrave::utils::Exception &)
     {
@@ -870,25 +870,22 @@ GUI::core_event_notify(const CoreEvent event)
 {
   TRACE_ENTER_MSG("GUI::core_event_sound_notify", event);
 
-  if (sound_player != nullptr)
+  if (event >= CORE_EVENT_SOUND_FIRST && event <= CORE_EVENT_SOUND_LAST)
     {
-      if (event >= CORE_EVENT_SOUND_FIRST && event <= CORE_EVENT_SOUND_LAST)
-        {
-          bool mute = false;
-          SoundEvent snd = (SoundEvent)((int)event - CORE_EVENT_SOUND_FIRST);
-          TRACE_MSG("play " << event);
+      bool mute = false;
+      SoundEvent snd = (SoundEvent)((int)event - CORE_EVENT_SOUND_FIRST);
+      TRACE_MSG("play " << event);
 
-          if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED || event == CORE_EVENT_SOUND_DAILY_LIMIT)
+      if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED || event == CORE_EVENT_SOUND_DAILY_LIMIT)
+        {
+          bool mute = SoundTheme::sound_mute()();
+          if (mute)
             {
-              CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
-              if (mute)
-                {
-                  muted = true;
-                }
+              muted = true;
             }
-          TRACE_MSG("Mute after playback " << mute);
-          sound_player->play_sound(snd, mute);
         }
+      TRACE_MSG("Mute after playback " << mute);
+      sound_theme->play_sound(snd, mute);
     }
 
   if (event == CORE_EVENT_MONITOR_FAILURE)

@@ -1,6 +1,4 @@
-// W32SoundPlayer.cc --- Sound player
-//
-// Copyright (C) 2002 - 2008, 2010, 2012 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008, 2010, 2012, 2013 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,17 +31,13 @@
 
 #include "W32SoundPlayer.hh"
 
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-#include "audio/SoundPlayer.hh"
 #include "utils/Exception.hh"
-#include "utils/Util.hh"
 
 #define SAMPLE_BITS (8)
 #define WAVE_BUFFER_SIZE (4096)
 
-using namespace workrave;
 using namespace workrave::utils;
+using namespace std;
 
 static std::string sound_filename;
 
@@ -52,13 +46,9 @@ W32SoundPlayer::W32SoundPlayer() {}
 W32SoundPlayer::~W32SoundPlayer() {}
 
 bool
-W32SoundPlayer::capability(SoundCapability cap)
+W32SoundPlayer::capability(workrave::audio::SoundCapability cap)
 {
-  if (cap == SOUND_CAP_EDIT)
-    {
-      return true;
-    }
-  if (cap == SOUND_CAP_VOLUME)
+  if (cap == workrave::audio::SoundCapability::VOLUME)
     {
       return true;
     }
@@ -72,7 +62,7 @@ redistribute under GNU terms.
 */
 
 void
-W32SoundPlayer::play_sound(std::string wavfile)
+W32SoundPlayer::play_sound(std::string wavfile, int volume)
 {
   TRACE_ENTER_MSG("W32SoundPlayer::play_sound", wavfile);
 
@@ -82,6 +72,7 @@ W32SoundPlayer::play_sound(std::string wavfile)
     }
   else
     {
+      this->volume = volume;
       DWORD id;
       sound_filename = wavfile;
       CloseHandle(CreateThread(NULL, 0, thread_Play, this, 0, &id));
@@ -111,7 +102,7 @@ W32SoundPlayer::Play()
       write(sample, sample_size);
       close();
     }
-  catch (Exception e)
+  catch (Exception &e)
     {
       TRACE_MSG(e.details());
     }
@@ -135,7 +126,7 @@ W32SoundPlayer::open()
   number_of_buffers = 16;
   buffer_position = 0;
 
-  res = waveOutOpen(&waveout, WAVE_MAPPER, &format, (DWORD)wave_event, (DWORD)0, CALLBACK_EVENT);
+  res = waveOutOpen(&waveout, WAVE_MAPPER, &format, (DWORD_PTR)wave_event, (DWORD_PTR)0, CALLBACK_EVENT);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("waveOutOpen");
@@ -147,13 +138,11 @@ W32SoundPlayer::open()
       throw Exception("waveOutPause");
     }
 
-  int volume = 100;
-  CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
+  int vol = volume;
+  vol = (vol * 0xFFFF / 100);
+  vol = vol | (vol << 16);
 
-  volume = (volume * 0xFFFF / 100);
-  volume = volume | (volume << 16);
-
-  res = waveOutSetVolume(waveout, volume);
+  res = waveOutSetVolume(waveout, vol);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("waveOutSetVolume");
@@ -179,7 +168,7 @@ W32SoundPlayer::open()
     }
 }
 
-int
+size_t
 W32SoundPlayer::write(unsigned char *buf, size_t size)
 {
   unsigned char *ptr = buf;
@@ -199,10 +188,10 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
           WaitForSingleObject(wave_event, INFINITE);
         }
 
-      int chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
+      DWORD chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
       if (ptr + chunck_size > end)
         {
-          chunck_size = end - ptr;
+          chunck_size = static_cast<DWORD>(end - ptr);
         }
 
       memcpy(buffers[i]->lpData + buffers[i]->dwBytesRecorded, ptr, chunck_size);
@@ -368,7 +357,7 @@ W32SoundPlayer::load_wav_file(const std::string &filename)
       throw Exception("mmioAscend");
     }
 
-  int pos = 0;
+  size_t pos = 0;
   do
     {
       size_t copy = mmio.pchEndRead - mmio.pchNext;
@@ -386,7 +375,7 @@ W32SoundPlayer::load_wav_file(const std::string &filename)
 
       mmio.pchNext = mmio.pchEndRead;
     }
-  while (pos < (int)sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
+  while (pos < sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
 
   mmioClose(handle, 0);
 }

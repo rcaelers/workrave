@@ -1,6 +1,4 @@
-// W32Mixer.hh
-//
-// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +18,7 @@
 #ifndef W32MIXER_HH
 #define W32MIXER_HH
 
-#include <IMixer.hh>
+#include "IMixer.hh"
 
 #ifdef HAVE_MMDEVICEAPI_H
 #  include <mmdeviceapi.h>

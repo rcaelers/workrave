@@ -1,6 +1,4 @@
-// ISoundDriver.hh
-//
-// Copyright (C) 2002 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,32 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ISOUNDDRIVER_HH
-#define ISOUNDDRIVER_HH
+#ifndef ISOUNDPLAYEREVENTS_HH
+#define ISOUNDPLAYEREVENTS_HH
 
-#include <string>
-#include "audio/SoundTypes.hh"
-
-class ISoundDriverEvents
+class ISoundPlayerEvents
 {
 public:
-  virtual ~ISoundDriverEvents() = default;
+  virtual ~ISoundPlayerEvents() = default;
 
   virtual void eos_event() = 0;
 };
 
-class ISoundDriver
-{
-public:
-  virtual ~ISoundDriver() = default;
-
-  virtual void init(ISoundDriverEvents *events = nullptr) = 0;
-
-  //!
-  virtual bool capability(SoundCapability cap) = 0;
-
-  //! Plays sound, returns immediately.
-  virtual void play_sound(std::string wavfile) = 0;
-};
-
-#endif // ISOUNDDRIVER_HH
+#endif // ISOUNDPLAYEREVENTS_HH
