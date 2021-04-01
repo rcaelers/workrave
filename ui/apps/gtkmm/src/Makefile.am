@@ -188,7 +188,7 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 
 workrave_LDADD =	-lworkrave-ui-common -lworkrave-audio -lworkrave-core -lworkrave-config  \
 					-lworkrave-input-monitor -lworkrave-session \
-					-lworkrave-utils @WR_LDADD@ \
+					-lworkrave-utils @WR_LDADD@ -lm \
 					@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 					@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 					@PULSE_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \

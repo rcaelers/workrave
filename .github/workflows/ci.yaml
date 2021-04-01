@@ -100,7 +100,7 @@ jobs:
       matrix:
         config:
           - image: ubuntu-bionic
-            compiler: gcc
+            compiler: gcc-8
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 

@@ -42,6 +42,10 @@ apt-get -y -q -V --no-install-recommends install \
 if [[ $CONF_COMPILER = 'clang' ]] ; then
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
+elif [[ $CONF_COMPILER == gcc-* ]] ; then
+    version=`echo $CONF_COMPILER | sed -e 's/.*-//'`
+    export CC=/usr/bin/gcc-$version
+    export CXX=/usr/bin/g++-$version
 fi
 
 ./autogen.sh
