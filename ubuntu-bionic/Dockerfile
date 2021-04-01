@@ -15,6 +15,8 @@ RUN \
     debhelper \
     devscripts \
     dh-autoreconf \
+    gcc-8 \
+    g++-8 \
     gettext \
     git \
     gobject-introspection \
