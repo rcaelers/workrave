@@ -164,8 +164,22 @@ ADD_COMPILER_FLAG([-Wno-cast-function-type])
 
 AX_CXX_COMPILE_STDCXX_17(ext, mandatory)
 
-AC_CHECK_LIB([stdc++fs], [main], [LDFLAGS="-lstdc++fs $LDFLAGS"], [] )
-AC_CHECK_LIB([c++fs], [main], [LDFLAGS="-lc++fs $LDFLAGS"], [] )
+AC_TRY_LINK(
+	[#include <filesystem>],
+	[(void)std::filesystem::current_path();],
+	[],
+	[
+		LIBS="$LIBS -lstdc++fs"
+		AC_TRY_LINK(
+			[#include <filesystem>],
+			[(void)std::filesystem::current_path();],
+			[],
+			[
+				AC_MSG_ERROR([Could not use C++17 std::filesystem])
+			]
+		)
+	]
+)
 
 dnl
 dnl Headers/Types/Functions
