@@ -59,8 +59,6 @@ struct _WorkraveTimerboxPrivate
   gboolean break_visible[BREAK_ID_SIZEOF];
   gboolean enabled;
   short filled_slots;
-  int width;
-  int height;
   gboolean force_icon;
   gchar *mode;
   GSettings *settings;
