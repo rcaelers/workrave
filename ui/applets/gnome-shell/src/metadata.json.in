@@ -23,6 +23,7 @@
                        "3.28",
                        "3.30",
                        "3.32",
+                       "40",
                        "@shell_current@" ],
  "localedir": "@LOCALEDIR@",
  "url": "@url@"
