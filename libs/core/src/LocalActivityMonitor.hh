@@ -21,27 +21,17 @@
 #define ACTIVITYMONITOR_HH
 
 #include "IActivityMonitor.hh"
-#include "IInputMonitorListener.hh"
-#include "Mutex.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/IInputMonitorListener.hh"
+#include "utils/Mutex.hh"
 
-#include "Diagnostics.hh"
-
-#if TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  if HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
+#include "utils/Diagnostics.hh"
 
 class ActivityListener;
 class IInputMonitor;
 
 class ActivityMonitor
-  : public IInputMonitorListener
+  : public workrave::input_monitor::IInputMonitorListener
   , public IActivityMonitor
 {
 public:
@@ -71,7 +61,7 @@ private:
 
 private:
   //! The actual monitoring driver.
-  IInputMonitor *input_monitor{nullptr};
+  workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! the current state.
   TracedField<ActivityState> activity_state{"monitor.activity_state", ACTIVITY_IDLE, true};

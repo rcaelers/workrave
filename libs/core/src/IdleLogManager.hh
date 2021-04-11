@@ -39,7 +39,7 @@
 #include <list>
 #include <map>
 
-#include "ActivityMonitor.hh"
+#include "LocalActivityMonitor.hh"
 
 class PacketBuffer;
 

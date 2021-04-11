@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<locatingRules>
+  <locatingRule name="foobar" pattern="exercises*">
+    <documentRule localName="exercises" target="exercises.its"/>
+  </locatingRule>
+</locatingRules>

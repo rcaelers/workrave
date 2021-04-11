@@ -16,7 +16,6 @@ add_library(workrave-libs-core STATIC
   Statistics.cc
   Timer.cc
   #TimerActivityMonitor.cc
-  ActivityMonitor.cc
   BreakControl.cc
   CoreFactory.cc
   TimePredFactory.cc

@@ -4,7 +4,7 @@ SUBDIRS = win32
 
 noinst_LTLIBRARIES = libworkrave-core.la
 
-sources = 	ActivityMonitor.cc \
+sources = 	LocalActivityMonitor.cc \
 			Break.cc \
 			BreakControl.cc \
 			Core.cc \

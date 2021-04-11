@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
@@ -21,30 +20,13 @@
 #  include "config.h"
 #endif
 
-#include "ActivityMonitor.hh"
+#include "LocalActivityMonitor.hh"
 #include "ActivityMonitorListener.hh"
 
 #include "debug.hh"
-#include "timeutil.h"
-#include <cassert>
-#include <cmath>
 
-#include <cstdio>
-#include <sys/types.h>
-#if STDC_HEADERS
-#  include <cstddef>
-#  include <cstdlib>
-#else
-#  if HAVE_STDLIB_H
-#    include <stdlib.h>
-#  endif
-#endif
-#if HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-
-#include "IInputMonitor.hh"
-#include "InputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
+#include "input-monitor/InputMonitorFactory.hh"
 
 using namespace std;
 
@@ -61,7 +43,7 @@ ActivityMonitor::ActivityMonitor()
   input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
   if (input_monitor != nullptr)
     {
-      input_monitor->subscribe_activity(this);
+      input_monitor->subscribe(this);
     }
 
   TRACE_EXIT();
@@ -72,7 +54,10 @@ ActivityMonitor::~ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::~ActivityMonitor");
 
-  delete input_monitor;
+  if (input_monitor != NULL)
+    {
+      input_monitor->unsubscribe(this);
+    }
 
   TRACE_EXIT();
 }

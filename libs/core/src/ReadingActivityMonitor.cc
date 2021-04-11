@@ -22,8 +22,6 @@
 
 #include "IActivityMonitor.hh"
 
-using namespace workrave;
-
 class FakeActivityMonitor : public IActivityMonitor
 {
 public:

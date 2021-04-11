@@ -44,13 +44,8 @@
 #endif
 
 /* DBusMenu */
-#ifdef HAVE_DBUSMENU_NEW_INCLUDES
-#  include <libdbusmenu-gtk/menu.h>
-#  include <libdbusmenu-gtk/menuitem.h>
-#else
-#  include <libdbusmenu-gtk3/menu.h>
-#  include <libdbusmenu-gtk3/menuitem.h>
-#endif
+#include <libdbusmenu-gtk/menu.h>
+#include <libdbusmenu-gtk/menuitem.h>
 
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
@@ -130,7 +125,6 @@ struct _MenuItemData
   GtkWidget *label;
 };
 
-
 GType indicator_workrave_get_type(void);
 
 static void indicator_workrave_class_init(IndicatorWorkraveClass *klass);
@@ -164,7 +158,6 @@ static void
 indicator_workrave_class_init(IndicatorWorkraveClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
-
 
   object_class->dispose = indicator_workrave_dispose;
   object_class->finalize = indicator_workrave_finalize;

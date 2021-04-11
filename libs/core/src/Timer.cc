@@ -43,13 +43,14 @@
 using namespace std;
 using namespace workrave;
 
-#ifdef HAVE_EXTERN_TIMEZONE
-#  ifndef HAVE_EXTERN_TIMEZONE_DEFINED
-extern long timezone;
-#  endif
-#else
-static int timezone = 0;
-#endif
+// TODO:
+// #ifdef HAVE_EXTERN_TIMEZONE
+// #  ifndef HAVE_EXTERN_TIMEZONE_DEFINED
+// extern long timezone;
+// #  endif
+// #else
+// static int timezone = 0;
+// #endif
 
 //! Constructs a new break timer.
 /*!

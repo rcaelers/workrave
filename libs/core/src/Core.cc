@@ -38,7 +38,7 @@
 #include "utils/Util.hh"
 #include "core/IApp.hh"
 #include "core/ICoreEventListener.hh"
-#include "ActivityMonitor.hh"
+#include "LocalActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
 #include "config/ConfiguratorFactory.hh"

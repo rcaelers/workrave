@@ -4,6 +4,7 @@ set(SRC
   BreakWindow.cc
   DailyLimitWindow.cc
   DataConnector.cc
+  DebugDialog.cc
   EventButton.cc
   EventImage.cc
   EventLabel.cc
@@ -33,7 +34,7 @@ set(SRC
   TimerBoxGtkView.cc
   TimerBoxPreferencePage.cc
   TimerPreferencesPanel.cc
-  #Ui.cc
+  Ui.cc
   WindowHints.cc
   main.cc
   )
@@ -42,7 +43,7 @@ if (PLATFORM_OS_UNIX)
   set(SRC ${SRC}
     unix/X11SystrayAppletWindow.cc
     unix/desktop-window.c
-    unix/gtktrayicon.c
+    unix/gtktrayicon3.c
     #unix/UnixGrab.cc
     )
 
@@ -145,7 +146,7 @@ target_link_libraries(workrave
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
-  workrave-libs-updater
+  #workrave-libs-updater
   workrave-libs-utils)
 
 if (MINGW)

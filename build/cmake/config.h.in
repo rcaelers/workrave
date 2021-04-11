@@ -15,7 +15,9 @@
 #cmakedefine HAVE_GSETTINGS
 #cmakedefine HAVE_GSTREAMER
 #cmakedefine HAVE_GTK
+#cmakedefine HAVE_GTK3
 #cmakedefine HAVE_INDICATOR
+#cmakedefine HAVE_INDICATOR_AYATANA
 #cmakedefine HAVE_INTROSPECTION
 #cmakedefine HAVE_ISHELLDISPATCH
 #cmakedefine HAVE_LANGUAGE_SELECTION
@@ -23,6 +25,8 @@
 #cmakedefine HAVE_MONITORS "${HAVE_MONITORS}"
 #cmakedefine HAVE_NANOSLEEP
 #cmakedefine HAVE_PANELAPPLET4
+#cmakedefine HAVE_PANELAPPLET5
+#cmakedefine HAVE_LIBGNOME_PANEL
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_QT
 #cmakedefine HAVE_QT5
