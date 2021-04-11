@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2020-04-13 09:01+0800\n"
+"POT-Creation-Date: 2021-04-11 20:24+0200\n"
 "PO-Revision-Date: 2011-02-16 19:19+0100\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
@@ -18,326 +18,158 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:304
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:76
-#: ../frontend/applets/mate/src/main-gtk2.c:262
-#: ../frontend/applets/mate/src/main-gtk3.c:303
-msgid "_Open"
-msgstr "_Отваряне"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:320
-#: ../frontend/applets/mate/src/main-gtk2.c:278
-#: ../frontend/applets/mate/src/main-gtk3.c:319
-msgid "_Restbreak"
-msgstr "_Почивка"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:316
-#: ../frontend/applets/mate/src/main-gtk2.c:274
-#: ../frontend/applets/mate/src/main-gtk3.c:315
-msgid "_Exercises"
-msgstr "_Упражнения"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:308
-#: ../frontend/applets/mate/src/main-gtk2.c:266
-#: ../frontend/applets/mate/src/main-gtk3.c:307
-msgid "_Statistics"
-msgstr "_Статистика"
-
-# Меню Режим
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:117
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:142
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
-#: ../frontend/applets/mate/src/main-gtk2.c:282
-#: ../frontend/applets/mate/src/main-gtk3.c:323
-msgid "_Mode"
-msgstr "_Режим"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:366
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
-#: ../frontend/applets/mate/src/main-gtk2.c:324
-#: ../frontend/applets/mate/src/main-gtk3.c:365
-#, fuzzy
-msgid "Normal"
-msgstr "_Нормален"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:370
-#: ../frontend/gtkmm/src/GUI.cc:1520
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:198
-#: ../frontend/applets/mate/src/main-gtk2.c:328
-#: ../frontend/applets/mate/src/main-gtk3.c:369
-#, fuzzy
-msgid "Suspended"
-msgstr "_Летаргичен"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:374
-#: ../frontend/gtkmm/src/GUI.cc:1524
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:200
-#: ../frontend/applets/mate/src/main-gtk2.c:332
-#: ../frontend/applets/mate/src/main-gtk3.c:373
-#, fuzzy
-msgid "Quiet"
-msgstr "Т_их"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:328
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:123
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
-#: ../frontend/applets/mate/src/main-gtk2.c:286
-#: ../frontend/applets/mate/src/main-gtk3.c:327
-msgid "_Network"
-msgstr "_Мрежа"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:332
-#: ../frontend/applets/mate/src/main-gtk2.c:290
-#: ../frontend/applets/mate/src/main-gtk3.c:331
-msgid "_Join"
-msgstr ""
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:336
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:126
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
-#: ../frontend/applets/mate/src/main-gtk2.c:294
-#: ../frontend/applets/mate/src/main-gtk3.c:335
-msgid "_Disconnect"
-msgstr "_Прекъсване"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:340
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:127
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:163
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
-#: ../frontend/applets/mate/src/main-gtk2.c:298
-#: ../frontend/applets/mate/src/main-gtk3.c:339
-msgid "_Reconnect"
-msgstr "_Повторно свързване"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:355
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:211
-#: ../frontend/applets/mate/src/main-gtk2.c:313
-#: ../frontend/applets/mate/src/main-gtk3.c:354
-#, fuzzy
-msgid "Show log"
-msgstr "Показване на _дневника"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:359
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:217
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:130
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
-#: ../frontend/applets/mate/src/main-gtk2.c:317
-#: ../frontend/applets/mate/src/main-gtk3.c:358
-msgid "Reading mode"
-msgstr ""
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/applets/mate/src/main-gtk2.c:270
-#: ../frontend/applets/mate/src/main-gtk3.c:311
-msgid "_Preferences"
-msgstr "_Конфигуриране"
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:198
-#: ../frontend/applets/mate/src/main-gtk2.c:302
-#: ../frontend/applets/mate/src/main-gtk3.c:343
-#, fuzzy
-msgid "_About"
-msgstr "_Относно..."
-
-#: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
-#: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:348
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:203
-#: ../frontend/applets/mate/src/main-gtk2.c:306
-#: ../frontend/applets/mate/src/main-gtk3.c:347
-msgid "_Quit"
-msgstr "_Изход"
-
-#: ../backend/src/DistributionSocketLink.cc:140
+#: ../libs/core/src/DistributionSocketLink.cc:121
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
 msgstr "Повторно свързване с %s."
 
 # Ние не успяхме да пуснем сървъра. А-а-х.
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:441
+#: ../libs/core/src/DistributionSocketLink.cc:408
 msgid "Could not enable network operation."
 msgstr "Неуспешно включване на работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:450
+#: ../libs/core/src/DistributionSocketLink.cc:417
 msgid "Disabling network operation."
 msgstr "Спиране на работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:566
-#: ../backend/src/DistributionSocketLink.cc:603
+#: ../libs/core/src/DistributionSocketLink.cc:523
+#: ../libs/core/src/DistributionSocketLink.cc:560
 #, fuzzy, c-format
 msgid "Connecting to %s."
 msgstr "Свързване с %s."
 
-#: ../backend/src/DistributionSocketLink.cc:721
-#: ../backend/src/DistributionSocketLink.cc:754
+#: ../libs/core/src/DistributionSocketLink.cc:675
+#: ../libs/core/src/DistributionSocketLink.cc:706
 #, fuzzy, c-format
 msgid "Removing client %s."
 msgstr "Премахване на клиент %s."
 
 # Затваряне на пряката връзка.
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:803
+#: ../libs/core/src/DistributionSocketLink.cc:752
 #, fuzzy, c-format
 msgid "Disconnecting %s"
 msgstr "Изключване %s."
 
 # Това е отдалечен клиент. Отбелязваме го като главен.
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:973
+#: ../libs/core/src/DistributionSocketLink.cc:915
 #, fuzzy, c-format
 msgid "Client %s is now master."
 msgstr "Клиент %s е главен сега."
 
 # АЗ съм!
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:980
+#: ../libs/core/src/DistributionSocketLink.cc:921
 msgid "I'm now master."
 msgstr "Аз съм главен сега."
 
-#: ../backend/src/DistributionSocketLink.cc:1352
-#: ../backend/src/DistributionSocketLink.cc:1413
+#: ../libs/core/src/DistributionSocketLink.cc:1284
+#: ../libs/core/src/DistributionSocketLink.cc:1343
 #, fuzzy, c-format
 msgid "Client %s saying hello."
 msgstr "Клиент %s казва здравей."
 
 #. Incorrect user.
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1361
-#: ../backend/src/DistributionSocketLink.cc:1445
+#: ../libs/core/src/DistributionSocketLink.cc:1293
+#: ../libs/core/src/DistributionSocketLink.cc:1373
 #, fuzzy, c-format
 msgid "Client %s access denied."
 msgstr "Клиент %s му е отказан достъп."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1435
-#: ../backend/src/DistributionSocketLink.cc:1568
-#: ../backend/src/DistributionSocketLink.cc:1820
+#: ../libs/core/src/DistributionSocketLink.cc:1364
+#: ../libs/core/src/DistributionSocketLink.cc:1491
+#: ../libs/core/src/DistributionSocketLink.cc:1736
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
 msgstr "Клиент %s се повтаря."
 
-#: ../backend/src/DistributionSocketLink.cc:1517
+#: ../libs/core/src/DistributionSocketLink.cc:1443
 #, fuzzy, c-format
 msgid "Client %s signed off."
 msgstr "Клиент %s излезе."
 
 #. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1607
+#: ../libs/core/src/DistributionSocketLink.cc:1527
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
 msgstr "Клиент %s ни приветствува."
 
-#: ../backend/src/DistributionSocketLink.cc:1856
+#: ../libs/core/src/DistributionSocketLink.cc:1769
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
 msgstr "Запитване за главен от %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1870
+#: ../libs/core/src/DistributionSocketLink.cc:1782
 #, fuzzy, c-format
 msgid "Client timeout from %s."
 msgstr "Прекъсване (по таймаут) от клиент %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1898
+#: ../libs/core/src/DistributionSocketLink.cc:1808
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
 msgstr "Отхвърляне на заявка за главен от клиент %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1904
+#: ../libs/core/src/DistributionSocketLink.cc:1813
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "Потвърждаване на заявка за главен от клиент %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1961
+#: ../libs/core/src/DistributionSocketLink.cc:1866
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "Обикновен/не-главен клиент %s отхвърли заявка за главен."
 
-#: ../backend/src/DistributionSocketLink.cc:1966
+#: ../libs/core/src/DistributionSocketLink.cc:1870
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "Клиент %s отхвърли заявка за главен, изчакване."
 
 # gint count =
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:2042
+#: ../libs/core/src/DistributionSocketLink.cc:1944
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Клиент %s сега е новият главен."
 
-#: ../backend/src/DistributionSocketLink.cc:2174
+#: ../libs/core/src/DistributionSocketLink.cc:2072
 msgid "Network operation started."
 msgstr "Започна работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:2195
+#: ../libs/core/src/DistributionSocketLink.cc:2092
 msgid "Accepted new client."
 msgstr "Приет е нов клиент."
 
-#: ../backend/src/DistributionSocketLink.cc:2271
+#: ../libs/core/src/DistributionSocketLink.cc:2167
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Клиент %s извърши грешка при четене, затваряне."
 
-#: ../backend/src/DistributionSocketLink.cc:2277
-#: ../backend/src/DistributionSocketLink.cc:2348
+#: ../libs/core/src/DistributionSocketLink.cc:2172
+#: ../libs/core/src/DistributionSocketLink.cc:2239
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Клиент %s затвори връзката."
 
-#: ../backend/src/DistributionSocketLink.cc:2318
+#: ../libs/core/src/DistributionSocketLink.cc:2211
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Клиент %s се свърза."
 
-#: ../backend/src/DistributionSocketLink.cc:2354
+#: ../libs/core/src/DistributionSocketLink.cc:2244
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Невъзможно свързване с клиент %s."
 
-#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:215
-#: ../frontend/applets/gnome3/src/v4/WorkraveApplet.c:207
-#: ../frontend/applets/gnome3/src/v5/WorkraveApplet.c:217
-#: ../frontend/gtkmm/src/Menus.cc:365
-#: ../frontend/applets/mate/src/main-gtk2.c:206
-#: ../frontend/applets/mate/src/main-gtk3.c:206
-#: ../frontend/applets/xfce/src/main.c:293
+#: ../ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:219
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:211
+#: ../ui/applets/gnome3/src/v5/WorkraveApplet.c:221
+#: ../ui/applets/mate/src/main-gtk2.c:285
+#: ../ui/applets/mate/src/main-gtk3.c:210 ../ui/applets/xfce/src/main.c:297
+#: ../ui/apps/gtkmm/src/Menus.cc:346
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -346,128 +178,238 @@ msgstr ""
 "заболяване свързано с Продължителното Извършване на Еднотипни Движения "
 "(Repetitive Strain Injury - RSI)."
 
-#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:28
+#: ../ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/applets/gnome3/src/libgnome-panel/WorkraveModule.c:29
+#: ../ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave Applet"
 msgstr "Workrave - аплет"
 
-#: ../frontend/common/src/SoundPlayer.cc:80
-msgid "Break prompt"
-msgstr "Напомняне за почивка"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:1
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:308
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:1
+#: ../ui/applets/mate/src/main-gtk2.c:343
+#: ../ui/applets/mate/src/main-gtk3.c:307
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
+msgid "_Open"
+msgstr "_Отваряне"
 
-#: ../frontend/common/src/SoundPlayer.cc:86
-msgid "Break ignored"
-msgstr "Почивката пренебрегната"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:2
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:316
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:2
+#: ../ui/applets/mate/src/main-gtk2.c:351
+#: ../ui/applets/mate/src/main-gtk3.c:315
+msgid "_Restbreak"
+msgstr "_Почивка"
 
-#: ../frontend/common/src/SoundPlayer.cc:92
-msgid "Rest break started"
-msgstr "Почивката започна"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:3
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:314
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:3
+#: ../ui/applets/mate/src/main-gtk2.c:349
+#: ../ui/applets/mate/src/main-gtk3.c:313
+msgid "_Exercises"
+msgstr "_Упражнения"
 
-#: ../frontend/common/src/SoundPlayer.cc:99
-msgid "Rest break ended"
-msgstr "Почивката свърши"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:4
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:310
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:4
+#: ../ui/applets/mate/src/main-gtk2.c:345
+#: ../ui/applets/mate/src/main-gtk3.c:309
+msgid "_Statistics"
+msgstr "_Статистика"
 
-#: ../frontend/common/src/SoundPlayer.cc:105
-msgid "Micro-break started"
-msgstr "Микро-почивката започна"
+# Меню Режим
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:5
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:318
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:5
+#: ../ui/applets/mate/src/main-gtk2.c:353
+#: ../ui/applets/mate/src/main-gtk3.c:317
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:122
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
+msgid "_Mode"
+msgstr "_Режим"
 
-#: ../frontend/common/src/SoundPlayer.cc:111
-msgid "Micro-break ended"
-msgstr "Микро-почивката свърши"
-
-#: ../frontend/common/src/SoundPlayer.cc:117
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
-msgid "Daily limit"
-msgstr "Дневен лимит"
-
-#: ../frontend/common/src/SoundPlayer.cc:123
-msgid "Exercise ended"
-msgstr "Упражнението приключи"
-
-#: ../frontend/common/src/SoundPlayer.cc:129
-msgid "Exercises ended"
-msgstr "Упражненията приключиха"
-
-#: ../frontend/common/src/SoundPlayer.cc:135
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:6
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:340
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:6
+#: ../ui/applets/mate/src/main-gtk2.c:375
+#: ../ui/applets/mate/src/main-gtk3.c:339
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:165
 #, fuzzy
-msgid "Exercise change"
-msgstr "Упражнението приключи"
+msgid "Normal"
+msgstr "_Нормален"
 
-#: ../frontend/common/src/SoundPlayer.cc:606
-msgid "Custom"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:342
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
+#: ../ui/applets/mate/src/main-gtk2.c:377
+#: ../ui/applets/mate/src/main-gtk3.c:341 ../ui/apps/gtkmm/src/GUI.cc:1430
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:168
+#, fuzzy
+msgid "Suspended"
+msgstr "_Летаргичен"
+
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:8
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:344
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:8
+#: ../ui/applets/mate/src/main-gtk2.c:379
+#: ../ui/applets/mate/src/main-gtk3.c:343 ../ui/apps/gtkmm/src/GUI.cc:1434
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:171
+#, fuzzy
+msgid "Quiet"
+msgstr "Т_их"
+
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:9
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:320
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:9
+#: ../ui/applets/mate/src/main-gtk2.c:355
+#: ../ui/applets/mate/src/main-gtk3.c:319
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:136
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
+msgid "_Network"
+msgstr "_Мрежа"
+
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:10
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:322
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:10
+#: ../ui/applets/mate/src/main-gtk2.c:357
+#: ../ui/applets/mate/src/main-gtk3.c:321
+msgid "_Join"
 msgstr ""
 
-#: ../frontend/common/src/Text.cc:78
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d часа"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:11
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:324
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:11
+#: ../ui/applets/mate/src/main-gtk2.c:359
+#: ../ui/applets/mate/src/main-gtk3.c:323
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:138
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
+msgid "_Disconnect"
+msgstr "_Прекъсване"
 
-#: ../frontend/common/src/Text.cc:82
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d минути"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:12
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:326
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:12
+#: ../ui/applets/mate/src/main-gtk2.c:361
+#: ../ui/applets/mate/src/main-gtk3.c:325
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:139
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+msgid "_Reconnect"
+msgstr "_Повторно свързване"
 
-#: ../frontend/common/src/Text.cc:86
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d секунди"
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:13
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:334
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:13
+#: ../ui/applets/mate/src/main-gtk2.c:369
+#: ../ui/applets/mate/src/main-gtk3.c:333
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:183
+#, fuzzy
+msgid "Show log"
+msgstr "Показване на _дневника"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:296
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:14
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:336
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:14
+#: ../ui/applets/mate/src/main-gtk2.c:371
+#: ../ui/applets/mate/src/main-gtk3.c:335
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:188
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+msgid "Reading mode"
+msgstr ""
+
+#. Preferences
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:312
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
+#: ../ui/applets/mate/src/main-gtk2.c:347
+#: ../ui/applets/mate/src/main-gtk3.c:311
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:152
+msgid "_Preferences"
+msgstr "_Конфигуриране"
+
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:16
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:328
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:16
+#: ../ui/applets/mate/src/main-gtk2.c:363
+#: ../ui/applets/mate/src/main-gtk3.c:327
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:161
+#, fuzzy
+msgid "_About"
+msgstr "_Относно..."
+
+#: ../ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:17
+#: ../ui/applets/gnome3/src/v4/WorkraveApplet.c:330
+#: ../ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:17
+#: ../ui/applets/mate/src/main-gtk2.c:365
+#: ../ui/applets/mate/src/main-gtk3.c:329
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:163
+msgid "_Quit"
+msgstr "_Изход"
+
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:261
 #, fuzzy
 msgid "Lock..."
 msgstr "_Заключване"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:300
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:265
 #, fuzzy
 msgid "Lock"
 msgstr "_Заключване"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:304
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:269
 #, fuzzy
 msgid "Shutdown"
 msgstr "_Изключване"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:308
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:273
 #, fuzzy
 msgid "Suspend"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:312
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:277
 msgid "Hibernate"
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:316
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:281
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:451
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:401
 #, fuzzy
 msgid "_Skip"
 msgstr "_Пропускане"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:468
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:416
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Отлагане"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:663
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:608
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:677
+#: ../ui/apps/gtkmm/src/BreakWindow.cc:622
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
+#. label
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:47
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ../ui/apps/gtkmm/src/GUI.cc:1423
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:164 ../ui/apps/gtkmm/src/Ui.cc:101
+msgid "Daily limit"
+msgstr "Дневен лимит"
+
+#: ../ui/apps/gtkmm/src/DailyLimitWindow.cc:55
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -478,404 +420,546 @@ msgstr ""
 "не е свършил намерете си друго занимание напр.\n"
 "преглеждане на документи."
 
-#: ../frontend/gtkmm/src/GUI.cc:338
+#: ../ui/apps/gtkmm/src/DebugDialog.cc:44
+#: ../ui/apps/gtkmm/src/DebugDialog.cc:46
+msgid "Debug log"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/ExercisesDialog.cc:42
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:162
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:156
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+msgid "Exercises"
+msgstr "Упражнения"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:244
+msgid "Exercises player"
+msgstr "Демонстратор на упражненията"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:274
+msgid "Previous exercise"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:275
+#, fuzzy
+msgid "Next exercise"
+msgstr "Брой упражнения:"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:276
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:461
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Брой упражнения:"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:280
+#, fuzzy
+msgid "End exercises"
+msgstr "Упражнения"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:456
+msgid "Resume"
+msgstr "Продължаване"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:456
+msgid "Pause"
+msgstr "Пауза"
+
+#: ../ui/apps/gtkmm/src/ExercisesPanel.cc:459
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Брой упражнения:"
+
+#: ../ui/apps/gtkmm/src/GUI.cc:299
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
+#: ../ui/apps/gtkmm/src/GUI.cc:784 ../ui/apps/gtkmm/src/GUI.cc:898
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Workrave - аплет"
 
-#: ../frontend/gtkmm/src/GUI.cc:849
+#: ../ui/apps/gtkmm/src/GUI.cc:785
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:965
+#: ../ui/apps/gtkmm/src/GUI.cc:893
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:968
+#: ../ui/apps/gtkmm/src/GUI.cc:896
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1379
+#: ../ui/apps/gtkmm/src/GUI.cc:1291
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:1385
+#: ../ui/apps/gtkmm/src/GUI.cc:1297
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 # ОПРАВИМЕ: повтарящ се
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1513 ../frontend/gtkmm/src/GtkUtil.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:177
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:275
+#: ../ui/apps/gtkmm/src/GUI.cc:1423 ../ui/apps/gtkmm/src/GtkUtil.cc:164
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:52
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:161
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:253
 msgid "Micro-break"
 msgstr "Микро-почивка"
 
-#: ../frontend/gtkmm/src/GUI.cc:1513
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:192
-#: ../frontend/gtkmm/src/GtkUtil.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:226
+#: ../ui/apps/gtkmm/src/GUI.cc:1423
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ../ui/apps/gtkmm/src/GtkUtil.cc:164
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:136
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:76
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Почивка"
 
 # Меню Режим
-#: ../frontend/gtkmm/src/GUI.cc:1520 ../frontend/gtkmm/src/GUI.cc:1524
+#: ../ui/apps/gtkmm/src/GUI.cc:1430 ../ui/apps/gtkmm/src/GUI.cc:1434
 #, fuzzy
 msgid "Mode: "
 msgstr "_Режим"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:190
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:112
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
 #, fuzzy
 msgid "Open"
 msgstr "_Отваряне"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:191
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:113
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:78
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "Preferences"
 msgstr "Предпочитания"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:193
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:115
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:79
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
-msgid "Exercises"
-msgstr "Упражнения"
-
 # Меню Режим
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:194
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:204
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:163
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:175
 #, fuzzy
 msgid "Mode"
 msgstr "_Режим"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:207
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:214
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:129
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:185
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:114
 msgid "Network"
 msgstr "Мрежа"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:208
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 #, fuzzy
 msgid "Connect"
 msgstr "_Свързване"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:209
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 #, fuzzy
 msgid "Disconnect"
 msgstr "_Прекъсване"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:210
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:181
 #, fuzzy
 msgid "Reconnect"
 msgstr "_Повторно свързване"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:221
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:131
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:193
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:164
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:159
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:53
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:129
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:222
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:132
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "About..."
 msgstr "Относно..."
 
-#: ../frontend/gtkmm/src/GenericDBusApplet.cc:223
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:133
+#: ../ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 #, fuzzy
 msgid "Quit"
 msgstr "_Изход"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:114
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:101
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:177
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:78
+#. Restbreak now
+#. Gtk::AccelKey("<control>r"),
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:82
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:148
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:106
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Rest break"
 msgstr "_Почивка"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:119
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:124
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Normal"
 msgstr "_Нормален"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:120
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:87
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:127
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
 msgid "Q_uiet"
 msgstr "Т_их"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:121
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:129
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
 msgid "_Suspended"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:125
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Connect"
-msgstr "_Свързване"
-
-#: ../frontend/gtkmm/src/IndicatorAppletMenu.cc:128
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:113
-msgid "Show _log"
-msgstr "Показване на _дневника"
-
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:132
 msgid "_Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:137
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
+msgid "_Connect"
+msgstr "_Свързване"
+
+#: ../ui/apps/gtkmm/src/MainGtkMenu.cc:140
+#: ../ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
+#: ../ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+msgid "Show _log"
+msgstr "Показване на _дневника"
+
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:219
 msgid "Please relax for a few seconds"
 msgstr "Моля отпуснете се за няколко секунди"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:226
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Следващата почивка е след %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:249
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:230
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Почивката %s е просрочена"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:242
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Дневният лимит е след %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:267
+#: ../ui/apps/gtkmm/src/MicroBreakWindow.cc:246
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Дневният лимит %s е просрочен"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
+#: ../ui/apps/gtkmm/src/NetworkJoinDialog.cc:55
+#: ../ui/apps/gtkmm/src/NetworkJoinDialog.cc:74
+msgid "Network connect"
+msgstr "Мрежова връзка"
+
+#: ../ui/apps/gtkmm/src/NetworkJoinDialog.cc:75
+msgid ""
+"Enter the host name and port number of a computer\n"
+"in the network you wish to connect to."
+msgstr ""
+"Въведете името и номера на порта на мрежовия компютър\n"
+"с който искате да се свържете."
+
+#: ../ui/apps/gtkmm/src/NetworkJoinDialog.cc:87
+msgid "Host name:"
+msgstr "Име на комп.:"
+
+#: ../ui/apps/gtkmm/src/NetworkJoinDialog.cc:88
+msgid "Port:"
+msgstr "Порт:"
+
+#: ../ui/apps/gtkmm/src/NetworkLogDialog.cc:52
+#: ../ui/apps/gtkmm/src/NetworkLogDialog.cc:54
+msgid "Network log"
+msgstr "Мрежови журнал"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:95
+msgid "Enable networking"
+msgstr "Разрешаване на работа в мрежа"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:102
+msgid "Username:"
+msgstr "Потребителско име:"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:103
+msgid "Password:"
+msgstr "Парола:"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:109
+msgid "Allow incoming connections"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:114
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:92
 msgid "General"
 msgstr "Основни"
 
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:125
+msgid "Server settings"
+msgstr "Настройки на сървър"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
+msgid "Server port:"
+msgstr "Сървърен порт:"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
+msgid "Reconnect attempts:"
+msgstr "Опити за повторно свързване:"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:149
+msgid "Reconnect interval:"
+msgstr "Интервал за повторно свързване:"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:152
+msgid "Advanced"
+msgstr "Допълнителни"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:167
+msgid ""
+"The following list specifies the hosts that Workrave connects to on\n"
+"start-up. Click the host name or port number to edit."
+msgstr ""
+"Следният списък указва компютрите към които\n"
+"Workrave се свързва при стартиране.\n"
+"За да ги редактирате щракнете в/у името или порта"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:194
+msgid "Host name"
+msgstr "Компютър"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:203
+msgid "Port"
+msgstr "Порт"
+
+#: ../ui/apps/gtkmm/src/NetworkPreferencePage.cc:241
+msgid "Hosts"
+msgstr "Компютри"
+
 # panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:96
 #, fuzzy
 msgid "Sounds"
 msgstr "Звук:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:99
 msgid "Status Window"
 msgstr "Прозорец за състоянието"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:118
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:103
 msgid "Applet"
 msgstr "Аплет"
 
 # Бележник
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:126
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:111
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:207
 msgid "Timers"
 msgstr "Таймери"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:127
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "User interface"
 msgstr "Потребителски интерфейс"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:176
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:180
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:158
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:162
 msgid "No blocking"
 msgstr "Без блокиране"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:181
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:159
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr "Блокиране на вход"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:160
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:164
 msgid "Block input and screen"
 msgstr "Блокиране на вход и екран"
 
 # Настройки
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:202
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:147
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:183
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:131
 msgid "Options"
 msgstr "Конфигуриране"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:185
 msgid "Block mode:"
 msgstr "Режим на блокиране:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:224
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:205
 msgid "System default"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:268
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:248
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:293
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:267
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:307
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:281
 msgid "Start Workrave on logon"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:296
 msgid "Show system tray icon"
 msgstr ""
 
+# panel->add(*start_in_tray_cb);
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:306
+#, fuzzy
+msgid "Icon Theme:"
+msgstr "Звук:"
+
 # Настройки
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:340
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:319
 #, fuzzy
 msgid "Sound Options"
 msgstr "Конфигуриране"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:346
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:325
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:328
 msgid "No sounds"
 msgstr "Без звук"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:347
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:326
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:329
 msgid "Play sounds using sound card"
 msgstr "Просвирване на звуците през звуковата карта"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:352
-msgid "Play sounds using built-in speaker"
-msgstr "Просвирване на звуците през вградения високоговорител"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:377
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:350
 msgid "Volume:"
 msgstr ""
 
 # panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:380
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:353
 msgid "Sound:"
 msgstr "Звук:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:386
+#. Volume
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:358
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Почивката и дневния лимит на едно място"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:366
 msgid "Sound Events"
 msgstr ""
 
 # panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:404
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:374
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Звук:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:427
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:445
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:475
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:397
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:415
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:443
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:432
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:402
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:448
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:418
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Без звук"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:460
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:561
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:516
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:567
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:523
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:571
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:526
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:531
 #, fuzzy
 msgid "Mouse sensitivity:"
 msgstr "Движение на мишката:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:571
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:531
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:140
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:547
+msgid "Debug monitoring"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:980
+#: ../ui/apps/gtkmm/src/PreferencesDialog.cc:982
+msgid "Default"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:110
 msgid "Time for a micro-break?"
 msgstr "Време за микро-почивка?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:144
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:114
 msgid "You need a rest break..."
 msgstr "Вие имате нужда от почивка..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:148
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:118
 msgid "You should stop for today..."
 msgstr "Вие трябва да приключите за днес..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:323
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:288
 #, c-format
 msgid "Break in %s"
 msgstr "Почивка след %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:327
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:292
 #, c-format
 msgid "Disappears in %s"
 msgstr "Изчезва след %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:331
+#: ../ui/apps/gtkmm/src/PreludeWindow.cc:296
 #, c-format
 msgid "Silent in %s"
 msgstr "Замлъква след %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:178
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:169
 #, c-format
 msgid "Rest break for %s"
 msgstr "Почивка за %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:220
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Оползотворени естествени почивки"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:221
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:207
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Вие имате нужда от почивка..."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:227
+#: ../ui/apps/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -886,155 +970,490 @@ msgstr ""
 "Просто се поразходете наоколо за няколко минути,\n"
 "протегнете се, отпуснете се и си починете."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:205
+#. Navigation box
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:118
+msgid "Browse history"
+msgstr "Преглед на историята"
+
+#. Delete button
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:123
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:130
+msgid "Date:"
+msgstr "Дата:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:161
+msgid "Breaks"
+msgstr "Почивки"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:169
+msgid "Break prompts"
+msgstr "Напомняне за почивки"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:170
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr "Брой напомняния за почивка без повтарящите се за същата почивка"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:174
+msgid "Repeated prompts"
+msgstr "Повтарящи се напомняния"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:174
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Брой напомняния за почивка по няколко пъти"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:177
+msgid "Prompted breaks taken"
+msgstr "Оползотворени почивки при напомняне"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:177
+msgid "The number of times you took a break when being prompted"
+msgstr "Брой пъти в който сте взели почивка при напомняне"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:180
+msgid "Natural breaks taken"
+msgstr "Оползотворени естествени почивки"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:180
+msgid "The number of times you took a break without being prompted"
+msgstr "Брой пъти в които сте взели почивка без напомняне"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:182
+msgid "Breaks skipped"
+msgstr "Пропуснати почивки"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:182
+msgid "The number of breaks you skipped"
+msgstr "Брой почивки които сте пропуснали"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:184
+msgid "Breaks postponed"
+msgstr "Отложени почивки"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:184
+msgid "The number of breaks you postponed"
+msgstr "Брой почивки които сте отложили"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:186
+msgid "Overdue time"
+msgstr "Просрочено време"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:186
+msgid "The total time this break was overdue"
+msgstr "Общо време за което тази почивка е просрочвана"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:188
+msgid "Usage"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:188
+msgid "Active computer usage"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:191
+#, fuzzy
+msgid "Daily"
+msgstr "Дневен лимит"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:191
+#, fuzzy
+msgid "The total computer usage for the selected day"
+msgstr "Общо употеба на компютър"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:194
+msgid "Weekly"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:194
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:197
+msgid "Monthly"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:197
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:278
+msgid "Activity"
+msgstr "Дейност"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:287
+msgid "Mouse usage:"
+msgstr "Използване на мишка:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:287
+msgid "The total time you were using the mouse"
+msgstr "Общо време на използване на мишката"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:289
+msgid "Mouse movement:"
+msgstr "Движение на мишката:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:289
+msgid "The total on-screen mouse movement"
+msgstr "Общо придвижване на мишката по екрана"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:291
+msgid "Effective mouse movement:"
+msgstr "Действително придвижване на мишката:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:292
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Общо придвижване на мишката което бихте имали ако я движехте по права линия "
+"между натискане на бутоните"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:295
+msgid "Mouse button clicks:"
+msgstr "Натискане бутон на мишката:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:295
+msgid "The total number of mouse button clicks"
+msgstr "Общ брой натискания на бутони на мишката"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:296
+msgid "Keystrokes:"
+msgstr "Удари по калвиши:"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:296
+msgid "The total number of keys pressed"
+msgstr "Общ брой натиснати клавиши"
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:344
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, от %s до %s"
+
+#. Confirm the user's intention
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:640
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:642
+msgid "Warning"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:640
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:653
+msgid "Files deleted!"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:654
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:656
+msgid "Info"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:661
+msgid "File deletion failed!"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:662
+msgid ""
+"The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/StatisticsDialog.cc:664
+msgid "Error"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:183
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Следващата почивка е след %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:227
+#: ../ui/apps/gtkmm/src/TimerBoxGtkView.cc:205
 msgid "Wait"
 msgstr "Изчакване"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
 msgid "Place timers next to each other"
 msgstr "Таймерите един до друг"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place micro-break and rest break in one spot"
 msgstr "Микро-почивката и почивката на едно място"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:93
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place rest break and daily limit in one spot"
 msgstr "Почивката и дневния лимит на едно място"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:94
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place all timers in one spot"
 msgstr "Всички таймери на едно място"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:118
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
 msgid "Hide"
 msgstr "Скриване"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:119
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:121
 msgid "Show"
 msgstr "Показване"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:120
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:122
 msgid "Show only when this timer is first due"
 msgstr "Показване само при първото изтичане на този таймер"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:133
-msgid "Show status window"
-msgstr "Показване прозореца за състоянието"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
-msgid "The status window stays always on top of other windows"
-msgstr "Прозореца за състояние остава винаги отгоре над др. прозорци"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
-msgid "Applet enabled"
-msgstr "Разрешаване на аплета"
-
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Display"
 msgstr "Показване"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
+msgid "The status window stays always on top of other windows"
+msgstr "Прозореца за състояние остава винаги отгоре над др. прозорци"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
+msgid "Show status window"
+msgstr "Показване прозореца за състоянието"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:149
 msgid "Placement:"
 msgstr "Разположение:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
 msgid "Cycle time:"
 msgstr "Време за цикъл:"
 
 # Разположение
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
 msgid "Micro-break:"
 msgstr "Микро-почивка:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
 msgid "Rest break:"
 msgstr "Почивка:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Daily limit:"
 msgstr "Дневен лимит:"
 
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:161
+#, fuzzy
+msgid "Fallback applet enabled"
+msgstr "Разрешаване на аплета"
+
+#: ../ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:166
+#, fuzzy
+msgid "Show status icon"
+msgstr "Показване прозореца за състоянието"
+
 # Поле за отметка разрешен/забранен
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:75
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
 msgstr "Разрешаване на таймер"
 
 # Встъпителен кадър
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
 msgid "Break prompting"
 msgstr "Напомняне за почивка"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:118
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:102
 msgid "Prompt before breaking"
 msgstr "Напомняне преди почивка"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:122
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Maximum number of prompts:"
 msgstr "Максимален брой напомняния:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:151
+#. Ignorable
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:134
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Показване на бутоните 'Отлагане' и 'Пропускане'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:156
+#. Skippable
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:138
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Показване на бутоните 'Отлагане' и 'Пропускане'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
+#. Sensitive for activity
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
 msgid "Suspend timer when inactive"
 msgstr "Спиране на таймера при неактивност"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:179
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Regard micro-breaks as activity"
 msgstr "Зачитане на микро-почивките като дейност"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:188
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:168
 msgid "Number of exercises:"
 msgstr "Брой упражнения:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:241
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
 msgid "Time before end:"
 msgstr "Време преди завършване:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
 msgid "Time between breaks:"
 msgstr "Време между почиките:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:249
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Продължителност на почивка:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:264
+#: ../ui/apps/gtkmm/src/TimerPreferencesPanel.cc:233
 msgid "Postpone time:"
 msgstr "Време за отлагане:"
 
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:1
+#: ../ui/apps/gtkmm/src/Ui.cc:83
+msgid "Break prompt"
+msgstr "Напомняне за почивка"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:86
+msgid "Break ignored"
+msgstr "Почивката пренебрегната"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:89
+msgid "Rest break started"
+msgstr "Почивката започна"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:92
+msgid "Rest break ended"
+msgstr "Почивката свърши"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:95
+msgid "Micro-break started"
+msgstr "Микро-почивката започна"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "Микро-почивката свърши"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:104
+msgid "Exercise ended"
+msgstr "Упражнението приключи"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:107
+msgid "Exercises ended"
+msgstr "Упражненията приключиха"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:110
+#, fuzzy
+msgid "Exercise change"
+msgstr "Упражнението приключи"
+
+#: ../ui/apps/gtkmm/src/Ui.cc:113
+msgid "?"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon.c:113
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:119
+msgid "Orientation"
+msgstr "Ориентация"
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon.c:114
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:120
+#, fuzzy
+msgid "The orientation of the tray"
+msgstr "Ориентация на лентата."
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
+msgid "Foreground color"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
+msgid "Foreground color for symbolic icons"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
+msgid "Error color"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
+msgid "Error color for symbolic icons"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
+msgid "Warning color"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
+msgid "Warning color for symbolic icons"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
+msgid "Success color"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
+msgid "Success color for symbolic icons"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
+msgid "Padding"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
+msgid "Padding that should be put around icons in the tray"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
+msgid "Icon Size"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:221
+msgid "Disable connection to session manager"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:227
+msgid "Specify file containing saved configuration"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:228
+msgid "FILE"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:229
+msgid "Specify session management ID"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:229
+msgid "ID"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:243
+msgid "Session management options:"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/win32/eggsmclient.c:243
+msgid "Show session management options"
+msgstr ""
+
+#: ../ui/apps/gtkmm/src/workrave.desktop.in.h:1
 #, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
@@ -1043,98 +1462,30 @@ msgstr ""
 "заболяване свързано с Продължителното Извършване на Еднотипни Движения "
 "(Repetitive Strain Injury - RSI)."
 
-#: ../frontend/gtkmm/src/workrave.desktop.in.h:2
+#: ../ui/apps/gtkmm/src/workrave.desktop.in.h:2
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:79
-msgid "Network connect"
-msgstr "Мрежова връзка"
+#: ../ui/common/src/Text.cc:68
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d часа"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"Въведете името и номера на порта на мрежовия компютър\n"
-"с който искате да се свържете."
+#: ../ui/common/src/Text.cc:72
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d минути"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:92
-msgid "Host name:"
-msgstr "Име на комп.:"
+#: ../ui/common/src/Text.cc:76
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d секунди"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:93
-msgid "Port:"
-msgstr "Порт:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr "Мрежови журнал"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
-msgid "Enable networking"
-msgstr "Разрешаване на работа в мрежа"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
-msgid "Username:"
-msgstr "Потребителско име:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
-msgid "Password:"
-msgstr "Парола:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
-msgid "Allow incoming connections"
-msgstr ""
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
-msgid "Server settings"
-msgstr "Настройки на сървър"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
-msgid "Server port:"
-msgstr "Сървърен порт:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
-msgid "Reconnect attempts:"
-msgstr "Опити за повторно свързване:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
-msgid "Reconnect interval:"
-msgstr "Интервал за повторно свързване:"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
-msgid "Advanced"
-msgstr "Допълнителни"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"Следният списък указва компютрите към които\n"
-"Workrave се свързва при стартиране.\n"
-"За да ги редактирате щракнете в/у името или порта"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Host name"
-msgstr "Компютър"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
-msgid "Port"
-msgstr "Порт"
-
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
-msgid "Hosts"
-msgstr "Компютри"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+#: ../ui/data/exercises/exercises.xml.in.h:1
 msgid "Shoulder-arm stretch"
 msgstr "Разтягане на рамената"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+#: ../ui/data/exercises/exercises.xml.in.h:2
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -1145,11 +1496,11 @@ msgstr ""
 "другата ръка към Вас докато почувствате леко напрежение в рамото. Задръжте "
 "за кратко тази позиция и после повторете упражнението с другата си ръка."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+#: ../ui/data/exercises/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Протягане на пръстите"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../ui/data/exercises/exercises.xml.in.h:4
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -1160,11 +1511,11 @@ msgstr ""
 "кокалчетата и задръжте отново за 10 секунди. Повторете упражнението още "
 "веднъж."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../ui/data/exercises/exercises.xml.in.h:5
 msgid "Neck tilt stretch"
 msgstr "Накланяне и разтягане врата"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../ui/data/exercises/exercises.xml.in.h:6
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -1176,11 +1527,11 @@ msgstr ""
 "секунди. После наклонете глава наляво за да разтегнете и на другата страна. "
 "Направете по два пъти за всяка страна."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../ui/data/exercises/exercises.xml.in.h:7
 msgid "Backward shoulder stretch"
 msgstr "Разтягане на рамената назад."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../ui/data/exercises/exercises.xml.in.h:8
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -1190,11 +1541,11 @@ msgstr ""
 "леко изпъвайки ръцете. Задръжте в тази позиция от 5 до 15 секунди и "
 "повторете упражнеието."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../ui/data/exercises/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Движете очите"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../ui/data/exercises/exercises.xml.in.h:10
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -1205,11 +1556,11 @@ msgstr ""
 "докато направите две обиколки. После направете упражнението и в обратна "
 "посока."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../ui/data/exercises/exercises.xml.in.h:11
 msgid "Train focusing the eyes"
 msgstr "Тренировка за фокусиране на очите"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../ui/data/exercises/exercises.xml.in.h:12
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -1224,11 +1575,11 @@ msgstr ""
 "прехвърляйте фокуса между отдалечен обект и писалка която държите на същото "
 "разстояние от очите си като монитора."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../ui/data/exercises/exercises.xml.in.h:13
 msgid "Look into the darkness"
 msgstr "Вгледайте се в тъмнината"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../ui/data/exercises/exercises.xml.in.h:14
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
@@ -1239,11 +1590,11 @@ msgstr ""
 "длани. Това упражнение дава по-добро облекчение на очите Ви отколкото "
 "затварянето им."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../ui/data/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders"
 msgstr "Движете рамената"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../ui/data/exercises/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -1253,11 +1604,11 @@ msgstr ""
 "Направете това 4 пъти напред, 4 пъти назад и се отпуснете за няколко "
 "секунди. Повторете и с лявата ръка."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../ui/data/exercises/exercises.xml.in.h:17
 msgid "Move the shoulders up and down"
 msgstr "Движете рамената надолу-нагоре"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../ui/data/exercises/exercises.xml.in.h:18
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -1267,11 +1618,11 @@ msgstr ""
 "докато ръцете Ви се изпънат. Опитайте се да  изпънете глава още по-напред "
 "снишавайки раменете. Бавно седнете обратно на стола си."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../ui/data/exercises/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Завъртете глава"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../ui/data/exercises/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
@@ -1279,238 +1630,8 @@ msgstr ""
 "Завъртете глава наляво и задръжте така за 2 секунди. После завъртете глава "
 "надясно и я задръжте така за 2 секунди."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:263
-msgid "Exercises player"
-msgstr "Демонстратор на упражненията"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-msgid "Previous exercise"
-msgstr ""
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
-#, fuzzy
-msgid "Next exercise"
-msgstr "Брой упражнения:"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:494
-#, fuzzy
-msgid "Pause exercises"
-msgstr "Брой упражнения:"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:303
-#, fuzzy
-msgid "End exercises"
-msgstr "Упражнения"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
-msgid "Resume"
-msgstr "Продължаване"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:487
-msgid "Pause"
-msgstr "Пауза"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:492
-#, fuzzy
-msgid "Resume exercises"
-msgstr "Брой упражнения:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
-msgid "Browse history"
-msgstr "Преглед на историята"
-
-#. Delete button
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:158
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:165
-msgid "Date:"
-msgstr "Дата:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
-msgid "Breaks"
-msgstr "Почивки"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
-msgid "Break prompts"
-msgstr "Напомняне за почивки"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:207
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr "Брой напомняния за почивка без повтарящите се за същата почивка"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:212
-msgid "Repeated prompts"
-msgstr "Повтарящи се напомняния"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "Брой напомняния за почивка по няколко пъти"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:217
-msgid "Prompted breaks taken"
-msgstr "Оползотворени почивки при напомняне"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
-msgid "The number of times you took a break when being prompted"
-msgstr "Брой пъти в който сте взели почивка при напомняне"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:222
-msgid "Natural breaks taken"
-msgstr "Оползотворени естествени почивки"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
-msgid "The number of times you took a break without being prompted"
-msgstr "Брой пъти в които сте взели почивка без напомняне"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:227
-msgid "Breaks skipped"
-msgstr "Пропуснати почивки"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
-msgid "The number of breaks you skipped"
-msgstr "Брой почивки които сте пропуснали"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:232
-msgid "Breaks postponed"
-msgstr "Отложени почивки"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
-msgid "The number of breaks you postponed"
-msgstr "Брой почивки които сте отложили"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:237
-msgid "Overdue time"
-msgstr "Просрочено време"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:238
-msgid "The total time this break was overdue"
-msgstr "Общо време за което тази почивка е просрочвана"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:242
-msgid "Usage"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:243
-msgid "Active computer usage"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:247
-#, fuzzy
-msgid "Daily"
-msgstr "Дневен лимит"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:248
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "Общо употеба на компютър"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:252
-msgid "Weekly"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:253
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:257
-msgid "Monthly"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:258
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:344
-msgid "Activity"
-msgstr "Дейност"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:354
-msgid "Mouse usage:"
-msgstr "Използване на мишка:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:355
-msgid "The total time you were using the mouse"
-msgstr "Общо време на използване на мишката"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:358
-msgid "Mouse movement:"
-msgstr "Движение на мишката:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:359
-msgid "The total on-screen mouse movement"
-msgstr "Общо придвижване на мишката по екрана"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
-msgid "Effective mouse movement:"
-msgstr "Действително придвижване на мишката:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:363
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Общо придвижване на мишката което бихте имали ако я движехте по права линия "
-"между натискане на бутоните"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:367
-msgid "Mouse button clicks:"
-msgstr "Натискане бутон на мишката:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:368
-msgid "The total number of mouse button clicks"
-msgstr "Общ брой натискания на бутони на мишката"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:371
-msgid "Keystrokes:"
-msgstr "Удари по калвиши:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:372
-msgid "The total number of keys pressed"
-msgstr "Общ брой натиснати клавиши"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:422
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, от %s до %s"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:726
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:730
-msgid "Warning"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:727
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:742
-msgid "Files deleted!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:743
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:746
-msgid "Info"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:752
-msgid "File deletion failed!"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:753
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:756
-msgid "Error"
-msgstr ""
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Просвирване на звуците през вградения високоговорител"
 
 #~ msgid "_Quiet"
 #~ msgstr "_Тих"
@@ -1526,13 +1647,6 @@ msgstr ""
 
 #~ msgid "Daily usage"
 #~ msgstr "Дневна употреба"
-
-#~ msgid "Orientation"
-#~ msgstr "Ориентация"
-
-#, fuzzy
-#~ msgid "The orientation of the tray"
-#~ msgstr "Ориентация на лентата."
 
 #, fuzzy
 #~ msgid ""
