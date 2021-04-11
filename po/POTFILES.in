@@ -96,7 +96,6 @@ libs/core/src/Statistics.cc
 libs/core/src/GIOSocketDriver.cc
 libs/core/src/ReadingActivityMonitor.cc
 libs/core/src/Break.cc
-libs/core/src/ActivityMonitor.cc
 libs/core/src/CoreFactory.cc
 libs/core/src/BreakControl.cc
 libs/core/src/GNetSocketDriver.cc
