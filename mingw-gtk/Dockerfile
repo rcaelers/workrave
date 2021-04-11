@@ -39,6 +39,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
                 mingw64-librsvg2 \
                 mingw64-openssl \
                 mingw64-adwaita-icon-theme \
+                ninja-build \
                 python3-pip \
                 tar \
                 which \

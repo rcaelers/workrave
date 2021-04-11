@@ -51,6 +51,7 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
+    ninja-build \
     nodejs \
     npm \
     python3-pip \

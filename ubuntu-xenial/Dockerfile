@@ -51,6 +51,7 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
+    ninja-build \
     python3-pip \
     python3-setuptools \
     qtbase5-dev \
