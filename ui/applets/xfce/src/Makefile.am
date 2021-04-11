@@ -50,7 +50,7 @@ workrave-xfce-applet.desktop.in: workrave-xfce-applet-2.0.desktop.in.in
 
 endif
 
-desktopdir = $(datadir)/xfce4/panel-plugins
+desktopdir = $(datadir)/xfce4/panel/plugins
 desktop_DATA = workrave-xfce-applet.desktop
 
 @INTLTOOL_DESKTOP_RULE@
