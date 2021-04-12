@@ -64,10 +64,10 @@ if HAVE_GSETTINGS
 
 gsettings_ENUM_NAMESPACE = org.workrave
 gsettings_ENUM_FILES = $(srcdir)/../include/core/enum.h
-
 gsettings_SCHEMAS = org.workrave.gschema.xml
 
-@INTLTOOL_XML_NOMERGE_RULE@
+org.workrave.gschema.xml: org.workrave.gschema.xml.in
+	$(AM_V_GEN)$(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 @GSETTINGS_RULES@
 

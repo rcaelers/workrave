@@ -4,12 +4,9 @@ MAINTAINERCLEANFILES = 	\
 		install-sh missing mkinstalldirs config.cache \
 		config.log config.status \
 		config.guess config.sub depcomp ltmain.sh \
-		build-stamp intltool-update.in intltool-update \
-		intltool-merge.in intltool-merge \
-		intltool-extract.in intltool-extract workrave.spec \
+		build-stamp workrave.spec \
 		compile AUTHORS.txt COPYING.txt \
 		NEWS.txt README.txt
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 SUBDIRS = m4 po libs ui
 DIST_SUBDIRS = $(SUBDIRS) build contrib
@@ -39,6 +36,3 @@ AUTHORS.txt: AUTHORS
 
 COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
-
-distclean-local:
-	rm -rf po/.intltool-merge-cache.lock

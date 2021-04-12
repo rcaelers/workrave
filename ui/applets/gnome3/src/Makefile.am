@@ -99,7 +99,10 @@ $(applet_in_files): $(applet_in_files).in Makefile
 		-e "s|\@VERSION\@|$(PACKAGE_VERSION)|" \
 		$< > $@
 
-%.panel-applet: %.panel-applet.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
+%.panel-applet: %-panel-applet.in
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
+
+
 
 AM_CPPFLAGS 			= -I$(srcdir)
 

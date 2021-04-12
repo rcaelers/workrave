@@ -97,10 +97,10 @@ if HAVE_GSETTINGS
 
 gsettings_ENUM_NAMESPACE =
 gsettings_ENUM_FILES =
-
 gsettings_SCHEMAS = org.workrave.gui.gschema.xml
 
-@INTLTOOL_XML_NOMERGE_RULE@
+org.workrave.gui.gschema.xml: org.workrave.gui.gschema.xml.in
+	$(AM_V_GEN)$(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 @GSETTINGS_RULES@
 
@@ -152,7 +152,8 @@ desktopdir = ${datadir}/applications
 desktop_in_files = workrave.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
-@INTLTOOL_DESKTOP_RULE@
+workrave.desktop: workrave.desktop.in
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 appdatadir = $(datarootdir)/metainfo
 dist_appdata_DATA = workrave.appdata.xml

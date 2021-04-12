@@ -1,19 +1,13 @@
-# Process this file with automake to produce Makefile.in
-#
-# Copyright (C) 2003, 2008 Raymond Penners <raymond@dotsphinx.com>
-#
+MAINTAINERCLEANFILES = Makefile.in
+DISTCLEANFILES = exercises.xml
 
-MAINTAINERCLEANFILES = 	Makefile.in
-DISTCLEANFILES =	exercises.xml
+exercisesdir = $(pkgdatadir)/exercises
+exercises_DATA = $(wildcard $(srcdir)/*.png)
 
-exercisesdir = 		$(pkgdatadir)/exercises
-exercises_DATA = 	$(wildcard $(srcdir)/*.png)
+xmldir = $(exercisesdir)
+xml_DATA = exercises.xml
 
-xmldir = 		$(exercisesdir)
+exercises.xml: exercises.xml.in
+	$(AM_V_GEN)GETTEXTDATADIR=$(top_srcdir)/po $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
-xml_in_files = 		exercises.xml.in
-xml_DATA = 		$(xml_in_files:.xml.in=.xml)
-
-@INTLTOOL_XML_RULE@
-
-EXTRA_DIST = 		${exercises_DATA} $(xml_in_files) $(xml_DATA) $(wildcard $(srcdir)/*.xcf)
+EXTRA_DIST = ${exercises_DATA} exercises.xml.in $(xml_DATA) $(wildcard $(srcdir)/*.xcf)

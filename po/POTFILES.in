@@ -33,6 +33,7 @@ libs/core/src/SocketDriver.cc
 libs/core/src/Statistics.cc
 libs/core/src/TimePredFactory.cc
 libs/core/src/Timer.cc
+libs/core/src/org.workrave.gschema.xml.in
 libs/core/src/win32/ghmac.c
 libs/core/test/Test.cc
 libs/dbus/src/DBusBindingGio.cc
@@ -93,12 +94,8 @@ ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c
 ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c
 ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c
-[type: gettext/glade]ui/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml
-ui/applets/gnome3/src/org.workrave.WorkraveApplet.panel-applet.in.in
 ui/applets/gnome3/src/v4/WorkraveApplet.c
-[type: gettext/glade]ui/applets/gnome3/src/v4/workrave-gnome-applet-menu.xml
 ui/applets/gnome3/src/v5/WorkraveApplet.c
-[type: gettext/glade]ui/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml
 ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
 ui/applets/mate/src/main-gtk2.c
@@ -150,6 +147,7 @@ ui/apps/gtkmm/src/macos/MacOSAppletWindow.cc
 ui/apps/gtkmm/src/macos/MacOSGtkMenu.cc
 ui/apps/gtkmm/src/macos/MacOSUtil.cc
 ui/apps/gtkmm/src/main.cc
+ui/apps/gtkmm/src/org.workrave.gui.gschema.xml.in
 ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc
 ui/apps/gtkmm/src/unix/X11SystrayAppletWindow.cc
 ui/apps/gtkmm/src/unix/desktop-window.c

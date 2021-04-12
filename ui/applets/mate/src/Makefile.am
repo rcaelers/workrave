@@ -52,7 +52,9 @@ $(applets_in_files): $(applets_in_files).in Makefile
 	$(AM_V_GEN)sed \
 		-e "s|\@LOCATION\@|$(APPLET_LOCATION)|" \
 		$< > $@
-%.mate-panel-applet: %.mate-panel-applet.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*po) ; $(INTLTOOL_MERGE) $(top_srcdir)/po $< $@ -d -u -c $(top_builddir)/po/.intltool-merge-cache
+
+%.mate-panel-applet: %.mate-panel-applet.in
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 servicedir       = $(datadir)/dbus-1/services
 service_DATA     = $(service_in_files:.service.in=.service)

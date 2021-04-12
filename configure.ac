@@ -768,7 +768,6 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_XFCE, test "x$config_xfce" = "xyes")
-
 AM_CONDITIONAL(HAVE_XFCE_GTK2, test "x$config_xfce_gtk_version" = "x2")
 AM_CONDITIONAL(HAVE_XFCE_GTK3, test "x$config_xfce_gtk_version" = "x3")
 
@@ -944,8 +943,10 @@ dnl
 dnl Internationalization
 dnl
 
-AM_GNU_GETTEXT_VERSION([0.18])
+AM_GNU_GETTEXT_VERSION([0.19.7])
 AM_GNU_GETTEXT([external])
+
+XGETTEXT="GETTEXTDATADIRS=\$(top_srcdir)/po ${XGETTEXT}"
 
 dnl Hack because windows gettext package is SEVERELY broken...
 if test "x$PLATFORM_OS_WINDOWS" = "xyes"
@@ -961,7 +962,6 @@ fi
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Define to the gettext domain name.])
-IT_PROG_INTLTOOL([0.40.0])
 
 
 dnl
@@ -1203,8 +1203,6 @@ AC_CONFIG_FILES([Makefile
                  ui/data/sounds/subtle/Makefile
                  ui/Makefile
                  po/Makefile.in
-                 libs/core//src/org.workrave.gschema.xml.in
-                 ui/apps/gtkmm/src/org.workrave.gui.gschema.xml.in
                  ui/apps/gtkmm/dist/win32/setup.iss
                 ])
 

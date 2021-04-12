@@ -53,7 +53,8 @@ endif
 desktopdir = $(datadir)/xfce4/panel/plugins
 desktop_DATA = workrave-xfce-applet.desktop
 
-@INTLTOOL_DESKTOP_RULE@
+workrave-xfce-applet.desktop: workrave-xfce-applet.desktop.in
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 endif
 
