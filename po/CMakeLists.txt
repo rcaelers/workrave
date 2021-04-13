@@ -94,6 +94,7 @@ if (GETTEXT_FOUND)
       OUTPUT ${OUT}
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}
         --desktop
+        --keyword=Name --keyword=Description
         -d "${CMAKE_SOURCE_DIR}/po"
         --template ${IN}
         -o ${OUT}
