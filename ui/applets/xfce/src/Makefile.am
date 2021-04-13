@@ -26,7 +26,7 @@ if HAVE_XFCE_GTK3
 
 plugin_LTLIBRARIES = libworkrave-plugin.la
 
-plugindir = $(libdir)/xfce4/panel/plugins
+plugindir = $(XFCE4LIBDIR)/xfce4/panel/plugins
 
 libworkrave_plugin_la_SOURCES = main.c
 

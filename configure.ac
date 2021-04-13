@@ -749,6 +749,7 @@ then
                     config_xfce_gtk_version=3
                      AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
                      AC_DEFINE(HAVE_XFCE_GTK3, 1, [Support for xfce applet])
+                     XFCE4LIBDIR=`$PKG_CONFIG --define-variable=prefix=${prefix} --variable=libdir libxfce4panel-2.0`
                      ],
                      [ true ])
 
@@ -766,6 +767,8 @@ then
                           fi])
    fi
 fi
+
+AC_SUBST(XFCE4LIBDIR)
 
 AM_CONDITIONAL(HAVE_XFCE, test "x$config_xfce" = "xyes")
 AM_CONDITIONAL(HAVE_XFCE_GTK2, test "x$config_xfce_gtk_version" = "x2")
