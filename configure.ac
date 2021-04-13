@@ -28,9 +28,6 @@ AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign silent-rules tar-ustar subdir-objects])
 dnl AM_SILENT_RULES([yes])
 
-GNOME_SHELL_VERSION=3.26.1
-AC_SUBST(GNOME_SHELL_VERSION)
-
 if test -n "$WORKRAVE_GIT_VERSION"; then
     AC_DEFINE_UNQUOTED(WORKRAVE_GIT_VERSION, "$WORKRAVE_GIT_VERSION", [GIT Version])
 fi
