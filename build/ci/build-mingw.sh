@@ -48,8 +48,7 @@ build()
         EXTRA_CONF="--enable-debug --enable-tracing"
     fi
 
-    autopoint --force
-    AUTOPOINT='intltoolize --automake --copy' autoreconf --force --install -I/usr/local/share/aclocal/
+    autoreconf --force --install -I/usr/local/share/aclocal/
 
     CONF_FLAGS="--target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --disable-dbus"
 

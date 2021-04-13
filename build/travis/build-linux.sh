@@ -45,8 +45,6 @@ apt-get -y -q -V --no-install-recommends install \
         autoconf \
         autoconf-archive \
         libtool \
-        autopoint \
-        intltool \
         libgdome2-dev \
         libgconf2-dev \
         python3-jinja2 \

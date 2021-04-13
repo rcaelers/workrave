@@ -17,7 +17,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         autopoint \
         autotools-dev \
         libtool \
-        intltool \
         pkg-config \
         git \
         gcc-mingw-w64 \
