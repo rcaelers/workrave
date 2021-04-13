@@ -54,7 +54,7 @@ $(applets_in_files): $(applets_in_files).in Makefile
 		$< > $@
 
 %.mate-panel-applet: %.mate-panel-applet.in
-	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
+	$(AM_V_GEN)$(MSGFMT) --desktop --keyword=Name --keyword=Description --template $< -d $(top_srcdir)/po -o $@
 
 servicedir       = $(datadir)/dbus-1/services
 service_DATA     = $(service_in_files:.service.in=.service)
