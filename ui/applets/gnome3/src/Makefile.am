@@ -95,10 +95,8 @@ $(applet_in_files): $(applet_in_files).in Makefile
 		-e "s|\@VERSION\@|$(PACKAGE_VERSION)|" \
 		$< > $@
 
-%.panel-applet: %-panel-applet.in
+%.panel-applet: %.panel-applet.in
 	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
-
-
 
 AM_CPPFLAGS 			= -I$(srcdir)
 
