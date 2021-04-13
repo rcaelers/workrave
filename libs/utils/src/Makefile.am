@@ -39,4 +39,4 @@ libworkrave_utils_la_CXXFLAGS = \
 
 libworkrave_utils_la_CFLAGS = ${libworkrave_utils_la_CXXFLAGS}
 
-EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) #$(builddir)/locale.inc
+EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) #$(builddir)/locale.inc

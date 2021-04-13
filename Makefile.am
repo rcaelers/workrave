@@ -11,7 +11,8 @@ MAINTAINERCLEANFILES = 	\
 SUBDIRS = m4 po libs ui
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
-EXTRA_DIST = 	config.xml README.md autogen.sh changes.yaml .clang-format
+EXTRA_DIST = 	config.xml README.md autogen.sh changes.yaml .clang-format \
+				$(wildcard $(top_srcdir)/po/its/*.its) $(wildcard $(top_srcdir)/po/its/*.loc)
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-localinstall
 

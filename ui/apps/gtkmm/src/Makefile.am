@@ -199,4 +199,4 @@ endif
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
 	     	workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml \
-			resource.rc.in locale.inc preinclude.h workrave.manifest
+			resource.rc.in locale.inc preinclude.h workrave.manifest org.workrave.gui.gschema.xml.in
