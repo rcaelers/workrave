@@ -35,6 +35,9 @@ if test -n "$WORKRAVE_GIT_VERSION"; then
     AC_DEFINE_UNQUOTED(WORKRAVE_GIT_VERSION, "$WORKRAVE_GIT_VERSION", [GIT Version])
 fi
 
+if test "X$prefix" != "XNONE" ; then
+   pkg_config_prefix="--define-variable=prefix=$prefix"
+fi
 
 dnl
 dnl Command line options.
@@ -550,11 +553,12 @@ config_libgnome_panel=no
 
 if test "x$enable_gnome3" != "xno" -a "x$config_dbus" = "xyes"
 then
+
     PKG_CHECK_MODULES([GNOME3],
                       [libgnome-panel >= 3.36.0 gio-2.0 >= 2.26.0],
                       [config_gnome3=yes
                        config_libgnome_panel=yes
-                       LIBGNOME_PANEL_MODULES_DIR=`$PKG_CONFIG --define-variable=prefix=${prefix} --variable=modulesdir libgnome-panel`
+                       LIBGNOME_PANEL_MODULES_DIR=`$PKG_CONFIG ${pkg_config_prefix} --variable=modulesdir libgnome-panel`
                        AC_SUBST([LIBGNOME_PANEL_MODULES_DIR], [$LIBGNOME_PANEL_MODULES_DIR])
                        AC_DEFINE([HAVE_LIBGNOME_PANEL], 1, [Support for GNOME Panel applet])],
                       [ ])
@@ -749,7 +753,7 @@ then
                     config_xfce_gtk_version=3
                      AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
                      AC_DEFINE(HAVE_XFCE_GTK3, 1, [Support for xfce applet])
-                     XFCE4LIBDIR=`$PKG_CONFIG --define-variable=prefix=${prefix} --variable=libdir libxfce4panel-2.0`
+                     XFCE4LIBDIR=`$PKG_CONFIG ${pkg_config_prefix} --variable=libdir libxfce4panel-2.0`
                      ],
                      [ true ])
 
