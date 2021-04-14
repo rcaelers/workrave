@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IBREAK_HH
-#define IBREAK_HH
+#ifndef WORKRAVE_BACKEND_IBREAK_HH
+#define WORKRAVE_BACKEND_IBREAK_HH
 
 #include "ICore.hh"
 
@@ -71,4 +71,4 @@ namespace workrave
   };
 } // namespace workrave
 
-#endif // IBREAK_HH
+#endif // WORKRAVE_BACKEND_IBREAK_HH

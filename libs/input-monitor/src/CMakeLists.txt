@@ -57,12 +57,12 @@ target_include_directories(workrave-libs-input-monitor
   ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
   )
 
-#add_library(workrave-libs-input-monitor-stub STATIC InputMonitorFactoryStub.cc)
-#
-#target_include_directories(workrave-libs-input-monitor-stub
-#  PRIVATE
-#  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
-#  ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
-#  )
-#
-#target_link_libraries(workrave-libs-input-monitor-stub workrave-libs-utils workrave-libs-config)
+add_library(workrave-libs-input-monitor-stub STATIC InputMonitorFactoryStub.cc)
+
+target_include_directories(workrave-libs-input-monitor-stub
+  PRIVATE
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
+  ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
+  )
+
+target_link_libraries(workrave-libs-input-monitor-stub workrave-libs-utils workrave-libs-config)

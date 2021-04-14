@@ -20,16 +20,22 @@
 #ifndef STATISTICS_HH
 #define STATISTICS_HH
 
-#include <cstring>
-#include <ctime>
-#include <fstream>
+#include <memory>
+#include <thread>
+#include <mutex>
+
+#include <chrono>
+
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <ctime>
+#include <cstring>
 
 #include "core/IStatistics.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "utils/Mutex.hh"
+#include "core/IStatistics.hh"
 
 // Forward declarion of external interface.
 namespace workrave
@@ -69,7 +75,7 @@ private:
   struct DailyStatsImpl : public DailyStats
   {
     //! Total time that the mouse was moving.
-    gint64 total_mouse_time;
+    std::chrono::system_clock::time_point total_mouse_time;
 
     DailyStatsImpl()
     {
@@ -91,7 +97,6 @@ private:
 
       // Empty marker.
       start.tm_year = 0;
-      total_mouse_time = 0;
     }
 
     bool starts_at_date(int y, int m, int d);
@@ -162,7 +167,7 @@ private:
   workrave::input_monitor::IInputMonitor::Ptr input_monitor;
 
   //! Last time a mouse event was received.
-  gint64 last_mouse_time{0};
+  std::chrono::system_clock::time_point last_mouse_time;
 
   //! Statistics of current day.
   DailyStatsImpl *current_day{nullptr};
@@ -174,7 +179,7 @@ private:
   History history;
 
   //! Internal locking
-  Mutex lock;
+  std::mutex lock;
 
   //! Previous X coordinate
   int prev_x{-1};

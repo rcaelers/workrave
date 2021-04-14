@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ISTATISTICS_HH
-#define ISTATISTICS_HH
+#ifndef WORKRAVE_BACKEND_ISTATISTICS_HH
+#define WORKRAVE_BACKEND_ISTATISTICS_HH
 
 #include <ctime>
 
@@ -32,10 +32,10 @@ typedef __int64 int64_t;
 
 namespace workrave
 {
-
   class IStatistics
   {
   public:
+    using Ptr = std::shared_ptr<IStatistics>;
     enum StatsBreakValueType
     {
       STATS_BREAKVALUE_PROMPTED = 0,
@@ -59,8 +59,8 @@ namespace workrave
       STATS_VALUE_SIZEOF
     };
 
-    typedef int BreakStats[STATS_BREAKVALUE_SIZEOF];
-    typedef int64_t MiscStats[STATS_VALUE_SIZEOF];
+    using BreakStats = int[STATS_BREAKVALUE_SIZEOF];
+    using MiscStats = int64_t[STATS_VALUE_SIZEOF];
 
     struct DailyStats
     {
@@ -90,4 +90,4 @@ namespace workrave
   };
 } // namespace workrave
 
-#endif // ISTATISTICS_HH
+#endif // WORKRAVE_BACKEND_ISTATISTICS_HH

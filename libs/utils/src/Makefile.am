@@ -9,7 +9,6 @@ sources = 	DBusProxy-gio.cc \
 			debug.cc \
 			AssetPath.cc \
 			Diagnostics.cc \
-			GlibThread.cc \
 			Platform.cc \
 			StringUtil.cc \
 			TimeSource.cc \

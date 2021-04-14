@@ -52,6 +52,7 @@
 #include "debug.hh"
 
 #if defined(PLATFORM_OS_UNIX)
+#  include "utils/Platform.hh"
 #  include "ScreenLockCommandline.hh"
 
 #  if defined(HAVE_DBUS_GIO)

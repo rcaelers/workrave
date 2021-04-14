@@ -259,7 +259,6 @@ SoundClip::init()
 
   fill_buffer();
 
-  // FIXME: remove dependency on Core
   set_volume(volume);
 
   TRACE_EXIT();

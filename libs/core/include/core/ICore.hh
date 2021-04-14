@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2009, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ICORE_HH
-#define ICORE_HH
+#ifndef WORKRAVE_BACKEND_ICORE_HH
+#define WORKRAVE_BACKEND_ICORE_HH
 
+#include <memory>
 #include <string>
 #include <iostream>
 
@@ -223,4 +224,4 @@ namespace workrave
 
 }; // namespace workrave
 
-#endif // ICORE_HH
+#endif // WORKRAVE_BACKEND_ICORE_HH

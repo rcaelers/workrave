@@ -29,6 +29,7 @@
 #include "input-monitor/InputMonitorFactory.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor()
@@ -36,9 +37,9 @@ ActivityMonitor::ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-  noise_threshold = 1 * G_USEC_PER_SEC;
-  activity_threshold = 2 * G_USEC_PER_SEC;
-  idle_threshold = 5 * G_USEC_PER_SEC;
+  noise_threshold = 1 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
+  activity_threshold = 2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
+  idle_threshold = 5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
 
   input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
   if (input_monitor != nullptr)
@@ -126,10 +127,9 @@ ActivityMonitor::get_current_state()
   // First update the state...
   if (activity_state == ACTIVITY_ACTIVE)
     {
-      gint64 now = g_get_real_time();
-      gint64 tv = now - last_action_time;
+      int64_t tv = TimeSource::get_monotonic_time_usec() - last_action_time;
 
-      TRACE_MSG("Active: " << (tv / G_USEC_PER_SEC) << "." << tv << " " << (idle_threshold / G_USEC_PER_SEC) << " "
+      TRACE_MSG("Active: " << (tv / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << "." << tv << " " << (idle_threshold / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << " "
                            << idle_threshold);
       if (tv > idle_threshold)
         {
@@ -172,7 +172,7 @@ ActivityMonitor::get_parameters(int &noise, int &activity, int &idle, int &sensi
 void
 ActivityMonitor::shift_time(int delta)
 {
-  gint64 d = delta * G_USEC_PER_SEC;
+  int64_t d = delta * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
 
   Diagnostics::instance().log("activity_monitor: shift");
   lock.lock();
@@ -201,7 +201,7 @@ ActivityMonitor::action_notify()
 {
   lock.lock();
 
-  gint64 now = g_get_real_time();
+  int64_t now = TimeSource::get_monotonic_time_usec();
 
   switch (activity_state)
     {
@@ -223,7 +223,7 @@ ActivityMonitor::action_notify()
 
     case ACTIVITY_NOISE:
       {
-        gint64 tv = now - last_action_time;
+        int64_t tv = now - last_action_time;
         if (tv > noise_threshold)
           {
             first_action_time = now;

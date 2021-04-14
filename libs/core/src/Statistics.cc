@@ -21,6 +21,7 @@
 #  include "config.h"
 #endif
 
+#include "Statistics.hh"
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSHelpers.hh"
 #endif
@@ -56,9 +57,9 @@ Statistics::~Statistics()
 {
   update();
 
-  for (vector<DailyStatsImpl *>::iterator i = history.begin(); i != history.end(); i++)
+  for (auto &item: history)
     {
-      delete *i;
+      delete item;
     }
 
   delete current_day;
@@ -946,7 +947,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
       if (delta_x < MAX_JUMP && delta_y < MAX_JUMP && (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0))
         {
           int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-          int distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          int distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
@@ -954,14 +955,14 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
               current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = movement;
             }
 
-          gint64 now = g_get_real_time();
-          gint64 tv = now - last_mouse_time;
+          auto now = std::chrono::system_clock::now();
+          auto tv = now - last_mouse_time;
 
-          int tv_sec = tv / G_USEC_PER_SEC;
-          if (last_mouse_time != 0 && tv_sec >= 0 && tv_sec < 1)
+          if (tv < std::chrono::seconds(1))
             {
               current_day->total_mouse_time += tv;
-              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = current_day->total_mouse_time / G_USEC_PER_SEC;
+              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
+                std::chrono::duration_cast<std::chrono::seconds>(current_day->total_mouse_time.time_since_epoch()).count();
             }
 
           last_mouse_time = now;
@@ -984,7 +985,7 @@ Statistics::button_notify(bool is_press)
           int delta_y = click_y - prev_y;
 
           int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-          int64_t distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          int64_t distance = int(sqrt(static_cast<double>(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
@@ -1009,7 +1010,9 @@ void
 Statistics::keyboard_notify(bool repeat)
 {
   if (repeat)
-    return;
+    {
+      return;
+    }
 
   lock.lock();
   if (current_day != nullptr)

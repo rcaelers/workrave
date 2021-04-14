@@ -20,12 +20,14 @@
 #ifndef ACTIVITYMONITOR_HH
 #define ACTIVITYMONITOR_HH
 
+#include <thread>
+#include <mutex>
 #include "IActivityMonitor.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
-#include "utils/Mutex.hh"
 
 #include "utils/Diagnostics.hh"
+#include "utils/TimeSource.hh"
 
 class ActivityListener;
 class IInputMonitor;
@@ -67,7 +69,7 @@ private:
   TracedField<ActivityState> activity_state{"monitor.activity_state", ACTIVITY_IDLE, true};
 
   //! Internal locking
-  Mutex lock;
+  std::recursive_mutex lock;
 
   //! Previous X coordinate
   int prev_x{-10};
@@ -79,19 +81,19 @@ private:
   bool button_is_pressed{false};
 
   //! Last time activity was detected
-  gint64 last_action_time{0};
+  int64_t last_action_time{0};
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  gint64 first_action_time{0};
+  int64_t first_action_time{0};
 
   //! The noise threshold
-  TracedField<gint64> noise_threshold{"monitor.noise_threshold", 0};
+  TracedField<int64_t> noise_threshold{"monitor.noise_threshold", 0};
 
   //! The activity threshold.
-  TracedField<gint64> activity_threshold{"monitor.activity_threshold", 0};
+  TracedField<int64_t> activity_threshold{"monitor.activity_threshold", 0};
 
   //! The idle threshold.
-  TracedField<gint64> idle_threshold{"monitor.idle_threshold", 0};
+  TracedField<int64_t> idle_threshold{"monitor.idle_threshold", 0};
 
   //! Mouse sensitivity
   TracedField<int> sensitivity{"monitor.sensitivity", 3};

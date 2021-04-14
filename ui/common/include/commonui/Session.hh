@@ -20,21 +20,24 @@
 #ifndef SESSION_HH
 #define SESSION_HH
 
-#include <gio/gio.h>
+#include <memory>
+#if defined(HAVE_DBUS_GIO)
+#  include <gio/gio.h>
+#endif
 
 class Session
 {
 public:
+  using Ptr = std::shared_ptr<Session>;
   Session() = default;
   void init();
 
   void set_idle(bool idle);
 
-#if defined(HAVE_DBUS)
-public:
+#if defined(HAVE_DBUS_GIO)
+private:
   void init_gnome();
 
-private:
   static void on_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
 #endif
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+
 #include "W32Shutdown.hh"
 
 #include "W32LockScreen.hh"
 
 #include <shlobj.h>
 #include <shldisp.h>
-#include "harpoon.h"
 
-#include "core/CoreFactory.hh"
-#include "config/IConfigurator.hh"
-
-using namespace workrave;
+#ifdef HAVE_HARPOON
+#  include "harpoon.h"
+#endif
 
 #ifndef HAVE_ISHELLDISPATCH
 #  undef INTERFACE
@@ -88,7 +91,9 @@ W32Shutdown::shutdown_helper(bool for_real)
       ret = true;
       if (for_real)
         {
+#ifdef HAVE_HARPOON
           harpoon_unblock_input();
+#endif
           pShellDispatch->ShutdownWindows();
         }
       pShellDispatch->Release();

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef IAPP_HH
-#define IAPP_HH
+#ifndef WORKRAVE_BACKEND_IAPP_HH
+#define WORKRAVE_BACKEND_IAPP_HH
 
 #include "ICore.hh"
 
@@ -37,7 +37,7 @@ namespace workrave
       STAGE_INITIAL = 0,
       STAGE_MOVE_OUT,
       STAGE_WARN,
-      STAGE_ALERT,
+      STAGE_ALERT
     };
 
     //! Text that the GUI show must in the prelude window.
@@ -45,7 +45,7 @@ namespace workrave
     {
       PROGRESS_TEXT_BREAK_IN,
       PROGRESS_TEXT_DISAPPEARS_IN,
-      PROGRESS_TEXT_SILENT_IN,
+      PROGRESS_TEXT_SILENT_IN
     };
 
     virtual ~IApp() = default;
@@ -62,7 +62,7 @@ namespace workrave
     //! Hide the break or prelude window.
     virtual void hide_break_window() = 0;
 
-    //! Hide the break or prelude window.
+    //! Show the break or prelude window.
     virtual void show_break_window() = 0;
 
     //! Refresh the content of the break or prelude window.
@@ -82,4 +82,4 @@ namespace workrave
   };
 } // namespace workrave
 
-#endif // IAPP_HH
+#endif // WORKRAVE_BACKEND_IAPP_HH

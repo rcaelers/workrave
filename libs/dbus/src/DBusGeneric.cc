@@ -35,7 +35,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
 
-//! Connect a D-DBUS object/interface to a C object
 void
 DBusGeneric::connect(const std::string &object_path, const std::string &interface_name, void *cobject)
 {
@@ -60,7 +59,6 @@ DBusGeneric::connect(const std::string &object_path, const std::string &interfac
     }
 }
 
-//! Disconnect a D-DBUS object/interface to a C object
 void
 DBusGeneric::disconnect(const std::string &object_path, const std::string &interface_name)
 {
@@ -73,14 +71,12 @@ DBusGeneric::disconnect(const std::string &object_path, const std::string &inter
     }
 }
 
-//! Register an interface binding
 void
 DBusGeneric::register_binding(const std::string &name, DBusBinding *interface)
 {
   bindings[name] = interface;
 }
 
-//! Find an interface binding
 DBusBinding *
 DBusGeneric::find_binding(const std::string &interface_name) const
 {

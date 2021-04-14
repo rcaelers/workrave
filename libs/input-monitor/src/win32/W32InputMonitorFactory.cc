@@ -36,7 +36,6 @@ using namespace workrave;
 W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config)
   : config(config)
   , actual_monitor_method{"monitor.method", ""}
-
 {
   activity_monitor = NULL;
   statistics_monitor = NULL;
