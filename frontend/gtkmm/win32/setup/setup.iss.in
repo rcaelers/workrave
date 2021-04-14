@@ -65,7 +65,9 @@ Source: "..\..\..\applets\win32\src\Release\workrave-applet64.dll"; DestDir: "{a
 ;;Source: ".\runtime-dbus\lib\libdbus-1.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs;
 Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
 Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
+; Components: gtk;
 Source: ".\runtime-wimp\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
+; Components: gtk;
 Source: "..\..\..\common\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion
 Source: "..\..\..\common\share\images\16x16\*.png"; DestDir: "{app}\share\icons\16x16"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\common\share\images\24x24\*.png"; DestDir: "{app}\share\icons\24x24"; Flags: ignoreversion recursesubdirs
@@ -105,33 +107,17 @@ Name: "{group}\News"; Filename: "{app}\NEWS.txt"
 Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
-Name: "{code:GetDesktopFolder}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{userdesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
 Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 
 [Run]
 Filename: "{app}\lib\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
 
 [InstallDelete]
-Type: files; Name: "{code:GetStartupFolder}\Workrave.lnk"
+Type: files; Name: "{userstartup}\Workrave.lnk"
 Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]
-
-function GetDesktopFolder(Param: String): String;
-begin
-  if (InstallAllUsers) then
-    Result := ExpandConstant('{commondesktop}')
-  else
-    Result := ExpandConstant('{userdesktop}');
-end;
-
-function GetStartupFolder(Param: String): String;
-begin
-  if (InstallAllUsers) then
-    Result := ExpandConstant('{commonstartup}')
-  else
-    Result := ExpandConstant('{userstartup}');
-end;
 
 function FindWorkrave(): Boolean;
 external 'FindWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
