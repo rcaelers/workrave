@@ -25,7 +25,7 @@
 static void workrave_timebar_class_init(WorkraveTimebarClass *klass);
 static void workrave_timebar_init(WorkraveTimebar *self);
 
-static void workrave_timebar_init_ui(WorkraveTimebar *self);
+static void workrave_timebar_init_ui(WorkraveTimebar *self, cairo_t *c);
 static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
 static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height);
 static void workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, int *sbar_width, int *bar_height);
@@ -48,8 +48,6 @@ enum
 
 struct _WorkraveTimebarPrivate
 {
-  gchar *name;
-
   //! Color of the time-bar.
   WorkraveColorId bar_color;
 
@@ -77,9 +75,6 @@ struct _WorkraveTimebarPrivate
   int width;
   int height;
 
-#ifndef USE_GTK2
-  GtkStyleContext *style_context;
-#endif
   PangoContext *pango_context;
   PangoLayout *pango_layout;
 };
@@ -129,8 +124,10 @@ workrave_timebar_init(WorkraveTimebar *self)
   priv->secondary_bar_value = 100;
   priv->secondary_bar_max_value = 600;
   priv->bar_text = g_strdup("");
-
-  workrave_timebar_init_ui(self);
+  priv->width = 0;
+  priv->height = 0;
+  priv->pango_context = NULL;
+  priv->pango_layout = NULL;
 }
 
 void
@@ -239,79 +236,54 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
   pango_cairo_show_layout(cr, priv->pango_layout);
 }
 
+static PangoFontDescription *
+workrave_timebar_get_font(void)
+{
+  PangoFontDescription *font_desc;
+
 #ifndef USE_GTK2
-static void
-workrave_timebar_init_ui(WorkraveTimebar *self)
-{
-  WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
+  if (gdk_screen_get_default())
+    {
+      GtkStyleContext *style = gtk_style_context_new();
+      GtkWidgetPath *path = gtk_widget_path_new();
 
-  priv->style_context = gtk_style_context_new();
+      gtk_widget_path_append_type(path, GTK_TYPE_BUTTON);
+      gtk_style_context_set_path(style, path);
+      gtk_widget_path_unref(path);
 
-  GtkWidgetPath *path = gtk_widget_path_new();
-  gtk_widget_path_append_type(path, GTK_TYPE_BUTTON);
-  gtk_style_context_set_path(priv->style_context, path);
-  gtk_style_context_add_class(priv->style_context, GTK_STYLE_CLASS_TROUGH);
+      gtk_style_context_get(style, GTK_STATE_FLAG_NORMAL, GTK_STYLE_PROPERTY_FONT, &font_desc, NULL);
+      g_object_unref(style);
+    }
+  else
+#endif
+    {
+      font_desc = pango_font_description_from_string("Sans 10");
+    }
 
-  GdkScreen *screen = gdk_screen_get_default();
-  priv->pango_context = gdk_pango_context_get_for_screen(screen);
-
-  PangoFontDescription *font_desc = NULL;
-  gtk_style_context_get(priv->style_context, GTK_STATE_FLAG_ACTIVE, "font", &font_desc, NULL);
-
-  pango_context_set_language(priv->pango_context, gtk_get_default_language());
-  pango_context_set_font_description(priv->pango_context, font_desc);
-
-  priv->pango_layout = pango_layout_new(priv->pango_context);
-  pango_layout_set_text(priv->pango_layout, "-9:59:59", -1);
-
-  pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
-
-  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
-  priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
-
-  gtk_widget_path_free(path);
+  return font_desc;
 }
 
 static void
-workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height)
+workrave_timebar_init_ui(WorkraveTimebar *self, cairo_t *cr)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  gtk_style_context_save(priv->style_context);
-  gtk_style_context_set_state(priv->style_context, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE);
+  if (priv->pango_layout == NULL)
+    {
+      PangoFontDescription *font_desc = workrave_timebar_get_font();
 
-  gtk_render_frame(priv->style_context, cr, 0, 0, width - 1, height - 1);
+      priv->pango_layout = pango_cairo_create_layout(cr);
+      priv->pango_context = pango_layout_get_context(priv->pango_layout);
 
-  GdkRGBA color = bar_colors[COLOR_ID_BG];
-  set_color(cr, color);
-  cairo_rectangle(cr, BORDER_SIZE, BORDER_SIZE, width - 2 * BORDER_SIZE, height - 2 * BORDER_SIZE);
-  cairo_fill(cr);
+      pango_context_set_language(priv->pango_context, gtk_get_default_language());
+      pango_context_set_font_description(priv->pango_context, font_desc);
 
-  gtk_style_context_restore(priv->style_context);
-}
+      pango_layout_set_text(priv->pango_layout, "-9:59:59", -1);
+      pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
 
-#else
-
-static void
-workrave_timebar_init_ui(WorkraveTimebar *self)
-{
-  WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
-
-  GdkScreen *screen = gdk_screen_get_default();
-  priv->pango_context = gdk_pango_context_get_for_screen(screen);
-
-  const PangoFontDescription *font_desc = pango_font_description_from_string("Sans 10");
-
-  pango_context_set_language(priv->pango_context, gtk_get_default_language());
-  pango_context_set_font_description(priv->pango_context, font_desc);
-
-  priv->pango_layout = pango_layout_new(priv->pango_context);
-  pango_layout_set_text(priv->pango_layout, "-9:59:59", -1);
-
-  pango_layout_get_pixel_size(priv->pango_layout, &priv->width, &priv->height);
-
-  priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
-  priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
+      priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
+      priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
+    }
 }
 
 static void
@@ -341,7 +313,6 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int h
   cairo_rectangle(cr, 2, 2, width - 4, height - 4);
   cairo_fill(cr);
 }
-#endif
 
 static void
 workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height)
@@ -403,6 +374,8 @@ workrave_timebar_set_text(WorkraveTimebar *self, const gchar *text)
 void
 workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr)
 {
+  workrave_timebar_init_ui(self, cr);
+
   workrave_timebar_draw_bar(self, cr);
   workrave_timebar_draw_text(self, cr);
 }

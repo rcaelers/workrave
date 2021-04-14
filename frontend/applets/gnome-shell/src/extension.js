@@ -166,6 +166,7 @@ const WorkraveButton = new Lang.Class({
 
         this._force_icon = false;
         this._height = 24;
+        this._padding = 0;
         this._bus_name = 'org.workrave.GnomeShellApplet';
         this._bus_id = 0;
 
@@ -174,14 +175,17 @@ const WorkraveButton = new Lang.Class({
         this._area.set_height(this._height=24);
         this._area.connect('repaint', Lang.bind(this, this._draw));
 
+        this._box = new St.Bin();
+        this._box.add_actor(this._area);
+
         if (typeof this.add_actor === "function")
         {
-            this.add_actor(this._area);
+            this.add_actor(this._box, { y_align: St.Align.MIDDLE, y_fill: false });
             this.show();
         }
         else
         {
-            this.actor.add_actor(this._area);
+            this.actor.add_actor(this._box, { y_align: St.Align.MIDDLE, y_fill: false });
             this.actor.show();
         }
 
@@ -284,9 +288,16 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-     _draw: function(area) {
+    _draw: function(area) {
          let [width, height] = area.get_surface_size();
          let cr = area.get_context();
+
+         let bar_height = this._timerbox.get_height();
+         let padding = Math.floor((height + this._padding - bar_height) / 2);
+
+         this._box.style = "padding-top: " + padding + "px;";
+         this._padding = padding;
+
          this._timerbox.draw(cr);
     },
 
