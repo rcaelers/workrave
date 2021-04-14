@@ -21,10 +21,16 @@ RUN sed -i 's:^path-exclude=/usr/share/locale:#path-exclude=/usr/share/locale:' 
         dos2unix \ 
         g++-mingw-w64 \
         gcc-mingw-w64 \
+        g++ \
         git \
         gobject-introspection \
-        innoextract \
         intltool \
+        libboost-iostreams-dev \
+        libboost-filesystem-dev \
+        libboost-date-time-dev \
+        libboost-system-dev \
+        libboost-program-options-dev \
+        liblzma-dev \
         libglib2.0-bin \
         libtool \
         make \
@@ -36,18 +42,25 @@ RUN sed -i 's:^path-exclude=/usr/share/locale:#path-exclude=/usr/share/locale:' 
         xvfb \
         zip
 
+RUN mkdir -p /workspace/innoextract && \
+    cd /workspace/innoextract && \
+    curl -O https://constexpr.org/innoextract/files/innoextract-1.9/innoextract-1.9.tar.gz && \
+    tar xvfz ./innoextract-1.9.tar.gz && \
+    mkdir -p /workspace/innoextract/build && \
+    cd /workspace/innoextract/build && \
+    cmake ../innoextract-1.9 && make install && \
+    rm -rf /workspace/innoextract
 
-RUN mkdir /workspace && \
+RUN mkdir -p /workspace/inno && \
     cd /workspace && \
+    curl -O http://files.jrsoftware.org/is/6/innosetup-6.1.2.exe && \
+    /usr/local/bin/innoextract -d /workspace/inno ./innosetup-6.1.2.exe && rm ./innosetup-6.1.2.exe
+
+RUN cd /workspace && \
     curl -O https://snapshots.workrave.org/prebuilt/workrave-prebuilt-windows-vs2015.tar.xz && \
     tar xvfJ ./workrave-prebuilt-windows-vs2015.tar.xz && \
     rm ./workrave-prebuilt-windows-vs2015.tar.xz && \
     ln -s workrave-prebuilt-windows-vs2015 prebuilt
-
-RUN mkdir -p /workspace/inno && \
-    cd /workspace && \
-    curl -O http://files.jrsoftware.org/is/5/isetup-5.5.8-unicode.exe && \
-    innoextract -d /workspace/inno ./isetup-5.5.8-unicode.exe && rm ./isetup-5.5.8-unicode.exe
 
 RUN mkdir -p /workspace/autoconf-archive && \
     cd /workspace/autoconf-archive && \
