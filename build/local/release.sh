@@ -35,10 +35,9 @@ init() {
     if [ ! -d "${WORKSPACE_DIR}" ]; then
         mkdir -p "${WORKSPACE_DIR}"
     fi
-    if [ -d "$DEPLOY_DIR" ]; then
-        rm -rf "$DEPLOY_DIR"
+    if [ ! -d "$DEPLOY_DIR" ]; then
+        mkdir -p "$DEPLOY_DIR"
     fi
-    mkdir -p "$DEPLOY_DIR"
 
     cd $WORKSPACE_DIR
 
@@ -174,7 +173,7 @@ DOCKER_IMAGE="ubuntu-groovy"
 setup
 run_docker_ppa
 
-if [ -n $BUILD_DEB ]; then
+if [ -n "$BUILD_DEB" ]; then
     echo Build all debian packages.
     run_docker_deb
 fi

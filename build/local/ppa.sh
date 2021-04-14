@@ -72,18 +72,19 @@ init_newsgen() {
 }
 
 build_tarball() {
-    cd ${SOURCES_DIR}
-    ./autogen.sh
-    ./configure
-    make dist
+    if [ ! -e "$DEPLOY_TARFILE" ]; then
+        cd ${SOURCES_DIR}
+        ./autogen.sh
+        ./configure
+        make dist
+        cp ${SOURCE_TARFILE} "${DEPLOY_TARFILE}"
+    fi
 }
 
 build_sources() {
-    tar xzfC ${SOURCES_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz "${BUILD_DIR}"
+    tar xzfC "${DEPLOY_TARFILE}" "${BUILD_DIR}"
     cp -a "${DEBIAN_PACKAGING_DIR}/debian" "$BUILD_DIR/workrave-${WORKRAVE_VERSION}/debian"
-    cp -a ${SOURCE_TARFILE} "${BUILD_DIR}/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
-
-    cp ${SOURCE_TARFILE} "$DEPLOY_DIR/workrave-${WORKRAVE_VERSION}.tar.gz"
+    cp -a "${DEPLOY_TARFILE}" "${BUILD_DIR}/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
 }
 
 build_changelog() {
@@ -108,7 +109,7 @@ build_setup() {
     mkdir -p "$BUILD_DIR/$series"
 
     cp -a "$BUILD_DIR/workrave-${WORKRAVE_VERSION}" "$BUILD_DIR/$series"
-    cp ${SOURCE_TARFILE} "$BUILD_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
+    cp ${DEPLOY_TARFILE} "$BUILD_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
 
     if [ -d "${DEBIAN_PACKAGING_DIR}/debian-${series}" ]; then
         cp -a "${DEBIAN_PACKAGING_DIR}/debian-${series}"/* "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/debian/"
@@ -130,7 +131,7 @@ build_single() {
     mkdir -p "$DEPLOY_DIR/$series"
     ls -la "$BUILD_DIR/$series"
     cp -a $BUILD_DIR/$series/workrave_${WORKRAVE_VERSION}-ppa* "$DEPLOY_DIR/$series"
-    cp -a ${SOURCE_TARFILE} "$DEPLOY_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
+    cp -a "${DEPLOY_TARFILE}" "$DEPLOY_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
 
     if [[ -z "$WORKRAVE_RELEASE_TAG" ]]; then
         echo "No tag build."
@@ -138,11 +139,11 @@ build_single() {
             dpkg-buildpackage -b -rfakeroot -us -uc
         fi
     else
-        echo "Tag build : WORKRAVE_RELEASE_TAG"
+        echo "Tag build : $WORKRAVE_RELEASE_TAG"
         cd "$BUILD_DIR/$series"
-        if [ -n $DRYRUN ]; then
+        if [ -n "$DRYRUN" ]; then
             echo Dryrun.
-        elif [ -n $PRERELEASE ]; then
+        elif [ -n "$PRERELEASE" ]; then
             dput -d $WORKRAVE_TESTING_PPA workrave_*_source.changes
         else
             dput -d $WORKRAVE_PPA workrave_*_source.changes
@@ -152,15 +153,16 @@ build_single() {
 }
 
 build_all() {
-    # hirsute is broken: https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1916485
-    for series in groovy focal bionic xenial; do
+    for series in hirsute groovy focal bionic xenial; do
         build_single $series
     done
+    #build_single hirsute
 }
 
 DRYRUN=
 PRERELEASE=
-SOURCE_TARFILE=${SOURCES_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz
+SOURCE_TARFILE="${SOURCES_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz"
+DEPLOY_TARFILE="${DEPLOY_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz"
 
 parse_arguments $*
 
