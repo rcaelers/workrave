@@ -61,11 +61,19 @@ export WORKRAVE_TESTING_PPA=ppa:rob-caelers/workrave-testing
 
 cd ${SOURCES_DIR}
 
-export WORKRAVE_GIT_TAG=`git describe --abbrev=0`
-export WORKRAVE_GIT_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//'`
-export WORKRAVE_LONG_GIT_VERSION=`git describe --tags --abbrev=10 2>/dev/null`
+if [ -n "$WORKRAVE_OVERRIDE_GIT_VERSION" ]; then
+    export WORKRAVE_GIT_TAG=$WORKRAVE_OVERRIDE_GIT_VERSION
+    export WORKRAVE_GIT_VERSION=$WORKRAVE_OVERRIDE_GIT_VERSION
+    export WORKRAVE_LONG_GIT_VERSION=$WORKRAVE_OVERRIDE_GIT_VERSION
+    export WORKRAVE_COMMIT_COUNT=0
+else
+    export WORKRAVE_GIT_TAG=`git describe --abbrev=0`
+    export WORKRAVE_GIT_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//'`
+    export WORKRAVE_LONG_GIT_VERSION=`git describe --tags --abbrev=10 2>/dev/null`
+    export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_GIT_TAG}..HEAD --count`
+fi
+
 export WORKRAVE_VERSION=`echo $WORKRAVE_GIT_VERSION | sed -e 's/_/./g' | sed -E -e 's/-[0-9]+//g' | sed -e 's/^v//g'`
-export WORKRAVE_COMMIT_COUNT=`git rev-list ${WORKRAVE_GIT_TAG}..HEAD --count`
 export WORKRAVE_COMMIT_HASH=`git rev-parse HEAD`
 export WORKRAVE_BUILD_DATE=`date +"%Y%m%d"`
 export WORKRAVE_BUILD_DATETIME=`date --iso-8601=seconds`
