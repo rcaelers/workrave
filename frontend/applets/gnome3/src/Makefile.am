@@ -18,11 +18,7 @@ SUBDIRS =
 
 if HAVE_LIBGNOME_PANEL
 
-if LOCALINSTALL
-appletdir = $(datadir)/gnome-panel/modules
-else
 appletdir = $(LIBGNOME_PANEL_MODULES_DIR)
-endif
 
 applet_LTLIBRARIES = libworkrave-applet.la
 
