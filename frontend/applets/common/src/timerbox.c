@@ -182,7 +182,7 @@ workrave_timerbox_get_property(GObject *gobject, guint property_id, GValue *valu
     }
 }
 
-void
+static void
 workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
 {
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
@@ -205,7 +205,7 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
     }
 }
 
-void
+static void
 workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
 {
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
@@ -214,6 +214,7 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
     {
       int x = 0, y = 0;
       int bar_width, bar_height;
+
 
       if (priv->force_icon)
         {

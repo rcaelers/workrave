@@ -180,12 +180,12 @@ const WorkraveButton = new Lang.Class({
 
         if (typeof this.add_actor === "function")
         {
-            this.add_actor(this._box, { y_align: St.Align.MIDDLE, y_fill: false });
+            this.add_actor(this._box);
             this.show();
         }
         else
         {
-            this.actor.add_actor(this._box, { y_align: St.Align.MIDDLE, y_fill: false });
+            this.actor.add_actor(this._box);
             this.actor.show();
         }
 
@@ -245,8 +245,6 @@ const WorkraveButton = new Lang.Class({
             this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
             this._core_proxy = null;
         }
-
-        this._stop_dbus();
     },
 
     _start: function()
@@ -270,6 +268,7 @@ const WorkraveButton = new Lang.Class({
         {
             Mainloop.source_remove(this._timeoutId);
             Gio.DBus.session.unown_name(this._bus_id);
+            this._timeoutId = 0;
             this._bus_id = 0;
         }
     },
@@ -289,16 +288,8 @@ const WorkraveButton = new Lang.Class({
     },
 
     _draw: function(area) {
-         let [width, height] = area.get_surface_size();
-         let cr = area.get_context();
-
-         let bar_height = this._timerbox.get_height();
-         let padding = Math.floor((height + this._padding - bar_height) / 2);
-
-         this._box.style = "padding-top: " + padding + "px;";
-         this._padding = padding;
-
-         this._timerbox.draw(cr);
+        let cr = area.get_context();
+        this._timerbox.draw(cr);
     },
 
     _onTimer: function() {
@@ -366,8 +357,14 @@ const WorkraveButton = new Lang.Class({
         }
 
         let width = this._timerbox.get_width();
-        this._area.set_width(this._width=width);
+        let height = this._timerbox.get_height();
 
+        let padding = Math.floor((height + this._padding - height) / 2);
+
+        this._box.style = "padding-top: " + padding + "px;";
+        this._padding = padding;
+
+        this._area.set_width(this._width=width);
         this._area.queue_repaint();
     },
 
