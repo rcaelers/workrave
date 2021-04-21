@@ -356,15 +356,16 @@ const WorkraveButton = new Lang.Class({
             timebar.set_text(daily[0]);
         }
 
-        let width = this._timerbox.get_width();
-        let height = this._timerbox.get_height();
+        let timerbox_width = this._timerbox.get_width();
+        let timerbox_height = this._timerbox.get_height();
+        let height = this.get_height();
 
-        let padding = Math.floor((height + this._padding - height) / 2);
+        let padding = Math.floor((height - timerbox_height) / 2);
 
         this._box.style = "padding-top: " + padding + "px;";
         this._padding = padding;
 
-        this._area.set_width(this._width=width);
+        this._area.set_width(this._width=timerbox_width);
         this._area.queue_repaint();
     },
 
