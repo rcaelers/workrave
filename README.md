@@ -4,7 +4,7 @@
 
 # Workrave 1.10
 
-Please visit http://www.workrave.org for more information.
+Please visit https://workrave.org for more information.
 
 ## Install
 
