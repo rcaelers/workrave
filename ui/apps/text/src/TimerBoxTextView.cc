@@ -50,7 +50,9 @@ TimerBoxTextView::TimerBoxTextView()
 }
 
 //! Destructor.
-TimerBoxTextView::~TimerBoxTextView() {}
+TimerBoxTextView::~TimerBoxTextView()
+{
+}
 
 //! Indicates that break 'id' must be shown on position 'slot'
 void

@@ -47,7 +47,9 @@ W32AppletMenu::W32AppletMenu(W32AppletWindow *applet_window)
 }
 
 //! Destructor.
-W32AppletMenu::~W32AppletMenu() {}
+W32AppletMenu::~W32AppletMenu()
+{
+}
 
 void
 W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
@@ -77,15 +79,15 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       w32aw->add_menu(_("_Normal"),
                       MENU_COMMAND_MODE_NORMAL,
                       W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
-                        | (mode == OPERATION_MODE_NORMAL ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+                        | (mode == OperationMode::Normal ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
       w32aw->add_menu(_("Q_uiet"),
                       MENU_COMMAND_MODE_QUIET,
                       W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
-                        | (mode == OPERATION_MODE_QUIET ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+                        | (mode == OperationMode::Quiet ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
       w32aw->add_menu(_("_Suspended"),
                       MENU_COMMAND_MODE_SUSPENDED,
                       W32AppletWindow::MENU_FLAG_TOGGLE | W32AppletWindow::MENU_FLAG_POPUP
-                        | (mode == OPERATION_MODE_SUSPENDED ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+                        | (mode == OperationMode::Suspended ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
 
       w32aw->add_menu(_("_Mode"), 0, 0);
 
@@ -104,7 +106,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 #endif
       w32aw->add_menu(_("Reading mode"),
                       MENU_COMMAND_MODE_READING,
-                      W32AppletWindow::MENU_FLAG_TOGGLE | (usage == USAGE_MODE_READING ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+                      W32AppletWindow::MENU_FLAG_TOGGLE | (usage == UsageMode::Reading ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
 
       w32aw->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
       w32aw->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);

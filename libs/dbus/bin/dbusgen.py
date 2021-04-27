@@ -223,6 +223,7 @@ class InterfaceNode(NodeBase):
 
         self.methods = []
         self.signals = []
+        self.imports = []
 
     def handle(self, node):
         self.name = node.getAttribute('name')
@@ -244,6 +245,10 @@ class InterfaceNode(NodeBase):
                     p = SignalNode(self)
                     p.handle(child)
                     self.signals.append(p)
+                elif child.nodeName == 'import':
+                    p = ImportNode(self)
+                    p.handle(child)
+                    self.imports.append(p)
 
     def get_type(self, type):
         return self.top_node.get_type(type)

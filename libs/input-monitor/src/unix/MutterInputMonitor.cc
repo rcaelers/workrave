@@ -237,7 +237,7 @@ MutterInputMonitor::unregister_active_watch()
   if (watch_active != 0u)
     {
       GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active.get()), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
       if (error == nullptr)
         {
           g_variant_unref(result);
@@ -261,7 +261,7 @@ MutterInputMonitor::unregister_active_watch_async()
     {
       g_dbus_proxy_call(idle_proxy,
                         "RemoveWatch",
-                        g_variant_new("(u)", watch_active),
+                        g_variant_new("(u)", watch_active.get()),
                         G_DBUS_CALL_FLAGS_NONE,
                         10000,
                         nullptr,
@@ -322,7 +322,7 @@ MutterInputMonitor::unregister_idle_watch()
   if (watch_idle != 0u)
     {
       GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_idle), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_idle.get()), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
       if (error == nullptr)
         {
           g_variant_unref(result);

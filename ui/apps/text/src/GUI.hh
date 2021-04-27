@@ -52,7 +52,7 @@ public:
   // IGUIFactory methods
   virtual void set_break_response(IBreakResponse *rep);
   virtual void create_prelude_window(BreakId break_id);
-  virtual void create_break_window(BreakId break_id, BreakHint break_hint);
+  virtual void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint);
   virtual void hide_break_window();
   virtual void show_break_window();
   virtual void refresh_break_window();

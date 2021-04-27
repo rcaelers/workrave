@@ -102,8 +102,8 @@ egg_sm_client_win32_class_init(EggSMClientWin32Class *klass)
 {
   EggSMClientClass *sm_client_class = EGG_SM_CLIENT_CLASS(klass);
 
-  sm_client_class->startup     = sm_client_win32_startup;
-  sm_client_class->will_quit   = sm_client_win32_will_quit;
+  sm_client_class->startup = sm_client_win32_startup;
+  sm_client_class->will_quit = sm_client_win32_will_quit;
   sm_client_class->end_session = sm_client_win32_end_session;
 }
 
@@ -118,7 +118,7 @@ sm_client_win32_startup(EggSMClient *client, const char *client_id)
 {
   EggSMClientWin32 *win32 = (EggSMClientWin32 *)client;
 
-  win32->message_event  = CreateEvent(NULL, FALSE, FALSE, NULL);
+  win32->message_event = CreateEvent(NULL, FALSE, FALSE, NULL);
   win32->response_event = CreateEvent(NULL, FALSE, FALSE, NULL);
   g_win32_handle_source_add(win32->message_event, got_message, win32);
   _beginthread(sm_client_thread, 0, client);
@@ -258,10 +258,10 @@ g_win32_handle_source_add(HANDLE handle, GSourceFunc callback, gpointer user_dat
   GWin32HandleSource *hsource;
   GSource *source;
 
-  source                  = g_source_new(&g_win32_handle_source_funcs, sizeof(GWin32HandleSource));
-  hsource                 = (GWin32HandleSource *)source;
-  hsource->pollfd.fd      = (int)handle;
-  hsource->pollfd.events  = G_IO_IN;
+  source = g_source_new(&g_win32_handle_source_funcs, sizeof(GWin32HandleSource));
+  hsource = (GWin32HandleSource *)source;
+  hsource->pollfd.fd = (int)handle;
+  hsource->pollfd.events = G_IO_IN;
   hsource->pollfd.revents = 0;
   g_source_add_poll(source, &hsource->pollfd);
 
@@ -320,11 +320,11 @@ sm_client_thread(gpointer smclient)
   instance = GetModuleHandle(NULL);
 
   memset(&wcl, 0, sizeof(WNDCLASSEX));
-  wcl.cbSize        = sizeof(WNDCLASSEX);
-  wcl.lpfnWndProc   = sm_client_win32_window_procedure;
-  wcl.hInstance     = instance;
+  wcl.cbSize = sizeof(WNDCLASSEX);
+  wcl.lpfnWndProc = sm_client_win32_window_procedure;
+  wcl.hInstance = instance;
   wcl.lpszClassName = L"EggSmClientWindow";
-  klass             = RegisterClassEx(&wcl);
+  klass = RegisterClassEx(&wcl);
 
   window =
     CreateWindowEx(0, MAKEINTRESOURCE(klass), L"EggSmClientWindow", 0, 10, 10, 50, 50, GetDesktopWindow(), NULL, instance, NULL);

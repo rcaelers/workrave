@@ -31,13 +31,24 @@ class InputMonitorStub : public IInputMonitor
 public:
   ~InputMonitorStub() override = default;
 
-  bool init() override { return true; }
+  bool init() override
+  {
+    return true;
+  }
 
-  void terminate() override {}
+  void terminate() override
+  {
+  }
 
-  void subscribe(IInputMonitorListener *listener) override { (void)listener; }
+  void subscribe(IInputMonitorListener *listener) override
+  {
+    (void)listener;
+  }
 
-  void unsubscribe(IInputMonitorListener *listener) override { (void)listener; }
+  void unsubscribe(IInputMonitorListener *listener) override
+  {
+    (void)listener;
+  }
 };
 
 void

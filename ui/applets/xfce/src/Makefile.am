@@ -1,6 +1,6 @@
-if HAVE_XFCE
+if HAVE_XFCE4
 
-if HAVE_XFCE_GTK2
+if HAVE_XFCE4_GTK2
 
 plugin_PROGRAMS = xfce4-workrave-plugin
 
@@ -22,7 +22,7 @@ workrave-xfce-applet.desktop.in: workrave-xfce-applet-1.0.desktop.in.in
 
 endif
 
-if HAVE_XFCE_GTK3
+if HAVE_XFCE4_GTK3
 
 plugin_LTLIBRARIES = libworkrave-plugin.la
 

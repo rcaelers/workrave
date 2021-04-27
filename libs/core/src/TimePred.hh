@@ -36,7 +36,10 @@ public:
   virtual ~TimePred() = default;
 
   //! Set the last time the predicate matched.
-  virtual void set_last(time_t lastTime) { last_time = lastTime; }
+  virtual void set_last(time_t lastTime)
+  {
+    last_time = lastTime;
+  }
 
   //! Computes the next time the predicate matches given the time of the previous match.
   virtual time_t get_next() = 0;

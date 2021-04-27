@@ -36,7 +36,9 @@ namespace workrave
     public:
       typedef std::shared_ptr<IDBusPrivateFreeDesktop> Ptr;
 
-      virtual ~IDBusPrivateFreeDesktop() {}
+      virtual ~IDBusPrivateFreeDesktop()
+      {
+      }
 
       virtual void send(DBusMessage *msg) const = 0;
     };

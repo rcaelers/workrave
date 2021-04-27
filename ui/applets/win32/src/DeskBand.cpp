@@ -30,7 +30,7 @@
 #include "Debug.h"
 #include "PaintHelper.h"
 #if !defined(WM_DPICHANGED)
-#define WM_DPICHANGED 0x02E0
+#  define WM_DPICHANGED 0x02E0
 #endif
 
 CDeskBand::CDeskBand()

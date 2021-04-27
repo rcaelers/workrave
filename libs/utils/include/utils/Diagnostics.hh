@@ -138,7 +138,10 @@ public:
       }
   }
 
-  ~TracedField() noexcept { Diagnostics::instance().unregister_topic(_name); }
+  ~TracedField() noexcept
+  {
+    Diagnostics::instance().unregister_topic(_name);
+  }
 
   base_type &operator=(const TracedField &prop) noexcept
   {
@@ -164,9 +167,15 @@ public:
     return *this;
   }
 
-  value_type get() const noexcept { return _value; }
+  value_type get() const noexcept
+  {
+    return _value;
+  }
 
-  void report() { Diagnostics::instance().report(_name, _value); }
+  void report()
+  {
+    Diagnostics::instance().report(_name, _value);
+  }
 
   void publish()
   {
@@ -196,9 +205,15 @@ public:
     _value = std::move(value);
   }
 
-  operator value_type() const { return get(); }
+  operator value_type() const
+  {
+    return get();
+  }
 
-  bool operator==(const base_type &right) const { return get() == right.get(); }
+  bool operator==(const base_type &right) const
+  {
+    return get() == right.get();
+  }
 
   template<typename OtherValueType>
   bool operator==(const OtherValueType &value) const
@@ -206,7 +221,10 @@ public:
     return get() == value;
   }
 
-  bool operator!=(const base_type &right) const { return get() != right.get(); }
+  bool operator!=(const base_type &right) const
+  {
+    return get() != right.get();
+  }
 
   template<typename OtherValueType>
   bool operator!=(const OtherValueType &value) const
@@ -240,11 +258,20 @@ public:
     return before;
   }
 
-  value_type operator-() const { return -get(); }
+  value_type operator-() const
+  {
+    return -get();
+  }
 
-  value_type operator~() const { return ~get(); }
+  value_type operator~() const
+  {
+    return ~get();
+  }
 
-  value_type operator+(const base_type &right) const { return get() + right.get(); }
+  value_type operator+(const base_type &right) const
+  {
+    return get() + right.get();
+  }
 
   template<typename T>
   value_type operator+(const T &right) const
@@ -265,7 +292,10 @@ public:
     return *this;
   }
 
-  value_type operator-(const base_type &right) const { return get() - right.get(); }
+  value_type operator-(const base_type &right) const
+  {
+    return get() - right.get();
+  }
 
   template<typename T>
   value_type operator-(const T &right) const
@@ -286,7 +316,10 @@ public:
     return *this;
   }
 
-  value_type operator*(const base_type &right) const { return get() * right.get(); }
+  value_type operator*(const base_type &right) const
+  {
+    return get() * right.get();
+  }
 
   template<typename T>
   value_type operator*(const T &right) const
@@ -307,7 +340,10 @@ public:
     return *this;
   }
 
-  value_type operator/(const base_type &right) const { return get() / right.get(); }
+  value_type operator/(const base_type &right) const
+  {
+    return get() / right.get();
+  }
 
   template<typename T>
   value_type operator/(const T &right) const
@@ -328,7 +364,10 @@ public:
     return *this;
   }
 
-  value_type operator%(const base_type &right) const { return get() % right.get(); }
+  value_type operator%(const base_type &right) const
+  {
+    return get() % right.get();
+  }
 
   template<typename T>
   value_type operator%(const T &right) const
@@ -349,7 +388,10 @@ public:
     return *this;
   }
 
-  value_type operator&(const base_type &right) const { return get() & right.get(); }
+  value_type operator&(const base_type &right) const
+  {
+    return get() & right.get();
+  }
 
   template<typename T>
   value_type operator&(const T &right) const
@@ -370,7 +412,10 @@ public:
     return *this;
   };
 
-  value_type operator|(const base_type &right) const { return get() | right.get(); }
+  value_type operator|(const base_type &right) const
+  {
+    return get() | right.get();
+  }
 
   template<typename T>
   value_type operator|(const T &right) const
@@ -391,7 +436,10 @@ public:
     return *this;
   };
 
-  value_type operator^(const base_type &right) const { return get() ^ right.get(); }
+  value_type operator^(const base_type &right) const
+  {
+    return get() ^ right.get();
+  }
 
   template<typename T>
   value_type operator^(const T &right) const
@@ -412,7 +460,10 @@ public:
     return *this;
   };
 
-  value_type operator<<(int num) const { return get() << num; }
+  value_type operator<<(int num) const
+  {
+    return get() << num;
+  }
 
   template<typename T>
   base_type &operator<<=(int num)
@@ -421,7 +472,10 @@ public:
     return *this;
   }
 
-  value_type operator>>(int num) const { return get() >> num; }
+  value_type operator>>(int num) const
+  {
+    return get() >> num;
+  }
 
   template<typename T>
   base_type &operator>>=(int num)

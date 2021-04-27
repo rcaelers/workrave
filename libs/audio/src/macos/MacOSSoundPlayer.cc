@@ -63,7 +63,10 @@ public:
     delegate = [SoundDelegate alloc];
   }
 
-  ~Private() { [soundDictionary removeAllObjects]; }
+  ~Private()
+  {
+    [soundDictionary removeAllObjects];
+  }
 };
 
 MacOSSoundPlayer::MacOSSoundPlayer()

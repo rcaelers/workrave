@@ -42,7 +42,10 @@ public:
   ~SystemStateChangeConsolekit() override = default;
 
   bool shutdown() override;
-  bool canShutdown() override { return can_shutdown; }
+  bool canShutdown() override
+  {
+    return can_shutdown;
+  }
 
 private:
   bool can_shutdown;

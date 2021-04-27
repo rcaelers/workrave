@@ -178,8 +178,8 @@ egg_sm_client_class_init(EggSMClientClass *klass)
 
 static gboolean sm_client_disable = FALSE;
 static char *sm_client_state_file = NULL;
-static char *sm_client_id         = NULL;
-static char *sm_config_prefix     = NULL;
+static char *sm_client_id = NULL;
+static char *sm_config_prefix = NULL;
 
 static gboolean
 sm_client_post_parse_func(GOptionContext *context, GOptionGroup *group, gpointer data, GError **error)

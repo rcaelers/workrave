@@ -32,7 +32,9 @@ using namespace workrave;
 class IBreakWindow
 {
 public:
-  virtual ~IBreakWindow() {}
+  virtual ~IBreakWindow()
+  {
+  }
 
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;

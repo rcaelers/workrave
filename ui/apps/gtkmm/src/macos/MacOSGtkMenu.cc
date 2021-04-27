@@ -69,7 +69,9 @@ MacOSGtkMenu::MacOSGtkMenu(bool show_open)
 }
 
 //! Destructor.
-MacOSGtkMenu::~MacOSGtkMenu() {}
+MacOSGtkMenu::~MacOSGtkMenu()
+{
+}
 
 void
 MacOSGtkMenu::popup(const guint button, const guint activate_time)

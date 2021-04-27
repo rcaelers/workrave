@@ -47,7 +47,9 @@ public:
 
   virtual void create_actions();
   virtual void create_ui();
-  virtual void post_init() {}
+  virtual void post_init()
+  {
+  }
 
   void init() override;
   void popup(const guint button, const guint activate_time) override;

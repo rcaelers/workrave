@@ -65,7 +65,9 @@ PreludeWindow::PreludeWindow(BreakId break_id)
 }
 
 //! Destructor.
-PreludeWindow::~PreludeWindow() {}
+PreludeWindow::~PreludeWindow()
+{
+}
 
 //! Starts the microbreak.
 void

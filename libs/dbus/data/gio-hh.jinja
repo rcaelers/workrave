@@ -39,6 +39,24 @@ using namespace {{ ns }};
 #if {{ interface.condition }}
 {% endif %}
 
+{% for imp in interface.imports %}
+{% if imp.condition != '' %}
+#if {{ imp.condition }}
+{% endif %}
+{% for include, condition in imp.includes %}
+{% if condition != '' %}
+#if {{ condition }}
+{% endif %}
+#include "{{ include }}"
+{% if condition != '' %}
+#endif // {{ condition }}
+{% endif %}
+{% endfor %}
+{% if imp.condition != '' %}
+#endif // {{ imp.condition }}
+{% endif %}
+{% endfor %}
+
 {% for ns in interface.namespace_list %}
 namespace {{ ns }} // interface {{ interface.name }} namespace
 {

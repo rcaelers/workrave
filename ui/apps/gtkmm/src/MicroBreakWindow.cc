@@ -149,7 +149,7 @@ void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
   ICore *core = CoreFactory::get_core();
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::Normal);
 }
 
 void

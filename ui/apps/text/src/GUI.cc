@@ -330,7 +330,7 @@ GUI::create_prelude_window(BreakId break_id)
 }
 
 void
-GUI::create_break_window(BreakId break_id, BreakHint break_hint)
+GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint)
 {
   TRACE_ENTER("GUI::start_break_window");
 

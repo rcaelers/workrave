@@ -41,9 +41,13 @@ using namespace std;
 
 static std::string sound_filename;
 
-W32SoundPlayer::W32SoundPlayer() {}
+W32SoundPlayer::W32SoundPlayer()
+{
+}
 
-W32SoundPlayer::~W32SoundPlayer() {}
+W32SoundPlayer::~W32SoundPlayer()
+{
+}
 
 bool
 W32SoundPlayer::capability(workrave::audio::SoundCapability cap)

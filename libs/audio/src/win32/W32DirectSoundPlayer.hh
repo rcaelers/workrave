@@ -57,7 +57,10 @@ public:
   DWORD get_size();
 
   void reset_file();
-  WAVEFORMATEX *get_format() { return &format; };
+  WAVEFORMATEX *get_format()
+  {
+    return &format;
+  };
 
 private:
   std::string filename;

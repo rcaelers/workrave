@@ -31,7 +31,10 @@ public:
   virtual ~W32Shutdown(){};
 
   virtual bool shutdown();
-  virtual bool canShutdown() { return shutdown_supported; }
+  virtual bool canShutdown()
+  {
+    return shutdown_supported;
+  }
 
 private:
   bool shutdown_helper(bool for_real);

@@ -45,7 +45,10 @@ public:
   void set_secondary_bar_color(ITimeBar::ColorId color);
 
   void get_size(int &width, int &height);
-  HWND get_handle() const { return hwnd; };
+  HWND get_handle() const
+  {
+    return hwnd;
+  };
 
 private:
   CDeskBand *deskband{nullptr};
@@ -57,7 +60,9 @@ private:
   int secondary_bar_value{100};
   ITimeBar::ColorId secondary_bar_color{ITimeBar::COLOR_ID_INACTIVE};
   ITimeBar::ColorId bar_color{ITimeBar::COLOR_ID_ACTIVE};
-  char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{0,};
+  char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{
+    0,
+  };
   PaintHelper *paint_helper{nullptr};
 
   static HFONT bar_font;

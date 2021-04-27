@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-const int TIMEOUT = 1000;
-
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -61,9 +59,6 @@ const int TIMEOUT = 1000;
 #  include "commonui/Exercise.hh"
 #  include "ExercisesPanel.hh"
 #endif
-
-const int MARGINX = 8;
-const int MARGINY = 8;
 
 //! Constructor
 /*!
@@ -324,5 +319,5 @@ RestBreakWindow::set_ignore_activity(bool i)
     }
 #endif
 
-  core->set_insist_policy(i ? ICore::INSIST_POLICY_IGNORE : ICore::INSIST_POLICY_HALT);
+  core->set_insist_policy(i ? InsistPolicy::Ignore : InsistPolicy::Halt);
 }

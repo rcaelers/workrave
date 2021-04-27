@@ -634,7 +634,7 @@ StatisticsDialog::on_history_delete_all()
   override before any return.
   */
   const char funcname[] = "StatisticsDialog::on_history_delete_all";
-  CoreFactory::get_core()->set_operation_mode_override(OPERATION_MODE_SUSPENDED, funcname);
+  CoreFactory::get_core()->set_operation_mode_override(OperationMode::Suspended, funcname);
 
   // Confirm the user's intention
   string msg = HigUtil::create_alert_text(_("Warning"), _("You have chosen to delete your statistics history. Continue?"));

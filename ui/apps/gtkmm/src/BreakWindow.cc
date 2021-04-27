@@ -143,7 +143,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 
   ICore *core = CoreFactory::get_core();
   assert(core != nullptr);
-  core->set_insist_policy(initial_ignore_activity ? ICore::INSIST_POLICY_IGNORE : ICore::INSIST_POLICY_HALT);
+  core->set_insist_policy(initial_ignore_activity ? InsistPolicy::Ignore : InsistPolicy::Halt);
   TRACE_EXIT();
 }
 
@@ -541,7 +541,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
   ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
 
-  if (mode == OPERATION_MODE_NORMAL)
+  if (mode == OperationMode::Normal)
     {
       for (int id = break_id - 1; id >= 0; id--)
         {

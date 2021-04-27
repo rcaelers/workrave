@@ -403,11 +403,11 @@ Break::set_usage_mode(UsageMode mode)
       usage_mode = mode;
 
       TRACE_MSG("changing");
-      if (mode == USAGE_MODE_NORMAL)
+      if (mode == UsageMode::Normal)
         {
           timer->set_activity_sensitive(true);
         }
-      else if (mode == USAGE_MODE_READING)
+      else if (mode == UsageMode::Reading)
         {
           timer->set_activity_sensitive(false);
         }

@@ -44,7 +44,10 @@ private:
 
 public:
   DBusProxy() = default;
-  ~DBusProxy() { clear(); }
+  ~DBusProxy()
+  {
+    clear();
+  }
 
   bool init(GBusType bus_type,
             const char *name,
@@ -82,7 +85,10 @@ public:
       }
   }
 
-  bool is_valid() { return proxy != nullptr; }
+  bool is_valid()
+  {
+    return proxy != nullptr;
+  }
 
   gchar *get_last_error_message()
   {

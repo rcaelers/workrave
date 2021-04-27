@@ -20,7 +20,7 @@
 #ifndef ICOREEVENTLISTENER_HH
 #define ICOREEVENTLISTENER_HH
 
-#include "enum.h"
+#include "core/CoreTypes.hh"
 
 namespace workrave
 {

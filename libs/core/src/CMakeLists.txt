@@ -14,6 +14,7 @@ add_library(workrave-libs-core STATIC
   LocalActivityMonitor.cc
   ReadingActivityMonitor.cc
   Statistics.cc
+  Test.cc
   Timer.cc
   #TimerActivityMonitor.cc
   BreakControl.cc

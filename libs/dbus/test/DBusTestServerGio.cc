@@ -35,10 +35,14 @@
 using namespace std;
 
 //! Constructor.
-DBusTestServerGio::DBusTestServerGio() {}
+DBusTestServerGio::DBusTestServerGio()
+{
+}
 
 //! Destructor.
-DBusTestServerGio::~DBusTestServerGio() {}
+DBusTestServerGio::~DBusTestServerGio()
+{
+}
 
 int
 main(int argc, char **argv)

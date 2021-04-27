@@ -38,7 +38,9 @@ namespace workrave
     public:
       typedef std::shared_ptr<IDBusPrivateQt> Ptr;
 
-      virtual ~IDBusPrivateQt() {}
+      virtual ~IDBusPrivateQt()
+      {
+      }
 
       virtual QDBusConnection get_connection() = 0;
     };

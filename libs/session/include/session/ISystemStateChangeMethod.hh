@@ -26,17 +26,44 @@ class /*interface*/ ISystemStateChangeMethod
 
 public:
   virtual ~ISystemStateChangeMethod() = default;
-  virtual bool shutdown() { return false; }
-  virtual bool suspend() { return false; }
-  virtual bool hibernate() { return false; }
-  virtual bool suspendHybrid() { return false; }
+  virtual bool shutdown()
+  {
+    return false;
+  }
+  virtual bool suspend()
+  {
+    return false;
+  }
+  virtual bool hibernate()
+  {
+    return false;
+  }
+  virtual bool suspendHybrid()
+  {
+    return false;
+  }
 
-  virtual bool canShutdown() { return false; }
-  virtual bool canSuspend() { return false; }
-  virtual bool canHibernate() { return false; }
-  virtual bool canSuspendHybrid() { return false; }
+  virtual bool canShutdown()
+  {
+    return false;
+  }
+  virtual bool canSuspend()
+  {
+    return false;
+  }
+  virtual bool canHibernate()
+  {
+    return false;
+  }
+  virtual bool canSuspendHybrid()
+  {
+    return false;
+  }
 
-  virtual bool canDoAnything() { return canShutdown() || canSuspend() || canHibernate() || canSuspendHybrid(); }
+  virtual bool canDoAnything()
+  {
+    return canShutdown() || canSuspend() || canHibernate() || canSuspendHybrid();
+  }
 };
 
 #endif /* ISYSTEMSTATECHANGEMETHOD_HH_ */

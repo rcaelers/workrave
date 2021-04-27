@@ -70,7 +70,7 @@ cflags 	+=	-I$(srcdir)/win32/
 cflags  +=	-I$(top_srcdir)/libs/hooks/harpoon/include \
 			-I$(top_srcdir)/ui/apps/gtkmm/src/win32/ \
 			-I$(top_srcdir)/ui/applets/win32/include
-cflags	+=	-D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600 -Wno-attributes
+cflags	+=	-D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600 -Wno-attributes -Wno-deprecated-declarations -Wno-deprecated-copy
 ldflags +=	-L$(srcdir)/win32 -lworkrave-ui-gtkmm-win32
 
 WINDRES ?= 		"windres"

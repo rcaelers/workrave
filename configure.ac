@@ -550,7 +550,6 @@ config_libgnome_panel=no
 
 if test "x$enable_gnome3" != "xno" -a "x$config_dbus" = "xyes"
 then
-
     PKG_CHECK_MODULES([GNOME3],
                       [libgnome-panel >= 3.36.0 gio-2.0 >= 2.26.0],
                       [config_gnome3=yes
@@ -748,8 +747,8 @@ then
                     [libxfce4panel-2.0 >= 4.12],
                     [config_xfce=yes
                     config_xfce_gtk_version=3
-                     AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
-                     AC_DEFINE(HAVE_XFCE_GTK3, 1, [Support for xfce applet])
+                     AC_DEFINE(HAVE_XFCE4, 1, [Support for xfce applet])
+                     AC_DEFINE(HAVE_XFCE4_GTK3, 1, [Support for xfce applet])
                      XFCE4LIBDIR=`$PKG_CONFIG ${pkg_config_prefix} --variable=libdir libxfce4panel-2.0`
                      ],
                      [ true ])
@@ -760,8 +759,8 @@ then
                          [libxfce4panel-1.0 >= 4.4],
                          [config_xfce=yes
                           config_xfce_gtk_version=2
-                          AC_DEFINE(HAVE_XFCE, 1, [Support for xfce applet])
-                          AC_DEFINE(HAVE_XFCE_GTK2, 1, [Support for xfce applet])
+                          AC_DEFINE(HAVE_XFCE4, 1, [Support for xfce applet])
+                          AC_DEFINE(HAVE_XFCE4_GTK2, 1, [Support for xfce applet])
                           ],
                          [if test "x$enable_xfce" = "xyes"; then
                           AC_MSG_ERROR([XFCE Panel applet development headers not found.])
@@ -771,9 +770,9 @@ fi
 
 AC_SUBST(XFCE4LIBDIR)
 
-AM_CONDITIONAL(HAVE_XFCE, test "x$config_xfce" = "xyes")
-AM_CONDITIONAL(HAVE_XFCE_GTK2, test "x$config_xfce_gtk_version" = "x2")
-AM_CONDITIONAL(HAVE_XFCE_GTK3, test "x$config_xfce_gtk_version" = "x3")
+AM_CONDITIONAL(HAVE_XFCE4, test "x$config_xfce" = "xyes")
+AM_CONDITIONAL(HAVE_XFCE4_GTK2, test "x$config_xfce_gtk_version" = "x2")
+AM_CONDITIONAL(HAVE_XFCE4_GTK3, test "x$config_xfce_gtk_version" = "x3")
 
 
 dnl

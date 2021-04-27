@@ -25,7 +25,9 @@ PaintHelper::PaintHelper(HWND hwnd)
   TRACE_EXIT();
 }
 
-PaintHelper::~PaintHelper() {}
+PaintHelper::~PaintHelper()
+{
+}
 
 HDC
 PaintHelper::BeginPaint()

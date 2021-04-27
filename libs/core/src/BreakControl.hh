@@ -66,7 +66,7 @@ public:
 
   // BreakInterface
   void start_break();
-  void force_start_break(BreakHint break_hint);
+  void force_start_break(workrave::utils::Flags<BreakHint> break_hint);
   void stop_break(bool reset_count = true);
   bool need_heartbeat();
   void heartbeat();
@@ -160,7 +160,7 @@ private:
   TracedField<bool> delayed_abort;
 
   //! Break hint if break has been started.
-  BreakHint break_hint{BREAK_HINT_NONE};
+  workrave::utils::Flags<BreakHint> break_hint{BreakHint::Normal};
 };
 
 #endif // BREAKCONTROL_HH

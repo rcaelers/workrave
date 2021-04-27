@@ -102,7 +102,7 @@ IdleLogManager::reset()
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &info = (*i).second;
-      info.update_active_time(TimeSource::get_monotonic_time_sec() );
+      info.update_active_time(TimeSource::get_monotonic_time_sec());
       info.total_active_time = 0;
     }
 }
@@ -120,7 +120,7 @@ IdleLogManager::init()
       TRACE_MSG("Didn't find myself");
 
       ClientInfo &myinfo = clients[myid];
-      myinfo.current_interval = IdleInterval(1, TimeSource::get_monotonic_time_sec() );
+      myinfo.current_interval = IdleInterval(1, TimeSource::get_monotonic_time_sec());
       myinfo.client_id = myid;
 
       save();
@@ -128,7 +128,7 @@ IdleLogManager::init()
   else
     {
       ClientInfo &myinfo = clients[myid];
-      myinfo.current_interval = IdleInterval(TimeSource::get_monotonic_time_sec() , TimeSource::get_monotonic_time_sec() );
+      myinfo.current_interval = IdleInterval(TimeSource::get_monotonic_time_sec(), TimeSource::get_monotonic_time_sec());
     }
 
   TRACE_EXIT();
@@ -625,7 +625,7 @@ IdleLogManager::save_index()
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &info = (*i).second;
-      info.update_active_time(TimeSource::get_monotonic_time_sec() );
+      info.update_active_time(TimeSource::get_monotonic_time_sec());
       TRACE_MSG("Saving " << i->first << " " << info.client_id);
 
       pack_idlelog(buffer, info);
@@ -732,7 +732,7 @@ IdleLogManager::load_index()
 void
 IdleLogManager::save_idlelog(ClientInfo &info)
 {
-  info.update_active_time(TimeSource::get_monotonic_time_sec() );
+  info.update_active_time(TimeSource::get_monotonic_time_sec());
 
   PacketBuffer buffer;
   buffer.create();
@@ -848,7 +848,7 @@ IdleLogManager::save()
 void
 IdleLogManager::update_idlelog(ClientInfo &info, const IdleInterval &idle)
 {
-  info.update_active_time(TimeSource::get_monotonic_time_sec() );
+  info.update_active_time(TimeSource::get_monotonic_time_sec());
 
   PacketBuffer buffer;
   buffer.create();
@@ -875,7 +875,7 @@ IdleLogManager::get_idlelog(PacketBuffer &buffer)
   ClientInfo &myinfo = clients[myid];
 
   // First make sure that all data is up-to-date.
-  myinfo.update_active_time(TimeSource::get_monotonic_time_sec() );
+  myinfo.update_active_time(TimeSource::get_monotonic_time_sec());
 
   // Pack header.
   pack_idlelog(buffer, myinfo);

@@ -67,7 +67,7 @@ private:
   bool enabled{true};
 
   //!
-  UsageMode usage_mode{USAGE_MODE_NORMAL};
+  UsageMode usage_mode{UsageMode::Normal};
 
 public:
   Break();

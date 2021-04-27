@@ -90,7 +90,6 @@ using namespace workrave::utils;
 using namespace workrave::config;
 using namespace std;
 
-
 //! Constructs a new Core.
 Core::Core()
 {
@@ -379,11 +378,11 @@ Core::config_changed_notify(const string &key)
       int mode;
       if (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
         {
-          mode = OPERATION_MODE_NORMAL;
+          mode = underlying_cast(OperationMode::Normal);
         }
-      if (mode < 0 || mode >= OPERATION_MODE_SIZEOF)
+      if (!workrave::utils::enum_in_range<OperationMode>(mode))
         {
-          mode = OPERATION_MODE_NORMAL;
+          mode = underlying_cast(OperationMode::Normal);
         }
       TRACE_MSG("Setting operation mode");
       set_operation_mode_internal(OperationMode(mode), false);
@@ -394,11 +393,11 @@ Core::config_changed_notify(const string &key)
       int mode;
       if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
         {
-          mode = USAGE_MODE_NORMAL;
+          mode = underlying_cast(UsageMode::Normal);
         }
-      if (mode < 0 || mode >= USAGE_MODE_SIZEOF)
+      if (!workrave::utils::enum_in_range<UsageMode>(mode))
         {
-          mode = USAGE_MODE_NORMAL;
+          mode = underlying_cast(UsageMode::Normal);
         }
       TRACE_MSG("Setting usage mode");
       set_usage_mode_internal(UsageMode(mode), false);
@@ -617,19 +616,19 @@ Core::set_operation_mode_internal(OperationMode mode,
       TRACE_MSG("override_id: " << override_id);
     }
 
-  TRACE_MSG("Incoming/requested mode is " << (mode == OPERATION_MODE_NORMAL      ? "OPERATION_MODE_NORMAL"
-                                              : mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED"
-                                              : mode == OPERATION_MODE_QUIET     ? "OPERATION_MODE_QUIET"
+  TRACE_MSG("Incoming/requested mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
+                                              : mode == OperationMode::Suspended ? "OperationMode::Suspended"
+                                              : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
                                                                                  : "???")
                                           << (override_id.size() ? " (override)" : " (regular)"));
 
-  TRACE_MSG("Current mode is " << (mode == OPERATION_MODE_NORMAL      ? "OPERATION_MODE_NORMAL"
-                                   : mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED"
-                                   : mode == OPERATION_MODE_QUIET     ? "OPERATION_MODE_QUIET"
+  TRACE_MSG("Current mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
+                                   : mode == OperationMode::Suspended ? "OperationMode::Suspended"
+                                   : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
                                                                       : "???")
                                << (operation_mode_overrides.size() ? " (override)" : " (regular)"));
 
-  if ((mode != OPERATION_MODE_NORMAL) && (mode != OPERATION_MODE_QUIET) && (mode != OPERATION_MODE_SUSPENDED))
+  if ((mode != OperationMode::Normal) && (mode != OperationMode::Quiet) && (mode != OperationMode::Suspended))
     {
       TRACE_RETURN("No change: incoming invalid");
       return;
@@ -643,8 +642,8 @@ Core::set_operation_mode_internal(OperationMode mode,
       operation_mode_regular = mode;
 
       int cm;
-      if (persistent && (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, cm) || (cm != mode)))
-        get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
+      if (persistent && (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, cm) || (cm != underlying_cast(mode))))
+        get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(mode));
 
       TRACE_RETURN("No change: current is an override type but incoming is regular");
       return;
@@ -657,29 +656,29 @@ Core::set_operation_mode_internal(OperationMode mode,
       operation_mode_overrides[override_id] = mode;
 
       /* Find the most important override. Override modes in order of importance:
-      OPERATION_MODE_SUSPENDED, OPERATION_MODE_QUIET, OPERATION_MODE_NORMAL
+      OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
       */
       for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end());
            ++i)
         {
-          if (i->second == OPERATION_MODE_SUSPENDED)
+          if (i->second == OperationMode::Suspended)
             {
-              mode = OPERATION_MODE_SUSPENDED;
+              mode = OperationMode::Suspended;
               break;
             }
 
-          if ((i->second == OPERATION_MODE_QUIET) && (mode == OPERATION_MODE_NORMAL))
+          if ((i->second == OperationMode::Quiet) && (mode == OperationMode::Normal))
             {
-              mode = OPERATION_MODE_QUIET;
+              mode = OperationMode::Quiet;
             }
         }
     }
 
   if (operation_mode != mode)
     {
-      TRACE_MSG("Changing active operation mode to " << (mode == OPERATION_MODE_NORMAL      ? "OPERATION_MODE_NORMAL"
-                                                         : mode == OPERATION_MODE_SUSPENDED ? "OPERATION_MODE_SUSPENDED"
-                                                         : mode == OPERATION_MODE_QUIET     ? "OPERATION_MODE_QUIET"
+      TRACE_MSG("Changing active operation mode to " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
+                                                         : mode == OperationMode::Suspended ? "OperationMode::Suspended"
+                                                         : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
                                                                                             : "???"));
 
       OperationMode previous_mode = operation_mode;
@@ -689,7 +688,7 @@ Core::set_operation_mode_internal(OperationMode mode,
       if (!operation_mode_overrides.size())
         operation_mode_regular = operation_mode;
 
-      if (operation_mode == OPERATION_MODE_SUSPENDED)
+      if (operation_mode == OperationMode::Suspended)
         {
           TRACE_MSG("Force idle");
           force_idle();
@@ -704,14 +703,14 @@ Core::set_operation_mode_internal(OperationMode mode,
                 }
             }
         }
-      else if (previous_mode == OPERATION_MODE_SUSPENDED)
+      else if (previous_mode == OperationMode::Suspended)
         {
           // stop_all_breaks again will reset insensitive mode (that is good)
           stop_all_breaks();
           monitor->resume();
         }
 
-      if (operation_mode == OPERATION_MODE_QUIET)
+      if (operation_mode == OperationMode::Quiet)
         {
           stop_all_breaks();
         }
@@ -724,7 +723,9 @@ Core::set_operation_mode_internal(OperationMode mode,
           */
 
           if (persistent)
-            get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, operation_mode);
+            {
+              get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(operation_mode.get()));
+            }
 
           if (core_event_listener)
             core_event_listener->core_event_operation_mode_changed(operation_mode);
@@ -771,7 +772,7 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       if (persistent)
         {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, underlying_cast(mode));
         }
 
       if (core_event_listener != nullptr)
@@ -798,18 +799,18 @@ Core::set_core_events_listener(ICoreEventListener *l)
 
 //! Forces the start of the specified break.
 void
-Core::force_break(BreakId id, BreakHint break_hint)
+Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
   do_force_break(id, break_hint);
 
 #ifdef HAVE_DISTRIBUTION
-  send_break_control_message_bool_param(id, BCM_START_BREAK, break_hint);
+  send_break_control_message_bool_param(id, BCM_START_BREAK, break_hint.get());
 #endif
 }
 
 //! Forces the start of the specified break.
 void
-Core::do_force_break(BreakId id, BreakHint break_hint)
+Core::do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
   TRACE_ENTER_MSG("Core::do_force_break", id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
@@ -857,7 +858,7 @@ Core::set_powersave(bool down)
       if (!powersave)
         {
           // Computer is going down
-          set_operation_mode_override(OPERATION_MODE_SUSPENDED, "powersave");
+          set_operation_mode_override(OperationMode::Suspended, "powersave");
           powersave_resume_time = 0;
           powersave = true;
         }
@@ -888,11 +889,11 @@ Core::set_powersave(bool down)
  *  taking a break.
  */
 void
-Core::set_insist_policy(ICore::InsistPolicy p)
+Core::set_insist_policy(InsistPolicy p)
 {
   TRACE_ENTER_MSG("Core::set_insist_policy", p);
 
-  if (active_insist_policy != ICore::INSIST_POLICY_INVALID && insist_policy != p)
+  if (active_insist_policy != InsistPolicy::Invalid && insist_policy != p)
     {
       TRACE_MSG("refreeze " << active_insist_policy);
       defrost();
@@ -907,7 +908,7 @@ Core::set_insist_policy(ICore::InsistPolicy p)
 }
 
 //! Gets the insist policy.
-ICore::InsistPolicy
+InsistPolicy
 Core::get_insist_policy() const
 {
   return insist_policy;
@@ -1079,8 +1080,9 @@ Core::heartbeat()
 void
 Core::process_distribution()
 {
+#ifdef HAVE_DISTRIBUTION
   bool previous_master_mode = master_node;
-
+#endif
   // Default
   master_node = true;
 
@@ -1159,7 +1161,7 @@ Core::process_state()
 #ifdef HAVE_DISTRIBUTION
   if (!master_node)
     {
-      if (active_insist_policy == INSIST_POLICY_IGNORE)
+      if (active_insist_policy == InsistPolicy::Ignore)
         {
           // Our own monitor is suspended, also ignore
           // activity from remote parties.
@@ -1405,7 +1407,7 @@ void
 Core::timer_action(BreakId id, TimerInfo info)
 {
   // No breaks when mode is quiet,
-  if (operation_mode == OPERATION_MODE_QUIET && info.event == TIMER_EVENT_LIMIT_REACHED)
+  if (operation_mode == OperationMode::Quiet && info.event == TIMER_EVENT_LIMIT_REACHED)
     {
       return;
     }
@@ -1612,13 +1614,13 @@ Core::load_misc()
   int mode;
   if (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
-      mode = OPERATION_MODE_NORMAL;
+      mode = underlying_cast(OperationMode::Normal);
     }
   set_operation_mode(OperationMode(mode));
 
   if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
     {
-      mode = USAGE_MODE_NORMAL;
+      mode = underlying_cast(UsageMode::Normal);
     }
   set_usage_mode(UsageMode(mode));
 }
@@ -1691,23 +1693,23 @@ void
 Core::freeze()
 {
   TRACE_ENTER_MSG("Core::freeze", insist_policy);
-  ICore::InsistPolicy policy = insist_policy;
+  InsistPolicy policy = insist_policy;
 
   switch (policy)
     {
-    case ICore::INSIST_POLICY_IGNORE:
+    case InsistPolicy::Ignore:
       {
         // Ignore all activity during break by suspending the activity monitor.
         monitor->suspend();
       }
       break;
-    case ICore::INSIST_POLICY_HALT:
+    case InsistPolicy::Halt:
       {
         // Halt timer when the user is active.
         set_freeze_all_breaks(true);
       }
       break;
-    case ICore::INSIST_POLICY_RESET:
+    case InsistPolicy::Reset:
       // reset the timer when the user becomes active.
       // default.
       break;
@@ -1728,16 +1730,16 @@ Core::defrost()
 
   switch (active_insist_policy)
     {
-    case ICore::INSIST_POLICY_IGNORE:
+    case InsistPolicy::Ignore:
       {
         // Resumes the activity monitor, if not suspended.
-        if (operation_mode != OPERATION_MODE_SUSPENDED)
+        if (operation_mode != OperationMode::Suspended)
           {
             monitor->resume();
           }
       }
       break;
-    case ICore::INSIST_POLICY_HALT:
+    case InsistPolicy::Halt:
       {
         // Desfrost timers.
         set_freeze_all_breaks(false);
@@ -1748,7 +1750,7 @@ Core::defrost()
       break;
     }
 
-  active_insist_policy = ICore::INSIST_POLICY_INVALID;
+  active_insist_policy = InsistPolicy::Invalid;
   TRACE_EXIT();
 }
 
@@ -2148,11 +2150,11 @@ Core::set_break_control(PacketBuffer &buffer)
             {
               // Only for post 1.6.2 workrave...
               bool initiated_by_user = (bool)buffer.unpack_byte();
-              do_force_break(break_id, initiated_by_user ? BREAK_HINT_USER_INITIATED : BREAK_HINT_NONE);
+              do_force_break(break_id, initiated_by_user ? BreakHint::UserInitiated : BreakHint::Normal);
             }
           else
             {
-              do_force_break(break_id, BREAK_HINT_USER_INITIATED);
+              do_force_break(break_id, BreakHint::UserInitiated);
             }
           break;
         }
