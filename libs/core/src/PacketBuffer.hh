@@ -43,7 +43,10 @@ public:
     narrow(0, -1);
     write_ptr = read_ptr = buffer;
   }
-  void skip(int size) { read_ptr += size; }
+  void skip(int size)
+  {
+    read_ptr += size;
+  }
   void insert(int pos, int size);
 
   void pack(const guint8 *data, int size);
@@ -77,13 +80,34 @@ public:
   int read_size(int &pos);
   void skip_size(int &pos);
 
-  int bytes_available() { return write_ptr - read_ptr; }
-  int bytes_written() { return write_ptr - buffer; }
-  int bytes_read() { return read_ptr - buffer; }
-  gchar *get_buffer() { return (gchar *)buffer; }
-  gchar *get_write_ptr() { return (gchar *)write_ptr; }
-  int get_buffer_size() { return buffer_size; }
-  void restart_read() { read_ptr = buffer; }
+  int bytes_available()
+  {
+    return write_ptr - read_ptr;
+  }
+  int bytes_written()
+  {
+    return write_ptr - buffer;
+  }
+  int bytes_read()
+  {
+    return read_ptr - buffer;
+  }
+  gchar *get_buffer()
+  {
+    return (gchar *)buffer;
+  }
+  gchar *get_write_ptr()
+  {
+    return (gchar *)write_ptr;
+  }
+  int get_buffer_size()
+  {
+    return buffer_size;
+  }
+  void restart_read()
+  {
+    read_ptr = buffer;
+  }
 
 public:
   guint8 *buffer{nullptr};

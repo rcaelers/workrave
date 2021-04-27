@@ -60,7 +60,10 @@ namespace workrave
       bool is_available() const override;
       bool is_running(const std::string &name) const override;
 
-      GDBusConnection *get_connection() const override { return connection; }
+      GDBusConnection *get_connection() const override
+      {
+        return connection;
+      }
 
       void watch(const std::string &name, IDBusWatch *cb) override;
       void unwatch(const std::string &name) override;

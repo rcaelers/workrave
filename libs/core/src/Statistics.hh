@@ -101,7 +101,10 @@ private:
 
     bool starts_at_date(int y, int m, int d);
     bool starts_before_date(int y, int m, int d);
-    bool is_empty() const { return start.tm_year == 0; }
+    bool is_empty() const
+    {
+      return start.tm_year == 0;
+    }
   };
 
   typedef std::vector<DailyStatsImpl *> History;

@@ -53,7 +53,9 @@ static std::string sound_filename;
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
 extern "C"
 {
-  void _chkstk() {}
+  void _chkstk()
+  {
+  }
 }
 #endif
 

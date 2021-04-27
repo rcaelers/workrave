@@ -116,7 +116,10 @@ public:
     return *this;
   }
 
-  bool operator!=(const Variant &lid) const { return !operator==(lid); }
+  bool operator!=(const Variant &lid) const
+  {
+    return !operator==(lid);
+  }
 
   bool operator==(const Variant &lid) const
   {
@@ -148,9 +151,15 @@ public:
     return false;
   }
 
-  virtual ~Variant() { type = VARIANT_TYPE_NONE; }
+  virtual ~Variant()
+  {
+    type = VARIANT_TYPE_NONE;
+  }
 
-  VariantType get_type() const { return type; }
+  VariantType get_type() const
+  {
+    return type;
+  }
 
   // private:
   VariantType type;

@@ -100,7 +100,8 @@ GenericDBusApplet::update_view()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
-  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+  iface->TimersUpdated(
+    WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }

@@ -31,7 +31,9 @@
 using namespace std;
 
 //! Creates a new listen socket.
-GNetSocketServer::GNetSocketServer() {}
+GNetSocketServer::GNetSocketServer()
+{
+}
 
 //! Destructs the listen socket.
 GNetSocketServer::~GNetSocketServer()
@@ -206,7 +208,9 @@ GNetSocket::GNetSocket(GTcpSocket *socket)
 }
 
 //! Creates a new connection.
-GNetSocket::GNetSocket() {}
+GNetSocket::GNetSocket()
+{
+}
 
 //! Destructs the connection.
 GNetSocket::~GNetSocket()

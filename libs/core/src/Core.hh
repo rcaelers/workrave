@@ -155,7 +155,10 @@ public:
   void skip_break(BreakId break_id) override;
 
 #ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr get_dbus() { return dbus; }
+  workrave::dbus::IDBus::Ptr get_dbus()
+  {
+    return dbus;
+  }
 #endif
 
 private:

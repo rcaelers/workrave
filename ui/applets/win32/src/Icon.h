@@ -31,7 +31,10 @@ public:
   Icon(HWND hwnd, HINSTANCE hinst, const char *resource, int size, CDeskBand *deskband);
   ~Icon();
 
-  HWND get_handle() const { return hwnd; };
+  HWND get_handle() const
+  {
+    return hwnd;
+  };
   void get_size(int &w, int &h) const;
   void update();
 

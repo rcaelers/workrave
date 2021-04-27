@@ -44,7 +44,10 @@ public:
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
-  sigc::signal0<void> &signal_stop() { return stop_signal; }
+  sigc::signal0<void> &signal_stop()
+  {
+    return stop_signal;
+  }
 
 protected:
   void on_realize() override;

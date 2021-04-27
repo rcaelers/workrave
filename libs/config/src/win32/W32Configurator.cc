@@ -30,7 +30,9 @@ W32Configurator::W32Configurator()
   key_root = "Software/Workrave";
 }
 
-W32Configurator::~W32Configurator() {}
+W32Configurator::~W32Configurator()
+{
+}
 
 bool
 W32Configurator::load(std::string filename)

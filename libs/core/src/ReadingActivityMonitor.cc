@@ -29,13 +29,21 @@ public:
   ~FakeActivityMonitor() override = default;
 
   //! Stops the activity monitoring.
-  void terminate() override {}
+  void terminate() override
+  {
+  }
 
   //! Suspends the activity monitoring.
-  void suspend() override { suspended = true; }
+  void suspend() override
+  {
+    suspended = true;
+  }
 
   //! Resumes the activity monitoring.
-  void resume() override { suspended = false; }
+  void resume() override
+  {
+    suspended = false;
+  }
 
   //! Returns the current state
   ActivityState get_current_state() override
@@ -49,11 +57,20 @@ public:
   }
 
   //! Force state to be idle.
-  void force_idle() override { state = ACTIVITY_IDLE; }
+  void force_idle() override
+  {
+    state = ACTIVITY_IDLE;
+  }
 
-  void set_state(ActivityState s) { state = s; }
+  void set_state(ActivityState s)
+  {
+    state = s;
+  }
 
-  void set_listener(ActivityMonitorListener *l) override { (void)l; }
+  void set_listener(ActivityMonitorListener *l) override
+  {
+    (void)l;
+  }
 
 private:
   //! Monitor suspended?

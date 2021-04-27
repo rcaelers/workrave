@@ -45,7 +45,10 @@ public:
   void set_secondary_bar_color(ITimeBar::ColorId color);
 
   void get_size(int &width, int &height);
-  HWND get_handle() const { return hwnd; };
+  HWND get_handle() const
+  {
+    return hwnd;
+  };
 
 private:
   CDeskBand *deskband{nullptr};

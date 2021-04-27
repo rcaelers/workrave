@@ -41,13 +41,21 @@ public:
   ~TimerActivityMonitor() override = default;
 
   //! Stops the activity monitoring.
-  void terminate() override {}
+  void terminate() override
+  {
+  }
 
   //! Suspends the activity monitoring.
-  void suspend() override { suspended = true; }
+  void suspend() override
+  {
+    suspended = true;
+  }
 
   //! Resumes the activity monitoring.
-  void resume() override { suspended = false; }
+  void resume() override
+  {
+    suspended = false;
+  }
 
   //! Returns the current state
   ActivityState get_current_state() override
@@ -103,7 +111,10 @@ public:
 
   // Returns the collected statistics.
   //! Sets the activity listener of this monitor.
-  void set_listener(ActivityMonitorListener *l) override { (void)l; }
+  void set_listener(ActivityMonitorListener *l) override
+  {
+    (void)l;
+  }
 
 private:
   //! Reference monitor

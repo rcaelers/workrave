@@ -53,7 +53,10 @@ namespace workrave
       virtual void register_object_path(const std::string &object_path);
       virtual bool is_available() const;
 
-      DBusConnection *conn() { return connection; }
+      DBusConnection *conn()
+      {
+        return connection;
+      }
 
     private:
       DBusHandlerResult dispatch_static(DBusConnection *connection, DBusMessage *message);
