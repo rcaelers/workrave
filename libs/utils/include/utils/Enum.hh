@@ -1,0 +1,450 @@
+// Copyright (C) 2021 Rob Caelers
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
+#ifndef WORKAVE_LIBS_UTILS_ENUM_HH
+#define WORKAVE_LIBS_UTILS_ENUM_HH
+
+#include <type_traits>
+#include <utility>
+#include <array>
+#include <boost/iterator/iterator_categories.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/range/iterator_range.hpp>
+
+#include <iostream>
+
+namespace workrave::utils
+{
+  template<typename Enum>
+  using is_scoped_enum =
+    std::conjunction<std::is_enum<Enum>, std::negation<std::is_convertible<Enum, std::underlying_type_t<Enum>>>>;
+
+  template<typename Enum>
+  static constexpr bool is_scoped_enum_v = is_scoped_enum<Enum>::value;
+
+  template<typename Enum>
+  constexpr auto underlying_cast(Enum e) noexcept
+  {
+    return static_cast<std::underlying_type_t<Enum>>(e);
+  }
+
+  template<typename Enum>
+  struct enum_traits
+  {
+  };
+
+  template<typename Enum, typename = std::void_t<>>
+  struct enum_has_min : std::false_type
+  {
+  };
+
+  template<typename Enum>
+  struct enum_has_min<Enum, std::void_t<decltype(enum_traits<Enum>::min)>> : std::true_type
+  {
+  };
+
+  template<typename Enum>
+  constexpr inline bool enum_has_min_v = enum_has_min<Enum>::value;
+
+  template<typename Enum, typename = std::void_t<>>
+  struct enum_has_max : std::false_type
+  {
+  };
+
+  template<typename Enum>
+  struct enum_has_max<Enum, std::void_t<decltype(enum_traits<Enum>::max)>> : std::true_type
+  {
+  };
+
+  template<typename Enum>
+  constexpr inline bool enum_has_max_v = enum_has_max<Enum>::value;
+
+  template<typename Enum, std::enable_if_t<enum_has_min_v<Enum>, int> = 0>
+  constexpr auto enum_min_value() noexcept
+  {
+    return underlying_cast(enum_traits<Enum>::min);
+  }
+
+  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum>, int> = 0>
+  constexpr auto enum_max_value() noexcept
+  {
+    return underlying_cast(enum_traits<Enum>::max);
+  }
+
+  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum> && enum_has_min_v<Enum>, int> = 0>
+  constexpr auto enum_count() noexcept
+  {
+    return enum_max_value<Enum>() - enum_min_value<Enum>() + 1;
+  }
+
+  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum> && enum_has_min_v<Enum>, int> = 0>
+  constexpr auto enum_in_range(std::underlying_type_t<Enum> v) noexcept
+  {
+    return (v >= enum_min_value<Enum>()) && (v <= enum_max_value<Enum>());
+  }
+
+  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum> && enum_has_min_v<Enum>, int> = 0>
+  constexpr auto enum_in_range(Enum e) noexcept
+  {
+    return (underlying_cast(e) >= enum_min_value<Enum>()) && (underlying_cast(e) <= enum_max_value<Enum>());
+  }
+
+  template<typename Enum>
+  class enum_iterator : public boost::iterator_facade<enum_iterator<Enum>, Enum, boost::random_access_traversal_tag, Enum>
+  {
+    static_assert(enum_has_min_v<Enum> && enum_has_max_v<Enum>, "Enum must have enum_traits with min and max");
+
+  public:
+    constexpr enum_iterator()
+      : index{enum_max_value<Enum>() + 1}
+    {
+    }
+
+    constexpr explicit enum_iterator(std::underlying_type_t<Enum> value)
+      : index{value}
+    {
+    }
+
+  private:
+    void advance(std::ptrdiff_t n)
+    {
+      index += n;
+    }
+
+    void decrement()
+    {
+      --index;
+    }
+
+    void increment()
+    {
+      ++index;
+    }
+
+    std::ptrdiff_t distance_to(const enum_iterator &other) const
+    {
+      return other.index - index;
+    }
+
+    bool equal(const enum_iterator &other) const
+    {
+      return other.index == index;
+    }
+
+    Enum dereference() const
+    {
+      return static_cast<Enum>(index);
+    }
+
+    friend class boost::iterator_core_access;
+
+  private:
+    std::underlying_type_t<Enum> index;
+  };
+
+  template<typename Enum>
+  class enum_value_iterator
+    : public boost::
+        iterator_facade<enum_value_iterator<Enum>, Enum, boost::random_access_traversal_tag, std::underlying_type_t<Enum>>
+  {
+    static_assert(enum_has_min_v<Enum> && enum_has_max_v<Enum>, "Enum must have enum_traits with min and max");
+
+  public:
+    constexpr enum_value_iterator()
+      : index{enum_max_value<Enum>() + 1}
+    {
+    }
+
+    constexpr explicit enum_value_iterator(std::underlying_type_t<Enum> value)
+      : index{value}
+    {
+    }
+
+  private:
+    void advance(std::ptrdiff_t n)
+    {
+      index += n;
+    }
+
+    void decrement()
+    {
+      --index;
+    }
+
+    void increment()
+    {
+      ++index;
+    }
+
+    std::ptrdiff_t distance_to(const enum_value_iterator &other) const
+    {
+      return other.index - index;
+    }
+
+    bool equal(const enum_value_iterator &other) const
+    {
+      return other.index == index;
+    }
+
+    std::underlying_type_t<Enum> dereference() const
+    {
+      return index;
+    }
+
+    friend class boost::iterator_core_access;
+
+  private:
+    std::underlying_type_t<Enum> index;
+  };
+
+  template<typename Enum>
+  constexpr auto enum_range() noexcept
+  {
+    return boost::make_iterator_range(enum_iterator<Enum>{enum_min_value<Enum>()}, enum_iterator<Enum>{enum_max_value<Enum>() + 1});
+  }
+
+  template<typename Enum>
+  constexpr auto enum_value_range() noexcept
+  {
+    return boost::make_iterator_range(enum_value_iterator<Enum>{enum_min_value<Enum>()},
+                                      enum_value_iterator<Enum>{enum_max_value<Enum>() + 1});
+  }
+
+  template<typename Enum, class T, std::size_t N = workrave::utils::enum_count<Enum>()>
+  class array : public std::array<T, N>
+  {
+  public:
+    using base = std::array<T, N>;
+
+    constexpr array()
+      : base{}
+    {
+    }
+
+    template<class... Args>
+    constexpr array(Args &&...args)
+      : base{{std::forward<Args>(args)...}}
+    {
+    }
+
+    using base::operator[];
+
+    constexpr T &operator[](Enum e)
+    {
+      return base::operator[](underlying_cast(e) - workrave::utils::enum_min_value<Enum>());
+    }
+
+    constexpr const T &operator[](Enum e) const
+    {
+      return base::operator[](underlying_cast(e) - workrave::utils::enum_min_value<Enum>());
+    }
+  };
+
+  template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+  class Flags
+  {
+  public:
+    using underlying_type = typename std::underlying_type_t<Enum>;
+    using repr_type = typename std::make_unsigned_t<underlying_type>;
+
+    Flags() noexcept = default;
+    Flags(const Flags &) noexcept = default;
+    Flags(Flags &&) noexcept = default;
+    Flags &operator=(const Flags &) noexcept = default;
+    Flags &operator=(Flags &&) noexcept = default;
+
+    constexpr Flags(Enum e) noexcept
+      : value{static_cast<repr_type>(e)}
+    {
+    }
+
+    constexpr Flags &operator=(Enum e) noexcept
+    {
+      value = static_cast<repr_type>(e);
+      return *this;
+    }
+
+    constexpr underlying_type get() const noexcept
+    {
+      return static_cast<underlying_type>(value);
+    }
+
+    constexpr void set(underlying_type val) noexcept
+    {
+      value = static_cast<repr_type>(val);
+    }
+
+    constexpr bool is_set(Enum e) const noexcept
+    {
+      return (value & static_cast<repr_type>(e)) == static_cast<repr_type>(e);
+    }
+
+    constexpr bool is_set(Flags other) const noexcept
+    {
+      return (value & other.value) == other.value;
+    }
+
+    constexpr void clear() noexcept
+    {
+      value = 0;
+    }
+
+    constexpr bool operator==(Flags other) const noexcept
+    {
+      return value == other.value;
+    }
+
+    constexpr bool operator!=(Flags other) const noexcept
+    {
+      return value != other.value;
+    }
+
+    constexpr Flags operator&(Flags other) const noexcept
+    {
+      return Flags{value & other.value};
+    }
+
+    constexpr Flags operator|(Flags other) const noexcept
+    {
+      return Flags{value | other.value};
+    }
+
+    constexpr Flags operator^(Flags other) const noexcept
+    {
+      return Flags{value ^ other.value};
+    };
+
+    constexpr Flags &operator&=(const Flags &other) noexcept
+    {
+      value &= other.value;
+      return *this;
+    }
+
+    constexpr Flags &operator|=(const Flags &other) noexcept
+    {
+      value |= other.value;
+      return *this;
+    }
+
+    constexpr Flags &operator^=(const Flags &other) noexcept
+    {
+      value ^= other.value;
+      return *this;
+    }
+
+    constexpr Flags &operator&=(Enum e) noexcept
+    {
+      value &= static_cast<repr_type>(e);
+      return *this;
+    }
+
+    constexpr Flags &operator|=(Enum e) noexcept
+    {
+      value |= static_cast<repr_type>(e);
+      return *this;
+    }
+
+    constexpr Flags &operator^=(Enum e) noexcept
+    {
+      value ^= static_cast<repr_type>(e);
+      return *this;
+    }
+
+    constexpr Flags operator~() const noexcept
+    {
+      return Flags{~value};
+    }
+
+    constexpr explicit operator bool() const noexcept
+    {
+      return value != 0;
+    }
+
+  private:
+    constexpr explicit Flags(repr_type val)
+      : value{val}
+    {
+    }
+
+    repr_type value{0};
+  };
+
+  template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+  std::ostream &operator<<(std::ostream &stream, Flags<Enum> flags)
+  {
+    for (int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
+      {
+        Enum e = static_cast<Enum>(1 << b);
+        if (flags.is_set(e))
+          {
+            if (b > 0)
+              {
+                stream << ",";
+              }
+            stream << e;
+          }
+      }
+    return stream;
+  }
+} // namespace workrave::utils
+
+template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::linear>>
+constexpr Enum
+operator++(Enum &e) noexcept
+{
+  e = static_cast<Enum>(workrave::utils::underlying_cast(e) + 1);
+  return e;
+}
+
+template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::linear>>
+constexpr Enum
+operator++(Enum &e, int) noexcept
+{
+  const auto ret = e;
+  e = static_cast<Enum>(workrave::utils::underlying_cast(e) + 1);
+  return ret;
+}
+
+template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+constexpr auto
+operator|(Enum lhs, Enum rhs) noexcept
+{
+  return workrave::utils::Flags<Enum>(lhs) | rhs;
+}
+
+template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+constexpr auto
+operator&(Enum lhs, Enum rhs) noexcept
+{
+  return workrave::utils::Flags<Enum>(lhs) & rhs;
+}
+
+template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+constexpr auto
+operator^(Enum lhs, Enum rhs) noexcept
+{
+  return workrave::utils::Flags<Enum>(lhs) ^ rhs;
+}
+
+template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+constexpr auto
+operator~(Enum e) noexcept
+{
+  return ~workrave::utils::Flags<Enum>(e);
+}
+
+#endif // WORKAVE_LIBS_UTILS_ENUM_HH
