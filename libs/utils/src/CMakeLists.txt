@@ -7,6 +7,8 @@ add_library(workrave-libs-utils STATIC
   WRID.cc
   debug.cc)
 
+target_code_coverage(workrave-libs-utils)
+
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-utils PRIVATE Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
   target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
@@ -39,6 +41,7 @@ endif()
 if (HAVE_QT5)
   target_include_directories(workrave-libs-utils PRIVATE ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
+
 
 target_include_directories(
   workrave-libs-utils

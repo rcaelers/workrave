@@ -166,13 +166,11 @@ if (WITH_TESTS)
   #endif()
 
   set (HAVE_TESTS ON)
+  enable_testing()
+
 endif()
 
-option(WITH_COVERAGE "Enable coverage" OFF)
-
-if (WITH_COVERAGE)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -fno-inline -ftest-coverage -fprofile-arcs")
-endif()
+include(code-coverage)
 
 #----------------------------------------------------------------------------------------------------
 # Toolkit selection
