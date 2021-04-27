@@ -74,7 +74,7 @@ if (NOT VCPKG_TOOLCHAIN)
 
 macro(pkgconfig_get_var OUT PKG VARNAME)
   if (LOCALINSTALL)
-    set(NEWPREFIX "--define-variable=prefix=/")
+    set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
   endif()
 
   execute_process(
@@ -258,6 +258,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
+  set (HAVE_GTK3 ON)
   set (HAVE_APP_GTK ON)
 
   if (WITH_DBUS)
@@ -514,8 +515,10 @@ if (UNIX AND NOT APPLE)
 
     if (INDICATOR_FOUND)
       set (HAVE_INDICATOR ON)
+      set (HAVE_INDICATOR_AYATANA ON)
     else()
       set (WITH_INDICATOR OFF)
+      set (HAVE_INDICATOR_AYATANA OFF)
     endif()
   endif()
 

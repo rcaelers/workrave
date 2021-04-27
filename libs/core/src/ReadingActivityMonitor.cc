@@ -24,9 +24,7 @@
 
 #include "debug.hh"
 
-using namespace workrave;
 using namespace workrave::input_monitor;
-
 ReadingActivityMonitor::ReadingActivityMonitor(IActivityMonitor::Ptr monitor, CoreModes::Ptr modes)
   : monitor(monitor)
   , modes(modes)

@@ -9,4 +9,3 @@ Description=Workrave Applet
 Name=Workrave
 Description=Workrave Applet
 Icon=workrave
-BonoboId=OAFIID:GNOME_WorkraveApplet;

@@ -1,5 +1,7 @@
 if (HAVE_XFCE4)
 
+  pkgconfig_get_var(XFCE4LIBDIR libxfce4panel-2.0 libdir)
+
   intltool_merge_desktop(
     ${CMAKE_CURRENT_SOURCE_DIR}/workrave-xfce-applet.desktop.in
     ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop)
@@ -9,12 +11,17 @@ if (HAVE_XFCE4)
 
   add_library(workrave-xfce SHARED ${SRC})
 
-  install(TARGETS workrave-xfce DESTINATION ${LIBDIR}/xfce4/panel/plugins)
+  install(TARGETS workrave-xfce DESTINATION ${XFCE4LIBDIR}/xfce4/panel/plugins)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave-xfce-applet.desktop DESTINATION ${DATADIR}/xfce4/panel/plugins)
 
-  set_target_properties(workrave-xfce PROPERTIES OUTPUT_NAME workrave)
+  set_target_properties(workrave-xfce
+    PROPERTIES
+    OUTPUT_NAME workrave-plugin)
 
-  target_link_libraries(workrave-xfce workrave-private-1.0 workrave-libs-utils ${XFCE4_LIBRARIES})
+  target_link_libraries(workrave-xfce
+    workrave-private-1.0
+    workrave-libs-utils
+    ${XFCE4_LIBRARIES})
 
   target_include_directories(workrave-xfce
     PRIVATE
