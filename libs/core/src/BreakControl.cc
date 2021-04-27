@@ -219,7 +219,7 @@ BreakControl::goto_stage(BreakStage stage)
         application->hide_break_window();
         core->defrost();
 
-        if (break_id == BREAK_ID_MICRO_BREAK && core->get_usage_mode() == USAGE_MODE_READING)
+        if (break_id == BREAK_ID_MICRO_BREAK && core->get_usage_mode() == UsageMode::Reading)
           {
             for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
               {
@@ -376,7 +376,7 @@ BreakControl::start_break()
 {
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
 
-  break_hint = BREAK_HINT_NONE;
+  break_hint = BreakHint::Normal;
   forced_break = false;
   fake_break = false;
   prelude_time = 0;
@@ -417,12 +417,12 @@ BreakControl::start_break()
 
 //! Starts the break without preludes.
 void
-BreakControl::force_start_break(BreakHint hint)
+BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
   break_hint = hint;
-  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
+  forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -482,7 +482,7 @@ BreakControl::suspend_break()
 {
   TRACE_ENTER_MSG("BreakControl::suspend_break", break_id);
 
-  break_hint = BREAK_HINT_NONE;
+  break_hint = BreakHint::Normal;
 
   goto_stage(STAGE_NONE);
 

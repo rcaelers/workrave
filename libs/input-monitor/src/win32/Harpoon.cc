@@ -34,7 +34,6 @@
 #include "debug.hh"
 #include "input-monitor/Harpoon.hh"
 
-
 #include "harpoon.h"
 #include "HarpoonHelper.h"
 

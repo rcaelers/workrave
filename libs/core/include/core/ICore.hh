@@ -24,12 +24,11 @@
 #include <string>
 #include <iostream>
 
-#include "enum.h"
+#include "core/CoreTypes.hh"
 #include "ICoreEventListener.hh"
 
 namespace workrave
 {
-
   // Forward declaratons
   class IBreak;
   class IApp;
@@ -38,74 +37,12 @@ namespace workrave
   class INetwork;
   class IDistributionManager;
 
-  //! ID of a break.
-  enum BreakId
-  {
-    BREAK_ID_NONE = -1,
-    BREAK_ID_MICRO_BREAK = 0,
-    BREAK_ID_REST_BREAK,
-    BREAK_ID_DAILY_LIMIT,
-    BREAK_ID_SIZEOF
-  };
-
-  inline std::ostream &operator<<(std::ostream &stream, BreakId n)
-  {
-    switch (n)
-      {
-      case BREAK_ID_NONE:
-        stream << "none";
-        break;
-      case BREAK_ID_MICRO_BREAK:
-        stream << "micro";
-        break;
-      case BREAK_ID_REST_BREAK:
-        stream << "rest";
-        break;
-      case BREAK_ID_DAILY_LIMIT:
-        stream << "daily";
-        break;
-      default:
-        stream << "invalid";
-        break;
-      }
-    return stream;
-  }
-
-  enum BreakHint
-  {
-    BREAK_HINT_NONE = 0,
-
-    // Break was started on user request
-    BREAK_HINT_USER_INITIATED = 1,
-
-    // Natural break.
-    BREAK_HINT_NATURAL_BREAK = 2,
-  };
-
   //! Main interface of the backend.
   class ICore
   {
   public:
+    using Ptr = std::shared_ptr<ICore>;
     virtual ~ICore() = default;
-
-    //! The way a break is insisted.
-    enum InsistPolicy
-    {
-      //! Uninitialized policy
-      INSIST_POLICY_INVALID,
-
-      //! Halts the timer on activity.
-      INSIST_POLICY_HALT,
-
-      //! Resets the timer on activity.
-      INSIST_POLICY_RESET,
-
-      //! Ignores all activity.
-      INSIST_POLICY_IGNORE,
-
-      //! Number of policies.
-      INSIST_POLICY_SIZEOF
-    };
 
     //! Initialize the Core. Must be called first.
     virtual void init(int argc, char **argv, IApp *app, const char *display) = 0;
@@ -114,7 +51,7 @@ namespace workrave
     virtual void heartbeat() = 0;
 
     //! Force a break of the specified type.
-    virtual void force_break(BreakId id, BreakHint break_hint) = 0;
+    virtual void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
 
     //! Return the break interface of the specified type.
     virtual IBreak *get_break(BreakId id) = 0;
@@ -176,51 +113,13 @@ namespace workrave
     virtual void force_idle() = 0;
 
     virtual void post_event(CoreEvent event) = 0;
-
   };
 
-  std::string operator%(const std::string &key, BreakId id);
-
-  enum InsistPolicy
-  {
-    //! Uninitialized policy
-    INSIST_POLICY_INVALID,
-
-    //! Halts the timer on activity.
-    INSIST_POLICY_HALT,
-
-    //! Resets the timer on activity.
-    INSIST_POLICY_RESET,
-
-    //! Ignores all activity.
-    INSIST_POLICY_IGNORE,
-
-    //! Number of policies.
-    INSIST_POLICY_SIZEOF
-  };
-
-  inline std::ostream &operator<<(std::ostream &stream, ICore::InsistPolicy p)
-  {
-    switch (p)
-      {
-      case ICore::INSIST_POLICY_INVALID:
-        stream << "invalid";
-        break;
-      case ICore::INSIST_POLICY_HALT:
-        stream << "halt";
-        break;
-      case ICore::INSIST_POLICY_RESET:
-        stream << "reset";
-        break;
-      case ICore::INSIST_POLICY_IGNORE:
-        stream << "ignore";
-        break;
-      default:
-        stream << "invalid";
-        break;
-      }
-    return stream;
-  }
+  // class CoreFactory
+  //{
+  // public:
+  //  static ICore::Ptr create();
+  //};
 
 }; // namespace workrave
 

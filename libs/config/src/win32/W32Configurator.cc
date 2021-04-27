@@ -25,7 +25,6 @@
 #include "debug.hh"
 #include "W32Configurator.hh"
 
-
 W32Configurator::W32Configurator()
 {
   key_root = "Software/Workrave";

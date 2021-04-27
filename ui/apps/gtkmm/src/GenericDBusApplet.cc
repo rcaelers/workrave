@@ -100,8 +100,7 @@ GenericDBusApplet::update_view()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
-  iface->TimersUpdated(
-    WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }
@@ -164,13 +163,13 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 
   add_menu_item(_("Normal"),
                 MENU_COMMAND_MODE_NORMAL,
-                MENU_ITEM_FLAG_RADIO | (mode == OPERATION_MODE_NORMAL ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
   add_menu_item(_("Suspended"),
                 MENU_COMMAND_MODE_SUSPENDED,
-                MENU_ITEM_FLAG_RADIO | (mode == OPERATION_MODE_SUSPENDED ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Suspended ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
   add_menu_item(_("Quiet"),
                 MENU_COMMAND_MODE_QUIET,
-                MENU_ITEM_FLAG_RADIO | (mode == OPERATION_MODE_QUIET ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
   add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
 
@@ -187,7 +186,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
 #endif
   add_menu_item(_("Reading mode"),
                 MENU_COMMAND_MODE_READING,
-                MENU_ITEM_FLAG_CHECK | (usage == USAGE_MODE_READING ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+                MENU_ITEM_FLAG_CHECK | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
   add_menu_item(_("Statistics"), MENU_COMMAND_STATISTICS, MENU_ITEM_FLAG_NONE);
   add_menu_item(_("About..."), MENU_COMMAND_ABOUT, MENU_ITEM_FLAG_NONE);

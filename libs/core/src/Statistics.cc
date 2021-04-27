@@ -76,7 +76,8 @@ Statistics::init(Core *control)
 {
   core = control;
 
-  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Statistics);
+  input_monitor =
+    workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Statistics);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);

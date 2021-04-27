@@ -41,7 +41,8 @@ ActivityMonitor::ActivityMonitor()
   activity_threshold = 2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
   idle_threshold = 5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
 
-  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
+  input_monitor =
+    workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
@@ -129,8 +130,8 @@ ActivityMonitor::get_current_state()
     {
       int64_t tv = TimeSource::get_monotonic_time_usec() - last_action_time;
 
-      TRACE_MSG("Active: " << (tv / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << "." << tv << " " << (idle_threshold / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << " "
-                           << idle_threshold);
+      TRACE_MSG("Active: " << (tv / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << "." << tv << " "
+                           << (idle_threshold / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << " " << idle_threshold);
       if (tv > idle_threshold)
         {
           // No longer active.

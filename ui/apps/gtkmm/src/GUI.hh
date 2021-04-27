@@ -114,7 +114,7 @@ public:
   // GUIFactoryInterface methods
   void set_break_response(IBreakResponse *rep) override;
   void create_prelude_window(BreakId break_id) override;
-  void create_break_window(BreakId break_id, BreakHint break_hint) override;
+  void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) override;
   void hide_break_window() override;
   void show_break_window() override;
   void refresh_break_window() override;

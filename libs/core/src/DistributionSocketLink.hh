@@ -35,7 +35,6 @@
 #define DEFAULT_INTERVAL (15)
 #define DEFAULT_ATTEMPTS (5)
 
-
 class DistributionSocketLink
   : public DistributionLink
   , public workrave::config::IConfiguratorListener

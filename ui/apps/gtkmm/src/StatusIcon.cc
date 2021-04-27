@@ -71,8 +71,8 @@ StatusIcon::init()
     "workrave-suspended-icon-medium.png",
     "workrave-quiet-icon-medium.png",
   };
-  assert(sizeof(mode_files) / sizeof(mode_files[0]) == OPERATION_MODE_SIZEOF);
-  for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
+  assert(sizeof(mode_files) / sizeof(mode_files[0]) == workrave::utils::enum_count<OperationMode>());
+  for (size_t i = 0; i < workrave::utils::enum_count<OperationMode>(); i++)
     {
       mode_icons[(OperationMode)i] = GtkUtil::create_pixbuf(mode_files[i]);
     }

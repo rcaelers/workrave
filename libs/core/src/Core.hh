@@ -86,7 +86,7 @@ class Core
   , public DistributionListener
   ,
 #endif
-    public ICore
+  public ICore
   , public workrave::config::IConfiguratorListener
   , public IBreakResponse
 {
@@ -110,7 +110,7 @@ public:
 #endif
   Statistics *get_statistics() const override;
   void set_core_events_listener(ICoreEventListener *l) override;
-  void force_break(BreakId id, BreakHint break_hint) override;
+  void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) override;
   void time_changed() override;
   void set_powersave(bool down) override;
 
@@ -131,7 +131,7 @@ public:
   void set_insensitive_mode_all_breaks(InsensitiveMode mode);
 
   void stop_prelude(BreakId break_id);
-  void do_force_break(BreakId id, BreakHint break_hint);
+  void do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint);
 
   void freeze();
   void defrost();
@@ -192,8 +192,8 @@ private:
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
 
-  void set_insist_policy(ICore::InsistPolicy p) override;
-  ICore::InsistPolicy get_insist_policy() const;
+  void set_insist_policy(InsistPolicy p) override;
+  InsistPolicy get_insist_policy() const;
 
   void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
   void set_usage_mode_internal(UsageMode mode, bool persistent);
@@ -262,16 +262,16 @@ private:
   Statistics *statistics{nullptr};
 
   //! Current operation mode.
-  TracedField<OperationMode> operation_mode{"core.operation_mode", OPERATION_MODE_NORMAL};
+  TracedField<OperationMode> operation_mode{"core.operation_mode", OperationMode::Normal};
 
   //! The same as operation_mode unless operation_mode is an override mode.
-  TracedField<OperationMode> operation_mode_regular{"core.operation_mode_regular", OPERATION_MODE_NORMAL};
+  TracedField<OperationMode> operation_mode_regular{"core.operation_mode_regular", OperationMode::Normal};
 
   //! Active operation mode overrides.
   std::map<std::string, OperationMode> operation_mode_overrides;
 
   //! Current usage mode.
-  TracedField<UsageMode> usage_mode{"core.usage_mode", USAGE_MODE_NORMAL};
+  TracedField<UsageMode> usage_mode{"core.usage_mode", UsageMode::Normal};
 
   //! Where to send core events to?
   ICoreEventListener *core_event_listener{nullptr};
@@ -283,10 +283,10 @@ private:
   time_t powersave_resume_time{0};
 
   //! What to do with activity during insisted break?
-  TracedField<ICore::InsistPolicy> insist_policy{"core.insist_policy", ICore::INSIST_POLICY_HALT};
+  TracedField<InsistPolicy> insist_policy{"core.insist_policy", InsistPolicy::Halt};
 
   //! Policy currently in effect.
-  TracedField<ICore::InsistPolicy> active_insist_policy{"core.active_insist_policy", ICore::INSIST_POLICY_INVALID};
+  TracedField<InsistPolicy> active_insist_policy{"core.active_insist_policy", InsistPolicy::Invalid};
 
   //! Resumes this break if current break ends.
   TracedField<BreakId> resume_break{"core.resume_break", BREAK_ID_NONE};

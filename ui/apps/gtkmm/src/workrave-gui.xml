@@ -7,9 +7,9 @@
     </import>
 
     <enum name="operation_mode" csymbol="OperationMode">
-        <value name="normal"    csymbol="OPERATION_MODE_NORMAL" value="0"/>
-        <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
-        <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
+        <value name="normal"    csymbol="workrave::OperationMode::Normal" value="0"/>
+        <value name="suspended" csymbol="workrave::OperationMode::Suspended"/>
+        <value name="quiet"     csymbol="workrave::OperationMode::Quiet"/>
     </enum>
 
     <struct name="TimerData" csymbol="GenericDBusApplet::TimerData">

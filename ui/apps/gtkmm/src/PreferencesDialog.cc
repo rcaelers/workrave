@@ -75,8 +75,8 @@ using namespace std;
 using namespace std;
 
 PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
-  : HigDialog(_("Preferences"), false, false),
-    sound_theme(sound_theme)
+  : HigDialog(_("Preferences"), false, false)
+  , sound_theme(sound_theme)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -420,9 +420,9 @@ PreferencesDialog::create_sounds_page()
   hbox->pack_start(*fsbutton, true, true, 0);
 
 #ifdef HAVE_GTK3
-      filefilter = Gtk::FileFilter::create();
+  filefilter = Gtk::FileFilter::create();
 #else
-      filefilter = new Gtk::FileFilter();
+  filefilter = new Gtk::FileFilter();
 #endif
 
   filefilter->set_name(_("Wavefiles"));
@@ -648,9 +648,9 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
       ICore *core = CoreFactory::get_core();
 
       OperationMode mode = core->get_operation_mode();
-      if (mode == OPERATION_MODE_NORMAL)
+      if (mode == OperationMode::Normal)
         {
-          core->set_operation_mode_override(OPERATION_MODE_QUIET, "preferences");
+          core->set_operation_mode_override(OperationMode::Quiet, "preferences");
         }
     }
   TRACE_EXIT();
