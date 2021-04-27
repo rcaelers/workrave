@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-04-12 21:03+0200\n"
+"POT-Creation-Date: 2021-04-27 21:55+0200\n"
 "PO-Revision-Date: 2013-05-25 19:34+0200\n"
 "Last-Translator: s120801-translate <s120801-translate@yahoo.com>\n"
 "Language-Team: s120801-translate\n"
@@ -263,13 +263,13 @@ msgstr "_Zakończ"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
 #: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:183
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
 msgid "Show log"
 msgstr "Pokaż log"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:188
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "Reading mode"
@@ -277,19 +277,19 @@ msgstr "Tryb czytania"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:165
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
 msgid "Normal"
 msgstr "Normalny"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:168
+#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
 msgid "Suspended"
 msgstr "Zawieszony"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:171
+#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
 msgid "Quiet"
 msgstr "Cichy"
 
@@ -363,7 +363,7 @@ msgid "Debug log"
 msgstr ""
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:156
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
@@ -447,10 +447,10 @@ msgstr "Workrace jest w trybie cichym. Okno przerw nie będzie się pojawiać."
 msgid "Micro-break"
 msgstr "Mikroprzerwa"
 
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/MicroBreakWindow.cc:136
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:76
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:211
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:71
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Odpoczynek"
 
@@ -458,42 +458,42 @@ msgstr "Odpoczynek"
 msgid "Mode: "
 msgstr "Tryb: "
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
 msgid "Open"
 msgstr "Otwórz"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:163
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:175
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
 msgid "Mode"
 msgstr "Tryb"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:185
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:114
 msgid "Network"
 msgstr "Sieć"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
 msgid "Connect"
 msgstr "Połącz"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 msgid "Disconnect"
 msgstr "Rozłącz"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:181
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 msgid "Reconnect"
 msgstr "Połącz ponownie"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:159
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:53
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:129
@@ -502,13 +502,13 @@ msgstr "Połącz ponownie"
 msgid "Statistics"
 msgstr "Statystyki"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "About..."
 msgstr "O programie..."
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 msgid "Quit"
 msgstr "Zamknij"
@@ -857,20 +857,20 @@ msgstr "Znika za %s"
 msgid "Silent in %s"
 msgstr "Cisza za %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:164
 #, c-format
 msgid "Rest break for %s"
 msgstr "Odpoczynek potrwa %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
 msgid "Natural rest break"
 msgstr "Naturalnych odpoczynków"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
 msgid "This is your natural rest break."
 msgstr "To jest twój naturalny odpoczynek."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:212
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

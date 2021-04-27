@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.4\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-04-12 21:03+0200\n"
+"POT-Creation-Date: 2021-04-27 21:55+0200\n"
 "PO-Revision-Date: 2021-01-18 11:02+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -311,13 +311,13 @@ msgstr "_Ende"
 # src/app/gtkmm/Menus.cc:197
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
 #: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:183
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
 msgid "Show log"
 msgstr "_Protokoll anzeigen"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:188
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "Reading mode"
@@ -327,7 +327,7 @@ msgstr "Lesemodus"
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:165
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
 msgid "Normal"
 msgstr "_Normal"
 
@@ -335,14 +335,14 @@ msgstr "_Normal"
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:168
+#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
 msgid "Suspended"
 msgstr "_Angehalten"
 
 # src/app/gtkmm/Menus.cc:164
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:171
+#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
 msgid "Quiet"
 msgstr "St_ill"
 
@@ -431,7 +431,7 @@ msgstr ""
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:156
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
@@ -531,10 +531,10 @@ msgid "Micro-break"
 msgstr "Mikropause"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/MicroBreakWindow.cc:136
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:76
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:211
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:71
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Ruhepause"
 
@@ -545,13 +545,13 @@ msgid "Mode: "
 msgstr "_Betriebsart"
 
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
 msgid "Open"
 msgstr "Ö_ffnen"
 
 # src/app/gtkmm/PreferencesDialog.cc:49
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
@@ -560,38 +560,38 @@ msgstr "Einstellungen"
 
 # src/app/gtkmm/Menus.cc:143
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:163
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:175
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
 msgid "Mode"
 msgstr "_Betriebsart"
 
 # src/app/gtkmm/PreferencesDialog.cc:74
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:185
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:114
 msgid "Network"
 msgstr "Netzwerk"
 
 # src/app/gtkmm/Menus.cc:182
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
 msgid "Connect"
 msgstr "_Verbinden"
 
 # src/app/gtkmm/Menus.cc:187
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 msgid "Disconnect"
 msgstr "_Trennen"
 
 # src/app/gtkmm/Menus.cc:192
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:181
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 msgid "Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
 # src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
 # src/app/gtkmm/StatisticsDialog.cc:130
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:159
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:53
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:129
@@ -601,14 +601,14 @@ msgid "Statistics"
 msgstr "Statistik"
 
 # src/app/gtkmm/Menus.cc:258
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
 #: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "About..."
 msgstr "Über..."
 
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:194
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 msgid "Quit"
 msgstr "_Ende"
@@ -1025,23 +1025,23 @@ msgid "Silent in %s"
 msgstr " Still in %s"
 
 # src/app/gtkmm/RestBreakWindow.cc:266
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:164
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
 # src/app/gtkmm/StatisticsDialog.cc:192
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
 msgid "Natural rest break"
 msgstr "Natürliche Pausen"
 
 # src/app/gtkmm/PreludeWindow.cc:85
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
 msgid "This is your natural rest break."
 msgstr "Sie brauchen eine Ruhepause..."
 
 # src/app/gtkmm/RestBreakWindow.cc:285
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:212
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
