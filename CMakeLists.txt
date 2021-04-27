@@ -566,6 +566,7 @@ if (UNIX AND NOT APPLE)
 
     if (XFCE4_FOUND)
       set (HAVE_XFCE4 ON)
+      set (HAVE_XFCE4_GTK3 ON)
     else()
       set (WITH_XFCE4 OFF)
     endif()

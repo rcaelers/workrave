@@ -426,7 +426,7 @@ workrave_applet_construct(XfcePanelPlugin *plugin)
   gtk_widget_show_all(GTK_WIDGET(plugin));
 }
 
-#ifdef HAVE_XFCE_GTK3
+#ifdef HAVE_XFCE4_GTK3
 XFCE_PANEL_PLUGIN_REGISTER(workrave_applet_construct);
 #else
 XFCE_PANEL_PLUGIN_REGISTER_EXTERNAL(workrave_applet_construct);
