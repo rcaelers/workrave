@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MacOSAPPLETWINDOW_HH
-#define MacOSAPPLETWINDOW_HH
+#ifndef MACOSAPPLETWINDOW_HH
+#define MACOSAPPLETWINDOW_HH
 
 #include "preinclude.h"
 #include <string>
@@ -56,4 +56,4 @@ private:
   MacOSStatusBarView *view;
 };
 
-#endif // MacOSAPPLETWINDOW_HH
+#endif // MACOSAPPLETWINDOW_HH

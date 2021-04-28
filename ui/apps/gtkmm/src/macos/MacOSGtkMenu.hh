@@ -1,6 +1,6 @@
 // MacOSGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MacOSGTKMENU_HH
-#define MacOSGTKMENU_HH
+#ifndef MACOSGTKMENU_HH
+#define MACOSGTKMENU_HH
 
 #include "config.h"
 
@@ -49,4 +49,4 @@ private:
   static void dock_quit(IgeMacDock *dock, void *data);
 };
 
-#endif // MacOSGTKMENU_HH
+#endif // MACOSGTKMENU_HH

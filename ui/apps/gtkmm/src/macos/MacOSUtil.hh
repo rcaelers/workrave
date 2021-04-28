@@ -4,8 +4,8 @@
 // All rights reserved.
 //
 
-#ifndef MacOSUTIL_HH
-#define MacOSUTIL_HH
+#ifndef MACOSUTIL_HH
+#define MACOSUTIL_HH
 
 class MacOSUtil
 {
@@ -13,4 +13,4 @@ public:
   static void init();
 };
 
-#endif // MacOSUTIL_HH
+#endif // MACOSUTIL_HH
