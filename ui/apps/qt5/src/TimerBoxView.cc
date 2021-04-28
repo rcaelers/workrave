@@ -69,7 +69,7 @@ TimerBoxView::init()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      QPixmap pixmap(Ui::get_break_icon_filename(i));
+      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
 
       if (false) // TODO: i == BREAK_ID_REST_BREAK)
         {

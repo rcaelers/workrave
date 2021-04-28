@@ -77,10 +77,10 @@ PreferencesDialog::create_timer_page()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       TimerPreferencesPanel *panel = new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group);
-      QPixmap pixmap(Ui::get_break_icon_filename(i));
+      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
       QIcon icon(pixmap);
 
-      timer_tab->addTab(panel, icon, Ui::get_break_name(i));
+      timer_tab->addTab(panel, icon, Ui::get_break_name(BreakId(i)));
     }
 
   return timer_tab;

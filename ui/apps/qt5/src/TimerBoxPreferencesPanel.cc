@@ -146,7 +146,7 @@ TimerBoxPreferencesPanel::init_timer_display()
       button->addItem(tr("Show only when this timer is first due"));
 
       connector->connect(
-        GUIConfig::timerbox_flags(name, i),
+        GUIConfig::timerbox_flags(name, BreakId(i)),
         dc::wrap(timer_display_button[i]),
         std::bind(&TimerBoxPreferencesPanel::on_timer_display_changed, this, i, std::placeholders::_1, std::placeholders::_2));
     }
@@ -227,12 +227,12 @@ TimerBoxPreferencesPanel::on_timer_display_changed(int break_id, const std::stri
           break;
         }
 
-      GUIConfig::timerbox_flags(name, break_id).set(flags);
+      GUIConfig::timerbox_flags(name, BreakId(break_id)).set(flags);
       enable_buttons();
     }
   else
     {
-      int flags = GUIConfig::timerbox_flags(name, break_id)();
+      int flags = GUIConfig::timerbox_flags(name, BreakId(break_id))();
       int showhide = 0;
       if (flags & GUIConfig::BREAK_HIDE)
         {
@@ -287,7 +287,7 @@ TimerBoxPreferencesPanel::on_place_changed()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      GUIConfig::timerbox_slot(name, i).set(slot[i]);
+      GUIConfig::timerbox_slot(name, BreakId(i)).set(slot[i]);
     }
 }
 
