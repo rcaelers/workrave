@@ -28,7 +28,7 @@ public:
   explicit MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
 
   void init(const char *display) override;
-  workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability) override;
+  workrave::input_monitor::IInputMonitor::Ptr create_monitor(workrave::input_monitor::MonitorCapability capability) override;
 
 private:
   workrave::input_monitor::IInputMonitor::Ptr monitor;
