@@ -20,8 +20,7 @@
 #ifndef APPLET_H
 #define APPLET_H
 
-#include "core/ICore.hh"
-using namespace workrave;
+#include "core/CoreTypes.hh"
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
 #define APPLET_BAR_TEXT_MAX_LENGTH 16
@@ -44,17 +43,17 @@ Workrave (x86) and the applet (x86 & x64).
 struct AppletHeartbeatData
 {
   volatile bool enabled;
-  short slots[BREAK_ID_SIZEOF];
+  short slots[workrave::BREAK_ID_SIZEOF];
 
-  char bar_text[BREAK_ID_SIZEOF][APPLET_BAR_TEXT_MAX_LENGTH];
+  char bar_text[workrave::BREAK_ID_SIZEOF][APPLET_BAR_TEXT_MAX_LENGTH];
 
-  short bar_secondary_color[BREAK_ID_SIZEOF];
-  int bar_secondary_val[BREAK_ID_SIZEOF];
-  int bar_secondary_max[BREAK_ID_SIZEOF];
+  short bar_secondary_color[workrave::BREAK_ID_SIZEOF];
+  int bar_secondary_val[workrave::BREAK_ID_SIZEOF];
+  int bar_secondary_max[workrave::BREAK_ID_SIZEOF];
 
-  short bar_primary_color[BREAK_ID_SIZEOF];
-  int bar_primary_val[BREAK_ID_SIZEOF];
-  int bar_primary_max[BREAK_ID_SIZEOF];
+  short bar_primary_color[workrave::BREAK_ID_SIZEOF];
+  int bar_primary_val[workrave::BREAK_ID_SIZEOF];
+  int bar_primary_max[workrave::BREAK_ID_SIZEOF];
 };
 
 #define APPLET_MAX_MENU_ITEMS 16

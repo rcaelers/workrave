@@ -27,7 +27,6 @@
 #pragma data_seg(".text")
 #define INITGUID
 #include <initguid.h>
-#include <shlguid.h>
 #include "Guid.h"
 
 #include "Debug.h"
