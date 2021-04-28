@@ -215,6 +215,7 @@
     <None Include="Applet.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Applet.hh" />
     <ClInclude Include="ClsFact.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DeskBand.h" />
