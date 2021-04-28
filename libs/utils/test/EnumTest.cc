@@ -33,7 +33,9 @@
 #include <boost/range/adaptor/reversed.hpp>
 
 #include "debug.hh"
+
 #include "utils/Enum.hh"
+#include "utils/EnumIterator.hh"
 
 struct Fixture
 {
