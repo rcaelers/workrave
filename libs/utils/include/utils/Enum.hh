@@ -21,9 +21,6 @@
 #include <type_traits>
 #include <utility>
 #include <array>
-#include <boost/iterator/iterator_categories.hpp>
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/range/iterator_range.hpp>
 
 #include <iostream>
 
@@ -101,127 +98,6 @@ namespace workrave::utils
   constexpr auto enum_in_range(Enum e) noexcept
   {
     return (underlying_cast(e) >= enum_min_value<Enum>()) && (underlying_cast(e) <= enum_max_value<Enum>());
-  }
-
-  template<typename Enum>
-  class enum_iterator : public boost::iterator_facade<enum_iterator<Enum>, Enum, boost::random_access_traversal_tag, Enum>
-  {
-    static_assert(enum_has_min_v<Enum> && enum_has_max_v<Enum>, "Enum must have enum_traits with min and max");
-
-  public:
-    constexpr enum_iterator()
-      : index{enum_max_value<Enum>() + 1}
-    {
-    }
-
-    constexpr explicit enum_iterator(std::underlying_type_t<Enum> value)
-      : index{value}
-    {
-    }
-
-  private:
-    void advance(std::ptrdiff_t n)
-    {
-      index += n;
-    }
-
-    void decrement()
-    {
-      --index;
-    }
-
-    void increment()
-    {
-      ++index;
-    }
-
-    std::ptrdiff_t distance_to(const enum_iterator &other) const
-    {
-      return other.index - index;
-    }
-
-    bool equal(const enum_iterator &other) const
-    {
-      return other.index == index;
-    }
-
-    Enum dereference() const
-    {
-      return static_cast<Enum>(index);
-    }
-
-    friend class boost::iterator_core_access;
-
-  private:
-    std::underlying_type_t<Enum> index;
-  };
-
-  template<typename Enum>
-  class enum_value_iterator
-    : public boost::
-        iterator_facade<enum_value_iterator<Enum>, Enum, boost::random_access_traversal_tag, std::underlying_type_t<Enum>>
-  {
-    static_assert(enum_has_min_v<Enum> && enum_has_max_v<Enum>, "Enum must have enum_traits with min and max");
-
-  public:
-    constexpr enum_value_iterator()
-      : index{enum_max_value<Enum>() + 1}
-    {
-    }
-
-    constexpr explicit enum_value_iterator(std::underlying_type_t<Enum> value)
-      : index{value}
-    {
-    }
-
-  private:
-    void advance(std::ptrdiff_t n)
-    {
-      index += n;
-    }
-
-    void decrement()
-    {
-      --index;
-    }
-
-    void increment()
-    {
-      ++index;
-    }
-
-    std::ptrdiff_t distance_to(const enum_value_iterator &other) const
-    {
-      return other.index - index;
-    }
-
-    bool equal(const enum_value_iterator &other) const
-    {
-      return other.index == index;
-    }
-
-    std::underlying_type_t<Enum> dereference() const
-    {
-      return index;
-    }
-
-    friend class boost::iterator_core_access;
-
-  private:
-    std::underlying_type_t<Enum> index;
-  };
-
-  template<typename Enum>
-  constexpr auto enum_range() noexcept
-  {
-    return boost::make_iterator_range(enum_iterator<Enum>{enum_min_value<Enum>()}, enum_iterator<Enum>{enum_max_value<Enum>() + 1});
-  }
-
-  template<typename Enum>
-  constexpr auto enum_value_range() noexcept
-  {
-    return boost::make_iterator_range(enum_value_iterator<Enum>{enum_min_value<Enum>()},
-                                      enum_value_iterator<Enum>{enum_max_value<Enum>() + 1});
   }
 
   template<typename Enum, class T, std::size_t N = workrave::utils::enum_count<Enum>()>
