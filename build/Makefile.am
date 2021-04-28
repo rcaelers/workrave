@@ -54,13 +54,4 @@ EXTRA_DIST =	ci/build-mingw.sh \
 		newsgen/templates/debian-changelog.tmpl \
 		newsgen/generator.js \
 		newsgen/.eslintrc.json \
-		newsgen/markdown.js \
-		travis/ppa.sh \
-		travis/build-mingw.sh \
-		travis/mingw-make-runtime.sh \
-		travis/build.sh \
-		travis/catalog.sh \
-		travis/config.sh \
-		travis/mingw-env \
-		travis/deploy-upload.sh \
-		travis/build-linux.sh
+		newsgen/markdown.js
