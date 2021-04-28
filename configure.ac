@@ -5,7 +5,7 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [10])
-m4_define([workrave_micro_version], [45])
+m4_define([workrave_micro_version], [46])
 m4_define([workrave_version_suffix], [])
 m4_define([workrave_version],
           workrave_major_version.workrave_minor_version.workrave_micro_version[]m4_ifset([workrave_version_suffix],-[workrave_version_suffix]))
@@ -746,7 +746,7 @@ then
    PKG_CHECK_MODULES([LIBXFCE4PANEL],
                     [libxfce4panel-2.0 >= 4.12],
                     [config_xfce=yes
-                    config_xfce_gtk_version=3
+                     config_xfce_gtk_version=3
                      AC_DEFINE(HAVE_XFCE4, 1, [Support for xfce applet])
                      AC_DEFINE(HAVE_XFCE4_GTK3, 1, [Support for xfce applet])
                      XFCE4LIBDIR=`$PKG_CONFIG ${pkg_config_prefix} --variable=libdir libxfce4panel-2.0`
@@ -767,6 +767,8 @@ then
                           fi])
    fi
 fi
+
+AC_SUBST(XFCE4LIBDIR)
 
 AC_SUBST(XFCE4LIBDIR)
 

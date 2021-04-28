@@ -24,8 +24,8 @@
 
 static void workrave_timebar_class_init(WorkraveTimebarClass *klass);
 static void workrave_timebar_init(WorkraveTimebar *self);
+static void workrave_timebar_prepare(WorkraveTimebar *self);
 
-static void workrave_timebar_init_ui(WorkraveTimebar *self, cairo_t *c);
 static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
 static void workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int height);
 static void workrave_timebar_compute_bar_dimensions(WorkraveTimebar *self, int *bar_width, int *sbar_width, int *bar_height);
@@ -128,6 +128,8 @@ workrave_timebar_init(WorkraveTimebar *self)
   priv->height = 0;
   priv->pango_context = NULL;
   priv->pango_layout = NULL;
+
+  workrave_timebar_prepare(self);
 }
 
 void
@@ -264,13 +266,16 @@ workrave_timebar_get_font(void)
 }
 
 static void
-workrave_timebar_init_ui(WorkraveTimebar *self, cairo_t *cr)
+workrave_timebar_prepare(WorkraveTimebar *self)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
   if (priv->pango_layout == NULL)
     {
       PangoFontDescription *font_desc = workrave_timebar_get_font();
+
+      cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 10, 10);
+      cairo_t *cr = cairo_create(surface);
 
       priv->pango_layout = pango_cairo_create_layout(cr);
       priv->pango_context = pango_layout_get_context(priv->pango_layout);
@@ -283,6 +288,9 @@ workrave_timebar_init_ui(WorkraveTimebar *self, cairo_t *cr)
 
       priv->width = MAX(priv->width + 2 * MARGINX, MIN_HORIZONTAL_BAR_WIDTH);
       priv->height = MAX(priv->height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
+
+      cairo_surface_destroy(surface);
+      cairo_destroy(cr);
     }
 }
 
@@ -375,8 +383,6 @@ workrave_timebar_set_text(WorkraveTimebar *self, const gchar *text)
 void
 workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr)
 {
-  workrave_timebar_init_ui(self, cr);
-
   workrave_timebar_draw_bar(self, cr);
   workrave_timebar_draw_text(self, cr);
 }

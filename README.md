@@ -4,11 +4,11 @@
 
 # Workrave 1.10
 
-Please visit http://www.workrave.org for more information.
+Please visit https://workrave.org for more information.
 
 ## Install
 
-- Windows: download from http://www.workrave.org/download
+- Windows: download from https://workrave.org/download
 - Ubuntu: install with the "Ubuntu Software" application. (Note: not working with wayland on Ubuntu 17.10)
 - Ubuntu (and derivatives) Linux latest version:  
   Add this PPA to your Software Sources  
@@ -18,11 +18,9 @@ Please visit http://www.workrave.org for more information.
   sudo add-apt-repository ppa:rob-caelers/workrave  
   sudo apt-get update
   ```
-- Arch Linux: use `sudo pacman -S workrave` to install from the community repository
-- FreeBSD:
-  ```
-  pkg install workrave
-  ```
+- Arch Linux users: use `sudo pacman -S workrave` to install from the community repository
+- Ubuntu and Debian users: `sudo apt-get install workrave`
+- FreeBSD users: `pkg install workrave`
 
 
 ## Build
