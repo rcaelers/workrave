@@ -41,7 +41,10 @@ public:
 
   ~ScreenLockDBus() override = default;
 
-  bool is_lock_supported() override { return proxy.is_valid(); };
+  bool is_lock_supported() override
+  {
+    return proxy.is_valid();
+  };
   bool lock() override;
 
 private:

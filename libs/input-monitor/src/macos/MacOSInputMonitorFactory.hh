@@ -18,9 +18,6 @@
 #ifndef MACOSINPUTMONITORFACTORY_HH
 #define MACOSINPUTMONITORFACTORY_HH
 
-#include <cstdlib>
-#include <string>
-
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorFactory.hh"
 #include "config/IConfigurator.hh"
@@ -29,6 +26,7 @@ class MacOSInputMonitorFactory : public workrave::input_monitor::IInputMonitorFa
 {
 public:
   explicit MacOSInputMonitorFactory(workrave::config::IConfigurator::Ptr config);
+
   void init(const char *display) override;
   workrave::input_monitor::IInputMonitor::Ptr create_monitor(MonitorCapability capability) override;
 

@@ -22,7 +22,8 @@ DIST_DIRS=`find /workspace/deploy -mindepth 1 -type d -print`
 for dir in $DIST_DIRS; do
     dist=`basename $dir`
     cd $dir
-    echo Running build for $dist
+    echo Updating $dist builder
     DIST=$dist cowbuilder --update
+    echo Running build for $dist
     DIST=$dist cowbuilder --build workrave*.dsc
 done

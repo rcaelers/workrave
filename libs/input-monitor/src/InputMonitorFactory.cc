@@ -1,5 +1,3 @@
-// InputMonitorFactory.cc
-//
 // Copyright (C) 2003, 2004, 2005, 2007, 2012, 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
@@ -56,7 +54,7 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
 }
 
 IInputMonitor::Ptr
-InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
+InputMonitorFactory::create_monitor(MonitorCapability capability)
 {
   if (factory != nullptr)
     {

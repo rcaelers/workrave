@@ -41,9 +41,13 @@ using namespace std;
 
 static std::string sound_filename;
 
-W32SoundPlayer::W32SoundPlayer() {}
+W32SoundPlayer::W32SoundPlayer()
+{
+}
 
-W32SoundPlayer::~W32SoundPlayer() {}
+W32SoundPlayer::~W32SoundPlayer()
+{
+}
 
 bool
 W32SoundPlayer::capability(workrave::audio::SoundCapability cap)
@@ -62,7 +66,7 @@ redistribute under GNU terms.
 */
 
 void
-W32SoundPlayer::play_sound(string wavfile, int volume)
+W32SoundPlayer::play_sound(std::string wavfile, int volume)
 {
   TRACE_ENTER_MSG("W32SoundPlayer::play_sound", wavfile);
 
@@ -278,7 +282,7 @@ W32SoundPlayer::close(void)
 }
 
 void
-W32SoundPlayer::load_wav_file(const string &filename)
+W32SoundPlayer::load_wav_file(const std::string &filename)
 {
   MMRESULT res;
 

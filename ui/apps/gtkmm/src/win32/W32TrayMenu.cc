@@ -50,7 +50,9 @@ W32TrayMenu::W32TrayMenu()
 }
 
 //! Destructor.
-W32TrayMenu::~W32TrayMenu() {}
+W32TrayMenu::~W32TrayMenu()
+{
+}
 
 void
 W32TrayMenu::post_init()

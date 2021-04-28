@@ -53,7 +53,9 @@ ToolkitPlatformMac::ToolkitPlatformMac()
   pimpl = std::make_unique<Pimpl>();
 }
 
-ToolkitPlatformMac::~ToolkitPlatformMac() {}
+ToolkitPlatformMac::~ToolkitPlatformMac()
+{
+}
 
 QPixmap
 ToolkitPlatformMac::get_desktop_image()

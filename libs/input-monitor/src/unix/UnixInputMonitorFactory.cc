@@ -1,5 +1,3 @@
-// UnixInputMonitorFactory.cc -- Factory to create input monitors
-//
 // Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -43,6 +41,7 @@ using namespace workrave::input_monitor;
 
 UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
   : error_reported(false)
+  , actual_monitor_method{"monitor.method", ""}
   , config(config)
 {
   monitor = nullptr;
@@ -56,7 +55,7 @@ UnixInputMonitorFactory::init(const char *display)
 
 //! Retrieves the input activity monitor
 IInputMonitor::Ptr
-UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
+UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
 {
   TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
   (void)capability;
@@ -87,25 +86,26 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
           TRACE_MSG("Start first available");
         }
 
+      string monitor_method;
       auto loop = start;
       while (true)
         {
-          actual_monitor_method = *loop;
-          TRACE_MSG("Test " << actual_monitor_method);
+          monitor_method = *loop;
+          TRACE_MSG("Test " << monitor_method);
 
-          if (actual_monitor_method == "record")
+          if (monitor_method == "record")
             {
               monitor = IInputMonitor::Ptr(new RecordInputMonitor(display));
             }
-          else if (actual_monitor_method == "screensaver")
+          else if (monitor_method == "screensaver")
             {
               monitor = IInputMonitor::Ptr(new XScreenSaverMonitor());
             }
-          else if (actual_monitor_method == "x11events")
+          else if (monitor_method == "x11events")
             {
               monitor = IInputMonitor::Ptr(new X11InputMonitor(display));
             }
-          else if (actual_monitor_method == "mutter")
+          else if (monitor_method == "mutter")
             {
               monitor = IInputMonitor::Ptr(new MutterInputMonitor());
             }
@@ -146,7 +146,7 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
           config->set_value("advanced/monitor", "default");
           config->save();
 
-          actual_monitor_method = "";
+          monitor_method = "";
         }
       else
         {
@@ -156,10 +156,22 @@ UnixInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability 
               config->save();
             }
 
-          TRACE_MSG("using " << actual_monitor_method);
+          TRACE_MSG("using " << monitor_method);
         }
+      actual_monitor_method = monitor_method;
     }
 
   TRACE_EXIT();
   return monitor;
 }
+
+// gboolean
+// UnixInputMonitorFactory::static_report_failure(void *data)
+// {
+//   (void)data;
+
+//   ICore *core = CoreFactory::get_core();
+//   core->post_event(CORE_EVENT_MONITOR_FAILURE);
+
+//   return FALSE;
+// }

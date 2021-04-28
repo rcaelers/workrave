@@ -1,4 +1,5 @@
 add_library(workrave-libs-utils STATIC
+  Diagnostics.cc
   TimeSource.cc
   AssetPath.cc
   debug.cc)

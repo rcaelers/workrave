@@ -49,8 +49,14 @@ public:
   void refresh() override;
 
 protected:
-  BreakFlags get_break_flags() const { return break_flags; }
-  QScreen *get_screen() { return screen; }
+  BreakFlags get_break_flags() const
+  {
+    return break_flags;
+  }
+  QScreen *get_screen()
+  {
+    return screen;
+  }
   void center();
 
   void add_skip_button(QGridLayout *box, bool locked);

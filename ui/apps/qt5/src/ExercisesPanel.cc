@@ -129,7 +129,9 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, bool standalone)
   setLayout(box);
 }
 
-ExercisesPanel::~ExercisesPanel() {}
+ExercisesPanel::~ExercisesPanel()
+{
+}
 
 void
 ExercisesPanel::reset()

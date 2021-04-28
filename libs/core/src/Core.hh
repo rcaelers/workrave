@@ -50,7 +50,7 @@ public:
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() override;
   void init(workrave::IApp *application, const char *display_name) override;
   void heartbeat() override;
-  void force_break(workrave::BreakId id, workrave::BreakHint break_hint) override;
+  void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
   workrave::IBreak::Ptr get_break(workrave::BreakId id) override;
   workrave::IStatistics::Ptr get_statistics() const override;
   workrave::config::IConfigurator::Ptr get_configurator() const override;

@@ -1,5 +1,3 @@
-// XScreenSaverMonitor.hh --- ActivityMonitor for X11
-//
 // Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -19,8 +17,6 @@
 
 #ifndef XSCREENSAVERMONITOR_HH
 #define XSCREENSAVERMONITOR_HH
-
-#include <string>
 
 #include <thread>
 #include <mutex>

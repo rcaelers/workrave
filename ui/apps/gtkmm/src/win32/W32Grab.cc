@@ -109,7 +109,9 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
   return (handled ? TRUE : CallNextHookEx(self->hook, nCode, wParam, lParam));
 }
 
-W32Grab::W32Grab() {}
+W32Grab::W32Grab()
+{
+}
 
 bool
 W32Grab::can_grab()

@@ -19,9 +19,7 @@
 #define MACOSINPUTMONITOR_HH
 
 #include <thread>
-
-// #include <CoreFoundation/CoreFoundation.h>
-// #include <IOKit/IOKitLib.h>
+#include <memory>
 
 #include "InputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"

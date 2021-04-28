@@ -177,7 +177,7 @@ Break::daily_reset()
 }
 
 void
-Break::force_start_break(BreakHint break_hint)
+Break::force_start_break(workrave::utils::Flags<BreakHint> break_hint)
 {
   break_state_model->force_start_break(break_hint);
 }

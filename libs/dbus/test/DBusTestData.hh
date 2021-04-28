@@ -88,7 +88,10 @@ public:
     {
     }
 
-    bool operator==(const Data &other) const { return m_key == other.m_key && m_data == other.m_data; }
+    bool operator==(const Data &other) const
+    {
+      return m_key == other.m_key && m_data == other.m_data;
+    }
 
     int m_key;
     int m_data;

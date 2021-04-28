@@ -17,7 +17,9 @@ namespace workrave
       {
       }
 
-      virtual ~Object() {}
+      virtual ~Object()
+      {
+      }
 
     protected:
       void ref()

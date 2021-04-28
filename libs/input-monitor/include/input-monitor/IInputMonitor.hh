@@ -1,5 +1,3 @@
-// IInputMonitor.hh --- Interface definition for the Input monitors.
-//
 // Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -26,7 +24,6 @@ namespace workrave
 {
   namespace input_monitor
   {
-    // Forward declarion of internal interfaces.
     class IInputMonitorListener;
 
     //! Interface that all input monitors must support.

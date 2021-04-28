@@ -27,9 +27,18 @@
 class W32CriticalSection : public CRITICAL_SECTION
 {
 public:
-  W32CriticalSection() { InitializeCriticalSection(this); }
-  W32CriticalSection(DWORD dwSpinCount) { InitializeCriticalSectionAndSpinCount(this, dwSpinCount); }
-  ~W32CriticalSection() { DeleteCriticalSection(this); }
+  W32CriticalSection()
+  {
+    InitializeCriticalSection(this);
+  }
+  W32CriticalSection(DWORD dwSpinCount)
+  {
+    InitializeCriticalSectionAndSpinCount(this, dwSpinCount);
+  }
+  ~W32CriticalSection()
+  {
+    DeleteCriticalSection(this);
+  }
 
   class Guard
   {
@@ -39,7 +48,10 @@ public:
     {
       EnterCriticalSection(&critsec_);
     }
-    ~Guard() { LeaveCriticalSection(&critsec_); }
+    ~Guard()
+    {
+      LeaveCriticalSection(&critsec_);
+    }
 
   private:
     W32CriticalSection &critsec_;

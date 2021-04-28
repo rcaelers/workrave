@@ -1,5 +1,3 @@
-// Harpoon.cc --- ActivityMonitor for W32
-//
 // Copyright (C) 2007, 2010, 2013 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
 // Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
@@ -40,7 +38,6 @@
 #include "HarpoonHelper.h"
 
 #include "utils/Platform.hh"
-
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::utils;
@@ -49,8 +46,6 @@ using namespace std;
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 HWND Harpoon::helper_window = NULL;
 bool Harpoon::helper_started = false;
-
-Harpoon::Harpoon() {}
 
 Harpoon::~Harpoon()
 {

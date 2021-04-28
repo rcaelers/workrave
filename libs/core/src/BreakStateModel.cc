@@ -54,7 +54,7 @@ BreakStateModel::BreakStateModel(BreakId id,
   , fake_break_count(0)
   , user_abort(false)
   , delayed_abort(false)
-  , break_hint(BREAK_HINT_NONE)
+  , break_hint(BreakHint::Normal)
 {
 }
 
@@ -159,7 +159,7 @@ BreakStateModel::start_break()
 {
   TRACE_ENTER_MSG("BreakStateModel::start_break", break_id);
 
-  break_hint = BREAK_HINT_NONE;
+  break_hint = BreakHint::Normal;
   forced_break = false;
   fake_break = false;
   prelude_time = 0;
@@ -180,12 +180,12 @@ BreakStateModel::start_break()
 
 //! Starts the break without preludes.
 void
-BreakStateModel::force_start_break(BreakHint hint)
+BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
 {
   TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id);
 
   break_hint = hint;
-  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK)) != 0;
+  forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -268,7 +268,7 @@ BreakStateModel::stop_break()
 {
   TRACE_ENTER("BreakStateModel::stop_break");
 
-  break_hint = BREAK_HINT_NONE;
+  break_hint = BreakHint::Normal;
   goto_stage(BreakStage::None);
   prelude_count = 0;
   fake_break = false;

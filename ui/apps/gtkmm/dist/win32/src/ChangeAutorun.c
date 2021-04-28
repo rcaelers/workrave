@@ -209,7 +209,7 @@ show_message(const int line, const char *function, const TCHAR *message, const T
   if (!buffer)
     return;
 
-  length_buffer =
+  length_buffer = 
 		_sntprintf(
 			buffer,
 			max_length_buffer,

@@ -41,7 +41,7 @@ TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       slot_to_time_bar[i] = new TimeBar(parent, hinst, deskband);
-      break_to_icon[i]    = NULL;
+      break_to_icon[i] = NULL;
 
       break_visible[i] = false;
       slot_to_break[i] = BREAK_ID_NONE;
@@ -138,7 +138,7 @@ TimerBox::update(bool repaint)
   TRACE_EXIT();
 }
 
-void 
+void
 TimerBox::update_dpi()
 {
   init_icons();

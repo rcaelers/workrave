@@ -51,7 +51,7 @@ public:
   void heartbeat();
   void save_state() const;
 
-  void force_break(workrave::BreakId id, workrave::BreakHint break_hint);
+  void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint);
 
   workrave::IBreak::Ptr get_break(workrave::BreakId id);
 

@@ -1,5 +1,3 @@
-// RecordInputMonitor.hh --- ActivityMonitor for X11
-//
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -21,7 +19,6 @@
 #define RECORDINPUTMONITOR_HH
 
 #include <thread>
-
 #include <string>
 
 #include <X11/X.h>

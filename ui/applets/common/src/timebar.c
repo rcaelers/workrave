@@ -1,7 +1,7 @@
 /*
  * workrave-timebar.c
  *
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -317,6 +317,7 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int h
 static void
 workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height)
 {
+  (void)self;
   cairo_rectangle(cr, x, y, width, height);
   cairo_fill(cr);
 }

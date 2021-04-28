@@ -19,6 +19,7 @@
 #define WORKRAVE_BACKEND_CORETYPES_HH
 
 #include <iostream>
+#include "utils/Enum.hh"
 
 namespace workrave
 {
@@ -33,6 +34,14 @@ namespace workrave
 
     /* Breaks are not reported to the user when due. */
     Quiet,
+  };
+
+  template<>
+  struct workrave::utils::enum_traits<OperationMode>
+  {
+    static constexpr auto min = OperationMode::Normal;
+    static constexpr auto max = OperationMode::Quiet;
+    static constexpr auto linear = true;
   };
 
   inline std::ostream &operator<<(std::ostream &stream, OperationMode mode)
@@ -61,6 +70,14 @@ namespace workrave
     Reading,
   };
 
+  template<>
+  struct workrave::utils::enum_traits<UsageMode>
+  {
+    static constexpr auto min = UsageMode::Normal;
+    static constexpr auto max = UsageMode::Reading;
+    static constexpr auto linear = true;
+  };
+
   inline std::ostream &operator<<(std::ostream &stream, UsageMode mode)
   {
     switch (mode)
@@ -75,24 +92,80 @@ namespace workrave
     return stream;
   }
 
-  using BreakId = int;
-
-  const int BREAK_ID_NONE = -1;
-  const int BREAK_ID_MICRO_BREAK = 0;
-  const int BREAK_ID_REST_BREAK = 1;
-  const int BREAK_ID_DAILY_LIMIT = 2;
-  const int BREAK_ID_SIZEOF = 3;
-
-  enum BreakHint
+  enum BreakId
   {
-    BREAK_HINT_NONE = 0,
+    BREAK_ID_NONE = -1,
+    BREAK_ID_MICRO_BREAK = 0,
+    BREAK_ID_REST_BREAK = 1,
+    BREAK_ID_DAILY_LIMIT = 2,
+  };
+
+  template<>
+  struct workrave::utils::enum_traits<BreakId>
+  {
+    static constexpr auto min = BREAK_ID_MICRO_BREAK;
+    static constexpr auto max = BREAK_ID_DAILY_LIMIT;
+    static constexpr auto linear = true;
+  };
+
+  static constexpr auto BREAK_ID_SIZEOF = workrave::utils::enum_count<BreakId>();
+
+  inline std::ostream &operator<<(std::ostream &stream, BreakId id)
+  {
+    switch (id)
+      {
+      case BREAK_ID_NONE:
+        stream << "none";
+        break;
+      case BREAK_ID_MICRO_BREAK:
+        stream << "microbreak";
+        break;
+      case BREAK_ID_REST_BREAK:
+        stream << "restbreak";
+        break;
+      case BREAK_ID_DAILY_LIMIT:
+        stream << "dailylimit";
+        break;
+      }
+    return stream;
+  }
+
+  std::string operator%(const std::string &key, BreakId id);
+
+  enum class BreakHint
+  {
+    Normal = 0,
 
     // Break was started on user request
-    BREAK_HINT_USER_INITIATED = 1,
+    UserInitiated = 1,
 
     // Natural break.
-    BREAK_HINT_NATURAL_BREAK = 2
+    NaturalBreak = 2
   };
+
+  template<>
+  struct workrave::utils::enum_traits<BreakHint>
+  {
+    static constexpr auto flag = true;
+    static constexpr auto bits = 2;
+  };
+
+  inline std::ostream &operator<<(std::ostream &stream, BreakHint hint)
+  {
+    switch (hint)
+      {
+      case BreakHint::Normal:
+        stream << "none";
+        break;
+      case BreakHint::UserInitiated:
+        stream << "microbreak";
+        break;
+      case BreakHint::NaturalBreak:
+        stream << "restbreak";
+        break;
+      }
+    return stream;
+  }
 
   //! The way a break is insisted.
   enum class InsistPolicy

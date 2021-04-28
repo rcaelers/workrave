@@ -40,7 +40,9 @@ ToolkitPlatformWindows::ToolkitPlatformWindows()
   pimpl = std::make_unique<Pimpl>();
 }
 
-ToolkitPlatformWindows::~ToolkitPlatformWindows() {}
+ToolkitPlatformWindows::~ToolkitPlatformWindows()
+{
+}
 
 QPixmap
 ToolkitPlatformWindows::get_desktop_image()

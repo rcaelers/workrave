@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef COREFACTORY_HH
-#define COREFACTORY_HH
+#ifndef BACKEND_HH
+#define BACKEND_HH
 
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
@@ -41,4 +41,4 @@ public:
   static workrave::ICore::Ptr core;
 };
 
-#endif // COREFACTORY_HH
+#endif // BACKEND_HH

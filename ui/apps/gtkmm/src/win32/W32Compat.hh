@@ -41,13 +41,13 @@ class BreakWindow;
 class W32Compat
 {
 public:
-  static BOOLEAN
-  WinStationQueryInformationW(HANDLE hServer,                 // use WTS_CURRENT_SERVER_HANDLE
-                              ULONG LogonId,                  // use WTS_CURRENT_SESSION
-                              INT WinStationInformationClass, // http://msdn.microsoft.com/en-us/library/cc248834.aspx
-                              PVOID pWinStationInformation,
-                              ULONG WinStationInformationLength,
-                              PULONG pReturnLength);
+  static BOOLEAN WinStationQueryInformationW(
+    HANDLE hServer,                 // use WTS_CURRENT_SERVER_HANDLE
+    ULONG LogonId,                  // use WTS_CURRENT_SESSION
+    INT WinStationInformationClass, // http://msdn.microsoft.com/en-us/library/cc248834.aspx
+    PVOID pWinStationInformation,
+    ULONG WinStationInformationLength,
+    PULONG pReturnLength);
   static VOID SwitchToThisWindow(HWND, BOOL);
   static void SetWindowOnTop(HWND, BOOL);
   static void ResetWindow(HWND, bool);

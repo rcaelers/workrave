@@ -77,7 +77,10 @@ public:
 private:
   struct MonitoredWidget
   {
-    MonitoredWidget() { connection = NULL; }
+    MonitoredWidget()
+    {
+      connection = NULL;
+    }
 
     DataConnection *connection;
   };
@@ -116,7 +119,9 @@ protected:
       : widget(widget)                                  \
     {                                                   \
     }                                                   \
-    virtual ~WrapperType() {}                           \
+    virtual ~WrapperType()                              \
+    {                                                   \
+    }                                                   \
                                                         \
     void init();                                        \
     void widget_changed_notify();                       \
@@ -131,10 +136,13 @@ protected:
     WrapperType *wrap(WidgetType t);                    \
   }
 
-#define DEFINE_DATA_TYPE(WidgetType, WrapperType)                  \
-  namespace dc                                                     \
-  {                                                                \
-    WrapperType *wrap(WidgetType t) { return new WrapperType(t); } \
+#define DEFINE_DATA_TYPE(WidgetType, WrapperType) \
+  namespace dc                                    \
+  {                                               \
+    WrapperType *wrap(WidgetType t)               \
+    {                                             \
+      return new WrapperType(t);                  \
+    }                                             \
   }
 
 #define DEFINE_DATA_TYPE_PTR(WidgetType, WrapperType) \

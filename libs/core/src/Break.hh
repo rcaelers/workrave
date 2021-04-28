@@ -68,7 +68,7 @@ public:
   void process();
   void start_break();
   void stop_break();
-  void force_start_break(workrave::BreakHint break_hint);
+  void force_start_break(workrave::utils::Flags<workrave::BreakHint> break_hint);
   void override(workrave::BreakId id);
   void daily_reset();
   [[nodiscard]] bool is_microbreak_used_for_activity() const;

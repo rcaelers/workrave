@@ -19,10 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <string>
-
-#include "debug.hh"
-
 #include "MacOSInputMonitorFactory.hh"
 #include "MacOSInputMonitor.hh"
 
@@ -41,13 +37,13 @@ MacOSInputMonitorFactory::init(const char *display)
 }
 
 IInputMonitor::Ptr
-MacOSInputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
+MacOSInputMonitorFactory::create_monitor(MonitorCapability capability)
 {
   (void)capability;
 
   if (monitor == nullptr)
     {
-      monitor = IInputMonitor::Ptr(new MacOSInputMonitor());
+      monitor = std::make_shared<MacOSInputMonitor>();
 
       bool init_ok = monitor->init();
       if (!init_ok)

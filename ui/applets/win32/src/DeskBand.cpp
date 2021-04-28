@@ -31,7 +31,7 @@
 #include "PaintHelper.h"
 
 #if !defined(WM_DPICHANGED)
-#define WM_DPICHANGED 0x02E0
+#  define WM_DPICHANGED 0x02E0
 #endif
 
 CDeskBand::CDeskBand()
@@ -595,7 +595,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_DPICHANGED:
-        pThis->OnDPIChanged();
+      pThis->OnDPIChanged();
     }
 
   if (uMessage != WM_ERASEBKGND)

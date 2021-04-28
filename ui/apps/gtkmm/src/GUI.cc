@@ -154,7 +154,7 @@ GUI::~GUI()
 void
 GUI::restbreak_now()
 {
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
 }
 
 //! The main entry point.
@@ -175,7 +175,7 @@ GUI::main()
   app->set_option_group(*option_group)
 #endif
 
-  init_core();
+    init_core();
   init_nls();
   init_debug();
   init_sound_player();
@@ -923,7 +923,7 @@ GUI::create_prelude_window(BreakId break_id)
 }
 
 void
-GUI::create_break_window(BreakId break_id, BreakHint break_hint)
+GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint)
 {
   TRACE_ENTER_MSG("GUI::create_break_window", break_id << " " << break_hint);
   hide_break_window();
@@ -933,7 +933,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
   bool ignorable = GUIConfig::break_ignorable(break_id)();
   bool skippable = GUIConfig::break_skippable(break_id)();
 
-  if (break_hint & BREAK_HINT_USER_INITIATED)
+  if (break_hint & BreakHint::UserInitiated)
     {
       break_flags = (BreakWindow::BREAK_FLAGS_POSTPONABLE | BreakWindow::BREAK_FLAGS_USER_INITIATED);
 
@@ -955,7 +955,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
         }
     }
 
-  if (break_hint & BREAK_HINT_NATURAL_BREAK)
+  if (break_hint & BreakHint::NaturalBreak)
     {
       break_flags |=
         (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL | BreakWindow::BREAK_FLAGS_POSTPONABLE);

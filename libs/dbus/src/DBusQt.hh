@@ -58,7 +58,10 @@ namespace workrave
       void unwatch(const std::string &name) override;
 
       //! IDBusPrivateQt
-      QDBusConnection get_connection() override { return connection; }
+      QDBusConnection get_connection() override
+      {
+        return connection;
+      }
 
       // QDBusVirtualObject
       QString introspect(const QString &path) const override;

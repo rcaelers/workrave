@@ -1,5 +1,3 @@
-// InputMonitorFactory.hh --- Factory to create input monitors.
-//
 // Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -20,25 +18,22 @@
 #ifndef WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
 #define WORKRAVE_INPUT_MONITOR_IINPUTMONITORFACTORY_HH
 
-#include <cstdlib>
-#include <string>
-
 #include "IInputMonitor.hh"
 
 namespace workrave
 {
   namespace input_monitor
   {
+    enum class MonitorCapability
+    {
+      Activity,
+      Statistics
+    };
+
     //! Factory to create input monitors.
     class IInputMonitorFactory
     {
     public:
-      enum MonitorCapability
-      {
-        CAPABILITY_ACTIVITY,
-        CAPABILITY_STATISTICS
-      };
-
       virtual ~IInputMonitorFactory() = default;
 
       virtual void init(const char *display) = 0;

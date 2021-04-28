@@ -1,5 +1,3 @@
-// X11InputMonitor.hh --- ActivityMonitor for X11
-//
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

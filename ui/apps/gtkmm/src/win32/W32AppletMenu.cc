@@ -44,7 +44,9 @@ W32AppletMenu::W32AppletMenu(W32AppletWindow *applet_window)
 }
 
 //! Destructor.
-W32AppletMenu::~W32AppletMenu() {}
+W32AppletMenu::~W32AppletMenu()
+{
+}
 
 void
 W32AppletMenu::resync(OperationMode mode, UsageMode usage)

@@ -521,7 +521,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
-          IBreak::Ptr b = core->get_break(id);
+          IBreak::Ptr b = core->get_break(static_cast<BreakId>(id));
 
           bool overdue = b->get_elapsed_time() > b->get_limit();
 

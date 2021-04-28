@@ -52,7 +52,7 @@ public:
 
   // IApp methods
   void create_prelude_window(workrave::BreakId break_id) override;
-  void create_break_window(workrave::BreakId break_id, workrave::BreakHint break_hint) override;
+  void create_break_window(workrave::BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) override;
   void hide_break_window() override;
   void show_break_window() override;
   void refresh_break_window() override;

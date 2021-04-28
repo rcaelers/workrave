@@ -24,9 +24,10 @@
 #include "config/IConfigurator.hh"
 
 #include "core/IBreak.hh"
+#include "core/CoreTypes.hh"
+
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
-#include "core/CoreTypes.hh"
 #include "CoreHooks.hh"
 
 // Forward declarion of external interface.
@@ -62,7 +63,7 @@ public:
   void process();
 
   void start_break();
-  void force_start_break(workrave::BreakHint break_hint);
+  void force_start_break(workrave::utils::Flags<workrave::BreakHint> break_hint);
   void postpone_break();
   void skip_break();
   void stop_break();
@@ -136,7 +137,7 @@ private:
   bool delayed_abort;
 
   //! Break hint if break has been started.
-  workrave::BreakHint break_hint;
+  workrave::utils::Flags<workrave::BreakHint> break_hint;
 
   //! Break enabled?
   bool enabled;

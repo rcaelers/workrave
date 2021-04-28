@@ -29,11 +29,19 @@ class TimerBoxViewBase : public ITimerBoxView
 public:
   ~TimerBoxViewBase() override = default;
 
-  void set_tip(std::string tip) override { (void)tip; }
+  void set_tip(std::string tip) override
+  {
+    (void)tip;
+  }
 
-  void set_icon(StatusIconType icon) override { (void)icon; }
+  void set_icon(StatusIconType icon) override
+  {
+    (void)icon;
+  }
 
-  void update_view() override {}
+  void update_view() override
+  {
+  }
 
   void set_geometry(Orientation orientation, int size) override
   {

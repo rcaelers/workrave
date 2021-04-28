@@ -119,22 +119,22 @@ ReadingActivityMonitor::on_usage_mode_changed(workrave::UsageMode mode)
 }
 
 void
-ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
+ReadingActivityMonitor::handle_break_event(workrave::BreakId break_id, workrave::BreakEvent event)
 {
   TRACE_ENTER_MSG("ReadingActivityMonitor::handle_break_event",
-                  break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+                  break_id << " " << static_cast<std::underlying_type<workrave::BreakEvent>::type>(event));
   switch (state)
     {
     case Idle:
       break;
 
     case Active:
-      if (event == BreakEvent::ShowPrelude)
+      if (event == workrave::BreakEvent::ShowPrelude)
         {
           TRACE_MSG("Active -> Prelude");
           state = Prelude;
         }
-      else if (event == BreakEvent::ShowBreak || event == BreakEvent::ShowBreakForced)
+      else if (event == workrave::BreakEvent::ShowBreak || event == workrave::BreakEvent::ShowBreakForced)
         {
           TRACE_MSG("Active -> Taking");
           state = Taking;
@@ -142,12 +142,12 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       break;
 
     case Prelude:
-      if (event == BreakEvent::ShowBreak || event == BreakEvent::ShowBreakForced)
+      if (event == workrave::BreakEvent::ShowBreak || event == workrave::BreakEvent::ShowBreakForced)
         {
           TRACE_MSG("Prelude -> Taking");
           state = Taking;
         }
-      else if (event == BreakEvent::BreakIdle)
+      else if (event == workrave::BreakEvent::BreakIdle)
         {
           TRACE_MSG("Prelude -> Active");
           state = Active;
@@ -156,9 +156,9 @@ ReadingActivityMonitor::handle_break_event(BreakId break_id, BreakEvent event)
       break;
 
     case Taking:
-      if (event == BreakEvent::BreakIdle)
+      if (event == workrave::BreakEvent::BreakIdle)
         {
-          if (break_id == BREAK_ID_MICRO_BREAK)
+          if (break_id == workrave::BREAK_ID_MICRO_BREAK)
             {
               TRACE_MSG("Taking -> Active");
               state = Active;

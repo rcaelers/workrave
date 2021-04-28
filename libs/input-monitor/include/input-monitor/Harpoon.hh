@@ -1,5 +1,3 @@
-// Harpoon.hh --- ActivityMonitor for W32
-//
 // Copyright (C) 2002, 2004, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
@@ -32,10 +30,7 @@ typedef union HarpoonEventUnion HarpoonEvent;
 class Harpoon
 {
 public:
-  //! Constructor.
-  Harpoon();
-
-  //! Destructor.
+  Harpoon() = default;
   virtual ~Harpoon();
 
   static bool init(workrave::config::IConfigurator::Ptr config, HarpoonHookFunc func);

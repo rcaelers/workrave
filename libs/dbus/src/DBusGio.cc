@@ -36,7 +36,6 @@
 using namespace std;
 using namespace workrave;
 using namespace workrave::dbus;
-using namespace workrave::utils;
 
 const GDBusInterfaceVTable DBusGio::interface_vtable = {&DBusGio::on_method_call,
                                                         &DBusGio::on_get_property,

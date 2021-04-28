@@ -43,7 +43,10 @@ namespace workrave
 
       ~Exception() override = default;
 
-      virtual std::string details() const { return detailed_information; }
+      virtual std::string details() const
+      {
+        return detailed_information;
+      }
 
     private:
       std::string detailed_information;

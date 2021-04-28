@@ -397,7 +397,7 @@ const WorkraveButton = new Lang.Class({
 
     _onCommandReply : function(menuitems) {
     },
-    
+
     _onMenuCommand : function(item, event, command) {
         this._ui_proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
     },

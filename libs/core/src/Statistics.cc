@@ -84,7 +84,7 @@ Statistics::~Statistics()
 void
 Statistics::init()
 {
-  input_monitor = InputMonitorFactory::create_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
+  input_monitor = InputMonitorFactory::create_monitor(MonitorCapability::Statistics);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);

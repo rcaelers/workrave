@@ -152,7 +152,7 @@ TimerBoxControl::update_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(count);
+      IBreak::Ptr b = core->get_break(static_cast<BreakId>(count));
 
       time_t value;
       TimerColorId primary_color;
@@ -299,7 +299,7 @@ TimerBoxControl::init_slot(int slot)
       int flags = break_flags[id];
 
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(i);
+      IBreak::Ptr b = core->get_break(static_cast<BreakId>(i));
 
       time_t time_left = b->get_limit() - b->get_elapsed_time();
 
@@ -412,7 +412,7 @@ TimerBoxControl::load_configuration()
   cycle_time = GUIConfig::timerbox_cycle_time(name)();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      BreakId bid = i;
+      BreakId bid = static_cast<BreakId>(i);
 
       break_position[i] = GUIConfig::timerbox_slot(name, bid)();
       break_flags[i] = GUIConfig::timerbox_flags(name, bid)();

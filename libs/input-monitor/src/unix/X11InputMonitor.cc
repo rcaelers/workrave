@@ -1,5 +1,3 @@
-// X11InputMonitor.cc --- ActivityMonitor for X11
-//
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -23,6 +21,8 @@
 
 #include "X11InputMonitor.hh"
 
+#include <memory>
+
 #include "debug.hh"
 
 // Solaris needs this...
@@ -39,8 +39,6 @@
 
 #ifdef HAVE_APP_GTK
 #  include <gdk/gdkx.h>
-
-#  include <memory>
 #endif
 
 using namespace std;

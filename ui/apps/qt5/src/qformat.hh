@@ -36,7 +36,10 @@ public:
     return *this;
   }
 
-  QString str() const { return QString::fromStdString(fmt.str()); }
+  QString str() const
+  {
+    return QString::fromStdString(fmt.str());
+  }
 
 private:
   boost::format fmt;

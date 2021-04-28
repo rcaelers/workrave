@@ -20,9 +20,11 @@
 
 #include <thread>
 #include <mutex>
+#include <memory>
 #include <condition_variable>
 
 #include "InputMonitor.hh"
+#include "utils/Diagnostics.hh"
 
 #include <gio/gio.h>
 #include <atomic>
@@ -37,7 +39,11 @@ public:
   void terminate() override;
 
 private:
-  static void on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+  static void on_idle_monitor_signal(GDBusProxy *proxy,
+                                     gchar *sender_name,
+                                     gchar *signal_name,
+                                     GVariant *parameters,
+                                     gpointer user_data);
   static void on_session_manager_property_changed(GDBusProxy *session, GVariant *changed, char **invalidated, gpointer user_data);
 
   static void on_register_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);
@@ -65,12 +71,13 @@ private:
   GDBusProxy *session_proxy = nullptr;
   std::atomic<bool> active{false};
   std::atomic<bool> inhibited{false};
-  guint watch_active = 0;
-  guint watch_idle = 0;
+  TracedField<bool> trace_active{"monitor.mutter.active", false};
+  TracedField<bool> trace_inhibited{"monitor.inhibited", false};
+  TracedField<guint> watch_active{"monitor.mutter.watch_active", 0};
+  TracedField<guint> watch_idle{"monitor.mutter.watch_idle", 0};
 
   bool abort = false;
   std::shared_ptr<std::thread> monitor_thread;
-
   std::mutex mutex;
   std::condition_variable cond;
   guint watch_id{0};

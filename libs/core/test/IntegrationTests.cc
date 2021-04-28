@@ -53,8 +53,14 @@ template<typename It>
 struct range
 {
   It begin_, end_;
-  It begin() const { return begin_; }
-  It end() const { return end_; }
+  It begin() const
+  {
+    return begin_;
+  }
+  It end() const
+  {
+    return end_;
+  }
 };
 template<typename It>
 range<It>
@@ -74,7 +80,10 @@ public:
   {
   }
 
-  bool operator==(const Observation &rhs) const { return (time == rhs.time && event == rhs.event && params == rhs.params); }
+  bool operator==(const Observation &rhs) const
+  {
+    return (time == rhs.time && event == rhs.event && params == rhs.params);
+  }
 
   friend ostream &operator<<(ostream &out, Observation &o);
 
@@ -119,7 +128,10 @@ public:
       }
   }
 
-  ~Backend() override { out.close(); }
+  ~Backend() override
+  {
+    out.close();
+  }
 
   void init_log_file()
   {
@@ -226,7 +238,7 @@ public:
 
             for (int j = 0; j < BREAK_ID_SIZEOF; j++)
               {
-                IBreak::Ptr b = core->get_break(j);
+                IBreak::Ptr b = core->get_break(BreakId(j));
                 BOOST_REQUIRE(j == active_break ? b->is_taking() : !b->is_taking());
               }
 
@@ -367,7 +379,7 @@ public:
     last_max_value = 0;
   }
 
-  void create_break_window(BreakId break_id, BreakHint break_hint) override
+  void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) override
   {
     log_actual("break",
                boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
@@ -512,7 +524,10 @@ public:
     log_actual("usagemode", boost::str(boost::format("mode=%1%") % static_cast<int>(m)));
   }
 
-  bool on_is_user_active(bool dummy) { return user_active; }
+  bool on_is_user_active(bool dummy)
+  {
+    return user_active;
+  }
 
   IActivityMonitor::Ptr on_create_monitor()
   {
@@ -522,7 +537,7 @@ public:
 
   IConfigurator::Ptr on_create_configurator()
   {
-    config = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+    config = ConfiguratorFactory::create(ConfigFileFormat::Ini);
 
     config->set_value("timers/micro_pause/limit", 300);
     config->set_value("timers/micro_pause/auto_reset", 20);
@@ -553,7 +568,10 @@ public:
     return config;
   }
 
-  bool on_load_timer_state(Timer::Ptr breaks[BREAK_ID_SIZEOF]) { return true; }
+  bool on_load_timer_state(Timer::Ptr breaks[BREAK_ID_SIZEOF])
+  {
+    return true;
+  }
 
   ofstream out;
   ICore::Ptr core;
@@ -1669,7 +1687,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(20, "break", "break_id=rest_break break_hint=1");
   expect(20, "show");
   expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -1695,7 +1713,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_active_during_break)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(20, "break", "break_id=rest_break break_hint=1");
   expect(20, "show");
   expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -1725,7 +1743,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_during_microbreak_prelude)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(305, "hide");
   expect(305, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(305, "break_event", "break_id=micro_pause event=BreakIgnored"); // TODO: why
@@ -1765,7 +1783,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_during_microbreak)
 
   forced_break = true;
 
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(320, "hide");
   expect(320, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(320, "break_event", "break_id=micro_pause event=BreakStop");
@@ -1799,7 +1817,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_when_timer_is_disabled)
   fake_break = true;
   fake_break_delta = 1;
 
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(20, "break", "break_id=rest_break break_hint=1");
   expect(20, "show");
   expect(20, "break_event", "break_id=rest_break event=ShowBreakForced");
@@ -1826,7 +1844,7 @@ BOOST_AUTO_TEST_CASE(test_rest_break_now_when_break_is_idle)
   fake_break = true;
   fake_break_delta = 1;
 
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
   expect(500, "break", "break_id=rest_break break_hint=1");
   expect(500, "show");
   expect(500, "break_event", "break_id=rest_break event=ShowBreakForced");

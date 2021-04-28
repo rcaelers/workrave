@@ -82,7 +82,7 @@ method (you do not need to do both on the same W32CriticalSection object althoug
 The destructor for W32CriticalSection::AdvancedGuard calls LeaveCriticalSection() for every section
 it has locked for the number of times it has not already unlocked. If you lock an object three
 times and later unlock it once via Unlock() then when the destructor is called it calls
-LeaveCriticalSection() twice for that object. And for multiple objects the unlocking order is!!
+LeaveCriticalSection() twice for that object. And for multiple objects the unlocking order is
 reverse from the locking order. For (a convoluted) example:
 
 W32CriticalSection::AdvancedGuard guard( a );   // calls Lock( a )

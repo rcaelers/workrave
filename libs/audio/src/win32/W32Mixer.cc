@@ -29,8 +29,6 @@
 #include <mmsystem.h>
 #include <shobjidl.h>
 
-using namespace std;
-
 W32Mixer::W32Mixer()
   : endpoint_volume(NULL)
 {

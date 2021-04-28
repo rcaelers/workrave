@@ -69,7 +69,7 @@ GUIConfig::init()
 
   for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
     {
-      workrave::BreakId breakId = i;
+      workrave::BreakId breakId = static_cast<workrave::BreakId>(i);
 
       config->set_value(break_ignorable(breakId).key(), true, CONFIG_FLAG_INITIAL);
       config->set_value(break_exercises(breakId).key(), i == workrave::BREAK_ID_REST_BREAK ? 3 : 0, CONFIG_FLAG_INITIAL);

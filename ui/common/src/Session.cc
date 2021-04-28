@@ -86,11 +86,11 @@ Session::set_idle(bool new_idle)
 
               if (overdue)
                 {
-                  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NONE);
+                  core->force_break(BREAK_ID_REST_BREAK, BreakHint::Normal);
                 }
               else
                 {
-                  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
+                  core->force_break(BREAK_ID_REST_BREAK, BreakHint::NaturalBreak);
                 }
             }
         }

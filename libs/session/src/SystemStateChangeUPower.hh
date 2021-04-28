@@ -43,11 +43,23 @@ public:
   explicit SystemStateChangeUPower(GDBusConnection *connection);
   ~SystemStateChangeUPower() override = default;
 
-  bool suspend() override { return execute("Suspend"); }
-  bool hibernate() override { return execute("Hibernate"); }
+  bool suspend() override
+  {
+    return execute("Suspend");
+  }
+  bool hibernate() override
+  {
+    return execute("Hibernate");
+  }
 
-  bool canSuspend() override { return can_suspend; }
-  bool canHibernate() override { return can_hibernate; }
+  bool canSuspend() override
+  {
+    return can_suspend;
+  }
+  bool canHibernate() override
+  {
+    return can_hibernate;
+  }
 
   static const char *dbus_name;
 

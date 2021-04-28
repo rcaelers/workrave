@@ -44,7 +44,10 @@ public:
       }
   }
 
-  bool is_lock_supported() override { return cmd != nullptr; }
+  bool is_lock_supported() override
+  {
+    return cmd != nullptr;
+  }
   bool lock() override;
 
 private:

@@ -31,13 +31,24 @@ class InputMonitorStub : public IInputMonitor
 public:
   ~InputMonitorStub() override = default;
 
-  bool init() override { return true; }
+  bool init() override
+  {
+    return true;
+  }
 
-  void terminate() override {}
+  void terminate() override
+  {
+  }
 
-  void subscribe(IInputMonitorListener *listener) override { (void)listener; }
+  void subscribe(IInputMonitorListener *listener) override
+  {
+    (void)listener;
+  }
 
-  void unsubscribe(IInputMonitorListener *listener) override { (void)listener; }
+  void unsubscribe(IInputMonitorListener *listener) override
+  {
+    (void)listener;
+  }
 };
 
 void
@@ -48,7 +59,7 @@ InputMonitorFactory::init(IConfigurator::Ptr config, const char *display)
 }
 
 IInputMonitor::Ptr
-InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
+InputMonitorFactory::create_monitor(MonitorCapability capability)
 {
   (void)capability;
   return IInputMonitor::Ptr(new InputMonitorStub());

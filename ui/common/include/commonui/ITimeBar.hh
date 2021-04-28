@@ -26,7 +26,9 @@
 class ITimeBar
 {
 public:
-  virtual ~ITimeBar() {}
+  virtual ~ITimeBar()
+  {
+  }
 
   virtual void set_progress(int value, int max_value) = 0;
   virtual void set_secondary_progress(int value, int max_value) = 0;

@@ -22,34 +22,37 @@
 
 #include <boost/cstdint.hpp>
 
-#define WR_BITMASK(BITMASK)                                                                            \
-  constexpr inline BITMASK operator&(BITMASK x, BITMASK y)                                             \
-  {                                                                                                    \
-    return static_cast<BITMASK>(static_cast<int>(x) & static_cast<int>(y));                            \
-  }                                                                                                    \
-  constexpr inline BITMASK operator|(BITMASK x, BITMASK y)                                             \
-  {                                                                                                    \
-    return static_cast<BITMASK>(static_cast<int>(x) | static_cast<int>(y));                            \
-  }                                                                                                    \
-  constexpr inline BITMASK operator^(BITMASK x, BITMASK y)                                             \
-  {                                                                                                    \
-    return static_cast<BITMASK>(static_cast<int>(x) ^ static_cast<int>(y));                            \
-  }                                                                                                    \
-  constexpr inline BITMASK operator~(BITMASK x) { return static_cast<BITMASK>(~static_cast<int>(x)); } \
-  inline BITMASK &operator&=(BITMASK &x, BITMASK y)                                                    \
-  {                                                                                                    \
-    x = x & y;                                                                                         \
-    return x;                                                                                          \
-  }                                                                                                    \
-  inline BITMASK &operator|=(BITMASK &x, BITMASK y)                                                    \
-  {                                                                                                    \
-    x = x | y;                                                                                         \
-    return x;                                                                                          \
-  }                                                                                                    \
-  inline BITMASK &operator^=(BITMASK &x, BITMASK y)                                                    \
-  {                                                                                                    \
-    x = x ^ y;                                                                                         \
-    return x;                                                                                          \
+#define WR_BITMASK(BITMASK)                                                 \
+  constexpr inline BITMASK operator&(BITMASK x, BITMASK y)                  \
+  {                                                                         \
+    return static_cast<BITMASK>(static_cast<int>(x) & static_cast<int>(y)); \
+  }                                                                         \
+  constexpr inline BITMASK operator|(BITMASK x, BITMASK y)                  \
+  {                                                                         \
+    return static_cast<BITMASK>(static_cast<int>(x) | static_cast<int>(y)); \
+  }                                                                         \
+  constexpr inline BITMASK operator^(BITMASK x, BITMASK y)                  \
+  {                                                                         \
+    return static_cast<BITMASK>(static_cast<int>(x) ^ static_cast<int>(y)); \
+  }                                                                         \
+  constexpr inline BITMASK operator~(BITMASK x)                             \
+  {                                                                         \
+    return static_cast<BITMASK>(~static_cast<int>(x));                      \
+  }                                                                         \
+  inline BITMASK &operator&=(BITMASK &x, BITMASK y)                         \
+  {                                                                         \
+    x = x & y;                                                              \
+    return x;                                                               \
+  }                                                                         \
+  inline BITMASK &operator|=(BITMASK &x, BITMASK y)                         \
+  {                                                                         \
+    x = x | y;                                                              \
+    return x;                                                               \
+  }                                                                         \
+  inline BITMASK &operator^=(BITMASK &x, BITMASK y)                         \
+  {                                                                         \
+    x = x ^ y;                                                              \
+    return x;                                                               \
   }
 
 #endif

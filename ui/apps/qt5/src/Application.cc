@@ -65,7 +65,7 @@ Application::~Application()
 void
 Application::restbreak_now()
 {
-  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
 }
 
 void
@@ -324,7 +324,7 @@ Application::create_prelude_window(BreakId break_id)
 }
 
 void
-Application::create_break_window(BreakId break_id, BreakHint break_hint)
+Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint)
 {
   TRACE_ENTER("Application::start_break_window");
   hide_break_window();
@@ -333,7 +333,7 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
   bool ignorable = GUIConfig::break_ignorable(break_id)();
   bool skippable = GUIConfig::break_skippable(break_id)();
 
-  if (break_hint & BREAK_HINT_USER_INITIATED)
+  if (break_hint & BreakHint::UserInitiated)
     {
       break_flags = (BREAK_FLAGS_POSTPONABLE | BREAK_FLAGS_USER_INITIATED);
 
@@ -355,7 +355,7 @@ Application::create_break_window(BreakId break_id, BreakHint break_hint)
         }
     }
 
-  if (break_hint & BREAK_HINT_NATURAL_BREAK)
+  if (break_hint & BreakHint::NaturalBreak)
     {
       break_flags |= (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
     }

@@ -41,7 +41,9 @@ public:
     Exercises
   };
 
-  virtual ~IToolkit() {}
+  virtual ~IToolkit()
+  {
+  }
 
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
 

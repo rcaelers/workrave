@@ -54,10 +54,10 @@ namespace workrave
     virtual void heartbeat() = 0;
 
     //! Force a break of the specified type.
-    virtual void force_break(workrave::BreakId id, workrave::BreakHint break_hint) = 0;
+    virtual void force_break(workrave::BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    [[nodiscard]] virtual IBreak::Ptr get_break(workrave::BreakId id) = 0;
+    [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) = 0;
 
     //! Return the statistics interface.
     [[nodiscard]] virtual IStatistics::Ptr get_statistics() const = 0;

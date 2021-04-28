@@ -40,7 +40,9 @@ ToolkitPlatformLinux::ToolkitPlatformLinux()
   pimpl = std::make_unique<Pimpl>();
 }
 
-ToolkitPlatformLinux::~ToolkitPlatformLinux() {}
+ToolkitPlatformLinux::~ToolkitPlatformLinux()
+{
+}
 
 QPixmap
 ToolkitPlatformLinux::get_desktop_image()

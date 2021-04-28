@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.10.45
-    date: 2021-03-12T11:23:48+01:00
+    date: 2021-03-27T14:19:02+01:00
     short: |-
       Workrave 1.10.45 has been released. This release adds a new sound theme and several small improvements.
     changes:

@@ -31,7 +31,10 @@
 class HeadInfo
 {
 public:
-  HeadInfo() { count = 0; }
+  HeadInfo()
+  {
+    count = 0;
+  }
 
   int get_width() const;
   int get_height() const;

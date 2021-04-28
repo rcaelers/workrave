@@ -26,7 +26,9 @@ public:
   W32SoundPlayer();
   virtual ~W32SoundPlayer();
 
-  void init(ISoundPlayerEvents *) {}
+  void init(ISoundPlayerEvents *)
+  {
+  }
   bool capability(workrave::audio::SoundCapability cap);
   void play_sound(std::string wavfile, int volume);
 

@@ -49,7 +49,10 @@ DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
 namespace dc
 {
-  DataConnectionGtkEntryTwin *wrap(Gtk::Entry *w1, Gtk::Entry *w2) { return new DataConnectionGtkEntryTwin(w1, w2); }
+  DataConnectionGtkEntryTwin *wrap(Gtk::Entry *w1, Gtk::Entry *w2)
+  {
+    return new DataConnectionGtkEntryTwin(w1, w2);
+  }
 } // namespace dc
 
 //! Construct a new data connector.

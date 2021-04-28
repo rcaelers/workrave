@@ -25,7 +25,9 @@
 class IPreludeWindow
 {
 public:
-  virtual ~IPreludeWindow() {}
+  virtual ~IPreludeWindow()
+  {
+  }
 
   typedef std::shared_ptr<IPreludeWindow> Ptr;
 

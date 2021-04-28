@@ -39,7 +39,6 @@
 #  include <gdk/gdkx.h>
 #endif
 
-
 #include <memory>
 #include <chrono>
 

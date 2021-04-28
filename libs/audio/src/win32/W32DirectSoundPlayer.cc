@@ -44,7 +44,6 @@
 #define SAMPLE_BITS (8)
 #define WAVE_BUFFER_SIZE (4096)
 
-using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 using namespace workrave::audio;
@@ -54,7 +53,9 @@ static std::string sound_filename;
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
 extern "C"
 {
-  void _chkstk() {}
+  void _chkstk()
+  {
+  }
 }
 #endif
 
@@ -80,7 +81,7 @@ W32DirectSoundPlayer::capability(SoundCapability cap)
 }
 
 void
-W32DirectSoundPlayer::play_sound(string wavfile, int volume)
+W32DirectSoundPlayer::play_sound(std::string wavfile, int volume)
 {
   TRACE_ENTER_MSG("W32DirectSoundPlayer::play_sound", wavfile);
 
@@ -123,7 +124,7 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
   return (DWORD)0;
 }
 
-SoundClip::SoundClip(const string &filename, ISoundPlayerEvents *events, int volume)
+SoundClip::SoundClip(const std::string &filename, ISoundPlayerEvents *events, int volume)
 {
   TRACE_ENTER("SoundClip::SoundClip");
 
@@ -202,13 +203,13 @@ SoundClip::init()
   hr = DirectSoundCreate8(NULL, &direct_sound, NULL);
   if (FAILED(hr) || direct_sound == NULL)
     {
-      throw Exception(string("DirectSoundCreate8") + get_error_string(hr));
+      throw Exception(std::string("DirectSoundCreate8") + get_error_string(hr));
     }
 
   hr = direct_sound->SetCooperativeLevel(GetDesktopWindow(), DSSCL_PRIORITY);
   if (FAILED(hr))
     {
-      throw Exception(string("IDirectSound_SetCooperativeLevel") + get_error_string(hr));
+      throw Exception(std::string("IDirectSound_SetCooperativeLevel") + get_error_string(hr));
     }
 
   wave_file = new WaveFile(filename);
@@ -218,7 +219,7 @@ SoundClip::init()
   if (sound_buffer_size <= 0)
     {
       TRACE_RETURN("Exception: WAV has zero size");
-      throw Exception(string("WAV has zero size"));
+      throw Exception(std::string("WAV has zero size"));
     }
 
   DSBUFFERDESC dsbd;
@@ -233,7 +234,7 @@ SoundClip::init()
   if (FAILED(hr) || sound_buffer == NULL)
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_CreateSoundBuffer");
-      throw Exception(string("IDirectSoundBuffer_CreateSoundBuffer") + get_error_string(hr));
+      throw Exception(std::string("IDirectSoundBuffer_CreateSoundBuffer") + get_error_string(hr));
     }
 
   LPDIRECTSOUNDNOTIFY notify;
@@ -241,7 +242,7 @@ SoundClip::init()
   if (FAILED(hr) || notify == NULL)
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_QueryInterface IDirectSoundNotify" << get_error_string(hr));
-      throw Exception(string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify") + get_error_string(hr));
+      throw Exception(std::string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify") + get_error_string(hr));
     }
 
   stop_event = CreateEvent(0, false, false, 0);
@@ -254,13 +255,12 @@ SoundClip::init()
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSoundNotify_SetPositionNotify" << get_error_string(hr));
-      throw Exception(string("IDirectSoundNotify_SetPositionNotify") + get_error_string(hr));
+      throw Exception(std::string("IDirectSoundNotify_SetPositionNotify") + get_error_string(hr));
     }
   notify->Release();
 
   fill_buffer();
 
-  // FIXME: remove dependency on Core
   set_volume(volume);
 
   TRACE_EXIT();
@@ -281,7 +281,7 @@ SoundClip::fill_buffer()
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSoundBuffer_Lock");
-      throw Exception(string("IDirectSoundBuffer_Lock") + get_error_string(hr));
+      throw Exception(std::string("IDirectSoundBuffer_Lock") + get_error_string(hr));
     }
 
   wave_file->reset_file();
@@ -311,7 +311,7 @@ SoundClip::is_buffer_lost()
   if (FAILED(hr))
     {
       TRACE_RETURN("Exception: IDirectSound_GetStatus");
-      throw Exception(string("IDirectSound_GetStatus") + get_error_string(hr));
+      throw Exception(std::string("IDirectSound_GetStatus") + get_error_string(hr));
     }
 
   TRACE_EXIT();
@@ -378,7 +378,7 @@ SoundClip::set_volume(int volume)
   TRACE_EXIT();
 }
 
-WaveFile::WaveFile(const string &filename)
+WaveFile::WaveFile(const std::string &filename)
   : filename(filename)
 {
   TRACE_ENTER("WaveFile::WaveFile");

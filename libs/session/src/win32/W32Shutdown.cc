@@ -19,7 +19,6 @@
 #  include "config.h"
 #endif
 
-
 #include "W32Shutdown.hh"
 
 #include "W32LockScreen.hh"

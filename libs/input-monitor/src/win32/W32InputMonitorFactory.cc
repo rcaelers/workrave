@@ -35,6 +35,7 @@ using namespace workrave;
 
 W32InputMonitorFactory::W32InputMonitorFactory(IConfigurator::Ptr config)
   : config(config)
+  , actual_monitor_method{"monitor.method", ""}
 {
   activity_monitor = NULL;
   statistics_monitor = NULL;
@@ -48,13 +49,13 @@ W32InputMonitorFactory::init(const char *display)
 
 //! Retrieves the input activity monitor
 IInputMonitor::Ptr
-W32InputMonitorFactory::create_monitor(IInputMonitorFactory::MonitorCapability capability)
+W32InputMonitorFactory::create_monitor(MonitorCapability capability)
 {
-  if (capability == CAPABILITY_ACTIVITY)
+  if (capability == MonitorCapability::Activity)
     {
       return create_activity_monitor();
     }
-  else if (capability == CAPABILITY_STATISTICS)
+  else if (capability == MonitorCapability::Statistics)
     {
       return create_statistics_monitor();
     }

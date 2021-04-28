@@ -25,6 +25,7 @@
 
 #include "input-monitor/IInputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
+#include "utils/Diagnostics.hh"
 #include "config/IConfigurator.hh"
 
 using namespace workrave::config;
@@ -46,7 +47,7 @@ private:
   workrave::config::IConfigurator::Ptr config;
   workrave::input_monitor::IInputMonitor::Ptr activity_monitor;
   workrave::input_monitor::IInputMonitor::Ptr statistics_monitor;
-  std::string actual_monitor_method;
+  TracedField<std::string> actual_monitor_method;
 };
 
 #endif // W32INPUTMONITORFACTORY_HH

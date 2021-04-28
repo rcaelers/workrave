@@ -123,7 +123,7 @@ BreaksControl::stop_all_breaks()
 
 //! Forces the start of the specified break.
 void
-BreaksControl::force_break(BreakId break_id, BreakHint break_hint)
+BreaksControl::force_break(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint)
 {
   TRACE_ENTER_MSG("BreaksControl::force_break", break_id << " " << break_hint);
 
@@ -178,8 +178,10 @@ BreaksControl::process_timers(bool user_is_active)
 {
   TRACE_ENTER("BreaksControl::process_timers");
 
-  for (BreakId break_id = BREAK_ID_DAILY_LIMIT; break_id > BREAK_ID_NONE; break_id--)
+  for (int i = BREAK_ID_DAILY_LIMIT; i > BREAK_ID_NONE; i--)
     {
+      BreakId break_id = static_cast<BreakId>(i);
+
       bool user_is_active_for_break = user_is_active;
       if (breaks[break_id]->is_microbreak_used_for_activity())
         {

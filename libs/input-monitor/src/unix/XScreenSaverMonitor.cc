@@ -1,5 +1,3 @@
-// XScreenSaverMonitor.cc --- ActivityMonitor for X11
-//
 // Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -99,7 +97,7 @@ XScreenSaverMonitor::run()
   {
     std::unique_lock lock(mutex);
     while (!abort)
-    {
+      {
         XScreenSaverQueryInfo(xdisplay, root, screen_saver_info);
 
         if (screen_saver_info->idle < 1000)

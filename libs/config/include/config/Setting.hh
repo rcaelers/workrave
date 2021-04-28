@@ -52,7 +52,10 @@ namespace workrave
 
       ~SettingGroup() override = default;
 
-      std::string key() const { return setting; }
+      std::string key() const
+      {
+        return setting;
+      }
 
       boost::signals2::connection connect(NotifyType::slot_type slot)
       {
@@ -105,11 +108,20 @@ namespace workrave
 
       ~Setting() override = default;
 
-      std::string key() const { return setting; }
+      std::string key() const
+      {
+        return setting;
+      }
 
-      R operator()() const { return get(); }
+      R operator()() const
+      {
+        return get();
+      }
 
-      R operator()(const T def) const { return get(def); }
+      R operator()(const T def) const
+      {
+        return get(def);
+      }
 
       R get() const
       {
@@ -132,7 +144,10 @@ namespace workrave
         return static_cast<R>(ret);
       }
 
-      void set(const R &val) { config->set_value(setting, static_cast<T>(val)); }
+      void set(const R &val)
+      {
+        config->set_value(setting, static_cast<T>(val));
+      }
 
       boost::signals2::connection connect(typename NotifyType::slot_type slot)
       {

@@ -35,7 +35,9 @@ DBusBindingFreeDesktop::DBusBindingFreeDesktop(IDBus::Ptr dbus)
 {
 }
 
-DBusBindingFreeDesktop::~DBusBindingFreeDesktop() {}
+DBusBindingFreeDesktop::~DBusBindingFreeDesktop()
+{
+}
 
 DBusMessage *
 DBusBindingFreeDesktop::call(const std::string &method, void *object, DBusMessage *message)

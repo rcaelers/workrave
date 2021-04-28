@@ -236,7 +236,7 @@ Core::signal_usage_mode_changed()
 
 //! Forces the start of the specified break.
 void
-Core::force_break(BreakId id, BreakHint break_hint)
+Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
   breaks_control->force_break(id, break_hint);
 }
