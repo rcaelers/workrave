@@ -83,7 +83,7 @@ Break::Break()
 
 {
   TRACE_ENTER("Break:Break");
-  TRACE_EXIT()
+  TRACE_EXIT();
 }
 
 //! Initializes the break.
@@ -106,7 +106,7 @@ Break::init(BreakId id, IApp *app)
   init_break_control();
   init_defaults();
 
-  TRACE_EXIT()
+  TRACE_EXIT();
 }
 
 //! Destructor.

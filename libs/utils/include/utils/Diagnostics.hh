@@ -410,7 +410,7 @@ public:
   {
     set(get() & right);
     return *this;
-  };
+  }
 
   value_type operator|(const base_type &right) const
   {
@@ -434,7 +434,7 @@ public:
   {
     set(get() | right);
     return *this;
-  };
+  }
 
   value_type operator^(const base_type &right) const
   {
@@ -458,7 +458,7 @@ public:
   {
     set(get() ^ right);
     return *this;
-  };
+  }
 
   value_type operator<<(int num) const
   {

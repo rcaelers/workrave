@@ -110,7 +110,7 @@ DebugDialog::init()
 int
 DebugDialog::run()
 {
-  TRACE_ENTER("DebugDialog::run")
+  TRACE_ENTER("DebugDialog::run");
   init();
   show_all();
   TRACE_EXIT();
@@ -121,7 +121,7 @@ void
 DebugDialog::on_response(int response)
 {
   (void)response;
-  TRACE_ENTER("DebugDialog::on_response")
+  TRACE_ENTER("DebugDialog::on_response");
   Diagnostics::instance().disable();
   TRACE_EXIT();
 }

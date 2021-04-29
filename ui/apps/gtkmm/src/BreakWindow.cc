@@ -302,7 +302,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, Sy
     }
   row[sysoper_model_columns->name] = Glib::ustring(name);
   row[sysoper_model_columns->id] = type;
-  TRACE_EXIT()
+  TRACE_EXIT();
 }
 
 //! Creates the combo box containing options to suspend/hibernate/shutdown/etc
@@ -362,7 +362,7 @@ void
 BreakWindow::on_sysoper_combobox_changed()
 {
   // based on https://developer.gnome.org/gtkmm-tutorial/stable/combobox-example-full.html.en
-  TRACE_ENTER("BreakWindow::on_sysoper_combobox_changed")
+  TRACE_ENTER("BreakWindow::on_sysoper_combobox_changed");
   Gtk::ListStore::const_iterator iter = sysoper_combobox->get_active();
   if (!iter)
     {

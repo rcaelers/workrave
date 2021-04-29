@@ -41,7 +41,6 @@ TimeSource::get_real_time_usec()
     }
 
   auto t = std::chrono::system_clock::now().time_since_epoch();
-  ;
   auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
   return ms;
 }
@@ -55,7 +54,6 @@ TimeSource::get_monotonic_time_usec()
     }
 
   auto t = std::chrono::steady_clock::now().time_since_epoch();
-  ;
   auto ms = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
   return ms;
 }
