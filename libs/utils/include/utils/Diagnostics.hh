@@ -36,6 +36,7 @@ public:
 class DiagnosticsSink
 {
 public:
+  virtual ~DiagnosticsSink() = default;
   virtual void diagnostics_log(const std::string &log) = 0;
 };
 
