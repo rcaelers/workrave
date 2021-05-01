@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ACTIVITYMONITOR_HH
-#define ACTIVITYMONITOR_HH
+#ifndef IACTIVITYMONITOR_HH
+#define IACTIVITYMONITOR_HH
 
 #include "config/Config.hh"
 
@@ -48,4 +48,4 @@ public:
   virtual void set_listener(IActivityMonitorListener::Ptr l) = 0;
 };
 
-#endif // ACTIVITYMONITOR_HH
+#endif // IACTIVITYMONITOR_HH

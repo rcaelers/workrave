@@ -20,10 +20,9 @@
 #ifndef DAYTIMEPRED_HH
 #define DAYTIMEPRED_HH
 
-#include <string>
-#include <unistd.h>
+#include "TimePred.hh"
 
-class DayTimePred
+class DayTimePred : public TimePred
 {
 public:
   bool init(std::string spec);
@@ -34,8 +33,8 @@ private:
   int days_in_month(int month, int year);
   int time_cmp(int h1, int m1, int h2, int m2);
 
-  int pred_hour;
-  int pred_min;
+  int pred_hour{0};
+  int pred_min{0};
 };
 
 #endif // DAYTIMEPRED_HH

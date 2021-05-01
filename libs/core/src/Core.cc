@@ -129,44 +129,47 @@ Core::init_configurator()
 #endif
 
   // LCOV_EXCL_START
-  if (!configurator && std::filesystem::is_regular_file(ini_file))
+  if (!configurator)
     {
-      configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-      configurator->load(ini_file);
-    }
-  else
-    {
-      configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
-
-      if (configurator == nullptr)
+      if (std::filesystem::is_regular_file(ini_file))
         {
-          string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
+          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
+          configurator->load(ini_file);
+        }
+      else
+        {
+          configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
 
-          if (configurator)
+          if (configurator == nullptr)
             {
+              string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
+              configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
+
+              if (configurator)
+                {
 #if defined(PLATFORM_OS_UNIX)
-              if (configFile.empty() || configFile == "config.xml")
-                {
-                  configFile = AssetPath::get_home_directory() + "config.xml";
-                }
+                  if (configFile.empty() || configFile == "config.xml")
+                    {
+                      configFile = AssetPath::get_home_directory() + "config.xml";
+                    }
 #endif
-              if (!configFile.empty())
-                {
-                  configurator->load(configFile);
+                  if (!configFile.empty())
+                    {
+                      configurator->load(configFile);
+                    }
                 }
             }
-        }
 
-      if (configurator == nullptr)
-        {
-          ini_file = AssetPath::get_home_directory() + "workrave.ini";
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-
-          if (configurator)
+          if (configurator == nullptr)
             {
-              configurator->load(ini_file);
-              configurator->save(ini_file);
+              ini_file = AssetPath::get_home_directory() + "workrave.ini";
+              configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
+
+              if (configurator)
+                {
+                  configurator->load(ini_file);
+                  configurator->save(ini_file);
+                }
             }
         }
     }

@@ -155,13 +155,16 @@ namespace workrave
     switch (hint)
       {
       case BreakHint::Normal:
-        stream << "none";
+        stream << "normal";
         break;
       case BreakHint::UserInitiated:
-        stream << "microbreak";
+        stream << "userinitiated";
         break;
       case BreakHint::NaturalBreak:
-        stream << "restbreak";
+        stream << "naturalbreak";
+        break;
+      default:
+        stream << "??";
         break;
       }
     return stream;

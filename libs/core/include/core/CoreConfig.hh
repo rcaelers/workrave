@@ -36,7 +36,7 @@ public:
   static workrave::config::Setting<std::string> &timer_reset_pred(workrave::BreakId break_id);
   static workrave::config::Setting<int> &timer_snooze(workrave::BreakId break_id);
 
-  static workrave::config::Setting<int> &timer_daily_limit_use_micro_break_activity();
+  static workrave::config::Setting<bool> &timer_daily_limit_use_micro_break_activity();
 
   static workrave::config::Setting<int> &break_max_preludes(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_enabled(workrave::BreakId break_id);

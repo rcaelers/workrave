@@ -403,7 +403,7 @@ BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
 void
 BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  TRACE_ENTER_MSG("BreaksControl::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
   switch (event)
     {
     case BreakEvent::BreakIdle:

@@ -155,6 +155,8 @@ endif()
 
 option(WITH_TESTS "Enable unit tests" OFF)
 
+include(code-coverage)
+
 if (WITH_TESTS)
   #pkg_check_modules(
   #  GLIB REQUIRED
@@ -168,9 +170,9 @@ if (WITH_TESTS)
   set (HAVE_TESTS ON)
   enable_testing()
 
+  add_code_coverage()
 endif()
 
-include(code-coverage)
 
 #----------------------------------------------------------------------------------------------------
 # Toolkit selection

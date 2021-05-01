@@ -63,12 +63,14 @@ BreakStateModel::process()
 {
   TRACE_ENTER_MSG("BreakStateModel::process", break_id);
 
-  prelude_time++;
+  TRACE_MSG("stage = " << break_stage);
 
+  prelude_time++;
   bool user_is_active = activity_monitor->is_active();
 
-  TRACE_MSG("stage = " << static_cast<std::underlying_type<BreakStage>::type>(break_stage));
   TRACE_MSG("active = " << user_is_active);
+  TRACE_MSG("prelude time = " << prelude_time);
+
   switch (break_stage)
     {
     case BreakStage::None:
@@ -157,7 +159,7 @@ BreakStateModel::process()
 void
 BreakStateModel::start_break()
 {
-  TRACE_ENTER_MSG("BreakStateModel::start_break", break_id);
+  TRACE_ENTER_MSG("BreakStateModel::start_break", break_id << " " << break_stage);
 
   break_hint = BreakHint::Normal;
   forced_break = false;
@@ -182,7 +184,7 @@ BreakStateModel::start_break()
 void
 BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
 {
-  TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id);
+  TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id << " " << break_stage);
 
   break_hint = hint;
   forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
@@ -212,9 +214,12 @@ BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
 void
 BreakStateModel::postpone_break()
 {
-  TRACE_ENTER_MSG("BreakStateModel::postpone_break", break_id);
+  TRACE_ENTER_MSG("BreakStateModel::postpone_break", break_id << " " << break_stage);
   if (break_stage == BreakStage::Taking)
     {
+      // This is to avoid a skip sound...
+      user_abort = true;
+
       if (!forced_break)
         {
           if (!fake_break)
@@ -227,9 +232,6 @@ BreakStateModel::postpone_break()
           break_event_signal(BreakEvent::BreakPostponed);
         }
 
-      // This is to avoid a skip sound...
-      user_abort = true;
-
       // and stop the break.
       stop_break();
     }
@@ -239,9 +241,11 @@ BreakStateModel::postpone_break()
 void
 BreakStateModel::skip_break()
 {
-  // This is to avoid a skip sound...
+  TRACE_ENTER_MSG("BreakStateModel::skip_break", break_id << " " << break_stage);
+
   if (break_stage == BreakStage::Taking)
     {
+      // This is to avoid a skip sound...
       user_abort = true;
 
       if (break_id == BREAK_ID_DAILY_LIMIT)
@@ -260,13 +264,14 @@ BreakStateModel::skip_break()
       // and stop the break.
       stop_break();
     }
+  TRACE_EXIT();
 }
 
 //! Stops the break.
 void
 BreakStateModel::stop_break()
 {
-  TRACE_ENTER("BreakStateModel::stop_break");
+  TRACE_ENTER_MSG("BreakStateModel::stop_break", break_id  << " " << break_stage);
 
   break_hint = BreakHint::Normal;
   goto_stage(BreakStage::None);
@@ -281,6 +286,7 @@ BreakStateModel::stop_break()
 void
 BreakStateModel::override(BreakId id)
 {
+  TRACE_ENTER_MSG("BreakStateModel::override", break_id  << " " << break_stage);
   int max_preludes = CoreConfig::break_max_preludes(break_id)();
 
   if (break_id != id)
@@ -293,6 +299,7 @@ BreakStateModel::override(BreakId id)
     }
 
   max_number_of_preludes = max_preludes;
+  TRACE_EXIT();
 }
 
 boost::signals2::signal<void(BreakEvent)> &
@@ -334,7 +341,7 @@ BreakStateModel::set_max_number_of_preludes(int max_number_of_preludes)
 void
 BreakStateModel::goto_stage(BreakStage stage)
 {
-  TRACE_ENTER_MSG("BreakStateModel::goto_stage", break_id << " " << static_cast<std::underlying_type<BreakStage>::type>(stage));
+  TRACE_ENTER_MSG("BreakStateModel::goto_stage", break_id << " " << break_stage << "->" << stage);
 
   switch (stage)
     {
@@ -487,7 +494,6 @@ BreakStateModel::prelude_window_start()
   break_event_signal(BreakEvent::ShowPrelude);
   TRACE_EXIT();
 }
-
 void
 BreakStateModel::prelude_window_update()
 {

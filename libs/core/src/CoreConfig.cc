@@ -209,10 +209,10 @@ CoreConfig::timer_snooze(workrave::BreakId break_id)
   return SettingCache::get<int>(config, expand(CFG_KEY_TIMER_SNOOZE, break_id));
 }
 
-Setting<int> &
+Setting<bool> &
 CoreConfig::timer_daily_limit_use_micro_break_activity()
 {
-  return SettingCache::get<int>(config, CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY);
+  return SettingCache::get<bool>(config, CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY);
 }
 
 Setting<int> &

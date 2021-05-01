@@ -35,7 +35,7 @@ using namespace std;
 bool
 IniConfigurator::load(string filename)
 {
-  TRACE_ENTER_MSG("IniConfigurator::loada", filename);
+  TRACE_ENTER_MSG("IniConfigurator::load", filename);
   bool ret = false;
 
   try
@@ -105,29 +105,35 @@ IniConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
       switch (type)
         {
         case VARIANT_TYPE_INT:
+          TRACE_MSG("value i = " << out.int_value);
           out.int_value = pt.get<int>(inikey);
           break;
 
         case VARIANT_TYPE_BOOL:
+          TRACE_MSG("value b = " << out.bool_value);
           out.bool_value = pt.get<bool>(inikey);
           break;
 
         case VARIANT_TYPE_DOUBLE:
+          TRACE_MSG("value d = " << out.double_value);
           out.double_value = pt.get<double>(inikey);
           break;
 
         case VARIANT_TYPE_NONE:
           out.type = VARIANT_TYPE_STRING;
+          TRACE_MSG("value n = " << out.string_value);
           out.string_value = pt.get<string>(inikey);
           break;
 
         case VARIANT_TYPE_STRING:
           out.string_value = pt.get<string>(inikey);
+          TRACE_MSG("value s = " << out.string_value);
           break;
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
+      TRACE_MSG("e: " << e.what());
       ret = false;
     }
 
@@ -138,6 +144,7 @@ IniConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
 bool
 IniConfigurator::set_value(const std::string &key, Variant &value)
 {
+  TRACE_ENTER_MSG("IniConfigurator::set_value", key);
   bool ret = true;
 
   boost::property_tree::ptree::path_type inikey = path(key);
@@ -147,25 +154,30 @@ IniConfigurator::set_value(const std::string &key, Variant &value)
       switch (value.type)
         {
         case VARIANT_TYPE_INT:
+          TRACE_MSG("value i = " << value.int_value);
           pt.put(inikey, value.int_value);
           break;
 
         case VARIANT_TYPE_BOOL:
+          TRACE_MSG("value b = " << value.bool_value);
           pt.put(inikey, value.bool_value);
           break;
 
         case VARIANT_TYPE_DOUBLE:
+          TRACE_MSG("value d = " << value.double_value);
           pt.put(inikey, value.double_value);
           break;
 
         case VARIANT_TYPE_NONE:
         case VARIANT_TYPE_STRING:
+          TRACE_MSG("value s = " << value.string_value);
           pt.put(inikey, value.string_value);
           break;
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
+      TRACE_MSG("e: " << e.what());
       ret = false;
     }
 
