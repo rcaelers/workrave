@@ -29,11 +29,6 @@
 
 class TimePred;
 
-namespace workrave
-{
-  class ICore;
-}
-
 enum TimerState
 {
   STATE_INVALID,
@@ -138,6 +133,8 @@ public:
   };
 
 public:
+  using Ptr = std::shared_ptr<Timer>;
+
   // Construction/Destruction.
   Timer(const std::string &timer_id);
   virtual ~Timer();
@@ -187,6 +184,7 @@ public:
   void set_values(int elapsed, int idle);
 
   // Misc
+  void set_snooze(int64_t time);
   time_t get_snooze() const;
   void set_snooze_interval(time_t time);
   void inhibit_snooze();
@@ -208,6 +206,7 @@ public:
   void force_idle();
   void force_active();
   void set_insensitive_mode(InsensitiveMode mode);
+  bool is_running() const;
 
 private:
   //! Id of the timer.
@@ -284,9 +283,6 @@ private:
 
   //! Total overdue time.
   time_t total_overdue_time{0};
-
-  //! Core
-  workrave::ICore *core{nullptr};
 
   //! Activity Mobnitor to use.
   IActivityMonitor *activity_monitor{nullptr};

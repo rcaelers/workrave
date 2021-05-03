@@ -22,19 +22,19 @@
 
 #include <memory>
 #include <string>
-#include <iostream>
+#include <boost/signals2.hpp>
 
+#include "config/IConfigurator.hh"
 #include "core/CoreTypes.hh"
-#include "ICoreEventListener.hh"
+#include "core/IBreak.hh"
+#include "core/ICoreEventListener.hh"
+#include "core/ICoreHooks.hh"
+#include "core/IStatistics.hh"
+#include "dbus/IDBus.hh"
 
 namespace workrave
 {
-  // Forward declaratons
-  class IBreak;
   class IApp;
-  class IStatistics;
-  class ICoreEventListener;
-  class INetwork;
   class IDistributionManager;
 
   //! Main interface of the backend.
@@ -43,6 +43,9 @@ namespace workrave
   public:
     using Ptr = std::shared_ptr<ICore>;
     virtual ~ICore() = default;
+
+    virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
+    virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;
 
     //! Initialize the Core. Must be called first.
     virtual void init(int argc, char **argv, IApp *app, const char *display) = 0;
@@ -54,30 +57,27 @@ namespace workrave
     virtual void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    virtual IBreak *get_break(BreakId id) = 0;
+    [[nodiscard]] virtual IBreak *get_break(BreakId id) = 0;
 
     //! Return the break interface of the specified type.
-    virtual IBreak *get_break(std::string name) = 0;
+    [[nodiscard]] virtual IBreak *get_break(std::string name) = 0;
 
     //! Return the statistics interface.
-    virtual IStatistics *get_statistics() const = 0;
+    [[nodiscard]] virtual IStatistics *get_statistics() const = 0;
 
 #ifdef HAVE_DISTRIBUTION
     //! Returns the distribution manager (if available).
-    virtual IDistributionManager *get_distribution_manager() const = 0;
+    [[nodiscard]] virtual IDistributionManager *get_distribution_manager() const = 0;
 #endif
 
     //! Is the user currently active?
-    virtual bool is_user_active() const = 0;
+    [[nodiscard]] virtual bool is_user_active() const = 0;
 
     //! Retrieves the operation mode.
-    virtual OperationMode get_operation_mode() = 0;
+    [[nodiscard]] virtual OperationMode get_operation_mode() = 0;
 
     //! Retrieves the regular operation mode.
-    virtual OperationMode get_operation_mode_regular() = 0;
-
-    //! Checks if operation_mode is an override.
-    virtual bool is_operation_mode_an_override() = 0;
+    [[nodiscard]] virtual OperationMode get_operation_mode_regular() = 0;
 
     //! Sets the operation mode.
     virtual void set_operation_mode(OperationMode mode) = 0;
@@ -85,11 +85,14 @@ namespace workrave
     //! Temporarily overrides the operation mode.
     virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;
 
-    //! Removes the overriden operation mode.
+    //! Removes the overridden operation mode.
     virtual void remove_operation_mode_override(const std::string &id) = 0;
 
+    //! Checks if operation_mode is an override.
+    [[nodiscard]] virtual bool is_operation_mode_an_override() = 0;
+
     //! Return the current usage mode.
-    virtual UsageMode get_usage_mode() = 0;
+    [[nodiscard]] virtual UsageMode get_usage_mode() = 0;
 
     //! Set the usage mode.
     virtual void set_usage_mode(UsageMode mode) = 0;
@@ -107,19 +110,29 @@ namespace workrave
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
     //! Return the current time
-    virtual time_t get_time() const = 0;
+    [[nodiscard]] virtual time_t get_time() const = 0;
 
-    //! Return the current time
+    //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
 
     virtual void post_event(CoreEvent event) = 0;
+
+    //! Return configuration
+    [[nodiscard]] virtual config::IConfigurator::Ptr get_configurator() const = 0;
+
+    //! Return the hooks
+    [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
+
+    //! Return DBUs remoting interface.
+    [[nodiscard]] virtual dbus::IDBus::Ptr get_dbus() const = 0;
+
   };
 
   // class CoreFactory
-  //{
+  // {
   // public:
-  //  static ICore::Ptr create();
-  //};
+  //   static ICore::Ptr create();
+  // };
 
 }; // namespace workrave
 

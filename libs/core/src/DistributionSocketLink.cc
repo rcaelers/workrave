@@ -875,7 +875,7 @@ DistributionSocketLink::get_master() const
 void
 DistributionSocketLink::set_master(Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink::set_master")
+  TRACE_ENTER("DistributionSocketLink::set_master");
   master_client = client;
   i_am_master = false;
 

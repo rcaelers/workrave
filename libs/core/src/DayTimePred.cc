@@ -1,6 +1,6 @@
 // DayTimePred.cc --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,31 +21,14 @@
 #  include "config.h"
 #endif
 
-#include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <cstdio>
+#include <ctime>
 
-#include "core/ICore.hh"
-#include "core/CoreFactory.hh"
 #include "DayTimePred.hh"
 
 using namespace std;
-using namespace workrave;
-
-//! Sets the last time the predicate matched.
-void
-DayTimePred::set_last(time_t lastTime)
-{
-  last_time = lastTime;
-
-  ICore *core = CoreFactory::get_core();
-  time_t now = core->get_time();
-
-  if (last_time == 0)
-    {
-      last_time = now;
-    }
-}
 
 int
 DayTimePred::time_cmp(int h1, int m1, int h2, int m2)
@@ -95,8 +78,6 @@ DayTimePred::init(std::string spec)
 int
 DayTimePred::days_in_month(int month, int year)
 {
-  int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
   if (month == 1)
     {
       // Feb
@@ -112,6 +93,7 @@ DayTimePred::days_in_month(int month, int year)
     }
   else
     {
+      int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
       return days[month];
     }
 }
@@ -123,7 +105,7 @@ DayTimePred::get_time_offset()
 }
 
 time_t
-DayTimePred::get_next()
+DayTimePred::get_next(time_t last_time)
 {
   struct tm *ret;
 
@@ -154,10 +136,8 @@ DayTimePred::get_next()
 
       return mktime(ret);
     }
-  else
-    {
-      return 0;
-    }
+
+  return 0;
 }
 
 string

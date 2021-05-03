@@ -1,6 +1,6 @@
-// Test.hh --- Whitebox testing code
+// CoreHooks.cc
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TEST_H
-#define TEST_H
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
-class Test
+#include "debug.hh"
+
+#include "CoreHooks.hh"
+
+#ifdef HAVE_TESTS
+std::function<workrave::config::IConfigurator::Ptr()> &
+CoreHooks::hook_create_configurator()
 {
-public:
-  static Test *get_instance();
-
-  void quit();
-
-private:
-  //! The one and only instance
-  static Test *instance;
-};
-
-//! Returns the singleton Test instance.
-inline Test *
-Test::get_instance()
-{
-  if (instance == NULL)
-    {
-      instance = new Test();
-    }
-
-  return instance;
+  return create_configurator_hook;
 }
 
-#endif // TEST_H
+std::function<IActivityMonitor::Ptr()> &
+CoreHooks::hook_create_monitor()
+{
+  return create_monitor_hook;
+}
+
+std::function<bool(Timer* timers[workrave::BREAK_ID_SIZEOF])> &
+CoreHooks::hook_load_timer_state()
+{
+  return load_timer_state_hook;
+}
+
+#endif

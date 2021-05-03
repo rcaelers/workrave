@@ -24,7 +24,7 @@
 #include "core/ICoreEventListener.hh"
 #include "core/IBreak.hh"
 #include "core/IBreakResponse.hh"
-#include "ActivityMonitorListener.hh"
+#include "IActivityMonitorListener.hh"
 #include "utils/Diagnostics.hh"
 
 using namespace workrave;
@@ -32,7 +32,6 @@ using namespace workrave;
 // Forward declarion of external interface.
 namespace workrave
 {
-  class IActivityMonitorListener;
   class IApp;
 } // namespace workrave
 
@@ -40,7 +39,44 @@ class Core;
 class PreludeWindow;
 class Timer;
 
-class BreakControl : public ActivityMonitorListener
+enum class BreakStage
+{
+  None,
+  Snoozed,
+  Prelude,
+  Taking,
+  Delayed
+};
+
+inline std::ostream &operator<<(std::ostream &stream, BreakStage event)
+  {
+    switch (event)
+      {
+      case BreakStage::None:
+        stream << "None";
+        break;
+
+      case BreakStage::Snoozed:
+        stream << "Snoozed";
+        break;
+
+      case BreakStage::Prelude:
+        stream << "Prelude";
+        break;
+
+      case BreakStage::Taking:
+        stream << "Taking";
+        break;
+
+      case BreakStage::Delayed:
+        stream << "Delayed";
+        break;
+
+      }
+    return stream;
+  }
+
+class BreakControl : public IActivityMonitorListener
 {
 public:
   enum BreakState
@@ -74,6 +110,7 @@ public:
   void set_state_data(bool activate, const BreakStateData &data);
   void get_state_data(BreakStateData &data);
   bool is_taking();
+  bool is_active() const;
   bool is_max_preludes_reached() const;
 
   // ActivityMonitorListener
@@ -89,21 +126,15 @@ public:
 
   std::string get_current_stage();
 
+  boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event();
+  boost::signals2::signal<void(BreakStage)> &signal_break_stage_changed();
+
 private:
   void break_window_start();
   void prelude_window_start();
   void post_event(CoreEvent event);
 
 private:
-  enum BreakStage
-  {
-    STAGE_NONE,
-    STAGE_SNOOZED,
-    STAGE_PRELUDE,
-    STAGE_TAKING,
-    STAGE_DELAYED
-  };
-
   void update_prelude_window();
   void update_break_window();
   void goto_stage(BreakStage stage);
@@ -161,6 +192,9 @@ private:
 
   //! Break hint if break has been started.
   workrave::utils::Flags<BreakHint> break_hint{BreakHint::Normal};
+
+  boost::signals2::signal<void(workrave::BreakEvent)> break_event_signal;
+  boost::signals2::signal<void(BreakStage)> break_stage_changed_signal;
 };
 
 #endif // BREAKCONTROL_HH

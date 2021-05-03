@@ -76,7 +76,7 @@ public:
     state = s;
   }
 
-  void set_listener(ActivityMonitorListener *l)
+  void set_listener(IActivityMonitorListener *l)
   {
     (void)l;
   }

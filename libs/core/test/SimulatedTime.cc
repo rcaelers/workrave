@@ -1,6 +1,4 @@
-// ActivityMonitorListener.hh
-//
-// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,17 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ACTIVITYMONITORLISTENER_HH
-#define ACTIVITYMONITORLISTENER_HH
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
-//! Listener for user activity from the Activity Monitor
-class ActivityMonitorListener
-{
-public:
-  virtual ~ActivityMonitorListener() = default;
+#include "SimulatedTime.hh"
 
-  // Notification that the user is currently active.
-  virtual bool action_notify() = 0;
-};
-
-#endif // ACTIVITYMONITORLISTENER_HH
+SimulatedTime::Ptr SimulatedTime::instance;

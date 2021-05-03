@@ -67,7 +67,7 @@ public:
     state = s;
   }
 
-  void set_listener(ActivityMonitorListener *l) override
+  void set_listener(IActivityMonitorListener *l) override
   {
     (void)l;
   }

@@ -95,6 +95,8 @@ Core::Core()
 {
   TRACE_ENTER("Core::Core");
   current_time = TimeSource::get_monotonic_time_sec();
+  hooks = std::make_shared<CoreHooks>();
+  TimeSource::sync();
 
   assert(!instance);
   instance = this;
@@ -115,7 +117,6 @@ Core::~Core()
     }
 
   delete statistics;
-  delete monitor;
 
 #ifdef HAVE_DISTRIBUTION
   if (idlelog_manager != nullptr)
@@ -166,12 +167,21 @@ Core::init_configurator()
 {
   string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
 
-  if (Util::file_exists(ini_file))
+#ifdef HAVE_TESTS
+  if (hooks->hook_create_configurator())
+  {
+    configurator = hooks->hook_create_configurator()();
+  }
+#endif
+
+  if (!configurator)
+  {
+    if (Util::file_exists(ini_file))
     {
       configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
       configurator->load(ini_file);
     }
-  else
+    else
     {
 #if defined(HAVE_GCONF)
       gconf_init(argc, argv, NULL);
@@ -181,36 +191,37 @@ Core::init_configurator()
       configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
 #if defined(HAVE_GDOME)
       if (configurator == nullptr)
-        {
-          string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
+      {
+        string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
+        configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
 #  if defined(PLATFORM_OS_UNIX)
-          if (configFile == "" || configFile == "config.xml")
-            {
-              configFile = Util::get_home_directory() + "config.xml";
-            }
-#  endif
-          if (configFile != "")
-            {
-              configurator->load(configFile);
-            }
+        if (configFile == "" || configFile == "config.xml")
+        {
+          configFile = Util::get_home_directory() + "config.xml";
         }
+#  endif
+        if (configFile != "")
+        {
+          configurator->load(configFile);
+        }
+      }
 #endif
       if (configurator == nullptr)
-        {
-          ini_file = Util::get_home_directory() + "workrave.ini";
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-          configurator->load(ini_file);
-          configurator->save(ini_file);
-        }
+      {
+        ini_file = Util::get_home_directory() + "workrave.ini";
+        configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
+        configurator->load(ini_file);
+        configurator->save(ini_file);
+      }
     }
+  }
 
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
-    {
-      Util::set_home_directory(home);
-    }
+  {
+    Util::set_home_directory(home);
+  }
 }
 
 //! Initializes the communication bus.
@@ -260,7 +271,19 @@ Core::init_monitor(const char *display_name)
 
   configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, workrave::config::CONFIG_FLAG_INITIAL);
 
-  monitor = new ActivityMonitor();
+  local_monitor = std::make_shared<LocalActivityMonitor>();
+
+#ifdef HAVE_TESTS
+  if (hooks->hook_create_monitor())
+    {
+      monitor = hooks->hook_create_monitor()();
+    }
+  else
+#endif
+    {
+      monitor = local_monitor;
+    }
+
   load_monitor_config();
 
   configurator->add_listener(CoreConfig::CFG_KEY_MONITOR, this);
@@ -319,7 +342,7 @@ Core::load_monitor_config()
   int sensitivity;
 
   assert(configurator != nullptr);
-  assert(monitor != nullptr);
+  assert(local_monitor != nullptr);
 
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
     noise = 9000;
@@ -351,7 +374,7 @@ Core::load_monitor_config()
 
   TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
 
-  monitor->set_parameters(noise, activity, idle, sensitivity);
+  local_monitor->set_parameters(noise, activity, idle, sensitivity);
   TRACE_EXIT();
 }
 
@@ -455,8 +478,15 @@ Core::get_configurator() const
   return configurator;
 }
 
+//!
+ICoreHooks::Ptr
+Core::get_hooks() const
+{
+  return hooks;
+}
+
 //! Returns the activity monitor.
-IActivityMonitor *
+IActivityMonitor::Ptr
 Core::get_activity_monitor() const
 {
   return monitor;
@@ -584,6 +614,8 @@ Core::remove_operation_mode_override(const std::string &id)
       if (operation_mode_regular == operation_mode)
         {
           TRACE_MSG("Only calling core_event_operation_mode_changed().");
+          operation_mode_changed_signal(operation_mode_regular);
+
           if (core_event_listener)
             core_event_listener->core_event_operation_mode_changed(operation_mode_regular);
 
@@ -640,6 +672,8 @@ Core::set_operation_mode_internal(OperationMode mode,
   if (!override_id.size() && operation_mode_overrides.size())
     {
       operation_mode_regular = mode;
+
+      operation_mode_changed_signal(operation_mode);
 
       int cm;
       if (persistent && (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, cm) || (cm != underlying_cast(mode))))
@@ -727,6 +761,7 @@ Core::set_operation_mode_internal(OperationMode mode,
               get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(operation_mode.get()));
             }
 
+          operation_mode_changed_signal(operation_mode);
           if (core_event_listener)
             core_event_listener->core_event_operation_mode_changed(operation_mode);
 
@@ -774,6 +809,8 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
         {
           get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, underlying_cast(mode));
         }
+
+      usage_mode_changed_signal(mode);
 
       if (core_event_listener != nullptr)
         {
@@ -1031,6 +1068,8 @@ Core::heartbeat()
 {
   TRACE_ENTER("Core::heartbeat");
   assert(application != nullptr);
+
+    TimeSource::sync();
 
   // Set current time.
   current_time = TimeSource::get_monotonic_time_sec();
@@ -1633,6 +1672,21 @@ Core::load_state()
   ss << Util::get_home_directory();
   ss << "state" << ends;
 
+#ifdef HAVE_TESTS
+  if (hooks->hook_load_timer_state())
+  {
+    Timer *timers[workrave::BREAK_ID_SIZEOF];
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          timers[i] = breaks[i].get_timer();
+        }
+      if (hooks->hook_load_timer_state()(timers))
+        {
+          return;
+        }
+    }
+#endif
+
   ifstream stateFile(ss.str().c_str());
 
   int version = 0;
@@ -2184,3 +2238,15 @@ namespace workrave
     return str;
   }
 } // namespace workrave
+
+boost::signals2::signal<void(OperationMode)> &
+Core::signal_operation_mode_changed()
+{
+  return operation_mode_changed_signal;
+}
+
+boost::signals2::signal<void(UsageMode)> &
+Core::signal_usage_mode_changed()
+{
+  return usage_mode_changed_signal;
+}

@@ -52,6 +52,8 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 #include "utils/Diagnostics.hh"
+#include "CoreHooks.hh"
+#include "LocalActivityMonitor.hh"
 
 #ifdef HAVE_DBUS
 #  include "dbus/IDBus.hh"
@@ -67,7 +69,6 @@ namespace workrave
   class INetwork;
 } // namespace workrave
 
-class ActivityMonitor;
 class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
@@ -96,12 +97,16 @@ public:
 
   static Core *get_instance();
 
+  // ICore
+  boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() override;
+  boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() override;
+
   Timer *get_timer(std::string name) const;
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id) override;
   Break *get_break(std::string name) override;
-  workrave::config::IConfigurator::Ptr get_configurator() const;
-  IActivityMonitor *get_activity_monitor() const;
+  workrave::config::IConfigurator::Ptr get_configurator() const override;
+  IActivityMonitor::Ptr get_activity_monitor() const;
   bool is_user_active() const override;
   std::string get_break_stage(BreakId id);
 
@@ -155,11 +160,12 @@ public:
   void skip_break(BreakId break_id) override;
 
 #ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr get_dbus()
+  workrave::dbus::IDBus::Ptr get_dbus() const override
   {
     return dbus;
   }
 #endif
+  ICoreHooks::Ptr get_hooks() const override;
 
 private:
 #ifndef NDEBUG
@@ -250,13 +256,16 @@ private:
   TracedField<bool> master_node{"core.master_node", true};
 
   //! List of breaks.
-  Break breaks[BREAK_ID_SIZEOF];
+  Break breaks[workrave::BREAK_ID_SIZEOF];
 
   //! The Configurator.
   workrave::config::IConfigurator::Ptr configurator{nullptr};
 
   //! The activity monitor
-  ActivityMonitor *monitor{nullptr};
+  IActivityMonitor::Ptr monitor;
+
+  //! The activity monitor
+  LocalActivityMonitor::Ptr local_monitor;
 
   //! GUI Widget factory.
   IApp *application{nullptr};
@@ -305,6 +314,9 @@ private:
   workrave::dbus::IDBus::Ptr dbus;
 #endif
 
+  //! Hooks to alter the backend behaviour.
+  CoreHooks::Ptr hooks;
+
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
   DistributionManager *dist_manager{nullptr};
@@ -323,6 +335,12 @@ private:
 
   //! External activity
   std::map<std::string, time_t> external_activity;
+
+  //! Operation mode changed notification.
+  boost::signals2::signal<void(workrave::OperationMode)> operation_mode_changed_signal;
+
+  //! Usage mode changed notification.
+  boost::signals2::signal<void(workrave::UsageMode)> usage_mode_changed_signal;
 
 #ifdef HAVE_TESTS
   friend class Test;

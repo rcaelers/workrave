@@ -54,6 +54,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="use-microbreak-activity">
+      <default>false</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
     
   <schema path="/org/workrave/timers/micro-pause/" id="org.workrave.timers.micro-pause" gettext-domain="workrave">

@@ -1,6 +1,4 @@
-// Test.cc --- The main controller
-//
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,31 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#ifndef IACTIVITYMONITORLISTENER_HH
+#define IACTIVITYMONITORLISTENER_HH
 
-#ifdef HAVE_DBUS
-#  include "dbus/IDBus.hh"
-#endif
-
-#ifdef HAVE_TESTS
-
-#  include "nls.h"
-
-#  include "Test.hh"
-#  include "CoreFactory.hh"
-#  include "Core.hh"
-#  include "IApp.hh"
-
-Test *Test::instance = NULL;
-
-void
-Test::quit()
+//! Listener for user activity from the Activity Monitor
+class IActivityMonitorListener
 {
-  Core *core = Core::get_instance();
+public:
+  using Ptr = std::shared_ptr<IActivityMonitorListener>;
 
-  core->application->terminate();
-}
+  virtual ~IActivityMonitorListener() = default;
 
-#endif
+  // Notification that the user is currently active.
+  virtual bool action_notify() = 0;
+};
+
+#endif // IACTIVITYMONITORLISTENER_HH

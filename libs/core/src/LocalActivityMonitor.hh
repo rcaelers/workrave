@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ACTIVITYMONITOR_HH
-#define ACTIVITYMONITOR_HH
+#ifndef LOCALACTIVITYMONITOR_HH
+#define LOCALACTIVITYMONITOR_HH
 
 #include <thread>
 #include <mutex>
@@ -32,13 +32,15 @@
 class ActivityListener;
 class IInputMonitor;
 
-class ActivityMonitor
+class LocalActivityMonitor
   : public workrave::input_monitor::IInputMonitorListener
   , public IActivityMonitor
 {
 public:
-  ActivityMonitor();
-  ~ActivityMonitor() override;
+  using Ptr = std::shared_ptr<LocalActivityMonitor>;
+
+  LocalActivityMonitor();
+  ~LocalActivityMonitor() override;
 
   void terminate() override;
   void suspend() override;
@@ -51,7 +53,7 @@ public:
   void set_parameters(int noise, int activity, int idle, int sensitivity);
   void get_parameters(int &noise, int &activity, int &idle, int &sensitivity);
 
-  void set_listener(ActivityMonitorListener *l) override;
+  void set_listener(IActivityMonitorListener *l) override;
 
   void action_notify() override;
   void mouse_notify(int x, int y, int wheel = 0) override;
@@ -99,7 +101,7 @@ private:
   TracedField<int> sensitivity{"monitor.sensitivity", 3};
 
   //! Activity listener.
-  ActivityMonitorListener *listener{nullptr};
+  IActivityMonitorListener *listener{nullptr};
 };
 
-#endif // ACTIVITYMONITOR_HH
+#endif // LOCALACTIVITYMONITOR_HH

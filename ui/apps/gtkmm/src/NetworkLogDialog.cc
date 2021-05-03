@@ -135,7 +135,7 @@ NetworkLogDialog::init()
 int
 NetworkLogDialog::run()
 {
-  TRACE_ENTER("NetworkLogDialog::run")
+  TRACE_ENTER("NetworkLogDialog::run");
   init();
 
   show_all();
@@ -147,7 +147,7 @@ void
 NetworkLogDialog::on_response(int response)
 {
   (void)response;
-  TRACE_ENTER("NetworkLogDialog::on_response")
+  TRACE_ENTER("NetworkLogDialog::on_response");
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != nullptr)

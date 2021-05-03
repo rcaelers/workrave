@@ -38,7 +38,6 @@
 #include "Core.hh"
 #include "utils/Util.hh"
 #include "Timer.hh"
-#include "TimePred.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
 
@@ -103,7 +102,7 @@ Statistics::update()
 {
   TRACE_ENTER("Statistics::update");
 
-  IActivityMonitor *monitor = core->get_activity_monitor();
+  IActivityMonitor::Ptr monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
 
   if (state == ACTIVITY_ACTIVE && !been_active)

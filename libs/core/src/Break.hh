@@ -103,6 +103,10 @@ public:
 
   void override(BreakId id);
 
+  boost::signals2::signal<void(workrave::BreakEvent)> &signal_break_event() override;
+  bool is_active() const override;
+  int64_t get_total_overdue_time() const override;
+
 private:
   void config_changed_notify(const std::string &key) override;
 

@@ -1,6 +1,6 @@
-// DayTimePred.hh --- Daily Time Predicate
+// ICoreTestHooks.hh
 //
-// Copyright (C) 2001, 2002, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DAYTIMEPRED_HH
-#define DAYTIMEPRED_HH
+#ifndef ICORETESTHOOKS_HH
+#define ICORETESTHOOKS_HH
 
-#include "TimePred.hh"
 #include <string>
-#include <unistd.h>
+#include <istream>
+#include <memory>
 
-class DayTimePred : public TimePred
+#include <boost/signals2.hpp>
+
+#include "config/IConfigurator.hh"
+#include "IActivityMonitor.hh"
+#include "core/CoreTypes.hh"
+#include "Timer.hh"
+
+class ICoreTestHooks
 {
 public:
-  bool init(std::string spec);
-  time_t get_next(time_t last_time) override;
-  time_t get_time_offset();
-  std::string to_string() const override;
+  virtual ~ICoreTestHooks() = default;
 
-private:
-  bool init(int hour, int min);
-  int days_in_month(int month, int year);
-  int time_cmp(int h1, int m1, int h2, int m2);
+  using Ptr = std::shared_ptr<ICoreTestHooks>;
 
-  int pred_hour{0};
-  int pred_min{0};
+  virtual std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
+  virtual std::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
+  virtual std::function<bool(Timer *timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };
 
-#endif // DAYTIMEPRED_HH
+#endif // ICOREHOOKS_HH

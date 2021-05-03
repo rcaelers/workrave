@@ -9,7 +9,7 @@ add_library(workrave-libs-core STATIC
   #CoreDBus.cc
   #CoreModes.cc
   CoreConfig.cc
-  #CoreHooks.cc
+  CoreHooks.cc
   DayTimePred.cc
   LocalActivityMonitor.cc
   ReadingActivityMonitor.cc
@@ -21,6 +21,8 @@ add_library(workrave-libs-core STATIC
   CoreFactory.cc
   TimePredFactory.cc
   )
+
+target_code_coverage(workrave-libs-core)
 
 if (HAVE_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkrave)

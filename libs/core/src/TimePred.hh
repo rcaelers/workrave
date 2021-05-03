@@ -21,6 +21,7 @@
 #define TIMEPRED_HH
 
 #include <ctime>
+#include <string>
 
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches
@@ -35,21 +36,11 @@ class TimePred
 public:
   virtual ~TimePred() = default;
 
-  //! Set the last time the predicate matched.
-  virtual void set_last(time_t lastTime)
-  {
-    last_time = lastTime;
-  }
-
   //! Computes the next time the predicate matches given the time of the previous match.
-  virtual time_t get_next() = 0;
+  virtual time_t get_next(time_t last_time) = 0;
 
   //! Returns the string representation of this predicate.
   virtual std::string to_string() const = 0;
-
-protected:
-  //! Last time the predicate matched.
-  time_t last_time{0};
 };
 
 #endif // TIMEPRED_HH

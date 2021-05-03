@@ -1,4 +1,6 @@
-// Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
+// ICoreHooks.hh --- The main controller
+//
+// Copyright (C) 2012, 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,10 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#ifndef WORKRAVE_BACKEND_ICOREHOOKS_HH
+#define WORKRAVE_BACKEND_ICOREHOOKS_HH
 
-#include "config/SettingCache.hh"
+#include <memory>
 
-std::map<std::string, std::shared_ptr<workrave::config::SettingBase>> workrave::config::SettingCache::cache;
+#include <boost/signals2.hpp>
+
+class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
+{
+public:
+  using Ptr = std::shared_ptr<ICoreHooks>;
+
+  virtual ~ICoreHooks() = default;
+};
+
+#endif // WORKRAVE_BACKEND_ICOREHOOKS_HH

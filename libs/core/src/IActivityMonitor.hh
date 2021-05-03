@@ -22,8 +22,9 @@
 
 #include <string>
 #include <iostream>
+#include <memory>
 
-class ActivityMonitorListener;
+class IActivityMonitorListener;
 
 //! State of the activity monitor.
 enum ActivityState
@@ -59,29 +60,20 @@ operator<<(std::ostream &stream, ActivityState mode)
   return stream;
 }
 
-//! Interface that all activity monitor implements.
 class IActivityMonitor
 {
 public:
+  using Ptr = std::shared_ptr<IActivityMonitor>;
+
+public:
   virtual ~IActivityMonitor() = default;
 
-  //! Stops the activity monitoring.
   virtual void terminate() = 0;
-
-  //! Suspends the activity monitoring.
   virtual void suspend() = 0;
-
-  //! Resumes the activity monitoring.
   virtual void resume() = 0;
-
-  //! Returns the current state
   virtual ActivityState get_current_state() = 0;
-
-  //! Force state to be idle.
   virtual void force_idle() = 0;
-
-  //! Sets the callback for activity monitor events.
-  virtual void set_listener(ActivityMonitorListener *l) = 0;
+  virtual void set_listener(IActivityMonitorListener *l) = 0;
 };
 
 #endif // IACTIVITYMONITOR_HH

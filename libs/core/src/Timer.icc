@@ -80,6 +80,12 @@ Timer::get_snooze() const
   return snooze_interval;
 }
 
+inline void
+Timer::set_snooze(int64_t t)
+{
+  snooze_interval = t;
+}
+
 
 //! Gets ID of this timer.
 inline std::string

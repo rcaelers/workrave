@@ -353,6 +353,13 @@ Break::is_taking() const
 }
 
 bool
+Break::is_active() const
+{
+  return break_control->is_active();
+}
+
+
+bool
 Break::is_max_preludes_reached() const
 {
   return break_control->is_max_preludes_reached();
@@ -393,6 +400,13 @@ Break::is_limit_enabled() const
 {
   return timer->is_limit_enabled();
 }
+
+int64_t
+Break::get_total_overdue_time() const
+{
+  return timer->get_total_overdue_time();
+}
+
 
 void
 Break::set_usage_mode(UsageMode mode)
@@ -460,4 +474,10 @@ Break::config_changed_notify(const string &key)
       load_timer_config();
     }
   TRACE_EXIT();
+}
+
+boost::signals2::signal<void(BreakEvent)> &
+Break::signal_break_event()
+{
+  return break_control->signal_break_event();
 }

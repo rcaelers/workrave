@@ -83,3 +83,10 @@ CoreConfig::match(const std::string &str, const std::string &key, workrave::Brea
 
   return ret;
 }
+
+string
+CoreConfig::get_break_name(BreakId id)
+{
+  const char *names[] = { "micro_pause", "rest_break",  "daily_limit" };
+  return names[(int)id];
+}

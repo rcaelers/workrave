@@ -111,14 +111,14 @@ public:
 
   // Returns the collected statistics.
   //! Sets the activity listener of this monitor.
-  void set_listener(ActivityMonitorListener *l) override
+  void set_listener(IActivityMonitorListener *l) override
   {
     (void)l;
   }
 
 private:
   //! Reference monitor
-  IActivityMonitor *monitor{nullptr};
+  IActivityMonitor::Ptr monitor;
 
   //! Reference timer.
   Timer *timer{nullptr};
