@@ -51,7 +51,7 @@ private:
   {
     IdleInterval() = default;
 
-    IdleInterval(time_t b, time_t e)
+    IdleInterval(int64_t b, int64_t e)
       : begin_time(b)
       , end_idle_time(e)
       , end_time(e)
@@ -59,16 +59,16 @@ private:
     }
 
     //! Start time of idle interval
-    time_t begin_time{0};
+    int64_t begin_time{0};
 
     //! End time of idle interval (and start of active part)
-    time_t end_idle_time{0};
+    int64_t end_idle_time{0};
 
     //! End time of active interval.
-    time_t end_time{0};
+    int64_t end_time{0};
 
     //! Elapsed active time AFTER the idle interval.
-    time_t active_time{0};
+    int64_t active_time{0};
 
     //! Yet to be saved
     bool to_be_saved{false};
@@ -99,19 +99,19 @@ private:
     bool master{false};
 
     //! Total active time since daily reset.
-    time_t total_active_time{0};
+    int64_t total_active_time{0};
 
     //! Start time of last active period.
-    time_t last_active_begin_time{0};
+    int64_t last_active_begin_time{0};
 
     //! Total active time since last_active_begin_time
-    time_t last_active_time{0};
+    int64_t last_active_time{0};
 
     //! Last time this idle log was updated.
-    time_t last_update_time{0};
+    int64_t last_update_time{0};
 
     //! Update the active time of the most recent idle interval.
-    void update_active_time(time_t current_time)
+    void update_active_time(int64_t current_time)
     {
       if (last_active_begin_time != 0)
         {
@@ -135,7 +135,7 @@ private:
   ClientMap clients;
 
   //! Last time we performed an expiration run.
-  time_t last_expiration_time{0};
+  int64_t last_expiration_time{0};
 
 public:
   IdleLogManager(std::string myid);
@@ -151,9 +151,9 @@ public:
   void get_idlelog(PacketBuffer &buffer);
   void set_idlelog(PacketBuffer &buffer);
 
-  time_t compute_total_active_time();
-  time_t compute_active_time(int length);
-  time_t compute_idle_time();
+  int64_t compute_total_active_time();
+  int64_t compute_active_time(int length);
+  int64_t compute_idle_time();
 
 private:
   void update_idlelog(ClientInfo &info, ActivityState state, bool master);
@@ -161,10 +161,10 @@ private:
   void expire(ClientInfo &info);
 
   void pack_idle_interval(PacketBuffer &buffer, const IdleInterval &idle) const;
-  void unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, time_t delta_time) const;
+  void unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, int64_t delta_time) const;
 
   void pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const;
-  void unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, time_t &pack_time, int &num_intervals) const;
+  void unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, int64_t &pack_time, int &num_intervals) const;
   void unlink_idlelog(PacketBuffer &buffer) const;
 
   void save_index();

@@ -48,33 +48,33 @@ enum class BreakStage
   Delayed
 };
 
-inline std::ostream &operator<<(std::ostream &stream, BreakStage event)
-  {
-    switch (event)
-      {
-      case BreakStage::None:
-        stream << "None";
-        break;
+inline std::ostream &
+operator<<(std::ostream &stream, BreakStage event)
+{
+  switch (event)
+    {
+    case BreakStage::None:
+      stream << "None";
+      break;
 
-      case BreakStage::Snoozed:
-        stream << "Snoozed";
-        break;
+    case BreakStage::Snoozed:
+      stream << "Snoozed";
+      break;
 
-      case BreakStage::Prelude:
-        stream << "Prelude";
-        break;
+    case BreakStage::Prelude:
+      stream << "Prelude";
+      break;
 
-      case BreakStage::Taking:
-        stream << "Taking";
-        break;
+    case BreakStage::Taking:
+      stream << "Taking";
+      break;
 
-      case BreakStage::Delayed:
-        stream << "Delayed";
-        break;
-
-      }
-    return stream;
-  }
+    case BreakStage::Delayed:
+      stream << "Delayed";
+      break;
+    }
+  return stream;
+}
 
 class BreakControl : public IActivityMonitorListener
 {
@@ -182,7 +182,7 @@ private:
   TracedField<bool> fake_break;
 
   //! Fake break counter.
-  time_t fake_break_count{0};
+  int64_t fake_break_count{0};
 
   //! Break will be stopped because the user pressed postpone/skip.
   TracedField<bool> user_abort;

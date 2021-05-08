@@ -94,7 +94,6 @@ using namespace std;
 Core::Core()
 {
   TRACE_ENTER("Core::Core");
-  current_time = TimeSource::get_monotonic_time_sec();
   hooks = std::make_shared<CoreHooks>();
   TimeSource::sync();
 
@@ -169,59 +168,59 @@ Core::init_configurator()
 
 #ifdef HAVE_TESTS
   if (hooks->hook_create_configurator())
-  {
-    configurator = hooks->hook_create_configurator()();
-  }
+    {
+      configurator = hooks->hook_create_configurator()();
+    }
 #endif
 
   if (!configurator)
-  {
-    if (Util::file_exists(ini_file))
     {
-      configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-      configurator->load(ini_file);
-    }
-    else
-    {
+      if (Util::file_exists(ini_file))
+        {
+          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
+          configurator->load(ini_file);
+        }
+      else
+        {
 #if defined(HAVE_GCONF)
-      gconf_init(argc, argv, NULL);
-      g_type_init();
+          gconf_init(argc, argv, NULL);
+          g_type_init();
 #endif
 
-      configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
+          configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
 #if defined(HAVE_GDOME)
-      if (configurator == nullptr)
-      {
-        string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-        configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
+          if (configurator == nullptr)
+            {
+              string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
+              configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
 #  if defined(PLATFORM_OS_UNIX)
-        if (configFile == "" || configFile == "config.xml")
-        {
-          configFile = Util::get_home_directory() + "config.xml";
-        }
+              if (configFile == "" || configFile == "config.xml")
+                {
+                  configFile = Util::get_home_directory() + "config.xml";
+                }
 #  endif
-        if (configFile != "")
-        {
-          configurator->load(configFile);
-        }
-      }
+              if (configFile != "")
+                {
+                  configurator->load(configFile);
+                }
+            }
 #endif
-      if (configurator == nullptr)
-      {
-        ini_file = Util::get_home_directory() + "workrave.ini";
-        configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-        configurator->load(ini_file);
-        configurator->save(ini_file);
-      }
+          if (configurator == nullptr)
+            {
+              ini_file = Util::get_home_directory() + "workrave.ini";
+              configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
+              configurator->load(ini_file);
+              configurator->save(ini_file);
+            }
+        }
     }
-  }
 
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
-  {
-    Util::set_home_directory(home);
-  }
+    {
+      Util::set_home_directory(home);
+    }
 }
 
 //! Initializes the communication bus.
@@ -432,11 +431,10 @@ Core::config_changed_notify(const string &key)
 /**** TimeSource interface                                                 ******/
 /********************************************************************************/
 
-//! Retrieve the current time.
-time_t
+int64_t
 Core::get_time() const
 {
-  return current_time;
+  return TimeSource::get_real_time_sec();
 }
 
 /********************************************************************************/
@@ -910,6 +908,8 @@ Core::set_powersave(bool down)
       // or until some time has passed
       if (powersave_resume_time == 0)
         {
+          int64_t current_time = TimeSource::get_real_time_sec();
+
           powersave_resume_time = current_time ? current_time : 1;
           TRACE_MSG("set resume time " << powersave_resume_time);
         }
@@ -1069,10 +1069,7 @@ Core::heartbeat()
   TRACE_ENTER("Core::heartbeat");
   assert(application != nullptr);
 
-    TimeSource::sync();
-
-  // Set current time.
-  current_time = TimeSource::get_monotonic_time_sec();
+  TimeSource::sync();
 
   // Performs timewarp checking.
   bool warped = process_timewarp();
@@ -1101,6 +1098,9 @@ Core::heartbeat()
           bc->heartbeat();
         }
     }
+
+  // Set current time.
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   // Make state persistent.
   if (current_time % SAVESTATETIME == 0)
@@ -1167,13 +1167,16 @@ Core::process_distribution()
 void
 Core::process_state()
 {
+  // Set current time.
+  int64_t current_time = TimeSource::get_real_time_sec();
+
   // Default
   local_state = monitor->get_current_state();
 
-  map<std::string, time_t>::iterator i = external_activity.begin();
+  map<std::string, int64_t>::iterator i = external_activity.begin();
   while (i != external_activity.end())
     {
-      map<std::string, time_t>::iterator next = i;
+      map<std::string, int64_t>::iterator next = i;
       next++;
 
       if (i->second >= current_time)
@@ -1223,6 +1226,7 @@ Core::report_external_activity(std::string who, bool act)
   TRACE_ENTER_MSG("Core::report_external_activity", who << " " << act);
   if (act)
     {
+      int64_t current_time = TimeSource::get_real_time_sec();
       external_activity[who] = current_time + 10;
     }
   else
@@ -1262,7 +1266,7 @@ Core::get_timer_remaining(BreakId id, int *value)
 
   if (timer->is_limit_enabled())
     {
-      int remaining = timer->get_limit() - timer->get_elapsed_time();
+      int64_t remaining = timer->get_limit() - timer->get_elapsed_time();
       *value = remaining >= 0 ? remaining : 0;
     }
 }
@@ -1356,7 +1360,8 @@ Core::process_timewarp()
   TRACE_ENTER("Core::process_timewarp");
   if (last_process_time != 0)
     {
-      time_t gap = current_time - 1 - last_process_time;
+      int64_t current_time = TimeSource::get_real_time_sec();
+      int64_t gap = current_time - 1 - last_process_time;
 
       if (abs((int)gap) > 5)
         {
@@ -1369,7 +1374,7 @@ Core::process_timewarp()
 
               force_idle();
 
-              monitor->shift_time((int)gap);
+              local_monitor->shift_time((int)gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {
                   breaks[i].get_timer()->shift_time((int)gap);
@@ -1407,6 +1412,7 @@ bool
 Core::process_timewarp()
 {
   bool ret = false;
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   TRACE_ENTER("Core::process_timewarp");
   if (last_process_time != 0)
@@ -1517,8 +1523,8 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
         {
           Timer *timer = breaks[break_id].get_timer();
 
-          time_t duration = timer->get_auto_reset();
-          time_t now = get_time();
+          int64_t duration = timer->get_auto_reset();
+          int64_t now = TimeSource::get_real_time_sec();
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
@@ -1604,7 +1610,7 @@ Core::daily_reset()
       Timer *t = breaks[i].get_timer();
       assert(t != nullptr);
 
-      time_t overdue = t->get_total_overdue_time();
+      int64_t overdue = t->get_total_overdue_time();
 
       statistics->set_break_counter(((BreakId)i), Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
 
@@ -1630,7 +1636,8 @@ Core::save_state() const
 
   ofstream stateFile(ss.str().c_str());
 
-  stateFile << "WorkRaveState 3" << endl << get_time() << endl;
+  int64_t current_time = TimeSource::get_real_time_sec();
+  stateFile << "WorkRaveState 3" << endl << current_time << endl;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -1674,8 +1681,8 @@ Core::load_state()
 
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())
-  {
-    Timer *timers[workrave::BREAK_ID_SIZEOF];
+    {
+      Timer *timers[workrave::BREAK_ID_SIZEOF];
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           timers[i] = breaks[i].get_timer();
@@ -1709,7 +1716,7 @@ Core::load_state()
 
   if (ok)
     {
-      time_t saveTime;
+      int64_t saveTime;
       stateFile >> saveTime;
     }
 
@@ -2116,12 +2123,12 @@ Core::compute_timers()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      int autoreset = breaks[i].get_timer()->get_auto_reset();
-      int idle = idlelog_manager->compute_idle_time();
+      int64_t autoreset = breaks[i].get_timer()->get_auto_reset();
+      int64_t idle = idlelog_manager->compute_idle_time();
 
       if (autoreset != 0)
         {
-          int active_time = idlelog_manager->compute_active_time(autoreset);
+          int64_t active_time = idlelog_manager->compute_active_time(autoreset);
 
           if (idle > autoreset)
             {
@@ -2132,7 +2139,7 @@ Core::compute_timers()
         }
       else
         {
-          int active_time = idlelog_manager->compute_total_active_time();
+          int64_t active_time = idlelog_manager->compute_total_active_time();
           breaks[i].get_timer()->set_values(active_time, idle);
         }
     }

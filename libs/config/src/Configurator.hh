@@ -90,7 +90,7 @@ private:
   {
     std::string key;
     Variant value;
-    time_t until;
+    int64_t until;
   };
 
   struct Setting
@@ -126,7 +126,7 @@ private:
   IConfigBackend *backend{nullptr};
 
   //! Next auto save time.
-  time_t auto_save_time{0};
+  int64_t auto_save_time{0};
 };
 
 #endif // CONFIGURATOR_HH

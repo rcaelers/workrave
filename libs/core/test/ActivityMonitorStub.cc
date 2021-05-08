@@ -93,23 +93,23 @@ ActivityState
 ActivityMonitorStub::get_current_state()
 {
   if (suspended)
-  {
-    return ACTIVITY_SUSPENDED;
-  }
+    {
+      return ACTIVITY_SUSPENDED;
+    }
   else if (active && !forced_idle)
-  {
-    return ACTIVITY_ACTIVE;
-  }
+    {
+      return ACTIVITY_ACTIVE;
+    }
   else
-  {
-    return ACTIVITY_IDLE;
-  }
+    {
+      return ACTIVITY_IDLE;
+    }
 }
 
 void
 ActivityMonitorStub::notify()
 {
-  //ActivityMonitorListener::Ptr l;
+  // ActivityMonitorListener::Ptr l;
   IActivityMonitorListener *l;
 
   l = listener;

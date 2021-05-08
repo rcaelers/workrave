@@ -211,10 +211,9 @@ Timer::set_auto_reset(TimePred *pred)
   compute_next_predicate_reset_time();
 }
 
-
 //! Sets the snooze interval of the timer.
 void
-Timer::set_snooze_interval(time_t t)
+Timer::set_snooze_interval(int64_t t)
 {
   snooze_interval = t;
 }
@@ -240,7 +239,7 @@ Timer::set_activity_sensitive(bool a)
       // If timer is made insensitive, start it if
       // it has some elasped time. Otherwise a daily limit
       // will never start (well, not until it resets...)
-      time_t elasped = get_elapsed_time();
+      int64_t elasped = get_elapsed_time();
       if (elasped > 0 && (elasped < limit_interval || !limit_enabled))
         {
           activity_state = ACTIVITY_ACTIVE;
@@ -383,7 +382,7 @@ Timer::reset_timer()
   TRACE_ENTER_MSG("Timer::reset", timer_id << timer_state);
 
   // Update total overdue.
-  time_t elapsed = get_elapsed_time();
+  int64_t elapsed = get_elapsed_time();
   if (limit_enabled && elapsed > limit_interval)
     {
       total_overdue_time += (elapsed - limit_interval);
@@ -581,11 +580,11 @@ Timer::freeze_timer(bool freeze)
 }
 
 //! Returns the elapsed idle time.
-time_t
+int64_t
 Timer::get_elapsed_idle_time() const
 {
   TRACE_ENTER("Timer::get_elapsed_idle_time");
-  time_t ret = elapsed_idle_time;
+  int64_t ret = elapsed_idle_time;
 
   if (timer_enabled && last_stop_time != 0)
     {
@@ -597,11 +596,11 @@ Timer::get_elapsed_idle_time() const
 }
 
 //! Returns the elapsed time.
-time_t
+int64_t
 Timer::get_elapsed_time() const
 {
   TRACE_ENTER("Timer::get_elapsed_time");
-  time_t ret = elapsed_time;
+  int64_t ret = elapsed_time;
 
   TRACE_MSG(ret << " " << TimeSource::get_real_time_sec_sync() << " " << last_start_time);
 
@@ -615,12 +614,12 @@ Timer::get_elapsed_time() const
 }
 
 //! Returns the total overdue time of the timer.
-time_t
+int64_t
 Timer::get_total_overdue_time() const
 {
   TRACE_ENTER("Timer::get_total_overdue_time");
-  time_t ret = total_overdue_time;
-  time_t elapsed = get_elapsed_time();
+  int64_t ret = total_overdue_time;
+  int64_t elapsed = get_elapsed_time();
 
   TRACE_MSG(ret << " " << elapsed);
 
@@ -679,7 +678,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 {
   TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
 
-  time_t current_time = TimeSource::get_real_time_sec_sync();
+  int64_t current_time = TimeSource::get_real_time_sec_sync();
 
   // Default event to return.
   info.event = TIMER_EVENT_NONE;
@@ -825,8 +824,8 @@ Timer::serialize_state() const
 {
   stringstream ss;
 
-  ss << timer_id << " " << TimeSource::get_real_time_sec_sync() << " " << get_elapsed_time() << " " << last_pred_reset_time << " " << total_overdue_time
-     << " " << snooze_inhibited << " " << last_limit_time << " " << last_limit_elapsed << " " << timezone;
+  ss << timer_id << " " << TimeSource::get_real_time_sec_sync() << " " << get_elapsed_time() << " " << last_pred_reset_time << " "
+     << total_overdue_time << " " << snooze_inhibited << " " << last_limit_time << " " << last_limit_elapsed << " " << timezone;
 
   return ss.str();
 }
@@ -837,14 +836,14 @@ Timer::deserialize_state(const std::string &state, int version)
   TRACE_ENTER("Timer::deserialize_state");
   istringstream ss(state);
 
-  time_t saveTime = 0;
-  time_t elapsed = 0;
-  time_t lastReset = 0;
-  time_t overdue = 0;
-  time_t now = TimeSource::get_real_time_sec_sync();
-  time_t llt = 0;
-  time_t lle = 0;
-  time_t tz = 0;
+  int64_t saveTime = 0;
+  int64_t elapsed = 0;
+  int64_t lastReset = 0;
+  int64_t overdue = 0;
+  int64_t now = TimeSource::get_real_time_sec_sync();
+  int64_t llt = 0;
+  int64_t lle = 0;
+  int64_t tz = 0;
   bool si = false;
 
   ss >> saveTime >> elapsed >> lastReset >> overdue >> si >> llt >> lle;
@@ -939,7 +938,7 @@ Timer::set_state(int elapsed, int idle, int overdue)
 }
 
 void
-Timer::set_values(int elapsed, int idle)
+Timer::set_values(int64_t elapsed, int64_t idle)
 {
   elapsed_time = elapsed;
   elapsed_idle_time = idle;
@@ -964,7 +963,7 @@ Timer::set_values(int elapsed, int idle)
 void
 Timer::set_state_data(const TimerStateData &data)
 {
-  time_t time_diff = TimeSource::get_real_time_sec_sync() - data.current_time;
+  int64_t time_diff = TimeSource::get_real_time_sec_sync() - data.current_time;
 
   elapsed_time = data.elapsed_time;
   elapsed_idle_time = data.elapsed_idle_time;

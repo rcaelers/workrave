@@ -105,10 +105,10 @@ struct TimerInfo
   TimerEvent event;
 
   //! Total idle time of the timer.
-  time_t idle_time;
+  int64_t idle_time;
 
   //! Total elasped time of the timer.
-  time_t elapsed_time;
+  int64_t elapsed_time;
 };
 
 //! The Timer class.
@@ -122,13 +122,13 @@ class Timer
 public:
   struct TimerStateData
   {
-    time_t current_time;
-    time_t elapsed_time;
-    time_t elapsed_idle_time;
-    time_t last_pred_reset_time;
-    time_t total_overdue_time;
-    time_t last_limit_time;
-    time_t last_limit_elapsed;
+    int64_t current_time;
+    int64_t elapsed_time;
+    int64_t elapsed_idle_time;
+    int64_t last_pred_reset_time;
+    int64_t total_overdue_time;
+    int64_t last_limit_time;
+    int64_t last_limit_elapsed;
     bool snooze_inhibited;
   };
 
@@ -149,8 +149,8 @@ public:
   void process(ActivityState activityState, TimerInfo &info);
 
   // State inquiry
-  time_t get_elapsed_time() const;
-  time_t get_elapsed_idle_time() const;
+  int64_t get_elapsed_time() const;
+  int64_t get_elapsed_idle_time() const;
   TimerState get_state() const;
   bool is_enabled() const;
 
@@ -160,16 +160,16 @@ public:
   void set_auto_reset(std::string predicate);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
-  time_t get_auto_reset() const;
+  int64_t get_auto_reset() const;
   TimePred *get_auto_reset_predicate() const;
-  time_t get_next_reset_time() const;
+  int64_t get_next_reset_time() const;
 
   // Limiting.
   void set_limit(int t);
   void set_limit_enabled(bool b);
   bool is_limit_enabled() const;
-  time_t get_limit() const;
-  time_t get_next_limit_time() const;
+  int64_t get_limit() const;
+  int64_t get_next_limit_time() const;
 
   // Timer ID
   std::string get_id() const;
@@ -181,18 +181,18 @@ public:
 
   void set_state_data(const TimerStateData &data);
   void get_state_data(TimerStateData &data);
-  void set_values(int elapsed, int idle);
+  void set_values(int64_t elapsed, int64_t idle);
 
   // Misc
   void set_snooze(int64_t time);
-  time_t get_snooze() const;
-  void set_snooze_interval(time_t time);
+  int64_t get_snooze() const;
+  void set_snooze_interval(int64_t time);
   void inhibit_snooze();
   void set_activity_monitor(IActivityMonitor *am);
   IActivityMonitor *get_activity_monitor() const;
   bool has_activity_monitor() const;
 
-  time_t get_total_overdue_time() const;
+  int64_t get_total_overdue_time() const;
   void daily_reset_timer();
 
   void shift_time(int delta);
@@ -225,7 +225,7 @@ private:
   TracedField<TimerState> timer_state;
 
   //! Default snooze time
-  time_t snooze_interval{60};
+  int64_t snooze_interval{60};
 
   //! Snooze on active time instead of on actual time.
   bool snooze_on_active{true};
@@ -237,52 +237,52 @@ private:
   bool limit_enabled{true};
 
   //! Timer limit interval.
-  time_t limit_interval{600};
+  int64_t limit_interval{600};
 
   //! Is the timer auto reset enabled?
   bool autoreset_enabled{true};
 
   //! Automatic reset time interval.
-  time_t autoreset_interval{120};
+  int64_t autoreset_interval{120};
 
   //! Auto reset time predicate. (or NULL if not used)
   TimePred *autoreset_interval_predicate{nullptr};
 
   //! Elapsed time.
-  time_t elapsed_time{0};
+  int64_t elapsed_time{0};
 
   //! Elapsed Idle time.
-  time_t elapsed_idle_time{0};
+  int64_t elapsed_idle_time{0};
 
   //! Last time the limit was reached.
-  time_t last_limit_time{0};
+  int64_t last_limit_time{0};
 
   //! The total elapsed time the last time the limit was reached.
-  time_t last_limit_elapsed{0};
+  int64_t last_limit_elapsed{0};
 
   //! Time when the timer was last started.
-  time_t last_start_time{0};
+  int64_t last_start_time{0};
 
   //! Time when the timer was last reset.
-  time_t last_reset_time{0};
+  int64_t last_reset_time{0};
 
   //! Time when the timer was last stopped.
-  time_t last_stop_time{0};
+  int64_t last_stop_time{0};
 
   //! Next automatic reset time.
-  time_t next_reset_time{0};
+  int64_t next_reset_time{0};
 
   //! Time when the timer was last reset because of a predicate.
-  time_t last_pred_reset_time{0};
+  int64_t last_pred_reset_time{0};
 
   //! Next automatic predicate reset time.
-  time_t next_pred_reset_time{0};
+  int64_t next_pred_reset_time{0};
 
   //! Next limit time.
-  time_t next_limit_time{0};
+  int64_t next_limit_time{0};
 
   //! Total overdue time.
-  time_t total_overdue_time{0};
+  int64_t total_overdue_time{0};
 
   //! Activity Mobnitor to use.
   IActivityMonitor *activity_monitor{nullptr};

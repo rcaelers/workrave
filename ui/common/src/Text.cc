@@ -31,7 +31,7 @@ using namespace std;
 
 //! Converts the specified time to a string
 string
-Text::time_to_string(time_t time, bool display_units)
+Text::time_to_string(int64_t time, bool display_units)
 {
   char s[128] = "";
   char t[2];

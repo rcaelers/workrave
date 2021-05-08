@@ -37,7 +37,7 @@ public:
   virtual ~TimePred() = default;
 
   //! Computes the next time the predicate matches given the time of the previous match.
-  virtual time_t get_next(time_t last_time) = 0;
+  virtual int64_t get_next(int64_t last_time) = 0;
 
   //! Returns the string representation of this predicate.
   virtual std::string to_string() const = 0;

@@ -215,7 +215,6 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
       int x = 0, y = 0;
       int bar_width, bar_height;
 
-
       if (priv->force_icon)
         {
           x += gdk_pixbuf_get_width(priv->normal_sheep_icon);

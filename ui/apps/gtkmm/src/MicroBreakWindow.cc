@@ -200,8 +200,8 @@ MicroBreakWindow::update_label()
 
   BreakId show_next = BREAK_ID_NONE;
 
-  time_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
-  time_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
+  int64_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
+  int64_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
 
   if (restbreak_timer->is_enabled())
     {

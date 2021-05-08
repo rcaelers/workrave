@@ -102,7 +102,7 @@ IdleLogManager::reset()
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &info = (*i).second;
-      info.update_active_time(TimeSource::get_monotonic_time_sec());
+      info.update_active_time(TimeSource::get_real_time_sec());
       info.total_active_time = 0;
     }
 }
@@ -120,7 +120,7 @@ IdleLogManager::init()
       TRACE_MSG("Didn't find myself");
 
       ClientInfo &myinfo = clients[myid];
-      myinfo.current_interval = IdleInterval(1, TimeSource::get_monotonic_time_sec());
+      myinfo.current_interval = IdleInterval(1, TimeSource::get_real_time_sec());
       myinfo.client_id = myid;
 
       save();
@@ -128,7 +128,7 @@ IdleLogManager::init()
   else
     {
       ClientInfo &myinfo = clients[myid];
-      myinfo.current_interval = IdleInterval(TimeSource::get_monotonic_time_sec(), TimeSource::get_monotonic_time_sec());
+      myinfo.current_interval = IdleInterval(TimeSource::get_real_time_sec(), TimeSource::get_real_time_sec());
     }
 
   TRACE_EXIT();
@@ -145,7 +145,7 @@ IdleLogManager::terminate()
 void
 IdleLogManager::expire()
 {
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
   if (last_expiration_time == 0)
     {
       last_expiration_time = current_time + IDLELOG_INTERVAL;
@@ -170,7 +170,7 @@ IdleLogManager::expire(ClientInfo &info)
       info.idlelog.resize(IDLELOG_MAXSIZE);
     }
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
   int count = 0;
   for (IdleLogRIter i = info.idlelog.rbegin(); i != info.idlelog.rend(); i++)
     {
@@ -208,7 +208,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
   // Did the state/master status change?
   bool changed = state != info.state; // RC: removed... || master != info.master;
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
   IdleInterval *idle = &(info.current_interval);
   idle->end_time = current_time;
 
@@ -247,7 +247,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
 
           if (info.idlelog.size() > 0)
             {
-              time_t total_idle = idle->end_idle_time - idle->begin_time;
+              int64_t total_idle = idle->end_idle_time - idle->begin_time;
               if (total_idle >= 10)
                 {
                   IdleInterval *save_interval = &(info.idlelog.front());
@@ -269,7 +269,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
 
           idle->end_idle_time = current_time;
 
-          time_t total_idle = idle->end_idle_time - idle->begin_time;
+          int64_t total_idle = idle->end_idle_time - idle->begin_time;
           if (total_idle < 10 && info.idlelog.size() > 1)
             {
               // Idle period too short. remove it. and reuse previous
@@ -300,12 +300,12 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
 }
 
 //! Returns the total active time of all clients.
-time_t
+int64_t
 IdleLogManager::compute_total_active_time()
 {
   TRACE_ENTER("IdleLogManager::compute_total_active_time");
-  time_t current_time = TimeSource::get_monotonic_time_sec();
-  time_t active_time = 0;
+  int64_t current_time = TimeSource::get_real_time_sec();
+  int64_t active_time = 0;
   for (ClientMapIter it = clients.begin(); it != clients.end(); it++)
     {
       ClientInfo &info = (*it).second;
@@ -317,12 +317,12 @@ IdleLogManager::compute_total_active_time()
 }
 
 //! Returns the active time since an idle period of a least the specified amount of time.
-time_t
+int64_t
 IdleLogManager::compute_active_time(int length)
 {
   TRACE_ENTER("IdleLogManager::compute_active_time");
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   // Number of client.
   int size = clients.size();
@@ -331,7 +331,7 @@ IdleLogManager::compute_active_time(int length)
   IdleLogIter *iterators = new IdleLogIter[size];
   IdleLogIter *end_iterators = new IdleLogIter[size];
   bool *at_end = new bool[size];
-  time_t *active_time = new time_t[size];
+  int64_t *active_time = new int64_t[size];
 
   // Init data for all clients.
   int count = 0;
@@ -352,7 +352,7 @@ IdleLogManager::compute_active_time(int length)
   int idle_count = 0;
 
   // Time of last unprocessed event.
-  time_t last_time = -1;
+  int64_t last_time = -1;
 
   // Iterator of last unprocessed event.
   int last_iter = -1;
@@ -361,7 +361,7 @@ IdleLogManager::compute_active_time(int length)
   bool stop = false;
 
   // Begin and End time of idle perdiod.
-  time_t end_idle_time = -1;
+  int64_t end_idle_time = -1;
 
   while (!stop)
     {
@@ -372,7 +372,7 @@ IdleLogManager::compute_active_time(int length)
           if (iterators[i] != end_iterators[i])
             {
               IdleInterval &ii = *(iterators[i]);
-              time_t t = at_end[i] ? ii.end_idle_time : ii.begin_time;
+              int64_t t = at_end[i] ? ii.end_idle_time : ii.begin_time;
 
               if (last_time == -1 || t > last_time)
                 {
@@ -420,7 +420,7 @@ IdleLogManager::compute_active_time(int length)
         }
     }
 
-  time_t total_active_time = 0;
+  int64_t total_active_time = 0;
   for (int i = 0; i < size; i++)
     {
       TRACE_MSG("active time of " << i << " = " << active_time[i]);
@@ -439,15 +439,15 @@ IdleLogManager::compute_active_time(int length)
 }
 
 //! Computes the current idle time.
-time_t
+int64_t
 IdleLogManager::compute_idle_time()
 {
   TRACE_ENTER("IdleLogManager::compute_idle_time");
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   int count = 0;
-  time_t latest_start_time = 0;
+  int64_t latest_start_time = 0;
 
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
@@ -495,7 +495,7 @@ IdleLogManager::pack_idle_interval(PacketBuffer &buffer, const IdleInterval &idl
 
 //! Unpacks the idle interval from the buffer.
 void
-IdleLogManager::unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, time_t delta_time) const
+IdleLogManager::unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, int64_t delta_time) const
 {
   int pos = 0;
   int size = buffer.read_size(pos);
@@ -521,7 +521,7 @@ IdleLogManager::unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, t
 void
 IdleLogManager::pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const
 {
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   // Add size.
   int pos = 0;
@@ -540,7 +540,7 @@ IdleLogManager::pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const
 
 //! Unpacks the idlelog header from the buffer.
 void
-IdleLogManager::unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, time_t &pack_time, int &num_intervals) const
+IdleLogManager::unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, int64_t &pack_time, int &num_intervals) const
 {
   int pos = 0;
   int size = buffer.read_size(pos);
@@ -625,7 +625,7 @@ IdleLogManager::save_index()
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
       ClientInfo &info = (*i).second;
-      info.update_active_time(TimeSource::get_monotonic_time_sec());
+      info.update_active_time(TimeSource::get_real_time_sec());
       TRACE_MSG("Saving " << i->first << " " << info.client_id);
 
       pack_idlelog(buffer, info);
@@ -694,7 +694,7 @@ IdleLogManager::load_index()
               ClientInfo info;
 
               int num_intervals;
-              time_t pack_time;
+              int64_t pack_time;
 
               unpack_idlelog(buffer, info, pack_time, num_intervals);
               info.master = false;
@@ -732,7 +732,7 @@ IdleLogManager::load_index()
 void
 IdleLogManager::save_idlelog(ClientInfo &info)
 {
-  info.update_active_time(TimeSource::get_monotonic_time_sec());
+  info.update_active_time(TimeSource::get_real_time_sec());
 
   PacketBuffer buffer;
   buffer.create();
@@ -759,7 +759,7 @@ IdleLogManager::load_idlelog(ClientInfo &info)
 {
   TRACE_ENTER("IdleLogManager::load_idlelog()");
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   stringstream ss;
   ss << Util::get_home_directory();
@@ -848,7 +848,7 @@ IdleLogManager::save()
 void
 IdleLogManager::update_idlelog(ClientInfo &info, const IdleInterval &idle)
 {
-  info.update_active_time(TimeSource::get_monotonic_time_sec());
+  info.update_active_time(TimeSource::get_real_time_sec());
 
   PacketBuffer buffer;
   buffer.create();
@@ -875,7 +875,7 @@ IdleLogManager::get_idlelog(PacketBuffer &buffer)
   ClientInfo &myinfo = clients[myid];
 
   // First make sure that all data is up-to-date.
-  myinfo.update_active_time(TimeSource::get_monotonic_time_sec());
+  myinfo.update_active_time(TimeSource::get_real_time_sec());
 
   // Pack header.
   pack_idlelog(buffer, myinfo);
@@ -893,14 +893,14 @@ IdleLogManager::set_idlelog(PacketBuffer &buffer)
 {
   TRACE_ENTER("IdleLogManager::set_idlelog");
 
-  time_t delta_time = 0;
-  time_t pack_time = 0;
+  int64_t delta_time = 0;
+  int64_t pack_time = 0;
   int num_intervals = 0;
 
   ClientInfo info;
   unpack_idlelog(buffer, info, pack_time, num_intervals);
 
-  delta_time = pack_time - TimeSource::get_monotonic_time_sec();
+  delta_time = pack_time - TimeSource::get_real_time_sec();
   clients[info.client_id] = info;
   info.last_update_time = 0;
 
@@ -926,7 +926,7 @@ IdleLogManager::signon_remote_client(string client_id)
 {
   TRACE_ENTER_MSG("signon_remote_client", client_id);
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
 
   ClientInfo &info = clients[client_id];
   info.idlelog.push_front(IdleInterval(1, current_time));
@@ -1020,10 +1020,10 @@ IdleLogManager::fix_idlelog(ClientInfo &info)
 {
   TRACE_ENTER("IdleLogManager::fix_idlelog");
 
-  time_t current_time = TimeSource::get_monotonic_time_sec();
+  int64_t current_time = TimeSource::get_real_time_sec();
   info.update_active_time(current_time);
 
-  time_t next_time = -1;
+  int64_t next_time = -1;
 
   for (IdleLogRIter i = info.idlelog.rbegin(); i != info.idlelog.rend(); i++)
     {

@@ -229,19 +229,19 @@ BreakControl::goto_stage(BreakStage stage)
           }
 
         if (break_stage == BreakStage::Prelude)
-        {
-          if (!forced_break)
           {
-            break_event_signal(BreakEvent::BreakIgnored);
+            if (!forced_break)
+              {
+                break_event_signal(BreakEvent::BreakIgnored);
+              }
           }
-        }
 
         if (break_stage == BreakStage::Taking && !fake_break)
           {
             // Update statistics and play sound if the break end
             // was "natural"
-            time_t idle = break_timer->get_elapsed_idle_time();
-            time_t reset = break_timer->get_auto_reset();
+            int64_t idle = break_timer->get_elapsed_idle_time();
+            int64_t reset = break_timer->get_auto_reset();
 
             if (idle >= reset && !user_abort)
               {
@@ -268,7 +268,7 @@ BreakControl::goto_stage(BreakStage stage)
                 break_event_signal(BreakEvent::BreakTaken);
               }
           }
-          break_event_signal(BreakEvent::BreakIdle);
+        break_event_signal(BreakEvent::BreakIdle);
       }
       break;
 
@@ -359,8 +359,8 @@ void
 BreakControl::update_break_window()
 {
   assert(break_timer != nullptr);
-  time_t duration = break_timer->get_auto_reset();
-  time_t idle = 0;
+  int64_t duration = break_timer->get_auto_reset();
+  int64_t idle = 0;
 
   if (fake_break)
     {
@@ -448,7 +448,7 @@ BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
   if (break_timer->is_auto_reset_enabled())
     {
       TRACE_MSG("auto reset enabled");
-      time_t idle = break_timer->get_elapsed_idle_time();
+      int64_t idle = break_timer->get_elapsed_idle_time();
       TRACE_MSG(idle << " " << break_timer->get_auto_reset() << " " << break_timer->is_enabled());
       if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {

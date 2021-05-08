@@ -88,11 +88,11 @@ public:
   // IBreak
   bool is_enabled() const override;
   bool is_running() const override;
-  time_t get_elapsed_time() const override;
-  time_t get_elapsed_idle_time() const override;
-  time_t get_auto_reset() const override;
+  int64_t get_elapsed_time() const override;
+  int64_t get_elapsed_idle_time() const override;
+  int64_t get_auto_reset() const override;
   bool is_auto_reset_enabled() const override;
-  time_t get_limit() const override;
+  int64_t get_limit() const override;
   bool is_limit_enabled() const override;
   bool is_taking() const override;
   bool is_max_preludes_reached() const override;

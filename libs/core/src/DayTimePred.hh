@@ -28,8 +28,8 @@ class DayTimePred : public TimePred
 {
 public:
   bool init(std::string spec);
-  time_t get_next(time_t last_time) override;
-  time_t get_time_offset();
+  int64_t get_next(int64_t last_time) override;
+  int64_t get_time_offset();
   std::string to_string() const override;
 
 private:

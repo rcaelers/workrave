@@ -110,7 +110,7 @@ namespace workrave
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
     //! Return the current time
-    [[nodiscard]] virtual time_t get_time() const = 0;
+    [[nodiscard]] virtual int64_t get_time() const = 0;
 
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
@@ -123,9 +123,10 @@ namespace workrave
     //! Return the hooks
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
+#ifdef HAVE_DBUS
     //! Return DBUs remoting interface.
     [[nodiscard]] virtual dbus::IDBus::Ptr get_dbus() const = 0;
-
+#endif
   };
 
   // class CoreFactory

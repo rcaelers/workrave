@@ -38,7 +38,7 @@ CoreHooks::hook_create_monitor()
   return create_monitor_hook;
 }
 
-std::function<bool(Timer* timers[workrave::BREAK_ID_SIZEOF])> &
+std::function<bool(Timer *timers[workrave::BREAK_ID_SIZEOF])> &
 CoreHooks::hook_load_timer_state()
 {
   return load_timer_state_hook;

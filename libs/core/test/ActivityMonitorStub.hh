@@ -34,13 +34,13 @@ public:
 
   void set_active(bool active);
 
-  //void init() override;
+  // void init() override;
   void terminate() override;
   void suspend() override;
   void resume() override;
   void force_idle() override;
-  //bool is_active() override;
-  //void set_listener(IActivityMonitorListener::Ptr l) override;
+  // bool is_active() override;
+  // void set_listener(IActivityMonitorListener::Ptr l) override;
   void set_listener(IActivityMonitorListener *l) override;
   ActivityState get_current_state() override;
 
@@ -50,7 +50,7 @@ private:
   bool active;
   bool suspended;
   bool forced_idle;
-  //IActivityMonitorListener::Ptr listener;
+  // IActivityMonitorListener::Ptr listener;
   IActivityMonitorListener *listener;
 };
 

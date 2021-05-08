@@ -98,18 +98,20 @@ DayTimePred::days_in_month(int month, int year)
     }
 }
 
-time_t
+int64_t
 DayTimePred::get_time_offset()
 {
   return pred_hour * 60 * 60 + pred_min * 60;
 }
 
-time_t
-DayTimePred::get_next(time_t last_time)
+int64_t
+DayTimePred::get_next(int64_t last_time)
 {
   struct tm *ret;
 
-  ret = localtime(&last_time);
+  // FIXME:
+  time_t t = (time_t)last_time;
+  ret = localtime(&t);
 
   if (ret != nullptr)
     {

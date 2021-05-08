@@ -107,7 +107,7 @@ Statistics::update()
 
   if (state == ACTIVITY_ACTIVE && !been_active)
     {
-      const time_t now = core->get_time();
+      const time_t now = time(nullptr);
       struct tm *tmnow = localtime(&now);
 
       current_day->start = *tmnow;
@@ -162,7 +162,7 @@ void
 Statistics::start_new_day()
 {
   TRACE_ENTER("Statistics::start_new_day");
-  const time_t now = core->get_time();
+  const time_t now = time(nullptr);
   struct tm *tmnow = localtime(&now);
 
   if (current_day == nullptr || tmnow->tm_mday != current_day->start.tm_mday || tmnow->tm_mon != current_day->start.tm_mon
@@ -665,7 +665,7 @@ Statistics::update_current_day(bool active)
 
       if (active)
         {
-          const time_t now = core->get_time();
+          const time_t now = time(nullptr);
           struct tm *tmnow = localtime(&now);
           current_day->stop = *tmnow;
         }
@@ -675,7 +675,7 @@ Statistics::update_current_day(bool active)
           Timer *t = core->get_break(BreakId(i))->get_timer();
           assert(t != nullptr);
 
-          time_t overdue = t->get_total_overdue_time();
+          int64_t overdue = t->get_total_overdue_time();
 
           set_break_counter(((BreakId)i), Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
         }

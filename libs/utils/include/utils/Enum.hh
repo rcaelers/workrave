@@ -263,24 +263,24 @@ namespace workrave::utils
   std::ostream &operator<<(std::ostream &stream, Flags<Enum> flags)
   {
     if (flags.get() == 0)
-    {
-      stream << Enum(0);
-    }
-    else
-    {
-      for (int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
       {
-        Enum e = static_cast<Enum>(1 << b);
-        if (flags.is_set(e))
-        {
-          if (b > 0)
-          {
-            stream << ",";
-          }
-          stream << e;
-        }
+        stream << Enum(0);
       }
-    }
+    else
+      {
+        for (int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
+          {
+            Enum e = static_cast<Enum>(1 << b);
+            if (flags.is_set(e))
+              {
+                if (b > 0)
+                  {
+                    stream << ",";
+                  }
+                stream << e;
+              }
+          }
+      }
     return stream;
   }
 } // namespace workrave::utils

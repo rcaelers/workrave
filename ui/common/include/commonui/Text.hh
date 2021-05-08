@@ -26,7 +26,7 @@
 class Text
 {
 public:
-  static std::string time_to_string(time_t t, bool display_units = false);
+  static std::string time_to_string(int64_t t, bool display_units = false);
 };
 
 #endif // TEXT_HH

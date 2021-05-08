@@ -82,7 +82,7 @@ Configurator::save()
 void
 Configurator::heartbeat()
 {
-  time_t now = TimeSource::get_monotonic_time_sec();
+  int64_t now = TimeSource::get_monotonic_time_sec();
 
   auto it = delayed_config.begin();
   while (it != delayed_config.end())

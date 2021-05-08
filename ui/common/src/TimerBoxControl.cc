@@ -182,10 +182,10 @@ TimerBoxControl::update_widgets()
         }
 
       // Collect some data.
-      time_t maxActiveTime = b->get_limit();
-      time_t activeTime = b->get_elapsed_time();
-      time_t breakDuration = b->get_auto_reset();
-      time_t idleTime = b->get_elapsed_idle_time();
+      int64_t maxActiveTime = b->get_limit();
+      int64_t activeTime = b->get_elapsed_time();
+      int64_t breakDuration = b->get_auto_reset();
+      int64_t idleTime = b->get_elapsed_idle_time();
       bool overdue = (maxActiveTime < activeTime);
 
       // Set the text
@@ -308,7 +308,7 @@ TimerBoxControl::init_slot(int slot)
     }
 
   // Compute timer that will elapse first.
-  time_t first = 0;
+  int64_t first = 0;
   int first_id = -1;
 
   for (int i = 0; i < count; i++)
@@ -319,7 +319,7 @@ TimerBoxControl::init_slot(int slot)
       ICore *core = CoreFactory::get_core();
       IBreak *b = core->get_break((BreakId)i);
 
-      time_t time_left = b->get_limit() - b->get_elapsed_time();
+      int64_t time_left = b->get_limit() - b->get_elapsed_time();
 
       // Exclude break if not imminent.
       if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] && force_duration == 0)

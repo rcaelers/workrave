@@ -358,26 +358,25 @@ Break::is_active() const
   return break_control->is_active();
 }
 
-
 bool
 Break::is_max_preludes_reached() const
 {
   return break_control->is_max_preludes_reached();
 }
 
-time_t
+int64_t
 Break::get_elapsed_time() const
 {
   return timer->get_elapsed_time();
 }
 
-time_t
+int64_t
 Break::get_elapsed_idle_time() const
 {
   return timer->get_elapsed_idle_time();
 }
 
-time_t
+int64_t
 Break::get_auto_reset() const
 {
   return timer->get_auto_reset();
@@ -389,7 +388,7 @@ Break::is_auto_reset_enabled() const
   return timer->is_auto_reset_enabled();
 }
 
-time_t
+int64_t
 Break::get_limit() const
 {
   return timer->get_limit();
@@ -406,7 +405,6 @@ Break::get_total_overdue_time() const
 {
   return timer->get_total_overdue_time();
 }
-
 
 void
 Break::set_usage_mode(UsageMode mode)

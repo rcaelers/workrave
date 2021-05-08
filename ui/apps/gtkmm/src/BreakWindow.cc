@@ -458,7 +458,7 @@ BreakWindow::update_skip_postpone_lock()
             {
               ICore *core = CoreFactory::get_core();
               IBreak *b = core->get_break(BreakId(overdue_break_id));
-              progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / b->get_auto_reset());
+              progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / (double)b->get_auto_reset());
             }
           else
             {

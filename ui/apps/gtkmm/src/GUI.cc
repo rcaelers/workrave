@@ -1451,8 +1451,8 @@ GUI::get_timers_tooltip()
       if (b != nullptr && on)
         {
           // Collect some data.
-          time_t maxActiveTime = b->get_limit();
-          time_t activeTime = b->get_elapsed_time();
+          int64_t maxActiveTime = b->get_limit();
+          int64_t activeTime = b->get_elapsed_time();
           std::string text;
 
           // Set the text

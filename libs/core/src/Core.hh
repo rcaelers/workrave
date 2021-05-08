@@ -119,7 +119,7 @@ public:
   void time_changed() override;
   void set_powersave(bool down) override;
 
-  time_t get_time() const override;
+  int64_t get_time() const override;
   void post_event(CoreEvent event) override;
 
   OperationMode get_operation_mode() override;
@@ -246,11 +246,8 @@ private:
   //! Command line arguments passed to the program.
   char **argv{};
 
-  //! The current time.
-  time_t current_time{0};
-
   //! The time we last processed the timers.
-  time_t last_process_time{0};
+  int64_t last_process_time{0};
 
   //! Are we the master node??
   TracedField<bool> master_node{"core.master_node", true};
@@ -292,7 +289,7 @@ private:
   TracedField<bool> powersave{"core.powersave", false};
 
   //! Time the OS announces a resume from powersave
-  time_t powersave_resume_time{0};
+  int64_t powersave_resume_time{0};
 
   //! What to do with activity during insisted break?
   TracedField<InsistPolicy> insist_policy{"core.insist_policy", InsistPolicy::Halt};
@@ -334,7 +331,7 @@ private:
 #endif
 
   //! External activity
-  std::map<std::string, time_t> external_activity;
+  std::map<std::string, int64_t> external_activity;
 
   //! Operation mode changed notification.
   boost::signals2::signal<void(workrave::OperationMode)> operation_mode_changed_signal;
