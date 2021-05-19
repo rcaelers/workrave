@@ -25,6 +25,7 @@
 
 #include "IniConfigurator.hh"
 
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -35,7 +36,7 @@ using namespace std;
 bool
 IniConfigurator::load(string filename)
 {
-  TRACE_ENTER_MSG("IniConfigurator::loada", filename);
+  TRACE_ENTER_MSG("IniConfigurator::load", filename);
   bool ret = false;
 
   try
@@ -79,12 +80,38 @@ IniConfigurator::save()
 }
 
 bool
-IniConfigurator::remove_key(const std::string &key)
+IniConfigurator::has_user_value(const std::string &key)
 {
   bool ret = true;
 
+  try
+    {
+      boost::property_tree::ptree::path_type inikey = path(key);
+      pt.get_child(inikey);
+    }
+  catch (boost::property_tree::ptree_error &e)
+    {
+      ret = false;
+    }
+
+  return ret;
+}
+
+bool
+IniConfigurator::remove_key(const std::string &key)
+{
   TRACE_ENTER_MSG("IniConfigurator::remove_key", key);
-  boost::property_tree::ptree::path_type inikey = path(key);
+  bool ret = true;
+
+  std::string::size_type pos = key.find('/');
+  if (key.npos != pos)
+  {
+    std::string inikey = key.substr(pos + 1);
+    std::string section = key.substr(0, pos);
+    boost::replace_all(inikey, "/", ".");
+
+    pt.get_child(section).erase(inikey);
+  }
 
   TRACE_EXIT();
   return ret;

@@ -40,6 +40,7 @@ public:
   virtual bool save() = 0;
 
   virtual bool remove_key(const std::string &key) = 0;
+  virtual bool has_user_value(const std::string &key) = 0;
   virtual bool get_value(const std::string &key, VariantType type, Variant &value) const = 0;
   virtual bool set_value(const std::string &key, Variant &value) = 0;
 };

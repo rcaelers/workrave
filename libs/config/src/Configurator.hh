@@ -24,8 +24,8 @@
 #include <list>
 #include <map>
 
-#include "IConfigurator.hh"
-#include "IConfiguratorListener.hh"
+#include "config/IConfigurator.hh"
+#include "config/IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
 #include "Variant.hh"
 
@@ -45,6 +45,8 @@ public:
   bool load(std::string filename) override;
   bool save(std::string filename) override;
   bool save() override;
+
+  bool has_user_value(const std::string &key) override;
 
   bool remove_key(const std::string &key) const override;
   bool rename_key(const std::string &key, const std::string &new_key) override;
@@ -70,9 +72,6 @@ public:
   bool set_value(const std::string &key,
                  double v,
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-
-  bool get_typed_value(const std::string &key, std::string &t) const override;
-  bool set_typed_value(const std::string &key, const std::string &t) override;
 
   bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
   bool remove_listener(workrave::config::IConfiguratorListener *listener) override;
@@ -111,7 +110,6 @@ private:
   void fire_configurator_event(const std::string &key);
   void strip_leading_slash(std::string &key) const;
   void strip_trailing_slash(std::string &key) const;
-  void add_trailing_slash(std::string &key) const;
 
   void config_changed_notify(const std::string &key) override;
 

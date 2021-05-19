@@ -5,6 +5,8 @@ add_library(workrave-libs-config STATIC
   XmlConfigurator.cc
   SettingCache.cc)
 
+target_code_coverage(workrave-libs-config)
+
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-config PRIVATE win32/W32Configurator.cc)
   target_include_directories(workrave-libs-config PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/win32)

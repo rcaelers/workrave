@@ -90,6 +90,14 @@ QtSettingsConfigurator::qt_get_value(const string &key, bool &exists) const
 }
 
 bool
+XmlConfigurator::has_user_value(const std::string &key)
+{
+  bool exists;
+  QVariant var = qt_get_value(key, exists);
+  return exists;
+}
+
+bool
 QtSettingsConfigurator::remove_key(const std::string &key)
 {
   (void)key;

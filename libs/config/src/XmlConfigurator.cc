@@ -78,13 +78,49 @@ XmlConfigurator::save()
 }
 
 bool
+XmlConfigurator::has_user_value(const std::string &key)
+{
+  bool ret = true;
+
+  try
+    {
+      boost::property_tree::ptree::path_type inikey = path(key);
+      pt.get_child(inikey);
+    }
+  catch (boost::property_tree::ptree_error &e)
+    {
+      ret = false;
+    }
+
+  return ret;
+}
+
+bool
 XmlConfigurator::remove_key(const std::string &key)
 {
   bool ret = true;
 
   TRACE_ENTER_MSG("XmlConfigurator::remove_key", key);
-  // string xmlpath = path(key);
-  // pt.erase(xmlpath);
+
+  std::vector<std::string> parts;
+  boost::split(parts, path(key), boost::is_any_of("."));
+
+  auto *node = &pt;
+  for (const auto& part : parts)
+  {
+    auto it = node->find(part);
+    if (it != node->not_found())
+    {
+      if (&part == &parts.back())
+      {
+        node->erase(node->to_iterator(it));
+      }
+      else
+      {
+        node = &it->second;
+      }
+    }
+  }
 
   TRACE_EXIT();
   return ret;
@@ -128,7 +164,6 @@ XmlConfigurator::get_value(const std::string &key, VariantType type, Variant &ou
     }
   catch (boost::property_tree::ptree_error &e)
     {
-      std::cout << e.what() << std::endl;
       ret = false;
     }
 

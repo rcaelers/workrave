@@ -171,8 +171,10 @@ namespace workrave
           {
             config->remove_listener(this);
           }
-
-        signal(get());
+        else
+        {
+          signal(get());
+        }
       }
 
     private:
