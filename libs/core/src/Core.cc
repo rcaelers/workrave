@@ -1592,7 +1592,10 @@ Core::stop_all_breaks()
     {
       BreakControl *bc = breaks[i].get_break_control();
       assert(bc != nullptr);
-      bc->stop_break();
+      if (bc->is_active())
+        {
+          bc->stop_break();
+        }
     }
 }
 

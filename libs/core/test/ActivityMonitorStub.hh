@@ -45,13 +45,15 @@ public:
   ActivityState get_current_state() override;
 
   void notify();
+  void heartbeat();
 
 private:
-  bool active;
-  bool suspended;
-  bool forced_idle;
+  bool active{false};
+  bool suspended{false};
+  bool forced_idle{false};
+  int count{0};
   // IActivityMonitorListener::Ptr listener;
-  IActivityMonitorListener *listener;
+  IActivityMonitorListener *listener{nullptr};
 };
 
 #endif // LOCALACTIVITYMONITOR_HH

@@ -421,12 +421,12 @@ BreakControl::start_break()
       if (prelude_count == 0)
         {
           stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
-          break_event_signal(BreakEvent::BreakStart);
+          // break_event_signal(BreakEvent::BreakStart);
         }
 
       // Start prelude.
       goto_stage(BreakStage::Prelude);
-      break_event_signal(BreakEvent::ShowPrelude);
+      // break_event_signal(BreakEvent::ShowPrelude);
     }
 
   TRACE_EXIT();

@@ -27,21 +27,14 @@
 
 #ifdef HAVE_TESTS
 
-#  include "nls.h"
-
 #  include "Test.hh"
-#  include "core/CoreFactory.hh"
-#  include "Core.hh"
-#  include "core/IApp.hh"
 
 Test *Test::instance = NULL;
 
 void
 Test::quit()
 {
-  Core *core = Core::get_instance();
-
-  core->application->terminate();
+  // TODO:
 }
 
 #endif

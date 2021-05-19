@@ -692,6 +692,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
+  TRACE_MSG("activity_sensitive " << activity_sensitive << " " << insensitive_mode);
 
   if (activity_monitor != nullptr)
     {

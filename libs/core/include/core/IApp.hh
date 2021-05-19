@@ -1,6 +1,4 @@
-// IApp.hh
-//
-// Copyright (C) 2001 - 2008, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

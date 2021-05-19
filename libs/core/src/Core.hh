@@ -96,6 +96,9 @@ public:
   ~Core() override;
 
   static Core *get_instance();
+#ifdef HAVE_TESTS
+  static void reset_instance();
+#endif
 
   // ICore
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() override;
@@ -355,6 +358,18 @@ Core::get_instance()
 
   return instance;
 }
+
+#ifdef HAVE_TESTS
+inline void
+Core::reset_instance()
+{
+  if (instance != nullptr)
+    {
+      delete instance;
+      instance = nullptr;
+    }
+}
+#endif
 
 //!
 inline ActivityState

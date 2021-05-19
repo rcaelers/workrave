@@ -69,6 +69,7 @@ void
 ActivityMonitorStub::force_idle()
 {
   forced_idle = true;
+  count = 0;
 }
 
 // bool
@@ -118,6 +119,28 @@ ActivityMonitorStub::notify()
       if (!l->action_notify())
         {
           listener = nullptr; // .reset();
+        }
+    }
+}
+
+void
+ActivityMonitorStub::heartbeat()
+{
+  if (listener)
+    {
+      // std::cout << count << " " << get_current_state() << "\n";
+      if (count == 5)
+        {
+          notify();
+        }
+
+      if (get_current_state() == ACTIVITY_ACTIVE)
+        {
+          count++;
+        }
+      else
+        {
+          count = 0;
         }
     }
 }
