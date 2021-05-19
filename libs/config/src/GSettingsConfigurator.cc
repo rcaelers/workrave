@@ -47,10 +47,10 @@ GSettingsConfigurator::GSettingsConfigurator()
 
 GSettingsConfigurator::~GSettingsConfigurator()
 {
-  for (const auto& [key, setting]: settings)
-  {
-    g_object_unref(setting);
-  }
+  for (const auto &[key, setting]: settings)
+    {
+      g_object_unref(setting);
+    }
 }
 
 bool
@@ -88,12 +88,12 @@ GSettingsConfigurator::has_user_value(const std::string &full_path)
 {
   std::string key;
   GSettings *child = get_settings(full_path, key);
-  GVariant *value = g_settings_get_user_value (child, key.c_str());
+  GVariant *value = g_settings_get_user_value(child, key.c_str());
   if (value != nullptr)
-  {
-    g_variant_unref(value);
-    return true;
-  }
+    {
+      g_variant_unref(value);
+      return true;
+    }
   return false;
 }
 
@@ -209,7 +209,7 @@ GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
 void
 GSettingsConfigurator::set_listener(IConfiguratorListener *listener)
 {
-    this->listener = listener;
+  this->listener = listener;
 }
 
 bool
@@ -273,9 +273,9 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
 
   auto *self = (GSettingsConfigurator *)user_data;
   if (self->listener != nullptr)
-  {
-    self->listener->config_changed_notify(changed);
-  }
+    {
+      self->listener->config_changed_notify(changed);
+    }
 
   g_free(path);
   TRACE_EXIT();

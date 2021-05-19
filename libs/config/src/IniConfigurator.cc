@@ -105,13 +105,13 @@ IniConfigurator::remove_key(const std::string &key)
 
   std::string::size_type pos = key.find('/');
   if (key.npos != pos)
-  {
-    std::string inikey = key.substr(pos + 1);
-    std::string section = key.substr(0, pos);
-    boost::replace_all(inikey, "/", ".");
+    {
+      std::string inikey = key.substr(pos + 1);
+      std::string section = key.substr(0, pos);
+      boost::replace_all(inikey, "/", ".");
 
-    pt.get_child(section).erase(inikey);
-  }
+      pt.get_child(section).erase(inikey);
+    }
 
   TRACE_EXIT();
   return ret;

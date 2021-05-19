@@ -1101,7 +1101,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
 
   int64_t t = 300;
   for (int i = 0; i < 4; i++)
-  {
+    {
       // 300 621
       expect(t, "prelude", "break_id=micro_pause");
       expect(t, "show");

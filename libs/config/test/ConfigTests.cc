@@ -51,164 +51,156 @@ using namespace workrave::utils;
 
 class Fixture : public IConfiguratorListener
 {
-  public:
-    Fixture()
-    {
-      sim = SimulatedTime::create();
-      SettingCache::reset();
-    }
+public:
+  Fixture()
+  {
+    sim = SimulatedTime::create();
+    SettingCache::reset();
+  }
 
-    ~Fixture()
-    {
-      configurator->remove_listener(this);
+  ~Fixture()
+  {
+    configurator->remove_listener(this);
 
 #ifdef HAVE_GSETTINGS
-	    g_unsetenv ("GSETTINGS_BACKEND");
-	    g_unsetenv ("GSETTINGS_SCHEMA_DIR");
+    g_unsetenv("GSETTINGS_BACKEND");
+    g_unsetenv("GSETTINGS_SCHEMA_DIR");
 #endif
-    };
+  };
 
-    template<typename T>
-    void init()
-    {
-      sim->reset();
-      TimeSource::sync();
-      configurator = std::make_shared<Configurator>(new T());
-    }
+  template<typename T>
+  void init()
+  {
+    sim->reset();
+    TimeSource::sync();
+    configurator = std::make_shared<Configurator>(new T());
+  }
 
-    template<>
-    void init<GSettingsConfigurator>()
-    {
-      sim->reset();
-      TimeSource::sync();
+  template<>
+  void init<GSettingsConfigurator>()
+  {
+    sim->reset();
+    TimeSource::sync();
 
-      g_setenv("GSETTINGS_SCHEMA_DIR", BUILDDIR, true);
-      g_setenv("GSETTINGS_BACKEND", "memory", 1);
+    g_setenv("GSETTINGS_SCHEMA_DIR", BUILDDIR, true);
+    g_setenv("GSETTINGS_BACKEND", "memory", 1);
 
-      configurator = std::make_shared<Configurator>(new GSettingsConfigurator());
-      has_defaults = true;
-    }
+    configurator = std::make_shared<Configurator>(new GSettingsConfigurator());
+    has_defaults = true;
+  }
 
-    void tick()
-    {
-      TimeSource::sync();
-      configurator->heartbeat();
-      sim->current_time += 1000000;
-    }
+  void tick()
+  {
+    TimeSource::sync();
+    configurator->heartbeat();
+    sim->current_time += 1000000;
+  }
 
-    void tick(int seconds, const std::function<void(int count)> &check_func)
-    {
-      for (int i = 0; i < seconds; i++)
+  void tick(int seconds, const std::function<void(int count)> &check_func)
+  {
+    for (int i = 0; i < seconds; i++)
       {
         try
-        {
-
-          TimeSource::sync();
-          configurator->heartbeat();
-          BOOST_TEST_CONTEXT("Config")
           {
-            BOOST_TEST_INFO_SCOPE("Count:" << i);
-            check_func(i);
+
+            TimeSource::sync();
+            configurator->heartbeat();
+            BOOST_TEST_CONTEXT("Config")
+            {
+              BOOST_TEST_INFO_SCOPE("Count:" << i);
+              check_func(i);
+            }
+            sim->current_time += 1000000;
           }
-          sim->current_time += 1000000;
-        }
         catch (...)
-        {
-          BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
-          std::cout << "error at:" << i << std::endl;
-          throw;
-        }
+          {
+            BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
+            std::cout << "error at:" << i << std::endl;
+            throw;
+          }
       }
-    }
+  }
 
-    void config_changed_notify(const std::string &key) override
-    {
-      BOOST_CHECK_EQUAL(key, expected_key);
-      config_changed_count++;
-    }
+  void config_changed_notify(const std::string &key) override
+  {
+    BOOST_CHECK_EQUAL(key, expected_key);
+    config_changed_count++;
+  }
 
-    enum class Mode
-    {
-        Mode1, Mode2, Mode3
-    };
+  enum class Mode
+  {
+    Mode1,
+    Mode2,
+    Mode3
+  };
 
-    SettingGroup &
-    group()
-    {
-      return SettingCache::group(configurator, "test/settings");
-    }
+  SettingGroup &group()
+  {
+    return SettingCache::group(configurator, "test/settings");
+  }
 
-    Setting<int> &
-    setting_int()
-    {
-      return SettingCache::get<int>(configurator, "test/settings/int");
-    }
+  Setting<int> &setting_int()
+  {
+    return SettingCache::get<int>(configurator, "test/settings/int");
+  }
 
-    Setting<double> &
-    setting_double()
-    {
-      return SettingCache::get<double>(configurator, "test/settings/double");
-    }
+  Setting<double> &setting_double()
+  {
+    return SettingCache::get<double>(configurator, "test/settings/double");
+  }
 
-    Setting<std::string> &
-    setting_string()
-    {
-      return SettingCache::get<std::string>(configurator, "test/settings/string");
-    }
+  Setting<std::string> &setting_string()
+  {
+    return SettingCache::get<std::string>(configurator, "test/settings/string");
+  }
 
-    Setting<bool> &
-    setting_bool()
-    {
-      return SettingCache::get<bool>(configurator, "test/settings/bool");
-    }
+  Setting<bool> &setting_bool()
+  {
+    return SettingCache::get<bool>(configurator, "test/settings/bool");
+  }
 
-    Setting<int, Mode> &
-    setting_modedefault()
-    {
-      return SettingCache::get<int, Mode>(configurator, "test/settings/mode");
-    }
+  Setting<int, Mode> &setting_modedefault()
+  {
+    return SettingCache::get<int, Mode>(configurator, "test/settings/mode");
+  }
 
-    Setting<int, Mode> &
-    setting_mode()
-    {
-      return SettingCache::get<int, Mode>(configurator, "test/settings/mode");
-    }
+  Setting<int, Mode> &setting_mode()
+  {
+    return SettingCache::get<int, Mode>(configurator, "test/settings/mode");
+  }
 
-    Setting<int> &
-    setting_int_default()
-    {
-      return SettingCache::get<int>(configurator, "test/settings/default/int", 8888);
-    }
+  Setting<int> &setting_int_default()
+  {
+    return SettingCache::get<int>(configurator, "test/settings/default/int", 8888);
+  }
 
-    Setting<double> &
-    setting_double_default()
-    {
-      return SettingCache::get<double>(configurator, "test/settings/default/double", 88.88);
-    }
+  Setting<double> &setting_double_default()
+  {
+    return SettingCache::get<double>(configurator, "test/settings/default/double", 88.88);
+  }
 
-    Setting<std::string> &
-    setting_string_default()
-    {
-      return SettingCache::get<std::string>(configurator, "test/settings/default/string", std::string("8888"));
-    }
+  Setting<std::string> &setting_string_default()
+  {
+    return SettingCache::get<std::string>(configurator, "test/settings/default/string", std::string("8888"));
+  }
 
-    Setting<bool> &
-    setting_bool_default()
-    {
-      return SettingCache::get<bool>(configurator, "test/settings/default/bool", true);
-    }
+  Setting<bool> &setting_bool_default()
+  {
+    return SettingCache::get<bool>(configurator, "test/settings/default/bool", true);
+  }
 
-    SimulatedTime::Ptr sim;
-    Configurator::Ptr configurator;
-    bool has_defaults { false };
-    std::string expected_key;
-    int config_changed_count { 0 };
+  SimulatedTime::Ptr sim;
+  Configurator::Ptr configurator;
+  bool has_defaults{false};
+  std::string expected_key;
+  int config_changed_count{0};
 };
 
-inline std::ostream &operator<<(std::ostream &stream, Fixture::Mode mode)
+inline std::ostream &
+operator<<(std::ostream &stream, Fixture::Mode mode)
 {
   switch (mode)
-  {
+    {
     case Fixture::Mode::Mode1:
       stream << "mode1";
       break;
@@ -218,24 +210,27 @@ inline std::ostream &operator<<(std::ostream &stream, Fixture::Mode mode)
     case Fixture::Mode::Mode3:
       stream << "mode3";
       break;
-  }
+    }
   return stream;
 }
 
-
 BOOST_FIXTURE_TEST_SUITE(config, Fixture)
 
-typedef boost::mpl::list<IniConfigurator, XmlConfigurator
+typedef boost::mpl::list<IniConfigurator,
+                         XmlConfigurator
 #ifdef HAVE_GSETTINGS
-                         , GSettingsConfigurator
+                         ,
+                         GSettingsConfigurator
 #endif
-                         > backend_types;
+                         >
+  backend_types;
 
 typedef boost::mpl::list<
 #ifdef HAVE_GSETTINGS
-                         GSettingsConfigurator
+  GSettingsConfigurator
 #endif
-                         > non_file_backend_types;
+  >
+  non_file_backend_types;
 
 typedef boost::mpl::list<XmlConfigurator, IniConfigurator> file_backend_types;
 
@@ -243,7 +238,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_string, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string value;
   ok = configurator->get_value("test/schema-defaults/string", value);
@@ -271,7 +266,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_charstring, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string value;
   ok = configurator->get_value("test/schema-defaults/charstring", value);
@@ -299,7 +294,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_int, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->get_value("test/schema-defaults/int", value);
@@ -327,7 +322,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_double, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   double value;
   ok = configurator->get_value("test/schema-defaults/double", value);
@@ -355,7 +350,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_bool, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   bool value;
   ok = configurator->get_value("test/schema-defaults/bool", value);
@@ -384,7 +379,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_string_default, T, backend_types
   init<T>();
   std::string value;
   configurator->get_value_with_default("test/code-defaults/string", value, "11");
-  BOOST_CHECK_EQUAL(value, has_defaults ? "default_string": "11");
+  BOOST_CHECK_EQUAL(value, has_defaults ? "default_string" : "11");
 
   bool ok = configurator->set_value("test/code-defaults/string", std::string{"22"});
   BOOST_CHECK_EQUAL(ok, true);
@@ -445,7 +440,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_string_wrong_type, T, backend_ty
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int ivalue;
   ok = configurator->get_value("test/other/string", ivalue);
@@ -464,7 +459,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_int_wrong_type, T, backend_types
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string svalue;
   ok = configurator->get_value("test/other/int", svalue);
@@ -483,7 +478,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_double_wrong_type, T, backend_ty
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string svalue;
   ok = configurator->get_value("test/other/double", svalue);
@@ -502,7 +497,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_bool_wrong_type, T, backend_type
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string svalue;
   ok = configurator->get_value("test/other/bool", svalue);
@@ -521,14 +516,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_bad_key, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string value;
   ok = configurator->get_value("", value);
-  //BOOST_CHECK_EQUAL(ok, false); TODO: check for IniConfigurator
+  // BOOST_CHECK_EQUAL(ok, false); TODO: check for IniConfigurator
 
   ok = configurator->get_value("/", value);
-  //BOOST_CHECK_EQUAL(ok, false); TODO: check for IniConfigurator
+  // BOOST_CHECK_EQUAL(ok, false); TODO: check for IniConfigurator
 
   ok = configurator->get_value(" ", value);
   BOOST_CHECK_EQUAL(ok, false);
@@ -541,7 +536,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_listener_one, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   ok = configurator->add_listener("test/other/int", this);
   BOOST_CHECK_EQUAL(ok, true);
@@ -595,7 +590,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_listener_section, T, backend_typ
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   ok = configurator->add_listener("test/other/", this);
   BOOST_CHECK_EQUAL(ok, true);
@@ -615,7 +610,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_listener_multiple, T, backend_ty
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   ok = configurator->add_listener("test/other/int", this);
   ok = configurator->add_listener("test/other/double/", this);
@@ -638,7 +633,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_listener_add_remove, T, backend_
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   ok = configurator->add_listener("test/other/int", this);
   BOOST_CHECK_EQUAL(ok, true);
@@ -680,7 +675,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_leading_slash, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("/test/other/int", 1007);
@@ -702,7 +697,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_trailing_slash, T, backend_types
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("test/other/int/", 1009);
@@ -724,7 +719,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_leading_trailing_slash, T, backe
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("/test/other/int/", 1011);
@@ -746,7 +741,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("test/other/int", 1013);
@@ -781,7 +776,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_repeat, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("test/other/int", 1015);
@@ -815,12 +810,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_repeat, T, backend_types)
   BOOST_CHECK_EQUAL(ok, true);
 }
 
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_save_load, T, file_backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("test/other/int", 1017);
@@ -863,7 +857,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_immediate, T, backend_type
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
 
@@ -902,12 +896,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_immediate, T, backend_type
 //   BOOST_CHECK_EQUAL(ok, true);
 // }
 
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_same_value, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->set_value("test/other/int", 1020);
@@ -936,7 +929,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_initial_value, T, backend_
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->get_value("test/other/delay-initial", value);
@@ -954,12 +947,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_delay_initial_value, T, backend_
   BOOST_CHECK_EQUAL(value, 1022);
 }
 
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_remove, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->get_value("/test/other/int/", value);
@@ -977,16 +969,16 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_remove, T, backend_types)
   ok = configurator->get_value("/test/other/int/", value);
   BOOST_CHECK_EQUAL(ok, has_defaults);
   if (has_defaults)
-  {
-    BOOST_CHECK_EQUAL(value, 1234);
-  }
+    {
+      BOOST_CHECK_EQUAL(value, 1234);
+    }
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_rename_int, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->get_value("/test/other/int/", value);
@@ -1017,7 +1009,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_rename_bool, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   bool value;
   ok = configurator->get_value("/test/other/bool/", value);
@@ -1048,7 +1040,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_rename_double, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   double value;
   ok = configurator->get_value("/test/other/double/", value);
@@ -1079,7 +1071,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_rename_string, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   std::string value;
   ok = configurator->get_value("/test/other/string/", value);
@@ -1110,7 +1102,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_rename_exists, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->get_value("/test/other/int/", value);
@@ -1141,7 +1133,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_initial, T, backend_types)
 {
   init<T>();
 
-  bool ok { false };
+  bool ok{false};
 
   int value;
   ok = configurator->get_value("/test/other/initial", value);
@@ -1159,7 +1151,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_initial, T, backend_types)
 
   ok = configurator->get_value("/test/other/initial", value);
   BOOST_CHECK_EQUAL(ok, true);
-  BOOST_CHECK_EQUAL(value, has_defaults ? 1234: 1028);
+  BOOST_CHECK_EQUAL(value, has_defaults ? 1234 : 1028);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_configurator_save_load, T, file_backend_types)
@@ -1372,7 +1364,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_enum, T, backend_types)
   BOOST_CHECK_EQUAL(setting_mode().get(), Mode::Mode2);
 };
 
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_int_default, T, backend_types)
 {
   init<T>();
@@ -1456,7 +1447,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_connect, T, backend_types)
   setting_int().set(1038);
 
   int fired = 0;
-  auto connection = setting_int().connect([&fired] (int value) {
+  auto connection = setting_int().connect([&fired](int value) {
     BOOST_CHECK_EQUAL(value, 1039);
     fired++;
   });
@@ -1476,7 +1467,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_attached, T, backend_types)
   setting_int().set(1041);
 
   int fired = 0;
-  auto connection = setting_int().attach([&fired] (int value) {
+  auto connection = setting_int().attach([&fired](int value) {
     BOOST_CHECK_EQUAL(value, fired == 0 ? 1041 : 1042);
     fired++;
   });
@@ -1496,9 +1487,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_group_connect, T, backend_types)
   setting_int().set(1044);
 
   int fired = 0;
-  auto connection = group().connect([&fired] () {
-    fired++;
-  });
+  auto connection = group().connect([&fired]() { fired++; });
 
   BOOST_CHECK_EQUAL(fired, 0);
   setting_int().set(1045);

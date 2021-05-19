@@ -135,11 +135,11 @@ Configurator::set_delay(const std::string &key, int delay)
       setting.delay = delay;
     }
   else
-  {
-    setting.key = key;
-    setting.delay = delay;
-    settings[key] = setting;
-  }
+    {
+      setting.key = key;
+      setting.delay = delay;
+      settings[key] = setting;
+    }
 }
 
 bool
@@ -214,7 +214,7 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
     {
       bool b = find_setting(newkey, setting);
       if (b)
-      {
+        {
           if (setting.delay)
             {
               DelayedConfig &d = delayed_config[newkey];

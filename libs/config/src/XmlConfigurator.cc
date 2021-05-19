@@ -106,21 +106,21 @@ XmlConfigurator::remove_key(const std::string &key)
   boost::split(parts, path(key), boost::is_any_of("."));
 
   auto *node = &pt;
-  for (const auto& part : parts)
-  {
-    auto it = node->find(part);
-    if (it != node->not_found())
+  for (const auto &part: parts)
     {
-      if (&part == &parts.back())
-      {
-        node->erase(node->to_iterator(it));
-      }
-      else
-      {
-        node = &it->second;
-      }
+      auto it = node->find(part);
+      if (it != node->not_found())
+        {
+          if (&part == &parts.back())
+            {
+              node->erase(node->to_iterator(it));
+            }
+          else
+            {
+              node = &it->second;
+            }
+        }
     }
-  }
 
   TRACE_EXIT();
   return ret;
