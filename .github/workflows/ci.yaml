@@ -102,40 +102,40 @@ jobs:
           - image: ubuntu-bionic
             compiler: gcc-8
             gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer,exercises
 
           - image: ubuntu-focal
             compiler: gcc
             gtk_version: 3
             distcheck: yes
             upload: true
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer,exercises
 
           - image: ubuntu-focal
             compiler: gcc
             gtk_version: 2
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer,exercises
 
           - image: ubuntu-focal
             compiler: gcc
             gtk_version: 3
-            enable: gnome3,pulse,dbus,experimental,gstreamer,exercises,xml
-            disable: gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing
+            enable: gnome3,pulse,dbus,experimental,gstreamer,exercises
+            disable: gsettings,indicator,xfce,mate,debug,distribution,tests,tracing
 
           - image: ubuntu-groovy
             compiler: gcc
             gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer,exercises
 
           - image: ubuntu-hirsute
             compiler: gcc
             gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer,exercises
 
           - image: debian-testing
             compiler: gcc
             gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer,exercises
 
     steps:
       - uses: actions/checkout@v2
