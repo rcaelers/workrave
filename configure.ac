@@ -911,31 +911,6 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Define to the gettext d
 
 
 dnl
-dnl  Manual
-dnl
-dnl (taken from clutter)
-dnl
-
-AC_ARG_ENABLE(manual,
-              AS_HELP_STRING([--enable-manual],
-                             [Build user manual. Requires jw and xmlto binaries.]))
-
-if test "x$enable_manual" = "xyes"; then
-  AC_PATH_PROG(JW, jw, no)
-  if test "x$JW" = "xno"; then
-    AC_MSG_ERROR(['jw' program needed by the manual not found in path])
-  fi
-
-  AC_PATH_PROG(XMLTO, xmlto, no)
-  if test "x$XMLTO" = "xno"; then
-    AC_MSG_ERROR(['xmlto' program needed by the manual not found in path])
-  fi
-fi
-
-AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" = "xyes")
-
-
-dnl
 dnl What variant to build
 dnl
 
