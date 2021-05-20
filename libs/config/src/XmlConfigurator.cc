@@ -103,7 +103,8 @@ XmlConfigurator::remove_key(const std::string &key)
   TRACE_ENTER_MSG("XmlConfigurator::remove_key", key);
 
   std::vector<std::string> parts;
-  boost::split(parts, path(key), boost::is_any_of("."));
+  std::string p = path(key);
+  boost::split(parts, p, boost::is_any_of("."));
 
   auto *node = &pt;
   for (const auto &part: parts)
