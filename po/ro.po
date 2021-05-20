@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-04-27 21:55+0200\n"
+"POT-Creation-Date: 2021-05-20 20:41+0200\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -180,7 +180,7 @@ msgstr "Applet Workrave"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Deschide"
 
@@ -210,7 +210,7 @@ msgstr "_Pauză de odihnă"
 #: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:122
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Mode"
 msgstr "_Mod"
 
@@ -218,7 +218,7 @@ msgstr "_Mod"
 #: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:136
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "_Network"
 msgstr "_Rețea"
 
@@ -231,7 +231,7 @@ msgstr ""
 #: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:138
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Disconnect"
 msgstr "_Deconectare"
 
@@ -239,7 +239,7 @@ msgstr "_Deconectare"
 #: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:139
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "_Reconnect"
 msgstr "_Reconectare"
 
@@ -258,36 +258,36 @@ msgstr "_Închide"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
 #: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:183
 #, fuzzy
 msgid "Show log"
 msgstr "Arată jurna_lul"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:188
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
 msgid "Reading mode"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:165
 #, fuzzy
 msgid "Normal"
 msgstr "_Normal"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
+#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GenericDBusApplet.cc:168
 #, fuzzy
 msgid "Suspended"
 msgstr "_Suspendat"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
+#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:171
 #, fuzzy
 msgid "Quiet"
 msgstr "_Silențios"
@@ -344,7 +344,7 @@ msgstr ""
 
 #. label
 #: ui/apps/gtkmm/src/DailyLimitWindow.cc:47
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1423
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1419
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Limită zilnică"
@@ -365,10 +365,10 @@ msgid "Debug log"
 msgstr ""
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:156
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "Exercises"
 msgstr "Exerciții"
 
@@ -405,115 +405,115 @@ msgstr "Pauză"
 msgid "Resume exercises"
 msgstr "Reia exercițiile"
 
-#: ui/apps/gtkmm/src/GUI.cc:299
+#: ui/apps/gtkmm/src/GUI.cc:295
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:784 ui/apps/gtkmm/src/GUI.cc:898
+#: ui/apps/gtkmm/src/GUI.cc:780 ui/apps/gtkmm/src/GUI.cc:894
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Pornește Workrave odată cu Windows"
 
-#: ui/apps/gtkmm/src/GUI.cc:785
+#: ui/apps/gtkmm/src/GUI.cc:781
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:893
+#: ui/apps/gtkmm/src/GUI.cc:889
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:896
+#: ui/apps/gtkmm/src/GUI.cc:892
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1291
+#: ui/apps/gtkmm/src/GUI.cc:1287
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1297
+#: ui/apps/gtkmm/src/GUI.cc:1293
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GtkUtil.cc:164
+#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GtkUtil.cc:164
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:52
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:161
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:253
 msgid "Micro-break"
 msgstr "Micropauză"
 
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/MicroBreakWindow.cc:136
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:71
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Pauză de odihnă"
 
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GUI.cc:1434
+#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GUI.cc:1430
 #, fuzzy
 msgid "Mode: "
 msgstr "_Mod"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
 #, fuzzy
 msgid "Open"
 msgstr "_Deschide"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "Preferences"
 msgstr "Preferințe"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:163
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:175
 #, fuzzy
 msgid "Mode"
 msgstr "_Mod"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:185
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:114
 msgid "Network"
 msgstr "Rețea"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 #, fuzzy
 msgid "Connect"
 msgstr "_Conectare"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 #, fuzzy
 msgid "Disconnect"
 msgstr "_Deconectare"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:181
 #, fuzzy
 msgid "Reconnect"
 msgstr "_Reconectare"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:159
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:53
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:129
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "Statistics"
 msgstr "Statistici"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "About..."
 msgstr "Despre..."
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:194
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 #, fuzzy
 msgid "Quit"
@@ -523,25 +523,25 @@ msgstr "_Închide"
 #. Gtk::AccelKey("<control>r"),
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:82 ui/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:106
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "_Rest break"
 msgstr "_Pauză de odihnă"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:124
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:79
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:127
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:83
 msgid "Q_uiet"
 msgstr "_Silențios"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:129
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:87
 msgid "_Suspended"
 msgstr "_Suspendat"
 
@@ -551,13 +551,13 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:137
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
 msgid "_Connect"
 msgstr "_Conectare"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:140
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
 msgid "Show _log"
 msgstr "Arată jurna_lul"
 

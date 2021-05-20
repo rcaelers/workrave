@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-04-27 21:55+0200\n"
+"POT-Creation-Date: 2021-05-20 20:41+0200\n"
 "PO-Revision-Date: 2020-01-10 15:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -185,7 +185,7 @@ msgstr "Feidhmchláirín Workrave"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Oscail"
 
@@ -215,7 +215,7 @@ msgstr "_Sosscíthe"
 #: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:122
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Mode"
 msgstr "_Mód"
 
@@ -223,7 +223,7 @@ msgstr "_Mód"
 #: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:136
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "_Network"
 msgstr "_Líonra"
 
@@ -236,7 +236,7 @@ msgstr "_Cláraigh leis"
 #: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:138
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Disconnect"
 msgstr "_Dícheangail"
 
@@ -244,7 +244,7 @@ msgstr "_Dícheangail"
 #: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:139
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "_Reconnect"
 msgstr "_Athcheangail"
 
@@ -262,33 +262,33 @@ msgstr "_Scoir"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
 #: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:183
 msgid "Show log"
 msgstr "Taispeáin an t-oireas"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:188
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
 msgid "Reading mode"
 msgstr "Mód léitheoireachta"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:165
 msgid "Normal"
 msgstr "Gnáth"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
+#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GenericDBusApplet.cc:168
 msgid "Suspended"
 msgstr "Curtha ar fionraí"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
+#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:171
 msgid "Quiet"
 msgstr "Ciúin"
 
@@ -337,7 +337,7 @@ msgstr ""
 
 #. label
 #: ui/apps/gtkmm/src/DailyLimitWindow.cc:47
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1423
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1419
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "An teorainn laethúil"
@@ -357,10 +357,10 @@ msgid "Debug log"
 msgstr ""
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:156
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "Exercises"
 msgstr "Cleachtaí"
 
@@ -397,7 +397,7 @@ msgstr "Cuir ar sos é"
 msgid "Resume exercises"
 msgstr "Atosaigh cleachtaí"
 
-#: ui/apps/gtkmm/src/GUI.cc:299
+#: ui/apps/gtkmm/src/GUI.cc:295
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
@@ -406,23 +406,23 @@ msgstr ""
 "den chaora bhán a bhrúigh. Brúigh ar an éadromán seo chun an teachtaireacht "
 "seo a dhíchumasú"
 
-#: ui/apps/gtkmm/src/GUI.cc:784 ui/apps/gtkmm/src/GUI.cc:898
+#: ui/apps/gtkmm/src/GUI.cc:780 ui/apps/gtkmm/src/GUI.cc:894
 msgid "Workrave failed to start"
 msgstr "Theip ar Workrave tosú"
 
-#: ui/apps/gtkmm/src/GUI.cc:785
+#: ui/apps/gtkmm/src/GUI.cc:781
 msgid "Is Workrave already running?"
 msgstr "An bhfuil Workrave ag rith cheana?"
 
-#: ui/apps/gtkmm/src/GUI.cc:893
+#: ui/apps/gtkmm/src/GUI.cc:889
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:896
+#: ui/apps/gtkmm/src/GUI.cc:892
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1291
+#: ui/apps/gtkmm/src/GUI.cc:1287
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
@@ -430,81 +430,81 @@ msgstr ""
 "Tá Workrave ar fionraí. Ní dhéanfar faireachán ar ghníomhaíochtaí luchóige "
 "agus méarchláir."
 
-#: ui/apps/gtkmm/src/GUI.cc:1297
+#: ui/apps/gtkmm/src/GUI.cc:1293
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 "Tá Workrave sa mhód ciúin. Ní thaispeánfar aon fhuinneog i dtaobh sosa."
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GtkUtil.cc:164
+#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GtkUtil.cc:164
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:52
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:161
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:253
 msgid "Micro-break"
 msgstr "Sos beag"
 
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/MicroBreakWindow.cc:136
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:71
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Sos scíthe"
 
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GUI.cc:1434
+#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GUI.cc:1430
 msgid "Mode: "
 msgstr "Mód: "
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
 msgid "Open"
 msgstr "Oscail"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "Preferences"
 msgstr "Sainroghanna"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:163
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:175
 msgid "Mode"
 msgstr "Mód"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:185
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:114
 msgid "Network"
 msgstr "Líonra"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 msgid "Connect"
 msgstr "Ceangail"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 msgid "Disconnect"
 msgstr "Dícheangail"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:181
 msgid "Reconnect"
 msgstr "Athcheangail"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:159
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:53
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:129
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "Statistics"
 msgstr "Staidreamh"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "About..."
 msgstr "Maidir leis..."
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:194
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 msgid "Quit"
 msgstr "Scoir"
@@ -513,25 +513,25 @@ msgstr "Scoir"
 #. Gtk::AccelKey("<control>r"),
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:82 ui/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:106
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "_Rest break"
 msgstr "_Sos scíthe"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:124
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:79
 msgid "_Normal"
 msgstr "_Gnáth"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:127
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:83
 msgid "Q_uiet"
 msgstr "C_iúin"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:129
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:87
 msgid "_Suspended"
 msgstr "_Curtha ar fionraí"
 
@@ -541,13 +541,13 @@ msgstr "_Mód léitheoireachta"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:137
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
 msgid "_Connect"
 msgstr "_Ceangail"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:140
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
 msgid "Show _log"
 msgstr "Taispeáin an t-oireas"
 

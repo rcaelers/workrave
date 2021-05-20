@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-04-27 21:55+0200\n"
+"POT-Creation-Date: 2021-05-20 20:41+0200\n"
 "PO-Revision-Date: 2021-01-25 22:04+0100\n"
 "Last-Translator: Benjamin Siband <translations@muachi.com>\n"
 "Language-Team: Français <thomas.basset@netcourrier.com;translations@muachi."
@@ -189,7 +189,7 @@ msgstr "Applet Workrave"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Open"
 msgstr "_Ouvrir"
 
@@ -219,7 +219,7 @@ msgstr "_Pause prolongée"
 #: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:122
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
 msgid "_Mode"
 msgstr "_Mode"
 
@@ -227,7 +227,7 @@ msgstr "_Mode"
 #: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:136
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "_Network"
 msgstr "_Réseau"
 
@@ -240,7 +240,7 @@ msgstr "_Rejoindre"
 #: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:138
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Disconnect"
 msgstr "_Déconnecter"
 
@@ -248,7 +248,7 @@ msgstr "_Déconnecter"
 #: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:139
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "_Reconnect"
 msgstr "_Reconnecter"
 
@@ -266,33 +266,33 @@ msgstr "_Quitter"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
 #: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:183
 msgid "Show log"
 msgstr "Afficher le journal"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:188
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
 msgid "Reading mode"
 msgstr "Mode Lecture"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:165
 msgid "Normal"
 msgstr "Normal"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
+#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GenericDBusApplet.cc:168
 msgid "Suspended"
 msgstr "Interrompu"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1434 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
+#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:171
 msgid "Quiet"
 msgstr "Silencieux"
 
@@ -349,7 +349,7 @@ msgstr ""
 
 #. label
 #: ui/apps/gtkmm/src/DailyLimitWindow.cc:47
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1423
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1419
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Limite journalière"
@@ -370,10 +370,10 @@ msgid "Debug log"
 msgstr ""
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:156
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "Exercises"
 msgstr "Exercices"
 
@@ -410,7 +410,7 @@ msgstr "Pause"
 msgid "Resume exercises"
 msgstr "Reprendre les exercices"
 
-#: ui/apps/gtkmm/src/GUI.cc:299
+#: ui/apps/gtkmm/src/GUI.cc:295
 #, fuzzy
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
@@ -419,29 +419,29 @@ msgstr ""
 "Workrave fonctionne toujours. Vous pouvez accéder à Workrave en cliquant sur "
 "l'icône du mouton blanc. Cliquez sur ce ballon pour désactiver ce message"
 
-#: ui/apps/gtkmm/src/GUI.cc:784 ui/apps/gtkmm/src/GUI.cc:898
+#: ui/apps/gtkmm/src/GUI.cc:780 ui/apps/gtkmm/src/GUI.cc:894
 msgid "Workrave failed to start"
 msgstr "Workrave n'a pas réussi à démarrer"
 
-#: ui/apps/gtkmm/src/GUI.cc:785
+#: ui/apps/gtkmm/src/GUI.cc:781
 msgid "Is Workrave already running?"
 msgstr "Est-ce que Workrave fonctionne toujours ?"
 
-#: ui/apps/gtkmm/src/GUI.cc:893
+#: ui/apps/gtkmm/src/GUI.cc:889
 #, fuzzy
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 "Workrave ne peut pas votre surveiller votre clavier et l'activité de votre "
 "souris.\n"
 
-#: ui/apps/gtkmm/src/GUI.cc:896
+#: ui/apps/gtkmm/src/GUI.cc:892
 #, fuzzy
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 "Soyez sûr.e que l'extension ENREGISTRER est activée dans le serveur "
 "graphique X."
 
-#: ui/apps/gtkmm/src/GUI.cc:1291
+#: ui/apps/gtkmm/src/GUI.cc:1287
 #, fuzzy
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
@@ -450,80 +450,80 @@ msgstr ""
 "Workrave est en mode suspendu. L'activité de votre clavier et de votre "
 "souris ne peut pas être surveillée."
 
-#: ui/apps/gtkmm/src/GUI.cc:1297
+#: ui/apps/gtkmm/src/GUI.cc:1293
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave est en mode silencieux. Aucune fenêtre de pause n'apparaitra."
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GtkUtil.cc:164
+#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GtkUtil.cc:164
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:52
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:161
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:253
 msgid "Micro-break"
 msgstr "Micro-pause"
 
-#: ui/apps/gtkmm/src/GUI.cc:1423 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GenericDBusApplet.cc:161
 #: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/MicroBreakWindow.cc:136
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:71
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Pause prolongée"
 
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GUI.cc:1434
+#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GUI.cc:1430
 msgid "Mode: "
 msgstr "Mode : "
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
 msgid "Open"
 msgstr "Ouvrir"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:160
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:78
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "Preferences"
 msgstr "Préférences"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:163
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:175
 msgid "Mode"
 msgstr "Mode"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:185
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:114
 msgid "Network"
 msgstr "Réseau"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 msgid "Connect"
 msgstr "Connecter"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 msgid "Disconnect"
 msgstr "Déconnecter"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:181
 msgid "Reconnect"
 msgstr "Reconnecter"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:159
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:53
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:129
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "About..."
 msgstr "À propos de..."
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:194
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
 msgid "Quit"
 msgstr "Quitter"
@@ -532,25 +532,25 @@ msgstr "Quitter"
 #. Gtk::AccelKey("<control>r"),
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:82 ui/apps/gtkmm/src/MainGtkMenu.cc:148
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:106
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
 msgid "_Rest break"
 msgstr "Pause prolongée"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:124
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:79
 msgid "_Normal"
 msgstr "Normal"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:127
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:83
 msgid "Q_uiet"
 msgstr "S_ilencieux"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:129
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:87
 msgid "_Suspended"
 msgstr "_Interrompu"
 
@@ -560,13 +560,13 @@ msgstr "_Mode Lecture"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:137
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
 msgid "_Connect"
 msgstr "_Connecter"
 
 #: ui/apps/gtkmm/src/MainGtkMenu.cc:140
 #: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
 msgid "Show _log"
 msgstr "Afficher le journal"
 
