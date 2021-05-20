@@ -191,7 +191,7 @@ workrave_LDADD =	-lworkrave-ui-common -lworkrave-audio -lworkrave-core -lworkrav
 					-lworkrave-input-monitor -lworkrave-session \
 					-lworkrave-utils @WR_LDADD@ -lm \
 					@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
-					@GTK_LIBS@ @X_LIBS@ @GDOME_LIBS@ \
+					@GTK_LIBS@ @X_LIBS@ \
 					@PULSE_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 					${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${WIN32CONSOLE} \
 					${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)

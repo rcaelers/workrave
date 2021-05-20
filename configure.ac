@@ -48,10 +48,6 @@ AC_ARG_ENABLE(app-text,
               [AS_HELP_STRING([--enable-app-text],
                               [compile with dummy text GUI support (NOT recommended)])])
 
-AC_ARG_ENABLE(xml,
-              [AS_HELP_STRING([--disable-xml],
-                              [compile without XML support])])
-
 AC_ARG_ENABLE(gsettings,
               [AS_HELP_STRING([--disable-gsettings],
                               [compile without GSettings support])])
@@ -311,7 +307,6 @@ then
     #fi
 
     enable_gnome3=no
-    enable_xml=no
     enable_indicator=no
     enable_xfce=no
     enable_mate=no
@@ -819,26 +814,6 @@ fi
 AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
 
 dnl
-
-dnl
-dnl XML
-dnl
-
-config_xml=no
-
-if test "x$enable_xml" != "xno"
-then
-    PKG_CHECK_MODULES([GDOME],
-                      [gdome2],
-                      [config_xml=yes
-                       AC_DEFINE([HAVE_GDOME], ,[Define if GDome is available])],
-                      [if test "x$enable_xml" = "xyes"; then
-                         AC_MSG_ERROR([GDome2 development headers not found.])
-                       fi])
-fi
-
-AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
-
 dnl GIO networking
 dnl
 
@@ -1189,8 +1164,6 @@ echo "                        prefix:   ${prefix}"
 echo ""
 echo "                           OS :   ${platform_os_name}"
 echo ""
-echo "      GSettings configuration :   ${config_gsettings}"
-echo "            XML configuration :   ${config_xml}"
 echo ""
 if test "$platform_os_unix" = "yes"; then
 echo "            Activity Monitors :   ${enable_monitors}"
@@ -1208,6 +1181,7 @@ echo "            GStreamer support :   ${config_gstreamer}"
 if test "$platform_os_unix" = "yes"; then
 echo "           Pulseaudio support :   ${config_pulse}"
 fi
+echo "      GSettings configuration :   ${config_gsettings}"
 echo "                    Exercises :   ${config_exercises}"
 echo ""
 echo "        Experimental features :   ${config_experimental}"

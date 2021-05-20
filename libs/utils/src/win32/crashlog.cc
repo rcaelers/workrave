@@ -263,9 +263,6 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
 #ifdef HAVE_EXERCISES
           "EXERCISES "
 #endif
-#ifdef HAVE_GDOME
-          "GDOME "
-#endif
 #ifdef HAVE_XRECORD
           "XRECORD?? "
 #endif

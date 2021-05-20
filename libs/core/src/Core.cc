@@ -179,24 +179,23 @@ Core::init_configurator()
       else
         {
           configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
-#if defined(HAVE_GDOME)
           if (configurator == nullptr)
             {
               string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
-#  if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
                   configFile = Util::get_home_directory() + "config.xml";
                 }
-#  endif
+#endif
               if (configFile != "")
                 {
                   configurator->load(configFile);
                 }
             }
-#endif
+
           if (configurator == nullptr)
             {
               ini_file = Util::get_home_directory() + "workrave.ini";
