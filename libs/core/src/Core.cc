@@ -61,10 +61,6 @@
 #  endif
 #endif
 
-#ifdef HAVE_GCONF
-#  include <gconf/gconf-client.h>
-#endif
-
 #ifdef HAVE_DBUS
 #  include "dbus/DBusFactory.hh"
 #  if defined(PLATFORM_OS_WINDOWS_NATIVE)
@@ -182,11 +178,6 @@ Core::init_configurator()
         }
       else
         {
-#if defined(HAVE_GCONF)
-          gconf_init(argc, argv, NULL);
-          g_type_init();
-#endif
-
           configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
 #if defined(HAVE_GDOME)
           if (configurator == nullptr)

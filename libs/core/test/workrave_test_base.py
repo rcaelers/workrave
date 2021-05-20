@@ -31,7 +31,6 @@ class WorkraveTestBase(unittest.TestCase):
         env["WORKRAVE_FAKE"]="1"
         env["WORKRAVE_DBUS_NAME"] = "org.workrave.Workrave" + str(instance)
         env["WORKRAVE_HOME"] = tmpdir
-        env["WORKRAVE_GCONF_ROOT"] = "/apps/" + name + "/";
 
         if clean:
             try:

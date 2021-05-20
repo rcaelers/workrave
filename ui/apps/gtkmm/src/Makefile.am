@@ -165,7 +165,7 @@ workrave_CXXFLAGS =	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DGNOMELOCALEDIR=\
 					-I$(srcdir) \
 					@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 					@X_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
-					@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
+					-D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 					@IGE_CFLAGS@ ${DEFS} \
 					$(cflags) $(INDICATOR_CFLAGS)
 
@@ -191,7 +191,7 @@ workrave_LDADD =	-lworkrave-ui-common -lworkrave-audio -lworkrave-core -lworkrav
 					-lworkrave-input-monitor -lworkrave-session \
 					-lworkrave-utils @WR_LDADD@ -lm \
 					@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
-					@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
+					@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GDOME_LIBS@ \
 					@PULSE_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 					${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${WIN32CONSOLE} \
 					${DIRECTSOUNDLIBS} $(INDICATOR_LIBS)

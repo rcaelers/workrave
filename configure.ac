@@ -52,10 +52,6 @@ AC_ARG_ENABLE(xml,
               [AS_HELP_STRING([--disable-xml],
                               [compile without XML support])])
 
-AC_ARG_ENABLE(gconf,
-              [AS_HELP_STRING([--enable-gconf],
-                              [compile with Gnome gconf2 support])])
-
 AC_ARG_ENABLE(gsettings,
               [AS_HELP_STRING([--disable-gsettings],
                               [compile without GSettings support])])
@@ -314,7 +310,6 @@ then
     #    WIN32CONSOLE=-mconsole
     #fi
 
-    enable_gconf=no
     enable_gnome3=no
     enable_xml=no
     enable_indicator=no
@@ -372,7 +367,6 @@ then
                                      ])])
 
     config_gnome3=no
-    config_gconf=no
 
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
     LIBS="$LIBS -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
@@ -825,24 +819,6 @@ fi
 AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
 
 dnl
-dnl GConf
-dnl
-
-config_gconf=no
-
-if test "x$enable_gconf" != "xno" -a "x$config_gnome3" != "xyes"
-then
-  PKG_CHECK_MODULES([GCONF],
-                    [gconf-2.0 >= 2.31.1],
-                    [config_gconf=yes
-                     AC_DEFINE([HAVE_GCONF], , [Define if GConf is available])],
-                    [if test "x$enable_gconf" = "xyes"; then
-                       AC_MSG_ERROR([GConf development headers not found.])
-                     fi])
-fi
-
-AM_CONDITIONAL(HAVE_GCONF, test "x$config_gconf" = "xyes")
-
 
 dnl
 dnl XML
@@ -1223,7 +1199,6 @@ echo "                        prefix:   ${prefix}"
 echo ""
 echo "                           OS :   ${platform_os_name}"
 echo ""
-echo "          GConf configuration :   ${config_gconf}"
 echo "      GSettings configuration :   ${config_gsettings}"
 echo "            XML configuration :   ${config_xml}"
 echo ""

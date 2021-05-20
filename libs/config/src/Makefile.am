@@ -34,8 +34,7 @@ libworkrave_config_la_CFLAGS = \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${cflags} @WR_COMMON_INCLUDES@ \
 			-I. -I$(top_srcdir)/libs/config/include -I$(top_srcdir)/libs/config/include/config \
-			@GLIB_CFLAGS@ @GDOME_CFLAGS@ \
-			@GCONF_CFLAGS@
+			@GLIB_CFLAGS@ @GDOME_CFLAGS@
 
 libworkrave_config_la_CXXFLAGS = ${libworkrave_config_la_CFLAGS}
 
