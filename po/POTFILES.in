@@ -24,7 +24,6 @@ libs/core/src/DayTimePred.cc
 libs/core/src/DistributionManager.cc
 libs/core/src/DistributionSocketLink.cc
 libs/core/src/GIOSocketDriver.cc
-libs/core/src/GNetSocketDriver.cc
 libs/core/src/IdleLogManager.cc
 libs/core/src/LocalActivityMonitor.cc
 libs/core/src/PacketBuffer.cc

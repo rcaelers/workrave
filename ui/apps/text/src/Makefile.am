@@ -18,7 +18,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I. @WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
 			@X_CFLAGS@ \
 			@GTK_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
+			-D_XOPEN_SOURCE=600  \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesmacos) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -43,7 +43,7 @@ $(bin_PROGRAMS):	${top_srcdir}/backend/src/libworkrave-backend.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ \
-			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GDOME_LIBS@ \
+			@GTK_LIBS@ @X_LIBS@ @GDOME_LIBS@ \
 			@GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${MacOSLIBS} ${WIN32CONSOLE}
 endif

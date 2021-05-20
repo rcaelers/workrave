@@ -254,12 +254,6 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
 #ifdef HAVE_GDOME
           "GDOME "
 #endif
-#ifdef HAVE_GNET
-          "GNET "
-#endif
-#ifdef HAVE_GNET2
-          "GNET2 "
-#endif
 #ifdef HAVE_XRECORD
           "XRECORD?? "
 #endif

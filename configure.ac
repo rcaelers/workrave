@@ -839,13 +839,10 @@ fi
 
 AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
 
-
-dnl
-dnl GIO/GNet2 networking
+dnl GIO networking
 dnl
 
 config_distribution=no
-have_gnet=no
 
 if test "x$enable_distribution" != "xno"
 then
@@ -853,15 +850,9 @@ then
                     [gio-2.0 >= 2.22.0],
                     [config_distribution=yes
                      AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
-                    [PKG_CHECK_MODULES([GNET],
-                                       [gnet-2.0],
-                                       [config_distribution=yes
-                                        have_gnet=yes
-                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available])
-                                        AC_DEFINE([HAVE_GNET2], , [Define if GNet2 is available])],
-                                       [if test "x$enable_distribution" = "xyes"; then
-                                          AC_MSG_ERROR([GIO/GNet development headers not found.])
-                                        fi])])
+                     [if test "x$enable_distribution" = "xyes"; then
+                       AC_MSG_ERROR([GIO found.])
+                     fi])
 fi
 
 if test $config_distribution = yes
@@ -870,7 +861,6 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
-AM_CONDITIONAL(HAVE_GNET, test $have_gnet = yes)
 
 
 dnl

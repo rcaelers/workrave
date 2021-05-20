@@ -23,9 +23,6 @@ sources += 	DistributionManager.cc \
 			SocketDriver.cc \
 			IdleLogManager.cc \
 			GIOSocketDriver.cc
-if HAVE_GNET
-sources +=	GNetSocketDriver.cc
-endif
 endif
 
 if PLATFORM_OS_WINDOWS
@@ -79,7 +76,7 @@ libworkrave_core_la_CFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} @WR_COMMON_INCLUDES@ \
-			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@
+			@GLIB_CFLAGS@ @GDOME_CFLAGS@
 
 libworkrave_core_la_CXXFLAGS = ${libworkrave_core_la_CFLAGS}
 
