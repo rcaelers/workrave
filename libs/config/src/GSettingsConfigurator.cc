@@ -19,14 +19,12 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_GSETTINGS
+#include "debug.hh"
+#include <cstring>
+#include <boost/algorithm/string/replace.hpp>
 
-#  include "debug.hh"
-#  include <cstring>
-#  include <boost/algorithm/string/replace.hpp>
-
-#  include "GSettingsConfigurator.hh"
-#  include "Configurator.hh"
+#include "GSettingsConfigurator.hh"
+#include "Configurator.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -321,5 +319,3 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   TRACE_EXIT();
   return i->second;
 }
-
-#endif

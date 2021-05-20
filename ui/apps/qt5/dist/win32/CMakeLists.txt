@@ -8,7 +8,6 @@ set(qtconf_dest_dir "bin")
 set(IMAGE_PLUGINS QJpegPlugin QGifPlugin)
 set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QWindowsIntegrationPlugin)
 
-
 foreach(plugin ${PLATFORM_PLUGINS})
   if (HAVE_QT5)
     get_target_property(_loc Qt5::${plugin} LOCATION_${CMAKE_BUILD_TYPE})

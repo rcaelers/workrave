@@ -40,7 +40,7 @@ using namespace boost::unit_test;
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSConfigurator.hh"
 #endif
-#ifdef HAVE_QT5
+#ifdef HAVE_QT
 #  include "QtSettingsConfigurator.hh"
 #endif
 
