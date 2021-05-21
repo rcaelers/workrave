@@ -6,13 +6,14 @@
 
 MAINTAINERCLEANFILES =  Makefile.in
 
-EXTRA_DIST =	ci/build-mingw.sh \
+EXTRA_DIST =	ci/build-autotools-mingw.sh \
 		ci/mingw-make-runtime.sh \
-		ci/build.sh \
+		ci/build-autotools.sh \
 		ci/catalog.sh \
 		ci/config.sh \
 		ci/mingw-env \
-		ci/build-linux.sh \
+		ci/build-autotools-linux.sh \
+		ci/build.sh \
 		catalog/catalog.js \
 		catalog/s3.js \
 		catalog/main.js \
