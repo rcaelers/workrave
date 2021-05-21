@@ -24,14 +24,19 @@
 #include "ClsFact.h"
 #include <shlwapi.h>
 
-#pragma data_seg(".text")
+#if defined(_MSC_VER)
+#  pragma data_seg(".text")
+#endif
+
 #define INITGUID
 #include <initguid.h>
 #include "Guid.h"
 
 #include "Debug.h"
 
-#pragma data_seg()
+#if defined(_MSC_VER)
+#  pragma data_seg()
+#endif
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
 BOOL RegisterServer(CLSID, LPCTSTR, BOOL reg);
