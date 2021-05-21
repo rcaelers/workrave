@@ -27,7 +27,6 @@ EXTRA_DIST =	ci/build-autotools-mingw.sh \
 		local/cow-build.sh \
 		local/release.sh \
 		local/local.sh \
-		github/Dockerfile \
 		win32/CMakeLists.txt \
 		win32/CreateInstaller.cmake.in \
 		win64/CMakeLists.txt \
