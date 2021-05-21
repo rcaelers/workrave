@@ -193,12 +193,12 @@ jobs:
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
             disable: TESTS,COVERAGE
 
-          - image: ubuntu-focal
-            os: ubuntu-latest
-            compiler: gcc
-            ui: Qt5
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
-            disable: TESTS,COVERAGE
+          #- image: ubuntu-focal
+          #  os: ubuntu-latest
+          #  compiler: gcc
+          #  ui: Qt5
+          #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
+          #  disable: TESTS,COVERAGE
 
           - image: ubuntu-groovy
             os: ubuntu-latest
