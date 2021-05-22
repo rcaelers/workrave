@@ -147,7 +147,6 @@ TimerPreferencesPanel::create_options_panel()
   exercises_spin = nullptr;
 #endif
 
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   monitor_cb = nullptr;
   auto_natural_cb = nullptr;
   allow_shutdown_cb = nullptr;
@@ -157,7 +156,6 @@ TimerPreferencesPanel::create_options_panel()
       monitor_cb = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       hig->add_widget(*monitor_cb);
     }
-#endif
 
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
@@ -322,7 +320,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
   return true;
 }
 
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
 bool
 TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 {
@@ -355,7 +352,6 @@ TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 
   return true;
 }
-#endif
 
 void
 TimerPreferencesPanel::on_enabled_toggled()
@@ -374,12 +370,10 @@ TimerPreferencesPanel::enable_buttons()
   skippable_cb->set_sensitive(on);
   activity_sensitive_cb->set_sensitive(on);
 
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   if (monitor_cb != nullptr)
     {
       monitor_cb->set_sensitive(on);
     }
-#endif
 
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);

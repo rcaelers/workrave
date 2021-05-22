@@ -33,8 +33,6 @@
 
 #include "core/ICore.hh"
 
-#define HAVE_MICRO_BREAK_ACTIVITY 1
-
 class TimeEntry;
 class DataConnector;
 
@@ -53,9 +51,7 @@ public:
   ~TimerPreferencesPanel() override;
 
 private:
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   bool on_monitor_changed(const std::string &key, bool write);
-#endif
   bool on_activity_sensitive_toggled(const std::string &key, bool write);
   bool on_preludes_changed(const std::string &key, bool write);
 #ifdef HAVE_EXERCISES
@@ -75,9 +71,7 @@ private:
   Gtk::CheckButton *ignorable_cb{nullptr};
   Gtk::CheckButton *skippable_cb{nullptr};
   Gtk::CheckButton *activity_sensitive_cb{nullptr};
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   Gtk::CheckButton *monitor_cb{nullptr};
-#endif
   Gtk::CheckButton *prelude_cb{nullptr};
   Gtk::CheckButton *has_max_prelude_cb{nullptr};
   TimeEntry *limit_tim{nullptr}, *auto_reset_tim{nullptr}, *snooze_tim{nullptr};
