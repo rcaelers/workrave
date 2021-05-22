@@ -9,7 +9,6 @@ if HAVE_APP_GTKMM
 if PLATFORM_OS_WINDOWS
 noinst_LTLIBRARIES = 	libworkrave-ui-gtkmm-win32.la
 libworkrave_ui_gtkmm_win32_la_SOURCES = \
-			dll_hell.c \
 			DesktopWindow.cc \
 			W32AppletWindow.cc \
 			W32Compat.cc \

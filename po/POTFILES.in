@@ -158,7 +158,6 @@ ui/apps/gtkmm/src/win32/W32Compat.cc
 ui/apps/gtkmm/src/win32/W32ForceFocus.cc
 ui/apps/gtkmm/src/win32/W32StatusIcon.cc
 ui/apps/gtkmm/src/win32/W32TrayMenu.cc
-ui/apps/gtkmm/src/win32/dll_hell.c
 ui/apps/gtkmm/src/win32/eggsmclient-win32.c
 ui/apps/gtkmm/src/win32/eggsmclient.c
 ui/apps/gtkmm/src/workrave.appdata.xml

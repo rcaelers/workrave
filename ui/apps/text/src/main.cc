@@ -37,10 +37,6 @@ run(int argc, char **argv)
 {
   GUI *gui = new GUI(argc, argv);
 
-#ifdef PLATFORM_OS_WINDOWS
-  dll_hell_check();
-#endif
-
   gui->main();
 
   delete gui;

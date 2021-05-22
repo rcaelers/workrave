@@ -31,7 +31,6 @@
 #  include <fcntl.h>
 
 #  include "utils/crashlog.h"
-#  include "dll_hell.h"
 #  include "utils/W32ActiveSetup.hh"
 #endif
 
@@ -58,10 +57,6 @@ run(int argc, char **argv)
 #endif
 
   GUI *gui = new GUI(argc, argv);
-
-#if defined(PLATFORM_OS_WINDOWS)
-  dll_hell_check();
-#endif
 
   gui->main();
 
