@@ -214,23 +214,23 @@ jobs:
           #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
           #  disable: TESTS,COVERAGE
 
-          - image: mingw-gtk-rawhide
-            os: ubuntu-latest
-            compiler: clang
-            ui: Gtk+3
-            configuration: Release
-            enable:
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
-            #upload: true
-
-          - image: mingw-gtk-rawhide
-            os: ubuntu-latest
-            compiler: clang
-            ui: Gtk+3
-            configuration: Debug
-            enable: TRACING
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
-            #upload: true
+          #- image: mingw-gtk-rawhide
+          #  os: ubuntu-latest
+          #  compiler: clang
+          #  ui: Gtk+3
+          #  configuration: Release
+          #  enable:
+          #  disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
+          #  #upload: true
+          #
+          #- image: mingw-gtk-rawhide
+          #  os: ubuntu-latest
+          #  compiler: clang
+          #  ui: Gtk+3
+          #  configuration: Debug
+          #  enable: TRACING
+          #  disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
+          #  #upload: true
 
           #- os: macos-latest
           #  compiler: clang
