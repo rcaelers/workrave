@@ -397,8 +397,6 @@ bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
-  IGUI *gui = GUI::get_instance();
-  assert(gui != nullptr);
 
 #if defined(PLATFORM_OS_WINDOWS)
   win32_show(false);
@@ -415,6 +413,7 @@ MainWindow::on_delete_event(GdkEventAny *)
     }
   else
     {
+      IGUI *gui = GUI::get_instance();
       gui->terminate();
     }
 #endif
