@@ -74,6 +74,9 @@ if (PLATFORM_OS_WINDOWS)
     set(SRC ${SRC} win32/W32GrabHarpoon.cc)
   endif()
 
+  set(WORKRAVE_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+  set(WORKRAVE_VERSION ${VERSION})
+  set(WORKRAVE_RESOURCE_VERSION ${RESOURCE_VERSION})
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
