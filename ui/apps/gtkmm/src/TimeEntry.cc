@@ -99,13 +99,11 @@ TimeEntry::TimeEntry(bool millis)
     }
 }
 
-//! Destructor.
 TimeEntry::~TimeEntry()
 {
   // FIXME: disconnect signals?
 }
 
-//! Set time
 void
 TimeEntry::set_value(time_t t)
 {
@@ -131,7 +129,6 @@ TimeEntry::set_value(time_t t)
     }
 }
 
-//! Get time
 time_t
 TimeEntry::get_value()
 {

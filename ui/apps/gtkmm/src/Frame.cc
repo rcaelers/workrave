@@ -36,7 +36,6 @@ Frame::~Frame()
     {
       flash_signal.disconnect();
     }
-  // FIXME: delete gc?
 }
 
 void

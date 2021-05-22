@@ -68,7 +68,6 @@ IconListCellRenderer::get_preferred_width_vfunc(Gtk::Widget &widget, int &minimu
   int text_minimum_width, text_natural_width;
   int pixbuf_minimum_width, pixbuf_natural_width;
 
-  // FIXME:
   const_cast<IconListCellRenderer *>(this)->update_properties();
 
   text_renderer.get_preferred_width(widget, text_minimum_width, text_natural_width);
@@ -100,7 +99,6 @@ IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &minim
   int text_minimum_height, text_natural_height;
   int pixbuf_minimum_height, pixbuf_natural_height;
 
-  // FIXME:
   const_cast<IconListCellRenderer *>(this)->update_properties();
 
   text_renderer.get_preferred_height(widget, text_minimum_height, text_natural_height);

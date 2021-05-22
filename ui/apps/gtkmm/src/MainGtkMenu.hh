@@ -22,13 +22,7 @@
 
 #include <string>
 
-#include <glibmm/refptr.h>
-#include <glibmm/ustring.h>
-#include <gtkmm/actiongroup.h>
-#include <gtkmm/iconfactory.h>
-#include <gtkmm/radioaction.h>
-#include <gtkmm/uimanager.h>
-#include <gtkmm/menu.h>
+#include <gtkmm.h>
 
 #include "MenuBase.hh"
 

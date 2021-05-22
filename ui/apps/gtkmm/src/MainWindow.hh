@@ -21,7 +21,7 @@
 #define MAINWINDOW_HH
 
 #include <string>
-#include <gtkmm/window.h>
+#include <gtkmm.h>
 
 #ifdef PLATFORM_OS_WINDOWS
 #  include <windows.h>

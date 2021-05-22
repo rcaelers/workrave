@@ -211,7 +211,6 @@ BreakWindow::init_gui()
             }
         }
 
-      // FIXME: check if it was intentionally not unset for RB
       if (break_id != BREAK_ID_REST_BREAK)
         {
 #ifdef HAVE_GTK3
