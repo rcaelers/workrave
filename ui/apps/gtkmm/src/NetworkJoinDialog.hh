@@ -23,7 +23,6 @@
 #include <cstdio>
 #include <string>
 
-#include "preinclude.h"
 #include "Hig.hh"
 
 #include <gtkmm/entry.h>

@@ -35,7 +35,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "preinclude.h"
 #include "debug.hh"
 #include "nls.h"
 

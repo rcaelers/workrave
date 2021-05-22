@@ -26,7 +26,6 @@
 
 #ifdef HAVE_EXERCISES
 
-#  include "preinclude.h"
 #  include "commonui/Exercise.hh"
 
 #  include <gtkmm.h>

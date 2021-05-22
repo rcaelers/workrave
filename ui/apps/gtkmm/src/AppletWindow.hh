@@ -20,8 +20,6 @@
 #ifndef APPLETWINDOW_HH
 #define APPLETWINDOW_HH
 
-#include "preinclude.h"
-
 #include "IAppletWindow.hh"
 
 class TimerBoxControl;

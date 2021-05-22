@@ -20,7 +20,6 @@
 #ifndef W32APPLETWINDOW_HH
 #define W32APPLETWINDOW_HH
 
-#include "preinclude.h"
 #include <windows.h>
 #include <process.h>
 #include <string>

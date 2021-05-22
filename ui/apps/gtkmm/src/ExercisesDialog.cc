@@ -23,8 +23,6 @@
 
 #ifdef HAVE_EXERCISES
 
-#  include "preinclude.h"
-
 #  ifdef HAVE_UNISTD_H
 #    include <unistd.h>
 #  endif

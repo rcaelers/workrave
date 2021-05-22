@@ -18,8 +18,6 @@
 #ifndef GUI_HH
 #define GUI_HH
 
-#include "preinclude.h"
-
 #include <sigc++/trackable.h>
 #include <glibmm.h>
 

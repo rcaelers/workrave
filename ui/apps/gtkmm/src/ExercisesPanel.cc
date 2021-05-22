@@ -19,8 +19,6 @@
 
 #ifdef HAVE_EXERCISES
 
-#  include "preinclude.h"
-
 #  include <algorithm>
 #  include <random>
 

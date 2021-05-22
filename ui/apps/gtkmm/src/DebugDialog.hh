@@ -18,7 +18,6 @@
 #ifndef DEBUGDIALOG_HH
 #define DEBUGDIALOG_HH
 
-#include "preinclude.h"
 #include <string>
 
 #include <gtkmm/scrolledwindow.h>

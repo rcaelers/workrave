@@ -23,8 +23,6 @@
 #include <cstdio>
 #include <string>
 
-#include "preinclude.h"
-
 #include <gtkmm/liststore.h>
 #include <gtkmm/box.h>
 

@@ -24,7 +24,6 @@
 
 #include <vector>
 
-#include "preinclude.h"
 #include "Hig.hh"
 
 #include "IconListNotebook.hh"

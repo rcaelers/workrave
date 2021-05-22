@@ -20,8 +20,6 @@
 #ifndef APPLETCONTROL_HH
 #define APPLETCONTROL_HH
 
-#include "preinclude.h"
-
 #include <map>
 #include <memory>
 

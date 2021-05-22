@@ -20,8 +20,6 @@
 #ifndef STATUSICON_HH
 #define STATUSICON_HH
 
-#include "preinclude.h"
-
 #include <map>
 
 #ifdef PLATFORM_OS_WINDOWS

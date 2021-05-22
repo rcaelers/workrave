@@ -20,8 +20,6 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
-#include "preinclude.h"
-
 #include <string>
 #include <gtkmm/window.h>
 

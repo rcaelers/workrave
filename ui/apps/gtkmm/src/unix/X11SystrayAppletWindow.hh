@@ -20,7 +20,6 @@
 #ifndef X11SYSTRAYAPPLETWINDOW_HH
 #define X11SYSTRAYAPPLETWINDOW_HH
 
-#include "preinclude.h"
 #include <cstdio>
 
 #include "config/IConfiguratorListener.hh"

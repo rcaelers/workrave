@@ -21,8 +21,6 @@
 #  include "config.h"
 #endif
 
-#include "preinclude.h"
-
 #include <gtkmm/spinbutton.h>
 
 #include "debug.hh"

@@ -20,8 +20,6 @@
 #ifndef MULTIHEAD_HH
 #define MULTIHEAD_HH
 
-#include "preinclude.h"
-
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 #  undef max
 #endif

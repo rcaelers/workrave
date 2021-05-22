@@ -23,8 +23,6 @@
 
 #ifdef HAVE_DISTRIBUTION
 
-#  include "preinclude.h"
-
 #  include "nls.h"
 #  include "debug.hh"
 

@@ -20,7 +20,6 @@
 #ifndef MACOSAPPLETWINDOW_HH
 #define MACOSAPPLETWINDOW_HH
 
-#include "preinclude.h"
 #include <string>
 
 #include "TimerBoxViewBase.hh"

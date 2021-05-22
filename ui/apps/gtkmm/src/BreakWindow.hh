@@ -26,8 +26,6 @@
 
 #include <cstdio>
 
-#include "preinclude.h"
-
 #include <gtkmm.h>
 
 #include "core/ICore.hh"
