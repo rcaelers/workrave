@@ -71,7 +71,7 @@ if (PLATFORM_OS_WINDOWS)
     )
 
   if (HAVE_HARPOON)
-    set(SRC ${SRC} win32/W32GrabHarpoon.cc)
+    #set(SRC ${SRC} win32/W32GrabHarpoon.cc)
   endif()
 
   set(WORKRAVE_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})

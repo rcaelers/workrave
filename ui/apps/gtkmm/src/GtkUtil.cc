@@ -57,7 +57,7 @@ GtkUtil::has_button_images()
   if (g_object_class_find_property(klazz, "gtk-button-images"))
     {
       gboolean gbi;
-      g_object_get(G_OBJECT(settings), "gtk-button-images", &gbi, NULL);
+      g_object_get(G_OBJECT(settings), "gtk-button-images", &gbi, nullptr);
       ret = gbi;
     }
   return ret;
