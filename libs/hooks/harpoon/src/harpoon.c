@@ -549,6 +549,7 @@ harpoon_mouse_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, mouse_ll_hook, TRUE);
 }
 
+#ifndef _WIN64
 static LRESULT CALLBACK
 harpoon_mouse_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -570,6 +571,7 @@ harpoon_mouse_block_hook(int code, WPARAM wpar, LPARAM lpar)
 
   return harpoon_generic_hook_return(code, wpar, lpar, mouse_hook, forcecallnext);
 }
+#endif
 
 /**********************************************************************
  * Keyboard hook
@@ -659,6 +661,7 @@ harpoon_keyboard_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, keyboard_ll_hook, forcecallnext);
 }
 
+#ifndef _WIN64
 static LRESULT CALLBACK
 harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -671,7 +674,9 @@ harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
     }
   return harpoon_generic_hook_return(code, wpar, lpar, keyboard_hook, forcecallnext);
 }
+#endif
 
+#ifdef _WIN64
 static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -709,6 +714,7 @@ harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 
   return CallNextHookEx(msg_hook, code, wpar, lpar);
 }
+#endif
 
 /**********************************************************************
  * Initialisation
