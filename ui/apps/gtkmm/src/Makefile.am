@@ -113,10 +113,8 @@ sources +=	NetworkJoinDialog.cc \
 			NetworkPreferencePage.cc
 endif
 
-if HAVE_EXERCISES
 sources +=	ExercisesDialog.cc \
 			ExercisesPanel.cc
-endif
 
 # DBus service file
 if HAVE_DBUS

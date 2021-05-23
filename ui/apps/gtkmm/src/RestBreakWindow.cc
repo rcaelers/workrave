@@ -53,10 +53,8 @@
 #include "config/IConfigurator.hh"
 #include "core/CoreFactory.hh"
 
-#ifdef HAVE_EXERCISES
-#  include "commonui/Exercise.hh"
-#  include "ExercisesPanel.hh"
-#endif
+#include "commonui/Exercise.hh"
+#include "ExercisesPanel.hh"
 
 //! Constructor
 /*!
@@ -76,16 +74,10 @@ RestBreakWindow::create_gui()
   // Add other widgets.
   Gtk::VBox *vbox = new Gtk::VBox(false, 6);
 
-#ifdef HAVE_EXERCISES
   pluggable_panel = Gtk::manage(new Gtk::HBox);
-#endif
 
   vbox->pack_start(
-#ifdef HAVE_EXERCISES
     *pluggable_panel
-#else
-    *create_info_panel()
-#endif
     ,
     false,
     false,
@@ -117,7 +109,6 @@ RestBreakWindow::start()
 {
   TRACE_ENTER("RestBreakWindow::start");
   init_gui();
-#ifdef HAVE_EXERCISES
   if (get_exercise_count() > 0)
     {
       install_exercises_panel();
@@ -126,9 +117,6 @@ RestBreakWindow::start()
     {
       install_info_panel();
     }
-#else
-  set_ignore_activity(false);
-#endif
 
   update_break_window();
 
@@ -215,7 +203,6 @@ RestBreakWindow::create_info_panel()
   return info_box;
 }
 
-#ifdef HAVE_EXERCISES
 void
 RestBreakWindow::clear_pluggable_panel()
 {
@@ -301,8 +288,6 @@ RestBreakWindow::install_info_panel()
       center();
     }
 }
-
-#endif
 
 void
 RestBreakWindow::set_ignore_activity(bool i)

@@ -22,10 +22,8 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_EXERCISES
-
-#  include "Hig.hh"
-#  include "ExercisesPanel.hh"
+#include "Hig.hh"
+#include "ExercisesPanel.hh"
 
 class ExercisesDialog : public HigDialog
 {
@@ -37,7 +35,5 @@ public:
 private:
   ExercisesPanel exercises_panel;
 };
-
-#endif // HAVE_EXERCISES
 
 #endif // EXERCISES_DIALOG_HH

@@ -49,10 +49,8 @@
 #  include "NetworkLogDialog.hh"
 #endif
 
-#ifdef HAVE_EXERCISES
-#  include "ExercisesDialog.hh"
-#  include "commonui/Exercise.hh"
-#endif
+#include "ExercisesDialog.hh"
+#include "commonui/Exercise.hh"
 
 #include "MainGtkMenu.hh"
 #include "AppletControl.hh"
@@ -246,7 +244,6 @@ Menus::on_menu_preferences()
     }
 }
 
-#ifdef HAVE_EXERCISES
 //! Exercises Dialog.
 void
 Menus::on_menu_exercises()
@@ -278,7 +275,6 @@ Menus::on_exercises_response(int response)
   exercises_dialog = nullptr;
 }
 
-#endif
 
 //! Statistics Dialog.
 void
@@ -542,11 +538,9 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_PREFERENCES:
       on_menu_preferences();
       break;
-#ifdef HAVE_EXERCISES
     case MENU_COMMAND_EXERCISES:
       on_menu_exercises();
       break;
-#endif
     case MENU_COMMAND_REST_BREAK:
       on_menu_restbreak_now();
       break;

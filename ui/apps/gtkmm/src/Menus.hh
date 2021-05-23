@@ -79,9 +79,7 @@ private:
   void on_statistics_response(int response);
   void on_debug_response(int response);
   void on_preferences_response(int response);
-#ifdef HAVE_EXERCISES
   void on_exercises_response(int response);
-#endif
 
 public:
   // Menu actions.
@@ -125,10 +123,8 @@ private:
   // The Debug dialog.
   DebugDialog *debug_dialog{nullptr};
 
-#ifdef HAVE_EXERCISES
   // The exercises dialog.
   ExercisesDialog *exercises_dialog{nullptr};
-#endif
 
   //! Different kind of menus
   IMenu *menus[MENU_SIZEOF]{};

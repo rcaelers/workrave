@@ -150,10 +150,8 @@ MainGtkMenu::create_actions()
   action_group->add(Gtk::Action::create("Preferences", Gtk::Stock::PREFERENCES, _("_Preferences")),
                     sigc::mem_fun(*menus, &Menus::on_menu_preferences));
 
-#ifdef HAVE_EXERCISES
   action_group->add(Gtk::Action::create("Exercises", _("Exercises")), sigc::mem_fun(*menus, &Menus::on_menu_exercises));
 
-#endif
   action_group->add(Gtk::Action::create("Statistics", _("Statistics")), sigc::mem_fun(*menus, &Menus::on_menu_statistics));
 
   action_group->add(Gtk::Action::create("About", Gtk::Stock::ABOUT, _("_About")), sigc::mem_fun(*menus, &Menus::on_menu_about));
@@ -178,9 +176,7 @@ MainGtkMenu::create_ui()
     + open_ui_info +
     "    <separator/>" +
     "    <menuitem action='Restbreak'/>"
-#ifdef HAVE_EXERCISES
     "    <menuitem action='Exercises'/>"
-#endif
     "    <menuitem action='Statistics'/>"
     "    <menu action='Mode'>"
     "      <menuitem action='Normal'/>"

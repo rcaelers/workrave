@@ -52,12 +52,10 @@ private:
   Gtk::Widget *create_info_panel();
   void set_ignore_activity(bool i);
 
-#ifdef HAVE_EXERCISES
   void install_exercises_panel();
   void install_info_panel();
   void clear_pluggable_panel();
   int get_exercise_count();
-#endif
 
 private:
   //! The Time
@@ -69,9 +67,7 @@ private:
   //! Progress
   int progress_max_value{0};
 
-#ifdef HAVE_EXERCISES
   Gtk::HBox *pluggable_panel{nullptr};
-#endif
 
   //! Is currently flashing because user is active?
   bool is_flashing{false};

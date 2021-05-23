@@ -17,22 +17,20 @@
 
 #include "config.h"
 
-#ifdef HAVE_EXERCISES
+#include <algorithm>
+#include <random>
 
-#  include <algorithm>
-#  include <random>
+#include <cstring>
+#include <gtkmm.h>
 
-#  include <cstring>
-#  include <gtkmm.h>
-
-#  include "ExercisesPanel.hh"
-#  include "GtkUtil.hh"
-#  include "GUI.hh"
-#  include "utils/Util.hh"
-#  include "Hig.hh"
-#  include "nls.h"
-#  include "commonui/SoundTheme.hh"
-#  include "debug.hh"
+#include "ExercisesPanel.hh"
+#include "GtkUtil.hh"
+#include "GUI.hh"
+#include "utils/Util.hh"
+#include "Hig.hh"
+#include "nls.h"
+#include "commonui/SoundTheme.hh"
+#include "debug.hh"
 
 using namespace std;
 
@@ -500,5 +498,3 @@ ExercisesPanel::set_exercise_count(int num)
 {
   exercise_count = num;
 }
-
-#endif // HAVE_EXERCISES

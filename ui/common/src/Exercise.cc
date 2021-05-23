@@ -21,22 +21,20 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_EXERCISES
+#include "commonui/Exercise.hh"
+#include "utils/Util.hh"
+#include "nls.h"
+#include "debug.hh"
 
-#  include "commonui/Exercise.hh"
-#  include "utils/Util.hh"
-#  include "nls.h"
-#  include "debug.hh"
+#ifndef PLATFORM_OS_WINDOWS_NATIVE
+#  include <unistd.h>
+#endif
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
-#  ifndef PLATFORM_OS_WINDOWS_NATIVE
-#    include <unistd.h>
-#  endif
-#  include <cassert>
-#  include <cstdio>
-#  include <cstdlib>
-#  include <cstring>
-
-#  include <glib.h>
+#include <glib.h>
 
 struct ExerciseParser
 {
@@ -335,5 +333,3 @@ Exercise::has_exercises()
   std::string file_name = get_exercises_file_name();
   return file_name.length() > 0;
 }
-
-#endif // HAVE_EXERCISES

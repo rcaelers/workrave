@@ -137,10 +137,7 @@ TimerPreferencesPanel::create_options_panel()
   hig->add_widget(*skippable_cb);
 
   // Break specific options
-#ifdef HAVE_EXERCISES
   exercises_spin = nullptr;
-#endif
-
   monitor_cb = nullptr;
   auto_natural_cb = nullptr;
   allow_shutdown_cb = nullptr;
@@ -151,13 +148,11 @@ TimerPreferencesPanel::create_options_panel()
       hig->add_widget(*monitor_cb);
     }
 
-#ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
       exercises_spin = Gtk::manage(new Gtk::SpinButton(exercises_adjustment));
       hig->add_label(_("Number of exercises:"), *exercises_spin);
     }
-#endif
   if (break_id == BREAK_ID_REST_BREAK)
     {
       auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start restbreak when screen is locked")));
@@ -175,12 +170,10 @@ TimerPreferencesPanel::create_options_panel()
 
   connector->connect(GUIConfig::CFG_KEY_BREAK_SKIPPABLE % break_id, dc::wrap(skippable_cb));
 
-#ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
       connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id, dc::wrap(exercises_spin));
     }
-#endif
 
   connector->connect(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
                      dc::wrap(monitor_cb),
@@ -377,12 +370,10 @@ TimerPreferencesPanel::enable_buttons()
 
   snooze_tim->set_sensitive(on);
 
-#ifdef HAVE_EXERCISES
   if (exercises_spin != nullptr)
     {
       exercises_spin->set_sensitive(on);
     }
-#endif
 
   if (auto_natural_cb != nullptr)
     {

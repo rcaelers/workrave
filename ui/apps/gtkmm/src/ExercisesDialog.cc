@@ -19,15 +19,13 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_EXERCISES
+#include "ExercisesDialog.hh"
 
-#  include "ExercisesDialog.hh"
+#include "nls.h"
 
-#  include "nls.h"
+#include <gtkmm/stock.h>
 
-#  include <gtkmm/stock.h>
-
-#  include "commonui/Exercise.hh"
+#include "commonui/Exercise.hh"
 
 ExercisesDialog::ExercisesDialog()
   : HigDialog(_("Exercises"), false, false)
@@ -43,5 +41,3 @@ ExercisesDialog::run()
   show_all();
   return 0;
 }
-
-#endif // HAVE_EXERCISES
