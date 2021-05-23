@@ -82,13 +82,13 @@ private:
   void config_changed_notify(const std::string &key) override;
 
   // ITimerBoxView
-  void set_slot(BreakId id, int slot) override;
-  void set_time_bar(BreakId id,
+  void set_slot(workrave::BreakId id, int slot) override;
+  void set_time_bar(workrave::BreakId id,
                     std::string text,
-                    ITimeBar::ColorId primary_color,
+                    TimerColorId primary_color,
                     int primary_value,
                     int primary_max,
-                    ITimeBar::ColorId secondary_color,
+                    TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
   void update_view() override;
@@ -107,7 +107,7 @@ private:
 private:
   bool visible{false};
   bool embedded{false};
-  TimerData data[BREAK_ID_SIZEOF];
+  TimerData data[workrave::BREAK_ID_SIZEOF];
   MenuItems items;
   std::set<std::string> active_bus_names;
   workrave::dbus::IDBus::Ptr dbus;

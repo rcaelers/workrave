@@ -19,6 +19,7 @@
 // $Id$
 
 #include <stdio.h>
+#include <map>
 
 #include "TimeBar.h"
 #include "DeskBand.h"
@@ -33,7 +34,7 @@ const int MINIMAL_HEIGHT = 16;
 #define TIME_BAR_CLASS_NAME "WorkraveTimeBar"
 #define GDK_TO_COLORREF(r, g, b) (((r) >> 8) | (((g) >> 8) << 8) | (((b) >> 8) << 16))
 
-HBRUSH TimeBar::bar_colors[ITimeBar::COLOR_ID_SIZEOF];
+std::map<TimerColorId, HBRUSH> TimeBar::bar_colors;
 HFONT TimeBar::bar_font = NULL;
 
 TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
@@ -162,17 +163,17 @@ TimeBar::on_paint()
     {
       // Overlap
       // assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      ITimeBar::ColorId overlap_color;
+      TimerColorId overlap_color;
       switch (bar_color)
         {
-        case ITimeBar::COLOR_ID_ACTIVE:
-          overlap_color = ITimeBar::COLOR_ID_INACTIVE_OVER_ACTIVE;
+        case TimerColorId::Active:
+          overlap_color = TimerColorId::InactiveOverActive;
           break;
-        case ITimeBar::COLOR_ID_OVERDUE:
-          overlap_color = ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE;
+        case TimerColorId::Overdue:
+          overlap_color = TimerColorId::InactiveOverOverdue;
           break;
         default:
-          overlap_color = ITimeBar::COLOR_ID_BG;
+          overlap_color = TimerColorId::Bg;
         }
 
       if (sbar_width >= bar_width)
@@ -226,7 +227,7 @@ TimeBar::on_paint()
   r.top = winy + border_size;
   r.right = winx + winw - border_size;
   r.bottom = r.top + bar_h;
-  FillRect(dc, &r, bar_colors[ITimeBar::COLOR_ID_BG]);
+  FillRect(dc, &r, bar_colors[TimerColorId::Bg]);
 
   r.left = winx;
   r.top = winy;
@@ -276,12 +277,12 @@ TimeBar::init(HINSTANCE hinst)
       HBRUSH light_blue = CreateSolidBrush(GDK_TO_COLORREF(44461, 55512, 59110));
       HBRUSH bg = CreateSolidBrush(GetSysColor(COLOR_3DLIGHT));
 
-      bar_colors[ITimeBar::COLOR_ID_ACTIVE] = light_blue;
-      bar_colors[ITimeBar::COLOR_ID_INACTIVE] = light_green;
-      bar_colors[ITimeBar::COLOR_ID_OVERDUE] = orange;
-      bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_ACTIVE] = green_mix_blue;
-      bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE] = light_green;
-      bar_colors[ITimeBar::COLOR_ID_BG] = bg;
+      bar_colors[TimerColorId::Active] = light_blue;
+      bar_colors[TimerColorId::Inactive] = light_green;
+      bar_colors[TimerColorId::Overdue] = orange;
+      bar_colors[TimerColorId::InactiveOverActive] = green_mix_blue;
+      bar_colors[TimerColorId::InactiveOverOverdue] = light_green;
+      bar_colors[TimerColorId::Bg] = bg;
 
       NONCLIENTMETRICS_PRE_VISTA_STRUCT ncm;
       LOGFONT lfDefault =
@@ -369,13 +370,13 @@ TimeBar::update()
 }
 
 void
-TimeBar::set_bar_color(ITimeBar::ColorId color)
+TimeBar::set_bar_color(TimerColorId color)
 {
   bar_color = color;
 }
 
 void
-TimeBar::set_secondary_bar_color(ITimeBar::ColorId color)
+TimeBar::set_secondary_bar_color(TimerColorId color)
 {
   secondary_bar_color = color;
 }

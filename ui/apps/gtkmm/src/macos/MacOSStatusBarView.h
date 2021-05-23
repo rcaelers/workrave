@@ -1,8 +1,6 @@
 #import "MacOSTimeBar.h"
 #import <Cocoa/Cocoa.h>
 
-#include "ITimeBar.hh"
-
 @interface MacOSStatusBarView : NSView
 {
 

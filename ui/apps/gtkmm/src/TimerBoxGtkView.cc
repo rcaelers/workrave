@@ -468,10 +468,10 @@ TimerBoxGtkView::set_slot(BreakId id, int slot)
 void
 TimerBoxGtkView::set_time_bar(BreakId id,
                               std::string text,
-                              TimeBar::ColorId primary_color,
+                              TimerColorId primary_color,
                               int primary_val,
                               int primary_max,
-                              TimeBar::ColorId secondary_color,
+                              TimerColorId secondary_color,
                               int secondary_val,
                               int secondary_max)
 {
@@ -497,20 +497,20 @@ TimerBoxGtkView::set_tip(string tip)
 }
 
 void
-TimerBoxGtkView::set_icon(IconType icon)
+TimerBoxGtkView::set_icon(StatusIconType icon)
 {
   string file;
   switch (icon)
     {
-    case ICON_NORMAL:
+    case StatusIconType::Normal:
       file = GtkUtil::get_image_filename("workrave-icon-medium.png");
       break;
 
-    case ICON_QUIET:
+    case StatusIconType::Quiet:
       file = GtkUtil::get_image_filename("workrave-quiet-icon-medium.png");
       break;
 
-    case ICON_SUSPENDED:
+    case StatusIconType::Suspended:
       file = GtkUtil::get_image_filename("workrave-suspended-icon-medium.png");
       break;
     }

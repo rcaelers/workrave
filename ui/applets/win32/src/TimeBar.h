@@ -22,8 +22,8 @@
 
 #include <windows.h>
 #include <time.h>
+#include <map>
 
-#include "commonui/ITimeBar.hh"
 #include "Applet.hh"
 
 class CDeskBand;
@@ -41,8 +41,8 @@ public:
   void set_text(const char *text);
 
   void update();
-  void set_bar_color(ITimeBar::ColorId color);
-  void set_secondary_bar_color(ITimeBar::ColorId color);
+  void set_bar_color(TimerColorId color);
+  void set_secondary_bar_color(TimerColorId color);
 
   void get_size(int &width, int &height);
   HWND get_handle() const
@@ -58,15 +58,15 @@ private:
   int bar_value{0};
   int secondary_bar_max_value{0};
   int secondary_bar_value{100};
-  ITimeBar::ColorId secondary_bar_color{ITimeBar::COLOR_ID_INACTIVE};
-  ITimeBar::ColorId bar_color{ITimeBar::COLOR_ID_ACTIVE};
+  TimerColorId secondary_bar_color{TimerColorId::Inactive};
+  TimerColorId bar_color{TimerColorId::Active};
   char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{
     0,
   };
   PaintHelper *paint_helper{nullptr};
 
   static HFONT bar_font;
-  static HBRUSH bar_colors[ITimeBar::COLOR_ID_SIZEOF];
+  static std::map<TimerColorId, HBRUSH> bar_colors;
   static void init(HINSTANCE hinst);
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
   void compute_size(int &width, int &height);

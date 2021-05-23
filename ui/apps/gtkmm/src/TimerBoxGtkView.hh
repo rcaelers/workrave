@@ -52,14 +52,14 @@ public:
   void set_slot(BreakId id, int slot) override;
   void set_time_bar(BreakId id,
                     std::string text,
-                    TimeBar::ColorId primary_color,
+                    TimerColorId primary_color,
                     int primary_value,
                     int primary_max,
-                    TimeBar::ColorId secondary_color,
+                    TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
   void set_tip(std::string tip) override;
-  void set_icon(IconType icon) override;
+  void set_icon(StatusIconType icon) override;
   void update_view() override;
   void set_enabled(bool enabled);
 

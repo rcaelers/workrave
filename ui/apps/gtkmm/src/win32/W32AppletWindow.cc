@@ -129,20 +129,20 @@ W32AppletWindow::set_slot(BreakId id, int slot)
 void
 W32AppletWindow::set_time_bar(BreakId id,
                               std::string text,
-                              ITimeBar::ColorId primary_color,
+                              TimerColorId primary_color,
                               int primary_val,
                               int primary_max,
-                              ITimeBar::ColorId secondary_color,
+                              TimerColorId secondary_color,
                               int secondary_val,
                               int secondary_max)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << text);
   strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH - 1);
   heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH - 1] = '\0';
-  heartbeat_data.bar_primary_color[id] = primary_color;
+  heartbeat_data.bar_primary_color[id] = (int)primary_color;
   heartbeat_data.bar_primary_val[id] = primary_val;
   heartbeat_data.bar_primary_max[id] = primary_max;
-  heartbeat_data.bar_secondary_color[id] = secondary_color;
+  heartbeat_data.bar_secondary_color[id] = (int)secondary_color;
   heartbeat_data.bar_secondary_val[id] = secondary_val;
   heartbeat_data.bar_secondary_max[id] = secondary_max;
   TRACE_EXIT();
@@ -316,7 +316,7 @@ W32AppletWindow::init_menu(HWND hwnd)
   menu_sent = false;
 
   /*
-    As noted in frontend/win32/applet/include/applet.hh:
+    As noted in ui/win32/applet/include/applet.hh:
     We pass the command_window HWND as a LONG for compatibility.
   */
   menu_data.command_window = HandleToLong(hwnd);

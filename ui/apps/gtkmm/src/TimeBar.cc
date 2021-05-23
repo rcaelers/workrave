@@ -39,14 +39,15 @@ const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
 
-Gdk::Color TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] = {
-  Gdk::Color("lightblue"),
-  Gdk::Color("lightgreen"),
-  Gdk::Color("orange"),
-  Gdk::Color("red"),
-  Gdk::Color("#e00000"),
-  Gdk::Color("#00d4b2"),
-  Gdk::Color("lightgreen"),
+std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors{
+  {TimerColorId::Active, Gdk::Color("lightblue")},
+  {TimerColorId::Inactive, Gdk::Color("lightgreen")},
+  {TimerColorId::Overdue, Gdk::Color("orange")},
+  {TimerColorId::ActiveDuringBreak1, Gdk::Color("red")},
+  {TimerColorId::ActiveDuringBreak2, Gdk::Color("#e00000")},
+  {TimerColorId::InactiveOverActive, Gdk::Color("#00d4b2")},
+  {TimerColorId::InactiveOverOverdue, Gdk::Color("lightgreen")},
+  {TimerColorId::Bg, Gdk::Color("#777777")},
 };
 
 TimeBar::TimeBar()
@@ -54,14 +55,13 @@ TimeBar::TimeBar()
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::BUTTON_PRESS_MASK);
 
-  set_bar_color(COLOR_ID_INACTIVE);
-  set_secondary_bar_color(COLOR_ID_INACTIVE);
+  set_bar_color(TimerColorId::Inactive);
+  set_secondary_bar_color(TimerColorId::Inactive);
   set_text_color(Gdk::Color("black"));
 
   GtkUtil::set_theme_fg_color(this);
 }
 
-//! Sets the time progress to be displayed.
 void
 TimeBar::set_progress(int value, int max_value)
 {
@@ -74,7 +74,6 @@ TimeBar::set_progress(int value, int max_value)
   bar_max_value = max_value;
 }
 
-//! Sets the secondary time progress to be displayed.
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
@@ -87,35 +86,30 @@ TimeBar::set_secondary_progress(int value, int max_value)
   secondary_bar_max_value = max_value;
 }
 
-//! Sets the text to be displayed.
 void
 TimeBar::set_text(string text)
 {
   bar_text = text;
 }
 
-//! Sets text alignment
 void
 TimeBar::set_text_alignment(int align)
 {
   bar_text_align = align;
 }
 
-//! Sets the color of the bar.
 void
-TimeBar::set_bar_color(ColorId color)
+TimeBar::set_bar_color(TimerColorId color)
 {
   bar_color = color;
 }
 
-//! Sets the color of the secondary bar.
 void
-TimeBar::set_secondary_bar_color(ColorId color)
+TimeBar::set_secondary_bar_color(TimerColorId color)
 {
   secondary_bar_color = color;
 }
 
-//! Sets the text color.
 void
 TimeBar::set_text_color(Gdk::Color color)
 {
@@ -129,7 +123,6 @@ TimeBar::set_rotation(int r)
   queue_resize();
 }
 
-//! Updates the screen.
 void
 TimeBar::update()
 {
@@ -154,7 +147,6 @@ TimeBar::on_size_allocate(Gtk::Allocation &allocation)
     }
 }
 
-//! Returns the preferred size.
 void
 TimeBar::get_preferred_size(int &width, int &height) const
 {
@@ -202,12 +194,12 @@ TimeBar::on_realize()
 
   Glib::RefPtr<Gtk::Style> style = get_style();
   Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
-  bar_colors[COLOR_ID_BG] = bg;
+  bar_colors[TimerColorId::Bg] = bg;
 
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
-  for (int i = 0; i < COLOR_ID_SIZEOF; i++)
+  for (auto& [key, color]: bar_colors)
     {
-      colormap->alloc_color(bar_colors[i]);
+      colormap->alloc_color(color);
     }
   window->clear();
 }
@@ -241,9 +233,9 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Glib::RefPtr<Gdk::Window> window = get_window();
 
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
-  for (int i = 0; i < COLOR_ID_SIZEOF; i++)
+  for (auto& [key, color]: bar_colors)
     {
-      colormap->alloc_color(bar_colors[i]);
+      colormap->alloc_color(color);
     }
 
   // Physical width/height
@@ -269,10 +261,10 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Glib::RefPtr<Gtk::Style> style = get_style();
 
   Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
-  bar_colors[COLOR_ID_BG] = bg;
+  bar_colors[TimerColorId::Bg] = bg;
 
   // Draw background
-  window_gc->set_foreground(bar_colors[COLOR_ID_BG]);
+  window_gc->set_foreground(bar_colors[TimerColorId::Bg]);
   style->paint_shadow(window, Gtk::STATE_NORMAL, Gtk::SHADOW_IN, area, *this, "", 0, 0, win_w - 1, win_h - 1);
   window->draw_rectangle(window_gc,
                          true,
@@ -305,22 +297,22 @@ TimeBar::on_expose_event(GdkEventExpose *e)
       // but there are some weird boundary cases
       // in which this still happens.. need to check
       // this out some time.
-      // assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      ColorId overlap_color;
+      // assert(secondary_bar_color == TimerColorId::Inactive);
+      TimerColorId overlap_color;
       switch (bar_color)
         {
-        case COLOR_ID_ACTIVE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+        case TimerColorId::Active:
+          overlap_color = TimerColorId::InactiveOverActive;
           break;
-        case COLOR_ID_OVERDUE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
+        case TimerColorId::Overdue:
+          overlap_color = TimerColorId::InactiveOverOverdue;
           break;
         default:
           // We could abort() because this is not supported
           // but there are some weird boundary cases
           // in which this still happens.. need to check
           // this out some time.
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+          overlap_color = TimerColorId::InactiveOverActive;
         }
 
       if (sbar_width >= bar_width)
@@ -595,22 +587,22 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
       // but there are some weird boundary cases
       // in which this still happens.. need to check
       // this out some time.
-      // assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      ColorId overlap_color;
+      // assert(secondary_bar_color == TimerColorId::Inactive);
+      TimerColorId overlap_color;
       switch (bar_color)
         {
-        case COLOR_ID_ACTIVE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+        case TimerColorId::Active:
+          overlap_color = TimerColorId::InactiveOverActive;
           break;
-        case COLOR_ID_OVERDUE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
+        case TimerColorId::Overdue:
+          overlap_color = TimerColorId::InactiveOverOverdue;
           break;
         default:
           // We could abort() because this is not supported
           // but there are some weird boundary cases
           // in which this still happens.. need to check
           // this out some time.
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+          overlap_color = TimerColorId::InactiveOverActive;
         }
 
       if (sbar_width >= bar_width)

@@ -65,10 +65,10 @@ TimerBoxTextView::set_slot(BreakId id, int slot)
 void
 TimerBoxTextView::set_time_bar(BreakId id,
                                std::string text,
-                               ITimeBar::ColorId primary_color,
+                               TimerColorId primary_color,
                                int primary_val,
                                int primary_max,
-                               ITimeBar::ColorId secondary_color,
+                               TimerColorId secondary_color,
                                int secondary_val,
                                int secondary_max)
 {

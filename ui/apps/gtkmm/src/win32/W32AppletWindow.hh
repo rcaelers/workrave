@@ -26,7 +26,7 @@
 #include <gdk/gdkwin32.h>
 
 #include "commonui/TimerBoxViewBase.hh"
-#include "commonui/ITimeBar.hh"
+#include "commonui/UiTypes.hh"
 #include "Applet.hh"
 #include "AppletWindow.hh"
 
@@ -38,13 +38,13 @@ public:
   W32AppletWindow();
   virtual ~W32AppletWindow();
 
-  void set_slot(BreakId id, int slot) override;
-  void set_time_bar(BreakId id,
+  void set_slot(workrave::BreakId id, int slot) override;
+  void set_time_bar(workrave::BreakId id,
                     std::string text,
-                    ITimeBar::ColorId primary_color,
+                    TimerColorId primary_color,
                     int primary_value,
                     int primary_max,
-                    ITimeBar::ColorId secondary_color,
+                    TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
   void update_view() override;
@@ -78,7 +78,6 @@ private:
   HWND applet_window;
   bool menu_sent;
 
-  bool local_menu_ready;
   AppletHeartbeatData local_heartbeat_data;
   AppletMenuData local_menu_data;
   HWND local_applet_window;

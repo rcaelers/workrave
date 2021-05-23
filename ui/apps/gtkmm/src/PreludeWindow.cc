@@ -166,7 +166,7 @@ PreludeWindow::start()
 
   WindowHints::set_always_on_top(this, true);
 
-  time_bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
+  time_bar->set_bar_color(TimerColorId::Overdue);
 
   TRACE_EXIT();
 }

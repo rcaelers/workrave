@@ -1,6 +1,4 @@
-// TimerBoxControl.cc --- Timers Widgets
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,6 +19,7 @@
 #  include "config.h"
 #endif
 
+#include "TimerBoxControl.hh"
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
@@ -35,7 +34,6 @@
 #include "debug.hh"
 
 #include "commonui/TimerBoxControl.hh"
-#include "commonui/ITimeBar.hh"
 #include "utils/Util.hh"
 #include "commonui/Text.hh"
 
@@ -171,9 +169,9 @@ TimerBoxControl::update_widgets()
       IBreak *b = core->get_break((BreakId)count);
 
       std::string text;
-      ITimeBar::ColorId primary_color;
+      TimerColorId primary_color;
       int primary_val, primary_max;
-      ITimeBar::ColorId secondary_color;
+      TimerColorId secondary_color;
       int secondary_val, secondary_max;
 
       if (b == nullptr)
@@ -199,20 +197,20 @@ TimerBoxControl::update_widgets()
         }
       // And set the bar.
       secondary_val = secondary_max = 0;
-      secondary_color = ITimeBar::COLOR_ID_INACTIVE;
+      secondary_color = TimerColorId::Inactive;
 
       // Timer is running, show elapsed time.
-      primary_val = (int)activeTime;
-      primary_max = (int)maxActiveTime;
+      primary_val = static_cast<int>(activeTime);
+      primary_max = static_cast<int>(maxActiveTime);
 
-      primary_color = overdue ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
+      primary_color = overdue ? TimerColorId::Overdue : TimerColorId::Active;
 
       if (b->is_auto_reset_enabled() && breakDuration != 0)
         {
           // resting.
-          secondary_color = ITimeBar::COLOR_ID_INACTIVE;
-          secondary_val = (int)idleTime;
-          secondary_max = (int)breakDuration;
+          secondary_color = TimerColorId::Inactive;
+          secondary_val = static_cast<int>(idleTime);
+          secondary_max = static_cast<int>(breakDuration);
         }
 
       view->set_time_bar(
@@ -226,18 +224,15 @@ TimerBoxControl::init_icon()
   switch (operation_mode)
     {
     case OperationMode::Normal:
-      view->set_icon(ITimerBoxView::ICON_NORMAL);
+      view->set_icon(StatusIconType::Normal);
       break;
 
     case OperationMode::Suspended:
-      view->set_icon(ITimerBoxView::ICON_SUSPENDED);
+      view->set_icon(StatusIconType::Suspended);
       break;
 
     case OperationMode::Quiet:
-      view->set_icon(ITimerBoxView::ICON_QUIET);
-      break;
-
-    default:
+      view->set_icon(StatusIconType::Quiet);
       break;
     }
 }

@@ -20,9 +20,7 @@
 
 #include <string>
 
-#include "ITimerBoxView.hh"
-
-using namespace workrave;
+#include "commonui/ITimerBoxView.hh"
 
 class TimerBoxViewBase : public ITimerBoxView
 {
@@ -34,7 +32,7 @@ public:
     (void)tip;
   }
 
-  void set_icon(IconType icon) override
+  void set_icon(StatusIconType icon) override
   {
     (void)icon;
   }

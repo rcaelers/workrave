@@ -35,10 +35,10 @@ public:
   void set_slot(BreakId id, int slot);
   void set_time_bar(BreakId id,
                     std::string text,
-                    ITimeBar::ColorId primary_color,
+                    TimerColorId primary_color,
                     int primary_value,
                     int primary_max,
-                    ITimeBar::ColorId secondary_color,
+                    TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max);
   void set_tip(std::string tip);

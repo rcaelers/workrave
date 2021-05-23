@@ -22,7 +22,7 @@
 
 #include "config/IConfiguratorListener.hh"
 #include "AppletWindow.hh"
-#include "commonui/Orientation.hh"
+#include "commonui/UiTypes.hh"
 
 #include <sigc++/trackable.h>
 #include <gtkmm/bin.h>

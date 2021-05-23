@@ -1,6 +1,4 @@
-// MacOSAppletWindow.cc --- Applet info Window
-//
-// Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2009, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,7 +36,6 @@ MacOSAppletWindow::MacOSAppletWindow()
   NSMenu *menu = [[NSMenu alloc] init];
   view = [[MacOSStatusBarView alloc] initWithMenu:menu];
 
-  int i;
   while ([menu numberOfItems] > 0)
     {
       [menu removeItemAtIndex:0];
@@ -73,10 +70,10 @@ MacOSAppletWindow::set_slot(BreakId id, int slot)
 void
 MacOSAppletWindow::set_time_bar(BreakId id,
                                 std::string text,
-                                ITimeBar::ColorId primary_color,
+                                TimerColorId primary_color,
                                 int primary_val,
                                 int primary_max,
-                                ITimeBar::ColorId secondary_color,
+                                TimerColorId secondary_color,
                                 int secondary_val,
                                 int secondary_max)
 {
@@ -97,15 +94,15 @@ MacOSAppletWindow::set_time_bar(BreakId id,
 }
 
 ColorId
-MacOSAppletWindow::convertColorId(ITimeBar::ColorId colorId)
+MacOSAppletWindow::convertColorId(TimerColorId colorId)
 {
   switch (colorId)
     {
-    case ITimeBar::COLOR_ID_INACTIVE:
+    case TimerColorId::Inactive:
       return COLOR_ID_INACTIVE;
-    case ITimeBar::COLOR_ID_OVERDUE:
+    case TimerColorId::Overdue:
       return COLOR_ID_OVERDUE;
-    case ITimeBar::COLOR_ID_ACTIVE:
+    case TimerColorId::Active:
       return COLOR_ID_ACTIVE;
     default:
       return COLOR_ID_ACTIVE;
