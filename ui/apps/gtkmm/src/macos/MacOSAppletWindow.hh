@@ -38,9 +38,9 @@ public:
 
   bool is_visible() const override;
 
-  void set_slot(BreakId id, int slot) override;
-  void set_time_bar(BreakId id,
-                    std::string text,
+  void set_slot(workrave::BreakId id, int slot) override;
+  void set_time_bar(workrave::BreakId id,
+                    int value,
                     TimerColorId primary_color,
                     int primary_value,
                     int primary_max,

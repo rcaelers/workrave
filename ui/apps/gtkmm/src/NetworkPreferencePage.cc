@@ -47,7 +47,7 @@
 #  include "GtkUtil.hh"
 
 #  include "core/ICore.hh"
-#  include "core/CoreFactory.hh"
+#  include "commonui/Backend.hh"
 #  include "config/IConfigurator.hh"
 #  include "core/IDistributionManager.hh"
 
@@ -61,7 +61,7 @@ NetworkPreferencePage::NetworkPreferencePage()
   Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   dist_manager = core->get_distribution_manager();
   assert(dist_manager != nullptr);
 

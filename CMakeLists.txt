@@ -200,6 +200,20 @@ if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# Core selection
+
+option (WITH_CORE_NEXT "Enable Core Next" OFF)
+
+if (WITH_CORE_NEXT)
+  set(HAVE_CORE_NEXT ON)
+endif()
+
+if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
+  message("Using Core With with Qt5 ")
+  set (HAVE_CORE_NEXT ON)
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # Pkg-config
 
 if ("${WITH_UI_QT}" AND (NOT VCPKG_TOOLCHAIN))

@@ -34,6 +34,11 @@ if (HAVE_GTK)
   target_include_directories(workrave-libs-utils PRIVATE ${GTK_INCLUDE_DIRS})
 endif()
 
+if (HAVE_GLIB)
+  target_include_directories(workrave-libs-utils PRIVATE ${GLIB_INCLUDE_DIRS})
+  target_link_libraries(workrave-libs-utils PRIVATE ${GLIB_LIBS})
+endif()
+
 if (HAVE_QT)
   target_link_libraries(workrave-libs-utils PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui)
 endif()

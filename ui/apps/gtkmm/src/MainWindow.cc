@@ -26,7 +26,7 @@
 #  include <shellapi.h>
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #ifdef HAVE_UNISTD_H
@@ -38,7 +38,7 @@
 #include <list>
 #include <gtkmm.h>
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 
 #include "TimerBoxGtkView.hh"
@@ -150,7 +150,7 @@ MainWindow::open_window()
 
       bool always_on_top = GUIConfig::get_always_on_top();
       WindowHints::set_always_on_top(this, always_on_top);
-      TimerBoxControl::set_enabled("main_window", true);
+      GUIConfig::set_timerbox_enabled("main_window", true);
     }
   TRACE_EXIT();
 }
@@ -175,7 +175,7 @@ MainWindow::close_window()
     }
 #endif
 
-  TimerBoxControl::set_enabled("main_window", false);
+  GUIConfig::set_timerbox_enabled("main_window", false);
   TRACE_EXIT();
 }
 
@@ -248,10 +248,10 @@ MainWindow::init()
   Gtk::Window::set_default_icon_list(icon_list);
   // Gtk::Window::set_default_icon_name("workrave");
 
-  enabled = TimerBoxControl::is_enabled("main_window");
+  enabled = GUIConfig::is_timerbox_enabled("main_window");
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
-  timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
+  timer_box_control = new TimerBoxControl("main_window", timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
 
@@ -343,8 +343,8 @@ MainWindow::init()
   setup();
   set_title("Workrave");
 
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
+  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + "main_window", this);
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
 
@@ -357,7 +357,7 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
-  bool new_enabled = TimerBoxControl::is_enabled("main_window");
+  bool new_enabled = GUIConfig::is_timerbox_enabled("main_window");
   bool always_on_top = GUIConfig::get_always_on_top();
 
   TRACE_MSG("can_close " << new_enabled);
@@ -401,15 +401,15 @@ MainWindow::on_delete_event(GdkEventAny *)
 #if defined(PLATFORM_OS_WINDOWS)
   win32_show(false);
   closed_signal.emit();
-  TimerBoxControl::set_enabled("main_window", false);
+  GUIConfig::set_timerbox_enabled("main_window", false);
 #elif defined(PLATFORM_OS_MACOS)
   close_window();
-  TimerBoxControl::set_enabled("main_window", false);
+  GUIConfig::set_timerbox_enabled("main_window", false);
 #else
   if (can_close)
     {
       close_window();
-      TimerBoxControl::set_enabled("main_window", false);
+      GUIConfig::set_timerbox_enabled("main_window", false);
     }
   else
     {
@@ -522,22 +522,22 @@ MainWindow::win32_init()
 
   win32_hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
-  WNDCLASSEX wclass = {
-    sizeof(WNDCLASSEX), 0, win32_window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WIN32_MAIN_CLASS_NAME, NULL};
-  /* ATOM atom = */ RegisterClassEx(&wclass);
+  WNDCLASSEXA wclass = {
+    sizeof(WNDCLASSEXA), 0, win32_window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WIN32_MAIN_CLASS_NAME, NULL};
+  /* ATOM atom = */ RegisterClassExA(&wclass);
 
-  win32_main_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
-                                   WIN32_MAIN_CLASS_NAME,
-                                   "Workrave",
-                                   WS_OVERLAPPED,
-                                   CW_USEDEFAULT,
-                                   CW_USEDEFAULT,
-                                   CW_USEDEFAULT,
-                                   CW_USEDEFAULT,
-                                   (HWND)NULL,
-                                   (HMENU)NULL,
-                                   win32_hinstance,
-                                   (LPSTR)NULL);
+  win32_main_hwnd = CreateWindowExA(WS_EX_TOOLWINDOW,
+                                    WIN32_MAIN_CLASS_NAME,
+                                    "Workrave",
+                                    WS_OVERLAPPED,
+                                    CW_USEDEFAULT,
+                                    CW_USEDEFAULT,
+                                    CW_USEDEFAULT,
+                                    CW_USEDEFAULT,
+                                    (HWND)NULL,
+                                    (HMENU)NULL,
+                                    win32_hinstance,
+                                    (LPSTR)NULL);
   ShowWindow(win32_main_hwnd, SW_HIDE);
 
   // User data
@@ -566,7 +566,7 @@ MainWindow::get_start_position(int &x, int &y, int &head)
 {
   TRACE_ENTER("MainWindow::get_start_position");
   // FIXME: Default to right-bottom instead of 256x256
-  workrave::config::IConfigurator::Ptr cfg = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr cfg = Backend::get_configurator();
   cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x, 256);
   cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y, 256);
   cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
@@ -582,7 +582,7 @@ void
 MainWindow::set_start_position(int x, int y, int head)
 {
   TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y << " " << head);
-  workrave::config::IConfigurator::Ptr cfg = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr cfg = Backend::get_configurator();
   cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x);
   cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y);
   cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head);
@@ -683,7 +683,6 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
   if (x <= 0 && y <= 0)
     {
-      // FIXME: this is a hack...
       TRACE_EXIT();
       return;
     }

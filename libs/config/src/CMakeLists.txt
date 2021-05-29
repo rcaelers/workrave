@@ -19,7 +19,7 @@ endif()
 
 if (HAVE_QT)
   target_sources(workrave-libs-config PRIVATE QtSettingsConfigurator.cc)
-  target_link_libraries(workrave-libs-config PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+  target_link_libraries(workrave-libs-config PUBLIC Qt${QT_VERSION_MAJOR}::Core)
 endif()
 
 if (HAVE_GSETTINGS)

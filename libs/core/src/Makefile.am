@@ -9,7 +9,6 @@ sources = 	LocalActivityMonitor.cc \
 			BreakControl.cc \
 			Core.cc \
 			CoreConfig.cc \
-			CoreFactory.cc \
 			Statistics.cc \
 			TimePredFactory.cc \
 			Timer.cc \

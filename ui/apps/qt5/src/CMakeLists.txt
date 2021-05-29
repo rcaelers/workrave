@@ -104,7 +104,7 @@ target_link_libraries(Workrave PRIVATE
   workrave-ui-common
   workrave-libs-audio
   workrave-libs-config
-  workrave-libs-core
+  workrave-libs-core-next
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session

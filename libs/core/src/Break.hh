@@ -73,7 +73,7 @@ public:
   Break();
   ~Break() override;
 
-  void init(BreakId id, IApp *app);
+  void init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app);
 
   static std::string expand(const std::string &str, BreakId id);
   static std::string get_name(BreakId id);

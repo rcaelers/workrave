@@ -27,7 +27,6 @@
 
 #include "config/IConfigurator.hh"
 #include "core/ICore.hh"
-#include "core/CoreFactory.hh"
 
 #include "BreakControl.hh"
 #include "Timer.hh"
@@ -88,13 +87,13 @@ Break::Break()
 
 //! Initializes the break.
 void
-Break::init(BreakId id, IApp *app)
+Break::init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app)
 {
   TRACE_ENTER("Break::init");
 
-  break_id = id;
-  config = CoreFactory::get_configurator();
-  application = app;
+  this->break_id = id;
+  this->config = config;
+  this->application = app;
 
   Defaults &def = default_config[break_id];
 
@@ -157,14 +156,6 @@ Break::init_defaults()
 
   config->set_delay(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, 2);
   config->set_delay(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, 2);
-
-  // Convert old settings.
-
-  config->rename_key(string("gui/breaks/%b/max_preludes") % break_id, CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id);
-
-  config->rename_key(string("gui/breaks/%b/enabled") % break_id, CoreConfig::CFG_KEY_BREAK_ENABLED % break_id);
-
-  config->remove_key(string("gui/breaks/%b/max_postpone") % break_id);
 
   // Set defaults.
 

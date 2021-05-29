@@ -1,6 +1,6 @@
-// CoreFactory.hh --- The main access point to the Core
+// CoreHooks.cc
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,32 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef COREFACTORY_HH
-#define COREFACTORY_HH
-
-#ifdef HAVE_DBUS
-#  include "dbus/IDBus.hh"
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
 #endif
 
-#include "config/IConfigurator.hh"
-#include "core/ICore.hh"
+#include "debug.hh"
 
-namespace workrave
+#include "CoreHooks.hh"
+
+#ifdef HAVE_TESTS
+std::function<workrave::config::IConfigurator::Ptr()> &
+CoreHooks::hook_create_configurator()
 {
-  class CoreFactory
-  {
-  public:
-    //! Returns the interface to the core.
-    static ICore *get_core();
+  return create_configurator_hook;
+}
 
-    //! Returns the interface to the core's configurator.
-    static workrave::config::IConfigurator::Ptr get_configurator();
+std::function<IActivityMonitor::Ptr()> &
+CoreHooks::hook_create_monitor()
+{
+  return create_monitor_hook;
+}
 
-#ifdef HAVE_DBUS
-    //! Returns the interface to the DBUS facility.
-    static workrave::dbus::IDBus::Ptr get_dbus();
+std::function<bool(Timer::Ptr timers[workrave::BREAK_ID_SIZEOF])> &
+CoreHooks::hook_load_timer_state()
+{
+  return load_timer_state_hook;
+}
+
 #endif
-  };
-} // namespace workrave
-
-#endif // COREFACTORY_HH

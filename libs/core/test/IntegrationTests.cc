@@ -554,10 +554,6 @@ public:
     response = rep;
   }
 
-  void terminate() override
-  {
-  }
-
   IActivityMonitor::Ptr on_create_monitor()
   {
     monitor = std::make_shared<ActivityMonitorStub>();

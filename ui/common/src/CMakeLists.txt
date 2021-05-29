@@ -4,7 +4,6 @@ set(SRC
   GUIConfig.cc
   SoundTheme.cc
   Session.cc
-  Text.cc
   TimerBoxControl.cc
 )
 
@@ -12,8 +11,13 @@ add_library(workrave-ui-common STATIC ${SRC})
 
 target_link_libraries(workrave-ui-common
   workrave-libs-utils
-  workrave-libs-audio
-  workrave-libs-core)
+  workrave-libs-audio)
+
+if (HAVE_CORE_NEXT)
+  target_link_libraries(workrave-ui-common workrave-libs-core-next)
+else()
+  target_link_libraries(workrave-ui-common workrave-libs-core)
+endif()
 
 target_include_directories(
   workrave-ui-common

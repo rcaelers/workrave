@@ -30,7 +30,7 @@
 #include "debug.hh"
 
 #include "core/ICore.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "utils/Util.hh"
 
 #include "Hig.hh"
@@ -91,7 +91,7 @@ DebugDialog::diagnostics_log(const std::string &log)
 void
 DebugDialog::init()
 {
-  //  ICore *core = CoreFactory::get_core();
+  //  auto core = Backend::get_core();
 
   Diagnostics::instance().enable(this);
 

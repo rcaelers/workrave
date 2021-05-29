@@ -47,7 +47,8 @@
 #include "IBreakWindow.hh"
 #include "config/IConfigurator.hh"
 #include "core/ICore.hh"
-#include "core/CoreFactory.hh"
+
+#include "commonui/Backend.hh"
 
 #include "utils/Exception.hh"
 #include "AppletControl.hh"
@@ -63,7 +64,7 @@
 #include "commonui/SoundTheme.hh"
 #include "StatusIcon.hh"
 #include "session/System.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "utils/Util.hh"
 #include "WindowHints.hh"
 #include "Locale.hh"
@@ -135,7 +136,6 @@ GUI::~GUI()
 
   ungrab();
 
-  delete core;
   delete main_window;
 
   delete applet_control;
@@ -253,7 +253,7 @@ GUI::terminate()
   delete status_icon;
   status_icon = nullptr;
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
 
   collect_garbage();
 
@@ -286,7 +286,7 @@ GUI::on_main_window_closed()
 {
   TRACE_ENTER("GUI::on_main_window_closed");
   bool closewarn = false;
-  CoreFactory::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
+  Backend::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
   TRACE_MSG(closewarn);
   if (closewarn && !closewarn_shown)
     {
@@ -346,12 +346,7 @@ GUI::init_platform()
   [[AppController alloc] init];
 #endif
 
-#if defined(PLATFORM_OS_UNIX)
-  const char *display = gdk_display_get_name(gdk_display_get_default());
-  System::init(display);
-#else
   System::init();
-#endif
 
   srand((unsigned int)time(nullptr));
   TRACE_EXIT();
@@ -366,7 +361,7 @@ GUI::session_quit_cb(EggSMClient *client, GUI *gui)
 
   TRACE_ENTER("GUI::session_quit_cb");
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
   Gtk::Main::quit();
 
   TRACE_EXIT();
@@ -379,7 +374,7 @@ GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
   (void)key_file;
   (void)gui;
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
 }
 
 void
@@ -486,7 +481,7 @@ GUI::init_nls()
   bind_textdomain_codeset("iso_3166", "UTF-8");
   bind_textdomain_codeset("iso_639", "UTF-8");
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
+  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
 #  endif
 
   bindtextdomain(GETTEXT_PACKAGE, locale_dir);
@@ -506,7 +501,7 @@ GUI::init_core()
   display_name = gdk_display_get_name(gdk_display_get_default());
 #endif
 
-  core = CoreFactory::get_core();
+  core = Backend::get_core();
   core->init(argc, argv, this, display_name);
   core->set_core_events_listener(this);
 
@@ -735,7 +730,7 @@ GUI::init_gui()
   process_visibility();
 
 #ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
   if (dbus->is_available())
     {
@@ -770,7 +765,7 @@ GUI::init_gui()
 void
 GUI::init_dbus()
 {
-  workrave::dbus::IDBus::Ptr dbus = CoreFactory::get_dbus();
+  workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
   if (dbus->is_available())
     {
@@ -1478,7 +1473,7 @@ GUI::on_status_icon_balloon_activate(const std::string &id)
 {
   if (id == "closewarn")
     {
-      CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
+      Backend::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
     }
 }
 
@@ -1569,7 +1564,7 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
           case PBT_APMRESUMECRITICAL:
             {
               TRACE_MSG("Resume suspend");
-              ICore *core = CoreFactory::get_core();
+              auto core = Backend::get_core();
               core->set_powersave(false);
             }
             break;
@@ -1577,7 +1572,7 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
           case PBT_APMSUSPEND:
             {
               TRACE_MSG("Suspend");
-              ICore *core = CoreFactory::get_core();
+              auto core = Backend::get_core();
               core->set_powersave(true);
             }
             break;
@@ -1595,7 +1590,7 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
     case WM_TIMECHANGE:
       {
         TRACE_MSG("WM_TIMECHANGE " << msg->wParam << " " << msg->lParam);
-        ICore *core = CoreFactory::get_core();
+        auto core = Backend::get_core();
         core->time_changed();
       }
       break;

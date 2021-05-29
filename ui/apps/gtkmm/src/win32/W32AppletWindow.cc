@@ -1,6 +1,4 @@
-// AppletWindow.cc --- Applet info Window
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,11 +18,12 @@
 #  include "config.h"
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "W32AppletWindow.hh"
 #include "commonui/TimerBoxControl.hh"
+#include "Text.hh"
 
 #if defined(interface)
 #  undef interface
@@ -55,7 +54,7 @@ W32AppletWindow::W32AppletWindow()
   thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
-  timer_box_control = new TimerBoxControl("applet", *this);
+  timer_box_control = new TimerBoxControl("applet", this);
   init_thread();
 
   TRACE_EXIT();
@@ -128,7 +127,7 @@ W32AppletWindow::set_slot(BreakId id, int slot)
 
 void
 W32AppletWindow::set_time_bar(BreakId id,
-                              std::string text,
+                              int value,
                               TimerColorId primary_color,
                               int primary_val,
                               int primary_max,
@@ -136,8 +135,8 @@ W32AppletWindow::set_time_bar(BreakId id,
                               int secondary_val,
                               int secondary_max)
 {
-  TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << text);
-  strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH - 1);
+  TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << value);
+  strncpy(heartbeat_data.bar_text[id], Text::time_to_string(value).c_str(), APPLET_BAR_TEXT_MAX_LENGTH - 1);
   heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH - 1] = '\0';
   heartbeat_data.bar_primary_color[id] = (int)primary_color;
   heartbeat_data.bar_primary_val[id] = primary_val;

@@ -20,62 +20,27 @@
 
 #include <string>
 
+#include "utils/ScopedConnections.hh"
+
 #include "core/ICore.hh"
-#include "config/IConfiguratorListener.hh"
-#include "ITimerBoxView.hh"
+#include "commonui/ITimerBoxView.hh"
 
-using namespace workrave;
-
-class TimerBoxControl : public workrave::config::IConfiguratorListener
+class TimerBoxControl
 {
 public:
-  TimerBoxControl(std::string name, ITimerBoxView &view);
-  ~TimerBoxControl() override;
+  TimerBoxControl(std::string name, ITimerBoxView *view);
 
   void init();
   void update();
   void force_cycle();
   void set_force_empty(bool s);
 
-  static const std::string get_timer_config_key(std::string name, BreakId timer, const std::string &key);
-  static int get_cycle_time(std::string name);
-  static void set_cycle_time(std::string name, int time);
-  static int get_timer_imminent_time(std::string name, BreakId timer);
-  static void set_timer_imminent_time(std::string name, BreakId timer, int time);
-  static int get_timer_slot(std::string name, BreakId timer);
-  static void set_timer_slot(std::string name, BreakId timer, int slot);
-  static int get_timer_flags(std::string name, BreakId timer);
-  static void set_timer_flags(std::string name, BreakId timer, int flags);
-  static bool is_enabled(std::string name);
-  static void set_enabled(std::string name, bool enabled);
-
-public:
-  static const std::string CFG_KEY_TIMERBOX;
-  static const std::string CFG_KEY_TIMERBOX_HORIZONTAL;
-  static const std::string CFG_KEY_TIMERBOX_CYCLE_TIME;
-  static const std::string CFG_KEY_TIMERBOX_POSITION;
-  static const std::string CFG_KEY_TIMERBOX_FLAGS;
-  static const std::string CFG_KEY_TIMERBOX_IMMINENT;
-  static const std::string CFG_KEY_TIMERBOX_ENABLED;
-
-  enum SlotType
-  {
-    BREAK_WHEN_IMMINENT = 1,
-    BREAK_WHEN_FIRST = 2,
-    BREAK_SKIP = 4,
-    BREAK_EXCLUSIVE = 8,
-    BREAK_DEFAULT = 16,
-    BREAK_HIDE = 32
-  };
-
 private:
-  // IConfiguratorListener
-  void config_changed_notify(const std::string &key) override;
   void update_widgets();
   void init_table();
   void init_icon();
 
-  void read_configuration();
+  void load_configuration();
 
   void init_slot(int slot);
   void cycle_slots();
@@ -91,19 +56,19 @@ private:
   int cycle_time{10};
 
   //! Positions for the break timers.
-  int break_position[BREAK_ID_SIZEOF]{};
+  int break_position[workrave::BREAK_ID_SIZEOF]{};
 
   //! Flags for the break timers.
-  int break_flags[BREAK_ID_SIZEOF]{};
+  int break_flags[workrave::BREAK_ID_SIZEOF]{};
 
   //! Imminent threshold for the timers.
-  int break_imminent_time[BREAK_ID_SIZEOF]{};
+  int break_imminent_time[workrave::BREAK_ID_SIZEOF]{};
 
   //! Computed slot contents.
-  int break_slots[BREAK_ID_SIZEOF][BREAK_ID_SIZEOF]{};
+  int break_slots[workrave::BREAK_ID_SIZEOF][workrave::BREAK_ID_SIZEOF]{};
 
   //! Current cycle for each slot.
-  int break_slot_cycle[BREAK_ID_SIZEOF]{};
+  int break_slot_cycle[workrave::BREAK_ID_SIZEOF]{};
 
   //! Name
   std::string name;
@@ -116,6 +81,8 @@ private:
 
   //! Never show any timers.
   bool force_empty{false};
+
+  scoped_connections connections;
 };
 
 #endif // TIMERBOXCONTROL_HH

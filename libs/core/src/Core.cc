@@ -86,6 +86,12 @@ using namespace workrave::utils;
 using namespace workrave::config;
 using namespace std;
 
+ICore::Ptr
+CoreFactory::create()
+{
+  return std::make_shared<Core>();
+}
+
 //! Constructs a new Core.
 Core::Core()
 {
@@ -284,7 +290,7 @@ Core::init_breaks()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].init(BreakId(i), application);
+      breaks[i].init(BreakId(i), configurator, application);
     }
   application->set_break_response(this);
 }

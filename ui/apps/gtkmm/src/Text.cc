@@ -1,6 +1,6 @@
 // Text.cc
 //
-// Copyright (C) 2002, 2003, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2007, 2008, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,17 +21,33 @@
 #  include "config.h"
 #endif
 
-#include "commonui/Text.hh"
+#include "Text.hh"
 
 #include <cstdio>
 
-#include "nls.h"
+#ifdef TIME_WITH_SYS_TIME
+#  include <sys/time.h>
+#  include <time.h>
+#else
+#  ifdef HAVE_SYS_TIME_H
+#    include <sys/time.h>
+#  else
+#    include <time.h>
+#  endif
+#endif
+
+#include "commonui/nls.h"
+
+#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#  define snprintf _snprintf
+#  define snwprintf _snwprintf
+#endif
 
 using namespace std;
 
 //! Converts the specified time to a string
 string
-Text::time_to_string(int64_t time, bool display_units)
+Text::time_to_string(time_t time, bool display_units)
 {
   char s[128] = "";
   char t[2];
@@ -46,7 +62,7 @@ Text::time_to_string(int64_t time, bool display_units)
     {
       t[0] = 0;
     }
-  int hrs = (int)time / 3600;
+  int hrs = static_cast<int>(time / 3600);
   int min = (time / 60) % 60;
   int sec = time % 60;
 

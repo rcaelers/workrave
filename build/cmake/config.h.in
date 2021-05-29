@@ -55,3 +55,4 @@
 #cmakedefine PLATFORM_OS_WINDOWS_32
 #cmakedefine PLATFORM_OS_WINDOWS_64
 #cmakedefine TRACING
+#cmakedefine HAVE_CORE_NEXT

@@ -35,14 +35,12 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "debug.hh"
-#include "nls.h"
-
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 #  undef max
 #endif
 
-#include <cmath>
+#include "debug.hh"
+#include "commonui/nls.h"
 #include <gtkmm.h>
 
 #include "BreakWindow.hh"
@@ -57,7 +55,7 @@
 #include "utils/Util.hh"
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "DesktopWindow.hh"
@@ -137,10 +135,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
   if (W32ForceFocus::GetForceFocusValue())
     initial_ignore_activity = true;
 
-  CoreFactory::get_configurator()->get_value_with_default("advanced/force_focus_on_break_start", force_focus_on_break_start, true);
+  Backend::get_configurator()->get_value_with_default("advanced/force_focus_on_break_start", force_focus_on_break_start, true);
 #endif
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   assert(core != nullptr);
   core->set_insist_policy(initial_ignore_activity ? InsistPolicy::Ignore : InsistPolicy::Halt);
   TRACE_EXIT();
@@ -454,7 +452,7 @@ BreakWindow::update_skip_postpone_lock()
         {
           if (overdue_break_id != BREAK_ID_NONE)
             {
-              ICore *core = CoreFactory::get_core();
+              auto core = Backend::get_core();
               IBreak *b = core->get_break(BreakId(overdue_break_id));
               progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / (double)b->get_auto_reset());
             }
@@ -536,7 +534,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
   postpone_locked = false;
   overdue_break_id = BREAK_ID_NONE;
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (mode == OperationMode::Normal)

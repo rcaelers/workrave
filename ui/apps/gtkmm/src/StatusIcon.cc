@@ -41,7 +41,7 @@
 #include "StatusIcon.hh"
 
 #include "GUI.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "commonui/GUIConfig.hh"
 #include "Menus.hh"
@@ -77,7 +77,7 @@ StatusIcon::init()
 
   insert_icon();
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
 
   bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
   status_icon->set_visible(tray_icon_enabled);
@@ -87,7 +87,7 @@ void
 StatusIcon::insert_icon()
 {
   // Create status icon
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   OperationMode mode = core->get_operation_mode_regular();
 
 #ifdef USE_W32STATUSICON

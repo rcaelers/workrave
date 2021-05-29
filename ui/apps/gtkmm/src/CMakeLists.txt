@@ -28,7 +28,7 @@ set(SRC
   RestBreakWindow.cc
   StatisticsDialog.cc
   StatusIcon.cc
-  #Text.cc
+  Text.cc
   TimeBar.cc
   TimeEntry.cc
   TimerBoxGtkView.cc

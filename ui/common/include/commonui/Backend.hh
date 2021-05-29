@@ -29,7 +29,7 @@ class Backend
 {
 public:
   //! Returns the interface to the core.
-  // TODO: static workrave::ICore::Ptr get_core();
+  static workrave::ICore::Ptr get_core();
 
   //! Returns the interface to the core's configurator.
   static workrave::config::IConfigurator::Ptr get_configurator();
@@ -38,7 +38,7 @@ public:
   static workrave::dbus::IDBus::Ptr get_dbus();
 
   //! The one and only core instance
-  // TODO: static workrave::ICore::Ptr core;
+  static workrave::ICore::Ptr core;
 };
 
 #endif // BACKEND_HH

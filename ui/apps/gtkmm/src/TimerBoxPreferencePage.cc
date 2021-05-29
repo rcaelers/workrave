@@ -30,7 +30,7 @@
 
 #include "core/IBreak.hh"
 #include "config/IConfigurator.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "core/CoreConfig.hh"
 #include "GtkUtil.hh"
@@ -53,12 +53,12 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(std::string n)
   enable_buttons();
   init_page_callbacks();
 
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
+  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ICore *core = CoreFactory::get_core();
+      auto core = Backend::get_core();
       assert(core != nullptr);
 
       config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
@@ -72,7 +72,7 @@ TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
   TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
 
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
   config->remove_listener(this);
 
   TRACE_EXIT();
@@ -176,9 +176,9 @@ TimerBoxPreferencePage::create_page()
 void
 TimerBoxPreferencePage::init_page_values()
 {
-  int mp_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_MICRO_BREAK);
-  int rb_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_REST_BREAK);
-  int dl_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_DAILY_LIMIT);
+  int mp_slot = GUIConfig::get_timerbox_slot(name, BREAK_ID_MICRO_BREAK);
+  int rb_slot = GUIConfig::get_timerbox_slot(name, BREAK_ID_REST_BREAK);
+  int dl_slot = GUIConfig::get_timerbox_slot(name, BREAK_ID_DAILY_LIMIT);
   int place;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
@@ -200,13 +200,13 @@ TimerBoxPreferencePage::init_page_values()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      int flags = TimerBoxControl::get_timer_flags(name, (BreakId)i);
+      int flags = GUIConfig::get_timerbox_flags(name, (BreakId)i);
       int showhide;
-      if (flags & TimerBoxControl::BREAK_HIDE)
+      if (flags & GUIConfig::BREAK_HIDE)
         {
           showhide = 0;
         }
-      else if (flags & TimerBoxControl::BREAK_WHEN_FIRST)
+      else if (flags & GUIConfig::BREAK_WHEN_FIRST)
         {
           showhide = 2;
         }
@@ -216,11 +216,11 @@ TimerBoxPreferencePage::init_page_values()
         }
       timer_display_button[i]->set_active(showhide);
     }
-  cycle_entry->set_value(TimerBoxControl::get_cycle_time(name));
+  cycle_entry->set_value(GUIConfig::get_timerbox_cycle_time(name));
 
   if (enabled_cb != nullptr)
     {
-      enabled_cb->set_active(TimerBoxControl::is_enabled(name));
+      enabled_cb->set_active(GUIConfig::is_timerbox_enabled(name));
     }
 
   if (name == "applet")
@@ -266,7 +266,7 @@ TimerBoxPreferencePage::on_enabled_toggled()
 {
   bool on = enabled_cb->get_active();
 
-  TimerBoxControl::set_enabled(name, on);
+  GUIConfig::set_timerbox_enabled(name, on);
 
   enable_buttons();
 }
@@ -321,7 +321,7 @@ TimerBoxPreferencePage::on_place_changed()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      TimerBoxControl::set_timer_slot(name, (BreakId)i, slots[i]);
+      GUIConfig::set_timerbox_slot(name, (BreakId)i, slots[i]);
     }
 }
 
@@ -334,16 +334,16 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
   switch (sel)
     {
     case 0:
-      flags |= TimerBoxControl::BREAK_HIDE;
+      flags |= GUIConfig::BREAK_HIDE;
       break;
     case 1:
       flags = 0;
       break;
     default:
-      flags = TimerBoxControl::BREAK_WHEN_FIRST;
+      flags = GUIConfig::BREAK_WHEN_FIRST;
       break;
     }
-  TimerBoxControl::set_timer_flags(name, (BreakId)break_id, flags);
+  GUIConfig::set_timerbox_flags(name, (BreakId)break_id, flags);
 
   enable_buttons();
 }
@@ -366,7 +366,7 @@ TimerBoxPreferencePage::enable_buttons()
       place_button->set_sensitive(count != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore *core = CoreFactory::get_core();
+          auto core = Backend::get_core();
           assert(core != nullptr);
 
           IBreak *b = core->get_break(BreakId(i));
@@ -380,7 +380,7 @@ TimerBoxPreferencePage::enable_buttons()
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          ICore *core = CoreFactory::get_core();
+          auto core = Backend::get_core();
           assert(core != nullptr);
 
           IBreak *b = core->get_break(BreakId(i));
@@ -388,9 +388,9 @@ TimerBoxPreferencePage::enable_buttons()
         }
       if (count == 3)
         {
-          if (TimerBoxControl::is_enabled(name))
+          if (GUIConfig::is_timerbox_enabled(name))
             {
-              TimerBoxControl::set_enabled(name, false);
+              GUIConfig::set_timerbox_enabled(name, false);
             }
           enabled_cb->set_active(false);
         }
@@ -409,7 +409,7 @@ void
 TimerBoxPreferencePage::on_cycle_time_changed()
 {
   int value = (int)cycle_entry->get_value();
-  TimerBoxControl::set_cycle_time(name, value);
+  GUIConfig::set_timerbox_cycle_time(name, value);
 }
 
 void

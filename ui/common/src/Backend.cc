@@ -26,33 +26,31 @@
 #include "config/IConfigurator.hh"
 #include "core/ICore.hh"
 
-#include "core/CoreFactory.hh" // TODO
-
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::dbus;
 
-// ICore::Ptr Backend::core;
+ICore::Ptr Backend::core;
 
-// ICore::Ptr
-// Backend::get_core()
-// {
-//   if (!core)
-//     {
-//       core = CoreFactory::create();
-//     }
+ICore::Ptr
+Backend::get_core()
+{
+  if (!core)
+    {
+      core = CoreFactory::create();
+    }
 
-//   return core;
-// }
+  return core;
+}
 
 IConfigurator::Ptr
 Backend::get_configurator()
 {
-  return CoreFactory::get_configurator(); // get_core()->get_configurator();
+  return get_core()->get_configurator();
 }
 
-// IDBus::Ptr
-// Backend::get_dbus()
-// {
-//   return get_core()->get_dbus();
-// }
+IDBus::Ptr
+Backend::get_dbus()
+{
+  return get_core()->get_dbus();
+}

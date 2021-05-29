@@ -39,7 +39,7 @@
 #include "DebugDialog.hh"
 #include "core/IStatistics.hh"
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 
@@ -181,7 +181,7 @@ Menus::on_menu_restbreak_now()
 void
 Menus::on_set_operation_mode(OperationMode m)
 {
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   core->set_operation_mode(m);
   resync();
 }
@@ -189,7 +189,7 @@ Menus::on_set_operation_mode(OperationMode m)
 void
 Menus::set_usage_mode(UsageMode m)
 {
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   core->set_usage_mode(m);
   resync();
 }
@@ -282,7 +282,7 @@ Menus::on_menu_statistics()
 {
   if (statistics_dialog == nullptr)
     {
-      ICore *core = CoreFactory::get_core();
+      auto core = Backend::get_core();
       IStatistics *stats = core->get_statistics();
       stats->update();
 
@@ -401,11 +401,11 @@ Menus::on_network_join_response(int response)
 
   if (response == Gtk::RESPONSE_OK)
     {
-      ICore *core = CoreFactory::get_core();
+      auto core = Backend::get_core();
       IDistributionManager *dist_manager = core->get_distribution_manager();
       std::string peer = network_join_dialog->get_connect_url();
       dist_manager->connect(peer);
-      CoreFactory::get_configurator()->save();
+      Backend::get_configurator()->save();
     }
 
   delete network_join_dialog;
@@ -417,7 +417,7 @@ void
 Menus::on_menu_network_leave()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != nullptr)
     {
@@ -430,7 +430,7 @@ void
 Menus::on_menu_network_reconnect()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != nullptr)
     {
@@ -509,7 +509,7 @@ Menus::on_preferences_response(int response)
   assert(preferences_dialog != nullptr);
   preferences_dialog->hide();
 
-  CoreFactory::get_configurator()->save();
+  Backend::get_configurator()->save();
 
   delete preferences_dialog;
   preferences_dialog = nullptr;
@@ -575,7 +575,7 @@ Menus::applet_command(short cmd)
       break;
     case MENU_COMMAND_MODE_READING:
       {
-        ICore *core = CoreFactory::get_core();
+        auto core = Backend::get_core();
         on_menu_reading(core->get_usage_mode() == UsageMode::Normal);
       }
       break;
@@ -597,7 +597,7 @@ Menus::resync()
     {
       if (menus[i] != nullptr)
         {
-          ICore *core = CoreFactory::get_core();
+          auto core = Backend::get_core();
 
           /* Use operation_mode_regular here to show the mode that will be restored
           if an override is in place. That is also necessary because if get_operation_mode()

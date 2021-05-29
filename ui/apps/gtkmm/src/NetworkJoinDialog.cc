@@ -41,7 +41,7 @@
 
 #  include "NetworkJoinDialog.hh"
 
-#  include "core/CoreFactory.hh"
+#  include "commonui/Backend.hh"
 #  include "core/IDistributionManager.hh"
 #  include "config/IConfigurator.hh"
 #  include "utils/Util.hh"
@@ -54,7 +54,7 @@ NetworkJoinDialog::NetworkJoinDialog()
 {
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
 
   // Icon

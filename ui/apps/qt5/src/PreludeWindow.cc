@@ -70,6 +70,9 @@ PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
     case BREAK_ID_DAILY_LIMIT:
       text = tr("You should stop for today...");
       break;
+
+    case BREAK_ID_NONE:
+      break;
     }
 
   label = UiUtil::create_label(text, true);

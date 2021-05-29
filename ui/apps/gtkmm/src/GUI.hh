@@ -26,6 +26,7 @@
 #endif
 
 #include "HeadInfo.hh"
+#include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
 #include "config/IConfiguratorListener.hh"
 #include "core/IApp.hh"
@@ -203,7 +204,7 @@ private:
 #endif
 
   //! The Core controller
-  ICore *core{nullptr};
+  ICore::Ptr core;
 
   //! The sound player
   SoundTheme::Ptr sound_theme;

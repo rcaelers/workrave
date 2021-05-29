@@ -27,10 +27,10 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "utils/Util.hh"
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 
 #include "core/IBreakResponse.hh"

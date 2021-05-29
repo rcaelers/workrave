@@ -26,7 +26,7 @@
 
 #include "X11SystrayAppletWindow.hh"
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "GUI.hh"
 #include "TimerBoxGtkView.hh"
@@ -42,7 +42,7 @@
  */
 X11SystrayAppletWindow::X11SystrayAppletWindow()
 {
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
   config->add_listener(GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED, this);
   read_configuration();
 }
@@ -132,7 +132,7 @@ X11SystrayAppletWindow::activate()
 
       view = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
       timer_box_view = view;
-      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      timer_box_control = new TimerBoxControl("applet", timer_box_view);
 
       Gtk::VBox *box = manage(new Gtk::VBox());
       box->set_spacing(1);

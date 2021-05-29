@@ -30,7 +30,7 @@ public:
 
   virtual void set_slot(workrave::BreakId id, int slot) = 0;
   virtual void set_time_bar(workrave::BreakId id,
-                            std::string text,
+                            int value,
                             TimerColorId primary_color,
                             int primary_value,
                             int primary_max,

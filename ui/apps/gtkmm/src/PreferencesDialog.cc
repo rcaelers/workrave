@@ -52,7 +52,7 @@
 #include "DataConnector.hh"
 #include "Menus.hh"
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "core/CoreConfig.hh"
 #include "config/IConfigurator.hh"
 
@@ -137,7 +137,7 @@ PreferencesDialog::~PreferencesDialog()
   GUIConfig::set_locale(code);
 #endif
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   core->remove_operation_mode_override("preferences");
 
   delete connector;
@@ -535,7 +535,7 @@ PreferencesDialog::create_monitoring_page()
   connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(&sensitivity_adjustment));
 
   string monitor_type;
-  CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");
+  Backend::get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");
 
   monitor_type_cb->set_active(monitor_type != "default");
 
@@ -643,7 +643,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
-      ICore *core = CoreFactory::get_core();
+      auto core = Backend::get_core();
 
       OperationMode mode = core->get_operation_mode();
       if (mode == OperationMode::Normal)
@@ -659,7 +659,7 @@ bool
 PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
 {
   TRACE_ENTER("PreferencesDialog::focus_out");
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
 
   core->remove_operation_mode_override("preferences");
   TRACE_EXIT();
@@ -743,7 +743,7 @@ void
 PreferencesDialog::on_monitor_type_toggled()
 {
   bool on = monitor_type_cb->get_active();
-  CoreFactory::get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
+  Backend::get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
   sensitivity_box->set_sensitive(on);
 }
 #endif

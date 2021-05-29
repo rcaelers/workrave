@@ -21,7 +21,7 @@
 #  include "config.h"
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include <gtkmm.h>
@@ -29,10 +29,11 @@
 #include "GenericDBusApplet.hh"
 
 #include "commonui/TimerBoxControl.hh"
+#include "Text.hh"
 #include "GUI.hh"
 #include "Menus.hh"
 #include "commonui/MenuEnums.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 
 #include "dbus/IDBus.hh"
@@ -45,7 +46,7 @@
 
 GenericDBusApplet::GenericDBusApplet()
 {
-  timer_box_control = new TimerBoxControl("applet", *this);
+  timer_box_control = new TimerBoxControl("applet", this);
   timer_box_view = this;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -59,7 +60,7 @@ GenericDBusApplet::GenericDBusApplet()
       data[i].bar_secondary_max = 0;
     }
 
-  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
+  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
 }
 
 void
@@ -72,7 +73,7 @@ GenericDBusApplet::set_slot(BreakId id, int slot)
 
 void
 GenericDBusApplet::set_time_bar(BreakId id,
-                                std::string text,
+                                int value,
                                 TimerColorId primary_color,
                                 int primary_val,
                                 int primary_max,
@@ -80,8 +81,8 @@ GenericDBusApplet::set_time_bar(BreakId id,
                                 int secondary_val,
                                 int secondary_max)
 {
-  TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << text);
-  data[id].bar_text = text;
+  TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << value);
+  data[id].bar_text = Text::time_to_string(value);
   data[id].bar_primary_color = (int)primary_color;
   data[id].bar_primary_val = primary_val;
   data[id].bar_primary_max = primary_max;
@@ -109,7 +110,7 @@ GenericDBusApplet::init_applet()
 {
   try
     {
-      dbus = CoreFactory::get_dbus();
+      dbus = Backend::get_dbus();
       if (dbus != nullptr && dbus->is_available())
         {
           dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ, WORKRAVE_INDICATOR_SERVICE_IFACE, this);

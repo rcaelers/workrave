@@ -31,7 +31,7 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
@@ -243,7 +243,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 
   inside = true;
 
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
   if (write)
     {
       int mp;
@@ -308,7 +308,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 bool
 TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 {
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
 
   if (write)
     {
@@ -316,7 +316,7 @@ TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 
       if (monitor_cb->get_active())
         {
-          ICore *core = CoreFactory::get_core();
+          auto core = Backend::get_core();
           IBreak *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
           val = mp_break->get_name();
         }

@@ -30,19 +30,19 @@
 #include <gtkmm/sizegroup.h>
 #include <gtkmm/eventbox.h>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "EventButton.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
 #include "utils/Util.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "Menus.hh"
 #include "GUI.hh"
 #include "GtkUtil.hh"
 
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
 
@@ -60,7 +60,7 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
 TimerBoxGtkView::~TimerBoxGtkView()
 {
   TRACE_ENTER("TimerBoxGtkView::~TimerBoxGtkView");
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
   config->remove_listener(this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -137,7 +137,7 @@ TimerBoxGtkView::init()
       bars[i]->reference();
     }
 
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
+  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
   config->add_listener(GUIConfig::CFG_KEY_ICONTHEME, this);
 
   reconfigure = true;
@@ -467,7 +467,7 @@ TimerBoxGtkView::set_slot(BreakId id, int slot)
 
 void
 TimerBoxGtkView::set_time_bar(BreakId id,
-                              std::string text,
+                              int value,
                               TimerColorId primary_color,
                               int primary_val,
                               int primary_max,
@@ -477,12 +477,12 @@ TimerBoxGtkView::set_time_bar(BreakId id,
 {
   TRACE_ENTER_MSG("TimerBoxGtkView::set_time_bar", id);
 
-  TRACE_MSG(text);
+  TRACE_MSG(value);
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
   TRACE_MSG(secondary_val << " " << secondary_max << " " << int(secondary_color));
 
   TimeBar *bar = bars[id];
-  bar->set_text(text);
+  bar->set_text(Text::time_to_string(value));
   bar->set_bar_color(primary_color);
   bar->set_progress(primary_val, primary_max);
   bar->set_secondary_bar_color(secondary_color);

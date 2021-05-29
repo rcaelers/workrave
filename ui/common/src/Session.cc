@@ -1,6 +1,6 @@
 // Session.cc --- Monitor the user session
 //
-// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,17 @@
 #  include "config.h"
 #endif
 
-#include "commonui/Session.hh"
+#include "Session.hh"
 
 #include "debug.hh"
 
 #include "config/IConfigurator.hh"
 #include "commonui/GUIConfig.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "core/IBreak.hh"
 
+using namespace workrave;
+using namespace workrave::config;
 using namespace std;
 
 void
@@ -45,10 +47,8 @@ Session::set_idle(bool new_idle)
 {
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
 
-  bool auto_natural = false;
-  workrave::config::IConfigurator::Ptr config = CoreFactory::get_configurator();
-  config->get_value(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % BREAK_ID_REST_BREAK, auto_natural);
-  ICore *core = CoreFactory::get_core();
+  bool auto_natural = GUIConfig::break_auto_natural(BREAK_ID_REST_BREAK)();
+  ICore::Ptr core = Backend::get_core();
 
   if (core->get_usage_mode() == UsageMode::Reading)
     {
@@ -58,7 +58,7 @@ Session::set_idle(bool new_idle)
   if (new_idle && !is_idle)
     {
       TRACE_MSG("Now idle");
-      IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+      auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
       taking = rest_break->is_taking();
       TRACE_MSG("taking " << taking);
@@ -75,7 +75,8 @@ Session::set_idle(bool new_idle)
       if (auto_natural)
         {
           TRACE_MSG("Automatic natural break enabled");
-          IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+
+          auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           if (core->get_operation_mode() == OperationMode::Normal
               && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()

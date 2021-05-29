@@ -37,10 +37,10 @@
 #include "nls.h"
 
 #include "core/ICore.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 
 #include "StatisticsDialog.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "utils/Util.hh"
 #include "GtkUtil.hh"
 #include "Locale.hh"
@@ -51,7 +51,7 @@ StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false)
 
 {
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   statistics = core->get_statistics();
 
   for (int i = 0; i < 5; i++)
@@ -632,7 +632,7 @@ StatisticsDialog::on_history_delete_all()
   override before any return.
   */
   const char funcname[] = "StatisticsDialog::on_history_delete_all";
-  CoreFactory::get_core()->set_operation_mode_override(OperationMode::Suspended, funcname);
+  Backend::get_core()->set_operation_mode_override(OperationMode::Suspended, funcname);
 
   // Confirm the user's intention
   string msg = HigUtil::create_alert_text(_("Warning"), _("You have chosen to delete your statistics history. Continue?"));
@@ -667,7 +667,7 @@ StatisticsDialog::on_history_delete_all()
     }
 
   // Remove this function's operation mode override
-  CoreFactory::get_core()->remove_operation_mode_override(funcname);
+  Backend::get_core()->remove_operation_mode_override(funcname);
 }
 
 //! Periodic heartbeat.

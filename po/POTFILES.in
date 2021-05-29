@@ -19,7 +19,6 @@ libs/core/src/Break.cc
 libs/core/src/BreakControl.cc
 libs/core/src/Core.cc
 libs/core/src/CoreConfig.cc
-libs/core/src/CoreFactory.cc
 libs/core/src/DayTimePred.cc
 libs/core/src/DistributionManager.cc
 libs/core/src/DistributionSocketLink.cc
@@ -134,6 +133,7 @@ ui/apps/gtkmm/src/PreludeWindow.cc
 ui/apps/gtkmm/src/RestBreakWindow.cc
 ui/apps/gtkmm/src/StatisticsDialog.cc
 ui/apps/gtkmm/src/StatusIcon.cc
+ui/apps/gtkmm/src/Text.cc
 ui/apps/gtkmm/src/TimeBar.cc
 ui/apps/gtkmm/src/TimeEntry.cc
 ui/apps/gtkmm/src/TimerBoxGtkView.cc
@@ -173,6 +173,5 @@ ui/common/src/Exercise.cc
 ui/common/src/GUIConfig.cc
 ui/common/src/Session.cc
 ui/common/src/SoundTheme.cc
-ui/common/src/Text.cc
 ui/common/src/TimerBoxControl.cc
 ui/data/exercises/exercises.xml.in

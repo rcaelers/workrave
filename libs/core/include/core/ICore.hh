@@ -129,11 +129,11 @@ namespace workrave
 #endif
   };
 
-  // class CoreFactory
-  // {
-  // public:
-  //   static ICore::Ptr create();
-  // };
+  class CoreFactory
+  {
+  public:
+    static ICore::Ptr create();
+  };
 
 }; // namespace workrave
 

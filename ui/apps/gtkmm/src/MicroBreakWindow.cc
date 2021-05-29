@@ -30,14 +30,14 @@
 
 #include "core/IBreak.hh"
 #include "GUI.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "core/IBreakResponse.hh"
 #include "utils/Util.hh"
 #include "GtkUtil.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "Hig.hh"
 #include "Frame.hh"
 
@@ -75,7 +75,7 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
   // Button box at the bottom.
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   IBreak *restbreak = core->get_break(BREAK_ID_REST_BREAK);
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
@@ -146,7 +146,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
 void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   core->force_break(BREAK_ID_REST_BREAK, BreakHint::Normal);
 }
 
@@ -163,7 +163,7 @@ MicroBreakWindow::update_time_bar()
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
     {
@@ -191,7 +191,7 @@ MicroBreakWindow::update_label()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_label");
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
 
   IBreak *restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
   IBreak *daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);

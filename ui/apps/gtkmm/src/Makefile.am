@@ -39,6 +39,7 @@ sources =   AppletControl.cc \
 			RestBreakWindow.cc \
 			StatisticsDialog.cc \
 			StatusIcon.cc \
+			Text.cc \
 			TimeBar.cc \
 			TimeEntry.cc \
 			TimerBoxGtkView.cc \

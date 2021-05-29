@@ -1,6 +1,4 @@
-// Text.hh
-//
-// Copyright (C) 2002, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,16 +15,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TEXT_HH
-#define TEXT_HH
+#ifndef COREDBUS_HH
+#define COREDBUS_HH
 
-#include <ctime>
+#include "dbus/IDBus.hh"
+#include "utils/ScopedConnections.hh"
+
+#include "CoreModes.hh"
+
 #include <string>
 
-class Text
+class CoreDBus
 {
 public:
-  static std::string time_to_string(int64_t t, bool display_units = false);
+  using Ptr = std::shared_ptr<CoreDBus>;
+
+  CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
+
+private:
+  void on_operation_mode_changed(const workrave::OperationMode m);
+  void on_usage_mode_changed(const workrave::UsageMode m);
+
+private:
+  workrave::dbus::IDBus::Ptr dbus;
+  scoped_connections connections;
 };
 
-#endif // TEXT_HH
+#endif // COREDBUS_HH

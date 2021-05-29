@@ -76,6 +76,7 @@ public:
     configurator = std::make_shared<Configurator>(new T());
   }
 
+#ifdef HAVE_GSETTINGS
   template<>
   void init<GSettingsConfigurator>()
   {
@@ -88,6 +89,7 @@ public:
     configurator = std::make_shared<Configurator>(new GSettingsConfigurator());
     has_defaults = true;
   }
+#endif
 
   void tick()
   {
@@ -221,6 +223,10 @@ typedef boost::mpl::list<IniConfigurator,
 #ifdef HAVE_GSETTINGS
                          ,
                          GSettingsConfigurator
+#endif
+#ifdef HAVE_QT
+                         ,
+                         QtSettingsConfigurator
 #endif
                          >
   backend_types;

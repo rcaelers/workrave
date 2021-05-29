@@ -8,7 +8,6 @@ libworkrave_ui_common_la_SOURCES = \
 			GUIConfig.cc \
 			Session.cc \
 			SoundTheme.cc \
-			Text.cc \
 			TimerBoxControl.cc
 
 EXTRA_DIST = $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \

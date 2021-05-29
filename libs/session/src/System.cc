@@ -418,13 +418,13 @@ System::execute(SystemOperation::SystemOperationType type)
 }
 
 void
-System::init(
-#if defined(PLATFORM_OS_UNIX)
-  const char *display
-#endif
-)
+System::init()
 {
   TRACE_ENTER("System::init");
+
+#if defined(PLATFORM_OS_UNIX)
+  std::string display = workrave::utils::Platform::get_default_display_name();
+#endif
 
 #if defined(PLATFORM_OS_UNIX)
 #  if defined(HAVE_DBUS_GIO)
@@ -432,7 +432,7 @@ System::init(
   init_DBus_lock_commands();
   init_DBus_system_state_commands();
 #  endif
-  init_cmdline_lock_commands(display);
+  init_cmdline_lock_commands(display.c_str());
 
 #elif defined(PLATFORM_OS_WINDOWS)
   init_windows_lock_commands();

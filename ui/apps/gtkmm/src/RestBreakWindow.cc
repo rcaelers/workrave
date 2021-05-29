@@ -39,7 +39,7 @@
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"
-#include "commonui/Text.hh"
+#include "Text.hh"
 #include "TimeBar.hh"
 #include "utils/Util.hh"
 #include "WindowHints.hh"
@@ -51,7 +51,7 @@
 
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 
 #include "commonui/Exercise.hh"
 #include "ExercisesPanel.hh"
@@ -151,7 +151,7 @@ RestBreakWindow::draw_time_bar()
 
   timebar->set_text(s);
 
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   bool user_active = core->is_user_active();
   if (frame != nullptr)
     {
@@ -292,7 +292,7 @@ RestBreakWindow::install_info_panel()
 void
 RestBreakWindow::set_ignore_activity(bool i)
 {
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   assert(core != nullptr);
 
 #ifdef PLATFORM_OS_WINDOWS

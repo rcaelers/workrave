@@ -18,7 +18,8 @@
 #  include "config.h"
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
+#include "Text.hh"
 #include "debug.hh"
 
 #include "MacOSAppletWindow.hh"
@@ -61,15 +62,15 @@ MacOSAppletWindow::~MacOSAppletWindow()
 }
 
 void
-MacOSAppletWindow::set_slot(BreakId id, int slot)
+MacOSAppletWindow::set_slot(workrave::BreakId id, int slot)
 {
   TRACE_ENTER_MSG("MacOSAppletWindow::set_slot", int(id) << ", " << slot);
   TRACE_EXIT();
 }
 
 void
-MacOSAppletWindow::set_time_bar(BreakId id,
-                                std::string text,
+MacOSAppletWindow::set_time_bar(workrave::BreakId id,
+                                int value,
                                 TimerColorId primary_color,
                                 int primary_val,
                                 int primary_max,
@@ -77,9 +78,9 @@ MacOSAppletWindow::set_time_bar(BreakId id,
                                 int secondary_val,
                                 int secondary_max)
 {
-  TRACE_ENTER_MSG("MacOSAppletWindow::set_time_bar", int(id) << "=" << text);
+  TRACE_ENTER_MSG("MacOSAppletWindow::set_time_bar", int(id) << "=" << value);
 
-  NSString *bar_text = [NSString stringWithCString:text.c_str() encoding:NSASCIIStringEncoding];
+  NSString *bar_text = [NSString stringWithCString:Text::time_to_string(value) encoding:NSASCIIStringEncoding];
 
   [view setBreak:id
                  text:bar_text

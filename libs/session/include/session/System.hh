@@ -86,11 +86,7 @@ public:
   // display will not be owned by System,
   // the caller may free it after calling
   // this function
-  static void init(
-#if defined(PLATFORM_OS_UNIX)
-    const char *display
-#endif
-  );
+  static void init();
   static void clear();
 
 private:
