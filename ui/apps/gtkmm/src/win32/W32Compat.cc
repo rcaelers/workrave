@@ -39,7 +39,7 @@
 
 #include "core/IBreak.hh"
 #include "BreakWindow.hh"
-#include "core/CoreFactory.hh"
+#include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "GtkUtil.hh"
 #include "W32ForceFocus.hh"
@@ -136,7 +136,7 @@ W32Compat::_init()
     }
 
   // Should SetWindowOnTop() call IMEWindowMagic() ?
-  if (!CoreFactory::get_configurator()->get_value("advanced/ime_magic", ime_magic))
+  if (!Backend::get_configurator()->get_value("advanced/ime_magic", ime_magic))
     {
       ime_magic = false;
     }
@@ -148,12 +148,12 @@ W32Compat::_init()
   // If reset_window_always is true, and if ResetWindow() is continually
   // passed the same hwnd, hwnd will flicker as a result of the continual
   // z-order position changes / resetting.
-  if (!CoreFactory::get_configurator()->get_value("advanced/reset_window_always", reset_window_always))
+  if (!Backend::get_configurator()->get_value("advanced/reset_window_always", reset_window_always))
     {
       reset_window_always = false;
     }
   // ResetWindow() will always abort when reset_window_never is true.
-  if (!CoreFactory::get_configurator()->get_value("advanced/reset_window_never", reset_window_never))
+  if (!Backend::get_configurator()->get_value("advanced/reset_window_never", reset_window_never))
     {
       reset_window_never = false;
     }
@@ -444,7 +444,7 @@ Refresh a BreakWindow:
 void
 W32Compat::RefreshBreakWindow(BreakWindow &window)
 {
-  ICore *core = CoreFactory::get_core();
+  auto core = Backend::get_core();
   bool user_active = core->is_user_active();
 
   // GTK keyboard shortcuts can be accessed by using the ALT key. This appear

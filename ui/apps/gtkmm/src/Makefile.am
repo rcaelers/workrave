@@ -188,7 +188,7 @@ $(bin_PROGRAMS):	$(top_builddir)/libs/audio/src/libworkrave-audio.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WIN32LDFLAGS}
 
 workrave_LDADD =	-lworkrave-ui-common -lworkrave-audio -lworkrave-core -lworkrave-config  \
-					-lworkrave-input-monitor -lworkrave-session \
+					-lworkrave-input-monitor -lworkrave-session -lworkrave-dbus \
 					-lworkrave-utils @WR_LDADD@ -lm \
 					@X_LIBS@ @X11SM_LIBS@ @GLIB_LIBS@ \
 					@GTK_LIBS@ @X_LIBS@ \

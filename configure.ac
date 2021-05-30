@@ -932,11 +932,6 @@ for l in audio config core dbus input-monitor session utils; do
     WR_LDFLAGS="$WR_LDFLAGS -L\$(top_builddir)/libs/$l/src/"
 done
 
-
-if test "x$config_dbus" = "xyes"; then
-  WR_LDADD="$WR_LDADD -lworkrave-dbus"
-fi
-
 AC_SUBST(WR_LDADD)
 AC_SUBST(WR_LDFLAGS)
 

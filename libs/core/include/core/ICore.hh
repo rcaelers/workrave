@@ -123,10 +123,8 @@ namespace workrave
     //! Return the hooks
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
-#ifdef HAVE_DBUS
     //! Return DBUs remoting interface.
     [[nodiscard]] virtual dbus::IDBus::Ptr get_dbus() const = 0;
-#endif
   };
 
   class CoreFactory

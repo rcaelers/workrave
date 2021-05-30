@@ -55,9 +55,7 @@
 #include "CoreHooks.hh"
 #include "LocalActivityMonitor.hh"
 
-#ifdef HAVE_DBUS
-#  include "dbus/IDBus.hh"
-#endif
+#include "dbus/IDBus.hh"
 
 using namespace workrave;
 
@@ -162,12 +160,7 @@ public:
   void postpone_break(BreakId break_id) override;
   void skip_break(BreakId break_id) override;
 
-#ifdef HAVE_DBUS
-  workrave::dbus::IDBus::Ptr get_dbus() const override
-  {
-    return dbus;
-  }
-#endif
+  workrave::dbus::IDBus::Ptr get_dbus() const override;
   ICoreHooks::Ptr get_hooks() const override;
 
 private:
@@ -309,10 +302,8 @@ private:
   //! Current overall monitor state.
   TracedField<ActivityState> monitor_state{"core.monitor_state", ACTIVITY_UNKNOWN};
 
-#ifdef HAVE_DBUS
   //! DBUS bridge
   workrave::dbus::IDBus::Ptr dbus;
-#endif
 
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;

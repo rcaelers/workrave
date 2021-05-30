@@ -61,17 +61,17 @@
 #  endif
 #endif
 
+#include "dbus/DBusFactory.hh"
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
+#  undef interface
+#endif
+#include "dbus/IDBus.hh"
+#include "dbus/DBusException.hh"
 #ifdef HAVE_DBUS
-#  include "dbus/DBusFactory.hh"
-#  if defined(PLATFORM_OS_WINDOWS_NATIVE)
-#    undef interface
-#  endif
-#  include "dbus/IDBus.hh"
-#  include "dbus/DBusException.hh"
 #  include "DBusWorkrave.hh"
-#  ifdef HAVE_TESTS
-#    include "Test.hh"
-#  endif
+#endif
+#ifdef HAVE_TESTS
+#  include "Test.hh"
 #endif
 
 Core *Core::instance = nullptr;
@@ -223,12 +223,12 @@ Core::init_configurator()
 void
 Core::init_bus()
 {
-#ifdef HAVE_DBUS
   try
     {
       dbus = workrave::dbus::DBusFactory::create();
       dbus->init();
 
+#ifdef HAVE_DBUS
       extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
 
@@ -240,11 +240,11 @@ Core::init_bus()
       dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
 #  endif
+#endif
     }
   catch (workrave::dbus::DBusException &)
     {
     }
-#endif
 }
 
 //! Initializes the activity monitor.
@@ -477,6 +477,12 @@ ICoreHooks::Ptr
 Core::get_hooks() const
 {
   return hooks;
+}
+
+dbus::IDBus::Ptr
+Core::get_dbus() const
+{
+  return dbus;
 }
 
 //! Returns the activity monitor.
