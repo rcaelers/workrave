@@ -121,7 +121,7 @@ jobs:
             upload: true
             enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
 
-          - image: ubuntu-grovy
+          - image: ubuntu-groovy
             compiler: gcc
             gtk_version: 3
             enable: gnome3,pulse,dbus,experimental,gstreamer
