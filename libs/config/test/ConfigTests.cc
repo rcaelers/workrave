@@ -49,6 +49,15 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::utils;
 
+class Fixture;
+namespace helper
+{
+  template<typename T>
+  void init(Fixture *fixture)
+  {
+  }
+}
+
 class Fixture : public IConfiguratorListener
 {
 public:
@@ -73,23 +82,10 @@ public:
   {
     sim->reset();
     TimeSource::sync();
+
+    helper::init<T>(this);
     configurator = std::make_shared<Configurator>(new T());
   }
-
-#ifdef HAVE_GSETTINGS
-  template<>
-  void init<GSettingsConfigurator>()
-  {
-    sim->reset();
-    TimeSource::sync();
-
-    g_setenv("GSETTINGS_SCHEMA_DIR", BUILDDIR, true);
-    g_setenv("GSETTINGS_BACKEND", "memory", 1);
-
-    configurator = std::make_shared<Configurator>(new GSettingsConfigurator());
-    has_defaults = true;
-  }
-#endif
 
   void tick()
   {
@@ -197,6 +193,19 @@ public:
   std::string expected_key;
   int config_changed_count{0};
 };
+
+namespace helper
+{
+#ifdef HAVE_GSETTINGS
+  template<>
+  void init<GSettingsConfigurator>(Fixture *fixture)
+  {
+    g_setenv("GSETTINGS_SCHEMA_DIR", BUILDDIR, true);
+    g_setenv("GSETTINGS_BACKEND", "memory", 1);
+    fixture->has_defaults = true;
+  }
+#endif
+}
 
 inline std::ostream &
 operator<<(std::ostream &stream, Fixture::Mode mode)
