@@ -206,7 +206,7 @@ BreakWindow::append_row_to_sysoper_model(System::SystemOperation::SystemOperatio
   QIcon icon(pixmap);
   sysoper_combo->addItem(icon, name);
 
-  TRACE_EXIT()
+  TRACE_EXIT();
 }
 
 void
