@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-05-20 20:41+0200\n"
+"POT-Creation-Date: 2021-05-30 12:47+0200\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -162,7 +162,7 @@ msgstr "Nu se poate efectua conexiunea cu clientul %s."
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:211
 #: ui/applets/gnome3/src/v5/WorkraveApplet.c:221
 #: ui/applets/mate/src/main-gtk2.c:285 ui/applets/mate/src/main-gtk3.c:210
-#: ui/applets/xfce/src/main.c:297 ui/apps/gtkmm/src/Menus.cc:346
+#: ui/applets/xfce/src/main.c:297 ui/apps/gtkmm/src/Menus.cc:340
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -180,7 +180,7 @@ msgstr "Applet Workrave"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
 #: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
 msgid "_Open"
 msgstr "_Deschide"
 
@@ -192,7 +192,7 @@ msgstr "_Statistici"
 #. Preferences
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:312
 #: ui/applets/mate/src/main-gtk2.c:347 ui/applets/mate/src/main-gtk3.c:311
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:152
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:150
 msgid "_Preferences"
 msgstr "_Preferințe"
 
@@ -208,17 +208,17 @@ msgstr "_Pauză de odihnă"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:318
 #: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:122
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:120
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Mode"
 msgstr "_Mod"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:320
 #: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:136
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:134
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
 msgid "_Network"
 msgstr "_Rețea"
 
@@ -229,127 +229,127 @@ msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:324
 #: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:138
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:136
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:116
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
 msgid "_Disconnect"
 msgstr "_Deconectare"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:326
 #: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:139
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:119
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Reconnect"
 msgstr "_Reconectare"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:328
 #: ui/applets/mate/src/main-gtk2.c:363 ui/applets/mate/src/main-gtk3.c:327
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:161
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:157
 #, fuzzy
 msgid "_About"
 msgstr "_Despre..."
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:330
 #: ui/applets/mate/src/main-gtk2.c:365 ui/applets/mate/src/main-gtk3.c:329
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:163
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:159
 msgid "_Quit"
 msgstr "_Închide"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
 #: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:183
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
 #, fuzzy
 msgid "Show log"
 msgstr "Arată jurna_lul"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
 #: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:188
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:107
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "Reading mode"
 msgstr ""
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
 #: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:165
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
 #, fuzzy
 msgid "Normal"
 msgstr "_Normal"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
 #: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GenericDBusApplet.cc:168
+#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
 #, fuzzy
 msgid "Suspended"
 msgstr "_Suspendat"
 
 #: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
 #: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1430 ui/apps/gtkmm/src/GenericDBusApplet.cc:171
+#: ui/apps/gtkmm/src/GUI.cc:1424 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
 #, fuzzy
 msgid "Quiet"
 msgstr "_Silențios"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:261
+#: ui/apps/gtkmm/src/BreakWindow.cc:257
 #, fuzzy
 msgid "Lock..."
 msgstr "_Blochează"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:265
+#: ui/apps/gtkmm/src/BreakWindow.cc:261
 #, fuzzy
 msgid "Lock"
 msgstr "_Blochează"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:269
+#: ui/apps/gtkmm/src/BreakWindow.cc:265
 #, fuzzy
 msgid "Shutdown"
 msgstr "_Închidere"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:273
+#: ui/apps/gtkmm/src/BreakWindow.cc:269
 #, fuzzy
 msgid "Suspend"
 msgstr "_Suspendat"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:277
+#: ui/apps/gtkmm/src/BreakWindow.cc:273
 msgid "Hibernate"
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:281
+#: ui/apps/gtkmm/src/BreakWindow.cc:277
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Suspendat"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:401
+#: ui/apps/gtkmm/src/BreakWindow.cc:397
 #, fuzzy
 msgid "_Skip"
 msgstr "_Sari peste"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:416
+#: ui/apps/gtkmm/src/BreakWindow.cc:412
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Amână"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:608
+#: ui/apps/gtkmm/src/BreakWindow.cc:604
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:622
+#: ui/apps/gtkmm/src/BreakWindow.cc:618
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
 
 #. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:47
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54 ui/apps/gtkmm/src/GUI.cc:1419
-#: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/Ui.cc:101
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:46
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:53 ui/apps/gtkmm/src/GUI.cc:1413
+#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Limită zilnică"
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:55
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -360,237 +360,237 @@ msgstr ""
 "Dacă ziua de lucru nu s-a încheiat încă, găsiți altceva de făcut, cum ar fi "
 "revizuirea unui document."
 
-#: ui/apps/gtkmm/src/DebugDialog.cc:44 ui/apps/gtkmm/src/DebugDialog.cc:46
+#: ui/apps/gtkmm/src/DebugDialog.cc:42 ui/apps/gtkmm/src/DebugDialog.cc:44
 msgid "Debug log"
 msgstr ""
 
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:42
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:156
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
+#: ui/apps/gtkmm/src/ExercisesDialog.cc:31
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:153
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
 msgid "Exercises"
 msgstr "Exerciții"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:244
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:240
 msgid "Exercises player"
 msgstr "Program de redare a exercițiilor"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:274
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:270
 msgid "Previous exercise"
 msgstr "Exercițiul precedent"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:275
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:271
 msgid "Next exercise"
 msgstr "Următorul exercițiu"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:276
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:461
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:272
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:457
 msgid "Pause exercises"
 msgstr "Pune exercițiile pe pauză"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:280
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:276
 msgid "End exercises"
 msgstr "Încheie exercițiile"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:456
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
 msgid "Resume"
 msgstr "Continuă"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:456
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
 msgid "Pause"
 msgstr "Pauză"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:459
+#: ui/apps/gtkmm/src/ExercisesPanel.cc:455
 msgid "Resume exercises"
 msgstr "Reia exercițiile"
 
-#: ui/apps/gtkmm/src/GUI.cc:295
+#: ui/apps/gtkmm/src/GUI.cc:294
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:780 ui/apps/gtkmm/src/GUI.cc:894
+#: ui/apps/gtkmm/src/GUI.cc:774 ui/apps/gtkmm/src/GUI.cc:888
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Pornește Workrave odată cu Windows"
 
-#: ui/apps/gtkmm/src/GUI.cc:781
+#: ui/apps/gtkmm/src/GUI.cc:775
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:889
+#: ui/apps/gtkmm/src/GUI.cc:883
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:892
+#: ui/apps/gtkmm/src/GUI.cc:886
 msgid "Make sure that the RECORD extension is enabled in the X server."
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1287
+#: ui/apps/gtkmm/src/GUI.cc:1281
 msgid ""
 "Workrave is in suspended mode. Mouse and keyboard activity will not be "
 "monitored."
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:1293
+#: ui/apps/gtkmm/src/GUI.cc:1287
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GtkUtil.cc:164
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:52
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:161
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:253
+#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GtkUtil.cc:162
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:50
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:159
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:251
 msgid "Micro-break"
 msgstr "Micropauză"
 
-#: ui/apps/gtkmm/src/GUI.cc:1419 ui/apps/gtkmm/src/GenericDBusApplet.cc:161
-#: ui/apps/gtkmm/src/GtkUtil.cc:164 ui/apps/gtkmm/src/MicroBreakWindow.cc:136
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:71
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:206
+#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
+#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/MicroBreakWindow.cc:134
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:67
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:192
 msgid "Rest break"
 msgstr "Pauză de odihnă"
 
-#: ui/apps/gtkmm/src/GUI.cc:1426 ui/apps/gtkmm/src/GUI.cc:1430
+#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GUI.cc:1424
 #, fuzzy
 msgid "Mode: "
 msgstr "_Mod"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:102
 #, fuzzy
 msgid "Open"
 msgstr "_Deschide"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:160
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:78
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:103
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
 msgid "Preferences"
 msgstr "Preferințe"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:163
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:175
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
 #, fuzzy
 msgid "Mode"
 msgstr "_Mod"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:185
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:114
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "Network"
 msgstr "Rețea"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
 #, fuzzy
 msgid "Connect"
 msgstr "_Conectare"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
 #, fuzzy
 msgid "Disconnect"
 msgstr "_Deconectare"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:181
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
 #, fuzzy
 msgid "Reconnect"
 msgstr "_Reconectare"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:159
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:53
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:129
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:111
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:155
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:51
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:127
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "Statistics"
 msgstr "Statistici"
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:124
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:112
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "About..."
 msgstr "Despre..."
 
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:194
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:125
+#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
 #, fuzzy
 msgid "Quit"
 msgstr "_Închide"
 
 #. Restbreak now
 #. Gtk::AccelKey("<control>r"),
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:82 ui/apps/gtkmm/src/MainGtkMenu.cc:148
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:106
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:76
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:80 ui/apps/gtkmm/src/MainGtkMenu.cc:146
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
 msgid "_Rest break"
 msgstr "_Pauză de odihnă"
 
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:124
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:79
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:122
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:112
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:83
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:125
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
 msgid "Q_uiet"
 msgstr "_Silențios"
 
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:129
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:87
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:127
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
 msgid "_Suspended"
 msgstr "_Suspendat"
 
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:132
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:130
 msgid "_Reading mode"
 msgstr ""
 
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:135
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Connect"
 msgstr "_Conectare"
 
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:140
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:101
+#: ui/apps/gtkmm/src/MainGtkMenu.cc:138
+#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
+#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "Show _log"
 msgstr "Arată jurna_lul"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:219
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
 msgid "Please relax for a few seconds"
 msgstr "Relaxați-vă pentru câteva secunde"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:226
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:224
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Următoarea pauză de odihnă în %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:230
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:228
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Pauză de odihnă amânată cu %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:242
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:240
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Limita zilnică în %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:246
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Limita zilnică amânată cu %s"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:55
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:74
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:53
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:72
 msgid "Network connect"
 msgstr "Conectare la rețea"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:75
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:73
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -598,61 +598,61 @@ msgstr ""
 "Introduceți numele gazdei și numărul portului calculatorului\n"
 "din rețea la care doriți să vă conectați."
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:87
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:85
 msgid "Host name:"
 msgstr "Numele gazdei:"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:88
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:86
 msgid "Port:"
 msgstr "Port:"
 
+#: ui/apps/gtkmm/src/NetworkLogDialog.cc:50
 #: ui/apps/gtkmm/src/NetworkLogDialog.cc:52
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:54
 msgid "Network log"
 msgstr "Jurnal de rețea"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:95
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:93
 msgid "Enable networking"
 msgstr "Activează lucrul cu rețeaua"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:102
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:100
 msgid "Username:"
 msgstr "Nume de utilizator:"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:103
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:101
 msgid "Password:"
 msgstr "Parolă:"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:109
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:107
 msgid "Allow incoming connections"
 msgstr "Permite conexiunile din exterior"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:114
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:92
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:112
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
 msgid "General"
 msgstr "General"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:125
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:123
 msgid "Server settings"
 msgstr "Setări legate de server"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
 msgid "Server port:"
 msgstr "Portul serverului:"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:146
 msgid "Reconnect attempts:"
 msgstr "Încercări de reconectare:"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:149
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
 msgid "Reconnect interval:"
 msgstr "Interval de reconectare:"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:152
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:150
 msgid "Advanced"
 msgstr "Avansat"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:167
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:165
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -661,224 +661,224 @@ msgstr ""
 "pornire.\n"
 "Clic pe numele gazdei sau numărul portului pentru a le schimba."
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:194
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:192
 msgid "Host name"
 msgstr "Numele gazdei"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:203
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:201
 msgid "Port"
 msgstr "Port"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:241
+#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:239
 msgid "Hosts"
 msgstr "Gazde"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:96
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
 msgid "Sounds"
 msgstr "Sunete"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:99
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
 msgid "Status Window"
 msgstr "Fereastra de stare"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:103
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
 msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:111
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:152
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:207
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:188
 msgid "Timers"
 msgstr "Cronometre"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
 msgid "User interface"
 msgstr "Interfața cu utilizatorul"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:158
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:162
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:156
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:160
 msgid "No blocking"
 msgstr "Fără blocare"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:159
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:163
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:157
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:161
 msgid "Block input"
 msgstr "Blochează dispozitivele de intrare"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:160
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:164
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:158
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:162
 msgid "Block input and screen"
 msgstr "Blochează dispozitivele de intrare și ecranul"
 
 #. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:183
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:131
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:181
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
 msgid "Options"
 msgstr "Opțiuni"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:185
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:183
 msgid "Block mode:"
 msgstr "Mod de blocare:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:205
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:203
 msgid "System default"
 msgstr "Definit de sistem"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:248
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:246
 msgid "(font not available)"
 msgstr "(font indisponibil)"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:267
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:265
 msgid "Language:"
 msgstr "Limbă:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:281
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:279
 #, fuzzy
 msgid "Start Workrave on logon"
 msgstr "Pornește Workrave odată cu Windows"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:296
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:294
 msgid "Show system tray icon"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:306
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:304
 #, fuzzy
 msgid "Icon Theme:"
 msgstr "Tema sunetelor:"
 
 #. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:319
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:317
 msgid "Sound Options"
 msgstr "Opțiuni legate de sunet"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:325
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:328
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:323
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:326
 msgid "No sounds"
 msgstr "Fără sunete"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:326
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:329
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:324
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:327
 msgid "Play sounds using sound card"
 msgstr "Redă sunetele folosind placa de sunet"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:350
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
 msgstr "Volum:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:353
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
 msgstr "Sunet:"
 
 #. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:358
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:356
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
 
 #. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:366
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:364
 msgid "Sound Events"
 msgstr "Evenimente sonore"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:374
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:372
 msgid "Sound Theme:"
 msgstr "Tema sunetelor:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:397
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:415
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:443
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:395
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:413
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:441
 msgid "Play"
 msgstr "Redare"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:402
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
 msgid "Event"
 msgstr "Eveniment"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:418
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:416
 msgid "Choose a sound"
 msgstr "Alegeți un sunet"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:428
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:426
 msgid "Wavefiles"
 msgstr "Fișiere wav"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:516
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:514
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:523
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:521
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:526
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:524
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:531
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
 #, fuzzy
 msgid "Mouse sensitivity:"
 msgstr "Mișcarea mausului:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:531
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:547
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:545
 msgid "Debug monitoring"
 msgstr ""
 
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:978
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:980
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:982
 msgid "Default"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:110
+#: ui/apps/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
 msgstr "E timpul pentru o micropauză?"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ui/apps/gtkmm/src/PreludeWindow.cc:112
 msgid "You need a rest break..."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:118
+#: ui/apps/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
 msgstr "Ar trebui să încheiați pe ziua de azi..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:288
+#: ui/apps/gtkmm/src/PreludeWindow.cc:286
 #, c-format
 msgid "Break in %s"
 msgstr "Pauză în %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:292
+#: ui/apps/gtkmm/src/PreludeWindow.cc:290
 #, c-format
 msgid "Disappears in %s"
 msgstr "Dispare în %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:296
+#: ui/apps/gtkmm/src/PreludeWindow.cc:294
 #, c-format
 msgid "Silent in %s"
 msgstr "Silețions în %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:164
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:150
 #, c-format
 msgid "Rest break for %s"
 msgstr "Pauză de odihnă pentru %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Pauze naturale luate"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:202
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:207
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:193
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -890,28 +890,28 @@ msgstr ""
 "gâtul; relaxați-vă."
 
 #. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:118
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:116
 msgid "Browse history"
 msgstr "Răsfoiește istoricul"
 
 #. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:123
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:121
 msgid "Delete all statistics history"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:130
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:128
 msgid "Date:"
 msgstr "Data:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:161
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:159
 msgid "Breaks"
 msgstr "Pauze"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:169
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:167
 msgid "Break prompts"
 msgstr "Sugestii de pauză"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:170
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -919,113 +919,113 @@ msgstr ""
 "De câte ori vi s-a sugerat o pauză, cu excepția sugestiilor repetate pentru "
 "aceeași pauză"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:174
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
 msgid "Repeated prompts"
 msgstr "Sugestii repetate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:174
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
 msgid "Prompted breaks taken"
 msgstr "Pauze sugerate care au fost luate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
 msgid "The number of times you took a break when being prompted"
 msgstr "De câte ori ați luat o pauză când vi s-a sugerat"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
 msgid "Natural breaks taken"
 msgstr "Pauze naturale luate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
 msgid "The number of times you took a break without being prompted"
 msgstr "De câte ori ați luat o pauză fără a vi se sugera"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
 msgid "Breaks skipped"
 msgstr "Pauze peste care s-a sărit"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
 msgid "The number of breaks you skipped"
 msgstr "Peste câte pauze ați sărit"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
 msgid "Breaks postponed"
 msgstr "Pauze amânate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
 msgid "The number of breaks you postponed"
 msgstr "Numărul de pauze amânate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "Overdue time"
 msgstr "Timp de amânare"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "The total time this break was overdue"
 msgstr "Timpul total consumat de amânări"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:188
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
 msgid "Usage"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:188
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
 msgid "Active computer usage"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:191
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
 #, fuzzy
 msgid "Daily"
 msgstr "Limită zilnică"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:191
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
 #, fuzzy
 msgid "The total computer usage for the selected day"
 msgstr "Totalul folosirii calculatorului"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:194
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
 msgid "Weekly"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:194
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:197
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
 msgid "Monthly"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:197
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:278
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
 msgid "Activity"
 msgstr "Activitate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
 msgid "Mouse usage:"
 msgstr "Folosirea mausului:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
 msgid "The total time you were using the mouse"
 msgstr "Timpul total în care ați folosit mausul"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
 msgid "Mouse movement:"
 msgstr "Mișcarea mausului:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
 msgid "The total on-screen mouse movement"
 msgstr "Totalul mișcării pe ecran a mausului"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:291
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
 msgid "Effective mouse movement:"
 msgstr "Mișcarea efectivă a mausului:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:292
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:290
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -1033,212 +1033,222 @@ msgstr ""
 "Numărul total de mișcări de maus pe care le-ați fi făcut dacă ați fi mișcat "
 "mausul în linii drepte între clicuri"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:295
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
 msgid "Mouse button clicks:"
 msgstr "Clicuri de butoane ale mausului:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:295
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
 msgid "The total number of mouse button clicks"
 msgstr "Numărul total de clicuri de butoane ale mausului"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:296
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
 msgid "Keystrokes:"
 msgstr "Taste apăsate:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:296
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
 msgid "The total number of keys pressed"
 msgstr "Numărul total de taste apăsate"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:344
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:342
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, de la %s la %s"
 
 #. Confirm the user's intention
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:642
 msgid "Warning"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:653
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:651
 msgid "Files deleted!"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:654
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:652
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:656
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:654
 msgid "Info"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:661
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:659
 msgid "File deletion failed!"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:662
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:660
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:664
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:662
 msgid "Error"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:183
+#: ui/apps/gtkmm/src/Text.cc:84
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d ore"
+
+#: ui/apps/gtkmm/src/Text.cc:88
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minute"
+
+#: ui/apps/gtkmm/src/Text.cc:92
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d secunde"
+
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:181
 msgid "Take rest break now"
 msgstr "Luați o pauză de odihnă acum"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:205
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:203
 msgid "Wait"
 msgstr "Așteaptă"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
 msgid "Place timers next to each other"
 msgstr "Plasează cronometrele unul lângă altul"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:94
 msgid "Place micro-break and rest break in one spot"
 msgstr "Plasează micropauza și pauza de odihnă în același loc"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:92
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:97
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
 msgid "Place rest break and daily limit in one spot"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place all timers in one spot"
 msgstr "Plasează toate cronometrele în același loc"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
 msgid "Hide"
 msgstr "Ascunde"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:117
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:121
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:119
 msgid "Show"
 msgstr "Arată"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:122
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
 msgid "Show only when this timer is first due"
 msgstr "Arată numai când cronometrul acesta e primul care expiră"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Display"
 msgstr "Afișare"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
 msgid "The status window stays always on top of other windows"
 msgstr "Fereastra de stare stă întotdeauna deasupra celorlalte ferestre"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:136
 msgid "Show status window"
 msgstr "Arată fereastra de stare"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:149
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:147
 msgid "Placement:"
 msgstr "Plasament:"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:148
 msgid "Cycle time:"
 msgstr "Timp ciclic:"
 
 #. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
 msgid "Micro-break:"
 msgstr "Micropauză:"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:156
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:154
 msgid "Rest break:"
 msgstr "Pauză de odihnă:"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
 msgid "Daily limit:"
 msgstr "Limită zilnică:"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:161
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
 #, fuzzy
 msgid "Fallback applet enabled"
 msgstr "Applet activat"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:166
+#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:164
 #, fuzzy
 msgid "Show status icon"
 msgstr "Arată fereastra de stare"
 
 #. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:61
 msgid "Enable timer"
 msgstr "Activează cronometrul"
 
 #. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
 msgid "Break prompting"
 msgstr "Sugerarea pauzei"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:102
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
 msgid "Prompt before breaking"
 msgstr "Sugerează înainte de pauză"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Maximum number of prompts:"
 msgstr "Numărul maxim de sugerări:"
 
 #. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:134
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:132
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
 
 #. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:138
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:136
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
 
-#. Sensitive for activity
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:142
-msgid "Suspend timer when inactive"
-msgstr "Suspendă cronometrul când e inactiv"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:147
 msgid "Regard micro-breaks as activity"
 msgstr "Tratează micropauzele ca activitate"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:168
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
 msgid "Number of exercises:"
 msgstr "Numărul de exerciții:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:173
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:158
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:178
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
 msgid "Time before end:"
 msgstr "Timp de terminare:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
 msgid "Time between breaks:"
 msgstr "Timp între pauze:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Break duration:"
 msgstr "Durata pauzei:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:233
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
 msgid "Postpone time:"
 msgstr "Amânare cu:"
 
@@ -1388,21 +1398,6 @@ msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
 #: ui/apps/gtkmm/src/workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
-
-#: ui/common/src/Text.cc:68
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d ore"
-
-#: ui/common/src/Text.cc:72
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minute"
-
-#: ui/common/src/Text.cc:76
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d secunde"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -1556,6 +1551,9 @@ msgid ""
 msgstr ""
 "Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-"
 "vă capul spre dreapta și țineți-l așa 2 secunde."
+
+#~ msgid "Suspend timer when inactive"
+#~ msgstr "Suspendă cronometrul când e inactiv"
 
 #~ msgid "Custom"
 #~ msgstr "Particularizat"
