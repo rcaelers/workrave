@@ -107,8 +107,6 @@ jobs:
           - image: ubuntu-focal
             compiler: gcc
             gtk_version: 3
-            distcheck: yes
-            upload: true
             enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
 
           - image: ubuntu-focal
@@ -116,16 +114,18 @@ jobs:
             gtk_version: 2
             enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
 
-          - image: ubuntu-focal
+          - image: ubuntu-groovy
+            compiler: gcc
+            gtk_version: 3
+            distcheck: yes
+            upload: true
+            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
+
+          - image: ubuntu-grovy
             compiler: gcc
             gtk_version: 3
             enable: gnome3,pulse,dbus,experimental,gstreamer
             disable: gsettings,indicator,xfce,mate,debug,distribution,tests,tracing
-
-          - image: ubuntu-groovy
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
 
           - image: ubuntu-hirsute
             compiler: gcc
@@ -179,7 +179,7 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-focal
+          - image: ubuntu-bionic
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
@@ -190,15 +190,8 @@ jobs:
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
-            disable: TESTS,COVERAGE
-
-          #- image: ubuntu-focal
-          #  os: ubuntu-latest
-          #  compiler: gcc
-          #  ui: Qt5
-          #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
-          #  disable: TESTS,COVERAGE
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: TESTS,COVERAGE,TRACING
 
           - image: ubuntu-groovy
             os: ubuntu-latest
@@ -207,12 +200,33 @@ jobs:
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING
 
-          #- image: ubuntu-groovy
-          #  os: ubuntu-latest
-          #  compiler: gcc
-          #  ui: Qt5
-          #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
-          #  disable: TESTS,COVERAGE
+          - image: ubuntu-groovy
+            os: ubuntu-latest
+            compiler: gcc
+            ui: Qt5
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: TESTS,COVERAGE,TRACING
+
+          - image: ubuntu-hirsute
+            os: ubuntu-latest
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: TESTS,COVERAGE,TRACING
+
+          - image: ubuntu-groovy
+            os: ubuntu-latest
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
+            disable:
+
+          - image: ubuntu-groovy
+            os: ubuntu-latest
+            compiler: gcc
+            ui: Qt5
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
+            disable:
 
           #- image: mingw-gtk-rawhide
           #  os: ubuntu-latest
