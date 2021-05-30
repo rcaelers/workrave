@@ -324,9 +324,9 @@ Timer::freeze_timer(bool freeze)
 
   timer_frozen = freeze;
   TRACE_MSG(TimeSource::get_real_time_sec_sync()
-            << " f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan
-            << " ell:" << elapsed_timespan_at_last_limit << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " "
-            << last_stop_time << " lr:" << last_reset_time << " nr:" << next_reset_time << " nl:" << next_limit_time);
+            << "  f:" << timer_frozen << " s:" << timer_state << " si:" << snooze_inhibited << " e:" << elapsed_timespan << " ell:" << elapsed_timespan_at_last_limit
+            << " i:" << elapsed_idle_timespan << " ls:" << last_start_time << " " << last_stop_time << " lr:" << last_reset_time
+            << " nr:" << next_reset_time << " nl:" << next_limit_time);
   TRACE_EXIT();
 }
 
