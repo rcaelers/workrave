@@ -18,7 +18,7 @@
 #ifndef WORKRAVE_BACKEND_IAPP_HH
 #define WORKRAVE_BACKEND_IAPP_HH
 
-#include "core/ICore.hh"
+#include "ICore.hh"
 #include "utils/Enum.hh"
 
 namespace workrave
@@ -47,7 +47,7 @@ namespace workrave
     virtual ~IApp() = default;
 
     //! Create a prelude window for specified break type.
-    virtual void create_prelude_window(workrave::BreakId break_id) = 0;
+    virtual void create_prelude_window(BreakId break_id) = 0;
 
     //! Create a break window for specified break type.
     virtual void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) = 0;

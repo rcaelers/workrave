@@ -1,6 +1,4 @@
-// IPreludeWindow.hh --- base class for the break windows
-//
-// Copyright (C) 2001 -2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,22 +29,22 @@ public:
 
   using Ptr = std::shared_ptr<IPreludeWindow>;
 
-  //! Starts (i.e. shows) the break window.
+  //! Starts (i.e. shows) the prelude window.
   virtual void start() = 0;
 
-  //! Stops (i.e. hides) the break window.
+  //! Stops (i.e. hides) the prelude window.
   virtual void stop() = 0;
 
-  //! Refreshes the content of the break window.
+  //! Refreshes the content of the prelude window.
   virtual void refresh() = 0;
 
   //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
 
-  //!
+  //! Sets the alert stage of the prelude window.
   virtual void set_stage(workrave::IApp::PreludeStage stage) = 0;
 
-  //!
+  //! Sets the progress text of the prelude window.
   virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
 };
 

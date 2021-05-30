@@ -35,10 +35,9 @@ init() {
     if [ ! -d "${WORKSPACE_DIR}" ]; then
         mkdir -p "${WORKSPACE_DIR}"
     fi
-    if [ -d "$DEPLOY_DIR" ]; then
-        rm -rf "$DEPLOY_DIR"
+    if [ ! -d "$DEPLOY_DIR" ]; then
+        mkdir -p "$DEPLOY_DIR"
     fi
-    mkdir -p "$DEPLOY_DIR"
 
     cd $WORKSPACE_DIR
 
@@ -55,9 +54,16 @@ init() {
     fi
 
     cd $SOURCE_DIR
-    GIT_TAG=$(git describe --abbrev=0)
-    GIT_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//')
-    VERSION=$(echo $GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-.*//g')
+
+    if [ -n "$WORKRAVE_OVERRIDE_GIT_VERSION" ]; then
+        GIT_VERSION=$WORKRAVE_OVERRIDE_GIT_VERSION
+        GIT_TAG=$WORKRAVE_OVERRIDE_GIT_VERSION
+    else
+        GIT_TAG=$(git describe --abbrev=0)
+        GIT_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//')
+        VERSION=$(echo $GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-.*//g')
+    fi
+
 
     if [ $GIT_VERSION = $GIT_TAG ]; then
         echo "Release build"
@@ -72,7 +78,11 @@ init() {
 generate_blog() {
     cd ${SOURCE_DIR}
     DIR_DATE=`date +"%Y_%m_%d"`
-    DIR_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g'`
+    if [ -n "$WORKRAVE_OVERRIDE_GIT_VERSION" ]; then
+        DIR_VERSION=`echo $WORKRAVE_OVERRIDE_GIT_VERSION | sed -e 's/^v//g'`
+    else
+        DIR_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g'`
+    fi
     DIR="${WEBSITE_DIR}/content/en/blog/${DIR_DATE}_workrave-${DIR_VERSION}-released"
 
     if [ ! -d $DIR ]; then
@@ -100,7 +110,7 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "bt:C:D:R:S:W:B:p:dP" o; do
+    while getopts "bt:r:C:D:R:S:W:B:p:dP" o; do
         case "${o}" in
         p)
             PPA="${OPTARG}"
@@ -113,6 +123,9 @@ parse_arguments() {
             ;;
         t)
             COMMIT="${OPTARG}"
+            ;;
+        r)
+            export WORKRAVE_OVERRIDE_GIT_VERSION="${OPTARG}"
             ;;
         C)
             SCRIPTS_DIR="${OPTARG}"
@@ -143,6 +156,7 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
+export WORKRAVE_OVERRIDE_GIT_VERSION=
 BUILD_DEB=
 PRERELEASE=
 DEBIAN_DIR=
@@ -174,7 +188,7 @@ DOCKER_IMAGE="ubuntu-groovy"
 setup
 run_docker_ppa
 
-if [ -n $BUILD_DEB ]; then
+if [ -n "$BUILD_DEB" ]; then
     echo Build all debian packages.
     run_docker_deb
 fi

@@ -27,7 +27,6 @@
 #include "control.h"
 #include "commonui/credits.h"
 #include "commonui/nls.h"
-
 #include "commonui/MenuEnums.hh"
 
 typedef struct _WorkraveApplet

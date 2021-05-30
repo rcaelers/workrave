@@ -5,6 +5,8 @@ add_library(workrave-libs-config STATIC
   XmlConfigurator.cc
   SettingCache.cc)
 
+target_code_coverage(workrave-libs-config)
+
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-config PRIVATE win32/W32Configurator.cc)
   target_include_directories(workrave-libs-config PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/win32)
@@ -17,7 +19,7 @@ endif()
 
 if (HAVE_QT)
   target_sources(workrave-libs-config PRIVATE QtSettingsConfigurator.cc)
-  target_link_libraries(workrave-libs-config PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+  target_link_libraries(workrave-libs-config PUBLIC Qt${QT_VERSION_MAJOR}::Core)
 endif()
 
 if (HAVE_GSETTINGS)

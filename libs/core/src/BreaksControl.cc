@@ -295,6 +295,8 @@ BreaksControl::set_insist_policy(InsistPolicy p)
 {
   TRACE_ENTER_MSG("Core::set_insist_policy", p);
 
+  TRACE_MSG("current " << active_insist_policy);
+
   if (active_insist_policy != InsistPolicy::Invalid && insist_policy != p)
     {
       TRACE_MSG("refreeze " << active_insist_policy);
@@ -305,6 +307,7 @@ BreaksControl::set_insist_policy(InsistPolicy p)
   else
     {
       insist_policy = p;
+      freeze();
     }
   TRACE_EXIT();
 }
@@ -403,7 +406,7 @@ BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
 void
 BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("GUI::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  TRACE_ENTER_MSG("BreaksControl::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
   switch (event)
     {
     case BreakEvent::BreakIdle:

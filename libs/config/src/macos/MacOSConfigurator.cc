@@ -65,6 +65,13 @@ MacOSConfigurator::remove_key(const std::string &key)
 }
 
 bool
+MacOSConfigurator::has_user_value(const std::string &key)
+{
+  NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
+  return ([[NSUserDefaults standardUserDefaults] objectForKey:keystring] != nil);
+}
+
+bool
 MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
 {
   bool ret = false;

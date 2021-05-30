@@ -335,7 +335,7 @@ egg_sm_client_get(void)
 #  ifdef EGG_SM_CLIENT_BACKEND_XSMP
           global_client = egg_sm_client_xsmp_new();
 #  endif
-#  if defined(EGG_SM_CLIENT_BACKEND_DBUS) && !defined(PLATFORM_OS_WIN32)
+#  if defined(EGG_SM_CLIENT_BACKEND_DBUS) && !defined(PLATFORM_OS_WINDOWS)
           if (!global_client)
             global_client = egg_sm_client_dbus_new();
 #  endif

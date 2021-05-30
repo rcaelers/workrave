@@ -1,4 +1,4 @@
-// Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,6 @@
 #  include "config.h"
 #endif
 
-#include "config/SettingCache.hh"
+#include "SimulatedTime.hh"
 
-std::map<std::string, std::shared_ptr<workrave::config::SettingBase>> workrave::config::SettingCache::cache;
+SimulatedTime::Ptr SimulatedTime::instance;

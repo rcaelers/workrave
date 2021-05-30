@@ -5,7 +5,7 @@ set(SRC
   SoundTheme.cc
   Session.cc
   TimerBoxControl.cc
- )
+)
 
 add_library(workrave-ui-common STATIC ${SRC})
 

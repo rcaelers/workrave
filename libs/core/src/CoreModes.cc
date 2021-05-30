@@ -61,7 +61,7 @@ OperationMode
 CoreModes::get_operation_mode()
 {
   TRACE_ENTER("CoreModes::get_operation_mode");
-  TRACE_EXIT();
+  TRACE_RETURN(operation_mode);
   return operation_mode;
 }
 
@@ -300,13 +300,17 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 void
 CoreModes::load_config()
 {
+  TRACE_ENTER("CoreModes::load_config");
   connections.add(CoreConfig::operation_mode().connect(
     [&](OperationMode operation_mode) { set_operation_mode_internal(operation_mode, false); }));
 
   connections.add(CoreConfig::usage_mode().connect([&](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); }));
   OperationMode operation_mode = CoreConfig::operation_mode()();
+  TRACE_MSG(operation_mode);
   set_operation_mode(operation_mode);
 
   UsageMode usage_mode = CoreConfig::usage_mode()();
+  TRACE_MSG(usage_mode);
   set_usage_mode(usage_mode);
+  TRACE_EXIT();
 }

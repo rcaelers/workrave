@@ -72,6 +72,10 @@
 # add_executable(theExe main.cpp non_covered.cpp)
 # target_code_coverage(theExe AUTO ALL EXCLUDE non_covered.cpp test/*) # As an executable target, adds to the 'ccov' and ccov-all' targets, and the reports will exclude the non-covered.cpp file, and any files in a test/ folder.
 # ~~~
+#
+# Modifed for Workrave by Rob Caelers
+# -  Add --show-branches=percent --show-expansions --show-instantiation-summary to report generation
+
 
 # Options
 option(
@@ -339,7 +343,8 @@ function(target_code_coverage TARGET_NAME)
           COMMAND
             ${LLVM_COV_PATH} show $<TARGET_FILE:${TARGET_NAME}> ${SO_OBJECTS}
             -instr-profile=${target_code_coverage_COVERAGE_TARGET_NAME}.profdata
-            -show-line-counts-or-regions --show-branches=percent --show-expansions --show-instantiation-summary
+            -show-line-counts-or-regions
+            --show-branches=percent --show-expansions --show-instantiation-summary
             -output-dir=${CMAKE_COVERAGE_OUTPUT_DIRECTORY}/${target_code_coverage_COVERAGE_TARGET_NAME}
             -format="html" ${EXCLUDE_REGEX}
           DEPENDS ccov-processing-${target_code_coverage_COVERAGE_TARGET_NAME})

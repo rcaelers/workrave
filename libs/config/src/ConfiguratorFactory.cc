@@ -36,7 +36,7 @@
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSConfigurator.hh"
 #endif
-#ifdef HAVE_QT5
+#ifdef HAVE_QT
 #  include "QtSettingsConfigurator.hh"
 #endif
 
@@ -55,7 +55,7 @@ ConfiguratorFactory::create(ConfigFileFormat fmt)
       b = new W32Configurator();
 #elif defined(PLATFORM_OS_MACOS)
       b = new MacOSConfigurator();
-#elif defined(HAVE_QT5)
+#elif defined(HAVE_QT)
       b = new QtSettingsConfigurator();
 #elif defined(HAVE_GSETTINGS)
       b = new GSettingsConfigurator();

@@ -93,14 +93,14 @@ Name: "{group}\News"; Filename: "{app}\NEWS.txt"
 Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
-Name: "{userdesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{autodesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
 Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 
 [Run]
 Filename: "{app}\lib\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
 
 [InstallDelete]
-Type: files; Name: "{userstartup}\Workrave.lnk"
+Type: files; Name: "{autostartup}\Workrave.lnk"
 Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]

@@ -24,7 +24,7 @@
 #include "ClsFact.h"
 #include <shlwapi.h>
 
-#if !defined(__GNUC__)
+#if defined(_MSC_VER)
 #  pragma data_seg(".text")
 #endif
 
@@ -34,7 +34,7 @@
 
 #include "Debug.h"
 
-#if !defined(__GNUC__)
+#if defined(_MSC_VER)
 #  pragma data_seg()
 #endif
 

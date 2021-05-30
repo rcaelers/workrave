@@ -19,14 +19,12 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_GSETTINGS
+#include "debug.hh"
+#include <cstring>
+#include <boost/algorithm/string/replace.hpp>
 
-#  include "debug.hh"
-#  include <cstring>
-#  include <boost/algorithm/string/replace.hpp>
-
-#  include "GSettingsConfigurator.hh"
-#  include "Configurator.hh"
+#include "GSettingsConfigurator.hh"
+#include "Configurator.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -43,6 +41,14 @@ GSettingsConfigurator::GSettingsConfigurator()
   path_base = "/org/workrave/";
 
   add_children();
+}
+
+GSettingsConfigurator::~GSettingsConfigurator()
+{
+  for (const auto &[key, setting]: settings)
+    {
+      g_object_unref(setting);
+    }
 }
 
 bool
@@ -66,11 +72,27 @@ GSettingsConfigurator::save()
 }
 
 bool
-GSettingsConfigurator::remove_key(const std::string &key)
+GSettingsConfigurator::remove_key(const std::string &full_path)
 {
   bool ret = true;
-  (void)key;
+  std::string key;
+  GSettings *child = get_settings(full_path, key);
+  g_settings_reset(child, key.c_str());
   return ret;
+}
+
+bool
+GSettingsConfigurator::has_user_value(const std::string &full_path)
+{
+  std::string key;
+  GSettings *child = get_settings(full_path, key);
+  GVariant *value = g_settings_get_user_value(child, key.c_str());
+  if (value != nullptr)
+    {
+      g_variant_unref(value);
+      return true;
+    }
+  return false;
 }
 
 bool
@@ -110,22 +132,22 @@ GSettingsConfigurator::get_value(const std::string &full_path, VariantType type,
           ret = false;
           const GVariantType *value_type = g_variant_get_type(value);
 
-          if (g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
+          if (type == VARIANT_TYPE_INT && g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
             {
               out.int_value = g_settings_get_int(child, key.c_str());
               ret = true;
             }
-          else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
+          else if (type == VARIANT_TYPE_BOOL && g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
             {
               out.bool_value = g_settings_get_boolean(child, key.c_str());
               ret = true;
             }
-          else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
+          else if (type == VARIANT_TYPE_DOUBLE && g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
             {
               out.double_value = g_settings_get_double(child, key.c_str());
               ret = true;
             }
-          else if (g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
+          else if (type == VARIANT_TYPE_STRING && g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
             {
               out.string_value = g_settings_get_string(child, key.c_str());
               ret = true;
@@ -248,7 +270,10 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
     }
 
   auto *self = (GSettingsConfigurator *)user_data;
-  self->listener->config_changed_notify(changed);
+  if (self->listener != nullptr)
+    {
+      self->listener->config_changed_notify(changed);
+    }
 
   g_free(path);
   TRACE_EXIT();
@@ -294,5 +319,3 @@ GSettingsConfigurator::get_settings(const std::string &full_path, string &key) c
   TRACE_EXIT();
   return i->second;
 }
-
-#endif

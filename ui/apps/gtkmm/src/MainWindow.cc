@@ -214,7 +214,7 @@ MainWindow::init()
   std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
 
   const char *icon_files[] = {
-#ifndef PLATFORM_OS_WIN32
+#ifndef PLATFORM_OS_WINDOWS
     // This causes a crash on windows
     "scalable" G_DIR_SEPARATOR_S "workrave.svg",
 #endif

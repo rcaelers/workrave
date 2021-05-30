@@ -4,22 +4,14 @@
   <import>
     <include name="Menus.hh"/>
     <include name="GenericDBusApplet.hh"/>
-    <include name="gdk/gdk.h"/>
-    <include name="commonui/UiTypes.hh"/>
   </import>
 
   <enum name="operation_mode" csymbol="OperationMode">
-    <value name="normal"    csymbol="OperationMode::Normal" value="0"/>
-    <value name="suspended" csymbol="OperationMode::Suspended"/>
-    <value name="quiet"     csymbol="OperationMode::Quiet"/>
+    <value name="normal"    csymbol="workrave::OperationMode::Normal" value="0"/>
+    <value name="suspended" csymbol="workrave::OperationMode::Suspended"/>
+    <value name="quiet"     csymbol="workrave::OperationMode::Quiet"/>
   </enum>
 
-  <enum name="Orientation" csymbol="Orientation">
-    <value name="up"    csymbol="ORIENTATION_UP"/>
-    <value name="right" csymbol="ORIENTATION_RIGHT"/>
-    <value name="down"  csymbol="ORIENTATION_DOWN"/>
-    <value name="left"  csymbol="ORIENTATION_LEFT"/>
-  </enum>
 
   <struct name="TimerData" csymbol="GenericDBusApplet::TimerData">
     <field type="string" name="bar_text"/>

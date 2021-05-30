@@ -45,6 +45,33 @@ enum class BreakStage
   Delayed
 };
 
+inline std::ostream &
+operator<<(std::ostream &stream, BreakStage stage)
+{
+  switch (stage)
+    {
+    case BreakStage::None:
+      stream << "normal";
+      break;
+    case BreakStage::Snoozed:
+      stream << "snoozed";
+      break;
+    case BreakStage::Prelude:
+      stream << "prelude";
+      break;
+    case BreakStage::Taking:
+      stream << "taking";
+      break;
+    case BreakStage::Delayed:
+      stream << "delayed";
+      break;
+    default:
+      stream << "??";
+      break;
+    }
+  return stream;
+}
+
 class BreakStateModel
   : public IActivityMonitorListener
   , public std::enable_shared_from_this<BreakStateModel>

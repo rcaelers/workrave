@@ -55,6 +55,13 @@ W32Configurator::save()
 }
 
 bool
+W32Configurator::has_user_value(const std::string &key)
+{
+  std::string value;
+  return get_config_value(key, value);
+}
+
+bool
 W32Configurator::remove_key(const std::string &key)
 {
   TRACE_ENTER_MSG("W32Configurator::remove_key", key);

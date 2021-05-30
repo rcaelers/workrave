@@ -61,7 +61,7 @@ ReadingActivityMonitor::is_active()
   if (forced_idle)
     {
       bool local_is_active = monitor->is_active();
-      TRACE_MSG(local_is_active)
+      TRACE_MSG(local_is_active);
 
       if (local_is_active)
         {

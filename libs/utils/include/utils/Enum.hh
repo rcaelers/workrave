@@ -262,16 +262,23 @@ namespace workrave::utils
   template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
   std::ostream &operator<<(std::ostream &stream, Flags<Enum> flags)
   {
-    for (int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
+    if (flags.get() == 0)
       {
-        Enum e = static_cast<Enum>(1 << b);
-        if (flags.is_set(e))
+        stream << Enum(0);
+      }
+    else
+      {
+        for (int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
           {
-            if (b > 0)
+            Enum e = static_cast<Enum>(1 << b);
+            if (flags.is_set(e))
               {
-                stream << ",";
+                if (b > 0)
+                  {
+                    stream << ",";
+                  }
+                stream << e;
               }
-            stream << e;
           }
       }
     return stream;

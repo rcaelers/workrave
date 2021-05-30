@@ -1,5 +1,3 @@
-// TimerBoxControl.cc --- Timers Widgets
-//
 // Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -70,7 +68,6 @@ TimerBoxControl::update()
 
       operation_mode = mode;
       init_icon();
-
       reconfigure = false;
     }
   else
@@ -152,7 +149,7 @@ TimerBoxControl::update_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(static_cast<BreakId>(count));
+      auto b = core->get_break(static_cast<BreakId>(count));
 
       time_t value;
       TimerColorId primary_color;
@@ -161,10 +158,10 @@ TimerBoxControl::update_widgets()
       int secondary_val, secondary_max;
 
       // Collect some data.
-      time_t maxActiveTime = b->get_limit();
-      time_t activeTime = b->get_elapsed_time();
-      time_t breakDuration = b->get_auto_reset();
-      time_t idleTime = b->get_elapsed_idle_time();
+      int64_t maxActiveTime = b->get_limit();
+      int64_t activeTime = b->get_elapsed_time();
+      int64_t breakDuration = b->get_auto_reset();
+      int64_t idleTime = b->get_elapsed_idle_time();
       bool overdue = (maxActiveTime < activeTime);
 
       // Set the value
@@ -277,7 +274,7 @@ TimerBoxControl::init_slot(int slot)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(BreakId(i));
+      auto b = core->get_break(BreakId(i));
 
       bool on = b->is_enabled();
 
@@ -290,7 +287,7 @@ TimerBoxControl::init_slot(int slot)
     }
 
   // Compute timer that will elapse first.
-  time_t first = 0;
+  int64_t first = 0;
   int first_id = -1;
 
   for (int i = 0; i < count; i++)
@@ -299,9 +296,9 @@ TimerBoxControl::init_slot(int slot)
       int flags = break_flags[id];
 
       ICore::Ptr core = Backend::get_core();
-      IBreak::Ptr b = core->get_break(static_cast<BreakId>(i));
+      auto b = core->get_break(static_cast<BreakId>(i));
 
-      time_t time_left = b->get_limit() - b->get_elapsed_time();
+      int64_t time_left = b->get_limit() - b->get_elapsed_time();
 
       // Exclude break if not imminent.
       if (flags & GUIConfig::BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] && force_duration == 0)

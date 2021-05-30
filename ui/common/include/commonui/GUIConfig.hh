@@ -77,13 +77,14 @@ private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
-  static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
   static const std::string CFG_KEY_BREAK_EXERCISES;
+  static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
+
   static const std::string CFG_KEY_BLOCK_MODE;
   static const std::string CFG_KEY_LOCALE;
   static const std::string CFG_KEY_TRAYICON_ENABLED;
-  static const std::string CFG_KEY_CLOSEWARN_ENABLED;
   static const std::string CFG_KEY_AUTOSTART;
+  static const std::string CFG_KEY_CLOSEWARN_ENABLED;
   static const std::string CFG_KEY_ICONTHEME;
 
   static const std::string CFG_KEY_MAIN_WINDOW;

@@ -84,6 +84,7 @@ SoundPlayer::SoundPlayer()
 SoundPlayer::~SoundPlayer()
 {
   delete driver;
+  delete mixer;
 }
 
 void

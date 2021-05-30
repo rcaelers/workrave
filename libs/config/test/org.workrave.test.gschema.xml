@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/org/workrave/" id="org.workrave" gettext-domain="workrave">
+    <child schema="org.workrave.test" name="test"/>
+  </schema>
+
+  <schema path="/org/workrave/test/" id="org.workrave.test" gettext-domain="workrave">
+    <child schema="org.workrave.test.schema-defaults" name="schema-defaults"/>
+    <child schema="org.workrave.test.code-defaults" name="code-defaults"/>
+    <child schema="org.workrave.test.other" name="other"/>
+    <child schema="org.workrave.test.settings" name="settings"/>
+  </schema>
+
+  <schema path="/org/workrave/test/other/" id="org.workrave.test.other" gettext-domain="workrave">
+    <key type="b" name="bool">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="b" name="bool2">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="string">
+      <default>"default_string"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="string2">
+      <default>"default_string"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="charstring">
+      <default>"default_charstring"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int2">
+      <default>4321</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="d" name="double">
+      <default>12.34</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="d" name="double2">
+      <default>12.34</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="initial">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="delay-initial">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+
+  <schema path="/org/workrave/test/settings/" id="org.workrave.test.settings" gettext-domain="workrave">
+    <key type="b" name="bool">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="string">
+      <default>"default_string"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="d" name="double">
+      <default>12.34</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="mode">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+
+  <schema path="/org/workrave/test/settings/default/" id="org.workrave.test.settings.default" gettext-domain="workrave">
+    <child schema="org.workrave.test.settings.default" name="default"/>
+    <key type="b" name="bool">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="string">
+      <default>"default_string"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="d" name="double">
+      <default>12.34</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="mode">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+
+    <schema path="/org/workrave/test/code-defaults/" id="org.workrave.test.code-defaults" gettext-domain="workrave">
+    <key type="b" name="bool">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="string">
+      <default>"default_string"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="charstring">
+      <default>"default_charstring"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="d" name="double">
+      <default>12.34</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+
+    <schema path="/org/workrave/test/schema-defaults/" id="org.workrave.test.schema-defaults" gettext-domain="workrave">
+    <key type="b" name="bool">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="string">
+      <default>"default_string"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="charstring">
+      <default>"default_charstring"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="d" name="double">
+      <default>12.34</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+
+</schemalist>

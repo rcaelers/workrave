@@ -82,7 +82,7 @@ Configurator::save()
 void
 Configurator::heartbeat()
 {
-  time_t now = TimeSource::get_monotonic_time_sec();
+  int64_t now = TimeSource::get_monotonic_time_sec();
 
   auto it = delayed_config.begin();
   while (it != delayed_config.end())
@@ -95,7 +95,6 @@ Configurator::heartbeat()
         {
           Variant old_value;
           bool old_value_valid = backend->get_value(delayed.key, delayed.value.type, old_value);
-
           bool b = backend->set_value(delayed.key, delayed.value);
 
           if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == nullptr)
@@ -128,9 +127,11 @@ void
 Configurator::set_delay(const std::string &key, int delay)
 {
   Setting setting;
-  bool b = find_setting(key, setting);
-  if (b)
+
+  auto it = settings.find(key);
+  if (it != settings.end())
     {
+      Setting &setting = it->second;
       setting.delay = delay;
     }
   else
@@ -142,9 +143,23 @@ Configurator::set_delay(const std::string &key, int delay)
 }
 
 bool
+Configurator::has_user_value(const std::string &key)
+{
+  std::string newkey = key;
+  strip_trailing_slash(newkey);
+  strip_leading_slash(newkey);
+
+  return backend->has_user_value(newkey);
+}
+
+bool
 Configurator::remove_key(const std::string &key) const
 {
-  return backend->remove_key(key);
+  std::string newkey = key;
+  strip_trailing_slash(newkey);
+  strip_leading_slash(newkey);
+
+  return backend->remove_key(newkey);
 }
 
 bool
@@ -153,7 +168,7 @@ Configurator::rename_key(const std::string &key, const std::string &new_key)
   bool ok = false;
   Variant value;
 
-  bool exists = get_value(new_key, VARIANT_TYPE_NONE, value);
+  bool exists = has_user_value(new_key);
   if (!exists)
     {
       ok = get_value(key, VARIANT_TYPE_NONE, value);
@@ -202,8 +217,8 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
         {
           if (setting.delay)
             {
-              DelayedConfig &d = delayed_config[key];
-              d.key = key;
+              DelayedConfig &d = delayed_config[newkey];
+              d.key = newkey;
               d.value = value;
               d.until = TimeSource::get_monotonic_time_sec() + setting.delay;
 
@@ -433,107 +448,6 @@ Configurator::get_value_with_default(const string &key, double &out, const doubl
 }
 
 bool
-Configurator::get_typed_value(const std::string &key, std::string &t) const
-{
-  bool b = false;
-  stringstream ss;
-
-  if (!b)
-    {
-      string s;
-      b = get_value(key, s);
-
-      if (b)
-        {
-          ss << "string:" << s;
-        }
-    }
-
-  if (!b)
-    {
-      int i;
-      b = get_value(key, i);
-
-      if (b)
-        {
-          ss << "int:" << i;
-        }
-    }
-
-  if (!b)
-    {
-      bool bv;
-      b = get_value(key, bv);
-
-      if (b)
-        {
-          ss << "bool:" << bv;
-        }
-    }
-
-  if (!b)
-    {
-      double d;
-      b = get_value(key, d);
-
-      if (b)
-        {
-          ss << "double:" << d;
-        }
-    }
-
-  if (b)
-    {
-      t = ss.str();
-    }
-
-  return b;
-}
-
-bool
-Configurator::set_typed_value(const std::string &key, const std::string &t)
-{
-  string::size_type pos = t.find(':');
-  string type;
-  string value;
-
-  if (pos != string::npos)
-    {
-      type = t.substr(0, pos);
-      value = t.substr(pos + 1);
-    }
-  else
-    {
-      type = "string";
-      value = t;
-    }
-
-  if (type == "string")
-    {
-      set_value(key, value, CONFIG_FLAG_IMMEDIATE);
-    }
-  else if (type == "int")
-    {
-      set_value(key, atoi(value.c_str()), CONFIG_FLAG_IMMEDIATE);
-    }
-  else if (type == "bool")
-    {
-      bool b = atoi(value.c_str()) > 0;
-      set_value(key, b, CONFIG_FLAG_IMMEDIATE);
-    }
-  else if (type == "double")
-    {
-      set_value(key, atof(value.c_str()), CONFIG_FLAG_IMMEDIATE);
-    }
-  else
-    {
-      return false;
-    }
-
-  return true;
-}
-
-bool
 Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener *listener)
 {
   bool ret = true;
@@ -574,6 +488,7 @@ Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener 
 bool
 Configurator::remove_listener(IConfiguratorListener *listener)
 {
+  TRACE_ENTER("Configurator::remove_listener");
   bool ret = false;
 
   auto i = listeners.begin();
@@ -590,13 +505,14 @@ Configurator::remove_listener(IConfiguratorListener *listener)
           i++;
         }
     }
-
+  TRACE_EXIT();
   return ret;
 }
 
 bool
 Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListener *listener)
 {
+  TRACE_ENTER("Configurator::remove_listener");
   bool ret = false;
 
   if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
@@ -618,7 +534,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
           i++;
         }
     }
-
+  TRACE_EXIT();
   return ret;
 }
 
@@ -652,8 +568,10 @@ Configurator::fire_configurator_event(const string &key)
   strip_leading_slash(k);
   strip_trailing_slash(k);
 
-  auto i = listeners.begin();
-  while (i != listeners.end())
+  auto listeners_copy = listeners;
+
+  auto i = listeners_copy.begin();
+  while (i != listeners_copy.end())
     {
       string prefix = i->first;
 
@@ -695,20 +613,6 @@ Configurator::strip_trailing_slash(string &key) const
       if (key[len - 1] == '/')
         {
           key = key.substr(0, len - 1);
-        }
-    }
-}
-
-//! Adds add trailing '/' if it isn't there yet.
-void
-Configurator::add_trailing_slash(string &key) const
-{
-  size_t len = key.length();
-  if (len > 0)
-    {
-      if (key[len - 1] != '/')
-        {
-          key += '/';
         }
     }
 }

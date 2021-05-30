@@ -20,6 +20,7 @@
 
 #include <map>
 #include <utility>
+#include <memory>
 #include <boost/noncopyable.hpp>
 
 #include "config/IConfigurator.hh"
@@ -37,11 +38,11 @@ namespace workrave
       {
         if (cache.find(key) == cache.end())
           {
-            cache[key] = new workrave::config::Setting<T, S>(config, key, def);
+            cache[key] = std::make_shared<workrave::config::Setting<T, S>>(config, key, def);
           }
 
-        auto *ret = dynamic_cast<workrave::config::Setting<T, S> *>(cache[key]);
-        assert(ret != nullptr);
+        auto ret = std::dynamic_pointer_cast<workrave::config::Setting<T, S>>(cache[key]);
+        assert(ret.get() != nullptr);
         return *ret;
       }
 
@@ -49,16 +50,21 @@ namespace workrave
       {
         if (cache.find(key) == cache.end())
           {
-            cache[key] = new workrave::config::SettingGroup(config, key);
+            cache[key] = std::make_shared<workrave::config::SettingGroup>(config, key);
           }
 
-        auto *ret = dynamic_cast<workrave::config::SettingGroup *>(cache[key]);
-        assert(ret != nullptr);
+        auto ret = std::dynamic_pointer_cast<workrave::config::SettingGroup>(cache[key]);
+        assert(ret.get() != nullptr);
         return *ret;
       }
 
+      static void reset()
+      {
+        cache.clear();
+      }
+
     private:
-      static std::map<std::string, SettingBase *> cache;
+      static std::map<std::string, std::shared_ptr<SettingBase>> cache;
     };
   } // namespace config
 } // namespace workrave

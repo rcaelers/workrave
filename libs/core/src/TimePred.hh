@@ -1,4 +1,6 @@
-// Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
+// DayTimePred.hh --- Daily Time Predicate
+//
+// Copyright (C) 2001, 2002, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,10 +17,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#ifndef TIMEPRED_HH
+#define TIMEPRED_HH
 
-#include "config/SettingCache.hh"
+#include <string>
+#include <time.h>
 
-std::map<std::string, std::shared_ptr<workrave::config::SettingBase>> workrave::config::SettingCache::cache;
+class TimePred
+{
+public:
+  virtual ~TimePred() = default;
+  virtual time_t get_next(time_t last_time) = 0;
+};
+
+#endif // TIMEPRED_HH

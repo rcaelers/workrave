@@ -24,7 +24,6 @@
 #include <time.h>
 #include <map>
 
-#include "commonui/ITimeBar.hh"
 #include "Applet.hh"
 
 class CDeskBand;

@@ -1,5 +1,3 @@
-// TimerBoxControl.hh --- All timers
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -49,40 +47,40 @@ private:
 
 private:
   //! View
-  ITimerBoxView *view;
+  ITimerBoxView *view{nullptr};
 
   //! Reconfigure the panel.
-  bool reconfigure;
+  bool reconfigure{false};
 
   //! Duration of each cycle.
-  int cycle_time;
+  int cycle_time{10};
 
   //! Positions for the break timers.
-  int break_position[workrave::BREAK_ID_SIZEOF];
+  int break_position[workrave::BREAK_ID_SIZEOF]{};
 
   //! Flags for the break timers.
-  int break_flags[workrave::BREAK_ID_SIZEOF];
+  int break_flags[workrave::BREAK_ID_SIZEOF]{};
 
   //! Imminent threshold for the timers.
-  int break_imminent_time[workrave::BREAK_ID_SIZEOF];
+  int break_imminent_time[workrave::BREAK_ID_SIZEOF]{};
 
   //! Computed slot contents.
-  int break_slots[workrave::BREAK_ID_SIZEOF][workrave::BREAK_ID_SIZEOF];
+  int break_slots[workrave::BREAK_ID_SIZEOF][workrave::BREAK_ID_SIZEOF]{};
 
   //! Current cycle for each slot.
-  int break_slot_cycle[workrave::BREAK_ID_SIZEOF];
+  int break_slot_cycle[workrave::BREAK_ID_SIZEOF]{};
 
   //! Name
   std::string name;
 
   //! Last known operation mode
-  workrave::OperationMode operation_mode;
+  workrave::OperationMode operation_mode{};
 
   //!
-  int force_duration;
+  int force_duration{0};
 
   //! Never show any timers.
-  bool force_empty;
+  bool force_empty{false};
 
   scoped_connections connections;
 };

@@ -47,7 +47,7 @@ private:
   void init();
   void on_response(int response) override;
 
-  Gtk::TextView *text_view;
+  Gtk::TextView *text_view{nullptr};
   Gtk::ScrolledWindow scrolled_window;
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
 };

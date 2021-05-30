@@ -88,7 +88,7 @@ PulseMixer::init()
 
   pa_context_connect(context, nullptr, (pa_context_flags_t)0, nullptr);
 
-  TRACE_EXIT()
+  TRACE_EXIT();
 }
 
 void

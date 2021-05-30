@@ -58,7 +58,7 @@ Session::set_idle(bool new_idle)
   if (new_idle && !is_idle)
     {
       TRACE_MSG("Now idle");
-      IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
+      auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
       taking = rest_break->is_taking();
       TRACE_MSG("taking " << taking);
@@ -76,7 +76,7 @@ Session::set_idle(bool new_idle)
         {
           TRACE_MSG("Automatic natural break enabled");
 
-          IBreak::Ptr rest_break = core->get_break(BREAK_ID_REST_BREAK);
+          auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           if (core->get_operation_mode() == OperationMode::Normal
               && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()

@@ -405,7 +405,7 @@ System::execute(SystemOperation::SystemOperationType type)
               break;
             default:
               throw "System::execute: Unknown system operation";
-            };
+            }
           if (ret)
             {
               TRACE_RETURN(true);

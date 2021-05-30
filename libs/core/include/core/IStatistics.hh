@@ -72,7 +72,7 @@ namespace workrave
       struct tm stop;
 
       //! Statistic of each break
-      BreakStats break_stats[workrave::BREAK_ID_SIZEOF];
+      BreakStats break_stats[BREAK_ID_SIZEOF];
 
       //! Misc statistics
       MiscStats misc_stats;

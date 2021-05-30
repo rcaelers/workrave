@@ -58,6 +58,8 @@ namespace workrave
       virtual bool remove_key(const std::string &key) const = 0;
       virtual bool rename_key(const std::string &key, const std::string &new_key) = 0;
 
+      virtual bool has_user_value(const std::string &key) = 0;
+
       virtual bool get_value(const std::string &key, std::string &out) const = 0;
       virtual bool get_value(const std::string &key, bool &out) const = 0;
       virtual bool get_value(const std::string &key, int &out) const = 0;
@@ -83,9 +85,6 @@ namespace workrave
       virtual bool set_value(const std::string &key,
                              double v,
                              workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
-
-      virtual bool get_typed_value(const std::string &key, std::string &t) const = 0;
-      virtual bool set_typed_value(const std::string &key, const std::string &t) = 0;
 
       virtual bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) = 0;
       virtual bool remove_listener(workrave::config::IConfiguratorListener *listener) = 0;

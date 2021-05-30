@@ -21,15 +21,16 @@
 #include <memory>
 
 #include <gtkmm.h>
+#include <memory>
 
 class IBreakWindow
 {
 public:
-  virtual ~IBreakWindow() = default;
-
   using Ptr = std::shared_ptr<IBreakWindow>;
 
-  //!
+  virtual ~IBreakWindow() = default;
+
+  //! Initializes the break window.
   virtual void init() = 0;
 
   //! Starts (i.e. shows) the break window.

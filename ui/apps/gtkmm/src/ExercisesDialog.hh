@@ -1,5 +1,3 @@
-// ExercisesDialog.hh --- Exercises Dialog
-//
 // Copyright (C) 2002, 2003, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

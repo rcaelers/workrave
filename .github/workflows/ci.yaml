@@ -46,14 +46,14 @@ jobs:
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING
-  
+
           - image: ubuntu-focal
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TRACING
             disable: TESTS,COVERAGE
-  
+
           - image: ubuntu-focal
             os: ubuntu-latest
             compiler: gcc
@@ -67,7 +67,7 @@ jobs:
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING
-    
+
           - image: ubuntu-groovy
             os: ubuntu-latest
             compiler: gcc
@@ -80,10 +80,10 @@ jobs:
             compiler: clang
             ui: Gtk+3
             configuration: Release
-            enable: 
+            enable:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
             upload: true
-  
+
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
             compiler: clang
@@ -92,13 +92,13 @@ jobs:
             enable: TRACING
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
             upload: true
-  
+
           - os: macos-latest
             compiler: clang
             ui: Qt5
-            enable: 
+            enable:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
-  
+
     steps:
       - name: Prepare
         run: |
@@ -111,7 +111,7 @@ jobs:
           else
             echo ::set-output name=version::dev
           fi
-        
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -170,7 +170,7 @@ jobs:
           path: _deploy
 
       - name: Upload artifacts to MinIO
-        run: | 
+        run: |
           aws configure set aws_access_key_id travis
           aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
           aws configure set default.region us-east-1

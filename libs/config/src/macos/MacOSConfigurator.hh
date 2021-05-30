@@ -35,6 +35,7 @@ public:
   bool save() override;
 
   bool remove_key(const std::string &key) override;
+  bool has_user_value(const std::string &key) override;
   bool get_value(const std::string &key, VariantType type, Variant &value) const override;
   bool set_value(const std::string &key, Variant &value) override;
 };

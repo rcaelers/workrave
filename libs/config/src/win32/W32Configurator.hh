@@ -37,6 +37,7 @@ public:
   bool save() override;
 
   bool remove_key(const std::string &key) override;
+  bool has_user_value(const std::string &key) override;
 
   bool get_config_value(const std::string &key, std::string &out) const override;
   bool get_config_value(const std::string &key, bool &out) const override;

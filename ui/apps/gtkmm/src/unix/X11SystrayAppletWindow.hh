@@ -1,5 +1,3 @@
-// X11SystrayAppletWindow.hh --- X11 Applet Window
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

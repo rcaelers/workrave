@@ -48,13 +48,13 @@ namespace workrave
     virtual boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed() = 0;
 
     //! Initialize the Core. Must be called first.
-    virtual void init(workrave::IApp *app, const char *display) = 0;
+    virtual void init(IApp *app, const char *display) = 0;
 
     //! Periodic heartbeat. The GUI *MUST* call this method every second.
     virtual void heartbeat() = 0;
 
     //! Force a break of the specified type.
-    virtual void force_break(workrave::BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
+    virtual void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
 
     //! Return the break interface of the specified type.
     [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) = 0;
@@ -66,16 +66,16 @@ namespace workrave
     [[nodiscard]] virtual bool is_user_active() const = 0;
 
     //! Retrieves the operation mode.
-    [[nodiscard]] virtual workrave::OperationMode get_operation_mode() = 0;
+    [[nodiscard]] virtual OperationMode get_operation_mode() = 0;
 
     //! Retrieves the regular operation mode.
-    [[nodiscard]] virtual workrave::OperationMode get_operation_mode_regular() = 0;
+    [[nodiscard]] virtual OperationMode get_operation_mode_regular() = 0;
 
     //! Sets the operation mode.
-    virtual void set_operation_mode(workrave::OperationMode mode) = 0;
+    virtual void set_operation_mode(OperationMode mode) = 0;
 
     //! Temporarily overrides the operation mode.
-    virtual void set_operation_mode_override(workrave::OperationMode mode, const std::string &id) = 0;
+    virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;
 
     //! Removes the overridden operation mode.
     virtual void remove_operation_mode_override(const std::string &id) = 0;
@@ -84,16 +84,16 @@ namespace workrave
     [[nodiscard]] virtual bool is_operation_mode_an_override() = 0;
 
     //! Return the current usage mode.
-    [[nodiscard]] virtual workrave::UsageMode get_usage_mode() = 0;
+    [[nodiscard]] virtual UsageMode get_usage_mode() = 0;
 
     //! Set the usage mode.
-    virtual void set_usage_mode(workrave::UsageMode mode) = 0;
+    virtual void set_usage_mode(UsageMode mode) = 0;
 
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
     virtual void set_powersave(bool down) = 0;
 
     //! Set the break insist policy.
-    virtual void set_insist_policy(workrave::InsistPolicy p) = 0;
+    virtual void set_insist_policy(InsistPolicy p) = 0;
 
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;

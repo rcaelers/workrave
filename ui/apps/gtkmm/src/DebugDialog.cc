@@ -15,8 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
-
 #include "DebugDialog.hh"
 
 #ifdef HAVE_CONFIG_H
@@ -31,9 +29,9 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "Util.hh"
+#include "core/ICore.hh"
+#include "core/CoreFactory.hh"
+#include "utils/Util.hh"
 
 #include "Hig.hh"
 
@@ -110,7 +108,7 @@ DebugDialog::init()
 int
 DebugDialog::run()
 {
-  TRACE_ENTER("DebugDialog::run")
+  TRACE_ENTER("DebugDialog::run");
   init();
   show_all();
   TRACE_EXIT();
@@ -121,7 +119,7 @@ void
 DebugDialog::on_response(int response)
 {
   (void)response;
-  TRACE_ENTER("DebugDialog::on_response")
+  TRACE_ENTER("DebugDialog::on_response");
   Diagnostics::instance().disable();
   TRACE_EXIT();
 }

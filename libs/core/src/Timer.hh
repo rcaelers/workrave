@@ -35,7 +35,7 @@
 
 #include <string>
 
-class DayTimePred;
+class TimePred;
 
 enum TimerState
 {
@@ -101,7 +101,7 @@ public:
   // Auto-resetting.
   void set_auto_reset(int t);
   void set_auto_reset_enabled(bool b);
-  void set_daily_reset(DayTimePred *daily_reset);
+  void set_daily_reset(TimePred *daily_reset);
   bool is_auto_reset_enabled() const;
   int64_t get_auto_reset() const;
   int64_t get_next_reset_time() const;
@@ -162,7 +162,7 @@ private:
   int64_t auto_reset_interval;
 
   //! Daily auto reset checker (NULL if not used)
-  DayTimePred *daily_auto_reset;
+  TimePred *daily_auto_reset;
 
   //! Elapsed time.
   int64_t elapsed_timespan;

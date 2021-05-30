@@ -36,6 +36,7 @@ public:
 class DiagnosticsSink
 {
 public:
+  virtual ~DiagnosticsSink() = default;
   virtual void diagnostics_log(const std::string &log) = 0;
 };
 
@@ -410,7 +411,7 @@ public:
   {
     set(get() & right);
     return *this;
-  };
+  }
 
   value_type operator|(const base_type &right) const
   {
@@ -434,7 +435,7 @@ public:
   {
     set(get() | right);
     return *this;
-  };
+  }
 
   value_type operator^(const base_type &right) const
   {
@@ -458,7 +459,7 @@ public:
   {
     set(get() ^ right);
     return *this;
-  };
+  }
 
   value_type operator<<(int num) const
   {

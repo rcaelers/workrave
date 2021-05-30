@@ -1,5 +1,3 @@
-// MacOSAppletWindow.cc --- Applet info Window
-//
 // Copyright (C) 2009, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -102,20 +100,20 @@ MacOSAppletWindow::convertColorId(TimerColorId colorId)
   switch (colorId)
     {
     case TimerColorId::Inactive:
-      return TimerColorId::Inactive;
+      return COLOR_ID_INACTIVE;
     case TimerColorId::Overdue:
-      return TimerColorId::Overdue;
+      return COLOR_ID_OVERDUE;
     case TimerColorId::Active:
-      return TimerColorId::Active;
+      return COLOR_ID_ACTIVE;
     default:
-      return TimerColorId::Active;
+      return COLOR_ID_ACTIVE;
     }
 
-  return TimerColorId::Inactive;
+  return COLOR_ID_INACTIVE;
 }
 
 bool
-OSXAppletWindow::is_visible() const
+MacOSAppletWindow::is_visible() const
 {
   return true;
 }

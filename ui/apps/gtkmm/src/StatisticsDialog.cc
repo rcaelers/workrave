@@ -21,28 +21,16 @@
 #  include "config.h"
 #endif
 
-#ifdef TIME_WITH_SYS_TIME
-#  include <sys/time.h>
-#  include <time.h>
-#else
-#  ifdef HAVE_SYS_TIME_H
-#    include <sys/time.h>
-#  else
-#    include <time.h>
-#  endif
-#endif
-
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
 #include <cassert>
-#include <sstream>
 #include <cstdio>
+#include <sstream>
 
 #include <ctime>
 #include <cstring>
 
-#include <gdk/gdk.h>
 #include <gtkmm.h>
 
 #include "debug.hh"
@@ -427,7 +415,7 @@ StatisticsDialog::display_week_statistics()
   guint y, m, d;
   calendar->get_date(y, m, d);
 
-  std::tm timeinfo;
+  std::tm timeinfo{};
   std::memset(&timeinfo, 0, sizeof(timeinfo));
   timeinfo.tm_mday = d;
   timeinfo.tm_mon = m;

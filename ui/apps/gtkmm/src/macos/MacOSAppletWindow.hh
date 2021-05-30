@@ -1,5 +1,3 @@
-// MacOSAppletWindow.hh --- Applet window
-//
 // Copyright (C) 2009, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -23,7 +21,7 @@
 #include <string>
 
 #include "commonui/TimerBoxViewBase.hh"
-#include "commonui/ITimeBar.hh"
+#include "commonui/UiTypes.hh"
 #include "AppletWindow.hh"
 
 #import "ColorId.h"
