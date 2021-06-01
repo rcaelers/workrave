@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "TimerBoxTextView.hh"

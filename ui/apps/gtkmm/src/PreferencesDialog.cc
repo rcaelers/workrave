@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #ifdef HAVE_UNISTD_H

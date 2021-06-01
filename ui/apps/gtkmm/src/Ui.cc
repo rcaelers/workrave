@@ -24,7 +24,7 @@
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
 //#include "commonui/UiTypes.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 using namespace workrave;
 using namespace workrave::utils;

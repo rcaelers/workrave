@@ -22,7 +22,7 @@
 #include "control.h"
 
 #include "commonui/credits.h"
-#include "nls.h"
+#include "commonui/nls.h"
 #include "commonui/MenuEnums.hh"
 
 #include <mate-panel-applet.h>

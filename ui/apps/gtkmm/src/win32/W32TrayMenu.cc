@@ -24,7 +24,7 @@
 #include <windows.h>
 #include <shellapi.h>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "W32TrayMenu.hh"

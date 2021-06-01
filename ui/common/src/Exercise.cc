@@ -23,7 +23,7 @@
 
 #include "commonui/Exercise.hh"
 #include "utils/Util.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #ifndef PLATFORM_OS_WINDOWS_NATIVE

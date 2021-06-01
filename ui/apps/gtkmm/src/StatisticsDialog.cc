@@ -34,7 +34,7 @@
 #include <gtkmm.h>
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"

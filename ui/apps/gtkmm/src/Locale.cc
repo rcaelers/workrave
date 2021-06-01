@@ -22,7 +22,7 @@
 #endif
 
 #include "debug.hh"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include <cstdio>
 #include <cstdlib>

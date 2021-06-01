@@ -28,7 +28,7 @@
 #include <gtkmm/spinbutton.h>
 #include <gtkmm/checkbutton.h>
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "commonui/Backend.hh"

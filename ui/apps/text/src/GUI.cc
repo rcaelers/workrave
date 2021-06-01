@@ -23,7 +23,7 @@
 
 #include "preinclude.h"
 
-#include "nls.h"
+#include "commonui/nls.h"
 #include "debug.hh"
 
 #include <stdlib.h>

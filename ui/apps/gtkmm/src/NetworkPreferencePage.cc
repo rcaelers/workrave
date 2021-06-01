@@ -23,7 +23,7 @@
 
 #ifdef HAVE_DISTRIBUTION
 
-#  include "nls.h"
+#  include "commonui/nls.h"
 #  include "debug.hh"
 
 #  include <sstream>
