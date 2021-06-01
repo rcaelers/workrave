@@ -355,7 +355,7 @@ TimerBoxPreferencePage::enable_buttons()
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timer_display_button[i]->get_active())
+      if (timer_display_button[i]->get_active() == 0)
         {
           count++;
         }
@@ -424,5 +424,6 @@ TimerBoxPreferencePage::config_changed_notify(const string &key)
   TRACE_ENTER("TimerBoxPreferencePage::config_changed_notify");
   (void)key;
   enable_buttons();
+  init_page_values();
   TRACE_EXIT();
 }
