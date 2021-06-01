@@ -16,7 +16,7 @@
 //
 
 #ifndef GUICONFIG_HH
-#define GUICONFIG_HH
+#  define GUICONFIG_HH
 
 #  include "core/ICore.hh"
 #  include "config/Setting.hh"
