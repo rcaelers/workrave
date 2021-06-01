@@ -75,6 +75,61 @@ const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "distribution/passw
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "distribution/reconnect_attempts";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/reconnect_interval";
 
+string
+CoreConfig::get_break_name(BreakId id)
+{
+  const char *names[] = {"micro_pause", "rest_break", "daily_limit"};
+  return names[(int)id];
+}
+
+void
+CoreConfig::init(IConfigurator::Ptr config)
+{
+  CoreConfig::config = config;
+
+  // config->rename_key("gui/operation-mode", CoreConfig::operation_mode().key());
+
+  // for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
+  //   {
+  //     Defaults &def = default_config[break_id];
+
+  //     config->set_delay(timer_limit(break_id).key(), 2);
+  //     config->set_delay(timer_auto_reset(break_id).key(), 2);
+
+  //     // Convert old settings.
+
+  //     config->rename_key(expand("gui/breaks/%b/max_preludes", break_id), break_max_preludes(break_id).key());
+  //     config->rename_key(expand("gui/breaks/%b/enabled", break_id), break_enabled(break_id).key());
+  //     config->remove_key(expand("gui/breaks/%b/max_postpone", break_id));
+
+  //     // Set defaults.
+
+  //     config->set_value(CoreConfig::timer_limit(break_id).key(), def.limit, CONFIG_FLAG_INITIAL);
+
+  //     config->set_value(CoreConfig::timer_auto_reset(break_id).key(), def.auto_reset, CONFIG_FLAG_INITIAL);
+
+  //     config->set_value(CoreConfig::timer_reset_pred(break_id).key(), def.resetpred, CONFIG_FLAG_INITIAL);
+
+  //     config->set_value(CoreConfig::timer_snooze(break_id).key(), def.snooze, CONFIG_FLAG_INITIAL);
+
+  //     config->set_value(CoreConfig::break_max_preludes(break_id).key(), def.max_preludes, CONFIG_FLAG_INITIAL);
+
+  //     config->set_value(CoreConfig::break_enabled(break_id).key(), true, CONFIG_FLAG_INITIAL);
+  //   }
+
+  // config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(), false, CONFIG_FLAG_INITIAL);
+
+  // string monitor_name;
+  // bool ret = config->get_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), monitor_name);
+
+  // if (ret && monitor_name == "micro_pause")
+  //   {
+  //     config->set_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT),
+  //                       "deprecated. replaced by use_microbreak_activity");
+  //     config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, true);
+  //   }
+}
+
 bool
 CoreConfig::match(const std::string &str, const std::string &key, workrave::BreakId &id)
 {
@@ -92,12 +147,6 @@ CoreConfig::match(const std::string &str, const std::string &key, workrave::Brea
   return ret;
 }
 
-string
-CoreConfig::get_break_name(BreakId id)
-{
-  const char *names[] = {"micro_pause", "rest_break", "daily_limit"};
-  return names[(int)id];
-}
 string
 CoreConfig::expand(const string &key, workrave::BreakId id)
 {

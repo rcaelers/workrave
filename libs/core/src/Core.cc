@@ -212,6 +212,8 @@ Core::init_configurator()
         }
     }
 
+  CoreConfig::init(configurator);
+
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
     {
