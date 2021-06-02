@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the Workrave package.
 # Eraldo Girardi <eraldster@katamail.com>
 #Albano Battistella <albano_battistella@hotmail.com> 2020.
-#
+#Albano Battistella <albano_battistella@hotmail.com> 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2020-04-13 09:01+0800\n"
-"PO-Revision-Date: 2020-04-27 19:24+0100\n"
+"PO-Revision-Date: 2021-06-02 19:24+0100\n"
 "Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language-Team:it\n"
 "Language: it\n"
@@ -67,9 +67,8 @@ msgstr "_Modalità"
 #: ../frontend/gtkmm/src/GenericDBusApplet.cc:196
 #: ../frontend/applets/mate/src/main-gtk2.c:324
 #: ../frontend/applets/mate/src/main-gtk3.c:365
-#, fuzzy
 msgid "Normal"
-msgstr "_Normale"
+msgstr "Normale"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:7
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:7
@@ -182,7 +181,7 @@ msgstr "_Esci"
 #: ../backend/src/DistributionSocketLink.cc:140
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Riconnessione tra %s:"
+msgstr "Riconnessione a %s"
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:441
@@ -382,9 +381,8 @@ msgid "Exercises ended"
 msgstr "Esercizi terminati"
 
 #: ../frontend/common/src/SoundPlayer.cc:135
-#, fuzzy
 msgid "Exercise change"
-msgstr "Esercizio terminato"
+msgstr "Cambia esercizio"
 
 #: ../frontend/common/src/SoundPlayer.cc:606
 msgid "Custom"
@@ -426,9 +424,8 @@ msgid "Hibernate"
 msgstr "Sospendi"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:316
-#, fuzzy
 msgid "Suspend hybrid"
-msgstr "_Sospeso"
+msgstr "Sospendi ibrido"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:451
 msgid "_Skip"
@@ -471,7 +468,6 @@ msgstr ""
 "a forma di pecora. Fare clic su questo fumetto per disabilitare questo messaggio"
 
 #: ../frontend/gtkmm/src/GUI.cc:847 ../frontend/gtkmm/src/GUI.cc:970
-#, fuzzy
 msgid "Workrave failed to start"
 msgstr "Workrave non si è avviato"
 
@@ -759,7 +755,6 @@ msgid "Sound Events"
 msgstr "Eventi Sonori"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:404
-#, fuzzy
 msgid "Sound Theme:"
 msgstr "Tema Sonoro:"
 
@@ -1485,7 +1480,6 @@ msgstr "Errore"
 #~ msgid "Orientation"
 #~ msgstr "Orientamento"
 
-#, fuzzy
 #~ msgid "The orientation of the tray"
 #~ msgstr "Orientamento della traybar"
 
