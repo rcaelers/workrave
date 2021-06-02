@@ -118,7 +118,7 @@ elseif(HAVE_PREBUILT_VISUAL_STUDIO)
 endif()
 
 configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/setup-cmake.iss.in"
   "${CMAKE_CURRENT_BINARY_DIR}/setup.iss"
   @ONLY
 )

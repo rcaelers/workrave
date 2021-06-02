@@ -364,7 +364,7 @@ void
 Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
 {
   (void)about;
-  ShellExecute(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
+  ShellExecuteA(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 #endif
 

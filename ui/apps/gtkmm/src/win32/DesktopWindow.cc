@@ -60,9 +60,9 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
         }
     }
 
-  hwnd = CreateWindowEx(
+  hwnd = CreateWindowExA(
     WS_EX_TOOLWINDOW, WINDOW_CLASS, WINDOW_CLASS, WS_POPUP, x, y, w, h, (HWND)NULL, (HMENU)NULL, hinstance, (LPSTR)NULL);
-  SetWindowLong(hwnd, GWL_USERDATA, (LONG)this);
+  SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
   TRACE_EXIT();
 }
@@ -75,7 +75,7 @@ DesktopWindow::~DesktopWindow()
 LRESULT CALLBACK
 DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  DesktopWindow *self = (DesktopWindow *)GetWindowLong(hwnd, GWL_USERDATA);
+  DesktopWindow *self = (DesktopWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
   switch (uMsg)
     {
     case WM_WINDOWPOSCHANGED:
@@ -98,8 +98,8 @@ DesktopWindow::init()
 
   HINSTANCE win32_hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
-  WNDCLASSEX wclass = {sizeof(WNDCLASSEX), 0, window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WINDOW_CLASS, NULL};
-  RegisterClassEx(&wclass);
+  WNDCLASSEXA wclass = {sizeof(WNDCLASSEX), 0, window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WINDOW_CLASS, NULL};
+  RegisterClassExA(&wclass);
   initialized = true;
 }
 

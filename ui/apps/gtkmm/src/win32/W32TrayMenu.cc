@@ -21,27 +21,21 @@
 #  include "config.h"
 #endif
 
+#include "W32TrayMenu.hh"
 #include <windows.h>
 #include <shellapi.h>
 
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#include "W32TrayMenu.hh"
-
 #include <string>
-
-#include <gtkmm/menu.h>
-#include <gtkmm/menushell.h>
 
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
-#include "gdk/gdkwindow.h"
-#include <glib/gmain.h>
-
-#include "utils/Util.hh"
+#include <gtkmm/menu.h>
+#include <gtkmm/menushell.h>
 
 using namespace std;
 
@@ -59,7 +53,7 @@ W32TrayMenu::~W32TrayMenu()
 void
 W32TrayMenu::post_init()
 {
-  win32_popup_hack_connect(popup_menu);
+  win32_popup_hack_connect();
 }
 
 void
@@ -67,7 +61,7 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
 {
   (void)button;
 
-  if (popup_menu != NULL)
+  if (popup_menu != nullptr)
     {
       popup_menu->popup(1, activate_time);
     }
@@ -79,11 +73,11 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
 //    pointer leaves the menu. */
 
 void
-W32TrayMenu::win32_popup_hack_connect(Gtk::Widget *menu)
+W32TrayMenu::win32_popup_hack_connect()
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
 
-  GtkWidget *widget = (GtkWidget *)menu->gobj();
+  GtkWidget *widget = (GtkWidget *)popup_menu->gobj();
   g_signal_connect(widget, "leave-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
   g_signal_connect(widget, "enter-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
 

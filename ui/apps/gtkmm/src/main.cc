@@ -22,6 +22,7 @@
 #endif
 
 #include "debug.hh"
+
 #include <cstdio>
 #include <fstream>
 
@@ -30,8 +31,14 @@
 #  include <io.h>
 #  include <fcntl.h>
 
-#  include "utils/crashlog.h"
+#  if !defined(PLATFORM_OS_WINDOWS_64)
+#    include "utils/crashlog.h"
+#  endif
 #  include "utils/W32ActiveSetup.hh"
+#endif
+
+#if defined(HAVE_CRASHPAD)
+#  include "crash/CrashReporter.hh"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -39,17 +46,21 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+#if defined(HAVE_CRASHPAD)
+  try
+    {
+      workrave::crash::CrashReporter::instance().init();
+    }
+  catch (std::exception &e)
+    {
+    }
+#endif
 #ifdef PLATFORM_OS_WINDOWS
   W32ActiveSetup::update_all();
 #endif
 
-#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
+#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(PLATFORM_OS_WINDOWS_64)
   SetUnhandledExceptionFilter(exception_filter);
-
-#  if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-  // Enable Windows structural exception handling.
-  __try1(exception_handler);
-#  endif
 #endif
 
 #ifdef TRACING
@@ -61,13 +72,6 @@ run(int argc, char **argv)
   gui->main();
 
   delete gui;
-
-#if defined(THIS_SEEMS_TO_CAUSE_PROBLEMS_ON_WINDOWS_SERVER)
-#  if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE)
-  // Disable Windows structural exception handling.
-  __except1;
-#  endif
-#endif
 
   return 0;
 }
@@ -96,7 +100,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdSh
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
   // directive.
-  HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
+  HANDLE mtx = CreateMutexA(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
       run(sizeof(argv) / sizeof(argv[0]), argv);

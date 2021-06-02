@@ -197,10 +197,8 @@ W32Compat::ResetWindow(HWND hwnd, bool topmost)
   if (!IsWindow(hwnd) || reset_window_never)
     return;
 
-  const bool DEBUG = false;
   bool reset = false;
   DWORD gwl_exstyle = 0;
-  DWORD valid_exstyle_diff = 0;
 
   WINDOWINFO gwi;
   ZeroMemory(&gwi, sizeof(gwi));
@@ -225,6 +223,8 @@ W32Compat::ResetWindow(HWND hwnd, bool topmost)
     }
 
 #ifdef BREAKAGE
+  const bool DEBUG = false;
+  DWORD valid_exstyle_diff = 0;
   // GetWindowInfo() and GetWindowLong() extended style info can differ.
   // Compare the two results but filter valid values only.
   valid_exstyle_diff = (gwl_exstyle ^ gwi.dwExStyle) & ~0xF1A08802;
@@ -308,11 +308,7 @@ W32Compat::IsOurWinStationConnected()
   bool func_retval = false;
   DWORD bytes_returned = 0;
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
-  enum WTS_INFO_CLASS *state = NULL;
-#else
-  WTS_INFO_CLASS *state = NULL;
-#endif
+  WTS_CONNECTSTATE_CLASS *state = NULL;
 
   if (WTSQuerySessionInformation(
         WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, reinterpret_cast<LPTSTR *>(&state), &bytes_returned)
@@ -483,7 +479,7 @@ W32Compat::RefreshBreakWindow(BreakWindow &window)
   refresh. While the logic here is similar it is adjusted for the specific case of refreshing.
   */
 
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(window.Gtk::Widget::gobj()->window);
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(window.Gtk::Widget::gobj()));
   if (!hwnd)
     return;
 

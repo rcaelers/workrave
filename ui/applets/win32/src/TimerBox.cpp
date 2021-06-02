@@ -20,6 +20,7 @@
 
 #include <windows.h>
 #include <winuser.h>
+
 #include "TimerBox.h"
 #include "TimeBar.h"
 #include "Util.h"
@@ -154,6 +155,7 @@ TimerBox::init_icons()
 #else
   UINT dpi = 96;
 #endif
+
   TRACE_MSG("dpi " << dpi);
   int size = 16;
   if (dpi >= 192)

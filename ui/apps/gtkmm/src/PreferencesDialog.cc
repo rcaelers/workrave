@@ -532,7 +532,11 @@ PreferencesDialog::create_monitoring_page()
   sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);
   panel->pack_start(*sensitivity_box, false, false, 0);
 
+#ifdef HAVE_GTK3
+  connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(sensitivity_adjustment));
+#else
   connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(&sensitivity_adjustment));
+#endif
 
   string monitor_type;
   Backend::get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");

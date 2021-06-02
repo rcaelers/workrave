@@ -202,13 +202,13 @@ W32StatusIcon::init()
 
   if (tray_hwnd == NULL)
     {
-      WNDCLASS wclass;
+      WNDCLASSA wclass;
       memset(&wclass, 0, sizeof(WNDCLASS));
       wclass.lpszClassName = "WorkraveTrayObserver";
       wclass.lpfnWndProc = window_proc;
       wclass.hInstance = hinstance;
 
-      ATOM atom = RegisterClass(&wclass);
+      ATOM atom = RegisterClassA(&wclass);
       if (atom != 0)
         {
           tray_hwnd = CreateWindow(MAKEINTRESOURCE(atom), NULL, WS_POPUP, 0, 0, 1, 1, NULL, NULL, hinstance, NULL);
@@ -220,7 +220,7 @@ W32StatusIcon::init()
         }
       else
         {
-          wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+          wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
         }
     }
 
@@ -235,7 +235,7 @@ W32StatusIcon::init()
 
   if (tray_hwnd != NULL)
     {
-      SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG)this);
+      SetWindowLongPtr(tray_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
     }
 }
 
@@ -268,7 +268,7 @@ LRESULT CALLBACK
 W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER_MSG("W32StatusIcon::window_proc", uMsg << " " << wParam);
-  W32StatusIcon *status_icon = (W32StatusIcon *)GetWindowLong(hwnd, GWL_USERDATA);
+  W32StatusIcon *status_icon = (W32StatusIcon *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
   if (status_icon != NULL)
     {
       if (uMsg == status_icon->wm_taskbarcreated)
