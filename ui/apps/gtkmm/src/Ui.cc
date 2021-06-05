@@ -23,56 +23,56 @@
 
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
-//#include "commonui/UiTypes.hh"
+#include "commonui/UiTypes.hh"
 #include "commonui/nls.h"
 
 using namespace workrave;
 using namespace workrave::utils;
 
-// const std::string
-// Ui::get_break_name(workrave::BreakId id)
-// {
-//   switch (id)
-//     {
-//     case BREAK_ID_MICRO_BREAK:
-//       return _("Micro-break");
+const std::string
+Ui::get_break_name(workrave::BreakId id)
+{
+  switch (id)
+    {
+    case BREAK_ID_MICRO_BREAK:
+      return _("Micro-break");
 
-//     case BREAK_ID_REST_BREAK:
-//       return _("Rest break");
+    case BREAK_ID_REST_BREAK:
+      return _("Rest break");
 
-//     case BREAK_ID_DAILY_LIMIT:
-//       return _("Daily limit");
+    case BREAK_ID_DAILY_LIMIT:
+      return _("Daily limit");
 
-//     default:
-//       throw Exception("Invalid break id");
-//     }
-// }
+    default:
+      throw Exception("Invalid break id");
+    }
+}
 
-// const std::string
-// Ui::get_break_icon_filename(workrave::BreakId id)
-// {
-//   std::string filename;
+const std::string
+Ui::get_break_icon_filename(workrave::BreakId id)
+{
+  std::string filename;
 
-//   switch (id)
-//     {
-//     case BREAK_ID_MICRO_BREAK:
-//       filename = "timer-micro-break.png";
-//       break;
+  switch (id)
+    {
+    case BREAK_ID_MICRO_BREAK:
+      filename = "timer-micro-break.png";
+      break;
 
-//     case BREAK_ID_REST_BREAK:
-//       filename = "timer-rest-break.png";
-//       break;
+    case BREAK_ID_REST_BREAK:
+      filename = "timer-rest-break.png";
+      break;
 
-//     case BREAK_ID_DAILY_LIMIT:
-//       filename = "timer-daily.png";
-//       break;
+    case BREAK_ID_DAILY_LIMIT:
+      filename = "timer-daily.png";
+      break;
 
-//     default:
-//       throw Exception("Invalid break id");
-//     }
+    default:
+      throw Exception("Invalid break id");
+    }
 
-//   return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
-// }
+  return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+}
 
 const std::string
 Ui::get_sound_event_name(SoundEvent event)
@@ -114,25 +114,25 @@ Ui::get_sound_event_name(SoundEvent event)
     }
 }
 
-// const std::string
-// Ui::get_status_icon_filename(StatusIconType icon)
-// {
-//   std::string filename;
+const std::string
+Ui::get_status_icon_filename(StatusIconType icon)
+{
+  std::string filename;
 
-//   switch (icon)
-//     {
-//     case StatusIconType::Normal:
-//       filename = "workrave-icon-medium.png";
-//       break;
+  switch (icon)
+    {
+    case StatusIconType::Normal:
+      filename = "workrave-icon-medium.png";
+      break;
 
-//     case StatusIconType::Quiet:
-//       filename = "workrave-quiet-icon-medium.png";
-//       break;
+    case StatusIconType::Quiet:
+      filename = "workrave-quiet-icon-medium.png";
+      break;
 
-//     case StatusIconType::Suspended:
-//       filename = "workrave-suspended-icon-medium.png";
-//       break;
-//     }
+    case StatusIconType::Suspended:
+      filename = "workrave-suspended-icon-medium.png";
+      break;
+    }
 
-//   return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
-// }
+  return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+}

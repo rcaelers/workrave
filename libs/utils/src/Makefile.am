@@ -10,7 +10,6 @@ sources = 	DBusProxy-gio.cc \
 			AssetPath.cc \
 			Diagnostics.cc \
 			Platform.cc \
-			StringUtil.cc \
 			TimeSource.cc \
 			Util.cc \
 			WRID.cc

@@ -99,11 +99,6 @@ TimeEntry::TimeEntry(bool millis)
     }
 }
 
-TimeEntry::~TimeEntry()
-{
-  // FIXME: disconnect signals?
-}
-
 void
 TimeEntry::set_value(time_t t)
 {

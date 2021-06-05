@@ -49,7 +49,7 @@ public:
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
 
-//private:
+  // private:
   static const std::string CFG_KEY_TIMER_MONITOR;
   static const std::string CFG_KEY_MICRO_BREAK;
   static const std::string CFG_KEY_REST_BREAK;
@@ -88,9 +88,11 @@ public:
   static const std::string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
   static const std::string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
   static const std::string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
+
 private:
   static workrave::config::IConfigurator::Ptr config;
   static std::string expand(const std::string &key, workrave::BreakId id);
+
 public:
   static bool match(const std::string &str, const std::string &key, workrave::BreakId &id);
   static void init(workrave::config::IConfigurator::Ptr config);

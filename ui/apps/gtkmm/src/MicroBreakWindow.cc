@@ -35,7 +35,6 @@
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "core/IBreakResponse.hh"
-#include "utils/Util.hh"
 #include "GtkUtil.hh"
 #include "Text.hh"
 #include "Hig.hh"

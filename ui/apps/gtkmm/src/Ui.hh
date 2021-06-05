@@ -20,16 +20,16 @@
 
 #include <string>
 
-//#include "core/CoreTypes.hh"
-//#include "commonui/UiTypes.hh"
+#include "core/CoreTypes.hh"
+#include "commonui/UiTypes.hh"
 #include "commonui/SoundTheme.hh"
 
 class Ui
 {
 public:
-  // static const std::string get_break_name(workrave::BreakId id);
-  // static const std::string get_break_icon_filename(workrave::BreakId id);
-  // static const std::string get_status_icon_filename(StatusIconType id);
+  static const std::string get_break_name(workrave::BreakId id);
+  static const std::string get_break_icon_filename(workrave::BreakId id);
+  static const std::string get_status_icon_filename(StatusIconType id);
   static const std::string get_sound_event_name(SoundEvent event);
 };
 

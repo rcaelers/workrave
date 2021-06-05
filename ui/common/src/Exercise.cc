@@ -1,6 +1,7 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2013 Rob Caelers <rob.caelers@gmail.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,125 +23,24 @@
 #endif
 
 #include "commonui/Exercise.hh"
-#include "utils/Util.hh"
-#include "commonui/nls.h"
+
+#include <string>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+
 #include "debug.hh"
+#include "utils/AssetPath.hh"
 
-#ifndef PLATFORM_OS_WINDOWS_NATIVE
-#  include <unistd.h>
+#ifdef HAVE_GLIB
+#  include <glib.h>
 #endif
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 
-#include <glib.h>
-
-struct ExerciseParser
-{
-  std::list<Exercise> *exercises;
-  Exercise *exercise;
-
-  std::string lang;
-  int title_lang_rank{};
-  int description_lang_rank{};
-  std::string cdata;
-  ExerciseParser(std::list<Exercise> &exe);
-
-  const gchar *const *i18n_languages;
-};
-
-static const gchar *
-exercise_parse_lookup_attribute(const gchar *find, const gchar **names, const gchar **values)
-{
-  const gchar *ret = nullptr;
-  if (names != nullptr)
-    {
-      for (int i = 0;; i++)
-        {
-          if (!names[i])
-            break;
-
-          if (!strcmp(names[i], find))
-            {
-              ret = values[i];
-              break;
-            }
-        }
-    }
-  return ret;
-}
-
-/* Called for open tags <foo bar="baz"> */
-static void
-exercise_parser_start_element(GMarkupParseContext *,
-                              const gchar *element_name,
-                              const gchar **attribute_names,
-                              const gchar **attribute_values,
-                              gpointer user_data,
-                              GError **)
-{
-  TRACE_ENTER_MSG("exercise_parser_start_element", element_name);
-  ExerciseParser *ep = (ExerciseParser *)user_data;
-
-  if (!strcmp(element_name, "exercise"))
-    {
-      ep->exercises->push_back(Exercise());
-      ep->exercise = &(ep->exercises->back());
-
-      ep->title_lang_rank = -1;
-      ep->description_lang_rank = -1;
-    }
-  else if (!strcmp(element_name, "sequence"))
-    {
-      const gchar *duration = exercise_parse_lookup_attribute("duration", attribute_names, attribute_values);
-      if (duration)
-        {
-          ep->exercise->duration = atoi(duration);
-        }
-      else
-        {
-          ep->exercise->duration = 15;
-        }
-    }
-  else if (!strcmp(element_name, "image"))
-    {
-      int dur = 1;
-      const gchar *duration = exercise_parse_lookup_attribute("duration", attribute_names, attribute_values);
-      if (duration)
-        {
-          dur = atoi(duration);
-        }
-      const gchar *src = exercise_parse_lookup_attribute("src", attribute_names, attribute_values);
-      const gchar *mirrorx = exercise_parse_lookup_attribute("mirrorx", attribute_names, attribute_values);
-      bool mx = mirrorx != nullptr && !strcmp(mirrorx, "yes");
-      if (src != nullptr && strlen(src) > 0)
-        {
-          TRACE_MSG("Image src=" << src);
-          ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
-        }
-    }
-  else if (!strcmp(element_name, "exercises"))
-    {
-    }
-  else if (!strcmp(element_name, "title") || !strcmp(element_name, "description"))
-    {
-      const gchar *value = exercise_parse_lookup_attribute("xml:lang", attribute_names, attribute_values);
-      ep->lang = value ? value : "";
-      ep->cdata = "";
-    }
-  else
-    {
-      TRACE_MSG(element_name);
-      abort();
-    }
-
-  TRACE_EXIT();
-}
+using namespace std;
+using namespace workrave::utils;
 
 /* Updates language dependent attribute */
 static void
-exercise_parse_update_i18n_attribute(const gchar *const *languages,
+exercise_parse_update_i18n_attribute(const char *const *languages,
                                      std::string &cur_value,
                                      int &cur_rank,
                                      const std::string &new_value,
@@ -149,7 +49,7 @@ exercise_parse_update_i18n_attribute(const gchar *const *languages,
   if (languages != nullptr)
     {
       const char *nl = new_lang.c_str();
-      int nl_len = strlen(nl);
+      size_t nl_len = strlen(nl);
       int r;
 
       if (!nl_len)
@@ -160,7 +60,7 @@ exercise_parse_update_i18n_attribute(const gchar *const *languages,
 
       for (r = 0; languages[r] != nullptr; r++)
         {
-          const gchar *lang = (const gchar *)languages[r];
+          const char *lang = (const char *)languages[r];
 
           if (!strncmp(lang, nl, nl_len))
             {
@@ -209,102 +109,80 @@ exercise_parse_update_i18n_attribute(const gchar *const *languages,
     }
 }
 
-/* Called for close tags </foo> */
-static void
-exercise_parser_end_element(GMarkupParseContext *, const gchar *element_name, gpointer user_data, GError **)
-{
-  TRACE_ENTER_MSG("exercise_parser_end_element", element_name);
-
-  ExerciseParser *ep = (ExerciseParser *)user_data;
-  if (!strcmp(element_name, "title"))
-    {
-      exercise_parse_update_i18n_attribute(ep->i18n_languages, ep->exercise->title, ep->title_lang_rank, ep->cdata, ep->lang);
-    }
-  else if (!strcmp(element_name, "description"))
-    {
-      exercise_parse_update_i18n_attribute(
-        ep->i18n_languages, ep->exercise->description, ep->description_lang_rank, ep->cdata, ep->lang);
-    }
-  TRACE_EXIT();
-}
-
-/* Called for character data */
-/* text is not nul-terminated */
-static void
-exercise_parser_text(GMarkupParseContext *, const gchar *text, gsize text_len, gpointer user_data, GError **)
-{
-  TRACE_ENTER_MSG("exercise_parser_text", text);
-  ExerciseParser *ep = (ExerciseParser *)user_data;
-  ep->cdata.append(text, text_len);
-  TRACE_EXIT();
-}
-
-ExerciseParser::ExerciseParser(std::list<Exercise> &exe)
-{
-  TRACE_ENTER("ExerciseParser::ExerciseParser");
-  exercises = &exe;
-  exercise = nullptr;
-  lang = "";
-
-  i18n_languages = g_get_language_names();
-
-  TRACE_EXIT();
-}
-
 void
-Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exe)
+Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
 {
-  FILE *stream = nullptr;
   TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
 
-  stream = fopen(file_name, "rb");
-  if (stream)
+  boost::property_tree::ptree pt;
+  read_xml(file_name, pt);
+
+#ifdef HAVE_GLIB
+  const char *const *languages = g_get_language_names();
+#else
+  const char *const *languages = nullptr;
+#endif
+
+  for (boost::property_tree::ptree::value_type &v: pt.get_child("exercises"))
     {
-      GMarkupParser parser;
-
-      parser.text = exercise_parser_text;
-      parser.start_element = exercise_parser_start_element;
-      parser.end_element = exercise_parser_end_element;
-      parser.text = exercise_parser_text;
-      parser.passthrough = nullptr;
-      parser.error = nullptr;
-
-      ExerciseParser eparser(exe);
-      GMarkupParseContext *context = g_markup_parse_context_new(&parser, (GMarkupParseFlags)0, &eparser, nullptr);
-      GError *error = nullptr;
-
-      char buf[1024];
-      while (true)
+      if (v.first == "exercise")
         {
-          int n = fread(buf, 1, sizeof(buf), stream);
-          if (ferror(stream))
-            break;
-          g_markup_parse_context_parse(context, buf, n, &error);
-          if (feof(stream))
-            break;
+          exercises.emplace_back();
+          Exercise &exercise = exercises.back();
+
+          int title_lang_rank = -1;
+          int description_lang_rank = -1;
+
+          for (boost::property_tree::ptree::value_type &ve: v.second)
+            {
+              string lang = ve.second.get<string>("<xmlattr>.xml:lang", "en");
+
+              if (ve.first == "title")
+                {
+                  auto title = v.second.get<string>("title");
+
+                  exercise_parse_update_i18n_attribute(nullptr, exercise.title, title_lang_rank, title, lang);
+                }
+              else if (ve.first == "description")
+                {
+                  auto description = v.second.get<string>("description");
+
+                  exercise_parse_update_i18n_attribute(languages, exercise.description, description_lang_rank, description, lang);
+                }
+              else if (ve.first == "sequence")
+                {
+                  exercise.duration = ve.second.get<int>("<xmlattr>.duration", 15);
+
+                  for (boost::property_tree::ptree::value_type &vs: ve.second)
+                    {
+                      if (vs.first == "image")
+                        {
+                          int duration = vs.second.get<int>("<xmlattr>.duration", 1);
+                          auto src = vs.second.get<string>("<xmlattr>.src");
+                          bool mirrorx = vs.second.get<string>("<xmlattr>.mirrorx", "no") == "yes";
+
+                          exercise.sequence.emplace_back(src, duration, mirrorx);
+                        }
+                    }
+                }
+            }
         }
-      fclose(stream);
-      g_markup_parse_context_end_parse(context, &error);
-      g_markup_parse_context_free(context);
     }
 
-#  ifdef TRACING
-  for (std::list<Exercise>::iterator it = exe.begin(); it != exe.end(); it++)
+#ifdef TRACING
+  for (auto &exercise: exercises)
     {
-      Exercise &ex = *it;
-
-      TRACE_MSG("exercise title=" << ex.title);
-      TRACE_MSG("exercise desc=" << ex.description);
-      TRACE_MSG("exercise duration=" << ex.duration);
+      TRACE_MSG("exercise title=" << exercise.title);
+      TRACE_MSG("exercise desc=" << exercise.description);
+      TRACE_MSG("exercise duration=" << exercise.duration);
       TRACE_MSG("exercise seq:");
-      for (std::list<Exercise::Image>::iterator sit = ex.sequence.begin(); sit != ex.sequence.end(); sit++)
+      for (auto &image: exercise.sequence)
         {
-          Exercise::Image &img = *sit;
-          TRACE_MSG("exercise seq src=" << img.image << ", dur=" << img.duration);
+          TRACE_MSG("exercise seq src=" << image.image << ", dur=" << image.duration);
         }
       TRACE_MSG("exercise end seq");
     }
-#  endif
+#endif
 
   TRACE_EXIT();
 }
@@ -312,7 +190,7 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exe)
 std::string
 Exercise::get_exercises_file_name()
 {
-  return Util::complete_directory("exercises.xml", Util::SEARCH_PATH_EXERCISES);
+  return AssetPath::complete_directory("exercises.xml", AssetPath::SEARCH_PATH_EXERCISES);
 }
 
 std::list<Exercise>

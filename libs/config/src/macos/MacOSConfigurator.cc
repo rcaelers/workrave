@@ -117,6 +117,9 @@ MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &
               }
           }
           break;
+
+        default:
+          ret = false;
         }
     }
 
@@ -157,6 +160,9 @@ MacOSConfigurator::set_value(const std::string &key, Variant &value)
         [[NSUserDefaults standardUserDefaults] setObject:string_value forKey:keystring];
       }
       break;
+
+    default:
+      ret = false;
     }
 
   TRACE_RETURN(ret);

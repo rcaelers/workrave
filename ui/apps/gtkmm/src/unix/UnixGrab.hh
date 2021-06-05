@@ -1,6 +1,4 @@
-// DesktopWindow.hh --- Desktop window
-//
-// Copyright (C) 2004, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +15,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DESKTOP_WINDOW_HH
-#define DESKTOP_WINDOW_HH
+#ifndef UNIXGRAB_HH
+#define UNIXGRAB_HH
 
-#include <windows.h>
+#include <gtk/gtk.h>
+#include <sigc++/sigc++.h>
 
-#include "HeadInfo.hh"
+#include "Grab.hh"
 
-class DesktopWindow
+namespace Gtk
+{
+  class Window;
+}
+
+class UnixGrab : public Grab
 {
 public:
-  DesktopWindow(const HeadInfo &head);
-  ~DesktopWindow();
+  UnixGrab() = default;
 
-  void set_visible(bool visible);
-
-private:
-  void init();
+  bool can_grab() override;
+  void grab(GdkWindow *window) override;
+  void ungrab() override;
 
 private:
-  HWND hwnd;
-  static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-  static bool initialized;
-  static const char *const WINDOW_CLASS;
+  bool grab_internal();
+
+  bool on_grab_retry_timer();
+
+#if !GTK_CHECK_VERSION(3, 24, 0)
+  GdkDevice *keyboard{nullptr} l GdkDevice **pointer{nullptr};
+#endif
+  GdkWindow *grab_window{nullptr};
+  bool grab_wanted{false};
+  bool grabbed{false};
+  sigc::connection grab_retry_connection;
 };
 
-#endif // DESKTOP_WINDOW_HH
+#endif // UNIXGRAB_HH

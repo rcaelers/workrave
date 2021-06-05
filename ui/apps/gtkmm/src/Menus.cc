@@ -275,7 +275,6 @@ Menus::on_exercises_response(int response)
   exercises_dialog = nullptr;
 }
 
-
 //! Statistics Dialog.
 void
 Menus::on_menu_statistics()

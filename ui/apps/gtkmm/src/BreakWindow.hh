@@ -69,7 +69,7 @@ public:
     BREAK_FLAGS_USER_INITIATED = 1 << 4
   };
 
-  BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode block_mode);
+  BreakWindow(workrave::BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode block_mode);
   ~BreakWindow() override;
 
   void set_response(IBreakResponse *bri) override;
@@ -92,7 +92,7 @@ protected:
 
   Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
   void update_skip_postpone_lock();
-  void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &break_id);
+  void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *) override;
@@ -141,7 +141,7 @@ private:
   IBreakResponse *break_response{nullptr};
 
   //! Break ID
-  BreakId break_id;
+  workrave::BreakId break_id;
 
   //! GUI
   Gtk::Widget *gui{nullptr};

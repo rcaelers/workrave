@@ -31,7 +31,7 @@ class TimeBar : public Gtk::DrawingArea
 {
 public:
   TimeBar();
-  ~TimeBar() = default;
+  ~TimeBar() override = default;
 
   void set_progress(int value, int max_value);
   void set_secondary_progress(int value, int max_value);

@@ -1,6 +1,4 @@
-// Locale.cc
-//
-// Copyright (C) 2008, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,18 +19,22 @@
 #  include "config.h"
 #endif
 
+#include "Locale.hh"
+
 #include "debug.hh"
 #include "commonui/nls.h"
 
-#include <cstdio>
 #include <cstdlib>
-#include <cstring>
+#include <cstdio>
 #include <vector>
+#include <cstring>
+#include <boost/algorithm/string.hpp>
 
-#include "Locale.hh"
-#include "utils/StringUtil.hh"
+#include "utils/Platform.hh"
 
 #include "locale.inc"
+
+using namespace workrave::utils;
 
 extern "C" int _nl_msg_cat_cntr;
 
@@ -41,13 +43,13 @@ Locale::LanguageMap Locale::languages_native_locale;
 int
 compare_languages(const void *a, const void *b)
 {
-  return strcmp(((language_t *)a)->code, ((language_t *)b)->code);
+  return strcmp(static_cast<const language_t *>(a)->code, static_cast<const language_t *>(b)->code);
 }
 
 int
 compare_countries(const void *a, const void *b)
 {
-  return strcmp(((country_t *)a)->code, ((country_t *)b)->code);
+  return strcmp(static_cast<const country_t *>(a)->code, static_cast<const country_t *>(b)->code);
 }
 
 bool
@@ -56,7 +58,8 @@ Locale::get_language(const std::string &code, std::string &language)
   language_t key = {code.c_str(), nullptr};
   language_t *val;
 
-  val = (language_t *)bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages);
+  val = reinterpret_cast<language_t *>(
+    bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages));
 
   if (val != nullptr)
     {
@@ -72,7 +75,8 @@ Locale::get_country(const std::string &code, std::string &country)
   country_t key = {code.c_str(), nullptr};
   country_t *val;
 
-  val = (country_t *)bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries);
+  val = reinterpret_cast<country_t *>(
+    bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries));
 
   if (val != nullptr)
     {
@@ -87,13 +91,13 @@ Locale::set_locale(const std::string &code)
 {
   if (code != "")
     {
-      g_setenv("LANGUAGE", code.c_str(), 1);
-      g_setenv("LANG", code.c_str(), 1);
+      Platform::setenv("LANGUAGE", code.c_str(), 1);
+      Platform::setenv("LANG", code.c_str(), 1);
     }
   else
     {
-      g_unsetenv("LANGUAGE");
-      g_unsetenv("LANG");
+      Platform::unsetenv("LANGUAGE");
+      Platform::unsetenv("LANG");
     }
 
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
@@ -105,11 +109,11 @@ std::string
 Locale::get_locale()
 {
   std::string ret;
-  const char *lang_env = g_getenv("LANGUAGE");
+  const char *lang_env = getenv("LANGUAGE");
 
   if (lang_env == nullptr)
     {
-      lang_env = g_getenv("LANG");
+      lang_env = getenv("LANG");
     }
 
   if (lang_env != nullptr)
@@ -142,15 +146,12 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
 {
   std::vector<std::string> all_linguas;
 
+  boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   (void)languages;
+  all_linguas.emplace_back("en");
 
-#ifdef HAVE_LANGUAGE_SELECTION
-  StringUtil::split(std::string(ALL_LINGUAS), ' ', all_linguas);
-  all_linguas.push_back("en");
-
-  for (std::vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+  for (auto code: all_linguas)
     {
-      std::string code = *i;
       std::string lang_code;
       std::string country_code;
 
@@ -168,7 +169,6 @@ Locale::get_all_languages_in_current_locale(LanguageMap &languages)
       Locale::lookup("iso_639", language_entry.language_name);
       Locale::lookup("iso_3166", language_entry.country_name);
     }
-#endif
 }
 
 void
@@ -187,14 +187,13 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 
   std::vector<std::string> all_linguas;
 
-  StringUtil::split(std::string(ALL_LINGUAS), ' ', all_linguas);
+  boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
   std::string lang_save = Locale::get_locale();
 
-  for (std::vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+  for (auto code: all_linguas)
     {
-      std::string code = *i;
       std::string lang_code;
       std::string country_code;
 
@@ -221,20 +220,24 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #endif
 }
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
 #endif
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 #  include <langinfo.h>
+#  include <glib.h>
 #endif
 
+#if defined(PLATFORM_OS_MACOS)
+#  import <Foundation/NSCalendar.h>
+#endif
 int
 Locale::get_week_start()
 {
   int week_start = 0;
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   WCHAR wsDay[4];
   if (
 #  if defined(_WIN32_WINNT_VISTA) && WINVER >= _WIN32_WINNT_VISTA && defined(LOCALE_NAME_USER_DEFAULT)
@@ -244,24 +247,27 @@ Locale::get_week_start()
 #  endif
   )
     {
-      char *ws = g_utf16_to_utf8(reinterpret_cast<const gunichar2 *>(wsDay), -1, NULL, NULL, NULL);
-      if (ws != NULL)
+      int required_size = WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, 0, 0, 0, 0);
+      if (required_size > 0)
         {
-          week_start = (ws[0] - '0' + 1) % 7;
-          g_free(ws);
+          std::vector<char> buffer(required_size);
+          WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, &buffer[0], required_size, 0, 0);
+          week_start = (buffer[0] - '0' + 1) % 7;
         }
     }
-#endif
 
-#ifdef PLATFORM_OS_UNIX
+#elif defined(PLATFORM_OS_MACOS)
+  week_start = [[NSCalendar currentCalendar] firstWeekday];
+
+#elif defined(PLATFORM_OS_UNIX)
   union
   {
     unsigned int word;
     char *string;
   } langinfo;
-  gint week_1stday = 0;
-  gint first_weekday = 1;
-  guint week_origin;
+  int week_1stday = 0;
+  int first_weekday = 1;
+  unsigned int week_origin;
 
   langinfo.string = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
   first_weekday = langinfo.string[0];

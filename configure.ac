@@ -969,13 +969,12 @@ dnl
 dnl Generate language list.
 dnl
 
+ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' | awk '{$1=$1;print}')"
+AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
+
 if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
     LANGFILE="./ui/apps/gtkmm/dist/win32/lang.iss"
-
-    ALL_LINGUAS="$(cat ./po/LINGUAS |grep -v '^#' | tr '\n' ' ' | awk '{$1=$1;print}')"
-    AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
-
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
     echo -en "\r\n" >> $LANGFILE
     for a in $ALL_LINGUAS; do

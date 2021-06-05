@@ -3,7 +3,6 @@ add_library(workrave-libs-utils STATIC
   TimeSource.cc
   AssetPath.cc
   Util.cc
-  StringUtil.cc
   WRID.cc
   debug.cc)
 

@@ -1,6 +1,4 @@
-// DesktopWindow.hh --- Desktop window
-//
-// Copyright (C) 2004, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,29 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DESKTOP_WINDOW_HH
-#define DESKTOP_WINDOW_HH
+#ifndef GRAB_HH
+#define GRAB_HH
 
-#include <windows.h>
+#include <gtk/gtk.h>
 
-#include "HeadInfo.hh"
-
-class DesktopWindow
+class Grab
 {
 public:
-  DesktopWindow(const HeadInfo &head);
-  ~DesktopWindow();
+  static Grab *instance();
 
-  void set_visible(bool visible);
-
-private:
-  void init();
-
-private:
-  HWND hwnd;
-  static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-  static bool initialized;
-  static const char *const WINDOW_CLASS;
+  virtual bool can_grab() = 0;
+  virtual void grab(GdkWindow *window) = 0;
+  virtual void ungrab() = 0;
 };
 
-#endif // DESKTOP_WINDOW_HH
+#endif // GRAB_HH

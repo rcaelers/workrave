@@ -73,7 +73,7 @@ public:
 
   static void init();
 
-// private:
+  // private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
@@ -103,7 +103,7 @@ public:
   static const std::string CFG_KEY_TIMERBOX_IMMINENT;
   static const std::string CFG_KEY_TIMERBOX_ENABLED;
 
-#if !defined(HAVE_CORE_NEXT)
+#  if !defined(HAVE_CORE_NEXT)
   static BlockMode get_block_mode();
   static void set_block_mode(BlockMode mode);
 
@@ -146,7 +146,7 @@ public:
   static void set_timerbox_flags(std::string name, workrave::BreakId timer, int flags);
   static bool is_timerbox_enabled(std::string name);
   static void set_timerbox_enabled(std::string name, bool enabled);
-#endif
+#  endif
 
 private:
   static std::string expand(const std::string &str, workrave::BreakId id);

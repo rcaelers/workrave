@@ -22,6 +22,7 @@
 #endif
 
 #include "W32TrayMenu.hh"
+
 #include <windows.h>
 #include <shellapi.h>
 

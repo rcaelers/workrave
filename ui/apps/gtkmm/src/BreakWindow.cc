@@ -569,7 +569,6 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
 Gtk::Box *
 BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
 {
-
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
@@ -672,7 +671,6 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
             }
         }
 
-      //#ifdef HAVE_GTK3
       if (lockable || shutdownable)
         {
           if (shutdownable)
@@ -692,13 +690,11 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
                 }
             }
         }
-      //#endif
     }
 
   return vbox;
 }
 
-//! Starts the daily limit.
 void
 BreakWindow::init()
 {
@@ -721,7 +717,6 @@ disable_button_focus(GtkWidget *w)
     }
 }
 
-//! Starts the daily limit.
 void
 BreakWindow::start()
 {
@@ -779,7 +774,6 @@ BreakWindow::start()
   TRACE_EXIT();
 }
 
-//! Stops the daily limit.
 void
 BreakWindow::stop()
 {

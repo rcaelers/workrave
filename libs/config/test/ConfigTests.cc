@@ -56,7 +56,7 @@ namespace helper
   void init(Fixture *fixture)
   {
   }
-}
+} // namespace helper
 
 class Fixture : public IConfiguratorListener
 {
@@ -205,7 +205,7 @@ namespace helper
     fixture->has_defaults = true;
   }
 #endif
-}
+} // namespace helper
 
 inline std::ostream &
 operator<<(std::ostream &stream, Fixture::Mode mode)

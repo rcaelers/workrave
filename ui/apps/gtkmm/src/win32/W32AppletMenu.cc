@@ -30,10 +30,9 @@
 
 #include "GUI.hh"
 #include "Menus.hh"
-#include "utils/Util.hh"
+#include "commonui/MenuEnums.hh"
 #include "MainWindow.hh"
 #include "W32AppletWindow.hh"
-#include "commonui/MenuEnums.hh"
 
 using namespace std;
 using namespace workrave;

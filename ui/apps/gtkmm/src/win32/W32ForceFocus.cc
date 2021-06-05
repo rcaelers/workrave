@@ -26,6 +26,9 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include <cstdlib>
 #include <vector>
 #include <sstream>
@@ -34,7 +37,6 @@
 #include <cctype>
 #include <algorithm>
 
-#include "utils/StringUtil.hh"
 #include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 #include "W32Compat.hh"
@@ -105,7 +107,7 @@ W32ForceFocus::GetFunctions()
       transform(str.begin(), str.end(), str.begin(), ::toupper);
 
       vector<string> names;
-      StringUtil::split(str, ',', names);
+      boost::split(names, str, boost::is_any_of(","));
       for (vector<string>::iterator name = names.begin(); name != names.end(); ++name)
         {
           if (!name->compare("ALL_FUNCTIONS"))

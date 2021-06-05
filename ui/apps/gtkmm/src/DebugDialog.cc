@@ -91,18 +91,7 @@ DebugDialog::diagnostics_log(const std::string &log)
 void
 DebugDialog::init()
 {
-  //  auto core = Backend::get_core();
-
   Diagnostics::instance().enable(this);
-
-  //   Gtk::TextIter iter = text_buffer->end();
-
-  // #ifdef HAVE_GTK3
-  //       Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
-  // #else
-  //       Gtk::Adjustment *a = scrolled_window.get_vadjustment();
-  // #endif
-  //       a->set_value(a->get_upper());
 }
 
 int

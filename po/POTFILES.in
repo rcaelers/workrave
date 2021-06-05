@@ -75,7 +75,6 @@ libs/utils/src/Diagnostics.cc
 libs/utils/src/Platform-unix.cc
 libs/utils/src/Platform-win32.cc
 libs/utils/src/Platform.cc
-libs/utils/src/StringUtil.cc
 libs/utils/src/TimeSource.cc
 libs/utils/src/Timer.cc
 libs/utils/src/Util.cc

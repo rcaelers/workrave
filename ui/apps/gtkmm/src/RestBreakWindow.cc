@@ -76,12 +76,7 @@ RestBreakWindow::create_gui()
 
   pluggable_panel = Gtk::manage(new Gtk::HBox);
 
-  vbox->pack_start(
-    *pluggable_panel
-    ,
-    false,
-    false,
-    0);
+  vbox->pack_start(*pluggable_panel, false, false, 0);
 
   // Timebar
   timebar = Gtk::manage(new TimeBar);
@@ -252,13 +247,13 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
-#  ifdef HAVE_GTK3
+#ifdef HAVE_GTK3
   Gtk::Requisition old_size;
   Gtk::Requisition natural_size;
   get_preferred_size(old_size, natural_size);
-#  else
+#else
   Gtk::Requisition old_size = size_request();
-#  endif
+#endif
 
   set_ignore_activity(false);
   clear_pluggable_panel();
@@ -269,12 +264,12 @@ RestBreakWindow::install_info_panel()
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (block_mode == GUIConfig::BLOCK_MODE_NONE && head.count == 0)
     {
-#  ifdef HAVE_GTK3
+#ifdef HAVE_GTK3
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);
-#  else
+#else
       Gtk::Requisition new_size = size_request();
-#  endif
+#endif
 
       int width_delta = (new_size.width - old_size.width) / 2;
       int height_delta = (new_size.height - old_size.height) / 2;
@@ -293,7 +288,6 @@ void
 RestBreakWindow::set_ignore_activity(bool i)
 {
   auto core = Backend::get_core();
-  assert(core != nullptr);
 
 #ifdef PLATFORM_OS_WINDOWS
   if (W32ForceFocus::GetForceFocusValue())

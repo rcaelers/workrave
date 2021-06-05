@@ -26,13 +26,14 @@
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"
-#include "utils/Util.hh"
+#include "utils/AssetPath.hh"
 #include "Hig.hh"
 #include "commonui/nls.h"
 #include "commonui/SoundTheme.hh"
 #include "debug.hh"
 
 using namespace std;
+using namespace workrave::utils;
 
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
@@ -89,35 +90,35 @@ text_buffer_insert_markup_real(GtkTextBuffer *buffer, GtkTextIter *textiter, con
       tag = gtk_text_tag_new(nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_LANGUAGE)))
-        g_object_set(tag, "language", pango_language_to_string(((PangoAttrLanguage *)attr)->value), NULL);
+        g_object_set(tag, "language", pango_language_to_string(((PangoAttrLanguage *)attr)->value), nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FAMILY)))
-        g_object_set(tag, "family", ((PangoAttrString *)attr)->value, NULL);
+        g_object_set(tag, "family", ((PangoAttrString *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STYLE)))
-        g_object_set(tag, "style", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "style", ((PangoAttrInt *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_WEIGHT)))
-        g_object_set(tag, "weight", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "weight", ((PangoAttrInt *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_VARIANT)))
-        g_object_set(tag, "variant", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "variant", ((PangoAttrInt *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRETCH)))
-        g_object_set(tag, "stretch", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "stretch", ((PangoAttrInt *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SIZE)))
-        g_object_set(tag, "size", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "size", ((PangoAttrInt *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FONT_DESC)))
-        g_object_set(tag, "font-desc", ((PangoAttrFontDesc *)attr)->desc, NULL);
+        g_object_set(tag, "font-desc", ((PangoAttrFontDesc *)attr)->desc, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FOREGROUND)))
         {
           GdkColor col = {
             0, ((PangoAttrColor *)attr)->color.red, ((PangoAttrColor *)attr)->color.green, ((PangoAttrColor *)attr)->color.blue};
 
-          g_object_set(tag, "foreground-gdk", &col, NULL);
+          g_object_set(tag, "foreground-gdk", &col, nullptr);
         }
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_BACKGROUND)))
@@ -125,26 +126,26 @@ text_buffer_insert_markup_real(GtkTextBuffer *buffer, GtkTextIter *textiter, con
           GdkColor col = {
             0, ((PangoAttrColor *)attr)->color.red, ((PangoAttrColor *)attr)->color.green, ((PangoAttrColor *)attr)->color.blue};
 
-          g_object_set(tag, "background-gdk", &col, NULL);
+          g_object_set(tag, "background-gdk", &col, nullptr);
         }
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_UNDERLINE)))
-        g_object_set(tag, "underline", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "underline", ((PangoAttrInt *)attr)->value, nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRIKETHROUGH)))
-        g_object_set(tag, "strikethrough", (gboolean)(((PangoAttrInt *)attr)->value != 0), NULL);
+        g_object_set(tag, "strikethrough", (gboolean)(((PangoAttrInt *)attr)->value != 0), nullptr);
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_RISE)))
-        g_object_set(tag, "rise", ((PangoAttrInt *)attr)->value, NULL);
+        g_object_set(tag, "rise", ((PangoAttrInt *)attr)->value, nullptr);
 
       /* PANGO_ATTR_SHAPE cannot be defined via markup text */
 
       if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SCALE)))
-        g_object_set(tag, "scale", ((PangoAttrFloat *)attr)->value, NULL);
+        g_object_set(tag, "scale", ((PangoAttrFloat *)attr)->value, nullptr);
 
       gtk_text_tag_table_add(gtk_text_buffer_get_tag_table(buffer), tag);
 
-      gtk_text_buffer_insert_with_tags(buffer, textiter, text + start, end - start, tag, NULL);
+      gtk_text_buffer_insert_with_tags(buffer, textiter, text + start, end - start, tag, nullptr);
 
       /* mark had right gravity, so it should be
        *  at the end of the inserted text now */
@@ -198,11 +199,11 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
   shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), std::mt19937(std::random_device()()));
 
-#  ifdef HAVE_GTK3
+#ifdef HAVE_GTK3
   progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
-#  else
+#else
   progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
-#  endif
+#endif
 
   description_scroll.add(description_text);
   description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -290,7 +291,7 @@ void
 ExercisesPanel::on_realize()
 {
   Gtk::HBox::on_realize();
-#  ifdef HAVE_GTK3
+#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
 
   style_context->context_save();
@@ -298,9 +299,9 @@ ExercisesPanel::on_realize()
   style_context->add_class(GTK_STYLE_CLASS_BACKGROUND);
   description_text.override_background_color(get_style_context()->get_background_color());
   style_context->context_restore();
-#  else
+#else
   description_text.modify_base(Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
-#  endif
+#endif
 }
 
 ExercisesPanel::~ExercisesPanel()
@@ -356,7 +357,7 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image=" << img.image);
-  string file = Util::complete_directory(img.image, Util::SEARCH_PATH_EXERCISES);
+  string file = AssetPath::complete_directory(img.image, AssetPath::SEARCH_PATH_EXERCISES);
   if (!img.mirror_x)
     {
       image.set(file);

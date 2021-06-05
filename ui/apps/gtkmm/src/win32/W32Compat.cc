@@ -225,6 +225,7 @@ W32Compat::ResetWindow(HWND hwnd, bool topmost)
 #ifdef BREAKAGE
   const bool DEBUG = false;
   DWORD valid_exstyle_diff = 0;
+
   // GetWindowInfo() and GetWindowLong() extended style info can differ.
   // Compare the two results but filter valid values only.
   valid_exstyle_diff = (gwl_exstyle ^ gwi.dwExStyle) & ~0xF1A08802;
@@ -448,8 +449,7 @@ W32Compat::RefreshBreakWindow(BreakWindow &window)
   // without ALT after the user is idle for 5s
   if (!user_active && !window.accel_added)
     {
-      IBreak *b = core->get_break(BreakId(window.break_id));
-      assert(b != NULL);
+      auto b = core->get_break(BreakId(window.break_id));
 
       // TRACE_MSG(b->get_elapsed_idle_time());
       if (b->get_elapsed_idle_time() > 5)

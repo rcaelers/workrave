@@ -1,6 +1,4 @@
-// Locale.hh
-//
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,13 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef LOCALE_HH
-#define LOCALE_HH
+#ifndef WORKRAVE_UTILS_LOCALE_HH
+#define WORKRAVE_UTILS_LOCALE_HH
 
 #include <map>
 #include <string>
-
-#include <glib.h>
 
 class Locale
 {
@@ -34,9 +30,9 @@ public:
     std::string country_name;
   };
 
-  typedef std::map<std::string, Language> LanguageMap;
-  typedef LanguageMap::iterator LanguageMapIter;
-  typedef LanguageMap::const_iterator LanguageMapCIter;
+  using LanguageMap = std::map<std::string, Language>;
+  using LanguageMapIter = LanguageMap::iterator;
+  using LanguageMapCIter = LanguageMap::const_iterator;
 
   static bool get_language(const std::string &code, std::string &language);
   static bool get_country(const std::string &code, std::string &language);
@@ -56,4 +52,4 @@ private:
   void init();
 };
 
-#endif // LOCALE_HH
+#endif // WORKRAVE_UTILS_LOCALE_HH

@@ -361,7 +361,6 @@ GUIConfig::set_locale(std::string locale)
   Backend::get_configurator()->set_value(CFG_KEY_LOCALE, locale);
 }
 
-
 bool
 GUIConfig::get_always_on_top()
 {
@@ -443,8 +442,7 @@ int
 GUIConfig::get_timerbox_cycle_time(string name)
 {
   int ret;
-  if (!Backend::get_configurator()->get_value(
-        GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, ret))
+  if (!Backend::get_configurator()->get_value(GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, ret))
     {
       ret = 10;
     }
@@ -454,14 +452,13 @@ GUIConfig::get_timerbox_cycle_time(string name)
 void
 GUIConfig::set_timerbox_cycle_time(string name, int time)
 {
-  Backend::get_configurator()->set_value(
-    GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
+  Backend::get_configurator()->set_value(GUIConfig::CFG_KEY_TIMERBOX + name + GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
 }
 
 const string
 GUIConfig::get_timerbox_config_key(string name, workrave::BreakId timer, const string &key)
 {
-  auto core =  Backend::get_core();
+  auto core = Backend::get_core();
   workrave::IBreak *break_data = core->get_break(workrave::BreakId(timer));
 
   return string(CFG_KEY_TIMERBOX) + name + "/" + break_data->get_name() + key;

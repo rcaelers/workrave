@@ -27,6 +27,9 @@
 #endif
 #include <cassert>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
+
 #include <gtkmm/notebook.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/menu.h>
@@ -36,7 +39,6 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/filechooserbutton.h>
 
-#include "utils/StringUtil.hh"
 #include "Locale.hh"
 
 #include "GtkUtil.hh"
@@ -189,7 +191,7 @@ PreferencesDialog::create_gui_page()
   languages_combo.set_model(languages_model);
 
   std::vector<std::string> all_linguas;
-  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
   all_linguas.push_back("en");
 
   Locale::LanguageMap languages_current_locale;
@@ -532,11 +534,11 @@ PreferencesDialog::create_monitoring_page()
   sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);
   panel->pack_start(*sensitivity_box, false, false, 0);
 
-#ifdef HAVE_GTK3
+#  ifdef HAVE_GTK3
   connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(sensitivity_adjustment));
-#else
+#  else
   connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(&sensitivity_adjustment));
-#endif
+#  endif
 
   string monitor_type;
   Backend::get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");

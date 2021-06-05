@@ -46,6 +46,7 @@
 #include "DataConnector.hh"
 
 using namespace std;
+using namespace workrave::config;
 
 TimerPreferencesPanel::TimerPreferencesPanel(BreakId t,
                                              Glib::RefPtr<Gtk::SizeGroup> hsize_group,
