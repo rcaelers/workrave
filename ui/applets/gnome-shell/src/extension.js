@@ -5,9 +5,18 @@ const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
 const PanelMenu = imports.ui.panelMenu;
 const Gettext = imports.gettext;
+const Cairo = imports.cairo;
+const Pango = imports.gi.Pango;
+const PangoCairo = imports.gi.PangoCairo;
+const Clutter = imports.gi.Clutter;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const Workrave = imports.gi.Workrave;
+
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
+
+const PreludeWindow = Me.imports.prelude;
 
 const _ = Gettext.gettext;
 
@@ -200,6 +209,55 @@ const WorkraveButton = new Lang.Class({
         this._operation_mode_changed_id = this._core_proxy.connectSignal("OperationModeChanged", Lang.bind(this, this._onOperationModeChanged));
 
         this._updateMenu(null);
+
+        this.areas = [];
+
+        this.updateAreas();
+        this.monitorChangedHandler = Main.layoutManager.connect('monitors-changed', this.updateAreas.bind(this));
+        //this.enableAreas();
+    },
+
+    updateAreas: function() {
+        if (this.activeArea)
+            this.toggleDrawing();
+        this.removeAreas();
+
+        this.monitors = Main.layoutManager.monitors;
+
+        for (let i = 0; i < this.monitors.length; i++) {
+            let monitor = this.monitors[i];
+            let area = new PreludeWindow.PreludeWindow(monitor);
+
+            global.log('workrave-applet: monitor ' + i + ' ' + monitor.width + ' ' + monitor.height);
+
+            //Main.layoutManager._backgroundGroup.insert_child_above(area, Main.layoutManager._bgManagers[i].backgroundActor);
+
+            area.set_position(monitor.x + 400,monitor.y);
+            //area.set_size(500, 100);
+            this.areas.push(area);
+        }
+    },
+
+    enableAreas: function() {
+        for (let i = 0; i < this.areas.length; i++) {
+            let area = this.areas[i];
+            Main.uiGroup.add_child(area);
+        }
+    },
+
+    disableAreas: function() {
+        for (let i = 0; i < this.areas.length; i++) {
+            let area = this.areas[i];
+            Main.uiGroup.remove_actor(area);
+        }
+    },
+
+    removeAreas: function() {
+        for (let i = 0; i < this.areas.length; i++) {
+            let area = this.areas[i];
+            area.destroy();
+        }
+        this.areas = [];
     },
 
     _connectUI: function()
@@ -224,6 +282,11 @@ const WorkraveButton = new Lang.Class({
 
     _onDestroy: function()
     {
+        if (this.monitorChangedHandler) {
+            Main.layoutManager.disconnect(this.monitorChangedHandler);
+            this.monitorChangedHandler = null;
+        }
+
         if (this._ui_proxy != null)
         {
             this._ui_proxy.EmbedRemote(false, this._bus_name);
@@ -487,16 +550,21 @@ let workravePanelButton;
 let workraveUserExtensionLocalePath;
 
 function init(extensionMeta) {
-    /* do nothing */
+    log(`initializing ${Me.metadata.name} version ${Me.metadata.version}`);
     workraveUserExtensionLocalePath = extensionMeta.path + '/locale';
 }
 
 function disable() {
+    log(`disabling ${Me.metadata.name} version ${Me.metadata.version}`);
+
     workravePanelButton.destroy();
     workravePanelButton = null;
 }
 
 function enable() {
+    log(`enabling ${Me.metadata.name} version ${Me.metadata.version}`);
+
+    Gettext.textdomain('workrave');
     Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
 
     workravePanelButton = new WorkraveButton();

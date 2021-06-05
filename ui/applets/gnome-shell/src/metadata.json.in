@@ -2,6 +2,7 @@
  "extension-id": "workrave",
  "uuid": "@uuid@",
  "name": "Workrave",
+ "version": "@version@",
  "description": "Applet that shows all the Workrave timers.",
     "shell-version": [ "3.2",
                        "3.3",
