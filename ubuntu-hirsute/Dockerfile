@@ -5,6 +5,7 @@ LABEL maintainer "Rob Caelers <rob.caelers@gmail.com>"
 RUN \
   export DEBIAN_FRONTEND=noninteractive && \
   apt-get update -y && \
+  apt-get dist-upgrade -y && \
   apt-get install -y \
     autoconf \
     autoconf-archive \
@@ -51,6 +52,7 @@ RUN \
     libxmu-dev \
     libxss-dev \
     libxtst-dev \
+    ninja-build \
     nodejs \
     npm \
     python3-pip \
