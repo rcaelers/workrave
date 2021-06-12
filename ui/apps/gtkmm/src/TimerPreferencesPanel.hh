@@ -1,6 +1,4 @@
-// TimerPreferencesPanel.hh --- Preferences widgets for a timer
-//
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,18 +40,18 @@ namespace Gtk
   class SpinButton;
 } // namespace Gtk
 
-using namespace workrave;
-
 class TimerPreferencesPanel : public Gtk::VBox
 {
 public:
-  TimerPreferencesPanel(BreakId timer, Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
+  TimerPreferencesPanel(workrave::BreakId timer,
+                        Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+                        Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   ~TimerPreferencesPanel() override;
 
 private:
-  bool on_monitor_changed(const std::string &key, bool write);
   bool on_preludes_changed(const std::string &key, bool write);
   void on_exercises_changed();
+
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
   Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
@@ -62,7 +60,7 @@ private:
   void on_enabled_toggled();
   void enable_buttons();
 
-  BreakId break_id;
+  workrave::BreakId break_id;
   DataConnector *connector{nullptr};
 
   Gtk::CheckButton *ignorable_cb{nullptr};

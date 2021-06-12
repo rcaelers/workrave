@@ -22,13 +22,13 @@
 #include <string>
 
 #include "core/ICore.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "IApplication.hh"
 #include "IToolkit.hh"
 #include "MenuModel.hh"
 
-class Menus
+class Menus : public workrave::utils::Trackable
 {
 public:
   typedef std::shared_ptr<Menus> Ptr;
@@ -80,8 +80,6 @@ private:
   std::shared_ptr<IApplication> app;
   std::shared_ptr<IToolkit> toolkit;
   std::shared_ptr<workrave::ICore> core;
-
-  scoped_connections connections;
 
   // TODO: DBUS stubs, refactor
   friend class org_workrave_ControlInterface_Stub;

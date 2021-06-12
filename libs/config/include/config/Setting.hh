@@ -22,6 +22,7 @@
 #include <boost/noncopyable.hpp>
 #include <utility>
 
+#include "utils/Signals.hh"
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 
@@ -57,10 +58,12 @@ namespace workrave
         return setting;
       }
 
-      boost::signals2::connection connect(NotifyType::slot_type slot)
+      template<typename F>
+      auto connect(workrave::utils::Trackable *track_target, F func)
       {
         config->add_listener(key(), this);
-        return signal.connect(slot);
+        auto slot = typename NotifyType::slot_type(func);
+        return signal.connect(slot.track_foreign(track_target->tracker_object()));
       }
 
       void config_changed_notify(const std::string &key) override
@@ -149,18 +152,22 @@ namespace workrave
         config->set_value(setting, static_cast<T>(val));
       }
 
-      boost::signals2::connection connect(typename NotifyType::slot_type slot)
+      template<typename F>
+      auto connect(workrave::utils::Trackable *track_target, F func)
       {
         config->add_listener(key(), this);
-        return signal.connect(slot);
+        auto slot = typename NotifyType::slot_type(func);
+        return signal.connect(slot.track_foreign(track_target->tracker_object()));
       }
 
-      boost::signals2::connection attach(typename NotifyType::slot_type slot)
+      template<typename F>
+      auto attach(workrave::utils::Trackable *track_target, F func)
       {
         config->add_listener(key(), this);
-        boost::signals2::connection ret = signal.connect(slot);
+        auto slot = typename NotifyType::slot_type(func);
+        auto connection = signal.connect(slot.track_foreign(track_target->tracker_object()));
         signal(get());
-        return ret;
+        return connection;
       }
 
       void config_changed_notify(const std::string &key) override

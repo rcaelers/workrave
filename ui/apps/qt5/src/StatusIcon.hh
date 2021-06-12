@@ -26,13 +26,15 @@
 #include <QIcon>
 
 #include "core/CoreTypes.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "MenuModel.hh"
 
 class ToolkitMenu;
 
-class StatusIcon : public QObject
+class StatusIcon
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -56,7 +58,6 @@ private:
   std::shared_ptr<ToolkitMenu> menu;
 
   boost::signals2::signal<void()> activate_signal;
-  scoped_connections connections;
 };
 
 #endif // STATUSICON_HH

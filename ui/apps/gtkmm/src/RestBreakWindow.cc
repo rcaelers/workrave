@@ -1,6 +1,4 @@
-// RestBreakWindow.cc --- window for the microbreak
-//
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,6 +54,10 @@
 #include "commonui/Exercise.hh"
 #include "ExercisesPanel.hh"
 
+using namespace std;
+using namespace workrave;
+using namespace workrave::utils;
+
 //! Constructor
 /*!
  *  \param control The controller.
@@ -82,7 +84,7 @@ RestBreakWindow::create_gui()
   timebar = Gtk::manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
 
-  Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::get_shutdown_enabled(BREAK_ID_REST_BREAK));
+  Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
   if (bottom_box)
     {
       vbox->pack_end(*Gtk::manage(bottom_box), Gtk::PACK_SHRINK, 6);
@@ -218,7 +220,7 @@ RestBreakWindow::get_exercise_count()
 
   if (Exercise::has_exercises())
     {
-      ret = GUIConfig::get_number_of_exercises(BREAK_ID_REST_BREAK);
+      ret = GUIConfig::break_exercises(BREAK_ID_REST_BREAK)();
     }
   return ret;
 }
@@ -261,7 +263,7 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->show_all();
   pluggable_panel->queue_resize();
 
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (block_mode == GUIConfig::BLOCK_MODE_NONE && head.count == 0)
     {
 #ifdef HAVE_GTK3

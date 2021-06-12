@@ -147,8 +147,9 @@ SoundTheme::sound_event(const std::string &event)
 workrave::config::Setting<bool> &
 SoundTheme::sound_event_enabled(SoundEvent event)
 {
-  return SettingCache::get<bool>(
-    Backend::get_configurator(), CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED, true);
+  return SettingCache::get<bool>(Backend::get_configurator(),
+                                 CFG_KEY_SOUND_EVENT + sound_event_to_id(event) + CFG_KEY_SOUND_EVENT_ENABLED,
+                                 true);
 }
 
 workrave::config::Setting<std::string> &

@@ -45,8 +45,6 @@ namespace Gtk
 
 #include <gtkmm/box.h>
 
-using namespace workrave;
-
 class NetworkPreferencePage : public Gtk::VBox
 {
 public:

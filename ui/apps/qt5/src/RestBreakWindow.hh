@@ -19,12 +19,14 @@
 #define RESTBREAKWINDOW_HH
 
 #include "commonui/SoundTheme.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "BreakWindow.hh"
 #include "TimeBar.hh"
 
-class RestBreakWindow : public BreakWindow
+class RestBreakWindow
+  : public BreakWindow
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -45,8 +47,6 @@ private:
   SoundTheme::Ptr sound_theme;
   TimeBar *timebar{nullptr};
   QHBoxLayout *pluggable_panel{nullptr};
-
-  scoped_connections connections;
 };
 
 #endif // RESTBREAKWINDOW_HH

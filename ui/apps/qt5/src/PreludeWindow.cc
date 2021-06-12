@@ -82,7 +82,7 @@ PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
   frame->set_frame_style(Frame::Style::Solid);
   frame->set_frame_width(6, 6);
   frame->set_frame_visible(false);
-  connections.connect(frame->signal_flash(), std::bind(&PreludeWindow::on_frame_flash, this, std::placeholders::_1));
+  workrave::utils::connect(frame->signal_flash(), this, std::bind(&PreludeWindow::on_frame_flash, this, std::placeholders::_1));
 
   QVBoxLayout *frameLayout = new QVBoxLayout;
   frame->setLayout(frameLayout);

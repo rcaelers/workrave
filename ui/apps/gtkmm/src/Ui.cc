@@ -30,7 +30,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 const std::string
-Ui::get_break_name(workrave::BreakId id)
+Ui::get_break_name(BreakId id)
 {
   switch (id)
     {
@@ -49,7 +49,7 @@ Ui::get_break_name(workrave::BreakId id)
 }
 
 const std::string
-Ui::get_break_icon_filename(workrave::BreakId id)
+Ui::get_break_icon_filename(BreakId id)
 {
   std::string filename;
 

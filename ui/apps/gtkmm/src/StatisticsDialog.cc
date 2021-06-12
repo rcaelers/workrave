@@ -1,5 +1,3 @@
-// StatisticsDialog.cc --- Statistics dialog
-//
 // Copyright (C) 2002 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -41,11 +39,11 @@
 
 #include "StatisticsDialog.hh"
 #include "Text.hh"
-#include "utils/Util.hh"
 #include "GtkUtil.hh"
 #include "Locale.hh"
 
 using namespace std;
+using namespace workrave;
 
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false)

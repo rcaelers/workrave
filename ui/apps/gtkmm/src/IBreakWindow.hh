@@ -18,18 +18,19 @@
 #ifndef IBREAKWINDOW_HH
 #define IBREAKWINDOW_HH
 
-#include <cstdio>
+#include <memory>
+
+#include <gtkmm.h>
 
 namespace workrave
 {
   class IBreakResponse;
 }
 
-using namespace workrave;
-
 class IBreakWindow
 {
 public:
+  using Ptr = std::shared_ptr<IBreakWindow>;
   virtual ~IBreakWindow() = default;
 
   //! Initializes the break window.
@@ -44,17 +45,11 @@ public:
   //! Refreshes the content of the break window.
   virtual void refresh() = 0;
 
-  //! Destroys the break window.
-  /*! \warn this will 'delete' the window, so all pointers to the
-   *        IBreakWindow will become invalid.
-   */
-  virtual void destroy() = 0;
-
   //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the response callback.
-  virtual void set_response(IBreakResponse *bri) = 0;
+  virtual void set_response(workrave::IBreakResponse *response) = 0;
 
   //
   virtual Glib::RefPtr<Gdk::Window> get_gdk_window() = 0;

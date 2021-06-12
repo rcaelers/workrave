@@ -1,5 +1,3 @@
-// MainGtkMenu.hh --- Menu using Gtk+
-//
 // Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -40,7 +38,7 @@ public:
   void register_stock_items();
 
   virtual void create_actions();
-  virtual void create_ui();
+  virtual void create_menu();
   virtual void post_init()
   {
   }

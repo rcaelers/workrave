@@ -40,7 +40,6 @@ private:
 
 private:
   std::shared_ptr<DockPrivate> priv;
-  scoped_connections connections;
 };
 
 #endif // DOCK_HH

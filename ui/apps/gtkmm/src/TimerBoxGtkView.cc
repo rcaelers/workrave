@@ -1,6 +1,4 @@
-// TimerBoxGtkView.cc --- Timers Widgets
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,10 +41,11 @@
 #include "GtkUtil.hh"
 
 #include "commonui/Backend.hh"
-#include "config/IConfigurator.hh"
 #include "core/IBreak.hh"
 
 using namespace std;
+using namespace workrave;
+using namespace workrave::utils;
 
 //! Constructor.
 TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
@@ -60,9 +59,6 @@ TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
 TimerBoxGtkView::~TimerBoxGtkView()
 {
   TRACE_ENTER("TimerBoxGtkView::~TimerBoxGtkView");
-  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
-  config->remove_listener(this);
-
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       if (labels[i] != nullptr)
@@ -137,8 +133,7 @@ TimerBoxGtkView::init()
       bars[i]->reference();
     }
 
-  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_ICONTHEME, this);
+  GUIConfig::icon_theme().attach(this, [this](std::string theme) { update_widgets(); });
 
   reconfigure = true;
   TRACE_EXIT();
@@ -592,14 +587,3 @@ TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   return Gtk::Widget::on_draw(cr);
 }
 #endif
-
-void
-TimerBoxGtkView::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
-  if (key == GUIConfig::CFG_KEY_ICONTHEME)
-    {
-      update_widgets();
-    }
-  TRACE_EXIT();
-}

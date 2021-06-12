@@ -34,10 +34,12 @@ using namespace workrave::dbus;
 CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus)
   : dbus(dbus)
 {
-  connections.connect(modes->signal_operation_mode_changed(),
-                      [this](auto &&mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
-  connections.connect(modes->signal_usage_mode_changed(),
-                      [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connect(modes->signal_operation_mode_changed(), this, [this](auto &&mode) {
+    on_operation_mode_changed(std::forward<decltype(mode)>(mode));
+  });
+  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) {
+    on_usage_mode_changed(std::forward<decltype(mode)>(mode));
+  });
 }
 
 void

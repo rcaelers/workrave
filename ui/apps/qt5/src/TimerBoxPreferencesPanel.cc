@@ -59,11 +59,11 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::string name)
 void
 TimerBoxPreferencesPanel::init_config()
 {
-  connections.add(GUIConfig::timerbox_enabled(name).connect(std::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
+  GUIConfig::timerbox_enabled(name).connect(this, std::bind(&TimerBoxPreferencesPanel::enable_buttons, this));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      connections.add(CoreConfig::break_enabled(BreakId(i)).connect(std::bind(&TimerBoxPreferencesPanel::enable_buttons, this)));
+      CoreConfig::break_enabled(BreakId(i)).connect(this, std::bind(&TimerBoxPreferencesPanel::enable_buttons, this));
     }
 }
 

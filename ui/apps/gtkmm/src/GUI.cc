@@ -35,22 +35,25 @@
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include <cassert>
 #include <cstdio>
+#include <cassert>
 #include <fcntl.h>
 
 #include "GUI.hh"
 
+// Library includes
+#include "config/IConfigurator.hh"
 // Backend includes.
 #include "core/IBreak.hh"
 #include "core/IBreakResponse.hh"
 #include "IBreakWindow.hh"
-#include "config/IConfigurator.hh"
 #include "core/ICore.hh"
 
 #include "commonui/Backend.hh"
 
 #include "utils/Exception.hh"
+#include "Locale.hh"
+#include "utils/Platform.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
 #include "BreakWindow.hh"
@@ -74,8 +77,12 @@
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "W32AppletWindow.hh"
 #  include <gdk/gdkwin32.h>
-#  include <pbt.h>
+#  ifndef PLATFORM_OS_WINDOWS_NATIVE
+#    include <pbt.h>
+#  endif
 #  include <wtsapi32.h>
+#  include <dbt.h>
+#  include <windows.h>
 #endif
 
 #if defined(PLATFORM_OS_MACOS)
@@ -92,13 +99,10 @@
 #  include <X11/Xlib.h>
 #endif
 
-#if defined(HAVE_DBUS)
-#  if defined(interface)
-#    undef interface
-#  endif
-#  include "dbus/IDBus.hh"
-#  include "dbus/DBusException.hh"
+#if defined(interface)
+#  undef interface
 #endif
+#include "dbus/IDBus.hh"
 
 #ifdef HAVE_GTK_MAC_INTEGRATION
 #  include "gtkosxapplication.h"
@@ -107,6 +111,8 @@
 GUI *GUI::instance = nullptr;
 
 using namespace std;
+using namespace workrave;
+using namespace workrave::utils;
 
 //! GUI Constructor.
 /*!
@@ -136,6 +142,7 @@ GUI::~GUI()
 
   ungrab();
 
+  core.reset();
   delete main_window;
 
   delete applet_control;
@@ -144,6 +151,8 @@ GUI::~GUI()
   delete[] prelude_windows;
   delete[] break_windows;
   delete[] heads;
+
+  Backend::core.reset();
 
   TRACE_EXIT();
 }
@@ -196,9 +205,7 @@ GUI::main()
   init_debug();
   init_sound_player();
   init_multihead();
-#ifdef HAVE_DBUS
   init_dbus();
-#endif
   init_platform();
   init_session();
   init_gui();
@@ -224,9 +231,9 @@ GUI::main()
   cleanup_session();
 #endif
 
-  for (list<sigc::connection>::iterator i = event_connections.begin(); i != event_connections.end(); i++)
+  for (auto &connection: event_connections)
     {
-      i->disconnect();
+      connection.disconnect();
     }
 
   delete main_window;
@@ -285,8 +292,7 @@ void
 GUI::on_main_window_closed()
 {
   TRACE_ENTER("GUI::on_main_window_closed");
-  bool closewarn = false;
-  Backend::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
+  bool closewarn = GUIConfig::closewarn_enabled()();
   TRACE_MSG(closewarn);
   if (closewarn && !closewarn_shown)
     {
@@ -433,7 +439,7 @@ void
 GUI::init_nls()
 {
 #if defined(ENABLE_NLS)
-  string language = GUIConfig::get_locale();
+  string language = GUIConfig::locale()();
   if (language != "")
     {
       g_setenv("LANGUAGE", language.c_str(), 1);
@@ -481,7 +487,10 @@ GUI::init_nls()
   bind_textdomain_codeset("iso_3166", "UTF-8");
   bind_textdomain_codeset("iso_639", "UTF-8");
 
-  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
+  GUIConfig::locale().connect([&](const std::string &locale) {
+    Locale::set_locale(locale);
+    menus->locale_changed();
+  });
 #  endif
 
   bindtextdomain(GETTEXT_PACKAGE, locale_dir);
@@ -558,11 +567,11 @@ GUI::init_multihead_mem(int new_num_heads)
               // destroy breaks/preludes
               if (old_prelude_windows != nullptr && old_prelude_windows[i] != nullptr)
                 {
-                  old_prelude_windows[i]->destroy();
+                  delete old_prelude_windows[i];
                 }
               if (old_break_windows != nullptr && old_break_windows[i] != nullptr)
                 {
-                  old_break_windows[i]->destroy();
+                  delete old_break_windows[i];
                 }
             }
         }
@@ -718,25 +727,25 @@ GUI::init_gui()
   status_icon->init();
 
   // Events
-  event_connections.push_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed)));
-  event_connections.push_back(main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
-  event_connections.push_back(
+  event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed)));
+  event_connections.emplace_back(
+    main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.emplace_back(
     applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
-  event_connections.push_back(
+  event_connections.emplace_back(
     status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate)));
-  event_connections.push_back(status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate)));
-  event_connections.push_back(status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.emplace_back(status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate)));
+  event_connections.emplace_back(
+    status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
 
   process_visibility();
 
-#ifdef HAVE_DBUS
   workrave::dbus::IDBus::Ptr dbus = Backend::get_dbus();
 
   if (dbus->is_available())
     {
       dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus);
     }
-#endif
 
 #if defined(PLATFORM_OS_WINDOWS)
   win32_init_filter();
@@ -761,7 +770,6 @@ GUI::init_gui()
 #endif
 }
 
-#ifdef HAVE_DBUS
 void
 GUI::init_dbus()
 {
@@ -782,14 +790,22 @@ GUI::init_dbus()
         {
           dbus->register_object_path("/org/workrave/Workrave/UI");
           dbus->register_service("org.workrave.Workrave", this);
-
-          extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
-          init_DBusGUI(dbus);
         }
       catch (workrave::dbus::DBusException &)
         {
         }
     }
+
+#ifdef HAVE_DBUS
+  try
+    {
+      extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
+      init_DBusGUI(dbus);
+    }
+  catch (workrave::dbus::DBusException &)
+    {
+    }
+#endif
 }
 
 void
@@ -801,7 +817,6 @@ GUI::bus_name_presence(const std::string &name, bool present)
       exit(1);
     }
 }
-#endif
 
 void
 GUI::init_startup_warnings()
@@ -818,7 +833,7 @@ IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
 {
   IBreakWindow *ret = nullptr;
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
       ret = new MicroBreakWindow(head, break_flags, block_mode);
@@ -913,24 +928,6 @@ GUI::core_event_usage_mode_changed(const UsageMode m)
 }
 
 void
-GUI::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("GUI::config_changed_notify", key);
-
-#if defined(HAVE_LANGUAGE_SELECTION)
-  if (key == GUIConfig::CFG_KEY_LOCALE)
-    {
-      string locale = GUIConfig::get_locale();
-      Locale::set_locale(locale);
-
-      menus->locale_changed();
-    }
-#endif
-
-  TRACE_EXIT();
-}
-
-void
 GUI::set_break_response(IBreakResponse *rep)
 {
   response = rep;
@@ -963,8 +960,8 @@ GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> bre
   collect_garbage();
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
-  bool ignorable = GUIConfig::get_ignorable(break_id);
-  bool skippable = GUIConfig::get_skippable(break_id);
+  bool ignorable = GUIConfig::break_ignorable(break_id)();
+  bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BreakHint::UserInitiated)
     {
@@ -1067,7 +1064,7 @@ GUI::show_break_window()
         }
     }
 
-  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
+  if (GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
     {
       grab();
     }
@@ -1151,7 +1148,7 @@ GUI::collect_garbage()
             {
               if (prelude_windows[i] != nullptr)
                 {
-                  prelude_windows[i]->destroy();
+                  delete prelude_windows[i];
                   prelude_windows[i] = nullptr;
                 }
             }
@@ -1171,7 +1168,7 @@ GUI::collect_garbage()
               if (break_windows[i] != nullptr)
                 {
                   TRACE_MSG("3");
-                  break_windows[i]->destroy();
+                  delete break_windows[i];
                   break_windows[i] = nullptr;
                 }
             }
@@ -1473,7 +1470,7 @@ GUI::on_status_icon_balloon_activate(const std::string &id)
 {
   if (id == "closewarn")
     {
-      Backend::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
+      GUIConfig::closewarn_enabled().set(false);
     }
 }
 
@@ -1499,7 +1496,7 @@ GUI::process_visibility()
 #ifdef PLATFORM_OS_WINDOWS
   if (!main_window->is_visible() && !applet_control->is_visible())
     {
-      GUIConfig::set_trayicon_enabled(true);
+      GUIConfig::trayicon_enabled().set(true);
     }
 #else
   bool can_close_main_window = applet_control->is_visible() || status_icon->is_visible();
@@ -1509,6 +1506,9 @@ GUI::process_visibility()
 }
 
 #if defined(PLATFORM_OS_WINDOWS)
+#  ifndef GUID_DEVINTERFACE_MONITOR
+static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, {0xb0, 0x76, 0x33, 0xf5, 0x7b, 0xf4, 0xea, 0xa7}};
+#  endif
 void
 GUI::win32_init_filter()
 {
@@ -1519,6 +1519,13 @@ GUI::win32_init_filter()
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
 
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
+
+  DEV_BROADCAST_DEVICEINTERFACE notification;
+  ZeroMemory(&notification, sizeof(notification));
+  notification.dbcc_size = sizeof(notification);
+  notification.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
+  notification.dbcc_classguid = GUID_DEVINTERFACE_MONITOR;
+  RegisterDeviceNotification(hwnd, &notification, DEVICE_NOTIFY_WINDOW_HANDLE);
 }
 
 GdkFilterReturn
@@ -1594,6 +1601,26 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
         core->time_changed();
       }
       break;
+
+    case WM_DEVICECHANGE:
+      {
+        TRACE_MSG("WM_DEVICECHANGE " << msg->wParam << " " << msg->lParam);
+        switch (msg->wParam)
+          {
+          case DBT_DEVICEARRIVAL:
+          case DBT_DEVICEREMOVECOMPLETE:
+            {
+              HWND hwnd = FindWindowExA(NULL, NULL, "GdkDisplayChange", NULL);
+              if (hwnd)
+                {
+                  SendMessage(hwnd, WM_DISPLAYCHANGE, 0, 0);
+                }
+            }
+          default:
+            break;
+          }
+        break;
+      }
 
     default:
       std::shared_ptr<W32AppletWindow> applet_window =

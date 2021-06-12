@@ -1,5 +1,3 @@
-// IconListCellRenderer.hh --- Notebook like widget cell renderer
-//
 // Copyright (C) 2003, 2007, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

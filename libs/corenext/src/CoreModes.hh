@@ -23,12 +23,12 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
-#include "utils/ScopedConnections.hh"
-
 #include "IActivityMonitor.hh"
-#include "core/CoreTypes.hh"
 
-class CoreModes
+#include "core/CoreTypes.hh"
+#include "utils/Signals.hh"
+
+class CoreModes : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<CoreModes>;
@@ -74,8 +74,6 @@ private:
 
   //! Usage mode changed notification.
   boost::signals2::signal<void(workrave::UsageMode)> usage_mode_changed_signal;
-
-  scoped_connections connections;
 };
 
 #endif // COREMODES_HH

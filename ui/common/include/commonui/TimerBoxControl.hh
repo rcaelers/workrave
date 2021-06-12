@@ -20,12 +20,12 @@
 
 #include <string>
 
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "core/ICore.hh"
 #include "commonui/ITimerBoxView.hh"
 
-class TimerBoxControl
+class TimerBoxControl : public workrave::utils::Trackable
 {
 public:
   TimerBoxControl(std::string name, ITimerBoxView *view);
@@ -81,8 +81,6 @@ private:
 
   //! Never show any timers.
   bool force_empty{false};
-
-  scoped_connections connections;
 };
 
 #endif // TIMERBOXCONTROL_HH

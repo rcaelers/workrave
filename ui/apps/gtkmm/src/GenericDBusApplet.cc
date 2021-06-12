@@ -1,5 +1,3 @@
-// GenericDBusApplet.cc --- Applet info Window
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -60,7 +58,7 @@ GenericDBusApplet::GenericDBusApplet()
       data[i].bar_secondary_max = 0;
     }
 
-  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_APPLET_ICON_ENABLED, this);
+  GUIConfig::trayicon_enabled().connect(this, [this](bool enabled) { send_tray_icon_enabled(); });
 }
 
 void
@@ -127,9 +125,9 @@ GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
   TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
   embedded = enable;
 
-  for (std::set<std::string>::iterator i = active_bus_names.begin(); i != active_bus_names.end(); i++)
+  for (const auto &bus_name: active_bus_names)
     {
-      dbus->unwatch(*i);
+      dbus->unwatch(bus_name);
     }
   active_bus_names.clear();
 
@@ -178,8 +176,9 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   add_menu_item(_("Connect"), MENU_COMMAND_NETWORK_CONNECT, MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Reconnect"), MENU_COMMAND_NETWORK_RECONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(
-    _("Show log"), MENU_COMMAND_NETWORK_LOG, MENU_ITEM_FLAG_CHECK | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Show log"),
+                MENU_COMMAND_NETWORK_LOG,
+                MENU_ITEM_FLAG_CHECK | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
   add_menu_item(_("Network"), MENU_COMMAND_NETWORK_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
 
@@ -208,7 +207,7 @@ GenericDBusApplet::get_menu(MenuItems &out) const
 void
 GenericDBusApplet::get_tray_icon_enabled(bool &enabled) const
 {
-  enabled = GUIConfig::is_applet_icon_enabled();
+  enabled = GUIConfig::applet_icon_enabled()();
 }
 
 void
@@ -266,22 +265,10 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
 }
 
 void
-GenericDBusApplet::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("GenericDBusApplet::config_changed_notify", key);
-
-  if (key == GUIConfig::CFG_KEY_APPLET_ICON_ENABLED)
-    {
-      send_tray_icon_enabled();
-    }
-  TRACE_EXIT();
-}
-
-void
 GenericDBusApplet::send_tray_icon_enabled()
 {
   TRACE_ENTER("GenericDBusApplet::send_tray_icon_enabled");
-  bool on = GUIConfig::is_applet_icon_enabled();
+  bool on = GUIConfig::applet_icon_enabled()();
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);

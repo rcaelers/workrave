@@ -1,5 +1,3 @@
-// MainWindow.hh --- Main info Window
-//
 // Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -28,16 +26,14 @@
 #  include "commonui/TimerBoxControl.hh"
 #endif
 
-#include "config/IConfiguratorListener.hh"
+#include "utils/Signals.hh"
 
 class TimerBoxControl;
 class TimerBoxGtkView;
 
-using namespace workrave;
-
 class MainWindow
   : public Gtk::Window
-  , public workrave::config::IConfiguratorListener
+  , public workrave::utils::Trackable
 {
 public:
   MainWindow() = default;
@@ -98,7 +94,6 @@ private:
 
 private:
   void setup();
-  void config_changed_notify(const std::string &key) override;
   void locate_window(GdkEventConfigure *event);
   void move_to_start_position();
 

@@ -18,7 +18,8 @@
 #ifndef IPRELUDEWINDOW_HH
 #define IPRELUDEWINDOW_HH
 
-#include <string>
+#include <memory>
+
 #include "core/IApp.hh"
 
 class IPreludeWindow
@@ -26,16 +27,13 @@ class IPreludeWindow
 public:
   virtual ~IPreludeWindow() = default;
 
+  using Ptr = std::shared_ptr<IPreludeWindow>;
+
   //! Starts (i.e. shows) the prelude window.
   virtual void start() = 0;
 
   //! Stops (i.e. hides) the prelude window.
   virtual void stop() = 0;
-
-  //! Destroys the prelude window.
-  /*! \warn this will 'delete' the window.
-   */
-  virtual void destroy() = 0;
 
   //! Refreshes the content of the prelude window.
   virtual void refresh() = 0;
@@ -44,10 +42,10 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the alert stage of the prelude window.
-  virtual void set_stage(IApp::PreludeStage stage) = 0;
+  virtual void set_stage(workrave::IApp::PreludeStage stage) = 0;
 
   //! Sets the progress text of the prelude window.
-  virtual void set_progress_text(IApp::PreludeProgressText text) = 0;
+  virtual void set_progress_text(workrave::IApp::PreludeProgressText text) = 0;
 };
 
-#endif // IRESTPRELUDEWINDOW_HH
+#endif // IPRELUDEWINDOW_HH

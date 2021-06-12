@@ -1,6 +1,4 @@
-// Menus.cc --- Timer info Window
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -77,11 +75,9 @@
 
 #include "commonui/MenuEnums.hh"
 
-//! Constructor.
-/*!
- *  \param gui the main GUI entry point.
- *  \param control Interface to the controller.
- */
+using namespace workrave;
+using namespace workrave::utils;
+
 Menus::Menus(SoundTheme::Ptr sound_theme)
   : sound_theme(sound_theme)
 {
@@ -93,7 +89,6 @@ Menus::Menus(SoundTheme::Ptr sound_theme)
     }
 }
 
-//! Destructor.
 Menus::~Menus()
 {
   TRACE_ENTER("Menus::~Menus");
@@ -103,7 +98,9 @@ Menus::~Menus()
 void
 Menus::init(AppletControl *applet_control)
 {
+#if defined(PLATFORM_OS_WINDOWS) || defined(HAVE_DBUS)
   std::shared_ptr<IAppletWindow> applet_window;
+#endif
 
 #if defined(PLATFORM_OS_MACOS)
   menus[MENU_MAINWINDOW] = new MacOSGtkMenu(true);
@@ -327,7 +324,7 @@ Menus::on_menu_about()
       std::vector<Glib::ustring> authors;
       for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
-          authors.push_back(workrave_authors[index]);
+          authors.emplace_back(workrave_authors[index]);
         }
       about->set_authors(authors);
 #else

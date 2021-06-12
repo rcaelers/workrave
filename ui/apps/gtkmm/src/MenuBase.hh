@@ -1,6 +1,4 @@
-// MenuBase.hh --- Menu
-//
-// Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +20,7 @@
 
 #include "IMenu.hh"
 
+#include <gtkmm.h>
 class MenuBase : public IMenu
 {
 public:
@@ -31,7 +30,7 @@ public:
   {
   }
 
-  void add_accel(Gtk::Window &window) override
+  void add_accel(Gtk::Window &window)
   {
     (void)window;
   }

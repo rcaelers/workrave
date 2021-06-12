@@ -301,10 +301,11 @@ void
 CoreModes::load_config()
 {
   TRACE_ENTER("CoreModes::load_config");
-  connections.add(CoreConfig::operation_mode().connect(
-    [&](OperationMode operation_mode) { set_operation_mode_internal(operation_mode, false); }));
+  CoreConfig::operation_mode().connect(this, [this](OperationMode operation_mode) {
+    set_operation_mode_internal(operation_mode, false);
+  });
 
-  connections.add(CoreConfig::usage_mode().connect([&](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); }));
+  CoreConfig::usage_mode().connect(this, [this](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); });
   OperationMode operation_mode = CoreConfig::operation_mode()();
   TRACE_MSG(operation_mode);
   set_operation_mode(operation_mode);

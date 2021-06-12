@@ -117,9 +117,8 @@ Menus::init()
   root->add_menu_item(item);
   menu_model->update();
 
-  connections.connect(core->signal_operation_mode_changed(),
-                      std::bind(&Menus::on_operation_mode_changed, this, std::placeholders::_1));
-  connections.connect(core->signal_usage_mode_changed(), std::bind(&Menus::on_usage_mode_changed, this, std::placeholders::_1));
+  connect(core->signal_operation_mode_changed(), this, std::bind(&Menus::on_operation_mode_changed, this, std::placeholders::_1));
+  connect(core->signal_usage_mode_changed(), this, std::bind(&Menus::on_usage_mode_changed, this, std::placeholders::_1));
 }
 
 void

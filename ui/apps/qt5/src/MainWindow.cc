@@ -54,7 +54,7 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_show_contextmenu(const QPoint &)));
 
-  GUIConfig::main_window_always_on_top().attach([&](bool enabled) {
+  GUIConfig::main_window_always_on_top().attach(this, [&](bool enabled) {
     if (enabled)
       {
         setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);

@@ -22,12 +22,11 @@
 
 #include <memory>
 
-#include "utils/ScopedConnections.hh"
-
 #include "BreakStateModel.hh"
 #include "Statistics.hh"
+#include "utils/Signals.hh"
 
-class BreakStatistics
+class BreakStatistics : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<BreakStatistics>;
@@ -46,7 +45,6 @@ private:
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
   Statistics::Ptr statistics;
-  scoped_connections connections;
 };
 
 #endif // BREAKSTATISTICS_HH

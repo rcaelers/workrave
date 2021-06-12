@@ -1,6 +1,4 @@
-// StatusIcon.hh --- Status icon
-//
-// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2006 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,33 +29,17 @@
 #include <gtkmm/statusicon.h>
 
 #include "core/ICore.hh"
-#include "config/IConfiguratorListener.hh"
-
-#ifndef WR_CHECK_VERSION
-#  define WR_CHECK_VERSION(comp, major, minor, micro)                                                      \
-    (comp##_MAJOR_VERSION > (major) || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) \
-     || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && comp##_MICRO_VERSION >= (micro)))
-#endif
-
-#if WR_CHECK_VERSION(GTKMM, 2, 11, 1)
-#  define HAVE_STATUSICON_SIGNAL 1
-#endif
-#if WR_CHECK_VERSION(GTKMM, 2, 22, 0)
-#  define HAVE_EMBEDDED_SIGNAL 1
-#endif
-
-using namespace workrave;
+#include "utils/Signals.hh"
 
 class W32StatusIcon;
 
-class StatusIcon : public workrave::config::IConfiguratorListener
+class StatusIcon : public workrave::utils::Trackable
 {
 public:
   StatusIcon();
-  ~StatusIcon() override = default;
 
   void init();
-  void set_operation_mode(OperationMode m);
+  void set_operation_mode(workrave::OperationMode m);
   void set_tooltip(std::string &tip);
   bool is_visible() const;
   void show_balloon(std::string id, const std::string &balloon);
@@ -73,8 +55,6 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   void on_embedded_changed();
 
-  void config_changed_notify(const std::string &key) override;
-
 #if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
   GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
 #endif
@@ -83,15 +63,7 @@ private:
   void on_balloon_activate(std::string id);
 #endif
 
-#ifndef HAVE_STATUSICON_SIGNAL
-  static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
-  static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time, gpointer callback_data);
-#endif
-#ifndef HAVE_EMBEDDED_SIGNAL
-  static void embedded_changed_callback(GObject *gobject, GParamSpec *pspec, gpointer callback_data);
-#endif
-
-  std::map<OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
+  std::map<workrave::OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 
   sigc::signal<void> visibility_changed_signal;
   sigc::signal<void> activate_signal;

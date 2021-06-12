@@ -1,5 +1,3 @@
-// GenericDBusApplet.hh --- X11 Applet Window
-//
 // Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -20,16 +18,14 @@
 #ifndef GENERICDBUSAPPLET_HH
 #define GENERICDBUSAPPLET_HH
 
-#include "config.h"
-
 #include <string>
 #include <set>
 
-#include "config/IConfiguratorListener.hh"
-
 #include "AppletWindow.hh"
-#include "commonui/TimerBoxViewBase.hh"
 #include "MenuBase.hh"
+
+#include "commonui/TimerBoxViewBase.hh"
+#include "utils/Signals.hh"
 #include "dbus/IDBus.hh"
 #include "dbus/IDBusWatch.hh"
 
@@ -40,7 +36,7 @@ class GenericDBusApplet
   , public TimerBoxViewBase
   , public MenuBase
   , public workrave::dbus::IDBusWatch
-  , public workrave::config::IConfiguratorListener
+  , public workrave::utils::Trackable
 {
 public:
   struct TimerData
@@ -62,7 +58,7 @@ public:
     int flags;
   };
 
-  typedef std::list<MenuItem> MenuItems;
+  using MenuItems = std::list<MenuItem>;
 
   GenericDBusApplet();
   ~GenericDBusApplet() override = default;
@@ -77,9 +73,6 @@ public:
 private:
   // IAppletWindow
   void init_applet() override;
-
-  // IConfiguratorListener
-  void config_changed_notify(const std::string &key) override;
 
   // ITimerBoxView
   void set_slot(workrave::BreakId id, int slot) override;

@@ -42,8 +42,11 @@
 #include "debug.hh"
 #include "commonui/nls.h"
 #include <gtkmm.h>
+#include <cmath>
 
 #include "BreakWindow.hh"
+
+#include "config/IConfigurator.hh"
 
 #include "GUI.hh"
 #include "core/IBreak.hh"
@@ -52,10 +55,10 @@
 #include "WindowHints.hh"
 #include "Frame.hh"
 #include "session/System.hh"
-#include "utils/Util.hh"
 #include "core/ICore.hh"
-#include "config/IConfigurator.hh"
 #include "commonui/Backend.hh"
+#include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "DesktopWindow.hh"
@@ -64,6 +67,7 @@
 #endif
 
 using namespace workrave;
+using namespace workrave::utils;
 
 //! Constructor
 /*!
@@ -139,7 +143,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 #endif
 
   auto core = Backend::get_core();
-  assert(core != nullptr);
   core->set_insist_policy(initial_ignore_activity ? InsistPolicy::Ignore : InsistPolicy::Halt);
   TRACE_EXIT();
 }
@@ -324,11 +327,9 @@ BreakWindow::create_sysoper_combobox()
 
   append_row_to_sysoper_model(model, System::SystemOperation::SYSTEM_OPERATION_NONE);
 
-  for (std::vector<System::SystemOperation>::iterator iter = supported_system_operations.begin();
-       iter != supported_system_operations.end();
-       ++iter)
+  for (auto &operation: supported_system_operations)
     {
-      append_row_to_sysoper_model(model, iter->type);
+      append_row_to_sysoper_model(model, operation.type);
     }
 
   // if there are no operations to put in the combobox
@@ -453,7 +454,8 @@ BreakWindow::update_skip_postpone_lock()
           if (overdue_break_id != BREAK_ID_NONE)
             {
               auto core = Backend::get_core();
-              IBreak *b = core->get_break(BreakId(overdue_break_id));
+              auto b = core->get_break(BreakId(overdue_break_id));
+
               progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / (double)b->get_auto_reset());
             }
           else
@@ -546,11 +548,11 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
 
           if ((!(break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
             {
-              if (!GUIConfig::get_ignorable(BreakId(id)))
+              if (!GUIConfig::break_ignorable(BreakId(id))())
                 {
                   skip_locked = overdue;
                 }
-              if (!GUIConfig::get_skippable(BreakId(id)))
+              if (!GUIConfig::break_skippable(BreakId(id))())
                 {
                   postpone_locked = overdue;
                 }
@@ -799,19 +801,6 @@ BreakWindow::stop()
   TRACE_EXIT();
 }
 
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  IBreakWindow. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-BreakWindow::destroy()
-{
-  delete this;
-}
-
-//! Refresh
 void
 BreakWindow::refresh()
 {

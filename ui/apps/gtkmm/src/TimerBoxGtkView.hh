@@ -1,6 +1,4 @@
-// TimerBoxtGtkView.hh --- All timers
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +21,9 @@
 #include <string>
 #include <gtkmm.h>
 
-#include "config/IConfiguratorListener.hh"
+#include "utils/Signals.hh"
 #include "commonui/ITimerBoxView.hh"
+
 #include "TimeBar.hh"
 #include "Menus.hh"
 
@@ -41,7 +40,7 @@ namespace Gtk
 class TimerBoxGtkView
   : public Gtk::Table
   , public ITimerBoxView
-  , public workrave::config::IConfiguratorListener
+  , public workrave::utils::Trackable
 {
 public:
   TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
@@ -79,8 +78,6 @@ private:
   bool on_restbreak_button_press_event(int button);
   int get_number_of_timers() const;
 
-  void config_changed_notify(const std::string &key) override;
-
   //! What menu to active on click
   Menus::MenuKind menu;
 
@@ -91,13 +88,13 @@ private:
   bool reconfigure{true};
 
   //! Array of time labels
-  Gtk::Widget *labels[BREAK_ID_SIZEOF]{};
+  Gtk::Widget *labels[workrave::BREAK_ID_SIZEOF]{};
 
   //! Array of time bar widgets.
-  TimeBar *bars[BREAK_ID_SIZEOF]{};
+  TimeBar *bars[workrave::BREAK_ID_SIZEOF]{};
 
   //! Break images
-  Gtk::Image *images[BREAK_ID_SIZEOF]{};
+  Gtk::Image *images[workrave::BREAK_ID_SIZEOF]{};
 
   //! Sheep
   Gtk::Image *sheep{nullptr};

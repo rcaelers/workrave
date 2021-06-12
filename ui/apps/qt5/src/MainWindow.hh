@@ -23,7 +23,9 @@
 #include "TimerBoxView.hh"
 #include "ToolkitMenu.hh"
 
-class MainWindow : public QWidget
+class MainWindow
+  : public QWidget
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 

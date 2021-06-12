@@ -37,6 +37,7 @@
 #include "GtkUtil.hh"
 
 using namespace std;
+using namespace workrave;
 
 //! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
@@ -89,7 +90,7 @@ MainGtkMenu::init()
     {
       register_stock_items();
       create_actions();
-      create_ui();
+      create_menu();
       post_init();
     }
   else
@@ -160,7 +161,7 @@ MainGtkMenu::create_actions()
 }
 
 void
-MainGtkMenu::create_ui()
+MainGtkMenu::create_menu()
 {
   Glib::ustring open_ui_info;
 

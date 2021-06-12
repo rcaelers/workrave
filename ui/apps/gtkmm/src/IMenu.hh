@@ -1,6 +1,4 @@
-// IMenu.hh --- Menu interface
-//
-// Copyright (C) 2001 - 2009, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,10 +19,9 @@
 #define IMENU_HH
 
 #include <string>
+#include <glib.h>
 
-#include "core/ICore.hh"
-
-#include <gtkmm/window.h>
+#include "core/CoreTypes.hh"
 
 class IMenu
 {
@@ -33,7 +30,6 @@ public:
   virtual ~IMenu() = default;
 
   virtual void init() = 0;
-  virtual void add_accel(Gtk::Window &window) = 0;
   virtual void popup(const guint button, const guint activate_time) = 0;
   virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) = 0;
 };

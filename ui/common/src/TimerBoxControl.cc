@@ -119,11 +119,11 @@ TimerBoxControl::init()
 {
   TRACE_ENTER("TimerBoxControl::init");
 
-  connections.add(GUIConfig::key_timerbox(name).connect([this] { load_configuration(); }));
+  GUIConfig::key_timerbox(name).connect(this, [this] { load_configuration(); });
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      connections.add(CoreConfig::break_enabled(BreakId(i)).connect([this](bool b) { load_configuration(); }));
+      CoreConfig::break_enabled(BreakId(i)).connect(this, [this](bool b) { load_configuration(); });
 
       break_position[i] = i;
       break_flags[i] = 0;

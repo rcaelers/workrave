@@ -43,6 +43,7 @@
 #include "commonui/GUIConfig.hh"
 
 using namespace std;
+using namespace workrave;
 
 Glib::Quark *GtkUtil::label_quark = new Glib::Quark("workrave-button-label");
 

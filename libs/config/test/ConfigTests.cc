@@ -58,7 +58,9 @@ namespace helper
   }
 } // namespace helper
 
-class Fixture : public IConfiguratorListener
+class Fixture
+  : public IConfiguratorListener
+  , public workrave::utils::Trackable
 {
 public:
   Fixture()
@@ -1462,7 +1464,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_connect, T, backend_types)
   setting_int().set(1038);
 
   int fired = 0;
-  auto connection = setting_int().connect([&fired](int value) {
+  auto connection = setting_int().connect(this, [&fired](int value) {
     BOOST_CHECK_EQUAL(value, 1039);
     fired++;
   });
@@ -1482,7 +1484,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_attached, T, backend_types)
   setting_int().set(1041);
 
   int fired = 0;
-  auto connection = setting_int().attach([&fired](int value) {
+  auto connection = setting_int().attach(this, [&fired](int value) {
     BOOST_CHECK_EQUAL(value, fired == 0 ? 1041 : 1042);
     fired++;
   });
@@ -1502,7 +1504,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_group_connect, T, backend_types)
   setting_int().set(1044);
 
   int fired = 0;
-  auto connection = group().connect([&fired]() { fired++; });
+  auto connection = group().connect(this, [&fired]() { fired++; });
 
   BOOST_CHECK_EQUAL(fired, 0);
   setting_int().set(1045);
@@ -1511,6 +1513,46 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_group_connect, T, backend_types)
   BOOST_CHECK_EQUAL(fired, 2);
   connection.disconnect();
   setting_int().set(1047);
+  BOOST_CHECK_EQUAL(fired, 2);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_connect_tracked, T, backend_types)
+{
+  init<T>();
+
+  setting_int().set(1048);
+
+  int fired = 0;
+  {
+    // FIXME: setting_int().connect(tracker, [&fired](int x) { fired++; });
+
+    BOOST_CHECK_EQUAL(fired, 0);
+    setting_int().set(1049);
+    BOOST_CHECK_EQUAL(fired, 1);
+  }
+
+  setting_int().set(1050);
+  BOOST_CHECK_EQUAL(fired, 1);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_group_connect_tracked, T, backend_types)
+{
+  init<T>();
+
+  setting_int().set(1051);
+
+  int fired = 0;
+  {
+    // FIXME: group().connect(tracker, [&fired]() { fired++; });
+
+    BOOST_CHECK_EQUAL(fired, 0);
+    setting_int().set(1052);
+    BOOST_CHECK_EQUAL(fired, 1);
+    setting_double().set(1053.1);
+    BOOST_CHECK_EQUAL(fired, 2);
+  }
+
+  setting_int().set(1054);
   BOOST_CHECK_EQUAL(fired, 2);
 };
 

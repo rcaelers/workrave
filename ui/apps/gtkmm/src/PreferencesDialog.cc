@@ -40,6 +40,7 @@
 #include <gtkmm/filechooserbutton.h>
 
 #include "Locale.hh"
+#include "utils/Platform.hh"
 
 #include "GtkUtil.hh"
 #include "Hig.hh"
@@ -47,11 +48,11 @@
 #include "TimeEntry.hh"
 #include "TimerBoxPreferencePage.hh"
 #include "TimerPreferencesPanel.hh"
-#include "utils/Util.hh"
+#include "utils/AssetPath.hh"
 #include "GUI.hh"
 #include "commonui/GUIConfig.hh"
-#include "Ui.hh"
 #include "DataConnector.hh"
+#include "Ui.hh"
 #include "Menus.hh"
 
 #include "commonui/Backend.hh"
@@ -63,6 +64,8 @@
 #endif
 
 using namespace std;
+using namespace workrave;
+using namespace workrave::utils;
 
 #ifndef WR_CHECK_VERSION
 #  define WR_CHECK_VERSION(comp, major, minor, micro)                                                      \
@@ -136,7 +139,7 @@ PreferencesDialog::~PreferencesDialog()
   const Gtk::TreeModel::Row row = *iter;
   const Glib::ustring code = row[languages_columns.code];
 
-  GUIConfig::set_locale(code);
+  GUIConfig::locale().set(code);
 #endif
 
   auto core = Backend::get_core();
@@ -165,7 +168,7 @@ PreferencesDialog::create_gui_page()
 #endif
 
   int block_idx;
-  switch (GUIConfig::get_block_mode())
+  switch (GUIConfig::block_mode()())
     {
     case GUIConfig::BLOCK_MODE_NONE:
       block_idx = 0;
@@ -185,7 +188,7 @@ PreferencesDialog::create_gui_page()
   panel->add_label(_("Block mode:"), *block_button);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
-  string current_locale = GUIConfig::get_locale();
+  string current_locale = GUIConfig::locale()();
 
   languages_model = Gtk::ListStore::create(languages_columns);
   languages_combo.set_model(languages_model);
@@ -284,11 +287,11 @@ PreferencesDialog::create_gui_page()
       autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
       panel->add_widget(*autostart_cb);
 
-      connector->connect(GUIConfig::CFG_KEY_AUTOSTART, dc::wrap(autostart_cb));
+      connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
 
 #if defined(PLATFORM_OS_WINDOWS)
       char value[MAX_PATH];
-      bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
+      bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
       autostart_cb->set_active(rc);
 #endif
     }
@@ -296,7 +299,7 @@ PreferencesDialog::create_gui_page()
   Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
   trayicon_cb = Gtk::manage(new Gtk::CheckButton());
   trayicon_cb->add(*trayicon_lab);
-  connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
+  connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   panel->add_widget(*trayicon_cb, false, false);
 
@@ -527,8 +530,9 @@ PreferencesDialog::create_monitoring_page()
   panel->pack_start(*monitor_type_help2, false, false, 0);
 
   sensitivity_box = Gtk::manage(new Gtk::HBox());
-  Gtk::Widget *sensitivity_lab = Gtk::manage(GtkUtil::create_label_with_tooltip(
-    _("Mouse sensitivity:"), _("Number of pixels the mouse should move before it is considered activity.")));
+  Gtk::Widget *sensitivity_lab =
+    Gtk::manage(GtkUtil::create_label_with_tooltip(_("Mouse sensitivity:"),
+                                                   _("Number of pixels the mouse should move before it is considered activity.")));
   Gtk::SpinButton *sensitivity_spin = Gtk::manage(new Gtk::SpinButton(sensitivity_adjustment));
   sensitivity_box->pack_start(*sensitivity_lab, false, false, 0);
   sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);
@@ -631,7 +635,7 @@ PreferencesDialog::on_block_changed()
     default:
       m = GUIConfig::BLOCK_MODE_ALL;
     }
-  GUIConfig::set_block_mode(m);
+  GUIConfig::block_mode().set(m);
 }
 
 int
@@ -646,7 +650,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 {
   TRACE_ENTER("PreferencesDialog::focus_in");
 
-  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       auto core = Backend::get_core();
@@ -736,11 +740,11 @@ PreferencesDialog::on_autostart_toggled()
 
   if (on)
     {
-      string appdir = Util::get_application_directory();
+      string appdir = Platform::get_application_directory();
       value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
     }
 
-  Util::registry_set_value(RUNKEY, "Workrave", value);
+  Platform::registry_set_value(RUNKEY, "Workrave", value);
 #endif
 }
 
@@ -936,11 +940,11 @@ PreferencesDialog::on_icon_theme_changed()
 
   if (idx == 0)
     {
-      GUIConfig::set_icon_theme("");
+      GUIConfig::icon_theme().set("");
     }
   else
     {
-      GUIConfig::set_icon_theme(icon_theme_button->get_active_text());
+      GUIConfig::icon_theme().set(icon_theme_button->get_active_text());
     }
   TRACE_EXIT();
 }
@@ -951,7 +955,7 @@ PreferencesDialog::update_icon_theme_combo()
   TRACE_ENTER("PreferencesDialog::update_icon_theme_combo");
   std::list<std::string> themes;
 
-  for (const auto &dirname: Util::get_search_path(Util::SEARCH_PATH_IMAGES))
+  for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_IMAGES))
     {
       if (!g_str_has_suffix(dirname.c_str(), "images"))
         {
@@ -968,7 +972,7 @@ PreferencesDialog::update_icon_theme_combo()
               gchar *test_path = g_build_filename(dirname.c_str(), file, nullptr);
               if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
-                  themes.push_back(file);
+                  themes.emplace_back(file);
                 }
               g_free(test_path);
             }
@@ -987,7 +991,7 @@ PreferencesDialog::update_icon_theme_combo()
 #endif
       icon_theme_button->set_active(0);
 
-      std::string current_icontheme = GUIConfig::get_icon_theme();
+      std::string current_icontheme = GUIConfig::icon_theme()();
       int idx = 1;
       for (auto &theme: themes)
         {

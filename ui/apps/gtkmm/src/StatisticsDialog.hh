@@ -1,6 +1,4 @@
-// PreferencesDialog.hh --- Statistics Dialog
-//
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,8 +32,6 @@ namespace Gtk
   class Widget;
 } // namespace Gtk
 
-using namespace workrave;
-
 class StatisticsDialog : public HigDialog
 {
 public:
@@ -48,10 +44,10 @@ public:
 
 private:
   /** Stats */
-  IStatistics *statistics{nullptr};
+  workrave::IStatistics *statistics{nullptr};
 
   /** Labels for break stats. */
-  Gtk::Label *break_labels[BREAK_ID_SIZEOF][9]{};
+  Gtk::Label *break_labels[workrave::BREAK_ID_SIZEOF][9]{};
 
   /** Labels for break stats. */
   Gtk::Label *activity_labels[5]{};
@@ -109,7 +105,7 @@ private:
   void on_history_goto_last();
   void on_history_goto_first();
   void display_calendar_date();
-  void display_statistics(IStatistics::DailyStats *stats);
+  void display_statistics(workrave::IStatistics::DailyStats *stats);
   void clear_display_statistics();
   void display_week_statistics();
   void display_month_statistics();

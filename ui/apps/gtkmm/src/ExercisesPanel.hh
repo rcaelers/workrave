@@ -1,6 +1,4 @@
-// ExercisesPanel.hh --- Exercises panel
-//
-// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

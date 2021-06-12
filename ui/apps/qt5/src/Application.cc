@@ -87,7 +87,7 @@ Application::main()
   init_startup_warnings();
   init_updater();
 
-  connections.connect(toolkit->signal_timer(), std::bind(&Application::on_timer, this));
+  connect(toolkit->signal_timer(), this, std::bind(&Application::on_timer, this));
   on_timer();
 
   TRACE_MSG("Initialized. Entering event loop.");
@@ -150,8 +150,7 @@ Application::init_core()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       IBreak::Ptr b = core->get_break(BreakId(i));
-      connections.connect(b->signal_break_event(),
-                          std::bind(&Application::on_break_event, this, BreakId(i), std::placeholders::_1));
+      connect(b->signal_break_event(), this, std::bind(&Application::on_break_event, this, BreakId(i), std::placeholders::_1));
     }
 
   GUIConfig::init();

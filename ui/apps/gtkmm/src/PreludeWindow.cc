@@ -28,7 +28,8 @@
 #include "commonui/nls.h"
 
 #include "Text.hh"
-#include "utils/Util.hh"
+#include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
@@ -46,6 +47,8 @@
 #endif
 
 using namespace std;
+using namespace workrave;
+using namespace workrave::utils;
 
 //! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
@@ -203,20 +206,6 @@ PreludeWindow::add(Gtk::Widget &widget)
     }
 
   window_frame->add(widget);
-}
-
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  IPreludeWindow. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-PreludeWindow::destroy()
-{
-  TRACE_ENTER("PreludeWindow::destroy");
-  delete this;
-  TRACE_EXIT();
 }
 
 //! Stops the microbreak.
@@ -449,6 +438,8 @@ PreludeWindow::avoid_pointer()
   window->get_geometry(winx, winy, width, height, wind);
 #endif
 
+  TRACE_MSG("x:" << winx << " y:" << winy << " w:" << width << " h:" << height);
+
   int screen_height = head.get_height();
   int top_y = head.get_y() + SCREEN_MARGIN;
   int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
@@ -461,6 +452,8 @@ PreludeWindow::avoid_pointer()
     {
       winy = bottom_y;
     }
+
+  TRACE_MSG("new y:" << winy << " ty:" << top_y << " by:" << bottom_y << " h:" << screen_height);
 
 #ifdef HAVE_GTK3
   if (GtkUtil::running_on_wayland())
@@ -512,6 +505,12 @@ PreludeWindow::on_screen_changed_event(const Glib::RefPtr<Gdk::Screen> &previous
 }
 
 void
+PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
+{
+  update_input_region(allocation);
+}
+
+void
 PreludeWindow::update_input_region(Gtk::Allocation &allocation)
 {
   if (GtkUtil::running_on_wayland())
@@ -526,13 +525,6 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
         }
     }
 }
-
-void
-PreludeWindow::on_size_allocate_event(Gtk::Allocation &allocation)
-{
-  update_input_region(allocation);
-}
-
 #endif
 
 void

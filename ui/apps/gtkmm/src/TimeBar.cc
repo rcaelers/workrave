@@ -1,6 +1,4 @@
-// TimeBar.cc --- Time Bar
-//
-// Copyright (C) 2002 - 2009, 2011, 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +32,6 @@
 
 const int MARGINX = 4;
 const int MARGINY = 2;
-const int MIN_HORIZONTAL_BAR_WIDTH = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
@@ -526,7 +523,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
   // Physical width/height
-  int win_w = allocation.get_width() - 2; // FIXME:
+  int win_w = allocation.get_width() - 2;
   int win_h = allocation.get_height();
 
   // Logical width/height
@@ -553,11 +550,8 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->rectangle(0, 0, win_w, win_h);
   cr->clip();
 
-  style_context->context_save();
-  style_context->set_state((Gtk::StateFlags)Gtk::STATE_FLAG_ACTIVE);
   style_context->render_background(cr, 0, 0, win_w - 1, win_h - 1);
   style_context->render_frame(cr, 0, 0, win_w - 1, win_h - 1);
-  style_context->context_restore();
 
   // set_color(cr, back_color);
   // cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
@@ -635,9 +629,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
       set_color(cr, bar_colors[bar_color]);
       draw_bar(cr, border_size, border_size, bar_width, bar_height, win_lw, win_lh);
     }
-
-  style_context->context_restore();
-  style_context->context_save();
 
   // Text
   Pango::Matrix matrix = PANGO_MATRIX_INIT;

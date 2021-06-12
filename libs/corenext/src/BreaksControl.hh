@@ -22,7 +22,6 @@
 
 #include "config/Config.hh"
 #include "dbus/IDBus.hh"
-#include "utils/ScopedConnections.hh"
 
 #include "Break.hh"
 #include "Timer.hh"
@@ -34,7 +33,9 @@
 #include "ReadingActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
-class BreaksControl : public std::enable_shared_from_this<BreaksControl>
+class BreaksControl
+  : public std::enable_shared_from_this<BreaksControl>
+  , public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<BreaksControl>;
@@ -87,8 +88,6 @@ private:
 
   workrave::InsistPolicy insist_policy;
   workrave::InsistPolicy active_insist_policy;
-
-  scoped_connections connections;
 };
 
 #endif // BREAKSCONTROL_HH

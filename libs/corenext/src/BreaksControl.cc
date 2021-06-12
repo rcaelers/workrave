@@ -66,8 +66,9 @@ BreaksControl::~BreaksControl()
 void
 BreaksControl::init()
 {
-  connections.connect(modes->signal_operation_mode_changed(),
-                      [this](auto &&mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connect(modes->signal_operation_mode_changed(), this, [this](auto &&mode) {
+    on_operation_mode_changed(std::forward<decltype(mode)>(mode));
+  });
 
   for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
     {
@@ -78,8 +79,9 @@ BreaksControl::init()
 
       breaks[break_id] =
         std::make_shared<Break>(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
-      connections.connect(breaks[break_id]->signal_break_event(),
-                          [this, break_id](auto &&event) { on_break_event(break_id, std::forward<decltype(event)>(event)); });
+      connect(breaks[break_id]->signal_break_event(), this, [this, break_id](auto &&event) {
+        on_break_event(break_id, std::forward<decltype(event)>(event));
+      });
     }
 
   reading_activity_monitor = std::make_shared<ReadingActivityMonitor>(activity_monitor, modes);

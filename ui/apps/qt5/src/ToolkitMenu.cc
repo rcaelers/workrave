@@ -27,7 +27,7 @@ ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
   MenuNode::Ptr root = menu_model->get_root();
 
   menu = std::make_shared<SubMenuEntry>(root, filter);
-  connections.connect(menu_model->signal_update(), std::bind(&ToolkitMenu::on_update, this));
+  workrave::utils::connect(menu_model->signal_update(), this, std::bind(&ToolkitMenu::on_update, this));
 }
 
 QMenu *
@@ -105,7 +105,9 @@ SubMenuEntry::init()
           menu->insertAction(nullptr, child->get_action());
         }
     }
-  connections.connect(get_menu_node()->signal_changed(), [this]() { menu->setTitle(get_menu_node()->get_text().c_str()); });
+  workrave::utils::connect(get_menu_node()->signal_changed(), this, [this]() {
+    menu->setTitle(get_menu_node()->get_text().c_str());
+  });
 }
 
 QAction *
@@ -123,7 +125,7 @@ SubMenuEntry::get_menu() const
 ActionMenuEntry::ActionMenuEntry(MenuNode::Ptr menu_node, MenuNodeFilter filter)
   : MenuEntry(menu_node, filter)
 {
-  connections.connect(menu_node->signal_changed(), std::bind(&ActionMenuEntry::on_menu_changed, this));
+  workrave::utils::connect(menu_node->signal_changed(), this, std::bind(&ActionMenuEntry::on_menu_changed, this));
 
   action = new QAction(menu_node->get_text().c_str(), this);
   action->setCheckable(menu_node->get_type() == MenuNodeType::RADIO || menu_node->get_type() == MenuNodeType::CHECK);

@@ -1,6 +1,4 @@
-// BreakWindow.hh --- base class for the break windows
-//
-// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -72,12 +70,11 @@ public:
   BreakWindow(workrave::BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode block_mode);
   ~BreakWindow() override;
 
-  void set_response(IBreakResponse *bri) override;
+  void set_response(workrave::IBreakResponse *bri) override;
 
   void init() override;
   void start() override;
   void stop() override;
-  void destroy() override;
   void refresh() override;
 
   virtual void update_break_window();
@@ -138,7 +135,7 @@ private:
   };
 
   //! Send response to this interface.
-  IBreakResponse *break_response{nullptr};
+  workrave::IBreakResponse *break_response{nullptr};
 
   //! Break ID
   workrave::BreakId break_id;

@@ -35,16 +35,15 @@ class PreludeWindow
   , public IPreludeWindow
 {
 public:
-  PreludeWindow(HeadInfo &head, BreakId break_id);
+  PreludeWindow(HeadInfo &head, workrave::BreakId break_id);
   ~PreludeWindow() override;
 
   void start() override;
   void stop() override;
-  void destroy() override;
   void refresh() override;
   void set_progress(int value, int max_value) override;
-  void set_stage(IApp::PreludeStage stage) override;
-  void set_progress_text(IApp::PreludeProgressText text) override;
+  void set_stage(workrave::IApp::PreludeStage stage) override;
+  void set_progress_text(workrave::IApp::PreludeProgressText text) override;
 
 private:
   void on_frame_flash_event(bool frame_visible);

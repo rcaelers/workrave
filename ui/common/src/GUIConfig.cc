@@ -236,16 +236,18 @@ Setting<int> &
 GUIConfig::timerbox_flags(const std::string &box, workrave::BreakId break_id)
 {
   auto br = Backend::get_core()->get_break(break_id);
-  return SettingCache::get<int>(
-    Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
+  return SettingCache::get<int>(Backend::get_configurator(),
+                                CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS,
+                                0);
 }
 
 Setting<int> &
 GUIConfig::timerbox_imminent(const std::string &box, workrave::BreakId break_id)
 {
   auto br = Backend::get_core()->get_break(break_id);
-  return SettingCache::get<int>(
-    Backend::get_configurator(), CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
+  return SettingCache::get<int>(Backend::get_configurator(),
+                                CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT,
+                                30);
 }
 
 Setting<bool> &

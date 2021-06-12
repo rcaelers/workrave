@@ -22,7 +22,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "Frame.hh"
 #include "IPreludeWindow.hh"
@@ -35,6 +35,7 @@
 class PreludeWindow
   : public QWidget
   , public IPreludeWindow
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -71,7 +72,6 @@ private:
   QLabel *label{nullptr};
   QLabel *image{nullptr};
   Frame *frame{nullptr};
-  scoped_connections connections;
 
 #ifdef PLATFORM_OS_MACOS
   MouseMonitor::Ptr mouse_monitor;

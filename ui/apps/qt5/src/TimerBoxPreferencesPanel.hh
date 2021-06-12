@@ -23,12 +23,14 @@
 
 #include "config/Config.hh"
 #include "core/CoreTypes.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
 
-class TimerBoxPreferencesPanel : public QWidget
+class TimerBoxPreferencesPanel
+  : public QWidget
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -60,8 +62,6 @@ private:
   QComboBox *place_button{nullptr};
   QComboBox *timer_display_button[workrave::BREAK_ID_SIZEOF];
   QSpinBox *cycle_entry{nullptr};
-
-  scoped_connections connections;
 };
 
 #endif // TIMERBOXUIPREFERENCESPANEL_HH

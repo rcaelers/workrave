@@ -40,10 +40,12 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
 {
   string break_name = CoreConfig::get_break_name(break_id);
 
-  connections.connect(break_state_model->signal_break_stage_changed(),
-                      [this](auto &&stage) { on_break_stage_changed(std::forward<decltype(stage)>(stage)); });
-  connections.connect(break_state_model->signal_break_event(),
-                      [this](auto &&event) { on_break_event(std::forward<decltype(event)>(event)); });
+  connect(break_state_model->signal_break_stage_changed(), this, [this](auto &&stage) {
+    on_break_stage_changed(std::forward<decltype(stage)>(stage));
+  });
+  connect(break_state_model->signal_break_event(), this, [this](auto &&event) {
+    on_break_event(std::forward<decltype(event)>(event));
+  });
 
   try
     {

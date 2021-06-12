@@ -25,7 +25,7 @@
 #include <QTimer>
 
 #include "core/CoreTypes.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "AboutDialog.hh"
 #include "ExercisesDialog.hh"
@@ -89,8 +89,6 @@ private:
   std::shared_ptr<IToolkitPlatform> platform;
 
   boost::signals2::signal<void()> timer_signal;
-
-  scoped_connections connections;
 };
 
 class OneshotTimer : public QObject

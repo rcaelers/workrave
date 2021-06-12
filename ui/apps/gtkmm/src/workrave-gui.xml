@@ -4,7 +4,8 @@
   <import>
     <include name="Menus.hh"/>
     <include name="GenericDBusApplet.hh"/>
-  </import>
+    <namespace name="workrave"/>
+</import>
 
   <enum name="operation_mode" csymbol="OperationMode">
     <value name="normal"    csymbol="workrave::OperationMode::Normal" value="0"/>

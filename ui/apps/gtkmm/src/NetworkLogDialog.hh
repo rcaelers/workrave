@@ -37,8 +37,6 @@ namespace Gtk
 
 #include "core/DistributionLogListener.hh"
 
-using namespace workrave;
-
 class NetworkLogDialog
   : public Gtk::Dialog
   , public DistributionLogListener

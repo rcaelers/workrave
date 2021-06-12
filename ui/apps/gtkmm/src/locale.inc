@@ -3,6 +3,7 @@ struct language_t
    const char *code;
    const char *lang;
 };
+
 static language_t languages []= 
 {
 { "aa", "Afar" },
@@ -332,7 +333,7 @@ static language_t languages []=
 { "nyn", "Nyankole" },
 { "nyo", "Nyoro" },
 { "nzi", "Nzima" },
-{ "oc", "Occitan (post 1500); Provençal" },
+{ "oc", "Occitan (post 1500)" },
 { "oj", "Ojibwa" },
 { "om", "Oromo" },
 { "or", "Oriya" },

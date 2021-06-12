@@ -41,12 +41,13 @@ StatusIcon::StatusIcon(MenuModel::Ptr menu_model)
   tray_icon->setContextMenu(menu->get_menu());
 
   ICore::Ptr core = Backend::get_core();
-  connections.connect(core->signal_operation_mode_changed(),
-                      std::bind(&StatusIcon::on_operation_mode_changed, this, std::placeholders::_1));
+  workrave::utils::connect(core->signal_operation_mode_changed(),
+                           this,
+                           std::bind(&StatusIcon::on_operation_mode_changed, this, std::placeholders::_1));
   OperationMode mode = core->get_operation_mode_regular();
   tray_icon->setIcon(mode_icons[mode]);
 
-  GUIConfig::trayicon_enabled().attach([&](bool enabled) { tray_icon->setVisible(enabled); });
+  GUIConfig::trayicon_enabled().attach(this, [&](bool enabled) { tray_icon->setVisible(enabled); });
 
   QObject::connect(tray_icon.get(), &QSystemTrayIcon::activated, this, &StatusIcon::on_activate);
 }

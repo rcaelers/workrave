@@ -41,6 +41,7 @@
 #include "Frame.hh"
 
 using namespace std;
+using namespace workrave;
 
 //! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)

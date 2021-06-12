@@ -1,6 +1,4 @@
-// StatusIcon.cc --- Status icon
-//
-// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2006 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,17 +43,21 @@
 #include "config/IConfigurator.hh"
 #include "commonui/GUIConfig.hh"
 #include "Menus.hh"
-#include "GtkUtil.hh"
 #include "commonui/TimerBoxControl.hh"
+#include "GtkUtil.hh"
 
 using namespace std;
+using namespace workrave;
 
 StatusIcon::StatusIcon()
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
+  mode_icons[OperationMode::Normal] = GtkUtil::create_pixbuf("workrave-icon-medium.png");
+  mode_icons[OperationMode::Suspended] = GtkUtil::create_pixbuf("workrave-suspended-icon-medium.png");
+  mode_icons[OperationMode::Quiet] = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
-  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+  wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
 #endif
   TRACE_EXIT();
 }
@@ -63,23 +65,17 @@ StatusIcon::StatusIcon()
 void
 StatusIcon::init()
 {
-  // Preload icons
-  const char *mode_files[] = {
-    "workrave-icon-medium.png",
-    "workrave-suspended-icon-medium.png",
-    "workrave-quiet-icon-medium.png",
-  };
-  assert(sizeof(mode_files) / sizeof(mode_files[0]) == workrave::utils::enum_count<OperationMode>());
-  for (size_t i = 0; i < workrave::utils::enum_count<OperationMode>(); i++)
-    {
-      mode_icons[(OperationMode)i] = GtkUtil::create_pixbuf(mode_files[i]);
-    }
-
   insert_icon();
 
-  Backend::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
+  GUIConfig::trayicon_enabled().connect(this, [this](bool enabled) {
+    if (status_icon->get_visible() != enabled)
+      {
+        visibility_changed_signal.emit();
+        status_icon->set_visible(enabled);
+      }
+  });
 
-  bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
+  bool tray_icon_enabled = GUIConfig::trayicon_enabled()();
   status_icon->set_visible(tray_icon_enabled);
 }
 
@@ -102,25 +98,9 @@ StatusIcon::insert_icon()
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
 #else
-
-#  if !defined(HAVE_STATUSICON_SIGNAL) || !defined(HAVE_EMBEDDED_SIGNAL)
-  // Hook up signals, missing from gtkmm
-  GtkStatusIcon *gobj = status_icon->gobj();
-#  endif
-
-#  ifdef HAVE_STATUSICON_SIGNAL
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
-#  else
-  g_signal_connect(gobj, "activate", reinterpret_cast<GCallback>(activate_callback), this);
-  g_signal_connect(gobj, "popup-menu", reinterpret_cast<GCallback>(popup_menu_callback), this);
-#  endif
-
-#  ifdef HAVE_EMBEDDED_SIGNAL
   status_icon->property_embedded().signal_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_embedded_changed));
-#  else
-  g_signal_connect(gobj, "notify::embedded", reinterpret_cast<GCallback>(embedded_changed_callback), this);
-#  endif
 #endif
 }
 
@@ -179,30 +159,6 @@ StatusIcon::on_embedded_changed()
   visibility_changed_signal.emit();
 }
 
-#ifndef HAVE_STATUSICON_SIGNAL
-void
-StatusIcon::activate_callback(GtkStatusIcon *, gpointer callback_data)
-{
-  static_cast<StatusIcon *>(callback_data)->on_activate();
-}
-
-void
-StatusIcon::popup_menu_callback(GtkStatusIcon *, guint button, guint activate_time, gpointer callback_data)
-{
-  static_cast<StatusIcon *>(callback_data)->on_popup_menu(button, activate_time);
-}
-#endif
-
-#ifndef HAVE_EMBEDDED_SIGNAL
-void
-StatusIcon::embedded_changed_callback(GObject *gobject, GParamSpec *pspec, gpointer callback_data)
-{
-  (void)pspec;
-  (void)gobject;
-  static_cast<StatusIcon *>(callback_data)->on_embedded_changed();
-}
-#endif
-
 #if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
 void
 StatusIcon::on_balloon_activate(string id)
@@ -232,24 +188,6 @@ StatusIcon::win32_filter_func(void *xevent, GdkEvent *event)
   return ret;
 }
 #endif
-
-void
-StatusIcon::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("StatusIcon::config_changed_notify", key);
-
-  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
-    {
-      bool visible = GUIConfig::get_trayicon_enabled();
-      if (status_icon->get_visible() != visible)
-        {
-          visibility_changed_signal.emit();
-          status_icon->set_visible(visible);
-        }
-    }
-
-  TRACE_EXIT();
-}
 
 sigc::signal<void> &
 StatusIcon::signal_visibility_changed()

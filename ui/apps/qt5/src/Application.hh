@@ -29,7 +29,7 @@
 #include "config/Config.hh"
 #include "core/IApp.hh"
 #include "updater/Updater.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "IApplication.hh"
 #include "IBreakWindow.hh"
@@ -40,6 +40,7 @@
 class Application
   : public IApplication
   , public workrave::IApp
+  , public workrave::utils::Trackable
 {
 public:
   typedef std::shared_ptr<Application> Ptr;
@@ -99,8 +100,6 @@ private:
   workrave::BreakId active_break_id{workrave::BREAK_ID_NONE};
   Session::Ptr session;
   bool muted{false};
-
-  scoped_connections connections;
 };
 
 inline SoundTheme::Ptr

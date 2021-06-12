@@ -38,8 +38,6 @@ namespace Gtk
   class Menu;
 }
 
-using namespace workrave;
-
 class Menus : public sigc::trackable
 {
 public:
@@ -65,7 +63,7 @@ public:
   void popup(const MenuKind kind, const guint button, const guint activate_time);
 
 private:
-  void set_usage_mode(UsageMode m);
+  void set_usage_mode(workrave::UsageMode m);
   void on_menu_response(int response);
   void on_about_response(int response);
 
@@ -95,7 +93,7 @@ public:
   void on_menu_network_leave();
   void on_menu_network_reconnect();
   void on_menu_network_log(bool show);
-  void on_set_operation_mode(OperationMode m);
+  void on_set_operation_mode(workrave::OperationMode m);
   void on_menu_debug();
 
 #ifdef PLATFORM_OS_WINDOWS

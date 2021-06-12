@@ -112,7 +112,7 @@ RestBreakWindow::install_exercises_panel()
   pluggable_panel->addWidget(exercises_panel);
 
   exercises_panel->set_exercise_count(get_exercise_count());
-  connections.connect(exercises_panel->signal_stop(), std::bind(&RestBreakWindow::install_info_panel, this));
+  workrave::utils::connect(exercises_panel->signal_stop(), this, std::bind(&RestBreakWindow::install_info_panel, this));
 }
 
 void

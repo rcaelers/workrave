@@ -611,8 +611,9 @@ remove_activesetup_entry()
   if (!RegDeleteKey(HKEY_CURRENT_USER, subkey_wow))
     deleted = TRUE;
 
-  pRegDeleteKeyEx = (LONG(WINAPI *)(HKEY, LPCTSTR, REGSAM, DWORD))GetProcAddress(
-    GetModuleHandleA("Advapi32"), ((sizeof(TCHAR) == 1) ? "RegDeleteKeyExA" : "RegDeleteKeyExW"));
+  pRegDeleteKeyEx =
+    (LONG(WINAPI *)(HKEY, LPCTSTR, REGSAM, DWORD))GetProcAddress(GetModuleHandleA("Advapi32"),
+                                                                 ((sizeof(TCHAR) == 1) ? "RegDeleteKeyExA" : "RegDeleteKeyExW"));
 
   if (pRegDeleteKeyEx)
     {

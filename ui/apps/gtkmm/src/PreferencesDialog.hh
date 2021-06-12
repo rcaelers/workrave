@@ -1,6 +1,4 @@
-// PreferencesDialog.hh --- Preferences Dialog
-//
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010, 2011, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,8 +43,6 @@ namespace Gtk
   class HScale;
   class FileFilter;
 } // namespace Gtk
-
-using namespace workrave;
 
 class PreferencesDialog : public HigDialog
 {

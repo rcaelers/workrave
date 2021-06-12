@@ -19,13 +19,13 @@
 #define COREDBUS_HH
 
 #include "dbus/IDBus.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "CoreModes.hh"
 
 #include <string>
 
-class CoreDBus
+class CoreDBus : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<CoreDBus>;
@@ -38,7 +38,6 @@ private:
 
 private:
   workrave::dbus::IDBus::Ptr dbus;
-  scoped_connections connections;
 };
 
 #endif // COREDBUS_HH

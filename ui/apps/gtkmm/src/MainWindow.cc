@@ -1,5 +1,3 @@
-// MainWindow.cc --- Main info Window
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -49,7 +47,6 @@
 
 #ifdef PLATFORM_OS_WINDOWS
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
-const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 #endif
 
 using namespace std;
@@ -148,9 +145,9 @@ MainWindow::open_window()
       TRACE_MSG("moving to " << x << " " << y);
       move(x, y);
 
-      bool always_on_top = GUIConfig::get_always_on_top();
+      bool always_on_top = GUIConfig::main_window_always_on_top()();
       WindowHints::set_always_on_top(this, always_on_top);
-      GUIConfig::set_timerbox_enabled("main_window", true);
+      GUIConfig::timerbox_enabled("main_window").set(true);
     }
   TRACE_EXIT();
 }
@@ -175,7 +172,7 @@ MainWindow::close_window()
     }
 #endif
 
-  GUIConfig::set_timerbox_enabled("main_window", false);
+  GUIConfig::timerbox_enabled("main_window").set(false);
   TRACE_EXIT();
 }
 
@@ -219,7 +216,7 @@ MainWindow::init()
   set_border_width(2);
   set_resizable(false);
 
-  list<Glib::RefPtr<Gdk::Pixbuf>> icons;
+  std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
 
   const char *icon_files[] = {
 #ifndef PLATFORM_OS_WINDOWS
@@ -235,9 +232,9 @@ MainWindow::init()
     "128x128" G_DIR_SEPARATOR_S "workrave.png",
   };
 
-  for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
+  for (auto &icon_file: icon_files)
     {
-      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_files[i]);
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_file);
       if (pixbuf)
         {
           icons.push_back(pixbuf);
@@ -248,7 +245,7 @@ MainWindow::init()
   Gtk::Window::set_default_icon_list(icon_list);
   // Gtk::Window::set_default_icon_name("workrave");
 
-  enabled = GUIConfig::is_timerbox_enabled("main_window");
+  enabled = GUIConfig::timerbox_enabled("main_window")();
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
   timer_box_control = new TimerBoxControl("main_window", timer_box_view);
@@ -343,8 +340,7 @@ MainWindow::init()
   setup();
   set_title("Workrave");
 
-  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_TIMERBOX + "main_window", this);
+  GUIConfig::key_timerbox("main_window").connect(this, [this]() { setup(); });
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
 
@@ -357,8 +353,8 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
-  bool new_enabled = GUIConfig::is_timerbox_enabled("main_window");
-  bool always_on_top = GUIConfig::get_always_on_top();
+  bool new_enabled = GUIConfig::timerbox_enabled("main_window")();
+  bool always_on_top = GUIConfig::main_window_always_on_top()();
 
   TRACE_MSG("can_close " << new_enabled);
   TRACE_MSG("enabled " << new_enabled);
@@ -401,15 +397,15 @@ MainWindow::on_delete_event(GdkEventAny *)
 #if defined(PLATFORM_OS_WINDOWS)
   win32_show(false);
   closed_signal.emit();
-  GUIConfig::set_timerbox_enabled("main_window", false);
+  GUIConfig::timerbox_enabled("main_window").set(false);
 #elif defined(PLATFORM_OS_MACOS)
   close_window();
-  GUIConfig::set_timerbox_enabled("main_window", false);
+  GUIConfig::timerbox_enabled("main_window").set(false);
 #else
   if (can_close)
     {
       close_window();
-      GUIConfig::set_timerbox_enabled("main_window", false);
+      GUIConfig::timerbox_enabled("main_window").set(false);
     }
   else
     {
@@ -440,18 +436,6 @@ MainWindow::on_timer_view_button_press_event(GdkEventButton *event)
 
   TRACE_EXIT();
   return ret;
-}
-
-void
-MainWindow::config_changed_notify(const string &key)
-{
-  TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
-  if (key != GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD && key != GUIConfig::CFG_KEY_MAIN_WINDOW_X
-      && key != GUIConfig::CFG_KEY_MAIN_WINDOW_Y)
-    {
-      setup();
-    }
-  TRACE_EXIT();
 }
 
 #ifdef PLATFORM_OS_WINDOWS
@@ -565,11 +549,9 @@ void
 MainWindow::get_start_position(int &x, int &y, int &head)
 {
   TRACE_ENTER("MainWindow::get_start_position");
-  // FIXME: Default to right-bottom instead of 256x256
-  workrave::config::IConfigurator::Ptr cfg = Backend::get_configurator();
-  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x, 256);
-  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y, 256);
-  cfg->get_value_with_default(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
+  x = GUIConfig::main_window_x()();
+  y = GUIConfig::main_window_y()();
+  head = GUIConfig::main_window_head()();
   if (head < 0)
     {
       head = 0;
@@ -582,10 +564,9 @@ void
 MainWindow::set_start_position(int x, int y, int head)
 {
   TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y << " " << head);
-  workrave::config::IConfigurator::Ptr cfg = Backend::get_configurator();
-  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_X, x);
-  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_Y, y);
-  cfg->set_value(GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD, head);
+  GUIConfig::main_window_x().set(x);
+  GUIConfig::main_window_y().set(y);
+  GUIConfig::main_window_head().set(head);
   TRACE_EXIT();
 }
 

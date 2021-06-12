@@ -26,14 +26,16 @@
 
 #include <QMenu>
 
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 typedef std::function<bool(MenuNode::Ptr)> MenuNodeFilter;
 
 class ContainerMenuEntry;
 class SubMenuEntry;
 
-class MenuEntry : public QObject
+class MenuEntry
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -75,7 +77,6 @@ public:
 private:
   QMenu *menu{nullptr};
   MenuEntries children;
-  scoped_connections connections;
 };
 
 class ActionMenuEntry : public MenuEntry
@@ -95,7 +96,6 @@ private:
 
 private:
   QAction *action{nullptr};
-  scoped_connections connections;
 };
 
 class SeperatorMenuEntry : public MenuEntry
@@ -111,7 +111,9 @@ private:
   QAction *action{nullptr};
 };
 
-class ToolkitMenu : public QObject
+class ToolkitMenu
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -127,7 +129,6 @@ private:
 
 private:
   SubMenuEntry::Ptr menu;
-  scoped_connections connections;
 };
 
 #endif // TOOLKITMENU_HH

@@ -26,14 +26,15 @@
 #include "IActivityMonitor.hh"
 
 #include "config/Config.hh"
-#include "utils/ScopedConnections.hh"
 #include "utils/TimeSource.hh"
+#include "utils/Signals.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
 class LocalActivityMonitor
   : public IActivityMonitor
   , public workrave::input_monitor::IInputMonitorListener
+  , public workrave::utils::Trackable
 {
 public:
   LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const char *display_name);
@@ -117,8 +118,6 @@ private:
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
-
-  scoped_connections connections;
 };
 
 #endif // LOCALACTIVITYMONITOR_HH

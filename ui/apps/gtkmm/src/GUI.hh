@@ -28,7 +28,6 @@
 #include "HeadInfo.hh"
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
-#include "config/IConfiguratorListener.hh"
 #include "core/IApp.hh"
 #include "commonui/SoundTheme.hh"
 #include "BreakWindow.hh"
@@ -59,8 +58,6 @@ class BreakControl;
 class IBreakWindow;
 class Session;
 
-using namespace workrave;
-
 class IGUI
 {
 public:
@@ -87,9 +84,8 @@ public:
 
 class GUI
   : public IGUI
-  , public IApp
-  , public ICoreEventListener
-  , public workrave::config::IConfiguratorListener
+  , public workrave::IApp
+  , public workrave::ICoreEventListener
   ,
 #ifdef HAVE_DBUS
     public workrave::dbus::IDBusWatch
@@ -111,9 +107,9 @@ public:
   void main();
 
   // GUIFactoryInterface methods
-  void set_break_response(IBreakResponse *rep) override;
-  void create_prelude_window(BreakId break_id) override;
-  void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) override;
+  void set_break_response(workrave::IBreakResponse *rep) override;
+  void create_prelude_window(workrave::BreakId break_id) override;
+  void create_break_window(workrave::BreakId break_id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
   void hide_break_window() override;
   void show_break_window() override;
   void refresh_break_window() override;
@@ -123,9 +119,9 @@ public:
   void terminate() override;
 
   //
-  void core_event_notify(const CoreEvent event) override;
-  void core_event_operation_mode_changed(const OperationMode m) override;
-  void core_event_usage_mode_changed(const UsageMode m) override;
+  void core_event_notify(const workrave::CoreEvent event) override;
+  void core_event_operation_mode_changed(const workrave::OperationMode m) override;
+  void core_event_usage_mode_changed(const workrave::UsageMode m) override;
 
 #ifdef HAVE_DBUS
   void bus_name_presence(const std::string &name, bool present) override;
@@ -172,8 +168,7 @@ private:
   void cleanup_session();
 #endif
   void collect_garbage();
-  IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
-  void config_changed_notify(const std::string &key) override;
+  IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakWindow::BreakFlags break_flags);
 
   bool grab();
   void ungrab();
@@ -204,7 +199,7 @@ private:
 #endif
 
   //! The Core controller
-  ICore::Ptr core;
+  workrave::ICore::Ptr core;
 
   //! The sound player
   SoundTheme::Ptr sound_theme;
@@ -222,10 +217,10 @@ private:
   int active_prelude_count{0};
 
   //! Response interface for breaks
-  IBreakResponse *response{nullptr};
+  workrave::IBreakResponse *response{nullptr};
 
   //! Current active break.
-  BreakId active_break_id{BREAK_ID_NONE};
+  workrave::BreakId active_break_id{workrave::BREAK_ID_NONE};
 
   //! The number of command line arguments.
   int argc{0};

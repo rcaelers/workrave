@@ -37,8 +37,6 @@
 class HeadInfo;
 class EventImage;
 
-using namespace workrave;
-
 class GtkUtil
 {
 public:
