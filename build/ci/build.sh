@@ -29,11 +29,11 @@ build()
   cd ${BUILD_DIR}/${config}/${rel_dir}
 
   if [ -z "${rel_dir}" ]; then
-      cmake ${SOURCES_DIR} -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+      cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
   fi
 
-  make ${MAKE_FLAGS[@]} VERBOSE=1
-  make ${MAKE_FLAGS[@]} install VERBOSE=1
+  ninja ${MAKE_FLAGS[@]}
+  ninja ${MAKE_FLAGS[@]} install
 }
 
 parse_arguments()

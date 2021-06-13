@@ -48,7 +48,7 @@ parse_arguments()
                 WORKING_DIR="${OPTARG}"
                 ;;
             v)
-                BUILD_ARGS+=("-M\"VERBOSE=1\"")
+                BUILD_ARGS+=("-M\"-v\"")
                 ;;
             *)
                 usage
