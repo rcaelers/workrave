@@ -39,7 +39,7 @@ namespace Gtk
 
 class NetworkLogDialog
   : public Gtk::Dialog
-  , public DistributionLogListener
+  , public workrave::DistributionLogListener
 {
 public:
   NetworkLogDialog();

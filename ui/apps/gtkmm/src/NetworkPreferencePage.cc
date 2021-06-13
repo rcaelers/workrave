@@ -52,6 +52,7 @@
 #  include "core/IDistributionManager.hh"
 
 using namespace std;
+using namespace workrave;
 
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::VBox(false, 6)

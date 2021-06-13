@@ -44,6 +44,7 @@
 #  include "utils/Util.hh"
 
 using namespace std;
+using namespace workrave;
 
 NetworkLogDialog::NetworkLogDialog()
 #  ifdef HAVE_GTK3

@@ -78,7 +78,7 @@ private:
   void remove_peer(const Gtk::TreeModel::iterator &iter);
   void parse_peers(const std::string &peer, std::string &hostname, std::string &port);
 
-  IDistributionManager *dist_manager{nullptr};
+  workrave::IDistributionManager *dist_manager{nullptr};
 
   Gtk::Entry *username_entry{nullptr};
   Gtk::Entry *password_entry{nullptr};
