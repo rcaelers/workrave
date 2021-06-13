@@ -487,7 +487,7 @@ GUI::init_nls()
   bind_textdomain_codeset("iso_3166", "UTF-8");
   bind_textdomain_codeset("iso_639", "UTF-8");
 
-  GUIConfig::locale().connect([&](const std::string &locale) {
+  GUIConfig::locale().connect(this, [&](const std::string &locale) {
     Locale::set_locale(locale);
     menus->locale_changed();
   });

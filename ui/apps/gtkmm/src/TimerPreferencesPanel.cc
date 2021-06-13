@@ -284,7 +284,11 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
         {
           prelude_cb->set_active(true);
           has_max_prelude_cb->set_active(true);
+#ifdef HAVE_GTK3
           max_prelude_adjustment->set_value(value);
+#else
+          max_prelude_adjustment.set_value(value);
+#endif
         }
 
       set_prelude_sensitivity();

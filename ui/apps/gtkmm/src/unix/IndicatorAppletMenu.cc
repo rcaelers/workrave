@@ -124,12 +124,12 @@ IndicatorAppletMenu::init()
 }
 
 void
-IndicatorAppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
+IndicatorAppletMenu::resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log)
 {
-  menu_item_set_checked(MENU_COMMAND_MODE_NORMAL, mode == OperationMode::Normal);
-  menu_item_set_checked(MENU_COMMAND_MODE_QUIET, mode == OperationMode::Quiet);
-  menu_item_set_checked(MENU_COMMAND_MODE_SUSPENDED, mode == OperationMode::Suspended);
-  menu_item_set_checked(MENU_COMMAND_MODE_READING, usage == UsageMode::Reading);
+  menu_item_set_checked(MENU_COMMAND_MODE_NORMAL, mode == workrave::OperationMode::Normal);
+  menu_item_set_checked(MENU_COMMAND_MODE_QUIET, mode == workrave::OperationMode::Quiet);
+  menu_item_set_checked(MENU_COMMAND_MODE_SUSPENDED, mode == workrave::OperationMode::Suspended);
+  menu_item_set_checked(MENU_COMMAND_MODE_READING, usage == workrave::UsageMode::Reading);
   menu_item_set_checked(MENU_COMMAND_NETWORK_LOG, show_log);
 }
 

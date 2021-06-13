@@ -118,7 +118,7 @@ RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
 }
 
 void
-W32AppletWindow::set_slot(BreakId id, int slot)
+W32AppletWindow::set_slot(workrave::BreakId id, int slot)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_slot", int(id) << ", " << slot);
   heartbeat_data.slots[slot] = (short)id;
@@ -126,7 +126,7 @@ W32AppletWindow::set_slot(BreakId id, int slot)
 }
 
 void
-W32AppletWindow::set_time_bar(BreakId id,
+W32AppletWindow::set_time_bar(workrave::BreakId id,
                               int value,
                               TimerColorId primary_color,
                               int primary_val,
@@ -203,7 +203,7 @@ W32AppletWindow::update_time_bars()
       msg.dwData = APPLET_MESSAGE_HEARTBEAT;
       msg.cbData = sizeof(AppletHeartbeatData);
       msg.lpData = &local_heartbeat_data;
-      for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (size_t i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
         {
           TRACE_MSG("sending: slots[]=" << local_heartbeat_data.slots[i]);
         }

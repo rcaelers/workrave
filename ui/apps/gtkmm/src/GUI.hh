@@ -29,13 +29,12 @@
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
 #include "core/IApp.hh"
+#include "dbus/IDBusWatch.hh"
+#include "utils/Signals.hh"
 #include "commonui/SoundTheme.hh"
+
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
-
-#ifdef HAVE_DBUS
-#  include "dbus/IDBusWatch.hh"
-#endif
 
 namespace workrave
 {
@@ -86,12 +85,9 @@ class GUI
   : public IGUI
   , public workrave::IApp
   , public workrave::ICoreEventListener
-  ,
-#ifdef HAVE_DBUS
-    public workrave::dbus::IDBusWatch
-  ,
-#endif
-    public sigc::trackable
+  , public workrave::dbus::IDBusWatch
+  , public workrave::utils::Trackable
+  , public sigc::trackable
 {
 public:
   GUI(int argc, char **argv);
@@ -123,9 +119,7 @@ public:
   void core_event_operation_mode_changed(const workrave::OperationMode m) override;
   void core_event_usage_mode_changed(const workrave::UsageMode m) override;
 
-#ifdef HAVE_DBUS
   void bus_name_presence(const std::string &name, bool present) override;
-#endif
 
   // Internal public methods
   void restbreak_now() override;
@@ -154,9 +148,7 @@ private:
   void init_multihead_mem(int new_num_heads);
   void init_multihead_desktop();
   void init_gui();
-#ifdef HAVE_DBUS
   void init_dbus();
-#endif
   void init_session();
   void init_startup_warnings();
 
