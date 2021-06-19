@@ -10,9 +10,7 @@ sources = 	DBusProxy-gio.cc \
 			AssetPath.cc \
 			Diagnostics.cc \
 			Platform.cc \
-			TimeSource.cc \
-			Util.cc \
-			WRID.cc
+			TimeSource.cc
 
 if PLATFORM_OS_WINDOWS
 sources +=	win32/W32ActiveSetup.cc \
