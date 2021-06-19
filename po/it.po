@@ -1,8 +1,8 @@
 # Italian translation for Workrave 1.8.
 # This file is distributed under the same license as the Workrave package.
 # Eraldo Girardi <eraldster@katamail.com>
-#Albano Battistella <albano_battistella@hotmail.com> 2020.
-#Albano Battistella <albano_battistella@hotmail.com> 2021.
+# Albano Battistella <albano_battistella@hotmail.com> 2020.
+# Albano Battistella <albano_battistella@hotmail.com> 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
