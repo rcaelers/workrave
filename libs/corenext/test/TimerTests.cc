@@ -44,7 +44,7 @@ public:
     next = t;
   }
 
-  int64_t get_next(int64_t last_time)
+  time_t get_next(time_t last_time)
   {
     if (next <= last_time)
       {

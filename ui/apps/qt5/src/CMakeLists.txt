@@ -126,12 +126,19 @@ if (HAVE_GLIB)
 endif()
 
 if (APPLE)
-  set_target_properties(Workrave PROPERTIES
+  set_target_properties(Workrave
+    PROPERTIES
+    MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist
-    MACOSX_BUNDLE_BUNDLE_NAME "Workrave"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${VERSION}
-    MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
+    MACOSX_BUNDLE_INFO_STRING "${PROJECT_NAME}"
+    MACOSX_BUNDLE_ICON_FILE Icon.icns
+    MACOSX_BUNDLE_GUI_IDENTIFIER "${PROJECT_NAME}"
+    MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}"
+    MACOSX_BUNDLE_BUNDLE_VERSION "${VERSION}"
+    )
 
+  macdeployqt(Workrave)
   set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitPlatformMac.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 

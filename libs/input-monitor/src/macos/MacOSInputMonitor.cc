@@ -93,5 +93,5 @@ MacOSInputMonitor::run()
       last_event_count = event_count;
       usleep(1000000);
     }
-  TRACE_EXIT()
+  TRACE_EXIT();
 }

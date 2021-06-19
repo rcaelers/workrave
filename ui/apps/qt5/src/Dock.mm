@@ -188,7 +188,7 @@ Dock::Dock()
   [priv->dockTile setBackground:icon];
 
   ICore::Ptr core = Backend::get_core();
-  connections.connect(core->signal_operation_mode_changed(), std::bind(&Dock::on_operation_mode_changed, this, std::placeholders::_1));
+  workrave::utils::connect(core->signal_operation_mode_changed(), this, std::bind(&Dock::on_operation_mode_changed, this, std::placeholders::_1));
   OperationMode mode = core->get_operation_mode_regular();
   on_operation_mode_changed(mode);
 }

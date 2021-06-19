@@ -20,5 +20,9 @@ if (HAVE_TESTS)
         COMMAND ${glib_schema_compiler} ${CMAKE_CURRENT_BINARY_DIR})
   endif()
 
+  if (PLATFORM_OS_MACOS)
+    target_include_directories(workrave-config-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/macos)
+  endif()
+
   add_test(NAME workrave-config-test COMMAND workrave-config-test)
 endif()

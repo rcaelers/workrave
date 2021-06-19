@@ -22,13 +22,12 @@
 
 #include <memory>
 
-#include "utils/ScopedConnections.hh"
-
 #include "core/ICore.hh"
+#include "utils/Signals.hh"
 
 class DockPrivate;
 
-class Dock : public QObject
+class Dock : public QObject, public workrave::utils::Trackable
 {
   Q_OBJECT
 
