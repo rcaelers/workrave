@@ -402,6 +402,8 @@ if ("${WITH_UI}" STREQUAL "Qt5")
       set("${outfiles}" "${${outfiles}}" PARENT_SCOPE)
     endfunction()
   endif()
+
+  include(QtDeployMac)
 endif()
 
 
@@ -463,6 +465,7 @@ if ("${WITH_UI}" STREQUAL "Qt6")
   if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
     message(FATAL_ERROR "32 bit compilation of Qt6 UI not supported on Windows")
   endif()
+  include(QtDeployMac)
 endif()
 
 
@@ -989,10 +992,10 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # App Bundle
 
-if (WIN32)
-  if (BUILD_ONLY_32_BIT_FOR_WIN64)
-    add_subdirectory(build/win32)
-  endif()
+if ("${WITH_UI_QT}")
+  add_subdirectory(ui/apps/qt5/dist)
+elseif ("${WITH_UI}" STREQUAL "Gtk+3")
+  add_subdirectory(ui/apps/gtkmm/dist)
 endif()
 
 #----------------------------------------------------------------------------------------------------
