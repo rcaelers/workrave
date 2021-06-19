@@ -989,82 +989,9 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # App Bundle
 
-# Get the build revision, note that this can get out-of-sync, so for packaging run cmake first.
-set (MY_WC_HASH "unknown")
-if (EXISTS ${CMAKE_SOURCE_DIR}/.git/)
-        find_package(Git)
-        if (GIT_FOUND)
-                message(STATUS "Found Git: ${GIT_EXECUTABLE}")
-                execute_process(COMMAND git rev-parse --short HEAD
-                                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                                OUTPUT_VARIABLE MY_WC_HASH
-                                OUTPUT_STRIP_TRAILING_WHITESPACE
-                                ERROR_QUIET)
-        endif()
-endif()
-set (BUILD_REV ${MY_WC_HASH})
-unset (MY_WC_HASH)
-
-execute_process(COMMAND date "+%Y%m%d" OUTPUT_VARIABLE CPACK_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
-string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
-
-set (CPACK_PACKAGE_NAME                  "${PROJECT_NAME}")
-set (CPACK_PACKAGE_VENDOR                "Rob Caelers, Raymond Penners, Ray Satiro")
-set (CPACK_PACKAGE_EXECUTABLES           "${PROJECT_NAME};${PROJECT_NAME}")
-set (CPACK_PACKAGE_VERSION                "${VERSION}")
-set (CPACK_PACKAGE_VERSION_MAJOR         ${VERSION_MAJOR})
-set (CPACK_PACKAGE_VERSION_MINOR         ${VERSION_MINOR})
-set (CPACK_PACKAGE_VERSION_PATCH         ${VERSION_RELEASE})
-set (CPACK_PACKAGE_DESCRIPTION_SUMMARY   "Repetitive Strain Injury prevention tool")
-set (CPACK_PACKAGE_FILE_NAME             "${PROJECT_NAME_LOWER}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-git${CPACK_DATE}.${BUILD_REV}-${CMAKE_SYSTEM_PROCESSOR}")
-set (CPACK_PACKAGE_INSTALL_DIRECTORY     "${PROJECT_NAME}")
-set (CPACK_PACKAGE_ICON                  "${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns")
-
 if (WIN32)
-  set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
-else()
-  set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
-endif()
-
-if (APPLE)
-  set (CPACK_GENERATOR "DragNDrop")
-
-  configure_file(${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/macos/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
-
-  set (CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-  set (CPACK_DMG_DS_STORE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/macos/DS_Store")
-  set (CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/macos/dmg_background.png")
-  set (CPACK_DMG_FORMAT "UDBZ")
-
-  set (CPACK_OSX_PACKAGE_VERSION "10.6")
-endif()
-
-if (WIN32)
-  set (CPACK_GENERATOR "WIX")
-  set (CPACK_WIX_PRODUCT_ICON ${CMAKE_SOURCE_DIR}/ui/data/images/win32/workrave.ico)
-  set (CPACK_WIX_UPGRADE_GUID "1D49C891-626A-4AFB-88EF-319D35390FCB")
-
-  #set (CPACK_WIX_TEMPLATE ${LIBDIR}/package/installer_wix/WIX.template)
-  set (CPACK_WIX_UI_BANNER ${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/win32/banner.png)
-  set (CPACK_WIX_UI_DIALOG ${CMAKE_SOURCE_DIR}/ui/apps/qt5/dist/win32/dialog.png)
-
-  #force lzma instead of deflate
-  set (CPACK_WIX_LIGHT_EXTRA_FLAGS -dcl:high)
-endif()
-
-include(CPack)
-
-if (APPLE)
-  if ("${WITH_UI_QT}")
-    add_subdirectory(ui/apps/qt5/dist/macos)
-  endif()
-elseif (WIN32)
   if (BUILD_ONLY_32_BIT_FOR_WIN64)
     add_subdirectory(build/win32)
-  elseif ("${WITH_UI_QT}")
-    add_subdirectory(ui/apps/qt5/dist/win32)
-  elseif ("${WITH_UI}" STREQUAL "Gtk+3")
-    add_subdirectory(ui/apps/gtkmm/dist/win32)
   endif()
 endif()
 
