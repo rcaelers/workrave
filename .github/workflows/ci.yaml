@@ -246,11 +246,11 @@ jobs:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
             #upload: true
 
-          #- os: macos-latest
-          #  compiler: clang
-          #  ui: Qt5
-          #  enable:
-          #  disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
+          - os: macos-latest
+            compiler: clang
+            ui: Qt6
+            enable:
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
 
     steps:
       - name: Prepare
@@ -272,10 +272,10 @@ jobs:
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
         run: |
-          brew install gettext qt5 python3 boost
+          brew install gettext qt python3 boost
           brew link gettext --force
           brew outdated cmake || brew upgrade cmake
-          pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
+          pip3 install --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
       - name: Build
         run: |
