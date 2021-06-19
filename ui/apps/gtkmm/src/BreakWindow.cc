@@ -550,11 +550,11 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
             {
               if (!GUIConfig::break_ignorable(BreakId(id))())
                 {
-                  skip_locked = overdue;
+                  postpone_locked = overdue;
                 }
               if (!GUIConfig::break_skippable(BreakId(id))())
                 {
-                  postpone_locked = overdue;
+                  skip_locked = overdue;
                 }
               if (skip_locked || postpone_locked)
                 {
