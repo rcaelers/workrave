@@ -77,7 +77,6 @@ libs/utils/src/Platform-win32.cc
 libs/utils/src/Platform.cc
 libs/utils/src/TimeSource.cc
 libs/utils/src/Timer.cc
-libs/utils/src/Util.cc
 libs/utils/src/WRID.cc
 libs/utils/src/debug.cc
 libs/utils/src/win32/W32ActiveSetup.cc

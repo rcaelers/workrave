@@ -48,8 +48,6 @@
 #  include "DistributionLink.hh"
 #  include "DistributionSocketLink.hh"
 
-#  include "utils/Util.hh"
-
 #  ifdef PLATFORM_OS_WINDOWS
 #    include "win32/ghmac.h"
 #  endif
@@ -151,7 +149,7 @@ DistributionSocketLink::init_my_id()
 {
   TRACE_ENTER("DistributionSocketLink::init_my_id");
   bool ok = false;
-  string idfilename = Util::get_home_directory() + "id";
+  string idfilename = AssetPath::get_home_directory() + "id";
 
   if (Util::file_exists(idfilename))
     {

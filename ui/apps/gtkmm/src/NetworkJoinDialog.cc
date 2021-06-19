@@ -44,7 +44,6 @@
 #  include "commonui/Backend.hh"
 #  include "core/IDistributionManager.hh"
 #  include "config/IConfigurator.hh"
-#  include "utils/Util.hh"
 #  include "GtkUtil.hh"
 
 using namespace workrave;

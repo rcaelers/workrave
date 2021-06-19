@@ -42,7 +42,7 @@ TimerBoxTextView::TimerBoxTextView()
 {
   TRACE_ENTER("TimerBoxTextView::TimerBoxTextView");
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+  string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
 
   // XXX: Initialize widgets.
 
@@ -105,15 +105,15 @@ TimerBoxTextView::set_icon(IconType icon)
   switch (icon)
     {
     case ICON_NORMAL:
-      file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_QUIET:
-      file = Util::complete_directory("workrave-quiet-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-quiet-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
       break;
 
     case ICON_SUSPENDED:
-      file = Util::complete_directory("workrave-suspended-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+      file = AssetPath::complete_directory("workrave-suspended-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
       break;
     }
 

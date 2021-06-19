@@ -33,7 +33,6 @@
 #  include <unistd.h>
 #endif
 
-#include "utils/Util.hh"
 #include "IdleLogManager.hh"
 #include "utils/TimeSource.hh"
 #include "PacketBuffer.hh"
@@ -589,7 +588,7 @@ IdleLogManager::unlink_idlelog(PacketBuffer &buffer) const
       if (id != nullptr)
         {
           stringstream ss;
-          ss << Util::get_home_directory();
+          ss << AssetPath::get_home_directory();
           ss << "idlelog." << id << ".log" << ends;
 
 #ifdef PLATFORM_OS_WINDOWS
@@ -632,7 +631,7 @@ IdleLogManager::save_index()
     }
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "idlelog.idx" << ends;
 
   ofstream file(ss.str().c_str(), ios::binary);
@@ -649,7 +648,7 @@ IdleLogManager::load_index()
   TRACE_ENTER("IdleLogManager::load()");
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "idlelog.idx" << ends;
 
   bool exists = Util::file_exists(ss.str());
@@ -745,7 +744,7 @@ IdleLogManager::save_idlelog(ClientInfo &info)
     }
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "idlelog." << info.client_id << ".log" << ends;
 
   ofstream file(ss.str().c_str(), ios::binary);
@@ -762,7 +761,7 @@ IdleLogManager::load_idlelog(ClientInfo &info)
   int64_t current_time = TimeSource::get_real_time_sec();
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "idlelog." << info.client_id << ".log" << ends;
 
   // Open file
@@ -856,7 +855,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, const IdleInterval &idle)
   pack_idle_interval(buffer, idle);
 
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "idlelog." << info.client_id << ".log" << ends;
 
   ofstream file(ss.str().c_str(), ios::app | ios::binary);

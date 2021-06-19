@@ -68,7 +68,6 @@
 #include "StatusIcon.hh"
 #include "session/System.hh"
 #include "Text.hh"
-#include "utils/Util.hh"
 #include "WindowHints.hh"
 #include "Locale.hh"
 #include "commonui/Session.hh"
@@ -451,7 +450,7 @@ GUI::init_nls()
   const char *locale_dir;
 
 #  if defined(PLATFORM_OS_WINDOWS)
-  string dir = Util::get_application_directory();
+  string dir = Platform::get_application_directory();
   // Use the pre-install locale location if workrave is running from its MSVC build directory.
   dir += Util::file_exists(dir + "\\..\\Workrave.sln") ? "\\..\\ui" : "\\lib\\locale";
   locale_dir = dir.c_str();

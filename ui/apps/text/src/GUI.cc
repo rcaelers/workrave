@@ -236,7 +236,7 @@ GUI::init_nls()
 #ifdef ENABLE_NLS
   const char *locale_dir;
 #  ifdef PLATFORM_OS_WINDOWS
-  string dir = Util::get_application_directory() + "\\lib\\locale";
+  string dir = Platform::get_application_directory() + "\\lib\\locale";
   locale_dir = dir.c_str();
 #  else
   locale_dir = "FIXME:";

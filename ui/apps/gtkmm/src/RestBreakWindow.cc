@@ -39,7 +39,6 @@
 #include "RestBreakWindow.hh"
 #include "Text.hh"
 #include "TimeBar.hh"
-#include "utils/Util.hh"
 #include "WindowHints.hh"
 
 #include "core/IBreak.hh"

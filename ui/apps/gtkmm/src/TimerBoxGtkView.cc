@@ -34,12 +34,12 @@
 #include "EventButton.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
-#include "utils/Util.hh"
 #include "Text.hh"
 #include "Menus.hh"
 #include "GUI.hh"
 #include "GtkUtil.hh"
 
+#include "utils/AssetPath.hh"
 #include "commonui/Backend.hh"
 #include "core/IBreak.hh"
 
@@ -115,7 +115,7 @@ TimerBoxGtkView::init()
 
   sheep_eventbox->property_visible_window() = false;
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+  string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
   sheep_eventbox->set_tooltip_text("Workrave");
 

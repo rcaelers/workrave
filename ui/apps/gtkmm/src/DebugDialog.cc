@@ -31,7 +31,6 @@
 
 #include "core/ICore.hh"
 #include "commonui/Backend.hh"
-#include "utils/Util.hh"
 
 #include "Hig.hh"
 

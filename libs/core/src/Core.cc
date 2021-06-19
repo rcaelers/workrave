@@ -32,10 +32,10 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <filesystem>
 
 #include "Core.hh"
 
-#include "utils/Util.hh"
 #include "core/IApp.hh"
 #include "core/ICoreEventListener.hh"
 #include "LocalActivityMonitor.hh"
@@ -51,6 +51,7 @@
 #include "TimePred.hh"
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
+#include "utils/AssetPath.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "DistributionManager.hh"
@@ -166,7 +167,7 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
 void
 Core::init_configurator()
 {
-  string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
+  string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
 
 #ifdef HAVE_TESTS
   if (hooks->hook_create_configurator())
@@ -176,8 +177,9 @@ Core::init_configurator()
 #endif
 
   if (!configurator)
-    {
-      if (Util::file_exists(ini_file))
+  {
+      std::filesystem::path f(ini_file);
+      if (std::filesystem::is_regular_file(f))
         {
           configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
           configurator->load(ini_file);
@@ -187,13 +189,13 @@ Core::init_configurator()
           configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
           if (configurator == nullptr)
             {
-              string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
+              string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
 #if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
-                  configFile = Util::get_home_directory() + "config.xml";
+                  configFile = AssetPath::get_home_directory() + "config.xml";
                 }
 #endif
               if (configFile != "")
@@ -204,7 +206,7 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = Util::get_home_directory() + "workrave.ini";
+              ini_file = AssetPath::get_home_directory() + "workrave.ini";
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
               configurator->load(ini_file);
               configurator->save(ini_file);
@@ -217,7 +219,7 @@ Core::init_configurator()
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
     {
-      Util::set_home_directory(home);
+      AssetPath::set_home_directory(home);
     }
 }
 
@@ -1638,7 +1640,7 @@ void
 Core::save_state() const
 {
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "state" << ends;
 
   ofstream stateFile(ss.str().c_str());
@@ -1683,7 +1685,7 @@ void
 Core::load_state()
 {
   stringstream ss;
-  ss << Util::get_home_directory();
+  ss << AssetPath::get_home_directory();
   ss << "state" << ends;
 
 #ifdef HAVE_TESTS

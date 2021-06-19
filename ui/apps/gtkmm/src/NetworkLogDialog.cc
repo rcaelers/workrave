@@ -41,7 +41,6 @@
 #  include "core/ICore.hh"
 #  include "commonui/Backend.hh"
 #  include "core/IDistributionManager.hh"
-#  include "utils/Util.hh"
 
 using namespace std;
 using namespace workrave;
