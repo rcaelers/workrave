@@ -41,7 +41,7 @@
 #include "HeadInfo.hh"
 #include "commonui/GUIConfig.hh"
 
-#include "Utils/AssetPath.hh"
+#include "utils/AssetPath.hh"
 
 using namespace std;
 using namespace workrave;
