@@ -73,7 +73,7 @@ public:
 
   static void init();
 
-  // private:
+private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
@@ -102,51 +102,6 @@ public:
   static const std::string CFG_KEY_TIMERBOX_FLAGS;
   static const std::string CFG_KEY_TIMERBOX_IMMINENT;
   static const std::string CFG_KEY_TIMERBOX_ENABLED;
-
-#  if !defined(HAVE_CORE_NEXT)
-  static BlockMode get_block_mode();
-  static void set_block_mode(BlockMode mode);
-
-  static std::string get_locale();
-  static void set_locale(std::string locale);
-
-  static bool get_trayicon_enabled();
-  static void set_trayicon_enabled(bool enabled);
-
-  static bool get_ignorable(workrave::BreakId id);
-  static bool get_skippable(workrave::BreakId id);
-  static void set_ignorable(workrave::BreakId id, bool b);
-  static bool get_shutdown_enabled(workrave::BreakId id);
-  static int get_number_of_exercises(workrave::BreakId id);
-  static void set_number_of_exercises(workrave::BreakId id, int num);
-
-  static bool get_always_on_top();
-  static void set_always_on_top(bool b);
-
-  static void set_start_in_tray(bool b);
-  static bool get_start_in_tray();
-
-  static std::string get_icon_theme();
-  static void set_icon_theme(std::string theme);
-
-  static bool is_applet_fallback_enabled();
-  static void set_applet_fallback_enabled(bool enabled);
-
-  static bool is_applet_icon_enabled();
-  static void set_applet_icon_enabled(bool enabled);
-
-  static const std::string get_timerbox_config_key(std::string name, workrave::BreakId timer, const std::string &key);
-  static int get_timerbox_cycle_time(std::string name);
-  static void set_timerbox_cycle_time(std::string name, int time);
-  static int get_timerbox_imminent_time(std::string name, workrave::BreakId timer);
-  static void set_timerbox_imminent_time(std::string name, workrave::BreakId timer, int time);
-  static int get_timerbox_slot(std::string name, workrave::BreakId timer);
-  static void set_timerbox_slot(std::string name, workrave::BreakId timer, int slot);
-  static int get_timerbox_flags(std::string name, workrave::BreakId timer);
-  static void set_timerbox_flags(std::string name, workrave::BreakId timer, int flags);
-  static bool is_timerbox_enabled(std::string name);
-  static void set_timerbox_enabled(std::string name, bool enabled);
-#  endif
 
 private:
   static std::string expand(const std::string &str, workrave::BreakId id);

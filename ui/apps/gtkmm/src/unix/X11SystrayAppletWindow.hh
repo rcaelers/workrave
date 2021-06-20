@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,6 @@
 
 #include <cstdio>
 
-#include "config/IConfiguratorListener.hh"
 #include "AppletWindow.hh"
 #include "commonui/UiTypes.hh"
 
@@ -31,15 +30,14 @@
 #include <gtkmm/eventbox.h>
 #include "gtktrayicon.h"
 
+#include "utils/Signals.hh"
+
 class TimerBoxControl;
 class TimerBoxGtkView;
 class AppletControl;
 
-using namespace workrave;
-
 class X11SystrayAppletWindow
-  : public workrave::config::IConfiguratorListener
-  , public sigc::trackable
+  : public sigc::trackable
   , public AppletWindow
 {
 public:
@@ -75,6 +73,8 @@ private:
   //! The tray icon
   WRGtkTrayIcon *tray_icon{nullptr};
 
+  workrave::utils::Trackable tracker;
+
 private:
   void activate();
   void deactivate();
@@ -89,9 +89,7 @@ private:
   bool on_button_press_event(GdkEventButton *event);
   bool on_delete_event(GdkEventAny *);
   void on_size_allocate(Gtk::Allocation &allocation);
-
-  void config_changed_notify(const std::string &key) override;
-  void read_configuration();
+  void on_enabled_changed();
 };
 
 #endif // X11SYSTRAYAPPLETWINDOW_HH

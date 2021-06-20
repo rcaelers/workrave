@@ -428,7 +428,7 @@ GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 std::string
 GtkUtil::get_image_filename(const std::string &image)
 {
-  std::string theme = GUIConfig::get_icon_theme();
+  std::string theme = GUIConfig::icon_theme()();
 
   if (theme != "")
     {
