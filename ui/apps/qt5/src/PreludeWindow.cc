@@ -269,7 +269,7 @@ PreludeWindow::event(QEvent *event)
   if (event->type() == QEvent::HoverEnter)
     {
       QHoverEvent *hoverEvent = static_cast<QHoverEvent *>(event);
-      avoid_pointer(hoverEvent->position().x(), hoverEvent->position().y());
+      avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
     }
   bool res = QWidget::event(event);
   return res;
