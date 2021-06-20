@@ -522,6 +522,23 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->context_save();
   style_context->add_class(GTK_STYLE_CLASS_FRAME);
 
+#  ifdef PLATFORM_OS_WINDOWS
+  static const char timebar_style[] =
+    "* {\n"
+    "    box-shadow: none;\n"
+    "    color: #000000;\n"
+    "    margin: 0;\n"
+    "    padding: 0;\n"
+    "    border-style: inset;\n"
+    "    border-radius: 0;\n"
+    "    border: 1px inset #b6b6b3;\n"
+    "}";
+
+  Glib::RefPtr<Gtk::CssProvider> provider = Gtk::CssProvider::create();
+  provider->load_from_data(timebar_style);
+  style_context->add_provider(provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#  endif
+
   // Physical width/height
   int win_w = allocation.get_width() - 2;
   int win_h = allocation.get_height();

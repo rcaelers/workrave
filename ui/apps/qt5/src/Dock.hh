@@ -27,7 +27,9 @@
 
 class DockPrivate;
 
-class Dock : public QObject, public workrave::utils::Trackable
+class Dock
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 

@@ -786,7 +786,6 @@ GUI::init_dbus()
           dialog.run();
           exit(1);
         }
-
       try
         {
           dbus->register_object_path("/org/workrave/Workrave/UI");

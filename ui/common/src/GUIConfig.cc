@@ -1,5 +1,3 @@
-// GUIConfig.cc
-//
 // Copyright (C) 2007 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -31,6 +29,7 @@
 
 using namespace std;
 using namespace workrave::config;
+
 const string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
 const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";
 const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
