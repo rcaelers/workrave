@@ -37,6 +37,7 @@
 #  include "DistributionListener.hh"
 #  include "config/IConfigurator.hh"
 #  include "core/CoreConfig.hh"
+#  include "utils/AssetPath.hh"
 
 #  ifdef PLATFORM_OS_WINDOWS
 #    define snprintf _snprintf

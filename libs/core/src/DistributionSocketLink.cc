@@ -32,6 +32,7 @@
 #  include <iostream>
 #  include <fstream>
 #  include <algorithm>
+#  include <filesystem>
 
 #  include "nls.h"
 
@@ -43,6 +44,7 @@
 
 #  include "config/IConfigurator.hh"
 #  include "core/CoreConfig.hh"
+#  include "utils/AssetPath.hh"
 
 #  include "DistributionManager.hh"
 #  include "DistributionLink.hh"
@@ -53,6 +55,7 @@
 #  endif
 
 using namespace std;
+using namespace workrave::utils;
 
 //! Construct a new socket link.
 /*!
@@ -151,7 +154,8 @@ DistributionSocketLink::init_my_id()
   bool ok = false;
   string idfilename = AssetPath::get_home_directory() + "id";
 
-  if (Util::file_exists(idfilename))
+  std::filesystem::path f(idfilename);
+  if (std::filesystem::is_regular_file(f))
     {
       ifstream file(idfilename.c_str());
 

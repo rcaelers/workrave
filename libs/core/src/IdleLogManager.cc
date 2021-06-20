@@ -28,13 +28,16 @@
 #include <cassert>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
 
-#include "IdleLogManager.hh"
 #include "utils/TimeSource.hh"
+#include "utils/AssetPath.hh"
+
+#include "IdleLogManager.hh"
 #include "PacketBuffer.hh"
 
 #define IDLELOG_MAXSIZE (4000)
@@ -651,7 +654,8 @@ IdleLogManager::load_index()
   ss << AssetPath::get_home_directory();
   ss << "idlelog.idx" << ends;
 
-  bool exists = Util::file_exists(ss.str());
+  std::filesystem::path f(ss.str());
+  bool exists = std::filesystem::is_regular_file(f);
 
   if (exists)
     {
