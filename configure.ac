@@ -923,11 +923,11 @@ then
    variant="$variant x11 unix"
 fi
 
-WR_COMMON_INCLUDES="-I\$(top_srcdir)/libs/hooks/harpoon/include"
+WR_COMMON_INCLUDES="-I\$(top_srcdir)/libs/hooks/harpoon/include -I\$(top_srcdir)/libs/crash/include"
 WR_UI_COMMON_INCLUDES="-I\$(top_srcdir)/ui/common/include"
 WR_LDADD="-L\$(top_builddir)/ui/common/src"
 
-for l in audio config core crash dbus input-monitor session utils; do
+for l in audio config coredbus input-monitor session utils; do
     WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I\$(top_srcdir)/libs/$l/include"
     WR_LDFLAGS="$WR_LDFLAGS -L\$(top_builddir)/libs/$l/src/"
 done
