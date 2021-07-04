@@ -29,7 +29,7 @@ const main = async () => {
       .alias('h', 'help')
       .option('branch', {
         alias: 'b',
-        default: 'v1.10'
+        default: 'v1.11'
       })
       .options('dry', {
         type: 'boolean',

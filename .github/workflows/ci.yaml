@@ -2,13 +2,12 @@ name: CI
 on:
   push:
     branches:
-      - topic/next-backport
-      - branch_v1_10
+      - branch_v1_11
     tags:
-      - 'v1_10_*'
+      - 'v1_11_*'
   pull_request:
     branches:
-      - branch_v1_10
+      - branch_v1_11
 
 jobs:
   build-windows:
@@ -311,7 +310,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [ build-linux-autotools, build-mingw-autotools, build ]
-    if: github.event_name == 'push' &&  github.ref == 'refs/heads/branch_v1_10'
+    if: github.event_name == 'push' &&  github.ref == 'refs/heads/branch_v1_11'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -329,7 +328,7 @@ jobs:
           aws configure set default.region us-east-1
           aws configure set default.s3.signature_version s3v4
           aws configure set s3.endpoint_url https://snapshots.workrave.org/
-          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.10
+          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.11
         env:
            WORKSPACE: ${{ github.workspace }}
            SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
