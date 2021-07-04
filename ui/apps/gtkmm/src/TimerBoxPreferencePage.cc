@@ -35,6 +35,7 @@
 #include "Hig.hh"
 #include "commonui/GUIConfig.hh"
 #include "commonui/TimerBoxControl.hh"
+#include "utils/Platform.hh"
 
 using namespace workrave;
 

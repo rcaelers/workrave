@@ -47,7 +47,6 @@ using namespace workrave;
 
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false)
-
 {
   auto core = Backend::get_core();
   statistics = core->get_statistics();

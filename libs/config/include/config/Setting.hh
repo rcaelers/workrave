@@ -66,6 +66,14 @@ namespace workrave
         return signal.connect(slot.track_foreign(track_target->tracker_object()));
       }
 
+      template<typename F>
+      auto connect(workrave::utils::Trackable &track_target, F func)
+      {
+        config->add_listener(key(), this);
+        auto slot = typename NotifyType::slot_type(func);
+        return signal.connect(slot.track_foreign(track_target.tracker_object()));
+      }
+
       void config_changed_notify(const std::string &key) override
       {
         (void)key;
@@ -161,11 +169,29 @@ namespace workrave
       }
 
       template<typename F>
+      auto connect(workrave::utils::Trackable &track_target, F func)
+      {
+        config->add_listener(key(), this);
+        auto slot = typename NotifyType::slot_type(func);
+        return signal.connect(slot.track_foreign(track_target.tracker_object()));
+      }
+
+      template<typename F>
       auto attach(workrave::utils::Trackable *track_target, F func)
       {
         config->add_listener(key(), this);
         auto slot = typename NotifyType::slot_type(func);
         auto connection = signal.connect(slot.track_foreign(track_target->tracker_object()));
+        signal(get());
+        return connection;
+      }
+
+      template<typename F>
+      auto attach(workrave::utils::Trackable &track_target, F func)
+      {
+        config->add_listener(key(), this);
+        auto slot = typename NotifyType::slot_type(func);
+        auto connection = signal.connect(slot.track_foreign(track_target.tracker_object()));
         signal(get());
         return connection;
       }

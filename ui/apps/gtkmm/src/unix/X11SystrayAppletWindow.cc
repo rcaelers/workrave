@@ -1,6 +1,4 @@
-// X11SystrayAppletWindow.cc --- Applet info Window
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,8 +24,6 @@
 
 #include "X11SystrayAppletWindow.hh"
 
-#include "commonui/Backend.hh"
-#include "config/IConfigurator.hh"
 #include "GUI.hh"
 #include "TimerBoxGtkView.hh"
 #include "commonui/TimerBoxControl.hh"
@@ -42,9 +38,8 @@
  */
 X11SystrayAppletWindow::X11SystrayAppletWindow()
 {
-  workrave::config::IConfigurator::Ptr config = Backend::get_configurator();
-  config->add_listener(GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED, this);
-  read_configuration();
+  enabled = GUIConfig::applet_fallback_enabled()();
+  GUIConfig::applet_fallback_enabled().connect(tracker, [this](bool enabled) { on_enabled_changed(); });
 }
 
 //! Destructor.
@@ -345,10 +340,10 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
 }
 
 void
-X11SystrayAppletWindow::read_configuration()
+X11SystrayAppletWindow::on_enabled_changed()
 {
   bool previous_enabled = enabled;
-  enabled = GUIConfig::is_applet_fallback_enabled();
+  enabled = GUIConfig::applet_fallback_enabled()();
 
   if (!previous_enabled && enabled)
     {
@@ -358,15 +353,6 @@ X11SystrayAppletWindow::read_configuration()
     {
       deactivate();
     }
-}
-
-void
-X11SystrayAppletWindow::config_changed_notify(const std::string &key)
-{
-  TRACE_ENTER_MSG("X11SystrayAppletWindow::config_changed_notify", key);
-  (void)key;
-  read_configuration();
-  TRACE_EXIT();
 }
 
 bool

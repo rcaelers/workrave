@@ -177,7 +177,7 @@ Core::init_configurator()
 #endif
 
   if (!configurator)
-  {
+    {
       std::filesystem::path f(ini_file);
       if (std::filesystem::is_regular_file(f))
         {
