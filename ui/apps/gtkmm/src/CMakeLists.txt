@@ -230,7 +230,7 @@ if (WIN32)
     endif()
   endif()
 
-  if (HAVE_CRASHPAD)
+  if (HAVE_CRASH_REPORT)
     target_link_libraries(workrave workrave-libs-crash)
   endif()
 

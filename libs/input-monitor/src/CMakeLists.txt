@@ -55,7 +55,10 @@ if (HAVE_GLIB)
   target_include_directories(workrave-libs-input-monitor PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(workrave-libs-input-monitor workrave-libs-utils workrave-libs-config workrave-libs-crash)
+target_link_libraries(workrave-libs-input-monitor workrave-libs-utils workrave-libs-config)
+if (HAVE_CRASH_REPORT)
+  target_link_libraries(workrave-libs-input-monitor workrave-libs-crash)
+endif()
 
 target_include_directories(workrave-libs-input-monitor
   PRIVATE

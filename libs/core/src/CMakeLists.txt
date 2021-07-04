@@ -37,7 +37,6 @@ target_link_libraries(workrave-libs-core
   ${CMAKE_THREAD_LIBS_INIT}
   workrave-libs-utils
   workrave-libs-config
-  workrave-libs-crash
   workrave-libs-input-monitor
   workrave-libs-dbus)
 
