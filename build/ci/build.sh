@@ -84,7 +84,7 @@ if [[ $DOCKER_IMAGE =~ "mingw" ]] ; then
         mkdir -p ${SOURCES_DIR}/_ext
     fi
 
-    crashpad_name=crashpad-mingw64-20201224-18-52ff3f4d6a8277499327ee8d0c9fdc759016ee2e
+    crashpad_name=crashpad-mingw64-20210704-25-68f071a281ec126ed9ec5f8d0e414f8c29c82e13
     crashpad_ext=.tar.xz
     if [ ! -d ${SOURCES_DIR}/_ext/${crashpad_name} ]; then
         curl https://snapshots.workrave.org/crashpad/${crashpad_name}${crashpad_ext} | tar xvJ -C ${SOURCES_DIR}/_ext
@@ -181,6 +181,7 @@ if [[ -e ${OUTPUT_DIR}/mysetup.exe ]]; then
     mkdir -p ${PORTABLE_DIR}
     innoextract -d ${PORTABLE_DIR} ${DEPLOY_DIR}/${filename}
 
+    rm -rf ${PORTABLE_DIR}/Workrave
     mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
 
     rm -f ${PORTABLE_DIR}/Workrave/libzapper-0.dll

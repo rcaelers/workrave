@@ -155,6 +155,7 @@ target_link_libraries(workrave
 if (MINGW)
   add_custom_command(TARGET workrave POST_BUILD
       # COMMAND ${CMAKE_NM} -nosC --line-numbers $<TARGET_FILE:workrave> > ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
+      COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:workrave>" workrave-debug.exe
       COMMAND ${CMAKE_OBJCOPY} --only-keep-debug
           $<TARGET_FILE:workrave> ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug
       COMMAND ${CMAKE_OBJCOPY} --strip-debug --strip-unneeded
@@ -212,21 +213,55 @@ if (WIN32)
     target_link_libraries(workrave dxerr8 dsound dxguid)
   endif()
 
-  if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(workrave PRIVATE -gcodeview)  
-    target_link_options(workrave PRIVATE -Wl,-pdb=)
-    set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-Wl,--subsystem,windows")
-    set_target_properties(workrave PROPERTIES LINK_FLAGS "-Wl,--subsystem,windows")
-  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
-    set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
+  if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+      target_compile_options(workrave PRIVATE -gcodeview)
+      target_link_options(workrave PRIVATE -Wl,-pdb=)
+    endif()
+  else()
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+      target_compile_options(workrave PRIVATE -gcodeview)
+      target_link_options(workrave PRIVATE -Wl,-pdb=)
+      set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-Wl,--subsystem,windows")
+      set_target_properties(workrave PROPERTIES LINK_FLAGS "-Wl,--subsystem,windows")
+    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      set_target_properties(workrave PROPERTIES COMPILE_FLAGS "-mwindows")
+      set_target_properties(workrave PROPERTIES LINK_FLAGS "-mwindows")
+    endif()
   endif()
 
   if (HAVE_CRASHPAD)
-    target_compile_definitions(workrave PRIVATE HAVE_CRASHPAD)
     target_link_libraries(workrave workrave-libs-crash)
   endif()
 
 endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
+
+if (HAVE_CRASHPAD)
+  add_executable(WorkraveCrashHandler CrashDialog.cc)
+
+  target_include_directories(WorkraveCrashHandler PRIVATE ${GTK_INCLUDE_DIRS})
+  target_link_directories(WorkraveCrashHandler PRIVATE ${GTK_LIBRARY_DIRS})
+
+  target_link_libraries(WorkraveCrashHandler
+    PRIVATE
+    workrave-ui-common
+    workrave-libs-utils
+    crashpad::handler_lib
+    crashpad::tools
+    ${GTK_LIBRARIES}
+    )
+
+  if (MSVC)
+    target_link_options(WorkraveCrashHandler PRIVATE "/SUBSYSTEM:WINDOWS")
+  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set_target_properties(WorkraveCrashHandler PROPERTIES COMPILE_FLAGS "-Wl,--subsystem,windows  -municode")
+    set_target_properties(WorkraveCrashHandler PROPERTIES LINK_FLAGS "-Wl,--subsystem,windows  -municode")
+  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set_target_properties(WorkraveCrashHandler PROPERTIES COMPILE_FLAGS "-mwindows  -municode")
+    set_target_properties(WorkraveCrashHandler PROPERTIES LINK_FLAGS "-mwindows -municode")
+  endif()
+
+  install(TARGETS WorkraveCrashHandler RUNTIME DESTINATION "${BINDIR}")
+endif()

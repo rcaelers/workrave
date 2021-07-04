@@ -24,15 +24,22 @@ if (PLATFORM_OS_WINDOWS)
 
   if (HAVE_HARPOON)
     target_sources(workrave-libs-input-monitor PRIVATE
-      win32/W32InputMonitor.cc
-      win32/Harpoon.cc)
-    target_include_directories(workrave-libs-input-monitor PRIVATE 
+      win32/W32InputMonitor.cc)
+
+    add_library(workrave-libs-input-monitor-harpoon STATIC win32/Harpoon.cc)
+    target_include_directories(workrave-libs-input-monitor-harpoon
+      PRIVATE
+      ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
       ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
-      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include)
+      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include
+      PUBLIC
+      ${CMAKE_SOURCE_DIR}/libs/input-monitor/include)
+
+    target_link_libraries(workrave-libs-input-monitor-harpoon workrave-libs-utils workrave-libs-config harpoon64)
+    target_link_libraries(workrave-libs-input-monitor workrave-libs-input-monitor-harpoon)
   endif()
 
   target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32)
-  target_link_libraries(workrave-libs-input-monitor harpoon64)
 endif()
 
 if (PLATFORM_OS_MACOS)
@@ -48,7 +55,7 @@ if (HAVE_GLIB)
   target_include_directories(workrave-libs-input-monitor PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(workrave-libs-input-monitor workrave-libs-utils workrave-libs-config)
+target_link_libraries(workrave-libs-input-monitor workrave-libs-utils workrave-libs-config workrave-libs-crash)
 
 target_include_directories(workrave-libs-input-monitor
   PRIVATE

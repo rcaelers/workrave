@@ -1,5 +1,3 @@
-// W32LowLevelMonitor.cc --- ActivityMonitor for W32
-//
 // Copyright (C) 2007, 2010, 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -20,15 +18,17 @@
 #include "InputMonitor.hh"
 
 #include "config/IConfigurator.hh"
+#include "crash/CrashReporter.hh"
+
 using namespace workrave::config;
 
-class W32LowLevelMonitor : public InputMonitor
+class W32LowLevelMonitor : public InputMonitor, public workrave::crash::CrashHandler
 {
 public:
   W32LowLevelMonitor(workrave::config::IConfigurator::Ptr config);
   virtual ~W32LowLevelMonitor();
-  bool init();
-  void terminate();
+  bool init() override;
+  void terminate() override;
   static W32LowLevelMonitor *singleton;
 
 protected:
@@ -61,6 +61,8 @@ private:
 
   DWORD dispatch_thread();
   DWORD time_critical_callback_thread();
+
+  void on_crashed() override;
 
   static LRESULT CALLBACK k_hook_callback(int, WPARAM, LPARAM);
   static LRESULT CALLBACK m_hook_callback(int, WPARAM, LPARAM);

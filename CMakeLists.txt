@@ -199,6 +199,11 @@ if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
   set (WITH_UI_QT TRUE)
 endif()
 
+set (WITH_UI_GTK FALSE)
+if ("${WITH_UI}" STREQUAL "Gtk+3")
+  set (WITH_UI_GTK TRUE)
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Core selection
 
@@ -750,6 +755,21 @@ if (WIN32)
     else()
       message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
     endif()
+
+    set(HAVE_CRASH_REPORT OFF)
+    set(HAVE_CRASHPAD OFF)
+    if(WITH_CRASHPAD)
+      find_package(crashpad REQUIRED)
+      if (crashpad_FOUND)
+        set(HAVE_CRASHPAD ON)
+        set(HAVE_CRASH_REPORT ON)
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-pdb=")
+        set(CMAKE_EXE_LINKER_FLAGS "-Wl,-pdb=")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gcodeview -gdwarf")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gcodeview -gdwarf")
+      endif()
+    endif()
+
   endif()
 
   if (NOT ISCC)
@@ -826,13 +846,6 @@ if (WIN32)
     endif()
   endforeach()
 
-  set(HAVE_CRASHPAD OFF)
-  if(WITH_CRASHPAD)
-    find_package(crashpad REQUIRED)
-    if (crashpad_FOUND)
-      set(HAVE_CRASHPAD ON)
-    endif()
-  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -992,9 +1005,13 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # App Bundle
 
-if ("${WITH_UI_QT}")
+if (WIN32 AND BUILD_ONLY_32_BIT_FOR_WIN64)
+  add_subdirectory(build/win32)
+endif()
+
+if (WITH_UI_QT)
   add_subdirectory(ui/apps/qt5/dist)
-elseif ("${WITH_UI}" STREQUAL "Gtk+3")
+elseif (WITH_UI_GTK)
   add_subdirectory(ui/apps/gtkmm/dist)
 endif()
 

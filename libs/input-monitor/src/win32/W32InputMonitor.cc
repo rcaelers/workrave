@@ -51,6 +51,8 @@ typedef struct
 
 W32InputMonitor *W32InputMonitor::singleton = NULL;
 
+using namespace workrave::crash;
+
 W32InputMonitor::W32InputMonitor(IConfigurator::Ptr config)
   : config(config)
 {
@@ -58,6 +60,10 @@ W32InputMonitor::W32InputMonitor(IConfigurator::Ptr config)
 
 W32InputMonitor::~W32InputMonitor()
 {
+#ifdef HAVE_CRASH_REPORT
+  CrashReporter::instance().unregister_crash_handler(this);
+#endif
+
   terminate();
 }
 
@@ -67,6 +73,11 @@ W32InputMonitor::init()
   if (singleton == NULL)
     {
       singleton = this;
+
+#ifdef HAVE_CRASH_REPORT
+      CrashReporter::instance().register_crash_handler(this);
+#endif
+
       return Harpoon::init(config, on_harpoon_event);
     }
   else
@@ -75,11 +86,16 @@ W32InputMonitor::init()
     }
 }
 
-//! Stops the activity monitoring.
 void
 W32InputMonitor::terminate()
 {
   Harpoon::terminate();
+}
+
+void
+W32InputMonitor::on_crashed()
+{
+  terminate();
 }
 
 void

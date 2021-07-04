@@ -1,5 +1,3 @@
-// W32LowLevelMonitor.cc --- ActivityMonitor for W32
-//
 // Copyright (C) 2007, 2010, 2012, 2013 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -81,6 +79,8 @@ Therefore BOOL functions can return -1.
 MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
 
+using namespace workrave::crash;
+
 W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
   : config(config)
 {
@@ -112,6 +112,11 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
 {
   TRACE_ENTER("W32LowLevelMonitor::~W32LowLevelMonitor");
 
+#ifdef HAVE_CRASH_REPORT
+  TRACE_MSG("unregister");
+  CrashReporter::instance().unregister_crash_handler(this);
+#endif
+
   if (singleton != this)
     {
       TRACE_RETURN(" singleton != this ");
@@ -142,6 +147,10 @@ W32LowLevelMonitor::init()
     }
 
   terminate();
+
+#ifdef HAVE_CRASH_REPORT
+  CrashReporter::instance().register_crash_handler(this);
+#endif
 
   dispatch->handle = CreateThread(NULL, 0, thread_Dispatch, this, 0, &dispatch->id);
 
@@ -215,17 +224,25 @@ W32LowLevelMonitor::wait_for_thread_queue(thread_struct *thread)
 void
 W32LowLevelMonitor::terminate()
 {
+  TRACE_ENTER("W32LowLevelMonitor::terminate");
   if (singleton != this)
+  {
+    TRACE_EXIT();
     return;
+  }
 
+  TRACE_MSG("unhook");
   unhook();
 
+  TRACE_MSG("threads");
   terminate_thread(callback);
   terminate_thread(dispatch);
 
 #ifdef HAVE_HARPOON
+  TRACE_MSG("harpoon");
   Harpoon::terminate();
 #endif
+  TRACE_EXIT();
 }
 
 void
@@ -446,3 +463,10 @@ W32LowLevelMonitor::m_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 }
 
 // POINTTOPOINTS( ( (MSLLHOOKSTRUCT *) lParam )->pt )
+
+void
+W32LowLevelMonitor::on_crashed()
+{
+  std::cout << "CRASH! terminating monitor\n";
+  terminate();
+}

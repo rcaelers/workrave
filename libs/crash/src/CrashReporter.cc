@@ -19,6 +19,10 @@
 #  include "config.h"
 #endif
 
+#include <string>
+#include <list>
+#include <mutex>
+
 #include "crash/CrashReporter.hh"
 
 #include <iostream>
@@ -42,14 +46,30 @@ using namespace workrave::crash;
 
 class CrashReporter::Pimpl
 {
-public:
-  Pimpl() = default;
+  public:
+    Pimpl() = default;
 
-  void init();
-  static bool crashpad_handler(EXCEPTION_POINTERS *);
+    void init();
+    static bool crashpad_handler(EXCEPTION_POINTERS *);
 
-  crashpad::CrashpadClient *client;
+    void register_crash_handler(CrashHandler *handler);
+    void unregister_crash_handler(CrashHandler *handler);
+
+  private:
+    void call_crash_handlers();
+
+  private:
+    crashpad::CrashpadClient *client { nullptr };
+    std::mutex mutex;
+    std::list<CrashHandler*> handlers;
+
 };
+
+CrashReporter &CrashReporter::instance()
+{
+  static CrashReporter *crash_reporter = new CrashReporter();
+  return *crash_reporter;
+}
 
 CrashReporter::CrashReporter()
 {
@@ -62,14 +82,29 @@ CrashReporter::init()
   pimpl->init();
 }
 
+void
+CrashReporter::register_crash_handler(CrashHandler *handler)
+{
+  pimpl->register_crash_handler(handler);
+}
+
+void
+CrashReporter::unregister_crash_handler(CrashHandler *handler)
+{
+  pimpl->unregister_crash_handler(handler);
+}
+
 bool
 CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
 {
   TRACE_ENTER("CrashReporter::Pimpl::crashpad_handler");
+
 #ifdef HAVE_HARPOON
   Harpoon::unblock_input();
 #endif
   std::cout << "crashpad_handler\n";
+  CrashReporter::instance().pimpl->call_crash_handlers();
+  std::cout << "crashpad_handler called handlers\n";
 
   TRACE_EXIT();
   return false;
@@ -78,6 +113,7 @@ CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
 void
 CrashReporter::Pimpl::init()
 {
+  TRACE_ENTER("CrashReporter::Pimpl::init");
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
   const std::filesystem::path app_dir = workrave::utils::Platform::get_application_directory();
 
@@ -87,7 +123,7 @@ CrashReporter::Pimpl::init()
   std::string handler_exe = "WorkraveCrashHandler";
 #endif
 
-  base::FilePath handler(app_dir / "bin" / handler_exe);
+  base::FilePath handler(app_dir / "lib" / handler_exe);
   const std::string url("http://192.168.7.185:8080/");
 
   std::map<std::string, std::string> annotations;
@@ -101,6 +137,8 @@ CrashReporter::Pimpl::init()
 #ifdef WORKRAVE_BUILD_ID
   annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif
+
+  TRACE_MSG("handler = " << app_dir);
 
   base::FilePath reports_dir(temp_dir);
   base::FilePath metrics_dir(temp_dir);
@@ -131,4 +169,29 @@ CrashReporter::Pimpl::init()
   std::cout << "result = " << success << "\n";
 
   crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
+  TRACE_EXIT();
+}
+
+void
+CrashReporter::Pimpl::register_crash_handler(CrashHandler *handler)
+{
+  std::scoped_lock lock(mutex);
+  handlers.push_back(handler);
+}
+
+void
+CrashReporter::Pimpl::unregister_crash_handler(CrashHandler *handler)
+{
+  std::scoped_lock lock(mutex);
+  handlers.remove(handler);
+}
+
+void
+CrashReporter::Pimpl::call_crash_handlers()
+{
+  std::scoped_lock lock(mutex);
+  for (auto &h: handlers)
+  {
+    h->on_crashed();
+  }
 }

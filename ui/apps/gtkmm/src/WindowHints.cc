@@ -35,12 +35,13 @@
 #  include <windows.h>
 #  include <gtk/gtk.h>
 #  include <gdk/gdkwin32.h>
+#ifdef HAVE_HARPOON
 #  include "input-monitor/Harpoon.hh"
+#endif
 #  ifdef PLATFORM_OS_WINDOWS_NATIVE
 #    undef max
 #  endif
 #  include <gtkmm/window.h>
-#  include "harpoon.h"
 #  include "W32Compat.hh"
 #endif
 
@@ -74,11 +75,12 @@ WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 static void
 win32_block_input(BOOL block)
 {
+#ifdef HAVE_HARPOON
   if (block)
     Harpoon::block_input();
   else
     Harpoon::unblock_input();
-
+#endif
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
 }

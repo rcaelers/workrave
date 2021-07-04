@@ -35,6 +35,8 @@
 #  include "utils/W32ActiveSetup.hh"
 #endif
 
+#include "debug.hh"
+
 #if defined(HAVE_CRASHPAD)
 #  include "crash/CrashReporter.hh"
 #endif
@@ -44,6 +46,11 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+  TRACE_ENTER("main");
+#ifdef TRACING
+  Debug::init();
+#endif
+
 #if defined(HAVE_CRASHPAD)
   try
     {
@@ -51,6 +58,7 @@ run(int argc, char **argv)
     }
   catch (std::exception &e)
     {
+      TRACE_MSG(std::string("Crashhandler init exception:") + e.what());
     }
 #endif
 #ifdef PLATFORM_OS_WINDOWS
@@ -61,20 +69,17 @@ run(int argc, char **argv)
   SetUnhandledExceptionFilter(exception_filter);
 #endif
 
-#ifdef TRACING
-  Debug::init();
-#endif
-
   GUI *gui = new GUI(argc, argv);
 
   gui->main();
 
   delete gui;
 
+  TRACE_EXIT();
   return 0;
 }
 
-#if !defined(PLATFORM_OS_WINDOWS) // || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
+#if !defined(PLATFORM_OS_WINDOWS) || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
 int
 main(int argc, char **argv)
 {

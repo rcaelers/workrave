@@ -24,18 +24,22 @@ namespace workrave
 {
   namespace crash
   {
+    class CrashHandler
+    {
+      public:
+        virtual void on_crashed() = 0;
+    };
+
     class CrashReporter
     {
     public:
       CrashReporter();
       ~CrashReporter() = default;
 
-      static CrashReporter &instance()
-      {
-        static CrashReporter *crash_reporter = new CrashReporter();
-        return *crash_reporter;
-      }
+      static CrashReporter &instance();
 
+      void register_crash_handler(CrashHandler *handler);
+      void unregister_crash_handler(CrashHandler *handler);
       void init();
 
     private:

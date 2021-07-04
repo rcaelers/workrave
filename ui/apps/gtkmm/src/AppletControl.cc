@@ -58,9 +58,11 @@ AppletControl::init()
 
 #if defined(PLATFORM_OS_WINDOWS)
   applets[AppletType::Windows] = std::make_shared<W32AppletWindow>();
-#elif defined(PLATFORM_OS_MACOS)
+#endif
+#if defined(PLATFORM_OS_MACOS)
   applets[AppletType::MacOS] = std::make_shared<MacOSAppletWindow>();
-#elif defined(HAVE_DBUS)
+#endif
+#if defined(HAVE_DBUS)
   applets[AppletType::GenericDBus] = std::make_shared<GenericDBusApplet>();
 #endif
 

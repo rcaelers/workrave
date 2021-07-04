@@ -1,5 +1,3 @@
-// W32InputMonitor.hh --- ActivityMonitor for W32
-//
 // Copyright (C) 2002, 2004, 2006, 2007, 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
@@ -21,25 +19,26 @@
 #define W32INPUTMONITOR_HH
 
 #include <windows.h>
+
 #include "InputMonitor.hh"
+
 #include "config/IConfigurator.hh"
+#include "crash/CrashReporter.hh"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
 using namespace workrave::config;
 
-//! Activity monitor for a local X server.
-class W32InputMonitor : public InputMonitor
+class W32InputMonitor : public InputMonitor, public workrave::crash::CrashHandler
 {
 public:
-  //! Constructor.
   W32InputMonitor(workrave::config::IConfigurator::Ptr config);
-
-  //! Destructor.
   virtual ~W32InputMonitor();
 
-  bool init();
-  void terminate();
+  bool init() override;
+  void terminate() override;
+
+  void on_crashed() override;
 
 private:
   static W32InputMonitor *singleton;

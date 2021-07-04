@@ -56,3 +56,5 @@
 #cmakedefine PLATFORM_OS_WINDOWS_64
 #cmakedefine TRACING
 #cmakedefine HAVE_CORE_NEXT
+#cmakedefine HAVE_CRASH_REPORT
+#cmakedefine HAVE_CRASHPAD
