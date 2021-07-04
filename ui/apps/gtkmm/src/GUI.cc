@@ -709,6 +709,27 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
+#ifdef PLATFORM_OS_WINDOWS
+  // No auto hide scrollbars
+  g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
+  // No Windows-7 style client-side decorations on Windows 10...
+  g_setenv("GTK_CSD", "0", TRUE);
+
+#  if GTK_CHECK_VERSION(3, 0, 0)
+  static const char css[] =
+    R"(
+       window decoration, tooltip decoration {
+         all: unset;
+       }
+      )";
+
+  auto provider = Gtk::CssProvider::create();
+  provider->load_from_data(css);
+  auto screen = Gdk::Screen::get_default();
+  Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
+#  endif
+#endif
+
   menus = new Menus(sound_theme);
 
   // The main status window.

@@ -1,5 +1,3 @@
 if (WIN32)
-  if ("${WITH_UI}" STREQUAL "Gtk+3")
-    add_subdirectory(win32)
-  endif()
+  add_subdirectory(win32)
 endif()

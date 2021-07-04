@@ -49,7 +49,45 @@ foreach (po_file ${POFILES})
   file(APPEND ${LANG_ISS} "Source: \"${INSTALLDIR}\\lib\\locale\\${language}\\LC_MESSAGES\\*.*\"; DestDir: \"{app}\\lib\\locale\\${language}\\LC_MESSAGES\"; Flags: ignoreversion;\n")
 endforeach()
 
-install (FILES gtk.css gtk-win32-base.css DESTINATION share/themes/windows/gtk-3.0)
+include(FetchContent)
+
+FetchContent_Declare(
+  WindowsTheme
+  GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10-Acrylic.git
+  GIT_TAG        e93765ea66d5440a13fb7b04d1fa0d2562516ab0
+  )
+
+FetchContent_Declare(
+  WindowsArtwork
+  GIT_REPOSITORY https://github.com/B00merang-Artwork/Windows-10.git
+  GIT_TAG        9f199c6b7c6050f36d0d15aaa6e9f4847e8b9066
+  )
+
+FetchContent_Declare(
+  AdwaitaIconTheme
+  GIT_REPOSITORY https://gitlab.gnome.org/GNOME/adwaita-icon-theme.git
+  GIT_TAG        40.1.1
+  )
+
+FetchContent_GetProperties(WindowsTheme)
+if(NOT windowstheme_POPULATED)
+  FetchContent_Populate(WindowsTheme)
+endif()
+
+FetchContent_GetProperties(WindowsArtwork)
+if(NOT windowsartwork_POPULATED)
+  FetchContent_Populate(WindowsArtwork)
+endif()
+
+FetchContent_GetProperties(AdwaitaIconTheme)
+if(NOT adwaitaicontheme_POPULATED)
+  FetchContent_Populate(AdwaitaIconTheme)
+endif()
+
+# install (FILES gtk.css gtk-win32-base.css DESTINATION share/themes/windows/gtk-3.0)
+
+install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10/gtk-3.0)
+
 if(MINGW) # TODO:
    install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
 
