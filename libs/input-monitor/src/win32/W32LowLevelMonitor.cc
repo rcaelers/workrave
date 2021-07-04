@@ -467,6 +467,5 @@ W32LowLevelMonitor::m_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 void
 W32LowLevelMonitor::on_crashed()
 {
-  std::cout << "CRASH! terminating monitor\n";
   terminate();
 }
