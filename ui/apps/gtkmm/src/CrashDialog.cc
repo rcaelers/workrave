@@ -108,8 +108,6 @@ UserInteraction::reportCrash(const std::string &info)
   SetEnvironmentVariableA("GTK_DEBUG", 0);
   SetEnvironmentVariableA("G_MESSAGES_DEBUG", 0);
 
-  std::cout << "reportCrash\n";
-
   auto app = Gtk::Application::create();
   app->register_application();
 
@@ -117,8 +115,6 @@ UserInteraction::reportCrash(const std::string &info)
   dlg->signal_response().connect([this, app, dlg](int response) {
     user_text = dlg->get_user_text();
     consent = response == Gtk::RESPONSE_ACCEPT;
-    std::cout << "consent: " << consent << "\n";
-    std::cout << "text: " << user_text << "\n";
     app->quit();
   });
   app->hold();
