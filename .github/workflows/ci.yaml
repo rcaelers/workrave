@@ -2,12 +2,12 @@ name: CI
 on:
   push:
     branches:
-      - branch_v1_11
+      - main
     tags:
       - 'v1_11_*'
   pull_request:
     branches:
-      - branch_v1_11
+      - main
 
 jobs:
   build-windows:
@@ -310,7 +310,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [ build-linux-autotools, build-mingw-autotools, build ]
-    if: github.event_name == 'push' &&  github.ref == 'refs/heads/branch_v1_11'
+    if: github.event_name == 'push' &&  github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
         with:
