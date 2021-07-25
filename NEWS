@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 14 May 2021
+Workrave NEWS -- history of user-visible changes. 25 July 2021
 Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -12,6 +12,7 @@ https://github.com/rcaelers/workrave/issues
 ** Fixed issue where the installer would fail when installing as system user
    (#291)
 ** Fixed incorrect disabling of postpone/skip button (#301)
+** Warn if operation mode is not 'normal' after unlocking the screen
 
 * Workrave 1.10.45
 

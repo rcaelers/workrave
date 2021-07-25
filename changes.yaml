@@ -135,7 +135,7 @@ releases:
         Fixed a bug that caused high CPU load when the main window was open for
         a long time.
       - |-
-        [internal change] Python 2 is no longer required for building Workrave.
+        \[internal change\] Python 2 is no longer required for building Workrave.
         The Python2-only Cheetah dependency has been replaced by Jinja 2
         (python3-jinja2). Additionally, Boost >= 1.52 is now required
         (libboost-dev).
