@@ -79,7 +79,7 @@ jobs:
                docker run --rm \
                    -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   rcaelers/workrave-build:${DOCKER_IMAGE} \
+                   ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
                    sh -c "/workspace/source/build/ci/build.sh"
              fi
         env:
@@ -163,7 +163,7 @@ jobs:
                docker run --rm \
                    -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   rcaelers/workrave-build:${DOCKER_IMAGE} \
+                   ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
                    sh -c "/workspace/source/build/ci/build.sh" || $FAILURE_ACTION
              fi
         env:
