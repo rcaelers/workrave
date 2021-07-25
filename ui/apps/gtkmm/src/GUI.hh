@@ -150,7 +150,7 @@ private:
   void init_gui();
   void init_dbus();
   void init_session();
-  void init_startup_warnings();
+  void init_operation_mode_warning();
 
   void init_gtk_multihead();
 

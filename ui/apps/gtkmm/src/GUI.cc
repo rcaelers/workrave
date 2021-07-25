@@ -208,7 +208,7 @@ GUI::main()
   init_platform();
   init_session();
   init_gui();
-  init_startup_warnings();
+  init_operation_mode_warning();
 
 #ifdef HAVE_GTK_MAC_INTEGRATION
   GtkosxApplication *theApp = (GtkosxApplication *)g_object_new(GTKOSX_TYPE_APPLICATION, NULL);
@@ -840,7 +840,7 @@ GUI::bus_name_presence(const std::string &name, bool present)
 }
 
 void
-GUI::init_startup_warnings()
+GUI::init_operation_mode_warning()
 {
   OperationMode mode = core->get_operation_mode();
   if (mode != OperationMode::Normal)
@@ -1569,6 +1569,7 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
         if (msg->wParam == WTS_SESSION_UNLOCK)
           {
             gui->session->set_idle(false);
+            gui->init_operation_mode_warning();
           }
       }
       break;

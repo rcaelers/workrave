@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.10.46
-    date: 2021-05-14T14:19:02+01:00
+    date: 2021-07-26T14:20:00+02:00
     short: |-
       Workrave 1.10.46 has been released. This release fixes an number of bugs and add support for GNOME Shell 40.
     changes:
@@ -9,6 +9,7 @@ releases:
       - Adds support for GNOME Shell 40 (#288)
       - Fixed issue where the installer would fail when installing as system user (#291)
       - Fixed incorrect disabling of postpone/skip button (#301)
+      - Warn if operation mode is not 'normal' after unlocking the screen (Windows only for now)
 
   - version: 1.10.45
     date: 2021-03-27T14:19:02+01:00
@@ -134,7 +135,7 @@ releases:
         Fixed a bug that caused high CPU load when the main window was open for
         a long time.
       - |-
-        [internal change] Python 2 is no longer required for building Workrave.
+        \[internal change\] Python 2 is no longer required for building Workrave.
         The Python2-only Cheetah dependency has been replaced by Jinja 2
         (python3-jinja2). Additionally, Boost >= 1.52 is now required
         (libboost-dev).
