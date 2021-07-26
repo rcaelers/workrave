@@ -1,9 +1,9 @@
 ---
 releases:
-  - version: 1.10.46
-    date: 2021-07-26T14:20:00+02:00
+  - version: 1.10.47
+    date: 2021-07-26T14:20:30+02:00
     short: |-
-      Workrave 1.10.46 has been released. This release fixes an number of bugs and add support for GNOME Shell 40.
+      Workrave 1.10.47 has been released. This release fixes an number of bugs and add support for GNOME Shell 40.
     changes:
       - Fixed a crash of the GNOME Shell applet (#281)
       - Adds support for GNOME Shell 40 (#288)

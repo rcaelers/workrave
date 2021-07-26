@@ -5,7 +5,7 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
-* Workrave 1.10.46
+* Workrave 1.10.47
 
 ** Fixed a crash of the GNOME Shell applet (#281)
 ** Adds support for GNOME Shell 40 (#288)
