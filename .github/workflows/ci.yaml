@@ -159,7 +159,7 @@ jobs:
         config:
           - image: ubuntu-bionic
             os: ubuntu-latest
-            compiler: gcc
+            compiler: gcc-8
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING

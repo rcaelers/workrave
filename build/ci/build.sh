@@ -94,7 +94,14 @@ if [[ $DOCKER_IMAGE =~ "mingw" ]] ; then
         cd ${SOURCES_DIR}/
     fi
 else
-    if [[ $CONF_COMPILER = 'gcc' ]] ; then
+
+    if [[ $CONF_COMPILER == gcc-* ]] ; then
+        gccversion=`echo $CONF_COMPILER | sed -e 's/.*-//'`
+        CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++-$gccversion")
+        CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++-$gccversion")
+        CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc-$gccversion")
+        CMAKE_FLAGS32+=("-DCMAKE_C_COMPILER=gcc-$gccversion")
+    elif [[ $CONF_COMPILER = 'gcc' ]] ; then
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
         CMAKE_FLAGS32+=("-DCMAKE_CXX_COMPILER=g++")
         CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
