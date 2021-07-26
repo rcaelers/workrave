@@ -290,7 +290,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: ${{ matrix.config.upload }}
         with:
-          name: binaries
+          name: artifacts
           path: _deploy
 
   deploy:
