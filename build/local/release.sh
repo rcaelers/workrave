@@ -21,7 +21,7 @@ run_docker_deb() {
     docker run --rm \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
-        ghcr.io/rcaelers/workrave-build:cowbuilder \
+        ghcr.io/rcaelers/workrave-build:ubuntu-cowbuilder \
         sh -c "/workspace/scripts/local/cow-build.sh"
 }
 
