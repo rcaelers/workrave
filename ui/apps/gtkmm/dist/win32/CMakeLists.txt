@@ -86,7 +86,7 @@ endif()
 
 # install (FILES gtk.css gtk-win32-base.css DESTINATION share/themes/windows/gtk-3.0)
 
-install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10/gtk-3.0)
+install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10/)
 
 if(MINGW) # TODO:
    install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
