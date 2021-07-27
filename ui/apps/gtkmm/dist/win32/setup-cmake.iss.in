@@ -61,6 +61,7 @@ Source: "@INSTALLDIR@\etc\*.*"; DestDir: "{app}\etc"; Flags: ignoreversion recur
 Source: "@INSTALLDIR@\lib\harpoon64.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALLDIR@\lib\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
 Source: "@INSTALLDIR@\lib\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
+Source: "@INSTALLDIR@\lib\WorkraveCrashHandler.exe"; DestDir: "{app}\lib"; DestName: "WorkraveCrashHandler.exe"; Flags: ignoreversion;
 Source: "@INSTALLDIR@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\icons\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALLDIR@\share\glib-2.0\*.*"; DestDir: "{app}\share\glib-2.0"; Flags: ignoreversion recursesubdirs

@@ -11,6 +11,7 @@ string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
 message(STATUS "Resolving dependencies. This may take a while")
 include(Win32ResolveDependencies)
 resolve_dependencies("${CMAKE_INSTALL_PREFIX}/lib/workrave.exe" dependencies resolved_dependencies ${SYS_ROOT}/bin)
+resolve_dependencies("${CMAKE_INSTALL_PREFIX}/lib/WorkraveCrashHandler.exe" dependencies resolved_dependencies ${SYS_ROOT}/bin)
 
 file(GLOB PLUGINS "${CMAKE_INSTALL_PREFIX}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll")
 foreach(plugin ${PLUGINS})
