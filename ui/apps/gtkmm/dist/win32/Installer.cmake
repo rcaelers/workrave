@@ -26,6 +26,8 @@ foreach(dependency ${resolved_dependencies})
   file(APPEND ${LIBS_ISS} "Source: \"${INSTALLDIR}\\lib\\${file}\"; DestDir: \"{app}\\lib\"; Flags: ignoreversion;\n")
 endforeach()
 
+file(INSTALL ${SYS_ROOT}/bin/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+
 file(APPEND ${LIBS_ISS} "; 32 bit\n")
 file(GLOB FILES32BIT "${CMAKE_INSTALL_PREFIX}/lib32/*.*")
 foreach(file ${FILES32BIT})
