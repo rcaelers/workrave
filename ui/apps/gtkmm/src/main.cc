@@ -24,6 +24,8 @@
 #include <cstdio>
 #include <fstream>
 
+#include <glib.h>
+
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WINDOWS
 #  include <io.h>
@@ -54,7 +56,12 @@ run(int argc, char **argv)
 #if defined(HAVE_CRASHPAD)
   try
     {
-      workrave::crash::CrashReporter::instance().init();
+      bool no_crashpad = (g_getenv("WORKRAVE_NO_CRASHPAD") != NULL);
+      if (!no_crashpad)
+      {
+        TRACE_MSG("Starting crashhandler");
+        workrave::crash::CrashReporter::instance().init();
+      }
     }
   catch (std::exception &e)
     {
