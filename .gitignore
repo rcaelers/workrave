@@ -73,5 +73,7 @@ Makefile.in
 /_deploy
 /_build
 /_vsbuild
+/_ext
+/_output
 /.vscode
 /*code-workspace
