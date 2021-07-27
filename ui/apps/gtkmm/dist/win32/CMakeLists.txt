@@ -52,9 +52,15 @@ endforeach()
 include(FetchContent)
 
 FetchContent_Declare(
-  WindowsTheme
+  WindowsThemeAcrylic
   GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10-Acrylic.git
   GIT_TAG        e93765ea66d5440a13fb7b04d1fa0d2562516ab0
+  )
+
+FetchContent_Declare(
+  WindowsTheme
+  GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10.git
+  GIT_TAG        b2ca25265d19843b618a956cd0ffa4aed2b80527
   )
 
 FetchContent_Declare(
@@ -68,6 +74,11 @@ FetchContent_Declare(
   GIT_REPOSITORY https://gitlab.gnome.org/GNOME/adwaita-icon-theme.git
   GIT_TAG        40.1.1
   )
+
+FetchContent_GetProperties(WindowsThemeAcrylic)
+if(NOT windowsthemeacrylic_POPULATED)
+  FetchContent_Populate(WindowsThemeAcrylic)
+endif()
 
 FetchContent_GetProperties(WindowsTheme)
 if(NOT windowstheme_POPULATED)
@@ -84,9 +95,8 @@ if(NOT adwaitaicontheme_POPULATED)
   FetchContent_Populate(AdwaitaIconTheme)
 endif()
 
-# install (FILES gtk.css gtk-win32-base.css DESTINATION share/themes/windows/gtk-3.0)
-
-install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10/)
+install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.20 DESTINATION share/themes/Windows10/)
+install (DIRECTORY ${windowsthemeacrylic_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10Acrylic/)
 
 if(MINGW) # TODO:
    install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
