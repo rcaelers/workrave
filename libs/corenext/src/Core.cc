@@ -394,22 +394,3 @@ Core::report_external_activity(std::string who, bool act)
   // TODO: fix this
   // monitor->report_external_activity(who, act);
 }
-
-// TODO: remove
-namespace workrave
-{
-  std::string operator%(const string &key, BreakId id)
-  {
-    string str = key;
-    string::size_type pos = 0;
-    string name = CoreConfig::get_break_name(id);
-
-    while ((pos = str.find("%b", pos)) != string::npos)
-      {
-        str.replace(pos, 2, name);
-        pos++;
-      }
-
-    return str;
-  }
-} // namespace workrave

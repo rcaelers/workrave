@@ -95,9 +95,6 @@ namespace workrave
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
-    //! Return the current time
-    //[[nodiscard]] virtual int64_t get_time() const = 0;
-
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
 
