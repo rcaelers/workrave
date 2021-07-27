@@ -340,7 +340,7 @@ ExercisesPanel::start_exercise()
 
       Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
       std::string txt = HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str());
-      text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
+      text_buffer_set_markup(buf->gobj(), txt.c_str(), static_cast<gint>(txt.length()));
       exercise_time = 0;
       seq_time = 0;
       image_iterator = exercise.sequence.end();
