@@ -13,7 +13,7 @@ run_docker_ppa() {
         -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
-        rcaelers/workrave-build:${DOCKER_IMAGE} \
+        ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/scripts/local/ppa.sh -p $PPA $DRYRUN $PRERELEASE_ARG"
 }
 
@@ -21,7 +21,7 @@ run_docker_deb() {
     docker run --rm \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
-        rcaelers/workrave-build:cowbuilder \
+        ghcr.io/rcaelers/workrave-build:cowbuilder \
         sh -c "/workspace/scripts/local/cow-build.sh"
 }
 

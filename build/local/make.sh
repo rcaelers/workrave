@@ -105,6 +105,6 @@ fi
 DOCKER_ARGS+=("-e WORKRAVE_ENV=inline")
 DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
 DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
-DOCKER_ARGS+=("--rm rcaelers/workrave-build:${IMAGE}")
+DOCKER_ARGS+=("--rm ghcr.io/rcaelers/workrave-build:${IMAGE}")
 
 docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"

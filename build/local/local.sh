@@ -7,7 +7,7 @@ run_docker_build() {
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
-        rcaelers/workrave-build:${DOCKER_IMAGE} \
+        ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -xc "/workspace/scripts/ci/build.sh"
 }
 
@@ -21,7 +21,7 @@ run_docker_ppa() {
         -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
-        rcaelers/workrave-build:${DOCKER_IMAGE} \
+        ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/scripts/ci/ppa.sh -p $PPA $DRYRUN"
 }
 
