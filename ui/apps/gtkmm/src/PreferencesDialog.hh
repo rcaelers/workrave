@@ -167,7 +167,7 @@ private:
   void on_monitor_type_toggled();
 
 #  ifdef HAVE_GTK3
-  Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment;
+  Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment{Gtk::Adjustment::create(3, 0, 100)};
 #  else
   Gtk::Adjustment sensitivity_adjustment{3, 0, 100};
 #  endif
