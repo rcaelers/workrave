@@ -1,5 +1,3 @@
-// Harpoon.hh --- ActivityMonitor for W32
-//
 // Copyright (C) 2002, 2004, 2006, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
@@ -23,6 +21,7 @@
 #define HARPOON_HELPER_H
 
 #include <windows.h>
+
 #include "HarpoonHelper.h"
 #include "harpoon.h"
 
@@ -39,14 +38,10 @@ typedef enum
 
 } HarpoonHelperEventType;
 
-//! Activity monitor for a local X server.
 class HarpoonHelper
 {
 public:
-  //! Constructor.
   HarpoonHelper(char *args);
-
-  //! Destructor.
   virtual ~HarpoonHelper();
 
   bool init(HINSTANCE hInstance);
@@ -61,6 +56,7 @@ private:
   char critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 
   ATOM notification_class;
+
   static LRESULT CALLBACK harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
   void init_critical_filename_list();
