@@ -39,11 +39,13 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
   target_link_libraries(workrave-libs-dbus-test workrave-libs-utils)
   target_link_libraries(workrave-libs-dbus-test Qt${QT_VERSION_MAJOR}::DBus)
   target_link_libraries(workrave-libs-dbus-test ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(workrave-libs-dbus-test ${EXTRA_LIBRARIES})
 
   target_link_libraries(workrave-libs-dbus-test-server-qt workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test-server-qt workrave-libs-utils)
   target_link_libraries(workrave-libs-dbus-test-server-qt Qt${QT_VERSION_MAJOR}::DBus)
   target_link_libraries(workrave-libs-dbus-test-server-qt ${Boost_LIBRARIES})
+  target_link_libraries(workrave-libs-dbus-test-server-qt ${EXTRA_LIBRARIES})
 
   if (HAVE_DBUS_TEST_GIO)
 
@@ -64,5 +66,7 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
     target_link_libraries(workrave-libs-dbus-test-server-gio workrave-libs-utils)
     target_link_libraries(workrave-libs-dbus-test-server-gio ${GLIB_LIBRARIES})
     target_link_libraries(workrave-libs-dbus-test-server-gio ${Boost_LIBRARIES})
+    target_link_libraries(workrave-libs-dbus-test-server-gio ${EXTRA_LIBRARIES})
+
   endif()
 endif()

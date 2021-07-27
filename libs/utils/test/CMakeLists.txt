@@ -4,6 +4,7 @@ if (HAVE_TESTS)
 
   target_link_libraries(workrave-libs-utils-enum-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-libs-utils-enum-test PRIVATE ${Boost_LIBRARIES})
+  target_link_libraries(workrave-libs-utils-enum-test PRIVATE ${EXTRA_LIBRARIES})
 
   add_test(NAME workrave-libs-utils-enum-test COMMAND workrave-libs-utils-enum-test)
 endif()

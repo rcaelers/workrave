@@ -7,6 +7,8 @@ if (HAVE_TESTS)
 
   target_link_libraries(workrave-core-timer-test PRIVATE workrave-libs-core)
   target_link_libraries(workrave-core-timer-test PRIVATE ${Boost_LIBRARIES})
+  target_link_libraries(workrave-core-timer-test PRIVATE ${EXTRA_LIBRARIES})
+
   target_include_directories(workrave-core-timer-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/core/src)
 
   add_executable(workrave-core-integration-test
@@ -27,6 +29,7 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-dbus-stub)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-input-monitor-stub)
   target_link_libraries(workrave-core-integration-test PRIVATE ${Boost_LIBRARIES})
+  target_link_libraries(workrave-core-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/core/src)
 

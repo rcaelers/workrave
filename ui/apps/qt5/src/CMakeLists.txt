@@ -113,7 +113,8 @@ target_link_libraries(Workrave PRIVATE
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
   ${Boost_LIBRARIES}
-  ${LIBINTL_LIBRARIES})
+  ${LIBINTL_LIBRARIES}
+  ${EXTRA_LIBRARIES})
 
 if (HAVE_QT5 AND PLATFORM_OS_MACOS)
   target_link_libraries(Workrave PRIVATE Qt${QT_VERSION_MAJOR}::MacExtras)
