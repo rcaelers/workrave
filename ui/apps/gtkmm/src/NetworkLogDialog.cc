@@ -23,9 +23,6 @@
 
 #ifdef HAVE_DISTRIBUTION
 
-#  ifdef HAVE_UNISTD_H
-#    include <unistd.h>
-#  endif
 #  include <cassert>
 
 #  include <gtkmm/textview.h>

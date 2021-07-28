@@ -186,21 +186,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <shlobj.h>]], [[ IShellDispatch* p
 
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
-have_extern_timezone_defined=no
-AC_MSG_CHECKING([external timezone variable defined in time.h])
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[ timezone += 1;
-          return 0;]])],[have_extern_timezone_defined=yes
-         AC_DEFINE(HAVE_EXTERN_TIMEZONE_DEFINED, 1, "External timezone")
-         AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
-
-have_extern_timezone=no
-AC_MSG_CHECKING([external timezone variable])
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[ extern long timezone;
-          timezone += 1;
-          return 0;]])],[have_extern_timezone=yes
-         AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
-         AC_MSG_RESULT(yes)],[AC_MSG_RESULT(no)])
-
 AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
 
 dnl Update version and date.

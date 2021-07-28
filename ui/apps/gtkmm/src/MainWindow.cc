@@ -27,10 +27,6 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-
 #include "MainWindow.hh"
 
 #include <list>

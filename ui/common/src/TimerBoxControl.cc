@@ -21,10 +21,6 @@
 
 #include "TimerBoxControl.hh"
 
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSHelpers.hh"
 #endif

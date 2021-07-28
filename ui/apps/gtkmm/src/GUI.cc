@@ -32,9 +32,6 @@
 #  undef HAVE_UNISTD_H
 #endif
 
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
 #include <cstdio>
 #include <cassert>
 #include <fcntl.h>

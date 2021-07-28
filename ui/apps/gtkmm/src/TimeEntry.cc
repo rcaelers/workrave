@@ -23,13 +23,6 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
-#  undef HAVE_UNISTD_H
-#endif
-
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
 #include "TimeEntry.hh"
 
 TimeEntry::TimeEntry()

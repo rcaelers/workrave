@@ -41,15 +41,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-// TODO:
-// #ifdef HAVE_EXTERN_TIMEZONE
-// #  ifndef HAVE_EXTERN_TIMEZONE_DEFINED
-// extern long timezone;
-// #  endif
-// #else
-// static int timezone = 0;
-// #endif
-
 //! Constructs a new break timer.
 /*!
  *  \param time_source source of the current time that will be used by the timer.

@@ -18,10 +18,6 @@
 #ifndef TIMEENTRY_HH
 #define TIMEENTRY_HH
 
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-
 #include <boost/signals2.hpp>
 
 #include <QtGui>

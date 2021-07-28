@@ -68,10 +68,6 @@
 #  include "W32LockScreen.hh"
 #endif
 
-#if defined(HAVE_UNIX)
-#  include <sys/wait.h>
-#endif
-
 std::vector<IScreenLockMethod *> System::lock_commands;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;

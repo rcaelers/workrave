@@ -21,10 +21,8 @@
 
 #include "debug.hh"
 
-#ifdef HAVE_REALPATH
-#  include <climits>
-#  include <cstdlib>
-#endif
+#include <climits>
+#include <cstdlib>
 
 #include "SoundPlayer.hh"
 #include "ISoundDriver.hh"

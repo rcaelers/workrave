@@ -30,10 +30,6 @@
 #include <sstream>
 #include <filesystem>
 
-#ifdef HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
-
 #include "utils/TimeSource.hh"
 #include "utils/AssetPath.hh"
 

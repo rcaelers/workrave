@@ -27,9 +27,6 @@
 #  include "debug.hh"
 
 #  include <sstream>
-#  ifdef HAVE_UNISTD_H
-#    include <unistd.h>
-#  endif
 
 #  include <gtkmm/label.h>
 #  include <gtkmm/entry.h>

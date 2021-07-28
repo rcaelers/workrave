@@ -38,10 +38,7 @@
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
 #include "utils/AssetPath.hh"
-
-#ifdef PLATFORM_OS_WINDOWS
-#  include "utils/Platform.hh"
-#endif
+#include "utils/Platform.hh"
 
 using namespace workrave;
 using namespace workrave::config;
