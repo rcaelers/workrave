@@ -70,8 +70,6 @@ public:
 
   static GtkWindow *get_visible_tooltip_window();
 
-  static bool running_on_wayland();
-
   static void set_theme_fg_color(Gtk::Widget *widget);
 
   static std::string get_image_filename(const std::string &image);

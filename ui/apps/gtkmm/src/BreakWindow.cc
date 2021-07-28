@@ -88,7 +88,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
-      if (GtkUtil::running_on_wayland())
+      if (Platform::running_on_wayland())
         {
           set_app_paintable(true);
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
@@ -97,13 +97,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
           set_size_request(head.get_width(), head.get_height());
         }
     }
+#ifdef PLATFORM_OS_UNIX
   else
     {
-      if (GtkUtil::running_on_wayland())
+      if (Platform::running_on_wayland())
         {
           set_modal(true);
         }
     }
+#endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
@@ -173,7 +175,7 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !GtkUtil::running_on_wayland())
+          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !Platform::running_on_wayland())
             {
 #ifdef PLATFORM_OS_WINDOWS
               desktop_window = new DesktopWindow(head);
@@ -191,7 +193,7 @@ BreakWindow::init_gui()
             }
           else
             {
-              if (GtkUtil::running_on_wayland())
+              if (Platform::running_on_wayland())
                 {
                   Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
                   align->add(*window_frame);
@@ -632,7 +634,6 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               box_size_group->add_widget(*button_box);
               button_size_group->add_widget(*progress_bar);
 
-#if GTK_CHECK_VERSION(3, 0, 0)
               const char style[] =
                 "progress, trough {\n"
                 "min-width: 1px;\n"
@@ -641,7 +642,6 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               Glib::RefPtr<Gtk::StyleContext> style_context = progress_bar->get_style_context();
               css_provider->load_from_data(style);
               style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif
             }
         }
 
@@ -759,7 +759,6 @@ BreakWindow::stop()
     }
 
   hide();
-  visible = false;
 
 #ifdef PLATFORM_OS_WINDOWS
   if (desktop_window)

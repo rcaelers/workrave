@@ -145,6 +145,7 @@ private:
   void init_nls();
   void init_core();
   void init_sound_player();
+  void update_multihead();
   void init_multihead_mem(int new_num_heads);
   void init_multihead_desktop();
   void init_gui();

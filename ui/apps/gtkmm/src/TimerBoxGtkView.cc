@@ -156,7 +156,6 @@ TimerBoxGtkView::init_widgets()
           b->set_border_width(0);
           b->add(*Gtk::manage(img));
 
-#if GTK_CHECK_VERSION(3, 0, 0)
           static const char button_style[] =
             "* {\n"
             "padding-top: 1px;\n"
@@ -168,7 +167,6 @@ TimerBoxGtkView::init_widgets()
 
           css_provider->load_from_data(button_style);
           style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif
 
           b->set_tooltip_text(_("Take rest break now"));
 

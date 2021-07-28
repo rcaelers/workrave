@@ -21,9 +21,7 @@
 #include <map>
 
 #ifdef PLATFORM_OS_WINDOWS
-//#if ! GTK_CHECK_VERSION(2,22,1)
 #  define USE_W32STATUSICON 1
-//#endif
 #  include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
@@ -55,8 +53,9 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   void on_embedded_changed();
 
-#if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
+#if defined(PLATFORM_OS_WINDOWS) && !defined(USE_W32STATUSICON)
   GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
+  friend class GUI;
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)

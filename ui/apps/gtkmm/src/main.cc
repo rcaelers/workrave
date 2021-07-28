@@ -31,9 +31,6 @@
 #  include <io.h>
 #  include <fcntl.h>
 
-#  if !defined(PLATFORM_OS_WINDOWS_64)
-#    include "utils/crashlog.h"
-#  endif
 #  include "utils/W32ActiveSetup.hh"
 #endif
 

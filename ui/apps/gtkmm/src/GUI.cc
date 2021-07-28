@@ -173,6 +173,11 @@ GUI::main()
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
 
+#if defined(PLATFORM_OS_WINDOWS)
+  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
+  app->set_option_group(*option_group)
+#endif
+
   init_core();
   init_nls();
   init_debug();
@@ -481,6 +486,18 @@ void
 GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
+  screen->signal_monitors_changed().connect(sigc::mem_fun(*this, &GUI::update_multihead));
+
+  update_multihead();
+  TRACE_EXIT();
+}
+
+void
+GUI::update_multihead()
+{
+  TRACE_ENTER("GUI::update_multihead");
 
   init_gtk_multihead();
   init_multihead_desktop();
@@ -594,72 +611,45 @@ GUI::init_gtk_multihead()
 {
   TRACE_ENTER("GUI::init_gtk_multihead");
 
-  int new_num_heads = 0;
-
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  int num_screens = display->get_n_screens();
 
-  TRACE_MSG("screens = " << num_screens);
-  if (num_screens >= 1)
+  int num_monitors = display->get_n_monitors();
+  init_multihead_mem(num_monitors);
+
+  int count = 0;
+  TRACE_MSG("monitors = " << num_monitors);
+  for (int j = 0; j < num_monitors; j++)
     {
-      for (int i = 0; i < num_screens; i++)
+      Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(j);
+
+      Gdk::Rectangle rect;
+      monitor->get_geometry(rect);
+
+      gint scale = monitor->get_scale_factor();
+
+      rect = Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
+      bool overlap = false;
+      for (int k = 0; !overlap && k < count; k++)
         {
-          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-          if (screen)
-            {
-              new_num_heads += screen->get_n_monitors();
-              TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
-            }
+          Gdk::Rectangle irect = rect;
+          irect.intersect(heads[k].geometry, overlap);
         }
 
-      init_multihead_mem(new_num_heads);
-
-      int count = 0;
-      for (int i = 0; i < num_screens; i++)
+      if (!overlap)
         {
-          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-          if (screen)
-            {
-              int num_monitors = screen->get_n_monitors();
-              TRACE_MSG("monitors = " << num_monitors);
-              for (int j = 0; j < num_monitors && count < new_num_heads; j++)
-                {
-                  Gdk::Rectangle rect;
-                  screen->get_monitor_geometry(j, rect);
-
-                  gint scale = screen->get_monitor_scale_factor(j);
-                  rect =
-                    Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
-
-                  bool overlap = false;
-                  for (int k = 0; !overlap && k < count; k++)
-                    {
-                      Gdk::Rectangle irect = rect;
-
-                      if (heads[k].screen->get_number() == i)
-                        {
-                          irect.intersect(heads[k].geometry, overlap);
-                        }
-                    }
-
-                  if (!overlap)
-                    {
-                      heads[count].screen = screen;
-                      heads[count].monitor = j;
-                      heads[count].count = count;
-                      heads[count].geometry = rect;
-                      count++;
-                    }
-
-                  TRACE_MSG("Screen #" << i << " Monitor #" << j << "  " << rect.get_x() << " " << rect.get_y() << " "
-                                       << rect.get_width() << " " << rect.get_height() << " "
-                                       << " intersects " << overlap);
-                }
-            }
+          heads[count].monitor = j;
+          heads[count].count = count;
+          heads[count].geometry = rect;
+          count++;
         }
-      num_heads = count;
-      TRACE_MSG("# Heads = " << num_heads);
+
+      TRACE_MSG("Monitor #" << j << "  " << rect.get_x() << " " << rect.get_y() << " " << rect.get_width() << " "
+                            << rect.get_height() << " "
+                            << " intersects " << overlap);
     }
+
+  num_heads = count;
+  TRACE_MSG("# Heads = " << num_heads);
   TRACE_EXIT();
 }
 
@@ -672,6 +662,7 @@ GUI::init_gui()
   g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
   // No Windows-7 style client-side decorations on Windows 10...
   g_setenv("GTK_CSD", "0", TRUE);
+  g_setenv("GDK_WIN32_DISABLE_HIDPI", "1", TRUE);
 
 #  if GTK_CHECK_VERSION(3, 0, 0)
   static const char css[] =
@@ -917,7 +908,6 @@ GUI::create_prelude_window(BreakId break_id)
 {
   TRACE_ENTER_MSG("GUI::create_prelude_window", break_id);
   hide_break_window();
-  init_multihead();
   collect_garbage();
 
   active_break_id = break_id;
@@ -935,7 +925,6 @@ GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> bre
 {
   TRACE_ENTER_MSG("GUI::create_break_window", break_id << " " << break_hint);
   hide_break_window();
-  init_multihead();
   collect_garbage();
 
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
@@ -1570,7 +1559,6 @@ GUI::win32_filter_func(void *xevent, GdkEvent *event, gpointer data)
     case WM_DISPLAYCHANGE:
       {
         TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
-        gui->init_multihead();
       }
       break;
 

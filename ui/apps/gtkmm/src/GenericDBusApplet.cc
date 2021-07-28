@@ -109,7 +109,7 @@ GenericDBusApplet::init_applet()
   try
     {
       dbus = Backend::get_dbus();
-      if (dbus != nullptr && dbus->is_available())
+      if (dbus->is_available())
         {
           dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ, WORKRAVE_INDICATOR_SERVICE_IFACE, this);
         }

@@ -148,7 +148,6 @@ ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc
 ui/apps/gtkmm/src/unix/X11SystrayAppletWindow.cc
 ui/apps/gtkmm/src/unix/desktop-window.c
 ui/apps/gtkmm/src/unix/gtktrayicon.c
-ui/apps/gtkmm/src/unix/gtktrayicon3.c
 ui/apps/gtkmm/src/win32/DesktopWindow.cc
 ui/apps/gtkmm/src/win32/W32AppletMenu.cc
 ui/apps/gtkmm/src/win32/W32AppletWindow.cc

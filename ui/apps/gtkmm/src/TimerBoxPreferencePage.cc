@@ -116,7 +116,9 @@ TimerBoxPreferencePage::create_page()
   if (name == "main_window")
     {
       // Always-on-top
-      if (!GtkUtil::running_on_wayland())
+#ifdef PLATFORM_OS_UNIX
+      if (!workrave::utils::Platform::running_on_wayland())
+#endif
         {
           ontop_cb = Gtk::manage(new Gtk::CheckButton(_("The status window stays always on top of other windows")));
           ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));

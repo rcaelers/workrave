@@ -139,9 +139,6 @@ private:
   //! GUI
   Gtk::Widget *gui{nullptr};
 
-  //! Break windows visible?
-  bool visible{false};
-
   // Supported system operations (like suspend, hibernate, shutdown)
   std::vector<System::SystemOperation> supported_system_operations;
   SysoperModelColumns *sysoper_model_columns{nullptr};

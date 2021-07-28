@@ -53,7 +53,7 @@ if PLATFORM_OS_UNIX
 cflags 	+=	-I$(srcdir)/unix/
 X11LIBS =	-lX11
 sources +=	unix/X11SystrayAppletWindow.cc  unix/desktop-window.c
-sources +=	unix/gtktrayicon3.c
+sources +=	unix/gtktrayicon.c
 endif
 
 resource.rc: resource.rc.in

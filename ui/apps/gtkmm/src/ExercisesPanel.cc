@@ -35,136 +35,6 @@
 using namespace std;
 using namespace workrave::utils;
 
-// This code can be removed once the following bug is closed:
-// http://bugzilla.gnome.org/show_bug.cgi?id=59390
-
-static void
-text_buffer_insert_markup_real(GtkTextBuffer *buffer, GtkTextIter *textiter, const gchar *markup, gint len)
-{
-  PangoAttrIterator *paiter;
-  PangoAttrList *attrlist;
-  GtkTextMark *mark;
-  GError *error = nullptr;
-  gchar *text;
-
-  g_return_if_fail(GTK_IS_TEXT_BUFFER(buffer));
-  g_return_if_fail(textiter != nullptr);
-  g_return_if_fail(markup != nullptr);
-  g_return_if_fail(gtk_text_iter_get_buffer(textiter) == buffer);
-
-  if (len == 0)
-    return;
-
-  if (!pango_parse_markup(markup, len, 0, &attrlist, &text, nullptr, &error))
-    {
-      g_warning("Invalid markup string: %s", error->message);
-      g_error_free(error);
-      return;
-    }
-
-  len = strlen(text);
-
-  if (attrlist == nullptr)
-    {
-      gtk_text_buffer_insert(buffer, textiter, text, len);
-      g_free(text);
-      return;
-    }
-
-  /* create mark with right gravity */
-  mark = gtk_text_buffer_create_mark(buffer, nullptr, textiter, FALSE);
-
-  paiter = pango_attr_list_get_iterator(attrlist);
-
-  do
-    {
-      PangoAttribute *attr;
-      GtkTextTag *tag;
-      gint start, end;
-
-      pango_attr_iterator_range(paiter, &start, &end);
-
-      if (end == G_MAXINT) /* last chunk */
-        end = strlen(text);
-
-      tag = gtk_text_tag_new(nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_LANGUAGE)))
-        g_object_set(tag, "language", pango_language_to_string(((PangoAttrLanguage *)attr)->value), nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FAMILY)))
-        g_object_set(tag, "family", ((PangoAttrString *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STYLE)))
-        g_object_set(tag, "style", ((PangoAttrInt *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_WEIGHT)))
-        g_object_set(tag, "weight", ((PangoAttrInt *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_VARIANT)))
-        g_object_set(tag, "variant", ((PangoAttrInt *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRETCH)))
-        g_object_set(tag, "stretch", ((PangoAttrInt *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SIZE)))
-        g_object_set(tag, "size", ((PangoAttrInt *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FONT_DESC)))
-        g_object_set(tag, "font-desc", ((PangoAttrFontDesc *)attr)->desc, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_FOREGROUND)))
-        {
-          GdkColor col = {
-            0, ((PangoAttrColor *)attr)->color.red, ((PangoAttrColor *)attr)->color.green, ((PangoAttrColor *)attr)->color.blue};
-
-          g_object_set(tag, "foreground-gdk", &col, nullptr);
-        }
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_BACKGROUND)))
-        {
-          GdkColor col = {
-            0, ((PangoAttrColor *)attr)->color.red, ((PangoAttrColor *)attr)->color.green, ((PangoAttrColor *)attr)->color.blue};
-
-          g_object_set(tag, "background-gdk", &col, nullptr);
-        }
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_UNDERLINE)))
-        g_object_set(tag, "underline", ((PangoAttrInt *)attr)->value, nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_STRIKETHROUGH)))
-        g_object_set(tag, "strikethrough", (gboolean)(((PangoAttrInt *)attr)->value != 0), nullptr);
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_RISE)))
-        g_object_set(tag, "rise", ((PangoAttrInt *)attr)->value, nullptr);
-
-      /* PANGO_ATTR_SHAPE cannot be defined via markup text */
-
-      if ((attr = pango_attr_iterator_get(paiter, PANGO_ATTR_SCALE)))
-        g_object_set(tag, "scale", ((PangoAttrFloat *)attr)->value, nullptr);
-
-      gtk_text_tag_table_add(gtk_text_buffer_get_tag_table(buffer), tag);
-
-      gtk_text_buffer_insert_with_tags(buffer, textiter, text + start, end - start, tag, nullptr);
-
-      /* mark had right gravity, so it should be
-       *  at the end of the inserted text now */
-      gtk_text_buffer_get_iter_at_mark(buffer, textiter, mark);
-    }
-  while (pango_attr_iterator_next(paiter));
-
-  gtk_text_buffer_delete_mark(buffer, mark);
-  pango_attr_iterator_destroy(paiter);
-  pango_attr_list_unref(attrlist);
-  g_free(text);
-}
-
-static void
-text_buffer_insert_markup(GtkTextBuffer *buffer, GtkTextIter *iter, const gchar *markup, gint len)
-{
-  text_buffer_insert_markup_real(buffer, iter, markup, len);
-}
-
 static void
 text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
 {
@@ -183,7 +53,7 @@ text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
   if (len > 0)
     {
       gtk_text_buffer_get_iter_at_offset(buffer, &start, 0);
-      text_buffer_insert_markup(buffer, &start, markup, len);
+      gtk_text_buffer_insert_markup(buffer, &start, markup, len);
     }
 }
 // (end code to be removed)

@@ -45,7 +45,7 @@
 #  include "W32Compat.hh"
 #endif
 
-#include "GtkUtil.hh"
+#include "utils/Platform.hh"
 
 #if GTK_CHECK_VERSION(3, 24, 0)
 GdkSeat *WindowHints::seat = nullptr;
@@ -53,6 +53,9 @@ GdkSeat *WindowHints::seat = nullptr;
 GdkDevice *WindowHints::keyboard = nullptr;
 GdkDevice *WindowHints::pointer = nullptr;
 #endif
+
+using namespace workrave;
+using namespace workrave::utils;
 
 void
 WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
@@ -113,7 +116,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
   // gdk_device_grab is deprecated since 3.20.
   // However, an issue that was solved in gtk 3.24 causes windows to be hidden
   // when a grab fails: https://github.com/GNOME/gtk/commit/2c8b95a518bea2192145efe11219f2e36091b37a
-  if (!GtkUtil::running_on_wayland())
+  if (!Platform::running_on_wayland())
     {
       if (num_windows > 0)
         {
@@ -131,7 +134,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
         }
     }
 #else
-  if (!GtkUtil::running_on_wayland())
+  if (!Platform::running_on_wayland())
     {
       if (num_windows > 0)
         {
@@ -206,12 +209,12 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 #if defined(PLATFORM_OS_WINDOWS)
   win32_block_input(FALSE);
 #elif GTK_CHECK_VERSION(3, 24, 0)
-  if (!GtkUtil::running_on_wayland())
+  if (!Platform::running_on_wayland())
     {
       gdk_seat_ungrab(seat);
     }
 #else
-  if (!GtkUtil::running_on_wayland())
+  if (!Platform::running_on_wayland())
     {
       if (keyboard != NULL)
         {

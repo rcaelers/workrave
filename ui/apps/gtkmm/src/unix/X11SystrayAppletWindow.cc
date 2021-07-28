@@ -229,9 +229,6 @@ X11SystrayAppletWindow::on_embedded()
       applet_orientation = orientation;
 
       view->set_geometry(applet_orientation, applet_size);
-
-      gint icon_size = wrgtk_tray_icon_get_icon_size(tray_icon);
-      TRACE_MSG("icon size " << icon_size);
     }
 
   visibility_changed_signal.emit(true);
@@ -279,9 +276,6 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
   if (embedded)
     {
       TRACE_MSG(allocation.get_x() << " " << allocation.get_y() << " " << allocation.get_width() << " " << allocation.get_height());
-      gint icon_size = wrgtk_tray_icon_get_icon_size(tray_icon);
-      TRACE_MSG("icon size " << icon_size);
-
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 

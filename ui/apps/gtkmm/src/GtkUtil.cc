@@ -28,10 +28,6 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-#ifdef GDK_WINDOWING_WAYLAND
-#  include <gdk/gdkwayland.h>
-#endif
-
 #include "GUI.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
@@ -378,21 +374,9 @@ GtkUtil::get_visible_tooltip_window()
   return func_retval;
 }
 
-bool
-GtkUtil::running_on_wayland()
-{
-#ifdef GDK_WINDOWING_WAYLAND
-  GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
-  return GDK_IS_WAYLAND_DISPLAY(display);
-#else
-  return false;
-#endif
-}
-
 void
 GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 {
-#if GTK_CHECK_VERSION(3, 0, 0)
   const char style[] =
     "* {\n"
     "color: @theme_fg_color;\n"
@@ -403,7 +387,6 @@ GtkUtil::set_theme_fg_color(Gtk::Widget *widget)
 
   css_provider->load_from_data(style);
   style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif
 }
 
 std::string
