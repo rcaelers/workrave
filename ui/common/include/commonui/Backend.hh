@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef BACKEND_HH
-#define BACKEND_HH
+#ifndef WORKRAVE_UI_COMMON_BACKEND_HH
+#define WORKRAVE_UI_COMMON_BACKEND_HH
 
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
@@ -41,4 +41,4 @@ public:
   static workrave::ICore::Ptr core;
 };
 
-#endif // BACKEND_HH
+#endif // WORKRAVE_UI_COMMON_BACKEND_HH

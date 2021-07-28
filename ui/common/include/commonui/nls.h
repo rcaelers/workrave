@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef WORKRAVE_NLS_H
-#define WORKRAVE_NLS_H
+#ifndef WORKRAVE_UI_COMMON_NLS_H
+#define WORKRAVE_UI_COMMON_NLS_H
 
 #ifdef ENABLE_NLS
 #  include <locale.h>
@@ -46,4 +46,4 @@
 #  define N_(String) (String)
 #endif
 
-#endif // WORKRAVE_NLS_H
+#endif // WORKRAVE_UI_COMMON_NLS_H

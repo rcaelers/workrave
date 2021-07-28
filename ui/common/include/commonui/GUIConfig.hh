@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GUICONFIG_HH
-#  define GUICONFIG_HH
+#ifndef WORKRAVE_UI_COMMON_GUICONFIG_HH
+#define WORKRAVE_UI_COMMON_GUICONFIG_HH
 
 #  include "core/ICore.hh"
 #  include "config/Setting.hh"
@@ -107,7 +107,7 @@ private:
   static std::string expand(const std::string &str, workrave::BreakId id);
 };
 
-#endif
+#endif // WORKRAVE_UI_COMMON_GUICONFIG_HH
 
 // Backend::get_configurator()->get_value_with_default(
 //   "advanced/force_focus_on_break_start",

@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERBOXCONTROL_HH
-#define TIMERBOXCONTROL_HH
+#ifndef WORKRAVE_UI_COMMON_TIMERBOXCONTROL_HH
+#define WORKRAVE_UI_COMMON_TIMERBOXCONTROL_HH
 
 #include <string>
 
@@ -83,4 +83,4 @@ private:
   bool force_empty{false};
 };
 
-#endif // TIMERBOXCONTROL_HH
+#endif // WORKRAVE_UI_COMMON_TIMERBOXCONTROL_HH

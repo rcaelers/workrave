@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef MENUCOMMAND_HH
-#define MENUCOMMAND_HH
+#ifndef WORKRAVE_UI_COMMON_MENUCOMMAND_HH
+#define WORKRAVE_UI_COMMON_MENUCOMMAND_HH
 
 enum MenuCommand
 {
@@ -52,4 +52,4 @@ enum MenuItemFlags
   MENU_ITEM_FLAG_ACTIVE = 16,
 };
 
-#endif
+#endif // WORKRAVE_UI_COMMON_MENUCOMMAND_HH

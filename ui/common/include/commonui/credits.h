@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CREDITS_H
-#define CREDITS_H
+#ifndef WORKRAVE_UI_COMMON_CREDITS_H
+#define WORKRAVE_UI_COMMON_CREDITS_H
 
 #include <stdlib.h>
 
@@ -135,4 +135,4 @@ const char *workrave_translators =
   /* zh_TW */
   "Yuenfu Chiu\n";
 
-#endif /* CREDITS_H */
+#endif /* WORKRAVE_UI_COMMON_CREDITS_H */

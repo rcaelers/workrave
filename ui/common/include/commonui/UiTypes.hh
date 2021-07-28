@@ -16,8 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef UITYPES_HH
-#define UITYPES_HH
+#ifndef WORKRAVE_UI_COMMON_UITYPES_HH
+#define WORKRAVE_UI_COMMON_UITYPES_HH
 
 using BreakFlags = int;
 
@@ -55,4 +55,4 @@ enum Orientation
   ORIENTATION_LEFT,
 };
 
-#endif // UITYPES_HH
+#endif // WORKRAVE_UI_COMMON_UITYPES_HH

@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SESSION_HH
-#define SESSION_HH
+#ifndef WORKRAVE_UI_COMMON_SESSION_HH
+#define WORKRAVE_UI_COMMON_SESSION_HH
 
 #include <memory>
 #if defined(HAVE_DBUS_GIO)
@@ -46,4 +46,4 @@ private:
   bool taking{false};
 };
 
-#endif // SESSION_HH
+#endif // WORKRAVE_UI_COMMON_SESSION_HH

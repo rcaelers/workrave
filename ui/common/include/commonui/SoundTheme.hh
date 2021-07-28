@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef SOUNDTHEME_HH
-#define SOUNDTHEME_HH
+#ifndef WORKRAVE_UI_COMMON_SOUNDTHEME_HH
+#define WORKRAVE_UI_COMMON_SOUNDTHEME_HH
 
 #include <string>
 #include <vector>
@@ -145,4 +145,4 @@ operator<<(std::ostream &stream, SoundEvent event)
   return stream;
 }
 
-#endif // SOUNDTHEME_HH
+#endif // WORKRAVE_UI_COMMON_SOUNDTHEME_HH

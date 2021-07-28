@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef EXERCISE_HH
-#define EXERCISE_HH
+#ifndef WORKRAVE_UI_COMMON_EXERCISE_HH
+#define WORKRAVE_UI_COMMON_EXERCISE_HH
 
 #include <list>
 #include <string>
@@ -55,4 +55,4 @@ private:
   static void parse_exercises(const char *file_name, std::list<Exercise> &);
 };
 
-#endif // EXERCISE_HH
+#endif // WORKRAVE_UI_COMMON_EXERCISE_HH

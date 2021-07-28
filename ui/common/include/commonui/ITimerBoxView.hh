@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ITIMERBOXVIEW_HH
-#define ITIMERBOXVIEW_HH
+#ifndef WORKRAVE_UI_COMMON_ITIMERBOXVIEW_HH
+#define WORKRAVE_UI_COMMON_ITIMERBOXVIEW_HH
 
 #include <string>
 
@@ -43,4 +43,4 @@ public:
   virtual void set_geometry(Orientation orientation, int size) = 0;
 };
 
-#endif // ITIMERBOXVIEW_HH
+#endif // WORKRAVE_UI_COMMON_ITIMERBOXVIEW_HH

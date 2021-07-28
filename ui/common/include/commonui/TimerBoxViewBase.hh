@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERBOXVIEWBASE_HH
-#define TIMERBOXVIEWBASE_HH
+#ifndef WORKRAVE_UI_COMMON_TIMERBOXVIEWBASE_HH
+#define WORKRAVE_UI_COMMON_TIMERBOXVIEWBASE_HH
 
 #include <string>
 
@@ -48,4 +48,4 @@ public:
   }
 };
 
-#endif // TIMERBOXVIEWBASE_HH
+#endif // WORKRAVE_UI_COMMON_TIMERBOXVIEWBASE_HH
