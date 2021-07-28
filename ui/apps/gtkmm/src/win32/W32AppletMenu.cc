@@ -59,11 +59,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
   if (applet_window != NULL)
     {
       TRACE_MSG("ok");
-#ifndef PLATFORM_OS_WINDOWS_NATIVE
       HWND cmd_win = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
-#else
-      HWND cmd_win = (HWND)GDK_WINDOW_HWND(((GtkWidget *)main_window->gobj())->window);
-#endif
 
       W32AppletWindow *w32aw = applet_window;
       w32aw->init_menu(cmd_win);

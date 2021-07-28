@@ -134,3 +134,9 @@ Platform::can_position_windows()
 {
   return true;
 }
+
+bool
+Platform::running_on_wayland()
+{
+  return false;
+}

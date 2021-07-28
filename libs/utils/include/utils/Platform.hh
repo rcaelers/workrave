@@ -31,8 +31,8 @@ namespace workrave
       static void *get_default_display();
       static std::string get_default_display_name();
       static unsigned long get_default_root_window();
-      static bool running_on_wayland();
 #endif
+      static bool running_on_wayland();
 
 #ifdef PLATFORM_OS_WINDOWS
       static std::string get_application_directory();

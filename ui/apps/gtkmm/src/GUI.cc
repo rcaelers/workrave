@@ -173,11 +173,6 @@ GUI::main()
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
 
-#if defined(PLATFORM_OS_WINDOWS)
-  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
-  app->set_option_group(*option_group)
-#endif
-
   init_core();
   init_nls();
   init_debug();
