@@ -28,21 +28,6 @@ EXTRA_DIST =\
 		win32/CreateInstaller.cmake.in \
 		win64/CMakeLists.txt \
 		win64/CreateInstaller.cmake.in \
-		legacy/docker/make-runtime.sh \
-		legacy/docker/Dockerfile \
-		legacy/docker/Makefile \
-		legacy/docker/README \
-		legacy/docker/env \
-		legacy/docker/.gitignore \
-		legacy/autogencross.sh \
-		legacy/mksetup.sh \
-		legacy/README \
-		legacy/crossbuilder/build-packages.sh \
-		legacy/crossbuilder/mingw32-x \
-		legacy/crossbuilder/dbus.diff \
-		legacy/tinderbox/bin/make-runtime.sh \
-		legacy/tinderbox/bin/mingw32 \
-		legacy/tinderbox/Makefile \
 		newsgen/test.js \
 		newsgen/main.js \
 		newsgen/.gitignore \
