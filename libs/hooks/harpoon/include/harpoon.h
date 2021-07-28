@@ -21,10 +21,6 @@
 #ifndef HARPOON_H
 #define HARPOON_H
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
 #include <windows.h>
 #include <mbstring.h>
 

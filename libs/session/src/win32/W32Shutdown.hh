@@ -18,10 +18,6 @@
 #ifndef W32SHUTDOWN_HH_
 #define W32SHUTDOWN_HH_
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
 #include "session/ISystemStateChangeMethod.hh"
 
 class W32Shutdown : public ISystemStateChangeMethod

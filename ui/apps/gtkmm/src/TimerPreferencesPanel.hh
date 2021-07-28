@@ -18,10 +18,6 @@
 #ifndef TIMERPREFERENCESPANEL_HH
 #define TIMERPREFERENCESPANEL_HH
 
-#ifdef HAVE_CONFIG
-#  include "config.h"
-#endif
-
 #include <cstdio>
 #include <string>
 

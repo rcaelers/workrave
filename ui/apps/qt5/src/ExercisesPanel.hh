@@ -19,10 +19,6 @@
 #ifndef EXERCISES_PANEL_HH
 #define EXERCISES_PANEL_HH
 
-#ifdef HAVE_CONFIG
-#  include "config.h"
-#endif
-
 #include <memory>
 #include <boost/signals2.hpp>
 

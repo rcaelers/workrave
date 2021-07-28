@@ -5,6 +5,10 @@
  *      Author: mateusz
  */
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "SystemStateChangeConsolekit.hh"
 
 #ifdef HAVE_GLIB

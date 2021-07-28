@@ -20,6 +20,10 @@
 #ifndef FAKEACTIVITYMONITOR_HH
 #define FAKEACTIVITYMONITOR_HH
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "IActivityMonitor.hh"
 
 class FakeActivityMonitor : public IActivityMonitor

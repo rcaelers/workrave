@@ -18,10 +18,6 @@
 #ifndef EXERCISES_DIALOG_HH
 #define EXERCISES_DIALOG_HH
 
-#ifdef HAVE_CONFIG
-#  include "config.h"
-#endif
-
 #include "Hig.hh"
 #include "ExercisesPanel.hh"
 

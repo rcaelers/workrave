@@ -18,10 +18,6 @@
 #ifndef TIMERBOXVIEW_HH
 #define TIMERBOXVIEW_HH
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
 #include <string>
 
 #include <QWidget>

@@ -18,10 +18,6 @@
 #ifndef BREAKWINDOW_HH
 #define BREAKWINDOW_HH
 
-#ifdef HAVE_CONFIG
-#  include "config.h"
-#endif
-
 #include <cstdio>
 
 #include <gtkmm.h>

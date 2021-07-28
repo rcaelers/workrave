@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "compat.h"
 
 /* Copy functions from GTK 3.0 to be used if GTK 2.x is used */

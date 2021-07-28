@@ -20,6 +20,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "DBusProxy-gio.hh"
 #include <iostream>
 
