@@ -239,7 +239,7 @@ endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
 
-if (HAVE_CRASHPAD)
+if (HAVE_CRASH_REPORT)
   add_executable(WorkraveCrashHandler CrashDialog.cc)
 
   target_include_directories(WorkraveCrashHandler PRIVATE ${GTK_INCLUDE_DIRS})

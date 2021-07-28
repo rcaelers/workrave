@@ -40,7 +40,7 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
-#if defined(HAVE_CRASHPAD)
+#if defined(HAVE_CRASH_REPORT)
   try
     {
       workrave::crash::CrashReporter::instance().init();

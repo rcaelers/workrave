@@ -39,7 +39,7 @@
 
 #include "debug.hh"
 
-#if defined(HAVE_CRASHPAD)
+#if defined(HAVE_CRASH_REPORT)
 #  include "crash/CrashReporter.hh"
 #endif
 
@@ -53,7 +53,7 @@ run(int argc, char **argv)
   Debug::init();
 #endif
 
-#if defined(HAVE_CRASHPAD)
+#if defined(HAVE_CRASH_REPORT)
   try
     {
       bool no_crashpad = (g_getenv("WORKRAVE_NO_CRASHPAD") != NULL);
