@@ -12,13 +12,6 @@ if (HAVE_DBUS_GIO OR HAVE_DBUS_TEST_GIO)
     target_include_directories(workrave-libs-dbus PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
-if (HAVE_DBUS_FREEDESKTOP)
-  target_sources(workrave-libs-dbus PRIVATE 
-    DBusFreedesktop.cc
-    DBusBindingFreedesktop.cc)
-  target_link_libraries(workrave-libs-dbus PRIVATE ${DBUS_LIBRARIES})
-endif()
-
 if (HAVE_DBUS_QT)
   target_sources(workrave-libs-dbus PRIVATE 
     DBusQt.cc

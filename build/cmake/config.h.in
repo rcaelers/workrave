@@ -5,7 +5,6 @@
 #cmakedefine HAVE_APP_GTK
 #cmakedefine HAVE_APP_QT
 #cmakedefine HAVE_DBUS
-#cmakedefine HAVE_DBUS_FREEDESKTOP
 #cmakedefine HAVE_DBUS_GIO
 #cmakedefine HAVE_DBUS_QT
 #cmakedefine HAVE_DBUS_TEST_GIO

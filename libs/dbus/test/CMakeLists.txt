@@ -31,10 +31,6 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     )
 
-  if (HAVE_DBUS_FREEDESKTOP)
-    target_link_libraries(workrave-libs-dbus-test-server-qt ${DBUS_LIBRARIES})
-  endif()
-
   target_link_libraries(workrave-libs-dbus-test workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test workrave-libs-utils)
   target_link_libraries(workrave-libs-dbus-test Qt${QT_VERSION_MAJOR}::DBus)
