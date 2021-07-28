@@ -1,5 +1,3 @@
-// SoundTheme.hh
-//
 // Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

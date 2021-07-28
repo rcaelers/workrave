@@ -1,5 +1,3 @@
-// Session.cc --- Monitor the gnome session
-//
 // Copyright (C) 2010, 2011, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
