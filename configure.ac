@@ -1087,7 +1087,6 @@ AC_CONFIG_FILES([Makefile
                  ui/data/sounds/subtle/Makefile
                  ui/Makefile
                  po/Makefile.in
-                 ui/apps/gtkmm/dist/win32/setup.iss
                 ])
 
 AC_OUTPUT

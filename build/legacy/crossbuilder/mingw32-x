@@ -1,8 +1,0 @@
-export CROSSROOT="/usr/local/cross-packages$1"
-
-export CFLAGS="-I$CROSSROOT/include -g -O2"
-export CXXFLAGS="-I$CROSSROOT/include -g -O2"
-export CPPFLAGS="-I$CROSSROOT/include"
-export LDFLAGS="-L$CROSSROOT/lib -g"
-
-export PKG_CONFIG_PATH="$CROSSROOT/lib/pkgconfig"

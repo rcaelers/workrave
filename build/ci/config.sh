@@ -52,7 +52,6 @@ esac
 
 ISCC=${WORKSPACE}/inno/app/ISCC.exe
 MINGW_MAKE_RUNTIME=${CI_DIR}/mingw-make-runtime.sh
-MINGW_ENV=${CI_DIR}/mingw-env
 
 export DEBFULLNAME="Rob Caelers"
 export DEBEMAIL="robc@krandor.org"
