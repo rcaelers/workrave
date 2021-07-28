@@ -7,7 +7,6 @@
 MAINTAINERCLEANFILES =  Makefile.in
 
 EXTRA_DIST =\
-		ci/mingw-make-runtime.sh \
 		ci/catalog.sh \
 		ci/config.sh \
 		ci/build-autotools-linux.sh \

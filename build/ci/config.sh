@@ -51,7 +51,6 @@ case "$WORKRAVE_ENV" in
 esac
 
 ISCC=${WORKSPACE}/inno/app/ISCC.exe
-MINGW_MAKE_RUNTIME=${CI_DIR}/mingw-make-runtime.sh
 
 export DEBFULLNAME="Rob Caelers"
 export DEBEMAIL="robc@krandor.org"
