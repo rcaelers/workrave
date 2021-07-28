@@ -296,48 +296,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# Gnome
-
-include(GDbusCodegen)
-
-if (UNIX AND NOT APPLE)
-  set (WITH_GNOME_CLASSIC_PANEL_DEFAULT ON)
-else()
-  set (WITH_GNOME_CLASSIC_PANEL_DEFAULT OFF)
-endif()
-
-option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
-
-if (WITH_GNOME_CLASSIC_PANEL)
-  message(STATUS "Checking for: Gnome 3 classic panel applets")
-
-  set (PANELAPPLET_FOUND NO)
-
-  pkg_check_modules(PANELAPPLET QUIET libgnome-panel>=3.36.0 gio-2.0>=2.26.0)
-
-  if (PANELAPPLET_FOUND)
-    set (HAVE_PANELAPPLET ON)
-    set (HAVE_LIBGNOME_PANEL ON)
-  else()
-    pkg_check_modules(PANELAPPLET QUIET libpanel-applet>=3.16.1 gio-2.0>=2.26.0)
-
-    if (PANELAPPLET_FOUND)
-      set (HAVE_PANELAPPLET ON)
-      set (HAVE_PANELAPPLET5 ON)
-    else()
-      pkg_check_modules(PANELAPPLET QUIET libpanelapplet-4.0 gio-2.0>=2.26.0)
-
-      if (PANELAPPLET_FOUND)
-        set (HAVE_PANELAPPLET ON)
-        set (HAVE_PANELAPPLET4 ON)
-      else()
-        set (WITH_GNOME_CLASSIC_PANEL OFF)
-      endif()
-    endif()
-  endif()
-endif()
-
-#----------------------------------------------------------------------------------------------------
 # Qt5
 
 if ("${WITH_UI}" STREQUAL "Qt5")
@@ -515,6 +473,48 @@ if (UNIX AND NOT APPLE)
       set (HAVE_PULSE ON)
     else()
       set (WITH_PULSE OFF)
+    endif()
+  endif()
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Gnome
+
+include(GDbusCodegen)
+
+if (UNIX AND NOT APPLE)
+  set (WITH_GNOME_CLASSIC_PANEL_DEFAULT ON)
+else()
+  set (WITH_GNOME_CLASSIC_PANEL_DEFAULT OFF)
+endif()
+
+option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
+
+if (WITH_GNOME_CLASSIC_PANEL AND HAVE_GTK)
+  message(STATUS "Checking for: Gnome 3 classic panel applets")
+
+  set (PANELAPPLET_FOUND NO)
+
+  pkg_check_modules(PANELAPPLET QUIET libgnome-panel>=3.36.0 gio-2.0>=2.26.0)
+
+  if (PANELAPPLET_FOUND)
+    set (HAVE_PANELAPPLET ON)
+    set (HAVE_LIBGNOME_PANEL ON)
+  else()
+    pkg_check_modules(PANELAPPLET QUIET libpanel-applet>=3.16.1 gio-2.0>=2.26.0)
+
+    if (PANELAPPLET_FOUND)
+      set (HAVE_PANELAPPLET ON)
+      set (HAVE_PANELAPPLET5 ON)
+    else()
+      pkg_check_modules(PANELAPPLET QUIET libpanelapplet-4.0 gio-2.0>=2.26.0)
+
+      if (PANELAPPLET_FOUND)
+        set (HAVE_PANELAPPLET ON)
+        set (HAVE_PANELAPPLET4 ON)
+      else()
+        set (WITH_GNOME_CLASSIC_PANEL OFF)
+      endif()
     endif()
   endif()
 endif()
