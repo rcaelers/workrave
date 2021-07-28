@@ -8,7 +8,6 @@ INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --add-include-path=$(s
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(srcdir)/../include
 
 if HAVE_INTROSPECTION
-if HAVE_GTK3
 
 workravelibdir = $(libdir)
 workravelib_LTLIBRARIES = libworkrave-private-1.0.la
@@ -38,7 +37,6 @@ typelibdir = $(libdir)/girepository-1.0
 typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 
 CLEANFILES = $(gir_DATA) $(typelib_DATA)
-endif
 endif
 
 if HAVE_GTK2

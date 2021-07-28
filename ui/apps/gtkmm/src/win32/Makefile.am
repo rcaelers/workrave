@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-if HAVE_APP_GTKMM
+if HAVE_APP_GTK
 if PLATFORM_OS_WINDOWS
 noinst_LTLIBRARIES = 	libworkrave-ui-gtkmm-win32.la
 libworkrave_ui_gtkmm_win32_la_SOURCES = \

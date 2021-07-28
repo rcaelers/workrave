@@ -96,7 +96,7 @@ X11SystrayAppletWindow::activate()
 {
   TRACE_ENTER("X11SystrayAppletWindow::activate");
 
-#if defined(GDK_WINDOWING_X11) && defined(HAVE_GTK3)
+#if defined(GDK_WINDOWING_X11)
   GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   if (!GDK_IS_X11_DISPLAY(display))
     {
@@ -144,16 +144,10 @@ X11SystrayAppletWindow::activate()
 
       applet_orientation = ORIENTATION_UP;
 
-#ifdef HAVE_GTK3
       GtkRequisition min_size;
       GtkRequisition natural_size;
       plug->get_preferred_size(min_size, natural_size);
       applet_size = min_size.height;
-#else
-      Gtk::Requisition req;
-      plug->size_request(req);
-      applet_size = req.height;
-#endif
 
       view->set_geometry(applet_orientation, applet_size);
 
@@ -236,10 +230,8 @@ X11SystrayAppletWindow::on_embedded()
 
       view->set_geometry(applet_orientation, applet_size);
 
-#ifdef HAVE_GTK3
       gint icon_size = wrgtk_tray_icon_get_icon_size(tray_icon);
       TRACE_MSG("icon size " << icon_size);
-#endif
     }
 
   visibility_changed_signal.emit(true);
@@ -287,10 +279,9 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
   if (embedded)
     {
       TRACE_MSG(allocation.get_x() << " " << allocation.get_y() << " " << allocation.get_width() << " " << allocation.get_height());
-#ifdef HAVE_GTK3
       gint icon_size = wrgtk_tray_icon_get_icon_size(tray_icon);
       TRACE_MSG("icon size " << icon_size);
-#endif
+
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
@@ -322,7 +313,6 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
             }
         }
 
-#ifdef HAVE_GTK3
       Gtk::Requisition my_size;
       GtkRequisition natural_size;
       view->get_preferred_size(my_size, natural_size);
@@ -334,7 +324,6 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
         {
           view->set_sheep_only(allocation.get_width() < my_size.width || allocation.get_height() < my_size.height);
         }
-#endif
     }
   TRACE_EXIT();
 }

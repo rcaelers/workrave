@@ -50,21 +50,13 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory> &factory,
                             const Glib::ustring &label)
 {
   Gtk::IconSource source;
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::IconSet> icon_set = Gtk::IconSet::create();
-#else
-  Gtk::IconSet icon_set;
-#endif
 
   source.set_pixbuf(GtkUtil::create_pixbuf(path));
   source.set_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
   source.set_size_wildcarded();
 
-#ifdef HAVE_GTK3
   icon_set->add_source(source);
-#else
-  icon_set.add_source(source);
-#endif
 
   const Gtk::StockID stock_id(icon_id);
   factory->add(stock_id, icon_set);

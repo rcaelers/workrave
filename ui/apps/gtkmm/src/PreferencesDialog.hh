@@ -135,11 +135,7 @@ private:
   Gtk::CheckButton *mute_cb{nullptr};
 
   Gtk::FileChooserButton *fsbutton{nullptr};
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::FileFilter> filefilter;
-#else
-  Gtk::FileFilter *filefilter{nullptr};
-#endif
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb{nullptr};
 
@@ -166,11 +162,7 @@ private:
   Gtk::CheckButton *monitor_type_cb{nullptr};
   void on_monitor_type_toggled();
 
-#  ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment{Gtk::Adjustment::create(3, 0, 100)};
-#  else
-  Gtk::Adjustment sensitivity_adjustment{3, 0, 100};
-#  endif
   Gtk::HBox *sensitivity_box{nullptr};
 #endif
 };

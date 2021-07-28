@@ -37,11 +37,7 @@
 using namespace workrave;
 
 DebugDialog::DebugDialog()
-#ifdef HAVE_GTK3
   : Gtk::Dialog(_("Debug log"), false)
-#else
-  : Gtk::Dialog(_("Debug log"), false, true)
-#endif
 {
   TRACE_ENTER("DebugDialog::DebugDialog");
 
@@ -79,11 +75,7 @@ DebugDialog::diagnostics_log(const std::string &log)
 {
   Gtk::TextIter iter = text_buffer->end();
   iter = text_buffer->insert(iter, log + "\n");
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> a = scrolled_window.get_vadjustment();
-#else
-  Gtk::Adjustment *a = scrolled_window.get_vadjustment();
-#endif
   a->set_value(a->get_upper());
 }
 

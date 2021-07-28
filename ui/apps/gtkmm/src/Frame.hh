@@ -42,7 +42,6 @@ protected:
   bool on_timer();
   void on_size_allocate(Gtk::Allocation &allocation) override;
 
-#ifdef HAVE_GTK3
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
   void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const override;
   void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const override;
@@ -52,23 +51,10 @@ protected:
 
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
-#else
-  void on_realize();
-  bool on_expose_event(GdkEventExpose *e);
-  void on_size_request(Gtk::Requisition *requisition);
-#endif
 
 private:
   //! Frame border width
   guint frame_width{1};
-
-#ifndef HAVE_GTK3
-  //! Graphic context.
-  Glib::RefPtr<Gdk::GC> gc;
-
-  //! Color map
-  Glib::RefPtr<Gdk::Colormap> color_map;
-#endif
 
   //! Color of the frame.
   Gdk::Color frame_color;

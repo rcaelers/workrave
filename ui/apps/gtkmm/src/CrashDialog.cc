@@ -31,11 +31,7 @@
 #include "debug.hh"
 
 CrashDialog::CrashDialog(const std::string &info)
-#ifdef HAVE_GTK3
   : Gtk::Dialog(_("Crash report"), true)
-#else
-  : Gtk::Dialog(_("Crash report"), true, true)
-#endif
 {
   TRACE_ENTER("CrashDialog::CrashDialog");
 

@@ -146,9 +146,6 @@ PreferencesDialog::~PreferencesDialog()
   core->remove_operation_mode_override("preferences");
 
   delete connector;
-#ifndef HAVE_GTK3
-  delete filefilter;
-#endif
   TRACE_EXIT();
 }
 
@@ -422,11 +419,7 @@ PreferencesDialog::create_sounds_page()
 
   hbox->pack_start(*fsbutton, true, true, 0);
 
-#ifdef HAVE_GTK3
   filefilter = Gtk::FileFilter::create();
-#else
-  filefilter = new Gtk::FileFilter();
-#endif
 
   filefilter->set_name(_("Wavefiles"));
 #ifdef PLATFORM_OS_WINDOWS
@@ -434,11 +427,7 @@ PreferencesDialog::create_sounds_page()
 #else
   filefilter->add_mime_type("audio/x-wav");
 #endif
-#ifdef HAVE_GTK3
   fsbutton->add_filter(filefilter);
-#else
-  fsbutton->add_filter(*filefilter);
-#endif
 
   hig->add_widget(*hbox);
 
@@ -490,21 +479,13 @@ PreferencesDialog::create_timer_page()
       Gtk::Widget *box = Gtk::manage(GtkUtil::create_label_for_break((BreakId)i));
       TimerPreferencesPanel *tp = Gtk::manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
       box->show_all();
-#ifdef HAVE_GTK3
       tnotebook->append_page(*tp, *box);
-#else
-      tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
-#endif
     }
 
   Gtk::Widget *box = Gtk::manage(GtkUtil::create_label("Monitoring", false));
   Gtk::Widget *monitoring_page = create_monitoring_page();
 
-#ifdef HAVE_GTK3
   tnotebook->append_page(*monitoring_page, *box);
-#else
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitoring_page, *box));
-#endif
 
   return tnotebook;
 }
@@ -538,11 +519,7 @@ PreferencesDialog::create_monitoring_page()
   sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);
   panel->pack_start(*sensitivity_box, false, false, 0);
 
-#  ifdef HAVE_GTK3
   connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(sensitivity_adjustment));
-#  else
-  connector->connect(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, dc::wrap(&sensitivity_adjustment));
-#  endif
 
   string monitor_type;
   Backend::get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");

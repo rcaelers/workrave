@@ -58,12 +58,10 @@ private:
   void get_pointer_location(int &x, int &y);
   void avoid_pointer();
 
-#ifdef HAVE_GTK3
   bool on_draw_event(const ::Cairo::RefPtr<::Cairo::Context> &cr);
   void on_screen_changed_event(const Glib::RefPtr<Gdk::Screen> &previous_screen);
   void update_input_region(Gtk::Allocation &allocation);
   void on_size_allocate_event(Gtk::Allocation &allocation);
-#endif
 
 private:
 #ifdef PLATFORM_OS_WINDOWS

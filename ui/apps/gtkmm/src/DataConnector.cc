@@ -43,11 +43,7 @@ DEFINE_DATA_TYPE_PTR(Gtk::CheckButton, DataConnectionGtkCheckButton);
 DEFINE_DATA_TYPE_PTR(Gtk::SpinButton, DataConnectionGtkSpinButton);
 DEFINE_DATA_TYPE_PTR(Gtk::ComboBox, DataConnectionGtkComboBox);
 
-#ifdef HAVE_GTK3
 DEFINE_DATA_TYPE(Glib::RefPtr<Gtk::Adjustment>, DataConnectionGtkAdjustment);
-#else
-DEFINE_DATA_TYPE_PTR(Gtk::Adjustment, DataConnectionGtkAdjustment);
-#endif
 
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
@@ -486,7 +482,6 @@ DataConnectionGtkEntryTwin::widget_changed_notify()
       string value2 = widget2->get_text();
       bool verified = true;
 
-#ifdef HAVE_GTK3
       if (value1 == value2)
         {
           widget1->unset_background_color();
@@ -498,19 +493,6 @@ DataConnectionGtkEntryTwin::widget_changed_notify()
           widget2->override_background_color(Gdk::RGBA("orange"));
           verified = false;
         }
-#else
-      if (value1 == value2)
-        {
-          widget1->unset_base(Gtk::STATE_NORMAL);
-          widget2->unset_base(Gtk::STATE_NORMAL);
-        }
-      else
-        {
-          widget1->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
-          widget2->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
-          verified = false;
-        }
-#endif
 
       if (verified)
         {

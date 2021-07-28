@@ -20,9 +20,7 @@
 #endif
 
 #include <gtkmm.h>
-#ifdef HAVE_GTK3
 #  include <gdkmm/devicemanager.h>
-#endif
 
 #include "debug.hh"
 #include "commonui/nls.h"
@@ -63,7 +61,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   Gtk::Window::set_border_width(0);
 
-#ifdef HAVE_GTK3
   if (GtkUtil::running_on_wayland())
     {
       set_app_paintable(true);
@@ -72,7 +69,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
       on_screen_changed_event(get_screen());
       set_size_request(head.get_width(), head.get_height());
     }
-#endif
 
 #ifdef PLATFORM_OS_WINDOWS
   init_avoid_pointer_polling();
@@ -123,11 +119,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
       break;
     }
 
-#ifdef HAVE_GTK3
   set_can_focus(false);
-#else
-  unset_flags(Gtk::CAN_FOCUS);
-#endif
 
   show_all_children();
   stick();
@@ -190,9 +182,7 @@ PreludeWindow::add(Gtk::Widget &widget)
           align->add(*window_frame);
           Gtk::Window::add(*align);
 
-#ifdef HAVE_GTK3
           widget.signal_size_allocate().connect(sigc::mem_fun(*this, &PreludeWindow::on_size_allocate_event));
-#endif
         }
       else
         {
@@ -215,11 +205,7 @@ PreludeWindow::stop()
   TRACE_ENTER("PreludeWindow::stop");
 
   frame->set_frame_flashing(0);
-#ifdef HAVE_GTK3
   hide();
-#else
-  hide_all();
-#endif
 
   TRACE_EXIT();
 }
@@ -419,7 +405,6 @@ PreludeWindow::avoid_pointer()
 
   did_avoid = true;
 
-#ifdef HAVE_GTK3
   int winx, winy, width, height;
   if (GtkUtil::running_on_wayland())
     {
@@ -433,10 +418,6 @@ PreludeWindow::avoid_pointer()
     {
       window->get_geometry(winx, winy, width, height);
     }
-#else
-  int winx, winy, width, height, wind;
-  window->get_geometry(winx, winy, width, height, wind);
-#endif
 
   TRACE_MSG("x:" << winx << " y:" << winy << " w:" << width << " h:" << height);
 
@@ -455,7 +436,6 @@ PreludeWindow::avoid_pointer()
 
   TRACE_MSG("new y:" << winy << " ty:" << top_y << " by:" << bottom_y << " h:" << screen_height);
 
-#ifdef HAVE_GTK3
   if (GtkUtil::running_on_wayland())
     {
       if (winy == bottom_y)
@@ -469,14 +449,11 @@ PreludeWindow::avoid_pointer()
 
       return;
     }
-#endif
 
   set_position(Gtk::WIN_POS_NONE);
   move(winx, winy);
   TRACE_EXIT();
 }
-
-#ifdef HAVE_GTK3
 
 bool
 PreludeWindow::on_draw_event(const Cairo::RefPtr<Cairo::Context> &cr)
@@ -525,19 +502,12 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
         }
     }
 }
-#endif
 
 void
 PreludeWindow::get_pointer_location(int &x, int &y)
 {
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::DeviceManager> device_manager = display->get_device_manager();
   Glib::RefPtr<Gdk::Device> device = device_manager->get_client_pointer();
   device->get_position(x, y);
-#else  // HAVE_GTK3
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  Gdk::ModifierType mod;
-  display->get_pointer(x, y, mod);
-#endif // HAVE_GTK3
 }

@@ -77,7 +77,6 @@ jobs:
            WORKRAVE_ENV: github-docker
            WORKRAVE_JOB_INDEX: m${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
            CONF_ENABLE: ${{ matrix.config.enable }}
            CONF_DISABLE: ${{ matrix.config.disable }}
            CONF_DISTCHECK: ${{ matrix.config.distcheck }}
@@ -100,18 +99,15 @@ jobs:
         config:
           - image: ubuntu-hirsute
             compiler: gcc
-            gtk_version: 2
             enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
 
           - image: ubuntu-hirsute
             compiler: gcc
-            gtk_version: 3
             distcheck: yes
             enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
 
           - image: ubuntu-hirsute
             compiler: gcc
-            gtk_version: 3
             enable: gnome3,pulse,dbus,experimental,gstreamer
             disable: gsettings,indicator,xfce,mate,debug,distribution,tests,tracing
 
@@ -135,7 +131,6 @@ jobs:
            WORKRAVE_ENV: github-docker
            WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
            CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
            CONF_ENABLE: ${{ matrix.config.enable }}
            CONF_DISABLE: ${{ matrix.config.disable }}
            CONF_DISTCHECK: ${{ matrix.config.distcheck }}

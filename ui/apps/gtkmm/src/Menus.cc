@@ -320,16 +320,12 @@ Menus::on_menu_about()
       about = new Gtk::AboutDialog;
 
       about->set_name("Workrave");
-#ifdef HAVE_GTK3
       std::vector<Glib::ustring> authors;
       for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
           authors.emplace_back(workrave_authors[index]);
         }
       about->set_authors(authors);
-#else
-      about->set_authors(workrave_authors);
-#endif
 
       about->set_copyright(workrave_copyright);
       about->set_comments(
@@ -337,10 +333,6 @@ Menus::on_menu_about()
           " of Repetitive Strain Injury (RSI)."));
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
-
-#if defined(PLATFORM_OS_WINDOWS) && !defined(HAVE_GTK3)
-      about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
-#endif
 
 #ifdef WORKRAVE_GIT_VERSION
       about->set_version(PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");

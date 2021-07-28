@@ -173,31 +173,8 @@ GUI::main()
   XInitThreads();
 #endif
 
-#ifdef HAVE_GTK3
   app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
   app->hold();
-#else
-#  if defined(PLATFORM_OS_WINDOWS)
-  Glib::OptionContext option_ctx;
-  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
-  option_ctx.add_group(*option_group);
-#  endif
-
-  Gtk::Main *kit = NULL;
-  try
-    {
-#  if defined(PLATFORM_OS_WINDOWS)
-      kit = new Gtk::Main(argc, argv, option_ctx);
-#  else
-      kit = new Gtk::Main(argc, argv);
-#  endif
-    }
-  catch (const Glib::OptionError &e)
-    {
-      std::cout << "Failed to initialize: " << e.what() << std::endl;
-      exit(1);
-    }
-#endif
 
   init_core();
   init_nls();
@@ -218,11 +195,7 @@ GUI::main()
 
   on_timer();
 
-#ifdef HAVE_GTK3
   app->run();
-#else
-  Gtk::Main::run();
-#endif
   TRACE_MSG("loop ended");
 
   System::clear();
@@ -240,10 +213,6 @@ GUI::main()
 
   delete applet_control;
   applet_control = nullptr;
-
-#if !defined(HAVE_GTK3)
-  delete kit;
-#endif
 
   TRACE_EXIT();
 }
@@ -263,11 +232,7 @@ GUI::terminate()
 
   collect_garbage();
 
-#ifdef HAVE_GTK3
   app->release();
-#else
-  Gtk::Main::quit();
-#endif
 
   TRACE_EXIT();
 }
@@ -444,9 +409,6 @@ GUI::init_nls()
       g_setenv("LANGUAGE", language.c_str(), 1);
     }
 
-#  if !defined(HAVE_GTK3)
-  gtk_set_locale();
-#  endif
   const char *locale_dir;
 
 #  if defined(PLATFORM_OS_WINDOWS)
@@ -668,11 +630,10 @@ GUI::init_gtk_multihead()
                   Gdk::Rectangle rect;
                   screen->get_monitor_geometry(j, rect);
 
-#ifdef HAVE_GTK3
                   gint scale = screen->get_monitor_scale_factor(j);
                   rect =
                     Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
-#endif
+
                   bool overlap = false;
                   for (int k = 0; !overlap && k < count; k++)
                     {
@@ -776,7 +737,7 @@ GUI::init_gui()
   // Periodic timer.
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_timer), 1000);
 
-#ifndef HAVE_GTK3
+#ifdef IS_THIS_NEEDED_FOR_GTK3
   static const gchar *rc_string = {
     "style \"progressBarWidth\"\n"
     "{\n"

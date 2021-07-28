@@ -64,14 +64,6 @@ void
 Frame::set_frame_color(const Gdk::Color &col)
 {
   frame_color = col;
-#ifndef HAVE_GTK3
-  if (color_map)
-    {
-#  if 1 // FIXME: bug66
-      color_map->alloc_color(frame_color);
-#  endif
-    }
-#endif
 }
 
 void
@@ -129,7 +121,6 @@ Frame::on_size_allocate(Gtk::Allocation &allocation)
   set_allocation(allocation);
 }
 
-#ifdef HAVE_GTK3
 Gtk::SizeRequestMode
 Frame::get_request_mode_vfunc() const
 {
@@ -248,95 +239,6 @@ Frame::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color
 {
   cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
 }
-
-#else
-
-void
-Frame::on_realize()
-{
-  Gtk::Bin::on_realize();
-
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  gc = Gdk::GC::create(window);
-
-  color_black.set_rgb(0, 0, 0);
-#  if 1 // FIXME: bug66
-  color_map = get_colormap();
-  color_map->alloc_color(color_black);
-#  endif
-  set_frame_color(frame_color);
-}
-
-void
-Frame::on_size_request(Gtk::Requisition *requisition)
-{
-  Gtk::Widget *widget = get_child();
-  widget->size_request(*requisition);
-  guint d = 2 * (get_border_width() + frame_width);
-  requisition->width += d;
-  requisition->height += d;
-}
-
-bool
-Frame::on_expose_event(GdkEventExpose *e)
-{
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  Glib::RefPtr<Gtk::Style> style = get_style();
-
-  Gdk::Color bgCol = style->get_background(Gtk::STATE_NORMAL);
-
-  // FIXME:
-  Gtk::Allocation gtkmmalloc = get_allocation();
-  GtkAllocation alloc;
-  alloc.x = gtkmmalloc.get_x();
-  alloc.y = gtkmmalloc.get_y();
-  alloc.width = gtkmmalloc.get_width();
-  alloc.height = gtkmmalloc.get_height();
-
-  switch (frame_style)
-    {
-    case STYLE_SOLID:
-      gc->set_foreground(frame_visible ? frame_color : bgCol);
-
-      window->draw_rectangle(gc, true, alloc.x, alloc.y, frame_width, alloc.height);
-      window->draw_rectangle(gc, true, alloc.x + alloc.width - frame_width, alloc.y, frame_width, alloc.height);
-      window->draw_rectangle(gc, true, alloc.x + frame_width, alloc.y, alloc.width - 2 * frame_width, frame_width);
-      window->draw_rectangle(
-        gc, true, alloc.x + frame_width, alloc.y + alloc.height - frame_width, alloc.width - 2 * frame_width, frame_width);
-      break;
-
-    case STYLE_BREAK_WINDOW:
-#  ifdef OLD_STYLE_BORDER
-      gc->set_foreground(color_black);
-      window->draw_rectangle(gc, true, alloc.x, alloc.y, alloc.width, alloc.height);
-      Gdk::Rectangle area(&e->area);
-      style->paint_box(
-        window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area, *this, "", alloc.x + 1, alloc.y + 1, alloc.width - 1, alloc.height - 1);
-      style->paint_box(
-        window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area, *this, "", alloc.x + 2, alloc.y + 2, alloc.width - 3, alloc.height - 3);
-#  else
-      Gdk::Rectangle area(&e->area);
-      style->paint_box(
-        window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area, *this, "base", alloc.x, alloc.y, alloc.width, alloc.height);
-      style->paint_box(window,
-                       Gtk::STATE_NORMAL,
-                       Gtk::SHADOW_OUT,
-                       area,
-                       *this,
-                       "base",
-                       alloc.x + 1,
-                       alloc.y + 1,
-                       alloc.width - 2,
-                       alloc.height - 2);
-#  endif
-      break;
-    }
-
-  bool rc = Gtk::Bin::on_expose_event(e);
-
-  return rc;
-}
-#endif
 
 sigc::signal1<void, bool> &
 Frame::signal_flash()

@@ -45,7 +45,6 @@
 #  include "W32Compat.hh"
 #endif
 
-#ifdef HAVE_GTK3
 #  include "GtkUtil.hh"
 
 #  if GTK_CHECK_VERSION(3, 24, 0)
@@ -54,7 +53,6 @@ GdkSeat *WindowHints::seat = nullptr;
 GdkDevice *WindowHints::keyboard = nullptr;
 GdkDevice *WindowHints::pointer = nullptr;
 #  endif
-#endif
 
 void
 WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
@@ -111,7 +109,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 
       delete[] unblocked_windows;
     }
-#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3, 24, 0)
+#elif GTK_CHECK_VERSION(3, 24, 0)
   // gdk_device_grab is deprecated since 3.20.
   // However, an issue that was solved in gtk 3.24 causes windows to be hidden
   // when a grab fails: https://github.com/GNOME/gtk/commit/2c8b95a518bea2192145efe11219f2e36091b37a
@@ -132,7 +130,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
             }
         }
     }
-#elif defined(HAVE_GTK3)
+#else
   if (!GtkUtil::running_on_wayland())
     {
       if (num_windows > 0)
@@ -193,41 +191,6 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
             }
         }
     }
-#else
-  if (num_windows > 0)
-    {
-      // Only grab first window.
-
-      // Grab keyboard.
-      GdkGrabStatus keybGrabStatus;
-      keybGrabStatus = gdk_keyboard_grab(windows[0], TRUE, GDK_CURRENT_TIME);
-
-      // Grab pointer
-      GdkGrabStatus pointerGrabStatus;
-      pointerGrabStatus =
-        gdk_pointer_grab(windows[0],
-                         TRUE,
-                         (GdkEventMask)(GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_POINTER_MOTION_MASK),
-                         NULL,
-                         NULL,
-                         GDK_CURRENT_TIME);
-
-      if (pointerGrabStatus == GDK_GRAB_SUCCESS && keybGrabStatus == GDK_GRAB_SUCCESS)
-        {
-          // A bit of a hack, but GTK does not need any data in the handle.
-          // So, let's not waste memory and simply return a bogus non-NULL ptr.
-          handle = (WindowHints::Grab *)0xdeadf00d;
-        }
-      else
-        {
-          // Ungrab both
-          gdk_keyboard_ungrab(GDK_CURRENT_TIME);
-          gdk_pointer_ungrab(GDK_CURRENT_TIME);
-        }
-
-      TRACE_MSG(keybGrabStatus << " " << pointerGrabStatus);
-    }
-
 #endif
   TRACE_EXIT();
   return handle;
@@ -242,12 +205,12 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 
 #if defined(PLATFORM_OS_WINDOWS)
   win32_block_input(FALSE);
-#elif defined(HAVE_GTK3) && GTK_CHECK_VERSION(3, 24, 0)
+#elif GTK_CHECK_VERSION(3, 24, 0)
   if (!GtkUtil::running_on_wayland())
     {
       gdk_seat_ungrab(seat);
     }
-#elif defined(HAVE_GTK3)
+#else
   if (!GtkUtil::running_on_wayland())
     {
       if (keyboard != NULL)
@@ -261,8 +224,5 @@ WindowHints::ungrab(WindowHints::Grab *handle)
           pointer = NULL;
         }
     }
-#else
-  gdk_keyboard_ungrab(GDK_CURRENT_TIME);
-  gdk_pointer_ungrab(GDK_CURRENT_TIME);
 #endif
 }

@@ -70,20 +70,12 @@ private:
   Gtk::CheckButton *has_max_prelude_cb{nullptr};
   TimeEntry *limit_tim{nullptr}, *auto_reset_tim{nullptr}, *snooze_tim{nullptr};
   Gtk::SpinButton *max_prelude_spin{nullptr};
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> max_prelude_adjustment{Gtk::Adjustment::create(0, 1, 100)};
-#else
-  Gtk::Adjustment max_prelude_adjustment{0, 1, 100};
-#endif
   Gtk::CheckButton *allow_shutdown_cb{nullptr};
   Gtk::CheckButton *enabled_cb{nullptr};
   Gtk::CheckButton *auto_natural_cb{nullptr};
   Gtk::SpinButton *exercises_spin{nullptr};
-#ifdef HAVE_GTK3
   Glib::RefPtr<Gtk::Adjustment> exercises_adjustment{Gtk::Adjustment::create(0, 0, 10)};
-#else
-  Gtk::Adjustment exercises_adjustment{0, 0, 10};
-#endif
 };
 
 #endif // TIMERPREFERENCESPANEL_HH

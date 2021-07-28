@@ -124,7 +124,7 @@ StatusIcon::is_visible() const
 void
 StatusIcon::set_tooltip(std::string &tip)
 {
-#if defined(HAVE_GTK3) && !defined(USE_W32STATUSICON)
+#if !defined(USE_W32STATUSICON)
   status_icon->set_tooltip_text(tip);
 #else
   status_icon->set_tooltip(tip);

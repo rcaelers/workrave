@@ -34,15 +34,9 @@
 
 TimeEntry::TimeEntry()
   : Gtk::HBox(false, 1)
-#ifdef HAVE_GTK3
   , hours_adjustment(Gtk::Adjustment::create(0, 0, 23))
   , mins_adjustment(Gtk::Adjustment::create(0, 0, 59))
   , secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
-#else
-  , hours_adjustment(0, 0, 23)
-  , mins_adjustment(0, 0, 59)
-  , secs_adjustment(0, 0, 59)
-#endif
 {
 
   secs = Gtk::manage(new Gtk::SpinButton(secs_adjustment));
@@ -80,15 +74,9 @@ TimeEntry::TimeEntry()
 void
 TimeEntry::set_value(time_t t)
 {
-#ifdef HAVE_GTK3
   hours_adjustment->set_value((double)(t / (60 * 60)));
   mins_adjustment->set_value((double)((t / 60) % 60));
   secs_adjustment->set_value((double)(t % 60));
-#else
-  hours_adjustment.set_value((double)(t / (60 * 60)));
-  mins_adjustment.set_value((double)((t / 60) % 60));
-  secs_adjustment.set_value((double)(t % 60));
-#endif
 }
 
 time_t

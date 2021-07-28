@@ -172,13 +172,8 @@ void
 GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left)
 {
   Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment
-#ifdef HAVE_GTK3
                                   (left ? Gtk::ALIGN_START : Gtk::ALIGN_END,
                                    Gtk::ALIGN_START,
-#else
-                                  (left ? Gtk::ALIGN_LEFT : Gtk::ALIGN_RIGHT,
-                                   Gtk::ALIGN_BOTTOM,
-#endif
                                    0.0,
                                    0.0));
   a->add(child);
@@ -328,12 +323,8 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   TRACE_ENTER("GtkUtil::center_window");
 
   Gtk::Requisition size;
-#ifdef HAVE_GTK3
   Gtk::Requisition minsize;
   window.get_preferred_size(minsize, size);
-#else
-  window.size_request(size);
-#endif
 
   int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
   int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
@@ -353,11 +344,7 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
   if (label != nullptr)
     {
       guint mnemonic = label->get_mnemonic_keyval();
-#ifdef HAVE_GTK3
       if (mnemonic != GDK_KEY_VoidSymbol)
-#else
-      if (mnemonic != GDK_VoidSymbol)
-#endif
         {
           widget->add_accelerator("activate", accel_group, mnemonic, (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
         }

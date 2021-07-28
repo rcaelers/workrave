@@ -59,11 +59,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   // Icon
   Gtk::Image *title_img = GtkUtil::create_image("network.png");
   Gtk::Alignment *img_aln = Gtk::manage(new Gtk::Alignment
-#  ifdef HAVE_GTK3
                                         (Gtk::ALIGN_START, Gtk::ALIGN_END, 0.0, 0.0));
-#  else
-                                        (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
-#  endif
 
   img_aln->add(*title_img);
 

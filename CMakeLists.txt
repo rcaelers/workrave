@@ -283,7 +283,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
-  set (HAVE_GTK3 ON)
   set (HAVE_APP_GTK ON)
 
   if (WITH_DBUS)

@@ -48,25 +48,12 @@ public:
   void get_preferred_size(int &width, int &height) const;
 
 private:
-#ifdef HAVE_GTK3
   void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh);
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
-#else
-  void draw_bar(Glib::RefPtr<Gdk::Window> &window,
-                const Glib::RefPtr<Gdk::GC> &gc,
-                bool filled,
-                int x,
-                int y,
-                int width,
-                int height,
-                int winw,
-                int winh);
-#endif
   void set_text_color(Gdk::Color color);
 
 protected:
-#ifdef HAVE_GTK3
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
   void get_preferred_width_vfunc(int &minimum_width, int &natural_width) const override;
   void get_preferred_height_vfunc(int &minimum_height, int &natural_height) const override;
@@ -74,20 +61,9 @@ protected:
   void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const override;
   void on_size_allocate(Gtk::Allocation &allocation) override;
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
-#else
-  virtual void on_realize();
-  virtual bool on_expose_event(GdkEventExpose *event);
-  virtual void on_size_request(GtkRequisition *requisition);
-  virtual void on_size_allocate(Gtk::Allocation &allocation);
-#endif
 
 private:
   static std::map<TimerColorId, Gdk::Color> bar_colors;
-
-#ifndef HAVE_GTK3
-  //! Graphic context.
-  Glib::RefPtr<Gdk::GC> window_gc;
-#endif
 
   //! Color of the time-bar.
   TimerColorId bar_color;

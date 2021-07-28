@@ -86,10 +86,8 @@ MainWindow::is_visible() const
   GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
   return IsWindowVisible(hwnd);
-#elif defined(HAVE_GTK3)
-  return get_visible();
 #else
-  return Gtk::Window::is_visible();
+  return get_visible();
 #endif
 }
 
@@ -130,14 +128,9 @@ MainWindow::open_window()
       set_gravity(Gdk::GRAVITY_STATIC);
       get_start_position(x, y, head);
 
-#ifdef HAVE_GTK3
       GtkRequisition min_size;
       GtkRequisition natural_size;
       get_preferred_size(min_size, natural_size);
-#else
-      GtkRequisition min_size;
-      on_size_request(&min_size);
-#endif
 
       GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
 
@@ -578,14 +571,9 @@ MainWindow::move_to_start_position()
   int x, y, head;
   get_start_position(x, y, head);
 
-#ifdef HAVE_GTK3
   GtkRequisition min_size;
   GtkRequisition natural_size;
   get_preferred_size(min_size, natural_size);
-#else
-  GtkRequisition min_size;
-  on_size_request(&min_size);
-#endif
 
   GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
 
@@ -647,14 +635,9 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
       get_position(x, y);
 
-#ifdef HAVE_GTK3
       GtkRequisition min_size;
       GtkRequisition natural_size;
       get_preferred_size(min_size, natural_size);
-#else
-    GtkRequisition min_size;
-    on_size_request(&min_size);
-#endif
 
       width = min_size.width;
       height = min_size.height;
@@ -721,14 +704,9 @@ MainWindow::relocate_window(int width, int height)
       int num_heads = gui->get_number_of_heads();
       for (int i = 0; i < num_heads; i++)
         {
-#ifdef HAVE_GTK3
           GtkRequisition min_size;
           GtkRequisition natural_size;
           get_preferred_size(min_size, natural_size);
-#else
-          GtkRequisition min_size;
-          on_size_request(&min_size);
-#endif
 
           GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, i);
 

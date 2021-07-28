@@ -88,7 +88,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
-#ifdef HAVE_GTK3
       if (GtkUtil::running_on_wayland())
         {
           set_app_paintable(true);
@@ -97,9 +96,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
           on_screen_changed(get_screen());
           set_size_request(head.get_width(), head.get_height());
         }
-#endif
     }
-#ifdef HAVE_GTK3
   else
     {
       if (GtkUtil::running_on_wayland())
@@ -107,7 +104,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
           set_modal(true);
         }
     }
-#endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
@@ -186,12 +182,8 @@ BreakWindow::init_gui()
 #elif defined(PLATFORM_OS_UNIX)
               set_size_request(head.get_width(), head.get_height());
               set_app_paintable(true);
-#  ifdef HAVE_GTK3
               Glib::RefPtr<Gdk::Window> window = get_window();
               set_desktop_background(window->gobj());
-#  else
-              set_desktop_background(GTK_WIDGET(gobj())->window);
-#  endif
               Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
               align->add(*window_frame);
               add(*align);
@@ -214,11 +206,7 @@ BreakWindow::init_gui()
 
       if (break_id != BREAK_ID_REST_BREAK)
         {
-#ifdef HAVE_GTK3
           set_can_focus(false);
-#else
-          unset_flags(Gtk::CAN_FOCUS);
-#endif
         }
 
       show_all_children();
@@ -397,11 +385,7 @@ BreakWindow::create_skip_button()
   Gtk::Button *ret;
   ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Skip"), Gtk::Stock::CLOSE));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
-#ifdef HAVE_GTK3
   ret->set_can_focus(false);
-#else
-  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-#endif
   return ret;
 }
 
@@ -412,11 +396,7 @@ BreakWindow::create_postpone_button()
   Gtk::Button *ret;
   ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Postpone"), Gtk::Stock::REDO));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
-#ifdef HAVE_GTK3
   ret->set_can_focus(false);
-#else
-  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-#endif
   return ret;
 }
 
@@ -430,11 +410,7 @@ BreakWindow::create_lock_button()
   get_operation_name_and_icon(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN, &name, &icon_name);
   ret = Gtk::manage(GtkUtil::create_image_button(name, icon_name));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
-#ifdef HAVE_GTK3
   ret->set_can_focus(false);
-#else
-  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-#endif
   return ret;
 }
 
@@ -628,11 +604,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               Gtk::HBox *progress_bar_box = Gtk::manage(new Gtk::HBox(false, 0));
 
               progress_bar = Gtk::manage(new Gtk::ProgressBar);
-#ifdef HAVE_GTK3
               progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-#else
-              progress_bar->set_orientation(Gtk::PROGRESS_LEFT_TO_RIGHT);
-#endif
               progress_bar->set_fraction(0);
               progress_bar->set_name("locked-progress");
               update_skip_postpone_lock();
@@ -786,11 +758,7 @@ BreakWindow::stop()
       frame->set_frame_flashing(0);
     }
 
-#ifdef HAVE_GTK3
   hide();
-#else
-  hide_all();
-#endif
   visible = false;
 
 #ifdef PLATFORM_OS_WINDOWS
@@ -827,7 +795,6 @@ BreakWindow::update_break_window()
 {
 }
 
-#ifdef HAVE_GTK3
 bool
 BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -860,4 +827,3 @@ BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen)
       gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
     }
 }
-#endif

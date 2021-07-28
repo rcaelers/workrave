@@ -4,7 +4,7 @@ set(SRC
   timerbox.c
   )
 
-if (GTK3_FOUND AND UNIX AND NOT APPLE)
+if (HAVE_GTK AND UNIX AND NOT APPLE)
 
   add_library(workrave-private-1.0 SHARED ${SRC})
   link_directories(${GTK_LIBPATH})
@@ -14,13 +14,13 @@ if (GTK3_FOUND AND UNIX AND NOT APPLE)
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     ${CMAKE_SOURCE_DIR}/libs/config/include
-    ${GTK3_INCLUDE_DIRS}
+    ${GTK_INCLUDE_DIRS}
     INTERFACE
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     )
 
   target_link_libraries(workrave-private-1.0
-    ${GTK3_LIBRARIES}
+    ${GTK_LIBRARIES}
     )
 
   install(TARGETS workrave-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
@@ -40,7 +40,7 @@ if (GTK3_FOUND AND UNIX AND NOT APPLE)
     set(INTROSPECTION_SCANNER_ARGS --add-include-path=${CMAKE_CURRENT_SOURCE_DIR} --add-include-path=${CMAKE_CURRENT_SOURCE_DIR}/include --warn-all)
     set(INTROSPECTION_COMPILER_ARGS --includedir=${CMAKE_CURRENT_SOURCE_DIR} --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-    string(REGEX REPLACE "-std=[a-zA-Z0-9+]+" "" GTK_CFLAGS_FILTERED ${GTK3_CFLAGS})
+    string(REGEX REPLACE "-std=[a-zA-Z0-9+]+" "" GTK_CFLAGS_FILTERED ${GTK_CFLAGS})
 
     set(introspection_files ${SRC} ../include/timerbox.h ../include/timebar.h)
     set(Workrave_1_0_gir "workrave-private")

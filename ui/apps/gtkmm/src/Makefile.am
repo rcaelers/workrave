@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES = 	Makefile.in \
 
 DISTCLEANFILES = 	workrave.desktop org.workrave.gui.gschema.xml
 
-if HAVE_APP_GTKMM
+if HAVE_APP_GTK
 
 bin_PROGRAMS = 		workrave
 
@@ -53,10 +53,7 @@ if PLATFORM_OS_UNIX
 cflags 	+=	-I$(srcdir)/unix/
 X11LIBS =	-lX11
 sources +=	unix/X11SystrayAppletWindow.cc  unix/desktop-window.c
-if HAVE_GTK3
 sources +=	unix/gtktrayicon3.c
-else
-sources +=	unix/gtktrayicon.c
 endif
 endif
 
