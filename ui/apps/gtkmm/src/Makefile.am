@@ -55,7 +55,6 @@ X11LIBS =	-lX11
 sources +=	unix/X11SystrayAppletWindow.cc  unix/desktop-window.c
 sources +=	unix/gtktrayicon3.c
 endif
-endif
 
 resource.rc: resource.rc.in
 	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
