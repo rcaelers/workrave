@@ -1064,8 +1064,6 @@ AC_CONFIG_FILES([Makefile
                  ui/apps/gtkmm/src/unix/Makefile
                  ui/apps/gtkmm/src/win32/Makefile
                  ui/apps/Makefile
-                 ui/apps/text/Makefile
-                 ui/apps/text/src/Makefile
                  ui/common/include/commonui/Makefile
                  ui/common/include/Makefile
                  ui/common/Makefile
