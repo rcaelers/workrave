@@ -160,12 +160,6 @@ ui/apps/gtkmm/src/win32/eggsmclient-win32.c
 ui/apps/gtkmm/src/win32/eggsmclient.c
 ui/apps/gtkmm/src/workrave.appdata.xml
 ui/apps/gtkmm/src/workrave.desktop.in
-ui/apps/text/src/BreakWindow.cc
-ui/apps/text/src/GUI.cc
-ui/apps/text/src/MainWindow.cc
-ui/apps/text/src/PreludeWindow.cc
-ui/apps/text/src/TimerBoxTextView.cc
-ui/apps/text/src/main.cc
 ui/common/src/Backend.cc
 ui/common/src/Exercise.cc
 ui/common/src/GUIConfig.cc

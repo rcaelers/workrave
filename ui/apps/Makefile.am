@@ -1,3 +1,3 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = gtkmm text
+SUBDIRS = gtkmm
