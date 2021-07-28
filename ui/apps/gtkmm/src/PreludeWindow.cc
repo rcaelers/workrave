@@ -20,7 +20,7 @@
 #endif
 
 #include <gtkmm.h>
-#  include <gdkmm/devicemanager.h>
+#include <gdkmm/devicemanager.h>
 
 #include "debug.hh"
 #include "commonui/nls.h"

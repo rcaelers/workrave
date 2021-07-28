@@ -171,11 +171,7 @@ GtkUtil::create_label_for_break(BreakId id)
 void
 GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left)
 {
-  Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment
-                                  (left ? Gtk::ALIGN_START : Gtk::ALIGN_END,
-                                   Gtk::ALIGN_START,
-                                   0.0,
-                                   0.0));
+  Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment(left ? Gtk::ALIGN_START : Gtk::ALIGN_END, Gtk::ALIGN_START, 0.0, 0.0));
   a->add(child);
   table.attach(*a, left_attach, left_attach + 1, top_attach, top_attach + 1, Gtk::FILL, Gtk::SHRINK);
 }

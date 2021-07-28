@@ -226,10 +226,10 @@ W32LowLevelMonitor::terminate()
 {
   TRACE_ENTER("W32LowLevelMonitor::terminate");
   if (singleton != this)
-  {
-    TRACE_EXIT();
-    return;
-  }
+    {
+      TRACE_EXIT();
+      return;
+    }
 
   TRACE_MSG("unhook");
   unhook();

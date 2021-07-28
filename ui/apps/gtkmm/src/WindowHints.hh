@@ -44,11 +44,11 @@ public:
   static void attach_thread_input(bool enabled);
 #endif
 
-#  if GTK_CHECK_VERSION(3, 24, 0)
+#if GTK_CHECK_VERSION(3, 24, 0)
   static GdkSeat *seat;
-#  else
+#else
   static GdkDevice *keyboard, *pointer;
-#  endif
+#endif
 };
 
 #endif // WINDOWHINTS_HH

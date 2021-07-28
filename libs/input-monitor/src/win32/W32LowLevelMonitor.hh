@@ -22,7 +22,9 @@
 
 using namespace workrave::config;
 
-class W32LowLevelMonitor : public InputMonitor, public workrave::crash::CrashHandler
+class W32LowLevelMonitor
+  : public InputMonitor
+  , public workrave::crash::CrashHandler
 {
 public:
   W32LowLevelMonitor(workrave::config::IConfigurator::Ptr config);

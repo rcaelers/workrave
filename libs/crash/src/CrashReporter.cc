@@ -46,26 +46,26 @@ using namespace workrave::crash;
 
 class CrashReporter::Pimpl
 {
-  public:
-    Pimpl() = default;
+public:
+  Pimpl() = default;
 
-    void init();
-    static bool crashpad_handler(EXCEPTION_POINTERS *);
+  void init();
+  static bool crashpad_handler(EXCEPTION_POINTERS *);
 
-    void register_crash_handler(CrashHandler *handler);
-    void unregister_crash_handler(CrashHandler *handler);
+  void register_crash_handler(CrashHandler *handler);
+  void unregister_crash_handler(CrashHandler *handler);
 
-  private:
-    void call_crash_handlers();
+private:
+  void call_crash_handlers();
 
-  private:
-    crashpad::CrashpadClient *client { nullptr };
-    std::mutex mutex;
-    std::list<CrashHandler*> handlers;
-
+private:
+  crashpad::CrashpadClient *client{nullptr};
+  std::mutex mutex;
+  std::list<CrashHandler *> handlers;
 };
 
-CrashReporter &CrashReporter::instance()
+CrashReporter &
+CrashReporter::instance()
 {
   static CrashReporter *crash_reporter = new CrashReporter();
   return *crash_reporter;
@@ -191,7 +191,7 @@ CrashReporter::Pimpl::call_crash_handlers()
 {
   std::scoped_lock lock(mutex);
   for (auto &h: handlers)
-  {
-    h->on_crashed();
-  }
+    {
+      h->on_crashed();
+    }
 }

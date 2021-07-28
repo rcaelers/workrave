@@ -45,7 +45,6 @@ protected:
                     const Gdk::Rectangle &cell_area,
                     Gtk::CellRendererState flags) override;
 
-
 private:
   void update_properties();
 

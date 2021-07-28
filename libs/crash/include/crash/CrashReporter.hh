@@ -26,8 +26,8 @@ namespace workrave
   {
     class CrashHandler
     {
-      public:
-        virtual void on_crashed() = 0;
+    public:
+      virtual void on_crashed() = 0;
     };
 
     class CrashReporter

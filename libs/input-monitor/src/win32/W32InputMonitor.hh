@@ -29,7 +29,9 @@ typedef union HarpoonEventUnion HarpoonEvent;
 
 using namespace workrave::config;
 
-class W32InputMonitor : public InputMonitor, public workrave::crash::CrashHandler
+class W32InputMonitor
+  : public InputMonitor
+  , public workrave::crash::CrashHandler
 {
 public:
   W32InputMonitor(workrave::config::IConfigurator::Ptr config);

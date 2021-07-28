@@ -31,34 +31,31 @@ namespace Gtk
 
 class CrashDialog : public Gtk::Dialog
 {
-    public:
+public:
+  CrashDialog(const std::string &info);
+  ~CrashDialog() override;
 
-        CrashDialog(const std::string &info);
-        ~CrashDialog() override;
+  std::string get_user_text() const;
 
-        std::string get_user_text() const;
-
-    private:
-        Gtk::TextView *text_view{nullptr};
-        Gtk::VBox *vbox{nullptr};
-        Gtk::ScrolledWindow scrolled_window;
-        Glib::RefPtr<Gtk::TextBuffer> text_buffer;
+private:
+  Gtk::TextView *text_view{nullptr};
+  Gtk::VBox *vbox{nullptr};
+  Gtk::ScrolledWindow scrolled_window;
+  Glib::RefPtr<Gtk::TextBuffer> text_buffer;
 };
 
 class UserInteraction : public crashpad::UserHook
 {
-    public:
+public:
+  UserInteraction() = default;
+  ~UserInteraction() override = default;
 
-        UserInteraction() =  default;
-        ~UserInteraction() override = default;
+  bool reportCrash(const std::string &info) override;
+  std::string getUserText() override;
 
-        bool reportCrash(const std::string &info) override;
-        std::string getUserText() override;
-
-    private:
-        std::string user_text;
-        bool consent { false };
+private:
+  std::string user_text;
+  bool consent{false};
 };
-
 
 #endif // CRASH_DIALOG_HH

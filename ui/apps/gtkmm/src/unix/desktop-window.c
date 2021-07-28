@@ -11,11 +11,11 @@
 #  include <gdk/gdkx.h>
 #  include <X11/Xatom.h>
 
-#    include <cairo.h>
-#    include <cairo-xlib.h>
+#  include <cairo.h>
+#  include <cairo-xlib.h>
 
-#    undef GDK_DISPLAY
-#    define GDK_DISPLAY() GDK_DISPLAY_XDISPLAY(gdk_display_get_default())
+#  undef GDK_DISPLAY
+#  define GDK_DISPLAY() GDK_DISPLAY_XDISPLAY(gdk_display_get_default())
 
 #  ifndef GDK_WINDOW_XWINDOW
 #    define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
@@ -128,7 +128,6 @@ set_desktop_background(GdkWindow *window)
       GdkRGBA black = {0.0, 0.0, 0.0, 1.0};
       gdk_window_set_background_rgba(window, &black);
     }
-
 }
 
 #endif

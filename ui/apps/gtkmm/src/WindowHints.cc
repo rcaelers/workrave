@@ -35,9 +35,9 @@
 #  include <windows.h>
 #  include <gtk/gtk.h>
 #  include <gdk/gdkwin32.h>
-#ifdef HAVE_HARPOON
-#  include "input-monitor/Harpoon.hh"
-#endif
+#  ifdef HAVE_HARPOON
+#    include "input-monitor/Harpoon.hh"
+#  endif
 #  ifdef PLATFORM_OS_WINDOWS_NATIVE
 #    undef max
 #  endif
@@ -45,14 +45,14 @@
 #  include "W32Compat.hh"
 #endif
 
-#  include "GtkUtil.hh"
+#include "GtkUtil.hh"
 
-#  if GTK_CHECK_VERSION(3, 24, 0)
+#if GTK_CHECK_VERSION(3, 24, 0)
 GdkSeat *WindowHints::seat = nullptr;
-#  else
+#else
 GdkDevice *WindowHints::keyboard = nullptr;
 GdkDevice *WindowHints::pointer = nullptr;
-#  endif
+#endif
 
 void
 WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
@@ -73,12 +73,12 @@ WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 static void
 win32_block_input(BOOL block)
 {
-#ifdef HAVE_HARPOON
+#  ifdef HAVE_HARPOON
   if (block)
     Harpoon::block_input();
   else
     Harpoon::unblock_input();
-#endif
+#  endif
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
 }
