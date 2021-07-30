@@ -22,11 +22,11 @@
 
 #include <gtkmm.h>
 
-#define PREVIOUS_BUTTON_ID Gtk::Stock::MEDIA_PREVIOUS
-#define CLOSE_BUTTON_ID Gtk::Stock::CLOSE
-#define NEXT_BUTTON_ID Gtk::Stock::MEDIA_NEXT
-#define EXECUTE_BUTTON_ID Gtk::Stock::MEDIA_PLAY
-#define STOP_BUTTON_ID Gtk::Stock::MEDIA_PAUSE
+#define PREVIOUS_BUTTON_ID "media-skip-backward"
+#define CLOSE_BUTTON_ID "window-close"
+#define NEXT_BUTTON_ID "media-skip-forward"
+#define EXECUTE_BUTTON_ID "media-playback-start"
+#define STOP_BUTTON_ID "media-playback-pause"
 
 class ExercisesPanel : public Gtk::HBox
 {

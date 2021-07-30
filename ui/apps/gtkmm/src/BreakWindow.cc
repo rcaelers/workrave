@@ -385,7 +385,7 @@ Gtk::Button *
 BreakWindow::create_skip_button()
 {
   Gtk::Button *ret;
-  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Skip"), Gtk::Stock::CLOSE));
+  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Skip"), "window-close"));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
   ret->set_can_focus(false);
   return ret;
@@ -396,7 +396,7 @@ Gtk::Button *
 BreakWindow::create_postpone_button()
 {
   Gtk::Button *ret;
-  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Postpone"), Gtk::Stock::REDO));
+  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Postpone"), "edit-redo"));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
   ret->set_can_focus(false);
   return ret;

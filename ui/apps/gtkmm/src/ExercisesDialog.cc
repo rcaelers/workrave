@@ -23,8 +23,6 @@
 
 #include "commonui/nls.h"
 
-#include <gtkmm/stock.h>
-
 #include "commonui/Exercise.hh"
 
 ExercisesDialog::ExercisesDialog()
@@ -32,7 +30,8 @@ ExercisesDialog::ExercisesDialog()
   , exercises_panel(get_action_area())
 {
   get_vbox()->pack_start(exercises_panel, true, true, 0);
-  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
+  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
 }
 
 int

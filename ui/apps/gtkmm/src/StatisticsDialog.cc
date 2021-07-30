@@ -85,13 +85,13 @@ StatisticsDialog::init_gui()
 
   // Button box.
   Gtk::HBox *btnbox = Gtk::manage(new Gtk::HBox(false, 6));
-  first_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GOTO_FIRST));
+  first_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-first"));
   first_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
-  last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GOTO_LAST));
+  last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-last"));
   last_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_last));
-  back_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GO_BACK));
+  back_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-previous"));
   back_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_back));
-  forward_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, Gtk::Stock::GO_FORWARD));
+  forward_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-next"));
   forward_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_forward));
 
   btnbox->pack_start(*first_btn, true, true, 0);
@@ -108,7 +108,7 @@ StatisticsDialog::init_gui()
   browsebox->add_widget(*calendar);
 
   // Delete button
-  delete_btn = Gtk::manage(GtkUtil::create_custom_stock_button(_("Delete all statistics history"), Gtk::Stock::DELETE));
+  delete_btn = Gtk::manage(GtkUtil::create_custom_stock_button(_("Delete all statistics history"), "edit-delete"));
   delete_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_delete_all));
   browsebox->add_widget(*delete_btn);
 
@@ -138,7 +138,9 @@ StatisticsDialog::init_gui()
   get_vbox()->pack_start(*hbox, true, true, 0);
 
   // Dialog
-  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
+  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
+
   show_all();
 }
 

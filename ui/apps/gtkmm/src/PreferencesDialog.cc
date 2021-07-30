@@ -119,7 +119,8 @@ PreferencesDialog::PreferencesDialog(SoundTheme::Ptr sound_theme)
 
   // Dialog
   get_vbox()->pack_start(notebook, true, true, 0);
-  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
+  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
+  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
 
   show_all();
 

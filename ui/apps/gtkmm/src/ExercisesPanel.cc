@@ -84,8 +84,8 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
 
   if (dialog_action_area != nullptr)
     {
-      back_button = Gtk::manage(new Gtk::Button(PREVIOUS_BUTTON_ID));
-      forward_button = Gtk::manage(new Gtk::Button(NEXT_BUTTON_ID));
+      back_button = Gtk::manage(GtkUtil::create_custom_stock_button(_("Previous"), PREVIOUS_BUTTON_ID));
+      forward_button = Gtk::manage(GtkUtil::create_custom_stock_button(_("Next"), NEXT_BUTTON_ID));
       stop_button = nullptr;
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
@@ -311,9 +311,9 @@ ExercisesPanel::on_go_forward()
 void
 ExercisesPanel::refresh_pause()
 {
-  Gtk::StockID stock_id = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
+  const char *icon = paused ? EXECUTE_BUTTON_ID : STOP_BUTTON_ID;
   const char *label = paused ? _("Resume") : _("Pause");
-  GtkUtil::update_custom_stock_button(pause_button, standalone ? label : nullptr, stock_id);
+  GtkUtil::update_custom_stock_button(pause_button, standalone ? label : nullptr, icon);
   if (paused)
     pause_button->set_tooltip_text(_("Resume exercises"));
   else
