@@ -38,7 +38,6 @@
 #include "WindowHints.hh"
 
 #include "core/IBreak.hh"
-#include "core/IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
 

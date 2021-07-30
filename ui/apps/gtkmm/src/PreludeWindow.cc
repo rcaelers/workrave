@@ -32,7 +32,6 @@
 #include "commonui/Backend.hh"
 #include "core/ICore.hh"
 
-#include "core/IBreakResponse.hh"
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
