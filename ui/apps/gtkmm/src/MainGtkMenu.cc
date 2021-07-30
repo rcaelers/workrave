@@ -189,9 +189,11 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       bool reading = (usage == UsageMode::Reading);
       action->change_state(reading);
 
+#ifdef HAVE_DISTRIBUTION
       Glib::RefPtr<Gio::SimpleAction> log_action =
         Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("network.showlog"));
       log_action->change_state(show_log);
+#endif
     }
 }
 
