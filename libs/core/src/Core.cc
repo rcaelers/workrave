@@ -1662,7 +1662,6 @@ Core::save_state() const
 void
 Core::load_misc()
 {
-  configurator->rename_key("gui/operation-mode", CoreConfig::CFG_KEY_OPERATION_MODE);
   configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
   configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
 
