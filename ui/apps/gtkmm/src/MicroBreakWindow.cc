@@ -74,7 +74,8 @@ MicroBreakWindow::create_gui()
 
   // Button box at the bottom.
   auto core = Backend::get_core();
-  IBreak *restbreak = core->get_break(BREAK_ID_REST_BREAK);
+  auto restbreak = core->get_break(BREAK_ID_REST_BREAK);
+
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
       Gtk::HBox *button_box;
@@ -186,9 +187,8 @@ MicroBreakWindow::update_label()
   TRACE_ENTER("MicroBreakWindow::refresh_label");
 
   auto core = Backend::get_core();
-
-  IBreak *restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
-  IBreak *daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
+  auto daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 

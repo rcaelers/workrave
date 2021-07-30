@@ -276,7 +276,7 @@ Menus::on_menu_statistics()
   if (statistics_dialog == nullptr)
     {
       auto core = Backend::get_core();
-      IStatistics *stats = core->get_statistics();
+      auto stats = core->get_statistics();
       stats->update();
 
       statistics_dialog = new StatisticsDialog();

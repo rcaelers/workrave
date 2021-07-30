@@ -432,7 +432,7 @@ BreakWindow::update_skip_postpone_lock()
           if (overdue_break_id != BREAK_ID_NONE)
             {
               auto core = Backend::get_core();
-              auto b = core->get_break(BreakId(overdue_break_id));
+              auto b = core->get_break(overdue_break_id);
 
               progress_bar->set_fraction(1.0 - ((double)b->get_elapsed_idle_time()) / (double)b->get_auto_reset());
             }
@@ -521,7 +521,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
-          IBreak *b = core->get_break(BreakId(id));
+          auto b = core->get_break(BreakId(id));
           bool overdue = b->get_elapsed_time() > b->get_limit();
 
           if ((!(break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())

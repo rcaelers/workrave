@@ -359,8 +359,7 @@ TimerBoxPreferencePage::enable_buttons()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           auto core = Backend::get_core();
-
-          IBreak *b = core->get_break(BreakId(i));
+          auto b = core->get_break(BreakId(i));
 
           bool timer_on = b->is_enabled();
           timer_display_button[i]->set_sensitive(timer_on);
@@ -372,8 +371,7 @@ TimerBoxPreferencePage::enable_buttons()
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           auto core = Backend::get_core();
-
-          IBreak *b = core->get_break(BreakId(i));
+          auto b = core->get_break(BreakId(i));
           timer_display_button[i]->set_sensitive(b->is_enabled());
         }
       if (count == 3)
