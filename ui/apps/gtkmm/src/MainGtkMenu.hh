@@ -30,13 +30,6 @@ public:
   MainGtkMenu(bool show_open);
   ~MainGtkMenu() override = default;
 
-  void add_stock_item(const Glib::RefPtr<Gtk::IconFactory> &factory,
-                      const std::string &path,
-                      const Glib::ustring &id,
-                      const Glib::ustring &label);
-
-  void register_stock_items();
-
   virtual void create_actions();
   virtual void create_menu();
   virtual void post_init()
@@ -49,9 +42,7 @@ public:
 
 private:
   void on_menu_network_log();
-  void on_menu_normal();
-  void on_menu_suspend();
-  void on_menu_quiet();
+  void on_menu_mode(int mode);
   void on_menu_reading();
 
 #ifdef PLATFORM_OS_MACOS
@@ -61,11 +52,10 @@ private:
 #endif
 
 protected:
-  Glib::RefPtr<Gtk::UIManager> ui_manager;
-  Glib::RefPtr<Gtk::ActionGroup> action_group;
+  Glib::RefPtr<Gio::SimpleActionGroup> action_group;
 
   //!
-  Gtk::Menu *popup_menu{nullptr};
+  std::unique_ptr<Gtk::Menu> popup_menu;
 
   //!
   bool show_open{false};
