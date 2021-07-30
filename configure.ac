@@ -84,8 +84,8 @@ AC_ARG_ENABLE(debug,
                               [compile with debugging flags set])])
 
 AC_ARG_ENABLE(distribution,
-              [AS_HELP_STRING([--disable-distribution],
-                              [compile without support for distributed operation])])
+              [AS_HELP_STRING([--enable-distribution],
+                              [compile with support for distributed operation])])
 
 AC_ARG_ENABLE(experimental,
               [AS_HELP_STRING([--enable-experimental],
@@ -797,7 +797,7 @@ dnl
 
 config_distribution=no
 
-if test "x$enable_distribution" != "xno"
+if test "x$enable_distribution" == "xyes"
 then
   PKG_CHECK_MODULES([GIO],
                     [gio-2.0 >= 2.22.0],
