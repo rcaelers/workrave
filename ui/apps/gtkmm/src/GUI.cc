@@ -620,9 +620,6 @@ GUI::init_gtk_multihead()
       Gdk::Rectangle rect;
       monitor->get_geometry(rect);
 
-      gint scale = monitor->get_scale_factor();
-
-      rect = Gdk::Rectangle(rect.get_x() / scale, rect.get_y() / scale, rect.get_width() / scale, rect.get_height() / scale);
       bool overlap = false;
       for (int k = 0; !overlap && k < count; k++)
         {
