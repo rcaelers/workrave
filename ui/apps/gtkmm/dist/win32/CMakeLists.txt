@@ -9,7 +9,6 @@ if (MSVC)
 endif()
 
 install(TARGETS zapper-0 RUNTIME DESTINATION dist)
-
 install (FILES WizModernImage.bmp DESTINATION dist)
 install (FILES WizModernSmall.bmp DESTINATION dist)
 
@@ -26,7 +25,6 @@ foreach (po_file ${POFILES})
   if(MINGW) # TODO:
   install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
   install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
-
   install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
   install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
   install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
@@ -70,10 +68,10 @@ FetchContent_Declare(
   )
 
 FetchContent_Declare(
-  AdwaitaIconTheme
-  GIT_REPOSITORY https://gitlab.gnome.org/GNOME/adwaita-icon-theme.git
-  GIT_TAG        40.1.1
-  )
+   AdwaitaIconTheme
+   URL          https://download.gnome.org/sources/adwaita-icon-theme/40/adwaita-icon-theme-40.1.1.tar.xz
+   URL_HASH     SHA256=0b6c436ed6ad9887a88ada1f72a0197b1eb73b020d8d344abab4c7fa7250f8f6
+   )
 
 FetchContent_GetProperties(WindowsThemeAcrylic)
 if(NOT windowsthemeacrylic_POPULATED)
@@ -98,61 +96,25 @@ endif()
 install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.20 DESTINATION share/themes/Windows10/)
 install (DIRECTORY ${windowsthemeacrylic_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10Acrylic/)
 
-if(MINGW) # TODO:
-   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
+if(MINGW)
+  install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
+  install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
 
-   set (icons
-    "legacy/go-first"
-    "legacy/go-last"
-    "legacy/go-next"
-    "legacy/go-previous"
-    "legacy/media-playback-pause"
-    "legacy/media-playback-start"
-    "legacy/media-skip-backward"
-    "legacy/media-skip-forward"
-    "legacy/window-close"
-    "legacy/edit-delete"
-    "legacy/edit-redo-rtl"
-    "legacy/edit-redo"
-    "legacy/application-exit"
-    "legacy/preferences-other"
-    "legacy/help-about"
-    "legacy/document-open"
-    "places/user-home-symbolic.symbolic"
-    "ui/pan-down-symbolic.symbolic"
-    "ui/pan-start-symbolic.symbolic"
-    "ui/pan-up-symbolic.symbolic"
-    "ui/pan-end-symbolic-rtl.symbolic"
-    "ui/pan-start-symbolic-rtl.symbolic"
-    "ui/pan-end-symbolic.symbolic"
-    )
-foreach(icon ${icons})
-  foreach(size 16x16 24x24 32x32 48x48 )
-     get_filename_component(category "${icon}" DIRECTORY)
-     install(
-       FILES ${SYS_ROOT}/share/icons/Adwaita/${size}/${icon}.png
-       DESTINATION ${DATADIR}/icons/Adwaita/${size}/${category}
-       )
-  endforeach()
-endforeach()
+  if (NOT MSYS)
+    install (DIRECTORY ${SYS_ROOT}/etc/pango DESTINATION etc)
+  endif()
+  install (DIRECTORY ${SYS_ROOT}/etc/fonts DESTINATION etc)
+  install (DIRECTORY ${SYS_ROOT}/lib/pango/1.8.0/modules DESTINATION lib/pango/1.8.0/modules FILES_MATCHING PATTERN "*.dll")
+  install (DIRECTORY ${SYS_ROOT}/share/glib-2.0/schemas/ DESTINATION share/glib-2.0/schemas/ FILES_MATCHING PATTERN "org.gtk*.xml")
+  install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
+  install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/index.theme DESTINATION ${DATADIR}/icons/Adwaita)
-install (FILES ${SYS_ROOT}/share/themes/Default/gtk-3.0/gtk-keys.css DESTINATION share/themes/Default/gtk-3.0)
-install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
+  install(DIRECTORY ${SYS_ROOT}/share/icons/Adwaita DESTINATION ${DATADIR}/icons)
+  install(CODE "execute_process(COMMAND gtk-update-icon-cache \${DATADIR}/icons/Adwaita)")
 endif()
 
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
 
-if(MINGW) # TODO:
-if (NOT MSYS)
-  install (DIRECTORY ${SYS_ROOT}/etc/pango DESTINATION etc)
-endif()
-install (DIRECTORY ${SYS_ROOT}/etc/fonts DESTINATION etc)
-install (DIRECTORY ${SYS_ROOT}/lib/pango/1.8.0/modules DESTINATION lib/pango/1.8.0/modules FILES_MATCHING PATTERN "*.dll")
-install (DIRECTORY ${SYS_ROOT}/share/glib-2.0/schemas/ DESTINATION share/glib-2.0/schemas/ FILES_MATCHING PATTERN "org.gtk*.xml")
-install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
-install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
-endif()
 
 if (HAVE_PREBUILT_CMAKE)
   file(GLOB FILES32BIT ${PREBUILT_PATH}/lib32/*.*)
@@ -174,7 +136,6 @@ configure_file(
 install(CODE "set(WINE ${WINE})")
 install(CODE "set(ISCC ${ISCC})")
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
-install(CODE "set(ISCC ${ISCC})")
 install(CODE "set(CMAKE_OBJDUMP ${CMAKE_OBJDUMP})")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
 install(CODE "set(DIST_PATH ${CMAKE_CURRENT_BINARY_DIR})")
