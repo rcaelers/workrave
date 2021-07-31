@@ -1045,13 +1045,11 @@ AC_CONFIG_FILES([Makefile
                  ui/applets/indicator/Makefile
                  ui/applets/indicator/src/Makefile
                  ui/applets/Makefile
-                 ui/applets/mate/include/Makefile
                  ui/applets/mate/Makefile
                  ui/applets/mate/src/Makefile
                  ui/applets/win32/include/Makefile
                  ui/applets/win32/Makefile
                  ui/applets/win32/src/Makefile
-                 ui/applets/xfce/include/Makefile
                  ui/applets/xfce/Makefile
                  ui/applets/xfce/src/Makefile
                  ui/apps/gtkmm/dist/macos/Makefile
