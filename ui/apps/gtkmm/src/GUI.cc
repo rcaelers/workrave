@@ -656,7 +656,6 @@ GUI::init_gui()
   g_setenv("GTK_CSD", "0", TRUE);
   g_setenv("GDK_WIN32_DISABLE_HIDPI", "1", TRUE);
 
-#  if GTK_CHECK_VERSION(3, 0, 0)
   static const char css[] =
     R"(
        window decoration, tooltip decoration {
@@ -668,7 +667,6 @@ GUI::init_gui()
   provider->load_from_data(css);
   auto screen = Gdk::Screen::get_default();
   Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
-#  endif
 #endif
 
   menus = new Menus(sound_theme);
