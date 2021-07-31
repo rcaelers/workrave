@@ -196,6 +196,7 @@ GUI::main()
   TRACE_MSG("loop ended");
 
   System::clear();
+
 #if defined(PLATFORM_OS_WINDOWS)
   cleanup_session();
 #endif

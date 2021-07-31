@@ -39,7 +39,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-//! Constructor.
 MainGtkMenu::MainGtkMenu(bool show_open)
   : show_open(show_open)
 {

@@ -79,8 +79,7 @@ GUIConfig::init()
       bool ignorable;
       config->get_value_with_default(break_ignorable(breakId).key(), ignorable, true);
       config->set_value(break_skippable(breakId).key(), ignorable, CONFIG_FLAG_INITIAL);
-
-      config->set_value(CFG_KEY_BREAK_ENABLE_SHUTDOWN % breakId, true, workrave::config::CONFIG_FLAG_INITIAL);
+      config->set_value(break_enable_shutdown(breakId).key(), true, workrave::config::CONFIG_FLAG_INITIAL);
     }
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, workrave::config::CONFIG_FLAG_INITIAL);
