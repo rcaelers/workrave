@@ -17,7 +17,9 @@ libworkrave_ui_gtkmm_win32_la_SOURCES = \
 			W32StatusIcon.cc \
 			W32ForceFocus.cc \
 			eggsmclient.c \
-			eggsmclient-win32.c
+			eggsmclient-win32.c \
+			W32GrabHarpoon.cc \
+			W32Grab.cc
 
 libworkrave_ui_gtkmm_win32_la_CFLAGS = \
 			-I$(top_srcdir)/ui/common/include \

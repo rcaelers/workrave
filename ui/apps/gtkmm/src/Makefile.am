@@ -23,6 +23,7 @@ sources =   AppletControl.cc \
 			EventImage.cc \
 			EventLabel.cc \
 			Frame.cc \
+			Grab.cc \
 			GUI.cc \
 			GtkUtil.cc \
 			HeadInfo.cc \
@@ -53,7 +54,7 @@ if PLATFORM_OS_UNIX
 cflags 	+=	-I$(srcdir)/unix/
 X11LIBS =	-lX11
 sources +=	unix/X11SystrayAppletWindow.cc  unix/desktop-window.c
-sources +=	unix/gtktrayicon.c
+sources +=	unix/gtktrayicon.c unix/UnixGrab.cc
 endif
 
 resource.rc: resource.rc.in
