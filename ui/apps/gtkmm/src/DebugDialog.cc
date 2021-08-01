@@ -56,7 +56,7 @@ DebugDialog::DebugDialog()
 
   get_vbox()->pack_start(*box, true, true, 0);
 
-  add_button("window-close", Gtk::RESPONSE_CLOSE);
+  add_button("Close", Gtk::RESPONSE_CLOSE);
 
   show_all();
 
