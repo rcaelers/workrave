@@ -109,6 +109,9 @@ protected:
   //! Flash frame
   Frame *frame{nullptr};
 
+  //! Use fullscreen window to perform blocking
+  bool fullscreen_grab;
+
 private:
   class SysoperModelColumns : public Gtk::TreeModelColumnRecord
   {

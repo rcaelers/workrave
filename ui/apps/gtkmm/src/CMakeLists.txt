@@ -11,7 +11,7 @@ set(SRC
   ExercisesDialog.cc
   ExercisesPanel.cc
   Frame.cc
-  #Grab.cc
+  Grab.cc
   GUI.cc
   GtkUtil.cc
   HeadInfo.cc
@@ -44,7 +44,7 @@ if (PLATFORM_OS_UNIX)
     unix/X11SystrayAppletWindow.cc
     unix/desktop-window.c
     unix/gtktrayicon.c
-    #unix/UnixGrab.cc
+    unix/UnixGrab.cc
     )
 
     if (HAVE_INDICATOR)
@@ -65,13 +65,13 @@ if (PLATFORM_OS_WINDOWS)
     win32/W32ForceFocus.cc
     win32/W32StatusIcon.cc
     win32/W32TrayMenu.cc
-    #win32/W32Grab.cc
+    win32/W32Grab.cc
     win32/eggsmclient-win32.c
     win32/eggsmclient.c
     )
 
   if (HAVE_HARPOON)
-    #set(SRC ${SRC} win32/W32GrabHarpoon.cc)
+    set(SRC ${SRC} win32/W32GrabHarpoon.cc)
   endif()
 
   set(WORKRAVE_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})

@@ -65,7 +65,7 @@
 #include "StatusIcon.hh"
 #include "session/System.hh"
 #include "Text.hh"
-#include "WindowHints.hh"
+#include "Grab.hh"
 #include "Locale.hh"
 #include "commonui/Session.hh"
 #include "commonui/TimerBoxControl.hh"
@@ -1138,94 +1138,38 @@ GUI::collect_garbage()
   TRACE_EXIT();
 }
 
-//! Grabs the pointer and the keyboard.
-bool
+void
 GUI::grab()
 {
   if (break_windows != nullptr && active_break_count > 0)
     {
-      GdkWindow **windows = new GdkWindow *[active_break_count];
-
-      for (int i = 0; i < active_break_count; i++)
-        {
-          Glib::RefPtr<Gdk::Window> window = break_windows[i]->get_gdk_window();
-          windows[i] = window->gobj();
-        }
-
-#if defined(PLATFORM_OS_UNIX)
-      grab_wanted = true;
+#if defined(PLATFORM_OS_WINDOWS)
+    // TODO: check if this is still needed with Gtk3
+     for (int i = 0; i < active_break_count; i++)
+     	{
+          HWND w = (HWND)GDK_WINDOW_HWND(break_windows[i]->get_gdk_window()->gobj());
+          SetWindowPos(w, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+          BringWindowToTop(w);
+      }
 #endif
-      if (!grab_handle)
-        {
-          grab_handle = WindowHints::grab(active_break_count, windows);
-#if defined(PLATFORM_OS_UNIX)
-          if (!grab_handle && !grab_retry_connection.connected())
-            {
-              grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
-            }
-#endif
-        }
 
-      delete[] windows;
+      Glib::RefPtr<Gdk::Window> window = break_windows[0]->get_gdk_window();
+      Grab::instance()->grab(window->gobj());
     }
-  return grab_handle != nullptr;
 }
 
-//! Releases the pointer and keyboard grab
 void
 GUI::ungrab()
 {
-#if defined(PLATFORM_OS_UNIX)
-  grab_wanted = false;
-#endif
-  if (grab_handle)
-    {
-#if defined(PLATFORM_OS_UNIX)
-      grab_retry_connection.disconnect();
-#endif
-      WindowHints::ungrab(grab_handle);
-      grab_handle = nullptr;
-    }
+  Grab::instance()->ungrab();
 }
 
 void
 GUI::interrupt_grab()
 {
-  if (grab_handle)
-    {
-#if defined(PLATFORM_OS_UNIX)
-      grab_wanted = true;
-
-      WindowHints::ungrab(grab_handle);
-      grab_handle = nullptr;
-      if (!grab_retry_connection.connected())
-        {
-          Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
-        }
-#endif
-    }
+  ungrab();
+  grab();
 }
-
-#if defined(PLATFORM_OS_UNIX)
-//! Reattempt to get the grab
-bool
-GUI::on_grab_retry_timer()
-{
-  TRACE_ENTER("GUI::on_grab_retry_timer");
-  bool ret = false;
-  if (grab_wanted)
-    {
-      ret = !grab();
-    }
-  else
-    {
-      ret = false;
-    }
-  TRACE_MSG(ret);
-  TRACE_EXIT();
-  return ret;
-}
-#endif
 
 bool
 GUI::on_operational_mode_warning_timer()

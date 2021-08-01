@@ -52,7 +52,7 @@
 #include "core/IBreak.hh"
 #include "core/IBreakResponse.hh"
 #include "GtkUtil.hh"
-#include "WindowHints.hh"
+#include "Grab.hh"
 #include "Frame.hh"
 #include "session/System.hh"
 #include "core/ICore.hh"
@@ -81,6 +81,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
 
+  fullscreen_grab = !Grab::instance()->can_grab();
+
   if (mode != GUIConfig::BLOCK_MODE_NONE)
     {
       // Disable titlebar to appear like a popup
@@ -88,7 +90,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flag
       set_skip_taskbar_hint(true);
       set_skip_pager_hint(true);
 
-      if (Platform::running_on_wayland())
+      if (fullscreen_grab)
         {
           set_app_paintable(true);
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
@@ -175,7 +177,7 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !Platform::running_on_wayland())
+          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !fullscreen_grab)
             {
 #ifdef PLATFORM_OS_WINDOWS
               desktop_window = new DesktopWindow(head);
@@ -193,7 +195,7 @@ BreakWindow::init_gui()
             }
           else
             {
-              if (Platform::running_on_wayland())
+              if (fullscreen_grab)
                 {
                   Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
                   align->add(*window_frame);
@@ -236,7 +238,10 @@ BreakWindow::~BreakWindow()
 void
 BreakWindow::center()
 {
-  GtkUtil::center_window(*this, head);
+  if (!fullscreen_grab)
+    {
+      GtkUtil::center_window(*this, head);
+    }
 }
 
 void

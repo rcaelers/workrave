@@ -1,6 +1,4 @@
-// WindowHints.hh
-//
-// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,12 +18,6 @@
 #ifndef WINDOWHINTS_HH
 #define WINDOWHINTS_HH
 
-#include <gtk/gtk.h>
-
-#ifdef PLATFORM_OS_WINDOWS
-#  include <windows.h>
-#endif
-
 namespace Gtk
 {
   class Window;
@@ -33,22 +25,8 @@ namespace Gtk
 
 class WindowHints
 {
-private:
 public:
-  typedef void *Grab;
-
   static void set_always_on_top(Gtk::Window *window, bool ontop);
-  static Grab *grab(int num_windows, GdkWindow **window);
-  static void ungrab(Grab *grab);
-#if defined(PLATFORM_OS_WINDOWS)
-  static void attach_thread_input(bool enabled);
-#endif
-
-#if GTK_CHECK_VERSION(3, 24, 0)
-  static GdkSeat *seat;
-#else
-  static GdkDevice *keyboard, *pointer;
-#endif
 };
 
 #endif // WINDOWHINTS_HH
