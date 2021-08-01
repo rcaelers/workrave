@@ -59,8 +59,6 @@
 #endif
 
 #ifdef PLATFORM_OS_WINDOWS
-#  include <shellapi.h>
-
 #  include "W32AppletWindow.hh"
 #  include "W32TrayMenu.hh"
 #  include "W32AppletMenu.hh"
@@ -343,15 +341,6 @@ Menus::on_menu_about()
     }
   about->present();
 }
-
-#ifdef PLATFORM_OS_WINDOWS
-void
-Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
-{
-  (void)about;
-  ShellExecuteA(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
-}
-#endif
 
 void
 Menus::on_about_response(int response)

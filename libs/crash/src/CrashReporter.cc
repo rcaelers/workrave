@@ -32,10 +32,6 @@
 #include "client/crashpad_client.h"
 #include "client/crash_report_database.h"
 
-#ifdef PLATFORM_OS_WINDOWS
-#  include <windows.h>
-#endif
-
 #include "debug.hh"
 #include "utils/Platform.hh"
 #ifdef HAVE_HARPOON

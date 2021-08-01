@@ -96,10 +96,6 @@ public:
   void on_set_operation_mode(workrave::OperationMode m);
   void on_menu_debug();
 
-#ifdef PLATFORM_OS_WINDOWS
-  void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
-#endif
-
 private:
   //! Interface to the GUI.
   IGUI *gui{nullptr};

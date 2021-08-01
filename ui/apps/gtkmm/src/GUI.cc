@@ -66,7 +66,6 @@
 #include "session/System.hh"
 #include "Text.hh"
 #include "Grab.hh"
-#include "Locale.hh"
 #include "commonui/Session.hh"
 #include "commonui/TimerBoxControl.hh"
 

@@ -171,23 +171,8 @@ PreludeWindow::refresh()
     }
   timebar->set_text(s);
   timebar->update();
-
-  // #if defined(PLATFORM_OS_WINDOWS)
-  // // Vista GTK phantom toplevel parent kludge:
-  //   HWND hwnd = (HWND) GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  //   if( hwnd )
-  //     {
-  //       HWND hAncestor = GetAncestor( hwnd, GA_ROOT );
-  //       HWND hDesktop = GetDesktopWindow();
-  //       if( hAncestor && hDesktop && hAncestor != hDesktop )
-  //           hwnd = hAncestor;
-  //       // Set toplevel window topmost!
-  //       SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
-  //           SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
-  //     }
-  // #endif
 }
-
+ 
 void
 PreludeWindow::set_progress(int value, int max_value)
 {

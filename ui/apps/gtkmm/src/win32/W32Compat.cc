@@ -30,9 +30,6 @@
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
-#ifdef PLATFORM_OS_WINDOWS
-#  undef interface
-#endif
 
 #include <gtkmm.h>
 #include <gdk/gdkwin32.h>

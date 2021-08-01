@@ -26,11 +26,9 @@
 
 #include <glib.h>
 
-#include "GUI.hh"
 #ifdef PLATFORM_OS_WINDOWS
 #  include <io.h>
 #  include <fcntl.h>
-
 #  include "utils/W32ActiveSetup.hh"
 #endif
 
@@ -39,6 +37,8 @@
 #if defined(HAVE_CRASH_REPORT)
 #  include "crash/CrashReporter.hh"
 #endif
+
+#include "GUI.hh"
 
 extern "C" int run(int argc, char **argv);
 
@@ -67,10 +67,6 @@ run(int argc, char **argv)
 #endif
 #ifdef PLATFORM_OS_WINDOWS
   W32ActiveSetup::update_all();
-#endif
-
-#if defined(PLATFORM_OS_WINDOWS) && !defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(PLATFORM_OS_WINDOWS_64)
-  SetUnhandledExceptionFilter(exception_filter);
 #endif
 
   GUI *gui = new GUI(argc, argv);

@@ -27,7 +27,6 @@
 
 #include "HeadInfo.hh"
 #include "core/ICore.hh"
-#include "core/ICoreEventListener.hh"
 #include "core/IApp.hh"
 #include "dbus/IDBusWatch.hh"
 #include "utils/Signals.hh"
@@ -39,7 +38,6 @@
 namespace workrave
 {
   class IBreakResponse;
-  class IConfigurator;
 } // namespace workrave
 
 // GTKMM classes
