@@ -41,7 +41,7 @@
 #include "GtkUtil.hh"
 #include "Menus.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 #endif
 
@@ -56,7 +56,7 @@ MainWindow::~MainWindow()
       visible_connection.disconnect();
     }
 
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
   if (timeout_connection.connected())
     {
       timeout_connection.disconnect();
@@ -64,7 +64,7 @@ MainWindow::~MainWindow()
 #endif
 
   delete timer_box_control;
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
   win32_exit();
 #endif
 #ifdef PLATFORM_OS_UNIX
@@ -77,7 +77,7 @@ MainWindow::~MainWindow()
 bool
 MainWindow::is_visible() const
 {
-#if defined(PLATFORM_OS_WINDOWS)
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
   const GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
@@ -111,7 +111,7 @@ MainWindow::open_window()
   TRACE_ENTER("MainWindow::open_window");
   if (timer_box_view->get_visible_count() > 0)
     {
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
       win32_show(true);
       show_all();
 #else
@@ -146,8 +146,10 @@ void
 MainWindow::close_window()
 {
   TRACE_ENTER("MainWindow::close_window");
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
   win32_show(false);
+#elif defined(PLATFORM_OS_WINDOWS)
+  hide();
 #elif defined(PLATFORM_OS_MACOS)
   hide();
 #else
@@ -276,7 +278,7 @@ MainWindow::init()
   stick();
   setup();
 
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
 
   win32_init();
   set_gravity(Gdk::GRAVITY_STATIC);
@@ -320,7 +322,7 @@ MainWindow::init()
 
   if (!enabled) //  || get_start_in_tray())
     {
-#  ifndef PLATFORM_OS_MACOS
+#  ifdef PLATFORM_OS_UNIX
       iconify();
 #  endif
       close_window();
@@ -383,12 +385,9 @@ MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
 
-#if defined(PLATFORM_OS_WINDOWS)
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
   win32_show(false);
   closed_signal.emit();
-  GUIConfig::timerbox_enabled("main_window").set(false);
-#elif defined(PLATFORM_OS_MACOS)
-  close_window();
   GUIConfig::timerbox_enabled("main_window").set(false);
 #else
   if (can_close)
@@ -427,7 +426,7 @@ MainWindow::on_timer_view_button_press_event(GdkEventButton *event)
   return ret;
 }
 
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
 void
 MainWindow::win32_show(bool b)
 {
@@ -730,7 +729,7 @@ MainWindow::relocate_window(int width, int height)
   TRACE_EXIT();
 }
 
-#ifdef PLATFORM_OS_WINDOWS
+#ifdef PLATFORM_OS_WINDOWS_LEGACY
 
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
