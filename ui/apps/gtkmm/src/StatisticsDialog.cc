@@ -669,24 +669,15 @@ StatisticsDialog::on_timer()
 void
 StatisticsDialog::stream_distance(stringstream &stream, int64_t pixels)
 {
+  GdkDisplay *display = gdk_display_get_default();
+  GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
+
+  GdkRectangle geometry;
+  gdk_monitor_get_geometry(monitor, &geometry);
+
+  double mm = (double)pixels * gdk_monitor_get_width_mm(monitor) / geometry.width;
+
   char buf[64];
-  GdkRectangle rec;
-
-#if GTK_CHECK_VERSION(3, 22, 0)
-  GdkMonitor *monitor = gdk_display_get_monitor(gdk_display_get_default(), 0);
-  gdk_monitor_get_geometry(monitor, &rec);
-#else
-  GdkScreen *screen = gdk_display_get_default_screen(gdk_display_get_default());
-  gdk_screen_get_monitor_geometry(screen, 0, &rec);
-#endif
-
-#if GTK_CHECK_VERSION(3, 22, 0)
-  double width_mm = gdk_monitor_get_width_mm(monitor);
-#elif GTK_CHECK_VERSION(2, 14, 0)
-  double width_mm = gdk_screen_get_monitor_width_mm(screen, 0);
-#endif
-
-  double mm = (double)pixels * width_mm / rec.width;
   sprintf(buf, "%.02f m", mm / 1000);
   stream << buf;
 }

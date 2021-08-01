@@ -64,12 +64,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-#ifndef WR_CHECK_VERSION
-#  define WR_CHECK_VERSION(comp, major, minor, micro)                                                      \
-    (comp##_MAJOR_VERSION > (major) || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) \
-     || (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && comp##_MICRO_VERSION >= (micro)))
-#endif
-
 #define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
 using namespace std;
@@ -152,15 +146,9 @@ PreferencesDialog::create_gui_page()
 {
   // Block types
   block_button = Gtk::manage(new Gtk::ComboBoxText());
-#if GTKMM_CHECK_VERSION(2, 24, 0)
   block_button->append(_("No blocking"));
   block_button->append(_("Block input"));
   block_button->append(_("Block input and screen"));
-#else
-  block_button->append_text(_("No blocking"));
-  block_button->append_text(_("Block input"));
-  block_button->append_text(_("Block input and screen"));
-#endif
 
   int block_idx;
   switch (GUIConfig::block_mode()())
@@ -319,13 +307,8 @@ PreferencesDialog::create_sounds_page()
 
   // Sound types
   sound_button = Gtk::manage(new Gtk::ComboBoxText());
-#if GTKMM_CHECK_VERSION(2, 24, 0)
   sound_button->append(_("No sounds"));
   sound_button->append(_("Play sounds using sound card"));
-#else
-  sound_button->append_text(_("No sounds"));
-  sound_button->append_text(_("Play sounds using sound card"));
-#endif
   int idx;
   if (!SoundTheme::sound_enabled()())
     {
@@ -442,11 +425,7 @@ PreferencesDialog::create_sounds_page()
 
   selector_playbutton->signal_clicked().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_filechooser_play));
 
-#if WR_CHECK_VERSION(GTKMM, 2, 22, 0)
   fsbutton->signal_file_set().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_filechooser_select));
-#else
-  fsbutton->signal_selection_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_filechooser_select));
-#endif
 
   Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
   selection->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_events_changed));
@@ -883,20 +862,12 @@ PreferencesDialog::update_sound_theme_selection()
   TRACE_ENTER("PreferencesDialog::update_sound_theme_selection");
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
-#if GTKMM_CHECK_VERSION(2, 24, 0)
   sound_theme_button->remove_all();
-#else
-  sound_theme_button->clear_items();
-#endif
 
   int active_index = -1;
   for (SoundTheme::ThemeInfo::Ptr theme: sound_theme->get_themes())
     {
-#if GTKMM_CHECK_VERSION(2, 24, 0)
       sound_theme_button->append(theme->description);
-#else
-      sound_theme_button->append_text(theme->description);
-#endif
 
       if (theme == active_theme)
         {
@@ -959,22 +930,14 @@ PreferencesDialog::update_icon_theme_combo()
     {
       icon_theme_button = Gtk::manage(new Gtk::ComboBoxText());
 
-#if GTKMM_CHECK_VERSION(2, 24, 0)
       icon_theme_button->append(_("Default"));
-#else
-      icon_theme_button->append_text(_("Default"));
-#endif
       icon_theme_button->set_active(0);
 
       std::string current_icontheme = GUIConfig::icon_theme()();
       int idx = 1;
       for (auto &theme: themes)
         {
-#if GTKMM_CHECK_VERSION(2, 24, 0)
           icon_theme_button->append(theme);
-#else
-          icon_theme_button->append_text(theme);
-#endif
           if (current_icontheme == theme)
             {
               icon_theme_button->set_active(idx);
