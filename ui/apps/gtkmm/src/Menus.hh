@@ -121,6 +121,7 @@ private:
   IMenu *menus[MENU_SIZEOF]{};
 
   Gtk::AboutDialog *about{nullptr};
+
   SoundTheme::Ptr sound_theme;
 };
 

@@ -87,7 +87,6 @@ MainGtkMenu::create_actions()
 
       main_window->insert_action_group("app", action_group);
     }
-	
 }
 
 void

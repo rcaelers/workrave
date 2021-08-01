@@ -25,13 +25,13 @@
 #  include "eggsmclient.h"
 #endif
 
-#include "HeadInfo.hh"
 #include "core/ICore.hh"
 #include "core/IApp.hh"
 #include "dbus/IDBusWatch.hh"
 #include "utils/Signals.hh"
 #include "commonui/SoundTheme.hh"
 
+#include "HeadInfo.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 
