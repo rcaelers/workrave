@@ -20,6 +20,9 @@
 #ifndef W32ACTIVESETUP_HH
 #define W32ACTIVESETUP_HH
 
+#include <windows.h>
+#include <vector>
+
 class W32ActiveSetup
 {
 public:

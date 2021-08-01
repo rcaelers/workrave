@@ -60,6 +60,10 @@
 #  include "NetworkPreferencePage.hh"
 #endif
 
+#if defined(PLATFORM_OS_WINDOWS)
+  #include <windows.h>
+#endif
+
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;

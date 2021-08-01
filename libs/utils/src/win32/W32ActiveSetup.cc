@@ -47,10 +47,8 @@ potential crash.
 
 #include "debug.hh"
 
-#include <windows.h>
 #include <tchar.h>
 #include <cstdlib>
-#include <vector>
 #include <sstream>
 #include <iterator>
 #include <string>
