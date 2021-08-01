@@ -28,10 +28,9 @@
 #include "core/CoreTypes.hh"
 #include "core/ICore.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <io.h>
 #  include <fcntl.h>
-
 #  include "utils/W32ActiveSetup.hh"
 #endif
 
@@ -50,7 +49,7 @@ run(int argc, char **argv)
     }
 #endif
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   W32ActiveSetup::update_all();
 #endif
 

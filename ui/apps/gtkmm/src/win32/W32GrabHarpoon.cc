@@ -25,13 +25,14 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
 
 #include "harpoon.h"
 #include "input-monitor/Harpoon.hh"
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
 

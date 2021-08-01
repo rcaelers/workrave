@@ -27,7 +27,7 @@
 #include <tchar.h>
 #include <wtsapi32.h>
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
 #ifdef PLATFORM_OS_WINDOWS

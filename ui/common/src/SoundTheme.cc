@@ -183,7 +183,7 @@ SoundTheme::SoundTheme()
 {
   player = SoundPlayerFactory::create();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   win32_remove_deprecated_appevents();
 #endif
 }
@@ -397,7 +397,7 @@ SoundTheme::capability(workrave::audio::SoundCapability cap)
   return player->capability(cap);
 }
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 void
 SoundTheme::win32_remove_deprecated_appevents()
 {

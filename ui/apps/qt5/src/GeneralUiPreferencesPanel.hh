@@ -35,7 +35,7 @@ public:
 private:
   void on_block_changed();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   void on_autostart_toggled();
 #endif
 

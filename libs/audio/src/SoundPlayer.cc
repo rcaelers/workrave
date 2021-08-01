@@ -28,14 +28,14 @@
 #include "ISoundDriver.hh"
 #include "IMixer.hh"
 
-#if defined HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER)
 #  include "GstSoundPlayer.hh"
-#elif defined PLATFORM_OS_WINDOWS
+#elif defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
 #  include "W32SoundPlayer.hh"
 #  include "W32DirectSoundPlayer.hh"
 #  include "W32Mixer.hh"
-#elif defined PLATFORM_OS_MACOS
+#elif defined(PLATFORM_OS_MACOS)
 #  include "MacOSSoundPlayer.hh"
 #endif
 

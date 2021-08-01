@@ -109,7 +109,7 @@ private:
   ThemeInfo::Ptr load_sound_theme(const std::string &themedir);
   void register_sound_events();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   void win32_remove_deprecated_appevents();
 #endif
 
