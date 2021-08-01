@@ -64,7 +64,7 @@ run(int argc, char **argv)
   return 0;
 }
 
-#if !defined(PLATFORM_OS_WINDOWS) // || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
+#if !defined(PLATFORM_OS_WINDOWS) || (!defined(PLATFORM_OS_WINDOWS_NATIVE) && !defined(NDEBUG))
 int
 main(int argc, char **argv)
 {
