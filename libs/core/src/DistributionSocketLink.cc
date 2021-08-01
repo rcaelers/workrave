@@ -50,10 +50,6 @@
 #  include "DistributionLink.hh"
 #  include "DistributionSocketLink.hh"
 
-#  ifdef PLATFORM_OS_WINDOWS
-#    include "win32/ghmac.h"
-#  endif
-
 using namespace std;
 using namespace workrave::utils;
 

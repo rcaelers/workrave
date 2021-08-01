@@ -32,7 +32,6 @@ libs/core/src/Statistics.cc
 libs/core/src/TimePredFactory.cc
 libs/core/src/Timer.cc
 libs/core/src/org.workrave.gschema.xml.in
-libs/core/src/win32/ghmac.c
 libs/dbus/src/DBusBindingGio.cc
 libs/dbus/src/DBusBindingQt.cc
 libs/dbus/src/DBusDummy.cc
