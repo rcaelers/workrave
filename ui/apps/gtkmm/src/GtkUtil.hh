@@ -18,15 +18,7 @@
 #ifndef GTKUTIL_HH
 #define GTKUTIL_HH
 
-#include <gtkmm/button.h>
-#include <gtkmm/stockid.h>
-#include <gtkmm/table.h>
-#include <gtkmm/window.h>
-#include <gtkmm/image.h>
-#include <gtkmm/box.h>
-#include <gtkmm/alignment.h>
-#include <glibmm/quark.h>
-#include <gtkmm/accelgroup.h>
+#include <gtkmm.h>
 
 #include <string>
 
