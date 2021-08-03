@@ -169,6 +169,7 @@ const WorkraveButton = new Lang.Class({
         this._padding = 0;
         this._bus_name = 'org.workrave.GnomeShellApplet';
         this._bus_id = 0;
+        this._watchid = 0;
 
         this._area = new St.DrawingArea({ style_class: 'workrave-area', reactive: true } );
         this._area.set_width(this._width=24);
@@ -206,10 +207,10 @@ const WorkraveButton = new Lang.Class({
     {
         try
         {
-            Gio.DBus.session.watch_name('org.workrave.Workrave',
-                                        Gio.BusNameWatcherFlags.NONE, // no auto launch
-                                        Lang.bind(this, this._onWorkraveAppeared),
-                                        Lang.bind(this, this._onWorkraveVanished));
+            this._watchid = Gio.DBus.session.watch_name('org.workrave.Workrave',
+                                                        Gio.BusNameWatcherFlags.NONE, // no auto launch
+                                                        Lang.bind(this, this._onWorkraveAppeared),
+                                                        Lang.bind(this, this._onWorkraveVanished));
             return false;
         }
         catch(err)
@@ -233,6 +234,11 @@ const WorkraveButton = new Lang.Class({
     },
 
     _destroy: function() {
+        if (this._watchid > 0)
+        {
+            Gio.DBus.session.unwatch_name(this._watchid);
+            this._watchid = 0;
+        }
         if (this._ui_proxy != null)
         {
             this._ui_proxy.disconnectSignal(this._timers_updated_id);
