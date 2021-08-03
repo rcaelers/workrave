@@ -203,8 +203,7 @@ const WorkraveButton = new Lang.Class({
         this._updateMenu(null);
     },
 
-    _connectUI: function()
-    {
+    _connectUI: function() {
         try
         {
             this._watchid = Gio.DBus.session.watch_name('org.workrave.Workrave',
@@ -219,12 +218,10 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _connectCore: function()
-    {
+    _connectCore: function() {
     },
 
-    _onDestroy: function()
-    {
+    _onDestroy: function() {
         if (this._ui_proxy != null)
         {
             this._ui_proxy.EmbedRemote(false, this._bus_name);
@@ -253,8 +250,7 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _start: function()
-    {
+    _start: function() {
         if (! this._alive)
         {
             this._bus_id = Gio.DBus.session.own_name(this._bus_name, Gio.BusNameOwnerFlags.NONE, null, null);
@@ -268,8 +264,7 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _stop_dbus: function()
-    {
+    _stop_dbus: function() {
         if (this._alive)
         {
             Mainloop.source_remove(this._timeoutId);
@@ -279,8 +274,7 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _stop: function()
-    {
+    _stop: function() {
         if (this._alive)
         {
             this._stop_dbus();
