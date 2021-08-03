@@ -414,7 +414,7 @@ GUI::init_nls()
   char execpath[MAXPATHLEN + 1];
   uint32_t pathsz = sizeof(execpath);
 
-  _NSGetExecutablePath(execpath, &pathsz);
+  _NSetExecutablePath(execpath, &pathsz);
 
   gchar *dir_path = g_path_get_dirname(execpath);
   strcpy(locale_path, dir_path);
@@ -907,9 +907,9 @@ GUI::grab()
     {
 #if defined(PLATFORM_OS_WINDOWS)
     // TODO: check if this is still needed with Gtk3
-     for (int i = 0; i < active_break_count; i++)
+      for (auto &window: break_windows)
      	{
-          HWND w = (HWND)GDK_WINDOW_HWND(break_windows[i]->get_gdk_window()->gobj());
+          HWND w = (HWND)GDK_WINDOW_HWND(window->get_gdk_window()->gobj());
           SetWindowPos(w, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
           BringWindowToTop(w);
       }

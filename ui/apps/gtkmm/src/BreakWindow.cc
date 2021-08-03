@@ -722,7 +722,7 @@ BreakWindow::start()
   WindowHints::set_always_on_top(this, true);
 
 #ifdef PLATFORM_OS_WINDOWS
-  if (force_focus_on_break_start && this->head.count == 0)
+  if (force_focus_on_break_start && this->head.monitor == 0)
     {
       HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
       W32ForceFocus::ForceWindowFocus(hwnd);
