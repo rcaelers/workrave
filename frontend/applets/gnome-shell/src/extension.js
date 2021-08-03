@@ -358,7 +358,17 @@ const WorkraveButton = new Lang.Class({
 
         let timerbox_width = this._timerbox.get_width();
         let timerbox_height = this._timerbox.get_height();
-        let height = this.get_height();
+
+        let height = 24;
+        if (typeof this.get_height === "function")
+        {
+            height = this.get_height();
+        }
+        else
+        {
+            // Fallback for older Gnome Shell versions
+            height = this.actor.height;
+        }
 
         let padding = Math.floor((height - timerbox_height) / 2);
 
