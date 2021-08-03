@@ -48,7 +48,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 //! Construct a new Microbreak window.
-PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
+PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
 {
   TRACE_ENTER("PreludeWindow::PreludeWindow");
@@ -127,7 +127,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   stick();
 
   this->head = head;
-  Gtk::Window::set_screen(head.screen);
   TRACE_EXIT();
 }
 

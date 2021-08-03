@@ -41,7 +41,7 @@ using namespace std;
 using namespace workrave;
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+MicroBreakWindow::MicroBreakWindow(HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode)
 {
   set_title(_("Micro-break"));

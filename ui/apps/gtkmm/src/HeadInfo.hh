@@ -23,25 +23,18 @@
 #endif
 
 #include <gdkmm/rectangle.h>
-#include <gdkmm/display.h>
-#include <gdkmm/screen.h>
 
 class HeadInfo
 {
 public:
-  HeadInfo()
-  {
-    count = 0;
-  }
+  HeadInfo() = default;
 
   int get_width() const;
   int get_height() const;
   int get_x() const;
   int get_y() const;
 
-  Glib::RefPtr<Gdk::Screen> screen;
   int monitor{0};
-  int count{0};
   Gdk::Rectangle geometry;
 };
 

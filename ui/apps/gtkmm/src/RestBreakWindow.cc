@@ -56,7 +56,7 @@ using namespace workrave::utils;
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode)
   , sound_theme(sound_theme)
 {
@@ -223,7 +223,7 @@ RestBreakWindow::get_exercise_count()
 void
 RestBreakWindow::install_exercises_panel()
 {
-  if (head.count != 0 || (break_flags & BREAK_FLAGS_NO_EXERCISES))
+  if (head.monitor != 0 || (break_flags & BREAK_FLAGS_NO_EXERCISES))
     {
       install_info_panel();
     }
@@ -255,7 +255,7 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->queue_resize();
 
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
-  if (block_mode == GUIConfig::BLOCK_MODE_NONE && head.count == 0)
+  if (block_mode == GUIConfig::BLOCK_MODE_NONE && head.monitor == 0)
     {
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);

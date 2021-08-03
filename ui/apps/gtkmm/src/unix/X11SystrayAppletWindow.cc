@@ -27,6 +27,7 @@
 #include "GUI.hh"
 #include "TimerBoxGtkView.hh"
 #include "commonui/TimerBoxControl.hh"
+#include "commonui/GUIConfig.hh"
 #include "Menus.hh"
 
 #include "gtktrayicon.h"

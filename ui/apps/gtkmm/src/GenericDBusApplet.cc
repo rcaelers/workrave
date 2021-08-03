@@ -27,6 +27,7 @@
 #include "GenericDBusApplet.hh"
 
 #include "commonui/TimerBoxControl.hh"
+#include "commonui/GUIConfig.hh"
 #include "Text.hh"
 #include "GUI.hh"
 #include "Menus.hh"

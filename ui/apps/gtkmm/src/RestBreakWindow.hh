@@ -36,7 +36,7 @@ namespace Gtk
 class RestBreakWindow : public BreakWindow
 {
 public:
-  RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode);
   ~RestBreakWindow() override;
 
   void start() override;

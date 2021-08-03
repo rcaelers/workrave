@@ -30,9 +30,14 @@
 #include "dbus/IDBusWatch.hh"
 #include "utils/Signals.hh"
 #include "commonui/SoundTheme.hh"
+#include "commonui/UiTypes.hh"
 
 #include "HeadInfo.hh"
-#include "BreakWindow.hh"
+#include "Menus.hh"
+#include "IBreakWindow.hh"
+#include "IPreludeWindow.hh"
+
+//#include "BreakWindow.hh"
 #include "WindowHints.hh"
 
 namespace workrave
@@ -42,17 +47,9 @@ namespace workrave
 
 // GTKMM classes
 class MainWindow;
-class MicroBreakWindow;
-class RestBreakWindow;
-class PreludeWindow;
-class Dispatcher;
 class StatusIcon;
 class AppletControl;
-class Menus;
-
-// Generic GUI
 class BreakControl;
-class IBreakWindow;
 class Session;
 
 class IGUI
@@ -72,7 +69,7 @@ public:
   virtual void interrupt_grab() = 0;
 
   virtual int get_number_of_heads() const = 0;
-  virtual HeadInfo &get_head(int head) = 0;
+  virtual HeadInfo get_head(int head) const = 0;
   virtual int map_to_head(int &x, int &y) = 0;
   virtual void map_from_head(int &x, int &y, int head) = 0;
   virtual bool bound_head(int &x, int &y, int width, int height, int &head) = 0;
@@ -128,7 +125,7 @@ public:
   // Prefs
   // Misc
   sigc::signal0<void> &signal_heartbeat() override;
-  HeadInfo &get_head(int head) override;
+  HeadInfo get_head(int head) const override;
   int get_number_of_heads() const override;
   int map_to_head(int &x, int &y) override;
   void map_from_head(int &x, int &y, int head) override;
@@ -144,14 +141,12 @@ private:
   void init_core();
   void init_sound_player();
   void update_multihead();
-  void init_multihead_mem(int new_num_heads);
-  void init_multihead_desktop();
+  // void init_multihead_mem(int new_num_heads);
+  // void init_multihead_desktop();
   void init_gui();
   void init_dbus();
   void init_session();
   void init_operation_mode_warning();
-
-  void init_gtk_multihead();
 
 #if defined(PLATFORM_OS_WINDOWS)
   static void session_quit_cb(EggSMClient *client, GUI *gui);
@@ -159,7 +154,7 @@ private:
   void cleanup_session();
 #endif
   void collect_garbage();
-  IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakFlags break_flags);
+  IBreakWindow::Ptr create_break_window(HeadInfo head, workrave::BreakId break_id, BreakFlags break_flags);
 
   void grab();
   void ungrab();
@@ -190,17 +185,11 @@ private:
   //! The sound player
   SoundTheme::Ptr sound_theme;
 
-  //! Interface to the break window.
-  IBreakWindow **break_windows{nullptr};
+  // std::shared_ptr<Menus> menus;
+  // std::shared_ptr<workrave::updater::Updater> updater;
 
-  //! Interface to the prelude windows.
-  PreludeWindow **prelude_windows{nullptr};
-
-  //! Number of active prelude windows;
-  int active_break_count{0};
-
-  //! Number of active prelude windows;
-  int active_prelude_count{0};
+  std::vector<IBreakWindow::Ptr> break_windows;
+  std::vector<IPreludeWindow::Ptr> prelude_windows;
 
   //! Response interface for breaks
   workrave::IBreakResponse *response{nullptr};
@@ -222,24 +211,6 @@ private:
 
   //! Heartbeat signal
   sigc::signal0<void> heartbeat_signal;
-
-  //! Destroy break window on next heartbeat?
-  bool break_window_destroy{false};
-
-  //! Destroy prelude window on next heartbeat?
-  bool prelude_window_destroy{false};
-
-  //! Information on all heads.
-  HeadInfo *heads{nullptr};
-
-  //! Number of heads
-  int num_heads{-1};
-
-  //! Width of the screen.
-  int screen_width{-1};
-
-  //! Height of the screen.
-  int screen_height{-1};
 
   //! Status icon
   StatusIcon *status_icon{nullptr};
@@ -301,12 +272,4 @@ GUI::signal_heartbeat()
 {
   return heartbeat_signal;
 }
-
-//! Number of heads.
-inline int
-GUI::get_number_of_heads() const
-{
-  return num_heads;
-}
-
 #endif // GUI_HH

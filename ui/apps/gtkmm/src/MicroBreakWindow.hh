@@ -41,7 +41,7 @@ class Frame;
 class MicroBreakWindow : public BreakWindow
 {
 public:
-  MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  MicroBreakWindow(HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode);
   ~MicroBreakWindow() override;
 
   void set_progress(int value, int max_value) override;

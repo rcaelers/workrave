@@ -35,7 +35,7 @@ class PreludeWindow
   , public IPreludeWindow
 {
 public:
-  PreludeWindow(HeadInfo &head, workrave::BreakId break_id);
+  PreludeWindow(HeadInfo head, workrave::BreakId break_id);
   ~PreludeWindow() override;
 
   void start() override;

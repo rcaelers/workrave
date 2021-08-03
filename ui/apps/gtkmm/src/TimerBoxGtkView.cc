@@ -38,6 +38,7 @@
 
 #include "utils/AssetPath.hh"
 #include "commonui/Backend.hh"
+#include "commonui/GUIConfig.hh"
 #include "core/IBreak.hh"
 
 using namespace std;
