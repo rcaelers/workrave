@@ -159,7 +159,7 @@ private:
   void cleanup_session();
 #endif
   void collect_garbage();
-  IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakWindow::BreakFlags break_flags);
+  IBreakWindow *create_break_window(HeadInfo &head, workrave::BreakId break_id, BreakFlags break_flags);
 
   void grab();
   void ungrab();

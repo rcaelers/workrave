@@ -529,7 +529,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
           auto b = core->get_break(BreakId(id));
           bool overdue = b->get_elapsed_time() > b->get_limit();
 
-          if ((!(break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
+          if ((!(break_flags & BREAK_FLAGS_USER_INITIATED)) || b->is_max_preludes_reached())
             {
               if (!GUIConfig::break_ignorable(BreakId(id))())
                 {

@@ -790,7 +790,7 @@ GUI::init_operation_mode_warning()
 
 //! Returns a break window for the specified break.
 IBreakWindow *
-GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
+GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakFlags break_flags)
 {
   IBreakWindow *ret = nullptr;
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
@@ -917,36 +917,36 @@ GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> bre
   hide_break_window();
   collect_garbage();
 
-  BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
+  BreakFlags break_flags = BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::break_ignorable(break_id)();
   bool skippable = GUIConfig::break_skippable(break_id)();
 
   if (break_hint & BreakHint::UserInitiated)
     {
-      break_flags = (BreakWindow::BREAK_FLAGS_POSTPONABLE | BreakWindow::BREAK_FLAGS_USER_INITIATED);
+      break_flags = (BREAK_FLAGS_POSTPONABLE | BREAK_FLAGS_USER_INITIATED);
 
       if (skippable)
         {
-          break_flags |= BreakWindow::BREAK_FLAGS_SKIPPABLE;
+          break_flags |= BREAK_FLAGS_SKIPPABLE;
         }
     }
   else
     {
       if (ignorable)
         {
-          break_flags |= BreakWindow::BREAK_FLAGS_POSTPONABLE;
+          break_flags |= BREAK_FLAGS_POSTPONABLE;
         }
 
       if (skippable)
         {
-          break_flags |= BreakWindow::BREAK_FLAGS_SKIPPABLE;
+          break_flags |= BREAK_FLAGS_SKIPPABLE;
         }
     }
 
   if (break_hint & BreakHint::NaturalBreak)
     {
       break_flags |=
-        (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL | BreakWindow::BREAK_FLAGS_POSTPONABLE);
+        (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
     }
 
   active_break_id = break_id;

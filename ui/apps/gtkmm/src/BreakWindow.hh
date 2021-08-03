@@ -27,6 +27,7 @@
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 #include "commonui/GUIConfig.hh"
+#include "commonui/UiTypes.hh"
 #include "session/System.hh"
 
 #ifdef PLATFORM_OS_WINDOWS
@@ -53,16 +54,6 @@ class BreakWindow
   friend class W32Compat;
 
 public:
-  enum BreakFlags
-  {
-    BREAK_FLAGS_NONE = 0,
-    BREAK_FLAGS_POSTPONABLE = 1 << 0,
-    BREAK_FLAGS_SKIPPABLE = 1 << 1,
-    BREAK_FLAGS_NO_EXERCISES = 1 << 2,
-    BREAK_FLAGS_NATURAL = 1 << 3,
-    BREAK_FLAGS_USER_INITIATED = 1 << 4
-  };
-
   BreakWindow(workrave::BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode block_mode);
   ~BreakWindow() override;
 
@@ -169,51 +160,5 @@ private:
   bool on_draw(const ::Cairo::RefPtr<::Cairo::Context> &cr) override;
   void on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen) override;
 };
-
-inline BreakWindow::BreakFlags
-operator|(BreakWindow::BreakFlags lhs, BreakWindow::BreakFlags rhs)
-{
-  return static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs));
-}
-
-inline BreakWindow::BreakFlags
-operator&(BreakWindow::BreakFlags lhs, BreakWindow::BreakFlags rhs)
-{
-  return static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs));
-}
-
-inline BreakWindow::BreakFlags
-operator^(BreakWindow::BreakFlags lhs, BreakWindow::BreakFlags rhs)
-{
-  return static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) ^ static_cast<unsigned>(rhs));
-}
-
-inline BreakWindow::BreakFlags
-operator~(BreakWindow::BreakFlags flags)
-
-{
-  return static_cast<BreakWindow::BreakFlags>(~static_cast<unsigned>(flags));
-}
-
-inline BreakWindow::BreakFlags &
-operator|=(BreakWindow::BreakFlags &lhs, BreakWindow::BreakFlags rhs)
-
-{
-  return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs)));
-}
-
-inline BreakWindow::BreakFlags &
-operator&=(BreakWindow::BreakFlags &lhs, BreakWindow::BreakFlags rhs)
-
-{
-  return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs)));
-}
-
-inline BreakWindow::BreakFlags &
-operator^=(BreakWindow::BreakFlags &lhs, BreakWindow::BreakFlags rhs)
-
-{
-  return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) ^ static_cast<unsigned>(rhs)));
-}
 
 #endif // BREAKWINDOW_HH
