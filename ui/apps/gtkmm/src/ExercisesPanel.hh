@@ -50,7 +50,7 @@ private:
   void on_go_forward();
   void on_pause();
   void on_stop();
-  void heartbeat();
+  bool heartbeat();
   void start_exercise();
   void show_image();
   void refresh_progress();

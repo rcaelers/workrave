@@ -148,7 +148,8 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dial
   pack_start(progress_bar, false, false, 0);
   pack_start(*description_widget, false, false, 0);
 
-  heartbeat_signal = GUI::get_instance()->signal_heartbeat().connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat));
+
+  heartbeat_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat), 1000);
 
   exercise_count = 0;
   reset();
@@ -327,14 +328,14 @@ ExercisesPanel::on_pause()
   refresh_pause();
 }
 
-void
+bool
 ExercisesPanel::heartbeat()
 {
   if (paused || stopped)
-    return;
+    return false;
 
   if (shuffled_exercises.size() == 0)
-    return;
+    return false;
 
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;
@@ -353,6 +354,7 @@ ExercisesPanel::heartbeat()
       refresh_sequence();
       refresh_progress();
     }
+  return true;
 }
 
 void
