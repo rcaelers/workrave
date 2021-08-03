@@ -93,7 +93,7 @@ if (PLATFORM_OS_WINDOWS)
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)
 endif()
 
-if (PLATFORM_OS_MACOSOS)
+if (PLATFORM_OS_MACOS)
   set(SRC ${SRC}
     macos/MacOSAppletWindow.cc
     macos/MacOSGtkMenu.cc
