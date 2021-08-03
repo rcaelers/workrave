@@ -18,6 +18,7 @@
 #ifndef EXERCISES_PANEL_HH
 #define EXERCISES_PANEL_HH
 
+#include "commonui/SoundTheme.hh"
 #include "commonui/Exercise.hh"
 
 #include <gtkmm.h>
@@ -31,7 +32,7 @@
 class ExercisesPanel : public Gtk::HBox
 {
 public:
-  ExercisesPanel(Gtk::ButtonBox *dialog_action_area);
+  ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area);
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
@@ -66,6 +67,7 @@ private:
     return ret;
   }
 
+  SoundTheme::Ptr sound_theme;
   Gtk::Frame image_frame;
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;

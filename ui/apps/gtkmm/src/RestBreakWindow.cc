@@ -56,8 +56,9 @@ using namespace workrave::utils;
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode)
+  , sound_theme(sound_theme)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
   set_title(_("Rest break"));
@@ -230,7 +231,7 @@ RestBreakWindow::install_exercises_panel()
     {
       set_ignore_activity(true);
       clear_pluggable_panel();
-      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(nullptr));
+      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(sound_theme, nullptr));
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect(sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));

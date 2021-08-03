@@ -23,6 +23,8 @@
 class TimeBar;
 
 #include "commonui/GUIConfig.hh"
+#include "commonui/SoundTheme.hh"
+
 #include "BreakWindow.hh"
 
 namespace Gtk
@@ -34,7 +36,7 @@ namespace Gtk
 class RestBreakWindow : public BreakWindow
 {
 public:
-  RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
   ~RestBreakWindow() override;
 
   void start() override;
@@ -58,6 +60,7 @@ private:
 private:
   //! The Time
   TimeBar *timebar{nullptr};
+  SoundTheme::Ptr sound_theme;
 
   //! Progress
   int progress_value{0};

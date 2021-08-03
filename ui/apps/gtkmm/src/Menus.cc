@@ -243,7 +243,7 @@ Menus::on_menu_exercises()
   TRACE_ENTER("Menus::on_menu_exercises");
   if (exercises_dialog == nullptr)
     {
-      exercises_dialog = new ExercisesDialog();
+      exercises_dialog = new ExercisesDialog(sound_theme);
       exercises_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_exercises_response));
 
       exercises_dialog->run();

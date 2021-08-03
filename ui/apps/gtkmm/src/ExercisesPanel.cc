@@ -60,8 +60,9 @@ text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
+ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6)
+  , sound_theme(sound_theme)
   , exercises(Exercise::get_exercises())
 {
   standalone = dialog_action_area != nullptr;
@@ -256,8 +257,7 @@ ExercisesPanel::refresh_sequence()
       show_image();
       if (exercise_time != 0)
         {
-          SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
-          snd->play_sound(SoundEvent::ExerciseStep);
+          sound_theme->play_sound(SoundEvent::ExerciseStep);
         }
     }
 
@@ -341,13 +341,12 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
-      SoundTheme::Ptr snd = GUI::get_instance()->get_sound_theme();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
-      snd->play_sound(stopped ? SoundEvent::ExercisesEnded : SoundEvent::ExerciseEnded);
+      sound_theme->play_sound(stopped ? SoundEvent::ExercisesEnded : SoundEvent::ExerciseEnded);
     }
   else
     {

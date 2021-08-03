@@ -25,9 +25,9 @@
 
 #include "commonui/Exercise.hh"
 
-ExercisesDialog::ExercisesDialog()
+ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme)
   : HigDialog(_("Exercises"), false, false)
-  , exercises_panel(get_action_area())
+  , exercises_panel(sound_theme, get_action_area())
 {
   get_vbox()->pack_start(exercises_panel, true, true, 0);
   Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);

@@ -800,7 +800,7 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFla
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = new RestBreakWindow(head, break_flags, block_mode);
+      ret = new RestBreakWindow(sound_theme, head, break_flags, block_mode);
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
