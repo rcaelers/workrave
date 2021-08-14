@@ -88,8 +88,7 @@ ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c
 ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c
 ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c
-ui/applets/gnome3/src/v4/WorkraveApplet.c
-ui/applets/gnome3/src/v5/WorkraveApplet.c
+ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c
 ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
 ui/applets/mate/src/main-gtk2.c

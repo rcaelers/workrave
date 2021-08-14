@@ -25,8 +25,7 @@
 #cmakedefine HAVE_LIBGNOME_PANEL
 #cmakedefine HAVE_MMDEVICEAPI_H
 #cmakedefine HAVE_MONITORS "${HAVE_MONITORS}"
-#cmakedefine HAVE_PANELAPPLET4
-#cmakedefine HAVE_PANELAPPLET5
+#cmakedefine HAVE_LIBPANEL_APPLET
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_QT
 #cmakedefine HAVE_QT5
