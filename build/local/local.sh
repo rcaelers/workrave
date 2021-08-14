@@ -201,13 +201,13 @@ init
 
 export CONF_COMPILER="gcc"
 export CONF_CONFIGURATION="Release"
-export DOCKER_IMAGE="mingw-gtk2"
+export DOCKER_IMAGE="mingw-gtk-rawhide"
 setup
 run_docker_build
 
 CONF_COMPILER="gcc"
 CONF_CONFIGURATION="Debug"
-CONF_DOCKER_IMAGE="mingw-gtk2"
+CONF_DOCKER_IMAGE="mingw-gtk-rawhide"
 setup
 run_docker_build
 
