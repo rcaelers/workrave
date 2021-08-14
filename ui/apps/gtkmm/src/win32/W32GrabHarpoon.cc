@@ -46,13 +46,13 @@ static void
 win32_block_input(BOOL block)
 {
   if (block)
-  {
-    Harpoon::block_input();
-  }
+    {
+      Harpoon::block_input();
+    }
   else
-  { 
-    Harpoon::unblock_input();
-  }
+    {
+      Harpoon::unblock_input();
+    }
 
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);

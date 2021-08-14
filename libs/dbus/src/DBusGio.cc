@@ -130,8 +130,13 @@ DBusGio::update_object_registration(InterfaceData &data)
       g_error_free(error);
     }
 
-  data.registration_id = g_dbus_connection_register_object(
-    connection, data.object_path.c_str(), data.introspection_data->interfaces[0], &interface_vtable, this, nullptr, nullptr);
+  data.registration_id = g_dbus_connection_register_object(connection,
+                                                           data.object_path.c_str(),
+                                                           data.introspection_data->interfaces[0],
+                                                           &interface_vtable,
+                                                           this,
+                                                           nullptr,
+                                                           nullptr);
 
   TRACE_EXIT();
 }
@@ -255,8 +260,8 @@ DBusGio::is_running(const std::string &name) const
 
   if (error == nullptr && proxy != nullptr)
     {
-      GVariant *result = g_dbus_proxy_call_sync(
-        proxy, "NameHasOwner", g_variant_new("(s)", name.c_str()), G_DBUS_CALL_FLAGS_NONE, -1, nullptr, &error);
+      GVariant *result =
+        g_dbus_proxy_call_sync(proxy, "NameHasOwner", g_variant_new("(s)", name.c_str()), G_DBUS_CALL_FLAGS_NONE, -1, nullptr, &error);
 
       if (error != nullptr)
         {
@@ -343,8 +348,13 @@ DBusGio::bus_name_presence(const std::string &name, bool present)
 void
 DBusGio::watch(const std::string &name, IDBusWatch *cb)
 {
-  guint id = g_bus_watch_name_on_connection(
-    connection, name.c_str(), G_BUS_NAME_WATCHER_FLAGS_NONE, on_bus_name_appeared, on_bus_name_vanished, this, nullptr);
+  guint id = g_bus_watch_name_on_connection(connection,
+                                            name.c_str(),
+                                            G_BUS_NAME_WATCHER_FLAGS_NONE,
+                                            on_bus_name_appeared,
+                                            on_bus_name_vanished,
+                                            this,
+                                            nullptr);
   watched[name].callback = cb;
   watched[name].id = id;
   watched[name].seen = false;
@@ -411,15 +421,15 @@ DBusGio::on_method_call(GDBusConnection *connection,
       void *object = self->find_object(object_path, interface_name);
       if (object == nullptr)
         {
-          throw DBusRemoteException() << message_info("No such object") << error_code_info(DBUS_ERROR_FAILED)
-                                      << object_info(object_path) << interface_info(interface_name);
+          throw DBusRemoteException() << message_info("No such object") << error_code_info(DBUS_ERROR_FAILED) << object_info(object_path)
+                                      << interface_info(interface_name);
         }
 
       DBusBindingGio *binding = dynamic_cast<DBusBindingGio *>(self->find_binding(interface_name));
       if (binding == nullptr)
         {
-          throw DBusRemoteException() << message_info("No such interface") << error_code_info(DBUS_ERROR_FAILED)
-                                      << object_info(object_path) << interface_info(interface_name);
+          throw DBusRemoteException() << message_info("No such interface") << error_code_info(DBUS_ERROR_FAILED) << object_info(object_path)
+                                      << interface_info(interface_name);
         }
 
       binding->call(method_name, object, invocation, sender, parameters);

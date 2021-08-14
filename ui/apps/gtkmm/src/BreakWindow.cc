@@ -244,9 +244,7 @@ BreakWindow::center()
 }
 
 void
-BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type,
-                                         const char **name,
-                                         const char **icon_name)
+BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name)
 {
   switch (type)
     {
@@ -423,8 +421,7 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ((postpone_button != nullptr && !postpone_button->get_sensitive())
-      || (skip_button != nullptr && !skip_button->get_sensitive()))
+  if ((postpone_button != nullptr && !postpone_button->get_sensitive()) || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
       bool skip_locked = false;
       bool postpone_locked = false;

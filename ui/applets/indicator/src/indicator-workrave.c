@@ -309,15 +309,19 @@ indicator_workrave_start(IndicatorWorkrave *self)
       return;
     }
 
-  priv->owner_id =
-    g_bus_own_name(G_BUS_TYPE_SESSION, DBUS_NAME, G_BUS_NAME_OWNER_FLAGS_NONE, on_bus_acquired, NULL, NULL, self, NULL);
+  priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION, DBUS_NAME, G_BUS_NAME_OWNER_FLAGS_NONE, on_bus_acquired, NULL, NULL, self, NULL);
 
   GError *error = NULL;
 
   if (error == NULL)
     {
-      GVariant *result = g_dbus_proxy_call_sync(
-        priv->workrave_ui_proxy, "Embed", g_variant_new("(bs)", TRUE, DBUS_NAME), G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
+      GVariant *result = g_dbus_proxy_call_sync(priv->workrave_ui_proxy,
+                                                "Embed",
+                                                g_variant_new("(bs)", TRUE, DBUS_NAME),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
 
       if (error != NULL)
         {
@@ -626,8 +630,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
           workrave_timerbox_set_enabled(priv->timerbox, TRUE);
           workrave_timerbox_set_force_icon(priv->timerbox, priv->force_icon);
           workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
-          workrave_timebar_set_secondary_progress(
-            timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
+          workrave_timebar_set_secondary_progress(timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
           workrave_timebar_set_text(timebar, td[i].bar_text);
         }
     }

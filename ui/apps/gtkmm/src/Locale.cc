@@ -58,8 +58,8 @@ Locale::get_language(const std::string &code, std::string &language)
   language_t key = {code.c_str(), nullptr};
   language_t *val;
 
-  val = reinterpret_cast<language_t *>(
-    bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages));
+  val =
+    reinterpret_cast<language_t *>(bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages));
 
   if (val != nullptr)
     {
@@ -75,8 +75,8 @@ Locale::get_country(const std::string &code, std::string &country)
   country_t key = {code.c_str(), nullptr};
   country_t *val;
 
-  val = reinterpret_cast<country_t *>(
-    bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries));
+  val =
+    reinterpret_cast<country_t *>(bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries));
 
   if (val != nullptr)
     {

@@ -36,11 +36,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-BreakStateModel::BreakStateModel(BreakId id,
-                                 IApp *app,
-                                 Timer::Ptr timer,
-                                 IActivityMonitor::Ptr activity_monitor,
-                                 CoreHooks::Ptr hooks)
+BreakStateModel::BreakStateModel(BreakId id, IApp *app, Timer::Ptr timer, IActivityMonitor::Ptr activity_monitor, CoreHooks::Ptr hooks)
   : break_id(id)
   , application(app)
   , timer(timer)

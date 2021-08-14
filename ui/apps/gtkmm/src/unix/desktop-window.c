@@ -113,8 +113,11 @@ set_desktop_background(GdkWindow *window)
 
       if (XGetGeometry(GDK_SCREEN_XDISPLAY(screen), xpm, &root_return, &x, &y, &width, &height, &bw, &depth_ret))
         {
-          surface = cairo_xlib_surface_create(
-            GDK_SCREEN_XDISPLAY(screen), xpm, GDK_VISUAL_XVISUAL(gdk_screen_get_system_visual(screen)), width, height);
+          surface = cairo_xlib_surface_create(GDK_SCREEN_XDISPLAY(screen),
+                                              xpm,
+                                              GDK_VISUAL_XVISUAL(gdk_screen_get_system_visual(screen)),
+                                              width,
+                                              height);
         }
       gdk_x11_display_error_trap_pop_ignored(display);
 

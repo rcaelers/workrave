@@ -64,14 +64,10 @@ public:
   bool set_value(const std::string &key,
                  const std::string &v,
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key,
-                 const char *v,
-                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, const char *v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
   bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
   bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key,
-                 double v,
-                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  bool set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
   bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
   bool remove_listener(workrave::config::IConfiguratorListener *listener) override;

@@ -98,8 +98,7 @@ GenericDBusApplet::update_view()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
-  iface->TimersUpdated(
-    WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }
@@ -177,9 +176,7 @@ GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
   add_menu_item(_("Connect"), MENU_COMMAND_NETWORK_CONNECT, MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
   add_menu_item(_("Reconnect"), MENU_COMMAND_NETWORK_RECONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Show log"),
-                MENU_COMMAND_NETWORK_LOG,
-                MENU_ITEM_FLAG_CHECK | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
+  add_menu_item(_("Show log"), MENU_COMMAND_NETWORK_LOG, MENU_ITEM_FLAG_CHECK | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
 
   add_menu_item(_("Network"), MENU_COMMAND_NETWORK_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
 

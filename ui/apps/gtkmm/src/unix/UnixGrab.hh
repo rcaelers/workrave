@@ -43,7 +43,7 @@ private:
   bool on_grab_retry_timer();
 
 #if !GTK_CHECK_VERSION(3, 24, 0)
-  GdkDevice *keyboard{nullptr}; 
+  GdkDevice *keyboard{nullptr};
   GdkDevice **pointer{nullptr};
 #endif
   GdkWindow *grab_window{nullptr};

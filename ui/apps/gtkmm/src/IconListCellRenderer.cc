@@ -76,10 +76,7 @@ IconListCellRenderer::get_preferred_width_vfunc(Gtk::Widget &widget, int &minimu
 }
 
 void
-IconListCellRenderer::get_preferred_height_for_width_vfunc(Gtk::Widget &widget,
-                                                           int width,
-                                                           int &minimum_height,
-                                                           int &natural_height) const
+IconListCellRenderer::get_preferred_height_for_width_vfunc(Gtk::Widget &widget, int width, int &minimum_height, int &natural_height) const
 {
   (void)width;
   TRACE_ENTER("IconListCellRenderer::get_preferred_height_for_width_vfunc");
@@ -108,10 +105,7 @@ IconListCellRenderer::get_preferred_height_vfunc(Gtk::Widget &widget, int &minim
 }
 
 void
-IconListCellRenderer::get_preferred_width_for_height_vfunc(Gtk::Widget &widget,
-                                                           int height,
-                                                           int &minimum_width,
-                                                           int &natural_width) const
+IconListCellRenderer::get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const
 {
   (void)height;
   TRACE_ENTER("IconListCellRenderer::get_preferred_width_for_height_vfunc");

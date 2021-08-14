@@ -148,13 +148,12 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
 
         pa_context_set_subscribe_callback(c, subscribe_cb, pulse);
 
-        if (!(o =
-                pa_context_subscribe(c,
-                                     (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK | PA_SUBSCRIPTION_MASK_SOURCE
-                                                              | PA_SUBSCRIPTION_MASK_SINK_INPUT | PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT
-                                                              | PA_SUBSCRIPTION_MASK_CLIENT | PA_SUBSCRIPTION_MASK_SERVER),
-                                     nullptr,
-                                     nullptr)))
+        if (!(o = pa_context_subscribe(c,
+                                       (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK | PA_SUBSCRIPTION_MASK_SOURCE
+                                                                | PA_SUBSCRIPTION_MASK_SINK_INPUT | PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT
+                                                                | PA_SUBSCRIPTION_MASK_CLIENT | PA_SUBSCRIPTION_MASK_SERVER),
+                                       nullptr,
+                                       nullptr)))
           {
             TRACE_MSG("pa_context_subscribe failed");
             return;

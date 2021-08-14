@@ -195,8 +195,11 @@ System::init_DBus_lock_commands()
       add_DBus_lock_cmd("org.kde.ksmserver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
 
       // EFL:
-      add_DBus_lock_cmd(
-        "org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop", "Lock", nullptr);
+      add_DBus_lock_cmd("org.enlightenment.wm.service",
+                        "/org/enlightenment/wm/RemoteObject",
+                        "org.enlightenment.wm.Desktop",
+                        "Lock",
+                        nullptr);
     }
   TRACE_EXIT();
 }
@@ -456,8 +459,7 @@ System::init()
         }
       if (system_state_command->canSuspendHybrid())
         {
-          supported_system_operations.push_back(
-            SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
+          supported_system_operations.push_back(SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
         }
     }
 
@@ -475,8 +477,7 @@ System::clear()
     }
   lock_commands.clear();
 
-  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin(); iter != system_state_commands.end();
-       ++iter)
+  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin(); iter != system_state_commands.end(); ++iter)
     {
       delete *iter;
     }

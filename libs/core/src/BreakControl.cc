@@ -551,8 +551,7 @@ BreakControl::is_active() const
 bool
 BreakControl::is_max_preludes_reached() const
 {
-  TRACE_ENTER_MSG("BreakControl::is_max_preludes_reached",
-                  reached_max_prelude << " " << prelude_count << " " << max_number_of_preludes);
+  TRACE_ENTER_MSG("BreakControl::is_max_preludes_reached", reached_max_prelude << " " << prelude_count << " " << max_number_of_preludes);
   TRACE_EXIT();
   return reached_max_prelude;
 }

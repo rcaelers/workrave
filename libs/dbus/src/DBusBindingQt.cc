@@ -41,8 +41,7 @@ DBusMarshallQt::get_uint8(const QVariant &variant, uint8_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UChar)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<uint8_t>();
 }
@@ -53,8 +52,7 @@ DBusMarshallQt::get_int(const QVariant &variant, int &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Int)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<int>();
 }
@@ -65,8 +63,7 @@ DBusMarshallQt::get_uint16(const QVariant &variant, uint16_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UShort)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<uint16_t>();
 }
@@ -77,8 +74,7 @@ DBusMarshallQt::get_int16(const QVariant &variant, int16_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Short)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<int16_t>();
 }
@@ -89,8 +85,7 @@ DBusMarshallQt::get_uint32(const QVariant &variant, uint32_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::UInt)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<uint32_t>();
 }
@@ -101,8 +96,7 @@ DBusMarshallQt::get_int32(const QVariant &variant, int32_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Int)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<int32_t>();
 }
@@ -113,8 +107,7 @@ DBusMarshallQt::get_uint64(const QVariant &variant, uint64_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::ULongLong)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<uint64_t>();
 }
@@ -125,8 +118,7 @@ DBusMarshallQt::get_int64(const QVariant &variant, int64_t &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::LongLong)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<int64_t>();
 }
@@ -137,8 +129,7 @@ DBusMarshallQt::get_bool(const QVariant &variant, bool &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Bool)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<bool>();
 }
@@ -149,8 +140,7 @@ DBusMarshallQt::get_double(const QVariant &variant, double &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::Double)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<double>();
 }
@@ -161,8 +151,7 @@ DBusMarshallQt::get_string(const QVariant &variant, std::string &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::QString)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(QString()).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(QString()).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<QString>().toStdString();
 }
@@ -173,8 +162,7 @@ DBusMarshallQt::get_string(const QVariant &variant, QString &value)
   if (static_cast<QMetaType::Type>(variant.type()) != QMetaType::QString)
     {
       throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
-                                  << expected_type_info(QVariant::fromValue(value).typeName())
-                                  << actual_type_info(variant.typeName());
+                                  << expected_type_info(QVariant::fromValue(value).typeName()) << actual_type_info(variant.typeName());
     }
   value = variant.value<QString>();
 }

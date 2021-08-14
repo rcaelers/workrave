@@ -148,7 +148,6 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dial
   pack_start(progress_bar, false, false, 0);
   pack_start(*description_widget, false, false, 0);
 
-
   heartbeat_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat), 1000);
 
   exercise_count = 0;

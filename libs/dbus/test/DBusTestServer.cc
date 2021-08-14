@@ -121,8 +121,7 @@ DBusTestServer::test_basic_out_ptr(int i_int,
 }
 
 void
-DBusTestServer::test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct,
-                                    DBusTestData::StructWithAllBasicTypes &o_struct)
+DBusTestServer::test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct, DBusTestData::StructWithAllBasicTypes &o_struct)
 {
   o_struct.m_int = i_struct.m_int + 1;
   o_struct.m_uint8 = i_struct.m_uint8 + 2;

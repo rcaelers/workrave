@@ -78,8 +78,7 @@ Statistics::init(Core *control)
 {
   core = control;
 
-  input_monitor =
-    workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Statistics);
+  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Statistics);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
@@ -243,9 +242,9 @@ Statistics::day_to_remote_history(DailyStatsImpl *stats)
 void
 Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 {
-  stats_file << "D " << stats->start.tm_mday << " " << stats->start.tm_mon << " " << stats->start.tm_year << " "
-             << stats->start.tm_hour << " " << stats->start.tm_min << " " << stats->stop.tm_mday << " " << stats->stop.tm_mon << " "
-             << stats->stop.tm_year << " " << stats->stop.tm_hour << " " << stats->stop.tm_min << endl;
+  stats_file << "D " << stats->start.tm_mday << " " << stats->start.tm_mon << " " << stats->start.tm_year << " " << stats->start.tm_hour
+             << " " << stats->start.tm_min << " " << stats->stop.tm_mday << " " << stats->stop.tm_mon << " " << stats->stop.tm_year << " "
+             << stats->stop.tm_hour << " " << stats->stop.tm_min << endl;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -423,9 +422,8 @@ Statistics::load(ifstream &infile, bool history)
 
               stats = new DailyStatsImpl();
 
-              ss >> stats->start.tm_mday >> stats->start.tm_mon >> stats->start.tm_year >> stats->start.tm_hour
-                >> stats->start.tm_min >> stats->stop.tm_mday >> stats->stop.tm_mon >> stats->stop.tm_year >> stats->stop.tm_hour
-                >> stats->stop.tm_min;
+              ss >> stats->start.tm_mday >> stats->start.tm_mon >> stats->start.tm_year >> stats->start.tm_hour >> stats->start.tm_min
+                >> stats->stop.tm_mday >> stats->stop.tm_mon >> stats->stop.tm_year >> stats->stop.tm_hour >> stats->stop.tm_min;
 
               if (!history)
                 {

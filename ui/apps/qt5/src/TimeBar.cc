@@ -200,8 +200,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
             }
           if (sbar_width > bar_width)
             {
-              painter.fillRect(
-                border_size + bar_width, border_size, sbar_width - bar_width, bar_height, bar_colors[secondary_bar_color]);
+              painter.fillRect(border_size + bar_width, border_size, sbar_width - bar_width, bar_height, bar_colors[secondary_bar_color]);
             }
         }
       else

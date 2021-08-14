@@ -528,8 +528,7 @@ void
 Timer::freeze_timer(bool freeze)
 {
   TRACE_ENTER_MSG("Timer::freeze_timer",
-                  timer_id << freeze << " " << timer_frozen << " " << timer_enabled << " " << timer_state << " "
-                           << activity_sensitive);
+                  timer_id << freeze << " " << timer_frozen << " " << timer_enabled << " " << timer_state << " " << activity_sensitive);
 
   // Only enabled activity sensitive timers care about freezing.
   if (timer_enabled && activity_sensitive)

@@ -53,8 +53,7 @@ CrashDialog::CrashDialog(const std::string &info)
   info_label->set_use_markup();
   vbox->pack_start(*info_label, false, false, 0);
 
-  auto user_text_label =
-    Gtk::manage(new Gtk::Label(_("Please describe what was happening just before the crash:"), Gtk::ALIGN_START));
+  auto user_text_label = Gtk::manage(new Gtk::Label(_("Please describe what was happening just before the crash:"), Gtk::ALIGN_START));
   vbox->pack_start(*user_text_label, false, false, 0);
 
   auto user_text_frame = Gtk::manage(new Gtk::Frame);

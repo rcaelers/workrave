@@ -65,9 +65,7 @@ public:
   bool set_lock_master(bool lock);
   bool connect(std::string url) override;
   bool disconnect(std::string id);
-  bool register_client_message(DistributionClientMessageID id,
-                               DistributionClientMessageType type,
-                               IDistributionClientMessage *callback);
+  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type, IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
 
   bool add_listener(DistributionListener *listener);

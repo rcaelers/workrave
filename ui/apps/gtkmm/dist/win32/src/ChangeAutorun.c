@@ -517,8 +517,7 @@ add_autorun_entry(enum users users)
       /* if setting an autorun entry for new users, and the user isn't new (project key exists) */
       if ((users == NEW_USERS) && regkey_test_read(HKEY_CURRENT_USER, _T(HKCU_PROJECT_KEY)))
         {
-          VERBOSE_MSG_DATA(_T("Existing project key and no existing autorun entry. No entry has been added."),
-                           _T(HKCU_PROJECT_KEY));
+          VERBOSE_MSG_DATA(_T("Existing project key and no existing autorun entry. No entry has been added."), _T(HKCU_PROJECT_KEY));
 
           return FALSE;
         }
@@ -530,8 +529,7 @@ add_autorun_entry(enum users users)
         }
     }
 
-  ret =
-    RegSetValueEx(hkey, _T(AUTORUN_VALUE), 0, REG_SZ, (const BYTE *)target_command, ((length_target_command + 1) * sizeof(TCHAR)));
+  ret = RegSetValueEx(hkey, _T(AUTORUN_VALUE), 0, REG_SZ, (const BYTE *)target_command, ((length_target_command + 1) * sizeof(TCHAR)));
 
   RegCloseKey(hkey);
 

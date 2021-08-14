@@ -60,8 +60,8 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
         }
     }
 
-  hwnd = CreateWindowExA(
-    WS_EX_TOOLWINDOW, WINDOW_CLASS, WINDOW_CLASS, WS_POPUP, x, y, w, h, (HWND)NULL, (HMENU)NULL, hinstance, (LPSTR)NULL);
+  hwnd =
+    CreateWindowExA(WS_EX_TOOLWINDOW, WINDOW_CLASS, WINDOW_CLASS, WS_POPUP, x, y, w, h, (HWND)NULL, (HMENU)NULL, hinstance, (LPSTR)NULL);
   SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
   TRACE_EXIT();

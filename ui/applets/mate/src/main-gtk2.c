@@ -397,8 +397,12 @@ workrave_applet_fill(WorkraveApplet *applet)
   gtk_action_group_set_translation_domain(applet->action_group, GETTEXT_PACKAGE);
   gtk_action_group_add_actions(applet->action_group, menu_actions, G_N_ELEMENTS(menu_actions), applet);
   gtk_action_group_add_toggle_actions(applet->action_group, toggle_actions, G_N_ELEMENTS(toggle_actions), applet);
-  gtk_action_group_add_radio_actions(
-    applet->action_group, mode_actions, G_N_ELEMENTS(mode_actions), 0, G_CALLBACK(on_menu_radio_changed), applet);
+  gtk_action_group_add_radio_actions(applet->action_group,
+                                     mode_actions,
+                                     G_N_ELEMENTS(mode_actions),
+                                     0,
+                                     G_CALLBACK(on_menu_radio_changed),
+                                     applet);
 
   gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
   mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);

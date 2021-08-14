@@ -105,9 +105,7 @@ SubMenuEntry::init()
           menu->insertAction(nullptr, child->get_action());
         }
     }
-  workrave::utils::connect(get_menu_node()->signal_changed(), this, [this]() {
-    menu->setTitle(get_menu_node()->get_text().c_str());
-  });
+  workrave::utils::connect(get_menu_node()->signal_changed(), this, [this]() { menu->setTitle(get_menu_node()->get_text().c_str()); });
 }
 
 QAction *
@@ -146,8 +144,7 @@ ActionMenuEntry::on_menu_changed()
   if (action != nullptr)
     {
       action->setText(get_menu_node()->get_text().c_str());
-      action->setCheckable(get_menu_node()->get_type() == MenuNodeType::RADIO
-                           || get_menu_node()->get_type() == MenuNodeType::CHECK);
+      action->setCheckable(get_menu_node()->get_type() == MenuNodeType::RADIO || get_menu_node()->get_type() == MenuNodeType::CHECK);
       action->setChecked(get_menu_node()->is_checked());
     }
 }

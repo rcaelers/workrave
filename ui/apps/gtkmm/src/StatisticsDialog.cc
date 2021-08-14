@@ -177,8 +177,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 
   Gtk::Widget *usage_label = GtkUtil::create_label_with_tooltip(_("Usage"), _("Active computer usage"));
 
-  Gtk::Widget *daily_usage_label =
-    GtkUtil::create_label_with_tooltip(_("Daily"), _("The total computer usage for the selected day"));
+  Gtk::Widget *daily_usage_label = GtkUtil::create_label_with_tooltip(_("Daily"), _("The total computer usage for the selected day"));
 
   Gtk::Widget *weekly_usage_label =
     GtkUtil::create_label_with_tooltip(_("Weekly"), _("The total computer usage for the whole week of the selected day"));
@@ -269,10 +268,8 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Widget *mouse_time_label =
-    GtkUtil::create_label_with_tooltip(_("Mouse usage:"), _("The total time you were using the mouse"));
-  Gtk::Widget *mouse_movement_label =
-    GtkUtil::create_label_with_tooltip(_("Mouse movement:"), _("The total on-screen mouse movement"));
+  Gtk::Widget *mouse_time_label = GtkUtil::create_label_with_tooltip(_("Mouse usage:"), _("The total time you were using the mouse"));
+  Gtk::Widget *mouse_movement_label = GtkUtil::create_label_with_tooltip(_("Mouse movement:"), _("The total on-screen mouse movement"));
   Gtk::Widget *mouse_click_movement_label =
     GtkUtil::create_label_with_tooltip(_("Effective mouse movement:"),
                                        _("The total mouse movement you would have had if you moved your "
@@ -632,8 +629,7 @@ StatisticsDialog::on_history_delete_all()
         {
           if (statistics->delete_all_history())
             {
-              msg = HigUtil::create_alert_text(_("Files deleted!"),
-                                               _("The files containing your statistics history have been deleted."));
+              msg = HigUtil::create_alert_text(_("Files deleted!"), _("The files containing your statistics history have been deleted."));
               Gtk::MessageDialog mb_info(*this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
               mb_info.set_title(_("Info"));
               mb_info.run();

@@ -88,8 +88,12 @@ W32Compat::WinStationQueryInformationW(HANDLE hServer,                 // use WT
       return FALSE;
     }
 
-  return dyn_WinStationQueryInformationW(
-    hServer, LogonId, WinStationInformationClass, pWinStationInformation, WinStationInformationLength, pReturnLength);
+  return dyn_WinStationQueryInformationW(hServer,
+                                         LogonId,
+                                         WinStationInformationClass,
+                                         pWinStationInformation,
+                                         WinStationInformationLength,
+                                         pReturnLength);
 }
 
 VOID
@@ -308,8 +312,11 @@ W32Compat::IsOurWinStationConnected()
 
   WTS_CONNECTSTATE_CLASS *state = NULL;
 
-  if (WTSQuerySessionInformation(
-        WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, reinterpret_cast<LPTSTR *>(&state), &bytes_returned)
+  if (WTSQuerySessionInformation(WTS_CURRENT_SERVER_HANDLE,
+                                 WTS_CURRENT_SESSION,
+                                 WTSConnectState,
+                                 reinterpret_cast<LPTSTR *>(&state),
+                                 &bytes_returned)
       && state)
     {
       if ((bytes_returned == sizeof(*state)) && ((*state == WTSActive) || (*state == WTSConnected)))

@@ -139,10 +139,7 @@ MutterInputMonitor::init_inhibitors()
 }
 
 void
-MutterInputMonitor::on_bus_name_appeared(GDBusConnection *connection,
-                                         const gchar *name,
-                                         const gchar *name_owner,
-                                         gpointer user_data)
+MutterInputMonitor::on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data)
 {
   TRACE_ENTER_MSG("MutterInputMonitor::on_bus_name_appeared", name);
   (void)connection;
@@ -179,8 +176,7 @@ MutterInputMonitor::register_active_watch()
 {
   TRACE_ENTER("MutterInputMonitor::register_active_watch");
   GError *error = nullptr;
-  GVariant *reply =
-    g_dbus_proxy_call_sync(idle_proxy, "AddUserActiveWatch", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+  GVariant *reply = g_dbus_proxy_call_sync(idle_proxy, "AddUserActiveWatch", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
 
   if (error == nullptr)
     {
@@ -202,8 +198,14 @@ void
 MutterInputMonitor::register_active_watch_async()
 {
   TRACE_ENTER("MutterInputMonitor::register_active_watch_aync");
-  g_dbus_proxy_call(
-    idle_proxy, "AddUserActiveWatch", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, on_register_active_watch_reply, this);
+  g_dbus_proxy_call(idle_proxy,
+                    "AddUserActiveWatch",
+                    nullptr,
+                    G_DBUS_CALL_FLAGS_NONE,
+                    10000,
+                    nullptr,
+                    on_register_active_watch_reply,
+                    this);
   TRACE_EXIT();
 }
 
@@ -236,8 +238,13 @@ MutterInputMonitor::unregister_active_watch()
   GError *error = nullptr;
   if (watch_active != 0u)
     {
-      GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_active.get()), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+      GVariant *result = g_dbus_proxy_call_sync(idle_proxy,
+                                                "RemoveWatch",
+                                                g_variant_new("(u)", watch_active.get()),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                10000,
+                                                nullptr,
+                                                &error);
       if (error == nullptr)
         {
           g_variant_unref(result);
@@ -321,8 +328,13 @@ MutterInputMonitor::unregister_idle_watch()
   GError *error = nullptr;
   if (watch_idle != 0u)
     {
-      GVariant *result = g_dbus_proxy_call_sync(
-        idle_proxy, "RemoveWatch", g_variant_new("(u)", watch_idle.get()), G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+      GVariant *result = g_dbus_proxy_call_sync(idle_proxy,
+                                                "RemoveWatch",
+                                                g_variant_new("(u)", watch_idle.get()),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                10000,
+                                                nullptr,
+                                                &error);
       if (error == nullptr)
         {
           g_variant_unref(result);
@@ -390,10 +402,7 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy,
 }
 
 void
-MutterInputMonitor::on_session_manager_property_changed(GDBusProxy *session,
-                                                        GVariant *changed,
-                                                        char **invalidated,
-                                                        gpointer user_data)
+MutterInputMonitor::on_session_manager_property_changed(GDBusProxy *session, GVariant *changed, char **invalidated, gpointer user_data)
 {
   TRACE_ENTER("MutterInputMonitor::on_session_manager_property_changed");
   (void)session;
@@ -427,8 +436,7 @@ MutterInputMonitor::run()
           {
             GError *error = nullptr;
             guint64 idletime;
-            GVariant *reply =
-              g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
+            GVariant *reply = g_dbus_proxy_call_sync(idle_proxy, "GetIdletime", nullptr, G_DBUS_CALL_FLAGS_NONE, 10000, nullptr, &error);
             if (error == nullptr)
               {
 
