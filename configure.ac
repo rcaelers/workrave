@@ -722,37 +722,9 @@ then
                       [if test "x$enable_mate" = "xyes"; then
                           AC_MSG_ERROR([MATE Panel applet development headers not found.])
                        fi])
-
-   config_mate_gtk_version=none
-   if test "x$config_mate" = "xyes"
-   then
-      MATE_GTK=`$PKG_CONFIG --print-requires libmatepanelapplet-4.0 2>/dev/null | grep -m 1 '^gtk+-'`
-      case "$MATE_GTK" in
-         gtk+-2*)
-           config_mate_gtk_version=2
-           ;;
-         gtk+-3*)
-           config_mate_gtk_version=3
-           ;;
-      esac
-   fi
 fi
 
 AM_CONDITIONAL(HAVE_MATE, test "x$config_mate" = "xyes")
-AM_CONDITIONAL(HAVE_MATE_GTK2, test "x$config_mate_gtk_version" = "x2")
-AM_CONDITIONAL(HAVE_MATE_GTK3, test "x$config_mate_gtk_version" = "x3")
-
-
-if test "x$config_mate_gtk_version" = "x2" 
-then
-  PKG_CHECK_MODULES([GTK2],
-                    [gtk+-2.0 >= 2.6.0 gdk-2.0 >= 2.8 ],
-                    [config_gtk2=yes
-                     AC_DEFINE(HAVE_GTK2, 1, [Support for GTK2])],
-                    [AC_MSG_ERROR([GTK2 development headers not found.])])
-fi
-
-AM_CONDITIONAL(HAVE_GTK2, test "x$config_gtk2" = "xyes")
 
 dnl
 dnl GIO networking
@@ -1072,7 +1044,7 @@ echo "              Gnome 3 support :   ${config_gnome3}"
 echo "GObject-Introspection support :   ${found_introspection}"
 echo "            Indicator support :   ${config_indicator}"
 echo "                 XFCE support :   ${config_xfce}"
-echo "                 MATE support :   ${config_mate} (Gtk${config_mate_gtk_version})"
+echo "                 MATE support :   ${config_mate}"
 echo "                 DBUS support :   ${config_dbus}"
 echo "           Networking support :   ${config_distribution}"
 echo "            GStreamer support :   ${config_gstreamer}"

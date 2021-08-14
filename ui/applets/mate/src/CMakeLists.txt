@@ -17,7 +17,7 @@ intltool_merge_desktop(
   ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel-applet)
 add_custom_target(generate_mate_panel_applet ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel-applet)
 
-set(SRC main-gtk3.c)
+set(SRC main)
 
 install(FILES workrave-menu.xml DESTINATION ${UIDIR})
 

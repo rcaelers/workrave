@@ -27,10 +27,6 @@
 
 #include "timebar.h"
 
-#ifdef USE_GTK2
-#  include "compat.h"
-#endif
-
 static void workrave_timerbox_class_init(WorkraveTimerboxClass *klass);
 static void workrave_timerbox_init(WorkraveTimerbox *self);
 static void workrave_timerbox_dispose(GObject *gobject);
