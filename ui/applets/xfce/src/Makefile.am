@@ -1,29 +1,5 @@
 if HAVE_XFCE4
 
-if HAVE_XFCE4_GTK2
-
-plugin_PROGRAMS = xfce4-workrave-plugin
-
-plugindir = $(libdir)/xfce4/panel-plugins
-
-xfce4_workrave_plugin_SOURCES = main.c
-
-xfce4_workrave_plugin_CFLAGS =	-std=c99 \
-				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
-				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
-				$(LIBXFCE4UTIL_CFLAGS) 	$(LIBXFCEGUI4_CFLAGS) $(LIBXFCE4PANEL_CFLAGS) \
-				-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
-
-xfce4_workrave_plugin_LDADD = 	$(LIBXFCE4UTIL_LIBS) $(LIBXFCEGUI4_LIBS) $(LIBXFCE4PANEL_LIBS) \
-				@GTK2_LIBS@ -L$(builddir)/../../common/src -lworkrave-gtk2-private-1.0
-
-workrave-xfce-applet.desktop.in: workrave-xfce-applet-1.0.desktop.in.in
-				sed -e "s,\@libexecdir\@,$(libdir),g" < $< > $@
-
-endif
-
-if HAVE_XFCE4_GTK3
-
 plugin_LTLIBRARIES = libworkrave-plugin.la
 
 plugindir = $(XFCE4LIBDIR)/xfce4/panel/plugins
@@ -47,8 +23,6 @@ libworkrave_plugin_la_LDFLAGS = \
 
 workrave-xfce-applet.desktop.in: workrave-xfce-applet-2.0.desktop.in.in
 				sed -e "s,\@libexecdir\@,$(libdir),g" < $< > $@
-
-endif
 
 desktopdir = $(datadir)/xfce4/panel/plugins
 desktop_DATA = workrave-xfce-applet.desktop
