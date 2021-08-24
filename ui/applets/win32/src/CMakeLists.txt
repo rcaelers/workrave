@@ -44,7 +44,7 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
     set(APPLET_INSTALL_DIR "lib")
   endif()
 
-  add_library(${APPLET_TARGET} SHARED ${SOURCES})
+  add_library(${APPLET_TARGET} SHARED ${SOURCES} Applet.def)
   set_target_properties(${APPLET_TARGET} PROPERTIES PREFIX "")
   if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
      set_target_properties(${APPLET_TARGET} PROPERTIES LINK_FLAGS "-Wl,--allow-multiple-definition" )

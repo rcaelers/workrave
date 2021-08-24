@@ -1,6 +1,4 @@
-LIBRARY     workrave-applet
-
-DESCRIPTION "Workrave Taskbar Integration"
+LIBRARY workrave-applet
 
 EXPORTS
    DllCanUnloadNow   PRIVATE
