@@ -63,10 +63,7 @@ GIOSocketServer::listen(int port)
 }
 
 gboolean
-GIOSocketServer::static_socket_incoming(GSocketService *service,
-                                        GSocketConnection *connection,
-                                        GObject *src_object,
-                                        gpointer user_data)
+GIOSocketServer::static_socket_incoming(GSocketService *service, GSocketConnection *connection, GObject *src_object, gpointer user_data)
 {
   TRACE_ENTER("GIOSocketServer::static_socket_incoming");
   (void)service;

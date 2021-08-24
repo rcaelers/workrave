@@ -288,7 +288,20 @@ TimeBar::init(HINSTANCE hinst)
       LOGFONT lfDefault =
         // the default status font info on my system:
         {
-          -12, 0, 0, 0, 400, 0, 0, 0, '\1', 0, 0, 0, 0, TEXT("Tahoma")
+          -12,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          '\1',
+          0,
+          0,
+          0,
+          0,
+          TEXT("Tahoma")
           // 0, 0x00146218, 0, 0x001461F0, 0, '@', 0, 0, 0, 0, 0, 0, 0, TEXT( "·~" )
         };
 

@@ -120,12 +120,11 @@ MainGtkMenu::create_menu()
                             Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Normal)));
   mode_menu->append_item(item);
   item = Gio::MenuItem::create(_("Quiet"), "app.mode");
-  item->set_attribute_value("target",
-                            Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Quiet)));
+  item->set_attribute_value("target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Quiet)));
   mode_menu->append_item(item);
   item = Gio::MenuItem::create(_("Suspended"), "app.mode");
-  item->set_attribute_value(
-    "target", Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Suspended)));
+  item->set_attribute_value("target",
+                            Glib::Variant<int>::create(static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Suspended)));
   mode_menu->append_item(item);
   section2->append_submenu(_("Mode"), mode_menu);
 
@@ -181,8 +180,7 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("mode"))
         ->change_state(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
-      Glib::RefPtr<Gio::SimpleAction> action =
-        Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("reading"));
+      Glib::RefPtr<Gio::SimpleAction> action = Glib::RefPtr<Gio::SimpleAction>::cast_dynamic(action_group->lookup_action("reading"));
 
       bool reading = (usage == UsageMode::Reading);
       action->change_state(reading);

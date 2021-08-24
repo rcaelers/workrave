@@ -16,7 +16,7 @@
 //
 
 #ifndef WORKRAVE_UI_COMMON_GUICONFIG_HH
-#define WORKRAVE_UI_COMMON_GUICONFIG_HH
+#  define WORKRAVE_UI_COMMON_GUICONFIG_HH
 
 #  include "core/ICore.hh"
 #  include "config/Setting.hh"

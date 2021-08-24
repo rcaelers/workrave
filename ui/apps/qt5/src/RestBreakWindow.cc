@@ -35,10 +35,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(IToolkitPlatform::Ptr platform,
-                                 SoundTheme::Ptr sound_theme,
-                                 QScreen *screen,
-                                 BreakFlags break_flags)
+RestBreakWindow::RestBreakWindow(IToolkitPlatform::Ptr platform, SoundTheme::Ptr sound_theme, QScreen *screen, BreakFlags break_flags)
   : BreakWindow(platform, screen, BREAK_ID_REST_BREAK, break_flags)
   , sound_theme(sound_theme)
 {

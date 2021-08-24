@@ -223,7 +223,6 @@ GUI::terminate()
 
   Backend::get_configurator()->save();
 
-
   app->release();
 
   TRACE_EXIT();
@@ -276,7 +275,6 @@ GUI::on_timer()
   status_icon->set_tooltip(tip);
 
   heartbeat_signal();
-
 
   if (!break_windows.empty() && muted)
     {
@@ -382,8 +380,7 @@ GUI::init_debug()
   const char *domains[] = {NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject"};
   for (unsigned int i = 0; i < sizeof(domains) / sizeof(char *); i++)
     {
-      g_log_set_handler(
-        domains[i], (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION), my_log_handler, NULL);
+      g_log_set_handler(domains[i], (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION), my_log_handler, NULL);
     }
   TRACE_EXIT();
 #endif
@@ -414,7 +411,7 @@ GUI::init_nls()
   char execpath[MAXPATHLEN + 1];
   uint32_t pathsz = sizeof(execpath);
 
-  _NSGetExecutablePath(execpath, &pathsz);
+  _NSetExecutablePath(execpath, &pathsz);
 
   gchar *dir_path = g_path_get_dirname(execpath);
   strcpy(locale_path, dir_path);
@@ -535,15 +532,12 @@ GUI::init_gui()
 
   // Events
   event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &GUI::on_main_window_closed)));
-  event_connections.emplace_back(
-    main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
-  event_connections.emplace_back(
-    applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.emplace_back(main_window->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.emplace_back(applet_control->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
   event_connections.emplace_back(
     status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_balloon_activate)));
   event_connections.emplace_back(status_icon->signal_activate().connect(sigc::mem_fun(*this, &GUI::on_status_icon_activate)));
-  event_connections.emplace_back(
-    status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
+  event_connections.emplace_back(status_icon->signal_visibility_changed().connect(sigc::mem_fun(*this, &GUI::on_visibility_changed)));
 
   process_visibility();
 
@@ -739,7 +733,6 @@ GUI::set_break_response(IBreakResponse *rep)
   response = rep;
 }
 
-
 void
 GUI::create_prelude_window(BreakId break_id)
 {
@@ -789,8 +782,7 @@ GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> bre
 
   if (break_hint & BreakHint::NaturalBreak)
     {
-      break_flags |=
-        (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
+      break_flags |= (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
     }
 
   active_break_id = break_id;
@@ -906,13 +898,13 @@ GUI::grab()
   if (!break_windows.empty())
     {
 #if defined(PLATFORM_OS_WINDOWS)
-    // TODO: check if this is still needed with Gtk3
-     for (int i = 0; i < active_break_count; i++)
-     	{
-          HWND w = (HWND)GDK_WINDOW_HWND(break_windows[i]->get_gdk_window()->gobj());
+      // TODO: check if this is still needed with Gtk3
+      for (auto &window: break_windows)
+        {
+          HWND w = (HWND)GDK_WINDOW_HWND(window->get_gdk_window()->gobj());
           SetWindowPos(w, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
           BringWindowToTop(w);
-      }
+        }
 #endif
 
       Glib::RefPtr<Gdk::Window> window = break_windows[0]->get_gdk_window();
@@ -971,7 +963,6 @@ GUI::get_number_of_heads() const
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   return display->get_n_monitors();
 }
-
 
 int
 GUI::map_to_head(int &x, int &y)

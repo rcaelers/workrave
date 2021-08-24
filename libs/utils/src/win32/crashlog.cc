@@ -118,8 +118,9 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
 
   GetEnvironmentVariableW =
     (DWORD(WINAPI *)(LPCWSTR, LPWSTR, DWORD))GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetEnvironmentVariableW");
-  CreateFileW = (HANDLE(WINAPI *)(LPCWSTR, DWORD, DWORD, LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE))GetProcAddress(
-    GetModuleHandleA("kernel32.dll"), "CreateFileW");
+  CreateFileW =
+    (HANDLE(WINAPI *)(LPCWSTR, DWORD, DWORD, LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE))GetProcAddress(GetModuleHandleA("kernel32.dll"),
+                                                                                                         "CreateFileW");
 
   if (GetEnvironmentVariableW && CreateFileW)
     // >= WinNT
@@ -199,8 +200,7 @@ EXCEPTION_DISPOSITION __cdecl exception_handler(struct _EXCEPTION_RECORD *except
         // Point to start of wbuffer:
         p_wbuffer = wbuffer;
 
-      handle =
-        (*CreateFileW)(p_wbuffer, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+      handle = (*CreateFileW)(p_wbuffer, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
       fd = _open_osfhandle((intptr_t)handle, _O_APPEND | _O_TEXT);
       log = _fdopen(fd, "w");
@@ -530,8 +530,11 @@ stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT context_record)
         return FALSE;
     }
 
-  ReadProcessMemory(
-    process, (LPCVOID)(stack_frame->AddrFrame.Offset + 2 * sizeof(DWORD)), stack_frame->Params, sizeof(stack_frame->Params), NULL);
+  ReadProcessMemory(process,
+                    (LPCVOID)(stack_frame->AddrFrame.Offset + 2 * sizeof(DWORD)),
+                    stack_frame->Params,
+                    sizeof(stack_frame->Params),
+                    NULL);
 
   return TRUE;
 }

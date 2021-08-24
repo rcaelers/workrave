@@ -51,8 +51,8 @@ HarpoonHelper::init(HINSTANCE hInstance)
   dwStyle = WS_OVERLAPPED;
   dwExStyle = WS_EX_TOOLWINDOW;
 
-  WNDCLASSEX wclass = {
-    sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, hInstance, NULL, NULL, NULL, NULL, HARPOON_HELPER_WINDOW_CLASS, NULL};
+  WNDCLASSEX wclass =
+    {sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, hInstance, NULL, NULL, NULL, NULL, HARPOON_HELPER_WINDOW_CLASS, NULL};
 
   notification_class = RegisterClassEx(&wclass);
   if (!notification_class)

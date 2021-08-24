@@ -244,9 +244,7 @@ BreakWindow::center()
 }
 
 void
-BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type,
-                                         const char **name,
-                                         const char **icon_name)
+BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name)
 {
   switch (type)
     {
@@ -423,8 +421,7 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ((postpone_button != nullptr && !postpone_button->get_sensitive())
-      || (skip_button != nullptr && !skip_button->get_sensitive()))
+  if ((postpone_button != nullptr && !postpone_button->get_sensitive()) || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
       bool skip_locked = false;
       bool postpone_locked = false;
@@ -722,7 +719,7 @@ BreakWindow::start()
   WindowHints::set_always_on_top(this, true);
 
 #ifdef PLATFORM_OS_WINDOWS
-  if (force_focus_on_break_start && this->head.count == 0)
+  if (force_focus_on_break_start && this->head.monitor == 0)
     {
       HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
       W32ForceFocus::ForceWindowFocus(hwnd);

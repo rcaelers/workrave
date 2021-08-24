@@ -147,9 +147,7 @@ CoreModes::remove_operation_mode_override(const std::string &id)
 
 //! Set the operation mode.
 void
-CoreModes::set_operation_mode_internal(OperationMode mode,
-                                       bool persistent,
-                                       const std::string &override_id /* default param: empty string */
+CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id /* default param: empty string */
 )
 {
   TRACE_ENTER_MSG("CoreModes::set_operation_mode", (persistent ? "persistent" : ""));
@@ -301,9 +299,7 @@ void
 CoreModes::load_config()
 {
   TRACE_ENTER("CoreModes::load_config");
-  CoreConfig::operation_mode().connect(this, [this](OperationMode operation_mode) {
-    set_operation_mode_internal(operation_mode, false);
-  });
+  CoreConfig::operation_mode().connect(this, [this](OperationMode operation_mode) { set_operation_mode_internal(operation_mode, false); });
 
   CoreConfig::usage_mode().connect(this, [this](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); });
   OperationMode operation_mode = CoreConfig::operation_mode()();

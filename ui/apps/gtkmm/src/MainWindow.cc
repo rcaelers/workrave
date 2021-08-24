@@ -495,8 +495,8 @@ MainWindow::win32_init()
 
   win32_hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
-  WNDCLASSEXA wclass = {
-    sizeof(WNDCLASSEXA), 0, win32_window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WIN32_MAIN_CLASS_NAME, NULL};
+  WNDCLASSEXA wclass =
+    {sizeof(WNDCLASSEXA), 0, win32_window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WIN32_MAIN_CLASS_NAME, NULL};
   /* ATOM atom = */ RegisterClassExA(&wclass);
 
   win32_main_hwnd = CreateWindowExA(WS_EX_TOOLWINDOW,

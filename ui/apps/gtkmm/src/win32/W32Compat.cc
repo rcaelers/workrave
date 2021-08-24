@@ -88,8 +88,12 @@ W32Compat::WinStationQueryInformationW(HANDLE hServer,                 // use WT
       return FALSE;
     }
 
-  return dyn_WinStationQueryInformationW(
-    hServer, LogonId, WinStationInformationClass, pWinStationInformation, WinStationInformationLength, pReturnLength);
+  return dyn_WinStationQueryInformationW(hServer,
+                                         LogonId,
+                                         WinStationInformationClass,
+                                         pWinStationInformation,
+                                         WinStationInformationLength,
+                                         pReturnLength);
 }
 
 VOID
@@ -308,8 +312,11 @@ W32Compat::IsOurWinStationConnected()
 
   WTS_CONNECTSTATE_CLASS *state = NULL;
 
-  if (WTSQuerySessionInformation(
-        WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, reinterpret_cast<LPTSTR *>(&state), &bytes_returned)
+  if (WTSQuerySessionInformation(WTS_CURRENT_SERVER_HANDLE,
+                                 WTS_CURRENT_SESSION,
+                                 WTSConnectState,
+                                 reinterpret_cast<LPTSTR *>(&state),
+                                 &bytes_returned)
       && state)
     {
       if ((bytes_returned == sizeof(*state)) && ((*state == WTSActive) || (*state == WTSConnected)))
@@ -490,7 +497,7 @@ W32Compat::RefreshBreakWindow(BreakWindow &window)
   /* If there are multiple break windows only force focus on the first, otherwise focus would be
   continuously switched to each break window on every refresh, making interaction very difficult.
   */
-  if (W32ForceFocus::GetForceFocusValue() && (window.head.count == 0))
+  if (W32ForceFocus::GetForceFocusValue() && (window.head.monitor == 0))
     {
       W32ForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
     }

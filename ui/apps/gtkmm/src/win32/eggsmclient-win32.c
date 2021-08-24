@@ -326,8 +326,7 @@ sm_client_thread(gpointer smclient)
   wcl.lpszClassName = L"EggSmClientWindow";
   klass = RegisterClassEx(&wcl);
 
-  window =
-    CreateWindowEx(0, MAKEINTRESOURCE(klass), L"EggSmClientWindow", 0, 10, 10, 50, 50, GetDesktopWindow(), NULL, instance, NULL);
+  window = CreateWindowEx(0, MAKEINTRESOURCE(klass), L"EggSmClientWindow", 0, 10, 10, 50, 50, GetDesktopWindow(), NULL, instance, NULL);
   SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)smclient);
 
   /* main loop */

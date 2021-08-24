@@ -547,8 +547,7 @@ Timer::serialize_state() const
   stringstream ss;
 
   ss << timer_id << " " << TimeSource::get_real_time_sec_sync() << " " << get_elapsed_time() << " " << last_daily_reset_time << " "
-     << total_overdue_timespan << " " << snooze_inhibited << " " << 0 << " " << elapsed_timespan_at_last_limit << " "
-     << 0 /* timezone */;
+     << total_overdue_timespan << " " << snooze_inhibited << " " << 0 << " " << elapsed_timespan_at_last_limit << " " << 0 /* timezone */;
 
   return ss.str();
 }
@@ -703,16 +702,14 @@ Timer::compute_next_limit_time()
                 {
                   next_limit_time = (last_start_time - elapsed_timespan + elapsed_timespan_at_last_limit + snooze_interval);
                 }
-              TRACE_MSG("Next limit time (1) = " << next_limit_time << " "
-                                                 << (next_limit_time - TimeSource::get_real_time_sec_sync()));
+              TRACE_MSG("Next limit time (1) = " << next_limit_time << " " << (next_limit_time - TimeSource::get_real_time_sec_sync()));
             }
           else
             {
               // The timer did not yet reaches its limit.
               // new limit = last start time + limit - elapsed.
               next_limit_time = last_start_time + limit_interval - elapsed_timespan;
-              TRACE_MSG("Next limit time (2) = " << next_limit_time << " "
-                                                 << (next_limit_time - TimeSource::get_real_time_sec_sync()));
+              TRACE_MSG("Next limit time (2) = " << next_limit_time << " " << (next_limit_time - TimeSource::get_real_time_sec_sync()));
             }
         }
     }

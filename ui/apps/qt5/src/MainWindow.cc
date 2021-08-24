@@ -37,8 +37,7 @@ MainWindow::MainWindow(MenuModel::Ptr menu_model, QWidget *parent)
   : QWidget(parent)
 {
   setFixedSize(minimumSize());
-  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
-                 | Qt::CustomizeWindowHint);
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
 
   timer_box_view = new TimerBoxView;
   timer_box_control = std::make_shared<TimerBoxControl>("main_window", timer_box_view);

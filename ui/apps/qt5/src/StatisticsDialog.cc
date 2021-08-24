@@ -167,8 +167,8 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
   QWidget *taken_label =
     UiUtil::create_label_with_tooltip(tr("Prompted breaks taken"), tr("The number of times you took a break when being prompted"));
 
-  QWidget *natural_label = UiUtil::create_label_with_tooltip(tr("Natural breaks taken"),
-                                                             tr("The number of times you took a break without being prompted"));
+  QWidget *natural_label =
+    UiUtil::create_label_with_tooltip(tr("Natural breaks taken"), tr("The number of times you took a break without being prompted"));
 
   QWidget *skipped_label = UiUtil::create_label_with_tooltip(tr("Breaks skipped"), tr("The number of breaks you skipped"));
 

@@ -39,9 +39,7 @@ namespace Gtk
 class TimerPreferencesPanel : public Gtk::VBox
 {
 public:
-  TimerPreferencesPanel(workrave::BreakId timer,
-                        Glib::RefPtr<Gtk::SizeGroup> hsize_group,
-                        Glib::RefPtr<Gtk::SizeGroup> vsize_group);
+  TimerPreferencesPanel(workrave::BreakId timer, Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   ~TimerPreferencesPanel() override;
 
 private:

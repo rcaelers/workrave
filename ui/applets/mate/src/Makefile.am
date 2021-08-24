@@ -10,27 +10,7 @@ libapplet_PROGRAMS = workrave-applet
 
 APPLET_LOCATION = ${libappletdir}/workrave-applet
 
-if HAVE_MATE_GTK2
-
-workrave_applet_SOURCES = main-gtk2.c
-
-workrave_applet_CFLAGS = -std=c99 -DPANEL_MATE \
-				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
-				-I$(srcdir)/../include -I$(srcdir)/../../common/include \
-				$(LIBMATEPANEL_CFLAGS) \
-				-DMATELOCALEDIR=\""$(datadir)/locale"\" \
-				-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-				-DWORKRAVE_MENU_UI_DIR="\"${WORKRAVE_MENU_UI_DIR}"\"
-
-workrave_applet_LDADD = 	$(LIBMATEPANEL_LIBS) $(LIBMATEGUI4_LIBS) $(LIBMATEPANEL_LIBS) \
-				@GTK2_LIBS@ -L$(builddir)/../../common/src -lworkrave-gtk2-private-1.0
-
-endif
-
-if HAVE_MATE_GTK3
-
-## Mate doesn't support GSimpleActionGroup in panel, so use Gtk2 code for now...
-workrave_applet_SOURCES = main-gtk3.c
+workrave_applet_SOURCES = main.c
 
 workrave_applet_CFLAGS = -std=c99 -DPANEL_MATE \
 				@WR_COMMON_INCLUDES@ @WR_UI_COMMON_INCLUDES@ \
@@ -67,14 +47,12 @@ org.mate.panel.applet.WorkraveAppletFactory.service: $(service_in_files)
 xmluidir   = $(WORKRAVE_MENU_UI_DIR)
 xmlui_DATA = workrave-menu.xml
 
-endif
-
 CLEANFILES = $(applet_DATA) $(applet_DATA).in $(service_DATA) \
 	org.workrave.WorkraveApplet.mate-panel-applet \
 	org.workrave.WorkraveApplet.mate-panel-applet.in
 
 EXTRA_DIST = \
-  main-gtk2.c main-gtk3.c \
+  main.c \
 	org.workrave.WorkraveApplet.mate-panel-applet.in.in \
 	$(applets_in_files) \
 	$(service_in_files) \

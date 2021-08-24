@@ -40,10 +40,7 @@ public:
   void listen(int port) override;
 
 private:
-  static gboolean static_socket_incoming(GSocketService *service,
-                                         GSocketConnection *connection,
-                                         GObject *src_object,
-                                         gpointer user_data);
+  static gboolean static_socket_incoming(GSocketService *service, GSocketConnection *connection, GObject *src_object, gpointer user_data);
 
 private:
   GSocketService *service{nullptr};

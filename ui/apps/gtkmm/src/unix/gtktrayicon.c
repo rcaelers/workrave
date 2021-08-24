@@ -125,8 +125,7 @@ wrgtk_tray_icon_class_init(WRGtkTrayIconClass *class)
   g_object_class_install_property(
     gobject_class,
     PROP_FG_COLOR,
-    g_param_spec_boxed(
-      "fg-color", _("Foreground color"), _("Foreground color for symbolic icons"), GDK_TYPE_RGBA, G_PARAM_READABLE));
+    g_param_spec_boxed("fg-color", _("Foreground color"), _("Foreground color for symbolic icons"), GDK_TYPE_RGBA, G_PARAM_READABLE));
 
   g_object_class_install_property(
     gobject_class,
@@ -136,26 +135,27 @@ wrgtk_tray_icon_class_init(WRGtkTrayIconClass *class)
   g_object_class_install_property(
     gobject_class,
     PROP_WARNING_COLOR,
-    g_param_spec_boxed(
-      "warning-color", _("Warning color"), _("Warning color for symbolic icons"), GDK_TYPE_RGBA, G_PARAM_READABLE));
+    g_param_spec_boxed("warning-color", _("Warning color"), _("Warning color for symbolic icons"), GDK_TYPE_RGBA, G_PARAM_READABLE));
 
   g_object_class_install_property(
     gobject_class,
     PROP_SUCCESS_COLOR,
-    g_param_spec_boxed(
-      "success-color", _("Success color"), _("Success color for symbolic icons"), GDK_TYPE_RGBA, G_PARAM_READABLE));
+    g_param_spec_boxed("success-color", _("Success color"), _("Success color for symbolic icons"), GDK_TYPE_RGBA, G_PARAM_READABLE));
 
   g_object_class_install_property(
     gobject_class,
     PROP_PADDING,
-    g_param_spec_int(
-      "padding", _("Padding"), _("Padding that should be put around icons in the tray"), 0, G_MAXINT, 0, G_PARAM_READABLE));
+    g_param_spec_int("padding", _("Padding"), _("Padding that should be put around icons in the tray"), 0, G_MAXINT, 0, G_PARAM_READABLE));
 
-  g_object_class_install_property(
-    gobject_class,
-    PROP_ICON_SIZE,
-    g_param_spec_int(
-      "icon-size", _("Icon Size"), _("The pixel size that icons should be forced to, or zero"), 0, G_MAXINT, 0, G_PARAM_READABLE));
+  g_object_class_install_property(gobject_class,
+                                  PROP_ICON_SIZE,
+                                  g_param_spec_int("icon-size",
+                                                   _("Icon Size"),
+                                                   _("The pixel size that icons should be forced to, or zero"),
+                                                   0,
+                                                   G_MAXINT,
+                                                   0,
+                                                   G_PARAM_READABLE));
 }
 
 static void
@@ -761,11 +761,9 @@ wrgtk_tray_icon_send_manager_message(WRGtkTrayIcon *icon, long message, Window w
 static void
 wrgtk_tray_icon_send_dock_request(WRGtkTrayIcon *icon)
 {
-  GTK_NOTE(PLUGSOCKET,
-           g_message("GtkStatusIcon %p: sending dock request to manager window %lx", icon, (gulong)icon->priv->manager_window));
+  GTK_NOTE(PLUGSOCKET, g_message("GtkStatusIcon %p: sending dock request to manager window %lx", icon, (gulong)icon->priv->manager_window));
 
-  wrgtk_tray_icon_send_manager_message(
-    icon, SYSTEM_TRAY_REQUEST_DOCK, icon->priv->manager_window, gtk_plug_get_id(GTK_PLUG(icon)), 0, 0);
+  wrgtk_tray_icon_send_manager_message(icon, SYSTEM_TRAY_REQUEST_DOCK, icon->priv->manager_window, gtk_plug_get_id(GTK_PLUG(icon)), 0, 0);
 }
 
 static void
@@ -854,10 +852,9 @@ wrgtk_tray_icon_delete(GtkWidget *widget, GdkEventAny *event)
   WRGtkTrayIcon *icon = WRGTK_TRAY_ICON(widget);
 #endif
 
-  GTK_NOTE(PLUGSOCKET,
-           g_message("GtkStatusIcon %p: delete notify, tray manager window %lx",
-                     widget,
-                     (gulong)WRGTK_TRAY_ICON(widget)->priv->manager_window));
+  GTK_NOTE(
+    PLUGSOCKET,
+    g_message("GtkStatusIcon %p: delete notify, tray manager window %lx", widget, (gulong)WRGTK_TRAY_ICON(widget)->priv->manager_window));
 
   /* A bug in X server versions up to x.org 1.5.0 means that:
    * XFixesChangeSaveSet(...., SaveSetRoot, SaveSetUnmap) doesn't work properly
@@ -956,8 +953,7 @@ _wrgtk_tray_icon_send_message(WRGtkTrayIcon *icon, gint timeout, const gchar *me
   stamp = icon->priv->stamp++;
 
   /* Get ready to send the message */
-  wrgtk_tray_icon_send_manager_message(
-    icon, SYSTEM_TRAY_BEGIN_MESSAGE, (Window)gtk_plug_get_id(GTK_PLUG(icon)), timeout, len, stamp);
+  wrgtk_tray_icon_send_manager_message(icon, SYSTEM_TRAY_BEGIN_MESSAGE, (Window)gtk_plug_get_id(GTK_PLUG(icon)), timeout, len, stamp);
 
   /* Now to send the actual message */
   display = gtk_widget_get_display(GTK_WIDGET(icon));

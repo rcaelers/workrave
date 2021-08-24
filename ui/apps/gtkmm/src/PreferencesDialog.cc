@@ -61,7 +61,7 @@
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  #include <windows.h>
+#  include <windows.h>
 #endif
 
 using namespace std;

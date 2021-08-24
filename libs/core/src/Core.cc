@@ -640,9 +640,7 @@ Core::remove_operation_mode_override(const std::string &id)
 
 //! Set the operation mode.
 void
-Core::set_operation_mode_internal(OperationMode mode,
-                                  bool persistent,
-                                  const std::string &override_id /* default param: empty string */
+Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id /* default param: empty string */
 )
 {
   TRACE_ENTER_MSG("Core::set_operation_mode", (persistent ? "persistent" : ""));
@@ -696,8 +694,7 @@ Core::set_operation_mode_internal(OperationMode mode,
       /* Find the most important override. Override modes in order of importance:
       OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
       */
-      for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end());
-           ++i)
+      for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end()); ++i)
         {
           if (i->second == OperationMode::Suspended)
             {
@@ -1371,8 +1368,7 @@ Core::process_timewarp()
 
       if (abs((int)gap) > 5)
         {
-          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode << " " << powersave_resume_time << " "
-                           << current_time);
+          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode << " " << powersave_resume_time << " " << current_time);
 
           if (!powersave)
             {
@@ -2054,8 +2050,8 @@ Core::set_timer_state(PacketBuffer &buffer)
       state_data.last_limit_elapsed = buffer.unpack_ulong();
       state_data.snooze_inhibited = buffer.unpack_ushort();
 
-      TRACE_MSG("state = " << state_data.current_time << " " << state_data.elapsed_time << " " << state_data.elapsed_idle_time
-                           << " " << state_data.last_pred_reset_time << " " << state_data.total_overdue_time);
+      TRACE_MSG("state = " << state_data.current_time << " " << state_data.elapsed_time << " " << state_data.elapsed_idle_time << " "
+                           << state_data.last_pred_reset_time << " " << state_data.total_overdue_time);
 
       if (t != nullptr)
         {

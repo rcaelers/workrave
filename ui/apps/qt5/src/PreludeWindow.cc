@@ -172,7 +172,7 @@ PreludeWindow::refresh()
   timebar->set_text(s);
   timebar->update();
 }
- 
+
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
