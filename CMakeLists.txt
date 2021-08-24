@@ -5,22 +5,7 @@ endif()
 project(Workrave)
 
 cmake_minimum_required(VERSION 3.16)
-
-if (POLICY CMP0009)
-  cmake_policy(SET CMP0009 NEW)
-endif()
-if (POLICY CMP0011)
-  cmake_policy(SET CMP0011 NEW)
-endif()
-if (POLICY CMP0012)
-  cmake_policy(SET CMP0012 NEW)
-endif()
-if (POLICY CMP0020)
-  cmake_policy(SET CMP0020 NEW)
-endif()
-if (POLICY CMP0054)
-  cmake_policy(SET CMP0054 NEW)
-endif()
+cmake_policy(VERSION 3.16)
 
 #
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
