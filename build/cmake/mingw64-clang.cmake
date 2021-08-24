@@ -12,7 +12,7 @@ set(CMAKE_SYSTEM_VERSION 10)
 
 set(CMAKE_C_COMPILER   x86_64-w64-mingw32-clang)
 set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-clang++)
-set(CMAKE_RC_COMPILER  x86_64-w64-mingw32-windres)
+set(CMAKE_RC_COMPILER llvm-rc)
 
 SET (CMAKE_C_FLAGS              "-fuse-ld=lld")
 SET (CMAKE_CXX_FLAGS            ${CMAKE_C_FLAGS})
