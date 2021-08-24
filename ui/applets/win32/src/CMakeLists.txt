@@ -8,18 +8,8 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
               TimeBar.cpp
               TimerBox.cpp
               Util.cpp
+              resource.rc
   )
-
-  if (MINGW)
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
-                      COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
-                                                    -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                      )
-    set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
-  else()
-    set(SRC ${SRC} resource.rc)
-  endif()
 
   include_directories(
     ../include
