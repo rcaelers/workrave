@@ -122,14 +122,18 @@ set_desktop_background(GdkWindow *window)
       gdk_x11_display_error_trap_pop_ignored(display);
 
       cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
       gdk_window_set_background_pattern(window, pattern);
+      G_GNUC_END_IGNORE_DEPRECATIONS
 
       cairo_surface_destroy(surface);
     }
   else
     {
       GdkRGBA black = {0.0, 0.0, 0.0, 1.0};
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
       gdk_window_set_background_rgba(window, &black);
+      G_GNUC_END_IGNORE_DEPRECATIONS
     }
 }
 
