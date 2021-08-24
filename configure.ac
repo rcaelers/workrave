@@ -240,8 +240,8 @@ config_tracing=no
 if test "x$enable_debug" = "xyes"
 then
    config_debug=yes
-   CFLAGS="-O0 -g -Wall -Wextra ${CFLAGS}"
-   CXXFLAGS="-O0 -g -Wall -Wextra ${CXXFLAGS}"
+   CFLAGS="-O0 -g -Wall ${CFLAGS}"
+   CXXFLAGS="-O0 -g -Wall ${CXXFLAGS}"
    LDFLAGS="${LDFLAGS} -g"
 
    AC_DEFINE([GLIBCXX_FORCE_NEW], , [Define for debugging purposes])
