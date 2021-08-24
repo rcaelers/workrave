@@ -24,15 +24,16 @@
 #include "commonui/UiTypes.hh"
 
 #include <sigc++/trackable.h>
-#include <gtkmm/bin.h>
-#include <gtkmm/menu.h>
+#include <gtkmm.h>
 #include <gtkmm/plug.h>
-#include <gtkmm/eventbox.h>
 #include "gtktrayicon.h"
 
 #include "utils/Signals.hh"
 
-class TimerBoxControl;
+#include "IApplication.hh"
+#include "MenuModel.hh"
+#include "ToolkitMenu.hh"
+
 class TimerBoxGtkView;
 class AppletControl;
 
@@ -41,12 +42,15 @@ class X11SystrayAppletWindow
   , public AppletWindow
 {
 public:
-  X11SystrayAppletWindow();
+  X11SystrayAppletWindow(std::shared_ptr<IApplication> app, MenuModel::Ptr menu_model);
   ~X11SystrayAppletWindow() override;
 
   bool is_visible() const override;
 
 private:
+  std::shared_ptr<IApplication> app;
+  std::shared_ptr<ToolkitMenu> menu;
+
   //! Gtk timerbox viewer
   TimerBoxGtkView *view{nullptr};
 

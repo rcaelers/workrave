@@ -1,6 +1,4 @@
-// IndicatorAppletMenu.cc --- Menus using IndicatorApplet+
-//
-// Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,149 +19,278 @@
 #  include "config.h"
 #endif
 
-#include "commonui/nls.h"
-#include "debug.hh"
-
-#include "indicator-applet.h"
+#include "IndicatorAppletMenu.hh"
 
 #include <string>
 
-#ifdef HAVE_INDICATOR_AYATANA
-#  include <libayatana-indicator/indicator-service.h>
-#else
-#  include <libindicator/indicator-service.h>
-#endif
+#include "debug.hh"
 
-#include "IndicatorAppletMenu.hh"
-#include "GenericDBusApplet.hh"
-#include "GUI.hh"
-#include "Menus.hh"
+#include "indicator-applet.h"
+#include "MenuModel.hh"
 
 using namespace std;
+using namespace detail;
 
-DbusmenuMenuitem *
-IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *label)
+IndicatorAppletMenu::IndicatorAppletMenu(MenuModel::Ptr menu_model)
+  : menu_model(menu_model)
 {
-  return menu_item_append(parent, label, Normal, -1);
+  menus::SubMenuNode::Ptr root = menu_model->get_root();
+
+  server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
+
+  entry = std::make_shared<detail::IndicatorSubMenuEntry>(server, menu_model->get_root());
+
+  workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
+}
+
+IndicatorMenuEntry::Ptr
+IndicatorMenuEntryFactory::create(IndicatorSubMenuEntry *parent, menus::Node::Ptr node)
+{
+  if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
+    {
+      return std::make_shared<IndicatorSubMenuEntry>(parent, n);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
+    {
+      return std::make_shared<IndicatorRadioGroupMenuEntry>(parent, n);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
+    {
+      return std::make_shared<IndicatorActionMenuEntry>(parent, n);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
+    {
+      return std::make_shared<IndicatorToggleMenuEntry>(parent, n);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
+    {
+      return std::make_shared<IndicatorRadioMenuEntry>(parent, n);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
+    {
+      return std::make_shared<IndicatorSeparatorMenuEntry>(parent, n);
+    }
+
+  else
+    {
+      return IndicatorMenuEntry::Ptr();
+    }
+}
+
+IndicatorMenuEntry::IndicatorMenuEntry()
+{
+}
+
+IndicatorMenuEntry::~IndicatorMenuEntry()
+{
+  if (item != nullptr)
+    {
+      GList *c = dbusmenu_menuitem_take_children(item);
+      // g_list_foreach (c, (GFunc)g_object_unref, NULL);
+      g_list_free(c);
+      g_object_unref(item);
+    }
 }
 
 DbusmenuMenuitem *
-IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *label, int cmd)
+IndicatorMenuEntry::get_item() const
 {
-  return menu_item_append(parent, label, Normal, cmd);
-}
-
-DbusmenuMenuitem *
-IndicatorAppletMenu::menu_item_append(DbusmenuMenuitem *parent, const char *label, MenuItemType type, int cmd)
-{
-  DbusmenuMenuitem *item = dbusmenu_menuitem_new();
-  dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_LABEL, label);
-
-  switch (type)
-    {
-    case Radio:
-      dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_TOGGLE_TYPE, DBUSMENU_MENUITEM_TOGGLE_RADIO);
-      break;
-    case Check:
-      dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_TOGGLE_TYPE, DBUSMENU_MENUITEM_TOGGLE_CHECK);
-      break;
-    case Normal:
-      break;
-    }
-
-  dbusmenu_menuitem_child_append(parent, item);
-
-  g_signal_connect(G_OBJECT(item), DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED, G_CALLBACK(static_menu_item_activated), this);
-
-  if (cmd != -1)
-    {
-      menu_items[cmd] = item;
-    }
-
   return item;
 }
 
-void
-IndicatorAppletMenu::menu_item_set_checked(int cmd, bool checked)
+//////////////////////////////////////////////////////////////////////
+
+IndicatorSubMenuEntry::IndicatorSubMenuEntry(IndicatorSubMenuEntry *parent, menus::SubMenuNode::Ptr node)
+  : parent(parent)
+  , node(node)
 {
-  dbusmenu_menuitem_property_set_int(menu_items[cmd],
-                                     DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
-                                     checked ? DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED : DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
+  init();
+}
+
+IndicatorSubMenuEntry::IndicatorSubMenuEntry(DbusmenuServer *server, menus::SubMenuNode::Ptr node)
+  : server(server)
+  , node(node)
+{
+  init();
 }
 
 void
-IndicatorAppletMenu::init()
+IndicatorSubMenuEntry::init()
 {
-  server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
-  root = dbusmenu_menuitem_new();
-  dbusmenu_server_set_root(server, root);
-  dbusmenu_menuitem_property_set_bool(root, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
+  auto new_item = dbusmenu_menuitem_new();
+  dbusmenu_menuitem_property_set(new_item, DBUSMENU_MENUITEM_PROP_LABEL, node->get_text().c_str());
 
-  menu_item_append(root, _("Open"), MENU_COMMAND_OPEN);
-  menu_item_append(root, _("Preferences"), MENU_COMMAND_PREFERENCES);
-  menu_item_append(root, _("_Rest break"), MENU_COMMAND_REST_BREAK);
-  menu_item_append(root, _("Exercises"), MENU_COMMAND_EXERCISES);
-
-  DbusmenuMenuitem *mode_menu = menu_item_append(root, _("_Mode"));
-
-  menu_item_append(mode_menu, _("_Normal"), Radio, MENU_COMMAND_MODE_NORMAL);
-  menu_item_append(mode_menu, _("Q_uiet"), Radio, MENU_COMMAND_MODE_QUIET);
-  menu_item_append(mode_menu, _("_Suspended"), Radio, MENU_COMMAND_MODE_SUSPENDED);
-
-  DbusmenuMenuitem *network_menu = menu_item_append(root, _("_Network"));
-
-  menu_item_append(network_menu, _("_Connect"), MENU_COMMAND_NETWORK_CONNECT);
-  menu_item_append(network_menu, _("_Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT);
-  menu_item_append(network_menu, _("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT);
-  menu_item_append(network_menu, _("Show _log"), Check, MENU_COMMAND_NETWORK_LOG);
-
-  menu_item_append(root, _("Reading mode"), Check, MENU_COMMAND_MODE_READING);
-  menu_item_append(root, _("Statistics"), MENU_COMMAND_STATISTICS);
-  menu_item_append(root, _("About..."), MENU_COMMAND_ABOUT);
-  menu_item_append(root, _("Quit"), MENU_COMMAND_QUIT);
-}
-
-void
-IndicatorAppletMenu::resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log)
-{
-  menu_item_set_checked(MENU_COMMAND_MODE_NORMAL, mode == workrave::OperationMode::Normal);
-  menu_item_set_checked(MENU_COMMAND_MODE_QUIET, mode == workrave::OperationMode::Quiet);
-  menu_item_set_checked(MENU_COMMAND_MODE_SUSPENDED, mode == workrave::OperationMode::Suspended);
-  menu_item_set_checked(MENU_COMMAND_MODE_READING, usage == workrave::UsageMode::Reading);
-  menu_item_set_checked(MENU_COMMAND_NETWORK_LOG, show_log);
-}
-
-int
-IndicatorAppletMenu::find_menu_item(DbusmenuMenuitem *item) const
-{
-  for (int i = 0; i < MENU_COMMAND_SIZEOF; i++)
+  if (parent)
     {
-      if (menu_items[i] == item)
-        {
-          return i;
-        }
+      parent->add(new_item);
+    }
+  else if (server)
+    {
+      dbusmenu_server_set_root(server, new_item);
+      dbusmenu_menuitem_property_set_bool(new_item, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
     }
 
-  return -1;
+  if (item != nullptr)
+    {
+      GList *c = dbusmenu_menuitem_take_children(item);
+      // g_list_foreach (c, (GFunc)g_object_unref, NULL);
+      g_list_free(c);
+      children.clear();
+      //   g_object_unref(item);
+    }
+  item = new_item;
+
+  for (auto menu_to_add: node->get_children())
+    {
+      IndicatorMenuEntry::Ptr child = IndicatorMenuEntryFactory::create(this, menu_to_add);
+      children.push_back(child);
+    }
 }
 
 void
-IndicatorAppletMenu::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
+IndicatorSubMenuEntry::add(DbusmenuMenuitem *child)
+{
+  dbusmenu_menuitem_child_append(item, child);
+};
+
+void IndicatorSubMenuEntry::add_section()
+{
+};
+
+//////////////////////////////////////////////////////////////////////
+
+IndicatorRadioGroupMenuEntry::IndicatorRadioGroupMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node)
+{
+  item = parent->get_item();
+  for (auto child_node: node->get_children())
+    {
+      auto child = std::make_shared<IndicatorRadioMenuEntry>(parent, child_node);
+      children.push_back(child);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+IndicatorActionMenuEntry::IndicatorActionMenuEntry(IndicatorSubMenuEntry *parent, menus::ActionNode::Ptr node)
+  : node(node)
+{
+  item = dbusmenu_menuitem_new();
+  dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_LABEL, node->get_text().c_str());
+
+  g_signal_connect(G_OBJECT(item), DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED, G_CALLBACK(static_menu_item_activated), this);
+
+  parent->add(item);
+}
+
+void
+IndicatorActionMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
 {
   (void)timestamp;
+  (void)mi;
 
-  IndicatorAppletMenu *menu = (IndicatorAppletMenu *)user_data;
+  IndicatorActionMenuEntry *menu = (IndicatorActionMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 
 void
-IndicatorAppletMenu::menu_item_activated(DbusmenuMenuitem *mi)
+IndicatorActionMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 {
-  int command = find_menu_item(mi);
-  if (command != -1)
-    {
-      IGUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();
-      menus->applet_command(command);
-    }
+  (void)mi;
+  node->activate();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+IndicatorToggleMenuEntry::IndicatorToggleMenuEntry(IndicatorSubMenuEntry *parent, menus::ToggleNode::Ptr node)
+  : node(node)
+{
+  item = dbusmenu_menuitem_new();
+  dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_LABEL, node->get_text().c_str());
+  dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_TOGGLE_TYPE, DBUSMENU_MENUITEM_TOGGLE_CHECK);
+  dbusmenu_menuitem_property_set_int(item,
+                                     DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
+                                     node->is_checked() ? DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED
+                                                        : DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
+
+  g_signal_connect(G_OBJECT(item), DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED, G_CALLBACK(static_menu_item_activated), this);
+
+  workrave::utils::connect(node->signal_changed(), this, [this, node]() {
+    dbusmenu_menuitem_property_set_int(item,
+                                       DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
+                                       node->is_checked() ? DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED
+                                                          : DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
+  });
+
+  parent->add(item);
+}
+
+void
+IndicatorToggleMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
+{
+  (void)timestamp;
+  (void)mi;
+
+  IndicatorToggleMenuEntry *menu = (IndicatorToggleMenuEntry *)user_data;
+  menu->menu_item_activated(mi);
+}
+
+void
+IndicatorToggleMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
+{
+  (void)mi;
+  node->activate();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+IndicatorRadioMenuEntry::IndicatorRadioMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioNode::Ptr node)
+  : node(node)
+{
+  item = dbusmenu_menuitem_new();
+  dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_LABEL, node->get_text().c_str());
+  dbusmenu_menuitem_property_set(item, DBUSMENU_MENUITEM_PROP_TOGGLE_TYPE, DBUSMENU_MENUITEM_TOGGLE_RADIO);
+  dbusmenu_menuitem_property_set_int(item,
+                                     DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
+                                     node->is_checked() ? DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED
+                                                        : DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
+
+  g_signal_connect(G_OBJECT(item), DBUSMENU_MENUITEM_SIGNAL_ITEM_ACTIVATED, G_CALLBACK(static_menu_item_activated), this);
+
+  workrave::utils::connect(node->signal_changed(), this, [this, node]() {
+    dbusmenu_menuitem_property_set_int(item,
+                                       DBUSMENU_MENUITEM_PROP_TOGGLE_STATE,
+                                       node->is_checked() ? DBUSMENU_MENUITEM_TOGGLE_STATE_CHECKED
+                                                          : DBUSMENU_MENUITEM_TOGGLE_STATE_UNCHECKED);
+  });
+
+  parent->add(item);
+}
+
+void
+IndicatorRadioMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
+{
+  (void)timestamp;
+  (void)mi;
+
+  IndicatorRadioMenuEntry *menu = (IndicatorRadioMenuEntry *)user_data;
+  menu->menu_item_activated(mi);
+}
+
+void
+IndicatorRadioMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
+{
+  (void)mi;
+  node->activate();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+IndicatorSeparatorMenuEntry::IndicatorSeparatorMenuEntry(IndicatorSubMenuEntry *parent, menus::SeparatorNode::Ptr)
+{
+  parent->add_section();
 }

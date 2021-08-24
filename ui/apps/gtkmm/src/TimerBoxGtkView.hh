@@ -43,7 +43,7 @@ class TimerBoxGtkView
   , public workrave::utils::Trackable
 {
 public:
-  TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
+  TimerBoxGtkView(std::shared_ptr<IApplication> app, bool transparent = false);
   ~TimerBoxGtkView() override;
 
   void set_geometry(Orientation orientation, int size) override;
@@ -73,11 +73,9 @@ private:
   void init();
   void update_widgets();
 
-  bool on_restbreak_button_press_event(int button);
   int get_number_of_timers() const;
 
-  //! What menu to active on click
-  Menus::MenuKind menu;
+  std::shared_ptr<IApplication> app;
 
   //! Use tranparentcy.
   bool transparent;

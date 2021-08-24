@@ -31,9 +31,10 @@ sources =   AppletControl.cc \
 			IconListCellRenderer.cc \
 			IconListNotebook.cc \
 			Locale.cc \
-			MainGtkMenu.cc \
 			MainWindow.cc \
 			Menus.cc \
+			MenuModel.cc \
+			MenuHelper.cc \
 			MicroBreakWindow.cc \
 			PreferencesDialog.cc \
 			PreludeWindow.cc \
@@ -46,6 +47,8 @@ sources =   AppletControl.cc \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			TimerPreferencesPanel.cc \
+			Toolkit.cc \
+			ToolkitMenu.cc \
 			Ui.cc \
 			WindowHints.cc \
 			main.cc

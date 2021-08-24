@@ -19,37 +19,25 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
-#include <cassert>
-#include <string>
+#include "StatusIcon.hh"
 
-#ifdef PLATFORM_OS_MACOS
-#  if HAVE_IGE_MAC_INTEGRATION
-#    include "ige-mac-dock.h"
-#  endif
-#  if HAVE_GTK_MAC_INTEGRATION
-#    include "gtk-mac-dock.h"
-#  endif
-#endif
+#include <string>
 
 #ifdef PLATFORM_OS_WINDOWS
 #  include "W32StatusIcon.hh"
 #endif
 
-#include "StatusIcon.hh"
-
-#include "GUI.hh"
-#include "commonui/Backend.hh"
-#include "config/IConfigurator.hh"
-#include "commonui/GUIConfig.hh"
-#include "Menus.hh"
-#include "commonui/TimerBoxControl.hh"
 #include "GtkUtil.hh"
+#include "commonui/Backend.hh"
+#include "commonui/GUIConfig.hh"
+#include "commonui/TimerBoxControl.hh"
+#include "debug.hh"
 
 using namespace std;
 using namespace workrave;
 
-StatusIcon::StatusIcon()
+StatusIcon::StatusIcon(std::shared_ptr<ToolkitMenu> status_icon_menu)
+  : menu(status_icon_menu)
 {
   TRACE_ENTER("StatusIcon::StatusIcon");
   mode_icons[OperationMode::Normal] = GtkUtil::create_pixbuf("workrave-icon-medium.png");
@@ -58,6 +46,10 @@ StatusIcon::StatusIcon()
 
 #if !defined(USE_W32STATUSICON) && defined(PLATFORM_OS_WINDOWS)
   wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
+#endif
+
+#if defined(PLATFORM_OS_WINDOWS)
+  win32_popup_hack_connect(status_icon_menu->get_menu().get());
 #endif
   TRACE_EXIT();
 }
@@ -91,8 +83,8 @@ StatusIcon::insert_icon()
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
-#endif
 
+#endif
 #ifdef USE_W32STATUSICON
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
@@ -146,11 +138,7 @@ void
 StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
   (void)button;
-
-  // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
-  IGUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();
-  menus->popup(Menus::MENU_MAINAPPLET, 1, activate_time);
+  menu->get_menu()->popup(button, activate_time);
 }
 
 void
@@ -206,3 +194,67 @@ StatusIcon::signal_balloon_activate()
 {
   return balloon_activate_signal;
 }
+
+#if defined(PLATFORM_OS_WINDOWS)
+// /* Taken from Gaim. needs to be gtkmm-ified. */
+// /* This is a workaround for a bug in windows GTK+. Clicking outside of the
+//    menu does not get rid of it, so instead we get rid of it as soon as the
+//    pointer leaves the menu. */
+
+void
+StatusIcon::win32_popup_hack_connect(Gtk::Widget *menu)
+{
+  TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
+
+  GtkWidget *widget = (GtkWidget *)menu->gobj();
+  g_signal_connect(widget, "leave-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
+  g_signal_connect(widget, "enter-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
+
+  TRACE_EXIT();
+}
+
+gboolean
+StatusIcon::win32_popup_hack_hide(gpointer data)
+{
+  TRACE_ENTER("W32TrayMenu::win32_popup_hack_hide");
+  if (data != NULL)
+    {
+      gtk_menu_popdown(GTK_MENU(data));
+    }
+  TRACE_EXIT();
+  return FALSE;
+}
+
+gboolean
+StatusIcon::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
+{
+  TRACE_ENTER("W32TrayMenu::win32_popup_hack_leave_enter");
+
+  TRACE_MSG(event->type << " " << event->detail);
+
+  (void)data;
+  static guint hide_docklet_timer = 0;
+  if (event->type == GDK_LEAVE_NOTIFY && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
+    {
+      /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
+      TRACE_MSG("leave " << hide_docklet_timer);
+      if (hide_docklet_timer == 0)
+        {
+          hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
+        }
+    }
+  else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_VIRTUAL)
+    {
+      TRACE_MSG("enter " << hide_docklet_timer);
+
+      if (hide_docklet_timer != 0)
+        {
+          /* Cancel the hiding if we reenter */
+          g_source_remove(hide_docklet_timer);
+          hide_docklet_timer = 0;
+        }
+    }
+  TRACE_EXIT();
+  return FALSE;
+}
+#endif

@@ -24,6 +24,8 @@
 #include <memory>
 
 #include "IAppletWindow.hh"
+#include "IApplication.hh"
+#include "MenuModel.hh"
 
 class AppletControl
 {
@@ -36,10 +38,10 @@ public:
     MacOS,
   };
 
-  AppletControl() = default;
+  AppletControl(std::shared_ptr<IApplication> app);
   ~AppletControl() = default;
 
-  void init();
+  void init(MenuModel::Ptr menu_model);
   void heartbeat();
   void set_tooltip(std::string &tip);
   std::shared_ptr<IAppletWindow> get_applet_window(AppletType type);
@@ -48,6 +50,7 @@ public:
   sigc::signal<void> &signal_visibility_changed();
 
 private:
+  std::shared_ptr<IApplication> app;
   std::map<AppletType, std::shared_ptr<IAppletWindow>> applets;
 
   bool visible{false};

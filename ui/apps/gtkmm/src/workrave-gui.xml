@@ -26,8 +26,10 @@
 
   <struct name="MenuItem" csymbol="GenericDBusApplet::MenuItem">
     <field type="string" name="text"/>
-    <field type="int32" name="command"/>
-    <field type="int32" name="flags"/>
+    <field type="string" name="action"/>
+    <field type="uint32" name="command"/>
+    <field type="uint8" name="type"/>
+    <field type="uint8" name="flags"/>
   </struct>
 
   <sequence name="MenuItems"
@@ -39,15 +41,15 @@
   <interface name="org.workrave.ControlInterface" csymbol="Menus">
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
     <method name="Preferences"           csymbol="on_menu_preferences"/>
-    <method name="SetOperationMode"      csymbol="on_set_operation_mode">
+    <method name="SetOperationMode"      csymbol="on_set_operation_mode" condition="defined(NOT_YET)">
       <arg type="operation_mode" name="mode" direction="in" />
     </method>
-    <method name="NetworkConnect"        csymbol="on_menu_network_join"/>
-    <method name="NetworkLog"            csymbol="on_menu_network_log">
+    <method name="NetworkConnect"        csymbol="on_menu_network_join" condition="defined(NOT_YET)"/>
+    <method name="NetworkLog"            csymbol="on_menu_network_log" condition="defined(NOT_YET)">
       <arg type="bool" name="show" direction="in"/>
     </method>
-    <method name="NetworkReconnect"      csymbol="on_menu_network_reconnect"/>
-    <method name="NetworkDisconnect"     csymbol="on_menu_network_leave"/>
+    <method name="NetworkReconnect"      csymbol="on_menu_network_reconnect" condition="defined(NOT_YET)"/>
+    <method name="NetworkDisconnect"     csymbol="on_menu_network_leave" condition="defined(NOT_YET)"/>
     <method name="ReadingMode"           csymbol="on_menu_reading">
       <arg type="bool" name="show" direction="in"/>
     </method>
@@ -66,6 +68,10 @@
 
     <method name="Command" csymbol="applet_command">
       <arg type="int32" name="command" direction="in"/>
+    </method>
+
+    <method name="MenuAction" csymbol="applet_menu_action">
+      <arg type="string" name="action" direction="in"/>
     </method>
 
     <method name="ButtonClicked" csymbol="button_clicked">
@@ -88,6 +94,10 @@
 
     <signal name="MenuUpdated">
       <arg type="MenuItems" name="menuitems" hint="ref"/>
+    </signal>
+
+    <signal name="MenuItemUpdated">
+      <arg type="MenuItem" name="menuitem" hint="ref"/>
     </signal>
 
     <signal name="TrayIconUpdated">

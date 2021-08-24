@@ -368,7 +368,7 @@ BreakWindow::on_sysoper_combobox_changed()
       return;
     }
 
-  IGUI *gui = GUI::get_instance();
+  IApplication *gui = GUI::get_instance();
   assert(gui != nullptr);
   gui->interrupt_grab();
 
@@ -496,7 +496,7 @@ BreakWindow::on_skip_button_clicked()
 void
 BreakWindow::on_lock_button_clicked()
 {
-  IGUI *gui = GUI::get_instance();
+  IApplication *gui = GUI::get_instance();
   assert(gui != nullptr);
   gui->interrupt_grab();
   System::execute(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN);
@@ -675,7 +675,7 @@ BreakWindow::init()
 }
 
 static void
-disable_button_focus(GtkWidget *w)
+disable_button_focus(GtkWidget *w, gpointer data)
 {
   if (GTK_IS_CONTAINER(w))
     {
@@ -731,7 +731,7 @@ BreakWindow::start()
       // prevent the combobox from taking the focus. A combobox has an internal
       // button that still has 'can focus' set to true.
       // So, unset 'can focus' of this button...
-      disable_button_focus(GTK_WIDGET(sysoper_combobox->gobj()));
+      disable_button_focus(GTK_WIDGET(sysoper_combobox->gobj()), nullptr);
 
       // ...and clear the focus of the break window, which already focussed
       // the button.

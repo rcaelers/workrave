@@ -1,6 +1,4 @@
-// IndicatorAppletMenu.hh --- Menu using IndicatorApplet+
-//
-// Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,47 +19,129 @@
 #define INDICATORAPPLETMENU_HH
 
 #include <string>
+#include <memory>
+
+#include <iostream>
 
 #include <libdbusmenu-glib/server.h>
 #include <libdbusmenu-glib/menuitem.h>
 
-#include "Menus.hh"
-#include "MenuBase.hh"
-#include "commonui/MenuEnums.hh"
+#include "MenuModel.hh"
 
-class GenericDBusApplet;
+#include "utils/Signals.hh"
 
-class IndicatorAppletMenu : public MenuBase
+namespace detail
 {
-public:
-  IndicatorAppletMenu() = default;
-  ~IndicatorAppletMenu() override = default;
+  class IndicatorSubMenuEntry;
 
-  void init() override;
-  void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) override;
-
-private:
-  enum MenuItemType
+  class IndicatorMenuEntry : public workrave::utils::Trackable
   {
-    Radio,
-    Check,
-    Normal
+
+  public:
+    using Ptr = std::shared_ptr<IndicatorMenuEntry>;
+
+    IndicatorMenuEntry();
+    ~IndicatorMenuEntry();
+
+    DbusmenuMenuitem *get_item() const;
+
+  protected:
+    DbusmenuMenuitem *item{nullptr};
+    std::list<IndicatorMenuEntry::Ptr> children;
   };
 
-  DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label);
-  DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, int cmd);
-  DbusmenuMenuitem *menu_item_append(DbusmenuMenuitem *parent, const char *label, MenuItemType type, int cmd);
-  void menu_item_set_checked(int cmd, bool checked);
+  class IndicatorSubMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    using Ptr = std::shared_ptr<IndicatorSubMenuEntry>;
 
-  int find_menu_item(DbusmenuMenuitem *item) const;
+    IndicatorSubMenuEntry(IndicatorSubMenuEntry *parent, menus::SubMenuNode::Ptr node);
+    IndicatorSubMenuEntry(DbusmenuServer *server, menus::SubMenuNode::Ptr node);
 
-  static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
-  void menu_item_activated(DbusmenuMenuitem *mi);
+    void init();
+    void add(DbusmenuMenuitem *item);
+    void add_section();
+
+  private:
+    DbusmenuServer *server{nullptr};
+    IndicatorSubMenuEntry *parent{nullptr};
+    menus::SubMenuNode::Ptr node;
+  };
+
+  class IndicatorActionMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    IndicatorActionMenuEntry(IndicatorSubMenuEntry *parent, menus::ActionNode::Ptr node);
+
+  private:
+    static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
+    void menu_item_activated(DbusmenuMenuitem *mi);
+
+  private:
+    menus::ActionNode::Ptr node;
+  };
+
+  class IndicatorToggleMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    IndicatorToggleMenuEntry(IndicatorSubMenuEntry *parent, menus::ToggleNode::Ptr node);
+
+  private:
+    static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
+    void menu_item_activated(DbusmenuMenuitem *mi);
+
+  private:
+    menus::ToggleNode::Ptr node;
+  };
+
+  class IndicatorRadioMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    IndicatorRadioMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioNode::Ptr node);
+
+  private:
+    static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
+    void menu_item_activated(DbusmenuMenuitem *mi);
+
+  private:
+    menus::RadioNode::Ptr node;
+  };
+
+  class IndicatorRadioGroupMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    IndicatorRadioGroupMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node);
+
+  private:
+    std::list<IndicatorRadioMenuEntry::Ptr> children;
+  };
+
+  class IndicatorSeparatorMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    IndicatorSeparatorMenuEntry(IndicatorSubMenuEntry *parent, menus::SeparatorNode::Ptr node);
+  };
+
+  class IndicatorMenuEntryFactory
+  {
+  public:
+    static IndicatorMenuEntry::Ptr create(IndicatorSubMenuEntry *parent, menus::Node::Ptr node);
+  };
+
+} // namespace detail
+
+class IndicatorAppletMenu : public workrave::utils::Trackable
+{
+public:
+  using Ptr = std::shared_ptr<IndicatorAppletMenu>;
+
+  IndicatorAppletMenu(MenuModel::Ptr menu_node);
+  ~IndicatorAppletMenu() = default;
 
 private:
   DbusmenuServer *server{nullptr};
-  DbusmenuMenuitem *root{nullptr};
-  DbusmenuMenuitem *menu_items[MENU_COMMAND_SIZEOF];
+  MenuModel::Ptr menu_model;
+  detail::IndicatorSubMenuEntry::Ptr entry;
 };
 
 #endif // INDICATORAPPLETMENU_HH

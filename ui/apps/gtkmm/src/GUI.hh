@@ -29,7 +29,6 @@
 #include "core/IApp.hh"
 #include "dbus/IDBusWatch.hh"
 #include "utils/Signals.hh"
-#include "commonui/SoundTheme.hh"
 #include "commonui/UiTypes.hh"
 
 #include "HeadInfo.hh"
@@ -37,8 +36,13 @@
 #include "IBreakWindow.hh"
 #include "IPreludeWindow.hh"
 
-//#include "BreakWindow.hh"
+#include "IApplication.hh"
+#include "IToolkit.hh"
 #include "WindowHints.hh"
+
+#ifdef HAVE_INDICATOR
+#  include "IndicatorAppletMenu.hh"
+#endif
 
 namespace workrave
 {
@@ -52,32 +56,8 @@ class AppletControl;
 class BreakControl;
 class Session;
 
-class IGUI
-{
-public:
-  virtual ~IGUI() = default;
-
-  virtual sigc::signal0<void> &signal_heartbeat() = 0;
-
-  virtual Menus *get_menus() const = 0;
-  virtual MainWindow *get_main_window() const = 0;
-  virtual SoundTheme::Ptr get_sound_theme() const = 0;
-
-  virtual void open_main_window() = 0;
-  virtual void restbreak_now() = 0;
-
-  virtual void interrupt_grab() = 0;
-
-  virtual int get_number_of_heads() const = 0;
-  virtual HeadInfo get_head(int head) const = 0;
-  virtual int map_to_head(int &x, int &y) = 0;
-  virtual void map_from_head(int &x, int &y, int head) = 0;
-  virtual bool bound_head(int &x, int &y, int width, int height, int &head) = 0;
-  virtual void terminate() = 0;
-};
-
 class GUI
-  : public IGUI
+  : public IApplication
   , public workrave::IApp
   , public workrave::ICoreEventListener
   , public workrave::dbus::IDBusWatch
@@ -85,15 +65,14 @@ class GUI
   , public sigc::trackable
 {
 public:
-  GUI(int argc, char **argv);
+  GUI(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
   ~GUI() override;
 
-  static IGUI *get_instance();
+  static IApplication *get_instance();
 
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const override;
   SoundTheme::Ptr get_sound_theme() const override;
-  Menus *get_menus() const override;
 
   void main();
 
@@ -122,11 +101,17 @@ public:
   void close_main_window();
   void init_multihead();
 
-  // Prefs
   // Misc
+  HeadInfo get_head_info(int screen_index) const override
+  {
+    return toolkit->get_head_info(screen_index);
+  };
+  int get_head_count() const override
+  {
+    return toolkit->get_head_count();
+  };
+
   sigc::signal0<void> &signal_heartbeat() override;
-  HeadInfo get_head(int head) const override;
-  int get_number_of_heads() const override;
   int map_to_head(int &x, int &y) override;
   void map_from_head(int &x, int &y, int head) override;
   bool bound_head(int &x, int &y, int width, int height, int &head) override;
@@ -141,8 +126,6 @@ private:
   void init_core();
   void init_sound_player();
   void update_multihead();
-  // void init_multihead_mem(int new_num_heads);
-  // void init_multihead_desktop();
   void init_gui();
   void init_dbus();
   void init_session();
@@ -154,7 +137,6 @@ private:
   void cleanup_session();
 #endif
   void collect_garbage();
-  IBreakWindow::Ptr create_break_window(HeadInfo head, workrave::BreakId break_id, BreakFlags break_flags);
 
   void grab();
   void ungrab();
@@ -176,6 +158,8 @@ private:
   //! The one and only instance
   static GUI *instance;
 
+  std::shared_ptr<IToolkit> toolkit;
+
   // !
   Glib::RefPtr<Gtk::Application> app;
 
@@ -185,8 +169,13 @@ private:
   //! The sound player
   SoundTheme::Ptr sound_theme;
 
-  // std::shared_ptr<Menus> menus;
+  std::shared_ptr<Menus> menus;
+  std::shared_ptr<MenuModel> menu_model;
   // std::shared_ptr<workrave::updater::Updater> updater;
+
+#ifdef HAVE_INDICATOR
+  std::shared_ptr<IndicatorAppletMenu> indicator_menu;
+#endif
 
   std::vector<IBreakWindow::Ptr> break_windows;
   std::vector<IPreludeWindow::Ptr> prelude_windows;
@@ -205,9 +194,6 @@ private:
 
   //! The main window, shows the timers.
   MainWindow *main_window{nullptr};
-
-  //! Menus
-  Menus *menus{nullptr};
 
   //! Heartbeat signal
   sigc::signal0<void> heartbeat_signal;
@@ -232,7 +218,7 @@ private:
 };
 
 //! Returns the only instance of GUI
-inline IGUI *
+inline IApplication *
 GUI::get_instance()
 {
   return instance;
@@ -257,13 +243,6 @@ inline SoundTheme::Ptr
 GUI::get_sound_theme() const
 {
   return sound_theme;
-}
-
-//! Returns the sound player
-inline Menus *
-GUI::get_menus() const
-{
-  return menus;
 }
 
 //! Returns the GUI Heartbeat signal.

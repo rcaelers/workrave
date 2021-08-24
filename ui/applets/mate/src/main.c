@@ -23,7 +23,7 @@
 
 #include "commonui/credits.h"
 #include "commonui/nls.h"
-#include "commonui/MenuEnums.hh"
+#include "commonui/MenuDefs.hh"
 
 #include <mate-panel-applet.h>
 #include <glib-object.h>
@@ -68,10 +68,10 @@ static struct Menuitems menu_data[] = {{MENU_COMMAND_OPEN, TRUE, TRUE, "Open", "
                                        {MENU_COMMAND_MODE_READING, FALSE, FALSE, "ReadingMode", "ReadingMode"},
                                        {MENU_COMMAND_QUIT, FALSE, FALSE, "Quit", "Quit"}};
 
-int
+static int
 lookup_menu_index_by_id(enum MenuCommand id)
 {
-  for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
+  for (size_t i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
     {
       if (menu_data[i].id == id)
         {
@@ -82,10 +82,10 @@ lookup_menu_index_by_id(enum MenuCommand id)
   return -1;
 }
 
-int
+static int
 lookup_menu_index_by_action(const char *action)
 {
-  for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
+  for (size_t i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
     {
       if (g_strcmp0(menu_data[i].action, action) == 0)
         {
@@ -96,70 +96,116 @@ lookup_menu_index_by_action(const char *action)
   return -1;
 }
 
-void
+static void
+on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
+{
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
+
+  gboolean visible[sizeof(menu_data) / sizeof(struct Menuitems)];
+  for (size_t i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
+    {
+      visible[i] = menu_data[i].visible_when_not_running;
+    }
+
+  GVariantIter *iter;
+  g_variant_get(parameters, "(a(ssuyy))", &iter);
+
+  char *text;
+  char *action;
+  uint32_t id;
+  uint8_t type;
+  uint8_t flags;
+
+  while (g_variant_iter_loop(iter, "(ssuyy)", &text, &action, &id, &type, &flags))
+    {
+      int index = lookup_menu_index_by_id((enum MenuCommand)id);
+      if (index != -1)
+        {
+          visible[index] = TRUE;
+
+          G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+          GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[index].action);
+          G_GNUC_END_IGNORE_DEPRECATIONS
+          if (action != NULL && type != MENU_ITEM_TYPE_SUBMENU_END && type != MENU_ITEM_TYPE_RADIOGROUP_END)
+            {
+              visible[index] = ((flags & MENU_ITEM_FLAG_VISIBLE) == MENU_ITEM_FLAG_VISIBLE);
+
+              G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+              if (GTK_IS_TOGGLE_ACTION(action))
+                {
+                  GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+                  gtk_toggle_action_set_active(toggle, flags & MENU_ITEM_FLAG_ACTIVE);
+                }
+              G_GNUC_END_IGNORE_DEPRECATIONS
+            }
+        }
+    }
+
+  for (size_t i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
+    {
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+      GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[i].action);
+      gtk_action_set_visible(action, visible[i]);
+      G_GNUC_END_IGNORE_DEPRECATIONS
+    }
+
+  g_variant_iter_free(iter);
+}
+
+static void
+on_menu_item_changed(gpointer instance, GVariant *parameters, gpointer user_data)
+{
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
+
+  char *text;
+  char *action;
+  uint32_t id;
+  uint8_t type;
+  uint8_t flags;
+
+  g_variant_get(parameters, "((ssuyy))", &text, &action, &id, &type, &flags);
+
+  int index = lookup_menu_index_by_id((enum MenuCommand)id);
+  if (index != -1)
+    {
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+      GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[index].action);
+      G_GNUC_END_IGNORE_DEPRECATIONS
+      if (action != NULL && type != MENU_ITEM_TYPE_SUBMENU_END && type != MENU_ITEM_TYPE_RADIOGROUP_END)
+        {
+          G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+          if (GTK_IS_TOGGLE_ACTION(action))
+            {
+              GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+              gtk_toggle_action_set_active(toggle, flags & MENU_ITEM_FLAG_ACTIVE);
+            }
+          gtk_action_set_visible(action, ((flags & MENU_ITEM_FLAG_VISIBLE) == MENU_ITEM_FLAG_VISIBLE));
+          G_GNUC_END_IGNORE_DEPRECATIONS
+        }
+    }
+}
+
+static void
 on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
   WorkraveApplet *applet = (WorkraveApplet *)(user_data);
   applet->alive = alive;
 
-  if (!alive)
+  if (alive)
+  {
+      GVariant *menus = workrave_timerbox_control_get_menus(applet->timerbox_control);
+      on_menu_changed(NULL, menus, applet);
+      g_variant_unref(menus);
+    }
+  else
     {
-      for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
+      for (size_t i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
         {
+          G_GNUC_BEGIN_IGNORE_DEPRECATIONS
           GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[i].action);
           gtk_action_set_visible(action, menu_data[i].visible_when_not_running);
+          G_GNUC_END_IGNORE_DEPRECATIONS
         }
-    }
-}
-
-void
-on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
-{
-  WorkraveApplet *applet = (WorkraveApplet *)user_data;
-
-  GVariantIter *iter;
-  g_variant_get(parameters, "(a(sii))", &iter);
-
-  char *text;
-  int id;
-  int flags;
-
-  gboolean visible[sizeof(menu_data) / sizeof(struct Menuitems)];
-  for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
-    {
-      visible[i] = menu_data[i].visible_when_not_running;
-    }
-
-  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
-    {
-      int index = lookup_menu_index_by_id((enum MenuCommand)id);
-      if (index == -1)
-        {
-          continue;
-        }
-
-      GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[index].action);
-
-      if (flags & MENU_ITEM_FLAG_SUBMENU_END || flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
-        {
-          continue;
-        }
-
-      visible[index] = TRUE;
-
-      if (GTK_IS_TOGGLE_ACTION(action))
-        {
-          GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
-          gtk_toggle_action_set_active(toggle, flags & MENU_ITEM_FLAG_ACTIVE);
-        }
-    }
-
-  g_variant_iter_free(iter);
-
-  for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
-    {
-      GtkAction *action = gtk_action_group_get_action(applet->action_group, menu_data[i].action);
-      gtk_action_set_visible(action, visible[i]);
     }
 }
 
@@ -222,7 +268,9 @@ on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
 static void
 on_menu_command(GtkAction *action, WorkraveApplet *applet)
 {
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   int index = lookup_menu_index_by_action(gtk_action_get_name(action));
+  G_GNUC_END_IGNORE_DEPRECATIONS
   if (index == -1)
     {
       return;
@@ -247,13 +295,17 @@ on_menu_toggle(GtkAction *action, WorkraveApplet *applet)
 {
   gboolean new_state = FALSE;
 
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   if (GTK_IS_TOGGLE_ACTION(action))
     {
       GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
       new_state = gtk_toggle_action_get_active(toggle);
     }
+  G_GNUC_END_IGNORE_DEPRECATIONS
 
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   int index = lookup_menu_index_by_action(gtk_action_get_name(action));
+  G_GNUC_END_IGNORE_DEPRECATIONS
   if (index == -1)
     {
       return;
@@ -280,13 +332,15 @@ on_menu_mode_changed(GtkRadioAction *action, GtkRadioAction *current, gpointer u
   const char *modes[] = {"normal", "suspended", "quiet"};
   int mode = 0;
 
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   if (GTK_IS_RADIO_ACTION(action))
     {
       GtkRadioAction *toggle = GTK_RADIO_ACTION(action);
       mode = gtk_radio_action_get_current_value(toggle);
     }
+  G_GNUC_END_IGNORE_DEPRECATIONS
 
-  if (mode >= 0 && mode < G_N_ELEMENTS(modes))
+  if (mode >= 0 && mode < (int)G_N_ELEMENTS(modes))
     {
       GDBusProxy *proxy = workrave_timerbox_control_get_core_proxy(applet->timerbox_control);
       if (proxy != NULL)
@@ -303,6 +357,7 @@ on_menu_mode_changed(GtkRadioAction *action, GtkRadioAction *current, gpointer u
     }
 }
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 static const GtkActionEntry menu_actions[] = {
   {"Open", GTK_STOCK_OPEN, N_("_Open"), NULL, NULL, G_CALLBACK(on_menu_command)},
 
@@ -328,6 +383,7 @@ static const GtkActionEntry menu_actions[] = {
 
   {"Quit", GTK_STOCK_QUIT, N_("_Quit"), NULL, NULL, G_CALLBACK(on_menu_command)},
 };
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 static const GtkToggleActionEntry toggle_actions[] = {
   {"ShowLog", NULL, N_("Show log"), NULL, NULL, G_CALLBACK(on_menu_toggle), FALSE},
@@ -352,11 +408,13 @@ workrave_applet_fill(WorkraveApplet *applet)
   applet->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
   applet->image = workrave_timerbox_control_get_image(applet->timerbox_control);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed), applet);
+  g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-item-changed", G_CALLBACK(on_menu_item_changed), applet);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed), applet);
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
   workrave_timerbox_control_set_tray_icon_mode(applet->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW);
 
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   applet->action_group = gtk_action_group_new("WorkraveAppletActions");
   gtk_action_group_set_translation_domain(applet->action_group, GETTEXT_PACKAGE);
   gtk_action_group_add_actions(applet->action_group, menu_actions, G_N_ELEMENTS(menu_actions), applet);
@@ -367,6 +425,7 @@ workrave_applet_fill(WorkraveApplet *applet)
                                      0,
                                      G_CALLBACK(on_menu_mode_changed),
                                      applet);
+  G_GNUC_END_IGNORE_DEPRECATIONS
 
   gchar *ui_path = g_build_filename(WORKRAVE_MENU_UI_DIR, "workrave-menu.xml", NULL);
   mate_panel_applet_setup_menu_from_file(applet->applet, ui_path, applet->action_group);

@@ -28,13 +28,15 @@
 
 #include "core/ICore.hh"
 #include "utils/Signals.hh"
+#include "MenuModel.hh"
+#include "ToolkitMenu.hh"
 
 class W32StatusIcon;
 
 class StatusIcon : public workrave::utils::Trackable
 {
 public:
-  StatusIcon();
+  StatusIcon(std::shared_ptr<ToolkitMenu> status_icon_menu); // MenuModel::Ptr menu_model);
 
   void init();
   void set_operation_mode(workrave::OperationMode m);
@@ -61,6 +63,14 @@ private:
 #if defined(PLATFORM_OS_WINDOWS) && defined(USE_W32STATUSICON)
   void on_balloon_activate(std::string id);
 #endif
+private:
+#if defined(PLATFORM_OS_WINDOWS)
+  void win32_popup_hack_connect(Gtk::Widget *menu);
+  static gboolean win32_popup_hack_hide(gpointer data);
+  static gboolean win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data);
+#endif
+
+  std::shared_ptr<ToolkitMenu> menu;
 
   std::map<workrave::OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 

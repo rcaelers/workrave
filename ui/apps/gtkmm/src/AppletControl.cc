@@ -49,26 +49,30 @@
 
 using namespace workrave;
 
+AppletControl::AppletControl(std::shared_ptr<IApplication> app)
+  : app(app)
+{
+}
+
 void
-AppletControl::init()
+AppletControl::init(MenuModel::Ptr menu_model)
 {
 #ifdef PLATFORM_OS_UNIX
-  applets[AppletType::Tray] = std::make_shared<X11SystrayAppletWindow>();
+  applets[AppletType::Tray] = std::make_shared<X11SystrayAppletWindow>(app, menu_model);
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  applets[AppletType::Windows] = std::make_shared<W32AppletWindow>();
+  applets[AppletType::Windows] = std::make_shared<W32AppletWindow>(menu_model);
 #endif
 #if defined(PLATFORM_OS_MACOS)
   applets[AppletType::MacOS] = std::make_shared<MacOSAppletWindow>();
 #endif
 #if defined(HAVE_DBUS)
-  applets[AppletType::GenericDBus] = std::make_shared<GenericDBusApplet>();
+  applets[AppletType::GenericDBus] = std::make_shared<GenericDBusApplet>(menu_model);
 #endif
 
   for (const auto &kv: applets)
     {
-      kv.second->init_applet();
       kv.second->signal_visibility_changed().connect(
         sigc::bind<0>(sigc::mem_fun(*this, &AppletControl::on_applet_visibility_changed), kv.first));
     }
@@ -80,14 +84,6 @@ AppletControl::on_applet_visibility_changed(AppletType type, bool visible)
 {
   TRACE_ENTER_MSG("AppletControl::on_applet_visibility_changed",
                   static_cast<std::underlying_type<AppletType>::type>(type) << " " << visible);
-
-  // TODO: REFACTOR
-  if (visible)
-    {
-      IGUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();
-      menus->resync();
-    }
 
   check_visible();
   TRACE_EXIT();

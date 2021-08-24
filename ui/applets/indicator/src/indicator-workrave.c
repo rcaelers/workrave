@@ -591,7 +591,7 @@ on_update_indicator(IndicatorWorkrave *self, GVariant *parameters)
   TimerData td[BREAK_ID_SIZEOF];
 
   g_variant_get(parameters,
-                "((siiiiiii)(siiiiiii)(siiiiiii))",
+                "((siuuuuuu)(siuuuuuu)(siuuuuuu))",
                 &td[BREAK_ID_MICRO_BREAK].bar_text,
                 &td[BREAK_ID_MICRO_BREAK].slot,
                 &td[BREAK_ID_MICRO_BREAK].bar_secondary_color,

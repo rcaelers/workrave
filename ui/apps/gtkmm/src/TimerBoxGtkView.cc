@@ -46,8 +46,8 @@ using namespace workrave;
 using namespace workrave::utils;
 
 //! Constructor.
-TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent)
-  : menu(menu)
+TimerBoxGtkView::TimerBoxGtkView(std::shared_ptr<IApplication> app, bool transparent)
+  : app(app)
   , transparent(transparent)
 {
   init();
@@ -170,12 +170,7 @@ TimerBoxGtkView::init_widgets()
           style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
           b->set_tooltip_text(_("Take rest break now"));
-
-          IGUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();
-
-          b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
-          b->button_pressed.connect(sigc::mem_fun(*this, &TimerBoxGtkView::on_restbreak_button_press_event));
+          b->signal_clicked().connect([this]() { app->restbreak_now(); });
           w = b;
         }
       else
@@ -543,23 +538,6 @@ bool
 TimerBoxGtkView::is_sheep_only() const
 {
   return sheep_only || get_number_of_timers() == 0;
-}
-
-//! User pressed some mouse button in the main window.
-bool
-TimerBoxGtkView::on_restbreak_button_press_event(int button)
-{
-  bool ret = false;
-
-  if (button == 3 && menu != Menus::MENU_NONE)
-    {
-      IGUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();
-      menus->popup(menu, 0 /*event->button */, 0);
-      ret = true;
-    }
-
-  return ret;
 }
 
 bool

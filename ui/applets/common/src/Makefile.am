@@ -14,7 +14,8 @@ workravelib_LTLIBRARIES = libworkrave-private-1.0.la
 libworkrave_private_1_0_la_SOURCES = \
 	timebar.c \
 	timerbox.c \
-	control.c
+	control.c \
+	utils.c
 libworkrave_private_1_0_la_CFLAGS = \
 	-std=c99 $(GTK_CFLAGS) -I$(srcdir)/../include \
 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""

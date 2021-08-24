@@ -18,66 +18,46 @@
 #ifndef MENUS_HH
 #define MENUS_HH
 
-#include <gtkmm.h>
+#include <memory>
+#include <string>
 
 #include "core/ICore.hh"
-#include "commonui/SoundTheme.hh"
+#include "utils/Signals.hh"
 
-class IGUI;
-class NetworkLogDialog;
-class NetworkJoinDialog;
-class StatisticsDialog;
-class PreferencesDialog;
-class AppletControl;
-class ExercisesDialog;
-class DebugDialog;
-class IMenu;
+#include "IToolkit.hh"
+#include "IApplication.hh"
+#include "MenuModel.hh"
 
-namespace Gtk
-{
-  class Menu;
-}
-
-class Menus : public sigc::trackable
+class Menus : public workrave::utils::Trackable
 {
 public:
-  explicit Menus(SoundTheme::Ptr sound_theme);
-  ~Menus();
+  typedef std::shared_ptr<Menus> Ptr;
 
-  //! Menus items to be synced.
-  enum MenuKind
-  {
-    MENU_NONE,
-    MENU_MAINWINDOW,
-    MENU_MAINAPPLET,
-    MENU_APPLET_W32,
-    MENU_APPLET_INDICATOR,
-    MENU_APPLET_GENERICDBUS,
-    MENU_SIZEOF,
-  };
+  Menus(std::shared_ptr<IApplication> app,
+        std::shared_ptr<IToolkit> toolkit,
+        std::shared_ptr<workrave::ICore> core,
+        std::shared_ptr<MenuModel> menu_model);
 
-  void init(AppletControl *applet_control);
-  void applet_command(short cmd);
-  void resync();
-  void locale_changed();
-  void popup(const MenuKind kind, const guint button, const guint activate_time);
+  using sv = std::string_view;
+  static constexpr std::string_view PREFERENCES = sv("workrave.preferences");
+  static constexpr std::string_view EXERCISES = sv("workrave.exercises");
+  static constexpr std::string_view REST_BREAK = sv("workrave.restbreak");
+  static constexpr std::string_view MODE_MENU = sv("workrave.mode_menu");
+  static constexpr std::string_view MODE = sv("workrave.mode");
+  static constexpr std::string_view MODE_NORMAL = sv("workrave.mode_normal");
+  static constexpr std::string_view MODE_QUIET = sv("workrave.mode_quiet");
+  static constexpr std::string_view MODE_SUSPENDED = sv("workrave.mode_suspended");
+  static constexpr std::string_view STATISTICS = sv("workrave.statistics");
+  static constexpr std::string_view ABOUT = sv("workrave.about");
+  static constexpr std::string_view MODE_READING = sv("workrave.mode_reading");
+  static constexpr std::string_view OPEN = sv("workrave.open");
+  static constexpr std::string_view QUIT = sv("workrave.quit");
 
 private:
+  void init();
+  void set_operation_mode(workrave::OperationMode m);
   void set_usage_mode(workrave::UsageMode m);
-  void on_menu_response(int response);
-  void on_about_response(int response);
 
-#ifdef HAVE_DISTRIBUTION
-  void on_network_log_response(int response);
-  void on_network_join_response(int response);
-#endif
-  void on_statistics_response(int response);
-  void on_debug_response(int response);
-  void on_preferences_response(int response);
-  void on_exercises_response(int response);
-
-public:
-  // Menu actions.
   void on_menu_open_main_window();
   void on_menu_restbreak_now();
   void on_menu_about();
@@ -88,41 +68,25 @@ public:
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
-  void on_menu_reading(bool reading);
-  void on_menu_network_join();
-  void on_menu_network_leave();
-  void on_menu_network_reconnect();
-  void on_menu_network_log(bool show);
-  void on_set_operation_mode(workrave::OperationMode m);
-  void on_menu_debug();
+  void on_menu_reading();
+  void on_menu_reading(bool on);
+  void on_operation_mode_changed(const workrave::OperationMode m);
+  void on_usage_mode_changed(const workrave::UsageMode m);
 
 private:
-  //! Interface to the GUI.
-  IGUI *gui{nullptr};
+  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IToolkit> toolkit;
+  std::shared_ptr<workrave::ICore> core;
 
-#ifdef HAVE_DISTRIBUTION
-  NetworkLogDialog *network_log_dialog{nullptr};
-  NetworkJoinDialog *network_join_dialog{nullptr};
-#endif
+  MenuModel::Ptr menu_model;
+  menus::RadioGroupNode::Ptr mode_group;
+  menus::RadioNode::Ptr quiet_item;
+  menus::RadioNode::Ptr suspended_item;
+  menus::RadioNode::Ptr normal_item;
+  menus::ToggleNode::Ptr reading_item;
 
-  // The Statistics dialog.
-  StatisticsDialog *statistics_dialog{nullptr};
-
-  // The Statistics dialog.
-  PreferencesDialog *preferences_dialog{nullptr};
-
-  // The Debug dialog.
-  DebugDialog *debug_dialog{nullptr};
-
-  // The exercises dialog.
-  ExercisesDialog *exercises_dialog{nullptr};
-
-  //! Different kind of menus
-  IMenu *menus[MENU_SIZEOF]{};
-
-  Gtk::AboutDialog *about{nullptr};
-
-  SoundTheme::Ptr sound_theme;
+  // TODO: DBUS stubs, refactor
+  friend class org_workrave_ControlInterface_Stub;
 };
 
 #endif // MENUS_HH

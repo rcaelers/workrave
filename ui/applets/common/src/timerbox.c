@@ -94,7 +94,6 @@ workrave_timerbox_init(WorkraveTimerbox *self)
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-
       priv->slot_to_time_bar[i] = g_object_new(WORKRAVE_TYPE_TIMEBAR, NULL);
       priv->break_visible[i] = FALSE;
       priv->slot_to_break[i] = BREAK_ID_NONE;
@@ -121,9 +120,13 @@ workrave_timerbox_dispose(GObject *gobject)
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  g_object_unref(priv->normal_sheep_icon);
-  g_object_unref(priv->quiet_sheep_icon);
-  g_object_unref(priv->suspended_sheep_icon);
+  g_clear_pointer(&priv->normal_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->quiet_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->suspended_sheep_icon, g_object_unref);
+
+  g_clear_pointer(&priv->mode, g_free);
+  g_clear_pointer(&priv->settings, g_object_unref);
+  g_clear_pointer(&priv->name, g_free);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -467,12 +470,21 @@ workrave_load_image(WorkraveTimerbox *self, const char *name)
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
   GdkPixbuf *ret = NULL;
 
+  char *file = NULL;
   char *theme = g_settings_get_string(priv->settings, "icontheme");
-
-  char *file = g_build_filename(WORKRAVE_PKGDATADIR, "images", theme, name, NULL);
-  if (!g_file_test(file, G_FILE_TEST_EXISTS))
+  if (theme != NULL)
     {
-      g_free(file);
+      file = g_build_filename(WORKRAVE_PKGDATADIR, "images", theme, name, NULL);
+      if (!g_file_test(file, G_FILE_TEST_EXISTS))
+        {
+          g_free(file);
+          file = NULL;
+        }
+      g_free(theme);
+    }
+
+  if (file == NULL)
+    {
       file = g_build_filename(WORKRAVE_PKGDATADIR, "images", name, NULL);
     }
 

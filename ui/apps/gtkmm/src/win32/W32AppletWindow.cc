@@ -18,22 +18,28 @@
 #  include "config.h"
 #endif
 
+#include "W32AppletWindow.hh"
+
+#include <string>
+
+#include "MainWindow.hh"
+#include "Text.hh"
+#include "GUI.hh"
+#include "Applet.hh"
+
+#include "commonui/TimerBoxControl.hh"
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#include "W32AppletWindow.hh"
-#include "commonui/TimerBoxControl.hh"
-#include "Text.hh"
+using namespace workrave;
 
 #if defined(interface)
 #  undef interface
 #endif
 
-#include "Applet.hh"
-#include "GUI.hh"
-#include "Menus.hh"
-
-W32AppletWindow::W32AppletWindow()
+W32AppletWindow::W32AppletWindow(MenuModel::Ptr menu_model)
+  : menu_model(menu_model)
+  , menu_helper(menu_model)
 {
   TRACE_ENTER("W32AppletWindow::W32AppletWindow");
 
@@ -42,19 +48,26 @@ W32AppletWindow::W32AppletWindow()
   memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
   memset(&menu_data, 0, sizeof(AppletMenuData));
 
-  thread_id = 0;
-  thread_handle = NULL;
-  timer_box_view = this;
-  applet_window = NULL;
   heartbeat_data.enabled = true;
-  local_applet_window = NULL;
-  init_menu(NULL);
 
   ::InitializeCriticalSection(&heartbeat_data_lock);
   thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
+  timer_box_view = this;
   timer_box_control = new TimerBoxControl("applet", this);
+
+  workrave::utils::connect(menu_model->signal_update(), this, [this]() { init_menu(); });
+  workrave::utils::connect(menu_helper.signal_update(), this, [this](auto node) {
+    if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); !n)
+      {
+        init_menu();
+      }
+  });
+
+  menu_helper.setup_event();
+
+  init_menu();
   init_thread();
 
   TRACE_EXIT();
@@ -309,28 +322,6 @@ W32AppletWindow::run_event_pipe()
 }
 
 void
-W32AppletWindow::init_menu(HWND hwnd)
-{
-  menu_data.num_items = 0;
-  menu_sent = false;
-
-  /*
-    As noted in ui/win32/applet/include/applet.hh:
-    We pass the command_window HWND as a LONG for compatibility.
-  */
-  menu_data.command_window = HandleToLong(hwnd);
-}
-
-void
-W32AppletWindow::add_menu(const char *text, short cmd, int flags)
-{
-  AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
-  d->command = cmd;
-  strcpy(d->text, text);
-  d->flags = flags;
-}
-
-void
 W32AppletWindow::set_geometry(Orientation orientation, int size)
 {
   (void)orientation;
@@ -341,9 +332,11 @@ bool
 W32AppletWindow::on_applet_command(int command)
 {
   TRACE_ENTER_MSG("W32AppletWindow::on_applet_command", command);
-  IGUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();
-  menus->applet_command(command);
+  auto node = menu_helper.find_node(command);
+  if (node)
+    {
+      node->activate();
+    }
   TRACE_EXIT();
   return false;
 }
@@ -380,4 +373,92 @@ bool
 W32AppletWindow::is_visible() const
 {
   return applet_window != NULL && heartbeat_data.enabled;
+}
+
+void
+W32AppletWindow::init_menu()
+{
+  menu_data.num_items = 0;
+  menu_sent = false;
+
+  IApplication *gui = GUI::get_instance();
+  MainWindow *main_window = gui->get_main_window();
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
+
+  /*
+    As noted in ui/win32/applet/include/applet.hh:
+    We pass the command_window HWND as a LONG for compatibility.
+  */
+  menu_data.command_window = HandleToLong(hwnd);
+  process_menu(menu_model->get_root());
+}
+
+void
+W32AppletWindow::process_menu(menus::Node::Ptr node, bool popup)
+{
+  int command = menu_helper.allocate_command(node->get_id());
+
+  if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
+    {
+      if (menu_data.num_items > 0)
+        {
+          popup = true;
+        }
+
+      for (auto &menu_to_add: n->get_children())
+        {
+          process_menu(menu_to_add, popup);
+        }
+      if (popup)
+        {
+          add_menu(n->get_text(), 0, 0);
+        }
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
+    {
+      for (auto &menu_to_add: n->get_children())
+        {
+          process_menu(menu_to_add, popup);
+        }
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
+    {
+      add_menu(n->get_text(), command, (popup ? W32AppletWindow::MENU_FLAG_POPUP : 0));
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
+    {
+      add_menu(n->get_text(),
+               command,
+               W32AppletWindow::MENU_FLAG_TOGGLE | (popup ? W32AppletWindow::MENU_FLAG_POPUP : 0)
+                 | (n->is_checked() ? W32AppletWindow::MENU_FLAG_SELECTED : 0));
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
+    {
+      add_menu(n->get_text(),
+               command,
+               W32AppletWindow::MENU_FLAG_TOGGLE | (popup ? W32AppletWindow::MENU_FLAG_POPUP : 0)
+                 | ((n->is_checked() ? W32AppletWindow::MENU_FLAG_SELECTED : 0)));
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
+    {
+      // not supported
+    }
+
+  else
+    {
+    }
+}
+
+void
+W32AppletWindow::add_menu(const std::string &text, short cmd, int flags)
+{
+  AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
+  d->command = cmd;
+  strcpy(d->text, text.c_str());
+  d->flags = flags;
 }

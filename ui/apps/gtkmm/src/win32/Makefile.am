@@ -12,8 +12,6 @@ libworkrave_ui_gtkmm_win32_la_SOURCES = \
 			DesktopWindow.cc \
 			W32AppletWindow.cc \
 			W32Compat.cc \
-			W32AppletMenu.cc \
-			W32TrayMenu.cc \
 			W32StatusIcon.cc \
 			W32ForceFocus.cc \
 			eggsmclient.c \

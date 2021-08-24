@@ -19,8 +19,9 @@ set(SRC
   IconListCellRenderer.cc
   IconListNotebook.cc
   Locale.cc
-  MainGtkMenu.cc
   MainWindow.cc
+  MenuModel.cc
+  MenuHelper.cc
   Menus.cc
   MicroBreakWindow.cc
   PreferencesDialog.cc
@@ -34,6 +35,8 @@ set(SRC
   TimerBoxGtkView.cc
   TimerBoxPreferencePage.cc
   TimerPreferencesPanel.cc
+  Toolkit.cc
+  ToolkitMenu.cc
   Ui.cc
   WindowHints.cc
   main.cc
@@ -59,12 +62,10 @@ endif()
 if (PLATFORM_OS_WINDOWS)
   set(SRC ${SRC}
     win32/DesktopWindow.cc
-    win32/W32AppletMenu.cc
     win32/W32AppletWindow.cc
     win32/W32Compat.cc
     win32/W32ForceFocus.cc
     win32/W32StatusIcon.cc
-    win32/W32TrayMenu.cc
     win32/W32Grab.cc
     win32/eggsmclient-win32.c
     win32/eggsmclient.c
@@ -75,20 +76,11 @@ if (PLATFORM_OS_WINDOWS)
   endif()
 
   set(WORKRAVE_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})
-  set(WORKRAVE_VERSION ${VERSION})
-  set(WORKRAVE_RESOURCE_VERSION ${RESOURCE_VERSION})
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
 
-  if (MINGW)
-      add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
-                         COMMAND ${CMAKE_RC_COMPILER} -o ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o
-                                                      -i ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
-                        )
-      set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource_rc.o)
-  endif()
+  set(SRC ${SRC} ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
 
   include_directories(${CMAKE_SOURCE_DIR}/ui/apps/gtkmm/src/win32)
 endif()
@@ -238,6 +230,7 @@ if (WIN32)
 endif(WIN32)
 
 install(TARGETS workrave RUNTIME DESTINATION ${BINDIR})
+install(FILES workrave.appdata.xml DESTINATION ${DATADIR}/metainfo)
 
 if (HAVE_CRASH_REPORT)
   add_executable(WorkraveCrashHandler CrashDialog.cc)

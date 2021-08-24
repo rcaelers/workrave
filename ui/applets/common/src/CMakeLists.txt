@@ -2,6 +2,7 @@ set(SRC
   control.c
   timebar.c
   timerbox.c
+  utils.c
   )
 
 if (HAVE_GTK AND UNIX AND NOT APPLE)

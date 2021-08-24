@@ -67,4 +67,6 @@ GDBusProxy *workrave_timerbox_control_get_control_proxy(WorkraveTimerboxControl 
 void workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode);
 void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
 
+GVariant *workrave_timerbox_control_get_menus(WorkraveTimerboxControl *self);
+
 #endif /* WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H */

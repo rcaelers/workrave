@@ -80,8 +80,6 @@ libs/utils/src/WRID.cc
 libs/utils/src/debug.cc
 libs/utils/src/win32/W32ActiveSetup.cc
 libs/utils/src/win32/W32CriticalSection.cc
-libs/utils/src/win32/crashlog.c
-libs/utils/src/win32/crashlog.cc
 ui/applets/common/src/control.c
 ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c
@@ -115,9 +113,9 @@ ui/apps/gtkmm/src/Hig.cc
 ui/apps/gtkmm/src/IconListCellRenderer.cc
 ui/apps/gtkmm/src/IconListNotebook.cc
 ui/apps/gtkmm/src/Locale.cc
-ui/apps/gtkmm/src/MainGtkMenu.cc
 ui/apps/gtkmm/src/MainWindow.cc
 ui/apps/gtkmm/src/Menus.cc
+ui/apps/gtkmm/src/MenuModel.cc
 ui/apps/gtkmm/src/MicroBreakWindow.cc
 ui/apps/gtkmm/src/NetworkJoinDialog.cc
 ui/apps/gtkmm/src/NetworkLogDialog.cc
@@ -145,12 +143,10 @@ ui/apps/gtkmm/src/unix/X11SystrayAppletWindow.cc
 ui/apps/gtkmm/src/unix/desktop-window.c
 ui/apps/gtkmm/src/unix/gtktrayicon.c
 ui/apps/gtkmm/src/win32/DesktopWindow.cc
-ui/apps/gtkmm/src/win32/W32AppletMenu.cc
 ui/apps/gtkmm/src/win32/W32AppletWindow.cc
 ui/apps/gtkmm/src/win32/W32Compat.cc
 ui/apps/gtkmm/src/win32/W32ForceFocus.cc
 ui/apps/gtkmm/src/win32/W32StatusIcon.cc
-ui/apps/gtkmm/src/win32/W32TrayMenu.cc
 ui/apps/gtkmm/src/win32/eggsmclient-win32.c
 ui/apps/gtkmm/src/win32/eggsmclient.c
 ui/apps/gtkmm/src/workrave.appdata.xml

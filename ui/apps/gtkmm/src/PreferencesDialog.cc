@@ -957,7 +957,5 @@ PreferencesDialog::update_icon_theme_combo()
 void
 PreferencesDialog::on_debug_pressed()
 {
-  IGUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();
-  menus->on_menu_debug();
+  // TODO:
 }

@@ -47,11 +47,6 @@ AppletWindow::update_applet()
   TRACE_EXIT();
 }
 
-void
-AppletWindow::init_applet()
-{
-}
-
 sigc::signal<void, bool> &
 AppletWindow::signal_visibility_changed()
 {

@@ -38,6 +38,7 @@
 #  include "crash/CrashReporter.hh"
 #endif
 
+#include "Toolkit.hh"
 #include "GUI.hh"
 
 extern "C" int run(int argc, char **argv);
@@ -69,11 +70,9 @@ run(int argc, char **argv)
   W32ActiveSetup::update_all();
 #endif
 
-  GUI *gui = new GUI(argc, argv);
-
-  gui->main();
-
-  delete gui;
+  std::shared_ptr<IToolkit> toolkit = std::make_shared<Toolkit>(argc, argv);
+  std::shared_ptr<GUI> app = std::make_shared<GUI>(argc, argv, toolkit);
+  app->main();
 
   TRACE_EXIT();
   return 0;

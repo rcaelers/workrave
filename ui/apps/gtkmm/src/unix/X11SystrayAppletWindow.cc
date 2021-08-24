@@ -32,10 +32,21 @@
 
 #include "gtktrayicon.h"
 
-X11SystrayAppletWindow::X11SystrayAppletWindow()
+// TODO: remove
+#include "GUI.hh"
+#include "MainWindow.hh"
+
+X11SystrayAppletWindow::X11SystrayAppletWindow(std::shared_ptr<IApplication> app, MenuModel::Ptr menu_model)
+  : app(app)
 {
   enabled = GUIConfig::applet_fallback_enabled()();
   GUIConfig::applet_fallback_enabled().connect(tracker, [this](bool enabled) { on_enabled_changed(); });
+  menu = std::make_shared<ToolkitMenu>(menu_model, [](menus::Node::Ptr menu) { return menu->get_id() != Menus::OPEN; });
+
+  if (enabled)
+    {
+      activate();
+    }
 }
 
 X11SystrayAppletWindow::~X11SystrayAppletWindow()
@@ -119,7 +130,7 @@ X11SystrayAppletWindow::activate()
       eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
-      view = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
+      view = new TimerBoxGtkView(app);
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", timer_box_view);
 
@@ -146,6 +157,10 @@ X11SystrayAppletWindow::activate()
       view->set_geometry(applet_orientation, applet_size);
 
       applet_active = true;
+
+      IApplication *gui = GUI::get_instance();
+      MainWindow *main_window = gui->get_main_window();
+      menu->get_menu()->attach_to_widget(*main_window);
     }
 
   TRACE_EXIT();
@@ -235,9 +250,7 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3)
         {
-          IGUI *gui = GUI::get_instance();
-          Menus *menus = gui->get_menus();
-          menus->popup(Menus::MENU_MAINAPPLET, 0 /*event->button */, event->time);
+          menu->get_menu()->popup(event->button, event->time);
           ret = true;
         }
       if (event->button == 1)

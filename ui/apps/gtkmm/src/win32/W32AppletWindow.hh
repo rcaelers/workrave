@@ -27,15 +27,20 @@
 
 #include "commonui/TimerBoxViewBase.hh"
 #include "commonui/UiTypes.hh"
+#include "utils/Signals.hh"
+
 #include "Applet.hh"
 #include "AppletWindow.hh"
+#include "MenuModel.hh"
+#include "MenuHelper.hh"
 
 class W32AppletWindow
   : public AppletWindow
   , public TimerBoxViewBase
+  , public workrave::utils::Trackable
 {
 public:
-  W32AppletWindow();
+  W32AppletWindow(MenuModel::Ptr menu_model);
   virtual ~W32AppletWindow();
 
   void set_slot(workrave::BreakId id, int slot) override;
@@ -53,11 +58,13 @@ public:
   bool is_visible() const override;
   void set_geometry(Orientation orientation, int size) override;
 
+  GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
+
+private:
   void init_menu(HWND dest);
   void init_thread();
-  void add_menu(const char *text, short cmd, int flags);
+  void add_menu(const std::string &text, short cmd, int flags);
 
-  GdkFilterReturn win32_filter_func(void *xevent, GdkEvent *event);
   bool on_applet_command(int command);
 
   enum MenuFlag
@@ -73,22 +80,27 @@ private:
   static unsigned __stdcall run_event_pipe_static(void *);
 
 private:
+  void init();
+  void init_menu();
+  void process_menu(menus::Node::Ptr node, bool popup = false);
   void run_event_pipe();
 
-  HWND applet_window;
-  bool menu_sent;
+  HWND applet_window{nullptr};
+  bool menu_sent{false};
 
   AppletHeartbeatData local_heartbeat_data;
   AppletMenuData local_menu_data;
-  HWND local_applet_window;
+  HWND local_applet_window{nullptr};
 
   AppletHeartbeatData heartbeat_data;
   AppletMenuData menu_data;
   CRITICAL_SECTION heartbeat_data_lock;
-  HANDLE heartbeat_data_event;
-  HANDLE thread_abort_event;
-  HANDLE thread_handle;
-  volatile unsigned thread_id;
+  HANDLE heartbeat_data_event{nullptr};
+  HANDLE thread_abort_event{nullptr};
+  HANDLE thread_handle{nullptr};
+  volatile unsigned thread_id{0};
+  MenuModel::Ptr menu_model;
+  MenuHelper menu_helper;
 };
 
 #endif // W32APPLETWINDOW_HH

@@ -47,6 +47,7 @@ StatisticsDialog::StatisticsDialog()
 {
   auto core = Backend::get_core();
   statistics = core->get_statistics();
+  statistics->update();
 
   for (int i = 0; i < 5; i++)
     {

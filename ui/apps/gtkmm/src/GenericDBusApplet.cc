@@ -31,7 +31,6 @@
 #include "Text.hh"
 #include "GUI.hh"
 #include "Menus.hh"
-#include "commonui/MenuEnums.hh"
 #include "commonui/Backend.hh"
 #include "config/IConfigurator.hh"
 
@@ -39,11 +38,13 @@
 #include "dbus/DBusException.hh"
 #include "DBusGUI.hh"
 
-#define WORKRAVE_INDICATOR_SERVICE_NAME "org.workrave.Workrave"
-#define WORKRAVE_INDICATOR_SERVICE_IFACE "org.workrave.AppletInterface"
-#define WORKRAVE_INDICATOR_SERVICE_OBJ "/org/workrave/Workrave/UI"
+#define WORKRAVE_APPLET_SERVICE_NAME "org.workrave.Workrave"
+#define WORKRAVE_APPLET_SERVICE_IFACE "org.workrave.AppletInterface"
+#define WORKRAVE_APPLET_SERVICE_OBJ "/org/workrave/Workrave/UI"
 
-GenericDBusApplet::GenericDBusApplet()
+GenericDBusApplet::GenericDBusApplet(MenuModel::Ptr menu_model)
+  : menu_model(menu_model)
+  , menu_helper(menu_model)
 {
   timer_box_control = new TimerBoxControl("applet", this);
   timer_box_view = this;
@@ -59,7 +60,8 @@ GenericDBusApplet::GenericDBusApplet()
       data[i].bar_secondary_max = 0;
     }
 
-  GUIConfig::trayicon_enabled().connect(this, [this](bool enabled) { send_tray_icon_enabled(); });
+  GUIConfig::trayicon_enabled().connect(this, [this](bool) { send_tray_icon_enabled(); });
+  init();
 }
 
 void
@@ -98,20 +100,28 @@ GenericDBusApplet::update_view()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
-  iface->TimersUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
+  iface->TimersUpdated(WORKRAVE_APPLET_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
 
   TRACE_EXIT();
 }
 
 void
-GenericDBusApplet::init_applet()
+GenericDBusApplet::init()
 {
   try
     {
       dbus = Backend::get_dbus();
       if (dbus->is_available())
         {
-          dbus->connect(WORKRAVE_INDICATOR_SERVICE_OBJ, WORKRAVE_INDICATOR_SERVICE_IFACE, this);
+          dbus->connect(WORKRAVE_APPLET_SERVICE_OBJ, WORKRAVE_APPLET_SERVICE_IFACE, this);
+
+          workrave::utils::connect(menu_model->signal_update(), this, [this]() { send_menu_updated_event(); });
+
+          workrave::utils::connect(menu_helper.signal_update(), this, [this](auto node) { update_menu_item(node); });
+
+          menu_helper.setup_event();
+
+          send_menu_updated_event();
         }
     }
   catch (workrave::dbus::DBusException &)
@@ -147,58 +157,10 @@ GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
 }
 
 void
-GenericDBusApplet::resync(OperationMode mode, UsageMode usage, bool show_log)
+GenericDBusApplet::get_menu(std::list<MenuItem> &out)
 {
-  TRACE_ENTER("GenericDBusAppletMenu::resync");
-
-  items.clear();
-
-  add_menu_item(_("Open"), MENU_COMMAND_OPEN, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Preferences"), MENU_COMMAND_PREFERENCES, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Rest break"), MENU_COMMAND_REST_BREAK, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Exercises"), MENU_COMMAND_EXERCISES, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_BEGIN);
-
-  add_menu_item(_("Normal"),
-                MENU_COMMAND_MODE_NORMAL,
-                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Normal ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Suspended"),
-                MENU_COMMAND_MODE_SUSPENDED,
-                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Suspended ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-  add_menu_item(_("Quiet"),
-                MENU_COMMAND_MODE_QUIET,
-                MENU_ITEM_FLAG_RADIO | (mode == OperationMode::Quiet ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-
-  add_menu_item(_("Mode"), MENU_COMMAND_MODE_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
-
-#ifdef HAVE_DISTRIBUTION
-  add_menu_item(_("Network"), MENU_COMMAND_NETWORK_SUBMENU, MENU_ITEM_FLAG_SUBMENU_BEGIN);
-  add_menu_item(_("Connect"), MENU_COMMAND_NETWORK_CONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Disconnect"), MENU_COMMAND_NETWORK_DISCONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Reconnect"), MENU_COMMAND_NETWORK_RECONNECT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Show log"), MENU_COMMAND_NETWORK_LOG, MENU_ITEM_FLAG_CHECK | (show_log ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-
-  add_menu_item(_("Network"), MENU_COMMAND_NETWORK_SUBMENU, MENU_ITEM_FLAG_SUBMENU_END);
-
-#endif
-  add_menu_item(_("Reading mode"),
-                MENU_COMMAND_MODE_READING,
-                MENU_ITEM_FLAG_CHECK | (usage == UsageMode::Reading ? MENU_ITEM_FLAG_ACTIVE : MENU_ITEM_FLAG_NONE));
-
-  add_menu_item(_("Statistics"), MENU_COMMAND_STATISTICS, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("About..."), MENU_COMMAND_ABOUT, MENU_ITEM_FLAG_NONE);
-  add_menu_item(_("Quit"), MENU_COMMAND_QUIT, MENU_ITEM_FLAG_NONE);
-
-  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
-  assert(iface != nullptr);
-  iface->MenuUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, items);
-
-  TRACE_EXIT();
-}
-
-void
-GenericDBusApplet::get_menu(MenuItems &out) const
-{
+  std::list<MenuItem> items;
+  init_menu_list(items, menu_model->get_root());
   out = items;
 }
 
@@ -209,21 +171,23 @@ GenericDBusApplet::get_tray_icon_enabled(bool &enabled) const
 }
 
 void
-GenericDBusApplet::add_menu_item(const char *text, int command, int flags)
+GenericDBusApplet::applet_command(int command)
 {
-  MenuItem item;
-  item.text = text;
-  item.command = command;
-  item.flags = flags;
-  items.push_back(item);
+  auto node = menu_helper.find_node(command);
+  if (node)
+    {
+      node->activate();
+    }
 }
 
 void
-GenericDBusApplet::applet_command(int command)
+GenericDBusApplet::applet_menu_action(const std::string &id)
 {
-  IGUI *gui = GUI::get_instance();
-  Menus *menus = gui->get_menus();
-  menus->applet_command(command);
+  auto node = menu_helper.find_node(id);
+  if (node)
+    {
+      node->activate();
+    }
 }
 
 void
@@ -270,7 +234,7 @@ GenericDBusApplet::send_tray_icon_enabled()
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
-  iface->TrayIconUpdated(WORKRAVE_INDICATOR_SERVICE_OBJ, on);
+  iface->TrayIconUpdated(WORKRAVE_APPLET_SERVICE_OBJ, on);
 
   TRACE_EXIT();
 }
@@ -279,4 +243,135 @@ bool
 GenericDBusApplet::is_visible() const
 {
   return visible;
+}
+
+void
+GenericDBusApplet::send_menu_updated_event()
+{
+  std::list<MenuItem> items;
+  init_menu_list(items, menu_model->get_root());
+
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  iface->MenuUpdated(WORKRAVE_APPLET_SERVICE_OBJ, items);
+}
+
+void
+GenericDBusApplet::init_menu_list(std::list<MenuItem> items, menus::Node::Ptr node)
+{
+  uint32_t command = menu_helper.allocate_command(node->get_id());
+
+  uint8_t flags = MENU_ITEM_FLAG_NONE;
+
+  if (node->is_visible())
+    {
+      flags |= MENU_ITEM_FLAG_VISIBLE;
+    }
+
+  if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
+    {
+      bool add_sub_menu = items.size() > 0;
+
+      if (add_sub_menu)
+        {
+          items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::SubMenuBegin, flags);
+        }
+      for (auto &menu_to_add: n->get_children())
+        {
+          init_menu_list(items, menu_to_add);
+        }
+      if (add_sub_menu)
+        {
+          items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::SubMenuEnd, flags);
+        }
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
+    {
+      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::RadioGroupBegin, flags);
+      for (auto &menu_to_add: n->get_children())
+        {
+          init_menu_list(items, menu_to_add);
+        }
+      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::RadioGroupEnd, flags);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
+    {
+      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Action, flags);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
+    {
+      if (n->is_checked())
+        {
+          flags |= MENU_ITEM_FLAG_ACTIVE;
+        }
+      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Check, flags);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
+    {
+      if (n->is_checked())
+        {
+          flags |= MENU_ITEM_FLAG_ACTIVE;
+        }
+      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Radio, flags);
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
+    {
+      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Separator, flags);
+    }
+}
+
+void
+GenericDBusApplet::update_menu_item(menus::Node::Ptr node)
+{
+  uint32_t command = menu_helper.allocate_command(node->get_id());
+  uint8_t flags = MENU_ITEM_FLAG_NONE;
+  MenuItemType type{};
+
+  if (node->is_visible())
+    {
+      flags |= MENU_ITEM_FLAG_VISIBLE;
+    }
+
+  if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
+    {
+      type = MenuItemType::SubMenuBegin;
+    }
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
+    {
+      type = MenuItemType::RadioGroupBegin;
+    }
+  else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
+    {
+      type = MenuItemType::Action;
+    }
+  else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
+    {
+      if (n->is_checked())
+        {
+          flags |= MENU_ITEM_FLAG_ACTIVE;
+        }
+      type = MenuItemType::Check;
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
+    {
+      if (n->is_checked())
+        {
+          flags |= MENU_ITEM_FLAG_ACTIVE;
+        }
+      type = MenuItemType::Radio;
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
+    {
+      type = MenuItemType::Separator;
+    }
+
+  MenuItem item(node->get_text(), node->get_id(), command, type, flags);
+  org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
+  iface->MenuItemUpdated(WORKRAVE_APPLET_SERVICE_OBJ, item);
 }

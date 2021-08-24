@@ -38,8 +38,10 @@
 #include "TimerBoxGtkView.hh"
 #include "commonui/TimerBoxControl.hh"
 #include "commonui/GUIConfig.hh"
-#include "GUI.hh"
 #include "GtkUtil.hh"
+
+#include "WindowHints.hh"
+#include "ToolkitMenu.hh"
 #include "Menus.hh"
 
 #ifdef PLATFORM_OS_WINDOWS_LEGACY
@@ -47,6 +49,12 @@ const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 #endif
 
 using namespace std;
+
+MainWindow::MainWindow(std::shared_ptr<IApplication> app, MenuModel::Ptr menu_model)
+  : app(app)
+{
+  menu = std::make_shared<ToolkitMenu>(menu_model, [](menus::Node::Ptr menu) { return menu->get_id() != Menus::OPEN; });
+}
 
 MainWindow::~MainWindow()
 {
@@ -129,9 +137,9 @@ MainWindow::open_window()
       GtkRequisition natural_size;
       get_preferred_size(min_size, natural_size);
 
-      GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
+      app->bound_head(x, y, min_size.width, min_size.height, head);
 
-      GUI::get_instance()->map_from_head(x, y, head);
+      app->map_from_head(x, y, head);
       TRACE_MSG("moving to " << x << " " << y);
       move(x, y);
 
@@ -239,7 +247,7 @@ MainWindow::init()
 
   enabled = GUIConfig::timerbox_enabled("main_window")();
 
-  timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
+  timer_box_view = Gtk::manage(new TimerBoxGtkView(app));
   timer_box_control = new TimerBoxControl("main_window", timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
@@ -336,6 +344,9 @@ MainWindow::init()
 
   visible_connection = property_visible().signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_visibility_changed));
 
+  menu->get_menu()->attach_to_widget(*this);
+  insert_action_group("app", menu->get_action_group());
+
   TRACE_EXIT();
 }
 
@@ -398,8 +409,7 @@ MainWindow::on_delete_event(GdkEventAny *)
     }
   else
     {
-      IGUI *gui = GUI::get_instance();
-      gui->terminate();
+      app->terminate();
     }
 #endif
 
@@ -408,7 +418,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 }
 
 bool
-MainWindow::on_timer_view_button_press_event(GdkEventButton *event)
+MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 {
   TRACE_ENTER("MainWindow::on_timer_view_button_press_event");
   bool ret = false;
@@ -417,9 +427,7 @@ MainWindow::on_timer_view_button_press_event(GdkEventButton *event)
 
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
-      IGUI *gui = GUI::get_instance();
-      Menus *menus = gui->get_menus();
-      menus->popup(Menus::MENU_MAINWINDOW, event->button, event->time);
+      menu->get_menu()->popup_at_pointer((const GdkEvent *)event);
       ret = true;
     }
 
@@ -571,12 +579,12 @@ MainWindow::move_to_start_position()
   GtkRequisition natural_size;
   get_preferred_size(min_size, natural_size);
 
-  GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
+  app->bound_head(x, y, min_size.width, min_size.height, head);
 
   window_head_location.set_x(x);
   window_head_location.set_y(y);
 
-  GUI::get_instance()->map_from_head(x, y, head);
+  app->map_from_head(x, y, head);
 
   TRACE_MSG("Main window size " << min_size.width << " " << min_size.height);
 
@@ -654,10 +662,10 @@ MainWindow::locate_window(GdkEventConfigure *event)
       window_relocated_location.set_x(x);
       window_relocated_location.set_y(y);
 
-      int head = GUI::get_instance()->map_to_head(x, y);
+      int head = app->map_to_head(x, y);
       TRACE_MSG("main window head = " << x << " " << y << " " << head);
 
-      bool rc = GUI::get_instance()->bound_head(x, y, width, height, head);
+      bool rc = app->bound_head(x, y, width, height, head);
       TRACE_MSG("main window bounded = " << x << " " << y);
 
       window_head_location.set_x(x);
@@ -696,17 +704,16 @@ MainWindow::relocate_window(int width, int height)
       x = window_head_location.get_x();
       y = window_head_location.get_y();
 
-      IGUI *gui = GUI::get_instance();
-      int num_heads = gui->get_number_of_heads();
+      int num_heads = app->get_head_count();
       for (int i = 0; i < num_heads; i++)
         {
           GtkRequisition min_size;
           GtkRequisition natural_size;
           get_preferred_size(min_size, natural_size);
 
-          GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, i);
+          app->bound_head(x, y, min_size.width, min_size.height, i);
 
-          gui->map_from_head(x, y, i);
+          app->map_from_head(x, y, i);
           break;
         }
 

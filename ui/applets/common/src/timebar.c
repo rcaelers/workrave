@@ -1,4 +1,5 @@
 /* Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
+ * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,7 @@
 
 static void workrave_timebar_class_init(WorkraveTimebarClass *klass);
 static void workrave_timebar_init(WorkraveTimebar *self);
+static void workrave_timebar_dispose(GObject *self);
 static void workrave_timebar_prepare(WorkraveTimebar *self);
 
 static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
@@ -42,10 +44,6 @@ enum
   PROP_0,
   PROP_NAME
 };
-
-#ifdef USE_GTK2
-#  include "compat.h"
-#endif
 
 struct _WorkraveTimebarPrivate
 {
@@ -84,23 +82,19 @@ G_DEFINE_TYPE_WITH_PRIVATE(WorkraveTimebar, workrave_timebar, G_TYPE_OBJECT);
 
 static GdkRGBA bar_colors[COLOR_ID_SIZEOF];
 
-#ifdef USE_GTK2
-static void
-set_color(cairo_t *cr, GdkColor color)
-{
-  cairo_set_source_rgb(cr, color.red / 65535.0, color.green / 65535.0, color.blue / 65535.0);
-}
-#else
 static void
 set_color(cairo_t *cr, GdkRGBA color)
 {
   cairo_set_source_rgb(cr, color.red, color.green, color.blue);
 }
-#endif
 
 static void
 workrave_timebar_class_init(WorkraveTimebarClass *klass)
 {
+  GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
+
+  gobject_class->dispose = workrave_timebar_dispose;
+
   gdk_rgba_parse(&bar_colors[COLOR_ID_ACTIVE], "lightblue");
   gdk_rgba_parse(&bar_colors[COLOR_ID_INACTIVE], "lightgreen");
   gdk_rgba_parse(&bar_colors[COLOR_ID_OVERDUE], "orange");
@@ -131,6 +125,19 @@ workrave_timebar_init(WorkraveTimebar *self)
   priv->pango_layout = NULL;
 
   workrave_timebar_prepare(self);
+}
+
+static void
+workrave_timebar_dispose(GObject *gobject)
+{
+  WorkraveTimebar *self = WORKRAVE_TIMEBAR(gobject);
+  WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
+
+  g_clear_pointer(&priv->bar_text, g_free);
+  g_clear_pointer(&priv->pango_layout, g_object_unref);
+
+  /* Chain up to the parent class */
+  G_OBJECT_CLASS(workrave_timebar_parent_class)->dispose(gobject);
 }
 
 void
@@ -244,7 +251,6 @@ workrave_timebar_get_font(void)
 {
   PangoFontDescription *font_desc;
 
-#ifndef USE_GTK2
   if (gdk_screen_get_default())
     {
       GtkStyleContext *style = gtk_style_context_new();
@@ -258,7 +264,6 @@ workrave_timebar_get_font(void)
       g_object_unref(style);
     }
   else
-#endif
     {
       font_desc = pango_font_description_from_string("Sans 10");
     }
@@ -292,6 +297,7 @@ workrave_timebar_prepare(WorkraveTimebar *self)
 
       cairo_surface_destroy(surface);
       cairo_destroy(cr);
+      pango_font_description_free(font_desc);
     }
 }
 

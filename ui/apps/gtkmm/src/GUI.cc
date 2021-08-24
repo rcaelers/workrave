@@ -109,7 +109,8 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-GUI::GUI(int argc, char **argv)
+GUI::GUI(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
+  : toolkit(toolkit)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -135,7 +136,6 @@ GUI::~GUI()
   delete main_window;
 
   delete applet_control;
-  delete menus;
 
   Backend::core.reset();
 
@@ -161,9 +161,21 @@ GUI::main()
   app->hold();
 
   init_core();
+
+  menu_model = std::make_shared<MenuModel>();
+  menus = std::make_shared<Menus>(shared_from_this(), toolkit, core, menu_model);
+
+  // TODO: move
+#ifdef HAVE_INDICATOR
+  indicator_menu = std::make_shared<IndicatorAppletMenu>(menu_model);
+#endif
+
   init_nls();
   init_debug();
   init_sound_player();
+
+  toolkit->init(menu_model, sound_theme);
+
   init_multihead();
   init_dbus();
   init_platform();
@@ -432,7 +444,7 @@ GUI::init_nls()
 
   GUIConfig::locale().connect(this, [&](const std::string &locale) {
     Locale::set_locale(locale);
-    menus->locale_changed();
+    // TODO: menus->locale_changed();
   });
 #  endif
 
@@ -504,22 +516,19 @@ GUI::init_gui()
   Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
 #endif
 
-  menus = new Menus(sound_theme);
-
   // The main status window.
-  main_window = new MainWindow();
+  main_window = new MainWindow(shared_from_this(), menu_model);
   main_window->init();
 
   // The applet window.
-  applet_control = new AppletControl();
-  applet_control->init();
-
-  // Menus
-  menus->init(applet_control);
-  menus->resync();
+  applet_control = new AppletControl(shared_from_this());
+  applet_control->init(menu_model);
 
   // Status Icon
-  status_icon = new StatusIcon();
+  auto status_icon_menu = std::make_shared<ToolkitMenu>(menu_model);
+  status_icon_menu->get_menu()->attach_to_widget(*main_window);
+
+  status_icon = new StatusIcon(status_icon_menu);
   status_icon->init();
 
   // Events
@@ -537,7 +546,7 @@ GUI::init_gui()
 
   if (dbus->is_available())
     {
-      dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus);
+      dbus->connect("/org/workrave/Workrave/UI", "org.workrave.ControlInterface", menus.get());
     }
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -620,28 +629,6 @@ GUI::init_operation_mode_warning()
     }
 }
 
-//! Returns a break window for the specified break.
-IBreakWindow::Ptr
-GUI::create_break_window(HeadInfo head, BreakId break_id, BreakFlags break_flags)
-{
-  IBreakWindow::Ptr ret = nullptr;
-  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
-  if (break_id == BREAK_ID_MICRO_BREAK)
-    {
-      ret = std::make_shared<MicroBreakWindow>(head, break_flags, block_mode);
-    }
-  else if (break_id == BREAK_ID_REST_BREAK)
-    {
-      ret = std::make_shared<RestBreakWindow>(sound_theme, head, break_flags, block_mode);
-    }
-  else if (break_id == BREAK_ID_DAILY_LIMIT)
-    {
-      ret = std::make_shared<DailyLimitWindow>(head, break_flags, block_mode);
-    }
-
-  return ret;
-}
-
 //! Initializes the sound player.
 void
 GUI::init_sound_player()
@@ -708,15 +695,11 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
     {
       status_icon->set_operation_mode(m);
     }
-
-  menus->resync();
 }
 
 void
 GUI::core_event_usage_mode_changed(const UsageMode m)
 {
-  (void)m;
-  menus->resync();
 }
 
 void
@@ -732,9 +715,9 @@ GUI::create_prelude_window(BreakId break_id)
   hide_break_window();
   active_break_id = break_id;
 
-  for (int i = 0; i < get_number_of_heads(); i++)
+  for (int i = 0; i < get_head_count(); i++)
     {
-      prelude_windows.push_back(std::make_shared<PreludeWindow>(get_head(i), break_id));
+      prelude_windows.push_back(std::make_shared<PreludeWindow>(get_head_info(i), break_id));
     }
 
   TRACE_EXIT();
@@ -779,9 +762,9 @@ GUI::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> bre
 
   active_break_id = break_id;
 
-  for (int i = 0; i < get_number_of_heads(); i++)
+  for (int i = 0; i < get_head_count(); i++)
     {
-      IBreakWindow::Ptr break_window = create_break_window(get_head(i), break_id, break_flags);
+      IBreakWindow::Ptr break_window = toolkit->create_break_window(i, break_id, break_flags);
 
       break_windows.push_back(break_window);
 
@@ -936,36 +919,16 @@ GUI::on_operational_mode_warning_timer()
   return false;
 }
 
-HeadInfo
-GUI::get_head(int monitor_index) const
-{
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(monitor_index);
-
-  HeadInfo head;
-  head.monitor = monitor_index;
-  monitor->get_geometry(head.geometry);
-
-  return head;
-}
-
-int
-GUI::get_number_of_heads() const
-{
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  return display->get_n_monitors();
-}
-
 int
 GUI::map_to_head(int &x, int &y)
 {
   int ret = -1;
 
-  for (int i = 0; i < get_number_of_heads(); i++)
+  for (int i = 0; i < get_head_count(); i++)
     {
       int left, top, width, height;
 
-      HeadInfo head = get_head(i);
+      HeadInfo head = get_head_info(i);
 
       left = head.get_x();
       top = head.get_y();
@@ -1005,7 +968,7 @@ GUI::map_to_head(int &x, int &y)
 void
 GUI::map_from_head(int &x, int &y, int head)
 {
-  HeadInfo h = get_head(head);
+  HeadInfo h = get_head_info(head);
   if (x < 0)
     {
       x += h.get_width();
@@ -1024,12 +987,12 @@ GUI::bound_head(int &x, int &y, int width, int height, int &head)
 {
   bool ret = false;
 
-  if (head >= get_number_of_heads())
+  if (head >= get_head_count())
     {
       head = 0;
     }
 
-  HeadInfo h = get_head(head);
+  HeadInfo h = get_head_info(head);
   if (x < -h.get_width())
     {
       x = 0;

@@ -28,6 +28,10 @@
 
 #include "utils/Signals.hh"
 
+#include "IApplication.hh"
+#include "MenuModel.hh"
+#include "ToolkitMenu.hh"
+
 class TimerBoxControl;
 class TimerBoxGtkView;
 
@@ -36,7 +40,7 @@ class MainWindow
   , public workrave::utils::Trackable
 {
 public:
-  MainWindow() = default;
+  MainWindow(std::shared_ptr<IApplication> app, MenuModel::Ptr menu_model);
   ~MainWindow() override;
 
   void init();
@@ -55,9 +59,11 @@ public:
 
 private:
   void on_visibility_changed();
-  bool on_timer_view_button_press_event(GdkEventButton *event);
+  bool on_timer_view_button_press_event(const GdkEventButton *event);
 
 private:
+  std::shared_ptr<IApplication> app;
+
   //! Is the main window enabled?
   bool enabled{true};
 
@@ -69,6 +75,8 @@ private:
 
   //! View that displays the timerbox.
   TimerBoxGtkView *timer_box_view{nullptr};
+
+  std::shared_ptr<ToolkitMenu> menu;
 
 #ifdef PLATFORM_OS_UNIX
   Gtk::Window *leader{nullptr};

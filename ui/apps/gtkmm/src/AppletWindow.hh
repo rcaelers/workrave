@@ -31,7 +31,6 @@ public:
   AppletWindow() = default;
   ~AppletWindow() override = default;
 
-  void init_applet() override;
   void update_applet() override;
   void set_applet_tooltip(const std::string &tip) override;
   sigc::signal<void, bool> &signal_visibility_changed() override;

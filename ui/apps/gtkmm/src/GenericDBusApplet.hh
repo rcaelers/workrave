@@ -22,8 +22,10 @@
 #include <set>
 
 #include "AppletWindow.hh"
-#include "MenuBase.hh"
 
+#include "commonui/MenuDefs.hh"
+#include "MenuModel.hh"
+#include "MenuHelper.hh"
 #include "commonui/TimerBoxViewBase.hh"
 #include "utils/Signals.hh"
 #include "dbus/IDBus.hh"
@@ -34,7 +36,6 @@ class AppletControl;
 class GenericDBusApplet
   : public AppletWindow
   , public TimerBoxViewBase
-  , public MenuBase
   , public workrave::dbus::IDBusWatch
   , public workrave::utils::Trackable
 {
@@ -53,26 +54,45 @@ public:
 
   struct MenuItem
   {
+    MenuItem() = default;
+    MenuItem(std::string text, std::string action, uint32_t command, MenuItemType type, uint8_t flags = 0)
+      : text(std::move(text))
+      , action(std::move(action))
+      , command(command)
+      , type(static_cast<std::underlying_type_t<MenuItemType>>(type))
+      , flags(flags)
+    {
+    }
+    MenuItem(std::string text, std::string action, uint32_t command, uint8_t type, uint8_t flags = 0)
+      : text(std::move(text))
+      , action(std::move(action))
+      , command(command)
+      , type(type)
+      , flags(flags)
+    {
+    }
     std::string text;
-    int command;
-    int flags;
+    std::string action;
+    uint32_t command;
+    uint8_t type;
+    uint8_t flags;
   };
 
-  using MenuItems = std::list<MenuItem>;
-
-  GenericDBusApplet();
+  GenericDBusApplet(MenuModel::Ptr menu_model);
   ~GenericDBusApplet() override = default;
 
   // DBus
-  virtual void get_menu(MenuItems &out) const;
+  virtual void get_menu(std::list<MenuItem> &out);
   virtual void get_tray_icon_enabled(bool &enabled) const;
+  virtual void applet_menu_action(const std::string &action);
   virtual void applet_command(int command);
   virtual void applet_embed(bool enable, const std::string &sender);
   virtual void button_clicked(int button);
 
+  using MenuItems = std::list<MenuItem>;
+
 private:
-  // IAppletWindow
-  void init_applet() override;
+  void init();
 
   // ITimerBoxView
   void set_slot(workrave::BreakId id, int slot) override;
@@ -90,10 +110,9 @@ private:
   // IDBusWatch
   void bus_name_presence(const std::string &name, bool present) override;
 
-  // Menu
-  void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log) override;
-
-  void add_menu_item(const char *text, int command, int flags);
+  void send_menu_updated_event();
+  void init_menu_list(std::list<MenuItem> items, menus::Node::Ptr node);
+  void update_menu_item(menus::Node::Ptr node);
 
   void send_tray_icon_enabled();
 
@@ -101,9 +120,10 @@ private:
   bool visible{false};
   bool embedded{false};
   TimerData data[workrave::BREAK_ID_SIZEOF];
-  MenuItems items;
   std::set<std::string> active_bus_names;
   workrave::dbus::IDBus::Ptr dbus;
+  MenuModel::Ptr menu_model;
+  MenuHelper menu_helper;
 };
 
 #endif // GENERICDBUSAPPLET_HH
