@@ -18,7 +18,7 @@ parse_arguments() {
 
 parse_arguments $*
 
-DIST_DIRS=`find /workspace/deploy -mindepth 1 -type d -print`
+DIST_DIRS=`find /workspace/deploy -mindepth 1 -type d -print | sort -r`
 for dir in $DIST_DIRS; do
     dist=`basename $dir`
     cd $dir
