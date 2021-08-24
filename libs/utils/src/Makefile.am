@@ -16,8 +16,7 @@ sources = 	DBusProxy-gio.cc \
 if PLATFORM_OS_WINDOWS
 sources +=	win32/W32ActiveSetup.cc \
 	   	  	win32/W32CriticalSection.cc \
-		  	win32/crashlog.c \
-			Platform-win32.cc
+    			Platform-win32.cc
 cflags += 	-I$(top_srcdir)/libs/utils/src/win32
 endif
 
