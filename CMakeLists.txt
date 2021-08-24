@@ -774,10 +774,6 @@ if (WIN32)
       )
   endif()
 
-  add_definitions(
-    -Wno-attributes
-  )
-
   check_include_files(dsound.h HAVE_DSOUND)
 
   check_c_source_compiles(
