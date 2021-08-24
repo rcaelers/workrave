@@ -58,8 +58,8 @@ sources +=	unix/gtktrayicon.c unix/UnixGrab.cc
 endif
 
 resource.rc: resource.rc.in
-	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
-	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
+	sed -e 's/@WORKRAVE_VERSION@/$(WORKRAVE_VERSION)/g' \
+	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(WORKRAVE_RESOURCE_VERSION)/g' \
 		-e 's|@WORKRAVE_TOP_SOURCE_DIR@|$(abs_top_srcdir)|g' \
 		$(srcdir)/$@.in > $@
 

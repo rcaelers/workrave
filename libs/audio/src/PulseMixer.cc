@@ -77,7 +77,7 @@ PulseMixer::init()
   pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_NAME, "Workrave");
   pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_ID, "org.workrave.Workrave");
   pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_ICON_NAME, "workrave");
-  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_VERSION, PACKAGE_VERSION);
+  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_VERSION, WORKRAVE_VERSION);
 
   context = pa_context_new_with_proplist(pa_api, nullptr, pa_proplist);
   g_assert(context);

@@ -281,10 +281,10 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
                         "Workrave",
 #ifdef WORKRAVE_GIT_VERSION
                         "version",
-                        PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
+                        WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
 #else
                         "version",
-                        PACKAGE_VERSION,
+                        WORKRAVE_VERSION,
 #endif
                         "copyright",
                         workrave_copyright,

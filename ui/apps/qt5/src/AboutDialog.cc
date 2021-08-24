@@ -48,9 +48,9 @@ AboutDialog::AboutDialog()
                                         "<br/>%s<br/>"))
                              %
 #ifdef WORKRAVE_GIT_VERSION
-                             (PACKAGE_VERSION "(" WORKRAVE_GIT_VERSION ")") %
+                             (WORKRAVE_VERSION "(" WORKRAVE_GIT_VERSION ")") %
 #else
-                             (PACKAGE_VERSION "") %
+                             (WORKRAVE_VERSION "") %
 #endif
                              tr("This program assists in the prevention and recovery"
                                 " of Repetitive Strain Injury (RSI)."));

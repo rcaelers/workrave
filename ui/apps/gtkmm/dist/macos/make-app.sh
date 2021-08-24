@@ -26,7 +26,7 @@
 LIBPREFIX=$HOME/gtk/inst
 BINARY=workrave
 PACKAGE=Workrave.app
-PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
+WORKRAVE_VERSION=`grep WORKRAVE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
 
 # ------------------------------------------------------------
 # Print usage message
@@ -97,7 +97,7 @@ pkgetcdir=$pkgresourcesdir/etc
 pkglibdir=$pkgresourcesdir/lib
 pkgthemedir=$pkgresourcesdir/themes
 
-sed -e "s?@ENV@?$env?g" -e "s?@VERSION@?$PACKAGE_VERSION?g" < Info.plist.in > Info.plist
+sed -e "s?@ENV@?$env?g" -e "s?@VERSION@?$WORKRAVE_VERSION?g" < Info.plist.in > Info.plist
 
 # ------------------------------------------------------------
 # Create directory layout
@@ -105,7 +105,7 @@ sed -e "s?@ENV@?$env?g" -e "s?@VERSION@?$PACKAGE_VERSION?g" < Info.plist.in > In
 
 echo
 echo -e "Creating Workrave application bundle"
-echo -e "Workrave version is $PACKAGE_VERSION"
+echo -e "Workrave version is $WORKRAVE_VERSION"
 
 if [ -d $PACKAGE ];
 then

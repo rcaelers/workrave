@@ -126,7 +126,7 @@ CrashReporter::Pimpl::init()
   std::vector<std::string> arguments;
 
   annotations["product"] = "Workrave";
-  annotations["version"] = PACKAGE_VERSION;
+  annotations["version"] = WORKRAVE_VERSION;
 #ifdef WORKRAVE_GIT_VERSION
   annotations["commit"] = WORKRAVE_GIT_VERSION;
 #endif

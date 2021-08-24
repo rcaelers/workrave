@@ -18,24 +18,10 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (VERSION_MAJOR   "1")
-set (VERSION_MINOR   "11")
-set (VERSION_RELEASE "0")
-#set (VERSION_PATCH   "0")
-if (VERSION_PATCH)
-    set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
-    set (RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},${VERSION_PATCH}" )
-else ()
-    set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
-    set (RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},0" )
-endif ()
+set (WORKRAVE_VERSION "1.11-alpha1" )
+set (WORKRAVE_RESOURCE_VERSION "1,10,999,1" )
 
-set (PACKAGE_VERSION ${VERSION})
-
-#
 set (CMAKE_BUILD_TYPE_INIT "Debug")
-
-#
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include(CheckLibraryExists)
@@ -935,7 +921,7 @@ configure_file(${CMAKE_SOURCE_DIR}/build/cmake/config.h.in ${CMAKE_CURRENT_BINAR
 #----------------------------------------------------------------------------------------------------
 # Make dist.
 
-set (ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${PACKAGE_VERSION})
+set (ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-${WORKRAVE_VERSION})
 add_custom_target(dist
     COMMAND git archive --prefix=${ARCHIVE_NAME}/ HEAD
         | bzip2 > ${CMAKE_BINARY_DIR}/${ARCHIVE_NAME}.tar.bz2

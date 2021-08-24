@@ -73,7 +73,6 @@ $(applet_in_files): $(applet_in_files).in Makefile
 	$(AM_V_GEN)sed \
 		-e "s|\@LOCATION\@|$(APPLET_LOCATION)|" \
 		-e "s|\@IN_PROCESS\@|$(APPLET_IN_PROCESS)|" \
-		-e "s|\@VERSION\@|$(PACKAGE_VERSION)|" \
 		$< > $@
 
 %.panel-applet: %.panel-applet.in

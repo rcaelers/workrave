@@ -330,9 +330,9 @@ Menus::on_menu_about()
       about->set_translator_credits(workrave_translators);
 
 #ifdef WORKRAVE_GIT_VERSION
-      about->set_version(PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");
+      about->set_version(WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");
 #else
-      about->set_version(PACKAGE_VERSION);
+      about->set_version(WORKRAVE_VERSION);
 #endif
       about->set_website("http://www.workrave.org/");
       about->set_website_label("www.workrave.org");

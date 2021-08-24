@@ -3,14 +3,8 @@ dnl
 dnl Copyright (C) 2001 - 2014 Rob Caelers & Raymond Penners
 dnl
 
-m4_define([workrave_major_version], [1])
-m4_define([workrave_minor_version], [11])
-m4_define([workrave_micro_version], [0])
-m4_define([workrave_version_suffix], [])
-m4_define([workrave_version],
-          workrave_major_version.workrave_minor_version.workrave_micro_version[]m4_ifset([workrave_version_suffix],-[workrave_version_suffix]))
-m4_define([workrave_resource_version],
-          [workrave_major_version,workrave_minor_version,workrave_micro_version,0])
+m4_define([workrave_version], 1.11-alpha1)
+m4_define([workrave_resource_version], [1,10,999,1])
 
 AC_PREREQ([2.67])
 AC_INIT([workrave],
@@ -31,6 +25,7 @@ dnl AM_SILENT_RULES([yes])
 if test -n "$WORKRAVE_GIT_VERSION"; then
     AC_DEFINE_UNQUOTED(WORKRAVE_GIT_VERSION, "$WORKRAVE_GIT_VERSION", [GIT Version])
 fi
+AC_DEFINE_UNQUOTED(WORKRAVE_VERSION, "$WORKRAVE_VERSION", [Workrave Version])
 
 if test "X$prefix" != "XNONE" ; then
    pkg_config_prefix="--define-variable=prefix=$prefix"
@@ -189,12 +184,12 @@ AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 AX_BOOST_BASE([1.52],, AC_MSG_ERROR([requires boost library >= 1.52.]))
 
 dnl Update version and date.
-AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
 AC_SUBST(ISODATE)
 
-RESOURCE_VERSION=workrave_resource_version
-AC_SUBST(RESOURCE_VERSION)
+AC_SUBST(WORKRAVE_VERSION)
+WORKRAVE_RESOURCE_VERSION=workrave_resource_version
+AC_SUBST(WORKRAVE_RESOURCE_VERSION)
 
 AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)

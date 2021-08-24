@@ -4,8 +4,6 @@ set(APPLETBINDIR "${LIBDIR}/mate-applets")
 set(UIDIR        "${DATADIR}/mate-panel/ui")
 
 set(LOCATION   "${CMAKE_INSTALL_PREFIX}/${APPLETBINDIR}/workrave-applet")
-set(IN_PROCESS true)
-set(VERSION    ${PACKAGE_VERSION})
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.WorkraveApplet.mate-panel-applet.in.in

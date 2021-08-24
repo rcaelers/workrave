@@ -18,7 +18,6 @@ endif()
 
 set(LOCATION   "${CMAKE_INSTALL_PREFIX}/${APPLET_DIR}/libworkrave-applet.so")
 set(IN_PROCESS true)
-set(VERSION    ${PACKAGE_VERSION})
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.WorkraveApplet.panel-applet.in.in
