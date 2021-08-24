@@ -436,8 +436,6 @@ DBusGio::on_method_call(GDBusConnection *connection,
     }
   catch (DBusRemoteException &e)
     {
-      std::cout << "error : " << e.diag() << std::endl;
-
       g_dbus_method_invocation_return_error(invocation, G_IO_ERROR, G_IO_ERROR_FAILED_HANDLED, "%s", e.diag().c_str());
     }
 }

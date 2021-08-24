@@ -144,7 +144,6 @@ DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connec
   catch (DBusRemoteException &e)
     {
       e << object_info(path);
-      std::cout << "error : " << e.diag() << std::endl;
       message.createErrorReply(QString::fromStdString(e.error()), QString::fromStdString(e.diag()));
     }
 

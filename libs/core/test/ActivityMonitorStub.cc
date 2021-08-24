@@ -128,7 +128,6 @@ ActivityMonitorStub::heartbeat()
 {
   if (listener)
     {
-      // std::cout << count << " " << get_current_state() << "\n";
       if (count == 5)
         {
           notify();

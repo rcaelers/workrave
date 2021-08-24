@@ -98,9 +98,7 @@ CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
 #ifdef HAVE_HARPOON
   Harpoon::unblock_input();
 #endif
-  std::cout << "crashpad_handler\n";
   CrashReporter::instance().pimpl->call_crash_handlers();
-  std::cout << "crashpad_handler called handlers\n";
 
   TRACE_EXIT();
   return false;
@@ -162,7 +160,6 @@ CrashReporter::Pimpl::init()
                                       arguments,
                                       /* restartable */ true,
                                       /* asynchronous_start */ false);
-  std::cout << "result = " << success << "\n";
 
   crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
   TRACE_EXIT();
