@@ -943,11 +943,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Install
 
-if (UNIX AND NOT APPLE)
-  install(FILES README NEWS AUTHORS COPYING DESTINATION ${DATADIR}/doc/workrave)
-elseif (APPLE)
-  install(FILES README NEWS AUTHORS COPYING DESTINATION ${DATADIR}/doc)
-elseif (WIN32)
+if (WIN32)
   configure_file(README  README.txt  NEWLINE_STYLE WIN32)
   configure_file(NEWS    NEWS.txt    NEWLINE_STYLE WIN32)
   configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)
@@ -956,9 +952,7 @@ elseif (WIN32)
   install(
     FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt
     DESTINATION ${DATADIR}/doc/workrave)
-endif()
 
-if (WIN32)
    if (PREBUILT_PATH)
       set (APPLET_BINARY_DIR ${PREBUILT_PATH})
       set (HOOK_BINARY_DIR ${PREBUILT_PATH})
