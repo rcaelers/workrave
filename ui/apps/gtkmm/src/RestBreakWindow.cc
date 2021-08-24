@@ -52,10 +52,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-//! Constructor
-/*!
- *  \param control The controller.
- */
 RestBreakWindow::RestBreakWindow(SoundTheme::Ptr sound_theme, HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode)
   , sound_theme(sound_theme)
@@ -88,14 +84,12 @@ RestBreakWindow::create_gui()
   return vbox;
 }
 
-//! Destructor.
 RestBreakWindow::~RestBreakWindow()
 {
   TRACE_ENTER("RestBreakWindow::~RestBreakWindow");
   TRACE_EXIT();
 }
 
-//! Starts the restbreak.
 void
 RestBreakWindow::start()
 {
@@ -117,7 +111,6 @@ RestBreakWindow::start()
   TRACE_EXIT();
 }
 
-//! Period timer callback.
 void
 RestBreakWindow::update_break_window()
 {
@@ -131,7 +124,6 @@ RestBreakWindow::set_progress(int value, int max_value)
   progress_value = value;
 }
 
-//! Draws the timer bar.
 void
 RestBreakWindow::draw_time_bar()
 {

@@ -109,11 +109,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-//! GUI Constructor.
-/*!
- *  \param argc number of command line parameters.
- *  \param argv all command line parameters.
- */
 GUI::GUI(int argc, char **argv)
 {
   TRACE_ENTER("GUI:GUI");
@@ -127,7 +122,6 @@ GUI::GUI(int argc, char **argv)
   TRACE_EXIT();
 }
 
-//! Destructor.
 GUI::~GUI()
 {
   TRACE_ENTER("GUI:~GUI");
@@ -148,14 +142,12 @@ GUI::~GUI()
   TRACE_EXIT();
 }
 
-//! Forces a restbreak.
 void
 GUI::restbreak_now()
 {
   core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
 }
 
-//! The main entry point.
 void
 GUI::main()
 {

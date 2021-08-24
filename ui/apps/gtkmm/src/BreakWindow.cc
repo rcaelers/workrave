@@ -69,10 +69,6 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-//! Constructor
-/*!
- *  \param control The controller.
- */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , block_mode(mode)

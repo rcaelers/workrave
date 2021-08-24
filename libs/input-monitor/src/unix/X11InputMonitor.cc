@@ -112,7 +112,6 @@ X11InputMonitor::X11InputMonitor(const char *display_name)
 {
 }
 
-// FIXME: never executed....
 X11InputMonitor::~X11InputMonitor()
 {
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");

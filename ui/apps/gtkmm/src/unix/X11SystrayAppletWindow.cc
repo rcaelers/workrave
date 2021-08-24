@@ -32,18 +32,12 @@
 
 #include "gtktrayicon.h"
 
-//! Constructor.
-/*!
- *  \param gui the main GUI entry point.
- *  \param control Interface to the controller.
- */
 X11SystrayAppletWindow::X11SystrayAppletWindow()
 {
   enabled = GUIConfig::applet_fallback_enabled()();
   GUIConfig::applet_fallback_enabled().connect(tracker, [this](bool enabled) { on_enabled_changed(); });
 }
 
-//! Destructor.
 X11SystrayAppletWindow::~X11SystrayAppletWindow()
 {
   delete plug;
@@ -91,7 +85,6 @@ X11SystrayAppletWindow::notify_callback()
   TRACE_EXIT();
 }
 
-//! Initializes the applet.
 void
 X11SystrayAppletWindow::activate()
 {
@@ -159,7 +152,6 @@ X11SystrayAppletWindow::activate()
   return;
 }
 
-//! Destroys the applet.
 void
 X11SystrayAppletWindow::deactivate()
 {
@@ -195,7 +187,6 @@ X11SystrayAppletWindow::deactivate()
   TRACE_EXIT();
 }
 
-//! Applet window is deleted. Destroy applet.
 bool
 X11SystrayAppletWindow::on_delete_event(GdkEventAny *event)
 {
@@ -205,7 +196,6 @@ X11SystrayAppletWindow::on_delete_event(GdkEventAny *event)
   return true;
 }
 
-//! Notification of the system tray that the applet has been embedded.
 void
 X11SystrayAppletWindow::on_embedded()
 {
@@ -236,7 +226,6 @@ X11SystrayAppletWindow::on_embedded()
   TRACE_EXIT();
 }
 
-//! User pressed some mouse button in the main window.
 bool
 X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
 {
@@ -261,7 +250,6 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
   return ret;
 }
 
-//! User clicked left mouse button.
 void
 X11SystrayAppletWindow::button_clicked(int button)
 {
