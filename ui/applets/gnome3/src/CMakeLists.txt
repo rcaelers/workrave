@@ -44,8 +44,8 @@ target_include_directories(workrave-applet
 
 target_compile_definitions(workrave-applet
   PRIVATE
-  -DWORKRAVE_UIDATADIR="${XML_UI_DIR}"
-  -DGNOMELOCALEDIR="${DATADIR}/locale"
+  -DWORKRAVE_UIDATADIR="${CMAKE_INSTALL_PREFIX}/${XML_UI_DIR}"
+  -DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale"
   )
 
 install(TARGETS workrave-applet RUNTIME DESTINATION ${APPLET_DIR} LIBRARY DESTINATION ${APPLET_DIR})

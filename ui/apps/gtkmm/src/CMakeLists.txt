@@ -181,7 +181,7 @@ target_link_libraries(workrave ${EXTRA_LIBRARIES})
 if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
 
-  add_definitions(-DGNOMELOCALEDIR="${DATADIR}/locale")
+  add_definitions(-DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
 
   # Desktop file
   intltool_merge_desktop(

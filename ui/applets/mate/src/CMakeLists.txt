@@ -42,8 +42,8 @@ target_include_directories(mate-workrave-applet
 
 target_compile_definitions(mate-workrave-applet
   PRIVATE
-  -DWORKRAVE_MENU_UI_DIR="${UIDIR}"
-  -DGNOMELOCALEDIR="${DATADIR}/locale"
-	-DMATELOCALEDIR="${DATADIR}/locale"
+  -DWORKRAVE_MENU_UI_DIR="${CMAKE_INSTALL_PREFIX}/${UIDIR}"
+  -DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale"
+  -DMATELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale"
   )
 endif()

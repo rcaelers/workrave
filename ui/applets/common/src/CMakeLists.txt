@@ -23,8 +23,8 @@ if (HAVE_GTK AND UNIX AND NOT APPLE)
     ${GTK_LIBRARIES}
     )
 
-  install(TARGETS workrave-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX} ARCHIVE DESTINATION lib${LIB_SUFFIX})
-  set_target_properties(workrave-private-1.0 PROPERTIES VERSION 1.0 SOVERSION 1.0)
+  set_target_properties(workrave-private-1.0 PROPERTIES VERSION 0.0.0 SOVERSION 0)
+  install(TARGETS workrave-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIBDIR} ARCHIVE DESTINATION ${LIBDIR} LIBRARY NAMELINK_SKIP)
 
   macro(_list_prefix _outvar _listvar _prefix)
     set(${_outvar})

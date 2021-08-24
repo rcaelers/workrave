@@ -3,7 +3,7 @@
 # Updated by Yorba for newer versions of GLib.
 # Updated for Workrave.
 
-option(GSETTINGS_COMPILE "Compile GSettings schemas. Can be disabled for packaging reasons." ON)
+option(GSETTINGS_COMPILE "Compile GSettings schemas. Can be disabled for packaging reasons." OFF)
 
 # Find the GLib path for schema installation
 execute_process(
@@ -65,7 +65,7 @@ macro(gsettings_add_schemas SCHEMA_DIRECTORY)
       )
     
     install(
-      CODE "execute_process (COMMAND ${glib_schema_compiler} ${GSETTINGS_ABS_DIR})"
+      CODE "execute_process (COMMAND ${glib_schema_compiler} ${DESTDIR}${GSETTINGS_ABS_DIR})"
       )
   endif()
 endmacro()

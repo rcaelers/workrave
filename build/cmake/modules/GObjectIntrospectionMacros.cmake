@@ -84,7 +84,7 @@ macro(gir_add_introspections introspections_girs)
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     list(APPEND _gir_typelibs ${CMAKE_CURRENT_BINARY_DIR}/${_typelib})
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${_typelib} DESTINATION lib${LIB_SUFFIX}/girepository-1.0)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${_typelib} DESTINATION ${LIBDIR}/girepository-1.0)
 
   endforeach()
 
