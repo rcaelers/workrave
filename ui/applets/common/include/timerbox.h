@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __WORKRAVE_TIMERBOX_H__
-#define __WORKRAVE_TIMERBOX_H__
+#ifndef WORKRAVE_APPLET_COMMON_TIMERBOX_H
+#define WORKRAVE_APPLET_COMMON_TIMERBOX_H
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -69,4 +69,4 @@ int workrave_timerbox_get_width(WorkraveTimerbox *self);
 int workrave_timerbox_get_height(WorkraveTimerbox *self);
 WorkraveTimebar *workrave_timerbox_get_time_bar(WorkraveTimerbox *self, WorkraveBreakId timer);
 
-#endif /* __WORKRAVE_TIMERBOX_H__ */
+#endif /* WORKRAVE_APPLET_COMMON_TIMERBOX_H */

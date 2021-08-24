@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __WORKRAVE_TIMERBOX_CONTROL_H__
-#define __WORKRAVE_TIMERBOX_CONTROL_H__
+#ifndef WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H
+#define WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H
 
 #include <glib-object.h>
 
@@ -67,4 +67,4 @@ GDBusProxy *workrave_timerbox_control_get_control_proxy(WorkraveTimerboxControl 
 void workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode);
 void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
 
-#endif /* __WORKRAVE_TIMERBOX_CONTROL_H__ */
+#endif /* WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H */

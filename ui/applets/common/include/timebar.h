@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __WORKRAVE_TIMEBAR_H__
-#define __WORKRAVE_TIMEBAR_H__
+#ifndef WORKRAVE_APPLET_COMMON_TIMEBAR_H
+#define WORKRAVE_APPLET_COMMON_TIMEBAR_H
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -68,4 +68,4 @@ void workrave_timebar_set_secondary_progress(WorkraveTimebar *self, int value, i
 void workrave_timebar_set_text(WorkraveTimebar *self, const gchar *text);
 void workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height);
 
-#endif /* __WORKRAVE_TIMEBAR_H__ */
+#endif /* WORKRAVE_APPLET_COMMON_TIMEBAR_H_ */
