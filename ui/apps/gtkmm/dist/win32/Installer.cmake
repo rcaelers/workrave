@@ -46,7 +46,7 @@ foreach(file ${FILES32BIT})
   file(APPEND ${LIBS_ISS} "Source: \"${INSTALLDIR}\\lib32\\${file}\"; DestDir: \"{app}\\lib32\"; Flags: ${flags};\n")
 endforeach()
 
-if (${CMAKE_CROSSCOMPILING})
+if (WINE)
   execute_process(
     COMMAND "${WINE}" "${ISCC}" "/o${CMAKE_INSTALL_PREFIX}" setup.iss
     OUTPUT_VARIABLE out
@@ -55,6 +55,7 @@ if (${CMAKE_CROSSCOMPILING})
     WORKING_DIRECTORY "${DIST_PATH}"
     )
 else()
+  message("Running ${ISCC}")
   execute_process(
     COMMAND "${ISCC}" "/o${CMAKE_INSTALL_PREFIX}" setup.iss
     OUTPUT_VARIABLE out
@@ -64,8 +65,8 @@ else()
     )
 endif()
 
+message("Setup: ${out}")
 if (NOT "${ret}" STREQUAL "0")
-   message(FATAL_ERROR "ISCC failed")
+  message(FATAL_ERROR "ISCC failed (${ret})")
 endif()
 
-message("Setup: ${out}")

@@ -156,14 +156,16 @@ if (MINGW)
           $<TARGET_FILE:workrave>
   )
 
+  if (DUMP_SYMS)
   add_custom_command(TARGET workrave POST_BUILD
-    COMMAND dump_syms $<TARGET_FILE:workrave> -o ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
+      COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
   )
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
+  endif()
 
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.debug DESTINATION ${BINDIR})
   endif()
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
 endif()
 
 target_link_libraries(workrave ${GTK_LIBRARIES})

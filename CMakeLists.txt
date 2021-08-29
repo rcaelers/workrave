@@ -722,17 +722,24 @@ if (WIN32)
       message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
     endif()
 
+
     set(HAVE_CRASH_REPORT OFF)
     set(HAVE_CRASHPAD OFF)
     if(WITH_CRASHPAD)
       find_package(crashpad REQUIRED)
+      find_program(DUMP_SYMS dump_syms)
+
       if (crashpad_FOUND)
         set(HAVE_CRASHPAD ON)
         set(HAVE_CRASH_REPORT ON)
-        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-pdb=")
-        set(CMAKE_EXE_LINKER_FLAGS "-Wl,-pdb=")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gcodeview -gdwarf")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gcodeview -gdwarf")
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+          set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-pdb=")
+          set(CMAKE_EXE_LINKER_FLAGS "-Wl,-pdb=")
+          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gcodeview -gdwarf")
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gcodeview -gdwarf")
+        else()
+          message(STATUS "Crashpad requires Clang")
+        endif()
       endif()
     endif()
 
@@ -745,7 +752,7 @@ if (WIN32)
     get_filename_component(PROGRAM_FILES_X86_PATH
         "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir (x86)]" ABSOLUTE)
 
-    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 5" "${PROGRAM_FILES_X86_PATH}/Inno Setup 5")
+    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 6" "${PROGRAM_FILES_X86_PATH}/Inno Setup 6")
     find_program(ISCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
   endif()
 

@@ -107,4 +107,8 @@ DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
 DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
 DOCKER_ARGS+=("--rm ghcr.io/rcaelers/workrave-build:${IMAGE}")
 
-docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
+if [[ $IMAGE =~ "mingw" ]] ; then
+    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW32 && /workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW64"
+else
+    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
+fi

@@ -1,8 +1,6 @@
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/CreateInstaller.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/CreateInstaller.cmake"
-  @ONLY
-  ESCAPE_QUOTES
-)
+install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(CMAKE_OBJDUMP ${CMAKE_OBJDUMP})")
+install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
+install(CODE "set(DIST_PATH ${CMAKE_CURRENT_BINARY_DIR})")
 
-install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/CreateInstaller.cmake")
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Install.cmake")

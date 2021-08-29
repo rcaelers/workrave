@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-run_docker_build() {
+run_docker_mingw_build() {
     printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g'
     docker run --rm \
         -v "$SOURCE_DIR:/workspace/source" \
@@ -8,7 +8,7 @@ run_docker_build() {
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-        sh -xc "/workspace/scripts/ci/build.sh"
+        sh -xc "/workspace/source/build/ci/build.sh -S MINGW32 && /workspace/source/build/ci/build.sh -S MINGW64"
 }
 
 run_docker_ppa() {
@@ -203,13 +203,13 @@ export CONF_COMPILER="gcc"
 export CONF_CONFIGURATION="Release"
 export DOCKER_IMAGE="mingw-gtk-rawhide"
 setup
-run_docker_build
+run_docker_mingw_build
 
 CONF_COMPILER="gcc"
 CONF_CONFIGURATION="Debug"
 CONF_DOCKER_IMAGE="mingw-gtk-rawhide"
 setup
-run_docker_build
+run_docker_mingw_build
 
 DOCKER_IMAGE="ubuntu-groovy"
 setup

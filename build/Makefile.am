@@ -25,9 +25,7 @@ EXTRA_DIST =\
 		local/release.sh \
 		local/local.sh \
 		win32/CMakeLists.txt \
-		win32/CreateInstaller.cmake.in \
-		win64/CMakeLists.txt \
-		win64/CreateInstaller.cmake.in \
+		win32/Install.cmake \
 		newsgen/test.js \
 		newsgen/main.js \
 		newsgen/.gitignore \
