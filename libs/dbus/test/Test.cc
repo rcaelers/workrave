@@ -53,11 +53,6 @@ struct Fixture
 {
   Fixture()
   {
-#ifdef TRACING
-    Debug::init(boost::unit_test::framework::current_test_case().p_name.get() + "-");
-    Debug::name(string("main"));
-#endif
-
     int argc = 1;
     char argv1[] = "test";
     char *argv[] = {argv1, nullptr};

@@ -2,17 +2,17 @@ MAINTAINERCLEANFILES =	Makefile.in
 
 noinst_LTLIBRARIES = libworkrave-audio.la
 
-SUBDIRS = win32 macos
+SUBDIRS = windows macos
 
 cflags  =
 sources = 	SoundPlayer.cc
 
 if PLATFORM_OS_WINDOWS
-sources +=  win32/W32Mixer.cc win32/W32SoundPlayer.cc
+sources +=  windows/W32Mixer.cc windows/W32SoundPlayer.cc
 if HAVE_DSOUND
-sources += 	win32/W32DirectSoundPlayer.cc
+sources += 	windows/W32DirectSoundPlayer.cc
 endif
-cflags +=	-I$(top_srcdir)/libs/audio/src/win32
+cflags +=	-I$(top_srcdir)/libs/audio/src/windows
 endif
 
 if PLATFORM_OS_MACOS

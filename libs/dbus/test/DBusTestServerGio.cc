@@ -57,10 +57,6 @@ DBusTestServerGio::run(int argc, char **argv)
   (void)argc;
   (void)argv;
 
-#ifdef TRACING
-  Debug::name(std::string("server"));
-#endif
-
   try
     {
       GMainLoop *loop = g_main_loop_new(NULL, TRUE);

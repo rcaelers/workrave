@@ -16,10 +16,10 @@ endif()
 
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-audio PRIVATE
-    win32/W32DirectSoundPlayer.cc
-    win32/W32Mixer.cc
-    win32/W32SoundPlayer.cc)
-    target_include_directories(workrave-libs-audio PRIVATE ${CMAKE_SOURCE_DIR}/libs/audio/src/win32)
+    windows/W32DirectSoundPlayer.cc
+    windows/W32Mixer.cc
+    windows/W32SoundPlayer.cc)
+    target_include_directories(workrave-libs-audio PRIVATE ${CMAKE_SOURCE_DIR}/libs/audio/src/windows)
 endif()
 
 if (PLATFORM_OS_MACOS)

@@ -43,7 +43,6 @@ struct Fixture
   {
 #ifdef TRACING
     Debug::init(boost::unit_test::framework::current_test_case().p_name.get() + "-");
-    Debug::name(std::string("main"));
 #endif
   }
 

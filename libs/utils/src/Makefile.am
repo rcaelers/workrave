@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES =  Makefile.in
 
-SUBDIRS = win32
+SUBDIRS = windows
 
 noinst_LTLIBRARIES = libworkrave-utils.la
 
@@ -14,10 +14,10 @@ sources = 	DBusProxy-gio.cc \
 			WRID.cc
 
 if PLATFORM_OS_WINDOWS
-sources +=	win32/W32ActiveSetup.cc \
-	   	  	win32/W32CriticalSection.cc \
-    			Platform-win32.cc
-cflags += 	-I$(top_srcdir)/libs/utils/src/win32
+sources +=	windows/W32ActiveSetup.cc \
+	   	  	windows/W32CriticalSection.cc \
+    			Platform-windows.cc
+cflags += 	-I$(top_srcdir)/libs/utils/src/windows
 endif
 
 if PLATFORM_OS_UNIX

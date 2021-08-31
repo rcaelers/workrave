@@ -22,7 +22,6 @@
 
 #include <memory>
 #include <string>
-
 #include <boost/signals2.hpp>
 
 #include "config/IConfigurator.hh"
@@ -41,7 +40,6 @@ namespace workrave
   {
   public:
     using Ptr = std::shared_ptr<ICore>;
-
     virtual ~ICore() = default;
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;

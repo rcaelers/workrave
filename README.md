@@ -28,7 +28,7 @@ Please visit https://workrave.org for more information.
 This document only discusses compilation on Unix (like OSes).  
 Information on how to compile Workrave on Windows can be found in
 - `build/cmake/README` (native compilation on windows) and
-- `build/win32/README` (cross-compilation on Linux)
+- `build/windows/README` (cross-compilation on Linux)
 
 Read the 'INSTALL' file for more detailed directions on compilation on
 Unix and OSX.

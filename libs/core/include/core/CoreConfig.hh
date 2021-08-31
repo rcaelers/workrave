@@ -51,9 +51,11 @@ public:
 
   // private:
   static const std::string CFG_KEY_TIMER_MONITOR;
+
   static const std::string CFG_KEY_MICRO_BREAK;
   static const std::string CFG_KEY_REST_BREAK;
   static const std::string CFG_KEY_DAILY_LIMIT;
+
   static const std::string CFG_KEY_TIMERS;
   static const std::string CFG_KEY_TIMER;
 

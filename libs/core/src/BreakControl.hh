@@ -23,7 +23,6 @@
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
 #include "core/IBreak.hh"
-#include "core/IBreakResponse.hh"
 #include "IActivityMonitorListener.hh"
 #include "utils/Diagnostics.hh"
 

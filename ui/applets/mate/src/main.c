@@ -192,7 +192,7 @@ on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
   applet->alive = alive;
 
   if (alive)
-  {
+    {
       GVariant *menus = workrave_timerbox_control_get_menus(applet->timerbox_control);
       on_menu_changed(NULL, menus, applet);
       g_variant_unref(menus);

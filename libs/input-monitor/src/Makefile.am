@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = unix win32 macos
+SUBDIRS = unix windows macos
 
 noinst_LTLIBRARIES = libworkrave-input-monitor.la
 
@@ -9,12 +9,12 @@ sources = 	InputMonitor.cc \
 			InputMonitorFactory.cc
 
 if PLATFORM_OS_WINDOWS
-sources += 	win32/Harpoon.cc \
-			win32/W32AlternateMonitor.cc \
-			win32/W32InputMonitor.cc \
-			win32/W32InputMonitorFactory.cc \
-			win32/W32LowLevelMonitor.cc
-cflags += 	-I$(top_srcdir)/libs/input-monitor/src/win32 -I$(top_srcdir)/libs/hooks/harpoon/include -I$(top_srcdir)/libs/hooks/harpoonHelper/include
+sources += 	windows/Harpoon.cc \
+			windows/W32AlternateMonitor.cc \
+			windows/W32InputMonitor.cc \
+			windows/W32InputMonitorFactory.cc \
+			windows/W32LowLevelMonitor.cc
+cflags += 	-I$(top_srcdir)/libs/input-monitor/src/windows -I$(top_srcdir)/libs/hooks/harpoon/include -I$(top_srcdir)/libs/hooks/harpoonHelper/include
 endif
 
 if PLATFORM_OS_MACOS

@@ -118,7 +118,7 @@ CrashReporter::Pimpl::init()
 #endif
 
   base::FilePath handler(app_dir / "lib" / handler_exe);
-  const std::string url("http://192.168.7.185:8080/");
+  const std::string url("http://192.168.7.6:8888/api/minidump/upload?api_key=c835b63da57e4bbe87d1f1d3c7a6f2af");
 
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
@@ -150,6 +150,8 @@ CrashReporter::Pimpl::init()
     }
 
   settings->SetUploadsEnabled(true);
+
+  arguments.push_back("--no-upload-gzip");
 
   client = new crashpad::CrashpadClient();
   bool success = client->StartHandler(handler,

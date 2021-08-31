@@ -35,7 +35,6 @@
 namespace workrave
 {
   class IApp;
-  class IDistributionManager;
 
   //! Main interface of the backend.
   class ICore
@@ -132,7 +131,6 @@ namespace workrave
   public:
     static ICore::Ptr create();
   };
-
 }; // namespace workrave
 
 #endif // WORKRAVE_BACKEND_ICORE_HH

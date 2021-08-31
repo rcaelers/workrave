@@ -48,12 +48,6 @@ namespace workrave
 
     // Notification of a core event.
     virtual void core_event_notify(const CoreEvent event) = 0;
-
-    // Notification that the operation mode has changed..
-    virtual void core_event_operation_mode_changed(const OperationMode m) = 0;
-
-    // Notification that the usage mode has changed..
-    virtual void core_event_usage_mode_changed(const UsageMode m) = 0;
   };
 } // namespace workrave
 

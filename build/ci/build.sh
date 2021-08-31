@@ -70,7 +70,7 @@ install_crashpad()
         mkdir -p ${SOURCES_DIR}/_ext
     fi
 
-    crashpad_name=crashpad-mingw64-20210704-25-68f071a281ec126ed9ec5f8d0e414f8c29c82e13
+    crashpad_name=crashpad-mingw64-20211009-28-3aeb708f3447d23e06985e23f2b6f30fd2b726cd
     crashpad_ext=.tar.xz
     if [ ! -d ${SOURCES_DIR}/_ext/${crashpad_name} ]; then
         curl https://snapshots.workrave.org/crashpad/${crashpad_name}${crashpad_ext} | tar xvJ -C ${SOURCES_DIR}/_ext -f -
@@ -78,6 +78,9 @@ install_crashpad()
         cd ${SOURCES_DIR}/_ext
         ln -s ${crashpad_name} crashpad
         cd ${SOURCES_DIR}/
+    fi
+    if [ ! -e ${SOURCES_DIR}/_ext/symupload.exe ]; then
+        curl https://snapshots.workrave.org/crashpad/symupload.exe -o ${SOURCES_DIR}/_ext/symupload.exe
     fi
 }
 
@@ -197,8 +200,8 @@ if [[ $MSYSTEM == "MINGW64" ]] ; then
         mv ${PORTABLE_DIR}/app ${PORTABLE_DIR}/Workrave
 
         rm -f ${PORTABLE_DIR}/Workrave/libzapper-0.dll
-        cp -a ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/Workrave.lnk ${PORTABLE_DIR}/Workrave
-        cp -a ${SOURCES_DIR}/ui/apps/gtkmm/dist/win32/workrave.ini ${PORTABLE_DIR}/Workrave/etc
+        cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/Workrave.lnk ${PORTABLE_DIR}/Workrave
+        cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/workrave.ini ${PORTABLE_DIR}/Workrave/etc
 
         cd ${PORTABLE_DIR}
         zip -9 -r ${DEPLOY_DIR}/${portableFilename} .

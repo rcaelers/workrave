@@ -227,6 +227,7 @@ Core::init_configurator()
 void
 Core::init_bus()
 {
+  TRACE_ENTER("Core::init_bus");
   try
     {
       dbus = workrave::dbus::DBusFactory::create();
@@ -235,20 +236,22 @@ Core::init_bus()
 #ifdef HAVE_DBUS
       extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
+#endif
 
+      dbus->register_object_path(DBUS_PATH_WORKRAVE);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
-      dbus->register_object_path(DBUS_PATH_WORKRAVE);
 
-#  ifdef HAVE_TESTS
+#ifdef HAVE_TESTS
       dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
-#  endif
 #endif
     }
   catch (workrave::dbus::DBusException &)
     {
+      TRACE_MSG("Ex!");
     }
+  TRACE_EXIT();
 }
 
 //! Initializes the activity monitor.
@@ -296,7 +299,6 @@ Core::init_breaks()
     {
       breaks[i].init(BreakId(i), configurator, application);
     }
-  application->set_break_response(this);
 }
 
 #ifdef HAVE_DISTRIBUTION
@@ -620,9 +622,6 @@ Core::remove_operation_mode_override(const std::string &id)
           TRACE_MSG("Only calling core_event_operation_mode_changed().");
           operation_mode_changed_signal(operation_mode_regular);
 
-          if (core_event_listener)
-            core_event_listener->core_event_operation_mode_changed(operation_mode_regular);
-
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
           if (iface != nullptr)
@@ -763,8 +762,6 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
             }
 
           operation_mode_changed_signal(operation_mode);
-          if (core_event_listener)
-            core_event_listener->core_event_operation_mode_changed(operation_mode);
 
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
@@ -813,18 +810,13 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       usage_mode_changed_signal(mode);
 
-      if (core_event_listener != nullptr)
-        {
-          core_event_listener->core_event_usage_mode_changed(mode);
-
 #ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
-            }
-#endif
+      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+      if (iface != nullptr)
+        {
+          iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
         }
+#endif
     }
 }
 

@@ -23,9 +23,6 @@
 
 namespace workrave
 {
-  // Forward declarion of external interfaces.
-  class IBreakResponse;
-
   //! Interface that must be implemented by GUI applications.
   class IApp
   {
@@ -48,9 +45,6 @@ namespace workrave
     };
 
     virtual ~IApp() = default;
-
-    //! Set the response interface that must the used by the GUI to respond.
-    virtual void set_break_response(IBreakResponse *rep) = 0;
 
     //! Create a prelude window for specified break type.
     virtual void create_prelude_window(BreakId break_id) = 0;

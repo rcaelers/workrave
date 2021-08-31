@@ -24,8 +24,8 @@ EXTRA_DIST =\
 		local/cow-build.sh \
 		local/release.sh \
 		local/local.sh \
-		win32/CMakeLists.txt \
-		win32/Install.cmake \
+		windows/CMakeLists.txt \
+		windows/Install.cmake \
 		newsgen/test.js \
 		newsgen/main.js \
 		newsgen/.gitignore \

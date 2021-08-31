@@ -470,3 +470,17 @@ Break::signal_break_event()
 {
   return break_control->signal_break_event();
 }
+
+void
+Break::postpone_break()
+{
+  Core *core = Core::get_instance();
+  core->postpone_break(break_id);
+}
+
+void
+Break::skip_break()
+{
+  Core *core = Core::get_instance();
+  core->skip_break(break_id);
+}

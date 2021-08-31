@@ -46,7 +46,6 @@ class Debug
 {
 public:
   static void init(const std::string &name = "");
-  static void name(const std::string &name = "");
   static std::string trace_string();
   static std::ofstream &stream();
 };

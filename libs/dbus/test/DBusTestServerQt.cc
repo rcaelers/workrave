@@ -48,10 +48,6 @@ main(int argc, char **argv)
 void
 DBusTestServerQt::run(int argc, char **argv)
 {
-#ifdef TRACING
-  Debug::name(std::string("server"));
-#endif
-
   try
     {
       app = new QCoreApplication(argc, argv);

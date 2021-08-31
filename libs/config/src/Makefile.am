@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = win32 macos
+SUBDIRS = windows macos
 
 noinst_LTLIBRARIES = libworkrave-config.la
 
@@ -16,8 +16,8 @@ sources +=	GSettingsConfigurator.cc
 endif
 
 if PLATFORM_OS_WINDOWS
-sources +=	win32/W32Configurator.cc
-cflags += 	-I$(top_srcdir)/libs/config/src/win32
+sources +=	windows/W32Configurator.cc
+cflags += 	-I$(top_srcdir)/libs/config/src/windows
 endif
 
 if PLATFORM_OS_MACOS

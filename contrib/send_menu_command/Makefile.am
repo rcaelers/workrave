@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-DIST_SUBDIRS = win32
+DIST_SUBDIRS = windows

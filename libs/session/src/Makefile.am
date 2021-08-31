@@ -2,7 +2,7 @@ MAINTAINERCLEANFILES =	Makefile.in
 
 noinst_LTLIBRARIES = libworkrave-session.la
 
-SUBDIRS =	win32
+SUBDIRS =	windows
 
 cflags =
 sources = 	System.cc
@@ -19,9 +19,9 @@ endif
 endif
 
 if PLATFORM_OS_WINDOWS
-sources += 	win32/W32LockScreen.cc \
-			win32/W32Shutdown.cc
-cflags += 	-I$(top_srcdir)/libs/session/src/win32
+sources += 	windows/W32LockScreen.cc \
+			windows/W32Shutdown.cc
+cflags += 	-I$(top_srcdir)/libs/session/src/windows
 endif
 
 libworkrave_session_la_SOURCES = ${sources}

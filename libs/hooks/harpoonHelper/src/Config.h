@@ -36,7 +36,7 @@ public:
   bool get_value(const std::string &key, bool &out) const;
 
 private:
-  std::string key_win32ify(const std::string &key) const;
+  std::string key_windowsify(const std::string &key) const;
   std::string key_add_part(std::string s, std::string t) const;
   void key_split(const std::string &key, std::string &parent, std::string &child) const;
 

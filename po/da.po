@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-08-23 20:36+0200\n"
+"POT-Creation-Date: 2021-09-01 21:46+0200\n"
 "PO-Revision-Date: 2014-08-15 11:40+0100\n"
 "Last-Translator: Frederik Svarre <fsvarre@gmail.com>\n"
 "Language-Team: http://FSLab.dk <support@fslab.dk>\n"
@@ -162,7 +162,8 @@ msgstr "Kunne ikke forbinde til klient %s."
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:354
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:364
-#: ui/applets/mate/src/main.c:250 ui/applets/xfce/src/main.c:347
+#: ui/applets/mate/src/main.c:256 ui/applets/xfce/src/main.c:347
+#: ui/apps/gtkmm/src/Toolkit.cc:225
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -172,7 +173,7 @@ msgstr ""
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 #: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/workrave.desktop.in:4
+#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:4
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -180,132 +181,132 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Workrave-Applet"
 
-#: ui/applets/mate/src/main.c:356 ui/apps/gtkmm/src/Menus.cc:49
+#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:46
 msgid "_Open"
 msgstr "_Åbn"
 
-#: ui/applets/mate/src/main.c:358
+#: ui/applets/mate/src/main.c:364
 msgid "_Statistics"
 msgstr "_Statistikker"
 
-#: ui/applets/mate/src/main.c:360 ui/apps/gtkmm/src/Menus.cc:55
+#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:52
 msgid "_Preferences"
 msgstr "_Indstillinger"
 
-#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:61
+#: ui/applets/mate/src/main.c:368 ui/apps/gtkmm/src/Menus.cc:58
 msgid "_Exercises"
 msgstr "_Øvelser"
 
-#: ui/applets/mate/src/main.c:364
+#: ui/applets/mate/src/main.c:370
 msgid "_Restbreak"
 msgstr "_Hvilepause"
 
 #  Mode menu item
-#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:70
+#: ui/applets/mate/src/main.c:372 ui/apps/gtkmm/src/Menus.cc:67
 msgid "_Mode"
 msgstr "_Tilstand"
 
-#: ui/applets/mate/src/main.c:368
+#: ui/applets/mate/src/main.c:374
 msgid "_Network"
 msgstr "_Netværk"
 
-#: ui/applets/mate/src/main.c:370
+#: ui/applets/mate/src/main.c:376
 msgid "_Join"
 msgstr "_Deltag"
 
-#: ui/applets/mate/src/main.c:372
+#: ui/applets/mate/src/main.c:378
 msgid "_Disconnect"
 msgstr "_Afbryd forbindelse"
 
-#: ui/applets/mate/src/main.c:374
+#: ui/applets/mate/src/main.c:380
 msgid "_Reconnect"
 msgstr "_Genopret forbindelse"
 
-#: ui/applets/mate/src/main.c:376 ui/apps/gtkmm/src/Menus.cc:106
+#: ui/applets/mate/src/main.c:382 ui/apps/gtkmm/src/Menus.cc:103
 msgid "_About"
 msgstr "_Om"
 
-#: ui/applets/mate/src/main.c:378 ui/apps/gtkmm/src/Menus.cc:109
+#: ui/applets/mate/src/main.c:384 ui/apps/gtkmm/src/Menus.cc:106
 msgid "_Quit"
 msgstr "_Luk"
 
-#: ui/applets/mate/src/main.c:383
+#: ui/applets/mate/src/main.c:389
 msgid "Show log"
 msgstr "Vis log"
 
-#: ui/applets/mate/src/main.c:385
+#: ui/applets/mate/src/main.c:391
 msgid "Reading mode"
 msgstr "Læsetilstand"
 
-#: ui/applets/mate/src/main.c:389
+#: ui/applets/mate/src/main.c:395
 msgid "Normal"
 msgstr "Normal"
 
-#: ui/applets/mate/src/main.c:391 ui/apps/gtkmm/src/GUI.cc:1045
+#: ui/applets/mate/src/main.c:397 ui/apps/gtkmm/src/GUI.cc:561
 msgid "Suspended"
 msgstr "_Suspenderet"
 
-#: ui/applets/mate/src/main.c:393 ui/apps/gtkmm/src/GUI.cc:1049
+#: ui/applets/mate/src/main.c:399 ui/apps/gtkmm/src/GUI.cc:565
 msgid "Quiet"
 msgstr "Stille"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:248
+#: ui/apps/gtkmm/src/BreakWindow.cc:251
 #, fuzzy
 msgid "Lock..."
 msgstr "_Lås"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:252
+#: ui/apps/gtkmm/src/BreakWindow.cc:255
 #, fuzzy
 msgid "Lock"
 msgstr "_Lås"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:256
+#: ui/apps/gtkmm/src/BreakWindow.cc:259
 #, fuzzy
 msgid "Shutdown"
 msgstr "Luk _ned"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:260
+#: ui/apps/gtkmm/src/BreakWindow.cc:263
 #, fuzzy
 msgid "Suspend"
 msgstr "_Suspenderet"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:264
+#: ui/apps/gtkmm/src/BreakWindow.cc:267
 msgid "Hibernate"
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:268
+#: ui/apps/gtkmm/src/BreakWindow.cc:271
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Suspenderet"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:386
+#: ui/apps/gtkmm/src/BreakWindow.cc:389
 msgid "_Skip"
 msgstr "_Spring over"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:397
+#: ui/apps/gtkmm/src/BreakWindow.cc:400
 msgid "_Postpone"
 msgstr "_Udsæt"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:580
+#: ui/apps/gtkmm/src/BreakWindow.cc:583
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:594
+#: ui/apps/gtkmm/src/BreakWindow.cc:597
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
 
 #. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:44
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51 ui/apps/gtkmm/src/GUI.cc:1038
-#: ui/apps/gtkmm/src/GtkUtil.cc:160 ui/apps/gtkmm/src/Ui.cc:44
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:50 ui/apps/gtkmm/src/GUI.cc:554
+#: ui/apps/gtkmm/src/GtkUtil.cc:167 ui/apps/gtkmm/src/Ui.cc:44
 #: ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Daglig grænse"
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:52
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -315,7 +316,7 @@ msgstr ""
 "ved computeren. Hvis din arbejdsdag fortsætter, så løs \n"
 "en anden type opgave, eksempelvis gennemlæsning af et dokument. "
 
-#: ui/apps/gtkmm/src/DebugDialog.cc:40
+#: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
 msgstr ""
 
@@ -372,7 +373,7 @@ msgstr "Pause"
 msgid "Resume exercises"
 msgstr "Fortsæt øvelser"
 
-#: ui/apps/gtkmm/src/GUI.cc:259
+#: ui/apps/gtkmm/src/GUI.cc:151
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
@@ -380,104 +381,101 @@ msgstr ""
 "Workrave kører stadig. Du kan åbne Workrave ved at klikke på ikonet med det "
 "hvide får. Klik i dette felt for at deaktivere denne meddelelse"
 
-#: ui/apps/gtkmm/src/GUI.cc:584 ui/apps/gtkmm/src/GUI.cc:682
+#: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
 msgid "Workrave failed to start"
 msgstr "Workrave kunne ikke starte"
 
-#: ui/apps/gtkmm/src/GUI.cc:585
+#: ui/apps/gtkmm/src/GUI.cc:270
 msgid "Is Workrave already running?"
 msgstr "Kører Workrave allerede?"
 
-#: ui/apps/gtkmm/src/GUI.cc:677
+#: ui/apps/gtkmm/src/GUI.cc:352
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/GUI.cc:680
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:910
+#: ui/apps/gtkmm/src/GUI.cc:537
+#, fuzzy
 msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr ""
 "Workrave er i tilstanden suspenderet. Mus og tastatur aktivitet vil ikke "
 "blive moniteret."
 
-#: ui/apps/gtkmm/src/GUI.cc:916
+#: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave er i tilstanden lydløs. Der vil ikke vises et pausevindue."
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1038 ui/apps/gtkmm/src/GtkUtil.cc:160
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:47
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:153
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244 ui/apps/gtkmm/src/Ui.cc:38
+#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:45
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:143
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:234 ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr "Mikropause"
 
-#: ui/apps/gtkmm/src/GUI.cc:1038 ui/apps/gtkmm/src/GtkUtil.cc:160
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:132
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:60
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:176 ui/apps/gtkmm/src/Ui.cc:41
+#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:123
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:57
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:173 ui/apps/gtkmm/src/Ui.cc:41
 msgid "Rest break"
 msgstr "Hvilepause"
 
 #  Mode menu item
-#: ui/apps/gtkmm/src/GUI.cc:1045 ui/apps/gtkmm/src/GUI.cc:1049
+#: ui/apps/gtkmm/src/GUI.cc:561 ui/apps/gtkmm/src/GUI.cc:565
 msgid "Mode: "
 msgstr "Tilstand: "
 
-#: ui/apps/gtkmm/src/Menus.cc:58
+#: ui/apps/gtkmm/src/Menus.cc:55
 msgid "_Rest break"
 msgstr "_Hvilepause"
 
-#: ui/apps/gtkmm/src/Menus.cc:64
+#: ui/apps/gtkmm/src/Menus.cc:61
 #, fuzzy
 msgid "S_tatistics"
 msgstr "Statistiker"
 
-#: ui/apps/gtkmm/src/Menus.cc:78
+#: ui/apps/gtkmm/src/Menus.cc:75
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ui/apps/gtkmm/src/Menus.cc:85
+#: ui/apps/gtkmm/src/Menus.cc:82
 msgid "_Suspended"
 msgstr "_Suspenderet"
 
-#: ui/apps/gtkmm/src/Menus.cc:92
+#: ui/apps/gtkmm/src/Menus.cc:89
 msgid "Q_uiet"
 msgstr "St_ille"
 
-#: ui/apps/gtkmm/src/Menus.cc:99
+#: ui/apps/gtkmm/src/Menus.cc:96
 msgid "_Reading mode"
 msgstr "_Læse tilstand"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:210
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
 msgid "Please relax for a few seconds"
 msgstr "Slap venligst af i nogle sekunder"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:207
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Næste hvilepause om %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:221
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:211
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Hvilepause er overskredet med %s minutter"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:233
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:223
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig grænse er nået om %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:237
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:227
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig grænse overskredet med %s"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:49
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:48
 #: ui/apps/gtkmm/src/NetworkJoinDialog.cc:63
 msgid "Network connect"
 msgstr "Netværksforbindelse."
@@ -498,7 +496,7 @@ msgstr "Værtsnavn:"
 msgid "Port:"
 msgstr "Port:"
 
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:46
+#: ui/apps/gtkmm/src/NetworkLogDialog.cc:45
 msgid "Network log"
 msgstr "Netværks log"
 
@@ -563,7 +561,7 @@ msgstr "Port"
 msgid "Hosts"
 msgstr "Værter"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:75
 msgid "Preferences"
 msgstr "Indstillinger"
 
@@ -584,7 +582,7 @@ msgstr "Applet"
 #. Notebook
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:109
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
 msgid "Timers"
 msgstr "Tidstællere"
 
@@ -611,7 +609,7 @@ msgstr "Bloker input og skærm"
 #  Options
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:122
 msgid "Options"
 msgstr "Muligheder"
 
@@ -736,47 +734,47 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:106
+#: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
 msgstr "Tid til en mikropause?"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:110
+#: ui/apps/gtkmm/src/PreludeWindow.cc:108
 msgid "You need a rest break..."
 msgstr "Du har brug for en hvilepause..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ui/apps/gtkmm/src/PreludeWindow.cc:112
 msgid "You should stop for today..."
 msgstr "Du bør stoppe for i dag..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:262
+#: ui/apps/gtkmm/src/PreludeWindow.cc:260
 #, c-format
 msgid "Break in %s"
 msgstr "Pause om %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:266
+#: ui/apps/gtkmm/src/PreludeWindow.cc:264
 #, c-format
 msgid "Disappears in %s"
 msgstr "Forsvinder om %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:270
+#: ui/apps/gtkmm/src/PreludeWindow.cc:268
 #, c-format
 msgid "Silent in %s"
 msgstr "Lydløs om %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:134
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:131
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:172
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
 msgid "Natural rest break"
 msgstr "Naturlig pause"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:172
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
 msgid "This is your natural rest break."
 msgstr "Dette er din naturlige pause."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:177
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:174
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -786,7 +784,7 @@ msgstr ""
 "gå væk fra computeren jævnligt. Gå blot rundt\n"
 "i nogle minutter, stræk ud og slap af."
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:46
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:45
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:118
 msgid "Statistics"
 msgstr "Statistiker"
@@ -1008,11 +1006,11 @@ msgstr "%s%d:%02d minutter"
 msgid "%s%d seconds"
 msgstr "%s%d sekunder"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:172
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:171
 msgid "Take rest break now"
 msgstr "Hold pause nu"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:189
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:188
 msgid "Wait"
 msgstr "Vent"
 
@@ -1088,62 +1086,62 @@ msgid "Show status icon"
 msgstr "Vis statusvindue"
 
 #. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:55
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
 msgid "Enable timer"
 msgstr "Aktiver timer"
 
 #. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:92
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:91
 msgid "Break prompting"
 msgstr "Pauseanmodninger"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:94
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Anmod før afholdelse af pauser"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Maksimalt antal anmodninger:"
 
 #. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:126
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
 msgid "Show 'Postpone' button"
 msgstr "Vis knappen 'Udsæt'"
 
 #. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:130
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
 msgid "Show 'Skip' button"
 msgstr "Vis knappen 'Spring over'"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Regard micro-breaks as activity"
 msgstr "Betragt mikropauser som aktiviteter"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:150
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:149
 msgid "Number of exercises:"
 msgstr "Antal øvelser:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr "Start pause når skærmen låses"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:160
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time before end:"
 msgstr "Tid før ophør:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time between breaks:"
 msgstr "Tid mellem pauser:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:191
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:190
 msgid "Break duration:"
 msgstr "Pauselængde:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:206
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Udsættelsestid:"
 
@@ -1247,34 +1245,6 @@ msgstr ""
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:221
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:227
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "Specify session management ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Session management options:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Show session management options"
-msgstr ""
-
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
 #, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
@@ -1289,13 +1259,13 @@ msgid ""
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
 
-#: ui/apps/gtkmm/src/workrave.desktop.in:6
+#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
 "Hjælper med forebyggelse og bedring af RSI syndrom (Repetetive Strain Injury)"
 
-#: ui/apps/gtkmm/src/workrave.desktop.in:7
+#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 

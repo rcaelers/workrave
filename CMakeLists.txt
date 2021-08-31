@@ -108,16 +108,16 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
-  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
-      list(APPEND EXTRA_LIBRARIES stdc++fs)
-    endif()
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+    list(APPEND EXTRA_LIBRARIES stdc++fs)
+  endif()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
@@ -190,7 +190,7 @@ if (WITH_CORE_NEXT)
 endif()
 
 if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
-  message("Using Core With with Qt5 ")
+  message("Using CoreNext With with Qt")
   set (HAVE_CORE_NEXT ON)
 endif()
 
@@ -267,6 +267,7 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   find_package(GSettings)
 endif()
 
+
 #----------------------------------------------------------------------------------------------------
 # Qt5
 
@@ -332,7 +333,7 @@ if ("${WITH_UI}" STREQUAL "Qt5")
   if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
     message(FATAL_ERROR "32 bit compilation of Qt5 UI not supported on Windows")
   endif()
-  
+
   if (NOT DEFINED QT_VERSION_MAJOR)
     set (QT_VERSION_MAJOR "5")
     function(qt_wrap_cpp outfiles)
@@ -663,7 +664,7 @@ endif()
 
 
 #----------------------------------------------------------------------------------------------------
-# platform - win32
+# platform - windows
 
 option(WITH_CRASHPAD "Use crashpad" ON)
 
@@ -940,7 +941,7 @@ if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   add_subdirectory(ui)
 else()
   add_subdirectory(libs/hooks)
-  add_subdirectory(ui/applets/win32)
+  add_subdirectory(ui/applets/windows)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -970,9 +971,9 @@ if (WIN32 AND BUILD_ONLY_32_BIT_FOR_WIN64)
 endif()
 
 if (WITH_UI_QT)
-  add_subdirectory(ui/apps/qt5/dist)
+  add_subdirectory(ui/app/toolkits/qt/dist)
 elseif (WITH_UI_GTK)
-  add_subdirectory(ui/apps/gtkmm/dist)
+  add_subdirectory(ui/app/toolkits/gtkmm/dist)
 endif()
 
 #----------------------------------------------------------------------------------------------------

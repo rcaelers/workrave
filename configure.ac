@@ -826,7 +826,7 @@ variant=""
 
 if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
-   variant="$variant win32"
+   variant="$variant windows"
 elif test "x$PLATFORM_OS_MACOS" = "xyes"
 then
    variant="$variant macos unix"
@@ -886,7 +886,7 @@ AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 if test "x$PLATFORM_OS_WINDOWS" = "xyes"
 then
-    LANGFILE="./ui/apps/gtkmm/dist/win32/lang.iss"
+    LANGFILE="./ui/app/toolkits/gtkmm/dist/windows/lang.iss"
     echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
     echo -en "\r\n" >> $LANGFILE
     for a in $ALL_LINGUAS; do
@@ -908,25 +908,25 @@ AC_CONFIG_FILES([Makefile
                  contrib/send_dbus_command/kde/Makefile
                  contrib/send_dbus_command/Makefile
                  contrib/send_menu_command/Makefile
-                 contrib/send_menu_command/win32/Makefile
+                 contrib/send_menu_command/windows/Makefile
                  contrib/suspend-workrave-on-screensaver-activation/Makefile
                  libs/audio/include/audio/Makefile
                  libs/audio/include/Makefile
                  libs/audio/Makefile
                  libs/audio/src/macos/Makefile
                  libs/audio/src/Makefile
-                 libs/audio/src/win32/Makefile
+                 libs/audio/src/windows/Makefile
                  libs/config/include/config/Makefile
                  libs/config/include/Makefile
                  libs/config/Makefile
                  libs/config/src/macos/Makefile
                  libs/config/src/Makefile
-                 libs/config/src/win32/Makefile
+                 libs/config/src/windows/Makefile
                  libs/core/include/core/Makefile
                  libs/core/include/Makefile
                  libs/core/Makefile
                  libs/core/src/Makefile
-                 libs/core/src/win32/Makefile
+                 libs/core/src/windows/Makefile
                  libs/core/test/Makefile
                  libs/dbus/bin/Makefile
                  libs/dbus/data/Makefile
@@ -948,19 +948,19 @@ AC_CONFIG_FILES([Makefile
                  libs/input-monitor/src/macos/Makefile
                  libs/input-monitor/src/Makefile
                  libs/input-monitor/src/unix/Makefile
-                 libs/input-monitor/src/win32/Makefile
+                 libs/input-monitor/src/windows/Makefile
                  libs/Makefile
                  libs/session/include/Makefile
                  libs/session/include/session/Makefile
                  libs/session/Makefile
                  libs/session/src/Makefile
-                 libs/session/src/win32/Makefile
+                 libs/session/src/windows/Makefile
                  libs/utils/bin/Makefile
                  libs/utils/include/Makefile
                  libs/utils/include/utils/Makefile
                  libs/utils/Makefile
                  libs/utils/src/Makefile
-                 libs/utils/src/win32/Makefile
+                 libs/utils/src/windows/Makefile
                  m4/Makefile
                  ui/applets/cinnamon/Makefile
                  ui/applets/cinnamon/src/Makefile
@@ -977,21 +977,21 @@ AC_CONFIG_FILES([Makefile
                  ui/applets/Makefile
                  ui/applets/mate/Makefile
                  ui/applets/mate/src/Makefile
-                 ui/applets/win32/include/Makefile
-                 ui/applets/win32/Makefile
-                 ui/applets/win32/src/Makefile
+                 ui/applets/windows/include/Makefile
+                 ui/applets/windows/Makefile
+                 ui/applets/windows/src/Makefile
                  ui/applets/xfce/Makefile
                  ui/applets/xfce/src/Makefile
-                 ui/apps/gtkmm/dist/macos/Makefile
-                 ui/apps/gtkmm/dist/Makefile
-                 ui/apps/gtkmm/dist/win32/Makefile
-                 ui/apps/gtkmm/dist/win32/src/Makefile
-                 ui/apps/gtkmm/Makefile
-                 ui/apps/gtkmm/src/macos/Makefile
-                 ui/apps/gtkmm/src/Makefile
-                 ui/apps/gtkmm/src/unix/Makefile
-                 ui/apps/gtkmm/src/win32/Makefile
-                 ui/apps/Makefile
+                 ui/app/toolkits/gtkmm/dist/macos/Makefile
+                 ui/app/toolkits/gtkmm/dist/Makefile
+                 ui/app/toolkits/gtkmm/dist/windows/Makefile
+                 ui/app/toolkits/gtkmm/dist/windows/src/Makefile
+                 ui/app/toolkits/gtkmm/Makefile
+                 ui/app/toolkits/gtkmm/src/macos/Makefile
+                 ui/app/toolkits/gtkmm/src/Makefile
+                 ui/app/toolkits/gtkmm/src/unix/Makefile
+                 ui/app/toolkits/gtkmm/src/windows/Makefile
+                 ui/app/Makefile
                  ui/common/include/commonui/Makefile
                  ui/common/include/Makefile
                  ui/common/Makefile
@@ -1007,7 +1007,7 @@ AC_CONFIG_FILES([Makefile
                  ui/data/images/macos/Makefile
                  ui/data/images/Makefile
                  ui/data/images/scalable/Makefile
-                 ui/data/images/win32/Makefile
+                 ui/data/images/windows/Makefile
                  ui/data/Makefile
                  ui/data/sounds/bells/Makefile
                  ui/data/sounds/default/Makefile

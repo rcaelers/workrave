@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Srbija\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-08-23 20:36+0200\n"
+"POT-Creation-Date: 2021-09-01 21:46+0200\n"
 "PO-Revision-Date: 2012-04-05 12:58+0100\n"
 "Last-Translator: Goran Maricic <maricic.goran@gmail.com>\n"
 "Language-Team: Tehpro Serbian <it@tehpro.rs>\n"
@@ -161,7 +161,8 @@ msgstr "Ne može se ostvariti veza sa klijentom %s. "
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:354
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:364
-#: ui/applets/mate/src/main.c:250 ui/applets/xfce/src/main.c:347
+#: ui/applets/mate/src/main.c:256 ui/applets/xfce/src/main.c:347
+#: ui/apps/gtkmm/src/Toolkit.cc:225
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -171,7 +172,7 @@ msgstr ""
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 #: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/workrave.desktop.in:4
+#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:4
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -179,134 +180,134 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Program Workrave"
 
-#: ui/applets/mate/src/main.c:356 ui/apps/gtkmm/src/Menus.cc:49
+#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:46
 msgid "_Open"
 msgstr "_Otvori"
 
-#: ui/applets/mate/src/main.c:358
+#: ui/applets/mate/src/main.c:364
 msgid "_Statistics"
 msgstr "_Statistika"
 
-#: ui/applets/mate/src/main.c:360 ui/apps/gtkmm/src/Menus.cc:55
+#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:52
 msgid "_Preferences"
 msgstr "_Svojstva"
 
-#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:61
+#: ui/applets/mate/src/main.c:368 ui/apps/gtkmm/src/Menus.cc:58
 msgid "_Exercises"
 msgstr "_Vežbe"
 
-#: ui/applets/mate/src/main.c:364
+#: ui/applets/mate/src/main.c:370
 msgid "_Restbreak"
 msgstr "_Odmor"
 
-#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:70
+#: ui/applets/mate/src/main.c:372 ui/apps/gtkmm/src/Menus.cc:67
 msgid "_Mode"
 msgstr "_Način"
 
-#: ui/applets/mate/src/main.c:368
+#: ui/applets/mate/src/main.c:374
 msgid "_Network"
 msgstr "_Mreža"
 
-#: ui/applets/mate/src/main.c:370
+#: ui/applets/mate/src/main.c:376
 msgid "_Join"
 msgstr "_Priključi se"
 
-#: ui/applets/mate/src/main.c:372
+#: ui/applets/mate/src/main.c:378
 msgid "_Disconnect"
 msgstr "_Prekini vezu"
 
-#: ui/applets/mate/src/main.c:374
+#: ui/applets/mate/src/main.c:380
 msgid "_Reconnect"
 msgstr "_Ponovno se poveži"
 
-#: ui/applets/mate/src/main.c:376 ui/apps/gtkmm/src/Menus.cc:106
+#: ui/applets/mate/src/main.c:382 ui/apps/gtkmm/src/Menus.cc:103
 #, fuzzy
 msgid "_About"
 msgstr "_O programu ..."
 
-#: ui/applets/mate/src/main.c:378 ui/apps/gtkmm/src/Menus.cc:109
+#: ui/applets/mate/src/main.c:384 ui/apps/gtkmm/src/Menus.cc:106
 msgid "_Quit"
 msgstr "_Izlaz"
 
-#: ui/applets/mate/src/main.c:383
+#: ui/applets/mate/src/main.c:389
 #, fuzzy
 msgid "Show log"
 msgstr "Pokaži _dnevnik"
 
-#: ui/applets/mate/src/main.c:385
+#: ui/applets/mate/src/main.c:391
 msgid "Reading mode"
 msgstr "Načina rada - čitanje"
 
-#: ui/applets/mate/src/main.c:389
+#: ui/applets/mate/src/main.c:395
 #, fuzzy
 msgid "Normal"
 msgstr "_Uobičajeno"
 
-#: ui/applets/mate/src/main.c:391 ui/apps/gtkmm/src/GUI.cc:1045
+#: ui/applets/mate/src/main.c:397 ui/apps/gtkmm/src/GUI.cc:561
 msgid "Suspended"
 msgstr "_Zaustavljeno"
 
-#: ui/applets/mate/src/main.c:393 ui/apps/gtkmm/src/GUI.cc:1049
+#: ui/applets/mate/src/main.c:399 ui/apps/gtkmm/src/GUI.cc:565
 msgid "Quiet"
 msgstr "_Tiho"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:248
+#: ui/apps/gtkmm/src/BreakWindow.cc:251
 #, fuzzy
 msgid "Lock..."
 msgstr "_Zaključaj"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:252
+#: ui/apps/gtkmm/src/BreakWindow.cc:255
 #, fuzzy
 msgid "Lock"
 msgstr "_Zaključaj"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:256
+#: ui/apps/gtkmm/src/BreakWindow.cc:259
 #, fuzzy
 msgid "Shutdown"
 msgstr "_Ugasi"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:260
+#: ui/apps/gtkmm/src/BreakWindow.cc:263
 #, fuzzy
 msgid "Suspend"
 msgstr "_Zaustavljeno"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:264
+#: ui/apps/gtkmm/src/BreakWindow.cc:267
 msgid "Hibernate"
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:268
+#: ui/apps/gtkmm/src/BreakWindow.cc:271
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Zaustavljeno"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:386
+#: ui/apps/gtkmm/src/BreakWindow.cc:389
 msgid "_Skip"
 msgstr "_Preskoči"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:397
+#: ui/apps/gtkmm/src/BreakWindow.cc:400
 msgid "_Postpone"
 msgstr "_Odloži"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:580
+#: ui/apps/gtkmm/src/BreakWindow.cc:583
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:594
+#: ui/apps/gtkmm/src/BreakWindow.cc:597
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
 
 #. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:44
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51 ui/apps/gtkmm/src/GUI.cc:1038
-#: ui/apps/gtkmm/src/GtkUtil.cc:160 ui/apps/gtkmm/src/Ui.cc:44
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:50 ui/apps/gtkmm/src/GUI.cc:554
+#: ui/apps/gtkmm/src/GtkUtil.cc:167 ui/apps/gtkmm/src/Ui.cc:44
 #: ui/apps/gtkmm/src/Ui.cc:101
 msgid "Daily limit"
 msgstr "Dnevni limit"
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:52
+#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -316,7 +317,7 @@ msgstr ""
 "raditi na računaru. Ukoliko Vaš radni dan još nije gotov, \n"
 "nađite nešto drugo da radite npr. pregledajte neki dokument."
 
-#: ui/apps/gtkmm/src/DebugDialog.cc:40
+#: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
 msgstr ""
 
@@ -373,7 +374,7 @@ msgstr "Pauza"
 msgid "Resume exercises"
 msgstr "Nastavi vežbe"
 
-#: ui/apps/gtkmm/src/GUI.cc:259
+#: ui/apps/gtkmm/src/GUI.cc:151
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
@@ -381,103 +382,99 @@ msgstr ""
 "Workrave još uvek radi. Workrave-u možete pristupiti klikom na ikonu bele "
 "ovce."
 
-#: ui/apps/gtkmm/src/GUI.cc:584 ui/apps/gtkmm/src/GUI.cc:682
+#: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
 msgid "Workrave failed to start"
 msgstr "Workrave se nije pokrenuo"
 
-#: ui/apps/gtkmm/src/GUI.cc:585
+#: ui/apps/gtkmm/src/GUI.cc:270
 msgid "Is Workrave already running?"
 msgstr "Da li je Workrave već pokrenut?"
 
-#: ui/apps/gtkmm/src/GUI.cc:677
+#: ui/apps/gtkmm/src/GUI.cc:352
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave ne može pratiti aktivnost vaše tastature i miša. \n"
 
-#: ui/apps/gtkmm/src/GUI.cc:680
+#: ui/apps/gtkmm/src/GUI.cc:537
 #, fuzzy
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr "Pazite da je ekstenzija RECORD omogućena na X serveru."
-
-#: ui/apps/gtkmm/src/GUI.cc:910
 msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr "Program je suspendovan. Aktivnost miša i tastature neće biti praćena. "
 
-#: ui/apps/gtkmm/src/GUI.cc:916
+#: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 "Program je u tihom režimu. Nikakvi prozori upozorenja neće biti prikazivani."
 
 #. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1038 ui/apps/gtkmm/src/GtkUtil.cc:160
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:47
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:153
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244 ui/apps/gtkmm/src/Ui.cc:38
+#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:45
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:143
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:234 ui/apps/gtkmm/src/Ui.cc:38
 msgid "Micro-break"
 msgstr "Mikro pauza"
 
-#: ui/apps/gtkmm/src/GUI.cc:1038 ui/apps/gtkmm/src/GtkUtil.cc:160
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:132
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:60
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:176 ui/apps/gtkmm/src/Ui.cc:41
+#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:123
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:57
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:173 ui/apps/gtkmm/src/Ui.cc:41
 msgid "Rest break"
 msgstr "Pauza za odmor"
 
-#: ui/apps/gtkmm/src/GUI.cc:1045 ui/apps/gtkmm/src/GUI.cc:1049
+#: ui/apps/gtkmm/src/GUI.cc:561 ui/apps/gtkmm/src/GUI.cc:565
 msgid "Mode: "
 msgstr "_Način"
 
-#: ui/apps/gtkmm/src/Menus.cc:58
+#: ui/apps/gtkmm/src/Menus.cc:55
 msgid "_Rest break"
 msgstr "_Pauza za odmor"
 
-#: ui/apps/gtkmm/src/Menus.cc:64
+#: ui/apps/gtkmm/src/Menus.cc:61
 #, fuzzy
 msgid "S_tatistics"
 msgstr "Statistika"
 
-#: ui/apps/gtkmm/src/Menus.cc:78
+#: ui/apps/gtkmm/src/Menus.cc:75
 msgid "_Normal"
 msgstr "_Uobičajeno"
 
-#: ui/apps/gtkmm/src/Menus.cc:85
+#: ui/apps/gtkmm/src/Menus.cc:82
 msgid "_Suspended"
 msgstr "_Zaustavljeno"
 
-#: ui/apps/gtkmm/src/Menus.cc:92
+#: ui/apps/gtkmm/src/Menus.cc:89
 msgid "Q_uiet"
 msgstr "_Tiho"
 
-#: ui/apps/gtkmm/src/Menus.cc:99
+#: ui/apps/gtkmm/src/Menus.cc:96
 msgid "_Reading mode"
 msgstr "Način rada - čitanje."
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:210
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
 msgid "Please relax for a few seconds"
 msgstr "Opustite se na nekoliko sekundi."
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:207
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sledeća pauza za odmor za %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:221
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:211
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Pauza za odmor sa %s zakašnjenjem"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:233
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:223
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Dnevni limit za %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:237
+#: ui/apps/gtkmm/src/MicroBreakWindow.cc:227
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Dnevni limit sa %s zakašnjenjem"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:49
+#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:48
 #: ui/apps/gtkmm/src/NetworkJoinDialog.cc:63
 msgid "Network connect"
 msgstr "Poveži s mrežom"
@@ -498,7 +495,7 @@ msgstr "Ime računara:"
 msgid "Port:"
 msgstr "Port:"
 
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:46
+#: ui/apps/gtkmm/src/NetworkLogDialog.cc:45
 msgid "Network log"
 msgstr "Dnevnik mreže"
 
@@ -564,7 +561,7 @@ msgstr "Port"
 msgid "Hosts"
 msgstr "Računari (hostovi)"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
+#: ui/apps/gtkmm/src/PreferencesDialog.cc:75
 msgid "Preferences"
 msgstr "Svojstva"
 
@@ -583,7 +580,7 @@ msgstr "Program"
 #. Notebook
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:109
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:181
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
 msgid "Timers"
 msgstr "Merači"
 
@@ -609,7 +606,7 @@ msgstr "Blokiraj unos i ekran"
 
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:123
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:122
 msgid "Options"
 msgstr "Mogućnosti"
 
@@ -729,47 +726,47 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:106
+#: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
 msgstr "Vreme za mikro pauzu?"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:110
+#: ui/apps/gtkmm/src/PreludeWindow.cc:108
 msgid "You need a rest break..."
 msgstr "Trebalo bi da napravite pauzu za odmor ..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:114
+#: ui/apps/gtkmm/src/PreludeWindow.cc:112
 msgid "You should stop for today..."
 msgstr "Trebalo bi da završite za danas ..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:262
+#: ui/apps/gtkmm/src/PreludeWindow.cc:260
 #, c-format
 msgid "Break in %s"
 msgstr "Odmor za %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:266
+#: ui/apps/gtkmm/src/PreludeWindow.cc:264
 #, c-format
 msgid "Disappears in %s"
 msgstr "Nestaje za %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:270
+#: ui/apps/gtkmm/src/PreludeWindow.cc:268
 #, c-format
 msgid "Silent in %s"
 msgstr "Tiho za %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:134
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:131
 #, c-format
 msgid "Rest break for %s"
 msgstr "Odmor za %s"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:172
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
 msgid "Natural rest break"
 msgstr "Prirodni odmor"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:172
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
 msgid "This is your natural rest break."
 msgstr "Ovo je vaš prirodni odmor."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:177
+#: ui/apps/gtkmm/src/RestBreakWindow.cc:174
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -779,7 +776,7 @@ msgstr ""
 "i odmaknite se od računara. Jednostavno se prošetajte \n"
 " nekoliko minuta, protegnite se i opustite. "
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:46
+#: ui/apps/gtkmm/src/StatisticsDialog.cc:45
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:118
 msgid "Statistics"
 msgstr "Statistika"
@@ -999,11 +996,11 @@ msgstr "%s%d:%02d minuta"
 msgid "%s%d seconds"
 msgstr "%s%d sekundi"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:172
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:171
 msgid "Take rest break now"
 msgstr "Sada napravi pauzu"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:189
+#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:188
 msgid "Wait"
 msgstr "Čekaj"
 
@@ -1079,65 +1076,65 @@ msgid "Show status icon"
 msgstr "Pokaži prozor statusa"
 
 #. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:55
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
 msgid "Enable timer"
 msgstr "Uključi odbrojavanje"
 
 #. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:92
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:91
 msgid "Break prompting"
 msgstr "Prikaz upozorenja za odmor"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:94
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
 msgstr "Prikaži upozorenje pre odmora"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr "Maksimalan broj upozorenja"
 
 #. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:126
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
 #, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "Pokaži dugme \"Odloži\" i \"Preskoči\""
 
 #. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:130
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
 #, fuzzy
 msgid "Show 'Skip' button"
 msgstr "Pokaži dugme \"Odloži\" i \"Preskoči\""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Regard micro-breaks as activity"
 msgstr "Mikro pauze računaj kako aktivnost"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:150
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:149
 msgid "Number of exercises:"
 msgstr "Broj vežbi"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
 #, fuzzy
 msgid "Start restbreak when screen is locked"
 msgstr "Započni prirodni odmor kada je ekran zaključan"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:160
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time before end:"
 msgstr "Vreme do kraja:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time between breaks:"
 msgstr "Vreme između odmora:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:191
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:190
 msgid "Break duration:"
 msgstr "Trajanje odmora:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:206
+#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:205
 msgid "Postpone time:"
 msgstr "Odloži za:"
 
@@ -1237,34 +1234,6 @@ msgstr ""
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:221
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:227
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "Specify session management ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Session management options:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Show session management options"
-msgstr ""
-
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
 #, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
@@ -1279,12 +1248,12 @@ msgid ""
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
 
-#: ui/apps/gtkmm/src/workrave.desktop.in:6
+#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "Pomaže u prevenciji i oporavku od Repetitive Strain Injury (RSI)"
 
-#: ui/apps/gtkmm/src/workrave.desktop.in:7
+#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
@@ -1433,6 +1402,10 @@ msgid ""
 msgstr ""
 "Okrenite glavu levo i držite tako 2 sekunde. Sada okrenite glavu desno i "
 "držite tako dve sekunde."
+
+#, fuzzy
+#~ msgid "Make sure that the RECORD extension is enabled in the X server."
+#~ msgstr "Pazite da je ekstenzija RECORD omogućena na X serveru."
 
 #~ msgid "Open"
 #~ msgstr "Otvori"

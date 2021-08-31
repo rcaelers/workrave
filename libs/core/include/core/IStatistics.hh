@@ -36,6 +36,7 @@ namespace workrave
   {
   public:
     using Ptr = std::shared_ptr<IStatistics>;
+
     enum StatsBreakValueType
     {
       STATS_BREAKVALUE_PROMPTED = 0,

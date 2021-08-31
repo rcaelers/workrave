@@ -96,6 +96,8 @@ public:
   bool is_limit_enabled() const override;
   bool is_taking() const override;
   bool is_max_preludes_reached() const override;
+  void postpone_break() override;
+  void skip_break() override;
 
   void set_usage_mode(UsageMode mode);
 

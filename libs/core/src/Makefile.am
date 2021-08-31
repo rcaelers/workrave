@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = 	Makefile.in $(gsettings_SCHEMAS:.xml=.valid)
 
-SUBDIRS = win32
+SUBDIRS = windows
 
 noinst_LTLIBRARIES = libworkrave-core.la
 
@@ -25,7 +25,7 @@ sources += 	DistributionManager.cc \
 endif
 
 if PLATFORM_OS_WINDOWS
-platform_cflags = 	-I$(top_srcdir)/core/src/win32
+platform_cflags = 	-I$(top_srcdir)/core/src/windows
 endif
 
 if PLATFORM_OS_MACOS

@@ -16,10 +16,6 @@ else()
     set(SYS_ROOT               "$ENV{MINGW_ROOT}")
 endif()
 
-message ("MINGW_PREFIX $ENV{MINGW_PREFIX}")
-message ("MINGW_ROOT $ENV{MINGW_ROOT}")
-message ("SYSROOT ${SYS_ROOT}")
-
 set(CMAKE_ASM_MASM_COMPILER    "uasm")
 set(CMAKE_C_COMPILER           "clang")
 set(CMAKE_CXX_COMPILER         "clang++")
