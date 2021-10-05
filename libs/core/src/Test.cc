@@ -29,7 +29,7 @@
 
 #  include "Test.hh"
 
-Test *Test::instance = NULL;
+Test *Test::instance = nullptr;
 
 void
 Test::quit()
