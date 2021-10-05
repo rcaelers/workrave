@@ -36,7 +36,7 @@ private:
 inline Test *
 Test::get_instance()
 {
-  if (instance == NULL)
+  if (instance == nullptr)
     {
       instance = new Test();
     }
