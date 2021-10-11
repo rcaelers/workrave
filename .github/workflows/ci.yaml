@@ -2,12 +2,14 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 'main'
+      - 'topic/*'
     tags:
       - 'v1_11_*'
   pull_request:
     branches:
-      - main
+      - 'main'
+      - 'topic/*'
 
 jobs:
   build-windows:
@@ -34,61 +36,6 @@ jobs:
             ui/applets/win32/src/Release/workrave-applet.dll
             ui/applets/win32/src/x64/Debug/workrave-applet64.dll
             ui/applets/win32/src/Debug/workrave-applet.dll
-
-  build-linux-autotools:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 20
-      matrix:
-        config:
-          - image: ubuntu-hirsute
-            compiler: gcc
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: ubuntu-hirsute
-            compiler: gcc
-            distcheck: yes
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: ubuntu-hirsute
-            compiler: gcc
-            enable: gnome3,pulse,dbus,experimental,gstreamer
-            disable: gsettings,indicator,xfce,mate,debug,distribution,tests,tracing
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Build
-        run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               docker run --rm \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build-autotools-linux.sh" || $FAILURE_ACTION
-             fi
-        env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
-           FAILURE_ACTION: ${{ matrix.config.experimental == true }}
-
-      - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
-        if: ${{ matrix.config.upload }}
-        with:
-          name: artifacts
-          path: _deploy
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
