@@ -154,7 +154,7 @@ jobs:
             if [[ $DOCKER_IMAGE ]]; then
                IFS=$'\n'
                export WORKRAVE_ENV=github-docker
-               docker run --rm \
+               docker run --security-opt seccomp=unconfined --rm \
                    -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
