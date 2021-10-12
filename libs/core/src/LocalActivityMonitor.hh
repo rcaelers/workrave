@@ -1,5 +1,3 @@
-// ActivityMonitor.hh --- ActivityMonitor functionality
-//
 // Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// W32InputMonitorFactory.cc -- Factory to create input monitors
-//
 // Copyright (C) 2007, 2008, 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

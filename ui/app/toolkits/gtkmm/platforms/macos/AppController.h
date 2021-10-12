@@ -1,5 +1,3 @@
-// AppController.hh --- MacOS Application Controller
-//
 // Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

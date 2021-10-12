@@ -1,5 +1,3 @@
-// EventImage.cc ---
-//
 // Copyright (C) 2003, 2004, 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

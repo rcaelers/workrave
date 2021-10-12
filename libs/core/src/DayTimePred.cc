@@ -1,5 +1,3 @@
-// DayTimePred.cc --- Daily Time Predicate
-//
 // Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

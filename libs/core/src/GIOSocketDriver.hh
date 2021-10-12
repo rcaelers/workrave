@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2002 - 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

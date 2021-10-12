@@ -1,5 +1,3 @@
-// Config.cpp --- Configuration Access
-//
 // Copyright (C) 2002, 2005, 2006, 2007, 2009 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

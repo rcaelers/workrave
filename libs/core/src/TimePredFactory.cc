@@ -1,5 +1,3 @@
-// TimePredFactory.cc
-//
 // Copyright (C) 2001, 2002, 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

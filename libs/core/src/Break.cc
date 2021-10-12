@@ -1,5 +1,3 @@
-// Break.cc
-//
 // Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

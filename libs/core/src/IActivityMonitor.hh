@@ -1,5 +1,3 @@
-// IActivityMonitor.hh --- Interface definition for the Activity Monitor
-//
 // Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

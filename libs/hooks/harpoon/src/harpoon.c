@@ -1,6 +1,4 @@
 /*
- * harpoon.c
- *
  * Copyright (C) 2002-2008 Raymond Penners <raymond@dotsphinx.com>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * Copyright (C) 2009-2010 Rob Caelers <robc@krandor.nl>

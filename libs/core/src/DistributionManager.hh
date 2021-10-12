@@ -1,5 +1,3 @@
-// DistributionManager.hh
-//
 // Copyright (C) 2002 - 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// MacOSUtil.hh --- MacOS utility functions
-//
 // Copyright (C) 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

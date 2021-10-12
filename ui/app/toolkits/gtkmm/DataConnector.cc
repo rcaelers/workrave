@@ -1,5 +1,3 @@
-// DataConnector.cc --- Connect Gtkmm widget with Configuration items
-//
 // Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

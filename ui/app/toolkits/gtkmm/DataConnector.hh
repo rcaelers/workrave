@@ -1,5 +1,3 @@
-// DataConnector.hh --- Connect widget with the configurator
-//
 // Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// IconListNotebook.hh --- Notebook like widget
-//
 // Copyright (C) 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// ICoreTestHooks.hh
-//
 // Copyright (C) 2012, 2013 Rob Caelers
 // All rights reserved.
 //

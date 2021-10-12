@@ -1,5 +1,3 @@
-// StatisticsDialog.cc --- Statistics dialog
-//
 // Copyright (C) 2002 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

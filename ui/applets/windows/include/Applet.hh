@@ -1,5 +1,3 @@
-// Applet.h --- Applet
-//
 // Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// Text.hh
-//
 // Copyright (C) 2002, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

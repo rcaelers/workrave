@@ -1,5 +1,3 @@
-// System.cc
-//
 // Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
 // Copyright (C) 2014 Mateusz Jończyk
 // All rights reserved.

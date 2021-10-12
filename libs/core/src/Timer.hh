@@ -1,5 +1,3 @@
-// Timer.hh --- Break Timer
-//
 // Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

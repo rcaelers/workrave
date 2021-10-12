@@ -1,5 +1,3 @@
-// DistributionSocketLink.cc
-//
 // Copyright (C) 2002 - 2012 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

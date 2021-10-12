@@ -1,5 +1,3 @@
-// EventLabel.hh --- Label that receives events.
-//
 // Copyright (C) 2003, 2004, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

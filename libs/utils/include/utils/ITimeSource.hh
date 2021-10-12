@@ -1,5 +1,3 @@
-// ITimeSource.hh --- The Time
-//
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

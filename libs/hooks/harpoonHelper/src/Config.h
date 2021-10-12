@@ -1,5 +1,3 @@
-// Config.hh
-//
 // Copyright (C) 2002, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

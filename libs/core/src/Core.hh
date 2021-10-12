@@ -1,5 +1,3 @@
-// Core.hh --- The main controller
-//
 // Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// ICoreHooks.hh --- The main controller
-//
 // Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

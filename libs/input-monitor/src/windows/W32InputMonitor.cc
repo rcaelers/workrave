@@ -1,5 +1,3 @@
-// W32InputMonitor.cc --- ActivityMonitor for W32
-//
 // Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

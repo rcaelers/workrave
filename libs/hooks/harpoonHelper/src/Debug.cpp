@@ -1,5 +1,3 @@
-// debug.cc
-//
 // Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

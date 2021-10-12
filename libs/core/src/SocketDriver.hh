@@ -1,5 +1,3 @@
-// SocketDriver.hh
-//
 // Copyright (C) 2002, 2003, 2005, 2007, 2010, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

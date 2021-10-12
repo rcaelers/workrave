@@ -1,5 +1,3 @@
-// ICore.hh --- The main controller interface
-//
 // Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

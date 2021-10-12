@@ -1,5 +1,3 @@
-// DBusBinding-qt.hh --- DBUS interface
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

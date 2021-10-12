@@ -1,5 +1,3 @@
-// Statistics.cc
-//
 // Copyright (C) 2002 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

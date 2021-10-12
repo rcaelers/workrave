@@ -1,5 +1,3 @@
-// W32DirectSoundPlayer.hh
-//
 // Copyright (C) 2002 - 2013 Raymond Penners & Ray Satiro
 // All rights reserved.
 //

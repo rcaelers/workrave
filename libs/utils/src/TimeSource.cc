@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

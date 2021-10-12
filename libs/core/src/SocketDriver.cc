@@ -1,5 +1,3 @@
-// SocketDriver.cc
-//
 // Copyright (C) 2007, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// InputMonitorFactory.cc
-//
 // Copyright (C) 2003 - 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

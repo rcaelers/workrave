@@ -1,5 +1,3 @@
-// IDistributionManager.hh
-//
 // Copyright (C) 2002 - 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

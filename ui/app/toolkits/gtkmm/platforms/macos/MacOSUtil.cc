@@ -1,5 +1,3 @@
-// MacOSUtil.cc --- MacOS utility functions
-//
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// IdleLogManager.hh --- Bookkeeping of idle time
-//
 // Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

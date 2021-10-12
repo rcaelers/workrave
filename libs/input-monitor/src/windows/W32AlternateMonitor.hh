@@ -1,5 +1,3 @@
-// W32AlternateMonitor.hh --- Alternate Activity monitor for windows
-//
 // Copyright (C) 2007, 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //

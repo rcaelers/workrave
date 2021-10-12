@@ -1,5 +1,3 @@
-// W32CriticalSection.hh --- RAII for critical section objects
-//
 // Copyright (C) 2012 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //

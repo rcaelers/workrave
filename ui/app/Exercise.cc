@@ -1,5 +1,3 @@
-// Exercise.cc --- Exercises
-//
 // Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2013 Rob Caelers <rob.caelers@gmail.com>
 // All rights reserved.

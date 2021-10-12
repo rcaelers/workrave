@@ -1,5 +1,3 @@
-// DBus.hh --- DBUS interface
-//
 // Copyright (C) 2007 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

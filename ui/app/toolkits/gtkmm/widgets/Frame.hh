@@ -1,5 +1,3 @@
-// FrameWindow.hh --- Gtk::Frame like widget
-//
 // Copyright (C) 2001 - 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //

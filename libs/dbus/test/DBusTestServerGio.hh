@@ -1,5 +1,3 @@
-// Test.hh
-//
 // Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

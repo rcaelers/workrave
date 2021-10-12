@@ -1,5 +1,3 @@
-// W32ActiveSetup.hh --- Active Setup for Workrave
-//
 // Copyright (C) 2012 Ray Satiro
 // All rights reserved.
 //

@@ -1,5 +1,3 @@
-// DailyLimitWindow.hh --- window for the daily limit
-//
 // Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
