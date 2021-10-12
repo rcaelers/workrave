@@ -1,4 +1,4 @@
-// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003 - 2011 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

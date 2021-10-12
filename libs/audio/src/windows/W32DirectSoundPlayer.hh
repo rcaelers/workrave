@@ -1,6 +1,6 @@
 // W32DirectSoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2012, 2013 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2013 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

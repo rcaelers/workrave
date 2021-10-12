@@ -1,6 +1,6 @@
 // FrameWindow.hh --- Gtk::Frame like widget
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001 - 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

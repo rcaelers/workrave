@@ -1,4 +1,4 @@
-// Copyright (C) 2001, 2002, 2003, 2007, 2008, 2011, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2007 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
