@@ -197,7 +197,7 @@ jobs:
 
           - os: macos-latest
             compiler: clang
-            ui: Qt6
+            ui: Qt
             enable:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
 

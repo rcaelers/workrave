@@ -156,7 +156,7 @@ include(code-coverage)
 # Toolkit selection
 
 set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt6" "Qt5" "Gtk+3" "None")
+set (WITH_UI_VALUES "Qt" "Gtk+3" "None")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
@@ -171,7 +171,7 @@ if ("${WITH_UI}" STREQUAL "None"
 endif()
 
 set (WITH_UI_QT FALSE)
-if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
+if ("${WITH_UI}" STREQUAL "Qt")
   set (WITH_UI_QT TRUE)
 endif()
 
@@ -189,7 +189,7 @@ if (WITH_CORE_NEXT)
   set(HAVE_CORE_NEXT ON)
 endif()
 
-if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
+if (WITH_UI_QT)
   message("Using CoreNext With with Qt")
   set (HAVE_CORE_NEXT ON)
 endif()
@@ -269,52 +269,62 @@ endif()
 
 
 #----------------------------------------------------------------------------------------------------
-# Qt5
+# Qt
 
-if ("${WITH_UI}" STREQUAL "Qt5")
-  message(STATUS "Checking for: Qt5")
+if ("${WITH_UI}" STREQUAL "Qt")
+  message(STATUS "Checking for: Qt")
 
-  find_package(Qt5Widgets REQUIRED)
-  find_package(Qt5Core REQUIRED)
-  find_package(Qt5Gui REQUIRED)
-  find_package(Qt5Svg REQUIRED)
-  find_package(Qt5LinguistTools REQUIRED)
+  find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools REQUIRED)
+  
+  if (Qt6_FOUND)
+      set (HAVE_QT6 ON)
+  elseif (Qt5_FOUND)
+    if (APPLE)
+      find_package(Qt5MacExtras REQUIRED)
+    endif()
+    set (HAVE_QT5 ON)
+  endif()
 
-  get_target_property(QT_LRELEASE_EXECUTABLE Qt5::lrelease LOCATION)
+  get_target_property(QT_LRELEASE_EXECUTABLE Qt::lrelease LOCATION)
 
-  if (TARGET Qt5::lconvert)
-    get_target_property(QT_LCONVERT_EXECUTABLE Qt5::lconvert LOCATION)
+  if (TARGET Qt::lconvert)
+    get_target_property(QT_LCONVERT_EXECUTABLE Qt::lconvert LOCATION)
   else()
     get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
     find_program(QT_LCONVERT_EXECUTABLE
-                 NAMES lconvert-qt5 lconvert
+                 NAMES lconvert-qt6 lconvert
                  PATHS ${QT_LRELEASE_PATH}
                  NO_DEFAULT_PATH)
   endif()
 
+ get_target_property(QT_QTPATHS_EXECUTABLE Qt6::qtpaths LOCATION)
+
+ execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --plugin-dir OUTPUT_VARIABLE QT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+ message(STATUS "QT Plugin path: " ${QT_PLUGINS_DIR})
+
   if (WITH_DBUS)
-    find_package(Qt5DBus QUIET)
-    if (Qt5DBus_FOUND)
-      set (HAVE_DBUS ON)
-      set (HAVE_DBUS_QT ON)
-      set (DBUS_BACKEND "qt")
+    find_package(Qt6DBus QUIET)
+    if (NOT Qt6DBus_FOUND)
+      find_package(Qt5DBus QUIET)
     endif()
   endif()
 
-  if (APPLE)
-    find_package(Qt5MacExtras REQUIRED)
+  if (Qt6DBus_FOUND OR Qt5DBus_FOUND)
+      set (HAVE_DBUS ON)
+      set (HAVE_DBUS_QT ON)
+      set (DBUS_BACKEND "qt")
   endif()
 
-  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
-
+  get_target_property(QtCore_location_Release Qt${QT_VERSION_MAJOR}::Core LOCATION_Release)
+  get_filename_component(QT_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
   if (APPLE)
-    get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/.." REALPATH)
+    get_filename_component(QT_INSTALL_PREFIX "${QT_BIN_DIR}/../../../" REALPATH)
   endif()
 
-  set (CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
+  #set (CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
   set (HAVE_QT ON)
-  set (HAVE_QT5 ON)
+  set (HAVE_QT6 ON)
   set (HAVE_APP_QT ON)
 
   if (Qt5_POSITION_INDEPENDENT_CODE)
@@ -329,80 +339,8 @@ if ("${WITH_UI}" STREQUAL "Qt5")
       gio-2.0>=2.26.0)
     set (HAVE_GLIB ON)
   endif()
-
   if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
-    message(FATAL_ERROR "32 bit compilation of Qt5 UI not supported on Windows")
-  endif()
-
-  if (NOT DEFINED QT_VERSION_MAJOR)
-    set (QT_VERSION_MAJOR "5")
-    function(qt_wrap_cpp outfiles)
-      qt5_wrap_cpp("${outfiles}" ${ARGN})
-      set("${outfiles}" "${${outfiles}}" PARENT_SCOPE)
-    endfunction()
-  endif()
-
-  include(QtDeployMac)
-endif()
-
-
-if ("${WITH_UI}" STREQUAL "Qt6")
-  message(STATUS "Checking for: Qt6")
-
-  find_package(Qt6Widgets REQUIRED)
-  find_package(Qt6Core REQUIRED)
-  find_package(Qt6Gui REQUIRED)
-  find_package(Qt6Svg REQUIRED)
-  find_package(Qt6LinguistTools REQUIRED)
-
-  get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease LOCATION)
-
-  if (TARGET Qt6::lconvert)
-    get_target_property(QT_LCONVERT_EXECUTABLE Qt6::lconvert LOCATION)
-  else()
-    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
-    find_program(QT_LCONVERT_EXECUTABLE
-                 NAMES lconvert-qt6 lconvert
-                 PATHS ${QT_LRELEASE_PATH}
-                 NO_DEFAULT_PATH)
-  endif()
-
-  if (WITH_DBUS)
-    find_package(Qt6DBus QUIET)
-    if (Qt6DBus_FOUND)
-      set (HAVE_DBUS ON)
-      set (HAVE_DBUS_QT ON)
-      set (DBUS_BACKEND "qt")
-    endif()
-  endif()
-
-  get_target_property(QtCore_location_Release Qt6::Core LOCATION_Release)
-  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
-  message(STATUS "XXXXXXXXXX ${Qt_BIN_DIR} ${QT_LIBRARY_DIR} ${QT_BINARY_DIR}")
-
-  if (APPLE)
-    get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/../../../" REALPATH)
-  endif()
-
-  set (CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
-  set (HAVE_QT ON)
-  set (HAVE_QT6 ON)
-  set (HAVE_APP_QT ON)
-
-  if (Qt6_POSITION_INDEPENDENT_CODE)
-    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
-  endif()
-
-  if ((NOT APPLE) AND (NOT WIN32))
-    # glib is required for ui/common/src/System.cc
-    pkg_check_modules(
-      GLIB REQUIRED
-      glib-2.0>=2.28.0
-      gio-2.0>=2.26.0)
-    set (HAVE_GLIB ON)
-  endif()
-  if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
-    message(FATAL_ERROR "32 bit compilation of Qt6 UI not supported on Windows")
+    message(FATAL_ERROR "32 bit compilation of Qt UI not supported on Windows")
   endif()
 endif()
 
@@ -823,7 +761,7 @@ endif()
 if (APPLE)
   set (PLATFORM_OS_MACOS ON)
   set (PLATFORM_OS_NAME "MacOS")
-
+  
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
   find_library(IOKIT_LIBRARY IOKit REQUIRED)
   find_library(QTKIT_LIBRARY QTKit REQUIRED)
