@@ -404,7 +404,6 @@ if ("${WITH_UI}" STREQUAL "Qt6")
   if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
     message(FATAL_ERROR "32 bit compilation of Qt6 UI not supported on Windows")
   endif()
-  include(QtDeployMac)
 endif()
 
 

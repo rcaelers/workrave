@@ -32,7 +32,7 @@ else()
 
   set(APPS "${CMAKE_INSTALL_PREFIX}/bin/Workrave.exe")
   set(PLUGINS "")
-  set(DIRS "@Boost_LIBRARY_DIRS@;@Qt_BIN_DIR@;@HOOK_BINARY_DIR@")
+  set(DIRS "@Boost_LIBRARY_DIRS@;@QT_BIN_DIR@;@HOOK_BINARY_DIR@")
 
   file(GLOB_RECURSE PLUGINS "${CMAKE_INSTALL_PREFIX}/lib/plugins/*")
   include(BundleUtilities)

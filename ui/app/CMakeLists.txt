@@ -200,8 +200,6 @@ if (APPLE)
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${WORKRAVE_VERSION}}"
     MACOSX_BUNDLE_BUNDLE_VERSION "${WORKRAVE_VERSION}"
     )
-
-  macdeployqt(workrave)
   set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitPlatformMac.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 
