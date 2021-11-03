@@ -21,6 +21,7 @@
 
 [Setup]
 AppName=Workrave
+AppVersion=@VERSION@
 AppVerName=Workrave @VERSION@
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=http://www.workrave.org
