@@ -21,6 +21,7 @@
 
 [Setup]
 AppName=Workrave
+AppVersion=@VERSION@
 AppVerName=Workrave @VERSION@
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=http://www.workrave.org
@@ -35,7 +36,6 @@ WizardSmallImageFile=@INSTALLDIR@\dist\WizModernSmall.bmp
 PrivilegesRequired=none
 CloseApplications=no
 ArchitecturesInstallIn64BitMode=x64
-VersionInfoVersion=@VERSION@
 
 ; uncomment the following line if you want your installation to run on NT 3.51 too.
 ; MinVersion=4,3.51
@@ -80,6 +80,7 @@ Source: "@INSTALLDIR@\share\doc\workrave\README.txt"; DestDir: "{app}"; DestName
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
+Root: 
 
 [Icons]
 Name: "{group}\Workrave"; Filename: "{app}\lib\Workrave.exe"
