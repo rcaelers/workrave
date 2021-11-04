@@ -194,7 +194,7 @@ Core::init_configurator()
 #if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
-                  configFile = (Paths::get_home_directory() / "config.xml").u8string();
+                  configFile = (Paths::get_config_directory() / "config.xml").u8string();
                 }
 #endif
               if (configFile != "")
@@ -205,7 +205,7 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = (Paths::get_home_directory() / "workrave.ini").u8string();
+              ini_file = (Paths::get_config_directory() / "workrave.ini").u8string();
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
               configurator->load(ini_file);
               configurator->save(ini_file);
@@ -218,7 +218,7 @@ Core::init_configurator()
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
     {
-      Paths::set_config_directory(home);
+      Paths::set_portable_directory(home);
     }
 }
 
@@ -1626,7 +1626,7 @@ Core::daily_reset()
 void
 Core::save_state() const
 {
-  std::filesystem::path path = Paths::get_config_directory() / "state";
+  std::filesystem::path path = Paths::get_state_directory() / "state";
   ofstream stateFile(path.u8string());
 
   int64_t current_time = TimeSource::get_real_time_sec();

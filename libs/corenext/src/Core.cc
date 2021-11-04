@@ -180,7 +180,7 @@ Core::init_configurator()
   string home = CoreConfig::general_datadir()();
   if (!home.empty())
     {
-      Paths::set_config_directory(home);
+      Paths::set_portable_directory(home);
     }
   // LCOV_EXCL_STOP
 }

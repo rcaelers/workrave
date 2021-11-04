@@ -33,7 +33,7 @@ namespace workrave::utils
       static std::list<std::filesystem::path> get_config_directories();
       static std::filesystem::path get_config_directory();
       static std::filesystem::path get_state_directory();
-      static void set_config_directory(const std::string &new_config_directory);
+      static void set_portable_directory(const std::string &new_config_directory);
 
     private:
       static std::list<std::filesystem::path> canonicalize(std::list<std::filesystem::path> paths);

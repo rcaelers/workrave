@@ -27,7 +27,11 @@
 #include "debug.hh"
 
 #ifdef PLATFORM_OS_MACOS
-#  include "MacOSHelpers.hh"
+#include "MacOSHelpers.hh"
+#endif
+
+#if defined HAVE_GLIB
+#include <glib.h>
 #endif
 
 using namespace workrave::utils;
@@ -58,16 +62,16 @@ extern "C"
 
 namespace 
 {
-  static std::filesystem::path config_directory;
+  static std::filesystem::path portable_directory;
 }
 
 void
-Paths::set_config_directory(const std::string &new_config_directory)
+Paths::set_portable_directory(const std::string &new_portable_directory)
 {
-  TRACE_ENTER("Paths::set_config_directory");
+  TRACE_ENTER("Paths::set_portable_directory");
   try
   {
-    std::filesystem::path directory(new_config_directory);
+    std::filesystem::path directory(new_portable_directory);
 
     if (directory.is_relative())
     {
@@ -78,10 +82,10 @@ Paths::set_config_directory(const std::string &new_config_directory)
 #endif
     }
 
-    config_directory = std::filesystem::weakly_canonical(directory);
+    portable_directory = std::filesystem::weakly_canonical(directory);
 
-    std::filesystem::create_directories(config_directory);
-    std::filesystem::permissions(config_directory,
+    std::filesystem::create_directories(portable_directory);
+    std::filesystem::permissions(portable_directory,
                                  std::filesystem::perms::others_all | std::filesystem::perms::group_all,
                                  std::filesystem::perm_options::remove);
   }
@@ -89,7 +93,6 @@ Paths::set_config_directory(const std::string &new_config_directory)
   {
     TRACE_MSG(e.what());
     std::cout << e.what() << "\n";
-    // TODO
   }
   TRACE_EXIT();
 }
@@ -122,6 +125,8 @@ Paths::get_home_directory()
       char buf[MAX_PATH];
       SHGetPathFromIDList(pidl, buf);
       CoTaskMemFree(pidl);
+
+      ret = std::filesystem::path(buf);
     }
 #endif
   }
@@ -138,7 +143,7 @@ std::filesystem::path
 Paths::get_application_directory()
 {
 TRACE_ENTER("Paths::get_application_directory");
-    try
+  try
   {
 #if defined(PLATFORM_OS_WINDOWS)
     char app_dir_name[MAX_PATH];
@@ -161,6 +166,7 @@ TRACE_ENTER("Paths::get_application_directory");
 
     std::filesystem::path p(execpath);
     std::filesystem::path dir = p.parent_path();
+    TRACE_RETURN(dir);
     return dir;
 #endif
   }
@@ -231,6 +237,7 @@ Paths::get_config_directories()
   try
   {
 #if defined(PLATFORM_OS_WINDOWS)
+    directories.push_back(get_application_directory() / "etc");
     directories.push_back(get_home_directory() / "Workrave");
 #endif
 
@@ -266,9 +273,9 @@ Paths::get_config_directory()
 
   try
   {
-    if (!config_directory.empty())
+    if (!portable_directory.empty())
     {
-      ret = config_directory;
+      ret = portable_directory / "etc";
       TRACE_MSG("Using portable config directory");
     }
     else
@@ -317,9 +324,9 @@ Paths::get_state_directory()
 
   try
   {
-    if (!config_directory.empty())
+    if (!portable_directory.empty())
     {
-      ret = config_directory;
+      ret = portable_directory;
       TRACE_MSG("Using portable config directory");
     }
     else
@@ -338,8 +345,14 @@ Paths::get_state_directory()
       if (ret.empty())
       {
         TRACE_MSG("Using preferred directory");
+#if defined(PLATFORM_OS_WINDOWS)
+        ret = get_home_directory() / "Workrave";
+#elif defined(HAVE_GLIB)
         const gchar *user_data_dir = g_get_user_data_dir();
         ret = std::filesystem::path(user_data_dir) / "workrave";
+#else
+        ret = get_home_directory() / ".workrave";
+#endif
       }
 
       if (ret.empty())
