@@ -126,7 +126,7 @@ Statistics::delete_all_history()
 {
   update();
 
-  std::filesystem::path histpath = Paths::get_config_directory() / "historystats";
+  std::filesystem::path histpath = Paths::get_state_directory() / "historystats";
   if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
     {
       return false;
@@ -139,7 +139,7 @@ Statistics::delete_all_history()
       history.clear();
     }
 
-  std::filesystem::path todaypath = Paths::get_config_directory() / "todaystats";
+  std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
   if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
     {
       return false;
@@ -194,7 +194,7 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 {
   add_history(stats);
 
-  std::filesystem::path path = Paths::get_config_directory() / "historystats";
+  std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
   bool exists = std::filesystem::is_regular_file(path);
   ofstream stats_file(path.u8string(), ios::app);
@@ -265,7 +265,7 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 void
 Statistics::save_day(DailyStatsImpl *stats)
 {
-  std::filesystem::path path = Paths::get_config_directory() / "todaystats";
+  std::filesystem::path path = Paths::get_state_directory() / "todaystats";
   ofstream stats_file(path.u8string());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
@@ -329,7 +329,7 @@ bool
 Statistics::load_current_day()
 {
   TRACE_ENTER("Statistics::load_current_day");
-  std::filesystem::path path = Paths::get_config_directory() / "todaystats";
+  std::filesystem::path path = Paths::get_state_directory() / "todaystats";
   ifstream stats_file(path.u8string());
 
   load(stats_file, false);
@@ -346,7 +346,7 @@ Statistics::load_history()
 {
   TRACE_ENTER("Statistics::load_history");
 
-  std::filesystem::path path = Paths::get_config_directory() / "historystats";
+  std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
   ifstream stats_file(path.u8string());
 

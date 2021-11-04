@@ -146,7 +146,7 @@ DistributionSocketLink::init_my_id()
 {
   TRACE_ENTER("DistributionSocketLink::init_my_id");
   bool ok = false;
-  std::filesystem::path f = Paths::get_config_directory() / "id";
+  std::filesystem::path f = Paths::get_state_directory() / "id";
 
   if (std::filesystem::is_regular_file(f))
     {

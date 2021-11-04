@@ -19,7 +19,9 @@
 #define APPLICATION_UNIX_HH
 
 #include <memory>
+
 #include "Application.hh"
+
 class IToolkit;
 
 class ApplicationUnix : public Application

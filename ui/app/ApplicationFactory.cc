@@ -23,6 +23,7 @@
 
 class Application;
 class IToolkit;
+
 #if defined(PLATFORM_OS_MACOS)
 #  include "ApplicationMacOS.hh"
 #elif defined(PLATFORM_OS_WINDOWS)

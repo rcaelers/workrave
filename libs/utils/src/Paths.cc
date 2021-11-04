@@ -187,12 +187,15 @@ Paths::get_data_directories()
 #endif
 
 #if defined(HAVE_GLIB)
-    const char *const *system_dirs = g_get_system_data_dirs();
-    for (int i = 0; system_dirs && system_dirs[i]; ++i)
+    const gchar *user_data_dir = g_get_user_data_dir();
+    directories.push_back(std::filesystem::path(user_data_dir) / "workrave");
+
+    const char *const *system_data_dirs = g_get_system_data_dirs();
+    for (int i = 0; system_data_dirs && system_data_dirs[i]; ++i)
     {
-      if (system_dirs[i][0] != '\0')
+      if (system_data_dirs[i][0] != '\0')
       {
-        directories.push_back(system_dirs[i]);
+        directories.push_back(system_data_dirs[i]);
       }
     }
 #endif
@@ -284,6 +287,65 @@ Paths::get_config_directory()
       {
         TRACE_MSG("Using existing directory");
         ret = *it;
+      }
+    }
+
+    if (!std::filesystem::is_directory(ret))
+    {
+      TRACE_MSG("Creating home directory");
+      std::filesystem::create_directories(ret);
+      std::filesystem::permissions(ret,
+                                   std::filesystem::perms::others_all | std::filesystem::perms::group_all,
+                                   std::filesystem::perm_options::remove);
+    }
+  }
+  catch(std::exception &e)
+  {
+    TRACE_MSG("Exception: " << e.what());
+  }
+
+  TRACE_RETURN(ret);
+  return ret;
+
+}
+
+std::filesystem::path
+Paths::get_state_directory()
+{
+  TRACE_ENTER("Paths::get_state_directory");
+  std::filesystem::path ret;
+
+  try
+  {
+    if (!config_directory.empty())
+    {
+      ret = config_directory;
+      TRACE_MSG("Using portable config directory");
+    }
+    else
+    {
+      std::list<std::filesystem::path> directories = get_config_directories();
+      auto it = std::find_if(directories.begin(), directories.end(),
+                             [] (const auto &d) {
+                               return std::filesystem::is_regular_file(d / "state");
+                             });
+      if (it != directories.end())
+      {
+        TRACE_MSG("Using existing directory");
+        ret = *it;
+      }
+
+      if (ret.empty())
+      {
+        TRACE_MSG("Using preferred directory");
+        const gchar *user_data_dir = g_get_user_data_dir();
+        ret = std::filesystem::path(user_data_dir) / "workrave";
+      }
+
+      if (ret.empty())
+      {
+        TRACE_MSG("Using config directory");
+        ret = get_config_directory();
       }
     }
 

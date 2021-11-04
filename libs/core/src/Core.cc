@@ -1667,7 +1667,7 @@ Core::load_misc()
 void
 Core::load_state()
 {
-  std::filesystem::path path = Paths::get_config_directory() / "state";
+  std::filesystem::path path = Paths::get_state_directory() / "state";
 
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())

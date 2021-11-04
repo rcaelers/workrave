@@ -439,7 +439,7 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 void
 BreaksControl::save_state() const
 {
-  std::filesystem::path path = Paths::get_config_directory() / "state";
+  std::filesystem::path path = Paths::get_state_directory() / "state";
   ofstream stateFile(path.u8string());
 
   stateFile << "WorkRaveState 3" << endl << TimeSource::get_real_time_sec() << endl;
@@ -458,7 +458,7 @@ BreaksControl::save_state() const
 void
 BreaksControl::load_state()
 {
-  std::filesystem::path path = Paths::get_config_directory() / "state";
+  std::filesystem::path path = Paths::get_state_directory() / "state";
 
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())
