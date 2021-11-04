@@ -38,6 +38,7 @@
 
 #include "ui/Locale.hh"
 #include "utils/Platform.hh"
+#include "utils/Paths.hh"
 
 #include "GtkUtil.hh"
 #include "Hig.hh"
@@ -699,7 +700,7 @@ PreferencesDialog::on_autostart_toggled()
 
   if (on)
     {
-      string appdir = Platform::get_application_directory();
+      string appdir = Paths::get_application_directory().u8string();
       value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
     }
 
@@ -908,19 +909,18 @@ PreferencesDialog::update_icon_theme_combo()
 
   for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_IMAGES))
     {
-      if (!g_str_has_suffix(dirname.c_str(), "images"))
+      if (!g_str_has_suffix(dirname.u8string().c_str(), "images"))
         {
           continue;
         }
 
-      GDir *dir = g_dir_open(dirname.c_str(), 0, nullptr);
+      GDir *dir = g_dir_open(dirname.u8string().c_str(), 0, nullptr);
       if (dir != nullptr)
         {
           const char *file;
           while ((file = g_dir_read_name(dir)) != nullptr)
             {
-
-              gchar *test_path = g_build_filename(dirname.c_str(), file, nullptr);
+              gchar *test_path = g_build_filename(dirname.u8string().c_str(), file, nullptr);
               if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
                   themes.emplace_back(file);

@@ -42,7 +42,7 @@
 
 #  include "config/IConfigurator.hh"
 #  include "core/CoreConfig.hh"
-#  include "utils/AssetPath.hh"
+#  include "utils/Paths.hh"
 
 #  include "DistributionManager.hh"
 #  include "DistributionLink.hh"
@@ -146,9 +146,8 @@ DistributionSocketLink::init_my_id()
 {
   TRACE_ENTER("DistributionSocketLink::init_my_id");
   bool ok = false;
-  string idfilename = AssetPath::get_home_directory() + "id";
+  std::filesystem::path f = Paths::get_config_directory() / "id";
 
-  std::filesystem::path f(idfilename);
   if (std::filesystem::is_regular_file(f))
     {
       ifstream file(idfilename.c_str());

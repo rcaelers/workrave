@@ -148,7 +148,7 @@ public:
     result_file_name /= "results";
     std::filesystem::create_directory(result_file_name);
     result_file_name /= test_name + ".txt";
-    out.open(result_file_name.string().c_str());
+    out.open(result_file_name.u8string().c_str());
   }
 
   void init_core()

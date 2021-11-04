@@ -33,7 +33,8 @@
 #include "client/crash_report_database.h"
 
 #include "debug.hh"
-#include "utils/Platform.hh"
+#include "utils/Paths.hh"
+
 #ifdef HAVE_HARPOON
 #  include "input-monitor/Harpoon.hh"
 #endif
@@ -109,7 +110,7 @@ CrashReporter::Pimpl::init()
 {
   TRACE_ENTER("CrashReporter::Pimpl::init");
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
-  const std::filesystem::path app_dir = workrave::utils::Platform::get_application_directory();
+  const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
 
 #ifdef PLATFORM_OS_WINDOWS
   std::string handler_exe = "WorkraveCrashHandler.exe";

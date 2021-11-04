@@ -23,148 +23,16 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_MACOS
-#  include "MacOSHelpers.hh"
-#endif
-
-#include <cstdlib>
-#include <cstdio>
-#include <sstream>
-
-#ifdef HAVE_SYS_STAT_H
-#  include <sys/stat.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#  include <sys/types.h>
-#endif
-
-#ifdef PLATFORM_OS_WINDOWS
-#  include <windows.h>
-// HACK: #include <shlobj.h>, need -fvtable-thunks.
-// Perhaps we should enable this, but let's hack it for now...
-//#include <shlobj.h>
-extern "C"
-{
-#  define SHGetPathFromIDList SHGetPathFromIDListA
-  HRESULT WINAPI SHGetSpecialFolderLocation(HWND, int, void **);
-  BOOL WINAPI SHGetPathFromIDList(void *, LPSTR);
-#  ifndef PLATFORM_OS_WINDOWS
-  VOID WINAPI CoTaskMemFree(PVOID);
-#  endif
-#  define PathCanonicalize PathCanonicalizeA
-  BOOL WINAPI PathCanonicalize(LPSTR, LPCSTR);
-#  define CSIDL_APPDATA 26
-}
-// (end of hack)
-#endif
-
 #include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
+#include "utils/Paths.hh"
 
-using namespace std;
 using namespace workrave::utils;
 
-set<string> AssetPath::search_paths[AssetPath::SEARCH_PATH_SIZEOF];
-string AssetPath::home_directory = "";
+std::list<std::filesystem::path> AssetPath::search_paths[AssetPath::SEARCH_PATH_SIZEOF];
 
-//! Returns the user's home directory.
-const string &
-AssetPath::get_home_directory()
-{
-  // Already cached?
-  static string ret;
-
-  if (home_directory.length() != 0)
-    {
-      ret = home_directory;
-    }
-  else if (ret.length() == 0)
-    {
-      // Default to current directory
-      ret = "./";
-
-#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-      const char *home = getenv("WORKRAVE_HOME");
-
-      if (home == nullptr)
-        {
-          home = getenv("HOME");
-        }
-
-      if (home != nullptr)
-        {
-          ret = home;
-          ret += "/.workrave/";
-
-          mkdir(ret.c_str(), 0700);
-        }
-#elif defined(PLATFORM_OS_WINDOWS)
-      void *pidl;
-      HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP, CSIDL_APPDATA, &pidl);
-      if (SUCCEEDED(hr))
-        {
-          char buf[MAX_PATH];
-
-          SHGetPathFromIDList(pidl, buf);
-          CoTaskMemFree(pidl);
-
-          strcat(buf, "\\Workrave");
-          BOOL dirok = CreateDirectory(buf, NULL);
-          if (!dirok)
-            {
-              if (GetLastError() == ERROR_ALREADY_EXISTS)
-                {
-                  dirok = TRUE;
-                }
-            }
-
-          if (dirok)
-            {
-              ret = string(buf) + "\\";
-            }
-        }
-#endif
-    }
-
-  return ret;
-}
-
-//! Returns the user's home directory.
-void
-AssetPath::set_home_directory(const string &home)
-{
-#ifdef PLATFORM_OS_WINDOWS
-  if (home.substr(0, 2) == ".\\" || home.substr(0, 3) == "..\\")
-    {
-      char buffer[MAX_PATH];
-
-      // Path relative to location of workrave root.
-      string appdir = Platform::get_application_directory();
-
-      home_directory = appdir + "\\" + home + "\\";
-
-      PathCanonicalize(buffer, home_directory.c_str());
-      home_directory = buffer;
-    }
-  else
-#endif
-    {
-      home_directory = home + "/";
-    }
-
-#ifdef PLATFORM_OS_WINDOWS
-  CreateDirectory(home_directory.c_str(), NULL);
-#else
-  mkdir(home_directory.c_str(), 0777);
-#endif
-}
-
-#ifdef PLATFORM_OS_WINDOWS
-
-#endif
-
-//! Returns the searchpath for the specified file type.
-const set<string> &
+//! Returns the search_path for the specified file type.
+const std::list<std::filesystem::path> &
 AssetPath::get_search_path(SearchPathId type)
 {
   if (!search_paths[type].empty())
@@ -172,104 +40,70 @@ AssetPath::get_search_path(SearchPathId type)
       return search_paths[type];
     }
 
-  set<string> &searchPath = search_paths[type];
+  std::list<std::filesystem::path> &search_path = search_paths[type];
 
-  string home_dir = get_home_directory();
-#if defined(PLATFORM_OS_WINDOWS)
-  string app_dir = Platform::get_application_directory();
-#elif defined(PLATFORM_OS_MACOS)
-  char execpath[MAXPATHLEN + 1];
-  uint32_t pathsz = sizeof(execpath);
-
-  _NSGetExecutablePath(execpath, &pathsz);
-
-  std::filesystem::path p(execpath);
-  std::filesystem::path dir = p.parent_path();
-  string app_dir = dir.string();
-#endif
+  std::list<std::filesystem::path> data_directories = Paths::get_data_directories();
+  std::list<std::filesystem::path> config_directories = Paths::get_config_directories();
 
   if (type == SEARCH_PATH_IMAGES)
     {
-#if defined(PLATFORM_OS_UNIX)
-      if (home_dir != "./")
+      for (const auto &directory : data_directories)
         {
-          searchPath.insert(home_dir + "/images");
-        }
-      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.insert(string(WORKRAVE_DATADIR) + "/icons/hicolor");
-      searchPath.insert("/usr/local/share/workrave/images");
-      searchPath.insert("/usr/share/workrave/images");
+#if defined(PLATFORM_OS_UNIX)
+          search_path.push_back(directory / "workrave/images");
+          search_path.push_back(directory / "icons/hicolor");
+#elif defined (PLATFORM_OS_MACOS)
+          search_path.push_back(directory / "images");
 #elif defined(PLATFORM_OS_WINDOWS)
-      searchPath.insert(app_dir + "\\share\\images");
-      searchPath.insert(app_dir + "\\share\\icons");
-
-#elif defined(PLATFORM_OS_MACOS)
-      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.insert(app_dir + "/../Resources/images");
+          search_path.push_back(directory / "icons");
+          search_path.push_back(directory / "images");
 #endif
+        }
     }
   if (type == SEARCH_PATH_SOUNDS)
     {
-#if defined(PLATFORM_OS_UNIX)
-      if (home_dir != "./")
+      for (const auto &directory : data_directories)
         {
-          searchPath.insert(home_dir + "/sounds");
-        }
-      searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds/workrave");
-      searchPath.insert("/usr/local/share/sounds/workrave");
-      searchPath.insert("/usr/share/sounds/workrave");
+#if defined(PLATFORM_OS_UNIX)
+          search_path.push_back(directory / "sounds/workrave");
 #elif defined(PLATFORM_OS_WINDOWS)
-      searchPath.insert(app_dir + "\\share\\sounds");
+          search_path.push_back(directory / "sounds");
 #elif defined(PLATFORM_OS_MACOS)
-      searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds");
-      searchPath.insert(app_dir + "/../Resources/sounds");
+          search_path.push_back(directory / "sounds");
 #endif
+        }
     }
   else if (type == SEARCH_PATH_CONFIG)
     {
-#if defined(PLATFORM_OS_UNIX)
-      if (home_dir != "./")
+      for (const auto &directory: config_directories)
         {
-          searchPath.insert(home_dir + "/");
-          searchPath.insert(home_dir + "/etc");
+          search_path.push_back(directory);
         }
-      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
-      searchPath.insert("/usr/local/share/workrave/etc");
-      searchPath.insert("/usr/share/workrave/etc");
-#elif defined(PLATFORM_OS_WINDOWS)
-      searchPath.insert(home_dir + "\\");
-      searchPath.insert(app_dir + "\\etc");
-#elif defined(PLATFORM_OS_MACOS)
-      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
-      searchPath.insert(home_dir + "/");
-      searchPath.insert(app_dir + "/../Resources/config");
-#endif
     }
   else if (type == SEARCH_PATH_EXERCISES)
     {
+      for (const auto &directory : data_directories)
+        {
 #if defined(PLATFORM_OS_UNIX)
-      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
+          search_path.push_back(directory / "workrave/exercises");
 #elif defined(PLATFORM_OS_WINDOWS)
-      searchPath.insert(app_dir + "\\share\\exercises");
+          search_path.push_back(directory / "exercises");
 #elif defined(PLATFORM_OS_MACOS)
-      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
-      searchPath.insert(app_dir + "/../Resources/exercises");
-#else
-#  error Not properly ported.
+          search_path.push_back(directory / "exercises");
 #endif
+        }
     }
 
-  return searchPath;
+  return search_path;
 }
 
-//! Completes the directory for the specified file and file type.
-string
-AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
+std::string
+AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type)
 {
   std::filesystem::path full_path;
   bool found = false;
 
-  const set<string> &search_path = get_search_path(type);
+  const std::list<std::filesystem::path> &search_path = get_search_path(type);
 
   for (auto i = search_path.begin(); !found && i != search_path.end(); ++i)
     {
@@ -283,16 +117,15 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type)
       full_path = path;
     }
 
-  return full_path.string();
+  return full_path.u8string();
 }
 
-//! Completes the directory for the specified file and file type.
 bool
-AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::string &complete_path)
+AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type, std::string &complete_path)
 {
   bool found = false;
 
-  const set<string> &search_path = get_search_path(type);
+  const std::list<std::filesystem::path> &search_path = get_search_path(type);
 
   for (auto i = search_path.begin(); !found && i != search_path.end(); ++i)
     {
@@ -300,7 +133,7 @@ AssetPath::complete_directory(string path, AssetPath::SearchPathId type, std::st
       full_path = (*i);
       full_path /= path;
       found = std::filesystem::is_regular_file(full_path);
-      complete_path = full_path.string();
+      complete_path = full_path.u8string();
     }
 
   return found;

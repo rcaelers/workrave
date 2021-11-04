@@ -79,24 +79,6 @@ Platform::registry_set_value(const char *path, const char *name, const char *val
   return rc;
 }
 
-//! Returns the directory in which workrave is installed.
-std::string
-Platform::get_application_directory()
-{
-  char app_dir_name[MAX_PATH];
-  GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
-  // app_dir_name == c:\program files\workrave\lib\workrave.exe
-  char *s = strrchr(app_dir_name, '\\');
-  assert(s);
-  *s = '\0';
-  // app_dir_name == c:\program files\workrave\lib
-  s = strrchr(app_dir_name, '\\');
-  assert(s);
-  *s = '\0';
-  // app_dir_name == c:\program files\workrave
-  return string(app_dir_name);
-}
-
 std::string
 Platform::get_application_name()
 {

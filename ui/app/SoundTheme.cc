@@ -247,7 +247,7 @@ SoundTheme::load_themes()
         {
           if (std::filesystem::is_directory(it->status()))
             {
-              ThemeInfo::Ptr theme = load_sound_theme(it->path().string());
+              ThemeInfo::Ptr theme = load_sound_theme(it->path().u8string());
               if (theme)
                 {
                   themes.push_back(theme);
@@ -273,9 +273,9 @@ SoundTheme::load_sound_theme(const string &themedir)
       std::filesystem::path path(themedir);
 
       boost::property_tree::ptree pt;
-      boost::property_tree::ini_parser::read_ini(file.string(), pt);
+      boost::property_tree::ini_parser::read_ini(file.u8string(), pt);
 
-      theme->theme_id = path.stem().string();
+      theme->theme_id = path.stem().u8string();
       theme->description = pt.get<std::string>("general.description");
       TRACE_MSG("id = " << theme->theme_id);
       TRACE_MSG("descr = " << theme->description);
@@ -291,7 +291,7 @@ SoundTheme::load_sound_theme(const string &themedir)
 
           SoundInfo sound_info;
           sound_info.event = sound_id_to_event(snd.id);
-          sound_info.filename = soundpath.string();
+          sound_info.filename = soundpath.u8string();
           theme->sounds.push_back(sound_info);
         }
     }

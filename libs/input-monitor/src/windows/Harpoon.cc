@@ -38,6 +38,8 @@
 #include "HarpoonHelper.h"
 
 #include "utils/Platform.hh"
+#include "utils/Paths.hh"
+
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::utils;
@@ -348,15 +350,15 @@ Harpoon::start_harpoon_helper()
 
       ZeroMemory(&pi, sizeof(pi));
 
-      std::string install_dir = Platform::get_application_directory();
-      string helper = install_dir + "\\lib32\\WorkraveHelper.exe";
-      string args = helper + " " + Platform::get_application_name();
+      std::filesystem::path install_dir = Paths::get_application_directory();
+      std::filesystem::path helper = install_dir / "lib32" / "WorkraveHelper.exe";
+      string args = helper.u8string() + " " + Platform::get_application_name();
 
       TRACE_MSG(install_dir.c_str());
       TRACE_MSG(helper.c_str());
       TRACE_MSG(args.c_str());
 
-      if (CreateProcessA(helper.c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+      if (CreateProcessA(helper.u8string().c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
           helper_started = true;
           helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);

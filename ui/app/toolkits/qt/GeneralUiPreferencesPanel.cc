@@ -34,6 +34,7 @@
 
 #include "core/ICore.hh"
 #include "utils/Platform.hh"
+#include "utils/Paths.hh"
 
 #include "TimerPreferencesPanel.hh"
 #include "UiUtil.hh"
@@ -190,7 +191,7 @@ GeneralUiPreferencesPanel::on_autostart_toggled()
 
   // if (on)
   //   {
-  // string appdir = Platform::get_application_directory();
+  // string appdir = Paths::get_application_directory();
 
   // value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
   //}

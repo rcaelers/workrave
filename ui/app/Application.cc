@@ -36,6 +36,7 @@
 #include "ui/Text.hh"
 #include "utils/Exception.hh"
 #include "utils/Platform.hh"
+#include "utils/Paths.hh"
 
 #ifdef HAVE_DBUS
 #  include "GenericDBusApplet.hh"
@@ -141,9 +142,10 @@ Application::init_nls()
   const char *locale_dir;
 
 #  if defined(PLATFORM_OS_WINDOWS)
-  std::string dir = Platform::get_application_directory();
-  dir += "\\lib\\locale";
-  locale_dir = dir.c_str();
+  std::filesystem::path dir = Paths::get_application_directory();
+  dir /= "lib";
+  dir /= "locale";
+  locale_dir = dir.u8string().c_str();
 #  elif defined(PLATFORM_OS_MACOS)
 #  else
   locale_dir = GNOMELOCALEDIR;

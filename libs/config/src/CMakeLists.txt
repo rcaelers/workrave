@@ -24,6 +24,7 @@ endif()
 
 if (HAVE_GSETTINGS)
   target_sources(workrave-libs-config PRIVATE GSettingsConfigurator.cc)
+  target_include_directories(workrave-libs-config PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
 target_link_libraries(workrave-libs-config PRIVATE workrave-libs-utils)

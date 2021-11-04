@@ -50,6 +50,7 @@
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "DistributionManager.hh"
@@ -193,7 +194,7 @@ Core::init_configurator()
 #if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
-                  configFile = AssetPath::get_home_directory() + "config.xml";
+                  configFile = (Paths::get_home_directory() / "config.xml").u8string();
                 }
 #endif
               if (configFile != "")
@@ -204,7 +205,7 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = AssetPath::get_home_directory() + "workrave.ini";
+              ini_file = (Paths::get_home_directory() / "workrave.ini").u8string();
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
               configurator->load(ini_file);
               configurator->save(ini_file);
@@ -217,7 +218,7 @@ Core::init_configurator()
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
     {
-      AssetPath::set_home_directory(home);
+      Paths::set_config_directory(home);
     }
 }
 
@@ -1625,11 +1626,8 @@ Core::daily_reset()
 void
 Core::save_state() const
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "state" << ends;
-
-  ofstream stateFile(ss.str().c_str());
+  std::filesystem::path path = Paths::get_config_directory() / "state";
+  ofstream stateFile(path.u8string());
 
   int64_t current_time = TimeSource::get_real_time_sec();
   stateFile << "WorkRaveState 3" << endl << current_time << endl;
@@ -1669,9 +1667,7 @@ Core::load_misc()
 void
 Core::load_state()
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "state" << ends;
+  std::filesystem::path path = Paths::get_config_directory() / "state";
 
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())
@@ -1688,7 +1684,7 @@ Core::load_state()
     }
 #endif
 
-  ifstream stateFile(ss.str().c_str());
+  ifstream stateFile(path.u8string());
 
   int version = 0;
   bool ok = stateFile.good();

@@ -2,6 +2,7 @@ add_library(workrave-libs-utils STATIC
   Diagnostics.cc
   TimeSource.cc
   AssetPath.cc
+  Paths.cc
   debug.cc)
 
 target_code_coverage(workrave-libs-utils)

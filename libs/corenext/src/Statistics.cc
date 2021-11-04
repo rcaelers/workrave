@@ -34,7 +34,7 @@
 
 #include "debug.hh"
 
-#include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 #include "Timer.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
@@ -125,10 +125,8 @@ Statistics::delete_all_history()
 {
   update();
 
-  string histfile = AssetPath::get_home_directory() + "historystats";
-  std::filesystem::path histpath(histfile);
-
-  if (std::filesystem::is_regular_file(histpath) && std::remove(histfile.c_str()))
+  std::filesystem::path histpath = Paths::get_config_directory() / "historystats";
+  if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
     {
       return false;
     }
@@ -142,10 +140,8 @@ Statistics::delete_all_history()
       history.clear();
     }
 
-  string todayfile = AssetPath::get_home_directory() + "todaystats";
-  std::filesystem::path todaypath(todayfile);
-
-  if (std::filesystem::is_regular_file(todaypath) && std::remove(todayfile.c_str()))
+  std::filesystem::path todaypath = Paths::get_config_directory() / "todaystats";
+  if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
     {
       return false;
     }
@@ -199,14 +195,10 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 {
   add_history(stats);
 
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "historystats" << ends;
+  std::filesystem::path path = Paths::get_config_directory() / "historystats";
 
-  std::filesystem::path path(ss.str());
   bool exists = std::filesystem::is_regular_file(path);
-
-  ofstream stats_file(ss.str().c_str(), ios::app);
+  ofstream stats_file(path.u8string(), ios::app);
 
   if (!exists)
     {
@@ -258,11 +250,8 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 void
 Statistics::save_day(DailyStatsImpl *stats)
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "todaystats" << ends;
-
-  ofstream stats_file(ss.str().c_str());
+  std::filesystem::path path = Paths::get_config_directory() / "todaystats";
+  ofstream stats_file(path.u8string());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
@@ -325,11 +314,8 @@ bool
 Statistics::load_current_day()
 {
   TRACE_ENTER("Statistics::load_current_day");
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "todaystats" << ends;
-
-  ifstream stats_file(ss.str().c_str());
+  std::filesystem::path path = Paths::get_config_directory() / "todaystats";
+  ifstream stats_file(path.u8string());
 
   load(stats_file, false);
 
@@ -345,11 +331,9 @@ Statistics::load_history()
 {
   TRACE_ENTER("Statistics::load_history");
 
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "historystats" << ends;
+  std::filesystem::path path = Paths::get_config_directory() / "historystats";
 
-  ifstream stats_file(ss.str().c_str());
+  ifstream stats_file(path.u8string());
 
   load(stats_file, true);
   TRACE_EXIT();
@@ -697,7 +681,6 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
           if (tv < std::chrono::seconds(1))
             {
               current_day->total_mouse_time += tv;
-
               current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
                 std::chrono::duration_cast<std::chrono::seconds>(current_day->total_mouse_time.time_since_epoch()).count();
             }

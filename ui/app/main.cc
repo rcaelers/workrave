@@ -24,10 +24,6 @@
 #include <cstdio>
 #include <fstream>
 
-#if defined(HAVE_GLIB)
-#  include <glib.h>
-#endif
-
 #ifdef PLATFORM_OS_WINDOWS
 #  include <io.h>
 #  include <fcntl.h>
@@ -35,6 +31,7 @@
 #endif
 
 #include "debug.hh"
+#include "utils/Platform.hh"
 
 #if defined(HAVE_CRASH_REPORT)
 #  include "crash/CrashReporter.hh"
@@ -45,6 +42,8 @@
 #include "ApplicationFactory.hh"
 
 extern "C" int run(int argc, char **argv);
+
+using namespace workrave::utils;
 
 int
 run(int argc, char **argv)
@@ -57,7 +56,7 @@ run(int argc, char **argv)
 #if defined(HAVE_CRASH_REPORT)
   try
     {
-      bool no_crashpad = (g_getenv("WORKRAVE_NO_CRASHPAD") != NULL);
+      bool no_crashpad = std::getenv("WORKRAVE_NO_CRASHPAD") != NULL;
       if (!no_crashpad)
         {
           TRACE_MSG("Starting crashhandler");

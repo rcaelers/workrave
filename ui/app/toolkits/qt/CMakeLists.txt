@@ -90,7 +90,11 @@ target_include_directories(workrave-toolkit-qt
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   )
 
-target_link_directories(workrave-toolkit-qt PRIVATE ${Boost_LIBRARIES_DIR})
+target_link_directories(workrave-toolkit-qt PRIVATE
+  ${Boost_LIBRARIES_DIR}
+  ${X11_X11_INCLUDE_PATH}
+  ${X11_INCLUDE_PATH}
+  ${X11_INCLUDE_PATH})
 
 target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-app
@@ -106,7 +110,10 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   Qt${QT_VERSION_MAJOR}::Svg
   ${Boost_LIBRARIES}
   ${LIBINTL_LIBRARIES}
-  ${EXTRA_LIBRARIES})
+  ${EXTRA_LIBRARIES}
+  ${X11_X11_LIB}
+  ${X11_Xtst_LIB}
+  ${X11_Xss_LIB})
 
 if (HAVE_QT5 AND PLATFORM_OS_MACOS)
   target_link_libraries(workrave-toolkit-qt PRIVATE Qt${QT_VERSION_MAJOR}::MacExtras)
