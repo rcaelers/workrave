@@ -21,6 +21,8 @@
 
 #include "ToolkitFactory.hh"
 
+class IToolkit;
+
 #if defined(PLATFORM_OS_MACOS)
 #  include "ToolkitMacOS.hh"
 #elif defined(PLATFORM_OS_WINDOWS)

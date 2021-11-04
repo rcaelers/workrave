@@ -18,6 +18,8 @@
 #ifndef ACTIVITYMONITORSTUB_HH
 #define ACTIVITYMONITORSTUB_HH
 
+#include <memory>
+
 #include "IActivityMonitor.hh"
 
 class ActivityMonitorStub : public IActivityMonitor

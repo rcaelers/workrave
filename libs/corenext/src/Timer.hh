@@ -18,6 +18,7 @@
 #ifndef TIMER_HH
 #define TIMER_HH
 
+#include <stdint.h>
 #include <memory>
 #include <string>
 
