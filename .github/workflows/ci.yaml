@@ -233,7 +233,7 @@ jobs:
                IFS=$'\n'
                export WORKRAVE_ENV=github-docker
                docker run --security-opt seccomp=unconfined --rm \
-                   ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse' || '' }} \
+                   ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined' || '' }} \
                    -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
