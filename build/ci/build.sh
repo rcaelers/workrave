@@ -31,11 +31,20 @@ build()
     cd ${BUILD_DIR}/${config}/${rel_dir}
 
     if [ -z "${rel_dir}" ]; then
-        cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+        if [ -n "${CONF_APPIMAGE}" ]; then
+            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=/usr ${cmake_args[@]}
+        else
+            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+        fi
     fi
 
     ninja ${MAKE_FLAGS[@]}
-    ninja ${MAKE_FLAGS[@]} install
+
+    if [ -n "${CONF_APPIMAGE}" ]; then
+        DESTDIR=${OUTPUT_DIR}/AppData ninja ${MAKE_FLAGS[@]} install
+    else
+        ninja ${MAKE_FLAGS[@]} install
+    fi
 }
 
 parse_arguments()
@@ -156,8 +165,53 @@ if [[ ${CONF_UI} ]]; then
     CMAKE_FLAGS+=("-DWITH_UI=${CONF_UI}")
 fi
 
-
 build "${OUT_DIR}" "${REL_DIR}" CMAKE_FLAGS[@]
+
+if [[ $DOCKER_IMAGE =~ "ubuntu" ]] ; then
+    if [ -n "${CONF_APPIMAGE}" ]; then
+        if [ ! -d ${SOURCES_DIR}/_ext ]; then
+            mkdir -p ${SOURCES_DIR}/_ext
+        fi
+
+        if [ ! -d ${SOURCES_DIR}/_ext/appimage ]; then
+            mkdir -p ${SOURCES_DIR}/_ext/appimage
+            cd ${SOURCES_DIR}/_ext/appimage
+            curl -L -O https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+            chmod +x linuxdeploy-x86_64.AppImage
+            curl -L -O https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh
+            chmod +x linuxdeploy-plugin-gtk.sh
+        fi
+
+        EXTRA=
+        CONFIG=release
+        if [ "$CONF_CONFIGURATION" == "Debug" ]; then
+            EXTRA="-Debug"
+            CONFIG="debug"
+        fi
+
+        if [[ -z "$WORKRAVE_TAG" ]]; then
+            echo "No tag build."
+            version=${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
+        else
+            echo "Tag build : $WORKRAVE_TAG"
+            version=${WORKRAVE_VERSION}${EXTRA}
+        fi
+
+        export LD_LIBRARY_PATH=${OUTPUT_DIR}/AppData/usr/lib:${OUTPUT_DIR}/AppData/usr/lib/x86_64-linux-gnu
+
+        cd ${OUTPUT_DIR}
+        VERSION="$version" ${SOURCES_DIR}/_ext/appimage/linuxdeploy-x86_64.AppImage \
+                --appdir ${OUTPUT_DIR}/AppData \
+                --plugin gtk \
+                --output appimage \
+                --icon-file ${OUTPUT_DIR}/AppData/usr/share/icons/hicolor/scalable/apps/workrave.svg \
+                --desktop-file ${OUTPUT_DIR}/AppData/usr/share/applications/org.workrave.Workrave.desktop
+
+        mkdir -p ${DEPLOY_DIR}
+        cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
+        ${SOURCES_DIR}/build/ci/catalog.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
+    fi
+fi
 
 if [[ $MSYSTEM == "MINGW64" ]] ; then
     echo Deploying

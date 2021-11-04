@@ -169,6 +169,7 @@ jobs:
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING
+            appimage: true
 
           #- image: ubuntu-impish
           #  os: ubuntu-latest
@@ -248,6 +249,7 @@ jobs:
            CONF_ENABLE: ${{ matrix.config.enable }}
            CONF_DISABLE: ${{ matrix.config.disable }}
            CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+           CONF_APPIMAGE: ${{ matrix.config.appimage }}
            DOCKER_IMAGE: ${{ matrix.config.image }}
 
       - name: Upload artifacts to GitHub

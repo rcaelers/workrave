@@ -138,8 +138,11 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "t:C:D:R:S:W:B:p:d" o; do
+    while getopts "At:C:D:R:S:W:B:p:d" o; do
         case "${o}" in
+        A)
+            CONF_APPIMAGE=1
+            ;;
         p)
             PPA="${OPTARG}"
             ;;
@@ -199,6 +202,7 @@ DEPLOY_DIR=$WORKSPACE_DIR/deploy
 export WORKRAVE_ENV=local
 init
 
+export CONF_APPIMAGE=
 export CONF_COMPILER="gcc"
 export CONF_CONFIGURATION="Release"
 export DOCKER_IMAGE="mingw-gtk-rawhide"

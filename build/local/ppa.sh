@@ -55,9 +55,7 @@ init_debian_packaging() {
         mkdir -p ${DEBIAN_PACKAGING_DIR}
 
         cd ${SOURCES_DIR}
-        git remote set-branches --add origin debian-packaging
-        git fetch
-        git worktree add -B debian-packaging ${DEBIAN_PACKAGING_DIR} origin/debian-packaging
+        git clone https://github.com/rcaelers/workrave-debian-packaging.git ${DEBIAN_PACKAGING_DIR}
     fi
 }
 
@@ -74,9 +72,7 @@ init_newsgen() {
 build_tarball() {
     if [ ! -e "$DEPLOY_TARFILE" ]; then
         cd ${SOURCES_DIR}
-        ./autogen.sh
-        ./configure
-        make dist
+        git archive --prefix=workrave-${WORKRAVE_VERSION}/ HEAD | gzip -9 > "${SOURCE_TARFILE}"
         cp ${SOURCE_TARFILE} "${DEPLOY_TARFILE}"
     fi
 }
@@ -153,7 +149,7 @@ build_single() {
 }
 
 build_all() {
-    for series in impish hirsute focal bionic testing; do
+    for series in impish hirsute focal; do
         build_single $series
     done
     #build_single hirsute

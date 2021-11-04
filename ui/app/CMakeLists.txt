@@ -119,7 +119,7 @@ if (HAVE_GLIB)
   target_include_directories(workrave-app PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
-install(FILES workrave.appdata.xml DESTINATION ${DATADIR}/metainfo)
+install(FILES workrave.appdata.xml DESTINATION ${DATADIR}/metainfo RENAME org.workrave.Workrave.appdata.xml)
 
 ################################################################################
 ################################################################################
