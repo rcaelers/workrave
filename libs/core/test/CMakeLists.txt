@@ -39,6 +39,7 @@ if (HAVE_TESTS)
   endif()
   if (HAVE_APP_GTK OR HAVE_GLIB)
     target_link_libraries(workrave-core-integration-test PRIVATE ${GLIB_LIBRARIES})
+    target_link_directories(workrave-core-integration-test PRIVATE ${GLIB_LIBRARY_DIRS})
   endif()
 
   if (PLATFORM_OS_UNIX)

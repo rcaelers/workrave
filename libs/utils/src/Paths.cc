@@ -27,11 +27,11 @@
 #include "debug.hh"
 
 #ifdef PLATFORM_OS_MACOS
-#include "MacOSHelpers.hh"
+#  include "MacOSHelpers.hh"
 #endif
 
 #if defined HAVE_GLIB
-#include <glib.h>
+#  include <glib.h>
 #endif
 
 using namespace workrave::utils;
@@ -57,10 +57,10 @@ extern "C"
 #endif
 
 #if defined(HAVE_GLIB)
-#include <glib.h>
+#  include <glib.h>
 #endif
 
-namespace 
+namespace
 {
   static std::filesystem::path portable_directory;
 }
@@ -70,30 +70,30 @@ Paths::set_portable_directory(const std::string &new_portable_directory)
 {
   TRACE_ENTER("Paths::set_portable_directory");
   try
-  {
-    std::filesystem::path directory(new_portable_directory);
-
-    if (directory.is_relative())
     {
+      std::filesystem::path directory(new_portable_directory);
+
+      if (directory.is_relative())
+        {
 #if defined(PLATFORM_OS_WINDOWS)
-      directory = Paths::get_application_directory() / directory;
-#else 
-      directory = std::filesystem::absolute(directory);
+          directory = Paths::get_application_directory() / directory;
+#else
+          directory = std::filesystem::absolute(directory);
 #endif
+        }
+
+      portable_directory = std::filesystem::weakly_canonical(directory);
+
+      std::filesystem::create_directories(portable_directory);
+      std::filesystem::permissions(portable_directory,
+                                   std::filesystem::perms::others_all | std::filesystem::perms::group_all,
+                                   std::filesystem::perm_options::remove);
     }
-
-    portable_directory = std::filesystem::weakly_canonical(directory);
-
-    std::filesystem::create_directories(portable_directory);
-    std::filesystem::permissions(portable_directory,
-                                 std::filesystem::perms::others_all | std::filesystem::perms::group_all,
-                                 std::filesystem::perm_options::remove);
-  }
-  catch(std::exception &e)
-  {
-    TRACE_MSG(e.what());
-    std::cout << e.what() << "\n";
-  }
+  catch (std::exception &e)
+    {
+      TRACE_MSG(e.what());
+      std::cout << e.what() << "\n";
+    }
   TRACE_EXIT();
 }
 
@@ -103,38 +103,38 @@ Paths::get_home_directory()
   TRACE_ENTER("Paths::get_home_directory");
   std::filesystem::path ret;
   try
-  {
-    ret = std::filesystem::current_path();
+    {
+      ret = std::filesystem::current_path();
 
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-    const char *home = getenv("WORKRAVE_HOME");
-    if (home == nullptr)
-    {
-      home = getenv("HOME");
-    }
+      const char *home = getenv("WORKRAVE_HOME");
+      if (home == nullptr)
+        {
+          home = getenv("HOME");
+        }
 
-    if (home != nullptr)
-    {
-      ret = home;
-    }
+      if (home != nullptr)
+        {
+          ret = home;
+        }
 #elif defined(PLATFORM_OS_WINDOWS)
-    void *pidl;
-    HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP, CSIDL_APPDATA, &pidl);
-    if (SUCCEEDED(hr))
-    {
-      char buf[MAX_PATH];
-      SHGetPathFromIDList(pidl, buf);
-      CoTaskMemFree(pidl);
+      void *pidl;
+      HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP, CSIDL_APPDATA, &pidl);
+      if (SUCCEEDED(hr))
+        {
+          char buf[MAX_PATH];
+          SHGetPathFromIDList(pidl, buf);
+          CoTaskMemFree(pidl);
 
-      ret = std::filesystem::path(buf);
-    }
+          ret = std::filesystem::path(buf);
+        }
 #endif
-  }
-  catch(std::exception &e)
-  {
-    TRACE_MSG(e.what());
-    std::cout << e.what() << "\n";
-  }
+    }
+  catch (std::exception &e)
+    {
+      TRACE_MSG(e.what());
+      std::cout << e.what() << "\n";
+    }
   TRACE_EXIT();
   return ret;
 }
@@ -142,37 +142,37 @@ Paths::get_home_directory()
 std::filesystem::path
 Paths::get_application_directory()
 {
-TRACE_ENTER("Paths::get_application_directory");
+  TRACE_ENTER("Paths::get_application_directory");
   try
-  {
+    {
 #if defined(PLATFORM_OS_WINDOWS)
-    char app_dir_name[MAX_PATH];
-    GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
-    // app_dir_name == c:\program files\workrave\lib\workrave.exe
-    char *s = strrchr(app_dir_name, '\\');
-    assert(s);
-    *s = '\0';
-    // app_dir_name == c:\program files\workrave\lib
-    s = strrchr(app_dir_name, '\\');
-    assert(s);
-    *s = '\0';
-    // app_dir_name == c:\program files\workrave
-    return std::filesystem::path(app_dir_name);
+      char app_dir_name[MAX_PATH];
+      GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
+      // app_dir_name == c:\program files\workrave\lib\workrave.exe
+      char *s = strrchr(app_dir_name, '\\');
+      assert(s);
+      *s = '\0';
+      // app_dir_name == c:\program files\workrave\lib
+      s = strrchr(app_dir_name, '\\');
+      assert(s);
+      *s = '\0';
+      // app_dir_name == c:\program files\workrave
+      return std::filesystem::path(app_dir_name);
 #elif defined(PLATFORM_OS_MACOS)
-    char execpath[MAXPATHLEN + 1];
-    uint32_t pathsz = sizeof(execpath);
+      char execpath[MAXPATHLEN + 1];
+      uint32_t pathsz = sizeof(execpath);
 
-    _NSGetExecutablePath(execpath, &pathsz);
+      _NSGetExecutablePath(execpath, &pathsz);
 
-    std::filesystem::path p(execpath);
-    std::filesystem::path dir = p.parent_path();
-    TRACE_RETURN(dir);
-    return dir;
+      std::filesystem::path p(execpath);
+      std::filesystem::path dir = p.parent_path().parent_path();
+      TRACE_RETURN(dir);
+      return dir;
 #endif
-  }
-  catch(std::exception &e)
-  {
-  }
+    }
+  catch (std::exception &e)
+    {
+    }
 
   TRACE_EXIT();
   return std::filesystem::path();
@@ -185,43 +185,43 @@ Paths::get_data_directories()
   std::list<std::filesystem::path> directories;
 
   try
-  {
+    {
 #if defined(PLATFORM_OS_UNIX)
-    directories.push_back(WORKRAVE_DATADIR "/");
-    directories.push_back("/usr/local/share/");
-    directories.push_back("/usr/share/");
+      directories.push_back(WORKRAVE_DATADIR "/");
+      directories.push_back("/usr/local/share/");
+      directories.push_back("/usr/share/");
 #endif
 
 #if defined(HAVE_GLIB)
-    const gchar *user_data_dir = g_get_user_data_dir();
-    directories.push_back(std::filesystem::path(user_data_dir) / "workrave");
+      const gchar *user_data_dir = g_get_user_data_dir();
+      directories.push_back(std::filesystem::path(user_data_dir) / "workrave");
 
-    const char *const *system_data_dirs = g_get_system_data_dirs();
-    for (int i = 0; system_data_dirs && system_data_dirs[i]; ++i)
-    {
-      if (system_data_dirs[i][0] != '\0')
-      {
-        directories.push_back(system_data_dirs[i]);
-      }
-    }
+      const char *const *system_data_dirs = g_get_system_data_dirs();
+      for (int i = 0; system_data_dirs && system_data_dirs[i]; ++i)
+        {
+          if (system_data_dirs[i][0] != '\0')
+            {
+              directories.push_back(system_data_dirs[i]);
+            }
+        }
 #endif
 
 #if defined(PLAFORM_OS_WINDOWS)
-    directories.push_back(get_application_directory() / "share");
+      directories.push_back(get_application_directory() / "share");
 #elif defined(PLATFORM_OS_MACOS)
-    directories.push_back(get_application_directory() / "../Resources");
+      directories.push_back(get_application_directory() / "Resources" / "share");
 #endif
-  }
-  catch(std::exception &e)
-  {
-    TRACE_MSG(e.what());
-  }
+    }
+  catch (std::exception &e)
+    {
+      TRACE_MSG(e.what());
+    }
 
 #ifdef TRACING
-  for (const auto &d : canonicalize(directories))
-  {
-    TRACE_MSG(d.u8string());
-  }
+  for (const auto &d: canonicalize(directories))
+    {
+      TRACE_MSG(d.u8string());
+    }
 #endif
 
   TRACE_EXIT();
@@ -235,31 +235,31 @@ Paths::get_config_directories()
 
   std::list<std::filesystem::path> directories;
   try
-  {
+    {
 #if defined(PLATFORM_OS_WINDOWS)
-    directories.push_back(get_application_directory() / "etc");
-    directories.push_back(get_home_directory() / "Workrave");
+      directories.push_back(get_application_directory() / "etc");
+      directories.push_back(get_home_directory() / "Workrave");
 #endif
 
 #if defined(HAVE_GLIB)
-    const gchar *user_config_dir = g_get_user_config_dir();
-    directories.push_back(std::filesystem::path(user_config_dir) / "workrave");
+      const gchar *user_config_dir = g_get_user_config_dir();
+      directories.push_back(std::filesystem::path(user_config_dir) / "workrave");
 #endif
 
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
-    directories.push_back(get_home_directory() / ".workrave");
+      directories.push_back(get_home_directory() / ".workrave");
 #endif
-  }
-  catch(std::exception &e)
-  {
-    TRACE_MSG(e.what());
-  }
+    }
+  catch (std::exception &e)
+    {
+      TRACE_MSG(e.what());
+    }
 
 #ifdef TRACING
-  for (const auto &d : canonicalize(directories))
-  {
-    TRACE_MSG(d.u8string());
-  }
+  for (const auto &d: canonicalize(directories))
+    {
+      TRACE_MSG(d.u8string());
+    }
 #endif
   TRACE_EXIT();
   return canonicalize(directories);
@@ -272,48 +272,44 @@ Paths::get_config_directory()
   std::filesystem::path ret;
 
   try
-  {
-    if (!portable_directory.empty())
     {
-      ret = portable_directory / "etc";
-      TRACE_MSG("Using portable config directory");
-    }
-    else
-    {
-      std::list<std::filesystem::path> directories = get_config_directories();
-      auto it = std::find_if(directories.begin(), directories.end(),
-                             [] (const auto &d) {
-                               return std::filesystem::is_directory(d);
-                             });
-      if (it == directories.end())
-      {
-        TRACE_MSG("Using preferred directory");
-        ret = directories.front();
-      }
+      if (!portable_directory.empty())
+        {
+          ret = portable_directory / "etc";
+          TRACE_MSG("Using portable config directory");
+        }
       else
-      {
-        TRACE_MSG("Using existing directory");
-        ret = *it;
-      }
-    }
+        {
+          std::list<std::filesystem::path> directories = get_config_directories();
+          auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) { return std::filesystem::is_directory(d); });
+          if (it == directories.end())
+            {
+              TRACE_MSG("Using preferred directory");
+              ret = directories.front();
+            }
+          else
+            {
+              TRACE_MSG("Using existing directory");
+              ret = *it;
+            }
+        }
 
-    if (!std::filesystem::is_directory(ret))
-    {
-      TRACE_MSG("Creating home directory");
-      std::filesystem::create_directories(ret);
-      std::filesystem::permissions(ret,
-                                   std::filesystem::perms::others_all | std::filesystem::perms::group_all,
-                                   std::filesystem::perm_options::remove);
+      if (!std::filesystem::is_directory(ret))
+        {
+          TRACE_MSG("Creating home directory");
+          std::filesystem::create_directories(ret);
+          std::filesystem::permissions(ret,
+                                       std::filesystem::perms::others_all | std::filesystem::perms::group_all,
+                                       std::filesystem::perm_options::remove);
+        }
     }
-  }
-  catch(std::exception &e)
-  {
-    TRACE_MSG("Exception: " << e.what());
-  }
+  catch (std::exception &e)
+    {
+      TRACE_MSG("Exception: " << e.what());
+    }
 
   TRACE_RETURN(ret);
   return ret;
-
 }
 
 std::filesystem::path
@@ -323,75 +319,73 @@ Paths::get_state_directory()
   std::filesystem::path ret;
 
   try
-  {
-    if (!portable_directory.empty())
     {
-      ret = portable_directory;
-      TRACE_MSG("Using portable config directory");
-    }
-    else
-    {
-      std::list<std::filesystem::path> directories = get_config_directories();
-      auto it = std::find_if(directories.begin(), directories.end(),
-                             [] (const auto &d) {
-                               return std::filesystem::is_regular_file(d / "state");
-                             });
-      if (it != directories.end())
-      {
-        TRACE_MSG("Using existing directory");
-        ret = *it;
-      }
+      if (!portable_directory.empty())
+        {
+          ret = portable_directory;
+          TRACE_MSG("Using portable config directory");
+        }
+      else
+        {
+          std::list<std::filesystem::path> directories = get_config_directories();
+          auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) {
+            return std::filesystem::is_regular_file(d / "state");
+          });
+          if (it != directories.end())
+            {
+              TRACE_MSG("Using existing directory");
+              ret = *it;
+            }
 
-      if (ret.empty())
-      {
-        TRACE_MSG("Using preferred directory");
+          if (ret.empty())
+            {
+              TRACE_MSG("Using preferred directory");
 #if defined(PLATFORM_OS_WINDOWS)
-        ret = get_home_directory() / "Workrave";
+              ret = get_home_directory() / "Workrave";
 #elif defined(HAVE_GLIB)
-        const gchar *user_data_dir = g_get_user_data_dir();
-        ret = std::filesystem::path(user_data_dir) / "workrave";
+              const gchar *user_data_dir = g_get_user_data_dir();
+              ret = std::filesystem::path(user_data_dir) / "workrave";
 #else
-        ret = get_home_directory() / ".workrave";
+              ret = get_home_directory() / ".workrave";
 #endif
-      }
+            }
 
-      if (ret.empty())
-      {
-        TRACE_MSG("Using config directory");
-        ret = get_config_directory();
-      }
+          if (ret.empty())
+            {
+              TRACE_MSG("Using config directory");
+              ret = get_config_directory();
+            }
+        }
+
+      if (!std::filesystem::is_directory(ret))
+        {
+          TRACE_MSG("Creating home directory");
+          std::filesystem::create_directories(ret);
+          std::filesystem::permissions(ret,
+                                       std::filesystem::perms::others_all | std::filesystem::perms::group_all,
+                                       std::filesystem::perm_options::remove);
+        }
     }
-
-    if (!std::filesystem::is_directory(ret))
+  catch (std::exception &e)
     {
-      TRACE_MSG("Creating home directory");
-      std::filesystem::create_directories(ret);
-      std::filesystem::permissions(ret,
-                                   std::filesystem::perms::others_all | std::filesystem::perms::group_all,
-                                   std::filesystem::perm_options::remove);
+      TRACE_MSG("Exception: " << e.what());
     }
-  }
-  catch(std::exception &e)
-  {
-    TRACE_MSG("Exception: " << e.what());
-  }
 
   TRACE_RETURN(ret);
   return ret;
-
 }
 
 std::list<std::filesystem::path>
 Paths::canonicalize(std::list<std::filesystem::path> paths)
 {
   std::list<std::filesystem::path> ret;
-  for (const auto & path : paths)
-  {
-    auto canonical_path = std::filesystem::weakly_canonical(path);
-    if (find(ret.begin(), ret.end(), canonical_path) == ret.end())
+  for (const auto &path: paths)
     {
-      ret.push_back(canonical_path);
+      auto canonical_path = std::filesystem::weakly_canonical(path);
+      if (find(ret.begin(), ret.end(), canonical_path) == ret.end())
+        {
+          ret.push_back(canonical_path);
+        }
     }
-  }
   return ret;
 }

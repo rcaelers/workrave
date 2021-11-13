@@ -252,10 +252,10 @@ MainWindow::init()
   eventbox->set_visible_window(false);
   eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
 
-#ifndef PLATFORM_OS_MACOS
+  //#ifndef PLATFORM_OS_MACOS
   // No popup menu on OS X
   eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &MainWindow::on_timer_view_button_press_event));
-#endif
+  //#endif
 
   eventbox->add(*timer_box_view);
   add(*eventbox);

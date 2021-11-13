@@ -126,7 +126,7 @@ StatisticsDialog::init_gui()
 
   create_break_page(tnotebook);
 #if !defined(PLATFORM_OS_MACOS)
-  // No details activity statistics on OS X..
+  // No details activity statistics on macOS
   create_activity_page(tnotebook);
 #endif
 

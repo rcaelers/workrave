@@ -23,7 +23,7 @@
 #include <string>
 #include <memory>
 
-#ifdef PLATFORM_OS_MACOS
+#ifdef HAVE_QT
 #  include <QCoreApplication>
 #endif
 

@@ -313,6 +313,7 @@ DBusGio::is_available() const
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
+      TRACE_EXIT();
       return false;
     }
   TRACE_EXIT();

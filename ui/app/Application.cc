@@ -74,7 +74,7 @@ Application::main()
 
   System::init();
   srand((unsigned int)time(nullptr));
-  
+
   init_core();
   init_nls();
   init_sound_player();
@@ -139,7 +139,7 @@ Application::init_nls()
       Platform::setenv("LANGUAGE", language.c_str(), 1);
     }
 
-  const char *locale_dir;
+  const char *locale_dir = nullptr;
 
 #  if defined(PLATFORM_OS_WINDOWS)
   std::filesystem::path dir = Paths::get_application_directory();
@@ -147,6 +147,10 @@ Application::init_nls()
   dir /= "locale";
   locale_dir = dir.u8string().c_str();
 #  elif defined(PLATFORM_OS_MACOS)
+  std::filesystem::path dir = Paths::get_application_directory();
+  dir /= "Resources";
+  dir /= "locale";
+  locale_dir = dir.u8string().c_str();
 #  else
   locale_dir = GNOMELOCALEDIR;
 #  endif

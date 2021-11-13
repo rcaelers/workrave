@@ -62,14 +62,14 @@ if (PLATFORM_OS_WINDOWS)
 endif()
 
 if (PLATFORM_OS_MACOS)
-  # target_sources(workrave-toolkit-gtkmm PRIVATE
-  #   ToolkitMacOS.cc
+  target_sources(workrave-toolkit-gtkmm PRIVATE
+    ToolkitMacOS.cc
   #   platforms/macos/MacOSAppletWindow.cc
   #   platforms/macos/MacOSGtkMenu.cc
   #   platforms/macos/MacOSUtil.cc
   #   platforms/macos/MacOSStatusBarView.mm
   #   platforms/macos/MacOSTimeBar.mm
-  #   )
+  )
 
   # set_source_files_properties(macos/MacOSAppletWindow.cc macos/MacOSGtkMenu.cc macos/MacOSUtil.cc Locale.cc AppletControl.cc macos/MacOSTimeBar.mm macos/MacOSStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
@@ -117,6 +117,8 @@ endif()
 target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${GTK_LIBRARIES})
 target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${Boost_LIBRARIES})
 target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${EXTRA_LIBRARIES})
+target_link_directories(workrave-toolkit-gtkmm PUBLIC ${GTK_LIBRARY_DIRS})
+
 
 if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})

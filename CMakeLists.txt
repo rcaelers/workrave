@@ -131,6 +131,45 @@ if (CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# Locations
+
+if (UNIX AND NOT APPLE)
+  set (BINDIR bin)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR "${CMAKE_INSTALL_LIBDIR}"                     CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
+  set (EXERCISESDIR "${PKGDATADIR}/exercises")
+  set (IMAGESDIR "${PKGDATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+elseif (APPLE)
+  set (BUNDLEDIR Workrave.app/Contents/)
+  set (BINDIR ${BUNDLEDIR}/MacOS/)
+  set (RESOURCESDIR ${BUNDLEDIR}/Resources)
+  set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")
+  set (LIBDIR ${RESOURCESDIR}/lib                           CACHE PATH "libadir")
+  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+elseif (WIN32)
+  set (BINDIR lib)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR lib                                           CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+  set (LOCALEDIR "${LIBDIR}/locale")
+endif()
+
+add_definitions(
+  -DWORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
+  -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
+)
+
+#----------------------------------------------------------------------------------------------------
 # Testing
 
 option(WITH_TESTS "Enable unit tests" OFF)
@@ -276,7 +315,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
 
   find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools REQUIRED)
-  
+
   if (Qt6_FOUND)
       set (HAVE_QT6 ON)
   elseif (Qt5_FOUND)
@@ -761,7 +800,7 @@ endif()
 if (APPLE)
   set (PLATFORM_OS_MACOS ON)
   set (PLATFORM_OS_NAME "MacOS")
-  
+
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
   find_library(IOKIT_LIBRARY IOKit REQUIRED)
   find_library(QTKIT_LIBRARY QTKit REQUIRED)
@@ -811,44 +850,6 @@ check_function_exists(setlocale HAVE_SETLOCALE)
 
 set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
 find_package(Threads)
-
-#----------------------------------------------------------------------------------------------------
-# Locations
-
-if (UNIX AND NOT APPLE)
-  set (BINDIR bin)
-  set (DATADIR share                                        CACHE PATH "datadir")
-  set (LIBDIR "${CMAKE_INSTALL_LIBDIR}"                     CACHE PATH "libdir")
-  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
-  set (EXERCISESDIR "${PKGDATADIR}/exercises")
-  set (IMAGESDIR "${PKGDATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-elseif (APPLE)
-  set (BUNDLEDIR Workrave.app/Contents/)
-  set (BINDIR ${BUNDLEDIR}/MacOS/)
-  set (DATADIR ${BUNDLEDIR}/Resources                       CACHE PATH "datadir")
-  set (LIBDIR ${DATADIR}                                    CACHE PATH "libadir")
-  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds")
-  set (EXERCISESDIR "${DATADIR}/exercises")
-  set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-elseif (WIN32)
-  set (BINDIR lib)
-  set (DATADIR share                                        CACHE PATH "datadir")
-  set (LIBDIR lib                                           CACHE PATH "libdir")
-  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds")
-  set (EXERCISESDIR "${DATADIR}/exercises")
-  set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${LIBDIR}/locale")
-endif()
-
-add_definitions(
-  -DWORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
-  -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
-)
 
 #----------------------------------------------------------------------------------------------------
 # Autoconf compatibility

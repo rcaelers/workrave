@@ -29,6 +29,10 @@ public:
 
   // IToolkit
   void init(std::shared_ptr<IApplication> app) override;
+  auto get_locker() -> std::shared_ptr<Locker> override;
+
+private:
+  void setup_environment();
 
 private:
   std::shared_ptr<MacOSLocker> locker;

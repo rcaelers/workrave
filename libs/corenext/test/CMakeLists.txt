@@ -37,6 +37,7 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-core-next-integration-test PRIVATE ${Qt5Widgets_LIBRARIES})
   elseif (HAVE_APP_GTK)
     target_link_libraries(workrave-core-next-integration-test PRIVATE ${GLIB_LIBRARIES})
+    target_link_directories(workrave-core-next-integration-test PRIVATE ${GLIB_LIBRARY_DIRS})
   endif()
 
   if (PLATFORM_OS_UNIX)

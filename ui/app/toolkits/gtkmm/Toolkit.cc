@@ -360,7 +360,8 @@ Toolkit::signal_status_icon_activated()
 const char *
 Toolkit::get_display_name() const
 {
-  return gdk_display_get_name(gdk_display_get_default());
+  auto x = gdk_display_get_default();
+  return gdk_display_get_name(x);
 }
 
 void
