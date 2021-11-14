@@ -22,7 +22,7 @@ const main = async () => {
     const secretAccessKey = getEnv('SNAPSHOTS_SECRET_ACCESS_KEY');
     const gitRoot = getEnv('WORKSPACE');
 
-    var args = yargs
+    var args = yargs()
       .scriptName('catalog')
       .usage('$0 [args]')
       .help('h')
