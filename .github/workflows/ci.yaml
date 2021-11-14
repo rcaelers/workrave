@@ -170,6 +170,7 @@ jobs:
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING
             appimage: true
+            upload: true
 
           #- image: ubuntu-impish
           #  os: ubuntu-latest
