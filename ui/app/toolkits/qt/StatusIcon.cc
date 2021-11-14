@@ -68,7 +68,8 @@ StatusIcon::show_balloon(const QString & /*id*/, const QString &title, const QSt
   tray_icon->showMessage(title, balloon);
 }
 
-void StatusIcon::on_activate(QSystemTrayIcon::ActivationReason /*reason*/)
+void
+StatusIcon::on_activate(QSystemTrayIcon::ActivationReason /*reason*/)
 {
   activate_signal();
 }

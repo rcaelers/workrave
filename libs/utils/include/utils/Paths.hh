@@ -26,19 +26,18 @@ namespace workrave::utils
 {
   class Paths
   {
-    public:
-      static std::filesystem::path get_home_directory();
-      static std::filesystem::path get_application_directory();
-      static std::list<std::filesystem::path> get_data_directories();
-      static std::list<std::filesystem::path> get_config_directories();
-      static std::filesystem::path get_config_directory();
-      static std::filesystem::path get_state_directory();
-      static void set_portable_directory(const std::string &new_config_directory);
+  public:
+    static std::filesystem::path get_home_directory();
+    static std::filesystem::path get_application_directory();
+    static std::list<std::filesystem::path> get_data_directories();
+    static std::list<std::filesystem::path> get_config_directories();
+    static std::filesystem::path get_config_directory();
+    static std::filesystem::path get_state_directory();
+    static void set_portable_directory(const std::string &new_config_directory);
 
-    private:
-      static std::list<std::filesystem::path> canonicalize(std::list<std::filesystem::path> paths);
-
+  private:
+    static std::list<std::filesystem::path> canonicalize(std::list<std::filesystem::path> paths);
   };
-}
+} // namespace workrave::utils
 
 #endif // WORKAVE_LIBS_UTILS_PATHS_HH

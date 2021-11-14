@@ -47,12 +47,12 @@ AssetPath::get_search_path(SearchPathId type)
 
   if (type == SEARCH_PATH_IMAGES)
     {
-      for (const auto &directory : data_directories)
+      for (const auto &directory: data_directories)
         {
 #if defined(PLATFORM_OS_UNIX)
           search_path.push_back(directory / "workrave/images");
           search_path.push_back(directory / "icons/hicolor");
-#elif defined (PLATFORM_OS_MACOS)
+#elif defined(PLATFORM_OS_MACOS)
           search_path.push_back(directory / "images");
 #elif defined(PLATFORM_OS_WINDOWS)
           search_path.push_back(directory / "icons");
@@ -62,7 +62,7 @@ AssetPath::get_search_path(SearchPathId type)
     }
   if (type == SEARCH_PATH_SOUNDS)
     {
-      for (const auto &directory : data_directories)
+      for (const auto &directory: data_directories)
         {
 #if defined(PLATFORM_OS_UNIX)
           search_path.push_back(directory / "sounds/workrave");
@@ -82,7 +82,7 @@ AssetPath::get_search_path(SearchPathId type)
     }
   else if (type == SEARCH_PATH_EXERCISES)
     {
-      for (const auto &directory : data_directories)
+      for (const auto &directory: data_directories)
         {
 #if defined(PLATFORM_OS_UNIX)
           search_path.push_back(directory / "workrave/exercises");

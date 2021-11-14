@@ -54,7 +54,7 @@ void
 ToolkitWindows::init(std::shared_ptr<IApplication> app)
 {
   init_gui();
-  
+
   Toolkit::init(app);
 
   init_filter();

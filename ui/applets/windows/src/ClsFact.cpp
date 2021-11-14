@@ -116,7 +116,8 @@ CClassFactory::CreateInstance(LPUNKNOWN pUnknown, REFIID riid, LPVOID *ppObject)
   return hResult;
 }
 
-STDMETHODIMP CClassFactory::LockServer(BOOL)
+STDMETHODIMP
+CClassFactory::LockServer(BOOL)
 {
   return E_NOTIMPL;
 }
