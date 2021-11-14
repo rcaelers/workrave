@@ -2,12 +2,13 @@ add_library(workrave-libs-utils STATIC
   Diagnostics.cc
   TimeSource.cc
   AssetPath.cc
+  Paths.cc
   debug.cc)
 
 target_code_coverage(workrave-libs-utils)
 
 if (PLATFORM_OS_WINDOWS)
-  target_sources(workrave-libs-utils PRIVATE Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
+  target_sources(workrave-libs-utils PRIVATE Platform-windows.cc windows/W32ActiveSetup.cc windows/W32CriticalSection.cc)
   target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 

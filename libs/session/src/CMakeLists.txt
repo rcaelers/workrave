@@ -14,10 +14,10 @@ endif()
 
 if (WIN32)
   target_sources(workrave-libs-session PRIVATE 
-    win32/W32LockScreen.cc
-    win32/W32Shutdown.cc)
+    windows/W32LockScreen.cc
+    windows/W32Shutdown.cc)
   target_include_directories(workrave-libs-session PRIVATE 
-    ${CMAKE_SOURCE_DIR}/libs/session/src/win32/ 
+    ${CMAKE_SOURCE_DIR}/libs/session/src/windows/ 
     ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 

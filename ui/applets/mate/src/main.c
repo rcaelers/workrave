@@ -1,4 +1,4 @@
-// Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2021 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -192,7 +192,7 @@ on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
   applet->alive = alive;
 
   if (alive)
-  {
+    {
       GVariant *menus = workrave_timerbox_control_get_menus(applet->timerbox_control);
       on_menu_changed(NULL, menus, applet);
       g_variant_unref(menus);

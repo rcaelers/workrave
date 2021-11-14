@@ -1,5 +1,3 @@
-// Control.cc --- The main controller
-//
 // Copyright (C) 2001, 2002, 2003, 2005, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

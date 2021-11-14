@@ -1,5 +1,3 @@
-// main.cc --- Main
-//
 // Copyright (C) 2010 Rob Caelers
 // All rights reserved.
 //

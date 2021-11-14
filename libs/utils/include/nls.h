@@ -1,6 +1,4 @@
 /*
- * nls.h --- i18n-isation
- *
  * Copyright (C) 2002, 2003, 2006, 2008, 2009 Raymond Penners
  * All rights reserved.
  *

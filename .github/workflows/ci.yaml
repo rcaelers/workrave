@@ -25,17 +25,94 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Build
-        run: msbuild ui/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
+        run: msbuild ui/applets/windows/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: applet
           path: |
-            ui/applets/win32/src/x64/Release/workrave-applet64.dll
-            ui/applets/win32/src/Release/workrave-applet.dll
-            ui/applets/win32/src/x64/Debug/workrave-applet64.dll
-            ui/applets/win32/src/Debug/workrave-applet.dll
+            ui/applets/windows/src/x64/Release/workrave-applet64.dll
+            ui/applets/windows/src/Release/workrave-applet.dll
+            ui/applets/windows/src/x64/Debug/workrave-applet64.dll
+            ui/applets/windows/src/Debug/workrave-applet.dll
+
+  build-msys2:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [ Debug, Release ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: "recursive"
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+               git
+               mingw-w64-i686-clang
+               mingw-w64-i686-cmake
+               mingw-w64-i686-lld
+               mingw-w64-i686-ninja
+               mingw-w64-x86_64-adwaita-icon-theme
+               mingw-w64-x86_64-boost
+               mingw-w64-x86_64-clang
+               mingw-w64-x86_64-cmake
+               mingw-w64-x86_64-gtkmm3
+               mingw-w64-x86_64-lld
+               mingw-w64-x86_64-ninja
+               mingw-w64-x86_64-python
+               mingw-w64-x86_64-python-pip
+               mingw-w64-x86_64-innoextract
+               mingw-w64-x86_64-jq
+               tar
+               xz
+               zip
+
+      - name: Install dump_syms
+        shell: msys2 {0}
+        run: |
+          curl -OL https://github.com/mozilla/dump_syms/releases/download/v0.0.7/dump_syms-linux-x86_64.tar.gz && \
+          tar xvfz dump_syms-linux-x86_64.tar.gz && \
+          cp -a dump_syms-linux-x86_64/dump_syms /usr/local/bin && \
+          rm -rf dump_syms-linux-x86_64.tar.gz dump_syms-linux-x86_64
+
+      - name: Build
+        run: |
+          $env:MSYSTEM = 'MINGW32'
+          msys2 ./build/ci/build.sh
+        env:
+           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+           WORKRAVE_ENV: github-msys2
+           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+           CONF_COMPILER: ${{ matrix.config.compiler }}
+           CONF_ENABLE: ${{ matrix.config.enable }}
+           CONF_DISABLE: ${{ matrix.config.disable }}
+           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          env
+          ls -la "/c/Program Files/"
+          ls -la "/c/Program Files (x86)/"
+          ls -la "/c/Program Files (x86)/Inno Setup 6"
+          python -m pip install --upgrade pip
+          pip install wheel Jinja2
+          ./build/ci/build.sh
+        env:
+           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+           WORKRAVE_ENV: github-msys2
+           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+           CONF_COMPILER: ${{ matrix.config.compiler }}
+           CONF_ENABLE: ${{ matrix.config.enable }}
+           CONF_DISABLE: ${{ matrix.config.disable }}
+           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
@@ -92,6 +169,7 @@ jobs:
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
             disable: TESTS,COVERAGE,TRACING
+            appimage: true
 
           #- image: ubuntu-impish
           #  os: ubuntu-latest
@@ -120,7 +198,7 @@ jobs:
 
           - os: macos-latest
             compiler: clang
-            ui: Qt6
+            ui: Qt
             enable:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
 
@@ -155,12 +233,13 @@ jobs:
                IFS=$'\n'
                export WORKRAVE_ENV=github-docker
                docker run --security-opt seccomp=unconfined --rm \
+                   ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined' || '' }} \
                    -v $GITHUB_WORKSPACE:/workspace/source \
                    `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                    ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build.sh"
+                   sh -c "/workspace/source/build/ci/build.sh -S MINGW32 && /workspace/source/build/ci/build.sh -S MINGW64"
             else
-              export WORKRAVE_ENV=github
+              export WORKRAVE_ENV=github-ubuntu
               $GITHUB_WORKSPACE/build/ci/build.sh
             fi
         env:
@@ -171,6 +250,7 @@ jobs:
            CONF_ENABLE: ${{ matrix.config.enable }}
            CONF_DISABLE: ${{ matrix.config.disable }}
            CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+           CONF_APPIMAGE: ${{ matrix.config.appimage }}
            DOCKER_IMAGE: ${{ matrix.config.image }}
 
       - name: Upload artifacts to GitHub
@@ -244,12 +324,12 @@ jobs:
           PORTABLE=$(jq -r '.builds[].artifacts[] | select(.kind == "portable" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
           PORTABLE=$(find ${{ github.workspace }}/artifacts/ -name $PORTABLE)
           echo ::set-output name=portable_file::${PORTABLE}
-          echo ::set-output name=portable_name::workrave-win32-${VERSION}-portable.zip
+          echo ::set-output name=portable_name::workrave-windows-${VERSION}-portable.zip
 
           INSTALLER=$(jq -r '.builds[].artifacts[] | select(.kind == "installer" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
           INSTALLER=$(find ${{ github.workspace }}/artifacts/ -name $INSTALLER)
           echo ::set-output name=installer_file::${INSTALLER}
-          echo ::set-output name=installer_name::workrave-win32-${VERSION}.exe
+          echo ::set-output name=installer_name::workrave-windows-${VERSION}.exe
 
           SOURCE=$(jq -r '.builds[].artifacts[] | select(.kind == "source" and .platform == "all" and .configuration=="none") | .filename' ${CATALOGS})
           SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)

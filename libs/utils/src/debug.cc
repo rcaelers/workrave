@@ -1,6 +1,4 @@
-// debug.cc
-//
-// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,8 +41,10 @@ using namespace workrave::utils;
 std::recursive_mutex g_log_mutex;
 std::map<std::thread::id, std::ofstream *> g_log_streams;
 
-static thread_local std::string g_thread_name;
-static std::string g_prefix;
+namespace
+{
+  std::string g_prefix;
+}
 
 std::string
 Debug::trace_string()
@@ -93,21 +93,6 @@ Debug::init(const std::string &name)
   g_prefix = name;
 }
 
-void
-Debug::name(const std::string &name)
-{
-  g_log_mutex.lock();
-  if (g_log_streams.find(std::this_thread::get_id()) != g_log_streams.end())
-    {
-      g_log_streams[std::this_thread::get_id()]->close();
-      delete g_log_streams[std::this_thread::get_id()];
-      g_log_streams.erase(std::this_thread::get_id());
-    }
-
-  g_thread_name = g_prefix + name;
-  g_log_mutex.unlock();
-}
-
 std::ofstream &
 Debug::stream()
 {
@@ -149,11 +134,6 @@ Debug::stream()
 
       stringstream ss;
       ss << debug_filename << logfile << "-" << std::this_thread::get_id();
-
-      if (g_thread_name != "")
-        {
-          ss << "-" << g_thread_name;
-        }
 
       g_log_streams[std::this_thread::get_id()] = new std::ofstream();
       g_log_streams[std::this_thread::get_id()]->open(ss.str().c_str(), std::ios::app);

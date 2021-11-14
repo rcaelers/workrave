@@ -33,7 +33,8 @@
 #include "client/crash_report_database.h"
 
 #include "debug.hh"
-#include "utils/Platform.hh"
+#include "utils/Paths.hh"
+
 #ifdef HAVE_HARPOON
 #  include "input-monitor/Harpoon.hh"
 #endif
@@ -109,7 +110,7 @@ CrashReporter::Pimpl::init()
 {
   TRACE_ENTER("CrashReporter::Pimpl::init");
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
-  const std::filesystem::path app_dir = workrave::utils::Platform::get_application_directory();
+  const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
 
 #ifdef PLATFORM_OS_WINDOWS
   std::string handler_exe = "WorkraveCrashHandler.exe";
@@ -118,7 +119,7 @@ CrashReporter::Pimpl::init()
 #endif
 
   base::FilePath handler(app_dir / "lib" / handler_exe);
-  const std::string url("http://192.168.7.185:8080/");
+  const std::string url("http://192.168.7.6:8888/api/minidump/upload?api_key=c835b63da57e4bbe87d1f1d3c7a6f2af");
 
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
@@ -150,6 +151,8 @@ CrashReporter::Pimpl::init()
     }
 
   settings->SetUploadsEnabled(true);
+
+  arguments.push_back("--no-upload-gzip");
 
   client = new crashpad::CrashpadClient();
   bool success = client->StartHandler(handler,

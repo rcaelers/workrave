@@ -1,0 +1,42 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  -cppcoreguidelines-owning-memory,
+  hicpp-*,
+  misc,
+  modernize-*,
+  readability-*,
+  -readability-redundant-access-specifiers,
+WarningsAsErrors: >
+  cppcoreguidelines-explicit-virtual-functions,
+  cppcoreguidelines-pro-type-member-init,
+  cppcoreguidelines-special-member-functions,
+  hicpp-member-init,
+  -deprecated-headers,
+  modernize-loop-convert,
+  modernize-use-auto,
+  modernize-use-default-member-init,
+  modernize-use-emplace,
+  modernize-use-equals-default,
+  modernize-use-nodiscard,
+  modernize-use-nullptr,
+  modernize-use-override,
+  modernize-use-using,
+  performance-for-range-copy,
+  readability-braces-around-statements,
+  readability-const-return-type,
+  readability-container-size-empty,
+  readability-convert-member-functions-to-static,
+  readability-isolate-declaration,
+  readability-make-member-function-const,
+  readability-redundant-member-init,
+  readability-static-definition-in-anonymous-namespace,
+FormatStyle: file
+CheckOptions:
+    - key:             hicpp-special-member-functions.AllowSoleDefaultDtor
+      value:           1
+    - key:             cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+      value:           1

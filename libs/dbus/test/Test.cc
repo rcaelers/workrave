@@ -1,6 +1,4 @@
-// Test.cc --- Applet info Window
-//
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -53,11 +51,6 @@ struct Fixture
 {
   Fixture()
   {
-#ifdef TRACING
-    Debug::init(boost::unit_test::framework::current_test_case().p_name.get() + "-");
-    Debug::name(string("main"));
-#endif
-
     int argc = 1;
     char argv1[] = "test";
     char *argv[] = {argv1, nullptr};

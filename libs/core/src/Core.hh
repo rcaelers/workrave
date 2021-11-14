@@ -1,5 +1,3 @@
-// Core.hh --- The main controller
-//
 // Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -35,7 +33,6 @@
 #include <map>
 
 #include "Break.hh"
-#include "core/IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
@@ -49,14 +46,6 @@
 #include "dbus/IDBus.hh"
 
 using namespace workrave;
-
-// Forward declarion of external interface.
-namespace workrave
-{
-  class ISoundPlayer;
-  class IApp;
-  class INetwork;
-} // namespace workrave
 
 class Statistics;
 class FakeActivityMonitor;
@@ -78,7 +67,6 @@ class Core
 #endif
   public ICore
   , public workrave::config::IConfiguratorListener
-  , public IBreakResponse
 {
 public:
   Core();
@@ -147,9 +135,8 @@ public:
   void get_timer_idle(BreakId id, int *value);
   void get_timer_overdue(BreakId id, int *value);
 
-  // BreakResponseInterface
-  void postpone_break(BreakId break_id) override;
-  void skip_break(BreakId break_id) override;
+  void postpone_break(BreakId break_id);
+  void skip_break(BreakId break_id);
 
   workrave::dbus::IDBus::Ptr get_dbus() const override;
   ICoreHooks::Ptr get_hooks() const override;

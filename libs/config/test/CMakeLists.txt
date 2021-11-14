@@ -12,6 +12,8 @@ if (HAVE_TESTS)
 
   if (HAVE_GSETTINGS)
     target_link_libraries(workrave-config-test PRIVATE ${GLIB_LIBRARIES})
+    target_link_directories(workrave-config-test PRIVATE ${GLIB_LIBRARY_DIRS})
+    target_include_directories(workrave-config-test PRIVATE ${GLIB_INCLUDE_DIRS})
     add_custom_target(
         config_test_schema ALL
         COMMAND ${CMAKE_COMMAND} -E copy

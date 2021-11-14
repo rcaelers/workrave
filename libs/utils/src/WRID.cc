@@ -1,5 +1,3 @@
-// WRID.c --- Definition of Workrave link ID
-//
 // Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

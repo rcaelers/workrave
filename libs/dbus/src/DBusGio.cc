@@ -1,5 +1,3 @@
-// DBus-gio.c
-//
 // Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -71,6 +69,7 @@ DBusGio::~DBusGio()
 void
 DBusGio::init()
 {
+  connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
 }
 
 void
@@ -78,14 +77,13 @@ DBusGio::register_service(const std::string &service_name, IDBusWatch *cb)
 {
   guint owner_id;
 
-  owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
-                            service_name.c_str(),
-                            G_BUS_NAME_OWNER_FLAGS_NONE,
-                            &DBusGio::on_bus_acquired,
-                            cb != nullptr ? &DBusGio::on_name_acquired : nullptr,
-                            cb != nullptr ? &DBusGio::on_name_lost : nullptr,
-                            this,
-                            nullptr);
+  owner_id = g_bus_own_name_on_connection(connection,
+                                          service_name.c_str(),
+                                          G_BUS_NAME_OWNER_FLAGS_NONE,
+                                          cb != nullptr ? &DBusGio::on_name_acquired : nullptr,
+                                          cb != nullptr ? &DBusGio::on_name_lost : nullptr,
+                                          this,
+                                          nullptr);
 
   services[service_name] = owner_id;
 
@@ -144,9 +142,11 @@ DBusGio::update_object_registration(InterfaceData &data)
 void
 DBusGio::connect(const std::string &object_path, const std::string &interface_name, void *object)
 {
+  TRACE_ENTER_MSG("DBusGio::connect", object_path << " " << interface_name);
   auto *binding = dynamic_cast<DBusBindingGio *>(find_binding(interface_name));
   if (binding == nullptr)
     {
+      TRACE_MSG("No such interface");
       throw DBusException("No such interface");
     }
 
@@ -161,6 +161,7 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
   auto iit = object_data.interfaces.find(interface_name);
   if (iit != object_data.interfaces.end())
     {
+      TRACE_MSG("Already registered");
       throw DBusException("Interface already registered");
     }
 
@@ -171,8 +172,10 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
 
   if (object_data.registered)
     {
+      TRACE_MSG("Updating");
       update_object_registration(interface_data);
     }
+  TRACE_EXIT();
 }
 
 void
@@ -310,8 +313,10 @@ DBusGio::is_available() const
     {
       TRACE_MSG("Error: " << error->message);
       g_error_free(error);
+      TRACE_EXIT();
       return false;
     }
+  TRACE_EXIT();
   return true;
 }
 
@@ -480,25 +485,6 @@ DBusGio::on_set_property(GDBusConnection *connection,
   (void)user_data;
 
   return FALSE;
-}
-
-void
-DBusGio::on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
-{
-  (void)name;
-  TRACE_ENTER_MSG("DBusGio::on_bus_acquired", name);
-
-  auto *self = (DBusGio *)user_data;
-  self->connection = connection;
-
-  for (auto object_it = self->objects.begin(); object_it != self->objects.end(); object_it++)
-    {
-      for (auto &iface: object_it->second.interfaces)
-        {
-          self->update_object_registration(iface.second);
-        }
-    }
-  TRACE_EXIT();
 }
 
 void

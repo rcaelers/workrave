@@ -9,6 +9,7 @@ WORKING_DIR=
 OUTPUT_DIR=
 CONF_COMPILER=
 CONF_CONFIGURATION=Release
+CONF_APPIMAGE=
 
 ROOT=`git rev-parse --show-toplevel`
 if [ $? -ne 0 ]; then
@@ -24,8 +25,11 @@ usage()
 
 parse_arguments()
 {
-    while getopts "c:C:dD:O:vW:" o; do
+    while getopts "Ac:C:dD:O:vW:" o; do
         case "${o}" in
+            A)
+                CONF_APPIMAGE=1
+                ;;
             c)
                 CONFIG="${OPTARG}"
                 BUILD_ARGS+=("-d${CONFIG}")
@@ -105,6 +109,11 @@ fi
 DOCKER_ARGS+=("-e WORKRAVE_ENV=inline")
 DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
 DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
+DOCKER_ARGS+=("-e CONF_APPIMAGE=${CONF_APPIMAGE}")
 DOCKER_ARGS+=("--rm ghcr.io/rcaelers/workrave-build:${IMAGE}")
 
-docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
+if [[ $IMAGE =~ "mingw" ]] ; then
+    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW32 && /workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW64"
+else
+    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
+fi

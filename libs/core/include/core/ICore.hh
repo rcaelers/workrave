@@ -1,6 +1,4 @@
-// ICore.hh --- The main controller interface
-//
-// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,7 +33,6 @@
 namespace workrave
 {
   class IApp;
-  class IDistributionManager;
 
   //! Main interface of the backend.
   class ICore
@@ -132,7 +129,6 @@ namespace workrave
   public:
     static ICore::Ptr create();
   };
-
 }; // namespace workrave
 
 #endif // WORKRAVE_BACKEND_ICORE_HH

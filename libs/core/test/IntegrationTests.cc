@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Rob Caelers
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@
 #include <fstream>
 #include <map>
 
-#include "core/IBreakResponse.hh"
 #include "core/CoreConfig.hh"
 #include "core/ICore.hh"
 #include "core/IApp.hh"
@@ -149,7 +148,7 @@ public:
     result_file_name /= "results";
     std::filesystem::create_directory(result_file_name);
     result_file_name /= test_name + ".txt";
-    out.open(result_file_name.string().c_str());
+    out.open(result_file_name.u8string().c_str());
   }
 
   void init_core()
@@ -548,11 +547,6 @@ public:
     return user_active;
   }
 
-  void set_break_response(IBreakResponse *rep) override
-  {
-    response = rep;
-  }
-
   IActivityMonitor::Ptr on_create_monitor()
   {
     monitor = std::make_shared<ActivityMonitorStub>();
@@ -599,7 +593,6 @@ public:
 
   ofstream out;
   ICore *core;
-  IBreakResponse *response{nullptr};
   IConfigurator::Ptr config;
   SimulatedTime::Ptr sim;
   ActivityMonitorStub::Ptr monitor;
@@ -1558,9 +1551,8 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  // IBreak *b = core->get_break(BREAK_ID_REST_BREAK);
-  // b->postpone_break();
-  response->postpone_break(BREAK_ID_REST_BREAK);
+  IBreak *b = core->get_break(BREAK_ID_REST_BREAK);
+  b->postpone_break();
   tick(false, 1);
 
   expect(1732, "prelude", "break_id=rest_break");
@@ -1594,9 +1586,8 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  // IBreak *b = core->get_break(BREAK_ID_REST_BREAK);
-  // b->skip_break();
-  response->skip_break(BREAK_ID_REST_BREAK);
+  IBreak *b = core->get_break(BREAK_ID_REST_BREAK);
+  b->skip_break();
   tick(false, 1);
 
   expect(3052, "prelude", "break_id=rest_break");
@@ -1985,9 +1976,8 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_postpone)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  // IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
-  // b->postpone_break();
-  response->postpone_break(BREAK_ID_DAILY_LIMIT);
+  IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  b->postpone_break();
 
   expect(7221, "hide");
   expect(7221, "break_event", "break_id=daily_limit event=BreakPostponed");
@@ -2026,9 +2016,8 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_skip)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  // IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
-  // b->skip_break();
-  response->skip_break(BREAK_ID_DAILY_LIMIT);
+  IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  b->skip_break();
 
   expect(7221, "hide");
   expect(7221, "break_event", "break_id=daily_limit event=BreakSkipped");
@@ -2073,9 +2062,8 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  // IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
-  // b->skip_break();
-  response->skip_break(BREAK_ID_DAILY_LIMIT);
+  IBreak *b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  b->skip_break();
 
   expect(7221, "hide");
   expect(7221, "break_event", "break_id=daily_limit event=BreakSkipped");

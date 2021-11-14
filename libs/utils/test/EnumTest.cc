@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Rob Caelers & Raymond Penners
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,6 @@ struct Fixture
   {
 #ifdef TRACING
     Debug::init(boost::unit_test::framework::current_test_case().p_name.get() + "-");
-    Debug::name(std::string("main"));
 #endif
   }
 

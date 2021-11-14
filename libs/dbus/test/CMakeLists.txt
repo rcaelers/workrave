@@ -61,6 +61,7 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
     target_link_libraries(workrave-libs-dbus-test-server-gio workrave-libs-dbus)
     target_link_libraries(workrave-libs-dbus-test-server-gio workrave-libs-utils)
     target_link_libraries(workrave-libs-dbus-test-server-gio ${GLIB_LIBRARIES})
+    target_link_directories(workrave-libs-dbus-test-server-gio PRIVATE ${GLIB_LIBRARY_DIRS})
     target_link_libraries(workrave-libs-dbus-test-server-gio ${Boost_LIBRARIES})
     target_link_libraries(workrave-libs-dbus-test-server-gio ${EXTRA_LIBRARIES})
 

@@ -1,5 +1,3 @@
-// Platform.hh --- Platform class
-//
 // Copyright (C) 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //

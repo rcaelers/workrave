@@ -17,7 +17,7 @@ if (HAVE_MATE)
 endif()
 
 if (WIN32)
-  add_subdirectory(win32)
+  add_subdirectory(windows)
 endif()
 
 if (HAVE_XFCE4)

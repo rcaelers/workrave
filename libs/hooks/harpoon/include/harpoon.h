@@ -1,6 +1,4 @@
 /*
- * harpoon.h
- *
  * Copyright (C) 2002, 2003, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *

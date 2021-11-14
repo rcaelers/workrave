@@ -184,7 +184,7 @@ DEPLOY_DIR=$WORKSPACE_DIR/deploy
 export WORKRAVE_ENV=local
 init
 
-DOCKER_IMAGE="ubuntu-groovy"
+DOCKER_IMAGE="ubuntu-impish"
 setup
 run_docker_ppa
 

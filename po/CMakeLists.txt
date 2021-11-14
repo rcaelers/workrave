@@ -77,7 +77,7 @@ if (GETTEXT_FOUND)
     COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS} --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-  macro(INTLTOOL_MERGE_XML IN OUT)
+  macro(intltool_merge_xml IN OUT)
     add_custom_command(
       OUTPUT ${OUT}
       COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIR=${CMAKE_SOURCE_DIR}/po ${GETTEXT_MSGFMT_EXECUTABLE}
@@ -89,7 +89,7 @@ if (GETTEXT_FOUND)
     )
   endmacro()
 
-  macro(INTLTOOL_MERGE_DESKTOP IN OUT)
+  macro(intltool_merge_desktop IN OUT)
     add_custom_command(
       OUTPUT ${OUT}
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}
@@ -102,7 +102,7 @@ if (GETTEXT_FOUND)
       )
   endmacro()
 
-  macro(INTLTOOL_NOMERGE_XML IN OUT)
+  macro(intltool_nomerge_xml IN OUT)
     add_custom_command(
       OUTPUT ${OUT}
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE}

@@ -1,6 +1,4 @@
-// DBusTestServer.cc
-//
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,10 +54,6 @@ DBusTestServerGio::run(int argc, char **argv)
 {
   (void)argc;
   (void)argv;
-
-#ifdef TRACING
-  Debug::name(std::string("server"));
-#endif
 
   try
     {

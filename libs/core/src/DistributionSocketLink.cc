@@ -1,6 +1,4 @@
-// DistributionSocketLink.cc
-//
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011, 2012 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002 - 2012 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -44,7 +42,7 @@
 
 #  include "config/IConfigurator.hh"
 #  include "core/CoreConfig.hh"
-#  include "utils/AssetPath.hh"
+#  include "utils/Paths.hh"
 
 #  include "DistributionManager.hh"
 #  include "DistributionLink.hh"
@@ -148,9 +146,8 @@ DistributionSocketLink::init_my_id()
 {
   TRACE_ENTER("DistributionSocketLink::init_my_id");
   bool ok = false;
-  string idfilename = AssetPath::get_home_directory() + "id";
+  std::filesystem::path f = Paths::get_state_directory() / "id";
 
-  std::filesystem::path f(idfilename);
   if (std::filesystem::is_regular_file(f))
     {
       ifstream file(idfilename.c_str());

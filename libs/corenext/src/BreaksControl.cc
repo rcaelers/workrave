@@ -25,7 +25,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 #include "utils/TimeSource.hh"
 #include "dbus/IDBus.hh"
 
@@ -439,11 +439,8 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 void
 BreaksControl::save_state() const
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "state" << ends;
-
-  ofstream stateFile(ss.str().c_str());
+  std::filesystem::path path = Paths::get_state_directory() / "state";
+  ofstream stateFile(path.u8string());
 
   stateFile << "WorkRaveState 3" << endl << TimeSource::get_real_time_sec() << endl;
 
@@ -461,9 +458,7 @@ BreaksControl::save_state() const
 void
 BreaksControl::load_state()
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "state" << ends;
+  std::filesystem::path path = Paths::get_state_directory() / "state";
 
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())
@@ -474,7 +469,7 @@ BreaksControl::load_state()
         }
     }
 #endif
-  ifstream state_file(ss.str().c_str());
+  ifstream state_file(path.u8string());
 
   int version = 0;
   bool ok = state_file.good();

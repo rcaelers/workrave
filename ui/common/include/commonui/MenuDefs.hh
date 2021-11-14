@@ -44,6 +44,27 @@ enum MenuCommand
 };
 
 #if __cplusplus > 201103L
+class MenuId
+{
+public:
+  using sv = std::string_view;
+  static constexpr std::string_view PREFERENCES = sv("workrave.preferences");
+  static constexpr std::string_view EXERCISES = sv("workrave.exercises");
+  static constexpr std::string_view REST_BREAK = sv("workrave.restbreak");
+  static constexpr std::string_view MODE_MENU = sv("workrave.mode_menu");
+  static constexpr std::string_view MODE = sv("workrave.mode");
+  static constexpr std::string_view MODE_NORMAL = sv("workrave.mode_normal");
+  static constexpr std::string_view MODE_QUIET = sv("workrave.mode_quiet");
+  static constexpr std::string_view MODE_SUSPENDED = sv("workrave.mode_suspended");
+  static constexpr std::string_view STATISTICS = sv("workrave.statistics");
+  static constexpr std::string_view ABOUT = sv("workrave.about");
+  static constexpr std::string_view MODE_READING = sv("workrave.mode_reading");
+  static constexpr std::string_view OPEN = sv("workrave.open");
+  static constexpr std::string_view QUIT = sv("workrave.quit");
+};
+#endif
+
+#if __cplusplus > 201103L
 enum class MenuAction
 {
   Preferences = MENU_COMMAND_PREFERENCES,

@@ -34,6 +34,7 @@
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 
+#include "utils/Paths.hh"
 #include "utils/AssetPath.hh"
 #include "core/IApp.hh"
 #include "Break.hh"
@@ -142,7 +143,7 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
+              std::string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
               if (configurator)
@@ -150,7 +151,7 @@ Core::init_configurator()
 #if defined(PLATFORM_OS_UNIX)
                   if (configFile.empty() || configFile == "config.xml")
                     {
-                      configFile = AssetPath::get_home_directory() + "config.xml";
+                      configFile = Paths::get_config_directory() / "config.xml";
                     }
 #endif
                   if (!configFile.empty())
@@ -162,7 +163,7 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = AssetPath::get_home_directory() + "workrave.ini";
+              ini_file = (Paths::get_config_directory() / "workrave.ini").u8string();
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
 
               if (configurator)
@@ -179,7 +180,7 @@ Core::init_configurator()
   string home = CoreConfig::general_datadir()();
   if (!home.empty())
     {
-      AssetPath::set_home_directory(home);
+      Paths::set_portable_directory(home);
     }
   // LCOV_EXCL_STOP
 }

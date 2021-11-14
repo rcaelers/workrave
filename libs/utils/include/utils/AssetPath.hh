@@ -19,7 +19,8 @@
 #define WORKRAVE_UTILS_UTIL_HH
 
 #include <string>
-#include <set>
+#include <list>
+#include <filesystem>
 
 namespace workrave
 {
@@ -39,16 +40,12 @@ namespace workrave
         SEARCH_PATH_SIZEOF
       };
 
-      static const std::string &get_home_directory();
-      static void set_home_directory(const std::string &home);
-
-      static const std::set<std::string> &get_search_path(SearchPathId type);
+      static const std::list<std::filesystem::path> &get_search_path(SearchPathId type);
       static std::string complete_directory(std::string path, SearchPathId type);
       static bool complete_directory(std::string path, SearchPathId type, std::string &full_path);
 
     private:
-      static std::set<std::string> search_paths[SEARCH_PATH_SIZEOF];
-      static std::string home_directory;
+      static std::list<std::filesystem::path> search_paths[SEARCH_PATH_SIZEOF];
     };
   } // namespace utils
 } // namespace workrave

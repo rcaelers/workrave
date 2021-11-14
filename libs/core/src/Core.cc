@@ -1,6 +1,4 @@
-// Core.cc --- The main controller
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -52,6 +50,7 @@
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #  include "DistributionManager.hh"
@@ -195,7 +194,7 @@ Core::init_configurator()
 #if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
-                  configFile = AssetPath::get_home_directory() + "config.xml";
+                  configFile = (Paths::get_config_directory() / "config.xml").u8string();
                 }
 #endif
               if (configFile != "")
@@ -206,7 +205,7 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = AssetPath::get_home_directory() + "workrave.ini";
+              ini_file = (Paths::get_config_directory() / "workrave.ini").u8string();
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
               configurator->load(ini_file);
               configurator->save(ini_file);
@@ -219,7 +218,7 @@ Core::init_configurator()
   string home;
   if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
     {
-      AssetPath::set_home_directory(home);
+      Paths::set_portable_directory(home);
     }
 }
 
@@ -227,6 +226,7 @@ Core::init_configurator()
 void
 Core::init_bus()
 {
+  TRACE_ENTER("Core::init_bus");
   try
     {
       dbus = workrave::dbus::DBusFactory::create();
@@ -235,20 +235,22 @@ Core::init_bus()
 #ifdef HAVE_DBUS
       extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
+#endif
 
+      dbus->register_object_path(DBUS_PATH_WORKRAVE);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
-      dbus->register_object_path(DBUS_PATH_WORKRAVE);
 
-#  ifdef HAVE_TESTS
+#ifdef HAVE_TESTS
       dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
-#  endif
 #endif
     }
   catch (workrave::dbus::DBusException &)
     {
+      TRACE_MSG("Ex!");
     }
+  TRACE_EXIT();
 }
 
 //! Initializes the activity monitor.
@@ -296,7 +298,6 @@ Core::init_breaks()
     {
       breaks[i].init(BreakId(i), configurator, application);
     }
-  application->set_break_response(this);
 }
 
 #ifdef HAVE_DISTRIBUTION
@@ -620,9 +621,6 @@ Core::remove_operation_mode_override(const std::string &id)
           TRACE_MSG("Only calling core_event_operation_mode_changed().");
           operation_mode_changed_signal(operation_mode_regular);
 
-          if (core_event_listener)
-            core_event_listener->core_event_operation_mode_changed(operation_mode_regular);
-
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
           if (iface != nullptr)
@@ -763,8 +761,6 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
             }
 
           operation_mode_changed_signal(operation_mode);
-          if (core_event_listener)
-            core_event_listener->core_event_operation_mode_changed(operation_mode);
 
 #ifdef HAVE_DBUS
           org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
@@ -813,18 +809,13 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       usage_mode_changed_signal(mode);
 
-      if (core_event_listener != nullptr)
-        {
-          core_event_listener->core_event_usage_mode_changed(mode);
-
 #ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
-            }
-#endif
+      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+      if (iface != nullptr)
+        {
+          iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
         }
+#endif
     }
 }
 
@@ -1635,11 +1626,8 @@ Core::daily_reset()
 void
 Core::save_state() const
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "state" << ends;
-
-  ofstream stateFile(ss.str().c_str());
+  std::filesystem::path path = Paths::get_state_directory() / "state";
+  ofstream stateFile(path.u8string());
 
   int64_t current_time = TimeSource::get_real_time_sec();
   stateFile << "WorkRaveState 3" << endl << current_time << endl;
@@ -1679,9 +1667,7 @@ Core::load_misc()
 void
 Core::load_state()
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "state" << ends;
+  std::filesystem::path path = Paths::get_state_directory() / "state";
 
 #ifdef HAVE_TESTS
   if (hooks->hook_load_timer_state())
@@ -1698,7 +1684,7 @@ Core::load_state()
     }
 #endif
 
-  ifstream stateFile(ss.str().c_str());
+  ifstream stateFile(path.u8string());
 
   int version = 0;
   bool ok = stateFile.good();

@@ -18,15 +18,15 @@ endif()
 
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-libs-input-monitor PRIVATE
-    win32/W32AlternateMonitor.cc
-    win32/W32InputMonitorFactory.cc
-    win32/W32LowLevelMonitor.cc)
+    windows/W32AlternateMonitor.cc
+    windows/W32InputMonitorFactory.cc
+    windows/W32LowLevelMonitor.cc)
 
   if (HAVE_HARPOON)
     target_sources(workrave-libs-input-monitor PRIVATE
-      win32/W32InputMonitor.cc)
+      windows/W32InputMonitor.cc)
 
-    add_library(workrave-libs-input-monitor-harpoon STATIC win32/Harpoon.cc)
+    add_library(workrave-libs-input-monitor-harpoon STATIC windows/Harpoon.cc)
     target_include_directories(workrave-libs-input-monitor-harpoon
       PRIVATE
       ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
@@ -39,7 +39,7 @@ if (PLATFORM_OS_WINDOWS)
     target_link_libraries(workrave-libs-input-monitor workrave-libs-input-monitor-harpoon)
   endif()
 
-  target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/win32)
+  target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/windows)
 endif()
 
 if (PLATFORM_OS_MACOS)

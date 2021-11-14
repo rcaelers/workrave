@@ -1,5 +1,3 @@
-// Timer.cc --- break timer
-//
 // Copyright (C) 2001 - 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

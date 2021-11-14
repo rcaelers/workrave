@@ -108,16 +108,16 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
-  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
-    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedef")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
-      list(APPEND EXTRA_LIBRARIES stdc++fs)
-    endif()
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+    list(APPEND EXTRA_LIBRARIES stdc++fs)
+  endif()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
@@ -129,6 +129,45 @@ set (PLATFORM_ARCH 32)
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
   set (PLATFORM_ARCH 64)
 endif()
+
+#----------------------------------------------------------------------------------------------------
+# Locations
+
+if (UNIX AND NOT APPLE)
+  set (BINDIR bin)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR "${CMAKE_INSTALL_LIBDIR}"                     CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
+  set (EXERCISESDIR "${PKGDATADIR}/exercises")
+  set (IMAGESDIR "${PKGDATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+elseif (APPLE)
+  set (BUNDLEDIR Workrave.app/Contents/)
+  set (BINDIR ${BUNDLEDIR}/MacOS/)
+  set (RESOURCESDIR ${BUNDLEDIR}/Resources)
+  set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")
+  set (LIBDIR ${RESOURCESDIR}/lib                           CACHE PATH "libadir")
+  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+elseif (WIN32)
+  set (BINDIR lib)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR lib                                           CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+  set (LOCALEDIR "${LIBDIR}/locale")
+endif()
+
+add_definitions(
+  -DWORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
+  -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
+)
 
 #----------------------------------------------------------------------------------------------------
 # Testing
@@ -156,7 +195,7 @@ include(code-coverage)
 # Toolkit selection
 
 set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt6" "Qt5" "Gtk+3" "None")
+set (WITH_UI_VALUES "Qt" "Gtk+3" "None")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
@@ -171,7 +210,7 @@ if ("${WITH_UI}" STREQUAL "None"
 endif()
 
 set (WITH_UI_QT FALSE)
-if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
+if ("${WITH_UI}" STREQUAL "Qt")
   set (WITH_UI_QT TRUE)
 endif()
 
@@ -189,8 +228,8 @@ if (WITH_CORE_NEXT)
   set(HAVE_CORE_NEXT ON)
 endif()
 
-if (("${WITH_UI}" STREQUAL "Qt5") OR ("${WITH_UI}" STREQUAL "Qt6"))
-  message("Using Core With with Qt5 ")
+if (WITH_UI_QT)
+  message("Using CoreNext With with Qt")
   set (HAVE_CORE_NEXT ON)
 endif()
 
@@ -267,53 +306,64 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   find_package(GSettings)
 endif()
 
+
 #----------------------------------------------------------------------------------------------------
-# Qt5
+# Qt
 
-if ("${WITH_UI}" STREQUAL "Qt5")
-  message(STATUS "Checking for: Qt5")
+if ("${WITH_UI}" STREQUAL "Qt")
+  message(STATUS "Checking for: Qt")
 
-  find_package(Qt5Widgets REQUIRED)
-  find_package(Qt5Core REQUIRED)
-  find_package(Qt5Gui REQUIRED)
-  find_package(Qt5Svg REQUIRED)
-  find_package(Qt5LinguistTools REQUIRED)
+  find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools REQUIRED)
 
-  get_target_property(QT_LRELEASE_EXECUTABLE Qt5::lrelease LOCATION)
+  if (Qt6_FOUND)
+      set (HAVE_QT6 ON)
+  elseif (Qt5_FOUND)
+    if (APPLE)
+      find_package(Qt5MacExtras REQUIRED)
+    endif()
+    set (HAVE_QT5 ON)
+  endif()
 
-  if (TARGET Qt5::lconvert)
-    get_target_property(QT_LCONVERT_EXECUTABLE Qt5::lconvert LOCATION)
+  get_target_property(QT_LRELEASE_EXECUTABLE Qt::lrelease LOCATION)
+
+  if (TARGET Qt::lconvert)
+    get_target_property(QT_LCONVERT_EXECUTABLE Qt::lconvert LOCATION)
   else()
     get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
     find_program(QT_LCONVERT_EXECUTABLE
-                 NAMES lconvert-qt5 lconvert
+                 NAMES lconvert-qt6 lconvert
                  PATHS ${QT_LRELEASE_PATH}
                  NO_DEFAULT_PATH)
   endif()
 
+ get_target_property(QT_QTPATHS_EXECUTABLE Qt6::qtpaths LOCATION)
+
+ execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --plugin-dir OUTPUT_VARIABLE QT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+ message(STATUS "QT Plugin path: " ${QT_PLUGINS_DIR})
+
   if (WITH_DBUS)
-    find_package(Qt5DBus QUIET)
-    if (Qt5DBus_FOUND)
-      set (HAVE_DBUS ON)
-      set (HAVE_DBUS_QT ON)
-      set (DBUS_BACKEND "qt")
+    find_package(Qt6DBus QUIET)
+    if (NOT Qt6DBus_FOUND)
+      find_package(Qt5DBus QUIET)
     endif()
   endif()
 
-  if (APPLE)
-    find_package(Qt5MacExtras REQUIRED)
+  if (Qt6DBus_FOUND OR Qt5DBus_FOUND)
+      set (HAVE_DBUS ON)
+      set (HAVE_DBUS_QT ON)
+      set (DBUS_BACKEND "qt")
   endif()
 
-  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
-
+  get_target_property(QtCore_location_Release Qt${QT_VERSION_MAJOR}::Core LOCATION_Release)
+  get_filename_component(QT_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
   if (APPLE)
-    get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/.." REALPATH)
+    get_filename_component(QT_INSTALL_PREFIX "${QT_BIN_DIR}/../../../" REALPATH)
   endif()
 
-  set (CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
+  #set (CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
   set (HAVE_QT ON)
-  set (HAVE_QT5 ON)
+  set (HAVE_QT6 ON)
   set (HAVE_APP_QT ON)
 
   if (Qt5_POSITION_INDEPENDENT_CODE)
@@ -328,82 +378,9 @@ if ("${WITH_UI}" STREQUAL "Qt5")
       gio-2.0>=2.26.0)
     set (HAVE_GLIB ON)
   endif()
-
   if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
-    message(FATAL_ERROR "32 bit compilation of Qt5 UI not supported on Windows")
+    message(FATAL_ERROR "32 bit compilation of Qt UI not supported on Windows")
   endif()
-  
-  if (NOT DEFINED QT_VERSION_MAJOR)
-    set (QT_VERSION_MAJOR "5")
-    function(qt_wrap_cpp outfiles)
-      qt5_wrap_cpp("${outfiles}" ${ARGN})
-      set("${outfiles}" "${${outfiles}}" PARENT_SCOPE)
-    endfunction()
-  endif()
-
-  include(QtDeployMac)
-endif()
-
-
-if ("${WITH_UI}" STREQUAL "Qt6")
-  message(STATUS "Checking for: Qt6")
-
-  find_package(Qt6Widgets REQUIRED)
-  find_package(Qt6Core REQUIRED)
-  find_package(Qt6Gui REQUIRED)
-  find_package(Qt6Svg REQUIRED)
-  find_package(Qt6LinguistTools REQUIRED)
-
-  get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease LOCATION)
-
-  if (TARGET Qt6::lconvert)
-    get_target_property(QT_LCONVERT_EXECUTABLE Qt6::lconvert LOCATION)
-  else()
-    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
-    find_program(QT_LCONVERT_EXECUTABLE
-                 NAMES lconvert-qt6 lconvert
-                 PATHS ${QT_LRELEASE_PATH}
-                 NO_DEFAULT_PATH)
-  endif()
-
-  if (WITH_DBUS)
-    find_package(Qt6DBus QUIET)
-    if (Qt6DBus_FOUND)
-      set (HAVE_DBUS ON)
-      set (HAVE_DBUS_QT ON)
-      set (DBUS_BACKEND "qt")
-    endif()
-  endif()
-
-  get_target_property(QtCore_location_Release Qt6::Core LOCATION_Release)
-  get_filename_component(Qt_BIN_DIR "${QtCore_location_Release}" DIRECTORY)
-  message(STATUS "XXXXXXXXXX ${Qt_BIN_DIR} ${QT_LIBRARY_DIR} ${QT_BINARY_DIR}")
-
-  if (APPLE)
-    get_filename_component(QT_INSTALL_PREFIX "${Qt_BIN_DIR}/../../../" REALPATH)
-  endif()
-
-  set (CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
-  set (HAVE_QT ON)
-  set (HAVE_QT6 ON)
-  set (HAVE_APP_QT ON)
-
-  if (Qt6_POSITION_INDEPENDENT_CODE)
-    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
-  endif()
-
-  if ((NOT APPLE) AND (NOT WIN32))
-    # glib is required for ui/common/src/System.cc
-    pkg_check_modules(
-      GLIB REQUIRED
-      glib-2.0>=2.28.0
-      gio-2.0>=2.26.0)
-    set (HAVE_GLIB ON)
-  endif()
-  if (WIN32 AND ${PLATFORM_ARCH} EQUAL 32)
-    message(FATAL_ERROR "32 bit compilation of Qt6 UI not supported on Windows")
-  endif()
-  include(QtDeployMac)
 endif()
 
 
@@ -663,7 +640,7 @@ endif()
 
 
 #----------------------------------------------------------------------------------------------------
-# platform - win32
+# platform - windows
 
 option(WITH_CRASHPAD "Use crashpad" ON)
 
@@ -722,17 +699,24 @@ if (WIN32)
       message(FATAL_ERROR "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
     endif()
 
+
     set(HAVE_CRASH_REPORT OFF)
     set(HAVE_CRASHPAD OFF)
     if(WITH_CRASHPAD)
       find_package(crashpad REQUIRED)
+      find_program(DUMP_SYMS dump_syms)
+
       if (crashpad_FOUND)
         set(HAVE_CRASHPAD ON)
         set(HAVE_CRASH_REPORT ON)
-        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-pdb=")
-        set(CMAKE_EXE_LINKER_FLAGS "-Wl,-pdb=")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gcodeview -gdwarf")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gcodeview -gdwarf")
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+          set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-pdb=")
+          set(CMAKE_EXE_LINKER_FLAGS "-Wl,-pdb=")
+          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gcodeview -gdwarf")
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gcodeview -gdwarf")
+        else()
+          message(STATUS "Crashpad requires Clang")
+        endif()
       endif()
     endif()
 
@@ -745,7 +729,7 @@ if (WIN32)
     get_filename_component(PROGRAM_FILES_X86_PATH
         "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir (x86)]" ABSOLUTE)
 
-    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 5" "${PROGRAM_FILES_X86_PATH}/Inno Setup 5")
+    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 6" "${PROGRAM_FILES_X86_PATH}/Inno Setup 6")
     find_program(ISCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
   endif()
 
@@ -868,44 +852,6 @@ set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
 find_package(Threads)
 
 #----------------------------------------------------------------------------------------------------
-# Locations
-
-if (UNIX AND NOT APPLE)
-  set (BINDIR bin)
-  set (DATADIR share                                        CACHE PATH "datadir")
-  set (LIBDIR "${CMAKE_INSTALL_LIBDIR}"                     CACHE PATH "libdir")
-  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
-  set (EXERCISESDIR "${PKGDATADIR}/exercises")
-  set (IMAGESDIR "${PKGDATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-elseif (APPLE)
-  set (BUNDLEDIR Workrave.app/Contents/)
-  set (BINDIR ${BUNDLEDIR}/MacOS/)
-  set (DATADIR ${BUNDLEDIR}/Resources                       CACHE PATH "datadir")
-  set (LIBDIR ${DATADIR}                                    CACHE PATH "libadir")
-  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds")
-  set (EXERCISESDIR "${DATADIR}/exercises")
-  set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-elseif (WIN32)
-  set (BINDIR lib)
-  set (DATADIR share                                        CACHE PATH "datadir")
-  set (LIBDIR lib                                           CACHE PATH "libdir")
-  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds")
-  set (EXERCISESDIR "${DATADIR}/exercises")
-  set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${LIBDIR}/locale")
-endif()
-
-add_definitions(
-  -DWORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
-  -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
-)
-
-#----------------------------------------------------------------------------------------------------
 # Autoconf compatibility
 
 # compiler definitions
@@ -933,7 +879,7 @@ if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   add_subdirectory(ui)
 else()
   add_subdirectory(libs/hooks)
-  add_subdirectory(ui/applets/win32)
+  add_subdirectory(ui/applets/windows)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -963,9 +909,9 @@ if (WIN32 AND BUILD_ONLY_32_BIT_FOR_WIN64)
 endif()
 
 if (WITH_UI_QT)
-  add_subdirectory(ui/apps/qt5/dist)
+  add_subdirectory(ui/app/toolkits/qt/dist)
 elseif (WITH_UI_GTK)
-  add_subdirectory(ui/apps/gtkmm/dist)
+  add_subdirectory(ui/app/toolkits/gtkmm/dist)
 endif()
 
 #----------------------------------------------------------------------------------------------------

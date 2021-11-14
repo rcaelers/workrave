@@ -1,5 +1,3 @@
-// Break.cc
-//
 // Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -469,4 +467,18 @@ boost::signals2::signal<void(BreakEvent)> &
 Break::signal_break_event()
 {
   return break_control->signal_break_event();
+}
+
+void
+Break::postpone_break()
+{
+  Core *core = Core::get_instance();
+  core->postpone_break(break_id);
+}
+
+void
+Break::skip_break()
+{
+  Core *core = Core::get_instance();
+  core->skip_break(break_id);
 }

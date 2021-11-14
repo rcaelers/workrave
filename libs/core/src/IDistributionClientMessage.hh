@@ -1,5 +1,3 @@
-// IDistributionClientMessage.hh
-//
 // Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //

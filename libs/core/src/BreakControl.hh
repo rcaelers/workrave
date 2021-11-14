@@ -1,5 +1,3 @@
-// BreakControl.hh --- controller for a single break
-//
 // Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,7 +21,6 @@
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
 #include "core/IBreak.hh"
-#include "core/IBreakResponse.hh"
 #include "IActivityMonitorListener.hh"
 #include "utils/Diagnostics.hh"
 

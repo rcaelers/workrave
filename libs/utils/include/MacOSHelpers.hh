@@ -1,5 +1,3 @@
-// MacOSHelpers.hh --- Helpers for OS X
-//
 // Copyright (C) 2017 Tom Parker
 // All rights reserved.
 //

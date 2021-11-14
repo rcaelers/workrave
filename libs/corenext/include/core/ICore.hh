@@ -1,5 +1,3 @@
-// ICore.hh --- The main controller interface
-//
 // Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -22,7 +20,6 @@
 
 #include <memory>
 #include <string>
-
 #include <boost/signals2.hpp>
 
 #include "config/IConfigurator.hh"
@@ -41,7 +38,6 @@ namespace workrave
   {
   public:
     using Ptr = std::shared_ptr<ICore>;
-
     virtual ~ICore() = default;
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
