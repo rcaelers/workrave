@@ -1465,7 +1465,7 @@ msgstr ""
 #~ "walk away from your computer on a regular basis. Just\n"
 #~ "walk around for a few minutes, stretch, and relax."
 #~ msgstr ""
-"Questa è la tua pausa di riposo naturale. Assicurati di alzarti e\n"
+#~ "Questa è la tua pausa di riposo naturale. Assicurati di alzarti e\n"
 #~ "allontanati dal computer regolarmente. Basta\n"
 #~ "camminare per qualche minuto, fai stretch e rilassati."
 
