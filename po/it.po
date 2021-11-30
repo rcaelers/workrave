@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2021-06-02 19:24+0100\n"
+"PO-Revision-Date: 2021-11-27 17:24+0100\n"
 "Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language-Team:it\n"
 "Language: it\n"
@@ -314,7 +314,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "Registro di debug"
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:29
 msgid "Exercises"
@@ -325,16 +325,15 @@ msgstr "Esercizi"
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:142
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:88
-#, fuzzy
 msgid "Previous"
-msgstr "Esercizio precedente"
+msgstr "Precedente"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:89
 msgid "Next"
-msgstr ""
+msgstr "Prossimo"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:108
 msgid "Exercises player"
@@ -392,13 +391,12 @@ msgstr ""
 "Workrave non ha potuto monitorare l'attività della tastiera e del mouse.\n"
 
 #: ui/apps/gtkmm/src/GUI.cc:537
-#, fuzzy
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
-"Workrave è in modalità sospesa. L'attività del mouse e della tastiera non "
-"sarannomonitorati."
+"Workrave è in modalità sospesa.\n"
+"L'attività del mouse e della tastiera non saranno monitorati."
 
 #: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
@@ -430,9 +428,8 @@ msgid "_Rest break"
 msgstr "_Riposo"
 
 #: ui/apps/gtkmm/src/Menus.cc:61
-#, fuzzy
 msgid "S_tatistics"
-msgstr "Statistiche"
+msgstr "S_tatistiche"
 
 #: ui/apps/gtkmm/src/Menus.cc:75
 msgid "_Normal"
@@ -448,7 +445,7 @@ msgstr "_Silenzioso"
 
 #: ui/apps/gtkmm/src/Menus.cc:96
 msgid "_Reading mode"
-msgstr "Modalità lettura"
+msgstr "_Modalità lettura"
 
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
 msgid "Please relax for a few seconds"
@@ -634,9 +631,8 @@ msgid "Show system tray icon"
 msgstr "Mostra icona nella barra delle applicazioni"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:296
-#, fuzzy
 msgid "Icon Theme:"
-msgstr "Tema Sonoro:"
+msgstr "Tema Icona:"
 
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:309
@@ -721,11 +717,11 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:513
 msgid "Debug monitoring"
-msgstr ""
+msgstr "Monitoraggio del debug"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:937
 msgid "Default"
-msgstr ""
+msgstr "Predefinito"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
@@ -1071,14 +1067,12 @@ msgid "Daily limit:"
 msgstr "Limite giornaliero:"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
-#, fuzzy
 msgid "Fallback applet enabled"
-msgstr "Applet attivata"
+msgstr "Applet di fallback abilitato"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#, fuzzy
 msgid "Show status icon"
-msgstr "Mostra la finestra di stato"
+msgstr "Mostra icona di stato"
 
 #. Enabled/Disabled checkbox
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
@@ -1178,7 +1172,7 @@ msgstr "Cambia esercizio"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -1190,29 +1184,27 @@ msgstr "Orientamento della traybar"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "Colore di primo piano"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "Colore di primo piano per le icone simboliche"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-#, fuzzy
 msgid "Error color"
-msgstr "Errore"
+msgstr "Colore di errore"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "Colore di errore per le icone simboliche"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-#, fuzzy
 msgid "Warning color"
-msgstr "Attenzione"
+msgstr "Colore di avviso"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color for symbolic icons"
-msgstr ""
+msgstr "Colore di avviso per le icone simboliche"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color"
@@ -1224,19 +1216,19 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
-msgstr ""
+msgstr "Imbottitura"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "Imbottitura che dovrebbe essere posizionata attorno alle icone nella barra delle applicazioni"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
 msgid "Icon Size"
-msgstr ""
+msgstr "Dimensione dell'icona"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
 msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
+msgstr "La dimensione in pixel a cui le icone dovrebbero essere forzate, o zero"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
 #, fuzzy
@@ -1251,6 +1243,9 @@ msgid ""
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
+"Workrave è un programma che aiuta nel recupero e nella prevenzione di "
+"Repetitive Strain Injury (RSI). Il programma ti avvisa frequentemente di prendere "
+"micro-pause, pause di riposo e ti limita al tuo limite giornaliero."
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
@@ -1344,7 +1339,6 @@ msgid "Train focusing the eyes"
 msgstr "Allenamento della messa a fuoco degli occhi"
 
 #: ui/data/exercises/exercises.xml.in:65
-#, fuzzy
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -1352,11 +1346,11 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"Cerca il punto più lontano che puoi trovare oltre il tuo monitor. Focalizza "
-"lo sguardo su quel punto. Poi metti a fuoco il bordo del monitor. Ripeti. Se "
-"non hai niente che sia molto lontano dal monitor, prova in un'altra "
-"direzione. Quindi sposta la messa a fuoco da un oggeto a distanza ad una "
-"penna mantenuta alla distanza occhi-monitor."
+"Cerca il punto più lontano che riesci a vedere dietro il monitor. Metti a fuoco gli occhi "
+"sul punto remoto. Quindi concentrati sul bordo del monitor. Ripetilo. Se "
+"non puoi guardare molto lontano dal tuo monitor, guarda in un'altra direzione con una vista più "
+"lunga. Quindi sposta la messa a fuoco tra un oggetto distante e una penna tenuta alla "
+"stessa distanza dagli occhi del monitor."
 
 #: ui/data/exercises/exercises.xml.in:72
 msgid "Look into the darkness"
@@ -1466,15 +1460,14 @@ msgstr ""
 #~ msgid "Daily usage"
 #~ msgstr "Utilizzo giornaliero"
 
-#, fuzzy
 #~ msgid ""
 #~ "This is your natural rest break. Make sure you stand up and\n"
 #~ "walk away from your computer on a regular basis. Just\n"
 #~ "walk around for a few minutes, stretch, and relax."
 #~ msgstr ""
-#~ "Questo è il tuo riposo. Alzati in piedi e cammina lontano\n"
-#~ "dal tuo computer. Fai giusto due passi lì intorno per qualche\n"
-#~ "minuto, stiracchiati, e rilassati."
+"Questa è la tua pausa di riposo naturale. Assicurati di alzarti e\n"
+#~ "allontanati dal computer regolarmente. Basta\n"
+#~ "camminare per qualche minuto, fai stretch e rilassati."
 
 #~ msgid "Starting %s"
 #~ msgstr "Avvio %s"
