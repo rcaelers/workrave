@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Workrave cvs\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2021-12-01 13:11+0200\n"
+"PO-Revision-Date: 2021-12-01 13:23+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
 "Language: he\n"
@@ -349,14 +349,12 @@ msgstr "לתרגיל הבא"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:140
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:320
-#, fuzzy
 msgid "Pause exercises"
-msgstr "מספר התרגילים:"
+msgstr "להשהות את התרגילים"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:144
-#, fuzzy
 msgid "End exercises"
-msgstr "תרגילים"
+msgstr "סיום התרגילים"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:315
 msgid "Resume"
@@ -367,9 +365,8 @@ msgid "Pause"
 msgstr "השהיה"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:318
-#, fuzzy
 msgid "Resume exercises"
-msgstr "מספר התרגילים:"
+msgstr "להמשיך את התרגילים"
 
 #: ui/apps/gtkmm/src/GUI.cc:151
 msgid ""
@@ -694,11 +691,11 @@ msgstr "שימוש בשיטת מעקב חלופית"
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
-msgstr ""
+msgstr "יש להפעיל אפשרות זו אם Workrave לא מצליח לזהות מתי נעשה שימוש במחשב"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:491
 msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+msgstr "יש להפעיל את Workrave מחדש באופן ידני לאחר שינוי הגדרה זו"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
 msgid "Mouse sensitivity:"
@@ -1203,11 +1200,11 @@ msgstr "צבע הצלחה לסמלים סימבוליים"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
-msgstr ""
+msgstr "ריפוד"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "ריפוד שמיועד למיקום הסמלים במגש המערכת"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
 msgid "Icon Size"
@@ -1220,8 +1217,7 @@ msgstr ""
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr ""
-"תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)"
+"תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI)"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:9
 msgid ""
@@ -1229,13 +1225,15 @@ msgid ""
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
+"Workrave היא תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain "
+"Injury - RSI). התוכנית מבקשת ממך באופן תדיר לקחת הפסקות זעירות, הפסקות "
+"מנוחה, ומגבילה את זמן השימוש היומי שלך במחשב."
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"תכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)."
+"תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI)"
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
