@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Workrave cvs\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2021-12-01 13:23+0200\n"
+"PO-Revision-Date: 2021-12-02 15:32+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
 "Language: he\n"
@@ -519,7 +519,7 @@ msgstr "הגדרות שרת"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:143
 msgid "Server port:"
-msgstr "פִּתחה השרת:"
+msgstr "פִּתחת השרת:"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:144
 msgid "Reconnect attempts:"
@@ -659,7 +659,7 @@ msgstr "השתקת הצלילים במהלך הפסקת מנוחה ולאחר ה
 #. Sound themes
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound Events"
-msgstr ""
+msgstr "אירועי צליל"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:359
 msgid "Sound Theme:"
@@ -673,7 +673,7 @@ msgstr "ניגון"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:387
 msgid "Event"
-msgstr ""
+msgstr "אירוע"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:403
 msgid "Choose a sound"
@@ -734,7 +734,7 @@ msgstr "הפסקה בעוד %s"
 #: ui/apps/gtkmm/src/PreludeWindow.cc:264
 #, c-format
 msgid "Disappears in %s"
-msgstr "יעלם בעוד %s"
+msgstr "ייעלם בעוד %s"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:268
 #, c-format
@@ -927,7 +927,7 @@ msgstr "המספר הכולל של המקשים שהוקשו"
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:324
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, מ- %s עד %s"
+msgstr "%s, מ־%s עד %s"
 
 #. Confirm the user's intention
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
@@ -1099,7 +1099,7 @@ msgstr "התחלת הפסקת המנוחה בעת נעילת המסך"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
+msgstr "לאפשר לכבות את המחשב ממסך הפסקת המנוחה"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time before end:"
@@ -1150,9 +1150,8 @@ msgid "Exercises ended"
 msgstr "סוף התרגילים"
 
 #: ui/apps/gtkmm/src/Ui.cc:110
-#, fuzzy
 msgid "Exercise change"
-msgstr "סוף התרגיל"
+msgstr "החלפת תרגיל"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
