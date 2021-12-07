@@ -9,7 +9,7 @@ Please visit https://workrave.org for more information.
 ## Install
 
 - Windows: download from https://workrave.org/download
-- Ubuntu: install with the "Ubuntu Software" application. (Note: not working with wayland on Ubuntu 17.10)
+- Ubuntu: install with the "Ubuntu Software" application.
 - Ubuntu (and derivatives) Linux latest version:  
   Add this PPA to your Software Sources  
   `ppa:rob-caelers/workrave`  
