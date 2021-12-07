@@ -179,6 +179,13 @@ jobs:
           #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
           #  disable: TESTS,COVERAGE,TRACING
 
+          - image: ubuntu-jammy
+            os: ubuntu-latest
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
+            disable: TESTS,COVERAGE,TRACING
+
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
             compiler: clang

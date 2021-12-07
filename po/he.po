@@ -2,6 +2,7 @@
 # Copyright (C) 2005 THE Workrave'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the Workrave package.
 # Haggai Eran <he3@bezeqint.net>, 2005.
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
 #
 #
 msgid ""
@@ -9,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Workrave cvs\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2021-11-20 18:39+0200\n"
+"PO-Revision-Date: 2021-12-02 15:32+0200\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
 "Language: he\n"
@@ -42,7 +43,7 @@ msgstr "מתבצעת התחברות אל %s."
 #: libs/core/src/DistributionSocketLink.cc:704
 #, c-format
 msgid "Removing client %s."
-msgstr "הלקוח %s בהליכי הסרה."
+msgstr "מתבצעת הסרת הלקוח %s."
 
 #. Closing direct connection.
 #: libs/core/src/DistributionSocketLink.cc:750
@@ -71,58 +72,58 @@ msgstr "הלקוח %s אומר שלום."
 #. Incorrect password.
 #: libs/core/src/DistributionSocketLink.cc:1291
 #: libs/core/src/DistributionSocketLink.cc:1371
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s access denied."
-msgstr "גישה נדחתה ללקוח %s."
+msgstr "הגישה ללקוח %s נדחתה."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: libs/core/src/DistributionSocketLink.cc:1362
 #: libs/core/src/DistributionSocketLink.cc:1489
 #: libs/core/src/DistributionSocketLink.cc:1734
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is duplicate."
 msgstr "הלקוח %s הוא כפיל."
 
 #: libs/core/src/DistributionSocketLink.cc:1441
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s signed off."
 msgstr "הלקוח %s התנתק."
 
 #. gint port =
 #: libs/core/src/DistributionSocketLink.cc:1525
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is welcoming us."
-msgstr "הלקוח %s מברך אותנו."
+msgstr "הלקוח %s מקבל את פנינו בברכה."
 
 #: libs/core/src/DistributionSocketLink.cc:1767
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
-msgstr "מבקש מצב שליט מ-%s."
+msgstr "נשלחת בקשה לקבלת שליטה מ־%s."
 
 #: libs/core/src/DistributionSocketLink.cc:1780
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
-msgstr "זמן ההמתנה ללקוח %s עבר."
+msgstr "תם הזמן המוקצב ללקוח %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
-msgstr "דוחה בקשת שליט מלקוח %s."
+msgstr "מתבצעת דחיית בקשת השליטה מהלקוח %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1811
-#, fuzzy, c-format
+#, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "מאשר בקשת שליט מלקוח %s."
+msgstr "מתבצע אישור בקשת השליטה מהלקוח %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1864
-#, fuzzy, c-format
+#, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "לקוח שאינו שליט %s דחה את בקשת השליט."
+msgstr "הלקוח %s שאינו שליט דחה את בקשת השליטה."
 
 #: libs/core/src/DistributionSocketLink.cc:1868
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "הלקוח %s דחה את בקשת השליט, ממתין."
+msgstr "הלקוח %s דחה את בקשת השליטה, בהמתנה."
 
 #. gint count =
 #: libs/core/src/DistributionSocketLink.cc:1942
@@ -139,13 +140,13 @@ msgid "Accepted new client."
 msgstr "התקבל לקוח חדש."
 
 #: libs/core/src/DistributionSocketLink.cc:2165
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s read error, closing."
-msgstr "שגיאה בקריאה מן הלקוח %s, סוגר."
+msgstr "שגיאת קריאה התקבלה מהלקוח %s, מתבצעת סגירה."
 
 #: libs/core/src/DistributionSocketLink.cc:2170
 #: libs/core/src/DistributionSocketLink.cc:2237
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s closed connection."
 msgstr "הלקוח %s סגר את החיבור."
 
@@ -155,7 +156,7 @@ msgid "Client %s connected."
 msgstr "התחבר הלקוח %s."
 
 #: libs/core/src/DistributionSocketLink.cc:2242
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to client %s."
 msgstr "לא ניתן להתחבר ללקוח %s."
 
@@ -210,7 +211,7 @@ msgstr "_רשת"
 
 #: ui/applets/mate/src/main.c:376
 msgid "_Join"
-msgstr ""
+msgstr "הצ_טרפות"
 
 #: ui/applets/mate/src/main.c:378
 msgid "_Disconnect"
@@ -284,12 +285,15 @@ msgstr "ד_חייה"
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
+"אין באפשרותך לדלג על הפסקה זו מאחר והפסקה נוספת שלא ניתן לדלג עליה היא "
+"באיחור."
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:597
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
+"אין באפשרותך לדלג על הפסקה זו מאחר והפסקה נוספת שלא ניתן לדחות היא באיחור."
 
 #. label
 #: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
@@ -311,7 +315,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "יומן ניפוי שגיאות"
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:29
 msgid "Exercises"
@@ -346,14 +350,12 @@ msgstr "לתרגיל הבא"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:140
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:320
-#, fuzzy
 msgid "Pause exercises"
-msgstr "מספר התרגילים:"
+msgstr "להשהות את התרגילים"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:144
-#, fuzzy
 msgid "End exercises"
-msgstr "תרגילים"
+msgstr "סיום התרגילים"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:315
 msgid "Resume"
@@ -364,15 +366,16 @@ msgid "Pause"
 msgstr "השהיה"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:318
-#, fuzzy
 msgid "Resume exercises"
-msgstr "מספר התרגילים:"
+msgstr "להמשיך את התרגילים"
 
 #: ui/apps/gtkmm/src/GUI.cc:151
 msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
+"Workrave עדיין פועל. אפשר לגשת ל־Workrave בעזרת לחיצה על סמל הכבשה הלבנה. "
+"לחיצה על בועת דיבור זו תעלים את ההודעה"
 
 #: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
 msgid "Workrave failed to start"
@@ -380,21 +383,23 @@ msgstr "הפעלת Workrave נכשלה"
 
 #: ui/apps/gtkmm/src/GUI.cc:270
 msgid "Is Workrave already running?"
-msgstr ""
+msgstr "האם Workrave כבר פועל?"
 
 #: ui/apps/gtkmm/src/GUI.cc:352
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
+msgstr "לא היה באפשרות Workrave לעקוב אחר פעילות המקלדת והעכבר שלך.\n"
 
 #: ui/apps/gtkmm/src/GUI.cc:537
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
+"Workrave במצב השהיה.\n"
+"לא יתבצע מעקב אחר פעילות העכבר והמקלדת."
 
 #: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
+msgstr "Workrave במצב שקט. לא יופיעו חלוניות הפסקה."
 
 #. FIXME: duplicate
 #: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
@@ -437,7 +442,7 @@ msgstr "_שקט"
 
 #: ui/apps/gtkmm/src/Menus.cc:96
 msgid "_Reading mode"
-msgstr ""
+msgstr "מצב _קריאה"
 
 #: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
 msgid "Please relax for a few seconds"
@@ -472,7 +477,9 @@ msgstr "התחברות לרשת"
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
-msgstr "הכנס את שם המחשב ומספר הפִּתחה של המחשב ברשת שאליו ברצונך להתחבר."
+msgstr ""
+"נא לציין את שם המחשב ואת מספר הפִּתחה של מחשב\n"
+"אליו ברצונך להתחבר."
 
 #: ui/apps/gtkmm/src/NetworkJoinDialog.cc:76
 msgid "Host name:"
@@ -513,7 +520,7 @@ msgstr "הגדרות שרת"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:143
 msgid "Server port:"
-msgstr "פִּתחה השרת:"
+msgstr "פִּתחת השרת:"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:144
 msgid "Reconnect attempts:"
@@ -647,14 +654,13 @@ msgstr "צליל:"
 
 #. Volume
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:343
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "מקם את הפסקות המנוחה את המגבלה היומית באותה נקודה"
+msgstr "השתקת הצלילים במהלך הפסקת מנוחה ולאחר הגעה למגבלה היומית"
 
 #. Sound themes
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound Events"
-msgstr ""
+msgstr "אירועי צליל"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:359
 msgid "Sound Theme:"
@@ -668,7 +674,7 @@ msgstr "ניגון"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:387
 msgid "Event"
-msgstr ""
+msgstr "אירוע"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:403
 msgid "Choose a sound"
@@ -680,17 +686,17 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:481
 msgid "Use alternate monitor"
-msgstr ""
+msgstr "שימוש בשיטת מעקב חלופית"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:488
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
-msgstr ""
+msgstr "יש להפעיל אפשרות זו אם Workrave לא מצליח לזהות מתי נעשה שימוש במחשב"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:491
 msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+msgstr "יש להפעיל את Workrave מחדש באופן ידני לאחר שינוי הגדרה זו"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
 msgid "Mouse sensitivity:"
@@ -703,7 +709,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:513
 msgid "Debug monitoring"
-msgstr ""
+msgstr "ניפוי שגיאות במעקב"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:937
 msgid "Default"
@@ -719,7 +725,7 @@ msgstr "הגיע הזמן להפסקת מנוחה..."
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:112
 msgid "You should stop for today..."
-msgstr "עליך להפסיק להיום..."
+msgstr "הגיע הזמן להפסיק להיום..."
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:260
 #, c-format
@@ -729,7 +735,7 @@ msgstr "הפסקה בעוד %s"
 #: ui/apps/gtkmm/src/PreludeWindow.cc:264
 #, c-format
 msgid "Disappears in %s"
-msgstr "יעלם בעוד %s"
+msgstr "ייעלם בעוד %s"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:268
 #, c-format
@@ -784,21 +790,22 @@ msgstr "הפסקות"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:160
 msgid "Break prompts"
-msgstr "שאלות לפני הפסקה"
+msgstr "הצעות לקיחת הפסקה"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:161
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
-msgstr "מספר הפעמים בהם נשאלת לפני הפסקה, פרט לשאלות חוזרות לגבי אותה הפסקה"
+msgstr ""
+"מספר הפעמים בהן קיבלת הצעה לקחת הפסקה, פרט להצעות חוזרות לגבי אותה הפסקה"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:165
 msgid "Repeated prompts"
-msgstr "שאלות חוזרות"
+msgstr "הצעות חוזרות"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:165
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "מספר הפעמים בהם נשאלת באופן חוזר לפני הפסקה"
+msgstr "מספר הפעמים בהן קיבלת הצעה לקחת הפסקה"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:168
 msgid "Prompted breaks taken"
@@ -806,7 +813,7 @@ msgstr "הפסקות שנלקחו"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:168
 msgid "The number of times you took a break when being prompted"
-msgstr "מספר הפעמים שלקחת הפסקה לאחר שנשאלת"
+msgstr "מספר הפעמים שלקחת הפסקה לאחר שקיבלת הצעה לכך"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:171
 msgid "Natural breaks taken"
@@ -814,7 +821,7 @@ msgstr "הפסקות טבעיות"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:171
 msgid "The number of times you took a break without being prompted"
-msgstr "מספר הפעמים בהן לקחת הפסקה מבלי שנשאלת לכך"
+msgstr "מספר הפעמים בהן לקחת הפסקה מבלי שקיבלת הצעה לכך"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:173
 msgid "Breaks skipped"
@@ -849,30 +856,28 @@ msgid "Active computer usage"
 msgstr "שימוש פעיל במחשב"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
 msgid "Daily"
-msgstr "מגבלה יומית"
+msgstr "יום"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
 msgid "The total computer usage for the selected day"
-msgstr "השימוש הכולל במחשב"
+msgstr "השימוש הכולל במחשב ביום הנבחר"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "Weekly"
-msgstr ""
+msgstr "שבוע"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
+msgstr "השימוש הכולל במחשב בכל השבוע של היום הנבחר"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:187
 msgid "Monthly"
-msgstr ""
+msgstr "חודש"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:187
 msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
+msgstr "השימוש הכולל במחשב בכל החודש של היום הנבחר"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:264
 msgid "Activity"
@@ -923,7 +928,7 @@ msgstr "המספר הכולל של המקשים שהוקשו"
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:324
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, מ- %s עד %s"
+msgstr "%s, מ־%s עד %s"
 
 #. Confirm the user's intention
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
@@ -1056,32 +1061,30 @@ msgstr "הצגת סמל מצב"
 #. Enabled/Disabled checkbox
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
 msgid "Enable timer"
-msgstr "הפעל שעון"
+msgstr "הפעלת שעון"
 
 #. Prelude frame
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:91
 msgid "Break prompting"
-msgstr "שאלה לפני הפסקה"
+msgstr "הצעת לקיחת הפסקה"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:93
 msgid "Prompt before breaking"
-msgstr "שאל לפני הפסקה"
+msgstr "להציע לקחת הפסקה"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
-msgstr "מספר מירבי של שאלות:"
+msgstr "מספר הצעות מרבי:"
 
 #. Ignorable
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
-#, fuzzy
 msgid "Show 'Postpone' button"
-msgstr "הצג כפתורי 'דחיה' ו'דילוג'"
+msgstr "הצגת כפתור \"דחייה\""
 
 #. Skippable
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-#, fuzzy
 msgid "Show 'Skip' button"
-msgstr "הצג כפתורי 'דחיה' ו'דילוג'"
+msgstr "הצגת כפתור \"דילוג\""
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Regard micro-breaks as activity"
@@ -1093,11 +1096,11 @@ msgstr "מספר התרגילים:"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
-msgstr ""
+msgstr "התחלת הפסקת המנוחה בעת נעילת המסך"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
+msgstr "לאפשר לכבות את המחשב ממסך הפסקת המנוחה"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time before end:"
@@ -1117,7 +1120,7 @@ msgstr "זמן הדחיה:"
 
 #: ui/apps/gtkmm/src/Ui.cc:83
 msgid "Break prompt"
-msgstr "שאלה לפני הפסקה"
+msgstr "הצעת לקיחת הפסקה"
 
 #: ui/apps/gtkmm/src/Ui.cc:86
 msgid "Break ignored"
@@ -1148,9 +1151,8 @@ msgid "Exercises ended"
 msgstr "סוף התרגילים"
 
 #: ui/apps/gtkmm/src/Ui.cc:110
-#, fuzzy
 msgid "Exercise change"
-msgstr "סוף התרגיל"
+msgstr "החלפת תרגיל"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
@@ -1161,7 +1163,6 @@ msgid "Orientation"
 msgstr "כיוון"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
-#, fuzzy
 msgid "The orientation of the tray"
 msgstr "כיוון המגש"
 
@@ -1171,7 +1172,7 @@ msgstr "צבע קִדמה"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "צבע קִדמה לסמלים סימבוליים"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color"
@@ -1179,7 +1180,7 @@ msgstr "צבע שגיאה"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "צבע שגיאה לסמלים סימבוליים"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color"
@@ -1187,7 +1188,7 @@ msgstr "צבע אזהרה"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color for symbolic icons"
-msgstr ""
+msgstr "צבע אזהרה לסמלים סימבוליים"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color"
@@ -1195,15 +1196,15 @@ msgstr "צבע הצלחה"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color for symbolic icons"
-msgstr ""
+msgstr "צבע הצלחה לסמלים סימבוליים"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
-msgstr ""
+msgstr "ריפוד"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "ריפוד שמיועד למיקום הסמלים במגש המערכת"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
 msgid "Icon Size"
@@ -1214,11 +1215,9 @@ msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr ""
-"תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)."
+"תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI)"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:9
 msgid ""
@@ -1226,13 +1225,15 @@ msgid ""
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
+"Workrave היא תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain "
+"Injury - RSI). התוכנית מבקשת ממך באופן תדיר לקחת הפסקות זעירות, הפסקות "
+"מנוחה, ומגבילה את זמן השימוש היומי שלך במחשב."
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"תכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)."
+"תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI)"
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
