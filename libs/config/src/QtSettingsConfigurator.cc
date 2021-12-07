@@ -145,17 +145,6 @@ QtSettingsConfigurator::get_config_value(const string &key, int &out) const
   return exists;
 }
 
-bool
-QtSettingsConfigurator::get_config_value(const string &key, long &out) const
-{
-  bool exists;
-  QVariant var = qt_get_value(key, exists);
-  if (exists)
-    {
-      out = static_cast<long>(var.toInt()); // Why doesn't Qt have toLong?
-    }
-  return exists;
-}
 
 bool
 QtSettingsConfigurator::get_config_value(const string &key, double &out) const
@@ -191,20 +180,6 @@ QtSettingsConfigurator::set_config_value(const string &key, int v)
     {
       const QString qkey = qt_key(key);
       QVariant qval = v;
-      settings->setValue(qkey, qval);
-      ok = true;
-    }
-  return ok;
-}
-
-bool
-QtSettingsConfigurator::set_config_value(const string &key, long v)
-{
-  bool ok = false;
-  if (settings)
-    {
-      const QString qkey = qt_key(key);
-      QVariant qval = static_cast<int>(v); // QT no long?
       settings->setValue(qkey, qval);
       ok = true;
     }

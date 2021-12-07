@@ -40,12 +40,10 @@ public:
   bool get_config_value(const std::string &key, std::string &out) const override;
   bool get_config_value(const std::string &key, bool &out) const override;
   bool get_config_value(const std::string &key, int &out) const override;
-  bool get_config_value(const std::string &key, long &out) const override;
   bool get_config_value(const std::string &key, double &out) const override;
 
   bool set_config_value(const std::string &key, std::string v) override;
   bool set_config_value(const std::string &key, int v) override;
-  bool set_config_value(const std::string &key, long v) override;
   bool set_config_value(const std::string &key, bool v) override;
   bool set_config_value(const std::string &key, double v) override;
 

@@ -146,7 +146,7 @@ W32Configurator::get_config_value(const std::string &key, std::string &out) cons
 bool
 W32Configurator::get_config_value(const std::string &key, bool &out) const
 {
-  long l;
+  int l;
   bool rc = get_config_value(key, l);
   if (rc)
     {
@@ -163,29 +163,11 @@ W32Configurator::get_config_value(const std::string &key, bool &out) const
 bool
 W32Configurator::get_config_value(const std::string &key, int &out) const
 {
-  long l;
+  int l;
   bool rc = get_config_value(key, l);
   if (rc)
     {
       out = (int)l;
-    }
-  return rc;
-}
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-W32Configurator::get_config_value(const std::string &key, long &out) const
-{
-  std::string s;
-  bool rc = get_config_value(key, s);
-  if (rc)
-    {
-      int f = sscanf(s.c_str(), "%ld", &out);
-      rc = (f == 1);
     }
   return rc;
 }
@@ -238,14 +220,6 @@ W32Configurator::set_config_value(const std::string &key, int v)
 {
   char buf[32];
   sprintf(buf, "%d", v);
-  return set_config_value(key, std::string(buf));
-}
-
-bool
-W32Configurator::set_config_value(const std::string &key, long v)
-{
-  char buf[32];
-  sprintf(buf, "%ld", v);
   return set_config_value(key, std::string(buf));
 }
 
