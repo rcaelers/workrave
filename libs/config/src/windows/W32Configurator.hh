@@ -30,7 +30,7 @@ class W32Configurator
 {
 public:
   W32Configurator();
-  ~W32Configurator() override;
+  ~W32Configurator() override = default;
 
   bool load(std::string filename) override;
   bool save(std::string filename) override;

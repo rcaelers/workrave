@@ -1,4 +1,4 @@
-// Copyright (C) 2002, 2005, 2006, 2007, 2009, 2012 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2012 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,6 @@
 W32Configurator::W32Configurator()
 {
   key_root = "Software/Workrave";
-}
-
-W32Configurator::~W32Configurator()
-{
 }
 
 bool
@@ -155,28 +151,19 @@ W32Configurator::get_config_value(const std::string &key, bool &out) const
   return rc;
 }
 
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
 bool
 W32Configurator::get_config_value(const std::string &key, int &out) const
 {
-  int l;
-  bool rc = get_config_value(key, l);
+  std::string s;
+  bool rc = get_config_value(key, s);
   if (rc)
     {
-      out = (int)l;
+      int f = sscanf(s.c_str(), "%d", &out);
+      rc = (f == 1);
     }
   return rc;
 }
 
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
 bool
 W32Configurator::get_config_value(const std::string &key, double &out) const
 {
@@ -279,7 +266,6 @@ W32Configurator::key_windowsify(const std::string &key) const
   return rc;
 }
 
-//! Removes the trailing '/'.
 void
 W32Configurator::strip_trailing_slash(std::string &key) const
 {
@@ -293,7 +279,6 @@ W32Configurator::strip_trailing_slash(std::string &key) const
     }
 }
 
-//! Adds add trailing '/' if it isn't there yet.
 void
 W32Configurator::add_trailing_slash(std::string &key) const
 {
