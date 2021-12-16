@@ -22,32 +22,20 @@
 
 #include <windows.h>
 #include "IConfigBackend.hh"
-#include "ConfigBackendAdapter.hh"
 
-class W32Configurator
-  : public virtual IConfigBackend
-  , public virtual ConfigBackendAdapter
+class W32Configurator : public virtual IConfigBackend
 {
 public:
   W32Configurator();
   ~W32Configurator() override = default;
 
   bool load(std::string filename) override;
-  bool save(std::string filename) override;
-  bool save() override;
+  void save() override;
 
-  bool remove_key(const std::string &key) override;
+  void remove_key(const std::string &key) override;
   bool has_user_value(const std::string &key) override;
-
-  bool get_config_value(const std::string &key, std::string &out) const override;
-  bool get_config_value(const std::string &key, bool &out) const override;
-  bool get_config_value(const std::string &key, int &out) const override;
-  bool get_config_value(const std::string &key, double &out) const override;
-
-  bool set_config_value(const std::string &key, std::string v) override;
-  bool set_config_value(const std::string &key, int v) override;
-  bool set_config_value(const std::string &key, bool v) override;
-  bool set_config_value(const std::string &key, double v) override;
+  std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const override;
+  void set_value(const std::string &key, const ConfigValue &value) override;
 
 private:
   std::string key_windowsify(const std::string &key) const;

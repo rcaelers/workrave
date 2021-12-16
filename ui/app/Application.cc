@@ -145,12 +145,12 @@ Application::init_nls()
   std::filesystem::path dir = Paths::get_application_directory();
   dir /= "lib";
   dir /= "locale";
-  locale_dir = dir.u8string().c_str();
+  locale_dir = dir.string().c_str();
 #  elif defined(PLATFORM_OS_MACOS)
   std::filesystem::path dir = Paths::get_application_directory();
   dir /= "Resources";
   dir /= "locale";
-  locale_dir = dir.u8string().c_str();
+  locale_dir = dir.string().c_str();
 #  else
   locale_dir = GNOMELOCALEDIR;
 #  endif

@@ -1,5 +1,5 @@
 // Copyright (C) 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
-// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2013 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,73 +22,34 @@
 
 #include "QtSettingsConfigurator.hh"
 
-using namespace std;
-
-QtSettingsConfigurator::QtSettingsConfigurator(QSettings *s)
+bool
+QtSettingsConfigurator::load(std::string filename)
 {
-  settings = s;
-}
-
-QtSettingsConfigurator::~QtSettingsConfigurator()
-{
-  dispose();
+  (void)filename;
+  return true;
 }
 
 void
-QtSettingsConfigurator::dispose()
-{
-  if (settings)
-    {
-      delete settings;
-      settings = nullptr;
-    }
-}
-
-bool
-QtSettingsConfigurator::load(string filename)
-{
-  (void)filename;
-  return true;
-}
-
-bool
-QtSettingsConfigurator::save(string filename)
-{
-  (void)filename;
-  return true;
-}
-
-bool
 QtSettingsConfigurator::save()
 {
-  if (settings)
-    {
-      settings->sync();
-      return true;
-    }
-  return false;
+  settings.sync();
 }
 
 QString
-QtSettingsConfigurator::qt_key(const string &key) const
+QtSettingsConfigurator::qt_key(const std::string &key)
 {
   QString qkey(key.c_str());
   return qkey.prepend('/');
 }
 
 QVariant
-QtSettingsConfigurator::qt_get_value(const string &key, bool &exists) const
+QtSettingsConfigurator::qt_get_value(const std::string &key) const
 {
-  exists = false;
   QVariant var;
-  if (settings)
+  const QString qkey = qt_key(key);
+  if (settings.contains(qkey))
     {
-      const QString qkey = qt_key(key);
-      if (settings->contains(qkey))
-        {
-          var = settings->value(qkey);
-          exists = true;
-        }
+      var = settings.value(qkey);
     }
   return var;
 }
@@ -96,120 +57,66 @@ QtSettingsConfigurator::qt_get_value(const string &key, bool &exists) const
 bool
 QtSettingsConfigurator::has_user_value(const std::string &key)
 {
-  bool exists;
-  QVariant var = qt_get_value(key, exists);
-  return exists;
+  QVariant var = qt_get_value(key);
+  return var.isValid();
 }
 
-bool
+void
 QtSettingsConfigurator::remove_key(const std::string &key)
 {
-  (void)key;
-  return true;
+  const QString qkey = qt_key(key);
+  settings.remove(qkey);
 }
 
-bool
-QtSettingsConfigurator::get_config_value(const string &key, string &out) const
+std::optional<ConfigValue>
+QtSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
 {
-  bool exists;
-  QVariant var = qt_get_value(key, exists);
-  if (exists)
+  QVariant var = qt_get_value(key);
+  if (var.isValid())
     {
-      QString qout = var.toString();
-      out = qout.toStdString();
+      switch (type)
+        {
+        case ConfigType::Int32:
+          return var.toInt();
+
+        case ConfigType::Int64:
+          return var.toLongLong();
+
+        case ConfigType::Bool:
+          return var.toBool();
+
+        case ConfigType::Double:
+          return var.toDouble();
+
+        case ConfigType::None:
+          [[fallthrough]];
+
+        case ConfigType::String:
+          return var.toString().toStdString();
+        }
     }
-  return exists;
+  return {};
 }
 
-bool
-QtSettingsConfigurator::get_config_value(const string &key, bool &out) const
+void
+QtSettingsConfigurator::set_value(const std::string &key, const ConfigValue &value)
 {
-  bool exists;
-  QVariant var = qt_get_value(key, exists);
-  if (exists)
-    {
-      out = var.toBool();
-    }
-  return exists;
-}
+  std::visit(
+    [key, this](auto &&value) {
+      using T = std::decay_t<decltype(value)>;
 
-bool
-QtSettingsConfigurator::get_config_value(const string &key, int &out) const
-{
-  bool exists;
-  QVariant var = qt_get_value(key, exists);
-  if (exists)
-    {
-      out = var.toInt();
-    }
-  return exists;
-}
-
-
-bool
-QtSettingsConfigurator::get_config_value(const string &key, double &out) const
-{
-  bool exists;
-  QVariant var = qt_get_value(key, exists);
-  if (exists)
-    {
-      out = var.toDouble();
-    }
-  return exists;
-}
-
-bool
-QtSettingsConfigurator::set_config_value(const string &key, string v)
-{
-  bool ok = false;
-  if (settings)
-    {
       const QString qkey = qt_key(key);
-      QVariant qval = v.c_str();
-      settings->setValue(qkey, qval);
-      ok = true;
-    }
-  return ok;
-}
 
-bool
-QtSettingsConfigurator::set_config_value(const string &key, int v)
-{
-  bool ok = false;
-  if (settings)
-    {
-      const QString qkey = qt_key(key);
-      QVariant qval = v;
-      settings->setValue(qkey, qval);
-      ok = true;
-    }
-  return ok;
-}
-
-bool
-QtSettingsConfigurator::set_config_value(const string &key, bool v)
-{
-  bool ok = false;
-  if (settings)
-    {
-      const QString qkey = qt_key(key);
-      QVariant qval = v;
-      settings->setValue(qkey, qval);
-      ok = true;
-    }
-  return ok;
-}
-
-bool
-QtSettingsConfigurator::set_config_value(const string &key, double v)
-{
-  bool ok = false;
-  if (settings)
-    {
-      const QString qkey = qt_key(key);
-      QVariant qval = v;
-      settings->setValue(qkey, qval);
-      ok = true;
-    }
-  return ok;
+      if constexpr (std::is_same_v<std::string, T>)
+        {
+          QVariant qval = value.c_str();
+          settings.setValue(qkey, qval);
+        }
+      else if constexpr (!std::is_same_v<std::monostate, T>)
+        {
+          QVariant qval = value;
+          settings.setValue(qkey, qval);
+        }
+    },
+    value);
 }

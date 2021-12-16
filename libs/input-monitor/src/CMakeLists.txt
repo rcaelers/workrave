@@ -13,6 +13,7 @@ if (PLATFORM_OS_UNIX)
   target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
   if (HAVE_GTK)
     target_include_directories(workrave-libs-input-monitor PRIVATE ${GTK_INCLUDE_DIRS})
+    target_link_libraries(workrave-libs-input-monitor ${GTK_LIBRARIES})
   endif()
 endif()
 
@@ -53,6 +54,7 @@ endif()
 
 if (HAVE_GLIB)
   target_include_directories(workrave-libs-input-monitor PRIVATE ${GLIB_INCLUDE_DIRS})
+  target_link_libraries(workrave-libs-input-monitor ${GLIB_LIBRARIES})
 endif()
 
 target_link_libraries(workrave-libs-input-monitor workrave-libs-utils workrave-libs-config)

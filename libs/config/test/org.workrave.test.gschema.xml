@@ -37,12 +37,22 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
       <default>1234</default>
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int2">
+    <key type="i" name="int32-2">
+      <default>4321</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64-2">
       <default>4321</default>
       <summary></summary>
       <description></description>
@@ -80,7 +90,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>
@@ -109,7 +124,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>
@@ -126,7 +146,7 @@
     </key>
   </schema>
 
-    <schema path="/org/workrave/test/code-defaults/" id="org.workrave.test.code-defaults" gettext-domain="workrave">
+  <schema path="/org/workrave/test/code-defaults/" id="org.workrave.test.code-defaults" gettext-domain="workrave">
     <key type="b" name="bool">
       <default>true</default>
       <summary></summary>
@@ -142,7 +162,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>
@@ -154,7 +179,7 @@
     </key>
   </schema>
 
-    <schema path="/org/workrave/test/schema-defaults/" id="org.workrave.test.schema-defaults" gettext-domain="workrave">
+  <schema path="/org/workrave/test/schema-defaults/" id="org.workrave.test.schema-defaults" gettext-domain="workrave">
     <key type="b" name="bool">
       <default>true</default>
       <summary></summary>
@@ -170,7 +195,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>

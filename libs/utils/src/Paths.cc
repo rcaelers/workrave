@@ -220,7 +220,7 @@ Paths::get_data_directories()
 #ifdef TRACING
   for (const auto &d: canonicalize(directories))
     {
-      TRACE_MSG(d.u8string());
+      TRACE_MSG(d.string());
     }
 #endif
 
@@ -258,7 +258,7 @@ Paths::get_config_directories()
 #ifdef TRACING
   for (const auto &d: canonicalize(directories))
     {
-      TRACE_MSG(d.u8string());
+      TRACE_MSG(d.string());
     }
 #endif
   TRACE_EXIT();

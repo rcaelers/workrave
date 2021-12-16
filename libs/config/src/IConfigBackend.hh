@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2007, 2012 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,64 @@
 #define ICONFIGBACKEND_HH
 
 #include <string>
+#include <variant>
+#include <optional>
+#include <iostream>
 
-namespace workrave
+namespace workrave::config
 {
-  namespace config
-  {
-    class IConfiguratorListener;
-  }
-} // namespace workrave
+  class IConfiguratorListener;
+} // namespace workrave::config
 
-#include "Variant.hh"
+// using ConfigValue = std::variant<std::monostate, bool, int32_t, int64_t, double, std::string>;
+using ConfigValue = std::variant<bool, int32_t, int64_t, double, std::string>;
+enum class ConfigType
+{
+  None,
+  Bool,
+  Int32,
+  Int64,
+  Double,
+  String
+};
+
+constexpr ConfigType
+ConfigValueToType(ConfigValue &value)
+{
+  return std::visit(
+    [](auto &&arg) {
+      using T = std::decay_t<decltype(arg)>;
+
+      if constexpr (std::is_same_v<bool, T>)
+        {
+          return ConfigType::Bool;
+        }
+      else if constexpr (std::is_same_v<int64_t, T>)
+        {
+          return ConfigType::Int64;
+        }
+      else if constexpr (std::is_same_v<int32_t, T>)
+        {
+          return ConfigType::Int32;
+        }
+      else if constexpr (std::is_same_v<double, T>)
+        {
+          return ConfigType::Double;
+        }
+      else if constexpr (std::is_same_v<std::string, T>)
+        {
+          return ConfigType::String;
+        }
+    },
+    value);
+}
+
+inline std::ostream &
+operator<<(std::ostream &os, const ConfigValue &value)
+{
+  std::visit([&os](auto &&arg) { os << arg; }, value);
+  return os;
+}
 
 class IConfigBackend
 {
@@ -36,13 +84,12 @@ public:
   virtual ~IConfigBackend() = default;
 
   virtual bool load(std::string filename) = 0;
-  virtual bool save(std::string filename) = 0;
-  virtual bool save() = 0;
+  virtual void save() = 0;
 
-  virtual bool remove_key(const std::string &key) = 0;
+  virtual void remove_key(const std::string &key) = 0;
   virtual bool has_user_value(const std::string &key) = 0;
-  virtual bool get_value(const std::string &key, VariantType type, Variant &value) const = 0;
-  virtual bool set_value(const std::string &key, Variant &value) = 0;
+  virtual std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const = 0;
+  virtual void set_value(const std::string &key, const ConfigValue &value) = 0;
 };
 
 class IConfigBackendMonitoring

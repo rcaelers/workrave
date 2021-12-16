@@ -163,13 +163,13 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = (Paths::get_config_directory() / "workrave.ini").u8string();
+              ini_file = (Paths::get_config_directory() / "workrave.ini").string();
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
 
               if (configurator)
                 {
                   configurator->load(ini_file);
-                  configurator->save(ini_file);
+                  configurator->save();
                 }
             }
         }

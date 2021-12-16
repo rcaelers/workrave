@@ -1,4 +1,4 @@
-// Copyright (C) 2005 - 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2005 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,60 +21,51 @@
 
 #include "XmlConfigurator.hh"
 
-#include <cstring>
 #include <iostream>
 #include <fstream>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+
+#include "IConfigBackend.hh"
 
 #include "debug.hh"
 
-using namespace std;
-
 bool
-XmlConfigurator::load(string filename)
+XmlConfigurator::load(std::string filename)
 {
-  TRACE_ENTER_MSG("XmlConfigurator::loada", filename);
+  TRACE_ENTER_MSG("XmlConfigurator::load", filename);
   bool ret = false;
 
   try
     {
+      last_filename = filename;
       boost::property_tree::xml_parser::read_xml(filename, pt);
       ret = !pt.empty();
-      last_filename = filename;
     }
   catch (boost::property_tree::xml_parser_error &)
     {
+      // TODO: log
     }
 
   TRACE_EXIT();
   return ret;
 }
 
-bool
-XmlConfigurator::save(string filename)
-{
-  TRACE_ENTER_MSG("XmlConfigurator::save", filename);
-  bool ret = false;
-
-  try
-    {
-      ofstream config_file(filename.c_str());
-      boost::property_tree::xml_parser::write_xml(config_file, pt);
-      ret = true;
-    }
-  catch (boost::property_tree::xml_parser_error &)
-    {
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
-
-bool
+void
 XmlConfigurator::save()
 {
-  return save(last_filename);
+  TRACE_ENTER("XmlConfigurator::save");
+  try
+    {
+      std::ofstream config_file(last_filename.c_str());
+      boost::property_tree::xml_parser::write_xml(config_file, pt);
+    }
+  catch (boost::property_tree::xml_parser_error &)
+    {
+      // TODO: log
+    }
+  TRACE_EXIT();
 }
 
 bool
@@ -89,134 +80,108 @@ XmlConfigurator::has_user_value(const std::string &key)
     }
   catch (boost::property_tree::ptree_error &e)
     {
+      // TODO: log
       ret = false;
     }
 
   return ret;
 }
 
-bool
+void
 XmlConfigurator::remove_key(const std::string &key)
 {
-  bool ret = true;
-
-  TRACE_ENTER_MSG("XmlConfigurator::remove_key", key);
-
-  std::vector<std::string> parts;
-  std::string p = path(key);
-  boost::split(parts, p, boost::is_any_of("."));
-
-  auto *node = &pt;
-  for (const auto &part: parts)
-    {
-      auto it = node->find(part);
-      if (it != node->not_found())
-        {
-          if (&part == &parts.back())
-            {
-              node->erase(node->to_iterator(it));
-            }
-          else
-            {
-              node = &it->second;
-            }
-        }
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
-
-bool
-XmlConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
-{
-  TRACE_ENTER_MSG("XmlConfigurator::get_value", key);
-
-  bool ret = true;
-  string xmlpath = path(key);
-
-  out.type = type;
-
   try
     {
-      switch (type)
+      std::vector<std::string> parts;
+      std::string p = path(key);
+      boost::split(parts, p, boost::is_any_of("."));
+
+      auto *node = &pt;
+      for (const auto &part: parts)
         {
-        case VARIANT_TYPE_INT:
-          out.int_value = pt.get<int>(xmlpath);
-          break;
-
-        case VARIANT_TYPE_BOOL:
-          out.bool_value = pt.get<bool>(xmlpath);
-          break;
-
-        case VARIANT_TYPE_DOUBLE:
-          out.double_value = pt.get<double>(xmlpath);
-          break;
-
-        case VARIANT_TYPE_NONE:
-          out.type = VARIANT_TYPE_STRING;
-          out.string_value = pt.get<string>(xmlpath);
-          break;
-
-        case VARIANT_TYPE_STRING:
-          out.string_value = pt.get<string>(xmlpath);
-          break;
-        }
-    }
-  catch (boost::property_tree::ptree_error &e)
-    {
-      ret = false;
-    }
-
-  TRACE_RETURN(ret);
-  return ret;
-}
-
-bool
-XmlConfigurator::set_value(const std::string &key, Variant &value)
-{
-  bool ret = true;
-
-  string xmlpath = path(key);
-
-  try
-    {
-      switch (value.type)
-        {
-        case VARIANT_TYPE_INT:
-          pt.put(xmlpath, value.int_value);
-          break;
-
-        case VARIANT_TYPE_BOOL:
-          pt.put(xmlpath, value.bool_value);
-          break;
-
-        case VARIANT_TYPE_DOUBLE:
-          pt.put(xmlpath, value.double_value);
-          break;
-
-        case VARIANT_TYPE_NONE:
-        case VARIANT_TYPE_STRING:
-          pt.put(xmlpath, value.string_value);
-          break;
+          auto it = node->find(part);
+          if (it != node->not_found())
+            {
+              if (&part == &parts.back())
+                {
+                  node->erase(node->to_iterator(it));
+                }
+              else
+                {
+                  node = &it->second;
+                }
+            }
         }
     }
   catch (boost::property_tree::ptree_error &)
     {
-      ret = false;
+      // TODO: log
     }
-
-  return ret;
 }
 
-string
-XmlConfigurator::path(const string &key) const
+std::optional<ConfigValue>
+XmlConfigurator::get_value(const std::string &key, ConfigType type) const
 {
-  vector<string> parts;
+  try
+    {
+      switch (type)
+        {
+        case ConfigType::None:
+          return pt.get<std::string>(path(key));
+
+        case ConfigType::Int32:
+          return pt.get<int32_t>(path(key));
+
+        case ConfigType::Int64:
+          return pt.get<int64_t>(path(key));
+
+        case ConfigType::Bool:
+          return pt.get<bool>(path(key));
+
+        case ConfigType::Double:
+          return pt.get<double>(path(key));
+
+        case ConfigType::String:
+          return pt.get<std::string>(path(key));
+        }
+    }
+  catch (boost::property_tree::ptree_error &)
+    {
+      // TODO: log
+    }
+  return {};
+}
+
+void
+XmlConfigurator::set_value(const std::string &key, const ConfigValue &value)
+{
+  try
+    {
+      std::visit(
+        [key, this](auto &&value) {
+          using T = std::decay_t<decltype(value)>;
+
+          if constexpr (!std::is_same_v<std::monostate, T>)
+            {
+              pt.put(path(key), value);
+            }
+        },
+        value);
+    }
+  catch (boost::property_tree::ptree_error &e)
+    {
+      // TODO: log
+    }
+}
+
+std::string
+XmlConfigurator::path(const std::string &key)
+{
+  std::vector<std::string> parts;
   boost::split(parts, key, boost::is_any_of("/"));
 
-  string attr = parts.back();
+  std::string attr = parts.back();
   parts.pop_back();
 
-  return string("workrave.") + boost::algorithm::join(parts, ".") + ".<xmlattr>." + attr;
+  return std::string("workrave.") + boost::algorithm::join(parts, ".") + ".<xmlattr>." + attr;
 }

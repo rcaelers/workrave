@@ -24,6 +24,12 @@ if (HAVE_TESTS)
 
   if (PLATFORM_OS_MACOS)
     target_include_directories(workrave-config-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/macos)
+    set_source_files_properties(ConfigTests.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+  endif()
+
+  if (PLATFORM_OS_WINDOWS)
+    target_include_directories(workrave-config-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/windows)
+    target_link_libraries(workrave-config-test PRIVATE libssp)
   endif()
 
   add_test(NAME workrave-config-test COMMAND workrave-config-test)

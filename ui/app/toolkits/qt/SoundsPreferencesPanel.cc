@@ -168,7 +168,7 @@ SoundsPreferencesPanel::on_select_sound()
       auto *fd = new QFileDialog(this);
       fd->setAttribute(Qt::WA_DeleteOnClose, true);
       fd->setFileMode(QFileDialog::ExistingFile);
-      fd->setDirectory(QString::fromStdString(dirname.u8string()));
+      fd->setDirectory(QString::fromStdString(dirname.string()));
       fd->setLabelText(QFileDialog::Accept, tr("Select"));
       fd->show();
 

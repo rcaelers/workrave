@@ -53,7 +53,7 @@ public:
     tm.tm_mon = 9;
     tm.tm_year = 102;
     tm.tm_isdst = -1;
-    std::time_t tt = timelocal(&tm);
+    std::time_t tt = std::mktime(&tm);
 
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::from_time_t(tt);
     current_time = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();

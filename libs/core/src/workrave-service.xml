@@ -7,20 +7,20 @@
     </import>
 
     <enum name="break_id" csymbol="BreakId">
-        <value name="microbreak"  csymbol="workrave::BREAK_ID_MICRO_BREAK" value="0"/>
-        <value name="restbreak"   csymbol="workrave::BREAK_ID_REST_BREAK"/>
-        <value name="dailylimit"  csymbol="workrave::BREAK_ID_DAILY_LIMIT"/>
+        <value name="microbreak" csymbol="workrave::BREAK_ID_MICRO_BREAK" value="0"/>
+        <value name="restbreak" csymbol="workrave::BREAK_ID_REST_BREAK"/>
+        <value name="dailylimit" csymbol="workrave::BREAK_ID_DAILY_LIMIT"/>
     </enum>
 
     <enum name="operation_mode" csymbol="workrave::OperationMode">
-        <value name="normal"    csymbol="workrave::OperationMode::Normal" value="0"/>
+        <value name="normal" csymbol="workrave::OperationMode::Normal" value="0"/>
         <value name="suspended" csymbol="workrave::OperationMode::Suspended"/>
-        <value name="quiet"     csymbol="workrave::OperationMode::Quiet"/>
+        <value name="quiet" csymbol="workrave::OperationMode::Quiet"/>
     </enum>
 
     <enum name="usage_mode" csymbol="workrave::UsageMode">
-        <value name="normal"    csymbol="workrave::UsageMode::Normal" value="0"/>
-        <value name="reading"   csymbol="workrave::UsageMode::Reading"/>
+        <value name="normal" csymbol="workrave::UsageMode::Normal" value="0"/>
+        <value name="reading" csymbol="workrave::UsageMode::Reading"/>
     </enum>
 
     <interface name="org.workrave.CoreInterface" csymbol="Core">
@@ -47,27 +47,27 @@
 
         <method name="IsTimerRunning" csymbol="is_timer_running">
             <arg type="break_id" name="timer_id" direction="in"/>
-            <arg type="bool"    name="value"    direction="out" />
+            <arg type="bool" name="value" direction="out" />
         </method>
 
         <method name="GetTimerIdle" csymbol="get_timer_idle">
             <arg type="break_id" name="timer_id" direction="in"/>
-            <arg type="int32"    name="value"    direction="out" hint="ptr"/>
+            <arg type="int32" name="value" direction="out" hint="ptr"/>
         </method>
 
         <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
             <arg type="break_id" name="timer_id" direction="in"/>
-            <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+            <arg type="int32" name="value" direction="out" hint="ptr"/>
         </method>
 
         <method name="GetTimerRemaining" csymbol="get_timer_remaining">
             <arg type="break_id" name="timer_id" direction="in"/>
-            <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+            <arg type="int32" name="value" direction="out" hint="ptr"/>
         </method>
 
         <method name="GetTimerOverdue" csymbol="get_timer_overdue">
             <arg type="break_id" name="timer_id" direction="in"/>
-            <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+            <arg type="int32" name="value" direction="out" hint="ptr"/>
         </method>
 
         <method name="GetTime" csymbol="get_time">
@@ -76,7 +76,7 @@
 
         <method name="GetBreakState" csymbol="get_break_stage">
             <arg type="break_id" name="timer_id" direction="in"/>
-            <arg type="string"   name="stage"    direction="out" hint="return"/>
+            <arg type="string" name="stage" direction="out" hint="return"/>
         </method>
 
         <method name="IsActive" csymbol="is_user_active">
@@ -129,49 +129,45 @@
         <method name="SetString" csymbol="set_value">
             <arg type="string" name="key" direction="in" />
             <arg type="string" name="value" direction="in" />
-            <arg type="bool"   name="success" direction="out" hint="return" />
         </method>
 
         <method name="SetInt" csymbol="set_value">
             <arg type="string" name="key" direction="in" />
-            <arg type="int32"    name="value" direction="in" />
-            <arg type="bool"   name="success" direction="out" hint="return" />
+            <arg type="int32" name="value" direction="in" />
         </method>
 
         <method name="SetBool" csymbol="set_value">
             <arg type="string" name="key" direction="in" />
-            <arg type="bool"   name="value" direction="in" />
-            <arg type="bool"   name="success" direction="out" hint="return" />
+            <arg type="bool" name="value" direction="in" />
         </method>
 
         <method name="SetDouble" csymbol="set_value">
             <arg type="string" name="key" direction="in" />
             <arg type="double" name="value" direction="in" />
-            <arg type="bool"   name="success" direction="out" hint="return" />
         </method>
 
         <method name="GetString" csymbol="get_value">
             <arg type="string" name="key" direction="in" />
-            <arg type="bool"   name="found" direction="out" hint="return" />
+            <arg type="bool" name="found" direction="out" hint="return" />
             <arg type="string" name="value" direction="out" />
         </method>
 
         <method name="GetInt" csymbol="get_value">
             <arg type="string" name="key" direction="in" />
-            <arg type="int32"    name="value" direction="out" />
-            <arg type="bool"   name="found" direction="out" hint="return" />
+            <arg type="int32" name="value" direction="out" />
+            <arg type="bool" name="found" direction="out" hint="return" />
         </method>
 
         <method name="GetBool" csymbol="get_value">
             <arg type="string" name="key" direction="in" />
-            <arg type="bool"   name="value" direction="out" />
-            <arg type="bool"   name="found" direction="out" hint="return" />
+            <arg type="bool" name="value" direction="out" />
+            <arg type="bool" name="found" direction="out" hint="return" />
         </method>
 
         <method name="GetDouble" csymbol="get_value">
-            <arg type="string" name="key"   direction="in" />
+            <arg type="string" name="key" direction="in" />
             <arg type="double" name="value" direction="out" />
-            <arg type="bool"   name="found" direction="out" hint="return" />
+            <arg type="bool" name="found" direction="out" hint="return" />
         </method>
     </interface>
 
@@ -182,9 +178,9 @@
         </import>
 
         <enum name="break_id" csymbol="BreakId">
-            <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
-            <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
-            <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+            <value name="microbreak" csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+            <value name="restbreak" csymbol="BREAK_ID_REST_BREAK"/>
+            <value name="dailylimit" csymbol="BREAK_ID_DAILY_LIMIT"/>
         </enum>
 
         <method name="Quit" csymbol="quit">

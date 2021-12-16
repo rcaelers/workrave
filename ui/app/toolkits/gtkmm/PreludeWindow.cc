@@ -45,7 +45,6 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-//! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
 {

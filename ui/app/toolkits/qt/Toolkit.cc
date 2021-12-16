@@ -38,6 +38,9 @@ Toolkit::Toolkit(int argc, char **argv)
   : QApplication(argc, argv)
   , heartbeat_timer(new QTimer(this))
 {
+  QCoreApplication::setOrganizationName("Workrave");
+  QCoreApplication::setOrganizationDomain("workrave.org");
+  QCoreApplication::setApplicationName("Workrave");
 }
 
 void

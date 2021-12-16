@@ -197,7 +197,7 @@ Statistics::day_to_history(DailyStatsImpl *stats)
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
   bool exists = std::filesystem::is_regular_file(path);
-  ofstream stats_file(path.u8string(), ios::app);
+  ofstream stats_file(path.string(), ios::app);
 
   if (!exists)
     {
@@ -266,7 +266,7 @@ void
 Statistics::save_day(DailyStatsImpl *stats)
 {
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
-  ofstream stats_file(path.u8string());
+  ofstream stats_file(path.string());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
@@ -330,7 +330,7 @@ Statistics::load_current_day()
 {
   TRACE_ENTER("Statistics::load_current_day");
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
-  ifstream stats_file(path.u8string());
+  ifstream stats_file(path.string());
 
   load(stats_file, false);
 
@@ -348,7 +348,7 @@ Statistics::load_history()
 
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  ifstream stats_file(path.u8string());
+  ifstream stats_file(path.string());
 
   load(stats_file, true);
   TRACE_EXIT();

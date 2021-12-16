@@ -1,4 +1,5 @@
 // Copyright (C) 2006, 2007, 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2013 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,39 +21,27 @@
 
 #include <QSettings>
 #include "IConfigBackend.hh"
-#include "ConfigBackendAdapter.hh"
 
-class QtSettingsConfigurator
-  : public virtual IConfigBackend
-  , public virtual ConfigBackendAdapter
+class QtSettingsConfigurator : public virtual IConfigBackend
 {
 public:
-  explicit QtSettingsConfigurator(QSettings *settings = nullptr);
-  ~QtSettingsConfigurator() override;
+  QtSettingsConfigurator() = default;
+  ~QtSettingsConfigurator() override = default;
 
   bool load(std::string filename) override;
-  bool save(std::string filename) override;
-  bool save() override;
+  void save() override;
 
-  bool remove_key(const std::string &key) override;
+  void remove_key(const std::string &key) override;
   bool has_user_value(const std::string &key) override;
+  std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const override;
+  void set_value(const std::string &key, const ConfigValue &value) override;
 
-  bool get_config_value(const std::string &key, std::string &out) const override;
-  bool get_config_value(const std::string &key, bool &out) const override;
-  bool get_config_value(const std::string &key, int &out) const override;
-  bool get_config_value(const std::string &key, double &out) const override;
+private:
+  QVariant qt_get_value(const std::string &key) const;
+  static QString qt_key(const std::string &key);
 
-  bool set_config_value(const std::string &key, std::string v) override;
-  bool set_config_value(const std::string &key, int v) override;
-  bool set_config_value(const std::string &key, bool v) override;
-  bool set_config_value(const std::string &key, double v) override;
-
-protected:
-  QVariant qt_get_value(const std::string &key, bool &exists) const;
-  QString qt_key(const std::string &key) const;
-  void dispose();
-
-  QSettings *settings;
+private:
+  QSettings settings;
 };
 
 #endif // QTSETTIGNSCONFIGURATOR_HH

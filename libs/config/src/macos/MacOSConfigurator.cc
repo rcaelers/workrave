@@ -1,4 +1,4 @@
-// Copyright (C) 2008, 2009, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,39 +19,29 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
+#include "MacOSConfigurator.hh"
 
+#include <string>
+
+#include <objc/objc.h>
 #import <Foundation/NSUserDefaults.h>
 #import <Foundation/NSString.h>
 
-#include <string>
-#include <cstring>
-
-#include "MacOSConfigurator.hh"
-
-using namespace std;
+#include "debug.hh"
 
 bool
-MacOSConfigurator::load(string filename)
+MacOSConfigurator::load(std::string filename)
 {
   (void)filename;
   return true;
 }
 
-bool
-MacOSConfigurator::save(string filename)
-{
-  (void)filename;
-  return true;
-}
-
-bool
+void
 MacOSConfigurator::save()
 {
-  return true;
 }
 
-bool
+void
 MacOSConfigurator::remove_key(const std::string &key)
 {
   TRACE_ENTER_MSG("MacOSConfigurator::remove_key", key);
@@ -61,7 +51,6 @@ MacOSConfigurator::remove_key(const std::string &key)
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keystring];
 
   TRACE_EXIT();
-  return true;
 }
 
 bool
@@ -71,100 +60,86 @@ MacOSConfigurator::has_user_value(const std::string &key)
   return ([[NSUserDefaults standardUserDefaults] objectForKey:keystring] != nil);
 }
 
-bool
-MacOSConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
+std::optional<ConfigValue>
+MacOSConfigurator::get_value(const std::string &key, ConfigType type) const
 {
-  bool ret = false;
-
-  TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
-
   NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
-  out.type = type;
 
   if ([[NSUserDefaults standardUserDefaults] objectForKey:keystring] != nil)
     {
-      ret = true;
-
       switch (type)
         {
-        case VARIANT_TYPE_INT:
-          out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey:keystring];
-          break;
+        case ConfigType::Int32:
+          {
+            int32_t v = [[NSUserDefaults standardUserDefaults] integerForKey:keystring];
+            return v;
+          }
 
-        case VARIANT_TYPE_BOOL:
-          out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey:keystring];
-          break;
+        case ConfigType::Int64:
+          {
+            int64_t v = [[NSUserDefaults standardUserDefaults] integerForKey:keystring];
+            return v;
+          }
 
-        case VARIANT_TYPE_DOUBLE:
-          out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey:keystring];
-          break;
+        case ConfigType::Bool:
+          {
+            bool v = [[NSUserDefaults standardUserDefaults] boolForKey:keystring] == YES;
+            return v;
+          }
 
-        case VARIANT_TYPE_NONE:
-          out.type = VARIANT_TYPE_STRING;
-          // FALLTHROUGH
-          [[clang::fallthrough]];
+        case ConfigType::Double:
+          {
+            double v = [[NSUserDefaults standardUserDefaults] doubleForKey:keystring];
+            return v;
+          }
 
-        case VARIANT_TYPE_STRING:
+        case ConfigType::None:
+          [[fallthrough]];
+
+        case ConfigType::String:
           {
             NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey:keystring];
             if (val != nil)
               {
-                out.string_value = [val cStringUsingEncoding:NSUTF8StringEncoding];
-              }
-            else
-              {
-                ret = false;
+                std::string v = [val cStringUsingEncoding:NSUTF8StringEncoding];
+                return v;
               }
           }
-          break;
-
-        default:
-          ret = false;
         }
     }
-
-  TRACE_RETURN(ret);
-  return ret;
+  return {};
 }
 
-bool
-MacOSConfigurator::set_value(const std::string &key, Variant &value)
+void
+MacOSConfigurator::set_value(const std::string &key, const ConfigValue &value)
 {
-  bool ret = true;
-
-  TRACE_ENTER_MSG("MacOSConfigurator::get_value", key);
   NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
 
-  switch (value.type)
-    {
-    case VARIANT_TYPE_INT:
-      [[NSUserDefaults standardUserDefaults] setInteger:value.int_value forKey:keystring];
-      break;
+  std::visit(
+    [keystring](auto &&arg) {
+      using T = std::decay_t<decltype(arg)>;
 
-    case VARIANT_TYPE_BOOL:
-      [[NSUserDefaults standardUserDefaults] setBool:value.bool_value forKey:keystring];
-      break;
-
-    case VARIANT_TYPE_DOUBLE:
-      [[NSUserDefaults standardUserDefaults] setFloat:value.double_value forKey:keystring];
-      break;
-
-    case VARIANT_TYPE_NONE:
-      ret = false;
-      break;
-
-    case VARIANT_TYPE_STRING:
-      {
-        string val = value.string_value;
-        NSString *string_value = [NSString stringWithCString:val.c_str() encoding:NSASCIIStringEncoding];
-        [[NSUserDefaults standardUserDefaults] setObject:string_value forKey:keystring];
-      }
-      break;
-
-    default:
-      ret = false;
-    }
-
-  TRACE_RETURN(ret);
-  return ret;
+      if constexpr (std::is_same_v<bool, T>)
+        {
+          [[NSUserDefaults standardUserDefaults] setBool:arg forKey:keystring];
+        }
+      else if constexpr (std::is_same_v<int64_t, T>)
+        {
+          [[NSUserDefaults standardUserDefaults] setInteger:arg forKey:keystring];
+        }
+      else if constexpr (std::is_same_v<int32_t, T>)
+        {
+          [[NSUserDefaults standardUserDefaults] setInteger:arg forKey:keystring];
+        }
+      else if constexpr (std::is_same_v<double, T>)
+        {
+          [[NSUserDefaults standardUserDefaults] setDouble:arg forKey:keystring];
+        }
+      else if constexpr (std::is_same_v<std::string, T>)
+        {
+          NSString *string_value = [NSString stringWithCString:arg.c_str() encoding:NSASCIIStringEncoding];
+          [[NSUserDefaults standardUserDefaults] setObject:string_value forKey:keystring];
+        }
+    },
+    value);
 }

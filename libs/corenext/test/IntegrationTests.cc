@@ -146,7 +146,7 @@ public:
     result_file_name /= "results";
     std::filesystem::create_directory(result_file_name);
     result_file_name /= test_name + ".txt";
-    out.open(result_file_name.u8string().c_str());
+    out.open(result_file_name.string().c_str());
   }
 
   void init_core()
@@ -167,7 +167,7 @@ public:
 
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        IBreak::Ptr b = core->get_break(BreakId(i));
+        auto b = core->get_break(BreakId(i));
         b->signal_break_event().connect(std::bind(&Backend::on_break_event, this, BreakId(i), std::placeholders::_1));
         prelude_count[i] = 0;
       }
@@ -198,7 +198,7 @@ public:
   {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        IBreak::Ptr b = core->get_break(BreakId(i));
+        auto b = core->get_break(BreakId(i));
 
         if (i != BREAK_ID_DAILY_LIMIT)
           {
@@ -253,7 +253,7 @@ public:
 
               for (int j = 0; j < BREAK_ID_SIZEOF; j++)
                 {
-                  IBreak::Ptr b = core->get_break(BreakId(j));
+                  auto b = core->get_break(BreakId(j));
                   BOOST_CHECK(j == active_break ? b->is_taking() : !b->is_taking());
                 }
 
@@ -326,7 +326,7 @@ public:
 
   void check_break_progress()
   {
-    IBreak::Ptr b = core->get_break(active_break);
+    auto b = core->get_break(active_break);
     if (fake_break)
       {
         BOOST_CHECK_EQUAL(last_max_value, b->get_auto_reset());
@@ -366,13 +366,13 @@ public:
   {
     log_actual("prelude", boost::str(boost::format("break_id=%1%") % CoreConfig::get_break_name(break_id)));
 
-    IBreak::Ptr b = core->get_break(break_id);
+    auto b = core->get_break(break_id);
     BOOST_CHECK_EQUAL(b->get_name(), CoreConfig::get_break_name(break_id));
 
     bool rest_break_advanced = false;
     if (break_id == BREAK_ID_REST_BREAK)
       {
-        IBreak::Ptr mb = core->get_break(BREAK_ID_MICRO_BREAK);
+        auto mb = core->get_break(BREAK_ID_MICRO_BREAK);
 
         if (mb->get_elapsed_time() >= mb->get_limit() && b->get_elapsed_time() + 30 >= b->get_limit())
           {
@@ -398,12 +398,12 @@ public:
   {
     log_actual("break", boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
 
-    IBreak::Ptr b = core->get_break(break_id);
+    auto b = core->get_break(break_id);
 
     bool rest_break_advanced = false;
     if (break_id == BREAK_ID_REST_BREAK)
       {
-        IBreak::Ptr mb = core->get_break(BREAK_ID_MICRO_BREAK);
+        auto mb = core->get_break(BREAK_ID_MICRO_BREAK);
 
         if (mb->get_elapsed_time() >= mb->get_limit() && b->get_elapsed_time() + 30 >= b->get_limit())
           {
@@ -1133,7 +1133,7 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
   tick(false, 50, [=](int) {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        IBreak::Ptr b = core->get_break(BreakId(i));
+        auto b = core->get_break(BreakId(i));
         BOOST_CHECK(!b->is_running());
       }
   });
@@ -1157,7 +1157,7 @@ BOOST_AUTO_TEST_CASE(test_user_active)
   tick(true, 50, [=](int) {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
-        IBreak::Ptr b = core->get_break(BreakId(i));
+        auto b = core->get_break(BreakId(i));
         BOOST_CHECK(b->is_running());
       }
   });
@@ -1400,7 +1400,7 @@ BOOST_AUTO_TEST_CASE(test_overdue_time)
   tick(true, 315);
   tick(false, 40);
 
-  IBreak::Ptr b = core->get_break(BREAK_ID_MICRO_BREAK);
+  auto b = core->get_break(BREAK_ID_MICRO_BREAK);
   BOOST_CHECK_EQUAL(b->get_total_overdue_time(), 14);
 
   expect(655, "prelude", "break_id=micro_pause");
@@ -1440,7 +1440,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
 
-  IBreak::Ptr rb = core->get_break(BREAK_ID_REST_BREAK);
+  auto rb = core->get_break(BREAK_ID_REST_BREAK);
 
   tick(false, 50);
 
@@ -1475,7 +1475,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
   expect(1509, "show");
   expect(1509, "break_event", "break_id=rest_break event=ShowBreak");
 
-  IBreak::Ptr rb = core->get_break(BREAK_ID_REST_BREAK);
+  auto rb = core->get_break(BREAK_ID_REST_BREAK);
 
   tick(false, 50);
 
@@ -1546,7 +1546,7 @@ BOOST_AUTO_TEST_CASE(test_user_postpones_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  IBreak::Ptr b = core->get_break(BREAK_ID_REST_BREAK);
+  auto b = core->get_break(BREAK_ID_REST_BREAK);
   b->postpone_break();
   tick(false, 1);
 
@@ -1581,7 +1581,7 @@ BOOST_AUTO_TEST_CASE(test_user_skips_rest_break)
   expect(1551, "break_event", "break_id=rest_break event=BreakIdle");
   expect(1551, "break_event", "break_id=rest_break event=BreakStop");
   tick(false, 50);
-  IBreak::Ptr b = core->get_break(BREAK_ID_REST_BREAK);
+  auto b = core->get_break(BREAK_ID_REST_BREAK);
   b->skip_break();
   tick(false, 1);
 
@@ -1971,7 +1971,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_postpone)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  IBreak::Ptr b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
   b->postpone_break();
 
   expect(7221, "hide");
@@ -2011,7 +2011,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_skip)
   expect(7209, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  IBreak::Ptr b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
   b->skip_break();
 
   expect(7221, "hide");
@@ -2055,7 +2055,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
   expect(7210, "break_event", "break_id=daily_limit event=ShowBreak");
   tick(false, 20);
 
-  IBreak::Ptr b = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
   b->skip_break();
 
   expect(7221, "hide");

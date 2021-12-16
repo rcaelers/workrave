@@ -194,7 +194,7 @@ Core::init_configurator()
 #if defined(PLATFORM_OS_UNIX)
               if (configFile == "" || configFile == "config.xml")
                 {
-                  configFile = (Paths::get_config_directory() / "config.xml").u8string();
+                  configFile = (Paths::get_config_directory() / "config.xml").string();
                 }
 #endif
               if (configFile != "")
@@ -205,10 +205,10 @@ Core::init_configurator()
 
           if (configurator == nullptr)
             {
-              ini_file = (Paths::get_config_directory() / "workrave.ini").u8string();
+              ini_file = (Paths::get_config_directory() / "workrave.ini").string();
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
               configurator->load(ini_file);
-              configurator->save(ini_file);
+              configurator->save();
             }
         }
     }
@@ -1627,7 +1627,7 @@ void
 Core::save_state() const
 {
   std::filesystem::path path = Paths::get_state_directory() / "state";
-  ofstream stateFile(path.u8string());
+  ofstream stateFile(path.string());
 
   int64_t current_time = TimeSource::get_real_time_sec();
   stateFile << "WorkRaveState 3" << endl << current_time << endl;
@@ -1684,7 +1684,7 @@ Core::load_state()
     }
 #endif
 
-  ifstream stateFile(path.u8string());
+  ifstream stateFile(path.string());
 
   int version = 0;
   bool ok = stateFile.good();

@@ -440,7 +440,7 @@ void
 BreaksControl::save_state() const
 {
   std::filesystem::path path = Paths::get_state_directory() / "state";
-  ofstream stateFile(path.u8string());
+  ofstream stateFile(path.string());
 
   stateFile << "WorkRaveState 3" << endl << TimeSource::get_real_time_sec() << endl;
 
@@ -469,7 +469,7 @@ BreaksControl::load_state()
         }
     }
 #endif
-  ifstream state_file(path.u8string());
+  ifstream state_file(path.string());
 
   int version = 0;
   bool ok = state_file.good();

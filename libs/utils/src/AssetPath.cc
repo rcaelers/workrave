@@ -117,7 +117,7 @@ AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type)
       full_path = path;
     }
 
-  return full_path.u8string();
+  return full_path.string();
 }
 
 bool
@@ -133,7 +133,7 @@ AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type, st
       full_path = (*i);
       full_path /= path;
       found = std::filesystem::is_regular_file(full_path);
-      complete_path = full_path.u8string();
+      complete_path = full_path.string();
     }
 
   return found;
