@@ -462,7 +462,7 @@ Application::show_break_window()
       window->start();
     }
 
-  if (GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
+  if (break_windows.size() > 0 && GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
     {
       toolkit->get_locker()->lock();
     }
