@@ -10,8 +10,7 @@ CMAKE_FLAGS32=()
 MAKE_FLAGS=()
 REL_DIR=
 
-build()
-{
+build() {
     config=$1
     rel_dir=$2
     cmake_args=("${!3}")
@@ -47,10 +46,9 @@ build()
     fi
 }
 
-parse_arguments()
-{
-  while getopts "d:C:D:M:S:" o; do
-    case "${o}" in
+parse_arguments() {
+    while getopts "d:C:D:M:S:" o; do
+        case "${o}" in
         d)
             DOCKER_IMAGE=${OPTARG}
             ;;
@@ -66,13 +64,12 @@ parse_arguments()
         S)
             MSYSTEM=${OPTARG}
             ;;
-    esac
-  done
-  shift $((OPTIND-1))
+        esac
+    done
+    shift $((OPTIND - 1))
 }
 
-install_crashpad()
-{
+install_crashpad() {
     env
     pwd
     if [ ! -d ${SOURCES_DIR}/_ext ]; then
@@ -96,16 +93,14 @@ install_crashpad()
 parse_arguments $*
 
 if [[ ${CONF_ENABLE} ]]; then
-    for i in ${CONF_ENABLE//,/ }
-    do
+    for i in ${CONF_ENABLE//,/ }; do
         CMAKE_FLAGS+=("-DWITH_$i=ON")
         echo Enabling $i
     done
 fi
 
 if [[ ${CONF_DISABLE} ]]; then
-    for i in ${CONF_DISABLE//,/ }
-    do
+    for i in ${CONF_DISABLE//,/ }; do
         CMAKE_FLAGS+=("-DWITH_$i=OFF")
         echo Disabling $i
     done
@@ -119,7 +114,7 @@ if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
 fi
 
-if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]] ; then
+if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     install_crashpad
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext")
     OUT_DIR=""
@@ -128,13 +123,13 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]] ; then
         MSYSTEM="MINGW64"
     fi
 
-    if [[ $MSYSTEM == "MINGW32" ]] ; then
+    if [[ $MSYSTEM == "MINGW32" ]]; then
         CONF_SYSTEM=mingw32
         CONF_COMPILER=gcc
         OUT_DIR=".32"
         CONF_UI=None
         echo Building 32 bit
-    elif [[ $MSYSTEM == "MINGW64" ]] ; then
+    elif [[ $MSYSTEM == "MINGW64" ]]; then
         CONF_SYSTEM=mingw64
         CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.32")
     fi
@@ -148,14 +143,14 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]] ; then
     fi
     CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}")
 else
-    if [[ $CONF_COMPILER == gcc-* ]] ; then
-        gccversion=`echo $CONF_COMPILER | sed -e 's/.*-//'`
+    if [[ $CONF_COMPILER == gcc-* ]]; then
+        gccversion=$(echo $CONF_COMPILER | sed -e 's/.*-//')
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++-$gccversion")
         CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc-$gccversion")
-    elif [[ $CONF_COMPILER = 'gcc' ]] ; then
+    elif [[ $CONF_COMPILER = 'gcc' ]]; then
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=g++")
         CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=gcc")
-    elif [[ $CONF_COMPILER = 'clang' ]] ; then
+    elif [[ $CONF_COMPILER = 'clang' ]]; then
         CMAKE_FLAGS+=("-DCMAKE_CXX_COMPILER=clang++")
         CMAKE_FLAGS+=("-DCMAKE_C_COMPILER=clang")
     fi
@@ -167,7 +162,7 @@ fi
 
 build "${OUT_DIR}" "${REL_DIR}" CMAKE_FLAGS[@]
 
-if [[ $DOCKER_IMAGE =~ "ubuntu" ]] ; then
+if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     if [ -n "${CONF_APPIMAGE}" ]; then
         if [ ! -d ${SOURCES_DIR}/_ext ]; then
             mkdir -p ${SOURCES_DIR}/_ext
@@ -201,11 +196,11 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]] ; then
 
         cd ${OUTPUT_DIR}
         VERSION="$version" ${SOURCES_DIR}/_ext/appimage/linuxdeploy-x86_64.AppImage \
-                --appdir ${OUTPUT_DIR}/AppData \
-                --plugin gtk \
-                --output appimage \
-                --icon-file ${OUTPUT_DIR}/AppData/usr/share/icons/hicolor/scalable/apps/workrave.svg \
-                --desktop-file ${OUTPUT_DIR}/AppData/usr/share/applications/org.workrave.Workrave.desktop
+            --appdir ${OUTPUT_DIR}/AppData \
+            --plugin gtk \
+            --output appimage \
+            --icon-file ${OUTPUT_DIR}/AppData/usr/share/icons/hicolor/scalable/apps/workrave.svg \
+            --desktop-file ${OUTPUT_DIR}/AppData/usr/share/applications/org.workrave.Workrave.desktop
 
         mkdir -p ${DEPLOY_DIR}
         cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
@@ -213,7 +208,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]] ; then
     fi
 fi
 
-if [[ $MSYSTEM == "MINGW64" ]] ; then
+if [[ $MSYSTEM == "MINGW64" ]]; then
     echo Deploying
     mkdir -p ${DEPLOY_DIR}
 
@@ -242,7 +237,10 @@ if [[ $MSYSTEM == "MINGW64" ]] ; then
         fi
 
         ${SOURCES_DIR}/build/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
-        ${SOURCES_DIR}/build/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
+
+        if [[ -e ${symbolsFilename} ]]; then
+            ${SOURCES_DIR}/build/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
+        fi
 
         PORTABLE_DIR=${BUILD_DIR}/portable
         portableFilename=${baseFilename}-portable.zip

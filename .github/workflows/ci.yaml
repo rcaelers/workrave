@@ -2,22 +2,22 @@ name: CI
 on:
   push:
     branches:
-      - 'main'
-      - 'topic/*'
+      - "main"
+      - "topic/*"
     tags:
-      - 'v1_11_*'
+      - "v1_11_*"
   pull_request:
     branches:
-      - 'main'
-      - 'topic/*'
+      - "main"
+      - "topic/*"
 
 jobs:
   build-windows:
     runs-on: windows-2019
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
-        platform: [ x86, x64 ]
+        configuration: [Debug, Release]
+        platform: [x86, x64]
     steps:
       - uses: actions/checkout@v2
 
@@ -38,10 +38,11 @@ jobs:
             ui/applets/windows/src/Debug/workrave-applet.dll
 
   build-msys2:
+    if: ${{ false }}
     runs-on: windows-latest
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
+        configuration: [Debug, Release]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -52,25 +53,25 @@ jobs:
         with:
           update: true
           install: >-
-               git
-               mingw-w64-i686-clang
-               mingw-w64-i686-cmake
-               mingw-w64-i686-lld
-               mingw-w64-i686-ninja
-               mingw-w64-x86_64-adwaita-icon-theme
-               mingw-w64-x86_64-boost
-               mingw-w64-x86_64-clang
-               mingw-w64-x86_64-cmake
-               mingw-w64-x86_64-gtkmm3
-               mingw-w64-x86_64-lld
-               mingw-w64-x86_64-ninja
-               mingw-w64-x86_64-python
-               mingw-w64-x86_64-python-pip
-               mingw-w64-x86_64-innoextract
-               mingw-w64-x86_64-jq
-               tar
-               xz
-               zip
+            git
+            mingw-w64-i686-clang
+            mingw-w64-i686-cmake
+            mingw-w64-i686-lld
+            mingw-w64-i686-ninja
+            mingw-w64-x86_64-adwaita-icon-theme
+            mingw-w64-x86_64-boost
+            mingw-w64-x86_64-clang
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-gtkmm3
+            mingw-w64-x86_64-lld
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-python
+            mingw-w64-x86_64-python-pip
+            mingw-w64-x86_64-innoextract
+            mingw-w64-x86_64-jq
+            tar
+            xz
+            zip
 
       - name: Install dump_syms
         shell: msys2 {0}
@@ -85,14 +86,14 @@ jobs:
           $env:MSYSTEM = 'MINGW32'
           msys2 ./build/ci/build.sh
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-msys2
-           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+          WORKRAVE_ENV: github-msys2
+          WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+          CONF_COMPILER: ${{ matrix.config.compiler }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          CONF_DISABLE: ${{ matrix.config.disable }}
+          CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
 
       - name: Build
         shell: msys2 {0}
@@ -105,14 +106,14 @@ jobs:
           pip install wheel Jinja2
           ./build/ci/build.sh
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-msys2
-           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+          WORKRAVE_ENV: github-msys2
+          WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+          CONF_COMPILER: ${{ matrix.config.compiler }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          CONF_DISABLE: ${{ matrix.config.disable }}
+          CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
@@ -237,29 +238,29 @@ jobs:
 
       - name: Build
         run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               export WORKRAVE_ENV=github-docker
-               docker run --security-opt seccomp=unconfined --rm \
-                   ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined' || '' }} \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build.sh -S MINGW32 && /workspace/source/build/ci/build.sh -S MINGW64"
-            else
-              export WORKRAVE_ENV=github-ubuntu
-              $GITHUB_WORKSPACE/build/ci/build.sh
-            fi
+          if [[ $DOCKER_IMAGE ]]; then
+             IFS=$'\n'
+             export WORKRAVE_ENV=github-docker
+             docker run --security-opt seccomp=unconfined --rm \
+                 ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined' || '' }} \
+                 -v $GITHUB_WORKSPACE:/workspace/source \
+                 `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                 ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+                 sh -c "/workspace/source/build/ci/build.sh -S MINGW32 && /workspace/source/build/ci/build.sh -S MINGW64"
+          else
+            export WORKRAVE_ENV=github-ubuntu
+            $GITHUB_WORKSPACE/build/ci/build.sh
+          fi
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_UI: ${{ matrix.config.ui }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           CONF_APPIMAGE: ${{ matrix.config.appimage }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
+          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+          WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
+          CONF_COMPILER: ${{ matrix.config.compiler }}
+          CONF_UI: ${{ matrix.config.ui }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          CONF_DISABLE: ${{ matrix.config.disable }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          CONF_APPIMAGE: ${{ matrix.config.appimage }}
+          DOCKER_IMAGE: ${{ matrix.config.image }}
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v2
@@ -270,7 +271,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [ build-cmake ]
+    needs: [build-cmake]
     if: github.event_name == 'push' &&  github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
@@ -291,8 +292,8 @@ jobs:
           aws configure set s3.endpoint_url https://snapshots.workrave.org/
           aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.11
         env:
-           WORKSPACE: ${{ github.workspace }}
-           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+          WORKSPACE: ${{ github.workspace }}
+          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
       - name: Create artifact catalog
         run: |
@@ -300,12 +301,12 @@ jobs:
           npm i
           node --experimental-modules main.js
         env:
-           WORKSPACE: ${{ github.workspace }}
-           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+          WORKSPACE: ${{ github.workspace }}
+          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
   release:
     runs-on: ubuntu-latest
-    needs: [ build-cmake ]
+    needs: [build-cmake]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v2
@@ -407,7 +408,7 @@ jobs:
   website:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: [ deploy ]
+    needs: [deploy]
     steps:
       - name: Trigger workrave.org rebuild
         run: |
