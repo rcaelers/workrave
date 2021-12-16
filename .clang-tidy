@@ -10,6 +10,8 @@ Checks: >
   modernize-*,
   readability-*,
   -readability-redundant-access-specifiers,
+  -modernize-use-nodiscard,
+  -modernize-use-trailing-return-type
 WarningsAsErrors: >
   cppcoreguidelines-explicit-virtual-functions,
   cppcoreguidelines-pro-type-member-init,
@@ -21,7 +23,6 @@ WarningsAsErrors: >
   modernize-use-default-member-init,
   modernize-use-emplace,
   modernize-use-equals-default,
-  modernize-use-nodiscard,
   modernize-use-nullptr,
   modernize-use-override,
   modernize-use-using,
