@@ -27,6 +27,7 @@
 
 #include "GUIConfig.hh"
 #include "CoreFactory.hh"
+#include "CoreConfig.hh"
 #include "IConfigurator.hh"
 #include "ICore.hh"
 #include "IBreak.hh"
@@ -102,6 +103,21 @@ GUIConfig::get_skippable(BreakId id)
   bool rc;
   CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_BREAK_SKIPPABLE % id, rc, true);
   return rc;
+}
+
+//!
+bool
+GUIConfig::get_quiet(BreakId id)
+{
+  bool rc;
+  CoreFactory::get_configurator()->get_value_with_default(CoreConfig::CFG_KEY_BREAK_QUIET % id, rc, false);
+  return rc;
+}
+
+void
+GUIConfig::set_quiet(BreakId id, bool enabled)
+{
+  CoreFactory::get_configurator()->set_value(CoreConfig::CFG_KEY_BREAK_QUIET % id, enabled);
 }
 
 //!

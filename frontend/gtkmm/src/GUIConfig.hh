@@ -68,6 +68,10 @@ public:
 
   static bool get_ignorable(BreakId id);
   static bool get_skippable(BreakId id);
+
+  static bool get_quiet(BreakId id);
+  static void set_quiet(BreakId id, bool enabled);
+
   static void set_ignorable(BreakId id, bool b);
   static bool get_shutdown_enabled(BreakId id);
   static int get_number_of_exercises(BreakId id);

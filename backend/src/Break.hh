@@ -66,6 +66,9 @@ private:
   //! Break enabled?
   bool enabled;
 
+  //! break quiet?
+  bool quiet;
+
   //!
   UsageMode usage_mode;
 
@@ -87,6 +90,7 @@ public:
 
   // IBreak
   virtual bool is_enabled() const;
+  virtual bool is_quiet() const;
   virtual bool is_running() const;
   virtual time_t get_elapsed_time() const;
   virtual time_t get_elapsed_idle_time() const;

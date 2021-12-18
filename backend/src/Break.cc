@@ -46,6 +46,7 @@ struct Defaults
   int auto_reset;
   string resetpred;
   int snooze;
+  bool quiet; 
 
   // Break settings
   int max_preludes;
@@ -57,6 +58,7 @@ struct Defaults
                         30,
                         "",
                         150,
+                        true,
                         3,
                       },
 
@@ -66,6 +68,7 @@ struct Defaults
                         10 * 60,
                         "",
                         180,
+                        false,
                         3,
                       },
 
@@ -75,6 +78,7 @@ struct Defaults
                         0,
                         "day/4:00",
                         20 * 60,
+                        false,
                         3,
                       }};
 
@@ -189,6 +193,9 @@ Break::init_defaults()
   config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, def.max_preludes, CONFIG_FLAG_DEFAULT);
 
   config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, true, CONFIG_FLAG_DEFAULT);
+  
+  config->set_value(CoreConfig::CFG_KEY_BREAK_QUIET % break_id, break_id == BREAK_ID_MICRO_BREAK, CONFIG_FLAG_DEFAULT);
+
 }
 
 //! Returns the id of the break
@@ -271,7 +278,6 @@ Break::load_timer_config()
 
   // Load the monitor setting for the timer.
   string monitor_name;
-
   bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
 
   TRACE_MSG(ret << " " << monitor_name);
@@ -312,6 +318,8 @@ Break::load_break_control_config()
   // Break enabled?
   enabled = true;
   config->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
+  // Read the quiet value
+  config->get_value(CoreConfig::CFG_KEY_BREAK_QUIET % break_id, quiet);
 }
 
 void
@@ -344,6 +352,13 @@ Break::is_enabled() const
 {
   return enabled;
 }
+
+bool
+Break::is_quiet() const
+{
+  return quiet;
+}
+
 
 bool
 Break::is_running() const
