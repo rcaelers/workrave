@@ -241,6 +241,23 @@ if ("${WITH_UI_QT}" AND (NOT VCPKG_TOOLCHAIN))
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# Logging
+
+include(FetchContent)
+
+find_package(spdlog QUIET)
+if(NOT ${spdlog_FOUND})
+  FetchContent_Declare(
+      spdlog
+      GIT_REPOSITORY https://github.com/gabime/spdlog.git
+      GIT_SHALLOW TRUE
+      GIT_TAG v1.9.2
+    )
+  set(SPDLOG_BUILD_SHARED ON)
+  FetchContent_MakeAvailable(spdlog)
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # Python
 
 find_package(Python3 COMPONENTS Interpreter)

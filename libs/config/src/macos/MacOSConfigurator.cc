@@ -27,8 +27,6 @@
 #import <Foundation/NSUserDefaults.h>
 #import <Foundation/NSString.h>
 
-#include "debug.hh"
-
 bool
 MacOSConfigurator::load(std::string filename)
 {
@@ -44,13 +42,9 @@ MacOSConfigurator::save()
 void
 MacOSConfigurator::remove_key(const std::string &key)
 {
-  TRACE_ENTER_MSG("MacOSConfigurator::remove_key", key);
-
+  logger->debug("remove {}", key);
   NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSUTF8StringEncoding];
-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:keystring];
-
-  TRACE_EXIT();
 }
 
 bool
@@ -72,24 +66,28 @@ MacOSConfigurator::get_value(const std::string &key, ConfigType type) const
         case ConfigType::Int32:
           {
             int32_t v = [[NSUserDefaults standardUserDefaults] integerForKey:keystring];
+            logger->debug("read {} = {}", key, v);
             return v;
           }
 
         case ConfigType::Int64:
           {
             int64_t v = [[NSUserDefaults standardUserDefaults] integerForKey:keystring];
+            logger->debug("read {} = {}", key, v);
             return v;
           }
 
         case ConfigType::Bool:
           {
             bool v = [[NSUserDefaults standardUserDefaults] boolForKey:keystring] == YES;
+            logger->debug("read {} = {}", key, v);
             return v;
           }
 
         case ConfigType::Double:
           {
             double v = [[NSUserDefaults standardUserDefaults] doubleForKey:keystring];
+            logger->debug("read {} = {}", key, v);
             return v;
           }
 
@@ -102,11 +100,13 @@ MacOSConfigurator::get_value(const std::string &key, ConfigType type) const
             if (val != nil)
               {
                 std::string v = [val cStringUsingEncoding:NSUTF8StringEncoding];
+                logger->debug("read {} = {}", key, v);
                 return v;
               }
           }
         }
     }
+  logger->warn("unknown setting: {}", key);
   return {};
 }
 
@@ -116,9 +116,10 @@ MacOSConfigurator::set_value(const std::string &key, const ConfigValue &value)
   NSString *keystring = [NSString stringWithCString:key.c_str() encoding:NSASCIIStringEncoding];
 
   std::visit(
-    [keystring](auto &&arg) {
+    [key, keystring, this](auto &&arg) {
       using T = std::decay_t<decltype(arg)>;
 
+      logger->debug("write {} = {}", key, arg);
       if constexpr (std::is_same_v<bool, T>)
         {
           [[NSUserDefaults standardUserDefaults] setBool:arg forKey:keystring];

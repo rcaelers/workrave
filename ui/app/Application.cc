@@ -37,6 +37,7 @@
 #include "utils/Exception.hh"
 #include "utils/Platform.hh"
 #include "utils/Paths.hh"
+#include "utils/Logging.hh"
 
 #ifdef HAVE_DBUS
 #  include "GenericDBusApplet.hh"
@@ -71,6 +72,8 @@ void
 Application::main()
 {
   TRACE_ENTER("Application::main");
+
+  Logging::init();
 
   System::init();
   srand((unsigned int)time(nullptr));

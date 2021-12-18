@@ -19,8 +19,8 @@
 #define MACOSCONFIGURATOR_HH
 
 #include <string>
-#include <list>
-#include <map>
+
+#include "utils/Logging.hh"
 
 #include "IConfigBackend.hh"
 
@@ -37,6 +37,9 @@ public:
   bool has_user_value(const std::string &key) override;
   std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const override;
   void set_value(const std::string &key, const ConfigValue &value) override;
+
+private:
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:macos")};
 };
 
 #endif // MACOSCONFIGURATOR_HH

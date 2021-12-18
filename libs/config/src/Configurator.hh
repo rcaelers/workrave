@@ -28,6 +28,8 @@
 #include "config/IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
 
+#include "utils/Logging.hh"
+
 class Configurator
   : public workrave::config::IConfigurator
   , public workrave::config::IConfiguratorListener
@@ -97,6 +99,7 @@ private:
   IConfigBackend *backend{nullptr};
   int64_t auto_save_time{0};
   std::string last_filename;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config")};
 };
 
 #endif // CONFIGURATOR_HH

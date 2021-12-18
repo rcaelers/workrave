@@ -22,6 +22,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include "IConfigBackend.hh"
+#include "utils/Logging.hh"
 
 class IniConfigurator : public virtual IConfigBackend
 {
@@ -43,6 +44,7 @@ private:
 private:
   boost::property_tree::ptree pt;
   std::string last_filename;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:ini")};
 };
 
 #endif // INICONFIGURATOR_HH

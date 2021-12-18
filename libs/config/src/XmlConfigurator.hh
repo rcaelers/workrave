@@ -23,6 +23,8 @@
 
 #include "IConfigBackend.hh"
 
+#include "utils/Logging.hh"
+
 class XmlConfigurator : public virtual IConfigBackend
 {
 public:
@@ -41,6 +43,7 @@ private:
   static std::string path(const std::string &key);
 
 private:
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:xml")};
   boost::property_tree::ptree pt;
   std::string last_filename;
 };

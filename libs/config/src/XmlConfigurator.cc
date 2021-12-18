@@ -29,12 +29,9 @@
 
 #include "IConfigBackend.hh"
 
-#include "debug.hh"
-
 bool
 XmlConfigurator::load(std::string filename)
 {
-  TRACE_ENTER_MSG("XmlConfigurator::load", filename);
   bool ret = false;
 
   try
@@ -43,29 +40,25 @@ XmlConfigurator::load(std::string filename)
       boost::property_tree::xml_parser::read_xml(filename, pt);
       ret = !pt.empty();
     }
-  catch (boost::property_tree::xml_parser_error &)
+  catch (boost::property_tree::xml_parser_error &e)
     {
-      // TODO: log
+      logger->error("failed to load ({})", e.what());
     }
-
-  TRACE_EXIT();
   return ret;
 }
 
 void
 XmlConfigurator::save()
 {
-  TRACE_ENTER("XmlConfigurator::save");
   try
     {
       std::ofstream config_file(last_filename.c_str());
       boost::property_tree::xml_parser::write_xml(config_file, pt);
     }
-  catch (boost::property_tree::xml_parser_error &)
+  catch (boost::property_tree::xml_parser_error &e)
     {
-      // TODO: log
+      logger->error("failed to save ({})", e.what());
     }
-  TRACE_EXIT();
 }
 
 bool
@@ -80,7 +73,7 @@ XmlConfigurator::has_user_value(const std::string &key)
     }
   catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to read {} ({})", key, e.what());
       ret = false;
     }
 
@@ -113,9 +106,9 @@ XmlConfigurator::remove_key(const std::string &key)
             }
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to read {} ({})", key, e.what());
     }
 }
 
@@ -124,6 +117,7 @@ XmlConfigurator::get_value(const std::string &key, ConfigType type) const
 {
   try
     {
+      logger->debug("read {} = {}", key, pt.get<std::string>(key));
       switch (type)
         {
         case ConfigType::None:
@@ -145,9 +139,9 @@ XmlConfigurator::get_value(const std::string &key, ConfigType type) const
           return pt.get<std::string>(path(key));
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->error("failed to write {} ({})", key, e.what());
     }
   return {};
 }
@@ -163,6 +157,7 @@ XmlConfigurator::set_value(const std::string &key, const ConfigValue &value)
 
           if constexpr (!std::is_same_v<std::monostate, T>)
             {
+              logger->debug("write {} = {}", key, value);
               pt.put(path(key), value);
             }
         },
@@ -170,7 +165,7 @@ XmlConfigurator::set_value(const std::string &key, const ConfigValue &value)
     }
   catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to write {} ({})", key, e.what());
     }
 }
 

@@ -19,6 +19,7 @@
 #define W32CONFIGURATOR_HH
 
 #include <string>
+#include "utils/Logging.hh"
 
 #include <windows.h>
 #include "IConfigBackend.hh"
@@ -46,6 +47,7 @@ private:
   void add_trailing_slash(std::string &key) const;
 
   std::string key_root;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:windows")};
 };
 
 #endif // W32CONFIGURATOR_HH

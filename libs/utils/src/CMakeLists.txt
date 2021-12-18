@@ -1,4 +1,5 @@
 add_library(workrave-libs-utils STATIC
+  Logging.cc
   Diagnostics.cc
   TimeSource.cc
   AssetPath.cc
@@ -45,6 +46,7 @@ if (HAVE_QT5)
   target_include_directories(workrave-libs-utils PRIVATE ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
+target_link_libraries(workrave-libs-utils PUBLIC spdlog::spdlog)
 
 target_include_directories(
   workrave-libs-utils

@@ -24,6 +24,8 @@
 #include <glib.h>
 #include <gio/gio.h>
 
+#include "utils/Logging.hh"
+
 #include "IConfigBackend.hh"
 
 class GSettingsConfigurator
@@ -59,6 +61,7 @@ private:
 
   workrave::config::IConfiguratorListener *listener{nullptr};
   std::map<std::string, GSettings *> settings;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:gsettings")};
 };
 
 #endif // GGSETTINGSCONFIGURATOR_HH

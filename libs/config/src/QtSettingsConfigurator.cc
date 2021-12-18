@@ -72,6 +72,7 @@ std::optional<ConfigValue>
 QtSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
 {
   QVariant var = qt_get_value(key);
+  logger->debug("read {} = {}", key, var.toString().toStdString());
   if (var.isValid())
     {
       switch (type)

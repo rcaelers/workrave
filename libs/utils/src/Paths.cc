@@ -26,6 +26,12 @@
 
 #include "debug.hh"
 
+#ifdef PLATFORM_OS_WINDOWS
+#  include <shlobj.h>
+#  include <shlwapi.h>
+#  include <windows.h>
+#endif
+
 #ifdef PLATFORM_OS_MACOS
 #  include "MacOSHelpers.hh"
 #endif
@@ -36,26 +42,6 @@
 
 using namespace workrave::utils;
 
-#ifdef PLATFORM_OS_WINDOWS
-#  include <windows.h>
-// HACK: #include <shlobj.h>, need -fvtable-thunks.
-// Perhaps we should enable this, but let's hack it for now...
-//#include <shlobj.h>
-extern "C"
-{
-#  define SHGetPathFromIDList SHGetPathFromIDListA
-  HRESULT WINAPI SHGetSpecialFolderLocation(HWND, int, void **);
-  BOOL WINAPI SHGetPathFromIDList(void *, LPSTR);
-#  ifndef PLATFORM_OS_WINDOWS
-  VOID WINAPI CoTaskMemFree(PVOID);
-#  endif
-#  define PathCanonicalize PathCanonicalizeA
-  BOOL WINAPI PathCanonicalize(LPSTR, LPCSTR);
-#  define CSIDL_APPDATA 26
-}
-// (end of hack)
-#endif
-
 #if defined(HAVE_GLIB)
 #  include <glib.h>
 #endif
@@ -63,7 +49,33 @@ extern "C"
 namespace
 {
   static std::filesystem::path portable_directory;
-}
+
+#ifdef PLATFORM_OS_WINDOWS
+  std::filesystem::path get_special_folder(REFKNOWNFOLDERID folder)
+  {
+    PWSTR path = nullptr;
+    auto hr = ::SHGetKnownFolderPath(folder, KF_FLAG_DEFAULT, nullptr, &path);
+    if (SUCCEEDED(hr))
+      {
+        auto p = std::filesystem::path(path);
+        ::CoTaskMemFree(path);
+        return std::filesystem::canonical(p);
+      }
+    return {};
+  }
+#endif
+
+  std::filesystem::path get_directory_from_environment(const char *env)
+  {
+    auto dir = std::getenv(env);
+    if (dir != nullptr)
+      {
+        return dir;
+      }
+
+    return {};
+  }
+} // namespace
 
 void
 Paths::set_portable_directory(const std::string &new_portable_directory)
@@ -118,16 +130,7 @@ Paths::get_home_directory()
           ret = home;
         }
 #elif defined(PLATFORM_OS_WINDOWS)
-      void *pidl;
-      HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP, CSIDL_APPDATA, &pidl);
-      if (SUCCEEDED(hr))
-        {
-          char buf[MAX_PATH];
-          SHGetPathFromIDList(pidl, buf);
-          CoTaskMemFree(pidl);
-
-          ret = std::filesystem::path(buf);
-        }
+      ret = get_special_folder(FOLDERID_RoamingAppData);
 #endif
     }
   catch (std::exception &e)
@@ -389,3 +392,65 @@ Paths::canonicalize(std::list<std::filesystem::path> paths)
     }
   return ret;
 }
+
+#if defined(PLATFORM_OS_UNIX)
+std::filesystem::path
+Paths::get_log_directory()
+{
+  std::filesystem::path dir;
+
+  dir = get_directory_from_environment("XDG_STATE_HOME");
+
+  if (dir.empty())
+    {
+      dir = get_directory_from_environment("XDG_CACHE_HOME");
+    }
+
+  if (dir.empty())
+    {
+      dir = get_home_directory();
+      if (!dir.empty())
+        {
+          dir /= ".cache";
+        }
+    }
+
+  if (dir.empty())
+    {
+      return "/tmp";
+    }
+
+  return dir / "workrave";
+}
+
+#elif defined(PLATFORM_OS_MACOS)
+
+std::filesystem::path
+Paths::get_log_directory()
+{
+  std::filesystem::path dir = get_home_directory();
+  if (!dir.empty())
+    {
+      dir /= std::filesystem::path("Library") / "Logs" / "Workrave";
+      return dir;
+    }
+
+  return "/tmp";
+}
+
+#elif defined(PLATFORM_OS_WINDOWS)
+
+std::filesystem::path
+Paths::get_log_directory()
+{
+  std::filesystem::path dir = get_special_folder(FOLDERID_LocalAppData);
+  if (!dir.empty())
+    {
+      dir /= "Workrave";
+      return dir;
+    }
+
+  return "/tmp";
+}
+
+#endif

@@ -31,12 +31,9 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 
-#include "debug.hh"
-
 bool
 IniConfigurator::load(std::string filename)
 {
-  TRACE_ENTER_MSG("IniConfigurator::load", filename);
   bool ret = false;
 
   try
@@ -45,29 +42,26 @@ IniConfigurator::load(std::string filename)
       boost::property_tree::ini_parser::read_ini(filename, pt);
       ret = !pt.empty();
     }
-  catch (boost::property_tree::ini_parser_error &)
+  catch (boost::property_tree::ini_parser_error &e)
     {
-      // TODO: log
+      logger->error("failed to load ({})", e.what());
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
 void
 IniConfigurator::save()
 {
-  TRACE_ENTER("IniConfigurator::save");
   try
     {
       std::ofstream config_file(last_filename.c_str());
       boost::property_tree::ini_parser::write_ini(config_file, pt);
     }
-  catch (boost::property_tree::ini_parser_error &)
+  catch (boost::property_tree::ini_parser_error &e)
     {
-      // TODO: log
+      logger->error("failed to save ({})", e.what());
     }
-  TRACE_EXIT();
 }
 
 bool
@@ -82,7 +76,7 @@ IniConfigurator::has_user_value(const std::string &key)
     }
   catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to read {} ({})", key, e.what());
       ret = false;
     }
 
@@ -94,6 +88,7 @@ IniConfigurator::remove_key(const std::string &key)
 {
   try
     {
+      logger->debug("remove {}", key);
       std::string::size_type pos = key.find('/');
       if (key.npos != pos)
         {
@@ -104,9 +99,9 @@ IniConfigurator::remove_key(const std::string &key)
           pt.get_child(section).erase(inikey);
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to remove {} ({})", key, e.what());
     }
 }
 
@@ -116,6 +111,7 @@ IniConfigurator::get_value(const std::string &key, ConfigType type) const
   try
     {
       boost::property_tree::ptree::path_type inikey = path(key);
+      logger->debug("read {} = {}", key, pt.get<std::string>(inikey));
 
       switch (type)
         {
@@ -138,9 +134,9 @@ IniConfigurator::get_value(const std::string &key, ConfigType type) const
           return pt.get<std::string>(inikey);
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to read {} ({})", key, e.what());
     }
   return {};
 }
@@ -153,19 +149,20 @@ IniConfigurator::set_value(const std::string &key, const ConfigValue &value)
       boost::property_tree::ptree::path_type inikey = path(key);
 
       std::visit(
-        [inikey, this](auto &&value) {
+        [inikey, key, this](auto &&value) {
           using T = std::decay_t<decltype(value)>;
 
           if constexpr (!std::is_same_v<std::monostate, T>)
             {
+              logger->debug("write {} = {}", key, value);
               pt.put(inikey, value);
             }
         },
         value);
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      // TODO: log
+      logger->debug("failed to write {} ({})", key, e.what());
     }
 }
 

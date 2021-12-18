@@ -20,7 +20,10 @@
 #define QTSETTINGSCONFIGURATOR_HH
 
 #include <QSettings>
+
 #include "IConfigBackend.hh"
+
+#include "utils/Logging.hh"
 
 class QtSettingsConfigurator : public virtual IConfigBackend
 {
@@ -41,6 +44,7 @@ private:
   static QString qt_key(const std::string &key);
 
 private:
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:qt")};
   QSettings settings;
 };
 
