@@ -20,6 +20,10 @@
 
 #include <boost/signals2.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/algorithm/string/join.hpp>
+#include <boost/algorithm/string.hpp>
 #include <utility>
 
 #include "utils/Signals.hh"
@@ -102,7 +106,7 @@ namespace workrave
       using NotifyType = boost::signals2::signal<void(const R &)>;
 
     public:
-      explicit Setting(workrave::config::IConfigurator::Ptr config, std::string setting)
+      Setting(workrave::config::IConfigurator::Ptr config, std::string setting)
         : config(config)
         , setting(std::move(setting))
         , has_default_value(false)
@@ -217,6 +221,65 @@ namespace workrave
       R default_value;
       NotifyType signal;
     };
+
+    template<class T>
+    class Setting<std::vector<T>, std::vector<T>> : public Setting<std::string>
+    {
+    public:
+      using base = Setting<std::string>;
+
+      Setting(workrave::config::IConfigurator::Ptr config, std::string setting)
+        : Setting<std::string>(config, setting)
+      {
+      }
+
+      Setting(workrave::config::IConfigurator::Ptr config, std::string setting, std::vector<T> default_value)
+        : Setting<std::string>(config, setting, convert(default_value))
+      {
+      }
+
+      ~Setting() override = default;
+
+      std::vector<T> operator()() const
+      {
+        return get();
+      }
+
+      std::vector<T> get() const
+      {
+        std::string value = base::get();
+        std::vector<std::string> items;
+        std::vector<T> ret;
+        boost::split(items, value, boost::is_any_of(";"));
+        std::transform(items.begin(), items.end(), std::back_inserter(ret), boost::lexical_cast<T, std::string>);
+
+        return ret;
+      }
+
+      void set(const std::vector<T> &val)
+      {
+        base::set(convert(val));
+      }
+
+    private:
+      std::string convert(const std::vector<T> &val)
+      {
+        using boost::adaptors::transformed;
+        using boost::algorithm::join;
+
+        using TT = std::decay_t<T>;
+
+        if constexpr (!std::is_same_v<std::string, TT>)
+          {
+            return join(val | transformed([](T d) { return std::to_string(d); }), ";");
+          }
+        else
+          {
+            return join(val, ";");
+          }
+      }
+    };
+
   } // namespace config
 } // namespace workrave
 

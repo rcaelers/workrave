@@ -90,8 +90,18 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="s" name="vstring">
+      <default>""</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="i" name="int32">
       <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="vint32">
+      <default>""</default>
       <summary></summary>
       <description></description>
     </key>

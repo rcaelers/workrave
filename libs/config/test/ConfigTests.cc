@@ -28,6 +28,7 @@ using namespace boost::unit_test;
 
 #include "Configurator.hh"
 #include "config/SettingCache.hh"
+#include "utils/Logging.hh"
 
 #include "IniConfigurator.hh"
 #include "XmlConfigurator.hh"
@@ -168,6 +169,16 @@ public:
     return SettingCache::get<bool>(configurator, "test/settings/bool");
   }
 
+  Setting<std::vector<int32_t>> &setting_vector_int32() const
+  {
+    return SettingCache::get<std::vector<int32_t>>(configurator, "test/settings/vint32");
+  }
+
+  Setting<std::vector<std::string>> &setting_vector_string() const
+  {
+    return SettingCache::get<std::vector<std::string>>(configurator, "test/settings/vstring");
+  }
+
   Setting<int32_t, Mode> &setting_modedefault() const
   {
     return SettingCache::get<int32_t, Mode>(configurator, "test/settings/mode");
@@ -207,8 +218,28 @@ public:
   Configurator::Ptr configurator;
   bool has_defaults{false};
   bool can_remove{true};
- std::string expected_key;
+  std::string expected_key;
   int config_changed_count{0};
+};
+
+class GlobalFixture
+{
+public:
+  GlobalFixture()
+  {
+  }
+  ~GlobalFixture()
+  {
+  }
+
+  void setup()
+  {
+    Logging::init();
+  }
+
+  void teardown()
+  {
+  }
 };
 
 namespace helper
@@ -244,9 +275,9 @@ namespace helper
 
     NSDictionary *defaultsDictionary = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
     for (NSString *key in [defaultsDictionary allKeys])
-    {
-      [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
-    }
+      {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+      }
   }
 #endif
 #ifdef PLATFORM_OS_WINDOWS
@@ -256,7 +287,6 @@ namespace helper
     RegDeleteTree(HKEY_CURRENT_USER, TEXT("Software\\Workrave\\test"));
   }
 #endif
-
 
 } // namespace helper
 
@@ -278,27 +308,29 @@ operator<<(std::ostream &stream, Fixture::Mode mode)
   return stream;
 }
 
+BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
+
 BOOST_FIXTURE_TEST_SUITE(config, Fixture)
 
-using backend_types = boost::mpl::list<  IniConfigurator,
-                                         XmlConfigurator
+using backend_types = boost::mpl::list<IniConfigurator,
+                                       XmlConfigurator
 #ifdef HAVE_GSETTINGS
                                        ,
                                        GSettingsConfigurator
 #endif
 #ifdef HAVE_QT
-  ,
-  QtSettingsConfigurator
+                                       ,
+                                       QtSettingsConfigurator
 #endif
 #ifdef PLATFORM_OS_MACOS
-                                         ,
-                                         MacOSConfigurator
+                                       ,
+                                       MacOSConfigurator
 #endif
 #ifdef PLATFORM_OS_WINDOWS
-                                         ,
-                                         W32Configurator
+                                       ,
+                                       W32Configurator
 #endif
-  >;
+                                       >;
 
 using non_file_backend_types = boost::mpl::list<
 #ifdef HAVE_GSETTINGS
@@ -1497,6 +1529,40 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_enum, T, backend_types)
   BOOST_CHECK_EQUAL(ivalue, (int32_t)Mode::Mode2);
   BOOST_CHECK_EQUAL(setting_mode()(), Mode::Mode2);
   BOOST_CHECK_EQUAL(setting_mode().get(), Mode::Mode2);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_vector_int32, T, backend_types)
+{
+  init<T>();
+
+  std::vector<int> values{4, 8, 15, 16, 23, 42};
+
+  setting_vector_int32().set(values);
+
+  std::string value;
+  bool ok = configurator->get_value("test/settings/vint32", value);
+
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(value, "4;8;15;16;23;42");
+  BOOST_TEST(setting_vector_int32()() == values);
+  BOOST_TEST(setting_vector_int32().get() == values);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_vector_string, T, backend_types)
+{
+  init<T>();
+
+  std::vector<std::string> values{"hydra", "arrow", "swan", "flame", "pearl"};
+
+  setting_vector_string().set(values);
+
+  std::string value;
+  bool ok = configurator->get_value("test/settings/vstring", value);
+
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(value, "hydra;arrow;swan;flame;pearl");
+  BOOST_TEST(setting_vector_string()() == values);
+  BOOST_TEST(setting_vector_string().get() == values);
 };
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_int32_default, T, backend_types)

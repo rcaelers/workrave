@@ -117,7 +117,7 @@ XmlConfigurator::get_value(const std::string &key, ConfigType type) const
 {
   try
     {
-      logger->debug("read {} = {}", key, pt.get<std::string>(key));
+      logger->debug("read {} = {}", key, pt.get<std::string>(path(key)));
       switch (type)
         {
         case ConfigType::None:
