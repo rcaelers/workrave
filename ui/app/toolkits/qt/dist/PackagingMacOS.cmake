@@ -18,7 +18,7 @@ include(InstallRequiredSystemLibraries)
 
 set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
 set(PLUGINS "")
-set(DIRS "${Boost_LIBRARY_DIRS};${QT_INSTALL_PREFIX}")
+set(DIRS "${Boost_LIBRARY_DIRS};${QT_INSTALL_PREFIX};${spdlog_BINARY_DIR}")
 
 set(plugin_dest_dir "Workrave.app/Contents/Plugins")
 set(qtconf_dest_dir "Workrave.app/Contents/Resources")
