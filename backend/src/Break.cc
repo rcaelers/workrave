@@ -194,7 +194,7 @@ Break::init_defaults()
 
   config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, true, CONFIG_FLAG_DEFAULT);
   
-  config->set_value(CoreConfig::CFG_KEY_BREAK_QUIET % break_id, break_id == BREAK_ID_MICRO_BREAK, CONFIG_FLAG_DEFAULT);
+  config->set_value(CoreConfig::CFG_KEY_BREAK_QUIET % break_id, false, CONFIG_FLAG_DEFAULT);
 
 }
 

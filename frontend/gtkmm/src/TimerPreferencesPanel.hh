@@ -77,8 +77,9 @@ private:
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *skippable_cb;
   Gtk::CheckButton *activity_sensitive_cb;
-#ifdef HAVE_MICRO_BREAK_ACTIVITY
   Gtk::CheckButton *quiet_cb;
+
+#ifdef HAVE_MICRO_BREAK_ACTIVITY
   Gtk::CheckButton *monitor_cb;
 #endif
   Gtk::CheckButton *prelude_cb;

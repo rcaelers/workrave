@@ -171,15 +171,17 @@ TimerPreferencesPanel::create_options_panel()
       hig->add_widget(*monitor_cb);
     }
 
-  // Quiet
+  
+
+#endif
+
+// Quiet
   quiet_cb = Gtk::manage(new Gtk::CheckButton(_("Always quiet")));
   if (break_id == BREAK_ID_MICRO_BREAK)
         {
           hig->add_widget(*quiet_cb);
         }
   connector->connect(CoreConfig::CFG_KEY_BREAK_QUIET % break_id, dc::wrap(quiet_cb));
-
-#endif
 
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
