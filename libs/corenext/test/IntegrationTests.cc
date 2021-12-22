@@ -60,6 +60,7 @@ using namespace workrave::utils;
 using namespace workrave::config;
 using namespace workrave;
 
+#if SPDLOG_VERSION >= 10600
 class test_time_formatter_flag : public spdlog::custom_flag_formatter
 {
 public:
@@ -79,6 +80,7 @@ public:
 };
 
 int test_time_formatter_flag::timer = 0;
+#endif
 
 class GlobalFixture
 {
@@ -100,11 +102,13 @@ public:
     spdlog::set_default_logger(logger);
 
     spdlog::set_level(spdlog::level::info);
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] %v");
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
 
+#if SPDLOG_VERSION >= 10600
     auto formatter = std::make_unique<spdlog::pattern_formatter>();
     formatter->add_flag<test_time_formatter_flag>('*').set_pattern("[%Y-%m-%d %H:%M:%S.%e %4*] [%n] [%^%-5l%$] %v");
     spdlog::set_formatter(std::move(formatter));
+#endif
 
     spdlog::cfg::load_env_levels();
   }
