@@ -35,7 +35,7 @@ endif()
 
 if (HAVE_GLIB)
   target_include_directories(workrave-libs-utils PRIVATE ${GLIB_INCLUDE_DIRS})
-  target_link_libraries(workrave-libs-utils PRIVATE ${GLIB_LIBS})
+  target_link_libraries(workrave-libs-utils PUBLIC ${GLIB_LIBRARIES})
 endif()
 
 if (HAVE_QT)
