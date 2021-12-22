@@ -10,6 +10,7 @@ Checks: >
   modernize-*,
   readability-*,
   -readability-redundant-access-specifiers,
+  -readability-convert-member-functions-to-static,
   -modernize-use-nodiscard,
   -modernize-use-trailing-return-type
 WarningsAsErrors: >
@@ -30,7 +31,6 @@ WarningsAsErrors: >
   readability-braces-around-statements,
   readability-const-return-type,
   readability-container-size-empty,
-  readability-convert-member-functions-to-static,
   readability-isolate-declaration,
   readability-make-member-function-const,
   readability-redundant-member-init,
