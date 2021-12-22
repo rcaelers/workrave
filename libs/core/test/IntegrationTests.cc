@@ -30,7 +30,9 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/pattern_formatter.h>
+#if SPDLOG_VERSION >= 10600
+#  include <spdlog/pattern_formatter.h>
+#endif
 #include <spdlog/cfg/env.h>
 
 #include <iostream>
