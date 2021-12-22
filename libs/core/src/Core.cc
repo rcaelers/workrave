@@ -32,6 +32,8 @@
 #include <sstream>
 #include <filesystem>
 
+#include <spdlog/spdlog.h>
+
 #include "Core.hh"
 
 #include "core/IApp.hh"
@@ -677,7 +679,10 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
 
       int cm;
       if (persistent && (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, cm) || (cm != underlying_cast(mode))))
-        get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(mode));
+        {
+          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(mode));
+          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME, TimeSource::get_real_time_sec());
+        }
 
       TRACE_RETURN("No change: current is an override type but incoming is regular");
       return;
@@ -709,6 +714,8 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
 
   if (operation_mode != mode)
     {
+      spdlog::info("Changing active operation mode from {} to {}", operation_mode.get(), mode);
+
       TRACE_MSG("Changing active operation mode to " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
                                                          : mode == OperationMode::Suspended ? "OperationMode::Suspended"
                                                          : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
@@ -758,6 +765,7 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
           if (persistent)
             {
               get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(operation_mode.get()));
+              get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME, TimeSource::get_real_time_sec());
             }
 
           operation_mode_changed_signal(operation_mode);
@@ -773,6 +781,20 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
     }
 
   TRACE_EXIT();
+}
+
+void
+Core::check_operation_mode_auto_reset()
+{
+  auto last_change_time = CoreConfig::operation_mode_last_change_time()();
+  auto reset_time = 60 * CoreConfig::operation_mode_auto_reset()();
+
+  if ((last_change_time > 0) && (reset_time > 0) && (last_change_time + reset_time <= workrave::utils::TimeSource::get_real_time_sec())
+      && (CoreConfig::operation_mode()() != OperationMode::Normal))
+    {
+      spdlog::info("Resetting operation mode");
+      set_operation_mode(OperationMode::Normal);
+    }
 }
 
 //! Retrieves the usage mode.
@@ -1064,6 +1086,8 @@ Core::heartbeat()
   assert(application != nullptr);
 
   TimeSource::sync();
+
+  check_operation_mode_auto_reset();
 
   // Performs timewarp checking.
   bool warped = process_timewarp();
@@ -1654,7 +1678,8 @@ Core::load_misc()
     {
       mode = underlying_cast(OperationMode::Normal);
     }
-  set_operation_mode(OperationMode(mode));
+  set_operation_mode_internal(OperationMode(mode), false);
+  check_operation_mode_auto_reset();
 
   if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
     {

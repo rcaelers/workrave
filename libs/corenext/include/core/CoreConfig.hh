@@ -48,6 +48,9 @@ public:
   static workrave::config::Setting<std::string> &general_datadir();
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
+  static workrave::config::Setting<int> &operation_mode_auto_reset();
+  static workrave::config::Setting<std::vector<int>> &operation_mode_auto_reset_options();
+  static workrave::config::Setting<int64_t> &operation_mode_last_change_time();
 
 private:
   static const std::string CFG_KEY_TIMER_MONITOR;
@@ -77,6 +80,9 @@ private:
   static const std::string CFG_KEY_MONITOR_SENSITIVITY;
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
+  static const std::string CFG_KEY_OPERATION_MODE_AUTO_RESET;
+  static const std::string CFG_KEY_OPERATION_MODE_AUTO_RESET_OPTIONS;
+  static const std::string CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME;
   static const std::string CFG_KEY_USAGE_MODE;
 
   // FIXME: remove from interface

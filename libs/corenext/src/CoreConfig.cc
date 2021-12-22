@@ -55,6 +55,9 @@ const string CoreConfig::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE = "general/operation-mode";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_AUTO_RESET = "general/operation-mode-auto-reset";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_AUTO_RESET_OPTIONS = "general/operation-mode-auto-reset-options";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME = "state/operation-mode-last-change-time";
 const string CoreConfig::CFG_KEY_USAGE_MODE = "general/usage-mode";
 
 CoreConfig::Defaults CoreConfig::default_config[] = {{
@@ -127,6 +130,8 @@ CoreConfig::init(IConfigurator::Ptr config)
     }
 
   config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(), false, CONFIG_FLAG_INITIAL);
+  config->set_value(CoreConfig::operation_mode_auto_reset().key(), 0, CONFIG_FLAG_INITIAL);
+  config->set_value(CoreConfig::operation_mode_auto_reset_options().key(), "30;60;120;240", CONFIG_FLAG_INITIAL);
 
   string monitor_name;
   bool ret = config->get_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), monitor_name);
@@ -266,4 +271,22 @@ Setting<int, workrave::UsageMode> &
 CoreConfig::usage_mode()
 {
   return SettingCache::get<int, workrave::UsageMode>(config, CFG_KEY_USAGE_MODE);
+}
+
+Setting<int> &
+CoreConfig::operation_mode_auto_reset()
+{
+  return SettingCache::get<int>(config, CFG_KEY_OPERATION_MODE_AUTO_RESET);
+}
+
+Setting<int64_t> &
+CoreConfig::operation_mode_last_change_time()
+{
+  return SettingCache::get<int64_t>(config, CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME);
+}
+
+Setting<std::vector<int>> &
+CoreConfig::operation_mode_auto_reset_options()
+{
+  return SettingCache::get<std::vector<int>>(config, CFG_KEY_OPERATION_MODE_AUTO_RESET_OPTIONS);
 }

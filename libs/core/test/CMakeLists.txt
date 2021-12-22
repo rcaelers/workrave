@@ -1,5 +1,4 @@
 if (HAVE_TESTS)
-
   add_executable(workrave-core-timer-test
     SimulatedTime.cc
     TimerTests.cc)

@@ -18,6 +18,7 @@
 #ifndef WORKRAVE_CONFIG_SETTING_HH
 #define WORKRAVE_CONFIG_SETTING_HH
 
+#include <boost/lexical_cast/bad_lexical_cast.hpp>
 #include <boost/signals2.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/lexical_cast.hpp>
@@ -248,11 +249,20 @@ namespace workrave
       std::vector<T> get() const
       {
         std::string value = base::get();
-        std::vector<std::string> items;
         std::vector<T> ret;
-        boost::split(items, value, boost::is_any_of(";"));
-        std::transform(items.begin(), items.end(), std::back_inserter(ret), boost::lexical_cast<T, std::string>);
-
+        if (!value.empty())
+          {
+            std::vector<std::string> items;
+            boost::split(items, value, boost::is_any_of(";"));
+            try
+              {
+                std::transform(items.begin(), items.end(), std::back_inserter(ret), boost::lexical_cast<T, std::string>);
+              }
+            catch (boost::bad_lexical_cast &)
+              {
+                // FIXME: LOG
+              }
+          }
         return ret;
       }
 

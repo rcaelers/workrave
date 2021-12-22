@@ -15,14 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "core/CoreTypes.hh"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
+
+#include <spdlog/spdlog.h>
 
 #include "debug.hh"
 
 #include "CoreModes.hh"
 #include "core/CoreConfig.hh"
+#include "utils/TimeSource.hh"
 
 using namespace std;
 using namespace workrave;
@@ -80,7 +84,7 @@ CoreModes::get_operation_mode_regular()
 bool
 CoreModes::is_operation_mode_an_override()
 {
-  return !!operation_mode_overrides.size();
+  return !operation_mode_overrides.empty();
 }
 
 //! Sets the operation mode.
@@ -94,7 +98,7 @@ CoreModes::set_operation_mode(OperationMode mode)
 void
 CoreModes::set_operation_mode_override(OperationMode mode, const std::string &id)
 {
-  if (!id.size())
+  if (id.empty())
     {
       return;
     }
@@ -108,7 +112,7 @@ CoreModes::remove_operation_mode_override(const std::string &id)
 {
   TRACE_ENTER("CoreModes::remove_operation_mode_override");
 
-  if (!id.size() || !operation_mode_overrides.count(id))
+  if (id.empty() || !operation_mode_overrides.count(id))
     {
       return;
     }
@@ -119,7 +123,7 @@ CoreModes::remove_operation_mode_override(const std::string &id)
      override in the map. set_operation_mode_internal() will then search the
      map for the most important override and set it as the active operation mode.
   */
-  if (operation_mode_overrides.size())
+  if (!operation_mode_overrides.empty())
     {
       set_operation_mode_internal(operation_mode_overrides.begin()->second, false, operation_mode_overrides.begin()->first);
     }
@@ -147,12 +151,13 @@ CoreModes::remove_operation_mode_override(const std::string &id)
 
 //! Set the operation mode.
 void
-CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id /* default param: empty string */
-)
+CoreModes::set_operation_mode_internal(OperationMode mode,
+                                       bool persistent,
+                                       const std::string &override_id /* default param: empty string */)
 {
   TRACE_ENTER_MSG("CoreModes::set_operation_mode", (persistent ? "persistent" : ""));
 
-  if (override_id.size())
+  if (!override_id.empty())
     {
       TRACE_MSG("override_id: " << override_id);
     }
@@ -169,16 +174,10 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
                                                                                 : "???")
                                << (operation_mode_overrides.size() ? " (override)" : " (regular)"));
 
-  if ((mode != OperationMode::Normal) && (mode != OperationMode::Quiet) && (mode != OperationMode::Suspended))
-    {
-      TRACE_RETURN("No change: incoming invalid");
-      return;
-    }
-
   /* If the incoming operation mode is regular and the current operation mode is an
      override then save the incoming operation mode and return.
   */
-  if (!override_id.size() && operation_mode_overrides.size())
+  if (override_id.empty() && !operation_mode_overrides.empty())
     {
       operation_mode_regular = mode;
 
@@ -188,6 +187,7 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
       if (persistent && (cm != mode))
         {
           CoreConfig::operation_mode().set(mode);
+          CoreConfig::operation_mode_last_change_time().set(workrave::utils::TimeSource::get_real_time_sec());
         }
 
       TRACE_RETURN("No change: current is an override type but incoming is regular");
@@ -195,7 +195,7 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
     }
 
   // If the incoming operation mode is tagged as an override
-  if (override_id.size())
+  if (!override_id.empty())
     {
       // Add this override to the map
       operation_mode_overrides[override_id] = mode;
@@ -220,6 +220,8 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
 
   if (operation_mode != mode)
     {
+      spdlog::info("Changing active operation mode from {} to {}", operation_mode, mode);
+
       TRACE_MSG("Changing active operation mode to " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
                                                          : mode == OperationMode::Suspended ? "OperationMode::Suspended"
                                                          : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
@@ -229,7 +231,7 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
 
       operation_mode = mode;
 
-      if (!operation_mode_overrides.size())
+      if (operation_mode_overrides.empty())
         {
           operation_mode_regular = operation_mode;
         }
@@ -243,7 +245,7 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
           monitor->resume();
         }
 
-      if (!operation_mode_overrides.size())
+      if (operation_mode_overrides.empty())
         {
           /* The two functions in this block will trigger signals that can call back into this function.
              Only if there are no overrides in place will that reentrancy be ok from here.
@@ -253,6 +255,7 @@ CoreModes::set_operation_mode_internal(OperationMode mode, bool persistent, cons
           if (persistent)
             {
               CoreConfig::operation_mode().set(operation_mode);
+              CoreConfig::operation_mode_last_change_time().set(workrave::utils::TimeSource::get_real_time_sec());
             }
 
           TRACE_MSG("Send event");
@@ -294,7 +297,6 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
     }
 }
 
-//! Loads miscellaneous
 void
 CoreModes::load_config()
 {
@@ -304,10 +306,33 @@ CoreModes::load_config()
   CoreConfig::usage_mode().connect(this, [this](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); });
   OperationMode operation_mode = CoreConfig::operation_mode()();
   TRACE_MSG(operation_mode);
-  set_operation_mode(operation_mode);
+  set_operation_mode_internal(operation_mode, false);
+
+  check_auto_reset();
 
   UsageMode usage_mode = CoreConfig::usage_mode()();
   TRACE_MSG(usage_mode);
   set_usage_mode(usage_mode);
+
   TRACE_EXIT();
+}
+
+void
+CoreModes::check_auto_reset()
+{
+  auto last_change_time = CoreConfig::operation_mode_last_change_time()();
+  auto reset_time = 60 * CoreConfig::operation_mode_auto_reset()();
+
+  if ((last_change_time > 0) && (reset_time > 0) && (last_change_time + reset_time <= workrave::utils::TimeSource::get_real_time_sec())
+      && (CoreConfig::operation_mode()() != OperationMode::Normal))
+    {
+      spdlog::info("Auto resetting mode to 'Normal'");
+      set_operation_mode(OperationMode::Normal);
+    }
+}
+
+void
+CoreModes::heartbeat()
+{
+  check_auto_reset();
 }

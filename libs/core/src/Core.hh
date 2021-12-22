@@ -108,6 +108,7 @@ public:
   void set_operation_mode(OperationMode mode) override;
   void set_operation_mode_override(OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
+  void check_operation_mode_auto_reset();
 
   UsageMode get_usage_mode() override;
   void set_usage_mode(UsageMode mode) override;

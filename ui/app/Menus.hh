@@ -44,6 +44,8 @@ public:
   static constexpr std::string_view MODE_NORMAL = sv("workrave.mode_normal");
   static constexpr std::string_view MODE_QUIET = sv("workrave.mode_quiet");
   static constexpr std::string_view MODE_SUSPENDED = sv("workrave.mode_suspended");
+  static constexpr std::string_view MODE_AUTORESET_MENU = sv("workrave.mode_autorset_menu");
+  static constexpr std::string_view MODE_AUTORESET = sv("workrave.mode_autorset");
   static constexpr std::string_view STATISTICS = sv("workrave.statistics");
   static constexpr std::string_view ABOUT = sv("workrave.about");
   static constexpr std::string_view MODE_READING = sv("workrave.mode_reading");
@@ -52,6 +54,8 @@ public:
 
 private:
   void init();
+  menus::SubMenuNode::Ptr create_mode_autoreset_menu();
+
   void set_operation_mode(workrave::OperationMode m);
   void set_usage_mode(workrave::UsageMode m);
 
@@ -65,10 +69,11 @@ private:
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
+  void on_menu_mode_autoreset(int duration);
   void on_menu_reading();
   void on_menu_reading(bool on);
-  void on_operation_mode_changed(const workrave::OperationMode m);
-  void on_usage_mode_changed(const workrave::UsageMode m);
+  void on_operation_mode_changed(workrave::OperationMode m);
+  void on_usage_mode_changed(workrave::UsageMode m);
 
 private:
   std::shared_ptr<IApplication> app;
@@ -80,6 +85,7 @@ private:
   menus::RadioNode::Ptr quiet_item;
   menus::RadioNode::Ptr suspended_item;
   menus::RadioNode::Ptr normal_item;
+  menus::RadioGroupNode::Ptr modereset_group;
   menus::ToggleNode::Ptr reading_item;
 
   // TODO: DBUS stubs, refactor

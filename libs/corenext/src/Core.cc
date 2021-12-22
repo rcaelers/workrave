@@ -213,11 +213,9 @@ Core::heartbeat()
 
   TimeSource::sync();
 
-  // Process configuration
   configurator->heartbeat();
-
-  // Process breaks
   breaks_control->heartbeat();
+  core_modes->heartbeat();
 
   TRACE_EXIT();
 }

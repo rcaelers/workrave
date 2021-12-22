@@ -15,14 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <boost/format/format_fwd.hpp>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "Menus.hh"
 
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
+
 #include "debug.hh"
 #include "commonui/nls.h"
+#include "core/CoreConfig.hh"
+#include "utils/TimeSource.hh"
 
 using namespace workrave;
 
@@ -92,6 +98,9 @@ Menus::init()
   mode_group->add(quiet_item);
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
+  auto moderesetmenu = create_mode_autoreset_menu();
+  root->add(moderesetmenu);
+
   reading_item = menus::ToggleNode::create(MODE_READING, _("_Reading mode"), [this] { on_menu_reading(); });
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
   root->add(reading_item);
@@ -108,6 +117,55 @@ Menus::init()
 
   connect(core->signal_operation_mode_changed(), this, [this](auto mode) { on_operation_mode_changed(mode); });
   connect(core->signal_usage_mode_changed(), this, [this](auto mode) { on_usage_mode_changed(mode); });
+}
+
+menus::SubMenuNode::Ptr
+Menus::create_mode_autoreset_menu()
+{
+  auto moderesetmenu = menus::SubMenuNode::create(MODE_AUTORESET_MENU, _("Reset to normal"));
+
+  modereset_group = menus::RadioGroupNode::create(MODE_AUTORESET, "");
+  moderesetmenu->add(modereset_group);
+
+  auto mode_reset_options = CoreConfig::operation_mode_auto_reset_options()();
+  if (mode_reset_options.empty())
+    {
+      mode_reset_options = {30, 60, 120, 480};
+    }
+
+  if (find(mode_reset_options.begin(), mode_reset_options.end(), CoreConfig::operation_mode_auto_reset()()) == mode_reset_options.end())
+    {
+      mode_reset_options.push_back(CoreConfig::operation_mode_auto_reset()());
+      std::sort(mode_reset_options.begin(), mode_reset_options.end());
+    }
+
+  auto radio_item =
+    menus::RadioNode::create(modereset_group, std::string(MODE_AUTORESET) + ".0", _("Off"), 0, [this] { on_menu_mode_autoreset(0); });
+
+  modereset_group->add(radio_item);
+
+  for (auto duration: mode_reset_options)
+    {
+      auto hours = duration / 60;
+      auto minutes = duration % 60;
+
+      std::string text = (hours == 0) ? "" : (hours == 1) ? _("1 hour") : boost::str(boost::format("%1% hours") % hours);
+      if (!text.empty() && minutes > 0)
+        {
+          text += ", ";
+        }
+      text += (minutes == 0) ? "" : (minutes == 1) ? _("1 minute") : boost::str(boost::format("%1% minutes") % minutes);
+
+      radio_item = menus::RadioNode::create(modereset_group,
+                                            std::string(MODE_AUTORESET) + "." + std::to_string(duration),
+                                            text,
+                                            duration,
+                                            [duration, this] { on_menu_mode_autoreset(duration); });
+      modereset_group->add(radio_item);
+    }
+  modereset_group->select(CoreConfig::operation_mode_auto_reset()());
+
+  return moderesetmenu;
 }
 
 void
@@ -171,6 +229,13 @@ Menus::on_menu_quiet()
 }
 
 void
+Menus::on_menu_mode_autoreset(int duration)
+{
+  CoreConfig::operation_mode_last_change_time().set(workrave::utils::TimeSource::get_real_time_sec());
+  CoreConfig::operation_mode_auto_reset().set(duration);
+}
+
+void
 Menus::on_menu_reading()
 {
   set_usage_mode(reading_item->is_checked() ? UsageMode::Reading : UsageMode::Normal);
@@ -195,13 +260,13 @@ Menus::set_usage_mode(UsageMode m)
 }
 
 void
-Menus::on_operation_mode_changed(const OperationMode m)
+Menus::on_operation_mode_changed(OperationMode m)
 {
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(m));
 }
 
 void
-Menus::on_usage_mode_changed(const UsageMode m)
+Menus::on_usage_mode_changed(UsageMode m)
 {
   reading_item->set_checked(m == UsageMode::Reading);
 }

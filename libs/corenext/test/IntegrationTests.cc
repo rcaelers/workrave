@@ -28,6 +28,11 @@
 #include <boost/tokenizer.hpp>
 #include <filesystem>
 
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/pattern_formatter.h>
+#include <spdlog/cfg/env.h>
+
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -54,6 +59,60 @@ using namespace std;
 using namespace workrave::utils;
 using namespace workrave::config;
 using namespace workrave;
+
+class test_time_formatter_flag : public spdlog::custom_flag_formatter
+{
+public:
+  void format(const spdlog::details::log_msg &, const std::tm &, spdlog::memory_buf_t &dest) override
+  {
+    auto timer_text = std::to_string(timer);
+    timer_text = std::string(std::max(0, static_cast<int>(padinfo_.width_ - timer_text.size())), ' ') + timer_text;
+    dest.append(timer_text.data(), timer_text.data() + timer_text.size());
+  }
+
+  std::unique_ptr<custom_flag_formatter> clone() const override
+  {
+    return spdlog::details::make_unique<test_time_formatter_flag>();
+  }
+
+  static int timer;
+};
+
+int test_time_formatter_flag::timer = 0;
+
+class GlobalFixture
+{
+public:
+  GlobalFixture()
+  {
+  }
+  ~GlobalFixture()
+  {
+  }
+
+  void setup()
+  {
+    const auto *log_file = "workrave-core-next-integration-test.log";
+
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file, false);
+
+    auto logger{std::make_shared<spdlog::logger>("workrave", file_sink)};
+    spdlog::set_default_logger(logger);
+
+    spdlog::set_level(spdlog::level::info);
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] %v");
+
+    auto formatter = std::make_unique<spdlog::pattern_formatter>();
+    formatter->add_flag<test_time_formatter_flag>('*').set_pattern("[%Y-%m-%d %H:%M:%S.%e %4*] [%n] [%^%-5l%$] %v");
+    spdlog::set_formatter(std::move(formatter));
+
+    spdlog::cfg::load_env_levels();
+  }
+
+  void teardown()
+  {
+  }
+};
 
 template<typename It>
 struct range
@@ -190,6 +249,7 @@ public:
 
     TimeSource::sync();
     start_time = sim->get_real_time_usec();
+    test_time_formatter_flag::timer = timer;
     init_log_file();
     init_core();
   }
@@ -237,6 +297,12 @@ public:
             TimeSource::sync();
             core->heartbeat();
 
+            for (int j = 0; j < BREAK_ID_SIZEOF; j++)
+              {
+                auto b = core->get_break(BreakId(j));
+                spdlog::debug("{}: elapsed={} idle={}", j, b->get_elapsed_time(), b->get_elapsed_idle_time());
+              }
+
             BOOST_TEST_CONTEXT("Timer")
             {
               BOOST_TEST_INFO_SCOPE("Count:" << i);
@@ -266,11 +332,19 @@ public:
             }
             sim->current_time += 1000000;
             timer++;
+            test_time_formatter_flag::timer = (sim->current_time - start_time) / 1000000;
+          }
+        catch (std::exception &e)
+          {
+            BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
+            std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " << i << "\n";
+            std::cout << e.what() << "\n";
+            throw;
           }
         catch (...)
           {
             BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
-            std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " << i << std::endl;
+            std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " << i << "\n";
             throw;
           }
       }
@@ -284,7 +358,9 @@ public:
     out << event << ",";
     out << param << std::endl;
 
-    actual_results.insert(make_pair(time, Observation(time, event, param)));
+    auto observation = Observation(time, event, param);
+    actual_results.insert(make_pair(time, observation));
+    spdlog::debug("Observation: time={} event={} arg={}", observation.time, observation.event, observation.params);
   }
 
   void log(const std::string &event, const std::string &param = "")
@@ -315,16 +391,31 @@ public:
                 break;
               }
           }
-        BOOST_CHECK_MESSAGE(expected.second.seen, boost::format("Observation %1% missing.") % expected.second);
       }
 
-    for (auto &actual: actual_results)
+    std::list<std::pair<int, Observation>> report;
+    std::transform(expected_results.begin(), expected_results.end(), std::back_inserter(report), [](const auto &o) {
+      return std::make_pair(0, o.second);
+    });
+    std::transform(actual_results.begin(), actual_results.end(), std::back_inserter(report), [](const auto &o) {
+      return std::make_pair(1, o.second);
+    });
+    report.sort([](auto &a, auto &b) { return a.second.time < b.second.time; });
+
+    for (auto [what, observation]: report)
       {
-        BOOST_CHECK_MESSAGE(actual.second.seen, boost::format("Observation %1% extra.") % actual.second);
+        if (what == 0)
+          {
+            BOOST_CHECK_MESSAGE(observation.seen, boost::format("Observation %1% missing.") % observation);
+          }
+        if (what == 1)
+          {
+            BOOST_CHECK_MESSAGE(observation.seen, boost::format("Observation %1% extra.") % observation);
+          }
       }
   }
 
-  void check_break_progress()
+  void check_break_progress() const
   {
     auto b = core->get_break(active_break);
     if (fake_break)
@@ -617,6 +708,8 @@ public:
   multimap<int64_t, Observation> actual_results;
 };
 
+BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
+
 BOOST_FIXTURE_TEST_SUITE(integration, Backend)
 
 BOOST_AUTO_TEST_CASE(test_operation_mode)
@@ -847,6 +940,51 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_while_overridden)
 
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
+{
+  init();
+
+  expect(0, "operationmode", "mode=2");
+  core->set_operation_mode(OperationMode::Quiet);
+  tick(false, 10);
+  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+  CoreConfig::operation_mode_last_change_time().set(workrave::utils::TimeSource::get_real_time_sec());
+  CoreConfig::operation_mode_auto_reset().set(2);
+  expect(130, "operationmode", "mode=0");
+  tick(false, 190);
+  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+
+  expect(200, "operationmode", "mode=1");
+  expect(320, "operationmode", "mode=0");
+  core->set_operation_mode(OperationMode::Suspended);
+  tick(false, 200);
+
+  expect(400, "operationmode", "mode=2");
+  expect(420, "operationmode", "mode=1");
+  expect(540, "operationmode", "mode=0");
+  core->set_operation_mode(OperationMode::Quiet);
+  tick(false, 20);
+  core->set_operation_mode(OperationMode::Suspended);
+  tick(false, 180);
+
+  expect(600, "operationmode", "mode=1");
+  expect(660, "operationmode", "mode=0");
+  core->set_operation_mode(OperationMode::Suspended);
+  tick(false, 20);
+  CoreConfig::operation_mode_auto_reset().set(1);
+  tick(false, 180);
+
+  expect(800, "operationmode", "mode=2");
+  core->set_operation_mode(OperationMode::Quiet);
+  tick(false, 20);
+  CoreConfig::operation_mode_auto_reset().set(0);
+  tick(false, 180);
+
+  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
 
   verify();
 }

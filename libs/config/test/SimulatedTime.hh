@@ -72,9 +72,7 @@ public:
   int64_t current_time;
 
 private:
-  SimulatedTime()
-  {
-  }
+  SimulatedTime() = default;
 
   void init()
   {
