@@ -18,6 +18,7 @@
 #ifndef WORKRAVE_BACKEND_ICORE_HH
 #define WORKRAVE_BACKEND_ICORE_HH
 
+#include <chrono>
 #include <memory>
 #include <string>
 #include <boost/signals2.hpp>
@@ -71,13 +72,16 @@ namespace workrave
     [[nodiscard]] virtual bool is_user_active() const = 0;
 
     //! Retrieves the operation mode.
-    [[nodiscard]] virtual OperationMode get_operation_mode() = 0;
+    [[nodiscard]] virtual OperationMode get_active_operation_mode() = 0;
 
     //! Retrieves the regular operation mode.
-    [[nodiscard]] virtual OperationMode get_operation_mode_regular() = 0;
+    [[nodiscard]] virtual OperationMode get_regular_operation_mode() = 0;
 
     //! Sets the operation mode.
     virtual void set_operation_mode(OperationMode mode) = 0;
+
+    //! Sets the operation mode.
+    virtual void set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time) = 0;
 
     //! Temporarily overrides the operation mode.
     virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;

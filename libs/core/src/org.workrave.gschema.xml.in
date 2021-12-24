@@ -222,6 +222,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="x" name="operation-mode-auto-reset-time">
+      <default>0</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
 
   <schema path="/org/workrave/distribution/" id="org.workrave.distribution" gettext-domain="workrave">
@@ -272,11 +277,6 @@
     </key>
   </schema>
   <schema path="/org/workrave/state/" id="org.workrave.state" gettext-domain="workrave">
-    <key type="x" name="operation-mode-last-change-time">
-      <default>0</default>
-      <summary></summary>
-      <description></description>
-    </key>
   </schema>
 
 </schemalist>

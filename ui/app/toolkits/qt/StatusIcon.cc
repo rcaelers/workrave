@@ -42,7 +42,7 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplication> app)
 
   auto core = app->get_core();
   workrave::utils::connect(core->signal_operation_mode_changed(), this, [this](auto mode) { on_operation_mode_changed(mode); });
-  OperationMode mode = core->get_operation_mode_regular();
+  OperationMode mode = core->get_regular_operation_mode();
   tray_icon->setIcon(mode_icons[mode]);
 
   GUIConfig::trayicon_enabled().attach(this, [&](bool enabled) { tray_icon->setVisible(enabled); });

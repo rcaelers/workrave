@@ -15,15 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <boost/format/format_fwd.hpp>
+#include "core/CoreTypes.hh"
+#include "ui/MenuModel.hh"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "Menus.hh"
 
+#include <chrono>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include <spdlog/spdlog.h>
 
 #include "debug.hh"
 #include "commonui/nls.h"
@@ -31,6 +34,7 @@
 #include "utils/TimeSource.hh"
 
 using namespace workrave;
+using namespace workrave::utils;
 
 Menus::Menus(std::shared_ptr<IApplication> app)
   : app(app)
@@ -44,7 +48,7 @@ Menus::Menus(std::shared_ptr<IApplication> app)
 void
 Menus::init()
 {
-  workrave::OperationMode mode = core->get_operation_mode();
+  workrave::OperationMode mode = core->get_regular_operation_mode();
   workrave::UsageMode usage = core->get_usage_mode();
 
   menus::SubMenuNode::Ptr root = menu_model->get_root();
@@ -98,8 +102,14 @@ Menus::init()
   mode_group->add(quiet_item);
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
-  auto moderesetmenu = create_mode_autoreset_menu();
-  root->add(moderesetmenu);
+  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, _("Quiet..."));
+  modemenu->add(timed_quiet_menu);
+
+  auto timed_suspended_menu = menus::SubMenuNode::create(MODE_TIMED_SUSPENDED_MENU, _("Suspended..."));
+  modemenu->add(timed_suspended_menu);
+
+  create_mode_autoreset_menu(OperationMode::Quiet, timed_quiet_menu);
+  create_mode_autoreset_menu(OperationMode::Suspended, timed_suspended_menu);
 
   reading_item = menus::ToggleNode::create(MODE_READING, _("_Reading mode"), [this] { on_menu_reading(); });
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
@@ -119,53 +129,49 @@ Menus::init()
   connect(core->signal_usage_mode_changed(), this, [this](auto mode) { on_usage_mode_changed(mode); });
 }
 
-menus::SubMenuNode::Ptr
-Menus::create_mode_autoreset_menu()
+void
+Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNode::Ptr menu)
 {
-  auto moderesetmenu = menus::SubMenuNode::create(MODE_AUTORESET_MENU, _("Reset to normal"));
+  using namespace std::chrono_literals;
 
-  modereset_group = menus::RadioGroupNode::create(MODE_AUTORESET, "");
-  moderesetmenu->add(modereset_group);
+  auto id = mode == OperationMode::Quiet ? MODE_TIMED_QUIET : MODE_TIMED_SUSPENDED;
 
   auto mode_reset_options = CoreConfig::operation_mode_auto_reset_options()();
   if (mode_reset_options.empty())
     {
-      mode_reset_options = {30, 60, 120, 480};
+      mode_reset_options = {30min, 60min, 120min, 180min, 240min};
     }
 
-  if (find(mode_reset_options.begin(), mode_reset_options.end(), CoreConfig::operation_mode_auto_reset()()) == mode_reset_options.end())
-    {
-      mode_reset_options.push_back(CoreConfig::operation_mode_auto_reset()());
-      std::sort(mode_reset_options.begin(), mode_reset_options.end());
-    }
+  auto node = menus::ActionNode::create(std::string(id) + ".0", _("Indefinitly"), [mode, this] { on_menu_mode_for(mode, 0min); });
 
-  auto radio_item =
-    menus::RadioNode::create(modereset_group, std::string(MODE_AUTORESET) + ".0", _("Off"), 0, [this] { on_menu_mode_autoreset(0); });
-
-  modereset_group->add(radio_item);
+  menu->add(node);
 
   for (auto duration: mode_reset_options)
     {
-      auto hours = duration / 60;
-      auto minutes = duration % 60;
+      auto hours = std::chrono::duration_cast<std::chrono::hours>(duration);
+      auto minutes = duration % 60min;
 
-      std::string text = (hours == 0) ? "" : (hours == 1) ? _("1 hour") : boost::str(boost::format("%1% hours") % hours);
-      if (!text.empty() && minutes > 0)
+      std::string text = (hours == 0h) ? "" : (hours == 1h) ? _("For 1 hour") : boost::str(boost::format("For %1% hours") % hours.count());
+      if (minutes > 0min)
         {
-          text += ", ";
+          if (!text.empty())
+            {
+              text += " ";
+              text += (minutes == 1min) ? _("and 1 minute") : boost::str(boost::format("and %1% minutes") % minutes.count());
+            }
+          else
+            {
+              text += (minutes == 1min) ? _("For 1 minute") : boost::str(boost::format("For %1% minutes") % minutes.count());
+            }
         }
-      text += (minutes == 0) ? "" : (minutes == 1) ? _("1 minute") : boost::str(boost::format("%1% minutes") % minutes);
 
-      radio_item = menus::RadioNode::create(modereset_group,
-                                            std::string(MODE_AUTORESET) + "." + std::to_string(duration),
-                                            text,
-                                            duration,
-                                            [duration, this] { on_menu_mode_autoreset(duration); });
-      modereset_group->add(radio_item);
+      node = menus::ActionNode::create(std::string(id) + "." + std::to_string(duration.count()), text, [mode, duration, this] {
+        on_menu_mode_for(mode, duration);
+      });
+      menu->add(node);
     }
-  modereset_group->select(CoreConfig::operation_mode_auto_reset()());
-
-  return moderesetmenu;
+  node = menus::ActionNode::create(std::string(id) + ".nextday", _("Until next day"), [mode, this] { on_menu_mode_for(mode, -1min); });
+  menu->add(node);
 }
 
 void
@@ -213,26 +219,47 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_normal()
 {
+  spdlog::info("Operation mode Normal");
   set_operation_mode(OperationMode::Normal);
 }
 
 void
 Menus::on_menu_suspend()
 {
+  spdlog::info("Operation mode Suspended");
   set_operation_mode(OperationMode::Suspended);
 }
 
 void
 Menus::on_menu_quiet()
 {
+  spdlog::info("Operation mode Quiet");
   set_operation_mode(OperationMode::Quiet);
 }
 
 void
-Menus::on_menu_mode_autoreset(int duration)
+Menus::on_menu_mode_for(workrave::OperationMode mode, std::chrono::minutes duration)
 {
-  CoreConfig::operation_mode_last_change_time().set(workrave::utils::TimeSource::get_real_time_sec());
-  CoreConfig::operation_mode_auto_reset().set(duration);
+  using namespace std::chrono_literals;
+  if (duration == 0min)
+    {
+      spdlog::info("Operation mode {} indef", mode);
+      core->set_operation_mode(mode);
+    }
+  else if (duration == -1min)
+    {
+      using days = std::chrono::duration<int64_t, std::ratio<86400>>;
+      auto midnight = std::chrono::floor<days>(workrave::utils::TimeSource::get_real_time());
+      auto reset_time = midnight + std::chrono::hours(28);
+
+      spdlog::info("Operation mode {} next", mode);
+      core->set_operation_mode_until(mode, reset_time);
+    }
+  else
+    {
+      spdlog::info("Operation mode {} {}", mode, duration.count());
+      core->set_operation_mode_until(mode, workrave::utils::TimeSource::get_real_time() + duration);
+    }
 }
 
 void

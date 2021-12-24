@@ -245,7 +245,7 @@ Application::init_dbus()
 void
 Application::init_operation_mode_warning()
 {
-  OperationMode mode = core->get_operation_mode();
+  OperationMode mode = core->get_regular_operation_mode();
   if (mode != OperationMode::Normal)
     {
       toolkit->create_oneshot_timer(5000, [this]() { on_operation_mode_warning_timer(); });
@@ -565,7 +565,7 @@ Application::on_main_window_closed()
 void
 Application::on_operation_mode_warning_timer()
 {
-  OperationMode mode = core->get_operation_mode();
+  OperationMode mode = core->get_regular_operation_mode();
   if (mode == OperationMode::Suspended)
     {
       toolkit->show_notification("operation_mode",
@@ -591,7 +591,7 @@ Application::get_timers_tooltip()
   const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
   std::string tip = "";
 
-  OperationMode mode = core->get_operation_mode();
+  OperationMode mode = core->get_regular_operation_mode();
   switch (mode)
     {
     case OperationMode::Suspended:
@@ -688,8 +688,8 @@ Application::on_idle_changed(bool new_idle)
 
           auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
-          if (core->get_operation_mode() == OperationMode::Normal && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
-              && rest_break->is_enabled() && !rest_break->is_taking())
+          if (core->get_regular_operation_mode() == OperationMode::Normal
+              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled() && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
 

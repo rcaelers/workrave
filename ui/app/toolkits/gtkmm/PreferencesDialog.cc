@@ -615,7 +615,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
     {
       auto core = app->get_core();
 
-      OperationMode mode = core->get_operation_mode();
+      OperationMode mode = core->get_active_operation_mode();
       if (mode == OperationMode::Normal)
         {
           core->set_operation_mode_override(OperationMode::Quiet, "preferences");

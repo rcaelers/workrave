@@ -88,7 +88,7 @@ StatusIcon::insert_icon()
 {
   // Create status icon
   auto core = app->get_core();
-  OperationMode mode = core->get_operation_mode_regular();
+  OperationMode mode = core->get_regular_operation_mode();
 
 #ifdef USE_WINDOWSSTATUSICON
   status_icon = new WindowsStatusIcon();

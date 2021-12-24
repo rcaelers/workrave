@@ -197,7 +197,7 @@ BreaksControl::process_timers(bool user_is_active)
             {
             case TIMER_EVENT_LIMIT_REACHED:
               TRACE_MSG("limit reached" << break_id);
-              if (!breaks[break_id]->is_active() && modes->get_operation_mode() == OperationMode::Normal)
+              if (!breaks[break_id]->is_active() && modes->get_active_operation_mode() == OperationMode::Normal)
                 {
                   start_break(break_id);
                 }
@@ -354,7 +354,7 @@ BreaksControl::defrost()
     case InsistPolicy::Ignore:
       {
         // Resumes the activity monitor, if not suspended.
-        if (modes->get_operation_mode() != OperationMode::Suspended)
+        if (modes->get_active_operation_mode() != OperationMode::Suspended)
           {
             activity_monitor->resume();
           }

@@ -18,6 +18,8 @@
 #ifndef WORKRAVE_UTILS_TIMESOURCE_HH
 #define WORKRAVE_UTILS_TIMESOURCE_HH
 
+#include <chrono>
+
 #include "ITimeSource.hh"
 
 namespace workrave
@@ -29,6 +31,9 @@ namespace workrave
     {
     public:
       static constexpr int64_t TIME_USEC_PER_SEC = 1000000;
+
+      //! Returns the system wall-clock time.
+      static std::chrono::system_clock::time_point get_real_time();
 
       //! Returns the system wall-clock time.
       static int64_t get_real_time_usec();

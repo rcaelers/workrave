@@ -277,7 +277,7 @@ public:
           }
         BOOST_CHECK(b->is_limit_enabled());
       }
-    BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+    BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
     BOOST_CHECK_EQUAL(core->get_usage_mode(), UsageMode::Reading);
   }
 
@@ -734,8 +734,8 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   core->set_operation_mode(OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(1, "operationmode", "mode=0");
@@ -743,8 +743,8 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   core->set_operation_mode(OperationMode::Normal);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(2, "operationmode", "mode=1");
@@ -752,16 +752,16 @@ BOOST_AUTO_TEST_CASE(test_operation_mode)
   core->set_operation_mode(OperationMode::Suspended);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(3, "operationmode", "mode=0");
   core->set_operation_mode(OperationMode::Normal);
   core->set_operation_mode(OperationMode::Normal);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   verify();
@@ -775,31 +775,31 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_via_settings)
   config->set_value("general/operation-mode", 2);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(1, "operationmode", "mode=0");
   config->set_value("general/operation-mode", 0);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(2, "operationmode", "mode=1");
   config->set_value("general/operation-mode", 1);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   expect(3, "operationmode", "mode=0");
   config->set_value("general/operation-mode", 0);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   verify();
@@ -865,90 +865,133 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_override)
   core->set_operation_mode_override(OperationMode::Suspended, "ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->set_operation_mode_override(OperationMode::Quiet, "ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->set_operation_mode_override(OperationMode::Quiet, "ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
-  expect(5, "operationmode", "mode=0"); // FIXME: why this event?
   core->remove_operation_mode_override("ov2");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   core->set_operation_mode_override(OperationMode::Normal, "ov3");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   verify();
 }
 
-BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_while_overridden)
+BOOST_AUTO_TEST_CASE(test_operation_mode_override_change_to_normal_while_overridden)
 {
   init();
 
   expect(0, "operationmode", "mode=2");
   core->set_operation_mode(OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK(!core->is_operation_mode_an_override());
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+
+  core->set_operation_mode_override(OperationMode::Suspended, "ov1");
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK(core->is_operation_mode_an_override());
+
+  expect(2, "operationmode", "mode=0");
+  core->set_operation_mode(OperationMode::Normal);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Normal);
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK(core->is_operation_mode_an_override());
+
+  core->remove_operation_mode_override("ov1");
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK(!core->is_operation_mode_an_override());
+
+  core->remove_operation_mode_override("ov2");
+  tick(false, 1);
+
+  verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_operation_mode_override_revert_while_overridden)
+{
+  init();
+
+  expect(0, "operationmode", "mode=2");
+  core->set_operation_mode(OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Quiet);
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   core->set_operation_mode_override(OperationMode::Suspended, "ov1");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Quiet);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Quiet);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
-  core->set_operation_mode(OperationMode::Normal);
-  expect(2, "operationmode", "mode=1"); // FIXME: Why this event?
-  expect(2, "operationmode", "mode=1"); // FIXME: Why this event?
+  expect(2, "operationmode", "mode=1");
+  core->set_operation_mode(OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(CoreConfig::operation_mode()(), OperationMode::Suspended);
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Suspended);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
   BOOST_CHECK(core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov1");
-  expect(3, "operationmode", "mode=0");
   tick(false, 1);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
-  BOOST_CHECK_EQUAL(core->get_operation_mode_regular(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+  BOOST_CHECK_EQUAL(core->get_regular_operation_mode(), OperationMode::Suspended);
   BOOST_CHECK(!core->is_operation_mode_an_override());
 
   core->remove_operation_mode_override("ov2");
@@ -961,43 +1004,66 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
 {
   init();
 
-  expect(0, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
+  expect(0, "operationmode", "mode=1");
+  core->set_operation_mode(OperationMode::Suspended);
   tick(false, 10);
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
-  CoreConfig::operation_mode_last_change_time().set(workrave::utils::TimeSource::get_real_time_sec());
-  CoreConfig::operation_mode_auto_reset().set(2);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+
+  // Revert to normal after 2 minutes
+  expect(10, "operationmode", "mode=2");
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
   expect(130, "operationmode", "mode=0");
   tick(false, 190);
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
 
+  // Option is not persistent
   expect(200, "operationmode", "mode=1");
-  expect(320, "operationmode", "mode=0");
   core->set_operation_mode(OperationMode::Suspended);
   tick(false, 200);
 
+  // Change timed operation mode
   expect(400, "operationmode", "mode=2");
   expect(420, "operationmode", "mode=1");
   expect(540, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
   tick(false, 20);
-  core->set_operation_mode(OperationMode::Suspended);
+  core->set_operation_mode_until(OperationMode::Suspended, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
   tick(false, 180);
 
-  expect(600, "operationmode", "mode=1");
-  expect(660, "operationmode", "mode=0");
-  core->set_operation_mode(OperationMode::Suspended);
+  // Reduce time
+  expect(600, "operationmode", "mode=2");
+  expect(680, "operationmode", "mode=0");
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
   tick(false, 20);
-  CoreConfig::operation_mode_auto_reset().set(1);
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(1));
   tick(false, 180);
 
+  // Turn off
   expect(800, "operationmode", "mode=2");
-  core->set_operation_mode(OperationMode::Quiet);
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
   tick(false, 20);
-  CoreConfig::operation_mode_auto_reset().set(0);
+  core->set_operation_mode(OperationMode::Quiet);
+  tick(false, 170);
+  expect(990, "operationmode", "mode=0");
+  core->set_operation_mode(OperationMode::Normal);
+  tick(false, 10);
+
+  // Change to non-timed
+  expect(1000, "operationmode", "mode=2");
+  expect(1020, "operationmode", "mode=1");
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  tick(false, 20);
+  core->set_operation_mode(OperationMode::Suspended);
   tick(false, 180);
 
-  BOOST_CHECK_EQUAL(core->get_operation_mode(), OperationMode::Quiet);
+  // Change to non-timed
+  expect(1200, "operationmode", "mode=2");
+  expect(1220, "operationmode", "mode=0");
+  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  tick(false, 20);
+  core->set_operation_mode(OperationMode::Normal);
+  tick(false, 180);
 
   verify();
 }

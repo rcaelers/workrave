@@ -31,7 +31,7 @@ class SimulatedTime
   , public std::enable_shared_from_this<SimulatedTime>
 {
 public:
-  typedef std::shared_ptr<SimulatedTime> Ptr;
+  using Ptr = std::shared_ptr<SimulatedTime>;
 
   static Ptr create()
   {
@@ -45,7 +45,7 @@ public:
 
   void reset()
   {
-    std::tm tm;
+    std::tm tm{};
     tm.tm_sec = 0;
     tm.tm_min = 0;
     tm.tm_hour = 22;
@@ -69,7 +69,7 @@ public:
     return current_time;
   }
 
-  int64_t current_time;
+  int64_t current_time{};
 
 private:
   SimulatedTime()

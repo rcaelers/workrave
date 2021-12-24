@@ -21,7 +21,6 @@ if (HAVE_TESTS)
     link_directories(${GLIB_LIBRARY_DIRS})
   endif()
 
-
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-core-next)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)

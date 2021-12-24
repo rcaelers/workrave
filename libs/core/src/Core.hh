@@ -102,13 +102,13 @@ public:
   int64_t get_time() const override;
   void post_event(CoreEvent event) override;
 
-  OperationMode get_operation_mode() override;
-  OperationMode get_operation_mode_regular() override;
+  OperationMode get_active_operation_mode() override;
+  OperationMode get_regular_operation_mode() override;
   bool is_operation_mode_an_override() override;
   void set_operation_mode(OperationMode mode) override;
+  void set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time) override;
   void set_operation_mode_override(OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
-  void check_operation_mode_auto_reset();
 
   UsageMode get_usage_mode() override;
   void set_usage_mode(UsageMode mode) override;
@@ -179,7 +179,9 @@ private:
   void set_insist_policy(InsistPolicy p) override;
   InsistPolicy get_insist_policy() const;
 
-  void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
+  void set_operation_mode_internal(OperationMode mode);
+  void check_operation_mode_auto_reset();
+  void update_active_operation_mode();
   void set_usage_mode_internal(UsageMode mode, bool persistent);
 
 #ifdef HAVE_DISTRIBUTION
@@ -246,7 +248,7 @@ private:
   Statistics *statistics{nullptr};
 
   //! Current operation mode.
-  TracedField<OperationMode> operation_mode{"core.operation_mode", OperationMode::Normal};
+  TracedField<OperationMode> operation_mode_active{"core.operation_mode_active", OperationMode::Normal};
 
   //! The same as operation_mode unless operation_mode is an override mode.
   TracedField<OperationMode> operation_mode_regular{"core.operation_mode_regular", OperationMode::Normal};

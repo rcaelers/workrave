@@ -303,7 +303,7 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
   overdue_break_id = BREAK_ID_NONE;
 
   auto core = app->get_core();
-  OperationMode mode = core->get_operation_mode();
+  OperationMode mode = core->get_active_operation_mode();
 
   if (mode == OperationMode::Normal)
     {

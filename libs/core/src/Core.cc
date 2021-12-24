@@ -194,12 +194,12 @@ Core::init_configurator()
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
 #if defined(PLATFORM_OS_UNIX)
-              if (configFile == "" || configFile == "config.xml")
+              if (configFile.empty() || configFile == "config.xml")
                 {
                   configFile = (Paths::get_config_directory() / "config.xml").string();
                 }
 #endif
-              if (configFile != "")
+              if (!configFile.empty())
                 {
                   configurator->load(configFile);
                 }
@@ -218,7 +218,7 @@ Core::init_configurator()
   CoreConfig::init(configurator);
 
   string home;
-  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
+  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && !home.empty())
     {
       Paths::set_portable_directory(home);
     }
@@ -347,13 +347,21 @@ Core::load_monitor_config()
   assert(local_monitor != nullptr);
 
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
-    noise = 9000;
+    {
+      noise = 9000;
+    }
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity))
-    activity = 1000;
+    {
+      activity = 1000;
+    }
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
-    idle = 5000;
+    {
+      idle = 5000;
+    }
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, sensitivity))
-    sensitivity = 3;
+    {
+      sensitivity = 3;
+    }
 
   // Pre 1.0 compatibility...
   if (noise < 50)
@@ -410,7 +418,7 @@ Core::config_changed_notify(const string &key)
           mode = underlying_cast(OperationMode::Normal);
         }
       TRACE_MSG("Setting operation mode");
-      set_operation_mode_internal(OperationMode(mode), false);
+      set_operation_mode_internal(OperationMode(mode));
     }
 
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
@@ -552,14 +560,14 @@ Core::get_distribution_manager() const
 
 //! Retrieves the operation mode.
 OperationMode
-Core::get_operation_mode()
+Core::get_active_operation_mode()
 {
-  return operation_mode;
+  return operation_mode_active;
 }
 
 //! Retrieves the regular operation mode.
 OperationMode
-Core::get_operation_mode_regular()
+Core::get_regular_operation_mode()
 {
   /* operation_mode_regular is the same as operation_mode unless there's an
   override in place, in which case operation_mode is the current override mode and
@@ -572,165 +580,95 @@ Core::get_operation_mode_regular()
 bool
 Core::is_operation_mode_an_override()
 {
-  return !!operation_mode_overrides.size();
+  return !operation_mode_overrides.empty();
 }
 
-//! Sets the operation mode.
 void
 Core::set_operation_mode(OperationMode mode)
 {
-  set_operation_mode_internal(mode, true);
+  set_operation_mode_internal(mode);
+  CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+}
+
+void
+Core::set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time)
+{
+  set_operation_mode_internal(mode);
+  CoreConfig::operation_mode_auto_reset_time().set(time);
 }
 
 //! Temporarily overrides the operation mode.
 void
 Core::set_operation_mode_override(OperationMode mode, const std::string &id)
 {
-  if (!id.size())
-    return;
-
-  set_operation_mode_internal(mode, false, id);
+  if (!id.empty())
+    {
+      operation_mode_overrides[id] = mode;
+      update_active_operation_mode();
+    }
 }
 
 //! Removes the overridden operation mode.
 void
 Core::remove_operation_mode_override(const std::string &id)
 {
-  TRACE_ENTER("Core::remove_operation_mode_override");
-
-  if (!id.size() || !operation_mode_overrides.count(id))
-    return;
-
-  operation_mode_overrides.erase(id);
-
-  /* If there are other overrides still in the queue then pass in the first
-  override in the map. set_operation_mode_internal() will then search the
-  map for the most important override and set it as the active operation mode.
-  */
-  if (operation_mode_overrides.size())
+  if (!id.empty() && !operation_mode_overrides.empty())
     {
-      set_operation_mode_internal(operation_mode_overrides.begin()->second, false, operation_mode_overrides.begin()->first);
+      operation_mode_overrides.erase(id);
+      update_active_operation_mode();
     }
-  else
-    {
-      /* if operation_mode_regular is the same as the active operation mode then just
-      signal the mode has changed. During overrides the signal is not sent so it needs to
-      be sent now. Because the modes are the same it would not be called by
-      set_operation_mode_internal().
-      */
-      if (operation_mode_regular == operation_mode)
-        {
-          TRACE_MSG("Only calling core_event_operation_mode_changed().");
-          operation_mode_changed_signal(operation_mode_regular);
-
-#ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
-            }
-#endif
-        }
-      else
-        set_operation_mode_internal(operation_mode_regular, false);
-    }
-
-  TRACE_EXIT();
 }
 
 //! Set the operation mode.
 void
-Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id /* default param: empty string */
-)
+Core::set_operation_mode_internal(OperationMode mode)
 {
-  TRACE_ENTER_MSG("Core::set_operation_mode", (persistent ? "persistent" : ""));
-
-  if (override_id.size())
-    {
-      TRACE_MSG("override_id: " << override_id);
-    }
-
-  TRACE_MSG("Incoming/requested mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
-                                              : mode == OperationMode::Suspended ? "OperationMode::Suspended"
-                                              : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
-                                                                                 : "???")
-                                          << (override_id.size() ? " (override)" : " (regular)"));
-
-  TRACE_MSG("Current mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
-                                   : mode == OperationMode::Suspended ? "OperationMode::Suspended"
-                                   : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
-                                                                      : "???")
-                               << (operation_mode_overrides.size() ? " (override)" : " (regular)"));
-
-  if ((mode != OperationMode::Normal) && (mode != OperationMode::Quiet) && (mode != OperationMode::Suspended))
-    {
-      TRACE_RETURN("No change: incoming invalid");
-      return;
-    }
-
-  /* If the incoming operation mode is regular and the current operation mode is an
-  override then save the incoming operation mode and return.
-  */
-  if (!override_id.size() && operation_mode_overrides.size())
+  if (operation_mode_regular != mode)
     {
       operation_mode_regular = mode;
+      update_active_operation_mode();
+      CoreConfig::operation_mode().set(mode);
+      operation_mode_changed_signal(operation_mode_regular);
 
-      operation_mode_changed_signal(operation_mode);
-
-      int cm;
-      if (persistent && (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, cm) || (cm != underlying_cast(mode))))
+#ifdef HAVE_DBUS
+      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+      if (iface != nullptr)
         {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(mode));
-          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME, TimeSource::get_real_time_sec());
+          iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
+        }
+#endif
+    }
+}
+
+void
+Core::update_active_operation_mode()
+{
+  OperationMode mode = operation_mode_regular;
+
+  /* Find the most important override. Override modes in order of importance:
+     OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
+  */
+  for (auto i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end()); ++i)
+    {
+      if (i->second == OperationMode::Suspended)
+        {
+          mode = OperationMode::Suspended;
+          break;
         }
 
-      TRACE_RETURN("No change: current is an override type but incoming is regular");
-      return;
-    }
-
-  // If the incoming operation mode is tagged as an override
-  if (override_id.size())
-    {
-      // Add this override to the map
-      operation_mode_overrides[override_id] = mode;
-
-      /* Find the most important override. Override modes in order of importance:
-      OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
-      */
-      for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end()); ++i)
+      if ((i->second == OperationMode::Quiet) && (mode == OperationMode::Normal))
         {
-          if (i->second == OperationMode::Suspended)
-            {
-              mode = OperationMode::Suspended;
-              break;
-            }
-
-          if ((i->second == OperationMode::Quiet) && (mode == OperationMode::Normal))
-            {
-              mode = OperationMode::Quiet;
-            }
+          mode = OperationMode::Quiet;
         }
     }
 
-  if (operation_mode != mode)
+  if (operation_mode_active != mode)
     {
-      spdlog::info("Changing active operation mode from {} to {}", operation_mode.get(), mode);
+      OperationMode previous_mode = operation_mode_active;
+      operation_mode_active = mode;
 
-      TRACE_MSG("Changing active operation mode to " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
-                                                         : mode == OperationMode::Suspended ? "OperationMode::Suspended"
-                                                         : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
-                                                                                            : "???"));
-
-      OperationMode previous_mode = operation_mode;
-
-      operation_mode = mode;
-
-      if (!operation_mode_overrides.size())
-        operation_mode_regular = operation_mode;
-
-      if (operation_mode == OperationMode::Suspended)
+      if (operation_mode_active == OperationMode::Suspended)
         {
-          TRACE_MSG("Force idle");
           force_idle();
           monitor->suspend();
           stop_all_breaks();
@@ -750,46 +688,19 @@ Core::set_operation_mode_internal(OperationMode mode, bool persistent, const std
           monitor->resume();
         }
 
-      if (operation_mode == OperationMode::Quiet)
+      if (operation_mode_active == OperationMode::Quiet)
         {
           stop_all_breaks();
         }
-
-      if (!operation_mode_overrides.size())
-        {
-          /* The two functions in this block will trigger signals that can call back into this function.
-          Only if there are no overrides in place will that reentrancy be ok from here.
-          Otherwise the regular/user mode to restore would be overwritten.
-          */
-
-          if (persistent)
-            {
-              get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(operation_mode.get()));
-              get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE_LAST_CHANGE_TIME, TimeSource::get_real_time_sec());
-            }
-
-          operation_mode_changed_signal(operation_mode);
-
-#ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
-            }
-#endif
-        }
     }
-
-  TRACE_EXIT();
 }
 
 void
 Core::check_operation_mode_auto_reset()
 {
-  auto last_change_time = CoreConfig::operation_mode_last_change_time()();
-  auto reset_time = 60 * CoreConfig::operation_mode_auto_reset()();
+  auto next_reset_time = CoreConfig::operation_mode_auto_reset_time()();
 
-  if ((last_change_time > 0) && (reset_time > 0) && (last_change_time + reset_time <= workrave::utils::TimeSource::get_real_time_sec())
+  if ((next_reset_time.time_since_epoch().count() > 0) && (workrave::utils::TimeSource::get_real_time() >= next_reset_time)
       && (CoreConfig::operation_mode()() != OperationMode::Normal))
     {
       spdlog::info("Resetting operation mode");
@@ -902,7 +813,7 @@ void
 Core::set_powersave(bool down)
 {
   TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << powersave_resume_time << " " << operation_mode);
+  TRACE_MSG(powersave << " " << powersave_resume_time << " " << operation_mode_active);
 
   if (down)
     {
@@ -1191,10 +1102,10 @@ Core::process_state()
   // Default
   local_state = monitor->get_current_state();
 
-  map<std::string, int64_t>::iterator i = external_activity.begin();
+  auto i = external_activity.begin();
   while (i != external_activity.end())
     {
-      map<std::string, int64_t>::iterator next = i;
+      auto next = i;
       next++;
 
       if (i->second >= current_time)
@@ -1469,7 +1380,7 @@ void
 Core::timer_action(BreakId id, TimerInfo info)
 {
   // No breaks when mode is quiet,
-  if (operation_mode == OperationMode::Quiet && info.event == TIMER_EVENT_LIMIT_REACHED)
+  if (operation_mode_active == OperationMode::Quiet && info.event == TIMER_EVENT_LIMIT_REACHED)
     {
       return;
     }
@@ -1678,7 +1589,7 @@ Core::load_misc()
     {
       mode = underlying_cast(OperationMode::Normal);
     }
-  set_operation_mode_internal(OperationMode(mode), false);
+  set_operation_mode_internal(OperationMode(mode));
   check_operation_mode_auto_reset();
 
   if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
@@ -1809,7 +1720,7 @@ Core::defrost()
     case InsistPolicy::Ignore:
       {
         // Resumes the activity monitor, if not suspended.
-        if (operation_mode != OperationMode::Suspended)
+        if (operation_mode_active != OperationMode::Suspended)
           {
             monitor->resume();
           }

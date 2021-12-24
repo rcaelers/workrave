@@ -286,16 +286,16 @@ Core::is_user_active() const
 
 //! Retrieves the operation mode.
 OperationMode
-Core::get_operation_mode()
+Core::get_active_operation_mode()
 {
-  return core_modes->get_operation_mode();
+  return core_modes->get_active_operation_mode();
 }
 
 //! Retrieves the regular operation mode.
 OperationMode
-Core::get_operation_mode_regular()
+Core::get_regular_operation_mode()
 {
-  return core_modes->get_operation_mode_regular();
+  return core_modes->get_regular_operation_mode();
 }
 
 //! Checks if operation_mode is an override.
@@ -310,6 +310,12 @@ void
 Core::set_operation_mode(OperationMode mode)
 {
   core_modes->set_operation_mode(mode);
+}
+
+void
+Core::set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time)
+{
+  core_modes->set_operation_mode_until(mode, time);
 }
 
 //! Temporarily overrides the operation mode.
@@ -363,7 +369,7 @@ void
 Core::set_powersave(bool down)
 {
   TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << core_modes->get_operation_mode());
+  TRACE_MSG(powersave << " " << core_modes->get_active_operation_mode());
 
   if (down)
     {

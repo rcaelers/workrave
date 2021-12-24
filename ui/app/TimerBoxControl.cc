@@ -52,7 +52,7 @@ void
 TimerBoxControl::update()
 {
   auto core = app->get_core();
-  OperationMode mode = core->get_operation_mode();
+  OperationMode mode = core->get_regular_operation_mode();
 
   if (reconfigure)
     {
