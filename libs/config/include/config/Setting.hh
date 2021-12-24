@@ -25,7 +25,9 @@
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/algorithm/string.hpp>
+
 #include <utility>
+#include <chrono>
 
 #include "utils/Signals.hh"
 #include "config/IConfigurator.hh"
@@ -97,6 +99,63 @@ namespace workrave
       NotifyType signal;
     };
 
+    template<class Tag, class R, class T>
+    struct setting_cast_impl;
+
+    struct cast_tag
+    {
+    };
+
+    // 0
+    template<class R, class T>
+    struct setting_cast_impl<cast_tag, R, T>
+    {
+      constexpr static R call(const T &t)
+      {
+        return static_cast<R>(t);
+      }
+    };
+
+    // 1
+    template<class R, class Rep, class Period>
+    struct setting_cast_impl<cast_tag, R, std::chrono::duration<Rep, Period>>
+    {
+      using T = std::chrono::duration<Rep, Period>;
+      constexpr static R call(const T &t)
+      {
+        return t.count();
+      }
+    };
+
+    // 2
+    template<class Clock, class Duration, class R>
+    struct setting_cast_impl<cast_tag, R, std::chrono::time_point<Clock, Duration>>
+    {
+      using T = const std::chrono::time_point<Clock, Duration>;
+      constexpr static int64_t call(const T &t)
+      {
+        return std::chrono::duration_cast<std::chrono::seconds>(t.time_since_epoch()).count();
+      }
+    };
+
+    // // 3
+    template<class Clock, class Duration, class T>
+    struct setting_cast_impl<cast_tag, std::chrono::time_point<Clock, Duration>, T>
+    {
+      using R = const std::chrono::time_point<Clock, Duration>;
+      constexpr static R call(const T &t)
+      {
+        return R{std::chrono::seconds{t}};
+      }
+    };
+
+    template<class R, class T>
+    constexpr R setting_cast(const T &t)
+    {
+      using impl = setting_cast_impl<cast_tag, R, T>;
+      return impl::call(t);
+    }
+
     template<class T, class R = T>
     class Setting
       : public SettingBase
@@ -144,25 +203,25 @@ namespace workrave
         T ret = T();
         if (has_default_value)
           {
-            config->get_value_with_default(setting, ret, static_cast<T>(default_value));
+            config->get_value_with_default(setting, ret, setting_cast<T>(default_value));
           }
         else
           {
             config->get_value(setting, ret);
           }
-        return static_cast<R>(ret);
+        return setting_cast<R>(ret);
       }
 
       R get(const R def) const
       {
-        const T ret = T();
-        config->get_value_with_default(setting, ret, static_cast<T>(def));
-        return static_cast<R>(ret);
+        T ret = T();
+        config->get_value_with_default(setting, ret, setting_cast<T>(def));
+        return setting_cast<R>(ret);
       }
 
       void set(const R &val)
       {
-        config->set_value(setting, static_cast<T>(val));
+        config->set_value(setting, setting_cast<T>(val));
       }
 
       template<typename F>
@@ -223,8 +282,8 @@ namespace workrave
       NotifyType signal;
     };
 
-    template<class T>
-    class Setting<std::vector<T>, std::vector<T>> : public Setting<std::string>
+    template<class T, class R>
+    class Setting<std::vector<T>, std::vector<R>> : public Setting<std::string>
     {
     public:
       using base = Setting<std::string>;
@@ -234,31 +293,33 @@ namespace workrave
       {
       }
 
-      Setting(workrave::config::IConfigurator::Ptr config, std::string setting, std::vector<T> default_value)
+      Setting(workrave::config::IConfigurator::Ptr config, std::string setting, std::vector<R> default_value)
         : Setting<std::string>(config, setting, convert(default_value))
       {
       }
 
       ~Setting() override = default;
 
-      std::vector<T> operator()() const
+      std::vector<R> operator()() const
       {
         return get();
       }
 
-      std::vector<T> get() const
+      std::vector<R> get() const
       {
         std::string value = base::get();
-        std::vector<T> ret;
+        std::vector<R> ret;
         if (!value.empty())
           {
             std::vector<std::string> items;
             boost::split(items, value, boost::is_any_of(";"));
             try
               {
-                std::transform(items.begin(), items.end(), std::back_inserter(ret), boost::lexical_cast<T, std::string>);
+                std::transform(items.begin(), items.end(), std::back_inserter(ret), [](const auto &s) {
+                  return setting_cast<R>(boost::lexical_cast<T, std::string>(s));
+                });
               }
-            catch (boost::bad_lexical_cast &)
+            catch (boost::bad_lexical_cast &e)
               {
                 // FIXME: LOG
               }
@@ -266,22 +327,22 @@ namespace workrave
         return ret;
       }
 
-      void set(const std::vector<T> &val)
+      void set(const std::vector<R> &val)
       {
         base::set(convert(val));
       }
 
     private:
-      std::string convert(const std::vector<T> &val)
+      std::string convert(const std::vector<R> &val)
       {
         using boost::adaptors::transformed;
         using boost::algorithm::join;
 
-        using TT = std::decay_t<T>;
+        using TT = std::decay_t<R>;
 
         if constexpr (!std::is_same_v<std::string, TT>)
           {
-            return join(val | transformed([](T d) { return std::to_string(d); }), ";");
+            return join(val | transformed([](R d) { return std::to_string(setting_cast<T>(d)); }), ";");
           }
         else
           {

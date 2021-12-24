@@ -66,7 +66,7 @@ namespace workrave
       virtual bool get_value(const std::string &key, int64_t &out) const = 0;
       virtual bool get_value(const std::string &key, double &out) const = 0;
 
-      virtual void get_value_with_default(const std::string &key, std::string &out, std::string s) const = 0;
+      virtual void get_value_with_default(const std::string &key, std::string &out, const std::string &s) const = 0;
       virtual void get_value_with_default(const std::string &key, bool &out, bool def) const = 0;
       virtual void get_value_with_default(const std::string &key, int32_t &out, int32_t def) const = 0;
       virtual void get_value_with_default(const std::string &key, int64_t &out, int64_t def) const = 0;

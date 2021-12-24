@@ -24,6 +24,12 @@
 using namespace boost::unit_test;
 #include <boost/mpl/list.hpp>
 
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#if SPDLOG_VERSION >= 10801
+#  include <spdlog/cfg/env.h>
+#endif
+
 #include "SimulatedTime.hh"
 
 #include "Configurator.hh"
@@ -53,6 +59,38 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::utils;
+
+class GlobalFixture
+{
+public:
+  GlobalFixture()
+  {
+  }
+  ~GlobalFixture()
+  {
+  }
+
+  void setup()
+  {
+    const auto *log_file = "workrave-config-test.log";
+
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file, false);
+
+    auto logger{std::make_shared<spdlog::logger>("workrave", file_sink)};
+    spdlog::set_default_logger(logger);
+
+    spdlog::set_level(spdlog::level::info);
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
+
+#if SPDLOG_VERSION >= 10801
+    spdlog::cfg::load_env_levels();
+#endif
+  }
+
+  void teardown()
+  {
+  }
+};
 
 class Fixture;
 namespace helper
@@ -154,6 +192,21 @@ public:
     return SettingCache::get<int64_t>(configurator, "test/settings/int64");
   }
 
+  Setting<int64_t, std::chrono::minutes> &setting_minutes() const
+  {
+    return SettingCache::get<int64_t, std::chrono::minutes>(configurator, "test/settings/minutes");
+  }
+
+  Setting<int32_t, std::chrono::hours> &setting_hours() const
+  {
+    return SettingCache::get<int32_t, std::chrono::hours>(configurator, "test/settings/hours");
+  }
+
+  Setting<int64_t, std::chrono::system_clock::time_point> &setting_time() const
+  {
+    return SettingCache::get<int64_t, std::chrono::system_clock::time_point>(configurator, "test/settings/time");
+  }
+
   Setting<double> &setting_double() const
   {
     return SettingCache::get<double>(configurator, "test/settings/double");
@@ -177,6 +230,11 @@ public:
   Setting<std::vector<std::string>> &setting_vector_string() const
   {
     return SettingCache::get<std::vector<std::string>>(configurator, "test/settings/vstring");
+  }
+
+  Setting<std::vector<int32_t>, std::vector<std::chrono::minutes>> &setting_vector_duration() const
+  {
+    return SettingCache::get<std::vector<int32_t>, std::vector<std::chrono::minutes>>(configurator, "test/settings/vduration");
   }
 
   Setting<int32_t, Mode> &setting_modedefault() const
@@ -220,26 +278,6 @@ public:
   bool can_remove{true};
   std::string expected_key;
   int config_changed_count{0};
-};
-
-class GlobalFixture
-{
-public:
-  GlobalFixture()
-  {
-  }
-  ~GlobalFixture()
-  {
-  }
-
-  void setup()
-  {
-    Logging::init();
-  }
-
-  void teardown()
-  {
-  }
 };
 
 namespace helper
@@ -1531,6 +1569,55 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_enum, T, backend_types)
   BOOST_CHECK_EQUAL(setting_mode().get(), Mode::Mode2);
 };
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_minutes, T, backend_types)
+{
+  init<T>();
+
+  std::chrono::minutes m{28};
+
+  setting_minutes().set(m);
+
+  int64_t value;
+  bool ok = configurator->get_value("test/settings/minutes", value);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(value, INT64_C(28));
+  BOOST_CHECK(setting_minutes()() == m);
+  BOOST_CHECK(setting_minutes().get() == m);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_hours, T, backend_types)
+{
+  init<T>();
+
+  std::chrono::hours h{54};
+
+  setting_hours().set(h);
+
+  int32_t value;
+  bool ok = configurator->get_value("test/settings/hours", value);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(value, 54);
+  BOOST_CHECK(setting_hours()() == h);
+  BOOST_CHECK(setting_hours().get() == h);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_time, T, backend_types)
+{
+  init<T>();
+
+  std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+
+  setting_time().set(now);
+  int64_t now64 = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+
+  int64_t value;
+  bool ok = configurator->get_value("test/settings/time", value);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(value, now64);
+  BOOST_CHECK(std::chrono::duration_cast<std::chrono::seconds>(setting_time()().time_since_epoch()).count() == now64);
+  BOOST_CHECK(std::chrono::duration_cast<std::chrono::seconds>(setting_time().get().time_since_epoch()).count() == now64);
+};
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_vector_int32, T, backend_types)
 {
   init<T>();
@@ -1546,6 +1633,29 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_vector_int32, T, backend_types)
   BOOST_CHECK_EQUAL(value, "4;8;15;16;23;42");
   BOOST_TEST(setting_vector_int32()() == values);
   BOOST_TEST(setting_vector_int32().get() == values);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_vector_duration, T, backend_types)
+{
+  init<T>();
+
+  std::vector<std::chrono::minutes> values{std::chrono::minutes(0),
+                                           std::chrono::minutes(4),
+                                           std::chrono::minutes(8),
+                                           std::chrono::minutes(15),
+                                           std::chrono::minutes(16),
+                                           std::chrono::minutes(23),
+                                           std::chrono::minutes(42)};
+
+  setting_vector_duration().set(values);
+
+  std::string value;
+  bool ok = configurator->get_value("test/settings/vduration", value);
+
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(value, "0;4;8;15;16;23;42");
+  BOOST_TEST(setting_vector_duration()() == values);
+  BOOST_TEST(setting_vector_duration().get() == values);
 };
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_vector_string, T, backend_types)

@@ -385,7 +385,7 @@ Configurator::get_value_with_default(const std::string &key, bool &out, bool def
 }
 
 void
-Configurator::get_value_with_default(const std::string &key, std::string &out, std::string def) const
+Configurator::get_value_with_default(const std::string &key, std::string &out, const std::string &def) const
 {
   bool b = get_value(key, out);
   if (!b)

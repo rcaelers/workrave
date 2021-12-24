@@ -56,7 +56,7 @@ public:
   bool get_value(const std::string &key, int64_t &out) const override;
   bool get_value(const std::string &key, double &out) const override;
 
-  void get_value_with_default(const std::string &key, std::string &out, std::string def) const override;
+  void get_value_with_default(const std::string &key, std::string &out, const std::string &def) const override;
   void get_value_with_default(const std::string &key, bool &out, bool def) const override;
   void get_value_with_default(const std::string &key, int32_t &out, int32_t def) const override;
   void get_value_with_default(const std::string &key, int64_t &out, int64_t def) const override;
