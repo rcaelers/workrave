@@ -1294,7 +1294,7 @@ Core::process_timewarp()
 
       if (abs((int)gap) > 5)
         {
-          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode << " " << powersave_resume_time << " " << current_time);
+          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode_active << " " << powersave_resume_time << " " << current_time);
 
           if (!powersave)
             {
