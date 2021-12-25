@@ -57,6 +57,7 @@ public:
 private:
   void init();
   void create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNode::Ptr menu);
+  void update_autoreset();
 
   void set_operation_mode(workrave::OperationMode m);
   void set_usage_mode(workrave::UsageMode m);
@@ -91,6 +92,7 @@ private:
 
   // TODO: DBUS stubs, refactor
   friend class org_workrave_ControlInterface_Stub;
+  workrave::utils::Trackable tracker;
 };
 
 #endif // MENUS_HH

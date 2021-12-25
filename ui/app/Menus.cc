@@ -102,10 +102,10 @@ Menus::init()
   mode_group->add(quiet_item);
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
-  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, _("Quiet..."));
+  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, _("Temporarily Quiet..."));
   modemenu->add(timed_quiet_menu);
 
-  auto timed_suspended_menu = menus::SubMenuNode::create(MODE_TIMED_SUSPENDED_MENU, _("Suspended..."));
+  auto timed_suspended_menu = menus::SubMenuNode::create(MODE_TIMED_SUSPENDED_MENU, _("Temporarily Suspended..."));
   modemenu->add(timed_suspended_menu);
 
   create_mode_autoreset_menu(OperationMode::Quiet, timed_quiet_menu);
@@ -127,6 +127,9 @@ Menus::init()
 
   connect(core->signal_operation_mode_changed(), this, [this](auto mode) { on_operation_mode_changed(mode); });
   connect(core->signal_usage_mode_changed(), this, [this](auto mode) { on_usage_mode_changed(mode); });
+
+  CoreConfig::operation_mode_auto_reset_time().connect(tracker, [this](auto x) { update_autoreset(); });
+  update_autoreset();
 }
 
 void
@@ -248,6 +251,7 @@ Menus::on_menu_mode_for(workrave::OperationMode mode, std::chrono::minutes durat
     }
   else if (duration == -1min)
     {
+      // FIXME: make timezone aware
       using days = std::chrono::duration<int64_t, std::ratio<86400>>;
       auto midnight = std::chrono::floor<days>(workrave::utils::TimeSource::get_real_time());
       auto reset_time = midnight + std::chrono::hours(28);
@@ -260,6 +264,33 @@ Menus::on_menu_mode_for(workrave::OperationMode mode, std::chrono::minutes durat
       spdlog::info("Operation mode {} {}", mode, duration.count());
       core->set_operation_mode_until(mode, workrave::utils::TimeSource::get_real_time() + duration);
     }
+}
+
+void
+Menus::update_autoreset()
+{
+  spdlog::debug("update");
+  workrave::OperationMode mode = core->get_regular_operation_mode();
+  auto next_reset_time = CoreConfig::operation_mode_auto_reset_time()();
+  if ((next_reset_time.time_since_epoch().count() > 0) && (mode != OperationMode::Normal))
+    {
+      std::time_t time = std::chrono::system_clock::to_time_t(next_reset_time);
+      std::stringstream ss;
+      ss << std::put_time(std::localtime(&time), "%H:%M");
+
+      spdlog::debug("update {}", ss.str());
+      if (mode == OperationMode::Quiet)
+        {
+          quiet_item->set_dynamic_text(boost::str(boost::format(_("Q_uiet (until %1%)")) % ss.str()));
+          suspended_item->unset_dynamic_text();
+        }
+      else if (mode == OperationMode::Suspended)
+        {
+          suspended_item->set_dynamic_text(boost::str(boost::format(_("_Suspended (until %1%)")) % ss.str()));
+          quiet_item->unset_dynamic_text();
+        }
+    }
+  menu_model->update();
 }
 
 void
@@ -290,6 +321,7 @@ void
 Menus::on_operation_mode_changed(OperationMode m)
 {
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(m));
+  update_autoreset();
 }
 
 void
