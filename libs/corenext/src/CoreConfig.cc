@@ -55,9 +55,9 @@ const string CoreConfig::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE = "general/operation-mode";
-const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET = "general/operation-mode-auto-reset";
-const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operation-mode-auto-reset-options";
-const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME = "general/operation-mode-auto-reset-time";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET = "general/operation_mode_auto_reset";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operation_mode_auto_reset_options";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME = "general/operation_mode_auto_reset_time";
 const string CoreConfig::CFG_KEY_USAGE_MODE = "general/usage-mode";
 
 CoreConfig::Defaults CoreConfig::default_config[] = {{
