@@ -23,7 +23,7 @@ const IndicatorIface = '<node>\
         <arg type="i" name="command" direction="in" /> \
     </method> \
     <method name="GetMenu"> \
-        <arg type="a(ssuyy)" name="menuitems" direction="out" /> \
+        <arg type="a(sssuyy)" name="menuitems" direction="out" /> \
     </method> \
     <method name="GetTrayIconEnabled"> \
         <arg type="b" name="enabled" direction="out" /> \
@@ -34,10 +34,10 @@ const IndicatorIface = '<node>\
         <arg type="(siuuuuuu)" /> \
     </signal> \
     <signal name="MenuUpdated"> \
-        <arg type="a(ssuyy)" /> \
+        <arg type="a(sssuyy)" /> \
     </signal> \
     <signal name="MenuItemUpdated"> \
-        <arg type="(ssuyy)" /> \
+        <arg type="(sssuyy)" /> \
     </signal> \
     <signal name="TrayIconUpdated"> \
         <arg type="b" /> \
@@ -435,20 +435,21 @@ MyApplet.prototype = {
             for (var item in menuitems)
             {
                 let text = indent + menuitems[item][0];
-                let action = indent + menuitems[item][1];
-                let id = menuitems[item][2];
-                let type = menuitems[item][3];
-                let flags = menuitems[item][4];
+                let dynamic_text = indent + menuitems[item][1];
+                let action = indent + menuitems[item][2];
+                let id = menuitems[item][3];
+                let type = menuitems[item][4];
+                let flags = menuitems[item][5];
 
                 let active = ((flags & MENU_ITEM_FLAG_ACTIVE) != 0);
                 let visible = ((flags & MENU_ITEM_FLAG_VISIBLE) != 0);
                 let popup;
 
-                text = text.replace('_', '');
+                dynamic_text = dynamic_text.replace("_", "");
 
                 if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN)
                 {
-                    let popup = new PopupMenu.PopupSubMenuMenuItem(text);
+                    let popup = new PopupMenu.PopupSubMenuMenuItem(dynamic_text);
                     this.menu.addMenuItem(popup);
                     current_menu = popup.menu;
                     indent = "   "; // Look at CSS??
@@ -460,16 +461,16 @@ MyApplet.prototype = {
                 }
                 else if (type == MENU_ITEM_TYPE_SEPARATOR)
                 {
-                    popup = new PopupMenu.PopupSeparatorMenuItem(text);
+                    popup = new PopupMenu.PopupSeparatorMenuItem(dynamic_text);
                 }
                 else if (type == MENU_ITEM_TYPE_CHECK)
                 {
-                    popup = new PopupMenu.PopupSwitchMenuItem(text);
+                    popup = new PopupMenu.PopupSwitchMenuItem(dynamic_text);
                     popup.setToggleState(active);
                 }
                 else if (type == MENU_ITEM_TYPE_RADIO)
                 {
-                    popup = new PopupMenu.PopupMenuItem(text);
+                    popup = new PopupMenu.PopupMenuItem(dynamic_text);
 
                     // Gnome 3.6 & 3.8
                     if (typeof popup.setShowDot === "function")
@@ -485,7 +486,7 @@ MyApplet.prototype = {
                 }
                 else if (type == MENU_ITEM_TYPE_ACTION)
                 {
-                    popup = new PopupMenu.PopupMenuItem(text);
+                    popup = new PopupMenu.PopupMenuItem(dynamic_text);
                 }
 
                 if (popup)

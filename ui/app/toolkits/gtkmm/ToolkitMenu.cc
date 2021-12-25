@@ -211,7 +211,7 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, 
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      auto item = Gio::MenuItem::create(node->get_text(), std::string("app.") + node->get_id());
+      auto item = Gio::MenuItem::create(node->get_dynamic_text(), std::string("app.") + node->get_id());
       parent->add(item);
     }
 }
@@ -232,7 +232,7 @@ ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, 
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      auto item = Gio::MenuItem::create(node->get_text(), std::string("app.") + node->get_id());
+      auto item = Gio::MenuItem::create(node->get_dynamic_text(), std::string("app.") + node->get_id());
       workrave::utils::connect(node->signal_changed(), this, [this, node]() { action->change_state(node->is_checked()); });
       parent->add(item);
     }
@@ -246,7 +246,7 @@ ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context, To
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      auto item = Gio::MenuItem::create(node->get_text(), std::string("app.") + node->get_group_id());
+      auto item = Gio::MenuItem::create(node->get_dynamic_text(), std::string("app.") + node->get_group_id());
       item->set_attribute_value("target", Glib::Variant<int>::create(node->get_value()));
       parent->add(item);
     }

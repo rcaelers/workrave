@@ -138,7 +138,7 @@ GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
     }
   active_bus_names.clear();
 
-  if (sender != "")
+  if (!sender.empty())
     {
       dbus->watch(sender, this);
     }
@@ -212,7 +212,7 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
   else
     {
       active_bus_names.erase(name);
-      if (active_bus_names.size() == 0)
+      if (active_bus_names.empty())
         {
           TRACE_MSG("Disabling");
           visible = false;
@@ -260,11 +260,11 @@ GenericDBusApplet::init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr n
 
   if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
     {
-      bool add_sub_menu = items.size() > 0;
+      bool add_sub_menu = !items.empty();
 
       if (add_sub_menu)
         {
-          items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::SubMenuBegin, flags);
+          items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::SubMenuBegin, flags);
         }
       for (auto &menu_to_add: n->get_children())
         {
@@ -272,23 +272,23 @@ GenericDBusApplet::init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr n
         }
       if (add_sub_menu)
         {
-          items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::SubMenuEnd, flags);
+          items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::SubMenuEnd, flags);
         }
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
     {
-      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::RadioGroupBegin, flags);
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::RadioGroupBegin, flags);
       for (auto &menu_to_add: n->get_children())
         {
           init_menu_list(items, menu_to_add);
         }
-      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::RadioGroupEnd, flags);
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::RadioGroupEnd, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
     {
-      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Action, flags);
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Action, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
@@ -297,7 +297,7 @@ GenericDBusApplet::init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr n
         {
           flags |= MENU_ITEM_FLAG_ACTIVE;
         }
-      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Check, flags);
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Check, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
@@ -306,12 +306,12 @@ GenericDBusApplet::init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr n
         {
           flags |= MENU_ITEM_FLAG_ACTIVE;
         }
-      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Radio, flags);
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Radio, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
     {
-      items.emplace_back(n->get_text(), node->get_id(), command, MenuItemType::Separator, flags);
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Separator, flags);
     }
 }
 
@@ -362,7 +362,7 @@ GenericDBusApplet::update_menu_item(menus::Node::Ptr node)
       type = MenuItemType::Separator;
     }
 
-  MenuItem item(node->get_text(), node->get_id(), command, type, flags);
+  MenuItem item(node->get_text(), node->get_dynamic_text(), node->get_id(), command, type, flags);
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   iface->MenuItemUpdated(WORKRAVE_APPLET_SERVICE_OBJ, item);
 }

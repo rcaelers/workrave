@@ -26,6 +26,7 @@
 
   <struct name="MenuItem" csymbol="GenericDBusApplet::MenuItem">
     <field type="string" name="text"/>
+    <field type="string" name="dynamic_text"/>
     <field type="string" name="action"/>
     <field type="uint32" name="command"/>
     <field type="uint8" name="type"/>

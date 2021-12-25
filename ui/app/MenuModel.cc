@@ -54,7 +54,8 @@ menus::Node::Node()
 
 menus::Node::Node(std::string_view id, std::string text, Activated activated)
   : id(id)
-  , text(std::move(text))
+  , text(text)
+  , text_dynamic(std::move(text))
   , activated(std::move(activated))
 {
 }
@@ -68,6 +69,16 @@ menus::Node::get_id() const -> std::string
 auto
 menus::Node::get_text() const -> std::string
 {
+  return text;
+}
+
+auto
+menus::Node::get_dynamic_text() const -> std::string
+{
+  if (text_dynamic)
+    {
+      return *text_dynamic;
+    }
   return text;
 }
 
@@ -92,6 +103,23 @@ menus::Node::set_text(std::string text)
     {
       this->text = text;
     }
+}
+
+void
+menus::Node::set_dynamic_text(std::string text)
+{
+  if (this->text_dynamic != text)
+    {
+      this->text_dynamic = text;
+      changed_signal();
+    }
+}
+
+void
+menus::Node::unset_dynamic_text()
+{
+  this->text_dynamic.reset();
+  changed_signal();
 }
 
 void

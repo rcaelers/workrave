@@ -137,9 +137,10 @@ static void
 build_menu(WorkraveApplet *applet, GVariant *parameters)
 {
   GVariantIter *iter;
-  g_variant_get(parameters, "(a(ssuyy))", &iter);
+  g_variant_get(parameters, "(a(sssuyy))", &iter);
 
   gchar *text;
+  gchar *dynamic_text;
   gchar *action;
   uint32_t id;
   uint8_t type;
@@ -155,7 +156,7 @@ build_menu(WorkraveApplet *applet, GVariant *parameters)
   applet->priv->action_entries = g_new0(GActionEntry, num_entries + 1);
 
   int count = 0;
-  while (g_variant_iter_loop(iter, "(ssuyy)", &text, &action, &id, &type, &flags))
+  while (g_variant_iter_loop(iter, "(sssuyy)", &text, &dynamic_text, &action, &id, &type, &flags))
     {
       char *add = NULL;
       if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN)
@@ -262,12 +263,13 @@ on_menu_item_changed(gpointer instance, GVariant *parameters, gpointer user_data
   WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
 
   char *text;
+  char *dynamic_text;
   char *action;
   uint32_t id;
   uint8_t type;
   uint8_t flags;
 
-  g_variant_get(parameters, "((ssuyy))", &text, &action, &id, &type, &flags);
+  g_variant_get(parameters, "((sssuyy))", &text, &dynamic_text, &action, &id, &type, &flags);
 
   GAction *gaction = NULL;
   gchar *group = g_hash_table_lookup(applet->priv->radio_actions, action);

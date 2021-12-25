@@ -22,6 +22,7 @@
 #include <list>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <boost/signals2.hpp>
 
 namespace menus
@@ -38,10 +39,13 @@ namespace menus
 
     [[nodiscard]] auto get_text() const -> std::string;
     [[nodiscard]] auto get_text_no_accel() const -> std::string;
+    [[nodiscard]] auto get_dynamic_text() const -> std::string;
     [[nodiscard]] auto get_id() const -> std::string;
     [[nodiscard]] auto is_visible() const -> bool;
 
     void set_text(std::string text);
+    void set_dynamic_text(std::string text);
+    void unset_dynamic_text();
     void set_visible(bool visible);
 
     auto signal_changed() -> boost::signals2::signal<void()> &;
@@ -51,6 +55,7 @@ namespace menus
   protected:
     const std::string id;
     std::string text;
+    std::optional<std::string> text_dynamic;
     bool visible{true};
     Activated activated;
     boost::signals2::signal<void()> changed_signal;

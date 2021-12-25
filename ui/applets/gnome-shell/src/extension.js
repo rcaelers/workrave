@@ -24,7 +24,7 @@ const IndicatorIface = '<node>\
         <arg type="i" name="command" direction="in" /> \
     </method> \
     <method name="GetMenu"> \
-        <arg type="a(ssuyy)" name="menuitems" direction="out" /> \
+        <arg type="a(sssuyy)" name="menuitems" direction="out" /> \
     </method> \
     <method name="GetTrayIconEnabled"> \
         <arg type="b" name="enabled" direction="out" /> \
@@ -35,10 +35,10 @@ const IndicatorIface = '<node>\
         <arg type="(siuuuuuu)" /> \
     </signal> \
     <signal name="MenuUpdated"> \
-        <arg type="a(ssuyy)" /> \
+        <arg type="a(sssuyy)" /> \
     </signal> \
     <signal name="MenuItemUpdated"> \
-        <arg type="(ssuyy)" /> \
+        <arg type="(sssuyy)" /> \
     </signal> \
     <signal name="TrayIconUpdated"> \
         <arg type="b" /> \
@@ -213,6 +213,13 @@ const WorkraveButton = new Lang.Class({
 
         this._core_proxy = new CoreProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/Core', Lang.bind(this, this._connectCore));
         this._operation_mode_changed_id = this._core_proxy.connectSignal("OperationModeChanged", Lang.bind(this, this._onOperationModeChanged));
+
+        this.menu._setOpenedSubMenu = Lang.bind(
+            this,
+            function (submenu) {
+            this._openedSubMenu = submenu;
+            }
+        );
 
         this._updateMenu(null);
     },
@@ -443,43 +450,46 @@ const WorkraveButton = new Lang.Class({
         }
         else
         {
+            let submenus = []
             for (var item in menuitems)
             {
                 let text = indent + menuitems[item][0];
-                let action = menuitems[item][1];
-                let id = menuitems[item][2];
-                let type = menuitems[item][3];
-                let flags = menuitems[item][4];
+                let dynamic_text = indent + menuitems[item][1];
+                let action = menuitems[item][2];
+                let id = menuitems[item][3];
+                let type = menuitems[item][4];
+                let flags = menuitems[item][5];
 
                 let active = ((flags & MENU_ITEM_FLAG_ACTIVE) != 0);
                 let visible = ((flags & MENU_ITEM_FLAG_VISIBLE) != 0);
                 let popup;
 
-                text = text.replace('_', '');
+                dynamic_text = dynamic_text.replace("_", "");
 
                 if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN)
                 {
-                    let popup = new PopupMenu.PopupSubMenuMenuItem(text);
-                    this.menu.addMenuItem(popup);
+                    let popup = new PopupMenu.PopupSubMenuMenuItem(dynamic_text);
+                    submenus.push(current_menu);
+                    current_menu.addMenuItem(popup);
                     current_menu = popup.menu;
-                    indent = "   "; // Look at CSS??
+                    indent = " ".repeat(4 * submenus.length); // Look at CSS??
                 }
                 else if (type == MENU_ITEM_TYPE_SUBMENU_END)
                 {
-                    current_menu = this.menu;
-                    indent = "";
+                    current_menu = submenus.pop();
+                    indent = " ".repeat(4 * submenus.length); // Look at CSS??
                 }
                 else if (type == MENU_ITEM_TYPE_SEPARATOR)
                 {
-                    popup = new PopupMenu.PopupSeparatorMenuItem(text);
+                    popup = new PopupMenu.PopupSeparatorMenuItem(dynamic_text);
                 }
                 else if (type == MENU_ITEM_TYPE_CHECK)
                 {
-                    popup = new PopupMenu.PopupSwitchMenuItem(text, active);
+                    popup = new PopupMenu.PopupSwitchMenuItem(dynamic_text, active);
                 }
                 else if (type == MENU_ITEM_TYPE_RADIO)
                 {
-                    popup = new PopupMenu.PopupMenuItem(text);
+                    popup = new PopupMenu.PopupMenuItem(dynamic_text);
 
                     // Gnome 3.6 & 3.8
                     if (typeof popup.setShowDot === "function")
@@ -495,12 +505,16 @@ const WorkraveButton = new Lang.Class({
                 }
                 else if (type == MENU_ITEM_TYPE_ACTION)
                 {
-                    popup = new PopupMenu.PopupMenuItem(text);
+                    popup = new PopupMenu.PopupMenuItem(dynamic_text);
+                        popup.setOrnament(
+                          active
+                            ? PopupMenu.Ornament.DOT
+                            : PopupMenu.Ornament.NONE
+                        );
                 }
 
                 if (popup)
                 {
-                    global.log('workrave-applet: menu1 ' + text + ' ' + id + ' ' + type +' ' + flags + ' ' + visible);
                     popup.setSensitive(visible);
                     popup.connect('activate', Lang.bind(this, this._onMenuCommand, id));
                     current_menu.addMenuItem(popup);

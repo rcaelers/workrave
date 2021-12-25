@@ -423,7 +423,7 @@ WindowsAppletWindow::process_menu(menus::Node::Ptr node, bool popup)
         }
       if (popup)
         {
-          add_menu(n->get_text(), 0, 0);
+          add_menu(n->get_dynamic_text(), 0, 0);
         }
     }
 
@@ -437,12 +437,12 @@ WindowsAppletWindow::process_menu(menus::Node::Ptr node, bool popup)
 
   else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
     {
-      add_menu(n->get_text(), command, (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0));
+      add_menu(n->get_dynamic_text(), command, (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0));
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
     {
-      add_menu(n->get_text(),
+      add_menu(n->get_dynamic_text(),
                command,
                WindowsAppletWindow::MENU_FLAG_TOGGLE | (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0)
                  | (n->is_checked() ? WindowsAppletWindow::MENU_FLAG_SELECTED : 0));
@@ -450,7 +450,7 @@ WindowsAppletWindow::process_menu(menus::Node::Ptr node, bool popup)
 
   else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
     {
-      add_menu(n->get_text(),
+      add_menu(n->get_dynamic_text(),
                command,
                WindowsAppletWindow::MENU_FLAG_TOGGLE | (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0)
                  | ((n->is_checked() ? WindowsAppletWindow::MENU_FLAG_SELECTED : 0)));

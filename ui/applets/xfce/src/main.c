@@ -151,9 +151,10 @@ on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
   /*   } */
 
   GVariantIter *iter;
-  g_variant_get(parameters, "(a(ssuyy))", &iter);
+  g_variant_get(parameters, "(a(sssuyy))", &iter);
 
   char *text;
+  char *dynamic_text;
   char *action;
   uint32_t id;
   uint8_t type;
@@ -161,7 +162,7 @@ on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
 
   GSList *radio_group = NULL;
   GtkWidget *menu = NULL;
-  while (g_variant_iter_loop(iter, "(ssuyy)", &text, &action, &id, &type, &flags))
+  while (g_variant_iter_loop(iter, "(sssuyy)", &text, &dynamic_text, &action, &id, &type, &flags))
     {
       gchar *label;
       gchar shortcut;
@@ -238,12 +239,13 @@ on_menu_item_changed(gpointer instance, GVariant *parameters, gpointer user_data
   WorkraveApplet *applet = (WorkraveApplet *)user_data;
 
   char *text;
+  char *dynamic_text;
   char *action;
   uint32_t id;
   uint8_t type;
   uint8_t flags;
 
-  g_variant_get(parameters, "((ssuyy))", &text, &action, &id, &type, &flags);
+  g_variant_get(parameters, "((sssuyy))", &text, &dynamic_text, &action, &id, &type, &flags);
 
   gchar *label;
   gchar shortcut;
