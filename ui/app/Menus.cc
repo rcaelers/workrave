@@ -290,6 +290,11 @@ Menus::update_autoreset()
           quiet_item->unset_dynamic_text();
         }
     }
+  else
+    {
+      suspended_item->unset_dynamic_text();
+      quiet_item->unset_dynamic_text();
+    }
   menu_model->update();
 }
 
