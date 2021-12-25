@@ -91,6 +91,14 @@ menus::Node::get_text_no_accel() const -> std::string
 }
 
 auto
+menus::Node::get_dynamic_text_no_accel() const -> std::string
+{
+  auto ret = get_dynamic_text();
+  ret.erase(std::remove(ret.begin(), ret.end(), '_'), ret.end());
+  return ret;
+}
+
+auto
 menus::Node::is_visible() const -> bool
 {
   return visible;

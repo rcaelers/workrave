@@ -103,7 +103,7 @@ ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context, Toolki
   , parent(parent)
   , node(node)
 {
-  menu = new QMenu(tr(node->get_text_no_accel().c_str()));
+  menu = new QMenu(tr(node->get_dynamic_text_no_accel().c_str()));
   init();
 }
 
@@ -166,7 +166,7 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, 
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      action = new QAction(node->get_text_no_accel().c_str(), this);
+      action = new QAction(node->get_dynamic_text_no_accel().c_str(), this);
       connect(action, &QAction::triggered, [=](bool checked) { node->activate(); });
     }
 }
@@ -185,7 +185,7 @@ ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, 
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      action = new QAction(node->get_text_no_accel().c_str(), this);
+      action = new QAction(node->get_dynamic_text_no_accel().c_str(), this);
       action->setCheckable(true);
       action->setChecked(node->is_checked());
 
@@ -212,7 +212,7 @@ ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context, To
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      action = new QAction(node->get_text_no_accel().c_str(), this);
+      action = new QAction(node->get_dynamic_text_no_accel().c_str(), this);
       action->setCheckable(true);
       action->setChecked(node->is_checked());
 
@@ -238,7 +238,7 @@ ToolkitSeparatorMenuEntry::ToolkitSeparatorMenuEntry(ToolkitMenuContext::Ptr con
   const MenuNodeFilter &filter = get_context()->get_filter();
   if (!filter || filter(node))
     {
-      action = new QAction(node->get_text_no_accel().c_str(), this);
+      action = new QAction(node->get_dynamic_text_no_accel().c_str(), this);
       action->setSeparator(true);
     }
 }

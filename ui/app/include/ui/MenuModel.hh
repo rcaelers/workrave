@@ -40,6 +40,7 @@ namespace menus
     [[nodiscard]] auto get_text() const -> std::string;
     [[nodiscard]] auto get_text_no_accel() const -> std::string;
     [[nodiscard]] auto get_dynamic_text() const -> std::string;
+    [[nodiscard]] auto get_dynamic_text_no_accel() const -> std::string;
     [[nodiscard]] auto get_id() const -> std::string;
     [[nodiscard]] auto is_visible() const -> bool;
 
