@@ -573,7 +573,7 @@ if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   endif()
   set(Boost_NO_BOOST_CMAKE TRUE)
 
-  set (BOOST_COMPONENTS system thread filesystem chrono date_time regex log coroutine context)
+  set (BOOST_COMPONENTS system program_options)
   #set (Boost_DEBUG ON)
 
   if (WIN32)

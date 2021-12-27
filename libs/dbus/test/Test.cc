@@ -34,8 +34,6 @@
 #endif
 
 #include <thread>
-#include <boost/thread/future.hpp>
-#include <boost/thread/barrier.hpp>
 #include <boost/signals2.hpp>
 
 #include "debug.hh"
