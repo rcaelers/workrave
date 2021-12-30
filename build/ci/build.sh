@@ -76,7 +76,7 @@ install_crashpad() {
         mkdir -p ${SOURCES_DIR}/_ext
     fi
 
-    crashpad_name=crashpad-mingw64-20211009-28-3aeb708f3447d23e06985e23f2b6f30fd2b726cd
+    crashpad_name=crashpad-mingw64-20211222-33-0756b0b4f36443ac4e2e564b312a43bb7ed47569
     crashpad_ext=.tar.xz
     if [ ! -d ${SOURCES_DIR}/_ext/${crashpad_name} ]; then
         curl https://snapshots.workrave.org/crashpad/${crashpad_name}${crashpad_ext} | tar xvJ -C ${SOURCES_DIR}/_ext -f -
