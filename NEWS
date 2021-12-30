@@ -1,9 +1,14 @@
-Workrave NEWS -- history of user-visible changes. 03 August 2021
-Copyright (C) 2001-2020 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes. 30 December 2021
+Copyright (C) 2001-2021 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.10.49
+
+** Adds support for GNOME Shell 41 (#342, tjyriTimo Jyrinki)
+** Inno Setup improvement (#353, Kaleb Luedtke)
 
 * Workrave 1.10.48
 
@@ -37,7 +42,7 @@ https://github.com/rcaelers/workrave/issues
    - Fixed issue where the current language was always "Unrecognized language"
    - Fixed issue where activity monitoring would stop after restarting Gnome
      Shell
-   - Fixed issue that caused the main window to disappear (#244, 259)
+   - Fixed issue that caused the main window to disappear (#244, #259)
 ** Translation updates:
    - Updated Chinese translation (#232, wintertee)
    - Updated French translation (Darialalala)
@@ -54,7 +59,7 @@ https://github.com/rcaelers/workrave/issues
 * Workrave 1.10.43
 
 ** Fix issue where a break window could disappear after a few seconds.
-** Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
+** Fix issue where the Gnome Shell applet would be reload on Ubuntu 18.04.
 ** Update Traditional Chinese translation (Yuenfu Chiu)
 
 * Workrave 1.10.42
