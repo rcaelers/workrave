@@ -153,7 +153,7 @@ build_single() {
 }
 
 build_all() {
-    for series in hirsute groovy focal bionic; do
+    for series in jammy impish hirsute focal bionic; do
         build_single $series
     done
     #build_single hirsute
