@@ -37,8 +37,7 @@ using namespace workrave;
 DebugDialog::DebugDialog()
   : Gtk::Dialog(_("Debug log"), false)
 {
-  TRACE_ENTER("DebugDialog::DebugDialog");
-
+  TRACE_ENTRY();
   set_default_size(1024, 800);
 
   text_buffer = Gtk::TextBuffer::create();
@@ -57,15 +56,12 @@ DebugDialog::DebugDialog()
   add_button("Close", Gtk::RESPONSE_CLOSE);
 
   show_all();
-
-  TRACE_EXIT();
 }
 
 DebugDialog::~DebugDialog()
 {
-  TRACE_ENTER("DebugDialog::~DebugDialog");
+  TRACE_ENTRY();
   Diagnostics::instance().disable();
-  TRACE_EXIT();
 }
 
 void
@@ -86,10 +82,9 @@ DebugDialog::init()
 int
 DebugDialog::run()
 {
-  TRACE_ENTER("DebugDialog::run");
+  TRACE_ENTRY();
   init();
   show_all();
-  TRACE_EXIT();
   return 0;
 }
 
@@ -97,7 +92,6 @@ void
 DebugDialog::on_response(int response)
 {
   (void)response;
-  TRACE_ENTER("DebugDialog::on_response");
+  TRACE_ENTRY();
   Diagnostics::instance().disable();
-  TRACE_EXIT();
 }

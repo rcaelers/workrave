@@ -42,9 +42,8 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, Bre
   , break_flags(break_flags)
   , screen(screen)
 {
-  TRACE_ENTER("BreakWindow::BreakWindow");
+  TRACE_ENTRY();
   block_mode = GUIConfig::block_mode()();
-  TRACE_EXIT();
 }
 
 void
@@ -194,8 +193,7 @@ BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperatio
 void
 BreakWindow::append_row_to_sysoper_model(System::SystemOperation::SystemOperationType type)
 {
-  TRACE_ENTER("BreakWindow::append_row_to_sysoper_model");
-
+  TRACE_ENTRY();
   QString name;
   QString icon_name;
   get_operation_name_and_icon(type, name, icon_name);
@@ -204,14 +202,12 @@ BreakWindow::append_row_to_sysoper_model(System::SystemOperation::SystemOperatio
   QPixmap pixmap(file.c_str());
   QIcon icon(pixmap);
   sysoper_combo->addItem(icon, name);
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::add_sysoper_combobox(QGridLayout *box)
 {
-  TRACE_ENTER("BreakWindow::create_sysoper_combobox");
+  TRACE_ENTRY();
   supported_system_operations = System::get_supported_system_operations();
 
   if (supported_system_operations.empty())
@@ -232,17 +228,15 @@ BreakWindow::add_sysoper_combobox(QGridLayout *box)
 
   size_group->add_widget(sysoper_combo);
   box->addWidget(sysoper_combo, 1, box->columnCount());
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::on_sysoper_combobox_changed(int index)
 {
-  TRACE_ENTER_MSG("BreakWindow::on_sysoper_combobox_changed", index);
+  TRACE_ENTRY_PAR(index);
   if (supported_system_operations[index].type == System::SystemOperation::SYSTEM_OPERATION_NONE)
     {
-      TRACE_RETURN("SYSTEM_OPERATION_NONE");
+      TRACE_MSG("SYSTEM_OPERATION_NONE");
       return;
     }
 
@@ -297,7 +291,7 @@ BreakWindow::on_skip_button_clicked()
 void
 BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
 {
-  TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
+  TRACE_ENTRY();
   skip_locked = false;
   postpone_locked = false;
   overdue_break_id = BREAK_ID_NONE;
@@ -331,7 +325,6 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
             }
         }
     }
-  TRACE_EXIT();
 }
 
 void
@@ -442,8 +435,7 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable) -> QLayout *
 void
 BreakWindow::start()
 {
-  TRACE_ENTER("BreakWindow::start");
-
+  TRACE_ENTRY();
   // TODO: platform->foreground();
 
   refresh();
@@ -482,15 +474,12 @@ BreakWindow::start()
   // set_skip_taskbar_hint(true);
   // WindowHints::set_always_on_top(this, true);
   raise();
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::stop()
 {
-  TRACE_ENTER("BreakWindow::stop");
-
+  TRACE_ENTRY();
   if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
@@ -507,20 +496,15 @@ BreakWindow::stop()
   // TODO:
   // platform->restore_foreground();
   // platform->unlock();
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::refresh()
 {
-  TRACE_ENTER("BreakWindow::refresh");
-
+  TRACE_ENTRY();
   update_skip_postpone_lock();
   update_break_window();
   update_flashing_border();
-
-  TRACE_EXIT();
 }
 
 void

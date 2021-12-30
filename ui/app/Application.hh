@@ -33,6 +33,7 @@
 #include "ui/IApplication.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
+#include "ui/IToolkitFactory.hh"
 #include "ui/IToolkit.hh"
 #include "ui/SoundTheme.hh"
 #include "updater/Updater.hh"
@@ -47,7 +48,7 @@ class Application
   , public workrave::utils::Trackable
 {
 public:
-  Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
+  Application(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory);
   ~Application() override;
 
   auto get_sound_theme() const -> SoundTheme::Ptr override;
@@ -79,6 +80,8 @@ public:
 private:
   auto get_timers_tooltip() -> std::string;
   void on_timer();
+  void init_args();
+  void init_logging();
   void init_nls();
   void init_core();
   void init_sound_player();
@@ -96,6 +99,7 @@ private:
 #endif
 
 private:
+  std::shared_ptr<IToolkitFactory> toolkit_factory;
   std::shared_ptr<IToolkit> toolkit;
   std::shared_ptr<workrave::ICore> core;
   std::shared_ptr<Menus> menus;

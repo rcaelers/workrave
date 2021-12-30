@@ -63,9 +63,8 @@ GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IApplication> app)
 void
 GenericDBusApplet::set_slot(BreakId id, int slot)
 {
-  TRACE_ENTER_MSG("GenericDBusApplet::set_slot", int(id) << ", " << slot);
+  TRACE_ENTRY_PAR(id, slot);
   data[slot].slot = id;
-  TRACE_EXIT();
 }
 
 void
@@ -78,7 +77,7 @@ GenericDBusApplet::set_time_bar(BreakId id,
                                 int secondary_val,
                                 int secondary_max)
 {
-  TRACE_ENTER_MSG("GenericDBusApplet::set_time_bar", int(id) << "=" << value);
+  TRACE_ENTRY_PAR(int(id), value);
   data[id].bar_text = Text::time_to_string(value);
   data[id].bar_primary_color = (int)primary_color;
   data[id].bar_primary_val = primary_val;
@@ -86,19 +85,15 @@ GenericDBusApplet::set_time_bar(BreakId id,
   data[id].bar_secondary_color = (int)secondary_color;
   data[id].bar_secondary_val = secondary_val;
   data[id].bar_secondary_max = secondary_max;
-  TRACE_EXIT();
 }
 
 void
 GenericDBusApplet::update_view()
 {
-  TRACE_ENTER("GenericDBusApplet::update_view");
-
+  TRACE_ENTRY();
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
   iface->TimersUpdated(WORKRAVE_APPLET_SERVICE_OBJ, data[BREAK_ID_MICRO_BREAK], data[BREAK_ID_REST_BREAK], data[BREAK_ID_DAILY_LIMIT]);
-
-  TRACE_EXIT();
 }
 
 void
@@ -129,7 +124,7 @@ GenericDBusApplet::init()
 void
 GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
 {
-  TRACE_ENTER_MSG("GenericDBusApplet::applet_embed", enable << " " << sender);
+  TRACE_ENTRY_PAR(enable, sender);
   embedded = enable;
 
   for (const auto &bus_name: active_bus_names)
@@ -149,8 +144,6 @@ GenericDBusApplet::applet_embed(bool enable, const std::string &sender)
       apphold.release();
       visible = false;
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -197,8 +190,8 @@ GenericDBusApplet::button_clicked(int button)
 void
 GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
 {
-  TRACE_ENTER_MSG("GenericDBusApplet::bus_name_presence", name << " " << present);
-  TRACE_MSG(visible << " " << embedded);
+  TRACE_ENTRY_PAR(name, present);
+  TRACE_VAR(visible, embedded);
   if (present)
     {
       active_bus_names.insert(name);
@@ -220,20 +213,17 @@ GenericDBusApplet::bus_name_presence(const std::string &name, bool present)
           apphold.release();
         }
     }
-  TRACE_EXIT();
 }
 
 void
 GenericDBusApplet::send_tray_icon_enabled()
 {
-  TRACE_ENTER("GenericDBusApplet::send_tray_icon_enabled");
+  TRACE_ENTRY();
   bool on = GUIConfig::applet_icon_enabled()();
 
   org_workrave_AppletInterface *iface = org_workrave_AppletInterface::instance(dbus);
   assert(iface != nullptr);
   iface->TrayIconUpdated(WORKRAVE_APPLET_SERVICE_OBJ, on);
-
-  TRACE_EXIT();
 }
 
 void

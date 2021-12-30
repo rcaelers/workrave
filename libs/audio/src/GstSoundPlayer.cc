@@ -63,7 +63,7 @@ GstSoundPlayer::capability(workrave::audio::SoundCapability cap)
 void
 GstSoundPlayer::play_sound(std::string wavfile, int volume)
 {
-  TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile << " " << volume);
+  TRACE_ENTRY_PAR(wavfile, volume);
 
   GstElement *play = nullptr;
   GstElement *sink = gst_element_factory_make("autoaudiosink", "sink");
@@ -93,8 +93,6 @@ GstSoundPlayer::play_sound(std::string wavfile, int volume)
       gst_object_unref(bus);
       g_free(uri);
     }
-
-  TRACE_EXIT();
 }
 
 gboolean

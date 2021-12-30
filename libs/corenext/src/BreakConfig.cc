@@ -49,8 +49,7 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
 void
 BreakConfig::load_timer_config()
 {
-  TRACE_ENTER("BreakConfig::load_timer_config");
-
+  TRACE_ENTRY();
   // Read break limit.
   int limit = CoreConfig::timer_limit(break_id)();
   timer->set_limit(limit);
@@ -78,8 +77,6 @@ BreakConfig::load_timer_config()
     {
       use_microbreak_activity = (CoreConfig::timer_daily_limit_use_micro_break_activity()() != 0);
     }
-
-  TRACE_EXIT();
 }
 
 void

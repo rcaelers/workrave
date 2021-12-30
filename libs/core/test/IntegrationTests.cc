@@ -221,8 +221,7 @@ public:
 
   void init_core()
   {
-    TRACE_ENTER("init_core");
-
+    TRACE_ENTRY();
     workrave::config::SettingCache::reset();
     core = Core::get_instance();
 
@@ -250,7 +249,6 @@ public:
 
     core->signal_operation_mode_changed().connect(std::bind(&Backend::on_operation_mode_changed, this, std::placeholders::_1));
     core->signal_usage_mode_changed().connect(std::bind(&Backend::on_usage_mode_changed, this, std::placeholders::_1));
-    TRACE_EXIT();
   }
 
   void init()
@@ -2342,6 +2340,5 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_reset)
 // TODO: daily limit + change limit
 // TODO: daily limit + statistics reset
 // TODO: forced restbreak in reading mode (active state)
-// TODO: splitup this file
 
 BOOST_AUTO_TEST_SUITE_END()

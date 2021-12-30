@@ -62,7 +62,7 @@ UnixLocker::lock()
 bool
 UnixLocker::lock_internal()
 {
-  TRACE_ENTER("UnixLocker::lock");
+  TRACE_ENTRY();
   bool ret = false;
 
 #if GTK_CHECK_VERSION(3, 24, 0)
@@ -130,7 +130,6 @@ UnixLocker::lock_internal()
     }
 #endif
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -165,11 +164,10 @@ UnixLocker::unlock()
 bool
 UnixLocker::on_lock_retry_timer()
 {
-  TRACE_ENTER("Grab::on_grab_retry_timer");
+  TRACE_ENTRY();
   if (grab_wanted)
     {
       lock();
     }
-  TRACE_EXIT();
   return grab_wanted && !grabbed;
 }

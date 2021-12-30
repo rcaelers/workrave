@@ -58,7 +58,7 @@ IdleLogManager::IdleLogManager(string myid)
 void
 IdleLogManager::update_all_idlelogs(string master_id, ActivityState current_state)
 {
-  TRACE_ENTER_MSG("IdleLogManager::update_all_idlelogs", master_id << " " << current_state);
+  TRACE_ENTRY_PAR(master_id, current_state);
 
   if (current_state == ACTIVITY_NOISE)
     {
@@ -91,8 +91,6 @@ IdleLogManager::update_all_idlelogs(string master_id, ActivityState current_stat
     }
 
   expire();
-
-  TRACE_EXIT();
 }
 
 //! Resets the total active time of all clients.
@@ -111,8 +109,7 @@ IdleLogManager::reset()
 void
 IdleLogManager::init()
 {
-  TRACE_ENTER("IdleLogManager::init()");
-
+  TRACE_ENTRY();
   load();
 
   if (clients.find(myid) == clients.end())
@@ -130,8 +127,6 @@ IdleLogManager::init()
       ClientInfo &myinfo = clients[myid];
       myinfo.current_interval = IdleInterval(TimeSource::get_real_time_sec(), TimeSource::get_real_time_sec());
     }
-
-  TRACE_EXIT();
 }
 
 //! Terminates the idlelog manager.
@@ -203,7 +198,7 @@ void
 IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool master)
 {
   (void)master;
-  TRACE_ENTER_MSG("IdleLogManager::update_idlelog", ((int)state) << " " << master);
+  TRACE_ENTRY_PAR(((int)state), master);
 
   // Did the state/master status change?
   bool changed = state != info.state; // RC: removed... || master != info.master;
@@ -296,14 +291,13 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
 
   info.last_update_time = current_time;
   dump_idlelog(info);
-  TRACE_EXIT();
 }
 
 //! Returns the total active time of all clients.
 int64_t
 IdleLogManager::compute_total_active_time()
 {
-  TRACE_ENTER("IdleLogManager::compute_total_active_time");
+  TRACE_ENTRY();
   int64_t current_time = TimeSource::get_real_time_sec();
   int64_t active_time = 0;
   for (ClientMapIter it = clients.begin(); it != clients.end(); it++)
@@ -312,7 +306,6 @@ IdleLogManager::compute_total_active_time()
       info.update_active_time(current_time);
       active_time += info.total_active_time;
     }
-  TRACE_EXIT();
   return active_time;
 }
 
@@ -320,8 +313,7 @@ IdleLogManager::compute_total_active_time()
 int64_t
 IdleLogManager::compute_active_time(int length)
 {
-  TRACE_ENTER("IdleLogManager::compute_active_time");
-
+  TRACE_ENTRY();
   int64_t current_time = TimeSource::get_real_time_sec();
 
   // Number of client.
@@ -388,7 +380,7 @@ IdleLogManager::compute_active_time(int length)
           IdleInterval &ii = *(iterators[last_iter]);
           if (at_end[last_iter])
             {
-              TRACE_MSG("End time " << ii.end_idle_time << " active " << ii.active_time);
+              TRACE_MSG("End time {}", ii.end_idle_time << " active " << ii.active_time);
               idle_count++;
 
               at_end[last_iter] = false;
@@ -397,14 +389,14 @@ IdleLogManager::compute_active_time(int length)
             }
           else
             {
-              TRACE_MSG("Begin time " << ii.begin_time);
+              TRACE_MSG("Begin time {}", ii.begin_time);
 
               at_end[last_iter] = true;
               iterators[last_iter]++;
 
               if (idle_count == size)
                 {
-                  TRACE_MSG("Common idle period of " << (end_idle_time - ii.begin_time));
+                  TRACE_MSG("Common idle period of {}", (end_idle_time - ii.begin_time));
                   if ((end_idle_time - ii.begin_time) > length)
                     {
                       stop = true;
@@ -423,18 +415,17 @@ IdleLogManager::compute_active_time(int length)
   int64_t total_active_time = 0;
   for (int i = 0; i < size; i++)
     {
-      TRACE_MSG("active time of " << i << " = " << active_time[i]);
+      TRACE_MSG("active time of {}", i << " = " << active_time[i]);
       total_active_time += active_time[i];
     }
 
-  TRACE_MSG("total = " << total_active_time);
+  TRACE_MSG("total = {}", total_active_time);
 
   delete[] iterators;
   delete[] end_iterators;
   delete[] at_end;
   delete[] active_time;
 
-  TRACE_EXIT();
   return total_active_time;
 }
 
@@ -442,8 +433,7 @@ IdleLogManager::compute_active_time(int length)
 int64_t
 IdleLogManager::compute_idle_time()
 {
-  TRACE_ENTER("IdleLogManager::compute_idle_time");
-
+  TRACE_ENTRY();
   int64_t current_time = TimeSource::get_real_time_sec();
 
   int count = 0;
@@ -462,18 +452,17 @@ IdleLogManager::compute_idle_time()
       if (idle.begin_time > latest_start_time)
         {
           latest_start_time = idle.begin_time;
-          TRACE_MSG(current_time - latest_start_time);
+          TRACE_VAR(current_time - latest_start_time);
         }
     }
 
-  TRACE_MSG("count = " << count);
+  TRACE_MSG("count = {}", count);
   if ((unsigned int)count != clients.size() + 1)
     {
       latest_start_time = current_time;
     }
 
-  TRACE_MSG((current_time - latest_start_time));
-  TRACE_EXIT();
+  TRACE_VAR((current_time - latest_start_time));
 
   return current_time - latest_start_time;
 }
@@ -576,8 +565,7 @@ IdleLogManager::unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, int64_t &pa
 void
 IdleLogManager::unlink_idlelog(PacketBuffer &buffer) const
 {
-  TRACE_ENTER("IdleLogManager::unlink_idlelog()");
-
+  TRACE_ENTRY();
   int pos = 0;
   int size = buffer.read_size(pos);
 
@@ -607,15 +595,13 @@ IdleLogManager::unlink_idlelog(PacketBuffer &buffer) const
     {
       buffer.clear();
     }
-  TRACE_EXIT();
 }
 
 //! Saves the idlelog index.
 void
 IdleLogManager::save_index()
 {
-  TRACE_ENTER("IdleLogManager::save_index()");
-
+  TRACE_ENTRY();
   PacketBuffer buffer;
   buffer.create();
 
@@ -626,7 +612,7 @@ IdleLogManager::save_index()
     {
       ClientInfo &info = (*i).second;
       info.update_active_time(TimeSource::get_real_time_sec());
-      TRACE_MSG("Saving " << i->first << " " << info.client_id);
+      TRACE_MSG("Saving {} {}", i->first, info.client_id);
 
       pack_idlelog(buffer, info);
     }
@@ -638,16 +624,13 @@ IdleLogManager::save_index()
   ofstream file(ss.str().c_str(), ios::binary);
   file.write(buffer.get_buffer(), buffer.bytes_written());
   file.close();
-
-  TRACE_EXIT();
 }
 
 //! Loads the idlelog index.
 void
 IdleLogManager::load_index()
 {
-  TRACE_ENTER("IdleLogManager::load()");
-
+  TRACE_ENTRY();
   stringstream ss;
   ss << AssetPath::get_home_directory();
   ss << "idlelog.idx" << ends;
@@ -667,7 +650,7 @@ IdleLogManager::load_index()
       int size = pbuf->pubseekoff(0, ios::end, ios::in);
       pbuf->pubseekpos(0, ios::in);
 
-      TRACE_MSG("Size - " << size);
+      TRACE_MSG("Size - {}", size);
 
       PacketBuffer buffer;
       buffer.create(size);
@@ -678,7 +661,7 @@ IdleLogManager::load_index()
 
       // Read
       int version = buffer.unpack_ushort();
-      TRACE_MSG("Version - " << version);
+      TRACE_MSG("Version - {}", version);
 
       if (version == IDLELOG_VERSION)
         {
@@ -687,7 +670,7 @@ IdleLogManager::load_index()
           char *id = buffer.unpack_string();
           if (id != nullptr)
             {
-              TRACE_MSG("id = " << id);
+              TRACE_MSG("id = {}", id);
             }
 
           while (buffer.bytes_available() > 0)
@@ -701,7 +684,7 @@ IdleLogManager::load_index()
               info.master = false;
               info.state = ACTIVITY_IDLE;
               info.last_update_time = pack_time;
-              TRACE_MSG("Add client " << info.client_id);
+              TRACE_MSG("Add client {}", info.client_id);
 
               clients[info.client_id] = info;
             }
@@ -715,7 +698,7 @@ IdleLogManager::load_index()
           char *id = buffer.unpack_string();
           if (id != nullptr)
             {
-              TRACE_MSG("id = " << id);
+              TRACE_MSG("id = {}", id);
             }
 
           while (buffer.bytes_available() > 0)
@@ -726,7 +709,6 @@ IdleLogManager::load_index()
           g_free(id);
         }
     }
-  TRACE_EXIT();
 }
 
 //! Saves the idlelog for the specified client.
@@ -758,8 +740,7 @@ IdleLogManager::save_idlelog(ClientInfo &info)
 void
 IdleLogManager::load_idlelog(ClientInfo &info)
 {
-  TRACE_ENTER("IdleLogManager::load_idlelog()");
-
+  TRACE_ENTRY();
   int64_t current_time = TimeSource::get_real_time_sec();
 
   stringstream ss;
@@ -780,7 +761,7 @@ IdleLogManager::load_idlelog(ClientInfo &info)
     {
       if (num_intervals > IDLELOG_MAXSIZE)
         {
-          TRACE_MSG("Skipping " << (num_intervals - IDLELOG_MAXSIZE) << " intervals");
+          TRACE_MSG("Skipping {}", (num_intervals - IDLELOG_MAXSIZE) << " intervals");
           int skip = (num_intervals - IDLELOG_MAXSIZE) * IDLELOG_INTERVAL_SIZE;
           file.seekg(skip);
           size -= skip;
@@ -794,7 +775,7 @@ IdleLogManager::load_idlelog(ClientInfo &info)
       file.close();
       buffer.write_ptr += size;
 
-      TRACE_MSG("loading " << num_intervals << " intervals");
+      TRACE_MSG("loading {}", num_intervals << " intervals");
       for (int i = 0; i < num_intervals; i++)
         {
           IdleInterval idle;
@@ -816,7 +797,6 @@ IdleLogManager::load_idlelog(ClientInfo &info)
   dump_idlelog(info);
   fix_idlelog(info);
   dump_idlelog(info);
-  TRACE_EXIT();
 }
 
 //! Loads the entire idlelog.
@@ -870,8 +850,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, const IdleInterval &idle)
 void
 IdleLogManager::get_idlelog(PacketBuffer &buffer)
 {
-  TRACE_ENTER("IdleLogManager::get_idlelog");
-
+  TRACE_ENTRY();
   // Information about me.
   ClientInfo &myinfo = clients[myid];
 
@@ -885,15 +864,12 @@ IdleLogManager::get_idlelog(PacketBuffer &buffer)
     {
       pack_idle_interval(buffer, *i);
     }
-
-  TRACE_EXIT();
 }
 
 void
 IdleLogManager::set_idlelog(PacketBuffer &buffer)
 {
-  TRACE_ENTER("IdleLogManager::set_idlelog");
-
+  TRACE_ENTRY();
   int64_t delta_time = 0;
   int64_t pack_time = 0;
   int num_intervals = 0;
@@ -910,22 +886,20 @@ IdleLogManager::set_idlelog(PacketBuffer &buffer)
       IdleInterval idle;
       unpack_idle_interval(buffer, idle, delta_time);
 
-      TRACE_MSG(info.client_id << " " << idle.begin_time << " " << idle.end_idle_time << " " << idle.active_time);
+      TRACE_VAR(info.client_id, idle.begin_time, idle.end_idle_time, idle.active_time);
       clients[info.client_id].idlelog.push_back(idle);
     }
 
   fix_idlelog(info);
   save_index();
   save_idlelog(clients[info.client_id]);
-
-  TRACE_EXIT();
 }
 
 //! A remote client has signed on.
 void
 IdleLogManager::signon_remote_client(string client_id)
 {
-  TRACE_ENTER_MSG("signon_remote_client", client_id);
+  TRACE_ENTRY_PAR(client_id);
 
   int64_t current_time = TimeSource::get_real_time_sec();
 
@@ -935,20 +909,16 @@ IdleLogManager::signon_remote_client(string client_id)
 
   save_index();
   save_idlelog(info);
-
-  TRACE_EXIT();
 }
 
 //! A remote client has signed off.
 void
 IdleLogManager::signoff_remote_client(string client_id)
 {
-  TRACE_ENTER_MSG("signoff_remote_client", client_id);
+  TRACE_ENTRY_PAR(client_id);
 
   clients[client_id].state = ACTIVITY_IDLE;
   clients[client_id].master = false;
-
-  TRACE_EXIT();
 }
 
 //! Dumps the idle log of the specified client.
@@ -958,11 +928,10 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
   (void)info;
 #if 0
 #  ifndef PLATFORM_OS_WINDOWS
-  TRACE_ENTER("IdleLogManager::dump_idlelog");
-
-  TRACE_MSG("id = " << info.client_id);
-  TRACE_MSG("last_active_time = " << info.last_active_time);
-  TRACE_MSG("total_active_time = " << info.total_active_time);
+  TRACE_ENTRY();
+  TRACE_MSG("id = {}",  info.client_id);
+  TRACE_MSG("last_active_time = {}",  info.last_active_time);
+  TRACE_MSG("total_active_time = {}",  info.total_active_time);
 
   {
       IdleInterval &idle = info.current_interval;
@@ -973,7 +942,7 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
       struct tm end_time;
       localtime_r(&idle.end_time, &end_time);
 
-      TRACE_MSG(   begin_time.tm_hour << ":"
+      TRACE_VAR(   begin_time.tm_hour << ":"
                    << begin_time.tm_min << ":"
                    << begin_time.tm_sec << " - "
                    << end_idle_time.tm_hour << ":"
@@ -998,7 +967,7 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
       struct tm end_time;
       localtime_r(&idle.end_time, &end_time);
 
-      TRACE_MSG(   begin_time.tm_hour << ":"
+      TRACE_VAR(   begin_time.tm_hour << ":"
                    << begin_time.tm_min << ":"
                    << begin_time.tm_sec << " - "
                    << end_idle_time.tm_hour << ":"
@@ -1011,7 +980,6 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
                    );
       i++;
     }
-  TRACE_EXIT();
 #  endif
 #endif
 }
@@ -1019,8 +987,7 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
 void
 IdleLogManager::fix_idlelog(ClientInfo &info)
 {
-  TRACE_ENTER("IdleLogManager::fix_idlelog");
-
+  TRACE_ENTRY();
   int64_t current_time = TimeSource::get_real_time_sec();
   info.update_active_time(current_time);
 
@@ -1030,7 +997,7 @@ IdleLogManager::fix_idlelog(ClientInfo &info)
     {
       IdleInterval &idle = *i;
 
-      TRACE_MSG(idle.begin_time << " " << idle.end_time << " " << idle.end_idle_time << " " << idle.active_time);
+      TRACE_VAR(idle.begin_time, idle.end_time, idle.end_idle_time, idle.active_time);
 
       if (next_time == -1)
         {
@@ -1044,7 +1011,7 @@ IdleLogManager::fix_idlelog(ClientInfo &info)
         {
           if (idle.begin_time < next_time)
             {
-              TRACE_MSG("Fixing start time. setting from " << idle.begin_time << " to " << next_time);
+              TRACE_MSG("Fixing start time. setting from {} to {}", idle.begin_time, next_time);
               idle.begin_time = next_time;
             }
         }
@@ -1060,6 +1027,4 @@ IdleLogManager::fix_idlelog(ClientInfo &info)
     }
 
   info.idlelog.push_front(IdleInterval(next_time, current_time));
-
-  TRACE_EXIT();
 }

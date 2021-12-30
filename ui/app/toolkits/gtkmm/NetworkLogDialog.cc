@@ -45,8 +45,7 @@ NetworkLogDialog::NetworkLogDialog(std::shared_ptr<IApplication> app)
   : Gtk::Dialog(_("Network log"), false)
   , app(app)
 {
-  TRACE_ENTER("NetworkLogDialog::NetworkLogDialog");
-
+  TRACE_ENTRY();
   set_default_size(600, 400);
 
   text_buffer = Gtk::TextBuffer::create();
@@ -66,21 +65,18 @@ NetworkLogDialog::NetworkLogDialog(std::shared_ptr<IApplication> app)
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
   show_all();
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 NetworkLogDialog::~NetworkLogDialog()
 {
-  TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
+  TRACE_ENTRY();
   auto core = app->get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != nullptr)
     {
       dist_manager->remove_log_listener(this);
     }
-  TRACE_EXIT();
 }
 
 void
@@ -118,11 +114,10 @@ NetworkLogDialog::init()
 int
 NetworkLogDialog::run()
 {
-  TRACE_ENTER("NetworkLogDialog::run");
+  TRACE_ENTRY();
   init();
 
   show_all();
-  TRACE_EXIT();
   return 0;
 }
 
@@ -130,14 +125,13 @@ void
 NetworkLogDialog::on_response(int response)
 {
   (void)response;
-  TRACE_ENTER("NetworkLogDialog::on_response");
+  TRACE_ENTRY();
   auto core = app->get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != nullptr)
     {
       dist_manager->remove_log_listener(this);
     }
-  TRACE_EXIT();
 }
 
 #endif

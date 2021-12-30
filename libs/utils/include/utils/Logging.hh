@@ -26,7 +26,6 @@ namespace workrave::utils
   class Logging
   {
   public:
-    static void init();
     static std::shared_ptr<spdlog::logger> create(std::string domain);
   };
 } // namespace workrave::utils

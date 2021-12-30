@@ -120,10 +120,9 @@ TimerBoxView::get_number_of_timers() const -> int
 void
 TimerBoxView::init_table()
 {
-  TRACE_ENTER("TimerBoxView::init_table");
-
+  TRACE_ENTRY();
   int number_of_timers = get_number_of_timers();
-  TRACE_MSG("number_of_timers = " << number_of_timers);
+  TRACE_MSG("number_of_timers = {}", number_of_timers);
 
   // Compute table dimensions.
   int columns = 2;
@@ -137,7 +136,7 @@ TimerBoxView::init_table()
       int id = current_content[i];
       if (id != -1 && (id != new_content[i] || remove_all))
         {
-          TRACE_MSG("remove " << i << " " << id);
+          TRACE_MSG("remove {} {}", i, id);
           layout->removeWidget(labels[id]);
           labels[id]->hide();
           layout->removeWidget(bars[id]);
@@ -208,7 +207,6 @@ TimerBoxView::init_table()
   visible_count = number_of_timers;
 
   adjustSize();
-  TRACE_EXIT();
 }
 
 void
@@ -231,11 +229,11 @@ TimerBoxView::set_time_bar(BreakId id,
                            int secondary_val,
                            int secondary_max)
 {
-  TRACE_ENTER_MSG("TimerBoxView::set_time_bar", id);
+  TRACE_ENTRY_PAR(id);
 
-  TRACE_MSG(value);
-  TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
-  TRACE_MSG(secondary_val << " " << secondary_max << " " << int(secondary_color));
+  TRACE_VAR(value);
+  TRACE_VAR(primary_val, primary_max, int(primary_color));
+  TRACE_VAR(secondary_val, secondary_max, int(secondary_color));
 
   TimeBar *bar = bars[id];
   bar->set_text(UiUtil::time_to_string(value));
@@ -243,7 +241,6 @@ TimerBoxView::set_time_bar(BreakId id,
   bar->set_progress(primary_val, primary_max);
   bar->set_secondary_bar_color(secondary_color);
   bar->set_secondary_progress(secondary_val, secondary_max);
-  TRACE_EXIT();
 }
 
 void
@@ -270,13 +267,12 @@ TimerBoxView::update_view()
 void
 TimerBoxView::set_sheep_only(bool sheep_only)
 {
-  TRACE_ENTER_MSG("TimerBoxView::set_sheep_only", sheep_only);
+  TRACE_ENTRY_PAR(sheep_only);
   if (this->sheep_only != sheep_only)
     {
       this->sheep_only = sheep_only;
       update_view();
     }
-  TRACE_EXIT();
 }
 
 auto

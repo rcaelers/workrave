@@ -68,7 +68,7 @@ redistribute under GNU terms.
 void
 W32SoundPlayer::play_sound(std::string wavfile, int volume)
 {
-  TRACE_ENTER_MSG("W32SoundPlayer::play_sound", wavfile);
+  TRACE_ENTRY_PAR(wavfile);
 
   if (sound_filename != "")
     {
@@ -81,8 +81,6 @@ W32SoundPlayer::play_sound(std::string wavfile, int volume)
       sound_filename = wavfile;
       CloseHandle(CreateThread(NULL, 0, thread_Play, this, 0, &id));
     }
-
-  TRACE_EXIT();
 }
 
 DWORD WINAPI
@@ -97,8 +95,7 @@ W32SoundPlayer::thread_Play(LPVOID lpParam)
 void
 W32SoundPlayer::Play()
 {
-  TRACE_ENTER("W32SoundPlayer::Play");
-
+  TRACE_ENTRY();
   try
     {
       load_wav_file(sound_filename);
@@ -108,15 +105,13 @@ W32SoundPlayer::Play()
     }
   catch (Exception &e)
     {
-      TRACE_MSG(e.details());
+      TRACE_VAR(e.details());
     }
   catch (...)
     {
     }
 
   sound_filename = "";
-
-  TRACE_EXIT();
 }
 
 void

@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,24 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#ifndef WORKRAVE_UI_ITOOLKIT_FACTORY_HH
+#define WORKRAVE_UI_ITOOLKIT_FACTORY_HH
 
-#include "ApplicationMacOS.hh"
-#include "commonui/MenuDefs.hh"
+#include <memory>
 
-ApplicationMacOS::ApplicationMacOS(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
-  : Application(argc, argv, toolkit_factory)
+#include "ui/IToolkit.hh"
+
+class IToolkitFactory
 {
-}
+public:
+  virtual ~IToolkitFactory() = default;
+  virtual std::shared_ptr<IToolkit> create(int argc, char **argv) = 0;
+};
 
-void
-ApplicationMacOS::init_platform_pre()
-{
-}
-
-void
-ApplicationMacOS::init_platform_post()
-{
-}
+#endif // WORKRAVE_UI_OOLKIT_FACTORY_HH

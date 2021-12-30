@@ -42,7 +42,7 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplication> app, std::shared_ptr<Toolki
   , menu(status_icon_menu)
   , apphold(app->get_toolkit())
 {
-  TRACE_ENTER("StatusIcon::StatusIcon");
+  TRACE_ENTRY();
   mode_icons[OperationMode::Normal] = GtkUtil::create_pixbuf("workrave-icon-medium.png");
   mode_icons[OperationMode::Suspended] = GtkUtil::create_pixbuf("workrave-suspended-icon-medium.png");
   mode_icons[OperationMode::Quiet] = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
@@ -61,7 +61,6 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplication> app, std::shared_ptr<Toolki
 #if defined(PLATFORM_OS_WINDOWS)
   win32_popup_hack_connect(status_icon_menu->get_menu().get());
 #endif
-  TRACE_EXIT();
 }
 
 void
@@ -111,12 +110,11 @@ StatusIcon::insert_icon()
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
-  TRACE_ENTER_MSG("StatusIcon::set_operation_mode", (int)m);
+  TRACE_ENTRY_PAR((int)m);
   if (mode_icons[m])
     {
       status_icon->set(mode_icons[m]);
     }
-  TRACE_EXIT();
 }
 
 bool
@@ -214,40 +212,35 @@ StatusIcon::signal_balloon_activated()
 void
 StatusIcon::win32_popup_hack_connect(Gtk::Widget *menu)
 {
-  TRACE_ENTER("WINDOWSTrayMenu::win32_popup_hack_connect");
-
+  TRACE_ENTRY();
   GtkWidget *widget = (GtkWidget *)menu->gobj();
   g_signal_connect(widget, "leave-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
   g_signal_connect(widget, "enter-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-
-  TRACE_EXIT();
 }
 
 gboolean
 StatusIcon::win32_popup_hack_hide(gpointer data)
 {
-  TRACE_ENTER("WINDOWSTrayMenu::win32_popup_hack_hide");
+  TRACE_ENTRY();
   if (data != NULL)
     {
       gtk_menu_popdown(GTK_MENU(data));
     }
-  TRACE_EXIT();
   return FALSE;
 }
 
 gboolean
 StatusIcon::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
 {
-  TRACE_ENTER("WINDOWSTrayMenu::win32_popup_hack_leave_enter");
-
-  TRACE_MSG(event->type << " " << event->detail);
+  TRACE_ENTRY();
+  TRACE_VAR(event->type, event->detail);
 
   (void)data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
     {
       /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
-      TRACE_MSG("leave " << hide_docklet_timer);
+      TRACE_MSG("leave {}", hide_docklet_timer);
       if (hide_docklet_timer == 0)
         {
           hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
@@ -255,7 +248,7 @@ StatusIcon::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *even
     }
   else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_VIRTUAL)
     {
-      TRACE_MSG("enter " << hide_docklet_timer);
+      TRACE_MSG("enter {}", hide_docklet_timer);
 
       if (hide_docklet_timer != 0)
         {
@@ -264,7 +257,6 @@ StatusIcon::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *even
           hide_docklet_timer = 0;
         }
     }
-  TRACE_EXIT();
   return FALSE;
 }
 #endif

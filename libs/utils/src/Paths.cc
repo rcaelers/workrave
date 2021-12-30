@@ -64,7 +64,7 @@ namespace
     return {};
   }
 #endif
-
+#if defined(PLATFORM_OS_UNIX)
   std::filesystem::path get_directory_from_environment(const char *env)
   {
     auto dir = std::getenv(env);
@@ -75,12 +75,13 @@ namespace
 
     return {};
   }
+#endif
 } // namespace
 
 void
 Paths::set_portable_directory(const std::string &new_portable_directory)
 {
-  TRACE_ENTER("Paths::set_portable_directory");
+  TRACE_ENTRY();
   try
     {
       std::filesystem::path directory(new_portable_directory);
@@ -103,16 +104,15 @@ Paths::set_portable_directory(const std::string &new_portable_directory)
     }
   catch (std::exception &e)
     {
-      TRACE_MSG(e.what());
+      TRACE_VAR(e.what());
       std::cout << e.what() << "\n";
     }
-  TRACE_EXIT();
 }
 
 std::filesystem::path
 Paths::get_home_directory()
 {
-  TRACE_ENTER("Paths::get_home_directory");
+  TRACE_ENTRY();
   std::filesystem::path ret;
   try
     {
@@ -135,17 +135,16 @@ Paths::get_home_directory()
     }
   catch (std::exception &e)
     {
-      TRACE_MSG(e.what());
+      TRACE_VAR(e.what());
       std::cout << e.what() << "\n";
     }
-  TRACE_EXIT();
   return ret;
 }
 
 std::filesystem::path
 Paths::get_application_directory()
 {
-  TRACE_ENTER("Paths::get_application_directory");
+  TRACE_ENTRY();
   try
     {
 #if defined(PLATFORM_OS_WINDOWS)
@@ -169,7 +168,7 @@ Paths::get_application_directory()
 
       std::filesystem::path p(execpath);
       std::filesystem::path dir = p.parent_path().parent_path();
-      TRACE_RETURN(dir);
+      TRACE_VAR(dir);
       return dir;
 #endif
     }
@@ -177,14 +176,13 @@ Paths::get_application_directory()
     {
     }
 
-  TRACE_EXIT();
   return std::filesystem::path();
 }
 
 std::list<std::filesystem::path>
 Paths::get_data_directories()
 {
-  TRACE_ENTER("Paths::get_data_directories");
+  TRACE_ENTRY();
   std::list<std::filesystem::path> directories;
 
   try
@@ -217,25 +215,23 @@ Paths::get_data_directories()
     }
   catch (std::exception &e)
     {
-      TRACE_MSG(e.what());
+      TRACE_VAR(e.what());
     }
 
 #ifdef TRACING
   for (const auto &d: canonicalize(directories))
     {
-      TRACE_MSG(d.string());
+      TRACE_VAR(d.string());
     }
 #endif
 
-  TRACE_EXIT();
   return canonicalize(directories);
 }
 
 std::list<std::filesystem::path>
 Paths::get_config_directories()
 {
-  TRACE_ENTER("Paths::get_config_directories");
-
+  TRACE_ENTRY();
   std::list<std::filesystem::path> directories;
   try
     {
@@ -255,23 +251,22 @@ Paths::get_config_directories()
     }
   catch (std::exception &e)
     {
-      TRACE_MSG(e.what());
+      TRACE_VAR(e.what());
     }
 
 #ifdef TRACING
   for (const auto &d: canonicalize(directories))
     {
-      TRACE_MSG(d.string());
+      TRACE_VAR(d.string());
     }
 #endif
-  TRACE_EXIT();
   return canonicalize(directories);
 }
 
 std::filesystem::path
 Paths::get_config_directory()
 {
-  TRACE_ENTER("Paths::get_config_directory");
+  TRACE_ENTRY();
   std::filesystem::path ret;
 
   try
@@ -308,17 +303,17 @@ Paths::get_config_directory()
     }
   catch (std::exception &e)
     {
-      TRACE_MSG("Exception: " << e.what());
+      TRACE_MSG("Exception: {}", e.what());
     }
 
-  TRACE_RETURN(ret);
+  TRACE_VAR(ret);
   return ret;
 }
 
 std::filesystem::path
 Paths::get_state_directory()
 {
-  TRACE_ENTER("Paths::get_state_directory");
+  TRACE_ENTRY();
   std::filesystem::path ret;
 
   try
@@ -371,10 +366,10 @@ Paths::get_state_directory()
     }
   catch (std::exception &e)
     {
-      TRACE_MSG("Exception: " << e.what());
+      TRACE_MSG("Exception: {}", e.what());
     }
 
-  TRACE_RETURN(ret);
+  TRACE_VAR(ret);
   return ret;
 }
 

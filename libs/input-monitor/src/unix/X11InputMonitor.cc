@@ -114,13 +114,11 @@ X11InputMonitor::X11InputMonitor(const char *display_name)
 
 X11InputMonitor::~X11InputMonitor()
 {
-  TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
+  TRACE_ENTRY();
   if (monitor_thread != nullptr)
     {
       monitor_thread->join();
     }
-
-  TRACE_EXIT();
 }
 
 bool
@@ -133,19 +131,15 @@ X11InputMonitor::init()
 void
 X11InputMonitor::terminate()
 {
-  TRACE_ENTER("X11InputMonitor::terminate");
-
+  TRACE_ENTRY();
   abort = true;
   monitor_thread->join();
-
-  TRACE_EXIT();
 }
 
 void
 X11InputMonitor::run()
 {
-  TRACE_ENTER("X11InputMonitor::run");
-
+  TRACE_ENTRY();
   if ((x11_display = XOpenDisplay(x11_display_name)) == nullptr)
     {
       return;
@@ -168,7 +162,6 @@ X11InputMonitor::run()
 
       if (abort)
         {
-          TRACE_EXIT();
           return;
         }
 
@@ -208,8 +201,6 @@ X11InputMonitor::run()
 
       fire_mouse(root_x, root_y);
     }
-
-  TRACE_EXIT();
 }
 
 void

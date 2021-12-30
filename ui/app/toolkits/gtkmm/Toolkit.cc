@@ -98,19 +98,17 @@ Toolkit::terminate()
 void
 Toolkit::hold()
 {
-  TRACE_ENTER_MSG("Toolkit::hold", hold_count);
+  TRACE_ENTRY_PAR(hold_count);
   hold_count++;
   main_window->set_can_close(hold_count > 0);
-  TRACE_EXIT();
 }
 
 void
 Toolkit::release()
 {
-  TRACE_ENTER_MSG("Toolkit::release", hold_count);
+  TRACE_ENTRY_PAR(hold_count);
   hold_count--;
   main_window->set_can_close(hold_count > 0);
-  TRACE_EXIT();
 }
 
 void
@@ -407,11 +405,10 @@ Toolkit::attach_menu(Gtk::Menu *menu)
 void
 Toolkit::init_multihead()
 {
-  TRACE_ENTER("Toolkit::init_multihead");
+  TRACE_ENTRY();
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
   // screen->signal_monitors_changed().connect(sigc::mem_fun(*this, &Application::update_multihead));
-  TRACE_EXIT();
 }
 
 void
@@ -444,13 +441,12 @@ void
 Toolkit::init_debug()
 {
 #if defined(NDEBUG)
-  TRACE_ENTER("Toolkit::init_debug");
+  TRACE_ENTRY();
   const char *domains[] = {NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject"};
   for (unsigned int i = 0; i < sizeof(domains) / sizeof(char *); i++)
     {
       g_log_set_handler(domains[i], (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION), my_log_handler, NULL);
     }
-  TRACE_EXIT();
 #endif
 }
 
@@ -492,17 +488,15 @@ Toolkit::on_main_window_closed()
 void
 Toolkit::on_status_icon_balloon_activated(const std::string &id)
 {
-  TRACE_ENTER("Toolkit::on_status_icon_balloon_activate");
+  TRACE_ENTRY();
   notify_confirm(id);
-  TRACE_EXIT();
 }
 
 void
 Toolkit::on_status_icon_activated()
 {
-  TRACE_ENTER("Toolkit::on_status_icon_activate");
+  TRACE_ENTRY();
   status_icon_activated_signal();
-  TRACE_EXIT();
 }
 
 void

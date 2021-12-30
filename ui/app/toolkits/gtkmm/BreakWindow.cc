@@ -78,8 +78,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app,
   , break_flags(break_flags)
   , break_id(break_id)
 {
-  TRACE_ENTER("BreakWindow::BreakWindow");
-
+  TRACE_ENTRY();
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
@@ -142,7 +141,6 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app,
 
   auto core = app->get_core();
   core->set_insist_policy(initial_ignore_activity ? InsistPolicy::Ignore : InsistPolicy::Halt);
-  TRACE_EXIT();
 }
 
 //! Init Application
@@ -219,8 +217,7 @@ BreakWindow::init_gui()
 //! Destructor.
 BreakWindow::~BreakWindow()
 {
-  TRACE_ENTER("BreakWindow::~BreakWindow");
-
+  TRACE_ENTRY();
   if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
@@ -229,7 +226,6 @@ BreakWindow::~BreakWindow()
 #ifdef PLATFORM_OS_WINDOWS
   delete desktop_window;
 #endif
-  TRACE_EXIT();
 }
 
 //! Centers the window.
@@ -279,8 +275,7 @@ BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperatio
 void
 BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, System::SystemOperation::SystemOperationType type)
 {
-  TRACE_ENTER("BreakWindow::append_row_to_sysoper_model");
-
+  TRACE_ENTRY();
   const char *name;
   const char *icon_name;
   get_operation_name_and_icon(type, &name, &icon_name);
@@ -292,7 +287,6 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, Sy
     }
   row[sysoper_model_columns->name] = Glib::ustring(name);
   row[sysoper_model_columns->id] = type;
-  TRACE_EXIT();
 }
 
 //! Creates the combo box containing options to suspend/hibernate/shutdown/etc
@@ -303,7 +297,7 @@ BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, Sy
 Gtk::ComboBox *
 BreakWindow::create_sysoper_combobox()
 {
-  TRACE_ENTER("BreakWindow::create_sysoper_combobox");
+  TRACE_ENTRY();
   supported_system_operations = System::get_supported_system_operations();
   bool has_button_images = GtkUtil::has_button_images();
 
@@ -328,7 +322,6 @@ BreakWindow::create_sysoper_combobox()
     {
       delete sysoper_model_columns;
       sysoper_model_columns = nullptr;
-      TRACE_EXIT();
       return nullptr;
     }
 
@@ -341,7 +334,6 @@ BreakWindow::create_sysoper_combobox()
   comboBox->pack_start(sysoper_model_columns->name);
   comboBox->set_active(0);
   comboBox->signal_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_sysoper_combobox_changed));
-  TRACE_EXIT();
   return comboBox;
 }
 
@@ -350,24 +342,24 @@ void
 BreakWindow::on_sysoper_combobox_changed()
 {
   // based on https://developer.gnome.org/gtkmm-tutorial/stable/combobox-example-full.html.en
-  TRACE_ENTER("BreakWindow::on_sysoper_combobox_changed");
+  TRACE_ENTRY();
   Gtk::ListStore::const_iterator iter = sysoper_combobox->get_active();
   if (!iter)
     {
-      TRACE_RETURN("!iter");
+      TRACE_MSG("!iter");
       return;
     }
 
   Gtk::ListStore::Row row = *iter;
   if (!row)
     {
-      TRACE_RETURN("!row");
+      TRACE_MSG("!row");
       return;
     }
 
   if (row[sysoper_model_columns->id] == System::SystemOperation::SYSTEM_OPERATION_NONE)
     {
-      TRACE_RETURN("SYSTEM_OPERATION_NONE");
+      TRACE_MSG("SYSTEM_OPERATION_NONE");
       return;
     }
 
@@ -497,8 +489,7 @@ BreakWindow::on_lock_button_clicked()
 void
 BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
 {
-  TRACE_ENTER("BreakWindow::check_skip_postpone_lock");
-
+  TRACE_ENTRY();
   skip_locked = false;
   postpone_locked = false;
   overdue_break_id = BREAK_ID_NONE;
@@ -531,7 +522,6 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
             }
         }
     }
-  TRACE_EXIT();
 }
 
 //! Control buttons.
@@ -661,9 +651,8 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
 void
 BreakWindow::init()
 {
-  TRACE_ENTER("BreakWindow::init");
+  TRACE_ENTRY();
   init_gui();
-  TRACE_EXIT();
 }
 
 static void
@@ -683,8 +672,7 @@ disable_button_focus(GtkWidget *w, gpointer data)
 void
 BreakWindow::start()
 {
-  TRACE_ENTER("BreakWindow::start");
-
+  TRACE_ENTRY();
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize_if_needed();
@@ -736,15 +724,12 @@ BreakWindow::start()
           gtk_window_set_focus(GTK_WINDOW(toplevel), nullptr);
         }
     }
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::stop()
 {
-  TRACE_ENTER("BreakWindow::stop");
-
+  TRACE_ENTRY();
   if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
@@ -756,15 +741,12 @@ BreakWindow::stop()
   if (desktop_window)
     desktop_window->set_visible(false);
 #endif
-
-  TRACE_EXIT();
 }
 
 void
 BreakWindow::refresh()
 {
-  TRACE_ENTER("BreakWindow::refresh");
-
+  TRACE_ENTRY();
   update_skip_postpone_lock();
 
   update_break_window();
@@ -772,7 +754,6 @@ BreakWindow::refresh()
 #ifdef PLATFORM_OS_WINDOWS
   refresh_break_window();
 #endif
-  TRACE_EXIT();
 }
 
 void
@@ -835,7 +816,7 @@ BreakWindow::refresh_break_window()
     {
       auto b = core->get_break(BreakId(break_id));
 
-      // TRACE_MSG(b->get_elapsed_idle_time());
+      // TRACE_VAR(b->get_elapsed_idle_time());
       if (b->get_elapsed_idle_time() > 5)
         {
           if (postpone_button != NULL)

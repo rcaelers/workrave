@@ -138,8 +138,7 @@ MicroBreakWindow::on_restbreaknow_button_clicked()
 void
 MicroBreakWindow::update_time_bar()
 {
-  TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
-
+  TRACE_ENTRY();
   time_t time = progress_max_value - progress_value;
   string s = _("Micro-break");
   s += ' ';
@@ -167,15 +166,13 @@ MicroBreakWindow::update_time_bar()
         }
     }
   time_bar->update();
-  TRACE_MSG(progress_value << " " << progress_max_value);
-  TRACE_EXIT();
+  TRACE_VAR(progress_value, progress_max_value);
 }
 
 void
 MicroBreakWindow::update_label()
 {
-  TRACE_ENTER("MicroBreakWindow::refresh_label");
-
+  TRACE_ENTRY();
   auto core = app->get_core();
   auto restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
   auto daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
@@ -233,7 +230,6 @@ MicroBreakWindow::update_label()
     }
 
   label->set_markup(HigUtil::create_alert_text(_("Micro-break"), txt.c_str()));
-  TRACE_EXIT();
 }
 
 //! Refresh window.

@@ -84,11 +84,10 @@ using namespace workrave::crash;
 W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
   : config(config)
 {
-  TRACE_ENTER("W32LowLevelMonitor::W32LowLevelMonitor");
-
+  TRACE_ENTRY();
   if (singleton != NULL)
     {
-      TRACE_RETURN(" singleton != NULL ");
+      TRACE_MSG(" singleton != NULL ");
       return;
     }
 
@@ -104,14 +103,11 @@ W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
   m_hook = NULL;
 
   process_handle = GetModuleHandle(NULL);
-
-  TRACE_EXIT();
 }
 
 W32LowLevelMonitor::~W32LowLevelMonitor()
 {
-  TRACE_ENTER("W32LowLevelMonitor::~W32LowLevelMonitor");
-
+  TRACE_ENTRY();
 #ifdef HAVE_CRASH_REPORT
   TRACE_MSG("unregister");
   CrashReporter::instance().unregister_crash_handler(this);
@@ -119,7 +115,7 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
 
   if (singleton != this)
     {
-      TRACE_RETURN(" singleton != this ");
+      TRACE_MSG(" singleton != this ");
       return;
     }
 
@@ -131,18 +127,15 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
   dispatch = NULL;
   callback = NULL;
   singleton = NULL;
-
-  TRACE_EXIT();
 }
 
 bool
 W32LowLevelMonitor::init()
 {
-  TRACE_ENTER("W32LowLevelMonitor::init");
-
+  TRACE_ENTRY();
   if (singleton != this)
     {
-      TRACE_RETURN(" singleton != this ");
+      TRACE_MSG(" singleton != this ");
       return false;
     }
 
@@ -157,7 +150,6 @@ W32LowLevelMonitor::init()
   if (!wait_for_thread_queue(dispatch))
     {
       terminate();
-      TRACE_EXIT();
       return false;
     }
 
@@ -166,7 +158,6 @@ W32LowLevelMonitor::init()
   if (!wait_for_thread_queue(callback))
     {
       terminate();
-      TRACE_EXIT();
       return false;
     }
 
@@ -174,18 +165,17 @@ W32LowLevelMonitor::init()
   Harpoon::init(config, NULL);
 #endif
 
-  TRACE_EXIT();
   return true;
 }
 
 bool
 W32LowLevelMonitor::wait_for_thread_queue(thread_struct *thread)
 {
-  TRACE_ENTER_MSG("W32LowLevelMonitor::wait_for_thread_queue : ", thread->name);
+  TRACE_ENTRY_PAR(thread->name);
 
   if (!thread->handle || !thread->id)
     {
-      TRACE_RETURN(" thread: creation failed.");
+      TRACE_MSG(" thread: creation failed.");
       return false;
     }
 
@@ -198,7 +188,7 @@ W32LowLevelMonitor::wait_for_thread_queue(thread_struct *thread)
       GetExitCodeThread(thread->handle, &thread_exit_code);
       if (thread_exit_code != STILL_ACTIVE)
         {
-          TRACE_RETURN(" thread: terminated prematurely.");
+          TRACE_MSG(" thread: terminated prematurely.");
           return false;
         }
     }
@@ -211,23 +201,20 @@ W32LowLevelMonitor::wait_for_thread_queue(thread_struct *thread)
   if (!ret || gle)
     {
       TRACE_MSG(" thread: PostThreadMessage test failed.");
-      TRACE_MSG(" thread: PostThreadMessage returned: " << ret);
-      TRACE_MSG(" thread: GetLastError returned: " << gle);
-      TRACE_EXIT();
+      TRACE_MSG(" thread: PostThreadMessage returned: {}", ret);
+      TRACE_MSG(" thread: GetLastError returned: {}", gle);
       return false;
     }
 
-  TRACE_EXIT();
   return true;
 }
 
 void
 W32LowLevelMonitor::terminate()
 {
-  TRACE_ENTER("W32LowLevelMonitor::terminate");
+  TRACE_ENTRY();
   if (singleton != this)
     {
-      TRACE_EXIT();
       return;
     }
 
@@ -242,7 +229,6 @@ W32LowLevelMonitor::terminate()
   TRACE_MSG("harpoon");
   Harpoon::terminate();
 #endif
-  TRACE_EXIT();
 }
 
 void

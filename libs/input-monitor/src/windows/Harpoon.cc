@@ -57,7 +57,7 @@ Harpoon::~Harpoon()
 bool
 Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 {
-  TRACE_ENTER("Harpoon::init");
+  TRACE_ENTRY();
   assert(HARPOON_MAX_UNBLOCKED_APPS);
   init_critical_filename_list(config);
 
@@ -77,7 +77,7 @@ Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
-      TRACE_RETURN("Cannot init");
+      TRACE_MSG("Cannot init");
       return false;
     }
 
@@ -85,7 +85,7 @@ Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
     {
       if (!harpoon_hook(func, (BOOL)keyboard_lowlevel, (BOOL)mouse_lowlevel))
         {
-          TRACE_RETURN("Cannot hook");
+          TRACE_MSG("Cannot hook");
           return false;
         }
     }
@@ -96,7 +96,7 @@ Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
       start_harpoon_helper();
     }
 
-  TRACE_RETURN(true);
+  TRACE_VAR(true);
   return true;
 }
 
@@ -267,9 +267,9 @@ Harpoon::check_for_taskmgr_debugger(char *out)
 bool
 Harpoon::is_64bit_windows()
 {
-  TRACE_ENTER("Harpoon::is_64bit_windows");
+  TRACE_ENTRY();
 #if defined(_WIN64)
-  TRACE_RETURN("Yes. win64 build");
+  TRACE_MSG("Yes. win64 build");
   return true; // 64-bit programs run only on Win64
 #elif defined(_WIN32)
   BOOL f64 = FALSE;
@@ -281,16 +281,16 @@ Harpoon::is_64bit_windows()
   if (fnIsWow64Process != NULL)
     {
       bool ret = fnIsWow64Process(GetCurrentProcess(), &f64) && f64;
-      TRACE_RETURN(ret);
+      TRACE_VAR(ret);
       return ret;
     }
   else
     {
-      TRACE_RETURN("No. IsWow64Process missing.");
+      TRACE_MSG("No. IsWow64Process missing.");
       return false;
     }
 #else
-  TRACE_RETURN("No. win16 build");
+  TRACE_MSG("No. win16 build");
   return false; // Win64 does not support Win16
 #endif
 }
@@ -298,13 +298,13 @@ Harpoon::is_64bit_windows()
 HWND
 Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
 {
-  TRACE_ENTER("Harpoon::recursive_find_window");
+  TRACE_ENTRY();
   static char buf[80];
   int num = GetClassName(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
-  TRACE_MSG(buf);
+  TRACE_VAR(buf);
   if (!stricmp(lpClassName, buf))
     {
       ret = hwnd;
@@ -322,15 +322,13 @@ Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
           child = FindWindowEx(hwnd, child, NULL, NULL);
         }
     }
-  TRACE_EXIT();
   return ret;
 }
 
 void
 Harpoon::start_harpoon_helper()
 {
-  TRACE_ENTER("Harpoon::start_harpoon_helper");
-
+  TRACE_ENTRY();
   if (helper_window == NULL)
     {
       helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
@@ -354,10 +352,6 @@ Harpoon::start_harpoon_helper()
       std::filesystem::path helper = install_dir / "lib32" / "WorkraveHelper.exe";
       string args = helper.string() + " " + Platform::get_application_name();
 
-      TRACE_MSG(install_dir.c_str());
-      TRACE_MSG(helper.c_str());
-      TRACE_MSG(args.c_str());
-
       if (CreateProcessA(helper.string().c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
           helper_started = true;
@@ -365,19 +359,18 @@ Harpoon::start_harpoon_helper()
         }
       else
         {
-          TRACE_MSG("CreateProcess failed " << GetLastError());
+          TRACE_MSG("CreateProcess failed {}", GetLastError());
         }
 
-      TRACE_MSG(pi.hProcess);
-      TRACE_MSG(pi.hThread);
+      TRACE_VAR(pi.hProcess);
+      TRACE_VAR(pi.hThread);
     }
-  TRACE_EXIT();
 }
 
 void
 Harpoon::stop_harpoon_helper()
 {
-  TRACE_ENTER("Harpoon::stop_harpoon_helper");
+  TRACE_ENTRY();
   if (helper_window == NULL)
     {
       helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
@@ -388,5 +381,4 @@ Harpoon::stop_harpoon_helper()
       helper_window = NULL;
       helper_started = false;
     }
-  TRACE_EXIT();
 }

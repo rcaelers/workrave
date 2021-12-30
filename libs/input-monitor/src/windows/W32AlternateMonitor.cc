@@ -52,25 +52,19 @@ W32AlternateMonitor::W32AlternateMonitor(IConfigurator::Ptr config)
   , thread_handle(NULL)
   , thread_id(0)
 {
-  TRACE_ENTER("W32AlternateMonitor::W32AlternateMonitor");
-
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 W32AlternateMonitor::~W32AlternateMonitor()
 {
-  TRACE_ENTER("W32AlternateMonitor::~W32AlternateMonitor");
-
+  TRACE_ENTRY();
   terminate();
-
-  TRACE_EXIT();
 }
 
 bool
 W32AlternateMonitor::init()
 {
-  TRACE_ENTER("W32AlternateMonitor::init");
-
+  TRACE_ENTRY();
   if (initialized)
     goto cleanup;
 
@@ -80,7 +74,7 @@ W32AlternateMonitor::init()
   thread_abort_event = CreateEvent(NULL, FALSE, FALSE, NULL);
   if (!thread_abort_event)
     {
-      TRACE_MSG("Thread abort event could not be created. GetLastError : " << GetLastError());
+      TRACE_MSG("Thread abort event could not be created. GetLastError : {}", GetLastError());
       goto cleanup;
     }
 
@@ -89,7 +83,7 @@ W32AlternateMonitor::init()
   thread_handle = CreateThread(NULL, 0, thread_Monitor, this, 0, (DWORD *)&thread_id);
   if (!thread_handle || !thread_id)
     {
-      TRACE_MSG("Thread could not be created. GetLastError : " << GetLastError());
+      TRACE_MSG("Thread could not be created. GetLastError : {}", GetLastError());
       goto cleanup;
     }
 
@@ -103,15 +97,13 @@ cleanup:
   if (initialized == false)
     terminate();
 
-  TRACE_EXIT();
   return initialized;
 }
 
 void
 W32AlternateMonitor::terminate()
 {
-  TRACE_ENTER("W32AlternateMonitor::terminate");
-
+  TRACE_ENTRY();
   thread_id = 0;
 
   if (thread_handle)
@@ -133,8 +125,6 @@ W32AlternateMonitor::terminate()
 #  endif
 
   initialized = false;
-
-  TRACE_EXIT();
 }
 
 DWORD WINAPI
@@ -152,7 +142,7 @@ W32AlternateMonitor::Monitor()
 {
   const DWORD current_thread_id = GetCurrentThreadId();
 
-  TRACE_ENTER_MSG("W32AlternateMonitor::Monitor [ id: ", current_thread_id << " ]");
+  TRACE_ENTRY_PAR(current_thread_id);
 
   SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
@@ -177,8 +167,6 @@ W32AlternateMonitor::Monitor()
       if (WaitForSingleObject(thread_abort_event, interval) != WAIT_TIMEOUT)
         break;
     }
-
-  TRACE_EXIT();
 }
 
 #endif // defined(PLATFORM_OS_WINDOWS)

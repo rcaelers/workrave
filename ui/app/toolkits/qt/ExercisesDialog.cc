@@ -31,8 +31,7 @@
 ExercisesDialog::ExercisesDialog(std::shared_ptr<IApplication> app)
   : QDialog()
 {
-  TRACE_ENTER("ExercisesDialog::ExercisesDialog");
-
+  TRACE_ENTRY();
   auto *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
@@ -42,6 +41,4 @@ ExercisesDialog::ExercisesDialog(std::shared_ptr<IApplication> app)
   panel->signal_stop().connect([this] { accept(); });
 
   layout->addWidget(panel);
-
-  TRACE_EXIT();
 }

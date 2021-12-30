@@ -65,7 +65,7 @@ W32InputMonitorFactory::create_monitor(MonitorCapability capability)
 IInputMonitor::Ptr
 W32InputMonitorFactory::create_activity_monitor()
 {
-  TRACE_ENTER("W32InputMonitorFactory::create_activity_monitor");
+  TRACE_ENTRY();
   IInputMonitor::Ptr monitor = NULL;
 
   if (activity_monitor != NULL)
@@ -87,13 +87,13 @@ W32InputMonitorFactory::create_activity_monitor()
         }
       else
         {
-          TRACE_MSG("use configured: " << configure_monitor_method);
+          TRACE_MSG("use configured: {}", configure_monitor_method);
           actual_monitor_method = configure_monitor_method;
         }
 
       while (!initialized && max_tries > 0)
         {
-          TRACE_MSG("try: " << actual_monitor_method);
+          TRACE_MSG("try: {}", actual_monitor_method);
 
           if (actual_monitor_method == "lowlevel")
             {
@@ -179,11 +179,10 @@ W32InputMonitorFactory::create_activity_monitor()
               config->save();
             }
 
-          TRACE_MSG("using " << actual_monitor_method);
+          TRACE_MSG("using {}", actual_monitor_method);
         }
     }
 
-  TRACE_EXIT();
   return monitor;
 }
 
@@ -191,7 +190,7 @@ W32InputMonitorFactory::create_activity_monitor()
 IInputMonitor::Ptr
 W32InputMonitorFactory::create_statistics_monitor()
 {
-  TRACE_ENTER("W32InputMonitorFactory::create_statistics_monitor");
+  TRACE_ENTRY();
   if (activity_monitor == NULL)
     {
       create_activity_monitor();
@@ -204,22 +203,21 @@ W32InputMonitorFactory::create_statistics_monitor()
 
       if (!initialized)
         {
-          TRACE_RETURN("failed to init lowlevel monitor");
+          TRACE_MSG("failed to init lowlevel monitor");
           monitor.reset();
         }
       else
         {
-          TRACE_RETURN("use lowlevel monitor");
+          TRACE_MSG("use lowlevel monitor");
           statistics_monitor = monitor;
           return statistics_monitor;
         }
     }
   else
     {
-      TRACE_RETURN("use activity monitor");
+      TRACE_MSG("use activity monitor");
       return activity_monitor;
     }
 
-  TRACE_EXIT();
   return IInputMonitor::Ptr();
 }

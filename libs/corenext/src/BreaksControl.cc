@@ -126,7 +126,7 @@ BreaksControl::stop_all_breaks()
 void
 BreaksControl::force_break(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint)
 {
-  TRACE_ENTER_MSG("BreaksControl::force_break", break_id << " " << break_hint);
+  TRACE_ENTRY_PAR(break_id, break_hint);
 
   if (break_id == BREAK_ID_REST_BREAK && breaks[BREAK_ID_MICRO_BREAK]->is_active())
     {
@@ -135,15 +135,13 @@ BreaksControl::force_break(BreakId break_id, workrave::utils::Flags<BreakHint> b
     }
 
   breaks[break_id]->force_start_break(break_hint);
-  TRACE_EXIT();
 }
 
 //! Periodic heartbeat.
 void
 BreaksControl::heartbeat()
 {
-  TRACE_ENTER("BreaksControl::heartbeat");
-
+  TRACE_ENTRY();
   bool user_is_active;
   if (modes->get_usage_mode() == UsageMode::Reading)
     {
@@ -169,16 +167,13 @@ BreaksControl::heartbeat()
       statistics->update();
       save_state();
     }
-
-  TRACE_EXIT();
 }
 
 //! Processes all timers.
 void
 BreaksControl::process_timers(bool user_is_active)
 {
-  TRACE_ENTER("BreaksControl::process_timers");
-
+  TRACE_ENTRY();
   for (int i = BREAK_ID_DAILY_LIMIT; i > BREAK_ID_NONE; i--)
     {
       BreakId break_id = static_cast<BreakId>(i);
@@ -196,7 +191,7 @@ BreaksControl::process_timers(bool user_is_active)
           switch (event)
             {
             case TIMER_EVENT_LIMIT_REACHED:
-              TRACE_MSG("limit reached" << break_id);
+              TRACE_MSG("limit reached {}", break_id);
               if (!breaks[break_id]->is_active() && modes->get_active_operation_mode() == OperationMode::Normal)
                 {
                   start_break(break_id);
@@ -205,7 +200,7 @@ BreaksControl::process_timers(bool user_is_active)
 
             case TIMER_EVENT_NATURAL_RESET:
             case TIMER_EVENT_RESET:
-              TRACE_MSG("limi reset" << break_id);
+              TRACE_MSG("limi reset {}", break_id);
               if (breaks[break_id]->is_active())
                 {
                   breaks[break_id]->stop_break();
@@ -225,8 +220,6 @@ BreaksControl::process_timers(bool user_is_active)
             }
         }
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -294,13 +287,12 @@ BreaksControl::start_break(BreakId break_id, BreakId resume_this_break)
 void
 BreaksControl::set_insist_policy(InsistPolicy p)
 {
-  TRACE_ENTER_MSG("Core::set_insist_policy", p);
-
-  TRACE_MSG("current " << active_insist_policy);
+  TRACE_ENTRY_PAR(p);
+  TRACE_MSG("current {}", active_insist_policy);
 
   if (active_insist_policy != InsistPolicy::Invalid && insist_policy != p)
     {
-      TRACE_MSG("refreeze " << active_insist_policy);
+      TRACE_MSG("refreeze {}", active_insist_policy);
       defrost();
       insist_policy = p;
       freeze();
@@ -310,7 +302,6 @@ BreaksControl::set_insist_policy(InsistPolicy p)
       insist_policy = p;
       freeze();
     }
-  TRACE_EXIT();
 }
 
 //! Exceute the insist policy.
@@ -407,7 +398,7 @@ BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
 void
 BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("BreaksControl::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  TRACE_ENTRY_PAR(break_id, static_cast<std::underlying_type<BreakEvent>::type>(event));
   switch (event)
     {
     case BreakEvent::BreakIdle:
@@ -432,7 +423,6 @@ BreaksControl::on_break_event(BreakId break_id, BreakEvent event)
     {
       reading_activity_monitor->handle_break_event(break_id, event);
     }
-  TRACE_EXIT();
 }
 
 //! Saves the current state.

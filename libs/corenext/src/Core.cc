@@ -62,22 +62,18 @@ CoreFactory::create()
 
 Core::Core()
 {
-  TRACE_ENTER("Core::Core");
+  TRACE_ENTRY();
   hooks = std::make_shared<CoreHooks>();
   TimeSource::sync();
-  TRACE_EXIT();
 }
 
 Core::~Core()
 {
-  TRACE_ENTER("Core::~Core");
-
+  TRACE_ENTRY();
   if (monitor)
     {
       monitor->terminate();
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -209,15 +205,12 @@ Core::init_bus()
 void
 Core::heartbeat()
 {
-  TRACE_ENTER("Core::heartbeat");
-
+  TRACE_ENTRY();
   TimeSource::sync();
 
   configurator->heartbeat();
   breaks_control->heartbeat();
   core_modes->heartbeat();
-
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -368,8 +361,8 @@ Core::force_idle()
 void
 Core::set_powersave(bool down)
 {
-  TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << core_modes->get_active_operation_mode());
+  TRACE_ENTRY_PAR(down);
+  TRACE_VAR(powersave, core_modes->get_active_operation_mode());
 
   if (down)
     {
@@ -388,7 +381,6 @@ Core::set_powersave(bool down)
       remove_operation_mode_override("powersave");
       powersave = false;
     }
-  TRACE_EXIT();
 }
 
 void

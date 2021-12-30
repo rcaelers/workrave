@@ -328,12 +328,10 @@ DistributionManager::broadcast_client_message(DistributionClientMessageID id, Pa
 void
 DistributionManager::master_changed(bool new_master, string id)
 {
-  TRACE_ENTER_MSG("DistributionManager::master_changed", new_master);
+  TRACE_ENTRY_PAR(new_master);
   state = (new_master ? NODE_ACTIVE : NODE_STANDBY);
 
   current_master = id;
-
-  TRACE_EXIT();
 }
 
 //! Cleanup the peer's name?.
@@ -365,7 +363,7 @@ DistributionManager::sanitize_peer(string &peer)
 bool
 DistributionManager::add_peer(string peer)
 {
-  TRACE_ENTER_MSG("DistributionManager:add_peer", peer);
+  TRACE_ENTRY_PAR(peer);
   bool ret = false;
 
   sanitize_peer(peer);
@@ -381,7 +379,6 @@ DistributionManager::add_peer(string peer)
 
   write_peers();
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -389,7 +386,7 @@ DistributionManager::add_peer(string peer)
 bool
 DistributionManager::remove_peer(string peer)
 {
-  TRACE_ENTER_MSG("DistributionManager:remove_peer", peer);
+  TRACE_ENTRY_PAR(peer);
   bool ret = false;
 
   sanitize_peer(peer);
@@ -403,24 +400,22 @@ DistributionManager::remove_peer(string peer)
 
   write_peers();
 
-  TRACE_EXIT();
   return ret;
 }
 
 void
 DistributionManager::set_peers(string peers, bool connect)
 {
-  TRACE_ENTER_MSG("DistributionManager::set_peers", peers);
+  TRACE_ENTRY_PAR(peers);
   parse_peers(peers, connect);
   write_peers();
-  TRACE_EXIT();
 }
 
 //
 void
 DistributionManager::parse_peers(string peers, bool doconnect)
 {
-  TRACE_ENTER_MSG("DistributionManager::parse_peers", peers);
+  TRACE_ENTRY_PAR(peers);
   peer_urls.clear();
 
   std::string::size_type pos = peers.find(',');
@@ -452,7 +447,6 @@ DistributionManager::parse_peers(string peers, bool doconnect)
           connect(peers);
         }
     }
-  TRACE_EXIT();
 }
 
 //! Read all disbution manager configuration.
@@ -490,7 +484,7 @@ DistributionManager::read_configuration()
 void
 DistributionManager::write_peers()
 {
-  TRACE_ENTER("DistributionManager::write_peers");
+  TRACE_ENTRY();
   string peers;
 
   for (list<string>::iterator i = peer_urls.begin(); i != peer_urls.end(); i++)
@@ -503,19 +497,16 @@ DistributionManager::write_peers()
     }
 
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_PEERS, peers);
-  TRACE_EXIT();
 }
 
 //! Notification that the specified configuration key has changed.
 void
 DistributionManager::config_changed_notify(const string &key)
 {
-  TRACE_ENTER_MSG("DistributionManager:config_changed_notify", key);
+  TRACE_ENTRY_PAR(key);
   (void)key;
 
   read_configuration();
-
-  TRACE_EXIT();
 }
 
 //!
@@ -626,7 +617,7 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
 void
 DistributionManager::fire_log_event(string message)
 {
-  TRACE_ENTER_MSG("DistributionManager::fire_log_event", message);
+  TRACE_ENTRY_PAR(message);
 
   LogListenerIter i = log_listeners.begin();
   while (i != log_listeners.end())
@@ -638,14 +629,12 @@ DistributionManager::fire_log_event(string message)
         }
       i++;
     }
-
-  TRACE_EXIT();
 }
 
 void
 DistributionManager::fire_signon_client(char *id)
 {
-  TRACE_ENTER_MSG("DistributionManager::fire_signon_client", id);
+  TRACE_ENTRY_PAR(id);
 
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
@@ -657,14 +646,12 @@ DistributionManager::fire_signon_client(char *id)
         }
       i++;
     }
-
-  TRACE_EXIT();
 }
 
 void
 DistributionManager::fire_signoff_client(char *id)
 {
-  TRACE_ENTER_MSG("DistributionManager::fire_signoff_client", id);
+  TRACE_ENTRY_PAR(id);
 
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
@@ -676,8 +663,6 @@ DistributionManager::fire_signoff_client(char *id)
         }
       i++;
     }
-
-  TRACE_EXIT();
 }
 
 void

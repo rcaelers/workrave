@@ -82,8 +82,7 @@ MainWindow::heartbeat()
 void
 MainWindow::move_to_start_position()
 {
-  TRACE_ENTER("MainWindow:move_to_start_position");
-
+  TRACE_ENTRY();
   int x = GUIConfig::main_window_x()();
   int y = GUIConfig::main_window_y()();
   int head = GUIConfig::main_window_head()();
@@ -113,12 +112,10 @@ MainWindow::move_to_start_position()
     }
   geometry.moveTop(qMax(geometry.top(), availableGeometry.top()));
 
-  TRACE_MSG(x << " " << y << " " << head);
-  TRACE_MSG(geometry.x() << " " << geometry.y() << " " << head);
+  TRACE_VAR(x, y, head);
+  TRACE_VAR(geometry.x(), geometry.y(), head);
 
   move(geometry.topLeft());
-
-  TRACE_EXIT();
 }
 
 void

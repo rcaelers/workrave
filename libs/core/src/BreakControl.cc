@@ -82,7 +82,7 @@ BreakControl::~BreakControl()
 void
 BreakControl::heartbeat()
 {
-  TRACE_ENTER_MSG("BreakControl::heartbeat", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   prelude_time++;
 
@@ -102,7 +102,7 @@ BreakControl::heartbeat()
       is_idle = (activity_state != ACTIVITY_ACTIVE);
     }
 
-  TRACE_MSG("stage = " << break_stage);
+  TRACE_MSG("stage = {}", break_stage);
   switch (break_stage)
     {
     case BreakStage::None:
@@ -130,7 +130,7 @@ BreakControl::heartbeat()
       {
         assert(application != nullptr);
 
-        TRACE_MSG("prelude time = " << prelude_time);
+        TRACE_MSG("prelude time = {}", prelude_time);
 
         update_prelude_window();
         application->refresh_break_window();
@@ -187,15 +187,13 @@ BreakControl::heartbeat()
       }
       break;
     }
-
-  TRACE_EXIT();
 }
 
 //! Initiates the specified break stage.
 void
 BreakControl::goto_stage(BreakStage stage)
 {
-  TRACE_ENTER_MSG("BreakControl::goto_stage", break_id << " " << stage);
+  TRACE_ENTRY_PAR(break_id, stage);
 
   send_signal(stage);
 
@@ -342,7 +340,6 @@ BreakControl::goto_stage(BreakStage stage)
 
   break_stage = stage;
   break_stage_changed_signal(stage);
-  TRACE_EXIT();
 }
 
 //! Updates the contents of the prelude window.
@@ -387,7 +384,7 @@ BreakControl::update_break_window()
 void
 BreakControl::start_break()
 {
-  TRACE_ENTER_MSG("BreakControl::start_break", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   break_hint = BreakHint::Normal;
   forced_break = false;
@@ -426,15 +423,13 @@ BreakControl::start_break()
       goto_stage(BreakStage::Prelude);
       // break_event_signal(BreakEvent::ShowPrelude);
     }
-
-  TRACE_EXIT();
 }
 
 //! Starts the break without preludes.
 void
 BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
 {
-  TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   break_hint = hint;
   forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
@@ -447,7 +442,7 @@ BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
     {
       TRACE_MSG("auto reset enabled");
       int64_t idle = break_timer->get_elapsed_idle_time();
-      TRACE_MSG(idle << " " << break_timer->get_auto_reset() << " " << break_timer->is_enabled());
+      TRACE_VAR(idle, break_timer->get_auto_reset(), break_timer->is_enabled());
       if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {
           TRACE_MSG("Faking break");
@@ -463,8 +458,6 @@ BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
     }
 
   goto_stage(BreakStage::Taking);
-
-  TRACE_EXIT();
 }
 
 //! Stops the break.
@@ -475,7 +468,7 @@ BreakControl::force_start_break(workrave::utils::Flags<BreakHint> hint)
 void
 BreakControl::stop_break(bool reset_count)
 {
-  TRACE_ENTER_MSG("BreakControl::stop_break", break_id << " " << reset_count);
+  TRACE_ENTRY_PAR(break_id, reset_count);
 
   suspend_break();
 
@@ -485,8 +478,6 @@ BreakControl::stop_break(bool reset_count)
     }
 
   break_event_signal(BreakEvent::BreakStop);
-
-  TRACE_EXIT();
 }
 
 //! Suspend the break.
@@ -497,13 +488,11 @@ BreakControl::stop_break(bool reset_count)
 void
 BreakControl::suspend_break()
 {
-  TRACE_ENTER_MSG("BreakControl::suspend_break", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   break_hint = BreakHint::Normal;
 
   goto_stage(BreakStage::None);
-
-  TRACE_EXIT();
 }
 
 //! Does the controller need a heartbeat?
@@ -549,8 +538,7 @@ BreakControl::is_active() const
 bool
 BreakControl::is_max_preludes_reached() const
 {
-  TRACE_ENTER_MSG("BreakControl::is_max_preludes_reached", reached_max_prelude << " " << prelude_count << " " << max_number_of_preludes);
-  TRACE_EXIT();
+  TRACE_ENTRY_PAR(reached_max_prelude, prelude_count, max_number_of_preludes);
   return reached_max_prelude;
 }
 
@@ -646,7 +634,7 @@ BreakControl::set_max_preludes(int m)
 void
 BreakControl::break_window_start()
 {
-  TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   application->create_break_window(break_id, break_hint);
   update_break_window();
@@ -654,15 +642,13 @@ BreakControl::break_window_start()
 
   // Report state change.
   break_event_signal(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
-
-  TRACE_EXIT();
 }
 
 //! Creates and shows the prelude window.
 void
 BreakControl::prelude_window_start()
 {
-  TRACE_ENTER_MSG("BreakControl::prelude_window_start", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   application->create_prelude_window(break_id);
 
@@ -687,16 +673,13 @@ BreakControl::prelude_window_start()
     }
 
   break_event_signal(BreakEvent::ShowPrelude);
-
-  TRACE_EXIT();
 }
 
 bool
 BreakControl::action_notify()
 {
-  TRACE_ENTER("GUI::action_notify");
+  TRACE_ENTRY();
   core->stop_prelude(break_id);
-  TRACE_EXIT();
   return false; // false: kill listener.
 }
 
@@ -705,16 +688,9 @@ void
 BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
   (void)active;
-  TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
-
-  TRACE_MSG("forced = " << data.forced_break << " prelude = " << data.prelude_count << " stage = " << data.break_stage
-                        << " final = " << reached_max_prelude << " time = " << data.prelude_time);
-
   forced_break = data.forced_break;
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
-
-  TRACE_EXIT();
 }
 
 //! Returns the state of this control.
@@ -732,12 +708,11 @@ BreakControl::get_state_data(BreakStateData &data)
 void
 BreakControl::post_event(CoreEvent event)
 {
-  TRACE_ENTER_MSG("BreakControl::post_event", break_id);
+  TRACE_ENTRY_PAR(break_id);
   if (event >= 0)
     {
       core->post_event(event);
     }
-  TRACE_EXIT();
 }
 
 void

@@ -43,8 +43,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(std::shared_ptr<IApplication> app
   , app(app)
   , name(std::move(n))
 {
-  TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
-
+  TRACE_ENTRY();
   create_page();
   init_page_values();
   enable_buttons();
@@ -57,15 +56,12 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(std::shared_ptr<IApplication> app
       auto core = app->get_core();
       CoreConfig::break_enabled(BreakId(i)).connect(this, [this](bool enabled) { enable_buttons(); });
     }
-
-  TRACE_EXIT();
 }
 
 //! Destructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
-  TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 //! Initializes all widgets.

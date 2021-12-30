@@ -58,7 +58,7 @@ ToolkitMacOS::get_locker() -> std::shared_ptr<Locker>
 void
 ToolkitMacOS::setup_environment()
 {
-  TRACE_ENTER("ToolkitMacOS::setup_environment");
+  TRACE_ENTRY();
   std::filesystem::path resources_dir = Paths::get_application_directory() / "Resources";
 
   auto etc_dir = resources_dir / "etc";
@@ -76,5 +76,4 @@ ToolkitMacOS::setup_environment()
   Glib::setenv("PATH", bin_dir.string() + ":" + Glib::getenv("PATH"));
   Glib::setenv("XDG_CONFIG_DIRS", etc_dir / "xdg");
   Glib::setenv("XDG_DATA_DIRS", share_dir);
-  TRACE_EXIT();
 }

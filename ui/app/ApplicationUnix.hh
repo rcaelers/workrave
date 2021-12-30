@@ -27,7 +27,7 @@ class IToolkit;
 class ApplicationUnix : public Application
 {
 public:
-  ApplicationUnix(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
+  ApplicationUnix(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory);
   ~ApplicationUnix() override = default;
 
   void init_platform_pre() override;

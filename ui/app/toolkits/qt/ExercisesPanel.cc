@@ -169,11 +169,10 @@ ExercisesPanel::start_exercise()
 void
 ExercisesPanel::show_image()
 {
-  TRACE_ENTER("ExercisesPanel::show_image");
-
+  TRACE_ENTRY();
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
-  TRACE_MSG("image=" << img.image);
+  TRACE_MSG("image= {}", img.image);
   std::string file = AssetPath::complete_directory(img.image, AssetPath::SEARCH_PATH_EXERCISES);
   if (!img.mirror_x)
     {
@@ -184,14 +183,12 @@ ExercisesPanel::show_image()
       QPixmap pixmap(file.c_str());
       image->setPixmap(pixmap.transformed(QTransform::fromScale(-1, 1)));
     }
-
-  TRACE_EXIT();
 }
 
 void
 ExercisesPanel::refresh_sequence()
 {
-  TRACE_ENTER("ExercisesPanel::refresh_sequence");
+  TRACE_ENTRY();
   const Exercise &exercise = *exercise_iterator;
   if (exercise_time >= seq_time && !exercise.sequence.empty())
     {
@@ -214,8 +211,6 @@ ExercisesPanel::refresh_sequence()
           sound_theme->play_sound(SoundEvent::ExerciseStep);
         }
     }
-
-  TRACE_EXIT();
 }
 
 void

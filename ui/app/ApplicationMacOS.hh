@@ -25,7 +25,7 @@
 class ApplicationMacOS : public Application
 {
 public:
-  ApplicationMacOS(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
+  ApplicationMacOS(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory);
   ~ApplicationMacOS() override = default;
 
   void init_platform_pre() override;

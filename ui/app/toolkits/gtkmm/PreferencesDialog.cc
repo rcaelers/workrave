@@ -78,8 +78,7 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplication> app)
   , app(app)
   , sound_theme(app->get_sound_theme())
 {
-  TRACE_ENTER("PreferencesDialog::PreferencesDialog");
-
+  TRACE_ENTRY();
   connector = new DataConnector(app);
   inhibit_events = 0;
 
@@ -123,15 +122,12 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplication> app)
   button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
 
   show_all();
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 PreferencesDialog::~PreferencesDialog()
 {
-  TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
-
+  TRACE_ENTRY();
 #if defined(HAVE_LANGUAGE_SELECTION)
   const Gtk::TreeModel::iterator &iter = languages_combo.get_active();
   const Gtk::TreeModel::Row row = *iter;
@@ -144,7 +140,6 @@ PreferencesDialog::~PreferencesDialog()
   core->remove_operation_mode_override("preferences");
 
   delete connector;
-  TRACE_EXIT();
 }
 
 Gtk::Widget *
@@ -608,8 +603,7 @@ PreferencesDialog::run()
 bool
 PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 {
-  TRACE_ENTER("PreferencesDialog::focus_in");
-
+  TRACE_ENTRY();
   GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
@@ -621,18 +615,16 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
           core->set_operation_mode_override(OperationMode::Quiet, "preferences");
         }
     }
-  TRACE_EXIT();
   return HigDialog::on_focus_in_event(event);
 }
 
 bool
 PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
 {
-  TRACE_ENTER("PreferencesDialog::focus_out");
+  TRACE_ENTRY();
   auto core = app->get_core();
 
   core->remove_operation_mode_override("preferences");
-  TRACE_EXIT();
   return HigDialog::on_focus_out_event(event);
 }
 
@@ -766,10 +758,10 @@ PreferencesDialog::on_sound_filechooser_play()
 void
 PreferencesDialog::on_sound_filechooser_select()
 {
-  TRACE_ENTER("PreferencesDialog::on_sound_filechooser_select");
+  TRACE_ENTRY();
   string filename = fsbutton->get_filename();
 
-  TRACE_MSG(filename << " " << fsbutton_filename << " " << inhibit_events);
+  TRACE_VAR(filename, fsbutton_filename, inhibit_events);
 
   if (inhibit_events == 0 && filename != "" && fsbutton_filename != filename)
     {
@@ -782,25 +774,24 @@ PreferencesDialog::on_sound_filechooser_select()
         {
           Gtk::TreeModel::Row row = *iter;
 
-          TRACE_MSG(row[sound_model.label]);
+          TRACE_VAR(row[sound_model.label]);
 
           string id = (Glib::ustring)row[sound_model.label];
           SoundEvent event = SoundTheme::sound_id_to_event(id);
           sound_theme->sound_event(event).set(filename);
 
-          TRACE_MSG(filename);
+          TRACE_VAR(filename);
           update_sound_theme_selection();
         }
 
       fsbutton_filename = filename;
-      TRACE_EXIT();
     }
 }
 
 void
 PreferencesDialog::on_sound_events_changed()
 {
-  TRACE_ENTER("PreferencesDialog::on_sound_events_changed");
+  TRACE_ENTRY();
   Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
   Gtk::TreeModel::iterator iter = selection->get_selected();
 
@@ -812,7 +803,7 @@ PreferencesDialog::on_sound_events_changed()
       SoundEvent event = SoundTheme::sound_id_to_event(id);
       string filename = sound_theme->sound_event(event)();
 
-      TRACE_MSG(filename);
+      TRACE_VAR(filename);
 
       if (filename != "")
         {
@@ -822,13 +813,12 @@ PreferencesDialog::on_sound_events_changed()
           inhibit_events--;
         }
     }
-  TRACE_EXIT();
 }
 
 void
 PreferencesDialog::on_sound_theme_changed()
 {
-  TRACE_ENTER("PreferencesDialog::on_sound_theme_changed");
+  TRACE_ENTRY();
   int idx = sound_theme_button->get_active_row_number();
 
   SoundTheme::ThemeInfos themes = sound_theme->get_themes();
@@ -851,7 +841,7 @@ PreferencesDialog::on_sound_theme_changed()
 
           if (filename != "")
             {
-              TRACE_MSG(filename << " " << row[sound_model.label]);
+              TRACE_VAR(filename, row[sound_model.label]);
               inhibit_events++;
               fsbutton_filename = filename;
               fsbutton->set_filename(filename);
@@ -859,13 +849,12 @@ PreferencesDialog::on_sound_theme_changed()
             }
         }
     }
-  TRACE_EXIT();
 }
 
 void
 PreferencesDialog::update_sound_theme_selection()
 {
-  TRACE_ENTER("PreferencesDialog::update_sound_theme_selection");
+  TRACE_ENTRY();
   SoundTheme::ThemeInfo::Ptr active_theme = sound_theme->get_active_theme();
 
   sound_theme_button->remove_all();
@@ -881,13 +870,12 @@ PreferencesDialog::update_sound_theme_selection()
         }
       active_index++;
     }
-  TRACE_EXIT();
 }
 
 void
 PreferencesDialog::on_icon_theme_changed()
 {
-  TRACE_ENTER("PreferencesDialog::on_icon_theme_changed");
+  TRACE_ENTRY();
   int idx = icon_theme_button->get_active_row_number();
 
   if (idx == 0)
@@ -898,13 +886,12 @@ PreferencesDialog::on_icon_theme_changed()
     {
       GUIConfig::icon_theme().set(icon_theme_button->get_active_text());
     }
-  TRACE_EXIT();
 }
 
 void
 PreferencesDialog::update_icon_theme_combo()
 {
-  TRACE_ENTER("PreferencesDialog::update_icon_theme_combo");
+  TRACE_ENTRY();
   std::list<std::string> themes;
 
   for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_IMAGES))
@@ -951,8 +938,6 @@ PreferencesDialog::update_icon_theme_combo()
         }
       icon_theme_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_icon_theme_changed));
     }
-
-  TRACE_EXIT();
 }
 
 void

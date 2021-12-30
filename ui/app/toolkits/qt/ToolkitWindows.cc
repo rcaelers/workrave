@@ -135,8 +135,7 @@ ToolkitWindows::static_filter_func(void *xevent, GdkEvent *event, gpointer data)
 bool
 ToolkitWindows::filter_func(MSG *msg)
 {
-  TRACE_ENTER("Toolkit::filter_func");
-
+  TRACE_ENTRY();
   switch (msg->message)
     {
     case WM_WTSSESSION_CHANGE:
@@ -155,7 +154,7 @@ ToolkitWindows::filter_func(MSG *msg)
 
     case WM_POWERBROADCAST:
       {
-        TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
+        TRACE_MSG("WM_POWERBROADCAST {} {}", msg->wParam, msg->lParam);
 
         switch (msg->wParam)
           {
@@ -190,13 +189,13 @@ ToolkitWindows::filter_func(MSG *msg)
 
     case WM_DISPLAYCHANGE:
       {
-        TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
+        TRACE_MSG("WM_DISPLAYCHANGE {} {}", msg->wParam, msg->lParam);
       }
       break;
 
     case WM_TIMECHANGE:
       {
-        TRACE_MSG("WM_TIMECHANGE " << msg->wParam << " " << msg->lParam);
+        TRACE_MSG("WM_TIMECHANGE {} {}", msg->wParam, msg->lParam);
         auto core = app->get_core();
         core->time_changed();
       }
@@ -204,7 +203,7 @@ ToolkitWindows::filter_func(MSG *msg)
 
     case WM_DEVICECHANGE:
       {
-        TRACE_MSG("WM_DEVICECHANGE " << msg->wParam << " " << msg->lParam);
+        TRACE_MSG("WM_DEVICECHANGE {} {}", msg->wParam, msg->lParam);
         switch (msg->wParam)
           {
           case DBT_DEVICEARRIVAL:
@@ -225,7 +224,6 @@ ToolkitWindows::filter_func(MSG *msg)
 
   event_hook(msg);
 
-  TRACE_EXIT();
   return true;
 }
 

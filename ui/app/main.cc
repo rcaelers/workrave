@@ -48,10 +48,7 @@ using namespace workrave::utils;
 int
 run(int argc, char **argv)
 {
-  TRACE_ENTER("main");
-#ifdef TRACING
-  Debug::init();
-#endif
+  TRACE_ENTRY();
 
 #if defined(HAVE_CRASH_REPORT)
   try
@@ -65,17 +62,16 @@ run(int argc, char **argv)
     }
   catch (std::exception &e)
     {
-      TRACE_MSG(std::string("Crashhandler init exception:") + e.what());
+      TRACE_VAR(std::string("Crashhandler init exception:") + e.what());
     }
 #endif
 #ifdef PLATFORM_OS_WINDOWS
   W32ActiveSetup::update_all();
 #endif
 
-  auto app = ApplicationFactory::create(argc, argv, ToolkitFactory::create(argc, argv));
+  auto app = ApplicationFactory::create(argc, argv, std::make_shared<ToolkitFactory>());
   app->main();
 
-  TRACE_EXIT();
   return 0;
 }
 

@@ -102,7 +102,7 @@ SoundPlayer::init()
 void
 SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, int volume)
 {
-  TRACE_ENTER_MSG("SoundPlayer::play_sound ", wavfile << " " << mute_after_playback << " " << volume);
+  TRACE_ENTRY_PAR(wavfile, mute_after_playback, volume);
   delayed_mute = false;
 
   if (mute_after_playback && mixer != nullptr && driver != nullptr && driver->capability(SoundCapability::EOS_EVENT))
@@ -121,8 +121,6 @@ SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, in
           delayed_mute = false;
         }
     }
-
-  TRACE_EXIT();
 }
 
 bool

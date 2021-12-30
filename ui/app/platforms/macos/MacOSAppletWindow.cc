@@ -30,8 +30,7 @@
 MacOSAppletWindow::MacOSAppletWindow(std::shared_ptr<IApplication> app)
   : app(app)
 {
-  TRACE_ENTER("MacOSAppletWindow::MacOSAppletWindow");
-
+  TRACE_ENTRY();
   timer_box_view = this;
   timer_box_control = new TimerBoxControl(app, "applet", *this);
 
@@ -51,22 +50,18 @@ MacOSAppletWindow::MacOSAppletWindow(std::shared_ptr<IApplication> app)
   [menu addItem:[NSMenuItem separatorItem]];
 
   [menu update];
-
-  TRACE_EXIT();
 }
 
 MacOSAppletWindow::~MacOSAppletWindow()
 {
-  TRACE_ENTER("MacOSAppletWindow::~MacOSAppletWindow");
+  TRACE_ENTRY();
   delete timer_box_control;
-  TRACE_EXIT();
 }
 
 void
 MacOSAppletWindow::set_slot(workrave::BreakId id, int slot)
 {
-  TRACE_ENTER_MSG("MacOSAppletWindow::set_slot", int(id) << ", " << slot);
-  TRACE_EXIT();
+  TRACE_ENTRY_PAR(id, slot);
 }
 
 void
@@ -79,7 +74,7 @@ MacOSAppletWindow::set_time_bar(workrave::BreakId id,
                                 int secondary_val,
                                 int secondary_max)
 {
-  TRACE_ENTER_MSG("MacOSAppletWindow::set_time_bar", int(id) << "=" << value);
+  TRACE_ENTRY_PAR(int(id), value);
 
   NSString *bar_text = [NSString stringWithCString:Text::time_to_string(value) encoding:NSASCIIStringEncoding];
 
@@ -91,8 +86,6 @@ MacOSAppletWindow::set_time_bar(workrave::BreakId id,
        secondaryColor:convertColorId(secondary_color)
        secondaryValue:secondary_val
     secondaryMaxValue:secondary_max];
-
-  TRACE_EXIT();
 }
 
 ColorId

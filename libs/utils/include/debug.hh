@@ -23,76 +23,137 @@
 #ifndef TRACING
 
 #  define TRACE_ENTER(x)
-#  define TRACE_ENTER_MSG(x, y)
-#  define TRACE_RETURN(x)
+#  define TRACE_ENTRY_PAR(y)
+#  define TRACE_MSG(x)
 #  define TRACE_EXIT()
 #  define TRACE_MSG(x)
-#  define TRACE_GERROR(x)
 #else
 
-#  include <iostream>
-#  include <iomanip>
-#  include <fstream>
-#  include <ctime>
+#  include <spdlog/spdlog.h>
+#  include "spdlog/fmt/ostr.h"
 
-#  include <map>
-#  include <thread>
-#  include <mutex>
+#  include <boost/noncopyable.hpp>
+#  include <string_view>
+#  include <array>
 
-extern std::recursive_mutex g_log_mutex;
-extern std::map<std::thread::id, std::ofstream *> g_log_streams;
-
-class Debug
+constexpr std::string_view
+prettify_function(std::string_view func)
 {
-public:
-  static void init(const std::string &name = "");
-  static std::string trace_string();
-  static std::ofstream &stream();
+  auto start_of_args = func.find_first_of("(");
+  if (start_of_args == std::string_view::npos)
+    {
+      start_of_args = func.length();
+    }
+
+  auto end_of_ret_type = func.find_last_of(" ", start_of_args);
+  return func.substr(end_of_ret_type + 1, start_of_args - end_of_ret_type - 1);
+}
+
+struct ScopedTraceAutoFmt
+{
 };
 
-#  ifndef TRACE_EXTRA
-#    define TRACE_EXTRA ""
-#  endif
+// https ://stackoverflow.com/questions/38955940/how-to-concatenate-static-strings-at-compile-time
+template<size_t N>
+struct gen_fmt
+{
+  static constexpr auto impl() noexcept
+  {
+    constexpr auto str = std::string_view{"{} "};
+    constexpr size_t len = str.size() * N;
+    std::array<char, len + 1> arr{};
+    auto append = [i = 0, &arr](auto const &s) mutable {
+      for (auto c: s)
+        arr[i++] = c;
+    };
+    for (size_t j = 0; j < N; j++)
+      append(str);
+    if (len > 0)
+      {
+        arr[len - 1] = 0;
+      }
+    return arr;
+  }
+  static constexpr auto arr = impl();
+  static constexpr std::string_view value{arr.data(), arr.size() - 1};
+};
 
-#  define TRACE_ENTER(x)                                                                 \
-    g_log_mutex.lock();                                                                  \
-    const char *_trace_method_name = x;                                                  \
-    Debug::stream() << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << std::endl; \
-    g_log_mutex.unlock()
+class ScopedTrace : public boost::noncopyable
+{
+public:
+  ScopedTrace(const std::string &func)
+    : func(func)
+  {
+    if (logger)
+      {
+        logger->trace("> " + func);
+      }
+  }
 
-#  define TRACE_ENTER_MSG(x, y)                                                                      \
-    g_log_mutex.lock();                                                                              \
-    const char *_trace_method_name = x;                                                              \
-    Debug::stream() << Debug::trace_string() << ">>> " << x << TRACE_EXTRA << " " << y << std::endl; \
-    g_log_mutex.unlock()
+  template<class... Param>
+  ScopedTrace(const std::string &func, const std::string &fmt, const Param &...p)
+    : func(func)
+  {
+    if (logger)
+      {
+        logger->trace("> " + func + " " + fmt, p...);
+      }
+  }
+  template<class... Param>
+  ScopedTrace(const ScopedTraceAutoFmt &, const std::string &func, const Param &...p)
+    : func(func)
+  {
+    constexpr std::string_view fmt = gen_fmt<sizeof...(Param)>::value;
 
-#  define TRACE_RETURN(y)                                                                       \
-    g_log_mutex.lock();                                                                         \
-    Debug::stream() << Debug::trace_string() << "<<< " << _trace_method_name << y << std::endl; \
-    g_log_mutex.unlock()
+    if (logger)
+      {
+        logger->trace("> " + func + " " + std::string{fmt}, p...);
+      }
+  }
 
-#  define TRACE_EXIT()                                                                     \
-    g_log_mutex.lock();                                                                    \
-    Debug::stream() << Debug::trace_string() << "<<< " << _trace_method_name << std::endl; \
-    g_log_mutex.unlock()
+  ~ScopedTrace()
+  {
+    if (logger)
+      {
+        logger->trace("< " + func);
+      }
+  }
 
-#  define TRACE_MSG(msg)                                                                                 \
-    g_log_mutex.lock();                                                                                  \
-    Debug::stream() << Debug::trace_string() << "    " << _trace_method_name << " " << msg << std::endl; \
-    g_log_mutex.unlock()
+  template<class... Param>
+  void msg(const std::string &fmt, const Param &...p)
+  {
+    if (logger)
+      {
+        logger->trace("= " + func + " " + fmt, p...);
+      }
+  }
 
-#  define TRACE_GERROR(err)                                                                                                 \
-    g_log_mutex.lock();                                                                                                     \
-    if (err != NULL)                                                                                                        \
-      {                                                                                                                     \
-        Debug::stream() << Debug::trace_string() << "    " << _trace_method_name << " error:" << err->message << std::endl; \
-      }                                                                                                                     \
-    g_log_mutex.unlock()
+  template<class... Param>
+  void var(const Param &...p)
+  {
+    if (logger)
+      {
+        constexpr std::string_view fmt = gen_fmt<sizeof...(Param)>::value;
+        logger->trace("= " + func + " " + std::string{fmt}, p...);
+      }
+  }
 
-#  define TRACE_LOG(err)                                                    \
-    g_log_mutex.lock();                                                     \
-    Debug::stream() << Debug::trace_string() << "    " << err << std::endl; \
-    g_log_mutex.unlock()
+  static void init(std::shared_ptr<spdlog::logger> logger)
+  {
+    ScopedTrace::logger = logger;
+  }
+
+private:
+  std::string func;
+  static std::shared_ptr<spdlog::logger> logger;
+};
+
+#  define TRACE_ENTRY(...) ScopedTrace trace_(std::string{prettify_function(__PRETTY_FUNCTION__)})
+#  define TRACE_ENTRY_MSG(...) ScopedTrace trace_(std::string{prettify_function(__PRETTY_FUNCTION__)}, __VA_ARGS__)
+#  define TRACE_ENTRY_PAR(...) ScopedTrace trace_(ScopedTraceAutoFmt{}, std::string{prettify_function(__PRETTY_FUNCTION__)}, __VA_ARGS__)
+
+#  define TRACE_VAR(...) trace_.var(__VA_ARGS__)
+#  define TRACE_MSG(...) trace_.msg(__VA_ARGS__)
 
 #endif // TRACING
 

@@ -442,7 +442,7 @@ Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener 
 bool
 Configurator::remove_listener(IConfiguratorListener *listener)
 {
-  TRACE_ENTER("Configurator::remove_listener");
+  TRACE_ENTRY();
   bool ret = false;
 
   auto i = listeners.begin();
@@ -459,14 +459,13 @@ Configurator::remove_listener(IConfiguratorListener *listener)
           i++;
         }
     }
-  TRACE_EXIT();
   return ret;
 }
 
 bool
 Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListener *listener)
 {
-  TRACE_ENTER("Configurator::remove_listener");
+  TRACE_ENTRY();
   bool ret = false;
 
   if (dynamic_cast<IConfigBackendMonitoring *>(backend) != nullptr)
@@ -488,7 +487,6 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
           i++;
         }
     }
-  TRACE_EXIT();
   return ret;
 }
 
@@ -496,7 +494,7 @@ Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListen
 void
 Configurator::fire_configurator_event(const std::string &key)
 {
-  TRACE_ENTER_MSG("Configurator::fire_configurator_event", key);
+  TRACE_ENTRY_PAR(key);
 
   std::string ckey = trim_key(key);
 
@@ -517,8 +515,6 @@ Configurator::fire_configurator_event(const std::string &key)
         }
       i++;
     }
-
-  TRACE_EXIT();
 }
 
 std::string

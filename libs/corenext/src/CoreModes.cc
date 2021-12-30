@@ -38,15 +38,13 @@ CoreModes::CoreModes(IActivityMonitor::Ptr monitor)
   , usage_mode(UsageMode::Normal)
   , monitor(monitor)
 {
-  TRACE_ENTER("CoreModes::CoreModes");
+  TRACE_ENTRY();
   load_config();
-  TRACE_EXIT();
 }
 
 CoreModes::~CoreModes()
 {
-  TRACE_ENTER("CoreModes::~CoreModes");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 boost::signals2::signal<void(OperationMode)> &
@@ -208,7 +206,7 @@ CoreModes::set_usage_mode_internal(UsageMode mode, bool persistent)
 void
 CoreModes::load_config()
 {
-  TRACE_ENTER("CoreModes::load_config");
+  TRACE_ENTRY();
   CoreConfig::operation_mode().connect(this, [this](OperationMode operation_mode) {
     spdlog::debug("Operation mode changed {} {} {}", operation_mode_regular, operation_mode_active, operation_mode);
     set_operation_mode_internal(operation_mode);
@@ -216,16 +214,14 @@ CoreModes::load_config()
 
   CoreConfig::usage_mode().connect(this, [this](UsageMode usage_mode) { set_usage_mode_internal(usage_mode, false); });
   OperationMode operation_mode = CoreConfig::operation_mode()();
-  TRACE_MSG(operation_mode);
+  TRACE_VAR(operation_mode);
   set_operation_mode_internal(operation_mode);
 
   check_auto_reset();
 
   UsageMode usage_mode = CoreConfig::usage_mode()();
-  TRACE_MSG(usage_mode);
+  TRACE_VAR(usage_mode);
   set_usage_mode(usage_mode);
-
-  TRACE_EXIT();
 }
 
 void

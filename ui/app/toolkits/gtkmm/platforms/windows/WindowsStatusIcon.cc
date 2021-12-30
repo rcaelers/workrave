@@ -49,7 +49,7 @@ WindowsStatusIcon::~WindowsStatusIcon()
 void
 WindowsStatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
 {
-  TRACE_ENTER("WindowsStatusIcon::set");
+  TRACE_ENTRY();
   Glib::RefPtr<Gdk::Pixbuf> scaled;
 
   gint width = pixbuf->get_width();
@@ -78,7 +78,6 @@ WindowsStatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
     {
       DestroyIcon(old_hicon);
     }
-  TRACE_EXIT();
 }
 
 void
@@ -107,7 +106,7 @@ WindowsStatusIcon::set_tooltip(const Glib::ustring &text)
 void
 WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
 {
-  TRACE_ENTER("WindowsStatusIcon::show_balloon");
+  TRACE_ENTRY();
   gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, NULL, NULL, NULL);
   gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, NULL, NULL, NULL);
 
@@ -141,8 +140,6 @@ WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
     {
       g_free(wtitle);
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -261,7 +258,7 @@ WindowsStatusIcon::add_tray_icon()
 LRESULT CALLBACK
 WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  TRACE_ENTER_MSG("WindowsStatusIcon::window_proc", uMsg << " " << wParam);
+  TRACE_ENTRY_PAR(uMsg, wParam);
   WindowsStatusIcon *status_icon = (WindowsStatusIcon *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
   if (status_icon != NULL)
     {
@@ -288,7 +285,6 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
         }
     }
 
-  TRACE_EXIT();
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 

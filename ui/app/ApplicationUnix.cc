@@ -21,8 +21,8 @@
 
 #include "ApplicationUnix.hh"
 
-ApplicationUnix::ApplicationUnix(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
-  : Application(argc, argv, toolkit)
+ApplicationUnix::ApplicationUnix(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
+  : Application(argc, argv, toolkit_factory)
 {
 }
 

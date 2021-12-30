@@ -52,9 +52,8 @@ using namespace workrave::utils;
 RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode)
   : BreakWindow(app, BREAK_ID_REST_BREAK, head, break_flags, mode)
 {
-  TRACE_ENTER("RestBreakWindow::RestBreakWindow");
+  TRACE_ENTRY();
   set_title(_("Rest break"));
-  TRACE_EXIT();
 }
 
 Gtk::Widget *
@@ -82,14 +81,13 @@ RestBreakWindow::create_gui()
 
 RestBreakWindow::~RestBreakWindow()
 {
-  TRACE_ENTER("RestBreakWindow::~RestBreakWindow");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 void
 RestBreakWindow::start()
 {
-  TRACE_ENTER("RestBreakWindow::start");
+  TRACE_ENTRY();
   init_gui();
   if (get_exercise_count() > 0)
     {
@@ -103,8 +101,6 @@ RestBreakWindow::start()
   update_break_window();
 
   BreakWindow::start();
-
-  TRACE_EXIT();
 }
 
 void
@@ -186,14 +182,13 @@ RestBreakWindow::create_info_panel()
 void
 RestBreakWindow::clear_pluggable_panel()
 {
-  TRACE_ENTER("RestBreakWindow::clear_pluggable_panel");
+  TRACE_ENTRY();
   Glib::ListHandle<Gtk::Widget *> children = pluggable_panel->get_children();
   if (children.size() > 0)
     {
       TRACE_MSG("Clearing");
       pluggable_panel->remove(*(*(children.begin())));
     }
-  TRACE_EXIT();
 }
 
 int

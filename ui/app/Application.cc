@@ -15,29 +15,47 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <spdlog/common.h>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
+#include <filesystem>
+#include <initializer_list>
+
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+#if SPDLOG_VERSION >= 10600
+#  include <spdlog/pattern_formatter.h>
+#endif
+#if SPDLOG_VERSION >= 10801
+#  include <spdlog/cfg/env.h>
+#endif
+
+#include <boost/program_options.hpp>
+
 #include "Application.hh"
 
-#include "Menus.hh"
 #include "commonui/nls.h"
 #include "core/IBreak.hh"
 #include "core/ICore.hh"
 #include "dbus/IDBus.hh"
 #include "debug.hh"
+#include "Menus.hh"
 #include "session/System.hh"
 #include "ui/GUIConfig.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPlugin.hh"
+#include "ui/IToolkitFactory.hh"
 #include "ui/Locale.hh"
 #include "ui/SoundTheme.hh"
 #include "ui/Text.hh"
 #include "utils/Exception.hh"
-#include "utils/Platform.hh"
-#include "utils/Paths.hh"
 #include "utils/Logging.hh"
+#include "utils/Paths.hh"
+#include "utils/Platform.hh"
 
 #ifdef HAVE_DBUS
 #  include "GenericDBusApplet.hh"
@@ -46,34 +64,32 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-Application::Application(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
-  : toolkit(toolkit)
+Application::Application(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
+  : toolkit_factory(toolkit_factory)
 {
-  TRACE_ENTER("Application:Application");
-
+  TRACE_ENTRY();
   this->argc = argc;
   this->argv = argv;
-
-  TRACE_EXIT();
 }
 
 Application::~Application()
 {
-  TRACE_ENTER("Application:~Application");
-
-  toolkit->deinit();
+  TRACE_ENTRY();
+  if (toolkit)
+    {
+      toolkit->deinit();
+    }
 
   core.reset();
-
-  TRACE_EXIT();
 }
 
 void
 Application::main()
 {
-  TRACE_ENTER("Application::main");
+  init_args();
+  init_logging();
 
-  Logging::init();
+  toolkit = toolkit_factory->create(argc, argv);
 
   System::init();
   srand((unsigned int)time(nullptr));
@@ -112,14 +128,10 @@ Application::main()
       p->init();
     }
 
-  TRACE_MSG("Initialized. Entering event loop.");
   toolkit->run();
-  TRACE_MSG("loop ended");
 
   System::clear();
   core->get_configurator()->save();
-
-  TRACE_EXIT();
 }
 
 void
@@ -130,6 +142,41 @@ Application::register_plugin(std::shared_ptr<IPlugin> plugin)
     {
       plugin->init();
     }
+}
+
+void
+Application::init_args()
+{
+}
+
+void
+Application::init_logging()
+{
+  const auto log_dir = Paths::get_log_directory();
+  std::filesystem::create_directory(log_dir);
+
+  const auto log_file = log_dir / "workrave.log";
+
+  auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+  auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(log_file.string(), 1024 * 1024, 5, true);
+
+  auto logger{std::make_shared<spdlog::logger>("workrave", std::initializer_list<spdlog::sink_ptr>{console_sink, file_sink})};
+  spdlog::set_default_logger(logger);
+
+  spdlog::set_level(spdlog::level::warn);
+  spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
+
+#if SPDLOG_VERSION >= 10801
+  spdlog::cfg::load_env_levels();
+#endif
+
+  const auto trace_file = log_dir / "workrave-trace.log";
+  auto trace_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(trace_file.string(), 1024 * 1024, 2, true);
+  auto tracer = std::make_shared<spdlog::logger>("trace", trace_sink);
+  tracer->set_level(spdlog::level::trace);
+  tracer->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%t] %v");
+
+  ScopedTrace::init(tracer);
 }
 
 void
@@ -266,7 +313,7 @@ Application::init_updater()
 void
 Application::init_sound_player()
 {
-  TRACE_ENTER("GUI:init_sound_player");
+  TRACE_ENTRY();
   try
     {
       // Tell pulseaudio were are playing sound events
@@ -279,14 +326,13 @@ Application::init_sound_player()
     {
       TRACE_MSG("No sound");
     }
-  TRACE_EXIT();
 }
 
 #if defined(HAVE_CORE_NEXT)
 void
 Application::on_break_event(BreakId break_id, BreakEvent event)
 {
-  TRACE_ENTER_MSG("Application::on_break_event", break_id << " " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+  TRACE_ENTRY_PAR(break_id, static_cast<std::underlying_type<BreakEvent>::type>(event));
 
   struct EventMap
   {
@@ -313,14 +359,14 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
         {
           bool mute = false;
           SoundEvent snd = event_mapping.sound_event;
-          TRACE_MSG("play " << static_cast<std::underlying_type<BreakEvent>::type>(event));
+          TRACE_MSG("play {}", static_cast<std::underlying_type<BreakEvent>::type>(event));
 
           mute = sound_theme->sound_mute()();
           if (mute)
             {
               muted = true;
             }
-          TRACE_MSG("Mute after playback " << mute);
+          TRACE_MSG("Mute after playback {}", mute);
           sound_theme->play_sound(snd, mute);
         }
     }
@@ -329,13 +375,13 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
 void
 Application::core_event_notify(const CoreEvent event)
 {
-  TRACE_ENTER_MSG("Application::core_event_sound_notify", event);
+  TRACE_ENTRY_PAR(event);
 
   if (event >= CORE_EVENT_SOUND_FIRST && event <= CORE_EVENT_SOUND_LAST)
     {
       bool mute = false;
       SoundEvent snd = (SoundEvent)((int)event - CORE_EVENT_SOUND_FIRST);
-      TRACE_MSG("play " << event);
+      TRACE_MSG("play {}", event);
 
       if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED || event == CORE_EVENT_SOUND_DAILY_LIMIT)
         {
@@ -345,7 +391,7 @@ Application::core_event_notify(const CoreEvent event)
               muted = true;
             }
         }
-      TRACE_MSG("Mute after playback " << mute);
+      TRACE_MSG("Mute after playback {}", mute);
       sound_theme->play_sound(snd, mute);
     }
 
@@ -356,14 +402,13 @@ Application::core_event_notify(const CoreEvent event)
       toolkit->show_notification("failed_monitor", "Workrave", msg, []() {});
       toolkit->terminate();
     }
-  TRACE_EXIT();
 }
 #endif
 
 void
 Application::create_prelude_window(BreakId break_id)
 {
-  TRACE_ENTER_MSG("Application::create_prelude_window", break_id);
+  TRACE_ENTRY_PAR(break_id);
   hide_break_window();
   active_break_id = break_id;
 
@@ -371,14 +416,12 @@ Application::create_prelude_window(BreakId break_id)
     {
       prelude_windows.push_back(toolkit->create_prelude_window(i, break_id));
     }
-
-  TRACE_EXIT();
 }
 
 void
 Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint)
 {
-  TRACE_ENTER_MSG("Application::create_break_window", break_id << " " << break_hint);
+  TRACE_ENTRY_PAR(break_id, break_hint);
   hide_break_window();
 
   BreakFlags break_flags = BREAK_FLAGS_NONE;
@@ -423,14 +466,12 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
 
       break_flags |= BREAK_FLAGS_NO_EXERCISES;
     }
-
-  TRACE_EXIT();
 }
 
 void
 Application::hide_break_window()
 {
-  TRACE_ENTER("Application::hide_break_window");
+  TRACE_ENTRY();
   active_break_id = BREAK_ID_NONE;
 
   for (auto &window: prelude_windows)
@@ -447,14 +488,12 @@ Application::hide_break_window()
   prelude_windows.clear();
 
   toolkit->get_locker()->unlock();
-  TRACE_EXIT();
 }
 
 void
 Application::show_break_window()
 {
-  TRACE_ENTER("Application::show_break_window");
-
+  TRACE_ENTRY();
   for (auto &window: prelude_windows)
     {
       window->start();
@@ -465,12 +504,10 @@ Application::show_break_window()
       window->start();
     }
 
-  if (break_windows.size() > 0 && GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
+  if (!break_windows.empty() && GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
     {
       toolkit->get_locker()->lock();
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -545,9 +582,9 @@ Application::on_timer()
 void
 Application::on_main_window_closed()
 {
-  TRACE_ENTER("Application::on_main_window_closed");
+  TRACE_ENTRY();
   bool closewarn = GUIConfig::closewarn_enabled()();
-  TRACE_MSG(closewarn);
+  TRACE_VAR(closewarn);
   if (closewarn && !closewarn_shown)
     {
       toolkit->show_notification("closewarn",
@@ -558,8 +595,6 @@ Application::on_main_window_closed()
                                  []() { GUIConfig::closewarn_enabled().set(false); });
       closewarn_shown = true;
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -655,7 +690,7 @@ Application::on_status_icon_activate()
 void
 Application::on_idle_changed(bool new_idle)
 {
-  TRACE_ENTER_MSG("Application::on_idle_changed", new_idle);
+  TRACE_ENTRY_PAR(new_idle);
 
   bool auto_natural = GUIConfig::break_auto_natural(BREAK_ID_REST_BREAK)();
   auto core = get_core();
@@ -671,7 +706,7 @@ Application::on_idle_changed(bool new_idle)
       auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
       taking = rest_break->is_taking();
-      TRACE_MSG("taking " << taking);
+      TRACE_MSG("taking {}", taking);
       if (!taking)
         {
           core->set_operation_mode_override(OperationMode::Suspended, "screensaver");
@@ -706,5 +741,4 @@ Application::on_idle_changed(bool new_idle)
     }
 
   is_idle = new_idle;
-  TRACE_EXIT();
 }

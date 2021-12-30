@@ -225,7 +225,7 @@ GSettingsConfigurator::remove_listener(const std::string &remove_key)
 void
 GSettingsConfigurator::add_children()
 {
-  TRACE_ENTER("GSettingsConfigurator::add_children");
+  TRACE_ENTRY();
   std::size_t len = schema_base.length();
 
   gchar **schemas = nullptr;
@@ -241,20 +241,18 @@ GSettingsConfigurator::add_children()
           g_signal_connect(gsettings, "changed", G_CALLBACK(on_settings_changed), this);
         }
     }
-
-  TRACE_EXIT();
 }
 
 void
 GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data)
 {
-  TRACE_ENTER_MSG("GSettingsConfigurator::on_settings_changed", key);
+  TRACE_ENTRY_PAR(key);
   gchar *path;
   g_object_get(gsettings, "path", &path, NULL);
 
   std::string tmp = boost::algorithm::replace_all_copy(std::string(path) + key, "/org/workrave/", "");
   std::string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
-  TRACE_MSG(changed);
+  TRACE_VAR(changed);
 
   for (const auto &exception: underscore_exceptions)
     {
@@ -262,7 +260,7 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
       if (mangled == changed)
         {
           changed = exception;
-          TRACE_MSG(" exception: " << changed);
+          TRACE_MSG(" exception: {}", changed);
           break;
         }
     }
@@ -274,7 +272,6 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
     }
 
   g_free(path);
-  TRACE_EXIT();
 }
 
 void
@@ -297,7 +294,7 @@ GSettingsConfigurator::key_split(const std::string &key, std::string &path, std:
 GSettings *
 GSettingsConfigurator::get_settings(const std::string &key, std::string &subkey) const
 {
-  TRACE_ENTER_MSG("GSettingsConfigurator::get_settings", key);
+  TRACE_ENTRY_PAR(key);
 
   std::string path;
 
@@ -305,15 +302,14 @@ GSettingsConfigurator::get_settings(const std::string &key, std::string &subkey)
   key_split(tmp, path, subkey);
   std::string schema = boost::algorithm::replace_all_copy(path, "/", ".");
 
-  TRACE_MSG(subkey << " " << path << " " << schema);
+  TRACE_VAR(subkey, path, schema);
 
   auto i = settings.find(schema_base + "." + schema);
   if (i == settings.end())
     {
-      TRACE_RETURN("NULL");
+      TRACE_MSG("NULL");
       return nullptr;
     }
 
-  TRACE_EXIT();
   return i->second;
 }

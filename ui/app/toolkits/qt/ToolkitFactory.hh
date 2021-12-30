@@ -20,12 +20,12 @@
 
 #include <memory>
 
-#include "ui/IToolkit.hh"
+#include "ui/IToolkitFactory.hh"
 
-class ToolkitFactory
+class ToolkitFactory : public IToolkitFactory
 {
 public:
-  static auto create(int argc, char **argv) -> std::shared_ptr<IToolkit>;
+  auto create(int argc, char **argv) -> std::shared_ptr<IToolkit> override;
 };
 
 #endif // TOOLKIT_FACTORY_HH

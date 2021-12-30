@@ -37,8 +37,7 @@ const char *SystemStateChangeUPower::dbus_name = "org.freedesktop.UPower";
 
 SystemStateChangeUPower::SystemStateChangeUPower(GDBusConnection *connection)
 {
-  TRACE_ENTER("SystemStateChangeUPower::SystemStateChangeUPower");
-
+  TRACE_ENTRY();
   proxy.init_with_connection(connection,
                              dbus_name,
                              "/org/freedesktop/UPower",
@@ -59,19 +58,18 @@ SystemStateChangeUPower::SystemStateChangeUPower(GDBusConnection *connection)
       can_suspend = check_method("SuspendAllowed") && check_property("CanSuspend");
       can_hibernate = check_method("HibernateAllowed") && check_property("CanHibernate");
     }
-  TRACE_EXIT();
 }
 
 bool
 SystemStateChangeUPower::check_method(const char *method_name)
 {
-  TRACE_ENTER_MSG("SystemStateChangeUPower::check_method", method_name);
+  TRACE_ENTRY_PAR(method_name);
 
   GVariant *result;
   if (!proxy.call_method(method_name, nullptr, &result))
     {
-      TRACE_MSG(method_name << " failed");
-      TRACE_RETURN(false);
+      TRACE_MSG("{} failed", method_name);
+      TRACE_VAR(false);
       return false;
     }
 
@@ -80,14 +78,14 @@ SystemStateChangeUPower::check_method(const char *method_name)
 
   g_variant_unref(result);
 
-  TRACE_RETURN(method_result);
+  TRACE_VAR(method_result);
   return method_result == TRUE;
 }
 
 bool
 SystemStateChangeUPower::check_property(const char *property_name)
 {
-  TRACE_ENTER_MSG("SystemStateChangeUPower::check_property", property_name);
+  TRACE_ENTRY_PAR(property_name);
 
   GVariant *result;
   bool r1;
@@ -95,8 +93,8 @@ SystemStateChangeUPower::check_property(const char *property_name)
 
   if (!r1)
     {
-      TRACE_MSG(property_name << " failed");
-      TRACE_RETURN(false);
+      TRACE_MSG("{} failed", property_name);
+      TRACE_VAR(false);
       return false;
     }
 
@@ -113,17 +111,17 @@ SystemStateChangeUPower::check_property(const char *property_name)
   g_variant_unref(content);
   g_variant_unref(result);
 
-  TRACE_RETURN(prop_value);
+  TRACE_VAR(prop_value);
   return (prop_value == TRUE);
 }
 
 bool
 SystemStateChangeUPower::execute(const char *method_name)
 {
-  TRACE_ENTER_MSG("SystemStateChangeUPower::execute", method_name);
+  TRACE_ENTRY_PAR(method_name);
 
   bool ret = proxy.call_method_asynch_no_result(method_name, nullptr);
 
-  TRACE_RETURN(ret);
+  TRACE_VAR(ret);
   return ret;
 }

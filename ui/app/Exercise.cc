@@ -110,7 +110,7 @@ exercise_parse_update_i18n_attribute(const char *const *languages,
 void
 Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
 {
-  TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
+  TRACE_ENTRY_PAR(file_name);
 
   boost::property_tree::ptree pt;
   read_xml(file_name, pt);
@@ -170,19 +170,17 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
 #ifdef TRACING
   for (auto &exercise: exercises)
     {
-      TRACE_MSG("exercise title=" << exercise.title);
-      TRACE_MSG("exercise desc=" << exercise.description);
-      TRACE_MSG("exercise duration=" << exercise.duration);
+      TRACE_MSG("exercise title= {}", exercise.title);
+      TRACE_MSG("exercise desc= {}", exercise.description);
+      TRACE_MSG("exercise duration= {}", exercise.duration);
       TRACE_MSG("exercise seq:");
       for (auto &image: exercise.sequence)
         {
-          TRACE_MSG("exercise seq src=" << image.image << ", dur=" << image.duration);
+          TRACE_MSG("exercise seq src={} dur={}", image.image, image.duration);
         }
       TRACE_MSG("exercise end seq");
     }
 #endif
-
-  TRACE_EXIT();
 }
 
 std::string

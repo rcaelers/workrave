@@ -48,8 +48,7 @@ NetworkJoinDialog::NetworkJoinDialog(std::shared_ptr<IApplication> app)
   : HigDialog(_("Network connect"), true, false)
   , app(app)
 {
-  TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
-
+  TRACE_ENTRY();
   auto core = app->get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
 
@@ -97,15 +96,12 @@ NetworkJoinDialog::NetworkJoinDialog(std::shared_ptr<IApplication> app)
   add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
 
   show_all();
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 NetworkJoinDialog::~NetworkJoinDialog()
 {
-  TRACE_ENTER("NetworkJoinDialog::~NetworkJoinDialog");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 std::string

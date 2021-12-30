@@ -63,7 +63,7 @@ X11SystrayAppletWindow::static_notify_callback(GObject *gobject, GParamSpec *arg
 void
 X11SystrayAppletWindow::notify_callback()
 {
-  TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
+  TRACE_ENTRY();
   if (tray_icon != nullptr && embedded)
     {
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
@@ -82,31 +82,28 @@ X11SystrayAppletWindow::notify_callback()
 
       if (applet_orientation != orientation)
         {
-          TRACE_MSG("orientation " << orientation);
+          TRACE_MSG("orientation {}", orientation);
           applet_orientation = orientation;
           view->set_geometry(applet_orientation, applet_size);
         }
     }
-  TRACE_EXIT();
 }
 
 void
 X11SystrayAppletWindow::activate()
 {
-  TRACE_ENTER("X11SystrayAppletWindow::activate");
-
+  TRACE_ENTRY();
 #if defined(GDK_WINDOWING_X11)
   GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   if (!GDK_IS_X11_DISPLAY(display))
     {
-      TRACE_EXIT();
       return;
     }
 #endif
 
   if (applet_active)
     {
-      TRACE_RETURN("already active, embedded: " << embedded);
+      TRACE_MSG("already active, embedded: {}", embedded);
       return;
     }
 
@@ -159,15 +156,13 @@ X11SystrayAppletWindow::activate()
       workrave::utils::connect(toolkit->signal_timer(), control, [this]() { control->update(); });
     }
 
-  TRACE_EXIT();
   return;
 }
 
 void
 X11SystrayAppletWindow::deactivate()
 {
-  TRACE_ENTER("X11SystrayAppletWindow::deactivate");
-
+  TRACE_ENTRY();
   if (applet_active)
     {
       if (plug != nullptr)
@@ -192,8 +187,6 @@ X11SystrayAppletWindow::deactivate()
     }
 
   applet_active = false;
-
-  TRACE_EXIT();
 }
 
 bool
@@ -208,8 +201,7 @@ X11SystrayAppletWindow::on_delete_event(GdkEventAny *event)
 void
 X11SystrayAppletWindow::on_embedded()
 {
-  TRACE_ENTER("X11SystrayAppletWindow::on_embedded");
-
+  TRACE_ENTRY();
   if (applet_active)
     {
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
@@ -232,7 +224,6 @@ X11SystrayAppletWindow::on_embedded()
     }
 
   apphold.hold();
-  TRACE_EXIT();
 }
 
 bool
@@ -267,11 +258,10 @@ X11SystrayAppletWindow::button_clicked(int button)
 void
 X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
 {
-  TRACE_ENTER("X11SystrayAppletWindow::on_size_allocate");
-
+  TRACE_ENTRY();
   if (embedded)
     {
-      TRACE_MSG(allocation.get_x() << " " << allocation.get_y() << " " << allocation.get_width() << " " << allocation.get_height());
+      TRACE_VAR(allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height());
       GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
@@ -289,7 +279,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
           if (applet_size != allocation.get_width())
             {
               applet_size = allocation.get_width();
-              TRACE_MSG("New size = " << applet_size);
+              TRACE_MSG("New size = {}", applet_size);
               view->set_geometry(applet_orientation, applet_size);
             }
         }
@@ -298,7 +288,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
           if (applet_size != allocation.get_height())
             {
               applet_size = allocation.get_height();
-              TRACE_MSG("New size = " << applet_size);
+              TRACE_MSG("New size = {}", applet_size);
               view->set_geometry(applet_orientation, applet_size);
             }
         }
@@ -306,8 +296,8 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
       Gtk::Requisition my_size;
       GtkRequisition natural_size;
       view->get_preferred_size(my_size, natural_size);
-      TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
-      TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
+      TRACE_MSG("my_size = {} {}", my_size.width, my_size.height);
+      TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
 
       // hack...
       if (!view->is_sheep_only())
@@ -315,7 +305,6 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
           view->set_sheep_only(allocation.get_width() < my_size.width || allocation.get_height() < my_size.height);
         }
     }
-  TRACE_EXIT();
 }
 
 void

@@ -29,7 +29,7 @@ bool DesktopWindow::initialized = false;
 
 DesktopWindow::DesktopWindow(int x, int y, int width, int height)
 {
-  TRACE_ENTER("DesktopWindow::DesktopWindow");
+  TRACE_ENTRY();
   init();
   HINSTANCE hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
@@ -64,8 +64,6 @@ DesktopWindow::DesktopWindow(int x, int y, int width, int height)
                          hinstance,
                          (LPSTR)NULL);
   SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-  TRACE_EXIT();
 }
 
 DesktopWindow::~DesktopWindow()

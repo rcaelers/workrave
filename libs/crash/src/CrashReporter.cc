@@ -94,21 +94,19 @@ CrashReporter::unregister_crash_handler(CrashHandler *handler)
 bool
 CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
 {
-  TRACE_ENTER("CrashReporter::Pimpl::crashpad_handler");
-
+  TRACE_ENTRY();
 #ifdef HAVE_HARPOON
   Harpoon::unblock_input();
 #endif
   CrashReporter::instance().pimpl->call_crash_handlers();
 
-  TRACE_EXIT();
   return false;
 }
 
 void
 CrashReporter::Pimpl::init()
 {
-  TRACE_ENTER("CrashReporter::Pimpl::init");
+  TRACE_ENTRY();
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
   const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
 
@@ -133,7 +131,7 @@ CrashReporter::Pimpl::init()
   annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif
 
-  TRACE_MSG("handler = " << app_dir);
+  TRACE_MSG("handler = {}", app_dir);
 
   base::FilePath reports_dir(temp_dir);
   base::FilePath metrics_dir(temp_dir);
@@ -165,7 +163,6 @@ CrashReporter::Pimpl::init()
                                       /* asynchronous_start */ false);
 
   crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
-  TRACE_EXIT();
 }
 
 void

@@ -110,8 +110,7 @@ TimerBoxControl::set_force_empty(bool s)
 void
 TimerBoxControl::init()
 {
-  TRACE_ENTER("TimerBoxControl::init");
-
+  TRACE_ENTRY();
   GUIConfig::key_timerbox(name).connect(this, [this] { load_configuration(); });
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -131,8 +130,6 @@ TimerBoxControl::init()
 
   // Load the configuration
   load_configuration();
-
-  TRACE_EXIT();
 }
 
 //! Updates the main window.
@@ -220,8 +217,7 @@ TimerBoxControl::init_icon()
 void
 TimerBoxControl::init_table()
 {
-  TRACE_ENTER("TimerBoxControl::init_table");
-
+  TRACE_ENTRY();
   if (force_empty)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -254,14 +250,13 @@ TimerBoxControl::init_table()
           view->set_slot(BREAK_ID_NONE, i);
         }
     }
-  TRACE_EXIT();
 }
 
 //! Compute what break to show on the specified location.
 void
 TimerBoxControl::init_slot(int slot)
 {
-  // TRACE_ENTER_MSG("TimerBoxControl::init_slot", slot);
+  // TRACE_ENTRY_PAR(slot);
   int count = 0;
   int breaks_id[BREAK_ID_SIZEOF];
 
@@ -400,7 +395,7 @@ TimerBoxControl::cycle_slots()
 void
 TimerBoxControl::load_configuration()
 {
-  TRACE_ENTER("TimerBoxControl::load_configuration");
+  TRACE_ENTRY();
   cycle_time = GUIConfig::timerbox_cycle_time(name)();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -413,5 +408,4 @@ TimerBoxControl::load_configuration()
       break_slot_cycle[i] = 0;
     }
   reconfigure = true;
-  TRACE_EXIT();
 }

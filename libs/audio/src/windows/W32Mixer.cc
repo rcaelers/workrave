@@ -36,8 +36,7 @@ W32Mixer::W32Mixer()
 
 W32Mixer::~W32Mixer()
 {
-  TRACE_ENTER("W32Mixer::~W32Mixer");
-
+  TRACE_ENTRY();
   if (endpoint_volume != NULL)
     {
       endpoint_volume->Release();
@@ -45,13 +44,12 @@ W32Mixer::~W32Mixer()
     }
 
   CoUninitialize();
-  TRACE_EXIT();
 }
 
 bool
 W32Mixer::set_mute(bool on)
 {
-  TRACE_ENTER_MSG("W32Mixer::set_mute", on);
+  TRACE_ENTRY_PAR(on);
 
   bool was_muted = false;
 
@@ -64,15 +62,13 @@ W32Mixer::set_mute(bool on)
       was_muted = set_mute_mixer(on);
     }
 
-  TRACE_EXIT();
   return was_muted;
 }
 
 void
 W32Mixer::init()
 {
-  TRACE_ENTER("W32Mixer::init");
-
+  TRACE_ENTRY();
   CoInitialize(NULL);
 
   HRESULT hr;
@@ -100,14 +96,13 @@ W32Mixer::init()
       default_device->Release();
     }
 
-  TRACE_MSG(hr);
-  TRACE_EXIT();
+  TRACE_VAR(hr);
 }
 
 bool
 W32Mixer::set_mute_mmdevice(bool on)
 {
-  TRACE_ENTER_MSG("W32Mixer::set_mute_mmdevice", on);
+  TRACE_ENTRY_PAR(on);
 
   HRESULT hr;
 
@@ -116,7 +111,7 @@ W32Mixer::set_mute_mmdevice(bool on)
 
   if (hr == S_OK)
     {
-      TRACE_MSG("current mute is: " << mute);
+      TRACE_MSG("current mute is: {}", mute);
       hr = endpoint_volume->SetMute(on, NULL);
     }
 
@@ -126,7 +121,7 @@ W32Mixer::set_mute_mmdevice(bool on)
 bool
 W32Mixer::set_mute_mixer(bool on)
 {
-  TRACE_ENTER_MSG("W32Mixer::set_mute_mixer", on);
+  TRACE_ENTRY_PAR(on);
 
   MMRESULT result = MMSYSERR_NOERROR;
   MIXERLINE mixer_line;
@@ -185,7 +180,7 @@ W32Mixer::set_mute_mixer(bool on)
 
       mixerGetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
       ret = value.fValue;
-      TRACE_MSG("current mute is: " << ret);
+      TRACE_MSG("current mute is: {}", ret);
 
       value.fValue = on;
       mixerSetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
@@ -196,6 +191,5 @@ W32Mixer::set_mute_mixer(bool on)
       delete[] mixer_control;
     }
 
-  TRACE_EXIT();
   return ret;
 }

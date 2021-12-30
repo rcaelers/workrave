@@ -88,21 +88,19 @@ Toolkit::terminate()
 void
 Toolkit::hold()
 {
-  TRACE_ENTER_MSG("Toolkit::hold", hold_count);
+  TRACE_ENTRY_PAR(hold_count);
   hold_count++;
   // TODO: main_window->set_can_close(hold_count > 0);
   setQuitOnLastWindowClosed(hold_count == 0);
-  TRACE_EXIT();
 }
 
 void
 Toolkit::release()
 {
-  TRACE_ENTER_MSG("Toolkit::release", hold_count);
+  TRACE_ENTRY_PAR(hold_count);
   hold_count--;
   setQuitOnLastWindowClosed(hold_count == 0);
   // TODO: main_window->set_can_close(hold_count > 0);
-  TRACE_EXIT();
 }
 
 void
@@ -309,17 +307,15 @@ Toolkit::on_main_window_closed()
 void
 Toolkit::on_status_icon_balloon_activated(const std::string &id)
 {
-  TRACE_ENTER("Toolkit::on_status_icon_balloon_activate");
+  TRACE_ENTRY();
   notify_confirm(id);
-  TRACE_EXIT();
 }
 
 void
 Toolkit::on_status_icon_activated()
 {
-  TRACE_ENTER("Toolkit::on_status_icon_activate");
+  TRACE_ENTRY();
   status_icon_activated_signal();
-  TRACE_EXIT();
 }
 
 void

@@ -25,7 +25,7 @@ const char *SystemStateChangeConsolekit::dbus_name = "org.freedesktop.ConsoleKit
 
 SystemStateChangeConsolekit::SystemStateChangeConsolekit(GDBusConnection *connection)
 {
-  TRACE_ENTER("SystemStateChangeConsolekit::SystemStateChangeConsolekit");
+  TRACE_ENTRY();
   proxy.init_with_connection(connection,
                              dbus_name,
                              "/org/freedesktop/ConsoleKit/Manager",
@@ -43,7 +43,7 @@ SystemStateChangeConsolekit::SystemStateChangeConsolekit(GDBusConnection *connec
       GVariant *result;
       if (!proxy.call_method("CanStop", nullptr, &result))
         {
-          TRACE_MSG(false);
+          TRACE_VAR(false);
           can_shutdown = false;
         }
       else
@@ -51,18 +51,17 @@ SystemStateChangeConsolekit::SystemStateChangeConsolekit(GDBusConnection *connec
           gboolean r2;
           g_variant_get(result, "(b)", &r2);
           g_variant_unref(result);
-          TRACE_MSG(r2);
+          TRACE_VAR(r2);
           can_shutdown = (r2 == TRUE);
         }
     }
-  TRACE_EXIT();
 }
 
 bool
 SystemStateChangeConsolekit::shutdown()
 {
-  TRACE_ENTER("SystemStateChangeConsolekit::shutdown");
+  TRACE_ENTRY();
   bool r = proxy.call_method("Stop", nullptr, nullptr);
-  TRACE_RETURN(r);
+  TRACE_VAR(r);
   return r;
 }

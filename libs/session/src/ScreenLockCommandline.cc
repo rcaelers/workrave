@@ -33,7 +33,7 @@
 ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async)
   : async(async)
 {
-  TRACE_ENTER_MSG("ScreenLockCommandline::ScreenLockCommandline", program_name);
+  TRACE_ENTRY_PAR(program_name);
   char *program_path = g_find_program_in_path(program_name);
 
   if (program_path == nullptr)
@@ -49,7 +49,6 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
     {
       cmd = program_path;
     }
-  TRACE_EXIT();
 }
 
 bool
@@ -83,7 +82,6 @@ ScreenLockCommandline::invoke(const gchar *command, bool async)
 bool
 ScreenLockCommandline::lock()
 {
-  TRACE_ENTER_MSG("ScreenLockCommandline::lock", cmd);
+  TRACE_ENTRY_PAR(cmd);
   return invoke(cmd, async);
-  TRACE_EXIT();
 }

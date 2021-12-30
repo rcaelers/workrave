@@ -34,14 +34,14 @@ PulseMixer::~PulseMixer()
 bool
 PulseMixer::set_mute(bool on)
 {
-  TRACE_ENTER_MSG("PulseMixer::set_mute", on);
+  TRACE_ENTRY_PAR(on);
 
   bool was_muted = false;
 
   if (default_sink_info != nullptr)
     {
       was_muted = default_sink_info->mute;
-      TRACE_MSG("Was muted " << was_muted);
+      TRACE_MSG("Was muted {}", was_muted);
 
       if (was_muted != on)
         {
@@ -56,16 +56,13 @@ PulseMixer::set_mute(bool on)
             }
         }
     }
-
-  TRACE_EXIT();
   return was_muted;
 }
 
 void
 PulseMixer::init()
 {
-  TRACE_ENTER("PulseMixer::init");
-
+  TRACE_ENTRY();
   pa_mainloop = pa_glib_mainloop_new(g_main_context_default());
   g_assert(pa_mainloop);
 
@@ -87,14 +84,12 @@ PulseMixer::init()
   pa_context_set_state_callback(context, context_state_cb, this);
 
   pa_context_connect(context, nullptr, (pa_context_flags_t)0, nullptr);
-
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *user_data)
 {
-  TRACE_ENTER("PulseMixer::subscribe_cb");
+  TRACE_ENTRY();
   auto *pulse = (PulseMixer *)user_data;
 
   switch (t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK)
@@ -126,13 +121,12 @@ PulseMixer::subscribe_cb(pa_context *c, pa_subscription_event_type_t t, uint32_t
         pa_operation_unref(o);
       }
     }
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::context_state_cb(pa_context *c, void *user_data)
 {
-  TRACE_ENTER("PulseMixer::context_state_cb");
+  TRACE_ENTRY();
   auto *pulse = (PulseMixer *)user_data;
 
   switch (pa_context_get_state(c))
@@ -180,37 +174,34 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
       break;
     case PA_CONTEXT_FAILED:
     default:
-      TRACE_MSG("Connection failure:" << pa_strerror(pa_context_errno(c)));
+      TRACE_MSG("Connection failure: {}", pa_strerror(pa_context_errno(c)));
     }
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::server_info_cb(pa_context *, const pa_server_info *i, void *user_data)
 {
-  TRACE_ENTER("PulseMixer::server_info_cb");
+  TRACE_ENTRY();
   auto *pulse = (PulseMixer *)user_data;
   pulse->set_default_sink_name(i->default_sink_name ? i->default_sink_name : "");
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::sink_cb(pa_context *, const pa_sink_info *i, int eol, void *user_data)
 {
-  TRACE_ENTER("PulseMixer::sink_cb");
+  TRACE_ENTRY();
   auto *pulse = (PulseMixer *)user_data;
 
   if (eol == 0)
     {
       pulse->update_sink(*i);
     }
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::set_default_sink_name(const char *name)
 {
-  TRACE_ENTER_MSG("PulseMixer::set_default_sink_name", name);
+  TRACE_ENTRY_PAR(name);
 
   default_sink_name = name;
 
@@ -224,13 +215,12 @@ PulseMixer::set_default_sink_name(const char *name)
           default_sink_info = sink_info;
         }
     }
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::remove_sink(uint32_t index)
 {
-  TRACE_ENTER_MSG("PulseMixer::remove_sink", index);
+  TRACE_ENTRY_PAR(index);
   if (sinks.count(index))
     {
       if (sinks[index] == default_sink_info)
@@ -241,13 +231,12 @@ PulseMixer::remove_sink(uint32_t index)
       delete sinks[index];
       sinks.erase(index);
     }
-  TRACE_EXIT();
 }
 
 void
 PulseMixer::update_sink(const pa_sink_info &info)
 {
-  TRACE_ENTER("PulseMixer::update_sink");
+  TRACE_ENTRY();
   SinkInfo *sink_info = nullptr;
 
   if (sinks.count(info.index))
@@ -265,12 +254,10 @@ PulseMixer::update_sink(const pa_sink_info &info)
   sink_info->description = info.description;
   sink_info->mute = info.mute;
 
-  TRACE_MSG(info.name << " " << info.mute << " " << info.index);
+  TRACE_VAR(info.name, info.mute, info.index);
 
   if (sink_info->name == default_sink_name)
     {
       default_sink_info = sink_info;
     }
-
-  TRACE_EXIT();
 }

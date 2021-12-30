@@ -194,8 +194,7 @@ SoundTheme::init()
 void
 SoundTheme::register_sound_events()
 {
-  TRACE_ENTER("SoundTheme::register_sound_events");
-
+  TRACE_ENTRY();
   ThemeInfo::Ptr theme = get_theme("default");
   if (theme)
     {
@@ -208,31 +207,27 @@ SoundTheme::register_sound_events()
             }
         }
     }
-
-  TRACE_EXIT();
 }
 
 void
 SoundTheme::activate_theme(const std::string &theme_id)
 {
-  TRACE_ENTER_MSG("SoundTheme::activate_theme", theme_id);
+  TRACE_ENTRY_PAR(theme_id);
   ThemeInfo::Ptr theme = get_theme(theme_id);
   if (theme)
     {
       for (SoundInfo sound: theme->sounds)
         {
-          // TRACE_MSG("activating " << sound.event << " " << sound.filename);
+          // TRACE_MSG("activating {} {}",  sound.event, sound.filename);
           SoundTheme::sound_event(sound.event).set(sound.filename);
         }
     }
-  TRACE_EXIT();
 }
 
 void
 SoundTheme::load_themes()
 {
-  TRACE_ENTER("SoundTheme::get_sound_themes");
-
+  TRACE_ENTRY();
   for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS))
     {
       std::filesystem::path dirpath(dirname);
@@ -255,14 +250,12 @@ SoundTheme::load_themes()
             }
         }
     }
-
-  TRACE_EXIT();
 }
 
 SoundTheme::ThemeInfo::Ptr
 SoundTheme::load_sound_theme(const string &themedir)
 {
-  TRACE_ENTER_MSG("SoundTheme::load_sound_theme", themedir);
+  TRACE_ENTRY_PAR(themedir);
   ThemeInfo::Ptr theme(new ThemeInfo);
 
   try
@@ -277,8 +270,8 @@ SoundTheme::load_sound_theme(const string &themedir)
 
       theme->theme_id = path.stem().string();
       theme->description = pt.get<std::string>("general.description");
-      TRACE_MSG("id = " << theme->theme_id);
-      TRACE_MSG("descr = " << theme->description);
+      TRACE_MSG("id = {}", theme->theme_id);
+      TRACE_MSG("descr = {}", theme->description);
 
       for (const SoundRegistry &snd: sound_registry)
         {
@@ -300,7 +293,6 @@ SoundTheme::load_sound_theme(const string &themedir)
       theme.reset();
     }
 
-  TRACE_EXIT();
   return theme;
 }
 
@@ -360,7 +352,7 @@ SoundTheme::get_theme(const std::string &theme_id)
 void
 SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
 {
-  TRACE_ENTER_MSG("SoundPlayer::play_sound ", snd << " " << mute_after_playback);
+  TRACE_ENTRY_PAR(snd, mute_after_playback);
   bool enabled = SoundTheme::sound_event_enabled(snd)();
 
   if (enabled)
@@ -371,8 +363,6 @@ SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
           player->play_sound(filename, mute_after_playback, SoundTheme::sound_volume()());
         }
     }
-
-  TRACE_EXIT();
 }
 
 void

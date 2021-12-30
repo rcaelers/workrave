@@ -20,6 +20,7 @@
 #endif
 
 #include "ApplicationFactory.hh"
+#include "ui/IToolkitFactory.hh"
 
 class Application;
 class IToolkit;
@@ -33,14 +34,14 @@ class IToolkit;
 #endif
 
 std::shared_ptr<Application>
-ApplicationFactory::create(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
+ApplicationFactory::create(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
 {
 #if defined(PLATFORM_OS_MACOS)
-  return std::make_shared<ApplicationMacOS>(argc, argv, toolkit);
+  return std::make_shared<ApplicationMacOS>(argc, argv, toolkit_factory);
 #elif defined(PLATFORM_OS_WINDOWS)
-  return std::make_shared<ApplicationWindows>(argc, argv, toolkit);
+  return std::make_shared<ApplicationWindows>(argc, argv, toolkit_factory);
 #elif defined(PLATFORM_OS_UNIX)
-  return std::make_shared<ApplicationUnix>(argc, argv, toolkit);
+  return std::make_shared<ApplicationUnix>(argc, argv, toolkit_factory);
 #else
 #  error Unsupported platform
 #endif

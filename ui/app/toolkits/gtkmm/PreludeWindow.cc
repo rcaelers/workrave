@@ -48,8 +48,7 @@ using namespace workrave::utils;
 PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
 {
-  TRACE_ENTER("PreludeWindow::PreludeWindow");
-
+  TRACE_ENTRY();
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
   set_decorated(false);
@@ -124,7 +123,6 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   stick();
 
   this->head = head;
-  TRACE_EXIT();
 }
 
 PreludeWindow::~PreludeWindow()
@@ -140,8 +138,7 @@ PreludeWindow::~PreludeWindow()
 void
 PreludeWindow::start()
 {
-  TRACE_ENTER("PreludeWindow::start");
-
+  TRACE_ENTRY();
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize_if_needed();
@@ -160,8 +157,6 @@ PreludeWindow::start()
   GtkUtil::set_always_on_top(this, true);
 
   time_bar->set_bar_color(TimerColorId::Overdue);
-
-  TRACE_EXIT();
 }
 
 //! Adds a child to the window.
@@ -200,12 +195,9 @@ PreludeWindow::add(Gtk::Widget &widget)
 void
 PreludeWindow::stop()
 {
-  TRACE_ENTER("PreludeWindow::stop");
-
+  TRACE_ENTRY();
   frame->set_frame_flashing(0);
   hide();
-
-  TRACE_EXIT();
 }
 
 //! Refresh window.
@@ -314,10 +306,9 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
 void
 PreludeWindow::on_frame_flash_event(bool frame_visible)
 {
-  TRACE_ENTER("PreludeWindow::on_frame_flash_event");
+  TRACE_ENTRY();
   flash_visible = frame_visible;
   refresh();
-  TRACE_EXIT();
 }
 
 #ifdef PLATFORM_OS_WINDOWS
@@ -325,35 +316,34 @@ PreludeWindow::on_frame_flash_event(bool frame_visible)
 void
 PreludeWindow::init_avoid_pointer_polling()
 {
-  TRACE_ENTER("PreludeWindow::init_avoid_pointer_polling");
+  TRACE_ENTRY();
   if (!avoid_signal.connected())
     {
       int x, y;
       get_pointer_location(x, y);
 
-      TRACE_MSG("d " << x << " " << y);
+      TRACE_MSG("d {} {}", x, y);
 
       POINT p;
       GetCursorPos(&p);
-      TRACE_MSG("p " << p.x << " " << p.y);
+      TRACE_MSG("p {} {}", p.x, p.y);
       gdk_offset_x = p.x - x;
       gdk_offset_y = p.y - y;
-      TRACE_MSG("offset " << gdk_offset_x << " " << gdk_offset_y);
+      TRACE_MSG("offset {} {}", gdk_offset_x, gdk_offset_y);
 
       avoid_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer_event), 150);
     }
   did_avoid = false;
-  TRACE_EXIT();
 }
 
 bool
 PreludeWindow::on_avoid_pointer_timer_event()
 {
-  TRACE_ENTER("PreludeWindow::on_avoid_pointer_timer");
+  TRACE_ENTRY();
   /*
-    display->get_pointer reads low-level keyboard state, and that's a
-    problem for anti-hook monitors. use GetCursorPos() instead.
-  */
+     display->get_pointer reads low-level keyboard state, and that's a
+     problem for anti-hook monitors. use GetCursorPos() instead.
+   */
   POINT p;
   GetCursorPos(&p);
 
@@ -374,7 +364,6 @@ PreludeWindow::on_avoid_pointer_timer_event()
       avoid_pointer();
     }
 
-  TRACE_EXIT();
   return true;
 }
 
@@ -398,7 +387,7 @@ PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 void
 PreludeWindow::avoid_pointer()
 {
-  TRACE_ENTER("PreludeWindow::avoid_pointer");
+  TRACE_ENTRY();
   Glib::RefPtr<Gdk::Window> window = get_window();
 
   did_avoid = true;
@@ -417,7 +406,7 @@ PreludeWindow::avoid_pointer()
       window->get_geometry(winx, winy, width, height);
     }
 
-  TRACE_MSG("x:" << winx << " y:" << winy << " w:" << width << " h:" << height);
+  TRACE_MSG("x: {} y: {} w: {} h: {}", winx, winy, width, height);
 
   int screen_height = head.get_height();
   int top_y = head.get_y() + SCREEN_MARGIN;
@@ -432,7 +421,7 @@ PreludeWindow::avoid_pointer()
       winy = bottom_y;
     }
 
-  TRACE_MSG("new y:" << winy << " ty:" << top_y << " by:" << bottom_y << " h:" << screen_height);
+  TRACE_MSG("new y: {} ty: {} by:{} h:{}", winy, top_y, bottom_y, screen_height);
 
   if (!Platform::can_position_windows())
     {
@@ -450,8 +439,6 @@ PreludeWindow::avoid_pointer()
       set_position(Gtk::WIN_POS_NONE);
       move(winx, winy);
     }
-
-  TRACE_EXIT();
 }
 
 bool

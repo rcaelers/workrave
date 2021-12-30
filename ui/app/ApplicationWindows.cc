@@ -25,8 +25,8 @@
 #include "ui/windows/WindowsForceFocus.hh"
 #include "ui/windows/WindowsCompat.hh"
 
-ApplicationWindows::ApplicationWindows(int argc, char **argv, std::shared_ptr<IToolkit> toolkit)
-  : Application(argc, argv, toolkit)
+ApplicationWindows::ApplicationWindows(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
+  : Application(argc, argv, toolkit_factory)
 {
 }
 

@@ -57,15 +57,15 @@ BreakStateModel::BreakStateModel(BreakId id, IApp *app, Timer::Ptr timer, IActiv
 void
 BreakStateModel::process()
 {
-  TRACE_ENTER_MSG("BreakStateModel::process", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
-  TRACE_MSG("stage = " << break_stage);
+  TRACE_MSG("stage = {}", break_stage);
 
   prelude_time++;
   bool user_is_active = activity_monitor->is_active();
 
-  TRACE_MSG("active = " << user_is_active);
-  TRACE_MSG("prelude time = " << prelude_time);
+  TRACE_MSG("active = {}", user_is_active);
+  TRACE_MSG("prelude time = {}", prelude_time);
 
   switch (break_stage)
     {
@@ -147,15 +147,13 @@ BreakStateModel::process()
       }
       break;
     }
-
-  TRACE_EXIT();
 }
 
 //! Starts the break.
 void
 BreakStateModel::start_break()
 {
-  TRACE_ENTER_MSG("BreakStateModel::start_break", break_id << " " << break_stage);
+  TRACE_ENTRY_PAR(break_id, break_stage);
 
   break_hint = BreakHint::Normal;
   forced_break = false;
@@ -172,15 +170,13 @@ BreakStateModel::start_break()
     {
       goto_stage(BreakStage::Prelude);
     }
-
-  TRACE_EXIT();
 }
 
 //! Starts the break without preludes.
 void
 BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
 {
-  TRACE_ENTER_MSG("BreakStateModel::force_start_break", break_id << " " << break_stage);
+  TRACE_ENTRY_PAR(break_id, break_stage);
 
   break_hint = hint;
   forced_break = (break_hint & (BreakHint::UserInitiated | BreakHint::NaturalBreak)).get() != 0;
@@ -193,7 +189,7 @@ BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
     {
       TRACE_MSG("auto reset enabled");
       int64_t idle = timer->get_elapsed_idle_time();
-      TRACE_MSG(idle << " " << timer->get_auto_reset() << " " << timer->is_enabled());
+      TRACE_VAR(idle, timer->get_auto_reset(), timer->is_enabled());
       if (idle >= timer->get_auto_reset() || !timer->is_enabled())
         {
           TRACE_MSG("Faking break");
@@ -203,14 +199,12 @@ BreakStateModel::force_start_break(workrave::utils::Flags<BreakHint> hint)
     }
 
   goto_stage(BreakStage::Taking);
-
-  TRACE_EXIT();
 }
 
 void
 BreakStateModel::postpone_break()
 {
-  TRACE_ENTER_MSG("BreakStateModel::postpone_break", break_id << " " << break_stage);
+  TRACE_ENTRY_PAR(break_id, break_stage);
   if (break_stage == BreakStage::Taking)
     {
       // This is to avoid a skip sound...
@@ -231,13 +225,12 @@ BreakStateModel::postpone_break()
       // and stop the break.
       stop_break();
     }
-  TRACE_EXIT();
 }
 
 void
 BreakStateModel::skip_break()
 {
-  TRACE_ENTER_MSG("BreakStateModel::skip_break", break_id << " " << break_stage);
+  TRACE_ENTRY_PAR(break_id, break_stage);
 
   if (break_stage == BreakStage::Taking)
     {
@@ -260,14 +253,13 @@ BreakStateModel::skip_break()
       // and stop the break.
       stop_break();
     }
-  TRACE_EXIT();
 }
 
 //! Stops the break.
 void
 BreakStateModel::stop_break()
 {
-  TRACE_ENTER_MSG("BreakStateModel::stop_break", break_id << " " << break_stage);
+  TRACE_ENTRY_PAR(break_id, break_stage);
 
   break_hint = BreakHint::Normal;
   goto_stage(BreakStage::None);
@@ -275,14 +267,12 @@ BreakStateModel::stop_break()
   fake_break = false;
 
   break_event_signal(BreakEvent::BreakStop);
-
-  TRACE_EXIT();
 }
 
 void
 BreakStateModel::override(BreakId id)
 {
-  TRACE_ENTER_MSG("BreakStateModel::override", break_id << " " << break_stage);
+  TRACE_ENTRY_PAR(break_id, break_stage);
   int max_preludes = CoreConfig::break_max_preludes(break_id)();
 
   if (break_id != id)
@@ -295,7 +285,6 @@ BreakStateModel::override(BreakId id)
     }
 
   max_number_of_preludes = max_preludes;
-  TRACE_EXIT();
 }
 
 boost::signals2::signal<void(BreakEvent)> &
@@ -337,7 +326,7 @@ BreakStateModel::set_max_number_of_preludes(int max_number_of_preludes)
 void
 BreakStateModel::goto_stage(BreakStage stage)
 {
-  TRACE_ENTER_MSG("BreakStateModel::goto_stage", break_id << " " << break_stage << "->" << stage);
+  TRACE_ENTRY_PAR(break_id, break_stage, stage);
 
   switch (stage)
     {
@@ -382,13 +371,12 @@ BreakStateModel::goto_stage(BreakStage stage)
 
   break_stage = stage;
   break_stage_changed_signal(stage);
-  TRACE_EXIT();
 }
 
 void
 BreakStateModel::break_window_start()
 {
-  TRACE_ENTER_MSG("BreakStateModel::break_window_start", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   application->hide_break_window();
   application->create_break_window(break_id, break_hint);
@@ -398,8 +386,6 @@ BreakStateModel::break_window_start()
 
   // Report state change.
   break_event_signal(forced_break ? BreakEvent::ShowBreakForced : BreakEvent::ShowBreak);
-
-  TRACE_EXIT();
 }
 
 void
@@ -434,7 +420,7 @@ BreakStateModel::break_window_update()
 void
 BreakStateModel::break_window_stop()
 {
-  TRACE_ENTER_MSG("BreakStateModel::break_window_stop", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   application->hide_break_window();
 
@@ -452,14 +438,12 @@ BreakStateModel::break_window_stop()
         }
     }
   break_event_signal(BreakEvent::BreakIdle);
-
-  TRACE_EXIT();
 }
 
 void
 BreakStateModel::prelude_window_start()
 {
-  TRACE_ENTER_MSG("BreakStateModel::prelude_window_start", break_id);
+  TRACE_ENTRY_PAR(break_id);
 
   prelude_count++;
   prelude_time = 0;
@@ -488,7 +472,6 @@ BreakStateModel::prelude_window_start()
     }
 
   break_event_signal(BreakEvent::ShowPrelude);
-  TRACE_EXIT();
 }
 void
 BreakStateModel::prelude_window_update()
@@ -510,9 +493,8 @@ BreakStateModel::prelude_window_stop()
 bool
 BreakStateModel::action_notify()
 {
-  TRACE_ENTER("BreakStateModel::action_notify");
+  TRACE_ENTRY();
   delayed_abort = true;
-  TRACE_EXIT();
   return false; // false: kill listener.
 }
 

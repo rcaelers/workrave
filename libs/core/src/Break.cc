@@ -79,16 +79,14 @@ struct Defaults
 Break::Break()
 
 {
-  TRACE_ENTER("Break:Break");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 //! Initializes the break.
 void
 Break::init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app)
 {
-  TRACE_ENTER("Break::init");
-
+  TRACE_ENTRY();
   this->break_id = id;
   this->config = config;
   this->application = app;
@@ -102,17 +100,14 @@ Break::init(BreakId id, workrave::config::IConfigurator::Ptr config, IApp *app)
   init_timer();
   init_break_control();
   init_defaults();
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 Break::~Break()
 {
-  TRACE_ENTER("Break:~Break");
+  TRACE_ENTRY();
   delete break_control;
   delete timer;
-  TRACE_EXIT();
 }
 
 string
@@ -226,7 +221,7 @@ Break::init_timer()
 void
 Break::load_timer_config()
 {
-  TRACE_ENTER("Break::load_timer_config");
+  TRACE_ENTRY();
   // Read break limit.
   int limit;
   config->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
@@ -257,7 +252,7 @@ Break::load_timer_config()
 
   bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
 
-  TRACE_MSG(ret << " " << monitor_name);
+  TRACE_VAR(ret, monitor_name);
   if (ret && monitor_name != "")
     {
       Core *core = Core::get_instance();
@@ -273,7 +268,6 @@ Break::load_timer_config()
     {
       timer->set_activity_monitor(nullptr);
     }
-  TRACE_EXIT();
 }
 
 // Initialize the break control.
@@ -398,7 +392,7 @@ Break::get_total_overdue_time() const
 void
 Break::set_usage_mode(UsageMode mode)
 {
-  TRACE_ENTER_MSG("Break::set_usage_mode", mode);
+  TRACE_ENTRY_PAR(mode);
   if (usage_mode != mode)
     {
       usage_mode = mode;
@@ -413,13 +407,12 @@ Break::set_usage_mode(UsageMode mode)
           timer->set_activity_sensitive(false);
         }
     }
-  TRACE_EXIT();
 }
 
 bool
 Break::starts_with(const string &key, string prefix, string &name)
 {
-  TRACE_ENTER_MSG("Break::starts_with", key << " " << prefix);
+  TRACE_ENTRY_PAR(key, prefix);
   bool ret = false;
 
   // Search prefix (just in case some Configurator added a leading /)
@@ -428,7 +421,7 @@ Break::starts_with(const string &key, string prefix, string &name)
 
   if (pos != string::npos)
     {
-      TRACE_MSG(pos);
+      TRACE_VAR(pos);
       k = key.substr(pos + prefix.length());
       pos = k.find('/');
 
@@ -439,7 +432,6 @@ Break::starts_with(const string &key, string prefix, string &name)
       ret = true;
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -447,20 +439,19 @@ Break::starts_with(const string &key, string prefix, string &name)
 void
 Break::config_changed_notify(const string &key)
 {
-  TRACE_ENTER_MSG("Break::config_changed_notify", key);
+  TRACE_ENTRY_PAR(key);
   string name;
 
   if (starts_with(key, CoreConfig::CFG_KEY_BREAKS, name))
     {
-      TRACE_MSG("break: " << name);
+      TRACE_MSG("break: {}", name);
       load_break_control_config();
     }
   else if (starts_with(key, CoreConfig::CFG_KEY_TIMERS, name))
     {
-      TRACE_MSG("timer: " << name);
+      TRACE_MSG("timer: {}", name);
       load_timer_config();
     }
-  TRACE_EXIT();
 }
 
 boost::signals2::signal<void(BreakEvent)> &

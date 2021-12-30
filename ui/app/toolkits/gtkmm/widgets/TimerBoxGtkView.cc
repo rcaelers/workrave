@@ -51,7 +51,7 @@ TimerBoxGtkView::TimerBoxGtkView(std::shared_ptr<IApplication> app, bool transpa
 
 TimerBoxGtkView::~TimerBoxGtkView()
 {
-  TRACE_ENTER("TimerBoxGtkView::~TimerBoxGtkView");
+  TRACE_ENTRY();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       if (labels[i] != nullptr)
@@ -72,13 +72,12 @@ TimerBoxGtkView::~TimerBoxGtkView()
       // FIXME: check if this is needed/Okay.
       delete sheep_eventbox;
     }
-  TRACE_EXIT();
 }
 
 void
 TimerBoxGtkView::set_geometry(Orientation orientation, int size)
 {
-  TRACE_ENTER_MSG("TimerBoxGtkView::set_geometry", orientation << " " << size);
+  TRACE_ENTRY_PAR(orientation, size);
   this->orientation = orientation;
   this->size = size;
 
@@ -88,14 +87,12 @@ TimerBoxGtkView::set_geometry(Orientation orientation, int size)
     }
 
   init_table();
-  TRACE_EXIT();
 }
 
 void
 TimerBoxGtkView::init()
 {
-  TRACE_ENTER("TimerBoxGtkView::init");
-
+  TRACE_ENTRY();
   if (sheep != nullptr)
     sheep->unreference();
   if (sheep_eventbox != nullptr)
@@ -127,7 +124,6 @@ TimerBoxGtkView::init()
   GUIConfig::icon_theme().attach(this, [this](std::string theme) { update_widgets(); });
 
   reconfigure = true;
-  TRACE_EXIT();
 }
 
 void
@@ -213,11 +209,10 @@ TimerBoxGtkView::get_number_of_timers() const
 void
 TimerBoxGtkView::init_table()
 {
-  TRACE_ENTER("TimerBoxGtkView::init_table");
-
+  TRACE_ENTRY();
   // Compute number of visible breaks.
   int number_of_timers = get_number_of_timers();
-  TRACE_MSG("number_of_timers = " << number_of_timers);
+  TRACE_MSG("number_of_timers = {}", number_of_timers);
 
   // Compute table dimensions.
   int rows = number_of_timers;
@@ -240,8 +235,8 @@ TimerBoxGtkView::init_table()
   GtkRequisition natural_size;
   labels[0]->get_preferred_size(label_size, natural_size);
   get_preferred_size(my_size, natural_size);
-  TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
-  TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
+  TRACE_MSG("my_size = {} {}", my_size.width, my_size.height);
+  TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -249,8 +244,8 @@ TimerBoxGtkView::init_table()
     }
 
   bars[0]->get_preferred_size(bar_size.width, bar_size.height);
-  TRACE_MSG("bar_size = " << bar_size.width << " " << bar_size.height);
-  TRACE_MSG("label_size = " << label_size.width << " " << label_size.height);
+  TRACE_MSG("bar_size = {} {}", bar_size.width, bar_size.height);
+  TRACE_MSG("label_size = {} {}", label_size.width, label_size.height);
 
   if (size == -1 && (orientation == ORIENTATION_LEFT))
     {
@@ -267,7 +262,7 @@ TimerBoxGtkView::init_table()
         {
           set_size_request(-1, tsize);
         }
-      TRACE_MSG("size request = " << tsize);
+      TRACE_MSG("size request = {}", tsize);
     }
 
   if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
@@ -325,7 +320,7 @@ TimerBoxGtkView::init_table()
       bars[i]->set_rotation(rotation);
     }
 
-  TRACE_MSG("c/r " << columns << " " << rows << " " << rotation);
+  TRACE_MSG("c/r {} {} {}", columns, rows, rotation);
 
   bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count || reverse != table_reverse;
 
@@ -335,7 +330,7 @@ TimerBoxGtkView::init_table()
       int id = current_content[i];
       if (id != -1 && (id != new_content[i] || remove_all))
         {
-          TRACE_MSG("remove " << i << " " << id);
+          TRACE_MSG("remove {} {}", i, id);
           Gtk::Widget *child = labels[id];
           remove(*child);
           child = bars[id];
@@ -353,7 +348,7 @@ TimerBoxGtkView::init_table()
       visible_count = -1;
     }
 
-  TRACE_MSG(rows << " " << table_rows << " " << columns << " " << table_columns);
+  TRACE_VAR(rows, table_rows, columns, table_columns);
   //  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
   {
     TRACE_MSG("resize");
@@ -418,10 +413,8 @@ TimerBoxGtkView::init_table()
   show_all();
 
   get_preferred_size(my_size, natural_size);
-  TRACE_MSG("my_size = " << my_size.width << " " << my_size.height);
-  TRACE_MSG("natural_size = " << natural_size.width << " " << natural_size.height);
-
-  TRACE_EXIT();
+  TRACE_MSG("my_size = {} {}", my_size.width, my_size.height);
+  TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
 }
 
 void
@@ -444,11 +437,11 @@ TimerBoxGtkView::set_time_bar(BreakId id,
                               int secondary_val,
                               int secondary_max)
 {
-  TRACE_ENTER_MSG("TimerBoxGtkView::set_time_bar", id);
+  TRACE_ENTRY_PAR(id);
 
-  TRACE_MSG(value);
-  TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
-  TRACE_MSG(secondary_val << " " << secondary_max << " " << int(secondary_color));
+  TRACE_VAR(value);
+  TRACE_VAR(primary_val, primary_max, int(primary_color));
+  TRACE_VAR(secondary_val, secondary_max, int(secondary_color));
 
   TimeBar *bar = bars[id];
   bar->set_text(Text::time_to_string(value));
@@ -456,7 +449,6 @@ TimerBoxGtkView::set_time_bar(BreakId id,
   bar->set_progress(primary_val, primary_max);
   bar->set_secondary_bar_color(secondary_color);
   bar->set_secondary_progress(secondary_val, secondary_max);
-  TRACE_EXIT();
 }
 
 void
@@ -514,14 +506,13 @@ TimerBoxGtkView::set_enabled(bool enabled)
 void
 TimerBoxGtkView::set_sheep_only(bool sheep_only)
 {
-  TRACE_ENTER_MSG("TimerBoxGtkView::set_sheep_only", sheep_only);
+  TRACE_ENTRY_PAR(sheep_only);
   if (this->sheep_only != sheep_only)
     {
       this->sheep_only = sheep_only;
       reconfigure = true;
       update_view();
     }
-  TRACE_EXIT();
 }
 
 bool

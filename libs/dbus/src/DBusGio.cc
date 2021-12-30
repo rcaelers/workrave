@@ -104,10 +104,10 @@ DBusGio::register_object_path(const string &object_path)
 void
 DBusGio::update_object_registration(InterfaceData &data)
 {
-  TRACE_ENTER_MSG("DBusGio::update_object_registration", data.object_path);
+  TRACE_ENTRY_PAR(data.object_path);
   if (connection == nullptr)
     {
-      TRACE_RETURN("No Connection");
+      TRACE_MSG("No Connection");
       return;
     }
 
@@ -117,14 +117,14 @@ DBusGio::update_object_registration(InterfaceData &data)
     }
 
   string introspection_xml = get_introspect(data.object_path, data.interface_name);
-  TRACE_MSG("Intro: %s" << introspection_xml);
+  TRACE_MSG("Intro: {}", introspection_xml);
 
   GError *error = nullptr;
   data.introspection_data = g_dbus_node_info_new_for_xml(introspection_xml.c_str(), &error);
 
   if (error != nullptr)
     {
-      TRACE_MSG("Error: " << error->message);
+      TRACE_MSG("Error: {}", error->message);
       g_error_free(error);
     }
 
@@ -135,14 +135,12 @@ DBusGio::update_object_registration(InterfaceData &data)
                                                            this,
                                                            nullptr,
                                                            nullptr);
-
-  TRACE_EXIT();
 }
 
 void
 DBusGio::connect(const std::string &object_path, const std::string &interface_name, void *object)
 {
-  TRACE_ENTER_MSG("DBusGio::connect", object_path << " " << interface_name);
+  TRACE_ENTRY_PAR(object_path, interface_name);
   auto *binding = dynamic_cast<DBusBindingGio *>(find_binding(interface_name));
   if (binding == nullptr)
     {
@@ -175,7 +173,6 @@ DBusGio::connect(const std::string &object_path, const std::string &interface_na
       TRACE_MSG("Updating");
       update_object_registration(interface_data);
     }
-  TRACE_EXIT();
 }
 
 void
@@ -242,7 +239,7 @@ DBusGio::find_object(const std::string &path, const std::string &interface_name)
 bool
 DBusGio::is_running(const std::string &name) const
 {
-  TRACE_ENTER("DBusGio::is_running");
+  TRACE_ENTRY();
   GError *error = nullptr;
   gboolean running = FALSE;
 
@@ -257,7 +254,7 @@ DBusGio::is_running(const std::string &name) const
 
   if (error != nullptr)
     {
-      TRACE_MSG("Error1: " << error->message);
+      TRACE_MSG("Error1: {}", error->message);
       g_error_free(error);
     }
 
@@ -268,7 +265,7 @@ DBusGio::is_running(const std::string &name) const
 
       if (error != nullptr)
         {
-          TRACE_MSG("Error2: " << error->message);
+          TRACE_MSG("Error2: {}", error->message);
           g_error_free(error);
         }
       else
@@ -285,14 +282,14 @@ DBusGio::is_running(const std::string &name) const
       g_object_unref(proxy);
     }
 
-  TRACE_RETURN(running);
+  TRACE_VAR(running);
   return running;
 }
 
 bool
 DBusGio::is_available() const
 {
-  TRACE_ENTER("DBusGio::is_available");
+  TRACE_ENTRY();
   GError *error = nullptr;
 
   GDBusProxy *proxy = g_dbus_proxy_new_for_bus_sync(G_BUS_TYPE_SESSION,
@@ -311,12 +308,10 @@ DBusGio::is_available() const
 
   if (error != nullptr)
     {
-      TRACE_MSG("Error: " << error->message);
+      TRACE_MSG("Error: {}", error->message);
       g_error_free(error);
-      TRACE_EXIT();
       return false;
     }
-  TRACE_EXIT();
   return true;
 }
 
@@ -376,7 +371,7 @@ DBusGio::unwatch(const std::string &name)
 string
 DBusGio::get_introspect(const string &object_path, const string &interface_name)
 {
-  TRACE_ENTER_MSG("DBusGio::get_introspect", object_path);
+  TRACE_ENTRY_PAR(object_path);
   string str;
 
   str +=
@@ -402,7 +397,7 @@ DBusGio::get_introspect(const string &object_path, const string &interface_name)
     }
 
   str += "</node>\n";
-  TRACE_RETURN(str);
+  TRACE_VAR(str);
   return str;
 }
 
@@ -492,11 +487,10 @@ DBusGio::on_name_acquired(GDBusConnection *connection, const gchar *name, gpoint
 {
   (void)connection;
   (void)name;
-  TRACE_ENTER_MSG("DBus::on_name_acquired", name);
+  TRACE_ENTRY_PAR(name);
   auto *dbus = (DBusGio *)user_data;
   dbus->bus_name_presence(name, true);
   dbus->watched.erase(name);
-  TRACE_EXIT();
 }
 
 void
@@ -505,10 +499,9 @@ DBusGio::on_name_lost(GDBusConnection *connection, const gchar *name, gpointer u
   (void)connection;
   (void)name;
   (void)user_data;
-  TRACE_ENTER_MSG("DBus::on_name_lost", name);
+  TRACE_ENTRY_PAR(name);
 
   auto *dbus = (DBusGio *)user_data;
   dbus->bus_name_presence(name, false);
   dbus->watched.erase(name);
-  TRACE_EXIT();
 }

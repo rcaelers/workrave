@@ -23,7 +23,7 @@
 class ApplicationWindows : public Application
 {
 public:
-  ApplicationWindows(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
+  ApplicationWindows(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory);
   ~ApplicationWindows() override = default;
 
   void init_platform_pre() override;

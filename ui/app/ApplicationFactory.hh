@@ -21,11 +21,12 @@
 #include <memory>
 
 #include "Application.hh"
+#include "ui/IToolkitFactory.hh"
 
 class ApplicationFactory
 {
 public:
-  static std::shared_ptr<Application> create(int argc, char **argv, std::shared_ptr<IToolkit> toolkit);
+  static std::shared_ptr<Application> create(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory);
 };
 
 #endif // APPLICATION_FACTORY_HH

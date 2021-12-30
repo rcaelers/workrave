@@ -102,8 +102,7 @@ Statistics::init()
 void
 Statistics::update()
 {
-  TRACE_ENTER("Statistics::update");
-
+  TRACE_ENTRY();
   if (monitor->is_active())
     {
       const time_t now = time(nullptr);
@@ -117,7 +116,6 @@ Statistics::update()
         }
     }
   save_day(current_day);
-  TRACE_EXIT();
 }
 
 bool
@@ -162,7 +160,7 @@ Statistics::delete_all_history()
 void
 Statistics::start_new_day()
 {
-  TRACE_ENTER("Statistics::start_new_day");
+  TRACE_ENTRY();
   const time_t now = time(nullptr);
   struct tm *tmnow = localtime(&now);
 
@@ -186,8 +184,6 @@ Statistics::start_new_day()
 
   update();
   save_day(current_day);
-
-  TRACE_EXIT();
 }
 
 void
@@ -202,7 +198,7 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 
   if (!exists)
     {
-      stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
+      stats_file << WORKRAVESTATS << " " << STATSVERSION << std::endl;
     }
 
   save_day(stats, stats_file);
@@ -313,7 +309,7 @@ Statistics::add_history(DailyStatsImpl *stats)
 bool
 Statistics::load_current_day()
 {
-  TRACE_ENTER("Statistics::load_current_day");
+  TRACE_ENTRY();
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
   ifstream stats_file(path.string());
 
@@ -321,7 +317,6 @@ Statistics::load_current_day()
 
   been_active = true;
 
-  TRACE_EXIT();
   return current_day != nullptr;
 }
 
@@ -329,22 +324,19 @@ Statistics::load_current_day()
 void
 Statistics::load_history()
 {
-  TRACE_ENTER("Statistics::load_history");
-
+  TRACE_ENTRY();
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
   ifstream stats_file(path.string());
 
   load(stats_file, true);
-  TRACE_EXIT();
 }
 
 //! Loads the statistics.
 void
 Statistics::load(ifstream &infile, bool history)
 {
-  TRACE_ENTER("Statistics::load");
-
+  TRACE_ENTRY();
   DailyStatsImpl *stats = nullptr;
 
   bool ok = infile.good();
@@ -464,8 +456,6 @@ Statistics::load(ifstream &infile, bool history)
     {
       add_history(stats);
     }
-
-  TRACE_EXIT();
 }
 
 //! Increment the specified statistics counter of the current day.
@@ -521,8 +511,7 @@ Statistics::get_counter(StatsValueType t)
 void
 Statistics::dump()
 {
-  TRACE_ENTER("Statistics::dump");
-
+  TRACE_ENTRY();
   update();
 
   stringstream ss;
@@ -542,8 +531,6 @@ Statistics::dump()
     {
       ss << value << " ";
     }
-
-  TRACE_EXIT();
 }
 
 Statistics::DailyStatsImpl *
@@ -585,7 +572,7 @@ Statistics::get_day(int day) const
 void
 Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const
 {
-  TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
+  TRACE_ENTRY_PAR(y, m, d);
   idx = next = prev = -1;
   for (int i = 0; i <= static_cast<int>(history.size()); i++)
     {
@@ -613,7 +600,6 @@ Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int 
     {
       next = 0;
     }
-  TRACE_EXIT();
 }
 
 int

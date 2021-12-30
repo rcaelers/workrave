@@ -57,7 +57,7 @@ UnixInputMonitorFactory::init(const char *display)
 IInputMonitor::Ptr
 UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
 {
-  TRACE_ENTER("UnixInputMonitorFactory::create_monitor");
+  TRACE_ENTRY();
   (void)capability;
 
   if (monitor == nullptr)
@@ -68,7 +68,7 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
       vector<string> available_monitors;
       boost::split(available_monitors, HAVE_MONITORS, boost::is_any_of(","));
 
-      TRACE_MSG("available_monitors " << HAVE_MONITORS << " " << available_monitors.size());
+      TRACE_MSG("available_monitors {} {}", HAVE_MONITORS, available_monitors.size());
 
       config->get_value_with_default("advanced/monitor", configure_monitor_method, "default");
 
@@ -76,7 +76,7 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
 
       if (configure_monitor_method != "default")
         {
-          TRACE_MSG("use configured: " << configure_monitor_method);
+          TRACE_MSG("use configured: {}", configure_monitor_method);
           start = find(available_monitors.begin(), available_monitors.end(), configure_monitor_method);
         }
 
@@ -91,7 +91,7 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
       while (true)
         {
           monitor_method = *loop;
-          TRACE_MSG("Test " << monitor_method);
+          TRACE_MSG("Test {}", monitor_method);
 
           if (monitor_method == "record")
             {
@@ -156,12 +156,11 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
               config->save();
             }
 
-          TRACE_MSG("using " << monitor_method);
+          TRACE_MSG("using {}", monitor_method);
         }
       actual_monitor_method = monitor_method;
     }
 
-  TRACE_EXIT();
   return monitor;
 }
 

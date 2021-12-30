@@ -47,18 +47,18 @@ static const char rcsid[] = "$Id: MainWindow.cc 1367 2007-10-23 19:07:55Z rcaele
             [alert setInformativeText: NSLocalizedString(@"There is already a copy of Workrave running. "
                 "This copy cannot be opened until that instance is quit.", "Workrave already running alert -> message")];
             [alert setAlertStyle: NSWarningAlertStyle];
-            
+
             [alert runModal];
             [alert release];
-            
+
             //kill ourselves right away
             exit(0);
         }
     }
-    
+
 //     [[NSUserDefaults standardUserDefaults] registerDefaults: [NSDictionary dictionaryWithContentsOfFile:
 //         [[NSBundle mainBundle] pathForResource: @"Defaults" ofType: @"plist"]]];
-    
+
 }
 
 - (id) init
@@ -73,14 +73,12 @@ static const char rcsid[] = "$Id: MainWindow.cc 1367 2007-10-23 19:07:55Z rcaele
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
-  TRACE_ENTER("AppController::applicationWillFinishLaunching");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-  TRACE_ENTER("AppController::applicationWillTerminate");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 @end

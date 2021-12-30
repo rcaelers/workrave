@@ -100,8 +100,7 @@ Statistics::init(Core *control)
 void
 Statistics::update()
 {
-  TRACE_ENTER("Statistics::update");
-
+  TRACE_ENTRY();
   IActivityMonitor::Ptr monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
 
@@ -118,7 +117,6 @@ Statistics::update()
 
   update_current_day(state == ACTIVITY_ACTIVE);
   save_day(current_day);
-  TRACE_EXIT();
 }
 
 bool
@@ -161,7 +159,7 @@ Statistics::delete_all_history()
 void
 Statistics::start_new_day()
 {
-  TRACE_ENTER("Statistics::start_new_day");
+  TRACE_ENTRY();
   const time_t now = time(nullptr);
   struct tm *tmnow = localtime(&now);
 
@@ -185,8 +183,6 @@ Statistics::start_new_day()
 
   update_current_day(false);
   save_day(current_day);
-
-  TRACE_EXIT();
 }
 
 void
@@ -328,7 +324,7 @@ Statistics::add_history(DailyStatsImpl *stats)
 bool
 Statistics::load_current_day()
 {
-  TRACE_ENTER("Statistics::load_current_day");
+  TRACE_ENTRY();
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
   ifstream stats_file(path.string());
 
@@ -336,7 +332,6 @@ Statistics::load_current_day()
 
   been_active = true;
 
-  TRACE_EXIT();
   return current_day != nullptr;
 }
 
@@ -344,22 +339,19 @@ Statistics::load_current_day()
 void
 Statistics::load_history()
 {
-  TRACE_ENTER("Statistics::load_history");
-
+  TRACE_ENTRY();
   std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
   ifstream stats_file(path.string());
 
   load(stats_file, true);
-  TRACE_EXIT();
 }
 
 //! Loads the statistics.
 void
 Statistics::load(ifstream &infile, bool history)
 {
-  TRACE_ENTER("Statistics::load");
-
+  TRACE_ENTRY();
   DailyStatsImpl *stats = nullptr;
 
   bool ok = infile.good();
@@ -479,8 +471,6 @@ Statistics::load(ifstream &infile, bool history)
     {
       add_history(stats);
     }
-
-  TRACE_EXIT();
 }
 
 //! Increment the specified statistics counter of the current day.
@@ -536,8 +526,7 @@ Statistics::get_counter(StatsValueType t)
 void
 Statistics::dump()
 {
-  TRACE_ENTER("Statistics::dump");
-
+  TRACE_ENTRY();
   update_current_day(false);
 
   stringstream ss;
@@ -561,8 +550,6 @@ Statistics::dump()
 
       ss << value << " ";
     }
-
-  TRACE_EXIT();
 }
 
 Statistics::DailyStatsImpl *
@@ -604,7 +591,7 @@ Statistics::get_day(int day) const
 void
 Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const
 {
-  TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
+  TRACE_ENTRY_PAR(y, m, d);
   idx = next = prev = -1;
   for (int i = 0; i <= int(history.size()); i++)
     {
@@ -632,7 +619,6 @@ Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int 
     {
       next = 0;
     }
-  TRACE_EXIT();
 }
 
 int
@@ -686,7 +672,7 @@ Statistics::init_distribution_manager()
 bool
 Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
-  TRACE_ENTER("Statistics::request_client_message");
+  TRACE_ENTRY();
   (void)id;
 
   update_current_day(false);
@@ -696,15 +682,13 @@ Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer 
   pack_stats(buffer, current_day);
   buffer.pack_byte(STATS_MARKER_END);
 
-  TRACE_EXIT();
   return true;
 }
 
 bool
 Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
 {
-  TRACE_ENTER("Statistics::pack_stats");
-
+  TRACE_ENTRY();
   int pos = 0;
 
   buf.pack_byte(STATS_MARKER_STARTTIME);
@@ -751,15 +735,13 @@ Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
     }
   buf.update_size(pos);
 
-  TRACE_EXIT();
   return true;
 }
 
 bool
 Statistics::client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer)
 {
-  TRACE_ENTER("Statistics::client_message");
-
+  TRACE_ENTRY();
   (void)id;
   (void)master;
   (void)client_id;
@@ -773,7 +755,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
   while (buffer.bytes_available() > 0)
     {
       StatsMarker marker = (StatsMarker)buffer.unpack_byte();
-      TRACE_MSG("Marker = " << marker);
+      TRACE_MSG("Marker = {}", marker);
       switch (marker)
         {
         case STATS_MARKER_TODAY:
@@ -884,7 +866,6 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
 
   dump();
 
-  TRACE_EXIT();
   return true;
 }
 

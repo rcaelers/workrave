@@ -43,8 +43,7 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
   , menu_helper(menu_model)
   , apphold(toolkit)
 {
-  TRACE_ENTER("WindowsAppletWindow::WindowsAppletWindow");
-
+  TRACE_ENTRY();
   memset(&local_heartbeat_data, 0, sizeof(AppletHeartbeatData));
   memset(&local_menu_data, 0, sizeof(AppletMenuData));
   memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
@@ -70,14 +69,11 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
 
   init_menu();
   init_thread();
-
-  TRACE_EXIT();
 }
 
 WindowsAppletWindow::~WindowsAppletWindow()
 {
-  TRACE_ENTER("WindowsAppletWindow::~WindowsAppletWindow");
-
+  TRACE_ENTRY();
   /* before this instance is destroyed we signal and wait for its worker thread to terminate. this
   isn't ideal because the gui will be blocked while we wait for termination if this destructor is
   called from the main thread. current conditions are acceptable, however. 2/12/2012
@@ -99,8 +95,6 @@ WindowsAppletWindow::~WindowsAppletWindow()
   DeleteCriticalSection(&heartbeat_data_lock);
 
   delete control;
-
-  TRACE_EXIT();
 }
 
 static HWND
@@ -134,9 +128,8 @@ RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
 void
 WindowsAppletWindow::set_slot(workrave::BreakId id, int slot)
 {
-  TRACE_ENTER_MSG("WindowsAppletWindow::set_slot", int(id) << ", " << slot);
+  TRACE_ENTRY_PAR(id, slot);
   heartbeat_data.slots[slot] = (short)id;
-  TRACE_EXIT();
 }
 
 void
@@ -149,7 +142,7 @@ WindowsAppletWindow::set_time_bar(workrave::BreakId id,
                                   int secondary_val,
                                   int secondary_max)
 {
-  TRACE_ENTER_MSG("WindowsAppletWindow::set_time_bar", int(id) << "=" << value);
+  TRACE_ENTRY_PAR(int(id), value);
   strncpy(heartbeat_data.bar_text[id], Text::time_to_string(value).c_str(), APPLET_BAR_TEXT_MAX_LENGTH - 1);
   heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH - 1] = '\0';
   heartbeat_data.bar_primary_color[id] = (int)primary_color;
@@ -158,14 +151,12 @@ WindowsAppletWindow::set_time_bar(workrave::BreakId id,
   heartbeat_data.bar_secondary_color[id] = (int)secondary_color;
   heartbeat_data.bar_secondary_val[id] = secondary_val;
   heartbeat_data.bar_secondary_max[id] = secondary_max;
-  TRACE_EXIT();
 }
 
 void
 WindowsAppletWindow::update_view()
 {
-  TRACE_ENTER("WindowsAppletWindow::update_view");
-
+  TRACE_ENTRY();
   BOOL entered = ::TryEnterCriticalSection(&heartbeat_data_lock);
   if (entered)
     {
@@ -186,17 +177,15 @@ WindowsAppletWindow::update_view()
 
       ::LeaveCriticalSection(&heartbeat_data_lock);
     }
-
-  TRACE_EXIT();
 }
 
 void
 WindowsAppletWindow::update_menu()
 {
-  TRACE_ENTER("WindowsAppletWindow::update_menu");
+  TRACE_ENTRY();
   if (local_applet_window != NULL)
     {
-      TRACE_MSG("sending" << local_menu_data.num_items);
+      TRACE_MSG("sending {}", local_menu_data.num_items);
 
       COPYDATASTRUCT msg;
       msg.dwData = APPLET_MESSAGE_MENU;
@@ -204,13 +193,12 @@ WindowsAppletWindow::update_menu()
       msg.lpData = &local_menu_data;
       SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM)&msg);
     }
-  TRACE_EXIT();
 }
 
 void
 WindowsAppletWindow::update_time_bars()
 {
-  TRACE_ENTER("WindowsAppletWindow::update_time_bars");
+  TRACE_ENTRY();
   if (local_applet_window != NULL)
     {
       COPYDATASTRUCT msg;
@@ -219,17 +207,16 @@ WindowsAppletWindow::update_time_bars()
       msg.lpData = &local_heartbeat_data;
       for (size_t i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
         {
-          TRACE_MSG("sending: slots[]=" << local_heartbeat_data.slots[i]);
+          TRACE_MSG("sending: slots[]= {}", local_heartbeat_data.slots[i]);
         }
       SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM)&msg);
     }
-  TRACE_EXIT();
 }
 
 void
 WindowsAppletWindow::update_applet_window()
 {
-  TRACE_ENTER("WindowsAppletWindow::get_applet_window");
+  TRACE_ENTRY();
   HWND previous_applet_window = applet_window;
   if (applet_window == NULL || !IsWindow(applet_window))
     {
@@ -246,14 +233,12 @@ WindowsAppletWindow::update_applet_window()
     {
       apphold.release();
     }
-
-  TRACE_EXIT();
 }
 
 void
 WindowsAppletWindow::init_thread()
 {
-  TRACE_ENTER("WindowsAppletWindow::init_thread");
+  TRACE_ENTRY();
   DWORD thread_exit_code = 0;
 
   if (thread_id && thread_handle && GetExitCodeThread(thread_handle, &thread_exit_code) && (thread_exit_code == STILL_ACTIVE))
@@ -276,21 +261,18 @@ WindowsAppletWindow::init_thread()
 
       if (!thread_handle || !thread_id)
         {
-          TRACE_MSG("Thread could not be created. GetLastError : " << GetLastError());
+          TRACE_MSG("Thread could not be created. GetLastError : {}", GetLastError());
         }
     }
-
-  TRACE_EXIT();
 }
 
 unsigned __stdcall WindowsAppletWindow::run_event_pipe_static(void *param)
 {
-  TRACE_ENTER("WindowsAppletWindow::run_event_pipe_static");
+  TRACE_ENTRY();
   WindowsAppletWindow *pThis = (WindowsAppletWindow *)param;
   pThis->run_event_pipe();
   // invalidate the id to signal the thread is exiting
   pThis->thread_id = 0;
-  TRACE_EXIT();
   return (DWORD)0;
 }
 
@@ -298,7 +280,7 @@ void
 WindowsAppletWindow::run_event_pipe()
 {
   const DWORD current_thread_id = GetCurrentThreadId();
-  TRACE_ENTER_MSG("WindowsAppletWindow::run_event_pipe [ id: ", current_thread_id << " ]");
+  TRACE_ENTRY_PAR(current_thread_id);
 
   while (thread_id == current_thread_id)
     {
@@ -324,8 +306,6 @@ WindowsAppletWindow::run_event_pipe()
           LeaveCriticalSection(&heartbeat_data_lock);
         }
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -338,20 +318,19 @@ WindowsAppletWindow::set_geometry(Orientation orientation, int size)
 bool
 WindowsAppletWindow::on_applet_command(int command)
 {
-  TRACE_ENTER_MSG("WindowsAppletWindow::on_applet_command", command);
+  TRACE_ENTRY_PAR(command);
   auto node = menu_helper.find_node(command);
   if (node)
     {
       node->activate();
     }
-  TRACE_EXIT();
   return false;
 }
 
 bool
 WindowsAppletWindow::filter_func(MSG *msg)
 {
-  TRACE_ENTER("WindowsAppletWindow::filter_func");
+  TRACE_ENTRY();
   bool ret = true;
 
   switch (msg->message)
@@ -371,7 +350,6 @@ WindowsAppletWindow::filter_func(MSG *msg)
       }
       break;
     }
-  TRACE_EXIT();
   return ret;
 }
 
@@ -390,7 +368,7 @@ WindowsAppletWindow::init()
 void
 WindowsAppletWindow::init_menu()
 {
-  TRACE_ENTER("WindowsAppletWindow::init_menu");
+  TRACE_ENTRY();
   auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
   if (toolkit_win)
     {
@@ -402,7 +380,6 @@ WindowsAppletWindow::init_menu()
   menu_sent = false;
 
   process_menu(menu_model->get_root());
-  TRACE_EXIT();
 }
 
 void

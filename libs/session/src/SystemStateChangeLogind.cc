@@ -38,7 +38,7 @@ const char *SystemStateChangeLogind::dbus_name = "org.freedesktop.login1";
 
 SystemStateChangeLogind::SystemStateChangeLogind(GDBusConnection *connection)
 {
-  TRACE_ENTER("SystemStateChangeLogind::SystemStateChangeLogind");
+  TRACE_ENTRY();
   proxy.init_with_connection(connection,
                              dbus_name,
                              "/org/freedesktop/login1",
@@ -62,19 +62,18 @@ SystemStateChangeLogind::SystemStateChangeLogind(GDBusConnection *connection)
       can_hibernate = check_method("CanHibernate");
       can_suspend_hybrid = check_method("CanHybridSleep");
     }
-  TRACE_EXIT();
 }
 
 bool
 SystemStateChangeLogind::check_method(const char *method_name)
 {
-  TRACE_ENTER_MSG("SystemStateChangeLogind::check_method", method_name);
+  TRACE_ENTRY_PAR(method_name);
 
   bool ret;
   GVariant *result;
   if (!proxy.call_method(method_name, nullptr, &result))
     {
-      TRACE_RETURN(false);
+      TRACE_VAR(false);
       return false;
     }
 
@@ -84,11 +83,11 @@ SystemStateChangeLogind::check_method(const char *method_name)
   result = nullptr;
   if (cresult == nullptr)
     {
-      TRACE_RETURN(false);
+      TRACE_VAR(false);
       return false;
     }
 
-  TRACE_MSG("Method returned: " << cresult);
+  TRACE_MSG("Method returned: {}", cresult);
   if (strcmp(cresult, "yes") == 0)
     {
       ret = true;
@@ -101,18 +100,18 @@ SystemStateChangeLogind::check_method(const char *method_name)
   g_free(cresult);
   cresult = nullptr;
 
-  TRACE_RETURN(ret);
+  TRACE_VAR(ret);
   return ret;
 }
 
 bool
 SystemStateChangeLogind::execute(const char *method_name)
 {
-  TRACE_ENTER_MSG("SystemStateChangeLogind::execute", method_name);
+  TRACE_ENTRY_PAR(method_name);
 
   // We do not want PolicyKit to ask for credentials
   bool ret = proxy.call_method(method_name, g_variant_new("(b)", false), nullptr);
 
-  TRACE_RETURN(ret);
+  TRACE_VAR(ret);
   return ret;
 }

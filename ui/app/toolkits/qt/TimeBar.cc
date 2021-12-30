@@ -131,7 +131,7 @@ TimeBar::sizeHint() const -> QSize
 void
 TimeBar::paintEvent(QPaintEvent * /* event */)
 {
-  TRACE_ENTER("TimeBar::paintEvent");
+  TRACE_ENTRY();
   QStylePainter painter(this);
 
   const int border_size = 1;
@@ -237,7 +237,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
 
   int text_y = (height() + text_height) / 2 - MARGINY;
 
-  TRACE_MSG("x = " << text_x << "y = " << text_y);
+  TRACE_MSG("x = {} y = {}", text_x, text_y);
 
   int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
   left_width += border_size;
@@ -248,6 +248,5 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
   painter.setPen(QColor("black"));
   painter.drawText(text_x, text_y, bar_text);
 
-  TRACE_MSG("width = " << text_width << "height = " << text_height);
-  TRACE_EXIT();
+  TRACE_MSG("width = {} height = {}", text_width, text_height);
 }

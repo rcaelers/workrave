@@ -320,8 +320,7 @@ GtkUtil::flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool ver
 void
 GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 {
-  TRACE_ENTER("GtkUtil::center_window");
-
+  TRACE_ENTRY();
   Gtk::Requisition size;
   Gtk::Requisition minsize;
   window.get_preferred_size(minsize, size);
@@ -329,12 +328,11 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
   int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
 
-  TRACE_MSG(head.geometry.get_x() << " " << head.geometry.get_width() << " " << size.width);
-  TRACE_MSG(head.geometry.get_y() << " " << head.geometry.get_height() << " " << size.height);
+  TRACE_VAR(head.geometry.get_x(), head.geometry.get_width(), size.width);
+  TRACE_VAR(head.geometry.get_y(), head.geometry.get_height(), size.height);
 
   window.set_position(Gtk::WIN_POS_NONE);
   window.move(x, y);
-  TRACE_EXIT();
 }
 
 void

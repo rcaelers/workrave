@@ -54,8 +54,7 @@ NetworkPreferencePage::NetworkPreferencePage(std::shared_ptr<IApplication> app)
   : Gtk::VBox(false, 6)
   , app(app)
 {
-  TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
-
+  TRACE_ENTRY();
   Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 
@@ -73,14 +72,11 @@ NetworkPreferencePage::NetworkPreferencePage(std::shared_ptr<IApplication> app)
 
   tnotebook->show_all();
   tnotebook->set_current_page(0);
-
-  TRACE_EXIT();
 }
 
 NetworkPreferencePage::~NetworkPreferencePage()
 {
-  TRACE_ENTER("NetworkPreferencePage::~NetworkPreferencePage");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 void
@@ -372,7 +368,7 @@ NetworkPreferencePage::on_attempts_changed()
 void
 NetworkPreferencePage::on_peer_remove()
 {
-  TRACE_ENTER("NetworkPreferencePage::on_peer_remove");
+  TRACE_ENTRY();
   Glib::RefPtr<Gtk::TreeSelection> selection = peers_list->get_selection();
 
   const Gtk::TreeSelection::SlotForeachIter &slot = sigc::mem_fun(*this, &NetworkPreferencePage::remove_peer);
@@ -401,14 +397,12 @@ NetworkPreferencePage::on_peer_remove()
 
   peers_store = new_store;
   peers_list->set_model(peers_store);
-  TRACE_EXIT();
 }
 
 void
 NetworkPreferencePage::on_peer_add()
 {
-  TRACE_ENTER("NetworkPreferencePage::on_peer_add");
-
+  TRACE_ENTRY();
   stringstream ss;
   int port = (int)port_entry->get_value();
   ss << port;
@@ -418,8 +412,6 @@ NetworkPreferencePage::on_peer_add()
 
   row[peers_columns.hostname] = "";
   row[peers_columns.port] = ss.str();
-
-  TRACE_EXIT();
 }
 
 void

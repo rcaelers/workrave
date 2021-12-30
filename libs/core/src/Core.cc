@@ -97,21 +97,18 @@ CoreFactory::create()
 //! Constructs a new Core.
 Core::Core()
 {
-  TRACE_ENTER("Core::Core");
+  TRACE_ENTRY();
   hooks = std::make_shared<CoreHooks>();
   TimeSource::sync();
 
   assert(!instance);
   instance = this;
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 Core::~Core()
 {
-  TRACE_ENTER("Core::~Core");
-
+  TRACE_ENTRY();
   save_state();
 
   if (monitor != nullptr)
@@ -133,8 +130,6 @@ Core::~Core()
   delete fake_monitor;
 #  endif
 #endif
-
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -228,7 +223,7 @@ Core::init_configurator()
 void
 Core::init_bus()
 {
-  TRACE_ENTER("Core::init_bus");
+  TRACE_ENTRY();
   try
     {
       dbus = workrave::dbus::DBusFactory::create();
@@ -252,7 +247,6 @@ Core::init_bus()
     {
       TRACE_MSG("Ex!");
     }
-  TRACE_EXIT();
 }
 
 //! Initializes the activity monitor.
@@ -336,8 +330,7 @@ Core::init_statistics()
 void
 Core::load_monitor_config()
 {
-  TRACE_ENTER("Core::load_monitor_config");
-
+  TRACE_ENTRY();
   int noise;
   int activity;
   int idle;
@@ -382,17 +375,16 @@ Core::load_monitor_config()
       configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
     }
 
-  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
+  TRACE_MSG("Monitor config = {} {} {}", noise, activity, idle);
 
   local_monitor->set_parameters(noise, activity, idle, sensitivity);
-  TRACE_EXIT();
 }
 
 //! Notification that the configuration has changed.
 void
 Core::config_changed_notify(const string &key)
 {
-  TRACE_ENTER_MSG("Core::config_changed_notify", key);
+  TRACE_ENTRY_PAR(key);
   string::size_type pos = key.find('/');
   string path;
 
@@ -435,7 +427,6 @@ Core::config_changed_notify(const string &key)
       TRACE_MSG("Setting usage mode");
       set_usage_mode_internal(UsageMode(mode), false);
     }
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -774,7 +765,7 @@ Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 void
 Core::do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
-  TRACE_ENTER_MSG("Core::do_force_break", id);
+  TRACE_ENTRY_PAR(id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
   BreakControl *breaker = breaks[id].get_break_control();
 
@@ -786,15 +777,13 @@ Core::do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
     }
 
   breaker->force_start_break(break_hint);
-  TRACE_EXIT();
 }
 
 //! Announces a change in time.
 void
 Core::time_changed()
 {
-  TRACE_ENTER("Core::time_changed");
-
+  TRACE_ENTRY();
   // In case out timezone changed..
   tzset();
 
@@ -804,16 +793,14 @@ Core::time_changed()
     {
       breaks[i].get_timer()->shift_time(0);
     }
-
-  TRACE_EXIT();
 }
 
 //! Announces a powersave state.
 void
 Core::set_powersave(bool down)
 {
-  TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << powersave_resume_time << " " << operation_mode_active);
+  TRACE_ENTRY_PAR(down);
+  TRACE_VAR(powersave, powersave_resume_time, operation_mode_active);
 
   if (down)
     {
@@ -838,13 +825,12 @@ Core::set_powersave(bool down)
           int64_t current_time = TimeSource::get_real_time_sec();
 
           powersave_resume_time = current_time ? current_time : 1;
-          TRACE_MSG("set resume time " << powersave_resume_time);
+          TRACE_MSG("set resume time {}", powersave_resume_time);
         }
 
-      TRACE_MSG("resume time " << powersave_resume_time);
+      TRACE_MSG("resume time {}", powersave_resume_time);
       remove_operation_mode_override("powersave");
     }
-  TRACE_EXIT();
 }
 
 //! Sets the insist policy.
@@ -855,11 +841,11 @@ Core::set_powersave(bool down)
 void
 Core::set_insist_policy(InsistPolicy p)
 {
-  TRACE_ENTER_MSG("Core::set_insist_policy", p);
+  TRACE_ENTRY_PAR(p);
 
   if (active_insist_policy != InsistPolicy::Invalid && insist_policy != p)
     {
-      TRACE_MSG("refreeze " << active_insist_policy);
+      TRACE_MSG("refreeze {}", active_insist_policy);
       defrost();
       insist_policy = p;
       freeze();
@@ -868,7 +854,6 @@ Core::set_insist_policy(InsistPolicy p)
     {
       insist_policy = p;
     }
-  TRACE_EXIT();
 }
 
 //! Gets the insist policy.
@@ -882,16 +867,14 @@ Core::get_insist_policy() const
 void
 Core::force_idle()
 {
-  TRACE_ENTER("Core::force_idle");
+  TRACE_ENTRY();
   force_idle(BREAK_ID_NONE);
-  TRACE_EXIT();
 }
 
 void
 Core::force_idle(BreakId break_id)
 {
-  TRACE_ENTER("Core::force_idle_for_break");
-
+  TRACE_ENTRY();
   monitor->force_idle();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -907,7 +890,6 @@ Core::force_idle(BreakId break_id)
 
       breaks[i].get_timer()->force_idle();
     }
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -940,14 +922,12 @@ Core::skip_break(BreakId break_id)
 void
 Core::stop_prelude(BreakId break_id)
 {
-  TRACE_ENTER_MSG("Core::stop_prelude", break_id);
+  TRACE_ENTRY_PAR(break_id);
   do_stop_prelude(break_id);
 
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_ABORT_PRELUDE);
 #endif
-
-  TRACE_EXIT();
 }
 
 //! User postpones the specified break.
@@ -976,13 +956,12 @@ Core::do_skip_break(BreakId break_id)
 void
 Core::do_stop_prelude(BreakId break_id)
 {
-  TRACE_ENTER_MSG("Core::do_stop_prelude", break_id);
+  TRACE_ENTRY_PAR(break_id);
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
       BreakControl *bc = breaks[break_id].get_break_control();
       bc->stop_prelude();
     }
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -993,7 +972,7 @@ Core::do_stop_prelude(BreakId break_id)
 void
 Core::heartbeat()
 {
-  TRACE_ENTER("Core::heartbeat");
+  TRACE_ENTRY();
   assert(application != nullptr);
 
   TimeSource::sync();
@@ -1040,8 +1019,6 @@ Core::heartbeat()
 
   // Done.
   last_process_time = current_time;
-
-  TRACE_EXIT();
 }
 
 //! Performs all distribution processing.
@@ -1152,7 +1129,7 @@ Core::process_state()
 void
 Core::report_external_activity(std::string who, bool act)
 {
-  TRACE_ENTER_MSG("Core::report_external_activity", who << " " << act);
+  TRACE_ENTRY_PAR(who, act);
   if (act)
     {
       int64_t current_time = TimeSource::get_real_time_sec();
@@ -1162,7 +1139,6 @@ Core::report_external_activity(std::string who, bool act)
     {
       external_activity.erase(who);
     }
-  TRACE_EXIT();
 }
 
 void
@@ -1211,8 +1187,7 @@ Core::get_timer_overdue(BreakId id, int *value)
 void
 Core::process_timers()
 {
-  TRACE_ENTER("Core::process_timers");
-
+  TRACE_ENTRY();
   TimerInfo infos[BREAK_ID_SIZEOF];
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -1274,8 +1249,6 @@ Core::process_timers()
           daily_reset();
         }
     }
-
-  TRACE_EXIT();
 }
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -1286,7 +1259,7 @@ Core::process_timewarp()
 {
   bool ret = false;
 
-  TRACE_ENTER("Core::process_timewarp");
+  TRACE_ENTRY();
   if (last_process_time != 0)
     {
       int64_t current_time = TimeSource::get_real_time_sec();
@@ -1294,11 +1267,10 @@ Core::process_timewarp()
 
       if (abs((int)gap) > 5)
         {
-          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode_active << " " << powersave_resume_time << " " << current_time);
-
+          TRACE_MSG("gap {} {} {} {} {}", gap, powersave, operation_mode_active, powersave_resume_time, current_time);
           if (!powersave)
             {
-              TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
+              TRACE_MSG("Time warp of {} seconds. Correcting ", gap);
 
               force_idle();
 
@@ -1313,7 +1285,7 @@ Core::process_timewarp()
             }
           else
             {
-              TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
+              TRACE_MSG("Time warp of {} seconds because of powersave", gap);
 
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
@@ -1329,7 +1301,6 @@ Core::process_timewarp()
           powersave_resume_time = 0;
         }
     }
-  TRACE_EXIT();
   return ret;
 }
 
@@ -1342,14 +1313,14 @@ Core::process_timewarp()
   bool ret = false;
   int64_t current_time = TimeSource::get_real_time_sec();
 
-  TRACE_ENTER("Core::process_timewarp");
+  TRACE_ENTRY();
   if (last_process_time != 0)
     {
       int gap = current_time - 1 - last_process_time;
 
       if (gap >= 30)
         {
-          TRACE_MSG("Time warp of " << gap << " seconds. Powersafe");
+          TRACE_MSG("Time warp of {} seconds. Powersafe", gap);
 
           force_idle();
 
@@ -1365,7 +1336,6 @@ Core::process_timewarp()
         }
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -1535,7 +1505,7 @@ Core::stop_all_breaks()
 void
 Core::daily_reset()
 {
-  TRACE_ENTER("Core::daily_reset");
+  TRACE_ENTRY();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
@@ -1553,8 +1523,6 @@ Core::daily_reset()
 #endif
 
   save_state();
-
-  TRACE_EXIT();
 }
 
 //! Saves the current state.
@@ -1679,7 +1647,7 @@ Core::post_event(CoreEvent event)
 void
 Core::freeze()
 {
-  TRACE_ENTER_MSG("Core::freeze", insist_policy);
+  TRACE_ENTRY_PAR(insist_policy);
   InsistPolicy policy = insist_policy;
 
   switch (policy)
@@ -1706,14 +1674,13 @@ Core::freeze()
     }
 
   active_insist_policy = policy;
-  TRACE_EXIT();
 }
 
 //! Undo the insist policy.
 void
 Core::defrost()
 {
-  TRACE_ENTER_MSG("Core::defrost", active_insist_policy);
+  TRACE_ENTRY_PAR(active_insist_policy);
 
   switch (active_insist_policy)
     {
@@ -1738,7 +1705,6 @@ Core::defrost()
     }
 
   active_insist_policy = InsistPolicy::Invalid;
-  TRACE_EXIT();
 }
 
 //! Is the user currently active?
@@ -1904,8 +1870,7 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
 bool
 Core::request_timer_state(PacketBuffer &buffer) const
 {
-  TRACE_ENTER("Core::get_timer_state");
-
+  TRACE_ENTRY();
   buffer.pack_ushort(BREAK_ID_SIZEOF);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -1933,26 +1898,23 @@ Core::request_timer_state(PacketBuffer &buffer) const
       buffer.poke_ushort(pos, buffer.bytes_written() - pos);
     }
 
-  TRACE_EXIT();
   return true;
 }
 
 bool
 Core::set_timer_state(PacketBuffer &buffer)
 {
-  TRACE_ENTER("Core::set_timer_state");
-
+  TRACE_ENTRY();
   int num_breaks = buffer.unpack_ushort();
 
-  TRACE_MSG("numtimer = " << num_breaks);
+  TRACE_MSG("numtimer = {}", num_breaks);
   for (int i = 0; i < num_breaks; i++)
     {
       gchar *id = buffer.unpack_string();
-      TRACE_MSG("id = " << id);
+      TRACE_MSG("id = {}", id);
 
       if (id == nullptr)
         {
-          TRACE_EXIT();
           return false;
         }
 
@@ -1972,8 +1934,12 @@ Core::set_timer_state(PacketBuffer &buffer)
       state_data.last_limit_elapsed = buffer.unpack_ulong();
       state_data.snooze_inhibited = buffer.unpack_ushort();
 
-      TRACE_MSG("state = " << state_data.current_time << " " << state_data.elapsed_time << " " << state_data.elapsed_idle_time << " "
-                           << state_data.last_pred_reset_time << " " << state_data.total_overdue_time);
+      TRACE_MSG("state = {} {} {} {} {}",
+                state_data.current_time,
+                state_data.elapsed_time,
+                state_data.elapsed_idle_time,
+                state_data.last_pred_reset_time,
+                state_data.total_overdue_time);
 
       if (t != nullptr)
         {
@@ -1983,24 +1949,22 @@ Core::set_timer_state(PacketBuffer &buffer)
       g_free(id);
     }
 
-  TRACE_EXIT();
   return true;
 }
 
 bool
 Core::set_monitor_state(bool master, PacketBuffer &buffer)
 {
-  (void)master;
-  TRACE_ENTER_MSG("Core::set_monitor_state", master << " " << master_node);
+  , (void)master;
+  TRACE_ENTRY_PAR(master, master_node);
 
   if (!master_node)
     {
       buffer.unpack_ushort();
       remote_state = (ActivityState)buffer.unpack_ushort();
-      TRACE_MSG(remote_state);
+      TRACE_VAR(remote_state);
     }
 
-  TRACE_EXIT();
   return true;
 }
 
@@ -2030,8 +1994,8 @@ Core::signon_remote_client(string client_id)
 void
 Core::signoff_remote_client(string client_id)
 {
-  TRACE_ENTER_MSG("Core::signoff_remote_client", client_id);
-  TRACE_MSG("Master = " << dist_manager->get_master_id());
+  TRACE_ENTRY_PAR(client_id);
+  TRACE_MSG("Master = {}", dist_manager->get_master_id());
   if (client_id == dist_manager->get_master_id())
     {
       TRACE_MSG("Idle");
@@ -2039,14 +2003,12 @@ Core::signoff_remote_client(string client_id)
     }
 
   idlelog_manager->signoff_remote_client(client_id);
-  TRACE_EXIT();
 }
 
 void
 Core::compute_timers()
 {
-  TRACE_ENTER("IdleLogManager:compute_timers");
-
+  TRACE_ENTRY();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       int64_t autoreset = breaks[i].get_timer()->get_auto_reset();
@@ -2069,8 +2031,6 @@ Core::compute_timers()
           breaks[i].get_timer()->set_values(active_time, idle);
         }
     }
-
-  TRACE_EXIT();
 }
 
 //! Sends a break control message to all workrave clients.

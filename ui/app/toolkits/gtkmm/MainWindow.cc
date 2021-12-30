@@ -58,8 +58,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplication> app)
 
 MainWindow::~MainWindow()
 {
-  TRACE_ENTER("MainWindow::~MainWindow");
-
+  TRACE_ENTRY();
 #ifdef PLATFORM_OS_WINDOWS_LEGACY
   if (timeout_connection.connected())
     {
@@ -74,8 +73,6 @@ MainWindow::~MainWindow()
 #ifdef PLATFORM_OS_UNIX
   delete leader;
 #endif
-
-  TRACE_EXIT();
 }
 
 // bool
@@ -94,8 +91,7 @@ MainWindow::~MainWindow()
 void
 MainWindow::toggle_window()
 {
-  TRACE_ENTER("MainWindow::toggle_window");
-
+  TRACE_ENTRY();
   bool visible = is_visible();
   if (visible)
     {
@@ -105,14 +101,13 @@ MainWindow::toggle_window()
     {
       open_window();
     }
-  TRACE_EXIT();
 }
 
 //! Opens the main window.
 void
 MainWindow::open_window()
 {
-  TRACE_ENTER("MainWindow::open_window");
+  TRACE_ENTRY();
   if (timer_box_view->get_visible_count() > 0)
     {
 #ifdef PLATFORM_OS_WINDOWS_LEGACY
@@ -135,21 +130,20 @@ MainWindow::open_window()
       bound_head(x, y, min_size.width, min_size.height, head);
 
       map_from_head(x, y, head);
-      TRACE_MSG("moving to " << x << " " << y);
+      TRACE_MSG("moving to {} {}", x, y);
       move(x, y);
 
       bool always_on_top = GUIConfig::main_window_always_on_top()();
       GtkUtil::set_always_on_top(this, always_on_top);
       GUIConfig::timerbox_enabled("main_window").set(true);
     }
-  TRACE_EXIT();
 }
 
 //! Closes the main window.
 void
 MainWindow::close_window()
 {
-  TRACE_ENTER("MainWindow::close_window");
+  TRACE_ENTRY();
 #if defined(PLATFORM_OS_WINDOWS_LEGACY)
   win32_show(false);
 #elif defined(PLATFORM_OS_WINDOWS)
@@ -170,17 +164,16 @@ MainWindow::close_window()
 #endif
 
   GUIConfig::timerbox_enabled("main_window").set(false);
-  TRACE_EXIT();
 }
 
 void
 MainWindow::set_can_close(bool can_close)
 {
-  TRACE_ENTER_MSG("MainWindow::set_can_close", can_close);
+  TRACE_ENTRY_PAR(can_close);
   this->can_close = can_close;
 
-  TRACE_MSG(enabled);
-  TRACE_MSG(is_visible());
+  TRACE_VAR(enabled);
+  TRACE_VAR(is_visible());
   if (!is_visible())
     {
       if (can_close)
@@ -195,7 +188,6 @@ MainWindow::set_can_close(bool can_close)
           show_all();
         }
     }
-  TRACE_EXIT();
 }
 
 //! Updates the main window.
@@ -209,8 +201,7 @@ MainWindow::update()
 void
 MainWindow::init()
 {
-  TRACE_ENTER("MainWindow::init");
-
+  TRACE_ENTRY();
   set_border_width(2);
   set_resizable(false);
 
@@ -341,22 +332,19 @@ MainWindow::init()
 
   menu->get_menu()->attach_to_widget(*this);
   insert_action_group("app", menu->get_action_group());
-
-  TRACE_EXIT();
 }
 
 //! Setup configuration settings.
 void
 MainWindow::setup()
 {
-  TRACE_ENTER("MainWindow::setup");
-
+  TRACE_ENTRY();
   bool new_enabled = GUIConfig::timerbox_enabled("main_window")();
   bool always_on_top = GUIConfig::main_window_always_on_top()();
 
-  TRACE_MSG("can_close " << new_enabled);
-  TRACE_MSG("enabled " << new_enabled);
-  TRACE_MSG("on top " << always_on_top);
+  TRACE_MSG("can_close {}", new_enabled);
+  TRACE_MSG("enabled {}", new_enabled);
+  TRACE_MSG("on top {}", always_on_top);
 
   if (enabled != new_enabled)
     {
@@ -384,16 +372,13 @@ MainWindow::setup()
     {
       raise();
     }
-
-  TRACE_EXIT();
 }
 
 //! User has closed the main window.
 bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
-  TRACE_ENTER("MainWindow::on_delete_event");
-
+  TRACE_ENTRY();
 #if defined(PLATFORM_OS_WINDOWS_LEGACY)
   win32_show(false);
   closed_signal.emit();
@@ -410,14 +395,13 @@ MainWindow::on_delete_event(GdkEventAny *)
     }
 #endif
 
-  TRACE_EXIT();
   return true;
 }
 
 bool
 MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 {
-  TRACE_ENTER("MainWindow::on_timer_view_button_press_event");
+  TRACE_ENTRY();
   bool ret = false;
 
   (void)event;
@@ -428,7 +412,6 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
       ret = true;
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -436,7 +419,7 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 void
 MainWindow::win32_show(bool b)
 {
-  TRACE_ENTER_MSG("MainWindow::win32_show", b);
+  TRACE_ENTRY_PAR(b);
   bool retry = false;
 
   // Gtk's hide() seems to quit the program.
@@ -460,7 +443,7 @@ MainWindow::win32_show(bool b)
               show_retry_count--;
             }
 
-          TRACE_MSG("2 " << show_retry_count);
+          TRACE_MSG("2 {}", show_retry_count);
           retry = true;
         }
     }
@@ -476,27 +459,24 @@ MainWindow::win32_show(bool b)
     {
       show_retry_count = 0;
     }
-  TRACE_EXIT();
 }
 
 bool
 MainWindow::win32_show_retry()
 {
-  TRACE_ENTER("MainWindow::win32_show_retry");
+  TRACE_ENTRY();
   if (show_retry_count > 0)
     {
       TRACE_MSG("retry");
       win32_show(true);
     }
-  TRACE_EXIT();
   return false;
 }
 
 void
 MainWindow::win32_init()
 {
-  TRACE_ENTER("MainWindow::win32_init");
-
+  TRACE_ENTRY();
   win32_hinstance = (HINSTANCE)GetModuleHandle(NULL);
 
   WNDCLASSEXA wclass =
@@ -525,8 +505,6 @@ MainWindow::win32_init()
   GdkWindow *gdk_window = gtk_widget_get_window(window);
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
   SetWindowLongPtr(hwnd, GWLP_HWNDPARENT, (LONG_PTR)win32_main_hwnd);
-
-  TRACE_EXIT();
 }
 
 void
@@ -541,7 +519,7 @@ MainWindow::win32_exit()
 void
 MainWindow::get_start_position(int &x, int &y, int &head)
 {
-  TRACE_ENTER("MainWindow::get_start_position");
+  TRACE_ENTRY();
   x = GUIConfig::main_window_x()();
   y = GUIConfig::main_window_y()();
   head = GUIConfig::main_window_head()();
@@ -549,25 +527,22 @@ MainWindow::get_start_position(int &x, int &y, int &head)
     {
       head = 0;
     }
-  TRACE_MSG(x << " " << y << " " << head);
-  TRACE_EXIT();
+  TRACE_VAR(x, y, head);
 }
 
 void
 MainWindow::set_start_position(int x, int y, int head)
 {
-  TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y << " " << head);
+  TRACE_ENTRY_PAR(x, y, head);
   GUIConfig::main_window_x().set(x);
   GUIConfig::main_window_y().set(y);
   GUIConfig::main_window_head().set(head);
-  TRACE_EXIT();
 }
 
 void
 MainWindow::move_to_start_position()
 {
-  TRACE_ENTER("MainWindow::move_to_start_position");
-
+  TRACE_ENTRY();
   int x, y, head;
   get_start_position(x, y, head);
 
@@ -582,13 +557,13 @@ MainWindow::move_to_start_position()
 
   map_from_head(x, y, head);
 
-  TRACE_MSG("Main window size " << min_size.width << " " << min_size.height);
+  TRACE_MSG("Main window size {} {}", min_size.width, min_size.height);
 
   window_location.set_x(x);
   window_location.set_y(y);
   window_relocated_location.set_x(x);
   window_relocated_location.set_y(y);
-  TRACE_MSG("moving to " << x << " " << y);
+  TRACE_MSG("moving to {} {}", x, y);
 
   move(x, y);
 }
@@ -596,17 +571,16 @@ MainWindow::move_to_start_position()
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)
 {
-  TRACE_ENTER_MSG("MainWindow::on_configure_event", event->x << " " << event->y);
+  TRACE_ENTRY_PAR(event->x, event->y);
   locate_window(event);
   bool ret = Widget::on_configure_event(event);
-  TRACE_EXIT();
   return ret;
 }
 
 void
 MainWindow::locate_window(GdkEventConfigure *event)
 {
-  TRACE_ENTER("MainWindow::locate_window");
+  TRACE_ENTRY();
   int x, y;
   int width, height;
 
@@ -615,7 +589,6 @@ MainWindow::locate_window(GdkEventConfigure *event)
   Glib::RefPtr<Gdk::Window> window = get_window();
   if ((window->get_state() & (Gdk::WINDOW_STATE_ICONIFIED | Gdk::WINDOW_STATE_WITHDRAWN)) != 0)
     {
-      TRACE_EXIT();
       return;
     }
 
@@ -643,11 +616,10 @@ MainWindow::locate_window(GdkEventConfigure *event)
       height = min_size.height;
     }
 
-  TRACE_MSG("main window = " << x << " " << y);
+  TRACE_MSG("main window = {} {}", x, y);
 
   if (x <= 0 && y <= 0)
     {
-      TRACE_EXIT();
       return;
     }
 
@@ -659,10 +631,10 @@ MainWindow::locate_window(GdkEventConfigure *event)
       window_relocated_location.set_y(y);
 
       int head = map_to_head(x, y);
-      TRACE_MSG("main window head = " << x << " " << y << " " << head);
+      TRACE_MSG("main window head = {} {} {}", x, y, head);
 
       bool rc = bound_head(x, y, width, height, head);
-      TRACE_MSG("main window bounded = " << x << " " << y);
+      TRACE_MSG("main window bounded = {} {}", x, y);
 
       window_head_location.set_x(x);
       window_head_location.set_y(y);
@@ -673,23 +645,22 @@ MainWindow::locate_window(GdkEventConfigure *event)
           move_to_start_position();
         }
     }
-  TRACE_EXIT();
 }
 
 void
 MainWindow::relocate_window(int width, int height)
 {
-  TRACE_ENTER_MSG("MainWindow::relocate_window", width << " " << height);
+  TRACE_ENTRY_PAR(width, height);
   int x = window_location.get_x();
   int y = window_location.get_y();
 
   if (x <= 0 || y <= 0)
     {
-      TRACE_MSG("invalid " << x << " " << y);
+      TRACE_MSG("invalid {} {}", x, y);
     }
   else if (x <= width && y <= height)
     {
-      TRACE_MSG(x << " " << y);
+      TRACE_VAR(x, y);
       TRACE_MSG("fits, moving to");
       set_position(Gtk::WIN_POS_NONE);
       move(x, y);
@@ -722,15 +693,13 @@ MainWindow::relocate_window(int width, int height)
           y = 0;
         }
 
-      TRACE_MSG("moving to " << x << " " << y);
+      TRACE_MSG("moving to {} {}", x, y);
       window_relocated_location.set_x(x);
       window_relocated_location.set_y(y);
 
       set_position(Gtk::WIN_POS_NONE);
       move(x, y);
     }
-
-  TRACE_EXIT();
 }
 
 #ifdef PLATFORM_OS_WINDOWS_LEGACY
@@ -738,8 +707,7 @@ MainWindow::relocate_window(int width, int height)
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  TRACE_ENTER_MSG("MainWindow::win32_window_proc", uMsg << " " << wParam);
-  TRACE_EXIT();
+  TRACE_ENTRY_PAR(uMsg, wParam);
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 #endif
