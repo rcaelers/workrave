@@ -22,11 +22,11 @@
 
 #ifndef TRACING
 
-#  define TRACE_ENTER(x)
-#  define TRACE_ENTRY_PAR(y)
-#  define TRACE_MSG(x)
-#  define TRACE_EXIT()
-#  define TRACE_MSG(x)
+#  define TRACE_ENTRY(...)
+#  define TRACE_ENTRY_MSG(...)
+#  define TRACE_ENTRY_PAR(...)
+#  define TRACE_MSG(...)
+#  define TRACE_VAR(...)
 #else
 
 #  include <spdlog/spdlog.h>

@@ -169,7 +169,7 @@ Application::init_logging()
 #if SPDLOG_VERSION >= 10801
   spdlog::cfg::load_env_levels();
 #endif
-
+#ifdef TRACING
   const auto trace_file = log_dir / "workrave-trace.log";
   auto trace_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(trace_file.string(), 1024 * 1024, 2, true);
   auto tracer = std::make_shared<spdlog::logger>("trace", trace_sink);
@@ -177,6 +177,7 @@ Application::init_logging()
   tracer->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%t] %v");
 
   ScopedTrace::init(tracer);
+#endif
 }
 
 void

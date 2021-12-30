@@ -24,7 +24,6 @@
 #ifndef DBUSPROXYGIO_HH
 #define DBUSPROXYGIO_HH
 
-#include "debug.hh"
 #include <glib.h>
 #include <gio/gio.h>
 
