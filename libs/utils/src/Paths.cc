@@ -441,7 +441,7 @@ Paths::get_log_directory()
   std::filesystem::path dir = get_special_folder(FOLDERID_LocalAppData);
   if (!dir.empty())
     {
-      dir /= "Workrave";
+      dir /= std::filesystem::path("Workrave") / "Logs";
       return dir;
     }
 
