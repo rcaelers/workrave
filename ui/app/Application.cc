@@ -153,7 +153,7 @@ void
 Application::init_logging()
 {
   const auto log_dir = Paths::get_log_directory();
-  std::filesystem::create_directory(log_dir);
+  std::filesystem::create_directories(log_dir);
 
   const auto log_file = log_dir / "workrave.log";
 
