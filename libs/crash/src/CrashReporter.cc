@@ -118,7 +118,7 @@ CrashReporter::Pimpl::init()
 #endif
 
   base::FilePath handler(app_dir / "lib" / handler_exe);
-  const std::string url("http://192.168.7.6:8888/api/minidump/upload?api_key=c835b63da57e4bbe87d1f1d3c7a6f2af");
+  const std::string url("http://192.168.7.6:8888/api/minidump/upload?api_key=98d73567771b497681517ea30b2dbaf8");
 
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
