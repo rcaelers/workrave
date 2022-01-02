@@ -180,7 +180,7 @@ if (MINGW)
     add_custom_command(TARGET workrave POST_BUILD
       COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym
       )
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
+    # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/workrave.sym DESTINATION .)
   endif()
 
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")

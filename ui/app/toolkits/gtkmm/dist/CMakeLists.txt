@@ -1,7 +1,3 @@
-if (WIN32)
-  add_subdirectory(windows)
-else()
-
 execute_process(COMMAND date "+%Y%m%d" OUTPUT_VARIABLE CPACK_DATE OUTPUT_STRIP_TRAILING_WHITESPACE)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
@@ -36,9 +32,9 @@ set(CPACK_PACKAGE_DIRECTORY             "${CMAKE_BINARY_DIR}")
 set(CPACK_STRIP_FILES                   TRUE)
 
 if (WIN32)
-  set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_BINARY_DIR}/COPYING.txt")
+  set (CPACK_RESOURCE_FILE_LICENSE      "${CMAKE_BINARY_DIR}/COPYING.txt")
 else()
-  set (CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/COPYING")
+  set (CPACK_RESOURCE_FILE_LICENSE      "${CMAKE_SOURCE_DIR}/COPYING")
 endif()
 
 #set(CPACK_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/BundleConfig.cmake")
@@ -50,9 +46,9 @@ endif()
 #set(CPACK_GENERATOR)
 
 if(PLATFORM_OS_MACOS)
-    include(PackagingMacOS.cmake)
+    add_subdirectory(macos)
+elseif(PLATFORM_OS_WINDOWS)
+    add_subdirectory(windows)
 endif()
 
 include(CPack)
-
-endif()

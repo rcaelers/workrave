@@ -161,7 +161,7 @@ elseif (WIN32)
   set (SOUNDSDIR "${DATADIR}/sounds")
   set (EXERCISESDIR "${DATADIR}/exercises")
   set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${LIBDIR}/locale")
+  set (LOCALEDIR "${DATADIR}/locale")
 endif()
 
 add_definitions(
@@ -908,9 +908,8 @@ if (WIN32)
   configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)
   configure_file(COPYING COPYING.txt NEWLINE_STYLE WIN32)
 
-  install(
-    FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt
-    DESTINATION ${DATADIR}/doc/workrave)
+  install(FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt
+          DESTINATION .)
 
    if (PREBUILT_PATH)
       set (APPLET_BINARY_DIR ${PREBUILT_PATH})

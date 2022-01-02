@@ -1,50 +1,42 @@
-set(SRC src/zapper.c)
+add_subdirectory(src)
 
-add_library(zapper-0 SHARED ${SRC})
-if (MINGW)
-   set_target_properties(zapper-0 PROPERTIES LINK_FLAGS "-static-libgcc")
+if (NOT DEFINED INSTALL_PATH)
+  if(DEFINED ENV{DESTDIR})
+    set(INSTALL_PATH "$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}")
+  else()
+    set(INSTALL_PATH "${CMAKE_INSTALL_PREFIX}")
+  endif()
 endif()
-if (MSVC)
-  set_target_properties(zapper-0 PROPERTIES COMPILE_FLAGS "-DWIN32_LEAN_AND_MEAN")
-endif()
+string(REPLACE "/" "\\" INSTALL_WIN_PATH "${INSTALL_PATH}")
 
-install(TARGETS zapper-0 RUNTIME DESTINATION dist)
-install (FILES WizModernImage.bmp DESTINATION dist)
-install (FILES WizModernSmall.bmp DESTINATION dist)
-
-string(REPLACE "/" "\\" INSTALLDIR ${CMAKE_INSTALL_PREFIX})
+install(FILES WizModernImage.bmp DESTINATION dist)
+install(FILES WizModernSmall.bmp DESTINATION dist)
 
 file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
-
-set(LANG_ISS "${CMAKE_CURRENT_BINARY_DIR}/lang.iss")
-file(WRITE ${LANG_ISS} "; Translations\n")
-
 foreach (po_file ${POFILES})
   get_filename_component(language ${po_file} NAME_WE)
 
   if(MINGW) # TODO:
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
+  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION share/locale/${language}/LC_MESSAGES)
 
   if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
-    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
   elseif ()
-    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
+    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
     # TODO: else: give warning, once
   endif()
 
   if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
-    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
   elseif()
-    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION lib/locale/${language}/LC_MESSAGES)
+    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
     # TODO: else: give warning, once
   endif()
   endif()
-
-  file(APPEND ${LANG_ISS} "Source: \"${INSTALLDIR}\\lib\\locale\\${language}\\LC_MESSAGES\\*.*\"; DestDir: \"{app}\\lib\\locale\\${language}\\LC_MESSAGES\"; Flags: ignoreversion;\n")
 endforeach()
 
 include(FetchContent)
@@ -106,14 +98,13 @@ if(MINGW)
   install (DIRECTORY ${SYS_ROOT}/etc/fonts DESTINATION etc)
   install (DIRECTORY ${SYS_ROOT}/share/glib-2.0/schemas/ DESTINATION share/glib-2.0/schemas/ FILES_MATCHING PATTERN "org.gtk*.xml")
   install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
-  install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
+  install (CODE "execute_process (COMMAND glib-compile-schemas \"${INSTALL_PATH}/share/glib-2.0/schemas\")")
 
   install(DIRECTORY ${SYS_ROOT}/share/icons/Adwaita DESTINATION ${DATADIR}/icons)
-  install(CODE "execute_process(COMMAND gtk-update-icon-cache \${DATADIR}/icons/Adwaita)")
+  install(CODE "execute_process(COMMAND gtk-update-icon-cache \${INSTALL_PATH}/share/icons/Adwaita)")
 endif()
 
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
-
 
 if (HAVE_PREBUILT_CMAKE)
   file(GLOB FILES32BIT ${PREBUILT_PATH}/lib32/*.*)
@@ -126,17 +117,40 @@ elseif(HAVE_PREBUILT_VISUAL_STUDIO)
   install (FILES ${PREBUILT_PATH}/Release64/workrave-applet64.dll DESTINATION lib)
 endif()
 
+#install(CODE "set(WINE ${WINE})")
+#install(CODE "set(ISCC \"${ISCC}\")")
+install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
+install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
+install(CODE "set(INSTALL_PATH \"${INSTALL_PATH}\")")
+install(CODE "set(DEP_DIRS \"${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
+
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
+
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"
   "${CMAKE_CURRENT_BINARY_DIR}/setup.iss"
   @ONLY
 )
 
-install(CODE "set(WINE ${WINE})")
-install(CODE "set(ISCC \"${ISCC}\")")
-install(CODE "set(SYS_ROOT ${SYS_ROOT})")
-install(CODE "set(CMAKE_OBJDUMP ${CMAKE_OBJDUMP})")
-install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
-install(CODE "set(DIST_PATH ${CMAKE_CURRENT_BINARY_DIR})")
+set(INSTALLER_NAME "workrave-installer")
+set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
+set(ISCC_FLAGS "/F${INSTALLER_NAME}")
 
-install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Installer.cmake")
+if(CMAKE_CROSSCOMPILING)
+  find_program(WINE NAMES wine wine-stable wine-development)
+  find_file(ISCC ISCC.exe HINTS "$ENV{HOME}/.wine/drive_c/Program Files/" PATH_SUFFIXES "Inno Setup 5")
+  message(STATUS "${WINE}" "${ISCC}" setup.iss /Q ${ISCC_FLAGS})
+  add_custom_command(OUTPUT ${INSTALLER_TARGET}
+                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${INSTALL_PATH}" ${ISCC_FLAGS}
+                     DEPENDS workrave)
+else()
+  find_program(ISCC NAMES ISCC ISCC.exe PATH_SUFFIXES "Inno Setup 5")
+  add_custom_command(OUTPUT ${INSTALLER_TARGET}
+                     COMMAND "${ISCC}" setup.iss "/o${INSTALL_PATH}" ${ISCC_FLAGS}
+                     DEPENDS workrave)
+endif()
+
+add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
+
