@@ -10,70 +10,72 @@ OUTPUT_DIR=
 CONF_COMPILER=
 CONF_CONFIGURATION=Release
 CONF_APPIMAGE=
+DOSHELL=
 
-ROOT=`git rev-parse --show-toplevel`
+ROOT=$(git rev-parse --show-toplevel)
 if [ $? -ne 0 ]; then
-  echo "Not inside git working directory"
-  exit 1
+    echo "Not inside git working directory"
+    exit 1
 fi
 
-usage()
-{
-  echo "Usage: $0 " 1>&2;
-  exit 1;
+usage() {
+    echo "Usage: $0 " 1>&2
+    exit 1
 }
 
-parse_arguments()
-{
-    while getopts "Ac:C:dD:O:vW:" o; do
+parse_arguments() {
+    while getopts "Ac:C:dD:O:SvW:" o; do
         case "${o}" in
-            A)
-                CONF_APPIMAGE=1
-                ;;
-            c)
-                CONFIG="${OPTARG}"
-                BUILD_ARGS+=("-d${CONFIG}")
-                ;;
-            C)
-                CONF_COMPILER="${OPTARG}"
-                ;;
-            d)
-                BUILD_TYPE=Debug
-                CONF_CONFIGURATION=Debug
-                BUILD_ARGS+=("-DWITH_TRACING=ON")
-                ;;
-            D)
-                BUILD_ARGS+=("-D${OPTARG}")
-                ;;
-            O)
-                OUTPUT_DIR="${OPTARG}"
-                ;;
-            W)
-                WORKING_DIR="${OPTARG}"
-                ;;
-            v)
-                BUILD_ARGS+=("-M\"-v\"")
-                ;;
-            *)
-                usage
-                ;;
+        A)
+            CONF_APPIMAGE=1
+            ;;
+        c)
+            CONFIG="${OPTARG}"
+            BUILD_ARGS+=("-d${CONFIG}")
+            ;;
+        C)
+            CONF_COMPILER="${OPTARG}"
+            ;;
+        d)
+            BUILD_TYPE=Debug
+            CONF_CONFIGURATION=Debug
+            BUILD_ARGS+=("-DWITH_TRACING=ON")
+            ;;
+        D)
+            BUILD_ARGS+=("-D${OPTARG}")
+            ;;
+        O)
+            OUTPUT_DIR="${OPTARG}"
+            ;;
+        W)
+            WORKING_DIR="${OPTARG}"
+            ;;
+        S)
+            DOSHELL="1"
+            ;;
+        v)
+            BUILD_ARGS+=("-M\"-v\"")
+            ;;
+        *)
+            usage
+            ;;
         esac
     done
-    shift $((OPTIND-1))
+    shift $((OPTIND - 1))
 }
 
 parse_arguments $*
 
 case "$CONFIG" in
-    mingw-gtk-vs)
-        IMAGE=mingw-gtk
-        ;;
-    *)
-        IMAGE=$CONFIG
-      ;;
+mingw-gtk-vs)
+    IMAGE=mingw-gtk
+    ;;
+*)
+    IMAGE=$CONFIG
+    ;;
 esac
 
-if [[ -z "$CONF_COMPILER" ]] ; then
+if [[ -z "$CONF_COMPILER" ]]; then
     if [[ $IMAGE =~ "mingw" ]]; then
         CONF_COMPILER=clang
     else
@@ -92,18 +94,18 @@ if [ -n "${WORKING_DIR}" ]; then
 
     DOCKER_ARGS+=("-v ${WORKING_DIR}:/workspace/build")
 
-    REL_DIR=`git rev-parse --show-prefix`
+    REL_DIR=$(git rev-parse --show-prefix)
     if [ $? -eq 0 -a -n "${REL_DIR}" ]; then
         BUILD_ARGS+=("-C${REL_DIR}")
     fi
 fi
 
 if [ -n "${OUTPUT_DIR}" ]; then
-  if [ ! -d "${OUTPUT_DIR}" ]; then
-    mkdir -p "${OUTPUT_DIR}"
-  fi
+    if [ ! -d "${OUTPUT_DIR}" ]; then
+        mkdir -p "${OUTPUT_DIR}"
+    fi
 
-  DOCKER_ARGS+=("-v ${OUTPUT_DIR}:/workspace/output")
+    DOCKER_ARGS+=("-v ${OUTPUT_DIR}:/workspace/output")
 fi
 
 DOCKER_ARGS+=("-e WORKRAVE_ENV=inline")
@@ -112,7 +114,9 @@ DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
 DOCKER_ARGS+=("-e CONF_APPIMAGE=${CONF_APPIMAGE}")
 DOCKER_ARGS+=("--rm ghcr.io/rcaelers/workrave-build:${IMAGE}")
 
-if [[ $IMAGE =~ "mingw" ]] ; then
+if [[ $DOSHELL ]]; then
+    docker run -ti --rm --privileged ${DOCKER_ARGS[*]} bash
+elif [[ $IMAGE =~ "mingw" ]]; then
     docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW32 && /workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW64"
 else
     docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
