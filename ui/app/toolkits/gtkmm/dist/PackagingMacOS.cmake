@@ -44,6 +44,7 @@ endif()
 set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
 set(PLUGINS "")
 set(DIRS "${Boost_LIBRARY_DIRS}")
+set(DIRS "${Boost_LIBRARY_DIRS};${spdlog_BINARY_DIR}")
 
 install(CODE "
   cmake_policy(SET CMP0009 NEW)
