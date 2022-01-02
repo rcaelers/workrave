@@ -109,6 +109,7 @@ CrashReporter::Pimpl::init()
   TRACE_ENTRY();
   const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
   const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
+  const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
 
 #ifdef PLATFORM_OS_WINDOWS
   std::string handler_exe = "WorkraveCrashHandler.exe";
@@ -121,6 +122,7 @@ CrashReporter::Pimpl::init()
 
   std::map<std::string, std::string> annotations;
   std::vector<std::string> arguments;
+  std::vector<base::FilePath> attachments;
 
   annotations["product"] = "Workrave";
   annotations["version"] = WORKRAVE_VERSION;
@@ -132,6 +134,9 @@ CrashReporter::Pimpl::init()
 #endif
 
   TRACE_MSG("handler = {}", app_dir);
+
+  attachments.push_back(base::FilePath(log_dir / "workrave.log"));
+  attachments.push_back(base::FilePath(log_dir / "workrave-trace.log"));
 
   base::FilePath reports_dir(temp_dir);
   base::FilePath metrics_dir(temp_dir);
@@ -160,8 +165,8 @@ CrashReporter::Pimpl::init()
                                       annotations,
                                       arguments,
                                       /* restartable */ true,
-                                      /* asynchronous_start */ false);
-
+                                      /* asynchronous_start */ false,
+                                      attachments);
   crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
 }
 
