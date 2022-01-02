@@ -167,7 +167,14 @@ CrashReporter::Pimpl::init()
                                       /* restartable */ true,
                                       /* asynchronous_start */ false,
                                       attachments);
-  crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
+  if (success)
+    {
+      crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
+    }
+  else
+    {
+      spdlog::warn("failed to start crash handler");
+    }
 }
 
 void
