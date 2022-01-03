@@ -38,7 +38,6 @@ jobs:
             ui/applets/windows/src/Debug/workrave-applet.dll
 
   build-msys2:
-    if: ${{ false }}
     runs-on: windows-latest
     strategy:
       matrix:
@@ -67,7 +66,6 @@ jobs:
             mingw-w64-x86_64-ninja
             mingw-w64-x86_64-python
             mingw-w64-x86_64-python-pip
-            mingw-w64-x86_64-innoextract
             mingw-w64-x86_64-jq
             tar
             xz
