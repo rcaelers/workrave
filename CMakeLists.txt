@@ -169,6 +169,15 @@ add_definitions(
   -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
 )
 
+if (NOT DEFINED INSTALL_PATH)
+  if(DEFINED ENV{DESTDIR})
+    set(INSTALL_PATH "$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}")
+  else()
+    set(INSTALL_PATH "${CMAKE_INSTALL_PREFIX}")
+  endif()
+endif()
+string(REPLACE "/" "\\" INSTALL_WIN_PATH "${INSTALL_PATH}")
+
 #----------------------------------------------------------------------------------------------------
 # Testing
 

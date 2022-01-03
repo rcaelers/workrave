@@ -1,14 +1,5 @@
 add_subdirectory(src)
 
-if (NOT DEFINED INSTALL_PATH)
-  if(DEFINED ENV{DESTDIR})
-    set(INSTALL_PATH "$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}")
-  else()
-    set(INSTALL_PATH "${CMAKE_INSTALL_PREFIX}")
-  endif()
-endif()
-string(REPLACE "/" "\\" INSTALL_WIN_PATH "${INSTALL_PATH}")
-
 install(FILES WizModernImage.bmp DESTINATION dist)
 install(FILES WizModernSmall.bmp DESTINATION dist)
 

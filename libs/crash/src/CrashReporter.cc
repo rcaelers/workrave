@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include <filesystem>
+#include <spdlog/spdlog.h>
 
 #include "client/settings.h"
 #include "client/crashpad_client.h"
