@@ -129,15 +129,11 @@ set(INSTALLER_NAME "workrave-installer")
 set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
 set(ISCC_FLAGS "/F${INSTALLER_NAME}")
 
-if(CMAKE_CROSSCOMPILING)
-  find_program(WINE NAMES wine wine-stable wine-development)
-  find_file(ISCC ISCC.exe HINTS "$ENV{HOME}/.wine/drive_c/Program Files/" PATH_SUFFIXES "Inno Setup 5")
-  message(STATUS "${WINE}" "${ISCC}" setup.iss /Q ${ISCC_FLAGS})
+if(WINE)
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
                      COMMAND "${WINE}" "${ISCC}" setup.iss "/o${INSTALL_PATH}" ${ISCC_FLAGS}
                      DEPENDS workrave)
 else()
-  find_program(ISCC NAMES ISCC ISCC.exe PATH_SUFFIXES "Inno Setup 5")
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
                      COMMAND "${ISCC}" setup.iss "/o${INSTALL_PATH}" ${ISCC_FLAGS}
                      DEPENDS workrave)
