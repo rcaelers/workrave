@@ -16,7 +16,7 @@ set(CPACK_SYSTEM_NAME "OSX")
 
 include(InstallRequiredSystemLibraries)
 
-set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
+set(APPS "\${INSTALL_PATH}/Workrave.app")
 set(PLUGINS "")
 set(DIRS "${Boost_LIBRARY_DIRS};${QT_INSTALL_PREFIX};${spdlog_BINARY_DIR}")
 
