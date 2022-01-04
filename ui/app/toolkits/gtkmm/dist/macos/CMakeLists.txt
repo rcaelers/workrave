@@ -32,23 +32,23 @@ if (DEFINED ENV{JHBUILD_PREFIX} AND NOT DEFINED SYSROOT)
   install(DIRECTORY ${SYSROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION ${RESOURCESDIR}/lib/gdk-pixbuf-2.0/)
 
   install(CODE "
-    file(READ \"\${CMAKE_INSTALL_PREFIX}/${RESOURCESDIR}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache\" filedata)
+    file(READ \"${CMAKE_INSTALL_PREFIX}/${RESOURCESDIR}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache\" filedata)
     string(REGEX REPLACE \"lib/gdk-pixbuf-2.0/2.10.0/loaders/\" \"Resources/lib/gdk-pixbuf-2.0/2.10.0/loaders/\" filedata \"\${filedata}\")
-    file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${RESOURCESDIR}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache\" \"\${filedata}\")
+    file(WRITE \"${CMAKE_INSTALL_PREFIX}/${RESOURCESDIR}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache\" \"\${filedata}\")
     " COMPONENT Runtime)
 
   install(DIRECTORY ${SYSROOT}/share/glib-2.0/schemas/ DESTINATION ${RESOURCESDIR}/share/glib-2.0/schemas/ FILES_MATCHING PATTERN "org.gtk*.xml")
   install(CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/${RESOURCESDIR}/share/glib-2.0/schemas\")")
 endif()
 
-set(APPS "\${CMAKE_INSTALL_PREFIX}/Workrave.app")
+set(APPS "${CMAKE_INSTALL_PREFIX}/Workrave.app")
 set(PLUGINS "")
 set(DIRS "${Boost_LIBRARY_DIRS};${spdlog_BINARY_DIR}")
 
 install(CODE "
   cmake_policy(SET CMP0009 NEW)
   cmake_policy(SET CMP0011 NEW)
-  file(GLOB_RECURSE PLUGINS \"\${CMAKE_INSTALL_PREFIX}/Workrave.app/Contents/Resources/lib/*.so\")
+  file(GLOB_RECURSE PLUGINS \"${CMAKE_INSTALL_PREFIX}/Workrave.app/Contents/Resources/lib/*.so\")
   include(BundleUtilities)
   set(BU_CHMOD_BUNDLE_ITEMS ON)
   set(BU_COPY_FULL_FRAMEWORK_CONTENTS OFF)

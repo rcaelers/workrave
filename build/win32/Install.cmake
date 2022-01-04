@@ -1,4 +1,4 @@
-message(STATUS "Resolving dependencies. This may take a while: ${SYS_ROOT}/bin;${CMAKE_INSTALL_PREFIX}/lib")
+message(STATUS "Resolving dependencies. This may take a while")
 list(APPEND CMAKE_MODULE_PATH "${MODULE_PATH}")
 include(Win32ResolveDependencies)
 

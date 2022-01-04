@@ -10,8 +10,6 @@ CMAKE_FLAGS32=()
 MAKE_FLAGS=()
 REL_DIR=
 
-PREFIX=/usr
-
 build() {
     config=$1
     rel_dir=$2
@@ -31,18 +29,21 @@ build() {
 
     cd ${BUILD_DIR}/${config}/${rel_dir}
 
-    if [ -n "${CONF_APPIMAGE}" ]; then
-        INSTALL_PATH=${OUTPUT_DIR}/AppData
-    else
-        INSTALL_PATH=${OUTPUT_DIR}/${config}
-    fi
-
     if [ -z "${rel_dir}" ]; then
-        cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${PREFIX} -DINSTALL_PATH=${INSTALL_PATH} ${cmake_args[@]}
+        if [ -n "${CONF_APPIMAGE}" ]; then
+            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=/usr ${cmake_args[@]}
+        else
+            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+        fi
     fi
 
     ninja ${MAKE_FLAGS[@]}
-    DESTDIR=${INSTALL_PATH} ninja ${MAKE_FLAGS[@]} install
+
+    if [ -n "${CONF_APPIMAGE}" ]; then
+        DESTDIR=${OUTPUT_DIR}/AppData ninja ${MAKE_FLAGS[@]} install
+    else
+        ninja ${MAKE_FLAGS[@]} install
+    fi
 }
 
 parse_arguments() {
@@ -111,14 +112,12 @@ fi
 
 if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
-    PREFIX=""
 fi
 
 if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     install_crashpad
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext")
     OUT_DIR=""
-    PREFIX=""
 
     if [[ $MSYSTEM == "" ]]; then
         MSYSTEM="MINGW64"
@@ -249,14 +248,12 @@ if [[ $MSYSTEM == "MINGW64" ]]; then
         portableFilename=${baseFilename}-portable.zip
 
         mkdir -p ${PORTABLE_DIR}/Workrave
-        DESTDIR=${PORTABLE_DIR}/Workrave ninja ${MAKE_FLAGS[@]} install
-
-        rm -f ${PORTABLE_DIR}/Workrave/libzapper-0.dll
+        cp -a ${OUTPUT_DIR}/*.txt ${OUTPUT_DIR}/lib32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share ${PORTABLE_DIR}/Workrave
         cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/Workrave.lnk ${PORTABLE_DIR}/Workrave
         cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/workrave.ini ${PORTABLE_DIR}/Workrave/etc
 
         cd ${PORTABLE_DIR}
-        zip -9 -r -xWorkrave/dist/* ${DEPLOY_DIR}/${portableFilename} .
+        zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
 
         ${SOURCES_DIR}/build/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     fi

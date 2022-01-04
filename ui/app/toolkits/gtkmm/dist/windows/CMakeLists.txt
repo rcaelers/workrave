@@ -89,10 +89,10 @@ if(MINGW)
   install (DIRECTORY ${SYS_ROOT}/etc/fonts DESTINATION etc)
   install (DIRECTORY ${SYS_ROOT}/share/glib-2.0/schemas/ DESTINATION share/glib-2.0/schemas/ FILES_MATCHING PATTERN "org.gtk*.xml")
   install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
-  install (CODE "execute_process (COMMAND glib-compile-schemas \"${INSTALL_PATH}/share/glib-2.0/schemas\")")
+  install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
   install(DIRECTORY ${SYS_ROOT}/share/icons/Adwaita DESTINATION ${DATADIR}/icons)
-  install(CODE "execute_process(COMMAND gtk-update-icon-cache \${INSTALL_PATH}/share/icons/Adwaita)")
+  install(CODE "execute_process(COMMAND gtk-update-icon-cache \${DATADIR}/icons/Adwaita)")
 endif()
 
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
@@ -113,11 +113,13 @@ endif()
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
-install(CODE "set(INSTALL_PATH \"${INSTALL_PATH}\")")
+install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
+
+string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"
@@ -131,11 +133,11 @@ set(ISCC_FLAGS "/F${INSTALLER_NAME}")
 
 if(WINE)
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${INSTALL_PATH}" ${ISCC_FLAGS}
+                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS}
                      DEPENDS workrave)
 else()
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${ISCC}" setup.iss "/o${INSTALL_PATH}" ${ISCC_FLAGS}
+                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS}
                      DEPENDS workrave)
 endif()
 

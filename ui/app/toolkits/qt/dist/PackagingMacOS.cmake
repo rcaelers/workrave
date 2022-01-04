@@ -16,7 +16,7 @@ set(CPACK_SYSTEM_NAME "OSX")
 
 include(InstallRequiredSystemLibraries)
 
-set(APPS "\${INSTALL_PATH}/Workrave.app")
+set(APPS "${CMAKE_INSTALL_PREFIX}/Workrave.app")
 set(PLUGINS "")
 set(DIRS "${Boost_LIBRARY_DIRS};${QT_INSTALL_PREFIX};${spdlog_BINARY_DIR}")
 
@@ -29,13 +29,13 @@ install(DIRECTORY "${QT_PLUGINS_DIR}/iconengines"   DESTINATION ${plugin_dest_di
 install(DIRECTORY "${QT_PLUGINS_DIR}/styles"        DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
 
 install(CODE "
-  file(WRITE \"${INSTALL_PATH}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../Plugins/\")
+  file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../Plugins/\")
   " COMPONENT Runtime)
 
 install(CODE "
   cmake_policy(SET CMP0009 NEW)
   cmake_policy(SET CMP0011 NEW)
-  file(GLOB_RECURSE PLUGINS \"\${INSTALL_PATH}/Workrave.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+  file(GLOB_RECURSE PLUGINS \"${CMAKE_INSTALL_PREFIX}/Workrave.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
   include(BundleUtilities)
   set(BU_CHMOD_BUNDLE_ITEMS ON)
   set(BU_COPY_FULL_FRAMEWORK_CONTENTS OFF)

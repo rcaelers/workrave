@@ -33,7 +33,7 @@ endforeach()
 # Install a qt.conf file.
 # This inserts some cmake code into the install script to write the file
 install(CODE "
-  file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\")
+  file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\")
   " COMPONENT Runtime)
 
 configure_file(
