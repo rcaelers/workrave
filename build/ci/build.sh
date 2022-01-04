@@ -111,14 +111,14 @@ fi
 
 if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
-    PREFIX="/"
+    PREFIX=""
 fi
 
 if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     install_crashpad
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext")
     OUT_DIR=""
-    PREFIX="/"
+    PREFIX=""
 
     if [[ $MSYSTEM == "" ]]; then
         MSYSTEM="MINGW64"
