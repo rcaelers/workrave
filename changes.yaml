@@ -1,9 +1,9 @@
 ---
 releases:
   - version: 1.10.49
-    date: 2021-12-30T09:49:11+01:00
+    date: 2022-01-05T15:05:19+01:00
     short: |-
-      Workrave 1.10.49 has been released. This release fixes an number of bugs and add support for GNOME Shell 41.
+      Workrave 1.10.49 has been released. This release adds support for GNOME Shell 41.
     changes:
       - Adds support for GNOME Shell 41 (#342, tjyriTimo Jyrinki)
       - Inno Setup improvement (#353, Kaleb Luedtke)
