@@ -71,15 +71,7 @@ jobs:
             xz
             zip
 
-      - name: Install dump_syms
-        shell: msys2 {0}
-        run: |
-          curl -OL https://github.com/mozilla/dump_syms/releases/download/v0.0.7/dump_syms-linux-x86_64.tar.gz && \
-          tar xvfz dump_syms-linux-x86_64.tar.gz && \
-          cp -a dump_syms-linux-x86_64/dump_syms /usr/local/bin && \
-          rm -rf dump_syms-linux-x86_64.tar.gz dump_syms-linux-x86_64
-
-      - name: Build
+      - name: Build 32 bit
         run: |
           $env:MSYSTEM = 'MINGW32'
           msys2 ./build/ci/build.sh
@@ -93,7 +85,7 @@ jobs:
           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
 
-      - name: Build
+      - name: Build 64 bit
         shell: msys2 {0}
         run: |
           env
