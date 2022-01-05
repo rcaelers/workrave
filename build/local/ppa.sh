@@ -149,7 +149,7 @@ build_single() {
 }
 
 build_all() {
-    for series in impish hirsute focal; do
+    for series in jammy impish hirsute focal; do
         build_single $series
     done
     #build_single hirsute

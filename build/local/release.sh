@@ -93,7 +93,7 @@ generate_blog() {
             --template blog \
             --release `echo $VERSION | sed -e 's/^v//g'` \
             --single \
-            --output "${DIR}/_index.md"
+            --output "${DIR}/index.md"
     fi
 }
 

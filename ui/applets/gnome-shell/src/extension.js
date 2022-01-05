@@ -183,6 +183,7 @@ const WorkraveButton = new Lang.Class({
         this._bus_name = 'org.workrave.GnomeShellApplet';
         this._bus_id = 0;
         this._menu_entries = {};
+        this._watchid = 0;
 
         this._area = new St.DrawingArea({ style_class: 'workrave-area', reactive: true } );
         this._area.set_width(this._width=24);
@@ -224,14 +225,13 @@ const WorkraveButton = new Lang.Class({
         this._updateMenu(null);
     },
 
-    _connectUI: function()
-    {
+    _connectUI: function() {
         try
         {
-            Gio.DBus.session.watch_name('org.workrave.Workrave',
-                                        Gio.BusNameWatcherFlags.NONE, // no auto launch
-                                        Lang.bind(this, this._onWorkraveAppeared),
-                                        Lang.bind(this, this._onWorkraveVanished));
+            this._watchid = Gio.DBus.session.watch_name('org.workrave.Workrave',
+                                                        Gio.BusNameWatcherFlags.NONE, // no auto launch
+                                                        Lang.bind(this, this._onWorkraveAppeared),
+                                                        Lang.bind(this, this._onWorkraveVanished));
             return false;
         }
         catch(err)
@@ -240,12 +240,10 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _connectCore: function()
-    {
+    _connectCore: function() {
     },
 
-    _onDestroy: function()
-    {
+    _onDestroy: function() {
         if (this._ui_proxy != null)
         {
             this._ui_proxy.EmbedRemote(false, this._bus_name);
@@ -255,6 +253,11 @@ const WorkraveButton = new Lang.Class({
     },
 
     _destroy: function() {
+        if (this._watchid > 0)
+        {
+            Gio.DBus.session.unwatch_name(this._watchid);
+            this._watchid = 0;
+        }
         if (this._ui_proxy != null)
         {
             this._ui_proxy.disconnectSignal(this._timers_updated_id);
@@ -270,8 +273,7 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _start: function()
-    {
+    _start: function() {
         if (! this._alive)
         {
             this._bus_id = Gio.DBus.session.own_name(this._bus_name, Gio.BusNameOwnerFlags.NONE, null, null);
@@ -285,8 +287,7 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _stop_dbus: function()
-    {
+    _stop_dbus: function() {
         if (this._alive)
         {
             Mainloop.source_remove(this._timeoutId);
@@ -296,8 +297,7 @@ const WorkraveButton = new Lang.Class({
         }
     },
 
-    _stop: function()
-    {
+    _stop: function() {
         if (this._alive)
         {
             this._stop_dbus();
@@ -380,7 +380,17 @@ const WorkraveButton = new Lang.Class({
 
         let timerbox_width = this._timerbox.get_width();
         let timerbox_height = this._timerbox.get_height();
-        let height = this.get_height();
+
+        let height = 24;
+        if (typeof this.get_height === "function")
+        {
+            height = this.get_height();
+        }
+        else
+        {
+            // Fallback for older Gnome Shell versions
+            height = this.actor.height;
+        }
 
         let padding = Math.floor((height - timerbox_height) / 2);
 

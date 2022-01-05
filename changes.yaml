@@ -7,6 +7,21 @@ releases:
     changes:
       - Internal code cleanup
 
+  - version: 1.10.49
+    date: 2022-01-05T15:05:19+01:00
+    short: |-
+      Workrave 1.10.49 has been released. This release adds support for GNOME Shell 41.
+    changes:
+      - Adds support for GNOME Shell 41 (#342, Timo Jyrinki)
+      - Inno Setup improvement (#353, Kaleb Luedtke)
+
+  - version: 1.10.48
+    date: 2021-08-03T17:26:00+02:00
+    short: |-
+      Workrave 1.10.48 has been released. This release fixes the GNOME Shell applet on GNOME Shell 3.30 and older.
+    changes:
+      - Fixed GNOME Shell applet on Ubuntu 18.04 (#281)
+
   - version: 1.10.47
     date: 2021-07-26T14:20:30+02:00
     short: |-
@@ -41,7 +56,7 @@ releases:
         - The cinnamon applet is no longer bouncing up and down (#253)
         - Fixed issue where the current language was always "Unrecognized language"
         - Fixed issue where activity monitoring would stop after restarting Gnome Shell
-        - Fixed issue that caused the main window to disappear (#244, 259)
+        - Fixed issue that caused the main window to disappear (#244, #259)
       - |-
         Translation updates:
         - Updated Chinese translation (#232, wintertee)
@@ -66,7 +81,7 @@ releases:
       - |-
         Fix issue where a break window could disappear after a few seconds.
       - |-
-        Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
+        Fix issue where the Gnome Shell applet would be reload on Ubuntu 18.04.
       - |-
         Update Traditional Chinese translation (Yuenfu Chiu)
 
