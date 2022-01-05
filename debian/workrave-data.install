@@ -1,5 +1,5 @@
 usr/share/gir-1.0
-usr/share/dbus-1
+usr/share/dbus-1/services/org.workrave.Workrave.service
 usr/share/glib-2.0
 usr/share/icons
 usr/share/locale

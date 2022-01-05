@@ -1,5 +1,0 @@
-usr/bin
-usr/lib/*/girepository-1.0
-usr/lib/*/libworkrave-private*.so*
-usr/lib/*/libworkrave-gtk2-private*.so*
-usr/share/applications/workrave.desktop

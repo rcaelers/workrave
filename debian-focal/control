@@ -5,7 +5,7 @@ Maintainer: Rob Caelers <robc@krandor.org>
 Build-Depends:
  autoconf-archive,
  autopoint,
- debhelper-compat (= 13),
+ debhelper-compat (= 12),
  gobject-introspection  (>= 0.6.7),
  gsettings-desktop-schemas-dev,
  intltool,
