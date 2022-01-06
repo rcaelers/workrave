@@ -24,7 +24,7 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "Ac:C:dD:O:SvW:" o; do
+    while getopts "Ac:C:dD:O:STvW:" o; do
         case "${o}" in
         A)
             CONF_APPIMAGE=1
@@ -52,6 +52,10 @@ parse_arguments() {
             ;;
         S)
             DOSHELL="1"
+            ;;
+        T)
+            BUILD_ARGS+=("-DWITH_TESTS=ON")
+            # BUILD_ARGS+=("-DCODE_COVERAGE=ON")
             ;;
         v)
             BUILD_ARGS+=("-M\"-v\"")
