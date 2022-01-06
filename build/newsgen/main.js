@@ -2,12 +2,13 @@ import { Generator } from './generator.js';
 import { promises as fs } from 'fs';
 import yargs from 'yargs';
 import yaml from 'js-yaml';
+import { hideBin } from 'yargs/helpers';
 
 const main = async () => {
   let storage = null;
 
   try {
-    var args = yargs
+    var args = yargs(hideBin(process.argv))
       .scriptName('catalog')
       .usage('$0 [args]')
       .help('h')

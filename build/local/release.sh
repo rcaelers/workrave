@@ -91,7 +91,7 @@ generate_blog() {
         node ${SCRIPTS_DIR}/newsgen/main.js \
             --input "${SOURCE_DIR}/changes.yaml" \
             --template blog \
-            --release `echo $VERSION | sed -e 's/^v//g'` \
+            --release `echo $WORKRAVE_VERSION | sed -e 's/^v//g'` \
             --single \
             --output "${DIR}/index.md"
     fi

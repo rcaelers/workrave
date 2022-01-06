@@ -1,5 +1,5 @@
 {% for entry in releases.releases -%}
-workrave ({{ entry['version'] }}-ppa{{ increment }}~{{ series }}) {{ series }}; urgency=medium
+workrave ({{ entry['version'] | replace('-', '~') }}-ppa{{ increment }}~{{ series }}) {{ series }}; urgency=medium
 {% for change in entry['changes'] %}
   * {{ change | text | replace('\n', '\n    ') }}
 {%- endfor %}

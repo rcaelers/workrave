@@ -72,7 +72,7 @@ init_newsgen() {
 build_tarball() {
     if [ ! -e "$DEPLOY_TARFILE" ]; then
         cd ${SOURCES_DIR}
-        git archive --prefix=workrave-${WORKRAVE_VERSION}/ HEAD | gzip -9 > "${SOURCE_TARFILE}"
+        git archive --prefix=workrave-${WORKRAVE_VERSION}/ HEAD | gzip -9 >"${SOURCE_TARFILE}"
         cp ${SOURCE_TARFILE} "${DEPLOY_TARFILE}"
     fi
 }
@@ -105,7 +105,7 @@ build_setup() {
     mkdir -p "$BUILD_DIR/$series"
 
     cp -a "$BUILD_DIR/workrave-${WORKRAVE_VERSION}" "$BUILD_DIR/$series"
-    cp ${DEPLOY_TARFILE} "$BUILD_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
+    cp ${DEPLOY_TARFILE} "$BUILD_DIR/$series/workrave_${WORKRAVE_DEB_VERSION}.orig.tar.gz"
 
     if [ -d "${DEBIAN_PACKAGING_DIR}/debian-${series}" ]; then
         cp -a "${DEBIAN_PACKAGING_DIR}/debian-${series}"/* "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/debian/"
@@ -126,12 +126,12 @@ build_single() {
     rm -rf "$DEPLOY_DIR/$series"
     mkdir -p "$DEPLOY_DIR/$series"
     ls -la "$BUILD_DIR/$series"
-    cp -a $BUILD_DIR/$series/workrave_${WORKRAVE_VERSION}-ppa* "$DEPLOY_DIR/$series"
-    cp -a "${DEPLOY_TARFILE}" "$DEPLOY_DIR/$series/workrave_${WORKRAVE_VERSION}.orig.tar.gz"
+    cp -a $BUILD_DIR/$series/workrave_${WORKRAVE_DEB_VERSION}-ppa* "$DEPLOY_DIR/$series"
+    cp -a "${DEPLOY_TARFILE}" "$DEPLOY_DIR/$series/workrave_${WORKRAVE_DEB_VERSION}.orig.tar.gz"
 
     if [[ -z "$WORKRAVE_RELEASE_TAG" ]]; then
         echo "No tag build."
-        if [[ $series == `lsb_release -cs` ]]; then
+        if [[ $series == $(lsb_release -cs) ]]; then
             dpkg-buildpackage -b -rfakeroot -us -uc
         fi
     else
@@ -157,8 +157,9 @@ build_all() {
 
 DRYRUN=
 PRERELEASE=
-SOURCE_TARFILE="${SOURCES_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz"
-DEPLOY_TARFILE="${DEPLOY_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz"
+WORKRAVE_DEB_VERSION=$(echo ${WORKRAVE_VERSION} | sed -e 's/-/~/g')
+SOURCE_TARFILE="${SOURCES_DIR}/workrave-${WORKRAVE_DEB_VERSION}.tar.gz"
+DEPLOY_TARFILE="${DEPLOY_DIR}/workrave-${WORKRAVE_DEB_VERSION}.tar.gz"
 
 parse_arguments $*
 
