@@ -306,9 +306,9 @@ Core::set_operation_mode(OperationMode mode)
 }
 
 void
-Core::set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time)
+Core::set_operation_mode_for(OperationMode mode, std::chrono::minutes duration)
 {
-  core_modes->set_operation_mode_until(mode, time);
+  core_modes->set_operation_mode_for(mode, duration);
 }
 
 //! Temporarily overrides the operation mode.

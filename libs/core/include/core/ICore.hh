@@ -81,7 +81,7 @@ namespace workrave
     virtual void set_operation_mode(OperationMode mode) = 0;
 
     //! Sets the operation mode.
-    virtual void set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time) = 0;
+    virtual void set_operation_mode_for(OperationMode mode, std::chrono::minutes duration) = 0;
 
     //! Temporarily overrides the operation mode.
     virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;

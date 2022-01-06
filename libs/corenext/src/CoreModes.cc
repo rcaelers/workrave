@@ -88,15 +88,28 @@ CoreModes::is_operation_mode_an_override()
 void
 CoreModes::set_operation_mode(OperationMode mode)
 {
+  using namespace std::chrono_literals;
+
   set_operation_mode_internal(mode);
+  CoreConfig::operation_mode_auto_reset_duration().set(0min);
   CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
 }
 
 void
-CoreModes::set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time)
+CoreModes::set_operation_mode_for(OperationMode mode, std::chrono::minutes duration)
 {
+  using namespace std::chrono_literals;
+
   set_operation_mode_internal(mode);
-  CoreConfig::operation_mode_auto_reset_time().set(time);
+  CoreConfig::operation_mode_auto_reset_duration().set(duration);
+  if (duration > 0min)
+    {
+      CoreConfig::operation_mode_auto_reset_time().set(workrave::utils::TimeSource::get_real_time() + duration);
+    }
+  else
+    {
+      CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+    }
 }
 
 //! Temporarily overrides the operation mode.
@@ -242,4 +255,19 @@ void
 CoreModes::heartbeat()
 {
   check_auto_reset();
+}
+
+//! Performs a reset when the daily limit is reached.
+void
+CoreModes::daily_reset()
+{
+  if ((CoreConfig::operation_mode_auto_reset_duration()() == -1min) && (CoreConfig::operation_mode()() != OperationMode::Normal))
+    {
+      using namespace std::chrono_literals;
+
+      spdlog::info("Resetting operation mode");
+      set_operation_mode(OperationMode::Normal);
+      CoreConfig::operation_mode_auto_reset_duration().set(0min);
+      CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+    }
 }

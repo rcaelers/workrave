@@ -41,6 +41,7 @@
 #include <fstream>
 #include <map>
 
+#include "core/CoreTypes.hh"
 #include "core/CoreConfig.hh"
 #include "core/ICore.hh"
 #include "core/IApp.hh"
@@ -89,12 +90,8 @@ int test_time_formatter_flag::timer = 0;
 class GlobalFixture
 {
 public:
-  GlobalFixture()
-  {
-  }
-  ~GlobalFixture()
-  {
-  }
+  GlobalFixture() = default;
+  ~GlobalFixture() = default;
 
   void setup()
   {
@@ -263,7 +260,7 @@ public:
     init_core();
   }
 
-  void pretest_verify()
+  void pretest_verify() const
   {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
@@ -348,7 +345,7 @@ public:
         catch (std::exception &e)
           {
             BOOST_TEST_MESSAGE(string("error at:") + boost::lexical_cast<string>(i));
-            std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " <<  i << "\n";
+            std::cout << "error at : " << ((sim->current_time - start_time) / 1000000) << " " << i << "\n";
             std::cout << e.what() << "\n";
             throw;
           }
@@ -640,7 +637,7 @@ public:
     log_actual("usagemode", boost::str(boost::format("mode=%1%") % static_cast<int>(m)));
   }
 
-  bool on_is_user_active(bool dummy)
+  bool on_is_user_active(bool dummy) const
   {
     return user_active;
   }
@@ -1009,11 +1006,16 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
 
   // Revert to normal after 2 minutes
   expect(10, "operationmode", "mode=2");
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
+
   BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
   expect(130, "operationmode", "mode=0");
   tick(false, 190);
   BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   // Option is not persistent
   expect(200, "operationmode", "mode=1");
@@ -1024,46 +1026,127 @@ BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset)
   expect(400, "operationmode", "mode=2");
   expect(420, "operationmode", "mode=1");
   expect(540, "operationmode", "mode=0");
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode_until(OperationMode::Suspended, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Suspended, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 180);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   // Reduce time
   expect(600, "operationmode", "mode=2");
   expect(680, "operationmode", "mode=0");
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(1));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(1));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 1min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 1min);
   tick(false, 180);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
 
   // Turn off
   expect(800, "operationmode", "mode=2");
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
   core->set_operation_mode(OperationMode::Quiet);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 170);
   expect(990, "operationmode", "mode=0");
   core->set_operation_mode(OperationMode::Normal);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 10);
 
   // Change to non-timed
   expect(1000, "operationmode", "mode=2");
   expect(1020, "operationmode", "mode=1");
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
   core->set_operation_mode(OperationMode::Suspended);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 180);
 
   // Change to non-timed
   expect(1200, "operationmode", "mode=2");
   expect(1220, "operationmode", "mode=0");
-  core->set_operation_mode_until(OperationMode::Quiet, workrave::utils::TimeSource::get_real_time() + std::chrono::minutes(2));
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(2));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 2min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == workrave::utils::TimeSource::get_real_time() + 2min);
   tick(false, 20);
   core->set_operation_mode(OperationMode::Normal);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
   tick(false, 180);
 
   verify();
+}
+
+BOOST_AUTO_TEST_CASE(test_operation_mode_autoreset_daily_reset)
+{
+  init();
+
+  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+
+  config->set_value("breaks/micro_pause/enabled", false);
+  config->set_value("breaks/rest_break/enabled", false);
+
+  config->set_value("timers/daily_limit/reset_pred", "day/23:00");
+  config->set_value("timers/daily_limit/limit", 7200);
+  config->set_value("timers/daily_limit/snooze", 600);
+
+  expect(0, "operationmode", "mode=1");
+  core->set_operation_mode(OperationMode::Suspended);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
+  tick(true, 10);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Suspended);
+
+  expect(10, "operationmode", "mode=2");
+  core->set_operation_mode_for(OperationMode::Quiet, std::chrono::minutes(-1));
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == -1min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+  expect(3600, "operationmode", "mode=0");
+
+  tick(true, 90);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == -1min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
+
+  BOOST_CHECK_EQUAL(b->get_elapsed_time(), 89);
+
+  tick(false, 3500);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == -1min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
+
+  BOOST_CHECK_EQUAL(b->get_elapsed_time(), 90);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Quiet);
+
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(b->get_elapsed_time(), 0);
+  BOOST_CHECK_EQUAL(core->get_active_operation_mode(), OperationMode::Normal);
+
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_duration()() == 0min);
+  BOOST_CHECK(CoreConfig::operation_mode_auto_reset_time()() == std::chrono::system_clock::time_point{});
+
+  verify();
+
+  // Revert to normal after 2 minutes
 }
 
 BOOST_AUTO_TEST_CASE(test_usage_mode)
@@ -2310,6 +2393,8 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_reset)
 {
   init();
 
+  auto b = core->get_break(BREAK_ID_DAILY_LIMIT);
+
   config->set_value("breaks/micro_pause/enabled", false);
   config->set_value("breaks/rest_break/enabled", false);
 
@@ -2318,9 +2403,16 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_reset)
   config->set_value("timers/daily_limit/snooze", 600);
 
   tick(true, 100);
-  tick(false, 4000);
 
-  // TODO: add checks
+  BOOST_CHECK_EQUAL(b->get_elapsed_time(), 99);
+
+  tick(false, 3500);
+
+  BOOST_CHECK_EQUAL(b->get_elapsed_time(), 100);
+
+  tick(false, 1);
+
+  BOOST_CHECK_EQUAL(b->get_elapsed_time(), 0);
 
   verify();
 }

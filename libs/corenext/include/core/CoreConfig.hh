@@ -50,7 +50,7 @@ public:
   static workrave::config::Setting<std::string> &general_datadir();
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
-  static workrave::config::Setting<int, std::chrono::minutes> &operation_mode_auto_reset();
+  static workrave::config::Setting<int, std::chrono::minutes> &operation_mode_auto_reset_duration();
   static workrave::config::Setting<std::vector<int>, std::vector<std::chrono::minutes>> &operation_mode_auto_reset_options();
   static workrave::config::Setting<int64_t, std::chrono::system_clock::time_point> &operation_mode_auto_reset_time();
 
@@ -82,7 +82,7 @@ private:
   static const std::string CFG_KEY_MONITOR_SENSITIVITY;
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
-  static const std::string CFG_KEY_OPERATION_MODE_RESET;
+  static const std::string CFG_KEY_OPERATION_MODE_RESET_DURATION;
   static const std::string CFG_KEY_OPERATION_MODE_RESET_OPTIONS;
   static const std::string CFG_KEY_OPERATION_MODE_RESET_TIME;
   static const std::string CFG_KEY_USAGE_MODE;

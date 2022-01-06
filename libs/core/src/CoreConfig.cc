@@ -56,7 +56,7 @@ const string CoreConfig::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE = "general/operation-mode";
-const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET = "general/operation_mode_auto_reset";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_DURATION = "general/operation_mode_auto_reset_duration";
 const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operation_mode_auto_reset_options";
 const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME = "general/operation_mode_auto_reset_time";
 const string CoreConfig::CFG_KEY_USAGE_MODE = "general/usage-mode";
@@ -275,9 +275,9 @@ CoreConfig::usage_mode()
 }
 
 Setting<int, std::chrono::minutes> &
-CoreConfig::operation_mode_auto_reset()
+CoreConfig::operation_mode_auto_reset_duration()
 {
-  return SettingCache::get<int, std::chrono::minutes>(config, CFG_KEY_OPERATION_MODE_RESET);
+  return SettingCache::get<int, std::chrono::minutes>(config, CFG_KEY_OPERATION_MODE_RESET_DURATION);
 }
 
 Setting<int64_t, std::chrono::system_clock::time_point> &

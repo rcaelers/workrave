@@ -106,7 +106,7 @@ public:
   OperationMode get_regular_operation_mode() override;
   bool is_operation_mode_an_override() override;
   void set_operation_mode(OperationMode mode) override;
-  void set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time) override;
+  void set_operation_mode_for(OperationMode mode, std::chrono::minutes duration) override;
   void set_operation_mode_override(OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
 

@@ -102,11 +102,11 @@ Menus::init()
   mode_group->add(quiet_item);
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
-  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, _("Temporarily Quiet..."));
-  modemenu->add(timed_quiet_menu);
-
   auto timed_suspended_menu = menus::SubMenuNode::create(MODE_TIMED_SUSPENDED_MENU, _("Temporarily Suspended..."));
   modemenu->add(timed_suspended_menu);
+
+  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, _("Temporarily Quiet..."));
+  modemenu->add(timed_quiet_menu);
 
   create_mode_autoreset_menu(OperationMode::Quiet, timed_quiet_menu);
   create_mode_autoreset_menu(OperationMode::Suspended, timed_suspended_menu);
@@ -129,6 +129,7 @@ Menus::init()
   connect(core->signal_usage_mode_changed(), this, [this](auto mode) { on_usage_mode_changed(mode); });
 
   CoreConfig::operation_mode_auto_reset_time().connect(tracker, [this](auto x) { update_autoreset(); });
+  CoreConfig::operation_mode_auto_reset_duration().connect(tracker, [this](auto x) { update_autoreset(); });
   update_autoreset();
 }
 
@@ -145,7 +146,7 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       mode_reset_options = {30min, 60min, 120min, 180min, 240min};
     }
 
-  auto node = menus::ActionNode::create(std::string(id) + ".0", _("Indefinitly"), [mode, this] { on_menu_mode_for(mode, 0min); });
+  auto node = menus::ActionNode::create(std::string(id) + ".0", _("Indefinitely"), [mode, this] { on_menu_mode_for(mode, 0min); });
 
   menu->add(node);
 
@@ -249,32 +250,25 @@ Menus::on_menu_mode_for(workrave::OperationMode mode, std::chrono::minutes durat
       spdlog::info("Operation mode {} indef", mode);
       core->set_operation_mode(mode);
     }
-  else if (duration == -1min)
-    {
-      // FIXME: make timezone aware
-      using days = std::chrono::duration<int64_t, std::ratio<86400>>;
-      auto midnight = std::chrono::floor<days>(workrave::utils::TimeSource::get_real_time());
-      auto reset_time = midnight + std::chrono::hours(28);
-
-      spdlog::info("Operation mode {} next", mode);
-      core->set_operation_mode_until(mode, reset_time);
-    }
   else
     {
-      spdlog::info("Operation mode {} {}", mode, duration.count());
-      core->set_operation_mode_until(mode, workrave::utils::TimeSource::get_real_time() + duration);
+      spdlog::info("Operation mode {} for", mode);
+      core->set_operation_mode_for(mode, duration);
     }
 }
 
 void
 Menus::update_autoreset()
 {
+  using namespace std::chrono_literals;
+
   spdlog::debug("update");
   workrave::OperationMode mode = core->get_regular_operation_mode();
-  auto next_reset_time = CoreConfig::operation_mode_auto_reset_time()();
-  if ((next_reset_time.time_since_epoch().count() > 0) && (mode != OperationMode::Normal))
+  auto auto_reset_duration = CoreConfig::operation_mode_auto_reset_duration()();
+  auto auto_reset_time = CoreConfig::operation_mode_auto_reset_time()();
+  if ((auto_reset_time.time_since_epoch().count() > 0) && (mode != OperationMode::Normal))
     {
-      std::time_t time = std::chrono::system_clock::to_time_t(next_reset_time);
+      std::time_t time = std::chrono::system_clock::to_time_t(auto_reset_time);
       std::stringstream ss;
       ss << std::put_time(std::localtime(&time), "%H:%M");
 
@@ -287,6 +281,19 @@ Menus::update_autoreset()
       else if (mode == OperationMode::Suspended)
         {
           suspended_item->set_dynamic_text(boost::str(boost::format(_("_Suspended (until %1%)")) % ss.str()));
+          quiet_item->unset_dynamic_text();
+        }
+    }
+  else if ((auto_reset_duration == -1min) && (mode != OperationMode::Normal))
+    {
+      if (mode == OperationMode::Quiet)
+        {
+          quiet_item->set_dynamic_text(_("Q_uiet (until next day)"));
+          suspended_item->unset_dynamic_text();
+        }
+      else if (mode == OperationMode::Suspended)
+        {
+          suspended_item->set_dynamic_text(_("_Suspended (until next day)"));
           quiet_item->unset_dynamic_text();
         }
     }

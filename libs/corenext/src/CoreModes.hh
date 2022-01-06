@@ -45,12 +45,13 @@ public:
   workrave::OperationMode get_regular_operation_mode();
   bool is_operation_mode_an_override();
   void set_operation_mode(workrave::OperationMode mode);
-  void set_operation_mode_until(workrave::OperationMode mode, std::chrono::system_clock::time_point time);
+  void set_operation_mode_for(workrave::OperationMode mode, std::chrono::minutes duration);
   void set_operation_mode_override(workrave::OperationMode mode, const std::string &id);
   void remove_operation_mode_override(const std::string &id);
   workrave::UsageMode get_usage_mode();
   void set_usage_mode(workrave::UsageMode mode);
   void heartbeat();
+  void daily_reset();
 
 private:
   void set_operation_mode_internal(workrave::OperationMode mode);

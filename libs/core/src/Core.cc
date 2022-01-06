@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <chrono>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -577,15 +578,28 @@ Core::is_operation_mode_an_override()
 void
 Core::set_operation_mode(OperationMode mode)
 {
+  using namespace std::chrono_literals;
+
   set_operation_mode_internal(mode);
+  CoreConfig::operation_mode_auto_reset_duration().set(0min);
   CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
 }
 
 void
-Core::set_operation_mode_until(OperationMode mode, std::chrono::system_clock::time_point time)
+Core::set_operation_mode_for(OperationMode mode, std::chrono::minutes duration)
 {
+  using namespace std::chrono_literals;
+
   set_operation_mode_internal(mode);
-  CoreConfig::operation_mode_auto_reset_time().set(time);
+  CoreConfig::operation_mode_auto_reset_duration().set(duration);
+  if (duration > 0min)
+    {
+      CoreConfig::operation_mode_auto_reset_time().set(workrave::utils::TimeSource::get_real_time() + duration);
+    }
+  else
+    {
+      CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+    }
 }
 
 //! Temporarily overrides the operation mode.
@@ -1516,6 +1530,16 @@ Core::daily_reset()
       statistics->set_break_counter(((BreakId)i), Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
 
       t->daily_reset_timer();
+    }
+
+  if ((CoreConfig::operation_mode_auto_reset_duration()() == -1min) && (CoreConfig::operation_mode()() != OperationMode::Normal))
+    {
+      using namespace std::chrono_literals;
+
+      spdlog::info("Resetting operation mode");
+      set_operation_mode(OperationMode::Normal);
+      CoreConfig::operation_mode_auto_reset_duration().set(0min);
+      CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
     }
 
 #ifdef HAVE_DISTRIBUTION

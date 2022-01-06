@@ -212,6 +212,7 @@ BreaksControl::process_timers(bool user_is_active)
                     {
                       breaks[i]->daily_reset();
                     }
+                  modes->daily_reset();
                 }
               break;
 
