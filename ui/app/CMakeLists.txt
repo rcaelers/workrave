@@ -205,10 +205,6 @@ endif()
 
 configure_file(project.vcxproj.user.in ${CMAKE_CURRENT_BINARY_DIR}/Workrave.vcxproj.user @ONLY)
 
-#target_link_libraries(workrave PRIVATE ${GTK_LIBRARIES})
-target_link_libraries(workrave PRIVATE ${Boost_LIBRARIES})
-#target_link_libraries(workrave PRIVATE ${EXTRA_LIBRARIES})
-
 if (PLATFORM_OS_UNIX)
   ## TODO
   add_definitions(-DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")

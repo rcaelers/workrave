@@ -115,7 +115,6 @@ else()
 endif()
 
 target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${GTK_LIBRARIES})
-target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${Boost_LIBRARIES})
 target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${EXTRA_LIBRARIES})
 target_link_directories(workrave-toolkit-gtkmm PUBLIC ${GTK_LIBRARY_DIRS})
 

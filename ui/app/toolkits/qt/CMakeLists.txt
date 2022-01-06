@@ -91,7 +91,7 @@ target_include_directories(workrave-toolkit-qt
   )
 
 target_link_directories(workrave-toolkit-qt PRIVATE
-  ${Boost_LIBRARIES_DIR}
+  ${Boost_LIBRARIES_DIRS}
   ${X11_X11_INCLUDE_PATH}
   ${X11_INCLUDE_PATH}
   ${X11_INCLUDE_PATH})
@@ -108,7 +108,6 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-libs-utils
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
-  ${Boost_LIBRARIES}
   ${LIBINTL_LIBRARIES}
   ${EXTRA_LIBRARIES}
   ${X11_X11_LIB}

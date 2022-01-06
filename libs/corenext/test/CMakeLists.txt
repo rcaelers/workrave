@@ -5,7 +5,7 @@ if (HAVE_TESTS)
   target_code_coverage(workrave-core-next-timer-test AUTO)
 
   target_link_libraries(workrave-core-next-timer-test PRIVATE workrave-libs-core-next)
-  target_link_libraries(workrave-core-next-timer-test PRIVATE ${Boost_LIBRARIES})
+  target_link_libraries(workrave-core-next-timer-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-next-timer-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-next-timer-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/corenext/src)
@@ -26,7 +26,7 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-dbus-stub)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-input-monitor-stub)
-  target_link_libraries(workrave-core-next-integration-test PRIVATE ${Boost_LIBRARIES})
+  target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-next-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_include_directories(workrave-core-next-integration-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/corenext/src)

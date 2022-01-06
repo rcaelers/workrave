@@ -24,11 +24,7 @@
 #include <sstream>
 
 #define BOOST_TEST_MODULE "workrave-utils-enum"
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
-#  include <boost/test/unit_test.hpp>
-#else
-#  include <boost/test/included/unit_test.hpp>
-#endif
+#include <boost/test/unit_test.hpp>
 
 #include <boost/range/adaptor/reversed.hpp>
 
