@@ -44,6 +44,8 @@ build() {
     else
         ninja ${MAKE_FLAGS[@]} install
     fi
+
+    ctest
 }
 
 parse_arguments() {
