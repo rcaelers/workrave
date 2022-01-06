@@ -147,8 +147,8 @@ jobs:
             compiler: clang
             ui: Gtk+3
             configuration: Release
-            enable: TESTS
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,COVERAGE,TRACING
+            enable:
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
             upload: true
 
           - image: mingw-gtk-rawhide
@@ -156,8 +156,8 @@ jobs:
             compiler: clang
             ui: Gtk+3
             configuration: Debug
-            enable: TRACING,TESTS
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,COVERAGE
+            enable: TRACING
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
             upload: true
 
           - os: macos-latest
