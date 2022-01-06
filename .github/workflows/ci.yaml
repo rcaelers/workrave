@@ -116,24 +116,17 @@ jobs:
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
 
           - image: ubuntu-impish
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
             appimage: true
             upload: true
-
-          #- image: ubuntu-impish
-          #  os: ubuntu-latest
-          #  compiler: gcc
-          #  ui: Qt5
-          #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-          #  disable: TESTS,COVERAGE,TRACING
 
           - image: ubuntu-jammy
             os: ubuntu-latest
@@ -146,16 +139,16 @@ jobs:
             os: ubuntu-latest
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
 
           - image: mingw-gtk-rawhide
             os: ubuntu-latest
             compiler: clang
             ui: Gtk+3
             configuration: Release
-            enable:
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
+            enable: TESTS
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,COVERAGE,TRACING
             upload: true
 
           - image: mingw-gtk-rawhide
@@ -163,8 +156,8 @@ jobs:
             compiler: clang
             ui: Gtk+3
             configuration: Debug
-            enable: TRACING,TESTS,COVERAGE
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+            enable: TRACING,TESTS
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,COVERAGE
             upload: true
 
           - os: macos-latest
