@@ -41,7 +41,14 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        config:
+          - configuration: Release
+            enable: TEST
+            upload: false
+
+          - configuration: Debug
+            enable: TEST, TRACING
+            upload: false
     steps:
       - uses: actions/checkout@v2
         with:
@@ -79,19 +86,12 @@ jobs:
           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
           WORKRAVE_ENV: github-msys2
           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-          CONF_COMPILER: ${{ matrix.config.compiler }}
-          CONF_ENABLE: ${{ matrix.config.enable }}
-          CONF_DISABLE: ${{ matrix.config.disable }}
-          CONF_DISTCHECK: ${{ matrix.config.distcheck }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
 
       - name: Build 64 bit
         shell: msys2 {0}
         run: |
           env
-          ls -la "/c/Program Files/"
-          ls -la "/c/Program Files (x86)/"
-          ls -la "/c/Program Files (x86)/Inno Setup 6"
           python -m pip install --upgrade pip
           pip install wheel Jinja2
           ./build/ci/build.sh
@@ -99,11 +99,15 @@ jobs:
           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
           WORKRAVE_ENV: github-msys2
           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-          CONF_COMPILER: ${{ matrix.config.compiler }}
-          CONF_ENABLE: ${{ matrix.config.enable }}
-          CONF_DISABLE: ${{ matrix.config.disable }}
-          CONF_DISTCHECK: ${{ matrix.config.distcheck }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        if: ${{ matrix.config.upload }}
+        with:
+          name: artifacts
+          path: _deploy
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
