@@ -144,6 +144,7 @@ TimerBoxGtkView::init_widgets()
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*Gtk::manage(img));
+          b->set_can_focus(false);
 
           static const char button_style[] =
             "* {\n"
