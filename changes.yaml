@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.10.50
+    date: 2022-xx-xxT15:05:19+01:00
+    short: |-
+      Workrave 1.10.50 has been released.
+    changes:
+      - The "Restbreak now" button in the main window no longer responds to keyboard (#368)
+
   - version: 1.10.49
     date: 2022-01-05T15:05:19+01:00
     short: |-

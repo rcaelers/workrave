@@ -178,6 +178,12 @@ TimerBoxGtkView::init_widgets()
           b->add(*Gtk::manage(img));
 
 #if GTK_CHECK_VERSION(3, 0, 0)
+          b->set_can_focus(false);
+#else
+          GTK_WIDGET_UNSET_FLAGS(b->gobj(), GTK_CAN_FOCUS);
+#endif
+
+#if GTK_CHECK_VERSION(3, 0, 0)
           static const char button_style[] =
             "* {\n"
             "padding-top: 1px;\n"
