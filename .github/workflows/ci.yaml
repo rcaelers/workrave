@@ -43,11 +43,11 @@ jobs:
       matrix:
         config:
           - configuration: Release
-            enable: TEST
+            enable: TESTS
             upload: false
 
           - configuration: Debug
-            enable: TEST, TRACING
+            enable: TESTS, TRACING
             upload: false
     steps:
       - uses: actions/checkout@v2
