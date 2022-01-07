@@ -27,6 +27,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <spdlog/spdlog.h>
+#include "spdlog/fmt/ostr.h"
 
 #include "debug.hh"
 #include "commonui/nls.h"
