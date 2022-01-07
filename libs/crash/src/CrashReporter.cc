@@ -156,8 +156,6 @@ CrashReporter::Pimpl::init()
 
   settings->SetUploadsEnabled(true);
 
-  arguments.push_back("--no-upload-gzip");
-
   client = new crashpad::CrashpadClient();
   bool success = client->StartHandler(handler,
                                       reports_dir,
