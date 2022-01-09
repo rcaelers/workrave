@@ -118,7 +118,6 @@ target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${GTK_LIBRARIES})
 target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${EXTRA_LIBRARIES})
 target_link_directories(workrave-toolkit-gtkmm PUBLIC ${GTK_LIBRARY_DIRS})
 
-
 if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE ${INDICATOR_LIBRARIES})
@@ -135,7 +134,6 @@ if (HAVE_CRASH_REPORT)
 
   target_link_libraries(WorkraveCrashHandler
     PRIVATE
-    #workrave-libs-utils
     crashpad::handler_lib
     crashpad::tools
     ${GTK_LIBRARIES}

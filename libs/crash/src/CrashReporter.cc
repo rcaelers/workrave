@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <exception>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -100,6 +101,8 @@ CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
   Harpoon::unblock_input();
 #endif
   CrashReporter::instance().pimpl->call_crash_handlers();
+  spdlog::critical("Crash!");
+  spdlog::shutdown();
 
   return false;
 }
@@ -108,71 +111,80 @@ void
 CrashReporter::Pimpl::init()
 {
   TRACE_ENTRY();
-  const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
-  const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
-  const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
+  try
+    {
+      const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
+      const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
+      const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
 
 #ifdef PLATFORM_OS_WINDOWS
-  std::string handler_exe = "WorkraveCrashHandler.exe";
+      std::string handler_exe = "WorkraveCrashHandler.exe";
 #else
-  std::string handler_exe = "WorkraveCrashHandler";
+      std::string handler_exe = "WorkraveCrashHandler";
 #endif
 
-  base::FilePath handler(app_dir / "lib" / handler_exe);
-  const std::string url("http://192.168.7.6:8888/api/minidump/upload?api_key=98d73567771b497681517ea30b2dbaf8");
+      base::FilePath handler(app_dir / "lib" / handler_exe);
+      const std::string url("http://192.168.7.241:8888/api/minidump/upload?api_key=94a8033818104a4396d92178bb33ec0a");
 
-  std::map<std::string, std::string> annotations;
-  std::vector<std::string> arguments;
-  std::vector<base::FilePath> attachments;
+      std::map<std::string, std::string> annotations;
+      std::vector<std::string> arguments;
+      std::vector<base::FilePath> attachments;
 
-  annotations["product"] = "Workrave";
-  annotations["version"] = WORKRAVE_VERSION;
+      annotations["product"] = "Workrave";
+      annotations["version"] = WORKRAVE_VERSION;
 #ifdef WORKRAVE_GIT_VERSION
-  annotations["commit"] = WORKRAVE_GIT_VERSION;
+      annotations["commit"] = WORKRAVE_GIT_VERSION;
 #endif
 #ifdef WORKRAVE_BUILD_ID
-  annotations["buildid"] = WORKRAVE_BUILD_ID;
+      annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif
 
-  TRACE_MSG("handler = {}", app_dir);
+      TRACE_MSG("handler = {}", app_dir);
 
-  attachments.push_back(base::FilePath(log_dir / "workrave.log"));
-  attachments.push_back(base::FilePath(log_dir / "workrave-trace.log"));
+      attachments.push_back(base::FilePath(log_dir / "workrave.log"));
+      attachments.push_back(base::FilePath(log_dir / "workrave-trace.log"));
 
-  base::FilePath reports_dir(temp_dir);
-  base::FilePath metrics_dir(temp_dir);
-  std::unique_ptr<crashpad::CrashReportDatabase> database = crashpad::CrashReportDatabase::Initialize(reports_dir);
+      base::FilePath reports_dir(temp_dir);
+      base::FilePath metrics_dir(temp_dir);
+      std::unique_ptr<crashpad::CrashReportDatabase> database = crashpad::CrashReportDatabase::Initialize(reports_dir);
 
-  if (database == NULL)
-    {
-      throw std::runtime_error("failed to initialize crashplan database");
+      if (database == NULL)
+        {
+          throw std::runtime_error("failed to initialize crashplan database");
+        }
+
+      crashpad::Settings *settings = database->GetSettings();
+      if (settings == NULL)
+        {
+          throw std::runtime_error("failed to obtain crashplan settings");
+        }
+
+      settings->SetUploadsEnabled(true);
+
+      arguments.push_back("--no-rate-limit");
+
+      client = new crashpad::CrashpadClient();
+      bool success = client->StartHandler(handler,
+                                          reports_dir,
+                                          metrics_dir,
+                                          url,
+                                          annotations,
+                                          arguments,
+                                          /* restartable */ true,
+                                          /* asynchronous_start */ false,
+                                          attachments);
+      if (success)
+        {
+          crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
+        }
+      else
+        {
+          throw std::runtime_error("failed to start crashplan handler");
+        }
     }
-
-  crashpad::Settings *settings = database->GetSettings();
-  if (settings == NULL)
+  catch (std::exception &e)
     {
-      throw std::runtime_error("failed to obtain crashplan settings");
-    }
-
-  settings->SetUploadsEnabled(true);
-
-  client = new crashpad::CrashpadClient();
-  bool success = client->StartHandler(handler,
-                                      reports_dir,
-                                      metrics_dir,
-                                      url,
-                                      annotations,
-                                      arguments,
-                                      /* restartable */ true,
-                                      /* asynchronous_start */ false,
-                                      attachments);
-  if (success)
-    {
-      crashpad::CrashpadClient::SetFirstChanceExceptionHandler(&CrashReporter::Pimpl::crashpad_handler);
-    }
-  else
-    {
-      spdlog::warn("failed to start crash handler");
+      spdlog::warn(std::string("failed to start crash handler:") + e.what());
     }
 }
 

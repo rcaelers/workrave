@@ -708,7 +708,7 @@ Core::check_operation_mode_auto_reset()
   if ((next_reset_time.time_since_epoch().count() > 0) && (workrave::utils::TimeSource::get_real_time() >= next_reset_time)
       && (CoreConfig::operation_mode()() != OperationMode::Normal))
     {
-      spdlog::info("Resetting operation mode");
+      spdlog::debug("Resetting operation mode");
       set_operation_mode(OperationMode::Normal);
     }
 }
@@ -1536,7 +1536,7 @@ Core::daily_reset()
     {
       using namespace std::chrono_literals;
 
-      spdlog::info("Resetting operation mode");
+      spdlog::debug("Resetting operation mode");
       set_operation_mode(OperationMode::Normal);
       CoreConfig::operation_mode_auto_reset_duration().set(0min);
       CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});

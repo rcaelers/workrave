@@ -160,11 +160,13 @@ Application::init_logging()
   auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
   auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(log_file.string(), 1024 * 1024, 5, true);
 
-  auto logger{std::make_shared<spdlog::logger>("workrave", std::initializer_list<spdlog::sink_ptr>{console_sink, file_sink})};
+  auto logger{std::make_shared<spdlog::logger>("workrave", std::initializer_list<spdlog::sink_ptr>{file_sink, console_sink})};
+  logger->flush_on(spdlog::level::critical);
   spdlog::set_default_logger(logger);
 
-  spdlog::set_level(spdlog::level::warn);
+  spdlog::set_level(spdlog::level::info);
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
+  spdlog::info("Workrave started");
 
 #if SPDLOG_VERSION >= 10801
   spdlog::cfg::load_env_levels();

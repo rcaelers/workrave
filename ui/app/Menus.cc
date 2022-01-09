@@ -224,21 +224,18 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_normal()
 {
-  spdlog::info("Operation mode Normal");
   set_operation_mode(OperationMode::Normal);
 }
 
 void
 Menus::on_menu_suspend()
 {
-  spdlog::info("Operation mode Suspended");
   set_operation_mode(OperationMode::Suspended);
 }
 
 void
 Menus::on_menu_quiet()
 {
-  spdlog::info("Operation mode Quiet");
   set_operation_mode(OperationMode::Quiet);
 }
 
@@ -248,12 +245,10 @@ Menus::on_menu_mode_for(workrave::OperationMode mode, std::chrono::minutes durat
   using namespace std::chrono_literals;
   if (duration == 0min)
     {
-      spdlog::info("Operation mode {} indef", mode);
       core->set_operation_mode(mode);
     }
   else
     {
-      spdlog::info("Operation mode {} for", mode);
       core->set_operation_mode_for(mode, duration);
     }
 }

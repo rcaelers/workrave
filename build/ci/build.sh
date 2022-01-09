@@ -78,7 +78,7 @@ install_crashpad() {
         mkdir -p ${SOURCES_DIR}/_ext
     fi
 
-    crashpad_name=crashpad-mingw64-20211222-33-0756b0b4f36443ac4e2e564b312a43bb7ed47569
+    crashpad_name=crashpad-mingw64-20220109-36-954418c2704128a667af9b9fbea51c868c51f43d
     crashpad_ext=.tar.xz
     if [ ! -d ${SOURCES_DIR}/_ext/${crashpad_name} ]; then
         curl https://snapshots.workrave.org/crashpad/${crashpad_name}${crashpad_ext} | tar xvJ -C ${SOURCES_DIR}/_ext -f -
@@ -87,8 +87,8 @@ install_crashpad() {
         ln -s ${crashpad_name} crashpad
         cd ${SOURCES_DIR}/
     fi
-    if [ ! -e ${SOURCES_DIR}/_ext/symupload.exe ]; then
-        curl https://snapshots.workrave.org/crashpad/symupload.exe -o ${SOURCES_DIR}/_ext/symupload.exe
+    if [ ! -e ${SOURCES_DIR}/_ext/dump_syms.exe ]; then
+        curl https://snapshots.workrave.org/crashpad/dump_syms.exe -o ${SOURCES_DIR}/_ext/dump_syms.exe
     fi
 }
 
@@ -221,16 +221,31 @@ if [[ $MSYSTEM == "MINGW64" ]]; then
         CONFIG="debug"
     fi
 
+
+    if [[ -z "$WORKRAVE_TAG" ]]; then
+        echo "No tag build."
+        baseFilename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
+    else
+        echo "Tag build : $WORKRAVE_TAG"
+        baseFilename=workrave-${WORKRAVE_VERSION}${EXTRA}
+    fi
+
+    PORTABLE_DIR=${BUILD_DIR}/portable
+    portableFilename=${baseFilename}-portable.zip
+
+    mkdir -p ${PORTABLE_DIR}/Workrave
+    cp -a ${OUTPUT_DIR}/*.txt ${OUTPUT_DIR}/lib32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share ${PORTABLE_DIR}/Workrave
+    cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/Workrave.lnk ${PORTABLE_DIR}/Workrave
+    cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/workrave.ini ${PORTABLE_DIR}/Workrave/etc
+
+    cd ${PORTABLE_DIR}
+    zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
+
+    cd ${BUILD_DIR}
+    ${SOURCES_DIR}/build/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     ninja ${MAKE_FLAGS[@]} installer
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
-        if [[ -z "$WORKRAVE_TAG" ]]; then
-            echo "No tag build."
-            baseFilename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
-        else
-            echo "Tag build : $WORKRAVE_TAG"
-            baseFilename=workrave-${WORKRAVE_VERSION}${EXTRA}
-        fi
 
         filename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym
@@ -245,18 +260,5 @@ if [[ $MSYSTEM == "MINGW64" ]]; then
         if [[ -e ${symbolsFilename} ]]; then
             ${SOURCES_DIR}/build/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
         fi
-
-        PORTABLE_DIR=${BUILD_DIR}/portable
-        portableFilename=${baseFilename}-portable.zip
-
-        mkdir -p ${PORTABLE_DIR}/Workrave
-        cp -a ${OUTPUT_DIR}/*.txt ${OUTPUT_DIR}/lib32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share ${PORTABLE_DIR}/Workrave
-        cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/Workrave.lnk ${PORTABLE_DIR}/Workrave
-        cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/workrave.ini ${PORTABLE_DIR}/Workrave/etc
-
-        cd ${PORTABLE_DIR}
-        zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
-
-        ${SOURCES_DIR}/build/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     fi
 fi
