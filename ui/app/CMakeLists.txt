@@ -97,6 +97,7 @@ target_include_directories(workrave-app PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inclu
 
 target_link_libraries(workrave-app
   PRIVATE
+  Boost::serialization
   workrave-libs-audio
   workrave-libs-config
   workrave-libs-dbus
@@ -149,7 +150,6 @@ elseif (HAVE_APP_QT)
 endif()
 
 If (PLATFORM_OS_WINDOWS)
-  target_link_directories(workrave PRIVATE "${HOOK_BINARY_DIR}")
   if (CMAKE_CROSSCOMPILING OR MSYS)
     target_link_directories(workrave PRIVATE "${SYS_ROOT}")
   endif()

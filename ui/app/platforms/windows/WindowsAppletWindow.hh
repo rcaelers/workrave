@@ -42,6 +42,8 @@ public:
   WindowsAppletWindow(std::shared_ptr<IApplication> app);
   virtual ~WindowsAppletWindow();
 
+  void init() override;
+
   void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,
@@ -52,36 +54,23 @@ public:
                     int secondary_value,
                     int secondary_max) override;
   void update_view() override;
-  void update_time_bars();
-  void update_menu();
-  bool is_visible() const;
   void set_geometry(Orientation orientation, int size) override;
 
   bool filter_func(MSG *event);
 
 private:
-  void init_menu(HWND dest);
-  void init_thread();
-  void add_menu(const std::string &text, short cmd, int flags);
-
-  bool on_applet_command(int command);
-
-  enum MenuFlag
-  {
-    MENU_FLAG_TOGGLE = APPLET_MENU_FLAG_TOGGLE,
-    MENU_FLAG_SELECTED = APPLET_MENU_FLAG_SELECTED,
-    MENU_FLAG_POPUP = APPLET_MENU_FLAG_POPUP
-  };
-
-private:
-  void update_applet_window();
-
   static unsigned __stdcall run_event_pipe_static(void *);
 
-private:
-  void init() override;
+  void send_time_bars();
+  void send_menu();
+
+  bool is_visible() const;
+  void init_menu(HWND dest);
+  void init_thread();
+  bool on_applet_command(int command);
+  void update_applet_window();
+  void init_menu_list(std::list<AppletMenuItem> &items, menus::Node::Ptr node);
   void init_menu();
-  void process_menu(menus::Node::Ptr node, bool popup = false);
   void run_event_pipe();
 
   std::shared_ptr<IToolkit> toolkit;
@@ -94,11 +83,10 @@ private:
   TimerBoxControl *control{nullptr};
 
   AppletHeartbeatData local_heartbeat_data;
-  AppletMenuData local_menu_data;
+  AppletHeartbeatData heartbeat_data;
+
   HWND local_applet_window{nullptr};
 
-  AppletHeartbeatData heartbeat_data;
-  AppletMenuData menu_data;
   CRITICAL_SECTION heartbeat_data_lock;
   HANDLE heartbeat_data_event{nullptr};
   HANDLE thread_abort_event{nullptr};

@@ -20,6 +20,7 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <time.h>
+#include <string>
 
 #include "Globals.h"
 #include "Applet.hh"
@@ -123,6 +124,7 @@ private:
   LRESULT OnDPIChanged();
   BOOL RegisterAndCreateWindow();
   void UpdateDeskband();
+  std::wstring ConvertAnsiToWide(const std::string &str);
 };
 
 inline HWND

@@ -18,9 +18,14 @@
 //
 // $Id$
 
+#include <exception>
 #include <windows.h>
 #include <windowsx.h>
 #include <winuser.h>
+
+#include <algorithm>
+#include <sstream>
+#include <boost/archive/binary_iarchive.hpp>
 
 #include "DeskBand.h"
 #include "TimeBar.h"
@@ -46,7 +51,7 @@ CDeskBand::~CDeskBand()
   if (m_pSite)
     {
       m_pSite->Release();
-      m_pSite = NULL;
+      m_pSite = nullptr;
     }
 
   g_DllRefCount--;
@@ -57,7 +62,7 @@ CDeskBand::~CDeskBand()
 STDMETHODIMP
 CDeskBand::QueryInterface(REFIID riid, LPVOID *ppReturn)
 {
-  *ppReturn = NULL;
+  *ppReturn = nullptr;
 
   // IUnknown
   if (IsEqualIID(riid, IID_IUnknown))
@@ -193,12 +198,14 @@ CDeskBand::CloseDW(DWORD dwReserved)
   ShowDW(FALSE);
 
   delete m_TimerBox;
-  m_TimerBox = NULL;
+  m_TimerBox = nullptr;
 
   if (IsWindow(m_hWnd))
-    DestroyWindow(m_hWnd);
+    {
+      DestroyWindow(m_hWnd);
+    }
 
-  m_hWnd = NULL;
+  m_hWnd = nullptr;
 
   TRACE_EXIT();
   return S_OK;
@@ -218,7 +225,9 @@ CDeskBand::UIActivateIO(BOOL fActivate, LPMSG pMsg)
   TRACE_ENTER_MSG("CDeskBand::UIActivateIO", fActivate);
 
   if (fActivate)
-    SetFocus(m_hWnd);
+    {
+      SetFocus(m_hWnd);
+    }
 
   TRACE_EXIT();
   return S_OK;
@@ -255,7 +264,7 @@ CDeskBand::SetSite(IUnknown *punkSite)
   if (m_pSite)
     {
       m_pSite->Release();
-      m_pSite = NULL;
+      m_pSite = nullptr;
     }
 
   // If punkSite is not NULL, a new site is being set.
@@ -264,7 +273,7 @@ CDeskBand::SetSite(IUnknown *punkSite)
       // Get the parent window.
       IOleWindow *pOleWindow;
 
-      m_hwndParent = NULL;
+      m_hwndParent = nullptr;
 
       if (SUCCEEDED(punkSite->QueryInterface(IID_IOleWindow, (LPVOID *)&pOleWindow)))
         {
@@ -273,10 +282,14 @@ CDeskBand::SetSite(IUnknown *punkSite)
         }
 
       if (!m_hwndParent)
-        return E_FAIL;
+        {
+          return E_FAIL;
+        }
 
       if (!RegisterAndCreateWindow())
-        return E_FAIL;
+        {
+          return E_FAIL;
+        }
 
       // Get and keep the IInputObjectSite pointer.
       if (SUCCEEDED(punkSite->QueryInterface(IID_IInputObjectSite, (LPVOID *)&m_pSite)))
@@ -295,10 +308,12 @@ STDMETHODIMP
 CDeskBand::GetSite(REFIID riid, LPVOID *ppvReturn)
 {
   TRACE_ENTER("CDeskBand::GetSite");
-  *ppvReturn = NULL;
+  *ppvReturn = nullptr;
 
   if (m_pSite)
-    return m_pSite->QueryInterface(riid, ppvReturn);
+    {
+      return m_pSite->QueryInterface(riid, ppvReturn);
+    }
 
   TRACE_EXIT();
   return E_FAIL;
@@ -384,7 +399,9 @@ CDeskBand::CanRenderComposited(BOOL *pfCanRenderComposited)
   TRACE_ENTER("CDeskBand::CanRenderComposited");
 
   if (!pfCanRenderComposited)
-    return E_INVALIDARG;
+    {
+      return E_INVALIDARG;
+    }
 
   *pfCanRenderComposited = TRUE;
   TRACE_EXIT();
@@ -396,7 +413,9 @@ CDeskBand::GetCompositionState(BOOL *pfCompositionEnabled)
 {
   TRACE_ENTER("CDeskBand::GetCompositionState");
   if (!pfCompositionEnabled)
-    return E_INVALIDARG;
+    {
+      return E_INVALIDARG;
+    }
 
   *pfCompositionEnabled = m_CompositionEnabled;
   TRACE_EXIT();
@@ -454,72 +473,94 @@ CDeskBand::GetSizeMax(ULARGE_INTEGER *pul)
   return E_NOTIMPL;
 }
 
+std::wstring
+CDeskBand::ConvertAnsiToWide(const std::string &str)
+{
+  int count = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), NULL, 0);
+  std::wstring wstr(count, 0);
+  MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), &wstr[0], count);
+  return wstr;
+}
+
 STDMETHODIMP
 CDeskBand::QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags)
 {
   TRACE_ENTER("CDeskBand::QueryContextMenu");
   if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow(get_command_window()))
-    return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
-
-  int m = 0;
-  HMENU popup = NULL;
-  while (m < m_AppletMenu.num_items)
     {
-      AppletMenuItemData *d = &m_AppletMenu.items[m];
-      wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH * 2];
-      MultiByteToWideChar(CP_UTF8, 0, d->text, -1, textw, sizeof(textw) / sizeof(textw[0]));
-      wchar_t *abbrev = wcschr(textw, '_');
+      return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
+    }
+
+  std::list<HMENU> submenus;
+  HMENU current_menu = hMenu;
+  uint32_t max_command = 0;
+  for (auto &item: m_AppletMenu.items)
+    {
+      std::wstring text = ConvertAnsiToWide(item.dynamic_text);
+      std::replace(text.begin(), text.end(), '_', '&');
+
+      TRACE_MSG("menu " << item.dynamic_text);
+      auto type = item.type;
+      auto active = ((item.flags & MENU_ITEM_FLAG_ACTIVE) != 0);
+      auto visible = ((item.flags & MENU_ITEM_FLAG_VISIBLE) != 0);
       UINT flags = MF_STRING | MF_BYPOSITION;
-      if (d->flags & APPLET_MENU_FLAG_SELECTED)
+
+      if (active)
         {
           flags |= MF_CHECKED;
         }
-      if (abbrev != NULL)
+
+      TRACE_MSG("menu type" << static_cast<int>(type) << " " << active << " " << flags);
+
+      if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN)
         {
-          *abbrev = '&';
+          auto *popup = CreatePopupMenu();
+          submenus.push_back(current_menu);
+          InsertMenuW(current_menu, -1, MF_POPUP | flags, (UINT_PTR)popup, text.c_str());
+          current_menu = popup;
         }
-      if (d->flags & APPLET_MENU_FLAG_POPUP)
+      else if (type == MENU_ITEM_TYPE_SUBMENU_END)
         {
-          if (popup == NULL)
-            {
-              popup = CreatePopupMenu();
-            }
-          AppendMenuW(popup, flags, idCmdFirst + m, textw);
+          current_menu = submenus.back();
+          submenus.pop_back();
         }
-      else
+      else if (type == MENU_ITEM_TYPE_SEPARATOR)
         {
-          if (popup != NULL)
-            {
-              InsertMenuW(hMenu, indexMenu++, MF_POPUP | flags, (UINT_PTR)popup, textw);
-              popup = NULL;
-            }
-          else
-            {
-              InsertMenuW(hMenu, indexMenu++, flags, idCmdFirst + m, textw);
-            }
+          InsertMenuW(current_menu, -1, MF_SEPARATOR | flags, (UINT_PTR)(idCmdFirst + item.command), text.c_str());
         }
-      m++;
+      else if (type == MENU_ITEM_TYPE_CHECK || type == MENU_ITEM_TYPE_RADIO || type == MENU_ITEM_TYPE_ACTION)
+        {
+          InsertMenuW(current_menu, -1, flags, (UINT_PTR)(idCmdFirst + item.command), text.c_str());
+        }
+
+      if (item.command > max_command)
+        {
+          max_command = item.command;
+        }
     }
 
   TRACE_EXIT();
-  return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(m_AppletMenu.num_items + 1));
+  return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(max_command + 1));
 }
 
 STDMETHODIMP
 CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 {
   TRACE_ENTER("CDeskBand::InvokeCommand");
-  int cmd = LOWORD(lpcmi->lpVerb);
-  HRESULT ret;
+  HRESULT ret = E_INVALIDARG;
+  if (m_HasAppletMenu && IsWindow(get_command_window()) && IS_INTRESOURCE(lpcmi->lpVerb))
+    {
+      int cmd = LOWORD(lpcmi->lpVerb);
 
-  if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow(get_command_window()))
-    {
-      SendMessage(get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, 0);
-      ret = NOERROR;
-    }
-  else
-    {
-      ret = E_INVALIDARG;
+      if (cmd >= 0)
+        {
+          SendMessage(get_command_window(), WM_USER, cmd, 0);
+          ret = NOERROR;
+        }
+      else
+        {
+          ret = E_INVALIDARG;
+        }
     }
   TRACE_EXIT();
   return ret;
@@ -537,20 +578,20 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER("CDeskBand::WndProc");
   LRESULT lResult = 0;
-  CDeskBand *pThis = (CDeskBand *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+  auto *pThis = (CDeskBand *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
     case WM_NCCREATE:
       {
-        LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
+        auto *lpcs = (LPCREATESTRUCT)lParam;
         pThis = (CDeskBand *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        SetWindowPos(hWnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
         // set the window handle
         pThis->m_hWnd = hWnd;
-        SetTimer(hWnd, 0xdeadf00d, 3000, NULL);
+        SetTimer(hWnd, 0xdeadf00d, 3000, nullptr);
         PaintHelper::Init();
       }
       break;
@@ -617,9 +658,9 @@ LRESULT
 CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER_MSG("CDeskBand::OnTimer", wParam << " " << lParam);
-  if (m_TimerBox != NULL)
+  if (m_TimerBox != nullptr)
     {
-      if (m_LastCopyData == 0 || difftime(time(NULL), m_LastCopyData) > 2)
+      if (m_LastCopyData == 0 || difftime(time(nullptr), m_LastCopyData) > 2)
         {
           m_TimerBox->set_enabled(false);
           m_TimerBox->update(false);
@@ -634,15 +675,26 @@ LRESULT
 CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
 {
   TRACE_ENTER("CDeskBand::OnCopyData");
-  m_LastCopyData = time(NULL);
-  if (copy_data->dwData == APPLET_MESSAGE_MENU && copy_data->cbData == sizeof(AppletMenuData))
+  m_LastCopyData = time(nullptr);
+  if (copy_data->dwData == APPLET_MESSAGE_MENU)
     {
-      m_AppletMenu = *((AppletMenuData *)copy_data->lpData);
-      m_HasAppletMenu = TRUE;
+      try
+        {
+          std::string serialized_data((char *)copy_data->lpData, copy_data->cbData);
+          std::stringstream ss;
+          ss << serialized_data;
+          boost::archive::binary_iarchive ar(ss);
+          ar >> m_AppletMenu;
+          m_HasAppletMenu = TRUE;
+        }
+      catch (std::exception &e)
+        {
+          TRACE_MSG("applet menu end" << e.what());
+        }
     }
-  else if (m_TimerBox != NULL && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT && copy_data->cbData == sizeof(AppletHeartbeatData))
+  else if (m_TimerBox != nullptr && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT && copy_data->cbData == sizeof(AppletHeartbeatData))
     {
-      AppletHeartbeatData *data = (AppletHeartbeatData *)copy_data->lpData;
+      auto *data = (AppletHeartbeatData *)copy_data->lpData;
       m_TimerBox->set_enabled(data->enabled);
       for (int s = 0; s < BREAK_ID_SIZEOF; s++)
         {
@@ -651,7 +703,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
       for (int b = 0; b < BREAK_ID_SIZEOF; b++)
         {
           TimeBar *bar = m_TimerBox->get_time_bar(BreakId(b));
-          if (bar != NULL)
+          if (bar != nullptr)
             {
               bar->set_text(data->bar_text[b]);
               bar->set_bar_color((TimerColorId)data->bar_primary_color[b]);
@@ -672,12 +724,13 @@ LRESULT
 CDeskBand::OnSize(LPARAM lParam)
 {
   TRACE_ENTER_MSG("CDeskBand::OnSize", lParam);
-  int cx, cy;
+  int cx = 0;
+  int cy = 0;
 
   cx = LOWORD(lParam);
   cy = HIWORD(lParam);
   TRACE_MSG(cx << " " << cy);
-  if (m_TimerBox != NULL)
+  if (m_TimerBox != nullptr)
     {
       m_TimerBox->set_size(cx, cy);
       m_TimerBox->update(true);
@@ -694,7 +747,7 @@ CDeskBand::FocusChange(BOOL bFocus)
   m_bFocus = bFocus;
 
   // inform the input object site that the focus has changed
-  if (m_pSite)
+  if (m_pSite != nullptr)
     {
       m_pSite->OnFocusChangeIS((IDockingWindow *)this, bFocus);
     }
@@ -724,10 +777,10 @@ CDeskBand::RegisterAndCreateWindow()
 {
   TRACE_ENTER("CDeskBand::RegisterAndCreateWindow");
   // If the window doesn't exist yet, create it now.
-  if (!m_hWnd)
+  if (m_hWnd == nullptr)
     {
       // Can't create a child window without a parent.
-      if (!m_hwndParent)
+      if (m_hwndParent == nullptr)
         {
           return FALSE;
         }
@@ -742,10 +795,10 @@ CDeskBand::RegisterAndCreateWindow()
           wc.cbClsExtra = 0;
           wc.cbWndExtra = 0;
           wc.hInstance = g_hInst;
-          wc.hIcon = NULL;
-          wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-          wc.hbrBackground = NULL; //(HBRUSH)(COLOR_WINDOWFRAME+1);
-          wc.lpszMenuName = NULL;
+          wc.hIcon = nullptr;
+          wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+          wc.hbrBackground = nullptr; //(HBRUSH)(COLOR_WINDOWFRAME+1);
+          wc.lpszMenuName = nullptr;
           wc.lpszClassName = DB_CLASS_NAME;
 
           if (!RegisterClass(&wc))
@@ -762,21 +815,21 @@ CDeskBand::RegisterAndCreateWindow()
       // Create the window. The WndProc will set m_hWnd.
       HWND h = CreateWindowEx(WS_EX_TRANSPARENT,
                               DB_CLASS_NAME,
-                              NULL,
+                              nullptr,
                               WS_CHILD | WS_CLIPSIBLINGS,
                               rc.left,
                               rc.top,
                               rc.right - rc.left,
                               rc.bottom - rc.top,
                               m_hwndParent,
-                              NULL,
+                              nullptr,
                               g_hInst,
                               (LPVOID)this);
 
       m_TimerBox = new TimerBox(h, g_hInst, this);
     }
 
-  return (NULL != m_hWnd);
+  return (nullptr != m_hWnd);
   TRACE_EXIT();
 }
 
@@ -784,7 +837,7 @@ LRESULT
 CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTER_MSG("CDeskBand::OnWindowPosChanging", wParam << " " << lParam);
-  if (m_TimerBox != NULL)
+  if (m_TimerBox != nullptr)
     {
       m_TimerBox->update(true);
     }
@@ -796,7 +849,7 @@ LRESULT
 CDeskBand::OnDPIChanged()
 {
   TRACE_ENTER("CDeskBand::OnDPIChanged");
-  if (m_TimerBox != NULL)
+  if (m_TimerBox != nullptr)
     {
       m_TimerBox->update_dpi();
     }
@@ -809,12 +862,14 @@ CDeskBand::UpdateDeskband()
 {
   TRACE_ENTER("CDeskBand::UpdateDeskband");
 
-  int preferredWidth, preferredHeight;
+  int preferredWidth = 0;
+  int preferredHeight = 0;
   m_TimerBox->get_preferred_size(preferredWidth, preferredHeight);
   preferredWidth = __max(DB_MIN_SIZE_X, preferredWidth);
   preferredHeight = __max(DB_MIN_SIZE_Y, preferredHeight);
 
-  int minimumWidth, minimumHeight;
+  int minimumWidth = 0;
+  int minimumHeight = 0;
   m_TimerBox->get_minimum_size(minimumWidth, minimumHeight);
   minimumWidth = __max(DB_MIN_SIZE_X, minimumWidth);
   minimumHeight = __max(DB_MIN_SIZE_Y, minimumHeight);
@@ -830,12 +885,12 @@ CDeskBand::UpdateDeskband()
       m_minimumWidth = minimumWidth;
       m_minimumHeight = minimumHeight;
 
-      IOleCommandTarget *oleCommandTarget;
+      IOleCommandTarget *oleCommandTarget = nullptr;
       HRESULT hr = GetSite(IID_IOleCommandTarget, (LPVOID *)&oleCommandTarget);
 
       if (SUCCEEDED(hr))
         {
-          VARIANTARG v = {0};
+          VARIANTARG v{};
           v.vt = VT_I4;
           v.lVal = m_dwBandID;
 

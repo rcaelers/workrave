@@ -21,9 +21,13 @@
 #include "WindowsAppletWindow.hh"
 
 #include <string>
+#include <string.h>
+
+#include <boost/archive/binary_oarchive.hpp>
+#include <sstream>
+#include <iostream>
 
 #include "ui/Text.hh"
-//#include "GUI.hh"
 #include "Applet.hh"
 
 #include "ui/TimerBoxControl.hh"
@@ -44,10 +48,9 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
   , apphold(toolkit)
 {
   TRACE_ENTRY();
+
   memset(&local_heartbeat_data, 0, sizeof(AppletHeartbeatData));
-  memset(&local_menu_data, 0, sizeof(AppletMenuData));
   memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
-  memset(&menu_data, 0, sizeof(AppletMenuData));
 
   heartbeat_data.enabled = true;
 
@@ -66,7 +69,6 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
   });
 
   menu_helper.setup_event();
-
   init_menu();
   init_thread();
 }
@@ -87,10 +89,14 @@ WindowsAppletWindow::~WindowsAppletWindow()
     }
 
   if (thread_abort_event)
-    CloseHandle(thread_abort_event);
+    {
+      CloseHandle(thread_abort_event);
+    }
 
   if (heartbeat_data_event)
-    CloseHandle(heartbeat_data_event);
+    {
+      CloseHandle(heartbeat_data_event);
+    }
 
   DeleteCriticalSection(&heartbeat_data_lock);
 
@@ -103,7 +109,7 @@ RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
   static char buf[80];
   int num = GetClassNameA(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
-  HWND ret = NULL;
+  HWND ret = nullptr;
 
   if (!stricmp(lpClassName, buf))
     {
@@ -111,15 +117,15 @@ RecursiveFindWindow(HWND hwnd, LPCSTR lpClassName)
     }
   else
     {
-      HWND child = FindWindowEx(hwnd, 0, NULL, NULL);
-      while (child != NULL)
+      HWND child = FindWindowEx(hwnd, nullptr, nullptr, nullptr);
+      while (child != nullptr)
         {
           ret = RecursiveFindWindow(child, lpClassName);
           if (ret)
             {
               break;
             }
-          child = FindWindowEx(hwnd, child, NULL, NULL);
+          child = FindWindowEx(hwnd, child, nullptr, nullptr);
         }
     }
   return ret;
@@ -162,16 +168,10 @@ WindowsAppletWindow::update_view()
     {
       update_applet_window();
 
-      if (applet_window != NULL)
+      if (applet_window != nullptr)
         {
+          local_applet_window = applet_window;
           memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
-          if (!menu_sent)
-            {
-              memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
-              local_applet_window = applet_window;
-              menu_sent = true;
-            }
-
           SetEvent(heartbeat_data_event);
         }
 
@@ -180,26 +180,34 @@ WindowsAppletWindow::update_view()
 }
 
 void
-WindowsAppletWindow::update_menu()
+WindowsAppletWindow::send_menu()
 {
   TRACE_ENTRY();
-  if (local_applet_window != NULL)
+  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
+  if (toolkit_win && local_applet_window != nullptr && !menu_sent) // RACE?
     {
-      TRACE_MSG("sending {}", local_menu_data.num_items);
+      AppletMenuData data;
+      data.command_window = HandleToLong(toolkit_win->get_event_hwnd());
+      init_menu_list(data.items, menu_model->get_root());
+
+      std::ostringstream ss;
+      boost::archive::binary_oarchive ar(ss);
+      ar << data;
+      std::string serialized_data = ss.str();
 
       COPYDATASTRUCT msg;
       msg.dwData = APPLET_MESSAGE_MENU;
-      msg.cbData = sizeof(AppletMenuData);
-      msg.lpData = &local_menu_data;
+      msg.cbData = serialized_data.size();
+      msg.lpData = (LPVOID)serialized_data.data();
       SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM)&msg);
     }
 }
 
 void
-WindowsAppletWindow::update_time_bars()
+WindowsAppletWindow::send_time_bars()
 {
   TRACE_ENTRY();
-  if (local_applet_window != NULL)
+  if (local_applet_window != nullptr)
     {
       COPYDATASTRUCT msg;
       msg.dwData = APPLET_MESSAGE_HEARTBEAT;
@@ -218,18 +226,18 @@ WindowsAppletWindow::update_applet_window()
 {
   TRACE_ENTRY();
   HWND previous_applet_window = applet_window;
-  if (applet_window == NULL || !IsWindow(applet_window))
+  if (applet_window == nullptr || !IsWindow(applet_window))
     {
-      HWND taskbar = FindWindowA("Shell_TrayWnd", NULL);
+      HWND taskbar = FindWindowA("Shell_TrayWnd", nullptr);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
       menu_sent = false;
     }
 
-  if (previous_applet_window == NULL && applet_window != NULL)
+  if (previous_applet_window == nullptr && applet_window != nullptr)
     {
       apphold.hold();
     }
-  else if (previous_applet_window != NULL && applet_window == NULL)
+  else if (previous_applet_window != nullptr && applet_window == nullptr)
     {
       apphold.release();
     }
@@ -242,22 +250,21 @@ WindowsAppletWindow::init_thread()
   DWORD thread_exit_code = 0;
 
   if (thread_id && thread_handle && GetExitCodeThread(thread_handle, &thread_exit_code) && (thread_exit_code == STILL_ACTIVE))
-    return;
-  TRACE_MSG("1");
+    {
+      return;
+    }
 
   if (!thread_id)
     {
       // if there is no id but a handle then this instance's worker thread has exited or is exiting.
       if (thread_handle)
-        CloseHandle(thread_handle);
-
-      TRACE_MSG("2");
+        {
+          CloseHandle(thread_handle);
+        }
 
       thread_id = 0;
       SetLastError(0);
-      thread_handle = (HANDLE)_beginthreadex(NULL, 0, run_event_pipe_static, this, 0, (unsigned int *)&thread_id);
-
-      TRACE_MSG("3");
+      thread_handle = (HANDLE)_beginthreadex(nullptr, 0, run_event_pipe_static, this, 0, (unsigned int *)&thread_id);
 
       if (!thread_handle || !thread_id)
         {
@@ -269,7 +276,7 @@ WindowsAppletWindow::init_thread()
 unsigned __stdcall WindowsAppletWindow::run_event_pipe_static(void *param)
 {
   TRACE_ENTRY();
-  WindowsAppletWindow *pThis = (WindowsAppletWindow *)param;
+  auto *pThis = (WindowsAppletWindow *)param;
   pThis->run_event_pipe();
   // invalidate the id to signal the thread is exiting
   pThis->thread_id = 0;
@@ -294,14 +301,17 @@ WindowsAppletWindow::run_event_pipe()
       DWORD wait_result = WaitForMultipleObjectsEx(events_count, events, FALSE, INFINITE, FALSE);
 
       if ((wait_result == WAIT_FAILED) || (wait_result == (WAIT_OBJECT_0 + 0)))
-        break;
+        {
+          break;
+        }
 
       if (heartbeat_data.enabled && (wait_result == (WAIT_OBJECT_0 + 1)))
         {
           EnterCriticalSection(&heartbeat_data_lock);
 
-          update_time_bars();
-          update_menu();
+          send_time_bars();
+          send_menu();
+          local_applet_window = nullptr;
 
           LeaveCriticalSection(&heartbeat_data_lock);
         }
@@ -356,98 +366,93 @@ WindowsAppletWindow::filter_func(MSG *msg)
 bool
 WindowsAppletWindow::is_visible() const
 {
-  return applet_window != NULL && heartbeat_data.enabled;
+  return applet_window != nullptr && heartbeat_data.enabled;
 }
 
 void
 WindowsAppletWindow::init()
 {
+  TRACE_ENTRY();
+
   workrave::utils::connect(toolkit->signal_timer(), this, [this]() { control->update(); });
+  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
+  if (toolkit_win)
+    {
+      workrave::utils::connect(toolkit_win->hook_event(), this, [this](MSG *msg) { return filter_func(msg); });
+    }
 }
 
 void
 WindowsAppletWindow::init_menu()
 {
-  TRACE_ENTRY();
-  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
-  if (toolkit_win)
-    {
-      menu_data.command_window = HandleToLong(toolkit_win->get_event_hwnd());
-      workrave::utils::connect(toolkit_win->hook_event(), this, [this](MSG *msg) { return filter_func(msg); });
-    }
-
-  menu_data.num_items = 0;
   menu_sent = false;
-
-  process_menu(menu_model->get_root());
 }
 
 void
-WindowsAppletWindow::process_menu(menus::Node::Ptr node, bool popup)
+WindowsAppletWindow::init_menu_list(std::list<AppletMenuItem> &items, menus::Node::Ptr node)
 {
-  int command = menu_helper.allocate_command(node->get_id());
+  uint32_t command = menu_helper.allocate_command(node->get_id());
+
+  uint8_t flags = MENU_ITEM_FLAG_NONE;
+
+  if (node->is_visible())
+    {
+      flags |= MENU_ITEM_FLAG_VISIBLE;
+    }
 
   if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
     {
-      if (menu_data.num_items > 0)
-        {
-          popup = true;
-        }
+      bool add_sub_menu = !items.empty();
 
+      if (add_sub_menu)
+        {
+          items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::SubMenuBegin, flags);
+        }
       for (auto &menu_to_add: n->get_children())
         {
-          process_menu(menu_to_add, popup);
+          init_menu_list(items, menu_to_add);
         }
-      if (popup)
+      if (add_sub_menu)
         {
-          add_menu(n->get_dynamic_text(), 0, 0);
+          items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::SubMenuEnd, flags);
         }
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
     {
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::RadioGroupBegin, flags);
       for (auto &menu_to_add: n->get_children())
         {
-          process_menu(menu_to_add, popup);
+          init_menu_list(items, menu_to_add);
         }
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::RadioGroupEnd, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
     {
-      add_menu(n->get_dynamic_text(), command, (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0));
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Action, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
     {
-      add_menu(n->get_dynamic_text(),
-               command,
-               WindowsAppletWindow::MENU_FLAG_TOGGLE | (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0)
-                 | (n->is_checked() ? WindowsAppletWindow::MENU_FLAG_SELECTED : 0));
+      if (n->is_checked())
+        {
+          flags |= MENU_ITEM_FLAG_ACTIVE;
+        }
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Check, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
     {
-      add_menu(n->get_dynamic_text(),
-               command,
-               WindowsAppletWindow::MENU_FLAG_TOGGLE | (popup ? WindowsAppletWindow::MENU_FLAG_POPUP : 0)
-                 | ((n->is_checked() ? WindowsAppletWindow::MENU_FLAG_SELECTED : 0)));
+      if (n->is_checked())
+        {
+          flags |= MENU_ITEM_FLAG_ACTIVE;
+        }
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Radio, flags);
     }
 
   else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
     {
-      // not supported
+      items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::Separator, flags);
     }
-
-  else
-    {
-    }
-}
-
-void
-WindowsAppletWindow::add_menu(const std::string &text, short cmd, int flags)
-{
-  AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
-  d->command = cmd;
-  strcpy(d->text, text.c_str());
-  d->flags = flags;
 }

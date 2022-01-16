@@ -18,7 +18,16 @@
 #ifndef APPLET_H
 #define APPLET_H
 
+#include <cstdint>
+#include <string>
+#include <list>
+
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/list.hpp>
+
 #include "core/CoreTypes.hh"
+#include "commonui/MenuDefs.hh"
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
 #define APPLET_BAR_TEXT_MAX_LENGTH 16
@@ -54,24 +63,65 @@ struct AppletHeartbeatData
   int bar_primary_max[workrave::BREAK_ID_SIZEOF];
 };
 
-#define APPLET_MAX_MENU_ITEMS 16
-#define APPLET_MENU_TEXT_MAX_LENGTH 48
-
-#define APPLET_MENU_FLAG_TOGGLE 1
-#define APPLET_MENU_FLAG_SELECTED 2
-#define APPLET_MENU_FLAG_POPUP 4
-
-struct AppletMenuItemData
+struct TimerData
 {
-  char text[APPLET_MENU_TEXT_MAX_LENGTH]; // mbs
-  int flags;
-  short command;
+  std::string bar_text;
+  int slot;
+  uint32_t bar_secondary_color;
+  uint32_t bar_secondary_val;
+  uint32_t bar_secondary_max;
+  uint32_t bar_primary_color;
+  uint32_t bar_primary_val;
+  uint32_t bar_primary_max;
+
+private:
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive &ar, const unsigned int version)
+  {
+    ar &bar_text &slot &bar_secondary_color &bar_secondary_val &bar_secondary_max &bar_primary_color &bar_primary_val &bar_primary_max;
+  }
+};
+
+struct AppletMenuItem
+{
+  AppletMenuItem() = default;
+  AppletMenuItem(std::string text, std::string dynamic_text, std::string action, uint32_t command, MenuItemType type, uint8_t flags = 0)
+    : text(std::move(text))
+    , dynamic_text(std::move(dynamic_text))
+    , action(std::move(action))
+    , command(command)
+    , type(static_cast<std::underlying_type_t<MenuItemType>>(type))
+    , flags(flags)
+  {
+  }
+  AppletMenuItem(std::string text, std::string dynamic_text, std::string action, uint32_t command, uint8_t type, uint8_t flags = 0)
+    : text(std::move(text))
+    , dynamic_text(std::move(dynamic_text))
+    , action(std::move(action))
+    , command(command)
+    , type(type)
+    , flags(flags)
+  {
+  }
+  std::string text;
+  std::string dynamic_text;
+  std::string action;
+  uint32_t command;
+  uint8_t type;
+  uint8_t flags;
+
+private:
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive &ar, const unsigned int version)
+  {
+    ar &text &dynamic_text &action &command &type &flags;
+  }
 };
 
 struct AppletMenuData
 {
-  short num_items;
-
   /*
   MSDN notes:
   Handles have 32 significant bits on 64-bit Windows
@@ -79,11 +129,18 @@ struct AppletMenuData
   We must ensure that our types are the same size
   on both 64 and 32 bit systems (see x64 comment).
 
-  We will pass the command_window HWND as a LONG:
+  We will pass the command_window HWND as a int64_t:
   */
-  LONG command_window;
+  int64_t command_window;
+  std::list<AppletMenuItem> items;
 
-  AppletMenuItemData items[APPLET_MAX_MENU_ITEMS];
+private:
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive &ar, const unsigned int version)
+  {
+    ar &command_window &items;
+  }
 };
 
 #endif /* APPLET_H */
