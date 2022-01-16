@@ -141,8 +141,10 @@ CrashReporter::Pimpl::init()
 
       TRACE_MSG("handler = {}", app_dir);
 
-      attachments.push_back(base::FilePath(log_dir / "workrave.log"));
-      attachments.push_back(base::FilePath(log_dir / "workrave-trace.log"));
+      attachments.emplace_back(log_dir / "workrave.log");
+      attachments.emplace_back(log_dir / "workrave.1.log");
+      attachments.emplace_back(log_dir / "workrave-trace.log");
+      attachments.emplace_back(log_dir / "workrave-trace.1.log");
 
       base::FilePath reports_dir(temp_dir);
       base::FilePath metrics_dir(temp_dir);
