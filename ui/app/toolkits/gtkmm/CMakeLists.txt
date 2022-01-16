@@ -128,6 +128,15 @@ endif()
 if (HAVE_CRASH_REPORT)
   add_executable(WorkraveCrashHandler CrashDialog.cc)
 
+  set(WR_VERSION ${WORKRAVE_VERSION})
+  set(WR_RESOURCE_VERSION ${WORKRAVE_RESOURCE_VERSION})
+  set(WR_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
+
+  target_sources(WorkraveCrashHandler PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
+
   target_include_directories(WorkraveCrashHandler PRIVATE ${GTK_INCLUDE_DIRS})
   target_link_directories(WorkraveCrashHandler PRIVATE ${GTK_LIBRARY_DIRS})
   target_include_directories(WorkraveCrashHandler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../common/include)

@@ -16,6 +16,7 @@
 //
 
 #include "CrashDialog.hh"
+#include "gtkmm/box.h"
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
@@ -32,8 +33,6 @@
 #include <shlwapi.h>
 #include <windows.h>
 
-#include <gtkmm.h>
-
 #include "base/logging.h"
 #include "handler/handler_main.h"
 #include "build/build_config.h"
@@ -46,44 +45,43 @@ namespace
   std::string Utf16ToUtf8(const std::wstring &s)
   {
     std::string ret;
-    int len = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), s.length(), NULL, 0, NULL, NULL);
+    int len = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), s.length(), nullptr, 0, nullptr, nullptr);
     if (len > 0)
       {
         ret.resize(len);
-        WideCharToMultiByte(CP_UTF8, 0, s.c_str(), s.length(), const_cast<char *>(ret.c_str()), len, NULL, NULL);
+        WideCharToMultiByte(CP_UTF8, 0, s.c_str(), s.length(), const_cast<char *>(ret.c_str()), len, nullptr, nullptr);
       }
     return ret;
   }
 } // namespace
 
-CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, const std::vector<base::FilePath> &attachments)
-  : Gtk::Dialog(_("Crash report"), true)
+CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attachments)
+  : Gtk::Dialog(_("Crash report details"), true)
 {
   set_default_size(600, 400);
-  set_title(_("Workrave has crashed"));
+  set_title(_("crash details"));
   set_border_width(6);
 
   vbox = Gtk::manage(new Gtk::VBox());
   vbox->set_border_width(6);
   vbox->set_spacing(6);
-  // vbox->set_halign(Gtk::ALIGN_START);
 
   get_vbox()->pack_start(*vbox, true, true, 0);
 
   std::string bold = "<span weight=\"bold\">";
   std::string end = "</span>";
 
-  auto info_label = Gtk::manage(new Gtk::Label(bold + _("Workrave has crashed.") + end, Gtk::ALIGN_START));
+  auto *info_label = Gtk::manage(new Gtk::Label(bold + _("Workrave has crashed.") + end, Gtk::ALIGN_START));
   info_label->set_use_markup();
   vbox->pack_start(*info_label, false, false, 0);
 
-  if (attachments.size() > 0)
+  if (!attachments.empty())
     {
-      auto attachments_label =
+      auto *attachments_label =
         Gtk::manage(new Gtk::Label(_("The following logging will be attached to the crash report:"), Gtk::ALIGN_START));
       vbox->pack_start(*attachments_label, false, false, 0);
 
-      auto attachments_frame = Gtk::manage(new Gtk::Frame);
+      auto *attachments_frame = Gtk::manage(new Gtk::Frame);
       attachments_frame->set_shadow_type(Gtk::SHADOW_IN);
       vbox->pack_start(*attachments_frame, true, true, 0);
 
@@ -92,25 +90,22 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
       attachments_text_view->set_cursor_visible(false);
       attachments_text_view->set_editable(false);
 
-      attachments_scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-      attachments_scrolled_window.add(*attachments_text_view);
+      scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+      scrolled_window.add(*attachments_text_view);
 
       Gtk::HBox *attachments_box = Gtk::manage(new Gtk::HBox(false, 6));
-      attachments_box->pack_start(attachments_scrolled_window, true, true, 0);
+      attachments_box->pack_start(scrolled_window, true, true, 0);
 
       attachments_frame->add(*attachments_box);
       Gtk::TextIter iter = attachments_text_buffer->end();
 
-      for (auto &a: attachments)
+      for (const auto &a: attachments)
         {
-          iter = attachments_text_buffer->insert(iter, Utf16ToUtf8(a.BaseName().value()) + ":\n\n");
           std::ifstream f(Utf16ToUtf8(a.value()).c_str());
-          if (!f.is_open())
+          if (f.is_open())
             {
-              iter = attachments_text_buffer->insert(iter, "Cannot find log file.\n\n");
-            }
-          else
-            {
+              iter = attachments_text_buffer->insert(iter, Utf16ToUtf8(a.BaseName().value()) + ":\n\n");
+
               std::string line;
               while (std::getline(f, line))
                 {
@@ -120,12 +115,74 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
             }
         }
     }
-  auto user_text_label = Gtk::manage(new Gtk::Label(_("Please describe what was happening just before the crash:"), Gtk::ALIGN_START));
-  vbox->pack_start(*user_text_label, false, false, 0);
 
-  auto user_text_frame = Gtk::manage(new Gtk::Frame);
+  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
+}
+
+Gtk::VBox *
+create_indented_box(Gtk::Box *container)
+{
+  Gtk::HBox *ibox = Gtk::manage(new Gtk::HBox());
+  container->pack_start(*ibox, true, true, 0);
+
+  Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
+  ibox->pack_start(*indent_lab, false, false, 10);
+  auto *box = Gtk::manage(new Gtk::VBox());
+  ibox->pack_start(*box, true, true, 0);
+  box->set_spacing(6);
+  return box;
+}
+
+CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, const std::vector<base::FilePath> &attachments)
+  : Gtk::Dialog(_("Crash report"), true)
+  , details_dlg(new CrashDetailsDialog(attachments))
+{
+  set_default_size(600, 400);
+  set_title(_("Workrave crash reporter"));
+  set_border_width(6);
+
+  vbox = Gtk::manage(new Gtk::VBox());
+  vbox->set_border_width(6);
+  vbox->set_spacing(6);
+
+  get_vbox()->pack_start(*vbox, true, true, 0);
+
+  std::string bold = "<span weight=\"bold\">";
+  std::string end = "</span>";
+
+  auto *title_label = Gtk::manage(new Gtk::Label(bold + _("Workrave has crashed.") + end, Gtk::ALIGN_START));
+  title_label->set_use_markup();
+  vbox->pack_start(*title_label, false, false, 0);
+
+  auto *info_hbox = Gtk::manage(new Gtk::HBox());
+  vbox->pack_start(*info_hbox, false, false, 0);
+
+  auto *info_label = Gtk::manage(new Gtk::Label(
+    _("Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."),
+    Gtk::ALIGN_START));
+  info_label->set_line_wrap();
+  info_label->set_xalign(0);
+  info_hbox->pack_start(*info_label, false, false, 0);
+
+  submit_cb = Gtk::manage(new Gtk::CheckButton(_("Submit crash report to the Workrave developers")));
+  submit_cb->signal_toggled().connect(sigc::mem_fun(*this, &CrashDialog::on_submit_toggled));
+  vbox->pack_start(*submit_cb, false, false, 0);
+
+  Gtk::VBox *ibox = create_indented_box(vbox);
+
+  auto *details_hbox = Gtk::manage(new Gtk::HBox());
+  ibox->pack_start(*details_hbox, false, false, 0);
+
+  auto *details_btn = Gtk::manage(new Gtk::Button(_("Details...")));
+  details_btn->signal_clicked().connect(sigc::mem_fun(*this, &CrashDialog::on_details_clicked));
+  details_hbox->pack_start(*details_btn, false, false, 0);
+
+  // user_text_label = Gtk::manage(new Gtk::Label(_("Please describe what was happening just before the crash:"), Gtk::ALIGN_START));
+  // ibox->pack_start(*user_text_label, false, false, 0);
+
+  user_text_frame = Gtk::manage(new Gtk::Frame);
   user_text_frame->set_shadow_type(Gtk::SHADOW_IN);
-  vbox->pack_start(*user_text_frame, true, true, 0);
+  ibox->pack_start(*user_text_frame, true, true, 0);
   text_buffer = Gtk::TextBuffer::create();
   text_view = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(true);
@@ -138,27 +195,42 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
   box->pack_start(scrolled_window, true, true, 0);
 
   user_text_frame->add(*box);
+  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
-  // vbox->pack_start(*box, true, true, 0);
+  submit_cb->set_active(true);
 
-  auto consent_label =
-    Gtk::manage(new Gtk::Label(_("Please help us fix this crash by submitting the crash report. Thanks!"), Gtk::ALIGN_START));
-  vbox->pack_start(*consent_label, false, false, 0);
-
-  add_button(_("Submit"), Gtk::RESPONSE_ACCEPT);
-  add_button(_("Don't submit"), Gtk::RESPONSE_REJECT);
+  details_dlg->signal_response().connect([this](int reponse) { details_dlg->hide(); });
 
   show_all();
+  text_view->grab_focus();
 }
 
-CrashDialog::~CrashDialog()
+void
+CrashDialog::on_submit_toggled()
 {
+  auto enabled = submit_cb->get_active();
+
+  user_text_frame->set_sensitive(enabled);
+  // user_text_label->set_sensitive(enabled);
+}
+
+void
+CrashDialog::on_details_clicked()
+{
+  details_dlg->show_all();
+  details_dlg->present();
 }
 
 std::string
 CrashDialog::get_user_text() const
 {
   return text_buffer->get_text();
+}
+
+bool
+CrashDialog::get_consent() const
+{
+  return submit_cb->get_active();
 }
 
 bool
@@ -182,7 +254,7 @@ UserInteraction::requestUserConsent(const std::map<std::string, std::string> &an
     LOG(INFO) << "User response: " << response;
     user_text = dlg->get_user_text();
     LOG(INFO) << "User text: " << user_text;
-    consent = response == Gtk::RESPONSE_ACCEPT;
+    consent = dlg->get_consent();
     app->quit();
   });
   LOG(INFO) << "Showing user consent dialog.";

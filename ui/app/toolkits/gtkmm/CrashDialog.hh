@@ -20,9 +20,7 @@
 
 #include <string>
 
-#include <gtkmm/scrolledwindow.h>
-#include <gtkmm/dialog.h>
-#include <gtkmm/textbuffer.h>
+#include <gtkmm.h>
 
 #include "handler/user_hook.h"
 
@@ -31,20 +29,40 @@ namespace Gtk
   class TextView;
 }
 
+class CrashDetailsDialog : public Gtk::Dialog
+{
+public:
+  CrashDetailsDialog(const std::vector<base::FilePath> &attachments);
+  ~CrashDetailsDialog() override = default;
+
+private:
+  Gtk::VBox *vbox{nullptr};
+  Gtk::ScrolledWindow scrolled_window;
+  Glib::RefPtr<Gtk::TextBuffer> text_buffer;
+};
+
 class CrashDialog : public Gtk::Dialog
 {
 public:
   CrashDialog(const std::map<std::string, std::string> &annotations, const std::vector<base::FilePath> &attachments);
-  ~CrashDialog() override;
+  ~CrashDialog() override = default;
 
   std::string get_user_text() const;
+  bool get_consent() const;
+
+private:
+  void on_submit_toggled();
+  void on_details_clicked();
 
 private:
   Gtk::TextView *text_view{nullptr};
   Gtk::VBox *vbox{nullptr};
   Gtk::ScrolledWindow scrolled_window;
-  Gtk::ScrolledWindow attachments_scrolled_window;
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
+  CrashDetailsDialog *details_dlg{nullptr};
+  Gtk::CheckButton *submit_cb{nullptr};
+  Gtk::Label *user_text_label{nullptr};
+  Gtk::Frame *user_text_frame{nullptr};
 };
 
 class UserInteraction : public crashpad::UserHook
