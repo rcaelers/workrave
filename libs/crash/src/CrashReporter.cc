@@ -66,7 +66,7 @@ private:
 CrashReporter &
 CrashReporter::instance()
 {
-  static CrashReporter *crash_reporter = new CrashReporter();
+  static auto *crash_reporter = new CrashReporter();
   return *crash_reporter;
 }
 
@@ -150,20 +150,20 @@ CrashReporter::Pimpl::init()
       base::FilePath metrics_dir(temp_dir);
       std::unique_ptr<crashpad::CrashReportDatabase> database = crashpad::CrashReportDatabase::Initialize(reports_dir);
 
-      if (database == NULL)
+      if (database == nullptr)
         {
           throw std::runtime_error("failed to initialize crashplan database");
         }
 
       crashpad::Settings *settings = database->GetSettings();
-      if (settings == NULL)
+      if (settings == nullptr)
         {
           throw std::runtime_error("failed to obtain crashplan settings");
         }
 
       settings->SetUploadsEnabled(true);
 
-      arguments.push_back("--no-rate-limit");
+      arguments.emplace_back("--no-rate-limit");
 
       client = new crashpad::CrashpadClient();
       bool success = client->StartHandler(handler,

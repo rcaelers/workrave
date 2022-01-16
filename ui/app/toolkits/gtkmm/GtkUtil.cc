@@ -338,7 +338,7 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 void
 GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
 {
-  Gtk::Label *label = (Gtk::Label *)widget->get_data(*label_quark);
+  auto *label = (Gtk::Label *)widget->get_data(*label_quark);
   if (label != nullptr)
     {
       guint mnemonic = label->get_mnemonic_keyval();
@@ -400,7 +400,7 @@ GtkUtil::get_image_filename(const std::string &image)
 {
   std::string theme = GUIConfig::icon_theme()();
 
-  if (theme != "")
+  if (!theme.empty())
     {
       theme += G_DIR_SEPARATOR_S;
     }
