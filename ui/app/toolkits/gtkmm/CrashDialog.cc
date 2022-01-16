@@ -116,6 +116,11 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
         }
     }
 
+  auto *more_info_label = Gtk::manage(
+    new Gtk::Label(_("Note that this crash report also contains technical information about the state of Workrave when it crashed."),
+                   Gtk::ALIGN_START));
+  vbox->pack_start(*more_info_label, false, false, 0);
+
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 }
 
