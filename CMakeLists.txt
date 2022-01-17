@@ -164,9 +164,9 @@ elseif (WIN32)
   set (LOCALEDIR "${DATADIR}/locale")
 endif()
 
-add_definitions(
-  -DWORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
-  -DWORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
+add_compile_definitions(
+  WORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
+  WORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
 )
 
 #----------------------------------------------------------------------------------------------------
@@ -550,7 +550,7 @@ if (MSVC)
 
   set (BOOST_ALL_DYN_LINK "${BOOST_ALL_DYN_LINK}" CACHE BOOL "boost enable dynamic linking")
   if (BOOST_ALL_DYN_LINK)
-    add_definitions(-DBOOST_ALL_DYN_LINK)
+    add_compile_definitions(BOOST_ALL_DYN_LINK)
   endif()
 endif()
 
@@ -585,14 +585,14 @@ if (MSVC AND (NOT Boost_INCLUDE_DIR OR NOT Boost_LIBRARY_DIR))
 endif()
 
 if (HAVE_TESTS)
-    set (BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
+  set (BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
 endif()
 
 find_package(Boost 1.54.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
-add_definitions(-DBOOST_LOG_DYN_LINK)
+add_compile_definitions(BOOST_LOG_DYN_LINK)
 
 #----------------------------------------------------------------------------------------------------
 # Translations
@@ -701,7 +701,6 @@ if (WIN32)
       message(WARNING "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
     endif()
 
-
     set(HAVE_CRASH_REPORT OFF)
     set(HAVE_CRASHPAD OFF)
     if(WITH_CRASHPAD)
@@ -714,14 +713,12 @@ if (WIN32)
         if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
           set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
           set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
-          set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gcodeview -gdwarf")
-          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gcodeview -gdwarf")
+          add_compile_options(-gdwarf -gcodeview)
         else()
           message(STATUS "Crashpad requires Clang")
         endif()
       endif()
     endif()
-
   endif()
 
   if (NOT ISCC)
@@ -743,7 +740,7 @@ if (WIN32)
   set (HAVE_LANGUAGE_SELECTION TRUE)
 
   if (MSVC)
-    add_definitions(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -D_SCL_SECURE_NO_WARNINGS)
+    add_compile_definitions(_CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _SCL_SECURE_NO_WARNINGS)
 
     set (MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
     set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
@@ -751,12 +748,12 @@ if (WIN32)
 
     set (CMAKE_DEBUG_POSTFIX "d")
 
-    add_definitions(
-      -DWIN32
-      -D_WINDOWS
-      -D_WIN32_WINNT=0x0601
-      -DWINVER=0x0601
-      -DNOMINMAX
+    add_compile_definitions(
+      WIN32
+      _WINDOWS
+      _WIN32_WINNT=0x0601
+      WINVER=0x0601
+      NOMINMAX
       )
   endif()
 
@@ -874,7 +871,7 @@ find_package(Threads)
 # Autoconf compatibility
 
 # compiler definitions
-add_definitions(-DHAVE_CONFIG_H=1)
+add_compile_definitions(HAVE_CONFIG_H=1)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # Generate config.h

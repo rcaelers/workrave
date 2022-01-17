@@ -21,7 +21,7 @@ if (PLATFORM_OS_UNIX)
   )
 
   ## TODO
-  add_definitions(-DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
+  add_compile_definitions(GNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
 
   # Desktop file
   intltool_merge_desktop(
@@ -205,7 +205,7 @@ configure_file(project.vcxproj.user.in ${CMAKE_CURRENT_BINARY_DIR}/Workrave.vcxp
 
 if (PLATFORM_OS_UNIX)
   ## TODO
-  add_definitions(-DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
+  add_compile_definitions(GNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale")
 endif()
 
 if (PLATFORM_OS_WINDOWS)

@@ -11,12 +11,12 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO) AND (PLATFORM_ARCH EQUAL 32))
     ../include
   )
 
-  add_definitions(
-    -DWIN32
-    -DWINVER=0x400
-    -D_WIN32_WINNT=0x500
-    -D_WINDOWS
-    -DPLATFORM_OS_WINDOWS_NATIVE
+  add_compile_definitions(
+    WIN32
+    WINVER=0x400
+    _WIN32_WINNT=0x500
+    _WINDOWS
+    PLATFORM_OS_WINDOWS_NATIVE
   )
 
   add_executable(WorkraveHelper ${SOURCES})
