@@ -24,21 +24,23 @@
 #include <string>
 #include <shellapi.h>
 
+#include "commonui/MenuDefs.hh"
+
 #include "debug.hh"
 
 using namespace std;
-
-HWND WindowsStatusIcon::tray_hwnd = NULL;
-UINT WindowsStatusIcon::wm_taskbarcreated = 0;
 
 const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 static HICON pixbuf_to_hicon(GdkPixbuf *pixbuf);
 
-WindowsStatusIcon::WindowsStatusIcon()
-  : visible(false)
+WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplication> app)
+  : toolkit(app->get_toolkit())
+  , menu_model(app->get_menu_model())
+  , menu_helper(menu_model)
 {
   init();
+  menu_helper.setup_event();
 }
 
 WindowsStatusIcon::~WindowsStatusIcon()
@@ -50,17 +52,15 @@ void
 WindowsStatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
 {
   TRACE_ENTRY();
-  Glib::RefPtr<Gdk::Pixbuf> scaled;
-
   gint width = pixbuf->get_width();
   gint height = pixbuf->get_height();
 
   HICON old_hicon = nid.hIcon;
-  int size = 16;
+  int size = 32;
 
   if (width > size || height > size)
     {
-      scaled = pixbuf->scale_simple(MIN(size, width), MIN(size, height), Gdk::INTERP_BILINEAR);
+      Glib::RefPtr<Gdk::Pixbuf> scaled = pixbuf->scale_simple(MIN(size, width), MIN(size, height), Gdk::INTERP_BILINEAR);
       nid.hIcon = pixbuf_to_hicon(scaled->gobj());
     }
   else
@@ -69,12 +69,12 @@ WindowsStatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
     }
 
   nid.uFlags |= NIF_ICON;
-  if (nid.hWnd != NULL && visible)
+  if (nid.hWnd != nullptr && visible)
     {
       Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
 
-  if (old_hicon != NULL)
+  if (old_hicon != nullptr)
     {
       DestroyIcon(old_hicon);
     }
@@ -83,9 +83,9 @@ WindowsStatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
 void
 WindowsStatusIcon::set_tooltip(const Glib::ustring &text)
 {
-  gunichar2 *wtext = g_utf8_to_utf16(text.c_str(), -1, NULL, NULL, NULL);
+  gunichar2 *wtext = g_utf8_to_utf16(text.c_str(), -1, nullptr, nullptr, nullptr);
 
-  if (wtext != NULL)
+  if (wtext != nullptr)
     {
       nid.uFlags |= NIF_TIP;
       wcsncpy(nid.szTip, (wchar_t *)wtext, G_N_ELEMENTS(nid.szTip) - 1);
@@ -94,10 +94,11 @@ WindowsStatusIcon::set_tooltip(const Glib::ustring &text)
     }
   else
     {
+      nid.uFlags &= ~NIF_TIP;
       nid.szTip[0] = 0;
     }
 
-  if (nid.hWnd != NULL && visible)
+  if (nid.hWnd != nullptr && visible)
     {
       Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
@@ -107,12 +108,12 @@ void
 WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
 {
   TRACE_ENTRY();
-  gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, NULL, NULL, NULL);
-  gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, NULL, NULL, NULL);
+  gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, nullptr, nullptr, nullptr);
+  gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, nullptr, nullptr, nullptr);
 
   current_id = id;
 
-  if (winfo != NULL && wtitle != NULL)
+  if (winfo != nullptr && wtitle != nullptr)
     {
       nid.uFlags |= NIF_INFO;
       nid.uTimeout = 20000;
@@ -124,7 +125,7 @@ WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
       wcsncpy(nid.szInfoTitle, (wchar_t *)wtitle, G_N_ELEMENTS(nid.szInfoTitle) - 1);
       nid.szInfoTitle[G_N_ELEMENTS(nid.szInfoTitle) - 1] = 0;
 
-      if (nid.hWnd != NULL && visible)
+      if (nid.hWnd != nullptr && visible)
         {
           Shell_NotifyIconW(NIM_MODIFY, &nid);
         }
@@ -132,11 +133,11 @@ WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
       nid.uFlags &= ~NIF_INFO;
     }
 
-  if (winfo != NULL)
+  if (winfo != nullptr)
     {
       g_free(winfo);
     }
-  if (wtitle != NULL)
+  if (wtitle != nullptr)
     {
       g_free(wtitle);
     }
@@ -148,8 +149,7 @@ WindowsStatusIcon::set_visible(bool visible)
   if (this->visible != visible)
     {
       this->visible = visible;
-
-      if (nid.hWnd != NULL)
+      if (nid.hWnd != nullptr)
         {
           Shell_NotifyIconW(visible ? NIM_ADD : NIM_DELETE, &nid);
         }
@@ -174,12 +174,6 @@ WindowsStatusIcon::signal_activate()
   return activate_signal;
 }
 
-sigc::signal<void, guint, guint32>
-WindowsStatusIcon::signal_popup_menu()
-{
-  return popup_menu_signal;
-}
-
 sigc::signal<void, string>
 WindowsStatusIcon::signal_balloon_activate()
 {
@@ -189,30 +183,28 @@ WindowsStatusIcon::signal_balloon_activate()
 void
 WindowsStatusIcon::init()
 {
-  HINSTANCE hinstance = GetModuleHandle(NULL);
+  HINSTANCE hinstance = GetModuleHandle(nullptr);
 
-  if (tray_hwnd == NULL)
+  WNDCLASSA wclass;
+  memset(&wclass, 0, sizeof(WNDCLASS));
+  wclass.lpszClassName = "WorkraveTrayObserver";
+  wclass.lpfnWndProc = window_proc;
+  wclass.hInstance = hinstance;
+
+  ATOM atom = RegisterClassA(&wclass);
+  if (atom != 0)
     {
-      WNDCLASSA wclass;
-      memset(&wclass, 0, sizeof(WNDCLASS));
-      wclass.lpszClassName = "WorkraveTrayObserver";
-      wclass.lpfnWndProc = window_proc;
-      wclass.hInstance = hinstance;
+      tray_hwnd = CreateWindow(MAKEINTRESOURCE(atom), nullptr, WS_POPUP, 0, 0, 1, 1, nullptr, nullptr, hinstance, nullptr);
+    }
 
-      ATOM atom = RegisterClassA(&wclass);
-      if (atom != 0)
-        {
-          tray_hwnd = CreateWindow(MAKEINTRESOURCE(atom), NULL, WS_POPUP, 0, 0, 1, 1, NULL, NULL, hinstance, NULL);
-        }
-
-      if (tray_hwnd == NULL)
-        {
-          UnregisterClass(MAKEINTRESOURCE(atom), hinstance);
-        }
-      else
-        {
-          wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
-        }
+  if (tray_hwnd == nullptr)
+    {
+      UnregisterClass(MAKEINTRESOURCE(atom), hinstance);
+    }
+  else
+    {
+      SetWindowLongPtr(tray_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+      wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
     }
 
   memset(&nid, 0, sizeof(NOTIFYICONDATA));
@@ -223,17 +215,12 @@ WindowsStatusIcon::init()
   nid.hWnd = tray_hwnd;
 
   set_tooltip("Workrave");
-
-  if (tray_hwnd != NULL)
-    {
-      SetWindowLongPtr(tray_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-    }
 }
 
 void
 WindowsStatusIcon::cleanup()
 {
-  if (nid.hWnd != NULL && visible)
+  if (nid.hWnd != nullptr && visible)
     {
       Shell_NotifyIconW(NIM_DELETE, &nid);
       if (nid.hIcon)
@@ -244,27 +231,109 @@ WindowsStatusIcon::cleanup()
 }
 
 void
-WindowsStatusIcon::add_tray_icon()
+WindowsStatusIcon::show_menu()
 {
-  memset(&nid, 0, sizeof(NOTIFYICONDATA));
+  POINT pt = {0};
+  GetCursorPos(&pt);
 
-  nid.cbSize = sizeof(NOTIFYICONDATA);
-  nid.hWnd = tray_hwnd;
-  nid.uID = 1;
-  nid.uFlags = NIF_MESSAGE;
-  nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
+  HMENU menu = CreatePopupMenu();
+  init_menu(menu, 0, menu_model->get_root());
+
+  SetForegroundWindow(nid.hWnd);
+  UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, NULL, nid.hWnd, nullptr);
+  DestroyMenu(menu);
+  auto node = menu_helper.find_node(command);
+  if (node)
+    {
+      node->activate();
+    }
+}
+
+static std::wstring
+ConvertAnsiToWide(const std::string &str)
+{
+  int count = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), nullptr, 0);
+  std::wstring wstr(count, 0);
+  MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), &wstr[0], count);
+  return wstr;
+}
+
+void
+WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node)
+{
+  uint32_t command = menu_helper.allocate_command(node->get_id());
+
+  std::wstring text = ConvertAnsiToWide(node->get_dynamic_text());
+  std::replace(text.begin(), text.end(), '_', '&');
+
+  UINT flags = MF_STRING | MF_BYPOSITION;
+
+  if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
+    {
+      HMENU popup{nullptr};
+      if (level > 0)
+        {
+          popup = CreatePopupMenu();
+          InsertMenuW(current_menu, -1, MF_POPUP | flags, (UINT_PTR)popup, text.c_str());
+        }
+      else
+        {
+          popup = current_menu;
+        }
+
+      for (auto &menu_to_add: n->get_children())
+        {
+          init_menu(popup, level + 1, menu_to_add);
+        }
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
+    {
+      for (auto &menu_to_add: n->get_children())
+        {
+          init_menu(current_menu, level + 1, menu_to_add);
+        }
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
+    {
+      InsertMenuW(current_menu, -1, flags, (UINT_PTR)(command), text.c_str());
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
+    {
+      if (n->is_checked())
+        {
+          flags |= MF_CHECKED;
+        }
+      InsertMenuW(current_menu, -1, flags, (UINT_PTR)(command), text.c_str());
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
+    {
+      if (n->is_checked())
+        {
+          flags |= MF_CHECKED;
+        }
+      InsertMenuW(current_menu, -1, flags, (UINT_PTR)(command), text.c_str());
+    }
+
+  else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
+    {
+      InsertMenuW(current_menu, -1, MF_SEPARATOR | flags, (UINT_PTR)(command), text.c_str());
+    }
 }
 
 LRESULT CALLBACK
 WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   TRACE_ENTRY_PAR(uMsg, wParam);
-  WindowsStatusIcon *status_icon = (WindowsStatusIcon *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-  if (status_icon != NULL)
+  auto *status_icon = (WindowsStatusIcon *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+  if (status_icon != nullptr)
     {
       if (uMsg == status_icon->wm_taskbarcreated)
         {
-          if (status_icon->visible && status_icon->nid.hWnd != NULL)
+          if (status_icon->visible && status_icon->nid.hWnd != nullptr)
             {
               Shell_NotifyIconW(NIM_ADD, &status_icon->nid);
             }
@@ -274,7 +343,7 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
           switch (lParam)
             {
             case WM_RBUTTONDOWN:
-              status_icon->popup_menu_signal.emit(3, 0);
+              status_icon->show_menu();
               break;
             case WM_LBUTTONDOWN:
               status_icon->activate_signal.emit();
@@ -299,30 +368,6 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  */
-
-static gboolean
-_gdk_win32_pixbuf_to_hicon_supports_alpha(void)
-{
-  static gboolean is_win_xp = FALSE, is_win_xp_checked = FALSE;
-
-  if (!is_win_xp_checked)
-    {
-      is_win_xp_checked = TRUE;
-
-      if (!G_WIN32_IS_NT_BASED())
-        is_win_xp = FALSE;
-      else
-        {
-          OSVERSIONINFO version;
-
-          memset(&version, 0, sizeof(version));
-          version.dwOSVersionInfoSize = sizeof(version);
-          is_win_xp = GetVersionEx(&version) && version.dwPlatformId == VER_PLATFORM_WIN32_NT
-                      && (version.dwMajorVersion > 5 || (version.dwMajorVersion == 5 && version.dwMinorVersion >= 1));
-        }
-    }
-  return is_win_xp;
-}
 
 static HBITMAP
 create_alpha_bitmap(gint size, guchar **outdata)
@@ -569,7 +614,7 @@ pixbuf_to_hicon(GdkPixbuf *pixbuf)
   if (pixbuf == NULL)
     return NULL;
 
-  if (_gdk_win32_pixbuf_to_hicon_supports_alpha() && gdk_pixbuf_get_has_alpha(pixbuf))
+  if (gdk_pixbuf_get_has_alpha(pixbuf))
     success = pixbuf_to_hbitmaps_alpha_winxp(pixbuf, &ii.hbmColor, &ii.hbmMask);
   else
     success = pixbuf_to_hbitmaps_normal(pixbuf, &ii.hbmColor, &ii.hbmMask);

@@ -28,10 +28,15 @@
 #include <windows.h>
 #include <commctrl.h>
 
+#include "ui/IPlugin.hh"
+#include "ui/MenuModel.hh"
+#include "ui/MenuHelper.hh"
+#include "utils/Signals.hh"
+
 class WindowsStatusIcon
 {
 public:
-  WindowsStatusIcon();
+  explicit WindowsStatusIcon(std::shared_ptr<IApplication> app);
   virtual ~WindowsStatusIcon();
 
   void set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf);
@@ -43,26 +48,30 @@ public:
 
   sigc::signal<void> signal_activate();
   sigc::signal<void, std::string> signal_balloon_activate();
-  sigc::signal<void, guint, guint32> signal_popup_menu();
 
 private:
-  std::string current_id;
-  bool visible;
-
-  NOTIFYICONDATAW nid;
-
-  static HWND tray_hwnd;
-  static UINT wm_taskbarcreated;
-
   void init();
   void cleanup();
-  void add_tray_icon();
+  void show_menu();
+  void init_menu(HMENU current_menu, int level, menus::Node::Ptr node);
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+private:
+  std::shared_ptr<IToolkit> toolkit;
+  MenuModel::Ptr menu_model;
+  MenuHelper menu_helper;
+
+  std::string current_id;
+  bool visible{false};
+  NOTIFYICONDATAW nid{};
+  HWND tray_hwnd{nullptr};
+  UINT wm_taskbarcreated{0};
+
   sigc::signal<void> activate_signal;
   sigc::signal<void, std::string> balloon_activate_signal;
-  sigc::signal<void, guint, guint32> popup_menu_signal;
+
+  workrave::utils::Trackable tracker;
 };
 
 #endif // WINDOWSSTATUSICON_HH

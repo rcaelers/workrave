@@ -57,10 +57,6 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplication> app, std::shared_ptr<Toolki
 #endif
 
   workrave::utils::connect(app->get_core()->signal_operation_mode_changed(), this, [this](auto mode) { set_operation_mode(mode); });
-
-#if defined(PLATFORM_OS_WINDOWS)
-  win32_popup_hack_connect(status_icon_menu->get_menu().get());
-#endif
 }
 
 void
@@ -90,16 +86,15 @@ StatusIcon::insert_icon()
   OperationMode mode = core->get_regular_operation_mode();
 
 #ifdef USE_WINDOWSSTATUSICON
-  status_icon = new WindowsStatusIcon();
+  status_icon = new WindowsStatusIcon(app);
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
-
 #endif
+
 #ifdef USE_WINDOWSSTATUSICON
   status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
-  status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
 #else
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
@@ -110,7 +105,6 @@ StatusIcon::insert_icon()
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
-  TRACE_ENTRY_PAR((int)m);
   if (mode_icons[m])
     {
       status_icon->set(mode_icons[m]);
@@ -202,61 +196,3 @@ StatusIcon::signal_balloon_activated()
 {
   return balloon_activated_signal;
 }
-
-#if defined(PLATFORM_OS_WINDOWS)
-// /* Taken from Gaim. needs to be gtkmm-ified. */
-// /* This is a workaround for a bug in windows GTK+. Clicking outside of the
-//    menu does not get rid of it, so instead we get rid of it as soon as the
-//    pointer leaves the menu. */
-
-void
-StatusIcon::win32_popup_hack_connect(Gtk::Widget *menu)
-{
-  TRACE_ENTRY();
-  GtkWidget *widget = (GtkWidget *)menu->gobj();
-  g_signal_connect(widget, "leave-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-  g_signal_connect(widget, "enter-notify-event", G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-}
-
-gboolean
-StatusIcon::win32_popup_hack_hide(gpointer data)
-{
-  TRACE_ENTRY();
-  if (data != NULL)
-    {
-      gtk_menu_popdown(GTK_MENU(data));
-    }
-  return FALSE;
-}
-
-gboolean
-StatusIcon::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
-{
-  TRACE_ENTRY();
-  TRACE_VAR(event->type, event->detail);
-
-  (void)data;
-  static guint hide_docklet_timer = 0;
-  if (event->type == GDK_LEAVE_NOTIFY && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN))
-    {
-      /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
-      TRACE_MSG("leave {}", hide_docklet_timer);
-      if (hide_docklet_timer == 0)
-        {
-          hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
-        }
-    }
-  else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_VIRTUAL)
-    {
-      TRACE_MSG("enter {}", hide_docklet_timer);
-
-      if (hide_docklet_timer != 0)
-        {
-          /* Cancel the hiding if we reenter */
-          g_source_remove(hide_docklet_timer);
-          hide_docklet_timer = 0;
-        }
-    }
-  return FALSE;
-}
-#endif
