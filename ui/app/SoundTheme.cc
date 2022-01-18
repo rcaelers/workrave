@@ -195,7 +195,7 @@ void
 SoundTheme::register_sound_events()
 {
   TRACE_ENTRY();
-  ThemeInfo::Ptr theme = get_theme("default");
+  ThemeInfo::Ptr theme = get_theme("subtle");
   if (theme)
     {
       for (SoundInfo sound: theme->sounds)
