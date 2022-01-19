@@ -23,7 +23,6 @@
 #include <string>
 
 #include <glibmm.h>
-#include <gdkmm.h>
 
 #include <windows.h>
 #include <commctrl.h>
@@ -39,7 +38,6 @@ public:
   explicit WindowsStatusIcon(std::shared_ptr<IApplication> app);
   virtual ~WindowsStatusIcon();
 
-  void set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf);
   void set_tooltip(const Glib::ustring &text);
   void show_balloon(std::string id, const Glib::ustring &balloon);
   void set_visible(bool visible = true);
@@ -56,6 +54,7 @@ private:
   void init_menu(HMENU current_menu, int level, menus::Node::Ptr node);
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+  void set_operation_mode(workrave::OperationMode m);
 
 private:
   std::shared_ptr<IToolkit> toolkit;

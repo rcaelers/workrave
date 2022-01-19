@@ -105,10 +105,12 @@ StatusIcon::insert_icon()
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
+#if !defined(USE_WINDOWSSTATUSICON)
   if (mode_icons[m])
     {
       status_icon->set(mode_icons[m]);
     }
+#endif
 }
 
 bool
