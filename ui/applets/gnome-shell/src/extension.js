@@ -1,3 +1,4 @@
+const Clutter = imports.gi.Clutter;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 const Main = imports.ui.main;
@@ -185,22 +186,22 @@ const WorkraveButton = new Lang.Class({
         this._menu_entries = {};
         this._watchid = 0;
 
-        this._area = new St.DrawingArea({ style_class: 'workrave-area', reactive: true } );
+        this._area = new St.DrawingArea({ style_class: 'workrave-area', reactive: true, y_align: Clutter.ActorAlign.CENTER } );
         this._area.set_width(this._width=24);
         this._area.set_height(this._height=24);
         this._area.connect('repaint', Lang.bind(this, this._draw));
 
         this._box = new St.Bin();
-        this._box.add_actor(this._area);
+        this._box.add_actor(this._area, { y_expand: true });
 
         if (typeof this.add_actor === "function")
         {
-            this.add_actor(this._box);
+            this.add_actor(this._box, { y_expand: true });
             this.show();
         }
         else
         {
-            this.actor.add_actor(this._box);
+            this.actor.add_actor(this._box, { y_expand: true });
             this.actor.show();
         }
 
@@ -380,22 +381,6 @@ const WorkraveButton = new Lang.Class({
 
         let timerbox_width = this._timerbox.get_width();
         let timerbox_height = this._timerbox.get_height();
-
-        let height = 24;
-        if (typeof this.get_height === "function")
-        {
-            height = this.get_height();
-        }
-        else
-        {
-            // Fallback for older Gnome Shell versions
-            height = this.actor.height;
-        }
-
-        let padding = Math.floor((height - timerbox_height) / 2);
-
-        this._box.style = "padding-top: " + padding + "px;";
-        this._padding = padding;
 
         this._area.set_width(this._width=timerbox_width);
         this._area.queue_repaint();
