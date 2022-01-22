@@ -281,10 +281,6 @@ TimeBar::init_font()
           DeleteObject(bar_font);
         }
 
-      auto f = ncm.lfStatusFont;
-      TRACE_MSG(f.lfHeight << " " << f.lfWidth << " " << f.lfEscapement << " " << f.lfOrientation << " " << f.lfWeight << " " << f.lfItalic
-                           << " " << f.lfUnderline << " " << f.lfStrikeOut << " " << f.lfCharSet << " " << f.lfOutPrecision << " "
-                           << f.lfClipPrecision << " " << f.lfQuality << " " << f.lfPitchAndFamily << " " << f.lfFaceName)
       bar_font = ::CreateFontIndirectW(&ncm.lfStatusFont);
     }
 
