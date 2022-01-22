@@ -110,6 +110,7 @@ private:
   int m_preferredHeight{DB_MIN_SIZE_Y};
   int m_minimumWidth{DB_MIN_SIZE_X};
   int m_minimumHeight{DB_MIN_SIZE_Y};
+  int current_dpi{0};
 
 private:
   void FocusChange(BOOL);

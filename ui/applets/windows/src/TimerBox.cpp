@@ -41,7 +41,7 @@ TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       slot_to_time_bar[i] = new TimeBar(parent, hinst, deskband);
-      break_to_icon[i] = NULL;
+      break_to_icon[i] = nullptr;
 
       break_visible[i] = false;
       slot_to_break[i] = BREAK_ID_NONE;
@@ -115,7 +115,7 @@ TimerBox::get_preferred_size(int &w, int &h) const
 void
 TimerBox::get_minimum_size(int &w, int &h) const
 {
-  TRACE_ENTER("TimerBox::get_preferred_size");
+  TRACE_ENTER("TimerBox::get_minimum_size");
   w = minimum_width;
   h = minimum_height;
   TRACE_RETURN(w << " " << h);
@@ -141,13 +141,17 @@ TimerBox::update(bool repaint)
 void
 TimerBox::update_dpi()
 {
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      slot_to_time_bar[i]->update_dpi();
+    }
   init_icons();
 }
 
 void
 TimerBox::init_icons()
 {
-  TRACE_ENTER("TimerBox::update_icons");
+  TRACE_ENTER("TimerBox::init_icons");
   const char *icon_ids[] = {"micropause", "restbreak", "dailylimit"};
 
 #ifdef _WIN64
@@ -156,28 +160,19 @@ TimerBox::init_icons()
   UINT dpi = 96;
 #endif
 
-  TRACE_MSG("dpi " << dpi);
-  int size = 16;
-  if (dpi >= 192)
-    {
-      size = 32;
-    }
-  else if (dpi >= 144)
-    {
-      size = 24;
-    }
+  int scale_factor = dpi / 48;
+  int size = 8 * scale_factor;
 
-  TRACE_MSG("size " << size);
-  if (sheep_icon != nullptr)
-    {
-      delete sheep_icon;
-    }
+  TRACE_MSG("dpi " << dpi);
+  TRACE_MSG("scale " << scale_factor << " size " << size);
+
+  delete sheep_icon;
 
   sheep_icon = new Icon(parent_window, hinstance, "workrave", size, deskband);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (break_to_icon[i] != NULL)
+      if (break_to_icon[i] != nullptr)
         {
           delete break_to_icon[i];
         }
@@ -198,7 +193,8 @@ TimerBox::update_sheep(TransparentDamageControl &ctrl)
   else
     {
       TRACE_MSG("show");
-      int w, h;
+      int w = 0;
+      int h = 0;
       sheep_icon->get_size(w, h);
       int x = (width - w) / 2;
       int y = (height - h) / 2;
@@ -213,8 +209,10 @@ TimerBox::update_dimensions()
   TRACE_ENTER("TimerBox::update_dimensions");
   if (enabled && (filled_slots != 0))
     {
-      int bar_w, bar_h;
-      int icon_width, icon_height;
+      int bar_w = 0;
+      int bar_h = 0;
+      int icon_width = 0;
+      int icon_height = 0;
 
       slot_to_time_bar[0]->get_size(bar_w, bar_h);
       break_to_icon[0]->get_size(icon_width, icon_height);
@@ -260,9 +258,12 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
   TRACE_ENTER("TimerBox::update_time_bars");
   if (enabled)
     {
-      int x = 0, y = 0;
-      int bar_w, bar_h;
-      int icon_width, icon_height;
+      int x = 0;
+      int y = 0;
+      int bar_w = 0;
+      int bar_h = 0;
+      int icon_width = 0;
+      int icon_height = 0;
 
       slot_to_time_bar[0]->get_size(bar_w, bar_h);
       break_to_icon[0]->get_size(icon_width, icon_height);
@@ -328,7 +329,7 @@ TimeBar *
 TimerBox::get_time_bar(BreakId timer) const
 {
   TRACE_ENTER_MSG("TimerBox::get_time_bat", timer);
-  TimeBar *ret = NULL;
+  TimeBar *ret = nullptr;
   int slot = break_to_slot[timer];
   if (slot >= 0)
     {

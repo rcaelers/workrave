@@ -20,6 +20,7 @@
 #ifndef TIMEBAR_H
 #define TIMEBAR_H
 
+#include <memory>
 #include <windows.h>
 #include <time.h>
 #include <map>
@@ -57,11 +58,23 @@ public:
   void set_bar_color(TimerColorId color);
   void set_secondary_bar_color(TimerColorId color);
 
-  void get_size(int &width, int &height);
+  void get_size(int &width, int &height) const;
   HWND get_handle() const
   {
     return hwnd;
   };
+
+  void update_dpi();
+
+private:
+  void init_window(HWND parent, HINSTANCE hinst);
+  void init_colors();
+  void init_font();
+  void update_size();
+
+  static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
+  LRESULT on_paint();
+  void time_to_string(time_t time, char *buf, int len);
 
 private:
   CDeskBand *deskband{nullptr};
@@ -76,15 +89,11 @@ private:
   char bar_text[APPLET_BAR_TEXT_MAX_LENGTH]{
     0,
   };
-  PaintHelper *paint_helper{nullptr};
+  std::shared_ptr<PaintHelper> paint_helper;
 
-  static HFONT bar_font;
-  static std::map<TimerColorId, HBRUSH> bar_colors;
-  static void init(HINSTANCE hinst);
-  static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
-  void compute_size(int &width, int &height);
-  LRESULT on_paint();
-  void time_to_string(time_t time, char *buf, int len);
+  HFONT bar_font;
+  std::map<TimerColorId, HBRUSH> bar_colors;
+  UINT dpi{96};
 };
 
 struct NONCLIENTMETRICS_PRE_VISTA_STRUCT

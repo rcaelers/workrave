@@ -34,39 +34,42 @@ const int MINIMAL_HEIGHT = 16;
 #define TIME_BAR_CLASS_NAME "WorkraveTimeBar"
 #define GDK_TO_COLORREF(r, g, b) (((r) >> 8) | (((g) >> 8) << 8) | (((b) >> 8) << 16))
 
-std::map<TimerColorId, HBRUSH> TimeBar::bar_colors;
-HFONT TimeBar::bar_font = NULL;
-
 TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   : deskband(deskband)
+  , dpi(::GetDpiForWindow(parent))
 {
-  init(hinst);
-
-  hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, (LPVOID)this);
-
-  paint_helper = new PaintHelper(hwnd);
-  compute_size(width, height);
-  SetWindowPos(hwnd, NULL, 0, 0, width, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+  init_colors();
+  init_font();
+  init_window(parent, hinst);
+  update_size();
 }
 
 TimeBar::~TimeBar()
 {
   DestroyWindow(hwnd);
+  if (bar_font)
+    {
+      DeleteObject(bar_font);
+    }
+  for (auto [k, v]: bar_colors)
+    {
+      DeleteObject(v);
+    }
 }
 
 LRESULT CALLBACK
 TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
-  TimeBar *pThis = (TimeBar *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+  auto *pThis = (TimeBar *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
     case WM_NCCREATE:
       {
-        LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
+        auto *lpcs = (LPCREATESTRUCT)lParam;
         pThis = (TimeBar *)(lpcs->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        SetWindowPos(hWnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
       }
       break;
 
@@ -81,46 +84,10 @@ TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 }
 
 void
-TimeBar::get_size(int &w, int &h)
+TimeBar::get_size(int &w, int &h) const
 {
   w = width;
   h = height;
-}
-
-void
-TimeBar::compute_size(int &w, int &h)
-{
-  TRACE_ENTER("TimeBar::compute_size");
-  HDC dc = GetDC(hwnd);
-  SelectObject(dc, (HGDIOBJ)bar_font);
-  char buf[80];
-
-  time_to_string(-(59 + 59 * 60 + 9 * 60 * 60), buf, sizeof(buf));
-
-  RECT rect;
-  rect.left = 0;
-  rect.top = 0;
-  rect.bottom = 0;
-  rect.right = 0;
-  h = DrawText(dc, buf, (int)strlen(buf), &rect, DT_CALCRECT);
-  if (!h)
-    {
-      w = 32;
-      h = 16;
-    }
-  else
-    {
-      w = rect.right;
-    }
-
-  w += 2 * MARGINX + 2 * BORDER_SIZE;
-  h += 2 * MARGINY + 2 * BORDER_SIZE;
-  if (h < MINIMAL_HEIGHT)
-    h = MINIMAL_HEIGHT;
-  ReleaseDC(hwnd, dc);
-
-  TRACE_MSG(w << " " << h);
-  TRACE_EXIT();
 }
 
 LRESULT
@@ -135,7 +102,10 @@ TimeBar::on_paint()
 
   RECT r;
 
-  int winx = rc.left, winy = rc.top, winw = rc.right - rc.left, winh = rc.bottom - rc.top;
+  int winx = rc.left;
+  int winy = rc.top;
+  int winw = rc.right - rc.left;
+  int winh = rc.bottom - rc.top;
 
   SelectObject(dc, (HGDIOBJ)bar_font);
   r.left = r.top = r.bottom = r.right = 0;
@@ -178,7 +148,7 @@ TimeBar::on_paint()
 
       if (sbar_width >= bar_width)
         {
-          if (bar_width)
+          if (bar_width != 0)
             {
               r.left = winx + border_size;
               r.top = winy + border_size;
@@ -197,7 +167,7 @@ TimeBar::on_paint()
         }
       else
         {
-          if (sbar_width)
+          if (sbar_width != 0)
             {
               r.left = winx + border_size;
               r.top = winy + border_size;
@@ -249,9 +219,9 @@ TimeBar::on_paint()
 }
 
 void
-TimeBar::init(HINSTANCE hinst)
+TimeBar::init_window(HWND parent, HINSTANCE hinst)
 {
-  TRACE_ENTER("TimeBar::init");
+  TRACE_ENTER("TimeBar::init_window");
 
   // If the window class has not been registered, then do so.
   WNDCLASS wc;
@@ -263,62 +233,61 @@ TimeBar::init(HINSTANCE hinst)
       wc.cbClsExtra = 0;
       wc.cbWndExtra = 0;
       wc.hInstance = hinst;
-      wc.hIcon = NULL;
-      wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+      wc.hIcon = nullptr;
+      wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
       wc.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(192, 0, 0));
-      wc.lpszMenuName = NULL;
+      wc.lpszMenuName = nullptr;
       wc.lpszClassName = TIME_BAR_CLASS_NAME;
 
       RegisterClass(&wc);
+    }
 
-      HBRUSH green_mix_blue = CreateSolidBrush(0x00b2d400);
-      HBRUSH light_green = CreateSolidBrush(GDK_TO_COLORREF(37008, 61166, 37008));
-      HBRUSH orange = CreateSolidBrush(GDK_TO_COLORREF(65535, 42405, 0));
-      HBRUSH light_blue = CreateSolidBrush(GDK_TO_COLORREF(44461, 55512, 59110));
-      HBRUSH bg = CreateSolidBrush(GetSysColor(COLOR_3DLIGHT));
+  hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, nullptr, hinst, (LPVOID)this);
+  paint_helper = std::make_shared<PaintHelper>(hwnd);
 
-      bar_colors[TimerColorId::Active] = light_blue;
-      bar_colors[TimerColorId::Inactive] = light_green;
-      bar_colors[TimerColorId::Overdue] = orange;
-      bar_colors[TimerColorId::InactiveOverActive] = green_mix_blue;
-      bar_colors[TimerColorId::InactiveOverOverdue] = light_green;
-      bar_colors[TimerColorId::Bg] = bg;
+  TRACE_EXIT();
+}
 
-      NONCLIENTMETRICS_PRE_VISTA_STRUCT ncm;
-      LOGFONT lfDefault =
-        // the default status font info on my system:
+void
+TimeBar::init_colors()
+{
+  HBRUSH green_mix_blue = CreateSolidBrush(0x00b2d400);
+  HBRUSH light_green = CreateSolidBrush(GDK_TO_COLORREF(37008, 61166, 37008));
+  HBRUSH orange = CreateSolidBrush(GDK_TO_COLORREF(65535, 42405, 0));
+  HBRUSH light_blue = CreateSolidBrush(GDK_TO_COLORREF(44461, 55512, 59110));
+  HBRUSH bg = CreateSolidBrush(GetSysColor(COLOR_3DLIGHT));
+
+  bar_colors[TimerColorId::Active] = light_blue;
+  bar_colors[TimerColorId::Inactive] = light_green;
+  bar_colors[TimerColorId::Overdue] = orange;
+  bar_colors[TimerColorId::InactiveOverActive] = green_mix_blue;
+  bar_colors[TimerColorId::InactiveOverOverdue] = light_green;
+  bar_colors[TimerColorId::Bg] = bg;
+}
+
+void
+TimeBar::init_font()
+{
+  TRACE_ENTER("TimeBar::init_font");
+  NONCLIENTMETRICSW ncm;
+  ncm.cbSize = sizeof(ncm);
+
+  TRACE_MSG("dpi " << dpi);
+  if (::SystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS, sizeof(ncm), &ncm, 0, dpi))
+    {
+      TRACE_MSG("1");
+      if (bar_font)
         {
-          -12,
-          0,
-          0,
-          0,
-          400,
-          0,
-          0,
-          0,
-          '\1',
-          0,
-          0,
-          0,
-          0,
-          TEXT("Tahoma")
-          // 0, 0x00146218, 0, 0x001461F0, 0, '@', 0, 0, 0, 0, 0, 0, 0, TEXT( "·~" )
-        };
-
-      ZeroMemory(&ncm, sizeof(ncm));
-      ncm.cbSize = sizeof(ncm);
-      ncm.lfStatusFont = lfDefault;
-
-      if (!SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(ncm), &ncm, 0))
-        // If SystemParametersInfo fails, use my default.
-        // Now that we're filling a pre-vista NCM struct, there
-        // shouldn't be any problem though, regardless of target.
-        {
-          ncm.lfStatusFont = lfDefault;
+          DeleteObject(bar_font);
         }
 
-      bar_font = CreateFontIndirect(&ncm.lfStatusFont);
+      auto f = ncm.lfStatusFont;
+      TRACE_MSG(f.lfHeight << " " << f.lfWidth << " " << f.lfEscapement << " " << f.lfOrientation << " " << f.lfWeight << " " << f.lfItalic
+                           << " " << f.lfUnderline << " " << f.lfStrikeOut << " " << f.lfCharSet << " " << f.lfOutPrecision << " "
+                           << f.lfClipPrecision << " " << f.lfQuality << " " << f.lfPitchAndFamily << " " << f.lfFaceName)
+      bar_font = ::CreateFontIndirectW(&ncm.lfStatusFont);
     }
+
   TRACE_EXIT();
 }
 
@@ -378,7 +347,7 @@ void
 TimeBar::update()
 {
   TRACE_ENTER("TimeBar::update");
-  InvalidateRect(hwnd, NULL, FALSE);
+  InvalidateRect(hwnd, nullptr, FALSE);
   TRACE_EXIT();
 }
 
@@ -392,4 +361,50 @@ void
 TimeBar::set_secondary_bar_color(TimerColorId color)
 {
   secondary_bar_color = color;
+}
+
+void
+TimeBar::update_dpi()
+{
+  dpi = GetDpiForWindow(hwnd);
+  init_font();
+  update_size();
+}
+
+void
+TimeBar::update_size()
+{
+  TRACE_ENTER("TimeBar::update_size");
+  HDC dc = GetDC(hwnd);
+  SelectObject(dc, (HGDIOBJ)bar_font);
+  char buf[80];
+
+  time_to_string(-(59 + 59 * 60 + 9 * 60 * 60), buf, sizeof(buf));
+
+  RECT rect;
+  rect.left = 0;
+  rect.top = 0;
+  rect.bottom = 0;
+  rect.right = 0;
+  height = DrawText(dc, buf, (int)strlen(buf), &rect, DT_CALCRECT);
+  if (height == 0)
+    {
+      width = 32;
+      height = 16;
+    }
+  else
+    {
+      width = rect.right;
+    }
+
+  width += 2 * MARGINX + 2 * BORDER_SIZE;
+  height += 2 * MARGINY + 2 * BORDER_SIZE;
+  if (height < MINIMAL_HEIGHT)
+    {
+      height = MINIMAL_HEIGHT;
+    }
+  ReleaseDC(hwnd, dc);
+
+  SetWindowPos(hwnd, nullptr, 0, 0, width, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+  TRACE_MSG(width << " " << height);
 }

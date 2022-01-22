@@ -23,6 +23,8 @@
 #include <windowsx.h>
 #include <winuser.h>
 
+#include <shellscalingapi.h>
+
 #include <algorithm>
 #include <sstream>
 #include <boost/archive/binary_iarchive.hpp>
@@ -323,6 +325,19 @@ STDMETHODIMP
 CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO *pdbi)
 {
   TRACE_ENTER_MSG("CDeskBand::GetBandInfo", dwBandID << " " << dwViewMode);
+
+#ifdef _WIN64
+  if (m_hwndParent != nullptr)
+    {
+      UINT dpi = GetDpiForWindow(m_hwndParent);
+      if (dpi != current_dpi)
+        {
+          current_dpi = dpi;
+          OnDPIChanged();
+        }
+    }
+#endif
+
   if (pdbi)
     {
       m_dwBandID = dwBandID;
@@ -502,7 +517,7 @@ CDeskBand::QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst, UINT i
       TRACE_MSG("menu " << item.dynamic_text);
       auto type = item.type;
       auto active = ((item.flags & MENU_ITEM_FLAG_ACTIVE) != 0);
-      auto visible = ((item.flags & MENU_ITEM_FLAG_VISIBLE) != 0);
+      // auto visible = ((item.flags & MENU_ITEM_FLAG_VISIBLE) != 0);
       UINT flags = MF_STRING | MF_BYPOSITION;
 
       if (active)
@@ -636,7 +651,9 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_DPICHANGED:
+      TRACE_MSG("WM_DPICHANGED");
       pThis->OnDPIChanged();
+      break;
     }
 
   if (uMessage != WM_ERASEBKGND)
@@ -784,6 +801,13 @@ CDeskBand::RegisterAndCreateWindow()
         {
           return FALSE;
         }
+
+      // SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+
+      // HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, GetCurrentProcessId());
+      // PROCESS_DPI_AWARENESS value;
+      // HRESULT hr = GetProcessDpiAwareness(hProcess, &value);
+      // TRACE_MSG(hr << " " << value);
 
       // If the window class has not been registered, then do so.
       WNDCLASS wc;
