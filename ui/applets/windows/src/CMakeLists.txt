@@ -50,7 +50,7 @@ if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
   if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
      set_target_properties(${APPLET_TARGET} PROPERTIES LINK_FLAGS "-Wl,--allow-multiple-definition" )
   endif()
-  target_link_libraries(${APPLET_TARGET} Boost::serialization shlwapi shcore uuid) #   kernel32 user32 gdi32 winspool comdlg32 advapi32  shell32 ole32 oleaut32  odbc32 odbccp32)
+  target_link_libraries(${APPLET_TARGET} Boost::serialization shlwapi shcore uuid)
 
   install(TARGETS ${APPLET_TARGET}
           RUNTIME DESTINATION ${APPLET_INSTALL_DIR}
