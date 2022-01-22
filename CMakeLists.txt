@@ -666,11 +666,9 @@ if (WIN32)
       "Release64/workrave-applet64.dll"
       "Release64/harpoonHelper.exe"
       "Release64/harpoon64.dll"
-      "Release/workrave-applet.dll"
       "Release/harpoon.dll")
 
     set(PREBUILT_CMAKE_TARGETS
-      "lib32/workrave-applet.dll"
       "lib32/WorkraveHelper.exe"
       "lib32/harpoon.dll")
 
@@ -895,7 +893,6 @@ if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   add_subdirectory(ui)
 else()
   add_subdirectory(libs/hooks)
-  add_subdirectory(ui/applets/windows)
 endif()
 
 #----------------------------------------------------------------------------------------------------

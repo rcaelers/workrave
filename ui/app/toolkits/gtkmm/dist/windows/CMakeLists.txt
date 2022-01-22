@@ -104,7 +104,6 @@ elseif(HAVE_PREBUILT_VISUAL_STUDIO)
   install (FILES ${PREBUILT_PATH}/Release/harpoon.dll DESTINATION lib32)
   install (FILES ${PREBUILT_PATH}/Release64/harpoon64.dll DESTINATION lib)
   install (FILES ${PREBUILT_PATH}/Release64/harpoonHelper.exe DESTINATION lib32 RENAME WorkraveHelper.exe)
-  install (FILES ${PREBUILT_PATH}/Release/workrave-applet.dll DESTINATION lib32)
   install (FILES ${PREBUILT_PATH}/Release64/workrave-applet64.dll DESTINATION lib)
 endif()
 
