@@ -207,7 +207,7 @@ Paths::get_data_directories()
         }
 #endif
 
-#if defined(PLAFORM_OS_WINDOWS)
+#if defined(PLATFORM_OS_WINDOWS)
       directories.push_back(get_application_directory() / "share");
 #elif defined(PLATFORM_OS_MACOS)
       directories.push_back(get_application_directory() / "Resources" / "share");
