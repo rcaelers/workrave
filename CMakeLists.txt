@@ -957,10 +957,10 @@ function(feature_bool name setting)
 endfunction()
 
 message(STATUS "")
-message(STATUS "Workrave ${VERSION}")
+message(STATUS "Workrave ${WORKRAVE_VERSION}")
 message(STATUS "")
 
-feature_text( "Workrave" VERSION)
+feature_text( "Workrave" WORKRAVE_VERSION)
 feature_text("Install prefix" CMAKE_INSTALL_PREFIX)
 feature_text("OS" PLATFORM_OS_NAME)
 feature_text("UI" WITH_UI)
