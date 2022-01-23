@@ -68,14 +68,10 @@ struct gen_fmt
     };
     for (size_t j = 0; j < N; j++)
       append(str);
-    if (len > 0)
-      {
-        arr[len - 1] = 0;
-      }
     return arr;
   }
   static constexpr auto arr = impl();
-  static constexpr std::string_view value{arr.data(), arr.size() - 1};
+  static constexpr std::string_view value{arr.data(), arr.size() - 2};
 };
 
 class ScopedTrace : public boost::noncopyable
