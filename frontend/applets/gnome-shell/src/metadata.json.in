@@ -25,6 +25,7 @@
                        "3.32",
                        "40",
                        "41",
+                       "42",
                        "@shell_current@" ],
  "localedir": "@LOCALEDIR@",
  "url": "@url@"
