@@ -122,6 +122,8 @@ private:
   std::map<std::string, std::function<void()>> notifiers;
 
   std::list<sigc::connection> event_connections;
+  workrave::utils::Trackable tracker;
+
   boost::signals2::signal<void()> timer_signal;
   boost::signals2::signal<void()> main_window_closed_signal;
   boost::signals2::signal<void(bool)> session_idle_changed_signal;

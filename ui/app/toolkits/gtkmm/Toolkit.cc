@@ -427,6 +427,25 @@ Toolkit::init_gui()
   };
 
   gtk_rc_parse_string(rc_string);
+
+#endif
+#if defined(PLATFORM_OS_WINDOWS)
+  auto settings = Gtk::Settings::get_default();
+  settings->property_gtk_application_prefer_dark_theme().set_value(GUIConfig::theme_dark()());
+  std::string theme_name = GUIConfig::theme_name()();
+  if (!theme_name.empty())
+    {
+      settings->property_gtk_theme_name().set_value(theme_name);
+    }
+
+  settings->property_gtk_application_prefer_dark_theme().signal_changed().connect(
+    [settings]() { GUIConfig::theme_dark().set(settings->property_gtk_application_prefer_dark_theme().get_value()); });
+  settings->property_gtk_theme_name().signal_changed().connect(
+    [settings]() { GUIConfig::theme_name().set(settings->property_gtk_theme_name().get_value()); });
+
+  GUIConfig::theme_dark().connect(tracker,
+                                  [settings](auto dark) { settings->property_gtk_application_prefer_dark_theme().set_value(dark); });
+  GUIConfig::theme_name().connect(tracker, [settings](auto name) { settings->property_gtk_theme_name().set_value(name); });
 #endif
 }
 

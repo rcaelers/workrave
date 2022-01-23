@@ -293,6 +293,15 @@ PreferencesDialog::create_gui_page()
       panel->add_label(_("Icon Theme:"), *icon_theme_button);
     }
 
+#if defined(PLATFORM_OS_WINDOWS)
+  Gtk::Label *dark_lab = Gtk::manage(GtkUtil::create_label(_("Use dark theme"), false));
+  dark_cb = Gtk::manage(new Gtk::CheckButton());
+  dark_cb->add(*dark_lab);
+  panel->add_widget(*dark_cb, false, false);
+
+  connector->connect(GUIConfig::theme_dark(), dc::wrap(dark_cb));
+#endif
+
   panel->set_border_width(12);
   return panel;
 }

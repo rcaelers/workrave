@@ -40,6 +40,8 @@ const string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
 const string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
 const string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
+const string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
+const string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
 
 const string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -171,6 +173,18 @@ auto
 GUIConfig::icon_theme() -> Setting<std::string> &
 {
   return SettingCache::get<std::string>(config, CFG_KEY_ICONTHEME, std::string());
+}
+
+auto
+GUIConfig::theme_dark() -> workrave::config::Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_THEME_DARK, false);
+}
+
+auto
+GUIConfig::theme_name() -> workrave::config::Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_THEME_NAME, std::string());
 }
 
 auto
