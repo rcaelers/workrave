@@ -44,4 +44,10 @@ private:
   BOOL repaint{false};
 };
 
+class Util
+{
+  public:
+    static UINT GetDpiForWindowUser(HWND window);
+};
+
 #endif // UTIL_H

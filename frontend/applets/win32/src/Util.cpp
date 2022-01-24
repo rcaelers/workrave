@@ -104,3 +104,21 @@ TransparentDamageControl::EndPaint()
       SetWindowPos(d->hwnd, NULL, d->x, d->y, 0, 0, SWP_SHOWWINDOW | SWP_NOZORDER | SWP_NOSIZE);
     }
 }
+
+UINT
+Util::GetDpiForWindowUser(HWND window)
+{
+  typedef UINT (WINAPI *GetDpiForWindowFunction)(HWND);
+  static GetDpiForWindowFunction getDpiForWindow = (GetDpiForWindowFunction)GetProcAddress(LoadLibraryW(L"user32.dll"), "GetDpiForWindow");
+
+  if (getDpiForWindow != nullptr)
+  {
+    int dpi = getDpiForWindow(window);
+    if (dpi != 0)
+    {
+      return dpi;
+    }
+  }
+
+  return 96;
+}

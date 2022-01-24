@@ -147,7 +147,7 @@ TimerBox::init_icons()
   TRACE_ENTER("TimerBox::update_icons");
   const char *icon_ids[] = {"micropause", "restbreak", "dailylimit"};
 
-  UINT dpi = GetDpiForWindow(parent_window);
+  UINT dpi = Util::GetDpiForWindow(parent_window);
   TRACE_MSG("dpi " << dpi);
   int size = 16;
   if (dpi >= 192)
