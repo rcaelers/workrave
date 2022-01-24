@@ -20,6 +20,10 @@ class Catalog {
       } else {
         this.catalog = {};
       }
+      if (!this.catalog.builds)
+      {
+        this.catalog.builds = [];
+      }
     } catch (e) {
       console.error(e);
     }
