@@ -176,12 +176,17 @@ TimeBar::get_preferred_size(int &width, int &height) const
 
   pl->get_pixel_size(width, height);
 
-  int mwidth, mheight;
+  int mwidth = 0;
+  int mheight = 0;
   plmin->get_pixel_size(mwidth, mheight);
   if (mwidth > width)
-    width = mwidth;
+    {
+      width = mwidth;
+    }
   if (mheight > height)
-    height = mheight;
+    {
+      height = mheight;
+    }
 
   width = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
@@ -196,7 +201,8 @@ TimeBar::get_request_mode_vfunc() const
 void
 TimeBar::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
 {
-  int width, height;
+  int width = 0;
+  int height = 0;
   get_preferred_size(width, height);
 
   if (rotation == 0 || rotation == 180)
@@ -212,7 +218,8 @@ TimeBar::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
 void
 TimeBar::get_preferred_height_vfunc(int &minimum_height, int &natural_height) const
 {
-  int width, height;
+  int width = 0;
+  int height = 0;
   get_preferred_size(width, height);
 
   if (rotation == 0 || rotation == 180)
@@ -254,7 +261,8 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   // Logical width/height
   // width = direction of bar
-  int win_lw, win_lh;
+  int win_lw = 0;
+  int win_lh = 0;
   if (rotation == 0 || rotation == 180)
     {
       win_lw = win_w;
@@ -365,23 +373,32 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
   pc1->set_matrix(matrix);
 
-  int text_width, text_height;
+  int text_width = 0;
+  int text_height = 0;
   pl1->get_pixel_size(text_width, text_height);
 
-  int text_x, text_y;
+  int text_x = 0;
+  int text_y = 0;
 
-  Gdk::Rectangle rect1, rect2;
+  Gdk::Rectangle rect1;
+  Gdk::Rectangle rect2;
 
   if (rotation == 0 || rotation == 180)
     {
       if (win_w - text_width - MARGINX > 0)
         {
           if (bar_text_align > 0)
-            text_x = (win_w - text_width - MARGINX);
+            {
+              text_x = (win_w - text_width - MARGINX);
+            }
           else if (bar_text_align < 0)
-            text_x = MARGINX;
+            {
+              text_x = MARGINX;
+            }
           else
-            text_x = (win_w - text_width) / 2;
+            {
+              text_x = (win_w - text_width) / 2;
+            }
         }
       else
         {
@@ -408,11 +425,17 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
               a *= -1;
             }
           if (a > 0)
-            text_y = (win_h - text_width - MARGINY);
+            {
+              text_y = (win_h - text_width - MARGINY);
+            }
           else if (a < 0)
-            text_y = MARGINY;
+            {
+              text_y = MARGINY;
+            }
           else
-            text_y = (win_h - text_width) / 2;
+            {
+              text_y = (win_h - text_width) / 2;
+            }
         }
       else
         {
