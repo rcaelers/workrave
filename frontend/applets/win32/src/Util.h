@@ -47,7 +47,7 @@ private:
 class Util
 {
   public:
-    static UINT GetDpiForWindowUser(HWND window);
+    static UINT GetDpiForWindow(HWND window);
 };
 
 #endif // UTIL_H

@@ -106,7 +106,7 @@ TransparentDamageControl::EndPaint()
 }
 
 UINT
-Util::GetDpiForWindowUser(HWND window)
+Util::GetDpiForWindow(HWND window)
 {
   typedef UINT (WINAPI *GetDpiForWindowFunction)(HWND);
   static GetDpiForWindowFunction getDpiForWindow = (GetDpiForWindowFunction)GetProcAddress(LoadLibraryW(L"user32.dll"), "GetDpiForWindow");
