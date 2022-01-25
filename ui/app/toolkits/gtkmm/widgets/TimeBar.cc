@@ -57,24 +57,6 @@ TimeBar::TimeBar()
   set_text_color(Gdk::Color("black"));
 
   GtkUtil::set_theme_fg_color(this);
-
-#ifdef PLATFORM_OS_WINDOWS
-  Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
-  static const char timebar_style[] =
-    "* {\n"
-    "    box-shadow: none;\n"
-    "    color: #000000;\n"
-    "    margin: 0;\n"
-    "    padding: 0;\n"
-    "    border-style: inset;\n"
-    "    border-radius: 0;\n"
-    "    border: 1px inset #b6b6b3;\n"
-    "}";
-
-  Glib::RefPtr<Gtk::CssProvider> provider = Gtk::CssProvider::create();
-  provider->load_from_data(timebar_style);
-  style_context->add_provider(provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-#endif
 }
 
 void
@@ -466,14 +448,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   cr->rectangle(rect2.get_x(), rect2.get_y(), rect2.get_width(), rect2.get_height());
   cr->clip();
 
-  Gdk::RGBA theme_fg_color;
-  bool have_fg_color = style_context->lookup_color("theme_fg_color", theme_fg_color);
-  if (!have_fg_color)
-    {
-      theme_fg_color = style_context->get_color(Gtk::STATE_FLAG_ACTIVE);
-    }
-
-  set_color(cr, theme_fg_color);
+  set_color(cr, style_context->get_color(Gtk::STATE_FLAG_ACTIVE));
   cr->move_to(text_x, text_y);
   pl1->show_in_cairo_context(cr);
   style_context->context_restore();
