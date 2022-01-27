@@ -1,141 +1,781 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <exercises>
-  <exercise>
-    <_title>Shoulder-arm stretch</_title>
-    <_description>Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm.</_description>
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Core Exercises</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="crunch.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="reverse_crunch.png" duration="60"/>	
+			<image src="Pause.png" duration="20"/>	
+			<image src="plank.png" duration="60"/>	
+	 	</sequence>
+	</exercise>
+
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Upper Body Exercises I</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="superman.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="tricep_dips.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="push_ups.png" duration="60"/>				
+	 	</sequence>
+	</exercise>
+
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Upper Body Exercises II</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="side_plank.png" duration="60"/>	
+			<image src="Pause.png" duration="20"/>	
+			<image src="side_plank.png" mirrorx="yes" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="swimming_superman.png" duration="60"/>
+	 	</sequence>
+	</exercise>
+
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Leg Exercises I</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="wall_squats.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="lunges.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="lunges.png" mirrorx="yes" duration="60"/>
+	 	</sequence>
+	</exercise>
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Leg Exercises II</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="glute_bridge_with_roll.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>
+			<image src="glute_bridge.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="glute_bridge.png" duration="60"/>	
+	 	</sequence>
+	</exercise>
+
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Leg Exercises III</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="lying_leg_lift.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="lying_leg_lift.png" mirrorx="yes" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="squats.png" duration="60"/>
+	 	</sequence>
+	</exercise>
+
+
+
+	<exercise>
+		<title>Training</title>
+			<description>4 Leg Exercises IV</description>
+	 	<sequence duration="320">
+			<image src="get_ready.png" duration="20"/>
+			<image src="step_ups.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="step_ups.png" mirrorx="yes" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="step_downs.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="step_downs.png" mirrorx="yes" duration="60"/>
+	 	</sequence>
+	</exercise>
+
+
+
+	<exercise>
+		<title>Training</title>
+			<description>3 Leg Exercises V</description>
+	 	<sequence duration="240">
+			<image src="get_ready.png" duration="20"/>
+			<image src="donkey_kicks.png" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="donkey_kicks.png" mirrorx="yes" duration="60"/>
+			<image src="Pause.png" duration="20"/>	
+			<image src="calf_raise.png" duration="60"/>
+	 	</sequence>
+	</exercise>			
+
+
+<exercise>
+		<title>Training</title>
+​			<description>3 Leg Exercises VI</description>
+​	 	<sequence duration="240">
+​			<image src="get_ready.png" duration="20"/>
+​			<image src="lunges.png" duration="60"/>
+​			<image src="Pause.png" duration="20"/>	
+​			<image src="lunges.png" mirrorx="yes" duration="60"/>
+​			<image src="Pause.png" duration="20"/>
+​			<image src="glute_bridge_with_roll.png" duration="60"/>
+​	 	</sequence>
+</exercise>
+
+
+<exercise>
+    <title>Shoulder-arm stretch</title>
+    <title xml:lang="bg">Разтягане на рамената</title>
+    <title xml:lang="ca">Estirament del muscle i braç</title>
+    <title xml:lang="cs">Protažení ramen a rukou</title>
+    <title xml:lang="da">Skulder/arm udstrækning</title>
+    <title xml:lang="de">Schulter-/Armstreckung</title>
+    <title xml:lang="el">Τέντωμα ώμων και χεριών</title>
+    <title xml:lang="es">Estiramiento de hombros y brazos</title>
+    <title xml:lang="et">Õla ja käsivarre venitamine</title>
+    <title xml:lang="eu">Sorbalda eta beso luzaketak</title>
+    <title xml:lang="fa">کشیدن شانه_بازو</title>
+    <title xml:lang="fr">Étirement épaules-bras</title>
+    <title xml:lang="ga">Síneadh guaillí agus lámha</title>
+    <title xml:lang="he">מתיחת כתף-זרוע</title>
+    <title xml:lang="hr">Istezanje ramena i ruke</title>
+    <title xml:lang="hu">Váll-kar nyújtás</title>
+    <title xml:lang="it">Stretch spalla-braccio</title>
+    <title xml:lang="ja">肩と腕のストレッチ</title>
+    <title xml:lang="ko">어깨-팔 펴기</title>
+    <title xml:lang="lt">Peties-rankos įtempimas</title>
+    <title xml:lang="nb">Skulder-/arm-utstrekking</title>
+    <title xml:lang="nl">Schouder-arm strekken</title>
+    <title xml:lang="pl">Rozciąganie ramienia</title>
+    <title xml:lang="pt_BR">Alongamento de ombros e braços</title>
+    <title xml:lang="ro">Întindeți umărul și cotul</title>
+    <title xml:lang="ru">Потягивание предплечья</title>
+    <title xml:lang="sk">Ponaťahovanie pliec a ramien</title>
+    <title xml:lang="sl">Pregib rame in roke</title>
+    <title xml:lang="sr@latin">Istezanje za ramena i ruke</title>
+    <title xml:lang="sv">Utsträckning av skuldror och armar</title>
+    <title xml:lang="tr">Omuz-kol uzatma</title>
+    <title xml:lang="uk">Розтягування передпліччя</title>
+    <title xml:lang="zh_CN">肩膀手臂拉伸运动</title>
+    <title xml:lang="zh_TW">肩膀肌肉延伸運動</title>
+    <description>Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm.</description>
+    <description xml:lang="bg">Дръжте едната си ръка изпъната хоризонтално пред гърдите си. Притиснете я с другата ръка към Вас докато почувствате леко напрежение в рамото. Задръжте за кратко тази позиция и после повторете упражнението с другата си ръка.</description>
+    <description xml:lang="ca">Mantingueu un braç estirat horitzontalment per davant del pit. Empenyeu aquest braç amb l'altre cap al cos fins que noteu una tensió lleugera al muscle. Mantingueu aquesta posició breument, i repetiu l'exercici amb l'altre braç.</description>
+    <description xml:lang="cs">Držte jednu ruku předpaženou před vašim hrudníkem. Tlačte tuto ruku pomocí druhé ruky směrem k sobě dokud nebudete cítit mírné pnutí v rameni. Chvilku zůstaňte v této pozici a opakujte cvičení s druhou rukou.</description>
+    <description xml:lang="da">Hold den ene arm strukket skråt fremad ud i luften foran din brystkasse. Med din anden arm skal du skubbe din fremstrakte arm mod dig, indtil du mærker et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med den modsatte arm.</description>
+    <description xml:lang="de">Halten Sie einen Arm horizontal ausgestreckt vor der Brust. Mit dem anderen Arm stoßen Sie diesen Arm zu sich hin, bis Sie eine leichte Spannung in der Schulter verspüren. Bleiben Sie kurz in dieser Position und wiederholen Sie die Übung mit dem anderen Arm.</description>
+    <description xml:lang="el">Κρατήστε το ένα χέρι τεντωμένο οριζόντια μπροστά από το στήθος σας. Σπρώξτε το τεντωμένο χέρι προς το σώμα σας με το άλλο σας χέρι, μέχρι να νιώσετε μια ελαφρά πίεση στον ώμο σας. Κρατήστε αυτή τη θέση για λίγο, και επαναλάβετε την άσκηση με το άλλο σας χέρι.</description>
+    <description xml:lang="es">Ponga un brazo extendido horizontalmente delante del pecho. Empuje este brazo con el otro brazo hasta que sienta una tensión suave en el hombro. Mantenga brevemente esta posición y repita el ejercicio con el otro brazo.</description>
+    <description xml:lang="et">Hoia ühte kätt horisontaalselt enda ees. Tõmba seda kätt oma teise käega enda poole kuni sa tunned kerget pinget õlas. Hoia seda asendit mõneks hetkeks, siis korda samat harjutust oma teise käega.</description>
+    <description xml:lang="eu">Beso bat bularraren aurrean luza ezazu. Beso hau bestearekin bultzatu sorbaldan tentsio txiki bat nabaritu arte. Piska batean egon horrela eta beste besoarekin errepika ezazu ariketa.</description>
+    <description xml:lang="fa">یکی از بازوهایتان را به صورت افقی در جلوی سینه تان نگه دارید. با دست دیگرتان این دست را فشار دهید تا زمانی که یک کشیدگی ملایم در شانه تان احساس کنید. این حالت را چند ثانیه نگه دارید، و همین تمرین را برای دست دیگرتان انجام دهید.</description>
+    <description xml:lang="fr">Étendez un bras à l'horizontale devant votre poitrine. Poussez ce bras vers vous avec l'autre bras jusqu'à sentir une légère tension dans l'épaule. Maintenez cette position quelques instants, et recommencez avec l'autre bras.</description>
+    <description xml:lang="ga">Coinnigh lámh amháin sínte go cothrománach os comhair do chliabhrach. Brú an lámh seo chugat le do lámh eile go dtí go mbraitheann tú teannas bog i do ghualainn. Coinnigh mar sin ar feadh tamaillín, agus déan an cleachtadh arís do do lámh eile.</description>
+    <description xml:lang="he">החזק יד אחת מאוזנת מתוחה לפני החזה. דחוף את היד עם היד השניה לעברך עד שתרגיש מתיחה קלה בכתף. השאר המצב זה לזמן קצר, וחזור על התרגיל עם היד השניה.</description>
+    <description xml:lang="hr">Ispružite jednu ruku horizontalno ispred sebe. Drugom rukom povlačite ispruženu ruku prema sebi dok u ramenu ne osjetite napetost. Kratko zadržite taj položaj i ponovite vježbu s drugom rukom.</description>
+    <description xml:lang="hu">Egyik karját tegye vízszintesen nyújtva a mellkasa elé. Nyomja ezt a karját a másik kezével maga felé amíg nem érzi, hogy válla gyengén megfeszül. Tartsa így rövid ideig karját és ismételje meg a gyakorlatot a másik karjával.</description>
+    <description xml:lang="it">Tieni il braccio sinistro ad angolo retto orizzontalmente davanti al petto, con il polso poggiato nell'incavo del braccio destro anche questo piegato ad angolo retto ma verticalmente. Ora spingi con il sinistro contro il destro fino a che non senti una leggera tensione nella spalla sinistra. Mantieni per qualche istante questa posizione, e ripeti l'esercizio scambiando le braccia.</description>
+    <description xml:lang="ja">あなたの胸の前に片方の腕を水平にして伸ばしてください。もう片方の腕で、肩をストレッチするように、胸の方向に押してください。この状態で少し時間を置き、反対の腕も同じように繰り返してください。</description>
+    <description xml:lang="ko">가슴 앞으로 한 팔을 수평으로 뻗은 상태에서 다른 쪽 팔을 여러분 쪽으로 밀는 데, 어깨에 약간의 긴장을 느낄 정도까지 합니다. 이 동작은 짦게 하면서, 교대로 운동을 합니다.</description>
+    <description xml:lang="lt">Laikyk vieną ranką horizontaliai ištiestą priekyje savo krūtinės. Stumk šia ranką su kita savo ranka link savęs, kol pajusi švelnų įtemptimą savo petyje. Pabūk tokio pozoje trumpam, tada pakartok šį pratima su kita ranka.</description>
+    <description xml:lang="nb">Strekk ut en arm rett ut foran brystkassen. Dytt denne armen med den andre mot deg inntil du merker en lett strekk i skulderen. Hold denne posisjonen en kort stund og gjenta hele øvelsen med den andre armen.</description>
+    <description xml:lang="nl">Hou een arm horizontaal uitgestrekt voor je borstkas. Druk deze met de andere arm naar je toe totdat je voelt dat je schouder iets gespannen is. Hou dit even vol, en herhaal daarna de oefening voor de andere arm.</description>
+    <description xml:lang="pl">Jedno ramię wyprostuj przed klatką piersiową. Pociągnij to ramię drugim dopóki nie poczujesz napięcia w barku. Wytrzymaj tak przez moment i powtórz ćwiczenie z drugim ramieniem.</description>
+    <description xml:lang="pt_BR">Mantenha um braço extendido horizontalmente diante do peito. Puxe este braço em sua direção com o outro braço até que sinta uma tensão suave no ombro. Mantenha brevemente esta posição e repita o exercício com o outro braço.</description>
+    <description xml:lang="ro">Țineți un braț întins orizontal în fața dumneavoastră. Împingeți acest braț cu celălalt spre dumneavoastră până când simțiți o ușoară tensiune în umăr. Mențineți această poziție pentru scurt timp și repetați exercițiul pentru celălalt braț.</description>
+    <description xml:lang="ru">Одну руку расположите горизонтально груди. Прижмите её другой рукой к себе пока не почувствуете небольшое напряжение в плечах. Немного подержите руки в таком положении и повторите упражнение для другой руки.</description>
+    <description xml:lang="sk">Držte jednu ruku predpaženú pred sebou vo výške hrudníka. Tlačte túto ruku k sebe pomocou druhej ruky, pokým nepocítite mierne pnutie v pleci. Chvíľu vydržte v tejto pozícii, potom zopakujte toto cvičenie s druhou rukou.</description>
+    <description xml:lang="sl">Roko postavite vodoravno pred prsi. To roko zdaj potisnite proti sebi z drugo, dokler ne začutite srednje močne napetosti v rami. Ostanite tako za kratek čas in ponovite vajo z drugo roko.</description>
+    <description xml:lang="sr@latin">Ispružite jednu ruku horizontalno ispred sebe. Drugom rukom povlačite ispruženu ruku prema sebi dok u ramenu ne osetite napetost. Kratko zadržite taj položaj i ponovite vežbu s drugom rukom.</description>
+    <description xml:lang="sv">Sträck ut en arm horisonellt framför bröstkorgen. Tryck denna arm med din andra arm mot dig tills du känner en lätt sträckning i skuldran. Håll kvar i denna position en kort stund och upprepa övningen för din andra arm.</description>
+    <description xml:lang="tr">Bir kolunuzu göğsünüzün önünde yatay olarak uzatın. Bu kolunuzu diğer kolunuzla kendinize doğru omzunuzda hafif bir gerilme oluşana kadar itin. Kısa süre bu konumda kalın, sonra alıştırmayı diğer kolunuz için tekrarlayın.</description>
+    <description xml:lang="uk">Простягніть одну руку горизонтально перед грудьми. Іншою рукою потягніть її на себе, поки не відчуєте м'яку напругу у плечі. Затримайтеся ненадовго і повторіть вправу для іншої руки.</description>
+    <description xml:lang="zh_CN">保持一只手臂水平伸直于胸前。将另外一只手臂放在这只上，直到您在肩膀上感觉轻微的压力。稍微保持这个姿势，然后在另外一只手臂重复这个动作。</description>
+    <description xml:lang="zh_TW">保持一隻手水平伸直於胸前。將另外一隻手放在這隻手上，直到您在肩膀上感覺輕微的壓力。稍微保持這個姿勢，然後在另外一隻手重複這個動作。</description>
     <sequence duration="40">
       <image src="shoulder-arm-stretch.png" duration="10"/>
       <image src="shoulder-arm-stretch.png" mirrorx="yes" duration="10"/>
     </sequence>
   </exercise>
-<!--
+
   <exercise>
-    <_title>Wrist and lower arm desk stretch</_title>
-    <_description>Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms.</_description>
-    <sequence duration="40">
-      <image src="wrist-lower-arm-desk-stretch-1.png" duration="5"/>
-      <image src="wrist-lower-arm-desk-stretch-2.png" duration="15"/>
-    </sequence>
+    <title>Finger stretch</title>
+    <title xml:lang="bg">Протягане на пръстите</title>
+    <title xml:lang="ca">Estirament de dits</title>
+    <title xml:lang="cs">Protažení prstů</title>
+    <title xml:lang="da">Udstrækning af fingre</title>
+    <title xml:lang="de">Finger strecken</title>
+    <title xml:lang="el">Τεντώστε τα δάκτυλα</title>
+    <title xml:lang="es">Estiramiento de dedos</title>
+    <title xml:lang="et">Näppute venitamine</title>
+    <title xml:lang="eu">Atz luzaketak</title>
+    <title xml:lang="fa">کشش انگشت</title>
+    <title xml:lang="fr">Étirement des doigts</title>
+    <title xml:lang="ga">Méarshíneadh</title>
+    <title xml:lang="he">מתיחת אצבעות</title>
+    <title xml:lang="hr">Istezanje prstiju</title>
+    <title xml:lang="hu">Ujjnyújtás</title>
+    <title xml:lang="it">Stretching delle dita</title>
+    <title xml:lang="ja">指を伸ばす</title>
+    <title xml:lang="ko">손가락을 뻗습니다</title>
+    <title xml:lang="lt">Pirštų įtempimas</title>
+    <title xml:lang="nb">Fingerutstrekning</title>
+    <title xml:lang="nl">Vingers strekken</title>
+    <title xml:lang="pl">Rozciąganie palców</title>
+    <title xml:lang="pt_BR">Alongamento de dedos</title>
+    <title xml:lang="ro">Întindeți-vă degetele</title>
+    <title xml:lang="ru">Потягивание пальцев</title>
+    <title xml:lang="sk">Ponaťahovanie prstov</title>
+    <title xml:lang="sl">Pretegovanje prstov</title>
+    <title xml:lang="sr@latin">Istezanje prstiju</title>
+    <title xml:lang="sv">Sträck ut fingrarna</title>
+    <title xml:lang="tr">Parmakları germe</title>
+    <title xml:lang="uk">Розтягування пальців</title>
+    <title xml:lang="zh_CN">指头伸展</title>
+    <title xml:lang="zh_TW">指頭伸展</title>
+​    <description>Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more.</description>
+​    <description xml:lang="bg">Разделете и изпънете пръстите на ръцете си докато почувствате леко напрежение и задръжте така за 10 секунди. Отпуснете се, свийте пръсти в кокалчетата и задръжте отново за 10 секунди. Повторете упражнението още веднъж.</description>
+​    <description xml:lang="ca">Separeu i estireu els dits fins que noteu una tensió lleugera, i mantingueu aquesta posició durant 10 segons. Relaxeu-vos i flexioneu els dits pels artells i mantingueu la posició durant 10 segons. Repetiu aquest exercici una vegada més.</description>
+​    <description xml:lang="cs">Roztáhněte a napněte prsty dokud necítíte mírné pnutí a vydržte v této poloze po dobu deseti sekund. Odpočiňte si tak, že ohnete prsty v kloubech a opět zůstanete v této poloze deset sekund. Opakujte toto cvičení ještě jednou.</description>
+​    <description xml:lang="da">Stræk og spred dine fingre undtil du kan mærke et let stræk. Hold strækket i 10 sekunder. Slap lidt af og bør herefter dine fingre. Hold positionen i 10 sekunder. Gentag øvelsen igen.</description>
+​    <description xml:lang="de">Spreizen und strecken Sie die Finger, bis Sie eine leichte Spannung verspüren und behalten Sie die Position für zehn Sekunden bei. Entspannen Sie sich, danach beugen Sie die Finger an den Knöcheln und behalten Sie die Position wieder für zehn Sekunden bei. Wiederholen Sie diese Übung noch einmal.</description>
+​    <description xml:lang="el">Χωρίστε και τεντώστε τα δάχτυλά σας μέχρι να νιώσετε μια ελαφριά πίεση, και διατηρήστε τα σε αυτή τη θέση για 10 δευτερόλεπτα. Χαλαρώστε, λυγίστε τις αρθρώσεις και περιμένετε και πάλι για 10 δευτερόλεπτα. Επαναλάβετε την άσκηση άλλη μία φορά.</description>
+​    <description xml:lang="es">Estire los dedos separándolos hasta que sienta una ligera tensión y manténgalos así durante 10 segundos. Relájese, luego doble los nudillos de los dedos y mantégalos así durante 10 segundos. Repita este ejercicio una vez.</description>
+​    <description xml:lang="et">Venita sõrmesid ajades need harali nii, et oleks tunda kerget pinget. Hoia neid nii 10 sekundit, seejärel lõdvestu, kõverda sõrmed ja hoia jälle 10 sekundit. Korda harjutust üks kord veel.</description>
+​    <description xml:lang="eu">Hatzak bereiz eta luza itzazu tentsio xume bat nabaritu arte, eta hamar segundutan mantendu. Lasaitu, hatz-koxkorrak bildu eta beste hamar segundutan egon. Ariketa berriro errepikatu.</description>
+​    <description xml:lang="fa">انگشت هایتان را از هم جدا کنید و بکشید تا زمانی که یک کشیدگی ملایم را احساس کنید، و این وضعیت را برای 10 ثانیه نگه دارید. شل کنید، و سپس انگشت هایتان را از قسمت بندها خم کنید، و این حالت را نیز برای 10 ثانیه نگه دارید. این تمریم را یک بار دیگر تکرار کنید.</description>
+​    <description xml:lang="fr">Écartez les doigts et étirez-les jusqu'à sentir une légère tension, et maintenez cette position 10 secondes. Relâchez, puis pliez les doigts à la première phalange, et maintenez cette position 10 secondes également. Répétez l'exercice.</description>
+​    <description xml:lang="ga">Scar do mhéara óna chéile agus sín iad go dtí go mbraitear teannas bog, agus coinnigh mar sin iad ar feadh 10 soicind. Lig do scíth, ansin lúb do mhéara ag na hailt, agus coinnigh mar sin iad ar feadh 10 soicind. Déan an cleachtadh seo in athuair.</description>
+​    <description xml:lang="he">הפרד ומתח את האצבעות שלך עד שתרגיש מתיחה קלה, ואז השאר במצב זה למשך 10 שניות. הרגע, כופף את האצבעות במפרקים, והשאר כך למשך 10 שניות נוספות. חזור על התרגיל פעם נוספת.</description>
+​    <description xml:lang="hr">Razdvojite i istegnite prste dok ne osjetite lagano istezanje i zadržite tako 10 sekundi. Opustite prste i savijte ih u šaku te držite tako 10 sekundi. Ponovite vježbu. </description>
+​    <description xml:lang="hu">Távolítsa el egymástól és nyújtsa ki ujjait amíg nem érzi, hogy megfeszülnek. Tartsa ezt az állapotot 10 másodpercig. Lazítson, majd hajlítsa be ujjait az ízületeknél és tartsa ezt a helyzetet is 10 másodpercig. Ismételje meg a gyakorlatot.</description>
+​    <description xml:lang="it">Separa e stira le dita fino a sentire una certa tensione e mantieni per 10 secondi. Rilassati, poi piega le dita verso le nocche e mantieni per altri 10 secondi. Ripeti l'esercizio una volta.</description>
+​    <description xml:lang="ja">軽いストレッチを感じられるまで、指を離して伸ばし、10秒間保持してください。リラックスして、指の関節を曲げて、10秒間保持してください。これをもう一度繰り返してください。</description>
+​    <description xml:lang="ko">약간의 긴장이 느껴질 때까지 손가락을 펼칩니다. 그리고 10초 동안 유지합니다. 긴장을 풀고서, 손가락을 구부리고 다시 10 초 동안 누르고 있습니다. 이 운동을 한번 더 반복합니다.</description>
+​    <description xml:lang="lt">Išskėsk savo pirštus kol pajausi švelnią įtempą ir palaikyk juos taip 10-čiai sekundžių. Atsipalaiduok, tada sulenk savo pištus per piršto sąnarius ir palaikyk taip 10 sekundžių. Pakartok šį pratimą dar kartą.</description>
+​    <description xml:lang="nb">Strekk ut og spre fingrene til du merker en lett strekk. Hold i 10 sekunder. Slapp av og knyt så sammen fingrene og hold igjen for 10 sekunder. Gjenta øvelsen en gang til.</description>
+​    <description xml:lang="nl">Strek je vingers uit elkaar totdat je een lichte spanning voelt, en hou deze positie 10 seconden vast. Ontspan nu, en buig daarna je vingers bij de knokkels, en hou dit weer 10 seconden vast. Herhaal deze oefening.</description>
+​    <description xml:lang="pl">Rozdziel i wyprostuj palce tak aż poczujesz napięcie, wytrzymaj 10 sekund. Rozluźnij dłonie a następnie zegnij palce w kostkach na 10 sekund. Powtórz ćwiczenie jeszcze raz.</description>
+​    <description xml:lang="pt_BR">Estique os dedos separando-os até que sinta uma ligeira tensão e mantenha-os assim durante 10 segundos. Relaxe, depois dobre as articulações dos dedos e mantenha-os assim durante 10 segundos. Repita este exercício uma vez.</description>
+​    <description xml:lang="ro">Îndepărtați-vă degetele unul de altul și întindeți-le până când simțiți o tensiune ușoară. Mențineți această poziție a lor pentru 10 secunde. Relaxați-vă, apoi îndoiți-vă degetele spre podul palmei și mențineți această poziție a lor timp de 10 secunde. Repetați exercițiul încă o dată.</description>
+​    <description xml:lang="ru">Расставьте и потяните пальцы пока не почувствуете лёгкого напряжения и подержите так 10 секунд. Расслабьтесь, затем согните в суставах и подержите так 10 секунд. Повторите упражнение ещё раз.</description>
+​    <description xml:lang="sk">Roztiahnite a napnite prsty, pokým začnete cítiť mierne pnutie. Vydržte takto 10 sekúnd. Odpočiňte si a ohnite prsty v kĺboch. Potom znovu vystrite na 10 sekúnd. Cvičenie ešte raz zopakujte.</description>
+​    <description xml:lang="sl">Razdelite in raztegnite prste, dokler ne začutite srednje močnega pritiska in zadržite to 10 sekund. Sprostite se in nato skrčite prste v sklepih in spet zadržite 10 sekund. Še enkrat ponovite vajo.</description>
+​    <description xml:lang="sr@latin">Razdvojite i istegnite prste dok ne osetite lagano istezanje i zadržite tako 10 sekundi. Opustite prste i savijte ih u šaku i držite tako 10 sekundi. Ponovite vežbu. </description>
+​    <description xml:lang="sv">Sträck ut och räta på fingrarna tills du märker en lätt sträckning. Håll kvar i 10 sekunder. Slappna av och knyt fingrarna och håll kvar i 10 sekunder. Upprepa övningen en gång till.</description>
+​    <description xml:lang="tr">Parmaklarınızı ayırıp hafif bir gerilme hissedene kadar uzatın ve 10 saniye kadar bu konumda kalın. Rahatlayın, sonra parmak eklemlerinizi bükün ve bu konumda da 10 saniye kadar kalın. Bu alıştırmayı bir kez daha tekrarlayın.</description>
+​    <description xml:lang="uk">Розчепірте і потягніть пальці доти, доки не відчуєте легке напруження, і потримайте так 10 секунд. Розслабтесь, потім зігніть у суглобах і потримайте так теж 10 секунд. Повторіть вправу ще раз.</description>
+​    <description xml:lang="zh_CN">分开并伸展您的手指头，直到感受到张力，然后保持这个姿势十秒钟。放松，然后弯曲手指头关节，保持姿势十秒钟。再重复一次这个动作。</description>
+​    <description xml:lang="zh_TW">分開並伸展您的手指頭，直到感受到張力，然後保持這個姿勢十秒鐘。放鬆，然後彎曲手指頭關節，保持姿勢十秒鐘。重複這個動作。</description>
+​    <sequence duration="40">
+​      <image src="finger-stretch-1.png" duration="10"/>
+​      <image src="finger-stretch-2.png" duration="10"/>
+​    </sequence>
   </exercise>
--->
   <exercise>
-    <_title>Finger stretch</_title>
-    <_description>Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more.</_description>
-    <sequence duration="40">
-      <image src="finger-stretch-1.png" duration="10"/>
-      <image src="finger-stretch-2.png" duration="10"/>
-    </sequence>
+    <title>Neck tilt stretch</title>
+    <title xml:lang="bg">Накланяне и разтягане врата</title>
+    <title xml:lang="ca">Estirament lateral del coll</title>
+    <title xml:lang="cs">Protažení krku úklonem do strany</title>
+    <title xml:lang="da">Udstræk af nakke</title>
+    <title xml:lang="de">Den Hals beugen und dehnen</title>
+    <title xml:lang="el">Τέντωμα του λαιμού προς τα πλάγια</title>
+    <title xml:lang="es">Estiramiento inclinado de cuello</title>
+    <title xml:lang="et">Venita kaela kallutades pead</title>
+    <title xml:lang="eu">Lepoa zeharka luzatu</title>
+    <title xml:lang="fa">کشیدن گردن به یک سمت</title>
+    <title xml:lang="fr">Étirement latéral du cou</title>
+    <title xml:lang="ga">Síneadh muineál claonadh</title>
+    <title xml:lang="he">סיבוב הצוואר</title>
+    <title xml:lang="hr">Istezanje vrata</title>
+    <title xml:lang="hu">Fejkörzés</title>
+    <title xml:lang="it">Stira il collo inclinandolo</title>
+    <title xml:lang="ja">首のストレッチ</title>
+    <title xml:lang="ko">목을 기울여 뻗어줍니다</title>
+    <title xml:lang="lt">Pakreipto kaklo ištempimas</title>
+    <title xml:lang="nb">Utstrekking av nakken</title>
+    <title xml:lang="nl">Nek strekken</title>
+    <title xml:lang="pl">Rozciąganie szyi</title>
+    <title xml:lang="pt_BR">Alongamento de inclinação de pescoço</title>
+    <title xml:lang="ro">Înclinați capul pentru întinderea gâtului</title>
+    <title xml:lang="ru">Потягивание шеи наклонами</title>
+    <title xml:lang="sk">Ponaťahovanie krku bočným úklonom</title>
+    <title xml:lang="sl">Pretegnite vrat z nagibom</title>
+    <title xml:lang="sr@latin">Istezanje vrata</title>
+    <title xml:lang="sv">Utsträckning av nacken</title>
+    <title xml:lang="tr">Boynu eğip uzatma</title>
+    <title xml:lang="uk">Розтягування шиї нахилами</title>
+    <title xml:lang="zh_CN">倾斜脖子运动</title>
+    <title xml:lang="zh_TW">傾斜脖子運動</title>
+​    <description>Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side.</description>
+​    <description xml:lang="bg">Застанете с нормално изправена глава и леко я наклонете към дясното си рамо за да разтегнете леко мускулите отляво на врата. Задръжте тази позиция за 5 секунди. После наклонете глава наляво за да разтегнете и на другата страна. Направете по два пъти за всяка страна.</description>
+​    <description xml:lang="ca">Comenceu amb el cap en una posició recta i còmoda. Inclineu el cap cap al muscle dret per a estirar suaument els músculs del costat esquerre del coll. Mantingueu aquesta posició durant 5 segons. A continuació, inclineu el cap cap al costat esquerre per a estirar l'altre costat. Feu això dues vegades per a cada costat.</description>
+​    <description xml:lang="cs">Začněte s hlavou v pohodlně vzpřímené poloze. Potom pomalu naklánějte hlavu k pravému rameni do lehkého protažení svalů na levé straně krku. Vydržte v této poloze pět sekund. Potom naklánějte hlavu na levou stranu do lehkého protažení. Na obě strany to udělejte dvakrát.</description>
+​    <description xml:lang="da">Se lige frem og find en behagelig position med hovedet. Læg højre øre mod højre skulder, så dine muskler på venstre side af halsen strækker. Hold strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre skulder. Udfør øvelsen to gange til hver side.</description>
+​    <description xml:lang="de">Beginnen Sie, indem Sie den Kopf in eine angenehme Position bringen. Dann neigen Sie den Kopf langsam zur rechten Schulter, um die Muskeln auf der linken Seite des Halses sanft zu dehnen. Behalten Sie diese Position für fünf Sekunden bei. Dann neigen Sie den Kopf nach links um Muskeln der anderen Seite zu dehnen. Wiederholen Sie dies für beide Seiten.</description>
+​    <description xml:lang="el">Αρχίστε με το κεφάλι χαλαρό και όρθιο. Ύστερα περιστρέψτε το αργά προς το δεξιό ώμο, για να τεντώσετε απαλά τους μύες στην αριστερή πλευρά του αυχένα. Κρατήστε αυτή τη θέση για περίπου 5 δευτερόλεπτα. Ύστερα περιστρέψτε το κεφάλι προς το αριστερό ώμο, για να τεντώσετε τους μύες στην δεξιά πλευρά. Επαναλάβετε δύο φορές για κάθε πλευρά.</description>
+​    <description xml:lang="es">Comience poniendo la cabeza cómodamente en posición erguida. Incline su cabeza lentamente hacia el hombro derecho, estirando suavemente los músculos del lado izquierdo del cuello. Mantenga esa posición durante 5 segundos. Incline entonces la cabeza hacia el lado izquierdo para estirar el lado derecho. Haga esto dos veces en cada lado.</description>
+​    <description xml:lang="et">Hoia pead sirgena, seejärel alusta aeglaselt pea kallutamist paremale, et kergelt venitada oma vasakpoolseid kaelalihaseid. Hoia seda asendit 5 sekundit. Nüüd kalluta pead vasakule poole, et venitada parempoolseid kaelalihaseid. Tee harjutust kaks korda.</description>
+​    <description xml:lang="eu">Burua egoera tente eta erosoan duzula hasi. Burua orduan poliki eskuineko sorbaldarantz eraman lepoaren ezkerraldea luzatzen dela nabaritzen duzula. Bost segunduz horrela egon. Burua ezkerralderantz eraman beste aldea luzatzen delarik. Alde bakoitza birritan egin.</description>
+​    <description xml:lang="fa">   تمرین را با سر خود در یک موقعیت راحت و مستقیم شروع کنید. سپس، به آرامی سر خود را به طرف شانه ی سمت راست خم کنید تا یک کشیدگی ملایم در ماهیچه های سمت چپ گردنتان حس شود. این حالت را برای 5 ثانیه نگه دارید. سپس، سر را به طرف شانه ی سمت چپ خم کنید تا ماهیچه های سمت راست گردنتان کشیده شود. این تمرین را دوبار برای هر سمت انجام دهید.</description>
+​    <description xml:lang="fr">Commencez avec la tête droite dans une position confortable. Penchez alors lentement la tête vers votre épaule droite afin d'étirer gentiment les muscles à gauche de votre cou. Maintenez cette position 5 secondes. Penchez alors lentement la tête vers votre épaule gauche afin d'étirer gentiment les muscles de l'autre côté. Recommencez l'exercice deux fois de chaque côté.</description>
+​    <description xml:lang="ga">Bíodh do cheann díreach suas agus sócúlach agat. Ansin, claon do cheann go réidh mall chuig do ghualainn ar dheis chun na matáin ar an taobh clé do do mhuinéail a shíneadh go réidh. Fan mar sin ar feadh 5 shoicind. Ansin, claon do cheann ar chlé chun an taobh eile a shíneadh. Déan seo faoi dhó don dá thaobh.</description>
+​    <description xml:lang="he">התחל כאשר הראש בתנוחה נוחה. אז הטה את הראש באיטיות לעבר כתף ימין למתיחה עדינה של השרירים שבצד שמאל של צווארך. השאר במצב זה למשך 5 שניות. לאחר מכן הטה את ראשך לצד שמאל למתיחת הצד השני. חזור פעמיים על כך צד.</description>
+​    <description xml:lang="hr">Krenite sa glavom iz nultog položaja. Polagano nagnite glavu udesno prema ramenu da se istegnu mišići vrata s lijeve strane. Zadržite položaj nekoliko sekundi. Zatim, nagnite glavu prema lijevom ramenu i osjetite istezanje mišića vrata desne strane. Ponovite vježbu nekoliko puta. </description>
+​    <description xml:lang="hu">Tartsa fejét egy kényelmes, egyenes pozícióban. Lassan hajtsa fejét a jobb vállára, hogy enyhén megfeszüljenek bal vállának izmai. Tartsa ezt a helyzetet 5 másodpercig. Ezután hajtsa fejét balra a másik oldal nyújtásához. Mindkét oldalra kétszer végezze el a gyakorlatot.</description>
+​    <description xml:lang="it">Comincia con la testa nella normale posizione diritta. Quindi inclinala lentamente verso la spalla destra per stirare delicatamente i muscoli sul lato sinistro del collo. Mantieni per 5 secondi. Ora inclina la testa verso sinistra per stirare l'altro lato. Ripeti 2 volte per ogni lato.</description>
+​    <description xml:lang="ja">先ず、頭をまっすぐにしてください。次に、首の左側の筋肉を伸ばすように、右肩へ頭をゆっくり傾けてください。5秒間保持してください。次に、反対側を伸ばすために左側への頭を傾けてください。各々これを2度繰り返してください。</description>
+​    <description xml:lang="ko">머리를 편안한 방향으로 뻗습니다.  그리고 느리게 머리를 오른쪽 어깨 쪽으로 기울여 목의 왼쪽 근육을 부드럽게 뻗을 수 있게 합니다. 이 동작을 5초 동안 유지합니다. 그리고, 머리를 왼쪽으로 기울여 반대쪽으로 뻗습니다. 이 동작을 각각 2번 합니다.</description>
+​    <description xml:lang="lt">Pradėk laikydamas savo galvą patogioje pozicijoje. Tada lėtai palenk galvą link dešinio peties, jog išsitemptų kairios kaklo pusės raumenys. Pabūk šioje pozoje 5-ias sekundes. Tada palenk galvą link kairio peties, taip įtempdamas dešinės pusės kaklo raumenis. Pakartok šį pratimą du kartus kiekvienai pusei.</description>
+​    <description xml:lang="nb">Se rett frem og finn en behagelig posisjon med hodet. Legg så høyre øre sakte mot høyre skulder slik at du forsiktig strekker musklene på venstre side av nakken. Hold i 5 sekunder. Gjenta så hele øvelsen med venstre øre mot venstre skulder. Gjenta begge øvelsene 2 ganger til hver side.</description>
+​    <description xml:lang="nl">Begin met je hoofd in een comfortabele rechte positie. Kantel dan langzaam je hoofd naar je rechter schouder toe, en strek daarme de spieren aan de linkerkant van je nek. Hou deze positie 5 seconden vast. Daarna kantel je je hoofd naar de linker schouder toe om de rechter nekspieren te strekken. Herhaal deze oefening twee keer voor elke kant.</description>
+​    <description xml:lang="pl">Zacznij z głową wygodnie wyprostowaną. Natępnie powoli pochyl głowę na prawy bark by delikatnie napiąć mieśnie lewej strony szyi. Wytrzymaj 5 sekund. Potem pochyl głowę na lewą stronę by napiąć mięśnie z drugiej strony. Powtórz to dwa razy dla każdej strony.</description>
+​    <description xml:lang="pt_BR">Comece com a cabeça comodamente em posição ereta. Incline sua cabeça lentamente até o ombro direito, esticando suavemente os músculos do lado esquerdo do pescoço. Mantenha essa posição durante 5 segundos. Então, incline a cabeça para o lado esquerdo para esticar o lado direito. Faça este movimento duas vezes para cada lado.</description>
+​    <description xml:lang="ro">Începeți prin a găsi o poziție confortabilă a capului. Apoi, înclinați capul încet spre umărul drept pentru a întinde ușor mușchii de pe partea stânga a gâtului dumneavoastră. Mențineți poziția pentru 5 secunde. Apoi, înclinați ușor capul spre umărul stâng pentru a întinde cealaltă parte. Faceți acest lucru de două ori pentru fiecare parte.</description>
+​    <description xml:lang="ru">Сделайте голову прямо. Затем, медленно наклоните голову к правому плечу, чтобы мягко растянуть мускулы на левой стороне шеи. Задержитесь в этом положение в течение 5 секунд. Затем, наклоните голову к левой стороне, чтобы растянуть мышцы на другой стороне. Сделайте это дважды для каждой стороны.</description>
+​    <description xml:lang="sk">Začnite s hlavou pohodlne vzpriamenou. Pomaly ju nakláňajte k pravému plecu, aby ste mierne natiahli svaly na ľavej strane krku. Vydržte takto 5 sekúnd. Potom nakláňajte hlavu k ľavému plecu, čím natiahnete svaly napravo. Urobte to 2x pre obe strany.</description>
+​    <description xml:lang="sl">Začnite z glavo v udobni pokončni poziciji. Nato počasi nagnite glavo proti svoji desni rami, tako, da se raztegnejo mišice na levi strani vrata. Ostanite v tem položaju 5 sekund. Nato nagnite glavo proti levi, da raztegnete še drugo stran. To izvedite dvakrat za vsako stran.</description>
+​    <description xml:lang="sr@latin">Krenite sa glavom iz uspravnog položaja. Polako nagnite glavu udesno prema ramenu da se istegnu mišići vrata s leve strane. Zadržite položaj nekoliko sekundi. Zatim, polako nagnite glavu prema levom ramenu da osetite istezanje mišića vrata desne strane. Ponovite vežbu nekoliko puta. </description>
+​    <description xml:lang="sv">Se rakt fram och hitta en behaglig position med huvudet. Lägg sedan högra örat mot högra skuldran så att du försiktigt sträcker musklerna på vänstra sidan av nacken. Håll kvar i 5 sekunder. Upprepa hela övningen med vänster öra mot vänster skuldra. Upprepa båda övningarna 2 gånger till på varje sida.</description>
+​    <description xml:lang="tr">Bu alıştırmaya başınız düz ve rahat bir konumdayken başlayın. Sonra başınızı sağ omzunuza doğru eğin ve ensenizin sol tarafındaki kasları gerin. Bu konumda  5 saniye kadar kaldıktan sonra başınızı diğer tarafı germek için sol tarafa doğru eğin. Bu alıştırmayı her iki taraf için ikişer kez tekrarlayın.</description>
+​    <description xml:lang="uk">Розпочніть вправу, розмістивши голову прямо. Потім повільно нахиліть її до правого плеча, щоб м'яко розтягнути м'язи на лівій стороні шиї. Затримайтеся у цьому положенні протягом 5 секунд. Після цього нахиліть голову до лівої сторони, щоб розтягнути м'язи на іншій стороні. </description>
+​    <description xml:lang="zh_CN">开始时您的头处于舒适的笔直状态。然后，缓慢的将头倾斜在右肩上，轻轻的拉伸您脖子左边的肌肉，保持这个姿势五秒钟。然后，慢慢的将头倾斜到左肩，以伸展另外一边。每边各做两次。</description>
+​    <description xml:lang="zh_TW">開始時您的頭處於舒適的筆直狀態。然後，緩慢的將頭傾斜在右肩上，輕輕的伸展您的左邊脖子，保持這個姿勢五秒鐘。然後，慢慢的將頭傾斜到左肩，以伸展另外一邊的脖子。每邊各做兩次。</description>
+​    <sequence duration="30">
+​      <image src="neck-tilt-stretch-1.png" duration="5"/>
+​      <image src="neck-tilt-stretch-2.png" duration="5"/>
+​    </sequence>
   </exercise>
   <exercise>
-    <_title>Neck tilt stretch</_title>
-    <_description>Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side.</_description>
-    <sequence duration="30">
-      <image src="neck-tilt-stretch-1.png" duration="5"/>
-      <image src="neck-tilt-stretch-2.png" duration="5"/>
-    </sequence>
+    <title>Backward shoulder stretch</title>
+    <title xml:lang="bg">Разтягане на рамената назад.</title>
+    <title xml:lang="ca">Estirament de muscles cap enrere</title>
+    <title xml:lang="cs">Zadní propnutí ramen</title>
+    <title xml:lang="da">Skulder stræ</title>
+    <title xml:lang="de">Schultern rückwärts strecken</title>
+    <title xml:lang="el">Τέντωμα των ώμων προς τα πίσω</title>
+    <title xml:lang="es">Estiramiento hacia atrás de hombros</title>
+    <title xml:lang="et">Tahapoole õlgade venitus</title>
+    <title xml:lang="eu">Sorbaldak atzerantz luzatu</title>
+    <title xml:lang="fa">Backward shoulder stretch</title>
+    <title xml:lang="fr">Étirement d'épaule arrière</title>
+    <title xml:lang="ga">Siarshíneadh na nguaillí</title>
+    <title xml:lang="he">מתיחת כתף אחורית</title>
+    <title xml:lang="hr">Istezanje ramena unazad</title>
+    <title xml:lang="hu">Hátsó vállnyújtás</title>
+    <title xml:lang="it">Stretching delle spalle all'indietro</title>
+    <title xml:lang="ja">肩を後ろにストレッチ</title>
+    <title xml:lang="ko">뒤쪽으로 어깨를 뻗습니다.</title>
+    <title xml:lang="lt">Atbulinis pečių įtempimas</title>
+    <title xml:lang="nb">Bakover skulderstrekk</title>
+    <title xml:lang="nl">Achterwaarts schouders strekken</title>
+    <title xml:lang="pl">Rozciąganie barków za plecami</title>
+    <title xml:lang="pt_BR">Alongamento atrás dos ombros</title>
+    <title xml:lang="ro">Întindeți umerii în spate</title>
+    <title xml:lang="ru">Обратное потягивание плеча</title>
+    <title xml:lang="sk">Zadné ponaťahovanie pliec</title>
+    <title xml:lang="sl">Pretegovanje ramen v nazaj</title>
+    <title xml:lang="sr@latin">Istezanje ramena unazad</title>
+    <title xml:lang="sv">Sträck ut skuldrorna bakåt</title>
+    <title xml:lang="tr">Omuz arkası kaslarını germe</title>
+    <title xml:lang="uk">Зворотнє розтягування плечей</title>
+    <title xml:lang="zh_CN">后肩伸展</title>
+    <title xml:lang="zh_TW">後肩伸展</title>
+​    <description>Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice.</description>
+​    <description xml:lang="bg">Сплетете пръсти зад гърба си. После внимателно завъртете лактите навътре леко изпъвайки ръцете. Задръжте в тази позиция от 5 до 15 секунди и повторете упражнеието.</description>
+​    <description xml:lang="ca">Entrellaceu els dits per darrere de l'esquena. Gireu els colzes lleugerament cap a dins, mentre estireu els braços. Mantingueu aquesta posició entre 5 i 15 segons, i repetiu l'exercici dues vegades.</description>
+​    <description xml:lang="cs">Propleťte svoje prsty za svými zády. Následně otočte svoje lokty lehce dovnitř až do narovnání svých rukou. Zůstaňte v této poloze po dobu 5 až 15 sekunda a opakujte tento cvik dvakrát.</description>
+​    <description xml:lang="da">Flet fingrene bag ryggen. Drej albuerne forsigtigt indad, mens du strækker dine arme. Hold stillingen i 5 til 15 sekunder. Gentag øvelsen to gange.</description>
+​    <description xml:lang="de">Legen Sie hinter dem Rücken die Finger ineinander. Dann drehen sie die Ellenbogen sanft einwärts, während Sie die Arme strecken. Behalten Sie diese Position für 5 bis 15 Sekunden bei und wiederholen Sie diese Übung zweimal.</description>
+​    <description xml:lang="el">Ενώστε τα δάχτυλά σας πίσω από την πλάτη. Ύστερα σπρώξτε απαλά τους ώμους προς τα μέσα, τεντώνοντας συγχρόνως τα χέρια. Κρατήστε αυτή τη στάση για περίπου 5 με 15 δευτερόλεπτα, και επαναλάβετε την άσκηση δύο φορές.</description>
+​    <description xml:lang="es">Entrelace los dedos de las manos por detrás de las palmas. Mueva los codos hacia dentro mientras extiende los brazos. Manténgase este posicion durante 5 a 15 segundos y repita el ejercicio dos veces.</description>
+​    <description xml:lang="et">Pane käed selja taha nii, et näpud oleks põimitud. Nüüd liiguta oma õlgasid kergelt ettepoole, samal ajal oma käsi sirgemaks lükates. Hoia seda asendit 5 kuni 15 sekundit ja niiviisi kaks korda.</description>
+​    <description xml:lang="eu">Eskuetako hatzak ahurren atzetik korapilatu. Eraman ukondoak barrurantz besoak luzatzen dituzun heinean. 5-15 segundu bitartean egon horrela eta ariketa bi aldiz errepikatu.</description>
+​    <description xml:lang="fa">انگشت هایتان را در پشتتان به هم بپیچانید. سپس آرنج هایتان را به آرامی به درون بپیچانید، در حالی که بازوهایتان را راست می کنید. این حالت را 5 تا 15 ثانیه نگه دارید، و این تمرین را دو بار انجام دهید.</description>
+​    <description xml:lang="fr">Croisez les mains derrière le dos. Tournez légèrement les coudes vers l'intérieur tout en tendant les bras. Maintenez cette position pendant 5 à 15 secondes, puis recommencez.</description>
+​    <description xml:lang="ga">Comáil do mhéara taobh thiar do do dhroim. Ansin cas d'uillinneacha go réidh isteach agus dírigh do lámha. Fan mar sin ar feadh 5 go dtí 15 shoicind, agus déan an cleachtadh seo dhá uair.</description>
+​    <description xml:lang="he">שלב את אצבעותיך מאחרי הגב. אחר כך סובב בעדינות את המרפקים פנימה, תוך כדי ישור הידים. השאר במצב זה למשך 5 עד 15 שניות, ואז חזור על התרגיל פעמים.</description>
+​    <description xml:lang="hr">Isprepletite prste iza leđa. Sada lagano pomaknite laktove prema unutra dok istovremeno ispružate ruke od sebe. Zadržite položaj 5 do 15 sekundi, te ponovite vježbu. </description>
+​    <description xml:lang="hu">Kulcsolja össze ujjait a háta mögött. Ezután óvatosan közelítse egymáshoz könyökeit, amíg ki nem egyenesednek karjai. Tartsa ezt a helyzetet 5–15 másodpercig, majd ismételje meg a gyakorlatot kétszer.</description>
+​    <description xml:lang="it">Intreccia le dita dietro la schiena. Poi ruota delicatamente i gomiti verso l'interno, mentre stiri le braccia. Tieni questa posizione da 5 a 15 secondi, e ripeti l'esercizio 2 volte.</description>
+​    <description xml:lang="ja">背の後ろで指を組み合わせてください。次に、腕を真っすぐにしたまま、肘をゆっくりと内側に動かしてください。5～15秒間保持します。これを2度繰り返してください</description>
+​    <description xml:lang="ko">손가락을 등 뒤로 꼽니다. 그리고나서 팔꿈치를 부드럽게 안쪽으로 돌리고, 그러면서 팔을 뻗습니다. 이 동작을 5-15초 동안 유지하고, 이 운동을 두번 반복합니다.</description>
+​    <description xml:lang="lt">Sunerk savo pirštus už nugaros. Tada švelniai pasuk savo alkūnes į vidų tiesindamas savo rankas. Pabūk tokioje pozoje nuo 5 iki 15 sekundžių. Pakartok šį pratimą du kartus.</description>
+​    <description xml:lang="nb">Flett fingrene bak ryggen. Drei albuene forsiktig innover, mens du strekker armene. Hold denne stillingen i 5 til 15 sekunder. Gjenta øvelsen 2 ganger.</description>
+​    <description xml:lang="nl">Kruis je vingers achter je rug. Draai je ellebogen naar binnen toe terwijl je je armen strekt. Hou deze positie 5 tot 15 seconden vast. Herhaal deze oefening.</description>
+​    <description xml:lang="pl">Spleć palce za plecami. Zegnij delikatnie łokcie do wnętrza jednocześnie wyprostowując ramiona. Wytrzymaj w tej pozycji 5 do 15 sekund i powtórz ćwiczenie dwa razy.</description>
+​    <description xml:lang="pt_BR">Entrelace os dedos atrás das costas. Mova os cotovelos para dentro extendendo os braços. Mantenha-se nesta posição durante 5 a 15 segundos e repita o exercício duas vezes.</description>
+​    <description xml:lang="ro">Împreunați-vă mâinile la spate cu degetele întrețesute. Apoi întoarceți-vă coatele ușor spre interior în timp ce vă îndreptați mâinile. Mențineți această poziție pentru 5 până la 15 secunde și repetați exercițiul de două ori.</description>
+​    <description xml:lang="ru">Переплетите пальцы позади спины. Затем, медленно выгните локти внутрь, выпрямляя руки. Задержитесь в таком положении от 5 до 15 секунд и повторите упражнение дважды.</description>
+​    <description xml:lang="sk">Prepleťte si prsty za chrbtom. Otočte si lakte zľahka dovnútra až po narovnanie rúk. Zostaňte tak 5 až 15 sekúnd. Opakujte cvik 2x.</description>
+​    <description xml:lang="sl">Spletite prste za hrbtom. Obrnite komolce rahlo navznoter medtem ko stegnete roke. Zadržite to pozicijo za 5 do 15 sekund in ponovite vajo dvakrat.</description>
+​    <description xml:lang="sr@latin">Isprepletite prste iza leđa. Sada lagano pomerite laktove prema unutra dok istovremeno ispružate ruke od sebe. Zadržite položaj 5 do 15 sekundi, pa ponovite vežbu. </description>
+​    <description xml:lang="sv">Fläta fingrarna bakom ryggen. Vrid dina armbågar försiktigt innåt, samtidigt som du sträcker på armarna. Håll kvar i denna position mellan 5 och 15 sekunder, och upprepa denna övning två gånger.</description>
+​    <description xml:lang="tr">Parmaklarınızı arkanızda kavuşturun, sonra dirseklerinizi yumuşakça içeriye doğru döndürün ve bu sırada kollarınızı düz biçimde uzatın. 5 ila 15 saniye kadar bu konumda kalın ve alıştırmayı iki kez tekrarlayın.</description>
+​    <description xml:lang="uk">Сплетіть пальці за спиною. Потім повільно вигніть лікті всередину, випрямляючи руки. Затримайтеся в такому положенні від 5 до 15 секунд і повторіть вправу двічі.</description>
+​    <description xml:lang="zh_CN">在您的背后交叉手指。然后将胳膊肘轻轻地往里收，将手臂伸直。保持这个姿势五到十五秒，然后重复这个动作两次。</description>
+​    <description xml:lang="zh_TW">在您的背後交叉手指頭。然後將胳膊輕微的往前，以弄直手臂。保持這個姿勢五到十五秒。然後重複這個動作兩次。</description>
+​    <sequence duration="30">
+​      <image src="backward-shoulder-stretch.png" duration="15"/>
+​    </sequence>
   </exercise>
   <exercise>
-    <_title>Backward shoulder stretch</_title>
-    <_description>Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice.</_description>
-    <sequence duration="30">
-      <image src="backward-shoulder-stretch.png" duration="15"/>
-    </sequence>
+    <title>Move the eyes</title>
+    <title xml:lang="bg">Движете очите</title>
+    <title xml:lang="ca">Moveu els ulls</title>
+    <title xml:lang="cs">Pohyb očí</title>
+    <title xml:lang="da">Bevæg øjnene</title>
+    <title xml:lang="de">Die Augen bewegen</title>
+    <title xml:lang="el">Κινήστε τα μάτια</title>
+    <title xml:lang="es">Movimiento de ojos</title>
+    <title xml:lang="et">Liiguta silmasid</title>
+    <title xml:lang="eu">Begiak mugitu</title>
+    <title xml:lang="fa">چشم ها را حرکت دهید</title>
+    <title xml:lang="fr">Bougez les yeux</title>
+    <title xml:lang="ga">Bog na súile</title>
+    <title xml:lang="he">הזזת העיניים</title>
+    <title xml:lang="hr">Pomičite oči</title>
+    <title xml:lang="hu">Szemkörzés</title>
+    <title xml:lang="it">Muovi gli occhi</title>
+    <title xml:lang="ja">目の運動</title>
+    <title xml:lang="ko">눈을 움직입니다.</title>
+    <title xml:lang="lt">Pajudink akis</title>
+    <title xml:lang="nb">Beveg øynene</title>
+    <title xml:lang="nl">Beweeg de ogen</title>
+    <title xml:lang="pl">Poruszanie oczami</title>
+    <title xml:lang="pt_BR">Mova os olhos</title>
+    <title xml:lang="ro">Mișcați-vă ochii</title>
+    <title xml:lang="ru">Движение глазами</title>
+    <title xml:lang="sk">Pohyb očí</title>
+    <title xml:lang="sl">Premikajte oči</title>
+    <title xml:lang="sr@latin">Pomerajte oči</title>
+    <title xml:lang="sv">Rör på ögonen</title>
+    <title xml:lang="te">కళ్ళని కదపండి</title>
+    <title xml:lang="tr">Gözleri hareket ettirin</title>
+    <title xml:lang="uk">Рух очима</title>
+    <title xml:lang="zh_CN">眼球运动</title>
+    <title xml:lang="zh_TW">眼球運動</title>
+​    <description>Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise.</description>
+​    <description xml:lang="bg">Погледнете към външния ръб на горния ляв ъгъл на вашият монитор. Проследете бавно с поглед ръба до горния десен ъгъл. Продължете към следващият ъгъл докато направите две обиколки. После направете упражнението и в обратна посока.</description>
+​    <description xml:lang="ca">Mireu el cantó superior esquerre del contorn exterior del vostre monitor. Resseguiu el contorn lentament cap al cantó superior dret. Continueu cap al següent cantó, fins a haver completat dues voltes. A continuació, invertiu l'exercici.</description>
+​    <description xml:lang="cs">Dívejte se na horní levý roh vnějšího okraje svého monitoru. Sledujte okraj pomalu do horního pravého rohu. Pokračujte do dalšího rohu, dokud monitor neobejdete dvakrát. Potom opakujte cvik v obráceném směru.</description>
+​    <description xml:lang="da">Kig på øverste venstre hjørne af den yderste kant på din skærm. Følg kanten langsomt med øjnene til det øvre højre hjørne. Gentag til du når næste hjørne osv, indtil du er nået hele vejen rundt to gange, Gentag øvelsen den modsatte vej rundt.</description>
+​    <description xml:lang="de">Schauen Sie auf die obere linke Ecke des Außenrands Ihres Bildschirms. Folgen Sie dem Rand langsam bis zur oberen rechten Ecke. Setzen Sie bis zur nächsten Ecke fort bis sie ihn zweimal umrundet haben. Dann wiederholen Sie die Übung in umgekehrter Richtung.</description>
+​    <description xml:lang="el">Κοιτάξτε την άνω αριστερή γωνία του πλαισίου της οθόνης σας. Ακολουθήστε με το βλέμμα σας το πλαίσιο μέχρι τη δεξιά γωνία. Συνεχίστε με τον ίδιο τρόπο, μέχρι να "γυρίσετε" το πλαίσιο δύο φορές. Επαναλάβετε την άσκηση από τα δεξιά προς τα αριστερά.</description>
+​    <description xml:lang="es">Mire a la esquina superior izquierda del borde externo de su monitor. Siga el borde lentamente hasta la esquina superior derecha. Siga hasta la esquina siguiente, hasta que haya dado dos vueltas. Haga este ejercicio en sentido contrario.</description>
+​    <description xml:lang="et">Vaata oma monitori vasaku ääre ülemist nurka. Liiguta pilku aeglaselt parema ülemise ääre suunas. Jätka samamoodi järgmise nurga suunas, kuni oled teinud kaks ringi. Seejärel korda sama harjutust muutes liikumise suunda.</description>
+​    <description xml:lang="eu">Monitorearen goiko ezkerreko ertzari begiratu. Poliki poliki begirada eskuineko ertzeraino eraman, eta horrela ertz guztiak birritan pasatu arte. Gero ariketa alderantziz egin.</description>
+​    <description xml:lang="fa">به گوشه ی بالایی سمت چپ لبه ی خارجی مانیتورتان نگاه کنید. لبه را به آرامی تا گوشه ی سمت راست دنبال کنید. ادامه دهید برای گوشه ی بعدی، هنگامی که دوبار دور آن را دنبال کرده باشید. سپس، تمرین را تا دفعه ی بعد کنار بگذارید.</description>
+​    <description xml:lang="fr">Regardez le coin en haut à gauche de votre écran. Puis suivez lentement des yeux la bordure supérieure de votre écran jusqu'au coin en haut à droite. Faites le tour complet de l'écran en allant aux autres coins. Faites le tour de l'écran deux fois dans un sens, puis deux fois dans le sens inverse.</description>
+​    <description xml:lang="ga">Féach ar an gcúinne ar barr an taobh clé d'imeall an scáileán agat. Lean an t-imeall go mall le do shúile go dtí an cúinne ar barr an taobh deas. Lean ar aghaidh go dtí an chéad chúinne eile go dtí go bhfuil sé leanta agat dhá uaire. Ansin, déan arís é ach ag dul an treo eile.</description>
+​    <description xml:lang="he">התבונן בפינה השמאלית העליונה של המסגרת החיצונית של הצג. עקוב אחר המסגרת באיטיות עד לפינה הימנית העליונה. המשך לפינה הבאה, עד שתעשה שני סיבובים. לאחר מכן הפוך את כיוון התרגיל.</description>
+​    <description xml:lang="hr">Usmjerite pogled u gornji lijevi kut monitora. Polagano pratite rub monitora do gornjeg desnog kuta. Nastavite do sljedećeg kuta dok ne napravite dva puna kruga. Zatim ponovite u drugu stranu. </description>
+​    <description xml:lang="hu">Nézze a képernyő kávájának bal felső sarkát. Lassan kövesse szemével – feje mozgatása nélkül – a keretet a jobb felső sarokig. Folytassa ezt az óra járásának irányában két körön keresztül. Ezután végezze el a gyakorlatot visszafelé.</description>
+​    <description xml:lang="it">Guarda l'angolo in alto a sinistra del bordo esterno del monitor. Segui il bordo lentamente fino all'angolo destro. Continua fino allo spigolo successivo, fino a completare il giro 2 volte. Poi, inverti l'esercizio.</description>
+​    <description xml:lang="ja">モニターの外側の上左隅を見てください。上右隅までゆっくりと視線を移してください。同じように次の隅まで視線を移し、2回転してください。次に反対まわりで同じように行ってください。</description>
+​    <description xml:lang="ko">모니터 바깥 왼쪽 상단 구석을 바라봅니다. 바깥을 따라서 느리게 위로하여 오른쪽 구석으로 이동합니다. 다음 구석까지 계속하여, 2바뀌 돌 때까지 합니다. 그리고 반대로 운동합니다.</description>
+​    <description xml:lang="lt">Žiūrėk į viršutinį dešinį savo vaizduoklio korpuso kampą. Lėtai sek akimis jo remeliu į viršutinį kairį kampą. Tesk iki kito kampo, kol apsuksi du ratus. Tada pakeisk kryptį ir tęsk pratimą.</description>
+​    <description xml:lang="nb">Se på øverste venstre hjørne av den ytterste kanten på skjermen din. Følg kanten langsomt med øynene til det øvre høyre hjørnet. Gjenta til du når neste hjørne osv, inntil du har nådd rundt hele veien to ganger. Gjenta øvelsen den motsatte veien rundt.</description>
+​    <description xml:lang="nl">Kijk naar de hoek links-boven van de buitenrand van je monitor. Volg langzaam met je ogen de buitenrand van de monitor naar de hoek rechts-boven. Vervolg de beweging naar de volgende hoek, totdat je twee keer rond geweest bent. Herhaal daarna de beweging in tegengestelde richting.</description>
+​    <description xml:lang="pl">Spójrz na górny lewy róg monitora. Powoli przesuwaj wzrok do górnego prawego rogu. Kontynuuj do następnego rogu dopóki nie okrążysz w ten sposób monitora dwukrotnie. Następnie odwróć kierunek ćwiczenia.</description>
+​    <description xml:lang="pt_BR">Olhe o canto superior esquerdo da borda externa do seu monitor. Siga a borda lentamente até o canto superior direito. Siga até o canto seguinte, até que tenha dado duas voltas. Faça este exercício no sentido contrário.</description>
+​    <description xml:lang="ro">Priviți la colțul din stânga sus al marginii monitorului. Urmăriți marginea încet către colțul din dreapta sus. Continuați la celălalt colț până când înconjurați monitorul cu privirea de două ori. Apoi repetați exercițiul în direcția inversă.</description>
+​    <description xml:lang="ru">Посмотрите на левый верхний угол корпуса монитора. Медленно переместите взгляд к правому верхнему углу. И так далее, пока не обведёте монитор взглядом два раза. Повторите упражнения перемещая взгляд в обратном направлении.</description>
+​    <description xml:lang="sk">Dívejte sa na ľavý horný roh monitora, vonkajší okraj. Sledujte okraj pomaly doprava až do pravého horného rohu. Pokračujte do ďalšieho rohu, až kým celý monitor neobídete 2x. Potom cvik zopakujte v opačnom smere.</description>
+​    <description xml:lang="sl">Poglejte v zgornji levi kot zunanjega roba monitorja. Počasi sledite robu do zgornjega desnega kota. Nadaljujte do naslednjega kota, dokler ne greste okoli zaslona dvakrat. Nato ponovite vajo v obratni smeri.</description>
+​    <description xml:lang="sr@latin">Usmerite pogled u gornji levi ugao monitora. Polako pogledom pratite ivicu monitora do gornjeg desnog ugla. Nastavite do sledećeg ugla dok ne napravite dva puna kruga. Zatim ponovite u drugu stranu. </description>
+​    <description xml:lang="sv">Se på översta vänstra hörnet på den yttersta kanten på din skärm. Följ kanten långsamt med ögonen till det övre högra hörnet. Fortsätt till nästa hörna tills du har gått runt två gånger. Upprepa övningen fast det motsatta hållet.</description>
+​    <description xml:lang="tr">Monitörünüzün dış çerçevesinin sol üst köşesine bakın. Çerçeveyi yavaşça sağ üst köşeye kadar gözünüzle izleyin. Sonra sağ alttaki köşeye ve sonunda sol alttaki köşeye kadar devam edin. Çerçeve üzerinde iki kez döndükten sonra aynı alıştırmayı tersi yönünde iki kez daha tekrarlayın.</description>
+​    <description xml:lang="uk">Подивіться на лівий верхній кут корпуса монітора. Повільно перемістіть погляд до правого верхнього кута. Продовжуйте, доки не обійдете поглядом всі кути монітора двічі. Повторіть вправу, переміщуючи погляд у зворотньому напрямку.</description>
+​    <description xml:lang="zh_CN">注视您的屏幕左上角的边框。沿着边框注视到右上角。继续到下个角落直到环绕两次。然后反向进行。</description>
+​    <description xml:lang="zh_TW">注視您的螢幕左上角落的邊框。沿著邊框注視到右上腳略。繼續到下個角落直到重複兩次。然後反向進行。</description>
+​    <sequence duration="32">
+​       <image src="monitor-border-1.png" duration="4"/>
+​       <image src="monitor-border-2.png" duration="4"/>
+​       <image src="monitor-border-3.png" duration="4"/>
+​       <image src="monitor-border-4.png" duration="4"/>
+​    </sequence>
+  </exercise>
+
+  <exercise>
+    <title>Train focusing the eyes</title>
+    <title xml:lang="bg">Тренировка за фокусиране на очите</title>
+    <title xml:lang="ca">Entrenament del focus dels ulls</title>
+    <title xml:lang="cs">Cvičení zaostřování očí</title>
+    <title xml:lang="da">Træn øjen-fokusering</title>
+    <title xml:lang="de">Das Fokussieren mit den Augen üben</title>
+    <title xml:lang="el">Εστιάζοντας σε διαφορετικά σημεία</title>
+    <title xml:lang="es">Entrenamiento de enfoque de ojos</title>
+    <title xml:lang="et">Harjuta silmade fokusseerimist</title>
+    <title xml:lang="eu">Begien enfokea trebatu</title>
+    <title xml:lang="fa">متمرکز کردن چشم ها را تمرین کنید</title>
+    <title xml:lang="fr">Focalisation</title>
+    <title xml:lang="ga">Oil do shúile díriú ar áit amháin</title>
+    <title xml:lang="he">אימון התמקדות העיניים</title>
+    <title xml:lang="hr">Treniranje fokusiranja očiju</title>
+    <title xml:lang="hu">A szemek edzése fókuszálással</title>
+    <title xml:lang="it">Allenamento della messa a fuoco degli occhi</title>
+    <title xml:lang="ja">目の焦点合わせ運動</title>
+    <title xml:lang="ko">눈 응시 훈련</title>
+    <title xml:lang="lt">Pasitreniruok fokusuoti akis</title>
+    <title xml:lang="nb">Tren øye fokusering</title>
+    <title xml:lang="nl">Train het focussen van de ogen</title>
+    <title xml:lang="pl">Trening akomodacji</title>
+    <title xml:lang="pt_BR">Treinamento de foco dos olhos</title>
+    <title xml:lang="ro">Exersați privitul într-un punct fix</title>
+    <title xml:lang="ru">Тренируйтесь фокусировать глаза</title>
+    <title xml:lang="sk">Cvik pre zaostrovanie očí</title>
+    <title xml:lang="sl">Vadite izostrovanje z očmi</title>
+    <title xml:lang="sr@latin">Treniranje fokusiranja očiju</title>
+    <title xml:lang="sv">Träna fokusering med ögonen</title>
+    <title xml:lang="tr">Gözleri odaklamaya alıştırın</title>
+    <title xml:lang="uk">Тренування фокусування очей</title>
+    <title xml:lang="zh_CN">训练眼球焦点</title>
+    <title xml:lang="zh_TW">訓練眼球焦點</title>
+​    <description>Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor.</description>
+​    <description xml:lang="bg">Вгледайте се в най-далечната точка, която можете да видите зад монитора си. Фокусирайте очи в отдалечената точка, после ги фокусирайте върху ръба по монитора. Повторете. Ако нямате достатъчно видима площ зад монитора, обърнете се в друга посока където имате по-далечен изглед и тогава прехвърляйте фокуса между отдалечен обект и писалка която държите на същото разстояние от очите си като монитора.</description>
+​    <description xml:lang="ca">Busqueu el punt més llunyà que pugueu veure darrere del vostre monitor. Enfoqueu els vostres ulls al punt remot. Després, enfoqueu el contorn del vostre monitor. Torneu-ho a repetir. Si no podeu mirar massa lluny del vostre monitor, encareu-vos cap a una altra direcció amb una vista més llarga. Canvieu el focus entre un objecte distant i un bolígraf mantingut a la mateixa distància dels vostres ulls que el monitor.</description>
+​    <description xml:lang="cs">Najděte nejvzdálenější bod, který můžete za monitorem vidět. Zaostřete oči na tento vzdálený bod. Potom zaostřete na rám monitoru. Opakujte to. Pokud se nemůžete dívat velmi daleko za monitor, najděte si jiný směr s delší vzdáleností pohledu. Potom zaostřujte mezi vzdáleným objektem a perem drženým ve stejné vzdálenosti od očí jako je váš monitor.</description>
+​    <description xml:lang="da">Fokuser på det fjerneste punkt du kan se bagved din skærm. Efter et par sekunder, fokuser på kanten af din skærm. Gentag øvelsen. Brug evt. en kuglepen i stedet for kanten af skærmen i en anden retning end skærmen, hvis du har bedre afstand der.</description>
+​    <description xml:lang="de">Schauen Sie den entferntesten Punkt, den Sie hinter Ihrem Bildschirm sehen können. Fixieren Sie den enfernten Punkt. Nach ein paar Sekunden fokussieren Sie den Bildschirmrand. Wiederholen Sie. Falls Sie von ihrem Bildschirm aus nicht sehr weit blicken können, benutzen Sie stattdessen z. B. einen Stift und halten Sie Ihn in Bildschirmentfernung vor das Gesicht.</description>
+​    <description xml:lang="el">Κοιτάξτε το πιο απομακρυσμένο σημείο πίσω από την οθόνη σας. Εστιάστε το βλέμμα σας πάνω του. Ύστερα εστιάστε στο πλαίσιο της οθόνης. Επαναλάβετε. Αν δεν μπορείτε να δείτε πολύ μακριά από την οθόνη, γυρίστε προς μια κατεύθυνση με πιο ανοιχτή θέα, εστιάζοντας μια στο μακρινό αντικείμενο και μια σε ένα στυλό που θα απέχει από τα μάτια σας όσο και η οθόνη σας όταν εργάζεστε.</description>
+​    <description xml:lang="es">Mire al punto más lejano que pueda alcanzar tras su monitor. Enfoque la vista en ese punto lejano. Después de unos segundos, enfoque en el borde del monitor. Repítalo. Si no puede ver mucho más allá de su monitor, use por ejemplo un bolígrafo y manténgalo a la misma distancia que el monitor.</description>
+​    <description xml:lang="et">Vaata kaugeimasse punkti, mida sa näed enda monitori taga. Fokusseeri oma pilk sellele punktile. Seejärel liiguta pilk tagasi oma monitori servale. Korda harjutust. Kui monitori taga pole piisavalt pikka ruumi, keera nägu teise suunda, kus on parem vaateväli. Seejärel liiguta oma pilku kõige kaugemal asetsevale objektile ning siis enda silmade ette, monitoriga võrdsele kaugusele tõstetud pliaatsile,</description>
+​    <description xml:lang="eu">Monitorearengandik urrunen egon daitekeen puntura begira ezazu. Begiak urrutiko puntu hartara enfokatu. Gero zure monitorearen ertzari enfokatu. Errepikatu. Monitoretik urrunago ezin baduzu begiratu, boligrafo bat erabili eta monitorearen distantzian eduki.</description>
+​    <description xml:lang="fa">نگاه کنید برای دورترین نقطه ای که پشت مانیتورتان می توانید ببینید. چشم هایتان را روی نقطه ی دور متمرکز کنید. سپس روی لبه ی مانیتور تمرکز کنید. آن را تکرار کنید. اگر شما نمی توانید خیلی دورتر از مانیتورتان را ببینید،  رو به روی یک مسیر با نمای طولانی تر بایستید. سپس تمرکزتان را بین یک شیء دورتر و یک خودکار در فاصله ی چشم هایتان تا مانیتور تغییر دهید.</description>
+​    <description xml:lang="fr">Fixez le point le plus éloigné derrière votre moniteur quelques secondes. Faites ensuite le point sur le bord de votre moniteur quelques secondes. Recommencez. S'il ne vous est pas possible de regarder loin derrière votre moniteur, utilisez un stylo, par exemple, et gardez-le à la même distance que votre moniteur.</description>
+​    <description xml:lang="ga">Aimsigh an áit is faide uait lastall scáileán do ríomhaire. Dírigh do shúile ar an áit i gcéin. Ansin dírigh do shúile ar imeall an scáileáin. Déan arís é. Mura féidir leat breathnú ar rudaí i bhfad ó do ríomhaire, tabhair aghaidh ar threo eile ina bhfuil radharc níos faide ar fáil. Ansin malartaigh do radharc idir réad i gcéin agus peann atá an fad céanna ó do shúile is atá do scáileán.</description>
+​    <description xml:lang="he">התבונן לעבר הנקודה הרחוקה ביותר שאתה יכול לראות מאחורי הצג. מקד את העיניים באותה נקודה רחוקה. כעת התמקד במסגרת הצג. חזור על כך. אם אינך יכול להתבונן הרחק מעבר לצג, פנה לכיוון אחר עם נוף רחוק יותר. אז שנה את המוקד בין עצם מרוחק לבין עט המוחזק באותו המרחק שבו צג שלך נמצא ביחס לעיניך.</description>
+​    <description xml:lang="hr">Pogledajte u najudaljeniju točku koju možete vidjeti iza svog monitora. Fokusirajte pogled na udaljenu točku. Sada fokusirajte pogled na rub monitora. Ako ne možete gledati daleko iza monitora, okrenite se u smjeru najudaljenije točke od vas u prostoriji. Mijenjajte fokus između udaljenog objekta i olovke koju držite na udaljenost sličnoj kao što je udaljen monitor dok radite. </description>
+​    <description xml:lang="hu">Keresse meg a monitora mögött a lehető legtávolabbi pontot és fókuszáljon rá szemével. Ezután fókuszáljon a képernyő kávájára. Ismételje meg. Ha nem tud elég messze nézni a képernyőtől, válasszon egy másik irányt és váltogassa a fókuszt a távoli alak és egy a monitor távolságában tartott toll között.</description>
+​    <description xml:lang="it">Cerca il punto più lontano che puoi trovare oltre il tuo monitor. Focalizza lo sguardo su quel punto. Poi metti a fuoco il bordo del monitor. Ripeti. Se non hai niente che sia molto lontano dal monitor, prova in un'altra direzione. Quindi sposta la messa a fuoco da un oggeto a distanza ad una penna mantenuta alla distanza occhi-monitor.</description>
+​    <description xml:lang="ja">モニターの向こう側で見ることができる最も遠い場所を捜してください。その場所に目の焦点を合わせてください。次に、モニターの境目を注視してください。それを繰り返してください。モニターの向こう側であまり遠くを見ることができなければ、他の方向で探してください。遠くの場所とモニターと同じくらいの距離に置いた手とを交互に見てください。</description>
+​    <description xml:lang="ko">모니터에서 가능한 먼 곳을 찾습니다. 눈을 먼 곳에 집중합니다. 그리고 모니터 바깥 쪽에 응시합니다. 이것을 반복합니다. 모니터 먼 곳을 볼 수 없다면 먼 곳을 볼 수 있는 곳을 찾습니다. 그리고 모니터에서 가까운 곳과 먼 사물 사이의 바꾸어 가며 응시합니다.</description>
+​    <description xml:lang="lt">Žiūrėk į tolimiausią tašką, kurį tu matai už savo vaizduoklio. Į jį sutelk žvilgsnį. Tada žvilgsnį perkelk į vaizduoklio remelį. Pakartok pratimą. Jei negali matyti labai toli nuo savo monitoriaus - pasisuk ten, kur toliausiai matai. Tada kėlinėk žvilgsnį tarp tolimo daikto ir tušinuko, laikomo tame pačiame tolyje kaip ir tavo vaizduoklis.</description>
+​    <description xml:lang="nb">Fokuser på det fjerneste punktet du kan se bak skjermen din. Etter et par sekunder, fokuser på kanten av skjermen. Hvis du ikke kan se noe særlig bak skjermen din, snu deg i en annen retning med bedre utsikt og bytt fokus mellom et fjernt objekt og en penn holdt i samme avstand som mellom øynene og skjermen din.</description>
+​    <description xml:lang="nl">Zoek naar het verste punt dat je kan zien achter je monitor. Focus je ogen op dit punt. Na een paar seconden focus je op de rand van je monitor. Herhaal dit. Als je niet ver achter je monitor kunt kijken, gebruik dan een pen en zoek een ander punt.</description>
+​    <description xml:lang="pl">Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem i skup na nim zwrok. Po paru sekundach zogniskuj wzrok na krawędzi monitora. Powtórz to. Jeśli nie możesz patrzeć daleko za monitorem obróć się w stronę z najdłuższą perspektywą. Następnie przeność wzrok między odległym punktem i np. ołówkiem trzymanym w takiej samej odległości od oczu co twój monitor.</description>
+​    <description xml:lang="pt_BR">Olhe no ponto mais distante o possível atrás de seu monitor. Foque o olhar neste ponto distante. Depois foque na borda do monitor. Repita. Se não pode ver muito longe de seu monitor, olhe em outra direção com uma vista mais ampla. Então mude o foco entre um objeto distante e uma caneta à mesma distância dos seus olhos que o monitor.</description>
+​    <description xml:lang="ro">Priviți la cel mai îndepărtat punct pe care-l puteți vedea în spatele monitorului. Fixați privirea pe acel punct de la distanță. Apoi fixați privirea pe marginea monitorului. Repetați. Dacă nu puteți privi departe de monitor, priviți în altă parte ce vă permite o vedere mai depărtată. Fixați privirea pe un obiect aflat la distanță și apoi pe un stilou ținut la aceeași distanță de dumneavoastră ca și monitorul.</description>
+​    <description xml:lang="ru">Посмотрите на самую дальнюю точку, которые вы можете увидеть за своим монитором. Сфокусируйте взгляд на этой точке. После нескольких секунд сфокусируйтесь на мониторе. Повторите. Если вы не можете смотреть очень далеко от монитора используйте, например, ручку держа её на том же расстоянии,что и монитор.</description>
+​    <description xml:lang="sk">Pozrite sa na najvzdialenejší bod za Vaším monitorom. Na tento bod zaostrite svoj zrak. Potom zaostrite na rám monitoru. Opakujte to. Ak za monitorom nemáte dosť vzdialený bod, najdite si iný smer, kde môžete zaostrovať do diaľky. Potom zaostrujte medzi vzdialeným objektom, a perom ktoré podržíte v rovnakej vzdialenosti od očí ako je váš monitor.</description>
+​    <description xml:lang="sl">Poglejte v najbolj oddaljeno točko, ki jo vidite za svojim zaslonom. Izostrite pogled na to oddaljeno točko. Nato izostrite na rob monitorja. Ponovite še enkrat. Če ne morete gledati zelo daleč za zaslonom, se obrnite v drugo smer, kjer imate širši pogled. Izostrite pogled med oddaljenim predmetom in peresom, ki ga držite na isti razdalji od oči kot je vaš zaslon.</description>
+​    <description xml:lang="sr@latin">Pogledajte u najudaljeniju tačku koju možete videti iza svog monitora. Fokusirajte pogled na udaljenu tačku. Sada fokusirajte pogled na ivicu monitora. Ako ne možete gledati daleko iza monitora, uzmite olovku i okrenite se u smeru najudaljenije tačke od vas u prostoriji. Menjajte fokus između udaljenog objekta i olovke držeći je na sličnoj udaljenosti kao što je između vas i monitora. </description>
+​    <description xml:lang="sv">Se på den punkt som är längst bort bakom din skärm. Fokusera dina ögon på punkten. Fokusera sedan på kanten av din skärm. Upprepa det. Om du inte kan se speciellt långt bakom din skärm, vänd dig mot en annan riktning med längre utsikt. Byt fokus mellan en objekt långt bort och en penna som hålls på samma avstånd från dina ögon som din skärm.</description>
+​    <description xml:lang="tr">Monitörünüzün arkasında görebildiğiniz en uzak noktaya bakın. Gözlerinizi en uzaktaki noktaya odaklayın ve sonra bunu tekrarlayın. Eğer monitörünüzden çok uzağa bakamıyorsanız daha geniş görüşü olan bir başka yöne dönün ve gözlerinizi uzaktaki bir nesneye ve sonra monitör uzaklığında tuttuğunuz bir kaleme odaklamaya çalışın.</description>
+​    <description xml:lang="uk">Подивіться на найвіддаленішу точку, яку ви можете бачити за вашим монітором. Сфокусуйте погляд на цій точці. Після кількох секунд сфокусуйтесь на моніторі.Повторіть вправу. Якщо ви не можете дивитися далеко від монітора, використовуйте, наприклад, ручку, тримаючи її на тій самій відстані, що й монітор.</description>
+​    <description xml:lang="zh_CN">注视荧幕后面最远的那一点。将焦点放置在远端那点。几秒后将焦点放在荧幕的边缘。重复这个动作。如果您无法注视荧幕之后遥远的距离，可以用一只笔取代，并让它保持与荧幕一样远的距离。</description>
+​    <description xml:lang="zh_TW">注視螢幕後面最遠的那一點。將焦點放置在遠端那點。幾秒後將焦點放在螢幕的邊緣。重複這個動作。如果您無法注視螢幕之後遙遠的距離，可以用一枝筆取代，並讓它保持與螢幕一樣遠的距離。</description>
+​    <sequence duration="25">
+​       <image src="depth-focus-1.png" duration="5"/>
+​       <image src="depth-focus-2.png" duration="5"/>
+​    </sequence>
   </exercise>
   <exercise>
-    <_title>Move the eyes</_title>
-    <_description>Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise.</_description>
-    <sequence duration="32">
-       <image src="monitor-border-1.png" duration="4"/>
-       <image src="monitor-border-2.png" duration="4"/>
-       <image src="monitor-border-3.png" duration="4"/>
-       <image src="monitor-border-4.png" duration="4"/>
-    </sequence>
+    <title>Look into the darkness</title>
+    <title xml:lang="bg">Вгледайте се в тъмнината</title>
+    <title xml:lang="ca">Mireu l'oscuritat</title>
+    <title xml:lang="cs">Pohled do tmy</title>
+    <title xml:lang="da">Kig ind i mørke</title>
+    <title xml:lang="de">In die Dunkelheit schauen</title>
+    <title xml:lang="el">Κοιτάξτε στο σκοτάδι</title>
+    <title xml:lang="es">Mirando en la oscuridad</title>
+    <title xml:lang="et">Vaata pimedusse</title>
+    <title xml:lang="eu">Iluntasunari begira</title>
+    <title xml:lang="fa">به تاریکی نگاه کنید</title>
+    <title xml:lang="fr">Regardez dans le noir</title>
+    <title xml:lang="ga">Féach ar an ndorchadas</title>
+    <title xml:lang="he">התבוננות אל תוך החשיכה</title>
+    <title xml:lang="hr">Pogledajte u tamu</title>
+    <title xml:lang="hu">Pillantás a sötétségbe</title>
+    <title xml:lang="it">Guarda nel buio</title>
+    <title xml:lang="ja">暗い場所を見る</title>
+    <title xml:lang="ko">어둠 속을 바라 봅니다.</title>
+    <title xml:lang="lt">Pažvelk į tamsą</title>
+    <title xml:lang="nb">Se inn i mørket</title>
+    <title xml:lang="nl">Kijken in de duisternis</title>
+    <title xml:lang="pl">Spojrzenie w ciemność</title>
+    <title xml:lang="pt_BR">Olhando no escuro</title>
+    <title xml:lang="ro">Priviți în întuneric</title>
+    <title xml:lang="ru">Посмотрите в темноту</title>
+    <title xml:lang="sk">Pohľad do tmy</title>
+    <title xml:lang="sl">Poglejte v temo</title>
+    <title xml:lang="sr@latin">Gledajte u tamu</title>
+    <title xml:lang="sv">Se in i mörkret</title>
+    <title xml:lang="te">చీకటి లోనికి చూడండి</title>
+    <title xml:lang="tr">Karanlığa bakın</title>
+    <title xml:lang="uk">Дивитися  у темряву</title>
+    <title xml:lang="zh_CN">注视黑暗</title>
+    <title xml:lang="zh_TW">注視黑暗</title>
+​    <description>Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them.</description>
+​    <description xml:lang="bg">Закрийте с длани очите си но така, че да можете да държите отворени клепачите си. Сега отворете очите си и се вгледайте в мрака във вашите длани. Това упражнение дава по-добро облекчение на очите Ви отколкото затварянето им.</description>
+​    <description xml:lang="ca">Cobriu-vos els ulls amb els vostres palmells de manera que encara pogueu obrir els parpalls. Ara obriu els ulls i mireu en la foscor dels vostres palmells. Aquest exercici dóna millor alleujament als vostres ulls comparat amb simplement tancar-los.</description>
+​    <description xml:lang="cs">Zakryjte si oči svými dlaněmi tak, že stále můžete otevírat oči. Nyní otevřete oči a dívejte se do tmy vašich dlaní. Toto cvičení lépe uleví vašim očím než pouhé zavření.</description>
+​    <description xml:lang="da">Hold dine hænder op foran øjnene således, at du stadig kan åbne øjnene. Åbn nu øjnene og kig ind i mørket i dine håndflader. Øvelsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem.</description>
+​    <description xml:lang="de">Bedecken Sie die Augen mit den Handflächen, so dass sie die Augenlider immer noch öffnen können. Jetzt öffnen Sie die Augen und schauen Sie in die Dunkelheit Ihrer Handflächen. Diese Übung bringt Ihren Augen mehr Erholung als wenn Sie sie einfach schließen würden.</description>
+​    <description xml:lang="el">Καλύψτε με τις παλάμες το πρόσωπό σας έτσι ώστε να μπορείτε να ανοίγετε τα μάτια σας. Ανοίξτε τα και κοιτάξτε μέσα στο σκοτάδι της κοιλότητας που έχουν σχηματίσει οι παλάμες σας. Με την άσκηση αυτή τα μάτια χαλαρώνουν καλύτερα από ό,τι αν τα κλείσετε απλώς.</description>
+​    <description xml:lang="es">Cubra los ojos con las palmas de la manos de manera que pueda abrir los párpados. Abra los ojos y mire la oscuridad de sus palmas. Este ejercicio alivia más sus ojos que sólo cerrarlos.</description>
+​    <description xml:lang="et">Kata oma silmad kätega nii, et sul oleks võimalik oma laugusid liigutada. Nüüd ava silmad ja vaata peopesadesse tekkinud pimedusse. See harjutus annab paremaid tulemusi kui lihtsalt silmade sulgemine.</description>
+​    <description xml:lang="eu">Estal itzazu eskuekin zure begiak irekita edukitzeko moduan. Gero begiak irekita, eskuen barruko iluntasunari begira egon. Ariketa honek begiei atseden handiagoa ematen die ixte soilak baino.</description>
+​    <description xml:lang="fa">با دست هایتان چشم ها را بپوشانید به نحوی که همچنان بتوانید پلک ها را باز نگه دارید. اکنون چشم هایتان را باز کنید و به تاریکی کف دستتان نگاه کنید.این کار در مقایسه با بستن چشم ها، تسکین بیش تری به چشم هایتان می دهد.</description>
+​    <description xml:lang="fr">Couvrez-vous les yeux avec les mains, de manière à pouvoir quand même les ouvrir. Ouvrez les yeux et regardez dans la pénombre créée par vos mains. Cet exercice repose davantage les yeux que si vous vous contentez de les fermer.</description>
+​    <description xml:lang="ga">Clúdaigh do shúile le do bhosa i gcaoi gur féidir leat do mhogaill súile fós a oscailt. Anois oscail do shúile agus féach ar an ndorchadas i do bhosa. Tugann an cleachtadh seo faoiseamh níos fearr do do shúile ná iad a dhúnadh amháin.</description>
+​    <description xml:lang="he">כסה את עיניך בכפות הידים באופן שיאפשר לך להשאיר את העפעפיים פתוחים. כעת הסתכל אל תוך החשכה שבידיך. תרגיל זה נותן מנוחה טובה יותר לעיניים מאשר עצימתן.</description>
+​    <description xml:lang="hr">Pokrijte oči dlanovim na način da još uvijek možete podignuti kapke. Sada otvorite oči i gledajte u tamu svojih dlanova. Ova vježba bolje odmara vaše oči nego da ste ih samo zatvorili.</description>
+​    <description xml:lang="hu">Takarja el a tenyerével a szemeit úgy, hogy még ki tudja nyitni azokat. Most nyissa ki a szemeit és nézze a tenyerei sötétségét. Ez a módszer jobban nyugtatja szemeit, mintha csak egyszerűen becsukná őket.</description>
+​    <description xml:lang="it">Copriti gli occhi con le mani in modo da lasciare aperte le palpebre. Ora apri gli occhi e guarda nel buio del palmo delle tue mani. Questo esercizio dà maggior sollievo agli occhi della semplice chiusura delle palpebre.</description>
+​    <description xml:lang="ja">まぶたを開けたまま手のひらで目を覆ってください。手のひらの中で目を開けて暗い手のひらの中を見てください。この方法は、まぶたを閉じる方法よりも、より、目を休めることが出来ます。</description>
+​    <description xml:lang="ko">손바닥으로 눈을 덮는 데, 눈꺼풀이 뜰 수 있는 정도로 말이죠. 이제 눈을 뜨고서 손바닥의 어둠을 응시합니다. 이런 훈련은 단순히 눈을 감는 것과 비교하여 여러분에게 보다 높은 안정감을 줍니다.</description>
+​    <description xml:lang="lt">Uždenk akis savo delnais taip, jog vis dar galėtum atsimerkti. Dabar atsimerk ir žiūrėk į savo delnų tamsą. Šis pratimas suteikia didesnį palengvėjimą, nei paprasčiausiai jas užmerkus.</description>
+​    <description xml:lang="nb">Skjul øynene dine med håndflatene slik at du fortsatt kan åpne øyelokkene. Åpne nå øynene og se inn i mørket i håndflatene. Denne øvelsen gir bedre avlastning for øyene sammenlignet med bare å lukke de.</description>
+​    <description xml:lang="nl">Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt openen. Open nu je ogen en kijk in de duisternis van je handpalmen. Deze oefening geeft meer rust dan dat je je ogen alleen maar sluit.</description>
+​    <description xml:lang="pl">Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie nie docierało do nich światło. Teraz otwórz oczy i spójrz w ciemność. To ćwiczenie przynosi większą ulgę niż zwykłe zamknięcie oczu.</description>
+​    <description xml:lang="pt_BR">Cubra os olhos com as palmas das mãos de maneira que você ainda possa abrir as pálpebras. Abra os olhos e olhe o escuro de suas palmas. Este exercício dá mais alívio aos seus olhos que somente fechá-los.</description>
+​    <description xml:lang="ro">Acoperiți-vă ochii cu palmele în așa fel încât să puteți să vă puteți mișca pleoapele. Acum deschideți ochii și priviți în întunericul creat de palmele dumneavoastră. Acest exercițiu vă relaxează ochii mai mult decât dacă i-ați ține închiși.</description>
+​    <description xml:lang="ru">Закройте глаза ладонями так, чтобы веки могли открываться. Теперь откройте глаза и посмотрите в темноту ваших ладоней. Это упражнение лучше помогает вашим глазам по сравнению с простым их закрытием.</description>
+​    <description xml:lang="sk">Zakryte si oči dlaňami tak, aby ste oči mohli ešte stále otvárať. Potom otvorte oči a dívajte sa do tmy vašich dlaní. Toto cvičenie uľaví Vašim očiam viac, než obyčajné zatvorenie.</description>
+​    <description xml:lang="sl">Pokrijte si oči z dlanmi na tak način, da še lahko odprete veke. Zdaj glejte v temo svojih dlani. Ta vaja veliko bolj pomaga očem kot pa da enostavno zaprete oči.</description>
+​    <description xml:lang="sr@latin">Pokrijte oči dlanovim tako da još uvek možete podićii kapke. Sada otvorite oči i gledajte u tamu svojih dlanova. Ova vežba bolje odmara vaše oči nego da ste ih samo zatvorili.</description>
+​    <description xml:lang="sv">Täck för dina ögon med dina handflator på så sätt att du fortfarande kan öppna dina ögonlock. Öppna nu ögonen och se in i mörkret i handflatorna. Denna övning ger bättre avlastning för ögonen jämfört med att bara stänga dem.</description>
+​    <description xml:lang="tr">Gözlerinizi avuçlarınızla gözkapaklarınızı açabileceğiniz kadar kapatın, gözlerinizi açın ve avuçlarınızdaki karanlığa bakın. Bu alıştırma gözlerinizi basitçe kapatmaktan daha iyi bir rahatlama sağlar.</description>
+​    <description xml:lang="uk">Закрийте очі долонями так, щоб повіки могли відкриватися. Тепер відкрийте очі та подивіться у темряву ваших долонь. Ця вправа краще допомагає вашим очам, ніж коли ви просто їх заплющуєте.</description>
+​    <description xml:lang="zh_CN">用您的手掌遮住双眼，要使得可以继续睁开眼睛。现在睁开双眼，并注视手掌中的黑暗。相比于直接闭上双眼，这样可以让您的眼睛得到更好的休息。</description>
+​    <description xml:lang="zh_TW">用您的手掌蓋住雙眼，這樣一來您可以繼續張開眼皮。現在打開雙眼，並注視手掌中的黑暗。將較於直接閉上雙眼，這樣可以讓您的眼睛得到比較好的休息。</description>
+​    <sequence duration="20">
+​       <image src="eye-darkness.png" duration="20"/>
+​    </sequence>
   </exercise>
-<!--
   <exercise>
-    <_title>Relax the eyes</_title>
-    <_description>Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too.</_description>
-    <sequence duration="12">
-       <image src="none" duration="6"/>
-    </sequence>
+    <title>Move the shoulders</title>
+    <title xml:lang="bg">Движете рамената</title>
+    <title xml:lang="ca">Moveu els muscles</title>
+    <title xml:lang="cs">Pohyb ramenou</title>
+    <title xml:lang="da">Bevæg skuldrene</title>
+    <title xml:lang="de">Die Schultern bewegen</title>
+    <title xml:lang="el">Κινήστε τους ώμους</title>
+    <title xml:lang="es">Movimiento de hombros</title>
+    <title xml:lang="et">Liiguta õlgasid</title>
+    <title xml:lang="eu">Sorbaldak mugitu</title>
+    <title xml:lang="fa">شانه ها را حرکت دهید</title>
+    <title xml:lang="fr">Bougez les épaules</title>
+    <title xml:lang="ga">Bog na guaillí</title>
+    <title xml:lang="he">הזזת הכתפיים</title>
+    <title xml:lang="hr">Pomičite ramena</title>
+    <title xml:lang="hu">Vállkörzés</title>
+    <title xml:lang="it">Muovi le spalle</title>
+    <title xml:lang="ja">肩を動かす</title>
+    <title xml:lang="ko">어깨를 움직입니다</title>
+    <title xml:lang="lt">Pajudink pečius</title>
+    <title xml:lang="nb">Beveg skuldrene</title>
+    <title xml:lang="nl">Beweeg de schouders</title>
+    <title xml:lang="pl">Rozluźnianie barków</title>
+    <title xml:lang="pt_BR">Mova os ombros</title>
+    <title xml:lang="ro">Mișcați-vă umerii</title>
+    <title xml:lang="ru">Движение плечами</title>
+    <title xml:lang="sk">Pohyb ramien</title>
+    <title xml:lang="sl">Premikajte ramena</title>
+    <title xml:lang="sr@latin">Pomerajte ramena</title>
+    <title xml:lang="sv">Rör på skuldrorna</title>
+    <title xml:lang="te">భుజాలని కదపండి</title>
+    <title xml:lang="tr">Omuzları hareket ettirin</title>
+    <title xml:lang="uk">Рух плечима</title>
+    <title xml:lang="zh_CN">肩膀运动</title>
+    <title xml:lang="zh_TW">肩膀運動</title>
+​    <description>Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm.</description>
+​    <description xml:lang="bg">Завъртете бавно дясната си ръка в кръг покрай тялото като перка на самолет. Направете това 4 пъти напред, 4 пъти назад и се отпуснете за няколко секунди. Повторете и с лявата ръка.</description>
+​    <description xml:lang="ca">Gireu el braç dret lentament en cercles con una hèlice d'un avió, pel costat del cos. Feu això 4 vegades cap a davant i 4 vegades cap a enrere i relaxeu-vos durant uns segons. Repetiu-ho amb el braç esquerre.</description>
+​    <description xml:lang="cs">Otáčejte pravou rukou pomalu vedle těla jako letadlová vrtule. Udělejte to čtyřikrát dopředu, čtyřikrát dozadu a na chvíli se uvolněte. Opakujte s levou rukou.</description>
+​    <description xml:lang="da">Sving langsomt højre arm rundt i store cirker helt oppe ved øret. Udfør 4 sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen med venstre arm.</description>
+​    <description xml:lang="de">Rotieren Sie den rechten Arm langsam im Kreis neben dem Körper wie einen Flugzeugpropeller. Machen Sie dies viermal im Uhrzeigersinn, viermal gegen den Uhrzeigersinn und entspannen Sie sich für ein paar Sekunden. Wiederholen Sie dies mit dem linken Arm.</description>
+​    <description xml:lang="el">Περιστρέψτε αργά το δεξιό σας μπράτσο σαν έλικα αεροπλάνου, κρατώντας το κοντά στο σώμα σας. Επαναλάβετε 4 φορές προς τα μπροστά, 4 φορές προς τα πίσω και χαλαρώστε για μερικά δευτερόλεπτα. Επαναλάβετε με το αριστερό χέρι.</description>
+​    <description xml:lang="es">Gire su brazo derecho lentamente como la hélice de un avión. Hágalo 4 veces en el sentido de las agujas del reloj, 4 en sentido contrario, y descanse unos segundos. Repítalo con el brazo izquierdo.</description>
+​    <description xml:lang="et">Keeruta oma paremat kätt aeglaselt keha kõrval ringi nagu lennuki propellerit. Tee seda 4 korda edaspidi ja 4 korda tagurpidi ning lõdvestu mõneks sekundiks. Korda harjutust vasaku käega.</description>
+​    <description xml:lang="eu">Eskuin besoa biratu, hegazkinaren helizea bezala. Egin ezazu hau lau aldiz aurreraka eta beste lau atzeraka, eta segundu batzutan lasaitu. Ezkerreko besoarekin errepikatu.</description>
+​    <description xml:lang="fa">بازوی راستتان را به آرامی در کنار بدنتان بچرخانید (درست مانند پروانه ی هواپیما). این حرکت را 4 بار به سمت جلو و 4 بار به سمت عقب انجام دهید و برای چند ثانیه عضلات را شل کنید. سپس همین تمرین را برای دست چپ تکرار کنید.</description>
+​    <description xml:lang="fr">Faites lentement tourner un bras sur le côté, comme une hélice. Faites 4 tours vers l'avant, puis 4 tours vers l'arrière. Relâchez quelques secondes. Recommencez avec l'autre bras.</description>
+​    <description xml:lang="ga">Cas do dheasóg go mall amhail gurb lián eitleáin é le hais do cholainn. Déan seo 4 uaire ar aghaidh, 4 uaire ar gcúl agus ansin lig do scíth ar feadh tamaillín. Déan an rud céanna le do chiotóg.</description>
+​    <description xml:lang="he">סובב את ידך הימנית לאט כמו מדחף של מטוס לצד הגוף. עשה זאת 4 פעמים קדימה, 4 פעמים לאחור, ואז הרגע למשך מספר שניות. חזור על התרגיל עם היד השמאלית.</description>
+​    <description xml:lang="hr">Kružite desnom rukom kao propeler pored tijela. Ponovite nekoliko puta prema naprijed, zatim prema nazad i opustite ruku nekoliko sekundi. Zatim ponovite vježbu lijevom rukom.</description>
+​    <description xml:lang="hu">Végezzen négy-négy lassú malomkörzést előre és hátra, mindkét kezével. A gyakorlat felénél lazíthat egyet.</description>
+​    <description xml:lang="it">Stendi in basso il braccio destro e muovilo lentamente come un pendolo al lato del corpo. Fallo 4 volte in avanti e 4 volte all'indietro e rilassati per pochi secondi. Ripeti con il braccio sinistro.</description>
+​    <description xml:lang="ja">右腕を身体に沿わせて、プロペラのようにゆっくり円形にまわしてください。前に4回、後ろに4回まわしたら、数秒間リラックスしてください。左の腕でも同じように繰り返してください。</description>
+​    <description xml:lang="ko">오른쪽 팔을 느리게 몸의 옆으로 비행기 프로펠러처럼 돌립니다. 이것을 앞 쪽으로 4회 하고, 뒤쪽으로 4회 합니다. 그리고 잠깐 긴장을 풀고. 왼쪽 팔로 반복합니다.</description>
+​    <description xml:lang="lt">Lėtai suk savo dešinę ranką kaip lėktuvo propelerį ratu šalia savo kūno. Pasuk 4 kartus į priekį, 4 kartus atgal ir keliom sekundėm atsipalaiduok. Pakartok su kairia ranka.</description>
+​    <description xml:lang="nb">Sving langsomt høyre arm rundt i store sirkler som en propell på et fly. Gjørdette 4 ganger forover, 4 ganger bakover og slapp av i noen sekunder. Gjenta så det hele med venstre arm.</description>
+​    <description xml:lang="nl">Draai je rechterarm langzaam rond als een vliegtuig propellor naast je lichaam. Doe dit 4 keer voorwaarts, 4 keer achterwaarts en ontspan een paar seconden. Herhaal dit voor de linkerarm.</description>
+​    <description xml:lang="pl">Zrób prawym ramieniem powolny ruch tak jakby śmigłem samolotu. Powtórz to 4 razy zgodnie z ruchem wskazówek zegara, 4 razy w przeciwnym kierunku i rozluźnij się na parę sekund. Powtórz ćwiczenie z lewym ramieniem.</description>
+​    <description xml:lang="pt_BR">Gire seu braço direito lentamente como a hélice de um avião. Gire-o 4 vezes no sentido horário, 4 no sentido contrário, e descanse alguns segundos. Repita com o braço esquerdo.</description>
+​    <description xml:lang="ro">Rotiți brațul drept ca o elice în dreptul corpului. Faceți asta de 4 ori înainte și de 4 ori înapoi după care relaxați-vă pentru câteva secunde. Repetați cu brațul stâng.</description>
+​    <description xml:lang="ru">Вращайте правую руку возле корпуса как винт самолёта. Сделайте это 4 раза по часовой стрелке, 4 раза против часовой и расслабьтесь на несколько секунд. Повторите упражнение с левой рукой.</description>
+​    <description xml:lang="sk">Otáčajte pravou rukou pomaly vedľa tela, ako vrtuľa na lietadle.4x dopredu, 4x dozadu, potom chvíľu oddychujte. Opakujte s ľavou rukou.</description>
+​    <description xml:lang="sl">Vašo desno roko počasi vrtite  ob sebi,  kot letalski propeler. To storite 4 krat naprej, 4 krat nazaj in se potem sprostite par sekund. Ponovite z levo roko.</description>
+​    <description xml:lang="sr@latin">Kružite desnom rukom pored tela kao propeler. Ponovite nekoliko puta unapred, zatim unazad i opustite ruku nekoliko sekundi. Zatim ponovite vežbu levom rukom.</description>
+​    <description xml:lang="sv">Pendla din högra arm långsamt runt som en flygplanspropeller. Gör detta 4 gånger framåt, 4 gånger bakåt och slappna av ett par sekunder. Upprepa med vänstra armen.</description>
+​    <description xml:lang="tr">Sağ kolunuzu yavaşça ve pervane gibi yuvarlak hareketlerle gövdenizin yanında döndürün. Bu hareketi 4 kez öne, 4 kez arkaya doğru tekrarlayın ve birkaç saniye rahatlayın. Sonra aynı alıştırmayı sol kolunuzla tekrarlayın.</description>
+​    <description xml:lang="uk">Обертайте праву руку біля тулуба, наче гвинт літака. Зробіть так 4 рази за годинниковою стрілкою, 4 рази - проти і розслабтесь на кілька секунд. Повторіть вправу з лівою рукою.</description>
+​    <description xml:lang="zh_CN">慢慢像螺旋桨一样在您身体一侧旋转您的右手臂。顺时针做四次，逆时针做四次然后放松几秒。用左手臂重复做一次。</description>
+​    <description xml:lang="zh_TW">慢慢像螺旋槳一樣在身體旋轉您的右手。順時針做四次，逆時針做四次然後放鬆幾秒。用左手重複做一次。</description>
+​    <sequence duration="30">
+​       <image src="rotate-arm.png" duration="15"/>
+​       <image src="rotate-arm.png" mirrorx="yes" duration="15"/>
+​    </sequence>
   </exercise>
--->
+
+
+
   <exercise>
-    <_title>Train focusing the eyes</_title>
-    <_description>Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor.</_description>
-    <sequence duration="25">
-       <image src="depth-focus-1.png" duration="5"/>
-       <image src="depth-focus-2.png" duration="5"/>
-    </sequence>
-  </exercise>
-  <exercise>
-    <_title>Look into the darkness</_title>
-    <_description>Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them.</_description>
-    <sequence duration="20">
-       <image src="eye-darkness.png" duration="20"/>
-    </sequence>
-  </exercise>
-  <exercise>
-    <_title>Move the shoulders</_title>
-    <_description>Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm.</_description>
-    <sequence duration="30">
-       <image src="rotate-arm.png" duration="15"/>
-       <image src="rotate-arm.png" duration="15" mirrorx="yes"/>
-    </sequence>
-  </exercise>
-  <exercise>
-    <_title>Move the shoulders up and down</_title>
-    <_description>Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair.
-    </_description>
-    <sequence duration="30">
-       <image src="chair-pushup-1.png" duration="5"/>
-       <image src="chair-pushup-2.png" duration="10"/>
-    </sequence>
-  </exercise>
-<!-- Disabled for 1.8.4 because images are wrong. Removed from NEWS
-     ** Herman Suijs contributed a new exercise named "Fist roll", thanks.
-  <exercise>
-     <_title>Fist roll</_title>
-     <_description>Put your underarm on a table and make a fist. Roll your fist away from your body untill it rests on your nuckles. Keep it for 2 seconds and roll it back. Repeat this 5 times for each hand. If the muscle is stretched to much, let your fingers rest on the table while rolling.</_description>
-     <sequence duration="20">
-       <image src="fist-roll-1.png" duration="2"/>
-       <image src="fist-roll-2.png" duration="2"/>
-     </sequence>
-  </exercise>
--->
-<!--
-  <exercise>
-    <_title>Move the shoulder blades</_title>
-    <_description>Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows.</_description>
-    <sequence duration="20">
-       <image src="none" duration="10"/>
-    </sequence>
-  </exercise>
--->
-<!--
-  <exercise>
-    <_title>Stretch your back</_title>
-    <_description>Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again.</_description>
-    <sequence duration="30">
-       <image src="none" duration="15"/>
-    </sequence>
-  </exercise>
--->
-  <exercise>
-    <_title>Turn your head</_title>
-    <_description>Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</_description>
+    <description>Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</description>
+    <description xml:lang="bg">Завъртете глава наляво и задръжте така за 2 секунди. После завъртете глава надясно и я задръжте така за 2 секунди.</description>
+    <description xml:lang="ca">Gira el cap a la dreta i mantin-lo així durant 2 segons. A continuació, gira'l cap a la dreta i mantin-lo així altres 2 segons.</description>
+    <description xml:lang="cs">Otočte hlavou doleva a vydržte zde dvě sekundy. Potom otočte hlavu doprava a vydržte zde dvě sekundy.</description>
+    <description xml:lang="da">Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter hovedet mod højre i to sekunder.</description>
+    <description xml:lang="de">Drehen Sie den Kopf nach links und behalten Sie ihn dort für zwei Sekunden. Dann drehen Sie den Kopf nach rechts und behalten Sie ihn dort für zwei Sekunden.</description>
+    <description xml:lang="el">Γυρίστε το κεφάλι αριστερά και κρατήστε το σε αυτή τη θέση για 2 δευτερόλεπτα. Επαναλάβετε με το κεφάλι δεξιά.</description>
+    <description xml:lang="es">Gire la cabeza a la izquierda y déjela en esa posición durante 2 segundos. Entonces gire la cabeza hacia la derecha y manténgala así 2 segundos.</description>
+    <description xml:lang="et">Keera oma pead vasakule ja hoia seda nii 2 sekundit. Seejärel keera pea paremale ja hoia seda niimoodi 2 sekundit.</description>
+    <description xml:lang="eu">Burua ezkerrera biratu eta bi segundutan egon. Orduan eskuinera biratu eta eduki hor beste bi segundutan.</description>
+    <description xml:lang="fa">سر خود را به سمت چپ بچرخانید و این حالت را برای 2 ثانیه نگه دارید. سپس سر خود را به سمت راست بچرخانید و باز هم برای 2 ثانیه نگه دارید.</description>
+    <description xml:lang="fr">Tournez la tête à gauche et gardez cette position pendant deux secondes. Puis faites de même en tournant la tête vers la droite.</description>
+    <description xml:lang="ga">Cas do cheann ar chlé agus coinnigh ansin é ar feadh 2 shoicind. Ansin cas do cheann ar dheis agus coinnigh ansin é ar feadh 2 shoicind.</description>
+    <description xml:lang="he">סובב את הראש שמאלה והשאר כך למשך 2 שניות. לאחר מכך סובב את הראש ימינה והשאר כך למשך 2 שניות.</description>
+    <description xml:lang="hr">Okrenite glavu ulijevo i držite ju tako 2 sekunde. Sada okrenite glavu udesno i držite tako dvije sekunde.</description>
+    <description xml:lang="hu">Fordítsa balra a fejét és tartsa úgy két másodpercig. Ezután fordítsa jobbra és tartsa úgy két másodpercig.</description>
+    <description xml:lang="it">Gira la testa a sinistra e mantieni per 2 secondi. Poi gira la testa a destra e mantieni per altri 2 secondi.</description>
+    <description xml:lang="ja">顔を左に向け2秒保持してください。次に、顔を右に向け2秒保持してください。</description>
+    <description xml:lang="ko">머리를 왼쪽으로 돌려서 2초 동안 그대로 유지합니다. 그리고 오른쪽으로 돌려서 2초 동안 유지합니다.</description>
+    <description xml:lang="lt">Pasuk galvą kairėn ir palaikyk 2 sekundes. Tada pasuk galvą dešinėn ir palaikyk 2 sekundes.</description>
+    <description xml:lang="nb">Snu hodet mot venstre og hold det der i 2 sekunder. Snu deretter hodet mot høyre og hold det der i 2 sekunder.</description>
+    <description xml:lang="nl">Draai je hoofd naar links en houdt dat 2 seconden vast. Draai daarna je hoofd naar rechts en houdt dat 2 seconden vast.</description>
+    <description xml:lang="pl">Obróć głowę w lewo i trzymaj tak 2 sekundy. Następnie obróć głowę w prawo i też wytrzymaj 2 sekundy.</description>
+    <description xml:lang="pt_BR">Gire a cabeça para a esquerda e deixe-a nesta posição durante 2 segundos. Então gire a cabeça até a direita e a mantenha assim 2 segundos.</description>
+    <description xml:lang="ro">Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-vă capul spre dreapta și țineți-l așa 2 secunde.</description>
+    <description xml:lang="ru">Поверните голову налево и подержите так 2 секунды. Затем, поверните голову направо и подержите так 2 секунды.</description>
+    <description xml:lang="sk">Otočte hlavu doľava a vydržte 2 sekundy. Potom ju otočte doprava a vydržte 2 sekundy.</description>
+    <description xml:lang="sl">Obrnite glavo na levo in ostanite tako 2 sekundi. Nato obrnite glavo še desno in ostanite tako 2 sekundi.</description>
+    <description xml:lang="sr@latin">Okrenite glavu levo i držite tako 2 sekunde. Sada okrenite glavu desno i držite tako dve sekunde.</description>
+    <description xml:lang="sv">Vrid på huvudet åt vänster och håll det kvar där i 2 sekunder. Vrid sedan ditt huvud åt höger och håll det där i 2 sekunder.</description>
+    <description xml:lang="tr">Başınızı sola çevirip 2 saniye bekleyin, sonra başınızı sağa çeviripiki saniye bekleyin.</description>
+    <description xml:lang="uk">Поверніть голову наліво і потримайте так 2 секунди, потім - направо.</description>
+    <description xml:lang="zh_CN">把您的头转向左边，并停在那里两秒钟。然后将您的头转到右边，并也停在那边两秒钟。</description>
+    <description xml:lang="zh_TW">把您的頭轉向左邊，並停在那裡兩秒鐘。然後將您的頭轉回右邊，並也停在那邊兩秒鐘。</description>
     <sequence duration="24">
        <image src="turn-head-1.png" duration="3"/>
        <image src="turn-head-2.png" duration="3"/>
     </sequence>
   </exercise>
-<!--
-  <exercise>
-    <_title>Neck stretch</_title>
-    <_description>Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin).  Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again.</_description>
-    <sequence duration="20">
-       <image src="none" duration="10"/>
-    </sequence>
-  </exercise>
--->
+
 </exercises>
