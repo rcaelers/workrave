@@ -48,6 +48,7 @@ public:
 private:
   void init_filter();
   void init_gui();
+  void theme_fixup();
   bool filter_func(MSG *msg);
   static GdkFilterReturn static_filter_func(void *xevent, GdkEvent *event, gpointer data);
 

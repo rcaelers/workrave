@@ -57,6 +57,7 @@ ToolkitWindows::init(std::shared_ptr<IApplication> app)
 
   Toolkit::init(app);
 
+  theme_fixup();
   init_filter();
 }
 
@@ -84,19 +85,23 @@ ToolkitWindows::init_gui()
   g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
   // No Windows-7 style client-side decorations on Windows 10...
   g_setenv("GTK_CSD", "0", TRUE);
-  g_setenv("GDK_WIN32_DISABLE_HIDPI", "1", TRUE);
 
-  // static const char css[] =
-  //   R"(
-  //      window decoration, tooltip decoration {
-  //        all: unset;
-  //      }
-  //     )";
+  // g_setenv("GDK_WIN32_DISABLE_HIDPI", "1", TRUE);
+}
 
-  // auto provider = Gtk::CssProvider::create();
-  // provider->load_from_data(css);
-  // auto screen = Gdk::Screen::get_default();
-  // Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
+void
+ToolkitWindows::theme_fixup()
+{
+  static const char css[] =
+    R"(
+       window decoration, tooltip decoration {
+         all: unset;
+       }
+      )";
+  auto provider = Gtk::CssProvider::create();
+  provider->load_from_data(css);
+  auto screen = Gdk::Screen::get_default();
+  Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
 }
 
 #ifndef GUID_DEVINTERFACE_MONITOR
