@@ -39,20 +39,10 @@
 #include "tools/tool_support.h"
 
 #include "commonui/nls.h"
+#include "utils/StringUtils.hh"
 
 namespace
 {
-  std::string Utf16ToUtf8(const std::wstring &s)
-  {
-    std::string ret;
-    int len = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), s.length(), nullptr, 0, nullptr, nullptr);
-    if (len > 0)
-      {
-        ret.resize(len);
-        WideCharToMultiByte(CP_UTF8, 0, s.c_str(), s.length(), const_cast<char *>(ret.c_str()), len, nullptr, nullptr);
-      }
-    return ret;
-  }
 } // namespace
 
 CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attachments)
@@ -101,10 +91,10 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
 
       for (const auto &a: attachments)
         {
-          std::ifstream f(Utf16ToUtf8(a.value()).c_str());
+          std::ifstream f(workrave::utils::utf16_to_utf8(a.value()).c_str());
           if (f.is_open())
             {
-              iter = attachments_text_buffer->insert(iter, Utf16ToUtf8(a.BaseName().value()) + ":\n\n");
+              iter = attachments_text_buffer->insert(iter, workrave::utils::utf16_to_utf8(a.BaseName().value()) + ":\n\n");
 
               std::string line;
               while (std::getline(f, line))

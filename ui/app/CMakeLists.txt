@@ -41,7 +41,8 @@ if (PLATFORM_OS_WINDOWS)
     platforms/windows/WindowsCompat.cc
     platforms/windows/WindowsForceFocus.cc
     platforms/windows/WindowsLocker.cc
-    )
+    platforms/windows/WindowsStatusIcon.cc
+  )
 
   if (HAVE_HARPOON)
     target_sources(workrave-app PRIVATE platforms/windows/WindowsHarpoonLocker.cc)

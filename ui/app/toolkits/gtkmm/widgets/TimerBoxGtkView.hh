@@ -59,7 +59,7 @@ public:
                     int secondary_value,
                     int secondary_max) override;
   void set_tip(std::string tip) override;
-  void set_icon(StatusIconType icon) override;
+  void set_icon(OperationModeIcon icon) override;
   void update_view() override;
   void set_enabled(bool enabled);
 

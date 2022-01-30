@@ -33,7 +33,7 @@ public:
     (void)tip;
   }
 
-  void set_icon(StatusIconType icon) override
+  void set_icon(OperationModeIcon icon) override
   {
     (void)icon;
   }

@@ -54,7 +54,6 @@ endif()
 if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-toolkit-gtkmm PRIVATE
     ToolkitWindows.cc
-    platforms/windows/WindowsStatusIcon.cc
     # ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
   )
 
@@ -145,6 +144,7 @@ if (HAVE_CRASH_REPORT)
     PRIVATE
     crashpad::handler_lib
     crashpad::tools
+    workrave-libs-utils
     ${GTK_LIBRARIES}
     )
 

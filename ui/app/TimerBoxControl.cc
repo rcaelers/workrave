@@ -200,15 +200,15 @@ TimerBoxControl::init_icon()
   switch (operation_mode)
     {
     case OperationMode::Normal:
-      view->set_icon(StatusIconType::Normal);
+      view->set_icon(OperationModeIcon::Normal);
       break;
 
     case OperationMode::Suspended:
-      view->set_icon(StatusIconType::Suspended);
+      view->set_icon(OperationModeIcon::Suspended);
       break;
 
     case OperationMode::Quiet:
-      view->set_icon(StatusIconType::Quiet);
+      view->set_icon(OperationModeIcon::Quiet);
       break;
     }
 }

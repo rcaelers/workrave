@@ -459,25 +459,25 @@ TimerBoxGtkView::set_tip(string tip)
 }
 
 void
-TimerBoxGtkView::set_icon(StatusIconType icon)
+TimerBoxGtkView::set_icon(OperationModeIcon icon)
 {
   string file;
   switch (icon)
     {
-    case StatusIconType::Normal:
+    case OperationModeIcon::Normal:
       file = GtkUtil::get_image_filename("workrave-icon-medium.png");
       break;
 
-    case StatusIconType::Quiet:
+    case OperationModeIcon::Quiet:
       file = GtkUtil::get_image_filename("workrave-quiet-icon-medium.png");
       break;
 
-    case StatusIconType::Suspended:
+    case OperationModeIcon::Suspended:
       file = GtkUtil::get_image_filename("workrave-suspended-icon-medium.png");
       break;
     }
 
-  if (file != "")
+  if (!file.empty())
     {
       sheep->set(file);
     }

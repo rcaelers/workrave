@@ -20,10 +20,6 @@
 
 #include <map>
 
-#ifdef PLATFORM_OS_WINDOWS
-#  define USE_WINDOWSSTATUSICON 1
-#  include <gdk/gdkwin32.h>
-#endif
 #include <gtkmm/statusicon.h>
 
 #include "core/ICore.hh"
@@ -45,7 +41,6 @@ public:
   bool is_visible() const;
   void show_balloon(std::string id, const std::string &balloon);
 
-  sigc::signal<void> &signal_visibility_changed();
   sigc::signal<void> &signal_activated();
   sigc::signal<void, std::string> &signal_balloon_activated();
 
@@ -56,37 +51,23 @@ private:
   void on_popup_menu(guint button, guint activate_time);
   void on_embedded_changed();
 
-#if defined(PLATFORM_OS_WINDOWS) && !defined(USE_WINDOWSSTATUSICON)
-  bool filter_func(MSG *msg);
-#endif
-
-#if defined(PLATFORM_OS_WINDOWS) && defined(USE_WINDOWSSTATUSICON)
+#if defined(PLATFORM_OS_WINDOWS)
   void on_balloon_activate(std::string id);
 #endif
 private:
-#if defined(PLATFORM_OS_WINDOWS)
-  void win32_popup_hack_connect(Gtk::Widget *menu);
-  static gboolean win32_popup_hack_hide(gpointer data);
-  static gboolean win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data);
-#endif
-
   std::shared_ptr<IApplication> app;
   std::shared_ptr<ToolkitMenu> menu;
   AppHold apphold;
 
   std::map<workrave::OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 
-  sigc::signal<void> visibility_changed_signal;
   sigc::signal<void> activated_signal;
   sigc::signal<void, std::string> balloon_activated_signal;
 
-#ifdef USE_WINDOWSSTATUSICON
+#ifdef PLATFORM_OS_WINDOWS
   WindowsStatusIcon *status_icon{nullptr};
 #else
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
-#  ifdef PLATFORM_OS_WINDOWS
-  UINT wm_taskbarcreated{0};
-#  endif
 #endif
 };
 

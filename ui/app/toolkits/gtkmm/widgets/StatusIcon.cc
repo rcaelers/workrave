@@ -30,7 +30,6 @@
 
 #include "GtkUtil.hh"
 #include "ui/GUIConfig.hh"
-#include "ui/TimerBoxControl.hh"
 #include "debug.hh"
 #include "ui/IApplication.hh"
 
@@ -47,15 +46,6 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplication> app, std::shared_ptr<Toolki
   mode_icons[OperationMode::Suspended] = GtkUtil::create_pixbuf("workrave-suspended-icon-medium.png");
   mode_icons[OperationMode::Quiet] = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
 
-#if !defined(USE_WINDOWSSTATUSICON) && defined(PLATFORM_OS_WINDOWS)
-  wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
-  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
-  if (toolkit_win)
-    {
-      workrave::utils::connect(toolkit_win->hook_event(), this, [this](MSG *msg) { return filter_func(msg); });
-    }
-#endif
-
   workrave::utils::connect(app->get_core()->signal_operation_mode_changed(), this, [this](auto mode) { set_operation_mode(mode); });
 }
 
@@ -67,7 +57,6 @@ StatusIcon::init()
   GUIConfig::trayicon_enabled().connect(this, [this](bool enabled) {
     if (status_icon->get_visible() != enabled)
       {
-        visibility_changed_signal.emit();
         status_icon->set_visible(enabled);
         apphold.set_hold(is_visible());
       }
@@ -85,16 +74,16 @@ StatusIcon::insert_icon()
   auto core = app->get_core();
   OperationMode mode = core->get_regular_operation_mode();
 
-#ifdef USE_WINDOWSSTATUSICON
+#ifdef PLATFORM_OS_WINDOWS
   status_icon = new WindowsStatusIcon(app);
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 #endif
 
-#ifdef USE_WINDOWSSTATUSICON
-  status_icon->signal_balloon_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_balloon_activate));
-  status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
+#ifdef PLATFORM_OS_WINDOWS
+  status_icon->signal_balloon_activate().connect([this](auto id) { on_balloon_activate(id); });
+  status_icon->signal_activate().connect([this]() { on_activate(); });
 #else
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
@@ -105,7 +94,7 @@ StatusIcon::insert_icon()
 void
 StatusIcon::set_operation_mode(OperationMode m)
 {
-#if !defined(USE_WINDOWSSTATUSICON)
+#if !defined(PLATFORM_OS_WINDOWS)
   if (mode_icons[m])
     {
       status_icon->set(mode_icons[m]);
@@ -122,7 +111,7 @@ StatusIcon::is_visible() const
 void
 StatusIcon::set_tooltip(const std::string &tip)
 {
-#if !defined(USE_WINDOWSSTATUSICON)
+#if !defined(PLATFORM_OS_WINDOWS)
   status_icon->set_tooltip_text(tip);
 #else
   status_icon->set_tooltip(tip);
@@ -132,7 +121,7 @@ StatusIcon::set_tooltip(const std::string &tip)
 void
 StatusIcon::show_balloon(string id, const string &balloon)
 {
-#ifdef USE_WINDOWSSTATUSICON
+#ifdef PLATFORM_OS_WINDOWS
   status_icon->show_balloon(id, balloon);
 #else
   (void)id;
@@ -150,10 +139,10 @@ StatusIcon::on_popup_menu(guint button, guint activate_time)
 void
 StatusIcon::on_embedded_changed()
 {
-  visibility_changed_signal.emit();
+  apphold.set_hold(is_visible());
 }
 
-#if defined(PLATFORM_OS_WINDOWS) && defined(USE_WINDOWSSTATUSICON)
+#if defined(PLATFORM_OS_WINDOWS)
 void
 StatusIcon::on_balloon_activate(string id)
 {
@@ -165,26 +154,6 @@ void
 StatusIcon::on_activate()
 {
   activated_signal.emit();
-}
-
-#if !defined(USE_WINDOWSSTATUSICON) && defined(PLATFORM_OS_WINDOWS)
-bool
-StatusIcon::filter_func(MSG *msg)
-{
-  bool ret = true;
-  if (msg->message == wm_taskbarcreated)
-    {
-      insert_icon();
-      ret = false;
-    }
-  return ret;
-}
-#endif
-
-sigc::signal<void> &
-StatusIcon::signal_visibility_changed()
-{
-  return visibility_changed_signal;
 }
 
 sigc::signal<void> &

@@ -1,4 +1,4 @@
-// Copyright (C) 2014, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,22 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef UI_HH
-#define UI_HH
+#ifndef WORKAVE_LIBS_UTILS_STRINGUTILS_HH
+#define WORKAVE_LIBS_UTILS_STRINGUTILS_HH
 
 #include <string>
 
-#include "core/CoreTypes.hh"
-#include "ui/UiTypes.hh"
-#include "ui/SoundTheme.hh"
-
-class Ui
+namespace workrave::utils
 {
-public:
-  static const std::string get_break_name(workrave::BreakId id);
-  static const std::string get_break_icon_filename(workrave::BreakId id);
-  static const std::string get_status_icon_filename(OperationModeIcon id);
-  static const std::string get_sound_event_name(SoundEvent event);
-};
+  std::string utf16_to_utf8(const std::wstring &s);
+  std::wstring utf8_to_utf16(const std::string &s);
+} // namespace workrave::utils
 
-#endif // UI_HH
+#endif // WORKAVE_LIBS_UTILS_STRINGUTILS_HH

@@ -27,7 +27,7 @@ const static int BREAK_FLAGS_NO_EXERCISES = 1U << 2U;
 const static int BREAK_FLAGS_NATURAL = 1U << 3U;
 const static int BREAK_FLAGS_USER_INITIATED = 1U << 4U;
 
-enum class StatusIconType
+enum class OperationModeIcon
 {
   Normal,
   Quiet,

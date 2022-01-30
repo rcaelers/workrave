@@ -22,8 +22,6 @@
 
 #include <string>
 
-#include <glibmm.h>
-
 #include <windows.h>
 #include <commctrl.h>
 
@@ -38,14 +36,14 @@ public:
   explicit WindowsStatusIcon(std::shared_ptr<IApplication> app);
   virtual ~WindowsStatusIcon();
 
-  void set_tooltip(const Glib::ustring &text);
-  void show_balloon(std::string id, const Glib::ustring &balloon);
+  void set_tooltip(const std::string &text);
+  void show_balloon(const std::string &id, const std::string &balloon);
   void set_visible(bool visible = true);
   bool get_visible() const;
   bool is_embedded() const;
 
-  sigc::signal<void> signal_activate();
-  sigc::signal<void, std::string> signal_balloon_activate();
+  boost::signals2::signal<void()> &signal_activate();
+  boost::signals2::signal<void(std::string)> &signal_balloon_activate();
 
 private:
   void init();
@@ -67,8 +65,8 @@ private:
   HWND tray_hwnd{nullptr};
   UINT wm_taskbarcreated{0};
 
-  sigc::signal<void> activate_signal;
-  sigc::signal<void, std::string> balloon_activate_signal;
+  boost::signals2::signal<void()> activate_signal;
+  boost::signals2::signal<void(std::string)> balloon_activate_signal;
 
   workrave::utils::Trackable tracker;
 };

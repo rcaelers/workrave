@@ -202,7 +202,7 @@ Paths::get_data_directories()
         {
           if (system_data_dirs[i][0] != '\0')
             {
-              directories.push_back(system_data_dirs[i]);
+              directories.emplace_back(system_data_dirs[i]);
             }
         }
 #endif

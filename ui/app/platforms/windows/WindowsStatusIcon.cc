@@ -26,12 +26,13 @@
 
 #include "core/CoreTypes.hh"
 #include "commonui/MenuDefs.hh"
+#include "utils/StringUtils.hh"
 
 #include "debug.hh"
 
-using namespace std;
-
 const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
+
+#define NUM_ELEMENTS(x) (sizeof(x) / sizeof((x)[0]))
 
 WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplication> app)
   : toolkit(app->get_toolkit())
@@ -86,16 +87,15 @@ WindowsStatusIcon::set_operation_mode(workrave::OperationMode m)
 }
 
 void
-WindowsStatusIcon::set_tooltip(const Glib::ustring &text)
+WindowsStatusIcon::set_tooltip(const std::string &text)
 {
-  gunichar2 *wtext = g_utf8_to_utf16(text.c_str(), -1, nullptr, nullptr, nullptr);
+  std::wstring wtext = workrave::utils::utf8_to_utf16(text);
 
-  if (wtext != nullptr)
+  if (!wtext.empty())
     {
       nid.uFlags |= NIF_TIP;
-      wcsncpy(nid.szTip, (wchar_t *)wtext, G_N_ELEMENTS(nid.szTip) - 1);
-      nid.szTip[G_N_ELEMENTS(nid.szTip) - 1] = 0;
-      g_free(wtext);
+      wcsncpy(nid.szTip, wtext.data(), NUM_ELEMENTS(nid.szTip) - 1);
+      nid.szTip[NUM_ELEMENTS(nid.szTip) - 1] = 0;
     }
   else
     {
@@ -110,25 +110,25 @@ WindowsStatusIcon::set_tooltip(const Glib::ustring &text)
 }
 
 void
-WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
+WindowsStatusIcon::show_balloon(const std::string &id, const std::string &balloon)
 {
   TRACE_ENTRY();
-  gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, nullptr, nullptr, nullptr);
-  gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, nullptr, nullptr, nullptr);
+  std::wstring winfo = workrave::utils::utf8_to_utf16(balloon);
+  std::wstring wtitle = workrave::utils::utf8_to_utf16("Workrave");
 
   current_id = id;
 
-  if (winfo != nullptr && wtitle != nullptr)
+  if (!winfo.empty() && !wtitle.empty())
     {
       nid.uFlags |= NIF_INFO;
       nid.uTimeout = 20000;
       nid.dwInfoFlags = NIIF_INFO;
 
-      wcsncpy(nid.szInfo, (wchar_t *)winfo, G_N_ELEMENTS(nid.szInfo) - 1);
-      nid.szInfo[G_N_ELEMENTS(nid.szInfo) - 1] = 0;
+      wcsncpy(nid.szInfo, winfo.data(), NUM_ELEMENTS(nid.szInfo) - 1);
+      nid.szInfo[NUM_ELEMENTS(nid.szInfo) - 1] = 0;
 
-      wcsncpy(nid.szInfoTitle, (wchar_t *)wtitle, G_N_ELEMENTS(nid.szInfoTitle) - 1);
-      nid.szInfoTitle[G_N_ELEMENTS(nid.szInfoTitle) - 1] = 0;
+      wcsncpy(nid.szInfoTitle, wtitle.data(), NUM_ELEMENTS(nid.szInfoTitle) - 1);
+      nid.szInfoTitle[NUM_ELEMENTS(nid.szInfoTitle) - 1] = 0;
 
       if (nid.hWnd != nullptr && visible)
         {
@@ -136,15 +136,6 @@ WindowsStatusIcon::show_balloon(string id, const Glib::ustring &balloon)
         }
 
       nid.uFlags &= ~NIF_INFO;
-    }
-
-  if (winfo != nullptr)
-    {
-      g_free(winfo);
-    }
-  if (wtitle != nullptr)
-    {
-      g_free(wtitle);
     }
 }
 
@@ -173,13 +164,13 @@ WindowsStatusIcon::is_embedded() const
   return true;
 }
 
-sigc::signal<void>
+boost::signals2::signal<void()> &
 WindowsStatusIcon::signal_activate()
 {
   return activate_signal;
 }
 
-sigc::signal<void, string>
+boost::signals2::signal<void(std::string)> &
 WindowsStatusIcon::signal_balloon_activate()
 {
   return balloon_activate_signal;
@@ -351,10 +342,10 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
               status_icon->show_menu();
               break;
             case WM_LBUTTONDOWN:
-              status_icon->activate_signal.emit();
+              status_icon->activate_signal();
               break;
             case NIN_BALLOONUSERCLICK:
-              status_icon->balloon_activate_signal.emit(status_icon->current_id);
+              status_icon->balloon_activate_signal(status_icon->current_id);
             }
         }
     }
