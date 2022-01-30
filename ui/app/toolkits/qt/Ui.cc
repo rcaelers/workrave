@@ -112,21 +112,21 @@ Ui::get_sound_event_name(SoundEvent event) -> QString
 }
 
 auto
-Ui::get_status_icon_filename(StatusIconType icon) -> QString
+Ui::get_status_icon_filename(OperationModeIcon icon) -> QString
 {
   std::string filename;
 
   switch (icon)
     {
-    case StatusIconType::Normal:
+    case OperationModeIcon::Normal:
       filename = "workrave-icon-medium.png";
       break;
 
-    case StatusIconType::Quiet:
+    case OperationModeIcon::Quiet:
       filename = "workrave-quiet-icon-medium.png";
       break;
 
-    case StatusIconType::Suspended:
+    case OperationModeIcon::Suspended:
       filename = "workrave-suspended-icon-medium.png";
       break;
     }

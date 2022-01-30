@@ -244,7 +244,7 @@ TimerBoxView::set_time_bar(BreakId id,
 }
 
 void
-TimerBoxView::set_icon(StatusIconType icon)
+TimerBoxView::set_icon(OperationModeIcon icon)
 {
   QString file = Ui::get_status_icon_filename(icon);
   // TODO:
