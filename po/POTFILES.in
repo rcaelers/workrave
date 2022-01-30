@@ -97,6 +97,7 @@ ui/app/platforms/windows/DesktopWindow.cc
 ui/app/platforms/windows/WindowsAppletWindow.cc
 ui/app/platforms/windows/WindowsCompat.cc
 ui/app/platforms/windows/WindowsForceFocus.cc
+ui/app/platforms/windows/WindowsStatusIcon.cc
 ui/app/toolkits/gtkmm/BreakWindow.cc
 ui/app/toolkits/gtkmm/DailyLimitWindow.cc
 ui/app/toolkits/gtkmm/DataConnector.cc
@@ -133,7 +134,6 @@ ui/app/toolkits/gtkmm/platforms/unix/IndicatorAppletMenu.cc
 ui/app/toolkits/gtkmm/platforms/unix/X11SystrayAppletWindow.cc
 ui/app/toolkits/gtkmm/platforms/unix/desktop-window.c
 ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c
-ui/app/toolkits/gtkmm/platforms/windows/WindowsStatusIcon.cc
 ui/app/toolkits/gtkmm/widgets/EventButton.cc
 ui/app/toolkits/gtkmm/widgets/EventImage.cc
 ui/app/toolkits/gtkmm/widgets/EventLabel.cc
