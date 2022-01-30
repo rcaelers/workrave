@@ -1,11 +1,16 @@
 ---
 releases:
   - version: 1.10.50
-    date: 2022-xx-xxT15:05:19+01:00
+    date: 2022-02-01T15:05:19+01:00
     short: |-
-      Workrave 1.10.50 has been released.
+      Workrave 1.10.50 has been released. This release brings a number of small improvements.
     changes:
       - The "Restbreak now" button in the main window no longer responds to keyboard (#368)
+      - Allow installation on Windows without administrator rights.
+      - Fix vertical alignment of GNOME shell applet (#356)
+      - Support GNOME Shell 42
+      - Restore support for Windows Vista and up (#367)
+      - The 'Backward shoulder stretch' exercises now plays a sound twice matching the description (#354)
 
   - version: 1.10.49
     date: 2022-01-05T15:05:19+01:00
