@@ -32,6 +32,14 @@ enum class BlockMode
   Input,
   All
 };
+
+enum class FocusMode
+{
+  Off = 0,
+  Suspended,
+  Quiet
+};
+
 class GUIConfig
 {
 public:
@@ -51,6 +59,7 @@ public:
   static workrave::config::Setting<bool> &break_enable_shutdown(workrave::BreakId break_id);
   static workrave::config::Setting<int> &break_exercises(workrave::BreakId break_id);
   static workrave::config::Setting<int, BlockMode> &block_mode();
+  static workrave::config::Setting<int, FocusMode> &focus_mode();
   static workrave::config::Setting<std::string> &locale();
   static workrave::config::Setting<bool> &trayicon_enabled();
   static workrave::config::Setting<bool> &closewarn_enabled();
@@ -86,6 +95,7 @@ private:
   static const std::string CFG_KEY_BREAK_EXERCISES;
   static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
   static const std::string CFG_KEY_BLOCK_MODE;
+  static const std::string CFG_KEY_FOCUS_MODE;
   static const std::string CFG_KEY_LOCALE;
   static const std::string CFG_KEY_TRAYICON_ENABLED;
   static const std::string CFG_KEY_AUTOSTART;
@@ -130,6 +140,24 @@ operator<<(std::ostream &stream, BlockMode mode)
       break;
     case BlockMode::All:
       stream << "all";
+      break;
+    }
+  return stream;
+}
+
+inline std::ostream &
+operator<<(std::ostream &stream, FocusMode mode)
+{
+  switch (mode)
+    {
+    case FocusMode::Off:
+      stream << "normal";
+      break;
+    case FocusMode::Suspended:
+      stream << "suspended";
+      break;
+    case FocusMode::Quiet:
+      stream << "quiet";
       break;
     }
   return stream;

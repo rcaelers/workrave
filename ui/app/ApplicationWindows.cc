@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <memory>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -41,4 +42,6 @@ void
 ApplicationWindows::init_platform_post()
 {
   register_plugin(std::make_shared<WindowsAppletWindow>(shared_from_this()));
+
+  focus_assist = std::make_shared<WindowsFocusAssist>(shared_from_this());
 }

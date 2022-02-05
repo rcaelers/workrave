@@ -20,6 +20,10 @@
 
 #include "Application.hh"
 
+#include <memory>
+
+#include "ui/windows/WindowsFocusAssist.hh"
+
 class ApplicationWindows : public Application
 {
 public:
@@ -28,6 +32,9 @@ public:
 
   void init_platform_pre() override;
   void init_platform_post() override;
+
+private:
+  std::shared_ptr<WindowsFocusAssist> focus_assist;
 };
 
 #endif // APPLICATION_WINDOWS_HH

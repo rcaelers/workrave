@@ -42,6 +42,7 @@ if (PLATFORM_OS_WINDOWS)
     platforms/windows/WindowsForceFocus.cc
     platforms/windows/WindowsLocker.cc
     platforms/windows/WindowsStatusIcon.cc
+    platforms/windows/WindowsFocusAssist.cc
   )
 
   if (HAVE_HARPOON)

@@ -31,7 +31,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/applet/" id="org.workrave.gui.applet" gettext-domain="workrave">
     <child schema="org.workrave.gui.applet.micro-pause" name="micro-pause"/>
     <child schema="org.workrave.gui.applet.rest-break" name="rest-break"/>
@@ -58,7 +58,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/applet/daily-limit/" id="org.workrave.gui.applet.daily-limit" gettext-domain="workrave">
     <key type="i" name="flags">
       <default>0</default>
@@ -76,7 +76,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/applet/micro-pause/" id="org.workrave.gui.applet.micro-pause" gettext-domain="workrave">
     <key type="i" name="flags">
       <default>0</default>
@@ -94,7 +94,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/applet/rest-break/" id="org.workrave.gui.applet.rest-break" gettext-domain="workrave">
     <key type="i" name="flags">
       <default>0</default>
@@ -112,7 +112,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/breaks/" id="org.workrave.gui.breaks" gettext-domain="workrave">
     <child schema="org.workrave.gui.breaks.micro-pause" name="micro-pause"/>
     <child schema="org.workrave.gui.breaks.rest-break" name="rest-break"/>
@@ -120,6 +120,11 @@
 
     <key type="i" name="block-mode">
       <default>1</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="focus-mode">
+      <default>0</default>
       <summary></summary>
       <description></description>
     </key>
@@ -180,7 +185,7 @@
       <description></description>
     </key>
   </schema>
-    
+
   <schema path="/org/workrave/gui/breaks/rest-break/" id="org.workrave.gui.breaks.rest-break" gettext-domain="workrave">
     <key type="b" name="auto-natural">
       <default>false</default>
@@ -208,7 +213,7 @@
       <description></description>
     </key>
   </schema>
-    
+
   <schema path="/org/workrave/gui/main-window/" id="org.workrave.gui.main-window" gettext-domain="workrave">
     <child schema="org.workrave.gui.main-window.micro-pause" name="micro-pause"/>
     <child schema="org.workrave.gui.main-window.rest-break" name="rest-break"/>
@@ -251,7 +256,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/main-window/daily-limit/" id="org.workrave.gui.main-window.daily-limit" gettext-domain="workrave">
     <key type="i" name="flags">
       <default>0</default>
@@ -269,7 +274,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/main-window/micro-pause/" id="org.workrave.gui.main-window.micro-pause" gettext-domain="workrave">
     <key type="i" name="flags">
       <default>0</default>
@@ -287,7 +292,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/gui/main-window/rest-break/" id="org.workrave.gui.main-window.rest-break" gettext-domain="workrave">
     <key type="i" name="flags">
       <default>0</default>
@@ -308,7 +313,7 @@
 
   <schema path="/org/workrave/sound/" id="org.workrave.sound" gettext-domain="workrave">
     <child schema="org.workrave.sound.events" name="events"/>
-    
+
     <key type="i" name="device">
       <default>1</default>
       <summary></summary>
@@ -330,7 +335,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/sound/events/" id="org.workrave.sound.events" gettext-domain="workrave">
     <key type="s" name="break-ignored">
       <default>""</default>

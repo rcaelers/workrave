@@ -35,6 +35,7 @@ const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_sh
 const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
 const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
+const string GUIConfig::CFG_KEY_FOCUS_MODE = "gui/breaks/focus_mode";
 const string GUIConfig::CFG_KEY_LOCALE = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
@@ -87,6 +88,7 @@ GUIConfig::init(std::shared_ptr<IApplication> app)
   config->set_value(CFG_KEY_BLOCK_MODE,
                     static_cast<std::underlying_type<BlockMode>::type>(BlockMode::Input),
                     workrave::config::CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_FOCUS_MODE, 0, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_TRAYICON_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
@@ -146,6 +148,11 @@ GUIConfig::block_mode() -> Setting<int, BlockMode> &
 {
   return SettingCache::get<int, BlockMode>(config, CFG_KEY_BLOCK_MODE, BlockMode::Input);
 }
+
+auto
+GUIConfig::focus_mode() -> Setting<int, FocusMode> &
+{
+  return SettingCache::get<int, FocusMode>(config, CFG_KEY_FOCUS_MODE, FocusMode::Off);
 }
 
 auto
