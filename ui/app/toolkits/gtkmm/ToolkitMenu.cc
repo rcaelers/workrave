@@ -101,6 +101,11 @@ ToolkitMenuEntryFactory::create(ToolkitMenuContext::Ptr context, ToolkitSubMenuE
       return std::make_shared<ToolkitSeparatorMenuEntry>(context, parent, n);
     }
 
+  if (auto n = std::dynamic_pointer_cast<menus::SectionNode>(node); n)
+    {
+      return std::make_shared<ToolkitSectionMenuEntry>(context, parent, n);
+    }
+
   return ToolkitMenuEntry::Ptr();
 }
 
@@ -263,5 +268,17 @@ ToolkitSeparatorMenuEntry::ToolkitSeparatorMenuEntry(ToolkitMenuContext::Ptr con
   if (!filter || filter(node))
     {
       parent->add_section();
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node)
+  : ToolkitMenuEntry(context)
+{
+  for (auto child_node: node->get_children())
+    {
+      auto child = ToolkitMenuEntryFactory::create(context, parent, child_node);
+      children.push_back(child);
     }
 }

@@ -26,13 +26,20 @@
 
 MenuModel::MenuModel()
 {
-  root = std::make_shared<menus::SubMenuNode>();
+  root = std::make_shared<menus::SubMenuNode>(std::string_view{"root"}, "");
 }
 
 auto
 MenuModel::get_root() const -> menus::SubMenuNode::Ptr
 {
   return root;
+}
+
+auto
+MenuModel::find_section(std::string id) const -> menus::SectionNode::Ptr
+{
+  auto root = get_root();
+  return root->find_section(id);
 }
 
 void
@@ -153,6 +160,17 @@ menus::Node::activate()
 }
 
 auto
+menus::SectionNode::create(std::string_view id) -> menus::SectionNode::Ptr
+{
+  return std::make_shared<menus::SectionNode>(id);
+}
+
+menus::SectionNode::SectionNode(std::string_view id)
+  : Node(id)
+{
+}
+
+auto
 menus::SubMenuNode::create(std::string_view id, std::string text) -> menus::SubMenuNode::Ptr
 {
   return std::make_shared<menus::SubMenuNode>(id, text);
@@ -161,30 +179,6 @@ menus::SubMenuNode::create(std::string_view id, std::string text) -> menus::SubM
 menus::SubMenuNode::SubMenuNode(std::string_view id, std::string text)
   : Node(id, text)
 {
-}
-
-void
-menus::SubMenuNode::add(menus::Node::Ptr submenu, menus::Node::Ptr before)
-{
-  auto pos = children.end();
-  if (before)
-    {
-      pos = std::find(children.begin(), children.end(), before);
-    }
-
-  children.insert(pos, submenu);
-}
-
-void
-menus::SubMenuNode::remove(menus::Node::Ptr submenu)
-{
-  children.remove(submenu);
-}
-
-auto
-menus::SubMenuNode::get_children() const -> std::list<menus::Node::Ptr>
-{
-  return children;
 }
 
 auto
@@ -331,30 +325,6 @@ menus::RadioGroupNode::create(std::string_view id, std::string text, Activated a
 menus::RadioGroupNode::RadioGroupNode(std::string_view id, std::string text, Activated activated)
   : Node(id, text, activated)
 {
-}
-
-void
-menus::RadioGroupNode::add(menus::RadioNode::Ptr submenu, menus::RadioNode::Ptr before)
-{
-  auto pos = children.end();
-  if (before)
-    {
-      pos = std::find(children.begin(), children.end(), before);
-    }
-
-  children.insert(pos, submenu);
-}
-
-void
-menus::RadioGroupNode::remove(menus::RadioNode::Ptr submenu)
-{
-  children.remove(submenu);
-}
-
-auto
-menus::RadioGroupNode::get_children() const -> std::list<menus::RadioNode::Ptr>
-{
-  return children;
 }
 
 auto

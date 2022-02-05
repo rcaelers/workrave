@@ -283,11 +283,19 @@ WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr nod
         }
     }
 
+  else if (auto n = std::dynamic_pointer_cast<menus::SectionNode>(node); n)
+    {
+      for (auto &menu_to_add: n->get_children())
+        {
+          init_menu(current_menu, level, menu_to_add);
+        }
+    }
+
   else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
     {
       for (auto &menu_to_add: n->get_children())
         {
-          init_menu(current_menu, level + 1, menu_to_add);
+          init_menu(current_menu, level, menu_to_add);
         }
     }
 

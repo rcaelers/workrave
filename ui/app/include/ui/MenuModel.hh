@@ -25,16 +25,18 @@
 #include <optional>
 #include <boost/signals2.hpp>
 
+#include "spdlog/spdlog.h"
+
 namespace menus
 {
-  class Node
+  class Node : public std::enable_shared_from_this<Node>
   {
   public:
     using Ptr = std::shared_ptr<Node>;
     using Activated = std::function<void()>;
 
     Node();
-    Node(std::string_view id, std::string text, Activated activated = Activated());
+    Node(std::string_view id, std::string text = "", Activated activated = Activated());
     virtual ~Node() = default;
 
     [[nodiscard]] auto get_text() const -> std::string;
@@ -62,23 +64,112 @@ namespace menus
     boost::signals2::signal<void()> changed_signal;
   };
 
-  class SubMenuNode : public Node
+  class SectionNode;
+
+  template<class T>
+  class ContainerNode // : public Node
+  {
+  public:
+    using Ptr = std::shared_ptr<ContainerNode<T>>;
+    using ChildNodePtr = typename T::Ptr;
+
+    void add_before(ChildNodePtr node, std::string_view id)
+    {
+      auto pos = std::find_if(children.begin(), children.end(), [id](const auto &n) { return n->get_id() == std::string{id}; });
+      if (pos != children.end())
+        {
+          children.insert(pos, node);
+        }
+      else
+        {
+          children.push_back(node);
+        }
+    }
+
+    void add_after(ChildNodePtr node, std::string_view id)
+    {
+      auto pos = std::find_if(children.begin(), children.end(), [id](const auto &n) { return n->get_id() == std::string{id}; });
+      if (pos != children.end())
+        {
+          pos++;
+          children.insert(pos, node);
+        }
+      else
+        {
+          children.push_back(node);
+        }
+    }
+
+    void add(ChildNodePtr node, menus::Node::Ptr before = menus::Node::Ptr())
+    {
+      auto pos = children.end();
+      if (before)
+        {
+          pos = std::find(children.begin(), children.end(), before);
+        }
+
+      children.insert(pos, node);
+    }
+
+    void remove(ChildNodePtr node)
+    {
+      children.remove(node);
+    }
+
+    [[nodiscard]] auto find_section(std::string id) const -> std::shared_ptr<SectionNode>
+    {
+      for (auto &node: get_children())
+        {
+          if (auto n = std::dynamic_pointer_cast<menus::SectionNode>(node); n)
+            {
+              if (node->get_id() == id)
+                {
+                  return n;
+                }
+            }
+          if (auto n = std::dynamic_pointer_cast<menus::ContainerNode<menus::Node>>(node); n)
+            {
+              auto ret = n->find_section(id);
+              if (ret)
+                {
+                  return ret;
+                }
+            }
+        }
+      return {};
+    }
+
+    [[nodiscard]] auto get_children() const -> std::list<ChildNodePtr>
+    {
+      return children;
+    }
+
+  protected:
+    std::list<ChildNodePtr> children;
+  };
+
+  class SectionNode
+    : public Node
+    , public ContainerNode<Node>
+  {
+  public:
+    using Ptr = std::shared_ptr<SectionNode>;
+
+    explicit SectionNode(std::string_view id);
+
+    static auto create(std::string_view id) -> Ptr;
+  };
+
+  class SubMenuNode
+    : public Node
+    , public ContainerNode<Node>
   {
   public:
     using Ptr = std::shared_ptr<SubMenuNode>;
 
-    SubMenuNode() = default;
     SubMenuNode(std::string_view id, std::string text);
 
     static auto create(std::string_view id, std::string text) -> Ptr;
-
-    void add(menus::Node::Ptr submenu, menus::Node::Ptr before = menus::Node::Ptr());
-    void remove(menus::Node::Ptr submenu);
-
-    [[nodiscard]] auto get_children() const -> std::list<Node::Ptr>;
-
-  private:
-    std::list<Node::Ptr> children;
   };
 
   class ActionNode : public Node
@@ -137,31 +228,27 @@ namespace menus
     std::weak_ptr<RadioGroupNode> group;
   };
 
-  class RadioGroupNode : public Node
+  class RadioGroupNode
+    : public Node
+    , public ContainerNode<RadioNode>
   {
   public:
     using Ptr = std::shared_ptr<RadioGroupNode>;
-
     RadioGroupNode(std::string_view id, std::string text, Activated activated = Activated());
 
     static auto create(std::string_view id, std::string text, Activated activated = Activated()) -> Ptr;
-
-    void add(menus::RadioNode::Ptr submenu, menus::RadioNode::Ptr before = menus::RadioNode::Ptr());
-    void remove(menus::RadioNode::Ptr submenu);
-    [[nodiscard]] auto get_children() const -> std::list<RadioNode::Ptr>;
-
-    void select(std::string id);
-    void select(int value);
 
     [[nodiscard]] auto get_selected_node() const -> menus::RadioNode::Ptr;
     [[nodiscard]] auto get_selected_value() const -> int;
     [[nodiscard]] auto get_selected_id() const -> std::string;
 
+    void select(std::string id);
+    void select(int value);
+
     void activate() override;
     void activate(int value);
 
   private:
-    std::list<RadioNode::Ptr> children;
     std::string selected_id;
   };
 
@@ -169,6 +256,7 @@ namespace menus
   {
   public:
     using Ptr = std::shared_ptr<SeparatorNode>;
+    SeparatorNode() = default;
     static auto create() -> Ptr;
   };
 } // namespace menus
@@ -181,6 +269,7 @@ public:
   MenuModel();
 
   [[nodiscard]] auto get_root() const -> menus::SubMenuNode::Ptr;
+  [[nodiscard]] auto find_section(std::string id) const -> menus::SectionNode::Ptr;
   void update();
 
   auto signal_update() -> boost::signals2::signal<void()> &;

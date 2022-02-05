@@ -248,3 +248,15 @@ ToolkitSeparatorMenuEntry::get_action() const -> QAction *
 {
   return action;
 }
+
+//////////////////////////////////////////////////////////////////////
+
+ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node)
+  : ToolkitMenuEntry(context)
+{
+  for (auto child_node: node->get_children())
+    {
+      auto child = ToolkitMenuEntryFactory::create(context, parent, child_node);
+      children.push_back(child);
+    }
+}

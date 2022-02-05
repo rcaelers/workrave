@@ -266,6 +266,14 @@ GenericDBusApplet::init_menu_list(std::list<MenuItem> &items, menus::Node::Ptr n
         }
     }
 
+  else if (auto n = std::dynamic_pointer_cast<menus::SectionNode>(node); n)
+    {
+      for (auto &menu_to_add: n->get_children())
+        {
+          init_menu_list(items, menu_to_add);
+        }
+    }
+
   else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
     {
       items.emplace_back(n->get_text(), node->get_dynamic_text(), node->get_id(), command, MenuItemType::RadioGroupBegin, flags);

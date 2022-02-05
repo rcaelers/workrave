@@ -116,6 +116,15 @@ namespace detail
     std::list<IndicatorRadioMenuEntry::Ptr> children;
   };
 
+  class IndicatorSectionMenuEntry : public IndicatorMenuEntry
+  {
+  public:
+    IndicatorSectionMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node);
+
+  private:
+    std::list<IndicatorMenuEntry::Ptr> children;
+  };
+
   class IndicatorSeparatorMenuEntry : public IndicatorMenuEntry
   {
   public:

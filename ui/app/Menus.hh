@@ -54,6 +54,9 @@ public:
   static constexpr std::string_view OPEN = sv("workrave.open");
   static constexpr std::string_view QUIT = sv("workrave.quit");
 
+  static constexpr std::string_view SECTION_MAIN = sv("workrave.section.main");
+  static constexpr std::string_view SECTION_MODES = sv("workrave.section.modes");
+
 private:
   void init();
   void create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNode::Ptr menu);

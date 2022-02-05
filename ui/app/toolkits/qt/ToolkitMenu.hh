@@ -151,6 +151,17 @@ namespace detail
     QAction *action{nullptr};
   };
 
+  class ToolkitSectionMenuEntry : public ToolkitMenuEntry
+  {
+    Q_OBJECT
+
+  public:
+    ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node);
+
+  private:
+    std::list<ToolkitMenuEntry::Ptr> children;
+  };
+
   class ToolkitMenuEntryFactory
   {
   public:

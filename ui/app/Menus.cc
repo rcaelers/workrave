@@ -54,29 +54,35 @@ Menus::init()
 
   menus::SubMenuNode::Ptr root = menu_model->get_root();
 
+  auto section_main = menus::SectionNode::create(SECTION_MAIN);
+  root->add(section_main);
+
   menus::Node::Ptr item = menus::ActionNode::create(OPEN, _("_Open"), [this] { on_menu_open_main_window(); });
-  root->add(item);
+  section_main->add(item);
 
   auto separator = menus::SeparatorNode::create();
-  root->add(separator);
+  section_main->add(separator);
 
   item = menus::ActionNode::create(PREFERENCES, _("_Preferences"), [this] { on_menu_preferences(); });
-  root->add(item);
+  section_main->add(item);
 
   item = menus::ActionNode::create(REST_BREAK, _("_Rest break"), [this] { on_menu_restbreak_now(); });
-  root->add(item);
+  section_main->add(item);
 
   item = menus::ActionNode::create(EXERCISES, _("_Exercises"), [this] { on_menu_exercises(); });
-  root->add(item);
+  section_main->add(item);
 
   item = menus::ActionNode::create(STATISTICS, _("S_tatistics"), [this] { on_menu_statistics(); });
-  root->add(item);
+  section_main->add(item);
 
   separator = menus::SeparatorNode::create();
   root->add(separator);
 
+  auto section_modes = menus::SectionNode::create(SECTION_MODES);
+  root->add(section_modes);
+
   auto modemenu = menus::SubMenuNode::create(MODE_MENU, _("_Mode"));
-  root->add(modemenu);
+  section_modes->add(modemenu);
 
   mode_group = menus::RadioGroupNode::create(MODE, "");
   modemenu->add(mode_group);
@@ -114,7 +120,7 @@ Menus::init()
 
   reading_item = menus::ToggleNode::create(MODE_READING, _("_Reading mode"), [this] { on_menu_reading(); });
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
-  root->add(reading_item);
+  section_modes->add(reading_item);
 
   separator = menus::SeparatorNode::create();
   root->add(separator);
@@ -131,6 +137,7 @@ Menus::init()
 
   CoreConfig::operation_mode_auto_reset_time().connect(tracker, [this](auto x) { update_autoreset(); });
   CoreConfig::operation_mode_auto_reset_duration().connect(tracker, [this](auto x) { update_autoreset(); });
+
   update_autoreset();
 }
 
@@ -258,7 +265,6 @@ Menus::update_autoreset()
 {
   using namespace std::chrono_literals;
 
-  spdlog::debug("update");
   workrave::OperationMode mode = core->get_regular_operation_mode();
   auto auto_reset_duration = CoreConfig::operation_mode_auto_reset_duration()();
   auto auto_reset_time = CoreConfig::operation_mode_auto_reset_time()();
@@ -268,7 +274,6 @@ Menus::update_autoreset()
       std::stringstream ss;
       ss << std::put_time(std::localtime(&time), "%H:%M");
 
-      spdlog::debug("update {}", ss.str());
       if (mode == OperationMode::Quiet)
         {
           quiet_item->set_dynamic_text(boost::str(boost::format(_("Q_uiet (until %1%)")) % ss.str()));

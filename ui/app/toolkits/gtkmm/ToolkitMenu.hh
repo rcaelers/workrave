@@ -123,6 +123,15 @@ namespace detail
     ToolkitSeparatorMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SeparatorNode::Ptr node);
   };
 
+  class ToolkitSectionMenuEntry : public ToolkitMenuEntry
+  {
+  public:
+    ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node);
+
+  private:
+    std::list<ToolkitMenuEntry::Ptr> children;
+  };
+
   class ToolkitMenuEntryFactory
   {
   public:

@@ -292,3 +292,15 @@ IndicatorSeparatorMenuEntry::IndicatorSeparatorMenuEntry(IndicatorSubMenuEntry *
 {
   parent->add_section();
 }
+
+//////////////////////////////////////////////////////////////////////
+
+IndicatorSectionMenuEntry::IndicatorSectionMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node)
+{
+  item = parent->get_item();
+  for (auto child_node: node->get_children())
+    {
+      auto child = IndicatorMenuEntryFactory::create(parent, child_node);
+      children.push_back(child);
+    }
+}
