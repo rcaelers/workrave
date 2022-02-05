@@ -154,10 +154,10 @@ PreferencesDialog::create_gui_page()
   int block_idx;
   switch (GUIConfig::block_mode()())
     {
-    case GUIConfig::BLOCK_MODE_NONE:
+    case BlockMode::Off:
       block_idx = 0;
       break;
-    case GUIConfig::BLOCK_MODE_INPUT:
+    case BlockMode::Input:
       block_idx = 1;
       break;
     default:
@@ -587,17 +587,17 @@ void
 PreferencesDialog::on_block_changed()
 {
   int idx = block_button->get_active_row_number();
-  GUIConfig::BlockMode m;
+  BlockMode m;
   switch (idx)
     {
     case 0:
-      m = GUIConfig::BLOCK_MODE_NONE;
+      m = BlockMode::Off;
       break;
     case 1:
-      m = GUIConfig::BLOCK_MODE_INPUT;
+      m = BlockMode::Input;
       break;
     default:
-      m = GUIConfig::BLOCK_MODE_ALL;
+      m = BlockMode::All;
     }
   GUIConfig::block_mode().set(m);
 }
@@ -613,8 +613,8 @@ bool
 PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 {
   TRACE_ENTRY();
-  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+  BlockMode block_mode = GUIConfig::block_mode()();
+  if (block_mode != BlockMode::Off)
     {
       auto core = app->get_core();
 

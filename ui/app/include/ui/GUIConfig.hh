@@ -18,22 +18,23 @@
 #ifndef WORKRAVE_UI_GUICONFIG_HH
 #define WORKRAVE_UI_GUICONFIG_HH
 
+#include <iostream>
+
 #include "config/IConfigurator.hh"
 #include "core/ICore.hh"
 #include "config/Setting.hh"
 
 #include "ui/IApplication.hh"
 
+enum class BlockMode
+{
+  Off = 0,
+  Input,
+  All
+};
 class GUIConfig
 {
 public:
-  enum BlockMode
-  {
-    BLOCK_MODE_NONE = 0,
-    BLOCK_MODE_INPUT,
-    BLOCK_MODE_ALL
-  };
-
   enum SlotType
   {
     BREAK_WHEN_IMMINENT = 1,
@@ -49,7 +50,7 @@ public:
   static workrave::config::Setting<bool> &break_skippable(workrave::BreakId break_id);
   static workrave::config::Setting<bool> &break_enable_shutdown(workrave::BreakId break_id);
   static workrave::config::Setting<int> &break_exercises(workrave::BreakId break_id);
-  static workrave::config::Setting<int, GUIConfig::BlockMode> &block_mode();
+  static workrave::config::Setting<int, BlockMode> &block_mode();
   static workrave::config::Setting<std::string> &locale();
   static workrave::config::Setting<bool> &trayicon_enabled();
   static workrave::config::Setting<bool> &closewarn_enabled();
@@ -115,5 +116,23 @@ private:
   static inline std::shared_ptr<IApplication> app;
   static inline std::shared_ptr<workrave::config::IConfigurator> config;
 };
+
+inline std::ostream &
+operator<<(std::ostream &stream, BlockMode mode)
+{
+  switch (mode)
+    {
+    case BlockMode::Off:
+      stream << "none";
+      break;
+    case BlockMode::Input:
+      stream << "input";
+      break;
+    case BlockMode::All:
+      stream << "all";
+      break;
+    }
+  return stream;
+}
 
 #endif // WORKRAVE_UI_GUICONFIG_HH

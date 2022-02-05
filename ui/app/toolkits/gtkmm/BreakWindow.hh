@@ -53,11 +53,7 @@ class BreakWindow
   , public IBreakWindow
 {
 public:
-  BreakWindow(std::shared_ptr<IApplication> app,
-              workrave::BreakId break_id,
-              HeadInfo &head,
-              BreakFlags break_flags,
-              GUIConfig::BlockMode block_mode);
+  BreakWindow(std::shared_ptr<IApplication> app, workrave::BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode block_mode);
   ~BreakWindow() override;
 
   void init() override;
@@ -97,7 +93,7 @@ protected:
   HeadInfo head;
 
   //! Insist
-  GUIConfig::BlockMode block_mode;
+  BlockMode block_mode;
 
   //! Ignorable
   BreakFlags break_flags;

@@ -88,7 +88,7 @@ private:
   IApplication::Ptr app;
   workrave::BreakId break_id;
   BreakFlags break_flags;
-  GUIConfig::BlockMode block_mode;
+  BlockMode block_mode;
   bool is_flashing = false;
   QScreen *screen{nullptr};
   Frame *frame{nullptr};

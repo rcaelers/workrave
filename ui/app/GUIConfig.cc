@@ -84,7 +84,9 @@ GUIConfig::init(std::shared_ptr<IApplication> app)
       config->set_value(break_enable_shutdown(breakId).key(), true, workrave::config::CONFIG_FLAG_INITIAL);
     }
 
-  config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, workrave::config::CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_BLOCK_MODE,
+                    static_cast<std::underlying_type<BlockMode>::type>(BlockMode::Input),
+                    workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_TRAYICON_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
@@ -140,9 +142,10 @@ GUIConfig::break_exercises(workrave::BreakId break_id) -> Setting<int> &
 }
 
 auto
-GUIConfig::block_mode() -> Setting<int, GUIConfig::BlockMode> &
+GUIConfig::block_mode() -> Setting<int, BlockMode> &
 {
-  return SettingCache::get<int, BlockMode>(config, CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT);
+  return SettingCache::get<int, BlockMode>(config, CFG_KEY_BLOCK_MODE, BlockMode::Input);
+}
 }
 
 auto

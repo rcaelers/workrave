@@ -144,8 +144,8 @@ RestBreakWindow::install_info_panel()
   UiUtil::invalidate(pluggable_panel);
   center();
 
-  // GUIConfig::BlockMode block_mode = GUIConfig::cfg_block_mode();
-  // if (block_mode == GUIConfig::BLOCK_MODE_NONE &&
+  // BlockMode block_mode = GUIConfig::cfg_block_mode();
+  // if (block_mode == BlockMode::Off &&
   //     screen == 0)
   //   {
   //     Gtk::Requisition new_size;

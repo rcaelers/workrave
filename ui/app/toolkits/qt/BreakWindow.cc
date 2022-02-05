@@ -49,7 +49,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, Bre
 void
 BreakWindow::init()
 {
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+  if (block_mode != BlockMode::Off)
     {
       setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen);
     }
@@ -60,7 +60,7 @@ BreakWindow::init()
 
   QVBoxLayout *inner_layout = outer_layout;
 
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+  if (block_mode != BlockMode::Off)
     {
       frame = new Frame;
       frame->set_frame_style(Frame::Style::Solid);
@@ -263,7 +263,7 @@ BreakWindow::on_lock_button_clicked()
 // bool
 // BreakWindow::on_delete_event(GdkEventAny *)
 // {
-//   if (block_mode == GUIConfig::BLOCK_MODE_NONE)
+//   if (block_mode == BlockMode::Off)
 //     {
 //       on_postpone_button_clicked();
 //     }
@@ -442,17 +442,17 @@ BreakWindow::start()
   show();
   center();
 
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+  if (block_mode != BlockMode::Off)
     {
       block_window = new QWidget();
       block_window->setParent(nullptr);
       block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
-      block_window->setWindowOpacity(block_mode == GUIConfig::BLOCK_MODE_INPUT ? 0.2 : 1);
+      block_window->setWindowOpacity(block_mode == BlockMode::Input ? 0.2 : 1);
       // block_window->setAttribute(Qt::WA_PaintOnScreen);
 
-      if (block_mode == GUIConfig::BLOCK_MODE_ALL)
+      if (block_mode == BlockMode::All)
         {
           QPalette palette;
           auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(app->get_toolkit());

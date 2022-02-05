@@ -67,11 +67,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(std::shared_ptr<IApplication> app,
-                         BreakId break_id,
-                         HeadInfo &head,
-                         BreakFlags break_flags,
-                         GUIConfig::BlockMode mode)
+BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode mode)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , app(app)
   , block_mode(mode)
@@ -81,7 +77,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app,
   TRACE_ENTRY();
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
 
-  if (mode != GUIConfig::BLOCK_MODE_NONE)
+  if (mode != BlockMode::Off)
     {
       // Disable titlebar to appear like a popup
       set_decorated(false);
@@ -122,7 +118,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app,
   SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #endif
 
-  if (mode == GUIConfig::BLOCK_MODE_NONE)
+  if (mode == BlockMode::Off)
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
@@ -151,7 +147,7 @@ BreakWindow::init_gui()
     {
       gui = Gtk::manage(create_gui());
 
-      if (block_mode == GUIConfig::BLOCK_MODE_NONE)
+      if (block_mode == BlockMode::Off)
         {
           set_border_width(12);
           add(*gui);
@@ -173,7 +169,7 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUIConfig::BLOCK_MODE_ALL && !fullscreen_grab)
+          if (block_mode == BlockMode::All && !fullscreen_grab)
             {
 #ifdef PLATFORM_OS_WINDOWS
               desktop_window = new DesktopWindow(head.get_x(), head.get_y(), head.get_width(), head.get_height());
@@ -451,7 +447,7 @@ BreakWindow::update_skip_postpone_lock()
 bool
 BreakWindow::on_delete_event(GdkEventAny *)
 {
-  if (block_mode == GUIConfig::BLOCK_MODE_NONE)
+  if (block_mode == BlockMode::Off)
     {
       on_postpone_button_clicked();
     }
@@ -765,7 +761,7 @@ bool
 BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
   cr->save();
-  if (block_mode == GUIConfig::BLOCK_MODE_ALL)
+  if (block_mode == BlockMode::All)
     {
       cr->set_source_rgba(0, 0, 0, 0.95);
     }

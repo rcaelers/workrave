@@ -49,7 +49,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode)
+RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode)
   : BreakWindow(app, BREAK_ID_REST_BREAK, head, break_flags, mode)
 {
   TRACE_ENTRY();
@@ -237,8 +237,8 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->show_all();
   pluggable_panel->queue_resize();
 
-  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
-  if (block_mode == GUIConfig::BLOCK_MODE_NONE && head.monitor == 0)
+  BlockMode block_mode = GUIConfig::block_mode()();
+  if (block_mode == BlockMode::Off && head.monitor == 0)
     {
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);

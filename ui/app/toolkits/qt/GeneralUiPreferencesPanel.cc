@@ -59,10 +59,10 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
   int block_idx = 0;
   switch (GUIConfig::block_mode()())
     {
-    case GUIConfig::BLOCK_MODE_NONE:
+    case BlockMode::Off:
       block_idx = 0;
       break;
-    case GUIConfig::BLOCK_MODE_INPUT:
+    case BlockMode::Input:
       block_idx = 1;
       break;
     default:
@@ -204,17 +204,17 @@ void
 GeneralUiPreferencesPanel::on_block_changed()
 {
   int idx = block_button->currentIndex();
-  GUIConfig::BlockMode m{};
+  BlockMode m{};
   switch (idx)
     {
     case 0:
-      m = GUIConfig::BLOCK_MODE_NONE;
+      m = BlockMode::Off;
       break;
     case 1:
-      m = GUIConfig::BLOCK_MODE_INPUT;
+      m = BlockMode::Input;
       break;
     default:
-      m = GUIConfig::BLOCK_MODE_ALL;
+      m = BlockMode::All;
     }
   GUIConfig::block_mode().set(m);
 }

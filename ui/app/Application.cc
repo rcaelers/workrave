@@ -507,7 +507,7 @@ Application::show_break_window()
       window->start();
     }
 
-  if (!break_windows.empty() && GUIConfig::block_mode()() != GUIConfig::BLOCK_MODE_NONE)
+  if (!break_windows.empty() && GUIConfig::block_mode()() != BlockMode::Off)
     {
       toolkit->get_locker()->lock();
     }

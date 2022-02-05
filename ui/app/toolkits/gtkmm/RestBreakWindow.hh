@@ -36,7 +36,7 @@ namespace Gtk
 class RestBreakWindow : public BreakWindow
 {
 public:
-  RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, GUIConfig::BlockMode mode);
+  RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
   ~RestBreakWindow() override;
 
   void start() override;

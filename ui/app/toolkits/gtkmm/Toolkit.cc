@@ -146,7 +146,7 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 
   HeadInfo head = get_head_info(screen_index);
 
-  GUIConfig::BlockMode block_mode = GUIConfig::block_mode()();
+  BlockMode block_mode = GUIConfig::block_mode()();
 
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
