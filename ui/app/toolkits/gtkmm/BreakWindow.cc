@@ -321,7 +321,7 @@ BreakWindow::create_sysoper_combobox()
       return nullptr;
     }
 
-  Gtk::ComboBox *comboBox = new Gtk::ComboBox();
+  auto *comboBox = new Gtk::ComboBox();
   comboBox->set_model(model);
   if (has_button_images)
     {
@@ -683,8 +683,10 @@ BreakWindow::start()
   center();
 
 #ifdef PLATFORM_OS_WINDOWS
-  if (desktop_window)
-    desktop_window->set_visible(true);
+  if (desktop_window != nullptr)
+    {
+      desktop_window->set_visible(true);
+    }
 #endif
   show_all();
 
@@ -734,8 +736,10 @@ BreakWindow::stop()
   hide();
 
 #ifdef PLATFORM_OS_WINDOWS
-  if (desktop_window)
-    desktop_window->set_visible(false);
+  if (desktop_window != nullptr)
+    {
+      desktop_window->set_visible(false);
+    }
 #endif
 }
 

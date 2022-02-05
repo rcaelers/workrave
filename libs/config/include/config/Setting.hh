@@ -116,7 +116,6 @@ namespace workrave
       }
     };
 
-    // 1
     template<class R, class Rep, class Period>
     struct setting_cast_impl<cast_tag, R, std::chrono::duration<Rep, Period>>
     {
@@ -127,7 +126,6 @@ namespace workrave
       }
     };
 
-    // 2
     template<class Clock, class Duration, class R>
     struct setting_cast_impl<cast_tag, R, std::chrono::time_point<Clock, Duration>>
     {
@@ -138,7 +136,6 @@ namespace workrave
       }
     };
 
-    // // 3
     template<class Clock, class Duration, class T>
     struct setting_cast_impl<cast_tag, std::chrono::time_point<Clock, Duration>, T>
     {
