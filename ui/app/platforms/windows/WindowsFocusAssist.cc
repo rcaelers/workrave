@@ -26,6 +26,7 @@
 
 #include <windows.h>
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 #include "nls.h"
 
 WindowsFocusAssist::WindowsFocusAssist(std::shared_ptr<IApplication> app)
