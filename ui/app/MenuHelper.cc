@@ -127,7 +127,7 @@ void
 MenuHelper::handle_node(menus::Node::Ptr node)
 {
   menu_entries.push_back(std::make_shared<detail::MenuHelperEntry>(node, update_signal));
-  if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
+  if (auto n = std::dynamic_pointer_cast<menus::ContainerNode>(node); n)
     {
       for (auto &sub_node: n->get_children())
         {

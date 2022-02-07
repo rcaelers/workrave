@@ -159,6 +159,11 @@ menus::Node::activate()
   activated();
 }
 
+menus::ContainerNode::ContainerNode(std::string_view id, std::string text, Activated activated)
+  : Node(id, text, activated)
+{
+}
+
 auto
 menus::SectionNode::create(std::string_view id) -> menus::SectionNode::Ptr
 {
@@ -166,7 +171,7 @@ menus::SectionNode::create(std::string_view id) -> menus::SectionNode::Ptr
 }
 
 menus::SectionNode::SectionNode(std::string_view id)
-  : Node(id)
+  : ContainerNode(id)
 {
 }
 
@@ -177,7 +182,7 @@ menus::SubMenuNode::create(std::string_view id, std::string text) -> menus::SubM
 }
 
 menus::SubMenuNode::SubMenuNode(std::string_view id, std::string text)
-  : Node(id, text)
+  : ContainerNode(id, text)
 {
 }
 
@@ -333,7 +338,7 @@ menus::RadioGroupNode::get_selected_node() const -> menus::RadioNode::Ptr
   auto i = std::find_if(children.begin(), children.end(), [this](auto n) { return n->get_id() == selected_id; });
   if (i != children.end())
     {
-      return (*i);
+      return std::dynamic_pointer_cast<menus::RadioNode>(*i);
     }
   return menus::RadioNode::Ptr();
 }

@@ -67,11 +67,13 @@ namespace menus
   class SectionNode;
 
   template<class T>
-  class ContainerNode // : public Node
+  class ContainerNodeImpl
   {
   public:
-    using Ptr = std::shared_ptr<ContainerNode<T>>;
+    using Ptr = std::shared_ptr<ContainerNodeImpl<T>>;
     using ChildNodePtr = typename T::Ptr;
+
+    ContainerNodeImpl() = default;
 
     void add_before(ChildNodePtr node, std::string_view id)
     {
@@ -116,6 +118,24 @@ namespace menus
       children.remove(node);
     }
 
+    [[nodiscard]] auto get_children() const -> std::list<ChildNodePtr>
+    {
+      return children;
+    }
+
+  protected:
+    std::list<ChildNodePtr> children;
+  };
+
+  class ContainerNode
+    : public Node
+    , public ContainerNodeImpl<Node>
+  {
+  public:
+    using Ptr = std::shared_ptr<ContainerNode>;
+
+    explicit ContainerNode(std::string_view id, std::string text = "", Activated activated = Activated());
+
     [[nodiscard]] auto find_section(std::string id) const -> std::shared_ptr<SectionNode>
     {
       for (auto &node: get_children())
@@ -127,7 +147,7 @@ namespace menus
                   return n;
                 }
             }
-          if (auto n = std::dynamic_pointer_cast<menus::ContainerNode<menus::Node>>(node); n)
+          if (auto n = std::dynamic_pointer_cast<menus::ContainerNode>(node); n)
             {
               auto ret = n->find_section(id);
               if (ret)
@@ -138,19 +158,9 @@ namespace menus
         }
       return {};
     }
-
-    [[nodiscard]] auto get_children() const -> std::list<ChildNodePtr>
-    {
-      return children;
-    }
-
-  protected:
-    std::list<ChildNodePtr> children;
   };
 
-  class SectionNode
-    : public Node
-    , public ContainerNode<Node>
+  class SectionNode : public ContainerNode
   {
   public:
     using Ptr = std::shared_ptr<SectionNode>;
@@ -160,9 +170,7 @@ namespace menus
     static auto create(std::string_view id) -> Ptr;
   };
 
-  class SubMenuNode
-    : public Node
-    , public ContainerNode<Node>
+  class SubMenuNode : public ContainerNode
   {
   public:
     using Ptr = std::shared_ptr<SubMenuNode>;
@@ -230,7 +238,7 @@ namespace menus
 
   class RadioGroupNode
     : public Node
-    , public ContainerNode<RadioNode>
+    , public ContainerNodeImpl<RadioNode> // FIXME: merge into container node
   {
   public:
     using Ptr = std::shared_ptr<RadioGroupNode>;
