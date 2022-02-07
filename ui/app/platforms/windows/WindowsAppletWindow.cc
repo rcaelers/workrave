@@ -200,6 +200,7 @@ WindowsAppletWindow::send_menu()
       msg.cbData = serialized_data.size();
       msg.lpData = (LPVOID)serialized_data.data();
       SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM)&msg);
+      menu_sent = true;
     }
 }
 
