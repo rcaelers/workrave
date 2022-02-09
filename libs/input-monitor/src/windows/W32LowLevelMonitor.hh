@@ -18,13 +18,17 @@
 #include "InputMonitor.hh"
 
 #include "config/IConfigurator.hh"
-#include "crash/CrashReporter.hh"
+#if defined(HAVE_CRASH_REPORT)
+#  include "crash/CrashReporter.hh"
+#endif
 
 using namespace workrave::config;
 
 class W32LowLevelMonitor
   : public InputMonitor
+#if defined(HAVE_CRASH_REPORT)
   , public workrave::crash::CrashHandler
+#endif
 {
 public:
   W32LowLevelMonitor(workrave::config::IConfigurator::Ptr config);
@@ -64,7 +68,9 @@ private:
   DWORD dispatch_thread();
   DWORD time_critical_callback_thread();
 
+#if defined(HAVE_CRASH_REPORT)
   void on_crashed() override;
+#endif
 
   static LRESULT CALLBACK k_hook_callback(int, WPARAM, LPARAM);
   static LRESULT CALLBACK m_hook_callback(int, WPARAM, LPARAM);

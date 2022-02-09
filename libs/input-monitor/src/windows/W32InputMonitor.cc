@@ -49,7 +49,9 @@ typedef struct
 
 W32InputMonitor *W32InputMonitor::singleton = NULL;
 
+#if defined(HAVE_CRASH_REPORT)
 using namespace workrave::crash;
+#endif
 
 W32InputMonitor::W32InputMonitor(IConfigurator::Ptr config)
   : config(config)
@@ -90,11 +92,13 @@ W32InputMonitor::terminate()
   Harpoon::terminate();
 }
 
+#if defined(HAVE_CRASH_REPORT)
 void
 W32InputMonitor::on_crashed()
 {
   terminate();
 }
+#endif
 
 void
 W32InputMonitor::on_harpoon_event(HarpoonEvent *event)

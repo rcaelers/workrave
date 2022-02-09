@@ -79,7 +79,9 @@ Therefore BOOL functions can return -1.
 MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
 */
 
+#if defined(HAVE_CRASH_REPORT)
 using namespace workrave::crash;
+#endif
 
 W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
   : config(config)
@@ -450,8 +452,10 @@ W32LowLevelMonitor::m_hook_callback(int nCode, WPARAM wParam, LPARAM lParam)
 
 // POINTTOPOINTS( ( (MSLLHOOKSTRUCT *) lParam )->pt )
 
+#if defined(HAVE_CRASH_REPORT)
 void
 W32LowLevelMonitor::on_crashed()
 {
   terminate();
 }
+#endif

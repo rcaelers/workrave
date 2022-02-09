@@ -23,7 +23,9 @@
 #include "InputMonitor.hh"
 
 #include "config/IConfigurator.hh"
-#include "crash/CrashReporter.hh"
+#if defined(HAVE_CRASH_REPORT)
+#  include "crash/CrashReporter.hh"
+#endif
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
@@ -31,7 +33,9 @@ using namespace workrave::config;
 
 class W32InputMonitor
   : public InputMonitor
+#if defined(HAVE_CRASH_REPORT)
   , public workrave::crash::CrashHandler
+#endif
 {
 public:
   W32InputMonitor(workrave::config::IConfigurator::Ptr config);
@@ -40,7 +44,9 @@ public:
   bool init() override;
   void terminate() override;
 
+#if defined(HAVE_CRASH_REPORT)
   void on_crashed() override;
+#endif
 
 private:
   static W32InputMonitor *singleton;
