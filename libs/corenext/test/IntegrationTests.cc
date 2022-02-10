@@ -278,12 +278,12 @@ public:
 
   void tick()
   {
-    tick(user_active, 1, [=](int) {});
+    tick(user_active, 1, [=, this](int) {});
   }
 
   void tick(bool active, int count = 1)
   {
-    tick(active, count, [=](int) {});
+    tick(active, count, [=, this](int) {});
   }
 
   void tick(bool active, int seconds, const std::function<void(int)> &check_func)
@@ -1428,7 +1428,7 @@ BOOST_AUTO_TEST_CASE(test_user_idle)
 {
   init();
 
-  tick(false, 50, [=](int) {
+  tick(false, 50, [=, this](int) {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
         auto b = core->get_break(BreakId(i));
@@ -1452,7 +1452,7 @@ BOOST_AUTO_TEST_CASE(test_user_active)
 {
   init();
 
-  tick(true, 50, [=](int) {
+  tick(true, 50, [=, this](int) {
     for (int i = 0; i < BREAK_ID_SIZEOF; i++)
       {
         auto b = core->get_break(BreakId(i));
@@ -1745,7 +1745,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_halt)
   core->set_insist_policy(InsistPolicy::Halt);
 
   int elapsed = rb->get_elapsed_idle_time();
-  tick(true, 100, [=](int) { BOOST_CHECK_EQUAL(rb->get_elapsed_idle_time(), elapsed + 1); });
+  tick(true, 100, [=, this](int) { BOOST_CHECK_EQUAL(rb->get_elapsed_idle_time(), elapsed + 1); });
   tick(false, 400);
 
   expect(1900, "hide");
@@ -1779,7 +1779,7 @@ BOOST_AUTO_TEST_CASE(test_insist_policy_reset)
 
   core->set_insist_policy(InsistPolicy::Reset);
 
-  tick(true, 100, [=](int) { BOOST_CHECK_EQUAL(rb->get_elapsed_idle_time(), 0); });
+  tick(true, 100, [=, this](int) { BOOST_CHECK_EQUAL(rb->get_elapsed_idle_time(), 0); });
   tick(false, 400);
 
   expect(1951, "hide");

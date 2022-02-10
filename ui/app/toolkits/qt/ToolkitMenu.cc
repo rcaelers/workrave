@@ -30,7 +30,7 @@ ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
 {
   context = std::make_shared<detail::ToolkitMenuContext>(filter);
   entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, menu_model->get_root());
-  workrave::utils::connect(menu_model->signal_update(), this, [=]() { entry->init(); });
+  workrave::utils::connect(menu_model->signal_update(), this, [=, this]() { entry->init(); });
 }
 
 auto
@@ -167,7 +167,7 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, 
   if (!filter || filter(node))
     {
       action = new QAction(node->get_dynamic_text_no_accel().c_str(), this);
-      connect(action, &QAction::triggered, [=](bool checked) { node->activate(); });
+      connect(action, &QAction::triggered, [=, this](bool checked) { node->activate(); });
     }
 }
 
@@ -189,7 +189,7 @@ ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, 
       action->setCheckable(true);
       action->setChecked(node->is_checked());
 
-      connect(action, &QAction::triggered, [=](bool checked) { node->activate(checked); });
+      connect(action, &QAction::triggered, [=, this](bool checked) { node->activate(checked); });
 
       workrave::utils::connect(node->signal_changed(), this, [this, node] {
         action->setCheckable(true);
@@ -216,7 +216,7 @@ ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context, To
       action->setCheckable(true);
       action->setChecked(node->is_checked());
 
-      connect(action, &QAction::triggered, [=](bool checked) { node->activate(); });
+      connect(action, &QAction::triggered, [=, this](bool checked) { node->activate(); });
 
       workrave::utils::connect(node->signal_changed(), this, [this, node] { action->setChecked(node->is_checked()); });
     }
