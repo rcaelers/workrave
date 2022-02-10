@@ -128,7 +128,7 @@ jobs:
 
           - image: ubuntu-impish
             os: ubuntu-latest
-            compiler: gcc
+            compiler: gcc-10
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
