@@ -82,7 +82,7 @@ public:
   {
     if (logger)
       {
-        logger->trace("> " + func);
+        logger->trace(fmt::runtime("> " + func));
       }
   }
 
@@ -92,7 +92,7 @@ public:
   {
     if (logger)
       {
-        logger->trace("> " + func + " " + fmt, p...);
+        logger->trace(fmt::runtime("> " + func + " " + fmt), p...);
       }
   }
   template<class... Param>
@@ -103,7 +103,7 @@ public:
 
     if (logger)
       {
-        logger->trace("> " + func + " " + std::string{fmt}, p...);
+        logger->trace(fmt::runtime("> " + func + " " + std::string{fmt}), p...);
       }
   }
 
@@ -120,7 +120,7 @@ public:
   {
     if (logger)
       {
-        logger->trace("= " + func + " " + fmt, p...);
+        logger->trace(fmt::runtime("= " + func + " " + fmt), p...);
       }
   }
 
@@ -130,7 +130,7 @@ public:
     if (logger)
       {
         constexpr std::string_view fmt = gen_fmt<sizeof...(Param)>::value;
-        logger->trace("= " + func + " " + std::string{fmt}, p...);
+        logger->trace(fmt::runtime("= " + func + " " + std::string{fmt}), p...);
       }
   }
 
