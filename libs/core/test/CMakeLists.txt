@@ -7,6 +7,7 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-timer-test PRIVATE workrave-libs-core)
   target_link_libraries(workrave-core-timer-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-timer-test PRIVATE ${EXTRA_LIBRARIES})
+  set_target_properties(workrave-core-timer-test PROPERTIES USE_STUBS ON)
 
   target_include_directories(workrave-core-timer-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/core/src)
 
@@ -21,12 +22,12 @@ if (HAVE_TESTS)
     link_directories(${GLIB_LIBRARY_DIRS})
   endif()
 
+  set_target_properties(workrave-core-integration-test PROPERTIES USE_STUBS ON)
 
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-core)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-dbus-stub)
-  target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-input-monitor-stub)
   target_link_libraries(workrave-core-integration-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
@@ -50,6 +51,6 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-core-timer-test PRIVATE libssp)
   endif()
 
-  add_test(NAME workrave-core-integration-test COMMAND workrave-core-integration-test)
-  add_test(NAME workrave-core-timer-test COMMAND workrave-core-timer-test)
+  add_test(NAME workrave-core-integration-test COMMAND workrave-core-integration-test WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
+  add_test(NAME workrave-core-timer-test COMMAND workrave-core-timer-test WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 endif()

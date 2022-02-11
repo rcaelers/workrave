@@ -37,8 +37,12 @@ target_link_libraries(workrave-libs-core
   ${CMAKE_THREAD_LIBS_INIT}
   workrave-libs-utils
   workrave-libs-config
-  workrave-libs-input-monitor
   workrave-libs-dbus)
+
+target_link_libraries(workrave-libs-core PUBLIC
+  $<$<NOT:$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>>:workrave-libs-input-monitor>
+  $<$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>:workrave-libs-input-monitor-stub>
+)
 
 target_include_directories(
   workrave-libs-core

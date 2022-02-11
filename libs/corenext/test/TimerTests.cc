@@ -1071,82 +1071,82 @@ BOOST_AUTO_TEST_CASE(test_timer_limit_reached_event)
 {
   init();
 
-  tick(false, 10, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(false, 10, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 100, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 100, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 10, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 10, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 }
 
 BOOST_AUTO_TEST_CASE(test_timer_limit_reached_snoozed_event)
 {
   init();
 
-  tick(false, 10, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(false, 10, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 100, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 100, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 49, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 49, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
   // FIXME: why 49?
-  tick(true, 49, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 49, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 49, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 49, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 }
 
 BOOST_AUTO_TEST_CASE(test_timer_limit_reached_snoozed_event_when_snoozed)
 {
   init();
 
-  tick(false, 10, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(false, 10, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 100, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 100, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 40, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 40, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
   timer->snooze_timer();
 
-  tick(true, 49, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 49, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 30, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 30, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
   timer->snooze_timer();
 
   // FIXME: why 49?
-  tick(true, 49, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 49, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 49, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 49, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 }
 
 BOOST_AUTO_TEST_CASE(test_timer_limit_reached_inhibit_snooze_event)
 {
   init();
 
-  tick(false, 10, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(false, 10, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 100, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 100, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_LIMIT_REACHED); });
 
-  tick(true, 1, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
   timer->inhibit_snooze();
 
-  tick(true, 200, [=, this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  tick(true, 200, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 }
 
 BOOST_AUTO_TEST_CASE(test_timer_disable_when_not_over_limit_and_active_then_enable_and_active)

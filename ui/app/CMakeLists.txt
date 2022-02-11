@@ -137,6 +137,10 @@ target_link_libraries(workrave
   workrave-libs-updater
   workrave-libs-utils)
 
+if (HAVE_CRASH_REPORT)
+  target_link_libraries(workrave PRIVATE workrave-libs-crash)
+endif()
+
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave PRIVATE workrave-libs-core-next)
 else()

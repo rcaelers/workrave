@@ -10,5 +10,5 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-libs-utils-enum-test PRIVATE libssp)
   endif()
 
-  add_test(NAME workrave-libs-utils-enum-test COMMAND workrave-libs-utils-enum-test)
+  add_test(NAME workrave-libs-utils-enum-test COMMAND workrave-libs-utils-enum-test WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 endif()

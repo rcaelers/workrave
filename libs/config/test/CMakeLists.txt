@@ -32,5 +32,5 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-config-test PRIVATE libssp)
   endif()
 
-  add_test(NAME workrave-config-test COMMAND workrave-config-test)
+  add_test(NAME workrave-config-test COMMAND workrave-config-test WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
 endif()
