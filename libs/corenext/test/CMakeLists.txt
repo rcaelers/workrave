@@ -51,6 +51,12 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-core-next-timer-test PRIVATE libssp)
   endif()
 
-  add_test(NAME workrave-core-next-integration-test COMMAND workrave-core-next-integration-test WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
-  add_test(NAME workrave-core-next-timer-test COMMAND workrave-core-next-timer-test WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib)
+  add_test(NAME workrave-core-next-integration-test COMMAND workrave-core-next-integration-test)
+  add_test(NAME workrave-core-next-timer-test COMMAND workrave-core-next-timer-test)
+
+set_tests_properties(workrave-core-next-integration-test PROPERTIES
+  ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/Frameworks:$ENV{LD_LIBRARY_PATH})
+
+set_tests_properties(workrave-core-next-timer-test PROPERTIES
+  ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/Frameworks:$ENV{LD_LIBRARY_PATH})
 endif()
