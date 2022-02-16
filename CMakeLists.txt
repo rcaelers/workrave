@@ -644,7 +644,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # platform - windows
 
-option(WITH_CRASHPAD "Use crashpad" ON)
+option(WITH_CRASHPAD "Use crashpad" OFF)
 
 if (WIN32)
   set (PLATFORM_OS_WINDOWS ON)
