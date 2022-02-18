@@ -1,5 +1,5 @@
 # Chinese/Simplified translation of WorkRave.
-# 2001-2004 Rob Caelers & Raymond Penners
+# Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the workrave package.
 # Alick Zhao <alick9188@gmail.com>, 2012, Rex Tsai <chihchun@linux.org.tw>, 2004-2005
 # The Simplified Chinese translation was based on the traditional Chinese translation by Rex Tsai <chihchun@linux.org.tw>
@@ -12,7 +12,7 @@ msgstr ""
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
 "PO-Revision-Date: 2022-02-18 21:46+0800\n"
 "Last-Translator: Alick Zhao <alick9188@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
