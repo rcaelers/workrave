@@ -180,6 +180,31 @@ namespace workrave
 
       ~Setting() override = default;
 
+      constexpr ConfigType get_type() const
+      {
+        if constexpr (std::is_same_v<bool, T>)
+          {
+            return ConfigType::Boolean;
+          }
+        else if constexpr (std::is_same_v<int64_t, T>)
+          {
+            return ConfigType::Int64;
+          }
+        else if constexpr (std::is_same_v<int32_t, T>)
+          {
+            return ConfigType::Int32;
+          }
+        else if constexpr (std::is_same_v<double, T>)
+          {
+            return ConfigType::Double;
+          }
+        else if constexpr (std::is_same_v<std::string, T>)
+          {
+            return ConfigType::String;
+          }
+        return ConfigType::Unknown;
+      }
+
       std::string key() const
       {
         return setting;
