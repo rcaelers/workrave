@@ -70,8 +70,8 @@ Makefile.in
 /ui/applets/xfce/src/workrave-xfce-applet.desktop
 /ui/applets/xfce/src/xfce4-workrave-plugin
 /_dist
-/_deploy
-/_build
+/_deploy*
+/_build*
 /_vsbuild
 /_ext
 /_output
