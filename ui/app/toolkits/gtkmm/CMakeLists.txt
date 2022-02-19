@@ -138,7 +138,7 @@ if (HAVE_CRASH_REPORT)
 
   target_include_directories(WorkraveCrashHandler PRIVATE ${GTK_INCLUDE_DIRS})
   target_link_directories(WorkraveCrashHandler PRIVATE ${GTK_LIBRARY_DIRS})
-  target_include_directories(WorkraveCrashHandler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../common/include)
+  target_include_directories(WorkraveCrashHandler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/commonui/include)
 
   target_link_libraries(WorkraveCrashHandler
     PRIVATE

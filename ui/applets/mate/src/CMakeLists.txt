@@ -36,7 +36,7 @@ target_link_libraries(mate-workrave-applet
 
 target_include_directories(mate-workrave-applet
   PRIVATE
-  ${CMAKE_SOURCE_DIR}/ui/common/include
+  ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include
   ${MATE_INCLUDE_DIRS}
   )
 

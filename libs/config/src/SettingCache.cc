@@ -20,5 +20,3 @@
 #endif
 
 #include "config/SettingCache.hh"
-
-std::map<std::string, std::shared_ptr<workrave::config::SettingBase>> workrave::config::SettingCache::cache;

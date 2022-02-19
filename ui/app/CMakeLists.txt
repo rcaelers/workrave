@@ -95,7 +95,7 @@ if (HAVE_GSETTINGS)
   gsettings_add_schemas(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
-target_include_directories(workrave-app PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/../common/include)
+target_include_directories(workrave-app PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/../libs/commonui/include)
 
 target_link_libraries(workrave-app
   PRIVATE

@@ -28,6 +28,16 @@ namespace workrave
   {
     class IConfiguratorListener;
 
+    enum class ConfigType
+    {
+      Unknown,
+      Boolean,
+      Int32,
+      Int64,
+      Double,
+      String,
+    };
+
     //! Hints on how to set a configuration value.
     enum ConfigFlags
     {

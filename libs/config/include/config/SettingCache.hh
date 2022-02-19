@@ -32,10 +32,18 @@ namespace workrave
   {
     class SettingCache : public boost::noncopyable
     {
+    private:
+      static auto &get_cache()
+      {
+        static std::map<std::string, std::shared_ptr<SettingBase>> cache;
+        return cache;
+      }
+
     public:
       template<typename T, typename S = T>
       static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const std::string &key, const S &def = S())
       {
+        auto &cache = get_cache();
         if (cache.find(key) == cache.end())
           {
             cache[key] = std::make_shared<workrave::config::Setting<T, S>>(config, key, def);
@@ -48,6 +56,7 @@ namespace workrave
 
       static workrave::config::SettingGroup &group(IConfigurator::Ptr config, const std::string &key)
       {
+        auto &cache = get_cache();
         if (cache.find(key) == cache.end())
           {
             cache[key] = std::make_shared<workrave::config::SettingGroup>(config, key);
@@ -60,11 +69,8 @@ namespace workrave
 
       static void reset()
       {
-        cache.clear();
+        get_cache().clear();
       }
-
-    private:
-      static std::map<std::string, std::shared_ptr<SettingBase>> cache;
     };
   } // namespace config
 } // namespace workrave
