@@ -25,7 +25,7 @@ if (HAVE_XFCE4)
 
   target_include_directories(workrave-xfce
     PRIVATE
-    ${CMAKE_SOURCE_DIR}/ui/common/include
+    ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include
     ${XFCE4_INCLUDE_DIRS}
     )
 endif()
