@@ -267,7 +267,7 @@ msgstr "推迟(_P)"
 msgid ""
 "You cannot skip this break while another non-skippable break is "
 "overdue."
-msgstr "当另一个不可跳过的休息过期时，你不饿能跳过这个休息。"
+msgstr "当另一个不可跳过的休息过期时，你不能跳过这个休息。"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:597
 msgid ""
