@@ -513,7 +513,7 @@ const WorkraveButton = new Lang.Class({
                     popup.setSensitive(visible);
                     popup.connect('activate', Lang.bind(this, this._onMenuCommand, id));
                     current_menu.addMenuItem(popup);
-                    this._menu_entries[id] = popup;
+                    this._menu_entries[action] = popup;
                 }
             }
         }
@@ -521,14 +521,12 @@ const WorkraveButton = new Lang.Class({
 
     _updateItemMenu : function(menuitem) {
         let id = menuitem[2];
-        let type = menuitem[3];
-        let flags = menuitem[4];
+        let type = menuitem[4];
+        let flags = menuitem[5];
 
         let active = ((flags & MENU_ITEM_FLAG_ACTIVE) != 0);
         let visible = ((flags & MENU_ITEM_FLAG_VISIBLE) != 0);
         let popup = this._menu_entries[id];
-
-        global.log('workrave-applet: menu2 ' +  id + ' ' + type +' ' + flags + ' ' + active + ' ' + visible);
 
         popup.setSensitive(visible);
 
