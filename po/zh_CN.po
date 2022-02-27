@@ -180,7 +180,7 @@ msgstr "锻炼(_E)"
 
 #: ui/applets/mate/src/main.c:370
 msgid "_Restbreak"
-msgstr "重置休息(_R)"
+msgstr "休息(_R)"
 
 #: ui/applets/mate/src/main.c:372 ui/apps/gtkmm/src/Menus.cc:67
 msgid "_Mode"
@@ -252,7 +252,7 @@ msgstr "休眠"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:271
 msgid "Suspend hybrid"
-msgstr ""
+msgstr "暂停混合"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:389
 msgid "_Skip"
@@ -404,7 +404,7 @@ msgstr "模式： "
 
 #: ui/apps/gtkmm/src/Menus.cc:55
 msgid "_Rest break"
-msgstr "重置休息(_R)"
+msgstr "休息(_R)"
 
 #: ui/apps/gtkmm/src/Menus.cc:61
 msgid "S_tatistics"
@@ -584,7 +584,7 @@ msgstr "选项"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:175
 msgid "Block mode:"
-msgstr "拦截模式"
+msgstr "拦截模式："
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:195
 msgid "System default"
@@ -600,7 +600,7 @@ msgstr "语言："
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:271
 msgid "Start Workrave on logon"
-msgstr "开机时启动 Workrave"
+msgstr "登录系统时启动 Workrave"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:286
 msgid "Show system tray icon"
@@ -667,7 +667,7 @@ msgstr "Wav 文件"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:481
 msgid "Use alternate monitor"
-msgstr "使用另一个显示器"
+msgstr "使用另一台显示器"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:488
 msgid ""
@@ -683,7 +683,7 @@ msgstr "更改此设定后，需手动重启 Workrave"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
 msgid "Mouse sensitivity:"
-msgstr "鼠标敏感度"
+msgstr "鼠标敏感度："
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:497
 msgid ""
@@ -701,7 +701,7 @@ msgstr "默认"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
-msgstr "小憩的持续时间？"
+msgstr "小憩一下？"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:108
 msgid "You need a rest break..."
@@ -717,11 +717,11 @@ msgstr "%s 后休息"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:264
 msgid "Disappears in %s"
-msgstr "%s 内消失"
+msgstr "%s 后消失"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:268
 msgid "Silent in %s"
-msgstr "%s 内静默"
+msgstr "%s 后静默"
 
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:131
 msgid "Rest break for %s"
@@ -885,7 +885,7 @@ msgstr "使用鼠标的总时长"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:273
 msgid "Mouse movement:"
-msgstr "鼠标移动："
+msgstr "鼠标移动距离："
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:273
 msgid "The total on-screen mouse movement"
@@ -1192,7 +1192,7 @@ msgstr "象征图标的警告色"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color"
-msgstr "成功色"
+msgstr "成功颜色"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color for symbolic icons"
@@ -1366,3 +1366,4 @@ msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your "
 "head right and keep it there for 2 seconds."
 msgstr "把头向左转，保持2秒钟。然后把头向右转，保持2秒钟。"
+
