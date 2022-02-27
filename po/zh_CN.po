@@ -11,13 +11,14 @@ msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2012-08-23 23:03+0800\n"
+"PO-Revision-Date: 2022-02-27 14:44+0800\n"
 "Last-Translator: Alick Zhao <alick9188@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: libs/core/src/DistributionSocketLink.cc:118
 #, c-format
@@ -27,7 +28,7 @@ msgstr "重新连接到 %s。"
 #. We did not succeed in starting the server. Arghh.
 #: libs/core/src/DistributionSocketLink.cc:406
 msgid "Could not enable network operation."
-msgstr "无法启用网络功能"
+msgstr "无法启用网络功能。"
 
 #: libs/core/src/DistributionSocketLink.cc:415
 msgid "Disabling network operation."
@@ -96,19 +97,19 @@ msgid "Client %s is welcoming us."
 msgstr "客户端 %s 欢迎我们。"
 
 #: libs/core/src/DistributionSocketLink.cc:1767
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
 msgstr "向 %s 要求主控端状态。"
 
 #: libs/core/src/DistributionSocketLink.cc:1780
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
 msgstr "客户端 %s 超时。"
 
 #: libs/core/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
-msgstr "拒绝来自客户端 %s 的主控要求"
+msgstr "拒绝来自客户端 %s 的主控要求。"
 
 #: libs/core/src/DistributionSocketLink.cc:1811
 #, fuzzy, c-format
@@ -133,11 +134,11 @@ msgstr "客户端 %s 现在是新的主控端。"
 
 #: libs/core/src/DistributionSocketLink.cc:2070
 msgid "Network operation started."
-msgstr "网络功能启动"
+msgstr "网络功能启动。"
 
 #: libs/core/src/DistributionSocketLink.cc:2090
 msgid "Accepted new client."
-msgstr "接受新客户端"
+msgstr "接受新客户端。"
 
 #: libs/core/src/DistributionSocketLink.cc:2165
 #, c-format
@@ -210,7 +211,7 @@ msgstr "网络(_N)"
 
 #: ui/applets/mate/src/main.c:376
 msgid "_Join"
-msgstr "加入"
+msgstr "加入(_J)"
 
 #: ui/applets/mate/src/main.c:378
 msgid "_Disconnect"
@@ -229,7 +230,6 @@ msgid "_Quit"
 msgstr "离开(_Q)"
 
 #: ui/applets/mate/src/main.c:389
-#, fuzzy
 msgid "Show log"
 msgstr "显示日志(_l)"
 
@@ -238,37 +238,30 @@ msgid "Reading mode"
 msgstr "阅读模式"
 
 #: ui/applets/mate/src/main.c:395
-#, fuzzy
 msgid "Normal"
-msgstr "一般(_N)"
+msgstr "一般"
 
 #: ui/applets/mate/src/main.c:397 ui/apps/gtkmm/src/GUI.cc:561
-#, fuzzy
 msgid "Suspended"
-msgstr "暂停(_S)"
+msgstr "已暂停(_S)"
 
 #: ui/applets/mate/src/main.c:399 ui/apps/gtkmm/src/GUI.cc:565
-#, fuzzy
 msgid "Quiet"
-msgstr "勿扰(_u)"
+msgstr "勿扰"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:251
-#, fuzzy
 msgid "Lock..."
-msgstr "锁定(_L)"
+msgstr "锁定..."
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:255
-#, fuzzy
 msgid "Lock"
-msgstr "锁定(_L)"
+msgstr "锁定"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:259
-#, fuzzy
 msgid "Shutdown"
-msgstr "关闭(_d)"
+msgstr "关机"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:263
-#, fuzzy
 msgid "Suspend"
 msgstr "暂停(_S)"
 
@@ -277,9 +270,8 @@ msgid "Hibernate"
 msgstr ""
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:271
-#, fuzzy
 msgid "Suspend hybrid"
-msgstr "暂停(_S)"
+msgstr "Suspend hybrid"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:389
 msgid "_Skip"
@@ -292,7 +284,7 @@ msgstr "延后(_P)"
 #: ui/apps/gtkmm/src/BreakWindow.cc:583
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
+msgstr "你不能在另一个不可跳过的休息时间内跳过这个休息时间。"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:597
 msgid ""
@@ -319,7 +311,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "调试日志"
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:29
 msgid "Exercises"
@@ -330,16 +322,15 @@ msgstr "体操"
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:142
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:88
-#, fuzzy
 msgid "Previous"
-msgstr "上一个体操"
+msgstr "上一个"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:89
 msgid "Next"
-msgstr ""
+msgstr "下一个"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:108
 msgid "Exercises player"
@@ -395,11 +386,12 @@ msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave 无法监视您的键盘和鼠标活动。\n"
 
 #: ui/apps/gtkmm/src/GUI.cc:537
-#, fuzzy
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
-msgstr "Workrave 处于暂停模式。鼠标和键盘活动不会被监视。"
+msgstr ""
+"Workrave 处于暂停模式。\n"
+"鼠标和键盘活动不会被监视。"
 
 #: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
@@ -421,18 +413,16 @@ msgid "Rest break"
 msgstr "休息"
 
 #: ui/apps/gtkmm/src/GUI.cc:561 ui/apps/gtkmm/src/GUI.cc:565
-#, fuzzy
 msgid "Mode: "
-msgstr "模式(_M)"
+msgstr "模式： "
 
 #: ui/apps/gtkmm/src/Menus.cc:55
 msgid "_Rest break"
 msgstr "休息(_R)"
 
 #: ui/apps/gtkmm/src/Menus.cc:61
-#, fuzzy
 msgid "S_tatistics"
-msgstr "统计"
+msgstr "统计(_S)"
 
 #: ui/apps/gtkmm/src/Menus.cc:75
 msgid "_Normal"
@@ -444,7 +434,7 @@ msgstr "暂停(_S)"
 
 #: ui/apps/gtkmm/src/Menus.cc:89
 msgid "Q_uiet"
-msgstr "勿扰(_u)"
+msgstr "勿扰(_Q)"
 
 #: ui/apps/gtkmm/src/Menus.cc:96
 msgid "_Reading mode"
@@ -503,7 +493,7 @@ msgstr "启用网络连接"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:98
 msgid "Username:"
-msgstr "使用者名称："
+msgstr "用户名："
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:99
 msgid "Password:"
@@ -516,7 +506,7 @@ msgstr "允许进入的连接"
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:110
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:90
 msgid "General"
-msgstr "一般"
+msgstr "通用"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:121
 msgid "Server settings"
@@ -581,7 +571,7 @@ msgstr "计时器"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:110
 msgid "User interface"
-msgstr "使用者界面"
+msgstr "使用界面"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:112
 msgid "Network"
@@ -622,7 +612,6 @@ msgid "Language:"
 msgstr "语言："
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:271
-#, fuzzy
 msgid "Start Workrave on logon"
 msgstr "Windows 启动时开启 Workrave"
 
@@ -631,9 +620,8 @@ msgid "Show system tray icon"
 msgstr "显示系统托盘图标"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:296
-#, fuzzy
 msgid "Icon Theme:"
-msgstr "音效主题："
+msgstr "图标主题："
 
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:309
@@ -690,10 +678,9 @@ msgstr "Wav 文件"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:481
 msgid "Use alternate monitor"
-msgstr "使用另一个监视器"
+msgstr "使用另一个屏幕"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:488
-#, fuzzy
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -701,25 +688,24 @@ msgstr "如果 Workrave 没能检测到您何时在使用电脑，请启用本�
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:491
 msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+msgstr "需要手动重启 Workrave 以应用设置变更"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
-#, fuzzy
 msgid "Mouse sensitivity:"
-msgstr "鼠标移动距离："
+msgstr "鼠标灵敏度："
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:497
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
-msgstr ""
+msgstr "当鼠标的移动超过该像素值，即认为鼠标在使用中。"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:513
 msgid "Debug monitoring"
-msgstr ""
+msgstr "调试显示器"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:937
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
@@ -734,19 +720,19 @@ msgid "You should stop for today..."
 msgstr "今天应该到此为止了..."
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:260
-#, fuzzy, c-format
+#, c-format
 msgid "Break in %s"
-msgstr "休息"
+msgstr "%s 后休息"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:264
-#, fuzzy, c-format
+#, c-format
 msgid "Disappears in %s"
-msgstr "自动消失 "
+msgstr "%s 后自动消失"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:268
-#, fuzzy, c-format
+#, c-format
 msgid "Silent in %s"
-msgstr "沉默"
+msgstr "%s 后沉默"
 
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:131
 #, c-format
@@ -784,7 +770,7 @@ msgstr "浏览历史记录"
 #. Delete button
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:112
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "删除所有统计数据"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:119
 msgid "Date:"
@@ -854,25 +840,23 @@ msgstr "这次休息的总共时间超时"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:179
 msgid "Usage"
-msgstr ""
+msgstr "使用量"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:179
 msgid "Active computer usage"
-msgstr ""
+msgstr "电脑活动时间"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
 msgid "Daily"
-msgstr "每日限制"
+msgstr "每日"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
 msgid "The total computer usage for the selected day"
-msgstr "总电脑使用时间"
+msgstr "选中日期下的电脑总使用时间"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "Weekly"
-msgstr ""
+msgstr "每周"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "The total computer usage for the whole week of the selected day"
@@ -880,7 +864,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:187
 msgid "Monthly"
-msgstr ""
+msgstr "每月"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:187
 msgid "The total computer usage for the whole month of the selected day"
@@ -918,7 +902,7 @@ msgstr "鼠标移动距离是纪录两次鼠标点击间的直线距离"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:279
 msgid "Mouse button clicks:"
-msgstr "鼠标点击次数"
+msgstr "鼠标点击次数："
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:279
 msgid "The total number of mouse button clicks"
@@ -941,36 +925,36 @@ msgstr "%s, 从 %s 到 %s"
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:622
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "将删除历史统计数据，确定继续？"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:633
 msgid "Files deleted!"
-msgstr ""
+msgstr "文件已被删除！"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:633
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "包含你历史统计数据的文件已被删除。"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:635
 msgid "Info"
-msgstr ""
+msgstr "信息"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:640
 msgid "File deletion failed!"
-msgstr ""
+msgstr "删除失败！"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:641
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
+msgstr "包含你历史统计数据的文件无法删除，重试？"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:643
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: ui/apps/gtkmm/src/Text.cc:73
 #, c-format
@@ -1037,7 +1021,7 @@ msgstr "显示状态视窗"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Placement:"
-msgstr "配置"
+msgstr "配置："
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Cycle time:"
@@ -1054,7 +1038,7 @@ msgstr "重置休息："
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:134
 msgid "Daily limit:"
-msgstr "每日限制"
+msgstr "每日限制："
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
 #, fuzzy
@@ -1062,7 +1046,6 @@ msgid "Fallback applet enabled"
 msgstr "启动 Applet"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#, fuzzy
 msgid "Show status icon"
 msgstr "显示状态视窗"
 
@@ -1082,17 +1065,15 @@ msgstr "休息前显示提示"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
 msgid "Maximum number of prompts:"
-msgstr "最多提示次数"
+msgstr "最多提示次数："
 
 #. Ignorable
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
-#, fuzzy
 msgid "Show 'Postpone' button"
 msgstr "显示 '延后' 与 '略过' 按钮"
 
 #. Skippable
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-#, fuzzy
 msgid "Show 'Skip' button"
 msgstr "显示 '延后' 与 '略过' 按钮"
 
@@ -1102,7 +1083,7 @@ msgstr "将暂停视为活动"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:149
 msgid "Number of exercises:"
-msgstr "体操次数"
+msgstr "体操次数："
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
 msgid "Start restbreak when screen is locked"
@@ -1110,7 +1091,7 @@ msgstr "当屏幕锁定时开始休息"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
+msgstr "在休息窗口允许关闭电脑"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time before end:"
@@ -1166,20 +1147,19 @@ msgstr "体操改变"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
-msgstr ""
+msgstr "？"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
 msgid "Orientation"
 msgstr "方向"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
-#, fuzzy
 msgid "The orientation of the tray"
 msgstr "托盘方向"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "填充颜色"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color for symbolic icons"
@@ -1187,7 +1167,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color"
-msgstr ""
+msgstr "错误颜色"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color for symbolic icons"
@@ -1195,7 +1175,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color"
-msgstr ""
+msgstr "警告颜色"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color for symbolic icons"
@@ -1203,7 +1183,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color"
-msgstr ""
+msgstr "成功颜色"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color for symbolic icons"
@@ -1211,7 +1191,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
-msgstr ""
+msgstr "内边距"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding that should be put around icons in the tray"
@@ -1219,17 +1199,16 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
 msgid "Icon Size"
-msgstr ""
+msgstr "图标尺寸"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr ""
-"本软件有助于预防重复使力伤害症(Repetitive Strain Injury, RSI)或从中恢复。"
+"本软件有助于预防重复使力伤害症(Repetitive Strain Injury, RSI)或从中恢复"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:9
 msgid ""
@@ -1237,6 +1216,8 @@ msgid ""
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
+"Workrave 是一个协助恢复和预防重复性劳损（RSI）的程序。我们可以在您长期使用电"
+"脑时提醒您暂停、休息，或限制每日使用电脑的时间。"
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
