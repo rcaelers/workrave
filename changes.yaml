@@ -19,10 +19,18 @@ releases:
         Bug fixes:
         - Fixed Windows system tray menu that would not always properly open (#373)
         - Fixed vertical positioning of GNOME shell applet (#356)
-        - GGOME shell applet is now compatible with GNOME up to version 42 (#352)
+        - GGOME shell applet is now compatible with GNOME up to version 42 (#342, #352, #355)
         - DPI scaling with multiple monitor has been fixed (#308, #315)
         - Fixed the description of the backward shoulder stretch exercise (#354)
-      - and more...
+        - Add version number to installer to support Microsoft's Windows Package Manager (winget) (#349, #353 by Kaleb Luedtke)
+      - |-
+        Translations:
+        - Complete overhaul of Simplified Chinese translation (#385 by sr093906)
+        - Updated Hebrew translation (#361 by Omer I.S.)
+        - Updated Italian translation (#359 by albanobattistella)
+        - Updated Persian translation (#358 by MSKF)
+        - Updated Catalan translation (#338 by Jordi Mallach)
+      - and more... (the final 1.11 release will have a more complete list of changes)
 
   - version: 1.10.49
     date: 2022-01-05T15:05:19+01:00
