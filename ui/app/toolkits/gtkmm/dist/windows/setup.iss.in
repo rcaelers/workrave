@@ -60,7 +60,7 @@ Source: "@INSTALL_WIN_PATH@\etc\*.*"; DestDir: "{app}\etc"; Flags: ignoreversion
 Source: "@INSTALL_WIN_PATH@\lib\harpoon64.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\lib\workrave-applet64.dll"; DestDir: "{app}\lib"; Flags: ignoreversion restartreplace uninsrestartdelete regserver; Components: applet; Check: IsAdmin
 Source: "@INSTALL_WIN_PATH@\lib\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "@INSTALL_WIN_PATH@\lib\WorkraveCrashHandler.exe"; DestDir: "{app}\lib"; DestName: "WorkraveCrashHandler.exe"; Flags: ignoreversion;
+;;Source: "@INSTALL_WIN_PATH@\lib\WorkraveCrashHandler.exe"; DestDir: "{app}\lib"; DestName: "WorkraveCrashHandler.exe"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\gdbus.exe"; DestDir: "{app}\lib"; Flags: ignoreversion; Components: dbus;
 Source: "@INSTALL_WIN_PATH@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\icons\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
