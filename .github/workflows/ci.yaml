@@ -39,7 +39,7 @@ jobs:
             ui/applets/windows/src/Debug/workrave-applet.dll
 
   build-msys2:
-    runs-on: windows-2019 # latest
+    runs-on: windows-latest
     strategy:
       matrix:
         config:
