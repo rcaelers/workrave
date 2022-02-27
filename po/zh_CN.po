@@ -1366,4 +1366,3 @@ msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your "
 "head right and keep it there for 2 seconds."
 msgstr "把头向左转，保持2秒钟。然后把头向右转，保持2秒钟。"
-
