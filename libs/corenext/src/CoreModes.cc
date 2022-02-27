@@ -15,18 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "core/CoreTypes.hh"
-#include <chrono>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
+#include <chrono>
+
 #include <spdlog/spdlog.h>
-#include "spdlog/fmt/ostr.h"
+#include <spdlog/fmt/ostr.h>
 
 #include "debug.hh"
 
 #include "CoreModes.hh"
+#include "core/CoreTypes.hh"
 #include "core/CoreConfig.hh"
 #include "utils/TimeSource.hh"
 

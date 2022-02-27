@@ -117,8 +117,9 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
-    install_crashpad
-    CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
+    # TODO: enable crashpad
+    # install_crashpad
+    # CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
     OUT_DIR=""
 
     if [[ $MSYSTEM == "" ]]; then
@@ -220,7 +221,6 @@ if [[ $MSYSTEM == "MINGW64" ]]; then
         EXTRA="-Debug"
         CONFIG="debug"
     fi
-
 
     if [[ -z "$WORKRAVE_TAG" ]]; then
         echo "No tag build."

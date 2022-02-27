@@ -39,7 +39,7 @@ jobs:
             ui/applets/windows/src/Debug/workrave-applet.dll
 
   build-msys2:
-    runs-on: windows-2019 # latest
+    runs-on: windows-latest
     strategy:
       matrix:
         config:
@@ -304,19 +304,25 @@ jobs:
           CATALOGS=$( find ${{ github.workspace }}/artifacts/ -name "job-catalog*" )
 
           PORTABLE=$(jq -r '.builds[].artifacts[] | select(.kind == "portable" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
-          PORTABLE=$(find ${{ github.workspace }}/artifacts/ -name $PORTABLE)
-          echo ::set-output name=portable_file::${PORTABLE}
-          echo ::set-output name=portable_name::workrave-windows-${VERSION}-portable.zip
+          if [ -n "$PORTABLE" ]; then
+            PORTABLE=$(find ${{ github.workspace }}/artifacts/ -name $PORTABLE)
+            echo ::set-output name=portable_file::${PORTABLE}
+            echo ::set-output name=portable_name::workrave-windows-${VERSION}-portable.zip
+          fi
 
           INSTALLER=$(jq -r '.builds[].artifacts[] | select(.kind == "installer" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
-          INSTALLER=$(find ${{ github.workspace }}/artifacts/ -name $INSTALLER)
-          echo ::set-output name=installer_file::${INSTALLER}
-          echo ::set-output name=installer_name::workrave-windows-${VERSION}.exe
+          if [ -n "$INSTALLER" ]; then
+            INSTALLER=$(find ${{ github.workspace }}/artifacts/ -name $INSTALLER)
+            echo ::set-output name=installer_file::${INSTALLER}
+            echo ::set-output name=installer_name::workrave-windows-${VERSION}.exe
+          fi
 
           SOURCE=$(jq -r '.builds[].artifacts[] | select(.kind == "source" and .platform == "all" and .configuration=="none") | .filename' ${CATALOGS})
-          SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
-          echo ::set-output name=source_file::${SOURCE}
-          echo ::set-output name=source_name::workrave-${VERSION}.tar.gz
+          if [ -n "$SOURCE" ]; then
+            SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
+            echo ::set-output name=source_file::${SOURCE}
+            echo ::set-output name=source_name::workrave-${VERSION}.tar.gz
+          fi
 
       - name: Generate news
         run: |

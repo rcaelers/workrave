@@ -18,10 +18,10 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11-alpha1" )
+set (WORKRAVE_VERSION "1.11.0-alpha1" )
 set (WORKRAVE_RESOURCE_VERSION "1,10,999,1" )
 
-set (CMAKE_BUILD_TYPE_INIT "Debug")
+set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include(GNUInstallDirs)

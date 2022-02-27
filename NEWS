@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 02 November 2021
+Workrave NEWS -- history of user-visible changes. 27 February 2022
 Copyright (C) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -7,7 +7,32 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.11.0-alpha1
 
-** Internal code cleanup
+** Major internal code cleanup and code modernization.
+** Initial (incomplete) port to macOS using Qt6
+** The default sound theme was changed to the "Subtle" theme (#362)
+** You can now change the operation mode for a limited amount of time (#98,
+** A portable version is now available for Windows and Linux (#180)
+** Workrave now follows the XDG basedirectory specification (#192)
+** The Windows version is now 64 bit (#295)
+** Workrave can now automatically change the operation mode based on Windows
+   Focus Assist (#255,
+** A dark UI theme is now supported on Windows (#214)
+** Bug fixes:
+   - Fixed Windows system tray menu that would not always properly open (#373)
+   - Fixed vertical positioning of GNOME shell applet (#356)
+   - GGOME shell applet is now compatible with GNOME up to version 42 (#342,
+     #352, #355)
+   - DPI scaling with multiple monitor has been fixed (#308, #315)
+   - Fixed the description of the backward shoulder stretch exercise (#354)
+   - Add version number to installer to support Microsoft's Windows Package
+     Manager (winget) (#349, #353 by Kaleb Luedtke)
+** Translations:
+   - Complete overhaul of Simplified Chinese translation (#385 by sr093906)
+   - Updated Hebrew translation (#361 by Omer I.S.)
+   - Updated Italian translation (#359 by albanobattistella)
+   - Updated Persian translation (#358 by MSKF)
+   - Updated Catalan translation (#338 by Jordi Mallach)
+** and more... (the final 1.11 release will have a more complete list of changes)
 
 * Workrave 1.10.49
 
@@ -220,9 +245,9 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.10.11
 
-** Improved security of network protocol.
-   NOTE: this is a backward incompatible change. This version of Workrave will no
-   longer connect to older Workrave versions.
+** Improved security of network protocol. NOTE: this is a backward incompatible
+   change. This version of Workrave will no longer connect to older Workrave
+   versions.
 ** Minor improvements
 
 * Workrave 1.10.9

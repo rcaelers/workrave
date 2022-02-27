@@ -5,6 +5,7 @@ if (POLICY CMP0012)
   cmake_policy(SET CMP0012 NEW)
 endif()
 
+string(REPLACE ";" "\ " MODULE_PATH "${MODULE_PATH}")
 list(APPEND CMAKE_MODULE_PATH "${MODULE_PATH}")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${INSTALL_PATH}")
