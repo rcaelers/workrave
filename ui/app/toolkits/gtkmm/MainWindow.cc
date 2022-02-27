@@ -210,8 +210,15 @@ MainWindow::init()
   const char *icon_files[] = {
 #ifndef PLATFORM_OS_WINDOWS
     // This causes a crash on windows
-    "scalable" G_DIR_SEPARATOR_S "workrave.svg",
-#endif
+    "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.svg",
+    "16x16" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "24x24" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "32x32" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "48x48" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "64x64" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "96x96" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "128x128" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+#else
     "16x16" G_DIR_SEPARATOR_S "workrave.png",
     "24x24" G_DIR_SEPARATOR_S "workrave.png",
     "32x32" G_DIR_SEPARATOR_S "workrave.png",
@@ -219,6 +226,7 @@ MainWindow::init()
     "64x64" G_DIR_SEPARATOR_S "workrave.png",
     "96x96" G_DIR_SEPARATOR_S "workrave.png",
     "128x128" G_DIR_SEPARATOR_S "workrave.png",
+#endif
   };
 
   for (auto &icon_file: icon_files)
