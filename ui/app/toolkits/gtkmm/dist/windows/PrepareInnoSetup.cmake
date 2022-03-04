@@ -32,3 +32,7 @@ foreach(file ${FILES32BIT})
   endif()
   file(APPEND ${LIBS_ISS} "Source: \"${INSTALL_WIN_PATH}\\lib32\\${file}\"; DestDir: \"{app}\\lib32\"; Flags: ${flags};\n")
 endforeach()
+
+if (HAVE_CRASHPAD)
+  file(APPEND ${LIBS_ISS} "Source: \"@INSTALL_WIN_PATH@\\lib\\WorkraveCrashHandler.exe\"; DestDir: \"{app}\\lib\"; DestName: \"WorkraveCrashHandler.exe\"; Flags: ignoreversion;\n")
+endif()
