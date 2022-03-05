@@ -106,7 +106,6 @@ namespace workrave
     {
     };
 
-    // 0
     template<class R, class T>
     struct setting_cast_impl<cast_tag, R, T>
     {
@@ -282,6 +281,13 @@ namespace workrave
         return connection;
       }
 
+      // TODO: refactor settings, it should not depend on IConfigurator
+      workrave::config::IConfigurator::Ptr get_config()
+      {
+        return config;
+      }
+
+    private:
       void config_changed_notify(const std::string &key) override
       {
         (void)key;
