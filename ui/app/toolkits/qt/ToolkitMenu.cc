@@ -84,6 +84,11 @@ ToolkitMenuEntryFactory::create(ToolkitMenuContext::Ptr context, ToolkitSubMenuE
       return std::make_shared<ToolkitSeparatorMenuEntry>(context, parent, n);
     }
 
+  if (auto n = std::dynamic_pointer_cast<menus::SectionNode>(node); n)
+    {
+      return std::make_shared<ToolkitSectionMenuEntry>(context, parent, n);
+    }
+
   return ToolkitMenuEntry::Ptr();
 }
 
@@ -167,7 +172,7 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, 
   if (!filter || filter(node))
     {
       action = new QAction(node->get_dynamic_text_no_accel().c_str(), this);
-      connect(action, &QAction::triggered, [=, this](bool checked) { node->activate(); });
+      connect(action, &QAction::triggered, [=](bool checked) { node->activate(); });
     }
 }
 
@@ -189,7 +194,7 @@ ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, 
       action->setCheckable(true);
       action->setChecked(node->is_checked());
 
-      connect(action, &QAction::triggered, [=, this](bool checked) { node->activate(checked); });
+      connect(action, &QAction::triggered, [=](bool checked) { node->activate(checked); });
 
       workrave::utils::connect(node->signal_changed(), this, [this, node] {
         action->setCheckable(true);
@@ -216,7 +221,7 @@ ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context, To
       action->setCheckable(true);
       action->setChecked(node->is_checked());
 
-      connect(action, &QAction::triggered, [=, this](bool checked) { node->activate(); });
+      connect(action, &QAction::triggered, [=](bool checked) { node->activate(); });
 
       workrave::utils::connect(node->signal_changed(), this, [this, node] { action->setChecked(node->is_checked()); });
     }
@@ -251,12 +256,22 @@ ToolkitSeparatorMenuEntry::get_action() const -> QAction *
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node)
+ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context,
+                                                 ToolkitSubMenuEntry *parent,
+                                                 menus::SectionNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
-  for (auto child_node: node->get_children())
+  menu = parent->get_menu();
+  for (const auto &child_node: node->get_children())
     {
-      auto child = ToolkitMenuEntryFactory::create(context, parent, child_node);
+      auto child = ToolkitMenuEntryFactory::create(get_context(), parent, child_node);
       children.push_back(child);
+      menu->insertAction(nullptr, child->get_action());
     }
+}
+
+auto
+ToolkitSectionMenuEntry::get_action() const -> QAction *
+{
+  return nullptr;
 }

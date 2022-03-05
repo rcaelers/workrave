@@ -158,8 +158,11 @@ namespace detail
   public:
     ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node);
 
+    [[nodiscard]] auto get_action() const -> QAction * override;
+
   private:
     std::list<ToolkitMenuEntry::Ptr> children;
+    QMenu *menu{nullptr};
   };
 
   class ToolkitMenuEntryFactory
