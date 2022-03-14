@@ -14,7 +14,9 @@ message(STATUS "Resolving dependencies. This may take a while")
 include(Win32ResolveDependencies)
 
 resolve_dependencies("${INSTALL_PATH}/lib/workrave.exe" dependencies resolved_dependencies "${DEP_DIRS}")
-resolve_dependencies("${INSTALL_PATH}/lib/WorkraveCrashHandler.exe" dependencies resolved_dependencies "${DEP_DIRS}")
+if (HAVE_CRASHPAD)
+  resolve_dependencies("${INSTALL_PATH}/lib/WorkraveCrashHandler.exe" dependencies resolved_dependencies "${DEP_DIRS}")
+endif()
 
 file(GLOB PLUGINS "${INSTALL_PATH}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll")
 foreach(plugin ${PLUGINS})

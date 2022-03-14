@@ -11,7 +11,6 @@ set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
 set(CMAKE_RC_COMPILER  i686-w64-mingw32-windres)
 
 set (WINE wine)
-set (ISCC "/workspace/inno/app/ISCC.exe")
 
 set(CMAKE_FIND_ROOT_PATH ${TOOLCHAIN_ROOT} ${SYS_ROOT})
 

@@ -6,7 +6,6 @@ local)
     SOURCES_DIR=${WORKSPACE}/source
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/deploy
-    PREBUILT_DIR=${WORKSPACE}/prebuilt
     SECRETS_DIR=${WORKSPACE}/secrets
     SCRIPTS_DIR=${WORKSPACE}/scripts
     CI_DIR=${SCRIPTS_DIR}/ci
@@ -19,7 +18,6 @@ local-msys2)
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build
-    PREBUILT_DIR=${WORKSPACE}/prebuilt
     SCRIPTS_DIR=${SOURCES_DIR}/build
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
@@ -31,7 +29,6 @@ inline)
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build
-    PREBUILT_DIR=${WORKSPACE}/prebuilt
     SCRIPTS_DIR=${SOURCES_DIR}/build
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
@@ -44,7 +41,6 @@ github-docker)
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
     SCRIPTS_DIR=${SOURCES_DIR}/build
-    PREBUILT_DIR=${WORKSPACE}/prebuilt
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 

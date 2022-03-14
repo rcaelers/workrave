@@ -134,7 +134,6 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
         echo Building 32 bit
     elif [[ $MSYSTEM == "MINGW64" ]]; then
         CONF_SYSTEM=mingw64
-        CMAKE_FLAGS+=("-DPREBUILT_PATH=${OUTPUT_DIR}/.32")
     fi
 
     if [[ $WORKRAVE_ENV =~ "-msys2" ]]; then
@@ -143,6 +142,7 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     else
         TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
         echo Building on Linux cross compile environment
+        CMAKE_FLAGS+=("-DISCC=/workspace/inno/app/ISCC.exe")
     fi
     CMAKE_FLAGS+=("-DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}")
 else

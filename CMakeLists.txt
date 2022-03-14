@@ -7,7 +7,6 @@ project(Workrave)
 cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
 
-#
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
 
 # Require out of source build.
@@ -34,6 +33,7 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(CMakeFindBinUtils)
 include(FindPythonModule)
+include(ExternalProject)
 
 if (NOT VCPKG_TOOLCHAIN)
   include(FindPkgConfig)
@@ -43,47 +43,45 @@ endif()
 # Macros
 
 if (NOT VCPKG_TOOLCHAIN)
+  macro(pkgconfig_get_var OUT PKG VARNAME)
+    if (LOCALINSTALL)
+      set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
+    endif()
 
-macro(pkgconfig_get_var OUT PKG VARNAME)
-  if (LOCALINSTALL)
-    set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
-  endif()
+    execute_process(
+      COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
+      OUTPUT_VARIABLE _result
+      RESULT_VARIABLE _null
+    )
 
-  execute_process(
-    COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
-    OUTPUT_VARIABLE _result
-    RESULT_VARIABLE _null
-  )
+    if (_null)
+    else()
+      string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+      string(REGEX REPLACE " +$" ""  _result "${_result}")
+      separate_arguments(_result)
+      set (${OUT} ${_result} CACHE INTERNAL "")
+    endif()
+  endmacro()
 
-  if (_null)
-  else()
-    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-    string(REGEX REPLACE " +$" ""  _result "${_result}")
-    separate_arguments(_result)
-    set (${OUT} ${_result} CACHE INTERNAL "")
-  endif()
-endmacro()
+  macro(pkgconfig_get_requires OUT PKG)
+    if (LOCALINSTALL)
+      set(NEWPREFIX "--define-variable=prefix=/")
+    endif()
 
-macro(pkgconfig_get_requires OUT PKG)
-  if (LOCALINSTALL)
-    set(NEWPREFIX "--define-variable=prefix=/")
-  endif()
+    execute_process(
+      COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
+      OUTPUT_VARIABLE _result
+      RESULT_VARIABLE _null
+    )
 
-  execute_process(
-    COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
-    OUTPUT_VARIABLE _result
-    RESULT_VARIABLE _null
-  )
-
-  if (_null)
-  else()
-    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-    string(REGEX REPLACE " +$" ""  _result "${_result}")
-    separate_arguments(_result)
-    set (${OUT} ${_result} CACHE INTERNAL "")
-  endif()
-endmacro()
-
+    if (_null)
+    else()
+      string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+      string(REGEX REPLACE " +$" ""  _result "${_result}")
+      separate_arguments(_result)
+      set (${OUT} ${_result} CACHE INTERNAL "")
+    endif()
+  endmacro()
 endif()
 
 macro(files_exists OUT DIRECTORY FILES)
@@ -337,10 +335,10 @@ if ("${WITH_UI}" STREQUAL "Qt")
                  NO_DEFAULT_PATH)
   endif()
 
- get_target_property(QT_QTPATHS_EXECUTABLE Qt6::qtpaths LOCATION)
+  get_target_property(QT_QTPATHS_EXECUTABLE Qt6::qtpaths LOCATION)
 
- execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --plugin-dir OUTPUT_VARIABLE QT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
- message(STATUS "QT Plugin path: " ${QT_PLUGINS_DIR})
+  execute_process(COMMAND ${QT_QTPATHS_EXECUTABLE} --plugin-dir OUTPUT_VARIABLE QT_PLUGINS_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+  message(STATUS "QT Plugin path: " ${QT_PLUGINS_DIR})
 
   if (WITH_DBUS)
     find_package(Qt6DBus QUIET)
@@ -361,7 +359,6 @@ if ("${WITH_UI}" STREQUAL "Qt")
     get_filename_component(QT_INSTALL_PREFIX "${QT_BIN_DIR}/../../../" REALPATH)
   endif()
 
-  #set (CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS} -DQT_NO_KEYWORDS ${CMAKE_CXX_FLAGS}")
   set (HAVE_QT ON)
   set (HAVE_QT6 ON)
   set (HAVE_APP_QT ON)
@@ -497,9 +494,6 @@ if (UNIX AND NOT APPLE)
     else()
       pkgconfig_get_var(INDICATORDIR ayatana-indicator3-0.4 indicatordir)
       pkgconfig_get_var(INDICATORICONSDIR ayatana-indicator3-0.4 iconsdir)
-
-      #string(REGEX REPLACE "/$" "" INDICATORDIR "${INDICATORDIR}")
-      #set (INDICATORDIR ${INDICATORDIR} CACHE INTERNAL "")
     endif()
   endif()
 endif()
@@ -644,61 +638,28 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # platform - windows
 
-option(WITH_CRASHPAD "Use crashpad" OFF)
 
 if (WIN32)
-  set (PLATFORM_OS_WINDOWS ON)
+  option(WITH_CRASHPAD "Use crashpad" OFF)
+  option(ISCC "Inno Setup Compiler")
 
+  set (PLATFORM_OS_WINDOWS ON)
   set (PLATFORM_OS_NAME "Windows")
   if (MSVC)
     set (PLATFORM_OS_WINDOWS_NATIVE 1)
   endif()
 
   set (HAVE_HARPOON ON)
+
   if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set (PLATFORM_OS_WINDOWS_64 ON)
   else()
     set (PLATFORM_OS_WINDOWS_32 ON)
   endif()
 
+  include(FindMsys)
+
   if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
-    set(PREBUILT_VISUAL_STUDIO_TARGETS
-      "Release64/workrave-applet64.dll"
-      "Release64/harpoonHelper.exe"
-      "Release64/harpoon64.dll"
-      "Release/harpoon.dll")
-
-    set(PREBUILT_CMAKE_TARGETS
-      "lib32/WorkraveHelper.exe"
-      "lib32/harpoon.dll")
-
-    set (PREBUILT_PATH "" CACHE STRING "Location of prebuilt targets")
-
-    if (NOT PREBUILT_PATH)
-      files_exists(HAVE_PREBUILT_VISUAL_STUDIO "${CMAKE_SOURCE_DIR}/Output" "${PREBUILT_VISUAL_STUDIO_TARGETS}")
-      if (HAVE_PREBUILT_VISUAL_STUDIO)
-        set(PREBUILT_PATH "${CMAKE_SOURCE_DIR}/Output")
-      endif()
-    endif()
-
-    if (NOT HAVE_PREBUILT_VISUAL_STUDIO)
-      files_exists(HAVE_PREBUILT_VISUAL_STUDIO "${PREBUILT_PATH}" "${PREBUILT_VISUAL_STUDIO_TARGETS}")
-    endif()
-
-    if (NOT HAVE_PREBUILT_VISUAL_STUDIO)
-      files_exists(HAVE_PREBUILT_CMAKE "${PREBUILT_PATH}" "${PREBUILT_CMAKE_TARGETS}")
-    endif()
-
-    if (HAVE_PREBUILT_CMAKE)
-      set (HOOK_BINARY_DIR "${CMAKE_BINARY_DIR}/libs/hooks/harpoon/src")
-      message(STATUS "Using prebuilt 32 bit targets from ${PREBUILT_PATH}")
-    elseif(HAVE_PREBUILT_VISUAL_STUDIO)
-      set (HOOK_BINARY_DIR "${PREBUILT_PATH}/Release")
-      message(STATUS "Using prebuilt 32/64 bit targets from ${PREBUILT_PATH}")
-    else()
-      message(WARNING "Use -DPREBUILT_PATH=location to specify location of prebuilt targets")
-    endif()
-
     set(HAVE_CRASH_REPORT OFF)
     set(HAVE_CRASHPAD OFF)
     if(WITH_CRASHPAD)
@@ -720,18 +681,19 @@ if (WIN32)
   endif()
 
   if (NOT ISCC)
-    get_filename_component(PROGRAM_FILES_PATH
+    if (NOT WINE)
+      get_filename_component(PROGRAM_FILES_PATH
         "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir]" ABSOLUTE)
 
-    get_filename_component(PROGRAM_FILES_X86_PATH
+      get_filename_component(PROGRAM_FILES_X86_PATH
         "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir (x86)]" ABSOLUTE)
 
-    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 6" "${PROGRAM_FILES_X86_PATH}/Inno Setup 6")
-    find_program(ISCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
-  endif()
-
-  if (MSYS AND NOT SYS_ROOT)
-    set (SYS_ROOT "/msys64/mingw${PLATFORM_ARCH}")
+      file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 6" "${PROGRAM_FILES_X86_PATH}/Inno Setup 6")
+      find_program(INNOCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
+      set(ISCC "${INNOCC}")
+    else()
+      set(ISCC "C:/Program Files/Inno Setup 6/ISCC.exe")
+    endif()
   endif()
 
   set (HAVE_GSETTINGS OFF)
@@ -792,7 +754,7 @@ if (WIN32)
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# platform - OS X
+# platform - macOS
 
 if (APPLE)
   set (PLATFORM_OS_MACOS ON)
@@ -895,30 +857,50 @@ else()
   add_subdirectory(libs/hooks)
 endif()
 
+
+if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+  if (CMAKE_CROSSCOMPILING)
+    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/build/cmake/toolchains/mingw32-gcc.cmake)
+    set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
+  else()
+    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/build/cmake/toolchains/msys2.cmake)
+    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
+  endif()
+
+  ExternalProject_Add(Workrave32Bit
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}
+    BINARY_DIR ${CMAKE_BINARY_DIR}/.32
+    CMAKE_COMMAND ${CMAKE_COMMAND32}
+    CMAKE_CACHE_ARGS
+      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${TOOLCHAIN_32BIT}
+      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
+      -DWITH_UI:STRING=None
+    )
+
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Install
 
-if (WIN32)
+if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
   configure_file(README  README.txt  NEWLINE_STYLE WIN32)
   configure_file(NEWS    NEWS.txt    NEWLINE_STYLE WIN32)
   configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)
   configure_file(COPYING COPYING.txt NEWLINE_STYLE WIN32)
 
-  install(FILES ${CMAKE_BINARY_DIR}/README.txt ${CMAKE_BINARY_DIR}/NEWS.txt ${CMAKE_BINARY_DIR}/AUTHORS.txt ${CMAKE_BINARY_DIR}/COPYING.txt
+  install(FILES ${CMAKE_BINARY_DIR}/README.txt 
+                ${CMAKE_BINARY_DIR}/NEWS.txt 
+                ${CMAKE_BINARY_DIR}/AUTHORS.txt 
+                ${CMAKE_BINARY_DIR}/COPYING.txt
           DESTINATION .)
-
-   if (PREBUILT_PATH)
-      set (APPLET_BINARY_DIR ${PREBUILT_PATH})
-      set (HOOK_BINARY_DIR ${PREBUILT_PATH})
-   endif()
 endif()
-
-#----------------------------------------------------------------------------------------------------
-# App Bundle
 
 if (WIN32 AND BUILD_ONLY_32_BIT_FOR_WIN64)
   add_subdirectory(build/win32)
 endif()
+
+#----------------------------------------------------------------------------------------------------
+# App
 
 if (WITH_UI_QT)
   add_subdirectory(ui/app/toolkits/qt/dist)

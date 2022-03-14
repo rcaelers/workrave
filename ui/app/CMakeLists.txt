@@ -156,7 +156,7 @@ elseif (HAVE_APP_QT)
 endif()
 
 If (PLATFORM_OS_WINDOWS)
-  if (CMAKE_CROSSCOMPILING OR MSYS)
+  if (CMAKE_CROSSCOMPILING)
     target_link_directories(workrave PRIVATE "${SYS_ROOT}")
   endif()
 

@@ -1,4 +1,4 @@
-if (WIN32 AND (NOT HAVE_PREBUILT_VISUAL_STUDIO))
+if (WIN32)
   if (PLATFORM_ARCH EQUAL 32)
     set(APPLET_TARGET "workrave-applet")
     set(APPLET_INSTALL_DIR "lib32")
