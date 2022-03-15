@@ -660,7 +660,7 @@ if (WIN32)
   find_program(MSYS2_SHELL
                NAMES msys2_shell.cmd
                PATHS
-               "$ENV{RUNNER_TEMP}/msys2")
+               "$ENV{RUNNER_TEMP}/msys64")
   if (MSYS2_SHELL)
     set(MSYS_CMD ${MSYS2_SHELL})
   else()
@@ -884,7 +884,6 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
       -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
       -DWITH_UI:STRING=None
     )
-
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -896,9 +895,9 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
   configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)
   configure_file(COPYING COPYING.txt NEWLINE_STYLE WIN32)
 
-  install(FILES ${CMAKE_BINARY_DIR}/README.txt 
-                ${CMAKE_BINARY_DIR}/NEWS.txt 
-                ${CMAKE_BINARY_DIR}/AUTHORS.txt 
+  install(FILES ${CMAKE_BINARY_DIR}/README.txt
+                ${CMAKE_BINARY_DIR}/NEWS.txt
+                ${CMAKE_BINARY_DIR}/AUTHORS.txt
                 ${CMAKE_BINARY_DIR}/COPYING.txt
           DESTINATION .)
 endif()
