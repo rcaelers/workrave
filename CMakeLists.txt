@@ -657,7 +657,15 @@ if (WIN32)
     set (PLATFORM_OS_WINDOWS_32 ON)
   endif()
 
-  include(FindMsys)
+  find_program(MSYS2_SHELL
+               NAMES msys2_shell.cmd
+               PATHS
+               "$ENV{RUNNER_TEMP}/msys2")
+  if (MSYS2_SHELL)
+    set(MSYS_CMD ${MSYS2_SHELL})
+  else()
+    include(FindMsys)
+  endif()
 
   if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
     set(HAVE_CRASH_REPORT OFF)
