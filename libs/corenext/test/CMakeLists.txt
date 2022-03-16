@@ -22,7 +22,7 @@ if (HAVE_TESTS)
   set_target_properties(workrave-core-next-integration-test PROPERTIES USE_STUBS ON)
 
   if (HAVE_APP_GTK)
-    link_directories(${GLIB_LIBRARY_DIRS})
+    target_link_directories(workrave-core-next-integration-test PRIVATE ${GLIB_LIBRARY_DIRS})
   endif()
 
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-core-next)

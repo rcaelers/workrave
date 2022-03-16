@@ -23,10 +23,6 @@
 
 #include <cstring>
 
-#ifdef HAVE_STRINGS_H
-#  include <strings.h>
-#endif
-
 #ifdef PLATFORM_OS_WINDOWS
 #  include "ui/windows/WindowsCompat.hh"
 #  include "ui/windows/WindowsForceFocus.hh"

@@ -8,7 +8,6 @@ set(SRC
 if (HAVE_GTK AND UNIX AND NOT APPLE)
 
   add_library(workrave-private-1.0 SHARED ${SRC})
-  link_directories(${GTK_LIBPATH})
 
   target_include_directories(workrave-private-1.0
     PRIVATE
@@ -20,9 +19,8 @@ if (HAVE_GTK AND UNIX AND NOT APPLE)
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     )
 
-  target_link_libraries(workrave-private-1.0
-    ${GTK_LIBRARIES}
-    )
+    target_link_directories(workrave-private-1.0 PRIVATE ${GTK_LIBPATH})
+    target_link_libraries(workrave-private-1.0 ${GTK_LIBRARIES})
 
   set_target_properties(workrave-private-1.0 PROPERTIES VERSION 0.0.0 SOVERSION 0)
   install(TARGETS workrave-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIBDIR} ARCHIVE DESTINATION ${LIBDIR} LIBRARY NAMELINK_SKIP)

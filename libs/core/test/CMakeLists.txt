@@ -18,11 +18,11 @@ if (HAVE_TESTS)
     )
   target_code_coverage(workrave-core-integration-test AUTO)
 
-  if (HAVE_APP_GTK)
-    link_directories(${GLIB_LIBRARY_DIRS})
-  endif()
-
   set_target_properties(workrave-core-integration-test PROPERTIES USE_STUBS ON)
+
+  if (HAVE_APP_GTK)
+    target_link_directories(workrave-core-integration-test PRIVATE ${GLIB_LIBRARY_DIRS})
+  endif()
 
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-core)
   target_link_libraries(workrave-core-integration-test PRIVATE workrave-libs-config)

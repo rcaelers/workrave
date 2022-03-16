@@ -16,10 +16,10 @@ if (WITH_INDICATOR)
     )
 
   add_library(workrave-applet-indicator SHARED ${SRC})
-  
+
   set_target_properties(workrave-applet-indicator PROPERTIES OUTPUT_NAME workrave)
 
-  link_directories(${INDICATOR_LIBPATH})
+  target_link_directories(workrave-applet-indicator PRIVATE ${INDICATOR_LIBPATH})
   target_link_libraries(workrave-applet-indicator ${INDICATOR_LIBRARIES} workrave-private-1.0)
 
   install(TARGETS workrave-applet-indicator RUNTIME DESTINATION ${INDICATORDIR} LIBRARY DESTINATION ${INDICATORDIR})

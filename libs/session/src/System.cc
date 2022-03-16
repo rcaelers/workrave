@@ -42,10 +42,6 @@
 #include <algorithm>
 #include <iostream>
 
-#if defined(HAVE_STRINGS_H)
-#  include <strings.h>
-#endif
-
 #include "session/System.hh"
 #include "debug.hh"
 

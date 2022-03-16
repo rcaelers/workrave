@@ -26,12 +26,9 @@ set (CMAKE_INCLUDE_CURRENT_DIR ON)
 include(GNUInstallDirs)
 include(CheckLibraryExists)
 include(CheckStructHasMember)
-include(CheckCCompilerFlag)
-include(CheckCXXCompilerFlag)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckCSourceCompiles)
-include(CMakeFindBinUtils)
 include(FindPythonModule)
 include(ExternalProject)
 
@@ -173,18 +170,8 @@ add_compile_definitions(
 option(WITH_TESTS "Enable unit tests" OFF)
 
 if (WITH_TESTS)
-  #pkg_check_modules(
-  #  GLIB REQUIRED
-  #  glib-2.0>=2.36.0
-  #  gio-2.0>=2.26.0)
-  #
-  #if (GLIB_FOUND)
-  #  set (HAVE_DBUS_TEST_GIO ON)
-  #endif()
-
   set (HAVE_TESTS ON)
   enable_testing()
-
 endif()
 
 include(code-coverage)
@@ -822,13 +809,6 @@ endif()
 
 #----------------------------------------------------------------------------------------------------
 #  misc checks
-
-check_include_files(unistd.h HAVE_UNISTD_H)
-check_include_files(sys/stat.h HAVE_SYS_STAT_H)
-check_include_files(sys/types.h HAVE_SYS_TYPES_H)
-check_include_files(sys/time.h HAVE_SYS_TIME_H)
-check_include_files(sys/select.h HAVE_SYS_SELECT_H)
-check_include_files(strings.h HAVE_STRINGS_H)
 
 check_function_exists(setlocale HAVE_SETLOCALE)
 

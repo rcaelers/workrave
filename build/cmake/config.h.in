@@ -33,12 +33,7 @@
 #cmakedefine HAVE_SETLOCALE
 #cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCT
 #cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCTEX
-#cmakedefine HAVE_SYS_SELECT_H
-#cmakedefine HAVE_SYS_STAT_H
-#cmakedefine HAVE_SYS_TIME_H
-#cmakedefine HAVE_SYS_TYPES_H
 #cmakedefine HAVE_TESTS
-#cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_XFCE4
 #cmakedefine HAVE_XRECORD
 #cmakedefine WORKRAVE_VERSION "${WORKRAVE_VERSION}"
