@@ -1,5 +1,3 @@
-add_subdirectory(src)
-
 install(FILES WizModernImage.bmp DESTINATION dist)
 install(FILES WizModernSmall.bmp DESTINATION dist)
 

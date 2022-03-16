@@ -863,8 +863,8 @@ if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   add_subdirectory(ui)
 else()
   add_subdirectory(libs/hooks)
+  add_subdirectory(ui/app/toolkits/gtkmm/dist/windows/src)
 endif()
-
 
 if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
   if (CMAKE_CROSSCOMPILING)
@@ -900,10 +900,6 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
                 ${CMAKE_BINARY_DIR}/AUTHORS.txt
                 ${CMAKE_BINARY_DIR}/COPYING.txt
           DESTINATION .)
-endif()
-
-if (WIN32 AND BUILD_ONLY_32_BIT_FOR_WIN64)
-  add_subdirectory(build/win32)
 endif()
 
 #----------------------------------------------------------------------------------------------------

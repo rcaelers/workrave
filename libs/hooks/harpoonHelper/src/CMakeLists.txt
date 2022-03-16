@@ -25,4 +25,11 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
 
   set_target_properties(WorkraveHelper PROPERTIES COMPILE_FLAGS "-mwindows")
   set_target_properties(WorkraveHelper PROPERTIES LINK_FLAGS "-mwindows")
+
+  install(CODE "set(SYS_ROOT ${SYS_ROOT})")
+  install(CODE "set(CMAKE_OBJDUMP ${CMAKE_OBJDUMP})")
+  install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
+  install(CODE "set(DIST_PATH ${CMAKE_CURRENT_BINARY_DIR})")
+
+  install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Install.cmake")
 endif()
