@@ -589,7 +589,7 @@ string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
 if(CMAKE_TOOLCHAIN_FILE MATCHES vcpkg)
     find_package(unofficial-gettext REQUIRED)
-    set (ENABLE_NLS ON)
+    set (ENABLE_NLS ON) # TODO: remove ENABLE_NLS
 else()
    find_package(Gettext)
    find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
@@ -637,12 +637,6 @@ if (WIN32)
   endif()
 
   set (HAVE_HARPOON ON)
-
-  if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set (PLATFORM_OS_WINDOWS_64 ON)
-  else()
-    set (PLATFORM_OS_WINDOWS_32 ON)
-  endif()
 
   find_program(MSYS2_SHELL
                NAMES msys2_shell.cmd
@@ -711,8 +705,6 @@ if (WIN32)
       NOMINMAX
       )
   endif()
-
-  check_include_files(dsound.h HAVE_DSOUND)
 
   check_c_source_compiles(
     "#include <mmdeviceapi.h>
