@@ -24,6 +24,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <cstddef>
 #include <utility>
 
 #include "input-monitor/IInputMonitor.hh"
@@ -143,9 +144,9 @@ LocalActivityMonitor::process_state()
 void
 LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold = noise * 1000;
-  activity_threshold = activity * 1000;
-  idle_threshold = idle * 1000;
+  noise_threshold = static_cast<int64_t>(noise) * 1000;
+  activity_threshold = static_cast<int64_t>(activity) * 1000;
+  idle_threshold = static_cast<int64_t>(idle) * 1000;
 
   this->sensitivity = sensitivity;
 

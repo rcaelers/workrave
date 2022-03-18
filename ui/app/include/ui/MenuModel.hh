@@ -36,7 +36,7 @@ namespace menus
     using Activated = std::function<void()>;
 
     Node();
-    Node(std::string_view id, std::string text = "", Activated activated = Activated());
+    explicit Node(std::string_view id, std::string text = "", Activated activated = Activated());
     virtual ~Node() = default;
 
     [[nodiscard]] auto get_text() const -> std::string;

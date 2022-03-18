@@ -60,7 +60,7 @@ private:
     //! Total time that the mouse was moving.
     std::chrono::system_clock::time_point total_mouse_time;
 
-    DailyStatsImpl()
+    DailyStatsImpl() : DailyStats()
     {
       memset((void *)&start, 0, sizeof(start));
       memset((void *)&stop, 0, sizeof(stop));

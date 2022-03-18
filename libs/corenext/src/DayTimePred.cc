@@ -107,7 +107,7 @@ DayTimePred::days_in_month(int month, int year)
 time_t
 DayTimePred::get_next(time_t last_time)
 {
-  struct tm *ret;
+  struct tm *ret = nullptr;
 
   ret = localtime(&last_time);
 

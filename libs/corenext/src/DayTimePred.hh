@@ -24,7 +24,7 @@ class DayTimePred : public TimePred
 {
 public:
   bool init(std::string spec);
-  time_t get_next(time_t last_time);
+  time_t get_next(time_t last_time) override;
 
 private:
   bool init(int hour, int min);

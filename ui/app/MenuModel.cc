@@ -340,7 +340,7 @@ menus::RadioGroupNode::get_selected_node() const -> menus::RadioNode::Ptr
     {
       return std::dynamic_pointer_cast<menus::RadioNode>(*i);
     }
-  return menus::RadioNode::Ptr();
+  return {};
 }
 
 auto

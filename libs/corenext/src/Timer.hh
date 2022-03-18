@@ -18,7 +18,7 @@
 #ifndef TIMER_HH
 #define TIMER_HH
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -86,15 +86,15 @@ public:
   bool is_enabled() const;
 
   // Auto-resetting.
-  void set_auto_reset(int t);
+  void set_auto_reset(int reset_time);
   void set_auto_reset_enabled(bool b);
-  void set_daily_reset(TimePred *daily_reset);
+  void set_daily_reset(TimePred *predicate);
   bool is_auto_reset_enabled() const;
   int64_t get_auto_reset() const;
   int64_t get_next_reset_time() const;
 
   // Limiting.
-  void set_limit(int t);
+  void set_limit(int limit_time);
   void set_limit_enabled(bool b);
   bool is_limit_enabled() const;
   int64_t get_limit() const;

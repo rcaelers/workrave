@@ -63,7 +63,7 @@ private:
   static bool reset_window_always;
   static bool reset_window_never;
 
-  typedef VOID(WINAPI *SWITCHTOTHISWINDOWPROC)(HWND, BOOL);
+  using SWITCHTOTHISWINDOWPROC = void (*)(HWND, BOOL);
 
   static SWITCHTOTHISWINDOWPROC switch_to_this_window_proc;
 

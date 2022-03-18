@@ -53,7 +53,7 @@ run(int argc, char **argv)
 #if defined(HAVE_CRASH_REPORT)
   try
     {
-      bool no_crashpad = std::getenv("WORKRAVE_NO_CRASHPAD") != NULL;
+      bool no_crashpad = std::getenv("WORKRAVE_NO_CRASHPAD") != nullptr;
       if (!no_crashpad)
         {
           TRACE_MSG("Starting crashhandler");

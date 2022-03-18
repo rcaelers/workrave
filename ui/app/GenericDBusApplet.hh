@@ -82,7 +82,7 @@ public:
     uint8_t flags;
   };
 
-  GenericDBusApplet(std::shared_ptr<IApplication> app);
+  explicit GenericDBusApplet(std::shared_ptr<IApplication> app);
   ~GenericDBusApplet() override = default;
 
   void init() override;

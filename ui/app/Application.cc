@@ -66,10 +66,10 @@ using namespace workrave::utils;
 
 Application::Application(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
   : toolkit_factory(toolkit_factory)
+  , argc(argc)
+  , argv(argv)
 {
   TRACE_ENTRY();
-  this->argc = argc;
-  this->argv = argv;
 }
 
 Application::~Application()
@@ -383,7 +383,7 @@ Application::core_event_notify(const CoreEvent event)
   if (event >= CORE_EVENT_SOUND_FIRST && event <= CORE_EVENT_SOUND_LAST)
     {
       bool mute = false;
-      SoundEvent snd = (SoundEvent)((int)event - CORE_EVENT_SOUND_FIRST);
+      auto snd = (SoundEvent)((int)event - CORE_EVENT_SOUND_FIRST);
       TRACE_MSG("play {}", event);
 
       if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED || event == CORE_EVENT_SOUND_DAILY_LIMIT)
@@ -627,7 +627,7 @@ Application::get_timers_tooltip()
 {
   // FIXME: duplicate
   const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
-  std::string tip = "";
+  std::string tip;
 
   OperationMode mode = core->get_regular_operation_mode();
   switch (mode)

@@ -19,7 +19,7 @@
 #define TIMEPRED_HH
 
 #include <string>
-#include <time.h>
+#include <ctime>
 
 class TimePred
 {

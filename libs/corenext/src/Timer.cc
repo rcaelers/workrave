@@ -306,7 +306,7 @@ Timer::process(bool user_is_active)
         }
     }
 
-  if (daily_auto_reset && next_daily_reset_time != 0 && TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
+  if ((daily_auto_reset != nullptr) && next_daily_reset_time != 0 && TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
     {
       TRACE_MSG("daily reset");
       // A next reset time was set and the current time >= reset time.
@@ -691,7 +691,7 @@ Timer::compute_next_daily_reset_time()
 {
   // This one ALWAYS sends a reset, also when the timer is disabled.
 
-  if (daily_auto_reset)
+  if (daily_auto_reset != nullptr)
     {
       if (last_daily_reset_time == 0)
         {

@@ -41,7 +41,7 @@ CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus)
 }
 
 void
-CoreDBus::on_operation_mode_changed(const OperationMode operation_mode)
+CoreDBus::on_operation_mode_changed(OperationMode operation_mode)
 {
 #ifdef HAVE_DBUS
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
@@ -53,7 +53,7 @@ CoreDBus::on_operation_mode_changed(const OperationMode operation_mode)
 }
 
 void
-CoreDBus::on_usage_mode_changed(const UsageMode usage_mode)
+CoreDBus::on_usage_mode_changed(UsageMode usage_mode)
 {
 #ifdef HAVE_DBUS
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);

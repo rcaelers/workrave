@@ -128,30 +128,26 @@ Statistics::delete_all_history()
     {
       return false;
     }
-  else
-    {
-      for (auto i = history.begin(); (i != history.end()); ++i)
-        {
-          delete *i;
-        }
 
-      history.clear();
+  for (auto i = history.begin(); (i != history.end()); ++i)
+    {
+      delete *i;
     }
+
+  history.clear();
 
   std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
   if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
     {
       return false;
     }
-  else
+
+  if (current_day != nullptr)
     {
-      if (current_day)
-        {
-          delete current_day;
-          current_day = nullptr;
-        }
-      start_new_day();
+      delete current_day;
+      current_day = nullptr;
     }
+  start_new_day();
 
   return true;
 }
@@ -258,7 +254,7 @@ Statistics::save_day(DailyStatsImpl *stats)
 void
 Statistics::add_history(DailyStatsImpl *stats)
 {
-  if (history.size() == 0)
+  if (history.empty())
     {
       history.push_back(stats);
     }
@@ -279,10 +275,10 @@ Statistics::add_history(DailyStatsImpl *stats)
               break;
             }
 
-          else if (stats->start.tm_year > ref->start.tm_year
-                   || (stats->start.tm_year == ref->start.tm_year
-                       && (stats->start.tm_mon > ref->start.tm_mon
-                           || (stats->start.tm_mon == ref->start.tm_mon && stats->start.tm_mday > ref->start.tm_mday))))
+          if (stats->start.tm_year > ref->start.tm_year
+              || (stats->start.tm_year == ref->start.tm_year
+                  && (stats->start.tm_mon > ref->start.tm_mon
+                      || (stats->start.tm_mon == ref->start.tm_mon && stats->start.tm_mday > ref->start.tm_mday))))
             {
               if (i == history.rbegin())
                 {
@@ -396,7 +392,8 @@ Statistics::load(ifstream &infile, bool history)
             {
               if (cmd == 'B')
                 {
-                  int bt, size;
+                  int bt = 0;
+                  int size = 0;
                   ss >> bt;
                   ss >> size;
 
@@ -409,7 +406,7 @@ Statistics::load(ifstream &infile, bool history)
 
                   for (int j = 0; j < size; j++)
                     {
-                      int value;
+                      int value = 0;
                       ss >> value;
 
                       bs[j] = value;
@@ -417,7 +414,7 @@ Statistics::load(ifstream &infile, bool history)
                 }
               else if (cmd == 'M' || cmd == 'm')
                 {
-                  int size;
+                  int size = 0;
                   ss >> size;
 
                   if (size > STATS_VALUE_SIZEOF)
@@ -427,7 +424,7 @@ Statistics::load(ifstream &infile, bool history)
 
                   for (int j = 0; j < size; j++)
                     {
-                      int value;
+                      int value = 0;
                       ss >> value;
 
                       if (cmd == 'm')
@@ -443,7 +440,7 @@ Statistics::load(ifstream &infile, bool history)
                 }
               else if (cmd == 'G')
                 {
-                  int total_active;
+                  int total_active = 0;
                   ss >> total_active;
 
                   stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;

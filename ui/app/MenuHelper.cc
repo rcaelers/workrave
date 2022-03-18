@@ -25,7 +25,7 @@
 
 namespace
 {
-  std::map<std::string_view, MenuAction> legacyMapping = {
+  const std::map<std::string_view, MenuAction> legacyMapping = {
     {MenuId::PREFERENCES, MenuAction::Preferences},
     {MenuId::EXERCISES, MenuAction::Exercises},
     {MenuId::REST_BREAK, MenuAction::Restbreak},
@@ -94,18 +94,18 @@ MenuHelper::find_node(const std::string &id)
     {
       return (*i)->get_node();
     }
-  return menus::Node::Ptr();
+  return {};
 }
 
 menus::Node::Ptr
 MenuHelper::find_node(uint32_t command)
 {
   auto id = lookup(command);
-  if (id != "")
+  if (!id.empty())
     {
       return find_node(id);
     }
-  return menus::Node::Ptr();
+  return {};
 }
 
 void

@@ -74,7 +74,7 @@ public:
   void set_prelude_progress_text(PreludeProgressText text) override;
 
 #if !defined(HAVE_CORE_NEXT)
-  void core_event_notify(const workrave::CoreEvent event) override;
+  void core_event_notify(workrave::CoreEvent event) override;
 #endif
 
 private:

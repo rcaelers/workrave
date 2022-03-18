@@ -142,7 +142,7 @@ void
 BreaksControl::heartbeat()
 {
   TRACE_ENTRY();
-  bool user_is_active;
+  bool user_is_active = false;
   if (modes->get_usage_mode() == UsageMode::Reading)
     {
       user_is_active = reading_activity_monitor->is_active();
@@ -176,7 +176,7 @@ BreaksControl::process_timers(bool user_is_active)
   TRACE_ENTRY();
   for (int i = BREAK_ID_DAILY_LIMIT; i > BREAK_ID_NONE; i--)
     {
-      BreakId break_id = static_cast<BreakId>(i);
+      auto break_id = static_cast<BreakId>(i);
 
       bool user_is_active_for_break = user_is_active;
       if (breaks[break_id]->is_microbreak_used_for_activity())
@@ -380,7 +380,7 @@ BreaksControl::set_freeze_all_breaks(bool freeze)
 }
 
 void
-BreaksControl::on_operation_mode_changed(const OperationMode operation_mode)
+BreaksControl::on_operation_mode_changed(OperationMode operation_mode)
 {
   if (operation_mode == OperationMode::Suspended || operation_mode == OperationMode::Quiet)
     {
@@ -482,7 +482,7 @@ BreaksControl::load_state()
 
   if (ok)
     {
-      int64_t saveTime;
+      int64_t saveTime = 0;
       state_file >> saveTime;
     }
 

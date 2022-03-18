@@ -49,7 +49,7 @@ public:
   Pimpl() = default;
 
   void init();
-  static bool crashpad_handler(EXCEPTION_POINTERS *);
+  static bool crashpad_handler(EXCEPTION_POINTERS *info);
 
   void register_crash_handler(CrashHandler *handler);
   void unregister_crash_handler(CrashHandler *handler);

@@ -42,7 +42,7 @@ namespace detail
 class MenuHelper : public workrave::utils::Trackable
 {
 public:
-  MenuHelper(MenuModel::Ptr menu_model);
+  explicit MenuHelper(MenuModel::Ptr menu_model);
   ~MenuHelper() = default;
 
 public:

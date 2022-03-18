@@ -48,7 +48,7 @@ exercise_parse_update_i18n_attribute(const char *const *languages,
     {
       const char *nl = new_lang.c_str();
       size_t nl_len = strlen(nl);
-      int r;
+      int r = 0;
 
       if (!nl_len)
         {

@@ -19,6 +19,7 @@
 #define WORKRAVE_BACKEND_ISTATISTICS_HH
 
 #include <ctime>
+#include <memory>
 
 #ifdef PLATFORM_OS_WINDOWS_NATIVE
 typedef __int64 int64_t;

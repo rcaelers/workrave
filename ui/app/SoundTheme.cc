@@ -346,7 +346,7 @@ SoundTheme::get_theme(const std::string &theme_id)
       return *it;
     }
 
-  return ThemeInfo::Ptr();
+  return {};
 }
 
 void
@@ -398,22 +398,22 @@ SoundTheme::windows_remove_deprecated_appevents()
                         "WorkraveExercisesEnded",
                         "WorkraveExerciseStep"};
 
-  string schemes = "AppEvents\\Schemes\\Apps\\Workrave\\";
+  string schemes = R"(AppEvents\Schemes\Apps\Workrave\)";
   string event_labels = "AppEvents\\EventLabels\\";
 
   for (string id: ids)
     {
       string key = schemes + id + "\\.current";
-      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      Platform::registry_set_value(key.c_str(), nullptr, nullptr);
       key = schemes + id + "\\.default";
-      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      Platform::registry_set_value(key.c_str(), nullptr, nullptr);
       key = schemes + id;
-      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      Platform::registry_set_value(key.c_str(), nullptr, nullptr);
       key = event_labels + id;
-      Platform::registry_set_value(key.c_str(), NULL, NULL);
+      Platform::registry_set_value(key.c_str(), nullptr, nullptr);
     }
 
   // FIXME: used in ChangeAutoRun.c
-  Platform::registry_set_value(schemes.c_str(), NULL, "");
+  Platform::registry_set_value(schemes.c_str(), nullptr, "");
 }
 #endif

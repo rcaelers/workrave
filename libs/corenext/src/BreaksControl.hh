@@ -66,7 +66,7 @@ private:
   void force_idle();
   void stop_all_breaks();
 
-  void on_operation_mode_changed(const workrave::OperationMode m);
+  void on_operation_mode_changed(workrave::OperationMode operation_mode);
   void on_break_event(workrave::BreakId break_id, workrave::BreakEvent event);
 
 private:

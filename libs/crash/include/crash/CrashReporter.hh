@@ -20,33 +20,30 @@
 
 #include <memory>
 
-namespace workrave
+namespace workrave::crash
 {
-  namespace crash
+  class CrashHandler
   {
-    class CrashHandler
-    {
-    public:
-      virtual void on_crashed() = 0;
-    };
+  public:
+    virtual void on_crashed() = 0;
+  };
 
-    class CrashReporter
-    {
-    public:
-      CrashReporter();
-      ~CrashReporter() = default;
+  class CrashReporter
+  {
+  public:
+    CrashReporter();
+    ~CrashReporter() = default;
 
-      static CrashReporter &instance();
+    static CrashReporter &instance();
 
-      void register_crash_handler(CrashHandler *handler);
-      void unregister_crash_handler(CrashHandler *handler);
-      void init();
+    void register_crash_handler(CrashHandler *handler);
+    void unregister_crash_handler(CrashHandler *handler);
+    void init();
 
-    private:
-      class Pimpl;
-      std::unique_ptr<Pimpl> pimpl;
-    };
-  } // namespace crash
-} // namespace workrave
+  private:
+    class Pimpl;
+    std::unique_ptr<Pimpl> pimpl;
+  };
+} // namespace workrave::crash
 
 #endif // WORKRAVE_CRASH_CRASHREPORTER_HH

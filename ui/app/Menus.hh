@@ -34,7 +34,7 @@ class Menus : public workrave::utils::Trackable
 public:
   using Ptr = std::shared_ptr<Menus>;
 
-  Menus(std::shared_ptr<IApplication> app);
+  explicit Menus(std::shared_ptr<IApplication> app);
 
   using sv = std::string_view;
   static constexpr std::string_view PREFERENCES = sv("workrave.preferences");

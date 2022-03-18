@@ -78,7 +78,7 @@ BreakDBus::on_break_stage_changed(BreakStage stage)
 #ifdef HAVE_DBUS
   std::string progress = Break::get_stage_text(stage);
 
-  if (progress != "")
+  if (!progress.empty())
     {
       org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
       if (iface != nullptr)

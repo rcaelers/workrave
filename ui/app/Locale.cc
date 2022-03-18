@@ -56,7 +56,7 @@ bool
 Locale::get_language(const std::string &code, std::string &language)
 {
   language_t key = {code.c_str(), nullptr};
-  language_t *val;
+  language_t *val = nullptr;
 
   val =
     reinterpret_cast<language_t *>(bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages));
@@ -89,7 +89,7 @@ Locale::get_country(const std::string &code, std::string &country)
 void
 Locale::set_locale(const std::string &code)
 {
-  if (code != "")
+  if (!code.empty())
     {
       Platform::setenv("LANGUAGE", code.c_str(), 1);
       Platform::setenv("LANG", code.c_str(), 1);
@@ -129,7 +129,7 @@ Locale::lookup(const std::string &domain, std::string &str)
 {
   std::string ret;
 
-  if (str != "")
+  if (!str.empty())
     {
       ret = dgettext(domain.c_str(), str.c_str());
       str = ret;
@@ -188,7 +188,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
   std::vector<std::string> all_linguas;
 
   boost::split(all_linguas, ALL_LINGUAS, boost::is_any_of(" "));
-  all_linguas.push_back("en");
+  all_linguas.emplace_back("en");
 
   std::string lang_save = Locale::get_locale();
 
@@ -247,11 +247,11 @@ Locale::get_week_start()
 #  endif
   )
     {
-      int required_size = WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, 0, 0, 0, 0);
+      int required_size = WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, nullptr, 0, nullptr, nullptr);
       if (required_size > 0)
         {
           std::vector<char> buffer(required_size);
-          WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, &buffer[0], required_size, 0, 0);
+          WideCharToMultiByte(CP_UTF8, 0, wsDay, -1, &buffer[0], required_size, nullptr, nullptr);
           week_start = (buffer[0] - '0' + 1) % 7;
         }
     }

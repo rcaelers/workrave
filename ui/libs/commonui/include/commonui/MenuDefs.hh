@@ -19,6 +19,8 @@
 #ifndef WORKRAVE_UI_COMMON_MENUCOMMAND_HH
 #define WORKRAVE_UI_COMMON_MENUCOMMAND_HH
 
+#include <string_view>
+
 enum MenuCommand
 {
   // Note: Do NOT remove/change any of the commands.

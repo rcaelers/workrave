@@ -36,7 +36,7 @@ public:
   void daily_reset();
 
 private:
-  void on_break_event(workrave::BreakEvent stage);
+  void on_break_event(workrave::BreakEvent event);
 
 private:
   workrave::BreakId break_id;
