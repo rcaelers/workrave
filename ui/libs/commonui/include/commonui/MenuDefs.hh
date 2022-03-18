@@ -19,7 +19,9 @@
 #ifndef WORKRAVE_UI_COMMON_MENUCOMMAND_HH
 #define WORKRAVE_UI_COMMON_MENUCOMMAND_HH
 
-#include <string_view>
+#if __cplusplus > 201703L
+#  include <string_view>
+#endif
 
 enum MenuCommand
 {
@@ -46,7 +48,7 @@ enum MenuCommand
   MENU_COMMAND_SIZEOF,
 };
 
-#if __cplusplus > 201103L
+#if __cplusplus > 201703L
 class MenuId
 {
 public:
@@ -67,7 +69,7 @@ public:
 };
 #endif
 
-#if __cplusplus > 201103L
+#if __cplusplus > 201703L
 enum class MenuAction
 {
   Preferences = MENU_COMMAND_PREFERENCES,
@@ -92,7 +94,7 @@ enum class MenuAction
 };
 #endif
 
-#if __cplusplus > 201103L
+#if __cplusplus > 201703L
 enum
 #else
 enum MenuItemType
@@ -108,7 +110,7 @@ enum MenuItemType
   MENU_ITEM_TYPE_SEPARATOR = 8,
 };
 
-#if __cplusplus > 201103L
+#if __cplusplus > 201703L
 enum class MenuItemType
 {
   SubMenuBegin = MENU_ITEM_TYPE_SUBMENU_BEGIN,
