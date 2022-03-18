@@ -34,7 +34,7 @@ namespace ui::prefwidgets::gtkmm
   {
   public:
     explicit Builder() = default;
-    ~Builder() = default;
+    ~Builder() override = default;
 
     std::shared_ptr<Widget> build(std::shared_ptr<ui::prefwidgets::Widget> def, std::shared_ptr<ContainerWidget> container);
     std::shared_ptr<SizeGroup> get_size_group(std::shared_ptr<ui::prefwidgets::SizeGroup> def) override;

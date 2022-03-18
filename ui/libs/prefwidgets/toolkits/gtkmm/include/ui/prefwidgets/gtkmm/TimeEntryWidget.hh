@@ -31,7 +31,7 @@ namespace ui::prefwidgets::gtkmm
   {
   public:
     TimeEntryWidget(std::shared_ptr<ui::prefwidgets::Time> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
-    ~TimeEntryWidget() = default;
+    ~TimeEntryWidget() override = default;
 
   private:
     void init_ui(std::shared_ptr<ContainerWidget> container);

@@ -31,7 +31,7 @@ namespace ui::prefwidgets::gtkmm
   {
   public:
     ChoiceWidget(std::shared_ptr<ui::prefwidgets::Choice> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
-    ~ChoiceWidget() = default;
+    ~ChoiceWidget() override = default;
 
   private:
     void init_ui(std::shared_ptr<ContainerWidget> container);

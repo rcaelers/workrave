@@ -29,7 +29,7 @@ HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab, bool fill)
 
 HigCategoryPanel::HigCategoryPanel(const char *lab, bool fill)
 {
-  Gtk::Label *widg = new Gtk::Label();
+  auto *widg = new Gtk::Label();
   widg->set_markup(std::string("<span weight=\"bold\">") + lab + "</span>");
   widg->set_alignment(0.0);
   init(*widg, fill);
@@ -81,7 +81,7 @@ HigCategoryPanel::add_widget(Gtk::Widget &widget, bool expand, bool fill)
 void
 HigCategoryPanel::add_caption(const char *text)
 {
-  Gtk::Label *lab = new Gtk::Label();
+  auto *lab = new Gtk::Label();
   lab->set_markup(std::string("<span weight=\"bold\">") + text + "</span>");
   lab->set_alignment(0.0);
   add_caption(*lab);

@@ -27,7 +27,7 @@ namespace ui::prefwidgets::gtkmm
   public:
     Widget() = default;
     explicit Widget(BuilderRegistry *registry);
-    ~Widget() = default;
+    virtual ~Widget() = default;
 
     void add_to_size_groups(std::shared_ptr<ui::prefwidgets::Widget> def, Gtk::Widget *widget);
 

@@ -34,7 +34,7 @@ namespace ui::prefwidgets::gtkmm
   {
   public:
     FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
-    ~FrameWidget() = default;
+    ~FrameWidget() override = default;
 
     void add(std::shared_ptr<Widget> w) override;
     void add_label(const std::string &label, Gtk::Widget &widget, bool expand = false, bool fill = false) override;

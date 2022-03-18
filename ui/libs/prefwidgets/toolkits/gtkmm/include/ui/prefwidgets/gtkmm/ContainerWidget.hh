@@ -32,7 +32,7 @@ namespace ui::prefwidgets::gtkmm
   public:
     ContainerWidget() = default;
     explicit ContainerWidget(BuilderRegistry *registry);
-    ~ContainerWidget() = default;
+    ~ContainerWidget() override = default;
 
     virtual void add(std::shared_ptr<Widget> widget) = 0;
     virtual void add_label(const std::string &label, Gtk::Widget &widget, bool expand = false, bool fill = false) = 0;

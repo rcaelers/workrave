@@ -49,10 +49,10 @@ ToggleWidget::init_ui(std::shared_ptr<ContainerWidget> container)
   bool idx = def->get_value();
   widget->set_active(idx);
 
-  def->init([this](int idx) { widget->set_active(idx); });
+  def->init([this](bool on) { widget->set_active(on); });
   widget->signal_toggled().connect([this]() {
-    int idx = widget->get_active();
-    def->set_value(idx);
+    bool on = widget->get_active();
+    def->set_value(on);
   });
 
   container->add_widget(*widget);

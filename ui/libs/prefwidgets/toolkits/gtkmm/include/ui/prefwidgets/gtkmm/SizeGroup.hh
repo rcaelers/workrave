@@ -25,10 +25,12 @@
 #include <gtkmm.h>
 
 #include "ui/prefwidgets/SizeGroup.hh"
-#include "Widget.hh"
+
 
 namespace ui::prefwidgets::gtkmm
 {
+  class Widget;
+
   class SizeGroup
   {
   public:

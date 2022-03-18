@@ -25,15 +25,15 @@
 class HigCategoryPanel : public Gtk::VBox
 {
 public:
-  HigCategoryPanel(Gtk::Widget &lab, bool fill = false);
-  HigCategoryPanel(const char *lab, bool fill = false);
+  explicit HigCategoryPanel(Gtk::Widget &lab, bool fill = false);
+  explicit HigCategoryPanel(const char *lab, bool fill = false);
   HigCategoryPanel();
-  Gtk::Label *add_label(const char *lab, Gtk::Widget &widget, bool expand = false, bool fill = false);
+  Gtk::Label *add_label(const char *text, Gtk::Widget &widget, bool expand = false, bool fill = false);
   void add_label(Gtk::Label &label, Gtk::Widget &widget, bool expand = false, bool fill = false);
   void add_widget(Gtk::Widget &widget, bool expand = false, bool fill = false);
 
   void add_caption(Gtk::Widget &lab);
-  void add_caption(const char *lab);
+  void add_caption(const char *text);
 
 private:
   void init(Gtk::Widget &lab, bool fill = false);

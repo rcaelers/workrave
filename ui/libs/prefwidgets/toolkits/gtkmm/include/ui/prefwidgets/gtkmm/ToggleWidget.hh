@@ -32,7 +32,7 @@ namespace ui::prefwidgets::gtkmm
   {
   public:
     ToggleWidget(std::shared_ptr<ui::prefwidgets::Toggle> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
-    ~ToggleWidget() = default;
+    ~ToggleWidget() override = default;
 
   private:
     void init_ui(std::shared_ptr<ContainerWidget> container);

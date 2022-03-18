@@ -34,7 +34,7 @@ namespace ui::prefwidgets::gtkmm
   public:
     BoxWidget(std::shared_ptr<ui::prefwidgets::Box> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
     explicit BoxWidget(Gtk::Box *box);
-    ~BoxWidget() = default;
+    ~BoxWidget() override = default;
 
     void add(std::shared_ptr<Widget> widget) override;
     void add_label(const std::string &label, Gtk::Widget &widget, bool expand = false, bool fill = false) override;
