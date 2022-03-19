@@ -19,19 +19,17 @@
 #  include "config.h"
 #endif
 
+#include "PreludeWindow.hh"
+
 #include <gtkmm.h>
-#include <gdkmm/devicemanager.h>
 
-#include "debug.hh"
 #include "commonui/nls.h"
-
-#include "ui/Text.hh"
+#include "core/ICore.hh"
+#include "debug.hh"
 #include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
+#include "ui/Text.hh"
 
-#include "core/ICore.hh"
-
-#include "PreludeWindow.hh"
 #include "Frame.hh"
 #include "TimeBar.hh"
 #include "Hig.hh"
@@ -64,10 +62,6 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
       on_screen_changed_event(get_screen());
       set_size_request(head.get_width(), head.get_height());
     }
-
-#if defined(PLATFORM_OS_WINDOWS)
-  init_avoid_pointer_polling();
-#endif
 
   realize();
 
@@ -115,7 +109,6 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
     }
 
   set_can_focus(false);
-
   set_accept_focus(false);
   set_focus_on_map(false);
 
@@ -123,16 +116,6 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   stick();
 
   this->head = head;
-}
-
-PreludeWindow::~PreludeWindow()
-{
-#if defined(PLATFORM_OS_WINDOWS)
-  if (avoid_signal.connected())
-    {
-      avoid_signal.disconnect();
-    }
-#endif
 }
 
 void
@@ -182,10 +165,10 @@ PreludeWindow::add(Gtk::Widget &widget)
           Gtk::Window::add(*window_frame);
         }
 
-#if !defined(PLATFORM_OS_WINDOWS)
+      //#if !defined(PLATFORM_OS_WINDOWS)
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
       window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event));
-#endif
+      //#endif
     }
 
   window_frame->add(widget);
@@ -227,7 +210,9 @@ PreludeWindow::refresh()
       HWND hAncestor = GetAncestor(hwnd, GA_ROOT);
       HWND hDesktop = GetDesktopWindow();
       if (hAncestor && hDesktop && hAncestor != hDesktop)
-        hwnd = hAncestor;
+        {
+          hwnd = hAncestor;
+        }
       // Set toplevel window topmost!
       SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
     }
@@ -311,84 +296,18 @@ PreludeWindow::on_frame_flash_event(bool frame_visible)
   refresh();
 }
 
-#if defined(PLATFORM_OS_WINDOWS)
-// Sets whether the window should run away for the mouse pointer.
-void
-PreludeWindow::init_avoid_pointer_polling()
-{
-  TRACE_ENTRY();
-  if (!avoid_signal.connected())
-    {
-      int x, y;
-      get_pointer_location(x, y);
-
-      TRACE_MSG("d {} {}", x, y);
-
-      POINT p;
-      GetCursorPos(&p);
-      TRACE_MSG("p {} {}", p.x, p.y);
-      gdk_offset_x = p.x - x;
-      gdk_offset_y = p.y - y;
-      TRACE_MSG("offset {} {}", gdk_offset_x, gdk_offset_y);
-
-      avoid_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer_event), 150);
-    }
-  did_avoid = false;
-}
-
-bool
-PreludeWindow::on_avoid_pointer_timer_event()
-{
-  TRACE_ENTRY();
-  /*
-     display->get_pointer reads low-level keyboard state, and that's a
-     problem for anti-hook monitors. use GetCursorPos() instead.
-   */
-  POINT p;
-  GetCursorPos(&p);
-
-  int winx, winy;
-  set_gravity(Gdk::GRAVITY_STATIC);
-  get_position(winx, winy);
-
-  int width, height;
-  Gtk::Allocation a = frame->get_allocation();
-  width = a.get_width();
-  height = a.get_height();
-
-  int px = p.x - gdk_offset_x;
-  int py = p.y - gdk_offset_y;
-
-  if (px >= winx && px < winx + width && py >= winy && py < winy + height)
-    {
-      avoid_pointer();
-    }
-
-  return true;
-}
-
-#endif // PLATFORM_OS_WINDOWS
-
-#if !defined(PLATFORM_OS_WINDOWS)
-
-//! GDK EventNotifyEvent notification.
 bool
 PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 {
   (void)event;
-
   avoid_pointer();
   return false;
 }
 
-#endif
-
-//! Move window if pointer is neat specified location.
 void
 PreludeWindow::avoid_pointer()
 {
   TRACE_ENTRY();
-  Glib::RefPtr<Gdk::Window> window = get_window();
 
   did_avoid = true;
 
@@ -403,6 +322,7 @@ PreludeWindow::avoid_pointer()
     }
   else
     {
+      Glib::RefPtr<Gdk::Window> window = get_window();
       window->get_geometry(winx, winy, width, height);
     }
 
@@ -487,13 +407,4 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
           window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
         }
     }
-}
-
-void
-PreludeWindow::get_pointer_location(int &x, int &y)
-{
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  Glib::RefPtr<Gdk::DeviceManager> device_manager = display->get_device_manager();
-  Glib::RefPtr<Gdk::Device> device = device_manager->get_client_pointer();
-  device->get_position(x, y);
 }

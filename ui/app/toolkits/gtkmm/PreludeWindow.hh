@@ -36,7 +36,7 @@ class PreludeWindow
 {
 public:
   PreludeWindow(HeadInfo head, workrave::BreakId break_id);
-  ~PreludeWindow() override;
+  ~PreludeWindow() override = default;
 
   void start() override;
   void stop() override;
@@ -49,13 +49,7 @@ private:
   void on_frame_flash_event(bool frame_visible);
   void add(Gtk::Widget &widget) override;
 
-#if defined(PLATFORM_OS_WINDOWS)
-  void init_avoid_pointer_polling();
-  bool on_avoid_pointer_timer_event();
-#else
   bool on_enter_notify_event(GdkEventCrossing *event) override;
-#endif
-  void get_pointer_location(int &x, int &y);
   void avoid_pointer();
 
   bool on_draw_event(const ::Cairo::RefPtr<::Cairo::Context> &cr);
@@ -64,14 +58,6 @@ private:
   void on_size_allocate_event(Gtk::Allocation &allocation);
 
 private:
-#if defined(PLATFORM_OS_WINDOWS)
-  //! Avoid time signal
-  sigc::connection avoid_signal;
-
-  int gdk_offset_x{0};
-  int gdk_offset_y{0};
-#endif
-
   //! Avoid margin.
   const int SCREEN_MARGIN{20};
 
