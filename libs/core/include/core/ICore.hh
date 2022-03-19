@@ -66,6 +66,9 @@ namespace workrave
     //! Is the user currently active?
     [[nodiscard]] virtual bool is_user_active() const = 0;
 
+    //! Is the user taking a break?
+    [[nodiscard]] virtual bool is_taking() const = 0;
+
     //! Retrieves the operation mode.
     [[nodiscard]] virtual OperationMode get_active_operation_mode() = 0;
 
