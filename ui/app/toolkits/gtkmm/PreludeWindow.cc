@@ -140,7 +140,7 @@ PreludeWindow::start()
 {
   TRACE_ENTRY();
   // Need to realize window before it is shown
-  // Otherwise, there is not gobj()...
+  // Otherwise, there is no gobj()...
   realize_if_needed();
 
   // Set some window hints.
