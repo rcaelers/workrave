@@ -20,14 +20,8 @@ libs/core/src/BreakControl.cc
 libs/core/src/Core.cc
 libs/core/src/CoreConfig.cc
 libs/core/src/DayTimePred.cc
-libs/core/src/DistributionManager.cc
-libs/core/src/DistributionSocketLink.cc
-libs/core/src/GIOSocketDriver.cc
-libs/core/src/IdleLogManager.cc
 libs/core/src/LocalActivityMonitor.cc
-libs/core/src/PacketBuffer.cc
 libs/core/src/ReadingActivityMonitor.cc
-libs/core/src/SocketDriver.cc
 libs/core/src/Statistics.cc
 libs/core/src/TimePredFactory.cc
 libs/core/src/Timer.cc
@@ -110,9 +104,6 @@ ui/app/toolkits/gtkmm/HeadInfo.cc
 ui/app/toolkits/gtkmm/Hig.cc
 ui/app/toolkits/gtkmm/MainWindow.cc
 ui/app/toolkits/gtkmm/MicroBreakWindow.cc
-ui/app/toolkits/gtkmm/NetworkJoinDialog.cc
-ui/app/toolkits/gtkmm/NetworkLogDialog.cc
-ui/app/toolkits/gtkmm/NetworkPreferencePage.cc
 ui/app/toolkits/gtkmm/PreferencesDialog.cc
 ui/app/toolkits/gtkmm/PreludeWindow.cc
 ui/app/toolkits/gtkmm/RestBreakWindow.cc

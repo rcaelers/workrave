@@ -35,10 +35,6 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#  include "DistributionManager.hh"
-#endif
-
 #ifdef HAVE_DBUS
 #  include "dbus/IDBus.hh"
 #  include "DBusWorkrave.hh"

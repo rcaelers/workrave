@@ -52,20 +52,8 @@ class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
 
-#ifdef HAVE_DISTRIBUTION
-#  include "DistributionManager.hh"
-#  include "IDistributionClientMessage.hh"
-#  include "DistributionListener.hh"
-#endif
-
 class Core
-  :
-#ifdef HAVE_DISTRIBUTION
-  public IDistributionClientMessage
-  , public DistributionListener
-  ,
-#endif
-  public ICore
+  : public ICore
   , public workrave::config::IConfiguratorListener
 {
 public:
@@ -90,9 +78,6 @@ public:
   bool is_user_active() const override;
   std::string get_break_stage(BreakId id);
 
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *get_distribution_manager() const override;
-#endif
   Statistics *get_statistics() const override;
   void set_core_events_listener(ICoreEventListener *l) override;
   void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) override;
@@ -184,35 +169,6 @@ private:
   void update_active_operation_mode();
   void set_usage_mode_internal(UsageMode mode, bool persistent);
 
-#ifdef HAVE_DISTRIBUTION
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) override;
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer) override;
-
-  bool request_break_state(PacketBuffer &buffer);
-  bool set_break_state(bool master, PacketBuffer &buffer);
-
-  bool request_timer_state(PacketBuffer &buffer) const;
-  bool set_timer_state(PacketBuffer &buffer);
-
-  bool set_monitor_state(bool master, PacketBuffer &buffer);
-
-  enum BreakControlMessage
-  {
-    BCM_POSTPONE,
-    BCM_SKIP,
-    BCM_ABORT_PRELUDE,
-    BCM_START_BREAK,
-  };
-
-  void send_break_control_message(BreakId break_id, BreakControlMessage message);
-  void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param);
-  bool set_break_control(PacketBuffer &buffer);
-
-  void signon_remote_client(std::string client_id) override;
-  void signoff_remote_client(std::string client_id) override;
-  void compute_timers();
-#endif // HAVE_DISTRIBUTION
-
 private:
   //! The one and only instance
   static Core *instance;
@@ -288,22 +244,6 @@ private:
 
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;
-
-#ifdef HAVE_DISTRIBUTION
-  //! The Distribution Manager
-  DistributionManager *dist_manager{nullptr};
-
-  //! State of the remote master.
-  TracedField<ActivityState> remote_state{"core.remote_state", ACTIVITY_IDLE};
-
-  //! Manager that collects idle times of all clients.
-  IdleLogManager *idlelog_manager{nullptr};
-
-#  ifndef NDEBUG
-  //! A fake activity monitor for testing puposes.
-  FakeActivityMonitor *fake_monitor{nullptr};
-#  endif
-#endif
 
   //! External activity
   std::map<std::string, int64_t> external_activity;

@@ -58,9 +58,6 @@ private:
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
   Gtk::Widget *create_sounds_page();
-#ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *create_network_page();
-#endif
   Gtk::Widget *create_applet_page();
   Gtk::Widget *create_mainwindow_page();
   bool on_focus_in_event(GdkEventFocus *event) override;

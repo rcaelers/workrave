@@ -59,10 +59,6 @@ static struct Menuitems menu_data[] = {{MENU_COMMAND_OPEN, TRUE, TRUE, "Open", "
                                        {MENU_COMMAND_MODE_NORMAL, FALSE, FALSE, "Normal", NULL},
                                        {MENU_COMMAND_MODE_QUIET, FALSE, FALSE, "Quiet", NULL},
                                        {MENU_COMMAND_MODE_SUSPENDED, FALSE, FALSE, "Suspended", NULL},
-                                       {MENU_COMMAND_NETWORK_CONNECT, FALSE, FALSE, "Join", "NetworkConnect"},
-                                       {MENU_COMMAND_NETWORK_DISCONNECT, FALSE, FALSE, "Disconnect", "NetworkDisconnect"},
-                                       {MENU_COMMAND_NETWORK_LOG, FALSE, FALSE, "ShowLog", "NetworkLog"},
-                                       {MENU_COMMAND_NETWORK_RECONNECT, FALSE, FALSE, "Reconnect", "NetworkReconnect"},
                                        {MENU_COMMAND_STATISTICS, FALSE, FALSE, "Statistics", "Statistics"},
                                        {MENU_COMMAND_ABOUT, FALSE, TRUE, "About", NULL},
                                        {MENU_COMMAND_MODE_READING, FALSE, FALSE, "ReadingMode", "ReadingMode"},
@@ -372,14 +368,6 @@ static const GtkActionEntry menu_actions[] = {
   {"Restbreak", NULL, N_("_Restbreak"), NULL, NULL, G_CALLBACK(on_menu_command)},
 
   {"Mode", NULL, N_("_Mode"), NULL, NULL, NULL},
-
-  {"Network", NULL, N_("_Network"), NULL, NULL, NULL},
-
-  {"Join", NULL, N_("_Join"), NULL, NULL, G_CALLBACK(on_menu_command)},
-
-  {"Disconnect", NULL, N_("_Disconnect"), NULL, NULL, G_CALLBACK(on_menu_command)},
-
-  {"Reconnect", NULL, N_("_Reconnect"), NULL, NULL, G_CALLBACK(on_menu_command)},
 
   {"About", GTK_STOCK_ABOUT, N_("_About"), NULL, NULL, G_CALLBACK(on_menu_about)},
 

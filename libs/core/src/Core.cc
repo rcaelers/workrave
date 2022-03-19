@@ -55,15 +55,6 @@
 #include "utils/AssetPath.hh"
 #include "utils/Paths.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#  include "DistributionManager.hh"
-#  include "IdleLogManager.hh"
-#  include "PacketBuffer.hh"
-#  ifndef NDEBUG
-#    include "FakeActivityMonitor.hh"
-#  endif
-#endif
-
 #include "dbus/DBusFactory.hh"
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef interface
@@ -118,19 +109,6 @@ Core::~Core()
     }
 
   delete statistics;
-
-#ifdef HAVE_DISTRIBUTION
-  if (idlelog_manager != nullptr)
-    {
-      idlelog_manager->terminate();
-      delete idlelog_manager;
-    }
-
-  delete dist_manager;
-#  ifndef NDEBUG
-  delete fake_monitor;
-#  endif
-#endif
 }
 
 /********************************************************************************/
@@ -147,10 +125,6 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
 
   init_configurator();
   init_monitor(display_name);
-
-#ifdef HAVE_DISTRIBUTION
-  init_distribution_manager();
-#endif
 
   init_breaks();
   init_statistics();
@@ -254,17 +228,6 @@ Core::init_bus()
 void
 Core::init_monitor(const char *display_name)
 {
-#ifdef HAVE_DISTRIBUTION
-#  ifndef NDEBUG
-  fake_monitor = nullptr;
-  const char *env = getenv("WORKRAVE_FAKE");
-  if (env != nullptr)
-    {
-      fake_monitor = new FakeActivityMonitor();
-    }
-#  endif
-#endif
-
   workrave::input_monitor::InputMonitorFactory::init(configurator, display_name);
 
   configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, workrave::config::CONFIG_FLAG_INITIAL);
@@ -296,28 +259,6 @@ Core::init_breaks()
       breaks[i].init(BreakId(i), configurator, application);
     }
 }
-
-#ifdef HAVE_DISTRIBUTION
-//! Initializes the monitor based on the specified configuration.
-void
-Core::init_distribution_manager()
-{
-  dist_manager = new DistributionManager();
-  assert(dist_manager != nullptr);
-
-  dist_manager->init(configurator);
-  dist_manager->register_client_message(DCM_BREAKS, DCMT_MASTER, this);
-  dist_manager->register_client_message(DCM_TIMERS, DCMT_MASTER, this);
-  dist_manager->register_client_message(DCM_MONITOR, DCMT_MASTER, this);
-  dist_manager->register_client_message(DCM_IDLELOG, DCMT_SIGNON, this);
-  dist_manager->register_client_message(DCM_BREAKCONTROL, DCMT_PASSIVE, this);
-
-  dist_manager->add_listener(this);
-
-  idlelog_manager = new IdleLogManager(dist_manager->get_my_id());
-  idlelog_manager->init();
-}
-#endif
 
 //! Initializes the statistics.
 void
@@ -541,15 +482,6 @@ Core::get_break_stage(BreakId id)
     }
 }
 
-#ifdef HAVE_DISTRIBUTION
-//! Returns the distribution manager.
-DistributionManager *
-Core::get_distribution_manager() const
-{
-  return dist_manager;
-}
-#endif
-
 //! Retrieves the operation mode.
 OperationMode
 Core::get_active_operation_mode()
@@ -769,10 +701,6 @@ void
 Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
   do_force_break(id, break_hint);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message_bool_param(id, BCM_START_BREAK, break_hint.get());
-#endif
 }
 
 //! Forces the start of the specified break.
@@ -915,10 +843,6 @@ void
 Core::postpone_break(BreakId break_id)
 {
   do_postpone_break(break_id);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message(break_id, BCM_POSTPONE);
-#endif
 }
 
 //! User skips the specified break.
@@ -926,10 +850,6 @@ void
 Core::skip_break(BreakId break_id)
 {
   do_skip_break(break_id);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message(break_id, BCM_SKIP);
-#endif
 }
 
 //! User stops the prelude.
@@ -938,10 +858,6 @@ Core::stop_prelude(BreakId break_id)
 {
   TRACE_ENTRY_PAR(break_id);
   do_stop_prelude(break_id);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message(break_id, BCM_ABORT_PRELUDE);
-#endif
 }
 
 //! User postpones the specified break.
@@ -1039,48 +955,8 @@ Core::heartbeat()
 void
 Core::process_distribution()
 {
-#ifdef HAVE_DISTRIBUTION
-  bool previous_master_mode = master_node;
-#endif
   // Default
   master_node = true;
-
-#ifdef HAVE_DISTRIBUTION
-
-  // Retrieve State.
-  ActivityState state = monitor->get_current_state();
-
-  if (dist_manager != nullptr)
-    {
-      dist_manager->heartbeart();
-      dist_manager->set_lock_master(state == ACTIVITY_ACTIVE);
-      master_node = dist_manager->is_master();
-
-      if (!master_node && state == ACTIVITY_ACTIVE)
-        {
-          master_node = dist_manager->claim();
-        }
-    }
-
-  if ((previous_master_mode != master_node) || (master_node && local_state != state))
-    {
-      PacketBuffer buffer;
-      buffer.create();
-
-      buffer.pack_ushort(1);
-      buffer.pack_ushort(state);
-
-      dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
-
-      buffer.clear();
-      bool ret = request_timer_state(buffer);
-      if (ret)
-        {
-          dist_manager->broadcast_client_message(DCM_TIMERS, buffer);
-        }
-    }
-
-#endif
 }
 
 //! Computes the current state.
@@ -1112,32 +988,6 @@ Core::process_state()
     }
 
   monitor_state = local_state;
-
-#if defined(HAVE_DISTRIBUTION) && !defined(NDEBUG)
-  if (fake_monitor != nullptr)
-    {
-      monitor_state = fake_monitor->get_current_state();
-    }
-#endif
-
-#ifdef HAVE_DISTRIBUTION
-  if (!master_node)
-    {
-      if (active_insist_policy == InsistPolicy::Ignore)
-        {
-          // Our own monitor is suspended, also ignore
-          // activity from remote parties.
-          monitor_state = ACTIVITY_IDLE;
-        }
-      else
-        {
-          monitor_state = remote_state;
-        }
-    }
-
-  // Update our idle history.
-  idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), monitor_state);
-#endif
 }
 
 void
@@ -1542,10 +1392,6 @@ Core::daily_reset()
       CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
     }
 
-#ifdef HAVE_DISTRIBUTION
-  idlelog_manager->reset();
-#endif
-
   save_state();
 }
 
@@ -1737,404 +1583,6 @@ Core::is_user_active() const
 {
   return monitor_state == ACTIVITY_ACTIVE;
 }
-
-/********************************************************************************/
-/**** Distribution                                                         ******/
-/********************************************************************************/
-
-#ifdef HAVE_DISTRIBUTION
-//! The distribution manager requests a client message.
-bool
-Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
-{
-  bool ret = false;
-
-  switch (id)
-    {
-    case DCM_BREAKS:
-      ret = request_break_state(buffer);
-      break;
-
-    case DCM_TIMERS:
-      ret = request_timer_state(buffer);
-      break;
-
-    case DCM_CONFIG:
-      break;
-
-    case DCM_MONITOR:
-      ret = true;
-      break;
-
-    case DCM_BREAKCONTROL:
-      ret = true;
-      break;
-
-    case DCM_IDLELOG:
-      idlelog_manager->get_idlelog(buffer);
-      ret = true;
-      break;
-
-    default:
-      break;
-    }
-
-  return ret;
-}
-
-//! The distribution manager delivers a client message.
-bool
-Core::client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer)
-{
-  bool ret = false;
-
-  (void)client_id;
-
-  switch (id)
-    {
-    case DCM_BREAKS:
-      ret = set_break_state(master, buffer);
-      break;
-
-    case DCM_TIMERS:
-      ret = set_timer_state(buffer);
-      break;
-
-    case DCM_MONITOR:
-      ret = set_monitor_state(master, buffer);
-      break;
-
-    case DCM_BREAKCONTROL:
-      ret = set_break_control(buffer);
-      break;
-
-    case DCM_CONFIG:
-      break;
-
-    case DCM_IDLELOG:
-      idlelog_manager->set_idlelog(buffer);
-      compute_timers();
-      ret = true;
-      break;
-
-    default:
-      break;
-    }
-
-  return ret;
-}
-
-bool
-Core::request_break_state(PacketBuffer &buffer)
-{
-  buffer.pack_ushort(BREAK_ID_SIZEOF);
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      BreakControl *bi = breaks[i].get_break_control();
-
-      if (bi != nullptr)
-        {
-          BreakControl::BreakStateData state_data{};
-          bi->get_state_data(state_data);
-
-          int pos = buffer.bytes_written();
-
-          buffer.pack_ushort(0);
-          buffer.pack_byte((guint8)state_data.forced_break);
-          buffer.pack_byte((guint8)state_data.reached_max_prelude);
-          buffer.pack_ulong((guint32)state_data.prelude_count);
-          buffer.pack_ulong((guint32)state_data.break_stage);
-          buffer.pack_ulong((guint32)state_data.prelude_time);
-
-          buffer.poke_ushort(pos, buffer.bytes_written() - pos);
-        }
-      else
-        {
-          buffer.pack_ushort(0);
-        }
-    }
-
-  return true;
-}
-
-bool
-Core::set_break_state(bool master, PacketBuffer &buffer)
-{
-  int num_breaks = buffer.unpack_ushort();
-
-  if (num_breaks > BREAK_ID_SIZEOF)
-    {
-      num_breaks = BREAK_ID_SIZEOF;
-    }
-
-  for (int i = 0; i < num_breaks; i++)
-    {
-      BreakControl *bi = breaks[i].get_break_control();
-
-      BreakControl::BreakStateData state_data{};
-
-      int data_size = buffer.unpack_ushort();
-
-      if (data_size > 0)
-        {
-          state_data.forced_break = buffer.unpack_byte();
-          state_data.reached_max_prelude = buffer.unpack_byte();
-          state_data.prelude_count = buffer.unpack_ulong();
-          state_data.break_stage = buffer.unpack_ulong();
-          state_data.prelude_time = buffer.unpack_ulong();
-
-          bi->set_state_data(master, state_data);
-        }
-    }
-
-  return true;
-}
-
-bool
-Core::request_timer_state(PacketBuffer &buffer) const
-{
-  TRACE_ENTRY();
-  buffer.pack_ushort(BREAK_ID_SIZEOF);
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      Timer *t = breaks[i].get_timer();
-      buffer.pack_string(t->get_id().c_str());
-
-      Timer::TimerStateData state_data{};
-
-      t->get_state_data(state_data);
-
-      int pos = buffer.bytes_written();
-
-      buffer.pack_ushort(0);
-      buffer.pack_ulong((guint32)state_data.current_time);
-      buffer.pack_ulong((guint32)state_data.elapsed_time);
-      buffer.pack_ulong((guint32)state_data.elapsed_idle_time);
-      buffer.pack_ulong((guint32)state_data.last_pred_reset_time);
-      buffer.pack_ulong((guint32)state_data.total_overdue_time);
-
-      buffer.pack_ulong((guint32)state_data.last_limit_time);
-      buffer.pack_ulong((guint32)state_data.last_limit_elapsed);
-      buffer.pack_ushort((guint16)state_data.snooze_inhibited);
-
-      buffer.poke_ushort(pos, buffer.bytes_written() - pos);
-    }
-
-  return true;
-}
-
-bool
-Core::set_timer_state(PacketBuffer &buffer)
-{
-  TRACE_ENTRY();
-  int num_breaks = buffer.unpack_ushort();
-
-  TRACE_MSG("numtimer = {}", num_breaks);
-  for (int i = 0; i < num_breaks; i++)
-    {
-      gchar *id = buffer.unpack_string();
-      TRACE_MSG("id = {}", id);
-
-      if (id == nullptr)
-        {
-          return false;
-        }
-
-      Timer *t = (Timer *)get_timer(id);
-
-      Timer::TimerStateData state_data{};
-
-      buffer.unpack_ushort();
-
-      state_data.current_time = buffer.unpack_ulong();
-      state_data.elapsed_time = buffer.unpack_ulong();
-      state_data.elapsed_idle_time = buffer.unpack_ulong();
-      state_data.last_pred_reset_time = buffer.unpack_ulong();
-      state_data.total_overdue_time = buffer.unpack_ulong();
-
-      state_data.last_limit_time = buffer.unpack_ulong();
-      state_data.last_limit_elapsed = buffer.unpack_ulong();
-      state_data.snooze_inhibited = buffer.unpack_ushort();
-
-      TRACE_MSG("state = {} {} {} {} {}",
-                state_data.current_time,
-                state_data.elapsed_time,
-                state_data.elapsed_idle_time,
-                state_data.last_pred_reset_time,
-                state_data.total_overdue_time);
-
-      if (t != nullptr)
-        {
-          t->set_state_data(state_data);
-        }
-
-      g_free(id);
-    }
-
-  return true;
-}
-
-bool
-Core::set_monitor_state(bool master, PacketBuffer &buffer)
-{
-  , (void)master;
-  TRACE_ENTRY_PAR(master, master_node);
-
-  if (!master_node)
-    {
-      buffer.unpack_ushort();
-      remote_state = (ActivityState)buffer.unpack_ushort();
-      TRACE_VAR(remote_state);
-    }
-
-  return true;
-}
-
-//! A remote client has signed on.
-void
-Core::signon_remote_client(string client_id)
-{
-  idlelog_manager->signon_remote_client(client_id);
-
-  if (master_node)
-    {
-      PacketBuffer buffer;
-      buffer.create();
-
-      ActivityState state = monitor->get_current_state();
-
-      buffer.pack_ushort(1);
-      buffer.pack_ushort(state);
-
-      dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
-
-      buffer.clear();
-    }
-}
-
-//! A remote client has signed off.
-void
-Core::signoff_remote_client(string client_id)
-{
-  TRACE_ENTRY_PAR(client_id);
-  TRACE_MSG("Master = {}", dist_manager->get_master_id());
-  if (client_id == dist_manager->get_master_id())
-    {
-      TRACE_MSG("Idle");
-      remote_state = ACTIVITY_IDLE;
-    }
-
-  idlelog_manager->signoff_remote_client(client_id);
-}
-
-void
-Core::compute_timers()
-{
-  TRACE_ENTRY();
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      int64_t autoreset = breaks[i].get_timer()->get_auto_reset();
-      int64_t idle = idlelog_manager->compute_idle_time();
-
-      if (autoreset != 0)
-        {
-          int64_t active_time = idlelog_manager->compute_active_time(autoreset);
-
-          if (idle > autoreset)
-            {
-              idle = autoreset;
-            }
-
-          breaks[i].get_timer()->set_values(active_time, idle);
-        }
-      else
-        {
-          int64_t active_time = idlelog_manager->compute_total_active_time();
-          breaks[i].get_timer()->set_values(active_time, idle);
-        }
-    }
-}
-
-//! Sends a break control message to all workrave clients.
-void
-Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
-{
-  PacketBuffer buffer;
-  buffer.create();
-
-  buffer.pack_ushort(4);
-  buffer.pack_ushort(break_id);
-  buffer.pack_ushort(message);
-
-  dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
-}
-
-//! Sends a break control message with boolean parameter to all workrave clients.
-void
-Core::send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param)
-{
-  PacketBuffer buffer;
-  buffer.create();
-
-  buffer.pack_ushort(5);
-  buffer.pack_ushort(break_id);
-  buffer.pack_ushort(message);
-  buffer.pack_byte(param);
-
-  dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
-}
-
-bool
-Core::set_break_control(PacketBuffer &buffer)
-{
-  int data_size = buffer.unpack_ushort();
-
-  if (data_size >= 4)
-    {
-      BreakId break_id = (BreakId)buffer.unpack_ushort();
-      BreakControlMessage message = (BreakControlMessage)buffer.unpack_ushort();
-
-      switch (message)
-        {
-        case BCM_POSTPONE:
-          do_postpone_break(break_id);
-          break;
-
-        case BCM_SKIP:
-          do_skip_break(break_id);
-          break;
-
-        case BCM_ABORT_PRELUDE:
-          do_stop_prelude(break_id);
-          break;
-
-        case BCM_START_BREAK:
-          if (data_size >= 6)
-            {
-              // Only for post 1.9.1 workrave...
-              int break_hint = (int)buffer.unpack_ushort();
-              do_force_break(break_id, (BreakHint)break_hint);
-            }
-          else if (data_size >= 5)
-            {
-              // Only for post 1.6.2 workrave...
-              bool initiated_by_user = (bool)buffer.unpack_byte();
-              do_force_break(break_id, initiated_by_user ? BreakHint::UserInitiated : BreakHint::Normal);
-            }
-          else
-            {
-              do_force_break(break_id, BreakHint::UserInitiated);
-            }
-          break;
-        }
-    }
-
-  return true;
-}
-
-#endif // HAVE_DISTRIBUTION
 
 namespace workrave
 {

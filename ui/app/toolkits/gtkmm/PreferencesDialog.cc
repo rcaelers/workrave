@@ -57,10 +57,6 @@
 #include "core/CoreConfig.hh"
 #include "config/IConfigurator.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#  include "NetworkPreferencePage.hh"
-#endif
-
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
 #endif
@@ -102,16 +98,9 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplication> app)
   gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif
 
-#ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *network_page = Gtk::manage(create_network_page());
-#endif
-
   // Notebook
   add_page(_("Timers"), "time.png", *timer_page);
   add_page(_("User interface"), "display.png", *gui_page);
-#ifdef HAVE_DISTRIBUTION
-  add_page(_("Network"), "network.png", *network_page);
-#endif
 
   // Gtk::Widget *plugins_page = Gtk::manage( new PluginsPreferencePage() );
   // add_page( _("Plugins"), "workrave-icon-huge.png", *plugins_page );
@@ -536,14 +525,6 @@ PreferencesDialog::create_applet_page()
   // Timers page
   return new TimerBoxPreferencePage(app, "applet");
 }
-
-#ifdef HAVE_DISTRIBUTION
-Gtk::Widget *
-PreferencesDialog::create_network_page()
-{
-  return new NetworkPreferencePage(app);
-}
-#endif
 
 void
 PreferencesDialog::add_page(const char *label, const char *image, Gtk::Widget &widget)

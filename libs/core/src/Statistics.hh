@@ -46,17 +46,9 @@ class PacketBuffer;
 class Core;
 class IInputMonitor;
 
-#ifdef HAVE_DISTRIBUTION
-#  include "IDistributionClientMessage.hh"
-#  include "PacketBuffer.hh"
-#endif
-
 class Statistics
   : public workrave::IStatistics
   , public workrave::input_monitor::IInputMonitorListener
-#ifdef HAVE_DISTRIBUTION
-  , public IDistributionClientMessage
-#endif
 {
 private:
   enum StatsMarker
@@ -147,18 +139,8 @@ private:
   void save_day(DailyStatsImpl *stats);
   void save_day(DailyStatsImpl *stats, std::ofstream &stats_file);
   void load(std::ifstream &infile, bool history);
-
   void day_to_history(DailyStatsImpl *stats);
-  void day_to_remote_history(DailyStatsImpl *stats);
-
   void add_history(DailyStatsImpl *stats);
-
-#ifdef HAVE_DISTRIBUTION
-  void init_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) override;
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer) override;
-  bool pack_stats(PacketBuffer &buffer, const DailyStatsImpl *stats);
-#endif
 
 private:
   //! Interface to the core_control.

@@ -63,11 +63,6 @@ namespace workrave
     //! Return the statistics interface.
     [[nodiscard]] virtual IStatistics *get_statistics() const = 0;
 
-#ifdef HAVE_DISTRIBUTION
-    //! Returns the distribution manager (if available).
-    [[nodiscard]] virtual IDistributionManager *get_distribution_manager() const = 0;
-#endif
-
     //! Is the user currently active?
     [[nodiscard]] virtual bool is_user_active() const = 0;
 
