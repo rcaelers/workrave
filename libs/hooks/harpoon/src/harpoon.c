@@ -28,7 +28,7 @@
 
 #include "harpoon.h"
 
-#ifndef WH_KEYBOARD_LL
+#if !defined(WH_KEYBOARD_LL)
 #  error WH_KEYBOARD_LL not defined.
 #endif
 
@@ -547,7 +547,7 @@ harpoon_mouse_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, mouse_ll_hook, TRUE);
 }
 
-#ifndef _WIN64
+#if !defined(_WIN64)
 static LRESULT CALLBACK
 harpoon_mouse_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -659,7 +659,7 @@ harpoon_keyboard_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, keyboard_ll_hook, forcecallnext);
 }
 
-#ifndef _WIN64
+#if !defined(_WIN64)
 static LRESULT CALLBACK
 harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -674,7 +674,7 @@ harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 }
 #endif
 
-#ifdef _WIN64
+#if defined(_WIN64)
 static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -994,7 +994,7 @@ harpoon_hook_block_only(void)
     {
       harpoon_unhook();
 
-#ifdef _WIN64
+#if defined(_WIN64)
       if (msg_hook == NULL)
         {
           msg_hook = SetWindowsHookEx(WH_GETMESSAGE, harpoon_msg_block_hook, dll_handle, 0);

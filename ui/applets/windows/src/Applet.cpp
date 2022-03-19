@@ -110,7 +110,7 @@ ClearDeskBandCache()
   StringFromCLSID(CATID_DeskBand, &pwszCATID);
   if (pwszCATID)
     {
-#ifdef UNICODE
+#if defined(UNICODE)
       lstrcpy(szCATID, pwszCATID);
 #else
       WideCharToMultiByte(CP_ACP, 0, pwszCATID, -1, szCATID, ARRAYSIZE(szCATID), NULL, NULL);
@@ -174,7 +174,7 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
 
   if (pwsz)
     {
-#ifdef UNICODE
+#if defined(UNICODE)
       lstrcpy(szCLSID, pwsz);
 #else
       WideCharToMultiByte(CP_ACP, 0, pwsz, -1, szCLSID, ARRAYSIZE(szCLSID), NULL, NULL);

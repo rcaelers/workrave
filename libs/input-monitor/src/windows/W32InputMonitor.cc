@@ -29,7 +29,7 @@
 
 #include "input-monitor/Harpoon.hh"
 
-#ifndef HAVE_STRUCT_MOUSEHOOKSTRUCT
+#if !defined(HAVE_STRUCT_MOUSEHOOKSTRUCT)
 typedef struct tagMOUSEHOOKSTRUCT
 {
   POINT pt;
@@ -39,7 +39,7 @@ typedef struct tagMOUSEHOOKSTRUCT
 } MOUSEHOOKSTRUCT, FAR *LPMOUSEHOOKSTRUCT, *PMOUSEHOOKSTRUCT;
 #endif
 
-#ifndef HAVE_STRUCT_MOUSEHOOKSTRUCTEX
+#if !defined(HAVE_STRUCT_MOUSEHOOKSTRUCTEX)
 typedef struct
 {
   struct tagMOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
@@ -60,7 +60,7 @@ W32InputMonitor::W32InputMonitor(IConfigurator::Ptr config)
 
 W32InputMonitor::~W32InputMonitor()
 {
-#ifdef HAVE_CRASH_REPORT
+#if defined(HAVE_CRASH_REPORT)
   CrashReporter::instance().unregister_crash_handler(this);
 #endif
 
@@ -74,7 +74,7 @@ W32InputMonitor::init()
     {
       singleton = this;
 
-#ifdef HAVE_CRASH_REPORT
+#if defined(HAVE_CRASH_REPORT)
       CrashReporter::instance().register_crash_handler(this);
 #endif
 

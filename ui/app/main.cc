@@ -24,7 +24,7 @@
 #include <cstdio>
 #include <fstream>
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <io.h>
 #  include <fcntl.h>
 #  include "utils/W32ActiveSetup.hh"
@@ -65,7 +65,7 @@ run(int argc, char **argv)
       TRACE_VAR(std::string("Crashhandler init exception:") + e.what());
     }
 #endif
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   W32ActiveSetup::update_all();
 #endif
 

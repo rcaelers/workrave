@@ -1,7 +1,7 @@
 #ifndef DESKTOP_WINDOW_H
 #define DESKTOP_WINDOW_H
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 
 #  include <gdk/gdk.h>
 

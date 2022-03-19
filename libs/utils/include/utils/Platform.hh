@@ -32,13 +32,13 @@ namespace workrave
       static bool can_position_windows();
       static bool running_on_wayland();
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
       static void *get_default_display();
       static std::string get_default_display_name();
       static unsigned long get_default_root_window();
 #endif
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
       static bool registry_set_value(const char *path, const char *name, const char *value);
       static bool registry_get_value(const char *path, const char *name, char *out);
       static std::string get_application_name();

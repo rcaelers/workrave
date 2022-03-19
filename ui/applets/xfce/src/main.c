@@ -332,7 +332,7 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
                         "Workrave",
                         "program-name",
                         "Workrave",
-#ifdef WORKRAVE_GIT_VERSION
+#if defined(WORKRAVE_GIT_VERSION)
                         "version",
                         WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
 #else

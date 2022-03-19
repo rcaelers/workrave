@@ -36,7 +36,7 @@
 #include "ui/IToolkit.hh"
 #include "utils/Signals.hh"
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSDock.hh"
 #endif
 

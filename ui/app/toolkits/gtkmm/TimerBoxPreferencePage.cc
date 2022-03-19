@@ -99,7 +99,7 @@ TimerBoxPreferencePage::create_page()
   if (name == "main_window")
     {
       // Always-on-top
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
       if (!workrave::utils::Platform::running_on_wayland())
 #endif
         {

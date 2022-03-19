@@ -20,7 +20,7 @@
 
 #include "IMixer.hh"
 
-#ifdef HAVE_MMDEVICEAPI_H
+#if defined(HAVE_MMDEVICEAPI_H)
 #  include <mmdeviceapi.h>
 #  include <endpointvolume.h>
 #else

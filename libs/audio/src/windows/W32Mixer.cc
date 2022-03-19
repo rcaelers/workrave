@@ -76,7 +76,7 @@ W32Mixer::init()
   IMMDeviceEnumerator *device_enum = NULL;
   IMMDevice *default_device = NULL;
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
   const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
   const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
   const IID IID_IAudioEndpointVolume = __uuidof(IAudioEndpointVolume);

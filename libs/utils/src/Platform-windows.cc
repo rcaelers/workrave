@@ -23,7 +23,7 @@
 
 #include "utils/Platform.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
 #endif
 

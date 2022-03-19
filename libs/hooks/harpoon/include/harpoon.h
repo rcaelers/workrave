@@ -104,15 +104,15 @@ extern "C"
 }
 #endif
 
-#ifndef XBUTTON1
+#if !defined(XBUTTON1)
 #  define XBUTTON1 0x0001
 #endif
 
-#ifndef XBUTTON2
+#if !defined(XBUTTON2)
 #  define XBUTTON2 0x0002
 #endif
 
-#ifndef PLATFORM_OS_WINDOWS_NATIVE
+#if !defined(PLATFORM_OS_WINDOWS_NATIVE)
 
 #  ifndef WM_XBUTTONDOWN
 #    define WM_XBUTTONDOWN 523

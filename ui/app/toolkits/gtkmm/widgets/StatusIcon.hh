@@ -64,7 +64,7 @@ private:
   sigc::signal<void> activated_signal;
   sigc::signal<void, std::string> balloon_activated_signal;
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   WindowsStatusIcon *status_icon{nullptr};
 #else
   Glib::RefPtr<Gtk::StatusIcon> status_icon;

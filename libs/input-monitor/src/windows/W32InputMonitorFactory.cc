@@ -125,7 +125,7 @@ W32InputMonitorFactory::create_activity_monitor()
 
           else if (actual_monitor_method == "normal")
             {
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
               monitor = IInputMonitor::Ptr(new W32InputMonitor(config));
               initialized = monitor->init();
 

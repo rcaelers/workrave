@@ -26,7 +26,7 @@
 #include "utils/Paths.hh"
 #include "debug.hh"
 
-// #ifdef PLATFORM_OS_MACOS
+// #if defined(PLATFORM_OS_MACOS)
 // #  include "MacOSAppletWindow.hh"
 // #endif
 

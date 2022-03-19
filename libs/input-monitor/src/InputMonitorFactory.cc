@@ -18,13 +18,13 @@
 
 #include "input-monitor/InputMonitorFactory.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include "W32InputMonitorFactory.hh"
 #endif
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSInputMonitorFactory.hh"
 #endif
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 #  include "UnixInputMonitorFactory.hh"
 #endif
 

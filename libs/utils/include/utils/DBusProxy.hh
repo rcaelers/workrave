@@ -20,7 +20,7 @@
 #ifndef DBUSPROXY_HH
 #define DBUSPROXY_HH
 
-#ifdef HAVE_DBUS_GIO
+#if defined(HAVE_DBUS_GIO)
 #  include "DBusProxy-gio.hh"
 #else
 #  error "This header file requires DBUS_GIO"

@@ -402,7 +402,7 @@ PreferencesDialog::create_sounds_page()
   filefilter = Gtk::FileFilter::create();
 
   filefilter->set_name(_("Wavefiles"));
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   filefilter->add_pattern("*.wav");
 #else
   filefilter->add_mime_type("audio/x-wav");

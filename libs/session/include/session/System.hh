@@ -18,7 +18,7 @@
 #ifndef SYSTEM_HH
 #define SYSTEM_HH
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
 #  include <glib.h>
 #endif
 

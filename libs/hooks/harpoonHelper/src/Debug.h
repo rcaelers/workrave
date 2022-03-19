@@ -20,7 +20,7 @@
 
 #include <assert.h>
 
-#ifdef NDEBUG
+#if defined(NDEBUG)
 
 #  define TRACE_ENTER(x)
 #  define TRACE_ENTER_MSG(x, y)

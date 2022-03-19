@@ -20,7 +20,7 @@
 
 #include <cassert>
 
-#ifndef TRACING
+#if !defined(TRACING)
 
 #  define TRACE_ENTRY(...)
 #  define TRACE_ENTRY_MSG(...)

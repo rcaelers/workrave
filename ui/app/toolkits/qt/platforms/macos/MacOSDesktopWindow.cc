@@ -32,7 +32,7 @@
 #  include <QtMacExtras>
 #endif
 
-#ifdef HAVE_QT6
+#if defined(HAVE_QT6)
 extern auto qt_mac_toQImage(CGImageRef image) -> QImage;
 #endif
 

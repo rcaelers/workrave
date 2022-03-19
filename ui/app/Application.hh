@@ -23,7 +23,7 @@
 #include <string>
 #include <memory>
 
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
 #  include <QCoreApplication>
 #endif
 

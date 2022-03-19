@@ -24,7 +24,7 @@
 #include <cstddef>
 #include <cstdlib>
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -61,7 +61,7 @@ public:
   ~Core() override;
 
   static Core *get_instance();
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   static void reset_instance();
 #endif
 
@@ -128,7 +128,7 @@ public:
   ICoreHooks::Ptr get_hooks() const override;
 
 private:
-#ifndef NDEBUG
+#if !defined(NDEBUG)
   enum ScriptCommand
   {
     SCRIPT_START = 1,
@@ -254,7 +254,7 @@ private:
   //! Usage mode changed notification.
   boost::signals2::signal<void(workrave::UsageMode)> usage_mode_changed_signal;
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   friend class Test;
 #endif
 };
@@ -271,7 +271,7 @@ Core::get_instance()
   return instance;
 }
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 inline void
 Core::reset_instance()
 {

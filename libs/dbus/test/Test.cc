@@ -27,7 +27,7 @@
 #define WORKRAVE_TEST_SERVICE "org.workrave.Test"
 
 #define BOOST_TEST_MODULE workravedbus
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  include <boost/test/unit_test.hpp>
 #else
 #  include <boost/test/included/unit_test.hpp>

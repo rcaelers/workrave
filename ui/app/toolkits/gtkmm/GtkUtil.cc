@@ -28,7 +28,7 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
 #  include <gtk/gtk.h>
 #  include <gdk/gdkwin32.h>

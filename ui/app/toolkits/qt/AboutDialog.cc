@@ -45,7 +45,7 @@ AboutDialog::AboutDialog()
   QString description = qstr(qformat(tr("<h3>Workrave %s</h3>"
                                         "<br/>%s<br/>"))
                              %
-#ifdef WORKRAVE_GIT_VERSION
+#if defined(WORKRAVE_GIT_VERSION)
                              (WORKRAVE_VERSION "(" WORKRAVE_GIT_VERSION ")") %
 #else
                              (WORKRAVE_VERSION "") %

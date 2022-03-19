@@ -37,17 +37,17 @@
 
 #include "input-monitor/IInputMonitorListener.hh"
 
-#ifdef HAVE_APP_GTK
+#if defined(HAVE_APP_GTK)
 #  include <gdk/gdkx.h>
 #endif
 
 using namespace std;
 
-#ifndef HAVE_APP_GTK
+#if !defined(HAVE_APP_GTK)
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
 #endif
 
-#ifndef HAVE_APP_GTK
+#if !defined(HAVE_APP_GTK)
 //! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
@@ -294,7 +294,7 @@ X11InputMonitor::handle_button(XEvent *event)
 void
 X11InputMonitor::error_trap_enter()
 {
-#ifdef HAVE_APP_GTK
+#if defined(HAVE_APP_GTK)
   gdk_x11_display_error_trap_push(gdk_display_get_default());
 #else
   old_handler = XSetErrorHandler(&errorHandler);
@@ -304,7 +304,7 @@ X11InputMonitor::error_trap_enter()
 void
 X11InputMonitor::error_trap_exit()
 {
-#ifdef HAVE_APP_GTK
+#if defined(HAVE_APP_GTK)
   gdk_display_flush(gdk_display_get_default());
   gdk_x11_display_error_trap_pop_ignored(gdk_display_get_default());
 #else

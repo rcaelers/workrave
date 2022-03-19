@@ -25,7 +25,7 @@
 
 #include "commonui/nls.h"
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  define snprintf _snprintf
 #  define snwprintf _snwprintf
 #endif

@@ -237,7 +237,7 @@ on_menu_about(GSimpleAction *action, GVariant *parameter, gpointer user_data)
   gtk_show_about_dialog(NULL,
                         "name",
                         "Workrave",
-#ifdef WORKRAVE_GIT_VERSION
+#if defined(WORKRAVE_GIT_VERSION)
                         "version",
                         WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
 #else

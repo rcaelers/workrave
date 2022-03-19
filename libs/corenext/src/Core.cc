@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -42,7 +42,7 @@
 #include "Statistics.hh"
 
 #include "dbus/DBusFactory.hh"
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkraveNext.hh"
 #  define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/"
 #  define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
@@ -86,7 +86,7 @@ Core::init(IApp *app, const char *display_name)
 
   init_configurator();
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
     {
       monitor = hooks->hook_create_monitor()();
@@ -118,7 +118,7 @@ Core::init_configurator()
 {
   string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_create_configurator())
     {
       configurator = hooks->hook_create_configurator()();
@@ -185,7 +185,7 @@ Core::init_configurator()
 void
 Core::init_bus()
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   try
     {
       extern void init_DBusWorkraveNext(IDBus::Ptr dbus);

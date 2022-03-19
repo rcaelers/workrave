@@ -40,7 +40,7 @@ ToolkitUnix::ToolkitUnix(int argc, char **argv)
 void
 ToolkitUnix::init(std::shared_ptr<IApplication> app)
 {
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   XInitThreads();
 #endif
 
@@ -55,7 +55,7 @@ ToolkitUnix::init(std::shared_ptr<IApplication> app)
   app->register_plugin(std::make_shared<X11SystrayAppletWindow>(app));
   app->register_plugin(std::make_shared<GnomeSession>(app));
 
-#ifdef HAVE_INDICATOR
+#if defined(HAVE_INDICATOR)
   app->register_plugin(std::make_shared<IndicatorAppletMenu>(app));
 #endif
 }

@@ -35,7 +35,7 @@
 #include "Timer.hh"
 #include "Statistics.hh"
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "dbus/IDBus.hh"
 #  include "DBusWorkrave.hh"
 #endif
@@ -714,7 +714,7 @@ BreakControl::post_event(CoreEvent event)
 void
 BreakControl::send_postponed()
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
@@ -728,7 +728,7 @@ BreakControl::send_postponed()
 void
 BreakControl::send_skipped()
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
@@ -780,7 +780,7 @@ BreakControl::send_signal(BreakStage stage)
 {
   (void)stage;
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   std::string progress = get_stage_text(stage);
 
   if (progress != "")

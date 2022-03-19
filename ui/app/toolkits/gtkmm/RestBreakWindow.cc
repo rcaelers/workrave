@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include "ui/windows/WindowsForceFocus.hh"
 #endif
 
@@ -261,7 +261,7 @@ RestBreakWindow::set_ignore_activity(bool i)
 {
   auto core = app->get_core();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   if (WindowsForceFocus::GetForceFocusValue())
     {
       i = true;

@@ -21,7 +21,7 @@
 
 #include "Configurator.hh"
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 

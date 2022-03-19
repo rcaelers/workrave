@@ -4,7 +4,7 @@
 
 #include "desktop-window.h"
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 
 #  include <gdk/gdk.h>
 #  include <gdk/gdk.h>

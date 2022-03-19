@@ -23,7 +23,7 @@
 
 #include <cstdlib>
 
-#ifdef HAVE_GTK
+#if defined(HAVE_GTK)
 #  include <glib.h>
 #  include <gdk/gdk.h>
 #  ifdef PLATFORM_OS_UNIX
@@ -34,7 +34,7 @@
 #  endif
 #endif
 
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
 #  include <QtGui>
 #  if defined(HAVE_QT5)
 #    include <qdesktopwidget.h>
@@ -49,7 +49,7 @@
 
 using namespace workrave::utils;
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 void *
 Platform::get_default_display()
 {
@@ -133,7 +133,7 @@ Platform::unsetenv(const char *name)
   return ::unsetenv(name);
 }
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 bool
 Platform::running_on_wayland()
 {

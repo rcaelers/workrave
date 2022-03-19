@@ -33,7 +33,7 @@
 #include <gio/gio.h>
 
 /* Indicator Stuff */
-#ifdef HAVE_INDICATOR_AYATANA
+#if defined(HAVE_INDICATOR_AYATANA)
 #  include <libayatana-indicator/indicator.h>
 #  include <libayatana-indicator/indicator-object.h>
 #  include <libayatana-indicator/indicator-service-manager.h>

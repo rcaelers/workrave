@@ -100,7 +100,7 @@ Locale::set_locale(const std::string &code)
       Platform::unsetenv("LANG");
     }
 
-#ifndef PLATFORM_OS_WINDOWS_NATIVE
+#if !defined(PLATFORM_OS_WINDOWS_NATIVE)
   ++_nl_msg_cat_cntr;
 #endif
 }
@@ -176,7 +176,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 {
   (void)list;
 
-#ifdef HAVE_LANGUAGE_SELECTION
+#if defined(HAVE_LANGUAGE_SELECTION)
   static bool init_done = false;
 
   if (init_done)

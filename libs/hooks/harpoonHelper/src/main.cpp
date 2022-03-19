@@ -29,7 +29,7 @@
 int WINAPI
 WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-#ifndef NDEBUG
+#if !defined(NDEBUG)
   Debug::init();
 #endif
 

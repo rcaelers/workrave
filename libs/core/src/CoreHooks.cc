@@ -23,7 +23,7 @@
 
 #include "CoreHooks.hh"
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 std::function<workrave::config::IConfigurator::Ptr()> &
 CoreHooks::hook_create_configurator()
 {

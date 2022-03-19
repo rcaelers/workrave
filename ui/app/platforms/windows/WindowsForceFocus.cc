@@ -46,7 +46,7 @@
 using namespace std;
 using namespace workrave;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #  pragma warning(disable : 4102) // warning C4102: unreferenced label
 #endif
 

@@ -19,11 +19,11 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "dbus/IDBus.hh"
 #endif
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 
 #  include "Test.hh"
 

@@ -37,7 +37,7 @@
 #include "Hig.hh"
 #include "GtkUtil.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <gdk/gdkwin32.h>
 #endif
 
@@ -65,7 +65,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
       set_size_request(head.get_width(), head.get_height());
     }
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   init_avoid_pointer_polling();
 #endif
 
@@ -127,7 +127,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
 
 PreludeWindow::~PreludeWindow()
 {
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   if (avoid_signal.connected())
     {
       avoid_signal.disconnect();
@@ -182,7 +182,7 @@ PreludeWindow::add(Gtk::Widget &widget)
           Gtk::Window::add(*window_frame);
         }
 
-#ifndef PLATFORM_OS_WINDOWS
+#if !defined(PLATFORM_OS_WINDOWS)
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
       window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event));
 #endif
@@ -311,7 +311,7 @@ PreludeWindow::on_frame_flash_event(bool frame_visible)
   refresh();
 }
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 // Sets whether the window should run away for the mouse pointer.
 void
 PreludeWindow::init_avoid_pointer_polling()
@@ -369,7 +369,7 @@ PreludeWindow::on_avoid_pointer_timer_event()
 
 #endif // PLATFORM_OS_WINDOWS
 
-#ifndef PLATFORM_OS_WINDOWS
+#if !defined(PLATFORM_OS_WINDOWS)
 
 //! GDK EventNotifyEvent notification.
 bool

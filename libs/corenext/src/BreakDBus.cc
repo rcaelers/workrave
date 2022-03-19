@@ -23,7 +23,7 @@
 
 #include "BreakDBus.hh"
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkraveNext.hh"
 #endif
 
@@ -59,7 +59,7 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
 void
 BreakDBus::on_break_event(BreakEvent event)
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
   if (iface != nullptr)
     {
@@ -75,7 +75,7 @@ BreakDBus::on_break_stage_changed(BreakStage stage)
   (void)stage;
   (void)break_id;
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   std::string progress = Break::get_stage_text(stage);
 
   if (!progress.empty())

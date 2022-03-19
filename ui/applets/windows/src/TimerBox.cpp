@@ -154,7 +154,7 @@ TimerBox::init_icons()
   TRACE_ENTER("TimerBox::init_icons");
   const char *icon_ids[] = {"micropause", "restbreak", "dailylimit"};
 
-#ifdef _WIN64
+#if defined(_WIN64)
   UINT dpi = GetDpiForWindow(parent_window);
 #else
   UINT dpi = 96;

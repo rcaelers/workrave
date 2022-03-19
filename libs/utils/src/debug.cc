@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#ifdef TRACING
+#if defined(TRACING)
 
 #  include "debug.hh"
 

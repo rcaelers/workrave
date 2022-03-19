@@ -28,7 +28,7 @@
 #include "ui/IPreludeWindow.hh"
 #include "TimeBar.hh"
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MouseMonitor.hh"
 #endif
 
@@ -73,7 +73,7 @@ private:
   QLabel *image{nullptr};
   Frame *frame{nullptr};
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
   MouseMonitor::Ptr mouse_monitor;
 #endif
 };

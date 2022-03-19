@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <gdk/gdkwin32.h>
 #  include <shellapi.h>
 #endif
@@ -43,7 +43,7 @@
 #include "ToolkitMenu.hh"
 #include "commonui/MenuDefs.hh"
 
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 #endif
 
@@ -59,7 +59,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplication> app)
 MainWindow::~MainWindow()
 {
   TRACE_ENTRY();
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
   if (timeout_connection.connected())
     {
       timeout_connection.disconnect();
@@ -67,10 +67,10 @@ MainWindow::~MainWindow()
 #endif
 
   delete timer_box_control;
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
   win32_exit();
 #endif
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   delete leader;
 #endif
 }
@@ -110,7 +110,7 @@ MainWindow::open_window()
   TRACE_ENTRY();
   if (timer_box_view->get_visible_count() > 0)
     {
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
       win32_show(true);
       show_all();
 #else
@@ -208,7 +208,7 @@ MainWindow::init()
   std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
 
   const char *icon_files[] = {
-#ifndef PLATFORM_OS_WINDOWS
+#if !defined(PLATFORM_OS_WINDOWS)
     // This causes a crash on windows
     "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.svg",
     "16x16" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
@@ -251,7 +251,7 @@ MainWindow::init()
   eventbox->set_visible_window(false);
   eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
 
-  //#ifndef PLATFORM_OS_MACOS
+  //#if !defined(PLATFORM_OS_MACOS)
   // No popup menu on OS X
   eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &MainWindow::on_timer_view_button_press_event));
   //#endif
@@ -271,7 +271,7 @@ MainWindow::init()
 
   // (end window decorators)
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   // HACK. this sets a different group leader in the WM_HINTS....
   // Without this hack, metacity makes ALL windows on-top.
   leader = new Gtk::Window(Gtk::WINDOW_POPUP);
@@ -283,7 +283,7 @@ MainWindow::init()
   stick();
   setup();
 
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
 
   win32_init();
   set_gravity(Gdk::GRAVITY_STATIC);
@@ -423,7 +423,7 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
   return ret;
 }
 
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
 void
 MainWindow::win32_show(bool b)
 {
@@ -600,7 +600,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
       return;
     }
 
-#ifndef PLATFORM_OS_WINDOWS
+#if !defined(PLATFORM_OS_WINDOWS)
   // Returns bogus results on windows...sometime.
   if (event != nullptr)
     {
@@ -710,7 +710,7 @@ MainWindow::relocate_window(int width, int height)
     }
 }
 
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
 
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

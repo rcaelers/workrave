@@ -26,11 +26,11 @@
 #include <shlobj.h>
 #include <shldisp.h>
 
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
 #  include "harpoon.h"
 #endif
 
-#ifndef HAVE_ISHELLDISPATCH
+#if !defined(HAVE_ISHELLDISPATCH)
 #  undef INTERFACE
 #  define INTERFACE IShellDispatch
 DECLARE_INTERFACE_(IShellDispatch, IUnknown)
@@ -90,7 +90,7 @@ W32Shutdown::shutdown_helper(bool for_real)
       ret = true;
       if (for_real)
         {
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
           harpoon_unblock_input();
 #endif
           pShellDispatch->ShutdownWindows();

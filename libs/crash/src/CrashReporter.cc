@@ -37,7 +37,7 @@
 #include "debug.hh"
 #include "utils/Paths.hh"
 
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
 #  include "input-monitor/Harpoon.hh"
 #endif
 
@@ -97,7 +97,7 @@ bool
 CrashReporter::Pimpl::crashpad_handler(EXCEPTION_POINTERS *info)
 {
   TRACE_ENTRY();
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
   Harpoon::unblock_input();
 #endif
   CrashReporter::instance().pimpl->call_crash_handlers();
@@ -117,7 +117,7 @@ CrashReporter::Pimpl::init()
       const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
       const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
       std::string handler_exe = "WorkraveCrashHandler.exe";
 #else
       std::string handler_exe = "WorkraveCrashHandler";
@@ -132,10 +132,10 @@ CrashReporter::Pimpl::init()
 
       annotations["product"] = "Workrave";
       annotations["version"] = WORKRAVE_VERSION;
-#ifdef WORKRAVE_GIT_VERSION
+#if defined(WORKRAVE_GIT_VERSION)
       annotations["commit"] = WORKRAVE_GIT_VERSION;
 #endif
-#ifdef WORKRAVE_BUILD_ID
+#if defined(WORKRAVE_BUILD_ID)
       annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif
 

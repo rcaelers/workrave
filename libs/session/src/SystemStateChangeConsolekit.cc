@@ -11,7 +11,7 @@
 
 #include "SystemStateChangeConsolekit.hh"
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
 #  include <glib.h>
 #endif
 

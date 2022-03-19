@@ -224,8 +224,8 @@ Toolkit::show_about()
       about_dialog->set_logo(pixbuf);
       about_dialog->set_translator_credits(workrave_translators);
 
-#ifdef GIT_VERSION
-      about_dialog->set_version(WORKRAVE_VERSION "\n(" GIT_VERSION ")");
+#if defined(WORKRAVE_GIT_VERSION)
+      about_dialog->set_version(WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")");
 #else
       about_dialog->set_version(WORKRAVE_VERSION);
 #endif
@@ -414,7 +414,7 @@ Toolkit::init_multihead()
 void
 Toolkit::init_gui()
 {
-#ifdef IS_THIS_NEEDED_FOR_GTK3
+#if defined(IS_THIS_NEEDED_FOR_GTK3)
   static const gchar *rc_string = {
     "style \"progressBarWidth\"\n"
     "{\n"

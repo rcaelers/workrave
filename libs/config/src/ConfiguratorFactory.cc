@@ -27,16 +27,16 @@
 
 #include "IniConfigurator.hh"
 #include "XmlConfigurator.hh"
-#ifdef HAVE_GSETTINGS
+#if defined(HAVE_GSETTINGS)
 #  include "GSettingsConfigurator.hh"
 #endif
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include "W32Configurator.hh"
 #endif
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSConfigurator.hh"
 #endif
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
 #  include "QtSettingsConfigurator.hh"
 #endif
 

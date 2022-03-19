@@ -81,19 +81,19 @@ private:
   static HMODULE process_handle;
 };
 
-#ifndef WM_XBUTTONDOWN
+#if !defined(WM_XBUTTONDOWN)
 #  define WM_XBUTTONDOWN 523
 #endif
 
-#ifndef WM_XBUTTONUP
+#if !defined(WM_XBUTTONUP)
 #  define WM_XBUTTONUP 524
 #endif
 
-#ifndef WM_XBUTTONDBLCLK
+#if !defined(WM_XBUTTONDBLCLK)
 #  define WM_XBUTTONDBLCLK 525
 #endif
 
-#ifndef WM_MOUSEHWHEEL
+#if !defined(WM_MOUSEHWHEEL)
 #  define WM_MOUSEHWHEEL 526
 #endif
 

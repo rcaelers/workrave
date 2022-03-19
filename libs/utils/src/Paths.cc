@@ -26,13 +26,13 @@
 
 #include "debug.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include <shlobj.h>
 #  include <shlwapi.h>
 #  include <windows.h>
 #endif
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -50,7 +50,7 @@ namespace
 {
   static std::filesystem::path portable_directory;
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   std::filesystem::path get_special_folder(REFKNOWNFOLDERID folder)
   {
     PWSTR path = nullptr;
@@ -218,7 +218,7 @@ Paths::get_data_directories()
       TRACE_VAR(e.what());
     }
 
-#ifdef TRACING
+#if defined(TRACING)
   for (const auto &d: canonicalize(directories))
     {
       TRACE_VAR(d.string());
@@ -254,7 +254,7 @@ Paths::get_config_directories()
       TRACE_VAR(e.what());
     }
 
-#ifdef TRACING
+#if defined(TRACING)
   for (const auto &d: canonicalize(directories))
     {
       TRACE_VAR(d.string());

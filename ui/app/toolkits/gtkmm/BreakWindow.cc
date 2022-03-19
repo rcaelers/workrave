@@ -23,7 +23,7 @@
 
 #include <cstring>
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include "ui/windows/WindowsCompat.hh"
 #  include "ui/windows/WindowsForceFocus.hh"
 #  include <gdk/gdkwin32.h>
@@ -31,7 +31,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
 
@@ -89,7 +89,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, BreakId break_id, He
           set_size_request(head.get_width(), head.get_height());
         }
     }
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   else
     {
       if (Platform::running_on_wayland())
@@ -106,7 +106,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, BreakId break_id, He
   // Otherwise, there is not gobj()...
   realize();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   // Here's the secret: IMMEDIATELY after your window creation, set focus to it
   // THEN position it. So:
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
@@ -124,7 +124,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, BreakId break_id, He
 
   bool initial_ignore_activity = false;
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   if (WindowsForceFocus::GetForceFocusValue())
     initial_ignore_activity = true;
 
@@ -167,7 +167,7 @@ BreakWindow::init_gui()
 
           if (block_mode == BlockMode::All && !fullscreen_grab)
             {
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
               desktop_window = new DesktopWindow(head.get_x(), head.get_y(), head.get_width(), head.get_height());
               add(*window_frame);
 
@@ -215,7 +215,7 @@ BreakWindow::~BreakWindow()
       frame->set_frame_flashing(0);
     }
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   delete desktop_window;
 #endif
 }
@@ -678,7 +678,7 @@ BreakWindow::start()
   update_break_window();
   center();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   if (desktop_window != nullptr)
     {
       desktop_window->set_visible(true);
@@ -688,7 +688,7 @@ BreakWindow::start()
 
   GtkUtil::set_always_on_top(this, true);
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   if (force_focus_on_break_start && this->head.monitor == 0)
     {
@@ -731,7 +731,7 @@ BreakWindow::stop()
 
   hide();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   if (desktop_window != nullptr)
     {
       desktop_window->set_visible(false);
@@ -747,7 +747,7 @@ BreakWindow::refresh()
 
   update_break_window();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   refresh_break_window();
 #endif
 }
@@ -790,7 +790,7 @@ BreakWindow::on_screen_changed(const Glib::RefPtr<Gdk::Screen> &previous_screen)
     }
 }
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 /* WindowsCompat::RefreshBreakWindow()
 
 Refresh a BreakWindow:

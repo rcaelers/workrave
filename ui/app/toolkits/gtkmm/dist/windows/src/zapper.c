@@ -4,7 +4,7 @@
 
 #include "zapper.h"
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #  pragma comment(lib, "user32.lib")
 
 #  pragma warning(push)
@@ -279,6 +279,6 @@ KillProcess(char *proces_name_to_kill)
   return ret;
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #  pragma warning(pop)
 #endif

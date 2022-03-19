@@ -23,7 +23,7 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
 #  include <glib.h>
 #endif
 

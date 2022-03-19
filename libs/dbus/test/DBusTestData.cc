@@ -25,7 +25,7 @@
 
 #include "dbus/IDBus.hh"
 
-#ifdef DBUS_BACKEND_QT
+#if defined(DBUS_BACKEND_QT)
 QDBusArgument &
 operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message)
 {

@@ -21,7 +21,7 @@
 #include <string>
 #include <gtkmm.h>
 
-#ifdef PLATFORM_OS_WINDOWSLEGACY
+#if defined(PLATFORM_OS_WINDOWSLEGACY)
 #  include <windows.h>
 #  include "ui/TimerBoxControl.hh"
 #endif
@@ -80,7 +80,7 @@ private:
 
   std::shared_ptr<ToolkitMenu> menu;
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   Gtk::Window *leader{nullptr};
 #endif
 
@@ -108,7 +108,7 @@ private:
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
 
-#ifdef PLATFORM_OS_WINDOWS_LEGACY
+#if defined(PLATFORM_OS_WINDOWS_LEGACY)
 private:
   void win32_show(bool b);
   bool win32_show_retry();

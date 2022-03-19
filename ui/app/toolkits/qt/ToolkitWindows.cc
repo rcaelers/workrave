@@ -99,7 +99,7 @@ ToolkitWindows::init_gui()
   Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
 }
 
-#ifndef GUID_DEVINTERFACE_MONITOR
+#if !defined(GUID_DEVINTERFACE_MONITOR)
 static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, {0xb0, 0x76, 0x33, 0xf5, 0x7b, 0xf4, 0xea, 0xa7}};
 #endif
 

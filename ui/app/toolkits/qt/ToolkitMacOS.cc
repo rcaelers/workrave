@@ -25,7 +25,7 @@
 
 // TODO:
 
-// #ifdef PLATFORM_OS_MACOS
+// #if defined(PLATFORM_OS_MACOS)
 // #  include "MacOSAppletWindow.hh"
 // #endif
 

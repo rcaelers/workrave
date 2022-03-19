@@ -451,7 +451,7 @@ BreaksControl::load_state()
 {
   std::filesystem::path path = Paths::get_state_directory() / "state";
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_load_timer_state())
     {
       if (hooks->hook_load_timer_state()(timers))

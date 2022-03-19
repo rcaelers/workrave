@@ -38,19 +38,19 @@ using namespace boost::unit_test;
 
 #include "IniConfigurator.hh"
 #include "XmlConfigurator.hh"
-#ifdef HAVE_GSETTINGS
+#if defined(HAVE_GSETTINGS)
 #  include "GSettingsConfigurator.hh"
 #endif
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include "W32Configurator.hh"
 #endif
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSConfigurator.hh"
 #  import <Foundation/NSUserDefaults.h>
 #  import <Foundation/NSString.h>
 #  import <Foundation/NSBundle.h>
 #endif
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
 #  include "QtSettingsConfigurator.hh"
 #  include <QCoreApplication>
 #endif
@@ -116,7 +116,7 @@ public:
   {
     configurator->remove_listener(this);
 
-#ifdef HAVE_GSETTINGS
+#if defined(HAVE_GSETTINGS)
     g_unsetenv("GSETTINGS_BACKEND");
     g_unsetenv("GSETTINGS_SCHEMA_DIR");
 #endif
@@ -282,7 +282,7 @@ public:
 
 namespace helper
 {
-#ifdef HAVE_GSETTINGS
+#if defined(HAVE_GSETTINGS)
   template<>
   void init<GSettingsConfigurator>(Fixture *fixture)
   {
@@ -292,7 +292,7 @@ namespace helper
     fixture->can_remove = false;
   }
 #endif
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
   template<>
   void init<QtSettingsConfigurator>(Fixture *fixture)
   {
@@ -304,7 +304,7 @@ namespace helper
     settings.clear();
   }
 #endif
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
   template<>
   void init<MacOSConfigurator>(Fixture *fixture)
   {
@@ -318,7 +318,7 @@ namespace helper
       }
   }
 #endif
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   template<>
   void init<W32Configurator>(Fixture *fixture)
   {
@@ -352,26 +352,26 @@ BOOST_FIXTURE_TEST_SUITE(config, Fixture)
 
 using backend_types = boost::mpl::list<IniConfigurator,
                                        XmlConfigurator
-#ifdef HAVE_GSETTINGS
+#if defined(HAVE_GSETTINGS)
                                        ,
                                        GSettingsConfigurator
 #endif
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
                                        ,
                                        QtSettingsConfigurator
 #endif
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
                                        ,
                                        MacOSConfigurator
 #endif
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
                                        ,
                                        W32Configurator
 #endif
                                        >;
 
 using non_file_backend_types = boost::mpl::list<
-#ifdef HAVE_GSETTINGS
+#if defined(HAVE_GSETTINGS)
   GSettingsConfigurator
 #endif
   >;

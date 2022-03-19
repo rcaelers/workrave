@@ -60,7 +60,7 @@ jay satiro, workrave project, september 2007
 #include <windows.h>
 
 #include "W32LowLevelMonitor.hh"
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
 #  include "input-monitor/Harpoon.hh"
 #endif
 
@@ -110,7 +110,7 @@ W32LowLevelMonitor::W32LowLevelMonitor(IConfigurator::Ptr config)
 W32LowLevelMonitor::~W32LowLevelMonitor()
 {
   TRACE_ENTRY();
-#ifdef HAVE_CRASH_REPORT
+#if defined(HAVE_CRASH_REPORT)
   TRACE_MSG("unregister");
   CrashReporter::instance().unregister_crash_handler(this);
 #endif
@@ -143,7 +143,7 @@ W32LowLevelMonitor::init()
 
   terminate();
 
-#ifdef HAVE_CRASH_REPORT
+#if defined(HAVE_CRASH_REPORT)
   CrashReporter::instance().register_crash_handler(this);
 #endif
 
@@ -163,7 +163,7 @@ W32LowLevelMonitor::init()
       return false;
     }
 
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
   Harpoon::init(config, NULL);
 #endif
 
@@ -227,7 +227,7 @@ W32LowLevelMonitor::terminate()
   terminate_thread(callback);
   terminate_thread(dispatch);
 
-#ifdef HAVE_HARPOON
+#if defined(HAVE_HARPOON)
   TRACE_MSG("harpoon");
   Harpoon::terminate();
 #endif

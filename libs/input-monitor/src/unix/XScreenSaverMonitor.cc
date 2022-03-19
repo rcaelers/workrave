@@ -21,7 +21,7 @@
 
 #include "debug.hh"
 
-#ifdef HAVE_GTK
+#if defined(HAVE_GTK)
 #  include <gdk/gdkx.h>
 #endif
 

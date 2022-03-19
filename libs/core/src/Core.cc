@@ -20,7 +20,7 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -61,10 +61,10 @@
 #endif
 #include "dbus/IDBus.hh"
 #include "dbus/DBusException.hh"
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkrave.hh"
 #endif
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 #  include "Test.hh"
 #endif
 
@@ -140,7 +140,7 @@ Core::init_configurator()
 {
   string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_create_configurator())
     {
       configurator = hooks->hook_create_configurator()();
@@ -204,7 +204,7 @@ Core::init_bus()
       dbus = workrave::dbus::DBusFactory::create();
       dbus->init();
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
       extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
 #endif
@@ -213,7 +213,7 @@ Core::init_bus()
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
       dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
 #endif
@@ -234,7 +234,7 @@ Core::init_monitor(const char *display_name)
 
   local_monitor = std::make_shared<LocalActivityMonitor>();
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
     {
       monitor = hooks->hook_create_monitor()();
@@ -567,7 +567,7 @@ Core::set_operation_mode_internal(OperationMode mode)
       CoreConfig::operation_mode().set(mode);
       operation_mode_changed_signal(operation_mode_regular);
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
       if (iface != nullptr)
         {
@@ -679,7 +679,7 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       usage_mode_changed_signal(mode);
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
       if (iface != nullptr)
         {
@@ -1443,7 +1443,7 @@ Core::load_state()
 {
   std::filesystem::path path = Paths::get_state_directory() / "state";
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_load_timer_state())
     {
       Timer *timers[workrave::BREAK_ID_SIZEOF];

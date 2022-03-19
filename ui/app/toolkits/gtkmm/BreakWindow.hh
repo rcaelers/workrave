@@ -31,7 +31,7 @@
 #include "session/System.hh"
 #include "ui/IToolkit.hh"
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 class DesktopWindow;
 #endif
 
@@ -78,7 +78,7 @@ protected:
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   void refresh_break_window();
 #endif
 
@@ -145,7 +145,7 @@ private:
   Glib::RefPtr<Gtk::SizeGroup> box_size_group;
   Glib::RefPtr<Gtk::SizeGroup> button_size_group;
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   DesktopWindow *desktop_window{nullptr};
   bool force_focus_on_break_start{false};
   long parent{0};

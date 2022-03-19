@@ -23,7 +23,7 @@
 
 #include <string>
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
 #  include "WindowsStatusIcon.hh"
 #  include "ui/windows/IToolkitWindows.hh"
 #endif
@@ -74,14 +74,14 @@ StatusIcon::insert_icon()
   auto core = app->get_core();
   OperationMode mode = core->get_regular_operation_mode();
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   status_icon = new WindowsStatusIcon(app);
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 #endif
 
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   status_icon->signal_balloon_activate().connect([this](auto id) { on_balloon_activate(id); });
   status_icon->signal_activate().connect([this]() { on_activate(); });
 #else
@@ -121,7 +121,7 @@ StatusIcon::set_tooltip(const std::string &tip)
 void
 StatusIcon::show_balloon(string id, const string &balloon)
 {
-#ifdef PLATFORM_OS_WINDOWS
+#if defined(PLATFORM_OS_WINDOWS)
   status_icon->show_balloon(id, balloon);
 #else
   (void)id;

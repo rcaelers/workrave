@@ -29,7 +29,7 @@
 #include "debug.hh"
 #include "utils/AssetPath.hh"
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
 #  include <glib.h>
 #endif
 
@@ -115,7 +115,7 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
   boost::property_tree::ptree pt;
   read_xml(file_name, pt);
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
   const char *const *languages = g_get_language_names();
 #else
   const char *const *languages = nullptr;
@@ -167,7 +167,7 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
         }
     }
 
-#ifdef TRACING
+#if defined(TRACING)
   for (auto &exercise: exercises)
     {
       TRACE_MSG("exercise title= {}", exercise.title);

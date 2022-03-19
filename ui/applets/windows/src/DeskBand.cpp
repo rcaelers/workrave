@@ -326,7 +326,7 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO *pdbi)
 {
   TRACE_ENTER_MSG("CDeskBand::GetBandInfo", dwBandID << " " << dwViewMode);
 
-#ifdef _WIN64
+#if defined(_WIN64)
   if (m_hwndParent != nullptr)
     {
       UINT dpi = GetDpiForWindow(m_hwndParent);

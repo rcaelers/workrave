@@ -20,7 +20,7 @@
 
 #include <ctime>
 
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
+#if defined(PLATFORM_OS_WINDOWS_NATIVE)
 typedef __int64 int64_t;
 #else
 #  include <cstdint>
