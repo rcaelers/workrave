@@ -29,6 +29,7 @@
 #include "ui/MenuModel.hh"
 #include "ui/MenuHelper.hh"
 #include "utils/Signals.hh"
+#include "ui/AppHold.hh"
 
 class WindowsStatusIcon
 {
@@ -58,6 +59,7 @@ private:
   std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
+  AppHold apphold;
 
   std::string current_id;
   bool visible{false};

@@ -38,6 +38,8 @@ WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplication> app)
   : toolkit(app->get_toolkit())
   , menu_model(app->get_menu_model())
   , menu_helper(menu_model)
+  , apphold(toolkit)
+
 {
   init();
   menu_helper.setup_event();
@@ -145,6 +147,8 @@ WindowsStatusIcon::set_visible(bool visible)
   if (this->visible != visible)
     {
       this->visible = visible;
+      apphold.set_hold(visible);
+
       if (nid.hWnd != nullptr)
         {
           Shell_NotifyIconW(visible ? NIM_ADD : NIM_DELETE, &nid);
