@@ -59,7 +59,7 @@ private:
   std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
-
+  std::shared_ptr<IApplication> app;
   std::string current_id;
   bool visible{false};
   NOTIFYICONDATAW nid{};
