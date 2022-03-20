@@ -95,7 +95,7 @@ private:
   static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)
 
-#  if defined(GAVE_DBUS_GIO)
+#  if defined(HAVE_DBUS_GIO)
   static void init_DBus();
   static void init_DBus_lock_commands();
   static inline bool add_DBus_lock_cmd(const char *dbus_name,
