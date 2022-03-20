@@ -5,14 +5,14 @@
 
 #  include <gdk/gdk.h>
 
-#  ifdef __cplusplus
+#  if defined(__cplusplus)
 extern "C"
 {
 #  endif
 
   void set_desktop_background(GdkWindow *window);
 
-#  ifdef __cplusplus
+#  if defined(__cplusplus)
 }
 #  endif
 

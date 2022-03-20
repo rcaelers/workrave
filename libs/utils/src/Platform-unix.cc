@@ -26,10 +26,10 @@
 #if defined(HAVE_GTK)
 #  include <glib.h>
 #  include <gdk/gdk.h>
-#  ifdef PLATFORM_OS_UNIX
+#  if defined(PLATFORM_OS_UNIX)
 #    include <gdk/gdkx.h>
 #  endif
-#  ifdef GDK_WINDOWING_WAYLAND
+#  if defined(GDK_WINDOWING_WAYLAND)
 #    include <gdk/gdkwayland.h>
 #  endif
 #endif
@@ -137,7 +137,7 @@ Platform::unsetenv(const char *name)
 bool
 Platform::running_on_wayland()
 {
-#  ifdef GDK_WINDOWING_WAYLAND
+#  if defined(GDK_WINDOWING_WAYLAND)
   GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   return GDK_IS_WAYLAND_DISPLAY(display);
 #  else

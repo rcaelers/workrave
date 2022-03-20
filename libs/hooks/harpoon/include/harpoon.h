@@ -114,46 +114,46 @@ extern "C"
 
 #if !defined(PLATFORM_OS_WINDOWS_NATIVE)
 
-#  ifndef WM_XBUTTONDOWN
+#  if !defined(WM_XBUTTONDOWN)
 #    define WM_XBUTTONDOWN 523
 #  endif
 
-#  ifndef WM_XBUTTONUP
+#  if !defined(WM_XBUTTONUP)
 #    define WM_XBUTTONUP 524
 #  endif
 
-#  ifndef WM_XBUTTONDBLCLK
+#  if !defined(WM_XBUTTONDBLCLK)
 #    define WM_XBUTTONDBLCLK 525
 #  endif
 
-#  ifndef WM_MOUSEHWHEEL
+#  if !defined(WM_MOUSEHWHEEL)
 #    define WM_MOUSEHWHEEL 526
 #  endif
 
-#  ifndef WM_NCXBUTTONDOWN
+#  if !defined(WM_NCXBUTTONDOWN)
 #    define WM_NCXBUTTONDOWN 171
 #  endif
 
-#  ifndef WM_NCXBUTTONUP
+#  if !defined(WM_NCXBUTTONUP)
 #    define WM_NCXBUTTONUP 172
 #  endif
-#  ifndef WM_NCXBUTTONDBLCLK
+#  if !defined(WM_NCXBUTTONDBLCLK)
 #    define WM_NCXBUTTONDBLCLK 173
 #  endif
 
-#  ifndef WM_NCMOUSEHOVER
+#  if !defined(WM_NCMOUSEHOVER)
 #    define WM_NCMOUSEHOVER 672
 #  endif
 
-#  ifndef WM_NCMOUSELEAVE
+#  if !defined(WM_NCMOUSELEAVE)
 #    define WM_NCMOUSELEAVE 674
 #  endif
 
-#  ifndef WM_UNICHAR
+#  if !defined(WM_UNICHAR)
 #    define WM_UNICHAR 265
 #  endif
 
-#  ifndef WM_APPCOMMAND
+#  if !defined(WM_APPCOMMAND)
 #    define WM_APPCOMMAND 793
 #  endif
 

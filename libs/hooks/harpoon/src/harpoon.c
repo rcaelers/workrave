@@ -34,11 +34,11 @@
 
 #if defined(__GNUC__)
 #  define DLLSHARE(v) v __attribute__((section(".shared"), shared))
-#  ifndef INLINE
+#  if !defined(INLINE)
 #    define INLINE inline
 #  endif
 #else
-#  ifndef INLINE
+#  if !defined(INLINE)
 #    define INLINE
 #  endif
 #  define snprintf _snprintf

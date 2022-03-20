@@ -208,7 +208,7 @@ Application::init_nls()
   locale_dir = GNOMELOCALEDIR;
 #  endif
 
-#  ifdef HAVE_SETLOCALE
+#  if defined(HAVE_SETLOCALE)
   setlocale(LC_ALL, "");
 #  endif
 

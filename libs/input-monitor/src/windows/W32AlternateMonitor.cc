@@ -38,7 +38,7 @@
 #  endif
 
 #  include "W32AlternateMonitor.hh"
-#  ifdef HAVE_HARPOON
+#  if defined(HAVE_HARPOON)
 #    include "input-monitor/Harpoon.hh"
 #  endif
 
@@ -87,7 +87,7 @@ W32AlternateMonitor::init()
       goto cleanup;
     }
 
-#  ifdef HAVE_HARPOON
+#  if defined(HAVE_HARPOON)
   Harpoon::init(config, NULL);
 #  endif
 
@@ -120,7 +120,7 @@ W32AlternateMonitor::terminate()
       thread_abort_event = NULL;
     }
 
-#  ifdef HAVE_HARPOON
+#  if defined(HAVE_HARPOON)
   Harpoon::terminate();
 #  endif
 
