@@ -28,7 +28,6 @@
 #include "commonui/MenuDefs.hh"
 #include "utils/StringUtils.hh"
 #include "ui/GUIConfig.hh"
-#include "../../libs/core/src/Core.hh"
 
 #include "debug.hh"
 
@@ -350,10 +349,7 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
             {
             case WM_RBUTTONDOWN:
             {
-              bool taking = Core::get_instance()->is_taking();
-              std::cout << taking;
-              auto test = GUIConfig::block_mode()();
-              std::cout << test;
+              bool taking = status_icon->app->get_core()->is_taking();
               if(!(taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input))){
                 status_icon->show_menu();
               }
