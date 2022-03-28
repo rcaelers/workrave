@@ -54,7 +54,6 @@ private:
 
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
   void set_operation_mode(workrave::OperationMode m);
-  static std::shared_ptr<IApplication> app;
 
 private:
   std::shared_ptr<IToolkit> toolkit;
