@@ -43,10 +43,6 @@
 #include "ToolkitMenu.hh"
 #include "commonui/MenuDefs.hh"
 
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-const char *WIN32_MAIN_CLASS_NAME = "Workrave";
-#endif
-
 using namespace std;
 
 MainWindow::MainWindow(std::shared_ptr<IApplication> app)
@@ -59,34 +55,11 @@ MainWindow::MainWindow(std::shared_ptr<IApplication> app)
 MainWindow::~MainWindow()
 {
   TRACE_ENTRY();
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-  if (timeout_connection.connected())
-    {
-      timeout_connection.disconnect();
-    }
-#endif
-
   delete timer_box_control;
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-  win32_exit();
-#endif
 #if defined(PLATFORM_OS_UNIX)
   delete leader;
 #endif
 }
-
-// bool
-// MainWindow::is_visible() const
-// {
-// #if defined(PLATFORM_OS_WINDOWS_LEGACY)
-//   const GtkWidget *window = Gtk::Widget::gobj();
-//   GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
-//   HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
-//   return IsWindowVisible(hwnd);
-// #else
-//   return get_visible();
-// #endif
-// }
 
 void
 MainWindow::toggle_window()
@@ -103,20 +76,14 @@ MainWindow::toggle_window()
     }
 }
 
-//! Opens the main window.
 void
 MainWindow::open_window()
 {
   TRACE_ENTRY();
   if (timer_box_view->get_visible_count() > 0)
     {
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-      win32_show(true);
-      show_all();
-#else
       show_all();
       deiconify();
-#endif
 
       int x, y, head;
       set_position(Gtk::WIN_POS_NONE);
@@ -139,18 +106,10 @@ MainWindow::open_window()
     }
 }
 
-//! Closes the main window.
 void
 MainWindow::close_window()
 {
   TRACE_ENTRY();
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-  win32_show(false);
-#elif defined(PLATFORM_OS_WINDOWS)
-  hide();
-#elif defined(PLATFORM_OS_MACOS)
-  hide();
-#else
   if (can_close)
     {
       TRACE_MSG("hide");
@@ -161,7 +120,6 @@ MainWindow::close_window()
       TRACE_MSG("iconify");
       iconify();
     }
-#endif
 
   GUIConfig::timerbox_enabled("main_window").set(false);
 }
@@ -283,43 +241,6 @@ MainWindow::init()
   stick();
   setup();
 
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-
-  win32_init();
-  set_gravity(Gdk::GRAVITY_STATIC);
-  set_position(Gtk::WIN_POS_NONE);
-
-#  ifdef HAVE_NOT_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP
-  // This is the proper code, see hacked code below.
-  if (!enabled)
-    {
-      move(-1024, 0);
-      show_all();
-      win32_show(false);
-      move_to_start_position();
-    }
-  else
-    {
-      move_to_start_position();
-      show_all();
-    }
-#  else // Hack deprecated: Since GTK+ 2.10 no longer necessary
-
-  // Hack: since GTK+ 2.2.4 the window is too wide, it incorporates room
-  // for the "_ [ ] [X]" buttons somehow. This hack fixes just that.
-  move(-1024, 0); // Move off-screen to reduce wide->narrow flickering
-  show_all();
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(window->gobj());
-  SetWindowPos(hwnd, NULL, 0, 0, 1, 1, SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOMOVE);
-  if (!enabled)
-    {
-      win32_show(false);
-    }
-  move_to_start_position();
-  // (end of hack)
-#  endif
-
-#else
   set_gravity(Gdk::GRAVITY_STATIC);
   set_position(Gtk::WIN_POS_NONE);
   show_all();
@@ -327,12 +248,11 @@ MainWindow::init()
 
   if (!enabled && can_close) //  || get_start_in_tray())
     {
-#  ifdef PLATFORM_OS_UNIX
+#ifdef PLATFORM_OS_UNIX
       iconify();
-#  endif
+#endif
       close_window();
     }
-#endif
   setup();
   set_title("Workrave");
 
@@ -387,11 +307,6 @@ bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTRY();
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-  win32_show(false);
-  closed_signal.emit();
-  GUIConfig::timerbox_enabled("main_window").set(false);
-#else
   if (can_close)
     {
       close_window();
@@ -401,8 +316,6 @@ MainWindow::on_delete_event(GdkEventAny *)
     {
       app->get_toolkit()->terminate();
     }
-#endif
-
   return true;
 }
 
@@ -425,107 +338,6 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 
   return ret;
 }
-
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-void
-MainWindow::win32_show(bool b)
-{
-  TRACE_ENTRY_PAR(b);
-  bool retry = false;
-
-  // Gtk's hide() seems to quit the program.
-  GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = gtk_widget_get_window(window);
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
-  ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
-
-  if (b)
-    {
-      present();
-
-      if (hwnd != GetForegroundWindow())
-        {
-          if (show_retry_count == 0)
-            {
-              show_retry_count = 20;
-            }
-          else
-            {
-              show_retry_count--;
-            }
-
-          TRACE_MSG("2 {}", show_retry_count);
-          retry = true;
-        }
-    }
-
-  if (retry)
-    {
-      if (show_retry_count > 0)
-        {
-          timeout_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &MainWindow::win32_show_retry), 50);
-        }
-    }
-  else
-    {
-      show_retry_count = 0;
-    }
-}
-
-bool
-MainWindow::win32_show_retry()
-{
-  TRACE_ENTRY();
-  if (show_retry_count > 0)
-    {
-      TRACE_MSG("retry");
-      win32_show(true);
-    }
-  return false;
-}
-
-void
-MainWindow::win32_init()
-{
-  TRACE_ENTRY();
-  win32_hinstance = (HINSTANCE)GetModuleHandle(NULL);
-
-  WNDCLASSEXA wclass =
-    {sizeof(WNDCLASSEXA), 0, win32_window_proc, 0, 0, win32_hinstance, NULL, NULL, NULL, NULL, WIN32_MAIN_CLASS_NAME, NULL};
-  /* ATOM atom = */ RegisterClassExA(&wclass);
-
-  win32_main_hwnd = CreateWindowExA(WS_EX_TOOLWINDOW,
-                                    WIN32_MAIN_CLASS_NAME,
-                                    "Workrave",
-                                    WS_OVERLAPPED,
-                                    CW_USEDEFAULT,
-                                    CW_USEDEFAULT,
-                                    CW_USEDEFAULT,
-                                    CW_USEDEFAULT,
-                                    (HWND)NULL,
-                                    (HMENU)NULL,
-                                    win32_hinstance,
-                                    (LPSTR)NULL);
-  ShowWindow(win32_main_hwnd, SW_HIDE);
-
-  // User data
-  SetWindowLongPtr(win32_main_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-
-  // Reassign ownership
-  GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = gtk_widget_get_window(window);
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
-  SetWindowLongPtr(hwnd, GWLP_HWNDPARENT, (LONG_PTR)win32_main_hwnd);
-}
-
-void
-MainWindow::win32_exit()
-{
-  DestroyWindow(win32_main_hwnd);
-  UnregisterClassA(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
-}
-
-#endif
 
 void
 MainWindow::get_start_position(int &x, int &y, int &head)
@@ -712,16 +524,6 @@ MainWindow::relocate_window(int width, int height)
       move(x, y);
     }
 }
-
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-
-LRESULT CALLBACK
-MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-  TRACE_ENTRY_PAR(uMsg, wParam);
-  return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-#endif
 
 sigc::signal<void> &
 MainWindow::signal_closed()

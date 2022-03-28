@@ -17,7 +17,7 @@
 #  undef GDK_DISPLAY
 #  define GDK_DISPLAY() GDK_DISPLAY_XDISPLAY(gdk_display_get_default())
 
-#  ifndef GDK_WINDOW_XWINDOW
+#  if !defined(GDK_WINDOW_XWINDOW)
 #    define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
 #  endif
 

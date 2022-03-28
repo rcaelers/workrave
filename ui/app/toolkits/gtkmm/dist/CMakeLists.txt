@@ -46,9 +46,9 @@ endif()
 #set(CPACK_GENERATOR)
 
 if(PLATFORM_OS_MACOS)
-    add_subdirectory(macos)
+  add_subdirectory(macos)
 elseif(PLATFORM_OS_WINDOWS)
-    add_subdirectory(windows)
+  add_subdirectory(windows)
 endif()
 
 include(CPack)

@@ -165,10 +165,8 @@ PreludeWindow::add(Gtk::Widget &widget)
           Gtk::Window::add(*window_frame);
         }
 
-      //#if !defined(PLATFORM_OS_WINDOWS)
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
       window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event));
-      //#endif
     }
 
   window_frame->add(widget);

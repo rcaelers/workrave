@@ -21,11 +21,6 @@
 #include <string>
 #include <gtkmm.h>
 
-#if defined(PLATFORM_OS_WINDOWSLEGACY)
-#  include <windows.h>
-#  include "ui/TimerBoxControl.hh"
-#endif
-
 #include "utils/Signals.hh"
 
 #include "ui/IApplication.hh"
@@ -107,21 +102,6 @@ private:
 
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
-
-#if defined(PLATFORM_OS_WINDOWS_LEGACY)
-private:
-  void win32_show(bool b);
-  bool win32_show_retry();
-  void win32_init();
-  void win32_exit();
-
-  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-  HWND win32_main_hwnd{0};
-  HINSTANCE win32_hinstance{0};
-  int show_retry_count{0};
-  sigc::connection timeout_connection;
-#endif
 };
 
 #endif // MAINWINDOW_HH
