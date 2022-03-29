@@ -329,8 +329,11 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
 
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
-      menu->get_menu()->popup_at_pointer((const GdkEvent *)event);
-      ret = true;
+      bool taking = app->get_core()->is_taking();
+      if(!(taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input))){       
+        menu->get_menu()->popup_at_pointer((const GdkEvent *)event);
+        ret = true;
+      }
     }
 
   return ret;

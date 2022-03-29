@@ -76,6 +76,7 @@ public:
   workrave::config::IConfigurator::Ptr get_configurator() const override;
   IActivityMonitor::Ptr get_activity_monitor() const;
   bool is_user_active() const override;
+  bool is_taking() const override;
   std::string get_break_stage(BreakId id);
 
   Statistics *get_statistics() const override;
@@ -295,6 +296,22 @@ inline bool
 Core::is_master() const
 {
   return master_node;
+}
+
+//!
+inline bool
+Core::is_taking() const
+{
+  bool taking = false;
+  for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
+  {
+    if (breaks[i].is_taking())
+    {
+      taking = true;
+    }
+  }
+
+  return taking;
 }
 
 #endif // CORE_HH

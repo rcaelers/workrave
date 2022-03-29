@@ -59,6 +59,7 @@ private:
   std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
+  std::shared_ptr<IApplication> app;
   AppHold apphold;
 
   std::string current_id;
