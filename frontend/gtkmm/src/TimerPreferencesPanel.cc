@@ -170,7 +170,18 @@ TimerPreferencesPanel::create_options_panel()
       monitor_cb = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       hig->add_widget(*monitor_cb);
     }
+
+  
+
 #endif
+
+// Quiet
+  quiet_cb = Gtk::manage(new Gtk::CheckButton(_("Always quiet")));
+  if (break_id == BREAK_ID_MICRO_BREAK)
+        {
+          hig->add_widget(*quiet_cb);
+        }
+  connector->connect(CoreConfig::CFG_KEY_BREAK_QUIET % break_id, dc::wrap(quiet_cb));
 
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
@@ -386,6 +397,7 @@ TimerPreferencesPanel::enable_buttons()
   ignorable_cb->set_sensitive(on);
   skippable_cb->set_sensitive(on);
   activity_sensitive_cb->set_sensitive(on);
+  quiet_cb->set_sensitive(on);
 
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
   if (monitor_cb != nullptr)

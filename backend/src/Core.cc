@@ -1427,8 +1427,10 @@ Core::process_timewarp()
 void
 Core::timer_action(BreakId id, TimerInfo info)
 {
-  // No breaks when mode is quiet,
-  if (operation_mode == OPERATION_MODE_QUIET && info.event == TIMER_EVENT_LIMIT_REACHED)
+  // No breaks when mode is quiet, or when the break is a micro_pause and micro_pauses_are_quiet
+  bool is_operation_mode_quiet = operation_mode == OPERATION_MODE_QUIET;
+  bool is_break_quiet= breaks[id].is_quiet();
+  if ((is_operation_mode_quiet || is_break_quiet) && info.event == TIMER_EVENT_LIMIT_REACHED)
     {
       return;
     }

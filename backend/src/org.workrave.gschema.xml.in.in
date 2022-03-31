@@ -134,6 +134,11 @@
       <summary></summary>
       <description></description>
     </key>
+     <key type="b" name="quiet">
+      <default>false</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="i" name="max-preludes">
       <default>3</default>
       <summary></summary>
@@ -147,6 +152,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="quiet">
+      <default>false</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="i" name="max-preludes">
       <default>3</default>
       <summary></summary>
@@ -157,6 +167,11 @@
   <schema path="/org/workrave/breaks/rest-break/" id="org.workrave.breaks.rest-break" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+     <key type="b" name="quiet">
+      <default>false</default>
       <summary></summary>
       <description></description>
     </key>

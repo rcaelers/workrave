@@ -39,6 +39,7 @@ public:
   static const std::string CFG_KEY_BREAK;
   static const std::string CFG_KEY_BREAK_MAX_PRELUDES;
   static const std::string CFG_KEY_BREAK_ENABLED;
+  static const std::string CFG_KEY_BREAK_QUIET;
 
   static const std::string CFG_KEY_MONITOR;
   static const std::string CFG_KEY_MONITOR_NOISE;

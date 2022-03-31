@@ -44,6 +44,7 @@ const string CoreConfig::CFG_KEY_BREAK = "breaks/%b";
 
 const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES = "breaks/%b/max_preludes";
 const string CoreConfig::CFG_KEY_BREAK_ENABLED = "breaks/%b/enabled";
+const string CoreConfig::CFG_KEY_BREAK_QUIET = "breaks/%b/quiet";
 
 const string CoreConfig::CFG_KEY_MONITOR = "monitor";
 
