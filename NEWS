@@ -1,9 +1,20 @@
-Workrave NEWS -- history of user-visible changes. 05 January 2022
-Copyright (C) 2001-2021 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes. 01 April 2022
+Copyright (C) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.10.50
+
+** The "Restbreak now" button in the main window no longer responds to keyboard
+   (#368)
+** Allow installation on Windows without administrator rights.
+** Fix vertical alignment of GNOME shell applet (#356)
+** Support GNOME Shell 42 (#396)
+** Restore support for Windows Vista and up (#367)
+** The 'Backward shoulder stretch' exercises now plays a sound twice matching the
+   description (#354)
 
 * Workrave 1.10.49
 
@@ -690,7 +701,7 @@ https://github.com/rcaelers/workrave/issues
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2021 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2022 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
