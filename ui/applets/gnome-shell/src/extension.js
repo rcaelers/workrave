@@ -174,7 +174,7 @@ const MENU_ITEM_FLAG_VISIBLE = 2;
 let CoreProxy = Gio.DBusProxy.makeProxyWrapper(CoreIface);
 
 const WorkraveButton = GObject.registerClass(
-  class b extends PanelMenu.Button {
+  class WorkraveButton extends PanelMenu.Button {
     _init() {
       PanelMenu.Button.prototype._init.call(this, 0.0);
 
