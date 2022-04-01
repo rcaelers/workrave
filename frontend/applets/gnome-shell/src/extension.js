@@ -1,13 +1,14 @@
 const Clutter = imports.gi.Clutter;
-const St = imports.gi.St;
-const Mainloop = imports.mainloop;
-const Main = imports.ui.main;
-const Lang = imports.lang;
-const PopupMenu = imports.ui.popupMenu;
-const PanelMenu = imports.ui.panelMenu;
-const Gettext = imports.gettext;
 const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
+const Gettext = imports.gettext;
 const Gio = imports.gi.Gio;
+const Lang = imports.lang;
+const Main = imports.ui.main;
+const Mainloop = imports.mainloop;
+const PanelMenu = imports.ui.panelMenu;
+const PopupMenu = imports.ui.popupMenu;
+const St = imports.gi.St;
 const Workrave = imports.gi.Workrave;
 
 const _ = Gettext.gettext;
@@ -155,13 +156,11 @@ const CoreIface = '<node>\
 
 let CoreProxy = Gio.DBusProxy.makeProxyWrapper(CoreIface);
 
+const WorkraveButton = GObject.registerClass(
+    class WorkraveButton extends PanelMenu.Button {
 
-const WorkraveButton = new Lang.Class({
-    Name: 'WorkraveButton',
-    Extends: PanelMenu.Button,
-
-    _init: function() {
-        PanelMenu.Button.prototype._init.call(this, 0.0);
+    _init() {
+        super._init(0.0);
 
         this._timerbox = new Workrave.Timerbox();
 
@@ -178,11 +177,11 @@ const WorkraveButton = new Lang.Class({
         this._area.connect('repaint', Lang.bind(this, this._draw));
 
         this._box = new St.Bin();
-        this._box.add_actor(this._area, { y_expand: true });
+        this._box.add_actor(this._area);
 
         if (typeof this.add_actor === "function")
         {
-            this.add_actor(this._box, { y_expand: true });
+            this.add_actor(this._box);
             this.show();
         }
         else
@@ -202,9 +201,9 @@ const WorkraveButton = new Lang.Class({
         this._operation_mode_changed_id = this._core_proxy.connectSignal("OperationModeChanged", Lang.bind(this, this._onOperationModeChanged));
 
         this._updateMenu(null);
-    },
+    }
 
-    _connectUI: function() {
+    _connectUI() {
         try
         {
             this._watchid = Gio.DBus.session.watch_name('org.workrave.Workrave',
@@ -217,21 +216,21 @@ const WorkraveButton = new Lang.Class({
         {
             return true;
         }
-    },
+    }
 
-    _connectCore: function() {
-    },
+    _connectCore() {
+    }
 
-    _onDestroy: function() {
+    _onDestroy() {
         if (this._ui_proxy != null)
         {
             this._ui_proxy.EmbedRemote(false, this._bus_name);
         }
         this._stop();
         this._destroy();
-    },
+    }
 
-    _destroy: function() {
+    _destroy() {
         if (this._watchid > 0)
         {
             Gio.DBus.session.unwatch_name(this._watchid);
@@ -249,9 +248,9 @@ const WorkraveButton = new Lang.Class({
             this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
             this._core_proxy = null;
         }
-    },
+    }
 
-    _start: function() {
+    _start() {
         if (! this._alive)
         {
             this._bus_id = Gio.DBus.session.own_name(this._bus_name, Gio.BusNameOwnerFlags.NONE, null, null);
@@ -263,9 +262,9 @@ const WorkraveButton = new Lang.Class({
             this._alive = true;
             this._update_count = 0;
         }
-    },
+    }
 
-    _stop_dbus: function() {
+    _stop_dbus() {
         if (this._alive)
         {
             Mainloop.source_remove(this._timeoutId);
@@ -273,9 +272,9 @@ const WorkraveButton = new Lang.Class({
             this._timeoutId = 0;
             this._bus_id = 0;
         }
-    },
+    }
 
-    _stop: function() {
+    _stop() {
         if (this._alive)
         {
             this._stop_dbus();
@@ -286,14 +285,14 @@ const WorkraveButton = new Lang.Class({
             this._area.queue_repaint();
             this._area.set_width(this._width=24);
         }
-    },
+    }
 
-    _draw: function(area) {
+    _draw(area) {
         let cr = area.get_context();
         this._timerbox.draw(cr);
-    },
+    }
 
-    _onTimer: function() {
+    _onTimer() {
         if (! this._alive)
         {
             return false;
@@ -307,17 +306,17 @@ const WorkraveButton = new Lang.Class({
         this._update_count = 0;
 
         return this._alive;
-    },
+    }
 
-    _onWorkraveAppeared: function(owner) {
+    _onWorkraveAppeared(owner) {
         this._start();
-    },
+    }
 
-    _onWorkraveVanished: function(oldOwner) {
+    _onWorkraveVanished(oldOwner) {
         this._stop();
-    },
+    }
 
-    _onTimersUpdated : function(emitter, senderName, [microbreak, restbreak, daily]) {
+    _onTimersUpdated (emitter, senderName, [microbreak, restbreak, daily]) {
 
         if (! this._alive)
         {
@@ -362,49 +361,49 @@ const WorkraveButton = new Lang.Class({
 
         this._area.set_width(this._width=timerbox_width);
         this._area.queue_repaint();
-    },
+    }
 
-    _onGetMenuReply : function([menuitems], excp) {
+    _onGetMenuReply ([menuitems], excp) {
         this._updateMenu(menuitems);
-    },
+    }
 
-    _onGetTrayIconEnabledReply : function([enabled], excp) {
+    _onGetTrayIconEnabledReply ([enabled], excp) {
         this._updateTrayIcon(enabled);
-    },
+    }
 
-    _onGetOperationModeReply : function([mode], excp) {
+    _onGetOperationModeReply ([mode], excp) {
         this._timerbox.set_operation_mode(mode);
-    },
+    }
 
-    _onMenuUpdated : function(emitter, senderName, [menuitems]) {
+    _onMenuUpdated (emitter, senderName, [menuitems]) {
         this._updateMenu(menuitems);
-    },
+    }
 
-    _onTrayIconUpdated : function(emitter, senderName, [enabled]) {
+    _onTrayIconUpdated (emitter, senderName, [enabled]) {
         this._updateTrayIcon(enabled);
-    },
+    }
 
-    _onOperationModeChanged : function(emitter, senderName, [mode]) {
+    _onOperationModeChanged (emitter, senderName, [mode]) {
         this._timerbox.set_operation_mode(mode);
-    },
+    }
 
-    _onCommandReply : function(menuitems) {
-    },
+    _onCommandReply (menuitems) {
+    }
 
-    _onMenuCommand : function(item, event, command) {
+    _onMenuCommand (item, event, command) {
         this._ui_proxy.CommandRemote(command, Lang.bind(this, this._onCommandReply));
-    },
+    }
 
-    _onMenuOpenCommand: function(item, event) {
+    _onMenuOpenCommand(item, event) {
         this._ui_proxy.GetMenuRemote(); // A dummy method call to re-activate the service
-    },
+    }
 
-    _updateTrayIcon : function(enabled) {
+    _updateTrayIcon (enabled) {
         this._force_icon = enabled;
         this._timerbox.set_force_icon(this._force_icon);
-    },
+    }
 
-    _updateMenu : function(menuitems) {
+    _updateMenu (menuitems) {
         this.menu.removeAll();
 
         let current_menu = this.menu;
