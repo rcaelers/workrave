@@ -22,16 +22,21 @@
 
 #include <giomm.h>
 
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 #include "ui/IApplication.hh"
 
-class GnomeSession : public IPlugin
+class GnomeSession : public Plugin<GnomeSession>
 {
 public:
   using Ptr = std::shared_ptr<GnomeSession>;
 
   GnomeSession(std::shared_ptr<IApplication> app);
   void init();
+
+  std::string get_plugin_id() const override
+  {
+    return "workrave.GnomeSession";
+  }
 
 private:
   void on_signal(const Glib::ustring &sender, const Glib::ustring &signal_name, const Glib::VariantContainerBase &params);

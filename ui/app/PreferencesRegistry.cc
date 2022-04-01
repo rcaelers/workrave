@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2022 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,31 +15,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <memory>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
-#include "ApplicationWindows.hh"
+#include "PreferencesRegistry.hh"
 
-#include "WindowsAppletWindow.hh"
-#include "ui/windows/WindowsForceFocus.hh"
-#include "ui/windows/WindowsCompat.hh"
+#include <spdlog/spdlog.h>
+#include "spdlog/fmt/ostr.h"
 
-ApplicationWindows::ApplicationWindows(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
-  : Application(argc, argv, toolkit_factory)
+void
+PreferencesRegistry::add(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget)
 {
+  widgets[section].push_back(widget);
 }
 
 void
-ApplicationWindows::init_platform_pre()
+PreferencesRegistry::remove(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget)
 {
-  WindowsForceFocus::init(get_core()->get_configurator());
-  WindowsCompat::init(get_core()->get_configurator());
 }
 
-void
-ApplicationWindows::init_platform_post()
+std::list<std::shared_ptr<ui::prefwidgets::Widget>>
+PreferencesRegistry::get_widgets(PreferencesSection section) const
 {
-  focus_assist = std::make_shared<WindowsFocusAssist>(shared_from_this());
+  if (widgets.contains(section))
+    {
+      return widgets.at(section);
+    }
+
+  return {};
 }

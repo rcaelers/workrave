@@ -26,6 +26,7 @@
 GnomeSession::GnomeSession(std::shared_ptr<IApplication> app)
   : toolkit(app->get_toolkit())
 {
+  init();
 }
 
 void

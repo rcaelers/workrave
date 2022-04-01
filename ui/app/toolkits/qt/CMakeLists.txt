@@ -1,4 +1,4 @@
-add_library(workrave-toolkit-qt
+add_library(workrave-toolkit-qt OBJECT
   AboutDialog.cc
   BreakWindow.cc
   DailyLimitWindow.cc

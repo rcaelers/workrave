@@ -27,7 +27,7 @@
 
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 
 #include "wmf.h"
 

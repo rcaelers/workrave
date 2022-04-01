@@ -20,8 +20,8 @@
 
 #include <memory>
 
-#include "Application.hh"
-#include "ui/IToolkitFactory.hh"
+class Application;
+class IToolkitFactory;
 
 class ApplicationFactory
 {

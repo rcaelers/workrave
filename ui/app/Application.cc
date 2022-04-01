@@ -19,6 +19,7 @@
 #  include "config.h"
 #endif
 
+#include <memory>
 #include <filesystem>
 #include <initializer_list>
 #include <spdlog/common.h>
@@ -47,7 +48,7 @@
 #include "session/System.hh"
 #include "ui/GUIConfig.hh"
 #include "ui/IBreakWindow.hh"
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 #include "ui/IToolkitFactory.hh"
 #include "commonui/Locale.hh"
 #include "ui/SoundTheme.hh"
@@ -57,9 +58,9 @@
 #include "utils/Paths.hh"
 #include "utils/Platform.hh"
 
-#if defined(HAVE_DBUS)
-#  include "GenericDBusApplet.hh"
-#endif
+// #if defined(HAVE_DBUS)
+// #  include "GenericDBusApplet.hh"
+// #endif
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -99,6 +100,7 @@ Application::main()
   init_sound_player();
   init_dbus();
 
+  preferences_registry = std::make_shared<PreferencesRegistry>();
   menu_model = std::make_shared<MenuModel>();
   menus = std::make_shared<Menus>(shared_from_this());
 
@@ -111,10 +113,6 @@ Application::main()
 
   init_platform_post();
 
-#if defined(HAVE_DBUS)
-  register_plugin(std::make_shared<GenericDBusApplet>(shared_from_this()));
-#endif
-
   connect(toolkit->signal_timer(), this, [this] { on_timer(); });
   connect(toolkit->signal_session_idle_changed(), this, [this](auto idle) { on_idle_changed(idle); });
   connect(toolkit->signal_main_window_closed(), this, [this] { on_main_window_closed(); });
@@ -122,26 +120,12 @@ Application::main()
 
   on_timer();
 
-  init_ready = true;
-  for (auto p: plugins)
-    {
-      p->init();
-    }
+  PluginRegistry::instance().build(shared_from_this());
 
   toolkit->run();
 
   System::clear();
   core->get_configurator()->save();
-}
-
-void
-Application::register_plugin(std::shared_ptr<IPlugin> plugin)
-{
-  plugins.push_back(plugin);
-  if (init_ready)
-    {
-      plugin->init();
-    }
 }
 
 void

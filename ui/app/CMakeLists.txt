@@ -1,4 +1,4 @@
-add_library(workrave-app)
+add_library(workrave-app OBJECT)
 
 target_sources(workrave-app PRIVATE
   AppHold.cc
@@ -6,6 +6,7 @@ target_sources(workrave-app PRIVATE
   ApplicationFactory.cc
   GUIConfig.cc
   Menus.cc
+  PreferencesRegistry.cc
   SoundTheme.cc
   TimerBoxControl.cc
   )
@@ -102,6 +103,7 @@ target_link_libraries(workrave-app
   workrave-libs-session
   workrave-libs-updater
   workrave-libs-utils
+  workrave-libs-ui-prefwidgets
   workrave-libs-commonui)
 
 if (HAVE_CORE_NEXT)
@@ -124,14 +126,15 @@ install(FILES workrave.appdata.xml DESTINATION ${DATADIR}/metainfo RENAME org.wo
 ################################################################################
 ################################################################################
 
-add_executable(workrave MACOSX_BUNDLE main.cc)
+add_executable(workrave MACOSX_BUNDLE main.cc $<TARGET_OBJECTS:workrave-app>)
 
 target_link_libraries(workrave
   PRIVATE
   workrave-app
   workrave-libs-audio
   workrave-libs-updater
-  workrave-libs-utils)
+  workrave-libs-utils
+  workrave-libs-ui-prefwidgets)
 
 if (HAVE_CRASH_REPORT)
   target_link_libraries(workrave PRIVATE workrave-libs-crash)
@@ -146,9 +149,11 @@ endif()
 if (HAVE_APP_GTK)
   target_include_directories(workrave PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/toolkits/gtkmm)
   target_link_libraries(workrave PRIVATE workrave-toolkit-gtkmm)
+  target_sources(workrave PRIVATE $<TARGET_OBJECTS:workrave-toolkit-gtkmm>)
 elseif (HAVE_APP_QT)
   target_include_directories(workrave PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/toolkits/qt)
   target_link_libraries(workrave PRIVATE workrave-toolkit-qt)
+  target_sources(workrave PRIVATE $<TARGET_OBJECTS:workrave-toolkit-qt>)
 endif()
 
 If (PLATFORM_OS_WINDOWS)

@@ -25,13 +25,13 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 #include "commonui/MenuModel.hh"
 #include "commonui/MenuHelper.hh"
 #include "utils/Signals.hh"
 #include "ui/AppHold.hh"
 
-class WindowsStatusIcon
+class WindowsStatusIcon : public Plugin<WindowsStatusIcon>
 {
 public:
   explicit WindowsStatusIcon(std::shared_ptr<IApplication> app);

@@ -31,18 +31,16 @@
 #include "commonui/MenuModel.hh"
 #include "commonui/MenuHelper.hh"
 #include "ui/AppHold.hh"
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 
 class WindowsAppletWindow
-  : public IPlugin
+  : public Plugin<WindowsAppletWindow>
   , public TimerBoxViewBase
   , public workrave::utils::Trackable
 {
 public:
   WindowsAppletWindow(std::shared_ptr<IApplication> app);
-  virtual ~WindowsAppletWindow();
-
-  void init() override;
+  ~WindowsAppletWindow() override;
 
   void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
@@ -71,6 +69,7 @@ private:
   void update_applet_window();
   void init_menu_list(std::list<AppletMenuItem> &items, menus::Node::Ptr node);
   void init_menu();
+  void init_toolkit();
   void run_event_pipe();
 
   std::shared_ptr<IToolkit> toolkit;

@@ -1,4 +1,4 @@
-add_library(workrave-toolkit-gtkmm)
+add_library(workrave-toolkit-gtkmm OBJECT)
 
 target_sources(workrave-toolkit-gtkmm PRIVATE
   BreakWindow.cc

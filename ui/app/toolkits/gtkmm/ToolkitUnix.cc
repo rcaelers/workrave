@@ -51,13 +51,6 @@ ToolkitUnix::init(std::shared_ptr<IApplication> app)
     Glib::Variant<Glib::ustring> s = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
     notify_confirm(s.get());
   });
-
-  app->register_plugin(std::make_shared<X11SystrayAppletWindow>(app));
-  app->register_plugin(std::make_shared<GnomeSession>(app));
-
-#if defined(HAVE_INDICATOR)
-  app->register_plugin(std::make_shared<IndicatorAppletMenu>(app));
-#endif
 }
 
 IBreakWindow::Ptr

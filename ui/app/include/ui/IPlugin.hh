@@ -20,14 +20,16 @@
 
 #include "IApplication.hh"
 #include "IToolkit.hh"
+#include "ui/prefwidgets/Widgets.hh"
 
 class IPlugin
 {
 public:
   virtual ~IPlugin() = default;
 
-  // virtual void init(std::shared_ptr<IApplication> app) = 0;
-  virtual void init() = 0;
+  virtual std::string get_plugin_id() const = 0;
+
+  //  virtual void init() = 0;
 };
 
 #endif // WORKRAVE_UI_IPLUGIN_HH

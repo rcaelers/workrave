@@ -29,7 +29,7 @@ namespace workrave::core
 #include "ui/SoundTheme.hh"
 #include "commonui/MenuModel.hh"
 #include "ui/IToolkit.hh"
-class IPlugin;
+#include "ui/IPreferencesRegistry.hh"
 
 class IApplication : public std::enable_shared_from_this<IApplication>
 {
@@ -38,12 +38,11 @@ public:
 
   virtual ~IApplication() = default;
 
-  virtual void register_plugin(std::shared_ptr<IPlugin> plugin) = 0;
-
   virtual workrave::ICore::Ptr get_core() const = 0;
   virtual IToolkit::Ptr get_toolkit() const = 0;
   virtual SoundTheme::Ptr get_sound_theme() const = 0;
   virtual MenuModel::Ptr get_menu_model() const = 0;
+  virtual IPreferencesRegistry::Ptr get_preferences_registry() const = 0;
 };
 
 #endif // WORKRAVE_UI_IAPPLICATION_HH

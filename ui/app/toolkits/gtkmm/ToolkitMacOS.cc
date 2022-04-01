@@ -43,10 +43,6 @@ void
 ToolkitMacOS::init(std::shared_ptr<IApplication> app)
 {
   Toolkit::init(app);
-
-  // #if defined(PLATFORM_OS_MACOS)
-  //   app->register_plugin(std::make_shared<MacOSAppletWindow>());
-  // #endif
 }
 
 auto

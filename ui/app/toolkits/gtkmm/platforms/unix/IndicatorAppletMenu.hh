@@ -27,7 +27,7 @@
 #include <libdbusmenu-glib/menuitem.h>
 
 #include "commonui/MenuModel.hh"
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 
 #include "utils/Signals.hh"
 
@@ -140,17 +140,18 @@ namespace detail
 } // namespace detail
 
 class IndicatorAppletMenu
-  : public IPlugin
+  : public Plugin<IndicatorAppletMenu>
   , public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<IndicatorAppletMenu>;
 
   IndicatorAppletMenu(std::shared_ptr<IApplication> app);
-  ~IndicatorAppletMenu() = default;
+  ~IndicatorAppletMenu() override = default;
 
-  void init() override
+  std::string get_plugin_id() const override
   {
+    return "workrave.IndicatorAppletMenu";
   }
 
 private:

@@ -30,17 +30,23 @@
 #include "dbus/IDBus.hh"
 #include "dbus/IDBusWatch.hh"
 #include "ui/AppHold.hh"
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
+
 
 class AppletControl;
 
 class GenericDBusApplet
-  : public IPlugin
+  : public Plugin<GenericDBusApplet>
   , public TimerBoxViewBase
   , public workrave::dbus::IDBusWatch
   , public workrave::utils::Trackable
 {
 public:
+  std::string get_plugin_id() const override
+  {
+    return "workrave.GenericDBusApplet";
+  }
+
   struct TimerData
   {
     std::string bar_text;
@@ -85,7 +91,7 @@ public:
   explicit GenericDBusApplet(std::shared_ptr<IApplication> app);
   ~GenericDBusApplet() override = default;
 
-  void init() override;
+  void init();
 
   // DBus
   virtual void get_menu(std::list<MenuItem> &out);

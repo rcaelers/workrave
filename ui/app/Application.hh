@@ -38,6 +38,7 @@
 #include "ui/SoundTheme.hh"
 #include "updater/Updater.hh"
 #include "utils/Signals.hh"
+#include "PreferencesRegistry.hh"
 
 class Application
   : public IApplication
@@ -55,8 +56,7 @@ public:
   auto get_menu_model() const -> MenuModel::Ptr override;
   auto get_core() const -> workrave::ICore::Ptr override;
   auto get_toolkit() const -> IToolkit::Ptr override;
-
-  void register_plugin(std::shared_ptr<IPlugin> plugin) override;
+  auto get_preferences_registry() const -> IPreferencesRegistry::Ptr override;
 
   void main();
 
@@ -106,12 +106,12 @@ private:
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<workrave::updater::Updater> updater;
   std::shared_ptr<SoundTheme> sound_theme;
+  std::shared_ptr<PreferencesRegistry> preferences_registry;
   int argc{0};
   char **argv{nullptr};
   std::vector<IBreakWindow::Ptr> break_windows;
   std::vector<IPreludeWindow::Ptr> prelude_windows;
   workrave::BreakId active_break_id{workrave::BREAK_ID_NONE};
-  std::list<std::shared_ptr<IPlugin>> plugins;
   bool init_ready{false};
   bool muted{false};
   bool closewarn_shown{false};
@@ -141,6 +141,12 @@ inline auto
 Application::get_toolkit() const -> IToolkit::Ptr
 {
   return toolkit;
+}
+
+inline auto
+Application::get_preferences_registry() const -> IPreferencesRegistry::Ptr
+{
+  return preferences_registry;
 }
 
 #endif // APPLICATION_HH

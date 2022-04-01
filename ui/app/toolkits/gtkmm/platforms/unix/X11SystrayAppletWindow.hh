@@ -27,7 +27,7 @@
 #include "ui/UiTypes.hh"
 #include "ui/TimerBoxControl.hh"
 
-#include "ui/IPlugin.hh"
+#include "ui/Plugin.hh"
 #include "ui/IApplication.hh"
 #include "ui/IToolkit.hh"
 #include "ToolkitMenu.hh"
@@ -36,14 +36,15 @@
 
 class X11SystrayAppletWindow
   : public sigc::trackable
-  , public IPlugin
+  , public Plugin<X11SystrayAppletWindow>
 {
 public:
   X11SystrayAppletWindow(std::shared_ptr<IApplication> app);
   ~X11SystrayAppletWindow() override;
 
-  void init() override
+  std::string get_plugin_id() const override
   {
+    return "workrave.X11SystrayAppletWindow";
   }
 
 private:

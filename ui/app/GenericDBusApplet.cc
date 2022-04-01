@@ -27,6 +27,7 @@
 #include "ui/TimerBoxControl.hh"
 #include "ui/GUIConfig.hh"
 #include "commonui/Text.hh"
+#include "ui/IPreferencesRegistry.hh"
 #include "config/IConfigurator.hh"
 
 #include "dbus/IDBus.hh"
@@ -58,6 +59,8 @@ GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IApplication> app)
     }
 
   GUIConfig::trayicon_enabled().connect(this, [this](bool) { send_tray_icon_enabled(); });
+
+  init();
 }
 
 void

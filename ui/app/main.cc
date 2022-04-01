@@ -40,6 +40,7 @@
 //#include "Toolkit.hh"
 #include "ToolkitFactory.hh"
 #include "ApplicationFactory.hh"
+#include "Application.hh"
 
 extern "C" int run(int argc, char **argv);
 

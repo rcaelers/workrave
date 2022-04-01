@@ -71,6 +71,7 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
   menu_helper.setup_event();
   init_menu();
   init_thread();
+  init_toolkit();
 }
 
 WindowsAppletWindow::~WindowsAppletWindow()
@@ -371,7 +372,7 @@ WindowsAppletWindow::is_visible() const
 }
 
 void
-WindowsAppletWindow::init()
+WindowsAppletWindow::init_toolkit()
 {
   TRACE_ENTRY();
 
