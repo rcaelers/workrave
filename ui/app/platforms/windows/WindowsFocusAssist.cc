@@ -15,13 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "core/CoreTypes.hh"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "ui/windows/WindowsFocusAssist.hh"
-#include "ui/MenuModel.hh"
+
+#include "core/CoreTypes.hh"
+#include "commonui/MenuModel.hh"
 #include "ui/GUIConfig.hh"
 
 #include <windows.h>

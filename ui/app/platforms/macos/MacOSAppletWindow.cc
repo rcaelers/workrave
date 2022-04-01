@@ -19,7 +19,7 @@
 #endif
 
 #include "commonui/nls.h"
-//#include "ui/Text.hh"
+//#include "commonui/Text.hh"
 #include "debug.hh"
 
 #include "MacOSAppletWindow.hh"

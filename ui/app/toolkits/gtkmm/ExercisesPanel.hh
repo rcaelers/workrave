@@ -19,7 +19,7 @@
 #define EXERCISES_PANEL_HH
 
 #include "ui/SoundTheme.hh"
-#include "ui/Exercise.hh"
+#include "commonui/Exercise.hh"
 
 #include <gtkmm.h>
 

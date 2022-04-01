@@ -27,9 +27,8 @@ namespace workrave::core
 }
 
 #include "ui/SoundTheme.hh"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "ui/IToolkit.hh"
-
 class IPlugin;
 
 class IApplication : public std::enable_shared_from_this<IApplication>

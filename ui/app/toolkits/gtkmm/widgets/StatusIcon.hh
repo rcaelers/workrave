@@ -24,7 +24,7 @@
 
 #include "core/ICore.hh"
 #include "utils/Signals.hh"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "ToolkitMenu.hh"
 #include "ui/AppHold.hh"
 

@@ -28,7 +28,7 @@
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
 
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "ui/IApplication.hh"
 
 class ToolkitMenu;

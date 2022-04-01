@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "utils/Signals.hh"
 
 namespace detail

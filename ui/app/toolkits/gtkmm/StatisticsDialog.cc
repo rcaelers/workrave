@@ -34,9 +34,9 @@
 #include "core/ICore.hh"
 
 #include "StatisticsDialog.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "GtkUtil.hh"
-#include "ui/Locale.hh"
+#include "commonui/Locale.hh"
 
 using namespace std;
 using namespace workrave;

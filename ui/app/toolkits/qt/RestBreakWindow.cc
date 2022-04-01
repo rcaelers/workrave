@@ -23,7 +23,7 @@
 
 #include "debug.hh"
 
-#include "ui/Exercise.hh"
+#include "commonui/Exercise.hh"
 
 #include "ExercisesPanel.hh"
 #include "TimeBar.hh"

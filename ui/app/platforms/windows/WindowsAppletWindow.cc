@@ -27,7 +27,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "Applet.hh"
 
 #include "ui/TimerBoxControl.hh"

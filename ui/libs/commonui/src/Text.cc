@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 
 #include <cstdio>
 

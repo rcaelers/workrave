@@ -16,7 +16,7 @@
 //
 
 #include "core/CoreTypes.hh"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif

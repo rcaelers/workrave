@@ -20,7 +20,7 @@
 #  include "config.h"
 #endif
 
-#include "ui/Exercise.hh"
+#include "commonui/Exercise.hh"
 
 #include <string>
 #include <boost/property_tree/ptree.hpp>

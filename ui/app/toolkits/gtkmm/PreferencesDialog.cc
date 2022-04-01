@@ -36,7 +36,7 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/filechooserbutton.h>
 
-#include "ui/Locale.hh"
+#include "commonui/Locale.hh"
 #include "utils/Platform.hh"
 #include "utils/Paths.hh"
 

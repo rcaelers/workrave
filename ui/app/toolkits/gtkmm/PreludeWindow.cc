@@ -28,7 +28,7 @@
 #include "debug.hh"
 #include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 
 #include "Frame.hh"
 #include "TimeBar.hh"

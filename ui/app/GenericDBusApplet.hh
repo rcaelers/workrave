@@ -22,8 +22,8 @@
 #include <set>
 
 #include "commonui/MenuDefs.hh"
-#include "ui/MenuModel.hh"
-#include "ui/MenuHelper.hh"
+#include "commonui/MenuModel.hh"
+#include "commonui/MenuHelper.hh"
 #include "ui/TimerBoxViewBase.hh"
 #include "ui/TimerBoxControl.hh"
 #include "utils/Signals.hh"

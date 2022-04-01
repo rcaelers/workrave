@@ -26,8 +26,8 @@
 #include <commctrl.h>
 
 #include "ui/IPlugin.hh"
-#include "ui/MenuModel.hh"
-#include "ui/MenuHelper.hh"
+#include "commonui/MenuModel.hh"
+#include "commonui/MenuHelper.hh"
 #include "utils/Signals.hh"
 #include "ui/AppHold.hh"
 

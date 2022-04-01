@@ -28,8 +28,8 @@
 #include "utils/Signals.hh"
 
 #include "Applet.hh"
-#include "ui/MenuModel.hh"
-#include "ui/MenuHelper.hh"
+#include "commonui/MenuModel.hh"
+#include "commonui/MenuHelper.hh"
 #include "ui/AppHold.hh"
 #include "ui/IPlugin.hh"
 

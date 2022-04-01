@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "ui/MenuHelper.hh"
+#include "commonui/MenuHelper.hh"
 
 #include "commonui/MenuDefs.hh"
 

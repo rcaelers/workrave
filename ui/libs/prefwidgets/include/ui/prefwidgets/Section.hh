@@ -1,4 +1,4 @@
-// Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2022 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,28 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
+#ifndef WORKRAVE_UI_PREFWIDGETS_SECTION_HH
+#define WORKRAVE_UI_PREFWIDGETS_SECTION_HH
 
-#include "ExercisesDialog.hh"
+#include "Widget.hh"
 
-#include "commonui/nls.h"
-
-#include "commonui/Exercise.hh"
-
-ExercisesDialog::ExercisesDialog(SoundTheme::Ptr sound_theme)
-  : HigDialog(_("Exercises"), false, false)
-  , exercises_panel(sound_theme, get_action_area())
+namespace ui::prefwidgets
 {
-  get_vbox()->pack_start(exercises_panel, true, true, 0);
-  Gtk::Button *button = add_button(_("Close"), Gtk::RESPONSE_CLOSE);
-  button->set_image_from_icon_name("window-close", Gtk::ICON_SIZE_BUTTON);
-}
+  class Section : public ContainerBase<Section>
+  {
+  public:
+    Section() = default;
+    explicit Section(const std::string &name);
+    ~Section() override = default;
 
-int
-ExercisesDialog::run()
-{
-  show_all();
-  return 0;
-}
+    static std::shared_ptr<Section> create(const std::string &name);
+
+    std::string get_name() const;
+
+  private:
+    std::string name;
+  };
+} // namespace ui::prefwidgets
+
+#endif // WORKRAVE_UI_PREFWIDGETS_SECTION_HH

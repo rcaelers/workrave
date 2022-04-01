@@ -25,7 +25,7 @@
 
 #include "ui/IApplication.hh"
 #include "ui/IToolkit.hh"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "ToolkitMenu.hh"
 
 class TimerBoxControl;

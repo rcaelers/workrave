@@ -26,7 +26,7 @@
 
 #include "ui/IToolkit.hh"
 #include "ui/IApplication.hh"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "ui/GUIConfig.hh"
 
 class Menus : public workrave::utils::Trackable

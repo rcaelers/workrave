@@ -32,7 +32,7 @@
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "TimeBar.hh"
 
 #include "core/IBreak.hh"
@@ -42,7 +42,7 @@
 #include "core/ICore.hh"
 #include "config/IConfigurator.hh"
 
-#include "ui/Exercise.hh"
+#include "commonui/Exercise.hh"
 #include "ExercisesPanel.hh"
 
 using namespace std;

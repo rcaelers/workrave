@@ -4,14 +4,9 @@ target_sources(workrave-app PRIVATE
   AppHold.cc
   Application.cc
   ApplicationFactory.cc
-  Exercise.cc
   GUIConfig.cc
-  Locale.cc
-  MenuHelper.cc
-  MenuModel.cc
   Menus.cc
   SoundTheme.cc
-  Text.cc
   TimerBoxControl.cc
   )
 
@@ -106,7 +101,8 @@ target_link_libraries(workrave-app
   workrave-libs-input-monitor
   workrave-libs-session
   workrave-libs-updater
-  workrave-libs-utils)
+  workrave-libs-utils
+  workrave-libs-commonui)
 
 if (HAVE_CORE_NEXT)
   target_link_libraries(workrave-app PRIVATE workrave-libs-core-next)

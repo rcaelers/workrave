@@ -26,7 +26,7 @@
 #include "debug.hh"
 
 #include "indicator-applet.h"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 
 using namespace std;
 using namespace detail;

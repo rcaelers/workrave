@@ -18,7 +18,7 @@
 #ifndef TOOLKITMENU_HH
 #define TOOLKITMENU_HH
 
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 
 #include <boost/signals2.hpp>
 #include <memory>

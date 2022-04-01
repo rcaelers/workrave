@@ -26,7 +26,7 @@
 #include <QtWidgets>
 
 #include "ui/IApplication.hh"
-#include "ui/Exercise.hh"
+#include "commonui/Exercise.hh"
 
 class ExercisesPanel : public QWidget
 {

@@ -31,7 +31,7 @@
 #include "EventButton.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "GtkUtil.hh"
 
 #include "utils/AssetPath.hh"

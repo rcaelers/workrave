@@ -22,7 +22,7 @@
 #include <iostream>
 #include <utility>
 
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 
 MenuModel::MenuModel()
 {

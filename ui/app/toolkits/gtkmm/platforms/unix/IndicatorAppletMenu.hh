@@ -26,7 +26,7 @@
 #include <libdbusmenu-glib/server.h>
 #include <libdbusmenu-glib/menuitem.h>
 
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 #include "ui/IPlugin.hh"
 
 #include "utils/Signals.hh"

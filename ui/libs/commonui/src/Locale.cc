@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "ui/Locale.hh"
+#include "commonui/Locale.hh"
 
 #include "debug.hh"
 #include "commonui/nls.h"

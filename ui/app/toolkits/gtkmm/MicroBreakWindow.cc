@@ -31,7 +31,7 @@
 #include "MicroBreakWindow.hh"
 #include "TimeBar.hh"
 #include "GtkUtil.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "Hig.hh"
 #include "Frame.hh"
 #include "ui/IApplication.hh"

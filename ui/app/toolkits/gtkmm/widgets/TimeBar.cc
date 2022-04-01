@@ -27,7 +27,7 @@
 #include <sstream>
 
 #include "TimeBar.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "GtkUtil.hh"
 
 const int MARGINX = 4;

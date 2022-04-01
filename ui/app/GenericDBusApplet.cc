@@ -26,7 +26,7 @@
 
 #include "ui/TimerBoxControl.hh"
 #include "ui/GUIConfig.hh"
-#include "ui/Text.hh"
+#include "commonui/Text.hh"
 #include "config/IConfigurator.hh"
 
 #include "dbus/IDBus.hh"

@@ -20,7 +20,7 @@
 #endif
 
 #include "ToolkitMenu.hh"
-#include "ui/MenuModel.hh"
+#include "commonui/MenuModel.hh"
 
 using namespace detail;
 
