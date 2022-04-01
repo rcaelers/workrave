@@ -191,7 +191,7 @@ IndicatorActionMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint
   (void)timestamp;
   (void)mi;
 
-  IndicatorActionMenuEntry *menu = (IndicatorActionMenuEntry *)user_data;
+  auto *menu = (IndicatorActionMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 
@@ -233,7 +233,7 @@ IndicatorToggleMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint
   (void)timestamp;
   (void)mi;
 
-  IndicatorToggleMenuEntry *menu = (IndicatorToggleMenuEntry *)user_data;
+  auto *menu = (IndicatorToggleMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 
@@ -275,7 +275,7 @@ IndicatorRadioMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint 
   (void)timestamp;
   (void)mi;
 
-  IndicatorRadioMenuEntry *menu = (IndicatorRadioMenuEntry *)user_data;
+  auto *menu = (IndicatorRadioMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 

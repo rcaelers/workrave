@@ -73,10 +73,11 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplication> app)
   : HigDialog(_("Preferences"), false, false)
   , app(app)
   , sound_theme(app->get_sound_theme())
+  , inhibit_events(0)
 {
   TRACE_ENTRY();
+
   connector = new DataConnector(app);
-  inhibit_events = 0;
 
   // Pages
   Gtk::Widget *timer_page = Gtk::manage(create_timer_page());
@@ -140,7 +141,7 @@ PreferencesDialog::create_gui_page()
   block_button->append(_("Block input"));
   block_button->append(_("Block input and screen"));
 
-  int block_idx;
+  int block_idx = 0;
   switch (GUIConfig::block_mode()())
     {
     case BlockMode::Off:
@@ -308,7 +309,7 @@ PreferencesDialog::create_sounds_page()
   sound_button = Gtk::manage(new Gtk::ComboBoxText());
   sound_button->append(_("No sounds"));
   sound_button->append(_("Play sounds using sound card"));
-  int idx;
+  int idx = 0;
   if (!sound_theme->sound_enabled()())
     {
       idx = 0;
@@ -730,7 +731,7 @@ PreferencesDialog::on_sound_play()
       SoundEvent event = SoundTheme::sound_id_to_event(id);
 
       std::string filename = sound_theme->sound_event(event)();
-      if (filename != "")
+      if (!filename.empty())
         {
           sound_theme->play_sound(filename);
         }
@@ -753,7 +754,7 @@ PreferencesDialog::on_sound_filechooser_select()
 
   TRACE_VAR(filename, fsbutton_filename, inhibit_events);
 
-  if (inhibit_events == 0 && filename != "" && fsbutton_filename != filename)
+  if (inhibit_events == 0 && !filename.empty() && fsbutton_filename != filename)
     {
       TRACE_MSG("ok");
 
@@ -795,7 +796,7 @@ PreferencesDialog::on_sound_events_changed()
 
       TRACE_VAR(filename);
 
-      if (filename != "")
+      if (!filename.empty())
         {
           inhibit_events++;
           fsbutton_filename = filename;
@@ -829,7 +830,7 @@ PreferencesDialog::on_sound_theme_changed()
           SoundEvent event = SoundTheme::sound_id_to_event(id);
           string filename = sound_theme->sound_event(event)();
 
-          if (filename != "")
+          if (!filename.empty())
             {
               TRACE_VAR(filename, row[sound_model.label]);
               inhibit_events++;
@@ -908,7 +909,7 @@ PreferencesDialog::update_icon_theme_combo()
         }
     }
 
-  if (themes.size() > 0)
+  if (!themes.empty())
     {
       icon_theme_button = Gtk::manage(new Gtk::ComboBoxText());
 

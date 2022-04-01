@@ -205,16 +205,16 @@ Toolkit::show_window(WindowType type)
 void
 Toolkit::show_about()
 {
-  if (about_dialog == NULL)
+  if (about_dialog == nullptr)
     {
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf("workrave.png");
       about_dialog = new Gtk::AboutDialog;
 
       about_dialog->set_name("Workrave");
       std::vector<Glib::ustring> authors;
-      for (int index = 0; workrave_authors[index] != NULL; index++)
+      for (int index = 0; workrave_authors[index] != nullptr; index++)
         {
-          authors.push_back(workrave_authors[index]);
+          authors.emplace_back(workrave_authors[index]);
         }
       about_dialog->set_authors(authors);
       about_dialog->set_copyright(workrave_copyright);
@@ -235,7 +235,7 @@ Toolkit::show_about()
       about_dialog->signal_response().connect([this](int reponse) {
         about_dialog->hide();
         delete about_dialog;
-        about_dialog = NULL;
+        about_dialog = nullptr;
       });
     }
   about_dialog->present();
@@ -244,13 +244,13 @@ Toolkit::show_about()
 void
 Toolkit::show_debug()
 {
-  if (!debug_dialog)
+  if (debug_dialog == nullptr)
     {
       debug_dialog = new DebugDialog();
       debug_dialog->signal_response().connect([this](int reponse) {
         debug_dialog->hide();
         delete debug_dialog;
-        debug_dialog = NULL;
+        debug_dialog = nullptr;
       });
       debug_dialog->run();
     }
@@ -263,13 +263,13 @@ Toolkit::show_debug()
 void
 Toolkit::show_exercises()
 {
-  if (!exercises_dialog)
+  if (exercises_dialog == nullptr)
     {
       exercises_dialog = new ExercisesDialog(sound_theme);
       exercises_dialog->signal_response().connect([this](int reponse) {
         exercises_dialog->hide();
         delete exercises_dialog;
-        exercises_dialog = NULL;
+        exercises_dialog = nullptr;
       });
       exercises_dialog->run();
     }
@@ -290,13 +290,13 @@ Toolkit::show_main_window()
 void
 Toolkit::show_preferences()
 {
-  if (!preferences_dialog)
+  if (preferences_dialog == nullptr)
     {
       preferences_dialog = new PreferencesDialog(app);
       preferences_dialog->signal_response().connect([this](int reponse) {
         preferences_dialog->hide();
         delete preferences_dialog;
-        preferences_dialog = NULL;
+        preferences_dialog = nullptr;
       });
     }
   else
@@ -308,13 +308,13 @@ Toolkit::show_preferences()
 void
 Toolkit::show_statistics()
 {
-  if (!statistics_dialog)
+  if (statistics_dialog == nullptr)
     {
       statistics_dialog = new StatisticsDialog(app);
       statistics_dialog->signal_response().connect([this](int reponse) {
         statistics_dialog->hide();
         delete statistics_dialog;
-        statistics_dialog = NULL;
+        statistics_dialog = nullptr;
       });
 
       statistics_dialog->run();
@@ -358,7 +358,7 @@ Toolkit::signal_status_icon_activated()
 const char *
 Toolkit::get_display_name() const
 {
-  auto x = gdk_display_get_default();
+  auto *x = gdk_display_get_default();
   return gdk_display_get_name(x);
 }
 
