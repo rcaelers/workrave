@@ -55,51 +55,56 @@ Builder::get_size_group(std::shared_ptr<ui::prefwidgets::SizeGroup> def)
   return {};
 }
 
-std::shared_ptr<Widget>
+void
 Builder::build(std::shared_ptr<ui::prefwidgets::Widget> def, std::shared_ptr<ContainerWidget> container)
 {
+  std::shared_ptr<Widget> widget;
   handle_size_groups(def);
 
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Choice>(def); d)
     {
-      return std::make_shared<ChoiceWidget>(d, container, this);
+      widget = std::make_shared<ChoiceWidget>(d, container, this);
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Value>(def); d)
     {
       if (d->get_kind() == ValueKind::Spin)
         {
-          return std::make_shared<SpinWidget>(d, container, this);
+          widget = std::make_shared<SpinWidget>(d, container, this);
         }
       if (d->get_kind() == ValueKind::Slider)
         {
-          return std::make_shared<SliderWidget>(d, container, this);
+          widget = std::make_shared<SliderWidget>(d, container, this);
         }
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Toggle>(def); d)
     {
-      return std::make_shared<ToggleWidget>(d, container, this);
+      widget = std::make_shared<ToggleWidget>(d, container, this);
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Time>(def); d)
     {
-      return std::make_shared<TimeEntryWidget>(d, container, this);
+      widget = std::make_shared<TimeEntryWidget>(d, container, this);
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Frame>(def); d)
     {
-      auto widget = std::make_shared<FrameWidget>(d, container, this);
+      auto container_widget = std::make_shared<FrameWidget>(d, container, this);
       for (auto &child_def: d->get_content())
         {
-          container->add(build(child_def, widget));
+          build(child_def, container_widget);
         }
-      return widget;
+      widget = container_widget;
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Box>(def); d)
     {
-      auto widget = std::make_shared<BoxWidget>(d, container, this);
+      auto container_widget = std::make_shared<BoxWidget>(d, container, this);
       for (auto &child_def: d->get_content())
         {
-          container->add(build(child_def, widget));
+          build(child_def, container_widget);
         }
-      return widget;
+      widget = container_widget;
     }
-  return {};
+
+  if (widget)
+    {
+      container->add(widget);
+    }
 }

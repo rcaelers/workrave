@@ -1,4 +1,4 @@
-add_library(workrave-libs-ui-prefwidgets-gtkmm)
+add_library(workrave-libs-ui-prefwidgets-gtkmm STATIC)
 
 if (HAVE_APP_GTK)
   target_sources(workrave-libs-ui-prefwidgets-gtkmm PRIVATE

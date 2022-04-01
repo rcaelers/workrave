@@ -8,6 +8,7 @@ target_sources(workrave-libs-ui-prefwidgets PRIVATE
     Toggle.cc
     Value.cc
     Widget.cc
+    Section.cc
     SizeGroup.cc
     )
 
