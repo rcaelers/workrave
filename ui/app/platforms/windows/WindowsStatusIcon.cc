@@ -352,13 +352,14 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
           switch (lParam)
             {
             case WM_RBUTTONDOWN:
-            {
-              bool taking = status_icon->app->get_core()->is_taking();
-              if(!(taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input))){
-                status_icon->show_menu();
+              {
+                bool taking = status_icon->app->get_core()->is_taking();
+                if (!(taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input)))
+                  {
+                    status_icon->show_menu();
+                  }
+                break;
               }
-              break;
-            }
             case WM_LBUTTONDOWN:
               status_icon->activate_signal();
               break;

@@ -26,7 +26,6 @@
 
 #include "ui/prefwidgets/SizeGroup.hh"
 
-
 namespace ui::prefwidgets::gtkmm
 {
   class Widget;

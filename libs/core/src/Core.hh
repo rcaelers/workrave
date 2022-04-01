@@ -304,12 +304,12 @@ Core::is_taking() const
 {
   bool taking = false;
   for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
-  {
-    if (breaks[i].is_taking())
     {
-      taking = true;
+      if (breaks[i].is_taking())
+        {
+          taking = true;
+        }
     }
-  }
 
   return taking;
 }

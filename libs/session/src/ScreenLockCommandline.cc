@@ -65,18 +65,16 @@ ScreenLockCommandline::invoke(const gchar *command, bool async)
           g_error_free(error);
           return false;
         }
-      return g_spawn_check_exit_status(exit_code, nullptr);
+      return g_spawn_check_wait_status(exit_code, nullptr);
     }
-  else
+
+  // asynchronous call
+  if (!g_spawn_command_line_async(command, &error))
     {
-      // asynchronous call
-      if (!g_spawn_command_line_async(command, &error))
-        {
-          g_error_free(error);
-          return false;
-        }
-      return true;
+      g_error_free(error);
+      return false;
     }
+  return true;
 }
 
 bool

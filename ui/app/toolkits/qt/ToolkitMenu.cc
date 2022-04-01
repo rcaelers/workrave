@@ -256,9 +256,7 @@ ToolkitSeparatorMenuEntry::get_action() const -> QAction *
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context,
-                                                 ToolkitSubMenuEntry *parent,
-                                                 menus::SectionNode::Ptr node)
+ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   menu = parent->get_menu();
