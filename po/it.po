@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the Workrave package.
 # Eraldo Girardi <eraldster@katamail.com>
 # Albano Battistella <albano_battistella@hotmail.com> 2020.
-# Albano Battistella <albano_battistella@hotmail.com> 2021.
+# Albano Battistella <albano_battistella@hotmail.com> 2021,2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2021-11-27 17:24+0100\n"
+"PO-Revision-Date: 2022-04-02 10:24+0100\n"
 "Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
 "Language-Team:it\n"
 "Language: it\n"
@@ -18,9 +18,8 @@ msgstr ""
 "X-Poedit-Language: Italian\n"
 
 #: libs/core/src/DistributionSocketLink.cc:118
-#, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Riconnessione a %s"
+msgstr "Riconnessione a %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: libs/core/src/DistributionSocketLink.cc:406
@@ -33,25 +32,21 @@ msgstr "Disattivo la connessione in rete."
 
 #: libs/core/src/DistributionSocketLink.cc:521
 #: libs/core/src/DistributionSocketLink.cc:558
-#, fuzzy, c-format
 msgid "Connecting to %s."
 msgstr "Connessione a %s."
 
 #: libs/core/src/DistributionSocketLink.cc:673
 #: libs/core/src/DistributionSocketLink.cc:704
-#, fuzzy, c-format
 msgid "Removing client %s."
 msgstr "Rimozione client %s."
 
 #. Closing direct connection.
 #: libs/core/src/DistributionSocketLink.cc:750
-#, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Disconnessione %s."
+msgstr "Disconnessione %s"
 
 #. It's a remote client. mark it master.
 #: libs/core/src/DistributionSocketLink.cc:913
-#, fuzzy, c-format
 msgid "Client %s is now master."
 msgstr "Il client %s è adesso il master."
 
@@ -70,7 +65,6 @@ msgstr "Il client %s dice 'Ciao'."
 #. Incorrect password.
 #: libs/core/src/DistributionSocketLink.cc:1291
 #: libs/core/src/DistributionSocketLink.cc:1371
-#, fuzzy, c-format
 msgid "Client %s access denied."
 msgstr "Accesso negato al client %s."
 
@@ -78,45 +72,37 @@ msgstr "Accesso negato al client %s."
 #: libs/core/src/DistributionSocketLink.cc:1362
 #: libs/core/src/DistributionSocketLink.cc:1489
 #: libs/core/src/DistributionSocketLink.cc:1734
-#, fuzzy, c-format
 msgid "Client %s is duplicate."
 msgstr "Il client %s è duplicato."
 
 #: libs/core/src/DistributionSocketLink.cc:1441
-#, fuzzy, c-format
 msgid "Client %s signed off."
 msgstr "Il client %s si é disconnesso."
 
 #. gint port =
 #: libs/core/src/DistributionSocketLink.cc:1525
-#, fuzzy, c-format
 msgid "Client %s is welcoming us."
 msgstr "Il client %s ci dà il benvenuto."
 
 #: libs/core/src/DistributionSocketLink.cc:1767
-#, fuzzy, c-format
 msgid "Requesting master status from %s."
 msgstr "Richiedo lo stato di master a %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1780
-#, fuzzy, c-format
 msgid "Client timeout from %s."
 msgstr "Tempo scaduto per il client %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
 msgid "Rejecting master request from client %s."
 msgstr "Rifiuto dello stato di master dal client %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1811
-#, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "Conferma della richiesta di master dal client %s."
 
 #: libs/core/src/DistributionSocketLink.cc:1864
-#, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Il client %s (non è master) ha rifiutato la richiesta di master."
+msgstr "Il client %s non è master ha rifiutato la richiesta di master."
 
 #: libs/core/src/DistributionSocketLink.cc:1868
 #, fuzzy, c-format
@@ -138,23 +124,19 @@ msgid "Accepted new client."
 msgstr "Nuovo client accettato."
 
 #: libs/core/src/DistributionSocketLink.cc:2165
-#, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Errore di lettura nel client %s, chiusura connessione."
+msgstr "Errore di lettura nel client %s, chiusura in corso."
 
 #: libs/core/src/DistributionSocketLink.cc:2170
 #: libs/core/src/DistributionSocketLink.cc:2237
-#, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Connessione chiusa per il client %s."
 
 #: libs/core/src/DistributionSocketLink.cc:2209
-#, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Client %s connesso."
 
 #: libs/core/src/DistributionSocketLink.cc:2242
-#, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Impossibile connettersi al client %s."
 
@@ -702,7 +684,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:491
 msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+msgstr "Workrave deve essere riavviato manualmente dopo aver modificato questa impostazione"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
 msgid "Mouse sensitivity:"
@@ -736,19 +718,16 @@ msgid "You should stop for today..."
 msgstr "Dovresti fermarti per oggi..."
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:260
-#, fuzzy, c-format
 msgid "Break in %s"
 msgstr "In pausa %s"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:264
-#, fuzzy, c-format
 msgid "Disappears in %s"
-msgstr "Scompare tra  %s"
+msgstr "Scompare in %s"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:268
-#, fuzzy, c-format
 msgid "Silent in %s"
-msgstr "Silenzioso"
+msgstr "Silenzioso in %s"
 
 #: ui/apps/gtkmm/src/RestBreakWindow.cc:131
 #, c-format
@@ -1208,11 +1187,11 @@ msgstr "Colore di avviso per le icone simboliche"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color"
-msgstr ""
+msgstr "Colore di successo"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color for symbolic icons"
-msgstr ""
+msgstr "Colore di successo per icone simboliche"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
@@ -1231,11 +1210,8 @@ msgid "The pixel size that icons should be forced to, or zero"
 msgstr "La dimensione in pixel a cui le icone dovrebbero essere forzate, o zero"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
-msgstr ""
-"Questo programma assiste nella prevenzione e recupero dalle lesioni da "
-"sforzo ripetuto (Repetitive Strain Injury - RSI)"
+msgstr "Programma che assiste nel recupero e prevenzione di RSI"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:9
 msgid ""
