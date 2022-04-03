@@ -27,11 +27,7 @@
 #define WORKRAVE_TEST_SERVICE "org.workrave.Test"
 
 #define BOOST_TEST_MODULE workravedbus
-#if defined(PLATFORM_OS_WINDOWS_NATIVE)
-#  include <boost/test/unit_test.hpp>
-#else
-#  include <boost/test/included/unit_test.hpp>
-#endif
+#include <boost/test/unit_test.hpp>
 
 #include <thread>
 #include <boost/signals2.hpp>
