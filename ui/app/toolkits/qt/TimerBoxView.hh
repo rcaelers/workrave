@@ -24,13 +24,13 @@
 #include <QLabel>
 #include <QGridLayout>
 
-#include "ui/TimerBoxViewBase.hh"
+#include "ui/ITimerBoxView.hh"
 
 #include "TimeBar.hh"
 
 class TimerBoxView
   : public QWidget
-  , public TimerBoxViewBase
+  , public ITimerBoxView
 {
   Q_OBJECT
 
@@ -47,7 +47,7 @@ public:
                     TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
-
+  void set_geometry(Orientation orientation, int size) override;
   void set_icon(OperationModeIcon icon) override;
   void update_view() override;
 

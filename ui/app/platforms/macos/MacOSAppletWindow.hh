@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include "ui/TimerBoxViewBase.hh"
+#include "ui/ITimerBoxView.hh"
 #include "ui/UiTypes.hh"
 #include "ui/IApplication.hh"
 #include "AppletWindow.hh"
@@ -31,7 +31,7 @@
 
 class MacOSAppletWindow
   : public AppletWindow
-  , public TimerBoxViewBase
+  , public ITimerBoxView
 {
 public:
   MacOSAppletWindow(std::shared_ptr<IApplication> app);

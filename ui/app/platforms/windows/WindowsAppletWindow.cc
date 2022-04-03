@@ -327,6 +327,11 @@ WindowsAppletWindow::set_geometry(Orientation orientation, int size)
   (void)size;
 }
 
+void
+WindowsAppletWindow::set_icon(OperationModeIcon icon)
+{
+}
+
 bool
 WindowsAppletWindow::on_applet_command(int command)
 {

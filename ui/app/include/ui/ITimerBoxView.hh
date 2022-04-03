@@ -37,10 +37,9 @@ public:
                             TimerColorId secondary_color,
                             int secondary_value,
                             int secondary_max) = 0;
-  virtual void set_tip(std::string tip) = 0;
   virtual void set_icon(OperationModeIcon icon) = 0;
-  virtual void update_view() = 0;
   virtual void set_geometry(Orientation orientation, int size) = 0;
+  virtual void update_view() = 0;
 };
 
 #endif // WORKRAVE_UI_ITIMERBOXVIEW_HH

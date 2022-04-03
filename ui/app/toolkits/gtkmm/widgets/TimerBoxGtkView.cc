@@ -453,12 +453,6 @@ TimerBoxGtkView::set_time_bar(BreakId id,
 }
 
 void
-TimerBoxGtkView::set_tip(string tip)
-{
-  sheep_eventbox->set_tooltip_text(tip.c_str());
-}
-
-void
 TimerBoxGtkView::set_icon(OperationModeIcon icon)
 {
   string file;

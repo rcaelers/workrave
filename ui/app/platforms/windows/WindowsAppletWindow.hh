@@ -22,7 +22,7 @@
 #include <process.h>
 #include <string>
 
-#include "ui/TimerBoxViewBase.hh"
+#include "ui/ITimerBoxView.hh"
 #include "ui/TimerBoxControl.hh"
 #include "ui/UiTypes.hh"
 #include "utils/Signals.hh"
@@ -35,7 +35,7 @@
 
 class WindowsAppletWindow
   : public Plugin<WindowsAppletWindow>
-  , public TimerBoxViewBase
+  , public ITimerBoxView
   , public workrave::utils::Trackable
 {
 public:
@@ -56,8 +56,9 @@ public:
                     TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
-  void update_view() override;
+  void set_icon(OperationModeIcon icon) override;
   void set_geometry(Orientation orientation, int size) override;
+  void update_view() override;
 
   bool filter_func(MSG *event);
 

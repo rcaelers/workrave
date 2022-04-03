@@ -47,7 +47,6 @@ public:
   TimerBoxGtkView(std::shared_ptr<IApplication> app, bool transparent = false);
   ~TimerBoxGtkView() override;
 
-  void set_geometry(Orientation orientation, int size) override;
   int get_visible_count() const;
   void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
@@ -58,8 +57,8 @@ public:
                     TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
-  void set_tip(std::string tip) override;
   void set_icon(OperationModeIcon icon) override;
+  void set_geometry(Orientation orientation, int size) override;
   void update_view() override;
   void set_enabled(bool enabled);
 

@@ -24,7 +24,7 @@
 #include "commonui/MenuDefs.hh"
 #include "commonui/MenuModel.hh"
 #include "commonui/MenuHelper.hh"
-#include "ui/TimerBoxViewBase.hh"
+#include "ui/ITimerBoxView.hh"
 #include "ui/TimerBoxControl.hh"
 #include "utils/Signals.hh"
 #include "dbus/IDBus.hh"
@@ -32,12 +32,13 @@
 #include "ui/AppHold.hh"
 #include "ui/Plugin.hh"
 
+#include "ui/prefwidgets/Widgets.hh"
 
 class AppletControl;
 
 class GenericDBusApplet
   : public Plugin<GenericDBusApplet>
-  , public TimerBoxViewBase
+  , public ITimerBoxView
   , public workrave::dbus::IDBusWatch
   , public workrave::utils::Trackable
 {
@@ -114,6 +115,8 @@ private:
                     TimerColorId secondary_color,
                     int secondary_value,
                     int secondary_max) override;
+  void set_icon(OperationModeIcon icon) override;
+  void set_geometry(Orientation orientation, int size) override;
   void update_view() override;
 
   // IDBusWatch
