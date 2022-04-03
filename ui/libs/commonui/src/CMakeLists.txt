@@ -10,8 +10,13 @@ target_sources(workrave-libs-commonui PRIVATE
 
 target_link_libraries(workrave-libs-commonui
   PUBLIC
-  workrave-libs-core
   workrave-libs-utils)
+
+if (HAVE_CORE_NEXT)
+  target_link_libraries(workrave-libs-commonui PRIVATE workrave-libs-core-next)
+else()
+  target_link_libraries(workrave-libs-commonui PRIVATE workrave-libs-core)
+endif()
 
 target_include_directories(
     workrave-libs-commonui
@@ -20,3 +25,7 @@ target_include_directories(
     PRIVATE
     ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include/commonui
 )
+
+if (PLATFORM_OS_MACOS)
+  set_source_files_properties(Locale.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+endif()

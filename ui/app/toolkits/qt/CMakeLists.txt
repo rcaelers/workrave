@@ -55,6 +55,7 @@ set(MOC_SOURCES
   AboutDialog.hh
   BreakWindow.hh
   DailyLimitWindow.hh
+  DebugDialog.hh
   ExercisesDialog.hh
   ExercisesPanel.hh
   Frame.hh
@@ -106,6 +107,8 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-libs-session
   workrave-libs-updater
   workrave-libs-utils
+  workrave-libs-ui-prefwidgets
+  # workrave-libs-ui-prefwidgets-qt
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
   ${LIBINTL_LIBRARIES}
