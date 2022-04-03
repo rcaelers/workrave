@@ -241,7 +241,7 @@ WindowsStatusIcon::show_menu()
   init_menu(menu, 0, menu_model->get_root());
 
   SetForegroundWindow(nid.hWnd);
-  UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, NULL, nid.hWnd, nullptr);
+  UINT command = TrackPopupMenu(menu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, nid.hWnd, nullptr);
   DestroyMenu(menu);
   auto node = menu_helper.find_node(command);
   if (node)

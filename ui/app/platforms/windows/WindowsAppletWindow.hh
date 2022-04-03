@@ -42,6 +42,11 @@ public:
   WindowsAppletWindow(std::shared_ptr<IApplication> app);
   ~WindowsAppletWindow() override;
 
+  std::string get_plugin_id() const override
+  {
+    return "workrave.WindowsAppletWindow";
+  }
+
   void set_slot(workrave::BreakId id, int slot) override;
   void set_time_bar(workrave::BreakId id,
                     int value,

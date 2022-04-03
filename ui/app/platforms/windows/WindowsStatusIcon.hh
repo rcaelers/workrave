@@ -37,6 +37,11 @@ public:
   explicit WindowsStatusIcon(std::shared_ptr<IApplication> app);
   virtual ~WindowsStatusIcon();
 
+  std::string get_plugin_id() const override
+  {
+    return "workrave.WindowsStatusIcon";
+  }
+
   void set_tooltip(const std::string &text);
   void show_balloon(const std::string &id, const std::string &balloon);
   void set_visible(bool visible = true);
