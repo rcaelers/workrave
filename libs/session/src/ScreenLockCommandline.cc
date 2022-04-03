@@ -65,7 +65,11 @@ ScreenLockCommandline::invoke(const gchar *command, bool async)
           g_error_free(error);
           return false;
         }
+#if GLIB_CHECK_VERSION(2, 70, 0)
       return g_spawn_check_wait_status(exit_code, nullptr);
+#else
+      return g_spawn_check_exit_status(exit_code, nullptr);
+#endif
     }
 
   // asynchronous call
