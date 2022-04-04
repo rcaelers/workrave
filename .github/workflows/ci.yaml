@@ -51,12 +51,12 @@ jobs:
             compiler: gcc
             upload: true
 
-          - image: mingw-gtk
+          - image: mingw-fedora
             configuration: Release
             compiler: gcc
             upload: false
 
-          - image: mingw-gtk
+          - image: mingw-fedora
             configuration: Debug
             compiler: gcc
             upload: false
