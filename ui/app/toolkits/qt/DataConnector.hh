@@ -26,7 +26,7 @@
 #include "config/Config.hh"
 #include "core/ICore.hh"
 #include "config/Setting.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include <QtGui>
 #include <QtWidgets>
@@ -50,7 +50,7 @@ class DataConnector
 public:
   using Ptr = std::shared_ptr<DataConnector>;
 
-  explicit DataConnector(std::shared_ptr<IApplication> app);
+  explicit DataConnector(std::shared_ptr<IApplicationContext> app);
   ~DataConnector();
 
   void connect(const std::string &setting, DataConnection *connection, dc::Flags flags = dc::NONE);

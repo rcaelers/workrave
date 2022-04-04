@@ -36,7 +36,7 @@
 #include "ToolkitMenu.hh"
 
 #include "core/CoreTypes.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
 #include "utils/Signals.hh"
 
@@ -52,7 +52,7 @@ public:
   ~Toolkit() override = default;
 
   // IToolkit
-  void init(std::shared_ptr<IApplication> app) override;
+  void init(std::shared_ptr<IApplicationContext> app) override;
   void deinit() override;
 
   void terminate() override;
@@ -98,7 +98,7 @@ protected:
   void notify_confirm(const std::string &id);
 
 protected:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};
 
 private:

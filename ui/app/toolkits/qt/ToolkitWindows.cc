@@ -51,7 +51,7 @@ ToolkitWindows::~ToolkitWindows()
 }
 
 void
-ToolkitWindows::init(std::shared_ptr<IApplication> app)
+ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 {
   init_gui();
 

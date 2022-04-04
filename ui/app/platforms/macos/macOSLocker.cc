@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "MacOSLocker.hh"
+#include "ui/macos/MacOSLocker.hh"
 
 #import <Cocoa/Cocoa.h>
 #include <ApplicationServices/ApplicationServices.h>

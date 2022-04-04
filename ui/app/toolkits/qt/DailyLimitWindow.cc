@@ -26,7 +26,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-DailyLimitWindow::DailyLimitWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakFlags break_flags)
+DailyLimitWindow::DailyLimitWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
   : BreakWindow(app, screen, BREAK_ID_DAILY_LIMIT, break_flags)
   , app(app)
 {

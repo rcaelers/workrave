@@ -41,7 +41,7 @@ class Frame;
 class MicroBreakWindow : public BreakWindow
 {
 public:
-  MicroBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
+  MicroBreakWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
   ~MicroBreakWindow() override = default;
 
   void set_progress(int value, int max_value) override;

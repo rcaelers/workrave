@@ -34,13 +34,13 @@
 #include "commonui/Text.hh"
 #include "Hig.hh"
 #include "Frame.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 using namespace std;
 using namespace workrave;
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode)
+MicroBreakWindow::MicroBreakWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakFlags break_flags, BlockMode mode)
   : BreakWindow(app, BREAK_ID_MICRO_BREAK, head, break_flags, mode)
 {
   set_title(_("Micro-break"));

@@ -38,7 +38,7 @@
 using namespace workrave;
 using namespace workrave::config;
 
-TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::shared_ptr<IApplication> app, std::string name)
+TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::shared_ptr<IApplicationContext> app, std::string name)
   : app(app)
   , name(name)
 {

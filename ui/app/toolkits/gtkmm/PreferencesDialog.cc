@@ -27,14 +27,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
 
-#include <gtkmm/notebook.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/combobox.h>
-#include <gtkmm/cellrenderer.h>
-#include <gtkmm/scale.h>
-#include <gtkmm/scrolledwindow.h>
-#include <gtkmm/filechooserbutton.h>
+#include <gtkmm.h>
 
 #include "commonui/Locale.hh"
 #include "utils/Platform.hh"
@@ -69,7 +62,7 @@ using namespace workrave::utils;
 
 using namespace std;
 
-PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplication> app)
+PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
   : HigDialog(_("Preferences"), false, false)
   , app(app)
   , sound_theme(app->get_sound_theme())

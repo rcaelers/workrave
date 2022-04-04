@@ -27,7 +27,7 @@
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
 
-class IApplication;
+class IApplicationContext;
 
 class IToolkit : public std::enable_shared_from_this<IToolkit>
 {
@@ -46,7 +46,7 @@ public:
 
   virtual ~IToolkit() = default;
 
-  virtual void init(std::shared_ptr<IApplication> app) = 0;
+  virtual void init(std::shared_ptr<IApplicationContext> app) = 0;
   virtual void deinit() = 0;
 
   virtual void terminate() = 0;

@@ -41,9 +41,9 @@ using namespace workrave;
 #  undef interface
 #endif
 
-WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
-  : toolkit(app->get_toolkit())
-  , menu_model(app->get_menu_model())
+WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IPluginContext> context)
+  : toolkit(context->get_toolkit())
+  , menu_model(context->get_menu_model())
   , menu_helper(menu_model)
   , apphold(toolkit)
 {
@@ -58,7 +58,7 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IApplication> app)
   thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
-  control = new TimerBoxControl(app, "applet", this);
+  control = new TimerBoxControl(context->get_core(), "applet", this);
 
   workrave::utils::connect(menu_model->signal_update(), this, [this]() { init_menu(); });
   workrave::utils::connect(menu_helper.signal_update(), this, [this](auto node) {

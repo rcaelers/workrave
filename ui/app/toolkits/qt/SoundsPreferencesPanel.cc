@@ -37,7 +37,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplication> app)
+SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationContext> app)
   : sound_theme(app->get_sound_theme())
 {
   connector = std::make_shared<DataConnector>(app);

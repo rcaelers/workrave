@@ -89,7 +89,7 @@ public:
     uint8_t flags;
   };
 
-  explicit GenericDBusApplet(std::shared_ptr<IApplication> app);
+  explicit GenericDBusApplet(std::shared_ptr<IPluginContext> context);
   ~GenericDBusApplet() override = default;
 
   void init();
@@ -128,7 +128,7 @@ private:
   void send_tray_icon_enabled();
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IPluginContext> context;
   std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;

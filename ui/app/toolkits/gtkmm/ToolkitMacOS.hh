@@ -28,7 +28,7 @@ public:
   ~ToolkitMacOS() override = default;
 
   // IToolkit
-  void init(std::shared_ptr<IApplication> app) override;
+  void init(std::shared_ptr<IApplicationContext> app) override;
   auto get_locker() -> std::shared_ptr<Locker> override;
 
 private:

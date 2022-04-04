@@ -53,7 +53,11 @@ class BreakWindow
   , public IBreakWindow
 {
 public:
-  BreakWindow(std::shared_ptr<IApplication> app, workrave::BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode block_mode);
+  BreakWindow(std::shared_ptr<IApplicationContext> app,
+              workrave::BreakId break_id,
+              HeadInfo &head,
+              BreakFlags break_flags,
+              BlockMode block_mode);
   ~BreakWindow() override;
 
   void init() override;
@@ -87,7 +91,7 @@ protected:
   Gtk::Button *create_lock_button();
   Gtk::ComboBox *create_sysoper_combobox();
 
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
 
   //! Information about the (multi)head.
   HeadInfo head;

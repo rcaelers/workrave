@@ -31,8 +31,8 @@
 using namespace std;
 using namespace detail;
 
-IndicatorAppletMenu::IndicatorAppletMenu(std::shared_ptr<IApplication> app)
-  : menu_model(app->get_menu_model())
+IndicatorAppletMenu::IndicatorAppletMenu(std::shared_ptr<IPluginContext> context)
+  : menu_model(context->get_menu_model())
 {
   menus::SubMenuNode::Ptr root = menu_model->get_root();
 

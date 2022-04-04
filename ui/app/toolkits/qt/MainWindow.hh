@@ -19,7 +19,7 @@
 #define MAINWINDOW_HH
 
 #include "ui/TimerBoxControl.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include "TimerBoxView.hh"
 #include "ToolkitMenu.hh"
@@ -31,7 +31,7 @@ class MainWindow
   Q_OBJECT
 
 public:
-  explicit MainWindow(std::shared_ptr<IApplication> app, QWidget *parent = nullptr);
+  explicit MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent = nullptr);
 
   void init();
   void heartbeat();

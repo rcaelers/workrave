@@ -25,7 +25,7 @@
 #include "utils/Signals.hh"
 
 #include "ui/IToolkit.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "commonui/MenuModel.hh"
 #include "ui/GUIConfig.hh"
 
@@ -34,7 +34,7 @@ class Menus : public workrave::utils::Trackable
 public:
   using Ptr = std::shared_ptr<Menus>;
 
-  explicit Menus(std::shared_ptr<IApplication> app);
+  explicit Menus(std::shared_ptr<IApplicationContext> app);
 
   using sv = std::string_view;
   static constexpr std::string_view PREFERENCES = sv("workrave.preferences");
@@ -83,7 +83,7 @@ private:
   void on_usage_mode_changed(workrave::UsageMode m);
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   std::shared_ptr<IToolkit> toolkit;
   std::shared_ptr<workrave::ICore> core;
 

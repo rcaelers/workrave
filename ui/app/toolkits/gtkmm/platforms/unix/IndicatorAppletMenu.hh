@@ -146,7 +146,7 @@ class IndicatorAppletMenu
 public:
   using Ptr = std::shared_ptr<IndicatorAppletMenu>;
 
-  IndicatorAppletMenu(std::shared_ptr<IApplication> app);
+  IndicatorAppletMenu(std::shared_ptr<IPluginContext> context);
   ~IndicatorAppletMenu() override = default;
 
   std::string get_plugin_id() const override

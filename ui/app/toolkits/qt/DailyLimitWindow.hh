@@ -25,7 +25,7 @@ class DailyLimitWindow : public BreakWindow
   Q_OBJECT
 
 public:
-  DailyLimitWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakFlags break_flags);
+  DailyLimitWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags);
 
   void set_progress(int value, int max_value) override;
 
@@ -33,7 +33,7 @@ protected:
   auto create_gui() -> QWidget * override;
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
 };
 
 #endif // DAILYLIMITWINDOW_HH

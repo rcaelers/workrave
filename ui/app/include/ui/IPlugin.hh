@@ -18,18 +18,13 @@
 #ifndef WORKRAVE_UI_IPLUGIN_HH
 #define WORKRAVE_UI_IPLUGIN_HH
 
-#include "IApplication.hh"
-#include "IToolkit.hh"
-#include "ui/prefwidgets/Widgets.hh"
+#include <string>
 
 class IPlugin
 {
 public:
   virtual ~IPlugin() = default;
-
   virtual std::string get_plugin_id() const = 0;
-
-  //  virtual void init() = 0;
 };
 
 #endif // WORKRAVE_UI_IPLUGIN_HH

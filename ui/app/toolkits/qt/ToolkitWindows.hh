@@ -37,7 +37,7 @@ public:
   ToolkitWindows(int argc, char **argv);
   ~ToolkitWindows() override;
 
-  void init(std::shared_ptr<IApplication> app) override;
+  void init(std::shared_ptr<IApplicationContext> app) override;
   void release() override;
 
   std::shared_ptr<Locker> get_locker() override;

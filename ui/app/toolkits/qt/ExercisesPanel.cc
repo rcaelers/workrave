@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include <memory>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
@@ -36,7 +36,7 @@ using namespace workrave::utils;
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplication> app, bool standalone)
+ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool standalone)
   : sound_theme(app->get_sound_theme())
   , exercises(Exercise::get_exercises())
 {

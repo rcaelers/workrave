@@ -32,7 +32,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-MicroBreakWindow::MicroBreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakFlags break_flags)
+MicroBreakWindow::MicroBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
   : BreakWindow(app, screen, BREAK_ID_MICRO_BREAK, break_flags)
   , app(app)
 {

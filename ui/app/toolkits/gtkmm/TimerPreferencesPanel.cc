@@ -42,7 +42,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplication> app,
+TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,
                                              BreakId t,
                                              Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                                              Glib::RefPtr<Gtk::SizeGroup> vsize_group)

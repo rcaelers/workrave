@@ -20,7 +20,7 @@
 
 #include "Toolkit.hh"
 
-#include "MacOSLocker.hh"
+#include "ui/macos/MacOSLocker.hh"
 
 class ToolkitMacOS : public Toolkit
 {
@@ -29,7 +29,7 @@ public:
   ~ToolkitMacOS() override = default;
 
   // IToolkit
-  void init(std::shared_ptr<IApplication> app) override;
+  void init(std::shared_ptr<IApplicationContext> app) override;
   auto get_locker() -> std::shared_ptr<Locker> override;
 
   auto get_desktop_image() -> QPixmap override;

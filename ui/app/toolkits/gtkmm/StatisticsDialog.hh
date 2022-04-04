@@ -22,7 +22,7 @@
 
 #include "core/IStatistics.hh"
 #include "Hig.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 namespace Gtk
 {
@@ -36,7 +36,7 @@ namespace Gtk
 class StatisticsDialog : public HigDialog
 {
 public:
-  StatisticsDialog(std::shared_ptr<IApplication> app);
+  StatisticsDialog(std::shared_ptr<IApplicationContext> app);
   ~StatisticsDialog() override = default;
 
   static const int BREAK_STATS = 7;
@@ -44,7 +44,7 @@ public:
   int run();
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
 
   /** Stats */
   workrave::IStatistics *statistics{nullptr};

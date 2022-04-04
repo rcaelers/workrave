@@ -27,15 +27,15 @@
 #include "ui/GUIConfig.hh"
 #include "IToolkitPrivate.hh"
 
-X11SystrayAppletWindow::X11SystrayAppletWindow(std::shared_ptr<IApplication> app)
-  : app(app)
-  , toolkit(app->get_toolkit())
+X11SystrayAppletWindow::X11SystrayAppletWindow(std::shared_ptr<IPluginContext> context)
+  : context(context)
+  , toolkit(context->get_toolkit())
   , apphold(toolkit)
 {
   enabled = GUIConfig::applet_fallback_enabled()();
   GUIConfig::applet_fallback_enabled().connect(tracker, [this](bool enabled) { on_enabled_changed(); });
 
-  auto menu_model = app->get_menu_model();
+  auto menu_model = context->get_menu_model();
   menu = std::make_shared<ToolkitMenu>(menu_model, [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
 
   if (enabled)
@@ -121,8 +121,8 @@ X11SystrayAppletWindow::activate()
       eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
-      view = new TimerBoxGtkView(app);
-      control = std::make_shared<TimerBoxControl>(app, "applet", view);
+      view = new TimerBoxGtkView(context->get_core());
+      control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", view);
 
       Gtk::VBox *box = manage(new Gtk::VBox());
       box->set_spacing(1);

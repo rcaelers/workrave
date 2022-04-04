@@ -22,7 +22,7 @@
 
 #include "ui/ITimerBoxView.hh"
 #include "ui/UiTypes.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "AppletWindow.hh"
 
 #import "ColorId.h"
@@ -34,7 +34,7 @@ class MacOSAppletWindow
   , public ITimerBoxView
 {
 public:
-  MacOSAppletWindow(std::shared_ptr<IApplication> app);
+  MacOSAppletWindow(std::shared_ptr<IApplicationContext> app);
   virtual ~MacOSAppletWindow();
 
   bool is_visible() const override;
@@ -50,7 +50,7 @@ public:
                     int secondary_max) override;
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   ColorId convertColorId(TimerColorId colorId);
   MacOSStatusBarView *view;
 };

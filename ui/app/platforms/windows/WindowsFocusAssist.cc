@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "ui/windows/WindowsFocusAssist.hh"
+#include "WindowsFocusAssist.hh"
 
 #include "core/CoreTypes.hh"
 #include "commonui/MenuModel.hh"
@@ -30,8 +30,10 @@
 #include "spdlog/fmt/ostr.h"
 #include "nls.h"
 
-WindowsFocusAssist::WindowsFocusAssist(std::shared_ptr<IApplication> app)
-  : app(app)
+#include "core/CoreConfig.hh"
+
+WindowsFocusAssist::WindowsFocusAssist(std::shared_ptr<IPluginContext> context)
+  : context(context)
 {
   init();
 }
@@ -143,7 +145,7 @@ WindowsFocusAssist::update_focus_assist()
   if (requested_focus_operation_mode != focus_operation_mode)
     {
       focus_operation_mode = requested_focus_operation_mode;
-      auto core = app->get_core();
+      auto core = context->get_core();
       if (requested_focus_operation_mode == workrave::OperationMode::Normal)
         {
           spdlog::info("focus assist remove");
@@ -160,7 +162,7 @@ WindowsFocusAssist::update_focus_assist()
 void
 WindowsFocusAssist::create_focus_mode_menu()
 {
-  auto menu_model = app->get_menu_model();
+  auto menu_model = context->get_menu_model();
   auto section = menu_model->find_section("workrave.section.modes");
 
   auto modemenu = menus::SubMenuNode::create(FOCUS_MODE_MENU, _("_Follow Focus Assist"));

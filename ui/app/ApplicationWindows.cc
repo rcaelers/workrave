@@ -41,5 +41,4 @@ ApplicationWindows::init_platform_pre()
 void
 ApplicationWindows::init_platform_post()
 {
-  focus_assist = std::make_shared<WindowsFocusAssist>(shared_from_this());
 }

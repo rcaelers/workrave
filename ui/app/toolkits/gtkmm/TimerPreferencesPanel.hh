@@ -26,7 +26,7 @@
 #include <gtkmm/adjustment.h>
 
 #include "core/ICore.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class TimeEntry;
 class DataConnector;
@@ -40,7 +40,7 @@ namespace Gtk
 class TimerPreferencesPanel : public Gtk::VBox
 {
 public:
-  TimerPreferencesPanel(std::shared_ptr<IApplication> app,
+  TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,
                         workrave::BreakId timer,
                         Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                         Glib::RefPtr<Gtk::SizeGroup> vsize_group);

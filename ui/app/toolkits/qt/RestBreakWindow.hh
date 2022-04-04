@@ -31,7 +31,7 @@ class RestBreakWindow
   Q_OBJECT
 
 public:
-  RestBreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakFlags break_flags);
+  RestBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags);
 
   void set_progress(int value, int max_value) override;
 
@@ -44,7 +44,7 @@ private:
   auto get_exercise_count() -> int;
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   SoundTheme::Ptr sound_theme;
   TimeBar *timebar{nullptr};
   QHBoxLayout *pluggable_panel{nullptr};

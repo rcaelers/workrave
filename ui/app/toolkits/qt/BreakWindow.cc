@@ -35,7 +35,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakId break_id, BreakFlags break_flags)
+BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakId break_id, BreakFlags break_flags)
   : QWidget(nullptr, Qt::Window)
   , app(app)
   , break_id(break_id)

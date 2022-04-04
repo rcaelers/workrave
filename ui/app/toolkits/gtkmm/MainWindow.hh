@@ -23,7 +23,7 @@
 
 #include "utils/Signals.hh"
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
 #include "commonui/MenuModel.hh"
 #include "ToolkitMenu.hh"
@@ -36,7 +36,7 @@ class MainWindow
   , public workrave::utils::Trackable
 {
 public:
-  MainWindow(std::shared_ptr<IApplication> app);
+  MainWindow(std::shared_ptr<IApplicationContext> app);
   ~MainWindow() override;
 
   void init();
@@ -58,7 +58,7 @@ private:
   bool bound_head(int &x, int &y, int width, int height, int &head);
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   std::shared_ptr<IToolkit> toolkit;
 
   //! Is the main window enabled?

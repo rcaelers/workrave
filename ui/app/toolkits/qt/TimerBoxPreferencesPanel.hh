@@ -24,7 +24,7 @@
 #include "config/Config.hh"
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include "SizeGroup.hh"
 #include "DataConnector.hh"
@@ -36,7 +36,7 @@ class TimerBoxPreferencesPanel
   Q_OBJECT
 
 public:
-  explicit TimerBoxPreferencesPanel(std::shared_ptr<IApplication> app, std::string name);
+  explicit TimerBoxPreferencesPanel(std::shared_ptr<IApplicationContext> app, std::string name);
 
 private:
   void init_enabled();
@@ -54,7 +54,7 @@ private:
   auto on_timer_display_changed(int break_id, const std::string &key, bool write) -> bool;
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   DataConnector::Ptr connector;
   std::string name;
 

@@ -29,7 +29,7 @@
 #include "utils/Signals.hh"
 
 #include "commonui/MenuModel.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class ToolkitMenu;
 
@@ -40,7 +40,7 @@ class StatusIcon
   Q_OBJECT
 
 public:
-  explicit StatusIcon(std::shared_ptr<IApplication> app);
+  explicit StatusIcon(std::shared_ptr<IApplicationContext> app);
 
   void set_tooltip(const QString &tip);
   void show_balloon(const QString &id, const QString &title, const QString &balloon);

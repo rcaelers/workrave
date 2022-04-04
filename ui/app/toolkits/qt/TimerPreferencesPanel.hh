@@ -32,7 +32,7 @@ class TimerPreferencesPanel : public QWidget
   Q_OBJECT
 
 public:
-  TimerPreferencesPanel(std::shared_ptr<IApplication> app,
+  TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,
                         workrave::BreakId break_id,
                         std::shared_ptr<SizeGroup> hsize_group,
                         std::shared_ptr<SizeGroup> vsize_group);

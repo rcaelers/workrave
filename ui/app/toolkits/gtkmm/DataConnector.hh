@@ -27,7 +27,7 @@
 #include "config/Config.hh"
 #include "config/Setting.hh"
 #include "core/ICore.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class TimeEntry;
 
@@ -56,7 +56,7 @@ namespace dc
 class DataConnector
 {
 public:
-  explicit DataConnector(std::shared_ptr<IApplication> app);
+  explicit DataConnector(std::shared_ptr<IApplicationContext> app);
   ~DataConnector();
 
   void connect(const std::string &setting, DataConnection *connection, dc::Flags flags = dc::NONE);

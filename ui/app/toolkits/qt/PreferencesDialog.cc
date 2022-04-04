@@ -40,7 +40,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplication> app)
+PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
   : app(app)
 {
   connector = std::make_shared<DataConnector>(app);

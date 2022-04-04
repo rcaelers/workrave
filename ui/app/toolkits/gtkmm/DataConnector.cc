@@ -50,7 +50,7 @@ namespace dc
 } // namespace dc
 
 //! Construct a new data connector.
-DataConnector::DataConnector(std::shared_ptr<IApplication> app)
+DataConnector::DataConnector(std::shared_ptr<IApplicationContext> app)
   : config(app->get_core()->get_configurator())
 
 {

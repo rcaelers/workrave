@@ -26,7 +26,7 @@ if (PLATFORM_OS_UNIX)
   add_custom_target(generate_desktop_file ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave.desktop)
 
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave.desktop DESTINATION ${DATADIR}/applications)
-  target_include_directories(workrave-app PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
+  target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
 endif()
 
 if (PLATFORM_OS_WINDOWS)
@@ -52,10 +52,11 @@ if (PLATFORM_OS_WINDOWS)
   #  target_include_directories(workrave PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
   #endif()
 
-  target_include_directories(workrave-app PUBLIC
+  target_include_directories(workrave-app
+    PUBLIC
     ${CMAKE_SOURCE_DIR}/ui/applets/windows/include
+    PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows
-#    ${CMAKE_SOURCE_DIR}/libs/input-monitor/include
     )
 
   if (MSVC)
@@ -78,7 +79,7 @@ if (PLATFORM_OS_MACOS)
                               platforms/macos/MacOSDock.mm
                               PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
-  target_include_directories(workrave-app PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
+  target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
 if (HAVE_DBUS)

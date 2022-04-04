@@ -28,7 +28,7 @@
 
 using namespace workrave;
 
-StatusIcon::StatusIcon(std::shared_ptr<IApplication> app)
+StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app)
 {
   mode_icons[workrave::OperationMode::Normal] = UiUtil::create_icon("workrave-icon-medium.png");
   mode_icons[workrave::OperationMode::Suspended] = UiUtil::create_icon("workrave-suspended-icon-medium.png");

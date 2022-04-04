@@ -28,7 +28,7 @@ namespace Gtk
 
 #include "utils/Signals.hh"
 #include "core/ICore.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include <string>
 #include <gtkmm/box.h>
@@ -38,7 +38,7 @@ class TimerBoxPreferencePage
   , public workrave::utils::Trackable
 {
 public:
-  TimerBoxPreferencePage(std::shared_ptr<IApplication> app, std::string name);
+  TimerBoxPreferencePage(std::shared_ptr<IApplicationContext> app, std::string name);
   ~TimerBoxPreferencePage() override;
 
 private:
@@ -54,7 +54,7 @@ private:
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
 
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   std::string name;
 
   Gtk::CheckButton *ontop_cb{nullptr};

@@ -33,7 +33,7 @@
 using namespace workrave;
 using namespace workrave::config;
 
-TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplication> app,
+TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,
                                              BreakId break_id,
                                              std::shared_ptr<SizeGroup> hsize_group,
                                              std::shared_ptr<SizeGroup> vsize_group)

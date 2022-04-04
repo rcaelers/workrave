@@ -15,28 +15,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_UI_IAPPLICATION_HH
-#define WORKRAVE_UI_IAPPLICATION_HH
+#ifndef WORKRAVE_UI_IPLUGINCONTEXT_HH
+#define WORKRAVE_UI_IPLUGINCONTEXT_HH
 
 #include <memory>
 #include <boost/signals2.hpp>
-
-namespace workrave::core
-{
-  class ICore;
-}
 
 #include "ui/SoundTheme.hh"
 #include "commonui/MenuModel.hh"
 #include "ui/IToolkit.hh"
 #include "ui/IPreferencesRegistry.hh"
 
-class IApplication : public std::enable_shared_from_this<IApplication>
+class IPluginContext // : public std::enable_shared_from_this<IPluginContext>
 {
 public:
-  using Ptr = std::shared_ptr<IApplication>;
+  using Ptr = std::shared_ptr<IPluginContext>;
 
-  virtual ~IApplication() = default;
+  virtual ~IPluginContext() = default;
 
   virtual workrave::ICore::Ptr get_core() const = 0;
   virtual IToolkit::Ptr get_toolkit() const = 0;
@@ -45,4 +40,4 @@ public:
   virtual IPreferencesRegistry::Ptr get_preferences_registry() const = 0;
 };
 
-#endif // WORKRAVE_UI_IAPPLICATION_HH
+#endif // WORKRAVE_UI_IPLUGINCONTEXT_HH

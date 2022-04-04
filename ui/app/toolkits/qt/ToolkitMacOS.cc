@@ -36,7 +36,7 @@ ToolkitMacOS::ToolkitMacOS(int argc, char **argv)
 }
 
 void
-ToolkitMacOS::init(std::shared_ptr<IApplication> app)
+ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
 {
   Toolkit::init(app);
 

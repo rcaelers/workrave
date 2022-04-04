@@ -33,7 +33,7 @@ class WindowsStatusIcon;
 class StatusIcon : public workrave::utils::Trackable
 {
 public:
-  StatusIcon(std::shared_ptr<IApplication> app, std::shared_ptr<ToolkitMenu> status_icon_menu);
+  StatusIcon(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ToolkitMenu> status_icon_menu);
 
   void init();
   void set_operation_mode(workrave::OperationMode m);
@@ -55,7 +55,7 @@ private:
   void on_balloon_activate(std::string id);
 #endif
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   std::shared_ptr<ToolkitMenu> menu;
   AppHold apphold;
 

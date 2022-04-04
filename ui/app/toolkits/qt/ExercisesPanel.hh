@@ -25,7 +25,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "commonui/Exercise.hh"
 
 class ExercisesPanel : public QWidget
@@ -33,7 +33,7 @@ class ExercisesPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit ExercisesPanel(std::shared_ptr<IApplication> app, bool standalone);
+  explicit ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool standalone);
   ~ExercisesPanel() override = default;
 
   void set_exercise_count(int num);

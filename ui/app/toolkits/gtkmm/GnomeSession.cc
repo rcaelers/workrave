@@ -23,7 +23,7 @@
 
 #include "debug.hh"
 
-GnomeSession::GnomeSession(std::shared_ptr<IApplication> app)
+GnomeSession::GnomeSession(std::shared_ptr<IPluginContext> app)
   : toolkit(app->get_toolkit())
 {
   init();

@@ -38,7 +38,7 @@ ToolkitUnix::ToolkitUnix(int argc, char **argv)
 }
 
 void
-ToolkitUnix::init(std::shared_ptr<IApplication> app)
+ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
 #if defined(PLATFORM_OS_UNIX)
   XInitThreads();

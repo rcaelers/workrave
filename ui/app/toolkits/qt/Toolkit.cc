@@ -44,7 +44,7 @@ Toolkit::Toolkit(int argc, char **argv)
 }
 
 void
-Toolkit::init(std::shared_ptr<IApplication> app)
+Toolkit::init(std::shared_ptr<IApplicationContext> app)
 {
   this->app = app;
 

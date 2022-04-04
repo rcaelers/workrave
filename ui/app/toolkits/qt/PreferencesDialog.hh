@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include "DataConnector.hh"
 #include "SizeGroup.hh"
@@ -35,7 +35,7 @@ class PreferencesDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit PreferencesDialog(std::shared_ptr<IApplication> app);
+  explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
 
 private:
   void add_page(const QString &label, const char *image, QWidget *page);
@@ -44,7 +44,7 @@ private:
   auto create_ui_page() -> QWidget *;
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   IconListNotebook *notebook{nullptr};
 
   std::shared_ptr<SizeGroup> hsize_group;

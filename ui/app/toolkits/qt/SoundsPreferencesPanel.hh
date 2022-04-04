@@ -21,7 +21,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include "DataConnector.hh"
 
@@ -30,7 +30,7 @@ class SoundsPreferencesPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit SoundsPreferencesPanel(std::shared_ptr<IApplication> app);
+  explicit SoundsPreferencesPanel(std::shared_ptr<IApplicationContext> app);
 
 private:
   void on_sound_theme_changed(int index);

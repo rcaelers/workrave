@@ -27,7 +27,7 @@
 
 #import "MacOSStatusBarView.h"
 
-MacOSAppletWindow::MacOSAppletWindow(std::shared_ptr<IApplication> app)
+MacOSAppletWindow::MacOSAppletWindow(std::shared_ptr<IApplicationContext> app)
   : app(app)
 {
   TRACE_ENTRY();

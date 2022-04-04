@@ -38,7 +38,7 @@
 
 using namespace workrave;
 
-StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplication> app)
+StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplicationContext> app)
   : app(app)
 {
   auto core = app->get_core();

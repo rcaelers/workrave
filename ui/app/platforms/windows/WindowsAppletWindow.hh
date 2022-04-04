@@ -39,7 +39,7 @@ class WindowsAppletWindow
   , public workrave::utils::Trackable
 {
 public:
-  WindowsAppletWindow(std::shared_ptr<IApplication> app);
+  WindowsAppletWindow(std::shared_ptr<IPluginContext> context);
   ~WindowsAppletWindow() override;
 
   std::string get_plugin_id() const override

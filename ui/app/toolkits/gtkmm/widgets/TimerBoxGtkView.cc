@@ -42,8 +42,8 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-TimerBoxGtkView::TimerBoxGtkView(std::shared_ptr<IApplication> app, bool transparent)
-  : app(app)
+TimerBoxGtkView::TimerBoxGtkView(std::shared_ptr<workrave::ICore> core, bool transparent)
+  : core(core)
   , transparent(transparent)
 {
   init();
@@ -159,7 +159,7 @@ TimerBoxGtkView::init_widgets()
           style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
           b->set_tooltip_text(_("Take rest break now"));
-          b->signal_clicked().connect([this]() { app->get_core()->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated); });
+          b->signal_clicked().connect([this]() { core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated); });
           w = b;
         }
       else

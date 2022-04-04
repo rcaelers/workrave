@@ -22,12 +22,12 @@
 #include <list>
 
 #include "IPlugin.hh"
-#include "IApplication.hh"
+#include "IPluginContext.hh"
 
 class PluginRegistry
 {
 public:
-  using PluginFactory = std::unique_ptr<IPlugin> (*)(std::shared_ptr<IApplication> context);
+  using PluginFactory = std::unique_ptr<IPlugin> (*)(std::shared_ptr<IPluginContext> context);
 
   static PluginRegistry &instance()
   {
@@ -44,7 +44,7 @@ public:
     return true;
   }
 
-  void build(std::shared_ptr<IApplication> context)
+  void build(std::shared_ptr<IPluginContext> context)
   {
     std::cout << "build plugins\n";
     for (auto &f: plugin_factories)
@@ -77,7 +77,7 @@ public:
   {
     std::cout << "register_plugin\n";
     return PluginRegistry::instance().register_plugin(
-      [](std::shared_ptr<IApplication> context) -> std::unique_ptr<IPlugin> { return std::make_unique<Base>(context); });
+      [](std::shared_ptr<IPluginContext> context) -> std::unique_ptr<IPlugin> { return std::make_unique<Base>(context); });
   }
 
 protected:

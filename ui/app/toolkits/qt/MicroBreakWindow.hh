@@ -26,7 +26,7 @@ class MicroBreakWindow : public BreakWindow
   Q_OBJECT
 
 public:
-  MicroBreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakFlags break_flags);
+  MicroBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags);
 
   void set_progress(int value, int max_value) override;
 
@@ -42,7 +42,7 @@ private:
   void on_restbreaknow_button_clicked();
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   TimeBar *time_bar{nullptr};
   QLabel *label{nullptr};
 };

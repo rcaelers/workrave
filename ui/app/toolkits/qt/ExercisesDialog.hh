@@ -23,14 +23,14 @@
 #include <memory>
 
 #include "ExercisesPanel.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class ExercisesDialog : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit ExercisesDialog(std::shared_ptr<IApplication> app);
+  explicit ExercisesDialog(std::shared_ptr<IApplicationContext> app);
   ~ExercisesDialog() override = default;
 
 private:

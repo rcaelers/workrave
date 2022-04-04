@@ -39,7 +39,7 @@ DEFINE_DATA_TYPE_PTR(QComboBox, DataConnectionQComboBox);
 DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
-DataConnector::DataConnector(std::shared_ptr<IApplication> app)
+DataConnector::DataConnector(std::shared_ptr<IApplicationContext> app)
   : config(app->get_core()->get_configurator())
 {
 }

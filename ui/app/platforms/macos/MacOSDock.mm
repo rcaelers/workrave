@@ -177,7 +177,7 @@ public:
   DockTileView *dockTile;
 };
 
-MacOSDock::MacOSDock(std::shared_ptr<IApplication> app)
+MacOSDock::MacOSDock(std::shared_ptr<IApplicationContext> app)
 : app(app)
 {
   priv = std::make_shared<DockPrivate>();

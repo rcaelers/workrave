@@ -22,20 +22,20 @@
 
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class DockPrivate;
 
 class MacOSDock : public workrave::utils::Trackable
 {
 public:
-  explicit MacOSDock(std::shared_ptr<IApplication> app);
+  explicit MacOSDock(std::shared_ptr<IApplicationContext> app);
 
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   std::shared_ptr<DockPrivate> priv;
 };
 

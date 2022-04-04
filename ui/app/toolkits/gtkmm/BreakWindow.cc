@@ -52,7 +52,7 @@
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "ui/windows/DesktopWindow.hh"
@@ -63,7 +63,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(std::shared_ptr<IApplication> app, BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode mode)
+BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode mode)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , app(app)
   , block_mode(mode)

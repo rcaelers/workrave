@@ -39,8 +39,8 @@ using namespace workrave;
 using namespace workrave::config;
 
 //! Constructor.
-TimerBoxControl::TimerBoxControl(std::shared_ptr<IApplication> app, std::string n, ITimerBoxView *v)
-  : app(app)
+TimerBoxControl::TimerBoxControl(std::shared_ptr<workrave::ICore> core, std::string n, ITimerBoxView *v)
+  : core(core)
   , view(v)
   , name(std::move(n))
 {
@@ -51,7 +51,6 @@ TimerBoxControl::TimerBoxControl(std::shared_ptr<IApplication> app, std::string 
 void
 TimerBoxControl::update()
 {
-  auto core = app->get_core();
   OperationMode mode = core->get_regular_operation_mode();
 
   if (reconfigure)
@@ -138,7 +137,6 @@ TimerBoxControl::update_widgets()
 {
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      auto core = app->get_core();
       auto b = core->get_break(static_cast<BreakId>(count));
 
       time_t value = 0;
@@ -263,7 +261,6 @@ TimerBoxControl::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      auto core = app->get_core();
       auto b = core->get_break(BreakId(i));
 
       bool on = b->is_enabled();
@@ -285,7 +282,6 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      auto core = app->get_core();
       auto b = core->get_break(static_cast<BreakId>(i));
 
       int64_t time_left = b->get_limit() - b->get_elapsed_time();

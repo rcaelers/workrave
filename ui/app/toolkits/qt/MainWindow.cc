@@ -33,14 +33,14 @@
 #include "ToolkitMenu.hh"
 #include "commonui/MenuDefs.hh"
 
-MainWindow::MainWindow(std::shared_ptr<IApplication> app, QWidget *parent)
+MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent)
   : QWidget(parent)
 {
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
 
   timer_box_view = new TimerBoxView;
-  timer_box_control = std::make_shared<TimerBoxControl>(app, "main_window", timer_box_view);
+  timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
 
   auto *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);

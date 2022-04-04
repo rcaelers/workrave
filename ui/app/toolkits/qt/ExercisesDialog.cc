@@ -28,7 +28,7 @@
 
 #include "ExercisesPanel.hh"
 
-ExercisesDialog::ExercisesDialog(std::shared_ptr<IApplication> app)
+ExercisesDialog::ExercisesDialog(std::shared_ptr<IApplicationContext> app)
   : QDialog()
 {
   TRACE_ENTRY();

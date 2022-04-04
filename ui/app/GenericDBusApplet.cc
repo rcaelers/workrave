@@ -38,14 +38,14 @@
 #define WORKRAVE_APPLET_SERVICE_IFACE "org.workrave.AppletInterface"
 #define WORKRAVE_APPLET_SERVICE_OBJ "/org/workrave/Workrave/UI"
 
-GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IApplication> app)
-  : app(app)
-  , toolkit(app->get_toolkit())
-  , menu_model(app->get_menu_model())
+GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
+  : context(context)
+  , toolkit(context->get_toolkit())
+  , menu_model(context->get_menu_model())
   , menu_helper(menu_model)
   , apphold(toolkit)
 {
-  control = std::make_shared<TimerBoxControl>(app, "applet", this);
+  control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -114,7 +114,7 @@ GenericDBusApplet::init()
 {
   try
     {
-      dbus = app->get_core()->get_dbus();
+      dbus = context->get_core()->get_dbus();
       if (dbus->is_available())
         {
           dbus->connect(WORKRAVE_APPLET_SERVICE_OBJ, WORKRAVE_APPLET_SERVICE_IFACE, this);

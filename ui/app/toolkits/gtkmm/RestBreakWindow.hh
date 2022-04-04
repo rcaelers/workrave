@@ -24,7 +24,7 @@ class TimeBar;
 
 #include "ui/GUIConfig.hh"
 #include "ui/SoundTheme.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "BreakWindow.hh"
 
 namespace Gtk
@@ -36,7 +36,7 @@ namespace Gtk
 class RestBreakWindow : public BreakWindow
 {
 public:
-  RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
+  RestBreakWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
   ~RestBreakWindow() override;
 
   void start() override;

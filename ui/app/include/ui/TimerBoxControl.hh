@@ -24,12 +24,12 @@
 
 #include "core/ICore.hh"
 #include "ui/ITimerBoxView.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class TimerBoxControl : public workrave::utils::Trackable
 {
 public:
-  TimerBoxControl(std::shared_ptr<IApplication> app, std::string name, ITimerBoxView *view);
+  TimerBoxControl(std::shared_ptr<workrave::ICore> core, std::string name, ITimerBoxView *view);
 
   void init();
   void update();
@@ -47,7 +47,7 @@ private:
   void cycle_slots();
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<workrave::ICore> core;
   ITimerBoxView *view{nullptr};
   bool reconfigure{false};
   int cycle_time{10};

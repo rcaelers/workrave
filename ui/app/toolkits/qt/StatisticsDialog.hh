@@ -25,21 +25,21 @@
 #include <memory>
 
 #include "core/IStatistics.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class StatisticsDialog : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit StatisticsDialog(std::shared_ptr<IApplication> app);
+  explicit StatisticsDialog(std::shared_ptr<IApplicationContext> app);
 
   static const int BREAK_STATS = 7;
 
   auto run() -> int;
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   workrave::IStatistics::Ptr statistics;
 
   QLabel *break_labels[workrave::BREAK_ID_SIZEOF][9];

@@ -26,7 +26,7 @@
 class DailyLimitWindow : public BreakWindow
 {
 public:
-  DailyLimitWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
+  DailyLimitWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakFlags break_flags, BlockMode mode);
   ~DailyLimitWindow() override = default;
 
   void set_progress(int value, int max_value) override;

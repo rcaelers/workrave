@@ -27,7 +27,7 @@
 #include "IconListNotebook.hh"
 #include "core/ICore.hh"
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "ui/SoundTheme.hh"
 
 #include <gtkmm.h>
@@ -48,7 +48,7 @@ namespace Gtk
 class PreferencesDialog : public HigDialog
 {
 public:
-  explicit PreferencesDialog(std::shared_ptr<IApplication> app);
+  explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
   ~PreferencesDialog() override;
 
   int run();
@@ -120,7 +120,7 @@ private:
     Gtk::TreeModelColumn<Glib::ustring> label;
   };
 
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   SoundTheme::Ptr sound_theme;
   DataConnector *connector;
   Gtk::TreeView sound_treeview;

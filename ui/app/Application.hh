@@ -30,7 +30,8 @@
 #include "Menus.hh"
 #include "core/IApp.hh"
 #include "core/ICore.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
+#include "ui/IPluginContext.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
 #include "ui/IToolkitFactory.hh"
@@ -41,7 +42,9 @@
 #include "PreferencesRegistry.hh"
 
 class Application
-  : public IApplication
+  : public std::enable_shared_from_this<Application>
+  , public IApplicationContext
+  , public IPluginContext
   , public workrave::IApp
 #if !defined(HAVE_CORE_NEXT)
   , public workrave::ICoreEventListener

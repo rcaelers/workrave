@@ -46,7 +46,7 @@ using namespace workrave::utils;
 #  define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #endif
 
-GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplication> app)
+GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicationContext> app)
 {
   connector = std::make_shared<DataConnector>(app);
 

@@ -23,7 +23,7 @@
 
 #include "utils/Signals.hh"
 #include "ui/ITimerBoxView.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 #include "TimeBar.hh"
 //#include "Menus.hh"
@@ -44,7 +44,7 @@ class TimerBoxGtkView
   , public workrave::utils::Trackable
 {
 public:
-  TimerBoxGtkView(std::shared_ptr<IApplication> app, bool transparent = false);
+  TimerBoxGtkView(std::shared_ptr<workrave::ICore> core, bool transparent = false);
   ~TimerBoxGtkView() override;
 
   int get_visible_count() const;
@@ -75,7 +75,7 @@ private:
 
   int get_number_of_timers() const;
 
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<workrave::ICore> core;
 
   //! Use tranparentcy.
   bool transparent;

@@ -37,7 +37,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-Menus::Menus(std::shared_ptr<IApplication> app)
+Menus::Menus(std::shared_ptr<IApplicationContext> app)
   : app(app)
   , toolkit(app->get_toolkit())
   , core(app->get_core())

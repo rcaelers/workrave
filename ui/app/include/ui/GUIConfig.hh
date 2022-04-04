@@ -24,7 +24,7 @@
 #include "core/ICore.hh"
 #include "config/Setting.hh"
 
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 enum class BlockMode
 {
@@ -86,7 +86,7 @@ public:
   static workrave::config::SettingGroup &key_main_window();
   static workrave::config::SettingGroup &key_timerbox(const std::string &box);
 
-  static void init(std::shared_ptr<IApplication> app);
+  static void init(std::shared_ptr<IApplicationContext> app);
 
 private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
@@ -123,7 +123,7 @@ private:
 
 private:
   static std::string expand(const std::string &str, workrave::BreakId id);
-  static inline std::shared_ptr<IApplication> app;
+  static inline std::shared_ptr<IApplicationContext> app;
   static inline std::shared_ptr<workrave::config::IConfigurator> config;
 };
 

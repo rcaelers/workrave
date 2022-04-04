@@ -32,7 +32,7 @@
 #include "StatusIcon.hh"
 
 #include "core/CoreTypes.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
 #include "utils/Signals.hh"
 
@@ -49,7 +49,7 @@ public:
   ~Toolkit() override;
 
   // IToolkit
-  void init(std::shared_ptr<IApplication> app) override;
+  void init(std::shared_ptr<IApplicationContext> app) override;
   void deinit() override;
 
   HeadInfo get_head_info(int screen_index) const override;
@@ -101,7 +101,7 @@ private:
   void on_status_icon_activated();
 
 protected:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};
   Glib::RefPtr<Gtk::Application> gapp;
 

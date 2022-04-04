@@ -25,22 +25,16 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#include "ui/Plugin.hh"
 #include "commonui/MenuModel.hh"
 #include "commonui/MenuHelper.hh"
 #include "utils/Signals.hh"
 #include "ui/AppHold.hh"
 
-class WindowsStatusIcon : public Plugin<WindowsStatusIcon>
+class WindowsStatusIcon
 {
 public:
-  explicit WindowsStatusIcon(std::shared_ptr<IApplication> app);
+  explicit WindowsStatusIcon(std::shared_ptr<IApplicationContext> app);
   virtual ~WindowsStatusIcon();
-
-  std::string get_plugin_id() const override
-  {
-    return "workrave.WindowsStatusIcon";
-  }
 
   void set_tooltip(const std::string &text);
   void show_balloon(const std::string &id, const std::string &balloon);
@@ -61,10 +55,10 @@ private:
   void set_operation_mode(workrave::OperationMode m);
 
 private:
+  std::shared_ptr<IApplicationContext> app;
   std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
-  std::shared_ptr<IApplication> app;
   AppHold apphold;
 
   std::string current_id;

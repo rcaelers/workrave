@@ -41,7 +41,7 @@
 using namespace std;
 using namespace workrave;
 
-StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplication> app)
+StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplicationContext> app)
   : HigDialog(_("Statistics"), false, false)
   , app(app)
 {

@@ -33,7 +33,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, BreakFlags break_flags)
+RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
   : BreakWindow(app, screen, BREAK_ID_REST_BREAK, break_flags)
   , app(app)
   , sound_theme(app->get_sound_theme())

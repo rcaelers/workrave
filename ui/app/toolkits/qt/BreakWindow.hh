@@ -31,7 +31,7 @@
 #include "ui/IBreakWindow.hh"
 #include "Frame.hh"
 #include "SizeGroup.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 class BreakWindow
   : public QWidget
@@ -40,7 +40,7 @@ class BreakWindow
   Q_OBJECT
 
 public:
-  BreakWindow(std::shared_ptr<IApplication> app, QScreen *screen, workrave::BreakId break_id, BreakFlags break_flags);
+  BreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, workrave::BreakId break_id, BreakFlags break_flags);
   ~BreakWindow() override;
 
   void init() override;
@@ -85,7 +85,7 @@ private:
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, QString &name, QString &icon_name);
 
 private:
-  IApplication::Ptr app;
+  IApplicationContext::Ptr app;
   workrave::BreakId break_id;
   BreakFlags break_flags;
   BlockMode block_mode;

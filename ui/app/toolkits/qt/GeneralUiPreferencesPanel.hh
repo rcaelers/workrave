@@ -29,7 +29,7 @@ class GeneralUiPreferencesPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit GeneralUiPreferencesPanel(std::shared_ptr<IApplication> app);
+  explicit GeneralUiPreferencesPanel(std::shared_ptr<IApplicationContext> app);
   ~GeneralUiPreferencesPanel() override;
 
 private:

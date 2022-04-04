@@ -45,7 +45,7 @@
 
 using namespace std;
 
-MainWindow::MainWindow(std::shared_ptr<IApplication> app)
+MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app)
   : app(app)
   , toolkit(app->get_toolkit())
 {
@@ -200,8 +200,8 @@ MainWindow::init()
   Gtk::Window::set_default_icon_list(icon_list);
   // Gtk::Window::set_default_icon_name("workrave");
 
-  timer_box_view = Gtk::manage(new TimerBoxGtkView(app));
-  timer_box_control = new TimerBoxControl(app, "main_window", timer_box_view);
+  timer_box_view = Gtk::manage(new TimerBoxGtkView(app->get_core()));
+  timer_box_control = new TimerBoxControl(app->get_core(), "main_window", timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
 

@@ -72,7 +72,7 @@ if (PLATFORM_OS_MACOS)
 
   # set_source_files_properties(macos/MacOSAppletWindow.cc macos/MacOSGtkMenu.cc macos/MacOSUtil.cc Locale.cc AppletControl.cc macos/MacOSTimeBar.mm macos/MacOSStatusBarView.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 
-  target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/platforms/macos)
+  target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
 target_include_directories(

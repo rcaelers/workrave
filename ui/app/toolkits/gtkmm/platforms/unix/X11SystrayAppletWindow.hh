@@ -28,7 +28,7 @@
 #include "ui/TimerBoxControl.hh"
 
 #include "ui/Plugin.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
 #include "ToolkitMenu.hh"
 #include "TimerBoxGtkView.hh"
@@ -39,7 +39,7 @@ class X11SystrayAppletWindow
   , public Plugin<X11SystrayAppletWindow>
 {
 public:
-  X11SystrayAppletWindow(std::shared_ptr<IApplication> app);
+  X11SystrayAppletWindow(std::shared_ptr<IPluginContext> context);
   ~X11SystrayAppletWindow() override;
 
   std::string get_plugin_id() const override
@@ -48,7 +48,7 @@ public:
   }
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IPluginContext> context;
   std::shared_ptr<IToolkit> toolkit;
   AppHold apphold;
   std::shared_ptr<ToolkitMenu> menu;

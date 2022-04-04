@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include "WindowsStatusIcon.hh"
+#include "ui/windows/WindowsStatusIcon.hh"
 
 #include <string>
 #include <shellapi.h>
@@ -35,8 +35,9 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 #define NUM_ELEMENTS(x) (sizeof(x) / sizeof((x)[0]))
 
-WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplication> app)
-  : toolkit(app->get_toolkit())
+WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplicationContext> app)
+  : app(app)
+  , toolkit(app->get_toolkit())
   , menu_model(app->get_menu_model())
   , menu_helper(menu_model)
   , apphold(toolkit)

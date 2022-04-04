@@ -31,12 +31,14 @@
 
 #include "wmf.h"
 
+#include "ui/prefwidgets/Widgets.hh"
+
 class WindowsFocusAssist
 {
 public:
   WindowsFocusAssist() = delete;
   ~WindowsFocusAssist() = default;
-  explicit WindowsFocusAssist(std::shared_ptr<IApplication> app);
+  explicit WindowsFocusAssist(std::shared_ptr<IPluginContext> context);
 
 private:
   void init();
@@ -56,7 +58,7 @@ private:
                                                 _In_ ULONG bufferSize);
 
 private:
-  std::shared_ptr<IApplication> app;
+  std::shared_ptr<IPluginContext> context;
 
   PRTLQUERYWNFSTATEDATA rtlQueryWnfStateData{nullptr};
   PRTLSUBSCRIBEWNFSTATECHANGENOTIFICATION rtlSubscribeWnfStateChangeNotification{nullptr};
@@ -81,6 +83,8 @@ private:
   menus::RadioNode::Ptr focus_mode_quiet_item;
   menus::RadioNode::Ptr focus_mode_suspended_item;
   menus::RadioNode::Ptr focus_mode_off_item;
+
+  std::shared_ptr<ui::prefwidgets::Frame> focus_def;
 };
 
 #endif // WINDOWSFOCUSASSIST_HH

@@ -62,7 +62,7 @@ const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
 const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 void
-GUIConfig::init(std::shared_ptr<IApplication> app)
+GUIConfig::init(std::shared_ptr<IApplicationContext> app)
 {
   GUIConfig::app = app;
   GUIConfig::config = app->get_core()->get_configurator();

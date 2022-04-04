@@ -49,7 +49,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
 
-RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplication> app, HeadInfo head, BreakFlags break_flags, BlockMode mode)
+RestBreakWindow::RestBreakWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakFlags break_flags, BlockMode mode)
   : BreakWindow(app, BREAK_ID_REST_BREAK, head, break_flags, mode)
 {
   TRACE_ENTRY();

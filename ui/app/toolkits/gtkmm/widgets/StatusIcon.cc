@@ -24,19 +24,19 @@
 #include <string>
 
 #if defined(PLATFORM_OS_WINDOWS)
-#  include "WindowsStatusIcon.hh"
+#  include "ui/windows/WindowsStatusIcon.hh"
 #  include "ui/windows/IToolkitWindows.hh"
 #endif
 
 #include "GtkUtil.hh"
 #include "ui/GUIConfig.hh"
 #include "debug.hh"
-#include "ui/IApplication.hh"
+#include "ui/IApplicationContext.hh"
 
 using namespace std;
 using namespace workrave;
 
-StatusIcon::StatusIcon(std::shared_ptr<IApplication> app, std::shared_ptr<ToolkitMenu> status_icon_menu)
+StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ToolkitMenu> status_icon_menu)
   : app(app)
   , menu(status_icon_menu)
   , apphold(app->get_toolkit())
