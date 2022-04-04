@@ -112,7 +112,6 @@ private:
   std::vector<IBreakWindow::Ptr> break_windows;
   std::vector<IPreludeWindow::Ptr> prelude_windows;
   workrave::BreakId active_break_id{workrave::BREAK_ID_NONE};
-  bool init_ready{false};
   bool muted{false};
   bool closewarn_shown{false};
   bool is_idle{false};

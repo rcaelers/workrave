@@ -1220,7 +1220,6 @@ Core::timer_action(BreakId id, TimerInfo info)
     }
 
   BreakControl *breaker = breaks[id].get_break_control();
-  Timer *timer = breaks[id].get_timer();
 
   assert(breaker != nullptr && timer != nullptr);
 
