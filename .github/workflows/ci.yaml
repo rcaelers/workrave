@@ -140,7 +140,7 @@ jobs:
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
-          - image: mingw-gtk-rawhide
+          - image: mingw-fedora-rawhide
             os: ubuntu-latest
             compiler: clang
             ui: Gtk+3
@@ -149,7 +149,7 @@ jobs:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
             upload: true
 
-          - image: mingw-gtk-rawhide
+          - image: mingw-fedora-rawhide
             os: ubuntu-latest
             compiler: clang
             ui: Gtk+3
