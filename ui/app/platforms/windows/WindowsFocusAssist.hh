@@ -33,12 +33,17 @@
 
 #include "ui/prefwidgets/Widgets.hh"
 
-class WindowsFocusAssist
+class WindowsFocusAssist : public Plugin<WindowsFocusAssist>
 {
 public:
   WindowsFocusAssist() = delete;
-  ~WindowsFocusAssist() = default;
+  ~WindowsFocusAssist() override = default;
   explicit WindowsFocusAssist(std::shared_ptr<IPluginContext> context);
+
+  std::string get_plugin_id() const override
+  {
+    return "workrave.WindowsFocusAssist";
+  }
 
 private:
   void init();
