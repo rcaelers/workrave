@@ -40,6 +40,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
     mingw64-gtkmm30 \
     mingw64-librsvg2 \
     ninja-build \
+    openssl1.1 \
     python3-jinja2 \
     python3-pip \
     strace \
