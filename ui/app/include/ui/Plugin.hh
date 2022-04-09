@@ -39,22 +39,15 @@ public:
 
   bool register_plugin(PluginFactory factory)
   {
-    std::cout << "register plugin\n";
     plugin_factories.push_back(factory);
     return true;
   }
 
   void build(std::shared_ptr<IPluginContext> context)
   {
-    std::cout << "build plugins\n";
     for (auto &f: plugin_factories)
       {
-        std::cout << "build plugin\n";
         plugins.emplace_back(f(context));
-      }
-    for (auto &f: plugins)
-      {
-        std::cout << f->get_plugin_id() << "\n";
       }
   }
 
@@ -69,13 +62,11 @@ class Plugin : public IPlugin
 public:
   Plugin()
   {
-    std::cout << "Plugin::Plugin\n";
     (void)registered;
   }
 
   static bool register_plugin()
   {
-    std::cout << "register_plugin\n";
     return PluginRegistry::instance().register_plugin(
       [](std::shared_ptr<IPluginContext> context) -> std::unique_ptr<IPlugin> { return std::make_unique<Base>(context); });
   }

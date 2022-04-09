@@ -33,6 +33,10 @@ PreferencesRegistry::add(PreferencesSection section, std::shared_ptr<ui::prefwid
 void
 PreferencesRegistry::remove(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget)
 {
+  if (widgets.contains(section))
+    {
+      widgets[section].remove(widget);
+    }
 }
 
 std::list<std::shared_ptr<ui::prefwidgets::Widget>>

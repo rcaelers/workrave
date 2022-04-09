@@ -22,6 +22,7 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 
+#include <memory>
 #include <cassert>
 
 #include <boost/algorithm/string.hpp>
@@ -29,26 +30,26 @@
 
 #include <gtkmm.h>
 
-#include "commonui/Locale.hh"
-#include "utils/Platform.hh"
-#include "utils/Paths.hh"
-
+#include "DataConnector.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "PreferencesDialog.hh"
 #include "TimeEntry.hh"
 #include "TimerBoxPreferencePage.hh"
 #include "TimerPreferencesPanel.hh"
-#include "utils/AssetPath.hh"
-//#include "Application.hh"
-#include "ui/GUIConfig.hh"
-#include "DataConnector.hh"
 #include "Ui.hh"
-//#include "Menus.hh"
-#include "ui/IToolkit.hh"
 
-#include "core/CoreConfig.hh"
+#include "commonui/Locale.hh"
 #include "config/IConfigurator.hh"
+#include "core/CoreConfig.hh"
+#include "core/CoreTypes.hh"
+#include "ui/GUIConfig.hh"
+#include "ui/IToolkit.hh"
+#include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
+#include "utils/Platform.hh"
+
+using namespace ui::prefwidgets;
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
@@ -284,9 +285,14 @@ PreferencesDialog::create_gui_page()
 
   connector->connect(GUIConfig::theme_dark(), dc::wrap(dark_cb));
 #endif
+  Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
+  vbox->pack_start(*panel, false, false, 0);
+
+  general_frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(vbox);
+  GtkUtil::add_plugin_widgets(app, general_frame);
 
   panel->set_border_width(12);
-  return panel;
+  return vbox;
 }
 
 Gtk::Widget *

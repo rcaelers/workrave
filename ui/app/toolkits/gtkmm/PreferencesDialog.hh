@@ -18,20 +18,18 @@
 #ifndef PREFERENCESDIALOG_HH
 #define PREFERENCESDIALOG_HH
 
-#include <cstdio>
-
 #include <vector>
 
+#include <gtkmm.h>
+
 #include "Hig.hh"
-
 #include "IconListNotebook.hh"
-#include "core/ICore.hh"
 
+#include "core/ICore.hh"
 #include "ui/IApplicationContext.hh"
 #include "ui/SoundTheme.hh"
-
-#include <gtkmm.h>
-//#include <gtkmmconfig.h>
+#include "ui/prefwidgets/gtkmm/Widget.hh"
+#include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 
 class TimeEntry;
 class DataConnector;
@@ -137,6 +135,7 @@ private:
   Glib::RefPtr<Gtk::FileFilter> filefilter;
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb{nullptr};
+  std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> general_frame;
 #if defined(PLATFORM_OS_WINDOWS)
   Gtk::CheckButton *dark_cb{nullptr};
   Glib::RefPtr<Glib::Binding> dark_binding;

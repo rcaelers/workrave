@@ -29,9 +29,9 @@ namespace workrave::core
 #include "ui/SoundTheme.hh"
 #include "commonui/MenuModel.hh"
 #include "ui/IToolkit.hh"
-#include "ui/IPreferencesRegistry.hh"
+#include "ui/IPreferencesRegistryInternal.hh"
 
-class IApplicationContext // : public std::enable_shared_from_this<IApplicationContext>
+class IApplicationContext
 {
 public:
   using Ptr = std::shared_ptr<IApplicationContext>;
@@ -42,7 +42,7 @@ public:
   virtual IToolkit::Ptr get_toolkit() const = 0;
   virtual SoundTheme::Ptr get_sound_theme() const = 0;
   virtual MenuModel::Ptr get_menu_model() const = 0;
-  virtual IPreferencesRegistry::Ptr get_preferences_registry() const = 0;
+  virtual IPreferencesRegistryInternal::Ptr get_internal_preferences_registry() const = 0;
 };
 
 #endif // WORKRAVE_UI_IAPPLICATIONCONTEXT_HH

@@ -60,6 +60,7 @@ public:
   auto get_core() const -> workrave::ICore::Ptr override;
   auto get_toolkit() const -> IToolkit::Ptr override;
   auto get_preferences_registry() const -> IPreferencesRegistry::Ptr override;
+  auto get_internal_preferences_registry() const -> IPreferencesRegistryInternal::Ptr override;
 
   void main();
 
@@ -147,6 +148,12 @@ Application::get_toolkit() const -> IToolkit::Ptr
 
 inline auto
 Application::get_preferences_registry() const -> IPreferencesRegistry::Ptr
+{
+  return preferences_registry;
+}
+
+inline auto
+Application::get_internal_preferences_registry() const -> IPreferencesRegistryInternal::Ptr
 {
   return preferences_registry;
 }

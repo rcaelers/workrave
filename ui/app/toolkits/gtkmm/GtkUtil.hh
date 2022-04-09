@@ -22,7 +22,9 @@
 
 #include <string>
 
+#include "ui/IApplicationContext.hh"
 #include "core/ICore.hh"
+#include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 
 class HeadInfo;
 class EventImage;
@@ -71,6 +73,8 @@ public:
   static Gtk::Image *create_image(const std::string &name);
 
   static void set_always_on_top(Gtk::Window *window, bool ontop);
+
+  static void add_plugin_widgets(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> frame);
 
 private:
   static Glib::Quark *label_quark;

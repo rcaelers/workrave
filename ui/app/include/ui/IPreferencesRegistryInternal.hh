@@ -15,27 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_UI_IPREFERENCES_REGISTRY_HH
-#define WORKRAVE_UI_IPREFERENCES_REGISTRY_HH
+#ifndef WORKRAVE_UI_IPREFERENCES_REGISTRY_INTERNAL_HH
+#define WORKRAVE_UI_IPREFERENCES_REGISTRY_INTERNAL_HH
 
 #include <memory>
 
 #include "ui/prefwidgets/Widget.hh"
+#include "ui/IPreferencesRegistry.hh"
 
-enum class PreferencesSection
-{
-  General
-};
-
-class IPreferencesRegistry
+class IPreferencesRegistryInternal : public IPreferencesRegistry
 {
 public:
-  using Ptr = std::shared_ptr<IPreferencesRegistry>;
+  using Ptr = std::shared_ptr<IPreferencesRegistryInternal>;
 
-  virtual ~IPreferencesRegistry() = default;
+  virtual ~IPreferencesRegistryInternal() = default;
 
-  virtual void add(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget) = 0;
-  virtual void remove(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget) = 0;
+  virtual std::list<std::shared_ptr<ui::prefwidgets::Widget>> get_widgets(PreferencesSection section) const = 0;
 };
 
-#endif // WORKRAVE_UI_IPREFERENCES_REGISTRY_HH
+#endif // WORKRAVE_UI_IPREFERENCES_REGISTRY_INTERNAL_HH

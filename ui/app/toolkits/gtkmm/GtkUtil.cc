@@ -44,6 +44,9 @@
 
 #include "utils/AssetPath.hh"
 
+#include "ui/prefwidgets/gtkmm/Widget.hh"
+#include "ui/prefwidgets/gtkmm/Builder.hh"
+
 using namespace std;
 using namespace workrave;
 using namespace workrave::utils;
@@ -460,4 +463,15 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool on_top)
   window->set_keep_above(on_top);
 
 #endif
+}
+
+void
+GtkUtil::add_plugin_widgets(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> frame)
+{
+  ui::prefwidgets::gtkmm::Builder builder;
+  auto preferences_registry = app->get_internal_preferences_registry();
+  for (auto pref: preferences_registry->get_widgets(PreferencesSection::General))
+    {
+      builder.build(pref, frame);
+    }
 }

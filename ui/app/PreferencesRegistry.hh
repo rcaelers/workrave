@@ -18,16 +18,15 @@
 #ifndef PREFERENCES_REGISTRY_HH
 #define PREFERENCES_REGISTRY_HH
 
-#include "ui/IPreferencesRegistry.hh"
-
 #include <map>
 #include <boost/signals2.hpp>
 
+#include "ui/IPreferencesRegistry.hh"
+#include "ui/IPreferencesRegistryInternal.hh"
+
 #include "utils/Signals.hh"
 
-class PreferencesRegistry
-  : public IPreferencesRegistry
-  , public IPreferencesRegistryInternal
+class PreferencesRegistry : public IPreferencesRegistryInternal
 {
 public:
   PreferencesRegistry() = default;
