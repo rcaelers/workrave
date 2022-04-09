@@ -72,24 +72,11 @@ private:
   DWORD64 subscription{0};
   workrave::OperationMode focus_operation_mode{workrave::OperationMode::Normal};
   bool focus_mode_active{false};
+  std::shared_ptr<ui::prefwidgets::Frame> focus_def;
   workrave::utils::Trackable tracker;
 
   static constexpr WNF_STATE_NAME WNF_SHEL_QUIETHOURS_ACTIVE_PROFILE_CHANGED{0xA3BF1C75, 0xD83063E};
   static constexpr std::string_view operation_mode_override_id{"focus"};
-
-  using sv = std::string_view;
-  static constexpr std::string_view FOCUS_MODE_MENU = sv("workrave.mode_menu");
-  static constexpr std::string_view FOCUS_MODE = sv("workrave.focus_mode");
-  static constexpr std::string_view FOCUS_MODE_OFF = sv("workrave.focus_mode_off");
-  static constexpr std::string_view FOCUS_MODE_QUIET = sv("workrave.focus_mode_quiet");
-  static constexpr std::string_view FOCUS_MODE_SUSPENDED = sv("workrave.focus_mode_suspended");
-
-  menus::RadioGroupNode::Ptr focus_mode_group;
-  menus::RadioNode::Ptr focus_mode_quiet_item;
-  menus::RadioNode::Ptr focus_mode_suspended_item;
-  menus::RadioNode::Ptr focus_mode_off_item;
-
-  std::shared_ptr<ui::prefwidgets::Frame> focus_def;
 };
 
 #endif // WINDOWSFOCUSASSIST_HH

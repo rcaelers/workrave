@@ -55,22 +55,34 @@ WindowsFocusAssist::init()
       return;
     }
 
-  create_focus_mode_menu();
-
-  GUIConfig::focus_mode().attach(tracker, [&](FocusMode mode) {
-    focus_mode_group->select(static_cast<std::underlying_type_t<FocusMode>>(mode));
-
-    if (mode == FocusMode::Off)
+  GUIConfig::follow_focus_assist_enabled().attach(tracker, [&](bool enabled) {
+    if (enabled)
+      {
+        enable();
+      }
+    else
       {
         focus_mode_active = false;
         disable();
       }
-    else
-      {
-        enable();
-      }
     update_focus_assist();
   });
+
+  GUIConfig::focus_mode().attach(tracker, [&](FocusMode mode) {
+    update_focus_assist();
+  });
+
+  std::vector<std::string> focus_content{_("Suspended"), _("Quiet")};
+
+  focus_def = ui::prefwidgets::Frame::create(_("Focus Assist"))
+              << ui::prefwidgets::Toggle::create(_("Set operation mode based on Windows Focus Assist"))
+                   ->connect(&GUIConfig::follow_focus_assist_enabled())
+              << ui::prefwidgets::Choice::create(_("Operation mode during Focus Assist:"))
+                   ->connect(&GUIConfig::focus_mode())
+                   ->assign(focus_content)
+                   ->when(&GUIConfig::follow_focus_assist_enabled());
+
+  context->get_preferences_registry()->add(PreferencesSection::General, focus_def);
 }
 
 void
@@ -124,17 +136,21 @@ WindowsFocusAssist::update_focus_assist()
 
   if (focus_mode_active)
     {
-      switch (GUIConfig::focus_mode()())
+      if (GUIConfig::follow_focus_assist_enabled()())
         {
-        case FocusMode::Off:
+          switch (GUIConfig::focus_mode()())
+            {
+            case FocusMode::Suspended:
+              requested_focus_operation_mode = workrave::OperationMode::Suspended;
+              break;
+            case FocusMode::Quiet:
+              requested_focus_operation_mode = workrave::OperationMode::Quiet;
+              break;
+            }
+        }
+      else
+        {
           requested_focus_operation_mode = workrave::OperationMode::Normal;
-          break;
-        case FocusMode::Suspended:
-          requested_focus_operation_mode = workrave::OperationMode::Suspended;
-          break;
-        case FocusMode::Quiet:
-          requested_focus_operation_mode = workrave::OperationMode::Quiet;
-          break;
         }
     }
   else
@@ -148,52 +164,13 @@ WindowsFocusAssist::update_focus_assist()
       auto core = context->get_core();
       if (requested_focus_operation_mode == workrave::OperationMode::Normal)
         {
-          spdlog::info("focus assist remove");
           core->remove_operation_mode_override(std::string{operation_mode_override_id});
         }
       else
         {
-          spdlog::info("focus assist {}", focus_operation_mode);
           core->set_operation_mode_override(focus_operation_mode, std::string{operation_mode_override_id});
         }
     }
-}
-
-void
-WindowsFocusAssist::create_focus_mode_menu()
-{
-  auto menu_model = context->get_menu_model();
-  auto section = menu_model->find_section("workrave.section.modes");
-
-  auto modemenu = menus::SubMenuNode::create(FOCUS_MODE_MENU, _("_Follow Focus Assist"));
-  section->add_after(modemenu, "workrave.mode_menu");
-
-  focus_mode_group = menus::RadioGroupNode::create(FOCUS_MODE, "");
-  modemenu->add(focus_mode_group);
-
-  focus_mode_off_item = menus::RadioNode::create(focus_mode_group,
-                                                 FOCUS_MODE_OFF,
-                                                 _("_Off"),
-                                                 static_cast<std::underlying_type_t<FocusMode>>(FocusMode::Off),
-                                                 [] { GUIConfig::focus_mode().set(FocusMode::Off); });
-  focus_mode_group->add(focus_mode_off_item);
-
-  focus_mode_suspended_item = menus::RadioNode::create(focus_mode_group,
-                                                       FOCUS_MODE_SUSPENDED,
-                                                       _("_Suspended"),
-                                                       static_cast<std::underlying_type_t<FocusMode>>(FocusMode::Suspended),
-                                                       [] { GUIConfig::focus_mode().set(FocusMode::Suspended); });
-  focus_mode_group->add(focus_mode_suspended_item);
-
-  focus_mode_quiet_item = menus::RadioNode::create(focus_mode_group,
-                                                   FOCUS_MODE_QUIET,
-                                                   _("Q_uiet"),
-                                                   static_cast<std::underlying_type_t<FocusMode>>(FocusMode::Quiet),
-                                                   [] { GUIConfig::focus_mode().set(FocusMode::Quiet); });
-  focus_mode_group->add(focus_mode_quiet_item);
-  focus_mode_group->select(static_cast<std::underlying_type_t<FocusMode>>(GUIConfig::focus_mode()()));
-
-  menu_model->update();
 }
 
 NTSTATUS NTAPI

@@ -36,6 +36,7 @@ const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
 const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
 const string GUIConfig::CFG_KEY_FOCUS_MODE = "gui/breaks/focus_mode";
+const string GUIConfig::CFG_KEY_FOLLOW_FOCUS_ASSIST_ENABLED = "gui/breaks/follow_focus_assist_enabled";
 const string GUIConfig::CFG_KEY_LOCALE = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
@@ -150,9 +151,15 @@ GUIConfig::block_mode() -> Setting<int, BlockMode> &
 }
 
 auto
+GUIConfig::follow_focus_assist_enabled() -> Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_FOLLOW_FOCUS_ASSIST_ENABLED, false);
+}
+
+auto
 GUIConfig::focus_mode() -> Setting<int, FocusMode> &
 {
-  return SettingCache::get<int, FocusMode>(config, CFG_KEY_FOCUS_MODE, FocusMode::Off);
+  return SettingCache::get<int, FocusMode>(config, CFG_KEY_FOCUS_MODE, FocusMode::Quiet);
 }
 
 auto
