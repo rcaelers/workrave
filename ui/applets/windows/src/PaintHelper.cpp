@@ -108,9 +108,7 @@ PaintHelper::FixIconAlpha(HICON icon)
   if (SUCCEEDED(hr))
     {
       HDC hdc = GetDC(0);
-      BITMAPINFO bmi = {
-        0,
-      };
+      BITMAPINFO bmi = {};
 
       bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
 

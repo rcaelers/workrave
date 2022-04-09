@@ -187,18 +187,9 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
   // get this app's path and file name
   GetModuleFileName(g_hInst, szModule, ARRAYSIZE(szModule));
 
-  DOREGSTRUCT ClsidEntries[] = {HKEY_CLASSES_ROOT,
-                                TEXT("CLSID\\%s"),
-                                NULL,
-                                lpszTitle,
-                                HKEY_CLASSES_ROOT,
-                                TEXT("CLSID\\%s\\InprocServer32"),
-                                NULL,
-                                szModule,
-                                HKEY_CLASSES_ROOT,
-                                TEXT("CLSID\\%s\\InprocServer32"),
-                                TEXT("ThreadingModel"),
-                                TEXT("Apartment")};
+  DOREGSTRUCT ClsidEntries[] = {{HKEY_CLASSES_ROOT, TEXT("CLSID\\%s"), NULL, lpszTitle},
+                                {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s\\InprocServer32"), NULL, szModule},
+                                {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s\\InprocServer32"), TEXT("ThreadingModel"), TEXT("Apartment")}};
 
   if (reg)
     {

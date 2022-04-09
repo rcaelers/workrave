@@ -77,9 +77,7 @@ returns true if the windows operating system is 64-bit
 bool
 W32ActiveSetup::is_os_64()
 {
-  SYSTEM_INFO si = {
-    0,
-  };
+  SYSTEM_INFO si = {};
 
   GetNativeSystemInfo(&si);
 
