@@ -32,12 +32,10 @@ SizeGroup::SizeGroup(std::shared_ptr<ui::prefwidgets::SizeGroup> def)
 {
   if (def->get_orientation() == Orientation::Vertical)
     {
-      spdlog::info("New V size group");
       group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_VERTICAL);
     }
   else
     {
-      spdlog::info("New H size group");
       group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
     }
 }
@@ -45,6 +43,5 @@ SizeGroup::SizeGroup(std::shared_ptr<ui::prefwidgets::SizeGroup> def)
 void
 SizeGroup::add(Gtk::Widget *widget)
 {
-  spdlog::info("Add widget to size group");
   group->add_widget(*widget);
 }

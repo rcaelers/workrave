@@ -209,11 +209,27 @@ namespace ui::prefwidgets
             {
               new_value = load_func();
             }
-          else if (type == workrave::config::ConfigType::Int32 && !keys.empty())
+          else if (!keys.empty())
             {
-              Type i;
-              config->get_value(keys.front(), i);
-              new_value = i;
+              auto v = config->get_value(keys.front(), type);
+              if (v.has_value())
+                {
+                  new_value = std::visit(
+                    [](auto &&arg) {
+                      using T = std::decay_t<decltype(arg)>;
+
+                      if constexpr (std::is_convertible_v<T, Type>)
+                        {
+                          return static_cast<Type>(arg);
+                        }
+                      else
+                        {
+                          return Type{};
+                        }
+                    },
+                    v.value());
+                }
+
             }
 
           if (new_value != value)
