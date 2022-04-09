@@ -47,7 +47,7 @@ W32Configurator::save()
 bool
 W32Configurator::has_user_value(const std::string &key)
 {
-  std::optional<ConfigValue> v = get_value(key, ConfigType::None);
+  std::optional<ConfigValue> v = get_value(key, ConfigType::Unknown);
   return v.has_value();
 }
 
@@ -132,13 +132,13 @@ W32Configurator::get_value(const std::string &key, ConfigType type) const
         case ConfigType::Int64:
           return boost::lexical_cast<int64_t>(value);
 
-        case ConfigType::Bool:
+        case ConfigType::Boolean:
           return boost::lexical_cast<bool>(value);
 
         case ConfigType::Double:
           return boost::lexical_cast<double>(value);
 
-        case ConfigType::None:
+        case ConfigType::Unknown:
           [[fallthrough]];
 
         case ConfigType::String:

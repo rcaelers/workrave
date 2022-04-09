@@ -130,7 +130,7 @@ Configurator::rename_key(const std::string &key, const std::string &new_key)
   bool exists = has_user_value(new_key);
   if (!exists)
     {
-      current_value = get_value(key, ConfigType::None);
+      current_value = get_value(key, workrave::config::ConfigType::Unknown);
     }
 
   if (current_value.has_value())
@@ -235,7 +235,7 @@ Configurator::get_value(const std::string &key, std::string &out) const
 bool
 Configurator::get_value(const std::string &key, bool &out) const
 {
-  auto v = get_value(key, ConfigType::Bool);
+  auto v = get_value(key, ConfigType::Boolean);
 
   try
     {

@@ -21,6 +21,8 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <variant>
+#include <optional>
 
 namespace workrave
 {
@@ -37,6 +39,8 @@ namespace workrave
       Double,
       String,
     };
+
+    using ConfigValue = std::variant<bool, int32_t, int64_t, double, std::string>;
 
     //! Hints on how to set a configuration value.
     enum ConfigFlags
@@ -75,6 +79,8 @@ namespace workrave
       virtual bool get_value(const std::string &key, int32_t &out) const = 0;
       virtual bool get_value(const std::string &key, int64_t &out) const = 0;
       virtual bool get_value(const std::string &key, double &out) const = 0;
+
+      virtual std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const = 0;
 
       virtual void get_value_with_default(const std::string &key, std::string &out, const std::string &s) const = 0;
       virtual void get_value_with_default(const std::string &key, bool &out, bool def) const = 0;

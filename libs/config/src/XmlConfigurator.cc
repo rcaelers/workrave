@@ -120,7 +120,7 @@ XmlConfigurator::get_value(const std::string &key, ConfigType type) const
       logger->debug("read {} = {}", key, pt.get<std::string>(path(key)));
       switch (type)
         {
-        case ConfigType::None:
+        case ConfigType::Unknown:
           return pt.get<std::string>(path(key));
 
         case ConfigType::Int32:
@@ -129,7 +129,7 @@ XmlConfigurator::get_value(const std::string &key, ConfigType type) const
         case ConfigType::Int64:
           return pt.get<int64_t>(path(key));
 
-        case ConfigType::Bool:
+        case ConfigType::Boolean:
           return pt.get<bool>(path(key));
 
         case ConfigType::Double:

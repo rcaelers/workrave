@@ -98,7 +98,7 @@ GSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
       return {};
     }
 
-  if (type == ConfigType::None)
+  if (type == ConfigType::Unknown)
     {
       const GVariantType *value_type = g_variant_get_type(value);
 
@@ -112,7 +112,7 @@ GSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
         }
       else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
         {
-          type = ConfigType::Bool;
+          type = ConfigType::Boolean;
         }
       else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
         {
@@ -137,7 +137,7 @@ GSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
       int64_t v = g_settings_get_int64(child, subkey.c_str());
       return v;
     }
-  if (type == ConfigType::Bool && g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
+  if (type == ConfigType::Boolean && g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
     {
       bool v = (g_settings_get_boolean(child, subkey.c_str()) == TRUE);
       return v;

@@ -19,26 +19,12 @@
 #define ICONFIGBACKEND_HH
 
 #include <string>
-#include <variant>
-#include <optional>
 #include <iostream>
 
-namespace workrave::config
-{
-  class IConfiguratorListener;
-} // namespace workrave::config
+#include "config/IConfigurator.hh"
 
-// using ConfigValue = std::variant<std::monostate, bool, int32_t, int64_t, double, std::string>;
-using ConfigValue = std::variant<bool, int32_t, int64_t, double, std::string>;
-enum class ConfigType
-{
-  None,
-  Bool,
-  Int32,
-  Int64,
-  Double,
-  String
-};
+using ConfigValue = workrave::config::ConfigValue;
+using ConfigType = workrave::config::ConfigType;
 
 constexpr ConfigType
 ConfigValueToType(ConfigValue &value)
@@ -49,7 +35,7 @@ ConfigValueToType(ConfigValue &value)
 
       if constexpr (std::is_same_v<bool, T>)
         {
-          return ConfigType::Bool;
+          return ConfigType::Boolean;
         }
       else if constexpr (std::is_same_v<int64_t, T>)
         {

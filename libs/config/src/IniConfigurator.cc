@@ -115,7 +115,7 @@ IniConfigurator::get_value(const std::string &key, ConfigType type) const
 
       switch (type)
         {
-        case ConfigType::None:
+        case ConfigType::Unknown:
           return pt.get<std::string>(inikey);
 
         case ConfigType::Int32:
@@ -124,7 +124,7 @@ IniConfigurator::get_value(const std::string &key, ConfigType type) const
         case ConfigType::Int64:
           return pt.get<int64_t>(inikey);
 
-        case ConfigType::Bool:
+        case ConfigType::Boolean:
           return pt.get<bool>(inikey);
 
         case ConfigType::Double:

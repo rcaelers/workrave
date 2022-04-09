@@ -55,6 +55,7 @@ public:
   bool get_value(const std::string &key, int32_t &out) const override;
   bool get_value(const std::string &key, int64_t &out) const override;
   bool get_value(const std::string &key, double &out) const override;
+  std::optional<ConfigValue> get_value(const std::string &key, workrave::config::ConfigType type) const override;
 
   void get_value_with_default(const std::string &key, std::string &out, const std::string &def) const override;
   void get_value_with_default(const std::string &key, bool &out, bool def) const override;
@@ -85,7 +86,6 @@ private:
 
 private:
   bool set_value(const std::string &key, ConfigValue &value, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
-  std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const;
 
   static std::string trim_key(const std::string &key);
 
