@@ -83,13 +83,13 @@ QtSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
         case ConfigType::Int64:
           return var.toLongLong();
 
-        case ConfigType::Bool:
+        case ConfigType::Boolean:
           return var.toBool();
 
         case ConfigType::Double:
           return var.toDouble();
 
-        case ConfigType::None:
+        case ConfigType::Unknown:
           [[fallthrough]];
 
         case ConfigType::String:

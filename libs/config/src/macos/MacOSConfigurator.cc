@@ -77,7 +77,7 @@ MacOSConfigurator::get_value(const std::string &key, ConfigType type) const
             return v;
           }
 
-        case ConfigType::Bool:
+        case ConfigType::Boolean:
           {
             bool v = [[NSUserDefaults standardUserDefaults] boolForKey:keystring] == YES;
             logger->debug("read {} = {}", key, v);
@@ -91,7 +91,7 @@ MacOSConfigurator::get_value(const std::string &key, ConfigType type) const
             return v;
           }
 
-        case ConfigType::None:
+        case ConfigType::Unknown:
           [[fallthrough]];
 
         case ConfigType::String:
