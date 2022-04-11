@@ -58,6 +58,8 @@ public:
 
   static void center_window(Gtk::Window &window, HeadInfo &head);
 
+  static std::pair<int, int>  get_centered_position(Gtk::Window &window, HeadInfo &head);
+
   static bool has_button_images();
 
   static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);

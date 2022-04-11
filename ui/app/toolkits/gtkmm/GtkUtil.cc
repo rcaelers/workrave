@@ -338,6 +338,20 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   window.move(x, y);
 }
 
+std::pair<int, int>
+GtkUtil::get_centered_position(Gtk::Window &window, HeadInfo &head)
+{
+  TRACE_ENTRY();
+  Gtk::Requisition size;
+  Gtk::Requisition minsize;
+  window.get_preferred_size(minsize, size);
+
+  int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
+  int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
+
+  return {x, y};
+}
+
 void
 GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
 {

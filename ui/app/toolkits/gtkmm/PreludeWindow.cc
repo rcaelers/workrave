@@ -272,9 +272,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     case IApp::STAGE_MOVE_OUT:
       if (!did_avoid)
         {
-          int winx, winy;
-          get_position(winx, winy);
-          set_position(Gtk::WIN_POS_NONE);
+          auto [winx, winy] = GtkUtil::get_centered_position(*this, head);
           move(winx, head.get_y() + SCREEN_MARGIN);
         }
       break;
