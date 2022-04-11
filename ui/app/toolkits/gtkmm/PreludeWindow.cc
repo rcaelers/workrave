@@ -193,7 +193,9 @@ PreludeWindow::refresh()
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
       if (tminus < 0)
-        tminus = 0;
+        {
+          tminus = 0;
+        }
 
       sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
     }
@@ -307,7 +309,10 @@ PreludeWindow::avoid_pointer()
 
   did_avoid = true;
 
-  int winx, winy, width, height;
+  int winx = 0;
+  int winy = 0;
+  int width = 0;
+  int height = 0;
   if (!Platform::can_position_windows())
     {
       Gtk::Allocation a = frame->get_allocation();

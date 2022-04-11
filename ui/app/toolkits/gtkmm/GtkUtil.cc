@@ -30,7 +30,6 @@
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
-#  include <gtk/gtk.h>
 #  include <gdk/gdkwin32.h>
 #  include "ui/windows/WindowsCompat.hh"
 #endif
@@ -115,7 +114,7 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, co
 Gtk::Button *
 GtkUtil::create_image_button(const char *label_text, const char *image_file, bool label)
 {
-  Gtk::Button *btn = new Gtk::Button();
+  auto *btn = new Gtk::Button();
   Gtk::Image *img = nullptr;
   if (has_button_images())
     {
@@ -154,7 +153,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {
-  Gtk::HBox *box = new Gtk::HBox(false, 3);
+  auto *box = new Gtk::HBox(false, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
   Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   box->pack_start(*img, false, false, 0);
@@ -225,7 +224,7 @@ GtkUtil::create_image_with_tooltip(string file, string tooltip)
 Gtk::Label *
 GtkUtil::create_label(string text, bool bold)
 {
-  Gtk::Label *label = new Gtk::Label();
+  auto *label = new Gtk::Label();
   if (bold)
     {
       label->set_markup(string("<span weight=\"bold\">") + text + "</span>");
@@ -380,11 +379,15 @@ GtkUtil::get_visible_tooltip_window()
     {
       GtkWidget *widget = (GtkWidget *)item->data;
       if (!widget || !GTK_IS_WINDOW(widget) || !gtk_widget_get_visible(widget))
-        continue;
+        {
+          continue;
+        }
 
       const char *widget_name = gtk_widget_get_name(widget);
       if (!widget_name)
-        continue;
+        {
+          continue;
+        }
 
       if (!strcmp(widget_name, "gtk-tooltip"))
         {
