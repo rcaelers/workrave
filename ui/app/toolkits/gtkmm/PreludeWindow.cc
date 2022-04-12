@@ -333,7 +333,7 @@ PreludeWindow::avoid_pointer()
   int top_y = head.get_y() + SCREEN_MARGIN;
   int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
 
-  if (winy > screen_height / 2)
+  if (winy > (head.get_y() + screen_height / 2))
     {
       winy = top_y;
     }
