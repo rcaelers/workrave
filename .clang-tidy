@@ -11,6 +11,7 @@ Checks: >
   readability-*,
   -readability-redundant-access-specifiers,
   -readability-convert-member-functions-to-static,
+  -readability-identifier-length,
   -modernize-use-nodiscard,
   -modernize-use-trailing-return-type
 WarningsAsErrors: >
@@ -37,7 +38,7 @@ WarningsAsErrors: >
   readability-static-definition-in-anonymous-namespace,
 FormatStyle: file
 CheckOptions:
-    - key:             hicpp-special-member-functions.AllowSoleDefaultDtor
-      value:           1
-    - key:             cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
-      value:           1
+  - key: hicpp-special-member-functions.AllowSoleDefaultDtor
+    value: 1
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: 1
