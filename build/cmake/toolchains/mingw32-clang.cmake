@@ -1,5 +1,5 @@
 set(SYS_ROOT_PREFIX "")
-set(GCC_VERSION 12.0.1)
+set(GCC_VERSION 12.1.1)
 set(TOOLCHAIN_ROOT "/usr/i686-w64-mingw32")
 set(SYS_ROOT "${SYS_ROOT_PREFIX}/usr/i686-w64-mingw32/sys-root/mingw/")
 
