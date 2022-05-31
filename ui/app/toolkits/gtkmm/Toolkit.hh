@@ -37,7 +37,7 @@
 #include "utils/Signals.hh"
 
 #if defined(PLATFORM_OS_MACOS)
-#  include "MacOSDock.hh"
+#  include "ui/macos/MacOSDock.hh"
 #endif
 
 class Toolkit

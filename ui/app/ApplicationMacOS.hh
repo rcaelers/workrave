@@ -20,7 +20,7 @@
 
 #include "Application.hh"
 
-#include "MacOSDock.hh"
+#include "ui/macos/MacOSDock.hh"
 
 class ApplicationMacOS : public Application
 {

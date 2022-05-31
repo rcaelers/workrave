@@ -19,7 +19,7 @@
 #define TOOLKIT_MACOS_HH
 
 #include "Toolkit.hh"
-#include "MacOSLocker.hh"
+#include "ui/macos/MacOSLocker.hh"
 
 class ToolkitMacOS : public Toolkit
 {

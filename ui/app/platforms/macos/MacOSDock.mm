@@ -19,7 +19,7 @@
 #include "config.h"
 #endif
 
-#include "MacOSDock.hh"
+#include "ui/macos/MacOSDock.hh"
 
 #import <AppKit/NSApplication.h>
 #import <AppKit/NSBezierPath.h>
