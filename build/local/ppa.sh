@@ -149,10 +149,9 @@ build_single() {
 }
 
 build_all() {
-    for series in jammy impish hirsute focal; do
+    for series in kinetic jammy impish focal; do
         build_single $series
     done
-    #build_single hirsute
 }
 
 DRYRUN=

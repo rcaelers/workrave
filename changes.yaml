@@ -1,6 +1,26 @@
 ---
 releases:
-  - version: 1.11.0-alpha1
+  - version: 1.11.0-alpha.2
+    date: 2022-05-31T17:52:34+02:00
+    short: |-
+      Workrave 1.11.0-alpha2 has been released.
+    changes:
+      - Networking suport was removed
+      - Focus assist settings moved from menu to preferences
+      - The menus are no longer accessible during a break (#394 by 1Jesper1)
+      - |-
+        Bug fixes:
+        - Fix GNOME shell applet on GNOME 42 (#396)
+        - The installer will ask for a reboot if in-use files were overwritten
+        - The installer will terminate Workrave when it is running
+        - The application icon is now properly displayed
+        - The break warning window no longer disappears when moving aside
+      - |-
+        Translations:
+        - Updated Simplified Chinese translation (#391 by sr093906)
+        - Updated Italian translation (#403 by albanobattistella)
+
+  - version: 1.11.0-alpha.1
     date: 2022-02-27T11:02:33+01:00
     short: |-
       Workrave 1.11.0-alpha1 has been released.
@@ -387,7 +407,7 @@ releases:
     changes:
       - Fix uninstall on Windows.
 
-  - version: "1.10"
+  - version: 1.10.0
     date: 2013-01-13T11:25:29+01:00
     changes:
       - |-
