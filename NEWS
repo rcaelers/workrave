@@ -1,11 +1,26 @@
-Workrave NEWS -- history of user-visible changes. 27 February 2022
+Workrave NEWS -- history of user-visible changes. 31 May 2022
 Copyright (C) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
-* Workrave 1.11.0-alpha1
+* Workrave 1.11.0-alpha.2
+
+** Networking suport was removed
+** Focus assist settings moved from menu to preferences
+** The menus are no longer accessible during a break (#394 by 1Jesper1)
+** Bug fixes:
+   - Fix GNOME shell applet on GNOME 42 (#396)
+   - The installer will ask for a reboot if in-use files were overwritten
+   - The installer will terminate Workrave when it is running
+   - The application icon is now properly displayed
+   - The break warning window no longer disappears when moving aside
+** Translations:
+   - Updated Simplified Chinese translation (#391 by sr093906)
+   - Updated Italian translation (#403 by albanobattistella)
+
+* Workrave 1.11.0-alpha.1
 
 ** Major internal code cleanup and code modernization.
 ** Initial (incomplete) port to macOS using Qt6
@@ -310,7 +325,7 @@ https://github.com/rcaelers/workrave/issues
 
 ** Fix uninstall on Windows.
 
-* Workrave 1.10
+* Workrave 1.10.0
 
 ** Split "show 'postpone' and 'skip'" checkbox into two checkboxes. (Egbert
    Teeselink)
