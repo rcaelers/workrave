@@ -37,7 +37,9 @@ CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus)
   connect(modes->signal_operation_mode_changed(), this, [this](auto &&mode) {
     on_operation_mode_changed(std::forward<decltype(mode)>(mode));
   });
-  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) {
+    on_usage_mode_changed(std::forward<decltype(mode)>(mode));
+  });
 }
 
 void

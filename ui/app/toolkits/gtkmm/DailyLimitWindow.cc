@@ -37,7 +37,10 @@ using namespace workrave;
 using namespace workrave::utils;
 
 //! Construct a new Daily limit window.
-DailyLimitWindow::DailyLimitWindow(std::shared_ptr<IApplicationContext> app, HeadInfo head, BreakFlags break_flags, BlockMode mode)
+DailyLimitWindow::DailyLimitWindow(std::shared_ptr<IApplicationContext> app,
+                                   HeadInfo head,
+                                   BreakFlags break_flags,
+                                   BlockMode mode)
   : BreakWindow(app, BREAK_ID_DAILY_LIMIT, head, break_flags, mode)
 {
   set_title(_("Daily limit"));

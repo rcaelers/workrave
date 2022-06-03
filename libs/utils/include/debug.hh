@@ -147,8 +147,10 @@ private:
 #  define TRACE_ENTRY(...) ScopedTrace trace_(std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))})
 #  define TRACE_ENTRY_MSG(...) \
     ScopedTrace trace_(std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))}, __VA_ARGS__)
-#  define TRACE_ENTRY_PAR(...) \
-    ScopedTrace trace_(ScopedTraceAutoFmt{}, std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))}, __VA_ARGS__)
+#  define TRACE_ENTRY_PAR(...)                                                                         \
+    ScopedTrace trace_(ScopedTraceAutoFmt{},                                                           \
+                       std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))}, \
+                       __VA_ARGS__)
 
 #  define TRACE_VAR(...) trace_.var(__VA_ARGS__)
 #  define TRACE_MSG(...) trace_.msg(__VA_ARGS__)

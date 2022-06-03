@@ -247,8 +247,11 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
               WorkraveTimebar *bar = priv->slot_to_time_bar[bid];
 
               cairo_surface_t *surface = cairo_get_target(cr);
-              cairo_surface_t *bar_surface =
-                cairo_surface_create_for_rectangle(surface, x + icon_width + PADDING_X, y + bar_dy, bar_width, bar_height);
+              cairo_surface_t *bar_surface = cairo_surface_create_for_rectangle(surface,
+                                                                                x + icon_width + PADDING_X,
+                                                                                y + bar_dy,
+                                                                                bar_width,
+                                                                                bar_height);
               cairo_t *bar_cr = cairo_create(bar_surface);
               workrave_timebar_draw(bar, bar_cr);
               cairo_surface_destroy(bar_surface);

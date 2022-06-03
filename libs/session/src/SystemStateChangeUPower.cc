@@ -46,7 +46,10 @@ SystemStateChangeUPower::SystemStateChangeUPower(GDBusConnection *connection)
                                                           | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS
                                                           | G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START));
 
-  property_proxy.init_with_connection(connection, "org.freedesktop.UPower", "/org/freedesktop/UPower", "org.freedesktop.DBus.Properties");
+  property_proxy.init_with_connection(connection,
+                                      "org.freedesktop.UPower",
+                                      "/org/freedesktop/UPower",
+                                      "org.freedesktop.DBus.Properties");
 
   if (!proxy.is_valid() || !property_proxy.is_valid())
     {

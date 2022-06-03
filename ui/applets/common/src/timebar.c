@@ -197,7 +197,12 @@ workrave_timebar_draw_bar(WorkraveTimebar *self, cairo_t *cr)
             {
               GdkRGBA color = bar_colors[priv->secondary_bar_color];
               set_color(cr, color);
-              workrave_timebar_draw_filled_box(self, cr, BORDER_SIZE + bar_width, BORDER_SIZE, sbar_width - bar_width, bar_height);
+              workrave_timebar_draw_filled_box(self,
+                                               cr,
+                                               BORDER_SIZE + bar_width,
+                                               BORDER_SIZE,
+                                               sbar_width - bar_width,
+                                               bar_height);
             }
         }
       else

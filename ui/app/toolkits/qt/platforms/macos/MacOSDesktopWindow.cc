@@ -59,8 +59,10 @@ MacOSDesktopWindow::get_desktop_image() -> QPixmap
               int winId = 0;
               CFNumberGetValue(index, kCFNumberIntType, &winId);
 
-              CGImageRef cgImage =
-                CGWindowListCreateImage(CGRectInfinite, kCGWindowListOptionIncludingWindow, winId, kCGWindowImageNominalResolution);
+              CGImageRef cgImage = CGWindowListCreateImage(CGRectInfinite,
+                                                           kCGWindowListOptionIncludingWindow,
+                                                           winId,
+                                                           kCGWindowImageNominalResolution);
 #if defined(HAVE_QT5)
               pixmap = QtMac::fromCGImageRef(cgImage);
 #elif defined(HAVE_QT6)

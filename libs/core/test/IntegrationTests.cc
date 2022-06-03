@@ -498,7 +498,8 @@ public:
 
   void create_break_window(BreakId break_id, workrave::utils::Flags<BreakHint> break_hint) override
   {
-    log_actual("break", boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
+    log_actual("break",
+               boost::str(boost::format("break_id=%1% break_hint=%2%") % CoreConfig::get_break_name(break_id) % break_hint));
 
     auto b = core->get_break(break_id);
 

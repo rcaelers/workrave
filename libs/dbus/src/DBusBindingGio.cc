@@ -41,7 +41,8 @@ DBusMarshallGio::get_int(GVariant *v, int *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("int");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("int");
     }
 
   *value = g_variant_get_int32(v);
@@ -54,7 +55,8 @@ DBusMarshallGio::get_uint8(GVariant *v, uint8_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BYTE))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("uint8");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("uint8");
     }
 
   *value = g_variant_get_byte(v);
@@ -67,7 +69,8 @@ DBusMarshallGio::get_uint16(GVariant *v, uint16_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT16))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("uint16");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("uint16");
     }
 
   *value = g_variant_get_uint16(v);
@@ -80,7 +83,8 @@ DBusMarshallGio::get_int16(GVariant *v, int16_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT16))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("int16");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("int16");
     }
 
   *value = g_variant_get_int16(v);
@@ -93,7 +97,8 @@ DBusMarshallGio::get_uint32(GVariant *v, uint32_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT32))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("uint32");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("uint32");
     }
 
   *value = g_variant_get_uint32(v);
@@ -106,7 +111,8 @@ DBusMarshallGio::get_int32(GVariant *v, int32_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT32))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("int32");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("int32");
     }
 
   *value = g_variant_get_int32(v);
@@ -119,7 +125,8 @@ DBusMarshallGio::get_uint64(GVariant *v, uint64_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_UINT64))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("uint64");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("uint64");
     }
 
   *value = g_variant_get_uint64(v);
@@ -132,7 +139,8 @@ DBusMarshallGio::get_int64(GVariant *v, int64_t *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_INT64))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("int64");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("int64");
     }
 
   *value = g_variant_get_int64(v);
@@ -145,7 +153,8 @@ DBusMarshallGio::get_bool(GVariant *v, bool *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_BOOLEAN))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("bool");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("bool");
     }
 
   *value = g_variant_get_boolean(v);
@@ -158,7 +167,8 @@ DBusMarshallGio::get_double(GVariant *v, double *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_DOUBLE))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("double");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("double");
     }
 
   *value = g_variant_get_double(v);
@@ -171,7 +181,8 @@ DBusMarshallGio::get_string(GVariant *v, std::string *value)
 
   if (!g_variant_type_equal(argtype, G_VARIANT_TYPE_STRING))
     {
-      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS) << expected_type_info("string");
+      throw DBusRemoteException() << message_info("Type error") << error_code_info(DBUS_ERROR_INVALID_ARGS)
+                                  << expected_type_info("string");
     }
 
   const char *cstr = g_variant_get_string(v, nullptr);

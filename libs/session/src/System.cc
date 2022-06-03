@@ -107,8 +107,12 @@ System::add_DBus_lock_cmd(const char *dbus_name,
 
   // I wish we could use std::move here
   IScreenLockMethod *lock_method = nullptr;
-  lock_method =
-    new ScreenLockDBus(session_connection, dbus_name, dbus_path, dbus_interface, dbus_lock_method, dbus_method_to_check_existence);
+  lock_method = new ScreenLockDBus(session_connection,
+                                   dbus_name,
+                                   dbus_path,
+                                   dbus_interface,
+                                   dbus_lock_method,
+                                   dbus_method_to_check_existence);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
@@ -438,7 +442,8 @@ System::init()
         }
       if (system_state_command->canSuspendHybrid())
         {
-          supported_system_operations.push_back(SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
+          supported_system_operations.push_back(
+            SystemOperation("Suspend hybrid", SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID));
         }
     }
 
@@ -454,7 +459,9 @@ System::clear()
     }
   lock_commands.clear();
 
-  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin(); iter != system_state_commands.end(); ++iter)
+  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin();
+       iter != system_state_commands.end();
+       ++iter)
     {
       delete *iter;
     }

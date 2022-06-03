@@ -711,7 +711,8 @@ Application::on_idle_changed(bool new_idle)
           auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           if (core->get_regular_operation_mode() == OperationMode::Normal
-              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled() && !rest_break->is_taking())
+              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()
+              && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
 

@@ -33,9 +33,15 @@ public:
 
 protected:
   void get_preferred_width_vfunc(Gtk::Widget &widget, int &minimum_width, int &natural_width) const override;
-  void get_preferred_height_for_width_vfunc(Gtk::Widget &widget, int width, int &minimum_height, int &natural_height) const override;
+  void get_preferred_height_for_width_vfunc(Gtk::Widget &widget,
+                                            int width,
+                                            int &minimum_height,
+                                            int &natural_height) const override;
   void get_preferred_height_vfunc(Gtk::Widget &widget, int &minimum_height, int &natural_height) const override;
-  void get_preferred_width_for_height_vfunc(Gtk::Widget &widget, int height, int &minimum_width, int &natural_width) const override;
+  void get_preferred_width_for_height_vfunc(Gtk::Widget &widget,
+                                            int height,
+                                            int &minimum_width,
+                                            int &natural_width) const override;
   void render_vfunc(const Cairo::RefPtr<Cairo::Context> &cr,
                     Gtk::Widget &widget,
                     const Gdk::Rectangle &background_area,

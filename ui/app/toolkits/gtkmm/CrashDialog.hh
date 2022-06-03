@@ -71,7 +71,8 @@ public:
   UserInteraction() = default;
   ~UserInteraction() override = default;
 
-  bool requestUserConsent(const std::map<std::string, std::string> &annotations, const std::vector<base::FilePath> &attachments) override;
+  bool requestUserConsent(const std::map<std::string, std::string> &annotations,
+                          const std::vector<base::FilePath> &attachments) override;
   std::string getUserText() override;
   void reportCompleted(const crashpad::UUID &uuid) override;
 

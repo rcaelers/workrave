@@ -49,7 +49,8 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app)
   : app(app)
   , toolkit(app->get_toolkit())
 {
-  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(), [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
+  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
+                                       [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
 }
 
 MainWindow::~MainWindow()

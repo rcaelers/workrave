@@ -32,7 +32,9 @@
 
 using namespace ui::prefwidgets::gtkmm;
 
-BoxWidget::BoxWidget(std::shared_ptr<ui::prefwidgets::Box> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry)
+BoxWidget::BoxWidget(std::shared_ptr<ui::prefwidgets::Box> def,
+                     std::shared_ptr<ContainerWidget> container,
+                     BuilderRegistry *registry)
   : ContainerWidget(registry)
   , def(def)
 {

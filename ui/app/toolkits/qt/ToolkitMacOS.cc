@@ -40,7 +40,8 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
 {
   Toolkit::init(app);
 
-  dock_menu = std::make_shared<ToolkitMenu>(app->get_menu_model(), [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
+  dock_menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
+                                            [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
   dock_menu->get_menu()->setAsDockMenu();
 }
 

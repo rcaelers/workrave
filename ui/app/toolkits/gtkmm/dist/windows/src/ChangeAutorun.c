@@ -89,7 +89,8 @@ If no options use ""
  * I haven't tested that. If you do test it let me know what happens.
  *
  * cl /O2 /W4 /DUNICODE ChangeAutorun.c
- * gcc -O2 -Wall -Wextra -Wno-unknown-pragmas -Wno-unused-parameter -DUNICODE -mwindows -o ChangeAutorun.exe ChangeAutorun.c -lpsapi
+ * gcc -O2 -Wall -Wextra -Wno-unknown-pragmas -Wno-unused-parameter -DUNICODE -mwindows -o ChangeAutorun.exe
+ * ChangeAutorun.c -lpsapi
  */
 
 /* Disable cl unused parameter warnings */
@@ -193,7 +194,12 @@ enum users
 
 /* Shows a MessageBox with information. Used by the VERBOSE_ macro functions. */
 void
-show_message(const int line, const char *function, const TCHAR *message, const TCHAR *title, const TCHAR *data, const TCHAR *data2)
+show_message(const int line,
+             const char *function,
+             const TCHAR *message,
+             const TCHAR *title,
+             const TCHAR *data,
+             const TCHAR *data2)
 {
   TCHAR *buffer = NULL;
   int length_buffer = 0;
@@ -426,8 +432,12 @@ init_global_variables()
   for (temp = _T(TARGET_OPTIONS); *temp == _T(' '); ++temp)
     ;
 
-  length_target_command =
-    _sntprintf(target_command, max_length_target_command, _T("\"%s\"%s%s"), target_fullname, (*temp ? _T(" ") : _T("")), temp);
+  length_target_command = _sntprintf(target_command,
+                                     max_length_target_command,
+                                     _T("\"%s\"%s%s"),
+                                     target_fullname,
+                                     (*temp ? _T(" ") : _T("")),
+                                     temp);
 
   if (length_target_command < 0)
     {
@@ -517,7 +527,8 @@ add_autorun_entry(enum users users)
       /* if setting an autorun entry for new users, and the user isn't new (project key exists) */
       if ((users == NEW_USERS) && regkey_test_read(HKEY_CURRENT_USER, _T(HKCU_PROJECT_KEY)))
         {
-          VERBOSE_MSG_DATA(_T("Existing project key and no existing autorun entry. No entry has been added."), _T(HKCU_PROJECT_KEY));
+          VERBOSE_MSG_DATA(_T("Existing project key and no existing autorun entry. No entry has been added."),
+                           _T(HKCU_PROJECT_KEY));
 
           return FALSE;
         }
@@ -529,7 +540,12 @@ add_autorun_entry(enum users users)
         }
     }
 
-  ret = RegSetValueEx(hkey, _T(AUTORUN_VALUE), 0, REG_SZ, (const BYTE *)target_command, ((length_target_command + 1) * sizeof(TCHAR)));
+  ret = RegSetValueEx(hkey,
+                      _T(AUTORUN_VALUE),
+                      0,
+                      REG_SZ,
+                      (const BYTE *)target_command,
+                      ((length_target_command + 1) * sizeof(TCHAR)));
 
   RegCloseKey(hkey);
 
@@ -555,7 +571,8 @@ remove_autorun_entry()
 
   if (ret || !hkey)
     {
-      VERBOSE_ERR_DATA(_T("RegOpenKeyEx() failed. The HKCU autorun key doesn't exist or couldn't be read."), _T(HKCU_AUTORUN_KEY));
+      VERBOSE_ERR_DATA(_T("RegOpenKeyEx() failed. The HKCU autorun key doesn't exist or couldn't be read."),
+                       _T(HKCU_AUTORUN_KEY));
 
       return FALSE;
     }
@@ -609,9 +626,9 @@ remove_activesetup_entry()
   if (!RegDeleteKey(HKEY_CURRENT_USER, subkey_wow))
     deleted = TRUE;
 
-  pRegDeleteKeyEx =
-    (LONG(WINAPI *)(HKEY, LPCTSTR, REGSAM, DWORD))GetProcAddress(GetModuleHandleA("Advapi32"),
-                                                                 ((sizeof(TCHAR) == 1) ? "RegDeleteKeyExA" : "RegDeleteKeyExW"));
+  pRegDeleteKeyEx = (LONG(WINAPI *)(HKEY, LPCTSTR, REGSAM, DWORD))GetProcAddress(GetModuleHandleA("Advapi32"),
+                                                                                 ((sizeof(TCHAR) == 1) ? "RegDeleteKeyExA"
+                                                                                                       : "RegDeleteKeyExW"));
 
   if (pRegDeleteKeyEx)
     {

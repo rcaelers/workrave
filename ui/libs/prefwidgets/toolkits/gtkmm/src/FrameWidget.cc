@@ -23,7 +23,9 @@
 
 using namespace ui::prefwidgets::gtkmm;
 
-FrameWidget::FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry)
+FrameWidget::FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def,
+                         std::shared_ptr<ContainerWidget> container,
+                         BuilderRegistry *registry)
   : ContainerWidget(registry)
   , def(def)
 {

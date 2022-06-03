@@ -119,7 +119,10 @@ namespace workrave
       std::string get_introspect(const std::string &path, const std::string &interface_name);
       void update_object_registration(InterfaceData &data);
 
-      static void on_bus_name_appeared(GDBusConnection *connection, const gchar *name, const gchar *name_owner, gpointer user_data);
+      static void on_bus_name_appeared(GDBusConnection *connection,
+                                       const gchar *name,
+                                       const gchar *name_owner,
+                                       gpointer user_data);
       static void on_bus_name_vanished(GDBusConnection *connection, const gchar *name, gpointer user_data);
 
       void bus_name_presence(const std::string &name, bool present);

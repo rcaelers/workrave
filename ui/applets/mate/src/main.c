@@ -447,4 +447,8 @@ workrave_applet_factory(MatePanelApplet *applet, const gchar *iid, gpointer data
   return retval;
 }
 
-MATE_PANEL_APPLET_OUT_PROCESS_FACTORY("WorkraveAppletFactory", PANEL_TYPE_APPLET, "WorkraveApplet", workrave_applet_factory, NULL);
+MATE_PANEL_APPLET_OUT_PROCESS_FACTORY("WorkraveAppletFactory",
+                                      PANEL_TYPE_APPLET,
+                                      "WorkraveApplet",
+                                      workrave_applet_factory,
+                                      NULL);

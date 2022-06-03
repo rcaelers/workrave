@@ -260,8 +260,13 @@ DBusGio::is_running(const std::string &name) const
 
   if (error == nullptr && proxy != nullptr)
     {
-      GVariant *result =
-        g_dbus_proxy_call_sync(proxy, "NameHasOwner", g_variant_new("(s)", name.c_str()), G_DBUS_CALL_FLAGS_NONE, -1, nullptr, &error);
+      GVariant *result = g_dbus_proxy_call_sync(proxy,
+                                                "NameHasOwner",
+                                                g_variant_new("(s)", name.c_str()),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                nullptr,
+                                                &error);
 
       if (error != nullptr)
         {
@@ -421,15 +426,15 @@ DBusGio::on_method_call(GDBusConnection *connection,
       void *object = self->find_object(object_path, interface_name);
       if (object == nullptr)
         {
-          throw DBusRemoteException() << message_info("No such object") << error_code_info(DBUS_ERROR_FAILED) << object_info(object_path)
-                                      << interface_info(interface_name);
+          throw DBusRemoteException() << message_info("No such object") << error_code_info(DBUS_ERROR_FAILED)
+                                      << object_info(object_path) << interface_info(interface_name);
         }
 
       DBusBindingGio *binding = dynamic_cast<DBusBindingGio *>(self->find_binding(interface_name));
       if (binding == nullptr)
         {
-          throw DBusRemoteException() << message_info("No such interface") << error_code_info(DBUS_ERROR_FAILED) << object_info(object_path)
-                                      << interface_info(interface_name);
+          throw DBusRemoteException() << message_info("No such interface") << error_code_info(DBUS_ERROR_FAILED)
+                                      << object_info(object_path) << interface_info(interface_name);
         }
 
       binding->call(method_name, object, invocation, sender, parameters);

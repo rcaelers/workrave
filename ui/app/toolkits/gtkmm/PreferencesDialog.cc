@@ -479,17 +479,17 @@ PreferencesDialog::create_monitoring_page()
   monitor_type_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_monitor_type_toggled));
   panel->pack_start(*monitor_type_cb, false, false, 0);
 
-  Gtk::Label *monitor_type_help1 =
-    Gtk::manage(GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using your computer"), false));
+  Gtk::Label *monitor_type_help1 = Gtk::manage(
+    GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using your computer"), false));
   panel->pack_start(*monitor_type_help1, false, false, 0);
-  Gtk::Label *monitor_type_help2 =
-    Gtk::manage(GtkUtil::create_label(_("Workrave needs to be restarted manually after changing this setting"), false));
+  Gtk::Label *monitor_type_help2 = Gtk::manage(
+    GtkUtil::create_label(_("Workrave needs to be restarted manually after changing this setting"), false));
   panel->pack_start(*monitor_type_help2, false, false, 0);
 
   sensitivity_box = Gtk::manage(new Gtk::HBox());
-  Gtk::Widget *sensitivity_lab =
-    Gtk::manage(GtkUtil::create_label_with_tooltip(_("Mouse sensitivity:"),
-                                                   _("Number of pixels the mouse should move before it is considered activity.")));
+  Gtk::Widget *sensitivity_lab = Gtk::manage(
+    GtkUtil::create_label_with_tooltip(_("Mouse sensitivity:"),
+                                       _("Number of pixels the mouse should move before it is considered activity.")));
   Gtk::SpinButton *sensitivity_spin = Gtk::manage(new Gtk::SpinButton(sensitivity_adjustment));
   sensitivity_box->pack_start(*sensitivity_lab, false, false, 0);
   sensitivity_box->pack_start(*sensitivity_spin, false, false, 0);

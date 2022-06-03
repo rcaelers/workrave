@@ -245,13 +245,20 @@ menus::ToggleNode::activate(bool state)
 }
 
 auto
-menus::RadioNode::create(std::shared_ptr<RadioGroupNode> group, std::string_view id, std::string text, int value, Activated activated)
-  -> menus::RadioNode::Ptr
+menus::RadioNode::create(std::shared_ptr<RadioGroupNode> group,
+                         std::string_view id,
+                         std::string text,
+                         int value,
+                         Activated activated) -> menus::RadioNode::Ptr
 {
   return std::make_shared<menus::RadioNode>(group, id, text, value, activated);
 }
 
-menus::RadioNode::RadioNode(std::shared_ptr<RadioGroupNode> group, std::string_view id, std::string text, int value, Activated activated)
+menus::RadioNode::RadioNode(std::shared_ptr<RadioGroupNode> group,
+                            std::string_view id,
+                            std::string text,
+                            int value,
+                            Activated activated)
   : Node(id, text, activated)
   , value(value)
   , group(group)

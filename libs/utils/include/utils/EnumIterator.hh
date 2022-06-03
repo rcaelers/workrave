@@ -141,7 +141,8 @@ namespace workrave::utils
   template<typename Enum>
   constexpr auto enum_range() noexcept
   {
-    return boost::make_iterator_range(enum_iterator<Enum>{enum_min_value<Enum>()}, enum_iterator<Enum>{enum_max_value<Enum>() + 1});
+    return boost::make_iterator_range(enum_iterator<Enum>{enum_min_value<Enum>()},
+                                      enum_iterator<Enum>{enum_max_value<Enum>() + 1});
   }
 
   template<typename Enum>

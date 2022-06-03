@@ -306,7 +306,8 @@ Timer::process(bool user_is_active)
         }
     }
 
-  if ((daily_auto_reset != nullptr) && next_daily_reset_time != 0 && TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
+  if ((daily_auto_reset != nullptr) && next_daily_reset_time != 0
+      && TimeSource::get_real_time_sec_sync() >= next_daily_reset_time)
     {
       TRACE_MSG("daily reset");
       // A next reset time was set and the current time >= reset time.
@@ -498,8 +499,9 @@ Timer::serialize_state() const
 {
   stringstream ss;
 
-  ss << timer_id << " " << TimeSource::get_real_time_sec_sync() << " " << get_elapsed_time() << " " << last_daily_reset_time << " "
-     << total_overdue_timespan << " " << snooze_inhibited << " " << 0 << " " << elapsed_timespan_at_last_limit << " " << 0 /* timezone */;
+  ss << timer_id << " " << TimeSource::get_real_time_sec_sync() << " " << get_elapsed_time() << " " << last_daily_reset_time
+     << " " << total_overdue_timespan << " " << snooze_inhibited << " " << 0 << " " << elapsed_timespan_at_last_limit << " "
+     << 0 /* timezone */;
 
   return ss.str();
 }

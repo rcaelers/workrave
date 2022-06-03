@@ -229,7 +229,6 @@ namespace ui::prefwidgets
                     },
                     v.value());
                 }
-
             }
 
           if (new_value != value)

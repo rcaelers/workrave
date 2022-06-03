@@ -33,7 +33,10 @@ public:
   IBreakWindow::Ptr create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) override;
   std::shared_ptr<Locker> get_locker() override;
 
-  void show_notification(const std::string &id, const std::string &title, const std::string &balloon, std::function<void()> func) override;
+  void show_notification(const std::string &id,
+                         const std::string &title,
+                         const std::string &balloon,
+                         std::function<void()> func) override;
 
 private:
   std::shared_ptr<UnixLocker> locker;

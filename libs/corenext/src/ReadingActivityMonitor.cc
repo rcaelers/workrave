@@ -38,7 +38,9 @@ void
 ReadingActivityMonitor::init()
 {
   monitor->set_listener(shared_from_this());
-  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) {
+    on_usage_mode_changed(std::forward<decltype(mode)>(mode));
+  });
 }
 
 void

@@ -30,7 +30,9 @@ namespace ui::prefwidgets::gtkmm
   class SpinWidget : public Widget
   {
   public:
-    SpinWidget(std::shared_ptr<ui::prefwidgets::Value> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
+    SpinWidget(std::shared_ptr<ui::prefwidgets::Value> def,
+               std::shared_ptr<ContainerWidget> container,
+               BuilderRegistry *registry);
     ~SpinWidget() override = default;
 
   private:

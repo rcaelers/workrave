@@ -323,7 +323,8 @@ TimerBoxGtkView::init_table()
 
   TRACE_MSG("c/r {} {} {}", columns, rows, rotation);
 
-  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count || reverse != table_reverse;
+  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count
+                    || reverse != table_reverse;
 
   // Remove old
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)

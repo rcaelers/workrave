@@ -25,7 +25,9 @@
 
 using namespace ui::prefwidgets::gtkmm;
 
-SpinWidget::SpinWidget(std::shared_ptr<ui::prefwidgets::Value> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry)
+SpinWidget::SpinWidget(std::shared_ptr<ui::prefwidgets::Value> def,
+                       std::shared_ptr<ContainerWidget> container,
+                       BuilderRegistry *registry)
   : Widget(registry)
   , def(def)
 {

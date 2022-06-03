@@ -58,7 +58,7 @@ public:
 
   static void center_window(Gtk::Window &window, HeadInfo &head);
 
-  static std::pair<int, int>  get_centered_position(Gtk::Window &window, HeadInfo &head);
+  static std::pair<int, int> get_centered_position(Gtk::Window &window, HeadInfo &head);
 
   static bool has_button_images();
 
@@ -76,7 +76,8 @@ public:
 
   static void set_always_on_top(Gtk::Window *window, bool ontop);
 
-  static void add_plugin_widgets(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> frame);
+  static void add_plugin_widgets(std::shared_ptr<IApplicationContext> app,
+                                 std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> frame);
 
 private:
   static Glib::Quark *label_quark;

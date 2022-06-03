@@ -37,7 +37,8 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   : QWidget(parent)
 {
   setFixedSize(minimumSize());
-  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
+                 | Qt::CustomizeWindowHint);
 
   timer_box_view = new TimerBoxView;
   timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
@@ -48,7 +49,8 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 
   layout->addWidget(timer_box_view);
 
-  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(), [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
+  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
+                                       [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_show_contextmenu(const QPoint &)));

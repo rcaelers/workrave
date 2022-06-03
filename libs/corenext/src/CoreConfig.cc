@@ -138,7 +138,8 @@ CoreConfig::init(IConfigurator::Ptr config)
 
   if (ret && monitor_name == "micro_pause")
     {
-      config->set_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), "deprecated. replaced by use_microbreak_activity");
+      config->set_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT),
+                        "deprecated. replaced by use_microbreak_activity");
       config->set_value(CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY, true);
     }
 }

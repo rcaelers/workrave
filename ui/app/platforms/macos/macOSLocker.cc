@@ -103,12 +103,12 @@ MacOSLocker::Pimpl::restore_foreground()
 void
 MacOSLocker::Pimpl::lock()
 {
-  NSApplicationPresentationOptions options =
-    (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar | NSApplicationPresentationDisableAppleMenu
-     | NSApplicationPresentationDisableProcessSwitching |
-     // NSApplicationPresentationDisableForceQuit |
-     // NSApplicationPresentationDisableSessionTermination |
-     NSApplicationPresentationDisableHideApplication);
+  NSApplicationPresentationOptions options = (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar
+                                              | NSApplicationPresentationDisableAppleMenu
+                                              | NSApplicationPresentationDisableProcessSwitching |
+                                              // NSApplicationPresentationDisableForceQuit |
+                                              // NSApplicationPresentationDisableSessionTermination |
+                                              NSApplicationPresentationDisableHideApplication);
   [NSApp setPresentationOptions:options];
 }
 

@@ -39,7 +39,11 @@ public:
   void terminate() override;
 
 private:
-  static void on_idle_monitor_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+  static void on_idle_monitor_signal(GDBusProxy *proxy,
+                                     gchar *sender_name,
+                                     gchar *signal_name,
+                                     GVariant *parameters,
+                                     gpointer user_data);
   static void on_session_manager_property_changed(GDBusProxy *session, GVariant *changed, char **invalidated, gpointer user_data);
 
   static void on_register_active_watch_reply(GObject *source_object, GAsyncResult *res, gpointer user_data);

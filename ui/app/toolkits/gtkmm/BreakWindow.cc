@@ -63,7 +63,11 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode mode)
+BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
+                         BreakId break_id,
+                         HeadInfo &head,
+                         BreakFlags break_flags,
+                         BlockMode mode)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , app(app)
   , block_mode(mode)
@@ -128,7 +132,9 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, BreakId break
   if (WindowsForceFocus::GetForceFocusValue())
     initial_ignore_activity = true;
 
-  app->get_core()->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start", force_focus_on_break_start, true);
+  app->get_core()->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start",
+                                                              force_focus_on_break_start,
+                                                              true);
 #endif
 
   auto core = app->get_core();
@@ -231,7 +237,9 @@ BreakWindow::center()
 }
 
 void
-BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name)
+BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type,
+                                         const char **name,
+                                         const char **icon_name)
 {
   switch (type)
     {
@@ -404,7 +412,8 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ((postpone_button != nullptr && !postpone_button->get_sensitive()) || (skip_button != nullptr && !skip_button->get_sensitive()))
+  if ((postpone_button != nullptr && !postpone_button->get_sensitive())
+      || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
       bool skip_locked = false;
       bool postpone_locked = false;

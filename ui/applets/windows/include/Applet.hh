@@ -79,14 +79,20 @@ private:
   template<class Archive>
   void serialize(Archive &ar, const unsigned int version)
   {
-    ar &bar_text &slot &bar_secondary_color &bar_secondary_val &bar_secondary_max &bar_primary_color &bar_primary_val &bar_primary_max;
+    ar &bar_text &slot &bar_secondary_color &bar_secondary_val &bar_secondary_max &bar_primary_color &bar_primary_val
+      &bar_primary_max;
   }
 };
 
 struct AppletMenuItem
 {
   AppletMenuItem() = default;
-  AppletMenuItem(std::string text, std::string dynamic_text, std::string action, uint32_t command, MenuItemType type, uint8_t flags = 0)
+  AppletMenuItem(std::string text,
+                 std::string dynamic_text,
+                 std::string action,
+                 uint32_t command,
+                 MenuItemType type,
+                 uint8_t flags = 0)
     : text(std::move(text))
     , dynamic_text(std::move(dynamic_text))
     , action(std::move(action))
@@ -95,7 +101,12 @@ struct AppletMenuItem
     , flags(flags)
   {
   }
-  AppletMenuItem(std::string text, std::string dynamic_text, std::string action, uint32_t command, uint8_t type, uint8_t flags = 0)
+  AppletMenuItem(std::string text,
+                 std::string dynamic_text,
+                 std::string action,
+                 uint32_t command,
+                 uint8_t type,
+                 uint8_t flags = 0)
     : text(std::move(text))
     , dynamic_text(std::move(dynamic_text))
     , action(std::move(action))

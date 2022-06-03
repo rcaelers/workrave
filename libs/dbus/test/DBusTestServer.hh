@@ -93,7 +93,8 @@ public:
   int test_return_int(int i_int);
   DBusTestData::DataList test_return_list();
 
-  void test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct, DBusTestData::StructWithAllBasicTypes &o_struct);
+  void test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes &i_struct,
+                           DBusTestData::StructWithAllBasicTypes &o_struct);
 
   void test_struct_out_ptr(DBusTestData::StructWithAllBasicTypes i_struct, DBusTestData::StructWithAllBasicTypes *o_struct);
 

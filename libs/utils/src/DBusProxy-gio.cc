@@ -48,7 +48,11 @@ DBusProxy::init_with_connection(GDBusConnection *connection,
 }
 
 bool
-DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, const char *interface_name, GDBusProxyFlags flags_in)
+DBusProxy::init(GBusType bus_type,
+                const char *name,
+                const char *object_path,
+                const char *interface_name,
+                GDBusProxyFlags flags_in)
 {
   TRACE_ENTRY_PAR(name);
   this->flags = flags_in;

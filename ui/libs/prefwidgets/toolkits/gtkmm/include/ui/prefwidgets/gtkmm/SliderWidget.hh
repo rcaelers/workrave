@@ -30,7 +30,9 @@ namespace ui::prefwidgets::gtkmm
   class SliderWidget : public Widget
   {
   public:
-    SliderWidget(std::shared_ptr<ui::prefwidgets::Value> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
+    SliderWidget(std::shared_ptr<ui::prefwidgets::Value> def,
+                 std::shared_ptr<ContainerWidget> container,
+                 BuilderRegistry *registry);
     ~SliderWidget() override = default;
 
   private:

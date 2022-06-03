@@ -103,7 +103,9 @@ ToolkitMenuEntry::get_context() const -> ToolkitMenuContext::Ptr
   return context;
 }
 
-ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SubMenuNode::Ptr node)
+ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context,
+                                         ToolkitSubMenuEntry *parent,
+                                         menus::SubMenuNode::Ptr node)
   : ToolkitMenuEntry(context)
   , parent(parent)
   , node(node)
@@ -165,7 +167,9 @@ ToolkitRadioGroupMenuEntry::get_action() const -> QAction *
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::ActionNode::Ptr node)
+ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context,
+                                               ToolkitSubMenuEntry *parent,
+                                               menus::ActionNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   const MenuNodeFilter &filter = get_context()->get_filter();
@@ -184,7 +188,9 @@ ToolkitActionMenuEntry::get_action() const -> QAction *
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::ToggleNode::Ptr node)
+ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context,
+                                               ToolkitSubMenuEntry *parent,
+                                               menus::ToggleNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   const MenuNodeFilter &filter = get_context()->get_filter();
@@ -211,7 +217,9 @@ ToolkitToggleMenuEntry::get_action() const -> QAction *
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::RadioNode::Ptr node)
+ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context,
+                                             ToolkitSubMenuEntry *parent,
+                                             menus::RadioNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   const MenuNodeFilter &filter = get_context()->get_filter();
@@ -256,7 +264,9 @@ ToolkitSeparatorMenuEntry::get_action() const -> QAction *
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node)
+ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context,
+                                                 ToolkitSubMenuEntry *parent,
+                                                 menus::SectionNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   menu = parent->get_menu();

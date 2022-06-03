@@ -27,8 +27,11 @@
 
 typedef HRESULT(__stdcall *BUFFERED_PAINT_INIT)(VOID);
 typedef HRESULT(__stdcall *BUFFERED_PAINT_UNINIT)(VOID);
-typedef HPAINTBUFFER(
-  __stdcall *BEGIN_BUFFERED_PAINT)(HDC hdcTarget, const RECT *prcTarget, BP_BUFFERFORMAT dwFormat, BP_PAINTPARAMS *pPaintParams, HDC *phdc);
+typedef HPAINTBUFFER(__stdcall *BEGIN_BUFFERED_PAINT)(HDC hdcTarget,
+                                                      const RECT *prcTarget,
+                                                      BP_BUFFERFORMAT dwFormat,
+                                                      BP_PAINTPARAMS *pPaintParams,
+                                                      HDC *phdc);
 typedef HRESULT(__stdcall *END_BUFFERED_PAINT)(HPAINTBUFFER hBufferedPaint, BOOL fUpdateTarget);
 typedef HRESULT(__stdcall *BUFFERED_PAINT_SET_ALPHA)(HPAINTBUFFER hBufferedPaint, const RECT *prc, BYTE alpha);
 typedef HRESULT(__stdcall *GET_BUFFERED_PAINT_BITS)(HPAINTBUFFER hBufferedPaint, RGBQUAD **ppbBuffer, int *pcxRow);

@@ -144,8 +144,9 @@ PulseMixer::context_state_cb(pa_context *c, void *user_data)
 
         if (!(o = pa_context_subscribe(c,
                                        (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK | PA_SUBSCRIPTION_MASK_SOURCE
-                                                                | PA_SUBSCRIPTION_MASK_SINK_INPUT | PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT
-                                                                | PA_SUBSCRIPTION_MASK_CLIENT | PA_SUBSCRIPTION_MASK_SERVER),
+                                                                | PA_SUBSCRIPTION_MASK_SINK_INPUT
+                                                                | PA_SUBSCRIPTION_MASK_SOURCE_OUTPUT | PA_SUBSCRIPTION_MASK_CLIENT
+                                                                | PA_SUBSCRIPTION_MASK_SERVER),
                                        nullptr,
                                        nullptr)))
           {

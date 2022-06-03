@@ -726,7 +726,8 @@ harpoon_init(char imported_critical_file_list[][511], BOOL debug_harpoon)
   HMENU menu_popup;
   DWORD dwStyle, dwExStyle;
 
-  WNDCLASSEX wclass = {sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, dll_handle, NULL, NULL, NULL, NULL, HARPOON_WINDOW_CLASS, NULL};
+  WNDCLASSEX wclass =
+    {sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, dll_handle, NULL, NULL, NULL, NULL, HARPOON_WINDOW_CLASS, NULL};
 
   harpoon_exit();
 
