@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the Workrave package.
 # Haggai Eran <he3@bezeqint.net>, 2005.
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2022
 #
 #
 msgid ""
@@ -434,7 +435,7 @@ msgstr "_רגיל"
 
 #: ui/apps/gtkmm/src/Menus.cc:82
 msgid "_Suspended"
-msgstr "_השעיה"
+msgstr "_השהיה"
 
 #: ui/apps/gtkmm/src/Menus.cc:89
 msgid "Q_uiet"
@@ -1156,7 +1157,7 @@ msgstr "החלפת תרגיל"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -1256,7 +1257,7 @@ msgstr ""
 
 #: ui/data/exercises/exercises.xml.in:22
 msgid "Finger stretch"
-msgstr "מתיחת אצבעות"
+msgstr "מתיחת האצבעות"
 
 #: ui/data/exercises/exercises.xml.in:23
 msgid ""
@@ -1286,7 +1287,7 @@ msgstr ""
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
-msgstr "מתיחת כתף אחורית"
+msgstr "מתיחת הכתף האחורית"
 
 #: ui/data/exercises/exercises.xml.in:39
 msgid ""
@@ -1368,7 +1369,7 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
-"יש לשים את הידיים על משענות הכיסא שאת/ה יושב/ת עליו, ולדחוף את גופך כלפי "
+"יש לשים את הידיים על משענות הכיסא שעליו התיישבת, ולדחוף את גופך כלפי "
 "מעלה עד שהידיים שלך יתיישרו. יש לנסות להזיז את הראש עוד יותר בעזרת הורדת "
 "הכתפיים. יש לחזור לכיסא באיטיות."
 
@@ -1394,46 +1395,46 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Connect"
-#~ msgstr "_התחבר"
+#~ msgstr "_התחברות"
 
 #, fuzzy
 #~ msgid "Disconnect"
-#~ msgstr "_התנתק"
+#~ msgstr "_התנתקות"
 
 #, fuzzy
 #~ msgid "Reconnect"
-#~ msgstr "_התחבר מחדש"
+#~ msgstr "_התחברות מחדש"
 
 #~ msgid "About..."
-#~ msgstr "אודות ..."
+#~ msgstr "על אודות..."
 
 #, fuzzy
 #~ msgid "Quit"
 #~ msgstr "_יציאה"
 
 #~ msgid "_Connect"
-#~ msgstr "_התחבר"
+#~ msgstr "_התחברות"
 
 #~ msgid "Show _log"
 #~ msgstr "הצגת _יומן"
 
 #~ msgid "Suspend timer when inactive"
-#~ msgstr "השעה את השעון כאשר לא פעיל"
+#~ msgstr "השהיית השעון כאשר לא פעיל"
 
 #~ msgid "Play sounds using built-in speaker"
-#~ msgstr "נגן צלילים בעזרת הרמקול הפנימי"
+#~ msgstr "ניגון צלילים בעזרת הרמקול הפנימי"
 
 #~ msgid "_Quiet"
 #~ msgstr "_שקט"
 
 #~ msgid "_Connect..."
-#~ msgstr "_התחבר..."
+#~ msgstr "_התחברות..."
 
 #~ msgid "_Show Log..."
 #~ msgstr "_הצגת היומן..."
 
 #~ msgid "_About..."
-#~ msgstr "_אודות..."
+#~ msgstr "על _אודות..."
 
 #~ msgid "Daily usage"
 #~ msgstr "שימוש יומי"
@@ -1448,9 +1449,9 @@ msgstr ""
 #~ "walk away from your computer on a regular basis. Just\n"
 #~ "walk around for a few minutes, stretch, and relax."
 #~ msgstr ""
-#~ "זוהי הפסקת המנוחה שלך. קום/י על הרגלים\n"
-#~ "והתרחק מן המחשב באופן סדיר. רק התהלך\n"
-#~ "סביב לכמה דקות, התמתח והרגע."
+#~ "זוהי הפסקת המנוחה שלך. זה הזמן לקום על הרגלים\n"
+#~ "ולהתרחק מהמחשב באופן סדיר. אפשר פשוט להתהלך\n"
+#~ "סביב לכמה דקות, להתמתח ולהירגע."
 
 #~ msgid "Starting %s"
 #~ msgstr "שקט בעוד %s"
@@ -1489,7 +1490,7 @@ msgstr ""
 #~ msgstr "תו_דות"
 
 #~ msgid "About %s"
-#~ msgstr "אודות %s"
+#~ msgstr "על אודות %s"
 
 #~ msgid ""
 #~ "Close your eyes and breathe out as long as you can and try to relax. When "
@@ -1507,9 +1508,9 @@ msgstr ""
 #~ "wall, without changing the angle of your elbows. Then push your body back "
 #~ "from the wall again without changing the angle of the elbows."
 #~ msgstr ""
-#~ "לך ועמוד עם הפנים לקיר ושים את ידיך עליו כך שיהיו בגובה הכתף , עם המרפקים "
-#~ "מכופפים מעט. דחוף את הגוף לעבר הקיר, ללא שינוי הזווית של המרפקים. אחר כך "
-#~ "דחוף את הגוף בחזרה מן הקיר שוב ללא שינוי הזווית של המרפקים."
+#~ "יש לקום ולעמוד עם הפנים כלפי קיר (או משהו אחר) ולשים עליו את את הידיים כך שיהיו בגובה הכתף, "
+#~ "עם המרפקים מכופפים מעט. דחוף את הגוף לעבר הקיר, ללא שינוי הזווית של המרפקים. לאחר מכן"
+#~ "יש לדחוף את הגוף בחזרה מן הקיר שוב ללא שינוי הזווית של המרפקים."
 
 #~ msgid ""
 #~ "Keep your head straight and your lower jaw parallel to the floor. Move "
