@@ -17,8 +17,8 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.0-alpha.2" )
-set (WORKRAVE_RESOURCE_VERSION "1,10,999,2" )
+set (WORKRAVE_VERSION "1.11.0-alpha.3" )
+set (WORKRAVE_RESOURCE_VERSION "1,10,999,3" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
