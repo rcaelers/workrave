@@ -1,5 +1,13 @@
 ---
 releases:
+  - version: 1.11.0-alpha.3
+    date: 2022-06-30T16:53:59+02:00
+    short: |-
+      Workrave 1.11.0-alpha3 has been released.
+      This release fixes the GNOME shell applet.
+    changes:
+      - Fix GNOME shell applet loading on Ubuntu Focal
+
   - version: 1.11.0-alpha.2
     date: 2022-05-31T17:52:34+02:00
     short: |-
