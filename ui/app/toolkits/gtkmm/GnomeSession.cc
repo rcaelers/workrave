@@ -41,9 +41,9 @@ GnomeSession::init()
 
       proxy->signal_signal().connect(sigc::mem_fun(*this, &GnomeSession::on_signal));
     }
-  catch (Gio::DBus::Error &dbusError)
+  catch (Glib::Exception &e)
     {
-      std::cerr << dbusError.what() << std::endl;
+      std::cerr << e.what() << std::endl;
     }
 }
 
@@ -59,8 +59,8 @@ GnomeSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
           toolkit->signal_session_idle_changed()(session_status.get() == 3);
         }
     }
-  catch (Gio::DBus::Error &dbusError)
+  catch (Glib::Exception &e)
     {
-      std::cerr << dbusError.what() << std::endl;
+      std::cerr << e.what() << std::endl;
     }
 }
