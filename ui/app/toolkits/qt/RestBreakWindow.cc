@@ -108,7 +108,10 @@ RestBreakWindow::install_exercises_panel()
   pluggable_panel->addWidget(exercises_panel);
 
   exercises_panel->set_exercise_count(get_exercise_count());
-  workrave::utils::connect(exercises_panel->signal_stop(), this, [this] { install_info_panel(); });
+  workrave::utils::connect(exercises_panel->signal_stop(), this, [this] {
+    install_info_panel();
+    center();
+  });
 }
 
 void
@@ -142,7 +145,6 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->addLayout(restbreak_panel);
 
   UiUtil::invalidate(pluggable_panel);
-  center();
 
   // BlockMode block_mode = GUIConfig::cfg_block_mode();
   // if (block_mode == BlockMode::Off &&
