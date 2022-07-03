@@ -24,8 +24,6 @@
 #cmakedefine HAVE_MONITORS "${HAVE_MONITORS}"
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_QT
-#cmakedefine HAVE_QT5
-#cmakedefine HAVE_QT6
 #cmakedefine HAVE_SETLOCALE
 #cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCT
 #cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCTEX

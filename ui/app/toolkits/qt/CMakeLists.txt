@@ -83,8 +83,6 @@ qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
 
 target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-
 target_include_directories(workrave-toolkit-qt
   PRIVATE
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/src
@@ -116,10 +114,6 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   ${X11_X11_LIB}
   ${X11_Xtst_LIB}
   ${X11_Xss_LIB})
-
-if (HAVE_QT5 AND PLATFORM_OS_MACOS)
-  target_link_libraries(workrave-toolkit-qt PRIVATE Qt${QT_VERSION_MAJOR}::MacExtras)
-endif()
 
 if (HAVE_GLIB)
   target_include_directories(workrave-toolkit-qt PRIVATE ${GLIB_INCLUDE_DIRS})

@@ -298,17 +298,8 @@ endif()
 if ("${WITH_UI}" STREQUAL "Qt")
   message(STATUS "Checking for: Qt")
 
-  find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+  find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools REQUIRED)
-
-  if (Qt6_FOUND)
-      set (HAVE_QT6 ON)
-  elseif (Qt5_FOUND)
-    if (APPLE)
-      find_package(Qt5MacExtras REQUIRED)
-    endif()
-    set (HAVE_QT5 ON)
-  endif()
 
   get_target_property(QT_LRELEASE_EXECUTABLE Qt::lrelease LOCATION)
 
@@ -329,12 +320,9 @@ if ("${WITH_UI}" STREQUAL "Qt")
 
   if (WITH_DBUS)
     find_package(Qt6DBus QUIET)
-    if (NOT Qt6DBus_FOUND)
-      find_package(Qt5DBus QUIET)
-    endif()
   endif()
 
-  if (Qt6DBus_FOUND OR Qt5DBus_FOUND)
+  if (Qt6DBus_FOUND)
       set (HAVE_DBUS ON)
       set (HAVE_DBUS_QT ON)
       set (DBUS_BACKEND "qt")
@@ -347,10 +335,9 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 
   set (HAVE_QT ON)
-  set (HAVE_QT6 ON)
   set (HAVE_APP_QT ON)
 
-  if (Qt5_POSITION_INDEPENDENT_CODE)
+  if (Qt6_POSITION_INDEPENDENT_CODE)
     set (CMAKE_POSITION_INDEPENDENT_CODE ON)
   endif()
 
@@ -594,7 +581,7 @@ else()
    find_package(Gettext)
    find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
-  if (HAVE_QT5)
+  if (HAVE_QT)
     set (ENABLE_NLS ON)
   else()
     find_package(Libintl)
