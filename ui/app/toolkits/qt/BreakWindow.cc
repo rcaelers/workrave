@@ -24,6 +24,7 @@
 #include <QtGui>
 #include <QStyle>
 #include <QApplication>
+#include <utility>
 
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
@@ -37,7 +38,7 @@ using namespace workrave::utils;
 
 BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakId break_id, BreakFlags break_flags)
   : QWidget(nullptr, Qt::Window)
-  , app(app)
+  , app(std::move(app))
   , break_id(break_id)
   , break_flags(break_flags)
   , screen(screen)
