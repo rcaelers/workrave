@@ -23,6 +23,7 @@
 
 #include <QtGui>
 #include <QtWidgets>
+#include <QtGlobal>
 
 #include <iostream>
 
@@ -32,8 +33,9 @@ IconListNotebook::IconListNotebook(QWidget *parent)
   content = new QStackedWidget;
   content->setFrameShape(QFrame::StyledPanel);
 
-  button_group = new QButtonGroup;
-  connect(button_group, SIGNAL(buttonClicked(int)), this, SLOT(set_index(int)));
+  button_group = std::make_unique<QButtonGroup>();
+
+  connect(button_group.get(), &QButtonGroup::buttonClicked, [=](QAbstractButton *btn) { on_button_selected(btn); });
 
   button_layout = new QVBoxLayout;
   button_layout->setSpacing(0);
@@ -52,7 +54,7 @@ IconListNotebook::IconListNotebook(QWidget *parent)
   layout->setSpacing(4);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->addWidget(button_box);
-  layout->addWidget(content);
+  layout->addWidget(content, 1);
 
   setLayout(layout);
 }
@@ -67,7 +69,7 @@ IconListNotebook::sizeHint() const -> QSize
       max_x = qMax(max_x, button->sizeHint().width());
       max_y = qMax(max_y, button->sizeHint().height());
     }
-  return QSize(max_x, max_y);
+  return {max_x, max_y};
 }
 
 void
@@ -95,8 +97,9 @@ IconListNotebook::add_page(QWidget *page, const QIcon &icon, const QString &titl
 }
 
 void
-IconListNotebook::set_index(int index)
+IconListNotebook::on_button_selected(QAbstractButton *button)
 {
+  auto index = button_group->id(button);
   if (index < 0 || index >= content->count())
     {
       index = 0;

@@ -18,14 +18,16 @@
 #ifndef ICONLISTNOTEBOOK_HH
 #define ICONLISTNOTEBOOK_HH
 
+#include <memory>
+
 #include <QWidget>
+#include <QButtonGroup>
 #include <QIcon>
 
 QT_BEGIN_NAMESPACE
 class QStackedWidget;
 class QVBoxLayout;
 class QHBoxLayout;
-class QButtonGroup;
 QT_END_NAMESPACE
 
 class IconListNotebook : public QWidget
@@ -33,17 +35,17 @@ class IconListNotebook : public QWidget
   Q_OBJECT
 
 public:
-  IconListNotebook(QWidget *parent = nullptr);
+  explicit IconListNotebook(QWidget *parent = nullptr);
 
   QSize sizeHint() const override;
 
   void add_page(QWidget *page, const QIcon &icon, const QString &title);
 
-public Q_SLOTS:
-  void set_index(int index);
+private:
+  void on_button_selected(QAbstractButton *button);
 
 private:
-  QButtonGroup *button_group{nullptr};
+  std::unique_ptr<QButtonGroup> button_group;
   QHBoxLayout *layout{nullptr};
   QVBoxLayout *button_layout{nullptr};
   QStackedWidget *content{nullptr};
