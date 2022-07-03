@@ -28,7 +28,7 @@
 #include <windows.h>
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "core/CoreConfig.hh"
 
