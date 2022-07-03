@@ -5,15 +5,16 @@ Checks: >
   clang-analyzer-*,
   cppcoreguidelines-*,
   -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-prefer-member-initializer,
   hicpp-*,
   misc,
   modernize-*,
+  -modernize-use-nodiscard,
+  -modernize-use-trailing-return-type,
   readability-*,
   -readability-redundant-access-specifiers,
   -readability-convert-member-functions-to-static,
-  -readability-identifier-length,
-  -modernize-use-nodiscard,
-  -modernize-use-trailing-return-type
+  -readability-identifier-length
 WarningsAsErrors: >
   cppcoreguidelines-explicit-virtual-functions,
   cppcoreguidelines-pro-type-member-init,
