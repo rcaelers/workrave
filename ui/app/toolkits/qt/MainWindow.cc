@@ -23,7 +23,6 @@
 
 #include <QMoveEvent>
 #include <QApplication>
-// #include <QDesktopWidget>
 #include <QScreen>
 #include <QWindow>
 
@@ -37,8 +36,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   : QWidget(parent)
 {
   setFixedSize(minimumSize());
-  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
-                 | Qt::CustomizeWindowHint);
+  setWindowFlags(Qt::Tool);
 
   timer_box_view = new TimerBoxView;
   timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
@@ -136,7 +134,7 @@ MainWindow::moveEvent(QMoveEvent *event)
       GUIConfig::main_window_y().set(frameGeometry().y());
 
       QScreen *screen = window()->windowHandle()->screen();
-      int screen_index = QGuiApplication::screens().indexOf(screen);
+      auto screen_index = QGuiApplication::screens().indexOf(screen);
       GUIConfig::main_window_head().set(screen_index);
     }
   QWidget::moveEvent(event);
