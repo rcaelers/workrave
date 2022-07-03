@@ -49,9 +49,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   setQuitOnLastWindowClosed(false);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-#endif
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();

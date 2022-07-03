@@ -23,7 +23,6 @@
 
 #include <QtGui>
 #include <QStyle>
-//#include <QDesktopWidget>
 #include <QApplication>
 
 #include "debug.hh"
@@ -252,11 +251,7 @@ PreludeWindow::event(QEvent *event) -> bool
   if (event->type() == QEvent::HoverEnter)
     {
       auto *hoverEvent = dynamic_cast<QHoverEvent *>(event);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-      avoid_pointer(hoverEvent->pos().x(), hoverEvent->pos().y());
-#else
       avoid_pointer(hoverEvent->position().x(), hoverEvent->position().y());
-#endif
     }
   bool res = QWidget::event(event);
   return res;
