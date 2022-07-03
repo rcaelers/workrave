@@ -131,8 +131,13 @@ Locale::lookup(const std::string &domain, std::string &str)
 
   if (!str.empty())
     {
+#if defined(HAVE_LIBINTL)
       ret = dgettext(domain.c_str(), str.c_str());
       str = ret;
+#elif defined(HAVE_QT)
+      ret = QObject::tr(str.c_str()).toStdString();
+      str = ret;
+#endif
     }
 }
 

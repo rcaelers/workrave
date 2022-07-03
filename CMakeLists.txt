@@ -575,14 +575,16 @@ endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
 if(CMAKE_TOOLCHAIN_FILE MATCHES vcpkg)
-    find_package(unofficial-gettext REQUIRED)
-    set (ENABLE_NLS ON) # TODO: remove ENABLE_NLS
+  find_package(unofficial-gettext REQUIRED)
+  set (ENABLE_NLS ON) # TODO: remove ENABLE_NLS
+  set (HAVE_LIBINTL ON)
 else()
-   find_package(Gettext)
-   find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+  find_package(Gettext)
+  find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
   if (HAVE_QT)
     set (ENABLE_NLS ON)
+    set (HAVE_LIBINTL OFF)
   else()
     find_package(Libintl)
 
@@ -590,6 +592,7 @@ else()
       message(STATUS "GetText not found - disabling i18n")
     else()
       set (ENABLE_NLS ON)
+      set (HAVE_LIBINTL ON)
     endif()
   endif()
 endif()

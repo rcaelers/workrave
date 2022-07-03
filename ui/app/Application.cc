@@ -212,9 +212,11 @@ Application::init_nls()
   });
 #  endif
 
+#  if defined(HAVE_LIBINTL)
   bindtextdomain(GETTEXT_PACKAGE, locale_dir);
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
+#  endif
 
 #endif
 }
