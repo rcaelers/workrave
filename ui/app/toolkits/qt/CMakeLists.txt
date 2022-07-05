@@ -107,7 +107,7 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
-  # workrave-libs-ui-prefwidgets-qt
+  workrave-libs-ui-prefwidgets-qt
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
   ${LIBINTL_LIBRARIES}

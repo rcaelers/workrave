@@ -23,6 +23,9 @@
 #include <QtWidgets>
 
 #include "core/ICore.hh"
+#include "ui/IApplicationContext.hh"
+#include "ui/prefwidgets/qt/Builder.hh"
+#include "ui/prefwidgets/qt/BoxWidget.hh"
 
 class UiUtil
 {
@@ -50,6 +53,10 @@ public:
   static void invalidate(QLayout *layout);
 
   static auto time_to_string(time_t t, bool display_units = false) -> QString;
+
+  static void add_plugin_widgets(std::shared_ptr<IApplicationContext> app,
+                                 PreferencesSection section,
+                                 std::shared_ptr<ui::prefwidgets::qt::BoxWidget> frame);
 };
 
 #endif // UIUTIL_HH
