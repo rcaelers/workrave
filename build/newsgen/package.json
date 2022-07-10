@@ -12,7 +12,7 @@
     "dependencies": {
         "async": "^3.2.0",
         "js-yaml": "^3.14.0",
-        "moment": "^2.29.2",
+        "moment": "^2.29.4",
         "nunjucks": "^3.2.2",
         "remark-parse": "^9.0.0",
         "to-vfile": "^6.1.0",
