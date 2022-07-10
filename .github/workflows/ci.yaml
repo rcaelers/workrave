@@ -74,6 +74,7 @@ jobs:
             mingw-w64-x86_64-gtkmm3
             mingw-w64-x86_64-lld
             mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-openssl
             mingw-w64-x86_64-python
             mingw-w64-x86_64-python-pip
             mingw-w64-x86_64-spdlog
