@@ -102,7 +102,6 @@ target_link_libraries(workrave-app
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
-  workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
   workrave-libs-commonui)
@@ -133,7 +132,6 @@ target_link_libraries(workrave
   PRIVATE
   workrave-app
   workrave-libs-audio
-  workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets)
 

@@ -109,7 +109,6 @@ Application::main()
   toolkit->init(shared_from_this());
 
   init_operation_mode_warning();
-  init_updater();
 
   init_platform_post();
 
@@ -286,17 +285,6 @@ Application::init_operation_mode_warning()
     {
       toolkit->create_oneshot_timer(5000, [this]() { on_operation_mode_warning_timer(); });
     }
-}
-
-void
-Application::init_updater()
-{
-  // TODO:
-  // updater = workrave::updater::std::make_shared<Updater>("http://snapshots.workrave.org/appcast/");
-  // if (updater)
-  //   {
-  //     updater->check_for_updates();
-  //   }
 }
 
 void

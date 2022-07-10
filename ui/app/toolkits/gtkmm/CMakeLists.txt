@@ -94,6 +94,43 @@ If (PLATFORM_OS_WINDOWS)
   endif()
 endif()
 
+if (HAVE_UNFOLD_AUTO_UPDATE)
+  find_program(GLIB_COMPILE_RESOURCES NAMES glib-compile-resources REQUIRED)
+
+  execute_process(
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${GLIB_COMPILE_RESOURCES} --sourcedir=${CMAKE_SOURCE_DIR}/ui/data --generate-dependencies resources.gresource.xml
+    OUTPUT_VARIABLE RESOURCES_DEPENDENCIES
+  )
+
+  add_custom_command(
+    OUTPUT resources.gresource.xml.c
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${GLIB_COMPILE_RESOURCES}
+    ARGS
+      --sourcedir=${CMAKE_SOURCE_DIR}/ui/data
+      --target=${CMAKE_CURRENT_BINARY_DIR}/resources.gresource.xml.c
+      --generate-source
+      ${CMAKE_CURRENT_SOURCE_DIR}/resources.gresource.xml
+    VERBATIM
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/resources.gresource.xml
+    DEPENDS ${RESOURCES_DEPENDENCIES}
+  )
+
+  if (PLATFORM_OS_WINDOWS)
+    target_sources(workrave-toolkit-gtkmm PRIVATE platforms/windows/Edge.cc)
+    target_link_libraries(workrave-toolkit-gtkmm PUBLIC Unfold::unfold cmark::cmark webview2 ws2_32 mswsock)
+    target_compile_definitions(workrave-toolkit-gtkmm PRIVATE CMARK_NO_SHORT_NAMES)
+  endif()
+
+  target_sources(
+    workrave-toolkit-gtkmm
+    PRIVATE
+    resources.gresource.xml.c
+    AutoUpdater.cc
+    AutoUpdateDialog.cc)
+endif()
+
 target_link_libraries(workrave-toolkit-gtkmm
   PUBLIC
   PRIVATE
@@ -103,7 +140,6 @@ target_link_libraries(workrave-toolkit-gtkmm
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
-  #workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
   workrave-libs-ui-prefwidgets-gtkmm)

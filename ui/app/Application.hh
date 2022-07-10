@@ -37,7 +37,6 @@
 #include "ui/IToolkitFactory.hh"
 #include "ui/IToolkit.hh"
 #include "ui/SoundTheme.hh"
-#include "updater/Updater.hh"
 #include "utils/Signals.hh"
 #include "PreferencesRegistry.hh"
 
@@ -91,7 +90,6 @@ private:
   void init_sound_player();
   void init_dbus();
   void init_operation_mode_warning();
-  void init_updater();
 
   void on_status_icon_activate();
   void on_main_window_closed();
@@ -108,7 +106,6 @@ private:
   std::shared_ptr<workrave::ICore> core;
   std::shared_ptr<Menus> menus;
   std::shared_ptr<MenuModel> menu_model;
-  std::shared_ptr<workrave::updater::Updater> updater;
   std::shared_ptr<SoundTheme> sound_theme;
   std::shared_ptr<PreferencesRegistry> preferences_registry;
   int argc{0};
