@@ -6,8 +6,8 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-libs-utils-enum-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-libs-utils-enum-test PRIVATE ${EXTRA_LIBRARIES})
 
-  if (PLATFORM_OS_WINDOWS)
-    target_link_libraries(workrave-libs-utils-enum-test PRIVATE libssp)
+  if (SSP_LIBRARY)
+    target_link_libraries(workrave-libs-utils-enum-test PRIVATE ${SSP_LIBRARY})
   endif()
 
   add_test(NAME workrave-libs-utils-enum-test COMMAND workrave-libs-utils-enum-test)

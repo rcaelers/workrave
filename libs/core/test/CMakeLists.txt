@@ -46,9 +46,9 @@ if (HAVE_TESTS)
     target_link_libraries(workrave-core-integration-test PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
   endif()
 
-  if (PLATFORM_OS_WINDOWS)
-    target_link_libraries(workrave-core-integration-test PRIVATE libssp)
-    target_link_libraries(workrave-core-timer-test PRIVATE libssp)
+  if (SSP_LIBRARY)
+    target_link_libraries(workrave-core-integration-test PRIVATE ${SSP_LIBRARY})
+    target_link_libraries(workrave-core-timer-test PRIVATE ${SSP_LIBRARY})
   endif()
 
   add_test(NAME workrave-core-integration-test COMMAND workrave-core-integration-test)

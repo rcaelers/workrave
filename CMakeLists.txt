@@ -643,6 +643,8 @@ if (WIN32)
     include(FindMsys)
   endif()
 
+  find_library(SSP_LIBRARY libssp)
+
   if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
     set(HAVE_CRASH_REPORT OFF)
     set(HAVE_CRASHPAD OFF)
