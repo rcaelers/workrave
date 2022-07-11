@@ -1,4 +1,4 @@
-if (WITH_AUTO_UPDATE)
+if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
     FetchContent_Declare(

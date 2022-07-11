@@ -79,6 +79,8 @@ jobs:
             mingw-w64-x86_64-python-pip
             mingw-w64-x86_64-spdlog
             mingw-w64-x86_64-jq
+            mingw-w64-x86_64-uasm
+            mingw-w64-x86_64-rust
             tar
             xz
             zip

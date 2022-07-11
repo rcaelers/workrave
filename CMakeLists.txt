@@ -645,27 +645,6 @@ if (WIN32)
 
   find_library(SSP_LIBRARY libssp)
 
-  if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
-    set(HAVE_CRASH_REPORT OFF)
-    set(HAVE_CRASHPAD OFF)
-    if(WITH_CRASHPAD)
-      find_package(crashpad REQUIRED)
-      find_program(DUMP_SYMS dump_syms)
-
-      if (crashpad_FOUND)
-        set(HAVE_CRASHPAD ON)
-        set(HAVE_CRASH_REPORT ON)
-        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-          set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
-          set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
-          add_compile_options(-gdwarf -gcodeview)
-        else()
-          message(STATUS "Crashpad requires Clang")
-        endif()
-      endif()
-    endif()
-  endif()
-
   if (NOT ISCC)
     if (NOT WINE)
       get_filename_component(PROGRAM_FILES_PATH
@@ -794,6 +773,63 @@ if(NOT ${spdlog_FOUND})
     )
   set(SPDLOG_BUILD_SHARED ON)
   FetchContent_MakeAvailable(spdlog)
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Crash reporting - Windows
+
+if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+  set(HAVE_CRASH_REPORT OFF)
+  set(HAVE_CRASHPAD OFF)
+  if (WITH_CRASHPAD)
+
+    FetchContent_Declare(
+      crashpad
+      GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
+      GIT_SHALLOW TRUE
+      GIT_TAG c4a59aef60b78cca2b841e89aadf6435c970b44d
+    )
+    FetchContent_MakeAvailable(crashpad)
+
+    find_program(CARGO "cargo")
+    if (NOT CARGO)
+      message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
+    endif()
+
+    FetchContent_Declare(
+      breakpad
+      GIT_REPOSITORY https://chromium.googlesource.com/breakpad/breakpad
+      GIT_SHALLOW TRUE
+      GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
+    )
+    FetchContent_MakeAvailable(breakpad)
+
+    FetchContent_Declare(
+      dump_syms
+      GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
+      GIT_SHALLOW TRUE
+      GIT_TAG fcd4bf0a3ecdb9a18480c4fae05fba2dce4a5169
+    )
+    FetchContent_MakeAvailable(dump_syms)
+
+    set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
+    add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
+    add_custom_command(
+      OUTPUT ${DUMP_SYMS}
+      COMMAND cargo build --release
+      WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
+      )
+
+    set(HAVE_CRASHPAD ON)
+    set(HAVE_CRASH_REPORT ON)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
+      add_compile_options(-gdwarf -gcodeview)
+    else()
+      message(STATUS "Crashpad requires Clang")
+    endif()
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -934,7 +970,7 @@ feature_bool("Pulseaudio" HAVE_PULSE)
 endif()
 if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
-feature_bool("Auto update" WITH_AUTO_UPDATE)
+feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)
 endif()
 feature_bool("Debug logs" TRACING)
 feature_bool("Tests" HAVE_TESTS)
