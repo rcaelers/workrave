@@ -5,26 +5,26 @@ file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
 foreach (po_file ${POFILES})
   get_filename_component(language ${po_file} NAME_WE)
 
-  if(MINGW) # TODO:
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+  if(MINGW)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION share/locale/${language}/LC_MESSAGES)
 
-  if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
-    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  elseif ()
-    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    # TODO: else: give warning, once
-  endif()
+    if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
+      install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    elseif ()
+      install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+      # TODO: else: give warning, once
+    endif()
 
-  if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
-    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  elseif()
-    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    # TODO: else: give warning, once
-  endif()
+    if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
+      install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    elseif()
+      install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+      # TODO: else: give warning, once
+    endif()
   endif()
 endforeach()
 
