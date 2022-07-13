@@ -91,7 +91,7 @@ jobs:
         run: |
           env
           python -m pip install --upgrade pip
-          pip install wheel2
+          pip install wheel
           pip install Jinja2
           ./build/ci/build.sh
         env:
