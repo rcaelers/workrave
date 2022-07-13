@@ -72,6 +72,7 @@ jobs:
             mingw-w64-clang-x86_64-boost
             mingw-w64-clang-x86_64-clang
             mingw-w64-clang-x86_64-cmake
+            mingw-w64-clang-x86_64-gcc-compat
             mingw-w64-clang-x86_64-gtkmm3
             mingw-w64-clang-x86_64-lld
             mingw-w64-clang-x86_64-ninja
