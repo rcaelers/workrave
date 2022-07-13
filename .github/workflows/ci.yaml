@@ -91,7 +91,8 @@ jobs:
         run: |
           env
           python -m pip install --upgrade pip
-          pip install wheel Jinja2
+          pip install wheel2
+          pip install Jinja2
           ./build/ci/build.sh
         env:
           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
