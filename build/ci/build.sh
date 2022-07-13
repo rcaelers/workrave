@@ -71,27 +71,6 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
-install_crashpad() {
-    env
-    pwd
-    if [ ! -d ${SOURCES_DIR}/_ext ]; then
-        mkdir -p ${SOURCES_DIR}/_ext
-    fi
-
-    crashpad_name=crashpad-mingw64-20220109-36-954418c2704128a667af9b9fbea51c868c51f43d
-    crashpad_ext=.tar.xz
-    if [ ! -d ${SOURCES_DIR}/_ext/${crashpad_name} ]; then
-        curl https://snapshots.workrave.org/crashpad/${crashpad_name}${crashpad_ext} | tar xvJ -C ${SOURCES_DIR}/_ext -f -
-        rm -f ${SOURCES_DIR}/_ext/crashpad
-        cd ${SOURCES_DIR}/_ext
-        ln -s ${crashpad_name} crashpad
-        cd ${SOURCES_DIR}/
-    fi
-    if [ ! -e ${SOURCES_DIR}/_ext/dump_syms.exe ]; then
-        curl https://snapshots.workrave.org/crashpad/dump_syms.exe -o ${SOURCES_DIR}/_ext/dump_syms.exe
-    fi
-}
-
 parse_arguments $*
 
 if [[ ${CONF_ENABLE} ]]; then
@@ -117,8 +96,6 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
-    # TODO: enable crashpad
-    # install_crashpad
     # CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
     OUT_DIR=""
 
