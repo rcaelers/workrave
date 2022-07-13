@@ -59,6 +59,7 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           update: true
+          msystem: clang64
           install: >-
             git
             mingw-w64-i686-clang
@@ -67,20 +68,20 @@ jobs:
             mingw-w64-i686-lld
             mingw-w64-i686-spdlog
             mingw-w64-i686-ninja
-            mingw-w64-x86_64-adwaita-icon-theme
-            mingw-w64-x86_64-boost
-            mingw-w64-x86_64-clang
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-gtkmm3
-            mingw-w64-x86_64-lld
-            mingw-w64-x86_64-ninja
-            mingw-w64-x86_64-openssl
-            mingw-w64-x86_64-python
-            mingw-w64-x86_64-python-pip
-            mingw-w64-x86_64-spdlog
-            mingw-w64-x86_64-jq
-            mingw-w64-x86_64-uasm
-            mingw-w64-x86_64-rust
+            mingw-w64-clang-x86_64-adwaita-icon-theme
+            mingw-w64-clang-x86_64-boost
+            mingw-w64-clang-x86_64-clang
+            mingw-w64-clang-x86_64-cmake
+            mingw-w64-clang-x86_64-gtkmm3
+            mingw-w64-clang-x86_64-lld
+            mingw-w64-clang-x86_64-ninja
+            mingw-w64-clang-x86_64-openssl
+            mingw-w64-clang-x86_64-python
+            mingw-w64-clang-x86_64-python-pip
+            mingw-w64-clang-x86_64-spdlog
+            mingw-w64-clang-x86_64-jq
+            mingw-w64-clang-x86_64-uasm
+            mingw-w64-clang-x86_64-rust
             tar
             xz
             zip
