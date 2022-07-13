@@ -100,7 +100,11 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     OUT_DIR=""
 
     if [[ $MSYSTEM == "" ]]; then
-        MSYSTEM="MINGW64"
+        if [[ $WORKRAVE_ENV =~ "-msys2" ]]; then
+            MSYSTEM="CLANG64"
+        else
+            MSYSTEM="MINGW64"
+        fi
     fi
 
     if [[ $MSYSTEM == "MINGW32" ]]; then
@@ -188,7 +192,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     fi
 fi
 
-if [[ $MSYSTEM == "MINGW64" ]]; then
+if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     mkdir -p ${DEPLOY_DIR}
 
