@@ -797,13 +797,14 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
       message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
     endif()
 
-    FetchContent_Declare(
-      breakpad
-      GIT_REPOSITORY https://chromium.googlesource.com/breakpad/breakpad
-      GIT_SHALLOW TRUE
-      GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
-    )
-    FetchContent_MakeAvailable(breakpad)
+    # TODO: add for upload of symbols
+    # FetchContent_Declare(
+    #   breakpad
+    #   GIT_REPOSITORY
+    #   GIT_SHALLOW TRUE
+    #   GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
+    # )
+    # FetchContent_MakeAvailable(breakpad)
 
     FetchContent_Declare(
       dump_syms
