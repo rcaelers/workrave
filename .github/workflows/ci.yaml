@@ -44,11 +44,11 @@ jobs:
       matrix:
         config:
           - configuration: Release
-            enable: TESTS
+            enable: TESTS, CRASHPAD
             upload: false
 
           - configuration: Debug
-            enable: TESTS, TRACING
+            enable: TESTS, TRACING, CRASHPAD
             upload: false
     steps:
       - uses: actions/checkout@v2
