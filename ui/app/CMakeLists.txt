@@ -184,8 +184,8 @@ if (MINGW)
 
   if (DUMP_SYMS)
     add_custom_command(TARGET workrave POST_BUILD
-                       COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_BINARY_DIR}/workrave.sym
-                       DEPENDS dump_syms)
+                       COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_BINARY_DIR}/workrave.sym)
+    add_dependencies(workrave dump_syms)
   endif()
 
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
