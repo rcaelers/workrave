@@ -787,7 +787,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     FetchContent_Declare(
       crashpad
       GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
-      GIT_SHALLOW TRUE
+      # GIT_SHALLOW TRUE
       GIT_TAG c4a59aef60b78cca2b841e89aadf6435c970b44d
     )
     FetchContent_MakeAvailable(crashpad)
@@ -809,7 +809,6 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     FetchContent_Declare(
       dump_syms
       GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-      GIT_SHALLOW TRUE
       GIT_TAG fcd4bf0a3ecdb9a18480c4fae05fba2dce4a5169
     )
     FetchContent_MakeAvailable(dump_syms)
