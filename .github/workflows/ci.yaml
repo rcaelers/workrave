@@ -136,7 +136,7 @@ jobs:
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
-            appimage: true
+            #appimage: true
             upload: true
 
           - image: ubuntu-kinetic
