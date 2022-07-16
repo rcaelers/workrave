@@ -775,6 +775,8 @@ if(NOT ${spdlog_FOUND})
   set(SPDLOG_BUILD_SHARED ON)
   FetchContent_MakeAvailable(spdlog)
 endif()
+# TODO: remove workaround
+add_compile_definitions(FMT_DEPRECATED_OSTREAM)
 
 #----------------------------------------------------------------------------------------------------
 # Crash reporting - Windows
