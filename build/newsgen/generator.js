@@ -4,6 +4,7 @@ import wrap from 'word-wrap';
 import path from 'path';
 import unified from 'unified';
 import markdown from 'remark-parse';
+import semver from 'semver';
 
 import text from './markdown.js';
 
@@ -32,6 +33,13 @@ class Generator {
       })
       .addFilter('wrap', function(str, width) {
         return wrap(str, { indent: '', width: width });
+      })
+      .addFilter('channel', function(str) {
+        let pre = semver.prerelease(str);
+        if (pre) {
+          return pre[0];
+        }
+        return '';
       })
       .addFilter('text', function(str) {
         return unified()
