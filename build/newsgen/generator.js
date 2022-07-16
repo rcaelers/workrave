@@ -63,7 +63,7 @@ class Generator {
         }
 
         this.news.releases = this.news.releases.filter(function(release, index) {
-          return single ? versionIndex == index : versionIndex <= index;
+          return single ? versionIndex == index : versionIndex >= index;
         });
       }
       let context = { ...extra, ...{ releases: this.news } };
