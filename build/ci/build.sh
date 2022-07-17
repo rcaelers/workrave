@@ -2,6 +2,8 @@
 
 set -x
 
+git config --global --add safe.directory /workspace/source
+
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
