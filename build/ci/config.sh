@@ -34,7 +34,7 @@ inline)
     ;;
 
 github-docker)
-    echo "Running on Github in docker"
+    echo "Running on Github in docker on Linux"
     WORKSPACE=/workspace
     OUTPUT_DIR=${WORKSPACE}/output
     SOURCES_DIR=${WORKSPACE}/source
@@ -42,6 +42,17 @@ github-docker)
     BUILD_DIR=${SOURCES_DIR}/_dist/build
     SCRIPTS_DIR=${SOURCES_DIR}/build
     CI_DIR=${SCRIPTS_DIR}/ci
+    ;;
+
+github-windows-docker)
+    echo "Running on Git in docker on Windows"
+    WORKSPACE=/c/workspace
+    OUTPUT_DIR=${WORKSPACE}/output
+    SOURCES_DIR=${WORKSPACE}/source
+    DEPLOY_DIR=${SOURCES_DIR}/_deploy
+    BUILD_DIR=${SOURCES_DIR}/_dist/build
+    SCRIPTS_DIR=${SOURCES_DIR}/build
+    CI_DIR=${SCRIPTS_DIR}/build/ci
     ;;
 
 github-ubuntu)
