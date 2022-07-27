@@ -11,17 +11,6 @@ local)
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
-local-msys2)
-    echo "Running locally on Windows with msys2"
-    WORKSPACE=$(pwd)
-    SOURCES_DIR=${WORKSPACE}
-    OUTPUT_DIR=${SOURCES_DIR}/_output
-    DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_build
-    SCRIPTS_DIR=${SOURCES_DIR}/build
-    CI_DIR=${SCRIPTS_DIR}/ci
-    ;;
-
 inline)
     echo "Running inline in docker"
     WORKSPACE=/workspace
@@ -33,7 +22,18 @@ inline)
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
-github-docker)
+local-windows-msys2)
+    echo "Running locally on Windows with msys2"
+    WORKSPACE=$(pwd)
+    SOURCES_DIR=${WORKSPACE}
+    OUTPUT_DIR=${SOURCES_DIR}/_output
+    DEPLOY_DIR=${SOURCES_DIR}/_deploy
+    BUILD_DIR=${SOURCES_DIR}/_build
+    SCRIPTS_DIR=${SOURCES_DIR}/build
+    CI_DIR=${SCRIPTS_DIR}/ci
+    ;;
+
+docker-linux)
     echo "Running on Github in docker on Linux"
     WORKSPACE=/workspace
     OUTPUT_DIR=${WORKSPACE}/output
@@ -44,7 +44,7 @@ github-docker)
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
-github-windows-docker)
+docker-windows-msys2)
     echo "Running on Git in docker on Windows"
     WORKSPACE=/c/workspace
     OUTPUT_DIR=${WORKSPACE}/output
@@ -65,7 +65,7 @@ github-ubuntu)
     CI_DIR=${SOURCES_DIR}/build/ci
     ;;
 
-github-msys2)
+github-windows-msys2)
     echo "Running natvely on Github/Windows"
     WORKSPACE=$(cygpath $GITHUB_WORKSPACE)
     SOURCES_DIR=${WORKSPACE}
@@ -119,7 +119,12 @@ inline)
     export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
     ;;
 
-github-docker)
+docker-linux)
+    export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
+    export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
+    ;;
+
+docker-windows-msys2)
     export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
     export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
     ;;
@@ -134,7 +139,7 @@ github-msys2)
     export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
     ;;
 
-local-msys2)
+local-windows-msys2)
     export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
     ;;
 

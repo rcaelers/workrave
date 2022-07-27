@@ -121,7 +121,7 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
         CONF_SYSTEM=mingw64
     fi
 
-    if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV =~ "github-windows-docker" ]]; then
+    if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV == "docker-windows-msys2" ]]; then
         TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
     else
