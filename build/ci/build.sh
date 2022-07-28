@@ -2,6 +2,10 @@
 
 set -x
 
+if [[ ! $DOCKER_IMAGE =~ "windows" ]]; then
+    git config --global --add safe.directory /workspace/source
+fi
+
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
@@ -95,7 +99,7 @@ if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
 fi
 
-if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
+if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     # CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
     OUT_DIR=""
 
@@ -117,7 +121,7 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
         CONF_SYSTEM=mingw64
     fi
 
-    if [[ $WORKRAVE_ENV =~ "-msys2" ]]; then
+    if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV == "docker-windows-msys2" ]]; then
         TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
     else
