@@ -8,7 +8,7 @@ run_docker_mingw_build() {
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-        sh -xc "/workspace/source/build/ci/build.sh -S MINGW64"
+        sh -xc "/workspace/source/tools/ci/build.sh -S MINGW64"
 }
 
 run_docker_ppa() {
@@ -105,12 +105,12 @@ generate_news() {
     node ${SCRIPTS_DIR}/newsgen/main.js \
         --input "${SOURCE_DIR}/changes.yaml" \
         --template github \
-        --release `echo $VERSION | sed -e 's/^v//g'` \
+        --release $(echo $VERSION | sed -e 's/^v//g') \
         --output "$WORKSPACE_DIR/deploy/NEWS"
 
     cd ${SOURCE_DIR}
-    DIR_DATE=`date +"%Y_%m_%d"`
-    DIR_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g'`
+    DIR_DATE=$(date +"%Y_%m_%d")
+    DIR_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g')
     DIR="${WEBSITE_DIR}/content/en/blog/${DIR_DATE}_workrave-${DIR_VERSION}-released"
 
     if [ ! -d $DIR ]; then
@@ -119,7 +119,7 @@ generate_news() {
         node ${SCRIPTS_DIR}/newsgen/main.js \
             --input "${SOURCE_DIR}/changes.yaml" \
             --template blog \
-            --release `echo $VERSION | sed -e 's/^v//g'` \
+            --release $(echo $VERSION | sed -e 's/^v//g') \
             --single \
             --output "${DIR}/_index.md"
     fi
@@ -181,7 +181,7 @@ parse_arguments() {
 DEBIAN_DIR=
 WEBSITE_DIR=
 WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
-SCRIPTS_DIR=${WORKSPACE_DIR}/source/build/
+SCRIPTS_DIR=${WORKSPACE_DIR}/source/tools/
 REPO=https://github.com/rcaelers/workrave.git
 DRYRUN=
 
@@ -222,6 +222,6 @@ run_docker_ppa
 generate_news
 
 if [ -z $DRYRUN ]; then
-  echo uploading
-  upload
+    echo uploading
+    upload
 fi

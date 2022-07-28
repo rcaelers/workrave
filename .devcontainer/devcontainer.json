@@ -9,6 +9,7 @@
   "settings": {},
 
   "extensions": [
+    "azuretools.vscode-docker"
     "davidanson.vscode-markdownlint",
     "dbaeumer.jshint",
     "dbaeumer.vscode-eslint",

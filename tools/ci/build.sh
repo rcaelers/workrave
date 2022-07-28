@@ -122,10 +122,10 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
     fi
 
     if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV == "docker-windows-msys2" ]]; then
-        TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/toolchains/msys2.cmake
+        TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
     else
-        TOOLCHAIN_FILE=${SOURCES_DIR}/build/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
+        TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
         echo Building on Linux cross compile environment
         CMAKE_FLAGS+=("-DISCC=/workspace/inno/app/ISCC.exe")
     fi
@@ -192,7 +192,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
 
         mkdir -p ${DEPLOY_DIR}
         cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
-        ${SOURCES_DIR}/build/ci/catalog.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
+        ${SOURCES_DIR}/tools/ci/catalog.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
     fi
 fi
 
@@ -205,6 +205,10 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
     if [ "$CONF_CONFIGURATION" == "Debug" ]; then
         EXTRA="-Debug"
         CONFIG="debug"
+    fi
+
+    if [[ -e ${BUILD_DIR}/workrave.sym ]]; then
+        curl --request POST -F symbol_file=@${BUILD_DIR}/workrave.sym "http://192.168.7.241:8888/api/symbol/upload?api_key=84f1a5db0f604d3ab8787c57b244a4f4&version=1.11.0-alpha1"
     fi
 
     if [[ -z "$WORKRAVE_TAG" ]]; then
@@ -227,7 +231,7 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
     zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
 
     cd ${BUILD_DIR}
-    ${SOURCES_DIR}/build/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
+    ${SOURCES_DIR}/tools/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     ninja ${MAKE_FLAGS[@]} installer
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
@@ -240,10 +244,10 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
             cp ${OUTPUT_DIR}/workrave.sym ${DEPLOY_DIR}/${symbolsFilename}
         fi
 
-        ${SOURCES_DIR}/build/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
+        ${SOURCES_DIR}/tools/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
 
         if [[ -e ${symbolsFilename} ]]; then
-            ${SOURCES_DIR}/build/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
+            ${SOURCES_DIR}/tools/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
         fi
     fi
 fi

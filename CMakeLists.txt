@@ -7,7 +7,7 @@ project(Workrave)
 cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 # Require out of source build.
 include(MacroEnsureOutOfSourceBuild)
@@ -851,7 +851,7 @@ add_compile_definitions(HAVE_CONFIG_H=1)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # Generate config.h
-configure_file(${CMAKE_SOURCE_DIR}/build/cmake/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file(${CMAKE_SOURCE_DIR}/cmake/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 #----------------------------------------------------------------------------------------------------
 # Make dist.
@@ -876,10 +876,10 @@ endif()
 
 if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
   if (CMAKE_CROSSCOMPILING)
-    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/build/cmake/toolchains/mingw32-gcc.cmake)
+    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake)
     set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
   else()
-    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/build/cmake/toolchains/msys2.cmake)
+    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake)
     set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
   endif()
 

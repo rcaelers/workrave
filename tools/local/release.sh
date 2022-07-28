@@ -163,7 +163,7 @@ DEBIAN_DIR=
 WEBSITE_DIR=
 SECRETS_DIR=
 WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
-SCRIPTS_DIR=${WORKSPACE_DIR}/source/build/
+SCRIPTS_DIR=${WORKSPACE_DIR}/source/tools/
 REPO=https://github.com/rcaelers/workrave.git
 DRYRUN=
 

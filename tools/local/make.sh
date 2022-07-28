@@ -121,7 +121,7 @@ DOCKER_ARGS+=("--rm ghcr.io/rcaelers/workrave-build:${IMAGE}")
 if [[ $DOSHELL ]]; then
     docker run -ti --rm --privileged ${DOCKER_ARGS[*]} bash
 elif [[ $IMAGE =~ "mingw" ]]; then
-    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]} -S MINGW64"
+    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/tools/ci/build.sh ${BUILD_ARGS[*]} -S MINGW64"
 else
-    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/build/ci/build.sh ${BUILD_ARGS[*]}"
+    docker run --privileged ${DOCKER_ARGS[*]} sh -c "/workspace/source/tools/ci/build.sh ${BUILD_ARGS[*]}"
 fi

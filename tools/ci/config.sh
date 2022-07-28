@@ -7,7 +7,7 @@ local)
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/deploy
     SECRETS_DIR=${WORKSPACE}/secrets
-    SCRIPTS_DIR=${WORKSPACE}/scripts
+    SCRIPTS_DIR=${WORKSPACE}/tools
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
@@ -18,7 +18,7 @@ inline)
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build
-    SCRIPTS_DIR=${SOURCES_DIR}/build
+    SCRIPTS_DIR=${SOURCES_DIR}/tools
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
@@ -29,7 +29,7 @@ local-windows-msys2)
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build
-    SCRIPTS_DIR=${SOURCES_DIR}/build
+    SCRIPTS_DIR=${SOURCES_DIR}/tools
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
@@ -40,7 +40,7 @@ docker-linux)
     SOURCES_DIR=${WORKSPACE}/source
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    SCRIPTS_DIR=${SOURCES_DIR}/build
+    SCRIPTS_DIR=${SOURCES_DIR}/tools
     CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
@@ -52,7 +52,7 @@ docker-windows-msys2)
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
     SCRIPTS_DIR=${SOURCES_DIR}/build
-    CI_DIR=${SCRIPTS_DIR}/build/ci
+    CI_DIR=${SCRIPTS_DIR}/tools/ci
     ;;
 
 github-ubuntu)
@@ -62,7 +62,7 @@ github-ubuntu)
     OUTPUT_DIR=${WORKSPACE}/output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    CI_DIR=${SOURCES_DIR}/build/ci
+    CI_DIR=${SOURCES_DIR}/tools/ci
     ;;
 
 github-windows-msys2)
@@ -72,7 +72,7 @@ github-windows-msys2)
     OUTPUT_DIR=${WORKSPACE}/output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    CI_DIR=${SOURCES_DIR}/build/ci
+    CI_DIR=${SOURCES_DIR}/tools/ci
     ;;
 
 *)
