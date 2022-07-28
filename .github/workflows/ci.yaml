@@ -126,21 +126,21 @@ jobs:
       matrix:
         config:
           - image: ubuntu-focal
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           - image: ubuntu-impish
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: gcc-10
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           - image: ubuntu-jammy
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
@@ -149,21 +149,21 @@ jobs:
             upload: true
 
           - image: ubuntu-kinetic
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
             disable:
 
           - image: ubuntu-kinetic
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           - image: mingw-fedora-rawhide
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: clang
             ui: Gtk+3
             configuration: Release
@@ -172,7 +172,7 @@ jobs:
             upload: true
 
           - image: mingw-fedora-rawhide
-            os: ubuntu-latest
+            os: ubuntu-22.04
             compiler: clang
             ui: Gtk+3
             configuration: Debug
@@ -279,7 +279,7 @@ jobs:
           path: _deploy
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [build-cmake]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
@@ -314,7 +314,7 @@ jobs:
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [build-cmake]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
@@ -421,7 +421,7 @@ jobs:
           asset_content_type: application/gzip
 
   website:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event_name == 'push'
     needs: [deploy]
     steps:
