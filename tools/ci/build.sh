@@ -207,10 +207,6 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
         CONFIG="debug"
     fi
 
-    if [[ -e ${BUILD_DIR}/workrave.sym ]]; then
-        curl --request POST -F symbol_file=@${BUILD_DIR}/workrave.sym "http://192.168.7.241:8888/api/symbol/upload?api_key=84f1a5db0f604d3ab8787c57b244a4f4&version=1.11.0-alpha1"
-    fi
-
     if [[ -z "$WORKRAVE_TAG" ]]; then
         echo "No tag build."
         baseFilename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
