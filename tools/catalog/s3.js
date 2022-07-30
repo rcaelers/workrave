@@ -6,17 +6,17 @@ import promisify from 'util';
 const S3_API_VERSION = '2006-03-01';
 
 class S3Store {
-  constructor(bucket, dry, accessKeyId, secretAccessKey) {
+  constructor(endpoint, bucket, dry, accessKeyId, secretAccessKey) {
     this.bucket = bucket;
     this.dry = dry;
 
     this.s3 = new AWS.S3({
       accessKeyId: accessKeyId,
       secretAccessKey: secretAccessKey,
-      endpoint: 'https://snapshots.workrave.org/',
+      endpoint: endpoint,
       s3ForcePathStyle: true,
       signatureVersion: 'v4',
-      params: { Bucket: bucket }
+      params: { Bucket: bucket },
     });
   }
 
@@ -31,7 +31,7 @@ class S3Store {
 
       try {
         const response = await this.s3.listObjects(params).promise();
-        response.Contents.forEach(item => {
+        response.Contents.forEach((item) => {
           items.push(item);
         });
         isTruncated = response.IsTruncated;
@@ -68,7 +68,7 @@ class S3Store {
         .putObject({
           Key: filename,
           Body: jsonData,
-          ContentType: 'application/json'
+          ContentType: 'application/json',
         })
         .promise();
     }

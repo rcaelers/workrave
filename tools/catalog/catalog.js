@@ -50,7 +50,7 @@ class Catalog {
   }
 
   mergeBuild(part) {
-    let build = this.catalog.builds.find(b => b.id == part.id);
+    let build = this.catalog.builds.find((b) => b.id == part.id);
     if (build) {
       build.artifacts = [...build.artifacts, ...part.artifacts];
     } else {
@@ -89,7 +89,7 @@ class Catalog {
         const commitList = await git.log({
           fs,
           dir: this.gitRoot,
-          ref: hash
+          ref: hash,
         });
 
         var build_index = 0;
@@ -115,8 +115,8 @@ class Catalog {
 
   async removeOrphans() {
     try {
-      let newBuilds = await as.filterLimit(this.catalog.builds, 4, async build => {
-        let newArtifacts = await as.filterLimit(build.artifacts, 4, async artifact => {
+      let newBuilds = await as.filterLimit(this.catalog.builds, 4, async (build) => {
+        let newArtifacts = await as.filterLimit(build.artifacts, 4, async (artifact) => {
           let filename = artifact.url.replace('snapshots/', '');
           let exists = false;
           try {
@@ -145,8 +145,8 @@ class Catalog {
 
   async fixups() {
     try {
-      this.catalog.builds.forEach(build => {
-        build.artifacts.forEach(artifact => {
+      this.catalog.builds.forEach((build) => {
+        build.artifacts.forEach((artifact) => {
           artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
           artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
           artifact.platform = artifact.platform.replace('win32', 'windows');

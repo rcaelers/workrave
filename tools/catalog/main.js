@@ -3,7 +3,7 @@ import { Catalog } from './catalog.js';
 
 import yargs from 'yargs';
 
-const getEnv = varName => {
+const getEnv = (varName) => {
   const value = process.env[varName];
 
   if (!value) {
@@ -17,8 +17,6 @@ const main = async () => {
   let storage = null;
 
   try {
-    const bucket = 'snapshots';
-    const accessKeyId = 'travis';
     const secretAccessKey = getEnv('SNAPSHOTS_SECRET_ACCESS_KEY');
     const gitRoot = getEnv('WORKSPACE');
 
@@ -29,20 +27,29 @@ const main = async () => {
       .alias('h', 'help')
       .option('branch', {
         alias: 'b',
-        default: 'v1.11'
+        default: 'v1.11',
       })
-      .options('dry', {
+      .option('bucket', {
+        default: 'snapshots',
+      })
+      .option('key', {
+        default: 'travis',
+      })
+      .option('endpoint', {
+        default: 'https://snapshots.workrave.org/',
+      })
+      .option('dry', {
         type: 'boolean',
         alias: 'd',
         default: false,
-        describe: 'Dry run. Result is not uploaded to storage.'
+        describe: 'Dry run. Result is not uploaded to storage.',
       })
       .option('verbose', {
         alias: 'v',
-        default: false
+        default: false,
       }).argv;
 
-    storage = new S3Store(bucket, args.dry, accessKeyId, secretAccessKey);
+    storage = new S3Store(args.endpoint, args.bucket, args.dry, args.key, secretAccessKey);
     let catalog = new Catalog(storage, gitRoot, args.branch);
     await catalog.load();
     await catalog.process();
