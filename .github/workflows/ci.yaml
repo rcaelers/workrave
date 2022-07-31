@@ -306,7 +306,7 @@ jobs:
       - name: Sign
         run: |
           echo '${{ secrets.ED25519_KEY }}' > ed25519key.pem
-          $GITHUB_WORKSPACE/tools/catalog/sign.sh
+          $GITHUB_WORKSPACE/tools/ci/sign.sh
           rm -f ed25519key.pem
         env:
           ED25519_KEY: ${{ secrets.ED25519_KEY }}
