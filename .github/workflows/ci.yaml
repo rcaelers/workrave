@@ -289,7 +289,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: artifacts
-          path: _deploy
+          path: artifacts
 
       - name: Upload artifacts to MinIO
         run: |
@@ -298,10 +298,19 @@ jobs:
           aws configure set default.region us-east-1
           aws configure set default.s3.signature_version s3v4
           aws configure set s3.endpoint_url https://snapshots.workrave.org/
-          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.11
+          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive artifacts s3://snapshots/v1.11
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+
+      - name: Sign
+        run: |
+          echo '${{ secrets.ED25519_KEY }}' > ed25519key.pem
+          $GITHUB_WORKSPACE/tools/catalog/sign.sh
+          rm -f ed25519key.pem
+        env:
+          ED25519_KEY: ${{ secrets.ED25519_KEY }}
+          ARTIFACTS: ${{ github.workspace }}/artifacts/
 
       - name: Create artifact catalog
         run: |
