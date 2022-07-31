@@ -1,5 +1,5 @@
 import wrap from 'word-wrap';
-import unherit from 'unherit';
+import { unherit } from 'unherit';
 import xtend from 'xtend';
 
 function text(options) {

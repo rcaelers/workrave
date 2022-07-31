@@ -2,7 +2,7 @@ import nunjucks from 'nunjucks';
 import moment from 'moment';
 import wrap from 'word-wrap';
 import path from 'path';
-import unified from 'unified';
+import { unified } from 'unified';
 import markdown from 'remark-parse';
 import semver from 'semver';
 
@@ -20,41 +20,36 @@ class Generator {
     nunjucks
       .configure({
         autoescape: false,
-        watch: false
+        watch: false,
       })
-      .addFilter('data_format', function(date, format) {
+      .addFilter('data_format', function (date, format) {
         return moment(date).format(format);
       })
-      .addFilter('is_string', function(obj) {
+      .addFilter('is_string', function (obj) {
         return typeof obj == 'string';
       })
-      .addFilter('github', function(str) {
+      .addFilter('github', function (str) {
         return str.replace(/#(.+)/, '[#$1](https://github.com/rcaelers/workrave/issues/$1)');
       })
-      .addFilter('wrap', function(str, width) {
+      .addFilter('wrap', function (str, width) {
         return wrap(str, { indent: '', width: width });
       })
-      .addFilter('channel', function(str) {
+      .addFilter('channel', function (str) {
         let pre = semver.prerelease(str);
         if (pre) {
           return pre[0];
         }
         return '';
       })
-      .addFilter('text', function(str) {
-        return unified()
-          .use(markdown)
-          .use(text, { width: 78 })
-          .processSync(str)
-          .toString()
-          .replace(/\n+$/g, '');
+      .addFilter('text', function (str) {
+        return unified().use(markdown).use(text, { width: 78 }).processSync(str).toString().replace(/\n+$/g, '');
       });
   }
 
   async generate(version, single, template, extra) {
     try {
       if (version) {
-        let versionIndex = this.news.releases.findIndex(function(release) {
+        let versionIndex = this.news.releases.findIndex(function (release) {
           return version == release.version;
         });
 
@@ -62,7 +57,7 @@ class Generator {
           extra['previous_version'] = this.news.releases[versionIndex + 1].version;
         }
 
-        this.news.releases = this.news.releases.filter(function(release, index) {
+        this.news.releases = this.news.releases.filter(function (release, index) {
           return single ? versionIndex == index : versionIndex >= index;
         });
       }
@@ -72,6 +67,7 @@ class Generator {
     } catch (e) {
       console.error(e);
     }
+    return '';
   }
 }
 export { Generator };
