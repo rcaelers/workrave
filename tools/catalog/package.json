@@ -10,21 +10,22 @@
     "author": "Rob Caelers",
     "license": "MIT",
     "dependencies": {
-        "async": "^3.2.0",
-        "aws-sdk": "^2.639.0",
-        "date-fns": "^2.11.0",
-        "isomorphic-git": "^1.8.2",
-        "yargs": "^17.2.1"
+        "async": "^3.2.4",
+        "aws-sdk": "^2.1185.0",
+        "date-fns": "^2.29.1",
+        "isomorphic-git": "^1.19.1",
+        "yargs": "^17.5.1"
     },
     "devDependencies": {
-        "eslint": "^8.2.0",
-        "eslint-config-prettier": "^4.3.0",
-        "eslint-config-standard": "^12.0.0",
-        "eslint-plugin-import": "^2.20.1",
-        "eslint-plugin-node": "^9.2.0",
-        "eslint-plugin-prettier": "^3.1.2",
-        "eslint-plugin-promise": "^4.2.1",
-        "eslint-plugin-standard": "^4.0.1",
-        "prettier": "^1.19.1"
+        "eslint": "^8.20.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-promise": "^6.0.0",
+        "eslint-plugin-standard": "^4.1.0",
+        "prettier": "^2.7.1",
+        "typescript": "^4.7.4"
     }
 }

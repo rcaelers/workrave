@@ -2,6 +2,7 @@ import { S3Store } from './s3.js';
 import { Catalog } from './catalog.js';
 
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 const getEnv = (varName) => {
   const value = process.env[varName];
@@ -20,7 +21,7 @@ const main = async () => {
     const secretAccessKey = getEnv('SNAPSHOTS_SECRET_ACCESS_KEY');
     const gitRoot = getEnv('WORKSPACE');
 
-    var args = yargs()
+    var args = yargs(hideBin(process.argv))
       .scriptName('catalog')
       .usage('$0 [args]')
       .help('h')
