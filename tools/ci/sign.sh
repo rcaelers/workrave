@@ -9,8 +9,9 @@ fi
 catalogs=$(find $ARTIFACTS -name "job-catalog*")
 for catalog in $catalogs; do
   files=$(jq -r '.builds[].artifacts[] | .filename' $catalog)
+  folder=$(dirname $catalogs)
   for file in $files; do
-    signature=$($OPENSSL pkeyutl -sign -rawin -in $ARTIFACTS/$file -inkey $WORKSPACE/ed25519key.pem | $OPENSSL base64 | tr -d \\n)
+    signature=$($OPENSSL pkeyutl -sign -rawin -in $folder/$file -inkey $WORKSPACE/ed25519key.pem | $OPENSSL base64 | tr -d \\n)
 
     jq \
       --arg querykey $file \
