@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 if [ $(uname) = "Darwin" ]; then
   OPENSSL=${OPENSSL:-/usr/local/opt/openssl@3/bin/openssl}

@@ -124,19 +124,19 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-focal
-            os: ubuntu-22.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
+          # - image: ubuntu-focal
+          #   os: ubuntu-22.04
+          #   compiler: gcc
+          #   ui: Gtk+3
+          #   enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+          #   disable: COVERAGE,TRACING
 
-          - image: ubuntu-impish
-            os: ubuntu-22.04
-            compiler: gcc-10
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
+          # - image: ubuntu-impish
+          #   os: ubuntu-22.04
+          #   compiler: gcc-10
+          #   ui: Gtk+3
+          #   enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+          #   disable: COVERAGE,TRACING
 
           - image: ubuntu-jammy
             os: ubuntu-22.04
@@ -147,59 +147,59 @@ jobs:
             appimage: true
             upload: true
 
-          - image: ubuntu-kinetic
-            os: ubuntu-22.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
-            disable:
+          # - image: ubuntu-kinetic
+          #   os: ubuntu-22.04
+          #   compiler: gcc
+          #   ui: Gtk+3
+          #   enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
+          #   disable:
 
-          - image: ubuntu-kinetic
-            os: ubuntu-22.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
+          # - image: ubuntu-kinetic
+          #   os: ubuntu-22.04
+          #   compiler: gcc
+          #   ui: Gtk+3
+          #   enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+          #   disable: COVERAGE,TRACING
 
-          - image: mingw-fedora-rawhide
-            os: ubuntu-22.04
-            compiler: clang
-            ui: Gtk+3
-            configuration: Release
-            enable:
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
-            upload: false
+          # - image: mingw-fedora-rawhide
+          #   os: ubuntu-22.04
+          #   compiler: clang
+          #   ui: Gtk+3
+          #   configuration: Release
+          #   enable:
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
+          #   upload: false
 
-          - image: mingw-fedora-rawhide
-            os: ubuntu-22.04
-            compiler: clang
-            ui: Gtk+3
-            configuration: Debug
-            enable: TRACING
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
-            upload: false
+          # - image: mingw-fedora-rawhide
+          #   os: ubuntu-22.04
+          #   compiler: clang
+          #   ui: Gtk+3
+          #   configuration: Debug
+          #   enable: TRACING
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
+          #   upload: false
 
-          - os: macos-latest
-            compiler: clang
-            ui: Qt
-            enable: TESTS,COVERAGE,TRACING
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+          # - os: macos-latest
+          #   compiler: clang
+          #   ui: Qt
+          #   enable: TESTS,COVERAGE,TRACING
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
 
-          - image: windows-msys2
-            os: windows-latest
-            ui: Gtk+3
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
-            enable: TESTS,CRASHPAD,AUTO_UPDATE
-            configuration: Release
-            upload: true
+          # - image: windows-msys2
+          #   os: windows-latest
+          #   ui: Gtk+3
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+          #   enable: TESTS,CRASHPAD,AUTO_UPDATE
+          #   configuration: Release
+          #   upload: true
 
-          - image: windows-msys2
-            os: windows-latest
-            ui: Gtk+3
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
-            enable: TESTS,TRACING,CRASHPAD,AUTO_UPDATE
-            configuration: Debug
-            upload: true
+          # - image: windows-msys2
+          #   os: windows-latest
+          #   ui: Gtk+3
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+          #   enable: TESTS,TRACING,CRASHPAD,AUTO_UPDATE
+          #   configuration: Debug
+          #   upload: true
 
     steps:
       - name: Prepare
