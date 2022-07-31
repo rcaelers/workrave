@@ -305,11 +305,13 @@ jobs:
 
       - name: Sign
         run: |
+          cd $GITHUB_WORKSPACE
           echo '${{ secrets.ED25519_KEY }}' > ed25519key.pem
           $GITHUB_WORKSPACE/tools/ci/sign.sh
           rm -f ed25519key.pem
         env:
           ED25519_KEY: ${{ secrets.ED25519_KEY }}
+          WORKSPACE: ${{ github.workspace }}
           ARTIFACTS: ${{ github.workspace }}/artifacts/
 
       - name: Create artifact catalog
