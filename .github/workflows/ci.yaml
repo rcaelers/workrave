@@ -96,7 +96,6 @@ jobs:
       - name: Build 64 bit
         shell: msys2 {0}
         run: |
-          env
           python -m pip install --upgrade pip
           pip install wheel
           pip install Jinja2
@@ -169,7 +168,7 @@ jobs:
             configuration: Release
             enable:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
-            upload: true
+            upload: false
 
           - image: mingw-fedora-rawhide
             os: ubuntu-22.04
@@ -178,7 +177,7 @@ jobs:
             configuration: Debug
             enable: TRACING
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
-            upload: true
+            upload: false
 
           - os: macos-latest
             compiler: clang
@@ -192,7 +191,7 @@ jobs:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
             enable: TESTS,CRASHPAD,AUTO_UPDATE
             configuration: Release
-            upload: false
+            upload: true
 
           - image: windows-msys2
             os: windows-latest
@@ -200,7 +199,7 @@ jobs:
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
             enable: TESTS,TRACING,CRASHPAD,AUTO_UPDATE
             configuration: Debug
-            upload: false
+            upload: true
 
     steps:
       - name: Prepare
