@@ -101,7 +101,6 @@ jobs:
           pip install Jinja2
           ./tools/ci/build.sh
         env:
-          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
           WORKRAVE_ENV: github-windows-msys2
           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
@@ -260,7 +259,6 @@ jobs:
             $GITHUB_WORKSPACE/tools/ci/build.sh
           fi
         env:
-          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
           WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
           CONF_COMPILER: ${{ matrix.config.compiler }}
           CONF_UI: ${{ matrix.config.ui }}

@@ -108,6 +108,9 @@ export WORKRAVE_UPLOAD_DIR="snapshots/v1.11/$WORKRAVE_BUILD_ID"
 
 if [ $WORKRAVE_GIT_VERSION != $WORKRAVE_GIT_TAG ]; then
     echo "Snapshot build ($WORKRAVE_GIT_VERSION) of release ($WORKRAVE_GIT_TAG)"
+else
+    echo "Release build ($WORKRAVE_VERSION)"
+    export WORKRAVE_RELEASE=WORKRAVE_VERSION
 fi
 
 case "$WORKRAVE_ENV" in

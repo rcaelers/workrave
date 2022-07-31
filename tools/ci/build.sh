@@ -99,7 +99,7 @@ if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
 fi
 
-if [[ -n "$WORKRAVE_TAG" ]]; then
+if [[ -n "$WORKRAVE_RELEASE" ]]; then
     cd ${SCRIPTS_DIR}/newsgen
     npm install
     cd ${SOURCES_DIR}
@@ -186,11 +186,11 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
             CONFIG="debug"
         fi
 
-        if [[ -z "$WORKRAVE_TAG" ]]; then
+        if [[ -z "$WORKRAVE_RELEASE" ]]; then
             echo "No tag build."
             version=${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
         else
-            echo "Tag build : $WORKRAVE_TAG"
+            echo "Tag build : $WORKRAVE_RELEASE"
             version=${WORKRAVE_VERSION}${EXTRA}
         fi
 
@@ -221,11 +221,11 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
         CONFIG="debug"
     fi
 
-    if [[ -z "$WORKRAVE_TAG" ]]; then
+    if [[ -z "$WORKRAVE_RELEASE" ]]; then
         echo "No tag build."
         baseFilename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
     else
-        echo "Tag build : $WORKRAVE_TAG"
+        echo "Tag build : $WORKRAVE_RELEASE"
         baseFilename=workrave-${WORKRAVE_VERSION}${EXTRA}
     fi
 
