@@ -99,6 +99,20 @@ if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
 fi
 
+if [[ -n "$WORKRAVE_TAG" ]]; then
+    cd ${SCRIPTS_DIR}/newsgen
+    npm install
+    cd ${SOURCES_DIR}
+    node ${SCRIPTS_DIR}/newsgen/main.js \
+        --input "${SOURCE_DIR}/changes.yaml" \
+        --template github \
+        --single \
+        --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \
+        --output "release-notes.md"
+
+    ${SOURCES_DIR}/tools/ci/catalog.sh -n release-notes.md
+fi
+
 if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     # CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
     OUT_DIR=""

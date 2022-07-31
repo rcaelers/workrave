@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
 parse_arguments() {
-  while getopts "c:f:p:k:" o; do
+  while getopts "c:f:p:k:n:" o; do
     case "${o}" in
     c)
       export CONFIG=${OPTARG}
@@ -17,6 +17,9 @@ parse_arguments() {
       ;;
     k)
       export KIND=${OPTARG}
+      ;;
+    n)
+      export NOTES_FILE=${OPTARG}
       ;;
     esac
   done
@@ -31,6 +34,11 @@ mkdir -p ${DEPLOY_DIR}
 
 CATALOG_NAME=${DEPLOY_DIR}/job-catalog-${WORKRAVE_JOB_NUMBER}.json
 
+export NOTES=""
+if [[ -f $NOTES_FILE ]]; then
+  export NOTES=$(cat $NOTES_FILE)
+fi
+
 if [ ! -f $CATALOG_NAME ]; then
   jq -n ' {
               "version": "2",
@@ -41,6 +49,7 @@ if [ ! -f $CATALOG_NAME ]; then
                   "increment": env.WORKRAVE_COMMIT_COUNT,
                   "hash": env.WORKRAVE_COMMIT_HASH,
                   "date": env.WORKRAVE_BUILD_DATETIME,
+                  "notes": env.NOTES,
                   "artifacts": []
                 }
               ]
@@ -48,14 +57,15 @@ if [ ! -f $CATALOG_NAME ]; then
 ' >$CATALOG_NAME
 fi
 
-export SIZE=$(stat --printf="%s" ${DEPLOY_DIR}/$FILENAME)
-export SHA256=$(sha256sum ${DEPLOY_DIR}/$FILENAME | cut -d' ' -f1)
-export SHA512=$(sha512sum ${DEPLOY_DIR}/$FILENAME | cut -d' ' -f1)
-export LASTMOD=$(date -r ${DEPLOY_DIR}/$FILENAME +"%Y-%m-%d %H:%M:%S")
-export URL="$WORKRAVE_UPLOAD_DIR/$FILENAME"
+if [[ -n $FILENAME ]]; then
+  export SIZE=$(stat --printf="%s" ${DEPLOY_DIR}/$FILENAME)
+  export SHA256=$(sha256sum ${DEPLOY_DIR}/$FILENAME | cut -d' ' -f1)
+  export SHA512=$(sha512sum ${DEPLOY_DIR}/$FILENAME | cut -d' ' -f1)
+  export LASTMOD=$(date -r ${DEPLOY_DIR}/$FILENAME +"%Y-%m-%d %H:%M:%S")
+  export URL="$WORKRAVE_UPLOAD_DIR/$FILENAME"
 
-tmp=$(mktemp)
-cat $CATALOG_NAME | jq '.builds[-1].artifacts +=
+  tmp=$(mktemp)
+  cat $CATALOG_NAME | jq '.builds[-1].artifacts +=
     [
         {
             "url": env.URL,
@@ -72,6 +82,8 @@ cat $CATALOG_NAME | jq '.builds[-1].artifacts +=
     ]
 ' >$tmp
 
-mv -f $tmp $CATALOG_NAME
+  mv -f $tmp $CATALOG_NAME
+fi
+
 ls -la ${DEPLOY_DIR}
 chmod 644 ${DEPLOY_DIR}/*
