@@ -6,9 +6,8 @@ import promisify from 'util';
 const S3_API_VERSION = '2006-03-01';
 
 class S3Store {
-  constructor(endpoint, bucket, dry, accessKeyId, secretAccessKey) {
+  constructor(endpoint, bucket, accessKeyId, secretAccessKey) {
     this.bucket = bucket;
-    this.dry = dry;
 
     this.s3 = new AWS.S3({
       accessKeyId: accessKeyId,
@@ -59,19 +58,14 @@ class S3Store {
   }
 
   async writeJson(filename, data) {
-    if (this.dry) {
-      console.log('Dry run: writeJson(' + filename + '):');
-      console.log(JSON.stringify(data, null, '\t'));
-    } else {
-      let jsonData = JSON.stringify(data); //, null, '\t');
-      return this.s3
-        .putObject({
-          Key: filename,
-          Body: jsonData,
-          ContentType: 'application/json',
-        })
-        .promise();
-    }
+    let jsonData = JSON.stringify(data); //, null, '\t');
+    return this.s3
+      .putObject({
+        Key: filename,
+        Body: jsonData,
+        ContentType: 'application/json',
+      })
+      .promise();
   }
 
   async readJson(filename) {
@@ -80,11 +74,7 @@ class S3Store {
   }
 
   async deleteObject(filename) {
-    if (this.dry) {
-      console.log('Dry run: deleteObject(' + filename + ')');
-    } else {
-      return this.s3.deleteObject({ Key: filename }).promise();
-    }
+    return this.s3.deleteObject({ Key: filename }).promise();
   }
 }
 

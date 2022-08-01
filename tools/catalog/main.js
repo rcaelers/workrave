@@ -45,13 +45,18 @@ const main = async () => {
         default: false,
         describe: 'Dry run. Result is not uploaded to storage.',
       })
+      .option('regenerate', {
+        type: 'boolean',
+        alias: 'r',
+        default: false,
+      })
       .option('verbose', {
         alias: 'v',
         default: false,
       }).argv;
 
-    storage = new S3Store(args.endpoint, args.bucket, args.dry, args.key, secretAccessKey);
-    let catalog = new Catalog(storage, gitRoot, args.branch);
+    storage = new S3Store(args.endpoint, args.bucket, args.key, secretAccessKey);
+    let catalog = new Catalog(storage, gitRoot, args.branch, args.dry, args.regenerate);
     await catalog.load();
     await catalog.process();
     await catalog.save();

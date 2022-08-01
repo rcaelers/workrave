@@ -3,19 +3,22 @@ import fs from 'fs';
 import format from 'date-fns';
 import git from 'isomorphic-git';
 import as from 'async';
+import mergician from 'mergician';
 
 class Catalog {
-  constructor(storage, gitRoot, branch) {
+  constructor(storage, gitRoot, branch, dry, regenerate) {
     this.storage = storage;
     this.gitRoot = gitRoot;
     this.branch = branch;
+    this.dry = dry;
+    this.regenerate = regenerate;
     this.catalog = null;
     this.catalogFilename = path.join(this.branch, 'catalog.json');
   }
 
   async load() {
     try {
-      if (await this.storage.fileExists(this.catalogFilename)) {
+      if (!this.regenerate && (await this.storage.fileExists(this.catalogFilename))) {
         this.catalog = await this.storage.readJson(this.catalogFilename);
       } else {
         this.catalog = {};
@@ -31,7 +34,13 @@ class Catalog {
   async save() {
     try {
       //console.log(JSON.stringify(this.catalog, null, '\t'));
-      await this.storage.writeJson(this.catalogFilename, this.catalog);
+      if (this.dry) {
+        console.log('Dry run: writeJson(' + this.catalogFilename + '):');
+        console.log(JSON.stringify(this.catalog, null, '\t'));
+      } else {
+        console.log('Saving:' + this.catalogFilename);
+        await this.storage.writeJson(this.catalogFilename, this.catalog);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -51,29 +60,64 @@ class Catalog {
 
   mergeBuild(part) {
     let build = this.catalog.builds.find((b) => b.id == part.id);
+    let buildIndex = this.catalog.builds.findIndex((b) => b.id == part.id);
     if (build) {
-      build.artifacts = [...build.artifacts, ...part.artifacts];
+      // build.artifacts = [...build.artifacts, ...part.artifacts];
+      const mergedObj = mergician({
+        appendArrays: true,
+        beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+          if (key == 'notes') {
+            return srcVal == null || srcVal.length == 0 ? targetVal : srcVal;
+          }
+          return undefined;
+        },
+      })(build, part);
+      this.catalog.builds[buildIndex] = mergedObj;
     } else {
       this.catalog.builds.push(part);
     }
   }
 
+  isCatalog(filename) {
+    if (!filename.endsWith('.json')) {
+      return false;
+    }
+    if (filename.startsWith('job-catalog-')) {
+      return true;
+    }
+    if (this.regenerate && filename.startsWith('.job-catalog-')) {
+      return true;
+    }
+    return false;
+  }
+
   async mergeCatalogs() {
     try {
       let backupFilename = path.join(this.branch, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
-      await this.storage.writeJson(backupFilename, this.catalog);
+      if (this.dry) {
+        console.log('Dry run: writeJson(' + backupFilename + '):');
+      } else {
+        await this.storage.writeJson(backupFilename, this.catalog);
+      }
 
       var files = await this.storage.list(this.branch);
       for (var i = 0; i < files.length; i++) {
+        console.log('Processing ' + files[i]);
         let fileInfo = files[i];
         let filename = path.basename(fileInfo.Key);
         let directory = path.dirname(fileInfo.Key);
-        if (filename.endsWith('.json') && filename.startsWith('job-catalog-')) {
+        console.log('Processing ' + filename);
+        if (this.isCatalog(filename)) {
           let part = await this.storage.readJson(fileInfo.Key);
           this.mergeBuild(part.builds[0]);
           let backupFilename = path.join(directory, '.' + filename);
-          await this.storage.writeJson(backupFilename, part);
-          await this.storage.deleteObject(fileInfo.Key);
+
+          if (this.dry || this.regenerate) {
+            console.log('Dry run: deleteObject(' + backupFilename + ')');
+          } else {
+            await this.storage.writeJson(backupFilename, part);
+            await this.storage.deleteObject(fileInfo.Key);
+          }
         }
       }
     } catch (e) {
