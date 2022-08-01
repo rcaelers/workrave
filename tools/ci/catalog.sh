@@ -3,9 +3,8 @@
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
-mkdir -p ${DEPLOY_DIR}
-
-CATALOG_NAME=${DEPLOY_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
+CATALOG_DIR=${GITHUB_WORKSPACE}/artifacts/$WORKRAVE_BUILD_ID/
+CATALOG_NAME=${CATALOG_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
 export NOTES=""
 
 if [[ -n "$WORKRAVE_RELEASE" ]]; then
@@ -22,8 +21,7 @@ if [[ -n "$WORKRAVE_RELEASE" ]]; then
   NOTES=$(cat $NOTES_FILE)
 fi
 
-if [ ! -f $CATALOG_NAME ]; then
-  jq -n ' {
+jq -n ' {
               "version": "2",
               "builds": [
                 {
@@ -38,7 +36,6 @@ if [ ! -f $CATALOG_NAME ]; then
               ]
             }
 ' >$CATALOG_NAME
-fi
 
-ls -la ${DEPLOY_DIR}
-chmod 644 ${DEPLOY_DIR}/*
+ls -la ${CATALOG_DIR}
+chmod 644 ${CATALOG_DIR}/*

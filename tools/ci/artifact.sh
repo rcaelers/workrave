@@ -25,6 +25,8 @@ parse_arguments() {
 
 parse_arguments $*
 
+mkdir -p ${DEPLOY_DIR}
+
 CATALOG_NAME=${DEPLOY_DIR}/job-catalog-${WORKRAVE_JOB_NUMBER}.json
 
 if [ ! -f $CATALOG_NAME ]; then
