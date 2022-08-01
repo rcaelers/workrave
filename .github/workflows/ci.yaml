@@ -289,6 +289,13 @@ jobs:
           name: artifacts
           path: artifacts
 
+      - name: Create catalog root
+        run: |
+          export WORKRAVE_ENV=github-ubuntu
+          ${SOURCES_DIR}/tools/ci/catalog.sh
+        env:
+          WORKRAVE_JOB_INDEX: 9999
+
       - name: Sign
         run: |
           cd $GITHUB_WORKSPACE

@@ -7,8 +7,6 @@ local)
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/deploy
     SECRETS_DIR=${WORKSPACE}/secrets
-    SCRIPTS_DIR=${WORKSPACE}/tools
-    CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
 inline)
@@ -18,8 +16,6 @@ inline)
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build
-    SCRIPTS_DIR=${SOURCES_DIR}/tools
-    CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
 local-windows-msys2)
@@ -29,56 +25,51 @@ local-windows-msys2)
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build
-    SCRIPTS_DIR=${SOURCES_DIR}/tools
-    CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
 docker-linux)
     echo "Running on Github in docker on Linux"
     WORKSPACE=/workspace
-    OUTPUT_DIR=${WORKSPACE}/output
     SOURCES_DIR=${WORKSPACE}/source
+    OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    SCRIPTS_DIR=${SOURCES_DIR}/tools
-    CI_DIR=${SCRIPTS_DIR}/ci
     ;;
 
 docker-windows-msys2)
     echo "Running on Git in docker on Windows"
     WORKSPACE=/c/workspace
-    OUTPUT_DIR=${WORKSPACE}/output
     SOURCES_DIR=${WORKSPACE}/source
+    OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    SCRIPTS_DIR=${SOURCES_DIR}/build
-    CI_DIR=${SCRIPTS_DIR}/tools/ci
     ;;
 
 github-ubuntu)
     echo "Running natively on Github/Ununtu"
     WORKSPACE=$GITHUB_WORKSPACE
     SOURCES_DIR=${WORKSPACE}
-    OUTPUT_DIR=${WORKSPACE}/output
+    OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    CI_DIR=${SOURCES_DIR}/tools/ci
     ;;
 
 github-windows-msys2)
     echo "Running natvely on Github/Windows"
     WORKSPACE=$(cygpath $GITHUB_WORKSPACE)
     SOURCES_DIR=${WORKSPACE}
-    OUTPUT_DIR=${WORKSPACE}/output
+    OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_dist/build
-    CI_DIR=${SOURCES_DIR}/tools/ci
     ;;
 
 *)
     echo "Unknown environment ($WORKRAVE_ENV)"
     ;;
 esac
+
+SCRIPTS_DIR=${SOURCES_DIR}/tools
+CI_DIR=${SCRIPTS_DIR}/ci
 
 export DEBFULLNAME="Rob Caelers"
 export DEBEMAIL="robc@krandor.org"
@@ -122,6 +113,10 @@ inline)
     export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
     ;;
 
+local-windows-msys2)
+    export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
+    ;;
+
 docker-linux)
     export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
     export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
@@ -140,10 +135,6 @@ github-ubuntu)
 github-msys2)
     export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
     export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
-    ;;
-
-local-windows-msys2)
-    export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
     ;;
 
 *)

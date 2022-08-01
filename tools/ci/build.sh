@@ -99,20 +99,6 @@ if [ "$(uname)" == "Darwin" ]; then
     CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
 fi
 
-if [[ -n "$WORKRAVE_RELEASE" ]]; then
-    cd ${SCRIPTS_DIR}/newsgen
-    npm install
-    cd ${SOURCES_DIR}
-    node ${SCRIPTS_DIR}/newsgen/main.js \
-        --input "${SOURCE_DIR}/changes.yaml" \
-        --template github \
-        --single \
-        --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \
-        --output "release-notes.md"
-
-    ${SOURCES_DIR}/tools/ci/catalog.sh -n release-notes.md
-fi
-
 if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
     # CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
     OUT_DIR=""
@@ -206,7 +192,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
 
         mkdir -p ${DEPLOY_DIR}
         cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
-        ${SOURCES_DIR}/tools/ci/catalog.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
+        ${SOURCES_DIR}/tools/ci/artifact.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
     fi
 fi
 
@@ -241,7 +227,7 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
     zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
 
     cd ${BUILD_DIR}
-    ${SOURCES_DIR}/tools/ci/catalog.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
+    ${SOURCES_DIR}/tools/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     ninja ${MAKE_FLAGS[@]} installer
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
@@ -254,10 +240,10 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
             cp ${OUTPUT_DIR}/workrave.sym ${DEPLOY_DIR}/${symbolsFilename}
         fi
 
-        ${SOURCES_DIR}/tools/ci/catalog.sh -f ${filename} -k installer -c $CONFIG -p windows
+        ${SOURCES_DIR}/tools/ci/artifact.sh -f ${filename} -k installer -c $CONFIG -p windows
 
         if [[ -e ${symbolsFilename} ]]; then
-            ${SOURCES_DIR}/tools/ci/catalog.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
+            ${SOURCES_DIR}/tools/ci/artifact.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
         fi
     fi
 fi
