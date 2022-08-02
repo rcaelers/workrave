@@ -3,7 +3,7 @@ releases:
   - version: 1.11.0-alpha.4
     date: 2022-08-01T00:00:00+02:00
     short: |-
-      Workrave 1.11.0-alpha4 has been released.
+      Upcoming changes for Workrave 1.11.0-alpha4.
     changes:
       - Updates Polish translation (#423 by ChuckMichael)
 
