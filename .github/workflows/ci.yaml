@@ -25,7 +25,7 @@ jobs:
       - id: out
         run: |
           export WORKRAVE_ENV=github-ubuntu
-          ./tools/ci/config.sh
+          source ./tools/ci/config.sh
           echo "::set-output name=WORKRAVE_BUILD_DATETIME::${WORKRAVE_BUILD_DATETIME}"
           echo "::set-output name=WORKRAVE_BUILD_DATE::${WORKRAVE_BUILD_DATE}"
 
