@@ -3,7 +3,7 @@
 run_docker_mingw_build() {
     printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g'
     docker run --rm \
-        -v "$SOURCE_DIR:/workspace/source" \
+        -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
@@ -16,7 +16,7 @@ run_docker_ppa() {
         DEBVOL="-v $DEBIAN_DIR:/workspace/debian"
     fi
     docker run --rm \
-        -v "$SOURCE_DIR:/workspace/source" \
+        -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
@@ -71,8 +71,8 @@ init() {
 
     cd $WORKSPACE_DIR
 
-    if [ ! -d ${SOURCE_DIR} ]; then
-        mkdir -p ${SOURCE_DIR}
+    if [ ! -d ${SOURCES_DIR} ]; then
+        mkdir -p ${SOURCES_DIR}
         git clone $REPO source
         cd source
         git checkout $COMMIT
@@ -83,7 +83,7 @@ init() {
 
     fi
 
-    cd $SOURCE_DIR
+    cd $SOURCES_DIR
     GIT_TAG=$(git describe --abbrev=0)
     GIT_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//')
     VERSION=$(echo $GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-.*//g')
@@ -103,12 +103,12 @@ generate_news() {
 
     cd /
     node ${SCRIPTS_DIR}/newsgen/main.js \
-        --input "${SOURCE_DIR}/changes.yaml" \
+        --input "${SOURCES_DIR}/changes.yaml" \
         --template github \
         --release $(echo $VERSION | sed -e 's/^v//g') \
         --output "$WORKSPACE_DIR/deploy/NEWS"
 
-    cd ${SOURCE_DIR}
+    cd ${SOURCES_DIR}
     DIR_DATE=$(date +"%Y_%m_%d")
     DIR_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g')
     DIR="${WEBSITE_DIR}/content/en/blog/${DIR_DATE}_workrave-${DIR_VERSION}-released"
@@ -117,7 +117,7 @@ generate_news() {
         mkdir -p ${DIR}
         cd /
         node ${SCRIPTS_DIR}/newsgen/main.js \
-            --input "${SOURCE_DIR}/changes.yaml" \
+            --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
             --release $(echo $VERSION | sed -e 's/^v//g') \
             --single \
@@ -196,7 +196,7 @@ if [ -z $WEBSITE_DIR ]; then
     exit 1
 fi
 
-SOURCE_DIR=$WORKSPACE_DIR/source
+SOURCES_DIR=$WORKSPACE_DIR/source
 DEPLOY_DIR=$WORKSPACE_DIR/deploy
 
 export WORKRAVE_ENV=local

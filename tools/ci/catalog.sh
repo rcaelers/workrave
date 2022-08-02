@@ -17,7 +17,7 @@ cd ${SCRIPTS_DIR}/newsgen
 npm install
 cd ${SOURCES_DIR}
 node --experimental-modules ${SCRIPTS_DIR}/newsgen/main.js \
-  --input "${SOURCE_DIR}/changes.yaml" \
+  --input "${SOURCES_DIR}/changes.yaml" \
   --template github \
   $GEN_ARGS \
   --output "release-notes.md"

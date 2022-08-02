@@ -8,7 +8,7 @@ run_docker_ppa() {
         PRERELEASE_ARG="-P"
     fi
     docker run --rm \
-        -v "$SOURCE_DIR:/workspace/source" \
+        -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
@@ -25,7 +25,6 @@ run_docker_deb() {
         sh -c "/workspace/scripts/local/cow-build.sh"
 }
 
-
 init_newsgen() {
     cd ${SCRIPTS_DIR}/newsgen
     npm install
@@ -41,8 +40,8 @@ init() {
 
     cd $WORKSPACE_DIR
 
-    if [ ! -d ${SOURCE_DIR} ]; then
-        mkdir -p ${SOURCE_DIR}
+    if [ ! -d ${SOURCES_DIR} ]; then
+        mkdir -p ${SOURCES_DIR}
         git clone $REPO source
         cd source
         git checkout $COMMIT
@@ -53,7 +52,7 @@ init() {
 
     fi
 
-    cd $SOURCE_DIR
+    cd $SOURCES_DIR
 
     if [ -n "$WORKRAVE_OVERRIDE_GIT_VERSION" ]; then
         GIT_VERSION=$WORKRAVE_OVERRIDE_GIT_VERSION
@@ -63,7 +62,6 @@ init() {
         GIT_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//')
         VERSION=$(echo $GIT_VERSION | sed -e 's/_/./g' | sed -e 's/-.*//g')
     fi
-
 
     if [ $GIT_VERSION = $GIT_TAG ]; then
         echo "Release build"
@@ -76,12 +74,12 @@ init() {
 }
 
 generate_blog() {
-    cd ${SOURCE_DIR}
-    DIR_DATE=`date +"%Y_%m_%d"`
+    cd ${SOURCES_DIR}
+    DIR_DATE=$(date +"%Y_%m_%d")
     if [ -n "$WORKRAVE_OVERRIDE_GIT_VERSION" ]; then
-        DIR_VERSION=`echo $WORKRAVE_OVERRIDE_GIT_VERSION | sed -e 's/^v//g'`
+        DIR_VERSION=$(echo $WORKRAVE_OVERRIDE_GIT_VERSION | sed -e 's/^v//g')
     else
-        DIR_VERSION=`git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g'`
+        DIR_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g')
     fi
     DIR="${WEBSITE_DIR}/content/en/blog/${DIR_DATE}_workrave-${DIR_VERSION}-released"
 
@@ -89,9 +87,9 @@ generate_blog() {
         mkdir -p ${DIR}
         cd /
         node ${SCRIPTS_DIR}/newsgen/main.js \
-            --input "${SOURCE_DIR}/changes.yaml" \
+            --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
-            --release `echo $WORKRAVE_VERSION | sed -e 's/^v//g'` \
+            --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \
             --single \
             --output "${DIR}/index.md"
     fi
@@ -178,7 +176,7 @@ if [ -z $WEBSITE_DIR ]; then
     exit 1
 fi
 
-SOURCE_DIR=$WORKSPACE_DIR/source
+SOURCES_DIR=$WORKSPACE_DIR/source
 DEPLOY_DIR=$WORKSPACE_DIR/deploy
 
 export WORKRAVE_ENV=local
