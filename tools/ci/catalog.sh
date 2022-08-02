@@ -22,7 +22,7 @@ node --experimental-modules ${SCRIPTS_DIR}/newsgen/main.js \
   $GEN_ARGS \
   --output "release-notes.md"
 
-NOTES=$(cat $NOTES_FILE)
+NOTES=$(cat release-notes.md)
 
 jq -n ' {
               "version": "2",
