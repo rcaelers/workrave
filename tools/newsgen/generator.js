@@ -14,8 +14,9 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 class Generator {
-  constructor(news) {
+  constructor(news, params) {
     this.news = news;
+    this.params = params;
 
     nunjucks
       .configure({
@@ -46,23 +47,30 @@ class Generator {
       });
   }
 
-  async generate(version, single, template, extra) {
+  async generate() {
     try {
-      if (version) {
-        let versionIndex = this.news.releases.findIndex(function (release) {
-          return version == release.version;
-        });
+      let extra = {};
+      if (this.params.release || this.params.latest) {
+        let versionIndex = 0;
+        if (this.params.release) {
+          versionIndex = this.news.releases.findIndex((release) => {
+            return this.params.release == release.version;
+          });
+        }
 
-        if (single && versionIndex + 1 < this.news.releases.length) {
+        if (this.params.single && versionIndex + 1 < this.news.releases.length) {
           extra['previous_version'] = this.news.releases[versionIndex + 1].version;
         }
 
-        this.news.releases = this.news.releases.filter(function (release, index) {
-          return single ? versionIndex == index : versionIndex >= index;
+        this.news.releases = this.news.releases.filter((release, index) => {
+          return this.params.single ? versionIndex == index : versionIndex >= index;
         });
       }
-      let context = { ...extra, ...{ releases: this.news } };
-      let template_filename = path.join(__dirname, 'templates', template + '.tmpl');
+      let context = {
+        ...extra,
+        ...{ series: this.params.ubuntu, increment: this.params.increment, releases: this.news },
+      };
+      let template_filename = path.join(__dirname, 'templates', this.params.template + '.tmpl');
       return nunjucks.render(template_filename, context);
     } catch (e) {
       console.error(e);

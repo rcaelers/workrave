@@ -8,18 +8,21 @@ CATALOG_NAME=${CATALOG_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
 export NOTES=""
 
 if [[ -n "$WORKRAVE_RELEASE" ]]; then
-  cd ${SCRIPTS_DIR}/newsgen
-  npm install
-  cd ${SOURCES_DIR}
-  node --experimental-modules ${SCRIPTS_DIR}/newsgen/main.js \
-    --input "${SOURCE_DIR}/changes.yaml" \
-    --template github \
-    --single \
-    --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \
-    --output "release-notes.md"
-
-  NOTES=$(cat $NOTES_FILE)
+  GEN_ARGS=--single --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g')
+else
+  GEN_ARGS=--single --latest
 fi
+
+cd ${SCRIPTS_DIR}/newsgen
+npm install
+cd ${SOURCES_DIR}
+node --experimental-modules ${SCRIPTS_DIR}/newsgen/main.js \
+  --input "${SOURCE_DIR}/changes.yaml" \
+  --template github \
+  $GEN_ARGS \
+  --output "release-notes.md"
+
+NOTES=$(cat $NOTES_FILE)
 
 jq -n ' {
               "version": "2",

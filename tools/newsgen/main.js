@@ -41,6 +41,11 @@ const main = async () => {
           type: 'boolean',
           default: false,
         },
+        latest: {
+          describe: 'Generate only the latest release.',
+          type: 'boolean',
+          default: false,
+        },
         template: {
           describe: 'Template to use.',
           type: 'string',
@@ -55,11 +60,17 @@ const main = async () => {
       .demandOption(['input', 'output', 'template'], 'Please specify --output and --template')
       .parseSync();
 
-    let extra = { series: args.ubuntu, increment: args.increment };
     let news = yaml.load(await fs.readFile(args.input, 'utf8'));
-    let generator = new Generator(news);
-    let content = await generator.generate(args.release, args.single, args.template, extra);
-
+    let params = {
+      release: args.release,
+      single: args.single,
+      latest: args.latest,
+      template: args.template,
+      series: args.ubuntu,
+      increment: args.increment,
+    };
+    let generator = new Generator(news, params);
+    let content = await generator.generate();
     await fs.writeFile(args.output, content);
   } catch (e) {
     console.error(e);
