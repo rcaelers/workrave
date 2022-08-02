@@ -8,9 +8,9 @@ CATALOG_NAME=${CATALOG_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
 export NOTES=""
 
 if [[ -n "$WORKRAVE_RELEASE" ]]; then
-  GEN_ARGS=--single --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g')
+  GEN_ARGS=-"-single --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g')"
 else
-  GEN_ARGS=--single --latest
+  GEN_ARGS="--single --latest"
 fi
 
 cd ${SCRIPTS_DIR}/newsgen
