@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
