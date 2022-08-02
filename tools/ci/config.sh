@@ -90,10 +90,17 @@ else
     export WORKRAVE_COMMIT_COUNT=$(git rev-list ${WORKRAVE_GIT_TAG}..HEAD --count)
 fi
 
+if [ -n "$WORKRAVE_BUILD_DATETIME" ]; then
+    echo "Using WORKRAVE_BUILD_DATETIME=$WORKRAVE_BUILD_DATETIME from environment"
+fi
+if [ -n "$WORKRAVE_BUILD_DATE" ]; then
+    echo "Using WORKRAVE_BUILD_DATE=$WORKRAVE_BUILD_DATE from environment"
+fi
+
 export WORKRAVE_VERSION=$(echo $WORKRAVE_GIT_VERSION | sed -e 's/_\([0-9]\)/.\1/g' | sed -E -e 's/-[0-9]+//g' | sed -e 's/_/-/g' | sed -e 's/^v//g')
 export WORKRAVE_COMMIT_HASH=$(git rev-parse HEAD)
-export WORKRAVE_BUILD_DATE=$(date +"%Y%m%d")
-export WORKRAVE_BUILD_DATETIME=$(date --iso-8601=seconds)
+export WORKRAVE_BUILD_DATE=${WORKRAVE_BUILD_DATE:-$(date +"%Y%m%d")}
+export WORKRAVE_BUILD_DATETIME=${WORKRAVE_BUILD_DATETIME:-$(date --iso-8601=seconds)}
 export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_LONG_GIT_VERSION"
 export WORKRAVE_UPLOAD_DIR="snapshots/v1.11/$WORKRAVE_BUILD_ID"
 
