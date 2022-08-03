@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+    xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>Workrave</title>
+        <description>Workrave</description>
+        <language>en</language>
+        <link>https://workrave.org/</link>
+{% for entry in builds %}
+        <item>
+            <title>Workrave {{ entry.tag }}</title>
+            <description><![CDATA[
+{%- if entry.notes %}
+{{ entry.notes }}
+{% endif%}
+]]></description>
+            <link>https://workrave.org</link>
+            <sparkle:version>{{ entry.tag }}</sparkle:version>
+{%- if entry.tag | channel %}
+            <sparkle:channel>{{ entry.tag | channel }}</sparkle:channel>
+{%- endif %}
+            <pubDate>{{ entry.date | data_format('ddd, DD MMM YYYY hh:mm:ss ZZ') }}</pubDate>
+            <enclosure os="windows-x64" url="http://localhost:1337/workrave-{{ entry.version }}.exe" sparkle:edSignature="aagGLGqLIRVHOBPn+dwXmkJTp6fg2BOGX7v29ZsKPBE/6wTqFpwMqQpuXBrK0hrzZdx5TjMUvfEEHUvUmQW5BA==" length="8192" type="application/octet-stream" />
+        </item>
+{% endfor %}
+    </channel>
+</rss>
