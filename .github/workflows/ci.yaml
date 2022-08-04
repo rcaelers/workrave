@@ -254,6 +254,32 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Prepare docker
+        id: image_digest
+        if: runner.os == 'Windows'
+        run: |
+          mkdir -p ${{ github.workspace }}/_docker-cache
+          echo "::set-output name=digest::$(docker manifest inspect ghcr.io/rcaelers/workrave-build:${{ matrix.config.image }} -v | jq -r '.Descriptor.digest' | cut -d: -f2)"
+        shell: bash
+
+      - name: Prepare docker image cache
+        id: docker-cache
+        if: runner.os == 'Windows'
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/_docker-cache
+          key: docker-cache-${{ steps.image_digest.outputs.digest }}
+
+      - name: Download image if cache is outdated
+        if: steps.docker-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: |
+          docker pull ghcr.io/rcaelers/workrave-build:${{ matrix.config.image }}
+          docker save -o ${{ github.workspace }}/_docker-cache/${{ matrix.config.image }}.tar ghcr.io/rcaelers/workrave-build:${{ matrix.config.image }}
+
+      - name: Use cache if current
+        if: steps.docker-cache.outputs.cache-hit == 'true' && runner.os == 'Windows'
+        run: docker load -i ${{ github.workspace }}/_docker-cache/${{ matrix.config.image }}.tar
+
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
         run: |
