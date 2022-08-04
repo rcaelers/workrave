@@ -22,12 +22,28 @@ jobs:
         with:
           fetch-depth: 0
           submodules: "recursive"
+
       - id: out
         run: |
           export WORKRAVE_ENV=github-ubuntu
           source ./tools/ci/config.sh
           echo "::set-output name=WORKRAVE_BUILD_DATETIME::${WORKRAVE_BUILD_DATETIME}"
           echo "::set-output name=WORKRAVE_BUILD_DATE::${WORKRAVE_BUILD_DATE}"
+
+      - name: Create catalog root
+        run: |
+          export WORKRAVE_ENV=github-ubuntu
+          ${{ github.workspace }}/tools/ci/catalog.sh
+        env:
+          WORKRAVE_JOB_INDEX: 9999
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: _deploy
 
   build-windows:
     runs-on: windows-2019
@@ -311,15 +327,6 @@ jobs:
         with:
           name: artifacts
           path: artifacts
-
-      - name: Create catalog root
-        run: |
-          export WORKRAVE_ENV=github-ubuntu
-          ${{ github.workspace }}/tools/ci/catalog.sh
-        env:
-          WORKRAVE_JOB_INDEX: 9999
-          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
-          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: Sign
         run: |

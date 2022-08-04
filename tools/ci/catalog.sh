@@ -3,7 +3,7 @@
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
-CATALOG_DIR=${GITHUB_WORKSPACE}/artifacts/$WORKRAVE_BUILD_ID/
+CATALOG_DIR=${DEPLOY_DIR}
 CATALOG_NAME=${CATALOG_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
 export NOTES=""
 
