@@ -24,7 +24,6 @@
 #include <gtkmm/textview.h>
 #include <gtkmm/textbuffer.h>
 #include <gtkmm/adjustment.h>
-#include <gtkmm/stock.h>
 
 #include "commonui/nls.h"
 #include "debug.hh"

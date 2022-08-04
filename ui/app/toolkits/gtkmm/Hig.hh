@@ -18,9 +18,32 @@
 #ifndef HIG_HH
 #define HIG_HH
 
-#include <gtkmm/dialog.h>
-#include <gtkmm/box.h>
-#include <gtkmm/sizegroup.h>
+#include <gtkmm.h>
+
+#if GTK_CHECK_VERSION(4,0,0)
+namespace Gtk
+{
+  class HBox: public Gtk::Box
+  {
+    public:
+      HBox()
+      {
+        set_orientation(Gtk::Orientation::HORIZONTAL);
+      }
+
+  };
+
+  class VBox: public Gtk::Box
+  {
+    public:
+      VBox()
+      {
+        set_orientation(Gtk::Orientation::VERTICAL);
+      }
+
+  };
+}
+#endif
 
 class HigDialog : public Gtk::Dialog
 {
@@ -59,7 +82,11 @@ class HigCategoriesPanel : public Gtk::VBox
 {
 public:
   HigCategoriesPanel();
-  void add(Gtk::Widget &panel) override;
+  void add(Gtk::Widget &panel)
+#if !GTK_CHECK_VERSION(4,0,0)
+    override
+#endif
+    ;
 };
 
 class HigUtil

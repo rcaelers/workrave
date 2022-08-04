@@ -27,10 +27,18 @@
 #  include <glib.h>
 #  include <gdk/gdk.h>
 #  if defined(PLATFORM_OS_UNIX)
+#if GDK_MAJOR_VERSION >= 4
+#    include <gdk/x11/gdkx.h>
+#else
 #    include <gdk/gdkx.h>
+#endif
 #  endif
 #  if defined(GDK_WINDOWING_WAYLAND)
+#if GDK_MAJOR_VERSION >= 4
+#    include <gdk/wayland/gdkwayland.h>
+#else
 #    include <gdk/gdkwayland.h>
+#endif
 #  endif
 #endif
 
@@ -110,7 +118,11 @@ unsigned long
 Platform::get_default_root_window()
 {
 #  if defined(HAVE_GTK)
+#if GDK_MAJOR_VERSION >= 4
+  return 0; // TODO Gtk4
+#else
   return gdk_x11_get_default_root_xwindow();
+#endif
 #  elif defined(HAVE_QT)
   QDesktopWidget *desktop = QApplication::desktop();
   QWindow *window = desktop->windowHandle();
