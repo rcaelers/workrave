@@ -772,6 +772,7 @@ if(NOT ${spdlog_FOUND})
       GIT_SHALLOW TRUE
       GIT_TAG v1.10.0
     )
+  set(SPDLOG_INSTALL ON)
   set(SPDLOG_BUILD_SHARED ON)
   FetchContent_MakeAvailable(spdlog)
 endif()
