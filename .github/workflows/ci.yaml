@@ -202,7 +202,7 @@ jobs:
             compiler: clang
             ui: Gtk+3
             configuration: Release
-            enable:
+            enable: CRASHPAD,AUTO_UPDATE
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
             upload: false
 
@@ -211,7 +211,7 @@ jobs:
             compiler: clang
             ui: Gtk+3
             configuration: Debug
-            enable: TRACING
+            enable: TRACING,CRASHPAD,AUTO_UPDATE
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
             upload: false
 
