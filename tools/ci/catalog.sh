@@ -3,9 +3,10 @@
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
+mkdir -p ${DEPLOY_DIR}
+
 CATALOG_DIR=${DEPLOY_DIR}
 CATALOG_NAME=${CATALOG_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
-export NOTES=""
 
 if [[ -n "$WORKRAVE_RELEASE" ]]; then
   GEN_ARGS=-"-single --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g')"
@@ -22,7 +23,7 @@ node --experimental-modules ${SCRIPTS_DIR}/newsgen/main.js \
   $GEN_ARGS \
   --output "release-notes.md"
 
-NOTES=$(cat release-notes.md)
+export NOTES=$(cat release-notes.md)
 
 jq -n ' {
               "version": "2",
