@@ -78,7 +78,6 @@ jobs:
 
   build-msys2:
     runs-on: windows-latest
-    if: ${{ false }}
     needs: prep
     strategy:
       matrix:
