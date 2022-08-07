@@ -84,11 +84,11 @@ jobs:
         config:
           - configuration: Release
             enable: TESTS, CRASHPAD, AUTO_UPDATE
-            upload: false
+            upload: true
 
           - configuration: Debug
             enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
-            upload: false
+            upload: true
     steps:
       - uses: actions/checkout@v2
         with:
