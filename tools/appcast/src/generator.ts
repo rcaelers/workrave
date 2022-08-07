@@ -27,7 +27,7 @@ class Generator {
     nunjucks
       .configure({
         autoescape: false,
-        watch: false
+        watch: false,
       })
       .addFilter('data_format', (date: string, format: string) => {
         return moment(date).format(format);
@@ -58,14 +58,9 @@ class Generator {
   async generate() {
     try {
       const context = {
-        builds: this.catalog.builds
+        builds: this.catalog.builds,
       };
-      const template_filename: string = path.join(
-        __dirname,
-        '..',
-        'templates',
-        'appcast.tmpl'
-      );
+      const template_filename: string = path.join(__dirname, '..', 'templates', 'appcast.tmpl');
       return nunjucks.render(template_filename, context);
     } catch (e) {
       console.error(e);

@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "async": "^3.2.4",
+    "aws-sdk": "^2.1189.0",
     "moment": "^2.29.4",
     "node-fetch": "^3.2.10",
     "nunjucks": "^3.2.3",
