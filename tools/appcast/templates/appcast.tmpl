@@ -7,6 +7,13 @@
         <language>en</language>
         <link>https://workrave.org/</link>
 {% for entry in builds %}
+{%- set valid = false -%}
+{%- for enclosure in entry.artifacts -%}
+{%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' -%}
+{%- set valid = true -%}
+{%- endif -%}
+{%- endfor -%}
+{%- if valid %}
         <item>
             <title>Workrave {{ entry | version }}</title>
             <description><![CDATA[
@@ -33,9 +40,10 @@ Date: {{ commit.commit.author.timestamp | data_format_from_unix }}
 {%- for enclosure in entry.artifacts %}
 {%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' %}
             <enclosure os="{{ enclosure.platform }}" url="https://snapshots.workrave.org/{{ enclosure.url }}" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
-{%- endif %}
+{%- endif -%}
 {%- endfor %}
         </item>
+{% endif %}
 {% endfor %}
     </channel>
 </rss>
