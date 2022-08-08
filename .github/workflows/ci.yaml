@@ -341,7 +341,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-22.04
-    needs: [prep, build-cmake]
+    needs: [prep, build-cmake, build-msys2]
     if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') )
     steps:
       - uses: actions/checkout@v2
