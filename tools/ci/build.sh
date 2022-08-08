@@ -232,6 +232,11 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
 
+        deployFilename=${baseFilename}.tar.zst
+        tar cavf ${OUTPUT_DIR}/${deployFilename} ${DEPLOY_DIR}
+        cp ${OUTPUT_DIR}/${deployFilename} ${DEPLOY_DIR}
+        ${SOURCES_DIR}/tools/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
+
         filename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym
 
