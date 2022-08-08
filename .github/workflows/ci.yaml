@@ -403,7 +403,7 @@ jobs:
 
   release:
     runs-on: ubuntu-22.04
-    needs: [build-cmake]
+    needs: [build-cmake, build-msys2]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v2
