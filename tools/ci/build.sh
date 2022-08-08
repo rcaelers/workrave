@@ -234,9 +234,8 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
 
         deployFilename=${baseFilename}.tar.zst
 
-        cp ${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/*.iss ${DEPLOY_DIR}/dist
-        tar cavf ${OUTPUT_DIR}/${deployFilename} ${DEPLOY_DIR}
-        cp ${OUTPUT_DIR}/${deployFilename} ${DEPLOY_DIR}
+        cp ${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/*.iss ${OUTPUT_DIR}/dist
+        tar cavf ${DEPLOY_DIR}/${deployFilename} ${OUTPUT_DIR}
         ${SOURCES_DIR}/tools/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
 
         filename=${baseFilename}.exe
