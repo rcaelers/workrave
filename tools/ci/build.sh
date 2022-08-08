@@ -234,8 +234,11 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
 
         deployFilename=${baseFilename}.tar.zst
 
-        cp ${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/*.iss ${OUTPUT_DIR}/dist
-        tar cavf ${DEPLOY_DIR}/${deployFilename} ${OUTPUT_DIR}
+        for iss in ${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/*.iss; do
+            cat $iss | sed -e "s/$OUTPUT_DIR//" >${OUTPUT_DIR}/dist/$(basename $iss)
+        done
+
+        tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${DEPLOY_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
         ${SOURCES_DIR}/tools/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
 
         filename=${baseFilename}.exe
