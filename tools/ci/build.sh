@@ -238,7 +238,7 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
             cat $iss | sed -e "s|$OUTPUT_DIR||" >${OUTPUT_DIR}/dist/$(basename $iss)
         done
 
-        tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${DEPLOY_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
+        tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
         ${SOURCES_DIR}/tools/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
 
         filename=${baseFilename}.exe
