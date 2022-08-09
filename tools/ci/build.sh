@@ -234,8 +234,10 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
 
         deployFilename=${baseFilename}.tar.zst
 
-        for iss in ${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/*.iss; do
-            cat $iss | sed -e "s|$OUTPUT_DIR||" >${OUTPUT_DIR}/dist/$(basename $iss)
+        issdir=${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/
+        prefix="$(grep ^LicenseFile ${issdir}/setup.iss | sed -e 's/LicenseFile=\(.*\)/\1/' | rev | cut -d\\ -f2- | rev)\\"
+        for iss in ${issdir}/*.iss; do
+            cat $iss | sed -e "s|$prefix||" >${OUTPUT_DIR}/dist/$(basename $iss)
         done
 
         tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
