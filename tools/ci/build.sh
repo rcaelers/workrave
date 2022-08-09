@@ -237,7 +237,7 @@ if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
         issdir=${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/
         prefix="$(grep ^LicenseFile ${issdir}/setup.iss | sed -e 's/LicenseFile=\(.*\)/\1/' | rev | cut -d\\ -f2- | rev)\\"
         for iss in ${issdir}/*.iss; do
-            cat $iss | sed -e "s|$prefix||" >${OUTPUT_DIR}/dist/$(basename $iss)
+            cat $iss | sed -e "s|${prefix//\\/\\\\}||" >${OUTPUT_DIR}/dist/$(basename $iss)
         done
 
         tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
