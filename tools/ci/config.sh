@@ -139,7 +139,7 @@ github-ubuntu)
     export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
     ;;
 
-github-msys2)
+github-windows-msys2)
     export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
     export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
     ;;
