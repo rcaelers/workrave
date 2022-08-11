@@ -87,7 +87,17 @@ if(MINGW)
   install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
   install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
-  install(DIRECTORY ${SYS_ROOT}/share/icons/Adwaita DESTINATION ${DATADIR}/icons)
+  foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
+    foreach(icon places/user* places/folder* places/drive*)
+      file(GLOB globs RELATIVE "${SYS_ROOT}/share/icons/Adwaita/" "${SYS_ROOT}/share/icons/Adwaita/${size}/${icon}.*")
+      foreach(icon_file ${globs})
+        get_filename_component(dir ${icon_file} DIRECTORY)
+        install(FILES ${SYS_ROOT}/share/icons/Adwaita/${icon_file} DESTINATION ${DATADIR}/icons/Adwaita/${dir})
+      endforeach()
+    endforeach()
+  endforeach()
+
+  install(FILES "${SYS_ROOT}/share/icons/Adwaita/index.theme" DESTINATION ${DATADIR}/icons/Adwaita)
   install(CODE "execute_process(COMMAND gtk-update-icon-cache \${DATADIR}/icons/Adwaita)")
 endif()
 
