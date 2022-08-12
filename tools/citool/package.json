@@ -1,0 +1,98 @@
+{
+  "name": "citool",
+  "version": "0.0.0",
+  "description": "Manage Workrave artifact catalogs",
+  "bin": {
+    "citool": "./bin/run"
+  },
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf ./dist && tsc -b",
+    "lint": "eslint . --ext .ts --config .eslintrc",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "test": "jest",
+    "test:dev": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "Rob Caelers",
+  "license": "MIT",
+  "devDependencies": {
+    "@oclif/test": "^2",
+    "@types/async": "^3.2.15",
+    "@types/chai": "^4",
+    "@types/eslint": "^8.4.5",
+    "@types/eslint-plugin-prettier": "^3.1.0",
+    "@types/jest": "^28.1.6",
+    "@types/js-yaml": "^4.0.5",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.6.5",
+    "@types/nunjucks": "^3.2.1",
+    "@types/prettier": "^2.7.0",
+    "@types/rimraf": "^3.0.2",
+    "@types/semver": "^7.3.10",
+    "@types/source-map-support": "^0.5.4",
+    "@types/tar-fs": "^2.0.1",
+    "@types/unzipper": "^0.10.5",
+    "@types/xtend": "^4.0.4",
+    "chai": "^4",
+    "eslint": "^8.21.0",
+    "eslint-config-oclif": "^4",
+    "eslint-config-oclif-typescript": "^1.0.2",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.8.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "globby": "^11",
+    "jest": "^28.1.3",
+    "mocha": "^10",
+    "oclif": "^3",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "shx": "^0.3.4",
+    "ts-jest": "^28.0.7",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@oclif/core": "^1",
+    "@oclif/plugin-commands": "^2.2.0",
+    "@oclif/plugin-help": "^5",
+    "@xingrz/cppzst": "^2.1.0-alpha.8",
+    "async": "^3.2.4",
+    "aws-sdk": "^2.1190.0",
+    "isomorphic-git": "^1.19.1",
+    "js-yaml": "^4.1.0",
+    "mergician": "^1.0.3",
+    "moment": "^2.29.4",
+    "node-fetch": "^3.2.10",
+    "nunjucks": "^3.2.3",
+    "remark-parse": "^10.0.1",
+    "semver": "^7.3.7",
+    "source-map-support": "^0.5.21",
+    "tar-fs": "^2.1.1",
+    "unherit": "^3.0.0",
+    "unified": "^10.1.2",
+    "unzipper": "^0.10.11",
+    "xtend": "^4.0.2"
+  },
+  "oclif": {
+    "bin": "citool",
+    "dirname": "citool",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-commands"
+    ],
+    "topicSeparator": " ",
+    "topics": {}
+  },
+  "engines": {
+    "node": ">=16.6.0"
+  },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
+  "types": "dist/index.d.ts"
+}
