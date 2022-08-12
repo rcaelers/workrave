@@ -1,58 +1,58 @@
 import { promises as fs } from 'fs';
-
-import { Generator } from '../../newsgen/generator.js';
+import { Command, Flags } from '@oclif/core'
 import yaml from 'js-yaml';
 
-import { Command, Flags } from '@oclif/core'
+import { Generator } from '../../newsgen/generator.js';
 
 export default class Appcast extends Command {
-  static description = 'sign artifacts'
+  static description = 'generate release notes in different formats';
 
   static examples = [
-    `$ citool newsgen
-`,
+    `$ citool newsgen --input ./changes.yaml --template news -o NEWS`,
+    `$ citool newsgen --input ./changes.yaml --single --release 1.10.50 --ubuntu jammy --increment 1 --template debian-changelog --output out`,
+    `$ citool newsgen --input ./changes.yaml --single --release=1.11.0-alpha.2 --template github -o out`
   ]
 
   static flags = {
     input: Flags.string({
       char: 'i',
-      description: 'input',
+      description: 'YAML input file containing release notes',
       required: true,
     }),
     output: Flags.string({
       char: 'o',
-      description: 'output',
+      description: 'Output file',
       required: true,
     }),
     increment: Flags.integer({
       char: 'k',
-      description: 'PPA increment',
+      description: 'PPA increment for debian changelog',
       default: 1,
     }),
     ubuntu: Flags.string({
       char: 'U',
-      description: 'The Ubuntu release name',
+      description: 'Ubuntu release name for debian changelog',
       default: 'focal'
     }),
     release: Flags.string({
-      description: 'Only generate this release starting at this version',
+      description: 'Generate release notes starting from this release',
     }),
     single: Flags.boolean({
-      description: 'Generate only for a single release',
+      description: 'Generate only release notes for the specified release',
       default: false,
     }),
     latest: Flags.boolean({
-      description: 'Generate only the latest release',
+      description: 'Generate only realease notes for the latest release',
       default: false,
     }),
     template: Flags.string({
       char: 'T',
-      description: 'Template to use.',
+      description: 'Release notes template to use',
       default: 'NEWS'
     }),
     verbose: Flags.boolean({
       char: 'v',
-      description: 'Verbose',
+      description: 'Verbose mode',
       default: false,
     }),
   }
