@@ -39,9 +39,8 @@ class Catalog {
 
   async saveAs(filename: string) {
     try {
-      //console.log(JSON.stringify(this.catalog, null, '\t'));
       if (this.dry) {
-        console.log('Dry run: writeJson(' + filename + '):');
+        console.log('Dry run: would save' + filename + ':');
         console.log(JSON.stringify(this.catalog, null, '\t'));
       } else {
         console.log('Saving:' + filename);
@@ -59,7 +58,6 @@ class Catalog {
   setBuilds(builds: any) {
     this.catalog.builds = builds;
   }
-
 }
 
 export { Catalog };

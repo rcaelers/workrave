@@ -1,25 +1,20 @@
 import path from 'path';
 import fs from 'fs';
-import fsp from 'node:fs/promises';
 import format from 'date-fns';
 import git from 'isomorphic-git';
 import as from 'async';
 import mergician from 'mergician';
 
-import * as tar from "tar-fs"
-import zstd from '@xingrz/cppzst';
-import unzipper from 'unzipper';
-
 import { S3Store } from '../common/s3.js';
 import { Catalog } from './catalog.js';
 
 class Builder {
-  s3store: S3Store;
-  gitRoot: string;
-  branch: string;
-  dry: boolean;
-  regenerate: boolean;
-  catalog: Catalog;
+  private s3store: S3Store;
+  private gitRoot: string;
+  private branch: string;
+  private dry: boolean;
+  private regenerate: boolean;
+  private catalog: Catalog;
 
   constructor(s3store: S3Store, catalog: Catalog, gitRoot: string, branch: string, dry: boolean, regenerate: boolean) {
     this.s3store = s3store;
@@ -62,7 +57,6 @@ class Builder {
     let build = this.catalog.builds().find((b: any) => b.id == part.id);
     let buildIndex = this.catalog.builds().findIndex((b: any) => b.id == part.id);
     if (build) {
-      // build.artifacts = [...build.artifacts, ...part.artifacts];
       const mergedObj = mergician({
         appendArrays: true,
         beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
@@ -102,7 +96,6 @@ class Builder {
 
       var files = await this.s3store.list(this.branch);
       for (var i = 0; i < files.length; i++) {
-        console.log('Processing ' + files[i]);
         let fileInfo = files[i];
         let filename = path.basename(fileInfo.Key);
         let directory = path.dirname(fileInfo.Key);
@@ -113,7 +106,7 @@ class Builder {
           let backupFilename = path.join(directory, '.' + filename);
 
           if (this.dry || this.regenerate) {
-            console.log('Dry run: deleteObject(' + backupFilename + ')');
+            console.log('Dry run: not creating backup of ' + fileInfo.Key);
           } else {
             await this.s3store.writeJson(backupFilename, part);
             await this.s3store.deleteObject(fileInfo.Key);

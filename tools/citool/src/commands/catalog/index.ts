@@ -1,38 +1,35 @@
-import { promises as fs } from 'fs';
+import { Command, Flags } from '@oclif/core'
 
 import { S3Store } from '../../common/s3.js';
 import { Catalog } from '../../catalog/catalog.js';
 import { Builder } from '../../catalog/builder.js';
 
-import { Command, Flags } from '@oclif/core'
-
 export default class Appcast extends Command {
-  static description = 'generate artifacts catalog'
+  static description = 'update artifacts catalog in S3 storage'
 
   static examples = [
-    `$ citool catalog
-`,
+    `$ citool catalog`,
   ]
 
   static flags = {
     branch: Flags.string({
       char: 'b',
-      description: 'branch',
+      description: 'Workave branch to use',
       default: 'v1.11',
     }),
     bucket: Flags.string({
       char: 'B',
-      description: 'bucket',
+      description: 'S3 bucket to use',
       default: 'snapshots',
     }),
     key: Flags.string({
       char: 'k',
-      description: 'key',
+      description: 'Access key for S3 access',
       default: 'travis',
     }),
     secret: Flags.string({
       char: 's',
-      description: 'key',
+      description: 'Secret for S3 access',
       env: 'SNAPSHOTS_SECRET_ACCESS_KEY',
       required: true,
     }),
@@ -44,30 +41,30 @@ export default class Appcast extends Command {
     }),
     endpoint: Flags.string({
       char: 'E',
-      description: 'endpoint',
+      description: 'S3 endpoint',
       default: 'https://snapshots.workrave.org/',
     }),
     name: Flags.string({
       char: 'n',
-      description: 'file name',
+      description: 'Output filename',
       default: 'appcast.xml',
     }),
     file: Flags.boolean({
-      description: 'output to file instead of S3 bucket',
+      description: 'Output to local file instead of S3 bucket',
       default: false,
     }),
     release: Flags.string({
       char: 'n',
-      description: 'First release to generate',
+      description: 'Generate release notes starting from this release',
     }),
     dry: Flags.boolean({
       char: 'd',
-      description: 'Dry run. Result is not uploaded to storage',
+      description: 'Dry run. Result is not uploaded to S3 storage',
       default: false,
     }),
     regenerate: Flags.boolean({
       char: 'r',
-      description: 'regenerate',
+      description: 'Regenerate catalog',
       default: false,
     }),
   }
