@@ -356,12 +356,13 @@ jobs:
       - name: Sign
         run: |
           cd $GITHUB_WORKSPACE
-          echo '${{ secrets.ED25519_KEY }}' > ed25519key.pem
+          echo '${{ secrets.ED25519_KEY }}' > ${SECRETS_DIR}/ed25519key.pem
           $GITHUB_WORKSPACE/tools/ci/sign.sh
           rm -f ed25519key.pem
         env:
           ED25519_KEY: ${{ secrets.ED25519_KEY }}
           WORKSPACE: ${{ github.workspace }}
+          SECRETS_DIR: ${{ github.workspace }}
           ARTIFACTS: ${{ github.workspace }}/artifacts/
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
