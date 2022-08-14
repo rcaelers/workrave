@@ -100,26 +100,10 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
-    # CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=${SOURCES_DIR}/_ext -DWITH_CRASHPAD=ON")
     OUT_DIR=""
 
-    if [[ $MSYSTEM == "" ]]; then
-        if [[ $WORKRAVE_ENV =~ "-msys2" ]]; then
-            MSYSTEM="CLANG64"
-        else
-            MSYSTEM="MINGW64"
-        fi
-    fi
-
-    if [[ $MSYSTEM == "MINGW32" ]]; then
-        CONF_SYSTEM=mingw32
-        CONF_COMPILER=gcc
-        OUT_DIR=".32"
-        CONF_UI=None
-        echo Building 32 bit
-    elif [[ $MSYSTEM == "MINGW64" ]]; then
-        CONF_SYSTEM=mingw64
-    fi
+    MSYSTEM="CLANG64"
+    CONF_SYSTEM=mingw64
 
     if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV == "docker-windows-msys2" ]]; then
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
@@ -196,7 +180,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     fi
 fi
 
-if [[ $MSYSTEM == "MINGW64" || $MSYSTEM == "CLANG64" ]]; then
+if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     mkdir -p ${DEPLOY_DIR}
 

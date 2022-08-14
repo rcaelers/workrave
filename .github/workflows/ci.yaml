@@ -296,7 +296,7 @@ jobs:
               docker run --rm  -v $GITHUB_WORKSPACE:c:\\workspace\\source \
                  `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                  ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                 sh -c "/c/workspace/source/tools/ci/build.sh -S MINGW64"
+                 sh -c "/c/workspace/source/tools/ci/build.sh"
             elif [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
               IFS=$'\n'
               export WORKRAVE_ENV=docker-linux
@@ -305,7 +305,7 @@ jobs:
                  -v $GITHUB_WORKSPACE:/workspace/source \
                  `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
                  ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                 sh -c "/workspace/source/tools/ci/build.sh -S MINGW64"
+                 sh -c "/workspace/source/tools/ci/build.sh"
             else
               IFS=$'\n'
               export WORKRAVE_ENV=docker-linux

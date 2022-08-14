@@ -8,7 +8,7 @@ run_docker_mingw_build() {
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-        sh -xc "/workspace/source/tools/ci/build.sh -S MINGW64"
+        sh -xc "/workspace/source/tools/ci/build.sh"
 }
 
 run_docker_ppa() {
