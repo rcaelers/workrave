@@ -216,16 +216,19 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
 
-        deployFilename=${baseFilename}.tar.zst
+        if [[ $WORKRAVE_ENV != "local-windows-msys2" ]]; then
 
-        issdir=${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/
-        prefix="$(grep ^LicenseFile ${issdir}/setup.iss | sed -e 's/LicenseFile=\(.*\)/\1/' | rev | cut -d\\ -f2- | rev)\\"
-        for iss in ${issdir}/*.iss; do
-            cat $iss | sed -e "s|${prefix//\\/\\\\}||" >${OUTPUT_DIR}/$(basename $iss)
-        done
+            deployFilename=${baseFilename}.tar.zst
 
-        tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
-        ${SCRIPTS_DIR}/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
+            issdir=${BUILD_DIR}/${config}/ui/app/toolkits/gtkmm/dist/windows/
+            prefix="$(grep ^LicenseFile ${issdir}/setup.iss | sed -e 's/LicenseFile=\(.*\)/\1/' | rev | cut -d\\ -f2- | rev)\\"
+            for iss in ${issdir}/*.iss; do
+                cat $iss | sed -e "s|${prefix//\\/\\\\}||" >${OUTPUT_DIR}/$(basename $iss)
+            done
+
+            tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
+            ${SCRIPTS_DIR}/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
+        fi
 
         filename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym
