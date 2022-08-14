@@ -11,11 +11,11 @@ local)
 
 local-windows-msys2)
     echo "Running locally on Windows with msys2"
-    WORKSPACE=$(pwd)
-    SOURCES_DIR=${WORKSPACE}
-    OUTPUT_DIR=${SOURCES_DIR}/_output
-    DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_build
+    WORKSPACE=${WORKSPACE:-$(pwd)}
+    SOURCES_DIR=${SOURCES_DIR:-${WORKSPACE}}
+    OUTPUT_DIR=${SOURCES_DIR}/_output/${CONF_CONFIGURATION}
+    DEPLOY_DIR=${SOURCES_DIR}/_deploy/${CONF_CONFIGURATION}
+    BUILD_DIR=${SOURCES_DIR}/_build/${CONF_CONFIGURATION}
     ;;
 
 docker-linux)
