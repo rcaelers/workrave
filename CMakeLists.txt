@@ -6,6 +6,7 @@ project(Workrave)
 
 cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
+cmake_policy(SET CMP0135 NEW)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
