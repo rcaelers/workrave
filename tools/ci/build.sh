@@ -176,7 +176,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
 
         mkdir -p ${DEPLOY_DIR}
         cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
-        ${SOURCES_DIR}/tools/ci/artifact.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
+        ${SCRIPTS_DIR}/ci/artifact.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
     fi
 fi
 
@@ -211,7 +211,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     zip -9 -r ${DEPLOY_DIR}/${portableFilename} .
 
     cd ${BUILD_DIR}
-    ${SOURCES_DIR}/tools/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
+    ${SCRIPTS_DIR}/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
     ninja ${MAKE_FLAGS[@]} installer
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
@@ -225,7 +225,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
         done
 
         tar cavf ${DEPLOY_DIR}/${deployFilename} -C $(dirname ${OUTPUT_DIR}) --exclude "**/workrave-installer.exe" ${OUTPUT_DIR}
-        ${SOURCES_DIR}/tools/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
+        ${SCRIPTS_DIR}/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
 
         filename=${baseFilename}.exe
         symbolsFilename=${baseFilename}.sym
@@ -235,10 +235,10 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
             cp ${OUTPUT_DIR}/workrave.sym ${DEPLOY_DIR}/${symbolsFilename}
         fi
 
-        ${SOURCES_DIR}/tools/ci/artifact.sh -f ${filename} -k installer -c $CONFIG -p windows
+        ${SCRIPTS_DIR}/ci/artifact.sh -f ${filename} -k installer -c $CONFIG -p windows
 
         if [[ -e ${symbolsFilename} ]]; then
-            ${SOURCES_DIR}/tools/ci/artifact.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
+            ${SCRIPTS_DIR}/ci/artifact.sh -f ${symbolsFilename} -k symbols -c $CONFIG -p windows
         fi
     fi
 fi
