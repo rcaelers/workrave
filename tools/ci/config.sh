@@ -9,15 +9,6 @@ local)
     SECRETS_DIR=${WORKSPACE}/secrets
     ;;
 
-inline)
-    echo "Running inline in docker"
-    WORKSPACE=/workspace
-    SOURCES_DIR=${WORKSPACE}/source
-    OUTPUT_DIR=${SOURCES_DIR}/_output
-    DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_build
-    ;;
-
 local-windows-msys2)
     echo "Running locally on Windows with msys2"
     WORKSPACE=$(pwd)
@@ -113,10 +104,6 @@ fi
 
 case "$WORKRAVE_ENV" in
 local)
-    export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
-    ;;
-
-inline)
     export WORKRAVE_JOB_NUMBER=$WORKRAVE_BUILD_ID
     ;;
 
