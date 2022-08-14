@@ -307,7 +307,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   if (TARGET Qt::lconvert)
     get_target_property(QT_LCONVERT_EXECUTABLE Qt::lconvert LOCATION)
   else()
-    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
+    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} DIRECTORY)
     find_program(QT_LCONVERT_EXECUTABLE
                  NAMES lconvert-qt6 lconvert
                  PATHS ${QT_LRELEASE_PATH}
