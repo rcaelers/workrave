@@ -24,7 +24,7 @@ docker-linux)
     SOURCES_DIR=${WORKSPACE}/source
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_dist/build
+    BUILD_DIR=${SOURCES_DIR}/_build
     ;;
 
 docker-windows-msys2)
@@ -33,7 +33,7 @@ docker-windows-msys2)
     SOURCES_DIR=${WORKSPACE}/source
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_dist/build
+    BUILD_DIR=${SOURCES_DIR}/_build
     ;;
 
 github-ubuntu)
@@ -42,7 +42,7 @@ github-ubuntu)
     SOURCES_DIR=${WORKSPACE}
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_dist/build
+    BUILD_DIR=${SOURCES_DIR}/_build
     ;;
 
 github-windows-msys2)
@@ -51,7 +51,7 @@ github-windows-msys2)
     SOURCES_DIR=${WORKSPACE}
     OUTPUT_DIR=${SOURCES_DIR}/_output
     DEPLOY_DIR=${SOURCES_DIR}/_deploy
-    BUILD_DIR=${SOURCES_DIR}/_dist/build
+    BUILD_DIR=${SOURCES_DIR}/_build
     ;;
 
 *)
