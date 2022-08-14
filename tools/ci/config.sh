@@ -60,6 +60,7 @@ github-windows-msys2)
 esac
 
 SCRIPTS_DIR=${SCRIPTS_DIR:-${SOURCES_DIR}/tools}
+SECRETS_DIR=${SECRETS_DIR:-${WORKSPACE}}
 CI_DIR=${SCRIPTS_DIR}/ci
 
 export DEBFULLNAME="Rob Caelers"

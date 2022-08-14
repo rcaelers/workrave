@@ -11,7 +11,7 @@ for catalog in $catalogs; do
   files=$(jq -r '.builds[].artifacts[] | .filename' $catalog)
   folder=$(dirname $catalog)
   for file in $files; do
-    signature=$($OPENSSL pkeyutl -sign -rawin -in $folder/$file -inkey $WORKSPACE/ed25519key.pem | $OPENSSL base64 | tr -d \\n)
+    signature=$($OPENSSL pkeyutl -sign -rawin -in $folder/$file -inkey $SECRETS_DIR/ed25519key.pem | $OPENSSL base64 | tr -d \\n)
 
     jq \
       --arg querykey $file \
