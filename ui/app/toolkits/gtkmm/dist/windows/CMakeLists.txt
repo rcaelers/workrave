@@ -52,6 +52,7 @@ FetchContent_Declare(
    AdwaitaIconTheme
    URL          https://download.gnome.org/sources/adwaita-icon-theme/40/adwaita-icon-theme-40.1.1.tar.xz
    URL_HASH     SHA256=0b6c436ed6ad9887a88ada1f72a0197b1eb73b020d8d344abab4c7fa7250f8f6
+   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
    )
 
 FetchContent_GetProperties(WindowsThemeAcrylic)

@@ -22,6 +22,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       webview2
       URL  https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.1072.54
       URL_HASH SHA1=aa8ae9db5015a9184011bb195efc5c8caa58a86b
+      DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     )
     FetchContent_MakeAvailable(webview2)
 
