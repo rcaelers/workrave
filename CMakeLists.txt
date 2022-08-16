@@ -625,6 +625,7 @@ if (WIN32)
   option(WITH_CRASHPAD "Use crashpad" OFF)
   option(WITH_AUTO_UPDATE "Use unfold auto-update" OFF)
   option(ISCC "Inno Setup Compiler")
+  set(ISCC_FLAGS "" CACHE STRING "Inno Setup Compiler Arguments")
 
   if (WITH_AUTO_UPDATE)
     set (HAVE_UNFOLD_AUTO_UPDATE ON)
