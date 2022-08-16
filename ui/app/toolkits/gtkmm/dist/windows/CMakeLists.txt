@@ -130,7 +130,7 @@ if(WINE)
                      DEPENDS workrave)
 else()
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS2} ${ISCC_FILENAME_FLAGS}
+                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
                      DEPENDS workrave
                      VERBATIM)
 endif()
