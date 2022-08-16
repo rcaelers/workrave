@@ -37,7 +37,7 @@ build() {
         if [ -n "${CONF_APPIMAGE}" ]; then
             cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=/usr ${cmake_args[@]}
         else
-            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} ${cmake_args[@]}
+            cmake ${SOURCES_DIR} -G Ninja -DCMAKE_INSTALL_PREFIX=${OUTPUT_DIR}/${config} "${cmake_args[@]}"
         fi
     fi
 
@@ -108,6 +108,10 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
     if [[ $WORKRAVE_ENV =~ "-msys2" || $WORKRAVE_ENV == "docker-windows-msys2" ]]; then
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
+
+        if [[ -n $SIGNTOOL ]]; then
+            CMAKE_FLAGS+=("-DISCC_FLAGS=/DSignTool=Certum;/SCertum=\$q$SIGNTOOL\$q sign $SIGNTOOL_SIGN_ARGS \$f")
+        fi
     else
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
         echo Building on Linux cross compile environment
@@ -180,6 +184,17 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     fi
 fi
 
+if [[ $WORKRAVE_ENV == "local-windows-msys2" ]]; then
+
+    files_to_sign=$(find ${OUTPUT_DIR} -name "*[Ww]orkrave*.exe")
+
+    echo "Signing files : $files_to_sign"
+
+    export MSYS2_ARG_CONV_EXCL="/n;/t;/fd;/v"
+    "$SIGNTOOL" sign $SIGNTOOL_SIGN_ARGS $files_to_sign
+    unset MSYS2_ARG_CONV_EXCL
+fi
+
 if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     mkdir -p ${DEPLOY_DIR}
@@ -190,10 +205,6 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
         EXTRA="-Debug"
         CONFIG="debug"
     fi
-
-    #if [[ -e ${BUILD_DIR}/workrave.sym ]]; then
-    #    curl --request POST -F symbol_file=@${BUILD_DIR}/workrave.sym "http://192.168.7.241:8888/api/symbol/upload?api_key=84f1a5db0f604d3ab8787c57b244a4f4&version=1.11.0-alpha1"
-    #fi
 
     if [[ -z "$WORKRAVE_RELEASE" ]]; then
         echo "No tag build."
