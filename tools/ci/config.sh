@@ -109,7 +109,7 @@ local)
     ;;
 
 local-windows-msys2)
-    export WORKRAVE_JOB_NUMBER=gh${GITHUB_RUN_ID}.${WORKRAVE_JOB_INDEX}
+    export WORKRAVE_JOB_NUMBER=${WORKRAVE_BUILD_ID}
     ;;
 
 docker-linux)
