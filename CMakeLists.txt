@@ -660,7 +660,7 @@ if (WIN32)
 
     set (CMAKE_DEBUG_POSTFIX "d")
 
-    add_compile_options(/bigobj)
+    add_compile_options(/bigobj /Zc:__cplusplus)
     add_compile_definitions(
       WIN32
       _WINDOWS

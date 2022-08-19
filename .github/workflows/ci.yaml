@@ -11,6 +11,11 @@ on:
       - "main"
       - "topic/*"
 
+env:
+  VCPKG_ROOT: C:\vcpkg
+  VCPKG_BINARY_SOURCES: "clear;nuget,GitHub,readwrite"
+  GH_NUGET_REGISTRY: https://nuget.pkg.github.com/rcaelers/index.json
+
 jobs:
   prep:
     runs-on: ubuntu-latest
@@ -45,6 +50,56 @@ jobs:
           name: artifacts
           path: _deploy
 
+  build-windows-vcpkg:
+    name: Windows VCPKG
+    runs-on: windows-latest
+    steps:
+      - name: Debug - free space
+        run: Get-PSDrive
+
+      - name: Prepare VCPKG
+        id: prep-vcpkg
+        shell: pwsh
+        run: |
+          ${{ env.VCPKG_ROOT }}\bootstrap-vcpkg.bat
+
+      - name: setup NuGet credentials
+        shell: bash
+        run: >
+          $(${{ env.VCPKG_ROOT }/vcpkg fetch nuget | tail -n 1)
+          sources add
+          -source "${{ env.GH_NUGET_REGISTRY }}"
+          -storepasswordincleartext
+          -name "GitHub"
+          -username "rcaelers"
+          -password "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: setup NuGet API key
+        shell: bash
+        run: >
+          $(${{ env.VCPKG_ROOT }/vcpkg fetch nuget | tail -n 1)
+          setapikey "${{ secrets.GITHUB_TOKEN }}"
+          -source "${{ env.GH_NUGET_REGISTRY }}"
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: "recursive"
+
+      - name: configure
+        run: >
+          cmake -B ${{github.workspace}}/_build
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }/scripts/buildsystems/vcpkg.cmake
+            -DVCPKG_TARGET_TRIPLET=x64-windows
+            -DCMAKE_BUILD_TYPE=Release
+            -DWITH_UI=Gtk+3
+            -DWITH_CRASHPAD=OFF
+            -DWITH_AUTO_UPDATE=ON
+            -DWITH_TRACING=ON
+
+      - name: build
+        run: cmake --build ${{github.workspace}}/_build
+
   build-windows:
     runs-on: windows-2019
     if: ${{ false }}
@@ -78,6 +133,7 @@ jobs:
 
   build-msys2:
     runs-on: windows-latest
+    if: ${{ false }}
     needs: prep
     strategy:
       matrix:
@@ -150,6 +206,7 @@ jobs:
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
+    if: ${{ false }}
     needs: prep
     defaults:
       run:
