@@ -88,8 +88,8 @@ jobs:
 
       - name: configure
         run: >
-          cmake -B ${{github.workspace}}/_build
-            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }/scripts/buildsystems/vcpkg.cmake
+          cmake -B ${{ github.workspace }}/_build
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
             -DVCPKG_TARGET_TRIPLET=x64-windows
             -DCMAKE_BUILD_TYPE=Release
             -DWITH_UI=Gtk+3
