@@ -1,0 +1,96 @@
+{
+  "name": "workrave",
+  "version": "1.11.0-alpha.4",
+  "dependencies": [
+    {
+      "name": "gettext",
+      "version>=": "0.21#3"
+    },
+    {
+      "name": "gettext",
+      "host": true,
+      "features": ["tools"]
+    },
+    {
+      "name": "python3",
+      "version>=": "3.10.5"
+    },
+    {
+      "name": "boost-asio",
+      "version>=": "1.79.0",
+      "features": ["ssl"]
+    },
+    {
+      "name": "boost-beast",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-coroutine",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-date-time",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-interprocess",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-filesystem",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-iostreams",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-outcome",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-process",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-program-options",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-property-tree",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-serialization",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-signals2",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "boost-test",
+      "version>=": "1.79.0"
+    },
+    {
+      "name": "pkgconf",
+      "version>=": "1.8.0#3"
+    },
+    {
+      "name": "vcpkg-pkgconfig-get-modules",
+      "version>=": "2022-02-10#1"
+    },
+    {
+      "name": "gtk3",
+      "version>=": "3.24.34"
+    },
+    {
+      "name": "gtk3mm",
+      "version>=": "3.24.5"
+    },
+    {
+      "name": "spdlog",
+      "version>=": "1.10.0#1"
+    }
+  ]
+}

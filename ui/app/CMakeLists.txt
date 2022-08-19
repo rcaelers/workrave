@@ -60,7 +60,7 @@ if (PLATFORM_OS_WINDOWS)
     )
 
   if (MSVC)
-    target_link_libraries(workrave PRIVATE ${WIN32_LIBRARIES})
+    target_link_libraries(workrave-app PRIVATE ${WIN32_LIBRARIES})
   endif()
 endif()
 

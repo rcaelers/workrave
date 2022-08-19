@@ -20,7 +20,7 @@
 
 #include "TimePred.hh"
 #include <string>
-#include <unistd.h>
+#include <cstdint>
 
 class DayTimePred : public TimePred
 {

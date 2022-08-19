@@ -2,14 +2,17 @@ if (DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 endif()
 
-project(Workrave)
+# cmake_policy(SET CMP0003 NEW)
+# cmake_policy(SET CMP0007 NEW)
+# cmake_policy(SET CMP0011 NEW)
+if(POLICY CMP0135)
+cmake_policy(SET CMP0135 NEW)
+endif()
 
 cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
 
-if(POLICY CMP0135)
-cmake_policy(SET CMP0135 NEW)
-endif()
+project(Workrave)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
@@ -35,55 +38,50 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(FindPythonModule)
 include(ExternalProject)
-
-if (NOT VCPKG_TOOLCHAIN)
   include(FindPkgConfig)
-endif()
 
 #----------------------------------------------------------------------------------------------------
 # Macros
 
-if (NOT VCPKG_TOOLCHAIN)
-  macro(pkgconfig_get_var OUT PKG VARNAME)
-    if (LOCALINSTALL)
-      set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
-    endif()
+macro(pkgconfig_get_var OUT PKG VARNAME)
+  if (LOCALINSTALL)
+    set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
+  endif()
 
-    execute_process(
-      COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
-      OUTPUT_VARIABLE _result
-      RESULT_VARIABLE _null
-    )
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
+    OUTPUT_VARIABLE _result
+    RESULT_VARIABLE _null
+  )
 
-    if (_null)
-    else()
-      string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-      string(REGEX REPLACE " +$" ""  _result "${_result}")
-      separate_arguments(_result)
-      set (${OUT} ${_result} CACHE INTERNAL "")
-    endif()
-  endmacro()
+  if (_null)
+  else()
+    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+    string(REGEX REPLACE " +$" ""  _result "${_result}")
+    separate_arguments(_result)
+    set (${OUT} ${_result} CACHE INTERNAL "")
+  endif()
+endmacro()
 
-  macro(pkgconfig_get_requires OUT PKG)
-    if (LOCALINSTALL)
-      set(NEWPREFIX "--define-variable=prefix=/")
-    endif()
+macro(pkgconfig_get_requires OUT PKG)
+  if (LOCALINSTALL)
+    set(NEWPREFIX "--define-variable=prefix=/")
+  endif()
 
-    execute_process(
-      COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
-      OUTPUT_VARIABLE _result
-      RESULT_VARIABLE _null
-    )
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
+    OUTPUT_VARIABLE _result
+    RESULT_VARIABLE _null
+  )
 
-    if (_null)
-    else()
-      string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-      string(REGEX REPLACE " +$" ""  _result "${_result}")
-      separate_arguments(_result)
-      set (${OUT} ${_result} CACHE INTERNAL "")
-    endif()
-  endmacro()
-endif()
+  if (_null)
+  else()
+    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+    string(REGEX REPLACE " +$" ""  _result "${_result}")
+    separate_arguments(_result)
+    set (${OUT} ${_result} CACHE INTERNAL "")
+  endif()
+endmacro()
 
 macro(files_exists OUT DIRECTORY FILES)
 set (${OUT} TRUE)
@@ -258,28 +256,15 @@ endif()
 if ("${WITH_UI}" STREQUAL "Gtk+3")
   message(STATUS "Checking for: Gtk 3")
 
-  if (NOT VCPKG_TOOLCHAIN)
-    pkg_check_modules(
-      GTK REQUIRED
-      gtkmm-3.0>=3.22.0
-      gtk+-3.0>=3.22.0)
+  pkg_check_modules(
+    GTK REQUIRED
+    gtkmm-3.0>=3.22.0
+    gtk+-3.0>=3.22.0)
 
-    pkg_check_modules(
-      GLIB REQUIRED
-      glib-2.0>=2.56.0
-      gio-2.0>=2.56.0)
-  else()
-    set(LIBS atk-1.0 atkmm cairo cairomm-1.0 gdk_pixbuf-2.0 gdk-3.0 gdkmm gio-2.0 giomm glib-2.0 glibmm gobject-2.0 gtk-3.0 gtkmm libintl pango-1.0 pangomm sigc-2.0)
-    foreach(lib ${LIBS})
-     find_library(${lib}_PATH ${lib} RERQUIRED)
-      if(${lib}_PATH)
-        set(GTK_LIBRARIES ${GTK_LIBRARIES} ${${lib}_PATH})
-      else()
-        message(STATUS "Could not find ${lib}")
-      endif()
-    endforeach()
-    find_path(GTK_INCLUDE_DIRS gtkmm.h)
-  endif()
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.56.0
+    gio-2.0>=2.56.0)
 
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -579,26 +564,20 @@ foreach(line ${pofile})
 endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
-if(CMAKE_TOOLCHAIN_FILE MATCHES vcpkg)
-  find_package(unofficial-gettext REQUIRED)
-  set (ENABLE_NLS ON) # TODO: remove ENABLE_NLS
-  set (HAVE_LIBINTL ON)
+find_package(Gettext)
+find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+
+if (HAVE_QT)
+  set (ENABLE_NLS ON)
+  set (HAVE_LIBINTL OFF)
 else()
-  find_package(Gettext)
-  find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+  find_package(Libintl)
 
-  if (HAVE_QT)
-    set (ENABLE_NLS ON)
-    set (HAVE_LIBINTL OFF)
+  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
+    message(STATUS "GetText not found - disabling i18n")
   else()
-    find_package(Libintl)
-
-    if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
-      message(STATUS "GetText not found - disabling i18n")
-    else()
-      set (ENABLE_NLS ON)
-      set (HAVE_LIBINTL ON)
-    endif()
+    set (ENABLE_NLS ON)
+    set (HAVE_LIBINTL ON)
   endif()
 endif()
 
@@ -639,14 +618,16 @@ if (WIN32)
 
   set (HAVE_HARPOON ON)
 
-  find_program(MSYS2_SHELL
-               NAMES msys2_shell.cmd
-               PATHS
-               "$ENV{RUNNER_TEMP}/msys64")
-  if (MSYS2_SHELL)
-    set(MSYS_CMD ${MSYS2_SHELL})
-  else()
-    include(FindMsys)
+  if (NOT MSVC)
+    find_program(MSYS2_SHELL
+                NAMES msys2_shell.cmd
+                PATHS
+                "$ENV{RUNNER_TEMP}/msys64")
+    if (MSYS2_SHELL)
+      set(MSYS_CMD ${MSYS2_SHELL})
+    else()
+      include(FindMsys)
+    endif()
   endif()
 
   find_library(SSP_LIBRARY libssp)
@@ -673,12 +654,13 @@ if (WIN32)
   if (MSVC)
     add_compile_definitions(_CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _SCL_SECURE_NO_WARNINGS)
 
-    set (MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
+    set (MSVC_WARNINGS "/W2 /wd4127 /wd4250 /wd4413 /wd4800 /wd5045")
     set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
 
     set (CMAKE_DEBUG_POSTFIX "d")
 
+    add_compile_options(/bigobj)
     add_compile_definitions(
       WIN32
       _WINDOWS
@@ -835,8 +817,8 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
       set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
       set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
       add_compile_options(-gdwarf -gcodeview)
-    else()
-      message(STATUS "Crashpad requires Clang")
+    elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+      message(STATUS "Crashpad requires Clang or MSVC")
     endif()
   endif()
 endif()
@@ -880,24 +862,26 @@ else()
   add_subdirectory(ui/app/toolkits/gtkmm/dist/windows/src)
 endif()
 
-if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
-  if (CMAKE_CROSSCOMPILING)
-    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake)
-    set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
-  else()
-    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake)
-    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
-  endif()
+if (NOT MSVC) # TODO: support MSVC
+  if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+    if (CMAKE_CROSSCOMPILING)
+      set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake)
+      set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
+    else()
+      set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake)
+      set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
+    endif()
 
-  ExternalProject_Add(Workrave32Bit
-    SOURCE_DIR ${CMAKE_SOURCE_DIR}
-    BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-    CMAKE_COMMAND ${CMAKE_COMMAND32}
-    CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${TOOLCHAIN_32BIT}
-      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-      -DWITH_UI:STRING=None
-    )
+    ExternalProject_Add(Workrave32Bit
+      SOURCE_DIR ${CMAKE_SOURCE_DIR}
+      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
+      CMAKE_COMMAND ${CMAKE_COMMAND32}
+      CMAKE_CACHE_ARGS
+        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${TOOLCHAIN_32BIT}
+        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
+        -DWITH_UI:STRING=None
+      )
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -967,16 +951,14 @@ message(STATUS "")
 feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)
 feature_text("ActivityMonitors" HAVE_MONITORS)
-endif()
 feature_bool("Gnome 3 Applet"  HAVE_GNOME3_PANEL_APPLET)
 feature_bool("Indicator Applet" HAVE_INDICATOR)
 feature_bool("XFCE Applet" HAVE_XFCE4)
 feature_bool("MATE Applet" HAVE_MATE)
-feature_bool("DBUS" HAVE_DBUS)
 feature_bool("GStreamer" HAVE_GSTREAMER)
-if(PLATFORM_OS_UNIX)
 feature_bool("Pulseaudio" HAVE_PULSE)
 endif()
+feature_bool("DBUS" HAVE_DBUS)
 if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
 feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)
