@@ -12,7 +12,7 @@ on:
       - "topic/*"
 
 env:
-  VCPKG_ROOT: C:\vcpkg
+  VCPKG_ROOT: C:/vcpkg
   VCPKG_BINARY_SOURCES: "clear;nuget,GitHub,readwrite"
   GH_NUGET_REGISTRY: https://nuget.pkg.github.com/rcaelers/index.json
 
