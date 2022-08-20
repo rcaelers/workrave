@@ -87,14 +87,14 @@ jobs:
           submodules: "recursive"
 
       - name: configure
-        run: >
-          cmake -B ${{ github.workspace }}/_build
-            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
-            -DVCPKG_TARGET_TRIPLET=x64-windows
-            -DCMAKE_BUILD_TYPE=Release
-            -DWITH_UI=Gtk+3
-            -DWITH_CRASHPAD=OFF
-            -DWITH_AUTO_UPDATE=ON
+        run: |
+          cmake -B ${{ github.workspace }}/_build \
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=x64-windows \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DWITH_UI=Gtk+3 \
+            -DWITH_CRASHPAD=OFF \
+            -DWITH_AUTO_UPDATE=ON \
             -DWITH_TRACING=ON
 
       - name: build
