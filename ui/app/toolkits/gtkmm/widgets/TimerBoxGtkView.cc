@@ -218,7 +218,7 @@ TimerBoxGtkView::init_table()
   // Compute table dimensions.
   int rows = number_of_timers;
   int columns = 1;
-  int reverse = false;
+  bool reverse = false;
   int tsize = size;
 
   rotation = 0;
@@ -523,7 +523,11 @@ TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   if (transparent)
     {
       cr->set_source_rgba(0, 0, 0, 0);
+#if CAIROMM_CHECK_VERSION(1, 15, 4)
+      cr->set_operator(Cairo::Context::Operator::SOURCE);
+#else
       cr->set_operator(Cairo::OPERATOR_SOURCE);
+#endif
       cr->paint();
     };
 

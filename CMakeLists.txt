@@ -591,7 +591,7 @@ set (GETTEXT_PACKAGE "workrave")
 option(WITH_TRACING "Enable debug tracing" OFF)
 
 if (WITH_TRACING)
-  set (TRACING ON)
+  set (HAVE_TRACING ON)
   #SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 endif()
 
@@ -664,8 +664,8 @@ if (WIN32)
     add_compile_definitions(
       WIN32
       _WINDOWS
-      _WIN32_WINNT=0x0601
-      WINVER=0x0601
+      _WIN32_WINNT=0xA00
+      WINVER=0xA00
       NOMINMAX
       )
   endif()
@@ -963,5 +963,5 @@ if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
 feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)
 endif()
-feature_bool("Debug logs" TRACING)
+feature_bool("Debug logs" HAVE_TRACING)
 feature_bool("Tests" HAVE_TESTS)

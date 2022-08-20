@@ -36,6 +36,8 @@ class MainWindow
   , public workrave::utils::Trackable
 {
 public:
+  using closed_signal_t = sigc::signal<void()>;
+
   MainWindow(std::shared_ptr<IApplicationContext> app);
   ~MainWindow() override;
 
@@ -48,7 +50,7 @@ public:
   void update();
   void relocate_window(int width, int height);
 
-  sigc::signal<void> &signal_closed();
+  closed_signal_t &signal_closed();
 
 private:
   bool on_timer_view_button_press_event(const GdkEventButton *event);
@@ -89,7 +91,7 @@ private:
   Gdk::Point window_relocated_location{-1, -1};
 
   //! Event triggered when the main window has been closed by the user
-  sigc::signal<void> closed_signal;
+  closed_signal_t closed_signal;
 
 private:
   void setup();

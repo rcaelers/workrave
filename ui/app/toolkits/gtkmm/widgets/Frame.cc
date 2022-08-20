@@ -228,7 +228,7 @@ Frame::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color
   cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
 }
 
-sigc::signal1<void, bool> &
+Frame::flash_signal_t &
 Frame::signal_flash()
 {
   return flash_signal_src;

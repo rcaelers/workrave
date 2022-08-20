@@ -21,6 +21,10 @@
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "ui/windows/WindowsForceFocus.hh"
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
 #endif
 
 #include <gtkmm/button.h>
@@ -183,7 +187,7 @@ void
 RestBreakWindow::clear_pluggable_panel()
 {
   TRACE_ENTRY();
-  Glib::ListHandle<Gtk::Widget *> children = pluggable_panel->get_children();
+  auto children = pluggable_panel->get_children();
   if (children.size() > 0)
     {
       TRACE_MSG("Clearing");

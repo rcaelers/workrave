@@ -93,7 +93,7 @@ CClassFactory::CreateInstance(LPUNKNOWN pUnknown, REFIID riid, LPVOID *ppObject)
   // create the proper object
   if (IsEqualCLSID(m_clsidObject, CLSID_WorkraveDeskBand))
     {
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
       Debug::init();
 #endif
 

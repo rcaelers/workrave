@@ -22,6 +22,7 @@
 #include "commonui/Exercise.hh"
 
 #include <gtkmm.h>
+#include <sigc++/sigc++.h>
 
 #define PREVIOUS_BUTTON_ID "media-skip-backward"
 #define CLOSE_BUTTON_ID "window-close"
@@ -32,11 +33,13 @@
 class ExercisesPanel : public Gtk::HBox
 {
 public:
+  using stop_signal_t= sigc::signal<void()>;
+
   ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area);
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
-  sigc::signal0<void> &signal_stop()
+  stop_signal_t &signal_stop()
   {
     return stop_signal;
   }
@@ -87,7 +90,7 @@ private:
   int seq_time{};
   bool paused{};
   bool stopped{};
-  sigc::signal0<void> stop_signal;
+  stop_signal_t stop_signal;
   bool standalone;
   int exercise_num{};
   int exercise_count;

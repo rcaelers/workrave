@@ -22,7 +22,7 @@
 
 #include <assert.h>
 
-#if !defined(TRACING)
+#if !defined(HAVE_TRACING)
 
 #  define TRACE_ENTER(x)
 #  define TRACE_ENTER_MSG(x, y)
@@ -68,6 +68,6 @@ public:
     std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg << std::endl; \
     std::cerr.flush();
 
-#endif // TRACING
+#endif // HAVE_TRACING
 
 #endif // DEBUG_H

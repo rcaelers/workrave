@@ -28,6 +28,7 @@
 #include <spdlog/fmt/ostr.h>
 
 #include <gtkmm.h>
+#include "GtkUtil.hh"
 
 #include "commonui/nls.h"
 
@@ -72,10 +73,17 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
       Gtk::Image *logo = Gtk::manage(new Gtk::Image(pix));
       logobox->pack_start(*logo, false, false, 0);
     }
+ #if GLIBMM_CHECK_VERSION(2, 68, 0)
+  catch (std::exception &e)
+    {
+      spdlog::info("error loading image {}", e.what());
+    }
+#else
   catch (const Glib::Exception &e)
     {
       spdlog::info("error loading image {}", e.what());
     }
+#endif
 
   auto *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
   vbox->set_border_width(6);

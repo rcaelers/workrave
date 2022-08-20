@@ -13,8 +13,8 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
 
   add_compile_definitions(
     WIN32
-    WINVER=0x400
-    _WIN32_WINNT=0x500
+    WINVER=0xA00
+    _WIN32_WINNT=0xA00
     _WINDOWS
     PLATFORM_OS_WINDOWS_NATIVE
   )

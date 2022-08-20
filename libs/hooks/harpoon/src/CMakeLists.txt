@@ -1,4 +1,4 @@
-if (WIN32) 
+if (WIN32)
   if (PLATFORM_ARCH EQUAL 32)
     set(HARPOON_TARGET "harpoon")
     set(HARPOON_INSTALL_DIR "lib32")
@@ -11,14 +11,14 @@ if (WIN32)
     harpoon.c
     harpoon.def
   )
-  add_library(${HARPOON_TARGET} SHARED ${SOURCES})  
+  add_library(${HARPOON_TARGET} SHARED ${SOURCES})
 
-  target_compile_definitions(${HARPOON_TARGET} PRIVATE 
+  target_compile_definitions(${HARPOON_TARGET} PRIVATE
     -DHARPOON_EXPORTS
     -DWIN32
-    -DWINVER=0x400
+    -DWINVER=0xA00
     -D_USRDLL
-    -D_WIN32_WINNT=0x500
+    -D_WIN32_WINNT=0xA00
     -D_WINDOWS
   )
   set_target_properties(${HARPOON_TARGET} PROPERTIES PREFIX "")

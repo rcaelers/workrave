@@ -27,9 +27,14 @@
 #  include "ui/windows/WindowsCompat.hh"
 #  include "ui/windows/WindowsForceFocus.hh"
 #  include <gdk/gdkwin32.h>
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
 #endif
 
 #include <gdk/gdkkeysyms.h>
+#include <cairomm/cairomm.h>
 
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
@@ -87,8 +92,8 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
       if (fullscreen_grab)
         {
           set_app_paintable(true);
-          signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
-          signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed));
+          signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw), false);
+          signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed), false);
           on_screen_changed(get_screen());
           set_size_request(head.get_width(), head.get_height());
         }
@@ -778,7 +783,11 @@ BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     {
       cr->set_source_rgba(0.1, 0.1, 0.1, 0.1);
     }
+#if CAIROMM_CHECK_VERSION(1, 15, 4)
+  cr->set_operator(Cairo::Context::Operator::SOURCE);
+#else
   cr->set_operator(Cairo::OPERATOR_SOURCE);
+#endif
   cr->paint();
   cr->restore();
 
