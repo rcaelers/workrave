@@ -8,13 +8,7 @@
     {
       "kind": "filesystem",
       "path": "vcpkg-registry",
-      "packages": ["gtk3mm", "gtk3"]
-    },
-    {
-      "kind": "git",
-      "repository": "git@github.com:rcaelers/workrave-vcpkg-registry.git",
-      "baseline": "f4ec809d44ad08fc2d3044d6aec73c78b02c7955",
-      "packages": []
+      "packages": ["gtk3mm", "gtk3", "gettext"]
     }
   ]
 }

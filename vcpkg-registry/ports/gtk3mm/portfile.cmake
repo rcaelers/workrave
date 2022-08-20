@@ -21,7 +21,6 @@ vcpkg_extract_source_archive_ex(
 )
 
 vcpkg_add_to_path("${CURRENT_HOST_INSTALLED_DIR}/tools/gdk-pixbuf/")
-message(STATUS "${CURRENT_HOST_INSTALLED_DIR}/tools/gdk-pixbuf/")
 
 vcpkg_configure_meson(
     SOURCE_PATH ${SOURCE_PATH}

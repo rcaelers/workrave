@@ -1,0 +1,21 @@
+diff -ur 0.21-66fbad380c.clean/gettext-tools/src/locating-rule.c 0.21-66fbad380c/gettext-tools/src/locating-rule.c
+--- 0.21-66fbad380c.clean/gettext-tools/src/locating-rule.c	2020-07-05 22:47:41.000000000 +0200
++++ 0.21-66fbad380c/gettext-tools/src/locating-rule.c	2022-08-20 14:36:34.239431200 +0200
+@@ -27,15 +27,8 @@
+ #include "concat-filename.h"
+ #include "c-strcase.h"
+ 
+-#if HAVE_DIRENT_H
+-# include <dirent.h>
+-#endif
+-
+-#if HAVE_DIRENT_H
+-# define HAVE_DIR 1
+-#else
+-# define HAVE_DIR 0
+-#endif
++#include <dirent.h>
++#define HAVE_DIR 1
+ 
+ #include "dir-list.h"
+ #include <errno.h>

@@ -3,8 +3,7 @@
   "version": "1.11.0-alpha.4",
   "dependencies": [
     {
-      "name": "gettext",
-      "version>=": "0.21#3"
+      "name": "gettext"
     },
     {
       "name": "gettext",
