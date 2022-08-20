@@ -63,7 +63,12 @@ public:
   struct MenuItem
   {
     MenuItem() = default;
-    MenuItem(std::string text, std::string dynamic_text, std::string action, uint32_t command, MenuItemType type, uint8_t flags = 0)
+    MenuItem(std::string text,
+             std::string dynamic_text,
+             std::string action,
+             uint32_t command,
+             MenuItemType type,
+             uint8_t flags = 0)
       : text(std::move(text))
       , dynamic_text(std::move(dynamic_text))
       , action(std::move(action))

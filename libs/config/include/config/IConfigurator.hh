@@ -100,7 +100,9 @@ namespace workrave
       virtual void set_value(const std::string &key,
                              int64_t v,
                              workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
-      virtual void set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
+      virtual void set_value(const std::string &key,
+                             bool v,
+                             workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;
       virtual void set_value(const std::string &key,
                              double v,
                              workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) = 0;

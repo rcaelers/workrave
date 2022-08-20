@@ -187,9 +187,10 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
   // get this app's path and file name
   GetModuleFileName(g_hInst, szModule, ARRAYSIZE(szModule));
 
-  DOREGSTRUCT ClsidEntries[] = {{HKEY_CLASSES_ROOT, TEXT("CLSID\\%s"), NULL, lpszTitle},
-                                {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s\\InprocServer32"), NULL, szModule},
-                                {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s\\InprocServer32"), TEXT("ThreadingModel"), TEXT("Apartment")}};
+  DOREGSTRUCT ClsidEntries[] = {
+    {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s"), NULL, lpszTitle},
+    {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s\\InprocServer32"), NULL, szModule},
+    {HKEY_CLASSES_ROOT, TEXT("CLSID\\%s\\InprocServer32"), TEXT("ThreadingModel"), TEXT("Apartment")}};
 
   if (reg)
     {
@@ -199,7 +200,15 @@ RegisterServer(CLSID clsid, LPCTSTR lpszTitle, BOOL reg)
           // create the sub key string - for this case, insert the file extension
           wsprintf(szSubKey, ClsidEntries[i].szSubKey, szCLSID);
 
-          lResult = RegCreateKeyEx(ClsidEntries[i].hRootKey, szSubKey, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, &dwDisp);
+          lResult = RegCreateKeyEx(ClsidEntries[i].hRootKey,
+                                   szSubKey,
+                                   0,
+                                   NULL,
+                                   REG_OPTION_NON_VOLATILE,
+                                   KEY_WRITE,
+                                   NULL,
+                                   &hKey,
+                                   &dwDisp);
 
           if (NOERROR == lResult)
             {

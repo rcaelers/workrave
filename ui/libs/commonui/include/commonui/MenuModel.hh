@@ -218,7 +218,11 @@ namespace menus
 
     RadioNode(std::shared_ptr<RadioGroupNode> group, std::string_view id, std::string text, int value, Activated activated);
 
-    static auto create(std::shared_ptr<RadioGroupNode> group, std::string_view id, std::string text, int value, Activated activated) -> Ptr;
+    static auto create(std::shared_ptr<RadioGroupNode> group,
+                       std::string_view id,
+                       std::string text,
+                       int value,
+                       Activated activated) -> Ptr;
 
     [[nodiscard]] auto get_value() const -> int;
     void set_value(int value);

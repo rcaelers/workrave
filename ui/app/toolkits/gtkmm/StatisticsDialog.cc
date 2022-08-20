@@ -161,30 +161,36 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
                                                                  _("The number of times you were prompted to break, excluding"
                                                                    " repeated prompts for the same break"));
 
-  Gtk::Widget *prompted_label =
-    GtkUtil::create_label_with_tooltip(_("Repeated prompts"), _("The number of times you were repeatedly prompted to break"));
+  Gtk::Widget *prompted_label = GtkUtil::create_label_with_tooltip(
+    _("Repeated prompts"),
+    _("The number of times you were repeatedly prompted to break"));
 
-  Gtk::Widget *taken_label =
-    GtkUtil::create_label_with_tooltip(_("Prompted breaks taken"), _("The number of times you took a break when being prompted"));
+  Gtk::Widget *taken_label = GtkUtil::create_label_with_tooltip(_("Prompted breaks taken"),
+                                                                _("The number of times you took a break when being prompted"));
 
-  Gtk::Widget *natural_label =
-    GtkUtil::create_label_with_tooltip(_("Natural breaks taken"), _("The number of times you took a break without being prompted"));
+  Gtk::Widget *natural_label = GtkUtil::create_label_with_tooltip(
+    _("Natural breaks taken"),
+    _("The number of times you took a break without being prompted"));
 
   Gtk::Widget *skipped_label = GtkUtil::create_label_with_tooltip(_("Breaks skipped"), _("The number of breaks you skipped"));
 
-  Gtk::Widget *postponed_label = GtkUtil::create_label_with_tooltip(_("Breaks postponed"), _("The number of breaks you postponed"));
+  Gtk::Widget *postponed_label = GtkUtil::create_label_with_tooltip(_("Breaks postponed"),
+                                                                    _("The number of breaks you postponed"));
 
   Gtk::Widget *overdue_label = GtkUtil::create_label_with_tooltip(_("Overdue time"), _("The total time this break was overdue"));
 
   Gtk::Widget *usage_label = GtkUtil::create_label_with_tooltip(_("Usage"), _("Active computer usage"));
 
-  Gtk::Widget *daily_usage_label = GtkUtil::create_label_with_tooltip(_("Daily"), _("The total computer usage for the selected day"));
+  Gtk::Widget *daily_usage_label = GtkUtil::create_label_with_tooltip(_("Daily"),
+                                                                      _("The total computer usage for the selected day"));
 
-  Gtk::Widget *weekly_usage_label =
-    GtkUtil::create_label_with_tooltip(_("Weekly"), _("The total computer usage for the whole week of the selected day"));
+  Gtk::Widget *weekly_usage_label = GtkUtil::create_label_with_tooltip(
+    _("Weekly"),
+    _("The total computer usage for the whole week of the selected day"));
 
-  Gtk::Widget *monthly_usage_label =
-    GtkUtil::create_label_with_tooltip(_("Monthly"), _("The total computer usage for the whole month of the selected day"));
+  Gtk::Widget *monthly_usage_label = GtkUtil::create_label_with_tooltip(
+    _("Monthly"),
+    _("The total computer usage for the whole month of the selected day"));
 
   Gtk::HSeparator *hrule = Gtk::manage(new Gtk::HSeparator());
   Gtk::VSeparator *vrule = Gtk::manage(new Gtk::VSeparator());
@@ -269,14 +275,16 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Widget *mouse_time_label = GtkUtil::create_label_with_tooltip(_("Mouse usage:"), _("The total time you were using the mouse"));
-  Gtk::Widget *mouse_movement_label = GtkUtil::create_label_with_tooltip(_("Mouse movement:"), _("The total on-screen mouse movement"));
-  Gtk::Widget *mouse_click_movement_label =
-    GtkUtil::create_label_with_tooltip(_("Effective mouse movement:"),
-                                       _("The total mouse movement you would have had if you moved your "
-                                         "mouse in straight lines between clicks"));
-  Gtk::Widget *mouse_clicks_label =
-    GtkUtil::create_label_with_tooltip(_("Mouse button clicks:"), _("The total number of mouse button clicks"));
+  Gtk::Widget *mouse_time_label = GtkUtil::create_label_with_tooltip(_("Mouse usage:"),
+                                                                     _("The total time you were using the mouse"));
+  Gtk::Widget *mouse_movement_label = GtkUtil::create_label_with_tooltip(_("Mouse movement:"),
+                                                                         _("The total on-screen mouse movement"));
+  Gtk::Widget *mouse_click_movement_label = GtkUtil::create_label_with_tooltip(
+    _("Effective mouse movement:"),
+    _("The total mouse movement you would have had if you moved your "
+      "mouse in straight lines between clicks"));
+  Gtk::Widget *mouse_clicks_label = GtkUtil::create_label_with_tooltip(_("Mouse button clicks:"),
+                                                                       _("The total number of mouse button clicks"));
   Gtk::Widget *keystrokes_label = GtkUtil::create_label_with_tooltip(_("Keystrokes:"), _("The total number of keys pressed"));
 
   int y = 0;
@@ -630,7 +638,8 @@ StatisticsDialog::on_history_delete_all()
         {
           if (statistics->delete_all_history())
             {
-              msg = HigUtil::create_alert_text(_("Files deleted!"), _("The files containing your statistics history have been deleted."));
+              msg = HigUtil::create_alert_text(_("Files deleted!"),
+                                               _("The files containing your statistics history have been deleted."));
               Gtk::MessageDialog mb_info(*this, msg, true, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, false);
               mb_info.set_title(_("Info"));
               mb_info.run();

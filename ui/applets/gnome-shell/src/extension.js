@@ -176,7 +176,7 @@ let CoreProxy = Gio.DBusProxy.makeProxyWrapper(CoreIface);
 const WorkraveButton = GObject.registerClass(
   class WorkraveButton extends PanelMenu.Button {
     _init() {
-      super._init(0.0, null, true);
+      super._init(0.0, null, false);
 
       this._timerbox = new Workrave.Timerbox();
       this._force_icon = false;

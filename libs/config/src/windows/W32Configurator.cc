@@ -173,7 +173,15 @@ W32Configurator::set_value(const std::string &key, const ConfigValue &value)
 
       HKEY handle;
       DWORD disp;
-      LONG err = RegCreateKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
+      LONG err = RegCreateKeyEx(HKEY_CURRENT_USER,
+                                p32.c_str(),
+                                0,
+                                NULL,
+                                REG_OPTION_NON_VOLATILE,
+                                KEY_ALL_ACCESS,
+                                NULL,
+                                &handle,
+                                &disp);
       if (err == ERROR_SUCCESS)
         {
           err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *)v.c_str(), static_cast<DWORD>(v.length() + 1));

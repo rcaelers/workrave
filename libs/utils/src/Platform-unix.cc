@@ -44,10 +44,6 @@
 
 #if defined(HAVE_QT)
 #  include <QtGui>
-#  if defined(HAVE_QT5)
-#    include <qdesktopwidget.h>
-#    include <qpa/qplatformnativeinterface.h>
-#  endif
 #  include <qapplication.h>
 
 #  if defined(PLATFORM_OS_UNIX)

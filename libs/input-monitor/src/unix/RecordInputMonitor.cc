@@ -284,7 +284,8 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
             {
               monitor->handle_xrecord_device_key_event(false, data);
             }
-          else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress || event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
+          else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress
+                   || event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
             {
               monitor->handle_xrecord_device_button_event(data);
             }

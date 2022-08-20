@@ -20,6 +20,7 @@
 #endif
 
 #include "GnomeSession.hh"
+#include "GtkUtil.hh"
 
 #include "debug.hh"
 
@@ -34,17 +35,29 @@ GnomeSession::init()
 {
   try
     {
-      auto proxy = Gio::DBus::Proxy::create_for_bus_sync(Gio::DBus::BUS_TYPE_SESSION,
+      auto proxy = Gio::DBus::Proxy::create_for_bus_sync(
+#if GLIBMM_CHECK_VERSION(2, 55, 0)
+                                                        Gio::DBus::BusType::SESSION,
+#else
+                                                        Gio::DBus::BUS_TYPE_SESSION,
+#endif
                                                          "org.gnome.SessionManager",
                                                          "/org/gnome/SessionManager/Presence",
                                                          "org.gnome.SessionManager.Presence");
 
       proxy->signal_signal().connect(sigc::mem_fun(*this, &GnomeSession::on_signal));
     }
-  catch (Gio::DBus::Error &dbusError)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+  catch (std::exception &e)
     {
-      std::cerr << dbusError.what() << std::endl;
+      std::cerr << e.what() << std::endl;
     }
+#else
+  catch (const Glib::Exception &e)
+    {
+      std::cerr << e.what() << std::endl;
+    }
+#endif
 }
 
 void
@@ -59,8 +72,15 @@ GnomeSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
           toolkit->signal_session_idle_changed()(session_status.get() == 3);
         }
     }
-  catch (Gio::DBus::Error &dbusError)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+  catch (std::exception &e)
     {
-      std::cerr << dbusError.what() << std::endl;
+      std::cerr << e.what() << std::endl;
     }
+#else
+  catch (const Glib::Exception &e)
+    {
+      std::cerr << e.what() << std::endl;
+    }
+#endif
 }

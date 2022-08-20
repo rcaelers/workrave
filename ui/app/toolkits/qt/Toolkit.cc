@@ -49,9 +49,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   setQuitOnLastWindowClosed(false);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-#endif
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
@@ -59,10 +56,12 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   main_window = new MainWindow(app);
   main_window->init();
 
-  // event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &Toolkit::on_main_window_closed)));
+  // event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this,
+  // &Toolkit::on_main_window_closed)));
 
   status_icon = std::make_shared<StatusIcon>(app);
-  // event_connections.emplace_back(status_icon->signal_activated().connect(sigc::mem_fun(*this, &Toolkit::on_status_icon_activated)));
+  // event_connections.emplace_back(status_icon->signal_activated().connect(sigc::mem_fun(*this,
+  // &Toolkit::on_status_icon_activated)));
   // event_connections.emplace_back(status_icon->signal_balloon_activated().connect(sigc::mem_fun(*this,
   // &Toolkit::on_status_icon_balloon_activated)));
 
@@ -280,7 +279,10 @@ Toolkit::create_oneshot_timer(int ms, std::function<void()> func)
 }
 
 void
-Toolkit::show_notification(const std::string &id, const std::string &title, const std::string &balloon, std::function<void()> func)
+Toolkit::show_notification(const std::string &id,
+                           const std::string &title,
+                           const std::string &balloon,
+                           std::function<void()> func)
 {
   notify_add_confirm_funcation(id, func);
   status_icon->show_balloon(QString::fromStdString(id), QString::fromStdString(title), QString::fromStdString(balloon));

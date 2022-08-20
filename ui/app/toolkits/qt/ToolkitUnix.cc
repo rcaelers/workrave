@@ -73,7 +73,10 @@ ToolkitUnix::get_locker()
 }
 
 void
-ToolkitUnix::show_notification(const std::string &id, const std::string &title, const std::string &balloon, std::function<void()> func)
+ToolkitUnix::show_notification(const std::string &id,
+                               const std::string &title,
+                               const std::string &balloon,
+                               std::function<void()> func)
 {
   notify_add_confirm_funcation(id, func);
   auto notification = Gio::Notification::create("Workrave");

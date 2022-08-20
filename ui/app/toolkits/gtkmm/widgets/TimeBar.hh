@@ -22,6 +22,7 @@
 
 #include <gtkmm.h>
 #include <gdkmm.h>
+#include <gdkmm/types.h>
 
 #include "ui/UiTypes.hh"
 

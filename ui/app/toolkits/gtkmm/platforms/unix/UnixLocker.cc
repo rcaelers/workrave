@@ -53,7 +53,8 @@ UnixLocker::lock()
           grabbed = lock_internal();
           if (!grabbed && !grab_retry_connection.connected())
             {
-              grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UnixLocker::on_lock_retry_timer), 2000);
+              grab_retry_connection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &UnixLocker::on_lock_retry_timer),
+                                                                     2000);
             }
         }
     }
@@ -115,7 +116,8 @@ UnixLocker::lock_internal()
                                           grab_window,
                                           GDK_OWNERSHIP_NONE,
                                           TRUE,
-                                          (GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
+                                          (GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
+                                                         | GDK_POINTER_MOTION_MASK),
                                           nullptr,
                                           GDK_CURRENT_TIME);
 

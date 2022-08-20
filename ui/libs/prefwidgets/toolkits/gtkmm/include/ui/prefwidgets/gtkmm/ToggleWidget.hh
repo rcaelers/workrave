@@ -31,7 +31,9 @@ namespace ui::prefwidgets::gtkmm
   class ToggleWidget : public Widget
   {
   public:
-    ToggleWidget(std::shared_ptr<ui::prefwidgets::Toggle> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
+    ToggleWidget(std::shared_ptr<ui::prefwidgets::Toggle> def,
+                 std::shared_ptr<ContainerWidget> container,
+                 BuilderRegistry *registry);
     ~ToggleWidget() override = default;
 
   private:

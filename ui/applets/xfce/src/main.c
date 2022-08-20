@@ -455,7 +455,10 @@ workrave_applet_construct(XfcePanelPlugin *plugin)
   applet->alive = FALSE;
   applet->inhibit = 0;
 
-  applet->menus = g_hash_table_new_full(g_int64_hash, g_int64_equal, (GDestroyNotify)g_free, NULL); // (GDestroyNotify)g_object_unref);
+  applet->menus = g_hash_table_new_full(g_int64_hash,
+                                        g_int64_equal,
+                                        (GDestroyNotify)g_free,
+                                        NULL); // (GDestroyNotify)g_object_unref);
 
   workrave_applet_fill(applet);
   xfce_panel_plugin_set_expand(plugin, FALSE);

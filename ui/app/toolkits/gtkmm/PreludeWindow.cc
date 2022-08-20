@@ -57,7 +57,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   if (!Platform::can_position_windows())
     {
       set_app_paintable(true);
-      signal_draw().connect(sigc::mem_fun(*this, &PreludeWindow::on_draw_event));
+      signal_draw().connect(sigc::mem_fun(*this, &PreludeWindow::on_draw_event), false);
       signal_screen_changed().connect(sigc::mem_fun(*this, &PreludeWindow::on_screen_changed_event));
       on_screen_changed_event(get_screen());
       set_size_request(head.get_width(), head.get_height());
@@ -166,7 +166,7 @@ PreludeWindow::add(Gtk::Widget &widget)
         }
 
       window_frame->add_events(Gdk::ENTER_NOTIFY_MASK);
-      window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event));
+      window_frame->signal_enter_notify_event().connect(sigc::mem_fun(*this, &PreludeWindow::on_enter_notify_event), false);
     }
 
   window_frame->add(widget);
@@ -348,11 +348,11 @@ PreludeWindow::avoid_pointer()
     {
       if (winy == bottom_y)
         {
-          align->set(0.5, 0.9, 0.0, 0.0);
+          align->set(0.5f, 0.9f, 0.0f, 0.0f);
         }
       else
         {
-          align->set(0.5, 0.1, 0.0, 0.0);
+          align->set(0.5f, 0.1f, 0.0f, 0.0f);
         }
     }
   else
@@ -367,7 +367,11 @@ PreludeWindow::on_draw_event(const Cairo::RefPtr<Cairo::Context> &cr)
 {
   cr->save();
   cr->set_source_rgba(0.0, 0.0, 0.0, 0.0);
+#if CAIROMM_CHECK_VERSION(1, 15, 4)
+  cr->set_operator(Cairo::Context::Operator::SOURCE);
+#else
   cr->set_operator(Cairo::OPERATOR_SOURCE);
+#endif
   cr->paint();
   cr->restore();
 

@@ -40,7 +40,9 @@ if (WIN32)
     -D_WINDOWS
   )
 
-  target_compile_options(${APPLET_TARGET} PRIVATE -Wno-missing-exception-spec)
+  if (NOT MSVC)
+    target_compile_options(${APPLET_TARGET} PRIVATE -Wno-missing-exception-spec)
+  endif()
 
   if (WITH_TRACING)
     target_compile_definitions(${APPLET_TARGET} PRIVATE -DTRACING)

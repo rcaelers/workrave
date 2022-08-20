@@ -29,7 +29,9 @@ if (HAVE_TESTS)
 
   if (PLATFORM_OS_WINDOWS)
     target_include_directories(workrave-config-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/windows)
-    target_link_libraries(workrave-config-test PRIVATE libssp)
+    if (SSP_LIBRARY)
+      target_link_libraries(workrave-config-test PRIVATE ${SSP_LIBRARY})
+    endif()
   endif()
 
   add_test(NAME workrave-config-test COMMAND workrave-config-test)

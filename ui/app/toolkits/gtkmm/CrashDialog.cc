@@ -67,8 +67,8 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
 
   if (!attachments.empty())
     {
-      auto *attachments_label =
-        Gtk::manage(new Gtk::Label(_("The following logging will be attached to the crash report:"), Gtk::ALIGN_START));
+      auto *attachments_label = Gtk::manage(
+        new Gtk::Label(_("The following logging will be attached to the crash report:"), Gtk::ALIGN_START));
       vbox->pack_start(*attachments_label, false, false, 0);
 
       auto *attachments_frame = Gtk::manage(new Gtk::Frame);
@@ -106,9 +106,9 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
         }
     }
 
-  auto *more_info_label = Gtk::manage(
-    new Gtk::Label(_("Note that this crash report also contains technical information about the state of Workrave when it crashed."),
-                   Gtk::ALIGN_START));
+  auto *more_info_label = Gtk::manage(new Gtk::Label(
+    _("Note that this crash report also contains technical information about the state of Workrave when it crashed."),
+    Gtk::ALIGN_START));
   vbox->pack_start(*more_info_label, false, false, 0);
 
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
@@ -172,8 +172,8 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
   details_btn->signal_clicked().connect(sigc::mem_fun(*this, &CrashDialog::on_details_clicked));
   details_hbox->pack_start(*details_btn, false, false, 0);
 
-  // user_text_label = Gtk::manage(new Gtk::Label(_("Please describe what was happening just before the crash:"), Gtk::ALIGN_START));
-  // ibox->pack_start(*user_text_label, false, false, 0);
+  // user_text_label = Gtk::manage(new Gtk::Label(_("Please describe what was happening just before the crash:"),
+  // Gtk::ALIGN_START)); ibox->pack_start(*user_text_label, false, false, 0);
 
   user_text_frame = Gtk::manage(new Gtk::Frame);
   user_text_frame->set_shadow_type(Gtk::SHADOW_IN);
@@ -229,7 +229,8 @@ CrashDialog::get_consent() const
 }
 
 bool
-UserInteraction::requestUserConsent(const std::map<std::string, std::string> &annotations, const std::vector<base::FilePath> &attachments)
+UserInteraction::requestUserConsent(const std::map<std::string, std::string> &annotations,
+                                    const std::vector<base::FilePath> &attachments)
 {
   SetEnvironmentVariableA("GTK_DEBUG", 0);
   SetEnvironmentVariableA("G_MESSAGES_DEBUG", 0);
@@ -278,7 +279,7 @@ namespace
   int HandlerMainAdaptor(int argc, char *argv[])
   {
     LOG(INFO) << "Workrave crashed.";
-    UserInteraction *user_interaction = new UserInteraction;
+    auto *user_interaction = new UserInteraction;
     int ret = crashpad::HandlerMain(argc, argv, nullptr, user_interaction);
     LOG(INFO) << "Crash handled";
     delete user_interaction;

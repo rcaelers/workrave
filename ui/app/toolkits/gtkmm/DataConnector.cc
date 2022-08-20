@@ -84,7 +84,10 @@ DataConnector::connect(const string &setting, DataConnection *connection, dc::Fl
 
 //! Connect a widget to a configuration item.
 void
-DataConnector::connect(const string &setting, DataConnection *connection, sigc::slot<bool, const string &, bool> slot, dc::Flags flags)
+DataConnector::connect(const string &setting,
+                       DataConnection *connection,
+                       sigc::slot<bool, const string &, bool> slot,
+                       dc::Flags flags)
 {
   if (connection != nullptr)
     {

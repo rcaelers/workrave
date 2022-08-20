@@ -51,7 +51,7 @@ RUN echo "%_install_langs all" >/etc/rpm/macros.image-language-conf && \
     dnf -y clean all
 
 RUN mkdir -p /home/vscode/.local/share/CMakeTools && \
-    echo '[{"name":"MinGW","toolchainFile": "${workspaceFolder}/build/cmake/toolchains/mingw64-clang.cmake"}]' >/home/vscode/.local/share/CMakeTools/cmake-tools-kits.json && \
+    echo '[{"name":"MinGW","toolchainFile": "${workspaceFolder}/cmake/toolchains/mingw64-clang.cmake"}]' >/home/vscode/.local/share/CMakeTools/cmake-tools-kits.json && \
     chown vscode /home/vscode/.local/share/CMakeTools/cmake-tools-kits.json
 
 RUN mkdir -p /workspace

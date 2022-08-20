@@ -30,7 +30,9 @@ namespace ui::prefwidgets::gtkmm
   class ChoiceWidget : public Widget
   {
   public:
-    ChoiceWidget(std::shared_ptr<ui::prefwidgets::Choice> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
+    ChoiceWidget(std::shared_ptr<ui::prefwidgets::Choice> def,
+                 std::shared_ptr<ContainerWidget> container,
+                 BuilderRegistry *registry);
     ~ChoiceWidget() override = default;
 
   private:

@@ -25,7 +25,9 @@
 
 using namespace ui::prefwidgets::gtkmm;
 
-SpinWidget::SpinWidget(std::shared_ptr<ui::prefwidgets::Value> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry)
+SpinWidget::SpinWidget(std::shared_ptr<ui::prefwidgets::Value> def,
+                       std::shared_ptr<ContainerWidget> container,
+                       BuilderRegistry *registry)
   : Widget(registry)
   , def(def)
 {
@@ -46,7 +48,7 @@ SpinWidget::init_ui(std::shared_ptr<ContainerWidget> container)
     widget->set_sensitive(def->get_sensitive());
   });
   widget->signal_changed().connect([this]() {
-    int v = widget->get_value();
+    int v = static_cast<int>(widget->get_value());
     def->set_value(v);
   });
 

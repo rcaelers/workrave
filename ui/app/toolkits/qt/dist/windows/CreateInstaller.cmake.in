@@ -6,7 +6,7 @@ if(POLICY CMP0012)
 endif()
 
 # TODO: Duplicate information.
-list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/build/cmake/modules")
+list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/cmake/modules")
 
 message(STATUS "Resolving dependencies. This may take a while")
 

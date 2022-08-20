@@ -81,7 +81,8 @@ W32ActiveSetup::is_os_64()
 
   GetNativeSystemInfo(&si);
 
-  return ((si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) || (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64));
+  return ((si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64)
+          || (si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64));
 }
 
 /* W32ActiveSetup::get_user_profile_dir()
@@ -139,7 +140,11 @@ W32ActiveSetup::check_guid(const enum reg reg, // HKLM or HKCU
   keyname += guid;
 
   HKEY hkey = NULL;
-  LONG ret = RegOpenKeyExW(root_hkey, keyname.c_str(), 0, (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view), &hkey);
+  LONG ret = RegOpenKeyExW(root_hkey,
+                           keyname.c_str(),
+                           0,
+                           (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view),
+                           &hkey);
 
   if (ret)
     return false;
@@ -166,8 +171,11 @@ W32ActiveSetup::is_guid_enabled(const wstring &guid)
   keyname += guid;
 
   HKEY hkey = NULL;
-  LONG ret =
-    RegOpenKeyExW(HKEY_LOCAL_MACHINE, keyname.c_str(), 0, (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view), &hkey);
+  LONG ret = RegOpenKeyExW(HKEY_LOCAL_MACHINE,
+                           keyname.c_str(),
+                           0,
+                           (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view),
+                           &hkey);
 
   if (ret)
     return false;
@@ -223,7 +231,11 @@ W32ActiveSetup::read_from_registry_value(const enum reg reg, // HKLM or HKCU
   keyname += guid;
 
   HKEY hkey = NULL;
-  LONG ret = RegOpenKeyExW(root_hkey, keyname.c_str(), 0, (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view), &hkey);
+  LONG ret = RegOpenKeyExW(root_hkey,
+                           keyname.c_str(),
+                           0,
+                           (STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | W32ActiveSetup::registry_view),
+                           &hkey);
 
   if (ret)
     return false;
@@ -284,7 +296,12 @@ W32ActiveSetup::write_to_registry_value(const wstring &guid, const wstring &valu
   if (ret)
     return false;
 
-  ret = RegSetValueExW(hkey, value.c_str(), 0, REG_SZ, (const BYTE *)data.c_str(), static_cast<int>((data.length() + 1) * sizeof(wchar_t)));
+  ret = RegSetValueExW(hkey,
+                       value.c_str(),
+                       0,
+                       REG_SZ,
+                       (const BYTE *)data.c_str(),
+                       static_cast<int>((data.length() + 1) * sizeof(wchar_t)));
 
   CloseHandle(hkey);
 
@@ -483,11 +500,11 @@ W32ActiveSetup::create_process(LPVOID lpParam)
 
   if (W32ActiveSetup::is_os_64())
     {
-      pWow64DisableWow64FsRedirection =
-        (BOOL(WINAPI *)(void **))GetProcAddress(GetModuleHandleA("kernel32"), "Wow64DisableWow64FsRedirection");
+      pWow64DisableWow64FsRedirection = (BOOL(WINAPI *)(void **))GetProcAddress(GetModuleHandleA("kernel32"),
+                                                                                "Wow64DisableWow64FsRedirection");
 
-      pWow64RevertWow64FsRedirection =
-        (BOOL(WINAPI *)(void *))GetProcAddress(GetModuleHandleA("kernel32"), "Wow64RevertWow64FsRedirection");
+      pWow64RevertWow64FsRedirection = (BOOL(WINAPI *)(void *))GetProcAddress(GetModuleHandleA("kernel32"),
+                                                                              "Wow64RevertWow64FsRedirection");
     }
 
   if (pWow64DisableWow64FsRedirection && pWow64RevertWow64FsRedirection)

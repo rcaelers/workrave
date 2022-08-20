@@ -1,0 +1,39 @@
+#cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
+#cmakedefine DBUS_BACKEND
+#cmakedefine ENABLE_NLS
+#cmakedefine GETTEXT_PACKAGE "${GETTEXT_PACKAGE}"
+#cmakedefine HAVE_APP_GTK
+#cmakedefine HAVE_APP_QT
+#cmakedefine HAVE_CORE_NEXT
+#cmakedefine HAVE_CRASHPAD
+#cmakedefine HAVE_CRASH_REPORT
+#cmakedefine HAVE_DBUS
+#cmakedefine HAVE_DBUS_GIO
+#cmakedefine HAVE_DBUS_QT
+#cmakedefine HAVE_DBUS_TEST_GIO
+#cmakedefine HAVE_GLIB
+#cmakedefine HAVE_GSETTINGS
+#cmakedefine HAVE_GSTREAMER
+#cmakedefine HAVE_GTK
+#cmakedefine HAVE_HARPOON
+#cmakedefine HAVE_INDICATOR
+#cmakedefine HAVE_INDICATOR_AYATANA
+#cmakedefine HAVE_ISHELLDISPATCH
+#cmakedefine HAVE_LANGUAGE_SELECTION
+#cmakedefine HAVE_LIBINTL
+#cmakedefine HAVE_MMDEVICEAPI_H
+#cmakedefine HAVE_MONITORS "${HAVE_MONITORS}"
+#cmakedefine HAVE_PULSE
+#cmakedefine HAVE_QT
+#cmakedefine HAVE_SETLOCALE
+#cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCT
+#cmakedefine HAVE_STRUCT_MOUSEHOOKSTRUCTEX
+#cmakedefine HAVE_TESTS
+#cmakedefine HAVE_UNFOLD_AUTO_UPDATE
+#cmakedefine HAVE_XRECORD
+#cmakedefine WORKRAVE_VERSION "${WORKRAVE_VERSION}"
+#cmakedefine PLATFORM_OS_MACOS
+#cmakedefine PLATFORM_OS_UNIX
+#cmakedefine PLATFORM_OS_WINDOWS
+#cmakedefine PLATFORM_OS_WINDOWS_NATIVE
+#cmakedefine HAVE_TRACING

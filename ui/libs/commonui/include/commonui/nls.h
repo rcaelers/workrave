@@ -22,7 +22,10 @@
 #ifndef WORKRAVE_UI_COMMON_NLS_H
 #define WORKRAVE_UI_COMMON_NLS_H
 
-#if defined(ENABLE_NLS)
+#if defined(HAVE_QT)
+#  include <QObject>
+#  define _(String) QObject::tr(String).toUtf8().constData()
+#elif defined(HAVE_LIBINTL)
 #  include <locale.h>
 #  include <libintl.h>
 // libintl #defines 'snprintf' to 'libintl_snprintf'

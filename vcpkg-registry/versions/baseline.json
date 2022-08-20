@@ -1,0 +1,16 @@
+{
+  "default": {
+    "gtk3": {
+      "baseline": "3.24.34",
+      "port-version": 0
+    },
+    "gtk3mm": {
+      "baseline": "3.24.5",
+      "port-version": 0
+    },
+    "gettext": {
+      "baseline": "0.21",
+      "port-version": 9
+    }
+  }
+}

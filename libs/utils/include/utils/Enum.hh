@@ -27,7 +27,8 @@
 namespace workrave::utils
 {
   template<typename Enum>
-  using is_scoped_enum = std::conjunction<std::is_enum<Enum>, std::negation<std::is_convertible<Enum, std::underlying_type_t<Enum>>>>;
+  using is_scoped_enum = std::conjunction<std::is_enum<Enum>,
+                                          std::negation<std::is_convertible<Enum, std::underlying_type_t<Enum>>>>;
 
   template<typename Enum>
   static constexpr bool is_scoped_enum_v = is_scoped_enum<Enum>::value;

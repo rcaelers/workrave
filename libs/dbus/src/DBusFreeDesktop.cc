@@ -92,7 +92,10 @@ DBusFreeDesktop::register_service(const std::string &service)
 
   dbus_error_init(&error);
 
-  result = dbus_bus_request_name(connection, service.c_str(), DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_DO_NOT_QUEUE, &error);
+  result = dbus_bus_request_name(connection,
+                                 service.c_str(),
+                                 DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_DO_NOT_QUEUE,
+                                 &error);
 
   if (dbus_error_is_set(&error))
     {

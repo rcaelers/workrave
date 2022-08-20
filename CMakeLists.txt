@@ -2,12 +2,19 @@ if (DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 endif()
 
-project(Workrave)
+# cmake_policy(SET CMP0003 NEW)
+# cmake_policy(SET CMP0007 NEW)
+# cmake_policy(SET CMP0011 NEW)
+if(POLICY CMP0135)
+cmake_policy(SET CMP0135 NEW)
+endif()
 
 cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build/cmake/modules")
+project(Workrave)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 # Require out of source build.
 include(MacroEnsureOutOfSourceBuild)
@@ -17,8 +24,8 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.0-alpha.2" )
-set (WORKRAVE_RESOURCE_VERSION "1,10,999,2" )
+set (WORKRAVE_VERSION "1.11.0-alpha.3" )
+set (WORKRAVE_RESOURCE_VERSION "1,10,999,3" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -31,55 +38,50 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(FindPythonModule)
 include(ExternalProject)
-
-if (NOT VCPKG_TOOLCHAIN)
   include(FindPkgConfig)
-endif()
 
 #----------------------------------------------------------------------------------------------------
 # Macros
 
-if (NOT VCPKG_TOOLCHAIN)
-  macro(pkgconfig_get_var OUT PKG VARNAME)
-    if (LOCALINSTALL)
-      set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
-    endif()
+macro(pkgconfig_get_var OUT PKG VARNAME)
+  if (LOCALINSTALL)
+    set(NEWPREFIX "--define-variable=prefix=${CMAKE_INSTALL_PREFIX}")
+  endif()
 
-    execute_process(
-      COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
-      OUTPUT_VARIABLE _result
-      RESULT_VARIABLE _null
-    )
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=${VARNAME} ${NEWPREFIX} ${PKG}
+    OUTPUT_VARIABLE _result
+    RESULT_VARIABLE _null
+  )
 
-    if (_null)
-    else()
-      string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-      string(REGEX REPLACE " +$" ""  _result "${_result}")
-      separate_arguments(_result)
-      set (${OUT} ${_result} CACHE INTERNAL "")
-    endif()
-  endmacro()
+  if (_null)
+  else()
+    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+    string(REGEX REPLACE " +$" ""  _result "${_result}")
+    separate_arguments(_result)
+    set (${OUT} ${_result} CACHE INTERNAL "")
+  endif()
+endmacro()
 
-  macro(pkgconfig_get_requires OUT PKG)
-    if (LOCALINSTALL)
-      set(NEWPREFIX "--define-variable=prefix=/")
-    endif()
+macro(pkgconfig_get_requires OUT PKG)
+  if (LOCALINSTALL)
+    set(NEWPREFIX "--define-variable=prefix=/")
+  endif()
 
-    execute_process(
-      COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
-      OUTPUT_VARIABLE _result
-      RESULT_VARIABLE _null
-    )
+  execute_process(
+    COMMAND ${PKG_CONFIG_EXECUTABLE} --print-requires ${NEWPREFIX} ${PKG}
+    OUTPUT_VARIABLE _result
+    RESULT_VARIABLE _null
+  )
 
-    if (_null)
-    else()
-      string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-      string(REGEX REPLACE " +$" ""  _result "${_result}")
-      separate_arguments(_result)
-      set (${OUT} ${_result} CACHE INTERNAL "")
-    endif()
-  endmacro()
-endif()
+  if (_null)
+  else()
+    string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+    string(REGEX REPLACE " +$" ""  _result "${_result}")
+    separate_arguments(_result)
+    set (${OUT} ${_result} CACHE INTERNAL "")
+  endif()
+endmacro()
 
 macro(files_exists OUT DIRECTORY FILES)
 set (${OUT} TRUE)
@@ -231,6 +233,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Python
 
+set(Python3_FIND_REGISTRY "LAST")
 find_package(Python3 COMPONENTS Interpreter)
 
 #----------------------------------------------------------------------------------------------------
@@ -256,28 +259,15 @@ endif()
 if ("${WITH_UI}" STREQUAL "Gtk+3")
   message(STATUS "Checking for: Gtk 3")
 
-  if (NOT VCPKG_TOOLCHAIN)
-    pkg_check_modules(
-      GTK REQUIRED
-      gtkmm-3.0>=3.22.0
-      gtk+-3.0>=3.22.0)
+  pkg_check_modules(
+    GTK REQUIRED
+    gtkmm-3.0>=3.22.0
+    gtk+-3.0>=3.22.0)
 
-    pkg_check_modules(
-      GLIB REQUIRED
-      glib-2.0>=2.56.0
-      gio-2.0>=2.56.0)
-  else()
-    set(LIBS atk-1.0 atkmm cairo cairomm-1.0 gdk_pixbuf-2.0 gdk-3.0 gdkmm gio-2.0 giomm glib-2.0 glibmm gobject-2.0 gtk-3.0 gtkmm libintl pango-1.0 pangomm sigc-2.0)
-    foreach(lib ${LIBS})
-     find_library(${lib}_PATH ${lib} RERQUIRED)
-      if(${lib}_PATH)
-        set(GTK_LIBRARIES ${GTK_LIBRARIES} ${${lib}_PATH})
-      else()
-        message(STATUS "Could not find ${lib}")
-      endif()
-    endforeach()
-    find_path(GTK_INCLUDE_DIRS gtkmm.h)
-  endif()
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.56.0
+    gio-2.0>=2.56.0)
 
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -342,24 +332,15 @@ endif()
 if ("${WITH_UI}" STREQUAL "Qt")
   message(STATUS "Checking for: Qt")
 
-  find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+  find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools REQUIRED)
-
-  if (Qt6_FOUND)
-      set (HAVE_QT6 ON)
-  elseif (Qt5_FOUND)
-    if (APPLE)
-      find_package(Qt5MacExtras REQUIRED)
-    endif()
-    set (HAVE_QT5 ON)
-  endif()
 
   get_target_property(QT_LRELEASE_EXECUTABLE Qt::lrelease LOCATION)
 
   if (TARGET Qt::lconvert)
     get_target_property(QT_LCONVERT_EXECUTABLE Qt::lconvert LOCATION)
   else()
-    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} PATH)
+    get_filename_component(QT_LRELEASE_PATH ${QT_LRELEASE_EXECUTABLE} DIRECTORY)
     find_program(QT_LCONVERT_EXECUTABLE
                  NAMES lconvert-qt6 lconvert
                  PATHS ${QT_LRELEASE_PATH}
@@ -373,12 +354,9 @@ if ("${WITH_UI}" STREQUAL "Qt")
 
   if (WITH_DBUS)
     find_package(Qt6DBus QUIET)
-    if (NOT Qt6DBus_FOUND)
-      find_package(Qt5DBus QUIET)
-    endif()
   endif()
 
-  if (Qt6DBus_FOUND OR Qt5DBus_FOUND)
+  if (Qt6DBus_FOUND)
       set (HAVE_DBUS ON)
       set (HAVE_DBUS_QT ON)
       set (DBUS_BACKEND "qt")
@@ -391,10 +369,9 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 
   set (HAVE_QT ON)
-  set (HAVE_QT6 ON)
   set (HAVE_APP_QT ON)
 
-  if (Qt5_POSITION_INDEPENDENT_CODE)
+  if (Qt6_POSITION_INDEPENDENT_CODE)
     set (CMAKE_POSITION_INDEPENDENT_CODE ON)
   endif()
 
@@ -631,23 +608,20 @@ foreach(line ${pofile})
 endforeach()
 string(STRIP ${ALL_LINGUAS} ALL_LINGUAS)
 
-if(CMAKE_TOOLCHAIN_FILE MATCHES vcpkg)
-    find_package(unofficial-gettext REQUIRED)
-    set (ENABLE_NLS ON) # TODO: remove ENABLE_NLS
+find_package(Gettext)
+find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+
+if (HAVE_QT)
+  set (ENABLE_NLS ON)
+  set (HAVE_LIBINTL OFF)
 else()
-   find_package(Gettext)
-   find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
+  find_package(Libintl)
 
-  if (HAVE_QT5)
-    set (ENABLE_NLS ON)
+  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
+    message(STATUS "GetText not found - disabling i18n")
   else()
-    find_package(Libintl)
-
-    if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
-      message(STATUS "GetText not found - disabling i18n")
-    else()
-      set (ENABLE_NLS ON)
-    endif()
+    set (ENABLE_NLS ON)
+    set (HAVE_LIBINTL ON)
   endif()
 endif()
 
@@ -661,7 +635,7 @@ set (GETTEXT_PACKAGE "workrave")
 option(WITH_TRACING "Enable debug tracing" OFF)
 
 if (WITH_TRACING)
-  set (TRACING ON)
+  set (HAVE_TRACING ON)
   #SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 endif()
 
@@ -672,7 +646,13 @@ endif()
 
 if (WIN32)
   option(WITH_CRASHPAD "Use crashpad" OFF)
+  option(WITH_AUTO_UPDATE "Use unfold auto-update" OFF)
   option(ISCC "Inno Setup Compiler")
+  set(ISCC_FLAGS "" CACHE STRING "Inno Setup Compiler Arguments")
+
+  if (WITH_AUTO_UPDATE)
+    set (HAVE_UNFOLD_AUTO_UPDATE ON)
+  endif()
 
   set (PLATFORM_OS_WINDOWS ON)
   set (PLATFORM_OS_NAME "Windows")
@@ -682,36 +662,19 @@ if (WIN32)
 
   set (HAVE_HARPOON ON)
 
-  find_program(MSYS2_SHELL
-               NAMES msys2_shell.cmd
-               PATHS
-               "$ENV{RUNNER_TEMP}/msys64")
-  if (MSYS2_SHELL)
-    set(MSYS_CMD ${MSYS2_SHELL})
-  else()
-    include(FindMsys)
-  endif()
-
-  if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
-    set(HAVE_CRASH_REPORT OFF)
-    set(HAVE_CRASHPAD OFF)
-    if(WITH_CRASHPAD)
-      find_package(crashpad REQUIRED)
-      find_program(DUMP_SYMS dump_syms)
-
-      if (crashpad_FOUND)
-        set(HAVE_CRASHPAD ON)
-        set(HAVE_CRASH_REPORT ON)
-        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-          set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
-          set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
-          add_compile_options(-gdwarf -gcodeview)
-        else()
-          message(STATUS "Crashpad requires Clang")
-        endif()
-      endif()
+  if (NOT MSVC)
+    find_program(MSYS2_SHELL
+                NAMES msys2_shell.cmd
+                PATHS
+                "$ENV{RUNNER_TEMP}/msys64")
+    if (MSYS2_SHELL)
+      set(MSYS_CMD ${MSYS2_SHELL})
+    else()
+      include(FindMsys)
     endif()
   endif()
+
+  find_library(SSP_LIBRARY libssp)
 
   if (NOT ISCC)
     if (NOT WINE)
@@ -735,17 +698,18 @@ if (WIN32)
   if (MSVC)
     add_compile_definitions(_CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _SCL_SECURE_NO_WARNINGS)
 
-    set (MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
+    set (MSVC_WARNINGS "/W2 /wd4127 /wd4250 /wd4413 /wd4800 /wd5045")
     set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
 
     set (CMAKE_DEBUG_POSTFIX "d")
 
+    add_compile_options(/bigobj /Zc:__cplusplus)
     add_compile_definitions(
       WIN32
       _WINDOWS
-      _WIN32_WINNT=0x0601
-      WINVER=0x0601
+      _WIN32_WINNT=0xA00
+      WINVER=0xA00
       NOMINMAX
       )
   endif()
@@ -839,8 +803,68 @@ if(NOT ${spdlog_FOUND})
       GIT_SHALLOW TRUE
       GIT_TAG v1.10.0
     )
+  set(SPDLOG_INSTALL ON)
   set(SPDLOG_BUILD_SHARED ON)
   FetchContent_MakeAvailable(spdlog)
+endif()
+# TODO: remove workaround
+add_compile_definitions(FMT_DEPRECATED_OSTREAM)
+
+#----------------------------------------------------------------------------------------------------
+# Crash reporting - Windows
+
+if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+  set(HAVE_CRASH_REPORT OFF)
+  set(HAVE_CRASHPAD OFF)
+  if (WITH_CRASHPAD)
+
+    FetchContent_Declare(
+      crashpad
+      GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
+      # GIT_SHALLOW TRUE
+      GIT_TAG fcf9c18d272a6568a66bc0a5c5edd93605193af2
+    )
+    FetchContent_MakeAvailable(crashpad)
+
+    find_program(CARGO "cargo")
+    if (NOT CARGO)
+      message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
+    endif()
+
+    # TODO: add for upload of symbols
+    # FetchContent_Declare(
+    #   breakpad
+    #   GIT_REPOSITORY
+    #   GIT_SHALLOW TRUE
+    #   GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
+    # )
+    # FetchContent_MakeAvailable(breakpad)
+
+    FetchContent_Declare(
+      dump_syms
+      GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
+      GIT_TAG fcd4bf0a3ecdb9a18480c4fae05fba2dce4a5169
+    )
+    FetchContent_MakeAvailable(dump_syms)
+
+    set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
+    add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
+    add_custom_command(
+      OUTPUT ${DUMP_SYMS}
+      COMMAND cargo build --release
+      WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
+      )
+
+    set(HAVE_CRASHPAD ON)
+    set(HAVE_CRASH_REPORT ON)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
+      add_compile_options(-gdwarf -gcodeview)
+    elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+      message(STATUS "Crashpad requires Clang or MSVC")
+    endif()
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -859,7 +883,7 @@ add_compile_definitions(HAVE_CONFIG_H=1)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # Generate config.h
-configure_file(${CMAKE_SOURCE_DIR}/build/cmake/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file(${CMAKE_SOURCE_DIR}/cmake/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 #----------------------------------------------------------------------------------------------------
 # Make dist.
@@ -882,24 +906,26 @@ else()
   add_subdirectory(ui/app/toolkits/gtkmm/dist/windows/src)
 endif()
 
-if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
-  if (CMAKE_CROSSCOMPILING)
-    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/build/cmake/toolchains/mingw32-gcc.cmake)
-    set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
-  else()
-    set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/build/cmake/toolchains/msys2.cmake)
-    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
-  endif()
+if (NOT MSVC) # TODO: support MSVC
+  if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+    if (CMAKE_CROSSCOMPILING)
+      set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake)
+      set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
+    else()
+      set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake)
+      set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
+    endif()
 
-  ExternalProject_Add(Workrave32Bit
-    SOURCE_DIR ${CMAKE_SOURCE_DIR}
-    BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-    CMAKE_COMMAND ${CMAKE_COMMAND32}
-    CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${TOOLCHAIN_32BIT}
-      -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-      -DWITH_UI:STRING=None
-    )
+    ExternalProject_Add(Workrave32Bit
+      SOURCE_DIR ${CMAKE_SOURCE_DIR}
+      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
+      CMAKE_COMMAND ${CMAKE_COMMAND32}
+      CMAKE_CACHE_ARGS
+        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${TOOLCHAIN_32BIT}
+        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
+        -DWITH_UI:STRING=None
+      )
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -969,15 +995,17 @@ message(STATUS "")
 feature_bool("GSettings configuration" HAVE_GSETTINGS)
 if (PLATFORM_OS_UNIX)
 feature_text("ActivityMonitors" HAVE_MONITORS)
-endif()
 feature_bool("Gnome 3 Applet"  HAVE_GNOME3_PANEL_APPLET)
 feature_bool("Indicator Applet" HAVE_INDICATOR)
 feature_bool("XFCE Applet" HAVE_XFCE4)
 feature_bool("MATE Applet" HAVE_MATE)
-feature_bool("DBUS" HAVE_DBUS)
 feature_bool("GStreamer" HAVE_GSTREAMER)
-if(PLATFORM_OS_UNIX)
 feature_bool("Pulseaudio" HAVE_PULSE)
 endif()
-feature_bool("Debug logs" TRACING)
+feature_bool("DBUS" HAVE_DBUS)
+if(PLATFORM_OS_WINDOWS)
+feature_bool("Crash reporting" HAVE_CRASHPAD)
+feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)
+endif()
+feature_bool("Debug logs" HAVE_TRACING)
 feature_bool("Tests" HAVE_TESTS)

@@ -58,8 +58,8 @@ Locale::get_language(const std::string &code, std::string &language)
   language_t key = {code.c_str(), nullptr};
   language_t *val = nullptr;
 
-  val =
-    reinterpret_cast<language_t *>(bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages));
+  val = reinterpret_cast<language_t *>(
+    bsearch(&key, languages, sizeof(languages) / sizeof(language_t), sizeof(language_t), compare_languages));
 
   if (val != nullptr)
     {
@@ -75,8 +75,8 @@ Locale::get_country(const std::string &code, std::string &country)
   country_t key = {code.c_str(), nullptr};
   country_t *val;
 
-  val =
-    reinterpret_cast<country_t *>(bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries));
+  val = reinterpret_cast<country_t *>(
+    bsearch(&key, countries, sizeof(countries) / sizeof(country_t), sizeof(country_t), compare_countries));
 
   if (val != nullptr)
     {
@@ -131,8 +131,13 @@ Locale::lookup(const std::string &domain, std::string &str)
 
   if (!str.empty())
     {
+#if defined(HAVE_LIBINTL)
       ret = dgettext(domain.c_str(), str.c_str());
       str = ret;
+#elif defined(HAVE_QT)
+      ret = QObject::tr(str.c_str()).toStdString();
+      str = ret;
+#endif
     }
 }
 

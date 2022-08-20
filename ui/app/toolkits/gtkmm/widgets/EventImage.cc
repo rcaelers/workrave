@@ -96,6 +96,10 @@ EventImage::on_size_allocate(Gtk::Allocation &allocation)
 
   if (gtk_widget_get_realized(widget))
     {
-      gdk_window_move_resize(event_window, allocation.get_x(), allocation.get_y(), allocation.get_width(), allocation.get_height());
+      gdk_window_move_resize(event_window,
+                             allocation.get_x(),
+                             allocation.get_y(),
+                             allocation.get_width(),
+                             allocation.get_height());
     }
 }

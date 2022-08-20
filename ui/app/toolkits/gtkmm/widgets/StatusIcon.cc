@@ -46,7 +46,9 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app, std::shared_ptr
   mode_icons[OperationMode::Suspended] = GtkUtil::create_pixbuf("workrave-suspended-icon-medium.png");
   mode_icons[OperationMode::Quiet] = GtkUtil::create_pixbuf("workrave-quiet-icon-medium.png");
 
-  workrave::utils::connect(app->get_core()->signal_operation_mode_changed(), this, [this](auto mode) { set_operation_mode(mode); });
+  workrave::utils::connect(app->get_core()->signal_operation_mode_changed(), this, [this](auto mode) {
+    set_operation_mode(mode);
+  });
 }
 
 void
@@ -156,13 +158,13 @@ StatusIcon::on_activate()
   activated_signal.emit();
 }
 
-sigc::signal<void> &
+StatusIcon::activated_signal_t &
 StatusIcon::signal_activated()
 {
   return activated_signal;
 }
 
-sigc::signal<void, string> &
+StatusIcon::balloon_activated_signal_t  &
 StatusIcon::signal_balloon_activated()
 {
   return balloon_activated_signal;

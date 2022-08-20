@@ -19,8 +19,9 @@
 #define WORKRAVE_UTILS_DEBUG_HH
 
 #include <cassert>
+#include <boost/current_function.hpp>
 
-#if !defined(TRACING)
+#if !defined(HAVE_TRACING)
 
 #  define TRACE_ENTRY(...)
 #  define TRACE_ENTRY_MSG(...)
@@ -144,15 +145,17 @@ private:
   static std::shared_ptr<spdlog::logger> logger;
 };
 
-#  define TRACE_ENTRY(...) ScopedTrace trace_(std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))})
+#  define TRACE_ENTRY(...) ScopedTrace trace_(std::string{prettify_function(static_cast<const char *>(BOOST_CURRENT_FUNCTION))})
 #  define TRACE_ENTRY_MSG(...) \
-    ScopedTrace trace_(std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))}, __VA_ARGS__)
-#  define TRACE_ENTRY_PAR(...) \
-    ScopedTrace trace_(ScopedTraceAutoFmt{}, std::string{prettify_function(static_cast<const char *>(__PRETTY_FUNCTION__))}, __VA_ARGS__)
+    ScopedTrace trace_(std::string{prettify_function(static_cast<const char *>(BOOST_CURRENT_FUNCTION))}, __VA_ARGS__)
+#  define TRACE_ENTRY_PAR(...)                                                                            \
+    ScopedTrace trace_(ScopedTraceAutoFmt{},                                                              \
+                       std::string{prettify_function(static_cast<const char *>(BOOST_CURRENT_FUNCTION))}, \
+                       __VA_ARGS__)
 
 #  define TRACE_VAR(...) trace_.var(__VA_ARGS__)
 #  define TRACE_MSG(...) trace_.msg(__VA_ARGS__)
 
-#endif // TRACING
+#endif // HAVE_TRACING
 
 #endif // WORKRAVE_UTILS_DEBUG_HH

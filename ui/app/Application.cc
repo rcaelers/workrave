@@ -109,7 +109,6 @@ Application::main()
   toolkit->init(shared_from_this());
 
   init_operation_mode_warning();
-  init_updater();
 
   init_platform_post();
 
@@ -155,7 +154,7 @@ Application::init_logging()
 #if SPDLOG_VERSION >= 10801
   spdlog::cfg::load_env_levels();
 #endif
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
   const auto trace_file = log_dir / "workrave-trace.log";
   auto trace_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(trace_file.string(), 1024 * 1024, 10, true);
   auto tracer = std::make_shared<spdlog::logger>("trace", trace_sink);
@@ -212,9 +211,11 @@ Application::init_nls()
   });
 #  endif
 
+#  if defined(HAVE_LIBINTL)
   bindtextdomain(GETTEXT_PACKAGE, locale_dir);
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
+#  endif
 
 #endif
 }
@@ -284,17 +285,6 @@ Application::init_operation_mode_warning()
     {
       toolkit->create_oneshot_timer(5000, [this]() { on_operation_mode_warning_timer(); });
     }
-}
-
-void
-Application::init_updater()
-{
-  // TODO:
-  // updater = workrave::updater::std::make_shared<Updater>("http://snapshots.workrave.org/appcast/");
-  // if (updater)
-  //   {
-  //     updater->check_for_updates();
-  //   }
 }
 
 void
@@ -711,7 +701,8 @@ Application::on_idle_changed(bool new_idle)
           auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           if (core->get_regular_operation_mode() == OperationMode::Normal
-              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled() && !rest_break->is_taking())
+              && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()
+              && !rest_break->is_taking())
             {
               bool overdue = (rest_break->get_limit() < rest_break->get_elapsed_time());
 

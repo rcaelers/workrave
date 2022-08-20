@@ -33,7 +33,9 @@ namespace ui::prefwidgets::gtkmm
   class FrameWidget : public ContainerWidget
   {
   public:
-    FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def, std::shared_ptr<ContainerWidget> container, BuilderRegistry *registry);
+    FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def,
+                std::shared_ptr<ContainerWidget> container,
+                BuilderRegistry *registry);
     ~FrameWidget() override = default;
 
     void add(std::shared_ptr<Widget> w) override;

@@ -242,7 +242,18 @@ TimeBar::init_window(HWND parent, HINSTANCE hinst)
       RegisterClass(&wc);
     }
 
-  hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "", WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, nullptr, hinst, (LPVOID)this);
+  hwnd = CreateWindowEx(0,
+                        TIME_BAR_CLASS_NAME,
+                        "",
+                        WS_CHILD | WS_CLIPSIBLINGS,
+                        0,
+                        0,
+                        56,
+                        16,
+                        parent,
+                        nullptr,
+                        hinst,
+                        (LPVOID)this);
   paint_helper = std::make_shared<PaintHelper>(hwnd);
 
   TRACE_EXIT();

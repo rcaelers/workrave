@@ -69,7 +69,10 @@ public:
 
   auto get_display_name() const -> const char * override;
   void create_oneshot_timer(int ms, std::function<void()> func) override;
-  void show_notification(const std::string &id, const std::string &title, const std::string &balloon, std::function<void()> func) override;
+  void show_notification(const std::string &id,
+                         const std::string &title,
+                         const std::string &balloon,
+                         std::function<void()> func) override;
   void show_tooltip(const std::string &tip) override;
 
   auto signal_timer() -> boost::signals2::signal<void()> & override;

@@ -28,13 +28,7 @@
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
 
-#if defined(HAVE_QT5)
-#  include <QtMacExtras>
-#endif
-
-#if defined(HAVE_QT6)
 extern auto qt_mac_toQImage(CGImageRef image) -> QImage;
-#endif
 
 auto
 MacOSDesktopWindow::get_desktop_image() -> QPixmap
@@ -59,14 +53,12 @@ MacOSDesktopWindow::get_desktop_image() -> QPixmap
               int winId = 0;
               CFNumberGetValue(index, kCFNumberIntType, &winId);
 
-              CGImageRef cgImage =
-                CGWindowListCreateImage(CGRectInfinite, kCGWindowListOptionIncludingWindow, winId, kCGWindowImageNominalResolution);
-#if defined(HAVE_QT5)
-              pixmap = QtMac::fromCGImageRef(cgImage);
-#elif defined(HAVE_QT6)
+              CGImageRef cgImage = CGWindowListCreateImage(CGRectInfinite,
+                                                           kCGWindowListOptionIncludingWindow,
+                                                           winId,
+                                                           kCGWindowImageNominalResolution);
               // FIXME: don't use internal API
               pixmap = QPixmap::fromImage(qt_mac_toQImage(cgImage));
-#endif
               break;
             }
         }

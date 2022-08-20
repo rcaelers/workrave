@@ -39,7 +39,8 @@ LocalActivityMonitor::LocalActivityMonitor()
   activity_threshold = 2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
   idle_threshold = 5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
 
-  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
+  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(
+    workrave::input_monitor::MonitorCapability::Activity);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);

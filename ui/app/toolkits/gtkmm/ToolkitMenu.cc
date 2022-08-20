@@ -120,7 +120,9 @@ ToolkitMenuEntry::get_context() const
   return context;
 }
 
-ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SubMenuNode::Ptr node)
+ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context,
+                                         ToolkitSubMenuEntry *parent,
+                                         menus::SubMenuNode::Ptr node)
   : ToolkitMenuEntry(context)
   , parent(parent)
   , node(node)
@@ -208,7 +210,9 @@ ToolkitRadioGroupMenuEntry::ToolkitRadioGroupMenuEntry(ToolkitMenuContext::Ptr c
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::ActionNode::Ptr node)
+ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context,
+                                               ToolkitSubMenuEntry *parent,
+                                               menus::ActionNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   action = context->get_action_group()->add_action(node->get_id(), [node]() { node->activate(); });
@@ -223,7 +227,9 @@ ToolkitActionMenuEntry::ToolkitActionMenuEntry(ToolkitMenuContext::Ptr context, 
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::ToggleNode::Ptr node)
+ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context,
+                                               ToolkitSubMenuEntry *parent,
+                                               menus::ToggleNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   action = context->get_action_group()->add_action_bool(node->get_id(), [this, node]() {
@@ -245,7 +251,9 @@ ToolkitToggleMenuEntry::ToolkitToggleMenuEntry(ToolkitMenuContext::Ptr context, 
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::RadioNode::Ptr node)
+ToolkitRadioMenuEntry::ToolkitRadioMenuEntry(ToolkitMenuContext::Ptr context,
+                                             ToolkitSubMenuEntry *parent,
+                                             menus::RadioNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   const MenuNodeFilter &filter = get_context()->get_filter();
@@ -273,7 +281,9 @@ ToolkitSeparatorMenuEntry::ToolkitSeparatorMenuEntry(ToolkitMenuContext::Ptr con
 
 //////////////////////////////////////////////////////////////////////
 
-ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::SectionNode::Ptr node)
+ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context,
+                                                 ToolkitSubMenuEntry *parent,
+                                                 menus::SectionNode::Ptr node)
   : ToolkitMenuEntry(context)
 {
   for (auto child_node: node->get_children())

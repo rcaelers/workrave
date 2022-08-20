@@ -30,11 +30,15 @@
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
 #  include <gdk/gdkwin32.h>
 #  include "ui/windows/WindowsCompat.hh"
 #endif
 
-//#include "Application.hh"
+
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
 #include "EventImage.hh"
@@ -445,9 +449,15 @@ GtkUtil::create_pixbuf(const std::string &name)
     {
       ret = Gdk::Pixbuf::create_from_file(filename);
     }
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+  catch (std::exception &)
+    {
+    }
+#else
   catch (const Glib::Exception &)
     {
     }
+#endif
   return ret;
 }
 
@@ -461,9 +471,15 @@ GtkUtil::create_image(const std::string &name)
     {
       ret = Gtk::manage(new Gtk::Image(filename));
     }
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+  catch (std::exception &)
+    {
+    }
+#else
   catch (const Glib::Exception &)
     {
     }
+#endif
   return ret;
 }
 

@@ -106,6 +106,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationConte
   // sounds_view->setColumnWidth(0, 100);
   // sounds_view->setColumnWidth(1, 200);
 
+  sounds_model->setColumnCount(4);
   sounds_model->setHeaderData(0, Qt::Horizontal, tr("Enabled"));
   sounds_model->setHeaderData(1, Qt::Horizontal, tr("Sound"));
 

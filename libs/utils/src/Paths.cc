@@ -218,7 +218,7 @@ Paths::get_data_directories()
       TRACE_VAR(e.what());
     }
 
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
   for (const auto &d: canonicalize(directories))
     {
       TRACE_VAR(d.string());
@@ -254,7 +254,7 @@ Paths::get_config_directories()
       TRACE_VAR(e.what());
     }
 
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
   for (const auto &d: canonicalize(directories))
     {
       TRACE_VAR(d.string());
@@ -279,7 +279,9 @@ Paths::get_config_directory()
       else
         {
           std::list<std::filesystem::path> directories = get_config_directories();
-          auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) { return std::filesystem::is_directory(d); });
+          auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) {
+            return std::filesystem::is_directory(d);
+          });
           if (it == directories.end())
             {
               TRACE_MSG("Using preferred directory");

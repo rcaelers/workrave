@@ -184,7 +184,8 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gr
 
   // Limit time
   limit_tim = Gtk::manage(new TimeEntry());
-  Gtk::Label *limit_lab = hig->add_label(break_id == BREAK_ID_DAILY_LIMIT ? _("Time before end:") : _("Time between breaks:"), *limit_tim);
+  Gtk::Label *limit_lab = hig->add_label(break_id == BREAK_ID_DAILY_LIMIT ? _("Time before end:") : _("Time between breaks:"),
+                                         *limit_tim);
   hsize_group->add_widget(*limit_lab);
 
   // Auto-reset time

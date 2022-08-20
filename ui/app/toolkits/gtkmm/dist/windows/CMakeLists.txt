@@ -5,26 +5,26 @@ file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
 foreach (po_file ${POFILES})
   get_filename_component(language ${po_file} NAME_WE)
 
-  if(MINGW) # TODO:
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+  if(MINGW)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gdk-pixbuf.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/glib20.mo DESTINATION share/locale/${language}/LC_MESSAGES)
 
-  if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
-    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  elseif ()
-    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    # TODO: else: give warning, once
-  endif()
+    if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
+      install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    elseif ()
+      install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+      # TODO: else: give warning, once
+    endif()
 
-  if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
-    install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-  elseif()
-    install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    # TODO: else: give warning, once
-  endif()
+    if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
+      install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+    elseif()
+      install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
+      # TODO: else: give warning, once
+    endif()
   endif()
 endforeach()
 
@@ -87,14 +87,24 @@ if(MINGW)
   install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
   install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
-  install(DIRECTORY ${SYS_ROOT}/share/icons/Adwaita DESTINATION ${DATADIR}/icons)
+  foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
+    foreach(icon places/user* places/folder* places/drive*)
+      file(GLOB globs RELATIVE "${SYS_ROOT}/share/icons/Adwaita/" "${SYS_ROOT}/share/icons/Adwaita/${size}/${icon}.*")
+      foreach(icon_file ${globs})
+        get_filename_component(dir ${icon_file} DIRECTORY)
+        install(FILES ${SYS_ROOT}/share/icons/Adwaita/${icon_file} DESTINATION ${DATADIR}/icons/Adwaita/${dir})
+      endforeach()
+    endforeach()
+  endforeach()
+
+  install(FILES "${SYS_ROOT}/share/icons/Adwaita/index.theme" DESTINATION ${DATADIR}/icons/Adwaita)
   install(CODE "execute_process(COMMAND gtk-update-icon-cache \${DATADIR}/icons/Adwaita)")
 endif()
 
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
-install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/build/cmake/modules)")
+install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
@@ -112,16 +122,17 @@ configure_file(
 
 set(INSTALLER_NAME "workrave-installer")
 set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
-set(ISCC_FLAGS "/F${INSTALLER_NAME}")
+set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 
 if(WINE)
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS}
+                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
                      DEPENDS workrave)
 else()
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS}
-                     DEPENDS workrave)
+                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                     DEPENDS workrave
+                     VERBATIM)
 endif()
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})

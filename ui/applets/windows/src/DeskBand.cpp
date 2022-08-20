@@ -709,7 +709,8 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
           TRACE_MSG("applet menu end" << e.what());
         }
     }
-  else if (m_TimerBox != nullptr && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT && copy_data->cbData == sizeof(AppletHeartbeatData))
+  else if (m_TimerBox != nullptr && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
+           && copy_data->cbData == sizeof(AppletHeartbeatData))
     {
       auto *data = (AppletHeartbeatData *)copy_data->lpData;
       m_TimerBox->set_enabled(data->enabled);

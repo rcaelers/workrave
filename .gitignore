@@ -14,5 +14,6 @@
 /_ext
 /_output
 /.vscode
+/vcpkg_installed
 /*code-workspace
 .DS_Store

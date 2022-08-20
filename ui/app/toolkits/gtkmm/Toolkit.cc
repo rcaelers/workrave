@@ -72,7 +72,8 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   status_icon = new StatusIcon(app, status_icon_menu);
   status_icon->init();
 
-  event_connections.emplace_back(status_icon->signal_activated().connect(sigc::mem_fun(*this, &Toolkit::on_status_icon_activated)));
+  event_connections.emplace_back(
+    status_icon->signal_activated().connect(sigc::mem_fun(*this, &Toolkit::on_status_icon_activated)));
   event_connections.emplace_back(
     status_icon->signal_balloon_activated().connect(sigc::mem_fun(*this, &Toolkit::on_status_icon_balloon_activated)));
 
@@ -384,7 +385,10 @@ Toolkit::create_oneshot_timer(int ms, std::function<void()> func)
 }
 
 void
-Toolkit::show_notification(const std::string &id, const std::string &title, const std::string &balloon, std::function<void()> func)
+Toolkit::show_notification(const std::string &id,
+                           const std::string &title,
+                           const std::string &balloon,
+                           std::function<void()> func)
 {
   notify_add_confirm_funcation(id, func);
   status_icon->show_balloon(id, balloon);
@@ -443,8 +447,9 @@ Toolkit::init_gui()
   settings->property_gtk_theme_name().signal_changed().connect(
     [settings]() { GUIConfig::theme_name().set(settings->property_gtk_theme_name().get_value()); });
 
-  GUIConfig::theme_dark().connect(tracker,
-                                  [settings](auto dark) { settings->property_gtk_application_prefer_dark_theme().set_value(dark); });
+  GUIConfig::theme_dark().connect(tracker, [settings](auto dark) {
+    settings->property_gtk_application_prefer_dark_theme().set_value(dark);
+  });
   GUIConfig::theme_name().connect(tracker, [settings](auto name) { settings->property_gtk_theme_name().set_value(name); });
 #endif
 }
@@ -464,7 +469,10 @@ Toolkit::init_debug()
   const char *domains[] = {NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject"};
   for (unsigned int i = 0; i < sizeof(domains) / sizeof(char *); i++)
     {
-      g_log_set_handler(domains[i], (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION), my_log_handler, NULL);
+      g_log_set_handler(domains[i],
+                        (GLogLevelFlags)(G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
+                        my_log_handler,
+                        NULL);
     }
 #endif
 }

@@ -26,13 +26,18 @@
 using namespace std;
 using namespace workrave;
 
-BreakStatistics::BreakStatistics(BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics)
+BreakStatistics::BreakStatistics(BreakId break_id,
+                                 BreakStateModel::Ptr break_state_model,
+                                 Timer::Ptr timer,
+                                 Statistics::Ptr statistics)
   : break_id(break_id)
   , break_state_model(break_state_model)
   , timer(timer)
   , statistics(statistics)
 {
-  connect(break_state_model->signal_break_event(), this, [this](auto &&event) { on_break_event(std::forward<decltype(event)>(event)); });
+  connect(break_state_model->signal_break_event(), this, [this](auto &&event) {
+    on_break_event(std::forward<decltype(event)>(event));
+  });
 }
 
 void
@@ -84,5 +89,7 @@ BreakStatistics::update()
       statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, static_cast<int>(timer->get_elapsed_time()));
     }
 
-  statistics->set_break_counter(break_id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, static_cast<int>(timer->get_total_overdue_time()));
+  statistics->set_break_counter(break_id,
+                                Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE,
+                                static_cast<int>(timer->get_total_overdue_time()));
 }

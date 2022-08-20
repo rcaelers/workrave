@@ -66,11 +66,21 @@ public:
   void set_value(const std::string &key,
                  const std::string &v,
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  void set_value(const std::string &key, const char *v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  void set_value(const std::string &key, int32_t v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  void set_value(const std::string &key, int64_t v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  void set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  void set_value(const std::string &key, double v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 const char *v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 int32_t v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 int64_t v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 bool v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 double v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
   bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
   bool remove_listener(workrave::config::IConfiguratorListener *listener) override;
@@ -85,7 +95,9 @@ private:
   };
 
 private:
-  bool set_value(const std::string &key, ConfigValue &value, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
+  bool set_value(const std::string &key,
+                 ConfigValue &value,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
 
   static std::string trim_key(const std::string &key);
 

@@ -30,7 +30,10 @@ public:
   using Ptr = std::shared_ptr<BreakStatistics>;
 
 public:
-  BreakStatistics(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
+  BreakStatistics(workrave::BreakId break_id,
+                  BreakStateModel::Ptr break_state_model,
+                  Timer::Ptr timer,
+                  Statistics::Ptr statistics);
 
   void update();
   void daily_reset();

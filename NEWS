@@ -1,9 +1,17 @@
-Workrave NEWS -- history of user-visible changes. 31 May 2022
+Workrave NEWS -- history of user-visible changes. 01 August 2022
 Copyright (C) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-alpha.4
+
+** Updates Polish translation (#423 by ChuckMichael)
+
+* Workrave 1.11.0-alpha.3
+
+** Fix GNOME shell applet loading on Ubuntu Focal
 
 * Workrave 1.11.0-alpha.2
 
@@ -48,6 +56,17 @@ https://github.com/rcaelers/workrave/issues
    - Updated Persian translation (#358 by MSKF)
    - Updated Catalan translation (#338 by Jordi Mallach)
 ** and more... (the final 1.11 release will have a more complete list of changes)
+
+* Workrave 1.10.50
+
+** The "Restbreak now" button in the main window no longer responds to keyboard
+   (#368)
+** Allow installation on Windows without administrator rights.
+** Fix vertical alignment of GNOME shell applet (#356)
+** Support GNOME Shell 42 (#396)
+** Restore support for Windows Vista and up (#367)
+** The 'Backward shoulder stretch' exercises now plays a sound twice matching the
+   description (#354)
 
 * Workrave 1.10.49
 

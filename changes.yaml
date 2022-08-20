@@ -1,5 +1,20 @@
 ---
 releases:
+  - version: 1.11.0-alpha.4
+    date: 2022-08-01T00:00:00+02:00
+    short: |-
+      Upcoming changes for Workrave 1.11.0-alpha4.
+    changes:
+      - Updates Polish translation (#423 by ChuckMichael)
+
+  - version: 1.11.0-alpha.3
+    date: 2022-06-30T16:53:59+02:00
+    short: |-
+      Workrave 1.11.0-alpha3 has been released.
+      This release fixes the GNOME shell applet.
+    changes:
+      - Fix GNOME shell applet loading on Ubuntu Focal
+
   - version: 1.11.0-alpha.2
     date: 2022-05-31T17:52:34+02:00
     short: |-
@@ -51,6 +66,18 @@ releases:
         - Updated Persian translation (#358 by MSKF)
         - Updated Catalan translation (#338 by Jordi Mallach)
       - and more... (the final 1.11 release will have a more complete list of changes)
+
+  - version: 1.10.50
+    date: 2022-04-01T14:35:10+02:00
+    short: |-
+      Workrave 1.10.50 has been released. This release brings a number of small improvements.
+    changes:
+      - The "Restbreak now" button in the main window no longer responds to keyboard (#368)
+      - Allow installation on Windows without administrator rights.
+      - Fix vertical alignment of GNOME shell applet (#356)
+      - Support GNOME Shell 42 (#396)
+      - Restore support for Windows Vista and up (#367)
+      - The 'Backward shoulder stretch' exercises now plays a sound twice matching the description (#354)
 
   - version: 1.10.49
     date: 2022-01-05T15:05:19+01:00

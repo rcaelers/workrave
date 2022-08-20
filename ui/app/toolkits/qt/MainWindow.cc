@@ -23,7 +23,6 @@
 
 #include <QMoveEvent>
 #include <QApplication>
-// #include <QDesktopWidget>
 #include <QScreen>
 #include <QWindow>
 
@@ -37,7 +36,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   : QWidget(parent)
 {
   setFixedSize(minimumSize());
-  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::CustomizeWindowHint);
+  setWindowFlags(Qt::Tool);
 
   timer_box_view = new TimerBoxView;
   timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
@@ -48,7 +47,8 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 
   layout->addWidget(timer_box_view);
 
-  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(), [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
+  menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
+                                       [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
 
   setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(on_show_contextmenu(const QPoint &)));
@@ -134,7 +134,7 @@ MainWindow::moveEvent(QMoveEvent *event)
       GUIConfig::main_window_y().set(frameGeometry().y());
 
       QScreen *screen = window()->windowHandle()->screen();
-      int screen_index = QGuiApplication::screens().indexOf(screen);
+      auto screen_index = QGuiApplication::screens().indexOf(screen);
       GUIConfig::main_window_head().set(screen_index);
     }
   QWidget::moveEvent(event);

@@ -27,9 +27,14 @@
 #  include "ui/windows/WindowsCompat.hh"
 #  include "ui/windows/WindowsForceFocus.hh"
 #  include <gdk/gdkwin32.h>
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
 #endif
 
 #include <gdk/gdkkeysyms.h>
+#include <cairomm/cairomm.h>
 
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
@@ -63,7 +68,11 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, BreakId break_id, HeadInfo &head, BreakFlags break_flags, BlockMode mode)
+BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
+                         BreakId break_id,
+                         HeadInfo &head,
+                         BreakFlags break_flags,
+                         BlockMode mode)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , app(app)
   , block_mode(mode)
@@ -83,8 +92,8 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, BreakId break
       if (fullscreen_grab)
         {
           set_app_paintable(true);
-          signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw));
-          signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed));
+          signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw), false);
+          signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed), false);
           on_screen_changed(get_screen());
           set_size_request(head.get_width(), head.get_height());
         }
@@ -128,7 +137,9 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, BreakId break
   if (WindowsForceFocus::GetForceFocusValue())
     initial_ignore_activity = true;
 
-  app->get_core()->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start", force_focus_on_break_start, true);
+  app->get_core()->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start",
+                                                              force_focus_on_break_start,
+                                                              true);
 #endif
 
   auto core = app->get_core();
@@ -231,7 +242,9 @@ BreakWindow::center()
 }
 
 void
-BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name)
+BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperationType type,
+                                         const char **name,
+                                         const char **icon_name)
 {
   switch (type)
     {
@@ -404,7 +417,8 @@ BreakWindow::create_lock_button()
 void
 BreakWindow::update_skip_postpone_lock()
 {
-  if ((postpone_button != nullptr && !postpone_button->get_sensitive()) || (skip_button != nullptr && !skip_button->get_sensitive()))
+  if ((postpone_button != nullptr && !postpone_button->get_sensitive())
+      || (skip_button != nullptr && !skip_button->get_sensitive()))
     {
       bool skip_locked = false;
       bool postpone_locked = false;
@@ -769,7 +783,11 @@ BreakWindow::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     {
       cr->set_source_rgba(0.1, 0.1, 0.1, 0.1);
     }
+#if CAIROMM_CHECK_VERSION(1, 15, 4)
+  cr->set_operator(Cairo::Context::Operator::SOURCE);
+#else
   cr->set_operator(Cairo::OPERATOR_SOURCE);
+#endif
   cr->paint();
   cr->restore();
 

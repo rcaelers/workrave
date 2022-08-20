@@ -156,14 +156,14 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
                                                             tr("The number of times you were prompted to break, excluding"
                                                                " repeated prompts for the same break"));
 
-  QWidget *prompted_label =
-    UiUtil::create_label_with_tooltip(tr("Repeated prompts"), tr("The number of times you were repeatedly prompted to break"));
+  QWidget *prompted_label = UiUtil::create_label_with_tooltip(tr("Repeated prompts"),
+                                                              tr("The number of times you were repeatedly prompted to break"));
 
-  QWidget *taken_label =
-    UiUtil::create_label_with_tooltip(tr("Prompted breaks taken"), tr("The number of times you took a break when being prompted"));
+  QWidget *taken_label = UiUtil::create_label_with_tooltip(tr("Prompted breaks taken"),
+                                                           tr("The number of times you took a break when being prompted"));
 
-  QWidget *natural_label =
-    UiUtil::create_label_with_tooltip(tr("Natural breaks taken"), tr("The number of times you took a break without being prompted"));
+  QWidget *natural_label = UiUtil::create_label_with_tooltip(tr("Natural breaks taken"),
+                                                             tr("The number of times you took a break without being prompted"));
 
   QWidget *skipped_label = UiUtil::create_label_with_tooltip(tr("Breaks skipped"), tr("The number of breaks you skipped"));
 
@@ -173,13 +173,16 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 
   QWidget *usage_label = UiUtil::create_label_with_tooltip(tr("Usage"), ("Active computer usage"));
 
-  QWidget *daily_usage_label = UiUtil::create_label_with_tooltip(tr("Daily"), tr("The total computer usage for the selected day"));
+  QWidget *daily_usage_label = UiUtil::create_label_with_tooltip(tr("Daily"),
+                                                                 tr("The total computer usage for the selected day"));
 
-  QWidget *weekly_usage_label =
-    UiUtil::create_label_with_tooltip(tr("Weekly"), tr("The total computer usage for the whole week of the selected day"));
+  QWidget *weekly_usage_label = UiUtil::create_label_with_tooltip(
+    tr("Weekly"),
+    tr("The total computer usage for the whole week of the selected day"));
 
-  QWidget *monthly_usage_label =
-    UiUtil::create_label_with_tooltip(tr("Monthly"), tr("The total computer usage for the whole month of the selected day"));
+  QWidget *monthly_usage_label = UiUtil::create_label_with_tooltip(
+    tr("Monthly"),
+    tr("The total computer usage for the whole month of the selected day"));
 
   auto *hrule = new QFrame();
   auto *vrule = new QFrame();

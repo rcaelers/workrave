@@ -168,7 +168,8 @@ namespace detail
   class ToolkitMenuEntryFactory
   {
   public:
-    static auto create(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::Node::Ptr node) -> ToolkitMenuEntry::Ptr;
+    static auto create(ToolkitMenuContext::Ptr context, ToolkitSubMenuEntry *parent, menus::Node::Ptr node)
+      -> ToolkitMenuEntry::Ptr;
   };
 
 } // namespace detail

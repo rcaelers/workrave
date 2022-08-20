@@ -28,7 +28,7 @@
 #include <windows.h>
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
-#include "nls.h"
+#include "commonui/nls.h"
 
 #include "core/CoreConfig.hh"
 
@@ -43,10 +43,10 @@ WindowsFocusAssist::init()
 {
   auto *ntdll = GetModuleHandleA("ntdll");
   rtlQueryWnfStateData = PRTLQUERYWNFSTATEDATA(GetProcAddress(ntdll, "RtlQueryWnfStateData"));
-  rtlSubscribeWnfStateChangeNotification =
-    PRTLSUBSCRIBEWNFSTATECHANGENOTIFICATION(GetProcAddress(ntdll, "RtlSubscribeWnfStateChangeNotification"));
-  rtlUnsubscribeWnfStateChangeNotification =
-    PRTLUNSUBSCRIBEWNFSTATECHANGENOTIFICATION(GetProcAddress(ntdll, "RtlUnsubscribeWnfStateChangeNotification"));
+  rtlSubscribeWnfStateChangeNotification = PRTLSUBSCRIBEWNFSTATECHANGENOTIFICATION(
+    GetProcAddress(ntdll, "RtlSubscribeWnfStateChangeNotification"));
+  rtlUnsubscribeWnfStateChangeNotification = PRTLUNSUBSCRIBEWNFSTATECHANGENOTIFICATION(
+    GetProcAddress(ntdll, "RtlUnsubscribeWnfStateChangeNotification"));
 
   if (rtlQueryWnfStateData == nullptr || rtlSubscribeWnfStateChangeNotification == nullptr
       || rtlUnsubscribeWnfStateChangeNotification == nullptr)
@@ -68,9 +68,7 @@ WindowsFocusAssist::init()
     update_focus_assist();
   });
 
-  GUIConfig::focus_mode().attach(tracker, [&](FocusMode mode) {
-    update_focus_assist();
-  });
+  GUIConfig::focus_mode().attach(tracker, [&](FocusMode mode) { update_focus_assist(); });
 
   std::vector<std::string> focus_content{_("Suspended"), _("Quiet")};
 
@@ -91,7 +89,11 @@ WindowsFocusAssist::enable()
   if (subscription == 0)
     {
       WNF_CHANGE_STAMP stamp = 0;
-      NTSTATUS res = rtlQueryWnfStateData(&stamp, WNF_SHEL_QUIETHOURS_ACTIVE_PROFILE_CHANGED, wmf_notification_static, this, nullptr);
+      NTSTATUS res = rtlQueryWnfStateData(&stamp,
+                                          WNF_SHEL_QUIETHOURS_ACTIVE_PROFILE_CHANGED,
+                                          wmf_notification_static,
+                                          this,
+                                          nullptr);
 
       if (res == 0)
         {

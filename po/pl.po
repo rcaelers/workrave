@@ -5,13 +5,14 @@
 # Copyright (C) YEAR Rob Caelers &amp; Raymond Penners.
 # Mikolaj Machowski <mikmach@wp.pl>, 2005.
 # s120801-translate <s120801-translate@yahoo.com>, 2012.
+# ChuckMichael <6hfeskbq@anonaddy.me>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2013-05-25 19:34+0200\n"
-"Last-Translator: s120801-translate <s120801-translate@yahoo.com>\n"
+"PO-Revision-Date: 2022-07-23 19:02+0200\n"
+"Last-Translator: ChuckMichael <6hfeskbq@anonaddy.me>\n"
 "Language-Team: s120801-translate\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: libs/core/src/DistributionSocketLink.cc:118
 #, c-format
@@ -252,33 +253,28 @@ msgid "Quiet"
 msgstr "Cichy"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:251
-#, fuzzy
 msgid "Lock..."
-msgstr "_Zablokuj"
+msgstr "Zablokuj..."
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:255
-#, fuzzy
 msgid "Lock"
-msgstr "_Zablokuj"
+msgstr "Zablokuj"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:259
-#, fuzzy
 msgid "Shutdown"
-msgstr "_Wyłącz"
+msgstr "Wyłącz"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:263
-#, fuzzy
 msgid "Suspend"
-msgstr "Zawieszony"
+msgstr "Uśpij"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:267
 msgid "Hibernate"
-msgstr ""
+msgstr "Hibernacja"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:271
-#, fuzzy
 msgid "Suspend hybrid"
-msgstr "Zawieszony"
+msgstr "Uśpienie hybrydowe"
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:389
 msgid "_Skip"
@@ -292,12 +288,16 @@ msgstr "_Opóźnij"
 msgid ""
 "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
+"Nie można pominąć tej przerwy, podczas gdy inna przerwa nie podlegająca "
+"pominięciu jest zaległa."
 
 #: ui/apps/gtkmm/src/BreakWindow.cc:597
 msgid ""
 "You cannot postpone this break while another non-postponable break is "
 "overdue."
 msgstr ""
+"Nie można przełożyć tej przerwy, podczas gdy inna przerwa niepodlegająca "
+"przełożeniu jest zaległa."
 
 #. label
 #: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
@@ -319,7 +319,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "Dziennik debugowania"
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:29
 msgid "Exercises"
@@ -330,16 +330,15 @@ msgstr "Ćwiczenia"
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:142
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:88
-#, fuzzy
 msgid "Previous"
-msgstr "Poprzednie ćwiczenie"
+msgstr "Poprzednie"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:89
 msgid "Next"
-msgstr ""
+msgstr "Następne"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:108
 msgid "Exercises player"
@@ -395,13 +394,12 @@ msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave nie może monitorować aktywność klawiatury i myszy.\n"
 
 #: ui/apps/gtkmm/src/GUI.cc:537
-#, fuzzy
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
-"Workrave jest w trybie zawieszenia. Aktywność myszy i klawiatury nie będą "
-"monitorowane."
+"Workrave jest w trybie zawieszenia.\n"
+"Aktywność myszy i klawiatury nie będą monitorowane."
 
 #: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
@@ -431,9 +429,8 @@ msgid "_Rest break"
 msgstr "_Odpoczynek"
 
 #: ui/apps/gtkmm/src/Menus.cc:61
-#, fuzzy
 msgid "S_tatistics"
-msgstr "Statystyki"
+msgstr "S_tatystyki"
 
 #: ui/apps/gtkmm/src/Menus.cc:75
 msgid "_Normal"
@@ -627,18 +624,16 @@ msgid "Language:"
 msgstr "Język:"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:271
-#, fuzzy
 msgid "Start Workrave on logon"
-msgstr "Uruchom Workrave podczas uruchamiana systemu"
+msgstr "Uruchom Workrave podczas uruchamiania systemu"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:286
 msgid "Show system tray icon"
 msgstr "Pokaż ikonę na pasku zadań"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:296
-#, fuzzy
 msgid "Icon Theme:"
-msgstr "Motyw dźwiękowy:"
+msgstr "Ikona motywu:"
 
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:309
@@ -698,7 +693,6 @@ msgid "Use alternate monitor"
 msgstr "Użyj alternatywnego monitora"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:488
-#, fuzzy
 msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
@@ -708,24 +702,27 @@ msgstr ""
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:491
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
+"Program Workrave musi zostać ręcznie uruchomiony ponownie po zmianie tego "
+"ustawienia"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
-#, fuzzy
 msgid "Mouse sensitivity:"
-msgstr "Ruch myszy:"
+msgstr "Czułość myszy:"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:497
 msgid ""
 "Number of pixels the mouse should move before it is considered activity."
 msgstr ""
+"Liczba pikseli, o które powinna przesunąć się mysz, zanim zostanie to uznane "
+"za aktywność."
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:513
 msgid "Debug monitoring"
-msgstr ""
+msgstr "Monitorowanie debugowania"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:937
 msgid "Default"
-msgstr ""
+msgstr "Domyślne"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
@@ -790,7 +787,7 @@ msgstr "Przejrzyj historię"
 #. Delete button
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:112
 msgid "Delete all statistics history"
-msgstr ""
+msgstr "Usuń całą historię statystyk"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:119
 msgid "Date:"
@@ -861,37 +858,35 @@ msgstr "Całkowity czas kiedy przerwa była opóźniona"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:179
 msgid "Usage"
-msgstr ""
+msgstr "Użycie"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:179
 msgid "Active computer usage"
-msgstr ""
+msgstr "Aktywne użycie komputera"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
 msgid "Daily"
-msgstr "Dzienny limit"
+msgstr "Dzienne"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
 msgid "The total computer usage for the selected day"
-msgstr "Całkowity czas używania komputera"
+msgstr "Całkowity czas używania komputera dla wybranego dnia"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "Weekly"
-msgstr ""
+msgstr "Tygodniowo"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:184
 msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
+msgstr "Łączne wykorzystanie komputera przez cały tydzień od wybranego dnia"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:187
 msgid "Monthly"
-msgstr ""
+msgstr "Miesięcznie"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:187
 msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
+msgstr "Łączne wykorzystanie komputera przez cały miesiąc od wybranego dnia"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:264
 msgid "Activity"
@@ -948,36 +943,38 @@ msgstr "%s, od %s do %s"
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:622
 msgid "Warning"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
+msgstr "Wybrałeś usunięcie swojej historii statystyk. Czy kontynuować?"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:633
 msgid "Files deleted!"
-msgstr ""
+msgstr "Pliki zostały usunięte!"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:633
 msgid "The files containing your statistics history have been deleted."
-msgstr ""
+msgstr "Pliki zawierające historię statystyk zostały usunięte."
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:635
 msgid "Info"
-msgstr ""
+msgstr "Informacja"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:640
 msgid "File deletion failed!"
-msgstr ""
+msgstr "Usuwanie pliku nie powiodło się!"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:641
 msgid ""
 "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
+"Pliki zawierające historię statystyk nie mogły zostać usunięte. Spróbować "
+"ponownie?"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:643
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: ui/apps/gtkmm/src/Text.cc:73
 #, c-format
@@ -1064,14 +1061,12 @@ msgid "Daily limit:"
 msgstr "Dzienny limit:"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
-#, fuzzy
 msgid "Fallback applet enabled"
-msgstr "Uaktywnij aplet"
+msgstr "Uaktywnij aplet w tle"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#, fuzzy
 msgid "Show status icon"
-msgstr "Pokaż okno statusu"
+msgstr "Pokaż ikonę stanu"
 
 #. Enabled/Disabled checkbox
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
@@ -1093,15 +1088,13 @@ msgstr "Maksymalna liczba zachęt:"
 
 #. Ignorable
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
-#, fuzzy
 msgid "Show 'Postpone' button"
-msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
+msgstr "Pokaż przycisk 'Opóźnij'"
 
 #. Skippable
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-#, fuzzy
 msgid "Show 'Skip' button"
-msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
+msgstr "Pokaż przycisk 'Pomiń'"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Regard micro-breaks as activity"
@@ -1117,7 +1110,7 @@ msgstr "Rozpocznij przerwę kiedy ekran jest zablokowany"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
+msgstr "Włącz wyłączanie komputera z ekranu odpoczynku"
 
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
 msgid "Time before end:"
@@ -1173,71 +1166,71 @@ msgstr "Zmiana ćwiczenia"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
 msgid "Orientation"
 msgstr "Położenie"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
-#, fuzzy
 msgid "The orientation of the tray"
-msgstr "Położenie tacki systemowej."
+msgstr "Położenie tacki systemowej"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "Kolor pierwszoplanowy"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "Kolor pierwszoplanowy dla ikon symbolicznych"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color"
-msgstr ""
+msgstr "Kolor błędu"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "Kolor błędu dla ikon symbolicznych"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color"
-msgstr ""
+msgstr "Kolor ostrzeżenia"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color for symbolic icons"
-msgstr ""
+msgstr "Kolor ostrzeżenia dla ikon symbolicznych"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
+#, fuzzy
 msgid "Success color"
-msgstr ""
+msgstr "Kolor sukcesu"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
+#, fuzzy
 msgid "Success color for symbolic icons"
-msgstr ""
+msgstr "Kolor sukcesu dla ikon symbolicznych"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
-msgstr ""
+msgstr "Wypełnienie"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "Wypełnienie, które powinno być umieszczone wokół ikon w zasobniku"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
 msgid "Icon Size"
-msgstr ""
+msgstr "Rozmiar ikony"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
 msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
+msgstr "Rozmiar w pikselach, do którego powinny być wymuszone ikony"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr ""
 "Program pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
-"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję."
+"- RSI (Repetitive Strain Injury) oraz wspomaga rekonwalescencję"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:9
 msgid ""
@@ -1245,6 +1238,10 @@ msgid ""
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
+"Workrave to program, który pomaga w zapobieganiu urazom na skutek "
+"chronicznego przeciążenia organizmu (RSI) oraz wspomaga rekonwalescencję. "
+"Program często przypomina o konieczności robienia mikroprzerw, przerw na "
+"odpoczynek i ogranicza dzienne korzystanie z komputera do ustalonego limitu."
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
@@ -1255,7 +1252,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
+msgstr "typing;break;timer;wrists;health;rsi;"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"

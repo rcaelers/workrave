@@ -152,8 +152,9 @@ SoundTheme::sound_event(SoundEvent event)
 SoundEvent
 SoundTheme::sound_id_to_event(const std::string &id)
 {
-  const SoundRegistry *item =
-    std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](const SoundRegistry &item) { return item.id == id; });
+  const SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](const SoundRegistry &item) {
+    return item.id == id;
+  });
   if (item != std::end(sound_registry))
     {
       return item->event;
@@ -164,8 +165,9 @@ SoundTheme::sound_id_to_event(const std::string &id)
 std::string
 SoundTheme::sound_event_to_id(SoundEvent event)
 {
-  const SoundRegistry *item =
-    std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](const SoundRegistry &item) { return item.event == event; });
+  const SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](const SoundRegistry &item) {
+    return item.event == event;
+  });
   if (item != std::end(sound_registry))
     {
       return item->id;

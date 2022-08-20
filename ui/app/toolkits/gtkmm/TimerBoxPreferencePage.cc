@@ -225,12 +225,14 @@ TimerBoxPreferencePage::init_page_callbacks()
 
   if (applet_icon_enabled_cb != nullptr)
     {
-      applet_icon_enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_applet_icon_enabled_toggled));
+      applet_icon_enabled_cb->signal_toggled().connect(
+        sigc::mem_fun(*this, &TimerBoxPreferencePage::on_applet_icon_enabled_toggled));
     }
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      timer_display_button[i]->signal_changed().connect(bind(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_display_changed), i));
+      timer_display_button[i]->signal_changed().connect(
+        bind(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_display_changed), i));
     }
 }
 

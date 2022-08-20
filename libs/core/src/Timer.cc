@@ -728,7 +728,11 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
     }
 
   activity_state = new_activity_state;
-  TRACE_MSG("time, next limit, limit: {} {} {} {}", current_time, next_limit_time, limit_interval, (next_limit_time - current_time));
+  TRACE_MSG("time, next limit, limit: {} {} {} {}",
+            current_time,
+            next_limit_time,
+            limit_interval,
+            (next_limit_time - current_time));
 
   TRACE_MSG("activity_state = {}", activity_state);
 
@@ -799,7 +803,13 @@ Timer::serialize_state() const
   stringstream ss;
 
   ss << timer_id << " " << TimeSource::get_real_time_sec_sync() << " " << get_elapsed_time() << " " << last_pred_reset_time << " "
-     << total_overdue_time << " " << snooze_inhibited << " " << last_limit_time << " " << last_limit_elapsed << " " << timezone;
+     << total_overdue_time << " " << snooze_inhibited << " " << last_limit_time << " " << last_limit_elapsed << " "
+
+#if defined(PLATFORM_OS_WINDOWS_NATIVE) // FIXME:
+     << 0;
+#else
+     << timezone;
+#endif
 
   return ss.str();
 }
@@ -825,7 +835,9 @@ Timer::deserialize_state(const std::string &state, int version)
   if (version == 3)
     {
       ss >> tz;
+#if !defined(PLATFORM_OS_WINDOWS_NATIVE) // FIXME:
       tz -= timezone;
+#endif
     }
 
   // Sanity check...

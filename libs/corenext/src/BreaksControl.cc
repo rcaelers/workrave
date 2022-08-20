@@ -77,7 +77,13 @@ BreaksControl::init()
       timers[break_id] = std::make_shared<Timer>(break_name);
       timers[break_id]->enable();
 
-      breaks[break_id] = std::make_shared<Break>(break_id, application, timers[break_id], activity_monitor, statistics, dbus, hooks);
+      breaks[break_id] = std::make_shared<Break>(break_id,
+                                                 application,
+                                                 timers[break_id],
+                                                 activity_monitor,
+                                                 statistics,
+                                                 dbus,
+                                                 hooks);
       connect(breaks[break_id]->signal_break_event(), this, [this, break_id](auto &&event) {
         on_break_event(break_id, std::forward<decltype(event)>(event));
       });

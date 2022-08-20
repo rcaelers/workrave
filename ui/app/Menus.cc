@@ -154,7 +154,9 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       mode_reset_options = {30min, 60min, 120min, 180min, 240min};
     }
 
-  auto node = menus::ActionNode::create(std::string(id) + ".0", _("Indefinitely"), [mode, this] { on_menu_mode_for(mode, 0min); });
+  auto node = menus::ActionNode::create(std::string(id) + ".0", _("Indefinitely"), [mode, this] {
+    on_menu_mode_for(mode, 0min);
+  });
 
   menu->add(node);
 
@@ -163,7 +165,9 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       auto hours = std::chrono::duration_cast<std::chrono::hours>(duration);
       auto minutes = duration % 60min;
 
-      std::string text = (hours == 0h) ? "" : (hours == 1h) ? _("For 1 hour") : boost::str(boost::format("For %1% hours") % hours.count());
+      std::string text = (hours == 0h)   ? ""
+                         : (hours == 1h) ? _("For 1 hour")
+                                         : boost::str(boost::format("For %1% hours") % hours.count());
       if (minutes > 0min)
         {
           if (!text.empty())
@@ -182,7 +186,9 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       });
       menu->add(node);
     }
-  node = menus::ActionNode::create(std::string(id) + ".nextday", _("Until next day"), [mode, this] { on_menu_mode_for(mode, -1min); });
+  node = menus::ActionNode::create(std::string(id) + ".nextday", _("Until next day"), [mode, this] {
+    on_menu_mode_for(mode, -1min);
+  });
   menu->add(node);
 }
 

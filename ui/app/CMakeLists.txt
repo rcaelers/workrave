@@ -60,7 +60,7 @@ if (PLATFORM_OS_WINDOWS)
     )
 
   if (MSVC)
-    target_link_libraries(workrave PRIVATE ${WIN32_LIBRARIES})
+    target_link_libraries(workrave-app PRIVATE ${WIN32_LIBRARIES})
   endif()
 endif()
 
@@ -102,7 +102,6 @@ target_link_libraries(workrave-app
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
-  workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
   workrave-libs-commonui)
@@ -133,7 +132,6 @@ target_link_libraries(workrave
   PRIVATE
   workrave-app
   workrave-libs-audio
-  workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets)
 
@@ -186,7 +184,8 @@ if (MINGW)
 
   if (DUMP_SYMS)
     add_custom_command(TARGET workrave POST_BUILD
-                        COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_BINARY_DIR}/workrave.sym)
+                       COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_BINARY_DIR}/workrave.sym)
+    add_dependencies(workrave dump_syms)
   endif()
 
   if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")

@@ -170,6 +170,12 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   layout->addWidget(trayicon_cb);
 
+  auto *plugin_box = new QVBoxLayout;
+  layout->addLayout(plugin_box);
+
+  plugin_frame = std::make_shared<ui::prefwidgets::qt::BoxWidget>(plugin_box);
+  UiUtil::add_plugin_widgets(app, PreferencesSection::General, plugin_frame);
+
   layout->addStretch();
 }
 

@@ -2,42 +2,42 @@ add_library(workrave-toolkit-qt OBJECT
   AboutDialog.cc
   BreakWindow.cc
   DailyLimitWindow.cc
-  DataConnector.cc
   DebugDialog.cc
   ExercisesDialog.cc
   ExercisesPanel.cc
-  Frame.cc
   GeneralUiPreferencesPanel.cc
-  IconListNotebook.cc
   MainWindow.cc
   MicroBreakWindow.cc
   PreferencesDialog.cc
   PreludeWindow.cc
   RestBreakWindow.cc
-  SizeGroup.cc
   SoundsPreferencesPanel.cc
   StatisticsDialog.cc
-  StatusIcon.cc
-  TimeBar.cc
-  TimeEntry.cc
   TimerBoxPreferencesPanel.cc
-  TimerBoxView.cc
   TimerPreferencesPanel.cc
   Toolkit.cc
   ToolkitFactory.cc
   ToolkitMenu.cc
-  Ui.cc
-  UiUtil.cc
-  qformat.cc
+  utils/DataConnector.cc
+  utils/qformat.cc
+  utils/SizeGroup.cc
+  utils/Ui.cc
+  utils/UiUtil.cc
+  widgets/Frame.cc
+  widgets/IconListNotebook.cc
+  widgets/StatusIcon.cc
+  widgets/TimeBar.cc
+  widgets/TimeEntry.cc
+  widgets/TimerBoxView.cc
   )
 
 if (PLATFORM_OS_MACOS)
   target_sources(workrave-toolkit-qt PRIVATE
-    MouseMonitor.cc
     ToolkitMacOS.cc
+    platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc)
 
-    set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitMacOS.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
@@ -58,36 +58,35 @@ set(MOC_SOURCES
   DebugDialog.hh
   ExercisesDialog.hh
   ExercisesPanel.hh
-  Frame.hh
   GeneralUiPreferencesPanel.hh
-  IconListNotebook.hh
   MainWindow.hh
   MicroBreakWindow.hh
   PreferencesDialog.hh
   PreludeWindow.hh
   RestBreakWindow.hh
-  SizeGroup.hh
   SoundsPreferencesPanel.hh
   StatisticsDialog.hh
-  StatusIcon.hh
-  TimeBar.hh
-  TimeEntry.hh
   TimerBoxPreferencesPanel.hh
-  TimerBoxView.hh
   TimerPreferencesPanel.hh
   Toolkit.hh
   ToolkitMenu.hh
+  utils/SizeGroup.hh
+  widgets/Frame.hh
+  widgets/IconListNotebook.hh
+  widgets/StatusIcon.hh
+  widgets/TimeBar.hh
+  widgets/TimeEntry.hh
+  widgets/TimerBoxView.hh
 )
 
 qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
 
 target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-
 target_include_directories(workrave-toolkit-qt
   PRIVATE
-  ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/src
+  ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/utils
+  ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/widgets
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   )
 
@@ -105,10 +104,9 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
-  workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
-  # workrave-libs-ui-prefwidgets-qt
+  workrave-libs-ui-prefwidgets-qt
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
   ${LIBINTL_LIBRARIES}
@@ -116,10 +114,6 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   ${X11_X11_LIB}
   ${X11_Xtst_LIB}
   ${X11_Xss_LIB})
-
-if (HAVE_QT5 AND PLATFORM_OS_MACOS)
-  target_link_libraries(workrave-toolkit-qt PRIVATE Qt${QT_VERSION_MAJOR}::MacExtras)
-endif()
 
 if (HAVE_GLIB)
   target_include_directories(workrave-toolkit-qt PRIVATE ${GLIB_INCLUDE_DIRS})
