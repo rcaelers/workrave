@@ -225,7 +225,7 @@ if (PLATFORM_OS_WINDOWS)
     target_link_libraries(workrave PRIVATE dxerr8 dsound dxguid)
   endif()
   if (MSVC)
-    target_link_libraries(workrave PRIVATE wtsapi3 dsound dxguid)
+    target_link_libraries(workrave PRIVATE wtsapi32 dsound dxguid)
   endif()
 
   if (PLATFORM_OS_WINDOWS_NATIVE)
