@@ -49,7 +49,7 @@ if (WIN32)
   endif()
 
   set_target_properties(${APPLET_TARGET} PROPERTIES PREFIX "")
-  if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
      set_target_properties(${APPLET_TARGET} PROPERTIES LINK_FLAGS "-Wl,--allow-multiple-definition" )
   endif()
   target_link_libraries(${APPLET_TARGET} Boost::serialization shlwapi shcore uuid)
