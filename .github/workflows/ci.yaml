@@ -87,6 +87,7 @@ jobs:
           submodules: "recursive"
 
       - name: configure
+        shell: bash
         run: |
           cmake -B ${{ github.workspace }}/_build \
             -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
@@ -98,6 +99,7 @@ jobs:
             -DWITH_TRACING=ON
 
       - name: build
+        shell: bash
         run: cmake --build ${{github.workspace}}/_build
 
   build-windows:
