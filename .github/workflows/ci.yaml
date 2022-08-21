@@ -89,7 +89,7 @@ jobs:
       - name: configure
         shell: bash
         run: |
-          cmake -B ${{ github.workspace }}/_build \
+          cmake -B '${{ github.workspace }}/_build' \
             -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=x64-windows \
             -DCMAKE_BUILD_TYPE=Release \
@@ -100,7 +100,7 @@ jobs:
 
       - name: build
         shell: bash
-        run: cmake --build ${{github.workspace}}/_build
+        run: cmake --build '${{github.workspace}}/_build'
 
   build-windows:
     runs-on: windows-2019
