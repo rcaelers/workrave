@@ -8,6 +8,7 @@ https://github.com/rcaelers/workrave/issues
 * Workrave 1.11.0-alpha.4
 
 ** Updates Polish translation (#423 by ChuckMichael)
+** Support GNOME Shell 43 (#430 by Jeremy Bicha)
 
 * Workrave 1.11.0-alpha.3
 
@@ -748,12 +749,12 @@ https://github.com/rcaelers/workrave/issues
 
 ** First public release.
 
- 
+
 
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2021 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2022 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
