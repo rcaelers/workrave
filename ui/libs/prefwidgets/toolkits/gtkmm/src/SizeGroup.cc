@@ -32,11 +32,19 @@ SizeGroup::SizeGroup(std::shared_ptr<ui::prefwidgets::SizeGroup> def)
 {
   if (def->get_orientation() == Orientation::Vertical)
     {
+#if GTK_CHECK_VERSION(4,0,0)
+      group = Gtk::SizeGroup::create(Gtk::SizeGroup::Mode::VERTICAL);
+#else
       group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_VERTICAL);
+#endif
     }
   else
     {
+#if GTK_CHECK_VERSION(4,0,0)
+      group = Gtk::SizeGroup::create(Gtk::SizeGroup::Mode::HORIZONTAL);
+#else
       group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+#endif
     }
 }
 

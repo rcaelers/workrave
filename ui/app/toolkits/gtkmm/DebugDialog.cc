@@ -44,10 +44,15 @@ DebugDialog::DebugDialog()
   text_view->set_cursor_visible(false);
   text_view->set_editable(false);
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  scrolled_window.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+  scrolled_window.set_child(*text_view);
+#else
   scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
   scrolled_window.add(*text_view);
+#endif
 
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
   box->pack_start(scrolled_window, true, true, 0);
 
   get_vbox()->pack_start(*box, true, true, 0);

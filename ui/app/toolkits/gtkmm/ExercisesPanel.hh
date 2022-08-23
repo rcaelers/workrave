@@ -20,8 +20,9 @@
 
 #include "ui/SoundTheme.hh"
 #include "commonui/Exercise.hh"
+#include "commonui/GtkCompat.hh"
 
-#include <gtkmm.h>
+#include <gtkmm.h>  
 #include <sigc++/sigc++.h>
 
 #define PREVIOUS_BUTTON_ID "media-skip-backward"
@@ -30,12 +31,12 @@
 #define EXECUTE_BUTTON_ID "media-playback-start"
 #define STOP_BUTTON_ID "media-playback-pause"
 
-class ExercisesPanel : public Gtk::HBox
+class ExercisesPanel : public GtkCompat::Box
 {
 public:
-  using stop_signal_t= sigc::signal<void()>;
+  using stop_signal_t = sigc::signal<void()>;
 
-  ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area);
+  ExercisesPanel(SoundTheme::Ptr sound_theme, GtkCompat::Box *dialog_action_area);
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);

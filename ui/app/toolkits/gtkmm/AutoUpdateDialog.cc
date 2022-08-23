@@ -56,13 +56,13 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
   set_default_size(800, 600);
   set_border_width(6);
 
-  auto *hbox = Gtk::manage(new Gtk::Box());
+  auto *hbox = Gtk::manage(new GtkCompat::Box());
   hbox->set_border_width(6);
   hbox->set_spacing(6);
 
   get_content_area()->pack_start(*hbox, true, true, 0);
 
-  auto *logobox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *logobox = Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
   logobox->set_border_width(6);
   logobox->set_spacing(6);
   hbox->pack_start(*logobox, false, false, 0);
@@ -73,7 +73,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
       Gtk::Image *logo = Gtk::manage(new Gtk::Image(pix));
       logobox->pack_start(*logo, false, false, 0);
     }
- #if GLIBMM_CHECK_VERSION(2, 68, 0)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
   catch (std::exception &e)
     {
       spdlog::info("error loading image {}", e.what());
@@ -85,7 +85,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
     }
 #endif
 
-  auto *vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+  auto *vbox = Gtk::manage(new GtkCompat::Box(Gtk::ORIENTATION_VERTICAL));
   vbox->set_border_width(6);
   vbox->set_spacing(10);
   hbox->pack_start(*vbox, true, true, 0);
@@ -98,7 +98,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
   title_label->set_use_markup();
   vbox->pack_start(*title_label, false, false, 0);
 
-  auto *info_hbox = Gtk::manage(new Gtk::HBox());
+  auto *info_hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
   vbox->pack_start(*info_hbox, false, false, 0);
 
   auto *info_label = Gtk::manage(
@@ -150,7 +150,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
       scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
       scrolled_window.add(*text_view);
 
-      Gtk::HBox *scrolled_box = Gtk::manage(new Gtk::HBox(false, 6));
+      auto *scrolled_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
       scrolled_box->pack_start(scrolled_window, true, true, 0);
 
       notes_frame->add(*scrolled_box);

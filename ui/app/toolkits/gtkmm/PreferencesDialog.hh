@@ -165,7 +165,7 @@ private:
   void on_monitor_type_toggled();
 
   Glib::RefPtr<Gtk::Adjustment> sensitivity_adjustment{Gtk::Adjustment::create(3, 0, 100)};
-  Gtk::HBox *sensitivity_box{nullptr};
+  GtkCompat::Box *sensitivity_box{nullptr};
 #endif
 };
 

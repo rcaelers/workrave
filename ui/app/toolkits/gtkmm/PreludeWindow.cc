@@ -68,13 +68,13 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   time_bar = Gtk::manage(new TimeBar);
   label = Gtk::manage(new Gtk::Label());
 
-  Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
+  auto *vbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL, 6));
   vbox->pack_start(*label, false, false, 0);
   vbox->pack_start(*time_bar, false, false, 0);
 
   image_icon = Gtk::manage(new Gtk::Image());
 
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
   hbox->pack_start(*image_icon, false, false, 0);
   hbox->pack_start(*vbox, false, false, 0);
 
@@ -85,8 +85,8 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   frame->add(*hbox);
   frame->signal_flash().connect(sigc::mem_fun(*this, &PreludeWindow::on_frame_flash_event));
   flash_visible = true;
-  color_warn = Gdk::Color("orange");
-  color_alert = Gdk::Color("red");
+  color_warn = Gdk::RGBA("orange");
+  color_alert = Gdk::RGBA("red");
 
   add(*frame);
 

@@ -73,12 +73,16 @@ protected:
 
   void center();
 
-  Gtk::Box *create_bottom_box(bool lockable, bool shutdownable);
+  GtkCompat::Box *create_bottom_box(bool lockable, bool shutdownable);
   void update_skip_postpone_lock();
   void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // TODO: use close request
+#else
   bool on_delete_event(GdkEventAny *) override;
+#endif
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 

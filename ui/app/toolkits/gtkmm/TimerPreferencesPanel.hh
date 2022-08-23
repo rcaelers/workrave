@@ -37,7 +37,7 @@ namespace Gtk
   class SpinButton;
 } // namespace Gtk
 
-class TimerPreferencesPanel : public Gtk::VBox
+class TimerPreferencesPanel : public GtkCompat::Box
 {
 public:
   TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,

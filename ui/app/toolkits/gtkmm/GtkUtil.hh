@@ -50,11 +50,11 @@ public:
 
   static Glib::RefPtr<Gdk::Pixbuf> flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical);
 
-  static void table_attach_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left);
+  static void table_attach_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach, bool left);
 
-  static void table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach);
+  static void table_attach_left_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach);
 
-  static void table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child, guint left_attach, guint top_attach);
+  static void table_attach_right_aligned(Gtk::Grid &table, Gtk::Widget &child, guint left_attach, guint top_attach);
 
   static void center_window(Gtk::Window &window, HeadInfo &head);
 
@@ -62,7 +62,11 @@ public:
 
   static bool has_button_images();
 
+#if GTK_CHECK_VERSION(4, 0, 0)
+  // TODO
+#else
   static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);
+#endif
 
   static GtkWindow *get_visible_tooltip_window();
 
@@ -83,16 +87,12 @@ private:
   static Glib::Quark *label_quark;
 };
 
-#define GLIBMM_CHECK_VERSION(major,minor,micro)                            \
-    (GLIBMM_MAJOR_VERSION > (major) ||                                     \
-    (GLIBMM_MAJOR_VERSION == (major) && GLIBMM_MINOR_VERSION > (minor)) ||  \
-    (GLIBMM_MAJOR_VERSION == (major) && GLIBMM_MINOR_VERSION == (minor) &&  \
-     GLIBMM_MICRO_VERSION >= (micro)))
+#define GLIBMM_CHECK_VERSION(major, minor, micro)                                                        \
+  (GLIBMM_MAJOR_VERSION > (major) || (GLIBMM_MAJOR_VERSION == (major) && GLIBMM_MINOR_VERSION > (minor)) \
+   || (GLIBMM_MAJOR_VERSION == (major) && GLIBMM_MINOR_VERSION == (minor) && GLIBMM_MICRO_VERSION >= (micro)))
 
-#define CAIROMM_CHECK_VERSION(major,minor,micro)                            \
-    (CAIROMM_MAJOR_VERSION > (major) ||                                     \
-    (CAIROMM_MAJOR_VERSION == (major) && CAIROMM_MINOR_VERSION > (minor)) ||  \
-    (CAIROMM_MAJOR_VERSION == (major) && CAIROMM_MINOR_VERSION == (minor) &&  \
-     CAIROMM_MICRO_VERSION >= (micro)))
+#define CAIROMM_CHECK_VERSION(major, minor, micro)                                                          \
+  (CAIROMM_MAJOR_VERSION > (major) || (CAIROMM_MAJOR_VERSION == (major) && CAIROMM_MINOR_VERSION > (minor)) \
+   || (CAIROMM_MAJOR_VERSION == (major) && CAIROMM_MINOR_VERSION == (minor) && CAIROMM_MICRO_VERSION >= (micro)))
 
 #endif // GTKUTIL_HH

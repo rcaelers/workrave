@@ -38,7 +38,7 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(FindPythonModule)
 include(ExternalProject)
-  include(FindPkgConfig)
+include(FindPkgConfig)
 
 #----------------------------------------------------------------------------------------------------
 # Macros
@@ -287,28 +287,15 @@ endif()
 if ("${WITH_UI}" STREQUAL "Gtk+4")
   message(STATUS "Checking for: Gtk 4")
 
-  if (NOT VCPKG_TOOLCHAIN)
-    pkg_check_modules(
-      GTK REQUIRED
-      gtkmm-4.0>=4.4.0
-      gtk4>=4.6.0)
+  pkg_check_modules(
+    GTK REQUIRED
+    gtkmm-4.0>=4.4.0
+    gtk4>=4.6.0)
 
-    pkg_check_modules(
-      GLIB REQUIRED
-      glib-2.0>=2.71.0
-      gio-2.0>=2.71.0)
-  else()
-    set(LIBS atk-1.0 atkmm cairo cairomm-1.0 gdk_pixbuf-2.0 gdk-3.0 gdkmm gio-2.0 giomm glib-2.0 glibmm gobject-2.0 gtk-3.0 gtkmm libintl pango-1.0 pangomm sigc-2.0)
-    foreach(lib ${LIBS})
-     find_library(${lib}_PATH ${lib} RERQUIRED)
-      if(${lib}_PATH)
-        set(GTK_LIBRARIES ${GTK_LIBRARIES} ${${lib}_PATH})
-      else()
-        message(STATUS "Could not find ${lib}")
-      endif()
-    endforeach()
-    find_path(GTK_INCLUDE_DIRS gtkmm.h)
-  endif()
+  pkg_check_modules(
+    GLIB REQUIRED
+    glib-2.0>=2.71.0
+    gio-2.0>=2.71.0)
 
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -321,7 +308,11 @@ if ("${WITH_UI}" STREQUAL "Gtk+4")
     set (DBUS_BACKEND "gio")
   endif()
 
-  include_directories(${GLIB_INCLUDE_DIRS})
+  pkg_check_modules(
+    GTK3 REQUIRED
+    gtk+-3.0>=3.22.0)
+
+  #include_directories(${GLIB_INCLUDE_DIRS})
   find_package(GSettings)
 endif()
 

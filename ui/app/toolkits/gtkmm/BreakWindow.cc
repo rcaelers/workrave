@@ -453,6 +453,7 @@ BreakWindow::update_skip_postpone_lock()
     }
 }
 
+#if !GTK_CHECK_VERSION(4, 0, 0)
 //! User has closed the main window.
 bool
 BreakWindow::on_delete_event(GdkEventAny *)
@@ -463,6 +464,7 @@ BreakWindow::on_delete_event(GdkEventAny *)
     }
   return TRUE;
 }
+#endif
 
 //! The postpone button was clicked.
 void
@@ -537,15 +539,15 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
-  Gtk::VBox *vbox = new Gtk::VBox(false, 0);
+  auto *vbox = new Gtk::Box(Gtk::Orientation::VERTICAL, 0);
 
   button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
   box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
 
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
-      Gtk::HBox *top_box = Gtk::manage(new Gtk::HBox(false, 0));
-      Gtk::HBox *bottom_box = Gtk::manage(new Gtk::HBox(false, 6));
+      auto *top_box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL, 0));
+      auto *bottom_box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL, 6));
 
       vbox->pack_end(*bottom_box, Gtk::PACK_SHRINK, 2);
 
@@ -588,7 +590,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
 
           if (skip_locked || postpone_locked)
             {
-              Gtk::HBox *progress_bar_box = Gtk::manage(new Gtk::HBox(false, 0));
+              auto *progress_bar_box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL, 0));
 
               progress_bar = Gtk::manage(new Gtk::ProgressBar);
               progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);

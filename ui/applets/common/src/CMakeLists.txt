@@ -14,13 +14,13 @@ if (HAVE_GTK AND UNIX AND NOT APPLE)
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     ${CMAKE_SOURCE_DIR}/libs/config/include
-    ${GTK_INCLUDE_DIRS}
+    ${GTK3_INCLUDE_DIRS}
     INTERFACE
     ${CMAKE_SOURCE_DIR}/ui/applets/common/include
     )
 
-    target_link_directories(workrave-private-1.0 PRIVATE ${GTK_LIBPATH})
-    target_link_libraries(workrave-private-1.0 ${GTK_LIBRARIES})
+    target_link_directories(workrave-private-1.0 PRIVATE ${GTK3_LIBPATH})
+    target_link_libraries(workrave-private-1.0 ${GTK3_LIBRARIES})
 
   set_target_properties(workrave-private-1.0 PROPERTIES VERSION 0.0.0 SOVERSION 0)
   install(TARGETS workrave-private-1.0 RUNTIME DESTINATION bin LIBRARY DESTINATION ${LIBDIR} ARCHIVE DESTINATION ${LIBDIR} LIBRARY NAMELINK_SKIP)

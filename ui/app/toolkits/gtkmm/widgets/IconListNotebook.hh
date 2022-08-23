@@ -25,7 +25,7 @@
 #include <gtkmm/notebook.h>
 #include <gtkmm/liststore.h>
 
-class IconListNotebook : public Gtk::HBox
+class IconListNotebook : public GtkCompat::Box
 {
 public:
   IconListNotebook();

@@ -5,15 +5,15 @@ add_library(workrave-libs-dbus STATIC
 )
 
 if (HAVE_DBUS_GIO OR HAVE_DBUS_TEST_GIO)
-  target_sources(workrave-libs-dbus PRIVATE 
+  target_sources(workrave-libs-dbus PRIVATE
     DBusGio.cc
     DBusGeneric.cc
     DBusBindingGio.cc)
-    target_include_directories(workrave-libs-dbus PRIVATE ${GLIB_INCLUDE_DIRS})
+    target_include_directories(workrave-libs-dbus PUBLIC ${GLIB_INCLUDE_DIRS})
 endif()
 
 if (HAVE_DBUS_QT)
-  target_sources(workrave-libs-dbus PRIVATE 
+  target_sources(workrave-libs-dbus PRIVATE
     DBusQt.cc
     DBusGeneric.cc
     DBusBindingQt.cc)
@@ -39,7 +39,8 @@ endif()
 
 if (HAVE_DBUS_GIO)
   target_sources(workrave-libs-dbus-stub PRIVATE DBusBindingGio.cc)
-endif()
+  target_include_directories(workrave-libs-dbus-stub PUBLIC ${GLIB_INCLUDE_DIRS})
+  endif()
 
 set_target_properties(workrave-libs-dbus-stub PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_DUMMY=1")
 target_link_libraries(workrave-libs-dbus-stub PRIVATE workrave-libs-utils)

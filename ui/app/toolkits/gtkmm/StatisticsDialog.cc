@@ -75,7 +75,7 @@ StatisticsDialog::init_gui()
   Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 #else
-  Gtk::HBox *tnotebook = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *tnotebook = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
 #endif
 
   // Calendar
@@ -85,7 +85,7 @@ StatisticsDialog::init_gui()
   calendar->set_display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS | Gtk::CALENDAR_SHOW_DAY_NAMES | Gtk::CALENDAR_SHOW_HEADING);
 
   // Button box.
-  Gtk::HBox *btnbox = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *btnbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
   first_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-first"));
   first_btn->signal_clicked().connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
   last_btn = Gtk::manage(GtkUtil::create_custom_stock_button(nullptr, "go-last"));
@@ -120,7 +120,7 @@ StatisticsDialog::init_gui()
   statbox->add_widget(*tnotebook);
   navbox->add(*statbox);
 
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
+  auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 12));
   hbox->pack_start(*browsebox, false, false, 0);
   hbox->pack_start(*navbox, true, true, 0);
 
@@ -148,11 +148,11 @@ StatisticsDialog::init_gui()
 void
 StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Breaks")));
   box->pack_start(*lab, false, false, 0);
 
-  Gtk::Table *table = Gtk::manage(new Gtk::Table(10, 5, false));
+  Gtk::Grid *table = Gtk::manage(new Gtk::Grid(10, 5, false));
   table->set_row_spacings(2);
   table->set_col_spacings(6);
   table->set_border_width(6);
@@ -208,8 +208,8 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *dl_label, 4, y);
 
   y = 1;
-  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-  table->attach(*vrule, 1, 2, 0, 9, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  table->attach(*hrule, 0, 5, y, y + 1, true, true, Gtk::SHRINK);
+  table->attach(*vrule, 1, 2, 0, 9, Gtk::SHRINK, true, true);
 
   y = 2;
   GtkUtil::table_attach_left_aligned(*table, *unique_label, 0, y++);
@@ -221,7 +221,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *overdue_label, 0, y++);
 
   hrule = Gtk::manage(new Gtk::HSeparator());
-  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
+  table->attach(*hrule, 0, 5, y, y + 1, true, true, Gtk::SHRINK);
   y++;
 
   daily_usage_time_label = Gtk::manage(new Gtk::Label());
@@ -229,14 +229,14 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   monthly_usage_time_label = Gtk::manage(new Gtk::Label());
 
   vrule = Gtk::manage(new Gtk::VSeparator());
-  table->attach(*vrule, 1, 2, y, y + 3, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  table->attach(*vrule, 1, 2, y, y + 3, Gtk::SHRINK, true, true);
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y);
   GtkUtil::table_attach_right_aligned(*table, *weekly_usage_label, 3, y);
   GtkUtil::table_attach_right_aligned(*table, *monthly_usage_label, 4, y);
   y++;
 
   hrule = Gtk::manage(new Gtk::HSeparator());
-  table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
+  table->attach(*hrule, 0, 5, y, y + 1, true, true, Gtk::SHRINK);
   y++;
 
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
@@ -259,18 +259,18 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 #if !defined(PLATFORM_OS_MACOS)
   ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
 #else
-  ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);
+  ((GtkCompat::Box *)tnotebook)->pack_start(*table, true, true, 0);
 #endif
 }
 
 void
 StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 3));
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Activity")));
   box->pack_start(*lab, false, false, 0);
 
-  Gtk::Table *table = Gtk::manage(new Gtk::Table(8, 5, false));
+  Gtk::Grid *table = Gtk::manage(new Gtk::Grid(8, 5, false));
   table->set_row_spacings(2);
   table->set_col_spacings(6);
   table->set_border_width(6);

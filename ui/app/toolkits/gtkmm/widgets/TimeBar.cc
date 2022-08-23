@@ -36,15 +36,15 @@ const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
 
-std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors{
-  {TimerColorId::Active, Gdk::Color("lightblue")},
-  {TimerColorId::Inactive, Gdk::Color("lightgreen")},
-  {TimerColorId::Overdue, Gdk::Color("orange")},
-  {TimerColorId::ActiveDuringBreak1, Gdk::Color("red")},
-  {TimerColorId::ActiveDuringBreak2, Gdk::Color("#e00000")},
-  {TimerColorId::InactiveOverActive, Gdk::Color("#00d4b2")},
-  {TimerColorId::InactiveOverOverdue, Gdk::Color("lightgreen")},
-  {TimerColorId::Bg, Gdk::Color("#777777")},
+std::map<TimerColorId, Gdk::RGBA> TimeBar::bar_colors{
+  {TimerColorId::Active, Gdk::RGBA("lightblue")},
+  {TimerColorId::Inactive, Gdk::RGBA("lightgreen")},
+  {TimerColorId::Overdue, Gdk::RGBA("orange")},
+  {TimerColorId::ActiveDuringBreak1, Gdk::RGBA("red")},
+  {TimerColorId::ActiveDuringBreak2, Gdk::RGBA("#e00000")},
+  {TimerColorId::InactiveOverActive, Gdk::RGBA("#00d4b2")},
+  {TimerColorId::InactiveOverOverdue, Gdk::RGBA("lightgreen")},
+  {TimerColorId::Bg, Gdk::RGBA("#777777")},
 };
 
 TimeBar::TimeBar()
@@ -54,7 +54,7 @@ TimeBar::TimeBar()
 
   set_bar_color(TimerColorId::Inactive);
   set_secondary_bar_color(TimerColorId::Inactive);
-  set_text_color(Gdk::Color("black"));
+  set_text_color(Gdk::RGBA("black"));
 
   GtkUtil::set_theme_fg_color(this);
 }
@@ -108,7 +108,7 @@ TimeBar::set_secondary_bar_color(TimerColorId color)
 }
 
 void
-TimeBar::set_text_color(Gdk::Color color)
+TimeBar::set_text_color(Gdk::RGBA color)
 {
   bar_text_color = color;
 }
@@ -457,7 +457,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 }
 
 void
-TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color)
+TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color)
 {
   cr->set_source_rgba(color.get_red_p(), color.get_green_p(), color.get_blue_p(), 1);
 }

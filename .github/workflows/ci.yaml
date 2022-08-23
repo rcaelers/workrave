@@ -3,13 +3,13 @@ on:
   push:
     branches:
       - "main"
-      - "topic/*"
+    # - "topic/*"
     tags:
       - "v1_11_*"
   pull_request:
     branches:
       - "main"
-      - "topic/*"
+    # - "topic/*"
 
 env:
   VCPKG_ROOT: C:/vcpkg

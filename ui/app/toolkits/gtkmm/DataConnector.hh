@@ -21,7 +21,8 @@
 #include <string>
 #include <list>
 #include <sigc++/sigc++.h>
-#include <gdkmm/types.h>
+// TODO: vcpkg
+// #include <gdkmm/types.h>
 
 #include <gtkmm.h>
 

@@ -27,12 +27,6 @@ class TimeBar;
 #include "ui/IApplicationContext.hh"
 #include "BreakWindow.hh"
 
-namespace Gtk
-{
-  class HButtonBox;
-  class HBox;
-} // namespace Gtk
-
 class RestBreakWindow : public BreakWindow
 {
 public:
@@ -61,7 +55,7 @@ private:
   TimeBar *timebar{nullptr};
   int progress_value{0};
   int progress_max_value{0};
-  Gtk::HBox *pluggable_panel{nullptr};
+  GtkCompat::Box *pluggable_panel{nullptr};
   bool is_flashing{false};
 };
 

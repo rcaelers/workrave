@@ -41,7 +41,7 @@ namespace ui::prefwidgets::gtkmm
 
   private:
     std::shared_ptr<ui::prefwidgets::Toggle> def;
-    Gtk::ToggleButton *widget{};
+    Gtk::CheckButton *widget{};
   };
 } // namespace ui::prefwidgets::gtkmm
 

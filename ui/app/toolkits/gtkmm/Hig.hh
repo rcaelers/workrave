@@ -20,45 +20,22 @@
 
 #include <gtkmm.h>
 
-#if GTK_CHECK_VERSION(4,0,0)
-namespace Gtk
-{
-  class HBox: public Gtk::Box
-  {
-    public:
-      HBox()
-      {
-        set_orientation(Gtk::Orientation::HORIZONTAL);
-      }
-
-  };
-
-  class VBox: public Gtk::Box
-  {
-    public:
-      VBox()
-      {
-        set_orientation(Gtk::Orientation::VERTICAL);
-      }
-
-  };
-}
-#endif
+#include "commonui/GtkCompat.hh"
 
 class HigDialog : public Gtk::Dialog
 {
 public:
   HigDialog();
   HigDialog(const Glib::ustring &title, bool modal = false, bool use_separator = false);
-  Gtk::VBox *get_vbox();
+  GtkCompat::Box *get_vbox();
 
 private:
   void set_hig_defaults();
 
-  Gtk::VBox *vbox{nullptr};
+  GtkCompat::Box *vbox{nullptr};
 };
 
-class HigCategoryPanel : public Gtk::VBox
+class HigCategoryPanel : public GtkCompat::Box
 {
 public:
   HigCategoryPanel(Gtk::Widget &lab, bool fill = false);
@@ -74,16 +51,16 @@ public:
 private:
   void init(Gtk::Widget &lab, bool fill = false);
 
-  Gtk::VBox *options_box{nullptr};
+  GtkCompat::Box *options_box{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> size_group;
 };
 
-class HigCategoriesPanel : public Gtk::VBox
+class HigCategoriesPanel : public GtkCompat::Box
 {
 public:
   HigCategoriesPanel();
   void add(Gtk::Widget &panel)
-#if !GTK_CHECK_VERSION(4,0,0)
+#if !GTK_CHECK_VERSION(4, 0, 0)
     override
 #endif
     ;

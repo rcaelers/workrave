@@ -22,7 +22,9 @@
 #include <gtkmm/box.h>
 #include <gtkmm/sizegroup.h>
 
-class HigCategoryPanel : public Gtk::VBox
+#include "commonui/GtkCompat.hh"
+
+class HigCategoryPanel : public GtkCompat::Box
 {
 public:
   explicit HigCategoryPanel(Gtk::Widget &lab, bool fill = false);
@@ -38,15 +40,19 @@ public:
 private:
   void init(Gtk::Widget &lab, bool fill = false);
 
-  Gtk::VBox *options_box{nullptr};
+  GtkCompat::Box *options_box{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> size_group;
 };
 
-class HigCategoriesPanel : public Gtk::VBox
+class HigCategoriesPanel : public GtkCompat::Box
 {
 public:
   HigCategoriesPanel();
-  void add(Gtk::Widget &panel) override;
+  void add(Gtk::Widget &panel)
+#if !GTK_CHECK_VERSION(4, 0, 0)
+    override
+#endif
+    ;
 };
 
 #endif // HIG_HH

@@ -29,7 +29,7 @@
 #include "IconListCellRenderer.hh"
 
 IconListNotebook::IconListNotebook()
-  : Gtk::HBox(false, 6)
+  : GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6)
 {
   icon_list.show();
   icon_list.set_headers_visible(false);

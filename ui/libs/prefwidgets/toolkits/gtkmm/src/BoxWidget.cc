@@ -40,17 +40,17 @@ BoxWidget::BoxWidget(std::shared_ptr<ui::prefwidgets::Box> def,
 {
   if (def->get_orientation() == Orientation::Vertical)
     {
-      box = Gtk::manage(new Gtk::VBox(false, def->get_spacing()));
+      box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL, def->get_spacing()));
     }
   else
     {
-      box = Gtk::manage(new Gtk::HBox(false, def->get_spacing()));
+      box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, def->get_spacing()));
     }
   add_to_size_groups(def, box);
   container->add_widget(*box);
 }
 
-BoxWidget::BoxWidget(Gtk::Box *box)
+BoxWidget::BoxWidget(GtkCompat::Box *box)
   : box(box)
 {
 }

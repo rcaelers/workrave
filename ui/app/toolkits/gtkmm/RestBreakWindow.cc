@@ -64,9 +64,9 @@ Gtk::Widget *
 RestBreakWindow::create_gui()
 {
   // Add other widgets.
-  Gtk::VBox *vbox = new Gtk::VBox(false, 6);
+  auto *vbox = new GtkCompat::Box(Gtk::Orientation::VERTICAL, 6);
 
-  pluggable_panel = Gtk::manage(new Gtk::HBox);
+  pluggable_panel = Gtk::manage(new GtkCompat::Box::Orientation::HORIZONTAL);
 
   vbox->pack_start(*pluggable_panel, false, false, 0);
 
@@ -74,7 +74,7 @@ RestBreakWindow::create_gui()
   timebar = Gtk::manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
 
-  Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
+  GtkCompat::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
   if (bottom_box)
     {
       vbox->pack_end(*Gtk::manage(bottom_box), Gtk::PACK_SHRINK, 6);
@@ -137,7 +137,7 @@ RestBreakWindow::draw_time_bar()
     {
       if (user_active && !is_flashing)
         {
-          frame->set_frame_color(Gdk::Color("orange"));
+          frame->set_frame_color(Gdk::RGBA("orange"));
           frame->set_frame_visible(true);
           frame->set_frame_flashing(500);
           is_flashing = true;
@@ -156,7 +156,7 @@ RestBreakWindow::draw_time_bar()
 Gtk::Widget *
 RestBreakWindow::create_info_panel()
 {
-  Gtk::HBox *info_box = Gtk::manage(new Gtk::HBox(false, 12));
+  auto *info_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 12));
 
   Gtk::Image *info_img = GtkUtil::create_image("rest-break.png");
   info_img->set_alignment(0.0, 0.0);

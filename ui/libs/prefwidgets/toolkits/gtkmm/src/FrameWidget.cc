@@ -30,7 +30,11 @@ FrameWidget::FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def,
   , def(def)
 {
   panel = Gtk::manage(new HigCategoryPanel(def->get_label().c_str()));
+#if GTK_CHECK_VERSION(4, 0, 0)
+// TODO:
+#else
   panel->set_border_width(12);
+#endif
   add_to_size_groups(def, panel);
 
   container->add_widget(*panel);

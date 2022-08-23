@@ -22,7 +22,7 @@
 #include "Frame.hh"
 
 Frame::Frame()
-  : frame_color(Gdk::Color("black"))
+  : frame_color(Gdk::RGBA("black"))
 {
 }
 
@@ -59,7 +59,7 @@ Frame::set_frame_style(const Style style)
 }
 
 void
-Frame::set_frame_color(const Gdk::Color &col)
+Frame::set_frame_color(const Gdk::RGBA &col)
 {
   frame_color = col;
 }
@@ -217,7 +217,7 @@ Frame::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 }
 
 void
-Frame::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color)
+Frame::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color)
 {
   cr->set_source_rgb(color.get_red_p(), color.get_green_p(), color.get_blue_p());
 }

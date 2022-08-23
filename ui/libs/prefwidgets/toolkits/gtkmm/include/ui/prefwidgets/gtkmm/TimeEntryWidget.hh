@@ -24,6 +24,7 @@
 
 #include "ui/prefwidgets/Time.hh"
 #include "ContainerWidget.hh"
+#include "commonui/GtkCompat.hh"
 
 namespace ui::prefwidgets::gtkmm
 {
@@ -46,7 +47,7 @@ namespace ui::prefwidgets::gtkmm
   private:
     std::shared_ptr<ui::prefwidgets::Time> def;
 
-    Gtk::HBox *box{nullptr};
+    GtkCompat::Box *box{nullptr};
 
     Gtk::SpinButton *hrs{nullptr};
     Gtk::SpinButton *mins{nullptr};

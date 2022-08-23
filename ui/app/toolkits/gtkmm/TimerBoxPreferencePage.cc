@@ -39,7 +39,7 @@
 using namespace workrave;
 
 TimerBoxPreferencePage::TimerBoxPreferencePage(std::shared_ptr<IApplicationContext> app, std::string n)
-  : Gtk::HBox(false, 6)
+  : GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6)
   , app(app)
   , name(std::move(n))
 {

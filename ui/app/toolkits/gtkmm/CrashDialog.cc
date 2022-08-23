@@ -52,7 +52,7 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
   set_title(_("crash details"));
   set_border_width(6);
 
-  vbox = Gtk::manage(new Gtk::VBox());
+  vbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
   vbox->set_border_width(6);
   vbox->set_spacing(6);
 
@@ -83,7 +83,7 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
       scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
       scrolled_window.add(*attachments_text_view);
 
-      Gtk::HBox *attachments_box = Gtk::manage(new Gtk::HBox(false, 6));
+      auto *attachments_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
       attachments_box->pack_start(scrolled_window, true, true, 0);
 
       attachments_frame->add(*attachments_box);
@@ -114,15 +114,15 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 }
 
-Gtk::VBox *
-create_indented_box(Gtk::Box *container)
+auto *
+create_indented_box(GtkCompat::Box *container)
 {
-  Gtk::HBox *ibox = Gtk::manage(new Gtk::HBox());
+  auto *ibox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
   container->pack_start(*ibox, true, true, 0);
 
   Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 10);
-  auto *box = Gtk::manage(new Gtk::VBox());
+  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
   ibox->pack_start(*box, true, true, 0);
   box->set_spacing(6);
   return box;
@@ -136,7 +136,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
   set_title(_("Workrave crash reporter"));
   set_border_width(6);
 
-  vbox = Gtk::manage(new Gtk::VBox());
+  vbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL));
   vbox->set_border_width(6);
   vbox->set_spacing(6);
 
@@ -149,7 +149,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
   title_label->set_use_markup();
   vbox->pack_start(*title_label, false, false, 0);
 
-  auto *info_hbox = Gtk::manage(new Gtk::HBox());
+  auto *info_hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
   vbox->pack_start(*info_hbox, false, false, 0);
 
   auto *info_label = Gtk::manage(new Gtk::Label(
@@ -163,9 +163,9 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
   submit_cb->signal_toggled().connect(sigc::mem_fun(*this, &CrashDialog::on_submit_toggled));
   vbox->pack_start(*submit_cb, false, false, 0);
 
-  Gtk::VBox *ibox = create_indented_box(vbox);
+  auto *ibox = create_indented_box(vbox);
 
-  auto *details_hbox = Gtk::manage(new Gtk::HBox());
+  auto *details_hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
   ibox->pack_start(*details_hbox, false, false, 0);
 
   auto *details_btn = Gtk::manage(new Gtk::Button(_("Details...")));
@@ -186,7 +186,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations, 
   scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
   scrolled_window.add(*text_view);
 
-  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
   box->pack_start(scrolled_window, true, true, 0);
 
   user_text_frame->add(*box);

@@ -285,7 +285,7 @@ PreferencesDialog::create_gui_page()
 
   connector->connect(GUIConfig::theme_dark(), dc::wrap(dark_cb));
 #endif
-  Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
+  auto *vbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL, 6));
   vbox->pack_start(*panel, false, false, 0);
 
   general_frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(vbox);
@@ -298,7 +298,7 @@ PreferencesDialog::create_gui_page()
 Gtk::Widget *
 PreferencesDialog::create_sounds_page()
 {
-  Gtk::VBox *panel = Gtk::manage(new Gtk::VBox(false, 6));
+  auto *panel = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL, 6));
 
   // Options
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Sound Options")));
@@ -390,7 +390,7 @@ PreferencesDialog::create_sounds_page()
 
   hig->add_widget(*sound_scroll, true, true);
 
-  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
+  auto *hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 6));
 
   sound_play_button = Gtk::manage(new Gtk::Button(_("Play")));
   hbox->pack_start(*sound_play_button, false, false, 0);
@@ -411,7 +411,7 @@ PreferencesDialog::create_sounds_page()
 
   hig->add_widget(*hbox);
 
-  Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
+  auto *selector_hbox = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL, 0));
   Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));
 
   selector_hbox->pack_end(*selector_playbutton, false, false, 0);
@@ -469,7 +469,7 @@ PreferencesDialog::create_timer_page()
 Gtk::Widget *
 PreferencesDialog::create_monitoring_page()
 {
-  Gtk::VBox *panel = Gtk::manage(new Gtk::VBox(false, 6));
+  auto *panel = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::VERTICAL, 6));
   panel->set_border_width(12);
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -486,7 +486,7 @@ PreferencesDialog::create_monitoring_page()
     GtkUtil::create_label(_("Workrave needs to be restarted manually after changing this setting"), false));
   panel->pack_start(*monitor_type_help2, false, false, 0);
 
-  sensitivity_box = Gtk::manage(new Gtk::HBox());
+  sensitivity_box = Gtk::manage(new GtkCompat::Box(Gtk::Orientation::HORIZONTAL));
   Gtk::Widget *sensitivity_lab = Gtk::manage(
     GtkUtil::create_label_with_tooltip(_("Mouse sensitivity:"),
                                        _("Number of pixels the mouse should move before it is considered activity.")));

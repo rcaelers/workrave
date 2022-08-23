@@ -41,6 +41,7 @@ target_link_libraries(workrave-libs-ui-prefwidgets-gtkmm
   PRIVATE
   workrave-libs-config
   workrave-libs-utils
+  workrave-libs-commonui
   workrave-libs-ui-prefwidgets)
 
 # if (PLATFORM_OS_UNIX)
