@@ -51,13 +51,10 @@ jobs:
           path: _deploy
 
   build-windows-vcpkg:
-    name: Windows VCPKG
+    name: windows vcpkg
     runs-on: windows-latest
     steps:
-      - name: Debug - free space
-        run: Get-PSDrive
-
-      - name: Prepare VCPKG
+      - name: prepare vcpkg
         id: prep-vcpkg
         shell: pwsh
         run: |
@@ -135,7 +132,6 @@ jobs:
 
   build-msys2:
     runs-on: windows-latest
-    if: ${{ false }}
     needs: prep
     strategy:
       matrix:
@@ -208,7 +204,6 @@ jobs:
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
-    if: ${{ false }}
     needs: prep
     defaults:
       run:
