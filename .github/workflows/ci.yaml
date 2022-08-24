@@ -131,17 +131,12 @@ jobs:
             enable: gnome3,pulse,dbus,experimental,gstreamer,exercises,xml
             disable: gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing
 
-          - image: ubuntu-hirsute
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
-          - image: ubuntu-impish
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
           - image: ubuntu-jammy
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-kinetic
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
