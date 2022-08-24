@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.10.51
+    date: 2023-08-01T00:00:00+02:00
+    short: |-
+      Upcoming changes for Workrave 1.10.51
+    changes:
+      - Support GNOME Shell 43 (#430 by Jeremy Bich,async from 1.11)
+
   - version: 1.10.50
     date: 2022-04-01T14:35:10+02:00
     short: |-
