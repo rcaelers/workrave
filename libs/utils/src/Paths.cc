@@ -218,7 +218,7 @@ Paths::get_data_directories()
       TRACE_VAR(e.what());
     }
 
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
   for (const auto &d: canonicalize(directories))
     {
       TRACE_VAR(d.string());
@@ -254,7 +254,7 @@ Paths::get_config_directories()
       TRACE_VAR(e.what());
     }
 
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
   for (const auto &d: canonicalize(directories))
     {
       TRACE_VAR(d.string());

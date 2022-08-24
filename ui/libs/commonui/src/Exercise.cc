@@ -167,7 +167,7 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
         }
     }
 
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
   for (auto &exercise: exercises)
     {
       TRACE_MSG("exercise title= {}", exercise.title);
