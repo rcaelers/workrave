@@ -632,7 +632,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               sysoper_combobox = create_sysoper_combobox();
               if (sysoper_combobox != nullptr)
                 {
-                  bottom_box->pack_end(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
+                  bottom_box->pack_start(*sysoper_combobox, Gtk::PACK_SHRINK, 0);
                 }
             }
           else
@@ -640,7 +640,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               lock_button = create_lock_button();
               if (lock_button != nullptr)
                 {
-                  bottom_box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
+                  bottom_box->pack_start(*lock_button, Gtk::PACK_SHRINK, 0);
                 }
             }
         }
