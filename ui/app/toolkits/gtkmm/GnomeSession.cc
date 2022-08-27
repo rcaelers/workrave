@@ -36,7 +36,7 @@ GnomeSession::init()
   try
     {
       auto proxy = Gio::DBus::Proxy::create_for_bus_sync(
-#if GLIBMM_CHECK_VERSION(2, 55, 0)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
                                                         Gio::DBus::BusType::SESSION,
 #else
                                                         Gio::DBus::BUS_TYPE_SESSION,
