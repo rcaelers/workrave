@@ -4,6 +4,8 @@ if (DEFINED CMAKE_TOOLCHAIN_FILE)
 endif()
 find_file(VCVARSALL vcvarsall.bat $ENV{VCINSTALLDIR}/Auxiliary/Build)
 
+message(STATUS "vcvarsall $ENV{VCINSTALLDIR}")
+
 if(POLICY CMP0135)
 cmake_policy(SET CMP0135 NEW)
 endif()
