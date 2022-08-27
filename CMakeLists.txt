@@ -2,9 +2,12 @@ if (DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 endif()
 
-# cmake_policy(SET CMP0003 NEW)
-# cmake_policy(SET CMP0007 NEW)
-# cmake_policy(SET CMP0011 NEW)
+if (DEFINED CMAKE_TOOLCHAIN_FILE)
+  get_filename_component(CMAKE_TOOLCHAIN_DIR ${CMAKE_TOOLCHAIN_FILE} DIRECTORY)
+  get_filename_component(VCPKG_ROOT "${CMAKE_TOOLCHAIN_DIR}/../../" ABSOLUTE)
+endif()
+find_file(VCVARSALL vcvarsall.bat $ENV{VCINSTALLDIR}/Auxiliary/Build)
+
 if(POLICY CMP0135)
 cmake_policy(SET CMP0135 NEW)
 endif()
@@ -123,7 +126,11 @@ endif()
 # Platform
 
 set (PLATFORM_ARCH 32)
-if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+if (VCPKG_TOOLCHAIN)
+  if(CMAKE_CXX_COMPILER MATCHES "x64/cl.exe")
+    set (PLATFORM_ARCH 64)
+  endif()
+elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
   set (PLATFORM_ARCH 64)
 endif()
 
@@ -524,24 +531,6 @@ if (WIN32)
   endif()
 endif()
 
-if (MSVC AND (NOT Boost_INCLUDE_DIR OR NOT Boost_LIBRARY_DIR))
-  if (CMAKE_CL_64)
-    set (_arch lib64)
-  else()
-    message(FATAL_ERROR "32 bit compilation not supported on Windows")
-  endif()
-  # if (MSVC_VERSION EQUAL 1900)
-  #   set (_vsver 14)
-  # else()
-  #     message(FATAL_ERROR "Visual Studio 2015 is required to compile Workrave on Windows")
-  # endif()
-  # set (_libdir "${_arch}-msvc-${_vsver}.0")
-
-  # if (EXISTS "${BOOST_ROOT}/${_libdir}")
-  #   set (BOOST_LIBRARYDIR "${BOOST_ROOT}/${_libdir}" CACHE PATH "")
-  # endif()
-endif()
-
 if (HAVE_TESTS)
   set (BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
 endif()
@@ -862,25 +851,43 @@ else()
   add_subdirectory(ui/app/toolkits/gtkmm/dist/windows/src)
 endif()
 
-if (NOT MSVC) # TODO: support MSVC
-  if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
-    if (CMAKE_CROSSCOMPILING)
-      set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake)
-      set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
-    else()
-      set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake)
-      set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
-    endif()
-
+if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+  if (CMAKE_CROSSCOMPILING)
+    ExternalProject_Add(Workrave32Bit
+      SOURCE_DIR ${CMAKE_SOURCE_DIR}
+      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
+      CMAKE_CACHE_ARGS
+        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
+        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
+        -DWITH_UI:STRING=None
+    )
+  elseif (MSVC)
+    set(CMAKE_COMMAND32 vcpkg env --triplet x86-windows "cmake \$*")
+    ExternalProject_Add(Workrave32Bit
+      SOURCE_DIR ${CMAKE_SOURCE_DIR}
+      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
+      CMAKE_COMMAND call "${VCVARSALL}" x86
+            COMMAND set
+            COMMAND cl
+            COMMAND ${CMAKE_COMMAND}
+      CMAKE_CACHE_ARGS
+        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
+        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
+        -DWITH_UI:STRING=None
+        -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
+    )
+  else()
+    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
     ExternalProject_Add(Workrave32Bit
       SOURCE_DIR ${CMAKE_SOURCE_DIR}
       BINARY_DIR ${CMAKE_BINARY_DIR}/.32
       CMAKE_COMMAND ${CMAKE_COMMAND32}
       CMAKE_CACHE_ARGS
-        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${TOOLCHAIN_32BIT}
+        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake
         -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
         -DWITH_UI:STRING=None
-      )
+        -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
+    )
   endif()
 endif()
 
