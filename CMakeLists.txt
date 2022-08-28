@@ -5,7 +5,7 @@ endif()
 
 message(STATUS "vcvarsall $ENV{VCINSTALLDIR}")
 
-find_program(VSWHERE_EXE vswhere PATHS ${CMAKE_BINARY_DIR}/tools)
+find_program(VSWHERE_EXE vswhere HINTS "$ENV{${_PROGRAM_FILES_x86}}/Microsoft Visual Studio/Installer" "$ENV{${_PROGRAM_FILES}}/Microsoft Visual Studio/Installer")
 if (VSWHERE_EXE)
   message("Found vswhere: ${VSWHERE_EXE}")
 
