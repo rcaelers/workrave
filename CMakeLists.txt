@@ -2,9 +2,28 @@ if (DEFINED CMAKE_TOOLCHAIN_FILE)
   get_filename_component(CMAKE_TOOLCHAIN_DIR ${CMAKE_TOOLCHAIN_FILE} DIRECTORY)
   get_filename_component(VCPKG_ROOT "${CMAKE_TOOLCHAIN_DIR}/../../" ABSOLUTE)
 endif()
-find_file(VCVARSALL vcvarsall.bat $ENV{VCINSTALLDIR}/Auxiliary/Build)
 
 message(STATUS "vcvarsall $ENV{VCINSTALLDIR}")
+
+find_program(VSWHERE_EXE vswhere PATHS ${CMAKE_BINARY_DIR}/tools)
+if (VSWHERE_EXE)
+  message("Found vswhere: ${VSWHERE_EXE}")
+
+  execute_process(
+      COMMAND ${VSWHERE_EXE} -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+      OUTPUT_VARIABLE VS_INSTALL_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  message(STATUS "VS_INSTALL_DIR ${VS_INSTALL_DIR}")
+endif
+
+find_file(VCVARSALL vcvarsall.bat
+          $ENV{VCINSTALLDIR}/Auxiliary/Build
+          ${VS_INSTALL_DIR}/VC/Auxiliary/Build
+          "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
+          "C:/Program Files/Microsoft Visual Studio/2022\Enterprise/VC/Auxiliary/Build"
+          )
 
 if(POLICY CMP0135)
 cmake_policy(SET CMP0135 NEW)
