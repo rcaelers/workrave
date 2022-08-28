@@ -20,7 +20,7 @@
 
 #include <cassert>
 
-#if !defined(TRACING)
+#if !defined(HAVE_TRACING)
 
 #  define TRACE_ENTRY(...)
 #  define TRACE_ENTRY_MSG(...)
@@ -155,6 +155,6 @@ private:
 #  define TRACE_VAR(...) trace_.var(__VA_ARGS__)
 #  define TRACE_MSG(...) trace_.msg(__VA_ARGS__)
 
-#endif // TRACING
+#endif // HAVE_TRACING
 
 #endif // WORKRAVE_UTILS_DEBUG_HH

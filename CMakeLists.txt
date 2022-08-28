@@ -612,7 +612,7 @@ set (GETTEXT_PACKAGE "workrave")
 option(WITH_TRACING "Enable debug tracing" OFF)
 
 if (WITH_TRACING)
-  set (TRACING ON)
+  set (HAVE_TRACING ON)
   #SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACING")
 endif()
 
@@ -817,7 +817,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     FetchContent_Declare(
       dump_syms
       GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-      GIT_TAG fcd4bf0a3ecdb9a18480c4fae05fba2dce4a5169
+      GIT_TAG v2.0.0
     )
     FetchContent_MakeAvailable(dump_syms)
 
@@ -981,5 +981,5 @@ if(PLATFORM_OS_WINDOWS)
 feature_bool("Crash reporting" HAVE_CRASHPAD)
 feature_bool("Auto update" HAVE_UNFOLD_AUTO_UPDATE)
 endif()
-feature_bool("Debug logs" TRACING)
+feature_bool("Debug logs" HAVE_TRACING)
 feature_bool("Tests" HAVE_TESTS)

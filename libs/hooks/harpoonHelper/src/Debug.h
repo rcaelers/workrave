@@ -67,5 +67,5 @@ public:
     std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg << std::endl; \
     std::cerr.flush();
 
-#endif // TRACING
+#endif // HAVE_TRACING
 #endif // DEBUG_H

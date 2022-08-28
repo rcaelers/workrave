@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#if defined(TRACING)
+#if defined(HAVE_TRACING)
 
 #  include "debug.hh"
 
