@@ -1,31 +1,31 @@
-if (DEFINED CMAKE_TOOLCHAIN_FILE)
+if (DEFINED CMAKE_TOOLCHAIN_FILE AND CMAKE_TOOLCHAIN_FILE MATCHES "vcpkg.cmake$")
   get_filename_component(CMAKE_TOOLCHAIN_DIR ${CMAKE_TOOLCHAIN_FILE} DIRECTORY)
   get_filename_component(VCPKG_ROOT "${CMAKE_TOOLCHAIN_DIR}/../../" ABSOLUTE)
+
+  message(STATUS "VCINSTALLDIR $ENV{VCINSTALLDIR}")
+
+  find_program(VSWHERE_EXE vswhere HINTS "$ENV{${_PROGRAM_FILES_x86}}/Microsoft Visual Studio/Installer" "$ENV{${_PROGRAM_FILES}}/Microsoft Visual Studio/Installer")
+  if (VSWHERE_EXE)
+    message("Found vswhere: ${VSWHERE_EXE}")
+
+    execute_process(
+        COMMAND ${VSWHERE_EXE} -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        OUTPUT_VARIABLE VS_INSTALL_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    message(STATUS "VS_INSTALL_DIR ${VS_INSTALL_DIR}")
+  endif()
+
+  find_file(VCVARSALL vcvarsall.bat
+            $ENV{VCINSTALLDIR}/Auxiliary/Build
+            ${VS_INSTALL_DIR}/VC/Auxiliary/Build
+            "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
+            "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build"
+            )
+
+  message(STATUS "vcvarsall ${VCVARSALL}")
 endif()
-
-message(STATUS "VCINSTALLDIR $ENV{VCINSTALLDIR}")
-
-find_program(VSWHERE_EXE vswhere HINTS "$ENV{${_PROGRAM_FILES_x86}}/Microsoft Visual Studio/Installer" "$ENV{${_PROGRAM_FILES}}/Microsoft Visual Studio/Installer")
-if (VSWHERE_EXE)
-  message("Found vswhere: ${VSWHERE_EXE}")
-
-  execute_process(
-      COMMAND ${VSWHERE_EXE} -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-      OUTPUT_VARIABLE VS_INSTALL_DIR
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-  )
-
-  message(STATUS "VS_INSTALL_DIR ${VS_INSTALL_DIR}")
-endif()
-
-find_file(VCVARSALL vcvarsall.bat
-          $ENV{VCINSTALLDIR}/Auxiliary/Build
-          ${VS_INSTALL_DIR}/VC/Auxiliary/Build
-          "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
-          "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build"
-          )
-
-message(STATUS "vcvarsall ${VCVARSALL}")
 
 if(POLICY CMP0135)
 cmake_policy(SET CMP0135 NEW)
@@ -153,6 +153,8 @@ elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
   set (PLATFORM_ARCH 64)
 endif()
 
+message(STATUS "PLATFORM_ARCH ${PLATFORM_ARCH} ${CMAKE_SIZEOF_VOID_P} ${CMAKE_CXX_COMPILER}")
+
 #----------------------------------------------------------------------------------------------------
 # Locations
 
@@ -216,7 +218,7 @@ if (${WITH_UI_INDEX} EQUAL -1)
 endif()
 
 if ("${WITH_UI}" STREQUAL "None"
-    AND (${PLATFORM_ARCH} EQUAL 32)
+    ## AND (${PLATFORM_ARCH} EQUAL 32)
     AND WIN32)
   set (BUILD_ONLY_32_BIT_FOR_WIN64 TRUE)
   message(STATUS "Building ONLY 32 bit support ")
@@ -885,9 +887,9 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     ExternalProject_Add(Workrave32Bit
       SOURCE_DIR ${CMAKE_SOURCE_DIR}
       BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-      CMAKE_COMMAND call "${VCVARSALL}" x86
+      CMAKE_COMMAND set
+            COMMAND call "${VCVARSALL}" x86
             COMMAND set
-            COMMAND cl
             COMMAND ${CMAKE_COMMAND}
       CMAKE_CACHE_ARGS
         -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
