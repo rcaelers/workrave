@@ -9,7 +9,7 @@ on:
   pull_request:
     branches:
       - "main"
-      - "topic/*"
+      #- "topic/*"
 
 env:
   VCPKG_ROOT: C:/vcpkg
