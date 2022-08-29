@@ -52,28 +52,31 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "t:r:C:R:S:W:dP" o; do
+    while getopts "C:dPr:R:S:st:W:" o; do
         case "${o}" in
-        d)
-            DRYRUN=-d
-            ;;
-        t)
-            COMMIT="${OPTARG}"
-            ;;
-        r)
-            export WORKRAVE_OVERRIDE_GIT_VERSION="${OPTARG}"
-            ;;
         C)
             SCRIPTS_DIR="${OPTARG}"
+            ;;
+        d)
+            DRYRUN=-d
             ;;
         P)
             PRERELEASE=1
             ;;
+        r)
+            export WORKRAVE_OVERRIDE_GIT_VERSION="${OPTARG}"
+            ;;
         R)
             REPO="${OPTARG}"
             ;;
+        s)
+            DOSIGN=1
+            ;;
         S)
             SECRETS_DIR="${OPTARG}"
+            ;;
+        t)
+            COMMIT="${OPTARG}"
             ;;
         W)
             WORKSPACE="${OPTARG}"
@@ -92,6 +95,7 @@ export WORKSPACE=$(pwd)/_workrave_build_workspace
 export SCRIPTS_DIR=${WORKSPACE}/source/tools/
 export SECRETS_DIR=
 
+export DOSIGN=
 export PRERELEASE=
 export WORKRAVE_OVERRIDE_GIT_VERSION=
 export REPO=https://github.com/rcaelers/workrave.git
@@ -117,8 +121,11 @@ init
 setup
 
 export OPENSSL=/opt/openssl/bin/openssl
-export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\signtool.exe"
-export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
+
+if [ -n "$DOSIGN" ]; then
+    export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\signtool.exe"
+    export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
+fi
 
 export CONF_CONFIGURATION=Release
 # export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
