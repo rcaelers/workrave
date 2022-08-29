@@ -38,6 +38,8 @@ public:
   unfold::coro::gtask<void> check_for_updates();
 
 private:
+  unfold::coro::IOContext io_context;
+  unfold::coro::glib::scheduler scheduler;
   std::shared_ptr<unfold::Unfold> updater;
 };
 
