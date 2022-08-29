@@ -30,6 +30,8 @@ project(Workrave)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
+set(CMAKE_FIND_DEBUG_MODE TRUE)
+
 # Require out of source build.
 include(MacroEnsureOutOfSourceBuild)
 macro_ensure_out_of_source_build(
@@ -52,7 +54,7 @@ include(CheckFunctionExists)
 include(CheckCSourceCompiles)
 include(FindPythonModule)
 include(ExternalProject)
-  include(FindPkgConfig)
+include(FindPkgConfig)
 
 #----------------------------------------------------------------------------------------------------
 # Macros
@@ -753,9 +755,9 @@ endif()
 
 include(FetchContent)
 
-find_package(spdlog CONFIG QUIET)
+find_package(spdlog CONFIG)
 if(NOT ${spdlog_FOUND})
-  message(FATAL_ERROR "Could not find spdlog")
+  message(STATUS "Could not find spdlog ${WITH_UI}")
   FetchContent_Declare(
       spdlog
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
