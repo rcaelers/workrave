@@ -87,7 +87,7 @@ jobs:
         shell: bash
         run: |
           env
-          cmake -G Ninja -B '${{ github.workspace }}/_build' \
+          cmake -G "Visual Studio 17 2022" -A x64 -B '${{ github.workspace }}/_build' \
             -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=x64-windows \
             -DCMAKE_BUILD_TYPE=Release \

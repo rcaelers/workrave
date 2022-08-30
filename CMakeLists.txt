@@ -885,15 +885,14 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
         -DWITH_UI:STRING=None
     )
   elseif (MSVC)
-    set(CMAKE_COMMAND32 vcpkg env --triplet x86-windows "cmake \$*")
+    #set(CMAKE_COMMAND32 vcpkg env --triplet x86-windows "cmake \$*")
     ExternalProject_Add(Workrave32Bit
       SOURCE_DIR ${CMAKE_SOURCE_DIR}
       BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-      CMAKE_COMMAND set
-            COMMAND call "${VCVARSALL}" x86
-            COMMAND set
-            COMMAND ${CMAKE_COMMAND}
-      CMAKE_ARGS --debug-find --debug-output  --trace --trace-expand
+      # CMAKE_COMMAND call "${VCVARSALL}" x86
+      #       COMMAND set
+      #       COMMAND ${CMAKE_COMMAND}
+      CMAKE_ARGS -A Win32 --debug-find --debug-output  --trace --trace-expand
       CMAKE_CACHE_ARGS
         -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
         -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
