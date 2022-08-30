@@ -886,7 +886,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     set(CMAKE_COMMAND32 ${CMAKE_COMMAND})
   else()
     set(TOOLCHAIN_32BIT ${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake)
-    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
+    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -clang32 -no-start -defterm -c "cmake \$*" cmake)
   endif()
 
   ExternalProject_Add(Workrave32Bit
