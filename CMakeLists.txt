@@ -1,3 +1,6 @@
+#set(CMAKE_FIND_DEBUG_MODE TRUE)
+message(STATUS "PLATFORM_ARCH1 ${CMAKE_SIZEOF_VOID_P} ${CMAKE_CXX_COMPILER}")
+
 if (DEFINED CMAKE_TOOLCHAIN_FILE AND CMAKE_TOOLCHAIN_FILE MATCHES "vcpkg.cmake$")
   get_filename_component(CMAKE_TOOLCHAIN_DIR ${CMAKE_TOOLCHAIN_FILE} DIRECTORY)
   get_filename_component(VCPKG_ROOT "${CMAKE_TOOLCHAIN_DIR}/../../" ABSOLUTE)
@@ -17,7 +20,11 @@ if (DEFINED CMAKE_TOOLCHAIN_FILE AND CMAKE_TOOLCHAIN_FILE MATCHES "vcpkg.cmake$"
             "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build"
             "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build"
             )
+
+  message(STATUS "VCVARSALL ${VCVARSALL} ${VS_INSTALL_DIR} ${VSWHERE_EXE}")
+
 endif()
+message(STATUS "PLATFORM_ARCH2 ${CMAKE_SIZEOF_VOID_P} ${CMAKE_CXX_COMPILER}")
 
 if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
@@ -27,10 +34,10 @@ cmake_minimum_required(VERSION 3.16)
 cmake_policy(VERSION 3.16)
 
 project(Workrave)
+message(STATUS "PLATFORM_ARCH3 ${CMAKE_SIZEOF_VOID_P} ${CMAKE_CXX_COMPILER}")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-set(CMAKE_FIND_DEBUG_MODE TRUE)
 
 # Require out of source build.
 include(MacroEnsureOutOfSourceBuild)
@@ -886,6 +893,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
             COMMAND call "${VCVARSALL}" x86
             COMMAND set
             COMMAND ${CMAKE_COMMAND}
+      CMAKE_ARGS --debug-find --debug-output  --trace --trace-expand
       CMAKE_CACHE_ARGS
         -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
         -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
