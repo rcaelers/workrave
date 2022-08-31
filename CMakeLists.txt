@@ -846,9 +846,6 @@ endif()
 
 check_function_exists(setlocale HAVE_SETLOCALE)
 
-set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
-find_package(Threads)
-
 #----------------------------------------------------------------------------------------------------
 # Autoconf compatibility
 
