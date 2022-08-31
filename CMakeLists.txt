@@ -840,9 +840,6 @@ endif()
 
 check_function_exists(setlocale HAVE_SETLOCALE)
 
-set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
-find_package(Threads)
-
 #----------------------------------------------------------------------------------------------------
 # Autoconf compatibility
 
@@ -892,7 +889,9 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
       # CMAKE_COMMAND call "${VCVARSALL}" x86
       #       COMMAND set
       #       COMMAND ${CMAKE_COMMAND}
-      CMAKE_ARGS -A Win32 --debug-find --debug-output  --trace --trace-expand
+      CMAKE_GENERATOR "Visual Studio 17 2022"
+      #CMAKE_GENERATOR_TOOLSET "host=x86"
+      CMAKE_ARGS -A Win32 # --debug-find --debug-output --trace --trace-expand
       CMAKE_CACHE_ARGS
         -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
         -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
