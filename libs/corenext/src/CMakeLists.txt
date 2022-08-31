@@ -32,7 +32,6 @@ endif()
 
 target_link_libraries(workrave-libs-core-next
   PUBLIC
-  ${CMAKE_THREAD_LIBS_INIT}
   workrave-libs-utils
   workrave-libs-config
   workrave-libs-dbus)

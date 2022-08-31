@@ -34,7 +34,7 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
   target_link_libraries(workrave-libs-dbus-test PRIVATE workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-libs-dbus-test PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
-  target_link_libraries(workrave-libs-dbus-test PRIVATE Boost::test_exec_monitor ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(workrave-libs-dbus-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-libs-dbus-test PRIVATE ${EXTRA_LIBRARIES})
 
   target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE workrave-libs-dbus)
