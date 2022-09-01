@@ -60,7 +60,7 @@ if (PLATFORM_OS_WINDOWS)
     )
 
   if (MSVC)
-    target_link_libraries(workrave PRIVATE ${WIN32_LIBRARIES})
+    target_link_libraries(workrave-app PRIVATE ${WIN32_LIBRARIES})
   endif()
 endif()
 
@@ -223,6 +223,9 @@ if (PLATFORM_OS_WINDOWS)
   if (MINGW)
     target_link_libraries(workrave PRIVATE winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
     target_link_libraries(workrave PRIVATE dxerr8 dsound dxguid)
+  endif()
+  if (MSVC)
+    target_link_libraries(workrave PRIVATE wtsapi32 dsound dxguid)
   endif()
 
   if (PLATFORM_OS_WINDOWS_NATIVE)

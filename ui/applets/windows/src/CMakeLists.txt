@@ -40,14 +40,16 @@ if (WIN32)
     -D_WINDOWS
   )
 
-  target_compile_options(${APPLET_TARGET} PRIVATE -Wno-missing-exception-spec)
+  if (NOT MSVC)
+    target_compile_options(${APPLET_TARGET} PRIVATE -Wno-missing-exception-spec)
+  endif()
 
   if (WITH_TRACING)
     target_compile_definitions(${APPLET_TARGET} PRIVATE -DTRACING)
   endif()
 
   set_target_properties(${APPLET_TARGET} PROPERTIES PREFIX "")
-  if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
      set_target_properties(${APPLET_TARGET} PROPERTIES LINK_FLAGS "-Wl,--allow-multiple-definition" )
   endif()
   target_link_libraries(${APPLET_TARGET} Boost::serialization shlwapi shcore uuid)

@@ -279,7 +279,7 @@ namespace
   int HandlerMainAdaptor(int argc, char *argv[])
   {
     LOG(INFO) << "Workrave crashed.";
-    UserInteraction *user_interaction = new UserInteraction;
+    auto *user_interaction = new UserInteraction;
     int ret = crashpad::HandlerMain(argc, argv, nullptr, user_interaction);
     LOG(INFO) << "Crash handled";
     delete user_interaction;

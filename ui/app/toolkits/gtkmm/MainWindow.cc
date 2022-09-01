@@ -22,6 +22,10 @@
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <gdk/gdkwin32.h>
 #  include <shellapi.h>
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
 #endif
 
 #include "commonui/nls.h"
@@ -164,7 +168,11 @@ MainWindow::init()
   set_border_width(2);
   set_resizable(false);
 
+#if GLIBMM_CHECK_VERSION(2,68,0)
+  std::vector<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#else
   std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#endif
 
   const char *icon_files[] = {
 #if !defined(PLATFORM_OS_WINDOWS)
@@ -197,8 +205,12 @@ MainWindow::init()
         }
     }
 
+#if GLIBMM_CHECK_VERSION(2,68,0)
+  Gtk::Window::set_default_icon_list(icons);
+#else
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf>> icon_list(icons);
   Gtk::Window::set_default_icon_list(icon_list);
+#endif
   // Gtk::Window::set_default_icon_name("workrave");
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(app->get_core()));
@@ -212,7 +224,7 @@ MainWindow::init()
 
   //#if !defined(PLATFORM_OS_MACOS)
   // No popup menu on OS X
-  eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &MainWindow::on_timer_view_button_press_event));
+  eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &MainWindow::on_timer_view_button_press_event), false);
   //#endif
 
   eventbox->add(*timer_box_view);
@@ -527,7 +539,7 @@ MainWindow::relocate_window(int width, int height)
     }
 }
 
-sigc::signal<void> &
+MainWindow::closed_signal_t &
 MainWindow::signal_closed()
 {
   return closed_signal;

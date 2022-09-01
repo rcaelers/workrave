@@ -4,7 +4,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     FetchContent_Declare(
         unfold
         GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-        GIT_TAG 84109a35d8f2d15ec71778bf4a332d138ce745c8
+        GIT_TAG 92047aeaaa73c8ee470828a08a2c71b62e43eb4a
       )
     FetchContent_MakeAvailable(unfold)
 
@@ -27,7 +27,9 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
 
     add_library(webview2 INTERFACE)
     target_include_directories(webview2 INTERFACE "${webview2_SOURCE_DIR}/build/native/include/")
-    target_compile_options(webview2 INTERFACE -Wno-unknown-pragmas)
+    if (NOT MSVC)
+      target_compile_options(webview2 INTERFACE -Wno-unknown-pragmas)
+    endif()
 
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "amd64|AMD64")
       target_link_directories(webview2 INTERFACE ${webview2_SOURCE_DIR}/build/native/x64)
@@ -41,7 +43,11 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     else()
       message(FATAL_ERROR "Unsupported processor: ${CMAKE_SYSTEM_PROCESSOR}")
     endif()
-    target_link_libraries(webview2 INTERFACE WebView2Loader)
+    if (MSVC)
+      target_link_libraries(webview2 INTERFACE WebView2LoaderStatic)
+    else()
+      target_link_libraries(webview2 INTERFACE WebView2Loader)
+    endif()
 
   endif()
 endif()

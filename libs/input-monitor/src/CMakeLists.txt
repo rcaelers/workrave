@@ -32,9 +32,9 @@ if (PLATFORM_OS_WINDOWS)
     target_include_directories(workrave-libs-input-monitor-harpoon
       PRIVATE
       ${CMAKE_SOURCE_DIR}/libs/input-monitor/src
-      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
       ${CMAKE_SOURCE_DIR}/libs/hooks/harpoonHelper/include
       PUBLIC
+      ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include
       ${CMAKE_SOURCE_DIR}/libs/input-monitor/include)
 
     target_link_libraries(workrave-libs-input-monitor-harpoon workrave-libs-utils workrave-libs-config harpoon64)

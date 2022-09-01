@@ -13,8 +13,8 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
 
   add_compile_definitions(
     WIN32
-    WINVER=0x400
-    _WIN32_WINNT=0x500
+    WINVER=0xA00
+    _WIN32_WINNT=0xA00
     _WINDOWS
     PLATFORM_OS_WINDOWS_NATIVE
   )
@@ -29,6 +29,9 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
   elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set_target_properties(WorkraveHelper PROPERTIES COMPILE_FLAGS "-mwindows")
     set_target_properties(WorkraveHelper PROPERTIES LINK_FLAGS "-mwindows")
+  elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set_target_properties(WorkraveHelper PROPERTIES COMPILE_FLAGS "/SUBSYSTEM:WINDOWS")
+    set_target_properties(WorkraveHelper PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
   endif()
 
   install(CODE "set(SYS_ROOT ${SYS_ROOT})")

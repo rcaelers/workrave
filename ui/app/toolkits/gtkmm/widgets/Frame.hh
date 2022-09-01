@@ -16,10 +16,13 @@
 //
 
 #include <gtkmm.h>
+#include <gdkmm/types.h>
 
 class Frame : public Gtk::Bin
 {
 public:
+  using flash_signal_t = sigc::signal<void(bool)>;
+
   enum Style
   {
     STYLE_SOLID,
@@ -34,7 +37,7 @@ public:
   void set_frame_color(const Gdk::Color &color);
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
-  sigc::signal1<void, bool> &signal_flash();
+  flash_signal_t &signal_flash();
 
 protected:
   bool on_timer();
@@ -73,5 +76,5 @@ private:
   sigc::connection flash_signal;
 
   //! Flash signal source
-  sigc::signal1<void, bool> flash_signal_src;
+  flash_signal_t flash_signal_src;
 };

@@ -33,6 +33,9 @@ class WindowsStatusIcon;
 class StatusIcon : public workrave::utils::Trackable
 {
 public:
+  using activated_signal_t = sigc::signal<void()>;
+  using balloon_activated_signal_t = sigc::signal<void(std::string)>;
+
   StatusIcon(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ToolkitMenu> status_icon_menu);
 
   void init();
@@ -41,8 +44,8 @@ public:
   bool is_visible() const;
   void show_balloon(std::string id, const std::string &balloon);
 
-  sigc::signal<void> &signal_activated();
-  sigc::signal<void, std::string> &signal_balloon_activated();
+  activated_signal_t &signal_activated();
+  balloon_activated_signal_t &signal_balloon_activated();
 
 private:
   void set_visible(bool b);
@@ -61,8 +64,8 @@ private:
 
   std::map<workrave::OperationMode, Glib::RefPtr<Gdk::Pixbuf>> mode_icons;
 
-  sigc::signal<void> activated_signal;
-  sigc::signal<void, std::string> balloon_activated_signal;
+  activated_signal_t activated_signal;
+  balloon_activated_signal_t balloon_activated_signal;
 
 #if defined(PLATFORM_OS_WINDOWS)
   WindowsStatusIcon *status_icon{nullptr};

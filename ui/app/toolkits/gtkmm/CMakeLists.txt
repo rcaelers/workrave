@@ -58,6 +58,7 @@ if (PLATFORM_OS_WINDOWS)
   )
 
   target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows)
+  target_link_libraries(workrave-toolkit-gtkmm PUBLIC ${LIBINTL_LIBRARIES})
 endif()
 
 if (PLATFORM_OS_MACOS)

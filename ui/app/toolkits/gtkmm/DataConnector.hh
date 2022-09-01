@@ -21,6 +21,7 @@
 #include <string>
 #include <list>
 #include <sigc++/sigc++.h>
+#include <gdkmm/types.h>
 
 #include <gtkmm.h>
 
@@ -111,7 +112,7 @@ public:
   void set(workrave::config::IConfigurator::Ptr config, dc::Flags flags, const std::string &key);
   virtual void init() = 0;
 
-  sigc::signal<bool, const std::string &, bool> intercept;
+  sigc::signal<bool(const std::string &, bool)> intercept;
 
 protected:
   workrave::config::IConfigurator::Ptr config;

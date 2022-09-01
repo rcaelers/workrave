@@ -203,7 +203,7 @@ namespace ui::prefwidgets
         }
       else
         {
-          int new_value = value;
+          Type new_value = value;
 
           if (load_func)
             {

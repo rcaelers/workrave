@@ -1,0 +1,14 @@
+{
+  "default-registry": {
+    "kind": "git",
+    "repository": "https://github.com/microsoft/vcpkg",
+    "baseline": "4217fee510d4c592d3e45564d3ee116ae301189f"
+  },
+  "registries": [
+    {
+      "kind": "filesystem",
+      "path": "vcpkg-registry",
+      "packages": ["gtk3mm", "gtk3", "gettext"]
+    }
+  ]
+}

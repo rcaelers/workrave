@@ -158,13 +158,13 @@ StatusIcon::on_activate()
   activated_signal.emit();
 }
 
-sigc::signal<void> &
+StatusIcon::activated_signal_t &
 StatusIcon::signal_activated()
 {
   return activated_signal;
 }
 
-sigc::signal<void, string> &
+StatusIcon::balloon_activated_signal_t  &
 StatusIcon::signal_balloon_activated()
 {
   return balloon_activated_signal;
