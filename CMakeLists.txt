@@ -187,7 +187,6 @@ if (${WITH_UI_INDEX} EQUAL -1)
 endif()
 
 if ("${WITH_UI}" STREQUAL "None"
-    ## AND (${PLATFORM_ARCH} EQUAL 32)
     AND WIN32)
   set (BUILD_ONLY_32_BIT_FOR_WIN64 TRUE)
   message(STATUS "Building ONLY 32 bit support ")
