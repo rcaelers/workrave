@@ -109,7 +109,7 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
 
-        if [[ -n $SIGNTOOL ]]; then
+        if [[ -n "$SIGNTOOL" ]]; then
             CMAKE_FLAGS+=("-DISCC_FLAGS=/DSignTool=Certum;/SCertum=\$q$SIGNTOOL\$q sign $SIGNTOOL_SIGN_ARGS \$f")
         fi
     else
@@ -184,7 +184,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     fi
 fi
 
-if [[ $WORKRAVE_ENV == "local-windows-msys2" ]]; then
+if [[ $WORKRAVE_ENV == "local-windows-msys2" && -n "$SIGNTOOL" ]]; then
 
     files_to_sign=$(find ${OUTPUT_DIR} -name "*[Ww]orkrave*.exe")
 

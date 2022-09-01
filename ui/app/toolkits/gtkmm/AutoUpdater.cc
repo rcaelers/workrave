@@ -31,21 +31,31 @@
 
 #include <gtkmm.h>
 
-// class AutoUpdater::Private
-// {
-// public:
-//   Private() = default;
-
-// public:
-//   std::shared_ptr<unfold::Unfold> updater;
-// };
+#include "AutoUpdateDialog.hh"
 
 AutoUpdater::AutoUpdater()
-{
-  // priv = std::make_unique<Private>();
+  : io_context{1}
+  , scheduler(g_main_context_default(), io_context.get_io_context())
+  , updater(unfold::Unfold::create(io_context))
 
-  unfold::coro::IOContext io_context{1};
-  updater = unfold::Unfold::create(io_context);
+{
+  Glib::signal_timeout().connect(
+    []() {
+      // spdlog::info("timer");
+      return 1;
+    },
+    500);
+
+  Glib::signal_timeout().connect(
+    [this]() {
+      spdlog::info("check");
+
+      unfold::coro::gtask<void> task = check_for_updates();
+      scheduler.spawn(std::move(task));
+      return 0;
+    },
+    2000);
+  Glib::RefPtr<Glib::MainContext> context = Glib::MainContext::get_default();
 
   auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/testappcast.xml");
   if (!rc)
@@ -69,25 +79,22 @@ AutoUpdater::AutoUpdater()
     }
 }
 
-// unfold::coro::gtask<void>
-// AutoUpdater::check_for_updates(std::shared_ptr<unfold::Unfold> updater)
-// {
-//   auto update_available = co_await updater->check_for_updates();
-//   if (!update_available)
-//     {
-//       co_return;
-//     }
+unfold::coro::gtask<void>
+AutoUpdater::check_for_updates()
+{
+  auto update_available = co_await updater->check_for_updates();
+  if (!update_available)
+    {
+      co_return;
+    }
 
-//   if (update_available.value())
-//     {
-//       auto update_info = updater->get_update_info();
-//       auto *dlg = new UpdateDialog(update_info);
-//       dlg->show();
-//       dlg->signal_response().connect([app](int response) {
-//         spdlog::info("User response: {} ", response);
-//         app->quit();
-//       });
+  if (update_available.value())
+    {
+      auto update_info = updater->get_update_info();
+      auto *dlg = new AutoUpdateDialog(update_info);
+      dlg->show();
+      dlg->signal_response().connect([](int response) { spdlog::info("User response: {} ", response); });
 
-//       // TODO: leak
-//     }
-// }
+      // TODO: leak
+    }
+}

@@ -779,7 +779,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     FetchContent_Declare(
       dump_syms
       GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-      GIT_TAG fcd4bf0a3ecdb9a18480c4fae05fba2dce4a5169
+      GIT_TAG v2.0.0
     )
     FetchContent_MakeAvailable(dump_syms)
 
@@ -862,7 +862,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
         -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
     )
   else()
-    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
+    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -clang32 -no-start -defterm -c "cmake \$*" cmake)
     ExternalProject_Add(Workrave32Bit
       SOURCE_DIR ${CMAKE_SOURCE_DIR}
       BINARY_DIR ${CMAKE_BINARY_DIR}/.32
