@@ -45,11 +45,12 @@ public:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> &hook_event() override;
   HWND get_event_hwnd() const override;
 
+  auto get_desktop_image() -> QPixmap override;
+
 private:
   void init_filter();
   void init_gui();
   bool filter_func(MSG *msg);
-  static GdkFilterReturn static_filter_func(void *xevent, GdkEvent *event, gpointer data);
 
 private:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> event_hook;

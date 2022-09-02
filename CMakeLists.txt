@@ -1,9 +1,9 @@
+cmake_minimum_required(VERSION 3.16)
+cmake_policy(VERSION 3.16)
+
 if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
 endif()
-
-cmake_minimum_required(VERSION 3.16)
-cmake_policy(VERSION 3.16)
 
 project(Workrave)
 
@@ -125,45 +125,6 @@ elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif()
 
 #----------------------------------------------------------------------------------------------------
-# Locations
-
-if (UNIX AND NOT APPLE)
-  set (BINDIR bin)
-  set (DATADIR share                                        CACHE PATH "datadir")
-  set (LIBDIR "${CMAKE_INSTALL_LIBDIR}"                     CACHE PATH "libdir")
-  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
-  set (EXERCISESDIR "${PKGDATADIR}/exercises")
-  set (IMAGESDIR "${PKGDATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-elseif (APPLE)
-  set (BUNDLEDIR Workrave.app/Contents/)
-  set (BINDIR ${BUNDLEDIR}/MacOS/)
-  set (RESOURCESDIR ${BUNDLEDIR}/Resources)
-  set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")
-  set (LIBDIR ${RESOURCESDIR}/lib                           CACHE PATH "libadir")
-  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds")
-  set (EXERCISESDIR "${DATADIR}/exercises")
-  set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-elseif (WIN32)
-  set (BINDIR lib)
-  set (DATADIR share                                        CACHE PATH "datadir")
-  set (LIBDIR lib                                           CACHE PATH "libdir")
-  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
-  set (SOUNDSDIR "${DATADIR}/sounds")
-  set (EXERCISESDIR "${DATADIR}/exercises")
-  set (IMAGESDIR "${DATADIR}/images")
-  set (LOCALEDIR "${DATADIR}/locale")
-endif()
-
-add_compile_definitions(
-  WORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
-  WORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
-)
-
-#----------------------------------------------------------------------------------------------------
 # Testing
 
 option(WITH_TESTS "Enable unit tests" OFF)
@@ -202,6 +163,52 @@ set (WITH_UI_GTK FALSE)
 if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (WITH_UI_GTK TRUE)
 endif()
+
+#----------------------------------------------------------------------------------------------------
+# Locations
+
+if (UNIX AND NOT APPLE)
+  set (BINDIR bin)
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR "${CMAKE_INSTALL_LIBDIR}"                     CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds/workrave")
+  set (EXERCISESDIR "${PKGDATADIR}/exercises")
+  set (IMAGESDIR "${PKGDATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+elseif (APPLE)
+  set (BUNDLEDIR Workrave.app/Contents/)
+  set (BINDIR ${BUNDLEDIR}/MacOS/)
+  set (RESOURCESDIR ${BUNDLEDIR}/Resources)
+  set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")
+  set (LIBDIR ${RESOURCESDIR}/lib                           CACHE PATH "libadir")
+  set (PKGDATADIR ${DATADIR}                                CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+elseif (WIN32)
+  if (WITH_UI_QT)
+    set (BINDIR bin)
+    set (BINDIR32 bin32)
+  else()
+    set (BINDIR lib)
+    set (BINDIR32 lib32)
+  endif()
+  set (DATADIR share                                        CACHE PATH "datadir")
+  set (LIBDIR lib                                           CACHE PATH "libdir")
+  set (PKGDATADIR share/workrave                            CACHE PATH "pkgdatadir")
+  set (SOUNDSDIR "${DATADIR}/sounds")
+  set (EXERCISESDIR "${DATADIR}/exercises")
+  set (IMAGESDIR "${DATADIR}/images")
+  set (LOCALEDIR "${DATADIR}/locale")
+endif()
+
+add_compile_definitions(
+  WORKRAVE_PKGDATADIR="${CMAKE_INSTALL_PREFIX}/${PKGDATADIR}"
+  WORKRAVE_DATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}"
+  WORKRAVE_BINDIR32="${BINDIR32}"
+)
 
 #----------------------------------------------------------------------------------------------------
 # Core selection

@@ -10,7 +10,7 @@ foreach(file ${FILES64BIT})
   if (${file} MATCHES "applet.*\\.dll$")
     set(flags "${flags} regserver; Components: applet; Check: IsAdmin")
   endif()
-  file(APPEND ${LIBS_ISS} "Source: \"${INSTALL_WIN_PATH}\\lib\\${file}\"; DestDir: \"{app}\\lib\"; Flags: ${flags};\n")
+  file(APPEND ${LIBS_ISS} "Source: \"${INSTALL_WIN_PATH}\\${BINDIR}\\${file}\"; DestDir: \"{app}\\${BINDIR}\"; Flags: ${flags};\n")
 endforeach()
 
 file(APPEND ${LIBS_ISS} "\n; 32 bit\n")

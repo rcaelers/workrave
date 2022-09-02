@@ -218,7 +218,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     portableFilename=${baseFilename}-portable.zip
 
     mkdir -p ${PORTABLE_DIR}/Workrave
-    cp -a ${OUTPUT_DIR}/*.txt ${OUTPUT_DIR}/lib32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share ${PORTABLE_DIR}/Workrave
+    cp -a ${OUTPUT_DIR}/*.txt ${OUTPUT_DIR}/bin ${OUTPUT_DIR}/bin32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/lib32 ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share ${PORTABLE_DIR}/Workrave
     cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/Workrave.lnk ${PORTABLE_DIR}/Workrave
     cp -a ${SOURCES_DIR}/ui/app/toolkits/gtkmm/dist/windows/workrave.ini ${PORTABLE_DIR}/Workrave/etc
 

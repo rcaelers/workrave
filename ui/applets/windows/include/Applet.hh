@@ -46,7 +46,7 @@ passed structure have types that are the same size on both
 All structures declared in this file are used by both
 Workrave (x86) and the applet (x86 & x64).
 */
-
+#undef slots
 struct AppletHeartbeatData
 {
   volatile bool enabled;

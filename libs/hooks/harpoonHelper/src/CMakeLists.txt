@@ -21,7 +21,7 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
 
   add_executable(WorkraveHelper ${SOURCES})
   target_link_libraries(WorkraveHelper harpoon)
-  install(TARGETS WorkraveHelper RUNTIME DESTINATION lib32)
+  install(TARGETS WorkraveHelper RUNTIME DESTINATION ${BINDIR32})
 
   if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set_target_properties(WorkraveHelper PROPERTIES COMPILE_FLAGS "-Wl,--subsystem,windows")

@@ -1,10 +1,10 @@
 if (WIN32)
   if (PLATFORM_ARCH EQUAL 32)
     set(APPLET_TARGET "workrave-applet")
-    set(APPLET_INSTALL_DIR "lib32")
+    set(APPLET_INSTALL_DIR ${BINDIR32})
   else()
     set(APPLET_TARGET "workrave-applet64")
-    set(APPLET_INSTALL_DIR "lib")
+    set(APPLET_INSTALL_DIR ${BINDIR})
   endif()
 
   add_library(${APPLET_TARGET} SHARED

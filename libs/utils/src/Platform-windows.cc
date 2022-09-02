@@ -39,7 +39,7 @@ Platform::registry_get_value(const char *path, const char *name, char *out)
   bool rc = false;
   LONG err;
 
-  err = RegOpenKeyEx(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);
+  err = RegOpenKeyExA(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);
   if (err == ERROR_SUCCESS)
     {
       DWORD type, size;
@@ -62,16 +62,16 @@ Platform::registry_set_value(const char *path, const char *name, const char *val
   DWORD disp;
   LONG err;
 
-  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
+  err = RegCreateKeyExA(HKEY_CURRENT_USER, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
       if (value != NULL)
         {
-          err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *)value, static_cast<DWORD>(strlen(value) + 1));
+          err = RegSetValueExA(handle, name, 0, REG_SZ, (BYTE *)value, static_cast<DWORD>(strlen(value) + 1));
         }
       else
         {
-          err = RegDeleteValue(handle, name);
+          err = RegDeleteValueA(handle, name);
         }
       RegCloseKey(handle);
       rc = (err == ERROR_SUCCESS);
@@ -83,7 +83,7 @@ std::string
 Platform::get_application_name()
 {
   char app_dir_name[MAX_PATH];
-  GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
+  GetModuleFileNameA(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
   // app_dir_name == c:\program files\workrave\lib\workrave.exe
   char *s = strrchr(app_dir_name, '\\');
   return string(s);

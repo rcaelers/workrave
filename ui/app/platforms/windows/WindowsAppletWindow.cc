@@ -40,6 +40,7 @@ using namespace workrave;
 #if defined(interface)
 #  undef interface
 #endif
+#undef slots
 
 WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IPluginContext> context)
   : toolkit(context->get_toolkit())

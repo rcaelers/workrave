@@ -49,12 +49,13 @@ public:
   void init(workrave::IApp *application, const char *display_name) override;
   void heartbeat() override;
   void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
-  workrave::IBreak::Ptr get_break(workrave::BreakId id) override;
+  workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
   workrave::config::IConfigurator::Ptr get_configurator() const override;
   ICoreHooks::Ptr get_hooks() const override;
   workrave::dbus::IDBus::Ptr get_dbus() const override;
   bool is_user_active() const override;
+  bool is_taking() const override;
   workrave::OperationMode get_active_operation_mode() override;
   workrave::OperationMode get_regular_operation_mode() override;
   bool is_operation_mode_an_override() override;

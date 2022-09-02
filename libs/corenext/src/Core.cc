@@ -236,9 +236,25 @@ Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
   breaks_control->force_break(id, break_hint);
 }
 
+//!
+bool
+Core::is_taking() const
+{
+  bool taking = false;
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
+    {
+      if (get_break(break_id)->is_taking())
+        {
+          taking = true;
+        }
+    }
+
+  return taking;
+}
+
 //! Returns the specified break controller.
 IBreak::Ptr
-Core::get_break(BreakId id)
+Core::get_break(BreakId id) const
 {
   return breaks_control->get_break(id);
 }

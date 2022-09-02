@@ -296,11 +296,11 @@ Harpoon::is_64bit_windows()
 }
 
 HWND
-Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
+Harpoon::recursive_find_window(HWND hwnd, LPCSTR lpClassName)
 {
   TRACE_ENTRY();
   static char buf[80];
-  int num = GetClassName(hwnd, buf, sizeof(buf) - 1);
+  int num = GetClassNameA(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
@@ -340,7 +340,7 @@ Harpoon::start_harpoon_helper()
 
   if (!helper_started)
     {
-      STARTUPINFO si;
+      STARTUPINFOA si;
       PROCESS_INFORMATION pi;
 
       ZeroMemory(&si, sizeof(si));
@@ -349,7 +349,7 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       std::filesystem::path install_dir = Paths::get_application_directory();
-      std::filesystem::path helper = install_dir / "lib32" / "WorkraveHelper.exe";
+      std::filesystem::path helper = install_dir / WORKRAVE_BINDIR32 / "WorkraveHelper.exe";
       string args = helper.string() + " " + Platform::get_application_name();
 
       if (CreateProcessA(helper.string().c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))

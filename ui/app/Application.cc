@@ -195,7 +195,7 @@ Application::init_nls()
   setlocale(LC_ALL, "");
 #  endif
 
-#  if defined(PLATFORM_OS_WINDOWS)
+#  if defined(PLATFORM_OS_WINDOWS) && !defined(HAVE_QT)
   bindtextdomain("gtk20", locale_dir);
   bindtextdomain("iso_3166", locale_dir);
   bindtextdomain("iso_639", locale_dir);

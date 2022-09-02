@@ -1,10 +1,10 @@
 if (WIN32)
   if (PLATFORM_ARCH EQUAL 32)
     set(HARPOON_TARGET "harpoon")
-    set(HARPOON_INSTALL_DIR "lib32")
+    set(HARPOON_INSTALL_DIR ${BINDIR32})
   else()
     set(HARPOON_TARGET "harpoon64")
-    set(HARPOON_INSTALL_DIR "lib")
+    set(HARPOON_INSTALL_DIR ${BINDIR})
   endif()
 
   set(SOURCES

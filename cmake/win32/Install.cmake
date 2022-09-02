@@ -6,5 +6,5 @@ resolve_dependencies("${CMAKE_BINARY_DIR}/libs/hooks/harpoonHelper/src/WorkraveH
 
 foreach(dependency ${resolved_dependencies})
   get_filename_component(file ${dependency} NAME)
-  file (INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib32")
+  file (INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/${BINDIR32}")
 endforeach()

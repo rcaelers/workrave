@@ -21,8 +21,6 @@
 
 #include "ToolkitWindows.hh"
 
-#include <gdk/gdkwin32.h>
-
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
 #  include <pbt.h>
 #endif
@@ -65,11 +63,13 @@ ToolkitWindows::release()
 {
   Toolkit::release();
 
-  if (!main_window->is_visible())
+#if 0
+if (!main_window->is_visible())
     {
       GUIConfig::trayicon_enabled().set(true);
     }
-}
+#endif
+  }
 
 boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> &
 ToolkitWindows::hook_event()
@@ -80,56 +80,11 @@ ToolkitWindows::hook_event()
 void
 ToolkitWindows::init_gui()
 {
-  // No auto hide scrollbars
-  g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
-  // No Windows-7 style client-side decorations on Windows 10...
-  g_setenv("GTK_CSD", "0", TRUE);
-  g_setenv("GDK_WIN32_DISABLE_HIDPI", "1", TRUE);
-
-  static const char css[] =
-    R"(
-       window decoration, tooltip decoration {
-         all: unset;
-       }
-      )";
-
-  auto provider = Gtk::CssProvider::create();
-  provider->load_from_data(css);
-  auto screen = Gdk::Screen::get_default();
-  Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER + 100);
 }
-
-#if !defined(GUID_DEVINTERFACE_MONITOR)
-static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, {0xb0, 0x76, 0x33, 0xf5, 0x7b, 0xf4, 0xea, 0xa7}};
-#endif
 
 void
 ToolkitWindows::init_filter()
 {
-  main_window->get_window()->add_filter(static_filter_func, this);
-
-  GtkWidget *window = (GtkWidget *)main_window->gobj();
-  GdkWindow *gdk_window = gtk_widget_get_window(window);
-  // gdk_window_add_filter(gdk_window, win32_filter_func, this);
-
-  HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
-
-  WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
-  DEV_BROADCAST_DEVICEINTERFACE notification;
-  ZeroMemory(&notification, sizeof(notification));
-  notification.dbcc_size = sizeof(notification);
-  notification.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
-  notification.dbcc_classguid = GUID_DEVINTERFACE_MONITOR;
-  RegisterDeviceNotification(hwnd, &notification, DEVICE_NOTIFY_WINDOW_HANDLE);
-}
-
-GdkFilterReturn
-ToolkitWindows::static_filter_func(void *xevent, GdkEvent *event, gpointer data)
-{
-  (void)event;
-  ToolkitWindows *toolkit = static_cast<ToolkitWindows *>(data);
-  auto result = toolkit->filter_func(static_cast<MSG *>(xevent));
-  return result ? GDK_FILTER_CONTINUE : GDK_FILTER_REMOVE;
 }
 
 bool
@@ -193,6 +148,7 @@ ToolkitWindows::filter_func(MSG *msg)
       }
       break;
 
+#ifndef HAVE_CORE_NEXT
     case WM_TIMECHANGE:
       {
         TRACE_MSG("WM_TIMECHANGE {} {}", msg->wParam, msg->lParam);
@@ -200,6 +156,7 @@ ToolkitWindows::filter_func(MSG *msg)
         core->time_changed();
       }
       break;
+#endif
 
     case WM_DEVICECHANGE:
       {
@@ -230,7 +187,14 @@ ToolkitWindows::filter_func(MSG *msg)
 HWND
 ToolkitWindows::get_event_hwnd() const
 {
-  return (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(main_window->Gtk::Widget::gobj()));
+  return 0;
+}
+
+auto
+ToolkitWindows::get_desktop_image() -> QPixmap
+{
+  QPixmap pixmap;
+  return pixmap;
 }
 
 std::shared_ptr<Locker>

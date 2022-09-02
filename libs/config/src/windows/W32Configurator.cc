@@ -64,7 +64,7 @@ W32Configurator::remove_key(const std::string &key)
   key_split(k, p, c);
   p32 = key_windowsify(p);
 
-  err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
+  err = RegOpenKeyExA(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
   if (err == ERROR_SUCCESS)
     {
       err = RegDeleteValueA(handle, c.c_str());
@@ -86,7 +86,7 @@ W32Configurator::get_value(const std::string &key, ConfigType type) const
 
   bool rc = false;
   HKEY handle;
-  LONG err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
+  LONG err = RegOpenKeyExA(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
 
   std::string value;
 
@@ -173,7 +173,7 @@ W32Configurator::set_value(const std::string &key, const ConfigValue &value)
 
       HKEY handle;
       DWORD disp;
-      LONG err = RegCreateKeyEx(HKEY_CURRENT_USER,
+      LONG err = RegCreateKeyExA(HKEY_CURRENT_USER,
                                 p32.c_str(),
                                 0,
                                 NULL,
@@ -184,7 +184,7 @@ W32Configurator::set_value(const std::string &key, const ConfigValue &value)
                                 &disp);
       if (err == ERROR_SUCCESS)
         {
-          err = RegSetValueEx(handle, c.c_str(), 0, REG_SZ, (BYTE *)v.c_str(), static_cast<DWORD>(v.length() + 1));
+          err = RegSetValueExA(handle, c.c_str(), 0, REG_SZ, (BYTE *)v.c_str(), static_cast<DWORD>(v.length() + 1));
           RegCloseKey(handle);
           // TODO: Log rc = (err == ERROR_SUCCESS);
         }

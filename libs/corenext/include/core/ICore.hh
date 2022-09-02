@@ -54,13 +54,16 @@ namespace workrave
     virtual void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) = 0;
+    [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) const = 0;
 
     //! Return the statistics interface.
     [[nodiscard]] virtual IStatistics::Ptr get_statistics() const = 0;
 
     //! Is the user currently active?
     [[nodiscard]] virtual bool is_user_active() const = 0;
+
+    //! Is the user taking a break?
+    [[nodiscard]] virtual bool is_taking() const = 0;
 
     //! Retrieves the operation mode.
     [[nodiscard]] virtual OperationMode get_active_operation_mode() = 0;

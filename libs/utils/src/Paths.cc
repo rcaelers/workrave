@@ -149,7 +149,7 @@ Paths::get_application_directory()
     {
 #if defined(PLATFORM_OS_WINDOWS)
       char app_dir_name[MAX_PATH];
-      GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
+      GetModuleFileNameA(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
       // app_dir_name == c:\program files\workrave\lib\workrave.exe
       char *s = strrchr(app_dir_name, '\\');
       assert(s);
