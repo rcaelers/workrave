@@ -137,12 +137,22 @@ jobs:
       matrix:
         config:
           - configuration: Release
+            ui: Gtk+3
             enable: TESTS, CRASHPAD, AUTO_UPDATE
             upload: true
 
           - configuration: Debug
             enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
+            ui: Gtk+3
             upload: true
+
+          - configuration: Release
+            ui: Qt
+            enable: TESTS, CRASHPAD, AUTO_UPDATE
+
+          - configuration: Debug
+            enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
+            ui: Qt
     steps:
       - uses: actions/checkout@v2
         with:
@@ -190,6 +200,7 @@ jobs:
         env:
           WORKRAVE_ENV: github-windows-msys2
           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+          CONF_UI: ${{ matrix.config.ui }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
           CONF_ENABLE: ${{ matrix.config.enable }}
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
