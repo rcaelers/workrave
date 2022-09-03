@@ -186,6 +186,9 @@ jobs:
             mingw-w64-clang-x86_64-jq
             mingw-w64-clang-x86_64-uasm
             mingw-w64-clang-x86_64-rust
+            mingw-w64-clang-x86_64-qt6-base
+            mingw-w64-clang-x86_64-qt6-svg
+            mingw-w64-clang-x86_64-qt6-tools
             tar
             xz
             zip
