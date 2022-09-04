@@ -24,7 +24,7 @@ foreach(plugin ${PLUGINS})
 endforeach()
 
 foreach(dependency ${resolved_dependencies})
-  file(INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+  file(INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
 endforeach()
 
-file(INSTALL ${SYS_ROOT}/bin/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+file(INSTALL ${SYS_ROOT}/bin/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
