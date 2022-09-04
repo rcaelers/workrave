@@ -33,7 +33,7 @@
 class ExercisesPanel : public Gtk::HBox
 {
 public:
-  using stop_signal_t= sigc::signal<void()>;
+  using stop_signal_t = sigc::signal<void()>;
 
   ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area);
   ~ExercisesPanel() override;

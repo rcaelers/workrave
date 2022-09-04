@@ -21,9 +21,8 @@
 
 #include "MicroBreakWindow.hh"
 
-#include "debug.hh"
-
 #include "utils/AssetPath.hh"
+#include "debug.hh"
 
 #include "Ui.hh"
 #include "UiUtil.hh"

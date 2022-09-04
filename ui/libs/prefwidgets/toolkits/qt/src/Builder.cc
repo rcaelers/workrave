@@ -32,8 +32,8 @@
 
 using namespace ui::prefwidgets::qt;
 
-  void
-  Builder::handle_size_groups(std::shared_ptr<ui::prefwidgets::Widget> def)
+void
+Builder::handle_size_groups(std::shared_ptr<ui::prefwidgets::Widget> def)
 {
   for (auto sg: def->get_size_groups())
     {

@@ -37,13 +37,13 @@ GnomeSession::init()
     {
       auto proxy = Gio::DBus::Proxy::create_for_bus_sync(
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
-                                                        Gio::DBus::BusType::SESSION,
+        Gio::DBus::BusType::SESSION,
 #else
-                                                        Gio::DBus::BUS_TYPE_SESSION,
+        Gio::DBus::BUS_TYPE_SESSION,
 #endif
-                                                         "org.gnome.SessionManager",
-                                                         "/org/gnome/SessionManager/Presence",
-                                                         "org.gnome.SessionManager.Presence");
+        "org.gnome.SessionManager",
+        "/org/gnome/SessionManager/Presence",
+        "org.gnome.SessionManager.Presence");
 
       proxy->signal_signal().connect(sigc::mem_fun(*this, &GnomeSession::on_signal));
     }

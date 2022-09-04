@@ -51,7 +51,7 @@ private:
 
 #if defined(PLATFORM_OS_WINDOWS)
   QCheckBox *autostart_cb;
-#  endif
+#endif
 
   std::shared_ptr<ui::prefwidgets::qt::BoxWidget> plugin_frame;
 };
