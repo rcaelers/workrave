@@ -20,6 +20,10 @@ set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QWindowsIntegrationPlugin)
 #   endif()
 # endforeach()
 
+
+install(FILES WizModernImage.bmp DESTINATION dist)
+install(FILES WizModernSmall.bmp DESTINATION dist)
+
 install(DIRECTORY "${QT_PLUGINS_DIR}/platforms"     DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
 install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats"  DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
 install(DIRECTORY "${QT_PLUGINS_DIR}/iconengines"   DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
@@ -37,31 +41,32 @@ install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
+install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
 
-# configure_file(
-#   "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"
-#   "${CMAKE_CURRENT_BINARY_DIR}/setup.iss"
-#   @ONLY
-# )
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/setup.iss.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/setup.iss"
+  @ONLY
+)
 
-# set(INSTALLER_NAME "workrave-installer")
-# set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
-# set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
+set(INSTALLER_NAME "workrave-installer")
+set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
+set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 
-# if(WINE)
-#   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-#                       COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-#                       DEPENDS workrave)
-# else()
-#   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-#                       COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-#                       DEPENDS workrave
-#                       VERBATIM)
-# endif()
+if(WINE)
+  add_custom_command(OUTPUT ${INSTALLER_TARGET}
+                      COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                      DEPENDS workrave)
+else()
+  add_custom_command(OUTPUT ${INSTALLER_TARGET}
+                      COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                      DEPENDS workrave
+                      VERBATIM)
+endif()
 
-# add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
+add_custom_target(installer DEPENDS ${INSTALLER_TARGET})

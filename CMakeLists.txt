@@ -190,7 +190,7 @@ elseif (APPLE)
 elseif (WIN32)
   if (WITH_UI_QT)
     set (BINDIR bin)
-    set (BINDIR32 bin32)
+    set (BINDIR32 lib32) # TODO: move to bin32
   else()
     set (BINDIR lib)
     set (BINDIR32 lib32)

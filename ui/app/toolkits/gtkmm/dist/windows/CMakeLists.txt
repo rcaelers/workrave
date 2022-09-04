@@ -109,6 +109,7 @@ install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
+install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
