@@ -38,7 +38,6 @@
 #  include "ui/windows/WindowsCompat.hh"
 #endif
 
-
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
 #include "EventImage.hh"

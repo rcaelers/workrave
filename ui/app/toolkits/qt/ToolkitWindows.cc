@@ -69,7 +69,7 @@ if (!main_window->is_visible())
       GUIConfig::trayicon_enabled().set(true);
     }
 #endif
-  }
+}
 
 boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> &
 ToolkitWindows::hook_event()

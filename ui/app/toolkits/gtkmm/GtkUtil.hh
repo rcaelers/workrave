@@ -83,6 +83,7 @@ private:
   static Glib::Quark *label_quark;
 };
 
+// clang-format off
 #define GLIBMM_CHECK_VERSION(major,minor,micro)                            \
     (GLIBMM_MAJOR_VERSION > (major) ||                                     \
     (GLIBMM_MAJOR_VERSION == (major) && GLIBMM_MINOR_VERSION > (minor)) ||  \
@@ -94,5 +95,6 @@ private:
     (CAIROMM_MAJOR_VERSION == (major) && CAIROMM_MINOR_VERSION > (minor)) ||  \
     (CAIROMM_MAJOR_VERSION == (major) && CAIROMM_MINOR_VERSION == (minor) &&  \
      CAIROMM_MICRO_VERSION >= (micro)))
+// clang-format on
 
 #endif // GTKUTIL_HH

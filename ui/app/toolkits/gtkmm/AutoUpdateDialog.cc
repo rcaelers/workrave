@@ -73,7 +73,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info)
       Gtk::Image *logo = Gtk::manage(new Gtk::Image(pix));
       logobox->pack_start(*logo, false, false, 0);
     }
- #if GLIBMM_CHECK_VERSION(2, 68, 0)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
   catch (std::exception &e)
     {
       spdlog::info("error loading image {}", e.what());

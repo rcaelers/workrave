@@ -168,7 +168,7 @@ MainWindow::init()
   set_border_width(2);
   set_resizable(false);
 
-#if GLIBMM_CHECK_VERSION(2,68,0)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
   std::vector<Glib::RefPtr<Gdk::Pixbuf>> icons;
 #else
   std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
@@ -205,7 +205,7 @@ MainWindow::init()
         }
     }
 
-#if GLIBMM_CHECK_VERSION(2,68,0)
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
   Gtk::Window::set_default_icon_list(icons);
 #else
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf>> icon_list(icons);

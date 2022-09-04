@@ -164,7 +164,7 @@ StatusIcon::signal_activated()
   return activated_signal;
 }
 
-StatusIcon::balloon_activated_signal_t  &
+StatusIcon::balloon_activated_signal_t &
 StatusIcon::signal_balloon_activated()
 {
   return balloon_activated_signal;
