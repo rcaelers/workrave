@@ -14,10 +14,10 @@ else
   GEN_ARGS="--single --latest"
 fi
 
-cd ${SCRIPTS_DIR}/newsgen
+cd ${SCRIPTS_DIR}/citool
 npm install
 cd ${SOURCES_DIR}
-node --experimental-modules ${SCRIPTS_DIR}/newsgen/main.js \
+${SCRIPTS_DIR}/citool/bin/citool.ts newsgen \
   --input "${SOURCES_DIR}/changes.yaml" \
   --template github \
   $GEN_ARGS \

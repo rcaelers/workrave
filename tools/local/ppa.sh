@@ -65,7 +65,7 @@ init_dependencies() {
 }
 
 init_newsgen() {
-    cd ${SCRIPTS_DIR}/newsgen
+    cd ${SCRIPTS_DIR}/citool
     npm install
 }
 
@@ -87,7 +87,7 @@ build_changelog() {
     series=$1
 
     cd /
-    node ${SCRIPTS_DIR}/newsgen/main.js \
+    ${SCRIPTS_DIR}/citool/bin/citool.ts newsgen \
         --input "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/changes.yaml" \
         --ubuntu $series \
         --increment $PPA \

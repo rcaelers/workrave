@@ -26,7 +26,7 @@ run_docker_deb() {
 }
 
 init_newsgen() {
-    cd ${SCRIPTS_DIR}/newsgen
+    cd ${SCRIPTS_DIR}/citool
     npm install
 }
 
@@ -86,7 +86,7 @@ generate_blog() {
     if [ ! -d $DIR ]; then
         mkdir -p ${DIR}
         cd /
-        node ${SCRIPTS_DIR}/newsgen/main.js \
+        ${SCRIPTS_DIR}/citool/bin/citool.ts newsgen \
             --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
             --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \

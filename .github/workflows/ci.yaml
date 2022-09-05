@@ -449,9 +449,9 @@ jobs:
 
       - name: Create artifact catalog
         run: |
-          cd $GITHUB_WORKSPACE/tools/catalog
+          cd $GITHUB_WORKSPACE/tools/citool
           npm i
-          node --experimental-modules main.js
+          $GITHUB_WORKSPACE/tools/citool/bin/citool.ts catalog
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
@@ -460,10 +460,9 @@ jobs:
 
       - name: Create appcast
         run: |
-          cd $GITHUB_WORKSPACE/tools/appcast
+          cd $GITHUB_WORKSPACE/tools/citool
           npm i
-          npm run build
-          node --experimental-modules dist/main.js
+          $GITHUB_WORKSPACE/tools/citool/bin/citool.ts appcast
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
@@ -519,10 +518,10 @@ jobs:
 
       - name: Generate news
         run: |
-          cd ${{ github.workspace }}/tools/newsgen
+          cd ${{ github.workspace }}/tools/citool
           npm i
           cd ${{ github.workspace }}
-          node ${{ github.workspace }}/tools/newsgen/main.js \
+          ${{ github.workspace }}/tools/citool/bin/citool.ts newsgen \
             --input "${{ github.workspace }}/changes.yaml" \
             --template github \
             --single \
