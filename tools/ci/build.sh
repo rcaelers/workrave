@@ -218,7 +218,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     portableFilename=${baseFilename}-portable.zip
 
     mkdir -p ${PORTABLE_DIR}/Workrave
-    for d in ${OUTPUT_DIR}/bin ${OUTPUT_DIR}/bin32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/lib32 ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share; do
+    for d in ${OUTPUT_DIR}/bin ${OUTPUT_DIR}/bin32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share; do
         if [ -d $d ]; then
             cp -a $d ${PORTABLE_DIR}/Workrave
         fi

@@ -6,7 +6,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
         GIT_REPOSITORY https://github.com/rcaelers/unfold.git
         GIT_TAG 92047aeaaa73c8ee470828a08a2c71b62e43eb4a
       )
-    FetchContent_MakeAvailable(unfold)
+    if(NOT unfold_POPULATED)
+      FetchContent_Populate(unfold)
+      add_subdirectory(${unfold_SOURCE_DIR} ${unfold_BINARY_DIR} EXCLUDE_FROM_ALL)
+    endif()
 
     FetchContent_Declare(
       cmark
@@ -16,7 +19,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       CMAKE_ARGS CMARK_TESTS=OFF
       )
     set(CMARK_TESTS OFF CACHE INTERNAL "Disable tests")
-    FetchContent_MakeAvailable(cmark)
+    if(NOT cmark_POPULATED)
+      FetchContent_Populate(cmark)
+      add_subdirectory(${cmark_SOURCE_DIR} ${cmark_BINARY_DIR} EXCLUDE_FROM_ALL)
+    endif()
 
     FetchContent_Declare(
       webview2
