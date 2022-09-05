@@ -1,4 +1,4 @@
-#!/usr/bin/env npx ts-node
+#!/usr/bin/env -S npx ts-node
 
 import oclif from '@oclif/core';
 import path from 'node:path';
