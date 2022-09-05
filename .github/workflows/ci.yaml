@@ -447,27 +447,19 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
-      - name: Create artifact catalog
+      - name: Create artifact catalog / appcast
         run: |
           cd $GITHUB_WORKSPACE/tools/citool
           npm i
+          npm run build
           $GITHUB_WORKSPACE/tools/citool/bin/citool.ts catalog
-        env:
-          WORKSPACE: ${{ github.workspace }}
-          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
-          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
-          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
-
-      - name: Create appcast
-        run: |
-          cd $GITHUB_WORKSPACE/tools/citool
-          npm i
           $GITHUB_WORKSPACE/tools/citool/bin/citool.ts appcast
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
 
   release:
     runs-on: ubuntu-22.04
@@ -520,6 +512,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/tools/citool
           npm i
+          npm run build
           cd ${{ github.workspace }}
           ${{ github.workspace }}/tools/citool/bin/citool.ts newsgen \
             --input "${{ github.workspace }}/changes.yaml" \

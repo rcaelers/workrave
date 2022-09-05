@@ -67,6 +67,7 @@ init_dependencies() {
 init_newsgen() {
     cd ${SCRIPTS_DIR}/citool
     npm install
+    npm run build
 }
 
 build_tarball() {

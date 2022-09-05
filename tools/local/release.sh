@@ -28,6 +28,7 @@ run_docker_deb() {
 init_newsgen() {
     cd ${SCRIPTS_DIR}/citool
     npm install
+    npm run build
 }
 
 init() {
