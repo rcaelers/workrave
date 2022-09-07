@@ -75,8 +75,8 @@ class Generator {
         ...extra,
         ...{ series: this.params.ubuntu, increment: this.params.increment, releases: this.news },
       };
-      let template_filename = path.join(__dirname, '..', '..', 'templates', this.params.template + '.tmpl');
-      return nunjucks.render(template_filename, context);
+      nunjucks.configure(path.join(__dirname, '..', '..', 'templates'));
+      return nunjucks.render(this.params.template + '.tmpl', context);
     } catch (e) {
       console.error(e);
     }
