@@ -89,6 +89,15 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
+upload() {
+    "${AWS}" configure set aws_access_key_id travis
+    "${AWS}" configure set aws_secret_access_key ${SNAPSHOTS_SECRET_ACCESS_KEY}
+    "${AWS}" configure set default.region us-east-1
+    "${AWS}" configure set default.s3.signature_version s3v4
+    "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
+    "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/v1.11
+}
+
 export WORKRAVE_ENV=local-windows-msys2
 
 export WORKSPACE=$(pwd)/_workrave_build_workspace
@@ -117,20 +126,38 @@ fi
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/../ci/config.sh
 
+source ${SECRETS_DIR}/env-snapshots
+
 init
 setup
 
-export OPENSSL=/opt/openssl/bin/openssl
+export OPENSSL=${OPENSSL:-"/opt/openssl/bin/openssl"}
+export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
 
 if [ -n "$DOSIGN" ]; then
     export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\signtool.exe"
     export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
 fi
 
+export PATH="/c/Program Files/nodejs":$PATH
+export WORKRAVE_JOB_INDEX=0
+$SCRIPTS_DIR/ci/catalog.sh
+
 export CONF_CONFIGURATION=Release
+export WORKRAVE_JOB_INDEX=1
 # export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
 export CONF_ENABLE="TESTS"
 $SCRIPTS_DIR/ci/build.sh
 
-export ARTIFACTS=${DEPLOY_DIR}
+export CONF_CONFIGURATION=Debug
+export WORKRAVE_JOB_INDEX=2
+# export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
+export CONF_ENABLE="TESTS"
+$SCRIPTS_DIR/ci/build.sh
+
+export ARTIFACTS=${SOURCES_DIR}/_deploy
 ${SCRIPTS_DIR}/ci/sign.sh
+
+if [ -z "${DRYRUN}" ]; then
+    upload
+fi

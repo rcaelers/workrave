@@ -14,7 +14,7 @@ local-windows-msys2)
     WORKSPACE=${WORKSPACE:-$(pwd)}
     SOURCES_DIR=${SOURCES_DIR:-${WORKSPACE}}
     OUTPUT_DIR=${SOURCES_DIR}/_output/${CONF_CONFIGURATION}
-    DEPLOY_DIR=${SOURCES_DIR}/_deploy/${CONF_CONFIGURATION}
+    DEPLOY_DIR=${SOURCES_DIR}/_deploy
     BUILD_DIR=${SOURCES_DIR}/_build/${CONF_CONFIGURATION}
     ;;
 
@@ -100,7 +100,7 @@ if [ $WORKRAVE_GIT_VERSION != $WORKRAVE_GIT_TAG ]; then
     echo "Snapshot build ($WORKRAVE_GIT_VERSION) of release ($WORKRAVE_GIT_TAG)"
 else
     echo "Release build ($WORKRAVE_VERSION)"
-    export WORKRAVE_RELEASE=WORKRAVE_VERSION
+    export WORKRAVE_RELEASE=$WORKRAVE_VERSION
 fi
 
 case "$WORKRAVE_ENV" in
@@ -109,7 +109,8 @@ local)
     ;;
 
 local-windows-msys2)
-    export WORKRAVE_JOB_NUMBER=${WORKRAVE_BUILD_ID}
+    export WORKRAVE_JOB_NUMBER=${WORKRAVE_BUILD_ID}.${WORKRAVE_JOB_INDEX}
+    export DEPLOY_DIR=$DEPLOY_DIR/$WORKRAVE_BUILD_ID
     ;;
 
 docker-linux)

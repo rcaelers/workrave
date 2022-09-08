@@ -31,7 +31,6 @@ parse_arguments() {
             ;;
         c)
             CONFIG="${OPTARG}"
-            BUILD_ARGS+=("-d${CONFIG}")
             ;;
         C)
             CONF_COMPILER="${OPTARG}"
@@ -116,6 +115,7 @@ DOCKER_ARGS+=("-e WORKRAVE_ENV=docker-linux")
 DOCKER_ARGS+=("-e CONF_COMPILER=${CONF_COMPILER}")
 DOCKER_ARGS+=("-e CONF_CONFIGURATION=${CONF_CONFIGURATION}")
 DOCKER_ARGS+=("-e CONF_APPIMAGE=${CONF_APPIMAGE}")
+DOCKER_ARGS+=("-e DOCKER_IMAGE=${IMAGE}")
 DOCKER_ARGS+=("--rm ghcr.io/rcaelers/workrave-build:${IMAGE}")
 
 if [[ $DOSHELL ]]; then
