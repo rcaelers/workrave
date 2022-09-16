@@ -80,7 +80,7 @@ static DWORD exec_process_id = 0;
 static void debug_send_message(const char *);
 static INLINE void if_debug_send_message(const char *);
 static void debug_process_menu_selection(WORD);
-static void debug_save_data();
+static void debug_save_data(void);
 static HMENU menu = NULL;
 
 static HANDLE dll_handle = NULL;
@@ -154,7 +154,7 @@ harpoon_block_input(void)
 }
 
 static int
-is_app_blocked()
+is_app_blocked(void)
 // Ensures we don't block any critical applications
 {
   int i;
@@ -874,7 +874,7 @@ harpoon_exit(void)
 }
 
 HARPOON_API void
-harpoon_unhook()
+harpoon_unhook(void)
 {
   if_debug_send_message("harpoon_unhook() called");
 
@@ -1036,7 +1036,7 @@ harpoon_hook_block_only(void)
 }
 
 static void
-_get_exec_filename()
+_get_exec_filename(void)
 {
   // keep this code out of dllmain. don't call from dllmain.
   // jay satiro, workrave project, august 2007
@@ -1309,7 +1309,7 @@ debug_process_menu_selection(WORD idm)
 }
 
 static void
-debug_save_data()
+debug_save_data(void)
 // This is called if the user opts to save the messages to a file.
 {
   char *buffer;

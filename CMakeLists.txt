@@ -276,7 +276,6 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
     set (DBUS_BACKEND "gio")
   endif()
 
-  include_directories(${GLIB_INCLUDE_DIRS})
   find_package(GSettings)
 endif()
 
@@ -529,10 +528,6 @@ endif()
 
 find_package(Boost 1.54.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIR})
-add_compile_definitions(BOOST_LOG_DYN_LINK)
-
 #----------------------------------------------------------------------------------------------------
 # Translations
 
@@ -636,8 +631,8 @@ if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
     add_compile_definitions(_CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE _SCL_SECURE_NO_WARNINGS)
 
     set (MSVC_WARNINGS "/W2 /wd4127 /wd4250 /wd4413 /wd4800 /wd5045")
-    set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /FIconfig.h ${MSVC_WARNINGS}")
-    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /FIconfig.h ${MSVC_WARNINGS}")
+    set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   ${MSVC_WARNINGS}")
+    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${MSVC_WARNINGS}")
 
     set (CMAKE_DEBUG_POSTFIX "d")
 

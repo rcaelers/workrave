@@ -184,6 +184,7 @@ if (HAVE_CRASH_REPORT)
     crashpad::tools
     workrave-libs-utils
     ${GTK_LIBRARIES}
+    ${LIBINTL_LIBRARIES}
     )
 
   if (MSVC)

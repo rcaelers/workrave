@@ -6,11 +6,6 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
     main.cpp
   )
 
-  include_directories(
-    ../../harpoon/include
-    ../include
-  )
-
   add_compile_definitions(
     WIN32
     WINVER=0xA00
@@ -21,6 +16,7 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
 
   add_executable(WorkraveHelper ${SOURCES})
   target_link_libraries(WorkraveHelper harpoon)
+  target_include_directories(WorkraveHelper PRIVATE "../../harpoon/include"  "../include")
   install(TARGETS WorkraveHelper RUNTIME DESTINATION ${BINDIR32})
 
   if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")

@@ -92,7 +92,7 @@ extern "C"
   HARPOON_API BOOL harpoon_init(char imported_critical_filename_list[][511], BOOL debug);
   HARPOON_API void harpoon_exit(void);
 
-  HARPOON_API void harpoon_unhook();
+  HARPOON_API void harpoon_unhook(void);
   HARPOON_API BOOL harpoon_hook(HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel);
 
   HARPOON_API void harpoon_block_input(void);

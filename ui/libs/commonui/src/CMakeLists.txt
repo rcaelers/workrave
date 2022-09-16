@@ -24,6 +24,7 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include
     PRIVATE
     ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include/commonui
+    ${GLIB_INCLUDE_DIRS}
 )
 
 if (PLATFORM_OS_MACOS)
