@@ -31,6 +31,12 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     )
 
+  target_include_directories(workrave-libs-dbus-test-server-qt PRIVATE
+    ${CMAKE_SOURCE_DIR}/libs/dbus/src
+    ${CMAKE_SOURCE_DIR}/libs/dbus/include
+    ${CMAKE_SOURCE_DIR}/libs/utils/include
+    )
+
   target_link_libraries(workrave-libs-dbus-test PRIVATE workrave-libs-dbus)
   target_link_libraries(workrave-libs-dbus-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-libs-dbus-test PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
