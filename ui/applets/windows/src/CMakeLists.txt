@@ -31,13 +31,13 @@ if (WIN32)
   )
 
   target_compile_definitions(
-    ${APPLET_TARGET}
-    PRIVATE
-    -DWIN32
-    -DWINVER=0xA00
-    -D_USRDLL
-    -D_WIN32_WINNT=0x0A00
-    -D_WINDOWS
+    ${APPLET_TARGET} PRIVATE
+    WIN32
+    WINVER=0xA00
+    _USRDLL
+    _WIN32_WINNT=0x0A00
+    _WINDOWS
+    NOMINMAX
   )
 
   if (NOT MSVC)

@@ -48,7 +48,7 @@ SliderWidget::init_ui(std::shared_ptr<ContainerWidget> container)
     widget->set_sensitive(def->get_sensitive());
   });
   widget->signal_value_changed().connect([this]() {
-    int v = widget->get_value();
+    int v = static_cast<int>(widget->get_value());
     def->set_value(v);
   });
 

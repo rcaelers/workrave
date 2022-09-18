@@ -638,12 +638,11 @@ if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
 
     add_compile_options(/bigobj /Zc:__cplusplus)
     add_compile_definitions(
-      WIN32
-      _WINDOWS
-      _WIN32_WINNT=0xA00
-      WINVER=0xA00
-      NOMINMAX
-      )
+       NOMINMAX
+       WIN32
+       WINVER=0xA00
+       _WIN32_WINNT=0x0A00
+       _WINDOWS)
   endif()
 
   check_c_source_compiles(

@@ -25,5 +25,5 @@ foreach(file ${FILES32BIT})
 endforeach()
 
 if (HAVE_CRASHPAD)
-  file(APPEND ${LIBS_ISS} "Source: \"@INSTALL_WIN_PATH@\\${BINDIR}\\WorkraveCrashHandler.exe\"; DestDir: \"{app}\\${BINDIR}\"; DestName: \"WorkraveCrashHandler.exe\"; Flags: ignoreversion;\n")
+  file(APPEND ${LIBS_ISS} "Source: \"${INSTALL_WIN_PATH}\\${BINDIR}\\WorkraveCrashHandler.exe\"; DestDir: \"{app}\\${BINDIR}\"; DestName: \"WorkraveCrashHandler.exe\"; Flags: ignoreversion;\n")
 endif()
