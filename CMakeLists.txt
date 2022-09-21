@@ -634,8 +634,6 @@ if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
     set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   ${MSVC_WARNINGS}")
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${MSVC_WARNINGS}")
 
-    set (CMAKE_DEBUG_POSTFIX "d")
-
     add_compile_options(/bigobj /Zc:__cplusplus)
     add_compile_definitions(
        NOMINMAX
@@ -643,6 +641,10 @@ if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
        WINVER=0xA00
        _WIN32_WINNT=0x0A00
        _WINDOWS)
+  endif()
+
+  if (VCPKG_TOOLCHAIN)
+    set(SYS_ROOT ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET})
   endif()
 
   check_c_source_compiles(

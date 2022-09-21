@@ -1,11 +1,11 @@
 install(FILES WizModernImage.bmp DESTINATION dist)
 install(FILES WizModernSmall.bmp DESTINATION dist)
 
-file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
-foreach (po_file ${POFILES})
-  get_filename_component(language ${po_file} NAME_WE)
+if(MINGW OR VCPKG_TOOLCHAIN)
+  file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
+  foreach (po_file ${POFILES})
+    get_filename_component(language ${po_file} NAME_WE)
 
-  if(MINGW)
     install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30-properties.mo DESTINATION share/locale/${language}/LC_MESSAGES)
     install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/gtk30.mo DESTINATION share/locale/${language}/LC_MESSAGES)
     install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/atk10.mo DESTINATION share/locale/${language}/LC_MESSAGES)
@@ -25,8 +25,8 @@ foreach (po_file ${POFILES})
       install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
       # TODO: else: give warning, once
     endif()
-  endif()
-endforeach()
+  endforeach()
+endif()
 
 include(FetchContent)
 
@@ -48,12 +48,6 @@ FetchContent_Declare(
   GIT_TAG        9f199c6b7c6050f36d0d15aaa6e9f4847e8b9066
   )
 
-FetchContent_Declare(
-   AdwaitaIconTheme
-   URL          https://download.gnome.org/sources/adwaita-icon-theme/40/adwaita-icon-theme-40.1.1.tar.xz
-   URL_HASH     SHA256=0b6c436ed6ad9887a88ada1f72a0197b1eb73b020d8d344abab4c7fa7250f8f6
-   )
-
 FetchContent_GetProperties(WindowsThemeAcrylic)
 if(NOT windowsthemeacrylic_POPULATED)
   FetchContent_Populate(WindowsThemeAcrylic)
@@ -69,15 +63,10 @@ if(NOT windowsartwork_POPULATED)
   FetchContent_Populate(WindowsArtwork)
 endif()
 
-FetchContent_GetProperties(AdwaitaIconTheme)
-if(NOT adwaitaicontheme_POPULATED)
-  FetchContent_Populate(AdwaitaIconTheme)
-endif()
-
 install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.20 DESTINATION share/themes/Windows10/)
 install (DIRECTORY ${windowsthemeacrylic_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10Acrylic/)
 
-if(MINGW)
+if(MINGW OR VCPKG_TOOLCHAIN)
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
   install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
 
@@ -87,17 +76,23 @@ if(MINGW)
   install (FILES ${SYS_ROOT}/share/glib-2.0/schemas/gschema.dtd DESTINATION share/glib-2.0/schemas/)
   install (CODE "execute_process (COMMAND glib-compile-schemas \"${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas\")")
 
+  if (VCPKG_TOOLCHAIN)
+    set(ADWAITA_DIR ${SYS_ROOT}/share/adwaita-icon-theme/icons/Adwaita)
+  else()
+    set(ADWAITA_DIR ${SYS_ROOT}/usr/share/icons/Adwaita)
+  endif()
+
   foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
     foreach(icon places/user* places/folder* places/drive*)
-      file(GLOB globs RELATIVE "${SYS_ROOT}/share/icons/Adwaita/" "${SYS_ROOT}/share/icons/Adwaita/${size}/${icon}.*")
+      file(GLOB globs RELATIVE "${ADWAITA_DIR}" "${ADWAITA_DIR}/${size}/${icon}.*")
       foreach(icon_file ${globs})
         get_filename_component(dir ${icon_file} DIRECTORY)
-        install(FILES ${SYS_ROOT}/share/icons/Adwaita/${icon_file} DESTINATION ${DATADIR}/icons/Adwaita/${dir})
+        install(FILES ${ADWAITA_DIR}/${icon_file} DESTINATION ${DATADIR}/icons/Adwaita/${dir})
       endforeach()
     endforeach()
   endforeach()
 
-  install(FILES "${SYS_ROOT}/share/icons/Adwaita/index.theme" DESTINATION ${DATADIR}/icons/Adwaita)
+  install(FILES "${ADWAITA_DIR}/index.theme" DESTINATION ${DATADIR}/icons/Adwaita)
   install(CODE "execute_process(COMMAND gtk-update-icon-cache \${DATADIR}/icons/Adwaita)")
 endif()
 

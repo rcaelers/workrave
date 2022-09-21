@@ -8,7 +8,7 @@
     {
       "kind": "filesystem",
       "path": "vcpkg-registry",
-      "packages": ["gtk3mm", "gtk3", "gettext"]
+      "packages": ["gtk3mm", "gtk3", "gettext", "adwaita-icon-theme"]
     }
   ]
 }

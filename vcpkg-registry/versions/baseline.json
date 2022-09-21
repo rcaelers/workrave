@@ -11,6 +11,10 @@
     "gettext": {
       "baseline": "0.21",
       "port-version": 9
+    },
+    "adwaita-icon-theme": {
+      "baseline": "43",
+      "port-version": 0
     }
   }
 }

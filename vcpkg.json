@@ -112,6 +112,10 @@
       "name": "spdlog",
       "version>=": "1.10.0#1",
       "platform": "x86 | x64"
+    },
+    {
+      "name": "adwaita-icon-theme",
+      "version>=": "43"
     }
   ]
 }
