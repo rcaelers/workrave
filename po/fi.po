@@ -149,7 +149,7 @@ msgstr "Näytä loki"
 #: ../frontend/applets/mate/src/main-gtk2.c:317
 #: ../frontend/applets/mate/src/main-gtk3.c:358
 msgid "Reading mode"
-msgstr "阅读模式"
+msgstr "Lukutila"
 
 #: ../frontend/applets/gnome3/src/libgnome-panel/workrave-gnome-applet-menu.xml.h:15
 #: ../frontend/applets/gnome3/src/v5/workrave-gnome-applet-menu.xml.h:15
@@ -617,7 +617,7 @@ msgstr "_Näytä loki"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 msgid "_Reading mode"
-msgstr "阅读模式(_R)"
+msgstr "Lukutila(_R)"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
 msgid "Please relax for a few seconds"
