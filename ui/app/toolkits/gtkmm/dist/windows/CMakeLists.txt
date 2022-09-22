@@ -79,7 +79,7 @@ if(MINGW OR VCPKG_TOOLCHAIN)
   if (VCPKG_TOOLCHAIN)
     set(ADWAITA_DIR ${SYS_ROOT}/share/adwaita-icon-theme/icons/Adwaita)
   else()
-    set(ADWAITA_DIR ${SYS_ROOT}/usr/share/icons/Adwaita)
+    set(ADWAITA_DIR ${SYS_ROOT}/share/icons/Adwaita)
   endif()
 
   foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
