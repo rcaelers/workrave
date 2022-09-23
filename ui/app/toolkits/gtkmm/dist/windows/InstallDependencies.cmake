@@ -35,11 +35,17 @@ endforeach()
 else()
   file(GLOB PLUGINS "${INSTALL_PATH}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll")
 
+  set(EXECUTABLES "${INSTALL_PATH}/${BINDIR}/workrave.exe")
+  if (HAVE_CRASHPAD)
+    list(APPEND EXECUTABLES "${INSTALL_PATH}/${BINDIR}/WorkraveCrashHandler.exe")
+  endif()
+  if (HAVE_DBUS)
+    list(APPEND EXECUTABLES "${INSTALL_PATH}/${BINDIR}/gdbus.exe")
+  endif()
+
   file(GET_RUNTIME_DEPENDENCIES
     EXECUTABLES
-      "${INSTALL_PATH}/${BINDIR}/workrave.exe"
-      "${INSTALL_PATH}/${BINDIR}/WorkraveCrashHandler.exe"
-      "${INSTALL_PATH}/${BINDIR}/gdbus.exe"
+      ${EXECUTABLES}
     LIBRARIES
       ${PLUGINS}
     RESOLVED_DEPENDENCIES_VAR resolved
