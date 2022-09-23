@@ -99,8 +99,8 @@ jobs:
       - name: build
         shell: bash
         run: |
-          cmake --config Release --build '${{github.workspace}}/_build'
-          cmake --config Release --install '${{github.workspace}}/_build'
+          cmake --build '${{github.workspace}}/_build' --config Release
+          cmake --install '${{github.workspace}}/_build' --config Release
 
   build-windows:
     runs-on: windows-2019
