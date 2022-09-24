@@ -68,7 +68,7 @@ install (DIRECTORY ${windowsthemeacrylic_SOURCE_DIR}/gtk-3.0 DESTINATION share/t
 
 if(MINGW OR VCPKG_TOOLCHAIN)
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
-  install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/)
+  install (DIRECTORY ${SYS_ROOT}/lib/gdk-pixbuf-2.0/2.10.0 DESTINATION lib/gdk-pixbuf-2.0/ FILES_MATCHING PATTERN "*.dll" PATTERN "*.cache")
 
   install (DIRECTORY ${SYS_ROOT}/lib/pango/1.8.0/modules DESTINATION lib/pango/1.8.0/modules FILES_MATCHING PATTERN "*.dll")
   install (DIRECTORY ${SYS_ROOT}/etc/fonts DESTINATION etc)
