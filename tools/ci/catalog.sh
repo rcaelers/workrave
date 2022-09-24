@@ -3,15 +3,32 @@
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
 
+parse_arguments() {
+  while getopts "c:" o; do
+    case "${o}" in
+    c)
+      CHANNEL="${OPTARG}"
+      ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+}
+
 mkdir -p ${DEPLOY_DIR}
+
+export CHANNEL=
+
+parse_arguments $*
 
 CATALOG_DIR=${DEPLOY_DIR}
 CATALOG_NAME=${CATALOG_DIR}/job-catalog-root-${WORKRAVE_JOB_NUMBER}.json
 
 if [[ -n "$WORKRAVE_RELEASE" ]]; then
   GEN_ARGS=-"-single --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g')"
+  CHANNEL=${CHANNEL:-stable}
 else
   GEN_ARGS="--single --latest"
+  CHANNEL=${CHANNEL:-nightly}
 fi
 
 cd ${SCRIPTS_DIR}/citool
@@ -36,6 +53,7 @@ jq -n ' {
                   "hash": env.WORKRAVE_COMMIT_HASH,
                   "date": env.WORKRAVE_BUILD_DATETIME,
                   "notes": env.NOTES,
+                  "channel": env.CHANNEL,
                   "artifacts": []
                 }
               ]

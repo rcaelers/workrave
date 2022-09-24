@@ -87,7 +87,7 @@ class Builder {
 
   async mergeCatalogs() {
     try {
-      let backupFilename = path.join(this.branch, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
+      let backupFilename = path.posix.join(this.branch, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
       if (this.dry) {
         console.log('Dry run: writeJson(' + backupFilename + '):');
       } else {
@@ -103,7 +103,7 @@ class Builder {
         if (this.isCatalog(filename)) {
           let part = await this.s3store.readJson(fileInfo.Key);
           this.mergeBuild(part.builds[0]);
-          let backupFilename = path.join(directory, '.' + filename);
+          let backupFilename = path.posix.join(directory, '.' + filename);
 
           if (this.dry || this.regenerate) {
             console.log('Dry run: not creating backup of ' + fileInfo.Key);

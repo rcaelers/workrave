@@ -15,7 +15,7 @@ class Catalog {
     this.regenerate = regenerate;
 
     this.catalog = null;
-    this.catalogFilename = path.join(branch, 'catalog.json');
+    this.catalogFilename = path.posix.join(branch, 'catalog.json');
   }
 
   async load() {

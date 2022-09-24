@@ -52,16 +52,19 @@ usage() {
 }
 
 parse_arguments() {
-    while getopts "C:dPr:R:S:st:W:" o; do
+    while getopts "c:C:D:dr:R:S:st:TW:" o; do
         case "${o}" in
+        c)
+            CHANNEL="${OPTARG}"
+            ;;
         C)
             SCRIPTS_DIR="${OPTARG}"
             ;;
+        D)
+            DODEBUG=1
+            ;;
         d)
             DRYRUN=-d
-            ;;
-        P)
-            PRERELEASE=1
             ;;
         r)
             export WORKRAVE_OVERRIDE_GIT_VERSION="${OPTARG}"
@@ -77,6 +80,9 @@ parse_arguments() {
             ;;
         t)
             COMMIT="${OPTARG}"
+            ;;
+        T)
+            ARTIFACT_ENVIRONMENT="staging"
             ;;
         W)
             WORKSPACE="${OPTARG}"
@@ -95,7 +101,7 @@ upload() {
     "${AWS}" configure set default.region us-east-1
     "${AWS}" configure set default.s3.signature_version s3v4
     "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
-    "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/v1.11
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}
 }
 
 export WORKRAVE_ENV=local-windows-msys2
@@ -105,12 +111,17 @@ export SCRIPTS_DIR=${WORKSPACE}/source/tools/
 export SECRETS_DIR=
 
 export DOSIGN=
+export DODEBUG=
 export PRERELEASE=
+export CHANNEL=stable
+export ARTIFACT_ENV=
 export WORKRAVE_OVERRIDE_GIT_VERSION=
 export REPO=https://github.com/rcaelers/workrave.git
 export DRYRUN=
 
 parse_arguments $*
+
+export S3_ARTIFACT_DIR=${ARTIFACT_ENVIRONMENT:+$ARTIFACT_ENVIRONMENT/}v1.11
 
 export SOURCES_DIR=${WORKSPACE}/source
 mkdir -p ${SOURCES_DIR}
@@ -140,8 +151,9 @@ if [ -n "$DOSIGN" ]; then
 fi
 
 export PATH="/c/Program Files/nodejs":$PATH
+
 export WORKRAVE_JOB_INDEX=0
-$SCRIPTS_DIR/ci/catalog.sh
+$SCRIPTS_DIR/ci/catalog.sh -c $CHANNEL
 
 export CONF_CONFIGURATION=Release
 export WORKRAVE_JOB_INDEX=1
@@ -149,15 +161,23 @@ export WORKRAVE_JOB_INDEX=1
 export CONF_ENABLE="TESTS"
 $SCRIPTS_DIR/ci/build.sh
 
-export CONF_CONFIGURATION=Debug
-export WORKRAVE_JOB_INDEX=2
-# export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
-export CONF_ENABLE="TESTS"
-$SCRIPTS_DIR/ci/build.sh
+if [ -n "$DODEBUG" ]; then
+    export CONF_CONFIGURATION=Debug
+    export WORKRAVE_JOB_INDEX=2
+    # export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
+    export CONF_ENABLE="TESTS"
+    $SCRIPTS_DIR/ci/build.sh
+fi
 
-export ARTIFACTS=${SOURCES_DIR}/_deploy
+export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
 ${SCRIPTS_DIR}/ci/sign.sh
 
 if [ -z "${DRYRUN}" ]; then
     upload
 fi
+
+cd ${SCRIPTS_DIR}/citool
+npm install
+npm run build
+cd ${SOURCES_DIR}
+${SCRIPTS_DIR}/citool/bin/citool.ts catalog --branch ${S3_ARTIFACT_DIR}

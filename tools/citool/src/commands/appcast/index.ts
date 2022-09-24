@@ -79,7 +79,7 @@ export default class Appcast extends Command {
         await fs.writeFile(flags.name, content);
       } else {
         const storage = new S3Store(flags.endpoint, flags.bucket, flags.key, flags.secret);
-        await storage.write(path.join(flags.branch, flags.name), content, 'text/xml');
+        await storage.write(path.posix.join(flags.branch, flags.name), content, 'text/xml');
       }
     }
   }
