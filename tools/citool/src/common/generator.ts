@@ -25,7 +25,8 @@ class Generator {
     this.params = params;
 
     nunjucks
-      .configure({
+      .configure(
+        path.join(__dirname, '..', '..', 'templates'), {
         autoescape: false,
         watch: false,
       })
@@ -60,8 +61,7 @@ class Generator {
       const context = {
         builds: this.catalog.builds,
       };
-      const template_filename: string = path.join(__dirname, '..', 'templates', 'appcast.tmpl');
-      return nunjucks.render(template_filename, context);
+      return nunjucks.render('appcast.tmpl', context);
     } catch (e) {
       console.error(e);
     }

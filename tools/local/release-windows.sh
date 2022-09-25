@@ -152,6 +152,8 @@ fi
 
 export PATH="/c/Program Files/nodejs":$PATH
 
+export WORKRAVE_UPLOAD_DIR="snapshots/${S3_ARTIFACT_DIR}/${WORKRAVE_BUILD_ID}"
+
 export WORKRAVE_JOB_INDEX=0
 $SCRIPTS_DIR/ci/catalog.sh -c $CHANNEL
 
@@ -181,3 +183,4 @@ npm install
 npm run build
 cd ${SOURCES_DIR}
 ${SCRIPTS_DIR}/citool/bin/citool.ts catalog --branch ${S3_ARTIFACT_DIR}
+${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR}

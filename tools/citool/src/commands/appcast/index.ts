@@ -66,7 +66,7 @@ export default class Appcast extends Command {
   async run(): Promise<void> {
     const { args, flags } = await this.parse(Appcast)
 
-    const response = await fetch('https://snapshots.workrave.org/snapshots/v1.11/catalog.json');
+    const response = await fetch(flags.endpoint + '/' + flags.bucket + '/' + flags.branch + '/catalog.json');
     const catalog = await response.json();
 
     const params = {};
