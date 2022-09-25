@@ -9,6 +9,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     if(NOT unfold_POPULATED)
       FetchContent_Populate(unfold)
       add_subdirectory(${unfold_SOURCE_DIR} ${unfold_BINARY_DIR} EXCLUDE_FROM_ALL)
+      install(TARGETS unfold RUNTIME DESTINATION bin)
     endif()
 
     FetchContent_Declare(
@@ -22,6 +23,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     if(NOT cmark_POPULATED)
       FetchContent_Populate(cmark)
       add_subdirectory(${cmark_SOURCE_DIR} ${cmark_BINARY_DIR} EXCLUDE_FROM_ALL)
+      install(TARGETS cmark RUNTIME DESTINATION bin)
     endif()
 
     FetchContent_Declare(
