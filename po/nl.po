@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2021-09-01 21:46+0200\n"
-"PO-Revision-Date: 2021-01-15 12:16+0000\n"
+"PO-Revision-Date: 2022-10-15 15:51+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language: nl\n"
@@ -312,7 +312,7 @@ msgstr ""
 
 #: ui/apps/gtkmm/src/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "Debuglogging"
 
 #: ui/apps/gtkmm/src/ExercisesDialog.cc:29
 msgid "Exercises"
@@ -323,16 +323,15 @@ msgstr "Oefeningen"
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:120
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:142
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:88
-#, fuzzy
 msgid "Previous"
-msgstr "Vorige oefening"
+msgstr "Vorige"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:89
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 #: ui/apps/gtkmm/src/ExercisesPanel.cc:108
 msgid "Exercises player"
@@ -372,8 +371,8 @@ msgid ""
 "Workrave is still running. You can access Workrave by clicking on the white "
 "sheep icon. Click on this balloon to disable this message"
 msgstr ""
-"Workrave draait op de achtergrond. Klik op het witte schaap om\n"
-"Workrave te bereiken."
+"Workrave draait op de achtergrond. Klik op het witte schaap om Workrave te "
+"bereiken. Klik op deze tekstballon om dit bericht uit te schakelen"
 
 #: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
 msgid "Workrave failed to start"
@@ -388,13 +387,12 @@ msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave kon geen toetsenbord- en muisactiviteit monitoren.\n"
 
 #: ui/apps/gtkmm/src/GUI.cc:537
-#, fuzzy
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
-"Workrave is in uitgeschakelde modus. Muis- en toetsenbordactiviteit\n"
-"wordt niet gemonitord."
+"Workrave is in uitgeschakelde modus.\n"
+"Muis- en toetsenbordactiviteit wordt niet gemonitord."
 
 #: ui/apps/gtkmm/src/GUI.cc:545
 msgid "Workrave is in quiet mode. No break windows will appear."
@@ -424,9 +422,8 @@ msgid "_Rest break"
 msgstr "_Rustpauze"
 
 #: ui/apps/gtkmm/src/Menus.cc:61
-#, fuzzy
 msgid "S_tatistics"
-msgstr "Statistieken"
+msgstr "S_tatistieken"
 
 #: ui/apps/gtkmm/src/Menus.cc:75
 msgid "_Normal"
@@ -629,9 +626,8 @@ msgid "Show system tray icon"
 msgstr "Systeemvakpictogram weergeven"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:296
-#, fuzzy
 msgid "Icon Theme:"
-msgstr "Geluidsthema:"
+msgstr "Icoonthema:"
 
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:309
@@ -662,7 +658,7 @@ msgstr "Geluid uitschakelen tijdens rustpauze en dagelijkse limiet"
 #. Sound themes
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound Events"
-msgstr "Geluiden:"
+msgstr "Geluiden"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:359
 msgid "Sound Theme:"
@@ -695,12 +691,13 @@ msgid ""
 "Enable this option if Workrave fails to detect when you are using your "
 "computer"
 msgstr ""
-"Schakel deze optie in als Workrave muis- en toetsenbordgebruik\n"
-"niet correct monitort."
+"Schakel deze optie in als Workrave computergebruik niet correct detecteert"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:491
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
+"Workrave dient handmatig herstart te worden na het wijzigen van deze "
+"instelling"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:496
 msgid "Mouse sensitivity:"
@@ -714,14 +711,12 @@ msgstr ""
 "activiteit."
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:513
-#, fuzzy
 msgid "Debug monitoring"
-msgstr "Monitoring"
+msgstr "Debug-monitoring"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:937
-#, fuzzy
 msgid "Default"
-msgstr "Standaardpauze:"
+msgstr "Standaard"
 
 #: ui/apps/gtkmm/src/PreludeWindow.cc:104
 msgid "Time for a micro-break?"
@@ -967,7 +962,7 @@ msgstr "Info"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:640
 msgid "File deletion failed!"
-msgstr "Bestanden konden niet gewist worden."
+msgstr "Bestand kon niet gewist worden"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:641
 msgid ""
@@ -1066,14 +1061,12 @@ msgid "Daily limit:"
 msgstr "Dagelijkse limiet:"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
-#, fuzzy
 msgid "Fallback applet enabled"
-msgstr "Applet ingeschakeld"
+msgstr "Fallback-applet ingeschakeld"
 
 #: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#, fuzzy
 msgid "Show status icon"
-msgstr "Statusvenster weergeven"
+msgstr "Statusicoon weergeven"
 
 #. Enabled/Disabled checkbox
 #: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
@@ -1173,7 +1166,7 @@ msgstr "Volgende oefening"
 
 #: ui/apps/gtkmm/src/Ui.cc:113
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
 msgid "Orientation"
@@ -1181,64 +1174,59 @@ msgstr "Oriëntatie"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
 msgid "The orientation of the tray"
-msgstr "De oriëntatie van het systeemvak."
+msgstr "De oriëntatie van het systeemvak"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "Voorgrondskleur"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "Voorgrondskleur voor symbolische iconen"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-#, fuzzy
 msgid "Error color"
-msgstr "Fout"
+msgstr "Foutkleur"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "Foutkleur voor symbolische iconen"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-#, fuzzy
 msgid "Warning color"
-msgstr "Waarschuwing"
+msgstr "Waarschuwingskleur"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
 msgid "Warning color for symbolic icons"
-msgstr ""
+msgstr "Waarschuwingskleur voor symbolische iconen"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color"
-msgstr ""
+msgstr "Succeskleur"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
 msgid "Success color for symbolic icons"
-msgstr ""
+msgstr "Succeskleur voor symbolische iconen"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding"
-msgstr ""
+msgstr "Padding"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "Padding dat rondom iconen in het systeemvak gezet wordt"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
 msgid "Icon Size"
-msgstr ""
+msgstr "Icoongrootte"
 
 #: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
 msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
+msgstr "De pixelgrootte waarbinnen iconen moeten vallen, of nul"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
-msgstr ""
-"Dit programma helpt bij het voorkomen en herstellen van Repetitive Strain "
-"Injury (RSI)."
+msgstr "Dit programma helpt bij het voorkomen en herstellen van RSI"
 
 #: ui/apps/gtkmm/src/workrave.appdata.xml:9
 msgid ""
@@ -1246,6 +1234,9 @@ msgid ""
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "
 "micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
+"Workrave helpt bij het voorkomen en herstellen van Repetitive Strain Injury "
+"(RSI). Het programma geeft signalen wanneer een micropauze of rustpauze "
+"genomen moet worden, en kan je houden aan een ingesteld tijdslimiet."
 
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
 msgid ""
