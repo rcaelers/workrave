@@ -322,6 +322,8 @@ if ("${WITH_UI}" STREQUAL "Qt")
     get_filename_component(QT_INSTALL_PREFIX "${QT_BIN_DIR}/../../../" REALPATH)
   endif()
 
+  find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${QT_BIN_DIR}")
+  
   set (HAVE_QT ON)
   set (HAVE_APP_QT ON)
 
@@ -693,6 +695,8 @@ if (APPLE)
   find_library(QTKIT_LIBRARY QTKit REQUIRED)
   include_directories(/usr/local/include)
   include_directories(${CMAKE_SYSTEM_INCLUDE_PATH})
+
+  set(WORKRAVE_SIGN_IDENTITY "" CACHE STRING "")
 endif()
 
 #----------------------------------------------------------------------------------------------------

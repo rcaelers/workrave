@@ -196,15 +196,17 @@ endif()
 if (APPLE)
   set_target_properties(workrave
     PROPERTIES
+    MACOSX_BUNDLE TRUE
     MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
-    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist
     MACOSX_BUNDLE_INFO_STRING "${PROJECT_NAME}"
-    MACOSX_BUNDLE_ICON_FILE Icon.icns
-    MACOSX_BUNDLE_GUI_IDENTIFIER "${PROJECT_NAME}"
+    MACOSX_BUNDLE_ICON_FILE Workrave.icns
+    MACOSX_BUNDLE_GUI_IDENTIFIER "org.workrave.${PROJECT_NAME}"
     MACOSX_BUNDLE_LONG_VERSION_STRING "${WORKRAVE_VERSION}"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${WORKRAVE_VERSION}}"
     MACOSX_BUNDLE_BUNDLE_VERSION "${WORKRAVE_VERSION}"
+    MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro"
     )
+
   set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitPlatformMac.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 
