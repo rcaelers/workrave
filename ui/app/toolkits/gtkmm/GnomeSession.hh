@@ -30,7 +30,7 @@ class GnomeSession : public Plugin<GnomeSession>
 public:
   using Ptr = std::shared_ptr<GnomeSession>;
 
-  GnomeSession(std::shared_ptr<IPluginContext> app);
+  explicit GnomeSession(std::shared_ptr<IPluginContext> app);
   void init();
 
   std::string get_plugin_id() const override
@@ -43,6 +43,7 @@ private:
 
 private:
   std::shared_ptr<IToolkit> toolkit;
+  Glib::RefPtr<Gio::DBus::Proxy> proxy;
 };
 
 #endif // WORKRAVE_UI_COMMON_SESSION_HH

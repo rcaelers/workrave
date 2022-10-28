@@ -19,10 +19,21 @@
 #  include "config.h"
 #endif
 
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
+
 #include "GnomeSession.hh"
 #include "GtkUtil.hh"
 
 #include "debug.hh"
+
+enum GsmPresenceStatus
+{
+  GSM_PRESENCE_STATUS_AVAILABLE = 0,
+  GSM_PRESENCE_STATUS_INVISIBLE,
+  GSM_PRESENCE_STATUS_BUSY,
+  GSM_PRESENCE_STATUS_IDLE,
+};
 
 GnomeSession::GnomeSession(std::shared_ptr<IPluginContext> app)
   : toolkit(app->get_toolkit())
@@ -35,7 +46,7 @@ GnomeSession::init()
 {
   try
     {
-      auto proxy = Gio::DBus::Proxy::create_for_bus_sync(
+      proxy = Gio::DBus::Proxy::create_for_bus_sync(
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
         Gio::DBus::BusType::SESSION,
 #else
@@ -55,7 +66,7 @@ GnomeSession::init()
 #else
   catch (const Glib::Exception &e)
     {
-      std::cerr << e.what() << std::endl;
+      spdlog::warn("Failed to subscribe to presence events from Gnome SessionManager:" + e.what());
     }
 #endif
 }
@@ -67,9 +78,9 @@ GnomeSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
     {
       if (signal_name == "StatusChanged")
         {
-          Glib::Variant<int> session_status;
+          Glib::Variant<uint32_t> session_status;
           params.get_child(session_status);
-          toolkit->signal_session_idle_changed()(session_status.get() == 3);
+          toolkit->signal_session_idle_changed()(session_status.get() == GSM_PRESENCE_STATUS_IDLE);
         }
     }
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
@@ -80,7 +91,7 @@ GnomeSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
 #else
   catch (const Glib::Exception &e)
     {
-      std::cerr << e.what() << std::endl;
+      spdlog::warn("Failed to process presence event from Gnome SessionManager:" + e.what());
     }
 #endif
 }
