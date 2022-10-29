@@ -188,7 +188,7 @@ RestBreakWindow::clear_pluggable_panel()
 {
   TRACE_ENTRY();
   auto children = pluggable_panel->get_children();
-  if (children.size() > 0)
+  if (!children.empty())
     {
       TRACE_MSG("Clearing");
       pluggable_panel->remove(*(*(children.begin())));
@@ -250,7 +250,8 @@ RestBreakWindow::install_info_panel()
       int width_delta = (new_size.width - old_size.width) / 2;
       int height_delta = (new_size.height - old_size.height) / 2;
 
-      int x, y;
+      int x = 0;
+      int y = 0;
       get_position(x, y);
       move(x - width_delta, y - height_delta);
     }
