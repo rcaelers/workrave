@@ -542,7 +542,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
   accel_group = Gtk::AccelGroup::create();
   add_accel_group(accel_group);
 
-  Gtk::VBox *vbox = new Gtk::VBox(false, 0);
+  auto *vbox = new Gtk::VBox(false, 0);
 
   button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
   box_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
