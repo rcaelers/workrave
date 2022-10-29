@@ -191,7 +191,7 @@ System::init_DBus_lock_commands()
                         "/org/enlightenment/wm/RemoteObject",
                         "org.enlightenment.wm.Desktop",
                         "Lock",
-                        nullptr);
+                        "GetVirtualCount");
     }
 }
 
