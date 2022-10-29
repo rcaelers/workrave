@@ -49,7 +49,6 @@
 
 #include "config/IConfigurator.hh"
 
-//#include "Application.hh"
 #include "core/IBreak.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
