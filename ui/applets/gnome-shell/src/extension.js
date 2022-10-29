@@ -260,6 +260,7 @@ const WorkraveButton = GObject.registerClass(
         );
         return false;
       } catch (err) {
+        global.log("workrave-applet: failed to connect to UI (" + err + ")");
         return true;
       }
     }
@@ -267,6 +268,7 @@ const WorkraveButton = GObject.registerClass(
     _connectCore() {}
 
     _onDestroy() {
+      global.log("workrave-applet: onDestroy");
       if (this._ui_proxy != null) {
         this._ui_proxy.EmbedRemote(false, this._bus_name);
       }
@@ -275,6 +277,7 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _destroy() {
+      global.log("workrave-applet: destroy");
       if (this._watchid > 0) {
         Gio.DBus.session.unwatch_name(this._watchid);
         this._watchid = 0;
@@ -293,6 +296,7 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _start() {
+      global.log("workrave-applet: starting (alive = " + this._alive + ")");
       if (!this._alive) {
         this._bus_id = Gio.DBus.session.own_name(
           this._bus_name,
@@ -318,6 +322,9 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _stop_dbus() {
+      global.log(
+        "workrave-applet: stopping dbus (alive = " + this._alive + ")"
+      );
       if (this._alive) {
         Mainloop.source_remove(this._timeoutId);
         Gio.DBus.session.unown_name(this._bus_id);
@@ -327,6 +334,7 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _stop() {
+      global.log("workrave-applet: stopping (alive = " + this._alive + ")");
       if (this._alive) {
         this._stop_dbus();
         this._timerbox.set_enabled(false);
@@ -345,10 +353,12 @@ const WorkraveButton = GObject.registerClass(
 
     _onTimer() {
       if (!this._alive) {
+        global.log("workrave-applet: not alive in timer");
         return false;
       }
 
       if (this._update_count == 0) {
+        global.log("workrave-applet: timeout (not updated)");
         this._timerbox.set_enabled(false);
         this._area.queue_repaint();
       }
@@ -358,15 +368,18 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _onWorkraveAppeared(owner) {
+      global.log("workrave-applet: workrave appeared");
       this._start();
     }
 
     _onWorkraveVanished(oldOwner) {
+      global.log("workrave-applet: workrave disappeared");
       this._stop();
     }
 
     _onTimersUpdated(emitter, senderName, [microbreak, restbreak, daily]) {
       if (!this._alive) {
+        global.log("workrave-applet: not alive, but timers got updated");
         this._start();
       }
 
@@ -571,11 +584,14 @@ function init(extensionMeta) {
 }
 
 function disable() {
+  global.log("workrave-applet: disabling applet");
   workravePanelButton.destroy();
   workravePanelButton = null;
 }
 
 function enable() {
+  global.log("workrave-applet: enabling applet");
+
   Gettext.bindtextdomain("workrave", workraveUserExtensionLocalePath);
 
   workravePanelButton = new WorkraveButton();
