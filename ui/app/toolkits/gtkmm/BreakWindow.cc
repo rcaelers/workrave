@@ -370,7 +370,13 @@ BreakWindow::on_sysoper_combobox_changed()
 
   auto locker = app->get_toolkit()->get_locker();
   locker->unlock();
-  locker->lock();
+
+  Glib::signal_timeout().connect(
+    [locker]() {
+      locker->lock();
+      return 0;
+    },
+    5000);
 
   System::execute(row[sysoper_model_columns->id]);
 
