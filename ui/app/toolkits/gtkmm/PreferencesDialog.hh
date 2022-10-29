@@ -135,6 +135,7 @@ private:
   Glib::RefPtr<Gtk::FileFilter> filefilter;
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb{nullptr};
+  Gtk::CheckButton *force_x11_cb{nullptr};
   std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> general_frame;
 #if defined(PLATFORM_OS_WINDOWS)
   Gtk::CheckButton *dark_cb{nullptr};

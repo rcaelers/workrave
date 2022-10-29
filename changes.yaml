@@ -9,6 +9,7 @@ releases:
       - Support GNOME Shell 43 (#430 by Jeremy Bicha)
       - Fix 'Lock screen' functionality from rest break window
       - Fix showing natural break window when screen is unlocked
+      - Add option to force the use of the X11 Gtk backend on Wayland
 
   - version: 1.11.0-alpha.3
     date: 2022-06-30T16:53:59+02:00

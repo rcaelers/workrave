@@ -67,6 +67,7 @@ public:
   static workrave::config::Setting<std::string> &icon_theme();
   static workrave::config::Setting<bool> &theme_dark();
   static workrave::config::Setting<std::string> &theme_name();
+  static workrave::config::Setting<bool> &force_x11();
 
   static workrave::config::Setting<bool> &main_window_always_on_top();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
@@ -104,6 +105,7 @@ private:
   static const std::string CFG_KEY_ICONTHEME;
   static const std::string CFG_KEY_THEME_NAME;
   static const std::string CFG_KEY_THEME_DARK;
+  static const std::string CFG_KEY_FORCE_X11;
 
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
