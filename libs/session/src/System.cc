@@ -120,19 +120,17 @@ System::add_DBus_lock_cmd(const char *dbus_name,
       TRACE_VAR(false);
       return false;
     }
-  else
-    {
-      lock_commands.push_back(lock_method);
-      TRACE_VAR(true);
-      return true;
-    }
+
+  lock_commands.push_back(lock_method);
+  TRACE_VAR(true);
+  return true;
 }
 
 void
 System::init_DBus_lock_commands()
 {
   TRACE_ENTRY();
-  if (session_connection)
+  if (session_connection != nullptr)
     {
       //  Unity:
       //    - Gnome screensaver API + gnome-screensaver-command works,
@@ -217,7 +215,7 @@ void
 System::init_DBus_system_state_commands()
 {
   TRACE_ENTRY();
-  if (system_connection)
+  if (system_connection != nullptr)
     {
       // These three DBus interfaces are too diverse
       // to implement support for them in one class
@@ -363,39 +361,39 @@ System::execute(SystemOperation::SystemOperationType type)
     {
       return false;
     }
-  else if (type == SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
+
+  if (type == SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
     {
       return lock_screen();
     }
-  else
+
+  for (auto &system_state_command: system_state_commands)
     {
-      for (auto &system_state_command: system_state_commands)
+      bool ret = false;
+      switch (type)
         {
-          bool ret = false;
-          switch (type)
-            {
-            case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-              ret = (system_state_command->shutdown());
-              break;
-            case SystemOperation::SYSTEM_OPERATION_SUSPEND:
-              ret = (system_state_command->suspend());
-              break;
-            case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-              ret = (system_state_command->hibernate());
-              break;
-            case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-              ret = (system_state_command->suspendHybrid());
-              break;
-            default:
-              throw "System::execute: Unknown system operation";
-            }
-          if (ret)
-            {
-              TRACE_VAR(true);
-              return true;
-            }
+        case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
+          ret = (system_state_command->shutdown());
+          break;
+        case SystemOperation::SYSTEM_OPERATION_SUSPEND:
+          ret = (system_state_command->suspend());
+          break;
+        case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+          ret = (system_state_command->hibernate());
+          break;
+        case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+          ret = (system_state_command->suspendHybrid());
+          break;
+        default:
+          throw "System::execute: Unknown system operation";
+        }
+      if (ret)
+        {
+          TRACE_VAR(true);
+          return true;
         }
     }
+
   TRACE_VAR(false);
   return false;
 }
@@ -453,17 +451,15 @@ System::init()
 void
 System::clear()
 {
-  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin(); iter != lock_commands.end(); ++iter)
+  for (auto &lock_command: lock_commands)
     {
-      delete *iter;
+      delete lock_command;
     }
   lock_commands.clear();
 
-  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin();
-       iter != system_state_commands.end();
-       ++iter)
+  for (auto &system_state_command: system_state_commands)
     {
-      delete *iter;
+      delete system_state_command;
     }
   system_state_commands.clear();
 

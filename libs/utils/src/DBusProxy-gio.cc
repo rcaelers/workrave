@@ -74,7 +74,9 @@ DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVa
 {
   TRACE_ENTRY_PAR(method_name);
   if (proxy == nullptr)
-    return false;
+    {
+      return false;
+    }
 
   if (error != nullptr)
     {
@@ -124,7 +126,9 @@ DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *metho
 {
   TRACE_ENTRY_PAR(method_name);
   if (proxy == nullptr)
-    return false;
+    {
+      return false;
+    }
 
   if (error != nullptr)
     {
