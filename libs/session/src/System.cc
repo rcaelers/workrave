@@ -243,7 +243,6 @@ System::init_DBus_system_state_commands()
       //        system("C:\\WINDOWS\\System32\\shutdown -s");
       //    win7
       //        system("C:\\WINDOWS\\System32\\shutdown /s");
-#    undef ADD_DBUS_SERVICE
     }
 }
 
