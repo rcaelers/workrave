@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 
-import { Generator } from '../../common/generator.js';
+import { AppcastGenerator } from '../../appcast/generator.js';
 import { S3Store } from '../../common/s3.js';
 
 import fetch from 'node-fetch';
@@ -71,7 +71,7 @@ export default class Appcast extends Command {
 
     const params = {};
 
-    const generator = new Generator(catalog, params);
+    const generator = new AppcastGenerator(catalog, params);
     const content = await generator.generate();
 
     if (!flags.dry) {

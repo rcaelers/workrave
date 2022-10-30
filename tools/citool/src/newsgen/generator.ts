@@ -14,7 +14,7 @@ import { int } from 'aws-sdk/clients/datapipeline.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-class Generator {
+class NewsGenerator {
   private news: any;
   private params: any;
 
@@ -23,7 +23,8 @@ class Generator {
     this.params = params;
 
     nunjucks
-      .configure({
+      .configure(
+        path.join(__dirname, '..', '..', 'templates'), {
         autoescape: false,
         watch: false,
       })
@@ -75,7 +76,6 @@ class Generator {
         ...extra,
         ...{ series: this.params.ubuntu, increment: this.params.increment, releases: this.news },
       };
-      nunjucks.configure(path.join(__dirname, '..', '..', 'templates'));
       return nunjucks.render(this.params.template + '.tmpl', context);
     } catch (e) {
       console.error(e);
@@ -83,4 +83,5 @@ class Generator {
     return '';
   }
 }
-export { Generator };
+
+export { NewsGenerator };
