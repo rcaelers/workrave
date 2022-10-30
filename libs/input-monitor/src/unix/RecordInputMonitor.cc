@@ -21,6 +21,9 @@
 
 #include "RecordInputMonitor.hh"
 
+#include <memory>
+#include <chrono>
+
 #include "debug.hh"
 
 // Solaris needs this...
@@ -38,9 +41,6 @@
 #if defined(HAVE_APP_GTK)
 #  include <gdk/gdkx.h>
 #endif
-
-#include <memory>
-#include <chrono>
 
 using namespace std;
 
