@@ -86,6 +86,8 @@ target_include_directories(
   ${INDICATOR_INCLUDE_DIRS}
   )
 
+target_compile_definitions(workrave-toolkit-gtkmm PRIVATE GDK_DISABLE_DEPRECATED GTK_DISABLE_DEPRECATED)
+
 target_link_directories(workrave-toolkit-gtkmm PRIVATE ${GTK_LIBRARY_DIRS})
 target_link_directories(workrave-toolkit-gtkmm PRIVATE ${INDICATOR_LIBPATH})
 

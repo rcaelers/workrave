@@ -22,49 +22,35 @@
 #  include "config.h"
 #endif
 
+#include <memory>
+#include <utility>
+#include <boost/asio.hpp>
+
 #include "AutoUpdater.hh"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
+#include "commonui/nls.h"
 #include "unfold/Unfold.hh"
 
 #include <gtkmm.h>
 
-#include "AutoUpdateDialog.hh"
-
-AutoUpdater::AutoUpdater()
-  : io_context{1}
+AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
+  : context(context)
   , scheduler(g_main_context_default(), io_context.get_io_context())
   , updater(unfold::Unfold::create(io_context))
 
 {
-  Glib::signal_timeout().connect(
-    []() {
-      // spdlog::info("timer");
-      return 1;
-    },
-    500);
-
-  Glib::signal_timeout().connect(
-    [this]() {
-      spdlog::info("check");
-
-      unfold::coro::gtask<void> task = check_for_updates();
-      scheduler.spawn(std::move(task));
-      return 0;
-    },
-    2000);
-  Glib::RefPtr<Glib::MainContext> context = Glib::MainContext::get_default();
-
-  auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/testappcast.xml");
+  auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
   if (!rc)
     {
       spdlog::info("Invalid appcast URL");
       return;
     }
 
-  rc = updater->set_signature_verification_key("MCowBQYDK2VwAyEA0vkFT/GcU/NEM9xoDqhiYK3/EaTXVAI95MOt+SnjCpM=");
+  rc = updater->set_signature_verification_key("MCowBQYDK2VwAyEAZ1I+iYYFpFMPcSj15BnHl6x7uow2CdxT0t2BmUzMGXk=");
+
   if (!rc)
     {
       spdlog::info("Invalid signature key");
@@ -77,24 +63,101 @@ AutoUpdater::AutoUpdater()
       spdlog::info("Invalid version");
       return;
     }
+
+  updater->set_update_available_callback(
+    [&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
+
+  updater->set_periodic_update_check_interval(std::chrono::hours{24});
+  updater->set_periodic_update_check_enabled(true);
+  create_menu();
+}
+
+boost::asio::awaitable<unfold::UpdateResponse>
+AutoUpdater::on_update_available()
+{
+  spdlog::info("Update available");
+
+  if (dialog_handler)
+    {
+      spdlog::info("Update dialog already open");
+      co_return unfold::UpdateResponse::Later;
+    }
+
+  auto response = co_await boost::asio::async_initiate<decltype(boost::asio::use_awaitable), void(unfold::UpdateResponse)>(
+    [this](auto &&handler) {
+      dialog_handler.emplace(std::forward<decltype(handler)>(handler));
+      unfold::coro::gtask<void> task = show_update();
+      scheduler.spawn(std::move(task));
+    },
+    boost::asio::use_awaitable);
+
+  co_return response;
+}
+
+void
+AutoUpdater::on_check_for_update()
+{
+  boost::asio::co_spawn(
+    *io_context.get_io_context(),
+    [&]() -> boost::asio::awaitable<void> {
+      try
+        {
+          auto rc = co_await updater->check_for_update_and_notify();
+          if (!rc)
+            {
+              spdlog::info("Check for update failed");
+            }
+        }
+      catch (std::exception &e)
+        {
+          spdlog::info("Exception in on_check_for_update: {}", e.what());
+        }
+    },
+    boost::asio::detached);
+}
+
+void
+AutoUpdater::create_menu()
+{
+  auto menu_model = context->get_menu_model();
+  auto section = menu_model->find_section("workrave.section.tail");
+  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, _("Check for _Updates"), [this] { on_check_for_update(); });
+  section->add_before(item, "workrave.about");
+  menu_model->update();
 }
 
 unfold::coro::gtask<void>
-AutoUpdater::check_for_updates()
+AutoUpdater::show_update()
 {
-  auto update_available = co_await updater->check_for_updates();
-  if (!update_available)
+  auto update_info = updater->get_update_info();
+  if (!update_info)
     {
       co_return;
     }
 
-  if (update_available.value())
-    {
-      auto update_info = updater->get_update_info();
-      auto *dlg = new AutoUpdateDialog(update_info);
-      dlg->show();
-      dlg->signal_response().connect([](int response) { spdlog::info("User response: {} ", response); });
+  dialog = std::make_shared<AutoUpdateDialog>(update_info, [this](auto choice) {
+    auto response = unfold::UpdateResponse::Later;
+    switch (choice)
+      {
+      case AutoUpdateDialog::UpdateChoice::Now:
+        response = unfold::UpdateResponse::Install;
+        break;
 
-      // TODO: leak
-    }
+      case AutoUpdateDialog::UpdateChoice::Later:
+        response = unfold::UpdateResponse::Later;
+        break;
+
+      case AutoUpdateDialog::UpdateChoice::Skip:
+        response = unfold::UpdateResponse::Skip;
+        break;
+      }
+    dialog->close();
+    if (dialog_handler)
+      {
+        (*dialog_handler)(response);
+        dialog_handler.reset();
+      }
+  });
+  dialog->show();
+  dialog->raise();
 }

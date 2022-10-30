@@ -59,7 +59,6 @@ ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 
   theme_fixup();
   init_filter();
-  init_updater();
 }
 
 void
@@ -108,14 +107,6 @@ ToolkitWindows::theme_fixup()
 #if !defined(GUID_DEVINTERFACE_MONITOR)
 static GUID GUID_DEVINTERFACE_MONITOR = {0xe6f07b5f, 0xee97, 0x4a90, {0xb0, 0x76, 0x33, 0xf5, 0x7b, 0xf4, 0xea, 0xa7}};
 #endif
-
-void
-ToolkitWindows::init_updater()
-{
-#if defined(HAVE_UNFOLD_AUTO_UPDATE)
-  updater = std::make_shared<AutoUpdater>();
-#endif
-}
 
 void
 ToolkitWindows::init_filter()

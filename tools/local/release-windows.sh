@@ -146,7 +146,7 @@ export OPENSSL=${OPENSSL:-"/opt/openssl/bin/openssl"}
 export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
 
 if [ -n "$DOSIGN" ]; then
-    export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\signtool.exe"
+    export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64\signtool.exe"
     export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
 fi
 
@@ -159,15 +159,13 @@ $SCRIPTS_DIR/ci/catalog.sh -c $CHANNEL
 
 export CONF_CONFIGURATION=Release
 export WORKRAVE_JOB_INDEX=1
-# export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
-export CONF_ENABLE="TESTS"
+export CONF_ENABLE="TESTS,AUTO_UPDATE"
 $SCRIPTS_DIR/ci/build.sh
 
 if [ -n "$DODEBUG" ]; then
     export CONF_CONFIGURATION=Debug
     export WORKRAVE_JOB_INDEX=2
-    # export CONF_ENABLE="TESTS, CRASHPAD, AUTO_UPDATE"
-    export CONF_ENABLE="TESTS"
+    export CONF_ENABLE="TESTS,AUTO_UPDATE"
     $SCRIPTS_DIR/ci/build.sh
 fi
 
@@ -182,5 +180,5 @@ cd ${SCRIPTS_DIR}/citool
 npm install
 npm run build
 cd ${SOURCES_DIR}
-${SCRIPTS_DIR}/citool/bin/citool.ts catalog --branch ${S3_ARTIFACT_DIR}
+${SCRIPTS_DIR}/citool/bin/dev.ts catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
 ${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR}

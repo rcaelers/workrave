@@ -57,6 +57,7 @@ public:
 
   static constexpr std::string_view SECTION_MAIN = sv("workrave.section.main");
   static constexpr std::string_view SECTION_MODES = sv("workrave.section.modes");
+  static constexpr std::string_view SECTION_TAIL = sv("workrave.section.tail");
 
 private:
   void init();

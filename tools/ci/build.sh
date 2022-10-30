@@ -191,6 +191,7 @@ if [[ $WORKRAVE_ENV == "local-windows-msys2" && -n "$SIGNTOOL" ]]; then
     echo "Signing files : $files_to_sign"
 
     export MSYS2_ARG_CONV_EXCL="/n;/t;/fd;/v"
+    powershell -c "(New-Object Media.SoundPlayer C:/Windows/Media/Alarm05.wav).PlaySync();" &
     "$SIGNTOOL" sign $SIGNTOOL_SIGN_ARGS $files_to_sign
     unset MSYS2_ARG_CONV_EXCL
 fi

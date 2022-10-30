@@ -125,11 +125,14 @@ Menus::init()
   separator = menus::SeparatorNode::create();
   root->add(separator);
 
+  auto section_tail = menus::SectionNode::create(SECTION_TAIL);
+  root->add(section_tail);
+
   item = menus::ActionNode::create(ABOUT, _("_About"), [this] { on_menu_about(); });
-  root->add(item);
+  section_tail->add(item);
 
   item = menus::ActionNode::create(QUIT, _("_Quit"), [this] { on_menu_quit(); });
-  root->add(item);
+  section_tail->add(item);
   menu_model->update();
 
   connect(core->signal_operation_mode_changed(), this, [this](auto mode) { on_operation_mode_changed(mode); });

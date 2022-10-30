@@ -31,16 +31,25 @@
 #  include "Edge.hh"
 #endif
 
-class AutoUpdateDialog : public Gtk::Dialog
+class AutoUpdateDialog : public Gtk::Window
 {
 public:
-  explicit AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info);
+  enum class UpdateChoice
+  {
+    Skip,
+    Later,
+    Now
+  };
+  using update_choice_callback_t = std::function<void(UpdateChoice)>;
+
+  AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, update_choice_callback_t callback);
   ~AutoUpdateDialog() override = default;
 
 private:
   void on_auto_toggled();
 
 private:
+  update_choice_callback_t callback;
   Gtk::TextView *text_view{nullptr};
   Gtk::ScrolledWindow scrolled_window;
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
