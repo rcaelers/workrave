@@ -22,7 +22,6 @@
 #include "MutterInputMonitor.hh"
 
 #include <memory>
-#include <chrono>
 
 #include "debug.hh"
 #include "utils/Diagnostics.hh"

@@ -20,6 +20,7 @@
 
 #include <thread>
 #include <string>
+#include <chrono>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>

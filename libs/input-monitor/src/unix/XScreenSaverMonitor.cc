@@ -19,19 +19,17 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
+#include "XScreenSaverMonitor.hh"
+
+#include <memory>
 
 #if defined(HAVE_GTK)
 #  include <gdk/gdkx.h>
 #endif
 
-#include <memory>
-#include <chrono>
-
-#include "XScreenSaverMonitor.hh"
-
 #include "input-monitor/IInputMonitorListener.hh"
 #include "utils/Platform.hh"
+#include "debug.hh"
 
 using namespace std;
 using namespace workrave::utils;
