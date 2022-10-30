@@ -21,9 +21,6 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
-#if defined(HAVE_UNFOLD_AUTO_UPDATE)
-#  include "AutoUpdater.hh"
-#endif
 #include "ui/windows/IToolkitWindows.hh"
 #include "Toolkit.hh"
 
@@ -51,7 +48,6 @@ public:
 private:
   void init_filter();
   void init_gui();
-  void init_updater();
   void theme_fixup();
   bool filter_func(MSG *msg);
   static GdkFilterReturn static_filter_func(void *xevent, GdkEvent *event, gpointer data);
@@ -63,9 +59,6 @@ private:
   std::shared_ptr<WindowsHarpoonLocker> locker;
 #else
   std::shared_ptr<WindowsLocker> locker;
-#endif
-#if defined(HAVE_UNFOLD_AUTO_UPDATE)
-  std::shared_ptr<AutoUpdater> updater;
 #endif
 };
 

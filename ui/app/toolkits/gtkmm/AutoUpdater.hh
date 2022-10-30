@@ -24,23 +24,46 @@
 #include <string>
 
 #include <gtkmm.h>
+#include <type_traits>
+
+#include "ui/Plugin.hh"
 
 #include "unfold/Unfold.hh"
 #include "unfold/coro/gtask.hh"
 #include "unfold/coro/IOContext.hh"
 
-class AutoUpdater
+#include "AutoUpdateDialog.hh"
+
+class AutoUpdater : public Plugin<AutoUpdater>
 {
 public:
-  explicit AutoUpdater();
-  ~AutoUpdater() = default;
+  explicit AutoUpdater(std::shared_ptr<IPluginContext> context);
+  ~AutoUpdater() override = default;
 
-  unfold::coro::gtask<void> check_for_updates();
+  std::string get_plugin_id() const override
+  {
+    return "workrave.AutoUpdater";
+  }
 
 private:
+  void create_menu();
+  boost::asio::awaitable<unfold::UpdateResponse> on_update_available();
+  void on_check_for_update();
+  unfold::coro::gtask<void> show_update();
+
+private:
+  using handler_type = boost::asio::async_result<std::decay<decltype(boost::asio::use_awaitable)>::type,
+                                                 void(unfold::UpdateResponse)>::handler_type;
+
+  std::shared_ptr<IPluginContext> context;
   unfold::coro::IOContext io_context;
   unfold::coro::glib::scheduler scheduler;
   std::shared_ptr<unfold::Unfold> updater;
+  std::shared_ptr<AutoUpdateDialog> dialog;
+  std::optional<handler_type> dialog_handler;
+
+  using sv = std::string_view;
+  static constexpr std::string_view CHECK_FOR_UPDATE = sv("workrave.check_for_updates");
 };
 
 #endif // AUTO_UPDATER_HH
