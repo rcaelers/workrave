@@ -44,6 +44,7 @@ const string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
 const string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
 const string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
 const string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
+const string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
 
 const string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -202,6 +203,12 @@ auto
 GUIConfig::theme_name() -> workrave::config::Setting<std::string> &
 {
   return SettingCache::get<std::string>(config, CFG_KEY_THEME_NAME, std::string());
+}
+
+auto
+GUIConfig::force_x11() -> workrave::config::Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_FORCE_X11, true);
 }
 
 auto

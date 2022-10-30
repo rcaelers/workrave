@@ -44,6 +44,13 @@ ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
   XInitThreads();
 #endif
 
+#if defined(PLATFORM_OS_UNIX)
+  if (GUIConfig::force_x11()())
+    {
+      g_setenv("GDK_BACKEND", "x11", TRUE);
+    }
+#endif
+
   Toolkit::init(app);
 
   Glib::VariantType String(Glib::VARIANT_TYPE_STRING);
