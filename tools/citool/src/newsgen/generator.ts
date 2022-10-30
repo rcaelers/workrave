@@ -74,7 +74,7 @@ class NewsGenerator {
       }
       let context = {
         ...extra,
-        ...{ series: this.params.ubuntu, increment: this.params.increment, releases: this.news },
+        ...{ series: this.params.series, increment: this.params.increment, releases: this.news },
       };
       return nunjucks.render(this.params.template + '.tmpl', context);
     } catch (e) {
