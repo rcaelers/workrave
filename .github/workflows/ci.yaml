@@ -284,21 +284,21 @@ jobs:
             enable: TESTS,COVERAGE,TRACING
             disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
 
-          # - image: windows-msys2
-          #   os: windows-latest
-          #   ui: Gtk+3
-          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
-          #   enable: TESTS,CRASHPAD,AUTO_UPDATE
-          #   configuration: Release
-          #   upload: true
+          - image: windows-msys2
+            os: windows-latest
+            ui: Gtk+3
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+            enable: TESTS,CRASHPAD,AUTO_UPDATE
+            configuration: Release
+            upload: true
 
-          # - image: windows-msys2
-          #   os: windows-latest
-          #   ui: Gtk+3
-          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
-          #   enable: TESTS,TRACING,CRASHPAD,AUTO_UPDATE
-          #   configuration: Debug
-          #   upload: true
+          - image: windows-msys2
+            os: windows-latest
+            ui: Gtk+3
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+            enable: TESTS,TRACING,CRASHPAD,AUTO_UPDATE
+            configuration: Debug
+            upload: true
 
     steps:
       - name: Prepare
