@@ -183,7 +183,7 @@ DEPLOY_DIR=$WORKSPACE_DIR/deploy
 export WORKRAVE_ENV=local
 init
 
-DOCKER_IMAGE="ubuntu-impish"
+DOCKER_IMAGE="ubuntu-kinetic"
 setup
 run_docker_ppa
 

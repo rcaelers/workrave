@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import { Command, Flags } from '@oclif/core'
 import yaml from 'js-yaml';
 
-import { Generator } from '../../newsgen/generator.js';
+import { NewsGenerator } from '../../newsgen/generator.js';
 
 export default class Appcast extends Command {
   static description = 'generate release notes in different formats';
@@ -71,7 +71,7 @@ export default class Appcast extends Command {
         series: flags.ubuntu,
         increment: flags.increment,
       };
-      let generator = new Generator(news, params);
+      let generator = new NewsGenerator(news, params);
       let content = await generator.generate();
       await fs.writeFile(flags.output, content);
     } catch (e) {

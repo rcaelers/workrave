@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-class Generator {
+class AppcastGenerator {
   params: any;
   catalog: any;
 
@@ -68,4 +68,4 @@ class Generator {
     return '';
   }
 }
-export { Generator };
+export { AppcastGenerator };
