@@ -237,13 +237,6 @@ jobs:
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
-          - image: ubuntu-impish
-            os: ubuntu-22.04
-            compiler: gcc-10
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
-
           - image: ubuntu-jammy
             os: ubuntu-22.04
             compiler: gcc
