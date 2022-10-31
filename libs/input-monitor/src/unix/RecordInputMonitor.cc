@@ -22,6 +22,7 @@
 #include "RecordInputMonitor.hh"
 
 #include <memory>
+#include <chrono>
 
 #include "debug.hh"
 
