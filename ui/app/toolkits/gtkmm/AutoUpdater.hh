@@ -23,7 +23,6 @@
 
 #include <string>
 
-#include <gtkmm.h>
 #include <type_traits>
 
 #include "ui/Plugin.hh"
@@ -32,7 +31,7 @@
 #include "unfold/coro/gtask.hh"
 #include "unfold/coro/IOContext.hh"
 
-#include "AutoUpdateDialog.hh"
+class AutoUpdateDialog; 
 
 class AutoUpdater : public Plugin<AutoUpdater>
 {

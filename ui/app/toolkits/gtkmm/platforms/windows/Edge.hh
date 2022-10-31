@@ -22,13 +22,30 @@
 #define EDGE_HH
 
 #include <string>
-
-#include <gtkmm.h>
-
 #include <windows.h>
 #include <wrl/client.h>
 
 #include "WebView2.h"
+
+#if defined(PLATFORM_OS_WINDOWS)
+#  pragma push_macro("ERROR")
+#  pragma push_macro("IN")
+#  pragma push_macro("OUT")
+#  pragma push_macro("WINDING")
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
+#endif
+
+#include <gtkmm.h>
+
+#if defined(PLATFORM_OS_WINDOWS)
+#  pragma pop_macro("ERROR")
+#  pragma pop_macro("IN")
+#  pragma pop_macro("OUT")
+#  pragma pop_macro("WINDING")
+#endif
 
 class Edge : public Gtk::DrawingArea
 {

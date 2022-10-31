@@ -22,6 +22,17 @@
 #include <map>
 #include <boost/signals2.hpp>
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  pragma push_macro("ERROR")
+#  pragma push_macro("IN")
+#  pragma push_macro("OUT")
+#  pragma push_macro("WINDING")
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
+#endif
+
 #include "DebugDialog.hh"
 #include "ExercisesDialog.hh"
 #include "HeadInfo.hh"
@@ -30,6 +41,13 @@
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
 #include "StatusIcon.hh"
+
+#if defined(PLATFORM_OS_WINDOWS)
+#  pragma pop_macro("ERROR")
+#  pragma pop_macro("IN")
+#  pragma pop_macro("OUT")
+#  pragma pop_macro("WINDING")
+#endif
 
 #include "core/CoreTypes.hh"
 #include "ui/IApplicationContext.hh"

@@ -34,6 +34,8 @@
 #include "commonui/nls.h"
 #include "unfold/Unfold.hh"
 
+#include "AutoUpdateDialog.hh"
+
 #include <gtkmm.h>
 
 AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)

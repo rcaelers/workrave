@@ -23,13 +23,31 @@
 
 #include <string>
 
-#include <gtkmm.h>
-
-#include "unfold/Unfold.hh"
-
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "Edge.hh"
 #endif
+
+#if defined(PLATFORM_OS_WINDOWS)
+#  pragma push_macro("ERROR")
+#  pragma push_macro("IN")
+#  pragma push_macro("OUT")
+#  pragma push_macro("WINDING")
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
+#endif
+
+#include <gtkmm.h>
+
+#if defined(PLATFORM_OS_WINDOWS)
+#  pragma pop_macro("ERROR")
+#  pragma pop_macro("IN")
+#  pragma pop_macro("OUT")
+#  pragma pop_macro("WINDING")
+#endif
+
+#include "unfold/Unfold.hh"
 
 class AutoUpdateDialog : public Gtk::Window
 {
