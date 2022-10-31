@@ -271,6 +271,7 @@ PreferencesDialog::create_gui_page()
 
   panel->add_widget(*trayicon_cb, false, false);
 
+#if defined(PLATFORM_OS_UNIX)
   auto *force_x11_lab = Gtk::manage(
     GtkUtil::create_label_with_tooltip(_("Force the use of X11 on Wayland (requires restart of Workrave)"),
                                        _("Workrave does not fully support Wayland natively. "
@@ -282,6 +283,7 @@ PreferencesDialog::create_gui_page()
   connector->connect(GUIConfig::force_x11(), dc::wrap(force_x11_cb));
 
   panel->add_widget(*force_x11_cb, false, false);
+#endif
 
   update_icon_theme_combo();
   if (icon_theme_button != nullptr)

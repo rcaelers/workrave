@@ -25,6 +25,10 @@
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "Edge.hh"
+#  undef ERROR
+#  undef IN
+#  undef OUT
+#  undef WINDING
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)

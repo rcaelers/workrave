@@ -22,6 +22,10 @@
 #include <boost/signals2.hpp>
 
 #include <windows.h>
+#undef ERROR
+#undef IN
+#undef OUT
+#undef WINDING
 
 class IToolkitWindows
 {

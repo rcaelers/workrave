@@ -21,6 +21,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <chrono>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
