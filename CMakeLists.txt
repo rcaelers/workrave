@@ -17,8 +17,8 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.0-alpha.3" )
-set (WORKRAVE_RESOURCE_VERSION "1,10,999,3" )
+set (WORKRAVE_VERSION "1.11.0-beta.1" )
+set (WORKRAVE_RESOURCE_VERSION "1,10,999,101" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -323,7 +323,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 
   find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${QT_BIN_DIR}")
-  
+
   set (HAVE_QT ON)
   set (HAVE_APP_QT ON)
 
