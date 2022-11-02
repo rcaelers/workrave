@@ -184,6 +184,10 @@ class Builder {
   async fixups() {
     try {
       this.catalog.builds().forEach((build: any) => {
+        if (build.channel == 'nightly') {
+          build.channel = 'dev';
+        }
+
         build.artifacts.forEach((artifact: any) => {
           artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
           artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
