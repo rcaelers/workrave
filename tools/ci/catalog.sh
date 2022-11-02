@@ -28,7 +28,7 @@ if [[ -n "$WORKRAVE_RELEASE" ]]; then
   CHANNEL=${CHANNEL:-stable}
 else
   GEN_ARGS="--single --latest"
-  CHANNEL=${CHANNEL:-nightly}
+  CHANNEL=${CHANNEL:-dev}
 fi
 
 cd ${SCRIPTS_DIR}/citool
