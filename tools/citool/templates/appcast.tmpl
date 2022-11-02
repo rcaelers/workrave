@@ -33,13 +33,15 @@ Date: {{ commit.commit.author.timestamp | data_format_from_unix }}
 ]]></description>
             <link>https://workrave.org</link>
             <sparkle:version>{{ entry | version }}</sparkle:version>
-{%- if entry | channel %}
-            <sparkle:channel>{{ entry | channel }}</sparkle:channel>
-{%- endif %}
+            <sparkle:channel>{{ entry.channel }}</sparkle:channel>
             <pubDate>{{ entry.date | data_format('ddd, DD MMM YYYY hh:mm:ss ZZ') }}</pubDate>
 {%- for enclosure in entry.artifacts %}
 {%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' %}
+{%- if entry.channel == 'dev' %}
             <enclosure os="{{ enclosure.platform }}" url="https://snapshots.workrave.org/{{ enclosure.url }}" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
+{%- else -%}
+            <enclosure os="{{ enclosure.platform }}" url="https://github.com/rcaelers/workrave/releases/download/{{ entry.tag }}/{{ enclosure.filename }}" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
+{%- endif -%}
 {%- endif -%}
 {%- endfor %}
         </item>
