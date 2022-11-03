@@ -102,6 +102,9 @@ upload() {
     "${AWS}" configure set default.s3.signature_version s3v4
     "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
     MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}
+
+    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
+    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
 }
 
 export WORKRAVE_ENV=local-windows-msys2
@@ -126,9 +129,6 @@ export S3_ARTIFACT_DIR=${ARTIFACT_ENVIRONMENT:+$ARTIFACT_ENVIRONMENT/}v1.11
 export SOURCES_DIR=${WORKSPACE}/source
 mkdir -p ${SOURCES_DIR}
 
-# WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
-# WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
-
 if [ -z ${SECRETS_DIR} ]; then
     echo No secrets directory specified.
     exit 1
@@ -144,6 +144,7 @@ setup
 
 export OPENSSL=${OPENSSL:-"/opt/openssl/bin/openssl"}
 export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
+export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
 
 if [ -n "$DOSIGN" ]; then
     export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64\signtool.exe"
@@ -172,13 +173,14 @@ fi
 export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
 ${SCRIPTS_DIR}/ci/sign.sh
 
-if [ -z "${DRYRUN}" ]; then
-    upload
-fi
-
 cd ${SCRIPTS_DIR}/citool
 npm install
 npm run build
 cd ${SOURCES_DIR}
+
+if [ -z "${DRYRUN}" ]; then
+    upload
+fi
+
 ${SCRIPTS_DIR}/citool/bin/dev.ts catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
 ${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR}
