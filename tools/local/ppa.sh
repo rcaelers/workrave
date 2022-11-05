@@ -92,7 +92,6 @@ build_changelog() {
         --input "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/changes.yaml" \
         --ubuntu $series \
         --increment $PPA \
-        --release ${WORKRAVE_VERSION} \
         --template debian-changelog \
         --output "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/debian/changelog"
 }
