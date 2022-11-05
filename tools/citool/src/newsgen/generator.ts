@@ -10,7 +10,6 @@ import text from './markdown.js';
 
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { int } from 'aws-sdk/clients/datapipeline.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -48,7 +47,6 @@ class NewsGenerator {
         return '';
       })
       .addFilter('text', function (str) {
-        //return unified().use(markdown).use(text, { width: 78 }).processSync(str).toString().replace(/\n+$/g, '');
         return unified().use(markdown).use(text, { width: 78 }).processSync(str).toString().replace(/\n+$/g, '');
       });
   }
@@ -68,7 +66,7 @@ class NewsGenerator {
           extra['previous_version'] = this.news.releases[versionIndex + 1].version;
         }
 
-        this.news.releases = this.news.releases.filter((release: any, index: int) => {
+        this.news.releases = this.news.releases.filter((release: any, index: number) => {
           return this.params.single ? versionIndex == index : versionIndex >= index;
         });
       }
