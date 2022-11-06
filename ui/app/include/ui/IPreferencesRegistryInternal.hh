@@ -28,7 +28,7 @@ class IPreferencesRegistryInternal : public IPreferencesRegistry
 public:
   using Ptr = std::shared_ptr<IPreferencesRegistryInternal>;
 
-  virtual ~IPreferencesRegistryInternal() = default;
+  ~IPreferencesRegistryInternal() override = default;
 
   virtual std::list<std::shared_ptr<ui::prefwidgets::Widget>> get_widgets(PreferencesSection section) const = 0;
 };

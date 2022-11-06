@@ -22,6 +22,7 @@
 #include "commonui/MenuHelper.hh"
 
 #include "commonui/MenuDefs.hh"
+#include "debug.hh"
 
 namespace
 {
@@ -45,10 +46,16 @@ namespace
 MenuHelper::MenuHelper(MenuModel::Ptr menu_model)
   : menu_model(menu_model)
 {
+  TRACE_ENTRY();
   for (auto [id, command]: legacyMapping)
     {
       menu_id_mapping[std::string(id)] = static_cast<std::underlying_type_t<MenuAction>>(command);
     }
+}
+
+MenuHelper::~MenuHelper()
+{
+  TRACE_ENTRY();
 }
 
 uint32_t

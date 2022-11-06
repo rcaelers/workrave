@@ -95,7 +95,7 @@ public:
   };
 
   explicit GenericDBusApplet(std::shared_ptr<IPluginContext> context);
-  ~GenericDBusApplet() override = default;
+  ~GenericDBusApplet() override;
 
   void init();
 
@@ -134,7 +134,6 @@ private:
 
 private:
   std::shared_ptr<IPluginContext> context;
-  std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
   AppHold apphold;

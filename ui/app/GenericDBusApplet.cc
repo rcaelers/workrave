@@ -40,11 +40,12 @@
 
 GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
   : context(context)
-  , toolkit(context->get_toolkit())
   , menu_model(context->get_menu_model())
   , menu_helper(menu_model)
-  , apphold(toolkit)
+  , apphold(context->get_toolkit())
 {
+  TRACE_ENTRY();
+
   control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -61,6 +62,11 @@ GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
   GUIConfig::trayicon_enabled().connect(this, [this](bool) { send_tray_icon_enabled(); });
 
   init();
+}
+
+GenericDBusApplet::~GenericDBusApplet()
+{
+  TRACE_ENTRY();
 }
 
 void
@@ -129,7 +135,7 @@ GenericDBusApplet::init()
           menu_helper.setup_event();
           send_menu_updated_event();
 
-          workrave::utils::connect(toolkit->signal_timer(), control, [this]() { control->update(); });
+          workrave::utils::connect(context->get_toolkit()->signal_timer(), control, [this]() { control->update(); });
         }
     }
   catch (workrave::dbus::DBusException &)

@@ -62,6 +62,14 @@ ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 }
 
 void
+ToolkitWindows::deinit()
+{
+  main_window->get_window()->remove_filter(static_filter_func, this);
+
+  Toolkit::deinit();
+}
+
+void
 ToolkitWindows::release()
 {
   Toolkit::release();
@@ -113,10 +121,8 @@ ToolkitWindows::init_filter()
 {
   main_window->get_window()->add_filter(static_filter_func, this);
 
-  GtkWidget *window = (GtkWidget *)main_window->gobj();
+  auto *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = gtk_widget_get_window(window);
-  // gdk_window_add_filter(gdk_window, win32_filter_func, this);
-
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gdk_window);
 
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
@@ -132,7 +138,7 @@ GdkFilterReturn
 ToolkitWindows::static_filter_func(void *xevent, GdkEvent *event, gpointer data)
 {
   (void)event;
-  ToolkitWindows *toolkit = static_cast<ToolkitWindows *>(data);
+  auto *toolkit = static_cast<ToolkitWindows *>(data);
   auto result = toolkit->filter_func(static_cast<MSG *>(xevent));
   return result ? GDK_FILTER_CONTINUE : GDK_FILTER_REMOVE;
 }

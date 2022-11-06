@@ -29,7 +29,7 @@
 
 class IApplicationContext;
 
-class IToolkit : public std::enable_shared_from_this<IToolkit>
+class IToolkit
 {
 public:
   using Ptr = std::shared_ptr<IToolkit>;

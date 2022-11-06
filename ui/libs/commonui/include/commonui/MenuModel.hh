@@ -29,7 +29,7 @@
 
 namespace menus
 {
-  class Node : public std::enable_shared_from_this<Node>
+  class Node
   {
   public:
     using Ptr = std::shared_ptr<Node>;
@@ -279,6 +279,7 @@ public:
   using Ptr = std::shared_ptr<MenuModel>;
 
   MenuModel();
+  ~MenuModel();
 
   [[nodiscard]] auto get_root() const -> menus::SubMenuNode::Ptr;
   [[nodiscard]] auto find_section(std::string id) const -> menus::SectionNode::Ptr;

@@ -19,6 +19,7 @@
 #define WORKRAVE_UI_APPHOLD_HH
 
 #include "ui/IToolkit.hh"
+#include <memory>
 
 class AppHold
 {
@@ -32,7 +33,7 @@ public:
   void release();
 
 private:
-  std::shared_ptr<IToolkit> toolkit;
+  std::weak_ptr<IToolkit> toolkit;
   bool held{false};
 };
 

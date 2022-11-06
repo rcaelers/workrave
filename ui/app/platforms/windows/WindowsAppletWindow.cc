@@ -43,10 +43,10 @@ using namespace workrave;
 #undef slots
 
 WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IPluginContext> context)
-  : toolkit(context->get_toolkit())
+  : context(context)
   , menu_model(context->get_menu_model())
   , menu_helper(menu_model)
-  , apphold(toolkit)
+  , apphold(context->get_toolkit())
 {
   TRACE_ENTRY();
 
@@ -185,7 +185,7 @@ void
 WindowsAppletWindow::send_menu()
 {
   TRACE_ENTRY();
-  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
+  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(context->get_toolkit());
   if (toolkit_win && local_applet_window != nullptr && !menu_sent) // RACE?
     {
       AppletMenuData data;
@@ -356,7 +356,7 @@ WindowsAppletWindow::filter_func(MSG *msg)
     case WM_USER:
       {
         int cmd = (int)msg->wParam;
-        toolkit->create_oneshot_timer(0, [this, cmd]() { on_applet_command(cmd); });
+        context->get_toolkit()->create_oneshot_timer(0, [this, cmd]() { on_applet_command(cmd); });
         ret = false;
       }
       break;
@@ -382,8 +382,8 @@ WindowsAppletWindow::init_toolkit()
 {
   TRACE_ENTRY();
 
-  workrave::utils::connect(toolkit->signal_timer(), this, [this]() { control->update(); });
-  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(toolkit);
+  workrave::utils::connect(context->get_toolkit()->signal_timer(), this, [this]() { control->update(); });
+  auto toolkit_win = std::dynamic_pointer_cast<IToolkitWindows>(context->get_toolkit());
   if (toolkit_win)
     {
       workrave::utils::connect(toolkit_win->hook_event(), this, [this](MSG *msg) { return filter_func(msg); });

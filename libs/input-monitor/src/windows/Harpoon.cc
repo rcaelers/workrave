@@ -18,7 +18,6 @@
 
 //
 
-#include <assert.h>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -51,6 +50,7 @@ bool Harpoon::helper_started = false;
 
 Harpoon::~Harpoon()
 {
+  TRACE_ENTRY();
   terminate();
 }
 
@@ -104,6 +104,7 @@ Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 void
 Harpoon::terminate()
 {
+  TRACE_ENTRY();
   stop_harpoon_helper();
   harpoon_exit();
 }
@@ -298,13 +299,11 @@ Harpoon::is_64bit_windows()
 HWND
 Harpoon::recursive_find_window(HWND hwnd, LPCSTR lpClassName)
 {
-  TRACE_ENTRY();
   static char buf[80];
   int num = GetClassNameA(hwnd, buf, sizeof(buf) - 1);
   buf[num] = 0;
   HWND ret = NULL;
 
-  TRACE_VAR(buf);
   if (!stricmp(lpClassName, buf))
     {
       ret = hwnd;

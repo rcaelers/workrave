@@ -78,7 +78,7 @@ private:
   void init_toolkit();
   void run_event_pipe();
 
-  std::shared_ptr<IToolkit> toolkit;
+  std::shared_ptr<IPluginContext> context;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
   AppHold apphold;

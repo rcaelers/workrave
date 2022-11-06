@@ -31,6 +31,7 @@ public:
   using Ptr = std::shared_ptr<GnomeSession>;
 
   explicit GnomeSession(std::shared_ptr<IPluginContext> app);
+  ~GnomeSession() override;
   void init();
 
   std::string get_plugin_id() const override
@@ -42,7 +43,7 @@ private:
   void on_signal(const Glib::ustring &sender, const Glib::ustring &signal_name, const Glib::VariantContainerBase &params);
 
 private:
-  std::shared_ptr<IToolkit> toolkit;
+  std::shared_ptr<IPluginContext> context;
   Glib::RefPtr<Gio::DBus::Proxy> proxy;
 };
 

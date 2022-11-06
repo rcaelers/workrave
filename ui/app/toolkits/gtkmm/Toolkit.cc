@@ -38,17 +38,25 @@ Toolkit::Toolkit(int argc, char **argv)
   : argc(argc)
   , argv(argv)
 {
+  TRACE_ENTRY();
 }
 
 Toolkit::~Toolkit()
 {
+  TRACE_ENTRY();
+  delete main_window;
   delete status_icon;
-  status_icon = nullptr;
+  delete statistics_dialog;
+  delete preferences_dialog;
+  delete debug_dialog;
+  delete exercises_dialog;
+  delete about_dialog;
 }
 
 void
 Toolkit::init(std::shared_ptr<IApplicationContext> app)
 {
+  TRACE_ENTRY();
   this->app = app;
 
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
@@ -87,6 +95,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
 void
 Toolkit::deinit()
 {
+  gapp->remove_window(*main_window);
   get_locker()->unlock();
 }
 

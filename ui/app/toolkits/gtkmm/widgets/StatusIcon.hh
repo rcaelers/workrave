@@ -37,6 +37,7 @@ public:
   using balloon_activated_signal_t = sigc::signal<void(std::string)>;
 
   StatusIcon(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ToolkitMenu> status_icon_menu);
+  ~StatusIcon();
 
   void init();
   void set_operation_mode(workrave::OperationMode m);

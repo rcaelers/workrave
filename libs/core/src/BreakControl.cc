@@ -71,7 +71,7 @@ BreakControl::BreakControl(BreakId id, const std::string &break_name, IApp *app,
 //! Destructor.
 BreakControl::~BreakControl()
 {
-  application->hide_break_window();
+  // TODO: application->hide_break_window();
 }
 
 //! Periodic heartbeat.

@@ -37,12 +37,12 @@ const UINT MYWM_TRAY_MESSAGE = WM_USER + 0x100;
 
 WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplicationContext> app)
   : app(app)
-  , toolkit(app->get_toolkit())
   , menu_model(app->get_menu_model())
   , menu_helper(menu_model)
-  , apphold(toolkit)
+  , apphold(app->get_toolkit())
 
 {
+  TRACE_ENTRY();
   init();
   menu_helper.setup_event();
   auto core = app->get_core();
@@ -53,6 +53,7 @@ WindowsStatusIcon::WindowsStatusIcon(std::shared_ptr<IApplicationContext> app)
 
 WindowsStatusIcon::~WindowsStatusIcon()
 {
+  TRACE_ENTRY();
   cleanup();
 }
 

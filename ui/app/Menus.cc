@@ -43,7 +43,13 @@ Menus::Menus(std::shared_ptr<IApplicationContext> app)
   , core(app->get_core())
   , menu_model(app->get_menu_model())
 {
+  TRACE_ENTRY();
   init();
+}
+
+Menus::~Menus()
+{
+  TRACE_ENTRY();
 }
 
 void

@@ -35,6 +35,7 @@ public:
   using Ptr = std::shared_ptr<Menus>;
 
   explicit Menus(std::shared_ptr<IApplicationContext> app);
+  ~Menus();
 
   using sv = std::string_view;
   static constexpr std::string_view PREFERENCES = sv("workrave.preferences");

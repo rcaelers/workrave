@@ -75,7 +75,7 @@ const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/recon
 string
 CoreConfig::get_break_name(BreakId id)
 {
-  const char *names[] = {"micro_pause", "rest_break", "daily_limit"};
+  std::array<const char *, 3> names{"micro_pause", "rest_break", "daily_limit"};
   return names[(int)id];
 }
 

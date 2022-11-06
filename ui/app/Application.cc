@@ -65,12 +65,13 @@ Application::Application(int argc, char **argv, std::shared_ptr<IToolkitFactory>
 Application::~Application()
 {
   TRACE_ENTRY();
+  core->set_core_events_listener(nullptr);
+  core.reset();
+
   if (toolkit)
     {
       toolkit->deinit();
     }
-
-  core.reset();
 }
 
 void
@@ -80,7 +81,10 @@ Application::main()
 
   init_args();
 
+  context = std::make_shared<Context>();
+
   toolkit = toolkit_factory->create(argc, argv);
+  context->set_toolkit(toolkit);
 
   System::init();
   srand((unsigned int)time(nullptr));
@@ -91,12 +95,14 @@ Application::main()
   init_dbus();
 
   preferences_registry = std::make_shared<PreferencesRegistry>();
+  context->set_preferences_registry(preferences_registry);
   menu_model = std::make_shared<MenuModel>();
-  menus = std::make_shared<Menus>(shared_from_this());
+  context->set_menu_model(menu_model);
+  menus = std::make_shared<Menus>(context);
 
   init_platform_pre();
 
-  toolkit->init(shared_from_this());
+  toolkit->init(context);
 
   init_operation_mode_warning();
 
@@ -109,9 +115,11 @@ Application::main()
 
   on_timer();
 
-  PluginRegistry::instance().build(shared_from_this());
+  PluginRegistry::instance().build(context);
 
   toolkit->run();
+
+  PluginRegistry::instance().deinit();
 
   System::clear();
   core->get_configurator()->save();
@@ -181,6 +189,7 @@ void
 Application::init_core()
 {
   core = CoreFactory::create();
+  context->set_core(core);
 #if defined(HAVE_CORE_NEXT)
   core->init(this, toolkit->get_display_name());
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -192,7 +201,7 @@ Application::init_core()
   core->init(argc, argv, this, toolkit->get_display_name());
   core->set_core_events_listener(this);
 #endif
-  GUIConfig::init(shared_from_this());
+  GUIConfig::init(core->get_configurator());
 }
 
 void
@@ -255,6 +264,7 @@ Application::init_sound_player()
 
       sound_theme = std::make_shared<SoundTheme>(core->get_configurator());
       sound_theme->init();
+      context->set_sound_theme(sound_theme);
     }
   catch (workrave::utils::Exception &)
     {

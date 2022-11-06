@@ -22,7 +22,7 @@
 
 #include <boost/signals2.hpp>
 
-class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
+class ICoreHooks
 {
 public:
   using Ptr = std::shared_ptr<ICoreHooks>;

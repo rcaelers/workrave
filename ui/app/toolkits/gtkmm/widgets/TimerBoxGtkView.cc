@@ -46,6 +46,7 @@ TimerBoxGtkView::TimerBoxGtkView(std::shared_ptr<workrave::ICore> core, bool tra
   : core(core)
   , transparent(transparent)
 {
+  TRACE_ENTRY();
   init();
 }
 
@@ -55,22 +56,23 @@ TimerBoxGtkView::~TimerBoxGtkView()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       if (labels[i] != nullptr)
-        labels[i]->unreference();
-      delete labels[i];
+        {
+          labels[i]->unreference();
+        }
 
       if (bars[i] != nullptr)
-        bars[i]->unreference();
-      delete bars[i];
+        {
+          bars[i]->unreference();
+        }
     }
-
   if (sheep != nullptr)
-    sheep->unreference();
+    {
+      sheep->unreference();
+    }
 
   if (sheep_eventbox != nullptr)
     {
       sheep_eventbox->unreference();
-      // FIXME: check if this is needed/Okay.
-      delete sheep_eventbox;
     }
 }
 
@@ -94,9 +96,13 @@ TimerBoxGtkView::init()
 {
   TRACE_ENTRY();
   if (sheep != nullptr)
-    sheep->unreference();
+    {
+      sheep->unreference();
+    }
   if (sheep_eventbox != nullptr)
-    sheep_eventbox->unreference();
+    {
+      sheep_eventbox->unreference();
+    }
 
   sheep_eventbox = new Gtk::EventBox;
   sheep_eventbox->set_events(sheep_eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
@@ -140,7 +146,7 @@ TimerBoxGtkView::init_widgets()
         {
           img->set_padding(0, 0);
 
-          EventButton *b = new EventButton();
+          auto *b = new EventButton();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*Gtk::manage(img));

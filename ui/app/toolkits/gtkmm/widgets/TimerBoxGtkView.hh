@@ -21,12 +21,11 @@
 #include <string>
 #include <gtkmm.h>
 
+#include "core/ICore.hh"
 #include "utils/Signals.hh"
 #include "ui/ITimerBoxView.hh"
-#include "ui/IApplicationContext.hh"
 
 #include "TimeBar.hh"
-//#include "Menus.hh"
 
 class EventImage;
 

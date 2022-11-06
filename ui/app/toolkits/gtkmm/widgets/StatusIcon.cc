@@ -51,6 +51,15 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app, std::shared_ptr
   });
 }
 
+StatusIcon::~StatusIcon()
+{
+#if defined(PLATFORM_OS_WINDOWS)
+  delete status_icon;
+#endif
+
+  TRACE_ENTRY();
+}
+
 void
 StatusIcon::init()
 {

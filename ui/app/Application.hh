@@ -38,13 +38,12 @@
 #include "ui/IToolkit.hh"
 #include "ui/SoundTheme.hh"
 #include "utils/Signals.hh"
+
 #include "PreferencesRegistry.hh"
+#include "Context.hh"
 
 class Application
-  : public std::enable_shared_from_this<Application>
-  , public IApplicationContext
-  , public IPluginContext
-  , public workrave::IApp
+  : public workrave::IApp
 #if !defined(HAVE_CORE_NEXT)
   , public workrave::ICoreEventListener
 #endif
@@ -54,12 +53,12 @@ public:
   Application(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory);
   ~Application() override;
 
-  auto get_sound_theme() const -> SoundTheme::Ptr override;
-  auto get_menu_model() const -> MenuModel::Ptr override;
-  auto get_core() const -> workrave::ICore::Ptr override;
-  auto get_toolkit() const -> IToolkit::Ptr override;
-  auto get_preferences_registry() const -> IPreferencesRegistry::Ptr override;
-  auto get_internal_preferences_registry() const -> IPreferencesRegistryInternal::Ptr override;
+  auto get_sound_theme() const -> SoundTheme::Ptr;
+  auto get_menu_model() const -> MenuModel::Ptr;
+  auto get_core() const -> workrave::ICore::Ptr;
+  auto get_toolkit() const -> IToolkit::Ptr;
+  auto get_preferences_registry() const -> IPreferencesRegistry::Ptr;
+  auto get_internal_preferences_registry() const -> IPreferencesRegistryInternal::Ptr;
 
   void main();
 
@@ -107,6 +106,7 @@ private:
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
   std::shared_ptr<PreferencesRegistry> preferences_registry;
+  std::shared_ptr<Context> context;
   int argc{0};
   char **argv{nullptr};
   std::vector<IBreakWindow::Ptr> break_windows;

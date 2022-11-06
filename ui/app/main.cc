@@ -117,8 +117,10 @@ run(int argc, char **argv)
   W32ActiveSetup::update_all();
 #endif
 
-  auto app = ApplicationFactory::create(argc, argv, std::make_shared<ToolkitFactory>());
-  app->main();
+  {
+    auto app = ApplicationFactory::create(argc, argv, std::make_shared<ToolkitFactory>());
+    app->main();
+  }
 
   return 0;
 }

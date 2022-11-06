@@ -61,7 +61,6 @@ private:
 
 private:
   std::shared_ptr<IApplicationContext> app;
-  std::shared_ptr<IToolkit> toolkit;
 
   //! Is the main window enabled?
   bool enabled{false};

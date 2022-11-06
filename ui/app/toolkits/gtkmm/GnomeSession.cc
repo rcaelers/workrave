@@ -35,10 +35,16 @@ enum GsmPresenceStatus
   GSM_PRESENCE_STATUS_IDLE,
 };
 
-GnomeSession::GnomeSession(std::shared_ptr<IPluginContext> app)
-  : toolkit(app->get_toolkit())
+GnomeSession::GnomeSession(std::shared_ptr<IPluginContext> context)
+  : context(context)
 {
+  TRACE_ENTRY();
   init();
+}
+
+GnomeSession::~GnomeSession()
+{
+  TRACE_ENTRY();
 }
 
 void
@@ -80,7 +86,7 @@ GnomeSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
         {
           Glib::Variant<uint32_t> session_status;
           params.get_child(session_status);
-          toolkit->signal_session_idle_changed()(session_status.get() == GSM_PRESENCE_STATUS_IDLE);
+          context->get_toolkit()->signal_session_idle_changed()(session_status.get() == GSM_PRESENCE_STATUS_IDLE);
         }
     }
 #if GLIBMM_CHECK_VERSION(2, 68, 0)

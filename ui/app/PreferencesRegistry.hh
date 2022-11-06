@@ -29,6 +29,8 @@
 class PreferencesRegistry : public IPreferencesRegistryInternal
 {
 public:
+  using Ptr = std::shared_ptr<PreferencesRegistry>;
+
   PreferencesRegistry() = default;
   ~PreferencesRegistry() override = default;
 

@@ -26,7 +26,7 @@
 #include "ui/IToolkit.hh"
 #include "ui/IPreferencesRegistry.hh"
 
-class IPluginContext // : public std::enable_shared_from_this<IPluginContext>
+class IPluginContext
 {
 public:
   using Ptr = std::shared_ptr<IPluginContext>;

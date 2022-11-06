@@ -28,7 +28,7 @@
 #include "ui/TimerBoxControl.hh"
 
 #include "ui/Plugin.hh"
-#include "ui/IApplicationContext.hh"
+#include "ui/IPluginContext.hh"
 #include "ui/IToolkit.hh"
 #include "ToolkitMenu.hh"
 #include "TimerBoxGtkView.hh"
@@ -49,7 +49,6 @@ public:
 
 private:
   std::shared_ptr<IPluginContext> context;
-  std::shared_ptr<IToolkit> toolkit;
   AppHold apphold;
   std::shared_ptr<ToolkitMenu> menu;
 

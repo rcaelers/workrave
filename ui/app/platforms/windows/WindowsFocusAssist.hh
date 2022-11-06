@@ -37,7 +37,7 @@ class WindowsFocusAssist : public Plugin<WindowsFocusAssist>
 {
 public:
   WindowsFocusAssist() = delete;
-  ~WindowsFocusAssist() override = default;
+  ~WindowsFocusAssist() override;
   explicit WindowsFocusAssist(std::shared_ptr<IPluginContext> context);
 
   std::string get_plugin_id() const override

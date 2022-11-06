@@ -56,7 +56,6 @@ private:
 
 private:
   std::shared_ptr<IApplicationContext> app;
-  std::shared_ptr<IToolkit> toolkit;
   MenuModel::Ptr menu_model;
   MenuHelper menu_helper;
   AppHold apphold;

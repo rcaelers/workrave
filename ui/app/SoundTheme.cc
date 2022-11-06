@@ -178,11 +178,17 @@ SoundTheme::sound_event_to_id(SoundEvent event)
 SoundTheme::SoundTheme(std::shared_ptr<workrave::config::IConfigurator> config)
   : config(config)
 {
+  TRACE_ENTRY();
   player = SoundPlayerFactory::create();
 
 #if defined(PLATFORM_OS_WINDOWS)
   windows_remove_deprecated_appevents();
 #endif
+}
+
+SoundTheme::~SoundTheme()
+{
+  TRACE_ENTRY();
 }
 
 void

@@ -23,10 +23,17 @@
 #include <utility>
 
 #include "commonui/MenuModel.hh"
+#include "debug.hh"
 
 MenuModel::MenuModel()
 {
+  TRACE_ENTRY();
   root = std::make_shared<menus::SubMenuNode>(std::string_view{"root"}, "");
+}
+
+MenuModel::~MenuModel()
+{
+  TRACE_ENTRY();
 }
 
 auto

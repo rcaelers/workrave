@@ -77,7 +77,6 @@ struct Defaults
 
 //! Constructs a new Break
 Break::Break()
-
 {
   TRACE_ENTRY();
 }

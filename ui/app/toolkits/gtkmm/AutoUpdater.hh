@@ -31,13 +31,13 @@
 #include "unfold/coro/gtask.hh"
 #include "unfold/coro/IOContext.hh"
 
-class AutoUpdateDialog; 
+class AutoUpdateDialog;
 
 class AutoUpdater : public Plugin<AutoUpdater>
 {
 public:
   explicit AutoUpdater(std::shared_ptr<IPluginContext> context);
-  ~AutoUpdater() override = default;
+  ~AutoUpdater() override;
 
   std::string get_plugin_id() const override
   {

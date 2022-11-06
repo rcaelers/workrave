@@ -43,7 +43,7 @@ class MenuHelper : public workrave::utils::Trackable
 {
 public:
   explicit MenuHelper(MenuModel::Ptr menu_model);
-  ~MenuHelper() = default;
+  ~MenuHelper();
 
 public:
   uint32_t allocate_command(const std::string &id);

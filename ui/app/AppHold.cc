@@ -44,7 +44,10 @@ AppHold::hold()
 {
   if (!held)
     {
-      toolkit->hold();
+      if (auto tk = toolkit.lock())
+        {
+          tk->hold();
+        }
       held = true;
     }
 }
@@ -54,7 +57,10 @@ AppHold::release()
 {
   if (held)
     {
-      toolkit->release();
+      if (auto tk = toolkit.lock())
+        {
+          tk->release();
+        }
       held = false;
     }
 }

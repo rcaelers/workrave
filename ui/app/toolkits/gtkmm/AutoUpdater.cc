@@ -32,6 +32,7 @@
 #include <spdlog/fmt/ostr.h>
 
 #include "commonui/nls.h"
+#include "debug.hh"
 #include "unfold/Unfold.hh"
 
 #include "AutoUpdateDialog.hh"
@@ -44,6 +45,7 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   , updater(unfold::Unfold::create(io_context))
 
 {
+  TRACE_ENTRY();
   auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
   if (!rc)
     {
@@ -72,6 +74,11 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   updater->set_periodic_update_check_interval(std::chrono::hours{24});
   updater->set_periodic_update_check_enabled(true);
   create_menu();
+}
+
+AutoUpdater::~AutoUpdater()
+{
+  TRACE_ENTRY();
 }
 
 boost::asio::awaitable<unfold::UpdateResponse>

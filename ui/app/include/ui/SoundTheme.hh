@@ -87,7 +87,7 @@ public:
   using Ptr = std::shared_ptr<SoundTheme>;
 
   explicit SoundTheme(std::shared_ptr<workrave::config::IConfigurator> config);
-  virtual ~SoundTheme() = default;
+  virtual ~SoundTheme();
 
   void init();
   void play_sound(SoundEvent snd, bool mute_after_playback = false);

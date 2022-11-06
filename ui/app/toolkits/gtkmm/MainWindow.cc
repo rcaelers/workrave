@@ -51,7 +51,6 @@ using namespace std;
 
 MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app)
   : app(app)
-  , toolkit(app->get_toolkit())
 {
   menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                        [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
@@ -61,6 +60,7 @@ MainWindow::~MainWindow()
 {
   TRACE_ENTRY();
   delete timer_box_control;
+
 #if defined(PLATFORM_OS_UNIX)
   delete leader;
 #endif
@@ -90,7 +90,9 @@ MainWindow::open_window()
       show_all();
       deiconify();
 
-      int x, y, head;
+      int x = 0;
+      int y = 0;
+      int head = 0;
       set_position(Gtk::WIN_POS_NONE);
       set_gravity(Gdk::GRAVITY_STATIC);
       get_start_position(x, y, head);
@@ -218,14 +220,14 @@ MainWindow::init()
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();
 
-  Gtk::EventBox *eventbox = new Gtk::EventBox;
+  auto *eventbox = Gtk::manage(new Gtk::EventBox);
   eventbox->set_visible_window(false);
   eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
 
-  //#if !defined(PLATFORM_OS_MACOS)
-  // No popup menu on OS X
+  // #if !defined(PLATFORM_OS_MACOS)
+  //  No popup menu on OS X
   eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &MainWindow::on_timer_view_button_press_event), false);
-  //#endif
+  // #endif
 
   eventbox->add(*timer_box_view);
   add(*eventbox);
@@ -380,7 +382,9 @@ void
 MainWindow::move_to_start_position()
 {
   TRACE_ENTRY();
-  int x, y, head;
+  int x = 0;
+  int y = 0;
+  int head = 0;
   get_start_position(x, y, head);
 
   GtkRequisition min_size;
@@ -418,8 +422,10 @@ void
 MainWindow::locate_window(GdkEventConfigure *event)
 {
   TRACE_ENTRY();
-  int x, y;
-  int width, height;
+  int x = 0;
+  int y = 0;
+  int width = 0;
+  int height = 0;
 
   (void)event;
 
@@ -508,7 +514,7 @@ MainWindow::relocate_window(int width, int height)
       x = window_head_location.get_x();
       y = window_head_location.get_y();
 
-      int num_heads = toolkit->get_head_count();
+      int num_heads = app->get_toolkit()->get_head_count();
       for (int i = 0; i < num_heads; i++)
         {
           GtkRequisition min_size;
@@ -550,11 +556,14 @@ MainWindow::map_to_head(int &x, int &y)
 {
   int ret = -1;
 
-  auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(toolkit);
+  auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(app->get_toolkit());
 
-  for (int i = 0; i < toolkit->get_head_count(); i++)
+  for (int i = 0; i < app->get_toolkit()->get_head_count(); i++)
     {
-      int left, top, width, height;
+      int left = 0;
+      int top = 0;
+      int width = 0;
+      int height = 0;
 
       HeadInfo head = toolkit_priv->get_head_info(i);
 
@@ -596,7 +605,7 @@ MainWindow::map_to_head(int &x, int &y)
 void
 MainWindow::map_from_head(int &x, int &y, int head)
 {
-  auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(toolkit);
+  auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(app->get_toolkit());
   HeadInfo h = toolkit_priv->get_head_info(head);
   if (x < 0)
     {
@@ -615,9 +624,9 @@ bool
 MainWindow::bound_head(int &x, int &y, int width, int height, int &head)
 {
   bool ret = false;
-  auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(toolkit);
+  auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(app->get_toolkit());
 
-  if (head >= toolkit->get_head_count())
+  if (head >= app->get_toolkit()->get_head_count())
     {
       head = 0;
     }

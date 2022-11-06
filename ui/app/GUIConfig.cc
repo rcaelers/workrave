@@ -63,11 +63,17 @@ const string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
 const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
 const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
-void
-GUIConfig::init(std::shared_ptr<IApplicationContext> app)
+string
+GUIConfig::get_break_name(workrave::BreakId id)
 {
-  GUIConfig::app = app;
-  GUIConfig::config = app->get_core()->get_configurator();
+  std::array<const char *, 3> names{"micro_pause", "rest_break", "daily_limit"};
+  return names[(int)id];
+}
+
+void
+GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
+{
+  GUIConfig::config = config;
 
   for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
     {
@@ -97,14 +103,12 @@ GUIConfig::init(std::shared_ptr<IApplicationContext> app)
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
 }
 
-auto
-GUIConfig::expand(const string &key, workrave::BreakId id) -> string
+std::string
+GUIConfig::expand(const std::string &key, workrave::BreakId id)
 {
-  auto b = app->get_core()->get_break(id);
-
   string str = key;
   string::size_type pos = 0;
-  string name = b->get_name();
+  string name = GUIConfig::get_break_name(id);
 
   while ((pos = str.find("%b", pos)) != string::npos)
     {
@@ -262,24 +266,21 @@ GUIConfig::timerbox_cycle_time(const std::string &box) -> Setting<int> &
 auto
 GUIConfig::timerbox_slot(const std::string &box, workrave::BreakId break_id) -> Setting<int> &
 {
-  auto br = app->get_core()->get_break(break_id);
   return SettingCache::get<int>(config,
-                                CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_POSITION,
+                                CFG_KEY_TIMERBOX + box + "/" + get_break_name(break_id) + CFG_KEY_TIMERBOX_POSITION,
                                 (box == "applet" ? 0 : break_id));
 }
 
 auto
 GUIConfig::timerbox_flags(const std::string &box, workrave::BreakId break_id) -> Setting<int> &
 {
-  auto br = app->get_core()->get_break(break_id);
-  return SettingCache::get<int>(config, CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_FLAGS, 0);
+  return SettingCache::get<int>(config, CFG_KEY_TIMERBOX + box + "/" + get_break_name(break_id) + CFG_KEY_TIMERBOX_FLAGS, 0);
 }
 
 auto
 GUIConfig::timerbox_imminent(const std::string &box, workrave::BreakId break_id) -> Setting<int> &
 {
-  auto br = app->get_core()->get_break(break_id);
-  return SettingCache::get<int>(config, CFG_KEY_TIMERBOX + box + "/" + br->get_name() + CFG_KEY_TIMERBOX_IMMINENT, 30);
+  return SettingCache::get<int>(config, CFG_KEY_TIMERBOX + box + "/" + get_break_name(break_id) + CFG_KEY_TIMERBOX_IMMINENT, 30);
 }
 
 auto

@@ -87,7 +87,7 @@ public:
   static workrave::config::SettingGroup &key_main_window();
   static workrave::config::SettingGroup &key_timerbox(const std::string &box);
 
-  static void init(std::shared_ptr<IApplicationContext> app);
+  static void init(workrave::config::IConfigurator::Ptr config);
 
 private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
@@ -125,8 +125,10 @@ private:
   static const std::string CFG_KEY_TIMERBOX_ENABLED;
 
 private:
+  static std::string get_break_name(workrave::BreakId id);
   static std::string expand(const std::string &str, workrave::BreakId id);
-  static inline std::shared_ptr<IApplicationContext> app;
+
+private:
   static inline std::shared_ptr<workrave::config::IConfigurator> config;
 };
 

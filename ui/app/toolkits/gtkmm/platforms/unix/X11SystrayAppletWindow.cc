@@ -29,8 +29,7 @@
 
 X11SystrayAppletWindow::X11SystrayAppletWindow(std::shared_ptr<IPluginContext> context)
   : context(context)
-  , toolkit(context->get_toolkit())
-  , apphold(toolkit)
+  , apphold(context->get_toolkit())
 {
   enabled = GUIConfig::applet_fallback_enabled()();
   GUIConfig::applet_fallback_enabled().connect(tracker, [this](bool enabled) { on_enabled_changed(); });
@@ -148,12 +147,12 @@ X11SystrayAppletWindow::activate()
 
       applet_active = true;
 
-      auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(toolkit);
+      auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(context->get_toolkit());
       if (toolkit_priv)
         {
           toolkit_priv->attach_menu(menu->get_menu().get());
         }
-      workrave::utils::connect(toolkit->signal_timer(), control, [this]() { control->update(); });
+      workrave::utils::connect(context->get_toolkit()->signal_timer(), control, [this]() { control->update(); });
     }
 
   return;

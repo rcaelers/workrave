@@ -48,7 +48,14 @@ public:
     for (auto &f: plugin_factories)
       {
         plugins.emplace_back(f(context));
+        spdlog::info("created plugin {}", plugins.back()->get_plugin_id());
       }
+  }
+
+  void deinit()
+  {
+    plugin_factories.clear();
+    plugins.clear();
   }
 
 private:
