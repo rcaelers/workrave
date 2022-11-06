@@ -16,6 +16,7 @@ if (NOT MSVC)
   include(Win32ResolveDependencies)
 
   resolve_dependencies("${INSTALL_PATH}/${BINDIR}/workrave.exe" dependencies resolved_dependencies "${DEP_DIRS}")
+
   if (HAVE_CRASHPAD)
     resolve_dependencies("${INSTALL_PATH}/${BINDIR}/WorkraveCrashHandler.exe" dependencies resolved_dependencies "${DEP_DIRS}")
   endif()
@@ -29,8 +30,8 @@ if (NOT MSVC)
   endforeach()
 
   foreach(dependency ${resolved_dependencies})
-  file(INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
-endforeach()
+    file(INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+  endforeach()
 
 else()
   file(GLOB PLUGINS "${INSTALL_PATH}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll")

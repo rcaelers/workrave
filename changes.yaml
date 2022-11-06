@@ -1,9 +1,9 @@
 ---
 releases:
-  - version: 1.11.0-beta.1
-    date: 2022-10-31T00:00:00+02:00
+  - version: 1.11.0-beta.2
+    date: 2022-11-06T013:00:00+01:00
     short: |-
-      Workrave 1.11.0-beta1 has been released.
+      Workrave 1.11.0-beta2 has been released.
     changes:
       - Updates Polish translation (#423 by ChuckMichael)
       - Update Dutch translation (#437 by WKobes)

@@ -140,6 +140,8 @@ source ${BASEDIR}/../ci/config.sh
 source ${SECRETS_DIR}/env-snapshots
 
 init
+source ${BASEDIR}/../ci/config.sh
+
 setup
 
 export OPENSSL=${OPENSSL:-"/opt/openssl/bin/openssl"}
