@@ -84,7 +84,6 @@ private:
   auto get_timers_tooltip() -> std::string;
   void on_timer();
   void init_args();
-  void init_logging();
   void init_nls();
   void init_core();
   void init_sound_player();

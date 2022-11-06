@@ -22,18 +22,7 @@
 #include <memory>
 #include <filesystem>
 #include <initializer_list>
-#include <spdlog/common.h>
-
 #include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/rotating_file_sink.h>
-#if SPDLOG_VERSION >= 10600
-#  include <spdlog/pattern_formatter.h>
-#endif
-#if SPDLOG_VERSION >= 10801
-#  include <spdlog/cfg/env.h>
-#endif
 
 #include <boost/program_options.hpp>
 
@@ -87,8 +76,9 @@ Application::~Application()
 void
 Application::main()
 {
+  TRACE_ENTRY();
+
   init_args();
-  init_logging();
 
   toolkit = toolkit_factory->create(argc, argv);
 
@@ -130,39 +120,6 @@ Application::main()
 void
 Application::init_args()
 {
-}
-
-void
-Application::init_logging()
-{
-  const auto log_dir = Paths::get_log_directory();
-  std::filesystem::create_directories(log_dir);
-
-  const auto log_file = log_dir / "workrave.log";
-
-  auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-  auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(log_file.string(), 1024 * 1024, 5, true);
-
-  auto logger{std::make_shared<spdlog::logger>("workrave", std::initializer_list<spdlog::sink_ptr>{file_sink, console_sink})};
-  logger->flush_on(spdlog::level::critical);
-  spdlog::set_default_logger(logger);
-
-  spdlog::set_level(spdlog::level::info);
-  spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
-  spdlog::info("Workrave started");
-
-#if SPDLOG_VERSION >= 10801
-  spdlog::cfg::load_env_levels();
-#endif
-#if defined(HAVE_TRACING)
-  const auto trace_file = log_dir / "workrave-trace.log";
-  auto trace_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(trace_file.string(), 1024 * 1024, 10, true);
-  auto tracer = std::make_shared<spdlog::logger>("trace", trace_sink);
-  tracer->set_level(spdlog::level::trace);
-  tracer->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%t] %v");
-
-  ScopedTrace::init(tracer);
-#endif
 }
 
 void
