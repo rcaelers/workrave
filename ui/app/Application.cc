@@ -65,7 +65,9 @@ Application::Application(int argc, char **argv, std::shared_ptr<IToolkitFactory>
 Application::~Application()
 {
   TRACE_ENTRY();
+#if !defined(HAVE_CORE_NEXT)
   core->set_core_events_listener(nullptr);
+#endif
   core.reset();
 
   if (toolkit)
