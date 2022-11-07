@@ -149,8 +149,9 @@ GSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
     }
   if (type == ConfigType::String && g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
     {
-      std::string v = g_settings_get_string(child, subkey.c_str());
-      // TODO: free string?
+      auto *str = g_settings_get_string(child, subkey.c_str());
+      std::string v = str;
+      g_free(str);
       return v;
     }
   return {};
