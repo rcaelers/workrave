@@ -1,17 +1,19 @@
 ---
 releases:
   - version: 1.11.0-beta.2
-    date: 2022-11-06T013:00:00+01:00
+    date: 2022-11-08T19:35:00+01:00
     short: |-
       Workrave 1.11.0-beta2 has been released.
     changes:
       - Updates Polish translation (#423 by ChuckMichael)
       - Update Dutch translation (#437 by WKobes)
       - Support GNOME Shell 43 (#430 by Jeremy Bicha)
-      - Fix 'Lock screen' functionality from rest break window
-      - Fix showing natural break window when screen is unlocked
       - Add option to force the use of the X11 Gtk backend on Wayland
       - Experimental auto-update feature
+      - |-
+        Bug fixes:
+        - Fix 'Lock screen' functionality from rest break window
+        - Fix showing natural break window when screen is unlocked
 
   - version: 1.11.0-alpha.3
     date: 2022-06-30T16:53:59+02:00
