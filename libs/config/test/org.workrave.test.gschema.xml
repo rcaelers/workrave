@@ -125,6 +125,16 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="i" name="extendedmode-int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="extendedmode-string">
+      <default>"x"</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="x" name="minutes">
       <default>0</default>
       <summary></summary>
