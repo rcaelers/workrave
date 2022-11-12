@@ -42,6 +42,7 @@ public:
   };
 
   auto get_core() const -> workrave::ICore::Ptr override;
+  auto get_configurator() const -> workrave::config::IConfigurator::Ptr override;
   auto get_toolkit() const -> IToolkit::Ptr override;
   auto get_sound_theme() const -> SoundTheme::Ptr override;
   auto get_menu_model() const -> MenuModel::Ptr override;
@@ -79,6 +80,12 @@ inline auto
 Context::get_core() const -> workrave::ICore::Ptr
 {
   return core;
+}
+
+inline auto
+Context::get_configurator() const -> workrave::config::IConfigurator::Ptr
+{
+  return core->get_configurator();
 }
 
 inline auto

@@ -21,6 +21,7 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
+#include "config/IConfigurator.hh"
 #include "ui/SoundTheme.hh"
 #include "commonui/MenuModel.hh"
 #include "ui/IToolkit.hh"
@@ -34,6 +35,7 @@ public:
   virtual ~IPluginContext() = default;
 
   virtual workrave::ICore::Ptr get_core() const = 0;
+  virtual workrave::config::IConfigurator::Ptr get_configurator() const = 0;
   virtual IToolkit::Ptr get_toolkit() const = 0;
   virtual SoundTheme::Ptr get_sound_theme() const = 0;
   virtual MenuModel::Ptr get_menu_model() const = 0;
