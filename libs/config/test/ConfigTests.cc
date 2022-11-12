@@ -35,6 +35,7 @@ using namespace boost::unit_test;
 #include "Configurator.hh"
 #include "config/SettingCache.hh"
 #include "utils/Logging.hh"
+#include "utils/Enum.hh"
 
 #include "IniConfigurator.hh"
 #include "XmlConfigurator.hh"
@@ -59,6 +60,7 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::utils;
+using namespace std::literals::string_view_literals;
 
 class GlobalFixture
 {
@@ -90,6 +92,76 @@ public:
   void teardown()
   {
   }
+};
+
+enum class Mode
+{
+  Mode1,
+  Mode2,
+  Mode3
+};
+
+enum class ExtendedMode
+{
+  Invalid,
+  Mode1,
+  Mode2,
+  Mode3
+};
+
+inline std::ostream &
+operator<<(std::ostream &stream, Mode mode)
+{
+  switch (mode)
+    {
+    case Mode::Mode1:
+      stream << "mode1";
+      break;
+    case Mode::Mode2:
+      stream << "mode2";
+      break;
+    case Mode::Mode3:
+      stream << "mode3";
+      break;
+    }
+  return stream;
+}
+
+inline std::ostream &
+operator<<(std::ostream &stream, ExtendedMode mode)
+{
+  switch (mode)
+    {
+    case ExtendedMode::Invalid:
+      stream << "invalid";
+      break;
+    case ExtendedMode::Mode1:
+      stream << "mode1";
+      break;
+    case ExtendedMode::Mode2:
+      stream << "mode2";
+      break;
+    case ExtendedMode::Mode3:
+      stream << "mode3";
+      break;
+    }
+  return stream;
+}
+
+template<>
+struct workrave::utils::enum_traits<ExtendedMode>
+{
+  static constexpr auto min = ExtendedMode::Mode1;
+  static constexpr auto max = ExtendedMode::Mode3;
+  static constexpr auto linear = true;
+  static constexpr auto invalid = ExtendedMode::Invalid;
+
+  static constexpr std::array<std::pair<std::string_view, ExtendedMode>, 5> names{{
+    {"mode1", ExtendedMode::Mode1},
+    {"mode2", ExtendedMode::Mode2},
+    {"mode3", ExtendedMode::Mode3},
+    {"invalid", ExtendedMode::Invalid},
+  }};
 };
 
 class Fixture;
@@ -170,13 +242,6 @@ public:
     config_changed_count++;
   }
 
-  enum class Mode
-  {
-    Mode1,
-    Mode2,
-    Mode3
-  };
-
   SettingGroup &group() const
   {
     return SettingCache::group(configurator, "test/settings");
@@ -245,6 +310,16 @@ public:
   Setting<int32_t, Mode> &setting_mode() const
   {
     return SettingCache::get<int32_t, Mode>(configurator, "test/settings/mode");
+  }
+
+  Setting<int32_t, ExtendedMode> &setting_extendedmode_int() const
+  {
+    return SettingCache::get<int32_t, ExtendedMode>(configurator, "test/settings/extendedmode_int");
+  }
+
+  Setting<std::string, ExtendedMode> &setting_extendedmode_string() const
+  {
+    return SettingCache::get<std::string, ExtendedMode>(configurator, "test/settings/extendedmode_string");
   }
 
   Setting<int32_t> &setting_int32_default() const
@@ -327,24 +402,6 @@ namespace helper
 #endif
 
 } // namespace helper
-
-inline std::ostream &
-operator<<(std::ostream &stream, Fixture::Mode mode)
-{
-  switch (mode)
-    {
-    case Fixture::Mode::Mode1:
-      stream << "mode1";
-      break;
-    case Fixture::Mode::Mode2:
-      stream << "mode2";
-      break;
-    case Fixture::Mode::Mode3:
-      stream << "mode3";
-      break;
-    }
-  return stream;
-}
 
 BOOST_TEST_GLOBAL_FIXTURE(GlobalFixture);
 
@@ -1567,6 +1624,50 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_enum, T, backend_types)
   BOOST_CHECK_EQUAL(ivalue, (int32_t)Mode::Mode2);
   BOOST_CHECK_EQUAL(setting_mode()(), Mode::Mode2);
   BOOST_CHECK_EQUAL(setting_mode().get(), Mode::Mode2);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_enum_trait_int, T, backend_types)
+{
+  init<T>();
+
+  setting_extendedmode_int().set(ExtendedMode::Mode1);
+
+  int32_t ivalue;
+  bool ok = configurator->get_value("test/settings/extendedmode_int", ivalue);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(ivalue, (int32_t)ExtendedMode::Mode1);
+  BOOST_CHECK_EQUAL(setting_extendedmode_int()(), ExtendedMode::Mode1);
+  BOOST_CHECK_EQUAL(setting_extendedmode_int().get(), ExtendedMode::Mode1);
+
+  setting_extendedmode_int().set(ExtendedMode::Mode2);
+
+  ok = configurator->get_value("test/settings/extendedmode_int", ivalue);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(ivalue, (int32_t)ExtendedMode::Mode2);
+  BOOST_CHECK_EQUAL(setting_extendedmode_int()(), ExtendedMode::Mode2);
+  BOOST_CHECK_EQUAL(setting_extendedmode_int().get(), ExtendedMode::Mode2);
+};
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_enum_trait_string, T, backend_types)
+{
+  init<T>();
+
+  setting_extendedmode_string().set(ExtendedMode::Mode1);
+
+  std::string svalue;
+  bool ok = configurator->get_value("test/settings/extendedmode_string", svalue);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(svalue, "mode1");
+  BOOST_CHECK_EQUAL(setting_extendedmode_string()(), ExtendedMode::Mode1);
+  BOOST_CHECK_EQUAL(setting_extendedmode_string().get(), ExtendedMode::Mode1);
+
+  setting_extendedmode_string().set(ExtendedMode::Mode2);
+
+  ok = configurator->get_value("test/settings/extendedmode_string", svalue);
+  BOOST_CHECK_EQUAL(ok, true);
+  BOOST_CHECK_EQUAL(svalue, "mode2");
+  BOOST_CHECK_EQUAL(setting_extendedmode_string()(), ExtendedMode::Mode2);
+  BOOST_CHECK_EQUAL(setting_extendedmode_string().get(), ExtendedMode::Mode2);
 };
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_settings_minutes, T, backend_types)

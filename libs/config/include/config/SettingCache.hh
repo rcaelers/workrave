@@ -40,6 +40,19 @@ namespace workrave
       }
 
     public:
+
+      template<typename T, typename S = T>
+      static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const char *key, const S &def = S())
+      {
+        return workrave::config::SettingCache::get<T, S>(config, std::string{key}, def);
+      }
+
+      template<typename T, typename S = T>
+      static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, std::string_view key, const S &def = S())
+      {
+        return workrave::config::SettingCache::get<T, S>(config, std::string{key}, def);
+      }
+
       template<typename T, typename S = T>
       static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const std::string &key, const S &def = S())
       {

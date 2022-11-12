@@ -29,6 +29,7 @@
 #include <utility>
 #include <chrono>
 
+#include "utils/Enum.hh"
 #include "utils/Signals.hh"
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
@@ -115,6 +116,47 @@ namespace workrave
       }
     };
 
+    template<>
+    struct setting_cast_impl<cast_tag, std::string, std::string>
+    {
+      constexpr static std::string call(const std::string &t)
+      {
+        return t;
+      }
+    };
+
+    template<class T>
+    struct setting_cast_impl<cast_tag, std::string, T>
+    {
+      constexpr static std::string call(const T &t)
+      {
+        if constexpr (workrave::utils::enum_has_names_v<T>)
+          {
+            return std::string{workrave::utils::enum_to_string(t)};
+          }
+        else
+          {
+            return static_cast<std::string>(t);
+          }
+      }
+    };
+
+    template<class R>
+    struct setting_cast_impl<cast_tag, R, std::string>
+    {
+      constexpr static R call(std::string t)
+      {
+        if constexpr (workrave::utils::enum_has_names_v<R>)
+          {
+            return workrave::utils::enum_from_string<R>(t);
+          }
+        else
+          {
+            return static_cast<std::string>(t);
+          }
+      }
+    };
+
     template<class R, class Rep, class Period>
     struct setting_cast_impl<cast_tag, R, std::chrono::duration<Rep, Period>>
     {
@@ -158,6 +200,10 @@ namespace workrave
       , IConfiguratorListener
       , boost::noncopyable
     {
+    public:
+      using config_type = T;
+      using representation_type = R;
+
     private:
       using NotifyType = boost::signals2::signal<void(const R &)>;
 
