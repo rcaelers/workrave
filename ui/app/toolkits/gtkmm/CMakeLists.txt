@@ -143,6 +143,7 @@ target_link_libraries(workrave-toolkit-gtkmm
   workrave-libs-dbus
   workrave-libs-input-monitor
   workrave-libs-session
+  workrave-libs-updater
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
   workrave-libs-ui-prefwidgets-gtkmm)

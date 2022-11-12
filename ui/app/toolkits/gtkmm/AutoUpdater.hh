@@ -31,6 +31,10 @@
 #include "unfold/coro/gtask.hh"
 #include "unfold/coro/IOContext.hh"
 
+#include "ui/prefwidgets/Widgets.hh"
+
+#include "utils/Logging.hh"
+
 class AutoUpdateDialog;
 
 class AutoUpdater : public Plugin<AutoUpdater>
@@ -45,7 +49,9 @@ public:
   }
 
 private:
-  void create_menu();
+  void init_channels();
+  void init_preferences();
+  void init_menu();
   boost::asio::awaitable<unfold::UpdateResponse> on_update_available();
   void on_check_for_update();
   unfold::coro::gtask<void> show_update();
@@ -61,8 +67,11 @@ private:
   std::shared_ptr<AutoUpdateDialog> dialog;
   std::optional<handler_type> dialog_handler;
 
+  std::shared_ptr<ui::prefwidgets::Frame> auto_update_def;
+
   using sv = std::string_view;
   static constexpr std::string_view CHECK_FOR_UPDATE = sv("workrave.check_for_updates");
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("updater")};
 };
 
 #endif // AUTO_UPDATER_HH

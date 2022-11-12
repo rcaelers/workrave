@@ -34,6 +34,7 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 #include "unfold/Unfold.hh"
+#include "updater/Config.hh"
 
 #include "AutoUpdateDialog.hh"
 
@@ -46,6 +47,9 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
 {
   TRACE_ENTRY();
+
+  workrave::updater::Config::init(context->get_configurator());
+
   auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
   if (!rc)
     {
@@ -68,17 +72,119 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
       return;
     }
 
+  init_channels();
+
   updater->set_update_available_callback(
     [&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
 
   updater->set_periodic_update_check_interval(std::chrono::hours{24});
-  updater->set_periodic_update_check_enabled(true);
-  create_menu();
+  updater->set_periodic_update_check_enabled(workrave::updater::Config::enabled()());
+
+  init_preferences();
+  init_menu();
 }
 
 AutoUpdater::~AutoUpdater()
 {
   TRACE_ENTRY();
+}
+
+void
+AutoUpdater::init_channels()
+{
+  TRACE_ENTRY();
+
+  auto channel = workrave::updater::Config::channel()();
+  logger->info("Current release channel: {}", workrave::utils::enum_to_string(channel));
+
+  std::vector<std::string> allowed_channels;
+
+  switch (channel)
+    {
+    case workrave::updater::Channel::Beta:
+      allowed_channels.emplace_back("beta");
+      break;
+
+    case workrave::updater::Channel::Candidate:
+      allowed_channels.emplace_back("rc");
+      break;
+
+    case workrave::updater::Channel::Stable:
+      allowed_channels.emplace_back("stable");
+      break;
+    }
+
+  auto rc = updater->set_allowed_channels(allowed_channels);
+  if (!rc)
+    {
+      spdlog::info("Invalid allowed channels");
+      return;
+    }
+}
+
+void
+AutoUpdater::init_preferences()
+{
+  std::vector<std::string> channels{"Stable", "Release Candidate", "Beta"};
+
+  auto_update_def = ui::prefwidgets::Frame::create(_("Auto update"))
+                    << ui::prefwidgets::Toggle::create(_("Automatically check for updates"))
+                         ->connect(&workrave::updater::Config::enabled())
+                    << ui::prefwidgets::Choice::create(_("Release channel:"))
+                         ->connect(&workrave::updater::Config::channel(),
+                                   {{workrave::updater::Channel::Stable, 0},
+                                    {workrave::updater::Channel::Candidate, 1},
+                                    {workrave::updater::Channel::Beta, 2}})
+                         ->assign(channels)
+                         ->when(&workrave::updater::Config::enabled());
+
+  context->get_preferences_registry()->add(PreferencesSection::General, auto_update_def);
+}
+
+void
+AutoUpdater::init_menu()
+{
+  auto menu_model = context->get_menu_model();
+  auto section = menu_model->find_section("workrave.section.tail");
+  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, _("Check for _Updates"), [this] { on_check_for_update(); });
+  section->add_before(item, "workrave.about");
+  menu_model->update();
+}
+
+unfold::coro::gtask<void>
+AutoUpdater::show_update()
+{
+  auto update_info = updater->get_update_info();
+  if (!update_info)
+    {
+      co_return;
+    }
+
+  dialog = std::make_shared<AutoUpdateDialog>(update_info, [this](auto choice) {
+    auto response = unfold::UpdateResponse::Later;
+    switch (choice)
+      {
+      case AutoUpdateDialog::UpdateChoice::Now:
+        response = unfold::UpdateResponse::Install;
+        break;
+
+      case AutoUpdateDialog::UpdateChoice::Later:
+        response = unfold::UpdateResponse::Later;
+        break;
+
+      case AutoUpdateDialog::UpdateChoice::Skip:
+        response = unfold::UpdateResponse::Skip;
+        break;
+      }
+    dialog->close();
+    if (dialog_handler)
+      {
+        (*dialog_handler)(response);
+        dialog_handler.reset();
+      }
+  });
+  dialog->show();
+  dialog->raise();
 }
 
 boost::asio::awaitable<unfold::UpdateResponse>
@@ -123,50 +229,4 @@ AutoUpdater::on_check_for_update()
         }
     },
     boost::asio::detached);
-}
-
-void
-AutoUpdater::create_menu()
-{
-  auto menu_model = context->get_menu_model();
-  auto section = menu_model->find_section("workrave.section.tail");
-  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, _("Check for _Updates"), [this] { on_check_for_update(); });
-  section->add_before(item, "workrave.about");
-  menu_model->update();
-}
-
-unfold::coro::gtask<void>
-AutoUpdater::show_update()
-{
-  auto update_info = updater->get_update_info();
-  if (!update_info)
-    {
-      co_return;
-    }
-
-  dialog = std::make_shared<AutoUpdateDialog>(update_info, [this](auto choice) {
-    auto response = unfold::UpdateResponse::Later;
-    switch (choice)
-      {
-      case AutoUpdateDialog::UpdateChoice::Now:
-        response = unfold::UpdateResponse::Install;
-        break;
-
-      case AutoUpdateDialog::UpdateChoice::Later:
-        response = unfold::UpdateResponse::Later;
-        break;
-
-      case AutoUpdateDialog::UpdateChoice::Skip:
-        response = unfold::UpdateResponse::Skip;
-        break;
-      }
-    dialog->close();
-    if (dialog_handler)
-      {
-        (*dialog_handler)(response);
-        dialog_handler.reset();
-      }
-  });
-  dialog->show();
-  dialog->raise();
 }
