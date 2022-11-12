@@ -21,6 +21,7 @@
 #include <type_traits>
 #include <utility>
 #include <array>
+#include <algorithm>
 
 #include <iostream>
 
@@ -70,6 +71,32 @@ namespace workrave::utils
   template<typename Enum>
   constexpr inline bool enum_has_max_v = enum_has_max<Enum>::value;
 
+  template<typename Enum, typename = std::void_t<>>
+  struct enum_has_names : std::false_type
+  {
+  };
+
+  template<typename Enum>
+  struct enum_has_names<Enum, std::void_t<decltype(enum_traits<Enum>::names)>> : std::true_type
+  {
+  };
+
+  template<typename Enum>
+  constexpr inline bool enum_has_names_v = enum_has_names<Enum>::value;
+
+  template<typename Enum, typename = std::void_t<>>
+  struct enum_has_invalid : std::false_type
+  {
+  };
+
+  template<typename Enum>
+  struct enum_has_invalid<Enum, std::void_t<decltype(enum_traits<Enum>::invalid)>> : std::true_type
+  {
+  };
+
+  template<typename Enum>
+  constexpr inline bool enum_has_invalid_v = enum_has_invalid<Enum>::value;
+
   template<typename Enum, std::enable_if_t<enum_has_min_v<Enum>, int> = 0>
   constexpr auto enum_min_value() noexcept
   {
@@ -98,6 +125,37 @@ namespace workrave::utils
   constexpr auto enum_in_range(Enum e) noexcept
   {
     return (underlying_cast(e) >= enum_min_value<Enum>()) && (underlying_cast(e) <= enum_max_value<Enum>());
+  }
+
+  template<typename Enum>
+  Enum enum_from_string(std::string key)
+  {
+    auto &names = enum_traits<Enum>::names;
+    const auto it = std::find_if(begin(names), end(names), [&key](const auto &v) { return v.first == key; });
+    if (it == std::end(names))
+      {
+        if constexpr (enum_has_invalid_v<Enum>)
+          {
+            return enum_traits<Enum>::invalid;
+          }
+        if constexpr (enum_has_min_v<Enum>)
+          {
+            return enum_traits<Enum>::min;
+          }
+      }
+    return it->second;
+  }
+
+  template<typename Enum>
+  std::string_view enum_to_string(Enum e)
+  {
+    auto &names = enum_traits<Enum>::names;
+    const auto it = std::find_if(begin(names), end(names), [&e](const auto &v) { return v.second == e; });
+    if (it == std::end(names))
+      {
+        return {};
+      }
+    return it->first;
   }
 
   template<typename Enum, class T, std::size_t N = workrave::utils::enum_count<Enum>()>
