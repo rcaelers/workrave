@@ -31,7 +31,7 @@
 #else
 
 #  include <spdlog/spdlog.h>
-#  include "spdlog/fmt/ostr.h"
+#  include <spdlog/fmt/ostr.h>
 
 #  include <boost/noncopyable.hpp>
 #  include <string_view>
