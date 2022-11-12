@@ -21,6 +21,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <algorithm>
 #include <type_traits>
 
 #include "config/Setting.hh"
@@ -77,6 +78,70 @@ namespace ui::prefwidgets
     return detail::stream(s, t, std::is_convertible<S *, Widget *>());
   }
 
+  template<typename WidgetType>
+  class SettingsWrapper
+  {
+  public:
+    SettingsWrapper() = default;
+    virtual ~SettingsWrapper() = default;
+
+    virtual void set(WidgetType value) = 0;
+    virtual WidgetType get() const = 0;
+  };
+
+  template<typename WidgetType, typename SettingsType, typename SettingsRepr>
+  class SettingsWrapperImpl : public SettingsWrapper<WidgetType>
+  {
+  public:
+    SettingsWrapperImpl() = default;
+    ~SettingsWrapperImpl() override = default;
+
+    void connect(workrave::config::Setting<SettingsType, SettingsRepr> *setting)
+    {
+      this->setting = setting;
+    }
+
+    void set_mapping(std::map<SettingsRepr, WidgetType> mapping)
+    {
+      this->mapping = std::move(mapping);
+    }
+
+    void set(WidgetType value) override
+    {
+      spdlog::info("set {}", value);
+      auto it = std::find_if(mapping.begin(), mapping.end(), [&value](const auto &p) { return p.second == value; });
+
+      for (auto &p: mapping)
+        {
+          spdlog::info("  {}", p.second);
+        }
+
+      if (it != mapping.end())
+        {
+          spdlog::info("set2");
+          setting->set(it->first);
+        }
+    }
+
+    WidgetType get() const override
+    {
+      auto value = setting->get();
+      spdlog::info("get");
+      auto it = mapping.find(value);
+
+      if (it != mapping.end())
+        {
+          spdlog::info("get2 {}", it->second);
+          return it->second;
+        }
+      return WidgetType();
+    }
+
+  private:
+    workrave::config::Setting<SettingsType, SettingsRepr> *setting;
+    std::map<SettingsRepr, WidgetType> mapping;
+  };
+
   template<class Derived, class Type>
   class WidgetBase
     : public Widget
@@ -116,6 +181,28 @@ namespace ui::prefwidgets
             {
               value = static_cast<Type>(setting->get());
             }
+        }
+      return shared_from_base<Derived>();
+    }
+
+    template<class T, class R>
+    std::shared_ptr<Derived> connect(workrave::config::Setting<T, R> *setting, std::map<R, Type> mapping)
+    {
+      std::string key = setting->key();
+
+      config = setting->get_config();
+      config->add_listener(key, this);
+
+      keys.push_back(key);
+      if (keys.size() == 1)
+        {
+          auto settings_wrapper_impl = std::make_shared<SettingsWrapperImpl<Type, T, R>>();
+          settings_wrapper_impl->connect(setting);
+          settings_wrapper_impl->set_mapping(mapping);
+          settings_wrapper = settings_wrapper_impl;
+
+          type = setting->get_type();
+          value = settings_wrapper->get();
         }
       return shared_from_base<Derived>();
     }
@@ -166,6 +253,10 @@ namespace ui::prefwidgets
             {
               save_func(value);
             }
+          else if (settings_wrapper)
+            {
+              settings_wrapper->set(value);
+            }
           else if (!keys.empty())
             {
               config->set_value(keys.front(), value);
@@ -191,6 +282,7 @@ namespace ui::prefwidgets
         {
           bool s = sensitive;
           config->get_value(sensitive_key, s);
+
           if (sensitive != s)
             {
               sensitive = s;
@@ -208,6 +300,10 @@ namespace ui::prefwidgets
           if (load_func)
             {
               new_value = load_func();
+            }
+          else if (settings_wrapper)
+            {
+              new_value = settings_wrapper->get();
             }
           else if (!keys.empty())
             {
@@ -253,6 +349,7 @@ namespace ui::prefwidgets
     std::function<Type()> load_func;
     std::function<void(Type)> save_func;
     workrave::config::IConfigurator::Ptr config;
+    std::shared_ptr<SettingsWrapper<Type>> settings_wrapper;
   };
 
   template<class Derived>
