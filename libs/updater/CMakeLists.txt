@@ -58,4 +58,6 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     endif()
 
   endif()
+
+  add_subdirectory(src)
 endif()
