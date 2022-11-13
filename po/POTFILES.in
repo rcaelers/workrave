@@ -108,8 +108,11 @@ ui/app/toolkits/gtkmm/PreferencesDialog.cc
 ui/app/toolkits/gtkmm/PreludeWindow.cc
 ui/app/toolkits/gtkmm/RestBreakWindow.cc
 ui/app/toolkits/gtkmm/StatisticsDialog.cc
-ui/app/toolkits/gtkmm/TimerBoxPreferencePanel.cc
-ui/app/toolkits/gtkmm/TimerPreferencePanel.cc
+ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc
+ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc
+ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc
+ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc
+ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc
 ui/app/toolkits/gtkmm/Toolkit.cc
 ui/app/toolkits/gtkmm/ToolkitFactory.cc
 ui/app/toolkits/gtkmm/ToolkitMacOS.cc
