@@ -119,7 +119,7 @@ namespace workrave
     template<>
     struct setting_cast_impl<cast_tag, std::string, std::string>
     {
-      constexpr static std::string call(const std::string &t)
+      static std::string call(const std::string &t)
       {
         return t;
       }
@@ -128,7 +128,7 @@ namespace workrave
     template<class T>
     struct setting_cast_impl<cast_tag, std::string, T>
     {
-      constexpr static std::string call(const T &t)
+      static std::string call(const T &t)
       {
         if constexpr (workrave::utils::enum_has_names_v<T>)
           {
@@ -144,7 +144,7 @@ namespace workrave
     template<class R>
     struct setting_cast_impl<cast_tag, R, std::string>
     {
-      constexpr static R call(std::string t)
+      static R call(std::string t)
       {
         if constexpr (workrave::utils::enum_has_names_v<R>)
           {
