@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-09-01 21:46+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2022-11-12 16:57+0100\n"
 "PO-Revision-Date: 2011-02-16 19:28+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -14,761 +14,866 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Narro 0.9.2 on http://tradu.softwareliber.ro\n"
-"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
 
-#: libs/core/src/DistributionSocketLink.cc:118
-#, fuzzy, c-format
-msgid "Reconnecting to %s."
-msgstr "Reconectare la %s."
-
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:406
-msgid "Could not enable network operation."
-msgstr "Nu se poate activa lucrul în rețea."
-
-#: libs/core/src/DistributionSocketLink.cc:415
-msgid "Disabling network operation."
-msgstr "Se dezactivează lucrul în rețea."
-
-#: libs/core/src/DistributionSocketLink.cc:521
-#: libs/core/src/DistributionSocketLink.cc:558
-#, fuzzy, c-format
-msgid "Connecting to %s."
-msgstr "Conectare la %s."
-
-#: libs/core/src/DistributionSocketLink.cc:673
-#: libs/core/src/DistributionSocketLink.cc:704
-#, fuzzy, c-format
-msgid "Removing client %s."
-msgstr "Se elimină clientul %s."
-
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:750
-#, fuzzy, c-format
-msgid "Disconnecting %s"
-msgstr "Se deconectează %s."
-
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:913
-#, fuzzy, c-format
-msgid "Client %s is now master."
-msgstr "Clientul %s este acum clientul principal."
-
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:919
-msgid "I'm now master."
-msgstr "Acum sunt clientul principal."
-
-#: libs/core/src/DistributionSocketLink.cc:1282
-#: libs/core/src/DistributionSocketLink.cc:1341
-#, fuzzy, c-format
-msgid "Client %s saying hello."
-msgstr "Clientul %s salută."
-
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1291
-#: libs/core/src/DistributionSocketLink.cc:1371
-#, fuzzy, c-format
-msgid "Client %s access denied."
-msgstr "Acces interzis pentru clientul %s."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1362
-#: libs/core/src/DistributionSocketLink.cc:1489
-#: libs/core/src/DistributionSocketLink.cc:1734
-#, fuzzy, c-format
-msgid "Client %s is duplicate."
-msgstr "Clientul %s este duplicat."
-
-#: libs/core/src/DistributionSocketLink.cc:1441
-#, fuzzy, c-format
-msgid "Client %s signed off."
-msgstr "Clientul %s s-a deconectat."
-
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1525
-#, fuzzy, c-format
-msgid "Client %s is welcoming us."
-msgstr "Clientul %s ne întâmpină."
-
-#: libs/core/src/DistributionSocketLink.cc:1767
-#, fuzzy, c-format
-msgid "Requesting master status from %s."
-msgstr "Se cere statutul de client principal de la %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1780
-#, fuzzy, c-format
-msgid "Client timeout from %s."
-msgstr "Timpul de așteptare după clientul %s a expirat."
-
-#: libs/core/src/DistributionSocketLink.cc:1806
-#, fuzzy, c-format
-msgid "Rejecting master request from client %s."
-msgstr "Se respinge cererea de a deveni client principal clientului %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1811
-#, fuzzy, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "Se acceptă cererea de a deveni client principal clientului %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1864
-#, fuzzy, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "S-a respins cererea de a deveni client principal clientului %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1868
-#, fuzzy, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "Clientul %s a respins cererea de client principal, se amână."
-
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1942
+#: ui/libs/commonui/src//Text.cc:79
 #, c-format
-msgid "Client %s is now the new master."
-msgstr "Clientul %s e acum clientul principal."
-
-#: libs/core/src/DistributionSocketLink.cc:2070
-msgid "Network operation started."
-msgstr "S-a pornit lucrul în rețea."
-
-#: libs/core/src/DistributionSocketLink.cc:2090
-msgid "Accepted new client."
-msgstr "S-a acceptat un client nou."
-
-#: libs/core/src/DistributionSocketLink.cc:2165
-#, fuzzy, c-format
-msgid "Client %s read error, closing."
-msgstr "Eroare de citire de la clientul %s, închidere."
-
-#: libs/core/src/DistributionSocketLink.cc:2170
-#: libs/core/src/DistributionSocketLink.cc:2237
-#, fuzzy, c-format
-msgid "Client %s closed connection."
-msgstr "Clientul %s a închis conexiunea."
-
-#: libs/core/src/DistributionSocketLink.cc:2209
-#, fuzzy, c-format
-msgid "Client %s connected."
-msgstr "Clientul %s s-a conectat."
-
-#: libs/core/src/DistributionSocketLink.cc:2242
-#, fuzzy, c-format
-msgid "Could not connect to client %s."
-msgstr "Nu se poate efectua conexiunea cu clientul %s."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:354
-#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:364
-#: ui/applets/mate/src/main.c:256 ui/applets/xfce/src/main.c:347
-#: ui/apps/gtkmm/src/Toolkit.cc:225
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:4
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave Applet"
-msgstr "Applet Workrave"
-
-#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:46
-msgid "_Open"
-msgstr "_Deschide"
-
-#: ui/applets/mate/src/main.c:364
-msgid "_Statistics"
-msgstr "_Statistici"
-
-#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:52
-msgid "_Preferences"
-msgstr "_Preferințe"
-
-#: ui/applets/mate/src/main.c:368 ui/apps/gtkmm/src/Menus.cc:58
-msgid "_Exercises"
-msgstr "_Exerciții"
-
-#: ui/applets/mate/src/main.c:370
-msgid "_Restbreak"
-msgstr "_Pauză de odihnă"
-
-#: ui/applets/mate/src/main.c:372 ui/apps/gtkmm/src/Menus.cc:67
-msgid "_Mode"
-msgstr "_Mod"
-
-#: ui/applets/mate/src/main.c:374
-msgid "_Network"
-msgstr "_Rețea"
-
-#: ui/applets/mate/src/main.c:376
-msgid "_Join"
-msgstr ""
-
-#: ui/applets/mate/src/main.c:378
-msgid "_Disconnect"
-msgstr "_Deconectare"
-
-#: ui/applets/mate/src/main.c:380
-msgid "_Reconnect"
-msgstr "_Reconectare"
-
-#: ui/applets/mate/src/main.c:382 ui/apps/gtkmm/src/Menus.cc:103
-#, fuzzy
-msgid "_About"
-msgstr "_Despre..."
-
-#: ui/applets/mate/src/main.c:384 ui/apps/gtkmm/src/Menus.cc:106
-msgid "_Quit"
-msgstr "_Închide"
-
-#: ui/applets/mate/src/main.c:389
-#, fuzzy
-msgid "Show log"
-msgstr "Arată jurna_lul"
-
-#: ui/applets/mate/src/main.c:391
-msgid "Reading mode"
-msgstr ""
-
-#: ui/applets/mate/src/main.c:395
-#, fuzzy
-msgid "Normal"
-msgstr "_Normal"
-
-#: ui/applets/mate/src/main.c:397 ui/apps/gtkmm/src/GUI.cc:561
-#, fuzzy
-msgid "Suspended"
-msgstr "_Suspendat"
-
-#: ui/applets/mate/src/main.c:399 ui/apps/gtkmm/src/GUI.cc:565
-#, fuzzy
-msgid "Quiet"
-msgstr "_Silențios"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:251
-#, fuzzy
-msgid "Lock..."
-msgstr "_Blochează"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:255
-#, fuzzy
-msgid "Lock"
-msgstr "_Blochează"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:259
-#, fuzzy
-msgid "Shutdown"
-msgstr "_Închidere"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:263
-#, fuzzy
-msgid "Suspend"
-msgstr "_Suspendat"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:267
-msgid "Hibernate"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:271
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "_Suspendat"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:389
-#, fuzzy
-msgid "_Skip"
-msgstr "_Sari peste"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:400
-#, fuzzy
-msgid "_Postpone"
-msgstr "_Amână"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:583
-msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:597
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
-msgstr ""
-
-#. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:50 ui/apps/gtkmm/src/GUI.cc:554
-#: ui/apps/gtkmm/src/GtkUtil.cc:167 ui/apps/gtkmm/src/Ui.cc:44
-#: ui/apps/gtkmm/src/Ui.cc:101
-msgid "Daily limit"
-msgstr "Limită zilnică"
-
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"Ați atins limita dumneavoastră zilnică.\n"
-"Ar trebui să încetați lucrul pe calculator.\n"
-"Dacă ziua de lucru nu s-a încheiat încă, găsiți altceva de făcut, cum ar fi "
-"revizuirea unui document."
-
-#: ui/apps/gtkmm/src/DebugDialog.cc:38
-msgid "Debug log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:29
-msgid "Exercises"
-msgstr "Exerciții"
-
-#. Dialog
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:33
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:120
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:142
-msgid "Close"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:88
-#, fuzzy
-msgid "Previous"
-msgstr "Exercițiul precedent"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:89
-msgid "Next"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:108
-msgid "Exercises player"
-msgstr "Program de redare a exercițiilor"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:138
-msgid "Previous exercise"
-msgstr "Exercițiul precedent"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:139
-msgid "Next exercise"
-msgstr "Următorul exercițiu"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:140
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:320
-msgid "Pause exercises"
-msgstr "Pune exercițiile pe pauză"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:144
-msgid "End exercises"
-msgstr "Încheie exercițiile"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:315
-msgid "Resume"
-msgstr "Continuă"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:315
-msgid "Pause"
-msgstr "Pauză"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:318
-msgid "Resume exercises"
-msgstr "Reia exercițiile"
-
-#: ui/apps/gtkmm/src/GUI.cc:151
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
-#, fuzzy
-msgid "Workrave failed to start"
-msgstr "Pornește Workrave odată cu Windows"
-
-#: ui/apps/gtkmm/src/GUI.cc:270
-msgid "Is Workrave already running?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:352
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:537
-msgid ""
-"Workrave is in suspended mode.\n"
-"Mouse and keyboard activity will not be monitored."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:545
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:45
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:143
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:234 ui/apps/gtkmm/src/Ui.cc:38
-msgid "Micro-break"
-msgstr "Micropauză"
-
-#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:123
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:57
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:173 ui/apps/gtkmm/src/Ui.cc:41
-msgid "Rest break"
-msgstr "Pauză de odihnă"
-
-#: ui/apps/gtkmm/src/GUI.cc:561 ui/apps/gtkmm/src/GUI.cc:565
-#, fuzzy
-msgid "Mode: "
-msgstr "_Mod"
-
-#: ui/apps/gtkmm/src/Menus.cc:55
-msgid "_Rest break"
-msgstr "_Pauză de odihnă"
-
-#: ui/apps/gtkmm/src/Menus.cc:61
-#, fuzzy
-msgid "S_tatistics"
-msgstr "Statistici"
-
-#: ui/apps/gtkmm/src/Menus.cc:75
-msgid "_Normal"
-msgstr "_Normal"
-
-#: ui/apps/gtkmm/src/Menus.cc:82
-msgid "_Suspended"
-msgstr "_Suspendat"
-
-#: ui/apps/gtkmm/src/Menus.cc:89
-msgid "Q_uiet"
-msgstr "_Silențios"
-
-#: ui/apps/gtkmm/src/Menus.cc:96
-msgid "_Reading mode"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
-msgid "Please relax for a few seconds"
-msgstr "Relaxați-vă pentru câteva secunde"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:207
+msgid "%s%d seconds"
+msgstr "%s%d secunde"
+
+#: ui/libs/commonui/src//Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minute"
+
+#: ui/libs/commonui/src//Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d ore"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "Next rest break in %s"
-msgstr "Următoarea pauză de odihnă în %s"
+msgid "%s, from %s to %s"
+msgstr "%s, de la %s la %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:211
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "Pauză de odihnă amânată cu %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:223
-#, c-format
-msgid "Daily limit in %s"
-msgstr "Limita zilnică în %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:227
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "Limita zilnică amânată cu %s"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:48
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:63
-msgid "Network connect"
-msgstr "Conectare la rețea"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:64
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"Introduceți numele gazdei și numărul portului calculatorului\n"
-"din rețea la care doriți să vă conectați."
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:76
-msgid "Host name:"
-msgstr "Numele gazdei:"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:77
-msgid "Port:"
-msgstr "Port:"
-
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:45
-msgid "Network log"
-msgstr "Jurnal de rețea"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:91
-msgid "Enable networking"
-msgstr "Activează lucrul cu rețeaua"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:98
-msgid "Username:"
-msgstr "Nume de utilizator:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:99
-msgid "Password:"
-msgstr "Parolă:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:105
-msgid "Allow incoming connections"
-msgstr "Permite conexiunile din exterior"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:110
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "General"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:121
-msgid "Server settings"
-msgstr "Setări legate de server"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:143
-msgid "Server port:"
-msgstr "Portul serverului:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:144
-msgid "Reconnect attempts:"
-msgstr "Încercări de reconectare:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Reconnect interval:"
-msgstr "Interval de reconectare:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
-msgid "Advanced"
-msgstr "Avansat"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:163
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"Lista următoare specifică gazdele la care Workrave se conectează la "
-"pornire.\n"
-"Clic pe numele gazdei sau numărul portului pentru a le schimba."
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:190
-msgid "Host name"
-msgstr "Numele gazdei"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:199
-msgid "Port"
-msgstr "Port"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:237
-msgid "Hosts"
-msgstr "Gazde"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:75
-msgid "Preferences"
-msgstr "Preferințe"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-msgid "Sounds"
-msgstr "Sunete"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "Fereastra de stare"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr "Applet"
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
-msgid "Timers"
-msgstr "Cronometre"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
-msgid "User interface"
-msgstr "Interfața cu utilizatorul"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr "Rețea"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:153
-msgid "No blocking"
-msgstr "Fără blocare"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:154
-msgid "Block input"
-msgstr "Blochează dispozitivele de intrare"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:155
-msgid "Block input and screen"
-msgstr "Blochează dispozitivele de intrare și ecranul"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:122
-msgid "Options"
-msgstr "Opțiuni"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:175
-msgid "Block mode:"
-msgstr "Mod de blocare:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:195
-msgid "System default"
-msgstr "Definit de sistem"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:238
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:219
 msgid "(font not available)"
 msgstr "(font indisponibil)"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:257
-msgid "Language:"
-msgstr "Limbă:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:271
-#, fuzzy
-msgid "Start Workrave on logon"
-msgstr "Pornește Workrave odată cu Windows"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:286
-msgid "Show system tray icon"
+#: ui/app/toolkits/gtkmm/Ui.cc:113
+msgid "?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:296
-#, fuzzy
-msgid "Icon Theme:"
-msgstr "Tema sunetelor:"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:309
-msgid "Sound Options"
-msgstr "Opțiuni legate de sunet"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:314
-msgid "No sounds"
-msgstr "Fără sunete"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:315
-msgid "Play sounds using sound card"
-msgstr "Redă sunetele folosind placa de sunet"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:335
-msgid "Volume:"
-msgstr "Volum:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:338
-msgid "Sound:"
-msgstr "Sunet:"
-
-#. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:343
-#, fuzzy
-msgid "Mute sounds during rest break and daily limit"
-msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
-
-#. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
-msgid "Sound Events"
-msgstr "Evenimente sonore"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:359
-msgid "Sound Theme:"
-msgstr "Tema sunetelor:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:382
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:420
-msgid "Play"
-msgstr "Redare"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:387
-msgid "Event"
-msgstr "Eveniment"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:403
-msgid "Choose a sound"
-msgstr "Alegeți un sunet"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:409
-msgid "Wavefiles"
-msgstr "Fișiere wav"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:481
-msgid "Use alternate monitor"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Active computer usage"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:488
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
+msgid "Activity"
+msgstr "Activitate"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:491
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:93
+msgid "Applet"
+msgstr "Applet"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:496
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Mișcarea mausului:"
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:497
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr "Întindeți umerii în spate"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:513
-msgid "Debug monitoring"
-msgstr ""
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
+msgid "Block input"
+msgstr "Blochează dispozitivele de intrare"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:937
-msgid "Default"
-msgstr ""
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:136
+msgid "Block input and screen"
+msgstr "Blochează dispozitivele de intrare și ecranul"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:104
-msgid "Time for a micro-break?"
-msgstr "E timpul pentru o micropauză?"
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
+msgid "Block mode:"
+msgstr "Mod de blocare:"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
-msgid "You need a rest break..."
-msgstr "Aveți nevoie de o pauză de odihnă..."
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:194
+msgid "Break duration:"
+msgstr "Durata pauzei:"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
-msgid "You should stop for today..."
-msgstr "Ar trebui să încheiați pe ziua de azi..."
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "Pauză ignorată"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:260
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
 #, c-format
 msgid "Break in %s"
 msgstr "Pauză în %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:264
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
+msgstr "Pauză sugerată"
+
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:94
+msgid "Break prompting"
+msgstr "Sugerarea pauzei"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
+msgid "Break prompts"
+msgstr "Sugestii de pauză"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
+msgid "Breaks"
+msgstr "Pauze"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
+msgid "Breaks postponed"
+msgstr "Pauze amânate"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "Breaks skipped"
+msgstr "Pauze peste care s-a sărit"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
+msgid "Browse history"
+msgstr "Răsfoiește istoricul"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:412
+msgid "Choose a sound"
+msgstr "Alegeți un sunet"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:105
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
+msgid "Close"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Acoperiți-vă ochii cu palmele în așa fel încât să puteți să vă puteți mișca pleoapele. Acum deschideți ochii și priviți în întunericul creat de palmele dumneavoastră. Acest exercițiu vă relaxează ochii mai mult decât dacă i-ați ține închiși."
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:123
+msgid "Cycle time:"
+msgstr "Timp ciclic:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
+#, fuzzy
+msgid "Daily"
+msgstr "Limită zilnică"
+
+#. label
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:172 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
+msgid "Daily limit"
+msgstr "Limită zilnică"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "Limita zilnică amânată cu %s"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
+#, c-format
+msgid "Daily limit in %s"
+msgstr "Limita zilnică în %s"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:130
+msgid "Daily limit:"
+msgstr "Limită zilnică:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Date:"
+msgstr "Data:"
+
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
+msgid "Debug log"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:522
+msgid "Debug monitoring"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:929
+msgid "Default"
+msgstr ""
+
+#. Delete button
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
 msgid "Disappears in %s"
 msgstr "Dispare în %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:268
-#, c-format
-msgid "Silent in %s"
-msgstr "Silețions în %s"
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:97
+msgid "Display"
+msgstr "Afișare"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:131
-#, c-format
-msgid "Rest break for %s"
-msgstr "Pauză de odihnă pentru %s"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
+msgid "Effective mouse movement:"
+msgstr "Mișcarea efectivă a mausului:"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:162
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:497
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr ""
+
+#. Enabled/Disabled checkbox
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:57
+msgid "Enable timer"
+msgstr "Activează cronometrul"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
+msgid "End exercises"
+msgstr "Încheie exercițiile"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
+msgid "Error"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:396
+msgid "Event"
+msgstr "Eveniment"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:110
+msgid "Exercise change"
+msgstr "Schimbare de exercițiu"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:104
+msgid "Exercise ended"
+msgstr "Exercițiul s-a încheiat"
+
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr "Exerciții"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:107
+msgid "Exercises ended"
+msgstr "Exercițiile s-au încheiat"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
+msgid "Exercises player"
+msgstr "Program de redare a exercițiilor"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:134
+#, fuzzy
+msgid "Fallback applet enabled"
+msgstr "Applet activat"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
+msgid "File deletion failed!"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "Files deleted!"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:22
+msgid "Finger stretch"
+msgstr "Întindeți-vă degetele"
+
+#: ui/app/Menus.cc:178
+msgid "For 1 hour"
+msgstr ""
+
+#: ui/app/Menus.cc:189
+msgid "For 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:276
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:82
+msgid "General"
+msgstr "General"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
+msgid "Hibernate"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:92
+msgid "Hide"
+msgstr "Ascunde"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:291
+#, fuzzy
+msgid "Icon Theme:"
+msgstr "Tema sunetelor:"
+
+#: ui/app/Menus.cc:166
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
+msgid "Info"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:39
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Împreunați-vă mâinile la spate cu degetele întrețesute. Apoi întoarceți-vă coatele ușor spre interior în timp ce vă îndreptați mâinile. Mențineți această poziție pentru 5 până la 15 secunde și repetați exercițiul de două ori."
+
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Țineți un braț întins orizontal în fața dumneavoastră. Împingeți acest braț cu celălalt spre dumneavoastră până când simțiți o ușoară tensiune în umăr. Mențineți această poziție pentru scurt timp și repetați exercițiul pentru celălalt braț."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "Keystrokes:"
+msgstr "Taste apăsate:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:238
+msgid "Language:"
+msgstr "Limbă:"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
+#, fuzzy
+msgid "Lock"
+msgstr "_Blochează"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
+#, fuzzy
+msgid "Lock..."
+msgstr "_Blochează"
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Priviți la colțul din stânga sus al marginii monitorului. Urmăriți marginea încet către colțul din dreapta sus. Continuați la celălalt colț până când înconjurați monitorul cu privirea de două ori. Apoi repetați exercițiul în direcția inversă."
+
+#: ui/data/exercises/exercises.xml.in:65
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Priviți la cel mai îndepărtat punct pe care-l puteți vedea în spatele monitorului. Fixați privirea pe acel punct de la distanță. Apoi fixați privirea pe marginea monitorului. Repetați. Dacă nu puteți privi departe de monitor, priviți în altă parte ce vă permite o vedere mai depărtată. Fixați privirea pe un obiect aflat la distanță și apoi pe un stilou ținut la aceeași distanță de dumneavoastră ca și monitorul."
+
+#: ui/data/exercises/exercises.xml.in:72
+msgid "Look into the darkness"
+msgstr "Priviți în întuneric"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:100
+msgid "Maximum number of prompts:"
+msgstr "Numărul maxim de sugerări:"
+
+#. FIXME: duplicate
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "Micropauză"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "Micropauza s-a încheiat"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "Micropauza a început"
+
+#. Layout
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:128
+msgid "Micro-break:"
+msgstr "Micropauză:"
+
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
+#, fuzzy
+msgid "Mode: "
+msgstr "_Mod"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
+msgid "Monthly"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
+msgid "Mouse button clicks:"
+msgstr "Clicuri de butoane ale mausului:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "Mouse movement:"
+msgstr "Mișcarea mausului:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:505
+#, fuzzy
+msgid "Mouse sensitivity:"
+msgstr "Mișcarea mausului:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
+msgid "Mouse usage:"
+msgstr "Folosirea mausului:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "Mișcați-vă ochii"
+
+#: ui/data/exercises/exercises.xml.in:79
+msgid "Move the shoulders"
+msgstr "Mișcați-vă umerii"
+
+#: ui/data/exercises/exercises.xml.in:87
+msgid "Move the shoulders up and down"
+msgstr "Mișcați-vă umerii în sus și în jos"
+
+#. Volume
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:352
+#, fuzzy
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
+msgid "Natural breaks taken"
+msgstr "Pauze naturale luate"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Pauze naturale luate"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "Înclinați capul pentru întinderea gâtului"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
+msgid "Next"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
+msgid "Next exercise"
+msgstr "Următorul exercițiu"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Următoarea pauză de odihnă în %s"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:134
+msgid "No blocking"
+msgstr "Fără blocare"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:323
+msgid "No sounds"
+msgstr "Fără sunete"
+
+#: ui/applets/mate/src/main.c:385
+#, fuzzy
+msgid "Normal"
+msgstr "_Normal"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:152
+msgid "Number of exercises:"
+msgstr "Numărul de exerciții:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:506
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:154
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:125
+msgid "Options"
+msgstr "Opțiuni"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "Orientare"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "Overdue time"
+msgstr "Timp de amânare"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Pause"
+msgstr "Pauză"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
+msgid "Pause exercises"
+msgstr "Pune exercițiile pe pauză"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:76
+msgid "Place all timers in one spot"
+msgstr "Plasează toate cronometrele în același loc"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "Plasează micropauza și pauza de odihnă în același loc"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:73
+msgid "Place timers next to each other"
+msgstr "Plasează cronometrele unul lângă altul"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:122
+msgid "Placement:"
+msgstr "Plasament:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:391
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:409
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:429
+msgid "Play"
+msgstr "Redare"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:324
+msgid "Play sounds using sound card"
+msgstr "Redă sunetele folosind placa de sunet"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
+msgid "Please relax for a few seconds"
+msgstr "Relaxați-vă pentru câteva secunde"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:209
+msgid "Postpone time:"
+msgstr "Amânare cu:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:67
+msgid "Preferences"
+msgstr "Preferințe"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
+#, fuzzy
+msgid "Previous"
+msgstr "Exercițiul precedent"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
+msgid "Previous exercise"
+msgstr "Exercițiul precedent"
+
+#: ui/app/workrave.appdata.xml:7
+#, fuzzy
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:96
+msgid "Prompt before breaking"
+msgstr "Sugerează înainte de pauză"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
+msgid "Prompted breaks taken"
+msgstr "Pauze sugerate care au fost luate"
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Puneți-vă mâinile pe mânerele scaunului dumneavoastră când stați jos și ridicați-vă corpul în mâini până când brațele dumneavoastră sunt drepte. Încercați să vă ridicați capul lăsând în același timp umerii în jos. Reveniți încet înapoi pe scaun."
+
+#: ui/app/Menus.cc:112
+msgid "Q_uiet"
+msgstr "_Silențios"
+
+#: ui/app/Menus.cc:294
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr ""
+
+#: ui/app/Menus.cc:307
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:583 ui/applets/mate/src/main.c:389
+#, fuzzy
+msgid "Quiet"
+msgstr "_Silențios"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:143
+msgid "Regard micro-breaks as activity"
+msgstr "Tratează micropauzele ca activitate"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
+msgid "Repeated prompts"
+msgstr "Sugestii repetate"
+
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "Pauză de odihnă"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Pauză de odihnă amânată cu %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "Pauza de odihnă s-a încheiat"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
+#, c-format
+msgid "Rest break for %s"
+msgstr "Pauză de odihnă pentru %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "Pauza de odihnă a început"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:129
+msgid "Rest break:"
+msgstr "Pauză de odihnă:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Resume"
+msgstr "Continuă"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
+msgid "Resume exercises"
+msgstr "Reia exercițiile"
+
+#: ui/app/Menus.cc:81
+#, fuzzy
+msgid "S_tatistics"
+msgstr "Statistici"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Îndepărtați-vă degetele unul de altul și întindeți-le până când simțiți o tensiune ușoară. Mențineți această poziție a lor pentru 10 secunde. Relaxați-vă, apoi îndoiți-vă degetele spre podul palmei și mențineți această poziție a lor timp de 10 secunde. Repetați exercițiul încă o dată."
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "Întindeți umărul și cotul"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:93
+msgid "Show"
+msgstr "Arată"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:128
+#, fuzzy
+msgid "Show 'Postpone' button"
+msgstr "Arată butoanele „Amână” și „Sari peste”"
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:132
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "Arată butoanele „Amână” și „Sari peste”"
+
+#: ui/applets/mate/src/main.c:379
+#, fuzzy
+msgid "Show log"
+msgstr "Arată jurna_lul"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:94
+msgid "Show only when this timer is first due"
+msgstr "Arată numai când cronometrul acesta e primul care expiră"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:139
+#, fuzzy
+msgid "Show status icon"
+msgstr "Arată fereastra de stare"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:111
+msgid "Show status window"
+msgstr "Arată fereastra de stare"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:267
+msgid "Show system tray icon"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
+#, fuzzy
+msgid "Shutdown"
+msgstr "_Închidere"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
+#, c-format
+msgid "Silent in %s"
+msgstr "Silețions în %s"
+
+#. Sound themes
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:360
+msgid "Sound Events"
+msgstr "Evenimente sonore"
+
+#. Options
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:318
+msgid "Sound Options"
+msgstr "Opțiuni legate de sunet"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:368
+msgid "Sound Theme:"
+msgstr "Tema sunetelor:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:347
+msgid "Sound:"
+msgstr "Sunet:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:86
+msgid "Sounds"
+msgstr "Sunete"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Rotiți brațul drept ca o elice în dreptul corpului. Faceți asta de 4 ori înainte și de 4 ori înapoi după care relaxați-vă pentru câteva secunde. Repetați cu brațul stâng."
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:252
+#, fuzzy
+msgid "Start Workrave on logon"
+msgstr "Pornește Workrave odată cu Windows"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:157
+msgid "Start restbreak when screen is locked"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Începeți prin a găsi o poziție confortabilă a capului. Apoi, înclinați capul încet spre umărul drept pentru a întinde ușor mușchii de pe partea stânga a gâtului dumneavoastră. Mențineți poziția pentru 5 secunde. Apoi, înclinați ușor capul spre umărul stâng pentru a întinde cealaltă parte. Faceți acest lucru de două ori pentru fiecare parte."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
+msgid "Statistics"
+msgstr "Statistici"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:89
+msgid "Status Window"
+msgstr "Fereastra de stare"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
+#, fuzzy
+msgid "Suspend"
+msgstr "_Suspendat"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "_Suspendat"
+
+#: ui/app/Application.cc:579 ui/applets/mate/src/main.c:387
+#, fuzzy
+msgid "Suspended"
+msgstr "_Suspendat"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:176
+msgid "System default"
+msgstr "Definit de sistem"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
+msgid "Take rest break now"
+msgstr "Luați o pauză de odihnă acum"
+
+#: ui/app/Menus.cc:121
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:118
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "The number of breaks you postponed"
+msgstr "Numărul de pauze amânate"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "The number of breaks you skipped"
+msgstr "Peste câte pauze ați sărit"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "The number of times you took a break when being prompted"
+msgstr "De câte ori ați luat o pauză când vi s-a sugerat"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "The number of times you took a break without being prompted"
+msgstr "De câte ori ați luat o pauză fără a vi se sugera"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "De câte ori vi s-a sugerat o pauză, cu excepția sugestiilor repetate pentru aceeași pauză"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+msgid "The orientation of the tray"
+msgstr "Orientarea zonei de notificare"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "Fereastra de stare stă întotdeauna deasupra celorlalte ferestre"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+#, fuzzy
+msgid "The total computer usage for the selected day"
+msgstr "Totalul folosirii calculatorului"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "Numărul total de mișcări de maus pe care le-ați fi făcut dacă ați fi mișcat mausul în linii drepte între clicuri"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of keys pressed"
+msgstr "Numărul total de taste apăsate"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "The total number of mouse button clicks"
+msgstr "Numărul total de clicuri de butoane ale mausului"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "The total on-screen mouse movement"
+msgstr "Totalul mișcării pe ecran a mausului"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "The total time this break was overdue"
+msgstr "Timpul total consumat de amânări"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "The total time you were using the mouse"
+msgstr "Timpul total în care ați folosit mausul"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:174
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -776,696 +881,459 @@ msgid ""
 msgstr ""
 "Aceasta e pauza dumneavoastră de odihnă.\n"
 "Ridicați-vă în picioare și îndepărtați-vă de calculator.\n"
-"Pur și simplu plimbați-vă câteva minute, întindeți-vă mâinile, picioarele și "
-"gâtul; relaxați-vă."
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:45
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:118
-msgid "Statistics"
-msgstr "Statistici"
-
-#. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:107
-msgid "Browse history"
-msgstr "Răsfoiește istoricul"
-
-#. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:112
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:119
-msgid "Date:"
-msgstr "Data:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:152
-msgid "Breaks"
-msgstr "Pauze"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:160
-msgid "Break prompts"
-msgstr "Sugestii de pauză"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:161
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"De câte ori vi s-a sugerat o pauză, cu excepția sugestiilor repetate pentru "
-"aceeași pauză"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:165
-msgid "Repeated prompts"
-msgstr "Sugestii repetate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:165
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid "Prompted breaks taken"
-msgstr "Pauze sugerate care au fost luate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid "The number of times you took a break when being prompted"
-msgstr "De câte ori ați luat o pauză când vi s-a sugerat"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:171
-msgid "Natural breaks taken"
-msgstr "Pauze naturale luate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:171
-msgid "The number of times you took a break without being prompted"
-msgstr "De câte ori ați luat o pauză fără a vi se sugera"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:173
-msgid "Breaks skipped"
-msgstr "Pauze peste care s-a sărit"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:173
-msgid "The number of breaks you skipped"
-msgstr "Peste câte pauze ați sărit"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "Breaks postponed"
-msgstr "Pauze amânate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "The number of breaks you postponed"
-msgstr "Numărul de pauze amânate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
-msgid "Overdue time"
-msgstr "Timp de amânare"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
-msgid "The total time this break was overdue"
-msgstr "Timpul total consumat de amânări"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:179
-msgid "Usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:179
-msgid "Active computer usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
-msgid "Daily"
-msgstr "Limită zilnică"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "Totalul folosirii calculatorului"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "Weekly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:187
-msgid "Monthly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:187
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:264
-msgid "Activity"
-msgstr "Activitate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:272
-msgid "Mouse usage:"
-msgstr "Folosirea mausului:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:272
-msgid "The total time you were using the mouse"
-msgstr "Timpul total în care ați folosit mausul"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:273
-msgid "Mouse movement:"
-msgstr "Mișcarea mausului:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:273
-msgid "The total on-screen mouse movement"
-msgstr "Totalul mișcării pe ecran a mausului"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:275
-msgid "Effective mouse movement:"
-msgstr "Mișcarea efectivă a mausului:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Numărul total de mișcări de maus pe care le-ați fi făcut dacă ați fi mișcat "
-"mausul în linii drepte între clicuri"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:279
-msgid "Mouse button clicks:"
-msgstr "Clicuri de butoane ale mausului:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:279
-msgid "The total number of mouse button clicks"
-msgstr "Numărul total de clicuri de butoane ale mausului"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:280
-msgid "Keystrokes:"
-msgstr "Taste apăsate:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:280
-msgid "The total number of keys pressed"
-msgstr "Numărul total de taste apăsate"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:324
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, de la %s la %s"
-
-#. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:620
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:622
-msgid "Warning"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:620
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:633
-msgid "Files deleted!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:633
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:635
-msgid "Info"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-msgid "File deletion failed!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:641
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:643
-msgid "Error"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Text.cc:73
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d ore"
-
-#: ui/apps/gtkmm/src/Text.cc:77
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minute"
-
-#: ui/apps/gtkmm/src/Text.cc:81
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d secunde"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:171
-msgid "Take rest break now"
-msgstr "Luați o pauză de odihnă acum"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:188
-msgid "Wait"
-msgstr "Așteaptă"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:77
-msgid "Place timers next to each other"
-msgstr "Plasează cronometrele unul lângă altul"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:78
-msgid "Place micro-break and rest break in one spot"
-msgstr "Plasează micropauza și pauza de odihnă în același loc"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:79
-msgid "Place rest break and daily limit in one spot"
-msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:80
-msgid "Place all timers in one spot"
-msgstr "Plasează toate cronometrele în același loc"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Hide"
-msgstr "Ascunde"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:97
-msgid "Show"
-msgstr "Arată"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Show only when this timer is first due"
-msgstr "Arată numai când cronometrul acesta e primul care expiră"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:101
-msgid "Display"
-msgstr "Afișare"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
-msgid "The status window stays always on top of other windows"
-msgstr "Fereastra de stare stă întotdeauna deasupra celorlalte ferestre"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-msgid "Show status window"
-msgstr "Arată fereastra de stare"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
-msgid "Placement:"
-msgstr "Plasament:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:127
-msgid "Cycle time:"
-msgstr "Timp ciclic:"
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:132
-msgid "Micro-break:"
-msgstr "Micropauză:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
-msgid "Rest break:"
-msgstr "Pauză de odihnă:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:134
-msgid "Daily limit:"
-msgstr "Limită zilnică:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
-#, fuzzy
-msgid "Fallback applet enabled"
-msgstr "Applet activat"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#, fuzzy
-msgid "Show status icon"
-msgstr "Arată fereastra de stare"
-
-#. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
-msgid "Enable timer"
-msgstr "Activează cronometrul"
-
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:91
-msgid "Break prompting"
-msgstr "Sugerarea pauzei"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:93
-msgid "Prompt before breaking"
-msgstr "Sugerează înainte de pauză"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
-msgid "Maximum number of prompts:"
-msgstr "Numărul maxim de sugerări:"
-
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "Arată butoanele „Amână” și „Sari peste”"
-
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "Arată butoanele „Amână” și „Sari peste”"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
-msgid "Regard micro-breaks as activity"
-msgstr "Tratează micropauzele ca activitate"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:149
-msgid "Number of exercises:"
-msgstr "Numărul de exerciții:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
-msgid "Start restbreak when screen is locked"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
+"Pur și simplu plimbați-vă câteva minute, întindeți-vă mâinile, picioarele și gâtul; relaxați-vă."
+
+#: ui/app/toolkits/gtkmm/Toolkit.cc:232
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
 msgid "Time before end:"
 msgstr "Timp de terminare:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
 msgid "Time between breaks:"
 msgstr "Timp între pauze:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:190
-msgid "Break duration:"
-msgstr "Durata pauzei:"
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
+msgid "Time for a micro-break?"
+msgstr "E timpul pentru o micropauză?"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:205
-msgid "Postpone time:"
-msgstr "Amânare cu:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
-msgid "Break prompt"
-msgstr "Pauză sugerată"
-
-#: ui/apps/gtkmm/src/Ui.cc:86
-msgid "Break ignored"
-msgstr "Pauză ignorată"
-
-#: ui/apps/gtkmm/src/Ui.cc:89
-msgid "Rest break started"
-msgstr "Pauza de odihnă a început"
-
-#: ui/apps/gtkmm/src/Ui.cc:92
-msgid "Rest break ended"
-msgstr "Pauza de odihnă s-a încheiat"
-
-#: ui/apps/gtkmm/src/Ui.cc:95
-msgid "Micro-break started"
-msgstr "Micropauza a început"
-
-#: ui/apps/gtkmm/src/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "Micropauza s-a încheiat"
-
-#: ui/apps/gtkmm/src/Ui.cc:104
-msgid "Exercise ended"
-msgstr "Exercițiul s-a încheiat"
-
-#: ui/apps/gtkmm/src/Ui.cc:107
-msgid "Exercises ended"
-msgstr "Exercițiile s-au încheiat"
-
-#: ui/apps/gtkmm/src/Ui.cc:110
-msgid "Exercise change"
-msgstr "Schimbare de exercițiu"
-
-#: ui/apps/gtkmm/src/Ui.cc:113
-msgid "?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
-msgid "Orientation"
-msgstr "Orientare"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
-msgid "The orientation of the tray"
-msgstr "Orientarea zonei de notificare"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
-msgid "Foreground color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
-msgid "Foreground color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-msgid "Error color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-msgid "Error color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-msgid "Warning color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-msgid "Warning color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
-msgid "Success color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
-msgid "Success color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
-msgid "Padding"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
-msgid "Padding that should be put around icons in the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
-msgid "Icon Size"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
-
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
-msgstr "Întindeți umărul și cotul"
-
-#: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Țineți un braț întins orizontal în fața dumneavoastră. Împingeți acest braț "
-"cu celălalt spre dumneavoastră până când simțiți o ușoară tensiune în umăr. "
-"Mențineți această poziție pentru scurt timp și repetați exercițiul pentru "
-"celălalt braț."
-
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr "Întindeți-vă degetele"
-
-#: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Îndepărtați-vă degetele unul de altul și întindeți-le până când simțiți o "
-"tensiune ușoară. Mențineți această poziție a lor pentru 10 secunde. Relaxați-"
-"vă, apoi îndoiți-vă degetele spre podul palmei și mențineți această poziție "
-"a lor timp de 10 secunde. Repetați exercițiul încă o dată."
-
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "Înclinați capul pentru întinderea gâtului"
-
-#: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Începeți prin a găsi o poziție confortabilă a capului. Apoi, înclinați capul "
-"încet spre umărul drept pentru a întinde ușor mușchii de pe partea stânga a "
-"gâtului dumneavoastră. Mențineți poziția pentru 5 secunde. Apoi, înclinați "
-"ușor capul spre umărul stâng pentru a întinde cealaltă parte. Faceți acest "
-"lucru de două ori pentru fiecare parte."
-
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr "Întindeți umerii în spate"
-
-#: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Împreunați-vă mâinile la spate cu degetele întrețesute. Apoi întoarceți-vă "
-"coatele ușor spre interior în timp ce vă îndreptați mâinile. Mențineți "
-"această poziție pentru 5 până la 15 secunde și repetați exercițiul de două "
-"ori."
-
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "Mișcați-vă ochii"
-
-#: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Priviți la colțul din stânga sus al marginii monitorului. Urmăriți marginea "
-"încet către colțul din dreapta sus. Continuați la celălalt colț până când "
-"înconjurați monitorul cu privirea de două ori. Apoi repetați exercițiul în "
-"direcția inversă."
+#. Notebook
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:97
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:125
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:183
+msgid "Timers"
+msgstr "Cronometre"
 
 #: ui/data/exercises/exercises.xml.in:64
 msgid "Train focusing the eyes"
 msgstr "Exersați privitul într-un punct fix"
-
-#: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Priviți la cel mai îndepărtat punct pe care-l puteți vedea în spatele "
-"monitorului. Fixați privirea pe acel punct de la distanță. Apoi fixați "
-"privirea pe marginea monitorului. Repetați. Dacă nu puteți privi departe de "
-"monitor, priviți în altă parte ce vă permite o vedere mai depărtată. Fixați "
-"privirea pe un obiect aflat la distanță și apoi pe un stilou ținut la "
-"aceeași distanță de dumneavoastră ca și monitorul."
-
-#: ui/data/exercises/exercises.xml.in:72
-msgid "Look into the darkness"
-msgstr "Priviți în întuneric"
-
-#: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Acoperiți-vă ochii cu palmele în așa fel încât să puteți să vă puteți mișca "
-"pleoapele. Acum deschideți ochii și priviți în întunericul creat de palmele "
-"dumneavoastră. Acest exercițiu vă relaxează ochii mai mult decât dacă i-ați "
-"ține închiși."
-
-#: ui/data/exercises/exercises.xml.in:79
-msgid "Move the shoulders"
-msgstr "Mișcați-vă umerii"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Rotiți brațul drept ca o elice în dreptul corpului. Faceți asta de 4 ori "
-"înainte și de 4 ori înapoi după care relaxați-vă pentru câteva secunde. "
-"Repetați cu brațul stâng."
-
-#: ui/data/exercises/exercises.xml.in:87
-msgid "Move the shoulders up and down"
-msgstr "Mișcați-vă umerii în sus și în jos"
-
-#: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Puneți-vă mâinile pe mânerele scaunului dumneavoastră când stați jos și "
-"ridicați-vă corpul în mâini până când brațele dumneavoastră sunt drepte. "
-"Încercați să vă ridicați capul lăsând în același timp umerii în jos. "
-"Reveniți încet înapoi pe scaun."
 
 #: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
 msgstr "Întoarceți capul"
 
 #: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-vă capul spre dreapta și țineți-l așa 2 secunde."
+
+#: ui/app/Menus.cc:198
+msgid "Until next day"
 msgstr ""
-"Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-"
-"vă capul spre dreapta și țineți-l așa 2 secunde."
 
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "_Deschide"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Usage"
+msgstr ""
 
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:490
+msgid "Use alternate monitor"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:295
+msgid "Use dark theme"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:98
+msgid "User interface"
+msgstr "Interfața cu utilizatorul"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:344
+msgid "Volume:"
+msgstr "Volum:"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "Așteaptă"
+
+#. Confirm the user's intention
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
+msgid "Warning"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:418
+msgid "Wavefiles"
+msgstr "Fișiere wav"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
+msgid "Weekly"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.appdata.xml:6
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave Applet"
+msgstr "Applet Workrave"
+
+#: ui/app/Application.cc:346
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:277
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr ""
+
+#: ui/app/workrave.appdata.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
+msgstr ""
+
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr ""
+
+#: ui/app/Application.cc:554
+msgid ""
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
+msgstr ""
+
+#: ui/app/Application.cc:538
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:500
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Ați atins limita dumneavoastră zilnică.\n"
+"Ar trebui să încetați lucrul pe calculator.\n"
+"Dacă ziua de lucru nu s-a încheiat încă, găsiți altceva de făcut, cum ar fi revizuirea unui document."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
+msgid "You need a rest break..."
+msgstr "Aveți nevoie de o pauză de odihnă..."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
+msgid "You should stop for today..."
+msgstr "Ar trebui să încheiați pe ziua de azi..."
+
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
 #, fuzzy
-#~ msgid "Mode"
-#~ msgstr "_Mod"
+msgid "_About"
+msgstr "_Despre..."
+
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "_Exerciții"
+
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "_Mod"
+
+#: ui/app/Menus.cc:98
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
+msgid "_Open"
+msgstr "_Deschide"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
+#, fuzzy
+msgid "_Postpone"
+msgstr "_Amână"
+
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "_Preferințe"
+
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "_Închide"
+
+#: ui/app/Menus.cc:127
+msgid "_Reading mode"
+msgstr ""
+
+#: ui/app/Menus.cc:75
+msgid "_Rest break"
+msgstr "_Pauză de odihnă"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "_Pauză de odihnă"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
+#, fuzzy
+msgid "_Skip"
+msgstr "_Sari peste"
+
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "_Statistici"
+
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
+msgstr "_Suspendat"
+
+#: ui/app/Menus.cc:299
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_Suspendat"
+
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
+msgstr ""
+
+#: ui/app/Menus.cc:185
+msgid "and 1 minute"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:7
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr ""
+
+#~ msgid "About..."
+#~ msgstr "Despre..."
+
+#~ msgid "Accepted new client."
+#~ msgstr "S-a acceptat un client nou."
+
+#, fuzzy, c-format
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "Se acceptă cererea de a deveni client principal clientului %s."
+
+#~ msgid "Advanced"
+#~ msgstr "Avansat"
+
+#~ msgid "Allow incoming connections"
+#~ msgstr "Permite conexiunile din exterior"
+
+#~ msgid "Break in"
+#~ msgstr "Pauză în"
+
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr "Nu se poate determina numele gazdei proprii. Se dezactivează distribuția."
+
+#, fuzzy, c-format
+#~ msgid "Client %s access denied."
+#~ msgstr "Acces interzis pentru clientul %s."
+
+#, fuzzy, c-format
+#~ msgid "Client %s closed connection."
+#~ msgstr "Clientul %s a închis conexiunea."
+
+#, fuzzy, c-format
+#~ msgid "Client %s connected."
+#~ msgstr "Clientul %s s-a conectat."
+
+#, fuzzy, c-format
+#~ msgid "Client %s is duplicate."
+#~ msgstr "Clientul %s este duplicat."
+
+#, fuzzy, c-format
+#~ msgid "Client %s is now master."
+#~ msgstr "Clientul %s este acum clientul principal."
+
+#, c-format
+#~ msgid "Client %s is now the new master."
+#~ msgstr "Clientul %s e acum clientul principal."
+
+#, fuzzy, c-format
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "Clientul %s ne întâmpină."
+
+#, fuzzy, c-format
+#~ msgid "Client %s read error, closing."
+#~ msgstr "Eroare de citire de la clientul %s, închidere."
+
+#, fuzzy, c-format
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "Clientul %s a respins cererea de client principal, se amână."
+
+#, fuzzy, c-format
+#~ msgid "Client %s saying hello."
+#~ msgstr "Clientul %s salută."
+
+#, fuzzy, c-format
+#~ msgid "Client %s signed off."
+#~ msgstr "Clientul %s s-a deconectat."
+
+#, fuzzy, c-format
+#~ msgid "Client timeout from %s."
+#~ msgstr "Timpul de așteptare după clientul %s a expirat."
 
 #, fuzzy
 #~ msgid "Connect"
 #~ msgstr "_Conectare"
 
+#, fuzzy, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "Conectare la %s."
+
+#, fuzzy, c-format
+#~ msgid "Could not connect to client %s."
+#~ msgstr "Nu se poate efectua conexiunea cu clientul %s."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "Nu se poate activa lucrul în rețea."
+
+#~ msgid "Custom"
+#~ msgstr "Particularizat"
+
+#~ msgid "Daily usage"
+#~ msgstr "Uz zilnic"
+
+#~ msgid "Disabling network operation."
+#~ msgstr "Se dezactivează lucrul în rețea."
+
+#~ msgid "Disappears in"
+#~ msgstr "Dispare în"
+
 #, fuzzy
 #~ msgid "Disconnect"
 #~ msgstr "_Deconectare"
 
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Reconectare"
+#, fuzzy, c-format
+#~ msgid "Disconnecting %s"
+#~ msgstr "Se deconectează %s."
 
-#~ msgid "About..."
-#~ msgstr "Despre..."
+#~ msgid "Enable networking"
+#~ msgstr "Activează lucrul cu rețeaua"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "Introduceți numele gazdei și numărul portului calculatorului\n"
+#~ "din rețea la care doriți să vă conectați."
+
+#~ msgid "Host name"
+#~ msgstr "Numele gazdei"
+
+#~ msgid "Host name:"
+#~ msgstr "Numele gazdei:"
+
+#~ msgid "Hosts"
+#~ msgstr "Gazde"
+
+#~ msgid "I'm now master."
+#~ msgstr "Acum sunt clientul principal."
+
+#, fuzzy
+#~ msgid "Mode"
+#~ msgstr "_Mod"
+
+#~ msgid "Network"
+#~ msgstr "Rețea"
+
+#~ msgid "Network connect"
+#~ msgstr "Conectare la rețea"
+
+#~ msgid "Network log"
+#~ msgstr "Jurnal de rețea"
+
+#~ msgid "Network operation started."
+#~ msgstr "S-a pornit lucrul în rețea."
+
+#, fuzzy, c-format
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "S-a respins cererea de a deveni client principal clientului %s."
+
+#, fuzzy
+#~ msgid "Open"
+#~ msgstr "_Deschide"
+
+#~ msgid "Password:"
+#~ msgstr "Parolă:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Redă sunetele folosind difuzorul integrat"
+
+#~ msgid "Port"
+#~ msgstr "Port"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
 
 #, fuzzy
 #~ msgid "Quit"
 #~ msgstr "_Închide"
 
-#~ msgid "_Connect"
-#~ msgstr "_Conectare"
+#, fuzzy
+#~ msgid "Reconnect"
+#~ msgstr "_Reconectare"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "Încercări de reconectare:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "Interval de reconectare:"
+
+#, fuzzy, c-format
+#~ msgid "Reconnecting to %s."
+#~ msgstr "Reconectare la %s."
+
+#, fuzzy, c-format
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "Se respinge cererea de a deveni client principal clientului %s."
+
+#, fuzzy, c-format
+#~ msgid "Removing client %s."
+#~ msgstr "Se elimină clientul %s."
+
+#, fuzzy, c-format
+#~ msgid "Requesting master status from %s."
+#~ msgstr "Se cere statutul de client principal de la %s."
+
+#~ msgid "Server port:"
+#~ msgstr "Portul serverului:"
+
+#~ msgid "Server settings"
+#~ msgstr "Setări legate de server"
 
 #~ msgid "Show _log"
 #~ msgstr "Arată jurna_lul"
 
+#~ msgid "Silent in"
+#~ msgstr "Silențiozitate în"
+
+#, fuzzy
+#~ msgid "Starting %s"
+#~ msgstr "Silețions în %s"
+
 #~ msgid "Suspend timer when inactive"
 #~ msgstr "Suspendă cronometrul când e inactiv"
 
-#~ msgid "Custom"
-#~ msgstr "Particularizat"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Redă sunetele folosind difuzorul integrat"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Silențios"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Conectare..."
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Arată jurnalul..."
-
-#~ msgid "_About..."
-#~ msgstr "_Despre..."
-
-#~ msgid "Daily usage"
-#~ msgstr "Uz zilnic"
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "Lista următoare specifică gazdele la care Workrave se conectează la pornire.\n"
+#~ "Clic pe numele gazdei sau numărul portului pentru a le schimba."
 
 #, fuzzy
 #~ msgid ""
@@ -1475,22 +1343,35 @@ msgstr ""
 #~ msgstr ""
 #~ "Aceasta e pauza dumneavoastră de odihnă.\n"
 #~ "Ridicați-vă în picioare și îndepărtați-vă de calculator.\n"
-#~ "Pur și simplu plimbați-vă câteva minute, întindeți-vă mâinile, picioarele "
-#~ "și gâtul; relaxați-vă."
+#~ "Pur și simplu plimbați-vă câteva minute, întindeți-vă mâinile, picioarele și gâtul; relaxați-vă."
+
+#~ msgid "Username:"
+#~ msgstr "Nume de utilizator:"
 
 #, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Silețions în %s"
+#~ msgid "Workrave failed to start"
+#~ msgstr "Pornește Workrave odată cu Windows"
 
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr ""
-#~ "Nu se poate determina numele gazdei proprii. Se dezactivează distribuția."
+#~ msgid "_About..."
+#~ msgstr "_Despre..."
 
-#~ msgid "Break in"
-#~ msgstr "Pauză în"
+#~ msgid "_Connect"
+#~ msgstr "_Conectare"
 
-#~ msgid "Disappears in"
-#~ msgstr "Dispare în"
+#~ msgid "_Connect..."
+#~ msgstr "_Conectare..."
 
-#~ msgid "Silent in"
-#~ msgstr "Silențiozitate în"
+#~ msgid "_Disconnect"
+#~ msgstr "_Deconectare"
+
+#~ msgid "_Network"
+#~ msgstr "_Rețea"
+
+#~ msgid "_Quiet"
+#~ msgstr "_Silențios"
+
+#~ msgid "_Reconnect"
+#~ msgstr "_Reconectare"
+
+#~ msgid "_Show Log..."
+#~ msgstr "_Arată jurnalul..."

@@ -554,8 +554,8 @@ msgstr ""
 
 #. Notebook
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:129
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:180
 msgid "Timers"
 msgstr ""
 
@@ -581,7 +581,7 @@ msgstr ""
 
 #. Options
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:122
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:122
 msgid "Options"
 msgstr ""
 
@@ -966,132 +966,132 @@ msgstr ""
 msgid "Wait"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:77
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:77
 msgid "Place timers next to each other"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:78
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:78
 msgid "Place micro-break and rest break in one spot"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:79
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:79
 msgid "Place rest break and daily limit in one spot"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:80
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:80
 msgid "Place all timers in one spot"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:96
 msgid "Hide"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:97
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:97
 msgid "Show"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:98
 msgid "Show only when this timer is first due"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:101
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:101
 msgid "Display"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:110
 msgid "The status window stays always on top of other windows"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:115
 msgid "Show status window"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:126
 msgid "Placement:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:127
 msgid "Cycle time:"
 msgstr ""
 
 #. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:132
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:132
 msgid "Micro-break:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:133
 msgid "Rest break:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:134
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:134
 msgid "Daily limit:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:138
 msgid "Fallback applet enabled"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:143
 msgid "Show status icon"
 msgstr ""
 
 #. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:54
 msgid "Enable timer"
 msgstr ""
 
 #. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:91
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:91
 msgid "Break prompting"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:93
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:93
 msgid "Prompt before breaking"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:97
 msgid "Maximum number of prompts:"
 msgstr ""
 
 #. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:125
 msgid "Show 'Postpone' button"
 msgstr ""
 
 #. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:129
 msgid "Show 'Skip' button"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:140
 msgid "Regard micro-breaks as activity"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:149
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:149
 msgid "Number of exercises:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:154
 msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:159
 msgid "Enable shutting down the computer from the rest screen"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:184
 msgid "Time before end:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:184
 msgid "Time between breaks:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:190
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:190
 msgid "Break duration:"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:205
 msgid "Postpone time:"
 msgstr ""
 

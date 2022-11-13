@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERBOXPREFERENCEPAGE_HH
-#define TIMERBOXPREFERENCEPAGE_HH
+#ifndef TIMERBOXPREFERENCEPANEL_HH
+#define TIMERBOXPREFERENCEPANEL_HH
 
 class Configurator;
 namespace Gtk
@@ -33,13 +33,13 @@ namespace Gtk
 #include <string>
 #include <gtkmm/box.h>
 
-class TimerBoxPreferencePage
+class TimerBoxPreferencePanel
   : public Gtk::HBox
   , public workrave::utils::Trackable
 {
 public:
-  TimerBoxPreferencePage(std::shared_ptr<IApplicationContext> app, std::string name);
-  ~TimerBoxPreferencePage() override;
+  TimerBoxPreferencePanel(std::shared_ptr<IApplicationContext> app, std::string name);
+  ~TimerBoxPreferencePanel() override;
 
 private:
   void create_page();
@@ -68,4 +68,4 @@ private:
   Gtk::CheckButton *applet_icon_enabled_cb{nullptr};
 };
 
-#endif // TIMERBOXPREFERENCEPAGE_HH
+#endif // TIMERBOXPREFERENCEPANEL_HH

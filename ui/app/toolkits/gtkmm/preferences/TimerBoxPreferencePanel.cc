@@ -24,7 +24,7 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#include "TimerBoxPreferencePage.hh"
+#include "TimerBoxPreferencePanel.hh"
 
 #include "core/IBreak.hh"
 #include "config/IConfigurator.hh"
@@ -38,7 +38,7 @@
 
 using namespace workrave;
 
-TimerBoxPreferencePage::TimerBoxPreferencePage(std::shared_ptr<IApplicationContext> app, std::string n)
+TimerBoxPreferencePanel::TimerBoxPreferencePanel(std::shared_ptr<IApplicationContext> app, std::string n)
   : Gtk::HBox(false, 6)
   , app(app)
   , name(std::move(n))
@@ -59,14 +59,14 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(std::shared_ptr<IApplicationConte
 }
 
 //! Destructs the Applet Preference Notebook page.
-TimerBoxPreferencePage::~TimerBoxPreferencePage()
+TimerBoxPreferencePanel::~TimerBoxPreferencePanel()
 {
   TRACE_ENTRY();
 }
 
 //! Initializes all widgets.
 void
-TimerBoxPreferencePage::create_page()
+TimerBoxPreferencePanel::create_page()
 {
   // Placement
   place_button = Gtk::manage(new Gtk::ComboBoxText());
@@ -81,7 +81,7 @@ TimerBoxPreferencePage::create_page()
   cycle_entry->set_increments(1, 10);
   cycle_entry->set_numeric(true);
   cycle_entry->set_width_chars(3);
-  cycle_entry->signal_changed().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
+  cycle_entry->signal_changed().connect(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_cycle_time_changed));
 
   // Timer display
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -104,7 +104,7 @@ TimerBoxPreferencePage::create_page()
 #endif
         {
           ontop_cb = Gtk::manage(new Gtk::CheckButton(_("The status window stays always on top of other windows")));
-          ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
+          ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_always_on_top_toggled));
           ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
         }
 
@@ -149,7 +149,7 @@ TimerBoxPreferencePage::create_page()
 
 //! Retrieves the applet configuration and sets the widgets.
 void
-TimerBoxPreferencePage::init_page_values()
+TimerBoxPreferencePanel::init_page_values()
 {
   int mp_slot = GUIConfig::timerbox_slot(name, BREAK_ID_MICRO_BREAK)();
   int rb_slot = GUIConfig::timerbox_slot(name, BREAK_ID_REST_BREAK)();
@@ -208,37 +208,37 @@ TimerBoxPreferencePage::init_page_values()
 }
 
 void
-TimerBoxPreferencePage::init_page_callbacks()
+TimerBoxPreferencePanel::init_page_callbacks()
 {
-  place_button->signal_changed().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_place_changed));
+  place_button->signal_changed().connect(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_place_changed));
 
   if (enabled_cb != nullptr)
     {
-      enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+      enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_enabled_toggled));
     }
 
   if (applet_fallback_enabled_cb != nullptr)
     {
       applet_fallback_enabled_cb->signal_toggled().connect(
-        sigc::mem_fun(*this, &TimerBoxPreferencePage::on_applet_fallback_enabled_toggled));
+        sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_applet_fallback_enabled_toggled));
     }
 
   if (applet_icon_enabled_cb != nullptr)
     {
       applet_icon_enabled_cb->signal_toggled().connect(
-        sigc::mem_fun(*this, &TimerBoxPreferencePage::on_applet_icon_enabled_toggled));
+        sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_applet_icon_enabled_toggled));
     }
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       timer_display_button[i]->signal_changed().connect(
-        bind(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_display_changed), i));
+        bind(sigc::mem_fun(*this, &TimerBoxPreferencePanel::on_display_changed), i));
     }
 }
 
 //! The applet on/off checkbox has been toggled.
 void
-TimerBoxPreferencePage::on_enabled_toggled()
+TimerBoxPreferencePanel::on_enabled_toggled()
 {
   bool on = enabled_cb->get_active();
 
@@ -248,14 +248,14 @@ TimerBoxPreferencePage::on_enabled_toggled()
 }
 
 void
-TimerBoxPreferencePage::on_applet_fallback_enabled_toggled()
+TimerBoxPreferencePanel::on_applet_fallback_enabled_toggled()
 {
   bool on = applet_fallback_enabled_cb->get_active();
   GUIConfig::applet_fallback_enabled().set(on);
 }
 
 void
-TimerBoxPreferencePage::on_applet_icon_enabled_toggled()
+TimerBoxPreferencePanel::on_applet_icon_enabled_toggled()
 {
   bool on = applet_icon_enabled_cb->get_active();
   GUIConfig::applet_icon_enabled().set(on);
@@ -263,7 +263,7 @@ TimerBoxPreferencePage::on_applet_icon_enabled_toggled()
 
 //! The placement is changed.
 void
-TimerBoxPreferencePage::on_place_changed()
+TimerBoxPreferencePanel::on_place_changed()
 {
   int slots[BREAK_ID_SIZEOF];
   int idx = place_button->get_active_row_number();
@@ -303,7 +303,7 @@ TimerBoxPreferencePage::on_place_changed()
 
 //! The display of the specified break is changed.
 void
-TimerBoxPreferencePage::on_display_changed(int break_id)
+TimerBoxPreferencePanel::on_display_changed(int break_id)
 {
   int sel = timer_display_button[break_id]->get_active_row_number();
   int flags = 0;
@@ -326,7 +326,7 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
 
 //! Enable widgets
 void
-TimerBoxPreferencePage::enable_buttons()
+TimerBoxPreferencePanel::enable_buttons()
 {
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -378,14 +378,14 @@ TimerBoxPreferencePage::enable_buttons()
 
 //! The applet cycle time has been changed.
 void
-TimerBoxPreferencePage::on_cycle_time_changed()
+TimerBoxPreferencePanel::on_cycle_time_changed()
 {
   int value = (int)cycle_entry->get_value();
   GUIConfig::timerbox_cycle_time(name).set(value);
 }
 
 void
-TimerBoxPreferencePage::on_always_on_top_toggled()
+TimerBoxPreferencePanel::on_always_on_top_toggled()
 {
   GUIConfig::main_window_always_on_top().set(ontop_cb->get_active());
 }

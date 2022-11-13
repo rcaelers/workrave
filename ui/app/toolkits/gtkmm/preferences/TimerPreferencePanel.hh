@@ -15,8 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef TIMERPREFERENCESPANEL_HH
-#define TIMERPREFERENCESPANEL_HH
+#ifndef TIMERPREFERENCEPANEL_HH
+#define TIMERPREFERENCEPANEL_HH
 
 #include <cstdio>
 #include <string>
@@ -37,14 +37,14 @@ namespace Gtk
   class SpinButton;
 } // namespace Gtk
 
-class TimerPreferencesPanel : public Gtk::VBox
+class TimerPreferencePanel : public Gtk::VBox
 {
 public:
-  TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,
-                        workrave::BreakId timer,
-                        Glib::RefPtr<Gtk::SizeGroup> hsize_group,
-                        Glib::RefPtr<Gtk::SizeGroup> vsize_group);
-  ~TimerPreferencesPanel() override;
+  TimerPreferencePanel(std::shared_ptr<IApplicationContext> app,
+                       workrave::BreakId timer,
+                       Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+                       Glib::RefPtr<Gtk::SizeGroup> vsize_group);
+  ~TimerPreferencePanel() override;
 
 private:
   bool on_preludes_changed(const std::string &key, bool write);
@@ -59,7 +59,7 @@ private:
   void enable_buttons();
 
   workrave::BreakId break_id;
-  DataConnector *connector{nullptr};
+  std::shared_ptr<DataConnector> connector;
 
   Gtk::CheckButton *ignorable_cb{nullptr};
   Gtk::CheckButton *skippable_cb{nullptr};
@@ -76,4 +76,4 @@ private:
   Glib::RefPtr<Gtk::Adjustment> exercises_adjustment{Gtk::Adjustment::create(0, 0, 10)};
 };
 
-#endif // TIMERPREFERENCESPANEL_HH
+#endif // TIMERPREFERENCEPANEL_HH

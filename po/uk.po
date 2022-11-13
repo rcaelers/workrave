@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-09-01 21:46+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2022-11-12 16:57+0100\n"
 "PO-Revision-Date: 2011-05-15 15:37+0200\n"
 "Last-Translator: Mykola Rykov <mykola.rykov@gmail.com>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -16,161 +16,955 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: libs/core/src/DistributionSocketLink.cc:118
+#: ui/libs/commonui/src//Text.cc:79
 #, c-format
-msgid "Reconnecting to %s."
-msgstr "Повторне з'єднання з %s."
+msgid "%s%d seconds"
+msgstr "%s%d секунд"
 
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:406
-msgid "Could not enable network operation."
-msgstr "Мережеві операції недоступні."
+#: ui/libs/commonui/src//Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d хвилин"
 
-#: libs/core/src/DistributionSocketLink.cc:415
-msgid "Disabling network operation."
-msgstr "Скасування мережевих операцій."
+#: ui/libs/commonui/src//Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d годин"
 
-#: libs/core/src/DistributionSocketLink.cc:521
-#: libs/core/src/DistributionSocketLink.cc:558
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "Connecting to %s."
-msgstr "З'єднання з %s."
+msgid "%s, from %s to %s"
+msgstr "%s, з %s до %s"
 
-#: libs/core/src/DistributionSocketLink.cc:673
-#: libs/core/src/DistributionSocketLink.cc:704
-#, c-format
-msgid "Removing client %s."
-msgstr "Видалення клієнта %s."
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:219
+msgid "(font not available)"
+msgstr "(шрифт недоступний)"
 
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:750
-#, c-format
-msgid "Disconnecting %s"
-msgstr "Роз'єднання %s."
-
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:913
-#, c-format
-msgid "Client %s is now master."
-msgstr "Клієнт%s тепер є ведучим."
-
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:919
-msgid "I'm now master."
-msgstr "Тепер ви ведучий."
-
-#: libs/core/src/DistributionSocketLink.cc:1282
-#: libs/core/src/DistributionSocketLink.cc:1341
-#, c-format
-msgid "Client %s saying hello."
-msgstr "Клієнт %s вітається."
-
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1291
-#: libs/core/src/DistributionSocketLink.cc:1371
-#, c-format
-msgid "Client %s access denied."
-msgstr "Заборонено доступ для клієнта %s."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1362
-#: libs/core/src/DistributionSocketLink.cc:1489
-#: libs/core/src/DistributionSocketLink.cc:1734
-#, c-format
-msgid "Client %s is duplicate."
-msgstr "Клієнт %s не є унікальним."
-
-#: libs/core/src/DistributionSocketLink.cc:1441
-#, c-format
-msgid "Client %s signed off."
-msgstr "Клієнт %s вийшов."
-
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1525
-#, c-format
-msgid "Client %s is welcoming us."
-msgstr "Нас запрошує клієнт %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1767
-#, c-format
-msgid "Requesting master status from %s."
-msgstr "Запит стану ведучого від %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1780
-#, c-format
-msgid "Client timeout from %s."
-msgstr "Клієнтський таймаут від %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1806
-#, c-format
-msgid "Rejecting master request from client %s."
-msgstr "Відхилення запиту на роль ведучого від клієнта %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1811
-#, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "Підтвердження запиту на роль ведучого від клієнта %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1864
-#, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "Клієнт %s, який не є ведучим, відхилив запит на роль ведучого."
-
-#: libs/core/src/DistributionSocketLink.cc:1868
-#, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "Клієнт %s  відхилив запит на роль ведучого. Зачекайте..."
-
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1942
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "Клієнт %s тепер ведучий."
-
-#: libs/core/src/DistributionSocketLink.cc:2070
-msgid "Network operation started."
-msgstr "Розпочато мережеву операцію."
-
-#: libs/core/src/DistributionSocketLink.cc:2090
-msgid "Accepted new client."
-msgstr "Прийнятий новий клієнт."
-
-#: libs/core/src/DistributionSocketLink.cc:2165
-#, c-format
-msgid "Client %s read error, closing."
-msgstr "Помилка \tзчитування у клієнта %s, закриття."
-
-#: libs/core/src/DistributionSocketLink.cc:2170
-#: libs/core/src/DistributionSocketLink.cc:2237
-#, c-format
-msgid "Client %s closed connection."
-msgstr "Клієнт %s розірвав з'єднання."
-
-#: libs/core/src/DistributionSocketLink.cc:2209
-#, c-format
-msgid "Client %s connected."
-msgstr "Клієнт %s з'єднався."
-
-#: libs/core/src/DistributionSocketLink.cc:2242
-#, c-format
-msgid "Could not connect to client %s."
-msgstr "Помилка з'єднання з клієнтом %s."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:354
-#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:364
-#: ui/applets/mate/src/main.c:256 ui/applets/xfce/src/main.c:347
-#: ui/apps/gtkmm/src/Toolkit.cc:225
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
+#: ui/app/toolkits/gtkmm/Ui.cc:113
+msgid "?"
 msgstr ""
-"Ця програма допомагає у попередженні та лікуванні тунельного синдрому "
-"зап'ястя та знятті загального напруження м'язів."
 
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Active computer usage"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
+msgid "Activity"
+msgstr "Активність"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:93
+msgid "Applet"
+msgstr "Аплет"
+
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "Ця програма допомагає у попередженні та лікуванні тунельного синдрому зап'ястя та знятті загального напруження м'язів."
+
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr "Зворотнє розтягування плечей"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
+msgid "Block input"
+msgstr "Блокувати введення"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:136
+msgid "Block input and screen"
+msgstr "Блокувати введення та екран"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
+msgid "Block mode:"
+msgstr "Режим блокування:"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:194
+msgid "Break duration:"
+msgstr "Тривалість перерви:"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "Перерву проігноровано"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
+#, c-format
+msgid "Break in %s"
+msgstr "Перерва через %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
+msgstr "Нагадування про перерву"
+
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:94
+msgid "Break prompting"
+msgstr "Нагадування про перерву"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
+msgid "Break prompts"
+msgstr "Нагадування про перерви"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
+msgid "Breaks"
+msgstr "Перерви"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
+msgid "Breaks postponed"
+msgstr "Відкладено перерв"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "Breaks skipped"
+msgstr "Пропущено перерв"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
+msgid "Browse history"
+msgstr "Перегляд історії"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:412
+msgid "Choose a sound"
+msgstr "Виберіть звук"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:105
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
+msgid "Close"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Закрийте очі долонями так, щоб повіки могли відкриватися. Тепер відкрийте очі та подивіться у темряву ваших долонь. Ця вправа краще допомагає вашим очам, ніж коли ви просто їх заплющуєте."
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:123
+msgid "Cycle time:"
+msgstr "Тривалість циклу:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
+#, fuzzy
+msgid "Daily"
+msgstr "Денний ліміт"
+
+#. label
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:172 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
+msgid "Daily limit"
+msgstr "Денний ліміт"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "Денний ліміт перевищено на %s"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
+#, c-format
+msgid "Daily limit in %s"
+msgstr "Денний ліміт %s"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:130
+msgid "Daily limit:"
+msgstr "Денний ліміт:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Date:"
+msgstr "Дата:"
+
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
+msgid "Debug log"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:522
+msgid "Debug monitoring"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:929
+msgid "Default"
+msgstr ""
+
+#. Delete button
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
+#, c-format
+msgid "Disappears in %s"
+msgstr "Зникне через %s"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:97
+msgid "Display"
+msgstr "Екран"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
+msgid "Effective mouse movement:"
+msgstr "Корисне переміщення миші:"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:162
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:497
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr ""
+
+#. Enabled/Disabled checkbox
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:57
+msgid "Enable timer"
+msgstr "Увімкнути таймер"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
+msgid "End exercises"
+msgstr "Завершити вправи"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
+msgid "Error"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:396
+msgid "Event"
+msgstr "Подія"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:110
+msgid "Exercise change"
+msgstr "Вправу завершено"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:104
+msgid "Exercise ended"
+msgstr "Вправу завершено"
+
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr "Вправи"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:107
+msgid "Exercises ended"
+msgstr "Вправи завершені"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
+msgid "Exercises player"
+msgstr "Переглядач вправ"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:134
+#, fuzzy
+msgid "Fallback applet enabled"
+msgstr "Аплет увімкнено"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
+msgid "File deletion failed!"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "Files deleted!"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:22
+msgid "Finger stretch"
+msgstr "Розтягування пальців"
+
+#: ui/app/Menus.cc:178
+msgid "For 1 hour"
+msgstr ""
+
+#: ui/app/Menus.cc:189
+msgid "For 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:276
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:82
+msgid "General"
+msgstr "Загальні"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
+msgid "Hibernate"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:92
+msgid "Hide"
+msgstr "Приховати"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:291
+#, fuzzy
+msgid "Icon Theme:"
+msgstr "Звуки:"
+
+#: ui/app/Menus.cc:166
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
+msgid "Info"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:39
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Сплетіть пальці за спиною. Потім повільно вигніть лікті всередину, випрямляючи руки. Затримайтеся в такому положенні від 5 до 15 секунд і повторіть вправу двічі."
+
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Простягніть одну руку горизонтально перед грудьми. Іншою рукою потягніть її на себе, поки не відчуєте м'яку напругу у плечі. Затримайтеся ненадовго і повторіть вправу для іншої руки."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "Keystrokes:"
+msgstr "Натиснення клавіш:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:238
+msgid "Language:"
+msgstr "Мова:"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
+#, fuzzy
+msgid "Lock"
+msgstr "_Заблокувати"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
+#, fuzzy
+msgid "Lock..."
+msgstr "_Заблокувати"
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Подивіться на лівий верхній кут корпуса монітора. Повільно перемістіть погляд до правого верхнього кута. Продовжуйте, доки не обійдете поглядом всі кути монітора двічі. Повторіть вправу, переміщуючи погляд у зворотньому напрямку."
+
+#: ui/data/exercises/exercises.xml.in:65
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Подивіться на найвіддаленішу точку, яку ви можете бачити за вашим монітором. Сфокусуйте погляд на цій точці. Після кількох секунд сфокусуйтесь на моніторі.Повторіть вправу. Якщо ви не можете дивитися далеко від монітора, використовуйте, наприклад, ручку, тримаючи її на тій самій відстані, що й монітор."
+
+#: ui/data/exercises/exercises.xml.in:72
+msgid "Look into the darkness"
+msgstr "Дивитися  у темряву"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:100
+msgid "Maximum number of prompts:"
+msgstr "Максимальна кількість нагадувань:"
+
+#. FIXME: duplicate
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "Мінівідпочинок"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "Мінівідпочинок завершено"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "Розпочато мінівідпочинок"
+
+#. Layout
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:128
+msgid "Micro-break:"
+msgstr "Мінівідпочинок:"
+
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
+msgid "Mode: "
+msgstr "_Режим:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
+msgid "Monthly"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
+msgid "Mouse button clicks:"
+msgstr "Кліків кнопкою миші:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "Mouse movement:"
+msgstr "Переміщення миші:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:505
+#, fuzzy
+msgid "Mouse sensitivity:"
+msgstr "Переміщення миші:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
+msgid "Mouse usage:"
+msgstr "Використання миші:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "Рух очима"
+
+#: ui/data/exercises/exercises.xml.in:79
+msgid "Move the shoulders"
+msgstr "Рух плечима"
+
+#: ui/data/exercises/exercises.xml.in:87
+msgid "Move the shoulders up and down"
+msgstr "Рух плечима вгору і вниз"
+
+#. Volume
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:352
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Вимкнути звуки протягом перерви та денного ліміту"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
+msgid "Natural breaks taken"
+msgstr "Взяті перерви"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "Natural rest break"
+msgstr "Взяті перерви"
+
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "Розтягування шиї нахилами"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
+msgid "Next"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
+msgid "Next exercise"
+msgstr "Наступна вправа"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Наступна перерва через %s"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:134
+msgid "No blocking"
+msgstr "Не блокувати"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:323
+msgid "No sounds"
+msgstr "Без звуку"
+
+#: ui/applets/mate/src/main.c:385
+#, fuzzy
+msgid "Normal"
+msgstr "_Звичайний"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:152
+msgid "Number of exercises:"
+msgstr "Кількість вправ:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:506
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:154
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:125
+msgid "Options"
+msgstr "Параметри"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "Розміщення"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "Overdue time"
+msgstr "Час запізнення"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Pause"
+msgstr "Пауза"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
+msgid "Pause exercises"
+msgstr "Призупинити вправи"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:76
+msgid "Place all timers in one spot"
+msgstr "Розмістити всі таймери поруч"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "Розмістити мінівідпочинок та перерву поруч"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "Розмістити перерву та денний ліміт поруч"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:73
+msgid "Place timers next to each other"
+msgstr "Розмістити таймери поруч"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:122
+msgid "Placement:"
+msgstr "Розміщення:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:391
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:409
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:429
+msgid "Play"
+msgstr "Грати"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:324
+msgid "Play sounds using sound card"
+msgstr "Використовувати звукову карту для відтворення звуків"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
+msgid "Please relax for a few seconds"
+msgstr "Будь-ласка, розслабтесь на кілька секунд"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:209
+msgid "Postpone time:"
+msgstr "Відкласти на:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:67
+msgid "Preferences"
+msgstr "Налаштування"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
+#, fuzzy
+msgid "Previous"
+msgstr "Попередня вправа"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
+msgid "Previous exercise"
+msgstr "Попередня вправа"
+
+#: ui/app/workrave.appdata.xml:7
+#, fuzzy
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr "Ця програма допомагає у попередженні та лікуванні тунельного синдрому зап'ястя та знятті загального напруження м'язів."
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:96
+msgid "Prompt before breaking"
+msgstr "Запитувати перед перервою"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
+msgid "Prompted breaks taken"
+msgstr "Прийняті нагадування про перерву"
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Стисніть руків'я стільця, на якому ви сидите, і підніміть себе, випрямивши руки. Спробуйте відкинути голову назад, опускаючи плечі. Потім повільно сядьте на стілець."
+
+#: ui/app/Menus.cc:112
+msgid "Q_uiet"
+msgstr "_Тихо"
+
+#: ui/app/Menus.cc:294
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr ""
+
+#: ui/app/Menus.cc:307
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:583 ui/applets/mate/src/main.c:389
+msgid "Quiet"
+msgstr "_Тихо"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr "Режим читання"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:143
+msgid "Regard micro-breaks as activity"
+msgstr "Віднести мінівідпочинок до активності"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
+msgid "Repeated prompts"
+msgstr "Повторені нагадування"
+
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "Перерва"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Перерву затримано на %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "Перерву завершено"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
+#, c-format
+msgid "Rest break for %s"
+msgstr "Перерва на %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "Розпочато перерву"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:129
+msgid "Rest break:"
+msgstr "Перерва:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Resume"
+msgstr "Продовжити"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
+msgid "Resume exercises"
+msgstr "Продовжити вправи"
+
+#: ui/app/Menus.cc:81
+#, fuzzy
+msgid "S_tatistics"
+msgstr "Статистика"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Розчепірте і потягніть пальці доти, доки не відчуєте легке напруження, і потримайте так 10 секунд. Розслабтесь, потім зігніть у суглобах і потримайте так теж 10 секунд. Повторіть вправу ще раз."
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "Розтягування передпліччя"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:93
+msgid "Show"
+msgstr "Показати"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:128
+#, fuzzy
+msgid "Show 'Postpone' button"
+msgstr "Показувати кнопки 'Відкласти' та 'Пропустити'"
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:132
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "Показувати кнопки 'Відкласти' та 'Пропустити'"
+
+#: ui/applets/mate/src/main.c:379
+#, fuzzy
+msgid "Show log"
+msgstr "Показати _журнал"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:94
+msgid "Show only when this timer is first due"
+msgstr "Показувати лише коли цей таймер перший за чергою"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:139
+#, fuzzy
+msgid "Show status icon"
+msgstr "Показати вікно статусу"
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:111
+msgid "Show status window"
+msgstr "Показати вікно статусу"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:267
+msgid "Show system tray icon"
+msgstr "Показувати піктограму в системному лотку"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
+#, fuzzy
+msgid "Shutdown"
+msgstr "В_имкнути"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
+#, c-format
+msgid "Silent in %s"
+msgstr "Тихо через %s"
+
+#. Sound themes
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:360
+msgid "Sound Events"
+msgstr "Звуки подій"
+
+#. Options
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:318
+msgid "Sound Options"
+msgstr "Параметри звуку"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:368
+msgid "Sound Theme:"
+msgstr "Звуки:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:347
+msgid "Sound:"
+msgstr "Звуки:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:86
+msgid "Sounds"
+msgstr "Звуки"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Обертайте праву руку біля тулуба, наче гвинт літака. Зробіть так 4 рази за годинниковою стрілкою, 4 рази - проти і розслабтесь на кілька секунд. Повторіть вправу з лівою рукою."
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:252
+#, fuzzy
+msgid "Start Workrave on logon"
+msgstr "Запускати Workrave разом із Windows"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:157
+#, fuzzy
+msgid "Start restbreak when screen is locked"
+msgstr "Розпочати перерву, коли буде заблоковано екран"
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Розпочніть вправу, розмістивши голову прямо. Потім повільно нахиліть її до правого плеча, щоб м'яко розтягнути м'язи на лівій стороні шиї. Затримайтеся у цьому положенні протягом 5 секунд. Після цього нахиліть голову до лівої сторони, щоб розтягнути м'язи на іншій стороні. "
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
+msgid "Statistics"
+msgstr "Статистика"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:89
+msgid "Status Window"
+msgstr "Вікно статусу"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
+#, fuzzy
+msgid "Suspend"
+msgstr "_Призупинено"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "_Призупинено"
+
+#: ui/app/Application.cc:579 ui/applets/mate/src/main.c:387
+msgid "Suspended"
+msgstr "_Призупинено"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:176
+msgid "System default"
+msgstr "За замовчуванням"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
+msgid "Take rest break now"
+msgstr "Взяти перерву зараз"
+
+#: ui/app/Menus.cc:121
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:118
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "The number of breaks you postponed"
+msgstr "Кількість перерв, які ви відклали"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "The number of breaks you skipped"
+msgstr "Кількість перерв, які ви пропустили"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "The number of times you took a break when being prompted"
+msgstr "Кількість перерв, взятих одразу після нагадування"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "The number of times you took a break without being prompted"
+msgstr "Кількість перерв, узятих без нагадування"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "Кількість нагадувань про перерву (крім повторних для однієї)"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Скільки разів підряд з'являвся запит на перерву"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+msgid "The orientation of the tray"
+msgstr "Розташування у системній панелі"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "Вікно статусу завжди над іншими вікнами"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+#, fuzzy
+msgid "The total computer usage for the selected day"
+msgstr "Загальне використання комп'ютера"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "Загальне переміщення миші, яке було б, якби між кліками ви рухали б її по прямим лініям"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of keys pressed"
+msgstr "Загальна кількість натиснених клавіш"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "The total number of mouse button clicks"
+msgstr "Загальна кількість кліків кнопкою миші"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "The total on-screen mouse movement"
+msgstr "Загальний час переміщення миші по екрану"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "The total time this break was overdue"
+msgstr "Загальний час запізнення цієї перерви"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "The total time you were using the mouse"
+msgstr "Загальний час використання миші"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "This is your natural rest break."
+msgstr "Вам потрібна перерва."
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr "Це — ваша перерва. Просто встаньте і прогуляйтеся кілька хвилин, відпочиньте, розслабтесь та потягніться."
+
+#: ui/app/toolkits/gtkmm/Toolkit.cc:232
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "Ця програма допомагає у попередженні та лікуванні тунельного синдрому зап'ястя та знятті загального напруження м'язів."
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
+msgid "Time before end:"
+msgstr "Часу до кінця:"
+
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
+msgid "Time between breaks:"
+msgstr "Часу між перервами:"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
+msgid "Time for a micro-break?"
+msgstr "Час для мінівідпочинку?"
+
+#. Notebook
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:97
+#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:125
+#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:183
+msgid "Timers"
+msgstr "Таймери"
+
+#: ui/data/exercises/exercises.xml.in:64
+msgid "Train focusing the eyes"
+msgstr "Тренування фокусування очей"
+
+#: ui/data/exercises/exercises.xml.in:125
+msgid "Turn your head"
+msgstr "Поверніть голову"
+
+#: ui/data/exercises/exercises.xml.in:126
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Поверніть голову наліво і потримайте так 2 секунди, потім - направо."
+
+#: ui/app/Menus.cc:198
+msgid "Until next day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Usage"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:490
+msgid "Use alternate monitor"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:295
+msgid "Use dark theme"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:98
+msgid "User interface"
+msgstr "Інтерфейс користувача"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:344
+msgid "Volume:"
+msgstr "Гучність:"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "Очікування"
+
+#. Confirm the user's intention
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
+msgid "Warning"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:418
+msgid "Wavefiles"
+msgstr "Файли"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
+msgid "Weekly"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.appdata.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:4
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -178,134 +972,50 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Аплет Workrave"
 
-#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:46
-msgid "_Open"
-msgstr "_Відкрити"
+#: ui/app/Application.cc:346
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr "Workrave не може відстежувати активність вашої клавіатури та миші. \n"
 
-#: ui/applets/mate/src/main.c:364
-msgid "_Statistics"
-msgstr "_Статистика"
-
-#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:52
-msgid "_Preferences"
-msgstr "_Налаштування"
-
-#: ui/applets/mate/src/main.c:368 ui/apps/gtkmm/src/Menus.cc:58
-msgid "_Exercises"
-msgstr "_Вправи"
-
-#: ui/applets/mate/src/main.c:370
-msgid "_Restbreak"
-msgstr "_Перерва"
-
-#: ui/applets/mate/src/main.c:372 ui/apps/gtkmm/src/Menus.cc:67
-msgid "_Mode"
-msgstr "_Режим"
-
-#: ui/applets/mate/src/main.c:374
-msgid "_Network"
-msgstr "_Мережа"
-
-#: ui/applets/mate/src/main.c:376
-msgid "_Join"
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:277
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
 msgstr ""
 
-#: ui/applets/mate/src/main.c:378
-msgid "_Disconnect"
-msgstr "_Роз'єднатися"
-
-#: ui/applets/mate/src/main.c:380
-msgid "_Reconnect"
-msgstr "_Перез'єднатися"
-
-#: ui/applets/mate/src/main.c:382 ui/apps/gtkmm/src/Menus.cc:103
-#, fuzzy
-msgid "_About"
-msgstr "_Про програму..."
-
-#: ui/applets/mate/src/main.c:384 ui/apps/gtkmm/src/Menus.cc:106
-msgid "_Quit"
-msgstr "_Вихід"
-
-#: ui/applets/mate/src/main.c:389
-#, fuzzy
-msgid "Show log"
-msgstr "Показати _журнал"
-
-#: ui/applets/mate/src/main.c:391
-msgid "Reading mode"
-msgstr "Режим читання"
-
-#: ui/applets/mate/src/main.c:395
-#, fuzzy
-msgid "Normal"
-msgstr "_Звичайний"
-
-#: ui/applets/mate/src/main.c:397 ui/apps/gtkmm/src/GUI.cc:561
-msgid "Suspended"
-msgstr "_Призупинено"
-
-#: ui/applets/mate/src/main.c:399 ui/apps/gtkmm/src/GUI.cc:565
-msgid "Quiet"
-msgstr "_Тихо"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:251
-#, fuzzy
-msgid "Lock..."
-msgstr "_Заблокувати"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:255
-#, fuzzy
-msgid "Lock"
-msgstr "_Заблокувати"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:259
-#, fuzzy
-msgid "Shutdown"
-msgstr "В_имкнути"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:263
-#, fuzzy
-msgid "Suspend"
-msgstr "_Призупинено"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:267
-msgid "Hibernate"
+#: ui/app/workrave.appdata.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:271
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "_Призупинено"
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:389
-msgid "_Skip"
-msgstr "_Пропустити"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:400
-msgid "_Postpone"
-msgstr "_Відкласти"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:583
+#: ui/app/Application.cc:554
 msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:597
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
+#: ui/app/Application.cc:538
+#, fuzzy
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "Workrave працює. Щоб відкрити меню, клацніть на піктограмі з білою овечкою."
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:500
+msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
-#. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:50 ui/apps/gtkmm/src/GUI.cc:554
-#: ui/apps/gtkmm/src/GtkUtil.cc:167 ui/apps/gtkmm/src/Ui.cc:44
-#: ui/apps/gtkmm/src/Ui.cc:101
-msgid "Daily limit"
-msgstr "Денний ліміт"
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr ""
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -315,1227 +1025,246 @@ msgstr ""
 "з комп'ютером. Якщо ваш робочий день ще не закінчився,\n"
 "знайдіть собі інше заняття, наприклад, перегляд документів."
 
-#: ui/apps/gtkmm/src/DebugDialog.cc:38
-msgid "Debug log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:29
-msgid "Exercises"
-msgstr "Вправи"
-
-#. Dialog
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:33
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:120
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:142
-msgid "Close"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:88
-#, fuzzy
-msgid "Previous"
-msgstr "Попередня вправа"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:89
-msgid "Next"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:108
-msgid "Exercises player"
-msgstr "Переглядач вправ"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:138
-msgid "Previous exercise"
-msgstr "Попередня вправа"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:139
-msgid "Next exercise"
-msgstr "Наступна вправа"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:140
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:320
-msgid "Pause exercises"
-msgstr "Призупинити вправи"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:144
-msgid "End exercises"
-msgstr "Завершити вправи"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:315
-msgid "Resume"
-msgstr "Продовжити"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:315
-msgid "Pause"
-msgstr "Пауза"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:318
-msgid "Resume exercises"
-msgstr "Продовжити вправи"
-
-#: ui/apps/gtkmm/src/GUI.cc:151
-#, fuzzy
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-"Workrave працює. Щоб відкрити меню, клацніть на піктограмі з білою овечкою."
-
-#: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
-msgid "Workrave failed to start"
-msgstr "Не вдалося запустити Workrave"
-
-#: ui/apps/gtkmm/src/GUI.cc:270
-msgid "Is Workrave already running?"
-msgstr "Workrave вже запущено?"
-
-#: ui/apps/gtkmm/src/GUI.cc:352
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "Workrave не може відстежувати активність вашої клавіатури та миші. \n"
-
-#: ui/apps/gtkmm/src/GUI.cc:537
-msgid ""
-"Workrave is in suspended mode.\n"
-"Mouse and keyboard activity will not be monitored."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:545
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:45
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:143
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:234 ui/apps/gtkmm/src/Ui.cc:38
-msgid "Micro-break"
-msgstr "Мінівідпочинок"
-
-#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:123
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:57
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:173 ui/apps/gtkmm/src/Ui.cc:41
-msgid "Rest break"
-msgstr "Перерва"
-
-#: ui/apps/gtkmm/src/GUI.cc:561 ui/apps/gtkmm/src/GUI.cc:565
-msgid "Mode: "
-msgstr "_Режим:"
-
-#: ui/apps/gtkmm/src/Menus.cc:55
-msgid "_Rest break"
-msgstr "_Перерва"
-
-#: ui/apps/gtkmm/src/Menus.cc:61
-#, fuzzy
-msgid "S_tatistics"
-msgstr "Статистика"
-
-#: ui/apps/gtkmm/src/Menus.cc:75
-msgid "_Normal"
-msgstr "_Звичайний"
-
-#: ui/apps/gtkmm/src/Menus.cc:82
-msgid "_Suspended"
-msgstr "_Призупинено"
-
-#: ui/apps/gtkmm/src/Menus.cc:89
-msgid "Q_uiet"
-msgstr "_Тихо"
-
-#: ui/apps/gtkmm/src/Menus.cc:96
-msgid "_Reading mode"
-msgstr "Режим _читання"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
-msgid "Please relax for a few seconds"
-msgstr "Будь-ласка, розслабтесь на кілька секунд"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:207
-#, c-format
-msgid "Next rest break in %s"
-msgstr "Наступна перерва через %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:211
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "Перерву затримано на %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:223
-#, c-format
-msgid "Daily limit in %s"
-msgstr "Денний ліміт %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:227
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "Денний ліміт перевищено на %s"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:48
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:63
-msgid "Network connect"
-msgstr "Мережеве з'єднання"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:64
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr "Введіть ім'я та порт комп'ютера в мережі, з яким ви хочете з'єднатися."
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:76
-msgid "Host name:"
-msgstr "Ім'я комп'ютера:"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:77
-msgid "Port:"
-msgstr "Порт:"
-
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:45
-msgid "Network log"
-msgstr "Мережевий журнал"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:91
-msgid "Enable networking"
-msgstr "Активувати мережеві з'єднання"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:98
-msgid "Username:"
-msgstr "Ім'я користувача:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:99
-msgid "Password:"
-msgstr "Пароль:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:105
-msgid "Allow incoming connections"
-msgstr "Дозволити вхідні з'єднання"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:110
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "Загальні"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:121
-msgid "Server settings"
-msgstr "Налаштування сервера"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:143
-msgid "Server port:"
-msgstr "Порт сервера:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:144
-msgid "Reconnect attempts:"
-msgstr "Кількість спроб з'єднання:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Reconnect interval:"
-msgstr "Інтервал між з'єднаннями:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
-msgid "Advanced"
-msgstr "Додатково"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:163
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"Цей перелік містить комп'ютери, з якими з'єднується Workrave при\n"
-"завантаженні. Для редагування клацніть мишею на імені комп'ютера або номері "
-"порта."
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:190
-msgid "Host name"
-msgstr "Ім'я комп'ютера"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:199
-msgid "Port"
-msgstr "Порт"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:237
-msgid "Hosts"
-msgstr "Комп'ютери"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:75
-msgid "Preferences"
-msgstr "Налаштування"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-msgid "Sounds"
-msgstr "Звуки"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "Вікно статусу"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr "Аплет"
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:129
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:180
-msgid "Timers"
-msgstr "Таймери"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
-msgid "User interface"
-msgstr "Інтерфейс користувача"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr "Мережа"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:153
-msgid "No blocking"
-msgstr "Не блокувати"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:154
-msgid "Block input"
-msgstr "Блокувати введення"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:155
-msgid "Block input and screen"
-msgstr "Блокувати введення та екран"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:122
-msgid "Options"
-msgstr "Параметри"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:175
-msgid "Block mode:"
-msgstr "Режим блокування:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:195
-msgid "System default"
-msgstr "За замовчуванням"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:238
-msgid "(font not available)"
-msgstr "(шрифт недоступний)"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:257
-msgid "Language:"
-msgstr "Мова:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:271
-#, fuzzy
-msgid "Start Workrave on logon"
-msgstr "Запускати Workrave разом із Windows"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:286
-msgid "Show system tray icon"
-msgstr "Показувати піктограму в системному лотку"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:296
-#, fuzzy
-msgid "Icon Theme:"
-msgstr "Звуки:"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:309
-msgid "Sound Options"
-msgstr "Параметри звуку"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:314
-msgid "No sounds"
-msgstr "Без звуку"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:315
-msgid "Play sounds using sound card"
-msgstr "Використовувати звукову карту для відтворення звуків"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:335
-msgid "Volume:"
-msgstr "Гучність:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:338
-msgid "Sound:"
-msgstr "Звуки:"
-
-#. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:343
-msgid "Mute sounds during rest break and daily limit"
-msgstr "Вимкнути звуки протягом перерви та денного ліміту"
-
-#. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
-msgid "Sound Events"
-msgstr "Звуки подій"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:359
-msgid "Sound Theme:"
-msgstr "Звуки:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:382
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:420
-msgid "Play"
-msgstr "Грати"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:387
-msgid "Event"
-msgstr "Подія"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:403
-msgid "Choose a sound"
-msgstr "Виберіть звук"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:409
-msgid "Wavefiles"
-msgstr "Файли"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:481
-msgid "Use alternate monitor"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:488
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:491
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:496
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Переміщення миші:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:497
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:513
-msgid "Debug monitoring"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:937
-msgid "Default"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:104
-msgid "Time for a micro-break?"
-msgstr "Час для мінівідпочинку?"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
 msgid "You need a rest break..."
 msgstr "Вам потрібна перерва..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
 msgid "You should stop for today..."
 msgstr "Сьогоднішній денний ліміт вичерпано..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:260
-#, c-format
-msgid "Break in %s"
-msgstr "Перерва через %s"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:264
-#, c-format
-msgid "Disappears in %s"
-msgstr "Зникне через %s"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:268
-#, c-format
-msgid "Silent in %s"
-msgstr "Тихо через %s"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:131
-#, c-format
-msgid "Rest break for %s"
-msgstr "Перерва на %s"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
-msgid "Natural rest break"
-msgstr "Взяті перерви"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
-msgid "This is your natural rest break."
-msgstr "Вам потрібна перерва."
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:174
-msgid ""
-"This is your rest break. Make sure you stand up and\n"
-"walk away from your computer on a regular basis. Just\n"
-"walk around for a few minutes, stretch, and relax."
-msgstr ""
-"Це — ваша перерва. Просто встаньте і прогуляйтеся кілька хвилин, "
-"відпочиньте, розслабтесь та потягніться."
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:45
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:118
-msgid "Statistics"
-msgstr "Статистика"
-
-#. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:107
-msgid "Browse history"
-msgstr "Перегляд історії"
-
-#. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:112
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:119
-msgid "Date:"
-msgstr "Дата:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:152
-msgid "Breaks"
-msgstr "Перерви"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:160
-msgid "Break prompts"
-msgstr "Нагадування про перерви"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:161
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr "Кількість нагадувань про перерву (крім повторних для однієї)"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:165
-msgid "Repeated prompts"
-msgstr "Повторені нагадування"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:165
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "Скільки разів підряд з'являвся запит на перерву"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid "Prompted breaks taken"
-msgstr "Прийняті нагадування про перерву"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid "The number of times you took a break when being prompted"
-msgstr "Кількість перерв, взятих одразу після нагадування"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:171
-msgid "Natural breaks taken"
-msgstr "Взяті перерви"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:171
-msgid "The number of times you took a break without being prompted"
-msgstr "Кількість перерв, узятих без нагадування"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:173
-msgid "Breaks skipped"
-msgstr "Пропущено перерв"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:173
-msgid "The number of breaks you skipped"
-msgstr "Кількість перерв, які ви пропустили"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "Breaks postponed"
-msgstr "Відкладено перерв"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "The number of breaks you postponed"
-msgstr "Кількість перерв, які ви відклали"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
-msgid "Overdue time"
-msgstr "Час запізнення"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
-msgid "The total time this break was overdue"
-msgstr "Загальний час запізнення цієї перерви"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:179
-msgid "Usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:179
-msgid "Active computer usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:181
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
 #, fuzzy
-msgid "Daily"
-msgstr "Денний ліміт"
+msgid "_About"
+msgstr "_Про програму..."
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:181
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "Загальне використання комп'ютера"
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "_Вправи"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "Weekly"
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "_Режим"
+
+#: ui/app/Menus.cc:98
+msgid "_Normal"
+msgstr "_Звичайний"
+
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
+msgid "_Open"
+msgstr "_Відкрити"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
+msgid "_Postpone"
+msgstr "_Відкласти"
+
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "_Налаштування"
+
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "_Вихід"
+
+#: ui/app/Menus.cc:127
+msgid "_Reading mode"
+msgstr "Режим _читання"
+
+#: ui/app/Menus.cc:75
+msgid "_Rest break"
+msgstr "_Перерва"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "_Перерва"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
+msgid "_Skip"
+msgstr "_Пропустити"
+
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "_Статистика"
+
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
+msgstr "_Призупинено"
+
+#: ui/app/Menus.cc:299
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_Призупинено"
+
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "The total computer usage for the whole week of the selected day"
+#: ui/app/Menus.cc:185
+msgid "and 1 minute"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:187
-msgid "Monthly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:187
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:264
-msgid "Activity"
-msgstr "Активність"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:272
-msgid "Mouse usage:"
-msgstr "Використання миші:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:272
-msgid "The total time you were using the mouse"
-msgstr "Загальний час використання миші"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:273
-msgid "Mouse movement:"
-msgstr "Переміщення миші:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:273
-msgid "The total on-screen mouse movement"
-msgstr "Загальний час переміщення миші по екрану"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:275
-msgid "Effective mouse movement:"
-msgstr "Корисне переміщення миші:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Загальне переміщення миші, яке було б, якби між кліками ви рухали б її по "
-"прямим лініям"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:279
-msgid "Mouse button clicks:"
-msgstr "Кліків кнопкою миші:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:279
-msgid "The total number of mouse button clicks"
-msgstr "Загальна кількість кліків кнопкою миші"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:280
-msgid "Keystrokes:"
-msgstr "Натиснення клавіш:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:280
-msgid "The total number of keys pressed"
-msgstr "Загальна кількість натиснених клавіш"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:324
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, з %s до %s"
-
-#. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:620
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:622
-msgid "Warning"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:620
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:633
-msgid "Files deleted!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:633
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:635
-msgid "Info"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-msgid "File deletion failed!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:641
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:643
-msgid "Error"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Text.cc:73
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d годин"
-
-#: ui/apps/gtkmm/src/Text.cc:77
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d хвилин"
-
-#: ui/apps/gtkmm/src/Text.cc:81
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d секунд"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:171
-msgid "Take rest break now"
-msgstr "Взяти перерву зараз"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:188
-msgid "Wait"
-msgstr "Очікування"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:77
-msgid "Place timers next to each other"
-msgstr "Розмістити таймери поруч"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:78
-msgid "Place micro-break and rest break in one spot"
-msgstr "Розмістити мінівідпочинок та перерву поруч"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:79
-msgid "Place rest break and daily limit in one spot"
-msgstr "Розмістити перерву та денний ліміт поруч"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:80
-msgid "Place all timers in one spot"
-msgstr "Розмістити всі таймери поруч"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Hide"
-msgstr "Приховати"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:97
-msgid "Show"
-msgstr "Показати"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Show only when this timer is first due"
-msgstr "Показувати лише коли цей таймер перший за чергою"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:101
-msgid "Display"
-msgstr "Екран"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:110
-msgid "The status window stays always on top of other windows"
-msgstr "Вікно статусу завжди над іншими вікнами"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-msgid "Show status window"
-msgstr "Показати вікно статусу"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:126
-msgid "Placement:"
-msgstr "Розміщення:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:127
-msgid "Cycle time:"
-msgstr "Тривалість циклу:"
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:132
-msgid "Micro-break:"
-msgstr "Мінівідпочинок:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:133
-msgid "Rest break:"
-msgstr "Перерва:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:134
-msgid "Daily limit:"
-msgstr "Денний ліміт:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:138
-#, fuzzy
-msgid "Fallback applet enabled"
-msgstr "Аплет увімкнено"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:143
-#, fuzzy
-msgid "Show status icon"
-msgstr "Показати вікно статусу"
-
-#. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:54
-msgid "Enable timer"
-msgstr "Увімкнути таймер"
-
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:91
-msgid "Break prompting"
-msgstr "Нагадування про перерву"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:93
-msgid "Prompt before breaking"
-msgstr "Запитувати перед перервою"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:97
-msgid "Maximum number of prompts:"
-msgstr "Максимальна кількість нагадувань:"
-
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:125
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "Показувати кнопки 'Відкласти' та 'Пропустити'"
-
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "Показувати кнопки 'Відкласти' та 'Пропустити'"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:140
-msgid "Regard micro-breaks as activity"
-msgstr "Віднести мінівідпочинок до активності"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:149
-msgid "Number of exercises:"
-msgstr "Кількість вправ:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
-#, fuzzy
-msgid "Start restbreak when screen is locked"
-msgstr "Розпочати перерву, коли буде заблоковано екран"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:159
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
-msgid "Time before end:"
-msgstr "Часу до кінця:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:184
-msgid "Time between breaks:"
-msgstr "Часу між перервами:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:190
-msgid "Break duration:"
-msgstr "Тривалість перерви:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:205
-msgid "Postpone time:"
-msgstr "Відкласти на:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
-msgid "Break prompt"
-msgstr "Нагадування про перерву"
-
-#: ui/apps/gtkmm/src/Ui.cc:86
-msgid "Break ignored"
-msgstr "Перерву проігноровано"
-
-#: ui/apps/gtkmm/src/Ui.cc:89
-msgid "Rest break started"
-msgstr "Розпочато перерву"
-
-#: ui/apps/gtkmm/src/Ui.cc:92
-msgid "Rest break ended"
-msgstr "Перерву завершено"
-
-#: ui/apps/gtkmm/src/Ui.cc:95
-msgid "Micro-break started"
-msgstr "Розпочато мінівідпочинок"
-
-#: ui/apps/gtkmm/src/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "Мінівідпочинок завершено"
-
-#: ui/apps/gtkmm/src/Ui.cc:104
-msgid "Exercise ended"
-msgstr "Вправу завершено"
-
-#: ui/apps/gtkmm/src/Ui.cc:107
-msgid "Exercises ended"
-msgstr "Вправи завершені"
-
-#: ui/apps/gtkmm/src/Ui.cc:110
-msgid "Exercise change"
-msgstr "Вправу завершено"
-
-#: ui/apps/gtkmm/src/Ui.cc:113
-msgid "?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
-msgid "Orientation"
-msgstr "Розміщення"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
-msgid "The orientation of the tray"
-msgstr "Розташування у системній панелі"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
-msgid "Foreground color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
-msgid "Foreground color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-msgid "Error color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-msgid "Error color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-msgid "Warning color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-msgid "Warning color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
-msgid "Success color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
-msgid "Success color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
-msgid "Padding"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
-msgid "Padding that should be put around icons in the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
-msgid "Icon Size"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr ""
-"Ця програма допомагає у попередженні та лікуванні тунельного синдрому "
-"зап'ястя та знятті загального напруження м'язів."
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"Ця програма допомагає у попередженні та лікуванні тунельного синдрому "
-"зап'ястя та знятті загального напруження м'язів."
-
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
+#: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
-msgstr "Розтягування передпліччя"
+#~ msgid "About %s"
+#~ msgstr "О %s"
 
-#: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Простягніть одну руку горизонтально перед грудьми. Іншою рукою потягніть її "
-"на себе, поки не відчуєте м'яку напругу у плечі. Затримайтеся ненадовго і "
-"повторіть вправу для іншої руки."
+#~ msgid "About..."
+#~ msgstr "Про програму..."
 
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr "Розтягування пальців"
+#~ msgid "Accepted new client."
+#~ msgstr "Прийнятий новий клієнт."
 
-#: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Розчепірте і потягніть пальці доти, доки не відчуєте легке напруження, і "
-"потримайте так 10 секунд. Розслабтесь, потім зігніть у суглобах і потримайте "
-"так теж 10 секунд. Повторіть вправу ще раз."
+#, c-format
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "Підтвердження запиту на роль ведучого від клієнта %s."
 
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "Розтягування шиї нахилами"
+#~ msgid "Advanced"
+#~ msgstr "Додатково"
 
-#: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Розпочніть вправу, розмістивши голову прямо. Потім повільно нахиліть її до "
-"правого плеча, щоб м'яко розтягнути м'язи на лівій стороні шиї. Затримайтеся "
-"у цьому положенні протягом 5 секунд. Після цього нахиліть голову до лівої "
-"сторони, щоб розтягнути м'язи на іншій стороні. "
-
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr "Зворотнє розтягування плечей"
-
-#: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Сплетіть пальці за спиною. Потім повільно вигніть лікті всередину, "
-"випрямляючи руки. Затримайтеся в такому положенні від 5 до 15 секунд і "
-"повторіть вправу двічі."
-
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "Рух очима"
-
-#: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Подивіться на лівий верхній кут корпуса монітора. Повільно перемістіть "
-"погляд до правого верхнього кута. Продовжуйте, доки не обійдете поглядом всі "
-"кути монітора двічі. Повторіть вправу, переміщуючи погляд у зворотньому "
-"напрямку."
-
-#: ui/data/exercises/exercises.xml.in:64
-msgid "Train focusing the eyes"
-msgstr "Тренування фокусування очей"
-
-#: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Подивіться на найвіддаленішу точку, яку ви можете бачити за вашим монітором. "
-"Сфокусуйте погляд на цій точці. Після кількох секунд сфокусуйтесь на "
-"моніторі.Повторіть вправу. Якщо ви не можете дивитися далеко від монітора, "
-"використовуйте, наприклад, ручку, тримаючи її на тій самій відстані, що й "
-"монітор."
-
-#: ui/data/exercises/exercises.xml.in:72
-msgid "Look into the darkness"
-msgstr "Дивитися  у темряву"
-
-#: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Закрийте очі долонями так, щоб повіки могли відкриватися. Тепер відкрийте "
-"очі та подивіться у темряву ваших долонь. Ця вправа краще допомагає вашим "
-"очам, ніж коли ви просто їх заплющуєте."
-
-#: ui/data/exercises/exercises.xml.in:79
-msgid "Move the shoulders"
-msgstr "Рух плечима"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Обертайте праву руку біля тулуба, наче гвинт літака. Зробіть так 4 рази за "
-"годинниковою стрілкою, 4 рази - проти і розслабтесь на кілька секунд. "
-"Повторіть вправу з лівою рукою."
-
-#: ui/data/exercises/exercises.xml.in:87
-msgid "Move the shoulders up and down"
-msgstr "Рух плечима вгору і вниз"
-
-#: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Стисніть руків'я стільця, на якому ви сидите, і підніміть себе, випрямивши "
-"руки. Спробуйте відкинути голову назад, опускаючи плечі. Потім повільно "
-"сядьте на стілець."
-
-#: ui/data/exercises/exercises.xml.in:125
-msgid "Turn your head"
-msgstr "Поверніть голову"
-
-#: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr "Поверніть голову наліво і потримайте так 2 секунди, потім - направо."
+#~ msgid "Allow incoming connections"
+#~ msgstr "Дозволити вхідні з'єднання"
 
 #, fuzzy
-#~ msgid "Make sure that the RECORD extension is enabled in the X server."
-#~ msgstr "Перевірте, що розширення RECORD активне на X сервері."
+#~ msgid "Break in"
+#~ msgstr "Перерыв в %s"
 
-#~ msgid "Open"
-#~ msgstr "_Відкрити"
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr "Не могу разрешить свое собственное имя компьютера. Выполнение прекращено."
 
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "_Режим"
+#, c-format
+#~ msgid "Client %s access denied."
+#~ msgstr "Заборонено доступ для клієнта %s."
+
+#, c-format
+#~ msgid "Client %s closed connection."
+#~ msgstr "Клієнт %s розірвав з'єднання."
+
+#, c-format
+#~ msgid "Client %s connected."
+#~ msgstr "Клієнт %s з'єднався."
+
+#, c-format
+#~ msgid "Client %s is duplicate."
+#~ msgstr "Клієнт %s не є унікальним."
+
+#, c-format
+#~ msgid "Client %s is now master."
+#~ msgstr "Клієнт%s тепер є ведучим."
+
+#, c-format
+#~ msgid "Client %s is now the new master."
+#~ msgstr "Клієнт %s тепер ведучий."
+
+#, c-format
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "Нас запрошує клієнт %s."
+
+#, c-format
+#~ msgid "Client %s read error, closing."
+#~ msgstr "Помилка \tзчитування у клієнта %s, закриття."
+
+#, c-format
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "Клієнт %s  відхилив запит на роль ведучого. Зачекайте..."
+
+#, c-format
+#~ msgid "Client %s saying hello."
+#~ msgstr "Клієнт %s вітається."
+
+#, c-format
+#~ msgid "Client %s signed off."
+#~ msgstr "Клієнт %s вийшов."
+
+#, c-format
+#~ msgid "Client timeout from %s."
+#~ msgstr "Клієнтський таймаут від %s."
+
+#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
+#~ msgstr "Закройте ваши глаза и сделайте, насколько можете, долгий выдох. Затем, вдохните, опять же насколько можете медленно. Попытайтесь считать до 8 каждый раз, когда вдыхаете и выдыхаете. Для лучшего расслабления глаз, попытайтесь также закрывать их во время миниотдыха."
 
 #, fuzzy
 #~ msgid "Connect"
 #~ msgstr "_З'єднатися"
 
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "_Роз'єднатися"
+#, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "З'єднання з %s."
 
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Перез'єднатися"
+#, c-format
+#~ msgid "Could not connect to client %s."
+#~ msgstr "Помилка з'єднання з клієнтом %s."
 
-#~ msgid "About..."
-#~ msgstr "Про програму..."
+#~ msgid "Could not enable network operation."
+#~ msgstr "Мережеві операції недоступні."
 
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "_Вихід"
-
-#~ msgid "_Connect"
-#~ msgstr "_З'єднатися"
-
-#~ msgid "Show _log"
-#~ msgstr "Показати _журнал"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Призупинити таймер, коли немає активності"
+#~ msgid "Credits"
+#~ msgstr "Список участников"
 
 #~ msgid "Custom"
 #~ msgstr "Інше"
 
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Відтворювати звуки, використовуючи вбудований динамік"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Тихо"
-
-#~ msgid "_Connect..."
-#~ msgstr "_З'єднатися..."
-
-#~ msgid "_Show Log..."
-#~ msgstr "Показати _журнал..."
-
-#~ msgid "_About..."
-#~ msgstr "_Про програму..."
-
 #~ msgid "Daily usage"
 #~ msgstr "Використання за день"
 
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Это Ваш перерыв. Встаньте и отойдите ненадолго от компьютера. Просто "
-#~ "прогуляйтесь несколько минут, потянитесь и расслабьтесь."
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Тишина через %s"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr ""
-#~ "Не могу разрешить свое собственное имя компьютера. Выполнение прекращено."
-
-#, fuzzy
-#~ msgid "Break in"
-#~ msgstr "Перерыв в %s"
+#~ msgid "Disabling network operation."
+#~ msgstr "Скасування мережевих операцій."
 
 #, fuzzy
 #~ msgid "Disappears in"
 #~ msgstr "Исчезнет через %s"
 
 #, fuzzy
-#~ msgid "Silent in"
-#~ msgstr "Тишина через %s"
+#~ msgid "Disconnect"
+#~ msgstr "_Роз'єднатися"
+
+#, c-format
+#~ msgid "Disconnecting %s"
+#~ msgstr "Роз'єднання %s."
+
+#~ msgid "Enable networking"
+#~ msgstr "Активувати мережеві з'єднання"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr "Введіть ім'я та порт комп'ютера в мережі, з яким ви хочете з'єднатися."
+
+#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
+#~ msgstr "Встаньте лицом к стене (или чему-нибудь) и вытяните руки на ширине плеч немного согнув в локтях. Толкните тело на стену не сгибая локти. Затем, вернитесь в исходное положение, также не разгибая локти."
+
+#~ msgid "Host name"
+#~ msgstr "Ім'я комп'ютера"
+
+#~ msgid "Host name:"
+#~ msgstr "Ім'я комп'ютера:"
+
+#~ msgid "Hosts"
+#~ msgstr "Комп'ютери"
 
 #~ msgid "I could not initialize Bonobo"
 #~ msgstr "Не могу инициализировать Bonobo"
 
+#~ msgid "I'm now master."
+#~ msgstr "Тепер ви ведучий."
+
 #~ msgid "Inactive"
 #~ msgstr "Неактивно"
 
-#~ msgid "Credits"
-#~ msgstr "Список участников"
+#~ msgid "Is Workrave already running?"
+#~ msgstr "Workrave вже запущено?"
 
-#~ msgid "_Written by"
-#~ msgstr "_Разработчики"
+#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr "Держите голову прямо и нижнюю челюсть параллельно полу. Наклоните голову вперёд (чтобы получился двойной подбородок). Подержите 2 секунды и расслабьтесь. Откиньте голову назад, подержите 2 секунды и опять расслабьтесь."
 
-#~ msgid "_Documented by"
-#~ msgstr "_Документация"
+#, fuzzy
+#~ msgid "Make sure that the RECORD extension is enabled in the X server."
+#~ msgstr "Перевірте, що розширення RECORD активне на X сервері."
 
-#~ msgid "_Translated by"
-#~ msgstr "_Перевод"
-
-#~ msgid "_Credits"
-#~ msgstr "_Список участников"
-
-#~ msgid "About %s"
-#~ msgstr "О %s"
-
-#~ msgid ""
-#~ "Close your eyes and breathe out as long as you can and try to relax. When "
-#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-#~ "for each time you breathe in and out. To extra relax your eyes, try "
-#~ "closing them in micro pauses too."
-#~ msgstr ""
-#~ "Закройте ваши глаза и сделайте, насколько можете, долгий выдох. Затем, "
-#~ "вдохните, опять же насколько можете медленно. Попытайтесь считать до 8 "
-#~ "каждый раз, когда вдыхаете и выдыхаете. Для лучшего расслабления глаз, "
-#~ "попытайтесь также закрывать их во время миниотдыха."
-
-#~ msgid ""
-#~ "Go stand face to a wall (or something) and put your hands at shoulder "
-#~ "height against it with your elbows slightly bended. Push your body to the "
-#~ "wall, without changing the angle of your elbows. Then push your body back "
-#~ "from the wall again without changing the angle of the elbows."
-#~ msgstr ""
-#~ "Встаньте лицом к стене (или чему-нибудь) и вытяните руки на ширине плеч "
-#~ "немного согнув в локтях. Толкните тело на стену не сгибая локти. Затем, "
-#~ "вернитесь в исходное положение, также не разгибая локти."
-
-#~ msgid ""
-#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
-#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
-#~ "Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr ""
-#~ "Держите голову прямо и нижнюю челюсть параллельно полу. Наклоните голову "
-#~ "вперёд (чтобы получился двойной подбородок). Подержите 2 секунды и "
-#~ "расслабьтесь. Откиньте голову назад, подержите 2 секунды и опять "
-#~ "расслабьтесь."
+#, fuzzy
+#~ msgid "Mode"
+#~ msgstr "_Режим"
 
 #~ msgid "Move the shoulder blades"
 #~ msgstr "Движение лопатками"
@@ -1543,36 +1272,158 @@ msgstr "Поверніть голову наліво і потримайте т�
 #~ msgid "Neck stretch"
 #~ msgstr "Потягивание шеи"
 
+#~ msgid "Network"
+#~ msgstr "Мережа"
+
+#~ msgid "Network connect"
+#~ msgstr "Мережеве з'єднання"
+
+#~ msgid "Network log"
+#~ msgstr "Мережевий журнал"
+
+#~ msgid "Network operation started."
+#~ msgstr "Розпочато мережеву операцію."
+
+#, c-format
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "Клієнт %s, який не є ведучим, відхилив запит на роль ведучого."
+
+#~ msgid "Open"
+#~ msgstr "_Відкрити"
+
+#~ msgid "Password:"
+#~ msgstr "Пароль:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "Відтворювати звуки, використовуючи вбудований динамік"
+
+#~ msgid "Port"
+#~ msgstr "Порт"
+
+#~ msgid "Port:"
+#~ msgstr "Порт:"
+
+#, fuzzy
+#~ msgid "Quit"
+#~ msgstr "_Вихід"
+
+#, fuzzy
+#~ msgid "Reconnect"
+#~ msgstr "_Перез'єднатися"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "Кількість спроб з'єднання:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "Інтервал між з'єднаннями:"
+
+#, c-format
+#~ msgid "Reconnecting to %s."
+#~ msgstr "Повторне з'єднання з %s."
+
+#, c-format
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "Відхилення запиту на роль ведучого від клієнта %s."
+
 #~ msgid "Relax the eyes"
 #~ msgstr "Расслабьте глаза"
 
-#~ msgid ""
-#~ "Stand by your desk and place both your palms on the desk with the fingers "
-#~ "pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr ""
-#~ "Встаньте возле стола и положите на него обе ладони, чтобы пальцы "
-#~ "указывали на вас. Осторожно потяните ваши запястья и руки."
+#, c-format
+#~ msgid "Removing client %s."
+#~ msgstr "Видалення клієнта %s."
 
-#~ msgid ""
-#~ "Stand up and try to reach the ceiling with your hands without lifting "
-#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
-#~ "the floor, without bending your arms. Keep them moving to the floor by "
-#~ "bending you back slowly until you can (almost) place them in front of "
-#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
-#~ "is straight up again."
-#~ msgstr ""
-#~ "Встаньте и попробуйте потянуться руками, не отрывая пятки от пола. "
-#~ "Постойте так несколько секунд. Затем, расслабьте кисти не сгибая руки. "
-#~ "Продолжайте их опускать, медленно сгибаясь, пока Вы не сможете (или почти "
-#~ "не сможете) коснуться ваших ботинок. Медленно выпрямитесь до "
-#~ "вертикального положения"
-
-#~ msgid "Stretch your back"
-#~ msgstr "Потяните спину"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Потягивание запястья"
+#, c-format
+#~ msgid "Requesting master status from %s."
+#~ msgstr "Запит стану ведучого від %s."
 
 #, fuzzy
 #~ msgid "Restbreak"
 #~ msgstr "_Перерыв"
+
+#~ msgid "Server port:"
+#~ msgstr "Порт сервера:"
+
+#~ msgid "Server settings"
+#~ msgstr "Налаштування сервера"
+
+#~ msgid "Show _log"
+#~ msgstr "Показати _журнал"
+
+#, fuzzy
+#~ msgid "Silent in"
+#~ msgstr "Тишина через %s"
+
+#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr "Встаньте возле стола и положите на него обе ладони, чтобы пальцы указывали на вас. Осторожно потяните ваши запястья и руки."
+
+#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
+#~ msgstr "Встаньте и попробуйте потянуться руками, не отрывая пятки от пола. Постойте так несколько секунд. Затем, расслабьте кисти не сгибая руки. Продолжайте их опускать, медленно сгибаясь, пока Вы не сможете (или почти не сможете) коснуться ваших ботинок. Медленно выпрямитесь до вертикального положения"
+
+#, fuzzy
+#~ msgid "Starting %s"
+#~ msgstr "Тишина через %s"
+
+#~ msgid "Stretch your back"
+#~ msgstr "Потяните спину"
+
+#~ msgid "Suspend timer when inactive"
+#~ msgstr "Призупинити таймер, коли немає активності"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "Цей перелік містить комп'ютери, з якими з'єднується Workrave при\n"
+#~ "завантаженні. Для редагування клацніть мишею на імені комп'ютера або номері порта."
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr "Это Ваш перерыв. Встаньте и отойдите ненадолго от компьютера. Просто прогуляйтесь несколько минут, потянитесь и расслабьтесь."
+
+#~ msgid "Username:"
+#~ msgstr "Ім'я користувача:"
+
+#~ msgid "Workrave failed to start"
+#~ msgstr "Не вдалося запустити Workrave"
+
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Потягивание запястья"
+
+#~ msgid "_About..."
+#~ msgstr "_Про програму..."
+
+#~ msgid "_Connect"
+#~ msgstr "_З'єднатися"
+
+#~ msgid "_Connect..."
+#~ msgstr "_З'єднатися..."
+
+#~ msgid "_Credits"
+#~ msgstr "_Список участников"
+
+#~ msgid "_Disconnect"
+#~ msgstr "_Роз'єднатися"
+
+#~ msgid "_Documented by"
+#~ msgstr "_Документация"
+
+#~ msgid "_Network"
+#~ msgstr "_Мережа"
+
+#~ msgid "_Quiet"
+#~ msgstr "_Тихо"
+
+#~ msgid "_Reconnect"
+#~ msgstr "_Перез'єднатися"
+
+#~ msgid "_Show Log..."
+#~ msgstr "Показати _журнал..."
+
+#~ msgid "_Translated by"
+#~ msgstr "_Перевод"
+
+#~ msgid "_Written by"
+#~ msgstr "_Разработчики"

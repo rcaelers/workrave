@@ -17,12 +17,15 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   PreludeWindow.cc
   RestBreakWindow.cc
   StatisticsDialog.cc
-  TimerBoxPreferencePage.cc
-  TimerPreferencesPanel.cc
   Toolkit.cc
   ToolkitFactory.cc
   ToolkitMenu.cc
   Ui.cc
+  preferences/TimerBoxPreferencePanel.cc
+  preferences/TimerPreferencePanel.cc
+  preferences/GeneralPreferencePanel.cc
+  preferences/SoundPreferencePanel.cc
+  preferences/MonitoringPreferencePanel.cc
   widgets/EventButton.cc
   widgets/EventImage.cc
   widgets/EventLabel.cc
@@ -81,6 +84,7 @@ target_include_directories(
   PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets
+  ${CMAKE_CURRENT_SOURCE_DIR}/preferences
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   ${GTK_INCLUDE_DIRS}
   ${INDICATOR_INCLUDE_DIRS}

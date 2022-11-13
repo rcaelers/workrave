@@ -30,7 +30,7 @@
 #include "core/IBreak.hh"
 
 #include "TimeEntry.hh"
-#include "TimerPreferencesPanel.hh"
+#include "TimerPreferencePanel.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
 
@@ -42,13 +42,14 @@ using namespace std;
 using namespace workrave;
 using namespace workrave::config;
 
-TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplicationContext> app,
-                                             BreakId t,
-                                             Glib::RefPtr<Gtk::SizeGroup> hsize_group,
-                                             Glib::RefPtr<Gtk::SizeGroup> vsize_group)
+TimerPreferencePanel::TimerPreferencePanel(std::shared_ptr<IApplicationContext> app,
+                                           BreakId t,
+                                           Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+                                           Glib::RefPtr<Gtk::SizeGroup> vsize_group)
   : Gtk::VBox(false, 6)
+  , connector(std::make_shared<DataConnector>(app))
+
 {
-  connector = new DataConnector(app);
   break_id = t;
 
   Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
@@ -57,7 +58,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplicationContext
   Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Enable timer"), true));
   enabled_cb = Gtk::manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
-  enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
+  enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencePanel::on_enabled_toggled));
 
   HigCategoriesPanel *categories = Gtk::manage(new HigCategoriesPanel());
 
@@ -82,13 +83,13 @@ TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplicationContext
   set_border_width(12);
 }
 
-TimerPreferencesPanel::~TimerPreferencesPanel()
+TimerPreferencePanel::~TimerPreferencePanel()
 {
-  delete connector;
+
 }
 
 Gtk::Widget *
-TimerPreferencesPanel::create_prelude_panel()
+TimerPreferencePanel::create_prelude_panel()
 {
   // Prelude frame
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Break prompting")));
@@ -105,22 +106,22 @@ TimerPreferencesPanel::create_prelude_panel()
 
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(prelude_cb),
-                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
+                     sigc::mem_fun(*this, &TimerPreferencePanel::on_preludes_changed));
 
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(has_max_prelude_cb),
-                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
+                     sigc::mem_fun(*this, &TimerPreferencePanel::on_preludes_changed),
                      dc::NO_CONFIG);
 
   connector->connect(CoreConfig::break_max_preludes(break_id),
                      dc::wrap(max_prelude_spin),
-                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
+                     sigc::mem_fun(*this, &TimerPreferencePanel::on_preludes_changed),
                      dc::NO_CONFIG);
   return hig;
 }
 
 Gtk::Widget *
-TimerPreferencesPanel::create_options_panel()
+TimerPreferencePanel::create_options_panel()
 {
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Options")));
 
@@ -178,7 +179,7 @@ TimerPreferencesPanel::create_options_panel()
 }
 
 Gtk::Widget *
-TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group)
+TimerPreferencePanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group, Glib::RefPtr<Gtk::SizeGroup> vsize_group)
 {
   HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Timers")));
 
@@ -219,7 +220,7 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gr
 }
 
 void
-TimerPreferencesPanel::set_prelude_sensitivity()
+TimerPreferencePanel::set_prelude_sensitivity()
 {
   bool on = enabled_cb->get_active();
   bool has_preludes = prelude_cb->get_active();
@@ -229,7 +230,7 @@ TimerPreferencesPanel::set_prelude_sensitivity()
 }
 
 bool
-TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
+TimerPreferencePanel::on_preludes_changed(const std::string &key, bool write)
 {
   static bool inside = false;
 
@@ -287,7 +288,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 }
 
 void
-TimerPreferencesPanel::on_enabled_toggled()
+TimerPreferencePanel::on_enabled_toggled()
 {
   enable_buttons();
   set_prelude_sensitivity();
@@ -295,7 +296,7 @@ TimerPreferencesPanel::on_enabled_toggled()
 
 //! Enable widgets
 void
-TimerPreferencesPanel::enable_buttons()
+TimerPreferencePanel::enable_buttons()
 {
   bool on = enabled_cb->get_active();
 
