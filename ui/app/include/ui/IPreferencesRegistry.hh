@@ -20,12 +20,7 @@
 
 #include <memory>
 
-#include "ui/prefwidgets/Widget.hh"
-
-enum class PreferencesSection
-{
-  General
-};
+#include "ui/prefwidgets/Def.hh"
 
 class IPreferencesRegistry
 {
@@ -34,8 +29,9 @@ public:
 
   virtual ~IPreferencesRegistry() = default;
 
-  virtual void add(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget) = 0;
-  virtual void remove(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget) = 0;
+  virtual void add(std::shared_ptr<ui::prefwidgets::Def> def) = 0;
+  virtual void remove(std::shared_ptr<ui::prefwidgets::Def> def) = 0;
+  virtual void add_page(const std::string &id, const std::string &label, const std::string &image) = 0;
 };
 
 #endif // WORKRAVE_UI_IPREFERENCES_REGISTRY_HH

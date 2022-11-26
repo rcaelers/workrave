@@ -19,6 +19,7 @@
 #define WORKRAVE_UI_PREFWIDGETS_WIDGETS_HH
 
 #include "ui/prefwidgets/Widget.hh"
+#include "ui/prefwidgets/Def.hh"
 #include "ui/prefwidgets/Box.hh"
 #include "ui/prefwidgets/Toggle.hh"
 #include "ui/prefwidgets/Choice.hh"

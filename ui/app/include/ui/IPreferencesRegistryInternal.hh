@@ -30,7 +30,9 @@ public:
 
   ~IPreferencesRegistryInternal() override = default;
 
-  virtual std::list<std::shared_ptr<ui::prefwidgets::Widget>> get_widgets(PreferencesSection section) const = 0;
+  virtual std::list<std::shared_ptr<ui::prefwidgets::Def>> get_widgets(const std::string &location) const = 0;
+  virtual std::map<std::string, std::list<std::shared_ptr<ui::prefwidgets::Def>>> get_widgets() const = 0;
+  virtual std::map<std::string, std::pair<std::string, std::string>> get_pages() const = 0;
 };
 
 #endif // WORKRAVE_UI_IPREFERENCES_REGISTRY_INTERNAL_HH

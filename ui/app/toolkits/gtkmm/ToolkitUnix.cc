@@ -85,7 +85,7 @@ ToolkitUnix::show_notification(const std::string &id,
                                const std::string &balloon,
                                std::function<void()> func)
 {
-  notify_add_confirm_funcation(id, func);
+  notify_add_confirm_function(id, func);
   auto notification = Gio::Notification::create("Workrave");
   notification->set_body(balloon);
   notification->set_default_action_variant("app.confirm-notification", Glib::Variant<Glib::ustring>::create(id));

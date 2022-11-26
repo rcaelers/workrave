@@ -283,7 +283,7 @@ Toolkit::show_notification(const std::string &id,
                            const std::string &balloon,
                            std::function<void()> func)
 {
-  notify_add_confirm_funcation(id, func);
+  notify_add_confirm_function(id, func);
   status_icon->show_balloon(QString::fromStdString(id), QString::fromStdString(title), QString::fromStdString(balloon));
 }
 
@@ -320,7 +320,7 @@ Toolkit::on_status_icon_activated()
 }
 
 void
-Toolkit::notify_add_confirm_funcation(const std::string &id, std::function<void()> func)
+Toolkit::notify_add_confirm_function(const std::string &id, std::function<void()> func)
 {
   notifiers[id] = func;
 }

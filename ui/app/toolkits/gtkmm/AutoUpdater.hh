@@ -67,7 +67,7 @@ private:
   std::shared_ptr<AutoUpdateDialog> dialog;
   std::optional<handler_type> dialog_handler;
 
-  std::shared_ptr<ui::prefwidgets::Frame> auto_update_def;
+  std::shared_ptr<ui::prefwidgets::Def> auto_update_def;
 
   using sv = std::string_view;
   static constexpr std::string_view CHECK_FOR_UPDATE = sv("workrave.check_for_updates");

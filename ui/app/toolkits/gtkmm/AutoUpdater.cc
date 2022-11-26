@@ -127,18 +127,20 @@ AutoUpdater::init_preferences()
 {
   std::vector<std::string> channels{"Stable", "Release Candidate", "Beta"};
 
-  auto_update_def = ui::prefwidgets::Frame::create(_("Auto update"))
-                    << ui::prefwidgets::Toggle::create(_("Automatically check for updates"))
-                         ->connect(&workrave::updater::Config::enabled())
-                    << ui::prefwidgets::Choice::create(_("Release channel:"))
-                         ->connect(&workrave::updater::Config::channel(),
-                                   {{workrave::updater::Channel::Stable, 0},
-                                    {workrave::updater::Channel::Candidate, 1},
-                                    {workrave::updater::Channel::Beta, 2}})
-                         ->assign(channels)
-                         ->when(&workrave::updater::Config::enabled());
+  auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", _("Software updates"))
+                    << (ui::prefwidgets::Frame::create(_("Auto update"))
+                        << ui::prefwidgets::Toggle::create(_("Automatically check for updates"))
+                             ->connect(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Choice::create(_("Release channel:"))
+                             ->connect(&workrave::updater::Config::channel(),
+                                       {{workrave::updater::Channel::Stable, 0},
+                                        {workrave::updater::Channel::Candidate, 1},
+                                        {workrave::updater::Channel::Beta, 2}})
+                             ->assign(channels)
+                             ->when(&workrave::updater::Config::enabled()));
 
-  context->get_preferences_registry()->add(PreferencesSection::General, auto_update_def);
+  context->get_preferences_registry()->add_page("auto-update", _("Software updates"), "time.png");
+  context->get_preferences_registry()->add(auto_update_def);
 }
 
 void

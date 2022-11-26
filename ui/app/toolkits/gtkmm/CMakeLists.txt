@@ -30,8 +30,7 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   widgets/EventImage.cc
   widgets/EventLabel.cc
   widgets/Frame.cc
-  widgets/IconListCellRenderer.cc
-  widgets/IconListNotebook.cc
+  widgets/PanelList.cc
   widgets/StatusIcon.cc
   widgets/TimeBar.cc
   widgets/TimeEntry.cc

@@ -74,8 +74,10 @@ namespace ui::prefwidgets
 
   template<typename S, typename T>
   std::shared_ptr<S> operator<<(std::shared_ptr<S> s, std::shared_ptr<T> t)
+  requires std::is_base_of_v<Widget, S>
   {
-    return detail::stream(s, t, std::is_convertible<S *, Widget *>());
+    *s << t;
+    return s;
   }
 
   template<typename WidgetType>
@@ -108,17 +110,10 @@ namespace ui::prefwidgets
 
     void set(WidgetType value) override
     {
-      spdlog::info("set {}", value);
       auto it = std::find_if(mapping.begin(), mapping.end(), [&value](const auto &p) { return p.second == value; });
-
-      for (auto &p: mapping)
-        {
-          spdlog::info("  {}", p.second);
-        }
 
       if (it != mapping.end())
         {
-          spdlog::info("set2");
           setting->set(it->first);
         }
     }
@@ -126,12 +121,10 @@ namespace ui::prefwidgets
     WidgetType get() const override
     {
       auto value = setting->get();
-      spdlog::info("get");
       auto it = mapping.find(value);
 
       if (it != mapping.end())
         {
-          spdlog::info("get2 {}", it->second);
           return it->second;
         }
       return WidgetType();

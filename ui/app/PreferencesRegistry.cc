@@ -21,31 +21,48 @@
 
 #include "PreferencesRegistry.hh"
 
-#include <spdlog/spdlog.h>
-#include "spdlog/fmt/ostr.h"
-
 void
-PreferencesRegistry::add(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget)
+PreferencesRegistry::add(std::shared_ptr<ui::prefwidgets::Def> def)
 {
-  widgets[section].push_back(widget);
+  auto id = def->get_id();
+  widgets[id].push_back(def);
 }
 
 void
-PreferencesRegistry::remove(PreferencesSection section, std::shared_ptr<ui::prefwidgets::Widget> widget)
+PreferencesRegistry::remove(std::shared_ptr<ui::prefwidgets::Def> def)
 {
-  if (widgets.contains(section))
+  auto id = def->get_id();
+  if (widgets.contains(id))
     {
-      widgets[section].remove(widget);
+      widgets[id].remove(def);
     }
 }
 
-std::list<std::shared_ptr<ui::prefwidgets::Widget>>
-PreferencesRegistry::get_widgets(PreferencesSection section) const
+std::list<std::shared_ptr<ui::prefwidgets::Def>>
+PreferencesRegistry::get_widgets(const std::string &location) const
 {
-  if (widgets.contains(section))
+  if (widgets.contains(location))
     {
-      return widgets.at(section);
+      return widgets.at(location);
     }
 
   return {};
+}
+
+void
+PreferencesRegistry::add_page(const std::string &id, const std::string &label, const std::string &image)
+{
+  pages[id] = std::make_pair(label, image);
+}
+
+std::map<std::string, std::pair<std::string, std::string>>
+PreferencesRegistry::get_pages() const
+{
+  return pages;
+}
+
+std::map<std::string, std::list<std::shared_ptr<ui::prefwidgets::Def>>>
+PreferencesRegistry::get_widgets() const
+{
+  return widgets;
 }

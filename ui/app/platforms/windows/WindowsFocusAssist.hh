@@ -72,7 +72,7 @@ private:
   DWORD64 subscription{0};
   workrave::OperationMode focus_operation_mode{workrave::OperationMode::Normal};
   bool focus_mode_active{false};
-  std::shared_ptr<ui::prefwidgets::Frame> focus_def;
+  std::shared_ptr<ui::prefwidgets::Def> focus_def;
   workrave::utils::Trackable tracker;
 
   static constexpr WNF_STATE_NAME WNF_SHEL_QUIETHOURS_ACTIVE_PROFILE_CHANGED{0xA3BF1C75, 0xD83063E};

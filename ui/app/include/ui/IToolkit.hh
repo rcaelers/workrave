@@ -81,4 +81,31 @@ public:
   virtual std::shared_ptr<Locker> get_locker() = 0;
 };
 
+inline std::ostream &
+operator<<(std::ostream &stream, IToolkit::WindowType type)
+{
+  switch (type)
+    {
+    case IToolkit::WindowType::Main:
+      stream << "main";
+      break;
+    case IToolkit::WindowType::Debug:
+      stream << "debug";
+      break;
+    case IToolkit::WindowType::Statistics:
+      stream << "statictics";
+      break;
+    case IToolkit::WindowType::Preferences:
+      stream << "preferences";
+      break;
+    case IToolkit::WindowType::About:
+      stream << "about";
+      break;
+    case IToolkit::WindowType::Exercises:
+      stream << "exercises";
+      break;
+    }
+  return stream;
+}
+
 #endif // WORKRAVE_UI_ITOOLKIT_HH

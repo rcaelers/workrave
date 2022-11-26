@@ -20,6 +20,8 @@
 #  include "config.h"
 #endif
 
+#include "GtkUtil.hh"
+
 #include "commonui/nls.h"
 
 #include "debug.hh"
@@ -38,7 +40,6 @@
 #  include "ui/windows/WindowsCompat.hh"
 #endif
 
-#include "GtkUtil.hh"
 #include "EventLabel.hh"
 #include "EventImage.hh"
 #include "HeadInfo.hh"
@@ -495,15 +496,4 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool on_top)
   window->set_keep_above(on_top);
 
 #endif
-}
-
-void
-GtkUtil::add_plugin_widgets(std::shared_ptr<IApplicationContext> app, std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> frame)
-{
-  ui::prefwidgets::gtkmm::Builder builder;
-  auto preferences_registry = app->get_internal_preferences_registry();
-  for (auto pref: preferences_registry->get_widgets(PreferencesSection::General))
-    {
-      builder.build(pref, frame);
-    }
 }
