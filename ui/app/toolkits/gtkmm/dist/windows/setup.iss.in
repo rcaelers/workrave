@@ -186,8 +186,42 @@ begin
   Result := WizardDirValue + '\bin';
 end;
 
-[Code]
 function IsX64: Boolean;
 begin
   Result := (ProcessorArchitecture = paX64);
+end;
+function GetUninstallCommand(): String;
+var
+  uninstallPath: String;
+  uninstallCommand: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  uninstallCommand := '';
+
+  if not RegQueryStringValue(HKLM, uninstallPath, 'UninstallString', uninstallCommand) then
+    RegQueryStringValue(HKCU, uninstallPath, 'UninstallString', uninstallCommand);
+  Result := uninstallCommand;
+end;
+
+Procedure UninstallPreviousVersion();
+var
+  uninstallCommand: String;
+  iResultCode: Integer;
+begin
+  uninstallCommand := GetUninstallCommand();
+   Msgbox('Debug: ' + uninstallCommand, mbConfirmation, MB_Ok);
+  if uninstallCommand <> '' then begin
+    uninstallCommand := RemoveQuotes(uninstallCommand);
+    Exec(uninstallCommand, '/SILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
+  end
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  case CurStep of
+    ssInstall:
+      begin
+        UninstallPreviousVersion();
+      end;
+  end;
 end;
