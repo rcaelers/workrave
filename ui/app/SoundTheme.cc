@@ -361,7 +361,7 @@ void
 SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
 {
   TRACE_ENTRY_PAR(snd, mute_after_playback);
-  bool enabled = SoundTheme::sound_event_enabled(snd)();
+  bool enabled = sound_event_enabled(snd)() && sound_enabled()();
 
   if (enabled)
     {
