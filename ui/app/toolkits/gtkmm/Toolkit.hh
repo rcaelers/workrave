@@ -121,6 +121,8 @@ private:
   void on_status_icon_balloon_activated(const std::string &id);
   void on_status_icon_activated();
 
+  bool can_close() const;
+
 protected:
   std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};

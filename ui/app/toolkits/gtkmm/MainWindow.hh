@@ -38,26 +38,30 @@ class MainWindow
 public:
   using closed_signal_t = sigc::signal<void()>;
 
-  MainWindow(std::shared_ptr<IApplicationContext> app);
+  explicit MainWindow(std::shared_ptr<IApplicationContext> app);
   ~MainWindow() override;
 
-  void init();
-  void toggle_window();
-  void open_window();
-  void close_window();
   void set_can_close(bool can_close);
 
+  void open_window();
+  void close_window();
   void update();
-  void relocate_window(int width, int height);
 
   closed_signal_t &signal_closed();
 
 private:
-  bool on_timer_view_button_press_event(const GdkEventButton *event);
+  void init();
 
-  int map_to_head(int &x, int &y);
-  void map_from_head(int &x, int &y, int head);
-  bool bound_head(int &x, int &y, int width, int height, int &head);
+  int convert_display_to_monitor(int &x, int &y);
+  void convert_monitor_to_display(int &x, int &y, int head);
+  void locate_window(GdkEventConfigure *event);
+  void move_to_start_position();
+
+  bool on_timer_view_button_press_event(const GdkEventButton *event);
+  void on_enabled_changed();
+
+  // UI Events.
+  bool on_delete_event(GdkEventAny *) override;
 
 private:
   std::shared_ptr<IApplicationContext> app;
@@ -80,29 +84,8 @@ private:
   Gtk::Window *leader{nullptr};
 #endif
 
-  //! Location of main window.
-  Gdk::Point window_location{-1, -1};
-
-  //! Location of main window relative to current head
-  Gdk::Point window_head_location{-1, -1};
-
-  //! Relocated location of main window
-  Gdk::Point window_relocated_location{-1, -1};
-
   //! Event triggered when the main window has been closed by the user
   closed_signal_t closed_signal;
-
-private:
-  void setup();
-  void locate_window(GdkEventConfigure *event);
-  void move_to_start_position();
-
-  // UI Events.
-  bool on_delete_event(GdkEventAny *) override;
-  bool on_configure_event(GdkEventConfigure *event) override;
-
-  static void get_start_position(int &x, int &y, int &head);
-  static void set_start_position(int x, int y, int head);
 };
 
 #endif // MAINWINDOW_HH

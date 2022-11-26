@@ -54,7 +54,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   sound_theme = app->get_sound_theme();
 
   main_window = new MainWindow(app);
-  main_window->init();
 
   // event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this,
   // &Toolkit::on_main_window_closed)));

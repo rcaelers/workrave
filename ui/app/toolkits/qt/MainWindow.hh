@@ -33,7 +33,6 @@ class MainWindow
 public:
   explicit MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent = nullptr);
 
-  void init();
   void heartbeat();
 
   void moveEvent(QMoveEvent *event) override;

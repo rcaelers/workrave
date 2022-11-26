@@ -65,7 +65,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   sound_theme = app->get_sound_theme();
 
   main_window = new MainWindow(app);
-  main_window->init();
 
   gapp->signal_startup().connect([this]() {
     gapp->add_window(*main_window);
@@ -119,6 +118,12 @@ Toolkit::release()
   TRACE_ENTRY_PAR(hold_count);
   hold_count--;
   main_window->set_can_close(hold_count > 0);
+}
+
+bool
+Toolkit::can_close() const
+{
+  return hold_count > 0;
 }
 
 void
@@ -295,6 +300,7 @@ Toolkit::show_main_window()
   main_window->open_window();
   main_window->show();
   main_window->raise();
+  GUIConfig::timerbox_enabled("main_window").set(true);
 }
 
 void
@@ -518,7 +524,15 @@ Toolkit::on_timer()
 void
 Toolkit::on_main_window_closed()
 {
-  main_window_closed_signal();
+  if (can_close())
+    {
+      GUIConfig::timerbox_enabled("main_window").set(false);
+      main_window_closed_signal();
+    }
+  else
+    {
+      terminate();
+    }
 }
 
 void

@@ -69,11 +69,6 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 }
 
 void
-MainWindow::init()
-{
-}
-
-void
 MainWindow::heartbeat()
 {
   timer_box_control->update();
