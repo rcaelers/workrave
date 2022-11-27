@@ -236,16 +236,3 @@ UiUtil::time_to_string(time_t time, bool display_units) -> QString
 
   return ret;
 }
-
-void
-UiUtil::add_plugin_widgets(std::shared_ptr<IApplicationContext> app,
-                           PreferencesSection section,
-                           std::shared_ptr<ui::prefwidgets::qt::BoxWidget> frame)
-{
-  ui::prefwidgets::qt::Builder builder;
-  auto preferences_registry = app->get_internal_preferences_registry();
-  for (auto pref: preferences_registry->get_widgets(section))
-    {
-      builder.build(pref, frame);
-    }
-}

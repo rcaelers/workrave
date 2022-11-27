@@ -5,16 +5,16 @@ add_library(workrave-toolkit-qt OBJECT
   DebugDialog.cc
   ExercisesDialog.cc
   ExercisesPanel.cc
-  GeneralUiPreferencesPanel.cc
   MainWindow.cc
   MicroBreakWindow.cc
+  preferences/GeneralUiPreferencesPanel.cc
+  preferences/SoundsPreferencesPanel.cc
+  preferences/TimerBoxPreferencesPanel.cc
+  preferences/TimerPreferencesPanel.cc
   PreferencesDialog.cc
   PreludeWindow.cc
   RestBreakWindow.cc
-  SoundsPreferencesPanel.cc
   StatisticsDialog.cc
-  TimerBoxPreferencesPanel.cc
-  TimerPreferencesPanel.cc
   Toolkit.cc
   ToolkitFactory.cc
   ToolkitMenu.cc
@@ -59,16 +59,16 @@ set(MOC_SOURCES
   DebugDialog.hh
   ExercisesDialog.hh
   ExercisesPanel.hh
-  GeneralUiPreferencesPanel.hh
   MainWindow.hh
   MicroBreakWindow.hh
+  preferences/GeneralUiPreferencesPanel.hh
+  preferences/SoundsPreferencesPanel.hh
+  preferences/TimerBoxPreferencesPanel.hh
+  preferences/TimerPreferencesPanel.hh
   PreferencesDialog.hh
   PreludeWindow.hh
   RestBreakWindow.hh
-  SoundsPreferencesPanel.hh
   StatisticsDialog.hh
-  TimerBoxPreferencesPanel.hh
-  TimerPreferencesPanel.hh
   Toolkit.hh
   ToolkitMenu.hh
   utils/SizeGroup.hh
@@ -88,6 +88,7 @@ target_include_directories(workrave-toolkit-qt
   PRIVATE
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/utils
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/widgets
+  ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/preferences
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   )
 

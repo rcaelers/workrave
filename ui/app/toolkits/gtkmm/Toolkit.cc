@@ -89,6 +89,8 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   init_multihead();
   init_gui();
   init_debug();
+
+  gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
 }
 
 void
@@ -138,8 +140,6 @@ Toolkit::get_head_info(int screen_index) const
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(screen_index);
 
-  Gdk::Rectangle rect;
-  monitor->get_geometry(rect);
   HeadInfo head;
   head.monitor = screen_index;
   monitor->get_geometry(head.geometry);
@@ -189,6 +189,8 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
 void
 Toolkit::show_window(WindowType type)
 {
+  TRACE_ENTRY_PAR(type);
+
   switch (type)
     {
     case WindowType::Main:
@@ -297,6 +299,7 @@ Toolkit::show_exercises()
 void
 Toolkit::show_main_window()
 {
+  TRACE_ENTRY();
   main_window->open_window();
   main_window->show();
   main_window->raise();
@@ -405,7 +408,7 @@ Toolkit::show_notification(const std::string &id,
                            const std::string &balloon,
                            std::function<void()> func)
 {
-  notify_add_confirm_funcation(id, func);
+  notify_add_confirm_function(id, func);
   status_icon->show_balloon(id, balloon);
 }
 
@@ -550,14 +553,16 @@ Toolkit::on_status_icon_activated()
 }
 
 void
-Toolkit::notify_add_confirm_funcation(const std::string &id, std::function<void()> func)
+Toolkit::notify_add_confirm_function(const std::string &id, std::function<void()> func)
 {
+  TRACE_ENTRY();
   notifiers[id] = func;
 }
 
 void
 Toolkit::notify_confirm(const std::string &id)
 {
+  TRACE_ENTRY();
   if (notifiers.find(id) != notifiers.end())
     {
       notifiers[id]();

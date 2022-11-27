@@ -241,9 +241,6 @@ GeneralPreferencePanel::create_panel()
 #endif
   pack_start(*panel, false, false, 0);
 
-  general_frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(this);
-  GtkUtil::add_plugin_widgets(app, general_frame);
-
   panel->set_border_width(12);
 }
 

@@ -97,7 +97,7 @@ private:
   void on_status_icon_activated();
 
 protected:
-  void notify_add_confirm_funcation(const std::string &id, std::function<void()> func);
+  void notify_add_confirm_function(const std::string &id, std::function<void()> func);
   void notify_confirm(const std::string &id);
 
 protected:

@@ -19,6 +19,7 @@ macro_ensure_out_of_source_build(
 # Set Workrave version
 set (WORKRAVE_VERSION "1.11.0-beta.2" )
 set (WORKRAVE_RESOURCE_VERSION "1,10,999,102" )
+set (WORKRAVE_CHANNEL "beta" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -110,6 +111,17 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   endif()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+endif()
+
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-fconcepts" COMPILER_SUPPORTS_FCONCEPTS)
+if(COMPILER_SUPPORTS_FCONCEPTS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts")
+else()
+  CHECK_CXX_COMPILER_FLAG("-fconcepts-ts" COMPILER_SUPPORTS_FCONCEPTS_TS)
+  if(COMPILER_SUPPORTS_FCONCEPTS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts-ts")
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------

@@ -76,9 +76,6 @@ public:
 
   static void set_always_on_top(Gtk::Window *window, bool ontop);
 
-  static void add_plugin_widgets(std::shared_ptr<IApplicationContext> app,
-                                 std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> frame);
-
 private:
   static Glib::Quark *label_quark;
 };

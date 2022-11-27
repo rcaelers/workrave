@@ -1,4 +1,4 @@
-// Copyright (C) 2002 - 2013 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2022 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,52 +18,59 @@
 #ifndef PREFERENCESDIALOG_HH
 #define PREFERENCESDIALOG_HH
 
-#include <vector>
+#include <memory>
+#include <utility>
+#include <list>
+#include <map>
 
 #include <gtkmm.h>
 
-#include "Hig.hh"
-#include "IconListNotebook.hh"
-
-#include "core/ICore.hh"
 #include "ui/IApplicationContext.hh"
-#include "ui/SoundTheme.hh"
-#include "ui/prefwidgets/gtkmm/Widget.hh"
-#include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 
-class TimeEntry;
-class DataConnector;
+#include "PanelList.hh"
 
-namespace Gtk
+class PreferencesPage
 {
-  class ComboBox;
-  class ComboBox;
-  class FileChooserButton;
-  class HScale;
-  class FileFilter;
-} // namespace Gtk
+public:
+  PreferencesPage(const std::string &id, Gtk::Notebook *notebook);
 
-class PreferencesDialog : public HigDialog
+  void add_panel(const std::string &id, Gtk::Widget *widget, const std::string &label);
+  void add_panel(const std::string &id, Gtk::Widget *widget, Gtk::Widget *label);
+
+private:
+  std::string id;
+  std::map<std::string, Gtk::Widget *> panels;
+  std::list<std::string> panel_order;
+  Gtk::Notebook *notebook{nullptr};
+};
+
+class PreferencesDialog : public Gtk::Dialog
 {
 public:
   explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
   ~PreferencesDialog() override;
 
-  int run();
-
 private:
-  void add_page(const std::string &id, const std::string &label, const std::string &image, Gtk::Widget &widget);
+  std::shared_ptr<PreferencesPage> add_page(const std::string &id, const std::string &label, const std::string &image);
 
+  void init_ui();
   void create_timers_page();
   void create_ui_page();
+  void create_monitoring_page();
+  void create_sounds_page();
+
+  void create_plugin_pages();
+  void create_plugin_panels();
+  void create_panel(std::shared_ptr<ui::prefwidgets::Def> &def);
 
   bool on_focus_in_event(GdkEventFocus *event) override;
   bool on_focus_out_event(GdkEventFocus *event) override;
 
 private:
   std::shared_ptr<IApplicationContext> app;
-  std::map<std::string, Gtk::Widget *> pages;
-  IconListNotebook notebook;
+  std::map<std::string, std::shared_ptr<PreferencesPage>> pages;
+  PanelList panel_list;
+  Gtk::Stack stack;
 };
 
 #endif // PREFERENCESWINDOW_HH

@@ -19,16 +19,32 @@
 #define PREFERENCESDIALOG_HH
 
 #include <memory>
+#include <utility>
+#include <list>
+#include <map>
 
 #include <QtGui>
 #include <QtWidgets>
 
+#include "IconListNotebook.hh"
 #include "ui/IApplicationContext.hh"
 
-#include "DataConnector.hh"
-#include "SizeGroup.hh"
+class PanelList;
 
-class IconListNotebook;
+class PreferencesPage
+{
+public:
+  PreferencesPage(const std::string &id, QTabWidget *notebook);
+
+  void add_panel(const std::string &id, QWidget *widget, const QString &label);
+  void add_panel(const std::string &id, QWidget *widget, const QString &label, QIcon icon);
+
+private:
+  std::string id;
+  std::map<std::string, QWidget *> panels;
+  std::list<std::string> panel_order;
+  QTabWidget *notebook{nullptr};
+};
 
 class PreferencesDialog : public QDialog
 {
@@ -38,19 +54,24 @@ public:
   explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
 
 private:
-  void add_page(const QString &label, const char *image, QWidget *page);
+  std::shared_ptr<PreferencesPage> add_page(const std::string &id, const QString &label, const std::string &image);
 
-  auto create_timer_page() -> QWidget *;
-  auto create_ui_page() -> QWidget *;
+  void init_ui();
+  void create_timers_page();
+  void create_ui_page();
+  void create_monitoring_page();
+  void create_sounds_page();
+
+  void create_plugin_pages();
+  void create_plugin_panels();
+  void create_panel(std::shared_ptr<ui::prefwidgets::Def> &def);
 
 private:
   std::shared_ptr<IApplicationContext> app;
+  std::map<std::string, std::shared_ptr<PreferencesPage>> pages;
   IconListNotebook *notebook{nullptr};
-
-  std::shared_ptr<SizeGroup> hsize_group;
-  std::shared_ptr<SizeGroup> vsize_group;
-
-  DataConnector::Ptr connector;
+  // QStackedWidget *stack{nullptr};
+  // QHBoxLayout *layout{nullptr};
 };
 
 #endif // PREFERENCESDIALOG_HH
