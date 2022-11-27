@@ -113,6 +113,17 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-fconcepts" COMPILER_SUPPORTS_FCONCEPTS)
+if(COMPILER_SUPPORTS_FCONCEPTS)
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -fconcepts)
+else()
+  CHECK_CXX_COMPILER_FLAG("-fconcepts-ts" COMPILER_SUPPORTS_FCONCEPTS_TS)
+  if(COMPILER_SUPPORTS_FCONCEPTS)
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -fconcepts-ts)
+  endif()
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Platform
 
