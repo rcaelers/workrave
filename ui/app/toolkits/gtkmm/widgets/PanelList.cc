@@ -49,7 +49,8 @@ PanelList::add_row(const std::string &id, const std::string &name, const std::st
   grid->set_margin_end(6);
   grid->set_column_spacing(12);
 
-  auto *img = Gtk::manage(GtkUtil::create_image(image));
+  Gtk::Image *img = Gtk::manage(new Gtk::Image());
+  img->set_from_icon_name(image, Gtk::IconSize(Gtk::ICON_SIZE_INVALID));
   grid->attach(*img, 0, 0, 1, 1);
 
   auto *label = Gtk::manage(new Gtk::Label(name));

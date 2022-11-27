@@ -89,6 +89,8 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   init_multihead();
   init_gui();
   init_debug();
+
+  gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
 }
 
 void

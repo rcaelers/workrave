@@ -139,7 +139,7 @@ AutoUpdater::init_preferences()
                              ->assign(channels)
                              ->when(&workrave::updater::Config::enabled()));
 
-  context->get_preferences_registry()->add_page("auto-update", _("Software updates"), "update.svg");
+  context->get_preferences_registry()->add_page("auto-update", _("Software updates"), "update-symbolic");
   context->get_preferences_registry()->add(auto_update_def);
 }
 
