@@ -101,7 +101,7 @@ void
 PreferencesDialog::create_timers_page()
 {
   std::array<std::string, 3> timer_ids = {"microbreak", "restbreak", "dailylimit"};
-  auto page = add_page("timer", _("Timers"), "time.png");
+  auto page = add_page("timer", _("Timers"), "timer.svg");
 
   Glib::RefPtr<Gtk::SizeGroup> hsize_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
   Glib::RefPtr<Gtk::SizeGroup> vsize_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_VERTICAL);
@@ -117,7 +117,7 @@ PreferencesDialog::create_timers_page()
 void
 PreferencesDialog::create_ui_page()
 {
-  auto page = add_page("ui", _("User interface"), "display.png");
+  auto page = add_page("ui", _("User interface"), "display.svg");
 
 #if !defined(PLATFORM_OS_MACOS)
   Gtk::Widget *gui_general_page = Gtk::manage(new GeneralPreferencePanel(app));
@@ -136,7 +136,7 @@ PreferencesDialog::create_ui_page()
 void
 PreferencesDialog::create_monitoring_page()
 {
-  auto page = add_page("monitoring", _("Monitoring"), "time.png");
+  auto page = add_page("monitoring", _("Monitoring"), "mouse.svg");
   Gtk::Widget *monitoring_panel = Gtk::manage(new MonitoringPreferencePanel(app));
   page->add_panel("monitoring", monitoring_panel, _("Monitoring"));
 }
@@ -144,7 +144,7 @@ PreferencesDialog::create_monitoring_page()
 void
 PreferencesDialog::create_sounds_page()
 {
-  auto page = add_page("sounds", _("Sounds"), "display.png");
+  auto page = add_page("sounds", _("Sounds"), "sound.svg");
   Gtk::Widget *gui_sounds_page = Gtk::manage(new SoundPreferencePanel(app));
   page->add_panel("sounds", gui_sounds_page, _("Sounds"));
 }

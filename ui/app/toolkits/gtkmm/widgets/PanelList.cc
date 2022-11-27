@@ -49,7 +49,7 @@ PanelList::add_row(const std::string &id, const std::string &name, const std::st
   grid->set_margin_end(6);
   grid->set_column_spacing(12);
 
-  auto *img = Gtk::manage(GtkUtil::create_image("daily-limit.png"));
+  auto *img = Gtk::manage(GtkUtil::create_image(image));
   grid->attach(*img, 0, 0, 1, 1);
 
   auto *label = Gtk::manage(new Gtk::Label(name));
@@ -62,6 +62,10 @@ PanelList::add_row(const std::string &id, const std::string &name, const std::st
   row->set_data("id", g_strdup(id.c_str()), g_free);
 
   list_box->add(*row);
+  if (list_box->get_children().size() == 1)
+    {
+      list_box->select_row(*row);
+    }
 }
 
 PanelList::activated_signal_t &
