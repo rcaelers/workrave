@@ -23,6 +23,8 @@
 #include <utility>
 
 #include "commonui/MenuModel.hh"
+#include "commonui/Locale.hh"
+
 #include "debug.hh"
 
 MenuModel::MenuModel()
@@ -83,7 +85,7 @@ menus::Node::get_id() const -> std::string
 auto
 menus::Node::get_text() const -> std::string
 {
-  return text;
+  return Locale::lookup(text);
 }
 
 auto
@@ -91,15 +93,15 @@ menus::Node::get_dynamic_text() const -> std::string
 {
   if (text_dynamic)
     {
-      return *text_dynamic;
+      return Locale::lookup(*text_dynamic);
     }
-  return text;
+  return Locale::lookup(text);
 }
 
 auto
 menus::Node::get_text_no_accel() const -> std::string
 {
-  auto ret = text;
+  auto ret = Locale::lookup(text);
   ret.erase(std::remove(ret.begin(), ret.end(), '_'), ret.end());
   return ret;
 }

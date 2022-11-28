@@ -91,6 +91,9 @@ Locale::set_locale(const std::string &code)
 {
   if (!code.empty())
     {
+#if defined(HAVE_SETLOCALE)
+      setlocale(LC_ALL, code.c_str());
+#endif
       Platform::setenv("LANGUAGE", code.c_str(), 1);
       Platform::setenv("LANG", code.c_str(), 1);
     }
@@ -98,9 +101,12 @@ Locale::set_locale(const std::string &code)
     {
       Platform::unsetenv("LANGUAGE");
       Platform::unsetenv("LANG");
+#if defined(HAVE_SETLOCALE)
+      setlocale(LC_ALL, "");
+#endif
     }
 
-#if !defined(PLATFORM_OS_WINDOWS_NATIVE)
+#if !defined(PLATFORM_OS_WINDOWS_NATIVE) && defined(HAVE_LIBINTL)
   ++_nl_msg_cat_cntr;
 #endif
 }
@@ -139,6 +145,20 @@ Locale::lookup(const std::string &domain, std::string &str)
       str = ret;
 #endif
     }
+}
+
+std::string
+Locale::lookup(const std::string &str)
+{
+  if (!str.empty())
+    {
+#if defined(HAVE_LIBINTL)
+      return gettext(str.c_str());
+#elif defined(HAVE_QT)
+      return QObject::tr(str.c_str()).toStdString();
+#endif
+    }
+  return str;
 }
 
 void

@@ -15,7 +15,8 @@ target_sources(workrave-libs-ui-prefwidgets PRIVATE
 target_link_libraries(workrave-libs-ui-prefwidgets
   PUBLIC
   workrave-libs-config
-  workrave-libs-utils)
+  workrave-libs-utils
+  workrave-libs-commonui)
 
 target_include_directories(
     workrave-libs-ui-prefwidgets

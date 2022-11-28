@@ -43,6 +43,7 @@ public:
   static void set_locale(const std::string &code);
   static std::string get_locale();
   static void lookup(const std::string &domain, std::string &str);
+  static std::string lookup(const std::string &str);
 
   static LanguageMap languages_native_locale;
 

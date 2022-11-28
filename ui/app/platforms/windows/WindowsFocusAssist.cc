@@ -78,13 +78,13 @@ WindowsFocusAssist::init()
 
   GUIConfig::focus_mode().attach(tracker, [&](FocusMode mode) { update_focus_assist(); });
 
-  std::vector<std::string> focus_content{_("Suspended"), _("Quiet")};
+  std::vector<std::string> focus_content{N_("Suspended"), N_("Quiet")};
 
-  focus_def = ui::prefwidgets::PanelDef::create("monitoring", "focus-assist", _("Focus Assist"))
-              << (ui::prefwidgets::Frame::create(_("Focus Assist"))
-                  << ui::prefwidgets::Toggle::create(_("Set operation mode based on Windows Focus Assist"))
+  focus_def = ui::prefwidgets::PanelDef::create("monitoring", "focus-assist", N_("Focus Assist"))
+              << (ui::prefwidgets::Frame::create(N_("Focus Assist"))
+                  << ui::prefwidgets::Toggle::create(N_("Set operation mode based on Windows Focus Assist"))
                        ->connect(&GUIConfig::follow_focus_assist_enabled())
-                  << ui::prefwidgets::Choice::create(_("Operation mode during Focus Assist:"))
+                  << ui::prefwidgets::Choice::create(N_("Operation mode during Focus Assist:"))
                        ->connect(&GUIConfig::focus_mode())
                        ->assign(focus_content)
                        ->when(&GUIConfig::follow_focus_assist_enabled()));

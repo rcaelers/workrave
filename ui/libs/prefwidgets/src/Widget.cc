@@ -20,6 +20,7 @@
 #endif
 
 #include "Widget.hh"
+#include "commonui/Locale.hh"
 
 using namespace ui::prefwidgets;
 
@@ -31,5 +32,5 @@ Widget::Widget(const std::string &label)
 std::string
 Widget::get_label() const
 {
-  return label;
+  return Locale::lookup(label);
 }

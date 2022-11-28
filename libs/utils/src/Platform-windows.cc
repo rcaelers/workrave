@@ -100,13 +100,13 @@ Platform::convert(const char *c)
 int
 Platform::setenv(const char *name, const char *val, int)
 {
-  return SetEnvironmentVariableW(convert(name).c_str(), convert(val).c_str());
+  return _putenv_s(name, val);
 }
 
 int
 Platform::unsetenv(const char *name)
 {
-  return SetEnvironmentVariableW(convert(name).c_str(), 0);
+  return _putenv_s(name, nullptr);
 }
 
 bool

@@ -15,8 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "core/CoreTypes.hh"
-#include "commonui/MenuModel.hh"
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -30,7 +28,9 @@
 #include "spdlog/fmt/ostr.h"
 
 #include "debug.hh"
+#include "commonui/MenuModel.hh"
 #include "commonui/nls.h"
+#include "core/CoreTypes.hh"
 #include "core/CoreConfig.hh"
 #include "utils/TimeSource.hh"
 
@@ -63,22 +63,22 @@ Menus::init()
   auto section_main = menus::SectionNode::create(SECTION_MAIN);
   root->add(section_main);
 
-  menus::Node::Ptr item = menus::ActionNode::create(OPEN, _("_Open"), [this] { on_menu_open_main_window(); });
+  menus::Node::Ptr item = menus::ActionNode::create(OPEN, N_("_Open"), [this] { on_menu_open_main_window(); });
   section_main->add(item);
 
   auto separator = menus::SeparatorNode::create();
   section_main->add(separator);
 
-  item = menus::ActionNode::create(PREFERENCES, _("_Preferences"), [this] { on_menu_preferences(); });
+  item = menus::ActionNode::create(PREFERENCES, N_("_Preferences"), [this] { on_menu_preferences(); });
   section_main->add(item);
 
-  item = menus::ActionNode::create(REST_BREAK, _("_Rest break"), [this] { on_menu_restbreak_now(); });
+  item = menus::ActionNode::create(REST_BREAK, N_("_Rest break"), [this] { on_menu_restbreak_now(); });
   section_main->add(item);
 
-  item = menus::ActionNode::create(EXERCISES, _("_Exercises"), [this] { on_menu_exercises(); });
+  item = menus::ActionNode::create(EXERCISES, N_("_Exercises"), [this] { on_menu_exercises(); });
   section_main->add(item);
 
-  item = menus::ActionNode::create(STATISTICS, _("S_tatistics"), [this] { on_menu_statistics(); });
+  item = menus::ActionNode::create(STATISTICS, N_("S_tatistics"), [this] { on_menu_statistics(); });
   section_main->add(item);
 
   separator = menus::SeparatorNode::create();
@@ -87,7 +87,7 @@ Menus::init()
   auto section_modes = menus::SectionNode::create(SECTION_MODES);
   root->add(section_modes);
 
-  auto modemenu = menus::SubMenuNode::create(MODE_MENU, _("_Mode"));
+  auto modemenu = menus::SubMenuNode::create(MODE_MENU, N_("_Mode"));
   section_modes->add(modemenu);
 
   mode_group = menus::RadioGroupNode::create(MODE, "");
@@ -95,36 +95,36 @@ Menus::init()
 
   normal_item = menus::RadioNode::create(mode_group,
                                          MODE_NORMAL,
-                                         _("_Normal"),
+                                         N_("_Normal"),
                                          static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Normal),
                                          [this] { on_menu_normal(); });
   mode_group->add(normal_item);
 
   suspended_item = menus::RadioNode::create(mode_group,
                                             MODE_SUSPENDED,
-                                            _("_Suspended"),
+                                            N_("_Suspended"),
                                             static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Suspended),
                                             [this] { on_menu_suspend(); });
   mode_group->add(suspended_item);
 
   quiet_item = menus::RadioNode::create(mode_group,
                                         MODE_QUIET,
-                                        _("Q_uiet"),
+                                        N_("Q_uiet"),
                                         static_cast<std::underlying_type_t<OperationMode>>(OperationMode::Quiet),
                                         [this] { on_menu_quiet(); });
   mode_group->add(quiet_item);
   mode_group->select(static_cast<std::underlying_type_t<OperationMode>>(mode));
 
-  auto timed_suspended_menu = menus::SubMenuNode::create(MODE_TIMED_SUSPENDED_MENU, _("Temporarily Suspended..."));
+  auto timed_suspended_menu = menus::SubMenuNode::create(MODE_TIMED_SUSPENDED_MENU, N_("Temporarily Suspended..."));
   modemenu->add(timed_suspended_menu);
 
-  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, _("Temporarily Quiet..."));
+  auto timed_quiet_menu = menus::SubMenuNode::create(MODE_TIMED_QUIET_MENU, N_("Temporarily Quiet..."));
   modemenu->add(timed_quiet_menu);
 
   create_mode_autoreset_menu(OperationMode::Quiet, timed_quiet_menu);
   create_mode_autoreset_menu(OperationMode::Suspended, timed_suspended_menu);
 
-  reading_item = menus::ToggleNode::create(MODE_READING, _("_Reading mode"), [this] { on_menu_reading(); });
+  reading_item = menus::ToggleNode::create(MODE_READING, N_("_Reading mode"), [this] { on_menu_reading(); });
   reading_item->set_checked(usage == workrave::UsageMode::Reading);
   section_modes->add(reading_item);
 
@@ -134,10 +134,10 @@ Menus::init()
   auto section_tail = menus::SectionNode::create(SECTION_TAIL);
   root->add(section_tail);
 
-  item = menus::ActionNode::create(ABOUT, _("_About"), [this] { on_menu_about(); });
+  item = menus::ActionNode::create(ABOUT, N_("_About"), [this] { on_menu_about(); });
   section_tail->add(item);
 
-  item = menus::ActionNode::create(QUIT, _("_Quit"), [this] { on_menu_quit(); });
+  item = menus::ActionNode::create(QUIT, N_("_Quit"), [this] { on_menu_quit(); });
   section_tail->add(item);
   menu_model->update();
 
@@ -163,7 +163,7 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       mode_reset_options = {30min, 60min, 120min, 180min, 240min};
     }
 
-  auto node = menus::ActionNode::create(std::string(id) + ".0", _("Indefinitely"), [mode, this] {
+  auto node = menus::ActionNode::create(std::string(id) + ".0", N_("Indefinitely"), [mode, this] {
     on_menu_mode_for(mode, 0min);
   });
 
@@ -175,18 +175,18 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       auto minutes = duration % 60min;
 
       std::string text = (hours == 0h)   ? ""
-                         : (hours == 1h) ? _("For 1 hour")
+                         : (hours == 1h) ? N_("For 1 hour")
                                          : boost::str(boost::format("For %1% hours") % hours.count());
       if (minutes > 0min)
         {
           if (!text.empty())
             {
               text += " ";
-              text += (minutes == 1min) ? _("and 1 minute") : boost::str(boost::format("and %1% minutes") % minutes.count());
+              text += (minutes == 1min) ? N_("and 1 minute") : boost::str(boost::format("and %1% minutes") % minutes.count());
             }
           else
             {
-              text += (minutes == 1min) ? _("For 1 minute") : boost::str(boost::format("For %1% minutes") % minutes.count());
+              text += (minutes == 1min) ? N_("For 1 minute") : boost::str(boost::format("For %1% minutes") % minutes.count());
             }
         }
 
@@ -195,7 +195,7 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
       });
       menu->add(node);
     }
-  node = menus::ActionNode::create(std::string(id) + ".nextday", _("Until next day"), [mode, this] {
+  node = menus::ActionNode::create(std::string(id) + ".nextday", N_("Until next day"), [mode, this] {
     on_menu_mode_for(mode, -1min);
   });
   menu->add(node);
@@ -291,12 +291,12 @@ Menus::update_autoreset()
 
       if (mode == OperationMode::Quiet)
         {
-          quiet_item->set_dynamic_text(boost::str(boost::format(_("Q_uiet (until %1%)")) % ss.str()));
+          quiet_item->set_dynamic_text(boost::str(boost::format(N_("Q_uiet (until %1%)")) % ss.str()));
           suspended_item->unset_dynamic_text();
         }
       else if (mode == OperationMode::Suspended)
         {
-          suspended_item->set_dynamic_text(boost::str(boost::format(_("_Suspended (until %1%)")) % ss.str()));
+          suspended_item->set_dynamic_text(boost::str(boost::format(N_("_Suspended (until %1%)")) % ss.str()));
           quiet_item->unset_dynamic_text();
         }
     }
@@ -304,12 +304,12 @@ Menus::update_autoreset()
     {
       if (mode == OperationMode::Quiet)
         {
-          quiet_item->set_dynamic_text(_("Q_uiet (until next day)"));
+          quiet_item->set_dynamic_text(N_("Q_uiet (until next day)"));
           suspended_item->unset_dynamic_text();
         }
       else if (mode == OperationMode::Suspended)
         {
-          suspended_item->set_dynamic_text(_("_Suspended (until next day)"));
+          suspended_item->set_dynamic_text(N_("_Suspended (until next day)"));
           quiet_item->unset_dynamic_text();
         }
     }

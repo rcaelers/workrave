@@ -39,8 +39,8 @@
 #include "ui/IBreakWindow.hh"
 #include "ui/Plugin.hh"
 #include "ui/IToolkitFactory.hh"
+#include "commonui/nls.h"
 #include "commonui/Locale.hh"
-#include "ui/SoundTheme.hh"
 #include "commonui/Text.hh"
 #include "utils/Exception.hh"
 #include "utils/Logging.hh"
@@ -94,6 +94,7 @@ Application::main()
   init_core();
   init_nls();
   init_sound_player();
+  init_exercises();
   init_dbus();
 
   preferences_registry = std::make_shared<PreferencesRegistry>();
@@ -135,55 +136,47 @@ Application::init_args()
 void
 Application::init_nls()
 {
-#if defined(ENABLE_NLS)
-  std::string language = GUIConfig::locale()();
-  if (!language.empty())
-    {
-      Platform::setenv("LANGUAGE", language.c_str(), 1);
-    }
-
+  Locale::set_locale(GUIConfig::locale()());
   const char *locale_dir = nullptr;
 
-#  if defined(PLATFORM_OS_WINDOWS)
+#if defined(PLATFORM_OS_WINDOWS)
   std::filesystem::path dir = Paths::get_application_directory();
-  dir /= "lib";
+  dir /= "share";
   dir /= "locale";
   locale_dir = dir.string().c_str();
-#  elif defined(PLATFORM_OS_MACOS)
+#elif defined(PLATFORM_OS_MACOS)
   std::filesystem::path dir = Paths::get_application_directory();
   dir /= "Resources";
   dir /= "locale";
   locale_dir = dir.string().c_str();
-#  else
+#else
   locale_dir = GNOMELOCALEDIR;
-#  endif
+#endif
 
-#  if defined(HAVE_SETLOCALE)
+#if defined(HAVE_SETLOCALE)
   setlocale(LC_ALL, "");
-#  endif
+#endif
 
-#  if defined(PLATFORM_OS_WINDOWS) && !defined(HAVE_QT)
-  bindtextdomain("gtk20", locale_dir);
+#if defined(PLATFORM_OS_WINDOWS) && !defined(HAVE_QT)
+  bindtextdomain("gtk30", locale_dir);
   bindtextdomain("iso_3166", locale_dir);
   bindtextdomain("iso_639", locale_dir);
   bindtextdomain("glib20", locale_dir);
-  bind_textdomain_codeset("gk20", "UTF-8");
+  bind_textdomain_codeset("gtk30", "UTF-8");
   bind_textdomain_codeset("glib20", "UTF-8");
   bind_textdomain_codeset("iso_3166", "UTF-8");
   bind_textdomain_codeset("iso_639", "UTF-8");
 
   GUIConfig::locale().connect(this, [&](const std::string &locale) {
     Locale::set_locale(locale);
-    // TODO: menus->locale_changed();
+    menu_model->update();
   });
-#  endif
+#endif
 
-#  if defined(HAVE_LIBINTL)
+#if defined(HAVE_LIBINTL)
   bindtextdomain(GETTEXT_PACKAGE, locale_dir);
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
-#  endif
-
 #endif
 }
 
@@ -272,6 +265,14 @@ Application::init_sound_player()
     {
       TRACE_MSG("No sound");
     }
+}
+
+void
+Application::init_exercises()
+{
+  TRACE_ENTRY();
+  exercises = std::make_shared<ExerciseCollection>();
+  context->set_exercises(exercises);
 }
 
 #if defined(HAVE_CORE_NEXT)

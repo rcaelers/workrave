@@ -1,6 +1,5 @@
 #cmakedefine ALL_LINGUAS "${ALL_LINGUAS}"
 #cmakedefine DBUS_BACKEND
-#cmakedefine ENABLE_NLS
 #cmakedefine GETTEXT_PACKAGE "${GETTEXT_PACKAGE}"
 #cmakedefine HAVE_APP_GTK
 #cmakedefine HAVE_APP_QT

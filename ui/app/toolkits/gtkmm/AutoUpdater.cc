@@ -127,11 +127,11 @@ AutoUpdater::init_preferences()
 {
   std::vector<std::string> channels{"Stable", "Release Candidate", "Beta"};
 
-  auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", _("Software updates"))
-                    << (ui::prefwidgets::Frame::create(_("Auto update"))
-                        << ui::prefwidgets::Toggle::create(_("Automatically check for updates"))
+  auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", N_("Software updates"))
+                    << (ui::prefwidgets::Frame::create(N_("Auto update"))
+                        << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))
                              ->connect(&workrave::updater::Config::enabled())
-                        << ui::prefwidgets::Choice::create(_("Release channel:"))
+                        << ui::prefwidgets::Choice::create(N_("Release channel:"))
                              ->connect(&workrave::updater::Config::channel(),
                                        {{workrave::updater::Channel::Stable, 0},
                                         {workrave::updater::Channel::Candidate, 1},
@@ -139,7 +139,7 @@ AutoUpdater::init_preferences()
                              ->assign(channels)
                              ->when(&workrave::updater::Config::enabled()));
 
-  context->get_preferences_registry()->add_page("auto-update", _("Software updates"), "update-symbolic");
+  context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "update-symbolic");
   context->get_preferences_registry()->add(auto_update_def);
 }
 
@@ -148,7 +148,7 @@ AutoUpdater::init_menu()
 {
   auto menu_model = context->get_menu_model();
   auto section = menu_model->find_section("workrave.section.tail");
-  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, _("Check for _Updates"), [this] { on_check_for_update(); });
+  auto item = menus::ActionNode::create(CHECK_FOR_UPDATE, N_("Check for _Updates"), [this] { on_check_for_update(); });
   section->add_before(item, "workrave.about");
   menu_model->update();
 }

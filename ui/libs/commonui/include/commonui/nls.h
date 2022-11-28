@@ -25,6 +25,7 @@
 #if defined(HAVE_QT)
 #  include <QObject>
 #  define _(String) QObject::tr(String).toUtf8().constData()
+#  define N_(String) (String)
 #elif defined(HAVE_LIBINTL)
 #  include <locale.h>
 #  include <libintl.h>
