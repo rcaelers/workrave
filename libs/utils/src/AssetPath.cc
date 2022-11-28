@@ -35,6 +35,7 @@ std::list<std::filesystem::path> AssetPath::search_paths[AssetPath::SEARCH_PATH_
 const std::list<std::filesystem::path> &
 AssetPath::get_search_path(SearchPathId type)
 {
+  TRACE_ENTRY();
   if (!search_paths[type].empty())
     {
       return search_paths[type];
@@ -93,6 +94,14 @@ AssetPath::get_search_path(SearchPathId type)
 #endif
         }
     }
+
+#if defined(HAVE_TRACING)
+  TRACE_MSG("Search path for {}", type);
+  for (const auto &d: search_path)
+    {
+      TRACE_VAR(d);
+    }
+#endif
 
   return search_path;
 }

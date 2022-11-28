@@ -50,4 +50,28 @@ namespace workrave
   } // namespace utils
 } // namespace workrave
 
+inline std::ostream &
+operator<<(std::ostream &stream, workrave::utils::AssetPath::SearchPathId id)
+{
+  switch (id)
+    {
+    case workrave::utils::AssetPath::SEARCH_PATH_IMAGES:
+      stream << "SEARCH_PATH_IMAGES";
+      break;
+    case workrave::utils::AssetPath::SEARCH_PATH_SOUNDS:
+      stream << "SEARCH_PATH_SOUNDS";
+      break;
+    case workrave::utils::AssetPath::SEARCH_PATH_CONFIG:
+      stream << "SEARCH_PATH_CONFIG";
+      break;
+    case workrave::utils::AssetPath::SEARCH_PATH_EXERCISES:
+      stream << "SEARCH_PATH_EXERCISES";
+      break;
+    case workrave::utils::AssetPath::SEARCH_PATH_SIZEOF:
+      stream << "SEARCH_PATH_SIZEOF";
+      break;
+    }
+  return stream;
+}
+
 #endif // WORKRAVE_UTILS_UTIL_HH
