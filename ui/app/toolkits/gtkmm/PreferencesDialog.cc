@@ -38,7 +38,6 @@
 #include "TimerPreferencePanel.hh"
 
 #include "ui/prefwidgets/gtkmm/Widget.hh"
-#include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 #include "ui/prefwidgets/gtkmm/Builder.hh"
 
 using namespace ui::prefwidgets;
@@ -181,6 +180,7 @@ PreferencesDialog::create_panel(std::shared_ptr<ui::prefwidgets::Def> &def)
       auto frame = std::make_shared<ui::prefwidgets::gtkmm::BoxWidget>(box);
       builder.build(widget, frame);
       page->add_panel(panelid, box, paneldef->get_label());
+      frames.push_back(frame);
     }
 }
 

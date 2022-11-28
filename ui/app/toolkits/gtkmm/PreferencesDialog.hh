@@ -26,6 +26,7 @@
 #include <gtkmm.h>
 
 #include "ui/IApplicationContext.hh"
+#include "ui/prefwidgets/gtkmm/BoxWidget.hh"
 
 #include "PanelList.hh"
 
@@ -69,6 +70,7 @@ private:
 private:
   std::shared_ptr<IApplicationContext> app;
   std::map<std::string, std::shared_ptr<PreferencesPage>> pages;
+  std::list<std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget>> frames;
   PanelList panel_list;
   Gtk::Stack stack;
 };
