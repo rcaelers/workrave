@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.10\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2022-11-12 16:57+0100\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
 "PO-Revision-Date: 2020-02-12 11:45+0000\n"
 "Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
 "Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
-#: ui/libs/commonui/src//Text.cc:79
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d segundos"
 
-#: ui/libs/commonui/src//Text.cc:75
+#: ui/libs/commonui/src/Text.cc:75
 #, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minutos"
 
-#: ui/libs/commonui/src//Text.cc:71
+#: ui/libs/commonui/src/Text.cc:71
 #, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d horas"
@@ -38,12 +38,20 @@ msgstr "%s%d:%02d:%02d horas"
 msgid "%s, from %s to %s"
 msgstr "%s, de %s a %s"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:219
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"
 msgstr "(letra não disponível)"
 
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
+msgid "<h3>Version {}</h3>\n"
+msgstr ""
+
 #: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
+msgid "A new version of {} is available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
@@ -54,7 +62,7 @@ msgstr ""
 msgid "Activity"
 msgstr "Actividade"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:93
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
 msgid "Applet"
 msgstr "Aplicação"
 
@@ -62,23 +70,31 @@ msgstr "Aplicação"
 msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "Ajuda a prevenir e recuperar lesões por esforço repetitivo (LER)."
 
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
+msgid "Auto update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
+msgid "Automatically check for updates"
+msgstr ""
+
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
 msgstr "Esticar o ombro para trás"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
 msgid "Block input"
 msgstr "Bloquear entrada"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:136
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
 msgid "Block input and screen"
 msgstr "Bloquear entrada e ecrã"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
 msgid "Block mode:"
 msgstr "Modo de bloqueio:"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:194
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 msgid "Break duration:"
 msgstr "Duração da pausa:"
 
@@ -96,7 +112,7 @@ msgid "Break prompt"
 msgstr "Alerta de pausa"
 
 #. Prelude frame
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
 msgid "Break prompting"
 msgstr "Alerta de pausa"
 
@@ -121,14 +137,18 @@ msgstr "Pausas ignoradas"
 msgid "Browse history"
 msgstr "Navegar pelo hisorico"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:412
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
 msgstr "Escolha um som"
 
 #. Dialog
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:56
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:105
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
 msgid "Close"
 msgstr ""
@@ -137,7 +157,15 @@ msgstr ""
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Cubra os olhos com as palmas das mãos de tal forma que ainda consiga abrir as pálpebras. Agora, abra os olhos e olhe para a escuridão das palmas. Obtém maior alívio para os olhos com este exercício do que simplesmente fechando os olhos."
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:123
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
 msgstr "Tempo do ciclo:"
 
@@ -148,7 +176,7 @@ msgstr "Diariamente"
 #. label
 #: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:172 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
 msgid "Daily limit"
 msgstr "Limite diário"
@@ -163,7 +191,7 @@ msgstr "Limite diário %s em falta"
 msgid "Daily limit in %s"
 msgstr "Limite diário em %s"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:130
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
 msgid "Daily limit:"
 msgstr "Limite diário:"
 
@@ -175,11 +203,11 @@ msgstr "Data:"
 msgid "Debug log"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:522
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
 msgid "Debug monitoring"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:929
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
 msgid "Default"
 msgstr ""
 
@@ -188,12 +216,16 @@ msgstr ""
 msgid "Delete all statistics history"
 msgstr "Eliminar as estatísticas"
 
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
+msgstr ""
+
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
 msgid "Disappears in %s"
 msgstr "Desaparece em %s"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:97
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
 msgid "Display"
 msgstr "Mostrar"
 
@@ -201,16 +233,16 @@ msgstr "Mostrar"
 msgid "Effective mouse movement:"
 msgstr "Movimento efectivo do rato:"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:162
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
 msgid "Enable shutting down the computer from the rest screen"
 msgstr "Permitir encerramento do computador a partir do descanso"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:497
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr "Activar esta opção se o Workrave não detectar que está a utilizar o computador"
 
 #. Enabled/Disabled checkbox
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:57
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
 msgid "Enable timer"
 msgstr "Activar temporizador"
 
@@ -231,7 +263,7 @@ msgstr "Erro"
 msgid "Error color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:396
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
 msgid "Event"
 msgstr "Evento"
 
@@ -255,7 +287,7 @@ msgstr "Exercícios terminados"
 msgid "Exercises player"
 msgstr "Treinador"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:134
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
 #, fuzzy
 msgid "Fallback applet enabled"
 msgstr "Aplicação activada"
@@ -272,6 +304,11 @@ msgstr "Ficheiros eliminados!"
 msgid "Finger stretch"
 msgstr "Esticar os dedos"
 
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
+msgstr ""
+
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
 msgstr ""
@@ -280,7 +317,7 @@ msgstr ""
 msgid "For 1 minute"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:276
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
 msgstr ""
 
@@ -292,7 +329,7 @@ msgstr ""
 msgid "Foreground color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:82
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
 msgid "General"
 msgstr "Geral"
 
@@ -300,7 +337,7 @@ msgstr "Geral"
 msgid "Hibernate"
 msgstr "Hibernar"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:92
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
 msgid "Hide"
 msgstr "Ocultar"
 
@@ -308,7 +345,7 @@ msgstr "Ocultar"
 msgid "Icon Size"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:291
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
 #, fuzzy
 msgid "Icon Theme:"
 msgstr "Tema sonoro:"
@@ -333,7 +370,7 @@ msgstr "Mantenha um braço esticado em frente ao peito. Empurre-o com o outro br
 msgid "Keystrokes:"
 msgstr "Teclas premidas:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:238
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
 msgid "Language:"
 msgstr "Idioma:"
 
@@ -357,12 +394,12 @@ msgstr "Olhe para o ponto mais distante atrás do computador. Foque os olhos nes
 msgid "Look into the darkness"
 msgstr "Olhar para a escuridão"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:100
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
 msgid "Maximum number of prompts:"
 msgstr "Número máximo de alertas:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
@@ -378,13 +415,18 @@ msgid "Micro-break started"
 msgstr "Micro-pausa iniciada"
 
 #. Layout
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:128
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 msgid "Micro-break:"
 msgstr "Micro-pausa:"
 
 #: ui/app/Application.cc:579 ui/app/Application.cc:583
 msgid "Mode: "
 msgstr "Modo: "
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+msgid "Monitoring"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
 msgid "Monthly"
@@ -398,7 +440,7 @@ msgstr "Cliques do rato:"
 msgid "Mouse movement:"
 msgstr "Movimento do rato:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:505
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
 msgid "Mouse sensitivity:"
 msgstr "Sensibilidade do rato:"
 
@@ -419,7 +461,7 @@ msgid "Move the shoulders up and down"
 msgstr "Mover os ombros acima e abaixo"
 
 #. Volume
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:352
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Silenciar sons durante o descanso e limite diário"
 
@@ -448,11 +490,11 @@ msgstr "Exercício seguinte"
 msgid "Next rest break in %s"
 msgstr "Descanso seguinte em %s"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:134
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 msgid "No blocking"
 msgstr "Sem bloqueio"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:323
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
 msgid "No sounds"
 msgstr "Sem sons"
 
@@ -460,17 +502,25 @@ msgstr "Sem sons"
 msgid "Normal"
 msgstr "Normal"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:152
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 msgid "Number of exercises:"
 msgstr "Número de exercícios:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:506
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 msgid "Number of pixels the mouse should move before it is considered activity."
 msgstr "Número de pixels que o rato se deve mover para ser considerado como actividade."
 
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
 #. Options
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:154
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
 msgid "Options"
 msgstr "Opções"
 
@@ -499,33 +549,33 @@ msgstr "Pausar"
 msgid "Pause exercises"
 msgstr "Pausar exercícios"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:76
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
 msgid "Place all timers in one spot"
 msgstr "Pôr todos os temporizadores no mesmo sítio"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:74
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
 msgid "Place micro-break and rest break in one spot"
 msgstr "Pôr a micro-pausa e o descanso no mesmo sítio"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:75
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
 msgid "Place rest break and daily limit in one spot"
 msgstr "Pôr o descanso e o limite diário no mesmo sítio"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:73
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
 msgid "Place timers next to each other"
 msgstr "Pôr temporizadores juntos"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:122
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
 msgid "Placement:"
 msgstr "Colocação:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:391
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:409
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:429
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
 msgid "Play"
 msgstr "Reproduzir"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:324
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
 msgid "Play sounds using sound card"
 msgstr "Reproduzir sons com a placa de som"
 
@@ -533,11 +583,11 @@ msgstr "Reproduzir sons com a placa de som"
 msgid "Please relax for a few seconds"
 msgstr "Por favor, relaxe alguns segundos"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:209
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 msgid "Postpone time:"
 msgstr "Tempo de adiamento:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:67
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
 msgstr "Preferências"
 
@@ -555,7 +605,7 @@ msgstr "Exercício anterior"
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr "Este programa ajuda a prevenir e recuperar lesões por esforço repetitivo (LER)."
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:96
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
 msgid "Prompt before breaking"
 msgstr "Alertar antes de pausar"
 
@@ -580,7 +630,8 @@ msgstr ""
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Application.cc:583 ui/applets/mate/src/main.c:389
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
 msgid "Quiet"
 msgstr "Silêncio"
 
@@ -588,15 +639,23 @@ msgstr "Silêncio"
 msgid "Reading mode"
 msgstr "Modo Leitura"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:143
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
 msgid "Regard micro-breaks as activity"
 msgstr "Considerar micro-pausas como actividade"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
+msgid "Release notes"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
 msgstr "Alertas repetidos"
 
-#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
@@ -621,7 +680,7 @@ msgstr "Descanso durante %s"
 msgid "Rest break started"
 msgstr "Descanso iniciado"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:129
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
 msgid "Rest break:"
 msgstr "Descanso:"
 
@@ -642,21 +701,25 @@ msgstr "Estatísticas"
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "Separe e estique os dedos até sentir alguma tensão e mantenha a posição por dez segundos. Relaxe, dobre os dedos pelos nós e mantenha por mais dez segundos. Repita o exercício novamente."
 
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
 msgstr "Esticar o ombro-braço"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:93
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
 msgid "Show"
 msgstr "Mostrar"
 
 #. Ignorable
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:128
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
 msgid "Show 'Postpone' button"
 msgstr "Mostrar botão \"Adiar\""
 
 #. Skippable
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:132
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
 msgid "Show 'Skip' button"
 msgstr "Mostrar botão \"Ignorar\""
 
@@ -664,20 +727,20 @@ msgstr "Mostrar botão \"Ignorar\""
 msgid "Show log"
 msgstr "Mostrar diário"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
 msgid "Show only when this timer is first due"
 msgstr "Mostrar só quando este temporizador for devido"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:139
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
 msgid "Show status icon"
 msgstr "Mostrar janela de estado"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:111
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
 msgid "Show status window"
 msgstr "Mostrar janela de estado"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:267
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
 msgid "Show system tray icon"
 msgstr "Mostrar ícone nas notificações"
 
@@ -690,25 +753,35 @@ msgstr "Encerrar"
 msgid "Silent in %s"
 msgstr "Silêncio em %s"
 
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
+msgid "Software Update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
+msgid "Software updates"
+msgstr ""
+
 #. Sound themes
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:360
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
 msgid "Sound Events"
 msgstr "Eventos sonoros"
 
 #. Options
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:318
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
 msgid "Sound Options"
 msgstr "Opções de som"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:368
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
 msgid "Sound Theme:"
 msgstr "Tema sonoro:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:347
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
 msgstr "Som:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:86
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
 msgid "Sounds"
 msgstr "Sons"
 
@@ -716,11 +789,11 @@ msgstr "Sons"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Rode o seu braço lentamente ao lado do corpo, como uma hélice de avião. Repita quatro vezes para a frente, quatro para trás e descanse alguns segundos. Repita com o outro braço."
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:252
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
 msgid "Start Workrave on logon"
 msgstr "Iniciar o Workrave no arranque"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:157
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 msgid "Start restbreak when screen is locked"
 msgstr "Iniciar descanso quando o ecrã bloqueia"
 
@@ -733,9 +806,13 @@ msgstr "Comece com a cabeça em posição erecta confortável. Lentamente, incli
 msgid "Statistics"
 msgstr "Estatísticas"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:89
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 msgid "Status Window"
 msgstr "Janela de estado"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
 msgid "Success color"
@@ -753,11 +830,12 @@ msgstr "Suspender"
 msgid "Suspend hybrid"
 msgstr "Suspensão híbrida"
 
-#: ui/app/Application.cc:579 ui/applets/mate/src/main.c:387
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
 msgid "Suspended"
 msgstr "Suspenso"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:176
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
 msgstr "Predefinição do sistema"
 
@@ -780,6 +858,10 @@ msgstr "Foi impossível eliminar os seus ficheiros de estatísticas. Deseja tent
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
 msgid "The files containing your statistics history have been deleted."
 msgstr "Os ficheiros contendo as suas estatísticas foram eliminados."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "The number of breaks you postponed"
@@ -813,7 +895,7 @@ msgstr ""
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:106
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
 msgid "The status window stays always on top of other windows"
 msgstr "A janela de estado está sempre acima de todas as outras"
 
@@ -867,18 +949,18 @@ msgstr ""
 "e se afasta do computador regularmente. Passeie alguns\n"
 "minutos, espreguice-se e relaxe."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:232
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
 #: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Este programa ajuda a prevenir e recuperar lesões por esforço repetitivo (LER)."
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 msgid "Time before end:"
 msgstr "Tempo antes do fim:"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 msgid "Time between breaks:"
 msgstr "Tempo entre pausas:"
 
@@ -886,10 +968,9 @@ msgstr "Tempo entre pausas:"
 msgid "Time for a micro-break?"
 msgstr "Hora da micro-pausa?"
 
-#. Notebook
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:97
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:125
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:183
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
 msgid "Timers"
 msgstr "Temporizadores"
 
@@ -913,19 +994,23 @@ msgstr ""
 msgid "Usage"
 msgstr "Uso"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:490
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
 msgid "Use alternate monitor"
 msgstr "Utilizar monitor alternativo"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:295
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:98
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
 msgstr "Ambiente do utilizador"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:344
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
+msgid "Version {}\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
 msgstr "Volume:"
 
@@ -948,7 +1033,7 @@ msgstr "Aviso"
 msgid "Warning color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:418
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
 msgid "Wavefiles"
 msgstr "Ficheiro Wav"
 
@@ -970,8 +1055,21 @@ msgstr "Falha ao iniciar o Workrave"
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "O Workrave não pôde monitorizar a actividade dos seus teclado e rato.\n"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:277
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
 msgstr ""
 
 #: ui/app/workrave.appdata.xml:9
@@ -993,7 +1091,7 @@ msgstr "O Workrave está em modo suspenso. A actividade do teclado e do rato nã
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "O Workrave ainda está em execução. Pode aceder-lhe clicando na ovelhinha branca. Clique neste balão para desactivar a mensagem."
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:500
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
@@ -1035,6 +1133,10 @@ msgstr "_Acerca"
 msgid "_Exercises"
 msgstr "_Exercícios"
 
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
+msgid "_Install update"
+msgstr ""
+
 #: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
 msgid "_Mode"
 msgstr "_Modo"
@@ -1063,6 +1165,11 @@ msgstr "Sa_ir"
 msgid "_Reading mode"
 msgstr "Modo Leitu_ra"
 
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
+msgid "_Remind me later"
+msgstr ""
+
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
 msgstr "_Descanso"
@@ -1074,6 +1181,10 @@ msgstr "_Pausa"
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:391
 msgid "_Skip"
 msgstr "_Saltar"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
+msgid "_Skip this version"
+msgstr ""
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
@@ -1096,9 +1207,17 @@ msgstr ""
 msgid "and 1 minute"
 msgstr ""
 
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr ""
+
 #: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr "dactilografar;pausa;temporizador;pulsos;saúde;ler"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr ""
 
 #~ msgid "About..."
 #~ msgstr "Acerca..."

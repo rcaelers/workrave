@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2022-11-12 16:57+0100\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
 "PO-Revision-Date: 2020-03-29 08:51+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: \n"
@@ -19,17 +19,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Poedit-Bookmarks: -1,-1,187,-1,-1,-1,-1,-1,-1,-1\n"
 
-#: ui/libs/commonui/src//Text.cc:79
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d detik"
 
-#: ui/libs/commonui/src//Text.cc:75
+#: ui/libs/commonui/src/Text.cc:75
 #, c-format, qt-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d menit"
 
-#: ui/libs/commonui/src//Text.cc:71
+#: ui/libs/commonui/src/Text.cc:71
 #, c-format, qt-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d jam"
@@ -39,12 +39,20 @@ msgstr "%s%d:%02d:%02d jam"
 msgid "%s, from %s to %s"
 msgstr "%s, dari %s sampai %s"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:219
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"
 msgstr "(fonta tidak tersedia)"
 
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
+msgid "<h3>Version {}</h3>\n"
+msgstr ""
+
 #: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
+msgid "A new version of {} is available"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
@@ -55,7 +63,7 @@ msgstr ""
 msgid "Activity"
 msgstr "Aktivitas"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:93
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
 msgid "Applet"
 msgstr "Aplet"
 
@@ -63,23 +71,31 @@ msgstr "Aplet"
 msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "Membantu dalam pencegahan dan pemulihan Repetitive Strain Injury (RSI)"
 
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
+msgid "Auto update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
+msgid "Automatically check for updates"
+msgstr ""
+
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
 msgstr "Peregangan bahu ke belakang"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
 msgid "Block input"
 msgstr "Blokir masukan"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:136
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
 msgid "Block input and screen"
 msgstr "Blokir masukan dan layar"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:156
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
 msgid "Block mode:"
 msgstr "Mode blokir:"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:194
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 msgid "Break duration:"
 msgstr "Durasi istirahat:"
 
@@ -97,7 +113,7 @@ msgid "Break prompt"
 msgstr "Tanya istirahat"
 
 #. Prelude frame
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
 msgid "Break prompting"
 msgstr "Sapaan istirahat"
 
@@ -122,14 +138,18 @@ msgstr "Istirahat dilewati"
 msgid "Browse history"
 msgstr "Jelajahi sejarah"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:412
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
 msgstr "Pilih suara"
 
 #. Dialog
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:56
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:105
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
 msgid "Close"
 msgstr ""
@@ -138,7 +158,15 @@ msgstr ""
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
 msgstr "Tutupi mata Anda dengan telapak tangan sedemikian rupa sehingga Anda masih bisa membuka kelopak mata. Sekarang buka matamu dan lihat kegelapan telapak tanganmu. Latihan ini memberikan kelegaan yang lebih baik bagi mata Anda dibandingkan dengan hanya menutupnya."
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:123
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
 msgstr "Waktu siklus:"
 
@@ -149,7 +177,7 @@ msgstr "Harian"
 #. label
 #: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:172 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
 msgid "Daily limit"
 msgstr "Batas harian"
@@ -164,7 +192,7 @@ msgstr "Batas harian tertunda %s"
 msgid "Daily limit in %s"
 msgstr "Batas harian dalam %s"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:130
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
 msgid "Daily limit:"
 msgstr "Batas harian:"
 
@@ -176,11 +204,11 @@ msgstr "Tanggal:"
 msgid "Debug log"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:522
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
 msgid "Debug monitoring"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:929
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
 msgid "Default"
 msgstr ""
 
@@ -189,12 +217,16 @@ msgstr ""
 msgid "Delete all statistics history"
 msgstr "Hapus semua riwayat statistik"
 
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
+msgstr ""
+
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
 msgid "Disappears in %s"
 msgstr "Hilang dalam %s"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:97
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
 msgid "Display"
 msgstr "Tampilan"
 
@@ -202,16 +234,16 @@ msgstr "Tampilan"
 msgid "Effective mouse movement:"
 msgstr "Pergerakan tetikus yang efektif:"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:162
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
 msgid "Enable shutting down the computer from the rest screen"
 msgstr "Memfungsikan mematikan komputer dari layar istirahat"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:497
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
 msgid "Enable this option if Workrave fails to detect when you are using your computer"
 msgstr "Aktifkan opsi ini jika Workrave gagal mendeteksi ketika Anda menggunakan komputer Anda"
 
 #. Enabled/Disabled checkbox
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:57
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
 msgid "Enable timer"
 msgstr "Fungsikan timer"
 
@@ -232,7 +264,7 @@ msgstr "Galat"
 msgid "Error color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:396
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
 msgid "Event"
 msgstr "Peristiwa"
 
@@ -256,7 +288,7 @@ msgstr "Latihan berakhir"
 msgid "Exercises player"
 msgstr "Pemain latihan"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:134
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
 #, fuzzy
 msgid "Fallback applet enabled"
 msgstr "Aplet difungsikan"
@@ -273,6 +305,11 @@ msgstr "Berkas dihapus!"
 msgid "Finger stretch"
 msgstr "Peregangan jari"
 
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
+msgstr ""
+
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
 msgstr ""
@@ -281,7 +318,7 @@ msgstr ""
 msgid "For 1 minute"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:276
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
 msgstr ""
 
@@ -293,7 +330,7 @@ msgstr ""
 msgid "Foreground color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:82
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
 msgid "General"
 msgstr "Umum"
 
@@ -301,7 +338,7 @@ msgstr "Umum"
 msgid "Hibernate"
 msgstr "Hibernasi"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:92
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
 msgid "Hide"
 msgstr "Sembunyikan"
 
@@ -309,7 +346,7 @@ msgstr "Sembunyikan"
 msgid "Icon Size"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:291
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
 #, fuzzy
 msgid "Icon Theme:"
 msgstr "Tema Suara:"
@@ -334,7 +371,7 @@ msgstr "Jaga agar satu lengan terrentang secara horizontal di depan dada Anda. D
 msgid "Keystrokes:"
 msgstr "Ketukan tombol:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:238
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
 msgid "Language:"
 msgstr "Bahasa:"
 
@@ -358,12 +395,12 @@ msgstr "Cari titik terjauh yang bisa Anda lihat di belakang monitor Anda. Fokusk
 msgid "Look into the darkness"
 msgstr "Lihat ke kegelapan"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:100
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
 msgid "Maximum number of prompts:"
 msgstr "Cacah pertanyaan maksimum:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
@@ -379,13 +416,18 @@ msgid "Micro-break started"
 msgstr "Istirahat mikro dimulai"
 
 #. Layout
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:128
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 msgid "Micro-break:"
 msgstr "Istirahat mikro:"
 
 #: ui/app/Application.cc:579 ui/app/Application.cc:583
 msgid "Mode: "
 msgstr "Mode: "
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+msgid "Monitoring"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
 msgid "Monthly"
@@ -399,7 +441,7 @@ msgstr "Klik tombol tetikus:"
 msgid "Mouse movement:"
 msgstr "Pergerakan tetikus:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:505
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
 msgid "Mouse sensitivity:"
 msgstr "Sensitivitas tetikus:"
 
@@ -420,7 +462,7 @@ msgid "Move the shoulders up and down"
 msgstr "Gerakkan bahu ke atas dan ke bawah"
 
 #. Volume
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:352
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Bisukan suara selama istirahat dan batas harian"
 
@@ -449,11 +491,11 @@ msgstr "Latihan selanjutnya"
 msgid "Next rest break in %s"
 msgstr "Istirahat berikutnya dalam %s"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:134
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 msgid "No blocking"
 msgstr "Tidak ada pemblokiran"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:323
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
 msgid "No sounds"
 msgstr "Tidak ada suara"
 
@@ -461,17 +503,25 @@ msgstr "Tidak ada suara"
 msgid "Normal"
 msgstr "Normal"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:152
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 msgid "Number of exercises:"
 msgstr "Cacah latihan:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:506
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 msgid "Number of pixels the mouse should move before it is considered activity."
 msgstr "Cacah piksel berpindahnya tetikus sebelum dianggap aktivitas."
 
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
 #. Options
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:154
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
 msgid "Options"
 msgstr "Opsi"
 
@@ -500,33 +550,33 @@ msgstr "Jeda"
 msgid "Pause exercises"
 msgstr "Jeda latihan"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:76
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
 msgid "Place all timers in one spot"
 msgstr "Tempatkan semua penghitung waktu di satu tempat"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:74
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
 msgid "Place micro-break and rest break in one spot"
 msgstr "Tempatkan istirahat mikro dan istirahat di satu tempat"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:75
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
 msgid "Place rest break and daily limit in one spot"
 msgstr "Tempat istirahat dan batas harian di satu tempat"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:73
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
 msgid "Place timers next to each other"
 msgstr "Tempatkan pengatur waktu di samping satu sama lain"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:122
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
 msgid "Placement:"
 msgstr "Penempatan:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:391
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:409
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:429
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
 msgid "Play"
 msgstr "Mainkan"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:324
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
 msgid "Play sounds using sound card"
 msgstr "Mainkan suara menggunakan kartu suara"
 
@@ -534,11 +584,11 @@ msgstr "Mainkan suara menggunakan kartu suara"
 msgid "Please relax for a few seconds"
 msgstr "Harap rileks selama beberapa detik"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:209
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
 msgid "Postpone time:"
 msgstr "Waktu menunda:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:67
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
 msgstr "Preferensi"
 
@@ -556,7 +606,7 @@ msgstr "Latihan sebelumnya"
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr "Program ini membantu dalam pencegahan dan pemulihan Repetitif Strain Injury (RSI)."
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:96
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
 msgid "Prompt before breaking"
 msgstr "Bertanya sebelum istirahat"
 
@@ -581,7 +631,8 @@ msgstr ""
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Application.cc:583 ui/applets/mate/src/main.c:389
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
 msgid "Quiet"
 msgstr "Hening"
 
@@ -589,15 +640,23 @@ msgstr "Hening"
 msgid "Reading mode"
 msgstr "Mode membaca"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:143
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
 msgid "Regard micro-breaks as activity"
 msgstr "Anggap istirahat mikro sebagai aktivitas"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
+msgid "Release notes"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
 msgstr "Permintaan berulang"
 
-#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:172
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
@@ -622,7 +681,7 @@ msgstr "Istirahat selama %s"
 msgid "Rest break started"
 msgstr "Istirahat dimulai"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:129
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
 msgid "Rest break:"
 msgstr "Istirahat:"
 
@@ -643,21 +702,25 @@ msgstr "Statistik"
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
 msgstr "Pisahkan dan rentangkan jari-jari Anda hingga ketegangan ringan terasa, dan tahan selama 10 detik. Santai, lalu tekuk jari-jari Anda di buku-buku jari, dan tahan lagi selama 10 detik. Ulangi latihan ini sekali lagi."
 
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
 msgstr "Peregangan bahu-lengan"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:93
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
 msgid "Show"
 msgstr "Tampilkan"
 
 #. Ignorable
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:128
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
 msgid "Show 'Postpone' button"
 msgstr "Tampilkan tombol 'Tunda'"
 
 #. Skippable
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:132
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
 msgid "Show 'Skip' button"
 msgstr "Tampilkan tombol 'Lewati'"
 
@@ -665,20 +728,20 @@ msgstr "Tampilkan tombol 'Lewati'"
 msgid "Show log"
 msgstr "Tampilkan log"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
 msgid "Show only when this timer is first due"
 msgstr "Tampilkan hanya ketika timer ini pertama kali jatuh tempo"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:139
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
 msgid "Show status icon"
 msgstr "Tampilkan jendela status"
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:111
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
 msgid "Show status window"
 msgstr "Tampilkan jendela status"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:267
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
 msgid "Show system tray icon"
 msgstr "Tampilkan ikon baki sistem"
 
@@ -691,25 +754,35 @@ msgstr "Matikan"
 msgid "Silent in %s"
 msgstr "Diam dalam %s"
 
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
+msgid "Software Update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
+msgid "Software updates"
+msgstr ""
+
 #. Sound themes
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:360
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
 msgid "Sound Events"
 msgstr "Peristiwa Suara"
 
 #. Options
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:318
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
 msgid "Sound Options"
 msgstr "Opsi Suara"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:368
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
 msgid "Sound Theme:"
 msgstr "Tema Suara:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:347
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
 msgstr "Suara:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:86
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
 msgid "Sounds"
 msgstr "Suara"
 
@@ -717,11 +790,11 @@ msgstr "Suara"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Putar lengan kanan Anda perlahan-lahan seperti baling-baling pesawat di samping tubuh Anda. Lakukan ini 4 kali ke depan, 4 kali ke belakang dan rileks selama beberapa detik. Ulangi dengan lengan kiri."
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:252
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
 msgid "Start Workrave on logon"
 msgstr "Mulai Workrave saat masuk"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:157
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 msgid "Start restbreak when screen is locked"
 msgstr "Mulai istirahat ketika layar terkunci"
 
@@ -734,9 +807,13 @@ msgstr "Mulailah dengan kepala Anda dalam posisi lurus yang nyaman. Kemudian, pe
 msgid "Statistics"
 msgstr "Statistik"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:89
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 msgid "Status Window"
 msgstr "Jendela Status"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
 msgid "Success color"
@@ -754,11 +831,12 @@ msgstr "Suspensi"
 msgid "Suspend hybrid"
 msgstr "Tangguhkan hibrida"
 
-#: ui/app/Application.cc:579 ui/applets/mate/src/main.c:387
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
 msgid "Suspended"
 msgstr "Ditangguhkan"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:176
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
 msgstr "Baku sistem"
 
@@ -781,6 +859,10 @@ msgstr "Berkas yang berisi riwayat statistik Anda tidak dapat dihapus. Coba lagi
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
 msgid "The files containing your statistics history have been deleted."
 msgstr "Berkas yang berisi riwayat statistik Anda telah dihapus."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "The number of breaks you postponed"
@@ -814,7 +896,7 @@ msgstr ""
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:106
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
 msgid "The status window stays always on top of other windows"
 msgstr "Jendela status selalu berada di atas jendela lain"
 
@@ -868,18 +950,18 @@ msgstr ""
 "berjalan menjauh dari komputer secara teratur.\n"
 "Berjalanlah sebentar, meregang, dan rileks."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:232
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
 #: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
 msgstr "Program ini membantu dalam pencegahan dan pemulihan Repetitif Strain Injury (RSI)."
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 msgid "Time before end:"
 msgstr "Waktu sebelum akhir:"
 
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:187
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 msgid "Time between breaks:"
 msgstr "Waktu antar istirahat:"
 
@@ -887,10 +969,9 @@ msgstr "Waktu antar istirahat:"
 msgid "Time for a micro-break?"
 msgstr "Waktunya istirahat mikro?"
 
-#. Notebook
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:97
-#: ui/app/toolkits/gtkmm/TimerBoxPreferencePage.cc:125
-#: ui/app/toolkits/gtkmm/TimerPreferencesPanel.cc:183
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
 msgid "Timers"
 msgstr "Pengatur waktu"
 
@@ -914,19 +995,23 @@ msgstr ""
 msgid "Usage"
 msgstr "Penggunaan"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:490
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
 msgid "Use alternate monitor"
 msgstr "Gunakan monitor alternatif"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:295
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:98
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
 msgstr "Antarmuka pengguna"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:344
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
+msgid "Version {}\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
 msgstr "Volume:"
 
@@ -949,7 +1034,7 @@ msgstr "Peringatan"
 msgid "Warning color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:418
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
 msgid "Wavefiles"
 msgstr "Berkas suara"
 
@@ -971,8 +1056,21 @@ msgstr "Workrave gagal memulai"
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave tidak dapat memantau aktivitas papan tik dan tetikus Anda.\n"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:277
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
 msgstr ""
 
 #: ui/app/workrave.appdata.xml:9
@@ -994,7 +1092,7 @@ msgstr "Workrave dalam mode ditangguhkan. Aktivitas tetikus dan papan tik tidak 
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr "Workrave masih berjalan. Anda dapat mengakses Workrave dengan mengklik ikon domba putih. Klik balon ini untuk menonaktifkan pesan ini"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:500
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
@@ -1036,6 +1134,10 @@ msgstr "Tent_ang"
 msgid "_Exercises"
 msgstr "_Latihan"
 
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
+msgid "_Install update"
+msgstr ""
+
 #: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
 msgid "_Mode"
 msgstr "_Mode"
@@ -1064,6 +1166,11 @@ msgstr "_Keluar"
 msgid "_Reading mode"
 msgstr "Mode _baca"
 
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
+msgid "_Remind me later"
+msgstr ""
+
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
 msgstr "Isti_rahat"
@@ -1075,6 +1182,10 @@ msgstr "Isti_rahat"
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:391
 msgid "_Skip"
 msgstr "_Lewati"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
+msgid "_Skip this version"
+msgstr ""
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
@@ -1097,9 +1208,17 @@ msgstr ""
 msgid "and 1 minute"
 msgstr ""
 
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr ""
+
 #: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr "mengetik;istirahat;timer;pergelangan tangan;kesehatan;rsi;"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr ""
 
 #~ msgid "About..."
 #~ msgstr "Tentang..."
