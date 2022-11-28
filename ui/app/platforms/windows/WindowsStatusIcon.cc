@@ -252,21 +252,12 @@ WindowsStatusIcon::show_menu()
     }
 }
 
-static std::wstring
-ConvertAnsiToWide(const std::string &str)
-{
-  int count = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), nullptr, 0);
-  std::wstring wstr(count, 0);
-  MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), &wstr[0], count);
-  return wstr;
-}
-
 void
 WindowsStatusIcon::init_menu(HMENU current_menu, int level, menus::Node::Ptr node)
 {
   uint32_t command = menu_helper.allocate_command(node->get_id());
 
-  std::wstring text = ConvertAnsiToWide(node->get_dynamic_text());
+  std::wstring text = workrave::utils::utf8_to_utf16(node->get_dynamic_text());
   std::replace(text.begin(), text.end(), '_', '&');
 
   UINT flags = MF_STRING | MF_BYPOSITION;
