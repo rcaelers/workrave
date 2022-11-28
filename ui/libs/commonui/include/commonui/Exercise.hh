@@ -21,6 +21,7 @@
 #include <list>
 #include <string>
 #include <utility>
+#include <memory>
 
 struct Exercise
 {
