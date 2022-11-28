@@ -323,7 +323,7 @@ System::init_windows_lock_commands()
   else
     {
       delete winLock;
-      winLock = NULL;
+      winLock = nullptr;
     }
 }
 
