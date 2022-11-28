@@ -106,7 +106,7 @@ Platform::setenv(const char *name, const char *val, int)
 int
 Platform::unsetenv(const char *name)
 {
-  return _putenv_s(name, nullptr);
+  return _putenv_s(name, "");
 }
 
 bool
