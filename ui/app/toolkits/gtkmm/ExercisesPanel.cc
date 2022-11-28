@@ -25,7 +25,7 @@
 
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
-//#include "Application.hh"
+// #include "Application.hh"
 #include "utils/AssetPath.hh"
 #include "Hig.hh"
 #include "commonui/nls.h"
@@ -38,13 +38,16 @@ using namespace workrave::utils;
 static void
 text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
 {
-  GtkTextIter start, end;
+  GtkTextIter start;
+  GtkTextIter end;
 
   g_return_if_fail(GTK_IS_TEXT_BUFFER(buffer));
   g_return_if_fail(markup != nullptr);
 
   if (len < 0)
-    len = (gint)strlen(markup);
+    {
+      len = (gint)strlen(markup);
+    }
 
   gtk_text_buffer_get_bounds(buffer, &start, &end);
 
@@ -60,14 +63,16 @@ text_buffer_set_markup(GtkTextBuffer *buffer, const gchar *markup, gint len)
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area)
+ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::Ptr exercises, Gtk::ButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6)
   , sound_theme(sound_theme)
-  , exercises(Exercise::get_exercises())
+  , exercises(exercises)
 {
   standalone = dialog_action_area != nullptr;
 
-  copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
+  auto exercise_list = exercises->get_exercises();
+
+  copy(exercise_list.begin(), exercise_list.end(), back_inserter(shuffled_exercises));
   shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), std::mt19937(std::random_device()()));
 
   progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
@@ -196,7 +201,7 @@ ExercisesPanel::reset()
 void
 ExercisesPanel::start_exercise()
 {
-  if (shuffled_exercises.size() > 0)
+  if (!shuffled_exercises.empty())
     {
       const Exercise &exercise = *exercise_iterator;
 
@@ -236,7 +241,7 @@ ExercisesPanel::refresh_sequence()
 {
   TRACE_ENTRY();
   const Exercise &exercise = *exercise_iterator;
-  if (exercise_time >= seq_time && exercise.sequence.size() > 0)
+  if (exercise_time >= seq_time && !exercise.sequence.empty())
     {
       if (image_iterator == exercise.sequence.end())
         {
@@ -309,9 +314,13 @@ ExercisesPanel::refresh_pause()
   const char *label = paused ? _("Resume") : _("Pause");
   GtkUtil::update_custom_stock_button(pause_button, standalone ? label : nullptr, icon);
   if (paused)
-    pause_button->set_tooltip_text(_("Resume exercises"));
+    {
+      pause_button->set_tooltip_text(_("Resume exercises"));
+    }
   else
-    pause_button->set_tooltip_text(_("Pause exercises"));
+    {
+      pause_button->set_tooltip_text(_("Pause exercises"));
+    }
 }
 
 void
@@ -325,10 +334,14 @@ bool
 ExercisesPanel::heartbeat()
 {
   if (paused || stopped)
-    return false;
+    {
+      return false;
+    }
 
-  if (shuffled_exercises.size() == 0)
-    return false;
+  if (shuffled_exercises.empty())
+    {
+      return false;
+    }
 
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;

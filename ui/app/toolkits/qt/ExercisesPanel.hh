@@ -72,7 +72,7 @@ private:
   QScrollArea *description_scroll{nullptr};
   QPushButton *pause_button{nullptr};
 
-  const std::list<Exercise> exercises;
+  std::shared_ptr<ExerciseCollection> exercises;
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;

@@ -24,7 +24,7 @@
 class ExercisesDialog : public HigDialog
 {
 public:
-  ExercisesDialog(SoundTheme::Ptr sound_theme);
+  ExercisesDialog(SoundTheme::Ptr sound_theme, ExerciseCollection::Ptr exercises);
 
   int run();
 

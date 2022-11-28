@@ -28,6 +28,7 @@
 
 #include "debug.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 
 #if defined(HAVE_GLIB)
 #  include <glib.h>
@@ -108,7 +109,7 @@ exercise_parse_update_i18n_attribute(const char *const *languages,
 }
 
 void
-Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
+ExerciseCollection::parse_exercises(const std::string &file_name)
 {
   TRACE_ENTRY_PAR(file_name);
 
@@ -183,27 +184,46 @@ Exercise::parse_exercises(const char *file_name, std::list<Exercise> &exercises)
 #endif
 }
 
-std::string
-Exercise::get_exercises_file_name()
+ExerciseCollection::ExerciseCollection()
 {
-  return AssetPath::complete_directory("exercises.xml", AssetPath::SEARCH_PATH_EXERCISES);
+  TRACE_ENTRY();
+  load();
+}
+
+void
+ExerciseCollection::load()
+{
+  auto main_file = AssetPath::complete_directory("exercises.xml", AssetPath::SEARCH_PATH_EXERCISES);
+
+  if (!main_file.empty())
+    {
+      parse_exercises(main_file);
+    }
+
+  for (auto &directory: Paths::get_data_directories())
+    {
+      auto execises_directory = directory / "exercises";
+      if (std::filesystem::is_directory(execises_directory))
+        {
+          for (const auto &file: std::filesystem::directory_iterator(execises_directory))
+            {
+              if (file.path().extension() == ".xml")
+                {
+                  parse_exercises(file.path().string());
+                }
+            }
+        }
+    }
 }
 
 std::list<Exercise>
-Exercise::get_exercises()
+ExerciseCollection::get_exercises()
 {
-  std::list<Exercise> exercises;
-  std::string file_name = get_exercises_file_name();
-  if (file_name.length() > 0)
-    {
-      parse_exercises(file_name.c_str(), exercises);
-    }
   return exercises;
 }
 
 bool
-Exercise::has_exercises()
+ExerciseCollection::has_exercises()
 {
-  std::string file_name = get_exercises_file_name();
-  return file_name.length() > 0;
+  return !exercises.empty();
 }

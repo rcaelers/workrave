@@ -35,7 +35,7 @@ class ExercisesPanel : public Gtk::HBox
 public:
   using stop_signal_t = sigc::signal<void()>;
 
-  ExercisesPanel(SoundTheme::Ptr sound_theme, Gtk::ButtonBox *dialog_action_area);
+  ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::Ptr exercises, Gtk::ButtonBox *dialog_action_area);
   ~ExercisesPanel() override;
 
   void set_exercise_count(int num);
@@ -63,7 +63,7 @@ private:
   {
     int ret = exercises_pointer;
     exercises_pointer += inc;
-    if (shuffled_exercises.size() != 0)
+    if (!shuffled_exercises.empty())
       {
         exercises_pointer %= shuffled_exercises.size();
       }
@@ -81,7 +81,7 @@ private:
   Gtk::Button *forward_button{nullptr};
   Gtk::Button *stop_button{nullptr};
   Glib::RefPtr<Gtk::SizeGroup> size_group;
-  const std::list<Exercise> exercises;
+  ExerciseCollection::Ptr exercises;
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;

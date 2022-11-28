@@ -38,9 +38,11 @@ int ExercisesPanel::exercises_pointer = 0;
 
 ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool standalone)
   : sound_theme(app->get_sound_theme())
-  , exercises(Exercise::get_exercises())
+  , exercises(app->get_exercises())
 {
-  copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));
+  auto exercise_list = exercises->get_exercises();
+
+  copy(exercise_list.begin(), exercise_list.end(), back_inserter(shuffled_exercises));
 
   std::random_device rd;
   std::mt19937 g(rd());

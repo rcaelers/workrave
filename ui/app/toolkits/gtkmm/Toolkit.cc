@@ -63,6 +63,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
+  exercises = app->get_exercises();
 
   main_window = new MainWindow(app);
 
@@ -282,7 +283,7 @@ Toolkit::show_exercises()
 {
   if (exercises_dialog == nullptr)
     {
-      exercises_dialog = new ExercisesDialog(sound_theme);
+      exercises_dialog = new ExercisesDialog(sound_theme, exercises);
       exercises_dialog->signal_response().connect([this](int reponse) {
         exercises_dialog->hide();
         delete exercises_dialog;

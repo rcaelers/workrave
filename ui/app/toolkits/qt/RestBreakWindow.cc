@@ -88,7 +88,7 @@ RestBreakWindow::get_exercise_count() -> int
 {
   int ret = 0;
 
-  if (Exercise::has_exercises())
+  if (app->get_exercises()->has_exercises())
     {
       ret = GUIConfig::break_exercises(BREAK_ID_REST_BREAK)();
     }

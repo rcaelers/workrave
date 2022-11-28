@@ -120,10 +120,8 @@ GeneralPreferencePanel::create_panel()
 
   Gtk::TreeModel::iterator selected = iter;
 
-  for (std::vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+  for (auto code: all_linguas)
     {
-      std::string code = *i;
-
       iter = languages_model->append();
       row = *iter;
       row[languages_columns.code] = code;
@@ -139,7 +137,7 @@ GeneralPreferencePanel::create_panel()
         {
           txt = "Unrecognized language: (" + code + ")";
         }
-      else if (languages_current_locale[code].country_name != "")
+      else if (!languages_current_locale[code].country_name.empty())
         {
           txt += " (" + languages_current_locale[code].country_name + ")";
         }
@@ -148,7 +146,7 @@ GeneralPreferencePanel::create_panel()
       if (languages_current_locale[code].language_name != languages_native_locale[code].language_name)
         {
           txt = languages_native_locale[code].language_name;
-          if (languages_native_locale[code].country_name != "")
+          if (!languages_native_locale[code].country_name.empty())
             {
               txt += " (" + languages_native_locale[code].country_name + ")";
             }

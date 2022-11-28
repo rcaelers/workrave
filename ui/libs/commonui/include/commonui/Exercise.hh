@@ -25,8 +25,6 @@
 struct Exercise
 {
 public:
-  static bool has_exercises();
-
   struct Image
   {
     std::string image;
@@ -44,13 +42,25 @@ public:
   std::string description;
   int duration{0};
   std::list<Image> sequence;
+};
 
+class ExerciseCollection
+{
 public:
-  static std::list<Exercise> get_exercises();
+  using Ptr = std::shared_ptr<ExerciseCollection>;
+
+  ExerciseCollection();
+  ~ExerciseCollection() = default;
+
+  std::list<Exercise> get_exercises();
+  bool has_exercises();
 
 private:
-  static std::string get_exercises_file_name();
-  static void parse_exercises(const char *file_name, std::list<Exercise> &);
+  void load();
+  void parse_exercises(const std::string &file_name);
+
+private:
+  std::list<Exercise> exercises;
 };
 
 #endif // WORKRAVE_UI_EXERCISE_HH

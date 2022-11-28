@@ -41,6 +41,7 @@
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
 #include "StatusIcon.hh"
+#include "commonui/Exercise.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  pragma pop_macro("ERROR")
@@ -141,6 +142,7 @@ private:
 
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
+  std::shared_ptr<ExerciseCollection> exercises;
 
   std::map<std::string, std::function<void()>> notifiers;
 

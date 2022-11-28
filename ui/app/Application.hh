@@ -37,7 +37,9 @@
 #include "ui/IToolkitFactory.hh"
 #include "ui/IToolkit.hh"
 #include "ui/SoundTheme.hh"
+#include "commonui/Exercise.hh"
 #include "utils/Signals.hh"
+#include "utils/Logging.hh"
 
 #include "PreferencesRegistry.hh"
 #include "Context.hh"
@@ -86,6 +88,7 @@ private:
   void init_nls();
   void init_core();
   void init_sound_player();
+  void init_exercises();
   void init_dbus();
   void init_operation_mode_warning();
 
@@ -105,6 +108,7 @@ private:
   std::shared_ptr<Menus> menus;
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
+  std::shared_ptr<ExerciseCollection> exercises;
   std::shared_ptr<PreferencesRegistry> preferences_registry;
   std::shared_ptr<Context> context;
   int argc{0};
@@ -116,6 +120,7 @@ private:
   bool closewarn_shown{false};
   bool is_idle{false};
   bool taking{false};
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("updater")};
 };
 
 inline auto

@@ -200,7 +200,7 @@ RestBreakWindow::get_exercise_count()
 {
   int ret = 0;
 
-  if (Exercise::has_exercises())
+  if (app->get_exercises()->has_exercises())
     {
       ret = GUIConfig::break_exercises(BREAK_ID_REST_BREAK)();
     }
@@ -218,7 +218,7 @@ RestBreakWindow::install_exercises_panel()
     {
       set_ignore_activity(true);
       clear_pluggable_panel();
-      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(app->get_sound_theme(), nullptr));
+      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(app->get_sound_theme(), app->get_exercises(), nullptr));
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect(sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
