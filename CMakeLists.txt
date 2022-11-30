@@ -562,7 +562,8 @@ if (HAVE_QT)
 else()
   find_package(Libintl)
 
-  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
+  # TODO: Gettext cannot be found in 32bit
+  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND) AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     message(FATAL_ERROR "Libintl not found")
   endif()
   set (HAVE_LIBINTL ON)

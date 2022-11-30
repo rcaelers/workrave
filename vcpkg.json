@@ -1,16 +1,16 @@
 {
   "name": "workrave",
-  "version": "1.11.0-alpha.4",
+  "version": "1.11.0-beta.3",
   "dependencies": [
     {
       "name": "gettext",
-      "platform": "x64"
+      "platform": "x86 | x64"
     },
     {
       "name": "gettext",
       "host": true,
       "features": ["tools"],
-      "platform": "x64"
+      "platform": "x86 | x64"
     },
     {
       "name": "python3",
