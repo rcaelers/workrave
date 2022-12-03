@@ -72,6 +72,8 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
       return;
     }
 
+  updater->set_configuration_prefix("Software\\Workrave");
+
   init_channels();
 
   updater->set_update_available_callback(
