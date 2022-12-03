@@ -63,7 +63,7 @@ jobs:
           pip install wheel
           pip install Jinja2
           cmake -G "Ninja" -B '${{ github.workspace }}/_build' \
-            -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/mingw64-clang.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/msys2.cmake \
             -DCMAKE_BUILD_TYPE=Debug \
             -DWITH_UI=Gtk+3 \
             -DWITH_CRASHPAD=OFF \
@@ -91,7 +91,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake -G Ninja '${{ github.workspace }}/_build' -H. \
+          cmake -G Ninja -B '${{ github.workspace }}/_build' -H. \
             -DCMAKE_INSTALL_PREFIX=_deploy  \
             -DWITH_TRACING=ON \
             -DWITH_UI=Gtk+3 \
