@@ -92,50 +92,44 @@ jobs:
 
       - name: Build
         run: |
-          sudo apt-get install -y \
-            build-essential \
-            cmake \
-            gettext \
-            git \
-            gobject-introspection \
-            gsettings-desktop-schemas-dev \
-            intltool \
-            libayatana-indicator3-dev \
-            libboost-chrono-dev \
-            libboost-context-dev \
-            libboost-coroutine-dev \
-            libboost-date-time-dev \
-            libboost-dev \
-            libboost-filesystem-dev \
-            libboost-log-dev \
-            libboost-program-options-dev \
-            libboost-regex-dev \
-            libboost-system-dev \
-            libboost-test-dev \
-            libboost-thread-dev \
-            libdbusmenu-glib-dev \
-            libdbusmenu-gtk3-dev \
-            libgirepository1.0-dev \
-            libgnome-panel-dev \
-            libgstreamer1.0-dev \
-            libgtk-3-dev \
-            libgtkmm-3.0-dev \
-            libindicator3-dev \
-            libmate-panel-applet-dev \
-            libpulse-dev \
-            librsvg2-dev \
-            libspdlog-dev \
-            libssl-dev \
-            libxfce4panel-2.0-dev \
-            libxi-dev \
-            libxmu-dev \
-            libxss-dev \
-            libxtst-dev \
-            ninja-build \
-            python3-jinja2 \
-            python3-paramiko \
-            python3-pip \
-            python3-setuptools
+            export DEBIAN_FRONTEND=noninteractive && \
+            sudo apt-get update -y \
+            sudo apt-get dist-upgrade -y \
+            sudo apt-get install -y \
+                cmake \
+                gettext \
+                gobject-introspection \
+                gsettings-desktop-schemas-dev \
+                libayatana-indicator3-dev \
+                libboost-chrono-dev \
+                libboost-context-dev \
+                libboost-coroutine-dev \
+                libboost-date-time-dev \
+                libboost-dev \
+                libboost-filesystem-dev \
+                libboost-log-dev \
+                libboost-program-options-dev \
+                libboost-regex-dev \
+                libboost-system-dev \
+                libboost-test-dev \
+                libboost-thread-dev \
+                libdbusmenu-glib-dev \
+                libdbusmenu-gtk3-dev \
+                libgirepository1.0-dev \
+                libgnome-panel-dev \
+                libgstreamer1.0-dev \
+                libgtk-3-dev \
+                libgtkmm-3.0-dev \
+                libindicator3-dev \
+                libmate-panel-applet-dev \
+                libpulse-dev \
+                libspdlog-dev \
+                libxfce4panel-2.0-dev \
+                libxi-dev \
+                libxmu-dev \
+                libxss-dev \
+                libxtst-dev \
+                ninja-build
           cmake -G Ninja -B '${{ github.workspace }}/_build' -H. \
             -DCMAKE_INSTALL_PREFIX=_deploy  \
             -DWITH_TRACING=ON \
