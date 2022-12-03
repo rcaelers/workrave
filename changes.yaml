@@ -1,5 +1,21 @@
 ---
 releases:
+  - version: 1.11.0-beta.3
+    date: 2022-12-05T00:00:00+01:00
+    short: |-
+      Workrave 1.11.0-beta3 has been released.
+    changes:
+      - Added preferences for the experimental auto-update feature
+      - Preliminary support for custom user defined exercises
+      - Redesigned the preferences dialog
+      - |-
+        Bug fixes:
+        - Fixed language selection on Windows
+        - Fixed special characters in the Windows status icon menu
+        - Fixed issue where sound could not be disabled (#443)
+        - Fixed issue where the status window could not be disabled (#444)
+        - The installer now removes file no longer required (#446)
+
   - version: 1.11.0-beta.2
     date: 2022-11-08T19:35:00+01:00
     short: |-
