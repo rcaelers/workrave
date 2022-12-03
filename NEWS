@@ -1,9 +1,21 @@
-Workrave NEWS -- history of user-visible changes. 08 November 2022
+Workrave NEWS -- history of user-visible changes. 05 December 2022
 Copyright (C) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-beta.3
+
+** Added preferences for the experimental auto-update feature
+** Preliminary support for custom user defined exercises
+** Redesigned the preferences dialog
+** Bug fixes:
+   - Fixed language selection on Windows
+   - Fixed special characters in the Windows status icon menu
+   - Fixed issue where sound could not be disabled (#443)
+   - Fixed issue where the status window could not be disabled (#444)
+   - The installer now removes file no longer required (#446)
 
 * Workrave 1.11.0-beta.2
 
@@ -521,10 +533,10 @@ https://github.com/rcaelers/workrave/issues
    inverse)
 ** Gnome applets now support transparency.
 ** The 'datadir' configuration option in workrave.ini can now be a relative path:
-
+   
      [general]
      datadir=.\\Data
-
+   
    This will store all Workrave data in the 'Data' directory below the Workrave
    root directory. (Note the double backslash)
 ** Daily limit now properly resets when hibernated.
@@ -539,10 +551,10 @@ https://github.com/rcaelers/workrave/issues
    this directory)
 ** Support for configuring the data storage directory. Add the following two
    lines to your workrave.ini
-
+   
      [general]
      datadir=C:\\Workrave\\Data
-
+   
    This feature can be used to run Workrave from an USB memory stick. Note: On
    Windows, you have to use double backslashes like in the example above!
 ** Support for Gnome screen saver added (Matt Zimmerman).
