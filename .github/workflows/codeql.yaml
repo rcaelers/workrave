@@ -1,0 +1,102 @@
+name: CodeQL
+on:
+  push:
+    branches:
+      - "main"
+      - "topic/*"
+    tags:
+      - "v1_11_*"
+  pull_request:
+    branches:
+      - "main"
+      - "topic/*"
+
+jobs:
+  check-msys2:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: "recursive"
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          msystem: clang64
+          install: >-
+            git
+            mingw-w64-clang-x86_64-adwaita-icon-theme
+            mingw-w64-clang-x86_64-boost
+            mingw-w64-clang-x86_64-clang
+            mingw-w64-clang-x86_64-cmake
+            mingw-w64-clang-x86_64-gcc-compat
+            mingw-w64-clang-x86_64-gtkmm3
+            mingw-w64-clang-x86_64-lld
+            mingw-w64-clang-x86_64-ninja
+            mingw-w64-clang-x86_64-openssl
+            mingw-w64-clang-x86_64-python
+            mingw-w64-clang-x86_64-python-pip
+            mingw-w64-clang-x86_64-spdlog
+            mingw-w64-clang-x86_64-jq
+            mingw-w64-clang-x86_64-uasm
+            mingw-w64-clang-x86_64-rust
+            mingw-w64-clang-x86_64-qt6-base
+            mingw-w64-clang-x86_64-qt6-svg
+            mingw-w64-clang-x86_64-qt6-tools
+            tar
+            xz
+            zip
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          python -m pip install --upgrade pip
+          pip install wheel
+          pip install Jinja2
+          cmake -G "Ninja" -B '${{ github.workspace }}/_build' \
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DWITH_UI=Gtk+3 \
+            -DWITH_CRASHPAD=OFF \
+            -DWITH_AUTO_UPDATE=ON \
+            -DWITH_TRACING=ON
+          cmake --build '${{github.workspace}}/_build' --config Debug
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  build-cmake:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+
+      - name: Build
+        run: |
+          cmake -G Ninja '${{ github.workspace }}/_build' -H.
+            -DCMAKE_INSTALL_PREFIX=_deploy  \
+            -DWITH_TRACING=ON \
+            -DWITH_UI=Gtk+3 \
+            -DWITH_TESTS=ON \
+            -DCODE_COVERAGE=OFF \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake --build '${{github.workspace}}/_build' --config Debug
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
