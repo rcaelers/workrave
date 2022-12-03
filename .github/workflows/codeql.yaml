@@ -93,9 +93,10 @@ jobs:
       - name: Build
         run: |
           export DEBIAN_FRONTEND=noninteractive
-          sudo apt-get update -y
-          sudo apt-get dist-upgrade -y
-          sudo apt-get install -y \
+          sudo apt update -y
+          sudo apt dist-upgrade -y
+          sudo apt install -y libunwind-dev
+          sudo apt install -y \
                 cmake \
                 gettext \
                 gobject-introspection \
