@@ -28,8 +28,8 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
 
     FetchContent_Declare(
       webview2
-      URL  https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.1072.54
-      URL_HASH SHA1=aa8ae9db5015a9184011bb195efc5c8caa58a86b
+      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.1418.22
+      URL_HASH SHA1=08bf310d4bc9f5ab5a495c47501aa286720c3e36
     )
     FetchContent_MakeAvailable(webview2)
 
