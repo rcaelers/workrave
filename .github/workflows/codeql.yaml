@@ -92,10 +92,10 @@ jobs:
 
       - name: Build
         run: |
-            export DEBIAN_FRONTEND=noninteractive && \
-            sudo apt-get update -y \
-            sudo apt-get dist-upgrade -y \
-            sudo apt-get install -y \
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update -y
+          sudo apt-get dist-upgrade -y
+          sudo apt-get install -y \
                 cmake \
                 gettext \
                 gobject-introspection \
