@@ -90,6 +90,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+
       - name: Build
         run: |
           export DEBIAN_FRONTEND=noninteractive
@@ -140,11 +145,6 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
           cmake --build '${{github.workspace}}/_build' --config Debug
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: cpp
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
