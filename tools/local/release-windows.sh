@@ -83,6 +83,7 @@ parse_arguments() {
             ;;
         T)
             ARTIFACT_ENVIRONMENT="staging"
+            GITHUB_NOUPLOAD=1
             ;;
         W)
             WORKSPACE="${OPTARG}"
@@ -103,8 +104,10 @@ upload() {
     "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
     MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}
 
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
+    if [ -z "$GITHUB_NOUPLOAD" ]; then
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
+    fi
 }
 
 export WORKRAVE_ENV=local-windows-msys2
@@ -121,6 +124,7 @@ export ARTIFACT_ENV=
 export WORKRAVE_OVERRIDE_GIT_VERSION=
 export REPO=https://github.com/rcaelers/workrave.git
 export DRYRUN=
+export GITHUB_NOUPLOAD=
 
 parse_arguments $*
 
