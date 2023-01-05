@@ -139,12 +139,12 @@ if [ -z ${SECRETS_DIR} ]; then
 fi
 
 BASEDIR=$(dirname "$0")
-source ${BASEDIR}/../ci/config.sh
+source ${SCRIPTS_DIR}/ci/config.sh
 
 source ${SECRETS_DIR}/env-snapshots
 
 init
-source ${BASEDIR}/../ci/config.sh
+source ${SCRIPTS_DIR}/ci/config.sh
 
 setup
 
