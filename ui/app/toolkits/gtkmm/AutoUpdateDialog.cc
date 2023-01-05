@@ -227,6 +227,8 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
   right_button_box->pack_start(*remind_button, Gtk::PACK_SHRINK, 6);
   right_button_box->pack_start(*install_button, Gtk::PACK_SHRINK, 6);
 
+  signal_hide().connect([callback]() { callback(UpdateChoice::Later); });
+
   install_button->set_sensitive();
   show_all();
 }
