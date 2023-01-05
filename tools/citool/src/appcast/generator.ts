@@ -60,6 +60,7 @@ class AppcastGenerator {
     try {
       const context = {
         builds: this.catalog.builds,
+        environment: this.params.environment,
       };
       return nunjucks.render('appcast.tmpl', context);
     } catch (e) {

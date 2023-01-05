@@ -27,6 +27,11 @@ export default class Appcast extends Command {
       description: 'bucket',
       default: 'snapshots',
     }),
+    environment: Flags.string({
+      char: 'E',
+      description: 'environment',
+      default: '',
+    }),
     key: Flags.string({
       char: 'k',
       description: 'key',

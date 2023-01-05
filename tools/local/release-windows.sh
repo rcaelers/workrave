@@ -185,4 +185,4 @@ if [ -z "${DRYRUN}" ]; then
 fi
 
 ${SCRIPTS_DIR}/citool/bin/dev.ts catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
-${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR}
+${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
