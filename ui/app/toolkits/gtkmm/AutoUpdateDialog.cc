@@ -172,7 +172,6 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
         }
 
       web->set_content(fmt::format(doc, GUIConfig::theme_dark()() ? darkstyle : lightstyle, body));
-      spdlog::info("html: {}", body);
       notes_frame->add(*web);
     }
   else
