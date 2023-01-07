@@ -83,6 +83,7 @@ parse_arguments() {
             ;;
         T)
             ARTIFACT_ENVIRONMENT="staging"
+            GITHUB_NOUPLOAD=1
             ;;
         W)
             WORKSPACE="${OPTARG}"
@@ -103,8 +104,10 @@ upload() {
     "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
     MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}
 
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
+    if [ -z "$GITHUB_NOUPLOAD" ]; then
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
+    fi
 }
 
 export WORKRAVE_ENV=local-windows-msys2
@@ -121,6 +124,7 @@ export ARTIFACT_ENV=
 export WORKRAVE_OVERRIDE_GIT_VERSION=
 export REPO=https://github.com/rcaelers/workrave.git
 export DRYRUN=
+export GITHUB_NOUPLOAD=
 
 parse_arguments $*
 
@@ -135,12 +139,12 @@ if [ -z ${SECRETS_DIR} ]; then
 fi
 
 BASEDIR=$(dirname "$0")
-source ${BASEDIR}/../ci/config.sh
+source ${SCRIPTS_DIR}/ci/config.sh
 
 source ${SECRETS_DIR}/env-snapshots
 
 init
-source ${BASEDIR}/../ci/config.sh
+source ${SCRIPTS_DIR}/ci/config.sh
 
 setup
 
@@ -185,4 +189,4 @@ if [ -z "${DRYRUN}" ]; then
 fi
 
 ${SCRIPTS_DIR}/citool/bin/dev.ts catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
-${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR}
+${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}

@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <exception>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -23,6 +22,7 @@
 #include <string>
 #include <list>
 #include <mutex>
+#include <exception>
 
 #include "crash/CrashReporter.hh"
 
@@ -30,6 +30,7 @@
 #include <filesystem>
 #include <spdlog/spdlog.h>
 
+#include "base/logging.h"
 #include "client/settings.h"
 #include "client/crashpad_client.h"
 #include "client/crash_report_database.h"
@@ -113,6 +114,12 @@ CrashReporter::Pimpl::init()
   TRACE_ENTRY();
   try
     {
+      logging::SetLogMessageHandler(
+        [](logging::LogSeverity severity, const char *file_path, int line, size_t message_start, const std::string &string) {
+          spdlog::warn("Crashpad: {}", string);
+          return false;
+        });
+
       const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
       const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
       const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
@@ -123,7 +130,7 @@ CrashReporter::Pimpl::init()
       std::string handler_exe = "WorkraveCrashHandler";
 #endif
 
-      base::FilePath handler(app_dir / "lib" / handler_exe);
+      base::FilePath handler(app_dir / "bin" / handler_exe);
       const std::string url("http://192.168.7.241:8888/api/minidump/upload?api_key=94a8033818104a4396d92178bb33ec0a");
 
       std::map<std::string, std::string> annotations;
@@ -186,7 +193,7 @@ CrashReporter::Pimpl::init()
     }
   catch (std::exception &e)
     {
-      spdlog::warn(std::string("failed to start crash handler:") + e.what());
+      spdlog::warn(std::string("failed to crash reporting:") + e.what());
     }
 }
 

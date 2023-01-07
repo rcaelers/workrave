@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#define WIN32_LEAN_AND_MEAN 
+#define WIN32_LEAN_AND_MEAN
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
@@ -33,6 +33,7 @@
 
 #include <utility>
 #include "GtkUtil.hh"
+#include "ui/GUIConfig.hh"
 
 #include "commonui/nls.h"
 
@@ -45,6 +46,7 @@ static constexpr const char *doc =
 <html ang="en">
 <head>
   <meta charset="utf-8">
+{}
 </head>
 <body>
   <div>
@@ -53,6 +55,30 @@ static constexpr const char *doc =
 </body>
 </html>)";
 #endif
+
+static constexpr const char *lightstyle =
+  R"(<style type="text/css">
+body {
+  color: #222;
+  background: #fff;
+}
+a {
+  color: #224ba0;
+}
+</style>
+)";
+
+static constexpr const char *darkstyle =
+  R"(<style type="text/css">
+body {
+  color: #eee;
+  background: #2d2d2d;
+}
+body a {
+  color: #224ba0;
+}
+</style>
+)";
 
 AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, AutoUpdateDialog::update_choice_callback_t callback)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
@@ -136,15 +162,16 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
       for (auto note: info->release_notes)
         {
           body += fmt::format(fmt::runtime(_("<h3>Version {}</h3>\n")), note.version);
-          auto html = cmark_markdown_to_html(note.markdown.c_str(), note.markdown.length(), CMARK_OPT_DEFAULT);
-          ;
+          auto *html = cmark_markdown_to_html(note.markdown.c_str(), note.markdown.length(), CMARK_OPT_DEFAULT);
+
           if (html != nullptr)
             {
               body += html;
               free(html);
             }
         }
-      web->set_content(fmt::format(doc, body));
+
+      web->set_content(fmt::format(doc, GUIConfig::theme_dark()() ? darkstyle : lightstyle, body));
       notes_frame->add(*web);
     }
   else
@@ -186,7 +213,6 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
   skip_button->set_use_underline();
 
   left_button_box->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 6);
-  // button_size_group->add_widget(*skip_button);
 
   auto *remind_button = Gtk::manage(new Gtk::Button(_("_Remind me later")));
   remind_button->signal_clicked().connect([]() {});
@@ -199,6 +225,8 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
 
   right_button_box->pack_start(*remind_button, Gtk::PACK_SHRINK, 6);
   right_button_box->pack_start(*install_button, Gtk::PACK_SHRINK, 6);
+
+  signal_hide().connect([callback]() { callback(UpdateChoice::Later); });
 
   install_button->set_sensitive();
   show_all();
