@@ -14,7 +14,7 @@ releases:
         - Fixed special characters in the Windows status icon menu
         - Fixed issue where sound could not be disabled (#443)
         - Fixed issue where the status window could not be disabled (#444)
-        - The installer now removes file no longer required (#446)
+        - The installer now removes files no longer required (#446)
 
   - version: 1.11.0-beta.2
     date: 2022-11-08T19:35:00+01:00
