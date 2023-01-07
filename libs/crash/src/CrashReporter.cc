@@ -30,6 +30,7 @@
 #include <filesystem>
 #include <spdlog/spdlog.h>
 
+#include "base/logging.h"
 #include "client/settings.h"
 #include "client/crashpad_client.h"
 #include "client/crash_report_database.h"
@@ -113,6 +114,12 @@ CrashReporter::Pimpl::init()
   TRACE_ENTRY();
   try
     {
+      logging::SetLogMessageHandler(
+        [](logging::LogSeverity severity, const char *file_path, int line, size_t message_start, const std::string &string) {
+          spdlog::warn("Crashpad: {}", string);
+          return false;
+        });
+
       const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
       const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
       const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
