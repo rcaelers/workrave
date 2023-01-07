@@ -756,7 +756,7 @@ if(NOT ${spdlog_FOUND})
   FetchContent_MakeAvailable(spdlog)
 endif()
 # TODO: remove workaround
-add_compile_definitions(FMT_DEPRECATED_OSTREAM)
+add_compile_definitions(FMT_DEPRECATED_OSTREAM SPDLOG_WCHAR_TO_UTF8_SUPPORT)
 
 #----------------------------------------------------------------------------------------------------
 # Crash reporting - Windows
