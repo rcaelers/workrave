@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <exception>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -23,6 +22,7 @@
 #include <string>
 #include <list>
 #include <mutex>
+#include <exception>
 
 #include "crash/CrashReporter.hh"
 
