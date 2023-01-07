@@ -193,7 +193,7 @@ CrashReporter::Pimpl::init()
     }
   catch (std::exception &e)
     {
-      spdlog::warn(std::string("failed to start crash handler:") + e.what());
+      spdlog::warn(std::string("failed to crash reporting:") + e.what());
     }
 }
 
