@@ -489,20 +489,6 @@ jobs:
 
           CATALOGS=$( find ${{ github.workspace }}/artifacts/ -name "job-catalog*" )
 
-          PORTABLE=$(jq -r '.builds[].artifacts[] | select(.kind == "portable" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
-          if [ -n "$PORTABLE" ]; then
-            PORTABLE=$(find ${{ github.workspace }}/artifacts/ -name $PORTABLE)
-            echo "portable_file=${PORTABLE}" >> $GITHUB_OUTPUT
-            echo "portable_name=workrave-windows-${VERSION}-portable.zip" >> $GITHUB_OUTPUT
-          fi
-
-          INSTALLER=$(jq -r '.builds[].artifacts[] | select(.kind == "installer" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
-          if [ -n "$INSTALLER" ]; then
-            INSTALLER=$(find ${{ github.workspace }}/artifacts/ -name $INSTALLER)
-            echo "installer_file=${INSTALLER}" >> $GITHUB_OUTPUT
-            echo "installer_name=workrave-windows-${VERSION}.exe" >> $GITHUB_OUTPUT
-          fi
-
           SOURCE=$(jq -r '.builds[].artifacts[] | select(.kind == "source" and .platform == "all" and .configuration=="none") | .filename' ${CATALOGS})
           if [ -n "$SOURCE" ]; then
             SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
@@ -534,30 +520,6 @@ jobs:
           body_path: ${{ github.workspace }}/github-release-news
           draft: true
           prerelease: false
-
-      - name: Upload portable
-        if: steps.prepare.outputs.portable_file
-        id: upload-portable
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.prepare.outputs.portable_file }}
-          asset_name: ${{ steps.prepare.outputs.portable_name }}
-          asset_content_type: application/zip
-
-      - name: Upload installer
-        if: steps.prepare.outputs.installer_file
-        id: upload-installer
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.prepare.outputs.installer_file }}
-          asset_name: ${{ steps.prepare.outputs.installer_name }}
-          asset_content_type: application/octet-stream
 
       - name: Upload source
         if: steps.prepare.outputs.source_file
