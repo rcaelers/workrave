@@ -189,11 +189,20 @@ class Builder {
         }
 
         build.artifacts.forEach((artifact: any) => {
-          artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
-          artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
-          artifact.platform = artifact.platform.replace('win32', 'windows');
-          artifact.url = artifact.url.replace('//', '/');
-          artifact.filename = artifact.filename.replace('//', '/');
+          if (artifact.url != null) {
+            artifact.url = artifact.url.replace('/workspace/source/_deploy', '');
+            artifact.url = artifact.url.replace('//', '/');
+          }
+          if (artifact.filename != null) {
+            artifact.filename = artifact.filename.replace('/workspace/source/_deploy', '');
+            artifact.filename = artifact.filename.replace('//', '/');
+          }
+          if (artifact.platform != null) {
+            artifact.platform = artifact.platform.replace('win32', 'windows');
+          }
+          if (artifact.arch != null) {
+            artifact.arch = artifact.arch.replace('ia32', 'x86');
+          }
         });
       });
     } catch (e) {
