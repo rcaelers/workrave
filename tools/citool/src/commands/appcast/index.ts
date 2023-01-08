@@ -28,7 +28,7 @@ export default class Appcast extends Command {
       default: 'snapshots',
     }),
     environment: Flags.string({
-      char: 'E',
+      char: 'e',
       description: 'environment',
       default: '',
     }),
@@ -58,7 +58,7 @@ export default class Appcast extends Command {
       default: false,
     }),
     release: Flags.string({
-      char: 'n',
+      char: 'r',
       description: 'First release to generate',
     }),
     dry: Flags.boolean({
@@ -74,7 +74,9 @@ export default class Appcast extends Command {
     const response = await fetch(flags.endpoint + '/' + flags.bucket + '/' + flags.branch + '/catalog.json');
     const catalog = await response.json();
 
-    const params = {};
+    const params = {
+      environment: flags.environment,
+    };
 
     const generator = new AppcastGenerator(catalog, params);
     const content = await generator.generate();
