@@ -157,7 +157,7 @@ mkdir -p ${DEPLOY_DIR}
 
 # Source tarball
 git -C ${SOURCES_DIR} archive --prefix=${baseFilenamePostfix}/ HEAD | xz >${DEPLOY_DIR}/${baseFilename}.tar.xz
-${SCRIPTS_DIR}/ci/artifact.sh -f ${baseFilename}.tar.xz -k source
+${SCRIPTS_DIR}/ci/artifact.sh -f ${baseFilename}.tar.xz -k source -c none -p all
 
 # AppImage
 if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
