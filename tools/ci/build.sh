@@ -153,6 +153,7 @@ else
     baseFilenamePostfix=${WORKRAVE_VERSION}${EXTRA}
 fi
 baseFilename=workrave-${baseFilenamePostfix}
+mkdir -p ${DEPLOY_DIR}
 
 # Source tarball
 git -C ${SOURCES_DIR} archive --prefix=${baseFilenamePostfix}/ HEAD | xz >${DEPLOY_DIR}/${baseFilename}.tar.xz
@@ -199,7 +200,6 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
             --icon-file ${OUTPUT_DIR}/AppData/usr/share/icons/hicolor/scalable/apps/workrave.svg \
             --desktop-file ${OUTPUT_DIR}/AppData/usr/share/applications/org.workrave.Workrave.desktop
 
-        mkdir -p ${DEPLOY_DIR}
         cp ${OUTPUT_DIR}/Workrave*.AppImage ${DEPLOY_DIR}/
         ${SCRIPTS_DIR}/ci/artifact.sh -f Workrave*.AppImage -k appimage -c ${CONFIG} -p linux
     fi
@@ -220,8 +220,6 @@ fi
 
 if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
-    mkdir -p ${DEPLOY_DIR}
-
     baseWindowsFilename=workrave-windows-${baseFilenamePostfix}
 
     # Portable
