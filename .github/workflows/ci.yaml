@@ -493,7 +493,7 @@ jobs:
           if [ -n "$SOURCE" ]; then
             SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
             echo "source_file=${SOURCE}" >> $GITHUB_OUTPUT
-            echo "source_name=workrave-${VERSION}.tar.gz" >> $GITHUB_OUTPUT
+            echo "source_name=workrave-${VERSION}.tar.xz" >> $GITHUB_OUTPUT
           fi
 
       - name: Generate news
