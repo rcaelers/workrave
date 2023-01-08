@@ -138,6 +138,27 @@ fi
 
 build "${OUT_DIR}" "${REL_DIR}" CMAKE_FLAGS[@]
 
+EXTRA=
+CONFIG=release
+if [ "$CONF_CONFIGURATION" == "Debug" ]; then
+    EXTRA="-Debug"
+    CONFIG="debug"
+fi
+
+if [[ -z "$WORKRAVE_RELEASE" ]]; then
+    echo "No tag build."
+    baseFilenamePostfix=${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
+else
+    echo "Tag build : $WORKRAVE_RELEASE"
+    baseFilenamePostfix=${WORKRAVE_VERSION}${EXTRA}
+fi
+baseFilename=workrave-${baseFilenamePostfix}
+
+# Source tarball
+git -C ${SOURCES_DIR} archive --prefix=${baseFilenamePostfix}/ HEAD | xz >${DEPLOY_DIR}/${baseFilename}.tar.xz
+${SCRIPTS_DIR}/ci/artifact.sh -f ${baseFilename}.tar.xz -k source
+
+# AppImage
 if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     if [ -n "${CONF_APPIMAGE}" ]; then
         if [ ! -d ${SOURCES_DIR}/_ext ]; then
@@ -184,6 +205,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     fi
 fi
 
+# Sign Windows binaries
 if [[ $WORKRAVE_ENV == "local-windows-msys2" && -n "$SIGNTOOL" ]]; then
 
     files_to_sign=$(find ${OUTPUT_DIR} -name "*[Ww]orkrave*.exe")
@@ -200,23 +222,12 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
     mkdir -p ${DEPLOY_DIR}
 
-    EXTRA=
-    CONFIG=release
-    if [ "$CONF_CONFIGURATION" == "Debug" ]; then
-        EXTRA="-Debug"
-        CONFIG="debug"
-    fi
+    baseWindowsFilename=workrave-windows-${baseFilenamePostfix}
 
-    if [[ -z "$WORKRAVE_RELEASE" ]]; then
-        echo "No tag build."
-        baseFilename=workrave-${WORKRAVE_LONG_GIT_VERSION}-${WORKRAVE_BUILD_DATE}${EXTRA}
-    else
-        echo "Tag build : $WORKRAVE_RELEASE"
-        baseFilename=workrave-${WORKRAVE_VERSION}${EXTRA}
-    fi
+    # Portable
 
     PORTABLE_DIR=${BUILD_DIR}/portable
-    portableFilename=${baseFilename}-portable.zip
+    portableFilename=${baseWindowsFilename}-portable.zip
 
     mkdir -p ${PORTABLE_DIR}/Workrave
     for d in ${OUTPUT_DIR}/bin ${OUTPUT_DIR}/bin32 ${OUTPUT_DIR}/lib ${OUTPUT_DIR}/etc/ ${OUTPUT_DIR}/share; do
@@ -233,6 +244,9 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
 
     cd ${BUILD_DIR}
     ${SCRIPTS_DIR}/ci/artifact.sh -f ${portableFilename} -k portable -c ${CONFIG} -p windows
+
+    # Installer
+
     ninja ${MAKE_FLAGS[@]} installer
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
@@ -251,8 +265,8 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
             ${SCRIPTS_DIR}/ci/artifact.sh -f ${deployFilename} -k deploy -c $CONFIG -p windows
         fi
 
-        filename=${baseFilename}.exe
-        symbolsFilename=${baseFilename}.sym
+        filename=${baseWindowsFilename}.exe
+        symbolsFilename=${baseWindowsFilename}.sym
 
         cp ${OUTPUT_DIR}/workrave-installer.exe ${DEPLOY_DIR}/${filename}
         if [[ -e ${OUTPUT_DIR}/workrave.sym ]]; then
