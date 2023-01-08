@@ -260,6 +260,13 @@ jobs:
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
+          - image: ubuntu-lunar
+            os: ubuntu-22.04
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
+
           # - image: mingw-fedora-rawhide
           #   os: ubuntu-22.04
           #   compiler: clang
