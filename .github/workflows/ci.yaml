@@ -245,6 +245,7 @@ jobs:
             disable: COVERAGE,TRACING
             appimage: true
             upload: true
+            sources: true
 
           - image: ubuntu-kinetic
             os: ubuntu-22.04
@@ -399,6 +400,7 @@ jobs:
           CONF_DISABLE: ${{ matrix.config.disable }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
           CONF_APPIMAGE: ${{ matrix.config.appimage }}
+          CONF_SOURCE_TARBALL: ${{ matrix.config.sources }}
           DOCKER_IMAGE: ${{ matrix.config.image }}
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}

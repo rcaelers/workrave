@@ -156,8 +156,10 @@ baseFilename=workrave-${baseFilenamePostfix}
 mkdir -p ${DEPLOY_DIR}
 
 # Source tarball
-git -C ${SOURCES_DIR} archive --prefix=${baseFilenamePostfix}/ HEAD | xz >${DEPLOY_DIR}/${baseFilename}.tar.xz
-${SCRIPTS_DIR}/ci/artifact.sh -f ${baseFilename}.tar.xz -k source -c none -p all
+if [ -n "${CONF_SOURCE_TARBALL}" ]; then
+    git -C ${SOURCES_DIR} archive --prefix=${baseFilenamePostfix}/ HEAD | xz >${DEPLOY_DIR}/${baseFilename}.tar.xz
+    ${SCRIPTS_DIR}/ci/artifact.sh -f ${baseFilename}.tar.xz -k source -c none -p all
+fi
 
 # AppImage
 if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
