@@ -153,7 +153,7 @@ export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
 export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
 
 if [ -n "$DOSIGN" ]; then
-    export SIGNTOOL="c:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64\signtool.exe"
+    export SIGNTOOL="C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
     export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
 fi
 
