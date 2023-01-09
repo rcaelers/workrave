@@ -64,6 +64,7 @@ Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "
 Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: dbus;
 Source: "@INSTALL_WIN_PATH@\lib\*.*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
+Source: "@INSTALL_WIN_PATH@\share\images\*.svg"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\icons\*.*"; DestDir: "{app}\share\icons"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\glib-2.0\*.*"; DestDir: "{app}\share\glib-2.0"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\themes\*.*"; DestDir: "{app}\share\themes"; Flags: ignoreversion recursesubdirs
