@@ -250,7 +250,6 @@ var
   iResultCode: Integer;
 begin
   uninstallCommand := GetUninstallCommand();
-   Msgbox('Debug: ' + uninstallCommand, mbConfirmation, MB_Ok);
   if uninstallCommand <> '' then begin
     uninstallCommand := RemoveQuotes(uninstallCommand);
     Exec(uninstallCommand, '/SILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
