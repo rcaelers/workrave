@@ -26,7 +26,7 @@ if (NOT MSVC)
 
   file(GLOB PLUGINS "${INSTALL_PATH}/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll")
   foreach(plugin ${PLUGINS})
-    resolve_dependencies("${plugin}" dependencies resolved_dependencies ${DEP_DIRS})
+    resolve_dependencies("${plugin}" dependencies resolved_dependencies "${DEP_DIRS}")
   endforeach()
 
   foreach(dependency ${resolved_dependencies})
