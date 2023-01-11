@@ -135,6 +135,7 @@ X11SystrayAppletWindow::activate()
       view = new TimerBoxGtkView(Menus::MENU_MAINAPPLET);
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      timer_box_control->update();
 
       Gtk::VBox *box = manage(new Gtk::VBox());
       box->set_spacing(1);
