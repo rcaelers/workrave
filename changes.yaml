@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.11.0-beta.4
+    date: 2023-01-11T20:28:39+01:00
+    short: |-
+      Workrave 1.11.0-beta4 has been released.
+    changes:
+      - Fix missing images in the preferences
+
   - version: 1.11.0-beta.3
     date: 2023-01-09T19:57:02+01:00
     short: |-
