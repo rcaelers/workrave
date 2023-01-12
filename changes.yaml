@@ -1,16 +1,9 @@
 ---
 releases:
-  - version: 1.11.0-beta.4
-    date: 2023-01-11T20:28:39+01:00
+  - version: 1.11.0-beta.5
+    date: 2023-01-12T17:29:18+01:00
     short: |-
-      Workrave 1.11.0-beta4 has been released.
-    changes:
-      - Fix missing images in the preferences
-
-  - version: 1.11.0-beta.3
-    date: 2023-01-09T19:57:02+01:00
-    short: |-
-      Workrave 1.11.0-beta3 has been released.
+      Workrave 1.11.0-beta.5 has been released.
     changes:
       - Added preferences for the experimental auto-update feature
       - Preliminary support for custom user defined exercises
