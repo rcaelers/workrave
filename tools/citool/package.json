@@ -46,9 +46,9 @@
     "mocha": "^10",
     "oclif": "^3",
     "prettier": "^2.8.2",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.0.4",
     "shx": "^0.3.4",
-    "ts-jest": "^29.0.3",
+    "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.4"
@@ -57,9 +57,8 @@
     "@oclif/core": "^1",
     "@oclif/plugin-commands": "^2.2.2",
     "@oclif/plugin-help": "^5",
-    "@xingrz/cppzst": "^2.1.0-alpha.8",
     "async": "^3.2.4",
-    "aws-sdk": "^2.1290.0",
+    "aws-sdk": "^2.1294.0",
     "isomorphic-git": "^1.21.0",
     "js-yaml": "^4.1.0",
     "mergician": "^1.0.3",
@@ -69,10 +68,8 @@
     "remark-parse": "^10.0.1",
     "semver": "^7.3.8",
     "source-map-support": "^0.5.21",
-    "tar-fs": "^2.1.1",
     "unherit": "^3.0.1",
     "unified": "^10.1.2",
-    "unzipper": "^0.10.11",
     "xtend": "^4.0.2"
   },
   "oclif": {
