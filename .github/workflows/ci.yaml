@@ -245,7 +245,6 @@ jobs:
             disable: COVERAGE,TRACING
             appimage: true
             upload: true
-            sources: true
 
           - image: ubuntu-kinetic
             os: ubuntu-22.04
@@ -400,7 +399,6 @@ jobs:
           CONF_DISABLE: ${{ matrix.config.disable }}
           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
           CONF_APPIMAGE: ${{ matrix.config.appimage }}
-          CONF_SOURCE_TARBALL: ${{ matrix.config.sources }}
           DOCKER_IMAGE: ${{ matrix.config.image }}
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
@@ -464,76 +462,6 @@ jobs:
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
-
-  release:
-    runs-on: ubuntu-22.04
-    needs: [build-cmake, build-msys2]
-    if: startsWith(github.ref, 'refs/tags/v')
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: artifacts
-          path: artifacts
-
-      - name: Prepare
-        id: prepare
-        run: |
-          TAG=${GITHUB_REF#refs/*/}
-          VERSION=$(echo $TAG | sed -e 's/_/./g' -e 's/-.*//g')
-
-          echo "TAG=${TAG}" >> $GITHUB_ENV
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-          CATALOGS=$( find ${{ github.workspace }}/artifacts/ -name "job-catalog*" )
-
-          SOURCE=$(jq -r '.builds[].artifacts[] | select(.kind == "source" and .platform == "all" and .configuration=="none") | .filename' ${CATALOGS})
-          if [ -n "$SOURCE" ]; then
-            SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
-            echo "source_file=${SOURCE}" >> $GITHUB_OUTPUT
-            echo "source_name=workrave-${VERSION}.tar.xz" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Generate news
-        run: |
-          cd ${{ github.workspace }}/tools/citool
-          npm i
-          npm run build
-          cd ${{ github.workspace }}
-          ${{ github.workspace }}/tools/citool/bin/citool.ts newsgen \
-            --input "${{ github.workspace }}/changes.yaml" \
-            --template github \
-            --single \
-            --release $(echo $VERSION | sed -e 's/^v//g') \
-            --output "github-release-news"
-
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ env.VERSION }}
-          body_path: ${{ github.workspace }}/github-release-news
-          draft: true
-          prerelease: false
-
-      - name: Upload source
-        if: steps.prepare.outputs.source_file
-        id: upload-source
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.prepare.outputs.source_file }}
-          asset_name: ${{ steps.prepare.outputs.source_name }}
-          asset_content_type: application/gzip
 
   website:
     runs-on: ubuntu-22.04
