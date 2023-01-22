@@ -321,15 +321,18 @@ GeneralPreferencePanel::on_autostart_toggled()
 #if defined(PLATFORM_OS_WINDOWS)
   bool on = autostart_cb->get_active();
 
-  gchar *value = NULL;
+  gchar *value = nullptr;
 
   if (on)
     {
-      std::string appdir = Paths::get_application_directory().string();
-      value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
-    }
+      auto exe = Paths::get_application_directory() / "bin" / "workrave.exe";
 
-  Platform::registry_set_value(RUNKEY, "Workrave", value);
+      Platform::registry_set_value(RUNKEY, "Workrave", exe.string().c_str());
+    }
+  else
+    {
+      Platform::registry_set_value(RUNKEY, "Workrave", nullptr);
+    }
 #endif
 }
 
