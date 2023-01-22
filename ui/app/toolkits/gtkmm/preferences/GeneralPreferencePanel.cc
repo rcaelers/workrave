@@ -300,11 +300,11 @@ GeneralPreferencePanel::on_cell_data_compare(const Gtk::TreeModel::iterator &ite
   Glib::ustring code1 = row1[languages_columns.code];
   Glib::ustring code2 = row2[languages_columns.code];
 
-  if (code1 == "")
+  if (code1.empty())
     {
       return -1;
     }
-  else if (code2 == "")
+  else if (code2.empty())
     {
       return 1;
     }
