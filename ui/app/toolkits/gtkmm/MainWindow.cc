@@ -225,7 +225,12 @@ MainWindow::init()
     false);
 
   GUIConfig::key_timerbox("main_window").connect(this, [this]() { on_enabled_changed(); });
-  open_window();
+
+  enabled = GUIConfig::timerbox_enabled("main_window")();
+  if (enabled)
+    {
+      open_window();
+    }
 }
 
 void
