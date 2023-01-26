@@ -2,13 +2,13 @@
   "default-registry": {
     "kind": "git",
     "repository": "https://github.com/microsoft/vcpkg",
-    "baseline": "22bb9aa810d8eaaf8568da901c07d5d7ac2665be"
+    "baseline": "e69dd972ba64840955f46704ecce6241bf607c0f"
   },
   "registries": [
     {
       "kind": "filesystem",
       "path": "vcpkg-registry",
-      "packages": ["gtk3mm", "gtk3", "gettext", "adwaita-icon-theme"]
+      "packages": ["gtk3mm", "gettext", "adwaita-icon-theme"]
     }
   ]
 }
