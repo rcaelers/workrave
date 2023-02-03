@@ -136,6 +136,16 @@ elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
   set (PLATFORM_ARCH 64)
 endif()
 
+if (WIN32 AND (NOT MSVC) AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
+  execute_process(COMMAND ${CMAKE_CXX_COMPILER} -print-target-triple OUTPUT_VARIABLE CLANG_TRIPLE)
+  string(REGEX MATCH "x86_64-.*" _clang_is_x86 ${CLANG_TRIPLE})
+  if (CLANG_TRIPLE MATCHES "x86_64")
+    set(CMAKE_SYSTEM_PROCESSOR "amd64")
+  else()
+    set(CMAKE_SYSTEM_PROCESSOR "arm64")
+  endif()
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Testing
 
