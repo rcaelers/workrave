@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2023-01-31 13:41+0100\n"
+"PO-Revision-Date: 2023-02-06 19:19+0100\n"
 "Last-Translator: ChuckMichael <6hfeskbq@anonaddy.me>\n"
 "Language-Team: s120801-translate\n"
 "Language: pl\n"
@@ -1079,7 +1079,7 @@ msgstr "Workrave to program, który pomaga w zapobieganiu urazom na skutek chron
 
 #: ui/app/Application.cc:562
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr "Workrace jest w trybie cichym. Okno przerw nie będzie się pojawiać."
+msgstr "Workrave jest w trybie cichym. Okno przerw nie będzie się pojawiać."
 
 #: ui/app/Application.cc:554
 msgid ""
