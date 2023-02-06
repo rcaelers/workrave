@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2022-07-23 19:02+0200\n"
+"PO-Revision-Date: 2023-02-06 19:19+0100\n"
 "Last-Translator: ChuckMichael <6hfeskbq@anonaddy.me>\n"
 "Language-Team: s120801-translate\n"
 "Language: pl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: ui/libs/commonui/src/Text.cc:79
 #, c-format
@@ -47,7 +47,7 @@ msgstr "(czcionka niedostępna)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
 msgid "<h3>Version {}</h3>\n"
-msgstr ""
+msgstr "<h3>Wersja {}</h3>\n"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
@@ -55,7 +55,7 @@ msgstr "?"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
 msgid "A new version of {} is available"
-msgstr ""
+msgstr "Nowa wersja {} jest dostępna"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Active computer usage"
@@ -75,11 +75,11 @@ msgstr "Pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia- RSI 
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
 msgid "Auto update"
-msgstr ""
+msgstr "Automatyczna aktualizacja"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
 msgid "Automatically check for updates"
-msgstr ""
+msgstr "Automatycznie sprawdzaj aktualizacje"
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
@@ -142,7 +142,7 @@ msgstr "Przejrzyj historię"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
-msgstr ""
+msgstr "Sprawdź _aktualizacje"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
@@ -162,11 +162,11 @@ msgstr "Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześni
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:132
 msgid "Crash report"
-msgstr ""
+msgstr "Raport awarii"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:49
 msgid "Crash report details"
-msgstr ""
+msgstr "Szczegóły raportu awarii"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
@@ -221,7 +221,7 @@ msgstr "Usuń całą historię statystyk"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:171
 msgid "Details..."
-msgstr ""
+msgstr "Szczegóły..."
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
@@ -308,19 +308,19 @@ msgstr "Rozciąganie palców"
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:83
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Focus Assist"
-msgstr ""
+msgstr "Sesja skupienia"
 
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
-msgstr ""
+msgstr "Na 1 godzinę"
 
 #: ui/app/Menus.cc:189
 msgid "For 1 minute"
-msgstr ""
+msgstr "Na 1 minutę"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
+msgstr "Wymuś używanie serwera wyświetlania X11 zamiast Wayland (wymaga ponownego uruchomienia Workrave)"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
@@ -352,7 +352,7 @@ msgstr "Ikona motywu:"
 
 #: ui/app/Menus.cc:166
 msgid "Indefinitely"
-msgstr ""
+msgstr "Nieskończoność"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
 msgid "Info"
@@ -425,9 +425,8 @@ msgstr "Tryb: "
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
-#, fuzzy
 msgid "Monitoring"
-msgstr "Monitorowanie debugowania"
+msgstr "Monitorowanie"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
 msgid "Monthly"
@@ -505,7 +504,7 @@ msgstr "Normalny"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
-msgstr ""
+msgstr "Należy pamiętać, że ten raport o awarii zawiera również informacje techniczne o stanie Workrave w momencie awarii."
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 msgid "Number of exercises:"
@@ -517,7 +516,7 @@ msgstr "Liczba pikseli, o które powinna przesunąć się mysz, zanim zostanie t
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:87
 msgid "Operation mode during Focus Assist:"
-msgstr ""
+msgstr "Tryb pracy podczas sesji skupienia:"
 
 #. Options
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
@@ -620,16 +619,16 @@ msgstr "Siedząc, umieść ręce na podłokietnikach Twojego fotela. Wyprostuj j
 
 #: ui/app/Menus.cc:112
 msgid "Q_uiet"
-msgstr "_Cichy"
+msgstr "Wy_ciszony"
 
 #: ui/app/Menus.cc:294
 #, qt-format
 msgid "Q_uiet (until %1%)"
-msgstr ""
+msgstr "Wy_ciszony (na %1%)"
 
 #: ui/app/Menus.cc:307
 msgid "Q_uiet (until next day)"
-msgstr ""
+msgstr "Wy_ciszony (do następnego dnia)"
 
 #: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
 #: ui/applets/mate/src/main.c:389
@@ -646,11 +645,11 @@ msgstr "Uważaj mikroprzerwy za aktywność"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
 msgid "Release channel:"
-msgstr ""
+msgstr "Kanał wydania:"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
 msgid "Release notes"
-msgstr ""
+msgstr "Informacje o wydaniu"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
@@ -703,7 +702,7 @@ msgstr "Rozdziel i wyprostuj palce tak aż poczujesz napięcie, wytrzymaj 10 sek
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:85
 msgid "Set operation mode based on Windows Focus Assist"
-msgstr ""
+msgstr "Tryb pracy podczas trwającej sesji skupienia systemu Windows"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -754,12 +753,12 @@ msgstr "Cisza za %s"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
 msgid "Software Update"
-msgstr ""
+msgstr "Aktualizacja oprogramowania"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
 msgid "Software updates"
-msgstr ""
+msgstr "Aktualizacje oprogramowania"
 
 #. Sound themes
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
@@ -811,7 +810,7 @@ msgstr "Okno statusu"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:162
 msgid "Submit crash report to the Workrave developers"
-msgstr ""
+msgstr "Wyślij raport o awarii do twórców programu Workrave"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
 #, fuzzy
@@ -846,11 +845,11 @@ msgstr "Rozpocznij przerwę teraz"
 
 #: ui/app/Menus.cc:121
 msgid "Temporarily Quiet..."
-msgstr ""
+msgstr "Tymczasowo wyciszony..."
 
 #: ui/app/Menus.cc:118
 msgid "Temporarily Suspended..."
-msgstr ""
+msgstr "Tymczasowo wstrzymany..."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
 msgid "The files containing your statistics history could not be deleted. Try again?"
@@ -862,7 +861,7 @@ msgstr "Pliki zawierające historię statystyk zostały usunięte."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:71
 msgid "The following logging will be attached to the crash report:"
-msgstr ""
+msgstr "Do protokołu zderzenia dołączone zostaną następujące informacje dziennika:"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "The number of breaks you postponed"
@@ -991,7 +990,7 @@ msgstr "Obróć głowę w lewo i trzymaj tak 2 sekundy. Następnie obróć głow
 
 #: ui/app/Menus.cc:198
 msgid "Until next day"
-msgstr ""
+msgstr "Do następnego dnia"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Usage"
@@ -1003,7 +1002,7 @@ msgstr "Użyj alternatywnego monitora"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
-msgstr ""
+msgstr "Używaj ciemnego motywu"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
@@ -1011,7 +1010,7 @@ msgstr "Interfejs użytkownika"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
 msgid "Version {}\n"
-msgstr ""
+msgstr "Wersja {}\n"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
@@ -1054,24 +1053,25 @@ msgstr "Aplet Workrave"
 
 #: ui/app/Application.cc:346
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "Workrave nie może monitorować aktywność klawiatury i myszy.\n"
+msgstr "Workrave nie może monitorować aktywności klawiatury i myszy.\n"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:136
 msgid "Workrave crash reporter"
-msgstr ""
+msgstr "Zgłaszanie awarii programu Workrave"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+#, fuzzy
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
+msgstr "Program Workrave nie obsługuje w pełni natywnie Waylanda. Ta opcja wymusza używanie X11 zamiast Waylanda. Zmiana tej opcji wymaga ponownego uruchomienia Workrave."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
-msgstr ""
+msgstr "Program Workrave napotkał problem i uległ awarii. Pomóż nam zdiagnozować i naprawić problem poprzez wysłanie raportu o awarii."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:64
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:148
 msgid "Workrave has crashed."
-msgstr ""
+msgstr "Nastąpiła awaria programu Workrave."
 
 #: ui/app/workrave.appdata.xml:9
 msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
@@ -1079,7 +1079,7 @@ msgstr "Workrave to program, który pomaga w zapobieganiu urazom na skutek chron
 
 #: ui/app/Application.cc:562
 msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr "Workrace jest w trybie cichym. Okno przerw nie będzie się pojawiać."
+msgstr "Workrave jest w trybie cichym. Okno przerw nie będzie się pojawiać."
 
 #: ui/app/Application.cc:554
 msgid ""
@@ -1125,7 +1125,7 @@ msgstr "Potrzebujesz odpoczynku..."
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
 msgid "You should stop for today..."
-msgstr "Powninieneś skończyć na dzisiaj..."
+msgstr "Powinieneś skończyć na dzisiaj..."
 
 #: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
 msgid "_About"
@@ -1137,7 +1137,7 @@ msgstr "Ćwicz_enia"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
 msgid "_Install update"
-msgstr ""
+msgstr "_Zainstaluj aktualizację"
 
 #: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
 msgid "_Mode"
@@ -1170,7 +1170,7 @@ msgstr "_Tryb czytania"
 #. button_size_group->add_widget(*skip_button);
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
 msgid "_Remind me later"
-msgstr ""
+msgstr "_Przypomnij później"
 
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
@@ -1186,7 +1186,7 @@ msgstr "_Pomiń"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
 msgid "_Skip this version"
-msgstr ""
+msgstr "Po_miń tę wersję"
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
@@ -1194,24 +1194,25 @@ msgstr "_Statystyki"
 
 #: ui/app/Menus.cc:105
 msgid "_Suspended"
-msgstr "_Zawieszony"
+msgstr "_Wstrzymany"
 
 #: ui/app/Menus.cc:299
-#, fuzzy, qt-format
+#, qt-format
 msgid "_Suspended (until %1%)"
-msgstr "_Zawieszony"
+msgstr "_Wstrzymany (na %1%)"
 
 #: ui/app/Menus.cc:312
 msgid "_Suspended (until next day)"
-msgstr ""
+msgstr "_Wstrzymany (do następnego dnia)"
 
 #: ui/app/Menus.cc:185
+#, fuzzy
 msgid "and 1 minute"
-msgstr ""
+msgstr "i 1 minuta"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:52
 msgid "crash details"
-msgstr ""
+msgstr "szczegóły awarii"
 
 #: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
@@ -1219,7 +1220,7 @@ msgstr "typing;break;timer;wrists;health;rsi;"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
 msgid "{} {} is now available -- you have {}. Would you like to download it now?"
-msgstr ""
+msgstr "{} {} jest dostępna -- masz zainstalowaną {}. Czy chcesz pobrać ją teraz?"
 
 #~ msgid "About %s"
 #~ msgstr "O %s"
