@@ -38,6 +38,7 @@ public:
   static const std::string CFG_KEY_AUTOSTART;
   static const std::string CFG_KEY_CLOSEWARN_ENABLED;
   static const std::string CFG_KEY_ICONTHEME;
+  static const std::string CFG_KEY_FORCE_X11;
 
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
@@ -65,6 +66,9 @@ public:
 
   static bool get_trayicon_enabled();
   static void set_trayicon_enabled(bool enabled);
+
+  static bool get_force_x11_enabled();
+  static void set_force_x11_enabled(bool enabled);
 
   static bool get_ignorable(BreakId id);
   static bool get_skippable(BreakId id);

@@ -42,6 +42,7 @@ const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
 const std::string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
 const std::string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
+const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
 
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -133,6 +134,21 @@ void
 GUIConfig::set_trayicon_enabled(bool b)
 {
   CoreFactory::get_configurator()->set_value(CFG_KEY_TRAYICON_ENABLED, b);
+}
+
+bool
+GUIConfig::get_force_x11_enabled()
+{
+  bool rc;
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_FORCE_X11_ENABLED, rc, true);
+  return rc;
+}
+
+//!
+void
+GUIConfig::set_force_x11_enabled(bool b)
+{
+  CoreFactory::get_configurator()->set_value(CFG_KEY_FORCE_X11_ENABLED, b);
 }
 
 //!

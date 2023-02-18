@@ -194,6 +194,15 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+  init_core();
+
+#if defined(PLATFORM_OS_UNIX)
+  if (GUIConfig::get_force_x11_enabled())
+    {
+      g_setenv("GDK_BACKEND", "x11", TRUE);
+    }
+#endif
+
 #ifdef PLATFORM_OS_UNIX
   XInitThreads();
 #endif
@@ -224,7 +233,6 @@ GUI::main()
     }
 #endif
 
-  init_core();
   init_nls();
   init_debug();
   init_sound_player();

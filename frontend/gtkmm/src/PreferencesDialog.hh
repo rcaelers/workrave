@@ -149,6 +149,7 @@ private:
 #endif
   std::string fsbutton_filename;
   Gtk::CheckButton *trayicon_cb;
+  Gtk::CheckButton *force_x11_cb;
 
   void on_sound_enabled(const Glib::ustring &path_stringxo);
   void on_sound_play();
