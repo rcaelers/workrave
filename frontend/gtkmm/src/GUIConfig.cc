@@ -140,7 +140,7 @@ bool
 GUIConfig::get_force_x11_enabled()
 {
   bool rc;
-  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_FORCE_X11_ENABLED, rc, true);
+  CoreFactory::get_configurator()->get_value_with_default(CFG_KEY_FORCE_X11, rc, true);
   return rc;
 }
 
@@ -148,7 +148,7 @@ GUIConfig::get_force_x11_enabled()
 void
 GUIConfig::set_force_x11_enabled(bool b)
 {
-  CoreFactory::get_configurator()->set_value(CFG_KEY_FORCE_X11_ENABLED, b);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_FORCE_X11, b);
 }
 
 //!
