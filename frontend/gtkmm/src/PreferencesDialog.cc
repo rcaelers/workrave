@@ -319,7 +319,7 @@ PreferencesDialog::create_gui_page()
 
   force_x11_cb = Gtk::manage(new Gtk::CheckButton());
   force_x11_cb->add(*force_x11_lab);
-  connector->connect(GUIConfig::force_x11(), dc::wrap(force_x11_cb));
+  connector->connect(GUIConfig::CFG_KEY_FORCE_X11, dc::wrap(force_x11_cb));
 
   panel->add_widget(*force_x11_cb, false, false);
 
