@@ -96,7 +96,7 @@ if [[ ${CONF_CONFIGURATION} ]]; then
 fi
 
 if [ "$(uname)" == "Darwin" ]; then
-    CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt5)")
+    CMAKE_FLAGS+=("-DCMAKE_PREFIX_PATH=$(brew --prefix qt)")
 fi
 
 if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~ "-msys2" ]]; then
