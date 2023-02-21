@@ -45,7 +45,7 @@ private:
 
 #if !GTK_CHECK_VERSION(3, 24, 0)
   GdkDevice *keyboard{nullptr};
-  GdkDevice **pointer{nullptr};
+  GdkDevice *pointer{nullptr};
 #endif
   GdkWindow *grab_window{nullptr};
   bool grab_wanted{false};
