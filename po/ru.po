@@ -35,8 +35,8 @@ msgstr "%s%d:%02d:%02d часов"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, с %s по %s"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, с {:%X} по {:%X}"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

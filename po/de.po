@@ -39,8 +39,8 @@ msgstr "%s%d:%02d:%02d Stunden"
 # src/app/gtkmm/StatisticsDialog.cc:354
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, von %s bis %s"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, von {:%X} bis {:%X}"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

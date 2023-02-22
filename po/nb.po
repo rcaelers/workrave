@@ -34,8 +34,8 @@ msgstr "%s%d:%02d:%02d timer"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, fra %s til %s"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, fra {:%X} til {:%X}"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

@@ -26,6 +26,7 @@
 #include <ctime>
 #include <cstring>
 
+#include <fmt/chrono.h>
 #include <gtkmm.h>
 
 #include "debug.hh"
@@ -308,9 +309,8 @@ void
 StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 {
   IStatistics::DailyStats empty{};
-  bool is_empty;
 
-  is_empty = stats == nullptr;
+  bool is_empty = stats == nullptr;
   if (is_empty)
     {
       stats = &empty;
@@ -322,15 +322,8 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
     }
   else
     {
-      char date[100];
-      char start[100];
-      char stop[100];
-      strftime(date, sizeof(date), "%x", &stats->start);
-      strftime(start, sizeof(start), "%X", &stats->start);
-      strftime(stop, sizeof(stop), "%X", &stats->stop);
-      char buf[200];
-      sprintf(buf, _("%s, from %s to %s"), date, start, stop);
-      date_label->set_text(buf);
+      auto data_range = fmt::format(fmt::runtime(_("{:%x}, from {:%X} to {:%X}")), stats->start, stats->start, stats->stop);
+      date_label->set_text(data_range);
     }
 
   int64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];

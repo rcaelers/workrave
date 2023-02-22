@@ -34,8 +34,8 @@ msgstr "%s%d:%02d:%02d ore"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, dalle %s alle %s"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, dalle {:%X} alle {:%X}"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

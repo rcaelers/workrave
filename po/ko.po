@@ -31,8 +31,8 @@ msgstr "%s%d 시간 %02d 분 %02d 초"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s,  %s 부터 %s 까지"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x},  {:%X} 부터 {:%X} 까지"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

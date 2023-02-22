@@ -35,8 +35,8 @@ msgstr "%s%d:%02d:%02d saat"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%2$s'den %3$s'ye kadar %1$s."
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{1:%X}'den {2:%X}'ye kadar {0:%x}."
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

@@ -34,8 +34,8 @@ msgstr "%s%d:%02d:%02d ordu"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, %s-etatik %s-etara"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, {:%X}-etatik {:%X}-etara"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"
