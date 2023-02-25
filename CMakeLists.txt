@@ -124,6 +124,13 @@ else()
   endif()
 endif()
 
+set(CMAKE_CXX_COMPILER_VERSION_MIN "9.1.0")
+if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${CMAKE_CXX_COMPILER_VERSION_MIN})
+  # gcc-8.5.0 supports C++20 but doesn't support contains() in std:map.
+  # For more details visit https://gcc.gnu.org/onlinedocs/gcc-8.5.0/libstdc++/api/a00560_source.html
+  message(FATAL_ERROR "Please use gcc version ${CMAKE_CXX_COMPILER_VERSION_MIN} or above.")
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Platform
 
