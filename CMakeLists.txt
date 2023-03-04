@@ -757,20 +757,33 @@ endif()
 
 include(FetchContent)
 
-find_package(spdlog CONFIG)
-if(NOT ${spdlog_FOUND})
-  message(STATUS "Could not find spdlog ${WITH_UI}")
+find_package(fmt 9.0.0 CONFIG QUIET)
+if(NOT ${fmt_FOUND})
+  FetchContent_Declare(
+      fmt
+      GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+      GIT_SHALLOW TRUE
+      GIT_TAG 9.1.0
+    )
+  FetchContent_MakeAvailable(fmt)
+  target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
+endif()
+
+find_package(spdlog 1.9.2 CONFIG QUIET)
+if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
   FetchContent_Declare(
       spdlog
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
       GIT_SHALLOW TRUE
       GIT_TAG v1.11.0
     )
-  set(SPDLOG_INSTALL ON)
-  set(SPDLOG_BUILD_SHARED ON)
+  if (WIN32)
+    set(SPDLOG_INSTALL ON)
+    set(SPDLOG_BUILD_SHARED ON)
+  endif()
+  set(SPDLOG_FMT_EXTERNAL ON)
   FetchContent_MakeAvailable(spdlog)
 endif()
-# TODO: remove workaround
 add_compile_definitions(FMT_DEPRECATED_OSTREAM)
 if (WIN32)
   add_compile_definitions(SPDLOG_WCHAR_TO_UTF8_SUPPORT)
