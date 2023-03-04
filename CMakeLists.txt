@@ -758,7 +758,9 @@ endif()
 include(FetchContent)
 
 find_package(fmt 9.0.0 CONFIG QUIET)
-if(NOT ${fmt_FOUND})
+if(${fmt_FOUND})
+  find_package(spdlog 1.9.2 CONFIG QUIET)
+else()
   FetchContent_Declare(
       fmt
       GIT_REPOSITORY https://github.com/fmtlib/fmt.git
@@ -769,7 +771,6 @@ if(NOT ${fmt_FOUND})
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
 endif()
 
-find_package(spdlog 1.9.2 CONFIG QUIET)
 if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
   FetchContent_Declare(
       spdlog
