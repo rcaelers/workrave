@@ -287,6 +287,37 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
     glib-2.0>=2.56.0
     gio-2.0>=2.56.0)
 
+  if (CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_REQUIRED_INCLUDES ${GTK_INCLUDE_DIRS})
+    set(CMAKE_REQUIRED_LIBRARIES ${GTK_LIBRARIES})
+    foreach(GLIBCXX_ABI_DEFINITION "" "-D_GLIBCXX_USE_CXX11_ABI")
+      set(CMAKE_REQUIRED_DEFINITIONS ${GLIBCXX_ABI_DEFINITION})
+
+      check_cxx_source_compiles(
+        "#include <glibmm/ustring.h>
+         #include <string>
+
+         int
+         main(int argc, char **argv)
+         {
+           Glib::ustring(std::string(\"c++\"));
+           return 0;
+         }"
+        DUAL_ABI_RESOLVED
+      )
+      if (DEFINED DUAL_ABI_RESOLVED AND "${DUAL_ABI_RESOLVED}" STREQUAL "1")
+        if (NOT ${GLIBCXX_ABI_DEFINITION} STREQUAL "")
+          add_definitions(${GLIBCXX_ABI_DEFINITION})
+        endif()
+        break()
+      endif()
+    endforeach()
+
+    if (NOT DEFINED DUAL_ABI_RESOLVED OR "${DUAL_ABI_RESOLVED}" STREQUAL "")
+      message(FATAL_ERROR "Linked GTK libraries don't support C++11 and your compiler doesn't support dual ABI.") #https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html
+    endif()
+  endif()
+
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
   set (HAVE_GTK ON)
