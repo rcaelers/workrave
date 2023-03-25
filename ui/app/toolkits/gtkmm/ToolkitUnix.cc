@@ -34,16 +34,17 @@
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
 {
+#if defined(PLATFORM_OS_UNIX)
+   XInitThreads();
+#endif
+  gdk_init(nullptr, nullptr);
+
   locker = std::make_shared<UnixLocker>();
 }
 
 void
 ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
-#if defined(PLATFORM_OS_UNIX)
-  XInitThreads();
-#endif
-
 #if defined(PLATFORM_OS_UNIX)
   if (GUIConfig::force_x11()())
     {

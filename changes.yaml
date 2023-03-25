@@ -1,5 +1,14 @@
 ---
 releases:
+  - version: 1.11.0-beta.6
+    date: 2023-03-26T17:29:18+01:00
+    short: |-
+      Workrave 1.11.0-beta.6 has been released.
+    changes:
+      - |-
+        Bug fixes:
+        - Fix Assertion 'GDK_IS_DISPLAY (display)' failed (#472)
+
   - version: 1.11.0-beta.5
     date: 2023-01-12T17:29:18+01:00
     short: |-
