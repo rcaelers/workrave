@@ -98,6 +98,7 @@ jobs:
       - name: Build
         run: |
           export DEBIAN_FRONTEND=noninteractive
+          sudo apt-mark hold grub-efi-amd64-signed
           sudo apt update -y
           sudo apt dist-upgrade -y
           sudo apt install -y libunwind-dev

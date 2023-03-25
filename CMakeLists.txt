@@ -124,6 +124,13 @@ else()
   endif()
 endif()
 
+set(CMAKE_CXX_COMPILER_VERSION_MIN "9.1.0")
+if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${CMAKE_CXX_COMPILER_VERSION_MIN})
+  # gcc-8.5.0 supports C++20 but doesn't support contains() in std:map.
+  # For more details visit https://gcc.gnu.org/onlinedocs/gcc-8.5.0/libstdc++/api/a00560_source.html
+  message(FATAL_ERROR "Please use gcc version ${CMAKE_CXX_COMPILER_VERSION_MIN} or above.")
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Platform
 
@@ -134,6 +141,16 @@ if (VCPKG_TOOLCHAIN)
   endif()
 elseif (CMAKE_SIZEOF_VOID_P EQUAL 8)
   set (PLATFORM_ARCH 64)
+endif()
+
+if (WIN32 AND (NOT MSVC) AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
+  execute_process(COMMAND ${CMAKE_CXX_COMPILER} -print-target-triple OUTPUT_VARIABLE CLANG_TRIPLE)
+  string(REGEX MATCH "x86_64-.*" _clang_is_x86 ${CLANG_TRIPLE})
+  if (CLANG_TRIPLE MATCHES "x86_64")
+    set(CMAKE_SYSTEM_PROCESSOR "amd64")
+  else()
+    set(CMAKE_SYSTEM_PROCESSOR "arm64")
+  endif()
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -276,6 +293,37 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
     GLIB REQUIRED
     glib-2.0>=2.56.0
     gio-2.0>=2.56.0)
+
+  if (CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_REQUIRED_INCLUDES ${GTK_INCLUDE_DIRS})
+    set(CMAKE_REQUIRED_LIBRARIES ${GTK_LIBRARIES})
+    foreach(GLIBCXX_ABI_DEFINITION "" "-D_GLIBCXX_USE_CXX11_ABI")
+      set(CMAKE_REQUIRED_DEFINITIONS ${GLIBCXX_ABI_DEFINITION})
+
+      check_cxx_source_compiles(
+        "#include <glibmm/ustring.h>
+         #include <string>
+
+         int
+         main(int argc, char **argv)
+         {
+           Glib::ustring(std::string(\"c++\"));
+           return 0;
+         }"
+        DUAL_ABI_RESOLVED
+      )
+      if (DEFINED DUAL_ABI_RESOLVED AND "${DUAL_ABI_RESOLVED}" STREQUAL "1")
+        if (NOT ${GLIBCXX_ABI_DEFINITION} STREQUAL "")
+          add_definitions(${GLIBCXX_ABI_DEFINITION})
+        endif()
+        break()
+      endif()
+    endforeach()
+
+    if (NOT DEFINED DUAL_ABI_RESOLVED OR "${DUAL_ABI_RESOLVED}" STREQUAL "")
+      message(FATAL_ERROR "Linked GTK libraries don't support C++11 and your compiler doesn't support dual ABI.") #https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html
+    endif()
+  endif()
 
   set (HAVE_GSETTINGS ON)
   set (HAVE_GLIB ON)
@@ -540,7 +588,12 @@ if (HAVE_TESTS)
   set (BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
 endif()
 
-find_package(Boost 1.54.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+set (BOOST_MIN_VERSION "1.54.0")
+if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 10.0.0)
+  set (BOOST_MIN_VERSION "1.73.0") #https://github.com/boostorg/signals2/commit/15fcf213563718d2378b6b83a1614680a4fa8cec
+endif()
+
+find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 
 #----------------------------------------------------------------------------------------------------
 # Translations
@@ -742,20 +795,34 @@ endif()
 
 include(FetchContent)
 
-find_package(spdlog CONFIG)
-if(NOT ${spdlog_FOUND})
-  message(STATUS "Could not find spdlog ${WITH_UI}")
+find_package(fmt 9.0.0 CONFIG QUIET)
+if(${fmt_FOUND})
+  find_package(spdlog 1.9.2 CONFIG QUIET)
+else()
+  FetchContent_Declare(
+      fmt
+      GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+      GIT_SHALLOW TRUE
+      GIT_TAG 9.1.0
+    )
+  FetchContent_MakeAvailable(fmt)
+  target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
+endif()
+
+if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
   FetchContent_Declare(
       spdlog
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
       GIT_SHALLOW TRUE
       GIT_TAG v1.11.0
     )
-  set(SPDLOG_INSTALL ON)
-  set(SPDLOG_BUILD_SHARED ON)
+  if (WIN32)
+    set(SPDLOG_INSTALL ON)
+    set(SPDLOG_BUILD_SHARED ON)
+  endif()
+  set(SPDLOG_FMT_EXTERNAL ON)
   FetchContent_MakeAvailable(spdlog)
 endif()
-# TODO: remove workaround
 add_compile_definitions(FMT_DEPRECATED_OSTREAM)
 if (WIN32)
   add_compile_definitions(SPDLOG_WCHAR_TO_UTF8_SUPPORT)

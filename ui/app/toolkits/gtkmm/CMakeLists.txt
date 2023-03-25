@@ -153,7 +153,8 @@ target_link_libraries(workrave-toolkit-gtkmm
   workrave-libs-session
   workrave-libs-utils
   workrave-libs-ui-prefwidgets
-  workrave-libs-ui-prefwidgets-gtkmm)
+  workrave-libs-ui-prefwidgets-gtkmm
+  fmt::fmt)
 
 if (HAVE_UNFOLD_AUTO_UPDATE)
   target_link_libraries(workrave-toolkit-gtkmm PRIVATE workrave-libs-updater)

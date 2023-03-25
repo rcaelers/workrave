@@ -36,8 +36,8 @@ msgstr "%s%d 時間 %02d 分 %02d 秒"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, %s から %s"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, {:%X} から {:%X}"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"

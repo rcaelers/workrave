@@ -34,5 +34,6 @@ target_include_directories(workrave-libs-config
   ${CMAKE_SOURCE_DIR}/libs/config/src
   ${CMAKE_SOURCE_DIR}/libs/config/include/config
   PUBLIC
-  ${CMAKE_SOURCE_DIR}/libs/config/include)
+  ${CMAKE_SOURCE_DIR}/libs/config/include
+  ${Boost_INCLUDE_DIR})
 
