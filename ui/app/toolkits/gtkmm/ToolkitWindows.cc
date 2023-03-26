@@ -39,6 +39,7 @@ using namespace workrave::config;
 ToolkitWindows::ToolkitWindows(int argc, char **argv)
   : Toolkit(argc, argv)
 {
+  gdk_init(nullptr, nullptr);
 #if defined(HAVE_HARPOON)
   locker = std::make_shared<WindowsHarpoonLocker>();
 #else
