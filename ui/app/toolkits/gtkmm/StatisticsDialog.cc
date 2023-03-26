@@ -19,7 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <cassert>
 #include <cstdio>
 #include <sstream>
 
@@ -407,7 +406,9 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 void
 StatisticsDialog::display_week_statistics()
 {
-  guint y, m, d;
+  guint y = 0;
+  guint m = 0;
+  guint d = 0;
   calendar->get_date(y, m, d);
 
   std::tm timeinfo{};
@@ -430,7 +431,9 @@ StatisticsDialog::display_week_statistics()
       t = std::mktime(&timeinfo);
       time_loc = std::localtime(&t);
 
-      int idx, next, prev;
+      int idx = 0;
+      int next = 0;
+      int prev = 0;
       statistics->get_day_index_by_date(time_loc->tm_year + 1900, time_loc->tm_mon + 1, time_loc->tm_mday, idx, next, prev);
 
       if (idx >= 0)
@@ -451,10 +454,12 @@ StatisticsDialog::display_week_statistics()
 void
 StatisticsDialog::display_month_statistics()
 {
-  guint y, m, d;
+  guint y = 0;
+  guint m = 0;
+  guint d = 0;
   calendar->get_date(y, m, d);
 
-  guint max_mday;
+  guint max_mday = 0;
   if (m == 3 || m == 5 || m == 8 || m == 10)
     {
       max_mday = 30;
@@ -479,7 +484,9 @@ StatisticsDialog::display_month_statistics()
   int64_t total_month = 0;
   for (guint i = 1; i <= max_mday; i++)
     {
-      int idx, next, prev;
+      int idx = 0;
+      int next = 0;
+      int prev = 0;
       statistics->get_day_index_by_date(y, m + 1, i, idx, next, prev);
       if (idx >= 0)
         {
@@ -536,7 +543,9 @@ StatisticsDialog::on_calendar_day_selected()
 void
 StatisticsDialog::get_calendar_day_index(int &idx, int &next, int &prev)
 {
-  guint y, m, d;
+  guint y = 0;
+  guint m = 0;
+  guint d = 0;
   calendar->get_date(y, m, d);
   statistics->get_day_index_by_date(y, m + 1, d, idx, next, prev);
 }
@@ -553,7 +562,9 @@ StatisticsDialog::set_calendar_day_index(int idx)
 void
 StatisticsDialog::display_calendar_date()
 {
-  int idx, next, prev;
+  int idx = 0;
+  int next = 0;
+  int prev = 0;
   get_calendar_day_index(idx, next, prev);
   IStatistics::DailyStats *stats = nullptr;
   if (idx >= 0)
@@ -577,19 +588,27 @@ StatisticsDialog::display_calendar_date()
 void
 StatisticsDialog::on_history_go_back()
 {
-  int idx, next, prev;
+  int idx = 0;
+  int next = 0;
+  int prev = 0;
   get_calendar_day_index(idx, next, prev);
   if (prev >= 0)
-    set_calendar_day_index(prev);
+    {
+      set_calendar_day_index(prev);
+    }
 }
 
 void
 StatisticsDialog::on_history_go_forward()
 {
-  int idx, next, prev;
+  int idx = 0;
+  int next = 0;
+  int prev = 0;
   get_calendar_day_index(idx, next, prev);
   if (next >= 0)
-    set_calendar_day_index(next);
+    {
+      set_calendar_day_index(next);
+    }
 }
 
 void
@@ -645,7 +664,9 @@ StatisticsDialog::on_history_delete_all()
           mb_error.set_title(_("Error"));
           mb_error.get_widget_for_response(Gtk::RESPONSE_NO)->grab_default();
           if (mb_error.run() != Gtk::RESPONSE_YES)
-            break;
+            {
+              break;
+            }
         }
     }
 

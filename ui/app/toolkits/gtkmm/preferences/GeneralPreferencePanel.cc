@@ -304,14 +304,13 @@ GeneralPreferencePanel::on_cell_data_compare(const Gtk::TreeModel::iterator &ite
     {
       return -1;
     }
-  else if (code2.empty())
+
+  if (code2.empty())
     {
       return 1;
     }
-  else
-    {
-      return g_utf8_collate(name1.c_str(), name2.c_str());
-    }
+
+  return g_utf8_collate(name1.c_str(), name2.c_str());
 }
 #endif
 
@@ -320,8 +319,6 @@ GeneralPreferencePanel::on_autostart_toggled()
 {
 #if defined(PLATFORM_OS_WINDOWS)
   bool on = autostart_cb->get_active();
-
-  gchar *value = nullptr;
 
   if (on)
     {
@@ -360,15 +357,16 @@ GeneralPreferencePanel::update_icon_theme_combo()
 
   for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_IMAGES))
     {
-      if (!g_str_has_suffix(dirname.string().c_str(), "images"))
+      auto path = dirname.string();
+      if (!g_str_has_suffix(path.c_str(), "images"))
         {
           continue;
         }
 
-      GDir *dir = g_dir_open(dirname.string().c_str(), 0, nullptr);
+      GDir *dir = g_dir_open(path.c_str(), 0, nullptr);
       if (dir != nullptr)
         {
-          const char *file;
+          const char *file = nullptr;
           while ((file = g_dir_read_name(dir)) != nullptr)
             {
               gchar *test_path = g_build_filename(dirname.string().c_str(), file, nullptr);
