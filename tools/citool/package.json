@@ -58,7 +58,7 @@
     "@oclif/plugin-commands": "^2.2.2",
     "@oclif/plugin-help": "^5",
     "async": "^3.2.4",
-    "aws-sdk": "^2.1294.0",
+    "aws-sdk": "^2.1356.0",
     "isomorphic-git": "^1.21.0",
     "js-yaml": "^4.1.0",
     "mergician": "^1.0.3",
