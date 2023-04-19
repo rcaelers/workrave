@@ -19,73 +19,73 @@
     },
     {
       "name": "boost-asio",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "features": ["ssl"],
       "platform": "x64"
     },
     {
       "name": "boost-beast",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-coroutine",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-date-time",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x86 | x64"
     },
     {
       "name": "boost-interprocess",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-filesystem",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-iostreams",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-outcome",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-process",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-program-options",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x86 | x64"
     },
     {
       "name": "boost-property-tree",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-serialization",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x86 | x64"
     },
     {
       "name": "boost-signals2",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
       "name": "boost-test",
-      "version>=": "1.79.0",
+      "version>=": "1.81.0",
       "platform": "x64"
     },
     {
