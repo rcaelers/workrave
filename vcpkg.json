@@ -84,6 +84,11 @@
       "platform": "x64"
     },
     {
+      "name": "boost-url",
+      "version>=": "1.81.0",
+      "platform": "x64"
+    },
+    {
       "name": "boost-test",
       "version>=": "1.81.0",
       "platform": "x64"
