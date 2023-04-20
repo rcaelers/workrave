@@ -64,7 +64,7 @@
     "mergician": "^1.0.3",
     "moment": "^2.29.4",
     "node-fetch": "^3.3.0",
-    "nunjucks": "^3.2.3",
+    "nunjucks": "^3.2.4",
     "remark-parse": "^10.0.1",
     "semver": "^7.3.8",
     "source-map-support": "^0.5.21",
