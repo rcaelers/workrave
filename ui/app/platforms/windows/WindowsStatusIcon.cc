@@ -23,6 +23,7 @@
 
 #include <string>
 #include <shellapi.h>
+#include <commctrl.h>
 
 #include "core/CoreTypes.hh"
 #include "commonui/MenuDefs.hh"
@@ -66,20 +67,23 @@ WindowsStatusIcon::set_operation_mode(workrave::OperationMode m)
 
   HINSTANCE hinstance = GetModuleHandle(nullptr);
 
+  PCWSTR icon_name = L"workrave";
   switch (m)
     {
     case workrave::OperationMode::Normal:
-      nid.hIcon = LoadIconA(hinstance, "workrave");
+      icon_name = L"workrave";
       break;
     case workrave::OperationMode::Quiet:
-      nid.hIcon = LoadIconA(hinstance, "workravequiet");
+      icon_name = L"workravequiet";
       break;
     case workrave::OperationMode::Suspended:
-      nid.hIcon = LoadIconA(hinstance, "workravesusp");
+      icon_name = L"workravesusp";
       break;
     }
 
+  LoadIconMetric(hinstance, icon_name, LIM_SMALL, &nid.hIcon);
   nid.uFlags |= NIF_ICON;
+
   if (nid.hWnd != nullptr && visible)
     {
       Shell_NotifyIconW(NIM_MODIFY, &nid);
@@ -140,7 +144,7 @@ WindowsStatusIcon::show_balloon(const std::string &id, const std::string &balloo
           Shell_NotifyIconW(NIM_MODIFY, &nid);
         }
 
-      nid.uFlags &= ~NIF_INFO;
+      nid.uFlags &= ~(NIF_INFO);
     }
 }
 
@@ -155,6 +159,10 @@ WindowsStatusIcon::set_visible(bool visible)
       if (nid.hWnd != nullptr)
         {
           Shell_NotifyIconW(visible ? NIM_ADD : NIM_DELETE, &nid);
+          if (visible)
+            {
+              Shell_NotifyIconW(NIM_SETVERSION, &nid);
+            }
         }
     }
 }
@@ -210,12 +218,17 @@ WindowsStatusIcon::init()
       wm_taskbarcreated = RegisterWindowMessageA("TaskbarCreated");
     }
 
+  // {0D6F89D0-0565-4E03-B930-BB07C1E786FF}
+  static const GUID guid = {0xd6f89d0, 0x565, 0x4e03, {0xb9, 0x30, 0xbb, 0x7, 0xc1, 0xe7, 0x86, 0xff}};
+
   memset(&nid, 0, sizeof(NOTIFYICONDATA));
-  nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
+  nid.cbSize = sizeof(NOTIFYICONDATA);
   nid.uID = 1;
-  nid.uFlags = NIF_MESSAGE;
+  nid.uVersion = NOTIFYICON_VERSION_4;
+  nid.uFlags = NIF_MESSAGE; // | NIF_GUID;
   nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
   nid.hWnd = tray_hwnd;
+  nid.guidItem = guid;
 
   set_tooltip("Workrave");
 }
@@ -226,7 +239,7 @@ WindowsStatusIcon::cleanup()
   if (nid.hWnd != nullptr && visible)
     {
       Shell_NotifyIconW(NIM_DELETE, &nid);
-      if (nid.hIcon)
+      if (nid.hIcon != nullptr)
         {
           DestroyIcon(nid.hIcon);
         }
@@ -342,22 +355,26 @@ WindowsStatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
         }
       else if (uMsg == MYWM_TRAY_MESSAGE)
         {
-          switch (lParam)
+          switch (LOWORD(lParam))
             {
-            case WM_RBUTTONDOWN:
+            case WM_CONTEXTMENU:
               {
                 bool taking = status_icon->app->get_core()->is_taking();
-                if (!(taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input)))
+                if (!taking || (GUIConfig::block_mode()() != BlockMode::All && GUIConfig::block_mode()() != BlockMode::Input))
                   {
                     status_icon->show_menu();
                   }
                 break;
               }
-            case WM_LBUTTONDOWN:
+            case NIN_SELECT:
+              [[fallthrough]];
+            case NIN_KEYSELECT:
               status_icon->activate_signal();
               break;
             case NIN_BALLOONUSERCLICK:
               status_icon->balloon_activate_signal(status_icon->current_id);
+            default:
+              break;
             }
         }
     }

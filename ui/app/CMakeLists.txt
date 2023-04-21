@@ -163,9 +163,17 @@ If (PLATFORM_OS_WINDOWS)
   set(WR_VERSION ${WORKRAVE_VERSION})
   set(WR_RESOURCE_VERSION ${WORKRAVE_RESOURCE_VERSION})
   set(WR_TOP_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+  set(WR_CURRENT_BIN_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
+  string(REPLACE "," "." WR_VERSION_VERSION_NUMERIC ${WR_RESOURCE_VERSION})
+
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
+
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/workrave.manifest.in
+    ${CMAKE_CURRENT_BINARY_DIR}/workrave.manifest)
 
   target_sources(workrave PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
 endif()
@@ -223,8 +231,8 @@ if (PLATFORM_OS_WINDOWS)
   endif()
 
   if (MINGW)
-    target_link_libraries(workrave PRIVATE winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
-    target_link_libraries(workrave PRIVATE dxerr8 dsound dxguid)
+    target_link_libraries(workrave PRIVATE winmm shlwapi kernel32 user32 gdi32 winspool comdlg32  advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32 wtsapi32)
+    target_link_libraries(workrave PRIVATE dxerr8 dsound dxguid comctl32)
   endif()
   if (MSVC)
     target_link_libraries(workrave PRIVATE wtsapi32 dsound dxguid)
