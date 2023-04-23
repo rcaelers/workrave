@@ -1,5 +1,4 @@
 #include <winver.h>
-#include <winuser.h>
 
 VS_VERSION_INFO VERSIONINFO
   FILEVERSION @WR_RESOURCE_VERSION@

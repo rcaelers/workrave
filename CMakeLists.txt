@@ -153,6 +153,12 @@ if (WIN32 AND (NOT MSVC) AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
   endif()
 endif()
 
+if (WIN32 AND MSVC)
+  if(VCPKG_TARGET_TRIPLET MATCHES "^x64-windows")
+      set(CMAKE_SYSTEM_PROCESSOR AMD64)
+  endif()
+endif()
+
 #----------------------------------------------------------------------------------------------------
 # Testing
 
@@ -861,7 +867,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     FetchContent_Declare(
       dump_syms
       GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-      GIT_TAG v2.0.0
+      GIT_TAG v2.2.1
     )
     FetchContent_MakeAvailable(dump_syms)
 
