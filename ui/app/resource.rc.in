@@ -29,7 +29,7 @@ VS_VERSION_INFO VERSIONINFO
     END
   END
 
-workrave    	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave.ico"
+workrave    	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-normal.ico"
 workravequiet	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-quiet.ico"
 workravesusp	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-suspended.ico"
 

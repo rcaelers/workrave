@@ -235,7 +235,7 @@
     <Image Include="..\..\..\common\share\images\windows\timer-daily.ico" />
     <Image Include="..\..\..\common\share\images\windows\timer-micropause.ico" />
     <Image Include="..\..\..\common\share\images\windows\timer-restbreak.ico" />
-    <Image Include="..\..\..\common\share\images\windows\workrave.ico" />
+    <Image Include="..\..\..\common\share\images\windows\workrave-normal.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
