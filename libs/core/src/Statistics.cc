@@ -20,7 +20,7 @@
 #endif
 
 #include "Statistics.hh"
-#include <filesystem>
+
 #if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
@@ -29,10 +29,9 @@
 #include <cmath>
 #include <cstring>
 #include <sstream>
+#include <filesystem>
 
 #include "debug.hh"
-
-#include "Statistics.hh"
 
 #include "Core.hh"
 #include "Timer.hh"
