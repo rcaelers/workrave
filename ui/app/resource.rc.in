@@ -33,5 +33,4 @@ workrave    	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows
 workravequiet	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-quiet.ico"
 workravesusp	ICON    DISCARDABLE     "@WR_TOP_SOURCE_DIR@/ui/data/images/windows/workrave-suspended.ico"
 
-1 RT_MANIFEST "@WR_CURRENT_BIN_DIR@/workrave.manifest"
-
+1 24 "@WR_CURRENT_BIN_DIR@/workrave.manifest"
