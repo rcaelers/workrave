@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2023-02-06 19:19+0100\n"
+"PO-Revision-Date: 2023-05-02 21:36+0200\n"
 "Last-Translator: ChuckMichael <6hfeskbq@anonaddy.me>\n"
 "Language-Team: s120801-translate\n"
 "Language: pl\n"
@@ -724,7 +724,7 @@ msgstr "Pokaż przycisk 'Pomiń'"
 
 #: ui/applets/mate/src/main.c:379
 msgid "Show log"
-msgstr "Pokaż log"
+msgstr "Pokaż dziennik"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
 msgid "Show only when this timer is first due"
@@ -732,7 +732,7 @@ msgstr "Pokaż tylko jeśli ten typ przerwy jest następny"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Show status icon"
-msgstr "Pokaż ikonę stanu"
+msgstr "Pokaż ikonę statusu"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
 msgid "Show status window"
@@ -813,14 +813,12 @@ msgid "Submit crash report to the Workrave developers"
 msgstr "Wyślij raport o awarii do twórców programu Workrave"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
-#, fuzzy
 msgid "Success color"
-msgstr "Kolor sukcesu"
+msgstr "Kolor powodzenia"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
-#, fuzzy
 msgid "Success color for symbolic icons"
-msgstr "Kolor sukcesu dla ikon symbolicznych"
+msgstr "Kolor powodzenia dla ikon symbolicznych"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:263
 msgid "Suspend"
@@ -1060,9 +1058,8 @@ msgid "Workrave crash reporter"
 msgstr "Zgłaszanie awarii programu Workrave"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-#, fuzzy
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr "Program Workrave nie obsługuje w pełni natywnie Waylanda. Ta opcja wymusza używanie X11 zamiast Waylanda. Zmiana tej opcji wymaga ponownego uruchomienia Workrave."
+msgstr "Program Workrave nie wspiera w pełni natywnie Waylanda. Ta opcja wymusza używanie X11 zamiast Waylanda. Zmiana tej opcji wymaga ponownego uruchomienia Workrave."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
@@ -1206,9 +1203,8 @@ msgid "_Suspended (until next day)"
 msgstr "_Wstrzymany (do następnego dnia)"
 
 #: ui/app/Menus.cc:185
-#, fuzzy
 msgid "and 1 minute"
-msgstr "i 1 minuta"
+msgstr "i 1 minutę"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:52
 msgid "crash details"
