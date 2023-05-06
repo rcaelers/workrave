@@ -766,7 +766,6 @@ if (APPLE)
 
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
   find_library(IOKIT_LIBRARY IOKit REQUIRED)
-  find_library(QTKIT_LIBRARY QTKit REQUIRED)
   include_directories(/usr/local/include)
   include_directories(${CMAKE_SYSTEM_INCLUDE_PATH})
 
