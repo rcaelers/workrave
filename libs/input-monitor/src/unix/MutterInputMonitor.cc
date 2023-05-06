@@ -22,6 +22,7 @@
 #include "MutterInputMonitor.hh"
 
 #include <memory>
+#include <fmt/core.h>
 
 #include "debug.hh"
 #include "utils/Diagnostics.hh"
