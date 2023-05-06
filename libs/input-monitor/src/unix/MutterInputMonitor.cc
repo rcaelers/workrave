@@ -178,8 +178,9 @@ MutterInputMonitor::register_active_watch()
     {
       guint watch = 0;
       g_variant_get(reply, "(u)", &watch);
-      watch_active = active;
+      watch_active = watch;
       g_variant_unref(reply);
+      Diagnostics::instance().log(fmt::format("mutter: active handler ID {}", watch_active));
     }
   else
     {
@@ -223,6 +224,7 @@ MutterInputMonitor::on_register_active_watch_reply(GObject *object, GAsyncResult
   g_variant_get(params, "(u)", &watch);
   self->watch_active = watch;
   g_variant_unref(params);
+  Diagnostics::instance().log(fmt::format("mutter: active handler ID async {}", self->watch_active));
 }
 
 bool
@@ -307,6 +309,7 @@ MutterInputMonitor::register_idle_watch()
       g_variant_get(reply, "(u)", &watch);
       watch_idle = watch;
       g_variant_unref(reply);
+      Diagnostics::instance().log(fmt::format("mutter: idle handler ID {}", watch_idle));
     }
   else
     {
@@ -375,7 +378,7 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy,
       guint handlerID;
       g_variant_get(parameters, "(u)", &handlerID);
 
-      Diagnostics::instance().log("mutter: watch fired");
+      Diagnostics::instance().log(fmt::format("mutter: watch fired handler ID {}", handlerID));
       if (handlerID == self->watch_active)
         {
           self->unregister_active_watch_async();
@@ -390,7 +393,7 @@ MutterInputMonitor::on_idle_monitor_signal(GDBusProxy *proxy,
         }
       else
         {
-          Diagnostics::instance().log("mutter: unknown handler ID");
+          Diagnostics::instance().log(fmt::format("mutter: unknown handler ID {}", handlerID));
         }
     }
 }
