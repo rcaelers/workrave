@@ -249,7 +249,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #  include <windows.h>
 #endif
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_UNIX) && defined(HAVE_NL_TIME_FIRST_WEEKDAY_AND_WEEK_1STDAY)
 #  include <langinfo.h>
 #  include <glib.h>
 #endif
@@ -257,6 +257,7 @@ Locale::get_all_languages_in_native_locale(LanguageMap &list)
 #if defined(PLATFORM_OS_MACOS)
 #  import <Foundation/NSCalendar.h>
 #endif
+
 int
 Locale::get_week_start()
 {
@@ -285,6 +286,8 @@ Locale::get_week_start()
   week_start = [[NSCalendar currentCalendar] firstWeekday];
 
 #elif defined(PLATFORM_OS_UNIX)
+
+#  if defined(HAVE_NL_TIME_FIRST_WEEKDAY_AND_WEEK_1STDAY)
   union
   {
     unsigned int word;
@@ -306,7 +309,21 @@ Locale::get_week_start()
     g_warning("Unknown value of _NL_TIME_WEEK_1STDAY.\n");
 
   week_start = (week_1stday + first_weekday - 1) % 7;
-#endif
 
+#  else
+#    define GTK_WEEK_START "calendar:week_start:0"
+  auto gtk_week_start = dgettext("gtk30", GTK_WEEK_START);
+
+  if (strncmp(gtk_week_start, "calendar:week_start:", 20) == 0)
+    week_start = *(gtk_week_start + 20) - '0';
+  else
+    week_start = -1;
+
+  if (week_start < 0 || week_start > 6)
+    {
+      week_start = 0;
+    }
+#  endif
+#endif
   return week_start;
 }
