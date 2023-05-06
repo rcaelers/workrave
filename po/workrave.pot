@@ -168,7 +168,7 @@ msgid ""
 msgstr ""
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
+#: ui/apps/gtkmm/src/workrave.metainfo.xml:6
 #: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:4
 msgid "Workrave"
 msgstr ""
@@ -1191,11 +1191,11 @@ msgstr ""
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
+#: ui/apps/gtkmm/src/workrave.metainfo.xml:7
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr ""
 
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
+#: ui/apps/gtkmm/src/workrave.metainfo.xml:9
 msgid ""
 "Workrave is a program that assists in the recovery and prevention of "
 "Repetitive Strain Injury (RSI). The program frequently alerts you to take "

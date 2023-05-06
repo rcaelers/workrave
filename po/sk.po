@@ -600,7 +600,7 @@ msgstr "Predchádzajúce cvičenie"
 msgid "Previous exercise"
 msgstr "Predchádzajúce cvičenie"
 
-#: ui/app/workrave.appdata.xml:7
+#: ui/app/workrave.metainfo.xml:7
 #, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr "Tento program pomáha pri prevencii a regenerácii opakovaných bolestivých napätí (RSI)."
@@ -1046,7 +1046,7 @@ msgstr "Súbory wav"
 msgid "Weekly"
 msgstr "Týždenne"
 
-#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.appdata.xml:6
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave"
 msgstr "Workrave"
@@ -1076,7 +1076,7 @@ msgstr ""
 msgid "Workrave has crashed."
 msgstr ""
 
-#: ui/app/workrave.appdata.xml:9
+#: ui/app/workrave.metainfo.xml:9
 msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
 

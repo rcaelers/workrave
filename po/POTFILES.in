@@ -155,7 +155,7 @@ ui/app/toolkits/gtkmm/widgets/StatusIcon.cc
 ui/app/toolkits/gtkmm/widgets/TimeBar.cc
 ui/app/toolkits/gtkmm/widgets/TimeEntry.cc
 ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc
-ui/app/workrave.appdata.xml
+ui/app/workrave.metainfo.xml
 ui/applets/common/src/control.c
 ui/applets/common/src/timebar.c
 ui/applets/common/src/timerbox.c

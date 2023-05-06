@@ -596,7 +596,7 @@ msgstr "پیشین"
 msgid "Previous exercise"
 msgstr "نرمش پیشین"
 
-#: ui/app/workrave.appdata.xml:7
+#: ui/app/workrave.metainfo.xml:7
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr "این برنامه به پیشگیری و بهبود آسیب‌های فیزیکی مکرّر کمک می‌کند"
 
@@ -1033,7 +1033,7 @@ msgstr "پرونده‌های وِیو"
 msgid "Weekly"
 msgstr "هفتگی"
 
-#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.appdata.xml:6
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave"
 msgstr "وُرک‌رِیو"
@@ -1063,7 +1063,7 @@ msgstr ""
 msgid "Workrave has crashed."
 msgstr ""
 
-#: ui/app/workrave.appdata.xml:9
+#: ui/app/workrave.metainfo.xml:9
 msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr "وُرک‌رِیو برنامه‌ای است که به پیشگیری و بهبود آسیب‌های فیزیکی مکرّر (RSI) کمک می‌کند. این برنامه مدام شما را برای تنفّس، استراحت یاد‌آوری می‌کند و شما را به محدودیت روزانه‌تان محدود می‌کند."
 
