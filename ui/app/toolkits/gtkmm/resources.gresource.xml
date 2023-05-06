@@ -2,10 +2,10 @@
 <gresources>
   <gresource prefix="/workrave">
     <file alias="workrave.png">images/workrave.png</file>
-    <file alias="icons/scalable/display-symbolic.svg">images/display.svg</file>
-    <file alias="icons/scalable/mouse-symbolic.svg">images/mouse.svg</file>
-    <file alias="icons/scalable/sound-symbolic.svg">images/sound.svg</file>
-    <file alias="icons/scalable/timer-symbolic.svg">images/timer.svg</file>
-    <file alias="icons/scalable/update-symbolic.svg">images/update.svg</file>
+    <file alias="icons/scalable/workrave-display-symbolic.svg">images/display.svg</file>
+    <file alias="icons/scalable/workrave-mouse-symbolic.svg">images/mouse.svg</file>
+    <file alias="icons/scalable/workrave-sound-symbolic.svg">images/sound.svg</file>
+    <file alias="icons/scalable/workrave-timer-symbolic.svg">images/timer.svg</file>
+    <file alias="icons/scalable/workrave-update-symbolic.svg">images/update.svg</file>
   </gresource>
 </gresources>
