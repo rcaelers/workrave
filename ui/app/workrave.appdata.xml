@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
- <id>org.workrave.Workrave</id>
- <metadata_license>CC-BY-3.0</metadata_license>
- <project_license>GPL-3.0+</project_license>
- <name>Workrave</name>
- <summary>Program that assists in the recovery and prevention of RSI</summary>
- <description>
-  <p>
-  Workrave is a program that assists in the recovery and prevention of
-  Repetitive Strain Injury (RSI). The program frequently alerts you to
-  take micro-pauses, rest breaks and restricts you to your daily limit.
-  </p>
+  <id>org.workrave.workrave</id>
+  <name>Workrave</name>
+  <summary>Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)</summary>
+  <metadata_license>CC-BY-3.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <description>
+    <p>Workrave is a free program that assists in the recovery and prevention
+       of Repetitive Strain Injury (RSI). It frequently alerts you to take
+      microbreaks, rest breaks and restricts you to your daily computer usage.
+    </p>
   </description>
- <screenshots>
-  <screenshot type="default">
-   <image width="352" height="170">https://workrave.org/images/screenshots/restbreak-exercise.png</image>
-  </screenshot>
- </screenshots>
- <launchable type="desktop-id">org.workrave.Workrave.desktop</launchable>
- <url type="homepage">https://www.workrave.org/</url>
- <content_rating type="oars-1.1" />
+  <launchable type="desktop-id">org.workrave.Workrave.desktop</launchable>
+  <screenshots>
+    <screenshot>
+      <caption>The break warning window</caption>
+      <image>https://workrave.org/images/screenshots/prelude-microbreak.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>The restbreak window</caption>
+      <image>https://workrave.org/images/screenshots/restbreak-exercise.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The main window</caption>
+      <image>https://workrave.org/images/screenshots/main-overdue.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://www.workrave.org/</url>
+  <url type="bugtracker">https://www.workrave.org/</url>
+  <url type="help">https://www.workrave.org/</url>
+  <content_rating type="oars-1.1" />
 </component>
