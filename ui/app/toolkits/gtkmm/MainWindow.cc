@@ -297,6 +297,10 @@ MainWindow::move_to_start_position()
   int height = 0;
   get_size(width, height);
 
+  if (head >= app->get_toolkit()->get_head_count())
+    {
+      head = 0;
+    }
   convert_monitor_to_display(x, y, head);
 
   TRACE_MSG("moving to {} {}", x, y);
