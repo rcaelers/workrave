@@ -231,6 +231,8 @@ MainWindow::init()
     {
       open_window();
     }
+
+  GUIConfig::main_window_always_on_top().attach(this, [&](bool enabled) { GtkUtil::set_always_on_top(this, enabled); });
 }
 
 void
