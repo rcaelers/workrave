@@ -599,7 +599,7 @@ msgstr "Poprzednie"
 msgid "Previous exercise"
 msgstr "Poprzednie ćwiczenie"
 
-#: ui/app/workrave.appdata.xml:7
+#: ui/app/workrave.metainfo.xml:7
 msgid "Program that assists in the recovery and prevention of RSI"
 msgstr ""
 "Program pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia\n"
@@ -1042,7 +1042,7 @@ msgstr "Pliki wave"
 msgid "Weekly"
 msgstr "Tygodniowo"
 
-#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.appdata.xml:6
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave"
 msgstr "Workrave"
@@ -1073,7 +1073,7 @@ msgstr "Program Workrave napotkał problem i uległ awarii. Pomóż nam zdiagnoz
 msgid "Workrave has crashed."
 msgstr "Nastąpiła awaria programu Workrave."
 
-#: ui/app/workrave.appdata.xml:9
+#: ui/app/workrave.metainfo.xml:9
 msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr "Workrave to program, który pomaga w zapobieganiu urazom na skutek chronicznego przeciążenia organizmu (RSI) oraz wspomaga rekonwalescencję. Program często przypomina o konieczności robienia mikroprzerw, przerw na odpoczynek i ogranicza dzienne korzystanie z komputera do ustalonego limitu."
 

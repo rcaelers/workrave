@@ -25,7 +25,6 @@ endif()
 if (PLATFORM_OS_MACOS)
   target_sources(workrave-libs-audio PRIVATE macos/MACOSSoundPlayer.cc)
   target_include_directories(workrave-libs-audio PRIVATE ${CMAKE_SOURCE_DIR}/libs/audio/src/macos)
-  target_link_libraries(workrave-libs-audio ${QTKIT_LIBRARY})
   set_source_files_properties(macos/MacOSSoundPlayer.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
 endif()
 

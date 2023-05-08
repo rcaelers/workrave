@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=Workrave
 Type=Application
+Name=Workrave
 Comment=Assists in the prevention and recovery of Repetitive Strain Injury (RSI)
 Keywords=typing;break;timer;wrists;health;rsi;
-Categories=Utility;GTK;Accessibility;
+Categories=Utility;GTK;
 Exec=workrave
 Icon=workrave

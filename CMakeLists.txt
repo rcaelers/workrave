@@ -565,6 +565,20 @@ if (UNIX AND NOT APPLE)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# Lang info
+
+check_cxx_source_compiles("
+    #include <langinfo.h>
+    int main(int argc, char **argv)
+    {
+        const char *r = nl_langinfo(_NL_TIME_FIRST_WEEKDAY);
+        const char *s = nl_langinfo(_NL_TIME_WEEK_1STDAY);
+
+        return 0;
+    }
+" HAVE_NL_TIME_FIRST_WEEKDAY_AND_WEEK_1STDAY)
+
+#----------------------------------------------------------------------------------------------------
 # Boost
 
 if (MSVC)
@@ -766,7 +780,6 @@ if (APPLE)
 
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
   find_library(IOKIT_LIBRARY IOKit REQUIRED)
-  find_library(QTKIT_LIBRARY QTKit REQUIRED)
   include_directories(/usr/local/include)
   include_directories(${CMAKE_SYSTEM_INCLUDE_PATH})
 
