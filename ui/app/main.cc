@@ -28,6 +28,7 @@
 #  include <io.h>
 #  include <fcntl.h>
 #  include "utils/W32ActiveSetup.hh"
+#  include "platforms/windows/Remote.hh"
 #endif
 
 #include "debug.hh"
@@ -149,11 +150,18 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdSh
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
   // directive.
-  HANDLE mtx = CreateMutexA(NULL, FALSE, "WorkraveMutex");
-  if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
+  HANDLE mtx = CreateMutexA(nullptr, FALSE, "WorkraveMutex");
+  if (mtx != nullptr && GetLastError() != ERROR_ALREADY_EXISTS)
     {
       run(sizeof(argv) / sizeof(argv[0]), argv);
     }
+#  if defined(PLATFORM_OS_WINDOWS)
+  else
+    {
+      Remote remote;
+      remote.open();
+    }
+#  endif
   return (0);
 }
 

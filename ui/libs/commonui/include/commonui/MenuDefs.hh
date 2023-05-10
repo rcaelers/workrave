@@ -16,8 +16,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef WORKRAVE_UI_COMMON_MENUCOMMAND_HH
-#define WORKRAVE_UI_COMMON_MENUCOMMAND_HH
+#ifndef WORKRAVE_UI_COMMON_MENUDEFS_HH
+#define WORKRAVE_UI_COMMON_MENUDEFS_HH
 
 #if __cplusplus > 201703L
 #  include <string_view>
@@ -126,4 +126,4 @@ enum MenuItemFlag
   MENU_ITEM_FLAG_VISIBLE = 2,
 };
 
-#endif // WORKRAVE_UI_COMMON_MENUCOMMAND_HH
+#endif // WORKRAVE_UI_COMMON_MENUDEFS_HH

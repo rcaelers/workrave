@@ -39,6 +39,7 @@ if (PLATFORM_OS_WINDOWS)
     platforms/windows/WindowsLocker.cc
     platforms/windows/WindowsStatusIcon.cc
     platforms/windows/WindowsFocusAssist.cc
+    platforms/windows/Remote.cc
   )
 
   if (HAVE_HARPOON)
