@@ -5,9 +5,19 @@ releases:
     short: |-
       Workrave 1.11.0-beta.6 has been released.
     changes:
+      - Fix preferences icons on Linux
+      - Improve High-DPI icons on Windows
+      - Support GNOME Shell 44 (#471, Jeremy Bicha)
+      - On Windows, Workrave now raises the main window when clicking on the pinned application icon.
       - |-
         Bug fixes:
+        - Fix "Start Workrave on logon" (#462)
         - Fix Assertion 'GDK_IS_DISPLAY (display)' failed (#472)
+        - Several build fixes (#468, #469, #473, #474, wojnilowicz)
+        - Status window is no longer displayed when not configured (#444)
+      - |-
+        Updated Translations:
+        - Updated Polish translation (#465, ChuckMichael)
 
   - version: 1.11.0-beta.5
     date: 2023-01-12T17:29:18+01:00
