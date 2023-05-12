@@ -127,7 +127,17 @@ install(FILES workrave.metainfo.xml DESTINATION ${DATADIR}/metainfo RENAME org.w
 ################################################################################
 ################################################################################
 
-add_executable(workrave MACOSX_BUNDLE main.cc $<TARGET_OBJECTS:workrave-app>)
+if (HAVE_APP_QT)
+  qt_add_executable(workrave main.cc $<TARGET_OBJECTS:workrave-app>)
+else()
+  add_executable(workrave main.cc $<TARGET_OBJECTS:workrave-app>)
+endif()
+
+set_target_properties(workrave PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+    XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME YES
+)
 
 target_link_libraries(workrave
   PRIVATE
@@ -211,9 +221,9 @@ if (APPLE)
     MACOSX_BUNDLE_ICON_FILE Workrave.icns
     MACOSX_BUNDLE_GUI_IDENTIFIER "org.workrave.${PROJECT_NAME}"
     MACOSX_BUNDLE_LONG_VERSION_STRING "${WORKRAVE_VERSION}"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "${WORKRAVE_VERSION}}"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "${WORKRAVE_VERSION}"
     MACOSX_BUNDLE_BUNDLE_VERSION "${WORKRAVE_VERSION}"
-    MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro"
+    MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro"
     )
 
   set_source_files_properties(BreakWindow.cc PreludeWindow.cc MouseMonitor.cc ToolkitPlatformMac.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
@@ -261,6 +271,6 @@ if (PLATFORM_OS_WINDOWS)
   endif()
 endif()
 
-install(TARGETS workrave RUNTIME DESTINATION ${BINDIR} BUNDLE DESTINATION ".")
+install(TARGETS workrave RUNTIME DESTINATION ${BINDIR} BUNDLE DESTINATION .)
 
 add_subdirectory(toolkits)

@@ -20,7 +20,7 @@ if (HAVE_DBUS_QT)
     target_link_libraries(workrave-libs-dbus PUBLIC Qt${QT_VERSION_MAJOR}::DBus)
 endif()
 
-target_link_libraries(workrave-libs-dbus PRIVATE workrave-libs-utils)
+target_link_libraries(workrave-libs-dbus PRIVATE workrave-libs-utils Boost::boost)
 target_include_directories(workrave-libs-dbus PUBLIC ${CMAKE_SOURCE_DIR}/libs/dbus/include)
 
 if (HAVE_DBUS_TEST_GIO)
@@ -45,5 +45,5 @@ if (HAVE_DBUS_GIO)
 endif()
 
 set_target_properties(workrave-libs-dbus-stub PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_DUMMY=1")
-target_link_libraries(workrave-libs-dbus-stub PRIVATE workrave-libs-utils)
+target_link_libraries(workrave-libs-dbus-stub PRIVATE workrave-libs-utils Boost::boost)
 target_include_directories(workrave-libs-dbus-stub PUBLIC ${CMAKE_SOURCE_DIR}/libs/dbus/include)

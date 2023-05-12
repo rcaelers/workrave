@@ -1,4 +1,4 @@
-add_library(workrave-libs-config STATIC 
+add_library(workrave-libs-config STATIC
   Configurator.cc
   ConfiguratorFactory.cc
   IniConfigurator.cc
@@ -27,7 +27,7 @@ if (HAVE_GSETTINGS)
   target_include_directories(workrave-libs-config PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(workrave-libs-config PRIVATE workrave-libs-utils)
+target_link_libraries(workrave-libs-config PRIVATE workrave-libs-utils Boost::boost)
 
 target_include_directories(workrave-libs-config
   PRIVATE

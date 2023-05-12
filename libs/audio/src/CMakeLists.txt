@@ -32,7 +32,7 @@ if (HAVE_GTK)
   target_include_directories(workrave-libs-audio PRIVATE ${GTK_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(workrave-libs-audio workrave-libs-utils)
+target_link_libraries(workrave-libs-audio PUBLIC workrave-libs-utils PRIVATE Boost::boost)
 
 target_include_directories(
   workrave-libs-audio

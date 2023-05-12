@@ -4,6 +4,9 @@ cmake_policy(VERSION 3.16)
 if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
 endif()
+if(POLICY CMP0100)
+  cmake_policy(SET CMP0100 NEW)
+endif()
 
 project(Workrave)
 
@@ -354,6 +357,8 @@ if ("${WITH_UI}" STREQUAL "Qt")
 
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml REQUIRED)
+  qt6_standard_project_setup()
+  set(CMAKE_AUTORCC ON)
 
   get_target_property(QT_LRELEASE_EXECUTABLE Qt::lrelease LOCATION)
 
@@ -592,7 +597,7 @@ if (MSVC)
   endif()
 endif()
 
-set(Boost_NO_BOOST_CMAKE TRUE)
+set (Boost_NO_BOOST_CMAKE TRUE)
 set (BOOST_COMPONENTS date_time program_options serialization)
 #set (Boost_DEBUG ON)
 
