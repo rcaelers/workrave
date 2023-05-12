@@ -353,7 +353,7 @@ jobs:
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
         run: |
-          break upgrade
+          brew upgrade
           brew install gettext qt python3 boost ninja spdlog pkg-config
           brew link gettext --force
           brew outdated cmake || brew upgrade cmake
