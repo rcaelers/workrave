@@ -355,6 +355,7 @@ jobs:
         run: |
           brew install gettext qt python3 boost ninja spdlog pkg-config
           brew link gettext --force
+          brew outdated qt || brew upgrade qt
           brew outdated cmake || brew upgrade cmake
           pip3 install --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
