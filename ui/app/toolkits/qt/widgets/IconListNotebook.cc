@@ -86,11 +86,12 @@ IconListNotebook::add_page(QWidget *page, const QIcon &icon, const QString &titl
     {
       button->setChecked(true);
     }
-  button->setIconSize(icon.availableSizes().first());
-  button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+  button->setIconSize(QSize(20, 20));
+  button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
   button->setIcon(icon);
-  button->setText(title);
+  button->setText(QString("  ") + title);
   button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  button->setStyleSheet("QToolButton { padding: 10px; } ");
 
   button_group->addButton(button, index);
   button_layout->addWidget(button);

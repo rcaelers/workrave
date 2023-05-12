@@ -23,6 +23,7 @@
 
 #include <QApplication>
 
+#include "Icon.hh"
 #include "DailyLimitWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"

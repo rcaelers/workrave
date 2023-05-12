@@ -29,6 +29,7 @@ add_library(workrave-toolkit-qt OBJECT
   widgets/TimeBar.cc
   widgets/TimeEntry.cc
   widgets/TimerBoxView.cc
+  widgets/Icon.cc
   )
 
 if (PLATFORM_OS_MACOS)
@@ -111,6 +112,7 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-libs-ui-prefwidgets-qt
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Svg
+  Qt${QT_VERSION_MAJOR}::Xml
   ${LIBINTL_LIBRARIES}
   ${EXTRA_LIBRARIES}
   ${X11_X11_LIB}

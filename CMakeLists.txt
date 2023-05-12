@@ -353,7 +353,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   message(STATUS "Checking for: Qt")
 
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml REQUIRED)
 
   get_target_property(QT_LRELEASE_EXECUTABLE Qt::lrelease LOCATION)
 

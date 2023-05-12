@@ -35,6 +35,7 @@
 
 #include "Ui.hh"
 #include "UiUtil.hh"
+#include "Icon.hh"
 
 #include "utils/AssetPath.hh"
 
@@ -98,7 +99,7 @@ PreferencesDialog::create_timers_page()
 void
 PreferencesDialog::create_ui_page()
 {
-  auto page = add_page("ui", tr("User interface"), "display.png");
+  auto page = add_page("ui", tr("User interface"), "display.svg");
 
   QWidget *gui_general_page = new GeneralUiPreferencesPanel(app);
   page->add_panel("general", gui_general_page, tr("General"));
@@ -113,7 +114,7 @@ PreferencesDialog::create_ui_page()
 void
 PreferencesDialog::create_monitoring_page()
 {
-  auto page = add_page("monitoring", tr("Monitoring"), "time.png");
+  auto page = add_page("monitoring", tr("Monitoring"), "mouse.svg");
   // QWidget *monitoring_panel = new MonitoringPreferencePanel(app);
   // page->add_panel("monitoring", monitoring_panel, _("Monitoring"));
 }
@@ -121,7 +122,7 @@ PreferencesDialog::create_monitoring_page()
 void
 PreferencesDialog::create_sounds_page()
 {
-  auto page = add_page("sounds", tr("Sounds"), "display.png");
+  auto page = add_page("sounds", tr("Sounds"), "sound.svg");
   QWidget *gui_sounds_page = new SoundsPreferencesPanel(app);
   page->add_panel("sounds", gui_sounds_page, tr("Sounds"));
 }
@@ -187,8 +188,7 @@ PreferencesDialog::add_page(const std::string &id, const QString &label, const s
   tabs->setTabBarAutoHide(true);
 
   std::string file = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES);
-  QPixmap pixmap(file.c_str());
-  QIcon icon(pixmap);
+  Icon icon(file);
 
   auto page_info = std::make_shared<PreferencesPage>(id, tabs);
   pages[id] = page_info;
