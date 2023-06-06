@@ -256,6 +256,7 @@ workrave_timebar_get_font(void)
 {
   PangoFontDescription *font_desc;
 
+#if !defined(HAVE_GTK4)
   if (gdk_screen_get_default())
     {
       GtkStyleContext *style = gtk_style_context_new();
@@ -269,6 +270,7 @@ workrave_timebar_get_font(void)
       g_object_unref(style);
     }
   else
+#endif
     {
       font_desc = pango_font_description_from_string("Sans 10");
     }
