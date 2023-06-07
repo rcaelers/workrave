@@ -6,9 +6,18 @@ const PopupMenu = imports.ui.popupMenu;
 const Gettext = imports.gettext;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
-const Workrave = imports.gi.Workrave;
 
 const _ = Gettext.gettext;
+
+let Workrave = null;
+
+try {
+  imports.gi.versions.Workrave = "1.0";
+  Workrave = imports.gi.Workrave;
+} catch (error) {
+  imports.gi.versions.Workrave = "2.0";
+  Workrave = imports.gi.Workrave;
+}
 
 let start = GLib.get_monotonic_time();
 global.log('workrave-applet: start @ ' + start);
