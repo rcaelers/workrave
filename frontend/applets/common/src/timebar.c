@@ -24,6 +24,7 @@
 
 static void workrave_timebar_class_init(WorkraveTimebarClass *klass);
 static void workrave_timebar_init(WorkraveTimebar *self);
+static void workrave_timebar_dispose(GObject *self);
 static void workrave_timebar_prepare(WorkraveTimebar *self);
 
 static void workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
@@ -100,6 +101,10 @@ set_color(cairo_t *cr, GdkRGBA color)
 static void
 workrave_timebar_class_init(WorkraveTimebarClass *klass)
 {
+  GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
+
+  gobject_class->dispose = workrave_timebar_dispose;
+
   gdk_rgba_parse(&bar_colors[COLOR_ID_ACTIVE], "lightblue");
   gdk_rgba_parse(&bar_colors[COLOR_ID_INACTIVE], "lightgreen");
   gdk_rgba_parse(&bar_colors[COLOR_ID_OVERDUE], "orange");
@@ -130,6 +135,19 @@ workrave_timebar_init(WorkraveTimebar *self)
   priv->pango_layout = NULL;
 
   workrave_timebar_prepare(self);
+}
+
+static void
+workrave_timebar_dispose(GObject *gobject)
+{
+  WorkraveTimebar *self = WORKRAVE_TIMEBAR(gobject);
+  WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
+
+  g_clear_pointer(&priv->bar_text, g_free);
+  g_clear_pointer(&priv->pango_layout, g_object_unref);
+
+  /* Chain up to the parent class */
+  G_OBJECT_CLASS(workrave_timebar_parent_class)->dispose(gobject);
 }
 
 void
@@ -243,7 +261,7 @@ workrave_timebar_get_font(void)
 {
   PangoFontDescription *font_desc;
 
-#ifndef USE_GTK2
+#if defined(USE_GTK3)
   if (gdk_screen_get_default())
     {
       GtkStyleContext *style = gtk_style_context_new();
@@ -291,6 +309,7 @@ workrave_timebar_prepare(WorkraveTimebar *self)
 
       cairo_surface_destroy(surface);
       cairo_destroy(cr);
+      pango_font_description_free(font_desc);
     }
 }
 
@@ -325,6 +344,7 @@ workrave_timebar_draw_frame(WorkraveTimebar *self, cairo_t *cr, int width, int h
 static void
 workrave_timebar_draw_filled_box(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height)
 {
+  (void)self;
   cairo_rectangle(cr, x, y, width, height);
   cairo_fill(cr);
 }

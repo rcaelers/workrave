@@ -616,6 +616,12 @@ PKG_CHECK_MODULES(GTK,
                       AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])], [ ] )
 
+PKG_CHECK_MODULES(GTK4,
+                     gtk4 >= 4.10.0,
+                     [have_gtk4=yes
+                      AC_DEFINE(HAVE_GTK4, 1, Support for GTK4)], [ ] )
+
+
 fi
 
 if test x$config_gtk = xno
@@ -633,6 +639,7 @@ fi
 
 AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
 AM_CONDITIONAL(HAVE_GTK3, test "x$config_gtk_version" = "x3")
+AM_CONDITIONAL(HAVE_GTK4, test $have_gtk4 = yes)
 
 
 dnl

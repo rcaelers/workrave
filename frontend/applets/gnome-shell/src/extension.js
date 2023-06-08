@@ -9,7 +9,16 @@ const Mainloop = imports.mainloop;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
-const Workrave = imports.gi.Workrave;
+
+let Workrave = null;
+
+try {
+  imports.gi.versions.Workrave = "1.0";
+  Workrave = imports.gi.Workrave;
+} catch (error) {
+  imports.gi.versions.Workrave = "2.0";
+  Workrave = imports.gi.Workrave;
+}
 
 const _ = Gettext.gettext;
 

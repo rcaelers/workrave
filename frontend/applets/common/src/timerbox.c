@@ -124,9 +124,13 @@ workrave_timerbox_dispose(GObject *gobject)
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  g_object_unref(priv->normal_sheep_icon);
-  g_object_unref(priv->quiet_sheep_icon);
-  g_object_unref(priv->suspended_sheep_icon);
+  g_clear_pointer(&priv->normal_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->quiet_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->suspended_sheep_icon, g_object_unref);
+
+  g_clear_pointer(&priv->mode, g_free);
+  g_clear_pointer(&priv->settings, g_object_unref);
+  g_clear_pointer(&priv->name, g_free);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {

@@ -7,6 +7,7 @@ releases:
     changes:
       - Support GNOME Shell 43 (#430 by Jeremy Bich,async from 1.11)
       - Add option to force the use of the X11 Gtk backend on Wayland
+      - Support GNOME Shell 44 (#487)
 
   - version: 1.10.50
     date: 2022-04-01T14:35:10+02:00

@@ -616,7 +616,7 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       on_update_timers(self, parameters);
     }
 
-  if (g_strcmp0(signal_name, "MenuUpdated") == 0)
+  else if (g_strcmp0(signal_name, "MenuUpdated") == 0)
     {
       g_signal_emit(self, signals[MENU_CHANGED], 0, parameters);
     }
@@ -634,6 +634,7 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       g_variant_get(parameters, "(s)", &mode);
       workrave_timerbox_set_operation_mode(priv->timerbox, mode);
       workrave_timerbox_update(priv->timerbox, priv->image);
+      g_free(mode);
     }
 }
 
