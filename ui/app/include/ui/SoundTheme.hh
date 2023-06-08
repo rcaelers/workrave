@@ -42,6 +42,22 @@ enum class SoundEvent
   ExerciseStep,
 };
 
+template<>
+struct workrave::utils::enum_traits<SoundEvent>
+{
+  static constexpr std::array<std::pair<std::string_view, SoundEvent>, 10> names{
+    {{"break-prelude", SoundEvent::BreakPrelude},
+     {"break-ignored", SoundEvent::BreakIgnored},
+     {"rest-break-started", SoundEvent::RestBreakStarted},
+     {"rest-break-ended", SoundEvent::RestBreakEnded},
+     {"micro-break-started", SoundEvent::MicroBreakStarted},
+     {"micro-break-ended", SoundEvent::MicroBreakEnded},
+     {"daily-limit", SoundEvent::DailyLimit},
+     {"exercise-ended", SoundEvent::ExerciseEnded},
+     {"exercises-ended", SoundEvent::ExercisesEnded},
+     {"exercise-step", SoundEvent::ExerciseStep}}};
+};
+
 class SoundTheme
 {
 public:

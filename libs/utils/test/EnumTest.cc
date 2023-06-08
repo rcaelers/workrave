@@ -177,33 +177,10 @@ struct workrave::utils::enum_traits<Kind>
 {
   static constexpr auto flag = true;
   static constexpr auto bits = 4;
-};
 
-inline std::ostream &
-operator<<(std::ostream &stream, Kind flag)
-{
-  if (flag == Kind::None)
-    {
-      stream << "none";
-    }
-  if ((flag & Kind::A) == Kind::A)
-    {
-      stream << "A";
-    }
-  if ((flag & Kind::B) == Kind::B)
-    {
-      stream << "B";
-    }
-  if ((flag & Kind::C) == Kind::C)
-    {
-      stream << "C";
-    }
-  if ((flag & Kind::D) == Kind::D)
-    {
-      stream << "D";
-    }
-  return stream;
-}
+  static constexpr std::array<std::pair<std::string_view, Kind>, 5> names{
+    {{"none", Kind::None}, {"A", Kind::A}, {"B", Kind::B}, {"C", Kind::C}, {"D", Kind::D}}};
+};
 
 BOOST_FIXTURE_TEST_SUITE(s, Fixture)
 

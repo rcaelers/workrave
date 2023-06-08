@@ -42,24 +42,10 @@ namespace workrave
     static constexpr auto min = OperationMode::Normal;
     static constexpr auto max = OperationMode::Quiet;
     static constexpr auto linear = true;
-  };
 
-  inline std::ostream &operator<<(std::ostream &stream, OperationMode mode)
-  {
-    switch (mode)
-      {
-      case OperationMode::Normal:
-        stream << "normal";
-        break;
-      case OperationMode::Suspended:
-        stream << "suspended";
-        break;
-      case OperationMode::Quiet:
-        stream << "quiet";
-        break;
-      }
-    return stream;
-  }
+    static constexpr std::array<std::pair<std::string_view, OperationMode>, 3> names{
+      {{"normal", OperationMode::Normal}, {"suspended", OperationMode::Suspended}, {"quiet", OperationMode::Quiet}}};
+  };
 
   enum class UsageMode
   {
@@ -76,21 +62,10 @@ namespace workrave
     static constexpr auto min = UsageMode::Normal;
     static constexpr auto max = UsageMode::Reading;
     static constexpr auto linear = true;
-  };
 
-  inline std::ostream &operator<<(std::ostream &stream, UsageMode mode)
-  {
-    switch (mode)
-      {
-      case UsageMode::Normal:
-        stream << "normal";
-        break;
-      case UsageMode::Reading:
-        stream << "reading";
-        break;
-      }
-    return stream;
-  }
+    static constexpr std::array<std::pair<std::string_view, UsageMode>, 2> names{
+      {{"normal", UsageMode::Normal}, {"reading", UsageMode::Reading}}};
+  };
 
   enum BreakId
   {
@@ -106,29 +81,14 @@ namespace workrave
     static constexpr auto min = BREAK_ID_MICRO_BREAK;
     static constexpr auto max = BREAK_ID_DAILY_LIMIT;
     static constexpr auto linear = true;
+
+    static constexpr std::array<std::pair<std::string_view, BreakId>, 4> names{{{"none", BREAK_ID_NONE},
+                                                                                {"microbreak", BREAK_ID_MICRO_BREAK},
+                                                                                {"restbreak", BREAK_ID_REST_BREAK},
+                                                                                {"dailylimit", BREAK_ID_DAILY_LIMIT}}};
   };
 
   static constexpr auto BREAK_ID_SIZEOF = workrave::utils::enum_count<BreakId>();
-
-  inline std::ostream &operator<<(std::ostream &stream, BreakId id)
-  {
-    switch (id)
-      {
-      case BREAK_ID_NONE:
-        stream << "none";
-        break;
-      case BREAK_ID_MICRO_BREAK:
-        stream << "microbreak";
-        break;
-      case BREAK_ID_REST_BREAK:
-        stream << "restbreak";
-        break;
-      case BREAK_ID_DAILY_LIMIT:
-        stream << "dailylimit";
-        break;
-      }
-    return stream;
-  }
 
   std::string operator%(const std::string &key, BreakId id);
 
@@ -148,27 +108,10 @@ namespace workrave
   {
     static constexpr auto flag = true;
     static constexpr auto bits = 2;
-  };
 
-  inline std::ostream &operator<<(std::ostream &stream, BreakHint hint)
-  {
-    switch (hint)
-      {
-      case BreakHint::Normal:
-        stream << "normal";
-        break;
-      case BreakHint::UserInitiated:
-        stream << "userinitiated";
-        break;
-      case BreakHint::NaturalBreak:
-        stream << "naturalbreak";
-        break;
-      default:
-        stream << "??";
-        break;
-      }
-    return stream;
-  }
+    static constexpr std::array<std::pair<std::string_view, BreakHint>, 3> names{
+      {{"normal", BreakHint::Normal}, {"userinitiated", BreakHint::UserInitiated}, {"naturalbreak", BreakHint::NaturalBreak}}};
+  };
 
   //! The way a break is insisted.
   enum class InsistPolicy
@@ -186,25 +129,14 @@ namespace workrave
     Ignore
   };
 
-  inline std::ostream &operator<<(std::ostream &stream, InsistPolicy policy)
+  template<>
+  struct workrave::utils::enum_traits<InsistPolicy>
   {
-    switch (policy)
-      {
-      case InsistPolicy::Invalid:
-        stream << "invalid";
-        break;
-      case InsistPolicy::Halt:
-        stream << "halt";
-        break;
-      case InsistPolicy::Reset:
-        stream << "reset";
-        break;
-      case InsistPolicy::Ignore:
-        stream << "ignore";
-        break;
-      }
-    return stream;
-  }
+    static constexpr std::array<std::pair<std::string_view, InsistPolicy>, 4> names = {{{"invalid", InsistPolicy::Invalid},
+                                                                                        {"halt", InsistPolicy::Halt},
+                                                                                        {"reset", InsistPolicy::Reset},
+                                                                                        {"ignore", InsistPolicy::Ignore}}};
+  };
 
 } // namespace workrave
 

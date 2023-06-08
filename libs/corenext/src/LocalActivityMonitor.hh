@@ -26,6 +26,7 @@
 #include "config/Config.hh"
 #include "utils/TimeSource.hh"
 #include "utils/Signals.hh"
+#include "utils/Enum.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
@@ -116,6 +117,20 @@ private:
 
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
+
+  friend struct workrave::utils::enum_traits<LocalActivityMonitor::LocalActivityMonitorState>;
+};
+
+template<>
+struct workrave::utils::enum_traits<LocalActivityMonitor::LocalActivityMonitorState>
+{
+  static constexpr std::array<std::pair<std::string_view, LocalActivityMonitor::LocalActivityMonitorState>, 6> names{
+    {{"unknown", LocalActivityMonitor::ACTIVITY_MONITOR_UNKNOWN},
+     {"suspended", LocalActivityMonitor::ACTIVITY_MONITOR_SUSPENDED},
+     {"idle", LocalActivityMonitor::ACTIVITY_MONITOR_IDLE},
+     {"forced-idle", LocalActivityMonitor::ACTIVITY_MONITOR_FORCED_IDLE},
+     {"noise", LocalActivityMonitor::ACTIVITY_MONITOR_NOISE},
+     {"active", LocalActivityMonitor::ACTIVITY_MONITOR_ACTIVE}}};
 };
 
 #endif // LOCALACTIVITYMONITOR_HH
