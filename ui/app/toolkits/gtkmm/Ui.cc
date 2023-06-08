@@ -71,7 +71,7 @@ Ui::get_break_icon_filename(BreakId id)
       throw Exception("Invalid break id");
     }
 
-  return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  return AssetPath::complete_directory(filename, SearchPathId::Images);
 }
 
 const std::string
@@ -134,5 +134,5 @@ Ui::get_status_icon_filename(OperationModeIcon icon)
       break;
     }
 
-  return AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES);
+  return AssetPath::complete_directory(filename, SearchPathId::Images);
 }

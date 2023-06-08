@@ -199,7 +199,7 @@ BreakWindow::append_row_to_sysoper_model(System::SystemOperation::SystemOperatio
   QString icon_name;
   get_operation_name_and_icon(type, name, icon_name);
 
-  std::string file = AssetPath::complete_directory(icon_name.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory(icon_name.toStdString(), SearchPathId::Images);
   QPixmap pixmap(file.c_str());
   QIcon icon(pixmap);
   sysoper_combo->addItem(icon, name);

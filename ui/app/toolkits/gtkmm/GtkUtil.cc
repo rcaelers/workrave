@@ -122,7 +122,7 @@ GtkUtil::create_image_button(const char *label_text, const char *image_file, boo
   Gtk::Image *img = nullptr;
   if (has_button_images())
     {
-      string icon = AssetPath::complete_directory(image_file, AssetPath::SEARCH_PATH_IMAGES);
+      string icon = AssetPath::complete_directory(image_file, SearchPathId::Images);
       img = Gtk::manage(new Gtk::Image(icon));
     }
   else
@@ -172,7 +172,7 @@ GtkUtil::create_label_for_break(BreakId id)
   const char *icons[] = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
   const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
 
-  string icon = AssetPath::complete_directory(string(icons[id]), AssetPath::SEARCH_PATH_IMAGES);
+  string icon = AssetPath::complete_directory(string(icons[id]), SearchPathId::Images);
 
   Gtk::Widget *label = GtkUtil::create_label_with_icon(labels[id], icon.c_str());
   return label;
@@ -430,10 +430,10 @@ GtkUtil::get_image_filename(const std::string &image)
     }
 
   std::string path;
-  bool found = AssetPath::complete_directory(theme + image, AssetPath::SEARCH_PATH_IMAGES, path);
+  bool found = AssetPath::complete_directory(theme + image, SearchPathId::Images, path);
   if (!found)
     {
-      found = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES, path);
+      found = AssetPath::complete_directory(image, SearchPathId::Images, path);
     }
 
   return path;

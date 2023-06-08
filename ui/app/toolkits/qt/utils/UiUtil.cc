@@ -118,7 +118,7 @@ UiUtil::create_label_with_tooltip(const QString &text, const QString &tooltip) -
 auto
 UiUtil::create_image_button(const QString &filename) -> QPushButton *
 {
-  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES)));
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), SearchPathId::Images)));
   QIcon icon(pixmap);
 
   auto *button = new QPushButton();
@@ -130,7 +130,7 @@ UiUtil::create_image_button(const QString &filename) -> QPushButton *
 auto
 UiUtil::create_image_text_button(const QString &filename, const QString &text) -> QPushButton *
 {
-  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES)));
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), SearchPathId::Images)));
   QIcon icon(pixmap);
 
   auto *button = new QPushButton(text);
@@ -143,7 +143,7 @@ auto
 UiUtil::create_image_label(const QString &filename) -> QLabel *
 {
   auto *label = new QLabel;
-  std::string file = AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory(filename.toStdString(), SearchPathId::Images);
   label->setPixmap(QPixmap(file.c_str()));
   return label;
 }
@@ -151,7 +151,7 @@ UiUtil::create_image_label(const QString &filename) -> QLabel *
 auto
 UiUtil::create_icon(const QString &filename) -> QIcon
 {
-  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES)));
+  QPixmap pixmap(QString::fromStdString(AssetPath::complete_directory(filename.toStdString(), SearchPathId::Images)));
   QIcon icon(pixmap);
   return icon;
 }
@@ -159,7 +159,7 @@ UiUtil::create_icon(const QString &filename) -> QIcon
 auto
 UiUtil::create_pixmap(const QString &filename, int height) -> QPixmap
 {
-  std::string svg_filename = AssetPath::complete_directory(filename.toStdString(), AssetPath::SEARCH_PATH_IMAGES);
+  std::string svg_filename = AssetPath::complete_directory(filename.toStdString(), SearchPathId::Images);
 
   QSvgRenderer svg(QString::fromStdString(svg_filename));
   QPixmap pixmap(height, height);

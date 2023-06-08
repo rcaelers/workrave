@@ -109,7 +109,7 @@ TimerBoxGtkView::init()
 
   sheep_eventbox->property_visible_window() = false;
 
-  string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
+  string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
   sheep_eventbox->set_tooltip_text("Workrave");
 

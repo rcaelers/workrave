@@ -233,7 +233,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
 
   if (icon != nullptr)
     {
-      std::string file = AssetPath::complete_directory(icon, AssetPath::SEARCH_PATH_IMAGES);
+      std::string file = AssetPath::complete_directory(icon, SearchPathId::Images);
       image->setPixmap(QPixmap(file.c_str()));
     }
 }

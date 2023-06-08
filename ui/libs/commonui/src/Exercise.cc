@@ -193,7 +193,7 @@ ExerciseCollection::ExerciseCollection()
 void
 ExerciseCollection::load()
 {
-  auto main_file = AssetPath::complete_directory("exercises.xml", AssetPath::SEARCH_PATH_EXERCISES);
+  auto main_file = AssetPath::complete_directory("exercises.xml", SearchPathId::Exercises);
 
   if (!main_file.empty())
     {

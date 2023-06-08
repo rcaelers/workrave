@@ -355,7 +355,7 @@ GeneralPreferencePanel::update_icon_theme_combo()
   TRACE_ENTRY();
   std::list<std::string> themes;
 
-  for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_IMAGES))
+  for (const auto &dirname: AssetPath::get_search_path(SearchPathId::Images))
     {
       auto path = dirname.string();
       if (!g_str_has_suffix(path.c_str(), "images"))

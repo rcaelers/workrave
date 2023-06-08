@@ -29,7 +29,7 @@
 
 using namespace workrave::utils;
 
-std::list<std::filesystem::path> AssetPath::search_paths[AssetPath::SEARCH_PATH_SIZEOF];
+std::list<std::filesystem::path> AssetPath::search_paths[workrave::utils::enum_count<SearchPathId>()];
 
 //! Returns the search_path for the specified file type.
 const std::list<std::filesystem::path> &
@@ -46,7 +46,7 @@ AssetPath::get_search_path(SearchPathId type)
   std::list<std::filesystem::path> data_directories = Paths::get_data_directories();
   std::list<std::filesystem::path> config_directories = Paths::get_config_directories();
 
-  if (type == SEARCH_PATH_IMAGES)
+  if (type == SearchPathId::Images)
     {
       for (const auto &directory: data_directories)
         {
@@ -61,7 +61,7 @@ AssetPath::get_search_path(SearchPathId type)
 #endif
         }
     }
-  if (type == SEARCH_PATH_SOUNDS)
+  if (type == Sounds)
     {
       for (const auto &directory: data_directories)
         {
@@ -74,14 +74,14 @@ AssetPath::get_search_path(SearchPathId type)
 #endif
         }
     }
-  else if (type == SEARCH_PATH_CONFIG)
+  else if (type == Config)
     {
       for (const auto &directory: config_directories)
         {
           search_path.push_back(directory);
         }
     }
-  else if (type == SEARCH_PATH_EXERCISES)
+  else if (type == Exercises)
     {
       for (const auto &directory: data_directories)
         {
@@ -96,10 +96,10 @@ AssetPath::get_search_path(SearchPathId type)
     }
 
 #if defined(HAVE_TRACING)
-  TRACE_MSG("Search path for {}", type);
+  TRACE_MSG("Search path for {}", workrave::utils::enum_to_string<SearchPathId>(type));
   for (const auto &d: search_path)
     {
-      TRACE_VAR(d);
+      TRACE_VAR(d.string());
     }
 #endif
 
@@ -107,7 +107,7 @@ AssetPath::get_search_path(SearchPathId type)
 }
 
 std::string
-AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type)
+AssetPath::complete_directory(std::string path, SearchPathId type)
 {
   std::filesystem::path full_path;
   bool found = false;
@@ -130,7 +130,7 @@ AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type)
 }
 
 bool
-AssetPath::complete_directory(std::string path, AssetPath::SearchPathId type, std::string &complete_path)
+AssetPath::complete_directory(std::string path, SearchPathId type, std::string &complete_path)
 {
   bool found = false;
 

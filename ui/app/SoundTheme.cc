@@ -236,7 +236,7 @@ void
 SoundTheme::load_themes()
 {
   TRACE_ENTRY();
-  for (const auto &dirname: AssetPath::get_search_path(AssetPath::SEARCH_PATH_SOUNDS))
+  for (const auto &dirname: AssetPath::get_search_path(SearchPathId::Sounds))
     {
       std::filesystem::path dirpath(dirname);
 

@@ -175,7 +175,7 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image= {}", img.image);
-  std::string file = AssetPath::complete_directory(img.image, AssetPath::SEARCH_PATH_EXERCISES);
+  std::string file = AssetPath::complete_directory(img.image, SearchPathId::Exercises);
   if (!img.mirror_x)
     {
       image->setPixmap(QPixmap(file.c_str()));

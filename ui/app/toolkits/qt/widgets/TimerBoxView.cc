@@ -93,7 +93,7 @@ TimerBoxView::init()
     }
 
   // TODO: move to UiUtil
-  std::string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", AssetPath::SEARCH_PATH_IMAGES);
+  std::string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
   QPixmap pixmap(QString::fromStdString(sheep_file));
   sheep = new QLabel("");
   sheep->setPixmap(pixmap);

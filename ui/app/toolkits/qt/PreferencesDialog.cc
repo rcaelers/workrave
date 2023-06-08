@@ -187,7 +187,7 @@ PreferencesDialog::add_page(const std::string &id, const QString &label, const s
   tabs->setTabPosition(QTabWidget::North);
   tabs->setTabBarAutoHide(true);
 
-  std::string file = AssetPath::complete_directory(image, AssetPath::SEARCH_PATH_IMAGES);
+  std::string file = AssetPath::complete_directory(image, SearchPathId::Images);
   Icon icon(file);
 
   auto page_info = std::make_shared<PreferencesPage>(id, tabs);

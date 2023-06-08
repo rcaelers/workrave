@@ -138,7 +138,7 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
 void
 Core::init_configurator()
 {
-  string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
+  string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SearchPathId::Config);
 
 #if defined(HAVE_TESTS)
   if (hooks->hook_create_configurator())
@@ -160,7 +160,7 @@ Core::init_configurator()
           configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
           if (configurator == nullptr)
             {
-              string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
+              string configFile = AssetPath::complete_directory("config.xml", AssetPath::SearchPathId::Config);
               configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
 
 #if defined(PLATFORM_OS_UNIX)

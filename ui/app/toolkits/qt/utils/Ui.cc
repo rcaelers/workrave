@@ -68,7 +68,7 @@ Ui::get_break_icon_filename(workrave::BreakId id) -> QString
       throw Exception("Invalid break id");
     }
 
-  return QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES));
+  return QString::fromStdString(AssetPath::complete_directory(filename, SearchPathId::Images));
 }
 
 auto
@@ -131,5 +131,5 @@ Ui::get_status_icon_filename(OperationModeIcon icon) -> QString
       break;
     }
 
-  return QString::fromStdString(AssetPath::complete_directory(filename, AssetPath::SEARCH_PATH_IMAGES));
+  return QString::fromStdString(AssetPath::complete_directory(filename, SearchPathId::Images));
 }

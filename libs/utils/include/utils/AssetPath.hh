@@ -22,56 +22,43 @@
 #include <list>
 #include <filesystem>
 
-namespace workrave
+#include "utils/Enum.hh"
+
+namespace workrave::utils
 {
-  namespace utils
+  // Grmbl. Ideally, this was call just SearchPath, however
+  // Windows feels it is necessary to do a "#define SearchPath SearchPathA"
+  enum SearchPathId
   {
-    class AssetPath
-    {
-    public:
-      // Grmbl. Ideally, this was call just SearchPath, however
-      // Windows feels it is necessary to do a "#define SearchPath SearchPathA"
-      enum SearchPathId
-      {
-        SEARCH_PATH_IMAGES = 0,
-        SEARCH_PATH_SOUNDS,
-        SEARCH_PATH_CONFIG,
-        SEARCH_PATH_EXERCISES,
-        SEARCH_PATH_SIZEOF
-      };
+    Images,
+    Sounds,
+    Config,
+    Exercises,
+  };
 
-      static const std::list<std::filesystem::path> &get_search_path(SearchPathId type);
-      static std::string complete_directory(std::string path, SearchPathId type);
-      static bool complete_directory(std::string path, SearchPathId type, std::string &full_path);
+  template<>
+  struct workrave::utils::enum_traits<SearchPathId>
+  {
+    static constexpr auto min = SearchPathId::Images;
+    static constexpr auto max = SearchPathId::Exercises;
+    static constexpr auto linear = true;
 
-    private:
-      static std::list<std::filesystem::path> search_paths[SEARCH_PATH_SIZEOF];
-    };
-  } // namespace utils
-} // namespace workrave
+    static constexpr std::array<std::pair<std::string_view, SearchPathId>, 4> names{{{"images", SearchPathId::Images},
+                                                                                     {"sounds", SearchPathId::Sounds},
+                                                                                     {"config", SearchPathId::Config},
+                                                                                     {"exercises", SearchPathId::Exercises}}};
+  };
 
-inline std::ostream &
-operator<<(std::ostream &stream, workrave::utils::AssetPath::SearchPathId id)
-{
-  switch (id)
-    {
-    case workrave::utils::AssetPath::SEARCH_PATH_IMAGES:
-      stream << "SEARCH_PATH_IMAGES";
-      break;
-    case workrave::utils::AssetPath::SEARCH_PATH_SOUNDS:
-      stream << "SEARCH_PATH_SOUNDS";
-      break;
-    case workrave::utils::AssetPath::SEARCH_PATH_CONFIG:
-      stream << "SEARCH_PATH_CONFIG";
-      break;
-    case workrave::utils::AssetPath::SEARCH_PATH_EXERCISES:
-      stream << "SEARCH_PATH_EXERCISES";
-      break;
-    case workrave::utils::AssetPath::SEARCH_PATH_SIZEOF:
-      stream << "SEARCH_PATH_SIZEOF";
-      break;
-    }
-  return stream;
-}
+  class AssetPath
+  {
+  public:
+    static const std::list<std::filesystem::path> &get_search_path(SearchPathId type);
+    static std::string complete_directory(std::string path, SearchPathId type);
+    static bool complete_directory(std::string path, SearchPathId type, std::string &full_path);
+
+  private:
+    static std::list<std::filesystem::path> search_paths[workrave::utils::enum_count<SearchPathId>()];
+  };
+} // namespace workrave::utils
 
 #endif // WORKRAVE_UTILS_UTIL_HH

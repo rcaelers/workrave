@@ -223,7 +223,7 @@ ExercisesPanel::show_image()
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image= {}", img.image);
-  string file = AssetPath::complete_directory(img.image, AssetPath::SEARCH_PATH_EXERCISES);
+  string file = AssetPath::complete_directory(img.image, SearchPathId::Exercises);
   if (!img.mirror_x)
     {
       image.set(file);

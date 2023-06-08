@@ -182,7 +182,7 @@ MacOSDock::MacOSDock(std::shared_ptr<IApplicationContext> app)
 {
   priv = std::make_shared<DockPrivate>();
 
-  std::string filename = AssetPath::complete_directory("workrave.png", AssetPath::SEARCH_PATH_IMAGES);
+  std::string filename = AssetPath::complete_directory("workrave.png", SearchPathId::Images);
   NSImage *icon = [[NSImage alloc] initWithContentsOfFile: [NSString stringWithCString:filename.c_str() encoding:[NSString defaultCStringEncoding]]];
 
   [priv->dockTile setBackground:icon];
