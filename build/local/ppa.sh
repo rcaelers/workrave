@@ -153,7 +153,7 @@ build_single() {
 }
 
 build_all() {
-    for series in jammy impish hirsute focal bionic; do
+    for series in mantic lunar kinetic jammy focal; do
         build_single $series
     done
     #build_single hirsute
