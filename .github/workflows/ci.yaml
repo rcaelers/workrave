@@ -108,21 +108,11 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-bionic
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
           - image: ubuntu-focal
             compiler: gcc
             gtk_version: 3
             distcheck: yes
             upload: true
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
-          - image: ubuntu-focal
-            compiler: gcc
-            gtk_version: 2
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
           - image: ubuntu-focal
@@ -137,6 +127,16 @@ jobs:
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
           - image: ubuntu-kinetic
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-lunar
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-mantic
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
