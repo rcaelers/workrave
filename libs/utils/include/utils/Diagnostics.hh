@@ -501,4 +501,16 @@ operator<<(std::ostream &s, const TracedField<T> &v)
   return s;
 }
 
+template<typename T>
+struct fmt::formatter<TracedField<T>> : fmt::formatter<std::string>
+{
+  auto format(const TracedField<T> &t, format_context &ctx) const
+  {
+    std::ostringstream ss;
+    ss << t;
+    auto s = ss.str();
+    return fmt::formatter<std::string>::format(s, ctx);
+  }
+};
+
 #endif // DIANOSTICS_HH

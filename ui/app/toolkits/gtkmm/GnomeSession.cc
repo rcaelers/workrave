@@ -72,7 +72,7 @@ GnomeSession::init()
 #else
   catch (const Glib::Exception &e)
     {
-      spdlog::warn("Failed to subscribe to presence events from Gnome SessionManager:" + e.what());
+      spdlog::warn(std::string("Failed to subscribe to presence events from Gnome SessionManager:") + std::string(e.what()));
     }
 #endif
 }
@@ -97,7 +97,7 @@ GnomeSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
 #else
   catch (const Glib::Exception &e)
     {
-      spdlog::warn("Failed to process presence event from Gnome SessionManager:" + e.what());
+      spdlog::warn(std::string("Failed to process presence event from Gnome SessionManager:") + std::string(e.what()));
     }
 #endif
 }

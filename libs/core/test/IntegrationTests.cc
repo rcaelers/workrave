@@ -65,6 +65,26 @@ using namespace std;
 using namespace workrave::utils;
 using namespace workrave::config;
 using namespace workrave;
+namespace workrave
+{
+  std::ostream &operator<<(std::ostream &stream, ::workrave::OperationMode e)
+  {
+    stream << workrave::utils::enum_to_string(e);
+    return stream;
+  }
+
+  std::ostream &operator<<(std::ostream &stream, ::workrave::UsageMode e)
+  {
+    stream << workrave::utils::enum_to_string(e);
+    return stream;
+  }
+
+  std::ostream &operator<<(std::ostream &stream, ::workrave::BreakEvent e)
+  {
+    stream << workrave::utils::enum_to_string(e);
+    return stream;
+  }
+} // namespace workrave
 
 #if SPDLOG_VERSION >= 10600
 class test_time_formatter_flag : public spdlog::custom_flag_formatter

@@ -37,7 +37,7 @@ namespace workrave::utils
   };
 
   template<>
-  struct workrave::utils::enum_traits<SearchPathId>
+  struct enum_traits<SearchPathId>
   {
     static constexpr auto min = SearchPathId::Images;
     static constexpr auto max = SearchPathId::Exercises;

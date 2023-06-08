@@ -286,7 +286,7 @@ SoundPreferencePanel::on_sound_filechooser_select()
         {
           Gtk::TreeModel::Row row = *iter;
 
-          TRACE_VAR(row[sound_model.label]);
+          // TRACE_VAR(row[sound_model.label]);
 
           std::string id = (Glib::ustring)row[sound_model.label];
           SoundEvent event = SoundTheme::sound_id_to_event(id);
@@ -353,7 +353,7 @@ SoundPreferencePanel::on_sound_theme_changed()
 
           if (!filename.empty())
             {
-              TRACE_VAR(filename, row[sound_model.label]);
+              // TRACE_VAR(filename, row[sound_model.label]);
               inhibit_events++;
               fsbutton_filename = filename;
               fsbutton->set_filename(filename);

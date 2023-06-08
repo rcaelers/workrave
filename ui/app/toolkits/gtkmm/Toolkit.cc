@@ -190,8 +190,6 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
 void
 Toolkit::show_window(WindowType type)
 {
-  TRACE_ENTRY_PAR(type);
-
   switch (type)
     {
     case WindowType::Main:

@@ -45,33 +45,15 @@ enum class BreakStage
   Delayed
 };
 
-inline std::ostream &
-operator<<(std::ostream &stream, BreakStage event)
+template<>
+struct workrave::utils::enum_traits<BreakStage>
 {
-  switch (event)
-    {
-    case BreakStage::None:
-      stream << "None";
-      break;
-
-    case BreakStage::Snoozed:
-      stream << "Snoozed";
-      break;
-
-    case BreakStage::Prelude:
-      stream << "Prelude";
-      break;
-
-    case BreakStage::Taking:
-      stream << "Taking";
-      break;
-
-    case BreakStage::Delayed:
-      stream << "Delayed";
-      break;
-    }
-  return stream;
-}
+  static constexpr std::array<std::pair<std::string_view, BreakStage>, 5> names{{{"none", BreakStage::None},
+                                                                                 {"snoozed", BreakStage::Snoozed},
+                                                                                 {"prelude", BreakStage::Prelude},
+                                                                                 {"taking", BreakStage::Taking},
+                                                                                 {"delayed", BreakStage::Delayed}}};
+};
 
 class BreakControl : public IActivityMonitorListener
 {
