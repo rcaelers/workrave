@@ -24,6 +24,10 @@
 #include <algorithm>
 
 #include <iostream>
+#include <sstream>
+
+#include <fmt/core.h>
+#include <fmt/format.h>
 
 namespace workrave::utils
 {
@@ -188,7 +192,8 @@ namespace workrave::utils
     }
   };
 
-  template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+  template<typename Enum>
+  requires workrave::utils::enum_traits<Enum>::flag
   class Flags
   {
   public:
@@ -317,12 +322,13 @@ namespace workrave::utils
     repr_type value{0};
   };
 
-  template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
-  std::ostream &operator<<(std::ostream &stream, Flags<Enum> flags)
+  template<typename Enum>
+  requires ::workrave::utils::enum_traits<Enum>::flag
+  std::ostream &operator<<(std::ostream &stream, ::workrave::utils::Flags<Enum> flags)
   {
     if (flags.get() == 0)
       {
-        stream << Enum(0);
+        stream << workrave::utils::enum_to_string(Enum(0));
       }
     else
       {
@@ -335,13 +341,22 @@ namespace workrave::utils
                   {
                     stream << ",";
                   }
-                stream << e;
+                stream << workrave::utils::enum_to_string(e);
               }
           }
       }
     return stream;
   }
 } // namespace workrave::utils
+
+template<typename Enum>
+requires workrave::utils::enum_has_names_v<Enum>
+std::ostream &
+operator<<(std::ostream &stream, const Enum e)
+{
+  stream << workrave::utils::enum_to_string(e);
+  return stream;
+}
 
 template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::linear>>
 constexpr Enum
@@ -387,5 +402,28 @@ operator~(Enum e) noexcept
 {
   return ~workrave::utils::Flags<Enum>(e);
 }
+
+template<typename Enum>
+requires workrave::utils::enum_has_names_v<Enum>
+struct fmt::formatter<Enum> : fmt::formatter<std::string_view>
+{
+  auto format(Enum e, format_context &ctx) const
+  {
+    return fmt::formatter<std::string_view>::format(workrave::utils::enum_to_string<Enum>(e), ctx);
+  }
+};
+
+template<typename Enum>
+requires workrave::utils::enum_has_names_v<Enum>
+struct fmt::formatter<workrave::utils::Flags<Enum>> : fmt::formatter<std::string>
+{
+  auto format(typename workrave::utils::Flags<Enum> e, format_context &ctx) const
+  {
+    std::ostringstream ss;
+    ss << e;
+    auto s = ss.str();
+    return fmt::formatter<std::string>::format(s, ctx);
+  }
+};
 
 #endif // WORKAVE_LIBS_UTILS_ENUM_HH
