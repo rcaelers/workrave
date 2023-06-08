@@ -1,9 +1,15 @@
-Workrave NEWS -- history of user-visible changes. 01 April 2022
-Copyright (C) 2001-2022 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes. 09 June 2023
+Copyright (C) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.10.51
+
+** Support GNOME Shell 43 (#430 by Jeremy Bich,async from 1.11)
+** Add option to force the use of the X11 Gtk backend on Wayland
+** Support GNOME Shell 44 (#487)
 
 * Workrave 1.10.50
 
