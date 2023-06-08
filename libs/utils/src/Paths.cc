@@ -168,7 +168,7 @@ Paths::get_application_directory()
 
       std::filesystem::path p(execpath);
       std::filesystem::path dir = p.parent_path().parent_path();
-      TRACE_VAR(dir);
+      TRACE_VAR(dir.string());
       return dir;
 #endif
     }
@@ -308,7 +308,7 @@ Paths::get_config_directory()
       TRACE_MSG("Exception: {}", e.what());
     }
 
-  TRACE_VAR(ret);
+  TRACE_VAR(ret.string());
   return ret;
 }
 
@@ -371,7 +371,7 @@ Paths::get_state_directory()
       TRACE_MSG("Exception: {}", e.what());
     }
 
-  TRACE_VAR(ret);
+  TRACE_VAR(ret.string());
   return ret;
 }
 
