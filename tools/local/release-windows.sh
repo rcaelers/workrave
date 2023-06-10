@@ -179,7 +179,8 @@ parse_arguments() {
             CHANNEL="${OPTARG}"
             ;;
         C)
-            SCRIPTS_DIR="${OPTARG}"
+            pwd
+            SCRIPTS_DIR=`realpath "${OPTARG}"`
             ;;
         D)
             DODEBUG=1
@@ -197,7 +198,7 @@ parse_arguments() {
             DOSIGN=1
             ;;
         S)
-            SECRETS_DIR="${OPTARG}"
+            SECRETS_DIR=`realpath "${OPTARG}"`
             ;;
         t)
             COMMIT="${OPTARG}"
