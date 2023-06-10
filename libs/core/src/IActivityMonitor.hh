@@ -22,6 +22,8 @@
 #include <iostream>
 #include <memory>
 
+#include "utils/Enum.hh"
+
 class IActivityMonitorListener;
 
 //! State of the activity monitor.
@@ -34,29 +36,15 @@ enum ActivityState
   ACTIVITY_ACTIVE
 };
 
-inline std::ostream &
-operator<<(std::ostream &stream, ActivityState mode)
+template<>
+struct workrave::utils::enum_traits<ActivityState>
 {
-  switch (mode)
-    {
-    case ACTIVITY_UNKNOWN:
-      stream << "unknown";
-      break;
-    case ACTIVITY_SUSPENDED:
-      stream << "suspended";
-      break;
-    case ACTIVITY_IDLE:
-      stream << "idle";
-      break;
-    case ACTIVITY_NOISE:
-      stream << "noise";
-      break;
-    case ACTIVITY_ACTIVE:
-      stream << "active";
-      break;
-    }
-  return stream;
-}
+  static constexpr std::array<std::pair<std::string_view, ActivityState>, 5> names{{{"unknown", ACTIVITY_UNKNOWN},
+                                                                                    {"suspended", ACTIVITY_SUSPENDED},
+                                                                                    {"idle", ACTIVITY_IDLE},
+                                                                                    {"noise", ACTIVITY_NOISE},
+                                                                                    {"active", ACTIVITY_ACTIVE}}};
+};
 
 class IActivityMonitor
 {

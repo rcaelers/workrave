@@ -19,6 +19,7 @@
 #define ICOREEVENTLISTENER_HH
 
 #include "core/CoreTypes.hh"
+#include "utils/Enum.hh"
 
 namespace workrave
 {
@@ -36,6 +37,21 @@ namespace workrave
     CORE_EVENT_SOUND_MICRO_BREAK_ENDED,
     CORE_EVENT_SOUND_DAILY_LIMIT,
     CORE_EVENT_SOUND_LAST = CORE_EVENT_SOUND_DAILY_LIMIT,
+  };
+
+  template<>
+  struct workrave::utils::enum_traits<CoreEvent>
+  {
+    static constexpr std::array<std::pair<std::string_view, CoreEvent>, 9> names = {
+      {{"none", CORE_EVENT_NONE},
+       {"monitor-failure", CORE_EVENT_MONITOR_FAILURE},
+       {"break-prelude", CORE_EVENT_SOUND_BREAK_PRELUDE},
+       {"break-ignored", CORE_EVENT_SOUND_BREAK_IGNORED},
+       {"rest-break-started", CORE_EVENT_SOUND_REST_BREAK_STARTED},
+       {"rest-break-ended", CORE_EVENT_SOUND_REST_BREAK_ENDED},
+       {"micro-break-started", CORE_EVENT_SOUND_MICRO_BREAK_STARTED},
+       {"micro-break-ended", CORE_EVENT_SOUND_MICRO_BREAK_ENDED},
+       {"daily-limit", CORE_EVENT_SOUND_DAILY_LIMIT}}};
   };
 
   //! Listener for events comming from the Core.

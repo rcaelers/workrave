@@ -90,7 +90,6 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
 
   auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
   add(*box);
-
   auto *content_area = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
   content_area->set_border_width(6);
   content_area->set_spacing(6);
@@ -110,12 +109,12 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
   catch (std::exception &e)
     {
-      spdlog::info("error loading image {}", e.what());
+      spdlog::info("error loading image {}", std::string(e.what()));
     }
 #else
   catch (const Glib::Exception &e)
     {
-      spdlog::info("error loading image {}", e.what());
+      spdlog::info("error loading image {}", std::string(e.what()));
     }
 #endif
 

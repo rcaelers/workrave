@@ -146,7 +146,7 @@ CrashReporter::Pimpl::init()
       annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif
 
-      TRACE_MSG("handler = {}", app_dir);
+      TRACE_MSG("handler = {}", app_dir.string());
 
       attachments.emplace_back(log_dir / "workrave.log");
       attachments.emplace_back(log_dir / "workrave.1.log");

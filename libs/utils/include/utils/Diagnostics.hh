@@ -25,6 +25,9 @@
 #include <sstream>
 #include <map>
 
+#include <fmt/core.h>
+#include <fmt/format.h>
+
 class TracedFieldBase
 {
 public:
