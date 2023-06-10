@@ -2,4 +2,4 @@ usr/share/dbus-1/services/org.mate.panel.applet.WorkraveAppletFactory.service
 usr/share/mate-panel/applets
 usr/share/mate-panel/ui
 usr/share/mate-panel
-usr/lib/*/mate-applets
+usr/lib/${DEB_HOST_MULTIARCH}/mate-applets

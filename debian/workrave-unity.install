@@ -1,1 +1,1 @@
-usr/lib/ayatana-indicators3/7/libworkrave.so
+usr/lib/${DEB_HOST_MULTIARCH}/ayatana-indicators3/7/libworkrave.so

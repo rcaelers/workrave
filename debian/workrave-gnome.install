@@ -1,2 +1,2 @@
 usr/share/gnome-shell
-usr/lib/*/gnome-panel/modules/libworkrave-applet.so
+usr/lib/${DEB_HOST_MULTIARCH}/gnome-panel/modules/libworkrave-applet.so
