@@ -45,16 +45,16 @@ namespace workrave
   struct workrave::utils::enum_traits<BreakEvent>
   {
     static constexpr std::array<std::pair<std::string_view, BreakEvent>, 10> names{
-      {{"show-prelude", BreakEvent::ShowPrelude},
-       {"show-break", BreakEvent::ShowBreak},
-       {"show-break-forced", BreakEvent::ShowBreakForced},
-       {"break-start", BreakEvent::BreakStart},
-       {"break-idle", BreakEvent::BreakIdle},
-       {"break-stop", BreakEvent::BreakStop},
-       {"break-ignored", BreakEvent::BreakIgnored},
-       {"break-postponed", BreakEvent::BreakPostponed},
-       {"break-skipped", BreakEvent::BreakSkipped},
-       {"break-taken", BreakEvent::BreakTaken}}};
+      {{"ShowPrelude", BreakEvent::ShowPrelude},
+       {"ShowBreak", BreakEvent::ShowBreak},
+       {"ShowBreakForced", BreakEvent::ShowBreakForced},
+       {"BreakStart", BreakEvent::BreakStart},
+       {"BreakIdle", BreakEvent::BreakIdle},
+       {"BreakStop", BreakEvent::BreakStop},
+       {"BreakIgnored", BreakEvent::BreakIgnored},
+       {"BreakPostponed", BreakEvent::BreakPostponed},
+       {"BreakSkipped", BreakEvent::BreakSkipped},
+       {"BreakTaken", BreakEvent::BreakTaken}}};
   };
 
   //! Interface to retrieve information about a break.
