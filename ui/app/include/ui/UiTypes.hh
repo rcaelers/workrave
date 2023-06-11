@@ -18,6 +18,8 @@
 #ifndef WORKRAVE_UI_UITYPES_HH
 #define WORKRAVE_UI_UITYPES_HH
 
+#include "utils/Enum.hh"
+
 using BreakFlags = unsigned int;
 
 const static unsigned int BREAK_FLAGS_NONE = 0;
@@ -52,6 +54,17 @@ enum Orientation
   ORIENTATION_RIGHT,
   ORIENTATION_DOWN,
   ORIENTATION_LEFT,
+};
+
+template<>
+struct workrave::utils::enum_traits<Orientation>
+{
+  static constexpr std::array<std::pair<std::string_view, Orientation>, 4> names{{
+    {"up", ORIENTATION_UP},
+    {"right", ORIENTATION_RIGHT},
+    {"down", ORIENTATION_DOWN},
+    {"left", ORIENTATION_LEFT},
+  }};
 };
 
 #endif // WORKRAVE_UI_COMMON_UITYPES_HH
