@@ -724,7 +724,8 @@ if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
     set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   ${MSVC_WARNINGS}")
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${MSVC_WARNINGS}")
 
-    add_compile_options(/bigobj /Zc:__cplusplus)
+    add_compile_options($<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/bigobj$<SEMICOLON>/Zc:__cplusplus>)
+
     add_compile_definitions(
        NOMINMAX
        WIN32
