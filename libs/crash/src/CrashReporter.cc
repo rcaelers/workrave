@@ -177,6 +177,7 @@ CrashReporter::Pimpl::init()
                                           reports_dir,
                                           metrics_dir,
                                           url,
+                                          "",
                                           annotations,
                                           arguments,
                                           /* restartable */ true,

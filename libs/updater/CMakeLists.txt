@@ -4,7 +4,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     FetchContent_Declare(
         unfold
         GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-        GIT_TAG 6e5410a900b3fdc903cf891481a1dbd8f6f44a1a
+        GIT_TAG eefb2e51abcdc729e016495a65a9486970fc4e24
       )
     if(NOT unfold_POPULATED)
       FetchContent_Populate(unfold)
