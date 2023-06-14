@@ -194,6 +194,15 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+#ifdef PLATFORM_OS_UNIX
+  XInitThreads();
+#endif
+
+#ifdef HAVE_GTK3
+  app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
+  app->hold();
+#endif
+
   init_core();
 
 #if defined(PLATFORM_OS_UNIX)
@@ -203,14 +212,7 @@ GUI::main()
     }
 #endif
 
-#ifdef PLATFORM_OS_UNIX
-  XInitThreads();
-#endif
-
-#ifdef HAVE_GTK3
-  app = Gtk::Application::create(argc, argv, "org.workrave.WorkraveApplication");
-  app->hold();
-#else
+#ifndef HAVE_GTK3
 #  if defined(PLATFORM_OS_WINDOWS)
   Glib::OptionContext option_ctx;
   Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
