@@ -6,7 +6,7 @@ dnl
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [10])
 m4_define([workrave_micro_version], [51])
-m4_define([workrave_version_suffix], [])
+m4_define([workrave_version_suffix], [1])
 m4_define([workrave_version],
           workrave_major_version.workrave_minor_version.workrave_micro_version[]m4_ifset([workrave_version_suffix],-[workrave_version_suffix]))
 m4_define([workrave_resource_version],
