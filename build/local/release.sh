@@ -184,7 +184,7 @@ DEPLOY_DIR=$WORKSPACE_DIR/deploy
 export WORKRAVE_ENV=local
 init
 
-DOCKER_IMAGE="ubuntu-hirsute"
+DOCKER_IMAGE="ubuntu-mantic"
 setup
 run_docker_ppa
 
