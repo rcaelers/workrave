@@ -30,6 +30,8 @@ conf_opt_packages()
 
 cd ${SOURCES_DIR}
 
+git config --global --add safe.directory ${SOURCES_DIR}
+
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -q
 apt-get dist-upgrade -y -q

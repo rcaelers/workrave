@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.10.51-1
+    date: 2023-06-17T14:45:43+02:00
+    short: |-
+      Workrave 1.10.51-1 has been released. The minor release only contains packaging fixes and is functionally identical to 1.10.50.
+    changes:
+      - Fix PPA upload
+
   - version: 1.10.51
     date: 2023-06-14T22:04:39+02:00
     short: |-
