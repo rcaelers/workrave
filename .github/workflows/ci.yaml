@@ -354,8 +354,9 @@ jobs:
         if: matrix.config.os == 'macos-latest'
         run: |
           brew update
-          brew install gettext qt python3 boost ninja spdlog pkg-config
+          brew install gettext qt python3 boost ninja spdlog pkg-config || true
           brew link gettext --force
+          brew link --overwrite python@3.11
           brew outdated cmake || brew upgrade cmake
           pip3 install --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
