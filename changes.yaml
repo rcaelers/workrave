@@ -8,6 +8,7 @@ releases:
       - Fix preferences icons on Linux
       - Improve High-DPI icons on Windows
       - Support GNOME Shell 44 (#471, Jeremy Bicha)
+      - Support GNOME Shell 44 in combination with Gtk 4 (#487)
       - On Windows, Workrave now raises the main window when clicking on the pinned application icon.
       - |-
         Bug fixes:
@@ -18,6 +19,8 @@ releases:
       - |-
         Updated Translations:
         - Updated Polish translation (#465, ChuckMichael)
+        - Updated Italian translation (#489, albanobattistella)
+        - Updated Polish translation (#484,  Hanna Kraska)
 
   - version: 1.11.0-beta.5
     date: 2023-01-12T17:29:18+01:00
