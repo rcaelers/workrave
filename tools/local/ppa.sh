@@ -171,3 +171,7 @@ init_newsgen
 build_tarball
 build_sources
 build_all
+
+if [ -n ${WORKRAVE_OVERRIDE_GIT_VERSION} ]; then
+    rm -rf ${DEPLOY_TARFILE}
+fi
