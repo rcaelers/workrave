@@ -96,7 +96,7 @@ build_post() {
 }
 
 newsgen() {
-    ${SCRIPTS_DIR}/citool/bin/citool.ts newsgen \
+    ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
         --input changes.yaml \
         --template github \
         --single \
@@ -131,11 +131,11 @@ upload() {
 }
 
 catalog() {
-    ${SCRIPTS_DIR}/citool/bin/dev.ts catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
+    ${SCRIPTS_DIR}/citool/dist/citool.js catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
 }
 
 appcast() {
-    ${SCRIPTS_DIR}/citool/bin/citool.ts appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
+    ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
 }
 
 upload_s3() {
@@ -180,7 +180,7 @@ parse_arguments() {
             ;;
         C)
             pwd
-            SCRIPTS_DIR=`realpath "${OPTARG}"`
+            SCRIPTS_DIR=$(realpath "${OPTARG}")
             ;;
         D)
             DODEBUG=1
@@ -198,7 +198,7 @@ parse_arguments() {
             DOSIGN=1
             ;;
         S)
-            SECRETS_DIR=`realpath "${OPTARG}"`
+            SECRETS_DIR=$(realpath "${OPTARG}")
             ;;
         t)
             COMMIT="${OPTARG}"

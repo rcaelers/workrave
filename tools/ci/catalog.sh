@@ -35,7 +35,7 @@ cd ${SCRIPTS_DIR}/citool
 npm install
 npm run build
 cd ${SOURCES_DIR}
-${SCRIPTS_DIR}/citool/bin/citool.ts newsgen \
+${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
   --input "${SOURCES_DIR}/changes.yaml" \
   --template github \
   $GEN_ARGS \

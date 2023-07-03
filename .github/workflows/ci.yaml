@@ -457,8 +457,8 @@ jobs:
           cd $GITHUB_WORKSPACE/tools/citool
           npm i
           npm run build
-          $GITHUB_WORKSPACE/tools/citool/bin/citool.ts catalog
-          $GITHUB_WORKSPACE/tools/citool/bin/citool.ts appcast
+          $GITHUB_WORKSPACE/tools/citool/dist/citool.js catalog
+          $GITHUB_WORKSPACE/tools/citool/dist/citool.js appcast
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}

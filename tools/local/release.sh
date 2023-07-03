@@ -87,7 +87,7 @@ generate_blog() {
     if [ ! -d $DIR ]; then
         mkdir -p ${DIR}
         cd /
-        ${SCRIPTS_DIR}/citool/bin/citool.ts newsgen \
+        ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
             --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
             --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \
