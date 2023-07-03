@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 26 March 2023
+Workrave NEWS -- history of user-visible changes. 03 July 2023
 Copyright (C) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -10,6 +10,7 @@ https://github.com/rcaelers/workrave/issues
 ** Fix preferences icons on Linux
 ** Improve High-DPI icons on Windows
 ** Support GNOME Shell 44 (#471, Jeremy Bicha)
+** Support GNOME Shell 44 in combination with Gtk 4 (#487)
 ** On Windows, Workrave now raises the main window when clicking on the pinned
    application icon.
 ** Bug fixes:
@@ -19,6 +20,9 @@ https://github.com/rcaelers/workrave/issues
    - Status window is no longer displayed when not configured (#444)
 ** Updated Translations:
    - Updated Polish translation (#465, ChuckMichael)
+   - Updated Italian translation (#489, #490, albanobattistella)
+   - Updated Polish translation (#484, Hanna Kraska)
+   - Updates Spanish translation (#494, Cristian Martínez)
 
 * Workrave 1.11.0-beta.5
 

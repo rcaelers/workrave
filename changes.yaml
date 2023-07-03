@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0-beta.6
-    date: 2023-03-26T17:29:18+01:00
+    date: 2023-07-03T20:25:24+02:00
     short: |-
       Workrave 1.11.0-beta.6 has been released.
     changes:
@@ -19,8 +19,9 @@ releases:
       - |-
         Updated Translations:
         - Updated Polish translation (#465, ChuckMichael)
-        - Updated Italian translation (#489, albanobattistella)
+        - Updated Italian translation (#489, #490, albanobattistella)
         - Updated Polish translation (#484,  Hanna Kraska)
+        - Updates Spanish translation (#494, Cristian Martínez)
 
   - version: 1.11.0-beta.5
     date: 2023-01-12T17:29:18+01:00
