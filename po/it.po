@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2023-06-18 17:24+0100\n"
+"PO-Revision-Date: 2023-06-22 15:24+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
-"Language-Team:it\n"
+"Language-Team:Italian\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,7 +138,7 @@ msgstr "Sfoglia cronologia"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
-msgstr ""
+msgstr "Verifica la disponibilità di _Aggiornamenti"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
@@ -654,7 +654,7 @@ msgstr "Avvisi ripetuti"
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
 msgid "Rest break"
-msgstr "Riposo"
+msgstr "Pausa di riposo"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
 #, c-format
@@ -676,7 +676,7 @@ msgstr "Pausa iniziata"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
 msgid "Rest break:"
-msgstr "Riposo:"
+msgstr "Pausa di riposo:"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
 msgid "Resume"
@@ -1163,11 +1163,11 @@ msgstr "_Ricordamelo più tardi"
 
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
-msgstr "_Riposo"
+msgstr "_Pausa di riposo"
 
 #: ui/applets/mate/src/main.c:368
 msgid "_Restbreak"
-msgstr "_Riposo"
+msgstr "_Pausa di riposo"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:391
 msgid "_Skip"
@@ -1261,13 +1261,11 @@ msgstr "{} {} è ora disponibile -- tu hai {}. Vuoi scaricarlo ora?"
 #~ msgid "Client %s read error, closing."
 #~ msgstr "Errore di lettura nel client %s, chiusura in corso."
 
-#, fuzzy, c-format
 #~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "Il client %s ha rifiutato la richiesta di master, ritardando."
+#~ msgstr "Il client %s ha respinto la richiesta principale, ritardando."
 
-#, fuzzy, c-format
 #~ msgid "Client %s saying hello."
-#~ msgstr "Il client %s dice 'Ciao'."
+#~ msgstr "Il client %s ti stà salutando."
 
 #~ msgid "Client %s signed off."
 #~ msgstr "Il client %s si é disconnesso."
@@ -1500,7 +1498,7 @@ msgstr "{} {} è ora disponibile -- tu hai {}. Vuoi scaricarlo ora?"
 #~ msgstr "_Connetti..."
 
 #~ msgid "_Credits"
-#~ msgstr "_Credits"
+#~ msgstr "_Crediti"
 
 #~ msgid "_Disconnect"
 #~ msgstr "_Disconnetti"
