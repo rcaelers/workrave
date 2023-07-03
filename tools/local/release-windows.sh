@@ -96,7 +96,7 @@ build_post() {
 }
 
 newsgen() {
-    ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+    node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
         --input changes.yaml \
         --template github \
         --single \
@@ -131,11 +131,11 @@ upload() {
 }
 
 catalog() {
-    ${SCRIPTS_DIR}/citool/dist/citool.js catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
+    node ${SCRIPTS_DIR}/citool/dist/citool.js catalog --branch ${S3_ARTIFACT_DIR} --workspace ${SOURCES_DIR}
 }
 
 appcast() {
-    ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
+    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
 }
 
 upload_s3() {

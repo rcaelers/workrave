@@ -103,7 +103,7 @@ generate_news() {
     series=$1
 
     cd /
-    ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+    node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
         --input "${SOURCES_DIR}/changes.yaml" \
         --template github \
         --release $(echo $VERSION | sed -e 's/^v//g') \
@@ -117,7 +117,7 @@ generate_news() {
     if [ ! -d $DIR ]; then
         mkdir -p ${DIR}
         cd /
-        ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+        node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
             --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
             --release $(echo $VERSION | sed -e 's/^v//g') \

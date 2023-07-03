@@ -88,7 +88,7 @@ build_changelog() {
     series=$1
 
     cd /
-    ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+    node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
         --input "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/changes.yaml" \
         --ubuntu $series \
         --increment $PPA \
