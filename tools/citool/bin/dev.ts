@@ -1,10 +1,11 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env -S node --loader ts-node/esm
 
 /* eslint-disable node/shebang */
 
 import oclif from '@oclif/core';
 import path from 'node:path';
 import url from 'node:url';
+
 // eslint-disable-next-line node/no-unpublished-import
 import { register } from 'ts-node';
 

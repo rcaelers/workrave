@@ -1,9 +1,7 @@
-#!/usr/bin/env -S npx ts-node
+#!/usr/bin/env -S node --loader ts-node/esm
 
-import oclif from '@oclif/core';
-
-oclif
-  .run(void 0, import.meta.url)
-  .then(oclif.flush)
-  .catch(oclif.Errors.handle);
-
+// eslint-disable-next-line node/shebang
+(async () => {
+  const oclif = await import("@oclif/core");
+  await oclif.execute({ type: "esm", development: true, dir: import.meta.url });
+})();
