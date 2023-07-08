@@ -352,7 +352,7 @@ msgstr "Indefinito"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
 msgid "Info"
-msgstr "Informazioni su"
+msgstr "Informazioni"
 
 #: ui/data/exercises/exercises.xml.in:39
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
@@ -1118,7 +1118,7 @@ msgstr "Dovresti fermarti per oggi..."
 
 #: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
 msgid "_About"
-msgstr "Informazioni su"
+msgstr "Informazioni"
 
 #: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
 msgid "_Exercises"
@@ -1210,10 +1210,10 @@ msgid "{} {} is now available -- you have {}. Would you like to download it now?
 msgstr "{} {} è ora disponibile -- tu hai {}. Vuoi scaricarlo ora?"
 
 #~ msgid "About %s"
-#~ msgstr "Info su %s"
+#~ msgstr "Informazioni %s"
 
 #~ msgid "About..."
-#~ msgstr "Informazioni su..."
+#~ msgstr "Informazioni..."
 
 #~ msgid "Accepted new client."
 #~ msgstr "Nuovo client accettato."
@@ -1292,7 +1292,7 @@ msgstr "{} {} è ora disponibile -- tu hai {}. Vuoi scaricarlo ora?"
 #~ msgstr "Impossibile abilitare la connessione in rete."
 
 #~ msgid "Credits"
-#~ msgstr "Credits"
+#~ msgstr "Crediti"
 
 #~ msgid "Custom"
 #~ msgstr "Personalizzato"
