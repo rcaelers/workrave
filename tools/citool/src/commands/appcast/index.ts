@@ -66,6 +66,10 @@ export default class Appcast extends Command {
       description: 'Dry run. Result is not uploaded to storage',
       default: false,
     }),
+    input: Flags.string({
+      char: 'i',
+      description: 'YAML input file containing release notes',
+    }),
   }
 
   async run(): Promise<void> {
@@ -73,12 +77,13 @@ export default class Appcast extends Command {
 
     const response = await fetch(flags.endpoint + '/' + flags.bucket + '/' + flags.branch + '/catalog.json');
     const catalog = await response.json();
+    const input = flags.input;
 
     const params = {
       environment: flags.environment,
     };
 
-    const generator = new AppcastGenerator(catalog, params);
+    const generator = new AppcastGenerator(catalog, input, params);
     const content = await generator.generate();
 
     if (!flags.dry) {
