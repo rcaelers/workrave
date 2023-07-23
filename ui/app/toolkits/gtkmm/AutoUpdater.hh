@@ -31,10 +31,13 @@
 #include "ui/prefwidgets/Widgets.hh"
 
 #include "utils/Logging.hh"
+#include "utils/Signals.hh"
 
 class AutoUpdateDialog;
 
-class AutoUpdater : public Plugin<AutoUpdater>
+class AutoUpdater
+  : public Plugin<AutoUpdater>
+  , public workrave::utils::Trackable
 {
 public:
   explicit AutoUpdater(std::shared_ptr<IPluginContext> context);
@@ -53,6 +56,9 @@ private:
   void on_check_for_update();
   unfold::coro::gtask<void> show_update();
 
+  void set_status(unfold::outcome::std_result<void> status);
+  void set_status(std::string status);
+
 private:
   using handler_type = boost::asio::async_result<std::decay<decltype(boost::asio::use_awaitable)>::type,
                                                  void(unfold::UpdateResponse)>::handler_type;
@@ -65,6 +71,7 @@ private:
   std::optional<handler_type> dialog_handler;
 
   std::shared_ptr<ui::prefwidgets::Def> auto_update_def;
+  double progress{0.0};
 
   using sv = std::string_view;
   static constexpr std::string_view CHECK_FOR_UPDATE = sv("workrave.check_for_updates");

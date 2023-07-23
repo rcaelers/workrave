@@ -60,6 +60,11 @@ public:
   AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, update_choice_callback_t callback);
   ~AutoUpdateDialog() override = default;
 
+  void set_progress_visible(bool visible);
+  void set_progress(double progress);
+  void set_status(const std::string &status);
+  void start_install();
+
 private:
   void on_auto_toggled();
 
@@ -67,6 +72,13 @@ private:
   update_choice_callback_t callback;
   Gtk::TextView *text_view{nullptr};
   Gtk::ScrolledWindow scrolled_window;
+  Gtk::Frame *progress_bar_frame{nullptr};
+  Gtk::ProgressBar *progress_bar{nullptr};
+  Gtk::Label *status_label{nullptr};
+  Gtk::Box *left_button_box{nullptr};
+  Gtk::Box *right_button_box{nullptr};
+  Gtk::Box *close_button_box{nullptr};
+
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
 #if defined(PLATFORM_OS_WINDOWS)
   Edge *web{nullptr};

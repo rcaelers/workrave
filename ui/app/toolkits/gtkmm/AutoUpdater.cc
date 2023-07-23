@@ -81,6 +81,29 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   init_preferences();
   init_menu();
+
+  workrave::updater::Config::channel().connect(this, [this](auto channel) {
+    spdlog::info("Channel changed to {}", workrave::utils::enum_to_string(channel));
+    init_channels();
+  });
+
+  updater->set_update_status_callback([&](unfold::outcome::std_result<void> status) -> void {
+    spdlog::info("Update status changed");
+    set_status(status);
+  });
+
+  updater->set_download_progress_callback([this](double p) -> void {
+    this->progress = p;
+
+    unfold::coro::gtask<void> task = [this]() -> unfold::coro::gtask<void> {
+      if (dialog)
+        {
+          dialog->set_progress(progress);
+        }
+      co_return;
+    }();
+    scheduler.spawn(std::move(task));
+  });
 }
 
 AutoUpdater::~AutoUpdater()
@@ -166,24 +189,36 @@ AutoUpdater::show_update()
     switch (choice)
       {
       case AutoUpdateDialog::UpdateChoice::Now:
-        response = unfold::UpdateResponse::Install;
+        {
+          response = unfold::UpdateResponse::Install;
+          unfold::coro::gtask<void> task = [this]() -> unfold::coro::gtask<void> {
+            if (dialog)
+              {
+                dialog->start_install();
+              }
+            co_return;
+          }();
+          scheduler.spawn(std::move(task));
+        }
         break;
 
       case AutoUpdateDialog::UpdateChoice::Later:
         response = unfold::UpdateResponse::Later;
+        dialog->close();
         break;
 
       case AutoUpdateDialog::UpdateChoice::Skip:
         response = unfold::UpdateResponse::Skip;
+        dialog->close();
         break;
       }
-    dialog->close();
     if (dialog_handler)
       {
         (*dialog_handler)(response);
         dialog_handler.reset();
       }
   });
+  dialog->signal_hide().connect([this]() { dialog.reset(); });
   dialog->show();
   dialog->raise();
 }
@@ -230,4 +265,27 @@ AutoUpdater::on_check_for_update()
         }
     },
     boost::asio::detached);
+}
+
+void
+AutoUpdater::set_status(unfold::outcome::std_result<void> status)
+{
+  if (status.has_error())
+    {
+      spdlog::info("Update status {}", status.error().message());
+      set_status(status.error().message());
+    }
+}
+
+void
+AutoUpdater::set_status(std::string status)
+{
+  unfold::coro::gtask<void> task = [this, status]() -> unfold::coro::gtask<void> {
+    if (dialog)
+      {
+        dialog->set_status(status);
+      }
+    co_return;
+  }();
+  scheduler.spawn(std::move(task));
 }
