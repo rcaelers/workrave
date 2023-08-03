@@ -1123,7 +1123,7 @@ msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
 msgid "You need a rest break..."
-msgstr "உங்களுக்கு ஓய்வு தேவை..."
+msgstr "உங்களுக்கு ஓய்வு இடைவேளை தேவை..."
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
 msgid "You should stop for today..."
