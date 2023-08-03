@@ -4,7 +4,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     FetchContent_Declare(
         unfold
         GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-        GIT_TAG 86dbadd710ac637429e7faff1143d4971cc8b3df
+        GIT_TAG e373a337eb4d44959fdc8eff1bd3ed1a7a0556fe
       )
     if(NOT unfold_POPULATED)
       FetchContent_Populate(unfold)
@@ -28,8 +28,8 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
 
     FetchContent_Declare(
       webview2
-      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.1418.22
-      URL_HASH SHA1=08bf310d4bc9f5ab5a495c47501aa286720c3e36
+      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.1823.32
+      URL_HASH SHA1=b2bd5231a61e3142c68c480869a2241a6627dd5e
     )
     FetchContent_MakeAvailable(webview2)
 

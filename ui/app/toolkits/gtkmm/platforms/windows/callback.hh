@@ -97,10 +97,3 @@ Callback(LambdaT &&lambda)
 {
   return details::CallbackHelper<T, decltype(&T::Invoke)>::Callback(std::forward<LambdaT>(lambda));
 }
-
-template<typename T, typename ObjectT, typename... Args>
-Microsoft::WRL::ComPtr<T>
-Callback(ObjectT *object, HRESULT (ObjectT::*method)(Args...))
-{
-  return Callback<T>([=](auto &&...args) { return ((*object).*(method))(args...); });
-}
