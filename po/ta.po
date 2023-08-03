@@ -1226,56 +1226,51 @@ msgstr "தட்டச்சு;இடைவேலை;காலங்காட�
 msgid "{} {} is now available -- you have {}. Would you like to download it now?"
 msgstr "{} {} இப்போது கிடைக்கிறது -- உங்களிடம் {} உள்ளது. அதை இப்போது பதிவிறக்க விரும்புகிறீர்களா?"
 
-#~ msgid "About..."
-#~ msgstr "பற்றி..."
+msgid "About..."
+msgstr "பற்றி..."
 
-#~ msgid "Advanced"
-#~ msgstr "மேம்பட்ட"
+msgid "Advanced"
+msgstr "மேம்பட்ட"
 
-#~ msgid "Allow incoming connections"
-#~ msgstr "உள்வரும் இணைப்புகளை அனுமதி"
+msgid "Allow incoming connections"
+msgstr "உள்வரும் இணைப்புகளை அனுமதி"
 
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "இணை"
 
-#, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "%s உடன் இணைக்கிறது."
+msgid "Connect"
+msgstr "இணை"
 
-#~ msgid "Custom"
-#~ msgstr "தனிப்பயன்"
+msgid "Connecting to %s."
+msgstr "%s உடன் இணைக்கிறது."
 
-#~ msgid "Daily usage"
-#~ msgstr "அன்றாட பயன்பாடு"
+msgid "Custom"
+msgstr "தனிப்பயன்"
 
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "துண்டிக்கவும்"
+msgid "Daily usage"
+msgstr "அன்றாட பயன்பாடு"
 
-#~ msgid "Password:"
-#~ msgstr "கடவுச்சொல்:"
+msgid "Disconnect"
+msgstr "துண்டிக்கவும்"
 
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "வெளியேறு"
+msgid "Password:"
+msgstr "கடவுச்சொல்:"
 
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "மீண்டும் இணை"
+msgid "Quit"
+msgstr "வெளியேறு"
 
-#~ msgid "Server settings"
-#~ msgstr "சேவையக அமைப்புகள்"
+msgid "Reconnect"
+msgstr "மீண்டும் இணை"
 
-#~ msgid "Username:"
-#~ msgstr "பயனர்பெயர்:"
+msgid "Server settings"
+msgstr "சேவையக அமைப்புகள்"
 
-#, fuzzy
-#~ msgid "Workrave failed to start"
-#~ msgstr "பணிவெறி தொடங்குவதில் தோல்வியடைந்தது"
+msgid "Username:"
+msgstr "பயனர்பெயர்:"
 
-#~ msgid "_About..."
-#~ msgstr "பற்றி..."
+msgid "Workrave failed to start"
+msgstr "பணிவெறி தொடங்குவதில் தோல்வியடைந்தது"
 
-#~ msgid "_Connect"
-#~ msgstr "இணைக்கவும்"
+msgid "_About..."
+msgstr "பற்றி..."
+
+msgid "_Connect"
+msgstr "இணை"
