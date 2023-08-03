@@ -1,22 +1,19 @@
 // Copyright (C) 2022 Rob Caelers <rob.caelers@gmail.com>
+// All rights reserved.
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -31,10 +28,11 @@
 
 #include <gtkmm.h>
 
+#include <cmath>
 #include <utility>
+
 #include "GtkUtil.hh"
 #include "ui/GUIConfig.hh"
-
 #include "commonui/nls.h"
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -165,6 +163,7 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
 
           if (html != nullptr)
             {
+              spdlog::info("body: {}", html);
               body += html;
               free(html);
             }
@@ -199,13 +198,45 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
         }
     }
 
+  auto *status_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  status_box->set_border_width(6);
+  status_box->set_spacing(10);
+  box->pack_start(*status_box, false, true, 0);
+
+  status_label = Gtk::manage(new Gtk::Label());
+  status_label->set_use_markup();
+  status_label->set_yalign(0.5);
+  status_box->pack_start(*status_label, false, false, 6);
+
+  progress_bar_frame = Gtk::manage(new Gtk::Frame);
+  progress_bar_frame->set_shadow_type(Gtk::SHADOW_IN);
+
+  progress_bar = Gtk::manage(new Gtk::ProgressBar());
+  progress_bar->set_fraction(0);
+  progress_bar->set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  progress_bar_frame->add(*progress_bar);
+
+  std::string css_string = R"(
+        * {
+            min-height: 2em;
+        }
+    )";
+  Glib::RefPtr<Gtk::CssProvider> css_provider = Gtk::CssProvider::create();
+  Glib::RefPtr<Gtk::StyleContext> style_context = progress_bar->get_style_context();
+  css_provider->load_from_data(css_string);
+  style_context->add_provider(css_provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+  status_box->pack_start(*progress_bar_frame, true, true, 6);
+
   auto *bottom_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
   box->pack_start(*bottom_box, Gtk::PACK_SHRINK, 0);
 
-  auto *left_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  left_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
   bottom_box->pack_start(*left_button_box, Gtk::PACK_SHRINK, 6);
-  auto *right_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  right_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
   bottom_box->pack_end(*right_button_box, Gtk::PACK_SHRINK, 6);
+  close_button_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+  bottom_box->pack_end(*close_button_box, Gtk::PACK_SHRINK, 6);
 
   auto *skip_button = Gtk::manage(new Gtk::Button(_("_Skip this version")));
   skip_button->signal_clicked().connect([callback]() { callback(UpdateChoice::Skip); });
@@ -214,19 +245,64 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
   left_button_box->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 6);
 
   auto *remind_button = Gtk::manage(new Gtk::Button(_("_Remind me later")));
-  remind_button->signal_clicked().connect([]() {});
   remind_button->signal_clicked().connect([callback]() { callback(UpdateChoice::Later); });
   remind_button->set_use_underline();
   auto *install_button = Gtk::manage(new Gtk::Button(_("_Install update")));
-  install_button->signal_clicked().connect([]() {});
   install_button->signal_clicked().connect([callback]() { callback(UpdateChoice::Now); });
   install_button->set_use_underline();
 
   right_button_box->pack_start(*remind_button, Gtk::PACK_SHRINK, 6);
   right_button_box->pack_start(*install_button, Gtk::PACK_SHRINK, 6);
 
+  auto *close_button = Gtk::manage(new Gtk::Button(_("_Close")));
+  close_button->signal_clicked().connect([this]() { hide(); });
+  close_button->set_use_underline();
+
+  close_button_box->pack_start(*close_button, Gtk::PACK_SHRINK, 6);
+
   signal_hide().connect([callback]() { callback(UpdateChoice::Later); });
 
   install_button->set_sensitive();
   show_all();
+  progress_bar->set_visible(false);
+  progress_bar_frame->set_visible(false);
+  close_button_box->set_visible(false);
+}
+
+void
+AutoUpdateDialog::set_progress_visible(bool visible)
+{
+  progress_bar->set_visible(visible);
+}
+
+void
+AutoUpdateDialog::set_progress(double progress)
+{
+  if (fabs(progress - progress_bar->get_fraction()) >= 0.01)
+    {
+      progress_bar->set_fraction(progress);
+    }
+  if (progress >= 1.0)
+    {
+      progress_bar->set_visible(false);
+      progress_bar_frame->set_visible(false);
+      status_label->set_text(_("Installing update..."));
+    }
+}
+
+void
+AutoUpdateDialog::set_status(const std::string &status)
+{
+  status_label->set_text(status);
+}
+
+void
+AutoUpdateDialog::start_install()
+{
+  status_label->set_text(_("Downloading update..."));
+  left_button_box->set_visible(false);
+  right_button_box->set_visible(false);
+  progress_bar->set_visible(true);
+  progress_bar_frame->set_visible(true);
+  close_button_box->set_visible(true);
 }
