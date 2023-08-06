@@ -825,15 +825,15 @@ endif()
 
 include(FetchContent)
 
-find_package(fmt 9.0.0 CONFIG QUIET)
+find_package(fmt 10.0.0 CONFIG QUIET)
 if(${fmt_FOUND})
-  find_package(spdlog 1.9.2 CONFIG QUIET)
+  find_package(spdlog 1.12.0 CONFIG QUIET)
 else()
   FetchContent_Declare(
       fmt
       GIT_REPOSITORY https://github.com/fmtlib/fmt.git
       GIT_SHALLOW TRUE
-      GIT_TAG 9.1.0
+      GIT_TAG 10.0.0
     )
   FetchContent_MakeAvailable(fmt)
   target_compile_definitions(fmt INTERFACE FMT_HEADER_ONLY=1)
@@ -844,7 +844,7 @@ if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
       spdlog
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
       GIT_SHALLOW TRUE
-      GIT_TAG v1.11.0
+      GIT_TAG v1.12.0
     )
   if (WIN32)
     set(SPDLOG_INSTALL ON)
@@ -852,9 +852,6 @@ if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
   endif()
   set(SPDLOG_FMT_EXTERNAL ON)
   FetchContent_MakeAvailable(spdlog)
-endif()
-if (WIN32)
-  add_compile_definitions(SPDLOG_WCHAR_TO_UTF8_SUPPORT)
 endif()
 
 #----------------------------------------------------------------------------------------------------
