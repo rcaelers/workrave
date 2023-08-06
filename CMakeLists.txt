@@ -895,7 +895,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
     add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
     add_custom_command(
       OUTPUT ${DUMP_SYMS}
-      COMMAND cargo build --release
+      COMMAND ${CARGO} build --release
       WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
       )
 
