@@ -31,6 +31,7 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 #include "unfold/Unfold.hh"
+#include "unfold/UnfoldErrors.hh"
 #include "updater/Config.hh"
 
 #include "AutoUpdateDialog.hh"
@@ -270,22 +271,57 @@ AutoUpdater::on_check_for_update()
 void
 AutoUpdater::set_status(unfold::outcome::std_result<void> status)
 {
-  if (status.has_error())
+  if (!status.has_error())
     {
-      spdlog::info("Update status {}", status.error().message());
-      set_status(status.error().message());
+      return;
+    }
+
+  spdlog::info("Update status {}", status.error().message());
+  auto errc = unfold::to_errc(status.error());
+
+  if (errc)
+    {
+      switch (*errc)
+        {
+        case unfold::UnfoldErrc::Success:
+          break;
+        case unfold::UnfoldErrc::InvalidAppcast:
+          set_status(_("Invalid appcast"));
+          break;
+        case unfold::UnfoldErrc::AppcastDownloadFailed:
+          set_status(_("Failed to download appcast"));
+          break;
+        case unfold::UnfoldErrc::InstallerDownloadFailed:
+          set_status(_("Failed to download installer"));
+          break;
+        case unfold::UnfoldErrc::InstallerVerificationFailed:
+          set_status(_("Failed to validate installer integrity. Aborting upgrade"));
+          break;
+        case unfold::UnfoldErrc::InstallerExecutionFailed:
+          set_status(_("Failed to execute installer"));
+          break;
+        case unfold::UnfoldErrc::InvalidArgument:
+        case unfold::UnfoldErrc::InternalError:
+        default:
+          set_status(_("Internal failure. Aborting upgrade"));
+          break;
+        }
+    }
+  else
+    {
+      set_status(_("Internal failure. Aborting upgrade"));
     }
 }
 
 void
 AutoUpdater::set_status(std::string status)
 {
-  unfold::coro::gtask<void> task = [this, status]() -> unfold::coro::gtask<void> {
+  unfold::coro::gtask<void> task = [this](std::string status) -> unfold::coro::gtask<void> {
     if (dialog)
       {
         dialog->set_status(status);
       }
     co_return;
-  }();
+  }(status);
   scheduler.spawn(std::move(task));
 }

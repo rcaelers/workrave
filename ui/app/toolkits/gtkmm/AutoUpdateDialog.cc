@@ -291,9 +291,12 @@ AutoUpdateDialog::set_progress(double progress)
 }
 
 void
-AutoUpdateDialog::set_status(const std::string &status)
+AutoUpdateDialog::set_status(std::string status)
 {
+  spdlog::info("status: {}", status);
   status_label->set_text(status);
+  progress_bar->set_visible(false);
+  progress_bar_frame->set_visible(false);
 }
 
 void

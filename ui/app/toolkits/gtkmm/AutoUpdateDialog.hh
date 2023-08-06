@@ -62,7 +62,7 @@ public:
 
   void set_progress_visible(bool visible);
   void set_progress(double progress);
-  void set_status(const std::string &status);
+  void set_status(std::string status);
   void start_install();
 
 private:
