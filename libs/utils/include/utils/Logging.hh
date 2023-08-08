@@ -19,6 +19,8 @@
 #define WORKAVE_LIBS_UTILS_LOGGING_HH
 
 #include <string>
+#include <atomic>
+
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
@@ -30,5 +32,15 @@ namespace workrave::utils
     static std::shared_ptr<spdlog::logger> create(std::string domain);
   };
 } // namespace workrave::utils
+
+
+template<typename T>
+struct fmt::formatter<std::atomic<T>> : fmt::formatter<T>
+{
+    auto format(const typename std::atomic<T> &x, format_context &ctx) const
+    {
+        return formatter<T>::format(x.load(), ctx);
+    }
+};
 
 #endif // WORKAVE_LIBS_UTILS_LOGGING_HH

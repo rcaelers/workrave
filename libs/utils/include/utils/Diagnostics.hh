@@ -28,6 +28,8 @@
 #include <fmt/core.h>
 #include <fmt/format.h>
 
+#include "utils/Logging.hh"
+
 class TracedFieldBase
 {
 public:
