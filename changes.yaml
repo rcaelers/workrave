@@ -8,7 +8,8 @@ releases:
     changes:
       - 🔄 Fix automatic update
       - 🔄 Support HTTP proxies for automatic update
-      - Test non-ascii characters: தமிழ்  íáÓń 🐑
+      - |-
+        Test non-ascii characters: தமிழ்  íáÓń 🐑
       - |-
         Updated Translations:
         - Created Tamil translation (#498, TamilNeram)
