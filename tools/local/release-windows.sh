@@ -58,7 +58,7 @@ init_tools() {
         export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
     fi
 
-    export PATH="/c/Program Files/nodejs":$PATH
+    export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
 }
 
 init() {
