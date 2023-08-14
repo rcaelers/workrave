@@ -50,7 +50,6 @@ init_citool() {
 }
 
 init_tools() {
-    export OPENSSL=${OPENSSL:-"/opt/openssl/bin/openssl"}
     export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
     export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
 
