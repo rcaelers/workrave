@@ -6,8 +6,9 @@ releases:
       Workrave 1.11.0-beta.7 has been released. Note: automatic update from beta.6 is broken.
       Please download the installer from GitHub (https://github.com/rcaelers/workrave/releases)
     changes:
-      - Fix automatic update
-      - Support HTTP proxies for automatic update
+      - 🔄 Fix automatic update
+      - 🔄 Support HTTP proxies for automatic update
+      - Test non-ascii characters: தமிழ்  íáÓń 🐑
       - |-
         Updated Translations:
         - Created Tamil translation (#498, TamilNeram)
