@@ -3,6 +3,7 @@ add_library(workrave-libs-ui-prefwidgets STATIC)
 target_sources(workrave-libs-ui-prefwidgets PRIVATE
     Box.cc
     Choice.cc
+    Entry.cc
     Frame.cc
     Time.cc
     Toggle.cc

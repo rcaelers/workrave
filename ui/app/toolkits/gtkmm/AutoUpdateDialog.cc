@@ -35,6 +35,8 @@
 #include "ui/GUIConfig.hh"
 #include "commonui/nls.h"
 
+#include "unfold/Unfold.hh"
+
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "cmark.h"
 #  include "Edge.hh"
@@ -273,27 +275,51 @@ void
 AutoUpdateDialog::set_progress_visible(bool visible)
 {
   progress_bar->set_visible(visible);
+  progress_bar_frame->set_visible(true);
 }
 
 void
-AutoUpdateDialog::set_progress(double progress)
+AutoUpdateDialog::set_stage(unfold::UpdateStage stage, double progress)
 {
+  if (!current_stage || *current_stage != stage)
+    {
+      spdlog::info("Update stage: {}", static_cast<int>(stage));
+      current_stage = stage;
+      progress_bar->set_visible(stage == unfold::UpdateStage::DownloadInstaller);
+      progress_bar_frame->set_visible(stage == unfold::UpdateStage::DownloadInstaller);
+
+      switch (stage)
+        {
+        case unfold::UpdateStage::DownloadInstaller:
+          status_label->set_text(_("Downloading installer"));
+          break;
+        case unfold::UpdateStage::VerifyInstaller:
+          status_label->set_text(_("Verifying installer"));
+          break;
+        case unfold::UpdateStage::RunInstaller:
+          status_label->set_text(_("Running installer"));
+          break;
+        default:
+          break;
+        }
+    }
+
   if (fabs(progress - progress_bar->get_fraction()) >= 0.01)
     {
       progress_bar->set_fraction(progress);
     }
+
   if (progress >= 1.0)
     {
       progress_bar->set_visible(false);
       progress_bar_frame->set_visible(false);
-      status_label->set_text(_("Installing update..."));
     }
 }
 
 void
 AutoUpdateDialog::set_status(std::string status)
 {
-  spdlog::info("status: {}", status);
+  spdlog::info("Update status: {}", status);
   status_label->set_text(status);
   progress_bar->set_visible(false);
   progress_bar_frame->set_visible(false);
@@ -302,7 +328,7 @@ AutoUpdateDialog::set_status(std::string status)
 void
 AutoUpdateDialog::start_install()
 {
-  status_label->set_text(_("Downloading update..."));
+  status_label->set_text("");
   left_button_box->set_visible(false);
   right_button_box->set_visible(false);
   progress_bar->set_visible(true);

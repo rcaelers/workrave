@@ -49,9 +49,10 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   workrave::updater::Config::init(context->get_configurator());
 
   auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
+  rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/staging/v1.11/appcast.xml");
   if (!rc)
     {
-      spdlog::info("Invalid appcast URL");
+      logger->info("Invalid appcast URL");
       return;
     }
 
@@ -59,14 +60,14 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   if (!rc)
     {
-      spdlog::info("Invalid signature key");
+      logger->info("Invalid signature key");
       return;
     }
 
   rc = updater->set_current_version(WORKRAVE_VERSION);
   if (!rc)
     {
-      spdlog::info("Invalid version");
+      logger->info("Invalid version");
       return;
     }
 
@@ -79,30 +80,41 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   updater->set_periodic_update_check_interval(std::chrono::hours{24});
   updater->set_periodic_update_check_enabled(workrave::updater::Config::enabled()());
+  updater->set_proxy(workrave::updater::Config::proxy_type()());
+  updater->set_custom_proxy(workrave::updater::Config::proxy()());
 
   init_preferences();
   init_menu();
 
   workrave::updater::Config::channel().connect(this, [this](auto channel) {
-    spdlog::info("Channel changed to {}", workrave::utils::enum_to_string(channel));
+    logger->info("Channel changed to {}", workrave::utils::enum_to_string(channel));
     init_channels();
   });
 
-  updater->set_update_status_callback([&](unfold::outcome::std_result<void> status) -> void {
-    spdlog::info("Update status changed");
-    set_status(status);
+  workrave::updater::Config::proxy_type().connect(this, [this](auto proxy_type) {
+    logger->info("Proxy type changed to {}", workrave::utils::enum_to_string(proxy_type));
+    updater->set_proxy(proxy_type);
   });
 
-  updater->set_download_progress_callback([this](double p) -> void {
-    this->progress = p;
+  workrave::updater::Config::proxy().connect(this, [this](auto proxy) {
+    logger->info("Proxy changed to {}", proxy);
+    updater->set_custom_proxy(proxy);
+  });
 
-    unfold::coro::gtask<void> task = [this]() -> unfold::coro::gtask<void> {
+  updater->set_update_status_callback([&](unfold::outcome::std_result<void> state) -> void {
+    logger->info("Update status changed");
+    set_error_state(state);
+  });
+
+  updater->set_download_progress_callback([this](unfold::UpdateStage stage, double p) -> void {
+    this->progress = p;
+    unfold::coro::gtask<void> task = [this](unfold::UpdateStage stage) -> unfold::coro::gtask<void> {
       if (dialog)
         {
-          dialog->set_progress(progress);
+          dialog->set_stage(stage, progress);
         }
       co_return;
-    }();
+    }(stage);
     scheduler.spawn(std::move(task));
   });
 }
@@ -140,7 +152,7 @@ AutoUpdater::init_channels()
   auto rc = updater->set_allowed_channels(allowed_channels);
   if (!rc)
     {
-      spdlog::info("Invalid allowed channels");
+      logger->info("Invalid allowed channels");
       return;
     }
 }
@@ -148,7 +160,8 @@ AutoUpdater::init_channels()
 void
 AutoUpdater::init_preferences()
 {
-  std::vector<std::string> channels{"Stable", "Release Candidate", "Beta"};
+  std::vector<std::string> channels{_("Stable"), _("Release Candidate"), _("Beta")};
+  std::vector<std::string> proxy_types{_("No proxy"), _("System proxy"), _("Custom proxy")};
 
   auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", N_("Software updates"))
                     << (ui::prefwidgets::Frame::create(N_("Auto update"))
@@ -160,7 +173,19 @@ AutoUpdater::init_preferences()
                                         {workrave::updater::Channel::Candidate, 1},
                                         {workrave::updater::Channel::Beta, 2}})
                              ->assign(channels)
-                             ->when(&workrave::updater::Config::enabled()));
+                             ->when(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Choice::create(N_("Proxy Type:"))
+                             ->connect(
+                               &workrave::updater::Config::proxy_type(),
+                               {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
+                             ->assign(proxy_types)
+                             ->when(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Entry::create(N_("Proxy:"))
+                             ->connect(&workrave::updater::Config::proxy())
+                             ->when(&workrave::updater::Config::proxy_type(), [](unfold::ProxyType t) {
+                               // auto p = workrave::updater::Config::proxy_type()();
+                               return t == unfold::ProxyType::Custom;
+                             }));
 
   context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "workrave-update-symbolic");
   context->get_preferences_registry()->add(auto_update_def);
@@ -227,11 +252,11 @@ AutoUpdater::show_update()
 boost::asio::awaitable<unfold::UpdateResponse>
 AutoUpdater::on_update_available()
 {
-  spdlog::info("Update available");
+  logger->info("Update available");
 
   if (dialog_handler)
     {
-      spdlog::info("Update dialog already open");
+      logger->info("Update dialog already open");
       co_return unfold::UpdateResponse::Later;
     }
 
@@ -257,27 +282,22 @@ AutoUpdater::on_check_for_update()
           auto rc = co_await updater->check_for_update_and_notify();
           if (!rc)
             {
-              spdlog::info("Check for update failed");
+              logger->info("Check for update failed");
             }
         }
       catch (std::exception &e)
         {
-          spdlog::info("Exception in on_check_for_update: {}", e.what());
+          logger->info("Exception in on_check_for_update: {}", e.what());
         }
     },
     boost::asio::detached);
 }
 
 void
-AutoUpdater::set_status(unfold::outcome::std_result<void> status)
+AutoUpdater::set_error_state(unfold::outcome::std_result<void> state)
 {
-  if (!status.has_error())
-    {
-      return;
-    }
-
-  spdlog::info("Update status {}", status.error().message());
-  auto errc = unfold::to_errc(status.error());
+  logger->info("Error state {}", state.error().message());
+  auto errc = unfold::to_errc(state.error());
 
   if (errc)
     {

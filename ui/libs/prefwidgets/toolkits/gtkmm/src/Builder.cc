@@ -22,6 +22,7 @@
 #include "Builder.hh"
 
 #include "ChoiceWidget.hh"
+#include "EntryWidget.hh"
 #include "ToggleWidget.hh"
 #include "FrameWidget.hh"
 #include "BoxWidget.hh"
@@ -64,6 +65,10 @@ Builder::build(std::shared_ptr<ui::prefwidgets::Widget> def, std::shared_ptr<Con
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Choice>(def); d)
     {
       widget = std::make_shared<ChoiceWidget>(d, container, this);
+    }
+  if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Entry>(def); d)
+    {
+      widget = std::make_shared<EntryWidget>(d, container, this);
     }
   if (auto d = std::dynamic_pointer_cast<ui::prefwidgets::Value>(def); d)
     {

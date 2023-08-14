@@ -46,3 +46,17 @@ Config::channel()
 {
   return workrave::config::SettingCache::get<std::string, Channel>(configurator, CFG_KEY_AUTO_UPDATE_CHANNEL, {});
 }
+
+workrave::config::Setting<std::string, unfold::ProxyType> &
+Config::proxy_type()
+{
+  return workrave::config::SettingCache::get<std::string, unfold::ProxyType>(configurator,
+                                                                             CFG_KEY_AUTO_UPDATE_PROXY_TYPE,
+                                                                             unfold::ProxyType::System);
+}
+
+workrave::config::Setting<std::string> &
+Config::proxy()
+{
+  return workrave::config::SettingCache::get<std::string>(configurator, CFG_KEY_AUTO_UPDATE_PROXY, {});
+}

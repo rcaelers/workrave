@@ -23,6 +23,7 @@
 #include "ui/prefwidgets/Box.hh"
 #include "ui/prefwidgets/Toggle.hh"
 #include "ui/prefwidgets/Choice.hh"
+#include "ui/prefwidgets/Entry.hh"
 #include "ui/prefwidgets/Frame.hh"
 #include "ui/prefwidgets/Value.hh"
 #include "ui/prefwidgets/Time.hh"

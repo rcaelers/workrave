@@ -214,6 +214,26 @@ namespace ui::prefwidgets
       return shared_from_base<Derived>();
     }
 
+    template<class R, class T>
+    std::shared_ptr<Derived> when(workrave::config::Setting<T, R> *setting, std::function<bool(std::type_identity_t<R>)> cond)
+    {
+      if (sensitive_key.empty())
+        {
+          sensitive_key = setting->key();
+
+          when_func = [cond, setting]() {
+            R v = setting->get();
+            return cond(v);
+          };
+
+          sensitive = when_func();
+
+          config = setting->get_config();
+          config->add_listener(sensitive_key, this);
+        }
+      return shared_from_base<Derived>();
+    }
+
     std::shared_ptr<Derived> on_load(std::function<Type()> func)
     {
       load_func = func;
@@ -273,8 +293,16 @@ namespace ui::prefwidgets
     {
       if (changed == sensitive_key)
         {
-          bool s = sensitive;
-          config->get_value(sensitive_key, s);
+          bool s{false};
+          if (!when_func)
+            {
+              s = sensitive;
+              config->get_value(sensitive_key, s);
+            }
+          else
+            {
+              s = when_func();
+            }
 
           if (sensitive != s)
             {
@@ -341,6 +369,7 @@ namespace ui::prefwidgets
     std::function<void(Type)> update_func;
     std::function<Type()> load_func;
     std::function<void(Type)> save_func;
+    std::function<bool()> when_func;
     workrave::config::IConfigurator::Ptr config;
     std::shared_ptr<SettingsWrapper<Type>> settings_wrapper;
   };

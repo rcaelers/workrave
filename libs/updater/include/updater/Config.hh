@@ -25,6 +25,8 @@
 
 #include "utils/Enum.hh"
 
+#include "unfold/Unfold.hh"
+
 namespace workrave::updater
 {
   enum class Channel
@@ -43,6 +45,8 @@ namespace workrave::updater
 
     static workrave::config::Setting<bool> &enabled();
     static workrave::config::Setting<std::string, Channel> &channel();
+    static workrave::config::Setting<std::string, unfold::ProxyType> &proxy_type();
+    static workrave::config::Setting<std::string> &proxy();
 
   private:
     static workrave::config::IConfigurator::Ptr configurator;
@@ -50,6 +54,8 @@ namespace workrave::updater
     using sv = std::string_view;
     static constexpr std::string_view CFG_KEY_AUTO_UPDATES_ENABLED = sv("plugins/auto_update/enabled");
     static constexpr std::string_view CFG_KEY_AUTO_UPDATE_CHANNEL = sv("plugins/auto_update/channel");
+    static constexpr std::string_view CFG_KEY_AUTO_UPDATE_PROXY_TYPE = sv("plugins/auto_update/proxy_type");
+    static constexpr std::string_view CFG_KEY_AUTO_UPDATE_PROXY = sv("plugins/auto_update/type");
   };
 
 } // namespace workrave::updater
@@ -72,5 +78,12 @@ operator<<(std::ostream &stream, workrave::updater::Channel channel)
   stream << workrave::utils::enum_to_string(channel);
   return stream;
 }
+
+template<>
+struct workrave::utils::enum_traits<unfold::ProxyType>
+{
+  static constexpr std::array<std::pair<std::string_view, unfold::ProxyType>, 3> names{
+    {{"none", unfold::ProxyType::None}, {"system", unfold::ProxyType::System}, {"custom", unfold::ProxyType::Custom}}};
+};
 
 #endif

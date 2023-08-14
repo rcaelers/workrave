@@ -6,6 +6,7 @@ if (HAVE_APP_GTK)
     Builder.cc
     ContainerWidget.cc
     ChoiceWidget.cc
+    EntryWidget.cc
     FrameWidget.cc
     Hig.cc
     ToggleWidget.cc

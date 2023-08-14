@@ -61,7 +61,7 @@ public:
   ~AutoUpdateDialog() override = default;
 
   void set_progress_visible(bool visible);
-  void set_progress(double progress);
+  void set_stage(unfold::UpdateStage, double progress);
   void set_status(std::string status);
   void start_install();
 
@@ -80,6 +80,8 @@ private:
   Gtk::Box *close_button_box{nullptr};
 
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
+  std::optional<unfold::UpdateStage> current_stage;
+
 #if defined(PLATFORM_OS_WINDOWS)
   Edge *web{nullptr};
 #endif

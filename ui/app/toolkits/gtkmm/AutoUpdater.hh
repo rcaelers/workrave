@@ -56,7 +56,7 @@ private:
   void on_check_for_update();
   unfold::coro::gtask<void> show_update();
 
-  void set_status(unfold::outcome::std_result<void> status);
+  void set_error_state(unfold::outcome::std_result<void> state);
   void set_status(std::string status);
 
 private:
