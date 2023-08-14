@@ -1,9 +1,17 @@
-Workrave NEWS -- history of user-visible changes. 03 July 2023
+Workrave NEWS -- history of user-visible changes. 14 August 2023
 Copyright (C) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-beta.7
+
+** Fix automatic update
+** Support HTTP proxies for automatic update
+** Updated Translations:
+   - Created Tamil translation (#498, TamilNeram)
+   - Updated Italian translation (#496, albanobattistella)
 
 * Workrave 1.11.0-beta.6
 
