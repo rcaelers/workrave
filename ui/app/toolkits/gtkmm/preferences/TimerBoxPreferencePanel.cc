@@ -108,7 +108,12 @@ TimerBoxPreferencePanel::create_page()
           ontop_cb->set_active(GUIConfig::main_window_always_on_top()());
         }
 
-      Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
+      Gtk::Widget *enabled_lab = Gtk::manage(
+        GtkUtil::create_label_with_tooltip(_("Show status window"),
+                                           _("Note that the status window is only hidden if "
+                                             "the status icon, or an applet is shown. Some desktop environment "
+                                             "do not support, or have disabled status icons.")));
+
       enabled_cb = Gtk::manage(new Gtk::CheckButton());
       enabled_cb->add(*enabled_lab);
       hig->add_widget(*enabled_cb);
