@@ -202,7 +202,11 @@ GeneralPreferencePanel::create_panel()
 #endif
     }
 
-  Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
+  Gtk::Widget *trayicon_lab = Gtk::manage(
+    GtkUtil::create_label_with_tooltip(_("Show system tray icon"),
+                                       _("Note that not all desktop environments show "
+                                         "system tray icons, or have disabled system tray icons by default.")));
+
   trayicon_cb = Gtk::manage(new Gtk::CheckButton());
   trayicon_cb->add(*trayicon_lab);
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
