@@ -243,14 +243,28 @@ MainWindow::init()
 
   set_border_width(2);
   set_resizable(false);
+  set_gravity(Gdk::GRAVITY_NORTH_WEST);
+  set_position(Gtk::WIN_POS_NONE);
+  set_title("Workrave");
 
-  list<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+  std::vector<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#else
+  std::list<Glib::RefPtr<Gdk::Pixbuf>> icons;
+#endif
 
   const char *icon_files[] = {
-#ifndef PLATFORM_OS_WINDOWS
+#if !defined(PLATFORM_OS_WINDOWS)
     // This causes a crash on windows
-    "scalable" G_DIR_SEPARATOR_S "workrave.svg",
-#endif
+    "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.svg",
+    "16x16" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "24x24" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "32x32" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "48x48" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "64x64" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "96x96" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+    "128x128" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "workrave.png",
+#else
     "16x16" G_DIR_SEPARATOR_S "workrave.png",
     "24x24" G_DIR_SEPARATOR_S "workrave.png",
     "32x32" G_DIR_SEPARATOR_S "workrave.png",
@@ -258,19 +272,24 @@ MainWindow::init()
     "64x64" G_DIR_SEPARATOR_S "workrave.png",
     "96x96" G_DIR_SEPARATOR_S "workrave.png",
     "128x128" G_DIR_SEPARATOR_S "workrave.png",
+#endif
   };
 
-  for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
+  for (auto &icon_file: icon_files)
     {
-      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_files[i]);
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = GtkUtil::create_pixbuf(icon_file);
       if (pixbuf)
         {
           icons.push_back(pixbuf);
         }
     }
 
+#if GLIBMM_CHECK_VERSION(2, 68, 0)
+  Gtk::Window::set_default_icon_list(icons);
+#else
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf>> icon_list(icons);
   Gtk::Window::set_default_icon_list(icon_list);
+#endif
   // Gtk::Window::set_default_icon_name("workrave");
 
   enabled = TimerBoxControl::is_enabled("main_window");
