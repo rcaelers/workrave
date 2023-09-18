@@ -866,7 +866,7 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
       crashpad
       GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
       # GIT_SHALLOW TRUE
-      GIT_TAG e99a4035bba16722988a8f1140df05638cf3549b
+      GIT_TAG 3c034ea97a60854acb4fa80634f50532c001279d
     )
     FetchContent_MakeAvailable(crashpad)
 
