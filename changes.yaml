@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.10.52
+    date: 2023-09-22T23:39:27+02:00
+    short: |-
+      Workrave 1.10.52 has been released. This release fixes GNOME 45 compatibility
+    changes:
+      - Fix GNOME 45 compatibility (#508)
+
   - version: 1.10.51.1
     date: 2023-06-18T17:09:46+02:00
     short: |-

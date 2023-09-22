@@ -1,4 +1,4 @@
-if !HAVE_GNOME_45
+if HAVE_GNOME_45
 
 topextensiondir = $(datadir)/gnome-shell/extensions
 extensionurl = http://www.workrave.org

@@ -67,6 +67,10 @@ AC_ARG_ENABLE(gnome3,
               [AS_HELP_STRING([--disable-gnome3],
                               [compile without Gnome 3 support])])
 
+AC_ARG_ENABLE(gnome45,
+              [AS_HELP_STRING([--enable-gnome45],
+                              [compile with Gnome Shell 45 support])])
+
 AC_ARG_ENABLE(indicator,
               [AS_HELP_STRING([--enable-indicator],
                               [compile with Unity/Ayatana indicator applet support])])
@@ -298,6 +302,7 @@ then
 
     enable_gconf=no
     enable_gnome3=no
+    enable_gnome45=no
     enable_xml=no
     enable_indicator=no
     enable_xfce=no
@@ -567,10 +572,19 @@ then
     fi
 fi
 
+config_gnome45=no
+
+if test "x$enable_gnome45" == "xyes"
+then
+   config_gnome45=yes
+   AC_DEFINE(HAVE_GNOME_45, 1, [Support for Gnome 45])
+fi
+
 AM_CONDITIONAL(HAVE_PANELAPPLET,   test "x$config_panelapplet4" = "xyes" -o "x$config_panelapplet5" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET5, test "x$config_panelapplet5" = "xyes")
 AM_CONDITIONAL(HAVE_LIBGNOME_PANEL, test "x$config_libgnome_panel" = "xyes")
+AM_CONDITIONAL(HAVE_GNOME_45, test "x$config_gnome45" = "xyes")
 
 dnl
 dnl GLIB
@@ -1151,6 +1165,8 @@ AC_CONFIG_FILES([Makefile
              frontend/applets/mate/include/Makefile
              frontend/applets/gnome-shell/Makefile
              frontend/applets/gnome-shell/src/Makefile
+             frontend/applets/gnome-shell-45/Makefile
+             frontend/applets/gnome-shell-45/src/Makefile
              frontend/applets/cinnamon/Makefile
              frontend/applets/cinnamon/src/Makefile
              frontend/gtkmm/Makefile
