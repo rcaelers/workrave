@@ -92,7 +92,11 @@ fi
 export WORKRAVE_VERSION=$(echo $WORKRAVE_GIT_VERSION | sed -e 's/_\([0-9]\)/.\1/g' | sed -E -e 's/-[0-9]+//g' | sed -e 's/_/-/g' | sed -e 's/^v//g')
 export WORKRAVE_COMMIT_HASH=$(git rev-parse HEAD)
 export WORKRAVE_BUILD_DATE=${WORKRAVE_BUILD_DATE:-$(date +"%Y%m%d")}
-export WORKRAVE_BUILD_DATETIME=${WORKRAVE_BUILD_DATETIME:-$(date --iso-8601=seconds)}
+if [ "$(uname)" == "Darwin" ]; then
+    export WORKRAVE_BUILD_DATETIME=${WORKRAVE_BUILD_DATETIME:-$(date -Iseconds)}
+else
+    export WORKRAVE_BUILD_DATETIME=${WORKRAVE_BUILD_DATETIME:-$(date --iso-8601=seconds)}
+fi
 export WORKRAVE_BUILD_ID="$WORKRAVE_BUILD_DATE-$WORKRAVE_LONG_GIT_VERSION"
 export WORKRAVE_UPLOAD_DIR=${WORKRAVE_UPLOAD_DIR:-"snapshots/v1.11/$WORKRAVE_BUILD_ID"}
 

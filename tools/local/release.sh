@@ -83,6 +83,7 @@ generate_blog() {
         DIR_VERSION=$(git describe --tags --abbrev=10 2>/dev/null | sed -e 's/-g.*//' | sed -e 's/^v//g')
     fi
     DIR="${WEBSITE_DIR}/content/en/blog/${DIR_DATE}_workrave-${DIR_VERSION}-released"
+    WORKRAVE_VERSION=$(echo $DIR_VERSION | sed -e 's/_\([0-9]\)/.\1/g' | sed -E -e 's/-[0-9]+//g' | sed -e 's/_/-/g')
 
     if [ ! -d $DIR ]; then
         mkdir -p ${DIR}
@@ -90,7 +91,7 @@ generate_blog() {
         node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
             --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
-            --release $(echo $WORKRAVE_VERSION | sed -e 's/^v//g') \
+            --release $(echo ${WORKRAVE_VERSION} | sed -e 's/^v//g') \
             --single \
             --output "${DIR}/index.md"
     fi
