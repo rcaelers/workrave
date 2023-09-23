@@ -537,7 +537,7 @@ const WorkraveButton = GObject.registerClass(
 
           if (popup) {
             popup.setSensitive(visible);
-            popup.connect("activate", () => this._onMenuCommand(id));
+            popup.connect("activate", (item, event) => this._onMenuCommand(item, event, id));
             current_menu.addMenuItem(popup);
             this._menu_entries[action] = popup;
           }
