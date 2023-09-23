@@ -469,7 +469,7 @@ else()
   set (WITH_GNOME_CLASSIC_PANEL_DEFAULT OFF)
 endif()
 
-option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic pannel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
+option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic panel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
 option(WITH_GNOME45 "Use GNOME 45 API" OFF)
 
 if (WITH_GNOME45)
