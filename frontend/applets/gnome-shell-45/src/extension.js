@@ -27,7 +27,7 @@ const IndicatorIface =
         <arg type="i" name="command" direction="in" /> \
     </method> \
     <method name="GetMenu"> \
-        <arg type="a(sssuyy)" name="menuitems" direction="out" /> \
+        <arg type="a(sii)" name="menuitems" direction="out" /> \
     </method> \
     <method name="GetTrayIconEnabled"> \
         <arg type="b" name="enabled" direction="out" /> \
@@ -38,10 +38,7 @@ const IndicatorIface =
         <arg type="(siuuuuuu)" /> \
     </signal> \
     <signal name="MenuUpdated"> \
-        <arg type="a(sssuyy)" /> \
-    </signal> \
-    <signal name="MenuItemUpdated"> \
-        <arg type="(sssuyy)" /> \
+        <arg type="a(sii)" /> \
     </signal> \
     <signal name="TrayIconUpdated"> \
         <arg type="b" /> \
@@ -159,18 +156,6 @@ const CoreIface =
   </interface> \
 </node>';
 
-const MENU_ITEM_TYPE_SUBMENU_BEGIN = 1;
-const MENU_ITEM_TYPE_SUBMENU_END = 2;
-const MENU_ITEM_TYPE_RADIOGROUP_BEGIN = 3;
-const MENU_ITEM_TYPE_RADIOGROUP_END = 4;
-const MENU_ITEM_TYPE_ACTION = 5;
-const MENU_ITEM_TYPE_CHECK = 6;
-const MENU_ITEM_TYPE_RADIO = 7;
-const MENU_ITEM_TYPE_SEPARATOR = 8;
-
-const MENU_ITEM_FLAG_ACTIVE = 1;
-const MENU_ITEM_FLAG_VISIBLE = 2;
-
 let CoreProxy = Gio.DBusProxy.makeProxyWrapper(CoreIface);
 
 const WorkraveButton = GObject.registerClass(
@@ -184,7 +169,6 @@ const WorkraveButton = GObject.registerClass(
       this._padding = 0;
       this._bus_name = "org.workrave.GnomeShellApplet";
       this._bus_id = 0;
-      this._menu_entries = {};
       this._watchid = 0;
       this._alive = false;
 
@@ -223,10 +207,6 @@ const WorkraveButton = GObject.registerClass(
       this._menu_updated_id = this._ui_proxy.connectSignal(
         "MenuUpdated",
         this._onMenuUpdated.bind(this)
-      );
-      this._menu_item_updated_id = this._ui_proxy.connectSignal(
-        "MenuItemUpdated",
-        this._onMenuItemUpdated.bind(this)
       );
       this._trayicon_updated_id = this._ui_proxy.connectSignal(
         "TrayIconUpdated",
@@ -287,7 +267,6 @@ const WorkraveButton = GObject.registerClass(
       if (this._ui_proxy != null) {
         this._ui_proxy.disconnectSignal(this._timers_updated_id);
         this._ui_proxy.disconnectSignal(this._menu_updated_id);
-        this._ui_proxy.disconnectSignal(this._menu_item_updated_id);
         this._ui_proxy.disconnectSignal(this._trayicon_updated_id);
         this._ui_proxy = null;
       }
@@ -447,10 +426,6 @@ const WorkraveButton = GObject.registerClass(
       this._updateMenu(menuitems);
     }
 
-    _onMenuItemUpdated(emitter, senderName, [menuitem]) {
-      this._updateItemMenu(menuitem);
-    }
-
     _onTrayIconUpdated(emitter, senderName, [enabled]) {
       this._updateTrayIcon(enabled);
     }
@@ -476,7 +451,6 @@ const WorkraveButton = GObject.registerClass(
 
     _updateMenu(menuitems) {
       this.menu.removeAll();
-      this._menu_entries = {};
 
       let current_menu = this.menu;
       let indent = "";
@@ -486,89 +460,49 @@ const WorkraveButton = GObject.registerClass(
         popup.connect("activate", this._onMenuOpenCommand.bind(this));
         current_menu.addMenuItem(popup);
       } else {
-        let submenus = [];
         for (var item in menuitems) {
           let text = indent + menuitems[item][0];
-          let dynamic_text = indent + menuitems[item][1];
-          let action = menuitems[item][2];
-          let id = menuitems[item][3];
-          let type = menuitems[item][4];
-          let flags = menuitems[item][5];
+          let command = menuitems[item][1];
+          let flags = menuitems[item][2];
 
-          let active = (flags & MENU_ITEM_FLAG_ACTIVE) != 0;
-          let visible = (flags & MENU_ITEM_FLAG_VISIBLE) != 0;
-          let popup;
-
-          dynamic_text = dynamic_text.replace("_", "");
-
-          if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN) {
-            let popup = new PopupMenu.PopupSubMenuMenuItem(dynamic_text);
-            submenus.push(current_menu);
-            current_menu.addMenuItem(popup);
+          if ((flags & 1) != 0) {
+            let popup = new PopupMenu.PopupSubMenuMenuItem(text);
+            this.menu.addMenuItem(popup);
             current_menu = popup.menu;
-            indent = " ".repeat(4 * submenus.length); // Look at CSS??
-          } else if (type == MENU_ITEM_TYPE_SUBMENU_END) {
-            current_menu = submenus.pop();
-            indent = " ".repeat(4 * submenus.length); // Look at CSS??
-          } else if (type == MENU_ITEM_TYPE_SEPARATOR) {
-            popup = new PopupMenu.PopupSeparatorMenuItem(dynamic_text);
-          } else if (type == MENU_ITEM_TYPE_CHECK) {
-            popup = new PopupMenu.PopupSwitchMenuItem(dynamic_text, active);
-          } else if (type == MENU_ITEM_TYPE_RADIO) {
-            popup = new PopupMenu.PopupMenuItem(dynamic_text);
+            indent = "   "; // Look at CSS??
+          } else if ((flags & 2) != 0) {
+            current_menu = this.menu;
+            indent = "";
+          } else {
+            let active = (flags & 16) != 0;
+            let popup;
 
-            // Gnome 3.6 & 3.8
-            if (typeof popup.setShowDot === "function") {
-              popup.setShowDot(active);
+            if (text == "") {
+              popup = new PopupSub.PopupSeparatorMenuItem();
+            } else if ((flags & 4) != 0) {
+              popup = new PopupMenu.PopupSwitchMenuItem(text, active);
+            } else if ((flags & 8) != 0) {
+              popup = new PopupMenu.PopupMenuItem(text);
+
+              // Gnome 3.6 & 3.8
+              if (typeof popup.setShowDot === "function") {
+                popup.setShowDot(active);
+              }
+
+              // Gnome 3.10 & newer
+              else if (typeof popup.setOrnament === "function") {
+                popup.setOrnament(
+                  active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
+                );
+              }
+            } else {
+              popup = new PopupMenu.PopupMenuItem(text);
             }
 
-            // Gnome 3.10 & newer
-            else if (typeof popup.setOrnament === "function") {
-              popup.setOrnament(
-                active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
-              );
-            }
-          } else if (type == MENU_ITEM_TYPE_ACTION) {
-            popup = new PopupMenu.PopupMenuItem(dynamic_text);
-            popup.setOrnament(
-              active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
-            );
-          }
+            popup.connect("activate", (item, event) => this._onMenuCommand(item, event, command));
 
-          if (popup) {
-            popup.setSensitive(visible);
-            popup.connect("activate", () => this._onMenuCommand(id));
             current_menu.addMenuItem(popup);
-            this._menu_entries[action] = popup;
           }
-        }
-      }
-    }
-
-    _updateItemMenu(menuitem) {
-      let id = menuitem[2];
-      let type = menuitem[4];
-      let flags = menuitem[5];
-
-      let active = (flags & MENU_ITEM_FLAG_ACTIVE) != 0;
-      let visible = (flags & MENU_ITEM_FLAG_VISIBLE) != 0;
-      let popup = this._menu_entries[id];
-
-      popup.setSensitive(visible);
-
-      if (type == MENU_ITEM_TYPE_CHECK) {
-        popup.setToggleState(active);
-      } else if (type == MENU_ITEM_TYPE_RADIO) {
-        // Gnome 3.6 & 3.8
-        if (typeof popup.setShowDot === "function") {
-          popup.setShowDot(active);
-        }
-
-        // Gnome 3.10 & newer
-        else if (typeof popup.setOrnament === "function") {
-          popup.setOrnament(
-            active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE
-          );
         }
       }
     }
