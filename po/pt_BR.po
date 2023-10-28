@@ -361,11 +361,11 @@ msgstr ""
 
 #: ui/data/exercises/exercises.xml.in:39
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "Entrelace os dedos atrás das costas. Mova os cotovelos para dentro extendendo os braços. Mantenha-se nesta posição durante 5 a 15 segundos e repita o exercício duas vezes."
+msgstr "Entrelace os dedos atrás das costas. Mova os cotovelos para dentro estendendo os braços. Mantenha-se nesta posição durante 5 a 15 segundos e repita o exercício duas vezes."
 
 #: ui/data/exercises/exercises.xml.in:5
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "Mantenha um braço extendido horizontalmente diante do peito. Puxe este braço em sua direção com o outro braço até que sinta uma tensão suave no ombro. Mantenha brevemente esta posição e repita o exercício com o outro braço."
+msgstr "Mantenha um braço estendido horizontalmente diante do peito. Puxe este braço em sua direção com o outro braço até que sinta uma tensão suave no ombro. Mantenha brevemente esta posição e repita o exercício com o outro braço."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
 msgid "Keystrokes:"
@@ -1278,7 +1278,7 @@ msgstr ""
 
 #, fuzzy, c-format
 #~ msgid "Client %s access denied."
-#~ msgstr "Acceso negado ao cliente %s."
+#~ msgstr "Acesso negado ao cliente %s."
 
 #, fuzzy, c-format
 #~ msgid "Client %s closed connection."
