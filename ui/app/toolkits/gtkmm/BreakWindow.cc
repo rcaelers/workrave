@@ -709,7 +709,7 @@ BreakWindow::start()
 
 #if defined(PLATFORM_OS_WINDOWS)
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  if (force_focus_on_break_start && this->head.monitor == 0)
+  if (force_focus_on_break_start && this->head.is_primary())
     {
       WindowsForceFocus::ForceWindowFocus(hwnd);
     }
@@ -877,7 +877,7 @@ BreakWindow::refresh_break_window()
   /* If there are multiple break windows only force focus on the first, otherwise focus would be
   continuously switched to each break window on every refresh, making interaction very difficult.
   */
-  if (WindowsForceFocus::GetForceFocusValue() && (head.monitor == 0))
+  if (WindowsForceFocus::GetForceFocusValue() && (head.is_primary()))
     {
       WindowsForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
     }
