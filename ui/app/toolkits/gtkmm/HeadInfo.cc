@@ -46,3 +46,9 @@ HeadInfo::get_y() const
 {
   return geometry.get_y();
 }
+
+bool
+HeadInfo::is_primary() const
+{
+  return primary;
+}

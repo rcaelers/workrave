@@ -210,7 +210,7 @@ RestBreakWindow::get_exercise_count()
 void
 RestBreakWindow::install_exercises_panel()
 {
-  if (head.monitor != 0 || (break_flags & BREAK_FLAGS_NO_EXERCISES))
+  if (!head.is_primary() || ((break_flags & BREAK_FLAGS_NO_EXERCISES) != 0))
     {
       install_info_panel();
     }
@@ -242,7 +242,7 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->queue_resize();
 
   BlockMode block_mode = GUIConfig::block_mode()();
-  if (block_mode == BlockMode::Off && head.monitor == 0)
+  if (block_mode == BlockMode::Off && head.is_primary())
     {
       Gtk::Requisition new_size;
       get_preferred_size(new_size, natural_size);

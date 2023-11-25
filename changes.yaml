@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.11.0-beta.8
+    date: 2023-11-26T00:00:00+01:00
+    short: |-
+      Workrave 1.11.0-beta.8 has been released.
+    changes:
+      - Workrave now always shows the exercises during a restbreak on the primary monitor
+
   - version: 1.11.0-beta.7
     date: 2023-08-14T22:34:36+02:00
     short: |-

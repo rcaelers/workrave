@@ -33,8 +33,9 @@ public:
   int get_height() const;
   int get_x() const;
   int get_y() const;
+  bool is_primary() const;
 
-  int monitor{0};
+  bool primary{false};
   Gdk::Rectangle geometry;
 };
 

@@ -410,8 +410,6 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
 
       break_windows.push_back(break_window);
       break_window->init();
-
-      break_flags |= BREAK_FLAGS_NO_EXERCISES;
     }
 }
 

@@ -142,7 +142,7 @@ Toolkit::get_head_info(int screen_index) const
   Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(screen_index);
 
   HeadInfo head;
-  head.monitor = screen_index;
+  head.primary = monitor->is_primary();
   monitor->get_geometry(head.geometry);
 
   return head;
@@ -429,7 +429,6 @@ Toolkit::init_multihead()
   TRACE_ENTRY();
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
-  // screen->signal_monitors_changed().connect(sigc::mem_fun(*this, &Application::update_multihead));
 }
 
 void
