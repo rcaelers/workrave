@@ -212,8 +212,10 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
 
   if (priv->enabled)
     {
-      int x = 0, y = 0;
-      int bar_width, bar_height;
+      int x = 0;
+      int y = 0;
+      int bar_width = 0;
+      int bar_height = 0;
 
       if (priv->force_icon)
         {
@@ -272,7 +274,8 @@ workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *he
 {
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  int bar_width, bar_height;
+  int bar_width = 0;
+  int bar_height = 0;
   workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
   int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
@@ -390,8 +393,8 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 int
 workrave_timerbox_get_width(WorkraveTimerbox *self)
 {
-  int width;
-  int height;
+  int width = 0;
+  int height = 0;
   workrave_timerbox_compute_dimensions(self, &width, &height);
   return width;
 }
@@ -406,8 +409,8 @@ workrave_timerbox_get_width(WorkraveTimerbox *self)
 int
 workrave_timerbox_get_height(WorkraveTimerbox *self)
 {
-  int width;
-  int height;
+  int width = 0;
+  int height = 0;
   workrave_timerbox_compute_dimensions(self, &width, &height);
   return height;
 }

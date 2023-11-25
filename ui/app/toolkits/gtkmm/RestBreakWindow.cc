@@ -64,7 +64,7 @@ Gtk::Widget *
 RestBreakWindow::create_gui()
 {
   // Add other widgets.
-  Gtk::VBox *vbox = new Gtk::VBox(false, 6);
+  auto *vbox = new Gtk::VBox(false, 6);
 
   pluggable_panel = Gtk::manage(new Gtk::HBox);
 
@@ -75,7 +75,7 @@ RestBreakWindow::create_gui()
   vbox->pack_start(*timebar, false, false, 6);
 
   Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
-  if (bottom_box)
+  if (bottom_box != nullptr)
     {
       vbox->pack_end(*Gtk::manage(bottom_box), Gtk::PACK_SHRINK, 6);
     }
@@ -163,7 +163,7 @@ RestBreakWindow::create_info_panel()
   Gtk::Label *info_lab = Gtk::manage(new Gtk::Label());
   Glib::ustring txt;
 
-  if (break_flags & BREAK_FLAGS_NATURAL)
+  if ((break_flags & BREAK_FLAGS_NATURAL) != 0)
     {
       txt = HigUtil::create_alert_text(_("Natural rest break"), _("This is your natural rest break."));
     }

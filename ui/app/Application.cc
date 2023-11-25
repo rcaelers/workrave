@@ -39,7 +39,6 @@
 #include "ui/IBreakWindow.hh"
 #include "ui/Plugin.hh"
 #include "ui/IToolkitFactory.hh"
-#include "commonui/nls.h"
 #include "commonui/Locale.hh"
 #include "commonui/Text.hh"
 #include "utils/Exception.hh"
@@ -593,7 +592,7 @@ Application::get_timers_tooltip()
 
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      auto b = core->get_break(BreakId(count));
+      auto *b = core->get_break(BreakId(count));
       bool on = b->is_enabled();
 
       if (b != nullptr && on)
@@ -648,7 +647,7 @@ Application::on_idle_changed(bool new_idle)
   if (new_idle && !is_idle)
     {
       TRACE_MSG("Now idle");
-      auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
+      auto *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
       taking = rest_break->is_taking();
       TRACE_MSG("taking {}", taking);
@@ -666,7 +665,7 @@ Application::on_idle_changed(bool new_idle)
         {
           TRACE_MSG("Automatic natural break enabled");
 
-          auto rest_break = core->get_break(BREAK_ID_REST_BREAK);
+          auto *rest_break = core->get_break(BREAK_ID_REST_BREAK);
 
           if (core->get_regular_operation_mode() == OperationMode::Normal
               && rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled()
