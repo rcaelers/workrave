@@ -49,7 +49,6 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   workrave::updater::Config::init(context->get_configurator());
 
   auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
-  rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/staging/v1.11/appcast.xml");
   if (!rc)
     {
       logger->info("Invalid appcast URL");
