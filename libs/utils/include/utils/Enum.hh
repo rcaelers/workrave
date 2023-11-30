@@ -403,6 +403,8 @@ operator~(Enum e) noexcept
   return ~workrave::utils::Flags<Enum>(e);
 }
 
+#if FMT_VERSION >= 100000
+
 template<typename Enum>
 requires workrave::utils::enum_has_names_v<Enum>
 struct fmt::formatter<Enum> : fmt::formatter<std::string_view>
@@ -425,5 +427,7 @@ struct fmt::formatter<workrave::utils::Flags<Enum>> : fmt::formatter<std::string
     return fmt::formatter<std::string>::format(s, ctx);
   }
 };
+
+#endif
 
 #endif // WORKAVE_LIBS_UTILS_ENUM_HH

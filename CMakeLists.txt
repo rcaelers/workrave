@@ -830,9 +830,9 @@ endif()
 
 include(FetchContent)
 
-find_package(fmt 9.0.0 CONFIG QUIET)
+find_package(fmt 6.1.2 CONFIG QUIET)
 if(${fmt_FOUND})
-  find_package(spdlog 1.9.2 CONFIG QUIET)
+  find_package(spdlog 1.5.0 CONFIG QUIET)
 else()
   FetchContent_Declare(
       fmt

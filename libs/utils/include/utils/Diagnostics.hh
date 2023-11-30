@@ -506,6 +506,8 @@ operator<<(std::ostream &s, const TracedField<T> &v)
   return s;
 }
 
+#if FMT_VERSION >= 100000
+
 template<typename T>
 struct fmt::formatter<TracedField<T>> : fmt::formatter<std::string>
 {
@@ -517,5 +519,7 @@ struct fmt::formatter<TracedField<T>> : fmt::formatter<std::string>
     return fmt::formatter<std::string>::format(s, ctx);
   }
 };
+
+#endif
 
 #endif // DIANOSTICS_HH

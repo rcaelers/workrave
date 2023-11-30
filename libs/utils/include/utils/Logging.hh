@@ -33,6 +33,7 @@ namespace workrave::utils
   };
 } // namespace workrave::utils
 
+#if FMT_VERSION >= 100000
 
 template<typename T>
 struct fmt::formatter<std::atomic<T>> : fmt::formatter<T>
@@ -42,5 +43,7 @@ struct fmt::formatter<std::atomic<T>> : fmt::formatter<T>
         return formatter<T>::format(x.load(), ctx);
     }
 };
+
+#endif
 
 #endif // WORKAVE_LIBS_UTILS_LOGGING_HH
