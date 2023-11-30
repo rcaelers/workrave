@@ -506,7 +506,7 @@ operator<<(std::ostream &s, const TracedField<T> &v)
   return s;
 }
 
-#if FMT_VERSION >= 100000
+#if FMT_VERSION >= 90000
 
 template<typename T>
 struct fmt::formatter<TracedField<T>> : fmt::formatter<std::string>

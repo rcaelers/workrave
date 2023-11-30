@@ -33,7 +33,7 @@ namespace workrave::utils
   };
 } // namespace workrave::utils
 
-#if FMT_VERSION >= 100000
+#if FMT_VERSION >= 90000
 
 template<typename T>
 struct fmt::formatter<std::atomic<T>> : fmt::formatter<T>

@@ -403,7 +403,7 @@ operator~(Enum e) noexcept
   return ~workrave::utils::Flags<Enum>(e);
 }
 
-#if FMT_VERSION >= 100000
+#if FMT_VERSION >= 90000
 
 template<typename Enum>
 requires workrave::utils::enum_has_names_v<Enum>
