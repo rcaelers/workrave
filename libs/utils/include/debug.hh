@@ -75,13 +75,17 @@ struct gen_fmt
   static constexpr std::string_view value{arr.data(), arr.size() - 2};
 };
 
-#if FMT_VERSION < 80000
+#  if FMT_VERSION < 80000
 
-namespace fmt {
-inline auto runtime(std::string_view s) -> std::string_view { return s; }
-}
+namespace fmt
+{
+  inline auto runtime(std::string_view s) -> std::string_view
+  {
+    return s;
+  }
+} // namespace fmt
 
-#endif
+#  endif
 
 class ScopedTrace : public boost::noncopyable
 {

@@ -38,10 +38,10 @@ namespace workrave::utils
 template<typename T>
 struct fmt::formatter<std::atomic<T>> : fmt::formatter<T>
 {
-    auto format(const typename std::atomic<T> &x, format_context &ctx) const
-    {
-        return formatter<T>::format(x.load(), ctx);
-    }
+  auto format(const typename std::atomic<T> &x, format_context &ctx) const
+  {
+    return formatter<T>::format(x.load(), ctx);
+  }
 };
 
 #endif
