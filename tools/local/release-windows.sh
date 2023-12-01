@@ -121,11 +121,9 @@ github_create_release() {
 }
 
 upload() {
-    if [ -z "${DRYRUN}" ]; then
-        upload_s3
-        if [ -z "$GITHUB_NOUPLOAD" ]; then
-            upload_github
-        fi
+    upload_s3
+    if [ -z "$GITHUB_NOUPLOAD" ]; then
+        upload_github
     fi
 }
 
@@ -242,6 +240,8 @@ export WORKRAVE_UPLOAD_DIR="snapshots/${S3_ARTIFACT_DIR}/${WORKRAVE_BUILD_ID}"
 build_pre
 build
 build_post
-upload
-catalog
-appcast
+if [ -z "${DRYRUN}" ]; then
+    upload
+    catalog
+    appcast
+fi
