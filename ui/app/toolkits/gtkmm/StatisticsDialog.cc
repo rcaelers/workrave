@@ -37,6 +37,7 @@
 #include "commonui/Text.hh"
 #include "GtkUtil.hh"
 #include "commonui/Locale.hh"
+#include "utils/Logging.hh"
 
 using namespace std;
 using namespace workrave;

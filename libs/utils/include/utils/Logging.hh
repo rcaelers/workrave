@@ -46,4 +46,17 @@ struct fmt::formatter<std::atomic<T>> : fmt::formatter<T>
 
 #endif
 
+#if FMT_VERSION < 80000
+
+namespace fmt
+{
+  inline auto runtime(std::string_view s) -> std::string_view
+  {
+    return s;
+  }
+} // namespace fmt
+
+#endif
+
+
 #endif // WORKAVE_LIBS_UTILS_LOGGING_HH
