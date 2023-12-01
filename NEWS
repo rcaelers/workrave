@@ -1,9 +1,14 @@
-Workrave NEWS -- history of user-visible changes. 26 November 2023
+Workrave NEWS -- history of user-visible changes. 01 December 2023
 Copyright (C) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-beta.9
+
+** Update Brazilian Portuguese translation (#512, Paulo Haddad Martim)
+** Fix build on Ubuntu 20.04 and 22.04.
 
 * Workrave 1.11.0-beta.8
 
