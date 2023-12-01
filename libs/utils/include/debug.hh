@@ -36,6 +36,7 @@
 #  include <boost/noncopyable.hpp>
 #  include <string_view>
 #  include <array>
+#  include "utils/Logging.hh"
 
 constexpr std::string_view
 prettify_function(std::string_view func)
@@ -74,18 +75,6 @@ struct gen_fmt
   static constexpr auto arr = impl();
   static constexpr std::string_view value{arr.data(), arr.size() - 2};
 };
-
-#  if FMT_VERSION < 80000
-
-namespace fmt
-{
-  inline auto runtime(std::string_view s) -> std::string_view
-  {
-    return s;
-  }
-} // namespace fmt
-
-#  endif
 
 class ScopedTrace : public boost::noncopyable
 {
