@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <tlhelp32.h>
+#include <psapi.h>
+#include <stdbool.h>
+#include <string.h>
+
 #include "zapper.h"
 
 #if defined(_MSC_VER)
@@ -13,15 +18,9 @@
 
 typedef DWORD(__stdcall *QUERYFULLPROCESSIMAGENAME)(HANDLE, DWORD, LPTSTR, PDWORD);
 typedef DWORD(__stdcall *GETMODULEFILENAMEEX)(HANDLE, HMODULE, LPTSTR, DWORD);
-typedef DWORD(__stdcall *GETMODULEBASENAME)(HANDLE, HMODULE, LPTSTR, DWORD);
-typedef BOOL(__stdcall *ENUMPROCESSES)(DWORD *, DWORD, DWORD *);
-typedef BOOL(__stdcall *ENUMPROCESSMODULES)(HANDLE, HMODULE *, DWORD, LPDWORD);
 
 static QUERYFULLPROCESSIMAGENAME pfnQueryFullProcessImageName = NULL;
 static GETMODULEFILENAMEEX pfnGetModuleFileNameEx = NULL;
-static ENUMPROCESSES pfnEnumProcesses = NULL;
-static ENUMPROCESSMODULES pfnEnumProcessModules = NULL;
-static GETMODULEBASENAME pfnGetModuleBaseName = NULL;
 
 static BOOL success = FALSE;
 static BOOL simulate = FALSE;
@@ -88,7 +87,7 @@ SendQuit(HWND hwnd, enum Kind kind)
     }
 }
 
-BOOL CALLBACK
+static BOOL CALLBACK
 EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
   char className[MAX_CLASS_NAME] = {
@@ -205,78 +204,106 @@ ZapWorkrave(void)
   return success;
 }
 
-BOOL
-KillProcess(char *proces_name_to_kill)
+static bool
+IsStringInList(const char *str, const char **list)
 {
-  HINSTANCE psapi = psapi = LoadLibrary("psapi.dll");
-  BOOL ret = FALSE;
-
-  pfnEnumProcesses = (ENUMPROCESSES)GetProcAddress(psapi, "EnumProcesses");
-  pfnGetModuleBaseName = (GETMODULEBASENAME)GetProcAddress(psapi, "GetModuleBaseNameA");
-  pfnEnumProcessModules = (ENUMPROCESSMODULES)GetProcAddress(psapi, "EnumProcessModules");
-
-  if (pfnEnumProcesses != NULL && pfnGetModuleBaseName != NULL && pfnEnumProcessModules != NULL)
+  while (*list != NULL)
     {
-      DWORD i = 0;
-      DWORD count = 0;
-      DWORD needed = 0;
-      DWORD *pids = NULL;
-
-      do
+      if (_stricmp(str, *list) == 0)
         {
-          count += 1024;
-          pids = realloc(pids, count * sizeof(DWORD));
-          ret = pfnEnumProcesses(pids, count * sizeof(DWORD), &needed);
+          return true;
         }
-      while (ret && needed > (count * sizeof(DWORD)));
+      list++;
+    }
+  return false;
+}
 
-      if (ret)
+static bool
+MatchProcess(DWORD process_id, const char *directory, const char **allowed_executable_names)
+{
+  HANDLE process_handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id);
+
+  if (process_handle != NULL)
+    {
+      char process_path[MAX_PATH] = {0};
+      if (GetModuleFileNameEx(process_handle, NULL, process_path, MAX_PATH) > 0)
         {
-          count = needed / sizeof(DWORD);
-
-          for (i = 0; i < count; i++)
+          if (strstr(process_path, directory) == process_path)
             {
-              DWORD pid = pids[i];
-              HANDLE process_handle = NULL;
-              char process_name[MAX_PATH] = "";
-
-              if (pid == 0)
+              char *executable_name = strrchr(process_path, '\\');
+              if (executable_name != NULL)
                 {
-                  continue;
+                  executable_name++;
+                  if (IsStringInList(executable_name, allowed_executable_names))
+                    {
+                      CloseHandle(process_handle);
+                      return true;
+                    }
                 }
+            }
+        }
+      CloseHandle(process_handle);
+    }
+  return false;
+}
 
-              process_handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+
+
+int
+TerminateProcessesByNames(const char *directory, const char **executable_names_to_kill, bool dry_run)
+{
+  HANDLE process_snapshot_handle = NULL;
+  PROCESSENTRY32 process_entry;
+
+  process_snapshot_handle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if (process_snapshot_handle == INVALID_HANDLE_VALUE)
+    {
+      return -1;
+    }
+
+  process_entry.dwSize = sizeof(PROCESSENTRY32);
+  if (!Process32First(process_snapshot_handle, &process_entry))
+    {
+      CloseHandle(process_snapshot_handle);
+      return -1;
+    }
+
+  int ret = 0;
+  do
+    {
+      if (MatchProcess(process_entry.th32ProcessID, directory, executable_names_to_kill))
+        {
+          ret = 1;
+          if (!dry_run)
+            {
+              HANDLE process_handle = OpenProcess(PROCESS_TERMINATE, FALSE, process_entry.th32ProcessID);
               if (process_handle != NULL)
                 {
-                  HMODULE module_handle;
-                  DWORD cbNeeded;
-
-                  if (pfnEnumProcessModules(process_handle, &module_handle, sizeof(module_handle), &cbNeeded))
-                    {
-                      pfnGetModuleBaseName(process_handle, module_handle, process_name, sizeof(process_name) / sizeof(char));
-                    }
-
-                  if (_stricmp(process_name, proces_name_to_kill) == 0)
-                    {
-                      TerminateProcess(process_handle, (UINT)-1);
-                      CloseHandle(process_handle);
-                      break;
-                    }
-
+                  TerminateProcess(process_handle, 1);
                   CloseHandle(process_handle);
                 }
             }
         }
-      free(pids);
-      pids = NULL;
     }
+  while (Process32Next(process_snapshot_handle, &process_entry));
 
-  if (psapi != NULL)
-    {
-      FreeLibrary(psapi);
-    }
-
+  CloseHandle(process_snapshot_handle);
   return ret;
+}
+
+static const char *workrave_executables[] =
+  {"Workrave.exe", "workrave.exe", "WorkraveHelper.exe", "gdbus.exe", "harpoonHelper.exe", "dbus-daemon.exe", NULL};
+
+BOOL
+AreWorkraveProcessesRunning(const char *directory)
+{
+  return TerminateProcessesByNames(directory, workrave_executables, true) == 1;
+}
+
+BOOL
+KillWorkraveProcesses(const char *directory)
+{
+  return TerminateProcessesByNames(directory, workrave_executables, false) != -1;
 }
 
 #if defined(_MSC_VER)

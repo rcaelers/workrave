@@ -112,6 +112,14 @@ external 'ZapWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
 function KillProcess(name : String): Boolean;
 external 'KillProcess@{tmp}\libzapper-0.dll cdecl delayload';
 
+function AreWorkraveProcessesRunning(name : String): Boolean;
+external 'AreWorkraveProcessesRunning@{tmp}\libzapper-0.dll cdecl delayload';
+
+function KillWorkraveProcesses(name : String): Boolean;
+external 'KillWorkraveProcesses@{tmp}\libzapper-0.dll cdecl delayload';
+
+function GetInstallLocation(): String; forward;
+
 Function FindWorkraveWithRetries() : Boolean;
 var retVal : Boolean;
 var count : Integer;
@@ -130,57 +138,87 @@ begin
   Result := retVal;
 end;
 
-Function EnsureWorkraveIsNotRunning() : Boolean;
-var retVal : Boolean;
+Function IsWorkraveRunning() : Boolean;
+var isRunning : Boolean;
+var installLocation: String;
+begin
+    installLocation := GetInstallLocation();
+    isRunning := FindWorkraveWithRetries;
+    if (not isRunning) and (installLocation <> '') then
+    begin
+      isRunning := AreWorkraveProcessesRunning(installLocation);
+    end;
+    Result := isRunning;
+end;
+
+Function IsWorkraveTerminated() : Boolean;
+var isRunning : Boolean;
+var installLocation: String;
+var count : Integer;
+begin
+    installLocation := GetInstallLocation();
+    count := 50;
+    isRunning := True
+
+    while ((count > 0) and (isRunning)) do
+    begin
+      isRunning := FindWorkrave;
+      if (not isRunning) and (installLocation <> '') then
+      begin
+        isRunning := AreWorkraveProcessesRunning(installLocation);
+      end;
+      if isRunning then
+      begin
+        Sleep(100)
+      end;
+      count := count - 1;
+    end;
+
+    Result := isRunning;
+end;
+
+Function EnsureWorkraveIsNotRunning(silent : Boolean) : Boolean;
+var installLocation: String;
 begin
   Result := True;
-  try
-    retVal := FindWorkraveWithRetries;
-    if retVal then
+    if IsWorkraveRunning() then
     begin
-      if MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
-                mbConfirmation, MB_OKCANCEL) = IDOK then
+      if not silent then
       begin
-        retVal := ZapWorkrave();
-        if retVal then
+        Result := MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
+                          mbConfirmation, MB_OKCANCEL) = IDOK
+      end;
+
+      if Result then
+      begin
+        installLocation := GetInstallLocation();
+
+        ZapWorkrave();
+        if installLocation <> '' then
         begin
-          retVal := FindWorkraveWithRetries();
-          if retVal then
-          begin
-            KillProcess('workrave.exe');
-            retVal := FindWorkrave();
-          end;
-          if retVal then
-          begin
-            MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
-            Result := False;
-          end
-        end
-      end
-      else
-      begin
-         Result := False;
-      end
+          KillWorkraveProcesses(installLocation);
+        end;
+
+        if IsWorkraveTerminated() then
+        begin
+          MsgBox('YFailed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+          Result := False;
+        end;
+      end;
     end;
-    KillProcess('dbus-daemon.exe');
-    KillProcess('harpoonHelper.exe');
-    KillProcess('WorkraveHelper.exe');
-  except
-    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
-  end;
 end;
 
 Function InitializeSetup() : Boolean;
 begin
     taskPageShown := False;
     ExtractTemporaryFile('libzapper-0.dll');
-    Result := EnsureWorkraveIsNotRunning();
+    Result := EnsureWorkraveIsNotRunning(WizardSilent());
 end;
 
 Function InitializeUninstall() : Boolean;
 begin
     FileCopy(ExpandConstant('{app}\libzapper-0.dll'), ExpandConstant('{tmp}\libzapper-0.dll'), False);
-    Result := EnsureWorkraveIsNotRunning();
+    Result := EnsureWorkraveIsNotRunning(UninstallSilent());
 end;
 
 function GetAppPath(S: String): String;
@@ -244,15 +282,29 @@ begin
   Result := uninstallCommand;
 end;
 
+function GetInstallLocation(): String;
+var
+  uninstallPath: String;
+  installLocation: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  installLocation := '';
+
+  if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
+    RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation);
+  Result := installLocation;
+end;
+
 Procedure UninstallPreviousVersion();
 var
   uninstallCommand: String;
   iResultCode: Integer;
 begin
   uninstallCommand := GetUninstallCommand();
+
   if uninstallCommand <> '' then begin
     uninstallCommand := RemoveQuotes(uninstallCommand);
-    Exec(uninstallCommand, '/SILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
+    Exec(uninstallCommand, '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
   end
 end;
 
