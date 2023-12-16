@@ -41,15 +41,6 @@ SignTool={#SignTool}
 SignedUninstaller=yes
 #endif
 
-[Types]
-Name: "full"; Description: "Full installation"
-;;Name: "compact"; Description: "Compact installation (excludes DBus runtime)"
-
-[Components]
-Name: "main"; Description: "Main Files"; Types: full; Flags: fixed
-Name: "dbus"; Description: "D-BUS Runtime Environment"; Types: full
-Name: "applet"; Description: "Windows Taskbar applet"; Types: full
-
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
@@ -59,9 +50,9 @@ Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescrip
 Source: "@INSTALL_WIN_PATH@\dist\libzapper-0.dll"; DestDir: "{app}";
 Source: "@INSTALL_WIN_PATH@\etc\*.*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALL_WIN_PATH@\bin\workrave-applet64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion restartreplace uninsrestartdelete regserver; Components: applet; Check: IsAdmin
+Source: "@INSTALL_WIN_PATH@\bin\workrave-applet64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion restartreplace uninsrestartdelete regserver; Check: IsAdmin
 Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: dbus;
+Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\*.*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\images\*.svg"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
