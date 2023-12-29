@@ -8,5 +8,9 @@
   ],
   "gettext-domain": "workrave",
   "localedir": "@LOCALEDIR@",
-  "url": "@url@"
+  "url": "@url@",
+  "session-modes": [
+    "user",
+    "unlock-dialog"
+  ]
 }

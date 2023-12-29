@@ -1,34 +1,17 @@
 {
- "extension-id": "workrave",
- "uuid": "@uuid@",
- "name": "Workrave",
- "description": "Applet that shows all the Workrave timers.",
-    "shell-version": [ "3.2",
-                       "3.3",
-                       "3.4",
-                       "3.5",
-                       "3.5.4",
-                       "3.6.0",
-                       "3.6",
-                       "3.8",
-                       "3.10",
-                       "3.12",
-                       "3.14",
-                       "3.16",
-                       "3.18",
-                       "3.20",
-                       "3.22",
-                       "3.24",
-                       "3.26",
-                       "3.28",
-                       "3.30",
-                       "3.32",
-                       "40",
-                       "41",
-                       "42",
-                       "43",
-                       "44"
-                       ],
- "localedir": "@LOCALEDIR@",
- "url": "@url@"
+  "extension-id": "workrave",
+  "uuid": "@uuid@",
+  "name": "Workrave",
+  "description": "Applet that shows all the Workrave timers.",
+  "shell-version": [
+    "42",
+    "43",
+    "44"
+  ],
+  "localedir": "@LOCALEDIR@",
+  "url": "@url@",
+  "session-modes": [
+    "user",
+    "unlock-dialog"
+  ]
 }
