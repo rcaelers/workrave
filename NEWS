@@ -9,6 +9,7 @@ https://github.com/rcaelers/workrave/issues
 
 ** Fix issue where after installing an update, some files got removed after the
    first reboot.
+** Fix issue where the main window is reopened after the screen is unlocked.
 
 * Workrave 1.11.0-beta.9
 
