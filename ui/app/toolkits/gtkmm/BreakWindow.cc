@@ -81,6 +81,9 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
   TRACE_ENTRY();
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
 
+  // Keep the break window on top of all other Workrave windows
+  set_type_hint(Gdk::WINDOW_TYPE_HINT_DIALOG);
+
   if (mode != BlockMode::Off)
     {
       // Disable titlebar to appear like a popup
