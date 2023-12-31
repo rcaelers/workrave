@@ -154,6 +154,8 @@ private:
   boost::signals2::signal<void(bool)> session_idle_changed_signal;
   boost::signals2::signal<void()> session_unlocked_signal;
   boost::signals2::signal<void()> status_icon_activated_signal;
+
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("toolkit")};
 };
 
 #endif // TOOLKIT_HH
