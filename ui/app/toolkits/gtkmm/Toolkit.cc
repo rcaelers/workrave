@@ -144,7 +144,7 @@ Toolkit::get_head_info(int screen_index) const
   HeadInfo head;
   head.primary = monitor->is_primary();
   monitor->get_geometry(head.geometry);
-  logger->info("Head info #{}: primary={} x={} y={} w={} h={}",
+  logger->info("Display #{}: primary={} x={} y={} w={} h={}",
                screen_index,
                head.primary,
                head.geometry.get_x(),
@@ -158,7 +158,7 @@ int
 Toolkit::get_head_count() const
 {
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  logger->info("Head count: {}", display->get_n_monitors());
+  logger->info("Toolkit reported # displays : {}", display->get_n_monitors());
   return display->get_n_monitors();
 }
 
