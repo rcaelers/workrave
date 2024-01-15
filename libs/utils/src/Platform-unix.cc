@@ -53,7 +53,7 @@ Platform::get_default_display()
 
 #  if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
-  if (display != nullptr)
+  if (display != nullptr && GDK_IS_X11_DISPLAY(display))
     {
       xdisplay = gdk_x11_display_get_xdisplay(display);
     }
