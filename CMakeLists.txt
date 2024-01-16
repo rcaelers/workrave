@@ -415,6 +415,14 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 endif()
 
+if (UNIX AND NOT APPLE)
+  pkg_check_modules(WAYLAND_CLIENT REQUIRED wayland-client)
+
+  find_program(WAYLAND_SCANNER wayland-scanner)
+  if (NOT WAYLAND_SCANNER)
+    message(FATAL_ERROR "wayland-scanner not found")
+  endif()
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # GStreamer
@@ -804,7 +812,7 @@ if (UNIX AND NOT APPLE)
   set (PLATFORM_OS_UNIX ON)
   set (PLATFORM_OS_NAME "Unix")
 
-  set (HAVE_MONITORS "mutter,screensaver,record,x11events")
+  set (HAVE_MONITORS "mutter,wayland,screensaver,record,x11events")
 
   find_package(X11)
 

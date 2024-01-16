@@ -20,6 +20,7 @@
 #endif
 
 #include <string>
+#include <utility>
 #include <vector>
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
@@ -33,6 +34,7 @@
 #include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
 #include "MutterInputMonitor.hh"
+#include "WaylandInputMonitor.hh"
 
 using namespace std;
 using namespace workrave;
@@ -42,7 +44,7 @@ using namespace workrave::input_monitor;
 UnixInputMonitorFactory::UnixInputMonitorFactory(IConfigurator::Ptr config)
   : error_reported(false)
   , actual_monitor_method{"monitor.method", ""}
-  , config(config)
+  , config(std::move(config))
 {
   monitor = nullptr;
 }
@@ -108,6 +110,10 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
           else if (monitor_method == "mutter")
             {
               monitor = IInputMonitor::Ptr(new MutterInputMonitor());
+            }
+          else if (monitor_method == "wayland")
+            {
+              monitor = IInputMonitor::Ptr(new WaylandInputMonitor());
             }
 
           initialized = monitor->init();
