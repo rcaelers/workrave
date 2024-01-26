@@ -76,11 +76,13 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 {
   TRACE_ENTRY();
 
+#if defined(PLATFORM_OS_UNIX)
   if (Platform::running_on_wayland())
     {
       window_manager = std::make_shared<WaylandWindowManager>();
       window_manager->init();
     }
+#endif
 
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
 
@@ -689,10 +691,12 @@ BreakWindow::start()
   // Otherwise, there is not gobj()...
   realize_if_needed();
 
+#if defined(PLATFORM_OS_UNIX)
   if (window_manager)
     {
       window_manager->init_surface(*this, head.get_monitor(), true);
     }
+#endif
 
   // Set some window hints.
   set_skip_pager_hint(true);
@@ -756,10 +760,12 @@ BreakWindow::stop()
 
   hide();
 
+#if defined(PLATFORM_OS_UNIX)
   if (window_manager)
     {
       window_manager->clear_surfaces();
     }
+#endif
 
 #if defined(PLATFORM_OS_WINDOWS)
   if (desktop_window != nullptr)
