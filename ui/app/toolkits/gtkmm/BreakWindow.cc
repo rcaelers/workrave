@@ -19,9 +19,7 @@
 #  include "config.h"
 #endif
 
-#include <ctime>
-
-#include <cstring>
+#include <memory>
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "ui/windows/WindowsCompat.hh"
@@ -33,35 +31,32 @@
 #  undef WINDING
 #endif
 
-#include <gdk/gdkkeysyms.h>
-#include <cairomm/cairomm.h>
-
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
 #  undef max
 #endif
 
 #include "debug.hh"
-#include "commonui/nls.h"
 #include <gtkmm.h>
-#include <cmath>
+#include <gdk/gdkkeysyms.h>
+#include <cairomm/cairomm.h>
 
 #include "BreakWindow.hh"
-
-#include "config/IConfigurator.hh"
 
 #include "core/IBreak.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
 #include "session/System.hh"
-#include "core/ICore.hh"
-#include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
 #include "ui/IApplicationContext.hh"
+#include "commonui/nls.h"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "ui/windows/DesktopWindow.hh"
+#  include "config/IConfigurator.hh"
+#  include "core/ICore.hh"
 #elif defined(PLATFORM_OS_UNIX)
 #  include "desktop-window.h"
+#  include "WaylandWindowManager.hh"
 #endif
 
 using namespace workrave;
@@ -74,11 +69,19 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
                          BlockMode mode)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL)
   , app(app)
+  , head(head)
   , block_mode(mode)
   , break_flags(break_flags)
   , break_id(break_id)
 {
   TRACE_ENTRY();
+
+  if (Platform::running_on_wayland())
+    {
+      window_manager = std::make_shared<WaylandWindowManager>();
+      window_manager->init();
+    }
+
   fullscreen_grab = !app->get_toolkit()->get_locker()->can_lock();
 
   // Keep the break window on top of all other Workrave windows
@@ -130,8 +133,6 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
     }
-
-  this->head = head;
 
   bool initial_ignore_activity = false;
 
@@ -283,8 +284,8 @@ void
 BreakWindow::append_row_to_sysoper_model(Glib::RefPtr<Gtk::ListStore> &model, System::SystemOperation::SystemOperationType type)
 {
   TRACE_ENTRY();
-  const char *name;
-  const char *icon_name;
+  const char *name = nullptr;
+  const char *icon_name = nullptr;
   get_operation_name_and_icon(type, &name, &icon_name);
 
   Gtk::TreeRow row = *(model->append());
@@ -390,8 +391,7 @@ BreakWindow::on_sysoper_combobox_changed()
 Gtk::Button *
 BreakWindow::create_skip_button()
 {
-  Gtk::Button *ret;
-  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Skip"), "window-close"));
+  Gtk::Button *ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Skip"), "window-close"));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
   ret->set_can_focus(false);
   return ret;
@@ -401,8 +401,7 @@ BreakWindow::create_skip_button()
 Gtk::Button *
 BreakWindow::create_postpone_button()
 {
-  Gtk::Button *ret;
-  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Postpone"), "edit-redo"));
+  Gtk::Button *ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Postpone"), "edit-redo"));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
   ret->set_can_focus(false);
   return ret;
@@ -412,11 +411,10 @@ BreakWindow::create_postpone_button()
 Gtk::Button *
 BreakWindow::create_lock_button()
 {
-  Gtk::Button *ret;
-  const char *name;
-  const char *icon_name;
+  const char *name = nullptr;
+  const char *icon_name = nullptr;
   get_operation_name_and_icon(System::SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN, &name, &icon_name);
-  ret = Gtk::manage(GtkUtil::create_image_button(name, icon_name));
+  Gtk::Button *ret = Gtk::manage(GtkUtil::create_image_button(name, icon_name));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
   ret->set_can_focus(false);
   return ret;
@@ -433,7 +431,7 @@ BreakWindow::update_skip_postpone_lock()
       BreakId overdue_break_id = BREAK_ID_NONE;
       check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
 
-      if (progress_bar)
+      if (progress_bar != nullptr)
         {
           if (overdue_break_id != BREAK_ID_NONE)
             {
@@ -607,7 +605,7 @@ BreakWindow::create_bottom_box(bool lockable, bool shutdownable)
               vbox->pack_end(*top_box, Gtk::PACK_SHRINK, 0);
               top_box->pack_end(*progress_bar_box, Gtk::PACK_SHRINK, 0);
 
-              Gtk::Alignment *align;
+              Gtk::Alignment *align = nullptr;
               if (skip_locked && postpone_locked)
                 {
                   align = Gtk::manage(new Gtk::Alignment(0, 0, 1.0, 0.0));
@@ -691,6 +689,11 @@ BreakWindow::start()
   // Otherwise, there is not gobj()...
   realize_if_needed();
 
+  if (window_manager)
+    {
+      window_manager->init_surface(*this, head.get_monitor(), true);
+    }
+
   // Set some window hints.
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
@@ -752,6 +755,11 @@ BreakWindow::stop()
     }
 
   hide();
+
+  if (window_manager)
+    {
+      window_manager->clear_surfaces();
+    }
 
 #if defined(PLATFORM_OS_WINDOWS)
   if (desktop_window != nullptr)

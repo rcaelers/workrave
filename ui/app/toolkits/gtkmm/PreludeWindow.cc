@@ -26,7 +26,6 @@
 #include "commonui/nls.h"
 #include "core/ICore.hh"
 #include "debug.hh"
-#include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
 #include "commonui/Text.hh"
 
@@ -47,6 +46,12 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
 {
   TRACE_ENTRY();
+  if (Platform::running_on_wayland())
+    {
+      window_manager = std::make_shared<WaylandWindowManager>();
+      window_manager->init();
+    }
+
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
   set_decorated(false);
@@ -126,6 +131,11 @@ PreludeWindow::start()
   // Otherwise, there is no gobj()...
   realize_if_needed();
 
+  if (window_manager)
+    {
+      window_manager->init_surface(*this, head.get_monitor(), false);
+    }
+
   // Set some window hints.
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
@@ -146,7 +156,7 @@ PreludeWindow::start()
 void
 PreludeWindow::add(Gtk::Widget &widget)
 {
-  if (!window_frame)
+  if (window_frame == nullptr)
     {
       window_frame = Gtk::manage(new Frame());
       window_frame->set_border_width(0);
@@ -179,6 +189,11 @@ PreludeWindow::stop()
   TRACE_ENTRY();
   frame->set_frame_flashing(0);
   hide();
+
+  if (window_manager)
+    {
+      window_manager->clear_surfaces();
+    }
 }
 
 //! Refresh window.
@@ -199,7 +214,7 @@ PreludeWindow::refresh()
 
       sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
     }
-  time_bar->set_text(s);
+  time_bar->set_text(static_cast<const char *>(s));
   time_bar->update();
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -348,11 +363,11 @@ PreludeWindow::avoid_pointer()
     {
       if (winy == bottom_y)
         {
-          align->set(0.5f, 0.9f, 0.0f, 0.0f);
+          align->set(0.5F, 0.9F, 0.0F, 0.0F);
         }
       else
         {
-          align->set(0.5f, 0.1f, 0.0f, 0.0f);
+          align->set(0.5F, 0.1F, 0.0F, 0.0F);
         }
     }
   else

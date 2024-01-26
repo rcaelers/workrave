@@ -52,3 +52,9 @@ HeadInfo::is_primary() const
 {
   return primary;
 }
+
+Glib::RefPtr<Gdk::Monitor>
+HeadInfo::get_monitor() const
+{
+  return monitor;
+}

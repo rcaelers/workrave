@@ -44,13 +44,34 @@ if (PLATFORM_OS_UNIX)
     platforms/unix/desktop-window.c
     platforms/unix/gtktrayicon.c
     platforms/unix/UnixLocker.cc
+    platforms/unix/WaylandWindowManager.cc
+    ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.c
+    ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/protocols/xdg-shell.c
     )
 
     if (HAVE_INDICATOR)
       target_sources(workrave-toolkit-gtkmm PRIVATE platforms/unix/IndicatorAppletMenu.cc)
     endif()
 
-    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
+    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols)
+
+    add_custom_command(
+      OUTPUT platforms/unix/protocols/wlr-layer-shell-unstable-v1.c platforms/unix/protocols/wlr-layer-shell-unstable-v1-client.hq
+      COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.c
+      COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1-client.h
+      DEPENDS platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
+      VERBATIM
+    )
+
+    add_custom_command(
+      OUTPUT platforms/unix/protocols/xdg-shell.c platforms/unix/protocols/wlr-layer-shell-unstable-v1-client.h
+      COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/protocols/xdg-shell.c
+      COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/protocols/xdg-shell-client.h
+      DEPENDS platforms/unix/protocols/xdg-shell.xml
+      VERBATIM
+    )
+
+    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/)
 endif()
 
 if (PLATFORM_OS_WINDOWS)

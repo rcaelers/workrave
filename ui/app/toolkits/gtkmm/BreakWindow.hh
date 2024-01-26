@@ -18,11 +18,8 @@
 #ifndef BREAKWINDOW_HH
 #define BREAKWINDOW_HH
 
-#include <cstdio>
-
 #include <gtkmm.h>
 
-#include "core/ICore.hh"
 #include "ui/IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "GtkUtil.hh"
@@ -33,6 +30,9 @@
 
 #if defined(PLATFORM_OS_WINDOWS)
 class DesktopWindow;
+#endif
+#if defined(PLATFORM_OS_UNIX)
+#  include "platforms/unix/WaylandWindowManager.hh"
 #endif
 
 namespace workrave
@@ -78,7 +78,7 @@ protected:
   void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &break_id);
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
-  bool on_delete_event(GdkEventAny *) override;
+  bool on_delete_event(GdkEventAny * /*any_event*/) override;
   void on_postpone_button_clicked();
   void on_lock_button_clicked();
 
@@ -117,7 +117,7 @@ private:
     Gtk::TreeModelColumn<System::SystemOperation::SystemOperationType> id;
     bool has_button_images;
 
-    SysoperModelColumns(bool has_button_images)
+    explicit SysoperModelColumns(bool has_button_images)
       : has_button_images(has_button_images)
     {
       if (has_button_images)
@@ -153,6 +153,9 @@ private:
   DesktopWindow *desktop_window{nullptr};
   bool force_focus_on_break_start{false};
   long parent{0};
+#endif
+#if defined(PLATFORM_OS_UNIX)
+  std::shared_ptr<WaylandWindowManager> window_manager;
 #endif
 
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, const char **name, const char **icon_name);

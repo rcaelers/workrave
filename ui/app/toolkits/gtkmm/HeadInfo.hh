@@ -23,6 +23,7 @@
 #endif
 
 #include <gdkmm/rectangle.h>
+#include "gdkmm/monitor.h"
 
 class HeadInfo
 {
@@ -34,9 +35,11 @@ public:
   int get_x() const;
   int get_y() const;
   bool is_primary() const;
+  Glib::RefPtr<Gdk::Monitor> get_monitor() const;
 
   bool primary{false};
   Gdk::Rectangle geometry;
+  Glib::RefPtr<Gdk::Monitor> monitor;
 };
 
 #endif // HEADINFO_HH

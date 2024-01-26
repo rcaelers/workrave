@@ -143,6 +143,7 @@ Toolkit::get_head_info(int screen_index) const
 
   HeadInfo head;
   head.primary = monitor->is_primary();
+  head.monitor = monitor;
   monitor->get_geometry(head.geometry);
   logger->info("Display #{}: primary={} x={} y={} w={} h={}",
                screen_index,
