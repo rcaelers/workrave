@@ -15,6 +15,7 @@ Checks: >
   -readability-redundant-access-specifiers,
   -readability-convert-member-functions-to-static,
   -readability-identifier-length
+  -readability-magic-numbers
 WarningsAsErrors: >
   cppcoreguidelines-explicit-virtual-functions,
   cppcoreguidelines-pro-type-member-init,
@@ -42,4 +43,6 @@ CheckOptions:
   - key: hicpp-special-member-functions.AllowSoleDefaultDtor
     value: 1
   - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: 1
+  - key: hicpp-signed-bitwise.IgnorePositiveIntegerLiterals
     value: 1
