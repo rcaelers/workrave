@@ -6,6 +6,7 @@ Checks: >
   cppcoreguidelines-*,
   -cppcoreguidelines-owning-memory,
   -cppcoreguidelines-prefer-member-initializer,
+  -cppcoreguidelines-avoid-magic-numbers,
   hicpp-*,
   misc,
   modernize-*,
@@ -14,8 +15,8 @@ Checks: >
   readability-*,
   -readability-redundant-access-specifiers,
   -readability-convert-member-functions-to-static,
-  -readability-identifier-length
-  -readability-magic-numbers
+  -readability-identifier-length,
+  -readability-magic-numbers,
 WarningsAsErrors: >
   cppcoreguidelines-explicit-virtual-functions,
   cppcoreguidelines-pro-type-member-init,
