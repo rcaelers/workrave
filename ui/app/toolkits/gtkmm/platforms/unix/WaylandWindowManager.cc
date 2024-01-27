@@ -103,8 +103,11 @@ void
 WaylandWindowManager::init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus)
 {
   TRACE_ENTRY();
-  auto layer = std::make_shared<LayerSurface>(layer_shell, gtk_window, monitor, keyboard_focus);
-  surfaces.push_back(layer);
+  if (layer_shell != nullptr)
+    {
+      auto layer = std::make_shared<LayerSurface>(layer_shell, gtk_window, monitor, keyboard_focus);
+      surfaces.push_back(layer);
+    }
 }
 
 void
