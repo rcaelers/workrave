@@ -24,7 +24,7 @@
 #include <memory>
 #include <gdk/gdkwayland.h>
 
-#include "protocols/ext-idle-notify-v1-client.h"
+#include "ext-idle-notify-v1-client.h"
 #include "debug.hh"
 
 static const struct wl_registry_listener registry_listener = {

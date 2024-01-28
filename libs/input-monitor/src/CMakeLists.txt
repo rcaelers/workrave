@@ -10,7 +10,7 @@ if (PLATFORM_OS_UNIX)
     unix/UnixInputMonitorFactory.cc
     unix/MutterInputMonitor.cc
     unix/WaylandInputMonitor.cc
-    ${CMAKE_CURRENT_BINARY_DIR}/unix/protocols//ext-idle-notify-v1.c
+    ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c
     )
 
   target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_SOURCE_DIR}/libs/input-monitor/src/unix)
@@ -22,13 +22,13 @@ if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-libs-input-monitor ${WAYLAND_CLIENT_LIBRARIES})
 
   add_custom_command(
-    OUTPUT unix/protocols/ext-idle-notify-v1.c unix/protocols/ext-idle-notify-v1-client.hq
-    COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/unix/protocols/ext-idle-notify-v1.c
-    COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/unix/protocols//ext-idle-notify-v1-client.h
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1-client.h
+    COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c
+    COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1-client.h
     DEPENDS unix/protocols/ext-idle-notify-v1.xml
     VERBATIM
   )
-  target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/unix/)
+  target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 if (PLATFORM_OS_WINDOWS)
