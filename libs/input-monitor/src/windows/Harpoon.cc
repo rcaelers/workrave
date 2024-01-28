@@ -58,10 +58,11 @@ bool
 Harpoon::init(IConfigurator::Ptr config, HarpoonHookFunc func)
 {
   TRACE_ENTRY();
-  assert(HARPOON_MAX_UNBLOCKED_APPS);
   init_critical_filename_list(config);
 
-  bool debug, mouse_lowlevel, keyboard_lowlevel;
+  bool debug = false;
+  bool mouse_lowlevel = false;
+  bool keyboard_lowlevel = false;
 
   config->get_value_with_default("advanced/harpoon/debug", debug, false);
 

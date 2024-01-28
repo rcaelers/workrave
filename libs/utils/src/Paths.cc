@@ -152,13 +152,17 @@ Paths::get_application_directory()
       GetModuleFileNameA(GetModuleHandle(nullptr), app_dir_name, sizeof(app_dir_name));
       // app_dir_name == c:\program files\workrave\lib\workrave.exe
       char *s = strrchr(app_dir_name, '\\');
-      assert(s);
-      *s = '\0';
-      // app_dir_name == c:\program files\workrave\lib
-      s = strrchr(app_dir_name, '\\');
-      assert(s);
-      *s = '\0';
-      // app_dir_name == c:\program files\workrave
+      if (s != nullptr)
+        {
+          *s = '\0';
+          // app_dir_name == c:\program files\workrave\lib
+          s = strrchr(app_dir_name, '\\');
+          if (s != nullptr)
+            {
+              *s = '\0';
+            }
+          // app_dir_name == c:\program files\workrave
+        }
       return std::filesystem::path(app_dir_name);
 #elif defined(PLATFORM_OS_MACOS)
       char execpath[MAXPATHLEN + 1];
