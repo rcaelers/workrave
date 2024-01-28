@@ -9,6 +9,7 @@ releases:
       - Fix issue where the main window is reopened after the screen is unlocked.
       - Fix issue where the rest break window is opened below other Workrave windows.
       - Add activity monitoring for KDE on Wayland
+      - Improved Wayland support on KDE (and other Wayland compositors that support the Layer Shell protocol)
 
   - version: 1.11.0-beta.9
     date: 2023-12-01T15:52:20+01:00
