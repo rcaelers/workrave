@@ -29,8 +29,6 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 
-using namespace workrave;
-
 DebugDialog::DebugDialog()
   : Gtk::Dialog(_("Debug log"), false)
 {
