@@ -20,11 +20,10 @@
 #endif
 
 #include "GSettingsConfigurator.hh"
+#include "IConfiguratorListener.hh"
 
 #include <array>
 #include <boost/algorithm/string/replace.hpp>
-
-#include "Configurator.hh"
 
 #include "debug.hh"
 
@@ -217,9 +216,9 @@ GSettingsConfigurator::add_listener(const std::string &key)
 }
 
 bool
-GSettingsConfigurator::remove_listener(const std::string &remove_key)
+GSettingsConfigurator::remove_listener(const std::string &key_prefix)
 {
-  (void)remove_key;
+  (void)key_prefix;
   return true;
 }
 
@@ -248,7 +247,7 @@ void
 GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data)
 {
   TRACE_ENTRY_PAR(key);
-  gchar *path;
+  gchar *path = nullptr;
   g_object_get(gsettings, "path", &path, NULL);
 
   std::string tmp = boost::algorithm::replace_all_copy(std::string(path) + key, "/org/workrave/", "");

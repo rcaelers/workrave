@@ -21,8 +21,6 @@
 
 #include "utils/Platform.hh"
 
-#include <cstdlib>
-
 #if defined(HAVE_GTK)
 #  include <glib.h>
 #  include <gdk/gdk.h>

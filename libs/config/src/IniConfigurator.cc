@@ -25,7 +25,6 @@
 
 #include "IniConfigurator.hh"
 
-#include <iostream>
 #include <fstream>
 
 #include <boost/algorithm/string.hpp>
@@ -90,7 +89,7 @@ IniConfigurator::remove_key(const std::string &key)
     {
       logger->debug("remove {}", key);
       std::string::size_type pos = key.find('/');
-      if (key.npos != pos)
+      if (std::string::npos != pos)
         {
           std::string inikey = key.substr(pos + 1);
           std::string section = key.substr(0, pos);

@@ -18,12 +18,9 @@
 #ifndef RESTBREAKWINDOW_HH
 #define RESTBREAKWINDOW_HH
 
-#include <cstdio>
-
 class TimeBar;
 
 #include "ui/GUIConfig.hh"
-#include "ui/SoundTheme.hh"
 #include "ui/IApplicationContext.hh"
 #include "BreakWindow.hh"
 

@@ -106,7 +106,7 @@ ToolkitMenuEntryFactory::create(ToolkitMenuContext::Ptr context, ToolkitSubMenuE
       return std::make_shared<ToolkitSectionMenuEntry>(context, parent, n);
     }
 
-  return ToolkitMenuEntry::Ptr();
+  return {};
 }
 
 ToolkitMenuEntry::ToolkitMenuEntry(ToolkitMenuContext::Ptr context)
@@ -133,7 +133,7 @@ ToolkitSubMenuEntry::ToolkitSubMenuEntry(ToolkitMenuContext::Ptr context,
 void
 ToolkitSubMenuEntry::init()
 {
-  if (parent)
+  if (parent != nullptr)
     {
       const MenuNodeFilter &filter = get_context()->get_filter();
       if (!filter || filter(node))

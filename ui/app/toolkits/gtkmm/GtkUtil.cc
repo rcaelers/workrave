@@ -64,11 +64,11 @@ GtkUtil::has_button_images()
   GtkSettings *settings = gtk_settings_get_default();
   GObjectClass *klazz = G_OBJECT_GET_CLASS(G_OBJECT(settings));
   bool ret = true;
-  if (g_object_class_find_property(klazz, "gtk-button-images"))
+  if (g_object_class_find_property(klazz, "gtk-button-images") != nullptr)
     {
-      gboolean gbi;
+      gboolean gbi = FALSE;
       g_object_get(G_OBJECT(settings), "gtk-button-images", &gbi, nullptr);
-      ret = gbi;
+      ret = (gbi != FALSE);
     }
   return ret;
 }
@@ -86,7 +86,7 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn, const char *label_text, co
 {
   Gtk::Image *img = nullptr;
 
-  if (has_button_images() || !label_text)
+  if (has_button_images() || (label_text == nullptr))
     {
       img = Gtk::manage(new Gtk::Image());
       img->set_from_icon_name(icon, Gtk::ICON_SIZE_BUTTON);
@@ -260,7 +260,9 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
   gint a;
 
   if (!src)
-    return nullptr;
+    {
+      return nullptr;
+    }
 
   w = gdk_pixbuf_get_width(src);
   h = gdk_pixbuf_get_height(src);
@@ -294,7 +296,9 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
               *(dp++) = *(sp++); /* g */
               *(dp++) = *(sp++); /* b */
               if (has_alpha)
-                *(dp) = *(sp++); /* a */
+                {
+                  *(dp) = *(sp++); /* a */
+                }
               dp -= (a + 3);
             }
         }
@@ -306,7 +310,9 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
               *(dp++) = *(sp++); /* g */
               *(dp++) = *(sp++); /* b */
               if (has_alpha)
-                *(dp++) = *(sp++); /* a */
+                {
+                  *(dp++) = *(sp++); /* a */
+                }
             }
         }
     }
@@ -381,19 +387,19 @@ GtkUtil::get_visible_tooltip_window()
   GList *list = gtk_window_list_toplevels();
   for (GList *item = list; item; item = item->next)
     {
-      GtkWidget *widget = (GtkWidget *)item->data;
-      if (!widget || !GTK_IS_WINDOW(widget) || !gtk_widget_get_visible(widget))
+      auto *widget = (GtkWidget *)item->data;
+      if ((widget == nullptr) || !GTK_IS_WINDOW(widget) || !gtk_widget_get_visible(widget))
         {
           continue;
         }
 
       const char *widget_name = gtk_widget_get_name(widget);
-      if (!widget_name)
+      if (widget_name == nullptr)
         {
           continue;
         }
 
-      if (!strcmp(widget_name, "gtk-tooltip"))
+      if (strcmp(widget_name, "gtk-tooltip") == 0)
         {
           func_retval = (GtkWindow *)widget;
           break;
@@ -484,7 +490,7 @@ GtkUtil::create_image(const std::string &name)
 }
 
 void
-GtkUtil::set_always_on_top(Gtk::Window *window, bool on_top)
+GtkUtil::set_always_on_top(Gtk::Window *window, bool ontop)
 {
 #if defined(PLATFORM_OS_WINDOWS)
 
@@ -493,7 +499,7 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool on_top)
 
 #else
 
-  window->set_keep_above(on_top);
+  window->set_keep_above(ontop);
 
 #endif
 }

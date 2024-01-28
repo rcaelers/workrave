@@ -19,7 +19,6 @@
 #define MENUS_HH
 
 #include <memory>
-#include <string>
 
 #include "core/ICore.hh"
 #include "utils/Signals.hh"
@@ -27,7 +26,6 @@
 #include "ui/IToolkit.hh"
 #include "ui/IApplicationContext.hh"
 #include "commonui/MenuModel.hh"
-#include "ui/GUIConfig.hh"
 
 class Menus : public workrave::utils::Trackable
 {

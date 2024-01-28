@@ -61,7 +61,7 @@ private:
   void on_enabled_changed();
 
   // UI Events.
-  bool on_delete_event(GdkEventAny *) override;
+  bool on_delete_event(GdkEventAny * /*any_event*/) override;
 
 private:
   std::shared_ptr<IApplicationContext> app;

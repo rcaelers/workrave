@@ -89,9 +89,9 @@ public:
     std::string text;
     std::string dynamic_text;
     std::string action;
-    uint32_t command;
-    uint8_t type;
-    uint8_t flags;
+    uint32_t command{};
+    uint8_t type{};
+    uint8_t flags{};
   };
 
   explicit GenericDBusApplet(std::shared_ptr<IPluginContext> context);

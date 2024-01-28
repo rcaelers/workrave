@@ -22,8 +22,6 @@
 #include "ToolkitUnix.hh"
 
 #include <X11/Xlib.h>
-#include "X11SystrayAppletWindow.hh"
-#include "GnomeSession.hh"
 
 #if defined(HAVE_INDICATOR)
 #  include "IndicatorAppletMenu.hh"
@@ -34,9 +32,7 @@
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
 {
-#if defined(PLATFORM_OS_UNIX)
-   XInitThreads();
-#endif
+  XInitThreads();
   gdk_init(nullptr, nullptr);
 
   locker = std::make_shared<UnixLocker>();
@@ -45,12 +41,10 @@ ToolkitUnix::ToolkitUnix(int argc, char **argv)
 void
 ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
-#if defined(PLATFORM_OS_UNIX)
   if (GUIConfig::force_x11()())
     {
       g_setenv("GDK_BACKEND", "x11", TRUE);
     }
-#endif
 
   Toolkit::init(app);
 
@@ -68,7 +62,7 @@ ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, B
   // FIXME: remove hack
   if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
     {
-      auto gdk_window = break_window->get_window()->gobj();
+      auto *gdk_window = break_window->get_window()->gobj();
       locker->set_window(gdk_window);
     }
   return ret;

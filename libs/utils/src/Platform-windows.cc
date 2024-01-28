@@ -19,8 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <assert.h>
-
 #include "utils/Platform.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)

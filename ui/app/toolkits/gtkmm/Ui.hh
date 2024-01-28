@@ -27,10 +27,10 @@
 class Ui
 {
 public:
-  static const std::string get_break_name(workrave::BreakId id);
-  static const std::string get_break_icon_filename(workrave::BreakId id);
-  static const std::string get_status_icon_filename(OperationModeIcon id);
-  static const std::string get_sound_event_name(SoundEvent event);
+  static std::string get_break_name(workrave::BreakId id);
+  static std::string get_break_icon_filename(workrave::BreakId id);
+  static std::string get_status_icon_filename(OperationModeIcon icon);
+  static std::string get_sound_event_name(SoundEvent event);
 };
 
 #endif // UI_HH

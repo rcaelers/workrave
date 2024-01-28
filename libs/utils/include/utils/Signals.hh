@@ -18,7 +18,6 @@
 #ifndef WORKAVE_LIBS_UTILS_SIGNALS_HH
 #define WORKAVE_LIBS_UTILS_SIGNALS_HH
 
-#include <type_traits>
 #include <utility>
 #include <memory>
 
@@ -35,12 +34,14 @@ namespace workrave::utils
     {
     }
 
+    ~Trackable() = default;
+
     Trackable(Trackable const &)
       : Trackable()
     {
     }
 
-    Trackable(Trackable &&)
+    Trackable(Trackable &&) noexcept
       : Trackable()
     {
     }
@@ -50,7 +51,7 @@ namespace workrave::utils
       return *this;
     }
 
-    Trackable &operator=(Trackable &&)
+    Trackable &operator=(Trackable &&) noexcept
     {
       return *this;
     }

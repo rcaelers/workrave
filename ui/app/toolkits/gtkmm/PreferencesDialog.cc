@@ -26,19 +26,16 @@
 #include <gtkmm.h>
 
 #include "ui/GUIConfig.hh"
+#include "ui/prefwidgets/gtkmm/Builder.hh"
 #include "commonui/nls.h"
-#include "GtkUtil.hh"
-#include "Hig.hh"
-#include "debug.hh"
 
+#include "GtkUtil.hh"
+#include "debug.hh"
 #include "GeneralPreferencePanel.hh"
 #include "MonitoringPreferencePanel.hh"
 #include "SoundPreferencePanel.hh"
 #include "TimerBoxPreferencePanel.hh"
 #include "TimerPreferencePanel.hh"
-
-#include "ui/prefwidgets/gtkmm/Widget.hh"
-#include "ui/prefwidgets/gtkmm/Builder.hh"
 
 using namespace ui::prefwidgets;
 using namespace workrave;

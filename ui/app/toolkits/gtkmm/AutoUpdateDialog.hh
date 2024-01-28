@@ -18,6 +18,7 @@
 #ifndef AUTO_UPDATE_DIALOG_HH
 #define AUTO_UPDATE_DIALOG_HH
 
+#include <optional>
 #include <string>
 
 #if defined(PLATFORM_OS_WINDOWS)

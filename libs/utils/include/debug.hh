@@ -18,7 +18,6 @@
 #ifndef WORKRAVE_UTILS_DEBUG_HH
 #define WORKRAVE_UTILS_DEBUG_HH
 
-#include <cassert>
 #include <boost/current_function.hpp>
 
 #if !defined(HAVE_TRACING)

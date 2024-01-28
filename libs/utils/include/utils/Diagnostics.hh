@@ -28,8 +28,6 @@
 #include <fmt/core.h>
 #include <fmt/format.h>
 
-#include "utils/Logging.hh"
-
 class TracedFieldBase
 {
 public:
@@ -94,7 +92,7 @@ public:
   using value_type = ValueType;
   using base_type = TracedField<ValueType>;
 
-  explicit TracedField(const TracedField &p) noexcept
+  TracedField(const TracedField &p) noexcept
     : _name{p._name}
     , _value{p._value}
     , _last_published_value{p._last_published_value}
@@ -107,7 +105,7 @@ public:
       }
   }
 
-  explicit TracedField(TracedField &&p) noexcept
+  TracedField(TracedField &&p) noexcept
     : _name{std::move(p._name)}
     , _value{std::move(p._value)}
     , _last_published_value{p._last_published_value}

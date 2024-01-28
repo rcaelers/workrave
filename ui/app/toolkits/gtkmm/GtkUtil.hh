@@ -22,9 +22,7 @@
 
 #include <string>
 
-#include "ui/IApplicationContext.hh"
-#include "core/ICore.hh"
-#include "ui/prefwidgets/gtkmm/BoxWidget.hh"
+#include "core/CoreTypes.hh"
 
 class HeadInfo;
 class EventImage;

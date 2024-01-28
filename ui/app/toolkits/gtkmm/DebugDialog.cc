@@ -29,9 +29,6 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 
-#include "core/ICore.hh"
-#include "Hig.hh"
-
 using namespace workrave;
 
 DebugDialog::DebugDialog()

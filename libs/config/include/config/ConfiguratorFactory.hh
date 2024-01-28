@@ -20,23 +20,20 @@
 
 #include "IConfigurator.hh"
 
-namespace workrave
+namespace workrave::config
 {
-  namespace config
+  enum class ConfigFileFormat
   {
-    enum class ConfigFileFormat
-    {
-      Ini,
-      Xml,
-      Native
-    };
+    Ini,
+    Xml,
+    Native
+  };
 
-    class ConfiguratorFactory
-    {
-    public:
-      static IConfigurator::Ptr create(ConfigFileFormat fmt);
-    };
-  } // namespace config
-} // namespace workrave
+  class ConfiguratorFactory
+  {
+  public:
+    static IConfigurator::Ptr create(ConfigFileFormat fmt);
+  };
+} // namespace workrave::config
 
 #endif // WORKRAVE_CONFIG_CONFIGURATORFACTORY_HH

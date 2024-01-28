@@ -19,11 +19,6 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
-
-#include <cstdio>
-#include <fstream>
-
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <io.h>
 #  include <fcntl.h>
@@ -31,9 +26,8 @@
 #  include "platforms/windows/Remote.hh"
 #endif
 
-#include "debug.hh"
-#include "utils/Platform.hh"
 #include "utils/Paths.hh"
+#include "debug.hh"
 
 #if defined(HAVE_CRASH_REPORT)
 #  include "crash/CrashReporter.hh"
@@ -87,6 +81,7 @@ init_logging()
   auto tracer = std::make_shared<spdlog::logger>("trace", trace_sink);
   tracer->set_level(spdlog::level::trace);
   tracer->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%t] %v");
+  tracer->flush_on(spdlog::level::trace);
   spdlog::info("Trace file: {}", trace_file.string());
 
   ScopedTrace::init(tracer);

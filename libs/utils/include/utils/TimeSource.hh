@@ -22,46 +22,43 @@
 
 #include "ITimeSource.hh"
 
-namespace workrave
+namespace workrave::utils
 {
-  namespace utils
+  //! A source of time.
+  class TimeSource
   {
-    //! A source of time.
-    class TimeSource
-    {
-    public:
-      static constexpr int64_t TIME_USEC_PER_SEC = 1000000;
+  public:
+    static constexpr int64_t TIME_USEC_PER_SEC = 1000000;
 
-      //! Returns the system wall-clock time.
-      static std::chrono::system_clock::time_point get_real_time();
+    //! Returns the system wall-clock time.
+    static std::chrono::system_clock::time_point get_real_time();
 
-      //! Returns the system wall-clock time.
-      static int64_t get_real_time_usec();
+    //! Returns the system wall-clock time.
+    static int64_t get_real_time_usec();
 
-      //! Returns the system monotonic time, if available.
-      static int64_t get_monotonic_time_usec();
+    //! Returns the system monotonic time, if available.
+    static int64_t get_monotonic_time_usec();
 
-      //! Returns the system wall-clock time in seconds.
-      static int64_t get_real_time_sec();
+    //! Returns the system wall-clock time in seconds.
+    static int64_t get_real_time_sec();
 
-      //! Returns the system monotonic time in seconds, if available.
-      static int64_t get_monotonic_time_sec();
+    //! Returns the system monotonic time in seconds, if available.
+    static int64_t get_monotonic_time_sec();
 
-      //! Returns the system wall-clock time synchronized with core in seconds.
-      static int64_t get_real_time_sec_sync();
+    //! Returns the system wall-clock time synchronized with core in seconds.
+    static int64_t get_real_time_sec_sync();
 
-      //! Returns the system monotonic time synchronized with core in seconds, if available.
-      static int64_t get_monotonic_time_sec_sync();
+    //! Returns the system monotonic time synchronized with core in seconds, if available.
+    static int64_t get_monotonic_time_sec_sync();
 
-      //! Synchronize current time.
-      static void sync();
+    //! Synchronize current time.
+    static void sync();
 
-    public:
-      static ITimeSource::Ptr source;
-      static int64_t synced_real_time;
-      static int64_t synced_monotonic_time;
-    };
-  } // namespace utils
-} // namespace workrave
+  public:
+    static ITimeSource::Ptr source;
+    static int64_t synced_real_time;
+    static int64_t synced_monotonic_time;
+  };
+} // namespace workrave::utils
 
 #endif // WORKRAVE_UTILS_TIMESOURCE_HH

@@ -23,14 +23,13 @@
 #include <giomm.h>
 
 #include "ui/Plugin.hh"
-#include "ui/IApplicationContext.hh"
 
 class GnomeSession : public Plugin<GnomeSession>
 {
 public:
   using Ptr = std::shared_ptr<GnomeSession>;
 
-  explicit GnomeSession(std::shared_ptr<IPluginContext> app);
+  explicit GnomeSession(std::shared_ptr<IPluginContext> context);
   ~GnomeSession() override;
   void init();
 

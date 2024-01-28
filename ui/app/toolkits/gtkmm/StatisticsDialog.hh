@@ -36,7 +36,7 @@ namespace Gtk
 class StatisticsDialog : public HigDialog
 {
 public:
-  StatisticsDialog(std::shared_ptr<IApplicationContext> app);
+  explicit StatisticsDialog(std::shared_ptr<IApplicationContext> app);
   ~StatisticsDialog() override = default;
 
   static const int BREAK_STATS = 7;

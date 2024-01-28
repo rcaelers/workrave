@@ -21,7 +21,7 @@
 
 #include "Diagnostics.hh"
 
-#include <time.h>
+#include <ctime>
 
 bool TracedFieldBase::debug = false;
 
@@ -61,7 +61,7 @@ std::string
 Diagnostics::trace_get_time()
 {
   char logtime[128];
-  time_t ltime;
+  time_t ltime = 0;
 
   time(&ltime);
   struct tm *tmlt = localtime(&ltime);

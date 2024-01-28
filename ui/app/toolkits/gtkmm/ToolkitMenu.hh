@@ -22,7 +22,6 @@
 
 #include <boost/signals2.hpp>
 #include <memory>
-#include <string>
 
 #include <giomm.h>
 #include <gtkmm.h>
@@ -55,7 +54,7 @@ namespace detail
   public:
     using Ptr = std::shared_ptr<ToolkitMenuEntry>;
 
-    ToolkitMenuEntry(ToolkitMenuContext::Ptr context);
+    explicit ToolkitMenuEntry(ToolkitMenuContext::Ptr context);
 
     ToolkitMenuContext::Ptr get_context() const;
 
@@ -145,7 +144,7 @@ class ToolkitMenu : public workrave::utils::Trackable
 public:
   using Ptr = std::shared_ptr<ToolkitMenu>;
 
-  ToolkitMenu(MenuModel::Ptr menu_node, MenuNodeFilter filter = nullptr);
+  explicit ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter = nullptr);
 
   Glib::RefPtr<Gio::SimpleActionGroup> get_action_group() const;
   std::shared_ptr<Gtk::Menu> get_menu() const;

@@ -28,15 +28,12 @@
 #  undef WINDING
 #endif
 
-#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "MainWindow.hh"
 
 #include <list>
 #include <gtkmm.h>
-
-#include "config/IConfigurator.hh"
 
 #include "TimerBoxGtkView.hh"
 #include "ui/TimerBoxControl.hh"

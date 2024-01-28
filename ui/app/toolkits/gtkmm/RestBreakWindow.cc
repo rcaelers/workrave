@@ -33,20 +33,13 @@
 
 #include "debug.hh"
 #include "commonui/nls.h"
+#include "commonui/Text.hh"
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"
-#include "commonui/Text.hh"
 #include "TimeBar.hh"
-
-#include "core/IBreak.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
-
-#include "core/ICore.hh"
-#include "config/IConfigurator.hh"
-
-#include "commonui/Exercise.hh"
 #include "ExercisesPanel.hh"
 
 using namespace std;

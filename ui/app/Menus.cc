@@ -25,14 +25,12 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <spdlog/spdlog.h>
-#include "spdlog/fmt/ostr.h"
 
 #include "debug.hh"
 #include "commonui/MenuModel.hh"
 #include "commonui/nls.h"
 #include "core/CoreTypes.hh"
 #include "core/CoreConfig.hh"
-#include "utils/TimeSource.hh"
 
 using namespace workrave;
 using namespace workrave::utils;

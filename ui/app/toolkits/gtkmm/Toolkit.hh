@@ -42,6 +42,7 @@
 #include "StatisticsDialog.hh"
 #include "StatusIcon.hh"
 #include "commonui/Exercise.hh"
+#include "utils/Logging.hh"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  pragma pop_macro("ERROR")

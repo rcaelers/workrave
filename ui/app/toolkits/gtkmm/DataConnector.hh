@@ -25,9 +25,7 @@
 
 #include <gtkmm.h>
 
-#include "config/Config.hh"
 #include "config/Setting.hh"
-#include "core/ICore.hh"
 #include "ui/IApplicationContext.hh"
 
 class TimeEntry;

@@ -20,8 +20,6 @@
 #ifndef MICROBREAKWINDOW_HH
 #define MICROBREAKWINDOW_HH
 
-#include <cstdio>
-
 #include "BreakWindow.hh"
 #include "ui/GUIConfig.hh"
 

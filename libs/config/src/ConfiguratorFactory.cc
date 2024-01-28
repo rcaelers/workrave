@@ -19,8 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <cstdlib>
-
 #include "IConfigurator.hh"
 #include "ConfiguratorFactory.hh"
 #include "Configurator.hh"

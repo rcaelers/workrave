@@ -29,7 +29,7 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-const std::string
+std::string
 Ui::get_break_name(BreakId id)
 {
   switch (id)
@@ -48,7 +48,7 @@ Ui::get_break_name(BreakId id)
     }
 }
 
-const std::string
+std::string
 Ui::get_break_icon_filename(BreakId id)
 {
   std::string filename;
@@ -74,7 +74,7 @@ Ui::get_break_icon_filename(BreakId id)
   return AssetPath::complete_directory(filename, SearchPathId::Images);
 }
 
-const std::string
+std::string
 Ui::get_sound_event_name(SoundEvent event)
 {
   switch (event)
@@ -114,7 +114,7 @@ Ui::get_sound_event_name(SoundEvent event)
     }
 }
 
-const std::string
+std::string
 Ui::get_status_icon_filename(OperationModeIcon icon)
 {
   std::string filename;

@@ -21,25 +21,22 @@
 #include <cstdint>
 #include <memory>
 
-namespace workrave
+namespace workrave::utils
 {
-  namespace utils
+  //! A source of time.
+  class ITimeSource
   {
-    //! A source of time.
-    class ITimeSource
-    {
-    public:
-      using Ptr = std::shared_ptr<ITimeSource>;
+  public:
+    using Ptr = std::shared_ptr<ITimeSource>;
 
-      virtual ~ITimeSource() = default;
+    virtual ~ITimeSource() = default;
 
-      //! Returns the system wall-clock time.
-      virtual int64_t get_real_time_usec() = 0;
+    //! Returns the system wall-clock time.
+    virtual int64_t get_real_time_usec() = 0;
 
-      //! Returns the system monotonic time, if available.
-      virtual int64_t get_monotonic_time_usec() = 0;
-    };
-  } // namespace utils
-} // namespace workrave
+    //! Returns the system monotonic time, if available.
+    virtual int64_t get_monotonic_time_usec() = 0;
+  };
+} // namespace workrave::utils
 
 #endif // WORKRAVE_UTILS_ITIMESOURCE_HH

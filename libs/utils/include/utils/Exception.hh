@@ -22,34 +22,31 @@
 #include <exception>
 #include <utility>
 
-namespace workrave
+namespace workrave::utils
 {
-  namespace utils
+  class Exception : public std::exception
   {
-    class Exception : public std::exception
+  public:
+    explicit Exception(std::string detail)
+      : detailed_information(std::move(detail))
     {
-    public:
-      explicit Exception(std::string detail)
-        : detailed_information(std::move(detail))
-      {
-      }
+    }
 
-      explicit Exception(const Exception &parent, const std::string &detail)
-        : detailed_information(parent.details() + ", " + detail)
-      {
-      }
+    explicit Exception(const Exception &parent, const std::string &detail)
+      : detailed_information(parent.details() + ", " + detail)
+    {
+    }
 
-      ~Exception() override = default;
+    ~Exception() override = default;
 
-      virtual std::string details() const
-      {
-        return detailed_information;
-      }
+    virtual std::string details() const
+    {
+      return detailed_information;
+    }
 
-    private:
-      std::string detailed_information;
-    };
-  } // namespace utils
-} // namespace workrave
+  private:
+    std::string detailed_information;
+  };
+} // namespace workrave::utils
 
 #endif // WORKRAVE_UTILS_EXCEPTION_HH

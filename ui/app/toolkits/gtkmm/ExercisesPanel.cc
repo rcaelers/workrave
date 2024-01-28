@@ -25,7 +25,6 @@
 
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
-// #include "Application.hh"
 #include "utils/AssetPath.hh"
 #include "Hig.hh"
 #include "commonui/nls.h"
@@ -86,7 +85,7 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
   image_frame.add(image);
 
   pause_button = Gtk::manage(new Gtk::Button());
-  Gtk::Widget *description_widget;
+  Gtk::Widget *description_widget = nullptr;
 
   if (dialog_action_area != nullptr)
     {
@@ -131,7 +130,11 @@ ExercisesPanel::ExercisesPanel(SoundTheme::Ptr sound_theme, ExerciseCollection::
   //  size_group->add_widget(image_frame);
   //  size_group->add_widget(*description_widget);
   image.set_size_request(250, 250);
-  description_scroll.set_size_request(250, 200);
+  //  description_scroll.set_size_request(250, 200);
+  description_scroll.set_max_content_height(300);
+  description_scroll.set_min_content_height(200);
+  description_scroll.set_max_content_width(300);
+  description_scroll.set_min_content_width(250);
   // (end of ugly)
 
   back_button->signal_clicked().connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_back));

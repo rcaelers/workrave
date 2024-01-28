@@ -24,7 +24,6 @@
 #include "debug.hh"
 
 #include "utils/AssetPath.hh"
-#include "utils/Platform.hh"
 #include "utils/Paths.hh"
 
 using namespace workrave::utils;

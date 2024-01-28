@@ -18,36 +18,35 @@
 #ifndef WORKRAVE_UTILS_PLATFORM_HH
 #define WORKRAVE_UTILS_PLATFORM_HH
 
-#include <string>
+#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_WINDOWS)
+#  include <string>
+#endif
 
-namespace workrave
+namespace workrave::utils
 {
-  namespace utils
+  class Platform
   {
-    class Platform
-    {
-    public:
-      static int setenv(const char *name, const char *val, int);
-      static int unsetenv(const char *name);
-      static bool can_position_windows();
-      static bool running_on_wayland();
+  public:
+    static int setenv(const char *name, const char *val, int);
+    static int unsetenv(const char *name);
+    static bool can_position_windows();
+    static bool running_on_wayland();
 
 #if defined(PLATFORM_OS_UNIX)
-      static void *get_default_display();
-      static std::string get_default_display_name();
-      static unsigned long get_default_root_window();
+    static void *get_default_display();
+    static std::string get_default_display_name();
+    static unsigned long get_default_root_window();
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-      static bool registry_set_value(const char *path, const char *name, const char *value);
-      static bool registry_get_value(const char *path, const char *name, char *out);
-      static std::string get_application_name();
+    static bool registry_set_value(const char *path, const char *name, const char *value);
+    static bool registry_get_value(const char *path, const char *name, char *out);
+    static std::string get_application_name();
 
-    private:
-      static std::wstring convert(const char *c);
+  private:
+    static std::wstring convert(const char *c);
 #endif
-    };
-  } // namespace utils
-} // namespace workrave
+  };
+} // namespace workrave::utils
 
 #endif // WORKRAVE_UTILS_PLATFORM_HH

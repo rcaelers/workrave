@@ -27,9 +27,6 @@
 #include <glib.h>
 #include <gio/gio.h>
 
-#include <string>
-#include <set>
-
 class DBusProxy
 {
 private:
@@ -88,9 +85,11 @@ public:
   gchar *get_last_error_message()
   {
     if (error == nullptr)
-      return nullptr;
-    else
-      return error->message;
+      {
+        return nullptr;
+      }
+
+    return error->message;
   }
 };
 

@@ -27,7 +27,6 @@
 #include "debug.hh"
 
 #include "core/IBreak.hh"
-//#include "Application.hh"
 #include "MicroBreakWindow.hh"
 #include "TimeBar.hh"
 #include "GtkUtil.hh"
@@ -69,7 +68,7 @@ MicroBreakWindow::create_gui()
   hbox->pack_start(*label, Gtk::PACK_EXPAND_PADDING, 0);
 
   // Overall vbox
-  Gtk::VBox *box = new Gtk::VBox(false, 12);
+  auto *box = new Gtk::VBox(false, 12);
   box->pack_start(*hbox, Gtk::PACK_EXPAND_WIDGET, 0);
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
@@ -79,7 +78,7 @@ MicroBreakWindow::create_gui()
 
   if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
-      Gtk::HBox *button_box;
+      Gtk::HBox *button_box = nullptr;
       if (break_flags != BREAK_FLAGS_NONE)
         {
           button_box = Gtk::manage(new Gtk::HBox(false, 6));
@@ -123,8 +122,7 @@ MicroBreakWindow::create_gui()
 Gtk::Button *
 MicroBreakWindow::create_restbreaknow_button(bool label)
 {
-  Gtk::Button *ret;
-  ret = Gtk::manage(GtkUtil::create_image_button(_("Rest break"), "timer-rest-break.png", label));
+  Gtk::Button *ret = Gtk::manage(GtkUtil::create_image_button(_("Rest break"), "timer-rest-break.png", label));
   ret->signal_clicked().connect(sigc::mem_fun(*this, &MicroBreakWindow::on_restbreaknow_button_clicked));
   ret->set_can_focus(false);
 

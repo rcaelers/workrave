@@ -67,7 +67,7 @@ namespace
 #if defined(PLATFORM_OS_UNIX)
   std::filesystem::path get_directory_from_environment(const char *env)
   {
-    auto dir = std::getenv(env);
+    auto *dir = std::getenv(env);
     if (dir != nullptr)
       {
         return dir;

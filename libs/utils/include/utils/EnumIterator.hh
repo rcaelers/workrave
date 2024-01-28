@@ -24,8 +24,6 @@
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#include <iostream>
-
 namespace workrave::utils
 {
   template<typename Enum>
