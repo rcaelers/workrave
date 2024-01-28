@@ -24,7 +24,7 @@
 #include <gtkmm.h>
 #include <wayland-client-core.h>
 
-#include "protocols/wlr-layer-shell-unstable-v1-client.h"
+#include "wlr-layer-shell-unstable-v1-client.h"
 
 class LayerSurface
 {
