@@ -79,8 +79,12 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 #if defined(PLATFORM_OS_UNIX)
   if (Platform::running_on_wayland())
     {
-      window_manager = std::make_shared<WaylandWindowManager>();
-      window_manager->init();
+      auto wm = std::make_shared<WaylandWindowManager>();
+      bool success = wm->init();
+      if (success)
+        {
+          window_manager = wm;
+        }
     }
 #endif
 
