@@ -20,6 +20,7 @@
 
 #include <windows.h>
 #include <vector>
+#include <string>
 
 class W32ActiveSetup
 {
