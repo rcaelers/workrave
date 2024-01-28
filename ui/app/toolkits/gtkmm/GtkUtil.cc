@@ -495,7 +495,7 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool ontop)
 #if defined(PLATFORM_OS_WINDOWS)
 
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(GTK_WIDGET(window->gobj())));
-  WindowsCompat::SetWindowOnTop(hwnd, on_top);
+  WindowsCompat::SetWindowOnTop(hwnd, ontop);
 
 #else
 
