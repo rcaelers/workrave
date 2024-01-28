@@ -22,7 +22,7 @@ if (PLATFORM_OS_UNIX)
   target_link_libraries(workrave-libs-input-monitor ${WAYLAND_CLIENT_LIBRARIES})
 
   add_custom_command(
-    OUTPUT unix/protocols/ext-idle-notify-v1.c unix/protocols/ext-idle-notify-v1-client.hq
+    OUTPUT unix/protocols/ext-idle-notify-v1.c unix/protocols/ext-idle-notify-v1-client.h
     COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/unix/protocols/ext-idle-notify-v1.c
     COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/unix/protocols//ext-idle-notify-v1-client.h
     DEPENDS unix/protocols/ext-idle-notify-v1.xml
