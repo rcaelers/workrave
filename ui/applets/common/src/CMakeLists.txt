@@ -54,6 +54,17 @@ if (HAVE_GTK AND UNIX AND NOT APPLE)
     endforeach()
   endmacro()
 
+  function(filter_cflags original_flags filtered_flags_var)
+    set(filtered_flags "")
+    separate_arguments(original_flags_list UNIX_COMMAND "${original_flags}")
+    foreach(flag ${original_flags_list})
+        if(flag MATCHES "^-I" OR flag MATCHES "^-D")
+            set(filtered_flags "${filtered_flags} ${flag}")
+        endif()
+    endforeach()
+    set(${filtered_flags_var} "${filtered_flags}" PARENT_SCOPE)
+  endfunction()
+
   # GObject Introspection
   if (HAVE_INTROSPECTION)
     include(GObjectIntrospectionMacros)
@@ -61,7 +72,7 @@ if (HAVE_GTK AND UNIX AND NOT APPLE)
     set(INTROSPECTION_SCANNER_ARGS --add-include-path=${CMAKE_CURRENT_SOURCE_DIR} --add-include-path=${CMAKE_CURRENT_SOURCE_DIR}/include --warn-all)
     set(INTROSPECTION_COMPILER_ARGS --includedir=${CMAKE_CURRENT_SOURCE_DIR} --includedir=${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-    string(REGEX REPLACE "-std=[a-zA-Z0-9+]+" "" GTK_CFLAGS_FILTERED ${GTK_CFLAGS})
+    filter_cflags("${GTK_CFLAGS}" GTK_CFLAGS_FILTERED)
 
     set(introspection_files ${SRC} ../include/timerbox.h ../include/timebar.h)
     set(Workrave_1_0_gir "workrave-private")
