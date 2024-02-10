@@ -180,7 +180,7 @@ Paths::get_application_directory()
     {
     }
 
-  return std::filesystem::path();
+  return {};
 }
 
 std::list<std::filesystem::path>
@@ -192,9 +192,9 @@ Paths::get_data_directories()
   try
     {
 #if defined(PLATFORM_OS_UNIX)
-      directories.push_back(WORKRAVE_DATADIR "/");
-      directories.push_back("/usr/local/share/");
-      directories.push_back("/usr/share/");
+      directories.emplace_back(WORKRAVE_DATADIR "/");
+      directories.emplace_back("/usr/local/share/");
+      directories.emplace_back("/usr/share/");
 #endif
 
 #if defined(HAVE_GLIB)

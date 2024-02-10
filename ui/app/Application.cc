@@ -20,8 +20,6 @@
 #endif
 
 #include <memory>
-#include <filesystem>
-#include <initializer_list>
 #include <spdlog/spdlog.h>
 
 #include <boost/program_options.hpp>
@@ -42,8 +40,6 @@
 #include "commonui/Locale.hh"
 #include "commonui/Text.hh"
 #include "utils/Exception.hh"
-#include "utils/Logging.hh"
-#include "utils/Paths.hh"
 #include "utils/Platform.hh"
 
 // #if defined(HAVE_DBUS)
