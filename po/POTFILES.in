@@ -16,7 +16,7 @@ libs/config/src/SettingCache.cc
 libs/config/src/windows/W32Configurator.cc
 libs/config/src/XmlConfigurator.cc
 libs/core/src/Break.cc
-libs/core/src/BreakControl.ccf
+libs/core/src/BreakControl.cc
 libs/core/src/Core.cc
 libs/core/src/CoreConfig.cc
 libs/core/src/CoreHooks.cc
