@@ -41,6 +41,7 @@
 #include "commonui/Text.hh"
 #include "utils/Exception.hh"
 #include "utils/Platform.hh"
+#include "utils/Paths.hh" // IWYU pragma: keep
 
 // #if defined(HAVE_DBUS)
 // #  include "GenericDBusApplet.hh"
