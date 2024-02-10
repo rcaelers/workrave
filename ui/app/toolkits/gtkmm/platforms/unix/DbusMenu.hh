@@ -15,13 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef INDICATORAPPLETMENU_HH
-#define INDICATORAPPLETMENU_HH
+#ifndef DBUSMENU_HH
+#define DBUSMENU_HH
 
 #include <string>
 #include <memory>
-
-#include <iostream>
 
 #include <libdbusmenu-glib/server.h>
 #include <libdbusmenu-glib/menuitem.h>
@@ -33,45 +31,45 @@
 
 namespace detail
 {
-  class IndicatorSubMenuEntry;
+  class DbusSubMenuEntry;
 
-  class IndicatorMenuEntry : public workrave::utils::Trackable
+  class DbusMenuEntry : public workrave::utils::Trackable
   {
   public:
-    using Ptr = std::shared_ptr<IndicatorMenuEntry>;
+    using Ptr = std::shared_ptr<DbusMenuEntry>;
 
-    IndicatorMenuEntry();
-    ~IndicatorMenuEntry();
+    DbusMenuEntry() = default;
+    ~DbusMenuEntry();
 
     DbusmenuMenuitem *get_item() const;
 
   protected:
     DbusmenuMenuitem *item{nullptr};
-    std::list<IndicatorMenuEntry::Ptr> children;
+    std::list<DbusMenuEntry::Ptr> children;
   };
 
-  class IndicatorSubMenuEntry : public IndicatorMenuEntry
+  class DbusSubMenuEntry : public DbusMenuEntry
   {
   public:
-    using Ptr = std::shared_ptr<IndicatorSubMenuEntry>;
+    using Ptr = std::shared_ptr<DbusSubMenuEntry>;
 
-    IndicatorSubMenuEntry(IndicatorSubMenuEntry *parent, menus::SubMenuNode::Ptr node);
-    IndicatorSubMenuEntry(DbusmenuServer *server, menus::SubMenuNode::Ptr node);
+    DbusSubMenuEntry(DbusSubMenuEntry *parent, menus::SubMenuNode::Ptr node);
+    DbusSubMenuEntry(DbusmenuServer *server, menus::SubMenuNode::Ptr node);
 
     void init();
-    void add(DbusmenuMenuitem *item);
+    void add(DbusmenuMenuitem *child);
     void add_section();
 
   private:
     DbusmenuServer *server{nullptr};
-    IndicatorSubMenuEntry *parent{nullptr};
+    DbusSubMenuEntry *parent{nullptr};
     menus::SubMenuNode::Ptr node;
   };
 
-  class IndicatorActionMenuEntry : public IndicatorMenuEntry
+  class DbusActionMenuEntry : public DbusMenuEntry
   {
   public:
-    IndicatorActionMenuEntry(IndicatorSubMenuEntry *parent, menus::ActionNode::Ptr node);
+    DbusActionMenuEntry(DbusSubMenuEntry *parent, menus::ActionNode::Ptr node);
 
   private:
     static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
@@ -81,10 +79,10 @@ namespace detail
     menus::ActionNode::Ptr node;
   };
 
-  class IndicatorToggleMenuEntry : public IndicatorMenuEntry
+  class DbusToggleMenuEntry : public DbusMenuEntry
   {
   public:
-    IndicatorToggleMenuEntry(IndicatorSubMenuEntry *parent, menus::ToggleNode::Ptr node);
+    DbusToggleMenuEntry(DbusSubMenuEntry *parent, menus::ToggleNode::Ptr node);
 
   private:
     static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
@@ -94,10 +92,10 @@ namespace detail
     menus::ToggleNode::Ptr node;
   };
 
-  class IndicatorRadioMenuEntry : public IndicatorMenuEntry
+  class DbusRadioMenuEntry : public DbusMenuEntry
   {
   public:
-    IndicatorRadioMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioNode::Ptr node);
+    DbusRadioMenuEntry(DbusSubMenuEntry *parent, menus::RadioNode::Ptr node);
 
   private:
     static void static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data);
@@ -107,57 +105,67 @@ namespace detail
     menus::RadioNode::Ptr node;
   };
 
-  class IndicatorRadioGroupMenuEntry : public IndicatorMenuEntry
+  class DbusRadioGroupMenuEntry : public DbusMenuEntry
   {
   public:
-    IndicatorRadioGroupMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node);
+    DbusRadioGroupMenuEntry(DbusSubMenuEntry *parent, menus::RadioGroupNode::Ptr node);
 
   private:
-    std::list<IndicatorRadioMenuEntry::Ptr> children;
+    std::list<DbusRadioMenuEntry::Ptr> children;
   };
 
-  class IndicatorSectionMenuEntry : public IndicatorMenuEntry
+  class DbusSectionMenuEntry : public DbusMenuEntry
   {
   public:
-    IndicatorSectionMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node);
+    DbusSectionMenuEntry(DbusSubMenuEntry *parent, menus::SectionNode::Ptr node);
 
   private:
-    std::list<IndicatorMenuEntry::Ptr> children;
+    std::list<DbusMenuEntry::Ptr> children;
   };
 
-  class IndicatorSeparatorMenuEntry : public IndicatorMenuEntry
+  class DbusSeparatorMenuEntry : public DbusMenuEntry
   {
   public:
-    IndicatorSeparatorMenuEntry(IndicatorSubMenuEntry *parent, menus::SeparatorNode::Ptr node);
+    DbusSeparatorMenuEntry(DbusSubMenuEntry *parent, menus::SeparatorNode::Ptr node);
   };
 
-  class IndicatorMenuEntryFactory
+  class DbusMenuEntryFactory
   {
   public:
-    static IndicatorMenuEntry::Ptr create(IndicatorSubMenuEntry *parent, menus::Node::Ptr node);
+    static DbusMenuEntry::Ptr create(DbusSubMenuEntry *parent, menus::Node::Ptr node);
   };
 
 } // namespace detail
 
-class IndicatorAppletMenu
-  : public Plugin<IndicatorAppletMenu>
+class DbusMenu
+  : public Plugin<DbusMenu>
   , public workrave::utils::Trackable
 {
 public:
-  using Ptr = std::shared_ptr<IndicatorAppletMenu>;
+  using Ptr = std::shared_ptr<DbusMenu>;
 
-  IndicatorAppletMenu(std::shared_ptr<IPluginContext> context);
-  ~IndicatorAppletMenu() override = default;
+  explicit DbusMenu(std::shared_ptr<IPluginContext> context);
+  ~DbusMenu() override = default;
 
   std::string get_plugin_id() const override
   {
-    return "workrave.IndicatorAppletMenu";
+    return "workrave.DbusMenu";
+  }
+
+  auto get_server() const
+  {
+    return server;
+  }
+
+  auto get_root_menu_item() const
+  {
+    return entry->get_item();
   }
 
 private:
   DbusmenuServer *server{nullptr};
   MenuModel::Ptr menu_model;
-  detail::IndicatorSubMenuEntry::Ptr entry;
+  detail::DbusSubMenuEntry::Ptr entry;
 };
 
-#endif // INDICATORAPPLETMENU_HH
+#endif // DBUSMENU_HH

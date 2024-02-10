@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2022, 2024 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,10 @@
 #define WORKRAVE_UI_PLUGIN_HH
 
 #include <memory>
-#include <list>
+#include <set>
+#include <unordered_map>
+#include <functional>
+#include <typeindex>
 
 #include "IPlugin.hh"
 #include "IPluginContext.hh"
@@ -27,8 +30,6 @@
 class PluginRegistry
 {
 public:
-  using PluginFactory = std::unique_ptr<IPlugin> (*)(std::shared_ptr<IPluginContext> context);
-
   static PluginRegistry &instance()
   {
     static auto *r = new PluginRegistry();
@@ -37,18 +38,58 @@ public:
 
   PluginRegistry() = default;
 
-  bool register_plugin(PluginFactory factory)
+  template<typename T, typename... Deps>
+  void register_plugin()
   {
-    plugin_factories.push_back(factory);
-    return true;
+    plugin_factories[typeid(T)] = [this](std::shared_ptr<IPluginContext> context) -> std::shared_ptr<IPlugin> {
+      if (!in_progress.insert(typeid(T)).second)
+        {
+          spdlog::error("Cyclic plugin dependency detected: {}", typeid(T).name());
+          return {};
+        }
+
+      auto instance = std::shared_ptr<T>(new T(context, create<Deps>(context)...), [this](T *obj) {
+        in_progress.erase(typeid(T));
+        delete obj;
+      });
+
+      in_progress.erase(typeid(T));
+
+      spdlog::info("Started plugin: {}", instance->get_plugin_id());
+      return instance;
+    };
+  }
+
+  template<typename T>
+  std::shared_ptr<T> create(std::shared_ptr<IPluginContext> context)
+  {
+    std::type_index id = typeid(T);
+    auto plugin_it = plugins.find(id);
+    if (plugin_it != plugins.end())
+      {
+        return std::static_pointer_cast<T>(plugin_it->second);
+      }
+
+    auto factory_it = plugin_factories.find(id);
+    if (factory_it == plugin_factories.end())
+      {
+        spdlog::error("No factory for type {}", typeid(T).name());
+        return {};
+      }
+
+    std::shared_ptr<T> instance = std::static_pointer_cast<T>(factory_it->second(context));
+    plugins[id] = instance;
+    return instance;
   }
 
   void build(std::shared_ptr<IPluginContext> context)
   {
-    for (auto &f: plugin_factories)
+    for (auto &[id, factory]: plugin_factories)
       {
-        plugins.emplace_back(f(context));
-        spdlog::info("created plugin {}", plugins.back()->get_plugin_id());
+        if (plugins.find(id) == plugins.end())
+          {
+            plugins[id] = factory(context);
+          }
       }
   }
 
@@ -59,11 +100,12 @@ public:
   }
 
 private:
-  std::list<PluginFactory> plugin_factories;
-  std::list<std::unique_ptr<IPlugin>> plugins;
+  std::unordered_map<std::type_index, std::function<std::shared_ptr<IPlugin>(std::shared_ptr<IPluginContext>)>> plugin_factories;
+  std::unordered_map<std::type_index, std::shared_ptr<IPlugin>> plugins;
+  std::set<std::type_index> in_progress;
 };
 
-template<class Base>
+template<class Base, class... Dependencies>
 class Plugin : public IPlugin
 {
 public:
@@ -74,15 +116,15 @@ public:
 
   static bool register_plugin()
   {
-    return PluginRegistry::instance().register_plugin(
-      [](std::shared_ptr<IPluginContext> context) -> std::unique_ptr<IPlugin> { return std::make_unique<Base>(context); });
+    PluginRegistry::instance().register_plugin<Base, Dependencies...>();
+    return true;
   }
 
-protected:
+private:
   static bool registered;
 };
 
-template<class Base>
-bool Plugin<Base>::registered = Plugin<Base>::register_plugin();
+template<class Base, class... Dependencies>
+bool Plugin<Base, Dependencies...>::registered = Plugin<Base, Dependencies...>::register_plugin();
 
 #endif // WORKRAVE_UI_PLUGIN_HH

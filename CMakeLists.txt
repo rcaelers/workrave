@@ -506,6 +506,25 @@ if (WITH_GNOME_CLASSIC_PANEL AND HAVE_GTK)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# DBus Menu
+
+if (UNIX AND NOT APPLE)
+  option(WITH_DBUSMENU "Enable DBUS Menu support" ON)
+
+  if (WITH_DBUSMENU)
+    message(STATUS "Checking for: DBUS Menu")
+
+    pkg_check_modules(DBUSMENU dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
+    if (DBUSMENU_FOUND)
+      set (HAVE_DBUSMENU ON)
+    else()
+      set (WITH_DBUSMENU OFF)
+    endif()
+  endif()
+endif()
+
+
+#----------------------------------------------------------------------------------------------------
 # Indicator
 
 if (UNIX AND NOT APPLE)
@@ -516,22 +535,28 @@ if (UNIX AND NOT APPLE)
     GTK3
     gtk+-3.0>=3.10.0)
 
-  if (WITH_INDICATOR)
-    message(STATUS "Checking for: Unity Indicators")
+  if (WITH_INDICATOR AND HAVE_DBUSMENU)
+    message(STATUS "Checking for: Ayatana Indicators")
 
     find_package(GObjectIntrospection 0.9.12)
     set (HAVE_INTROSPECTION ${INTROSPECTION_FOUND})
 
     if (HAVE_INTROSPECTION)
-      pkg_check_modules(INDICATOR QUIET ayatana-indicator3-0.4 dbusmenu-glib-0.4 dbusmenu-gtk3-0.4)
+      pkg_check_modules(INDICATOR ayatana-indicator3-0.4)
     endif()
 
     if (INDICATOR_FOUND)
       set (HAVE_INDICATOR ON)
       set (HAVE_INDICATOR_AYATANA ON)
     else()
-      set (WITH_INDICATOR OFF)
-      set (HAVE_INDICATOR_AYATANA OFF)
+      pkg_check_modules(INDICATOR indicator3-0.4)
+      if (INDICATOR_FOUND)
+        set (HAVE_INDICATOR ON)
+        set (HAVE_INDICATOR_AYATANA OFF)
+      else()
+        set (WITH_INDICATOR OFF)
+        set (HAVE_INDICATOR_AYATANA OFF)
+      endif()
     endif()
   endif()
 
@@ -540,8 +565,40 @@ if (UNIX AND NOT APPLE)
       set (INDICATORDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/indicators3/7")
       set (INDICATORICONSDIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/libindicate/icons")
     else()
-      pkgconfig_get_var(INDICATORDIR ayatana-indicator3-0.4 indicatordir)
-      pkgconfig_get_var(INDICATORICONSDIR ayatana-indicator3-0.4 iconsdir)
+      if (HAVE_INDICATOR_AYATANA)
+        pkgconfig_get_var(INDICATORDIR ayatana-indicator3-0.4 indicatordir)
+        pkgconfig_get_var(INDICATORICONSDIR ayatana-indicator3-0.4 iconsdir)
+      else()
+        pkgconfig_get_var(INDICATORDIR indicator3-0.4 indicatordir)
+        pkgconfig_get_var(INDICATORICONSDIR indicator3-0.4 iconsdir)
+      endif()
+    endif()
+  endif()
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# AppIndicator
+
+if (UNIX AND NOT APPLE)
+  option(WITH_APPINDICATOR "Enable Appindicator support" ON)
+
+  if (WITH_APPINDICATOR AND HAVE_DBUSMENU)
+    message(STATUS "Checking for: AppIndicator")
+    pkg_check_modules(APPINDICATOR ayatana-appindicator3-0.1)
+
+    if (APPINDICATOR_FOUND )
+      set (HAVE_APPINDICATOR ON)
+      set (HAVE_APPINDICATOR_AYATANA ON)
+    else()
+      pkg_check_modules(APPINDICATOR appindicator3-0.1)
+      if (APPINDICATOR_FOUND)
+        set (HAVE_APPINDICATOR ON)
+        set (HAVE_APPINDICATOR_AYATANA OFF)
+      else()
+        set (WITH_APPINDICATOR OFF)
+        set (HAVE_APPINDICATOR OFF)
+        set (HAVE_APPINDICATOR_AYATANA OFF)
+      endif()
     endif()
   endif()
 endif()
@@ -1068,6 +1125,7 @@ feature_bool("Gnome 3 Applet"  HAVE_GNOME3_PANEL_APPLET)
 feature_bool("Indicator Applet" HAVE_INDICATOR)
 feature_bool("XFCE Applet" HAVE_XFCE4)
 feature_bool("MATE Applet" HAVE_MATE)
+feature_bool("AppIndicator" HAVE_APPINDICATOR)
 feature_bool("GStreamer" HAVE_GSTREAMER)
 feature_bool("Pulseaudio" HAVE_PULSE)
 endif()

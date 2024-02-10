@@ -19,11 +19,9 @@
 #  include "config.h"
 #endif
 
-#include "IndicatorAppletMenu.hh"
+#include "DbusMenu.hh"
 
 #include <string>
-
-#include "debug.hh"
 
 #include "indicator-applet.h"
 #include "commonui/MenuModel.hh"
@@ -31,62 +29,58 @@
 using namespace std;
 using namespace detail;
 
-IndicatorAppletMenu::IndicatorAppletMenu(std::shared_ptr<IPluginContext> context)
+DbusMenu::DbusMenu(std::shared_ptr<IPluginContext> context)
   : menu_model(context->get_menu_model())
 {
   menus::SubMenuNode::Ptr root = menu_model->get_root();
 
   server = dbusmenu_server_new(WORKRAVE_INDICATOR_MENU_OBJ);
-
-  entry = std::make_shared<detail::IndicatorSubMenuEntry>(server, menu_model->get_root());
-
+  entry = std::make_shared<detail::DbusSubMenuEntry>(server, menu_model->get_root());
   workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
 }
 
-IndicatorMenuEntry::Ptr
-IndicatorMenuEntryFactory::create(IndicatorSubMenuEntry *parent, menus::Node::Ptr node)
+DbusMenuEntry::Ptr
+DbusMenuEntryFactory::create(DbusSubMenuEntry *parent, menus::Node::Ptr node)
 {
   if (auto n = std::dynamic_pointer_cast<menus::SubMenuNode>(node); n)
     {
-      return std::make_shared<IndicatorSubMenuEntry>(parent, n);
+      return std::make_shared<DbusSubMenuEntry>(parent, n);
     }
 
-  else if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
+  if (auto n = std::dynamic_pointer_cast<menus::RadioGroupNode>(node); n)
     {
-      return std::make_shared<IndicatorRadioGroupMenuEntry>(parent, n);
+      return std::make_shared<DbusRadioGroupMenuEntry>(parent, n);
     }
 
-  else if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
+  if (auto n = std::dynamic_pointer_cast<menus::ActionNode>(node); n)
     {
-      return std::make_shared<IndicatorActionMenuEntry>(parent, n);
+      return std::make_shared<DbusActionMenuEntry>(parent, n);
     }
 
-  else if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
+  if (auto n = std::dynamic_pointer_cast<menus::ToggleNode>(node); n)
     {
-      return std::make_shared<IndicatorToggleMenuEntry>(parent, n);
+      return std::make_shared<DbusToggleMenuEntry>(parent, n);
     }
 
-  else if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
+  if (auto n = std::dynamic_pointer_cast<menus::RadioNode>(node); n)
     {
-      return std::make_shared<IndicatorRadioMenuEntry>(parent, n);
+      return std::make_shared<DbusRadioMenuEntry>(parent, n);
     }
 
-  else if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
+  if (auto n = std::dynamic_pointer_cast<menus::SeparatorNode>(node); n)
     {
-      return std::make_shared<IndicatorSeparatorMenuEntry>(parent, n);
+      return std::make_shared<DbusSeparatorMenuEntry>(parent, n);
     }
 
-  else
+  if (auto n = std::dynamic_pointer_cast<menus::SectionNode>(node); n)
     {
-      return IndicatorMenuEntry::Ptr();
+      return std::make_shared<DbusSectionMenuEntry>(parent, n);
     }
+
+  return {};
 }
 
-IndicatorMenuEntry::IndicatorMenuEntry()
-{
-}
-
-IndicatorMenuEntry::~IndicatorMenuEntry()
+DbusMenuEntry::~DbusMenuEntry()
 {
   if (item != nullptr)
     {
@@ -98,21 +92,21 @@ IndicatorMenuEntry::~IndicatorMenuEntry()
 }
 
 DbusmenuMenuitem *
-IndicatorMenuEntry::get_item() const
+DbusMenuEntry::get_item() const
 {
   return item;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorSubMenuEntry::IndicatorSubMenuEntry(IndicatorSubMenuEntry *parent, menus::SubMenuNode::Ptr node)
+DbusSubMenuEntry::DbusSubMenuEntry(DbusSubMenuEntry *parent, menus::SubMenuNode::Ptr node)
   : parent(parent)
   , node(node)
 {
   init();
 }
 
-IndicatorSubMenuEntry::IndicatorSubMenuEntry(DbusmenuServer *server, menus::SubMenuNode::Ptr node)
+DbusSubMenuEntry::DbusSubMenuEntry(DbusmenuServer *server, menus::SubMenuNode::Ptr node)
   : server(server)
   , node(node)
 {
@@ -120,16 +114,16 @@ IndicatorSubMenuEntry::IndicatorSubMenuEntry(DbusmenuServer *server, menus::SubM
 }
 
 void
-IndicatorSubMenuEntry::init()
+DbusSubMenuEntry::init()
 {
-  auto new_item = dbusmenu_menuitem_new();
+  auto *new_item = dbusmenu_menuitem_new();
   dbusmenu_menuitem_property_set(new_item, DBUSMENU_MENUITEM_PROP_LABEL, node->get_text().c_str());
 
-  if (parent)
+  if (parent != nullptr)
     {
       parent->add(new_item);
     }
-  else if (server)
+  else if (server != nullptr)
     {
       dbusmenu_server_set_root(server, new_item);
       dbusmenu_menuitem_property_set_bool(new_item, DBUSMENU_MENUITEM_PROP_VISIBLE, TRUE);
@@ -147,34 +141,34 @@ IndicatorSubMenuEntry::init()
 
   for (auto menu_to_add: node->get_children())
     {
-      IndicatorMenuEntry::Ptr child = IndicatorMenuEntryFactory::create(this, menu_to_add);
+      DbusMenuEntry::Ptr child = DbusMenuEntryFactory::create(this, menu_to_add);
       children.push_back(child);
     }
 }
 
 void
-IndicatorSubMenuEntry::add(DbusmenuMenuitem *child)
+DbusSubMenuEntry::add(DbusmenuMenuitem *child)
 {
   dbusmenu_menuitem_child_append(item, child);
 };
 
-void IndicatorSubMenuEntry::add_section(){};
+void DbusSubMenuEntry::add_section(){};
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorRadioGroupMenuEntry::IndicatorRadioGroupMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node)
+DbusRadioGroupMenuEntry::DbusRadioGroupMenuEntry(DbusSubMenuEntry *parent, menus::RadioGroupNode::Ptr node)
 {
   item = parent->get_item();
   for (auto child_node: node->get_children())
     {
-      auto child = std::make_shared<IndicatorRadioMenuEntry>(parent, child_node);
+      auto child = std::make_shared<DbusRadioMenuEntry>(parent, child_node);
       children.push_back(child);
     }
 }
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorActionMenuEntry::IndicatorActionMenuEntry(IndicatorSubMenuEntry *parent, menus::ActionNode::Ptr node)
+DbusActionMenuEntry::DbusActionMenuEntry(DbusSubMenuEntry *parent, menus::ActionNode::Ptr node)
   : node(node)
 {
   item = dbusmenu_menuitem_new();
@@ -186,17 +180,17 @@ IndicatorActionMenuEntry::IndicatorActionMenuEntry(IndicatorSubMenuEntry *parent
 }
 
 void
-IndicatorActionMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
+DbusActionMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
 {
   (void)timestamp;
   (void)mi;
 
-  auto *menu = (IndicatorActionMenuEntry *)user_data;
+  auto *menu = (DbusActionMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 
 void
-IndicatorActionMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
+DbusActionMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 {
   (void)mi;
   node->activate();
@@ -204,7 +198,7 @@ IndicatorActionMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorToggleMenuEntry::IndicatorToggleMenuEntry(IndicatorSubMenuEntry *parent, menus::ToggleNode::Ptr node)
+DbusToggleMenuEntry::DbusToggleMenuEntry(DbusSubMenuEntry *parent, menus::ToggleNode::Ptr node)
   : node(node)
 {
   item = dbusmenu_menuitem_new();
@@ -228,17 +222,17 @@ IndicatorToggleMenuEntry::IndicatorToggleMenuEntry(IndicatorSubMenuEntry *parent
 }
 
 void
-IndicatorToggleMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
+DbusToggleMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
 {
   (void)timestamp;
   (void)mi;
 
-  auto *menu = (IndicatorToggleMenuEntry *)user_data;
+  auto *menu = (DbusToggleMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 
 void
-IndicatorToggleMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
+DbusToggleMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 {
   (void)mi;
   node->activate();
@@ -246,7 +240,7 @@ IndicatorToggleMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorRadioMenuEntry::IndicatorRadioMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioNode::Ptr node)
+DbusRadioMenuEntry::DbusRadioMenuEntry(DbusSubMenuEntry *parent, menus::RadioNode::Ptr node)
   : node(node)
 {
   item = dbusmenu_menuitem_new();
@@ -270,17 +264,17 @@ IndicatorRadioMenuEntry::IndicatorRadioMenuEntry(IndicatorSubMenuEntry *parent, 
 }
 
 void
-IndicatorRadioMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
+DbusRadioMenuEntry::static_menu_item_activated(DbusmenuMenuitem *mi, guint timestamp, gpointer user_data)
 {
   (void)timestamp;
   (void)mi;
 
-  auto *menu = (IndicatorRadioMenuEntry *)user_data;
+  auto *menu = (DbusRadioMenuEntry *)user_data;
   menu->menu_item_activated(mi);
 }
 
 void
-IndicatorRadioMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
+DbusRadioMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 {
   (void)mi;
   node->activate();
@@ -288,19 +282,19 @@ IndicatorRadioMenuEntry::menu_item_activated(DbusmenuMenuitem *mi)
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorSeparatorMenuEntry::IndicatorSeparatorMenuEntry(IndicatorSubMenuEntry *parent, menus::SeparatorNode::Ptr)
+DbusSeparatorMenuEntry::DbusSeparatorMenuEntry(DbusSubMenuEntry *parent, menus::SeparatorNode::Ptr)
 {
   parent->add_section();
 }
 
 //////////////////////////////////////////////////////////////////////
 
-IndicatorSectionMenuEntry::IndicatorSectionMenuEntry(IndicatorSubMenuEntry *parent, menus::RadioGroupNode::Ptr node)
+DbusSectionMenuEntry::DbusSectionMenuEntry(DbusSubMenuEntry *parent, menus::SectionNode::Ptr node)
 {
   item = parent->get_item();
   for (auto child_node: node->get_children())
     {
-      auto child = IndicatorMenuEntryFactory::create(parent, child_node);
+      auto child = DbusMenuEntryFactory::create(parent, child_node);
       children.push_back(child);
     }
 }
