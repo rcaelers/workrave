@@ -40,9 +40,12 @@
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
-#include "StatusIcon.hh"
 #include "commonui/Exercise.hh"
 #include "utils/Logging.hh"
+
+#if defined(HAVE_STATUSICON)
+#  include "StatusIcon.hh"
+#endif
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  pragma pop_macro("ERROR")
@@ -138,8 +141,10 @@ private:
   DebugDialog *debug_dialog{nullptr};
   ExercisesDialog *exercises_dialog{nullptr};
   Gtk::AboutDialog *about_dialog{nullptr};
-  StatusIcon *status_icon{nullptr};
   int hold_count{0};
+#if defined(HAVE_STATUSICON)
+  StatusIcon *status_icon{nullptr};
+#endif
 
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;

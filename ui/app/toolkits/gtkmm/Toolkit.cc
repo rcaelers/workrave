@@ -45,7 +45,9 @@ Toolkit::~Toolkit()
 {
   TRACE_ENTRY();
   delete main_window;
+#if defined(HAVE_STATUSICON)
   delete status_icon;
+#endif
   delete statistics_dialog;
   delete preferences_dialog;
   delete debug_dialog;
@@ -75,6 +77,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
 
   event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this, &Toolkit::on_main_window_closed)));
 
+#if defined(HAVE_STATUSICON)
   auto status_icon_menu = std::make_shared<ToolkitMenu>(menu_model);
   status_icon_menu->get_menu()->attach_to_widget(*main_window);
   status_icon = new StatusIcon(app, status_icon_menu);
@@ -84,6 +87,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
     status_icon->signal_activated().connect(sigc::mem_fun(*this, &Toolkit::on_status_icon_activated)));
   event_connections.emplace_back(
     status_icon->signal_balloon_activated().connect(sigc::mem_fun(*this, &Toolkit::on_status_icon_balloon_activated)));
+#endif
 
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &Toolkit::on_timer), 1000);
 
@@ -416,13 +420,17 @@ Toolkit::show_notification(const std::string &id,
                            std::function<void()> func)
 {
   notify_add_confirm_function(id, func);
+#if defined(HAVE_STATUSICON)
   status_icon->show_balloon(id, balloon);
+#endif
 }
 
 void
 Toolkit::show_tooltip(const std::string &tip)
 {
+#if defined(HAVE_STATUSICON)
   status_icon->set_tooltip(tip);
+#endif
 }
 
 void
