@@ -31,11 +31,14 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   widgets/EventLabel.cc
   widgets/Frame.cc
   widgets/PanelList.cc
-  widgets/StatusIcon.cc
   widgets/TimeBar.cc
   widgets/TimeEntry.cc
   widgets/TimerBoxGtkView.cc
   )
+
+if (HAVE_STATUSICON)
+  target_sources(workrave-toolkit-gtkmm PRIVATE widgets/StatusIcon.cc)
+endif()
 
 if (PLATFORM_OS_UNIX)
   target_sources(workrave-toolkit-gtkmm PRIVATE
