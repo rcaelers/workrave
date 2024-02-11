@@ -29,7 +29,12 @@
 #include "ToolkitMenu.hh"
 #include "ui/AppHold.hh"
 
-#include <libappindicator/app-indicator.h>
+#if defined(HAVE_APPINDICATOR_AYATANA)
+#  include <libayatana-appindicator/app-indicator.h>
+#else
+#  include <libappindicator/app-indicator.h>
+#  endif
+
 #include <gtk/gtk.h>
 
 class AppIndicatorMenu
