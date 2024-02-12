@@ -149,7 +149,7 @@ build_single() {
 }
 
 build_all() {
-    for series in mantic lunar jammy focal; do
+    for series in noble mantic jammy focal; do
         build_single $series
     done
 }
