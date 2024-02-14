@@ -1,9 +1,13 @@
-Workrave NEWS -- history of user-visible changes. 02 February 2024
-Copyright (C) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes. 16 February 2024
+Copyright (C) 2001-2024 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-beta.11
+
+** Support status icons using the StatusNotifierItem protoccol (#447)
 
 * Workrave 1.11.0-beta.10
 
@@ -820,7 +824,7 @@ https://github.com/rcaelers/workrave/issues
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2023 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2024 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
