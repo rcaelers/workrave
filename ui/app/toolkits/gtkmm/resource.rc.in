@@ -17,7 +17,7 @@ VS_VERSION_INFO VERSIONINFO
         VALUE "FileDescription", "Workrave"
         VALUE "FileVersion", "@WR_VERSION@"
         VALUE "InternalName", "workrave"
-        VALUE "LegalCopyright", "Copyright (C) 2001-2023 The Workrave development team."
+        VALUE "LegalCopyright", "Copyright (C) 2001-2024 The Workrave development team."
         VALUE "OriginalFilename", "WorkraveCrashHandler.exe"
         VALUE "ProductName", "Workrave"
         VALUE "ProductVersion", "@WR_VERSION@"
