@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 set -x
 
@@ -168,11 +168,14 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
             mkdir -p ${SOURCES_DIR}/_ext
         fi
 
-        if [ ! -d ${SOURCES_DIR}/_ext/appimage ]; then
-            mkdir -p ${SOURCES_DIR}/_ext/appimage
-            cd ${SOURCES_DIR}/_ext/appimage
-            curl -L -O https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-            chmod +x linuxdeploy-x86_64.AppImage
+        PLATFORM=$(uname -m)
+        if [ ! -d ${SOURCES_DIR}/_ext/appimage-${PLATFORM} ]; then
+            mkdir -p ${SOURCES_DIR}/_ext/appimage-${PLATFORM}
+            cd ${SOURCES_DIR}/_ext/appimage-${PLATFORM}
+            curl -L -O https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${PLATFORM}.AppImage
+            # https://github.com/AppImage/AppImageKit/issues/965#issuecomment-1333557171
+            dd if=/dev/zero bs=1 count=3 seek=8 conv=notrunc of=linuxdeploy-${PLATFORM}.AppImage
+            chmod +x linuxdeploy-${PLATFORM}.AppImage
             curl -L -O https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh
             chmod +x linuxdeploy-plugin-gtk.sh
         fi
@@ -192,10 +195,10 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
             version=${WORKRAVE_VERSION}${EXTRA}
         fi
 
-        export LD_LIBRARY_PATH=${OUTPUT_DIR}/AppData/usr/lib:${OUTPUT_DIR}/AppData/usr/lib/x86_64-linux-gnu
+        export LD_LIBRARY_PATH=${OUTPUT_DIR}/AppData/usr/lib:${OUTPUT_DIR}/AppData/usr/lib/${PLATFORM}-linux-gnu
 
         cd ${OUTPUT_DIR}
-        VERSION="$version" ${SOURCES_DIR}/_ext/appimage/linuxdeploy-x86_64.AppImage \
+        VERSION="$version" ${SOURCES_DIR}/_ext/appimage-${PLATFORM}/linuxdeploy-${PLATFORM}.AppImage \
             --appdir ${OUTPUT_DIR}/AppData \
             --plugin gtk \
             --output appimage \
