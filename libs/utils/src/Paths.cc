@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <filesystem>
 
 #include "utils/Paths.hh"
 
@@ -267,6 +268,47 @@ Paths::get_config_directories()
   return canonicalize(directories);
 }
 
+std::list<std::filesystem::path>
+Paths::get_state_directories()
+{
+  TRACE_ENTRY();
+  std::list<std::filesystem::path> directories;
+  try
+    {
+#if defined(PLATFORM_OS_WINDOWS)
+      directories.push_back(get_application_directory() / "etc");
+      directories.push_back(get_home_directory() / "Workrave");
+#endif
+
+#if defined(HAVE_GLIB)
+#  if GLIB_CHECK_VERSION(2, 72, 0)
+      const gchar *user_state_dir = g_get_user_state_dir();
+      directories.push_back(std::filesystem::path(user_state_dir) / "workrave");
+#  endif
+      const gchar *user_data_dir = g_get_user_data_dir();
+      directories.push_back(std::filesystem::path(user_data_dir) / "workrave");
+      const gchar *user_config_dir = g_get_user_config_dir();
+      directories.push_back(std::filesystem::path(user_config_dir) / "workrave");
+#endif
+
+#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_MACOS)
+      directories.push_back(get_home_directory() / ".workrave");
+#endif
+    }
+  catch (std::exception &e)
+    {
+      TRACE_VAR(e.what());
+    }
+
+#if defined(HAVE_TRACING)
+  for (const auto &d: canonicalize(directories))
+    {
+      TRACE_VAR(d.string());
+    }
+#endif
+  return canonicalize(directories);
+}
+
 std::filesystem::path
 Paths::get_config_directory()
 {
@@ -331,9 +373,10 @@ Paths::get_state_directory()
         }
       else
         {
-          std::list<std::filesystem::path> directories = get_config_directories();
+          std::list<std::filesystem::path> directories = get_state_directories();
+
           auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) {
-            return std::filesystem::is_regular_file(d / "state");
+            return std::filesystem::is_directory(d);
           });
           if (it != directories.end())
             {
@@ -347,8 +390,12 @@ Paths::get_state_directory()
 #if defined(PLATFORM_OS_WINDOWS)
               ret = get_home_directory() / "Workrave";
 #elif defined(HAVE_GLIB)
-              const gchar *user_data_dir = g_get_user_data_dir();
-              ret = std::filesystem::path(user_data_dir) / "workrave";
+#  if GLIB_CHECK_VERSION(2, 72, 0)
+              const gchar *user_state_dir = g_get_user_state_dir();
+#  else
+              const gchar *user_state_dir = g_get_user_data_dir();
+#  endif
+              ret = std::filesystem::path(user_state_dir) / "workrave";
 #else
               ret = get_home_directory() / ".workrave";
 #endif
