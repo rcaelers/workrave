@@ -199,6 +199,41 @@ begin
     end;
 end;
 
+function ShouldUninstall(): Boolean;
+var
+  versionMS, versionLS: Cardinal;
+  major, minor: Integer;
+  directories: array[0..1] of String;
+  i: Integer;
+  executablePath: String;
+  installLocation: String;
+begin
+  directories[0] := 'lib';
+  directories[1] := 'bin';
+  installLocation := GetInstallLocation();
+
+  if installLocation <> '' then
+  begin
+    for i := 0 to High(directories) do
+    begin
+      executablePath := ExpandConstant(installLocation + directories[i] + '\workrave.exe');
+      if FileExists(executablePath) and GetVersionNumbers(executablePath, versionMS, versionLS) then
+      begin
+        major := versionMS shr 16;
+        minor := versionMS and $FFFF;
+
+        if (major < 1) or ((major = 1) and (minor < 11)) then
+          Result := True
+        else
+          Result := False;
+        Exit;
+      end;
+    end;
+  end;
+
+  Result := False;
+end;
+
 Function InitializeSetup() : Boolean;
 begin
     taskPageShown := False;
@@ -313,7 +348,10 @@ begin
   case CurStep of
     ssInstall:
       begin
-        UninstallPreviousVersion();
+         if ShouldUninstall() then
+         begin
+           UninstallPreviousVersion();
+         end;
       end;
     ssDone:
       begin
