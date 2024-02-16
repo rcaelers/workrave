@@ -38,9 +38,9 @@ Date: {{ commit.commit.author.timestamp | data_format_from_unix }}
 {%- for enclosure in entry.artifacts %}
 {%- if enclosure.platform == 'windows' and enclosure.kind == 'installer' and enclosure.configuration == 'release' %}
 {%- if entry.channel == 'dev' or environment != '' %}
-            <enclosure os="{{ enclosure.platform }}" url="https://snapshots.workrave.org/{{ enclosure.url }}" sparkle:installerArguments="/SILENT /SP- /NOICONS /CLOSEAPPLICATIONS" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
+            <enclosure os="{{ enclosure.platform }}" url="https://snapshots.workrave.org/{{ enclosure.url }}" sparkle:installerArguments="/SILENT /SP- /NOICONS" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
 {%- else -%}
-            <enclosure os="{{ enclosure.platform }}" url="https://github.com/rcaelers/workrave/releases/download/{{ entry.tag }}/{{ enclosure.filename }}" sparkle:installerArguments="/SILENT /SP- /NOICONS /CLOSEAPPLICATIONS" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
+            <enclosure os="{{ enclosure.platform }}" url="https://github.com/rcaelers/workrave/releases/download/{{ entry.tag }}/{{ enclosure.filename }}" sparkle:installerArguments="/SILENT /SP- /NOICONS" sparkle:edSignature="{{ enclosure.ed25519 }}" length="{{ enclosure.size }}" type="application/octet-stream" />
 {%- endif -%}
 {%- endif -%}
 {%- endfor %}
