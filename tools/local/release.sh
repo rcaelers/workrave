@@ -25,6 +25,33 @@ run_docker_deb() {
         sh -c "/workspace/scripts/local/cow-build.sh"
 }
 
+run_docker_appimage() {
+    export CONF_APPIMAGE=1
+    mkdir -p $DEPLOY_DIR/$GIT_TAG
+    docker run --platform linux/amd64 --rm \
+        --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
+        -v "$SOURCES_DIR:/workspace/source" \
+        -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
+        -v "$SECRETS_DIR:/workspace/secrets" \
+        -v "$SCRIPTS_DIR:/workspace/scripts" \
+        $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
+        ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+        sh -c "/workspace/scripts/ci/build.sh"
+
+    docker run --platform linux/aarch64 --rm \
+        --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
+        -v "$SOURCES_DIR:/workspace/source" \
+        -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
+        -v "$SECRETS_DIR:/workspace/secrets" \
+        -v "$SCRIPTS_DIR:/workspace/scripts" \
+        $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
+        ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+        sh -c "/workspace/scripts/ci/build.sh"
+
+    unset CONF_APPIMAGE
+    unset CONF_SOURCE_TARBALL
+}
+
 init_newsgen() {
     cd ${SCRIPTS_DIR}/citool
     npm install
@@ -156,6 +183,14 @@ parse_arguments() {
     shift $((OPTIND - 1))
 }
 
+upload() {
+    upload_github
+}
+
+upload_github() {
+    gh release upload ${WORKRAVE_GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
+}
+
 export WORKRAVE_OVERRIDE_GIT_VERSION=
 BUILD_DEB=
 PRERELEASE=
@@ -181,16 +216,22 @@ fi
 SOURCES_DIR=$WORKSPACE_DIR/source
 DEPLOY_DIR=$WORKSPACE_DIR/deploy
 
+export CONF_CONFIGURATION=Release
 export WORKRAVE_ENV=local
 init
 
-DOCKER_IMAGE="ubuntu-lunar"
+export DOCKER_IMAGE="ubuntu-mantic"
 setup
-run_docker_ppa
+run_docker_appimage
+env
+# run_docker_ppa
 
-if [ -n "$BUILD_DEB" ]; then
-    echo Build all debian packages.
-    run_docker_deb
+# if [ -n "$BUILD_DEB" ]; then
+#     echo Build all debian packages.
+#     run_docker_deb
+# fi
+
+# generate_blog
+if [ -z "${DRYRUN}" ]; then
+    upload
 fi
-
-generate_blog

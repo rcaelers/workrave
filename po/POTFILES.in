@@ -126,7 +126,8 @@ ui/app/toolkits/gtkmm/MicroBreakWindow.cc
 ui/app/toolkits/gtkmm/platforms/macos/MacOSUtil.cc
 ui/app/toolkits/gtkmm/platforms/unix/desktop-window.c
 ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c
-ui/app/toolkits/gtkmm/platforms/unix/IndicatorAppletMenu.cc
+ui/app/toolkits/gtkmm/platforms/unix/AppIndicatorMenu.cc
+ui/app/toolkits/gtkmm/platforms/unix/DbusMenu.cc
 ui/app/toolkits/gtkmm/platforms/unix/UnixLocker.cc
 ui/app/toolkits/gtkmm/platforms/unix/X11SystrayAppletWindow.cc
 ui/app/toolkits/gtkmm/platforms/windows/Edge.cc

@@ -268,7 +268,8 @@ namespace menus
   {
   public:
     using Ptr = std::shared_ptr<SeparatorNode>;
-    SeparatorNode() = default;
+    SeparatorNode()
+      : Node("seperator"){};
     static auto create() -> Ptr;
   };
 } // namespace menus

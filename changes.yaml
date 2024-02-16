@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.11.0-beta.11
+    date: 2024-02-16T00:00:00+01:00
+    short: |-
+      Workrave 1.11.0-beta.11 has been released.
+    changes:
+      - Support status icons using the StatusNotifierItem protoccol (#447)
+
   - version: 1.11.0-beta.10
     date: 2024-02-02T18:57:28+01:00
     short: |-

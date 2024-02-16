@@ -23,10 +23,6 @@
 
 #include <X11/Xlib.h>
 
-#if defined(HAVE_INDICATOR)
-#  include "IndicatorAppletMenu.hh"
-#endif
-
 #include "BreakWindow.hh"
 
 ToolkitUnix::ToolkitUnix(int argc, char **argv)

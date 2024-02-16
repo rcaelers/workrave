@@ -246,11 +246,18 @@ jobs:
             appimage: true
             upload: true
 
-          - image: ubuntu-lunar
+          - image: ubuntu-mantic
             os: ubuntu-22.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
+
+          - image: ubuntu-noble
+            os: ubuntu-22.04
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           # - image: mingw-fedora-rawhide
