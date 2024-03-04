@@ -34,14 +34,12 @@ public:
   ~CoreHooks() override = default;
 
 #if defined(HAVE_TESTS)
-  std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() override;
   std::function<IActivityMonitor::Ptr()> &hook_create_monitor() override;
   std::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() override;
 #endif
 
 private:
 #if defined(HAVE_TESTS)
-  std::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
   std::function<IActivityMonitor::Ptr()> create_monitor_hook;
   std::function<bool(Timer::Ptr[workrave::BREAK_ID_SIZEOF])> load_timer_state_hook;
 #endif

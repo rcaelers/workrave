@@ -24,11 +24,6 @@
 #include "CoreHooks.hh"
 
 #if defined(HAVE_TESTS)
-std::function<workrave::config::IConfigurator::Ptr()> &
-CoreHooks::hook_create_configurator()
-{
-  return create_configurator_hook;
-}
 
 std::function<IActivityMonitor::Ptr()> &
 CoreHooks::hook_create_monitor()

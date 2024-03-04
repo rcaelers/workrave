@@ -72,6 +72,7 @@ public:
   ~Toolkit() override;
 
   // IToolkit
+  void preinit(std::shared_ptr<workrave::config::IConfigurator> config) override;
   void init(std::shared_ptr<IApplicationContext> app) override;
   void deinit() override;
 

@@ -78,7 +78,7 @@ MonitoringPreferencePanel::create_panel()
   connector->connect(CoreConfig::monitor_sensitivity(), dc::wrap(sensitivity_adjustment));
 
   std::string monitor_type;
-  app->get_core()->get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");
+  app->get_configurator()->get_value_with_default("advanced/monitor", monitor_type, "default");
 
   monitor_type_cb->set_active(monitor_type != "default");
 
@@ -95,7 +95,7 @@ void
 MonitoringPreferencePanel::on_monitor_type_toggled()
 {
   bool on = monitor_type_cb->get_active();
-  app->get_core()->get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
+  app->get_configurator()->set_value("advanced/monitor", on ? "lowlevel" : "default");
   sensitivity_box->set_sensitive(on);
 }
 #endif

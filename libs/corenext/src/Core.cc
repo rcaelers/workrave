@@ -55,12 +55,13 @@ using namespace workrave::dbus;
 using namespace workrave::utils;
 
 ICore::Ptr
-CoreFactory::create()
+CoreFactory::create(workrave::config::IConfigurator::Ptr configurator)
 {
-  return std::make_shared<Core>();
+  return std::make_shared<Core>(configurator);
 }
 
-Core::Core()
+Core::Core(workrave::config::IConfigurator::Ptr configurator)
+  : configurator(configurator)
 {
   TRACE_ENTRY();
   hooks = std::make_shared<CoreHooks>();
@@ -81,10 +82,10 @@ Core::init(IApp *app, const char *display_name)
 {
   application = app;
 
+  CoreConfig::init(configurator);
+
   dbus = DBusFactory::create();
   dbus->init();
-
-  init_configurator();
 
 #if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
@@ -111,74 +112,6 @@ Core::init(IApp *app, const char *display_name)
   breaks_control->init();
 
   init_bus();
-}
-
-void
-Core::init_configurator()
-{
-  string ini_file = AssetPath::complete_directory("workrave.ini", SearchPathId::Config);
-
-#if defined(HAVE_TESTS)
-  if (hooks->hook_create_configurator())
-    {
-      configurator = hooks->hook_create_configurator()();
-    }
-#endif
-
-  // LCOV_EXCL_START
-  if (!configurator)
-    {
-      if (std::filesystem::is_regular_file(ini_file))
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-          configurator->load(ini_file);
-        }
-      else
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
-
-          if (configurator == nullptr)
-            {
-              std::string configFile = AssetPath::complete_directory("config.xml", SearchPathId::Config);
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
-
-              if (configurator)
-                {
-#if defined(PLATFORM_OS_UNIX)
-                  if (configFile.empty() || configFile == "config.xml")
-                    {
-                      configFile = Paths::get_config_directory() / "config.xml";
-                    }
-#endif
-                  if (!configFile.empty())
-                    {
-                      configurator->load(configFile);
-                    }
-                }
-            }
-
-          if (configurator == nullptr)
-            {
-              ini_file = (Paths::get_config_directory() / "workrave.ini").string();
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-
-              if (configurator)
-                {
-                  configurator->load(ini_file);
-                  configurator->save();
-                }
-            }
-        }
-    }
-
-  CoreConfig::init(configurator);
-
-  string home = CoreConfig::general_datadir()();
-  if (!home.empty())
-    {
-      Paths::set_portable_directory(home);
-    }
-  // LCOV_EXCL_STOP
 }
 
 //! Initializes the communication bus.
@@ -264,13 +197,6 @@ IStatistics::Ptr
 Core::get_statistics() const
 {
   return statistics;
-}
-
-//! Returns the configurator.
-IConfigurator::Ptr
-Core::get_configurator() const
-{
-  return configurator;
 }
 
 //!

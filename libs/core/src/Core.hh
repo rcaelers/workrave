@@ -60,6 +60,7 @@ public:
   Core();
   ~Core() override;
 
+  static void set_configurator(workrave::config::IConfigurator::Ptr configurator);
   static Core *get_instance();
 #if defined(HAVE_TESTS)
   static void reset_instance();
@@ -73,7 +74,6 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id) override;
   Break *get_break(std::string name) override;
-  workrave::config::IConfigurator::Ptr get_configurator() const override;
   IActivityMonitor::Ptr get_activity_monitor() const;
   bool is_user_active() const override;
   bool is_taking() const override;
@@ -138,7 +138,6 @@ private:
 
   void init(int argc, char **argv, IApp *application, const char *display_name) override;
   void init_breaks();
-  void init_configurator();
   void init_monitor(const char *display_name);
   void init_distribution_manager();
   void init_bus();
@@ -190,7 +189,7 @@ private:
   Break breaks[workrave::BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  workrave::config::IConfigurator::Ptr configurator{nullptr};
+  static workrave::config::IConfigurator::Ptr configurator;
 
   //! The activity monitor
   IActivityMonitor::Ptr monitor;

@@ -42,6 +42,9 @@
 #include "utils/Exception.hh"
 #include "utils/Platform.hh"
 #include "utils/Paths.hh" // IWYU pragma: keep
+#include "utils/AssetPath.hh"
+#include "config/ConfiguratorFactory.hh"
+#include "core/CoreConfig.hh"
 
 // #if defined(HAVE_DBUS)
 // #  include "GenericDBusApplet.hh"
@@ -81,7 +84,11 @@ Application::main()
 
   context = std::make_shared<Context>();
 
+  init_configurator();
+  context->set_configurator(configurator);
+
   toolkit = toolkit_factory->create(argc, argv);
+  toolkit->preinit(configurator);
   context->set_toolkit(toolkit);
 
   System::init();
@@ -121,12 +128,74 @@ Application::main()
   PluginRegistry::instance().deinit();
 
   System::clear();
-  core->get_configurator()->save();
+  configurator->save();
 }
 
 void
 Application::init_args()
 {
+}
+
+void
+Application::init_configurator()
+{
+  std::string ini_file = AssetPath::complete_directory("workrave.ini", SearchPathId::Config);
+
+  // LCOV_EXCL_START
+  if (!configurator)
+    {
+      if (std::filesystem::is_regular_file(ini_file))
+        {
+          configurator = workrave::config::ConfiguratorFactory::create(workrave::config::ConfigFileFormat::Ini);
+          configurator->load(ini_file);
+        }
+      else
+        {
+          configurator = workrave::config::ConfiguratorFactory::create(workrave::config::ConfigFileFormat::Native);
+
+          if (configurator == nullptr)
+            {
+              std::string configFile = AssetPath::complete_directory("config.xml", SearchPathId::Config);
+              configurator = workrave::config::ConfiguratorFactory::create(workrave::config::ConfigFileFormat::Xml);
+
+              if (configurator)
+                {
+#if defined(PLATFORM_OS_UNIX)
+                  if (configFile.empty() || configFile == "config.xml")
+                    {
+                      configFile = Paths::get_config_directory() / "config.xml";
+                    }
+#endif
+                  if (!configFile.empty())
+                    {
+                      configurator->load(configFile);
+                    }
+                }
+            }
+
+          if (configurator == nullptr)
+            {
+              ini_file = (Paths::get_config_directory() / "workrave.ini").string();
+              configurator = workrave::config::ConfiguratorFactory::create(workrave::config::ConfigFileFormat::Ini);
+
+              if (configurator)
+                {
+                  configurator->load(ini_file);
+                  configurator->save();
+                }
+            }
+        }
+    }
+
+  GUIConfig::init(configurator);
+  CoreConfig::init(configurator);
+
+  std::string home = CoreConfig::general_datadir()();
+  if (!home.empty())
+    {
+      Paths::set_portable_directory(home);
+    }
+  // LCOV_EXCL_STOP
 }
 
 void
@@ -179,7 +248,7 @@ Application::init_nls()
 void
 Application::init_core()
 {
-  core = CoreFactory::create();
+  core = CoreFactory::create(configurator);
   context->set_core(core);
 #if defined(HAVE_CORE_NEXT)
   core->init(this, toolkit->get_display_name());
@@ -192,7 +261,6 @@ Application::init_core()
   core->init(argc, argv, this, toolkit->get_display_name());
   core->set_core_events_listener(this);
 #endif
-  GUIConfig::init(core->get_configurator());
 }
 
 void
@@ -253,7 +321,7 @@ Application::init_sound_player()
       // Tell pulseaudio were are playing sound events
       Platform::setenv("PULSE_PROP_media.role", "event", 1);
 
-      sound_theme = std::make_shared<SoundTheme>(core->get_configurator());
+      sound_theme = std::make_shared<SoundTheme>(configurator);
       sound_theme->init();
       context->set_sound_theme(sound_theme);
     }

@@ -30,6 +30,7 @@
 #include "commonui/nls.h"
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
+#include "config/IConfigurator.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -53,6 +54,12 @@ Toolkit::~Toolkit()
   delete debug_dialog;
   delete exercises_dialog;
   delete about_dialog;
+}
+
+void
+Toolkit::preinit(std::shared_ptr<IConfigurator> config)
+{
+  TRACE_ENTRY();
 }
 
 void

@@ -34,8 +34,8 @@ ApplicationWindows::ApplicationWindows(int argc, char **argv, std::shared_ptr<IT
 void
 ApplicationWindows::init_platform_pre()
 {
-  WindowsForceFocus::init(get_core()->get_configurator());
-  WindowsCompat::init(get_core()->get_configurator());
+  WindowsForceFocus::init(get_configurator());
+  WindowsCompat::init(get_configurator());
 }
 
 void

@@ -29,6 +29,7 @@ public:
   ~ToolkitUnix() override = default;
 
   // IToolkit
+  void preinit(std::shared_ptr<workrave::config::IConfigurator> config) override;
   void init(std::shared_ptr<IApplicationContext> app) override;
   IBreakWindow::Ptr create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) override;
   std::shared_ptr<Locker> get_locker() override;

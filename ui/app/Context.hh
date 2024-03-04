@@ -52,6 +52,7 @@ public:
   // virtual IPreferencesRegistryInternal::Ptr get_internal_preferences_registry() const;
 
   void set_core(workrave::ICore::Ptr core);
+  void set_configurator(workrave::config::IConfigurator::Ptr configurator);
   void set_toolkit(IToolkit::Ptr toolkit);
   void set_sound_theme(SoundTheme::Ptr sound_theme);
   void set_exercises(ExerciseCollection::Ptr exercises);
@@ -60,6 +61,7 @@ public:
 
 private:
   std::shared_ptr<workrave::ICore> core;
+  workrave::config::IConfigurator::Ptr configurator;
   std::weak_ptr<IToolkit> toolkit;
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
@@ -94,7 +96,7 @@ Context::get_core() const -> workrave::ICore::Ptr
 inline auto
 Context::get_configurator() const -> workrave::config::IConfigurator::Ptr
 {
-  return core->get_configurator();
+  return configurator;
 }
 
 inline auto
@@ -119,6 +121,12 @@ inline void
 Context::set_core(workrave::ICore::Ptr core)
 {
   this->core = std::move(core);
+}
+
+inline void
+Context::set_configurator(workrave::config::IConfigurator::Ptr configurator)
+{
+  this->configurator = std::move(configurator);
 }
 
 inline void

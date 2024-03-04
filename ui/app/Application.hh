@@ -32,6 +32,7 @@
 #include "core/ICore.hh"
 #include "ui/IApplicationContext.hh"
 #include "ui/IPluginContext.hh"
+#include "config/IConfigurator.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
 #include "ui/IToolkitFactory.hh"
@@ -58,6 +59,7 @@ public:
   auto get_sound_theme() const -> SoundTheme::Ptr;
   auto get_menu_model() const -> MenuModel::Ptr;
   auto get_core() const -> workrave::ICore::Ptr;
+  auto get_configurator() const -> workrave::config::IConfigurator::Ptr;
   auto get_toolkit() const -> IToolkit::Ptr;
   auto get_preferences_registry() const -> IPreferencesRegistry::Ptr;
   auto get_internal_preferences_registry() const -> IPreferencesRegistryInternal::Ptr;
@@ -84,6 +86,7 @@ public:
 private:
   auto get_timers_tooltip() -> std::string;
   void on_timer();
+  void init_configurator();
   void init_args();
   void init_nls();
   void init_core();
@@ -111,6 +114,8 @@ private:
   std::shared_ptr<ExerciseCollection> exercises;
   std::shared_ptr<PreferencesRegistry> preferences_registry;
   std::shared_ptr<Context> context;
+  std::shared_ptr<workrave::config::IConfigurator> configurator;
+
   int argc{0};
   char **argv{nullptr};
   std::vector<IBreakWindow::Ptr> break_windows;
@@ -139,6 +144,12 @@ inline auto
 Application::get_core() const -> workrave::ICore::Ptr
 {
   return core;
+}
+
+inline auto
+Application::get_configurator() const -> workrave::config::IConfigurator::Ptr
+{
+  return configurator;
 }
 
 inline auto

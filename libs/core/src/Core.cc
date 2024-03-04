@@ -69,6 +69,7 @@
 #endif
 
 Core *Core::instance = nullptr;
+workrave::config::IConfigurator::Ptr Core::configurator = nullptr;
 
 const char *WORKRAVESTATE = "WorkRaveState";
 const int SAVESTATETIME = 60;
@@ -81,9 +82,16 @@ using namespace workrave::config;
 using namespace std;
 
 ICore::Ptr
-CoreFactory::create()
+CoreFactory::create(workrave::config::IConfigurator::Ptr configurator)
 {
+  Core::set_configurator(configurator);
   return std::make_shared<Core>();
+}
+
+void
+Core::set_configurator(workrave::config::IConfigurator::Ptr configurator)
+{
+  Core::configurator = configurator;
 }
 
 //! Constructs a new Core.
@@ -123,7 +131,8 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
   this->argc = argc;
   this->argv = argv;
 
-  init_configurator();
+  CoreConfig::init(configurator);
+
   init_monitor(display_name);
 
   init_breaks();
@@ -132,66 +141,6 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
 
   load_state();
   load_misc();
-}
-
-//! Initializes the configurator.
-void
-Core::init_configurator()
-{
-  string ini_file = AssetPath::complete_directory("workrave.ini", SearchPathId::Config);
-
-#if defined(HAVE_TESTS)
-  if (hooks->hook_create_configurator())
-    {
-      configurator = hooks->hook_create_configurator()();
-    }
-#endif
-
-  if (!configurator)
-    {
-      std::filesystem::path f(ini_file);
-      if (std::filesystem::is_regular_file(f))
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-          configurator->load(ini_file);
-        }
-      else
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
-          if (configurator == nullptr)
-            {
-              string configFile = AssetPath::complete_directory("config.xml", SearchPathId::Config);
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
-
-#if defined(PLATFORM_OS_UNIX)
-              if (configFile.empty() || configFile == "config.xml")
-                {
-                  configFile = (Paths::get_config_directory() / "config.xml").string();
-                }
-#endif
-              if (!configFile.empty())
-                {
-                  configurator->load(configFile);
-                }
-            }
-
-          if (configurator == nullptr)
-            {
-              ini_file = (Paths::get_config_directory() / "workrave.ini").string();
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-              configurator->load(ini_file);
-              configurator->save();
-            }
-        }
-    }
-
-  CoreConfig::init(configurator);
-
-  string home;
-  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && !home.empty())
-    {
-      Paths::set_portable_directory(home);
-    }
 }
 
 //! Initializes the communication bus.
@@ -343,7 +292,7 @@ Core::config_changed_notify(const string &key)
   if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
     {
       int mode;
-      if (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+      if (!configurator->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
         {
           mode = underlying_cast(OperationMode::Normal);
         }
@@ -358,7 +307,7 @@ Core::config_changed_notify(const string &key)
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
     {
       int mode;
-      if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+      if (!configurator->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
         {
           mode = underlying_cast(UsageMode::Normal);
         }
@@ -411,13 +360,6 @@ Core::get_timer(string name) const
         }
     }
   return nullptr;
-}
-
-//! Returns the configurator.
-workrave::config::IConfigurator::Ptr
-Core::get_configurator() const
-{
-  return configurator;
 }
 
 //!
@@ -674,7 +616,7 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       if (persistent)
         {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, underlying_cast(mode));
+          configurator->set_value(CoreConfig::CFG_KEY_USAGE_MODE, underlying_cast(mode));
         }
 
       usage_mode_changed_signal(mode);
@@ -1422,14 +1364,14 @@ Core::load_misc()
   configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
 
   int mode;
-  if (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+  if (!configurator->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
       mode = underlying_cast(OperationMode::Normal);
     }
   set_operation_mode_internal(OperationMode(mode));
   check_operation_mode_auto_reset();
 
-  if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+  if (!configurator->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
     {
       mode = underlying_cast(UsageMode::Normal);
     }

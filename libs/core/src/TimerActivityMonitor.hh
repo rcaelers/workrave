@@ -20,6 +20,7 @@
 
 #include "Core.hh"
 #include "IActivityMonitor.hh"
+#include "debug.hh"
 
 //! An Activity Monitor that takes its activity state from a timer.
 /*! This Activity Monitor is 'active' if the timer is running or if
@@ -91,11 +92,9 @@ public:
         TRACE_MSG("Idle stopped");
         return ACTIVITY_IDLE;
       }
-    else
-      {
-        TRACE_MSG("Active");
-        return ACTIVITY_ACTIVE;
-      }
+
+    TRACE_MSG("Active");
+    return ACTIVITY_ACTIVE;
   }
 
   //! Force state to be idle.

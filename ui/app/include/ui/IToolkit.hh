@@ -21,6 +21,7 @@
 #include <memory>
 #include <boost/signals2.hpp>
 
+#include "config/IConfigurator.hh"
 #include "ui/UiTypes.hh"
 
 #include "ui/Locker.hh"
@@ -46,6 +47,7 @@ public:
 
   virtual ~IToolkit() = default;
 
+  virtual void preinit(std::shared_ptr<workrave::config::IConfigurator> config) = 0;
   virtual void init(std::shared_ptr<IApplicationContext> app) = 0;
   virtual void deinit() = 0;
 

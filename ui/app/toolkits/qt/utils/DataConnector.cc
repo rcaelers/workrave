@@ -40,7 +40,7 @@ DEFINE_DATA_TYPE_PTR(QAbstractSlider, DataConnectionQAbstractSlider);
 DEFINE_DATA_TYPE_PTR(TimeEntry, DataConnectionTimeEntry);
 
 DataConnector::DataConnector(std::shared_ptr<IApplicationContext> app)
-  : config(app->get_core()->get_configurator())
+  : config(app->get_configurator())
 {
 }
 

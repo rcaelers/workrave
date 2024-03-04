@@ -40,7 +40,7 @@ namespace workrave
 class Core : public workrave::ICore
 {
 public:
-  Core();
+  explicit Core(workrave::config::IConfigurator::Ptr configurator);
   ~Core() override;
 
   // ICore
@@ -51,7 +51,6 @@ public:
   void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
   workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
-  workrave::config::IConfigurator::Ptr get_configurator() const override;
   ICoreHooks::Ptr get_hooks() const override;
   workrave::dbus::IDBus::Ptr get_dbus() const override;
   bool is_user_active() const override;
@@ -73,7 +72,6 @@ public:
   void report_external_activity(std::string who, bool act);
 
 private:
-  void init_configurator();
   void init_bus();
 
 private:

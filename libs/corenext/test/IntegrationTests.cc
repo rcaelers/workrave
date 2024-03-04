@@ -223,12 +223,11 @@ public:
   {
     TRACE_ENTRY();
     workrave::config::SettingCache::reset();
-    core = workrave::CoreFactory::create();
+    core = workrave::CoreFactory::create(create_configurator());
 
     ICoreHooks::Ptr hooks = core->get_hooks();
     ICoreTestHooks::Ptr test_hooks = std::dynamic_pointer_cast<ICoreTestHooks>(hooks);
 
-    test_hooks->hook_create_configurator() = std::bind(&Backend::on_create_configurator, this);
     test_hooks->hook_create_monitor() = std::bind(&Backend::on_create_monitor, this);
     test_hooks->hook_load_timer_state() = std::bind(&Backend::on_load_timer_state, this, std::placeholders::_1);
 
@@ -654,7 +653,7 @@ public:
     return monitor;
   }
 
-  IConfigurator::Ptr on_create_configurator()
+  IConfigurator::Ptr create_configurator()
   {
     config = ConfiguratorFactory::create(ConfigFileFormat::Ini);
 

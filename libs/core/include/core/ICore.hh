@@ -116,9 +116,6 @@ namespace workrave
 
     virtual void post_event(CoreEvent event) = 0;
 
-    //! Return configuration
-    [[nodiscard]] virtual config::IConfigurator::Ptr get_configurator() const = 0;
-
     //! Return the hooks
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
@@ -129,7 +126,7 @@ namespace workrave
   class CoreFactory
   {
   public:
-    static ICore::Ptr create();
+    static ICore::Ptr create(workrave::config::IConfigurator::Ptr configurator);
   };
 }; // namespace workrave
 

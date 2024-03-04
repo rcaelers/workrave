@@ -51,6 +51,12 @@ WaylandInputMonitor::init()
 {
   TRACE_ENTRY();
   auto *gdk_display = gdk_display_get_default();
+  if (gdk_display == nullptr)
+    {
+      TRACE_MSG("no default display");
+      return false;
+    }
+
   // NOLINTNEXTLINE(bugprone-assignment-in-if-condition,cppcoreguidelines-pro-type-cstyle-cast)
   if (!GDK_IS_WAYLAND_DISPLAY(gdk_display))
     {

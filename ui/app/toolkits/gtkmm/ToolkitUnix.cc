@@ -25,9 +25,24 @@
 
 #include "BreakWindow.hh"
 
+#include "config/IConfigurator.hh"
+#include "debug.hh"
+
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
 {
+}
+
+void
+ToolkitUnix::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
+{
+  TRACE_ENTRY();
+  if (GUIConfig::force_x11()())
+    {
+      spdlog::info("Forcing X11 backend");
+      g_setenv("GDK_BACKEND", "x11", TRUE);
+    }
+
   XInitThreads();
   gdk_init(nullptr, nullptr);
 
@@ -37,10 +52,7 @@ ToolkitUnix::ToolkitUnix(int argc, char **argv)
 void
 ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
-  if (GUIConfig::force_x11()())
-    {
-      g_setenv("GDK_BACKEND", "x11", TRUE);
-    }
+  TRACE_ENTRY();
 
   Toolkit::init(app);
 

@@ -146,7 +146,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
   if (WindowsForceFocus::GetForceFocusValue())
     initial_ignore_activity = true;
 
-  app->get_core()->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start",
+  app->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start",
                                                               force_focus_on_break_start,
                                                               true);
 #endif
