@@ -45,6 +45,12 @@ Toolkit::Toolkit(int argc, char **argv)
 }
 
 void
+Toolkit::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
+{
+  TRACE_ENTRY();
+}
+
+void
 Toolkit::init(std::shared_ptr<IApplicationContext> app)
 {
   this->app = app;
