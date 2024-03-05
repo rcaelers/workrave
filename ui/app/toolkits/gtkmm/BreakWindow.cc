@@ -56,6 +56,8 @@
 #  include "core/ICore.hh"
 #elif defined(PLATFORM_OS_UNIX)
 #  include "desktop-window.h"
+#endif
+#if defined(HAVE_WAYLAND)
 #  include "WaylandWindowManager.hh"
 #endif
 
@@ -76,7 +78,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 {
   TRACE_ENTRY();
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   if (Platform::running_on_wayland())
     {
       auto wm = std::make_shared<WaylandWindowManager>();
@@ -146,9 +148,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
   if (WindowsForceFocus::GetForceFocusValue())
     initial_ignore_activity = true;
 
-  app->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start",
-                                                              force_focus_on_break_start,
-                                                              true);
+  app->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start", force_focus_on_break_start, true);
 #endif
 
   auto core = app->get_core();
@@ -695,7 +695,7 @@ BreakWindow::start()
   // Otherwise, there is not gobj()...
   realize_if_needed();
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   if (window_manager)
     {
       window_manager->init_surface(*this, head.get_monitor(), true);
@@ -764,7 +764,7 @@ BreakWindow::stop()
 
   hide();
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   if (window_manager)
     {
       window_manager->clear_surfaces();

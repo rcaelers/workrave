@@ -46,7 +46,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP)
 {
   TRACE_ENTRY();
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   if (Platform::running_on_wayland())
     {
       auto wm = std::make_shared<WaylandWindowManager>();
@@ -137,7 +137,7 @@ PreludeWindow::start()
   // Otherwise, there is no gobj()...
   realize_if_needed();
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   if (window_manager)
     {
       window_manager->init_surface(*this, head.get_monitor(), false);
@@ -198,7 +198,7 @@ PreludeWindow::stop()
   frame->set_frame_flashing(0);
   hide();
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   if (window_manager)
     {
       window_manager->clear_surfaces();

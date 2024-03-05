@@ -34,7 +34,10 @@
 #include "X11InputMonitor.hh"
 #include "XScreenSaverMonitor.hh"
 #include "MutterInputMonitor.hh"
-#include "WaylandInputMonitor.hh"
+
+#if defined(HAVE_WAYLAND)
+#  include "WaylandInputMonitor.hh"
+#endif
 
 using namespace std;
 using namespace workrave;
@@ -111,10 +114,12 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
             {
               monitor = IInputMonitor::Ptr(new MutterInputMonitor());
             }
+#if defined(HAVE_WAYLAND)
           else if (monitor_method == "wayland")
             {
               monitor = IInputMonitor::Ptr(new WaylandInputMonitor());
             }
+#endif
 
           initialized = monitor->init();
 

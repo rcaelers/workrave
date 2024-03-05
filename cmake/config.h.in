@@ -42,6 +42,7 @@
 #cmakedefine HAVE_TESTS
 #cmakedefine HAVE_TRACING
 #cmakedefine HAVE_UNFOLD_AUTO_UPDATE
+#cmakedefine HAVE_WAYLAND
 #cmakedefine HAVE_XFCE4
 #cmakedefine HAVE_XRECORD
 #cmakedefine PLATFORM_OS_MACOS

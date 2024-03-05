@@ -31,7 +31,7 @@
 #if defined(PLATFORM_OS_WINDOWS)
 class DesktopWindow;
 #endif
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
 #  include "platforms/unix/WaylandWindowManager.hh"
 #endif
 
@@ -154,7 +154,7 @@ private:
   bool force_focus_on_break_start{false};
   long parent{0};
 #endif
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
 #endif
 

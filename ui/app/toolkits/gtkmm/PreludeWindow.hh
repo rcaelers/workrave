@@ -101,7 +101,7 @@ private:
   // Alignment in Wayland
   Gtk::Alignment *align{nullptr};
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
 #endif
 };
