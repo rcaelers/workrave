@@ -4,7 +4,8 @@
   "name": "Workrave",
   "description": "Applet that shows all the Workrave timers.",
   "shell-version": [
-    "45"
+    "45",
+    "46"
   ],
   "gettext-domain": "workrave",
   "localedir": "@LOCALEDIR@",

@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.10.53
+    date: 2023-09-25T20:08:51+02:00
+    short: |-
+      Workrave 1.10.53 has been released. This release fixes GNOME 46 compatibility.
+    changes:
+      - Fix GNOME Shell 46 support (#532)
+
   - version: 1.10.52
     date: 2023-09-25T20:08:51+02:00
     short: |-
