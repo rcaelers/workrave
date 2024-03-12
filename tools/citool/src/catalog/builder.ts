@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs';
-import format from 'date-fns';
+import { format } from 'date-fns';
 import git from 'isomorphic-git';
 import as from 'async';
-import mergician from 'mergician';
+import { mergician } from 'mergician';
 
 import { S3Store } from '../common/s3.js';
 import { Catalog } from './catalog.js';
@@ -59,7 +59,7 @@ class Builder {
     if (build) {
       const mergedObj = mergician({
         appendArrays: true,
-        beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+        beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }: { depth: any, key: any, srcObj: any, srcVal: any, targetObj: any, targetVal: any }) {
           if (key == 'notes') {
             return srcVal == null || srcVal.length == 0 ? targetVal : srcVal;
           }
@@ -87,7 +87,7 @@ class Builder {
 
   async mergeCatalogs() {
     try {
-      let backupFilename = path.posix.join(this.branch, format.format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
+      let backupFilename = path.posix.join(this.branch, format(new Date(), 'yyyyMMdd-HHmmss') + '-catalog.json');
       if (this.dry) {
         console.log('Dry run: writeJson(' + backupFilename + '):');
       } else {

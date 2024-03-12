@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 
 import { NewsGenerator } from '../../newsgen/generator.js';
 
-export default class Appcast extends Command {
+export default class NewsgenCmd extends Command {
   static description = 'generate release notes in different formats';
 
   static examples = [
@@ -58,7 +58,7 @@ export default class Appcast extends Command {
   }
 
   async run(): Promise<void> {
-    const { args, flags } = await this.parse(Appcast)
+    const { args, flags } = await this.parse(NewsgenCmd)
 
     try {
       let news = yaml.load(await fs.readFile(flags.input, 'utf8'));

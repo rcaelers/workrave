@@ -1,7 +1,7 @@
 import nunjucks from 'nunjucks';
 import moment from 'moment';
 import path from 'path';
-import semver from 'semver';
+import semver, { inc } from 'semver';
 import yaml from 'js-yaml';
 import { promises as fs } from 'fs';
 import as from 'async';
@@ -18,12 +18,17 @@ class AppcastGenerator {
   news: any;
   input: string;
 
-  tag_to_version(tag: any) {
-    return tag
+  tag_to_version(tag: any, increment: any) {
+    let v = tag
       .replace(/_([0-9])/g, '.$1')
       .replace(/-[0-9]+/g, '')
       .replace(/_/g, '-')
       .replace(/^v/g, '');
+
+    if (increment !== null && increment !== '0') {
+      v = v + '-' + increment;
+    }
+    return v;
   }
 
   constructor(catalog: any, input: string, params: any) {
@@ -46,7 +51,7 @@ class AppcastGenerator {
         return moment.unix(+date).format(format);
       })
       .addFilter('channel', (item: any) => {
-        const version = this.tag_to_version(item.tag);
+        const version = this.tag_to_version(item.tag, item.increment);
         const increment = item.increment;
 
         if (increment !== '0' && increment !== '') {
@@ -61,7 +66,7 @@ class AppcastGenerator {
       })
 
       .addFilter('version', (item: any) => {
-        return this.tag_to_version(item.tag);
+        return this.tag_to_version(item.tag, item.increment);
       });
   }
 
@@ -88,7 +93,7 @@ class AppcastGenerator {
   async fixup() {
     if (this.news) {
       const l = async (build: any) => {
-        let tag = this.tag_to_version(build.tag);
+        let tag = this.tag_to_version(build.tag, build.increment);
         let notes = await this.generateNotes(tag);
         if (notes != '') {
           build.notes = notes;

@@ -1,10 +1,10 @@
-import { Command, Flags } from '@oclif/core'
-
 import { S3Store } from '../../common/s3.js';
 import { Catalog } from '../../catalog/catalog.js';
 import { Builder } from '../../catalog/builder.js';
 
-export default class Appcast extends Command {
+import { Command, Flags } from '@oclif/core'
+
+export default class CatalogCmd extends Command {
   static description = 'update artifacts catalog in S3 storage'
 
   static examples = [
@@ -70,7 +70,7 @@ export default class Appcast extends Command {
   }
 
   async run(): Promise<void> {
-    const { args, flags } = await this.parse(Appcast)
+    const { args, flags } = await this.parse(CatalogCmd)
 
     try {
       let storage = new S3Store(flags.endpoint, flags.bucket, flags.key, flags.secret);

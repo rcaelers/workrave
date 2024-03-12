@@ -8,7 +8,7 @@ import path from 'path';
 
 import { Command, Flags } from '@oclif/core'
 
-export default class Appcast extends Command {
+export default class AppcastCmd extends Command {
   static description = 'generate appcast'
 
   static examples = [
@@ -73,7 +73,7 @@ export default class Appcast extends Command {
   }
 
   async run(): Promise<void> {
-    const { args, flags } = await this.parse(Appcast)
+    const { args, flags } = await this.parse(AppcastCmd)
 
     const response = await fetch(flags.endpoint + '/' + flags.bucket + '/' + flags.branch + '/catalog.json');
     const catalog = await response.json();

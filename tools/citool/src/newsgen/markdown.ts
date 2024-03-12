@@ -4,26 +4,24 @@ import xtend from 'xtend';
 
 import { Processor } from 'unified'
 
-const text = function (this: Processor, options: any) {
-  this.Compiler = class {
-    renderer: Renderer;
-    tree: any;
-    file: any;
 
-    constructor(tree: any, file: any) {
-      this.renderer = new Renderer(tree, file, options);
-      this.tree = tree;
-      this.file = file;
+export default function rehypeStringify(options: any) {
+  const self = this
+
+  self.options = options
+  self.renderer = new Renderer(options);
+  self.compiler = compiler
+
+  /**
+   * @type {Compiler}
+   */
+  function compiler(tree: any) {
+    var result = self.renderer.one(tree);
+
+    if (result.charAt(result.length - 1) !== '\n') {
+      result += '\n';
     }
-
-    public compile() {
-      var result = this.renderer.one(this.tree);
-
-      if (result.charAt(result.length - 1) !== '\n') {
-        result += '\n';
-      }
-      return result;
-    }
+    return result;
   }
 }
 
@@ -35,10 +33,7 @@ class Renderer {
   width: number;
   dump: boolean;
 
-  constructor(tree: any, file: any, options: any) {
-    this.tree = tree;
-    this.file = file;
-
+  constructor(options: any) {
     this.level = 0;
     this.indent = options.indent || 2;
     this.width = options.width || 78;
@@ -200,6 +195,3 @@ class Renderer {
     return start + text.split('\n').join('\n' + ' '.repeat(indent));
   }
 }
-
-export default text;
-export { text };
