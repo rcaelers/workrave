@@ -228,6 +228,7 @@ parse_arguments $*
 export SOURCES_DIR=${WORKSPACE}/source
 mkdir -p ${SOURCES_DIR}
 
+export WORKRAVE_BUILD_ID_SUFFIX=local
 source ${SCRIPTS_DIR}/ci/config.sh
 source ${SECRETS_DIR}/env-snapshots
 
