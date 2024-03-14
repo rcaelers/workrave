@@ -99,7 +99,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &Toolkit::on_timer), 1000);
 
   init_multihead();
-  init_gui();
   init_debug();
 
   gtk_icon_theme_add_resource_path(gtk_icon_theme_get_default(), "/workrave/icons/scalable");
@@ -452,45 +451,6 @@ Toolkit::init_multihead()
   TRACE_ENTRY();
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Screen> screen = display->get_default_screen();
-}
-
-void
-Toolkit::init_gui()
-{
-#if defined(IS_THIS_NEEDED_FOR_GTK3)
-  static const gchar *rc_string = {
-    "style \"progressBarWidth\"\n"
-    "{\n"
-    "   GtkProgressBar::min-horizontal-bar-width = 10\n"
-    "   GtkProgressBar::min-horizontal-bar-height = 2\n"
-    "}\n"
-    "\n"
-    "widget \"*.locked-progress\" style \"progressBarWidth\"\n"
-    // "class \"GtkProgressBar\" style \"progressBarWidth\"\n"
-  };
-
-  gtk_rc_parse_string(rc_string);
-
-#endif
-#if defined(PLATFORM_OS_WINDOWS)
-  auto settings = Gtk::Settings::get_default();
-  settings->property_gtk_application_prefer_dark_theme().set_value(GUIConfig::theme_dark()());
-  std::string theme_name = GUIConfig::theme_name()();
-  if (!theme_name.empty())
-    {
-      settings->property_gtk_theme_name().set_value(theme_name);
-    }
-
-  settings->property_gtk_application_prefer_dark_theme().signal_changed().connect(
-    [settings]() { GUIConfig::theme_dark().set(settings->property_gtk_application_prefer_dark_theme().get_value()); });
-  settings->property_gtk_theme_name().signal_changed().connect(
-    [settings]() { GUIConfig::theme_name().set(settings->property_gtk_theme_name().get_value()); });
-
-  GUIConfig::theme_dark().connect(tracker, [settings](auto dark) {
-    settings->property_gtk_application_prefer_dark_theme().set_value(dark);
-  });
-  GUIConfig::theme_name().connect(tracker, [settings](auto name) { settings->property_gtk_theme_name().set_value(name); });
-#endif
 }
 
 #if defined(NDEBUG)

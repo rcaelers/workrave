@@ -119,7 +119,6 @@ private:
   void show_statistics();
 
   void init_multihead();
-  void init_gui();
   void init_debug();
 
   bool on_timer();

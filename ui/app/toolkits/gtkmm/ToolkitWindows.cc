@@ -54,7 +54,10 @@ ToolkitWindows::~ToolkitWindows()
 void
 ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 {
-  init_gui();
+  // No auto hide scrollbars
+  g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
+  // No Windows-7 style client-side decorations on Windows 10...
+  g_setenv("GTK_CSD", "0", TRUE);
 
   Toolkit::init(app);
 
@@ -90,12 +93,23 @@ ToolkitWindows::hook_event()
 void
 ToolkitWindows::init_gui()
 {
-  // No auto hide scrollbars
-  g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
-  // No Windows-7 style client-side decorations on Windows 10...
-  g_setenv("GTK_CSD", "0", TRUE);
+  auto settings = Gtk::Settings::get_default();
+  settings->property_gtk_application_prefer_dark_theme().set_value(GUIConfig::theme_dark()());
+  std::string theme_name = GUIConfig::theme_name()();
+  if (!theme_name.empty())
+    {
+      settings->property_gtk_theme_name().set_value(theme_name);
+    }
 
-  // g_setenv("GDK_WIN32_DISABLE_HIDPI", "1", TRUE);
+  settings->property_gtk_application_prefer_dark_theme().signal_changed().connect(
+    [settings]() { GUIConfig::theme_dark().set(settings->property_gtk_application_prefer_dark_theme().get_value()); });
+  settings->property_gtk_theme_name().signal_changed().connect(
+    [settings]() { GUIConfig::theme_name().set(settings->property_gtk_theme_name().get_value()); });
+
+  GUIConfig::theme_dark().connect(tracker, [settings](auto dark) {
+    settings->property_gtk_application_prefer_dark_theme().set_value(dark);
+  });
+  GUIConfig::theme_name().connect(tracker, [settings](auto name) { settings->property_gtk_theme_name().set_value(name); });
 }
 
 void
@@ -221,9 +235,11 @@ ToolkitWindows::filter_func(MSG *msg)
           case DBT_DEVICEARRIVAL:
           case DBT_DEVICEREMOVECOMPLETE:
             {
+              logger->info("Display change detected");
               HWND hwnd = FindWindowExA(NULL, NULL, "GdkDisplayChange", NULL);
               if (hwnd)
                 {
+                  logger->info("Display change detected: sending WM_DISPLAYCHANGE");
                   SendMessage(hwnd, WM_DISPLAYCHANGE, 0, 0);
                 }
             }
