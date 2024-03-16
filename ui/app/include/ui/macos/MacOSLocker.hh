@@ -29,6 +29,7 @@ public:
   ~MacOSLocker() override;
 
   bool can_lock() override;
+  void prepare_lock() override;
   void lock() override;
   void unlock() override;
 

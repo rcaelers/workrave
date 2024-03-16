@@ -114,6 +114,12 @@ WindowsLocker::can_lock()
 }
 
 void
+WindowsLocker::prepare_lock()
+{
+}
+
+
+void
 WindowsLocker::lock()
 {
   Hook::instance()->enable();

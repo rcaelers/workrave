@@ -77,9 +77,6 @@ public:
                                  std::function<void()> func) = 0;
   virtual void show_tooltip(const std::string &tip) = 0;
 
-  // virtual void foreground() = 0;
-  // virtual void restore_foreground() = 0;
-
   virtual std::shared_ptr<Locker> get_locker() = 0;
 };
 

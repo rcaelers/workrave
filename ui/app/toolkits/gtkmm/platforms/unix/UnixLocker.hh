@@ -36,6 +36,7 @@ public:
   void set_window(GdkWindow *window);
 
   bool can_lock() override;
+  void prepare_lock() override;
   void lock() override;
   void unlock() override;
 

@@ -65,6 +65,11 @@ MacOSLocker::can_lock()
 }
 
 void
+MacOSLocker::prepare_lock()
+{
+}
+
+void
 MacOSLocker::lock()
 {
   pimpl->foreground();

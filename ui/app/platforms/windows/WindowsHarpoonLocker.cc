@@ -46,6 +46,12 @@ WindowsHarpoonLocker::block_input(bool block)
 }
 
 void
+WindowsHarpoonLocker::prepare_lock()
+{
+  active_window = GetForegroundWindow();
+}
+
+void
 WindowsHarpoonLocker::lock()
 {
   block_input(TRUE);
@@ -55,4 +61,9 @@ void
 WindowsHarpoonLocker::unlock()
 {
   block_input(FALSE);
+  if (active_window != nullptr)
+    {
+      SetForegroundWindow(active_window);
+      active_window = nullptr;
+    }
 }

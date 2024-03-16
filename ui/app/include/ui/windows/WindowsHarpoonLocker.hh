@@ -18,6 +18,8 @@
 #ifndef WINDOWS_HARPOON_LOCKER_HH
 #define WINDOWS_HARPOON_LOCKER_HH
 
+#include <windows.h>
+
 #include "ui/Locker.hh"
 
 class WindowsHarpoonLocker : public Locker
@@ -26,11 +28,14 @@ public:
   ~WindowsHarpoonLocker() override = default;
 
   bool can_lock() override;
+  void prepare_lock() override;
   void lock() override;
   void unlock() override;
 
 private:
   void block_input(bool block);
+
+  HWND active_window = nullptr;
 };
 
 #endif // WINDOWS_HARPOON_LOCKER_HH

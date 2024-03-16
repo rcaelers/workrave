@@ -503,6 +503,8 @@ void
 Application::show_break_window()
 {
   TRACE_ENTRY();
+  toolkit->get_locker()->prepare_lock();
+
   for (auto &window: prelude_windows)
     {
       window->start();

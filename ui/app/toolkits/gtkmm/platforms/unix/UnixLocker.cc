@@ -43,6 +43,11 @@ UnixLocker::set_window(GdkWindow *window)
 }
 
 void
+UnixLocker::prepare_lock()
+{
+}
+
+void
 UnixLocker::lock()
 {
   if (!Platform::running_on_wayland())

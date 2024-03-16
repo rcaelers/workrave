@@ -24,6 +24,7 @@ public:
   virtual ~Locker() = default;
 
   virtual bool can_lock() = 0;
+  virtual void prepare_lock() = 0;
   virtual void lock() = 0;
   virtual void unlock() = 0;
 };
