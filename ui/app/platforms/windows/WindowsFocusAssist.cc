@@ -171,6 +171,7 @@ WindowsFocusAssist::update_focus_assist()
 
   if (requested_focus_operation_mode != focus_operation_mode)
     {
+      spdlog::info("Focus assist changed operation mode to {}", requested_focus_operation_mode);
       focus_operation_mode = requested_focus_operation_mode;
       auto core = context->get_core();
       if (requested_focus_operation_mode == workrave::OperationMode::Normal)
