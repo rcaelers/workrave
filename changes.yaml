@@ -1,12 +1,16 @@
 ---
 releases:
   - version: 1.11.0-beta.11
-    date: 2024-02-16T00:00:00+01:00
+    date: 2024-03-17T16:04:22+01:00
     short: |-
       Workrave 1.11.0-beta.11 has been released.
     changes:
-      - Support status icons using the StatusNotifierItem protoccol (#447)
+      - Support status icons using the StatusNotifierItem protocol (#447)
       - Fix GNOME Shell 46 support (#532)
+      - Allow compilation without Wayland support (#523)
+      - Fix Wayland on KDE6 (#523)
+      - Fix force X11 option (#525)
+      - Prevent focus stealing on Windows when break window is closed
 
   - version: 1.11.0-beta.10
     date: 2024-02-02T18:57:28+01:00
