@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 16 February 2024
+Workrave NEWS -- history of user-visible changes. 19 March 2024
 Copyright (C) 2001-2024 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -7,7 +7,12 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.11.0-beta.11
 
-** Support status icons using the StatusNotifierItem protoccol (#447)
+** Support status icons using the StatusNotifierItem protocol (#447)
+** Fix GNOME Shell 46 support (#532)
+** Allow compilation without Wayland support (#523)
+** Fix Wayland on KDE6 (#523)
+** Fix force X11 option (#525)
+** Prevent focus stealing on Windows when break window is closed
 
 * Workrave 1.11.0-beta.10
 
