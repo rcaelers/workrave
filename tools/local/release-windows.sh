@@ -132,7 +132,11 @@ catalog() {
 }
 
 appcast() {
-    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
+    if [ -z "${DRYRUN}" ]; then
+        node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
+    else
+        node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
+    fi
 }
 
 upload_s3() {
@@ -244,5 +248,5 @@ build_post
 if [ -z "${DRYRUN}" ]; then
     upload
     catalog
-    appcast
 fi
+appcast
