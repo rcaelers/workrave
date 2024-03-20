@@ -188,6 +188,7 @@ upload() {
 }
 
 upload_github() {
+    source ${SECRETS_DIR}/env-snapshots
     gh release upload ${WORKRAVE_GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
 }
 
@@ -224,12 +225,12 @@ export DOCKER_IMAGE="ubuntu-mantic"
 setup
 run_docker_appimage
 env
-# run_docker_ppa
+run_docker_ppa
 
-# if [ -n "$BUILD_DEB" ]; then
-#     echo Build all debian packages.
-#     run_docker_deb
-# fi
+if [ -n "$BUILD_DEB" ]; then
+    echo Build all debian packages.
+    run_docker_deb
+fi
 
 # generate_blog
 if [ -z "${DRYRUN}" ]; then
