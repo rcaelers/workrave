@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.11.0-beta.12
+    date: 22024-03-21T19:48:51+01:00
+    short: |-
+      Workrave 1.11.0-beta.12 has been released.
+    changes:
+      - Fix installer integrity check
+
   - version: 1.11.0-beta.11
     date: 2024-03-19T19:57:38+01:00
     short: |-
