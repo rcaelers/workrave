@@ -121,15 +121,18 @@ UnixInputMonitorFactory::create_monitor(MonitorCapability capability)
             }
 #endif
 
-          initialized = monitor->init();
+          if (monitor)
+          {
+            initialized = monitor->init();
 
-          if (initialized)
-            {
-              TRACE_MSG("Success");
-              break;
-            }
+            if (initialized)
+              {
+                TRACE_MSG("Success");
+                break;
+              }
 
-          monitor.reset();
+            monitor.reset();
+          }
 
           loop++;
           if (loop == available_monitors.end())
