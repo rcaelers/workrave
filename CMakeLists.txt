@@ -415,14 +415,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 endif()
 
-if (UNIX AND NOT APPLE)
-  pkg_check_modules(WAYLAND_CLIENT REQUIRED wayland-client)
 
-  find_program(WAYLAND_SCANNER wayland-scanner)
-  if (NOT WAYLAND_SCANNER)
-    message(FATAL_ERROR "wayland-scanner not found")
-  endif()
-endif()
 
 #----------------------------------------------------------------------------------------------------
 # GStreamer
@@ -692,6 +685,31 @@ if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUA
 endif()
 
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+
+#----------------------------------------------------------------------------------------------------
+# Wayland
+
+option(WITH_WAYLAND "Enable Wayland support" ON)
+
+if (UNIX AND NOT APPLE)
+  if (WITH_WAYLAND)
+    message(STATUS "Checking for: Wayland")
+
+    pkg_check_modules(WAYLAND_CLIENT wayland-client)
+
+    find_program(WAYLAND_SCANNER wayland-scanner)
+    if (NOT WAYLAND_SCANNER)
+      message(ERROR "wayland-scanner not found")
+    endif()
+
+    if (WAYLAND_CLIENT_FOUND AND WAYLAND_SCANNER)
+      set (HAVE_WAYLAND ON)
+    else()
+      set (WITH_WAYLAND OFF)
+    endif()
+  endif()
+endif()
+
 
 #----------------------------------------------------------------------------------------------------
 # Translations
@@ -1145,6 +1163,7 @@ feature_bool("Legacy StatusIcon" HAVE_STATUSICON  )
 feature_bool("DBus Menus" HAVE_DBUSMENU)
 feature_bool("GStreamer" HAVE_GSTREAMER)
 feature_bool("Pulseaudio" HAVE_PULSE)
+feature_bool("Wayland" HAVE_WAYLAND)
 endif()
 feature_bool("DBUS" HAVE_DBUS)
 if(PLATFORM_OS_WINDOWS)
