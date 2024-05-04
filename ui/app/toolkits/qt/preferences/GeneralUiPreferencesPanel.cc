@@ -43,6 +43,7 @@ using namespace workrave;
 using namespace workrave::utils;
 
 #if defined(PLATFORM_OS_WINDOWS)
+#  include <windows.h>
 #  define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #endif
 
