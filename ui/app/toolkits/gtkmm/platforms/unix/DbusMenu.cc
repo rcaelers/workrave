@@ -136,6 +136,7 @@ DbusSubMenuEntry::init()
       g_list_free(c);
       children.clear();
       //   g_object_unref(item);
+      item = nullptr;
     }
   item = new_item;
 
@@ -152,13 +153,12 @@ DbusSubMenuEntry::add(DbusmenuMenuitem *child)
   dbusmenu_menuitem_child_append(item, child);
 };
 
-void DbusSubMenuEntry::add_section(){};
+void DbusSubMenuEntry::add_section() {};
 
 //////////////////////////////////////////////////////////////////////
 
 DbusRadioGroupMenuEntry::DbusRadioGroupMenuEntry(DbusSubMenuEntry *parent, menus::RadioGroupNode::Ptr node)
 {
-  item = parent->get_item();
   for (auto child_node: node->get_children())
     {
       auto child = std::make_shared<DbusRadioMenuEntry>(parent, child_node);
@@ -291,7 +291,6 @@ DbusSeparatorMenuEntry::DbusSeparatorMenuEntry(DbusSubMenuEntry *parent, menus::
 
 DbusSectionMenuEntry::DbusSectionMenuEntry(DbusSubMenuEntry *parent, menus::SectionNode::Ptr node)
 {
-  item = parent->get_item();
   for (auto child_node: node->get_children())
     {
       auto child = DbusMenuEntryFactory::create(parent, child_node);
