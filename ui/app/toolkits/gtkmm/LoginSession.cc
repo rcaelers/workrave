@@ -79,7 +79,7 @@ LoginSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
           Glib::Variant<bool> start;
           params.get_child(start);
           auto core = context->get_core();
-          core->set_powersave(start);
+          core->set_powersave(start.get());
         }
     }
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
