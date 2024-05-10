@@ -1122,7 +1122,7 @@ Core::process_timewarp()
   TRACE_ENTRY();
   if (last_process_time != 0)
     {
-      int gap = current_time - 1 - last_process_time;
+      int64_t gap = current_time - 1 - last_process_time;
 
       if (gap >= 30)
         {
@@ -1130,7 +1130,7 @@ Core::process_timewarp()
 
           force_idle();
 
-          int save_current_time = current_time;
+          int64_t save_current_time = current_time;
 
           current_time = last_process_time + 1;
           monitor_state = ACTIVITY_IDLE;
