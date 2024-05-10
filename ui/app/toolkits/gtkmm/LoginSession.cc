@@ -59,7 +59,7 @@ LoginSession::init()
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
   catch (std::exception &e)
     {
-      std::cerr << e.what() << std::endl;
+      spdlog::warn(std::string("Failed to subscribe to events from Login manager") + std::string(e.what()));
     }
 #else
   catch (const Glib::Exception &e)
@@ -79,13 +79,22 @@ LoginSession::on_signal(const Glib::ustring &sender, const Glib::ustring &signal
           Glib::Variant<bool> start;
           params.get_child(start);
           auto core = context->get_core();
+          if (start.get())
+            {
+              spdlog::info("Prepare for sleep");
+            }
+          else
+            {
+              spdlog::info("Prepare for wakeup");
+            }
+
           core->set_powersave(start.get());
         }
     }
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
   catch (std::exception &e)
     {
-      std::cerr << e.what() << std::endl;
+      spdlog::warn(std::string("Failed to process event from Login Manager:") + std::string(e.what()));
     }
 #else
   catch (const Glib::Exception &e)
