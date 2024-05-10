@@ -1126,7 +1126,7 @@ Core::process_timewarp()
 
       if (gap >= 30)
         {
-          TRACE_MSG("Time warp of {} seconds. Powersafe", gap);
+          TRACE_MSG("Time warp of {} seconds. Powersae", gap);
 
           force_idle();
 
