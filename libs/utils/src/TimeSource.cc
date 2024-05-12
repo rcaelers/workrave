@@ -82,6 +82,12 @@ TimeSource::get_real_time_sec_sync()
   return synced_real_time / TIME_USEC_PER_SEC;
 }
 
+void
+TimeSource::set_real_time_sec_sync(int64_t t)
+{
+  synced_real_time = t * TIME_USEC_PER_SEC;
+}
+
 int64_t
 TimeSource::get_monotonic_time_sec_sync()
 {

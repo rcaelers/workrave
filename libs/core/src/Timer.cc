@@ -574,7 +574,7 @@ Timer::get_elapsed_idle_time() const
 int64_t
 Timer::get_elapsed_time() const
 {
-  TRACE_ENTRY();
+  TRACE_ENTRY_PAR(timer_id, timer_state);
   int64_t ret = elapsed_time;
 
   TRACE_VAR(ret, TimeSource::get_real_time_sec_sync(), last_start_time);

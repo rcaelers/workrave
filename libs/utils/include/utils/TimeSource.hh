@@ -48,6 +48,9 @@ namespace workrave::utils
     //! Returns the system wall-clock time synchronized with core in seconds.
     static int64_t get_real_time_sec_sync();
 
+    //! Sets the system wall-clock time synchronized with core in seconds.
+    static void set_real_time_sec_sync(int64_t t);
+
     //! Returns the system monotonic time synchronized with core in seconds, if available.
     static int64_t get_monotonic_time_sec_sync();
 

@@ -1093,6 +1093,15 @@ Core::process_timewarp()
             {
               TRACE_MSG("Time warp of {} seconds because of powersave", gap);
 
+              force_idle();
+
+              TimeSource::set_real_time_sec_sync(last_process_time + 1);
+              monitor_state = ACTIVITY_IDLE;
+
+              process_timers();
+
+              TimeSource::sync();
+
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
               remove_operation_mode_override("powersave");
@@ -1126,19 +1135,31 @@ Core::process_timewarp()
 
       if (gap >= 30)
         {
-          TRACE_MSG("Time warp of {} seconds. Powersae", gap);
+          TRACE_MSG("Time warp of {} seconds. Powersave", gap);
+          spdlog::info("Time warp of {} seconds. Powersave", gap);
+          TRACE_MSG("current time {}", current_time);
+          TRACE_MSG("synced time  {}", TimeSource::get_real_time_sec_sync());
+          TRACE_MSG("last process time {}", last_process_time);
 
           force_idle();
 
-          int64_t save_current_time = current_time;
-
-          current_time = last_process_time + 1;
+          TimeSource::set_real_time_sec_sync(last_process_time + 1);
           monitor_state = ACTIVITY_IDLE;
 
           process_timers();
 
-          current_time = save_current_time;
+          TimeSource::sync();
           ret = true;
+
+          remove_operation_mode_override("powersave");
+        }
+
+      if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
+        {
+          TRACE_MSG("End of time warp after powersave");
+
+          powersave = false;
+          powersave_resume_time = 0;
         }
     }
 

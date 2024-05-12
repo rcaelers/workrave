@@ -1,7 +1,14 @@
 ---
 releases:
+  - version: 1.11.0-beta.13
+    date: 2024-05-12T17:11:00+02:00
+    short: |-
+      Workrave 1.11.0-beta.13 has been released.
+    changes:
+      - Fix hibernate/suspend (#539, #540)
+
   - version: 1.11.0-beta.12
-    date: 22024-03-21T19:48:51+01:00
+    date: 2024-03-21T19:48:51+01:00
     short: |-
       Workrave 1.11.0-beta.12 has been released.
     changes:
