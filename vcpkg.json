@@ -1,6 +1,6 @@
 {
   "name": "workrave",
-  "version": "1.11.0-beta.8",
+  "version": "1.11.0-beta.13",
   "dependencies": [
     {
       "name": "gettext",
@@ -14,93 +14,93 @@
     },
     {
       "name": "python3",
-      "version>=": "3.11.5",
+      "version>=": "3.11.8",
       "platform": "x64"
     },
     {
       "name": "boost-asio",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "features": ["ssl"],
       "platform": "x64"
     },
     {
       "name": "boost-beast",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-coroutine",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-date-time",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x86 | x64"
     },
     {
       "name": "boost-interprocess",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-filesystem",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-format",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-iostreams",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-outcome",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-process",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-program-options",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x86 | x64"
     },
     {
       "name": "boost-property-tree",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-serialization",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x86 | x64"
     },
     {
       "name": "boost-signals2",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-url",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "boost-test",
-      "version>=": "1.83.0",
+      "version>=": "1.84.0",
       "platform": "x64"
     },
     {
       "name": "pkgconf",
-      "version>=": "1.8.0#5",
-      "platform": "x86 | x64"
-    },
-    {
-      "name": "vcpkg-pkgconfig-get-modules",
-      "version>=": "2023-09-06",
+      "version>=": "2.2.0",
       "platform": "x86 | x64"
     },
     {
@@ -115,12 +115,12 @@
     },
     {
       "name": "spdlog",
-      "version>=": "1.12.0",
+      "version>=": "1.14.1",
       "platform": "x86 | x64"
     },
     {
       "name": "fmt",
-      "version>=": "10.1.1",
+      "version>=": "10.2.1",
       "platform": "x86 | x64"
     },
     {
