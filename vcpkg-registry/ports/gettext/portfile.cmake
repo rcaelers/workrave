@@ -23,7 +23,7 @@ vcpkg_extract_source_archive(SOURCE_PATH
     ARCHIVE "${ARCHIVE}"
     PATCHES
         assume-modern-darwin.patch
-        uwp.patch
+##        uwp.patch
         rel_path.patch
         subdirs.patch
         parallel-gettext-tools.patch
