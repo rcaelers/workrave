@@ -696,6 +696,11 @@ Core::set_powersave(bool down)
           powersave = true;
         }
 
+      for (const auto &i: breaks)
+        {
+          i.get_timer()->stop_timer();
+        }
+
       save_state();
       statistics->update();
     }
@@ -1133,7 +1138,7 @@ Core::process_timewarp()
     {
       int64_t gap = current_time - 1 - last_process_time;
 
-      if (gap >= 30)
+      if (gap >= 10)
         {
           TRACE_MSG("Time warp of {} seconds. Powersave", gap);
           spdlog::info("Time warp of {} seconds. Powersave", gap);
