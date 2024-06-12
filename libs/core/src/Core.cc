@@ -696,6 +696,11 @@ Core::set_powersave(bool down)
           powersave = true;
         }
 
+      for (const auto &i: breaks)
+        {
+          i.get_timer()->stop_timer();
+        }
+
       save_state();
       statistics->update();
     }
@@ -1133,9 +1138,8 @@ Core::process_timewarp()
     {
       int64_t gap = current_time - 1 - last_process_time;
 
-      if (gap >= 30)
+      if (gap >= 10)
         {
-          TRACE_MSG("Time warp of {} seconds. Powersave", gap);
           spdlog::info("Time warp of {} seconds. Powersave", gap);
           TRACE_MSG("current time {}", current_time);
           TRACE_MSG("synced time  {}", TimeSource::get_real_time_sec_sync());
@@ -1156,7 +1160,7 @@ Core::process_timewarp()
 
       if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
         {
-          TRACE_MSG("End of time warp after powersave");
+          spdlog::info("End of time warp after powersave");
 
           powersave = false;
           powersave_resume_time = 0;
