@@ -31,6 +31,10 @@ ApplicationWindows::ApplicationWindows(int argc, char **argv, std::shared_ptr<IT
 {
 }
 
+ApplicationWindows::~ApplicationWindows()
+{
+  TRACE_ENTRY();
+}
 void
 ApplicationWindows::init_platform_pre()
 {

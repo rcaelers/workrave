@@ -32,7 +32,7 @@ public:
   using Ptr = std::shared_ptr<PreferencesRegistry>;
 
   PreferencesRegistry() = default;
-  ~PreferencesRegistry() override = default;
+  ~PreferencesRegistry() override;
 
   void add(std::shared_ptr<ui::prefwidgets::Def> def) override;
   void remove(std::shared_ptr<ui::prefwidgets::Def> def) override;

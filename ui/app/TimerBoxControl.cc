@@ -46,6 +46,10 @@ TimerBoxControl::TimerBoxControl(std::shared_ptr<workrave::ICore> core, std::str
 {
   init();
 }
+TimerBoxControl::~TimerBoxControl()
+{
+  TRACE_ENTRY();
+}
 
 //! Updates the timerbox.
 void

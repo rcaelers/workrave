@@ -27,6 +27,7 @@ public:
   using Ptr = std::shared_ptr<AppHold>;
 
   explicit AppHold(std::shared_ptr<IToolkit> toolkit);
+  ~AppHold();
 
   void set_hold(bool h);
   void hold();

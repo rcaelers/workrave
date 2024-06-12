@@ -20,10 +20,16 @@
 #endif
 
 #include "ui/AppHold.hh"
+#include "debug.hh"
 
 AppHold::AppHold(std::shared_ptr<IToolkit> toolkit)
   : toolkit(toolkit)
 {
+}
+
+AppHold::~AppHold()
+{
+  TRACE_ENTRY();
 }
 
 void

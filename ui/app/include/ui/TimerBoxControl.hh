@@ -30,6 +30,7 @@ class TimerBoxControl : public workrave::utils::Trackable
 {
 public:
   TimerBoxControl(std::shared_ptr<workrave::ICore> core, std::string name, ITimerBoxView *view);
+  ~TimerBoxControl();
 
   void init();
   void update();

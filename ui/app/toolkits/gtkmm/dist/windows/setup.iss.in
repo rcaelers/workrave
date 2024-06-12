@@ -187,12 +187,15 @@ begin
         ZapWorkrave();
         if installLocation <> '' then
         begin
-          KillWorkraveProcesses(installLocation);
+          if (not IsWorkraveTerminated()) then
+          begin
+            KillWorkraveProcesses(installLocation);
+          end;
         end;
 
         if IsWorkraveTerminated() then
         begin
-          MsgBox('YFailed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+          MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
           Result := False;
         end;
       end;

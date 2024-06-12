@@ -49,6 +49,7 @@ ToolkitWindows::ToolkitWindows(int argc, char **argv)
 
 ToolkitWindows::~ToolkitWindows()
 {
+  TRACE_ENTRY();
 }
 
 void
@@ -61,6 +62,7 @@ ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 
   Toolkit::init(app);
 
+  init_gui();
   theme_fixup();
   init_filter();
 }

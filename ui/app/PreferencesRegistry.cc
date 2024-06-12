@@ -21,6 +21,13 @@
 
 #include "PreferencesRegistry.hh"
 
+#include "debug.hh"
+
+PreferencesRegistry::~PreferencesRegistry()
+{
+  TRACE_ENTRY();
+}
+
 void
 PreferencesRegistry::add(std::shared_ptr<ui::prefwidgets::Def> def)
 {
