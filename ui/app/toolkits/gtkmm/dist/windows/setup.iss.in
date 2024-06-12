@@ -84,7 +84,7 @@ Name: "{autodesktop}\Workrave"; Filename: "{app}\bin\Workrave.exe"; MinVersion: 
 Name: "{app}\Workrave"; Filename: "{app}\bin\Workrave.exe"
 
 [Run]
-Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
+Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall shellexec;
 
 [InstallDelete]
 Type: files; Name: "{autostartup}\Workrave.lnk"
