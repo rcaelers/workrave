@@ -29,6 +29,7 @@
 #include "commonui/MenuHelper.hh"
 #include "utils/Signals.hh"
 #include "ui/AppHold.hh"
+#include "ui/IApplicationContext.hh"
 
 class WindowsStatusIcon
 {
