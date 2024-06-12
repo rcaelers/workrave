@@ -241,8 +241,8 @@ Paths::get_config_directories()
   try
     {
 #if defined(PLATFORM_OS_WINDOWS)
-      directories.push_back(get_application_directory() / "etc");
       directories.push_back(get_home_directory() / "Workrave");
+      directories.push_back(get_application_directory() / "etc");
 #endif
 
 #if defined(HAVE_GLIB)
@@ -326,7 +326,8 @@ Paths::get_config_directory()
         {
           std::list<std::filesystem::path> directories = get_config_directories();
           auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) {
-            return std::filesystem::is_directory(d);
+            return std::filesystem::is_directory(d)
+                   && (std::filesystem::exists(d / "config.xml") || std::filesystem::exists(d / "workrave.ini"));
           });
           if (it == directories.end())
             {
@@ -358,6 +359,23 @@ Paths::get_config_directory()
   return ret;
 }
 
+void
+demo_perms(std::filesystem::perms p)
+{
+  using std::filesystem::perms;
+  auto show = [=](char op, perms perm) { std::cout << (perms::none == (perm & p) ? '-' : op); };
+  show('r', perms::owner_read);
+  show('w', perms::owner_write);
+  show('x', perms::owner_exec);
+  show('r', perms::group_read);
+  show('w', perms::group_write);
+  show('x', perms::group_exec);
+  show('r', perms::others_read);
+  show('w', perms::others_write);
+  show('x', perms::others_exec);
+  std::cout << '\n';
+}
+
 std::filesystem::path
 Paths::get_state_directory()
 {
@@ -375,8 +393,13 @@ Paths::get_state_directory()
         {
           std::list<std::filesystem::path> directories = get_state_directories();
 
+          for (const auto &d: directories)
+            {
+              demo_perms(std::filesystem::status(d).permissions());
+            }
+
           auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) {
-            return std::filesystem::is_directory(d);
+            return std::filesystem::is_directory(d) && std::filesystem::exists(d / "state");
           });
           if (it != directories.end())
             {
