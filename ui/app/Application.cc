@@ -87,6 +87,12 @@ Application::main()
   init_configurator();
   context->set_configurator(configurator);
 
+  spdlog::info("State directory = {}", Paths::get_state_directory().string());
+  spdlog::info("Config directory = {}", Paths::get_config_directory().string());
+  spdlog::info("Log directory = {}", Paths::get_log_directory().string());
+  spdlog::info("Home directory = {}", Paths::get_home_directory().string());
+  spdlog::info("Application directory = {}", Paths::get_application_directory().string());
+
   toolkit = toolkit_factory->create(argc, argv);
   toolkit->preinit(configurator);
   context->set_toolkit(toolkit);
