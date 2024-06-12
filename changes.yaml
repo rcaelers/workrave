@@ -1,5 +1,13 @@
 ---
 releases:
+  - version: 1.11.0-beta.14
+    date: 2024-06-11T12:30:10+02:00
+    short: |-
+      Workrave 1.11.0-beta.14 has been released.
+    changes:
+      - Start workrave after automatic update on Windows
+      - Save statistics before starting the automatic update
+
   - version: 1.11.0-beta.13
     date: 2024-06-11T12:30:10+02:00
     short: |-
