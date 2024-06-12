@@ -885,22 +885,24 @@ BreakWindow::refresh_break_window()
   */
 
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  if (!hwnd)
-    return;
-
-  // don't enforce topmost while a tooltip is visible, otherwise we could cover the tooltip
-  if (!GtkUtil::get_visible_tooltip_window())
-    SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-
-  // this checks if the window manager has disabled our topmost ability and resets it if necessary
-  WindowsCompat::ResetWindow(hwnd, true);
-
-  /* If there are multiple break windows only force focus on the first, otherwise focus would be
-  continuously switched to each break window on every refresh, making interaction very difficult.
-  */
-  if (WindowsForceFocus::GetForceFocusValue() && (head.is_primary()))
+  if (hwnd != nullptr)
     {
-      WindowsForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
+      // don't enforce topmost while a tooltip is visible, otherwise we could cover the tooltip
+      if (GtkUtil::get_visible_tooltip_window() == nullptr)
+        {
+          SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+
+      // this checks if the window manager has disabled our topmost ability and resets it if necessary
+      WindowsCompat::ResetWindow(hwnd, true);
+
+      /* If there are multiple break windows only force focus on the first, otherwise focus would be
+      continuously switched to each break window on every refresh, making interaction very difficult.
+      */
+      if (WindowsForceFocus::GetForceFocusValue() && (head.is_primary()))
+        {
+          WindowsForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
+        }
     }
 }
 #endif
