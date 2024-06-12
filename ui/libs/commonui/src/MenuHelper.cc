@@ -39,7 +39,7 @@ namespace
     {MenuId::ABOUT, MenuAction::About},
     {MenuId::MODE_READING, MenuAction::ModeReading},
     {MenuId::OPEN, MenuAction::Open},
-    {MenuId::QUIT, MenuAction::Quiet},
+    {MenuId::QUIT, MenuAction::Quit},
   };
 }
 
