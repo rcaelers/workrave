@@ -110,7 +110,8 @@ install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${CMAKE_INSTALL_PREFIX}/bin;${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
-
+install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
+install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
 
 if (MSVC)
   install(CODE "set(MSVC ${MSVC})")
@@ -118,8 +119,6 @@ if (MSVC)
   install(CODE "set(VCPKG_TARGET_TRIPLET \"${VCPKG_TARGET_TRIPLET}\")")
   install(CODE "set(CONFIG ${CONFIG})")
   install(CODE "set(DEP_DIRS \"${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/$<$<CONFIG:Debug>:debug/>bin\")")
-  install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
-  install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
 endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
