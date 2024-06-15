@@ -359,23 +359,6 @@ Paths::get_config_directory()
   return ret;
 }
 
-void
-demo_perms(std::filesystem::perms p)
-{
-  using std::filesystem::perms;
-  auto show = [=](char op, perms perm) { std::cout << (perms::none == (perm & p) ? '-' : op); };
-  show('r', perms::owner_read);
-  show('w', perms::owner_write);
-  show('x', perms::owner_exec);
-  show('r', perms::group_read);
-  show('w', perms::group_write);
-  show('x', perms::group_exec);
-  show('r', perms::others_read);
-  show('w', perms::others_write);
-  show('x', perms::others_exec);
-  std::cout << '\n';
-}
-
 std::filesystem::path
 Paths::get_state_directory()
 {
@@ -392,11 +375,6 @@ Paths::get_state_directory()
       else
         {
           std::list<std::filesystem::path> directories = get_state_directories();
-
-          for (const auto &d: directories)
-            {
-              demo_perms(std::filesystem::status(d).permissions());
-            }
 
           auto it = std::find_if(directories.begin(), directories.end(), [](const auto &d) {
             return std::filesystem::is_directory(d) && std::filesystem::exists(d / "state");

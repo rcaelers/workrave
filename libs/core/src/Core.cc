@@ -571,7 +571,10 @@ Core::update_active_operation_mode()
         {
           stop_all_breaks();
         }
-      operation_mode_changed_signal(operation_mode_active);
+
+      // TODO: check if needed.
+      // TODO: check also missing in corenext
+      // operation_mode_changed_signal(operation_mode_active);
     }
 }
 
