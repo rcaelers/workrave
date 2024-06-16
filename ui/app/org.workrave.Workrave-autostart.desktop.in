@@ -1,0 +1,36 @@
+[Desktop Entry]
+Type=Application
+Name=Workrave
+Comment=Assists in the prevention and recovery of Repetitive Strain Injury (RSI)
+Categories=Utility;GTK;Accessibility;
+Exec=workrave
+TryExec=workrave
+Icon=workrave
+Terminal=false
+
+# Hidden
+# ------
+# In GNOME environments, indicates to the desktop environment whether the
+# application should be displayed in the autostart settings UI. If
+# hidden, autostart is also disabled. The user  can enable or disable
+# autostart only if it is not hidden.
+#
+# In non-GNOME environments, `Hidden` means "disable". It indicates to the
+# desktop environment the default autostart enabling status when the
+# application is installed. It doesn't hide the application in the autostart
+# settings UI.
+# - `Hidden=false` means that the desktop environment will enable autostart as
+#    soon as the application is installed.
+# - `Hidden=true` means that the desktop environment will show the autostart
+#   feature as available to the user, but not enabled.
+# In both cases the user can enable or disable autostart as desired.
+Hidden=false
+
+# X-GNOME-Autostart-enabled
+# -------------------------
+# In GNOME environments, indicates to the desktop environment the default
+# autostart status when the application is installed. The user can enable or
+# disable autostart as desired.
+#
+# In non-GNOME environments, this key is ignored.
+X-GNOME-Autostart-enabled=true
