@@ -5,7 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
 "PO-Revision-Date: 2021-01-25 22:04+0100\n"
 "Last-Translator: Benjamin Siband <translations@muachi.com>\n"
-"Language-Team: Fran�ais <thomas.basset@netcourrier.com;translations@muachi.com>\n"
+"Language-Team: Français <thomas.basset@netcourrier.com;translations@muachi.com>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -54,7 +54,7 @@ msgstr "Utilisation active de l'ordinateur"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
 msgid "Activity"
-msgstr "Activit�"
+msgstr "Activité"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
 msgid "Applet"
@@ -62,27 +62,27 @@ msgstr "Applet"
 
 #: ui/app/org.workrave.Workrave.desktop.in:6
 msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "Aide � �viter les Troubles Musculo-Squelettiques (TMS) ou � s'en remettre"
+msgstr "Aide à éviter les Troubles Musculo-Squelettiques (TMS) ou à s'en remettre"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
 msgid "Auto update"
-msgstr ""
+msgstr "Mise à jour automatique"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
 msgid "Automatically check for updates"
-msgstr ""
+msgstr "Vérifier automatiquement les mises à jour"
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
-msgstr "�tirement d'�paule arri�re"
+msgstr "Etirement d'épaule arrière"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
 msgid "Block input"
-msgstr "Verrouiller les p�riph�riques de saisie"
+msgstr "Verrouiller les périphériques de saisie"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
 msgid "Block input and screen"
-msgstr "Verrouiller les p�riph�riques de saisie et l'�cran"
+msgstr "Verrouiller les périphériques de saisie et l'écran"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
 msgid "Block mode:"
@@ -90,11 +90,11 @@ msgstr "Verrouillage :"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
 msgid "Break duration:"
-msgstr "Dur�e de la pause :"
+msgstr "Durée de la pause :"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:86
 msgid "Break ignored"
-msgstr "Pause ignor�e"
+msgstr "Pause ignorée"
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
 #, c-format
@@ -134,7 +134,7 @@ msgstr "Parcourir l'historique"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
-msgstr ""
+msgstr "Recherche des _Mises à jour"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
@@ -146,7 +146,7 @@ msgstr "Choisir un son"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: ui/data/exercises/exercises.xml.in:73
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
@@ -154,11 +154,11 @@ msgstr "Couvrez-vous les yeux avec les mains, de mani�re � pouvoir quand m�
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:132
 msgid "Crash report"
-msgstr ""
+msgstr "Rapport de crash"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:49
 msgid "Crash report details"
-msgstr ""
+msgstr "Détails du rapport de crash"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
@@ -174,21 +174,21 @@ msgstr "Par jour"
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
 msgid "Daily limit"
-msgstr "Limite journali�re"
+msgstr "Limite journalière"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "Limite journali�re en retard de %s"
+msgstr "Limite journalière en retard de %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
 #, c-format
 msgid "Daily limit in %s"
-msgstr "Limite journali�re dans %s"
+msgstr "Limite journalière dans %s"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
 msgid "Daily limit:"
-msgstr "Limite journali�re :"
+msgstr "Limite journalière :"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
 msgid "Date:"
@@ -196,15 +196,15 @@ msgstr "Date :"
 
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "Journal de débogage"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
 msgid "Debug monitoring"
-msgstr ""
+msgstr "Surveillance du débogage"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
 msgid "Default"
-msgstr ""
+msgstr "Défaut"
 
 #. Delete button
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
@@ -213,7 +213,7 @@ msgstr "Effacer tout l'historique des statistiques"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:171
 msgid "Details..."
-msgstr ""
+msgstr "Détails..."
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
@@ -258,15 +258,15 @@ msgstr "Erreur"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "Couleur d'erreur pour les icônes symboliques"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
 msgid "Event"
-msgstr "�v�nement"
+msgstr "Evènement"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
-msgstr ""
+msgstr "Changement d'exercice"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:104
 msgid "Exercise ended"
@@ -287,19 +287,19 @@ msgstr "Gestionnaire d'exercices"
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
 #, fuzzy
 msgid "Fallback applet enabled"
-msgstr "Applet activ�e"
+msgstr "Applet activée"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
 msgid "File deletion failed!"
-msgstr "L'effacement des fichiers a �chou� !"
+msgstr "L'effacement des fichiers a échoué !"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
 msgid "Files deleted!"
-msgstr "Fichiers effac�s !"
+msgstr "Fichiers effacés !"
 
 #: ui/data/exercises/exercises.xml.in:22
 msgid "Finger stretch"
-msgstr "�tirement des doigts"
+msgstr "Etirement des doigts"
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:83
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
@@ -308,27 +308,27 @@ msgstr ""
 
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
-msgstr ""
+msgstr "Pour 1 heure"
 
 #: ui/app/Menus.cc:189
 msgid "For 1 minute"
-msgstr ""
+msgstr "Pour 1 minutes"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
+msgstr "Forcer l'utilisation de X11 sur Wayland (nécessite le redémarrage de Workrave)"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "Couleur d'avant-plan"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "Couleur de premier plan pour les icônes symboliques"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
 msgid "General"
-msgstr "G�n�ral"
+msgstr "Général"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:267
 #, fuzzy
@@ -341,18 +341,18 @@ msgstr "Masquer"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
 msgid "Icon Size"
-msgstr ""
+msgstr "Taille de l'icone"
 
 #  panel->add(*start_in_tray_cb);
 #  panel->add(*start_in_tray_cb);
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
 #, fuzzy
 msgid "Icon Theme:"
-msgstr "Th�me sonore :"
+msgstr "Thème sonore :"
 
 #: ui/app/Menus.cc:166
 msgid "Indefinitely"
-msgstr ""
+msgstr "Indéfiniment"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
 msgid "Info"
@@ -360,11 +360,11 @@ msgstr "Info"
 
 #: ui/data/exercises/exercises.xml.in:39
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "Croisez les mains derri�re le dos. Tournez l�g�rement les coudes vers l'int�rieur tout en tendant les bras. Maintenez cette position pendant 5 � 15 secondes, puis recommencez."
+msgstr "Croisez les mains derrière le dos. Tournez légèrement les coudes vers l'intérieur tout en tendant les bras. Maintenez cette position pendant 5 à 15 secondes, puis recommencez."
 
 #: ui/data/exercises/exercises.xml.in:5
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "�tendez un bras � l'horizontale devant votre poitrine. Poussez ce bras vers vous avec l'autre bras jusqu'� sentir une l�g�re tension dans l'�paule. Maintenez cette position quelques instants, et recommencez avec l'autre bras."
+msgstr "étendez un bras à l'horizontale devant votre poitrine. Poussez ce bras vers vous avec l'autre bras jusqu'à sentir une légère tension dans l'épaule. Maintenez cette position quelques instants, et recommencez avec l'autre bras."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
 msgid "Keystrokes:"
@@ -384,7 +384,7 @@ msgstr "Verrouiller..."
 
 #: ui/data/exercises/exercises.xml.in:46
 msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "Regardez le coin en haut � gauche de votre �cran. Puis suivez lentement des yeux la bordure sup�rieure de votre �cran jusqu'au coin en haut � droite. Faites le tour complet de l'�cran en allant aux autres coins. Faites le tour de l'�cran deux fois dans un sens, puis deux fois dans le sens inverse."
+msgstr "Regardez le coin en haut à gauche de votre écran. Puis suivez lentement des yeux la bordure supérieure de votre écran jusqu'au coin en haut à droite. Faites le tour complet de l'écran en allant aux autres coins. Faites le tour de l'écran deux fois dans un sens, puis deux fois dans le sens inverse."
 
 #: ui/data/exercises/exercises.xml.in:65
 msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
@@ -427,7 +427,7 @@ msgstr "Mode : "
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
 msgid "Monitoring"
-msgstr ""
+msgstr "Contrôle"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
 msgid "Monthly"
@@ -444,7 +444,7 @@ msgstr "Mouvements de la souris :"
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
 #, fuzzy
 msgid "Mouse sensitivity:"
-msgstr "Sensibilit� de la souris :"
+msgstr "Sensibilité de la souris :"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
 msgid "Mouse usage:"
@@ -456,7 +456,7 @@ msgstr "Bougez les yeux"
 
 #: ui/data/exercises/exercises.xml.in:79
 msgid "Move the shoulders"
-msgstr "Bougez les �paules"
+msgstr "Bougez les épaules"
 
 #: ui/data/exercises/exercises.xml.in:87
 msgid "Move the shoulders up and down"
@@ -481,7 +481,7 @@ msgstr "�tirement lat�ral du cou"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
 msgid "Next exercise"
@@ -506,7 +506,7 @@ msgstr "Normal"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
-msgstr ""
+msgstr "Notez que ce rapport de crash contient également des informations techniques sur l'état de Workrave au moment du crash."
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 msgid "Number of exercises:"
@@ -519,7 +519,7 @@ msgstr "Nombre de pixels que la souris devrait bouger avant que l'activit� soi
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:87
 msgid "Operation mode during Focus Assist:"
-msgstr ""
+msgstr "Mode de fonctionnement pendant l'assistance à la mise au point :"
 
 #. Options
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
@@ -537,11 +537,11 @@ msgstr "Dur�e de d�passement"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
 msgid "Padding"
-msgstr ""
+msgstr "Rembourrage"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "Rembourrage à mettre autour des icônes dans la barre d'état."
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
 msgid "Pause"
@@ -648,11 +648,11 @@ msgstr "Compter les micro-pauses comme de l'activit�"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
 msgid "Release channel:"
-msgstr ""
+msgstr "Canal de diffusion :"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
 msgid "Release notes"
-msgstr ""
+msgstr "Notes de mise à jour"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
