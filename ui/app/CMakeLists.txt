@@ -27,6 +27,20 @@ if (PLATFORM_OS_UNIX)
 
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave.desktop DESTINATION ${DATADIR}/applications)
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
+
+  # Desktop Application Autostart
+  # This enables application autostart and indicates autostart parameters across
+  # all Linux desktop managers.
+  # https://specifications.freedesktop.org/autostart-spec/autostart-spec-latest.html
+  intltool_merge_desktop(
+    ${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.Workrave-autostart.desktop.in
+    ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave-autostart.desktop)
+  add_custom_target(generate_desktop_autostart_file ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave-autostart.desktop)
+
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.Workrave-autostart.desktop
+    DESTINATION ${XDGAUTOSTARTDIR}
+    RENAME org.workrave.Workrave.desktop)
 endif()
 
 if (PLATFORM_OS_WINDOWS)
