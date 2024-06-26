@@ -762,14 +762,14 @@ BreakWindow::stop()
       frame->set_frame_flashing(0);
     }
 
-  hide();
-
 #if defined(HAVE_WAYLAND)
   if (window_manager)
     {
       window_manager->clear_surfaces();
     }
 #endif
+
+  hide();
 
 #if defined(PLATFORM_OS_WINDOWS)
   if (desktop_window != nullptr)
