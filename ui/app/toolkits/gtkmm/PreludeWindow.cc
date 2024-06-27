@@ -196,7 +196,6 @@ PreludeWindow::stop()
 {
   TRACE_ENTRY();
   frame->set_frame_flashing(0);
-  hide();
 
 #if defined(HAVE_WAYLAND)
   if (window_manager)
@@ -204,6 +203,8 @@ PreludeWindow::stop()
       window_manager->clear_surfaces();
     }
 #endif
+
+  hide();
 }
 
 //! Refresh window.
