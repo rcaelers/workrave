@@ -9,7 +9,7 @@ To use with Waybar, place the files `workrave-break-info.py` and `workrave-open.
         "exec-on-event": false
     }
 ```
-Of course, `"custom/workrave" should be added to one of these arrays in the config file: `modules-left`, `modules-center`, `modules-right`.
+Of course, `"custom/workrave"` should be added to one of these arrays in the config file: `modules-left`, `modules-center`, `modules-right`.
 
 Note that all `workrave-open.py` does is open Workrave's status window (which doesn't necessarily happen if one simply types in `workrave` at the command-line).
 
