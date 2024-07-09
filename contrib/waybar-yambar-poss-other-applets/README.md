@@ -96,7 +96,7 @@ The above configuration of course assumes that `workrave-break-info.py` is in `~
 
 The `workrave-break-info.py` script also offers two other formats as well. One is "plain" format, which just has the script repeatedly prints the timer information from Workrave as brief plain text, e.g. `M: 4:53/5:00 R: 19:12/55:00`.
 
-The other format is "json", where the script repeatedly outputs Workrave's timer information in a JSON format that can be used, for example, by [Elkowar's Wacky Widgets](https://elkowar.github.io/eww/). Each line of output is the string representation of a JSON object with the following keys and values:
+The other format is "json", where the script repeatedly outputs Workrave's timer information in a JSON format that can be used, for example, by [Elkowar's Wacky Widgets](https://elkowar.github.io/eww/) or [Sfwbar](https://github.com/LBCrion/sfwbar). Each line of output is the string representation of a JSON object with the following keys and values:
 
 * `"microbreak_enabled"`: A Boolean that indicates if microbreaks are enabled
 * `"microbreak_left_in_seconds"`: An integer indicating the number of seconds left until the microbreak starts
@@ -123,7 +123,7 @@ The other format is "json", where the script repeatedly outputs Workrave's timer
 * `"dailylimit_fgcol"`: The desired foreground color for the display of the daily limit
 * `"dailylimit_bgcol"`: The desired background color for the display of the daily limit
 
-A given client using this JSON output may, of course, ignore at least some of these keys.
+A given client using this JSON output may, of course, ignore at least some of these keys. Example files showing JSON format being used with EWW and Sfwbar are in the directories named, of course, "eww" and "sfwbar", respectively.
 
 Here is the usage of `workrave-break-info.py`:
 ```
