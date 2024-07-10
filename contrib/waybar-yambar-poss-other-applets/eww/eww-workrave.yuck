@@ -1,0 +1,180 @@
+(defvar workrave_prefix "/usr")
+(defvar workrave_img_subpath "share/workrave/images")
+
+(defvar workrave_timer_icon_width 24)
+(defvar workrave_timer_icon_height 24)
+
+(defvar workrave_button_icon_width 24)
+(defvar workrave_button_icon_height 24)
+
+(defwindow workrave
+           :monitor 0
+           :geometry (geometry :x "0%"
+			       :y "0%"
+			       :anchor "top center")
+           :stacking "fg"
+           :reserve (struts :distance "3%" :side "top")
+           :windowtype "dock"
+	   :exclusive true
+           :wm-ignore true
+	   (workrave))
+
+(defwindow workrave_compact
+           :monitor 0
+           :geometry (geometry :x "0%"
+			       :y "0%"
+			       :anchor "top center")
+           :stacking "fg"
+           :reserve (struts :distance "3%" :side "top")
+           :windowtype "dock"
+	   :exclusive true
+           :wm-ignore true
+	   (workrave_compact))
+
+(defwidget workrave []
+	   (box
+	    :orientation "horizontal"
+	    :spacing 10
+	    :space-evenly false
+	    (button :onclick "workrave-open.py"
+		    (image
+		     :path "${workrave_prefix}/${workrave_img_subpath}/workrave-icon-medium.png"
+		     :image-width {workrave_button_icon_width}
+		     :image-height {workrave_button_icon_height}))
+	    (wr_timer
+	     :icon_file "micro-break.png"
+	     :enabled {workrave.microbreak_enabled}
+	     :timer_state {workrave.microbreak_state}
+	     :left_str {workrave.microbreak_left_str}
+	     :limit_str {workrave.microbreak_limit_str}
+	     :left_in_seconds {workrave.microbreak_left_in_seconds}
+	     :limit_in_seconds {workrave.microbreak_limit_in_seconds})
+	    (wr_timer
+	     :icon_file "rest-break.png"
+	     :enabled {workrave.restbreak_enabled}
+	     :timer_state {workrave.restbreak_state}
+	     :left_str {workrave.restbreak_left_str}
+	     :limit_str {workrave.restbreak_limit_str}
+	     :left_in_seconds {workrave.restbreak_left_in_seconds}
+	     :limit_in_seconds {workrave.restbreak_limit_in_seconds})
+	    (wr_timer
+	     :icon_file "daily-limit.png"
+	     :enabled {workrave.dailylimit_enabled}
+	     :timer_state {workrave.dailylimit_state}
+	     :left_str {workrave.dailylimit_left_str}
+	     :limit_str {workrave.dailylimit_str}
+	     :left_in_seconds {workrave.dailylimit_left_in_seconds}
+	     :limit_in_seconds {workrave.dailylimit_in_seconds})))
+
+(defwidget workrave_compact []
+	   (box
+	    :orientation "horizontal"
+	    :spacing 10
+	    :space-evenly false
+	    (button :onclick "workrave-open.py"
+		    (image
+		     :path "${workrave_prefix}/${workrave_img_subpath}/workrave-icon-medium.png"
+		     :image-width {workrave_button_icon_width}
+		     :image-height {workrave_button_icon_height}))
+	    (wr_timer_compact
+	     :icon_file "micro-break.png"
+	     :enabled {workrave.microbreak_enabled}
+	     :timer_state {workrave.microbreak_state}
+	     :left_str {workrave.microbreak_left_str}
+	     :limit_str {workrave.microbreak_limit_str}
+	     :left_in_seconds {workrave.microbreak_left_in_seconds}
+	     :limit_in_seconds {workrave.microbreak_limit_in_seconds})
+	    (wr_timer_compact
+	     :icon_file "rest-break.png"
+	     :enabled {workrave.restbreak_enabled}
+	     :timer_state {workrave.restbreak_state}
+	     :left_str {workrave.restbreak_left_str}
+	     :limit_str {workrave.restbreak_limit_str}
+	     :left_in_seconds {workrave.restbreak_left_in_seconds}
+	     :limit_in_seconds {workrave.restbreak_limit_in_seconds})
+	    (wr_timer_compact
+	     :icon_file "daily-limit.png"
+	     :enabled {workrave.dailylimit_enabled}
+	     :timer_state {workrave.dailylimit_state}
+	     :left_str {workrave.dailylimit_left_str}
+	     :limit_str {workrave.dailylimit_str}
+	     :left_in_seconds {workrave.dailylimit_left_in_seconds}
+	     :limit_in_seconds {workrave.dailylimit_in_seconds})))
+
+(defwidget wr_timer [icon_file
+		     enabled
+		     timer_state
+		     left_str
+		     limit_str
+		     left_in_seconds
+		     limit_in_seconds]
+	   (box
+	    :orientation "vertical"
+	    :space-evenly false
+	    :spacing 2	    
+	    (box
+	     :orientation "horizontal"
+	     :halign "start"
+	     :spacing 5
+	     :space-evenly false
+	     (image
+	      :path "${workrave_prefix}/${workrave_img_subpath}/${icon_file}"
+	      :image-width {workrave_timer_icon_width}
+	      :image-height {workrave_timer_icon_height}
+	      :halign "start")
+	     (label
+	      :halign "start"
+	      :valign "center"
+	      :xalign 0.0
+	      :yalign 0.5
+	      :justify "left"
+	      :truncate false
+	      :class "timer_label"
+	      :text {enabled ? "${left_str}/${limit_str}" : "N/A"}))
+	    (progress
+	     :flipped false
+	     :halign "center"
+	     :valign "center"
+	     :orientation "horizontal"
+	     :class {enabled
+		     ? (timer_state == "close to break" ? "wr_prgbar_close_to_break" : (timer_state == "overdue" ? "wr_prgbar_overdue" : "wr_prgbar_default"))
+		     : "wr_prgbar_disabled"}
+	     :value {(!enabled || (left_in_seconds < 0)) ? 0.0 : 100.0*left_in_seconds/limit_in_seconds})))
+
+(defwidget wr_timer_compact  [icon_file
+		     enabled
+		     timer_state
+		     left_str
+		     limit_str
+		     left_in_seconds
+		     limit_in_seconds]
+	   (box
+	     :orientation "horizontal"
+	     :halign "start"
+	     :spacing 3
+	     :space-evenly false
+	     (image
+	      :path "${workrave_prefix}/${workrave_img_subpath}/${icon_file}"
+	      :image-width {workrave_timer_icon_width}
+	      :image-height {workrave_timer_icon_height}
+	      :halign "start")
+	     (label
+	      :halign "start"
+	      :valign "center"
+	      :xalign 0.0
+	      :yalign 0.5
+	      :justify "left"
+	      :truncate false
+	      :class "timer_label"
+	      :text {enabled ? "${left_str}/${limit_str}" : "N/A"})
+	     (circular-progress
+	      :halign "start"
+	      :valign "center"
+	      :thickness 10.0
+	      :class {enabled
+		      ? (timer_state == "close to break" ? "wr_cprgbar_close_to_break" : (timer_state == "overdue" ? "wr_cprgbar_overdue" : "wr_cprgbar_default"))
+		     : "wr_cprgbar_disabled"}
+	      :value {(!enabled || (left_in_seconds < 0)) ? 0.0 : 100.0*left_in_seconds/limit_in_seconds})))
+
+(deflisten workrave :initial "--"
+	   `workrave-break-info.py -f json`)
