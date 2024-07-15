@@ -40,7 +40,7 @@ layout {
     grid {
 
       css = "* { -GtkWidget-direction: right; margin-left: 0.5em; margin-right: 0.5em;}"
-      style = If($WorkraveMicroBreakEnabled="true", "normal", "hidden")
+      style = If($WorkraveMicroBreakEnabled="true", "workrave_timer", "hidden")
 
       image {
         value = $WorkraveImgPath + "/micro-break.png"
@@ -64,7 +64,7 @@ layout {
 
     grid {
       css = "* { -GtkWidget-direction: right; margin-left: 0.5em; margin-right: 0.5em;}"
-      style = If($WorkraveRestBreakEnabled="true", "normal", "hidden")
+      style = If($WorkraveRestBreakEnabled="true", "workrave_timer", "hidden")
 
       image {
         value = $WorkraveImgPath + "/rest-break.png"
@@ -87,7 +87,7 @@ layout {
       
     grid {
       css = "* { -GtkWidget-direction: right; margin-left: 0.5em; margin-right: 0.5em;}"
-      style = If($WorkraveDailyLimitEnabled="true", "normal", "hidden")
+      style = If($WorkraveDailyLimitEnabled="true", "workrave_timer", "hidden")
 
       image {
         value = $WorkraveImgPath + "/daily-limit.png"
@@ -109,3 +109,4 @@ layout {
     }
   }
 }
+
