@@ -2,6 +2,7 @@
 
 import pydbus
 from collections.abc import Sequence
+from collections import namedtuple
 
 #########################################################################
 #
@@ -72,35 +73,37 @@ from collections.abc import Sequence
 # aforementioned functions, it also has the class WorkraveBreakInfo,
 # whose constructor has the following signature:
 #
-# class WorkraveBreakInfo(fmt_timer_func,
-#                         color_dict = None,
+# class WorkraveBreakInfo(color_dict = None,
 #                         get_timer_state_func = None)
 #
-# fmt_timer_func is a "fmt_timer_{$FORMAT}" function as described
-# above.
-# 
-# The optional argument color_dict has three keys, which correspond to
-# the aforementioned three states of the timer: "default", "close to
-# break", and "overdue", and the values corresponding to each of those
-# keys is a two-element sequence whose first element indicates a
-# foreground color and whose second element indicates a background
-# color. Both elements are strings containing some color specification
-# suitable for the chosen fmt_timer_func.
+# The optional keyword argument color_dict is a dictionary with three
+# keys, which correspond to the aforementioned three states of the
+# timer: "default", "close to break", and "overdue", and the values
+# corresponding to each of those keys is a two-element sequence whose
+# first element indicates a foreground color and whose second element
+# indicates a background color. Both elements are strings containing
+# some color specification suitable for the chosen fmt_timer_func.
 #
-# The optional argument get_timer_state_func is a function that
-# returns one of the strings "default", "close to break", or
+# The optional keyword argument get_timer_state_func is a function
+# that returns one of the strings "default", "close to break", or
 # "overdue", depending on its two arguments: "time_left" and
 # "limit". The first is the time left until a break starts, and the
 # second is the minimum time between breaks (i.e., a *limit* on the
-# amount of time that one can be active before the break starts.) By
+# amount of time that one can be active before the break starts). By
 # default, a timer is considered "close to break" if time_left/limit
 # <= 0.1 and "overdue" if time_left is negative.
 #
 # The class WorkraveBreakInfo has the following public methods:
 #
-#     * timer_str(): Takes one argument, the break type, which can be
-#       "microbreak", "restbreak", or "dailylimit". It returns a
-#       string formatted according to fmt_timer_func.
+#     * get_timer_info(): Takes one argument, the break type, which
+#       can be "microbreak", "restbreak", or "dailylimit". It returns
+#       a named tuple of type TimerInfo whose fields are all the
+#       arguments needed for a "fmt_timer_{$FORMAT}" function:
+#       "enabled", "time_left", "limit", "timer_type", "timer_state",
+#       and "colors". Give such a tuple named "foo" and a
+#       "fmt_timer_{$FORMAT}" function named "fmt_timer_baz", one can
+#       use this tuple with that function simply by unpacking it,
+#       i.e., doing this: fmt_timer_baz(*foo).
 #
 #     * open_workrave(): This just opens a Workrave status window if
 #       one is not already open. It basically does the same thing as
@@ -219,8 +222,13 @@ def _default_get_timer_state(time_left, limit):
     else:
         return "default"
 
+TimerInfo = namedtuple(
+    "TimerInfo",
+    "enabled, time_left, limit, timer_type, timer_state, colors"
+)
+    
 class WorkraveBreakInfo:
-    def __init__(self, fmt_timer_func,
+    def __init__(self, *,
                  color_dict = None,
                  get_timer_state_func = None):
         
@@ -244,8 +252,6 @@ class WorkraveBreakInfo:
             "restbreak": "/timers/rest_break/limit",
             "dailylimit": "/timers/daily_limit/limit"
         }
-
-        self.fmt_timer_func = fmt_timer_func
 
         self.color_dict = (_default_color_dict
                            if color_dict is None
@@ -273,7 +279,7 @@ class WorkraveBreakInfo:
                                  f"key '{key}' is not 2. Sequence is "
                                  f"{self.color_dict[key]}")
 
-    def timer_str(self, timer_type):
+    def get_timer_info(self, timer_type):
 
         timer_enabled_path = self._timer_enabled_paths[timer_type]
 
@@ -287,8 +293,8 @@ class WorkraveBreakInfo:
         timer_state = self.get_timer_state(time_left, limit)
         colors = self.color_dict[timer_state]
 
-        return self.fmt_timer_func(enabled, time_left, limit,
-                                   timer_type, timer_state, colors)
+        return TimerInfo(enabled, time_left, limit,
+                         timer_type, timer_state, colors)
 
     def open_workrave(self):
         wr_ui = self.session_bus.get('org.workrave.Workrave',
@@ -334,18 +340,16 @@ def main():
 
     fmt_timer_func, fmt_all_timers_func = fmt_info_dict[args.format]
 
-    color_dict = {
+    wr_break_info = WorkraveBreakInfo(color_dict = {
         "default": args.colors_default,
         "close to break": args.colors_close_to_break,
         "overdue": args.colors_overdue
-    }
-
-    wr_break_info = WorkraveBreakInfo(fmt_timer_func, color_dict)
-
+    })
+    
     while True:
         print(
             fmt_all_timers_func(
-                [wr_break_info.timer_str(timer_type)
+                [fmt_timer_func(*wr_break_info.get_timer_info(timer_type))
                  for timer_type in ("microbreak", "restbreak", "dailylimit")]
             ), flush = True
         )
