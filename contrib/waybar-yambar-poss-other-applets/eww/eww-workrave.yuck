@@ -177,4 +177,4 @@
 	      :value {(!enabled || (left_in_seconds < 0)) ? 0.0 : 100.0*left_in_seconds/limit_in_seconds})))
 
 (deflisten workrave :initial "--"
-	   `workrave-break-info.py -f json`)
+	   `workrave_break_info.py -f json`)
