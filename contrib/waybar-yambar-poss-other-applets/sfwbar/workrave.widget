@@ -2,7 +2,7 @@ set WorkravePrefix = "/usr"
 set WorkraveImgPath = $WorkravePrefix + "/share/workrave/images"
 
 scanner {
-  ExecClient("stdbuf -oL workrave-break-info.py -f json", "workrave") {
+  ExecClient("stdbuf -oL workrave_break_info.py -f json", "workrave") {
     WorkraveMicroBreakEnabled = Json(".microbreak_enabled")
     WorkraveMicroBreakLeftInSeconds = Json(".microbreak_left_in_seconds")
     WorkraveMicroBreakLeftStr = Json(".microbreak_left_str")
