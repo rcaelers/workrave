@@ -1,9 +1,11 @@
 These Python scripts can be used with Waybar and Yambar, and possibly other clients as well. They require the `pydbus` Python module.
 
-To use with Waybar, place the files `workrave-break-info.py` and `workrave-open.py` somewhere in your `$PATH`, and add the following to your Waybar config file:
+The script `workrave_break_info.py` can also be used as a Python module (which is why it has underscores in its name instead of hyphens) for those who don't find the script flexible enough. (For example, a user of the Python-configured window manager/compositor qtile may prefer to use it as a module. Documentation for its use as a module is in the comments near the top of the script.)
+
+To use with Waybar, place the files `workrave_break_info.py` and `workrave-open.py` somewhere in your `$PATH`, and add the following to your Waybar config file:
 ```json
     "custom/workrave": {
-        "exec": "workrave-break-info.py -f waybar",
+        "exec": "workrave_break_info.py -f waybar",
         "return-type": "json",
         "on-click": "workrave-open.py",
         "exec-on-event": false
@@ -13,10 +15,10 @@ Of course, `"custom/workrave"` should be added to one of these arrays in the Way
 
 Note that all `workrave-open.py` does is open Workrave's status window if it isn't already open (which doesn't necessarily happen if one simply types in `workrave` at the command-line).
 
-To use `workrave-break-info.py` with Yambar, the following can be added to the Yambar config file:
+To use `workrave_break_info.py` with Yambar, the following can be added to the Yambar config file:
 ```yaml
     - script:
-         path: ~/bin/workrave-break-info.py
+         path: ~/bin/workrave_break_info.py
          args:
            - "-f"
            - "yambar"
@@ -92,9 +94,9 @@ To use `workrave-break-info.py` with Yambar, the following can be added to the Y
                           text: "D: --"
                           <<: *disabled_color
 ```
-The above configuration of course assumes that `workrave-break-info.py` is in `~/bin`. (Yambar does not use `$PATH` for its script modules.) `default_color`, `close_to_break_color`, and `overdue_color` can be adjusted to one's taste, compatibility with Yambar's background, etc.
+The above configuration of course assumes that `workrave_break_info.py` is in `~/bin`. (Yambar does not use `$PATH` for its script modules.) `default_color`, `close_to_break_color`, and `overdue_color` can be adjusted to one's taste, compatibility with Yambar's background, etc.
 
-The `workrave-break-info.py` script also offers two other formats as well. One is "plain" format, which just has the script repeatedly prints the timer information from Workrave as brief plain text, e.g. `M: 4:53/5:00 R: 19:12/55:00`.
+The `workrave_break_info.py` script also offers two other formats as well. One is "plain" format, which just has the script repeatedly prints the timer information from Workrave as brief plain text, e.g. `M: 4:53/5:00 R: 19:12/55:00`.
 
 The other format is "json", where the script repeatedly outputs Workrave's timer information in a JSON format that can be used, for example, by [Elkowar's Wacky Widgets](https://elkowar.github.io/eww/) or [Sfwbar](https://github.com/LBCrion/sfwbar). Each line of output is the string representation of a JSON object with the following keys and values:
 
@@ -125,9 +127,9 @@ The other format is "json", where the script repeatedly outputs Workrave's timer
 
 A given client using this JSON output may, of course, ignore at least some of these keys. Example files showing JSON format being used with EWW and Sfwbar are in the directories named, of course, "eww" and "sfwbar", respectively.
 
-Here is the usage of `workrave-break-info.py`:
+Here is the usage of `workrave_break_info.py`:
 ```
-usage: workrave-break-info.py [-h] [-i POLLING_INTERVAL] [-f {plain,waybar,yambar,json}]
+usage: workrave_break_info.py [-h] [-i POLLING_INTERVAL] [-f {plain,waybar,yambar,json}]
                               [--colors-default COLORS_DEFAULT COLORS_DEFAULT]
                               [--colors-close-to-break COLORS_CLOSE_TO_BREAK COLORS_CLOSE_TO_BREAK]
                               [--colors-overdue COLORS_OVERDUE COLORS_OVERDUE]
