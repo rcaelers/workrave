@@ -162,6 +162,10 @@ LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell,
   wl_display_roundtrip(display);
 }
 
+LayerSurface::~LayerSurface() {
+  zwlr_layer_surface_v1_destroy(this->layer_surface);
+}
+
 void
 LayerSurface::layer_surface_configure(void *data,
                                       struct zwlr_layer_surface_v1 *surface,

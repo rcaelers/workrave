@@ -30,7 +30,7 @@ class LayerSurface
 {
 public:
   LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, Gtk::Widget &window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus);
-  ~LayerSurface() = default;
+  ~LayerSurface();
 
 private:
   static void layer_surface_configure(void *data,

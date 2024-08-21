@@ -1,0 +1,145 @@
+progressbar#workrave_default trough,
+progressbar#workrave_close_to_break trough,
+progressbar#workrave_overdue trough {
+    all: unset; /* This prevents the theme from messing up the progress bar by
+                   overriding color scheme.  If you *want* the
+                   progress bar to go with the theme, don't use this,
+                   but YMMV, and you may want to style the labels to
+                   compensate. See "label#workrave_default", etc.,
+                   below. */
+    
+    min-width: 5em; /* This is required if "all: unset" is used,
+		       otherwise the progress bar disappears. */
+    min-height: 0.5em;
+    margin: 2px;
+    border-style: inset;
+    border-width: 2px;
+    border-color: dimgrey;
+}
+
+progressbar#workrave_default progress,
+progressbar#workrave_close_to_break progress,
+progressbar#workrave_overdue progress {
+    all: unset; /* This prevents the theme from messing up the progress bar by
+                   overriding color scheme. See comments above for
+                   further issues with not using "all: unset". */
+    
+    /*  min-width: 5em; */ /* Do NOT set the min-width!
+                              It messes up the progress bar! */
+    
+    min-height: 0.4em; /* This should be a little less than or equal
+			  to the min-height of them trough, or else the
+			  progress bar looks wrong. */
+}
+
+progressbar#workrave_default trough {
+    background-color: white;
+}
+
+progressbar#workrave_default progress {
+    background-color: skyblue;
+}
+
+progressbar#workrave_close_to_break trough {
+    background-color: darkorange;
+}
+
+progressbar#workrave_close_to_break progress {
+    background-color: sienna;
+}
+
+progressbar#workrave_overdue trough {
+    background-color: red;
+}
+
+progressbar#workrave_overdue progress {
+    background-color: red;
+}
+
+/*
+   If using sfwbar version 1.0beta15 or earlier, which has this bug:
+   https://github.com/LBCrion/sfwbar/issues/191, use the following CSS
+   if using a horizontal taskbar:
+
+grid#workrave_widget_left,
+grid#workrave_widget_right,
+grid#workrave_widget_bottom,
+grid#workrave_widget_top {
+    -GtkWidget-direction: right;
+}
+
+If using a vertical taskbar, using this CSS:
+
+grid#workrave_widget_left,
+grid#workrave_widget_right,
+grid#workrave_widget_bottom,
+grid#workrave_widget_top {
+    -GtkWidget-direction: bottom;
+}
+
+*/
+
+/* For when Workrave is in a vertical taskbar, and sfwbar version is
+   greater than 1.0beta15 */
+grid#workrave_widget_left,
+grid#workrave_widget_right {
+    -GtkWidget-direction: bottom;
+}
+
+/* For when Workrave is in a horizontal taskbar, and sfwbar version is
+   greater than 1.0beta15 */
+grid#workrave_widget_bottom,
+grid#workrave_widget_top {
+    -GtkWidget-direction: right;
+}
+
+/* For when Workrave is in a taskbar of unknown orientation (shouldn't
+   need this unless there's a bug in sfwbar that makes this
+   necessary), use one of these:
+
+grid#workrave_widget_unknown {
+    -GtkWidget-direction: right;
+}
+
+ OR
+
+grid#workrave_widget_unknown {
+    -GtkWidget-direction: bottom;
+}
+
+*/
+
+/* Possible color schemes for the labels. Personally, I prefer them
+   plain, but YMMV. If you let the progress bars be themed, then you
+   probably will want the labels colored to indicate when one is close
+   to a break or overdue, since the progress bars won't reliably
+   indicate that. */
+
+/*
+label#workrave_default,
+label#workrave_close_to_break,
+label#workrave_overdue {
+    margin: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 10px;
+}
+
+label#workrave_default {
+    color: black;
+    background-color: skyblue;
+}
+
+label#workrave_close_to_break {
+    color: black;
+    background-color: orange;
+}
+
+label#workrave_overdue {
+    color: white;
+    background-color: red;
+}
+*/
+

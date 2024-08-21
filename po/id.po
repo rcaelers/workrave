@@ -1,22 +1,22 @@
 # Indonesian translation of workrave
 # Copyright (C) 2020 THE workrave'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the workrave package.
-# Andika Triwidada <andika@gmail.com>, 2020.
+# Andika Triwidada <andika@gmail.com>, 2020, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave\n"
+"Project-Id-Version: workrave 1.10.52\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2020-03-29 08:51+0700\n"
+"PO-Revision-Date: 2024-07-02 12:56+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: \n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Poedit-Bookmarks: -1,-1,187,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: ui/libs/commonui/src/Text.cc:79
@@ -45,19 +45,19 @@ msgstr "(fonta tidak tersedia)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
 msgid "<h3>Version {}</h3>\n"
-msgstr ""
+msgstr "<h3>Versi {}</h3>\n"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
 msgid "A new version of {} is available"
-msgstr ""
+msgstr "Suatu versi baru dari {} tersedia"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Active computer usage"
-msgstr ""
+msgstr "Penggunaan komputer aktif"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
 msgid "Activity"
@@ -73,11 +73,11 @@ msgstr "Membantu dalam pencegahan dan pemulihan Repetitive Strain Injury (RSI)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
 msgid "Auto update"
-msgstr ""
+msgstr "Pembaruan otomatis"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
 msgid "Automatically check for updates"
-msgstr ""
+msgstr "Periksa pembaruan secara otomatis"
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
@@ -140,7 +140,7 @@ msgstr "Jelajahi sejarah"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
-msgstr ""
+msgstr "Periksa Pem_utakhiran"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
@@ -152,7 +152,7 @@ msgstr "Pilih suara"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
 msgid "Close"
-msgstr ""
+msgstr "Tutup"
 
 #: ui/data/exercises/exercises.xml.in:73
 msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
@@ -160,11 +160,11 @@ msgstr "Tutupi mata Anda dengan telapak tangan sedemikian rupa sehingga Anda mas
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:132
 msgid "Crash report"
-msgstr ""
+msgstr "Laporan kerusakan"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:49
 msgid "Crash report details"
-msgstr ""
+msgstr "Detail laporan kerusakan"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
@@ -202,15 +202,15 @@ msgstr "Tanggal:"
 
 #: ui/app/toolkits/gtkmm/DebugDialog.cc:38
 msgid "Debug log"
-msgstr ""
+msgstr "Log debug"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
 msgid "Debug monitoring"
-msgstr ""
+msgstr "Pemantauan debug"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
 msgid "Default"
-msgstr ""
+msgstr "Baku"
 
 #. Delete button
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
@@ -219,7 +219,7 @@ msgstr "Hapus semua riwayat statistik"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:171
 msgid "Details..."
-msgstr ""
+msgstr "Rincian..."
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
@@ -256,13 +256,12 @@ msgid "Error"
 msgstr "Galat"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
-#, fuzzy
 msgid "Error color"
-msgstr "Galat"
+msgstr "Warna galat"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
 msgid "Error color for symbolic icons"
-msgstr ""
+msgstr "Warna galat bagi ikon simbolis"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
 msgid "Event"
@@ -289,9 +288,8 @@ msgid "Exercises player"
 msgstr "Pemain latihan"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-#, fuzzy
 msgid "Fallback applet enabled"
-msgstr "Aplet difungsikan"
+msgstr "Aplet fallback difungsikan"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
 msgid "File deletion failed!"
@@ -308,27 +306,27 @@ msgstr "Peregangan jari"
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:83
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Focus Assist"
-msgstr ""
+msgstr "Bantuan Fokus"
 
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
-msgstr ""
+msgstr "Selama 1 jam"
 
 #: ui/app/Menus.cc:189
 msgid "For 1 minute"
-msgstr ""
+msgstr "Selama 1 menit"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
+msgstr "Paksa penggunaan X11 di Wayland (memerlukan restart Workrave)"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
-msgstr ""
+msgstr "Warna latar depan"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
 msgid "Foreground color for symbolic icons"
-msgstr ""
+msgstr "Warna latar depan bagi ikon simbolis"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
 msgid "General"
@@ -344,16 +342,15 @@ msgstr "Sembunyikan"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
 msgid "Icon Size"
-msgstr ""
+msgstr "Ukuran Ikon"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
-#, fuzzy
 msgid "Icon Theme:"
-msgstr "Tema Suara:"
+msgstr "Tema Ikon:"
 
 #: ui/app/Menus.cc:166
 msgid "Indefinitely"
-msgstr ""
+msgstr "Seterusnya"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
 msgid "Info"
@@ -427,7 +424,7 @@ msgstr "Mode: "
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
 msgid "Monitoring"
-msgstr ""
+msgstr "Pemantauan"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
 msgid "Monthly"
@@ -480,7 +477,7 @@ msgstr "Peregangan memiringkan leher"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
 msgid "Next"
-msgstr ""
+msgstr "Selanjutnya"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
 msgid "Next exercise"
@@ -505,7 +502,7 @@ msgstr "Normal"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
-msgstr ""
+msgstr "Perhatikan bahwa laporan kerusakan ini juga berisi informasi teknis tentang status Workrave saat mengalami crash."
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 msgid "Number of exercises:"
@@ -517,7 +514,7 @@ msgstr "Cacah piksel berpindahnya tetikus sebelum dianggap aktivitas."
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:87
 msgid "Operation mode during Focus Assist:"
-msgstr ""
+msgstr "Mode operasi selama Bantuan Fokus:"
 
 #. Options
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
@@ -527,7 +524,7 @@ msgstr "Opsi"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
 msgid "Orientation"
-msgstr ""
+msgstr "Orientasi"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
 msgid "Overdue time"
@@ -535,11 +532,11 @@ msgstr "Waktu terlewat"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
 msgid "Padding"
-msgstr ""
+msgstr "Padding"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
 msgid "Padding that should be put around icons in the tray"
-msgstr ""
+msgstr "Pengganjal yang mesti diletakkan di sekitar ikon di baki"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
 msgid "Pause"
@@ -593,18 +590,16 @@ msgid "Preferences"
 msgstr "Preferensi"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
-#, fuzzy
 msgid "Previous"
-msgstr "Latihan sebelumnya"
+msgstr "Sebelumnya"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
 msgid "Previous exercise"
 msgstr "Latihan sebelumnya"
 
 #: ui/app/workrave.metainfo.xml:7
-#, fuzzy
 msgid "Program that assists in the recovery and prevention of RSI"
-msgstr "Program ini membantu dalam pencegahan dan pemulihan Repetitif Strain Injury (RSI)."
+msgstr "Program ini membantu dalam pemulihan dan pencegahan RSI"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
 msgid "Prompt before breaking"
@@ -625,11 +620,11 @@ msgstr "S_enyap"
 #: ui/app/Menus.cc:294
 #, qt-format
 msgid "Q_uiet (until %1%)"
-msgstr ""
+msgstr "S_enyap (sampai %1%)"
 
 #: ui/app/Menus.cc:307
 msgid "Q_uiet (until next day)"
-msgstr ""
+msgstr "S_enyap (sampai hari berikutnya)"
 
 #: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
 #: ui/applets/mate/src/main.c:389
@@ -646,11 +641,11 @@ msgstr "Anggap istirahat mikro sebagai aktivitas"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
 msgid "Release channel:"
-msgstr ""
+msgstr "Kanal rilis:"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
 msgid "Release notes"
-msgstr ""
+msgstr "Catatan rilis"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
@@ -694,9 +689,8 @@ msgid "Resume exercises"
 msgstr "Lanjutkan latihan"
 
 #: ui/app/Menus.cc:81
-#, fuzzy
 msgid "S_tatistics"
-msgstr "Statistik"
+msgstr "S_tatistik"
 
 #: ui/data/exercises/exercises.xml.in:23
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
@@ -704,7 +698,7 @@ msgstr "Pisahkan dan rentangkan jari-jari Anda hingga ketegangan ringan terasa, 
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:85
 msgid "Set operation mode based on Windows Focus Assist"
-msgstr ""
+msgstr "Mengatur mode operasi berdasarkan Bantuan Fokus Jendela"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -733,9 +727,8 @@ msgid "Show only when this timer is first due"
 msgstr "Tampilkan hanya ketika timer ini pertama kali jatuh tempo"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
-#, fuzzy
 msgid "Show status icon"
-msgstr "Tampilkan jendela status"
+msgstr "Tampilkan ikon status"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
 msgid "Show status window"
@@ -756,12 +749,12 @@ msgstr "Diam dalam %s"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
 msgid "Software Update"
-msgstr ""
+msgstr "Pemutakhiran Perangkat Lunak"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
 msgid "Software updates"
-msgstr ""
+msgstr "Pembaruan perangkat lunak"
 
 #. Sound themes
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
@@ -813,15 +806,15 @@ msgstr "Jendela Status"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:162
 msgid "Submit crash report to the Workrave developers"
-msgstr ""
+msgstr "Kirim laporan kerusakan ke pengembang Workrave"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
 msgid "Success color"
-msgstr ""
+msgstr "Warna sukses"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
 msgid "Success color for symbolic icons"
-msgstr ""
+msgstr "Warna sukses bagi ikon simbolis"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:263
 msgid "Suspend"
@@ -846,11 +839,11 @@ msgstr "Istirahatlah sekarang"
 
 #: ui/app/Menus.cc:121
 msgid "Temporarily Quiet..."
-msgstr ""
+msgstr "Hening Sementara..."
 
 #: ui/app/Menus.cc:118
 msgid "Temporarily Suspended..."
-msgstr ""
+msgstr "Ditangguhkan Sementara..."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
 msgid "The files containing your statistics history could not be deleted. Try again?"
@@ -862,7 +855,7 @@ msgstr "Berkas yang berisi riwayat statistik Anda telah dihapus."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:71
 msgid "The following logging will be attached to the crash report:"
-msgstr ""
+msgstr "Catatan log berikut akan dilampirkan ke laporan kerusakan:"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "The number of breaks you postponed"
@@ -890,11 +883,11 @@ msgstr "Berapa kali Anda berulang diminta untuk istirahat"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
 msgid "The orientation of the tray"
-msgstr ""
+msgstr "Orientasi baki"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
 msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
+msgstr "Ikon mesti dipaksa ukuran pikselnya sekian, atau nol"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
 msgid "The status window stays always on top of other windows"
@@ -989,7 +982,7 @@ msgstr "Putar kepala Anda ke kiri dan simpan di sana selama 2 detik. Kemudian pu
 
 #: ui/app/Menus.cc:198
 msgid "Until next day"
-msgstr ""
+msgstr "Sampai hari berikutnya"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Usage"
@@ -1001,7 +994,7 @@ msgstr "Gunakan monitor alternatif"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
-msgstr ""
+msgstr "Gunakan tema gelap"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
@@ -1009,7 +1002,7 @@ msgstr "Antarmuka pengguna"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
 msgid "Version {}\n"
-msgstr ""
+msgstr "Versi {}\n"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
@@ -1026,13 +1019,12 @@ msgid "Warning"
 msgstr "Peringatan"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
-#, fuzzy
 msgid "Warning color"
-msgstr "Peringatan"
+msgstr "Warna peringatan"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
 msgid "Warning color for symbolic icons"
-msgstr ""
+msgstr "Warna peringatan bagi ikon simbolis"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
 msgid "Wavefiles"
@@ -1045,12 +1037,11 @@ msgstr "Mingguan"
 #: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave"
-msgstr ""
+msgstr "Workrave"
 
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#, fuzzy
 msgid "Workrave Applet"
-msgstr "Workrave gagal memulai"
+msgstr "Aplet Workrave"
 
 #: ui/app/Application.cc:346
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
@@ -1058,35 +1049,36 @@ msgstr "Workrave tidak dapat memantau aktivitas papan tik dan tetikus Anda.\n"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:136
 msgid "Workrave crash reporter"
-msgstr ""
+msgstr "Pelapor kerusakan workrave"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
+msgstr "Workrave tidak sepenuhnya mendukung Wayland secara native. Opsi ini memaksa penggunaan X11 di Wayland. Mengubah opsi ini memerlukan restart Workrave."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
-msgstr ""
+msgstr "Workrave mengalami masalah dan crash. Tolong bantu kami mendiagnosis dan memperbaiki masalah ini dengan mengirimkan laporan kerusakan."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:64
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:148
 msgid "Workrave has crashed."
-msgstr ""
+msgstr "Workrave telah crash."
 
 #: ui/app/workrave.metainfo.xml:9
 msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
+msgstr "Workrave adalah program yang membantu pemulihan dan pencegahan Repetitive Strain Injury (RSI). Program ini sering memperingatkan Anda untuk mengambil jeda mikro, istirahat, dan membatasi Anda ke batas harian Anda."
 
 #: ui/app/Application.cc:562
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave dalam mode senyap. Tidak ada jendela istirahat akan muncul."
 
 #: ui/app/Application.cc:554
-#, fuzzy
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
-msgstr "Workrave dalam mode ditangguhkan. Aktivitas tetikus dan papan tik tidak akan dipantau."
+msgstr ""
+"Workrave dalam mode ditangguhkan.\n"
+"Aktivitas tetikus dan papan tik tidak akan dipantau."
 
 #: ui/app/Application.cc:538
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
@@ -1094,15 +1086,15 @@ msgstr "Workrave masih berjalan. Anda dapat mengakses Workrave dengan mengklik i
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
 msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
+msgstr "Workrave perlu dimulai ulang secara manual setelah mengubah pengaturan ini"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:587
 msgid "You cannot postpone this break while another non-postponable break is overdue."
-msgstr ""
+msgstr "Anda tidak dapat menunda istirahat ini sementara istirahat lain yang tidak dapat ditunda sudah jatuh tempo."
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:573
 msgid "You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
+msgstr "Anda tidak dapat melewatkan jeda ini sementara jeda lain yang tidak dapat dilewati sudah terlambat."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
 msgid "You have chosen to delete your statistics history. Continue?"
@@ -1136,7 +1128,7 @@ msgstr "_Latihan"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
 msgid "_Install update"
-msgstr ""
+msgstr "_Pasang pembaruan"
 
 #: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
 msgid "_Mode"
@@ -1169,7 +1161,7 @@ msgstr "Mode _baca"
 #. button_size_group->add_widget(*skip_button);
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
 msgid "_Remind me later"
-msgstr ""
+msgstr "_Ingatkan lagi saya nanti"
 
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
@@ -1185,7 +1177,7 @@ msgstr "_Lewati"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
 msgid "_Skip this version"
-msgstr ""
+msgstr "_Lewati versi ini"
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
@@ -1196,21 +1188,21 @@ msgid "_Suspended"
 msgstr "Di_tangguhkan"
 
 #: ui/app/Menus.cc:299
-#, fuzzy, qt-format
+#, qt-format
 msgid "_Suspended (until %1%)"
-msgstr "Di_tangguhkan"
+msgstr "Ditangguhkan (_sampai %1%)"
 
 #: ui/app/Menus.cc:312
 msgid "_Suspended (until next day)"
-msgstr ""
+msgstr "Ditangguhkan (_sampai hari berikutnya)"
 
 #: ui/app/Menus.cc:185
 msgid "and 1 minute"
-msgstr ""
+msgstr "tambah 1 menit"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:52
 msgid "crash details"
-msgstr ""
+msgstr "rincian kerusakan"
 
 #: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
@@ -1218,225 +1210,4 @@ msgstr "mengetik;istirahat;timer;pergelangan tangan;kesehatan;rsi;"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
 msgid "{} {} is now available -- you have {}. Would you like to download it now?"
-msgstr ""
-
-#~ msgid "About..."
-#~ msgstr "Tentang..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Klien baru yang diterima."
-
-#, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "Mengakui permintaan master dari klien %s."
-
-#~ msgid "Advanced"
-#~ msgstr "Tingkat lanjut"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "Izinkan koneksi masuk"
-
-#, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "Akses klien %s ditolak."
-
-#, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "Klien %s menutup koneksi."
-
-#, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "Klien %s terhubung."
-
-#, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "Klien %s adalah duplikat."
-
-#, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "Klien %s sekarang adalah master."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "Klien %s sekarang adalah master baru."
-
-#, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "Klien %s menyambut kita."
-
-#, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "Kesalahan baca klien %s, ditutup."
-
-#, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "Klien %s menolak permintaan master, menunda."
-
-#, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "Klien %s menyapa."
-
-#, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "Klien %s berpisah."
-
-#, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "Klien habis waktu dari %s."
-
-#~ msgid "Connect"
-#~ msgstr "Sambung"
-
-#, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "Menyambung ke \"%s\"."
-
-#, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Tidak dapat menyambung ke klien %s."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Tidak dapat memfungsikan operasi jaringan."
-
-#~ msgid "Custom"
-#~ msgstr "Ubahan"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Menonaktifkan operasi jaringan."
-
-#~ msgid "Disconnect"
-#~ msgstr "Putuskan"
-
-#, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "Memutuskan sambungan %s"
-
-#~ msgid "Enable networking"
-#~ msgstr "Fungsikan jaringan"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Masukkan nama host dan nomor port komputer\n"
-#~ "di jaringan yang ingin Anda hubungi."
-
-#~ msgid "Host name"
-#~ msgstr "Nama host"
-
-#~ msgid "Host name:"
-#~ msgstr "Nama host:"
-
-#~ msgid "Hosts"
-#~ msgstr "Host"
-
-#~ msgid "I'm now master."
-#~ msgstr "Saya sekarang adalah master."
-
-#~ msgid "Is Workrave already running?"
-#~ msgstr "Apakah Workrave sudah berjalan?"
-
-#~ msgid "Make sure that the RECORD extension is enabled in the X server."
-#~ msgstr "Pastikan bahwa ekstensi RECORD diaktifkan di server X."
-
-#~ msgid "Mode"
-#~ msgstr "Mode"
-
-#~ msgid "Network"
-#~ msgstr "Jaringan"
-
-#~ msgid "Network connect"
-#~ msgstr "Koneksi jaringan"
-
-#~ msgid "Network log"
-#~ msgstr "Log jaringan"
-
-#~ msgid "Network operation started."
-#~ msgstr "Operasi jaringan dimulai."
-
-#, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "Klien bukan master %s menolak permintaan master."
-
-#~ msgid "Open"
-#~ msgstr "Buka"
-
-#~ msgid "Password:"
-#~ msgstr "Kata Sandi:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Mainkan suara menggunakan speaker bawaan"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#~ msgid "Quit"
-#~ msgstr "Keluar"
-
-#~ msgid "Reconnect"
-#~ msgstr "Sambung ulang"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Upaya menyambung kembali:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Selang waktu menyambung kembali:"
-
-#, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Menyambung kembali ke %s."
-
-#, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "Menolak permintaan master dari klien %s."
-
-#, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "Menghapus klien %s."
-
-#, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Meminta status master dari %s."
-
-#~ msgid "Server port:"
-#~ msgstr "Port server:"
-
-#~ msgid "Server settings"
-#~ msgstr "Pengaturan server"
-
-#~ msgid "Show _log"
-#~ msgstr "Tampilkan _log"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Tangguhkan timer saat tidak aktif"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Daftar berikut menentukan host yang dihubungi Workrave saat awal mula.\n"
-#~ "Klik nama host atau nomor port untuk menyunting."
-
-#~ msgid "Username:"
-#~ msgstr "Nama Pengguna:"
-
-#~ msgid "Workrave failed to start"
-#~ msgstr "Workrave gagal memulai"
-
-#~ msgid "_Connect"
-#~ msgstr "_Sambung"
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Putus"
-
-#~ msgid "_Join"
-#~ msgstr "_Gabung"
-
-#~ msgid "_Network"
-#~ msgstr "Jari_ngan"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Sambung Kembali"
+msgstr "{} {} sekarang tersedia - Anda memiliki {}. Apakah Anda ingin mengunduhnya sekarang?"
