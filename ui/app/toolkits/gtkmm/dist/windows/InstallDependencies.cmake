@@ -12,6 +12,8 @@ string(REPLACE "/" "\\" INSTALL_WIN_PATH "${INSTALL_PATH}")
 
 message(STATUS "Resolving dependencies. This may take a while")
 
+set(RUNTIME_INSTALLERS_LOG "${BINARY_DIR}/runtime_installers.txt")
+
 if (NOT MSVC)
   include(Win32ResolveDependencies)
 
@@ -29,8 +31,10 @@ if (NOT MSVC)
     resolve_dependencies("${plugin}" dependencies resolved_dependencies "${DEP_DIRS}")
   endforeach()
 
+  file(WRITE "${RUNTIME_INSTALLERS_LOG}" "")
   foreach(dependency ${resolved_dependencies})
     file(INSTALL ${dependency} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+    file(APPEND "${RUNTIME_INSTALLERS_LOG}" "${dependency},bin\n")
   endforeach()
 
 else()
@@ -60,6 +64,12 @@ else()
       "${DEP_DIRS}"
   )
   file(INSTALL ${resolved} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
+  file(WRITE "${RUNTIME_INSTALLERS_LOG}" "")
+  foreach(dependency ${resolved_dependencies})
+     file(APPEND "${RUNTIME_INSTALLERS_LOG}"  "${dependency},bin\n")
+  endforeach()
+
 endif()
 
 
