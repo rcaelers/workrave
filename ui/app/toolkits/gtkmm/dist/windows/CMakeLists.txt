@@ -49,17 +49,17 @@ FetchContent_Declare(
 
 FetchContent_GetProperties(WindowsThemeAcrylic)
 if(NOT windowsthemeacrylic_POPULATED)
-  FetchContent_Populate(WindowsThemeAcrylic)
+  FetchContent_MakeAvailable(WindowsThemeAcrylic)
 endif()
 
 FetchContent_GetProperties(WindowsTheme)
 if(NOT windowstheme_POPULATED)
-  FetchContent_Populate(WindowsTheme)
+  FetchContent_MakeAvailable(WindowsTheme)
 endif()
 
 FetchContent_GetProperties(WindowsArtwork)
 if(NOT windowsartwork_POPULATED)
-  FetchContent_Populate(WindowsArtwork)
+  FetchContent_MakeAvailable(WindowsArtwork)
 endif()
 
 install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.20 DESTINATION share/themes/Windows10/)
