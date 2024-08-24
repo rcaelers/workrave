@@ -170,7 +170,7 @@ target_sources(
 if (HAVE_UNFOLD_AUTO_UPDATE)
   if (PLATFORM_OS_WINDOWS)
     target_sources(workrave-toolkit-gtkmm PRIVATE platforms/windows/Edge.cc)
-    target_link_libraries(workrave-toolkit-gtkmm PUBLIC Unfold::unfold cmark::cmark webview2 ws2_32 mswsock)
+    target_link_libraries(workrave-toolkit-gtkmm PUBLIC Unfold::unfold cmark webview2 ws2_32 mswsock)
     target_compile_definitions(workrave-toolkit-gtkmm PRIVATE CMARK_NO_SHORT_NAMES)
   endif()
 

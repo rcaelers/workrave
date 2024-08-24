@@ -4,32 +4,31 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     FetchContent_Declare(
         unfold
         GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-        GIT_TAG 63a5ddf3e92534807f55ac8d65b82e908fd78177
+        GIT_TAG 21f1f6f42ddb20eb2e26139a9a1f6b94e5ff2774
+        EXCLUDE_FROM_ALL
       )
     if(NOT unfold_POPULATED)
-      FetchContent_Populate(unfold)
-      add_subdirectory(${unfold_SOURCE_DIR} ${unfold_BINARY_DIR} EXCLUDE_FROM_ALL)
-      install(TARGETS unfold RUNTIME DESTINATION bin)
+      FetchContent_MakeAvailable(unfold)
     endif()
 
     FetchContent_Declare(
       cmark
       GIT_REPOSITORY https://github.com/commonmark/cmark.git
-      GIT_TAG        0.30.3
+      GIT_TAG        0.31.1
       GIT_SHALLOW    TRUE
-      CMAKE_ARGS CMARK_TESTS=OFF
+      EXCLUDE_FROM_ALL
+      CMAKE_ARGS "BUILD_TESTING=OFF BUILD_STATIC_LIBS=OFF BUILD_SHARED_LIBS=ON"
+
       )
-    set(CMARK_TESTS OFF CACHE INTERNAL "Disable tests")
+    set(BUILD_TESTING OFF CACHE INTERNAL "Disable tests")
     if(NOT cmark_POPULATED)
-      FetchContent_Populate(cmark)
-      add_subdirectory(${cmark_SOURCE_DIR} ${cmark_BINARY_DIR} EXCLUDE_FROM_ALL)
-      install(TARGETS cmark RUNTIME DESTINATION bin)
+      FetchContent_MakeAvailable(cmark)
     endif()
 
     FetchContent_Declare(
       webview2
-      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.1823.32
-      URL_HASH SHA1=b2bd5231a61e3142c68c480869a2241a6627dd5e
+      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.2651.64
+      URL_HASH SHA1=e08093bd127686535cf3519011a584664e6d2b75
     )
     FetchContent_MakeAvailable(webview2)
 
