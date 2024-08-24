@@ -29,6 +29,7 @@ if (WIN32 AND (PLATFORM_ARCH EQUAL 32))
   install(CODE "set(DIST_PATH ${CMAKE_CURRENT_BINARY_DIR})")
   install(CODE "set(BINDIR \"${BINDIR}\")")
   install(CODE "set(BINDIR32 \"${BINDIR32}\")")
+  install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 
   install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Install.cmake")
 endif()

@@ -3,9 +3,11 @@
 WORKSPACE_DIR=$(pwd)
 BUILD_DIR=${WORKSPACE_DIR}/_build
 DEPLOY_DIR=${WORKSPACE_DIR}/_deploy
+DEPLOY32_DIR=${WORKSPACE_DIR}/_build/.32/_deploy
 
 INSTALLERS_FILE="$BUILD_DIR/installers.txt"
 RUNTIME_INSTALLERS_FILE="$BUILD_DIR/runtime_installers.txt"
+RUNTIME32_INSTALLERS_FILE="$BUILD32_DIR/.32/runtime_installers.txt"
 MSYS_INSTALLERS_FILE="$BUILD_DIR/msys_installers.txt"
 SBOM_FILE="$BUILD_DIR/sbom.txt"
 
@@ -39,6 +41,7 @@ for dir_file in $DIRECTORY_FILES; do
 done > ${INSTALLERS_FILE}
 
 cat ${RUNTIME_INSTALLERS_FILE} | sed 's|C:/msys64||'>> ${INSTALLERS_FILE}
+cat ${RUNTIME_INSTALLERS_FILE} | sed 's|C:/msys64||'>> ${INSTALLERS_FILE}
 
 declare -A installer_map
 while IFS=, read -r source destination; do
@@ -50,7 +53,7 @@ done < ${INSTALLERS_FILE}
 
 >${MSYS_INSTALLERS_FILE}
 
-find "$DEPLOY_DIR" -type f | while read -r file; do
+find "$DEPLOY_DIR" "$DEPLOY32_DIR" -type f | while read -r file; do
   relative_path="${file#$DEPLOY_DIR/}"
   found=false
 
@@ -76,12 +79,12 @@ sort -u -o ${MSYS_INSTALLERS_FILE} ${MSYS_INSTALLERS_FILE}
 
 > ${SBOM_FILE}
 while IFS= read -r filename; do
-    packages=$(pacman -Qo "$filename" 2>/dev/null | sort | uniq)
+    packages=$(pacman -Qo "$filename" | awk '{print $5,$6}')
     package_count=$(echo "$packages" | wc -l)
     if [ "$package_count" -eq 0 ]; then
         echo "$filename belongs to Unknown"
     elif [ "$package_count" -eq 1 ]; then
-        echo "$filename belongs to $packages" >> ${SBOM_FILE}
+        echo "$filename belongs to $packages"
         echo "$packages" >> ${SBOM_FILE}
     else
         echo "Error: $filename is found in multiple packages: $packages"
