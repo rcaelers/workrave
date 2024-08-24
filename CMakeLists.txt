@@ -766,6 +766,13 @@ if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
   option(ISCC "Inno Setup Compiler")
   set(ISCC_FLAGS "" CACHE STRING "Inno Setup Compiler Arguments")
 
+  cmake_file_api(
+    QUERY
+    API_VERSION 1
+    CODEMODEL 2.3
+    TOOLCHAINS 1
+  )
+
   if (WITH_AUTO_UPDATE)
     set (HAVE_UNFOLD_AUTO_UPDATE ON)
   endif()
