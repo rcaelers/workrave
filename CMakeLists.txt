@@ -666,7 +666,6 @@ if (MSVC)
   endif()
 endif()
 
-set (Boost_NO_BOOST_CMAKE TRUE)
 set (BOOST_COMPONENTS date_time program_options serialization)
 #set (Boost_DEBUG ON)
 
@@ -679,7 +678,7 @@ if (WIN32)
 endif()
 
 if (HAVE_TESTS)
-  set (BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
+  set (BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework test_exec_monitor)
 endif()
 
 set (BOOST_MIN_VERSION "1.54.0")

@@ -7,6 +7,7 @@ if (HAVE_TESTS)
   set_target_properties(workrave-core-next-timer-test PROPERTIES USE_STUBS ON)
 
   target_link_libraries(workrave-core-next-timer-test PRIVATE workrave-libs-core-next)
+  target_link_libraries(workrave-core-next-timer-test PRIVATE Boost::unit_test_framework)
   target_link_libraries(workrave-core-next-timer-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-next-timer-test PRIVATE ${EXTRA_LIBRARIES})
 
@@ -29,6 +30,7 @@ if (HAVE_TESTS)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-utils)
   target_link_libraries(workrave-core-next-integration-test PRIVATE workrave-libs-dbus-stub)
+  target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::unit_test_framework)
   target_link_libraries(workrave-core-next-integration-test PRIVATE Boost::test_exec_monitor)
   target_link_libraries(workrave-core-next-integration-test PRIVATE ${EXTRA_LIBRARIES})
 
