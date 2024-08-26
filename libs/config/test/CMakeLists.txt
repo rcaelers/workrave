@@ -6,6 +6,7 @@ if (HAVE_TESTS)
 
   target_link_libraries(workrave-config-test PRIVATE workrave-libs-config)
   target_link_libraries(workrave-config-test PRIVATE workrave-libs-utils)
+  target_link_libraries(workrave-config-test PRIVATE Boost::unit_test_framework)
   target_link_libraries(workrave-config-test PRIVATE Boost::test_exec_monitor)
   target_include_directories(workrave-config-test PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src)
   target_compile_definitions(workrave-config-test PRIVATE -DBUILDDIR="${CMAKE_CURRENT_BINARY_DIR}")
