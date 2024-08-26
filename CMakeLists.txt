@@ -679,8 +679,8 @@ if (WIN32)
 endif()
 
 if (HAVE_TESTS)
-  set(Boost_USE_STATIC_LIBS ON)
-  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} test_exec_monitor)
+  #set(Boost_USE_STATIC_LIBS ON)
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework test_exec_monitor)
 endif()
 
 set (BOOST_MIN_VERSION "1.54.0")
