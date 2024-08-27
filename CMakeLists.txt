@@ -679,8 +679,7 @@ if (WIN32)
 endif()
 
 if (HAVE_TESTS)
-  #set(Boost_USE_STATIC_LIBS ON)
-  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework test_exec_monitor)
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework )
 endif()
 
 set (BOOST_MIN_VERSION "1.54.0")
@@ -688,7 +687,15 @@ if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUA
   set (BOOST_MIN_VERSION "1.73.0") #https://github.com/boostorg/signals2/commit/15fcf213563718d2378b6b83a1614680a4fa8cec
 endif()
 
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_SHARED_LIBS ON)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+
+if (HAVE_TESTS)
+  set(Boost_USE_STATIC_LIBS ON)
+  find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS test_exec_monitor)
+endif()
+
 
 #----------------------------------------------------------------------------------------------------
 # Wayland
