@@ -6,7 +6,7 @@ set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
 if (NOT HAVE_JINJA2)
   add_custom_command(
     OUTPUT ${VENV_DIR}/bin/activate
-    COMMAND ${CMAKE_COMMAND} -E rm -rf ${VENV_DIR}
+    COMMAND ${CMAKE_COMMAND} -E remove_directory -rf ${VENV_DIR}
     COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
     COMMAND ${VENV_DIR}/bin/pip install -r ${REQUIREMENTS_FILE}
     DEPENDS ${REQUIREMENTS_FILE}
