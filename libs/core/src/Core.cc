@@ -522,6 +522,8 @@ Core::set_operation_mode_internal(OperationMode mode)
 void
 Core::update_active_operation_mode()
 {
+  std::cout << "Core::update_active_operation_mode " << operation_mode_regular << " " << operation_mode_active << " "
+            << operation_mode_overrides.size() << std::endl;
   OperationMode mode = operation_mode_regular;
 
   /* Find the most important override. Override modes in order of importance:
@@ -540,7 +542,8 @@ Core::update_active_operation_mode()
           mode = OperationMode::Quiet;
         }
     }
-
+  std::cout << "Core::update_active_operation_mode " << operation_mode_regular << " " << operation_mode_active << " " << mode
+            << " " << operation_mode_overrides.size() << std::endl;
   if (operation_mode_active != mode)
     {
       OperationMode previous_mode = operation_mode_active;
@@ -574,7 +577,7 @@ Core::update_active_operation_mode()
 
       // TODO: check if needed.
       // TODO: check also missing in corenext
-      // operation_mode_changed_signal(operation_mode_active);
+      operation_mode_changed_signal(operation_mode_active);
     }
 }
 

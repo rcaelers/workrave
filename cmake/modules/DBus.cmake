@@ -11,7 +11,7 @@ if (NOT HAVE_JINJA2)
     COMMAND ${VENV_DIR}/bin/pip install -r ${REQUIREMENTS_FILE}
     DEPENDS ${REQUIREMENTS_FILE}
   )
-  add_custom_target(venv ALL DEPENDS ${VENV_DIR}/bin/activate)
+  add_custom_target(venv DEPENDS ${VENV_DIR}/bin/activate)
   set(PYTHON_EXECUTABLE ${VENV_DIR}/bin/python)
 else()
   add_custom_target(venv)

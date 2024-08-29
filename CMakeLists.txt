@@ -185,6 +185,7 @@ if (${WITH_UI_INDEX} EQUAL -1)
   message(FATAL_ERROR "Option ${WITH_UI} not supported for WITH_UI, valid entries are ${WITH_UI_VALUES}")
 endif()
 
+set (BUILD_ONLY_32_BIT_FOR_WIN64 FALSE)
 if ("${WITH_UI}" STREQUAL "None"
     ## AND (${PLATFORM_ARCH} EQUAL 32)
     AND WIN32)
@@ -276,11 +277,11 @@ find_package(Python3 COMPONENTS Interpreter)
 #----------------------------------------------------------------------------------------------------
 # DBus
 
-option(WITH_DBUS "Enable dbus" ON)
-
-include(DBus)
+option(WITH_DBUS "Enable dbus" $<NOT:$<BOOL:${BUILD_ONLY_32_BIT_FOR_WIN64}>>)
 
 if (WITH_DBUS)
+  include(DBus)
+
   set(HAVE_JINJA2 OFF)
   message(STATUS "Checking for: Jinja2")
   if (Python3_FOUND)
