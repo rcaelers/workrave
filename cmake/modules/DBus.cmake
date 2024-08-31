@@ -3,16 +3,23 @@ set(TEMPLATE_DIR ${CMAKE_SOURCE_DIR}/libs/dbus/data)
 set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
 set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
 
+if(WIN32)
+    set(PYTHON_EXECUTABLE "${VENV_DIR}/Scripts/python.exe")
+    set(PIP_EXECUTABLE "${VENV_DIR}/Scripts/pip.exe")
+else()
+    set(PYTHON_EXECUTABLE "${VENV_DIR}/bin/python")
+    set(PIP_EXECUTABLE "${VENV_DIR}/bin/pip")
+endif()
+
 if (NOT HAVE_JINJA2)
   add_custom_command(
-    OUTPUT ${VENV_DIR}/bin/activate
-    COMMAND ${CMAKE_COMMAND} -E remove_directory -rf ${VENV_DIR}
+    OUTPUT ${PYTHON_EXECUTABLE}
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${VENV_DIR}
     COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
-    COMMAND ${VENV_DIR}/bin/pip install -r ${REQUIREMENTS_FILE}
+    COMMAND ${PIP_EXECUTABLE} install -r ${REQUIREMENTS_FILE}
     DEPENDS ${REQUIREMENTS_FILE}
   )
-  add_custom_target(venv DEPENDS ${VENV_DIR}/bin/activate)
-  set(PYTHON_EXECUTABLE ${VENV_DIR}/bin/python)
+  add_custom_target(venv DEPENDS ${PYTHON_EXECUTABLE})
 else()
   add_custom_target(venv)
   set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
