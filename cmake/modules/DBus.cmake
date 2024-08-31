@@ -3,7 +3,7 @@ set(TEMPLATE_DIR ${CMAKE_SOURCE_DIR}/libs/dbus/data)
 set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
 set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
 
-if(WIN32)
+if(WIN32 AND NOT MINGW)
     set(PYTHON_EXECUTABLE "${VENV_DIR}/Scripts/python.exe")
     set(PIP_EXECUTABLE "${VENV_DIR}/Scripts/pip.exe")
 else()
