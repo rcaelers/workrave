@@ -14,8 +14,11 @@ on:
 jobs:
   check-msys2:
     runs-on: windows-latest
+    permissions:
+      security-events: write
+      packages: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: "recursive"
@@ -55,9 +58,10 @@ jobs:
             zip
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
-          languages: cpp
+          languages: c-cpp
+          build-mode: manual
 
       - name: Build
         shell: msys2 {0}
@@ -78,22 +82,28 @@ jobs:
           cmake --build '${{github.workspace}}/_build' --config Debug
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:c-cpp"
 
   build-cmake:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
     defaults:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
-          languages: cpp
+          languages: c-cpp
+          build-mode: manual
 
       - name: Build
         run: |
@@ -148,4 +158,6 @@ jobs:
           cmake --build '${{github.workspace}}/_build' --config Debug
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:c-cpp"
