@@ -263,6 +263,16 @@ if (WITH_UI_QT)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# SBOM
+
+include(SBOM)
+
+if (WIN32)
+  file(WRITE "${EXTERNAL_SBOM_FILE}" "")
+  file(APPEND "${EXTERNAL_SBOM_FILE}" "semver,v0.3.1,MIT,Semantic Versioning for modern C++,https://github.com/Neargye/semver\n") # from unfold
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # Pkg-config
 
 if ("${WITH_UI_QT}" AND (NOT VCPKG_TOOLCHAIN))
@@ -948,8 +958,10 @@ find_package(fmt 6.1.2 CONFIG QUIET)
 if(${fmt_FOUND})
   find_package(spdlog 1.5.0 CONFIG QUIET)
 else()
-  FetchContent_Declare(
+  FetchContent_Declare_Logged(
       fmt
+      "an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams"
+      "MIT"
       GIT_REPOSITORY https://github.com/fmtlib/fmt.git
       GIT_SHALLOW TRUE
       GIT_TAG 10.0.0
@@ -959,8 +971,10 @@ else()
 endif()
 
 if((NOT ${spdlog_FOUND}) OR (NOT ${fmt_FOUND}))
-  FetchContent_Declare(
+  FetchContent_Declare_Logged(
       spdlog
+      "Fast C++ logging library"
+      "MIT"
       GIT_REPOSITORY https://github.com/gabime/spdlog.git
       GIT_SHALLOW TRUE
       GIT_TAG v1.12.0
@@ -981,8 +995,10 @@ if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
   set(HAVE_CRASHPAD OFF)
   if (WITH_CRASHPAD)
 
-    FetchContent_Declare(
+    FetchContent_Declare_Logged(
       crashpad
+      "A crash-reporting system"
+      "Apache-2.0"
       GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
       # GIT_SHALLOW TRUE
       GIT_TAG 3c034ea97a60854acb4fa80634f50532c001279d

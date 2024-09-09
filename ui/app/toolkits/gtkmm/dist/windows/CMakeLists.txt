@@ -29,20 +29,26 @@ endif()
 
 include(FetchContent)
 
-FetchContent_Declare(
+FetchContent_Declare_Logged(
   WindowsThemeAcrylic
+  "GTK theme based on the Windows 10 Mobile appearance"
+  "GPL-3.0"
   GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10-Acrylic.git
   GIT_TAG        e93765ea66d5440a13fb7b04d1fa0d2562516ab0
   )
 
-FetchContent_Declare(
+  FetchContent_Declare_Logged(
   WindowsTheme
+  "Windows 10 Light GTK theme"
+  "GPL-3.0"
   GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10.git
   GIT_TAG        b2ca25265d19843b618a956cd0ffa4aed2b80527
   )
 
-FetchContent_Declare(
+  FetchContent_Declare_Logged(
   WindowsArtwork
+  "Windows 10 Icon theme"
+  "Unknown"
   GIT_REPOSITORY https://github.com/B00merang-Artwork/Windows-10.git
   GIT_TAG        9f199c6b7c6050f36d0d15aaa6e9f4847e8b9066
   )
@@ -96,12 +102,12 @@ if(MINGW OR VCPKG_TOOLCHAIN)
 endif()
 
 if (VCPKG_TOOLCHAIN)
-  file(INSTALL ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glib/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+  install(FILES ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glib/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
 else()
-  file(INSTALL ${SYS_ROOT}/bin/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+  install(FILES ${SYS_ROOT}/bin/gdbus.exe DESTINATION "bin")
 endif()
 
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")

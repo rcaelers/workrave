@@ -1,8 +1,10 @@
 if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
-    FetchContent_Declare(
+    FetchContent_Declare_Logged(
         unfold
+        "Auto-update framework"
+        "MIT"
         GIT_REPOSITORY https://github.com/rcaelers/unfold.git
         GIT_TAG c2303ba5d8013e5c6ce035e12afd1f3c770ab0a4
         EXCLUDE_FROM_ALL
@@ -11,8 +13,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       FetchContent_MakeAvailable(unfold)
     endif()
 
-    FetchContent_Declare(
+    FetchContent_Declare_Logged(
       cmark
+      "CommonMark parsing and rendering library"
+      "BSD-2-Clause/MIT"
       GIT_REPOSITORY https://github.com/commonmark/cmark.git
       GIT_TAG        0.31.1
       GIT_SHALLOW    TRUE
@@ -25,8 +29,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       FetchContent_MakeAvailable(cmark)
     endif()
 
-    FetchContent_Declare(
+    FetchContent_Declare_Logged(
       webview2
+      "Microsoft Edge WebView2 embedded web browser control"
+      "Microsoft-Web-WebView2"
       URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.2651.64
       URL_HASH SHA1=e08093bd127686535cf3519011a584664e6d2b75
     )
