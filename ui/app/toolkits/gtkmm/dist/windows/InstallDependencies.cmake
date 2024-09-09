@@ -66,7 +66,7 @@ else()
   file(INSTALL ${resolved} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
   file(WRITE "${RUNTIME_INSTALLERS_LOG}" "")
-  foreach(dependency ${resolved_dependencies})
+  foreach(dependency ${resolved})
      file(APPEND "${RUNTIME_INSTALLERS_LOG}"  "${dependency},bin\n")
   endforeach()
 
