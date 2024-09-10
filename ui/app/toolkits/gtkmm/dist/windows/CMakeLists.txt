@@ -119,6 +119,7 @@ install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
 install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
+install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
 
 if (MSVC)
   install(CODE "set(MSVC ${MSVC})")
