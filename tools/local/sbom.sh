@@ -4,6 +4,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   WORKSPACE_DIR=$(pwd)
   BUILD_DIR=${WORKSPACE_DIR}/_build
   DEPLOY_DIR=${WORKSPACE_DIR}/_deploy
+  OUTPUT_DIR=${WORKSPACE_DIR}/_deploy
 fi
 
 INSTALLERS_FILE="$BUILD_DIR/installers.txt"
@@ -12,10 +13,39 @@ RUNTIME32_INSTALLERS_FILE="$BUILD_DIR/.32/runtime32_installers.txt"
 MSYS_INSTALLERS_FILE="$BUILD_DIR/msys_installers.txt"
 MSYS_PACKAGES_FILE="$BUILD_DIR/msys_packages.txt"
 EXTERNAL_SBOM_FILE="$BUILD_DIR/external-sbom.csv"
-SBOM_FILE="$DEPLOY_DIR/sbom.csv"
+SBOM_FILE="$OUTPUT_DIR/sbom.csv"
 
 >${MSYS_INSTALLERS_FILE}
 
+# Function to run a command safely, capture stdout, and restore 'set -e' state
+run_command_with_restore() {
+    # Save the current state of 'set -e'
+    if [[ $- == *e* ]]; then
+        errexit_was_set=true
+    else
+        errexit_was_set=false
+    fi
+
+    # Temporarily disable 'set -e'
+    set +e
+
+    # Run the command, capturing stdout
+    output=$("$@" 2>/dev/null)
+    exit_code=$?
+
+    # Restore the original state of 'set -e'
+    if [ "$errexit_was_set" = true ]; then
+        set -e
+    else
+        set +e
+    fi
+
+    # Return the command’s exit code and captured output
+    echo "$output"
+    return 0
+}
+
+# Continue with the rest of the script
 sbom_precondition_check() {
   if [ ! -d "$BUILD_DIR/.cmake/api/v1/reply" ]; then
     echo "CMake File API data not found."
@@ -129,7 +159,7 @@ sbom_create_msys_installed_files() {
 sbom_create_msys2_package_list() {
   > ${MSYS_PACKAGES_FILE}
   while IFS= read -r filename; do
-      packages=$(pacman -Qo --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) "$filename" 2>/dev/null)
+      packages=$(run_command_with_restore pacman -Qo --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) "$filename")
       pacman_exit_code=$?
 
       if [ "$pacman_exit_code" -ne 0 ]; then
@@ -151,7 +181,13 @@ sbom_create_sbom() {
   echo "Package Name,Version,License,Description,URL" > $SBOM_FILE
 
   while IFS=, read -r package_name package_version; do
-    pacman_info=$(pacman --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) -Qi "$package_name" 2>/dev/null)
+    pacman_info=$(run_command_with_restore pacman --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) -Qi "$package_name")
+    pacman_exit_code=$?
+
+    if [ $pacman_exit_code -ne 0 ]; then
+      echo "Pacman -Qi failed with exit code $exit_code, but script continues."
+      continue
+    fi
 
     if [[ -z "$pacman_info" ]]; then
       echo "Package $package_name not found, skipping..."

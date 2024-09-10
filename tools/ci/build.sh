@@ -81,6 +81,9 @@ if [[ ${CONF_ENABLE} ]]; then
     for i in ${CONF_ENABLE//,/ }; do
         CMAKE_FLAGS+=("-DWITH_$i=ON")
         echo Enabling $i
+        if [[ $i == "SBOM" ]]; then
+            CONF_SBOM=1
+        fi
     done
 fi
 
@@ -157,8 +160,10 @@ mkdir -p ${DEPLOY_DIR}
 
 if [ -n "$CONF_SBOM" ]; then
     echo "Generating SBOM"
+    set +x
     source ${SCRIPTS_DIR}/local/sbom.sh
     sbom
+    set -x
 fi
 
 # Source tarball

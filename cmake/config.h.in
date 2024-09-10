@@ -34,6 +34,7 @@
 #cmakedefine HAVE_NL_TIME_FIRST_WEEKDAY_AND_WEEK_1STDAY
 #cmakedefine HAVE_PULSE
 #cmakedefine HAVE_QT
+#cmakedefine HAVE_SBOM
 #cmakedefine HAVE_SCREENSAVER
 #cmakedefine HAVE_SETLOCALE
 #cmakedefine HAVE_STATUSICON

@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -xe
 
 init_workspace() {
     if [ ! -d "${WORKSPACE}" ]; then
@@ -77,8 +77,10 @@ build() {
     export CONF_CONFIGURATION=Release
     export WORKRAVE_JOB_INDEX=1
     export CONF_SOURCE_TARBALL=1
-    export CONF_SBOM=${DOSBOM}
     export CONF_ENABLE="TESTS,AUTO_UPDATE"
+    if [ -n "$DOSBOM" ]; then
+        CONF_ENABLE="$CONF_ENABLE,SBOM"
+    fi
     $SCRIPTS_DIR/ci/build.sh
 
     if [ -n "$DODEBUG" ]; then
