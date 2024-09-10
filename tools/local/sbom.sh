@@ -123,8 +123,8 @@ sbom_create_installer_map() {
 }
 
 sbom_create_msys_installed_files() {
-  find "$DEPLOY_DIR" -type f | while read -r file; do
-    relative_path="${file#$DEPLOY_DIR/}"
+  find "$OUTPUT_DIR" -type f | while read -r file; do
+    relative_path="${file#$OUTPUT_DIR/}"
     found=false
     removed_path=""
 
