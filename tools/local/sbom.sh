@@ -1,15 +1,18 @@
 #!/bin/bash
 
-WORKSPACE_DIR=$(pwd)
-BUILD_DIR=${WORKSPACE_DIR}/_build
-DEPLOY_DIR=${WORKSPACE_DIR}/_deploy
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  WORKSPACE_DIR=$(pwd)
+  BUILD_DIR=${WORKSPACE_DIR}/_build
+  DEPLOY_DIR=${WORKSPACE_DIR}/_deploy
+fi
 
 INSTALLERS_FILE="$BUILD_DIR/installers.txt"
 RUNTIME_INSTALLERS_FILE="$BUILD_DIR/runtime_installers.txt"
 RUNTIME32_INSTALLERS_FILE="$BUILD_DIR/.32/runtime32_installers.txt"
 MSYS_INSTALLERS_FILE="$BUILD_DIR/msys_installers.txt"
 MSYS_PACKAGES_FILE="$BUILD_DIR/msys_packages.txt"
-SBOM_FILE="$BUILD_DIR/sbom.csv"
+EXTERNAL_SBOM_FILE="$BUILD_DIR/external-sbom.csv"
+SBOM_FILE="$DEPLOY_DIR/sbom.csv"
 
 >${MSYS_INSTALLERS_FILE}
 
@@ -171,7 +174,8 @@ sbom_create_sbom() {
     echo "$package_name,$package_version,$license,$description,$url" >> $SBOM_FILE
 
   done < "$MSYS_PACKAGES_FILE"
-  cat $BUILD_DIR/external-sbom.csv >> $SBOM_FILE
+
+  cat $EXTERNAL_SBOM_FILE >> $SBOM_FILE
   echo "SBOM generated: $SBOM_FILE"
 }
 
@@ -185,4 +189,6 @@ sbom() {
   sbom_create_sbom
 }
 
-sbom
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  sbom
+fi

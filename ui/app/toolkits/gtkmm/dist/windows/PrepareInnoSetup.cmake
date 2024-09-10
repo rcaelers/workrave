@@ -25,6 +25,11 @@ foreach(file ${FILES32BIT})
 endforeach()
 
 if (HAVE_CRASHPAD)
-file(APPEND ${LIBS_ISS} "\n; Crashpad\n")
+  file(APPEND ${LIBS_ISS} "\n; Crashpad\n")
   file(APPEND ${LIBS_ISS} "Source: \"${INSTALL_WIN_PATH}\\${BINDIR}\\WorkraveCrashHandler.exe\"; DestDir: \"{app}\\${BINDIR}\"; DestName: \"WorkraveCrashHandler.exe\"; Flags: ignoreversion;\n")
+endif()
+
+if (HAVE_CRASHPAD)
+  file(APPEND ${LIBS_ISS} "\n; SBOM\n")
+  file(APPEND ${LIBS_ISS} "Source: \"${INSTALL_WIN_PATH}\\sbom.csv\"; DestDir: \"{app}\"; Flags: ignoreversion;\n")
 endif()

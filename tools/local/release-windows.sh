@@ -77,6 +77,7 @@ build() {
     export CONF_CONFIGURATION=Release
     export WORKRAVE_JOB_INDEX=1
     export CONF_SOURCE_TARBALL=1
+    export CONF_SBOM=${DOSBOM}
     export CONF_ENABLE="TESTS,AUTO_UPDATE"
     $SCRIPTS_DIR/ci/build.sh
 
@@ -164,6 +165,7 @@ parse_arguments() {
 
     export CHANNEL=stable
     export SCRIPTS_DIR=${WORKSPACE}/source/tools/
+    export DOSBOM=
     export DODEBUG=
     export DRYRUN=
     export WORKRAVE_OVERRIDE_GIT_VERSION=
@@ -174,8 +176,11 @@ parse_arguments() {
     export ARTIFACT_ENV=
     export GITHUB_NOUPLOAD=
 
-    while getopts "c:C:D:dr:R:S:st:TW:" o; do
+    while getopts "Bc:C:D:dr:R:S:st:TW:" o; do
         case "${o}" in
+        B)
+            DOSBOM=1
+            ;;
         c)
             CHANNEL="${OPTARG}"
             ;;

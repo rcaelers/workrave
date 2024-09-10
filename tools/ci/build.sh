@@ -155,6 +155,12 @@ fi
 baseFilename=workrave-${baseFilenamePostfix}
 mkdir -p ${DEPLOY_DIR}
 
+if [ -n "$CONF_SBOM" ]; then
+    echo "Generating SBOM"
+    source ${SCRIPTS_DIR}/local/sbom.sh
+    sbom
+fi
+
 # Source tarball
 if [ -n "${CONF_SOURCE_TARBALL}" ]; then
     git -C ${SOURCES_DIR} archive --prefix=${baseFilenamePostfix}/ HEAD | xz >${DEPLOY_DIR}/${baseFilename}.tar.xz
