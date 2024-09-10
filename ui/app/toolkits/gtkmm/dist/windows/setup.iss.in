@@ -35,7 +35,7 @@ WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
 WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
 PrivilegesRequired=none
 CloseApplications=no
-ArchitecturesInstallIn64BitMode=x64
+ArchitecturesInstallIn64BitMode=x64compatible
 #ifdef SignTool
 SignTool={#SignTool}
 SignedUninstaller=yes
