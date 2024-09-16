@@ -2,15 +2,15 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
 
   if (PLATFORM_OS_WINDOWS)
     FetchContent_Declare_Logged(
-        unfold
-        "Auto-update framework"
-        "MIT"
-        GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-        GIT_TAG c2303ba5d8013e5c6ce035e12afd1f3c770ab0a4
-        EXCLUDE_FROM_ALL
-      )
+      unfold
+      "Auto-update framework"
+      "MIT"
+      GIT_REPOSITORY https://github.com/rcaelers/unfold.git
+      GIT_TAG c2303ba5d8013e5c6ce035e12afd1f3c770ab0a4
+    )
     if(NOT unfold_POPULATED)
       FetchContent_MakeAvailable(unfold)
+      install(TARGETS unfold RUNTIME DESTINATION bin)
     endif()
 
     FetchContent_Declare_Logged(
@@ -20,13 +20,12 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       GIT_REPOSITORY https://github.com/commonmark/cmark.git
       GIT_TAG        0.31.1
       GIT_SHALLOW    TRUE
-      EXCLUDE_FROM_ALL
       CMAKE_ARGS "BUILD_TESTING=OFF BUILD_STATIC_LIBS=OFF BUILD_SHARED_LIBS=ON"
-
-      )
+    )
     set(BUILD_TESTING OFF CACHE INTERNAL "Disable tests")
     if(NOT cmark_POPULATED)
       FetchContent_MakeAvailable(cmark)
+      install(TARGETS unfold RUNTIME DESTINATION bin)
     endif()
 
     FetchContent_Declare_Logged(
