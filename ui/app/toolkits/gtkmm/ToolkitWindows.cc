@@ -43,8 +43,10 @@ ToolkitWindows::ToolkitWindows(int argc, char **argv)
 {
   gdk_init(nullptr, nullptr);
 #if defined(HAVE_HARPOON)
+  spdlog::info("Using Harpoon locker");
   locker = std::make_shared<WindowsHarpoonLocker>();
 #else
+  spdlog::info("Using standard locker");
   locker = std::make_shared<WindowsLocker>();
 #endif
 }

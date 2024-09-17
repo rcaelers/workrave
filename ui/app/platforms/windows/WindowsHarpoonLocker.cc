@@ -23,6 +23,8 @@
 
 #include "input-monitor/Harpoon.hh"
 
+#include "debug.hh"
+
 bool
 WindowsHarpoonLocker::can_lock()
 {
@@ -41,28 +43,41 @@ WindowsHarpoonLocker::block_input(bool block)
       Harpoon::unblock_input();
     }
 
-  UINT uPreviousState;
+  UINT uPreviousState = 0;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
 }
 
 void
 WindowsHarpoonLocker::prepare_lock()
 {
+  TRACE_ENTRY();
   active_window = GetForegroundWindow();
+
+  std::string text;
+  text.resize(GetWindowTextLengthA(active_window));
+  GetWindowTextA(active_window, text.data(), text.size() + 1);
+  TRACE_MSG("Save active window: {}", text);
 }
 
 void
 WindowsHarpoonLocker::lock()
 {
+  TRACE_ENTRY();
   block_input(TRUE);
 }
 
 void
 WindowsHarpoonLocker::unlock()
 {
+  TRACE_ENTRY();
   block_input(FALSE);
   if (active_window != nullptr)
     {
+      std::string text;
+      text.resize(GetWindowTextLengthA(active_window));
+      GetWindowTextA(active_window, text.data(), text.size() + 1);
+      TRACE_MSG("Restore active window: {}", text);
+
       SetForegroundWindow(active_window);
       active_window = nullptr;
     }

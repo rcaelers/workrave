@@ -104,6 +104,7 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 
       if (fullscreen_grab)
         {
+          TRACE_MSG("Fullscreen grab");
           set_app_paintable(true);
           signal_draw().connect(sigc::mem_fun(*this, &BreakWindow::on_draw), false);
           signal_screen_changed().connect(sigc::mem_fun(*this, &BreakWindow::on_screen_changed), false);
@@ -146,9 +147,16 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app,
 
 #if defined(PLATFORM_OS_WINDOWS)
   if (WindowsForceFocus::GetForceFocusValue())
-    initial_ignore_activity = true;
+    {
+      TRACE_MSG("Force focus enabled");
+      initial_ignore_activity = true;
+    }
 
   app->get_configurator()->get_value_with_default("advanced/force_focus_on_break_start", force_focus_on_break_start, true);
+  if (force_focus_on_break_start)
+    {
+      TRACE_MSG("Force focus on break start enabled");
+    }
 #endif
 
   auto core = app->get_core();
@@ -725,6 +733,7 @@ BreakWindow::start()
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
   if (force_focus_on_break_start && this->head.is_primary())
     {
+      TRACE_MSG("Forcing window focus");
       WindowsForceFocus::ForceWindowFocus(hwnd);
     }
   // TODO: next two lines taken from original grab() function, which is called after start(). Still needed?
@@ -902,7 +911,7 @@ BreakWindow::refresh_break_window()
       if (WindowsForceFocus::GetForceFocusValue() && (head.is_primary()))
         {
           WindowsForceFocus::ForceWindowFocus(hwnd, 0); // try without blocking
-        }
+       }
     }
 }
 #endif
