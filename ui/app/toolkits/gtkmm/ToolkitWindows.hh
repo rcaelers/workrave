@@ -48,6 +48,8 @@ public:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> &hook_event() override;
   HWND get_event_hwnd() const override;
 
+  static bool is_windows_app_theme_dark();
+
 private:
   void init_filter();
   void init_gui();

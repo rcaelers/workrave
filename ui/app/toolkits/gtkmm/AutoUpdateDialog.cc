@@ -40,6 +40,7 @@
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "cmark.h"
 #  include "Edge.hh"
+#  include "ToolkitWindows.hh"
 
 static constexpr const char *doc =
   R"(<!DOCTYPE html>
@@ -171,7 +172,21 @@ AutoUpdateDialog::AutoUpdateDialog(std::shared_ptr<unfold::UpdateInfo> info, Aut
             }
         }
 
-      web->set_content(fmt::format(doc, GUIConfig::theme_dark()() ? darkstyle : lightstyle, body));
+      bool dark = false;
+      switch (GUIConfig::light_dark_mode()())
+        {
+        case LightDarkTheme::Light:
+          dark = false;
+          break;
+        case LightDarkTheme::Dark:
+          dark = true;
+          break;
+        case LightDarkTheme::Auto:
+          dark = ToolkitWindows::is_windows_app_theme_dark();
+          break;
+        }
+
+      web->set_content(fmt::format(doc, dark ? darkstyle : lightstyle, body));
       notes_frame->add(*web);
     }
   else

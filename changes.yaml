@@ -1,5 +1,13 @@
 ---
 releases:
+  - version: 1.11.0-beta.15
+    date: 2024-09-22T00:00:00+02:00
+    short: |-
+      Workrave 1.11.0-beta.15 has been released.
+    changes:
+      - Follow OS dark/light mode on Windows (#529)
+      - Fix dark mode on Windows (#537)
+
   - version: 1.11.0-beta.14
     date: 2024-06-15T14:29:23+02:00
     short: |-
@@ -13,7 +21,7 @@ releases:
     short: |-
       Workrave 1.11.0-beta.13 has been released.
     changes:
-      - Improved handling of hibernate/suspend (#539, #540)
+      - Improved handling of hibernate/suspend (#539,#540)
 
   - version: 1.11.0-beta.12
     date: 2024-03-21T19:48:51+01:00
@@ -165,11 +173,11 @@ releases:
       - Major internal code cleanup and code modernization.
       - Initial (incomplete) port to macOS using Qt6
       - The default sound theme was changed to the "Subtle" theme (#362)
-      - You can now change the operation mode for a limited amount of time (#98, #305)
+      - You can now change the operation mode for a limited amount of time (#98,#305)
       - A portable version is now available for Windows and Linux (#180)
       - Workrave now follows the XDG basedirectory specification (#192)
       - The Windows version is now 64 bit (#295)
-      - Workrave can now automatically change the operation mode based on Windows Focus Assist (#255, #226)
+      - Workrave can now automatically change the operation mode based on Windows Focus Assist (#255,#226)
       - A dark UI theme is now supported on Windows (#214)
       - |-
         Bug fixes:

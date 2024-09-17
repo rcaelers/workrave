@@ -21,6 +21,8 @@
 
 #include "ToolkitWindows.hh"
 
+#include <cstddef>
+#include <gdk/gdk.h>
 #include <gdk/gdkwin32.h>
 
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
@@ -58,7 +60,8 @@ ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
   // No auto hide scrollbars
   g_setenv("GTK_OVERLAY_SCROLLING", "0", TRUE);
   // No Windows-7 style client-side decorations on Windows 10...
-  g_setenv("GTK_CSD", "0", TRUE);
+  // TODO: check if still needed.
+  // g_setenv("GTK_CSD", "0", TRUE);
 
   Toolkit::init(app);
 
@@ -96,22 +99,39 @@ void
 ToolkitWindows::init_gui()
 {
   auto settings = Gtk::Settings::get_default();
-  settings->property_gtk_application_prefer_dark_theme().set_value(GUIConfig::theme_dark()());
-  std::string theme_name = GUIConfig::theme_name()();
-  if (!theme_name.empty())
-    {
-      settings->property_gtk_theme_name().set_value(theme_name);
-    }
 
-  settings->property_gtk_application_prefer_dark_theme().signal_changed().connect(
-    [settings]() { GUIConfig::theme_dark().set(settings->property_gtk_application_prefer_dark_theme().get_value()); });
+  GUIConfig::light_dark_mode().attach(tracker, [settings](auto dark) {
+    switch (dark)
+
+      {
+      case LightDarkTheme::Light:
+        settings->property_gtk_application_prefer_dark_theme().set_value(false);
+        break;
+      case LightDarkTheme::Dark:
+        settings->property_gtk_application_prefer_dark_theme().set_value(true);
+        break;
+      case LightDarkTheme::Auto:
+        settings->property_gtk_application_prefer_dark_theme().set_value(is_windows_app_theme_dark());
+        break;
+      }
+  });
+
+  GUIConfig::theme_name().attach(tracker, [settings](auto name) {
+    if (!name.empty())
+      {
+        settings->property_gtk_theme_name().set_value(name);
+      }
+  });
+
+  settings->property_gtk_application_prefer_dark_theme().signal_changed().connect([settings]() {
+    if (GUIConfig::light_dark_mode()() != LightDarkTheme::Auto)
+      {
+        GUIConfig::light_dark_mode().set(
+          settings->property_gtk_application_prefer_dark_theme().get_value() ? LightDarkTheme::Dark : LightDarkTheme::Light);
+      }
+  });
   settings->property_gtk_theme_name().signal_changed().connect(
     [settings]() { GUIConfig::theme_name().set(settings->property_gtk_theme_name().get_value()); });
-
-  GUIConfig::theme_dark().connect(tracker, [settings](auto dark) {
-    settings->property_gtk_application_prefer_dark_theme().set_value(dark);
-  });
-  GUIConfig::theme_name().connect(tracker, [settings](auto name) { settings->property_gtk_theme_name().set_value(name); });
 }
 
 void
@@ -229,6 +249,19 @@ ToolkitWindows::filter_func(MSG *msg)
       }
       break;
 
+    case WM_SETTINGCHANGE:
+      {
+        if (msg->lParam != 0 && _wcsicmp(L"ImmersiveColorSet", reinterpret_cast<wchar_t *>(msg->lParam)) == 0)
+          {
+            if (GUIConfig::light_dark_mode()() == LightDarkTheme::Auto)
+              {
+                logger->info("Theme change detected: switching to {} theme", is_windows_app_theme_dark() ? "dark" : "light");
+                auto settings = Gtk::Settings::get_default();
+                settings->property_gtk_application_prefer_dark_theme().set_value(is_windows_app_theme_dark());
+              }
+          }
+      }
+
     case WM_DEVICECHANGE:
       {
         TRACE_MSG("WM_DEVICECHANGE {} {}", msg->wParam, msg->lParam);
@@ -267,4 +300,19 @@ std::shared_ptr<Locker>
 ToolkitWindows::get_locker()
 {
   return locker;
+}
+
+bool
+ToolkitWindows::is_windows_app_theme_dark()
+{
+  DWORD value = 1; // Default to light theme
+  DWORD dataSize = sizeof(value);
+  HKEY hKey = nullptr;
+  if (RegOpenKeyExW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey)
+      == ERROR_SUCCESS)
+    {
+      RegQueryValueExW(hKey, L"AppsUseLightTheme", NULL, NULL, (LPBYTE)&value, &dataSize);
+      RegCloseKey(hKey);
+    }
+  return value == 0;
 }

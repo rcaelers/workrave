@@ -72,7 +72,7 @@ private:
 
   void on_native_cell_data(const Gtk::TreeModel::const_iterator &iter);
   void on_current_cell_data(const Gtk::TreeModel::const_iterator &iter);
-  int on_cell_data_compare(const Gtk::TreeModel::iterator &iter1, const Gtk::TreeModel::iterator &iter2);
+  int on_cell_data_compare(const Gtk::TreeModel::iterator &iter1, const Gtk::TreeModel::iterator &iter2) const;
 
   Gtk::ComboBox languages_combo;
   ModelColumns languages_columns;
@@ -86,8 +86,9 @@ private:
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  Gtk::CheckButton *dark_cb{nullptr};
+  Gtk::ComboBoxText *dark_combo{nullptr};
   Glib::RefPtr<Glib::Binding> dark_binding;
+  void on_dark_changed();
 #endif
 
   std::shared_ptr<ui::prefwidgets::gtkmm::BoxWidget> general_frame;

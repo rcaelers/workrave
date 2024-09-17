@@ -21,10 +21,8 @@
 #include <iostream>
 
 #include "config/IConfigurator.hh"
-#include "core/ICore.hh"
+#include "core/CoreTypes.hh"
 #include "config/Setting.hh"
-
-#include "ui/IApplicationContext.hh"
 
 enum class BlockMode
 {
@@ -37,6 +35,13 @@ enum class FocusMode
 {
   Suspended,
   Quiet
+};
+
+enum class LightDarkTheme
+{
+  Light,
+  Dark,
+  Auto
 };
 
 class GUIConfig
@@ -65,8 +70,8 @@ public:
   static workrave::config::Setting<bool> &closewarn_enabled();
   static workrave::config::Setting<bool> &autostart_enabled();
   static workrave::config::Setting<std::string> &icon_theme();
-  static workrave::config::Setting<bool> &theme_dark();
   static workrave::config::Setting<std::string> &theme_name();
+  static workrave::config::Setting<int, LightDarkTheme> &light_dark_mode();
   static workrave::config::Setting<bool> &force_x11();
 
   static workrave::config::Setting<bool> &main_window_always_on_top();
@@ -105,6 +110,7 @@ private:
   static const std::string CFG_KEY_ICONTHEME;
   static const std::string CFG_KEY_THEME_NAME;
   static const std::string CFG_KEY_THEME_DARK;
+  static const std::string CFG_KEY_LIGHT_DARK_MODE;
   static const std::string CFG_KEY_FORCE_X11;
 
   static const std::string CFG_KEY_MAIN_WINDOW;

@@ -26,44 +26,44 @@
 #include "core/ICore.hh"
 #include "core/IBreak.hh"
 
-using namespace std;
 using namespace workrave::config;
 
-const string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
-const string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";
-const string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
-const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
-const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
-const string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
-const string GUIConfig::CFG_KEY_FOCUS_MODE = "gui/breaks/focus_mode";
-const string GUIConfig::CFG_KEY_FOLLOW_FOCUS_ASSIST_ENABLED = "gui/breaks/follow_focus_assist_enabled";
-const string GUIConfig::CFG_KEY_LOCALE = "gui/locale";
-const string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
-const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
-const string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
-const string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
-const string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
-const string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
-const string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
+const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
+const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";
+const std::string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
+const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
+const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
+const std::string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
+const std::string GUIConfig::CFG_KEY_FOCUS_MODE = "gui/breaks/focus_mode";
+const std::string GUIConfig::CFG_KEY_FOLLOW_FOCUS_ASSIST_ENABLED = "gui/breaks/follow_focus_assist_enabled";
+const std::string GUIConfig::CFG_KEY_LOCALE = "gui/locale";
+const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
+const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
+const std::string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
+const std::string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
+const std::string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
+const std::string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
+const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
+const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
 
-const string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
-const string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
-const string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
-const string GUIConfig::CFG_KEY_MAIN_WINDOW_X = "gui/main_window/x";
-const string GUIConfig::CFG_KEY_MAIN_WINDOW_Y = "gui/main_window/y";
-const string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD = "gui/main_window/head";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_X = "gui/main_window/x";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_Y = "gui/main_window/y";
+const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD = "gui/main_window/head";
 
-const string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
-const string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
+const std::string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
+const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
 
-const string GUIConfig::CFG_KEY_TIMERBOX = "gui/";
-const string GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
-const string GUIConfig::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
-const string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
-const string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
-const string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
+const std::string GUIConfig::CFG_KEY_TIMERBOX = "gui/";
+const std::string GUIConfig::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
+const std::string GUIConfig::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
+const std::string GUIConfig::CFG_KEY_TIMERBOX_POSITION = "/position";
+const std::string GUIConfig::CFG_KEY_TIMERBOX_FLAGS = "/flags";
+const std::string GUIConfig::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
-string
+std::string
 GUIConfig::get_break_name(workrave::BreakId id)
 {
   std::array<const char *, 3> names{"micro_pause", "rest_break", "daily_limit"};
@@ -101,16 +101,20 @@ GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
+
+  bool dark = false;
+  config->get_value_with_default(CFG_KEY_THEME_DARK, dark, false);
+  config->set_value(CFG_KEY_LIGHT_DARK_MODE, dark ? 1 : 0, CONFIG_FLAG_INITIAL);
 }
 
 std::string
 GUIConfig::expand(const std::string &key, workrave::BreakId id)
 {
-  string str = key;
-  string::size_type pos = 0;
-  string name = GUIConfig::get_break_name(id);
+  std::string str = key;
+  std::string::size_type pos = 0;
+  std::string name = GUIConfig::get_break_name(id);
 
-  while ((pos = str.find("%b", pos)) != string::npos)
+  while ((pos = str.find("%b", pos)) != std::string::npos)
     {
       str.replace(pos, 2, name);
       pos++;
@@ -198,15 +202,15 @@ GUIConfig::icon_theme() -> Setting<std::string> &
 }
 
 auto
-GUIConfig::theme_dark() -> workrave::config::Setting<bool> &
-{
-  return SettingCache::get<bool>(config, CFG_KEY_THEME_DARK, false);
-}
-
-auto
 GUIConfig::theme_name() -> workrave::config::Setting<std::string> &
 {
   return SettingCache::get<std::string>(config, CFG_KEY_THEME_NAME, std::string());
+}
+
+auto
+GUIConfig::light_dark_mode() -> workrave::config::Setting<int, LightDarkTheme> &
+{
+  return SettingCache::get<int, LightDarkTheme>(config, CFG_KEY_LIGHT_DARK_MODE, LightDarkTheme::Auto);
 }
 
 auto

@@ -234,22 +234,64 @@ GeneralPreferencePanel::create_panel()
     }
 
 #if defined(PLATFORM_OS_WINDOWS)
-  Gtk::Label *dark_lab = Gtk::manage(GtkUtil::create_label(_("Use dark theme"), false));
-  dark_cb = Gtk::manage(new Gtk::CheckButton());
-  dark_cb->add(*dark_lab);
-  panel->add_widget(*dark_cb, false, false);
+  dark_combo = Gtk::manage(new Gtk::ComboBoxText());
+  dark_combo->append(_("Light"));
+  dark_combo->append(_("Dark"));
+  dark_combo->append(_("Auto"));
+  panel->add_label(_("Dark mode:"), *dark_combo);
 
-  connector->connect(GUIConfig::theme_dark(), dc::wrap(dark_cb));
+  // Block types
+
+  int dark_idx = 0;
+  switch (GUIConfig::light_dark_mode()())
+    {
+    case LightDarkTheme::Light:
+      dark_idx = 0;
+      break;
+    case LightDarkTheme::Dark:
+      dark_idx = 1;
+      break;
+    case LightDarkTheme::Auto:
+      dark_idx = 2;
+      break;
+    default:
+      block_idx = 2;
+    }
+  dark_combo->set_active(dark_idx);
+  dark_combo->signal_changed().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_dark_changed));
+
+  connector->connect(GUIConfig::light_dark_mode(), dc::wrap(dark_combo));
 #endif
   pack_start(*panel, false, false, 0);
 
   panel->set_border_width(12);
 }
 
+#if defined(PLATFORM_OS_WINDOWS)
 void
 GeneralPreferencePanel::on_block_changed()
 {
   int idx = block_button->get_active_row_number();
+  LightDarkTheme m;
+  switch (idx)
+    {
+    case 0:
+      m = LightDarkTheme::Light;
+      break;
+    case 1:
+      m = LightDarkTheme::Dark;
+      break;
+    default:
+      m = LightDarkTheme::Auto;
+    }
+  GUIConfig::light_dark_mode().set(m);
+}
+#endif
+
+void
+GeneralPreferencePanel::on_dark_changed()
+{
+  int idx = dark_combo->get_active_row_number();
   BlockMode m;
   switch (idx)
     {
@@ -295,7 +337,7 @@ GeneralPreferencePanel::on_native_cell_data(const Gtk::TreeModel::const_iterator
 }
 
 int
-GeneralPreferencePanel::on_cell_data_compare(const Gtk::TreeModel::iterator &iter1, const Gtk::TreeModel::iterator &iter2)
+GeneralPreferencePanel::on_cell_data_compare(const Gtk::TreeModel::iterator &iter1, const Gtk::TreeModel::iterator &iter2) const
 {
   Gtk::TreeModel::Row row1 = *iter1;
   Gtk::TreeModel::Row row2 = *iter2;
