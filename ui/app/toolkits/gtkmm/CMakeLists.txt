@@ -8,7 +8,6 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   ExercisesDialog.cc
   ExercisesPanel.cc
   GnomeSession.cc
-  LoginSession.cc
   GtkUtil.cc
   HeadInfo.cc
   Hig.cc
@@ -48,8 +47,8 @@ if (PLATFORM_OS_UNIX)
     platforms/unix/desktop-window.c
     platforms/unix/gtktrayicon.c
     platforms/unix/UnixLocker.cc
-
-    )
+    LoginSession.cc
+  )
 
     if (HAVE_WAYLAND)
       add_custom_command(
