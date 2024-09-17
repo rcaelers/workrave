@@ -267,7 +267,6 @@ GeneralPreferencePanel::create_panel()
   panel->set_border_width(12);
 }
 
-#if defined(PLATFORM_OS_WINDOWS)
 void
 GeneralPreferencePanel::on_block_changed()
 {
@@ -286,8 +285,8 @@ GeneralPreferencePanel::on_block_changed()
     }
   GUIConfig::light_dark_mode().set(m);
 }
-#endif
 
+#if defined(PLATFORM_OS_WINDOWS)
 void
 GeneralPreferencePanel::on_dark_changed()
 {
@@ -306,6 +305,7 @@ GeneralPreferencePanel::on_dark_changed()
     }
   GUIConfig::block_mode().set(m);
 }
+#endif
 
 #if defined(HAVE_LANGUAGE_SELECTION)
 void
