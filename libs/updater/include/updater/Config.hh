@@ -18,8 +18,6 @@
 #ifndef WORKRAVE_UPDATER_CONFIG_HH
 #define WORKRAVE_UPDATER_CONFIG_HH
 
-#include <chrono>
-
 #include "config/IConfigurator.hh"
 #include "config/Setting.hh"
 
@@ -40,10 +38,10 @@ namespace workrave::updater
   {
   public:
     static void init(workrave::config::IConfigurator::Ptr configurator);
-
     static void deinit();
 
     static workrave::config::Setting<bool> &enabled();
+    static workrave::config::Setting<int> &priority();
     static workrave::config::Setting<std::string, Channel> &channel();
     static workrave::config::Setting<std::string, unfold::ProxyType> &proxy_type();
     static workrave::config::Setting<std::string> &proxy();
@@ -54,8 +52,9 @@ namespace workrave::updater
     using sv = std::string_view;
     static constexpr std::string_view CFG_KEY_AUTO_UPDATES_ENABLED = sv("plugins/auto_update/enabled");
     static constexpr std::string_view CFG_KEY_AUTO_UPDATE_CHANNEL = sv("plugins/auto_update/channel");
+    static constexpr std::string_view CFG_KEY_AUTO_UPDATE_PRIORITY = sv("plugins/auto_update/priority");
     static constexpr std::string_view CFG_KEY_AUTO_UPDATE_PROXY_TYPE = sv("plugins/auto_update/proxy_type");
-    static constexpr std::string_view CFG_KEY_AUTO_UPDATE_PROXY = sv("plugins/auto_update/type");
+    static constexpr std::string_view CFG_KEY_AUTO_UPDATE_PROXY = sv("plugins/auto_update/proxy");
   };
 
 } // namespace workrave::updater

@@ -51,7 +51,7 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
   if (!rc)
     {
-      logger->info("Invalid appcast URL");
+      logger->error("Invalid appcast URL");
       return;
     }
 
@@ -59,14 +59,14 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   if (!rc)
     {
-      logger->info("Invalid signature key");
+      logger->error("Invalid signature key");
       return;
     }
 
   rc = updater->set_current_version(WORKRAVE_VERSION);
   if (!rc)
     {
-      logger->info("Invalid version");
+      logger->error("Invalid version");
       return;
     }
 
@@ -82,8 +82,21 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   updater->set_proxy(workrave::updater::Config::proxy_type()());
   updater->set_custom_proxy(workrave::updater::Config::proxy()());
 
+  rc = updater->set_priority(workrave::updater::Config::priority()());
+  if (!rc)
+    {
+      logger->error("Invalid priority");
+      workrave::updater::Config::priority()(0);
+      return;
+    }
+
   init_preferences();
   init_menu();
+
+  workrave::updater::Config::enabled().connect(this, [this](auto enabled) {
+    logger->info("Enabled changed to {}", enabled);
+    updater->set_periodic_update_check_enabled(enabled);
+  });
 
   workrave::updater::Config::channel().connect(this, [this](auto channel) {
     logger->info("Channel changed to {}", workrave::utils::enum_to_string(channel));
@@ -100,10 +113,21 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
     updater->set_custom_proxy(proxy);
   });
 
-  updater->set_update_status_callback([&](unfold::outcome::std_result<void> state) -> void {
-    logger->info("Update status changed");
-    set_error_state(state);
+  workrave::updater::Config::priority().connect(this, [this](auto priority) {
+    auto rc = updater->set_priority(priority);
+    if (!rc)
+      {
+        logger->error("Invalid priority");
+      }
+    else
+      {
+        logger->info("Priority changed to {}, active priority {}",
+                     priority == 1 ? "high" : "normal",
+                     updater->get_active_priority());
+      }
   });
+
+  updater->set_update_status_callback([&](unfold::outcome::std_result<void> state) -> void { set_error_state(state); });
 
   updater->set_download_progress_callback([this](unfold::UpdateStage stage, double p) -> void {
     this->progress = p;
@@ -116,6 +140,10 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
     }(stage);
     scheduler.spawn(std::move(task));
   });
+
+  logger->info("Auto updater initialized, channel: {} prio: {}",
+               workrave::utils::enum_to_string(workrave::updater::Config::channel()()),
+               updater->get_active_priority());
 }
 
 AutoUpdater::~AutoUpdater()
@@ -129,7 +157,6 @@ AutoUpdater::init_channels()
   TRACE_ENTRY();
 
   auto channel = workrave::updater::Config::channel()();
-  logger->info("Current release channel: {}", workrave::utils::enum_to_string(channel));
 
   std::vector<std::string> allowed_channels;
 
@@ -137,11 +164,11 @@ AutoUpdater::init_channels()
     {
     case workrave::updater::Channel::Beta:
       allowed_channels.emplace_back("beta");
-      break;
+      [[fallthrough]];
 
     case workrave::updater::Channel::Candidate:
       allowed_channels.emplace_back("rc");
-      break;
+      [[fallthrough]];
 
     case workrave::updater::Channel::Stable:
       allowed_channels.emplace_back("stable");
@@ -151,8 +178,7 @@ AutoUpdater::init_channels()
   auto rc = updater->set_allowed_channels(allowed_channels);
   if (!rc)
     {
-      logger->info("Invalid allowed channels");
-      return;
+      logger->error("Invalid allowed channels");
     }
 }
 
@@ -166,6 +192,14 @@ AutoUpdater::init_preferences()
                     << (ui::prefwidgets::Frame::create(N_("Auto update"))
                         << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))
                              ->connect(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Toggle::create(N_("Get updates as soon as they are available"))
+                             ->connect(&workrave::updater::Config::priority(),
+                                       []() {
+                                         auto priority = workrave::updater::Config::priority()();
+                                         return priority == 1;
+                                       })
+                             ->when(&workrave::updater::Config::enabled())
+                             ->on_save([](bool first) { workrave::updater::Config::priority().set(first ? 1 : 0); })
                         << ui::prefwidgets::Choice::create(N_("Release channel:"))
                              ->connect(&workrave::updater::Config::channel(),
                                        {{workrave::updater::Channel::Stable, 0},
@@ -181,10 +215,8 @@ AutoUpdater::init_preferences()
                              ->when(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Entry::create(N_("Proxy:"))
                              ->connect(&workrave::updater::Config::proxy())
-                             ->when(&workrave::updater::Config::proxy_type(), [](unfold::ProxyType t) {
-                               // auto p = workrave::updater::Config::proxy_type()();
-                               return t == unfold::ProxyType::Custom;
-                             }));
+                             ->when(&workrave::updater::Config::proxy_type(),
+                                    [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
 
   context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "workrave-update-symbolic");
   context->get_preferences_registry()->add(auto_update_def);
@@ -255,7 +287,7 @@ AutoUpdater::on_update_available()
 
   if (dialog_handler)
     {
-      logger->info("Update dialog already open");
+      logger->error("Update dialog already open");
       co_return unfold::UpdateResponse::Later;
     }
 
@@ -281,12 +313,12 @@ AutoUpdater::on_check_for_update()
           auto rc = co_await updater->check_for_update_and_notify();
           if (!rc)
             {
-              logger->info("Check for update failed");
+              logger->error("Check for update failed");
             }
         }
       catch (std::exception &e)
         {
-          logger->info("Exception in on_check_for_update: {}", e.what());
+          logger->error("Exception in on_check_for_update: {}", e.what());
         }
     },
     boost::asio::detached);
@@ -295,7 +327,7 @@ AutoUpdater::on_check_for_update()
 void
 AutoUpdater::set_error_state(unfold::outcome::std_result<void> state)
 {
-  logger->info("Error state {}", state.error().message());
+  logger->error("Error state {}", state.error().message());
   auto errc = unfold::to_errc(state.error());
 
   if (errc)

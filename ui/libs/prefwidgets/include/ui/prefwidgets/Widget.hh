@@ -142,6 +142,11 @@ namespace ui::prefwidgets
   {
   public:
     WidgetBase() = default;
+    WidgetBase(const WidgetBase &) = delete;
+    WidgetBase(WidgetBase &&) = delete;
+    WidgetBase &operator=(const WidgetBase &) = delete;
+    WidgetBase &operator=(WidgetBase &&) = delete;
+
     explicit WidgetBase(const std::string &label)
       : Widget(label)
     {
@@ -174,6 +179,24 @@ namespace ui::prefwidgets
             {
               value = static_cast<Type>(setting->get());
             }
+        }
+      return shared_from_base<Derived>();
+    }
+
+    template<class T, class R>
+    std::shared_ptr<Derived> connect(workrave::config::Setting<T, R> *setting, std::function<Type()> func)
+    {
+      load_func = func;
+
+      std::string key = setting->key();
+      config = setting->get_config();
+      config->add_listener(key, this);
+
+      keys.push_back(key);
+      if (keys.size() == 1)
+        {
+          type = setting->get_type();
+          value = load_func();
         }
       return shared_from_base<Derived>();
     }

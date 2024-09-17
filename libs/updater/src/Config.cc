@@ -47,6 +47,12 @@ Config::channel()
   return workrave::config::SettingCache::get<std::string, Channel>(configurator, CFG_KEY_AUTO_UPDATE_CHANNEL, {});
 }
 
+workrave::config::Setting<int> &
+Config::priority()
+{
+  return workrave::config::SettingCache::get<int>(configurator, CFG_KEY_AUTO_UPDATE_PRIORITY, 0);
+}
+
 workrave::config::Setting<std::string, unfold::ProxyType> &
 Config::proxy_type()
 {
