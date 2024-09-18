@@ -6,6 +6,11 @@ include /usr/share/dpkg/buildflags.mk
 CXXFLAGS += -std=c++11
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
+GNOME_SHELL_VERSION := $(shell apt-cache policy gnome-shell | grep Candidate: | awk '{print $$2}' | cut -d. -f1)
+ifeq ($(shell [ $(GNOME_SHELL_MAJOR) -ge 45 ]; echo $$?),0)
+    CONFIGURE_FLAGS += --enable-gnome45
+endif
+
 %:
 	dh $@ --with autoreconf
 
@@ -23,7 +28,8 @@ override_dh_auto_configure:
 		--enable-exercises \
 		--enable-mate \
 		--enable-xfce \
-		--disable-gconf
+		--disable-gconf \
+		$(CONFIGURE_FLAGS)
 
 override_dh_compress:
 	dh_compress --exclude=gnuplot-workrave --exclude=workrave-dump
