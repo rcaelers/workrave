@@ -20,6 +20,7 @@
 
 #include <ctime>
 #include <string>
+#include <cstdint>
 
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches
