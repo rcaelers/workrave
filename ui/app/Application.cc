@@ -523,6 +523,7 @@ Application::show_break_window()
 
   if (!break_windows.empty() && GUIConfig::block_mode()() != BlockMode::Off)
     {
+      TRACE_MSG("Locking screen");
       toolkit->get_locker()->lock();
     }
 }
