@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.16)
-cmake_policy(VERSION 3.16)
+cmake_minimum_required(VERSION 3.22)
+cmake_policy(VERSION 3.22)
 
 if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
@@ -181,17 +181,11 @@ include(code-coverage)
 # Toolkit selection
 
 set (WITH_UI "Gtk+3" CACHE STRING "UI Toolkit to use")
-set (WITH_UI_VALUES "Qt" "Gtk+3" "None")
+set (WITH_UI_VALUES "Qt" "Gtk+3")
 set_property(CACHE WITH_UI PROPERTY STRINGS ${WITH_UI_VALUES})
 list(FIND WITH_UI_VALUES ${WITH_UI} WITH_UI_INDEX)
 if (${WITH_UI_INDEX} EQUAL -1)
   message(FATAL_ERROR "Option ${WITH_UI} not supported for WITH_UI, valid entries are ${WITH_UI_VALUES}")
-endif()
-
-set (BUILD_ONLY_32_BIT_FOR_WIN64 OFF)
-if ("${WITH_UI}" STREQUAL "None" AND WIN32)
-  set (BUILD_ONLY_32_BIT_FOR_WIN64 ON)
-  message(STATUS "Building ONLY 32 bit support ")
 endif()
 
 set (WITH_UI_QT FALSE)
@@ -292,11 +286,7 @@ find_package(Python3 COMPONENTS Interpreter)
 #----------------------------------------------------------------------------------------------------
 # DBus
 
-if (BUILD_ONLY_32_BIT_FOR_WIN64)
-  option(WITH_DBUS "Enable dbus" OFF)
-else()
-  option(WITH_DBUS "Enable dbus" ON)
-endif()
+option(WITH_DBUS "Enable dbus" ON)
 
 if (WITH_DBUS)
   include(DBus)
@@ -766,7 +756,7 @@ else()
   find_package(Libintl)
 
   # TODO: Gettext cannot be found in 32bit
-  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND) AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+  if (NOT (GETTEXT_FOUND AND LIBINTL_FOUND))
     message(FATAL_ERROR "Libintl not found")
   endif()
   set (HAVE_LIBINTL ON)
@@ -791,7 +781,7 @@ endif()
 # platform - windows
 
 
-if (WIN32 AND NOT BUILD_ONLY_32_BIT_FOR_WIN64)
+if (WIN32)
   option(WITH_CRASHPAD "Use crashpad" OFF)
   option(WITH_AUTO_UPDATE "Use unfold auto-update" OFF)
   option(ISCC "Inno Setup Compiler")
@@ -994,7 +984,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Crash reporting - Windows
 
-if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+if (WIN32)
   set(HAVE_CRASH_REPORT OFF)
   set(HAVE_CRASHPAD OFF)
   if (WITH_CRASHPAD)
@@ -1077,56 +1067,14 @@ add_custom_target(dist
 #----------------------------------------------------------------------------------------------------
 #
 
-if (NOT BUILD_ONLY_32_BIT_FOR_WIN64)
-  add_subdirectory(po)
-  add_subdirectory(libs)
-  add_subdirectory(ui)
-else()
-  add_subdirectory(libs/hooks)
-  add_subdirectory(ui/app/toolkits/gtkmm/dist/windows/src)
-endif()
-
-if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
-  if (CMAKE_CROSSCOMPILING)
-    ExternalProject_Add(Workrave32Bit
-      SOURCE_DIR ${CMAKE_SOURCE_DIR}
-      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-      CMAKE_CACHE_ARGS
-        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
-        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-        -DWITH_UI:STRING=None
-    )
-  elseif (MSVC)
-    ExternalProject_Add(Workrave32Bit
-      SOURCE_DIR ${CMAKE_SOURCE_DIR}
-      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-      CMAKE_GENERATOR "Visual Studio 17 2022"
-      CMAKE_ARGS -A Win32
-      CMAKE_CACHE_ARGS
-        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
-        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-        -DWITH_UI:STRING=None
-        -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
-    )
-  else()
-    set(CMAKE_COMMAND32 ${MSYS_CMD} -here -clang32 -no-start -defterm -c "cmake \$*" cmake)
-    ExternalProject_Add(Workrave32Bit
-      SOURCE_DIR ${CMAKE_SOURCE_DIR}
-      BINARY_DIR ${CMAKE_BINARY_DIR}/.32
-      CMAKE_COMMAND ${CMAKE_COMMAND32}
-      CMAKE_CACHE_ARGS
-        -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake
-        -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
-        -DWITH_UI:STRING=None
-        -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
-    )
-  endif()
-endif()
+add_subdirectory(po)
+add_subdirectory(libs)
+add_subdirectory(ui)
 
 #----------------------------------------------------------------------------------------------------
 # Install
 
-if (WIN32 AND (NOT BUILD_ONLY_32_BIT_FOR_WIN64))
+if (WIN32)
   configure_file(README  README.txt  NEWLINE_STYLE WIN32)
   configure_file(NEWS    NEWS.txt    NEWLINE_STYLE WIN32)
   configure_file(AUTHORS AUTHORS.txt NEWLINE_STYLE WIN32)

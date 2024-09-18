@@ -1,3 +1,8 @@
+
+cmake_minimum_required(VERSION 3.30)
+project(zapper)
+cmake_policy(VERSION 3.30)
+
 set(SRC zapper.c)
 
 add_library(zapper-0 SHARED ${SRC})
