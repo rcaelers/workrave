@@ -81,13 +81,8 @@ HarpoonHelper::init(HINSTANCE hInstance)
   init_critical_filename_list();
 
   bool debug = false;
-  bool mouse_lowlevel = false;
+  bool mouse_lowlevel = true;
   bool keyboard_lowlevel = true;
-
-  if (LOBYTE(LOWORD(GetVersion())) >= 6)
-    {
-      mouse_lowlevel = true;
-    }
 
   Config config;
   config.get_value("advanced/harpoon/debug", debug);
@@ -135,12 +130,7 @@ HarpoonHelper::init_critical_filename_list()
     critical_filename_list[i][0] = '\0';
 
   // Task Manager is always on the critical_filename_list
-  if (GetVersion() >= 0x80000000)
-    {
-      // Windows Me/98/95
-      strcpy(critical_filename_list[0], "taskman.exe");
-    }
-  else if (!check_for_taskmgr_debugger(critical_filename_list[0]))
+  if (!check_for_taskmgr_debugger(critical_filename_list[0]))
     {
       strcpy(critical_filename_list[0], "taskmgr.exe");
     }
