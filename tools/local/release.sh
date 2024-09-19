@@ -189,7 +189,7 @@ upload() {
 
 upload_github() {
     source ${SECRETS_DIR}/env-snapshots
-    gh release upload ${WORKRAVE_GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
+    gh release upload ${GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
 }
 
 export WORKRAVE_OVERRIDE_GIT_VERSION=

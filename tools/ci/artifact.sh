@@ -68,5 +68,5 @@ cat $CATALOG_NAME | jq '.builds[-1].artifacts +=
 
 mv -f $tmp $CATALOG_NAME
 
-ls -la ${DEPLOY_DIR}
+ls -laR ${DEPLOY_DIR}
 chmod 644 ${DEPLOY_DIR}/*
