@@ -120,7 +120,6 @@ ui/app/toolkits/gtkmm/GnomeSession.cc
 ui/app/toolkits/gtkmm/GtkUtil.cc
 ui/app/toolkits/gtkmm/HeadInfo.cc
 ui/app/toolkits/gtkmm/Hig.cc
-ui/app/toolkits/gtkmm/Locker.cc
 ui/app/toolkits/gtkmm/MainWindow.cc
 ui/app/toolkits/gtkmm/MicroBreakWindow.cc
 ui/app/toolkits/gtkmm/platforms/macos/MacOSUtil.cc
