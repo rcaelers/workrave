@@ -35,34 +35,23 @@ WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
 WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
 PrivilegesRequired=none
 CloseApplications=no
-ArchitecturesInstallIn64BitMode=x64
+ArchitecturesInstallIn64BitMode=x64compatible
 #ifdef SignTool
 SignTool={#SignTool}
 SignedUninstaller=yes
 #endif
 
-; uncomment the following line if you want your installation to run on NT 3.51 too.
-; MinVersion=4,3.51
-
-[Types]
-Name: "full"; Description: "Full installation"
-;;Name: "compact"; Description: "Compact installation (excludes DBus runtime)"
-
-[Components]
-Name: "main"; Description: "Main Files"; Types: full; Flags: fixed
-Name: "dbus"; Description: "D-BUS Runtime Environment"; Types: full
-Name: "applet"; Description: "Windows Taskbar applet"; Types: full
-
 [Tasks]
-Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
-Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
+Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
+Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
+Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescription: "Additional tasks:"
 
 [Files]
 Source: "@INSTALL_WIN_PATH@\dist\libzapper-0.dll"; DestDir: "{app}";
 Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALL_WIN_PATH@\bin\workrave-applet64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion restartreplace uninsrestartdelete regserver; Components: applet; Check: IsAdmin;
+Source: "@INSTALL_WIN_PATH@\bin\workrave-applet64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion restartreplace uninsrestartdelete regserver; Check: IsAdmin and (not IsWindows11OrLater());
 Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion; Components: dbus;
+Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\plugins\*.*"; DestDir: "{app}\lib\plugins"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\share\*.*"; DestDir: "{app}\share\"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALL_WIN_PATH@\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
@@ -87,13 +76,15 @@ Name: "{autodesktop}\Workrave"; Filename: "{app}\bin\Workrave.exe"; MinVersion: 
 Name: "{app}\Workrave"; Filename: "{app}\bin\Workrave.exe"
 
 [Run]
-Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
+Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall shellexec;
 
 [InstallDelete]
 Type: files; Name: "{autostartup}\Workrave.lnk"
 Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]
+Var
+  taskPageShown: boolean;
 
 function FindWorkrave(): Boolean;
 external 'FindWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
@@ -103,6 +94,14 @@ external 'ZapWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
 
 function KillProcess(name : String): Boolean;
 external 'KillProcess@{tmp}\libzapper-0.dll cdecl delayload';
+
+function AreWorkraveProcessesRunning(name : String): Boolean;
+external 'AreWorkraveProcessesRunning@{tmp}\libzapper-0.dll cdecl delayload';
+
+function KillWorkraveProcesses(name : String): Boolean;
+external 'KillWorkraveProcesses@{tmp}\libzapper-0.dll cdecl delayload';
+
+function GetInstallLocation(): String; forward;
 
 Function FindWorkraveWithRetries() : Boolean;
 var retVal : Boolean;
@@ -122,56 +121,130 @@ begin
   Result := retVal;
 end;
 
-Function EnsureWorkraveIsNotRunning() : Boolean;
-var retVal : Boolean;
+Function IsWorkraveRunning() : Boolean;
+var isRunning : Boolean;
+var installLocation: String;
+begin
+    installLocation := GetInstallLocation();
+    isRunning := FindWorkraveWithRetries;
+    if (not isRunning) and (installLocation <> '') then
+    begin
+      isRunning := AreWorkraveProcessesRunning(installLocation);
+    end;
+    Result := isRunning;
+end;
+
+Function IsWorkraveTerminated() : Boolean;
+var isRunning : Boolean;
+var installLocation: String;
+var count : Integer;
+begin
+    installLocation := GetInstallLocation();
+    count := 50;
+    isRunning := True
+
+    while ((count > 0) and (isRunning)) do
+    begin
+      isRunning := FindWorkrave;
+      if (not isRunning) and (installLocation <> '') then
+      begin
+        isRunning := AreWorkraveProcessesRunning(installLocation);
+      end;
+      if isRunning then
+      begin
+        Sleep(100)
+      end;
+      count := count - 1;
+    end;
+
+    Result := isRunning;
+end;
+
+Function EnsureWorkraveIsNotRunning(silent : Boolean) : Boolean;
+var installLocation: String;
 begin
   Result := True;
-  try
-    retVal := FindWorkraveWithRetries;
-    if retVal then
+    if IsWorkraveRunning() then
     begin
-      if MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
-                mbConfirmation, MB_OKCANCEL) = IDOK then
+      if not silent then
       begin
-        retVal := ZapWorkrave();
-        if retVal then
+        Result := MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
+                          mbConfirmation, MB_OKCANCEL) = IDOK
+      end;
+
+      if Result then
+      begin
+        installLocation := GetInstallLocation();
+
+        ZapWorkrave();
+        if installLocation <> '' then
         begin
-          retVal := FindWorkraveWithRetries();
-          if retVal then
+          if (not IsWorkraveTerminated()) then
           begin
-            KillProcess('workrave.exe');
-            retVal := FindWorkrave();
+            KillWorkraveProcesses(installLocation);
           end;
-          if retVal then
-          begin
-            MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
-            Result := False;
-          end
-        end
-      end
-      else
-      begin
-         Result := False;
-      end
+        end;
+
+        if IsWorkraveTerminated() then
+        begin
+          MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+          Result := False;
+        end;
+      end;
     end;
-    KillProcess('dbus-daemon.exe');
-    KillProcess('harpoonHelper.exe');
-    KillProcess('WorkraveHelper.exe');
-  except
-    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+end;
+
+function ShouldUninstall(): Boolean;
+var
+  versionMS, versionLS: Cardinal;
+  major, minor: Integer;
+  directories: array[0..1] of String;
+  i: Integer;
+  executablePath: String;
+  installLocation: String;
+begin
+  directories[0] := 'lib';
+  directories[1] := 'bin';
+  installLocation := GetInstallLocation();
+
+  if installLocation <> '' then
+  begin
+    for i := 0 to High(directories) do
+    begin
+      executablePath := ExpandConstant(installLocation + directories[i] + '\workrave.exe');
+      if FileExists(executablePath) and GetVersionNumbers(executablePath, versionMS, versionLS) then
+      begin
+        major := versionMS shr 16;
+        minor := versionMS and $FFFF;
+
+        if (major < 1) or ((major = 1) and (minor < 11)) then
+          Result := True
+        else
+          Result := False;
+        Exit;
+      end;
+    end;
   end;
+
+  Result := False;
+end;
+
+function IsWindows11OrLater(): Boolean;
+begin
+  Result := (GetWindowsVersion >= $0A0055F0);
 end;
 
 Function InitializeSetup() : Boolean;
 begin
+    taskPageShown := False;
     ExtractTemporaryFile('libzapper-0.dll');
-    Result := EnsureWorkraveIsNotRunning();
+    Result := EnsureWorkraveIsNotRunning(WizardSilent());
 end;
 
 Function InitializeUninstall() : Boolean;
 begin
     FileCopy(ExpandConstant('{app}\libzapper-0.dll'), ExpandConstant('{tmp}\libzapper-0.dll'), False);
-    Result := EnsureWorkraveIsNotRunning();
+    Result := EnsureWorkraveIsNotRunning(UninstallSilent());
 end;
 
 function GetAppPath(S: String): String;
@@ -179,8 +252,110 @@ begin
   Result := WizardDirValue + '\bin';
 end;
 
-[Code]
 function IsX64: Boolean;
 begin
   Result := (ProcessorArchitecture = paX64);
+end;
+
+Procedure UpdateAutoInstallTask();
+var
+  success: boolean;
+  enabledStr: string;
+  enabled: boolean;
+begin
+  enabled := False;
+
+  success := RegQueryStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'enabled', enabledStr);
+  if success and (enabledStr = '1') then
+  begin
+    enabled := True;
+  end;
+
+  if enabled then
+  begin
+    WizardSelectTasks('autoupdate');
+  end
+  else
+  begin
+    WizardSelectTasks('!autoupdate');
+  end
+end;
+
+Procedure UpdateAutoInstallSetting();
+var
+  enabledStr: string;
+begin
+  if WizardIsTaskSelected('autoupdate') then
+    enabledStr := '1'
+  else
+    enabledStr := '0';
+  RegWriteStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'enabled', enabledStr);
+#ifdef Channel
+  RegWriteStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'channel', '{#Channel}');
+#endif
+end;
+
+function GetUninstallCommand(): String;
+var
+  uninstallPath: String;
+  uninstallCommand: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  uninstallCommand := '';
+
+  if not RegQueryStringValue(HKLM, uninstallPath, 'UninstallString', uninstallCommand) then
+    RegQueryStringValue(HKCU, uninstallPath, 'UninstallString', uninstallCommand);
+  Result := uninstallCommand;
+end;
+
+function GetInstallLocation(): String;
+var
+  uninstallPath: String;
+  installLocation: String;
+begin
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  installLocation := '';
+
+  if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
+    RegQueryStringValue(HKCU, uninstallPath, 'InstallLocation', installLocation);
+  Result := installLocation;
+end;
+
+Procedure UninstallPreviousVersion();
+var
+  uninstallCommand: String;
+  iResultCode: Integer;
+begin
+  uninstallCommand := GetUninstallCommand();
+
+  if uninstallCommand <> '' then begin
+    uninstallCommand := RemoveQuotes(uninstallCommand);
+    Exec(uninstallCommand, '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
+  end
+end;
+
+Procedure CurPageChanged(CurPageID: Integer);
+begin
+  if (CurPageID = wpSelectTasks) and not taskPageShown then
+  begin
+    taskPageShown := True;
+    UpdateAutoInstallTask();
+  end
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  case CurStep of
+    ssInstall:
+      begin
+         if ShouldUninstall() then
+         begin
+           UninstallPreviousVersion();
+         end;
+      end;
+    ssDone:
+      begin
+        UpdateAutoInstallSetting();
+      end
+  end;
 end;
