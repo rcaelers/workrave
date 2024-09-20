@@ -995,7 +995,7 @@ if (WIN32)
       "Apache-2.0"
       GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
       # GIT_SHALLOW TRUE
-      GIT_TAG 3c034ea97a60854acb4fa80634f50532c001279d
+      GIT_TAG 050ed0ba7725b14647f2462717dfe93c4000bf9f
     )
     FetchContent_MakeAvailable(crashpad)
 
