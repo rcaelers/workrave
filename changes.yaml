@@ -7,6 +7,7 @@ releases:
     changes:
       - Follow OS dark/light mode on Windows (#529)
       - Fix dark mode on Windows (#537)
+      - Fix issues where menu items could not be selected on Windows
 
   - version: 1.11.0-beta.14
     date: 2024-06-15T14:29:23+02:00
