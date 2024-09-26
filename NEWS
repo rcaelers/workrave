@@ -1,9 +1,16 @@
-Workrave NEWS -- history of user-visible changes. 15 June 2024
+Workrave NEWS -- history of user-visible changes. 22 September 2024
 Copyright (C) 2001-2024 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-beta.15
+
+** Follow OS dark/light mode on Windows (#529)
+** Fix dark mode on Windows (#537)
+** Fix issues where menu items could not be selected on Windows
+** Beta channel now also receives release candidates and final releases
 
 * Workrave 1.11.0-beta.14
 
@@ -12,7 +19,7 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.11.0-beta.13
 
-** Improved handling of hibernate/suspend (#539,
+** Improved handling of hibernate/suspend (#539,#540)
 
 * Workrave 1.11.0-beta.12
 
@@ -122,12 +129,12 @@ https://github.com/rcaelers/workrave/issues
 ** Major internal code cleanup and code modernization.
 ** Initial (incomplete) port to macOS using Qt6
 ** The default sound theme was changed to the "Subtle" theme (#362)
-** You can now change the operation mode for a limited amount of time (#98,
+** You can now change the operation mode for a limited amount of time (#98,#305)
 ** A portable version is now available for Windows and Linux (#180)
 ** Workrave now follows the XDG basedirectory specification (#192)
 ** The Windows version is now 64 bit (#295)
 ** Workrave can now automatically change the operation mode based on Windows
-   Focus Assist (#255,
+   Focus Assist (#255,#226)
 ** A dark UI theme is now supported on Windows (#214)
 ** Bug fixes:
    - Fixed Windows system tray menu that would not always properly open (#373)

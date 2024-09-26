@@ -275,6 +275,9 @@ MainWindow::on_timer_view_button_press_event(const GdkEventButton *event)
       bool taking = app->get_core()->is_taking();
       if (!taking || (GUIConfig::block_mode()() != BlockMode::All && GUIConfig::block_mode()() != BlockMode::Input))
         {
+          // Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/5238
+          app->get_menu_model()->update();
+
           menu->get_menu()->popup_at_pointer((const GdkEvent *)event);
           return true;
         }

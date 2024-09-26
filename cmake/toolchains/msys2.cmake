@@ -13,7 +13,10 @@ else()
     set(SYS_ROOT               "$ENV{MINGW_ROOT}")
 endif()
 
-set(CMAKE_ASM_MASM_COMPILER    "uasm")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "amd64|AMD64")
+    set(CMAKE_ASM_MASM_COMPILER    "uasm")
+endif()
+
 set(CMAKE_C_COMPILER           "clang")
 set(CMAKE_CXX_COMPILER         "clang++")
 set(CMAKE_RC_COMPILER          "llvm-rc")
