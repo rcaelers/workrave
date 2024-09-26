@@ -984,59 +984,57 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Crash reporting - Windows
 
-if (WIN32)
-  set(HAVE_CRASH_REPORT OFF)
-  set(HAVE_CRASHPAD OFF)
-  if (WITH_CRASHPAD)
+set(HAVE_CRASH_REPORT OFF)
+set(HAVE_CRASHPAD OFF)
 
-    FetchContent_Declare_Logged(
-      crashpad
-      "A crash-reporting system"
-      "Apache-2.0"
-      GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
-      # GIT_SHALLOW TRUE
-      GIT_TAG 050ed0ba7725b14647f2462717dfe93c4000bf9f
+if (WITH_CRASHPAD)
+  FetchContent_Declare_Logged(
+    crashpad
+    "A crash-reporting system"
+    "Apache-2.0"
+    GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
+    # GIT_SHALLOW TRUE
+    GIT_TAG 3c034ea97a60854acb4fa80634f50532c001279d
+  )
+  FetchContent_MakeAvailable(crashpad)
+
+  find_program(CARGO "cargo")
+  if (NOT CARGO)
+    message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
+  endif()
+
+  # TODO: add for upload of symbols
+  # FetchContent_Declare(
+  #   breakpad
+  #   GIT_REPOSITORY
+  #   GIT_SHALLOW TRUE
+  #   GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
+  # )
+  # FetchContent_MakeAvailable(breakpad)
+
+  FetchContent_Declare(
+    dump_syms
+    GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
+    GIT_TAG v2.2.1
+  )
+  FetchContent_MakeAvailable(dump_syms)
+
+  set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
+  add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
+  add_custom_command(
+    OUTPUT ${DUMP_SYMS}
+    COMMAND ${CARGO} build --release
+    WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
     )
-    FetchContent_MakeAvailable(crashpad)
 
-    find_program(CARGO "cargo")
-    if (NOT CARGO)
-      message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
-    endif()
-
-    # TODO: add for upload of symbols
-    # FetchContent_Declare(
-    #   breakpad
-    #   GIT_REPOSITORY
-    #   GIT_SHALLOW TRUE
-    #   GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
-    # )
-    # FetchContent_MakeAvailable(breakpad)
-
-    FetchContent_Declare(
-      dump_syms
-      GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-      GIT_TAG v2.2.1
-    )
-    FetchContent_MakeAvailable(dump_syms)
-
-    set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
-    add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
-    add_custom_command(
-      OUTPUT ${DUMP_SYMS}
-      COMMAND ${CARGO} build --release
-      WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
-      )
-
-    set(HAVE_CRASHPAD ON)
-    set(HAVE_CRASH_REPORT ON)
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-      set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
-      add_compile_options(-gdwarf -gcodeview)
-    elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-      message(STATUS "Crashpad requires Clang or MSVC")
-    endif()
+  set(HAVE_CRASHPAD ON)
+  set(HAVE_CRASH_REPORT ON)
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-pdb=")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-pdb=")
+    add_compile_options(-gdwarf -gcodeview)
+  elseif(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    message(STATUS "Crashpad requires Clang or MSVC")
   endif()
 endif()
 
