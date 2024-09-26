@@ -1,17 +1,17 @@
 set(DBUSGEN ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py)
 set(TEMPLATE_DIR ${CMAKE_SOURCE_DIR}/libs/dbus/data)
-set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
-set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
-
-if(WIN32 AND NOT MINGW)
-    set(PYTHON_EXECUTABLE "${VENV_DIR}/Scripts/python.exe")
-    set(PIP_EXECUTABLE "${VENV_DIR}/Scripts/pip.exe")
-else()
-    set(PYTHON_EXECUTABLE "${VENV_DIR}/bin/python")
-    set(PIP_EXECUTABLE "${VENV_DIR}/bin/pip")
-endif()
 
 if (NOT HAVE_JINJA2)
+  if(WIN32 AND NOT MINGW)
+      set(PYTHON_EXECUTABLE "${VENV_DIR}/Scripts/python.exe")
+      set(PIP_EXECUTABLE "${VENV_DIR}/Scripts/pip.exe")
+  else()
+      set(PYTHON_EXECUTABLE "${VENV_DIR}/bin/python")
+      set(PIP_EXECUTABLE "${VENV_DIR}/bin/pip")
+  endif()
+  set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
+  set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
+
   add_custom_command(
     OUTPUT ${PYTHON_EXECUTABLE}
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${VENV_DIR}
@@ -73,7 +73,7 @@ macro(dbus_generate_xml XML DIRECTORY NAME)
     add_custom_command(
       OUTPUT ${output}
       COMMAND ${PYTHON_EXECUTABLE} ${DBUSGEN} ${XML} ${template} ${output}
-      DEPENDS ${XML} ${template} ${VENV_DIR}/bin/activate
+      DEPENDS ${XML} ${template} venv
       )
 
     add_custom_target(
