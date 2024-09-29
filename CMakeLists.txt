@@ -289,8 +289,6 @@ find_package(Python3 COMPONENTS Interpreter)
 option(WITH_DBUS "Enable dbus" ON)
 
 if (WITH_DBUS)
-  include(DBus)
-
   set(HAVE_JINJA2 OFF)
   message(STATUS "Checking for: Jinja2")
   if (Python3_FOUND)
@@ -299,6 +297,7 @@ if (WITH_DBUS)
   if (PY_JINJA2)
      set(HAVE_JINJA2 ON)
   endif()
+  include(DBus)
 endif()
 
 #----------------------------------------------------------------------------------------------------

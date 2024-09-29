@@ -2,6 +2,8 @@ set(DBUSGEN ${CMAKE_SOURCE_DIR}/libs/dbus/bin/dbusgen.py)
 set(TEMPLATE_DIR ${CMAKE_SOURCE_DIR}/libs/dbus/data)
 
 if (NOT HAVE_JINJA2)
+  set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
+  set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
   if(WIN32 AND NOT MINGW)
       set(PYTHON_EXECUTABLE "${VENV_DIR}/Scripts/python.exe")
       set(PIP_EXECUTABLE "${VENV_DIR}/Scripts/pip.exe")
@@ -9,8 +11,6 @@ if (NOT HAVE_JINJA2)
       set(PYTHON_EXECUTABLE "${VENV_DIR}/bin/python")
       set(PIP_EXECUTABLE "${VENV_DIR}/bin/pip")
   endif()
-  set(VENV_DIR ${CMAKE_BINARY_DIR}/venv-dbus)
-  set(REQUIREMENTS_FILE ${CMAKE_SOURCE_DIR}/libs/dbus/bin/requirements.txt)
 
   add_custom_command(
     OUTPUT ${PYTHON_EXECUTABLE}
