@@ -184,7 +184,7 @@ DEPLOY_DIR=$WORKSPACE_DIR/deploy
 export WORKRAVE_ENV=local
 init
 
-DOCKER_IMAGE="ubuntu-mantic"
+DOCKER_IMAGE="ubuntu-noble"
 setup
 run_docker_ppa
 
