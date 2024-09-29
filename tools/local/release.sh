@@ -221,7 +221,7 @@ export CONF_CONFIGURATION=Release
 export WORKRAVE_ENV=local
 init
 
-export DOCKER_IMAGE="ubuntu-mantic"
+export DOCKER_IMAGE="ubuntu-noble"
 setup
 run_docker_appimage
 env

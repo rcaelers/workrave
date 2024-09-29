@@ -231,14 +231,14 @@ jobs:
       matrix:
         config:
           - image: ubuntu-focal
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           - image: ubuntu-jammy
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
@@ -246,29 +246,22 @@ jobs:
             appimage: true
             upload: true
 
-          - image: ubuntu-mantic
-            os: ubuntu-22.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
-
           - image: ubuntu-noble
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           - image: ubuntu-oracular
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           # - image: mingw-fedora-rawhide
-          #   os: ubuntu-22.04
+          #   os: ubuntu-24.04
           #   compiler: clang
           #   ui: Gtk+3
           #   configuration: Release
@@ -277,7 +270,7 @@ jobs:
           #   upload: false
 
           # - image: mingw-fedora-rawhide
-          #   os: ubuntu-22.04
+          #   os: ubuntu-24.04
           #   compiler: clang
           #   ui: Gtk+3
           #   configuration: Debug
@@ -412,7 +405,7 @@ jobs:
           path: _deploy
 
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [prep, build-cmake, build-msys2]
     if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') )
     steps:
@@ -465,7 +458,7 @@ jobs:
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
   website:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'push'
     needs: [deploy]
     steps:
