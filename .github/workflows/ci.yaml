@@ -11,22 +11,22 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
     strategy:
       matrix:
         configuration: [ Debug, Release ]
         platform: [ x86, x64 ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1
 
       - name: Build
         run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: applet
           path: |
@@ -36,7 +36,7 @@ jobs:
             frontend/applets/win32/src/Debug/workrave-applet.dll
 
   build-mingw:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: [ build-windows ]
     strategy:
       matrix:
@@ -62,12 +62,12 @@ jobs:
             upload: false
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Download applet artifacts from GitHub
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: applet
           path: _vsbuild
@@ -95,14 +95,14 @@ jobs:
            DOCKER_IMAGE: ${{ matrix.config.image }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ matrix.config.upload }}
         with:
           name: artifacts
           path: _deploy
 
   build-linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       max-parallel: 20
@@ -121,17 +121,12 @@ jobs:
             enable: gnome3,pulse,dbus,experimental,gstreamer,exercises,xml
             disable: gsettings,gconf,indicator,xfce,mate,debug,distribution,tests,tracing
 
-          - image: ubuntu-jammy
+          - image: ubuntu-noble
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
-          - image: ubuntu-lunar
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
-
-          - image: ubuntu-mantic
+          - image: ubuntu-oracular
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
@@ -142,7 +137,7 @@ jobs:
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -170,22 +165,22 @@ jobs:
            FAILURE_ACTION: ${{ matrix.config.experimental == true }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ matrix.config.upload }}
         with:
           name: artifacts
           path: _deploy
 
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: [ build-linux, build-mingw ]
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: artifacts
           path: _deploy
@@ -212,16 +207,16 @@ jobs:
            SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
   release:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: [ build-linux, build-mingw ]
     if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-rc')
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: artifacts
           path: artifacts
@@ -313,7 +308,7 @@ jobs:
           asset_content_type: application/gzip
 
   website:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'push'
     needs: [ deploy ]
     steps:
