@@ -55,9 +55,9 @@ public:
 
   std::list<Exercise> get_exercises();
   bool has_exercises();
+  void load();
 
 private:
-  void load();
   void parse_exercises(const std::string &file_name);
 
 private:

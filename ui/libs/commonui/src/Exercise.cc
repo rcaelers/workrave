@@ -115,6 +115,7 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
 
   boost::property_tree::ptree pt;
   read_xml(file_name, pt);
+  exercises.clear();
 
 #if defined(HAVE_GLIB)
   const char *const *languages = g_get_language_names();
@@ -138,14 +139,12 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
 
               if (ve.first == "title")
                 {
-                  auto title = v.second.get<string>("title");
-
-                  exercise_parse_update_i18n_attribute(nullptr, exercise.title, title_lang_rank, title, lang);
+                  auto title = ve.second.data();
+                  exercise_parse_update_i18n_attribute(languages, exercise.title, title_lang_rank, title, lang);
                 }
               else if (ve.first == "description")
                 {
-                  auto description = v.second.get<string>("description");
-
+                  auto description = ve.second.data();
                   exercise_parse_update_i18n_attribute(languages, exercise.description, description_lang_rank, description, lang);
                 }
               else if (ve.first == "sequence")

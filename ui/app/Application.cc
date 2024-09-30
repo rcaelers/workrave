@@ -208,18 +208,18 @@ void
 Application::init_nls()
 {
   Locale::set_locale(GUIConfig::locale()());
-  const char *locale_dir = nullptr;
+  std::string locale_dir;
 
 #if defined(PLATFORM_OS_WINDOWS)
   std::filesystem::path dir = Paths::get_application_directory();
   dir /= "share";
   dir /= "locale";
-  locale_dir = dir.string().c_str();
+  locale_dir = dir.string();
 #elif defined(PLATFORM_OS_MACOS)
   std::filesystem::path dir = Paths::get_application_directory();
   dir /= "Resources";
   dir /= "locale";
-  locale_dir = dir.string().c_str();
+  locale_dir = dir.string();
 #else
   locale_dir = GNOMELOCALEDIR;
 #endif
@@ -229,10 +229,10 @@ Application::init_nls()
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS) && !defined(HAVE_QT)
-  bindtextdomain("gtk30", locale_dir);
-  bindtextdomain("iso_3166", locale_dir);
-  bindtextdomain("iso_639", locale_dir);
-  bindtextdomain("glib20", locale_dir);
+  bindtextdomain("gtk30", locale_dir.c_str());
+  bindtextdomain("iso_3166", locale_dir.c_str());
+  bindtextdomain("iso_639", locale_dir.c_str());
+  bindtextdomain("glib20", locale_dir.c_str());
   bind_textdomain_codeset("gtk30", "UTF-8");
   bind_textdomain_codeset("glib20", "UTF-8");
   bind_textdomain_codeset("iso_3166", "UTF-8");
@@ -241,11 +241,12 @@ Application::init_nls()
   GUIConfig::locale().connect(this, [&](const std::string &locale) {
     Locale::set_locale(locale);
     menu_model->update();
+    exercises->load();
   });
 #endif
 
 #if defined(HAVE_LIBINTL)
-  bindtextdomain(GETTEXT_PACKAGE, locale_dir);
+  bindtextdomain(GETTEXT_PACKAGE, locale_dir.c_str());
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
   textdomain(GETTEXT_PACKAGE);
 #endif
