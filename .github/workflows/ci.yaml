@@ -429,6 +429,7 @@ jobs:
 
       - name: attest
         uses: actions/attest-build-provenance@v1
+        if: ${{ matrix.config.upload }}
         with:
           subject-path: _deploy/*
 
