@@ -112,6 +112,9 @@ jobs:
 
   build-windows:
     runs-on: windows-2019
+    permissions:
+      id-token: write
+      attestations: write
     if: ${{ false }}
     strategy:
       matrix:
@@ -131,6 +134,15 @@ jobs:
       - name: Build
         run: msbuild ui/applets/windows/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
 
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
+            ui/applets/windows/src/x64/Release/workrave-applet64.dll
+            ui/applets/windows/src/Release/workrave-applet.dll
+            ui/applets/windows/src/x64/Debug/workrave-applet64.dll
+            ui/applets/windows/src/Debug/workrave-applet.dll
+
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
@@ -143,6 +155,9 @@ jobs:
 
   build-msys2:
     runs-on: windows-latest
+    permissions:
+      id-token: write
+      attestations: write
     needs: prep
     strategy:
       matrix:
@@ -219,6 +234,11 @@ jobs:
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: _deploy/*
+
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
@@ -228,6 +248,9 @@ jobs:
 
   build-cmake:
     runs-on: ${{ matrix.config.os }}
+    permissions:
+      id-token: write
+      attestations: write
     needs: prep
     defaults:
       run:
@@ -404,6 +427,11 @@ jobs:
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: _deploy/*
+
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
@@ -413,7 +441,7 @@ jobs:
 
   merge:
     runs-on: ubuntu-latest
-    needs: [ prep, build-cmake, build-msys2 ]
+    needs: [prep, build-cmake, build-msys2]
     steps:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
