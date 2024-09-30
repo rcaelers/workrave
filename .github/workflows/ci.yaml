@@ -18,7 +18,7 @@ jobs:
       WORKRAVE_BUILD_DATETIME: ${{ steps.out.outputs.WORKRAVE_BUILD_DATETIME }}
       WORKRAVE_BUILD_DATE: ${{ steps.out.outputs.WORKRAVE_BUILD_DATE }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: "recursive"
@@ -40,9 +40,9 @@ jobs:
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts-root-catalog
           path: _deploy
 
   build-windows-vcpkg:
@@ -77,7 +77,7 @@ jobs:
           setapikey "${{ secrets.GITHUB_TOKEN }}"
           -source "${{ env.GH_NUGET_REGISTRY }}"
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: "recursive"
@@ -115,7 +115,7 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -124,9 +124,9 @@ jobs:
         run: msbuild ui/applets/windows/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: applet
+          name: artifacts-applet
           path: |
             ui/applets/windows/src/x64/Release/workrave-applet64.dll
             ui/applets/windows/src/Release/workrave-applet.dll
@@ -142,12 +142,12 @@ jobs:
           - configuration: Release
             ui: Gtk+3
             enable: TESTS, CRASHPAD, AUTO_UPDATE
-            upload: true
+            upload: windows-gtk3-release
 
           - configuration: Debug
             enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
             ui: Gtk+3
-            upload: true
+            upload: windows-gtk3-debug
 
           - configuration: Release
             ui: Qt
@@ -157,7 +157,7 @@ jobs:
             enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
             ui: Qt
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: "recursive"
@@ -170,7 +170,6 @@ jobs:
             git
             mingw-w64-clang-i686-clang
             mingw-w64-clang-i686-cmake
-            mingw-w64-clang-i686-boost
             mingw-w64-clang-i686-lld
             mingw-w64-clang-i686-spdlog
             mingw-w64-clang-i686-ninja
@@ -213,10 +212,10 @@ jobs:
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
         with:
-          name: artifacts
+          name: artifacts-${{ matrix.config.upload }}
           path: _deploy
 
   build-cmake:
@@ -231,44 +230,37 @@ jobs:
       matrix:
         config:
           - image: ubuntu-focal
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           - image: ubuntu-jammy
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
-            appimage: true
-            upload: true
-
-          - image: ubuntu-mantic
-            os: ubuntu-22.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
 
           - image: ubuntu-noble
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
+            appimage: true
+            upload: ubuntu-noble
 
           - image: ubuntu-oracular
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
           # - image: mingw-fedora-rawhide
-          #   os: ubuntu-22.04
+          #   os: ubuntu-24.04
           #   compiler: clang
           #   ui: Gtk+3
           #   configuration: Release
@@ -277,7 +269,7 @@ jobs:
           #   upload: false
 
           # - image: mingw-fedora-rawhide
-          #   os: ubuntu-22.04
+          #   os: ubuntu-24.04
           #   compiler: clang
           #   ui: Gtk+3
           #   configuration: Debug
@@ -320,7 +312,7 @@ jobs:
             echo "version=dev" >> $GITHUB_OUTPUT
           fi
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -405,24 +397,34 @@ jobs:
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
         with:
-          name: artifacts
+          name: artifacts-${{ matrix.config.upload }}
           path: _deploy
 
+  merge:
+    runs-on: ubuntu-latest
+    needs: [ prep, build-cmake, build-msys2 ]
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: all-artifacts
+          pattern: artifacts-*
+
   deploy:
-    runs-on: ubuntu-22.04
-    needs: [prep, build-cmake, build-msys2]
+    runs-on: ubuntu-24.04
+    needs: [prep, build-cmake, build-msys2, merge]
     if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') )
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: artifacts
+          name: all-artifacts
           path: artifacts
 
       - name: Sign
@@ -465,7 +467,7 @@ jobs:
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
   website:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event_name == 'push'
     needs: [deploy]
     steps:

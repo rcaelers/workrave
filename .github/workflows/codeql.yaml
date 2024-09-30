@@ -31,7 +31,6 @@ jobs:
             git
             mingw-w64-clang-i686-clang
             mingw-w64-clang-i686-cmake
-            mingw-w64-clang-i686-boost
             mingw-w64-clang-i686-lld
             mingw-w64-clang-i686-spdlog
             mingw-w64-clang-i686-ninja
