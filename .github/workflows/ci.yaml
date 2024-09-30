@@ -14,6 +14,9 @@ on:
 jobs:
   prep:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      attestations: write
     outputs:
       WORKRAVE_BUILD_DATETIME: ${{ steps.out.outputs.WORKRAVE_BUILD_DATETIME }}
       WORKRAVE_BUILD_DATE: ${{ steps.out.outputs.WORKRAVE_BUILD_DATE }}
@@ -38,6 +41,11 @@ jobs:
           WORKRAVE_JOB_INDEX: 9999
           WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
           WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: "_deploy/*"
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
