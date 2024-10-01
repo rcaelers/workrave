@@ -263,7 +263,7 @@ Toolkit::show_about()
 #else
       about_dialog->set_version(WORKRAVE_VERSION);
 #endif
-      about_dialog->set_website("http://www.workrave.org/");
+      about_dialog->set_website("https://www.workrave.org/");
       about_dialog->set_website_label("www.workrave.org");
 
       about_dialog->signal_response().connect([this](int reponse) {

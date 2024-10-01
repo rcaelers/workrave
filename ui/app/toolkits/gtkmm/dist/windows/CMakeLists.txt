@@ -103,8 +103,12 @@ endif()
 
 if (VCPKG_TOOLCHAIN)
   install(FILES ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glib/gdbus.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+  install(FILES ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glib/gspawn-win64-helper.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+  install(FILES ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/tools/glib/gspawn-win64-helper-console.exe DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
 else()
   install(FILES ${SYS_ROOT}/bin/gdbus.exe DESTINATION "bin")
+  install(FILES ${SYS_ROOT}/bin/gspawn-win64-helper.exe DESTINATION "bin")
+  install(FILES ${SYS_ROOT}/bin/gspawn-win64-helper-console.exe DESTINATION "bin")
 endif()
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/settings.ini DESTINATION etc/gtk-3.0)

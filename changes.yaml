@@ -8,6 +8,7 @@ releases:
       - Follow OS dark/light mode on Windows (#529)
       - Fix dark mode on Windows (#537)
       - Fix translations in the exercises (#574)
+      - Fix link to Workrave's website in about window (#573)
       - Fix issues where menu items could not be selected on Windows
       - Beta channel now also receives release candidates and final releases
 
