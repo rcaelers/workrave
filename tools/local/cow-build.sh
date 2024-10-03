@@ -18,12 +18,12 @@ parse_arguments() {
 
 parse_arguments $*
 
-DIST_DIRS=`find /workspace/deploy -mindepth 1 -type d -print | grep -v "v1_11" | sort -r`
+DIST_DIRS=$(find /workspace/deploy -mindepth 1 -type d -print | grep -v "v1_11" | sort -r)
 for dir in $DIST_DIRS; do
-    dist=`basename $dir`
+    dist=$(basename $dir)
     cd $dir
     echo Updating $dist builder
-    DIST=$dist cowbuilder --update
+    DIST=$dist cowbuilder --update --basepath /var/cache/pbuilder/base-$dist.cow
     echo Running build for $dist
-    DIST=$dist cowbuilder --build workrave*.dsc
+    DIST=$dist cowbuilder --build workrave*.dsc --basepath /var/cache/pbuilder/base-$dist.cow
 done
