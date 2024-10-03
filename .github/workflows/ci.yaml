@@ -95,6 +95,9 @@ jobs:
         run: |
           env
           pip install Ninja2
+          export SystemDrive="$SYSTEMDRIVE"
+          export SystemRoot="$SYSTEMROOT"
+          export windir="$WINDIR"
           cmake -G "Visual Studio 17 2022" -A x64 -B '${{ github.workspace }}/_build' \
             -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
             -DVCPKG_TARGET_TRIPLET=x64-windows \
@@ -107,6 +110,9 @@ jobs:
       - name: build
         shell: bash
         run: |
+          export SystemDrive="$SYSTEMDRIVE"
+          export SystemRoot="$SYSTEMROOT"
+          export windir="$WINDIR"
           cmake --build '${{github.workspace}}/_build' --config Release
           cmake --install '${{github.workspace}}/_build' --config Release
 
