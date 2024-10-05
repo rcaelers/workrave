@@ -30,6 +30,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="theme_dark">
+      <default>false</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="b" name="force-x11">
       <default>true</default>
       <summary></summary>
