@@ -57,50 +57,31 @@ jobs:
     name: windows vcpkg
     env:
       VCPKG_ROOT: C:/vcpkg
-      VCPKG_BINARY_SOURCES: "clear;nuget,GitHub,readwrite"
-      GH_NUGET_REGISTRY: https://nuget.pkg.github.com/rcaelers/index.json
+      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
     runs-on: windows-latest
     steps:
-      - name: prepare vcpkg
-        id: prep-vcpkg
-        shell: pwsh
-        run: |
-          ${{ env.VCPKG_ROOT }}\bootstrap-vcpkg.bat
-
-      - name: setup NuGet credentials
-        shell: bash
-        run: >
-          $(${{ env.VCPKG_ROOT }}/vcpkg fetch nuget | tail -n 1)
-          sources add
-          -source "${{ env.GH_NUGET_REGISTRY }}"
-          -storepasswordincleartext
-          -name "GitHub"
-          -username "rcaelers"
-          -password "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: setup NuGet API key
-        shell: bash
-        run: >
-          $(${{ env.VCPKG_ROOT }}/vcpkg fetch nuget | tail -n 1)
-          setapikey "${{ secrets.GITHUB_TOKEN }}"
-          -source "${{ env.GH_NUGET_REGISTRY }}"
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: "recursive"
 
+      - name: vcpkg cache setup
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
       - name: configure
         run: |
-          env
           pip install Ninja2
-          cmake -G "Visual Studio 17 2022" -A x64 -B '${{ github.workspace }}/_build' \
-            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake \
-            -DVCPKG_TARGET_TRIPLET=x64-windows \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DWITH_UI=Gtk+3 \
-            -DWITH_CRASHPAD=OFF \
-            -DWITH_AUTO_UPDATE=ON \
+          cmake -G "Visual Studio 17 2022" -A x64 -B '${{ github.workspace }}/_build' `
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake `
+            -DVCPKG_TARGET_TRIPLET=x64-windows `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DWITH_UI=Gtk+3 `
+            -DWITH_CRASHPAD=OFF `
+            -DWITH_AUTO_UPDATE=ON `
             -DWITH_TRACING=ON
 
       - name: build
