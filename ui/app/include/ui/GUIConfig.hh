@@ -70,10 +70,13 @@ public:
   static workrave::config::Setting<bool> &closewarn_enabled();
   static workrave::config::Setting<bool> &autostart_enabled();
   static workrave::config::Setting<std::string> &icon_theme();
+#if defined(PLATFORM_OS_WINDOWS)
   static workrave::config::Setting<std::string> &theme_name();
   static workrave::config::Setting<int, LightDarkTheme> &light_dark_mode();
+#endif
+#if defined(PLATFORM_OS_UNIX)
   static workrave::config::Setting<bool> &force_x11();
-
+#endif
   static workrave::config::Setting<bool> &main_window_always_on_top();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
   static workrave::config::Setting<int> &main_window_x();
@@ -108,10 +111,14 @@ private:
   static const std::string CFG_KEY_AUTOSTART;
   static const std::string CFG_KEY_CLOSEWARN_ENABLED;
   static const std::string CFG_KEY_ICONTHEME;
+#if defined(PLATFORM_OS_WINDOWS)
   static const std::string CFG_KEY_THEME_NAME;
   static const std::string CFG_KEY_THEME_DARK;
   static const std::string CFG_KEY_LIGHT_DARK_MODE;
+#endif
+#if defined(PLATFORM_OS_UNIX)
   static const std::string CFG_KEY_FORCE_X11;
+#endif
 
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;

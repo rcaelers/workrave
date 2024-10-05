@@ -267,10 +267,11 @@ GeneralPreferencePanel::create_panel()
   panel->set_border_width(12);
 }
 
+#if defined(PLATFORM_OS_WINDOWS)
 void
-GeneralPreferencePanel::on_block_changed()
+GeneralPreferencePanel::on_dark_changed()
 {
-  int idx = block_button->get_active_row_number();
+  int idx = dark_combo->get_active_row_number();
   LightDarkTheme m;
   switch (idx)
     {
@@ -285,12 +286,12 @@ GeneralPreferencePanel::on_block_changed()
     }
   GUIConfig::light_dark_mode().set(m);
 }
+#endif
 
-#if defined(PLATFORM_OS_WINDOWS)
 void
-GeneralPreferencePanel::on_dark_changed()
+GeneralPreferencePanel::on_block_changed()
 {
-  int idx = dark_combo->get_active_row_number();
+  int idx = block_button->get_active_row_number();
   BlockMode m;
   switch (idx)
     {
@@ -305,7 +306,6 @@ GeneralPreferencePanel::on_dark_changed()
     }
   GUIConfig::block_mode().set(m);
 }
-#endif
 
 #if defined(HAVE_LANGUAGE_SELECTION)
 void

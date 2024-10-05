@@ -41,11 +41,14 @@ const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
 const std::string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
 const std::string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
+#if defined(PLATFORM_OS_WINDOWS)
 const std::string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
 const std::string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
 const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
+#endif
+#if defined(PLATFORM_OS_UNIX)
 const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
-
+#endif
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
@@ -102,9 +105,11 @@ GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
 
+#if defined(PLATFORM_OS_WINDOWS)
   bool dark = false;
   config->get_value_with_default(CFG_KEY_THEME_DARK, dark, false);
   config->set_value(CFG_KEY_LIGHT_DARK_MODE, dark ? 1 : 0, CONFIG_FLAG_INITIAL);
+#endif
 }
 
 std::string
@@ -201,6 +206,7 @@ GUIConfig::icon_theme() -> Setting<std::string> &
   return SettingCache::get<std::string>(config, CFG_KEY_ICONTHEME, std::string());
 }
 
+#if defined(PLATFORM_OS_WINDOWS)
 auto
 GUIConfig::theme_name() -> workrave::config::Setting<std::string> &
 {
@@ -212,12 +218,15 @@ GUIConfig::light_dark_mode() -> workrave::config::Setting<int, LightDarkTheme> &
 {
   return SettingCache::get<int, LightDarkTheme>(config, CFG_KEY_LIGHT_DARK_MODE, LightDarkTheme::Auto);
 }
+#endif
 
+#if defined(PLATFORM_OS_UNIX)
 auto
 GUIConfig::force_x11() -> workrave::config::Setting<bool> &
 {
   return SettingCache::get<bool>(config, CFG_KEY_FORCE_X11, true);
 }
+#endif
 
 auto
 GUIConfig::key_main_window() -> workrave::config::SettingGroup &
