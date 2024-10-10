@@ -122,6 +122,7 @@ X11SystrayAppletWindow::activate()
 
       view = new TimerBoxGtkView(context->get_core());
       control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", view);
+      control->update();
 
       Gtk::VBox *box = manage(new Gtk::VBox());
       box->set_spacing(1);
