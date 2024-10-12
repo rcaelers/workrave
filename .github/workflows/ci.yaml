@@ -411,13 +411,13 @@ jobs:
 
       - name: attest
         uses: actions/attest-build-provenance@v1
-        if: ${{ matrix.config.upload }} && github.event_name == 'push'
+        if: matrix.config.upload && github.event_name == 'push'
         with:
           subject-path: _deploy/*
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
-        if: ${{ matrix.config.upload }}
+        if: matrix.config.upload
         with:
           name: artifacts-${{ matrix.config.upload }}
           path: _deploy
