@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 22 September 2024
+Workrave NEWS -- history of user-visible changes. 13 October 2024
 Copyright (C) 2001-2024 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -12,6 +12,8 @@ https://github.com/rcaelers/workrave/issues
 ** Fix translations in the exercises (#574)
 ** Fix link to Workrave's website in about window (#573)
 ** Fix issues where menu items could not be selected on Windows
+** Fix update applet icon for first start (#578, klim-iv)
+** Updated Tamil language translation (#579, TamilNeram)
 ** Beta channel now also receives release candidates and final releases
 
 * Workrave 1.11.0-beta.14
