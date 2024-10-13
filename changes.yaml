@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0-beta.15
-    date: 2024-10-13T00:00:00+02:00
+    date: 2024-10-13T20:47:29+02:00
     short: |-
       Workrave 1.11.0-beta.15 has been released.
     changes:
