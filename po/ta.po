@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2024-10-12 07:31+0530\n"
+"PO-Revision-Date: 2024-10-15 22:20+0530\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: தமிழ்நேரக்குழு\n"
 "Language: ta\n"
@@ -224,7 +224,6 @@ msgstr "மீண்டும் இணைக்கவும்"
 #: ui/applets/mate/src/main.c:382 ui/apps/gtkmm/src/Menus.cc:103
 msgid "_About"
 msgstr "பற்றி"
-
 
 #: ui/applets/mate/src/main.c:384 ui/apps/gtkmm/src/Menus.cc:106
 msgid "_Quit"
@@ -480,6 +479,8 @@ msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
+"கணினியின் புரவலன் பெயர் மற்றும் துறைமுகம் எண்ணை உள்ளிடவும்\n"
+" நெட்வொர்க்கில் நீங்கள் இணைக்க விரும்புகிறீர்கள்."
 
 #: ui/apps/gtkmm/src/NetworkJoinDialog.cc:76
 msgid "Host name:"
@@ -491,11 +492,11 @@ msgstr "துறைமுகம்:"
 
 #: ui/apps/gtkmm/src/NetworkLogDialog.cc:45
 msgid "Network log"
-msgstr ""
+msgstr "பிணைய பதிவு"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:91
 msgid "Enable networking"
-msgstr ""
+msgstr "நெட்வொர்க்கிங் இயக்கு"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:98
 msgid "Username:"
@@ -520,11 +521,11 @@ msgstr "சேவையக அமைப்புகள்"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:144
 msgid "Reconnect attempts:"
-msgstr ""
+msgstr "முயற்சிகளை மீண்டும் இணைக்கவும்:"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
 msgid "Reconnect interval:"
-msgstr ""
+msgstr "இடைவெளியை மீண்டும் இணைக்கவும்:"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
 msgid "Advanced"
@@ -535,18 +536,20 @@ msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
+"பின்வரும் பட்டியல், வொர்க்ரேவ் இணைக்கும் புரவலர்களைக் குறிப்பிடுகிறது\n"
+" தொடக்க. திருத்த புரவலன் பெயர் அல்லது துறைமுகம் எண்ணைக் சொடுக்கு செய்க."
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:190
 msgid "Host name"
-msgstr ""
+msgstr "புரவலன் பெயர்"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:199
 msgid "Port"
-msgstr ""
+msgstr "துறைமுகம்"
 
 #: ui/apps/gtkmm/src/NetworkPreferencePage.cc:237
 msgid "Hosts"
-msgstr ""
+msgstr "ஓச்ட்கள்"
 
 #: ui/apps/gtkmm/src/PreferencesDialog.cc:75
 msgid "Preferences"
@@ -930,7 +933,7 @@ msgstr "அழுத்தப்பட்ட விசைகளின் மொ�
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:324
 #, c-format
 msgid "%s, from %s to %s"
-msgstr ""
+msgstr "%s, %s முதல் %s வரை"
 
 #. Confirm the user's intention
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
@@ -941,6 +944,7 @@ msgstr "எச்சரிக்கை"
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:620
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
+"உங்கள் புள்ளிவிவர வரலாற்றை நீக்க நீங்கள் தேர்ந்தெடுத்துள்ளீர்கள். தொடரவா?"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:633
 msgid "Files deleted!"
@@ -960,8 +964,11 @@ msgstr "கோப்பு நீக்கம் தோல்வியடைந�
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:641
 msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
+"The files containing your statistics history could not be deleted. Try "
+"again?"
 msgstr ""
+"உங்கள் புள்ளிவிவர வரலாற்றைக் கொண்ட கோப்புகளை நீக்க முடியவில்லை. மீண்டும் "
+"முயற்சிக்கிறீர்களா?"
 
 #: ui/apps/gtkmm/src/StatisticsDialog.cc:643
 msgid "Error"
@@ -1249,9 +1256,13 @@ msgstr "தோள்-கை நீட்டிப்பு"
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
+"shoulder. Hold this position briefly, and repeat the exercise for your other"
+" arm."
 msgstr ""
+"ஒரு கையை உங்கள் மார்பின் முன் கிடைமட்டமாக நீட்டவும். உங்கள் தோளில் ஒரு லேசான"
+" பதற்றத்தை உணரும் வரை இந்த கையை உங்கள் மற்ற கையை உங்களை நோக்கி தள்ளுங்கள். "
+"இந்த நிலையை சுருக்கமாகப் பிடித்துக் கொள்ளுங்கள், மேலும் உங்கள் பிற கைக்கு "
+"உடற்பயிற்சியை மீண்டும் செய்யவும்."
 
 #: ui/data/exercises/exercises.xml.in:22
 msgid "Finger stretch"
@@ -1260,9 +1271,13 @@ msgstr "விரல் நீட்டல்"
 #: ui/data/exercises/exercises.xml.in:23
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold"
+" again for 10 seconds. Repeat this exercise once more."
 msgstr ""
+"லேசான பதற்றம் உணரப்படும் வரை உங்கள் விரல்களை பிரித்து நீட்டவும், இதை 10 "
+"விநாடிகள் வைத்திருங்கள். ஓய்வெடுங்கள், பின்னர் உங்கள் விரல்களை நக்கிள்சில் "
+"வளைத்து, மீண்டும் 10 விநாடிகள் வைத்திருங்கள். இந்த பயிற்சியை மீண்டும் ஒரு "
+"முறை மீண்டும் செய்யவும்."
 
 #: ui/data/exercises/exercises.xml.in:30
 msgid "Neck tilt stretch"
@@ -1272,9 +1287,14 @@ msgstr "கழுத்து சாய்வு நீட்சி"
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to"
+" the left side to stretch your other side. Do this twice for each side."
 msgstr ""
+"வசதியான நேரான நிலையில் உங்கள் தலையுடன் தொடங்கவும். பின்னர், உங்கள் கழுத்தின்"
+" இடது பக்கத்தில் தசைகளை மெதுவாக நீட்ட உங்கள் தலையை உங்கள் வலது தோள்பட்டையில்"
+" மெதுவாக சாய்க்கவும். இந்த நிலையை 5 விநாடிகள் வைத்திருங்கள். பின்னர், உங்கள்"
+" மறுபக்கத்தை நீட்ட உங்கள் தலையை இடது பக்கமாக சாய்க்கவும். ஒவ்வொரு "
+"பக்கத்திற்கும் இதை இரண்டு முறை செய்யுங்கள்."
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
@@ -1301,15 +1321,25 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
+"உங்கள் மானிட்டரின் வெளிப்புற எல்லையின் மேல் இடது மூலையைப் பாருங்கள். எல்லையை"
+" மெதுவாக மேல் வலது மூலையில் பின்தொடரவும். அடுத்த மூலையில் தொடரவும், நீங்கள் "
+"அதை இரண்டு முறை சுற்றி வரும் வரை. பின்னர், உடற்பயிற்சியை மாற்றியமைக்கவும்."
 
 #: ui/data/exercises/exercises.xml.in:65
 msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
+"Look for the furthest point you can see behind your monitor. Focus your eyes"
+" on the remote point. Then focus on your monitor border. Repeat it. If you "
+"cannot look very far from your monitor, face another direction with a longer"
+" view. Then switch your focus between a distant object and a pen held at the"
+" same distance from your eyes as your monitor."
 msgstr ""
+"உங்கள் மானிட்டர் பின்னால் நீங்கள் காணக்கூடிய மிக அதிகமான புள்ளியைப் "
+"பாருங்கள். உங்கள் கண்களை தொலை புள்ளியில் கவனம் செலுத்துங்கள். உங்கள் "
+"மானிட்டர் எல்லையில் கவனம் செலுத்துங்கள். அதை மீண்டும் செய்யவும். உங்கள் "
+"மானிட்டரிலிருந்து வெகு தொலைவில் பார்க்க முடியாவிட்டால், நீண்ட பார்வையுடன் "
+"மற்றொரு திசையை எதிர்கொள்ளுங்கள். உங்கள் கவனத்தை தொலைதூர பொருளுக்கும், உங்கள்"
+" மானிட்டரின் கண்களிலிருந்து அதே தூரத்தில் வைத்திருக்கும் பேனாவிற்கும் "
+"இடையில் உங்கள் கவனத்தை மாற்றவும்."
 
 #: ui/data/exercises/exercises.xml.in:72
 msgid "Look into the darkness"
@@ -1332,10 +1362,13 @@ msgstr "தோள்களை நகர்த்தவும்"
 
 #: ui/data/exercises/exercises.xml.in:80
 msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
+"Spin your right arm slowly round like a plane propeller beside your body. Do"
+" this 4 times forwards, 4 times backwards and relax for a few seconds. "
+"Repeat with the left arm."
 msgstr ""
+"உங்கள் வலது கையை உங்கள் உடலின் அருகே ஒரு விமான உந்துசக்தியைப் போல மெதுவாக "
+"சுழற்றுங்கள். இதை 4 மடங்கு முன்னோக்கி, 4 மடங்கு பின்னோக்கி மற்றும் சில "
+"விநாடிகள் ஓய்வெடுங்கள். இடது கையால் மீண்டும் செய்யவும்."
 
 #: ui/data/exercises/exercises.xml.in:87
 msgid "Move the shoulders up and down"
