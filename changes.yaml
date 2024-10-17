@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0-beta.15
-    date: 2024-09-22T00:00:00+02:00
+    date: 2024-10-13T20:47:29+02:00
     short: |-
       Workrave 1.11.0-beta.15 has been released.
     changes:
@@ -10,6 +10,8 @@ releases:
       - Fix translations in the exercises (#574)
       - Fix link to Workrave's website in about window (#573)
       - Fix issues where menu items could not be selected on Windows
+      - Fix update applet icon for first start (#578, klim-iv)
+      - Updated Tamil language translation (#579, TamilNeram)
       - Beta channel now also receives release candidates and final releases
 
   - version: 1.11.0-beta.14
