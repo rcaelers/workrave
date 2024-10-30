@@ -6,7 +6,7 @@
   "shell-version": [
     "45",
     "46",
-    "47",
+    "47"
   ],
   "gettext-domain": "workrave",
   "localedir": "@LOCALEDIR@",
