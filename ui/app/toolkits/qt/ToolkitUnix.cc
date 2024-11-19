@@ -22,35 +22,27 @@
 #include "ToolkitUnix.hh"
 
 #include <X11/Xlib.h>
+#include "X11SystrayAppletWindow.hh"
+#include "GnomeSession.hh"
+
+#if defined(HAVE_INDICATOR)
+#  include "IndicatorAppletMenu.hh"
+#endif
 
 #include "BreakWindow.hh"
-
-#include "config/IConfigurator.hh"
-#include "debug.hh"
 
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
 {
-}
-
-void
-ToolkitUnix::preinit(std::shared_ptr<workrave::config::IConfigurator> config)
-{
-  TRACE_ENTRY();
-  if (GUIConfig::force_x11()())
-    {
-      spdlog::info("Forcing X11 backend -> Not implemented");
-    }
-
-  XInitThreads();
-
   locker = std::make_shared<UnixLocker>();
 }
 
 void
 ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
-  TRACE_ENTRY();
+#if defined(PLATFORM_OS_UNIX)
+  XInitThreads();
+#endif
 
   Toolkit::init(app);
 
@@ -68,7 +60,7 @@ ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, B
   // FIXME: remove hack
   if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
     {
-      auto *gdk_window = break_window->get_window()->gobj();
+      auto gdk_window = break_window->get_window()->gobj();
       locker->set_window(gdk_window);
     }
   return ret;

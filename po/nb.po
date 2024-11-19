@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2024-10-13 20:51+0200\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
 "PO-Revision-Date: 2011-02-16 19:25+0100\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
@@ -32,12 +32,16 @@ msgstr "%s%d:%02d minutter"
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d timer"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:157
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
+#, c-format
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, fra {:%X} til {:%X}"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:164
-#, c++-format
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
 msgid "<h3>Version {}</h3>\n"
 msgstr ""
 
@@ -45,20 +49,19 @@ msgstr ""
 msgid "?"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:131
-#, c++-format
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
 msgid "A new version of {} is available"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Active computer usage"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:271
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
 msgid "Activity"
 msgstr "Aktivitet"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
 msgid "Applet"
 msgstr "Tilleggsprogram"
 
@@ -67,25 +70,17 @@ msgstr "Tilleggsprogram"
 msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr "Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain Injury)."
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:240
-msgid "Auto"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:192
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
 msgid "Auto update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:193
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
 msgid "Automatically check for updates"
 msgstr ""
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
 msgstr "Bakover skulderstrekk"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
-msgid "Beta"
-msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
 msgid "Block input"
@@ -107,7 +102,7 @@ msgstr "Pauselengde:"
 msgid "Break ignored"
 msgstr "Pause ignoreret"
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:262
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
 #, c-format
 msgid "Break in %s"
 msgstr "Pause om %s"
@@ -121,28 +116,28 @@ msgstr "Pause påminnelse"
 msgid "Break prompting"
 msgstr "Pausepåminnelser"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
 msgid "Break prompts"
 msgstr "Pause anmodninger"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:153
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
 msgid "Breaks"
 msgstr "Pauser"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
 msgid "Breaks postponed"
 msgstr "Pauser utsatt"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
 msgid "Breaks skipped"
 msgstr "Pauser hoppet over"
 
 #. Navigation box
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:108
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
 msgid "Browse history"
 msgstr "Se gjennom historikk"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:230
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
 msgstr ""
 
@@ -152,10 +147,10 @@ msgid "Choose a sound"
 msgstr "Ingen lyd"
 
 #. Dialog
-#: ui/app/toolkits/gtkmm/DebugDialog.cc:51
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:90
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:143
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
 msgid "Close"
 msgstr ""
 
@@ -171,55 +166,42 @@ msgstr ""
 msgid "Crash report details"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
-msgid "Custom proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
 msgstr "Tidssyklus:"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
 #, fuzzy
 msgid "Daily"
 msgstr "Daglig grense"
 
 #. label
-#: ui/app/Application.cc:645 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
 #: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
 #: ui/app/toolkits/gtkmm/Ui.cc:101
 msgid "Daily limit"
 msgstr "Daglig grense"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:226
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig grense overskredet med %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:222
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig grense om %s"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
 msgid "Daily limit:"
 msgstr "Daglig grense:"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:239
-msgid "Dark"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:241
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Blokkering:"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:120
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
 msgid "Date:"
 msgstr "Dato:"
 
-#: ui/app/toolkits/gtkmm/DebugDialog.cc:33
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
 msgid "Debug log"
 msgstr ""
 
@@ -227,12 +209,12 @@ msgstr ""
 msgid "Debug monitoring"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:433
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
 msgid "Default"
 msgstr ""
 
 #. Delete button
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:113
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
 msgid "Delete all statistics history"
 msgstr ""
 
@@ -240,7 +222,7 @@ msgstr ""
 msgid "Details..."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
 msgid "Disappears in %s"
 msgstr "Forsvinner om %s"
@@ -249,11 +231,7 @@ msgstr "Forsvinner om %s"
 msgid "Display"
 msgstr "Vis"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:309
-msgid "Downloading installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
 msgid "Effective mouse movement:"
 msgstr "Effektiv musbeveglese:"
 
@@ -270,12 +248,12 @@ msgstr ""
 msgid "Enable timer"
 msgstr "Aktiver tidtaker"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
 #, fuzzy
 msgid "End exercises"
 msgstr "Øvelser"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:665
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
 msgid "Error"
 msgstr ""
 
@@ -308,36 +286,20 @@ msgstr "Øvelser"
 msgid "Exercises ended"
 msgstr "Øvelser avsluttet"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:112
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
 msgid "Exercises player"
 msgstr "Øvelser"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:343
-msgid "Failed to download appcast"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:346
-msgid "Failed to download installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:352
-msgid "Failed to execute installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:349
-msgid "Failed to validate installer integrity. Aborting upgrade"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
 #, fuzzy
 msgid "Fallback applet enabled"
 msgstr "Tilleggsprogram aktiveret"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:662
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
 msgid "File deletion failed!"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:654
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
 msgid "Files deleted!"
 msgstr ""
 
@@ -350,15 +312,15 @@ msgstr "Fingerutstrekning"
 msgid "Focus Assist"
 msgstr ""
 
-#: ui/app/Menus.cc:176
+#: ui/app/Menus.cc:178
 msgid "For 1 hour"
 msgstr ""
 
-#: ui/app/Menus.cc:187
+#: ui/app/Menus.cc:189
 msgid "For 1 minute"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:218
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
 msgstr ""
 
@@ -370,15 +332,11 @@ msgstr ""
 msgid "Foreground color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
 msgid "General"
 msgstr "Generelt"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:195
-msgid "Get updates as soon as they are available"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:285
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
 msgid "Hibernate"
 msgstr ""
 
@@ -391,16 +349,16 @@ msgid "Icon Size"
 msgstr ""
 
 #  panel->add(*start_in_tray_cb);
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:233
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
 #, fuzzy
 msgid "Icon Theme:"
 msgstr "Lyd:"
 
-#: ui/app/Menus.cc:164
+#: ui/app/Menus.cc:166
 msgid "Indefinitely"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:657
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
 msgid "Info"
 msgstr ""
 
@@ -408,37 +366,24 @@ msgstr ""
 msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
 msgstr "Flett fingrene bak ryggen. Drei albuene forsiktig innover, mens du strekker armene. Hold denne stillingen i 5 til 15 sekunder. Gjenta øvelsen 2 ganger."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:357
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:363
-msgid "Internal failure. Aborting upgrade"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:340
-msgid "Invalid appcast"
-msgstr ""
-
 #: ui/data/exercises/exercises.xml.in:5
 msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
 msgstr "Strekk ut en arm rett ut foran brystkassen. Dytt denne armen med den andre mot deg inntil du merker en lett strekk i skulderen. Hold denne posisjonen en kort stund og gjenta hele øvelsen med den andre armen."
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
 msgid "Keystrokes:"
 msgstr "Tastetrykk:"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
 msgid "Language:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:238
-msgid "Light"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:273
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
 #, fuzzy
 msgid "Lock"
 msgstr "_Lås"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:269
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
 #, fuzzy
 msgid "Lock..."
 msgstr "_Lås"
@@ -460,10 +405,10 @@ msgid "Maximum number of prompts:"
 msgstr "Maks antall påminnelser:"
 
 #. FIXME: duplicate
-#: ui/app/Application.cc:645 ui/app/toolkits/gtkmm/GtkUtil.cc:173
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
 msgid "Micro-break"
 msgstr "Mikropause"
 
@@ -476,30 +421,30 @@ msgid "Micro-break started"
 msgstr "Mikropause startet"
 
 #. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
 msgid "Micro-break:"
 msgstr "Mikropause:"
 
 #  Mode menu item
-#: ui/app/Application.cc:652 ui/app/Application.cc:656
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
 #, fuzzy
 msgid "Mode: "
 msgstr "_Modus"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
 msgid "Monitoring"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
 msgid "Monthly"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
 msgid "Mouse button clicks:"
 msgstr "Klikk på musknapper:"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
 msgid "Mouse movement:"
 msgstr "Musbevegelser:"
 
@@ -508,7 +453,7 @@ msgstr "Musbevegelser:"
 msgid "Mouse sensitivity:"
 msgstr "Musbevegelser:"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
 msgid "Mouse usage:"
 msgstr "Bruk av mus:"
 
@@ -530,11 +475,11 @@ msgstr "Beveg skuldrene opp og ned"
 msgid "Mute sounds during rest break and daily limit"
 msgstr "Plasser hvilepauser og daglig grense på samme sted"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
 msgid "Natural breaks taken"
 msgstr "Naturlige pauser avholdt"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:161
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Naturlige pauser avholdt"
@@ -543,16 +488,16 @@ msgstr "Naturlige pauser avholdt"
 msgid "Neck tilt stretch"
 msgstr "Utstrekking av nakken"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
 msgid "Next"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
 #, fuzzy
 msgid "Next exercise"
 msgstr "Antall øvelser:"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:206
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Neste hvilepause om %s"
@@ -560,10 +505,6 @@ msgstr "Neste hvilepause om %s"
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 msgid "No blocking"
 msgstr "Ingen blokkering"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
-msgid "No proxy"
-msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
 msgid "No sounds"
@@ -573,14 +514,6 @@ msgstr "Ingen lyd"
 #, fuzzy
 msgid "Normal"
 msgstr "_Normal"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
-msgid "Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
-msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environment do not support, or have disabled status icons."
-msgstr ""
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
@@ -609,7 +542,7 @@ msgstr "Alternativer"
 msgid "Orientation"
 msgstr "Orientering"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
 msgid "Overdue time"
 msgstr "Overskredet tid"
 
@@ -621,12 +554,12 @@ msgstr ""
 msgid "Padding that should be put around icons in the tray"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
 msgid "Pause"
 msgstr "Pause"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Antall øvelser:"
@@ -647,7 +580,7 @@ msgstr "Plasser hvilepauser og daglig grense på samme sted"
 msgid "Place timers next to each other"
 msgstr "Plasser tidene ved siden av hverandre"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
 msgid "Placement:"
 msgstr "Plassering:"
 
@@ -661,7 +594,7 @@ msgstr ""
 msgid "Play sounds using sound card"
 msgstr "Spill av lyd gjennom lydkortet"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:199
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
 msgid "Please relax for a few seconds"
 msgstr "Benytt denne pausen til å slappe av litt."
 
@@ -669,52 +602,49 @@ msgstr "Benytt denne pausen til å slappe av litt."
 msgid "Postpone time:"
 msgstr "Utsettetelsesperiode:"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:45
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
 msgid "Previous"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
 msgid "Previous exercise"
 msgstr ""
+
+#: ui/app/workrave.metainfo.xml:7
+#, fuzzy
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr "Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain Injury)."
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
 msgid "Prompt before breaking"
 msgstr "Påminnelse før pauser"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
 msgid "Prompted breaks taken"
 msgstr "Anmodede pauser avhold"
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
-msgid "Proxy Type:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
-msgid "Proxy:"
-msgstr ""
 
 #: ui/data/exercises/exercises.xml.in:88
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
 msgstr "Ta tak i armlenene på stolen din mens du sitter og press kroppen opp inntil armene er strukket. Forsøk å flytte hodet enda lenger ved å senke skuldrene. Beveg deg sakte tilbake på plass i stolen."
 
-#: ui/app/Menus.cc:110
+#: ui/app/Menus.cc:112
 msgid "Q_uiet"
 msgstr "St_ille"
 
-#: ui/app/Menus.cc:295
+#: ui/app/Menus.cc:294
 #, qt-format
 msgid "Q_uiet (until %1%)"
 msgstr ""
 
-#: ui/app/Menus.cc:308
+#: ui/app/Menus.cc:307
 msgid "Q_uiet (until next day)"
 msgstr ""
 
-#: ui/app/Application.cc:656 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
 #: ui/applets/mate/src/main.c:389
 #, fuzzy
 msgid "Quiet"
@@ -728,30 +658,26 @@ msgstr ""
 msgid "Regard micro-breaks as activity"
 msgstr "Anse mikropauser som aktiviteter"
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
-msgid "Release Candidate"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:203
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
 msgid "Release channel:"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
 msgid "Release notes"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
 msgstr "Repeterende anmodninger"
 
-#: ui/app/Application.cc:645 ui/app/toolkits/gtkmm/GtkUtil.cc:173
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:165 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
 msgid "Rest break"
 msgstr "Hvilepause"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:210
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
@@ -760,7 +686,7 @@ msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
 msgid "Rest break ended"
 msgstr "Hvilepause avsluttet"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
@@ -769,24 +695,20 @@ msgstr "Hvilepause i %s"
 msgid "Rest break started"
 msgstr "Hvilepause startet"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
 msgid "Rest break:"
 msgstr "Hvilepause:"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
 msgid "Resume"
 msgstr "Fortsett"
 
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Antall øvelser:"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:315
-msgid "Running installer"
-msgstr ""
-
-#: ui/app/Menus.cc:79
+#: ui/app/Menus.cc:81
 #, fuzzy
 msgid "S_tatistics"
 msgstr "Statistikk"
@@ -828,35 +750,35 @@ msgstr "_Vis loggfil"
 msgid "Show only when this timer is first due"
 msgstr "Vis kun første gang perioden utløper"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
 msgid "Show status icon"
 msgstr "Vis statusvindu"
 
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:112
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
 msgid "Show status window"
 msgstr "Vis statusvindu"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:206
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
 msgid "Show system tray icon"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:277
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
 #, fuzzy
 msgid "Shutdown"
 msgstr "_Steng"
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
 #, c-format
 msgid "Silent in %s"
 msgstr "Stille om %s"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
 msgid "Software Update"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:191
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:221
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
 msgid "Software updates"
 msgstr ""
 
@@ -884,8 +806,8 @@ msgid "Sound:"
 msgstr "Lyd:"
 
 #  panel->add(*start_in_tray_cb);
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
 #, fuzzy
 msgid "Sounds"
 msgstr "Lyd:"
@@ -894,11 +816,7 @@ msgstr "Lyd:"
 msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr "Sving langsomt høyre arm rundt i store sirkler som en propell på et fly. Gjørdette 4 ganger forover, 4 ganger bakover og slapp av i noen sekunder. Gjenta så det hele med venstre arm."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
-msgid "Stable"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
 msgid "Start Workrave on logon"
 msgstr ""
 
@@ -910,12 +828,12 @@ msgstr ""
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr "Se rett frem og finn en behagelig posisjon med hodet. Legg så høyre øre sakte mot høyre skulder slik at du forsiktig strekker musklene på venstre side av nakken. Hold i 5 sekunder. Gjenta så hele øvelsen med venstre øre mot venstre skulder. Gjenta begge øvelsene 2 ganger til hver side."
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:46
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
 msgid "Statistics"
 msgstr "Statistikk"
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
 msgid "Status Window"
 msgstr "Statusvindu"
 
@@ -931,17 +849,17 @@ msgstr ""
 msgid "Success color for symbolic icons"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:281
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
 #, fuzzy
 msgid "Suspend"
 msgstr "_Suspendert"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:289
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
 #, fuzzy
 msgid "Suspend hybrid"
 msgstr "_Suspendert"
 
-#: ui/app/Application.cc:652 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
 #: ui/applets/mate/src/main.c:387
 #, fuzzy
 msgid "Suspended"
@@ -951,32 +869,24 @@ msgstr "_Suspendert"
 msgid "System default"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
-msgid "System proxy"
-msgstr ""
-
 #: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Neste hvilepause om %s"
 
-#: ui/app/Menus.cc:119
+#: ui/app/Menus.cc:121
 msgid "Temporarily Quiet..."
 msgstr ""
 
-#: ui/app/Menus.cc:116
+#: ui/app/Menus.cc:118
 msgid "Temporarily Suspended..."
 msgstr ""
 
-#: ui/app/workrave.metainfo.xml:17
-msgid "The break warning window"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:663
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
 msgid "The files containing your statistics history could not be deleted. Try again?"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:655
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
 msgid "The files containing your statistics history have been deleted."
 msgstr ""
 
@@ -984,32 +894,27 @@ msgstr ""
 msgid "The following logging will be attached to the crash report:"
 msgstr ""
 
-#: ui/app/workrave.metainfo.xml:25
-#, fuzzy
-msgid "The main window"
-msgstr "Vis statusvindu"
-
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "The number of breaks you postponed"
 msgstr "Antall pauser du har utsatt"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
 msgid "The number of breaks you skipped"
 msgstr "Antall pauser som ble hoppet over"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:170
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
 msgid "The number of times you took a break when being prompted"
 msgstr "Antall ganger pauser ble avholdt ved anmoding"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
 msgid "The number of times you took a break without being prompted"
 msgstr "Antall ganger pauser ble avholdt uten anmodning"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
 msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
 msgstr "Antall ganger du ble anmodet om å ta hvilepauser, untatt repeterende anmodninger for den samme pausen"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Antall ganger anmodninger om pauser ble repetert"
 
@@ -1022,58 +927,53 @@ msgstr "Orienteringen av systemområdet"
 msgid "The pixel size that icons should be forced to, or zero"
 msgstr ""
 
-#: ui/app/workrave.metainfo.xml:21
-#, fuzzy
-msgid "The restbreak window"
-msgstr "Neste hvilepause om %s"
-
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
 msgid "The status window stays always on top of other windows"
 msgstr "Statusvinduet er altid øverst"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
 #, fuzzy
 msgid "The total computer usage for the selected day"
 msgstr "Total datamaskinbruk"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:194
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
 msgid "The total computer usage for the whole month of the selected day"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:190
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
 msgid "The total computer usage for the whole week of the selected day"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:285
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
 msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
 msgstr "Den totale musbevegelse du ville hatt dersom du hadde flyttet musen  i en rett linje mellom klikkene"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
 msgid "The total number of keys pressed"
 msgstr "Totalt antall tastetrykk"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
 msgid "The total number of mouse button clicks"
 msgstr "Totalt antall klikk på musknapper"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:282
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
 msgid "The total on-screen mouse movement"
 msgstr "Den totale bevegelse av musen på skjermen"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
 msgid "The total time this break was overdue"
 msgstr "Den totale tiden denne pausen har vært forsinket"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
 msgid "The total time you were using the mouse"
 msgstr "Den totale tiden du har brukt musen"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:161
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Du trenger en hvilepause..."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:166
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1083,7 +983,7 @@ msgstr ""
 "fra datamaskinen regelmessig. Bare gå litt rundt i et \n"
 "par minutter, strekk ut og slapp av."
 
-#: ui/app/toolkits/gtkmm/Toolkit.cc:256
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
 #: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
 #: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
@@ -1098,14 +998,14 @@ msgstr "Tid før slutt:"
 msgid "Time between breaks:"
 msgstr "Tid mellom pauser:"
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:107
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
 msgid "Time for a micro-break?"
 msgstr "Tid til en mikropause?"
 
 #  Notebook
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
 msgid "Timers"
 msgstr "Tidtakere"
 
@@ -1121,11 +1021,11 @@ msgstr "Snu hodet"
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
 msgstr "Snu hodet mot venstre og hold det der i 2 sekunder. Snu deretter hodet mot høyre og hold det der i 2 sekunder."
 
-#: ui/app/Menus.cc:196
+#: ui/app/Menus.cc:198
 msgid "Until next day"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Usage"
 msgstr ""
 
@@ -1133,16 +1033,15 @@ msgstr ""
 msgid "Use alternate monitor"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:116
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
+msgid "Use dark theme"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
 msgstr "Brukergrensesnitt"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:312
-msgid "Verifying installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:211
-#, c++-format
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
 msgid "Version {}\n"
 msgstr ""
 
@@ -1155,8 +1054,8 @@ msgid "Wait"
 msgstr "Vent"
 
 #. Confirm the user's intention
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:643
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
 msgid "Warning"
 msgstr ""
 
@@ -1172,11 +1071,11 @@ msgstr ""
 msgid "Wavefiles"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
 msgid "Weekly"
 msgstr ""
 
-#: ui/app/org.workrave.Workrave.desktop.in:5 ui/app/workrave.metainfo.xml:4
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
 msgid "Workrave"
 msgstr "Workrave"
@@ -1185,12 +1084,7 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Workrave-Tilleggsprogram"
 
-#: ui/app/workrave.metainfo.xml:5
-#, fuzzy
-msgid "Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)"
-msgstr "Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain Injury)."
-
-#: ui/app/Application.cc:418
+#: ui/app/Application.cc:346
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
@@ -1198,7 +1092,7 @@ msgstr ""
 msgid "Workrave crash reporter"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:219
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
 msgstr ""
 
@@ -1212,20 +1106,20 @@ msgid "Workrave has crashed."
 msgstr ""
 
 #: ui/app/workrave.metainfo.xml:9
-msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
 
-#: ui/app/Application.cc:635
+#: ui/app/Application.cc:562
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ui/app/Application.cc:627
+#: ui/app/Application.cc:554
 msgid ""
 "Workrave is in suspended mode.\n"
 "Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ui/app/Application.cc:611
+#: ui/app/Application.cc:538
 msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
@@ -1233,15 +1127,15 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:602
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
 msgid "You cannot postpone this break while another non-postponable break is overdue."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:588
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
 msgid "You cannot skip this break while another non-skippable break is overdue."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
 msgid "You have chosen to delete your statistics history. Continue?"
 msgstr ""
 
@@ -1255,66 +1149,63 @@ msgstr ""
 "ved datamaskinen. Hvis din arbeidsdag ikke er slutt, finn \n"
 "på noe annet å gjøre, som gjennomlesning av et dokument."
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:111
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
 msgid "You need a rest break..."
 msgstr "Du trenger en hvilepause..."
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:115
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
 msgid "You should stop for today..."
 msgstr "Du bør stoppe for i dag..."
 
-#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
 #, fuzzy
 msgid "_About"
 msgstr "Om..."
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
-msgid "_Close"
-msgstr ""
-
-#: ui/app/Menus.cc:76 ui/applets/mate/src/main.c:366
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
 msgid "_Exercises"
 msgstr "_Øvelser"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
 msgid "_Install update"
 msgstr ""
 
 #  Mode menu item
-#: ui/app/Menus.cc:88 ui/applets/mate/src/main.c:370
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
 msgid "_Mode"
 msgstr "_Modus"
 
-#: ui/app/Menus.cc:96
+#: ui/app/Menus.cc:98
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
 msgid "_Open"
 msgstr "Å_pne"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:418
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
 #, fuzzy
 msgid "_Postpone"
 msgstr "_Utsett"
 
-#: ui/app/Menus.cc:70 ui/applets/mate/src/main.c:364
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
 msgid "_Preferences"
 msgstr "_Innstillinger"
 
-#: ui/app/Menus.cc:138 ui/applets/mate/src/main.c:374
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
 msgid "_Quit"
 msgstr "_Avslutt"
 
-#: ui/app/Menus.cc:125
+#: ui/app/Menus.cc:127
 msgid "_Reading mode"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
 msgid "_Remind me later"
 msgstr ""
 
-#: ui/app/Menus.cc:73
+#: ui/app/Menus.cc:75
 msgid "_Rest break"
 msgstr "_Hvilepause"
 
@@ -1322,12 +1213,12 @@ msgstr "_Hvilepause"
 msgid "_Restbreak"
 msgstr "_Hvilepause"
 
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:408
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
 #, fuzzy
 msgid "_Skip"
 msgstr "_Hopp over"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
 msgid "_Skip this version"
 msgstr ""
 
@@ -1335,20 +1226,20 @@ msgstr ""
 msgid "_Statistics"
 msgstr "_Statistikk"
 
-#: ui/app/Menus.cc:103
+#: ui/app/Menus.cc:105
 msgid "_Suspended"
 msgstr "_Suspendert"
 
-#: ui/app/Menus.cc:300
+#: ui/app/Menus.cc:299
 #, fuzzy, qt-format
 msgid "_Suspended (until %1%)"
 msgstr "_Suspendert"
 
-#: ui/app/Menus.cc:313
+#: ui/app/Menus.cc:312
 msgid "_Suspended (until next day)"
 msgstr ""
 
-#: ui/app/Menus.cc:183
+#: ui/app/Menus.cc:185
 msgid "and 1 minute"
 msgstr ""
 
@@ -1360,13 +1251,7 @@ msgstr ""
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:325
-#, c-format
-msgid "{:%x}, from {:%X} to {:%X}"
-msgstr "{:%x}, fra {:%X} til {:%X}"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:139
-#, c++-format
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
 msgid "{} {} is now available -- you have {}. Would you like to download it now?"
 msgstr ""
 
@@ -1559,10 +1444,6 @@ msgstr ""
 
 #~ msgid "Port:"
 #~ msgstr "Port:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain Injury)."
 
 #, fuzzy
 #~ msgid "Quit"

@@ -76,7 +76,6 @@ private:
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
-  boost::signals2::signal<void()> stop_signal;
 
   int exercise_time{0};
   int seq_time{0};
@@ -86,6 +85,7 @@ private:
   int exercise_count{0};
   static int exercises_pointer;
 
+  boost::signals2::signal<void()> stop_signal;
 };
 
 #endif // EXERCISES_PANEL_HH

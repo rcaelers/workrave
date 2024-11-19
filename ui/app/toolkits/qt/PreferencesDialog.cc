@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <qwidget.h>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -55,13 +56,6 @@ PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
 
   create_plugin_pages();
   create_plugin_panels();
-}
-
-PreferencesDialog::~PreferencesDialog()
-{
-  TRACE_ENTRY();
-  auto core = app->get_core();
-  core->remove_operation_mode_override("preferences");
 }
 
 void
@@ -203,32 +197,6 @@ PreferencesDialog::add_page(const std::string &id, const QString &label, const s
 
   return page_info;
 }
-
-// bool
-// PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
-// {
-//   TRACE_ENTRY();
-//   BlockMode block_mode = GUIConfig::block_mode()();
-//   if (block_mode != BlockMode::Off)
-//     {
-//       auto core = app->get_core();
-//       OperationMode mode = core->get_active_operation_mode();
-//       if (mode == OperationMode::Normal)
-//         {
-//           core->set_operation_mode_override(OperationMode::Quiet, "preferences");
-//         }
-//     }
-//   return Gtk::Dialog::on_focus_in_event(event);
-// }
-
-// bool
-// PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
-// {
-//   TRACE_ENTRY();
-//   auto core = app->get_core();
-//   core->remove_operation_mode_override("preferences");
-//   return Gtk::Dialog::on_focus_out_event(event);
-// }
 
 PreferencesPage::PreferencesPage(const std::string &id, QTabWidget *notebook)
   : id(id)

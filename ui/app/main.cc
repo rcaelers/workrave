@@ -67,7 +67,7 @@ init_logging()
   logger->flush_on(spdlog::level::critical);
   spdlog::set_default_logger(logger);
 
-  spdlog::set_level(spdlog::level::debug);
+  spdlog::set_level(spdlog::level::info);
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
   spdlog::info("Workrave started");
   spdlog::info("Log file: {}", log_file.string());
@@ -88,52 +88,11 @@ init_logging()
 #endif
 }
 
-static void
-update_keymap()
-{
-  HKL current_layout;
-  BOOL changed = FALSE;
-  int i;
-
-  const int MAXSIZE = 32;
-  HKL layout_handles[MAXSIZE];
-  int n_layouts = GetKeyboardLayoutList(0, nullptr); // this doesn't work on Win7 64Bit
-  if (n_layouts <= 0 || n_layouts > MAXSIZE)
-    {
-      n_layouts = GetKeyboardLayoutList(MAXSIZE, layout_handles); // this seems be slow on some systems
-    }
-  else
-    {
-      GetKeyboardLayoutList(n_layouts, layout_handles);
-    }
-
-  spdlog::info("size = {}", n_layouts);
-
-  current_layout = GetKeyboardLayout(0);
-
-  spdlog::info("size = {}", (void *)current_layout);
-
-  for (i = 0; i < n_layouts; ++i)
-    {
-      HKL hkl = layout_handles[i];
-
-      ActivateKeyboardLayout(hkl, 0);
-
-      char layout_name[KL_NAMELENGTH];
-      GetKeyboardLayoutNameA(layout_name);
-      spdlog::info("name = {}", layout_name);
-    }
-
-  ActivateKeyboardLayout(current_layout, 0);
-}
-
 int
 run(int argc, char **argv)
 {
   init_logging();
   TRACE_ENTRY();
-
-  update_keymap();
 
 #if defined(HAVE_CRASH_REPORT)
   try

@@ -1,0 +1,38 @@
+{
+  "name": "MingGW C++ cross compilation",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": { "VARIANT": "rawhide" }
+  },
+  "runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
+
+  "settings": {},
+
+  "extensions": [
+    "azuretools.vscode-docker"
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.jshint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "foxundermoon.shell-format",
+    "gruntfuggly.todo-tree",
+    "hookyqr.beautify",
+    "llvm-vs-code-extensions.vscode-clangd",
+    "ms-vscode.cmake-tools",
+    "ms-vscode.cpptools",
+    "redhat.vscode-yaml",
+    "streetsidesoftware.code-spell-checker",
+    "twxs.cmake",
+    "xaver.clang-format",
+    "yzhang.markdown-all-in-one"
+  ],
+
+  // "forwardPorts": [],
+
+  // "postCreateCommand": "uname -a",
+
+  // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+
+  "remoteUser": "vscode"
+}

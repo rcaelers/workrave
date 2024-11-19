@@ -39,7 +39,6 @@
 #include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
 #include "utils/Signals.hh"
-#include "utils/Logging.hh"
 
 class Toolkit
   : public QApplication
@@ -86,10 +85,6 @@ public:
 public Q_SLOTS:
   void on_timer();
 
-protected:
-  void notify_add_confirm_function(const std::string &id, std::function<void()> func);
-  void notify_confirm(const std::string &id);
-
 private:
   void show_about();
   void show_debug();
@@ -101,6 +96,10 @@ private:
   void on_main_window_closed();
   void on_status_icon_balloon_activated(const std::string &id);
   void on_status_icon_activated();
+
+protected:
+  void notify_add_confirm_function(const std::string &id, std::function<void()> func);
+  void notify_confirm(const std::string &id);
 
 protected:
   std::shared_ptr<IApplicationContext> app;
@@ -129,8 +128,6 @@ private:
   boost::signals2::signal<void(bool)> session_idle_changed_signal;
   boost::signals2::signal<void()> session_unlocked_signal;
   boost::signals2::signal<void()> status_icon_activated_signal;
-
-  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("toolkit")};
 };
 
 class OneshotTimer : public QObject

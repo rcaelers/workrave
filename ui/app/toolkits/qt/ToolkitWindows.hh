@@ -23,8 +23,6 @@
 
 #include "ui/windows/IToolkitWindows.hh"
 #include "Toolkit.hh"
-#include "utils/Logging.hh"
-#include "utils/Signals.hh"
 
 #include "ui/windows/WindowsLocker.hh"
 #if defined(HAVE_HARPOON)
@@ -40,7 +38,6 @@ public:
   ~ToolkitWindows() override;
 
   void init(std::shared_ptr<IApplicationContext> app) override;
-  void deinit() override;
   void release() override;
 
   std::shared_ptr<Locker> get_locker() override;
@@ -63,8 +60,6 @@ private:
 #else
   std::shared_ptr<WindowsLocker> locker;
 #endif
-
-  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("toolkit:windows")};
 };
 
 #endif // TOOLKIT_WINDOWS_HH

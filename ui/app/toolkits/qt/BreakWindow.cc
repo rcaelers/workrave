@@ -21,8 +21,6 @@
 
 #include "BreakWindow.hh"
 
-#include <memory>
-
 #include <QtGui>
 #include <QStyle>
 #include <QApplication>
