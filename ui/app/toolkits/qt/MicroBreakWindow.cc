@@ -58,6 +58,44 @@ MicroBreakWindow::create_gui() -> QWidget *
   auto core = app->get_core();
   auto restbreak = core->get_break(BREAK_ID_REST_BREAK);
 
+  // if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
+  //   {
+  //     Gtk::HBox *button_box = nullptr;
+  //     if (break_flags != BREAK_FLAGS_NONE)
+  //       {
+  //         button_box = Gtk::manage(new Gtk::HBox(false, 6));
+
+  //         Gtk::HBox *bbox = Gtk::manage(new Gtk::HBox(true, 6));
+
+  //         if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+  //           {
+  //             Gtk::Button *postpone_button = create_postpone_button();
+  //             bbox->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
+  //           }
+
+  //         if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
+  //           {
+  //             Gtk::Button *skip_button = create_skip_button();
+  //             bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
+  //           }
+
+  //         Gtk::Alignment *bboxa = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+  //         bboxa->add(*bbox);
+
+  //         if (restbreak->is_enabled())
+  //           {
+  //             button_box->pack_start(*Gtk::manage(create_restbreaknow_button(false)), Gtk::PACK_SHRINK, 0);
+  //           }
+  //         button_box->pack_end(*bboxa, Gtk::PACK_EXPAND_WIDGET, 0);
+  //       }
+  //     else
+  //       {
+  //         button_box = Gtk::manage(new Gtk::HBox(false, 6));
+  //         button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)), Gtk::PACK_SHRINK, 0);
+  //       }
+  //     box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
+  //   }
+
   // QHBoxLayout *button_box = new QHBoxLayout;
   // if (restbreak->is_enabled())
   //   {
@@ -82,18 +120,53 @@ MicroBreakWindow::on_restbreaknow_button_clicked()
   // gui->restbreak_now();
 }
 
+// Moved to BreakWindow?
+// void
+// MicroBreakWindow::update_time_bar()
+// {
+//   TRACE_ENTRY();
+//   time_t time = progress_max_value - progress_value;
+//   string s = _("Micro-break");
+//   s += ' ';
+//   s += Text::time_to_string(time);
+
+//   time_bar->set_progress(progress_value, progress_max_value - 1);
+//   time_bar->set_text(s);
+
+//   auto core = app->get_core();
+//   bool user_active = core->is_user_active();
+//   if (frame != nullptr)
+//     {
+//       if (user_active && !is_flashing)
+//         {
+//           frame->set_frame_color(Gdk::Color("orange"));
+//           frame->set_frame_visible(true);
+//           frame->set_frame_flashing(500);
+//           is_flashing = true;
+//         }
+//       else if (!user_active && is_flashing)
+//         {
+//           frame->set_frame_flashing(0);
+//           frame->set_frame_visible(false);
+//           is_flashing = false;
+//         }
+//     }
+//   time_bar->update();
+//   TRACE_VAR(progress_value, progress_max_value);
+// }
+
 void
 MicroBreakWindow::update_label()
 {
+  TRACE_ENTRY();
   auto core = app->get_core();
-
-  IBreak::Ptr restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
-  IBreak::Ptr daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
+  auto restbreak_timer = core->get_break(BREAK_ID_REST_BREAK);
+  auto daily_timer = core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
-  time_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
-  time_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
+  int64_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
+  int64_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
 
   if (restbreak_timer->is_enabled())
     {

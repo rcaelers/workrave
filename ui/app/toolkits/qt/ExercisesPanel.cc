@@ -16,19 +16,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "ui/IApplicationContext.hh"
-#include <memory>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
-#include <random>
 
 #include "ExercisesPanel.hh"
+
+#include <random>
+#include <memory>
 
 #include "debug.hh"
 
 #include "utils/AssetPath.hh"
+#include "ui/IApplicationContext.hh"
 
 #include "UiUtil.hh"
 

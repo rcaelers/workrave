@@ -39,6 +39,7 @@ Toolkit::Toolkit(int argc, char **argv)
   : QApplication(argc, argv)
   , heartbeat_timer(new QTimer(this))
 {
+  TRACE_ENTRY();
   QCoreApplication::setOrganizationName("Workrave");
   QCoreApplication::setOrganizationDomain("workrave.org");
   QCoreApplication::setApplicationName("Workrave");
@@ -215,6 +216,7 @@ Toolkit::show_exercises()
 void
 Toolkit::show_main_window()
 {
+  TRACE_ENTRY();
   main_window->show();
   main_window->raise();
 }
@@ -329,12 +331,14 @@ Toolkit::on_status_icon_activated()
 void
 Toolkit::notify_add_confirm_function(const std::string &id, std::function<void()> func)
 {
+  TRACE_ENTRY();
   notifiers[id] = func;
 }
 
 void
 Toolkit::notify_confirm(const std::string &id)
 {
+  TRACE_ENTRY();
   if (notifiers.find(id) != notifiers.end())
     {
       notifiers[id]();
