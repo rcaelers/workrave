@@ -1,5 +1,13 @@
 ---
 releases:
+  - version: 1.11.0-beta.16
+    date: 2024-11-19T20:01:18+01:00
+    short: |-
+      Workrave 1.11.0-beta.16 has been released.
+    changes:
+      - updated tamil Translation (#581, TamilNeram)
+      - Fix GNOME extension (#582, J. J. Ramsey)
+
   - version: 1.11.0-beta.15
     date: 2024-10-13T20:47:29+02:00
     short: |-
@@ -7,11 +15,18 @@ releases:
     changes:
       - Follow OS dark/light mode on Windows (#529)
       - Fix dark mode on Windows (#537)
+      - Fix Linux crash (#575, ValdikSS)
       - Fix translations in the exercises (#574)
       - Fix link to Workrave's website in about window (#573)
       - Fix issues where menu items could not be selected on Windows
       - Fix update applet icon for first start (#578, klim-iv)
-      - Updated Tamil language translation (#579, TamilNeram)
+      - Fix crash on wlroots compositors when break starts (#550,#552,#553,#554, Kirill Primak)
+      - Updated Tamil translation (#579, TamilNeram)
+      - Updated French translations (#545, WedoneOfficiel)
+      - Updated Indonesian translation (#560, Andika Triwidada)
+      - Enable application autostart across all Linux desktop managers (#548, Jon Petrissans)
+      - Python scripts for Waybar and Yambar applets (557,#558,#559,#561,#562, J. J. Ramsey)
+      - Reworked workrave-break-info.py into something that can be used as a Python module (#563, J. J. Ramsey)
       - Beta channel now also receives release candidates and final releases
 
   - version: 1.11.0-beta.14

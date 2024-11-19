@@ -1,6 +1,6 @@
 {
   "name": "workrave",
-  "version": "1.11.0-beta.15",
+  "version": "1.11.0-beta.16",
   "dependencies": [
     {
       "name": "gettext",
