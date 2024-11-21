@@ -68,9 +68,6 @@ jobs:
           mkdir _build _deploy
           export MINGW_ROOT=/c/msys64
           export MSYSTEM=CLANG64
-          python -m pip install --upgrade pip
-          pip install wheel
-          pip install Jinja2
           cmake -G "Ninja" -B '${{ github.workspace }}/_build' \
             -DCMAKE_TOOLCHAIN_FILE=cmake/toolchains/msys2.cmake \
             -DCMAKE_BUILD_TYPE=Debug \
