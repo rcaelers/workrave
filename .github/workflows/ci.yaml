@@ -91,7 +91,7 @@ jobs:
           cmake --install '${{github.workspace}}/_build' --config Release
 
   build-windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
     permissions:
       id-token: write
       attestations: write
@@ -145,11 +145,11 @@ jobs:
         config:
           - configuration: Release
             ui: Gtk+3
-            enable: TESTS, AUTO_UPDATE
+            enable: TESTS, CRASHPAD, AUTO_UPDATE
             upload: windows-gtk3-release
 
           - configuration: Debug
-            enable: TESTS, TRACING, AUTO_UPDATE
+            enable: TESTS, CRASHPAD, TRACING, AUTO_UPDATE
             ui: Gtk+3
             upload: windows-gtk3-debug
 
