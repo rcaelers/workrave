@@ -145,11 +145,11 @@ jobs:
         config:
           - configuration: Release
             ui: Gtk+3
-            enable: TESTS, CRASHPAD, AUTO_UPDATE
+            enable: TESTS, AUTO_UPDATE
             upload: windows-gtk3-release
 
           - configuration: Debug
-            enable: TESTS, CRASHPAD, TRACING, AUTO_UPDATE
+            enable: TESTS, TRACING, AUTO_UPDATE
             ui: Gtk+3
             upload: windows-gtk3-debug
 
