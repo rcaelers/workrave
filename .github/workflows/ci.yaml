@@ -91,7 +91,7 @@ jobs:
           cmake --install '${{github.workspace}}/_build' --config Release
 
   build-windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
     permissions:
       id-token: write
       attestations: write
@@ -175,7 +175,6 @@ jobs:
             mingw-w64-clang-i686-clang
             mingw-w64-clang-i686-cmake
             mingw-w64-clang-i686-lld
-            mingw-w64-clang-i686-spdlog
             mingw-w64-clang-i686-ninja
             mingw-w64-clang-x86_64-adwaita-icon-theme
             mingw-w64-clang-x86_64-boost
