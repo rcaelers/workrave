@@ -19,30 +19,30 @@ SBOM_FILE="$OUTPUT_DIR/sbom.csv"
 
 # Function to run a command safely, capture stdout, and restore 'set -e' state
 run_command_with_restore() {
-    # Save the current state of 'set -e'
-    if [[ $- == *e* ]]; then
-        errexit_was_set=true
-    else
-        errexit_was_set=false
-    fi
+  # Save the current state of 'set -e'
+  if [[ $- == *e* ]]; then
+    errexit_was_set=true
+  else
+    errexit_was_set=false
+  fi
 
-    # Temporarily disable 'set -e'
+  # Temporarily disable 'set -e'
+  set +e
+
+  # Run the command, capturing stdout
+  output=$("$@" 2>/dev/null)
+  exit_code=$?
+
+  # Restore the original state of 'set -e'
+  if [ "$errexit_was_set" = true ]; then
+    set -e
+  else
     set +e
+  fi
 
-    # Run the command, capturing stdout
-    output=$("$@" 2>/dev/null)
-    exit_code=$?
-
-    # Restore the original state of 'set -e'
-    if [ "$errexit_was_set" = true ]; then
-        set -e
-    else
-        set +e
-    fi
-
-    # Return the command’s exit code and captured output
-    echo "$output"
-    return 0
+  # Return the command’s exit code and captured output
+  echo "$output"
+  return 0
 }
 
 # Continue with the rest of the script
@@ -76,14 +76,14 @@ sbom_scan_installed_files() {
         "\($source[9:]),\($dest | sub("/[^/]+/?$"; ""))"
       end
     ' "$dir_file"
-  done > ${INSTALLERS_FILE}
+  done >${INSTALLERS_FILE}
 
-  cat ${RUNTIME_INSTALLERS_FILE} | sed 's|C:/msys64||'>> ${INSTALLERS_FILE}
-  cat ${RUNTIME32_INSTALLERS_FILE} | sed 's|C:/msys64||'>> ${INSTALLERS_FILE}
+  cat ${RUNTIME_INSTALLERS_FILE} | sed 's|C:/msys64||' >>${INSTALLERS_FILE}
+  cat ${RUNTIME32_INSTALLERS_FILE} | sed 's|C:/msys64||' >>${INSTALLERS_FILE}
 }
 
 function sbom_scan_headers() {
-  ninja -C $BUILD_DIR -t deps > $BUILD_DIR/deps.txt
+  ninja -C $BUILD_DIR -t deps >$BUILD_DIR/deps.txt
 
   EXCLUDE_DIR="C:/msys64/clang64/include/c++|.*/$BUILD_DIR/_deps"
   CURRENT_DIR="$(pwd)"
@@ -92,21 +92,21 @@ function sbom_scan_headers() {
   processed_dirs=()
 
   sort -u $BUILD_DIR/deps.txt -o $BUILD_DIR/deps.txt
-  grep -oP '(?<=\s\s\s\s)[^\s]+\.(h|hh|hpp|hxx)\b' $BUILD_DIR/deps.txt | grep -Ev "^($EXCLUDE_DIR|$CURRENT_DIR)" > $BUILD_DIR/deps-unique.txt
+  grep -oP '(?<=\s\s\s\s)[^\s]+\.(h|hh|hpp|hxx)\b' $BUILD_DIR/deps.txt | grep -Ev "^($EXCLUDE_DIR|$CURRENT_DIR)" >$BUILD_DIR/deps-unique.txt
 
   cat $BUILD_DIR/deps-unique.txt | while read -r line; do
-      include=true
-      file_dir=$(dirname "$line")
+    include=true
+    file_dir=$(dirname "$line")
 
-      if [[ " ${processed_dirs[@]} " =~ " ${file_dir} " ]]; then
-          include=false
-      fi
+    if [[ " ${processed_dirs[@]} " =~ " ${file_dir} " ]]; then
+      include=false
+    fi
 
-      if $include; then
-          echo "$line" | sed 's|C:/msys64||'
-          processed_dirs+=("$file_dir")
-      fi
-  done > $MSYS_INSTALLERS_FILE
+    if $include; then
+      echo "$line" | sed 's|C:/msys64||'
+      processed_dirs+=("$file_dir")
+    fi
+  done >$MSYS_INSTALLERS_FILE
 }
 
 declare -A installer_map
@@ -116,10 +116,10 @@ sbom_create_installer_map() {
     source=$(echo "$source" | sed 's/[[:space:]]*$//;s:/*$::;s:/\.$::')
     destination=$(echo "$destination" | sed 's/[[:space:]]*$//;s:/*$::;s:/\.$::')
     name=$(basename "$source")
-    if [[ $source == *"/clang64/"* || $source == *"/clang32/"* ]]; then
+    if [[ $source == *"/clang64/"* || $source == *"/mingw32/"* ]]; then
       installer_map["$destination/$name"]="$source"
     fi
-  done < ${INSTALLERS_FILE}
+  done <${INSTALLERS_FILE}
 }
 
 sbom_create_msys_installed_files() {
@@ -131,11 +131,11 @@ sbom_create_msys_installed_files() {
     while [ -n "$relative_path" ]; do
       if [[ -n "${installer_map[$relative_path]}" ]]; then
         echo "Matched: $file (Source: ${installer_map[$relative_path]} + ${removed_path})"
-        echo "${installer_map[$relative_path]}${removed_path}" >> ${MSYS_INSTALLERS_FILE}
+        echo "${installer_map[$relative_path]}${removed_path}" >>${MSYS_INSTALLERS_FILE}
         found=true
         break
       fi
-      base_name="${relative_path##*/}"    # Get the last part of the relative path
+      base_name="${relative_path##*/}" # Get the last part of the relative path
       if [ -n "$removed_path" ]; then
         removed_path="/$base_name$removed_path"
       else
@@ -157,28 +157,28 @@ sbom_create_msys_installed_files() {
 }
 
 sbom_create_msys2_package_list() {
-  > ${MSYS_PACKAGES_FILE}
+  >${MSYS_PACKAGES_FILE}
   while IFS= read -r filename; do
-      packages=$(run_command_with_restore pacman -Qo --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) "$filename")
-      pacman_exit_code=$?
+    packages=$(run_command_with_restore pacman -Qo --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) "$filename")
+    pacman_exit_code=$?
 
-      if [ "$pacman_exit_code" -ne 0 ]; then
-          echo "Pacman failed for $filename, skipping."
-          continue
-      fi
+    if [ "$pacman_exit_code" -ne 0 ]; then
+      echo "Pacman failed for $filename, skipping."
+      continue
+    fi
 
-      echo "$packages" | while IFS= read -r package_info; do
-           echo "$filename belongs to $package_info"
-           package=$(echo "$package_info" | awk '{ printf "%s,%s\n", $5,$6 }')
-           echo "$package" >> ${MSYS_PACKAGES_FILE}
-      done
-   done < ${MSYS_INSTALLERS_FILE}
+    echo "$packages" | while IFS= read -r package_info; do
+      echo "$filename belongs to $package_info"
+      package=$(echo "$package_info" | awk '{ printf "%s,%s\n", $5,$6 }')
+      echo "$package" >>${MSYS_PACKAGES_FILE}
+    done
+  done <${MSYS_INSTALLERS_FILE}
 
   sort -u ${MSYS_PACKAGES_FILE} -o ${MSYS_PACKAGES_FILE}
 }
 
 sbom_create_sbom() {
-  echo "Package Name,Version,License,Description,URL" > $SBOM_FILE
+  echo "Package Name,Version,License,Description,URL" >$SBOM_FILE
 
   while IFS=, read -r package_name package_version; do
     pacman_info=$(run_command_with_restore pacman --config <(sed 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf) -Qi "$package_name")
@@ -207,11 +207,11 @@ sbom_create_sbom() {
     description=$(echo "$pacman_info" | awk -F ': ' '/^Description/ {print $2}')
 
     # Add package info to SBOM
-    echo "$package_name,$package_version,$license,$description,$url" >> $SBOM_FILE
+    echo "$package_name,$package_version,$license,$description,$url" >>$SBOM_FILE
 
-  done < "$MSYS_PACKAGES_FILE"
+  done <"$MSYS_PACKAGES_FILE"
 
-  cat $EXTERNAL_SBOM_FILE >> $SBOM_FILE
+  cat $EXTERNAL_SBOM_FILE >>$SBOM_FILE
   echo "SBOM generated: $SBOM_FILE"
 }
 

@@ -91,7 +91,7 @@ elseif (MSVC)
       -DVCPKG_TARGET_TRIPLET:STRING=x86-windows
   )
 elseif (MINGW)
-  set(CMAKE_COMMAND32 ${MSYS_CMD} -here -clang32 -no-start -defterm -c "cmake \$*" cmake)
+  set(CMAKE_COMMAND32 ${MSYS_CMD} -here -mingw32 -no-start -defterm -c "cmake \$*" cmake)
   ExternalProject_Add(ZapperQt32Bit
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src
     BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/.32
