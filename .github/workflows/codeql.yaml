@@ -29,10 +29,10 @@ jobs:
           msystem: clang64
           install: >-
             git
-            mingw-w64-clang-i686-clang
-            mingw-w64-clang-i686-cmake
-            mingw-w64-clang-i686-lld
-            mingw-w64-clang-i686-ninja
+            mingw-w64-i686-clang
+            mingw-w64-i686-cmake
+            mingw-w64-i686-lld
+            mingw-w64-i686-ninja
             mingw-w64-clang-x86_64-adwaita-icon-theme
             mingw-w64-clang-x86_64-boost
             mingw-w64-clang-x86_64-clang
