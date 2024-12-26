@@ -24,7 +24,7 @@
     DEALINGS IN THE SOFTWARE.
   </copyright>
 
-  <interface name="ext_idle_notifier_v1" version="1">
+  <interface name="ext_idle_notifier_v1" version="2">
     <description summary="idle notification manager">
       This interface allows clients to monitor user idle status.
 
@@ -54,9 +54,30 @@
       <arg name="timeout" type="uint" summary="minimum idle timeout in msec"/>
       <arg name="seat" type="object" interface="wl_seat"/>
     </request>
+
+    <!-- Version 2 additions -->
+
+    <request name="get_input_idle_notification" since="2">
+      <description summary="create a notification object">
+        Create a new idle notification object to track input from the
+        user, such as keyboard and mouse movement. Because this object is
+        meant to track user input alone, it ignores idle inhibitors.
+
+        The notification object has a minimum timeout duration and is tied to a
+        seat. The client will be notified if the seat is inactive for at least
+        the provided timeout. See ext_idle_notification_v1 for more details.
+
+        A zero timeout is valid and means the client wants to be notified as
+        soon as possible when the seat is inactive.
+      </description>
+      <arg name="id" type="new_id" interface="ext_idle_notification_v1"/>
+      <arg name="timeout" type="uint" summary="minimum idle timeout in msec"/>
+      <arg name="seat" type="object" interface="wl_seat"/>
+    </request>
+    
   </interface>
 
-  <interface name="ext_idle_notification_v1" version="1">
+  <interface name="ext_idle_notification_v1" version="2">
     <description summary="idle notification">
       This interface is used by the compositor to send idle notification events
       to clients.
@@ -65,9 +86,17 @@
       becomes idle when no user activity has happened for at least the timeout
       duration, starting from the creation of the notification object. User
       activity may include input events or a presence sensor, but is
-      compositor-specific. If an idle inhibitor is active (e.g. another client
-      has created a zwp_idle_inhibitor_v1 on a visible surface), the compositor
-      must not make the notification object idle.
+      compositor-specific.
+
+      How this notification responds to idle inhibitors depends on how
+      it was constructed. If constructed from the
+      get_idle_notification request, then if an idle inhibitor is
+      active (e.g. another client has created a zwp_idle_inhibitor_v1
+      on a visible surface), the compositor must not make the
+      notification object idle. However, if constructed from the
+      get_input_idle_notification request, then idle inhibitors are
+      ignored, and only input from the user, e.g. from a keyboard or
+      mouse, counts as activity.
 
       When the notification object becomes idle, an idled event is sent. When
       user activity starts again, the notification object stops being idle,
