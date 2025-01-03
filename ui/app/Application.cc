@@ -510,7 +510,11 @@ void
 Application::show_break_window()
 {
   TRACE_ENTRY();
-  toolkit->get_locker()->prepare_lock();
+
+  if (!break_windows.empty() && GUIConfig::block_mode()() != BlockMode::Off)
+    {
+      toolkit->get_locker()->prepare_lock();
+    }
 
   for (auto &window: prelude_windows)
     {
