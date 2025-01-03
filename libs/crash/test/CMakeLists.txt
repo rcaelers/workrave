@@ -11,7 +11,7 @@ if (HAVE_CRASHPAD AND HAVE_TESTS)
   if (MINGW)
     if (DUMP_SYMS)
       add_custom_command(TARGET crash POST_BUILD
-                        COMMAND ${DUMP_SYMS} $<TARGET_FILE:crash> -o ${CMAKE_BINARY_DIR}/crash.sym)
+                        COMMAND ${MSYS64_CMD} "${DUMP_SYMS} $<TARGET_FILE:crash> -o ${CMAKE_BINARY_DIR}/crash.sym")
       add_dependencies(crash dump_syms)
     endif()
 

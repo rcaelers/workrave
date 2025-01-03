@@ -49,10 +49,9 @@ foreach (po_file ${POFILES})
         TARGET update-po
         POST_BUILD
         COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
-        DEPENDS ${POTFILE}
         VERBATIM
     )
-  
+
     add_custom_command(
       OUTPUT ${gmo_file}
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} ${OPT_USE_FUZZY} -c -o ${gmo_file} ${po_file}

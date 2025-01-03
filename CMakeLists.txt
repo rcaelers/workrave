@@ -154,8 +154,10 @@ if (WIN32 AND (NOT MSVC) AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
   string(REGEX MATCH "x86_64-.*" _clang_is_x86 ${CLANG_TRIPLE})
   if (CLANG_TRIPLE MATCHES "x86_64")
     set(CMAKE_SYSTEM_PROCESSOR "amd64")
+    message(STATUS "Clang detected as x86_64")
   else()
     set(CMAKE_SYSTEM_PROCESSOR "arm64")
+    message(STATUS "Clang detected as arm64")
   endif()
 endif()
 
@@ -815,6 +817,8 @@ if (WIN32)
     else()
       include(FindMsys)
     endif()
+    set(MSYS64_CMD ${MSYS_CMD} -here -mingw64 -no-start -defterm -c)
+    set(MSYS32_CMD ${MSYS_CMD} -here -mingw32 -no-start -defterm -c)
   endif()
 
   find_library(SSP_LIBRARY libssp)
@@ -987,6 +991,12 @@ set(HAVE_CRASH_REPORT OFF)
 set(HAVE_CRASHPAD OFF)
 
 if (WITH_CRASHPAD)
+  if (MINGW)
+    if (NOT "$ENV{MSYSTEM}" STREQUAL "CLANG64")
+      message(FATAL_ERROR "Crashpad requires MINGW Clang64")
+    endif()
+  endif()
+
   FetchContent_Declare_Logged(
     crashpad
     "A crash-reporting system"
@@ -1014,7 +1024,7 @@ if (WITH_CRASHPAD)
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.2.1
+    GIT_TAG v2.3.4
   )
   FetchContent_MakeAvailable(dump_syms)
 
@@ -1022,7 +1032,7 @@ if (WITH_CRASHPAD)
   add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
   add_custom_command(
     OUTPUT ${DUMP_SYMS}
-    COMMAND ${CARGO} build --release
+    COMMAND ${MSYS_CMD} -here -mingw64 -no-start -defterm -c "cargo build --release"
     WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
     )
 
