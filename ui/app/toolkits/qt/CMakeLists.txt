@@ -57,7 +57,6 @@ endif()
 
 set(MOC_SOURCES
   AboutDialog.hh
-  AutoUpdateDialog.hh
   BreakWindow.hh
   DailyLimitWindow.hh
   DebugDialog.hh
@@ -84,10 +83,6 @@ set(MOC_SOURCES
   widgets/TimerBoxView.hh
 )
 
-qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
-
-target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
-
 target_include_directories(workrave-toolkit-qt
   PRIVATE
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/utils
@@ -111,7 +106,17 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     PRIVATE
     AutoUpdater.cc
     AutoUpdateDialog.cc)
+
+    set(MOC_SOURCES
+      ${MOC_SOURCES}
+      AutoUpdateDialog.hh
+    )
 endif()
+
+qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
+
+target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
+
 
 target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-app

@@ -88,6 +88,7 @@ init_logging()
 #endif
 }
 
+#ifdef PLATFORM_OS_WINDOWS
 static void
 update_keymap()
 {
@@ -126,6 +127,7 @@ update_keymap()
 
   ActivateKeyboardLayout(current_layout, 0);
 }
+#endif
 
 int
 run(int argc, char **argv)
@@ -133,7 +135,9 @@ run(int argc, char **argv)
   init_logging();
   TRACE_ENTRY();
 
+#if defined(PLATFORM_OS_WINDOWS)
   update_keymap();
+#endif
 
 #if defined(HAVE_CRASH_REPORT)
   try
