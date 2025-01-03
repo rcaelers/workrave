@@ -1032,7 +1032,7 @@ if (WITH_CRASHPAD)
   add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
   add_custom_command(
     OUTPUT ${DUMP_SYMS}
-    COMMAND ${MSYS_CMD} -here -mingw64 -no-start -defterm -c "${CARGO} build --release"
+    COMMAND ${MSYS_CMD} -here -mingw64 -no-start -defterm -c "cargo build --release"
     WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
     )
 
