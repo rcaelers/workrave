@@ -21,6 +21,7 @@
 
 #include "ToolkitWindows.hh"
 
+#include <cstddef>
 #ifndef PLATFORM_OS_WINDOWS_NATIVE
 #  include <pbt.h>
 #endif
@@ -28,7 +29,6 @@
 #include <dbt.h>
 #include <windows.h>
 
-#include "ui/GUIConfig.hh"
 #include "debug.hh"
 
 using namespace workrave;
@@ -38,24 +38,33 @@ ToolkitWindows::ToolkitWindows(int argc, char **argv)
   : Toolkit(argc, argv)
 {
 #if defined(HAVE_HARPOON)
+  spdlog::info("Using Harpoon locker");
   locker = std::make_shared<WindowsHarpoonLocker>();
 #else
+  spdlog::info("Using standard locker");
   locker = std::make_shared<WindowsLocker>();
 #endif
 }
 
 ToolkitWindows::~ToolkitWindows()
 {
+  TRACE_ENTRY();
 }
 
 void
 ToolkitWindows::init(std::shared_ptr<IApplicationContext> app)
 {
-  init_gui();
 
   Toolkit::init(app);
 
+  init_gui();
   init_filter();
+}
+
+void
+ToolkitWindows::deinit()
+{
+  Toolkit::deinit();
 }
 
 void
@@ -157,26 +166,6 @@ ToolkitWindows::filter_func(MSG *msg)
       }
       break;
 #endif
-
-    case WM_DEVICECHANGE:
-      {
-        TRACE_MSG("WM_DEVICECHANGE {} {}", msg->wParam, msg->lParam);
-        switch (msg->wParam)
-          {
-          case DBT_DEVICEARRIVAL:
-          case DBT_DEVICEREMOVECOMPLETE:
-            {
-              HWND hwnd = FindWindowExA(NULL, NULL, "GdkDisplayChange", NULL);
-              if (hwnd)
-                {
-                  SendMessage(hwnd, WM_DISPLAYCHANGE, 0, 0);
-                }
-            }
-          default:
-            break;
-          }
-        break;
-      }
     }
 
   event_hook(msg);
@@ -201,4 +190,20 @@ std::shared_ptr<Locker>
 ToolkitWindows::get_locker()
 {
   return locker;
+}
+
+// TODO: Duplicate code gtkmm and qt toolkits. Move to platform.
+bool
+ToolkitWindows::is_windows_app_theme_dark()
+{
+  DWORD value = 1; // Default to light theme
+  DWORD dataSize = sizeof(value);
+  HKEY hKey = nullptr;
+  if (RegOpenKeyExW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey)
+      == ERROR_SUCCESS)
+    {
+      RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, (LPBYTE)&value, &dataSize);
+      RegCloseKey(hKey);
+    }
+  return value == 0;
 }

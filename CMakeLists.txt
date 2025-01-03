@@ -1028,6 +1028,7 @@ if (WITH_CRASHPAD)
   )
   FetchContent_MakeAvailable(dump_syms)
 
+
   set(DUMP_SYMS ${dump_syms_SOURCE_DIR}/target/release/dump_syms.exe)
   add_custom_target(dump_syms ALL DEPENDS ${DUMP_SYMS})
   add_custom_command(
@@ -1036,6 +1037,8 @@ if (WITH_CRASHPAD)
     WORKING_DIRECTORY ${dump_syms_SOURCE_DIR}
     )
 
+
+    # --target x86_64-pc-windows-gnu
   set(HAVE_CRASHPAD ON)
   set(HAVE_CRASH_REPORT ON)
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")

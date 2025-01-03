@@ -52,6 +52,7 @@ class PreferencesDialog : public QDialog
 
 public:
   explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
+  ~PreferencesDialog() override;
 
 private:
   std::shared_ptr<PreferencesPage> add_page(const std::string &id, const QString &label, const std::string &image);
@@ -65,6 +66,9 @@ private:
   void create_plugin_pages();
   void create_plugin_panels();
   void create_panel(std::shared_ptr<ui::prefwidgets::Def> &def);
+
+  // bool on_focus_in_event(GdkEventFocus *event) override;
+  // bool on_focus_out_event(GdkEventFocus *event) override;
 
 private:
   std::shared_ptr<IApplicationContext> app;

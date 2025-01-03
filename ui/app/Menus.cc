@@ -214,12 +214,15 @@ Menus::on_menu_restbreak_now()
 void
 Menus::on_menu_about()
 {
+  // int *p = NULL;
+  // *p = 1;
   toolkit->show_window(IToolkit::WindowType::About);
 }
 
 void
 Menus::on_menu_quit()
 {
+  spdlog::info("Quitting Workrave");
   app->get_toolkit()->terminate();
 }
 

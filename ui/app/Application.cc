@@ -490,6 +490,8 @@ Application::hide_break_window()
   TRACE_ENTRY();
   active_break_id = BREAK_ID_NONE;
 
+  spdlog::info("Hide break window");
+
   for (auto &window: prelude_windows)
     {
       window->stop();
@@ -504,6 +506,7 @@ Application::hide_break_window()
   prelude_windows.clear();
 
   toolkit->get_locker()->unlock();
+  spdlog::info("Unlocking screen");
 }
 
 void
@@ -529,6 +532,7 @@ Application::show_break_window()
   if (!break_windows.empty() && GUIConfig::block_mode()() != BlockMode::Off)
     {
       TRACE_MSG("Locking screen");
+      spdlog::info("Locking screen");
       toolkit->get_locker()->lock();
     }
 }

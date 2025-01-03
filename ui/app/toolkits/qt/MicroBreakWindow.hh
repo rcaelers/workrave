@@ -27,6 +27,7 @@ class MicroBreakWindow : public BreakWindow
 
 public:
   MicroBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags);
+  ~MicroBreakWindow() override = default;
 
   void set_progress(int value, int max_value) override;
 

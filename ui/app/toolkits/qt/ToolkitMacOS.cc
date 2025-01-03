@@ -22,7 +22,7 @@
 #include "ToolkitMacOS.hh"
 #include "commonui/MenuDefs.hh"
 #include "MacOSDesktopWindow.hh"
-
+#include "ui/macos/MacOSLocker.hh"
 // TODO:
 
 // #if defined(PLATFORM_OS_MACOS)
