@@ -35,6 +35,8 @@ MacOSDesktopWindow::get_desktop_image() -> QPixmap
 {
   QPixmap pixmap;
 
+  // TODO: rewrite using ScreenCaptureKit
+#if TODO_REWRITE
   CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionAll /*OnScreenOnly*/, kCGNullWindowID);
   CFIndex numWindows = CFArrayGetCount(windowList);
 
@@ -65,5 +67,6 @@ MacOSDesktopWindow::get_desktop_image() -> QPixmap
     }
 
   CFRelease(windowList);
+#endif
   return pixmap;
 }
