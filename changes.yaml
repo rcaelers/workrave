@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.11.0-rc.1
+    date: 2025-01-04T00:00:00+01:00
+    short: |-
+      Workrave 1.11.0-rc.1 has been released.
+    changes:
+      - Fix issue where a different window is focused after a break warning.
+
   - version: 1.11.0-beta.16
     date: 2024-11-19T20:01:18+01:00
     short: |-
