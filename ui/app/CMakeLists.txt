@@ -217,7 +217,7 @@ if (MINGW)
 
   if (DUMP_SYMS)
     add_custom_command(TARGET workrave POST_BUILD
-                       COMMAND ${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_BINARY_DIR}/workrave.sym)
+                       COMMAND ${MSYS64_CMD} "${DUMP_SYMS} $<TARGET_FILE:workrave> -o ${CMAKE_BINARY_DIR}/workrave.sym")
     add_dependencies(workrave dump_syms)
   endif()
 
