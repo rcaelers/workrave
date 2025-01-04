@@ -58,7 +58,6 @@ WindowsHarpoonLocker::prepare_lock()
   text.resize(GetWindowTextLengthA(active_window));
   GetWindowTextA(active_window, text.data(), text.size() + 1);
   TRACE_MSG("Save active window: {}", text);
-  spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
 }
 
 void
@@ -79,7 +78,6 @@ WindowsHarpoonLocker::unlock()
       text.resize(GetWindowTextLengthA(active_window));
       GetWindowTextA(active_window, text.data(), text.size() + 1);
       TRACE_MSG("Restore active window: {}", text);
-      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
       SetForegroundWindow(active_window);
       active_window = nullptr;
     }
