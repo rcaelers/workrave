@@ -33,6 +33,7 @@
 #include "unfold/Unfold.hh"
 #include "unfold/UnfoldErrors.hh"
 #include "updater/Config.hh"
+#include "ui/prefwidgets/Widgets.hh"
 
 #include "AutoUpdateDialog.hh"
 
@@ -274,7 +275,7 @@ AutoUpdater::show_update()
         dialog_handler.reset();
       }
   });
-  //dialog->signal_hide().connect([this]() { dialog.reset(); });
+  // dialog->signal_hide().connect([this]() { dialog.reset(); });
   dialog->show();
   dialog->raise();
 }

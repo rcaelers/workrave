@@ -170,7 +170,7 @@ DataConnectionQSpinBox::config_changed_notify(const std::string &key)
 void
 DataConnectionQCheckBox::init()
 {
-  QObject::connect(widget, &QCheckBox::stateChanged, this, &DataConnectionQCheckBox::widget_changed_notify);
+  QObject::connect(widget, &QCheckBox::checkStateChanged, this, &DataConnectionQCheckBox::widget_changed_notify);
   config_changed_notify(key);
 }
 

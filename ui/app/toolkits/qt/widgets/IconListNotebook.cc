@@ -25,8 +25,6 @@
 #include <QtWidgets>
 #include <QtGlobal>
 
-#include <iostream>
-
 IconListNotebook::IconListNotebook(QWidget *parent)
   : QWidget(parent)
 {
@@ -35,7 +33,7 @@ IconListNotebook::IconListNotebook(QWidget *parent)
 
   button_group = std::make_unique<QButtonGroup>();
 
-  connect(button_group.get(), &QButtonGroup::buttonClicked, [=](QAbstractButton *btn) { on_button_selected(btn); });
+  connect(button_group.get(), &QButtonGroup::buttonClicked, [this](QAbstractButton *btn) { on_button_selected(btn); });
 
   button_layout = new QVBoxLayout;
   button_layout->setSpacing(0);

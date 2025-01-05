@@ -24,8 +24,7 @@
 #include <QtGui>
 #include <QStyle>
 #include <QApplication>
-
-#include "debug.hh"
+#include <algorithm>
 
 #include "core/IApp.hh"
 #include "utils/AssetPath.hh"
@@ -159,11 +158,7 @@ PreludeWindow::refresh()
   int tminus = progress_max_value - progress_value;
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
-      if (tminus < 0)
-        {
-          tminus = 0;
-        }
-
+      tminus = std::max(tminus, 0);
       s = qstr(qformat(progress_text) % UiUtil::time_to_string(tminus));
     }
   timebar->set_text(s);
@@ -251,7 +246,7 @@ PreludeWindow::event(QEvent *event) -> bool
   if (event->type() == QEvent::HoverEnter)
     {
       auto *hoverEvent = dynamic_cast<QHoverEvent *>(event);
-      avoid_pointer(hoverEvent->position().x(), hoverEvent->position().y());
+      avoid_pointer(static_cast<int>(hoverEvent->position().x()), static_cast<int>(hoverEvent->position().y()));
     }
   bool res = QWidget::event(event);
   return res;

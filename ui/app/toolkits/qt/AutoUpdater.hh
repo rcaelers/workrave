@@ -26,7 +26,6 @@
 #include "unfold/coro/IOContext.hh"
 
 #include "ui/Plugin.hh"
-#include "ui/prefwidgets/Widgets.hh"
 
 #include "utils/Logging.hh"
 #include "utils/Signals.hh"

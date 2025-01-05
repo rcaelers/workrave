@@ -26,19 +26,16 @@
 #include <QTimer>
 
 #include "AboutDialog.hh"
-#include "DebugDialog.hh"
 #include "ExercisesDialog.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
 #include "StatusIcon.hh"
-#include "ToolkitMenu.hh"
 
 #include "core/CoreTypes.hh"
 #include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
-#include "utils/Signals.hh"
 #include "utils/Logging.hh"
 
 class Toolkit
@@ -111,7 +108,6 @@ private:
   char **argv{};
   QPointer<StatisticsDialog> statistics_dialog;
   QPointer<PreferencesDialog> preferences_dialog;
-  // QPointer<DebugDialog> debug_dialog;
   QPointer<ExercisesDialog> exercises_dialog;
   QPointer<AboutDialog> about_dialog;
   std::shared_ptr<StatusIcon> status_icon;

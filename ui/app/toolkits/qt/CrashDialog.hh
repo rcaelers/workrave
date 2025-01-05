@@ -28,7 +28,7 @@
 class CrashDetailsDialog : public QDialog
 {
 public:
-  CrashDetailsDialog(const std::vector<base::FilePath> &attachments, QWidget *parent = nullptr);
+  explicit CrashDetailsDialog(const std::vector<base::FilePath> &attachments, QWidget *parent = nullptr);
   ~CrashDetailsDialog() override = default;
 
 private:
@@ -55,10 +55,8 @@ private:
 private:
   QTextEdit *text_edit{nullptr};
   QVBoxLayout *vbox{nullptr};
-  QScrollArea *scroll_area{nullptr};
   CrashDetailsDialog *details_dlg{nullptr};
   QCheckBox *submit_cb{nullptr};
-  QLabel *user_text_label{nullptr};
   QFrame *user_text_frame{nullptr};
 };
 

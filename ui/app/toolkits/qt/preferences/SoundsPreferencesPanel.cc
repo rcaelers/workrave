@@ -26,11 +26,7 @@
 #include <QtGui>
 #include <QStyle>
 
-#include "debug.hh"
-#include "core/ICore.hh"
-
 #include "DataConnector.hh"
-#include "TimerPreferencesPanel.hh"
 #include "Ui.hh"
 #include "UiUtil.hh"
 
@@ -164,7 +160,7 @@ SoundsPreferencesPanel::on_select_sound()
     {
       std::filesystem::path path(filename);
       std::filesystem::path dirname = path.parent_path();
-      std::filesystem::path basename = path.filename();
+      // std::filesystem::path basename = path.filename();
 
       auto *fd = new QFileDialog(this);
       fd->setAttribute(Qt::WA_DeleteOnClose, true);

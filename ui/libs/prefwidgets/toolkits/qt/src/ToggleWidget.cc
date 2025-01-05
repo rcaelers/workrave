@@ -48,7 +48,7 @@ ToggleWidget::init_ui(std::shared_ptr<ContainerWidget> container)
 
   def->init([this](bool on) { widget->setEnabled(on); });
 
-  connect(widget, &QCheckBox::stateChanged, [this]() {
+  connect(widget, &QCheckBox::checkStateChanged, [this]() {
     bool on = widget->checkState() == Qt::Checked;
     def->set_value(on);
   });

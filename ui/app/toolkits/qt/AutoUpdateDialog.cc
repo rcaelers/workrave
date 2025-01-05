@@ -249,7 +249,7 @@ AutoUpdateDialog::set_stage(unfold::UpdateStage stage, double progress)
         }
     }
 
-  if (fabs(progress - progress_bar->value() / 100.0) >= 0.01)
+  if (fabs(progress - (progress_bar->value() / 100.0)) >= 0.01)
     {
       progress_bar->setValue(static_cast<int>(progress * 100));
     }

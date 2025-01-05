@@ -31,7 +31,7 @@ namespace ui::prefwidgets::qt
   public:
     Widget() = default;
     explicit Widget(BuilderRegistry *registry);
-    virtual ~Widget() = default;
+    ~Widget() override = default;
 
     void add_to_size_groups(std::shared_ptr<ui::prefwidgets::Widget> def, QWidget *widget);
 

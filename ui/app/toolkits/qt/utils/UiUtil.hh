@@ -18,14 +18,9 @@
 #ifndef UIUTIL_HH
 #define UIUTIL_HH
 
-#include <string>
-
 #include <QtWidgets>
 
-#include "core/ICore.hh"
-#include "ui/IApplicationContext.hh"
-#include "ui/prefwidgets/qt/Builder.hh"
-#include "ui/prefwidgets/qt/BoxWidget.hh"
+#include "core/CoreTypes.hh"
 
 class UiUtil
 {

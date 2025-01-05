@@ -21,9 +21,7 @@
 
 #include "MicroBreakWindow.hh"
 
-#include "utils/AssetPath.hh"
 #include "debug.hh"
-
 #include "Ui.hh"
 #include "UiUtil.hh"
 #include "qformat.hh"

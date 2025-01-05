@@ -23,6 +23,7 @@
 
 #include <QStylePainter>
 #include <QStyleOptionProgressBar>
+#include <algorithm>
 
 #include "UiUtil.hh"
 #include "debug.hh"
@@ -51,10 +52,7 @@ TimeBar::TimeBar(QWidget *parent)
 void
 TimeBar::set_progress(int value, int max_value)
 {
-  if (value > max_value)
-    {
-      value = max_value;
-    }
+  value = std::min(value, max_value);
 
   bar_value = value;
   bar_max_value = max_value;
@@ -63,10 +61,7 @@ TimeBar::set_progress(int value, int max_value)
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
-  if (value > max_value)
-    {
-      value = max_value;
-    }
+  value = std::min(value, max_value);
 
   secondary_bar_value = value;
   secondary_bar_max_value = max_value;
@@ -108,16 +103,13 @@ TimeBar::minimumSizeHint() const -> QSize
   int width = fontMetrics().horizontalAdvance(bar_text);
   int height = fontMetrics().height();
 
-  QString full_text = UiUtil::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
+  QString full_text = UiUtil::time_to_string(-(59 + (59 * 60) + (9 * 60 * 60)));
   int full_width = fontMetrics().horizontalAdvance(full_text);
 
-  if (full_width > width)
-    {
-      width = full_width;
-    }
+  width = std::max(full_width, width);
 
   width = width + 2 * MARGINX;
-  height = std::max(height + 2 * MARGINY, 20);
+  height = std::max(height + (2 * MARGINY), 20);
 
   return QSize(width, height);
 }
@@ -164,7 +156,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
       sbar_width = (secondary_bar_value * (width() - 2 * border_size - 1)) / secondary_bar_max_value;
     }
 
-  int bar_height = height() - 2 * border_size;
+  int bar_height = height() - (2 * border_size);
 
   if (sbar_width > 0)
     {
@@ -175,7 +167,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
       // in which this still happens.. need to check
       // this out some time.
       // assert(secondary_bar_color == TimerColorId::Inactive);
-      TimerColorId overlap_color;
+      TimerColorId overlap_color{TimerColorId::InactiveOverActive};
       switch (bar_color)
         {
         case TimerColorId::Active:
@@ -239,7 +231,7 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
       text_x = (width() - text_width) / 2;
     }
 
-  int text_y = (height() + text_height) / 2 - MARGINY;
+  int text_y = ((height() + text_height) / 2) - MARGINY;
 
   TRACE_MSG("x = {} y = {}", text_x, text_y);
 

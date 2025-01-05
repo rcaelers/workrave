@@ -28,7 +28,6 @@
 #include <boost/algorithm/string.hpp>
 
 #include "utils/AssetPath.hh"
-#include "debug.hh"
 
 #include "Ui.hh"
 #include "qformat.hh"
@@ -204,8 +203,8 @@ UiUtil::time_to_string(time_t time, bool display_units) -> QString
     }
 
   int hrs = static_cast<int>(time / 3600);
-  int min = (time / 60) % 60;
-  int sec = time % 60;
+  int min = static_cast<int>((time / 60) % 60);
+  int sec = static_cast<int>(time % 60);
 
   if (!display_units)
     {

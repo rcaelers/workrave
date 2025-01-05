@@ -24,9 +24,8 @@
 #include <QtGui>
 #include <QStyle>
 
-#include "debug.hh"
 #include "core/CoreConfig.hh"
-#include "core/ICore.hh"
+#include "ui/GUIConfig.hh"
 
 #include "TimeEntry.hh"
 
@@ -48,7 +47,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(std::shared_ptr<IApplicationContext
   setLayout(layout);
 
   enabled_cb = new QCheckBox(tr("Enable timer"));
-  connect(enabled_cb, &QCheckBox::stateChanged, this, &TimerPreferencesPanel::on_enabled_toggled);
+  connect(enabled_cb, &QCheckBox::checkStateChanged, this, &TimerPreferencesPanel::on_enabled_toggled);
 
   layout->addWidget(enabled_cb);
 
@@ -233,7 +232,7 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write) -
         {
           if (has_max_prelude_cb->checkState() == Qt::Checked)
             {
-              mp = static_cast<int>(max_prelude_spin->value());
+              mp = max_prelude_spin->value();
             }
           else
             {

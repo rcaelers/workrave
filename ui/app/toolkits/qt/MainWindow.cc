@@ -130,7 +130,7 @@ MainWindow::moveEvent(QMoveEvent *event)
 
       QScreen *screen = window()->windowHandle()->screen();
       auto screen_index = QGuiApplication::screens().indexOf(screen);
-      GUIConfig::main_window_head().set(screen_index);
+      GUIConfig::main_window_head().set(static_cast<int>(screen_index));
     }
   QWidget::moveEvent(event);
 }

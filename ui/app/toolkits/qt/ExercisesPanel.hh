@@ -59,7 +59,7 @@ private:
     exercises_pointer += inc;
     if (!shuffled_exercises.empty())
       {
-        exercises_pointer %= shuffled_exercises.size();
+        exercises_pointer %= static_cast<int>(shuffled_exercises.size());
       }
     return ret;
   }

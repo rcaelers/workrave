@@ -26,15 +26,12 @@
 
 #include "commonui/credits.h"
 #include "qformat.hh"
-
-#include "Ui.hh"
 #include "UiUtil.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
 
 AboutDialog::AboutDialog()
-  : QDialog()
 {
   setWindowTitle(tr("About Workrave"));
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);

@@ -21,10 +21,6 @@
 
 #include "RestBreakWindow.hh"
 
-#include "debug.hh"
-
-#include "commonui/Exercise.hh"
-
 #include "ExercisesPanel.hh"
 #include "TimeBar.hh"
 #include "UiUtil.hh"

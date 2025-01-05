@@ -19,16 +19,11 @@
 #  include "config.h"
 #endif
 
-#include <cassert>
 #include <sstream>
-#include <cstdio>
 #include <ctime>
 #include <cstring>
 
 #include "boost/date_time/posix_time/posix_time.hpp"
-
-#include "debug.hh"
-
 #include "core/ICore.hh"
 
 #include "StatisticsDialog.hh"

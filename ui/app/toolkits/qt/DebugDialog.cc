@@ -35,7 +35,6 @@ using namespace workrave;
 using namespace workrave::utils;
 
 DebugDialog::DebugDialog()
-  : QDialog()
 {
   setWindowTitle(tr("Debug Workrave"));
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);

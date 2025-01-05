@@ -42,8 +42,8 @@ private:
   std::shared_ptr<IApplicationContext> app;
   workrave::IStatistics::Ptr statistics;
 
-  QLabel *break_labels[workrave::BREAK_ID_SIZEOF][9];
-  QLabel *activity_labels[5];
+  std::array<std::array<QLabel*, 9>, workrave::BREAK_ID_SIZEOF> break_labels {};
+  std::array<QLabel*, 5> activity_labels {};
   QLabel *usage_label{nullptr};
   QLabel *daily_usage_time_label{nullptr};
   QLabel *weekly_usage_time_label{nullptr};

@@ -18,11 +18,10 @@
 #ifndef TIMERBOXVIEW_HH
 #define TIMERBOXVIEW_HH
 
-#include <string>
-
 #include <QWidget>
 #include <QLabel>
 #include <QGridLayout>
+#include <array>
 
 #include "ui/ITimerBoxView.hh"
 
@@ -61,13 +60,13 @@ private:
 
 private:
   QGridLayout *layout{nullptr};
-  QWidget *labels[workrave::BREAK_ID_SIZEOF];
-  TimeBar *bars[workrave::BREAK_ID_SIZEOF];
+  std::array<QWidget *, workrave::BREAK_ID_SIZEOF> labels{};
+  std::array<TimeBar *, workrave::BREAK_ID_SIZEOF> bars{};
   QLabel *sheep{nullptr};
   bool reconfigure{true};
   int size{0};
-  int current_content[workrave::BREAK_ID_SIZEOF];
-  int new_content[workrave::BREAK_ID_SIZEOF];
+  std::array<int, workrave::BREAK_ID_SIZEOF> current_content{};
+  std::array<int, workrave::BREAK_ID_SIZEOF> new_content{};
   int visible_count{-1};
   bool sheep_only{false};
 };

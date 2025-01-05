@@ -23,13 +23,10 @@
 
 #include <QApplication>
 
-#include "Icon.hh"
 #include "DailyLimitWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
-#include "UiUtil.hh"
-#include "ui/GUIConfig.hh"
 #include "debug.hh"
 
 using namespace workrave;
@@ -119,7 +116,7 @@ auto
 Toolkit::get_head_count() const -> int
 {
   QList<QScreen *> screens = QGuiApplication::screens();
-  return screens.size();
+  return static_cast<int>(screens.size());
 }
 
 auto

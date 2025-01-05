@@ -24,7 +24,6 @@
 #include "ui/windows/IToolkitWindows.hh"
 #include "Toolkit.hh"
 #include "utils/Logging.hh"
-#include "utils/Signals.hh"
 
 #include "ui/windows/WindowsLocker.hh"
 #if defined(HAVE_HARPOON)

@@ -17,7 +17,6 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <utility>
-
 #  include "config.h"
 #endif
 
@@ -30,7 +29,7 @@ ToolkitMenu::ToolkitMenu(MenuModel::Ptr menu_model, MenuNodeFilter filter)
 {
   context = std::make_shared<detail::ToolkitMenuContext>(filter);
   entry = std::make_shared<ToolkitSubMenuEntry>(context, nullptr, menu_model->get_root());
-  workrave::utils::connect(menu_model->signal_update(), this, [=, this]() { entry->init(); });
+  workrave::utils::connect(menu_model->signal_update(), this, [this]() { entry->init(); });
 }
 
 auto

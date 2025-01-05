@@ -147,6 +147,9 @@ ToolkitWindows::filter_func(MSG *msg)
               core->set_powersave(true);
             }
             break;
+
+          default:
+            break;
           }
       }
       break;
@@ -166,6 +169,9 @@ ToolkitWindows::filter_func(MSG *msg)
       }
       break;
 #endif
+
+    default:
+      break;
     }
 
   event_hook(msg);
@@ -202,7 +208,7 @@ ToolkitWindows::is_windows_app_theme_dark()
   if (RegOpenKeyExW(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey)
       == ERROR_SUCCESS)
     {
-      RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, (LPBYTE)&value, &dataSize);
+      RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, reinterpret_cast<LPBYTE>(&value), &dataSize);
       RegCloseKey(hKey);
     }
   return value == 0;

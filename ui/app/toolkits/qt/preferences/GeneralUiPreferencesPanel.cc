@@ -30,21 +30,17 @@
 #include <QtGui>
 #include <QStyle>
 
-#include "debug.hh"
-
-#include "core/ICore.hh"
 #include "utils/Platform.hh"
-#include "utils/Paths.hh"
 
-#include "TimerPreferencesPanel.hh"
 #include "UiUtil.hh"
+#include "ui/GUIConfig.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
-#  define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+constexpr auto RUNKEY = R"(Software\Microsoft\Windows\CurrentVersion\Run)";
 #endif
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicationContext> app)
@@ -124,7 +120,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
       QLocale l(QString::fromStdString(code));
 
       QString language = l.nativeLanguageName();
-      QString country = l.nativeCountryName();
+      QString country = l.nativeTerritoryName();
 
       if (language == "")
         {
@@ -154,9 +150,9 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  QCheckBox *autostart_cb = new QCheckBox;
+  auto *autostart_cb = new QCheckBox;
   autostart_cb->setText(tr("Start Workrave on Windows startup"));
-  connect(autostart_cb, &QCheckBox::stateChanged, this, &GeneralUiPreferencesPanel::on_autostart_toggled);
+  connect(autostart_cb, &QCheckBox::checkStateChanged, this, &GeneralUiPreferencesPanel::on_autostart_toggled);
 
   layout->addWidget(autostart_cb);
 

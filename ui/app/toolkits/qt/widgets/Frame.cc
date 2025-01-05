@@ -133,16 +133,16 @@ Frame::paintEvent(QPaintEvent *pe)
 
   if (frame_visible)
     {
-      paint.fillRect(border_width, border_width, frame_width, height() - 2 * border_width, frame_color);
-      paint.fillRect(width() - border_width - frame_width, border_width, frame_width, height() - 2 * border_width, frame_color);
+      paint.fillRect(border_width, border_width, frame_width, height() - (2 * border_width), frame_color);
+      paint.fillRect(width() - border_width - frame_width, border_width, frame_width, height() - (2 * border_width), frame_color);
       paint.fillRect(border_width + frame_width,
                      border_width,
-                     width() - 2 * frame_width - 2 * border_width,
+                     width() - (2 * frame_width) - (2 * border_width),
                      frame_width,
                      frame_color);
       paint.fillRect(border_width + frame_width,
                      height() - frame_width - border_width,
-                     width() - 2 * frame_width - 2 * border_width,
+                     width() - (2 * frame_width) - (2 * border_width),
                      frame_width,
                      frame_color);
     }

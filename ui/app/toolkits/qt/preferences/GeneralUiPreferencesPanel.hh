@@ -21,10 +21,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "SizeGroup.hh"
 #include "DataConnector.hh"
-
-#include "ui/prefwidgets/qt/Widget.hh"
 #include "ui/prefwidgets/qt/BoxWidget.hh"
 
 class GeneralUiPreferencesPanel : public QWidget
@@ -50,7 +47,7 @@ private:
   QStandardItemModel *model{nullptr};
 
 #if defined(PLATFORM_OS_WINDOWS)
-  QCheckBox *autostart_cb;
+  QCheckBox *autostart_cb{nullptr};
 #endif
 
   std::shared_ptr<ui::prefwidgets::qt::BoxWidget> plugin_frame;

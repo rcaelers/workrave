@@ -19,7 +19,6 @@
 #define PREFERENCESDIALOG_HH
 
 #include <memory>
-#include <utility>
 #include <list>
 #include <map>
 

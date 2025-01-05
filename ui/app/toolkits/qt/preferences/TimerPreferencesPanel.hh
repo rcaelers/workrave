@@ -21,9 +21,6 @@
 #include <QtGui>
 #include <QtWidgets>
 
-#include "core/ICore.hh"
-#include "ui/GUIConfig.hh"
-
 #include "DataConnector.hh"
 #include "SizeGroup.hh"
 

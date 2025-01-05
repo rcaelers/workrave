@@ -29,7 +29,6 @@
 #include "ExercisesPanel.hh"
 
 ExercisesDialog::ExercisesDialog(std::shared_ptr<IApplicationContext> app)
-  : QDialog()
 {
   TRACE_ENTRY();
   auto *layout = new QVBoxLayout();

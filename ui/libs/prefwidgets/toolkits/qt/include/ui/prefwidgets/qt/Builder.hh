@@ -18,7 +18,6 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_QT_BUILDER_HH
 #define WORKRAVE_UI_PREFWIDGETS_QT_BUILDER_HH
 
-#include <string>
 #include <map>
 #include <memory>
 

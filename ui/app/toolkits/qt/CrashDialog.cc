@@ -23,10 +23,7 @@
 
 #include <string>
 #include <fstream>
-#include <streambuf>
-#include <filesystem>
 #include <clocale>
-#include <locale>
 
 #include <shlobj.h>
 #include <shlwapi.h>
@@ -34,10 +31,8 @@
 
 #include "base/logging.h"
 #include "handler/handler_main.h"
-#include "build/build_config.h"
 #include "tools/tool_support.h"
 
-#include "commonui/nls.h"
 #include "utils/StringUtils.hh"
 
 CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attachments, QWidget *parent)
@@ -48,12 +43,12 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
 
   vbox = new QVBoxLayout(this);
 
-  QLabel *info_label = new QLabel("<b>Workrave has crashed.</b>", this);
+  auto *info_label = new QLabel("<b>Workrave has crashed.</b>", this);
   vbox->addWidget(info_label);
 
   if (!attachments.empty())
     {
-      QLabel *attachments_label = new QLabel("The following logging will be attached to the crash report:", this);
+      auto *attachments_label = new QLabel("The following logging will be attached to the crash report:", this);
       vbox->addWidget(attachments_label);
 
       scroll_area = new QScrollArea(this);
@@ -81,12 +76,12 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
         }
     }
 
-  QLabel *more_info_label = new QLabel(
+  auto *more_info_label = new QLabel(
     "Note that this crash report also contains technical information about the state of Workrave when it crashed.",
     this);
   vbox->addWidget(more_info_label);
 
-  QPushButton *close_button = new QPushButton("Close", this);
+  auto *close_button = new QPushButton("Close", this);
   connect(close_button, &QPushButton::clicked, this, &QDialog::accept);
   vbox->addWidget(close_button);
 }
@@ -94,13 +89,13 @@ CrashDetailsDialog::CrashDetailsDialog(const std::vector<base::FilePath> &attach
 QVBoxLayout *
 create_indented_box(QVBoxLayout *container)
 {
-  QHBoxLayout *ibox = new QHBoxLayout();
+  auto *ibox = new QHBoxLayout();
   container->addLayout(ibox);
 
-  QLabel *indent_lab = new QLabel("    ");
+  auto *indent_lab = new QLabel("    ");
   ibox->addWidget(indent_lab);
 
-  QVBoxLayout *box = new QVBoxLayout();
+  auto *box = new QVBoxLayout();
   ibox->addLayout(box);
   box->setSpacing(6);
   return box;
@@ -117,10 +112,10 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
 
   vbox = new QVBoxLayout(this);
 
-  QLabel *title_label = new QLabel("<b>Workrave has crashed.</b>", this);
+  auto *title_label = new QLabel("<b>Workrave has crashed.</b>", this);
   vbox->addWidget(title_label);
 
-  QLabel *info_label = new QLabel(
+  auto *info_label = new QLabel(
     "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report.",
     this);
   info_label->setWordWrap(true);
@@ -132,7 +127,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
 
   QVBoxLayout *ibox = create_indented_box(vbox);
 
-  QPushButton *details_btn = new QPushButton("Details...", this);
+  auto *details_btn = new QPushButton("Details...", this);
   connect(details_btn, &QPushButton::clicked, this, &CrashDialog::on_details_clicked);
   ibox->addWidget(details_btn);
 
@@ -140,11 +135,11 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   user_text_frame->setFrameShape(QFrame::StyledPanel);
   ibox->addWidget(user_text_frame);
 
-  QVBoxLayout *frame_layout = new QVBoxLayout(user_text_frame);
+  auto *frame_layout = new QVBoxLayout(user_text_frame);
   text_edit = new QTextEdit(this);
   frame_layout->addWidget(text_edit);
 
-  QPushButton *close_button = new QPushButton("Close", this);
+  auto *close_button = new QPushButton("Close", this);
   connect(close_button, &QPushButton::clicked, this, &QDialog::accept);
   vbox->addWidget(close_button);
 
@@ -181,8 +176,8 @@ bool
 UserInteraction::requestUserConsent(const std::map<std::string, std::string> &annotations,
                                     const std::vector<base::FilePath> &attachments)
 {
-  SetEnvironmentVariableA("GTK_DEBUG", 0);
-  SetEnvironmentVariableA("G_MESSAGES_DEBUG", 0);
+  SetEnvironmentVariableA("GTK_DEBUG", nullptr);
+  SetEnvironmentVariableA("G_MESSAGES_DEBUG", nullptr);
   SetEnvironmentVariableA("GTK_OVERLAY_SCROLLING", "0");
   SetEnvironmentVariableA("GTK_CSD", "0");
   SetEnvironmentVariableA("GDK_WIN32_DISABLE_HIDPI", "1");

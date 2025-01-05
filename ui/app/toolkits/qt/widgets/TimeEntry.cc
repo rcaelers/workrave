@@ -19,8 +19,6 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
-
 #include "TimeEntry.hh"
 
 TimeEntry::TimeEntry()
@@ -75,7 +73,7 @@ TimeEntry::get_value() -> time_t
   int s = secs->value();
   int h = hrs->value();
   int m = mins->value();
-  return h * 60 * 60 + m * 60 + s;
+  return (h * 60 * 60) + (m * 60) + s;
 }
 
 void

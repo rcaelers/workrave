@@ -33,9 +33,9 @@
 #include "TimerPreferencesPanel.hh"
 
 #include "Ui.hh"
-#include "UiUtil.hh"
 #include "Icon.hh"
 
+#include "ui/prefwidgets/qt/Builder.hh"
 #include "utils/AssetPath.hh"
 
 using namespace workrave;
