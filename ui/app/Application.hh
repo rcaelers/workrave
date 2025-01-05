@@ -18,7 +18,6 @@
 #ifndef APPLICATION_HH
 #define APPLICATION_HH
 
-#include <list>
 #include <vector>
 #include <string>
 #include <memory>
@@ -30,8 +29,6 @@
 #include "Menus.hh"
 #include "core/IApp.hh"
 #include "core/ICore.hh"
-#include "ui/IApplicationContext.hh"
-#include "ui/IPluginContext.hh"
 #include "config/IConfigurator.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"

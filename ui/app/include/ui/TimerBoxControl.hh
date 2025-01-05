@@ -24,7 +24,6 @@
 
 #include "core/ICore.hh"
 #include "ui/ITimerBoxView.hh"
-#include "ui/IApplicationContext.hh"
 
 class TimerBoxControl : public workrave::utils::Trackable
 {

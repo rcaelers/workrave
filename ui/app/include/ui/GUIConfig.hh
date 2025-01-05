@@ -143,7 +143,7 @@ private:
 
 private:
   static std::string get_break_name(workrave::BreakId id);
-  static std::string expand(const std::string &str, workrave::BreakId id);
+  static std::string expand(const std::string &key, workrave::BreakId id);
 
 private:
   static inline std::shared_ptr<workrave::config::IConfigurator> config;

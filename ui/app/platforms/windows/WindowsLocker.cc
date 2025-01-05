@@ -31,13 +31,18 @@ public:
 
   static Hook *instance();
 
+  Hook(const Hook &other) = delete;
+  Hook &operator=(const Hook &other) = delete;
+  Hook(Hook &&other) noexcept = delete;
+  Hook &operator=(Hook &&other) noexcept = delete;
+
 private:
   Hook() = default;
   ~Hook();
 
   static LRESULT CALLBACK hook_callback(INT nCode, WPARAM wParam, LPARAM lParam);
 
-  HHOOK hook;
+  HHOOK hook = nullptr;
 };
 
 Hook::~Hook()
@@ -62,7 +67,7 @@ Hook::enable()
 {
   if (hook != nullptr)
     {
-      hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, GetModuleHandle(NULL), 0);
+      hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, GetModuleHandle(nullptr), 0);
     }
 }
 
@@ -85,7 +90,7 @@ Hook::hook_callback(INT nCode, WPARAM wParam, LPARAM lParam)
 
   if (nCode == HC_ACTION)
     {
-      KBDLLHOOKSTRUCT *data = (KBDLLHOOKSTRUCT *)lParam;
+      auto *data = (KBDLLHOOKSTRUCT *)lParam;
 
       // bool is_key_down = ((wParam == WM_KEYDOWN) || (wParam == WM_SYSKEYDOWN));
 
@@ -117,7 +122,6 @@ void
 WindowsLocker::prepare_lock()
 {
 }
-
 
 void
 WindowsLocker::lock()

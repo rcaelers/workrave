@@ -22,17 +22,14 @@
 #include "WindowsFocusAssist.hh"
 
 #include "core/CoreTypes.hh"
-#include "commonui/MenuModel.hh"
 #include "ui/GUIConfig.hh"
 
 #include <windows.h>
 
 #include <utility>
 #include "spdlog/spdlog.h"
-#include "spdlog/fmt/ostr.h"
 #include "commonui/nls.h"
 #include "debug.hh"
-#include "core/CoreConfig.hh"
 
 WindowsFocusAssist::WindowsFocusAssist(std::shared_ptr<IPluginContext> context)
   : context(std::move(context))

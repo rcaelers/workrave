@@ -25,14 +25,12 @@
 #  include "MacOSHelpers.hh"
 #endif
 
-#include <iostream>
 #include <utility>
 
 #include "debug.hh"
 
 #include "ui/GUIConfig.hh"
 #include "core/CoreConfig.hh"
-#include "core/IBreak.hh"
 
 using namespace std;
 using namespace workrave;
@@ -144,10 +142,10 @@ TimerBoxControl::update_widgets()
       auto b = core->get_break(static_cast<BreakId>(count));
 
       time_t value = 0;
-      TimerColorId primary_color;
+      TimerColorId primary_color = TimerColorId::Inactive;
       int primary_val = 0;
       int primary_max = 0;
-      TimerColorId secondary_color;
+      TimerColorId secondary_color = TimerColorId::Inactive;
       int secondary_val = 0;
       int secondary_max = 0;
 

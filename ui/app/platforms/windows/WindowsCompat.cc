@@ -19,8 +19,6 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
-
 #include "ui/windows/WindowsCompat.hh"
 
 #include <windows.h>
@@ -38,7 +36,7 @@ bool WindowsCompat::ime_magic = false;
 bool WindowsCompat::reset_window_always = false;
 bool WindowsCompat::reset_window_never = false;
 
-WindowsCompat::SWITCHTOTHISWINDOWPROC WindowsCompat::switch_to_this_window_proc = NULL;
+WindowsCompat::SWITCHTOTHISWINDOWPROC WindowsCompat::switch_to_this_window_proc = nullptr;
 
 typedef BOOLEAN(WINAPI *PWINSTATIONQUERYINFORMATIONW)(HANDLE, ULONG, INT, PVOID, ULONG, PULONG);
 namespace
