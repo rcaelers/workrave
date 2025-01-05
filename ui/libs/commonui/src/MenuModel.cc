@@ -19,7 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <iostream>
 #include <utility>
 
 #include "commonui/MenuModel.hh"

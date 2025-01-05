@@ -27,10 +27,9 @@
 namespace workrave::utils
 {
   template<typename Enum>
+  requires enum_has_min_v<Enum> && enum_has_max_v<Enum>
   class enum_iterator : public boost::iterator_facade<enum_iterator<Enum>, Enum, boost::random_access_traversal_tag, Enum>
   {
-    static_assert(enum_has_min_v<Enum> && enum_has_max_v<Enum>, "Enum must have enum_traits with min and max");
-
   public:
     constexpr enum_iterator()
       : index{enum_max_value<Enum>() + 1}
@@ -80,14 +79,13 @@ namespace workrave::utils
   };
 
   template<typename Enum>
+  requires enum_has_min_v<Enum> && enum_has_max_v<Enum>
   class enum_value_iterator
     : public boost::iterator_facade<enum_value_iterator<Enum>,
                                     std::underlying_type_t<Enum>,
                                     boost::random_access_traversal_tag,
                                     const std::underlying_type_t<Enum> &>
   {
-    static_assert(enum_has_min_v<Enum> && enum_has_max_v<Enum>, "Enum must have enum_traits with min and max");
-
   public:
     constexpr enum_value_iterator()
       : index{enum_max_value<Enum>() + 1}

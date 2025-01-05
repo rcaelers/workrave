@@ -23,19 +23,19 @@
 
 #include <stdlib.h>
 
-const char *workrave_copyright = "Copyright 2001-2024 Rob Caelers & Raymond Penners";
+const char *const workrave_copyright = "Copyright 2001-2024 Rob Caelers & Raymond Penners";
 
-const char *workrave_authors[] = {"Developers:",
-                                  "Rob Caelers <robc@krandor.org>",
-                                  "Raymond Penners <raymond@dotsphinx.com>",
-                                  "Ray Satiro <raysatiro@yahoo.com>",
-                                  "",
-                                  "Sounds:",
-                                  "Ruairi Fullam",
-                                  "Pieter De Decker",
-                                  NULL};
+const char *const workrave_authors[] = {"Developers:",
+                                        "Rob Caelers <robc@krandor.org>",
+                                        "Raymond Penners <raymond@dotsphinx.com>",
+                                        "Ray Satiro <raysatiro@yahoo.com>",
+                                        "",
+                                        "Sounds:",
+                                        "Ruairi Fullam",
+                                        "Pieter De Decker",
+                                        nullptr};
 
-const char *workrave_translators =
+const char *const workrave_translators =
   /* bg */
   "Иван Димов\n"
   /* ca */

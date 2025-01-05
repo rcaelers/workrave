@@ -19,7 +19,6 @@
 #  include "config.h"
 #endif
 
-#include "commonui/nls.h"
 #include "debug.hh"
 
 #include "GenericDBusApplet.hh"
@@ -27,16 +26,17 @@
 #include "ui/TimerBoxControl.hh"
 #include "ui/GUIConfig.hh"
 #include "commonui/Text.hh"
-#include "ui/IPreferencesRegistry.hh"
-#include "config/IConfigurator.hh"
 
 #include "dbus/IDBus.hh"
 #include "dbus/DBusException.hh"
 #include "DBusGUI.hh"
 
-#define WORKRAVE_APPLET_SERVICE_NAME "org.workrave.Workrave"
-#define WORKRAVE_APPLET_SERVICE_IFACE "org.workrave.AppletInterface"
-#define WORKRAVE_APPLET_SERVICE_OBJ "/org/workrave/Workrave/UI"
+namespace
+{
+  constexpr const char *WORKRAVE_APPLET_SERVICE_NAME = "org.workrave.Workrave";
+  constexpr const char *WORKRAVE_APPLET_SERVICE_IFACE = "org.workrave.AppletInterface";
+  constexpr const char *WORKRAVE_APPLET_SERVICE_OBJ = "/org/workrave/Workrave/UI";
+} // namespace
 
 GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
   : context(context)
@@ -48,15 +48,15 @@ GenericDBusApplet::GenericDBusApplet(std::shared_ptr<IPluginContext> context)
 
   control = std::make_shared<TimerBoxControl>(context->get_core(), "applet", this);
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto &i: data)
     {
-      data[i].bar_text = "";
-      data[i].bar_primary_color = 0;
-      data[i].bar_primary_val = 0;
-      data[i].bar_primary_max = 0;
-      data[i].bar_secondary_color = 0;
-      data[i].bar_secondary_val = 0;
-      data[i].bar_secondary_max = 0;
+      i.bar_text = "";
+      i.bar_primary_color = 0;
+      i.bar_primary_val = 0;
+      i.bar_primary_max = 0;
+      i.bar_secondary_color = 0;
+      i.bar_secondary_val = 0;
+      i.bar_secondary_max = 0;
     }
 
   GUIConfig::trayicon_enabled().connect(this, [this](bool) { send_tray_icon_enabled(); });
@@ -193,9 +193,9 @@ GenericDBusApplet::applet_command(int command)
 }
 
 void
-GenericDBusApplet::applet_menu_action(const std::string &id)
+GenericDBusApplet::applet_menu_action(const std::string &action)
 {
-  auto node = menu_helper.find_node(id);
+  auto node = menu_helper.find_node(action);
   if (node)
     {
       node->activate();

@@ -93,7 +93,6 @@ static void
 update_keymap()
 {
   HKL current_layout;
-  BOOL changed = FALSE;
   int i;
 
   const int MAXSIZE = 32;

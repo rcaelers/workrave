@@ -49,89 +49,67 @@ namespace workrave::utils
   {
   };
 
-  template<typename Enum, typename = std::void_t<>>
-  struct enum_has_min : std::false_type
-  {
-  };
+  template<typename Enum>
+  concept enum_has_min = requires { enum_traits<Enum>::min; };
 
   template<typename Enum>
-  struct enum_has_min<Enum, std::void_t<decltype(enum_traits<Enum>::min)>> : std::true_type
-  {
-  };
+  constexpr inline bool enum_has_min_v = enum_has_min<Enum>;
 
   template<typename Enum>
-  constexpr inline bool enum_has_min_v = enum_has_min<Enum>::value;
-
-  template<typename Enum, typename = std::void_t<>>
-  struct enum_has_max : std::false_type
-  {
-  };
+  concept enum_has_max = requires { enum_traits<Enum>::max; };
 
   template<typename Enum>
-  struct enum_has_max<Enum, std::void_t<decltype(enum_traits<Enum>::max)>> : std::true_type
-  {
-  };
+  constexpr inline bool enum_has_max_v = enum_has_max<Enum>;
 
   template<typename Enum>
-  constexpr inline bool enum_has_max_v = enum_has_max<Enum>::value;
-
-  template<typename Enum, typename = std::void_t<>>
-  struct enum_has_names : std::false_type
-  {
-  };
+  concept enum_has_names = requires { enum_traits<Enum>::names; };
 
   template<typename Enum>
-  struct enum_has_names<Enum, std::void_t<decltype(enum_traits<Enum>::names)>> : std::true_type
-  {
-  };
+  constexpr inline bool enum_has_names_v = enum_has_names<Enum>;
 
   template<typename Enum>
-  constexpr inline bool enum_has_names_v = enum_has_names<Enum>::value;
-
-  template<typename Enum, typename = std::void_t<>>
-  struct enum_has_invalid : std::false_type
-  {
-  };
+  concept enum_has_invalid = requires { enum_traits<Enum>::invalid; };
 
   template<typename Enum>
-  struct enum_has_invalid<Enum, std::void_t<decltype(enum_traits<Enum>::invalid)>> : std::true_type
-  {
-  };
+  constexpr inline bool enum_has_invalid_v = enum_has_invalid<Enum>;
 
   template<typename Enum>
-  constexpr inline bool enum_has_invalid_v = enum_has_invalid<Enum>::value;
-
-  template<typename Enum, std::enable_if_t<enum_has_min_v<Enum>, int> = 0>
   constexpr auto enum_min_value() noexcept
+  requires(enum_has_min_v<Enum>)
   {
     return underlying_cast(enum_traits<Enum>::min);
   }
 
-  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum>, int> = 0>
+  template<typename Enum>
   constexpr auto enum_max_value() noexcept
+  requires(enum_has_max_v<Enum>)
   {
     return underlying_cast(enum_traits<Enum>::max);
   }
 
-  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum> && enum_has_min_v<Enum>, int> = 0>
+  template<typename Enum>
   constexpr auto enum_count() noexcept
+  requires(enum_has_max_v<Enum> && enum_has_min_v<Enum>)
   {
     return enum_max_value<Enum>() - enum_min_value<Enum>() + 1;
   }
 
-  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum> && enum_has_min_v<Enum>, int> = 0>
+  template<typename Enum>
   constexpr auto enum_in_range(std::underlying_type_t<Enum> v) noexcept
+  requires(enum_has_max_v<Enum> && enum_has_min_v<Enum>)
   {
     return (v >= enum_min_value<Enum>()) && (v <= enum_max_value<Enum>());
   }
 
-  template<typename Enum, std::enable_if_t<enum_has_max_v<Enum> && enum_has_min_v<Enum>, int> = 0>
+  template<typename Enum>
   constexpr auto enum_in_range(Enum e) noexcept
+  requires(enum_has_max_v<Enum> && enum_has_min_v<Enum>)
   {
     return (underlying_cast(e) >= enum_min_value<Enum>()) && (underlying_cast(e) <= enum_max_value<Enum>());
   }
 
   template<typename Enum>
+  requires enum_has_names_v<Enum>
   Enum enum_from_string(std::string key)
   {
     auto &names = enum_traits<Enum>::names;
@@ -174,7 +152,7 @@ namespace workrave::utils
     }
 
     template<class... Args>
-    constexpr array(Args &&...args)
+    constexpr explicit array(Args &&...args)
       : base{{std::forward<Args>(args)...}}
     {
     }
@@ -205,6 +183,7 @@ namespace workrave::utils
     Flags(Flags &&) noexcept = default;
     Flags &operator=(const Flags &) noexcept = default;
     Flags &operator=(Flags &&) noexcept = default;
+    ~Flags() noexcept = default;
 
     constexpr Flags(Enum e) noexcept
       : value{static_cast<repr_type>(e)}
@@ -332,7 +311,7 @@ namespace workrave::utils
       }
     else
       {
-        for (int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
+        for (unsigned int b = 0; b < workrave::utils::enum_traits<Enum>::bits; b++)
           {
             Enum e = static_cast<Enum>(1 << b);
             if (flags.is_set(e))
@@ -358,47 +337,53 @@ operator<<(std::ostream &stream, const Enum e)
   return stream;
 }
 
-template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::linear>>
+template<typename Enum>
 constexpr Enum
 operator++(Enum &e) noexcept
+requires workrave::utils::enum_traits<Enum>::linear
 {
   e = static_cast<Enum>(workrave::utils::underlying_cast(e) + 1);
   return e;
 }
 
-template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::linear>>
+template<typename Enum>
 constexpr Enum
 operator++(Enum &e, int) noexcept
+requires workrave::utils::enum_traits<Enum>::linear
 {
   const auto ret = e;
   e = static_cast<Enum>(workrave::utils::underlying_cast(e) + 1);
   return ret;
 }
 
-template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+template<typename Enum>
 constexpr auto
 operator|(Enum lhs, Enum rhs) noexcept
+requires workrave::utils::enum_traits<Enum>::flag
 {
   return workrave::utils::Flags<Enum>(lhs) | rhs;
 }
 
-template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+template<typename Enum>
 constexpr auto
 operator&(Enum lhs, Enum rhs) noexcept
+requires workrave::utils::enum_traits<Enum>::flag
 {
   return workrave::utils::Flags<Enum>(lhs) & rhs;
 }
 
-template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+template<typename Enum>
 constexpr auto
 operator^(Enum lhs, Enum rhs) noexcept
+requires workrave::utils::enum_traits<Enum>::flag
 {
   return workrave::utils::Flags<Enum>(lhs) ^ rhs;
 }
 
-template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+template<typename Enum>
 constexpr auto
 operator~(Enum e) noexcept
+requires workrave::utils::enum_traits<Enum>::flag
 {
   return ~workrave::utils::Flags<Enum>(e);
 }

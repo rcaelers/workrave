@@ -26,7 +26,6 @@
 
 #include "crash/CrashReporter.hh"
 
-#include <iostream>
 #include <filesystem>
 #include <spdlog/spdlog.h>
 

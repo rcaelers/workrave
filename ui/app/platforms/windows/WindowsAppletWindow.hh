@@ -39,7 +39,7 @@ class WindowsAppletWindow
   , public workrave::utils::Trackable
 {
 public:
-  WindowsAppletWindow(std::shared_ptr<IPluginContext> context);
+  explicit WindowsAppletWindow(std::shared_ptr<IPluginContext> context);
   ~WindowsAppletWindow() override;
 
   std::string get_plugin_id() const override
@@ -87,8 +87,8 @@ private:
   bool menu_sent{false};
   TimerBoxControl *control{nullptr};
 
-  AppletHeartbeatData local_heartbeat_data;
-  AppletHeartbeatData heartbeat_data;
+  AppletHeartbeatData local_heartbeat_data {};
+  AppletHeartbeatData heartbeat_data {};
 
   HWND local_applet_window{nullptr};
 

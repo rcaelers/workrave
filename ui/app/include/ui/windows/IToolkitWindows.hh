@@ -18,7 +18,6 @@
 #ifndef ITOOLKIT_WINDOWS_HH
 #define ITOOLKIT_WINDOWS_HH
 
-#include <memory>
 #include <boost/signals2.hpp>
 
 #include <windows.h>

@@ -357,19 +357,21 @@ Application::on_break_event(BreakId break_id, BreakEvent event)
     BreakId id;
     BreakEvent break_event;
     SoundEvent sound_event;
-  } event_mappings[] = {
-    {BREAK_ID_MICRO_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
-    {BREAK_ID_MICRO_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
-    {BREAK_ID_MICRO_BREAK, BreakEvent::ShowBreak, SoundEvent::MicroBreakStarted},
-    {BREAK_ID_MICRO_BREAK, BreakEvent::BreakTaken, SoundEvent::MicroBreakEnded},
-    {BREAK_ID_REST_BREAK, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
-    {BREAK_ID_REST_BREAK, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
-    {BREAK_ID_REST_BREAK, BreakEvent::ShowBreak, SoundEvent::RestBreakStarted},
-    {BREAK_ID_REST_BREAK, BreakEvent::BreakTaken, SoundEvent::RestBreakEnded},
-    {BREAK_ID_DAILY_LIMIT, BreakEvent::ShowPrelude, SoundEvent::BreakPrelude},
-    {BREAK_ID_DAILY_LIMIT, BreakEvent::BreakIgnored, SoundEvent::BreakIgnored},
-    {BREAK_ID_DAILY_LIMIT, BreakEvent::ShowBreak, SoundEvent::MicroBreakEnded},
   };
+
+  std::array<EventMap, 11> event_mappings = {{
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::ShowPrelude, .sound_event = SoundEvent::BreakPrelude},
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::BreakIgnored, .sound_event = SoundEvent::BreakIgnored},
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::ShowBreak, .sound_event = SoundEvent::MicroBreakStarted},
+    {.id = BREAK_ID_MICRO_BREAK, .break_event = BreakEvent::BreakTaken, .sound_event = SoundEvent::MicroBreakEnded},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::ShowPrelude, .sound_event = SoundEvent::BreakPrelude},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::BreakIgnored, .sound_event = SoundEvent::BreakIgnored},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::ShowBreak, .sound_event = SoundEvent::RestBreakStarted},
+    {.id = BREAK_ID_REST_BREAK, .break_event = BreakEvent::BreakTaken, .sound_event = SoundEvent::RestBreakEnded},
+    {.id = BREAK_ID_DAILY_LIMIT, .break_event = BreakEvent::ShowPrelude, .sound_event = SoundEvent::BreakPrelude},
+    {.id = BREAK_ID_DAILY_LIMIT, .break_event = BreakEvent::BreakIgnored, .sound_event = SoundEvent::BreakIgnored},
+    {.id = BREAK_ID_DAILY_LIMIT, .break_event = BreakEvent::ShowBreak, .sound_event = SoundEvent::MicroBreakEnded},
+  }};
 
   for (auto &event_mapping: event_mappings)
     {
@@ -650,7 +652,7 @@ std::string
 Application::get_timers_tooltip()
 {
   // FIXME: duplicate
-  const char *labels[] = {_("Micro-break"), _("Rest break"), _("Daily limit")};
+  const std::array<const char*, 3> labels = {_("Micro-break"), _("Rest break"), _("Daily limit")};
   std::string tip;
 
   OperationMode mode = core->get_regular_operation_mode();
@@ -700,7 +702,7 @@ Application::get_timers_tooltip()
               tip += "\n";
             }
 
-          tip += labels[count];
+          tip += labels.at(count);
           tip += ": " + text;
         }
     }

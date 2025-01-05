@@ -23,8 +23,6 @@
 
 #include "ui/windows/WindowsForceFocus.hh"
 
-#include "debug.hh"
-
 #include <windows.h>
 #include <tchar.h>
 
@@ -33,8 +31,6 @@
 
 #include <cstdlib>
 #include <vector>
-#include <sstream>
-#include <iterator>
 #include <string>
 #include <cctype>
 #include <algorithm>

@@ -18,15 +18,15 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_WIDGETS_HH
 #define WORKRAVE_UI_PREFWIDGETS_WIDGETS_HH
 
-#include "ui/prefwidgets/Widget.hh"
-#include "ui/prefwidgets/Def.hh"
-#include "ui/prefwidgets/Box.hh"
-#include "ui/prefwidgets/Toggle.hh"
-#include "ui/prefwidgets/Choice.hh"
-#include "ui/prefwidgets/Entry.hh"
-#include "ui/prefwidgets/Frame.hh"
-#include "ui/prefwidgets/Value.hh"
-#include "ui/prefwidgets/Time.hh"
-#include "ui/prefwidgets/SizeGroup.hh"
+#include "ui/prefwidgets/Widget.hh"    // IWYU pragma: export
+#include "ui/prefwidgets/Def.hh"       // IWYU pragma: export
+#include "ui/prefwidgets/Box.hh"       // IWYU pragma: export
+#include "ui/prefwidgets/Toggle.hh"    // IWYU pragma: export
+#include "ui/prefwidgets/Choice.hh"    // IWYU pragma: export
+#include "ui/prefwidgets/Entry.hh"     // IWYU pragma: export
+#include "ui/prefwidgets/Frame.hh"     // IWYU pragma: export
+#include "ui/prefwidgets/Value.hh"     // IWYU pragma: export
+#include "ui/prefwidgets/Time.hh"      // IWYU pragma: export
+#include "ui/prefwidgets/SizeGroup.hh" // IWYU pragma: export
 
 #endif // WORKRAVE_UI_PREFWIDGETS_WIDGETS_HH

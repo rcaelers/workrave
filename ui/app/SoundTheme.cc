@@ -40,66 +40,56 @@ using namespace workrave;
 using namespace workrave::config;
 using namespace workrave::audio;
 using namespace workrave::utils;
-using namespace std;
 
-const SoundTheme::SoundRegistry SoundTheme::sound_registry[] = {
+const std::array<SoundTheme::SoundRegistry, 10> SoundTheme::sound_registry = {{
   {
-    SoundEvent::BreakPrelude,
-    "break_prelude",
+    .event = SoundEvent::BreakPrelude,
+    .id = "break_prelude",
   },
-
   {
-    SoundEvent::BreakIgnored,
-    "break_ignored",
+    .event = SoundEvent::BreakIgnored,
+    .id = "break_ignored",
   },
-
   {
-    SoundEvent::RestBreakStarted,
-    "rest_break_started",
+    .event = SoundEvent::RestBreakStarted,
+    .id = "rest_break_started",
   },
-
   {
-    SoundEvent::RestBreakEnded,
-    "rest_break_ended",
+    .event = SoundEvent::RestBreakEnded,
+    .id = "rest_break_ended",
   },
-
   {
-    SoundEvent::MicroBreakStarted,
-    "micro_break_started",
+    .event = SoundEvent::MicroBreakStarted,
+    .id = "micro_break_started",
   },
-
   {
-    SoundEvent::MicroBreakEnded,
-    "micro_break_ended",
+    .event = SoundEvent::MicroBreakEnded,
+    .id = "micro_break_ended",
   },
-
   {
-    SoundEvent::DailyLimit,
-    "daily_limit",
+    .event = SoundEvent::DailyLimit,
+    .id = "daily_limit",
   },
-
   {
-    SoundEvent::ExerciseEnded,
-    "exercise_ended",
+    .event = SoundEvent::ExerciseEnded,
+    .id = "exercise_ended",
   },
-
   {
-    SoundEvent::ExercisesEnded,
-    "exercises_ended",
+    .event = SoundEvent::ExercisesEnded,
+    .id = "exercises_ended",
   },
-
   {
-    SoundEvent::ExerciseStep,
-    "exercise_step",
+    .event = SoundEvent::ExerciseStep,
+    .id = "exercise_step",
   },
-};
+}};
 
-const string SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
-const string SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
-const string SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
-const string SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
-const string SoundTheme::CFG_KEY_SOUND_EVENT = "sound/events/";
-const string SoundTheme::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
+const std::string SoundTheme::CFG_KEY_SOUND_ENABLED = "sound/enabled";
+const std::string SoundTheme::CFG_KEY_SOUND_DEVICE = "sound/device";
+const std::string SoundTheme::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const std::string SoundTheme::CFG_KEY_SOUND_MUTE = "sound/mute";
+const std::string SoundTheme::CFG_KEY_SOUND_EVENT = "sound/events/";
+const std::string SoundTheme::CFG_KEY_SOUND_EVENT_ENABLED = "_enabled";
 
 workrave::config::Setting<bool> &
 SoundTheme::sound_enabled()
@@ -261,7 +251,7 @@ SoundTheme::load_themes()
 }
 
 SoundTheme::ThemeInfo::Ptr
-SoundTheme::load_sound_theme(const string &themedir)
+SoundTheme::load_sound_theme(const std::string &themedir)
 {
   TRACE_ENTRY_PAR(themedir);
   ThemeInfo::Ptr theme(new ThemeInfo);
@@ -365,7 +355,7 @@ SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
 
   if (enabled)
     {
-      string filename = SoundTheme::sound_event(snd)();
+      std::string filename = SoundTheme::sound_event(snd)();
       if (!filename.empty())
         {
           player->play_sound(filename, mute_after_playback, SoundTheme::sound_volume()());
@@ -374,7 +364,7 @@ SoundTheme::play_sound(SoundEvent snd, bool mute_after_playback)
 }
 
 void
-SoundTheme::play_sound(string wavfile)
+SoundTheme::play_sound(std::string wavfile)
 {
   player->play_sound(wavfile, false, SoundTheme::sound_volume()());
 }
@@ -395,23 +385,23 @@ SoundTheme::capability(workrave::audio::SoundCapability cap)
 void
 SoundTheme::windows_remove_deprecated_appevents()
 {
-  const string ids[] = {"WorkraveBreakPrelude",
-                        "WorkraveBreakIgnored",
-                        "WorkraveRestBreakStarted",
-                        "WorkraveRestBreakEnded",
-                        "WorkraveMicroBreakStarted",
-                        "WorkraveMicroBreakEnded",
-                        "WorkraveDailyLimit",
-                        "WorkraveExerciseEnded",
-                        "WorkraveExercisesEnded",
-                        "WorkraveExerciseStep"};
+  const std::array<std::string, 10> ids = {"WorkraveBreakPrelude",
+                                           "WorkraveBreakIgnored",
+                                           "WorkraveRestBreakStarted",
+                                           "WorkraveRestBreakEnded",
+                                           "WorkraveMicroBreakStarted",
+                                           "WorkraveMicroBreakEnded",
+                                           "WorkraveDailyLimit",
+                                           "WorkraveExerciseEnded",
+                                           "WorkraveExercisesEnded",
+                                           "WorkraveExerciseStep"};
 
-  string schemes = R"(AppEvents\Schemes\Apps\Workrave\)";
-  string event_labels = "AppEvents\\EventLabels\\";
+  std::string schemes = R"(AppEvents\Schemes\Apps\Workrave\)";
+  std::string event_labels = "AppEvents\\EventLabels\\";
 
-  for (string id: ids)
+  for (std::string id: ids)
     {
-      string key = schemes + id + "\\.current";
+      std::string key = schemes + id + "\\.current";
       Platform::registry_set_value(key.c_str(), nullptr, nullptr);
       key = schemes + id + "\\.default";
       Platform::registry_set_value(key.c_str(), nullptr, nullptr);

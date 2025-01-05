@@ -25,13 +25,11 @@
 
 #include <boost/archive/binary_oarchive.hpp>
 #include <sstream>
-#include <iostream>
 
 #include "commonui/Text.hh"
 #include "Applet.hh"
 
 #include "ui/TimerBoxControl.hh"
-#include "commonui/nls.h"
 #include "debug.hh"
 #include "ui/windows/IToolkitWindows.hh"
 
@@ -56,8 +54,8 @@ WindowsAppletWindow::WindowsAppletWindow(std::shared_ptr<IPluginContext> context
   heartbeat_data.enabled = true;
 
   ::InitializeCriticalSection(&heartbeat_data_lock);
-  thread_abort_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-  heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+  thread_abort_event = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
+  heartbeat_data_event = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
   control = new TimerBoxControl(context->get_core(), "applet", this);
 
@@ -84,18 +82,18 @@ WindowsAppletWindow::~WindowsAppletWindow()
   */
   heartbeat_data.enabled = false;
   SetEvent(thread_abort_event);
-  if (thread_handle)
+  if (thread_handle != nullptr)
     {
       WaitForSingleObject(thread_handle, INFINITE);
       CloseHandle(thread_handle);
     }
 
-  if (thread_abort_event)
+  if (thread_abort_event != nullptr)
     {
       CloseHandle(thread_abort_event);
     }
 
-  if (heartbeat_data_event)
+  if (heartbeat_data_event != nullptr)
     {
       CloseHandle(heartbeat_data_event);
     }

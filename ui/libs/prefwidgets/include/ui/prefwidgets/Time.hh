@@ -18,9 +18,6 @@
 #ifndef WORKRAVE_UI_PREFWIDGETS_TIME_HH
 #define WORKRAVE_UI_PREFWIDGETS_TIME_HH
 
-#include <functional>
-#include <vector>
-
 #include "Widget.hh"
 
 namespace ui::prefwidgets

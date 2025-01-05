@@ -19,7 +19,6 @@
 #define WORKRAVE_UI_PREFWIDGETS_TOGGLE_HH
 
 #include <string>
-#include <functional>
 
 #include "Widget.hh"
 

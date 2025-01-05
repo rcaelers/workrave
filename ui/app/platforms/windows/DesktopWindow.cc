@@ -31,11 +31,11 @@ DesktopWindow::DesktopWindow(int x, int y, int width, int height)
 {
   TRACE_ENTRY();
   init();
-  HINSTANCE hinstance = (HINSTANCE)GetModuleHandle(NULL);
+  auto *hinstance = (HINSTANCE)GetModuleHandle(nullptr);
 
   POINT pt = {x, y};
   HMONITOR monitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
-  if (monitor)
+  if (monitor != nullptr)
     {
       MONITORINFO info = {
         0,
@@ -59,10 +59,10 @@ DesktopWindow::DesktopWindow(int x, int y, int width, int height)
                          y,
                          width,
                          height,
-                         (HWND)NULL,
-                         (HMENU)NULL,
+                         (HWND) nullptr,
+                         (HMENU) nullptr,
                          hinstance,
-                         (LPSTR)NULL);
+                         (LPSTR) nullptr);
   SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 }
 
@@ -74,16 +74,19 @@ DesktopWindow::~DesktopWindow()
 LRESULT CALLBACK
 DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  DesktopWindow *self = (DesktopWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+  auto *self = (DesktopWindow *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
   switch (uMsg)
     {
     case WM_WINDOWPOSCHANGED:
-      InvalidateRect(self->hwnd, NULL, TRUE);
+      InvalidateRect(self->hwnd, nullptr, TRUE);
       return 0;
 
     case WM_ERASEBKGND:
       PaintDesktop((HDC)wParam);
       return 1;
+
+    default:
+      break;
     }
 
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
@@ -93,11 +96,14 @@ void
 DesktopWindow::init()
 {
   if (initialized)
-    return;
+    {
+      return;
+    }
 
-  HINSTANCE windows_hinstance = (HINSTANCE)GetModuleHandle(NULL);
+  auto *windows_hinstance = (HINSTANCE)GetModuleHandle(nullptr);
 
-  WNDCLASSEXA wclass = {sizeof(WNDCLASSEX), 0, window_proc, 0, 0, windows_hinstance, NULL, NULL, NULL, NULL, WINDOW_CLASS, NULL};
+  WNDCLASSEXA wclass =
+    {sizeof(WNDCLASSEX), 0, window_proc, 0, 0, windows_hinstance, nullptr, nullptr, nullptr, nullptr, WINDOW_CLASS, nullptr};
   RegisterClassExA(&wclass);
   initialized = true;
 }

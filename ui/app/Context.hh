@@ -41,6 +41,11 @@ public:
     TRACE_ENTRY();
   };
 
+  Context(const Context&) = delete;
+  Context& operator=(const Context&) = delete;
+  Context(Context&&) = default;
+  Context& operator=(Context&&) = default;
+
   auto get_core() const -> workrave::ICore::Ptr override;
   auto get_configurator() const -> workrave::config::IConfigurator::Ptr override;
   auto get_toolkit() const -> IToolkit::Ptr override;

@@ -20,14 +20,10 @@
 #include <psapi.h>
 
 #include <array>
-#include <filesystem>
 #include <string>
 #include <boost/algorithm/string.hpp>
 
-#include "utils/Paths.hh"
 #include "commonui/MenuDefs.hh"
-
-using namespace workrave::utils;
 
 std::string
 Remote::get_title(HWND hwnd)

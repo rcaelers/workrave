@@ -21,10 +21,7 @@
 #include <map>
 #include <boost/signals2.hpp>
 
-#include "ui/IPreferencesRegistry.hh"
 #include "ui/IPreferencesRegistryInternal.hh"
-
-#include "utils/Signals.hh"
 
 class PreferencesRegistry : public IPreferencesRegistryInternal
 {

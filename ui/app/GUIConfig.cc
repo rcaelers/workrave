@@ -23,8 +23,6 @@
 
 #include "config/IConfigurator.hh"
 #include "config/SettingCache.hh"
-#include "core/ICore.hh"
-#include "core/IBreak.hh"
 
 using namespace workrave::config;
 
