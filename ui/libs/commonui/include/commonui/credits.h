@@ -33,7 +33,7 @@ const char *const workrave_authors[] = {"Developers:",
                                         "Sounds:",
                                         "Ruairi Fullam",
                                         "Pieter De Decker",
-                                        nullptr};
+                                        NULL};
 
 const char *const workrave_translators =
   /* bg */
