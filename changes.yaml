@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0-rc.1
-    date: 2025-01-04T00:00:00+01:00
+    date: 2025-01-07T17:49:37+01:00
     short: |-
       Workrave 1.11.0-rc.1 has been released.
     changes:
