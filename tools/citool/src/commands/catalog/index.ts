@@ -25,7 +25,7 @@ export default class CatalogCmd extends Command {
     key: Flags.string({
       char: 'k',
       description: 'Access key for S3 access',
-      default: 'travis',
+      default: 'github',
     }),
     secret: Flags.string({
       char: 's',
