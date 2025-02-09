@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002-  2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,49 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef DEBUGDIALOG_HH
-#define DEBUGDIALOG_HH
+#ifndef MONITORINGPREFERENCESPANEL_HH
+#define MONITORINGPREFERENCESPANEL_HH
 
 #include <QtGui>
 #include <QtWidgets>
 
+#include <memory>
+
 #include "ui/IApplicationContext.hh"
 
-class DebugDialog : public QDialog
+class DataConnector;
+class Configurator;
+
+class MonitoringPreferencesPanel
+  : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit DebugDialog(std::shared_ptr<IApplicationContext> app);
+  explicit MonitoringPreferencesPanel(std::shared_ptr<IApplicationContext> app, QWidget *parent = nullptr);
+  ~MonitoringPreferencesPanel() override;
+
+private slots:
+  void on_debug_pressed();
+
+#if defined(PLATFORM_OS_WINDOWS)
+  void on_monitor_type_toggled();
+#endif
+
+private:
+  void create_panel();
 
 private:
   std::shared_ptr<IApplicationContext> app;
+  std::shared_ptr<DataConnector> connector;
+
+  QPushButton *debug_btn{nullptr};
+
+#if defined(PLATFORM_OS_WINDOWS)
+  QCheckBox *monitor_type_cb{nullptr};
+  QSlider *sensitivity_slider{nullptr};
+  QHBoxLayout *sensitivity_box{nullptr};
+#endif
 };
 
-#endif // DEBUGDIALOG_HH
+#endif // MONITORINGPREFERENCESPANEL_HH

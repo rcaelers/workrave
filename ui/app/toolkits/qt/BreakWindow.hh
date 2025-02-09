@@ -80,7 +80,6 @@ private:
   void on_postpone_button_clicked();
   void on_sysoper_combobox_changed(int index);
 
-  std::vector<System::SystemOperation> supported_system_operations;
   void append_row_to_sysoper_model(System::SystemOperation::SystemOperationType type);
   void get_operation_name_and_icon(System::SystemOperation::SystemOperationType type, QString &name, QString &icon_name);
 
@@ -93,12 +92,16 @@ private:
   QScreen *screen{nullptr};
   Frame *frame{nullptr};
   QWidget *gui{nullptr};
+  std::vector<System::SystemOperation> supported_system_operations;
   QWidget *block_window{nullptr};
   QProgressBar *progress_bar{nullptr};
   QPushButton *postpone_button{nullptr};
   QPushButton *skip_button{nullptr};
   QComboBox *sysoper_combo{nullptr};
   std::shared_ptr<SizeGroup> size_group;
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> window_manager;
+#endif
 };
 
 #endif // BREAKWINDOW_HH

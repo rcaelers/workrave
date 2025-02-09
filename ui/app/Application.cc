@@ -284,7 +284,9 @@ Application::init_dbus()
           // dialog.set_secondary_text(_("Is Workrave already running?"));
           // dialog.show();
           // dialog.run();
+#if !defined(HAVE_APP_QT)
           exit(1);
+#endif
         }
 
       try

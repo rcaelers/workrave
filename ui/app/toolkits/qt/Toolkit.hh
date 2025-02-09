@@ -26,6 +26,7 @@
 #include <QTimer>
 
 #include "AboutDialog.hh"
+#include "DebugDialog.hh"
 #include "ExercisesDialog.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
@@ -99,6 +100,8 @@ private:
   void on_status_icon_balloon_activated(const std::string &id);
   void on_status_icon_activated();
 
+  bool eventFilter(QObject *obj, QEvent *event) override;
+
 protected:
   std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};
@@ -108,6 +111,7 @@ private:
   char **argv{};
   QPointer<StatisticsDialog> statistics_dialog;
   QPointer<PreferencesDialog> preferences_dialog;
+  QPointer<DebugDialog> debug_dialog;
   QPointer<ExercisesDialog> exercises_dialog;
   QPointer<AboutDialog> about_dialog;
   std::shared_ptr<StatusIcon> status_icon;
@@ -119,6 +123,8 @@ private:
   std::shared_ptr<SoundTheme> sound_theme;
 
   std::map<std::string, std::function<void()>> notifiers;
+
+  workrave::utils::Trackable tracker;
 
   boost::signals2::signal<void()> timer_signal;
   boost::signals2::signal<void()> main_window_closed_signal;

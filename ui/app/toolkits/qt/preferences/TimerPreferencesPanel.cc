@@ -142,6 +142,11 @@ TimerPreferencesPanel::create_options_panel() -> QWidget *
       layout->addWidget(auto_natural_cb);
 
       connector->connect(GUIConfig::break_auto_natural(break_id), dc::wrap(auto_natural_cb));
+
+      allow_shutdown_cb = new QCheckBox(tr("Enable shutting down the computer from the rest screen"));
+      layout->addWidget(allow_shutdown_cb);
+
+      connector->connect(GUIConfig::break_enable_shutdown(break_id), dc::wrap(allow_shutdown_cb));
     }
 
   layout->addStretch();
@@ -292,6 +297,11 @@ TimerPreferencesPanel::enable_buttons()
   if (monitor_cb != nullptr)
     {
       monitor_cb->setEnabled(on);
+    }
+
+  if (allow_shutdown_cb != nullptr)
+    {
+      allow_shutdown_cb->setEnabled(on);
     }
 
   prelude_cb->setEnabled(on);

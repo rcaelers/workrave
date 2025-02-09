@@ -60,8 +60,8 @@ private:
   workrave::BreakId break_id;
   QScreen *screen{nullptr};
 
-  int progress_value = 0;
-  int progress_max_value = 1;
+  int progress_value{0};
+  int progress_max_value{1};
 
   bool flash_visible = false;
   QString progress_text;
@@ -75,6 +75,9 @@ private:
 
 #if defined(PLATFORM_OS_MACOS)
   MouseMonitor::Ptr mouse_monitor;
+#endif
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> window_manager;
 #endif
 };
 

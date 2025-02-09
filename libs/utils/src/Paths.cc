@@ -49,6 +49,14 @@ using namespace workrave::utils;
 
 namespace
 {
+  using namespace std::string_view_literals;
+
+#ifdef HAVE_APP_QT
+  constexpr std::string_view app_name = "WorkraveQt"sv;
+#else
+  constexpr std::string_view app_name = "Workrave"sv;
+#endif
+
   std::filesystem::path portable_directory;
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -230,7 +238,7 @@ Paths::get_config_directories()
   try
     {
 #if defined(PLATFORM_OS_WINDOWS)
-      directories.push_back(get_home_directory() / "Workrave");
+      directories.push_back(get_home_directory() / app_name);
       directories.push_back(get_application_directory() / "etc");
 #endif
 
@@ -266,7 +274,7 @@ Paths::get_state_directories()
     {
 #if defined(PLATFORM_OS_WINDOWS)
       directories.push_back(get_application_directory() / "etc");
-      directories.push_back(get_home_directory() / "Workrave");
+      directories.push_back(get_home_directory() / app_name);
 #endif
 
 #if defined(HAVE_GLIB)
@@ -378,7 +386,7 @@ Paths::get_state_directory()
             {
               TRACE_MSG("Using preferred directory");
 #if defined(PLATFORM_OS_WINDOWS)
-              ret = get_home_directory() / "Workrave";
+              ret = get_home_directory() / app_name;
 #elif defined(HAVE_GLIB)
 #  if GLIB_CHECK_VERSION(2, 72, 0)
               const gchar *user_state_dir = g_get_user_state_dir();
@@ -469,7 +477,7 @@ Paths::get_log_directory()
   std::filesystem::path dir = get_home_directory();
   if (!dir.empty())
     {
-      dir /= std::filesystem::path("Library") / "Logs" / "Workrave";
+      dir /= std::filesystem::path("Library") / "Logs" / app_name;
       return dir;
     }
 
@@ -484,7 +492,7 @@ Paths::get_log_directory()
   std::filesystem::path dir = get_special_folder(FOLDERID_LocalAppData);
   if (!dir.empty())
     {
-      dir /= std::filesystem::path("Workrave") / "Logs";
+      dir /= std::filesystem::path(app_name) / "Logs";
       return dir;
     }
 

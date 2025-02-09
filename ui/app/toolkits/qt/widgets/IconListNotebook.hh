@@ -43,6 +43,7 @@ public:
 
 private:
   void on_button_selected(QAbstractButton *button);
+  QIcon pad_icon(const QIcon &icon, int padding);
 
 private:
   std::unique_ptr<QButtonGroup> button_group;

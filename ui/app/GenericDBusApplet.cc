@@ -33,7 +33,6 @@
 
 namespace
 {
-  constexpr const char *WORKRAVE_APPLET_SERVICE_NAME = "org.workrave.Workrave";
   constexpr const char *WORKRAVE_APPLET_SERVICE_IFACE = "org.workrave.AppletInterface";
   constexpr const char *WORKRAVE_APPLET_SERVICE_OBJ = "/org/workrave/Workrave/UI";
 } // namespace

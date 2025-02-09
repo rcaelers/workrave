@@ -543,6 +543,7 @@ StatisticsDialog::on_history_goto_first()
 void
 StatisticsDialog::on_history_delete_all()
 {
+  // TODO:
   // /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
   // triggered while the message boxes are shown. The user would have no way to interact
   // with the break window without closing out the dialog which may be hidden behind it.
@@ -595,7 +596,6 @@ StatisticsDialog::on_history_delete_all()
   // app->get_core()->remove_operation_mode_override( funcname );
 }
 
-//! Periodic heartbeat.
 auto
 StatisticsDialog::on_timer() -> bool
 {
@@ -610,8 +610,8 @@ StatisticsDialog::on_timer() -> bool
 void
 StatisticsDialog::stream_distance(std::stringstream &stream, int64_t pixels)
 {
+  // TODO:
   // char buf[64];
-
   // double mm = (double) pixels * gdk_screen_width_mm() / gdk_screen_width();
   // sprintf(buf, "%.02f m", mm/1000);
   // stream << buf;

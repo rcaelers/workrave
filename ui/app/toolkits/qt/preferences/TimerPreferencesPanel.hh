@@ -60,6 +60,7 @@ private:
   QCheckBox *monitor_cb{nullptr};
   QCheckBox *prelude_cb{nullptr};
   QCheckBox *skippable_cb{nullptr};
+  QCheckBox *allow_shutdown_cb{nullptr};
   QSpinBox *exercises_spin{nullptr};
   QSpinBox *max_prelude_spin{nullptr};
   TimeEntry *auto_reset_tim{nullptr};

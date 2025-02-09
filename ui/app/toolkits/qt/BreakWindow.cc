@@ -52,6 +52,18 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *scre
 void
 BreakWindow::init()
 {
+#if defined(HAVE_WAYLAND)
+  if (Platform::running_on_wayland())
+    {
+      auto wm = std::make_shared<WaylandWindowManager>();
+      bool success = wm->init();
+      if (success)
+        {
+          window_manager = wm;
+        }
+    }
+#endif
+
   if (block_mode != BlockMode::Off)
     {
       setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen);
@@ -306,19 +318,18 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
     {
       for (int id = break_id - 1; id >= 0; id--)
         {
-          IBreak::Ptr b = core->get_break(BreakId(id));
-
+          auto b = core->get_break(BreakId(id));
           bool overdue = b->get_elapsed_time() > b->get_limit();
 
           if (((break_flags & BREAK_FLAGS_USER_INITIATED) == 0) || b->is_max_preludes_reached())
             {
               if (!GUIConfig::break_ignorable(BreakId(id))())
                 {
-                  skip_locked = overdue;
+                  postpone_locked = overdue;
                 }
               if (!GUIConfig::break_skippable(BreakId(id))())
                 {
-                  postpone_locked = overdue;
+                  skip_locked = overdue;
                 }
               if (skip_locked || postpone_locked)
                 {
@@ -496,9 +507,6 @@ BreakWindow::stop()
     }
 
   hide();
-  // TODO:
-  // platform->restore_foreground();
-  // platform->unlock();
 }
 
 void

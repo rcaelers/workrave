@@ -33,6 +33,7 @@
 class ToolkitWindows
   : public Toolkit
   , public IToolkitWindows
+  , public QAbstractNativeEventFilter
 {
 public:
   ToolkitWindows(int argc, char **argv);
@@ -56,6 +57,7 @@ private:
   void init_gui();
   bool filter_func(MSG *msg);
 
+  bool  nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
 private:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> event_hook;
 

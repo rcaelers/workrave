@@ -805,7 +805,11 @@ if (WIN32)
     set (PLATFORM_OS_WINDOWS_NATIVE 1)
   endif()
 
-  set (HAVE_HARPOON ON)
+  if (WITH_UI_QT)
+    set (HAVE_HARPOON OFF)
+  else()
+    set (HAVE_HARPOON ON)
+  endif()
 
   if (NOT MSVC)
     find_program(MSYS2_SHELL

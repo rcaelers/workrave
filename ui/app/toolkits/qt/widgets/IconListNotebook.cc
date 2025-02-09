@@ -70,6 +70,19 @@ IconListNotebook::sizeHint() const -> QSize
   return {max_x, max_y};
 }
 
+QIcon
+IconListNotebook::pad_icon(const QIcon &icon, int padding)
+{
+  QPixmap pixmap(icon.pixmap(24 + (2 * padding), 24 + (2 * padding)));
+  pixmap.fill(Qt::transparent);
+
+  QPainter painter(&pixmap);
+  painter.drawPixmap(padding, padding, icon.pixmap(24, 24));
+  painter.end();
+
+  return QIcon(pixmap);
+}
+
 void
 IconListNotebook::add_page(QWidget *page, const QIcon &icon, const QString &title)
 {
@@ -84,9 +97,11 @@ IconListNotebook::add_page(QWidget *page, const QIcon &icon, const QString &titl
     {
       button->setChecked(true);
     }
-  button->setIconSize(QSize(20, 20));
+
+  QIcon padded_icon = pad_icon(icon, 10);
+  button->setIconSize(QSize(44, 44));
   button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-  button->setIcon(icon);
+  button->setIcon(padded_icon);
   button->setText(QString("  ") + title);
   button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   button->setStyleSheet("QToolButton { padding: 10px; } ");

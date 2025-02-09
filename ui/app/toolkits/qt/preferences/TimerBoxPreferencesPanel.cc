@@ -27,8 +27,6 @@
 #include <QtGui>
 #include <QStyle>
 
-#include "debug.hh"
-
 #include "ui/GUIConfig.hh"
 #include "core/CoreConfig.hh"
 
@@ -52,8 +50,10 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::shared_ptr<IApplicationC
       button = new QComboBox;
     }
   cycle_entry = new QSpinBox;
+  applet_fallback_enabled_cb = new QCheckBox;
+  applet_icon_enabled_cb = new QCheckBox;
 
-  init();
+  init(); 
 }
 
 void
@@ -152,6 +152,20 @@ TimerBoxPreferencesPanel::init_timer_display()
 }
 
 void
+TimerBoxPreferencesPanel::init_fallback_applet()
+{
+  applet_fallback_enabled_cb->setText(tr("Fallback applet enabled"));
+  connector->connect(GUIConfig::applet_fallback_enabled(), dc::wrap(applet_fallback_enabled_cb));
+}
+
+void
+TimerBoxPreferencesPanel::init_status_icon()
+{
+  applet_icon_enabled_cb->setText(tr("Fallback applet enabled"));
+  connector->connect(GUIConfig::applet_icon_enabled(), dc::wrap(applet_icon_enabled_cb));
+}
+
+void
 TimerBoxPreferencesPanel::init()
 {
   init_enabled();
@@ -159,6 +173,8 @@ TimerBoxPreferencesPanel::init()
   init_placement();
   init_cycle();
   init_timer_display();
+  init_fallback_applet();
+  init_status_icon();
 
   layout = new QVBoxLayout;
   setLayout(layout);
@@ -174,7 +190,17 @@ TimerBoxPreferencesPanel::init()
 
   if (name == "main_window")
     {
-      display_layout->addWidget(ontop_cb);
+#if defined(PLATFORM_OS_UNIX)
+      if (!workrave::utils::Platform::running_on_wayland())
+#endif
+        {
+          display_layout->addWidget(ontop_cb);
+        }
+    }
+  if (name == "applet")
+    {
+      display_layout->addWidget(applet_fallback_enabled_cb);
+      display_layout->addWidget(applet_icon_enabled_cb);
     }
 
   UiUtil::add_widget(display_layout, tr("Placement:"), place_button);
@@ -316,6 +342,8 @@ TimerBoxPreferencesPanel::enable_buttons()
           timer_display_button[i]->setEnabled(on && timer_on);
         }
       cycle_entry->setEnabled(on && num_disabled != 3);
+      applet_fallback_enabled_cb->setEnabled(on && num_disabled != 3);
+      applet_icon_enabled_cb->setEnabled(on && num_disabled != 3);
     }
   else if (name == "main_window")
     {

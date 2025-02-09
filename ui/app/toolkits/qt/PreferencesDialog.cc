@@ -28,6 +28,7 @@
 
 #include "IconListNotebook.hh"
 #include "GeneralUiPreferencesPanel.hh"
+#include "MonitoringPreferencesPanel.hh"
 #include "SoundsPreferencesPanel.hh"
 #include "TimerBoxPreferencesPanel.hh"
 #include "TimerPreferencesPanel.hh"
@@ -35,14 +36,19 @@
 #include "Ui.hh"
 #include "Icon.hh"
 
+#include "core/CoreTypes.hh"
+#include "ui/GUIConfig.hh"
 #include "ui/prefwidgets/qt/Builder.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Enum.hh"
+#include "utils/EnumIterator.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
 
-PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app)
-  : app(app)
+PreferencesDialog::PreferencesDialog(std::shared_ptr<IApplicationContext> app, QWidget *parent)
+  : QDialog(parent)
+  , app(app)
 {
   TRACE_ENTRY();
 
@@ -72,33 +78,32 @@ PreferencesDialog::init_ui()
   auto *layout = new QVBoxLayout();
   setLayout(layout);
 
-  auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-  QPushButton *close_button = buttonBox->button(QDialogButtonBox::Close);
+  auto *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
+  QPushButton *close_button = button_box->button(QDialogButtonBox::Close);
   close_button->setAutoDefault(true);
   close_button->setDefault(true);
 
   notebook = new IconListNotebook();
   layout->addWidget(notebook);
 
-  connect(buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
-  layout->addWidget(buttonBox);
+  connect(button_box, SIGNAL(rejected()), this, SLOT(accept()));
+  layout->addWidget(button_box);
 }
 
 void
 PreferencesDialog::create_timers_page()
 {
-  std::array<std::string, 3> timer_ids = {"microbreak", "restbreak", "dailylimit"};
   auto page = add_page("timer", tr("Timers"), "timer.svg");
 
   auto hsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
   auto vsize_group = std::make_shared<SizeGroup>(Qt::Horizontal);
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (auto id: workrave::utils::enum_range<BreakId>())
     {
-      auto *panel = new TimerPreferencesPanel(app, BreakId(i), hsize_group, vsize_group);
-      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
+      auto *panel = new TimerPreferencesPanel(app, id, hsize_group, vsize_group);
+      QPixmap pixmap(Ui::get_break_icon_filename(id));
       QIcon icon(pixmap);
-      page->add_panel(timer_ids.at(i), panel, Ui::get_break_name(BreakId(i)), icon);
+      page->add_panel(std::string(workrave::utils::enum_to_string(id)), panel, Ui::get_break_name(id), icon);
     }
 }
 
@@ -121,14 +126,16 @@ void
 PreferencesDialog::create_monitoring_page()
 {
   auto page = add_page("monitoring", tr("Monitoring"), "mouse.svg");
-  // QWidget *monitoring_panel = new MonitoringPreferencePanel(app);
-  // page->add_panel("monitoring", monitoring_panel, _("Monitoring"));
+
+  QWidget *monitoring_panel = new MonitoringPreferencesPanel(app);
+  page->add_panel("monitoring", monitoring_panel, tr("Monitoring"));
 }
 
 void
 PreferencesDialog::create_sounds_page()
 {
   auto page = add_page("sounds", tr("Sounds"), "sound.svg");
+
   QWidget *gui_sounds_page = new SoundsPreferencesPanel(app);
   page->add_panel("sounds", gui_sounds_page, tr("Sounds"));
 }
@@ -140,6 +147,7 @@ PreferencesDialog::create_plugin_pages()
   for (auto &[id, def]: preferences_registry->get_pages())
     {
       auto &[label, image] = def;
+      spdlog::info("Adding page {} with label {} and image {}", id, label, image);
       auto page = add_page(id, QString::fromStdString(label), image);
     }
 }
@@ -157,6 +165,7 @@ PreferencesDialog::create_panel(std::shared_ptr<ui::prefwidgets::Def> &def)
       spdlog::error("Cannot find page {} when adding panel {}", pageid, panelid);
       return;
     }
+
   auto page = pageit->second;
   if (auto paneldef = std::dynamic_pointer_cast<ui::prefwidgets::PanelDef>(def); paneldef)
     {
@@ -169,6 +178,7 @@ PreferencesDialog::create_panel(std::shared_ptr<ui::prefwidgets::Def> &def)
       auto frame = std::make_shared<ui::prefwidgets::qt::BoxWidget>(box);
       builder.build(widget, frame);
       page->add_panel(panelid, boxwidget, QString::fromStdString(paneldef->get_label()));
+      frames.push_back(frame);
     }
 }
 
@@ -179,7 +189,7 @@ PreferencesDialog::create_plugin_panels()
 
   for (auto &[id, deflist]: preferences_registry->get_widgets())
     {
-      for (std::shared_ptr<ui::prefwidgets::Def> def: deflist)
+      for (auto def: deflist)
         {
           create_panel(def);
         }
@@ -204,31 +214,31 @@ PreferencesDialog::add_page(const std::string &id, const QString &label, const s
   return page_info;
 }
 
-// bool
-// PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
-// {
-//   TRACE_ENTRY();
-//   BlockMode block_mode = GUIConfig::block_mode()();
-//   if (block_mode != BlockMode::Off)
-//     {
-//       auto core = app->get_core();
-//       OperationMode mode = core->get_active_operation_mode();
-//       if (mode == OperationMode::Normal)
-//         {
-//           core->set_operation_mode_override(OperationMode::Quiet, "preferences");
-//         }
-//     }
-//   return Gtk::Dialog::on_focus_in_event(event);
-// }
-
-// bool
-// PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
-// {
-//   TRACE_ENTRY();
-//   auto core = app->get_core();
-//   core->remove_operation_mode_override("preferences");
-//   return Gtk::Dialog::on_focus_out_event(event);
-// }
+bool
+PreferencesDialog::eventFilter(QObject *watched, QEvent *event)
+{
+  if (event->type() == QEvent::FocusIn)
+    {
+      TRACE_ENTRY();
+      BlockMode block_mode = GUIConfig::block_mode()();
+      if (block_mode != BlockMode::Off)
+        {
+          auto core = app->get_core();
+          OperationMode mode = core->get_active_operation_mode();
+          if (mode == OperationMode::Normal)
+            {
+              core->set_operation_mode_override(OperationMode::Quiet, "preferences");
+            }
+        }
+    }
+  else if (event->type() == QEvent::FocusOut)
+    {
+      TRACE_ENTRY();
+      auto core = app->get_core();
+      core->remove_operation_mode_override("preferences");
+    }
+  return QDialog::eventFilter(watched, event);
+}
 
 PreferencesPage::PreferencesPage(const std::string &id, QTabWidget *notebook)
   : id(id)

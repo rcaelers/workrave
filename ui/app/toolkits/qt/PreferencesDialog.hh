@@ -27,6 +27,8 @@
 
 #include "IconListNotebook.hh"
 #include "ui/IApplicationContext.hh"
+#include "ui/prefwidgets/qt/BoxWidget.hh"
+
 
 class PanelList;
 
@@ -50,7 +52,7 @@ class PreferencesDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app);
+  explicit PreferencesDialog(std::shared_ptr<IApplicationContext> app, QWidget *parent = nullptr);
   ~PreferencesDialog() override;
 
 private:
@@ -66,15 +68,13 @@ private:
   void create_plugin_panels();
   void create_panel(std::shared_ptr<ui::prefwidgets::Def> &def);
 
-  // bool on_focus_in_event(GdkEventFocus *event) override;
-  // bool on_focus_out_event(GdkEventFocus *event) override;
+  bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
   std::shared_ptr<IApplicationContext> app;
   std::map<std::string, std::shared_ptr<PreferencesPage>> pages;
+  std::list<std::shared_ptr<ui::prefwidgets::qt::BoxWidget>> frames;
   IconListNotebook *notebook{nullptr};
-  // QStackedWidget *stack{nullptr};
-  // QHBoxLayout *layout{nullptr};
-};
+};;
 
 #endif // PREFERENCESDIALOG_HH

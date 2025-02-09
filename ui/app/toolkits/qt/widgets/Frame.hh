@@ -53,6 +53,7 @@ protected:
 private:
   auto get_frame_rect() const -> QRect;
 
+private:
   int frame_width{0};
   int border_width{0};
   QColor frame_color{QColor("black")};

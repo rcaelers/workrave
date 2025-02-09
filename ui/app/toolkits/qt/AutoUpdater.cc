@@ -218,7 +218,8 @@ AutoUpdater::init_preferences()
                              ->when(&workrave::updater::Config::proxy_type(),
                                     [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
 
-  context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "workrave-update-symbolic");
+  // TODO: image is toolkit specific
+  context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "update.svg");
   context->get_preferences_registry()->add(auto_update_def);
 }
 

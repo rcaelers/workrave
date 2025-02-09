@@ -44,6 +44,18 @@ PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
   , break_id(break_id)
   , screen(screen)
 {
+#if defined(HAVE_WAYLAND)
+  if (Platform::running_on_wayland())
+    {
+      auto wm = std::make_shared<WaylandWindowManager>();
+      bool success = wm->init();
+      if (success)
+        {
+          window_manager = wm;
+        }
+    }
+#endif
+
   auto *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
   timer->start(1000);
@@ -125,6 +137,13 @@ PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
 void
 PreludeWindow::start()
 {
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    {
+      window_manager->init_surface(*this, head.get_monitor(), false);
+    }
+#endif
+
   timebar->set_bar_color(TimerColorId::Overdue);
   refresh();
   show();
@@ -141,6 +160,14 @@ void
 PreludeWindow::stop()
 {
   frame->set_frame_flashing(0);
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    {
+      window_manager->clear_surfaces();
+    }
+#endif
+
   hide();
 
 #if defined(PLATFORM_OS_MACOS)

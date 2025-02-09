@@ -41,15 +41,19 @@ private:
   void init_ontop();
   void init_placement();
   void init_cycle();
+  void init_fallback_applet();
+  void init_status_icon();
   void init_timer_display();
   void init_config();
   void init();
 
   void enable_buttons();
-  void on_place_changed();
 
+  void on_place_changed();
   auto on_enabled_toggled(const std::string &key, bool write) -> bool;
   auto on_timer_display_changed(int break_id, const std::string &key, bool write) -> bool;
+  void on_applet_fallback_enabled_toggled();
+  void on_applet_icon_enabled_toggled();
 
 private:
   std::shared_ptr<IApplicationContext> app;
@@ -60,8 +64,10 @@ private:
   QCheckBox *ontop_cb{nullptr};
   QCheckBox *enabled_cb{nullptr};
   QComboBox *place_button{nullptr};
-  std::array<QComboBox*, workrave::BREAK_ID_SIZEOF> timer_display_button {};
+  std::array<QComboBox *, workrave::BREAK_ID_SIZEOF> timer_display_button{};
   QSpinBox *cycle_entry{nullptr};
+  QCheckBox *applet_fallback_enabled_cb{nullptr};
+  QCheckBox *applet_icon_enabled_cb{nullptr};
 };
 
 #endif // TIMERBOXUIPREFERENCESPANEL_HH

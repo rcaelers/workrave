@@ -17,6 +17,7 @@ target_sources(workrave-toolkit-qt PRIVATE
   ToolkitFactory.cc
   ToolkitMenu.cc
   preferences/GeneralUiPreferencesPanel.cc
+  preferences/MonitoringPreferencesPanel.cc
   preferences/SoundsPreferencesPanel.cc
   preferences/TimerBoxPreferencesPanel.cc
   preferences/TimerPreferencesPanel.cc
@@ -36,7 +37,27 @@ target_sources(workrave-toolkit-qt PRIVATE
 
 if (PLATFORM_OS_UNIX)
   target_sources(workrave-toolkit-qt PRIVATE ToolkitLinux.cc)
-  target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
+    if (HAVE_WAYLAND)
+     	qt_generate_wayland_protocol_client_sources(workrave-toolkit-qt  FILES
+	          platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
+            platforms/unix/protocols/xdg-shell.xml)
+
+      target_sources(workrave-toolkit-qt PRIVATE
+        platforms/unix/WaylandWindowManager.cc
+        ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
+        ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c)
+    endif()
+
+    if (HAVE_DBUSMENU)
+      target_sources(workrave-toolkit-qt PRIVATE platforms/unix/DbusMenu.cc)
+    endif()
+
+    if (HAVE_APPINDICATOR)
+      target_sources(workrave-toolkit-qt PRIVATE platforms/unix/AppIndicatorMenu.cc)
+    endif()
+
+    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols)
+    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix)
 endif()
 
 if (PLATFORM_OS_WINDOWS)

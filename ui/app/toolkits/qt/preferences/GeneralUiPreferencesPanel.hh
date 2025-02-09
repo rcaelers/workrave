@@ -34,10 +34,12 @@ public:
 
 private:
   void on_block_changed();
+  
 
 #if defined(PLATFORM_OS_WINDOWS)
   void on_autostart_toggled();
 #endif
+  void on_icon_theme_changed();
 
 private:
   DataConnector::Ptr connector;
@@ -46,6 +48,12 @@ private:
   QComboBox *languages_combo{nullptr};
   QStandardItemModel *model{nullptr};
 
+  QComboBox *icon_theme_combo{nullptr}; // TODO
+  QCheckBox *trayicon_cb{nullptr};
+
+#if defined(PLATFORM_OS_UNIX)
+  QCheckBox *force_x11_cb{nullptr}; // TODO
+#endif
 #if defined(PLATFORM_OS_WINDOWS)
   QCheckBox *autostart_cb{nullptr};
 #endif

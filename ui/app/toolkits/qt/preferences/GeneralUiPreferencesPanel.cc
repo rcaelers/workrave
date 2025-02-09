@@ -218,3 +218,72 @@ GeneralUiPreferencesPanel::on_block_changed()
     }
   GUIConfig::block_mode().set(m);
 }
+
+// void
+// GeneralPreferencePanel::on_icon_theme_changed()
+// {
+//   TRACE_ENTRY();
+//   int idx = icon_theme_button->get_active_row_number();
+
+//   if (idx == 0)
+//     {
+//       GUIConfig::icon_theme().set("");
+//     }
+//   else
+//     {
+//       GUIConfig::icon_theme().set(icon_theme_button->get_active_text());
+//     }
+// }
+
+// void
+// GeneralPreferencePanel::update_icon_theme_combo()
+// {
+//   TRACE_ENTRY();
+//   std::list<std::string> themes;
+
+//   for (const auto &dirname: AssetPath::get_search_path(SearchPathId::Images))
+//     {
+//       auto path = dirname.string();
+//       if (!g_str_has_suffix(path.c_str(), "images"))
+//         {
+//           continue;
+//         }
+
+//       GDir *dir = g_dir_open(path.c_str(), 0, nullptr);
+//       if (dir != nullptr)
+//         {
+//           const char *file = nullptr;
+//           while ((file = g_dir_read_name(dir)) != nullptr)
+//             {
+//               gchar *test_path = g_build_filename(dirname.string().c_str(), file, nullptr);
+//               if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
+//                 {
+//                   themes.emplace_back(file);
+//                 }
+//               g_free(test_path);
+//             }
+//           g_dir_close(dir);
+//         }
+//     }
+
+//   if (!themes.empty())
+//     {
+//       icon_theme_button = Gtk::manage(new Gtk::ComboBoxText());
+
+//       icon_theme_button->append(_("Default"));
+//       icon_theme_button->set_active(0);
+
+//       std::string current_icontheme = GUIConfig::icon_theme()();
+//       int idx = 1;
+//       for (auto &theme: themes)
+//         {
+//           icon_theme_button->append(theme);
+//           if (current_icontheme == theme)
+//             {
+//               icon_theme_button->set_active(idx);
+//             }
+//           idx++;
+//         }
+//       icon_theme_button->signal_changed().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_icon_theme_changed));
+//     }
+// }

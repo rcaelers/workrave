@@ -22,6 +22,7 @@
 #include "Toolkit.hh"
 
 #include <QApplication>
+#include <QGuiApplication>
 
 #include "DailyLimitWindow.hh"
 #include "MicroBreakWindow.hh"
@@ -54,6 +55,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   setQuitOnLastWindowClosed(false);
+  installEventFilter(this);
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
@@ -197,6 +199,12 @@ Toolkit::show_about()
 void
 Toolkit::show_debug()
 {
+  if (debug_dialog == nullptr)
+    {
+      debug_dialog = new DebugDialog(app);
+      debug_dialog->setAttribute(Qt::WA_DeleteOnClose);
+    }
+    debug_dialog->show();
 }
 
 void
@@ -296,6 +304,7 @@ Toolkit::show_notification(const std::string &id,
 void
 Toolkit::show_tooltip(const std::string &tip)
 {
+  // TODO:
 }
 
 void
@@ -340,4 +349,17 @@ Toolkit::notify_confirm(const std::string &id)
     {
       notifiers[id]();
     }
+}
+
+bool
+Toolkit::eventFilter(QObject *obj, QEvent *event)
+{
+  if (event->type() == QEvent::ApplicationPaletteChange || event->type() == QEvent::ThemeChange)
+    {
+      spdlog::info("Theme changed to {}",
+                   (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Light) ? "Light" : "Dark");
+      event->accept();
+      return true;
+    }
+  return false;
 }

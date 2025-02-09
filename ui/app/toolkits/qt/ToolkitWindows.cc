@@ -94,12 +94,14 @@ ToolkitWindows::init_gui()
 void
 ToolkitWindows::init_filter()
 {
+  QCoreApplication::instance()->installNativeEventFilter(this);
 }
 
 bool
-ToolkitWindows::filter_func(MSG *msg)
+ToolkitWindows::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 {
   TRACE_ENTRY();
+  auto *msg = static_cast<MSG *>(message);
   switch (msg->message)
     {
     case WM_WTSSESSION_CHANGE:
@@ -176,7 +178,7 @@ ToolkitWindows::filter_func(MSG *msg)
 
   event_hook(msg);
 
-  return true;
+  return false;
 }
 
 HWND
