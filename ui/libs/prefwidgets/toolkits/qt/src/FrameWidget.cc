@@ -31,6 +31,7 @@ FrameWidget::FrameWidget(std::shared_ptr<ui::prefwidgets::Frame> def,
 {
   panel = new QGroupBox(QString::fromStdString(def->get_label()));
   layout = new QVBoxLayout;
+  size_group = std::make_shared<SizeGroup>(Orientation::Horizontal);
   panel->setLayout(layout);
 
   // panel->set_border_width(12);
@@ -51,8 +52,10 @@ FrameWidget::add_label(const std::string &label, QWidget *widget, bool expand, b
   auto *box = new QHBoxLayout;
   auto *lab = new QLabel(QString::fromStdString(label));
 
+  size_group->add_widget(lab);
+
   box->addWidget(lab);
-  box->addWidget(widget);
+  box->addWidget(widget, 1);
   layout->addLayout(box);
 }
 

@@ -130,17 +130,18 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
 
   // Draw background
   painter.fillRect(0, 0, width() - 1, height() - 1, QColor("white"));
-  painter.setPen(QColor("black"));
-  painter.drawRect(0, 0, width() - 1, height() - 1);
+
+  QRect fr = contentsRect();
+  fr.adjust(-border_size, -border_size, border_size, border_size);
 
   QStyleOptionFrame option;
   option.initFrom(this);
-  option.features = QStyleOptionFrame::Flat;
-  option.frameShape = QFrame::Panel;
-  option.lineWidth = 2;
+  option.rect = fr;
+  option.lineWidth = 1;
   option.midLineWidth = 0;
-
-  painter.drawPrimitive(QStyle::PE_Frame, option);
+  option.state |= QStyle::State_Raised;
+  option.frameShape = QFrame::Panel;
+  painter.drawControl(QStyle::CE_ShapedFrame, option);
 
   // Bar
   int bar_width = 0;

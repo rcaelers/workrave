@@ -62,32 +62,59 @@ UiUtil::clear_layout(QLayout *layout)
 }
 
 void
-UiUtil::add_widget(QBoxLayout *layout, const QString &text, QWidget *widget)
+UiUtil::add_widget(QBoxLayout *layout, const QString &text, QWidget *widget, std::shared_ptr<SizeGroup> size_group)
 {
   auto *box = new QHBoxLayout;
   auto *lab = new QLabel(text);
 
+  if (size_group)
+    {
+      size_group->add_widget(lab);
+    }
+
   box->addWidget(lab);
-  box->addWidget(widget);
+  box->addWidget(widget, 1);
   layout->addLayout(box);
 }
 
 void
-UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget *widget)
+UiUtil::add_widget(QBoxLayout *layout, QLabel *label, QWidget *widget, std::shared_ptr<SizeGroup> size_group)
 {
   auto *box = new QHBoxLayout;
 
+  if (size_group)
+    {
+      size_group->add_widget(label);
+    }
+
   box->addWidget(label);
-  box->addWidget(widget);
+  box->addWidget(widget, 1);
   layout->addLayout(box);
 }
 
 auto
-UiUtil::add_label(QBoxLayout *layout, const QString &text, bool bold) -> QLabel *
+UiUtil::add_label(QBoxLayout *layout, const QString &text, bool bold, std::shared_ptr<SizeGroup> size_group) -> QLabel *
 {
   QLabel *label = create_label(text, bold);
+  if (size_group)
+    {
+      size_group->add_widget(label);
+    }
+
   layout->addWidget(label);
   return label;
+}
+
+auto
+UiUtil::add_label(QBoxLayout *layout, const QString &text, std::shared_ptr<SizeGroup> size_group) -> QLabel *
+{
+  return add_label(layout, text, false, size_group);
+}
+
+auto
+UiUtil::add_bold_label(QBoxLayout *layout, const QString &text, std::shared_ptr<SizeGroup> size_group) -> QLabel *
+{
+  return add_label(layout, text, true, size_group);
 }
 
 auto

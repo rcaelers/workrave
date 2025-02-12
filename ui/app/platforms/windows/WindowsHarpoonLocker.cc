@@ -20,6 +20,7 @@
 #endif
 
 #include <cstdint>
+#include <spdlog/spdlog.h>
 
 #include "ui/windows/WindowsHarpoonLocker.hh"
 

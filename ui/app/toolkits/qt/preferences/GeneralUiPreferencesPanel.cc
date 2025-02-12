@@ -46,6 +46,7 @@ constexpr auto RUNKEY = R"(Software\Microsoft\Windows\CurrentVersion\Run)";
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicationContext> app)
 {
   connector = std::make_shared<DataConnector>(app);
+  size_group = std::make_shared<SizeGroup>(Qt::Horizontal);
 
   // Block types
   block_button = new QComboBox;
@@ -74,7 +75,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
   auto *layout = new QVBoxLayout;
   setLayout(layout);
 
-  UiUtil::add_widget(layout, tr("Block mode:"), block_button);
+  UiUtil::add_widget(layout, tr("Block mode:"), block_button, size_group);
 
 #if defined(HAVE_LANGUAGE_SELECTION)
   std::string current_locale_name = GUIConfig::locale()();
@@ -146,7 +147,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   languages_view->setColumnHidden(2, true);
   languages_combo->setCurrentIndex(selected);
-  UiUtil::add_widget(layout, tr("Language:"), languages_combo);
+  UiUtil::add_widget(layout, tr("Language:"), languages_combo, size_group);
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)

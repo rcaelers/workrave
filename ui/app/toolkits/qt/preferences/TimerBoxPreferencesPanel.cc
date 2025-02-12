@@ -41,6 +41,7 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::shared_ptr<IApplicationC
   , name(name)
 {
   connector = std::make_shared<DataConnector>(app);
+  size_group = std::make_shared<SizeGroup>(Qt::Horizontal);
 
   ontop_cb = new QCheckBox;
   enabled_cb = new QCheckBox();
@@ -53,7 +54,7 @@ TimerBoxPreferencesPanel::TimerBoxPreferencesPanel(std::shared_ptr<IApplicationC
   applet_fallback_enabled_cb = new QCheckBox;
   applet_icon_enabled_cb = new QCheckBox;
 
-  init(); 
+  init();
 }
 
 void
@@ -161,7 +162,7 @@ TimerBoxPreferencesPanel::init_fallback_applet()
 void
 TimerBoxPreferencesPanel::init_status_icon()
 {
-  applet_icon_enabled_cb->setText(tr("Fallback applet enabled"));
+  applet_icon_enabled_cb->setText(tr("Show status icon"));
   connector->connect(GUIConfig::applet_icon_enabled(), dc::wrap(applet_icon_enabled_cb));
 }
 
@@ -203,17 +204,17 @@ TimerBoxPreferencesPanel::init()
       display_layout->addWidget(applet_icon_enabled_cb);
     }
 
-  UiUtil::add_widget(display_layout, tr("Placement:"), place_button);
-  UiUtil::add_widget(display_layout, tr("Cycle time:"), cycle_entry);
+  UiUtil::add_widget(display_layout, tr("Placement:"), place_button, size_group);
+  UiUtil::add_widget(display_layout, tr("Cycle time:"), cycle_entry, size_group);
 
   auto *timers_box = new QGroupBox(tr("Timers"));
   layout->addWidget(timers_box);
   auto *timers_layout = new QVBoxLayout;
   timers_box->setLayout(timers_layout);
 
-  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0]);
-  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1]);
-  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2]);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_MICRO_BREAK), timer_display_button[0], size_group);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_REST_BREAK), timer_display_button[1], size_group);
+  UiUtil::add_widget(timers_layout, Ui::get_break_name(BREAK_ID_DAILY_LIMIT), timer_display_button[2], size_group);
 
   layout->addStretch();
 

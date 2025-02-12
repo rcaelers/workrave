@@ -200,8 +200,6 @@ BreakWindow::get_operation_name_and_icon(System::SystemOperation::SystemOperatio
       name = tr("Suspend hybrid");
       icon_name = "shutdown.png";
       break;
-    default:
-      throw "System::execute: Unknown system operation";
     };
 }
 

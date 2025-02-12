@@ -28,15 +28,19 @@
 
 using namespace ui::prefwidgets::qt;
 
-SizeGroup::SizeGroup(std::shared_ptr<ui::prefwidgets::SizeGroup> def)
-  : def(def)
-  , orientation(def->get_orientation())
+SizeGroup::SizeGroup(ui::prefwidgets::Orientation orientation)
+  : orientation(orientation)
 {
   timer = new QTimer(this);
   timer->setSingleShot(true);
   timer->setInterval(0);
 
   QObject::connect(timer, &QTimer::timeout, this, &SizeGroup::update);
+}
+
+SizeGroup::SizeGroup(std::shared_ptr<ui::prefwidgets::SizeGroup> def)
+  : SizeGroup(def->get_orientation())
+{
 }
 
 void

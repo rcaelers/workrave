@@ -21,6 +21,7 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include "SizeGroup.hh"
 #include "core/CoreTypes.hh"
 #include "utils/Signals.hh"
 #include "ui/IApplicationContext.hh"
@@ -68,6 +69,8 @@ private:
   QSpinBox *cycle_entry{nullptr};
   QCheckBox *applet_fallback_enabled_cb{nullptr};
   QCheckBox *applet_icon_enabled_cb{nullptr};
+  std::shared_ptr<SizeGroup> size_group;
+
 };
 
 #endif // TIMERBOXUIPREFERENCESPANEL_HH
