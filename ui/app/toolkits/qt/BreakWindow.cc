@@ -49,7 +49,9 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *scre
 {
   TRACE_ENTRY();
   block_mode = GUIConfig::block_mode()();
+#if defined(HAVE_WAYLAND)
   window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(this->app->get_toolkit())->get_wayland_window_manager();
+#endif
 }
 
 void

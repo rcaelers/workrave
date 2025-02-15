@@ -203,7 +203,7 @@ endif()
 if (UNIX AND (NOT APPLE))
   option(WITH_WAYLAND "Enable Wayland support" ON)
 else()
-  set(WITH_WAYLAND  OFF)
+  set(WITH_WAYLAND OFF)
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
 
   message(STATUS "Checking for: Qt")
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml WaylandClient ${EXTRA_QT_COMPONENTS} REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml ${EXTRA_QT_COMPONENTS} REQUIRED)
   qt6_standard_project_setup()
   set(CMAKE_AUTORCC ON)
 

@@ -405,7 +405,7 @@ Paths::get_state_directory()
 #  endif
               ret = std::filesystem::path(user_state_dir) / app_name;
 #else
-              ret = get_home_directory() / fot_app_name;
+              ret = get_home_directory() / dot_app_name;
 #endif
             }
 

@@ -47,7 +47,9 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *
   , break_id(break_id)
   , screen(screen)
 {
+#if defined(HAVE_WAYLAND)
   window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
+#endif
 
   auto *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
