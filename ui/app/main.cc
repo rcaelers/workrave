@@ -19,6 +19,8 @@
 #  include "config.h"
 #endif
 
+#include <spdlog/common.h>
+
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <io.h>
 #  include <fcntl.h>
@@ -67,7 +69,7 @@ init_logging()
   logger->flush_on(spdlog::level::critical);
   spdlog::set_default_logger(logger);
 
-  spdlog::set_level(spdlog::level::debug);
+  spdlog::set_level(spdlog::level::info);
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
   spdlog::info("Workrave started");
   spdlog::info("Log file: {}", log_file.string());

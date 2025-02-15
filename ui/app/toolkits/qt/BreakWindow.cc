@@ -35,6 +35,7 @@
 #include "debug.hh"
 #include "UiUtil.hh"
 #include "IToolkitPrivate.hh"
+#include "IToolkitUnixPrivate.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -48,23 +49,12 @@ BreakWindow::BreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *scre
 {
   TRACE_ENTRY();
   block_mode = GUIConfig::block_mode()();
+  window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(this->app->get_toolkit())->get_wayland_window_manager();
 }
 
 void
 BreakWindow::init()
 {
-#if defined(HAVE_WAYLAND)
-  if (Platform::running_on_wayland())
-    {
-      auto wm = std::make_shared<WaylandWindowManager>();
-      bool success = wm->init();
-      if (success)
-        {
-          window_manager = wm;
-        }
-    }
-#endif
-
   if (block_mode != BlockMode::Off)
     {
       setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::SplashScreen);

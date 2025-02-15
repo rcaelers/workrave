@@ -151,7 +151,7 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id) -> 
   QList<QScreen *> screens = QGuiApplication::screens();
   QScreen *screen = screens.at(screen_index);
 
-  return std::make_shared<PreludeWindow>(screen, break_id);
+  return std::make_shared<PreludeWindow>(app, screen, break_id);
 }
 
 void
@@ -204,7 +204,7 @@ Toolkit::show_debug()
       debug_dialog = new DebugDialog(app);
       debug_dialog->setAttribute(Qt::WA_DeleteOnClose);
     }
-    debug_dialog->show();
+  debug_dialog->show();
 }
 
 void

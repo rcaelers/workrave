@@ -24,12 +24,15 @@
 #include <X11/Xlib.h>
 
 #include "debug.hh"
+#include "utils/Platform.hh"
 #include "ui/GUIConfig.hh"
 // #include "GnomeSession.hh"
 
 #if defined(HAVE_INDICATOR)
 #  include "IndicatorAppletMenu.hh"
 #endif
+
+using namespace workrave::utils;
 
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
@@ -55,6 +58,18 @@ ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 {
   TRACE_ENTRY();
 
+#if defined(HAVE_WAYLAND)
+  if (Platform::running_on_wayland())
+    {
+      auto wm = std::make_shared<WaylandWindowManager>();
+      bool success = wm->init();
+      if (success)
+        {
+          wayland_window_manager = wm;
+        }
+    }
+#endif
+
   Toolkit::init(app);
 
   // Glib::VariantType String(Glib::VARIANT_TYPE_STRING);
@@ -75,6 +90,14 @@ ToolkitUnix::get_desktop_image() -> QPixmap
 {
   return {};
 }
+
+#if defined(HAVE_WAYLAND)
+auto
+ToolkitUnix::get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManager>
+{
+  return wayland_window_manager;
+}
+#endif
 
 void
 ToolkitUnix::show_notification(const std::string &id,

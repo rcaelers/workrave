@@ -25,8 +25,9 @@
 #include "utils/Signals.hh"
 
 #include "Frame.hh"
-#include "ui/IPreludeWindow.hh"
 #include "TimeBar.hh"
+#include "ui/IPreludeWindow.hh"
+#include "ui/IApplicationContext.hh"
 
 #if defined(HAVE_WAYLAND)
 #  include "WaylandWindowManager.hh"
@@ -44,7 +45,7 @@ class PreludeWindow
   Q_OBJECT
 
 public:
-  PreludeWindow(QScreen *screen, workrave::BreakId break_id);
+  PreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, workrave::BreakId break_id);
 
   void start() override;
   void stop() override;

@@ -40,22 +40,14 @@ using namespace workrave::utils;
 #  import <Cocoa/Cocoa.h>
 #endif
 
-PreludeWindow::PreludeWindow(QScreen *screen, workrave::BreakId break_id)
+#include "IToolkitUnixPrivate.hh"
+
+PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, workrave::BreakId break_id)
   : QWidget(nullptr, Qt::Window)
   , break_id(break_id)
   , screen(screen)
 {
-#if defined(HAVE_WAYLAND)
-  if (Platform::running_on_wayland())
-    {
-      auto wm = std::make_shared<WaylandWindowManager>();
-      bool success = wm->init();
-      if (success)
-        {
-          window_manager = wm;
-        }
-    }
-#endif
+  window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
 
   auto *timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(update()));

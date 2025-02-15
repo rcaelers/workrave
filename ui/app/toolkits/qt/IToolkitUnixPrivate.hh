@@ -1,4 +1,4 @@
-// Copyright (C) 2001 -2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2025 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,17 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef ITOOLKIT_PRIVATE_HH
-#define ITOOLKIT_PRIVATE_HH
+#ifndef ITOOLKIT_UNIX_PRIVATE_HH
+#define ITOOLKIT_UNIX_PRIVATE_HH
 
-#include <QtGui>
+#if defined(HAVE_WAYLAND)
+#  include <memory>
+#  include "WaylandWindowManager.hh"
+#endif
 
-class IToolkitPrivate
+class IToolkitUnixPrivate
 {
 public:
-  virtual ~IToolkitPrivate() = default;
+  virtual ~IToolkitUnixPrivate() = default;
 
-  virtual auto get_desktop_image() -> QPixmap = 0;
+#if defined(HAVE_WAYLAND)
+  virtual auto get_wayland_window_manager() -> std::shared_ptr<WaylandWindowManager> = 0;
+#endif
 };
 
-#endif // ITOOLKIT_PRIVATE_HH
+#endif // ITOOLKIT_UNIX_PRIVATE_HH

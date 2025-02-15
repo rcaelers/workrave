@@ -148,8 +148,8 @@ Platform::running_on_wayland()
 #  if defined(GDK_WINDOWING_WAYLAND)
   GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   return GDK_IS_WAYLAND_DISPLAY(display);
-#  else
-  return false;
+#  elif defined(HAVE_QT)
+  return QGuiApplication::platformName() == "wayland";
 #  endif
 }
 #endif

@@ -70,8 +70,8 @@ public:
     Enum m_enum;
   };
 
-  typedef std::list<StructWithAllBasicTypes> ListOfStructWithAllBasicTypes;
-  typedef std::map<std::string, StructWithAllBasicTypes> MapOfStructWithAllBasicTypes;
+  using ListOfStructWithAllBasicTypes = std::list<StructWithAllBasicTypes>;
+  using MapOfStructWithAllBasicTypes = std::map<std::string, StructWithAllBasicTypes>;
 
   struct Data
   {
@@ -95,11 +95,11 @@ public:
     int m_data;
   };
 
-  typedef std::map<std::string, Data> DataMap;
-  typedef std::list<Data> DataList;
+  using DataMap = std::map<std::string, Data>;
+  using DataList = std::list<Data>;
 
-  typedef std::map<std::string, std::string> StringMap;
-  typedef std::list<std::string> StringList;
+  using StringMap = std::map<std::string, std::string>;
+  using StringList = std::list<std::string>;
 
   static std::string enum_to_str(DBusTestData::Enum value)
   {
