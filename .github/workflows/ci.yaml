@@ -28,13 +28,23 @@ jobs:
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
-          name: applet
+          name: applet-${{ matrix.configuration }}-${{ matrix.platform }}
           path: |
             frontend/applets/win32/src/x64/Release/workrave-applet64.dll
             frontend/applets/win32/src/Release/workrave-applet.dll
             frontend/applets/win32/src/x64/Debug/workrave-applet64.dll
             frontend/applets/win32/src/Debug/workrave-applet.dll
 
+  merge:
+    runs-on: ubuntu-24.04
+    needs: [ build-windows ]
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: applet
+          pattern: applet-*
+          
   build-mingw:
     runs-on: ubuntu-24.04
     needs: [ build-windows ]
