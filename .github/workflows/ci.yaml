@@ -26,7 +26,7 @@ jobs:
         run: msbuild frontend/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: applet
           path: |
@@ -44,22 +44,20 @@ jobs:
           - image: mingw-gtk2
             configuration: Release
             compiler: gcc
-            upload: true
+            upload: windows-gtk3-release
             
           - image: mingw-gtk2
             configuration: Debug
             compiler: gcc
-            upload: true
+            upload: windows-gtk3-debug
 
           - image: mingw-gtk
             configuration: Release
             compiler: gcc
-            upload: false
 
           - image: mingw-gtk
             configuration: Debug
             compiler: gcc
-            upload: false
 
     steps:
       - uses: actions/checkout@v4
@@ -95,10 +93,10 @@ jobs:
            DOCKER_IMAGE: ${{ matrix.config.image }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
         with:
-          name: artifacts
+          name: artifact-${{ matrix.config.upload }}
           path: _deploy
 
   build-linux:
@@ -111,8 +109,6 @@ jobs:
           - image: ubuntu-focal
             compiler: gcc
             gtk_version: 3
-            distcheck: yes
-            upload: true
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
           - image: ubuntu-focal
@@ -124,6 +120,8 @@ jobs:
           - image: ubuntu-noble
             compiler: gcc
             gtk_version: 3
+            distcheck: yes
+            upload: ubuntu-noble
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
           - image: ubuntu-oracular
@@ -165,15 +163,25 @@ jobs:
            FAILURE_ACTION: ${{ matrix.config.experimental == true }}
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
         with:
-          name: artifacts
+          name: artifact-${{ matrix.config.upload }}
           path: _deploy
+  
+  merge:
+    runs-on: ubuntu-24.04
+    needs: [ build-mingw, build-linux ]
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: all-artifacts
+          pattern: artifacts-*
 
   deploy:
     runs-on: ubuntu-24.04
-    needs: [ build-linux, build-mingw ]
+    needs: [ build-linux, build-mingw, merge ]
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
