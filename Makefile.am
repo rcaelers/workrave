@@ -9,7 +9,7 @@ MAINTAINERCLEANFILES = 	\
 		intltool-extract.in intltool-extract workrave.spec \
 		compile AUTHORS.txt COPYING.txt \
 		NEWS.txt README.txt
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update po/.intltool-merge-cache.lock
 
 SUBDIRS =      m4 po common libs backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
