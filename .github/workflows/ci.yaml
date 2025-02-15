@@ -280,8 +280,8 @@ jobs:
             os: ubuntu-24.04
             compiler: gcc
             ui: Qt
-            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
+            enable: GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING,INDICATOR,XFCE4
 
           # - image: mingw-fedora-rawhide
           #   os: ubuntu-24.04
