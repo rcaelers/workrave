@@ -451,6 +451,13 @@ BreakWindow::start()
   TRACE_ENTRY();
   // TODO: platform->foreground();
 
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    {
+      window_manager->init_surface(this, screen, true);
+    }
+#endif
+
   refresh();
   show();
   center();
@@ -497,6 +504,13 @@ BreakWindow::stop()
     {
       frame->set_frame_flashing(0);
     }
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    {
+      window_manager->clear_surfaces();
+    }
+#endif
 
   if (block_window != nullptr)
     {
