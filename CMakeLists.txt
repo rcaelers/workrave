@@ -200,7 +200,11 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (WITH_UI_GTK TRUE)
 endif()
 
-option(WITH_WAYLAND "Enable Wayland support" ON)
+if (UNIX AND (NOT APPLE))
+  option(WITH_WAYLAND "Enable Wayland support" ON)
+else()
+  set(WITH_WAYLAND  OFF)
+endif()
 
 #----------------------------------------------------------------------------------------------------
 # Locations
