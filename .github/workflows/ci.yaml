@@ -179,7 +179,7 @@ jobs:
           name: artifact-${{ matrix.config.upload }}
           path: _deploy
   
-  merge:
+  merge-applets:
     runs-on: ubuntu-24.04
     needs: [ build-mingw, build-linux ]
     steps:
@@ -191,7 +191,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-24.04
-    needs: [ build-linux, build-mingw, merge ]
+    needs: [ build-linux, build-mingw, merge-applets ]
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
