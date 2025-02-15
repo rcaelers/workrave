@@ -1,9 +1,14 @@
-Workrave NEWS -- history of user-visible changes. 25 September 2023
+Workrave NEWS -- history of user-visible changes. 15 February 2025
 Copyright (C) 2001-2023 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.10.53
+
+** Fix GNOME Shell 46 support (#532)
+** Add support for GNOME Shell 47 and 48 (#601)
 
 * Workrave 1.10.52
 
@@ -711,12 +716,12 @@ https://github.com/rcaelers/workrave/issues
 
 ** First public release.
 
-
+ 
 
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2023 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2022 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
