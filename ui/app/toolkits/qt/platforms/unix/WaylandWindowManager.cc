@@ -21,10 +21,23 @@
 
 #include "WaylandWindowManager.hh"
 
+#include <wayland-client-protocol.h>
 #include <memory>
-#include <gdk/gdkwayland.h>
 
 #include "debug.hh"
+
+#include <QWidget>
+#include <QWindow>
+#include <QScreen>
+
+#include <qguiapplication_platform.h>
+#include <QtGui/qpa/qplatformwindow_p.h>
+#include <QtGui/qpa/qplatformscreen.h>
+#include <QtGui/qpa/qplatformnativeinterface.h>
+
+#include <QtWaylandClient/private/qwaylandscreen_p.h>
+#include <QtWaylandClient/private/qwaylandsurface_p.h>
+#include <QtWaylandClient/private/qwaylandwindow_p.h>
 
 static const struct wl_registry_listener registry_listener = {
   .global = WaylandWindowManager::registry_global,
@@ -45,15 +58,10 @@ bool
 WaylandWindowManager::init()
 {
   TRACE_ENTRY();
-  auto *gdk_display = gdk_display_get_default();
-  // NOLINTNEXTLINE(bugprone-assignment-in-if-condition,cppcoreguidelines-pro-type-cstyle-cast)
-  if (!GDK_IS_WAYLAND_DISPLAY(gdk_display))
-    {
-      TRACE_MSG("not running on wayland");
-      return false;
-    }
 
-  auto *wl_display = gdk_wayland_display_get_wl_display(gdk_display);
+  auto *app = qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+  auto *wl_display = app->display();
+
   wl_registry = wl_display_get_registry(wl_display);
 
   wl_registry_add_listener(wl_registry, &registry_listener, this);
@@ -62,6 +70,8 @@ WaylandWindowManager::init()
   if (layer_shell == nullptr)
     {
       TRACE_MSG("zwlr-layer-surface protocol unsupported");
+      spdlog::warn(
+        "Your Wayland compositor does not support the wlr layer shell protocol. Workrave will not be able to properly position its break windows.");
       return false;
     }
 
@@ -79,7 +89,7 @@ WaylandWindowManager::registry_global(void *data,
   TRACE_ENTRY();
   TRACE_MSG("interface: {} {}", interface, version);
   auto *self = static_cast<WaylandWindowManager *>(data);
-  if (g_strcmp0(zwlr_layer_shell_v1_interface.name, interface) == 0)
+  if (strcmp(zwlr_layer_shell_v1_interface.name, interface) == 0)
     {
       if (self->layer_shell != nullptr)
         {
@@ -90,7 +100,7 @@ WaylandWindowManager::registry_global(void *data,
         wl_registry_bind(self->wl_registry,
                          id,
                          &zwlr_layer_shell_v1_interface,
-                         MIN((uint32_t)zwlr_layer_shell_v1_interface.version, version)));
+                         std::min((uint32_t)zwlr_layer_shell_v1_interface.version, version)));
     }
 }
 
@@ -100,12 +110,12 @@ WaylandWindowManager::registry_global_remove(void *data, struct wl_registry *reg
 }
 
 void
-WaylandWindowManager::init_surface(Gtk::Widget &gtk_window, Glib::RefPtr<Gdk::Monitor> monitor, bool keyboard_focus)
+WaylandWindowManager::init_surface(QWidget *window, QScreen *screen, bool keyboard_focus)
 {
   TRACE_ENTRY();
   if (layer_shell != nullptr)
     {
-      auto layer = std::make_shared<LayerSurface>(layer_shell, gtk_window, monitor, keyboard_focus);
+      auto layer = std::make_shared<LayerSurface>(layer_shell, window, screen, keyboard_focus);
       surfaces.push_back(layer);
     }
 }
@@ -117,33 +127,17 @@ WaylandWindowManager::clear_surfaces()
   surfaces.clear();
 }
 
-LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell,
-                           Gtk::Widget &gtk_window,
-                           Glib::RefPtr<Gdk::Monitor> monitor,
-                           bool keyboard_focus)
+LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWidget *window, QScreen *screen, bool keyboard_focus)
   : layer_shell(layer_shell)
-  , gtk_window(gtk_window.gobj())
   , keyboard_focus(keyboard_focus)
 
 {
   TRACE_ENTRY();
-  gtk_widget_realize(gtk_window.gobj());
-  auto window = gtk_window.get_window();
-  wl_output *output = gdk_wayland_monitor_get_wl_output(monitor->gobj());
+  auto *wayland_window = window->windowHandle()->nativeInterface<QNativeInterface::Private::QWaylandWindow>();
+  auto *wayland_screen = screen->nativeInterface<QtWaylandClient::QWaylandScreen>();
 
-  auto *gdk_display = gdk_display_get_default();
-  // NOLINTNEXTLINE(bugprone-assignment-in-if-condition,cppcoreguidelines-pro-type-cstyle-cast)
-  if (!GDK_IS_WAYLAND_DISPLAY(gdk_display))
-    {
-      return;
-    }
-
-  display = gdk_wayland_display_get_wl_display(gdk_display);
-
-  gtk_widget_realize(gtk_window.gobj());
-  gdk_wayland_window_set_use_custom_surface(window->gobj());
-
-  auto *surface = gdk_wayland_window_get_wl_surface(window->gobj());
+  auto *output = wayland_screen->output();
+  auto *surface = wayland_window->surface();
   layer_surface = zwlr_layer_shell_v1_get_layer_surface(layer_shell,
                                                         surface,
                                                         output,

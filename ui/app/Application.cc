@@ -654,7 +654,7 @@ std::string
 Application::get_timers_tooltip()
 {
   // FIXME: duplicate
-  const std::array<const char*, 3> labels = {_("Micro-break"), _("Rest break"), _("Daily limit")};
+  const std::array<const char *, 3> labels = {_("Micro-break"), _("Rest break"), _("Daily limit")};
   std::string tip;
 
   OperationMode mode = core->get_regular_operation_mode();

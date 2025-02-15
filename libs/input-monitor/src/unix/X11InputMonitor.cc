@@ -55,7 +55,9 @@ errorHandler(Display *dpy, XErrorEvent *error)
   (void)dpy;
 
   if (error->error_code == BadWindow || error->error_code == BadDrawable)
-    return 0;
+    {
+      return 0;
+    }
   return 0;
 }
 #endif

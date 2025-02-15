@@ -29,6 +29,7 @@
 
 #include "ui/GUIConfig.hh"
 #include "core/CoreConfig.hh"
+#include "utils/Platform.hh"
 
 #include "Ui.hh"
 #include "UiUtil.hh"

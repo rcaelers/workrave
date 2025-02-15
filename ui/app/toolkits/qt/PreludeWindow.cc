@@ -28,6 +28,7 @@
 
 #include "core/IApp.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 #include "UiUtil.hh"
 #include "qformat.hh"
@@ -140,7 +141,7 @@ PreludeWindow::start()
 #if defined(HAVE_WAYLAND)
   if (window_manager)
     {
-      window_manager->init_surface(*this, head.get_monitor(), false);
+      window_manager->init_surface(this, screen, false);
     }
 #endif
 

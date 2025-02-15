@@ -33,6 +33,10 @@
 #include "SizeGroup.hh"
 #include "ui/IApplicationContext.hh"
 
+#if defined(HAVE_WAYLAND)
+#  include "WaylandWindowManager.hh"
+#endif
+
 class BreakWindow
   : public QWidget
   , public IBreakWindow

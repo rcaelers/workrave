@@ -28,6 +28,10 @@
 #include "ui/IPreludeWindow.hh"
 #include "TimeBar.hh"
 
+#if defined(HAVE_WAYLAND)
+#  include "WaylandWindowManager.hh"
+#endif
+
 #if defined(PLATFORM_OS_MACOS)
 #  include "MouseMonitor.hh"
 #endif

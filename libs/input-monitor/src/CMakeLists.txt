@@ -20,18 +20,26 @@ if (PLATFORM_OS_UNIX)
   endif()
 
   if (HAVE_WAYLAND)
-    add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1-client.h
-      COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c
-      COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1-client.h
-      DEPENDS unix/protocols/ext-idle-notify-v1.xml
-      VERBATIM
-    )
-    target_sources(workrave-libs-input-monitor PRIVATE
-      unix/WaylandInputMonitor.cc
-      ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c
+    if (HAVE_APP_GTK)
+      add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1-client.h
+        COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c
+        COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1-client.h
+        DEPENDS unix/protocols/ext-idle-notify-v1.xml
+        VERBATIM
       )
-    target_link_libraries(workrave-libs-input-monitor ${WAYLAND_CLIENT_LIBRARIES})
+      target_sources(workrave-libs-input-monitor PRIVATE
+        unix/WaylandInputMonitor.cc
+        ${CMAKE_CURRENT_BINARY_DIR}/ext-idle-notify-v1.c
+        )
+      target_link_libraries(workrave-libs-input-monitor ${WAYLAND_CLIENT_LIBRARIES})
+    elseif(HAVE_APP_QT)
+      qt_generate_wayland_protocol_client_sources(workrave-libs-input-monitor
+        FILES ${CMAKE_CURRENT_SOURCE_DIR}/unix/protocols/ext-idle-notify-v1.xml
+        PRIVATE_CODE)
+        target_sources(workrave-libs-input-monitor PRIVATE unix/QtWaylandInputMonitor.cc)
+      target_link_libraries(workrave-libs-input-monitor Qt::WaylandClient Wayland::Client)
+    endif()
   endif()
 
   target_include_directories(workrave-libs-input-monitor PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

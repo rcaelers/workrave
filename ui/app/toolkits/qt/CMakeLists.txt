@@ -35,29 +35,29 @@ target_sources(workrave-toolkit-qt PRIVATE
   widgets/TimerBoxView.cc
 )
 
+
 if (PLATFORM_OS_UNIX)
-  target_sources(workrave-toolkit-qt PRIVATE ToolkitLinux.cc)
+  target_sources(workrave-toolkit-qt PRIVATE ToolkitUnix.cc platforms/unix/UnixLocker.cc platforms/unix/WaylandWindowManager.cc)
     if (HAVE_WAYLAND)
-     	qt_generate_wayland_protocol_client_sources(workrave-toolkit-qt  FILES
-	          platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
-            platforms/unix/protocols/xdg-shell.xml)
+     	qt_generate_wayland_protocol_client_sources(workrave-toolkit-qt
+         FILES  ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
+                ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml)
 
       target_sources(workrave-toolkit-qt PRIVATE
-        platforms/unix/WaylandWindowManager.cc
-        ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
-        ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c)
+        platforms/unix/WaylandWindowManager.cc)
     endif()
 
-    if (HAVE_DBUSMENU)
-      target_sources(workrave-toolkit-qt PRIVATE platforms/unix/DbusMenu.cc)
-    endif()
+    # if (HAVE_DBUSMENU)
+    #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/DbusMenu.cc)
+    # endif()
 
-    if (HAVE_APPINDICATOR)
-      target_sources(workrave-toolkit-qt PRIVATE platforms/unix/AppIndicatorMenu.cc)
-    endif()
+    # if (HAVE_APPINDICATOR)
+    #   target_sources(workrave-toolkit-qt PRIVATE platforms/unix/AppIndicatorMenu.cc)
+    # endif()
 
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols)
-    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix)
+    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_BINARY_DIR}/ui/app/platforms/unix)
+    target_link_libraries(workrave-toolkit-qt PUBLIC Qt::WaylandClient Wayland::Client Qt::WaylandClientPrivate)
 endif()
 
 if (PLATFORM_OS_WINDOWS)
@@ -75,6 +75,7 @@ if (PLATFORM_OS_MACOS)
     set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
+
 
 set(MOC_SOURCES
   AboutDialog.hh

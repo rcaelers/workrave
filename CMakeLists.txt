@@ -200,6 +200,8 @@ if ("${WITH_UI}" STREQUAL "Gtk+3")
   set (WITH_UI_GTK TRUE)
 endif()
 
+option(WITH_WAYLAND "Enable Wayland support" ON)
+
 #----------------------------------------------------------------------------------------------------
 # Locations
 
@@ -305,6 +307,16 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # GTK
 
+pkg_check_modules(GTK3 gtk+-3.0>=3.24.0)
+if (GTK3_FOUND)
+  set (HAVE_GTK3 ON)
+endif()
+
+pkg_check_modules(GTK4 gtk4>=4.10.0)
+if (GTK4_FOUND)
+  set (HAVE_GTK4 ON)
+endif()
+
 if ("${WITH_UI}" STREQUAL "Gtk+3")
   message(STATUS "Checking for: Gtk 3")
 
@@ -368,10 +380,22 @@ endif()
 # Qt
 
 if ("${WITH_UI}" STREQUAL "Qt")
-  message(STATUS "Checking for: Qt")
 
+  set(EXTRA_QT_COMPONENTS "")
+  message(STATUS "Checking for Wayland ${WITH_WAYLAND}")
+  if (WITH_WAYLAND)
+    find_package(ECM 5.68.0 NO_MODULE)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+
+    list(APPEND EXTRA_QT_COMPONENTS WaylandClient)
+    message(STATUS "Checking for: Wayland Client")
+    find_package(Wayland COMPONENTS Client)
+    set(HAVE_WAYLAND ON)
+  endif()
+
+  message(STATUS "Checking for: Qt")
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml WaylandClient ${EXTRA_QT_COMPONENTS} REQUIRED)
   qt6_standard_project_setup()
   set(CMAKE_AUTORCC ON)
 
@@ -538,10 +562,6 @@ endif()
 if (UNIX AND NOT APPLE)
   option(WITH_INDICATOR "Enable Ayatana indicator support" ON)
   option(LOCALINSTALL "Install file locally instead of to system location" OFF)
-
-  pkg_check_modules(
-    GTK3
-    gtk+-3.0>=3.10.0)
 
   if (WITH_INDICATOR AND HAVE_DBUSMENU)
     message(STATUS "Checking for: Ayatana Indicators")
@@ -714,9 +734,7 @@ endif()
 #----------------------------------------------------------------------------------------------------
 # Wayland
 
-option(WITH_WAYLAND "Enable Wayland support" ON)
-
-if (UNIX AND NOT APPLE)
+if (UNIX AND (NOT APPLE) AND WITH_UI_GTK)
   if (WITH_WAYLAND)
     message(STATUS "Checking for: Wayland")
 

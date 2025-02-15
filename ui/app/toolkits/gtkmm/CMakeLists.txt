@@ -53,17 +53,17 @@ if (PLATFORM_OS_UNIX)
     if (HAVE_WAYLAND)
       add_custom_command(
         OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c  ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1-client.h
-        COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
-        COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1-client.h
-        DEPENDS platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
+        COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1.c
+        COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml ${CMAKE_CURRENT_BINARY_DIR}/wlr-layer-shell-unstable-v1-client.h
+        DEPENDS ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/wlr-layer-shell-unstable-v1.xml
         VERBATIM
       )
 
       add_custom_command(
         OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c  ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client.h
-        COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c
-        COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client.h
-        DEPENDS platforms/unix/protocols/xdg-shell.xml
+        COMMAND ${WAYLAND_SCANNER} private-code ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell.c
+        COMMAND ${WAYLAND_SCANNER} client-header ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml ${CMAKE_CURRENT_BINARY_DIR}/xdg-shell-client.h
+        DEPENDS ${CMAKE_SOURCE_DIR}/ui/app/platforms/unix/protocols/xdg-shell.xml
         VERBATIM
       )
 
@@ -82,9 +82,7 @@ if (PLATFORM_OS_UNIX)
     endif()
 
     target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols)
-
-
-    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/)
+    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 if (PLATFORM_OS_WINDOWS)

@@ -30,6 +30,7 @@
 
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
+#include "utils/Platform.hh"
 
 #include "debug.hh"
 #include "UiUtil.hh"
