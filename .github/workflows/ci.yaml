@@ -226,7 +226,7 @@ jobs:
 
   release:
     runs-on: ubuntu-24.04
-    needs: [ build-linux, build-mingw ]
+    needs: [ build-linux, build-mingw, merge-artifacts ]
     if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-rc')
     steps:
       - uses: actions/checkout@v4
