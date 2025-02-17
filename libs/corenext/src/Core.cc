@@ -121,7 +121,7 @@ Core::init_bus()
 #if defined(HAVE_DBUS)
   try
     {
-      extern void init_DBusWorkraveNext(IDBus::Ptr dbus);
+      extern void init_DBusWorkraveNext(std::shared_ptr<IDBus> dbus);
       init_DBusWorkraveNext(dbus);
 
       dbus->connect(DBUS_PATH_WORKRAVE "Core", "org.workrave.CoreInterface", this);
@@ -206,7 +206,7 @@ Core::get_hooks() const
   return hooks;
 }
 
-dbus::IDBus::Ptr
+std::shared_ptr<workrave::dbus::IDBus>
 Core::get_dbus() const
 {
   return dbus;

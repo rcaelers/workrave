@@ -52,7 +52,7 @@ public:
   workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
   ICoreHooks::Ptr get_hooks() const override;
-  workrave::dbus::IDBus::Ptr get_dbus() const override;
+  std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
   bool is_user_active() const override;
   bool is_taking() const override;
   workrave::OperationMode get_active_operation_mode() override;
@@ -103,7 +103,7 @@ private:
   bool powersave{false};
 
   //! DBUS bridge
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
 };
 
 #endif // CORE_HH

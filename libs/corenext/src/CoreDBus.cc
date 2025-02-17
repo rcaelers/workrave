@@ -31,7 +31,7 @@
 using namespace workrave;
 using namespace workrave::dbus;
 
-CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus)
+CoreDBus::CoreDBus(CoreModes::Ptr modes, std::shared_ptr<IDBus> dbus)
   : dbus(dbus)
 {
   connect(modes->signal_operation_mode_changed(), this, [this](auto &&mode) {

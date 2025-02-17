@@ -45,7 +45,7 @@ BreaksControl::BreaksControl(IApp *app,
                              IActivityMonitor::Ptr activity_monitor,
                              CoreModes::Ptr modes,
                              Statistics::Ptr statistics,
-                             IDBus::Ptr dbus,
+                             std::shared_ptr<IDBus> dbus,
                              CoreHooks::Ptr hooks)
   : application(app)
   , activity_monitor(activity_monitor)

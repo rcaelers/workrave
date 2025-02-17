@@ -30,14 +30,14 @@ class CoreDBus : public workrave::utils::Trackable
 public:
   using Ptr = std::shared_ptr<CoreDBus>;
 
-  CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
+  CoreDBus(CoreModes::Ptr modes, std::shared_ptr<workrave::dbus::IDBus> dbus);
 
 private:
   void on_operation_mode_changed(workrave::OperationMode operation_mode);
   void on_usage_mode_changed(workrave::UsageMode usage_mode);
 
 private:
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
 };
 
 #endif // COREDBUS_HH

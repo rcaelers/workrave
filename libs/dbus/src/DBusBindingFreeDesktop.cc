@@ -28,7 +28,7 @@
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusBindingFreeDesktop::DBusBindingFreeDesktop(IDBus::Ptr dbus)
+DBusBindingFreeDesktop::DBusBindingFreeDesktop(std::shared_ptr<IDBus> dbus)
   : dbus(dbus)
 {
 }

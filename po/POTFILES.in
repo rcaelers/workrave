@@ -35,7 +35,6 @@ libs/dbus/src/DBusException.cc
 libs/dbus/src/DBusFactory.cc
 libs/dbus/src/DBusGeneric.cc
 libs/dbus/src/DBusGio.cc
-libs/dbus/test/DBusTestData.cc
 libs/dbus/test/DBusTestServer.cc
 libs/dbus/test/DBusTestServerGio.cc
 libs/dbus/test/DBusTestServerQt.cc

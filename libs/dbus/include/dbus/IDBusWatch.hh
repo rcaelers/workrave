@@ -20,18 +20,15 @@
 
 #include <string>
 
-namespace workrave
+namespace workrave::dbus
 {
-  namespace dbus
+  class IDBusWatch
   {
-    class IDBusWatch
-    {
-    public:
-      virtual ~IDBusWatch() = default;
+  public:
+    virtual ~IDBusWatch() = default;
 
-      virtual void bus_name_presence(const std::string &name, bool present) = 0;
-    };
-  } // namespace dbus
-} // namespace workrave
+    virtual void bus_name_presence(const std::string &name, bool present) = 0;
+  };
+} // namespace workrave::dbus
 
 #endif // WORKRAVE_DBUS_IDBUSWATCH_HH

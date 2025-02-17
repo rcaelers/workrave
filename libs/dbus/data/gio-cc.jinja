@@ -300,7 +300,7 @@ private:
   }
 
 public:
-  {{ interface.qname }}_Stub(IDBus::Ptr dbus);
+  {{ interface.qname }}_Stub(std::shared_ptr<IDBus> dbus);
   ~{{ interface.qname }}_Stub();
 
 {% for m in interface.signals %}
@@ -327,7 +327,7 @@ private:
 };
 
 
-{{ interface.qname }} *{{ interface.qname }}::instance(const ::workrave::dbus::IDBus::Ptr dbus)
+{{ interface.qname }} *{{ interface.qname }}::instance(const ::std::shared_ptr<workrave::dbus::IDBus> dbus)
 {
   {{ interface.qname }}_Stub *iface = NULL;
   DBusBinding *binding = dbus->find_binding("{{ interface.name }}");
@@ -340,7 +340,7 @@ private:
   return iface;
 }
 
-{{ interface.qname }}_Stub::{{ interface.qname }}_Stub(IDBus::Ptr dbus)
+{{ interface.qname }}_Stub::{{ interface.qname }}_Stub(std::shared_ptr<IDBus> dbus)
   : DBusBindingGio(dbus)
 {
 }
@@ -565,7 +565,7 @@ const char *
 
 {% endfor %}
 
-void init_{{ model.name }}(IDBus::Ptr dbus)
+void init_{{ model.name }}(std::shared_ptr<IDBus> dbus)
 {
 {% for interface in model.interfaces %}
 {% if interface.condition != '' %}

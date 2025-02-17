@@ -42,7 +42,7 @@ public:
                 IActivityMonitor::Ptr activity_monitor,
                 CoreModes::Ptr modes,
                 Statistics::Ptr statistics,
-                workrave::dbus::IDBus::Ptr dbus,
+                std::shared_ptr<workrave::dbus::IDBus> dbus,
                 CoreHooks::Ptr hooks);
   virtual ~BreaksControl();
 
@@ -78,7 +78,7 @@ private:
 
   CoreModes::Ptr modes;
   Statistics::Ptr statistics;
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
   CoreHooks::Ptr hooks;
 
   Break::Ptr breaks[workrave::BREAK_ID_SIZEOF];

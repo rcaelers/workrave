@@ -105,7 +105,7 @@ namespace workrave
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
 
     //! Return DBUs remoting interface.
-    [[nodiscard]] virtual dbus::IDBus::Ptr get_dbus() const = 0;
+    [[nodiscard]] virtual std::shared_ptr<workrave::dbus::IDBus> get_dbus() const = 0;
   };
 
   class CoreFactory

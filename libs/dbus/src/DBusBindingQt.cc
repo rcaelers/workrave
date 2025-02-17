@@ -28,7 +28,7 @@
 using namespace workrave;
 using namespace workrave::dbus;
 
-DBusBindingQt::DBusBindingQt(IDBus::Ptr dbus)
+DBusBindingQt::DBusBindingQt(std::shared_ptr<IDBus> dbus)
   : dbus(dbus)
 {
 }

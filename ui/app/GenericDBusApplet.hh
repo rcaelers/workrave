@@ -141,7 +141,7 @@ private:
   bool embedded{false};
   std::array<TimerData, workrave::BREAK_ID_SIZEOF> data;
   std::set<std::string> active_bus_names;
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
   std::shared_ptr<TimerBoxControl> control;
 };
 

@@ -302,7 +302,7 @@ Application::init_dbus()
 #if defined(HAVE_DBUS)
   try
     {
-      extern void init_DBusGUI(workrave::dbus::IDBus::Ptr dbus);
+      extern void init_DBusGUI(std::shared_ptr<workrave::dbus::IDBus> dbus);
       init_DBusGUI(dbus);
     }
   catch (workrave::dbus::DBusException &)

@@ -155,7 +155,7 @@ private:
   }
 
 public:
-  explicit {{ interface.qname }}_Stub(IDBus::Ptr dbus);
+  explicit {{ interface.qname }}_Stub(std::shared_ptr<IDBus> dbus);
   ~{{ interface.qname }}_Stub() override = default;
 
 {% for m in interface.signals %}
@@ -219,7 +219,7 @@ private:
   return iface;
 }
 
-{{ interface.qname }}_Stub::{{ interface.qname }}_Stub(IDBus::Ptr dbus)
+{{ interface.qname }}_Stub::{{ interface.qname }}_Stub(std::shared_ptr<IDBus> dbus)
   : DBusBindingQt(dbus)
 {
 }
@@ -395,7 +395,7 @@ void {{ interface.qname }}_Stub::{{ signal.qname }}(const std::string &path
 
 {% endfor %}
 
-void init_{{ model.name }}(IDBus::Ptr dbus)
+void init_{{ model.name }}(std::shared_ptr<IDBus> dbus)
 {
 {% for interface in model.interfaces %}
 {% if interface.condition != '' %}

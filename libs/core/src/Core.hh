@@ -125,7 +125,7 @@ public:
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
 
-  workrave::dbus::IDBus::Ptr get_dbus() const override;
+  std::shared_ptr<workrave::dbus::IDBus> get_dbus() const override;
   ICoreHooks::Ptr get_hooks() const override;
 
 private:
@@ -240,7 +240,7 @@ private:
   TracedField<ActivityState> monitor_state{"core.monitor_state", ACTIVITY_UNKNOWN};
 
   //! DBUS bridge
-  workrave::dbus::IDBus::Ptr dbus;
+  std::shared_ptr<workrave::dbus::IDBus> dbus;
 
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;

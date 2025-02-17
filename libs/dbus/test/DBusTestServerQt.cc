@@ -63,7 +63,7 @@ DBusTestServerQt::run(int argc, char **argv)
 
       dbus->init();
 
-      extern void init_DBusTestQt(workrave::dbus::IDBus::Ptr dbus);
+      extern void init_DBusTestQt(std::shared_ptr<workrave::dbus::IDBus> dbus);
       init_DBusTestQt(dbus);
 
       dbus->connect(WORKRAVE_TEST_PATH, WORKRAVE_TEST_INTERFACE, this);

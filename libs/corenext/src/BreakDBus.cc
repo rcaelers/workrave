@@ -33,7 +33,7 @@ using namespace workrave;
 using namespace workrave::dbus;
 using namespace std;
 
-BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, IDBus::Ptr dbus)
+BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, std::shared_ptr<IDBus> dbus)
   : break_id(break_id)
   , break_state_model(break_state_model)
   , dbus(dbus)

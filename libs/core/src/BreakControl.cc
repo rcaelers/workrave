@@ -715,7 +715,7 @@ void
 BreakControl::send_postponed()
 {
 #if defined(HAVE_DBUS)
-  workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
+  std::shared_ptr<workrave::dbus::IDBus> dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
   if (iface != nullptr)
@@ -729,7 +729,7 @@ void
 BreakControl::send_skipped()
 {
 #if defined(HAVE_DBUS)
-  workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
+  std::shared_ptr<workrave::dbus::IDBus> dbus = core->get_dbus();
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
   if (iface != nullptr)
@@ -785,7 +785,7 @@ BreakControl::send_signal(BreakStage stage)
 
   if (progress != "")
     {
-      workrave::dbus::IDBus::Ptr dbus = core->get_dbus();
+      std::shared_ptr<workrave::dbus::IDBus> dbus = core->get_dbus();
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
 
       if (iface != nullptr)

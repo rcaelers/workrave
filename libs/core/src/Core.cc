@@ -154,7 +154,7 @@ Core::init_bus()
       dbus->init();
 
 #if defined(HAVE_DBUS)
-      extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
+      extern void init_DBusWorkrave(std::shared_ptr<workrave::dbus::IDBus> dbus);
       init_DBusWorkrave(dbus);
 #endif
 
@@ -369,7 +369,7 @@ Core::get_hooks() const
   return hooks;
 }
 
-dbus::IDBus::Ptr
+std::shared_ptr<workrave::dbus::IDBus>
 Core::get_dbus() const
 {
   return dbus;

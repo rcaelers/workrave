@@ -43,7 +43,7 @@ public:
         Timer::Ptr timer,
         IActivityMonitor::Ptr activity_monitor,
         Statistics::Ptr statistics,
-        workrave::dbus::IDBus::Ptr dbus,
+        std::shared_ptr<workrave::dbus::IDBus> dbus,
         CoreHooks::Ptr hooks);
 
   // IBreak
