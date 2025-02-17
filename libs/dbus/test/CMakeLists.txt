@@ -5,7 +5,6 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/test.xml ${CMAKE_CURRENT_BINARY_DIR} DBusTestGio gio)
 
   set(SERVER_QT_SRC ${SERVER_QT_SRC}
-    DBusTestData.cc
     DBusTestServer.cc
     DBusTestServerQt.cc
     DBusTestQt.cc
@@ -16,7 +15,6 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
   )
 
   set(TEST_SRC ${TEST_SRC} ${MOC_SRC}
-    DBusTestData.cc
     Test.cc
     )
 

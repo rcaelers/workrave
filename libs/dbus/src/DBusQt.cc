@@ -103,13 +103,13 @@ DBusQt::introspect(const QString &path) const
 {
   string str;
 
-  ObjectCIter object_it = objects.find(path.toStdString());
+  auto object_it = objects.find(path.toStdString());
   if (object_it != objects.end())
     {
-      for (auto &interface: object_it->second)
+      for (const auto &interface: object_it->second)
         {
           string interface_name = interface.first;
-          DBusBindingQt *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
+          auto *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
           if (binding != nullptr)
             {
               str += binding->get_interface_introspect();
@@ -132,7 +132,7 @@ DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connec
       void *cobject = find_object(path, interface_name);
       if (cobject != nullptr)
         {
-          DBusBindingQt *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
+          auto *binding = dynamic_cast<DBusBindingQt *>(find_binding(interface_name));
           if (binding != nullptr)
             {
               success = binding->call(cobject, message, connection);

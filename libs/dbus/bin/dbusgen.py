@@ -79,10 +79,10 @@ class TypeNode(NodeBase):
     def sig(self):
         return self.type_sig
 
-    def value_to_internal(s):
+    def value_to_internal(self, s):
         return s
 
-    def value_from_internal(s):
+    def value_from_internal(self, s):
         return s
 
 class QStringTypeNode(TypeNode):
@@ -93,11 +93,39 @@ class QStringTypeNode(TypeNode):
         self.type_sig = 's'
         self.top_node = None
 
-    def to_internal(s):
+    def value_to_internal(self, s):
         return 'QString::fromStdString(' + s + ')'
 
-    def from_internal(s):
+    def value_from_internal(self, s):
         return s + '.toStdString()'
+
+class QUInt64TypeNode(TypeNode):
+    def __init__(self):
+        TypeNode.__init__(self)
+        self.csymbol = "uint64_t"
+        self.csymbol_internal = "unsigned long long"
+        self.type_sig = 't'
+        self.top_node = None
+
+    def value_to_internal(self, s):
+        return 'static_cast<unsigned long long>(' + s + ')'
+
+    def value_from_internal(self, s):
+        return 'static_cast<uint64_t>(' + s + ')'
+
+class QInt64TypeNode(TypeNode):
+    def __init__(self):
+        TypeNode.__init__(self)
+        self.csymbol = "int64_t"
+        self.csymbol_internal = "long long"
+        self.type_sig = 'x'
+        self.top_node = None
+
+    def value_to_internal(self, s):
+        return 'static_cast<long long>(' + s + ')'
+
+    def value_from_internal(self, s):
+        return 'static_cast<int64_t>(' + s + ')'
 
 class UserTypeNode(TypeNode):
     def __init__(self, top_node):
@@ -193,15 +221,17 @@ class TopNode(NodeBase):
         self.types['uint16']= TypeNode('uint16_t','q')
         self.types['int32']= TypeNode('int32_t','i')
         self.types['uint32']= TypeNode('uint32_t','u')
-        self.types['int64']= TypeNode('int64_t','x')
-        self.types['uint64']= TypeNode('uint64_t','t')
         self.types['bool']= TypeNode('bool','b')
         self.types['double']= TypeNode('double','d')
 
         if self.backend == 'qt':
             self.types['string']= QStringTypeNode()
+            self.types['int64']= QInt64TypeNode()
+            self.types['uint64']= QUInt64TypeNode()
         else:
             self.types['string']= TypeNode('std::string','s')
+            self.types['int64']= TypeNode('int64_t','x')
+            self.types['uint64']= TypeNode('uint64_t','t')
 
     def get_type(self, typename):
         if typename in self.types:
@@ -565,7 +595,7 @@ if __name__ == '__main__':
     base = os.path.splitext(os.path.basename(args[2]))[0]
 
     loader = jinja2.FileSystemLoader(directory, followlinks=True)
-    environment = jinja2.Environment(loader=loader, trim_blocks=True)
+    environment = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
     template = environment.get_template(filename)
 
     binding = TopNode(args[0], base, backend)

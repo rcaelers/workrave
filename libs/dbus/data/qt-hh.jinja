@@ -1,7 +1,9 @@
 #ifndef DBUS_{{ model.guard }}_HH
 #define DBUS_{{ model.guard }}_HH
 
-#include "dbus/DBusBindingQt.hh"
+#include <memory>
+
+#include "dbus/IDBus.hh"
 
 //
 // Imports
@@ -39,7 +41,6 @@ using namespace {{ ns }};
 //
 
 {% for interface in model.interfaces %}
-
 {% if interface.condition != '' %}
 #if {{ interface.condition }}
 {% endif %}
@@ -62,20 +63,18 @@ using namespace {{ ns }};
 {% endif %}
 {% endfor %}
 
-{% for ns in interface.namespace_list %}
-namespace {{ ns }} // interface {{ interface.name }} namespace
+{% if interface.namespace_list | length > 0 %}
+namespace {{ interface.namespace_list | join("::") }} // interface {{ interface.name }} namespace
 {
-{% endfor %}
+{% endif -%}
 
 class {{ interface.qname }}
 {
 public:
-  virtual ~{{ interface.qname }}() { }
-
-  static {{ interface.qname }} *instance(const ::workrave::dbus::IDBus::Ptr dbus);
-
+  virtual ~{{ interface.qname }}() = default;
+  static {{ interface.qname }} *instance(std::shared_ptr<::workrave::dbus::IDBus> dbus);
 {% for m in interface.signals %}
- virtual void {{ m.qname }}(const std::string &path
+  virtual void {{ m.qname }}(const std::string &path
   {% for p in m.params %}
     {% if p.hint == [] %}
       , {{ interface.get_type(p.type).symbol() }} {{ p.name }}
@@ -89,13 +88,13 @@ public:
 {% endfor %}
 };
 
-{% for ns in interface.namespace_list|reverse %}
-} // namespace {{ ns }}
-{% endfor %}
+{% if interface.namespace_list | length >  0%}
+} // namespace {{ interface.namespace_list | join("::") }}
+{% endif %}
 
 {% if interface.condition != '' %}
 #endif // {{ interface.condition }}
 {% endif %}
-{% endfor %} 
+{% endfor %}
 
 #endif // DBUS_{{ model.guard }}_HH

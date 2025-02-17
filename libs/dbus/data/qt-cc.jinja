@@ -2,105 +2,63 @@
 #include "config.h"
 #endif
 
+#include <array>
 #include <string>
-#include <list>
-#include <map>
-
-#include <stdlib.h>
-#include <boost/lexical_cast.hpp>
+#include <string_view>
 
 #include "dbus/DBusBindingQt.hh"
 #include "dbus/DBusException.hh"
 #include "{{ model.include_filename }}.hh"
 
-using namespace std;
 using namespace workrave::dbus;
 
 //
 // Marshaller
 //
 
-class {{ model.name }}_Marshall : public DBusMarshallQt
-{
-public:
-{% for enum in model.enums %}
-{% if enum.condition != '' %}
-#if {{ enum.condition }}
-{% endif %}
-  void get_{{ enum.qname }}(const QVariant &variant, {{ enum.symbol() }} &result);
-  QVariant put_{{ enum.qname }}(const {{ enum.symbol() }} &result);
-{% if enum.condition %}
-#endif // {{ enum.condition }}
-{% endif %}
-{% endfor %}
-
-{% for struct in model.structs %}
-{% if struct.condition %}
-#if {{ struct.condition }}
-{% endif %}
-  void get_{{ struct.qname }}(const QVariant &variant, {{ struct.symbol() }} &result);
-  QVariant put_{{ struct.qname }}(const {{ struct.symbol() }} &result);
-{% if struct.condition %}
-#endif // {{ struct.condition }}
-{% endif %}
-{% endfor %}
-
-{% for seq in model.sequences %}
-{% if seq.condition %}
-#if {{ seq.condition }}
-{% endif %}
-  void get_{{ seq.qname }}(const QVariant &variant, {{ seq.symbol() }} &result);
-  QVariant put_{{ seq.qname }}(const {{ seq.symbol() }} &result);
-{% if seq.condition %}
-#endif // {{ seq.condition }}
-{% endif %}
-{% endfor %}
-
-{% for dict in model.dictionaries %}
-{% if dict.condition %}
-#if {{ dict.condition }}
-{% endif %}
-  void get_{{ dict.qname }}(const QVariant &variant, {{ dict.symbol() }} &result);
-  QVariant put_{{ dict.qname }}(const {{ dict.symbol() }} &result);
-{% if dict.condition %}
-#endif // {{ dict.condition }}
-{% endif %}
-{% endfor %}
-};
-
-//
-// Enums
-//
-
 {% for enum in model.enums %}
 
 {% if enum.condition != '' %}
 #if {{ enum.condition }}
 {% endif %}
 
-void
-{{ model.name }}_Marshall::get_{{ enum.qname }}(const QVariant &variant, {{ enum.symbol() }} &result)
+[[maybe_unused]] static QDBusArgument &
+operator<<(QDBusArgument &arg, const {{ enum.symbol() }} &data)
 {
   std::string value;
-  try
+  switch (data)
     {
-      get_string(variant, value);
-    }
-  catch (const DBusRemoteException &e)
-    {
-      e << field_info("{{ enum.name }}");
-      throw;
+{% for e in enum.values %}
+    case {{ e.symbol() }}:
+      value = "{{ e.name }}";
+      break;
+{% endfor %}
+    default:
+      throw DBusRemoteException()
+        << message_info("Type error in enum")
+        << error_code_info(DBUS_ERROR_INVALID_ARGS)
+        << actual_type_info("{{ enum.name }}");
     }
 
+  arg << QString::fromStdString(value);
+  return arg;
+}
+
+[[maybe_unused]] static const QDBusArgument &
+operator>>(const QDBusArgument &arg, {{ enum.symbol() }} &data)
+{
+  QString value;
+  arg >> value;
+
 {% for e in enum.values %}
-  {%- if loop.first -%}
+  {% if loop.first %}
   if
-  {%- else -%}
+  {%- else %}
   else if
-  {%- endif -%}
+  {%- endif %}
   ("{{ e.name }}" == value)
     {
-      result = {{ e.symbol() }};
+      data = {{ e.symbol() }};
     }
 {% endfor %}
   else
@@ -110,27 +68,7 @@ void
         << error_code_info(DBUS_ERROR_INVALID_ARGS)
         << actual_type_info("{{ enum.name }}");
     }
-}
-
-QVariant
-{{ model.name }}_Marshall::put_{{ enum.qname }}(const {{ enum.symbol() }} &result)
-{
-  string value;
-  switch (result)
-    {
-    {% for e in enum.values %}
-    case {{ e.symbol() }}:
-      value = "{{ e.name }}";
-      break;
-    {% endfor %}
-    default:
-      throw DBusRemoteException()
-        << message_info("Type error in enum")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << actual_type_info("{{ enum.name }}");
-    }
-
-  return put_string(value);
+  return arg;
 }
 
 {% if enum.condition %}
@@ -139,211 +77,42 @@ QVariant
 
 {% endfor %}
 
-//
-// Structs
-//
 
 {% for struct in model.structs %}
 
 {% if struct.condition %}
 #if {{ struct.condition }}
 {% endif %}
-
-void
-{{ model.name }}_Marshall::get_{{ struct.qname }}(const QVariant &variant, {{ struct.symbol() }} &result)
+[[maybe_unused]] static QDBusArgument &
+operator<<(QDBusArgument &arg, const {{ struct.symbol() }} &data)
 {
-{% set num_expected_fields = struct.fields | length %}
-
-  const QDBusArgument arg = variant.value<QDBusArgument>();
-
-  if (arg.currentType() != QDBusArgument::StructureType)
-    {
-      throw DBusRemoteException()
-        << message_info("Incorrect type")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << expected_type_info("{{ struct.name }}");
-    }
-
   arg.beginStructure();
 {% for p in struct.fields %}
-  if (arg.atEnd())
-  {
-      throw DBusRemoteException()
-        << message_info("Incorrect number of member in struct")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << actual_type_info("{{ struct.name }}");
-  }
-
-  try
-    {
-      QVariant {{ p.name }} = arg.asVariant();
-      get_{{ p.type }}({{ p.name }}, result.{{ p.name }});
-    }
-  catch (const DBusRemoteException &e)
-    {
-      e << field_info("{{ p.name }}");
-      throw;
-    }
+  arg.appendVariant({{ model.get_type(p.type).value_to_internal('data.' + p.name) }});
 {% endfor %}
   arg.endStructure();
+  return arg;
 }
 
-
-QVariant
-{{ model.name }}_Marshall::put_{{ struct.qname }}(const {{ struct.symbol() }} &result)
+[[maybe_unused]] static const QDBusArgument &
+operator>>(const QDBusArgument &arg, {{ struct.symbol() }} &data)
 {
-  QDBusArgument arg;
-
   arg.beginStructure();
 {% for p in struct.fields %}
-  arg.appendVariant(put_{{ p.type }}(result.{{ p.name }}));
+{% if model.get_type(p.type).value_from_internal('x') == 'x' %}
+    arg >> data.{{ p.name }};
+{% else %}
+    {{ model.get_type(p.type).symbol_int() }} t_{{ p.name }} {};
+    arg >> t_{{ p.name }};
+    data.{{ p.name }} = {{ model.get_type(p.type).value_from_internal('t_' + p.name) }};
+{% endif %}
 {% endfor %}
   arg.endStructure();
-
-  return QVariant::fromValue(arg);
+  return arg;
 }
 
 {% if struct.condition %}
 #endif // {{ struct.condition }}
-{% endif %}
-
-{% endfor %}
-
-//
-// Sequences
-//
-
-{% for seq in model.sequences %}
-
-{% if seq.condition %}
-#if {{ seq.condition }}
-{% endif %}
-
-void
-{{ model.name }}_Marshall::get_{{ seq.qname }}(const QVariant &variant, {{ seq.symbol() }} &result)
-{
-  const QDBusArgument arg = variant.value<QDBusArgument>();
-
-  if (arg.currentType() != QDBusArgument::ArrayType)
-    {
-      throw DBusRemoteException()
-        << message_info("Incorrect type")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << expected_type_info("{{ seq.name }}");
-    }
-
-  arg.beginArray();
-
-  while (!arg.atEnd())
-    {
-      {{ model.get_type(seq.data_type).symbol() }} tmp;
-      try
-        {
-          get_{{ seq.data_type }}(arg.asVariant(), tmp);
-        }
-      catch (const DBusRemoteException &e)
-        {
-          e << field_info(string("[") + boost::lexical_cast<string>(result.size()) + "]");
-          throw;
-        }
-
-      result.push_back(tmp);
-    }
-
-  arg.endArray();
-}
-
-QVariant
-{{ model.name }}_Marshall::put_{{ seq.qname }}(const {{ seq.symbol() }} &result)
-{
-  QDBusArgument arg;
-
-  arg.beginArray(qMetaTypeId<{{ model.get_type(seq.data_type).symbol_int()}}>());
-  for (auto &i : result)
-    {
-      arg.appendVariant(put_{{ seq.data_type }}(i));
-    }
-  arg.endArray();
-
-  return QVariant::fromValue(arg);
-}
-
-{% if seq.condition %}
-#endif // {{ seq.condition }}
-{% endif %}
-{% endfor %}
-
-//
-// Dictionaries
-//
-
-{% for dict in model.dictionaries %}
-
-{% if dict.condition %}
-#if {{ dict.condition }}
-{% endif %}
-void
-{{ model.name }}_Marshall::get_{{ dict.qname }}(const QVariant &variant, {{ dict.symbol() }} &result)
-{
-  const QDBusArgument arg = variant.value<QDBusArgument>();
-
-  if (arg.currentType() != QDBusArgument::MapType)
-    {
-      throw DBusRemoteException()
-        << message_info("Incorrect type")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << expected_type_info("{{ dict.name }}");
-    }
-
-  arg.beginMap();
-
-  while (!arg.atEnd())
-    {
-      {{ model.get_type(dict.key_type).symbol() }} key;
-      {{ model.get_type(dict.value_type).symbol() }} value;
-
-      arg.beginMapEntry();
-      try
-        {
-          get_{{ dict.key_type }}(arg.asVariant(), key);
-          get_{{ dict.value_type }}(arg.asVariant(), value);
-        }
-      catch (const DBusRemoteException &e)
-        {
-          e << field_info(key);
-          throw;
-        }
-      arg.endMapEntry();
-
-      (result)[key] = value;
-    }
-
-  arg.endMap();
-}
-
-
-QVariant
-{{ model.name }}_Marshall::put_{{ dict.qname }}(const {{ dict.symbol() }} &result)
-{
-  QDBusArgument arg;
-
-  arg.beginMap(qMetaTypeId<{{ model.get_type(dict.key_type).symbol_int() }}>(),
-               qMetaTypeId<{{ model.get_type(dict.value_type).symbol_int() }}>());
-
-  for (auto &it : result)
-    {
-      arg.beginMapEntry();
-      arg.appendVariant(put_{{ dict.key_type }}(it.first));
-      arg.appendVariant(put_{{ dict.value_type }}(it.second));
-      arg.endMapEntry();
-    }
-  arg.endMap();
-
-  return QVariant::fromValue(arg);
-}
-
-{% if dict.condition %}
-#endif // {{ dict.condition }}
 {% endif %}
 
 {% endfor %}
@@ -359,38 +128,38 @@ QVariant
 //
 
 {% if interface.condition != '' %}
-#if {{ interface.condition }}
+#if {{ interface.fcondition }}
 {% endif %}
 
-{% for ns in interface.namespace_list %}
-namespace {{ ns }} // interface {{ interface.name }} namespace
+{% if interface.namespace_list | length > 0 %}
+namespace {{ interface.namespace_list | join("::") }} // interface {{ interface.name }} namespace
 {
-{% endfor %}
+{% endif -%}
 
-class {{ interface.qname }}_Stub : public DBusBindingQt, public {{ interface.qname }}, public {{ model.name }}_Marshall
+class {{ interface.qname }}_Stub : public DBusBindingQt, public {{ interface.qname }}
 {
 private:
-  typedef void ({{ interface.qname }}_Stub::*DBusMethodPointer)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
+  using DBusMethodPointer = void ({{ interface.qname }}_Stub::*)(void *object, const QDBusMessage &message, const QDBusConnection &connection);
 
   struct DBusMethod
   {
-    const string name;
+    std::string_view name;
     DBusMethodPointer fn;
   };
 
-  virtual bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection);
+  bool call(void *object, const QDBusMessage &message, const QDBusConnection &connection) override;
 
-  virtual const char *get_interface_introspect()
+  std::string_view get_interface_introspect() override
   {
     return interface_introspect;
   }
 
 public:
-  {{ interface.qname }}_Stub(IDBus::Ptr dbus);
-  virtual ~{{ interface.qname }}_Stub();
+  explicit {{ interface.qname }}_Stub(IDBus::Ptr dbus);
+  ~{{ interface.qname }}_Stub() override = default;
 
 {% for m in interface.signals %}
-  void {{ m.qname }}(const string &path 
+  void {{ m.qname }}(const std::string &path
   {% for p in m.params %}
     {% if p.hint == [] %}
       , {{ interface.get_type(p.type).symbol() }} {{ p.name }}
@@ -400,7 +169,7 @@ public:
       , {{ interface.get_type(p.type).symbol() }} &{{ p.name }}
     {% endif %}
   {% endfor %}
-  );
+  ) override;
 {% endfor %}
 
 
@@ -409,17 +178,40 @@ private:
   void {{ m.qname }}(void *object, const QDBusMessage &message, const QDBusConnection &connection);
 {% endfor %}
 
-  static const DBusMethod method_table[];
-  static const char *interface_introspect;
+  static constexpr std::array<DBusMethod, {{ interface.methods | length}}> method_table =
+  { {
+{% for method in interface.methods %}
+      {.name="{{ method.name }}", .fn=&{{ interface.qname }}_Stub::{{ method.qname }}} ,
+{% endfor %}
+  } };
+  static constexpr std::string_view interface_introspect =
+  "  <interface name=\"{{ interface.name }}\">\n"
+{% for method in interface.methods %}
+  "    <method name=\"{{ method.qname }}\">\n"
+  {% for p in method.params %}
+    {% if p.direction == 'in' or p.direction == 'out' %}
+  "      <arg type=\"{{ p.sig() }}\" name=\"{{ p.name }}\" direction=\"{{ p.direction }}\" />\n"
+    {% endif %}
+  {% endfor %}
+  "    </method>\n"
+{% endfor %}
+  {% for signal in interface.signals %}
+  "    <signal name=\"{{ signal.qname }}\">\n"
+    {% for p in signal.params %}
+  "      <arg type=\"{{ p.sig() }}\" name=\"{{ p.name }}\" />\n"
+    {% endfor %}
+  "    </signal>\n"
+  {% endfor %}
+  "  </interface>\n";
 };
 
 
-{{ interface.qname }} *{{ interface.qname }}::instance(const ::workrave::dbus::IDBus::Ptr dbus)
+{{ interface.qname }} *{{ interface.qname }}::instance(std::shared_ptr<::workrave::dbus::IDBus> dbus)
 {
-  {{ interface.qname }}_Stub *iface = NULL;
+  {{ interface.qname }}_Stub *iface = nullptr;
   DBusBinding *binding = dbus->find_binding("{{ interface.name }}");
 
-  if (binding != NULL)
+  if (binding != nullptr)
     {
       iface = dynamic_cast<{{ interface.qname }}_Stub *>(binding);
     }
@@ -432,27 +224,22 @@ private:
 {
 }
 
-{{ interface.qname }}_Stub::~{{ interface.qname }}_Stub()
-{
-}
-
 bool
 {{ interface.qname }}_Stub::call(void *object, const QDBusMessage &message, const QDBusConnection &connection)
 {
-  string method_name = message.member().toStdString();
-  const DBusMethod *table = method_table;
-  while (table->fn != NULL)
+  std::string method_name = message.member().toStdString();
+  constexpr std::array<DBusMethod, {{ interface.methods | length}}> table = method_table;
+  for (const auto &method : table)
     {
-      if (method_name == table->name)
+      if (method_name == method.name)
         {
-          DBusMethodPointer ptr = table->fn;
-          if (ptr != NULL)
+          DBusMethodPointer ptr = method.fn;
+          if (ptr != nullptr)
             {
               (this->*ptr)(object, message, connection);
             }
           return true;
         }
-      table++;
     }
   throw DBusRemoteException()
     << message_info("Unknown method")
@@ -477,26 +264,26 @@ void
 {% if method.condition != '' %}
 #if {{ method.condition }}
 {% endif %}
-
   try
     {
 {% if method.symbol() != "" %}
-      {{ interface.symbol() }} *dbus_object = static_cast<{{ interface.symbol() }} *>(object);
+      auto *dbus_object = static_cast<{{ interface.symbol() }} *>(object);
 {% else %}
       (void) object;
 {% endif %}
 
 {% for p in method.params %}
-      {{ interface.get_type(p.type).symbol() }} p_{{ p.name }} 
-  {% if p.direction == 'bind' %}
-      = {{ p.bind }} 
-  {% elif p.direction == 'sender' %}
-      = sender 
+      {{ interface.get_type(p.type).symbol() }} p_{{ p.name }}
+  {%- if p.direction == 'bind' %}
+      = {{ p.bind }};
+  {%- elif p.direction == 'sender' %}
+      = sender;
+  {%- else -%}
+      {};
   {% endif %}
-      ;
 {% endfor %}
 
-      int num_in_args = message.arguments().size();
+      auto num_in_args = message.arguments().size();
       if (num_in_args != {{ method.num_in_args }})
         {
           throw DBusRemoteException()
@@ -507,42 +294,33 @@ void
         }
 
 {% for arg in method.params if arg.direction == 'in' %}
-      try
-        {
-          get_{{ arg.type }}(message.arguments().at({{ loop.index0 }}), p_{{ arg.name }});
-        }
-      catch (const DBusRemoteException &e)
-        {
-          e << parameter_info("{{ arg.name }}");
-          throw;
-        }
+      p_{{ arg.name }} = variant_to_value<{{ interface.get_type(arg.type).symbol() }}> (message.arguments().at({{ loop.index0 }}));
 {% endfor %}
 
 {% if method.symbol() != "" %}
   {% if method.return_type() != 'void' %}
-      p_{{ method.return_name() }} = 
-  {% endif %}
-  dbus_object->{{ method.symbol() }}( 
-
+      p_{{ method.return_name() }} =
+  {%- endif %}
+  dbus_object->{{ method.symbol() }}(
 {% set comma = joiner(",") %}
   {% for p in method.params %}
     {% if 'return' not in p.hint %}
       {% if 'ptr' in p.hint %}
-      {{ comma() }} &p_{{ p.name }}
+        {{ comma() }} &p_{{ p.name }}
       {% else %}
-      {{ comma() }} p_{{ p.name }}
+        {{ comma() }} p_{{ p.name }}
       {% endif %}
     {% endif %}
   {% endfor %}
       );
 {% endif %}
 
-     QDBusMessage reply = message.createReply();
+      QDBusMessage reply = message.createReply();
 
 {% if method.num_out_args > 0 %}
   {% for arg in method.params: %}
     {% if arg.direction == 'out' %}
-      reply << put_{{ arg.type }}(p_{{ arg.name }});
+      reply << value_to_variant<{{ interface.get_type(arg.type).symbol() }}> (p_{{ arg.name }});
     {% endif %}
   {% endfor %}
 {% endif %}
@@ -577,7 +355,7 @@ void
 // Interface {{ interface.name }} signal {{ signal.name }}
 //
 
-void {{ interface.qname }}_Stub::{{ signal.qname }}(const string &path 
+void {{ interface.qname }}_Stub::{{ signal.qname }}(const std::string &path
   {% for p in signal.params %}
     {% if p.hint == [] %}
       , {{ interface.get_type(p.type).symbol() }} p_{{ p.name }}
@@ -594,9 +372,9 @@ void {{ interface.qname }}_Stub::{{ signal.qname }}(const string &path
 {% if signal.params|length > 0 %}
   {% for arg in signal.params: %}
     {% if 'ptr' in arg.hint %}
-      sig << = put_{{ arg.type }}(* p_{{ arg.name }});
+      sig << value_to_variant<{{ interface.get_type(arg.type).symbol() }}> (* p_{{ arg.name }});
     {% else %}
-      sig <<  put_{{ arg.type }}(p_{{ arg.name }});
+      sig <<  value_to_variant<{{ interface.get_type(arg.type).symbol() }}> (p_{{ arg.name }});
     {% endif %}
   {% endfor %}
 {% endif %}
@@ -607,37 +385,9 @@ void {{ interface.qname }}_Stub::{{ signal.qname }}(const string &path
 
 {% endfor %}
 
-const {{ interface.qname }}_Stub::DBusMethod {{ interface.qname }}_Stub::method_table[] = {
-{% for method in interface.methods %}
-  { "{{ method.name }}", &{{ interface.qname }}_Stub::{{ method.qname }} },
-{% endfor %}
-  { "", NULL }
-};
-
-const char *
-{{ interface.qname }}_Stub::interface_introspect =
-  "  <interface name=\"{{ interface.name }}\">\n"
-{% for method in interface.methods %}
-  "    <method name=\"{{ method.qname }}\">\n"
-  {% for p in method.params %}
-    {% if p.direction == 'in' or p.direction == 'out' %}
-  "      <arg type=\"{{ p.sig() }}\" name=\"{{ p.name }}\" direction=\"{{ p.direction }}\" />\n"
-    {% endif %}
-  {% endfor %}
-  "    </method>\n"
-{% endfor %}
-  {% for signal in interface.signals %}
-  "    <signal name=\"{{ signal.qname }}\">\n"
-    {% for p in signal.params %}
-  "      <arg type=\"{{ p.sig() }}\" name=\"{{ p.name }}\" />\n"
-    {% endfor %}
-  "    </signal>\n"
-  {% endfor %}
-  "  </interface>\n";
-
-{% for ns in interface.namespace_list|reverse %}
-} // namespace {{ ns }}
-{% endfor %}
+{% if interface.namespace_list | length >  0%}
+} // namespace {{ interface.namespace_list | join("::") }}
+{% endif %}
 
 {% if interface.condition != '' %}
  #endif // {{ interface.condition }}
@@ -654,6 +404,26 @@ void init_{{ model.name }}(IDBus::Ptr dbus)
   dbus->register_binding("{{ interface.name }}", new {% for ns in interface.namespace_list %}{{ ns }}::{% endfor %}{{ interface.qname }}_Stub(dbus));
 {% if interface.condition != '' %}
 #endif // {{ interface.condition }}
+{% endif %}
+{% endfor %}
+
+{% for struct in model.structs %}
+{% if struct.condition %}
+#if {{ struct.condition }}
+{% endif %}
+  qDBusRegisterMetaType<{{ struct.symbol() }}>();
+{% if struct.condition %}
+#endif // {{ struct.condition }}
+{% endif %}
+{% endfor %}
+
+{% for enum in model.enums %}
+{% if enum.condition != '' %}
+#if {{ enum.condition }}
+{% endif %}
+  qDBusRegisterMetaType<{{ enum.symbol() }}>();
+{% if enum.condition %}
+#endif // {{ enum.condition }}
 {% endif %}
 {% endfor %}
 }

@@ -19,7 +19,6 @@
 #define DBUSTESTDATA_HH
 
 #include <string>
-#include <set>
 
 #if defined(DBUS_BACKEND_QT)
 #  include <QDBusArgument>
@@ -157,20 +156,5 @@ public:
   DBusTestData() = default;
   virtual ~DBusTestData() = default;
 };
-
-#if defined(DBUS_BACKEND_QT)
-Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypes)
-Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypesReorder)
-Q_DECLARE_METATYPE(DBusTestData::Data)
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message);
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypes &message);
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypesReorder &message);
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::StructWithAllBasicTypesReorder &message);
-
-QDBusArgument &operator<<(QDBusArgument &argument, const DBusTestData::Data &message);
-const QDBusArgument &operator>>(const QDBusArgument &argument, DBusTestData::Data &message);
-#endif
 
 #endif // DBUSTESTDATA_HH

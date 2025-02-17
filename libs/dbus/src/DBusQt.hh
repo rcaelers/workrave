@@ -40,7 +40,7 @@ namespace workrave
       , public QDBusVirtualObject
     {
     public:
-      typedef std::shared_ptr<DBusQt> Ptr;
+      using Ptr = std::shared_ptr<DBusQt>;
 
     public:
       DBusQt();
@@ -76,17 +76,10 @@ namespace workrave
         bool seen;
       };
 
-      typedef std::map<std::string, WatchData> Watched;
-      typedef Watched::iterator WatchIter;
-      typedef Watched::const_iterator WatchCIter;
+      using Watched = std::map<std::string, WatchData>;
 
-      //! Connection to the DBus.
       QDBusConnection connection;
-
-      //!
       QDBusServiceWatcher watcher;
-
-      //!
       Watched watched;
     };
   } // namespace dbus

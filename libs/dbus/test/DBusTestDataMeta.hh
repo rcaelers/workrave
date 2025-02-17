@@ -15,17 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
-#include "debug.hh"
+#ifndef DBUSTESTDATAMETA_HH
+#define DBUSTESTDATAMETA_HH
 
 #include "DBusTestData.hh"
 
-#include "dbus/IDBus.hh"
-
 #if defined(DBUS_BACKEND_QT)
+#  include <QDBusArgument>
+#  include <QMetaType>
+#endif
+
+Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypes)
+Q_DECLARE_METATYPE(DBusTestData::StructWithAllBasicTypesReorder)
+Q_DECLARE_METATYPE(DBusTestData::Data)
+
 QDBusArgument &
 operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message)
 {
@@ -152,4 +155,4 @@ operator>>(const QDBusArgument &argument, DBusTestData::Data &message)
   return argument;
 }
 
-#endif
+#endif // DBUSTESTDATA_HH

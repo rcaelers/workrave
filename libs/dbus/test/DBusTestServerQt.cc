@@ -26,6 +26,7 @@
 
 #include "DBusTestServerQt.hh"
 #include "DBusTestQt.hh"
+#include "DBusTestDataMeta.hh"
 
 #include "dbus/IDBus.hh"
 
@@ -98,7 +99,7 @@ DBusTestServerQt::test_fire_signal()
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
 
-  l.push_back(DBusTestData::Data(1, 2));
+  l.emplace_back(1, 2);
   m["1"] = DBusTestData::Data(1, 2);
 
   if (test != nullptr)
@@ -154,7 +155,7 @@ DBusTestServerQt::test_fire_signal_with_ref()
   DBusTestData::DataList l;
   DBusTestData::DataMap m;
 
-  l.push_back(DBusTestData::Data(1, 2));
+  l.emplace_back(1, 2);
   m["1"] = DBusTestData::Data(1, 2);
 
   if (test != nullptr)
