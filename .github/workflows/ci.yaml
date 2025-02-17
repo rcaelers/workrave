@@ -281,7 +281,7 @@ jobs:
             compiler: gcc
             ui: Qt
             enable: GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING,INDICATOR,XFCE4
+            disable: COVERAGE,TRACING,INDICATOR,XFCE4,MATE
 
           # - image: mingw-fedora-rawhide
           #   os: ubuntu-24.04
