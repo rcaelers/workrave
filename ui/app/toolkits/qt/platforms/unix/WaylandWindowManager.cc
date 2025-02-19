@@ -24,6 +24,7 @@
 #include <wayland-client-protocol.h>
 #include <memory>
 
+#include "spdlog/spdlog.h"
 #include "debug.hh"
 
 #include <QWidget>
