@@ -21,6 +21,7 @@
 
 #include "ui/SoundTheme.hh"
 
+#include <algorithm>
 #include <filesystem>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
@@ -142,27 +143,27 @@ SoundTheme::sound_event(SoundEvent event)
 SoundEvent
 SoundTheme::sound_id_to_event(const std::string &id)
 {
-  const SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](const SoundRegistry &item) {
+  const SoundRegistry *item = std::ranges::find_if(sound_registry, [&](const SoundRegistry &item) {
     return item.id == id;
   });
   if (item != std::end(sound_registry))
     {
       return item->event;
     }
-  throw "FIXME";
+  throw std::runtime_error("Sound ID not found");
 }
 
 std::string
 SoundTheme::sound_event_to_id(SoundEvent event)
 {
-  const SoundRegistry *item = std::find_if(std::begin(sound_registry), std::end(sound_registry), [&](const SoundRegistry &item) {
+  const SoundRegistry *item = std::ranges::find_if(sound_registry, [&](const SoundRegistry &item) {
     return item.event == event;
   });
   if (item != std::end(sound_registry))
     {
       return item->id;
     }
-  throw "FIXME";
+  throw std::runtime_error("Sound event not found");
 }
 
 SoundTheme::SoundTheme(std::shared_ptr<workrave::config::IConfigurator> config)
