@@ -51,6 +51,24 @@ struct DBusMarshall<{{ enum.symbol() }}>
       }
     return value;
   }
+  static void marshall(QDBusArgument &arg, {{ enum.symbol() }} value)
+  {
+      QString str;
+    switch (value)
+      {
+  {% for e in enum.values %}
+      case {{ e.symbol() }}:
+        str = "{{ e.name }}";
+        break;
+  {% endfor %}
+      default:
+        throw DBusRemoteException()
+          << message_info("Type error in enum")
+          << error_code_info(DBUS_ERROR_INVALID_ARGS)
+          << actual_type_info("{{ enum.name }}");
+      }
+    arg << str;
+  }
   static QVariant convert({{ enum.symbol() }} value)
   {
     QString arg;
@@ -75,8 +93,7 @@ struct DBusMarshall<{{ enum.symbol() }}>
 [[maybe_unused]] static QDBusArgument &
 operator<<(QDBusArgument &arg, const {{ enum.symbol() }} &data)
 {
-  QVariant value = DBusMarshall<{{ enum.symbol() }}>::convert(data);
-  arg.appendVariant(value);
+  DBusMarshall<{{ enum.symbol() }}>::marshall(arg, data);
   return arg;
 }
 
@@ -85,7 +102,6 @@ operator>>(const QDBusArgument &arg, {{ enum.symbol() }} &data)
 {
   QString value;
   arg >> value;
-
   data = DBusMarshall<{{ enum.symbol() }}>::convert(value);
   return arg;
 }
@@ -144,14 +160,18 @@ struct DBusMarshall<{{ struct.symbol() }}>
     arg.endStructure();
     return result;
   }
+  static void marshall(QDBusArgument &arg, {{ struct.symbol() }} value)
+  {
+    arg.beginStructure();
+{% for p in struct.fields %}
+    DBusMarshall<{{ model.get_type(p.type).symbol() }}>::marshall(arg, value.{{ p.name }});
+{% endfor %}
+    arg.endStructure();
+  }
   static QVariant convert(const {{ struct.symbol() }} &value)
   {
     QDBusArgument arg;
-    arg.beginStructure();
-{% for p in struct.fields %}
-    arg.appendVariant(DBusMarshall<{{ model.get_type(p.type).symbol() }}>::convert(value.{{ p.name }} ) );
-{% endfor %}
-    arg.endStructure();
+    marshall(arg, value);
     return QVariant::fromValue(arg);
   }
 };
@@ -160,8 +180,7 @@ struct DBusMarshall<{{ struct.symbol() }}>
 [[maybe_unused]] static QDBusArgument &
 operator<<(QDBusArgument &arg, const {{ struct.symbol() }} &data)
 {
-  QVariant value = DBusMarshall<{{ struct.symbol() }}>::convert(data);
-  arg.appendVariant(value);
+  DBusMarshall<{{ struct.symbol() }}>::marshall(arg, data);
   return arg;
 }
 

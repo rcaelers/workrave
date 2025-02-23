@@ -18,6 +18,7 @@
 #ifndef WORKRAVE_DBUS_DBUSBINDINGQT_HH
 #define WORKRAVE_DBUS_DBUSBINDINGQT_HH
 
+#include <qdbusargument.h>
 #include <qtypes.h>
 #include <qvariant.h>
 #include <spdlog/spdlog.h>
@@ -117,6 +118,10 @@ namespace workrave::dbus
     {
       return QVariant::fromValue(value);
     }
+    static void marshall(QDBusArgument &arg, const T &value)
+    {
+      arg << value;
+    }
   };
 
   template<>
@@ -134,6 +139,10 @@ namespace workrave::dbus
     static QVariant convert(const std::string &value)
     {
       return QString::fromStdString(value);
+    }
+    static void marshall(QDBusArgument &arg, const std::string &value)
+    {
+      arg << QString::fromStdString(value);
     }
   };
 
@@ -153,6 +162,10 @@ namespace workrave::dbus
     {
       return static_cast<qlonglong>(value);
     }
+    static void marshall(QDBusArgument &arg, int64_t value)
+    {
+      arg << static_cast<qlonglong>(value);
+    }
   };
 
   template<>
@@ -170,6 +183,10 @@ namespace workrave::dbus
     static QVariant convert(uint64_t value)
     {
       return static_cast<qulonglong>(value);
+    }
+    static void marshall(QDBusArgument &arg, uint64_t value)
+    {
+      arg << static_cast<qulonglong>(value);
     }
   };
 
@@ -216,21 +233,23 @@ namespace workrave::dbus
       arg.endMap();
       return result;
     }
-    static QVariant convert(const std::map<K, V> &value)
+    static void marshall(QDBusArgument &arg, const std::map<K, V> &value)
     {
-      QDBusArgument arg;
-
       arg.beginMap(qMetaTypeId<K_qt>(), qMetaTypeId<V_qt>());
 
       for (auto &it: value)
         {
           arg.beginMapEntry();
-          arg.appendVariant(DBusMarshall<K>::convert(it.first));
-          arg.appendVariant(DBusMarshall<V>::convert(it.second));
+          DBusMarshall<K>::marshall(arg, it.first);
+          DBusMarshall<V>::marshall(arg, it.second);
           arg.endMapEntry();
         }
       arg.endMap();
-
+    }
+    static QVariant convert(const std::map<K, V> &value)
+    {
+      QDBusArgument arg;
+      marshall(arg, value);
       return QVariant::fromValue(arg);
     }
   };
@@ -270,17 +289,19 @@ namespace workrave::dbus
       arg.endArray();
       return result;
     }
-    static QVariant convert(const std::list<V> &value)
+    static void marshall(QDBusArgument &arg, const std::list<V> &value)
     {
-      QDBusArgument arg;
-
       arg.beginArray(qMetaTypeId<V_qt>());
       for (auto &it: value)
         {
-          arg.appendVariant(DBusMarshall<V>::convert(it));
+          DBusMarshall<V>::marshall(arg, it);
         }
       arg.endArray();
-
+    }
+    static QVariant convert(const std::list<V> &value)
+    {
+      QDBusArgument arg;
+      marshall(arg, value);
       return QVariant::fromValue(arg);
     }
   };
