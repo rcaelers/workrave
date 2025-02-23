@@ -42,7 +42,6 @@
 using namespace std;
 using namespace workrave::utils;
 
-
 struct Fixture
 {
   Fixture()
@@ -61,9 +60,6 @@ struct Fixture
 
   ~Fixture()
   {
-    BOOST_TEST_MESSAGE("destructing cores");
-    BOOST_TEST_MESSAGE("destructing cores...done");
-
     delete app;
   }
 

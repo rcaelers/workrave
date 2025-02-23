@@ -53,6 +53,12 @@ public:
     Enum m_enum;
   };
 
+  struct StructWithInStruct
+  {
+    StructWithAllBasicTypes m_struct;
+    uint8_t m_uint8;
+  };
+
   struct StructWithAllBasicTypesReorder
   {
     int m_int;

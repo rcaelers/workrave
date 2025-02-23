@@ -144,6 +144,10 @@ DBusQt::handleMessage(const QDBusMessage &message, const QDBusConnection &connec
       e << object_info(path);
       message.createErrorReply(QString::fromStdString(e.error()), QString::fromStdString(e.diag()));
     }
+  catch (std::exception &e)
+    {
+      message.createErrorReply(QString::fromStdString("org.workrave.Error"), QString::fromStdString(e.what()));
+    }
 
   return success;
 }

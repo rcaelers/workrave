@@ -57,6 +57,7 @@ DBusTestServerQt::run(int argc, char **argv)
       qDBusRegisterMetaType<DBusTestData::StructWithAllBasicTypesReorder>();
       qDBusRegisterMetaType<DBusTestData::Data>();
       qDBusRegisterMetaType<QList<DBusTestData::Data>>();
+      qDBusRegisterMetaType<std::list<DBusTestData::Data>>();
       qDBusRegisterMetaType<QMap<QString, DBusTestData::Data>>();
 
       dbus = std::make_shared<workrave::dbus::DBusQt>();

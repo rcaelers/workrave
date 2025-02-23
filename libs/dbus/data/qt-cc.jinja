@@ -22,25 +22,61 @@ using namespace workrave::dbus;
 #if {{ enum.condition }}
 {% endif %}
 
+namespace workrave::dbus
+{
+template<>
+struct DBusMarshall<{{ enum.symbol() }}>
+{
+  static {{ enum.symbol() }} convert(const QVariant &variant)
+  {
+    const QString &arg = variant.value<QString>();
+    {{ enum.symbol() }} value{};
+{% for e in enum.values %}
+{% if loop.first %}
+    if
+{%- else %}
+    else if
+{%- endif %}
+ ("{{ e.name }}" == arg)
+      {
+        value = {{ e.symbol() }};
+      }
+{% endfor %}
+    else
+      {
+        throw DBusRemoteException()
+          << message_info("Type error in enum")
+          << error_code_info(DBUS_ERROR_INVALID_ARGS)
+          << actual_type_info("{{ enum.name }}");
+      }
+    return value;
+  }
+  static QVariant convert({{ enum.symbol() }} value)
+  {
+    QString arg;
+    switch (value)
+      {
+  {% for e in enum.values %}
+      case {{ e.symbol() }}:
+        arg = "{{ e.name }}";
+        break;
+  {% endfor %}
+      default:
+        throw DBusRemoteException()
+          << message_info("Type error in enum")
+          << error_code_info(DBUS_ERROR_INVALID_ARGS)
+          << actual_type_info("{{ enum.name }}");
+      }
+    return QVariant::fromValue(arg);
+  }
+};
+}
+
 [[maybe_unused]] static QDBusArgument &
 operator<<(QDBusArgument &arg, const {{ enum.symbol() }} &data)
 {
-  std::string value;
-  switch (data)
-    {
-{% for e in enum.values %}
-    case {{ e.symbol() }}:
-      value = "{{ e.name }}";
-      break;
-{% endfor %}
-    default:
-      throw DBusRemoteException()
-        << message_info("Type error in enum")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << actual_type_info("{{ enum.name }}");
-    }
-
-  arg << QString::fromStdString(value);
+  QVariant value = DBusMarshall<{{ enum.symbol() }}>::convert(data);
+  arg.appendVariant(value);
   return arg;
 }
 
@@ -50,24 +86,7 @@ operator>>(const QDBusArgument &arg, {{ enum.symbol() }} &data)
   QString value;
   arg >> value;
 
-{% for e in enum.values %}
-  {% if loop.first %}
-  if
-  {%- else %}
-  else if
-  {%- endif %}
-  ("{{ e.name }}" == value)
-    {
-      data = {{ e.symbol() }};
-    }
-{% endfor %}
-  else
-    {
-      throw DBusRemoteException()
-        << message_info("Type error in enum")
-        << error_code_info(DBUS_ERROR_INVALID_ARGS)
-        << actual_type_info("{{ enum.name }}");
-    }
+  data = DBusMarshall<{{ enum.symbol() }}>::convert(value);
   return arg;
 }
 
@@ -77,39 +96,83 @@ operator>>(const QDBusArgument &arg, {{ enum.symbol() }} &data)
 
 {% endfor %}
 
-
 {% for struct in model.structs %}
 
 {% if struct.condition %}
 #if {{ struct.condition }}
 {% endif %}
+
+namespace workrave::dbus
+{
+template<>
+struct DBusMarshall<{{ struct.symbol() }}>
+{
+  static {{ struct.symbol() }} convert(const QVariant &variant)
+  {
+{% set num_expected_fields = struct.fields | length %}
+    {{ struct.symbol() }} result;
+
+    const auto arg = variant.value<QDBusArgument>();
+    if (arg.currentType() != QDBusArgument::StructureType)
+      {
+        throw DBusRemoteException()
+          << message_info("Incorrect type")
+          << error_code_info(DBUS_ERROR_INVALID_ARGS)
+          << expected_type_info("{{ struct.name }}");
+      }
+
+    arg.beginStructure();
+{% for p in struct.fields %}
+    if (arg.atEnd())
+    {
+        throw DBusRemoteException()
+          << message_info("Incorrect number of member in struct")
+          << error_code_info(DBUS_ERROR_INVALID_ARGS)
+          << actual_type_info("{{ struct.name }}");
+    }
+
+    try
+      {
+        result.{{ p.name }} = DBusMarshall<{{ model.get_type(p.type).symbol() }}>::convert(arg.asVariant());
+      }
+    catch (const DBusRemoteException &e)
+      {
+        e << field_info("{{ p.name }}");
+        throw;
+      }
+{% endfor %}
+    arg.endStructure();
+    return result;
+  }
+  static QVariant convert(const {{ struct.symbol() }} &value)
+  {
+    QDBusArgument arg;
+    arg.beginStructure();
+{% for p in struct.fields %}
+    arg.appendVariant(DBusMarshall<{{ model.get_type(p.type).symbol() }}>::convert(value.{{ p.name }} ) );
+{% endfor %}
+    arg.endStructure();
+    return QVariant::fromValue(arg);
+  }
+};
+}
+
 [[maybe_unused]] static QDBusArgument &
 operator<<(QDBusArgument &arg, const {{ struct.symbol() }} &data)
 {
-  arg.beginStructure();
-{% for p in struct.fields %}
-  arg.appendVariant({{ model.get_type(p.type).value_to_internal('data.' + p.name) }});
-{% endfor %}
-  arg.endStructure();
+  QVariant value = DBusMarshall<{{ struct.symbol() }}>::convert(data);
+  arg.appendVariant(value);
   return arg;
 }
 
 [[maybe_unused]] static const QDBusArgument &
 operator>>(const QDBusArgument &arg, {{ struct.symbol() }} &data)
 {
-  arg.beginStructure();
-{% for p in struct.fields %}
-{% if model.get_type(p.type).value_from_internal('x') == 'x' %}
-    arg >> data.{{ p.name }};
-{% else %}
-    {{ model.get_type(p.type).symbol_int() }} t_{{ p.name }} {};
-    arg >> t_{{ p.name }};
-    data.{{ p.name }} = {{ model.get_type(p.type).value_from_internal('t_' + p.name) }};
-{% endif %}
-{% endfor %}
-  arg.endStructure();
+  QVariant value = arg.asVariant();
+  data = DBusMarshall<{{ struct.symbol() }}>::convert(value);
   return arg;
 }
+
 
 {% if struct.condition %}
 #endif // {{ struct.condition }}
@@ -294,7 +357,7 @@ void
         }
 
 {% for arg in method.params if arg.direction == 'in' %}
-      p_{{ arg.name }} = variant_to_value<{{ interface.get_type(arg.type).symbol() }}> (message.arguments().at({{ loop.index0 }}));
+      p_{{ arg.name }} = DBusMarshall<{{ interface.get_type(arg.type).symbol() }}>::convert(message.arguments().at({{ loop.index0 }}));
 {% endfor %}
 
 {% if method.symbol() != "" %}
@@ -320,12 +383,20 @@ void
 {% if method.num_out_args > 0 %}
   {% for arg in method.params: %}
     {% if arg.direction == 'out' %}
-      reply << value_to_variant<{{ interface.get_type(arg.type).symbol() }}> (p_{{ arg.name }});
+      reply << DBusMarshall<{{ interface.get_type(arg.type).symbol() }}>::convert(p_{{ arg.name }});
     {% endif %}
   {% endfor %}
 {% endif %}
 
-      connection.send(reply);
+      bool rc = connection.send(reply);
+      if (!rc)
+        {
+          throw DBusRemoteException()
+            << message_info("Failed to send reply")
+            << error_code_info(DBUS_ERROR_FAILED)
+            << method_info("{{ method.name }}")
+            << interface_info("{{ interface.name }}");
+        }
     }
   catch (const DBusRemoteException &e)
     {
@@ -372,9 +443,9 @@ void {{ interface.qname }}_Stub::{{ signal.qname }}(const std::string &path
 {% if signal.params|length > 0 %}
   {% for arg in signal.params: %}
     {% if 'ptr' in arg.hint %}
-      sig << value_to_variant<{{ interface.get_type(arg.type).symbol() }}> (* p_{{ arg.name }});
+      sig << DBusMarshall<{{ interface.get_type(arg.type).symbol() }}>::convert(* p_{{ arg.name }});
     {% else %}
-      sig <<  value_to_variant<{{ interface.get_type(arg.type).symbol() }}> (p_{{ arg.name }});
+      sig <<  DBusMarshall<{{ interface.get_type(arg.type).symbol() }}>::convert(p_{{ arg.name }});
     {% endif %}
   {% endfor %}
 {% endif %}
@@ -397,6 +468,7 @@ void {{ interface.qname }}_Stub::{{ signal.qname }}(const std::string &path
 
 void init_{{ model.name }}(std::shared_ptr<IDBus> dbus)
 {
+
 {% for interface in model.interfaces %}
 {% if interface.condition != '' %}
 #if {{ interface.condition }}
@@ -426,6 +498,7 @@ void init_{{ model.name }}(std::shared_ptr<IDBus> dbus)
 #endif // {{ enum.condition }}
 {% endif %}
 {% endfor %}
+
 }
 
 {% for ns in model.namespace_list|reverse %}
