@@ -1,6 +1,4 @@
-// Statistics.cc
-//
-// Copyright (C) 2002 - 2008, 2010, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +23,7 @@
 
 #include <filesystem>
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -36,7 +34,7 @@
 
 #include "debug.hh"
 
-#include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 #include "Timer.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
@@ -104,8 +102,7 @@ Statistics::init()
 void
 Statistics::update()
 {
-  TRACE_ENTER("Statistics::update");
-
+  TRACE_ENTRY();
   if (monitor->is_active())
     {
       const time_t now = time(nullptr);
@@ -119,7 +116,6 @@ Statistics::update()
         }
     }
   save_day(current_day);
-  TRACE_EXIT();
 }
 
 bool
@@ -127,39 +123,31 @@ Statistics::delete_all_history()
 {
   update();
 
-  string histfile = AssetPath::get_home_directory() + "historystats";
-  std::filesystem::path histpath(histfile);
-
-  if (std::filesystem::is_regular_file(histpath) && std::remove(histfile.c_str()))
+  std::filesystem::path histpath = Paths::get_state_directory() / "historystats";
+  if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
     {
       return false;
     }
-  else
-    {
-      for (auto i = history.begin(); (i != history.end()); ++i)
-        {
-          delete *i;
-        }
 
-      history.clear();
+  for (auto i = history.begin(); (i != history.end()); ++i)
+    {
+      delete *i;
     }
 
-  string todayfile = AssetPath::get_home_directory() + "todaystats";
-  std::filesystem::path todaypath(todayfile);
+  history.clear();
 
-  if (std::filesystem::is_regular_file(todaypath) && std::remove(todayfile.c_str()))
+  std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
+  if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
     {
       return false;
     }
-  else
+
+  if (current_day != nullptr)
     {
-      if (current_day)
-        {
-          delete current_day;
-          current_day = nullptr;
-        }
-      start_new_day();
+      delete current_day;
+      current_day = nullptr;
     }
+  start_new_day();
 
   return true;
 }
@@ -168,7 +156,7 @@ Statistics::delete_all_history()
 void
 Statistics::start_new_day()
 {
-  TRACE_ENTER("Statistics::start_new_day");
+  TRACE_ENTRY();
   const time_t now = time(nullptr);
   struct tm *tmnow = localtime(&now);
 
@@ -192,8 +180,6 @@ Statistics::start_new_day()
 
   update();
   save_day(current_day);
-
-  TRACE_EXIT();
 }
 
 void
@@ -201,18 +187,14 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 {
   add_history(stats);
 
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "historystats" << ends;
+  std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  std::filesystem::path path(ss.str());
   bool exists = std::filesystem::is_regular_file(path);
-
-  ofstream stats_file(ss.str().c_str(), ios::app);
+  ofstream stats_file(path.string(), ios::app);
 
   if (!exists)
     {
-      stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
+      stats_file << WORKRAVESTATS << " " << STATSVERSION << std::endl;
     }
 
   save_day(stats, stats_file);
@@ -231,8 +213,8 @@ void
 Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 {
   stats_file << "D " << stats->start.tm_mday << " " << stats->start.tm_mon << " " << stats->start.tm_year << " "
-             << stats->start.tm_hour << " " << stats->start.tm_min << " " << stats->stop.tm_mday << " " << stats->stop.tm_mon << " "
-             << stats->stop.tm_year << " " << stats->stop.tm_hour << " " << stats->stop.tm_min << endl;
+             << stats->start.tm_hour << " " << stats->start.tm_min << " " << stats->stop.tm_mday << " " << stats->stop.tm_mon
+             << " " << stats->stop.tm_year << " " << stats->stop.tm_hour << " " << stats->stop.tm_min << endl;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -260,11 +242,8 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 void
 Statistics::save_day(DailyStatsImpl *stats)
 {
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "todaystats" << ends;
-
-  ofstream stats_file(ss.str().c_str());
+  std::filesystem::path path = Paths::get_state_directory() / "todaystats";
+  ofstream stats_file(path.string());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
@@ -275,7 +254,7 @@ Statistics::save_day(DailyStatsImpl *stats)
 void
 Statistics::add_history(DailyStatsImpl *stats)
 {
-  if (history.size() == 0)
+  if (history.empty())
     {
       history.push_back(stats);
     }
@@ -296,10 +275,10 @@ Statistics::add_history(DailyStatsImpl *stats)
               break;
             }
 
-          else if (stats->start.tm_year > ref->start.tm_year
-                   || (stats->start.tm_year == ref->start.tm_year
-                       && (stats->start.tm_mon > ref->start.tm_mon
-                           || (stats->start.tm_mon == ref->start.tm_mon && stats->start.tm_mday > ref->start.tm_mday))))
+          if (stats->start.tm_year > ref->start.tm_year
+              || (stats->start.tm_year == ref->start.tm_year
+                  && (stats->start.tm_mon > ref->start.tm_mon
+                      || (stats->start.tm_mon == ref->start.tm_mon && stats->start.tm_mday > ref->start.tm_mday))))
             {
               if (i == history.rbegin())
                 {
@@ -326,18 +305,14 @@ Statistics::add_history(DailyStatsImpl *stats)
 bool
 Statistics::load_current_day()
 {
-  TRACE_ENTER("Statistics::load_current_day");
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "todaystats" << ends;
-
-  ifstream stats_file(ss.str().c_str());
+  TRACE_ENTRY();
+  std::filesystem::path path = Paths::get_state_directory() / "todaystats";
+  ifstream stats_file(path.string());
 
   load(stats_file, false);
 
   been_active = true;
 
-  TRACE_EXIT();
   return current_day != nullptr;
 }
 
@@ -345,24 +320,19 @@ Statistics::load_current_day()
 void
 Statistics::load_history()
 {
-  TRACE_ENTER("Statistics::load_history");
+  TRACE_ENTRY();
+  std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  stringstream ss;
-  ss << AssetPath::get_home_directory();
-  ss << "historystats" << ends;
-
-  ifstream stats_file(ss.str().c_str());
+  ifstream stats_file(path.string());
 
   load(stats_file, true);
-  TRACE_EXIT();
 }
 
 //! Loads the statistics.
 void
 Statistics::load(ifstream &infile, bool history)
 {
-  TRACE_ENTER("Statistics::load");
-
+  TRACE_ENTRY();
   DailyStatsImpl *stats = nullptr;
 
   bool ok = infile.good();
@@ -423,7 +393,8 @@ Statistics::load(ifstream &infile, bool history)
             {
               if (cmd == 'B')
                 {
-                  int bt, size;
+                  int bt = 0;
+                  int size = 0;
                   ss >> bt;
                   ss >> size;
 
@@ -436,7 +407,7 @@ Statistics::load(ifstream &infile, bool history)
 
                   for (int j = 0; j < size; j++)
                     {
-                      int value;
+                      int value = 0;
                       ss >> value;
 
                       bs[j] = value;
@@ -444,7 +415,7 @@ Statistics::load(ifstream &infile, bool history)
                 }
               else if (cmd == 'M' || cmd == 'm')
                 {
-                  int size;
+                  int size = 0;
                   ss >> size;
 
                   if (size > STATS_VALUE_SIZEOF)
@@ -454,7 +425,7 @@ Statistics::load(ifstream &infile, bool history)
 
                   for (int j = 0; j < size; j++)
                     {
-                      int value;
+                      int value = 0;
                       ss >> value;
 
                       if (cmd == 'm')
@@ -470,7 +441,7 @@ Statistics::load(ifstream &infile, bool history)
                 }
               else if (cmd == 'G')
                 {
-                  int total_active;
+                  int total_active = 0;
                   ss >> total_active;
 
                   stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
@@ -483,8 +454,6 @@ Statistics::load(ifstream &infile, bool history)
     {
       add_history(stats);
     }
-
-  TRACE_EXIT();
 }
 
 //! Increment the specified statistics counter of the current day.
@@ -540,8 +509,7 @@ Statistics::get_counter(StatsValueType t)
 void
 Statistics::dump()
 {
-  TRACE_ENTER("Statistics::dump");
-
+  TRACE_ENTRY();
   update();
 
   stringstream ss;
@@ -561,8 +529,6 @@ Statistics::dump()
     {
       ss << value << " ";
     }
-
-  TRACE_EXIT();
 }
 
 Statistics::DailyStatsImpl *
@@ -604,7 +570,7 @@ Statistics::get_day(int day) const
 void
 Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const
 {
-  TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
+  TRACE_ENTRY_PAR(y, m, d);
   idx = next = prev = -1;
   for (int i = 0; i <= static_cast<int>(history.size()); i++)
     {
@@ -632,7 +598,6 @@ Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int 
     {
       next = 0;
     }
-  TRACE_EXIT();
 }
 
 int
@@ -700,9 +665,9 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
           if (tv < std::chrono::seconds(1))
             {
               current_day->total_mouse_time += tv;
-
-              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
-                std::chrono::duration_cast<std::chrono::seconds>(current_day->total_mouse_time.time_since_epoch()).count();
+              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = std::chrono::duration_cast<std::chrono::seconds>(
+                                                                           current_day->total_mouse_time.time_since_epoch())
+                                                                           .count();
             }
 
           last_mouse_time = now;

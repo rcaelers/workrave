@@ -1,5 +1,3 @@
-// DBusException.cc --- DBUS interface
-//
 // Copyright (C) 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -16,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
 #include "dbus/DBusException.hh"
 

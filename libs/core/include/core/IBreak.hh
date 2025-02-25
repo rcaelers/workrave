@@ -1,5 +1,3 @@
-// IBreak.hh -- Interface of a break.
-//
 // Copyright (C) 2001 - 2007, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -25,6 +23,7 @@
 #include <boost/signals2.hpp>
 
 #include "core/CoreTypes.hh"
+#include "utils/Enum.hh"
 
 namespace workrave
 {
@@ -41,52 +40,22 @@ namespace workrave
     BreakSkipped,
     BreakTaken,
   };
-  inline std::ostream &operator<<(std::ostream &stream, workrave::BreakEvent event)
+
+  template<>
+  struct workrave::utils::enum_traits<BreakEvent>
   {
-    switch (event)
-      {
-      case workrave::BreakEvent::ShowPrelude:
-        stream << "ShowPrelude";
-        break;
-
-      case workrave::BreakEvent::ShowBreak:
-        stream << "ShowBreak";
-        break;
-
-      case workrave::BreakEvent::ShowBreakForced:
-        stream << "ShowBreakForced";
-        break;
-
-      case workrave::BreakEvent::BreakStart:
-        stream << "BreakStart";
-        break;
-
-      case workrave::BreakEvent::BreakIdle:
-        stream << "BreakIdle";
-        break;
-
-      case workrave::BreakEvent::BreakStop:
-        stream << "BreakStop";
-        break;
-
-      case workrave::BreakEvent::BreakIgnored:
-        stream << "BreakIgnored";
-        break;
-
-      case workrave::BreakEvent::BreakPostponed:
-        stream << "BreakPostponed";
-        break;
-
-      case workrave::BreakEvent::BreakSkipped:
-        stream << "BreakSkipped";
-        break;
-
-      case workrave::BreakEvent::BreakTaken:
-        stream << "BreakTaken";
-        break;
-      }
-    return stream;
-  }
+    static constexpr std::array<std::pair<std::string_view, BreakEvent>, 10> names{
+      {{"ShowPrelude", BreakEvent::ShowPrelude},
+       {"ShowBreak", BreakEvent::ShowBreak},
+       {"ShowBreakForced", BreakEvent::ShowBreakForced},
+       {"BreakStart", BreakEvent::BreakStart},
+       {"BreakIdle", BreakEvent::BreakIdle},
+       {"BreakStop", BreakEvent::BreakStop},
+       {"BreakIgnored", BreakEvent::BreakIgnored},
+       {"BreakPostponed", BreakEvent::BreakPostponed},
+       {"BreakSkipped", BreakEvent::BreakSkipped},
+       {"BreakTaken", BreakEvent::BreakTaken}}};
+  };
 
   //! Interface to retrieve information about a break.
   class IBreak
@@ -139,6 +108,12 @@ namespace workrave
 
     //! Returns the total overdue time since the last daily limit reset.
     [[nodiscard]] virtual int64_t get_total_overdue_time() const = 0;
+
+    //! Request to postpone the break.
+    virtual void postpone_break() = 0;
+
+    //! Request to skip the break.
+    virtual void skip_break() = 0;
   };
 } // namespace workrave
 

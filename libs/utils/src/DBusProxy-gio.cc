@@ -20,8 +20,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "DBusProxy-gio.hh"
-#include <iostream>
+#include "debug.hh"
 
 bool
 DBusProxy::init_with_connection(GDBusConnection *connection,
@@ -30,33 +34,35 @@ DBusProxy::init_with_connection(GDBusConnection *connection,
                                 const char *interface_name,
                                 GDBusProxyFlags flags_in)
 {
-  TRACE_ENTER_MSG("DBus_proxy::init_with_connection", name);
+  TRACE_ENTRY_PAR(name);
   this->flags = flags_in;
   proxy = g_dbus_proxy_new_sync(connection, flags, nullptr, name, object_path, interface_name, nullptr, &error);
 
   if (error != nullptr)
     {
-      TRACE_MSG("Error: " << error->message);
+      TRACE_MSG("Error: {}", error->message);
       return false;
     }
-  TRACE_EXIT();
   return true;
 }
 
 bool
-DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, const char *interface_name, GDBusProxyFlags flags_in)
+DBusProxy::init(GBusType bus_type,
+                const char *name,
+                const char *object_path,
+                const char *interface_name,
+                GDBusProxyFlags flags_in)
 {
-  TRACE_ENTER_MSG("DBus_proxy::init", name);
+  TRACE_ENTRY_PAR(name);
   this->flags = flags_in;
   error = nullptr;
   proxy = g_dbus_proxy_new_for_bus_sync(bus_type, flags, nullptr, name, object_path, interface_name, nullptr, &error);
 
   if (error != nullptr)
     {
-      TRACE_MSG("Error: " << error->message);
+      TRACE_MSG("Error: {}", error->message);
       return false;
     }
-  TRACE_EXIT();
   return true;
 }
 
@@ -65,9 +71,11 @@ DBusProxy::init(GBusType bus_type, const char *name, const char *object_path, co
 bool
 DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVariant **method_result)
 {
-  TRACE_ENTER_MSG("DBus_proxy::call_method", method_name);
+  TRACE_ENTRY_PAR(method_name);
   if (proxy == nullptr)
-    return false;
+    {
+      return false;
+    }
 
   if (error != nullptr)
     {
@@ -104,11 +112,10 @@ DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVa
 
   if (error != nullptr)
     {
-      TRACE_RETURN(error->message);
+      TRACE_VAR(error->message);
       return false;
     }
 
-  TRACE_EXIT();
   return true;
 }
 
@@ -116,9 +123,11 @@ DBusProxy::call_method(const char *method_name, GVariant *method_parameters, GVa
 bool
 DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *method_parameters)
 {
-  TRACE_ENTER_MSG("DBus_proxy::call_method_asynch_no_result", method_name);
+  TRACE_ENTRY_PAR(method_name);
   if (proxy == nullptr)
-    return false;
+    {
+      return false;
+    }
 
   if (error != nullptr)
     {
@@ -128,6 +137,5 @@ DBusProxy::call_method_asynch_no_result(const char *method_name, GVariant *metho
 
   g_dbus_proxy_call(proxy, method_name, method_parameters, G_DBUS_CALL_FLAGS_NONE, -1, nullptr, nullptr, nullptr);
 
-  TRACE_EXIT();
   return true;
 }

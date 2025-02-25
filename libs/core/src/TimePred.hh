@@ -1,5 +1,3 @@
-// TimePred.hh --- Time Predicate
-//
 // Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -22,6 +20,7 @@
 
 #include <ctime>
 #include <string>
+#include <cstdint>
 
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches

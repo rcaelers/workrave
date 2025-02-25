@@ -1,6 +1,4 @@
-// DBusTestData.cc
-//
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,7 +25,7 @@
 
 #include "dbus/IDBus.hh"
 
-#ifdef DBUS_BACKEND_QT
+#if defined(DBUS_BACKEND_QT)
 QDBusArgument &
 operator<<(QDBusArgument &argument, const DBusTestData::StructWithAllBasicTypes &message)
 {

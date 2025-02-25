@@ -1,6 +1,4 @@
-// ICoreHooks.hh --- The main controller
-//
-// Copyright (C) 2012, 2013 Rob Caelers
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +22,7 @@
 
 #include <boost/signals2.hpp>
 
-class ICoreHooks : public std::enable_shared_from_this<ICoreHooks>
+class ICoreHooks
 {
 public:
   using Ptr = std::shared_ptr<ICoreHooks>;

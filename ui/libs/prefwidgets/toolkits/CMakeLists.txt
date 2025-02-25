@@ -1,0 +1,5 @@
+if (HAVE_APP_QT)
+  add_subdirectory(qt)
+elseif (HAVE_APP_GTK)
+  add_subdirectory(gtkmm)
+endif()

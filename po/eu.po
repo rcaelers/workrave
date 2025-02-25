@@ -2,890 +2,971 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Thomas Basset <thomas.basset@netcourrier.com>, 2004.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-05-30 12:47+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
 "PO-Revision-Date: 2011-02-16 19:22+0100\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team:  <eu@li.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 
-#: libs/core/src/DistributionSocketLink.cc:121
-#, fuzzy, c-format
-msgid "Reconnecting to %s."
-msgstr "%s-rekin birkonektatzen"
-
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:408
-msgid "Could not enable network operation."
-msgstr "Ezin dut sare eragiketa gaitu"
-
-#: libs/core/src/DistributionSocketLink.cc:417
-msgid "Disabling network operation."
-msgstr "Sare eragiketa desgaitzen"
-
-#: libs/core/src/DistributionSocketLink.cc:523
-#: libs/core/src/DistributionSocketLink.cc:560
-#, fuzzy, c-format
-msgid "Connecting to %s."
-msgstr "%s-rekin konektatzen"
-
-#: libs/core/src/DistributionSocketLink.cc:675
-#: libs/core/src/DistributionSocketLink.cc:706
-#, fuzzy, c-format
-msgid "Removing client %s."
-msgstr "%s bezeroa kentzen."
-
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:752
-#, fuzzy, c-format
-msgid "Disconnecting %s"
-msgstr "%s deskonektatzen."
-
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:915
-#, fuzzy, c-format
-msgid "Client %s is now master."
-msgstr "Orain %s bezeroa maisua da."
-
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:921
-msgid "I'm now master."
-msgstr "Orain neu naiz maisua"
-
-#: libs/core/src/DistributionSocketLink.cc:1284
-#: libs/core/src/DistributionSocketLink.cc:1343
-#, fuzzy, c-format
-msgid "Client %s saying hello."
-msgstr "%s bezeroa agurtzen."
-
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1293
-#: libs/core/src/DistributionSocketLink.cc:1373
-#, fuzzy, c-format
-msgid "Client %s access denied."
-msgstr "%s bezeroa ezin da atzitu."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1364
-#: libs/core/src/DistributionSocketLink.cc:1491
-#: libs/core/src/DistributionSocketLink.cc:1736
-#, fuzzy, c-format
-msgid "Client %s is duplicate."
-msgstr "%s bezeroa bikoiztuta dago."
-
-#: libs/core/src/DistributionSocketLink.cc:1443
-#, fuzzy, c-format
-msgid "Client %s signed off."
-msgstr "%s bezeroak alde egin du."
-
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1527
-#, fuzzy, c-format
-msgid "Client %s is welcoming us."
-msgstr "%s bezeroak ongi etorria eman digu."
-
-#: libs/core/src/DistributionSocketLink.cc:1769
-#, fuzzy, c-format
-msgid "Requesting master status from %s."
-msgstr "%s-tik maisu egoeraz galdetzen."
-
-#: libs/core/src/DistributionSocketLink.cc:1782
-#, fuzzy, c-format
-msgid "Client timeout from %s."
-msgstr "%s bezeroaren denbora amaitu da."
-
-#: libs/core/src/DistributionSocketLink.cc:1808
-#, fuzzy, c-format
-msgid "Rejecting master request from client %s."
-msgstr "%s bezerotik maisutasun eskaerari uko."
-
-#: libs/core/src/DistributionSocketLink.cc:1813
-#, fuzzy, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "%s bezeroaren maisutasun eskaera onartzen."
-
-#: libs/core/src/DistributionSocketLink.cc:1866
-#, fuzzy, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "%s bezero ez-maisuari maisutasun eskaera ukatuta."
-
-#: libs/core/src/DistributionSocketLink.cc:1870
-#, fuzzy, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "%s bezeroari maisutasun eskaera utzia, atzeratzen."
-
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1944
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
-msgid "Client %s is now the new master."
-msgstr "%s bezeroa maisu berria da orain."
-
-#: libs/core/src/DistributionSocketLink.cc:2072
-msgid "Network operation started."
-msgstr "Sare eragiketa hasita."
-
-#: libs/core/src/DistributionSocketLink.cc:2092
-msgid "Accepted new client."
-msgstr "Bezero berria onartuta."
-
-#: libs/core/src/DistributionSocketLink.cc:2167
-#, fuzzy, c-format
-msgid "Client %s read error, closing."
-msgstr "%s bezeroaren irakurketa akatsa, ixten."
-
-#: libs/core/src/DistributionSocketLink.cc:2172
-#: libs/core/src/DistributionSocketLink.cc:2239
-#, fuzzy, c-format
-msgid "Client %s closed connection."
-msgstr "%s bezeroak konexioa itxia."
-
-#: libs/core/src/DistributionSocketLink.cc:2211
-#, fuzzy, c-format
-msgid "Client %s connected."
-msgstr "%s bezeroa konektatuta."
-
-#: libs/core/src/DistributionSocketLink.cc:2244
-#, fuzzy, c-format
-msgid "Could not connect to client %s."
-msgstr "Ezin dut %s bezeroarekin konektatu."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:219
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:211
-#: ui/applets/gnome3/src/v5/WorkraveApplet.c:221
-#: ui/applets/mate/src/main-gtk2.c:285 ui/applets/mate/src/main-gtk3.c:210
-#: ui/applets/xfce/src/main.c:297 ui/apps/gtkmm/src/Menus.cc:340
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen "
-"eta sendatzen laguntzen du."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/workrave.desktop.in:4
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave Applet"
-msgstr "Workrave Appleta"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
-#: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
-msgid "_Open"
-msgstr "_Ireki"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:310
-#: ui/applets/mate/src/main-gtk2.c:345 ui/applets/mate/src/main-gtk3.c:309
-msgid "_Statistics"
-msgstr "_Estatistikak"
-
-#. Preferences
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ui/applets/mate/src/main-gtk2.c:347 ui/applets/mate/src/main-gtk3.c:311
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:150
-msgid "_Preferences"
-msgstr "_Hobespenak"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:314
-#: ui/applets/mate/src/main-gtk2.c:349 ui/applets/mate/src/main-gtk3.c:313
-msgid "_Exercises"
-msgstr "_Ariketak"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:316
-#: ui/applets/mate/src/main-gtk2.c:351 ui/applets/mate/src/main-gtk3.c:315
-msgid "_Restbreak"
-msgstr "_Atsedena"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:318
-#: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:120
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
-msgid "_Mode"
-msgstr "_Modua"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:320
-#: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:134
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Network"
-msgstr "_Sarea"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:322
-#: ui/applets/mate/src/main-gtk2.c:357 ui/applets/mate/src/main-gtk3.c:321
-msgid "_Join"
-msgstr ""
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:136
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:116
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
-msgid "_Disconnect"
-msgstr "_Deskonektatu"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:326
-#: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
-msgid "_Reconnect"
-msgstr "_Birkonektatu"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:328
-#: ui/applets/mate/src/main-gtk2.c:363 ui/applets/mate/src/main-gtk3.c:327
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:157
-#, fuzzy
-msgid "_About"
-msgstr "_Zerari buruz..."
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:330
-#: ui/applets/mate/src/main-gtk2.c:365 ui/applets/mate/src/main-gtk3.c:329
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:159
-msgid "_Quit"
-msgstr "_Irten"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
-#: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
-#, fuzzy
-msgid "Show log"
-msgstr "_Log-a erakutsi"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
-#: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-msgid "Reading mode"
-msgstr ""
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
-#: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
-#, fuzzy
-msgid "Normal"
-msgstr "_Arrunta"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
-#: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
-#, fuzzy
-msgid "Suspended"
-msgstr "_Eseki"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1424 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
-#, fuzzy
-msgid "Quiet"
-msgstr "I_silik"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:257
-#, fuzzy
-msgid "Lock..."
-msgstr "_Blokeatu "
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:261
-#, fuzzy
-msgid "Lock"
-msgstr "_Blokeatu "
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:265
-#, fuzzy
-msgid "Shutdown"
-msgstr "_Itzali"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:269
-#, fuzzy
-msgid "Suspend"
-msgstr "_Eseki"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:273
-msgid "Hibernate"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:277
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "_Eseki"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:397
-#, fuzzy
-msgid "_Skip"
-msgstr "_Jauzi"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:412
-#, fuzzy
-msgid "_Postpone"
-msgstr "_Atzeratu"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:604
-msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:618
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
-msgstr ""
-
-#. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:46
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:53 ui/apps/gtkmm/src/GUI.cc:1413
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/Ui.cc:101
-msgid "Daily limit"
-msgstr "Eguneko muga"
-
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"Eguneko mugara iritsi zara. Ordenagailuarekin lan\n"
-"egiteari utzi, mesedez. Zure lan txanda amaitu ez baduzu\n"
-"beste zerbaitetan hasi, dokumentuak birpasatzea adibidez."
-
-#: ui/apps/gtkmm/src/DebugDialog.cc:42 ui/apps/gtkmm/src/DebugDialog.cc:44
-msgid "Debug log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:31
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:153
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-msgid "Exercises"
-msgstr "Ariketak"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:240
-msgid "Exercises player"
-msgstr "Ariketa txanda"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:270
-msgid "Previous exercise"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:271
-#, fuzzy
-msgid "Next exercise"
-msgstr "Ariketa kopurua:"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:272
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:457
-#, fuzzy
-msgid "Pause exercises"
-msgstr "Ariketa kopurua:"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:276
-#, fuzzy
-msgid "End exercises"
-msgstr "Ariketak"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Resume"
-msgstr "Berrekin"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Pause"
-msgstr "Gelditu"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:455
-#, fuzzy
-msgid "Resume exercises"
-msgstr "Ariketa kopurua:"
-
-#: ui/apps/gtkmm/src/GUI.cc:294
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:774 ui/apps/gtkmm/src/GUI.cc:888
-#, fuzzy
-msgid "Workrave failed to start"
-msgstr "Workrave Appleta"
-
-#: ui/apps/gtkmm/src/GUI.cc:775
-msgid "Is Workrave already running?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:883
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:886
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:1281
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:1287
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GtkUtil.cc:162
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:50
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:159
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-msgid "Micro-break"
-msgstr "Mikro-atsedena "
-
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/MicroBreakWindow.cc:134
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:67
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:192
-msgid "Rest break"
-msgstr "Atsedena"
-
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GUI.cc:1424
-#, fuzzy
-msgid "Mode: "
-msgstr "_Modua"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:102
-#, fuzzy
-msgid "Open"
-msgstr "_Ireki"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:103
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
-msgid "Preferences"
-msgstr "Hobespenak"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
-#, fuzzy
-msgid "Mode"
-msgstr "_Modua"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr "Sarea"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#, fuzzy
-msgid "Connect"
-msgstr "_Konektatu"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
-#, fuzzy
-msgid "Disconnect"
-msgstr "_Deskonektatu"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
-#, fuzzy
-msgid "Reconnect"
-msgstr "_Birkonektatu"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:155
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:51
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
-msgid "Statistics"
-msgstr "Estatistikak"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
-msgid "About..."
-msgstr "...(r)i buruz"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#, fuzzy
-msgid "Quit"
-msgstr "_Irten"
-
-#. Restbreak now
-#. Gtk::AccelKey("<control>r"),
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:80 ui/apps/gtkmm/src/MainGtkMenu.cc:146
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-msgid "_Rest break"
-msgstr "_Atsedena"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:122
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-msgid "_Normal"
-msgstr "_Arrunta"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:125
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
-msgid "Q_uiet"
-msgstr "I_silik"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
-msgid "_Suspended"
-msgstr "_Eseki"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:130
-msgid "_Reading mode"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:135
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
-msgid "_Connect"
-msgstr "_Konektatu"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:138
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-msgid "Show _log"
-msgstr "_Log-a erakutsi"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
-msgid "Please relax for a few seconds"
-msgstr "Lasaitu segundu batzuk mesedez"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:224
+msgid "%s%d seconds"
+msgstr "%s%d segundu"
+
+#: ui/libs/commonui/src/Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minutu"
+
+#: ui/libs/commonui/src/Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d ordu"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "Next rest break in %s"
-msgstr "Hurrengo atsedena %s"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, {:%X}-etatik {:%X}-etara"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:228
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "Atsedena %s minutuz atzeratu da"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:240
-#, c-format
-msgid "Daily limit in %s"
-msgstr "Eguneko mugarako %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "Eguneko muga %s atzeratuta"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:53
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:72
-msgid "Network connect"
-msgstr "Sare konexioa"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:73
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"Konektatu nahi duzun sareko ordenagailuaren host izena\n"
-"eta ataka zenbakia sartu."
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:85
-msgid "Host name:"
-msgstr "Host izena:"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:86
-msgid "Port:"
-msgstr "Ataka:"
-
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:50
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr "Sarearen loga"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:93
-msgid "Enable networking"
-msgstr "Sare lana gaitu"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:100
-msgid "Username:"
-msgstr "Erabiltzaile izena:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:101
-msgid "Password:"
-msgstr "Pasahitza:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:107
-msgid "Allow incoming connections"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:112
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "Orokorra"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:123
-msgid "Server settings"
-msgstr "Zerbitzariaren ezarpenak"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Server port:"
-msgstr "Zerbitzariaren ataka "
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:146
-msgid "Reconnect attempts:"
-msgstr "Birkonexio saiakerak:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
-msgid "Reconnect interval:"
-msgstr "Birkonexio tartea:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:150
-msgid "Advanced"
-msgstr "Aurreratua"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:165
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"Hurrengo zerrendak Workrave hasterakoan konektatzen den\n"
-"host-ak adierazten du. Editatzeko host izen edo ataka zenbakian egin klik."
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:192
-msgid "Host name"
-msgstr "Host izena"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Port"
-msgstr "Ataka"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:239
-msgid "Hosts"
-msgstr "Host-ak"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-#, fuzzy
-msgid "Sounds"
-msgstr "Soinua:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "Egoera Lehioa"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr "Appleta"
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:188
-msgid "Timers"
-msgstr "Kontagailuak"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
-msgid "User interface"
-msgstr "Erabiltzaile interfaza"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:156
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:160
-msgid "No blocking"
-msgstr "Blokerorik ez"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:157
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:161
-msgid "Block input"
-msgstr "Erablitzailearen lana blokeatu"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:158
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:162
-msgid "Block input and screen"
-msgstr "Sarrerak eta pantaia blokeatu"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:181
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-msgid "Options"
-msgstr "Aukerak"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:183
-msgid "Block mode:"
-msgstr "Blokeo modua:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:203
-msgid "System default"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:246
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
 msgid "(font not available)"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:265
-msgid "Language:"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
+msgid "<h3>Version {}</h3>\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:279
-msgid "Start Workrave on logon"
+#: ui/app/toolkits/gtkmm/Ui.cc:113
+msgid "?"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:294
-msgid "Show system tray icon"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
+msgid "A new version of {} is available"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:304
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Active computer usage"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
+msgid "Activity"
+msgstr "Jardunean"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+msgid "Applet"
+msgstr "Appleta"
+
+#: ui/app/org.workrave.Workrave.desktop.in:6
 #, fuzzy
-msgid "Icon Theme:"
-msgstr "Soinua:"
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen eta sendatzen laguntzen du."
 
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:317
-#, fuzzy
-msgid "Sound Options"
-msgstr "Aukerak"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:323
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:326
-msgid "No sounds"
-msgstr "Soinurik ez"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:324
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:327
-msgid "Play sounds using sound card"
-msgstr "Soinuak jo soinu txartela erabiliz "
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:348
-msgid "Volume:"
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
+msgid "Auto update"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
-msgid "Sound:"
-msgstr "Soinua:"
-
-#. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:356
-#, fuzzy
-msgid "Mute sounds during rest break and daily limit"
-msgstr "Atsedena eta eguneko muga toki berean jarri"
-
-#. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:364
-msgid "Sound Events"
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
+msgid "Automatically check for updates"
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:372
-#, fuzzy
-msgid "Sound Theme:"
-msgstr "Soinua:"
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr "Sorbaldak atzerantz luzatu"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:395
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:413
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:441
-msgid "Play"
-msgstr ""
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
+msgid "Block input"
+msgstr "Erablitzailearen lana blokeatu"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-msgid "Event"
-msgstr ""
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
+msgid "Block input and screen"
+msgstr "Sarrerak eta pantaia blokeatu"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:416
-#, fuzzy
-msgid "Choose a sound"
-msgstr "Soinurik ez"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
+msgid "Block mode:"
+msgstr "Blokeo modua:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:426
-msgid "Wavefiles"
-msgstr ""
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
+msgid "Break duration:"
+msgstr "Atsedenaren iraupena:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:514
-msgid "Use alternate monitor"
-msgstr ""
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "Etendura baztertua"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:521
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:524
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Saguaren mugimendua:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:545
-msgid "Debug monitoring"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:978
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:980
-msgid "Default"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
-msgid "Time for a micro-break?"
-msgstr "Mikro-atsedentxoa hartuko?"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
-msgid "You need a rest break..."
-msgstr "Atsedena behar duzu ba..."
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:116
-msgid "You should stop for today..."
-msgstr "Gaurkoz gelditu beharko zenuke ba..."
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:286
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
 #, c-format
 msgid "Break in %s"
 msgstr "Atsedena: %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:290
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
+msgstr "Etendura eskaera"
+
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
+msgid "Break prompting"
+msgstr "Etenduraren jakinarazpena"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
+msgid "Break prompts"
+msgstr "Etendura eskaerak"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
+msgid "Breaks"
+msgstr "Etendurak"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
+msgid "Breaks postponed"
+msgstr "Atzeratutako etendurak"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "Breaks skipped"
+msgstr "Jauzi egindako etendurak"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
+msgid "Browse history"
+msgstr "Historia ikusi"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Soinurik ez"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
+msgid "Close"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Estal itzazu eskuekin zure begiak irekita edukitzeko moduan. Gero begiak irekita, eskuen barruko iluntasunari begira egon. Ariketa honek begiei atseden handiagoa ematen die ixte soilak baino."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
+msgid "Cycle time:"
+msgstr "Zikloaren denbora:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
+#, fuzzy
+msgid "Daily"
+msgstr "Eguneko muga"
+
+#. label
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
+msgid "Daily limit"
+msgstr "Eguneko muga"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "Eguneko muga %s atzeratuta"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
+#, c-format
+msgid "Daily limit in %s"
+msgstr "Eguneko mugarako %s"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+msgid "Daily limit:"
+msgstr "Eguneko muga:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Date:"
+msgstr "Data:"
+
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
+msgid "Debug log"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
+msgid "Debug monitoring"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
+msgid "Default"
+msgstr ""
+
+#. Delete button
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
 msgid "Disappears in %s"
 msgstr "Desagertuko da %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:294
-#, c-format
-msgid "Silent in %s"
-msgstr "Isilunea: %s"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
+msgid "Display"
+msgstr "Erakutsi"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:150
-#, c-format
-msgid "Rest break for %s"
-msgstr "Atseden denbora: %s"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
+msgid "Effective mouse movement:"
+msgstr "Saguaren mugimendu eraginkorra:"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr ""
+
+#. Enabled/Disabled checkbox
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
+msgid "Enable timer"
+msgstr "Kontagailua gaitu"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
+#, fuzzy
+msgid "End exercises"
+msgstr "Ariketak"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
+msgid "Error"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
+msgid "Event"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/Ui.cc:110
+#, fuzzy
+msgid "Exercise change"
+msgstr "Ariketa amaituta"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:104
+msgid "Exercise ended"
+msgstr "Ariketa amaituta"
+
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr "Ariketak"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:107
+msgid "Exercises ended"
+msgstr "Ariketak amaituta"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
+msgid "Exercises player"
+msgstr "Ariketa txanda"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#, fuzzy
+msgid "Fallback applet enabled"
+msgstr "Appleta gaitu"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
+msgid "File deletion failed!"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "Files deleted!"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:22
+msgid "Finger stretch"
+msgstr "Atz luzaketak"
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
+msgstr ""
+
+#: ui/app/Menus.cc:178
+msgid "For 1 hour"
+msgstr ""
+
+#: ui/app/Menus.cc:189
+msgid "For 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+msgid "General"
+msgstr "Orokorra"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
+msgid "Hibernate"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
+msgid "Hide"
+msgstr "Ezkutatu"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
+#, fuzzy
+msgid "Icon Theme:"
+msgstr "Soinua:"
+
+#: ui/app/Menus.cc:166
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
+msgid "Info"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:39
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Eskuetako hatzak ahurren atzetik korapilatu. Eraman ukondoak barrurantz besoak luzatzen dituzun heinean. 5-15 segundu bitartean egon horrela eta ariketa bi aldiz errepikatu."
+
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Beso bat bularraren aurrean luza ezazu. Beso hau bestearekin bultzatu sorbaldan tentsio txiki bat nabaritu arte. Piska batean egon horrela eta beste besoarekin errepika ezazu ariketa."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "Keystrokes:"
+msgstr "Tekla pultsazioak:"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
+msgid "Language:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
+#, fuzzy
+msgid "Lock"
+msgstr "_Blokeatu "
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
+#, fuzzy
+msgid "Lock..."
+msgstr "_Blokeatu "
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Monitorearen goiko ezkerreko ertzari begiratu. Poliki poliki begirada eskuineko ertzeraino eraman, eta horrela ertz guztiak birritan pasatu arte. Gero ariketa alderantziz egin."
+
+#: ui/data/exercises/exercises.xml.in:65
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Monitorearengandik urrunen egon daitekeen puntura begira ezazu. Begiak urrutiko puntu hartara enfokatu. Gero zure monitorearen ertzari enfokatu. Errepikatu. Monitoretik urrunago ezin baduzu begiratu, boligrafo bat erabili eta monitorearen distantzian eduki."
+
+#: ui/data/exercises/exercises.xml.in:72
+msgid "Look into the darkness"
+msgstr "Iluntasunari begira"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
+msgid "Maximum number of prompts:"
+msgstr "Jakinarazpen gehienezko kopurua:"
+
+#. FIXME: duplicate
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "Mikro-atsedena "
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "Mikro-atsedena amaituta"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "Mikro-atsedena hasita"
+
+#. Layout
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+msgid "Micro-break:"
+msgstr "Mikro-atsedena:"
+
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
+#, fuzzy
+msgid "Mode: "
+msgstr "_Modua"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+msgid "Monitoring"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
+msgid "Monthly"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
+msgid "Mouse button clicks:"
+msgstr "Saguaren klik kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "Mouse movement:"
+msgstr "Saguaren mugimendua:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
+#, fuzzy
+msgid "Mouse sensitivity:"
+msgstr "Saguaren mugimendua:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
+msgid "Mouse usage:"
+msgstr "Saguaren erabilpena:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "Begiak mugitu"
+
+#: ui/data/exercises/exercises.xml.in:79
+msgid "Move the shoulders"
+msgstr "Sorbaldak mugitu"
+
+#: ui/data/exercises/exercises.xml.in:87
+msgid "Move the shoulders up and down"
+msgstr "Sorbaldak gora eta behera mugitu"
+
+#. Volume
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
+#, fuzzy
+msgid "Mute sounds during rest break and daily limit"
+msgstr "Atsedena eta eguneko muga toki berean jarri"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
+msgid "Natural breaks taken"
+msgstr "Hartutako atseden naturalak"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Hartutako atseden naturalak"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "Lepoa zeharka luzatu"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
+msgid "Next"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
+#, fuzzy
+msgid "Next exercise"
+msgstr "Ariketa kopurua:"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Hurrengo atsedena %s"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
+msgid "No blocking"
+msgstr "Blokerorik ez"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
+msgid "No sounds"
+msgstr "Soinurik ez"
+
+#: ui/applets/mate/src/main.c:385
+#, fuzzy
+msgid "Normal"
+msgstr "_Arrunta"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
+msgid "Number of exercises:"
+msgstr "Ariketa kopurua:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
+msgid "Options"
+msgstr "Aukerak"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "Orientazioa "
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "Overdue time"
+msgstr "Atzerapenen denbora"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Pause"
+msgstr "Gelditu"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Ariketa kopurua:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
+msgid "Place all timers in one spot"
+msgstr "Kontagailu guztiak toki bakarrean jarri"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "Mikro-atsedena eta atsedena toki berean jarri"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "Atsedena eta eguneko muga toki berean jarri"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
+msgid "Place timers next to each other"
+msgstr "Kontagailuak bata bestearen atzean jarri"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
+msgid "Placement:"
+msgstr "Kokagunea:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
+msgid "Play"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
+msgid "Play sounds using sound card"
+msgstr "Soinuak jo soinu txartela erabiliz "
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
+msgid "Please relax for a few seconds"
+msgstr "Lasaitu segundu batzuk mesedez"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
+msgid "Postpone time:"
+msgstr "Atzerapenaren iraupena:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
+msgid "Preferences"
+msgstr "Hobespenak"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
+msgid "Previous"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
+msgid "Previous exercise"
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:7
+#, fuzzy
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr "Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen eta sendatzen laguntzen du."
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
+msgid "Prompt before breaking"
+msgstr "Eten aurretik jakinarazi"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
+msgid "Prompted breaks taken"
+msgstr "Egindako atsedenak"
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Eskuak aulkiaren heldulekuetan jarri eserita zaudela, eta gorputza gorantz bultzatu harik eta besoak luzaturik gelditu arte. Burua are gorago eramaten saiatu sorbaldak beherantz eramanez. Eser zaitez berriro poliki poliki."
+
+#: ui/app/Menus.cc:112
+msgid "Q_uiet"
+msgstr "I_silik"
+
+#: ui/app/Menus.cc:294
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr ""
+
+#: ui/app/Menus.cc:307
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
+#, fuzzy
+msgid "Quiet"
+msgstr "I_silik"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
+msgid "Regard micro-breaks as activity"
+msgstr "Mirko-atsedenak jardueratzat hartu"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
+msgid "Release notes"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
+msgid "Repeated prompts"
+msgstr "Errepikatutako eskaerak"
+
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "Atsedena"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Atsedena %s minutuz atzeratu da"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "Atsedena amaituta"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
+#, c-format
+msgid "Rest break for %s"
+msgstr "Atseden denbora: %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "Atsedena hasita"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
+msgid "Rest break:"
+msgstr "Atsedena:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Resume"
+msgstr "Berrekin"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Ariketa kopurua:"
+
+#: ui/app/Menus.cc:81
+#, fuzzy
+msgid "S_tatistics"
+msgstr "Estatistikak"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Hatzak bereiz eta luza itzazu tentsio xume bat nabaritu arte, eta hamar segundutan mantendu. Lasaitu, hatz-koxkorrak bildu eta beste hamar segundutan egon. Ariketa berriro errepikatu."
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "Sorbalda eta beso luzaketak"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
+msgid "Show"
+msgstr "Erakutsi"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
+#, fuzzy
+msgid "Show 'Postpone' button"
+msgstr "'Atzeratu' eta 'Jauzi' botoiak erakutsi"
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
+#, fuzzy
+msgid "Show 'Skip' button"
+msgstr "'Atzeratu' eta 'Jauzi' botoiak erakutsi"
+
+#: ui/applets/mate/src/main.c:379
+#, fuzzy
+msgid "Show log"
+msgstr "_Log-a erakutsi"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
+msgid "Show only when this timer is first due"
+msgstr "Soilik kontagailu hau betetakoan erakutsi"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
+#, fuzzy
+msgid "Show status icon"
+msgstr "Egoera lehioa erakutsi"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
+msgid "Show status window"
+msgstr "Egoera lehioa erakutsi"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
+msgid "Show system tray icon"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
+#, fuzzy
+msgid "Shutdown"
+msgstr "_Itzali"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
+#, c-format
+msgid "Silent in %s"
+msgstr "Isilunea: %s"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
+msgid "Software Update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
+msgid "Software updates"
+msgstr ""
+
+#. Sound themes
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
+msgid "Sound Events"
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
+#, fuzzy
+msgid "Sound Options"
+msgstr "Aukerak"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
+#, fuzzy
+msgid "Sound Theme:"
+msgstr "Soinua:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
+msgid "Sound:"
+msgstr "Soinua:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
+#, fuzzy
+msgid "Sounds"
+msgstr "Soinua:"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Eskuin besoa biratu, hegazkinaren helizea bezala. Egin ezazu hau lau aldiz aurreraka eta beste lau atzeraka, eta segundu batzutan lasaitu. Ezkerreko besoarekin errepikatu."
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
+msgid "Start Workrave on logon"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
+msgid "Start restbreak when screen is locked"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Burua egoera tente eta erosoan duzula hasi. Burua orduan poliki eskuineko sorbaldarantz eraman lepoaren ezkerraldea luzatzen dela nabaritzen duzula. Bost segunduz horrela egon. Burua ezkerralderantz eraman beste aldea luzatzen delarik. Alde bakoitza birritan egin."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
+msgid "Statistics"
+msgstr "Estatistikak"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+msgid "Status Window"
+msgstr "Egoera Lehioa"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
+#, fuzzy
+msgid "Suspend"
+msgstr "_Eseki"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
+#, fuzzy
+msgid "Suspend hybrid"
+msgstr "_Eseki"
+
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
+#, fuzzy
+msgid "Suspended"
+msgstr "_Eseki"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
+msgid "System default"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Hurrengo atsedena %s"
+
+#: ui/app/Menus.cc:121
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:118
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "The number of breaks you postponed"
+msgstr "Atzeratu duzun etendura kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "The number of breaks you skipped"
+msgstr "Jauzi egin duzun etendura kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "The number of times you took a break when being prompted"
+msgstr "Eskatutakoan hartutako atseden kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "The number of times you took a break without being prompted"
+msgstr "Eskatu gabe hartu duzun atseden kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "Atsedena hartzeko eskatu izan zaizun aldi kopurua, etendura berdinarentzako errepikatutakoak ezik."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Atsedena hartzeko eskaerak errepikatu diren kopurua"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+#, fuzzy
+msgid "The orientation of the tray"
+msgstr "Oharen lehioaren orientazioa "
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "Egoera lehioa gainontzeko lehioen gainean jarri beti"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+#, fuzzy
+msgid "The total computer usage for the selected day"
+msgstr "Ordenagailuaren erabilpen osoa"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "Klikatzeen artean lerro zuzenak marraztu ezkero saguaren mugimendu osoa"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of keys pressed"
+msgstr "Sakatutako tekla kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "The total number of mouse button clicks"
+msgstr "Saguaren botoien klik kopurua"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "The total on-screen mouse movement"
+msgstr "Saguaren mugimendu osoa pantaian"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "The total time this break was overdue"
+msgstr "Atseden honen atzerapenaren denbora osoa"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "The total time you were using the mouse"
+msgstr "Sagua erabili duzun denbora"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Atsedena behar duzu ba..."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:193
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -895,687 +976,530 @@ msgstr ""
 "inguruan ibiltzea duzu onena. Minutu batzutan ibili, luzaketak egin\n"
 "eta lasaitu."
 
-#. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:116
-msgid "Browse history"
-msgstr "Historia ikusi"
-
-#. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:121
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:128
-msgid "Date:"
-msgstr "Data:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:159
-msgid "Breaks"
-msgstr "Etendurak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:167
-msgid "Break prompts"
-msgstr "Etendura eskaerak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"Atsedena hartzeko eskatu izan zaizun aldi kopurua, etendura berdinarentzako "
-"errepikatutakoak ezik."
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "Repeated prompts"
-msgstr "Errepikatutako eskaerak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "Atsedena hartzeko eskaerak errepikatu diren kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "Prompted breaks taken"
-msgstr "Egindako atsedenak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "The number of times you took a break when being prompted"
-msgstr "Eskatutakoan hartutako atseden kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "Natural breaks taken"
-msgstr "Hartutako atseden naturalak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "The number of times you took a break without being prompted"
-msgstr "Eskatu gabe hartu duzun atseden kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "Breaks skipped"
-msgstr "Jauzi egindako etendurak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "The number of breaks you skipped"
-msgstr "Jauzi egin duzun etendura kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "Breaks postponed"
-msgstr "Atzeratutako etendurak"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "The number of breaks you postponed"
-msgstr "Atzeratu duzun etendura kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "Overdue time"
-msgstr "Atzerapenen denbora"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "The total time this break was overdue"
-msgstr "Atseden honen atzerapenaren denbora osoa"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Active computer usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-#, fuzzy
-msgid "Daily"
-msgstr "Eguneko muga"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "Ordenagailuaren erabilpen osoa"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "Weekly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "Monthly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid "Activity"
-msgstr "Jardunean"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "Mouse usage:"
-msgstr "Saguaren erabilpena:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "The total time you were using the mouse"
-msgstr "Sagua erabili duzun denbora"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "Mouse movement:"
-msgstr "Saguaren mugimendua:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "The total on-screen mouse movement"
-msgstr "Saguaren mugimendu osoa pantaian"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
-msgid "Effective mouse movement:"
-msgstr "Saguaren mugimendu eraginkorra:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:290
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Klikatzeen artean lerro zuzenak marraztu ezkero saguaren mugimendu osoa"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "Mouse button clicks:"
-msgstr "Saguaren klik kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "The total number of mouse button clicks"
-msgstr "Saguaren botoien klik kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "Keystrokes:"
-msgstr "Tekla pultsazioak:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "The total number of keys pressed"
-msgstr "Sakatutako tekla kopurua"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:342
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, %s-etatik %s-etara"
-
-#. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-msgid "Warning"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:651
-msgid "Files deleted!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:652
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:654
-msgid "Info"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:659
-msgid "File deletion failed!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:660
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:662
-msgid "Error"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Text.cc:84
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d ordu"
-
-#: ui/apps/gtkmm/src/Text.cc:88
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minutu"
-
-#: ui/apps/gtkmm/src/Text.cc:92
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d segundu"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:181
-#, fuzzy
-msgid "Take rest break now"
-msgstr "Hurrengo atsedena %s"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:203
-msgid "Wait"
-msgstr "Itxaron"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
-msgid "Place timers next to each other"
-msgstr "Kontagailuak bata bestearen atzean jarri"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:94
-msgid "Place micro-break and rest break in one spot"
-msgstr "Mikro-atsedena eta atsedena toki berean jarri"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
-msgid "Place rest break and daily limit in one spot"
-msgstr "Atsedena eta eguneko muga toki berean jarri"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place all timers in one spot"
-msgstr "Kontagailu guztiak toki bakarrean jarri"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
-msgid "Hide"
-msgstr "Ezkutatu"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:119
-msgid "Show"
-msgstr "Erakutsi"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
-msgid "Show only when this timer is first due"
-msgstr "Soilik kontagailu hau betetakoan erakutsi"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
-msgid "Display"
-msgstr "Erakutsi"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-msgid "The status window stays always on top of other windows"
-msgstr "Egoera lehioa gainontzeko lehioen gainean jarri beti"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:136
-msgid "Show status window"
-msgstr "Egoera lehioa erakutsi"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:147
-msgid "Placement:"
-msgstr "Kokagunea:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:148
-msgid "Cycle time:"
-msgstr "Zikloaren denbora:"
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-msgid "Micro-break:"
-msgstr "Mikro-atsedena:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:154
-msgid "Rest break:"
-msgstr "Atsedena:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-msgid "Daily limit:"
-msgstr "Eguneko muga:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
-#, fuzzy
-msgid "Fallback applet enabled"
-msgstr "Appleta gaitu"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:164
-#, fuzzy
-msgid "Show status icon"
-msgstr "Egoera lehioa erakutsi"
-
-#. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:61
-msgid "Enable timer"
-msgstr "Kontagailua gaitu"
-
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
-msgid "Break prompting"
-msgstr "Etenduraren jakinarazpena"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
-msgid "Prompt before breaking"
-msgstr "Eten aurretik jakinarazi"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:104
-msgid "Maximum number of prompts:"
-msgstr "Jakinarazpen gehienezko kopurua:"
-
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:132
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "'Atzeratu' eta 'Jauzi' botoiak erakutsi"
-
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:136
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "'Atzeratu' eta 'Jauzi' botoiak erakutsi"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Regard micro-breaks as activity"
-msgstr "Mirko-atsedenak jardueratzat hartu"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
-msgid "Number of exercises:"
-msgstr "Ariketa kopurua:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:158
-msgid "Start restbreak when screen is locked"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen eta sendatzen laguntzen du."
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 msgid "Time before end:"
 msgstr "Amaitzeko denbora:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
 msgid "Time between breaks:"
 msgstr "Etenduren arteko denbora:"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:199
-msgid "Break duration:"
-msgstr "Atsedenaren iraupena:"
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
+msgid "Time for a micro-break?"
+msgstr "Mikro-atsedentxoa hartuko?"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-msgid "Postpone time:"
-msgstr "Atzerapenaren iraupena:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
-msgid "Break prompt"
-msgstr "Etendura eskaera"
-
-#: ui/apps/gtkmm/src/Ui.cc:86
-msgid "Break ignored"
-msgstr "Etendura baztertua"
-
-#: ui/apps/gtkmm/src/Ui.cc:89
-msgid "Rest break started"
-msgstr "Atsedena hasita"
-
-#: ui/apps/gtkmm/src/Ui.cc:92
-msgid "Rest break ended"
-msgstr "Atsedena amaituta"
-
-#: ui/apps/gtkmm/src/Ui.cc:95
-msgid "Micro-break started"
-msgstr "Mikro-atsedena hasita"
-
-#: ui/apps/gtkmm/src/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "Mikro-atsedena amaituta"
-
-#: ui/apps/gtkmm/src/Ui.cc:104
-msgid "Exercise ended"
-msgstr "Ariketa amaituta"
-
-#: ui/apps/gtkmm/src/Ui.cc:107
-msgid "Exercises ended"
-msgstr "Ariketak amaituta"
-
-#: ui/apps/gtkmm/src/Ui.cc:110
-#, fuzzy
-msgid "Exercise change"
-msgstr "Ariketa amaituta"
-
-#: ui/apps/gtkmm/src/Ui.cc:113
-msgid "?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:113
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:119
-msgid "Orientation"
-msgstr "Orientazioa "
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:114
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:120
-#, fuzzy
-msgid "The orientation of the tray"
-msgstr "Oharen lehioaren orientazioa "
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding that should be put around icons in the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "Icon Size"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:221
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:227
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "Specify session management ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Session management options:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Show session management options"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr ""
-"Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen "
-"eta sendatzen laguntzen du."
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:6
-#, fuzzy
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen "
-"eta sendatzen laguntzen du."
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:7
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
-msgstr "Sorbalda eta beso luzaketak"
-
-#: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Beso bat bularraren aurrean luza ezazu. Beso hau bestearekin bultzatu "
-"sorbaldan tentsio txiki bat nabaritu arte. Piska batean egon horrela eta "
-"beste besoarekin errepika ezazu ariketa."
-
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr "Atz luzaketak"
-
-#: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Hatzak bereiz eta luza itzazu tentsio xume bat nabaritu arte, eta hamar "
-"segundutan mantendu. Lasaitu, hatz-koxkorrak bildu eta beste hamar "
-"segundutan egon. Ariketa berriro errepikatu."
-
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "Lepoa zeharka luzatu"
-
-#: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Burua egoera tente eta erosoan duzula hasi. Burua orduan poliki eskuineko "
-"sorbaldarantz eraman lepoaren ezkerraldea luzatzen dela nabaritzen duzula. "
-"Bost segunduz horrela egon. Burua ezkerralderantz eraman beste aldea "
-"luzatzen delarik. Alde bakoitza birritan egin."
-
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr "Sorbaldak atzerantz luzatu"
-
-#: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Eskuetako hatzak ahurren atzetik korapilatu. Eraman ukondoak barrurantz "
-"besoak luzatzen dituzun heinean. 5-15 segundu bitartean egon horrela eta "
-"ariketa bi aldiz errepikatu."
-
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "Begiak mugitu"
-
-#: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Monitorearen goiko ezkerreko ertzari begiratu. Poliki poliki begirada "
-"eskuineko ertzeraino eraman, eta horrela ertz guztiak birritan pasatu arte. "
-"Gero ariketa alderantziz egin."
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
+msgid "Timers"
+msgstr "Kontagailuak"
 
 #: ui/data/exercises/exercises.xml.in:64
 msgid "Train focusing the eyes"
 msgstr "Begien enfokea trebatu"
-
-#: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Monitorearengandik urrunen egon daitekeen puntura begira ezazu. Begiak "
-"urrutiko puntu hartara enfokatu. Gero zure monitorearen ertzari enfokatu. "
-"Errepikatu. Monitoretik urrunago ezin baduzu begiratu, boligrafo bat erabili "
-"eta monitorearen distantzian eduki."
-
-#: ui/data/exercises/exercises.xml.in:72
-msgid "Look into the darkness"
-msgstr "Iluntasunari begira"
-
-#: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Estal itzazu eskuekin zure begiak irekita edukitzeko moduan. Gero begiak "
-"irekita, eskuen barruko iluntasunari begira egon. Ariketa honek begiei "
-"atseden handiagoa ematen die ixte soilak baino."
-
-#: ui/data/exercises/exercises.xml.in:79
-msgid "Move the shoulders"
-msgstr "Sorbaldak mugitu"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Eskuin besoa biratu, hegazkinaren helizea bezala. Egin ezazu hau lau aldiz "
-"aurreraka eta beste lau atzeraka, eta segundu batzutan lasaitu. Ezkerreko "
-"besoarekin errepikatu."
-
-#: ui/data/exercises/exercises.xml.in:87
-msgid "Move the shoulders up and down"
-msgstr "Sorbaldak gora eta behera mugitu"
-
-#: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Eskuak aulkiaren heldulekuetan jarri eserita zaudela, eta gorputza gorantz "
-"bultzatu harik eta besoak luzaturik gelditu arte. Burua are gorago eramaten "
-"saiatu sorbaldak beherantz eramanez. Eser zaitez berriro poliki poliki."
 
 #: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
 msgstr "Burua biratu"
 
 #: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"Burua ezkerrera biratu eta bi segundutan egon. Orduan eskuinera biratu eta "
-"eduki hor beste bi segundutan."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Burua ezkerrera biratu eta bi segundutan egon. Orduan eskuinera biratu eta eduki hor beste bi segundutan."
 
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Inaktibo dagoenean kontagailua eseki"
+#: ui/app/Menus.cc:198
+msgid "Until next day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Usage"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
+msgid "Use alternate monitor"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
+msgid "Use dark theme"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+msgid "User interface"
+msgstr "Erabiltzaile interfaza"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
+msgid "Version {}\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
+msgid "Volume:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "Itxaron"
+
+#. Confirm the user's intention
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
+msgid "Warning"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
+msgid "Wavefiles"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
+msgid "Weekly"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave Applet"
+msgstr "Workrave Appleta"
+
+#: ui/app/Application.cc:346
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
+msgstr ""
+
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr ""
+
+#: ui/app/Application.cc:554
+msgid ""
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
+msgstr ""
+
+#: ui/app/Application.cc:538
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Eguneko mugara iritsi zara. Ordenagailuarekin lan\n"
+"egiteari utzi, mesedez. Zure lan txanda amaitu ez baduzu\n"
+"beste zerbaitetan hasi, dokumentuak birpasatzea adibidez."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
+msgid "You need a rest break..."
+msgstr "Atsedena behar duzu ba..."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
+msgid "You should stop for today..."
+msgstr "Gaurkoz gelditu beharko zenuke ba..."
+
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
+#, fuzzy
+msgid "_About"
+msgstr "_Zerari buruz..."
+
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "_Ariketak"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
+msgid "_Install update"
+msgstr ""
+
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "_Modua"
+
+#: ui/app/Menus.cc:98
+msgid "_Normal"
+msgstr "_Arrunta"
+
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
+msgid "_Open"
+msgstr "_Ireki"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
+#, fuzzy
+msgid "_Postpone"
+msgstr "_Atzeratu"
+
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "_Hobespenak"
+
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "_Irten"
+
+#: ui/app/Menus.cc:127
+msgid "_Reading mode"
+msgstr ""
+
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
+msgid "_Remind me later"
+msgstr ""
+
+#: ui/app/Menus.cc:75
+msgid "_Rest break"
+msgstr "_Atsedena"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "_Atsedena"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
+#, fuzzy
+msgid "_Skip"
+msgstr "_Jauzi"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
+msgid "_Skip this version"
+msgstr ""
+
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "_Estatistikak"
+
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
+msgstr "_Eseki"
+
+#: ui/app/Menus.cc:299
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_Eseki"
+
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
+msgstr ""
+
+#: ui/app/Menus.cc:185
+msgid "and 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:7
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr ""
+
+#~ msgid "About %s"
+#~ msgstr "%s-ri buruz"
+
+#~ msgid "About..."
+#~ msgstr "...(r)i buruz"
+
+#~ msgid "Accepted new client."
+#~ msgstr "Bezero berria onartuta."
+
+#, fuzzy, c-format
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "%s bezeroaren maisutasun eskaera onartzen."
+
+#~ msgid "Advanced"
+#~ msgstr "Aurreratua"
+
+#, fuzzy
+#~ msgid "Break in"
+#~ msgstr "Atsedena: %s"
+
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr "Neure host izena ezin dut asmatu. Banaketa desgaitzen."
+
+#, fuzzy, c-format
+#~ msgid "Client %s access denied."
+#~ msgstr "%s bezeroa ezin da atzitu."
+
+#, fuzzy, c-format
+#~ msgid "Client %s closed connection."
+#~ msgstr "%s bezeroak konexioa itxia."
+
+#, fuzzy, c-format
+#~ msgid "Client %s connected."
+#~ msgstr "%s bezeroa konektatuta."
+
+#, fuzzy, c-format
+#~ msgid "Client %s is duplicate."
+#~ msgstr "%s bezeroa bikoiztuta dago."
+
+#, fuzzy, c-format
+#~ msgid "Client %s is now master."
+#~ msgstr "Orain %s bezeroa maisua da."
+
+#, c-format
+#~ msgid "Client %s is now the new master."
+#~ msgstr "%s bezeroa maisu berria da orain."
+
+#, fuzzy, c-format
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "%s bezeroak ongi etorria eman digu."
+
+#, fuzzy, c-format
+#~ msgid "Client %s read error, closing."
+#~ msgstr "%s bezeroaren irakurketa akatsa, ixten."
+
+#, fuzzy, c-format
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "%s bezeroari maisutasun eskaera utzia, atzeratzen."
+
+#, fuzzy, c-format
+#~ msgid "Client %s saying hello."
+#~ msgstr "%s bezeroa agurtzen."
+
+#, fuzzy, c-format
+#~ msgid "Client %s signed off."
+#~ msgstr "%s bezeroak alde egin du."
+
+#, fuzzy, c-format
+#~ msgid "Client timeout from %s."
+#~ msgstr "%s bezeroaren denbora amaitu da."
+
+#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
+#~ msgstr "Itxi begiak, aire guztia bota ezazu eta lasaitzen saiatu. Airea ahalik eta polikien hartu. Saia zaitez 8ra arte poliki-poliki zenbatzen airea hartu eta botatzen duzunean. Begiak are gehiago  lasaitzearren mikro-atsedenetan ere itxi itzazu."
+
+#, fuzzy
+#~ msgid "Connect"
+#~ msgstr "_Konektatu"
+
+#, fuzzy, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "%s-rekin konektatzen"
+
+#, fuzzy, c-format
+#~ msgid "Could not connect to client %s."
+#~ msgstr "Ezin dut %s bezeroarekin konektatu."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "Ezin dut sare eragiketa gaitu"
+
+#~ msgid "Credits"
+#~ msgstr "Lan taldea"
+
+#~ msgid "Daily usage"
+#~ msgstr "Eguneko erabilpena"
+
+#~ msgid "Disabling network operation."
+#~ msgstr "Sare eragiketa desgaitzen"
+
+#, fuzzy
+#~ msgid "Disappears in"
+#~ msgstr "Desagertuko da %s"
+
+#, fuzzy
+#~ msgid "Disconnect"
+#~ msgstr "_Deskonektatu"
+
+#, fuzzy, c-format
+#~ msgid "Disconnecting %s"
+#~ msgstr "%s deskonektatzen."
+
+#~ msgid "Enable networking"
+#~ msgstr "Sare lana gaitu"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "Konektatu nahi duzun sareko ordenagailuaren host izena\n"
+#~ "eta ataka zenbakia sartu."
+
+#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
+#~ msgstr "Horma baten aurrean jar zaitez eta eskuak sorbalden parean jarri , ukondoak piska bat malguturik. Gorputza hormaren aurka bultzatu ukondoen angelua aldatu gabe. Ukondoak horrela ere hormaren beste aldera eraman gorputza."
+
+#~ msgid "Host name"
+#~ msgstr "Host izena"
+
+#~ msgid "Host name:"
+#~ msgstr "Host izena:"
+
+#~ msgid "Hosts"
+#~ msgstr "Host-ak"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "Ezin da Bonobo hasi"
+
+#~ msgid "I'm now master."
+#~ msgstr "Orain neu naiz maisua"
+
+#~ msgid "Inactive"
+#~ msgstr "Geldirik"
+
+#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr "Burua tente eta masaila lurrarekin paraleloan mantendu. Burua atzera bota kokospea ateraz. Bi segundutan egon eta lasaitu. Burua era berdinean aurrera bota, beste bi segundutan egon eta berriro lasaitu."
+
+#, fuzzy
+#~ msgid "Mode"
+#~ msgstr "_Modua"
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Omoplatoak mugitu"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Lepoa luzatu"
+
+#~ msgid "Network"
+#~ msgstr "Sarea"
+
+#~ msgid "Network connect"
+#~ msgstr "Sare konexioa"
+
+#~ msgid "Network log"
+#~ msgstr "Sarearen loga"
+
+#~ msgid "Network operation started."
+#~ msgstr "Sare eragiketa hasita."
+
+#, fuzzy, c-format
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "%s bezero ez-maisuari maisutasun eskaera ukatuta."
+
+#, fuzzy
+#~ msgid "Open"
+#~ msgstr "_Ireki"
+
+#~ msgid "Password:"
+#~ msgstr "Pasahitza:"
 
 #~ msgid "Play sounds using built-in speaker"
 #~ msgstr "Soinuak jo barruko bozgorailua erabiliz"
 
-#~ msgid "_Quiet"
-#~ msgstr "_Geldirik"
+#~ msgid "Port"
+#~ msgstr "Ataka"
 
-#~ msgid "_Connect..."
-#~ msgstr "_Konektatu..."
+#~ msgid "Port:"
+#~ msgstr "Ataka:"
 
-#~ msgid "_Show Log..."
-#~ msgstr "_Loga Erakutsi..."
+#, fuzzy
+#~ msgid "Quit"
+#~ msgstr "_Irten"
 
-#~ msgid "_About..."
-#~ msgstr "_Zerari buruz..."
+#, fuzzy
+#~ msgid "Reconnect"
+#~ msgstr "_Birkonektatu"
 
-#~ msgid "Daily usage"
-#~ msgstr "Eguneko erabilpena"
+#~ msgid "Reconnect attempts:"
+#~ msgstr "Birkonexio saiakerak:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "Birkonexio tartea:"
+
+#, fuzzy, c-format
+#~ msgid "Reconnecting to %s."
+#~ msgstr "%s-rekin birkonektatzen"
+
+#, fuzzy, c-format
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "%s bezerotik maisutasun eskaerari uko."
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Begiak lasaitu"
+
+#, fuzzy, c-format
+#~ msgid "Removing client %s."
+#~ msgstr "%s bezeroa kentzen."
+
+#, fuzzy, c-format
+#~ msgid "Requesting master status from %s."
+#~ msgstr "%s-tik maisu egoeraz galdetzen."
+
+#~ msgid "Server port:"
+#~ msgstr "Zerbitzariaren ataka "
+
+#~ msgid "Server settings"
+#~ msgstr "Zerbitzariaren ezarpenak"
+
+#~ msgid "Show _log"
+#~ msgstr "_Log-a erakutsi"
+
+#, fuzzy
+#~ msgid "Silent in"
+#~ msgstr "Isilunea: %s"
+
+#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr "Mahaiaren ondoan zutitu eta esku-ahurrak bertan jarri hatzak zeure gorputzari apuntatuz. Eskumuturrak eta besaurreak poliki poliki luzatu."
+
+#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
+#~ msgstr "Zutitu eta orpoak altxatu gabe eskuekin sabaia ukitzen saiatu. Segundu batzutan horrela egon. Gero eskuak piskanaka zorurantz eraman besoak tolestu gabe. Segi mugitzen eskuak oinetakoen aurrean ia jarri arte makurtuz. Hasi zuzentzen, gerritik hasi eta lepoarekin amaituz tente amaitu arte."
+
+#, fuzzy
+#~ msgid "Starting %s"
+#~ msgstr "Isilunea: %s"
+
+#~ msgid "Stretch your back"
+#~ msgstr "Bizkarra luzatu"
+
+#~ msgid "Suspend timer when inactive"
+#~ msgstr "Inaktibo dagoenean kontagailua eseki"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "Hurrengo zerrendak Workrave hasterakoan konektatzen den\n"
+#~ "host-ak adierazten du. Editatzeko host izen edo ataka zenbakian egin klik."
 
 #, fuzzy
 #~ msgid ""
@@ -1587,112 +1511,48 @@ msgstr ""
 #~ "inguruan ibiltzea duzu onena. Minutu batzutan ibili, luzaketak egin\n"
 #~ "eta lasaitu."
 
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Isilunea: %s"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Neure host izena ezin dut asmatu. Banaketa desgaitzen."
+#~ msgid "Username:"
+#~ msgstr "Erabiltzaile izena:"
 
 #, fuzzy
-#~ msgid "Break in"
-#~ msgstr "Atsedena: %s"
+#~ msgid "Workrave failed to start"
+#~ msgstr "Workrave Appleta"
 
-#, fuzzy
-#~ msgid "Disappears in"
-#~ msgstr "Desagertuko da %s"
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Eskumuturrak eta besaurreak luzatu"
 
-#, fuzzy
-#~ msgid "Silent in"
-#~ msgstr "Isilunea: %s"
+#~ msgid "_About..."
+#~ msgstr "_Zerari buruz..."
 
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Ezin da Bonobo hasi"
+#~ msgid "_Connect"
+#~ msgstr "_Konektatu"
 
-#~ msgid "Inactive"
-#~ msgstr "Geldirik"
-
-#~ msgid "Credits"
-#~ msgstr "Lan taldea"
-
-#~ msgid "_Written by"
-#~ msgstr "_Egileak: "
-
-#~ msgid "_Documented by"
-#~ msgstr "_Dokumentazioa: "
-
-#~ msgid "_Translated by"
-#~ msgstr "_Itzultzaileak: "
+#~ msgid "_Connect..."
+#~ msgstr "_Konektatu..."
 
 #~ msgid "_Credits"
 #~ msgstr "_Lan taldea: "
 
-#~ msgid "About %s"
-#~ msgstr "%s-ri buruz"
+#~ msgid "_Disconnect"
+#~ msgstr "_Deskonektatu"
 
-#~ msgid ""
-#~ "Close your eyes and breathe out as long as you can and try to relax. When "
-#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-#~ "for each time you breathe in and out. To extra relax your eyes, try "
-#~ "closing them in micro pauses too."
-#~ msgstr ""
-#~ "Itxi begiak, aire guztia bota ezazu eta lasaitzen saiatu. Airea ahalik "
-#~ "eta polikien hartu. Saia zaitez 8ra arte poliki-poliki zenbatzen airea "
-#~ "hartu eta botatzen duzunean. Begiak are gehiago  lasaitzearren mikro-"
-#~ "atsedenetan ere itxi itzazu."
+#~ msgid "_Documented by"
+#~ msgstr "_Dokumentazioa: "
 
-#~ msgid ""
-#~ "Go stand face to a wall (or something) and put your hands at shoulder "
-#~ "height against it with your elbows slightly bended. Push your body to the "
-#~ "wall, without changing the angle of your elbows. Then push your body back "
-#~ "from the wall again without changing the angle of the elbows."
-#~ msgstr ""
-#~ "Horma baten aurrean jar zaitez eta eskuak sorbalden parean jarri , "
-#~ "ukondoak piska bat malguturik. Gorputza hormaren aurka bultzatu ukondoen "
-#~ "angelua aldatu gabe. Ukondoak horrela ere hormaren beste aldera eraman "
-#~ "gorputza."
+#~ msgid "_Network"
+#~ msgstr "_Sarea"
 
-#~ msgid ""
-#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
-#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
-#~ "Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr ""
-#~ "Burua tente eta masaila lurrarekin paraleloan mantendu. Burua atzera bota "
-#~ "kokospea ateraz. Bi segundutan egon eta lasaitu. Burua era berdinean "
-#~ "aurrera bota, beste bi segundutan egon eta berriro lasaitu."
+#~ msgid "_Quiet"
+#~ msgstr "_Geldirik"
 
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Omoplatoak mugitu"
+#~ msgid "_Reconnect"
+#~ msgstr "_Birkonektatu"
 
-#~ msgid "Neck stretch"
-#~ msgstr "Lepoa luzatu"
+#~ msgid "_Show Log..."
+#~ msgstr "_Loga Erakutsi..."
 
-#~ msgid "Relax the eyes"
-#~ msgstr "Begiak lasaitu"
+#~ msgid "_Translated by"
+#~ msgstr "_Itzultzaileak: "
 
-#~ msgid ""
-#~ "Stand by your desk and place both your palms on the desk with the fingers "
-#~ "pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr ""
-#~ "Mahaiaren ondoan zutitu eta esku-ahurrak bertan jarri hatzak zeure "
-#~ "gorputzari apuntatuz. Eskumuturrak eta besaurreak poliki poliki luzatu."
-
-#~ msgid ""
-#~ "Stand up and try to reach the ceiling with your hands without lifting "
-#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
-#~ "the floor, without bending your arms. Keep them moving to the floor by "
-#~ "bending you back slowly until you can (almost) place them in front of "
-#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
-#~ "is straight up again."
-#~ msgstr ""
-#~ "Zutitu eta orpoak altxatu gabe eskuekin sabaia ukitzen saiatu. Segundu "
-#~ "batzutan horrela egon. Gero eskuak piskanaka zorurantz eraman besoak "
-#~ "tolestu gabe. Segi mugitzen eskuak oinetakoen aurrean ia jarri arte "
-#~ "makurtuz. Hasi zuzentzen, gerritik hasi eta lepoarekin amaituz tente "
-#~ "amaitu arte."
-
-#~ msgid "Stretch your back"
-#~ msgstr "Bizkarra luzatu"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Eskumuturrak eta besaurreak luzatu"
+#~ msgid "_Written by"
+#~ msgstr "_Egileak: "

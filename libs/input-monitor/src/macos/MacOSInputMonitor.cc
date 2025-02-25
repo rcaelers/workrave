@@ -80,7 +80,7 @@ MacOSInputMonitor::get_event_count()
 void
 MacOSInputMonitor::run()
 {
-  TRACE_ENTER("MacOSInputMonitor::run");
+  TRACE_ENTRY();
   while (!terminate_loop)
     {
       uint64_t event_count = get_event_count();
@@ -93,5 +93,4 @@ MacOSInputMonitor::run()
       last_event_count = event_count;
       usleep(1000000);
     }
-  TRACE_EXIT()
 }

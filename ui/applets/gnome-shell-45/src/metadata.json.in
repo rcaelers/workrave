@@ -1,0 +1,18 @@
+{
+  "extension-id": "workrave",
+  "uuid": "@uuid@",
+  "name": "Workrave",
+  "description": "Applet that shows all the Workrave timers.",
+  "shell-version": [
+    "45",
+    "46",
+    "47"
+  ],
+  "gettext-domain": "workrave",
+  "localedir": "@LOCALEDIR@",
+  "url": "@url@",
+  "session-modes": [
+    "user",
+    "unlock-dialog"
+  ]
+}

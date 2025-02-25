@@ -23,7 +23,7 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_GLIB
+#if defined(HAVE_GLIB)
 #  include <glib.h>
 #endif
 
@@ -33,7 +33,7 @@
 ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const char *parameters, bool async)
   : async(async)
 {
-  TRACE_ENTER_MSG("ScreenLockCommandline::ScreenLockCommandline", program_name);
+  TRACE_ENTRY_PAR(program_name);
   char *program_path = g_find_program_in_path(program_name);
 
   if (program_path == nullptr)
@@ -49,7 +49,6 @@ ScreenLockCommandline::ScreenLockCommandline(const char *program_name, const cha
     {
       cmd = program_path;
     }
-  TRACE_EXIT();
 }
 
 bool
@@ -66,24 +65,25 @@ ScreenLockCommandline::invoke(const gchar *command, bool async)
           g_error_free(error);
           return false;
         }
+#if GLIB_CHECK_VERSION(2, 70, 0)
+      return g_spawn_check_wait_status(exit_code, nullptr);
+#else
       return g_spawn_check_exit_status(exit_code, nullptr);
+#endif
     }
-  else
+
+  // asynchronous call
+  if (!g_spawn_command_line_async(command, &error))
     {
-      // asynchronous call
-      if (!g_spawn_command_line_async(command, &error))
-        {
-          g_error_free(error);
-          return false;
-        }
-      return true;
+      g_error_free(error);
+      return false;
     }
+  return true;
 }
 
 bool
 ScreenLockCommandline::lock()
 {
-  TRACE_ENTER_MSG("ScreenLockCommandline::lock", cmd);
+  TRACE_ENTRY_PAR(cmd);
   return invoke(cmd, async);
-  TRACE_EXIT();
 }

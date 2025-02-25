@@ -20,16 +20,17 @@
 
 #include <memory>
 
-#include "utils/ScopedConnections.hh"
-
 #include "Break.hh"
 #include "CoreModes.hh"
 #include "IActivityMonitor.hh"
 #include "Timer.hh"
 
+#include "utils/Signals.hh"
+
 class ReadingActivityMonitor
   : public IActivityMonitorListener
   , public std::enable_shared_from_this<ReadingActivityMonitor>
+  , public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<ReadingActivityMonitor>;
@@ -64,7 +65,6 @@ private:
   bool suspended;
   bool forced_idle;
   State state;
-  scoped_connections connections;
 };
 
 #endif // READINGACTIVITYMONITOR_HH

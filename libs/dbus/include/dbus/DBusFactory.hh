@@ -1,5 +1,3 @@
-// DBusFactory.hh
-//
 // Copyright (C) 2015 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

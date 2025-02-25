@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-05-30 12:47+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
 "PO-Revision-Date: 2011-02-16 19:50+0100\n"
 "Last-Translator: Veeven <veeven@gmail.com>\n"
 "Language-Team: e-Telugu Localization Team\n"
@@ -20,160 +20,1029 @@ msgstr ""
 "X-Poedit-Country: INDIA\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: libs/core/src/DistributionSocketLink.cc:121
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
-msgid "Reconnecting to %s."
-msgstr ""
+msgid "%s%d seconds"
+msgstr "%s%d క్షణాలు"
 
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:408
-msgid "Could not enable network operation."
-msgstr ""
+#: ui/libs/commonui/src/Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d నిమిషాలు"
 
-#: libs/core/src/DistributionSocketLink.cc:417
-msgid "Disabling network operation."
-msgstr ""
+#: ui/libs/commonui/src/Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d గంటలు"
 
-#: libs/core/src/DistributionSocketLink.cc:523
-#: libs/core/src/DistributionSocketLink.cc:560
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "Connecting to %s."
-msgstr "%s కి అనుసంధానిస్తున్నాం."
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:675
-#: libs/core/src/DistributionSocketLink.cc:706
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
+msgid "(font not available)"
+msgstr "(ఖతి అందుబాటులో లేదు)"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
+msgid "<h3>Version {}</h3>\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/Ui.cc:113
+msgid "?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
+msgid "A new version of {} is available"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Active computer usage"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
+msgid "Activity"
+msgstr "కార్యకలాపం"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+msgid "Applet"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
+msgid "Auto update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
+msgid "Automatically check for updates"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
+msgid "Block input"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
+msgid "Block input and screen"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
+msgid "Block mode:"
+msgstr "నిరోధపు రీతి:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
+msgid "Break duration:"
+msgstr "విరామపు నిడివి:"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "విరామాన్ని పట్టించుకోలేదు"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
 #, c-format
-msgid "Removing client %s."
+msgid "Break in %s"
+msgstr "%s లో విరామం"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
 msgstr ""
 
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:752
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
+msgid "Break prompting"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
+msgid "Break prompts"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
+msgid "Breaks"
+msgstr "విరామాలు"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
+msgid "Breaks postponed"
+msgstr "వాయిదావేసిన విరామాలు"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "Breaks skipped"
+msgstr "వదిలివేసిన విరామాలు"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
+msgid "Browse history"
+msgstr "చరిత్రని చూడండి"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
+msgid "Choose a sound"
+msgstr "ఒక ధ్వనిని ఎంచుకోండి"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
+msgid "Close"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
+msgid "Cycle time:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
+#, fuzzy
+msgid "Daily"
+msgstr "రోజువారీ పరిమితి"
+
+#. label
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
+msgid "Daily limit"
+msgstr "రోజువారీ పరిమితి"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
 #, c-format
-msgid "Disconnecting %s"
+msgid "Daily limit %s overdue"
 msgstr ""
 
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:915
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
 #, c-format
-msgid "Client %s is now master."
+msgid "Daily limit in %s"
+msgstr "%s లో రోజువారీ పరిమితి"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+msgid "Daily limit:"
+msgstr "రోజువారీ పరిమితి:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Date:"
+msgstr "తేదీ:"
+
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
+msgid "Debug log"
 msgstr ""
 
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:921
-msgid "I'm now master."
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
+msgid "Debug monitoring"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1284
-#: libs/core/src/DistributionSocketLink.cc:1343
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
+msgid "Default"
+msgstr ""
+
+#. Delete button
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
+msgid "Delete all statistics history"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
-msgid "Client %s saying hello."
+msgid "Disappears in %s"
 msgstr ""
 
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1293
-#: libs/core/src/DistributionSocketLink.cc:1373
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
+msgid "Display"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
+msgid "Effective mouse movement:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
+msgid "Enable shutting down the computer from the rest screen"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr ""
+
+#. Enabled/Disabled checkbox
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
+msgid "Enable timer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
+msgid "End exercises"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
+msgid "Error"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
+msgid "Event"
+msgstr "ఘటన"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:110
+msgid "Exercise change"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/Ui.cc:104
+msgid "Exercise ended"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/Ui.cc:107
+msgid "Exercises ended"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
+msgid "Exercises player"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+msgid "Fallback applet enabled"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
+msgid "File deletion failed!"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "Files deleted!"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:22
+msgid "Finger stretch"
+msgstr ""
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
+msgstr ""
+
+#: ui/app/Menus.cc:178
+msgid "For 1 hour"
+msgstr ""
+
+#: ui/app/Menus.cc:189
+msgid "For 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+msgid "General"
+msgstr "సాధారణ"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
+msgid "Hibernate"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
+msgid "Hide"
+msgstr "దాచు"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
+msgid "Icon Theme:"
+msgstr ""
+
+#: ui/app/Menus.cc:166
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
+msgid "Info"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:39
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "Keystrokes:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
+msgid "Language:"
+msgstr "భాష:"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
+#, fuzzy
+msgid "Lock"
+msgstr "_తాళంవేయి"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
+#, fuzzy
+msgid "Lock..."
+msgstr "_తాళంవేయి"
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:65
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:72
+msgid "Look into the darkness"
+msgstr "చీకటి లోనికి చూడండి"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
+msgid "Maximum number of prompts:"
+msgstr ""
+
+#. FIXME: duplicate
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "సూక్ష్మ-విరామం"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "సూక్ష్మ-విరామం ముగిసింది"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "సూక్ష్మ-విరామం మొదలైంది"
+
+#. Layout
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+msgid "Micro-break:"
+msgstr "సూక్ష్మ-విరామం:"
+
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
+msgid "Mode: "
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+msgid "Monitoring"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
+msgid "Monthly"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
+msgid "Mouse button clicks:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "Mouse movement:"
+msgstr "మూషిక కదలిక:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
+#, fuzzy
+msgid "Mouse sensitivity:"
+msgstr "మూషిక కదలిక:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
+msgid "Mouse usage:"
+msgstr "మూషికపు వాడుక:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "కళ్ళని కదపండి"
+
+#: ui/data/exercises/exercises.xml.in:79
+msgid "Move the shoulders"
+msgstr "భుజాలని కదపండి"
+
+#: ui/data/exercises/exercises.xml.in:87
+msgid "Move the shoulders up and down"
+msgstr "భుజాలని పైకి మరియు క్రిందికి కదల్చండి"
+
+#. Volume
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
+msgid "Mute sounds during rest break and daily limit"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
+msgid "Natural breaks taken"
+msgstr "సహజంగా తీసుకున్న విరామాలు"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "Natural rest break"
+msgstr "సహజ విశ్రాంతి విరామం"
+
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
+msgid "Next"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
+msgid "Next exercise"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
 #, c-format
-msgid "Client %s access denied."
+msgid "Next rest break in %s"
+msgstr "తర్వాతి విశ్రాంతి విరామం %s లో"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
+msgid "No blocking"
+msgstr "నిరోధం లేదు"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
+msgid "No sounds"
+msgstr "ధ్వనులు లేవు"
+
+#: ui/applets/mate/src/main.c:385
+msgid "Normal"
 msgstr ""
 
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1364
-#: libs/core/src/DistributionSocketLink.cc:1491
-#: libs/core/src/DistributionSocketLink.cc:1736
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
+msgid "Number of exercises:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
+msgid "Options"
+msgstr "ఎంపికలు"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "దిశ"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "Overdue time"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Pause"
+msgstr "నిలుపు"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
+msgid "Pause exercises"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
+msgid "Place all timers in one spot"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
+msgid "Place timers next to each other"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
+msgid "Placement:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
+msgid "Play"
+msgstr "ఆడించు"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
+msgid "Play sounds using sound card"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
+msgid "Please relax for a few seconds"
+msgstr "దయచేసి కొన్ని క్షణాలు విరమించండి"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
+msgid "Postpone time:"
+msgstr "వాయిదా సమయం:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
+msgid "Preferences"
+msgstr "అభిరుచులు"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
+msgid "Previous"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
+msgid "Previous exercise"
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:7
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
+msgid "Prompt before breaking"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
+msgid "Prompted breaks taken"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+
+#: ui/app/Menus.cc:112
+msgid "Q_uiet"
+msgstr ""
+
+#: ui/app/Menus.cc:294
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr ""
+
+#: ui/app/Menus.cc:307
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
+msgid "Quiet"
+msgstr ""
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
+msgid "Regard micro-breaks as activity"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
+msgid "Release notes"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
+msgid "Repeated prompts"
+msgstr ""
+
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "విశ్రాంతి విరామం"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
 #, c-format
-msgid "Client %s is duplicate."
+msgid "Rest break %s overdue"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1443
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "విశ్రాంతి విరామం ముగిసింది"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
 #, c-format
-msgid "Client %s signed off."
+msgid "Rest break for %s"
 msgstr ""
 
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1527
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "విశ్రాంతి విరామం మొదలైంది"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
+msgid "Rest break:"
+msgstr "విశ్రాంతి విరామం:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Resume"
+msgstr "కొనసాగించు"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
+msgid "Resume exercises"
+msgstr ""
+
+#: ui/app/Menus.cc:81
+#, fuzzy
+msgid "S_tatistics"
+msgstr "గణాంకాలు"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
+msgid "Show"
+msgstr "చూపించు"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
+msgid "Show 'Postpone' button"
+msgstr ""
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
+msgid "Show 'Skip' button"
+msgstr ""
+
+#: ui/applets/mate/src/main.c:379
+#, fuzzy
+msgid "Show log"
+msgstr "చూపించు"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
+msgid "Show only when this timer is first due"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
+#, fuzzy
+msgid "Show status icon"
+msgstr "స్థితి కిటికీని చూపించు"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
+msgid "Show status window"
+msgstr "స్థితి కిటికీని చూపించు"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
+msgid "Show system tray icon"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
+#, fuzzy
+msgid "Shutdown"
+msgstr "_నిలివివేయి"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
 #, c-format
-msgid "Client %s is welcoming us."
+msgid "Silent in %s"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1769
-#, c-format
-msgid "Requesting master status from %s."
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
+msgid "Software Update"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1782
-#, c-format
-msgid "Client timeout from %s."
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
+msgid "Software updates"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1808
-#, c-format
-msgid "Rejecting master request from client %s."
+#. Sound themes
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
+msgid "Sound Events"
+msgstr "ధ్వని ఘటనలు"
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
+msgid "Sound Options"
+msgstr "ధ్వని ఎంపికలు"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
+msgid "Sound Theme:"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1813
-#, c-format
-msgid "Acknowledging master request from client %s."
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
+msgid "Sound:"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1866
-#, c-format
-msgid "Non-master client %s rejected master request."
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
+msgid "Sounds"
+msgstr "ధ్వనులు"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:1870
-#, c-format
-msgid "Client %s rejected master request, delaying."
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
+#, fuzzy
+msgid "Start Workrave on logon"
+msgstr "విండోస్ మొదలవుతున్నప్పుడే వర్క్‌రేవ్‌ని కూడా ప్రారంభించు"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
+msgid "Start restbreak when screen is locked"
 msgstr ""
 
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1944
-#, c-format
-msgid "Client %s is now the new master."
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:2072
-msgid "Network operation started."
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
+msgid "Statistics"
+msgstr "గణాంకాలు"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+msgid "Status Window"
+msgstr "స్థితి కిటికీ"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:2092
-msgid "Accepted new client."
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:2167
-#, c-format
-msgid "Client %s read error, closing."
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:2172
-#: libs/core/src/DistributionSocketLink.cc:2239
-#, c-format
-msgid "Client %s closed connection."
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
+msgid "Suspend"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:2211
-#, c-format
-msgid "Client %s connected."
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
+msgid "Suspend hybrid"
 msgstr ""
 
-#: libs/core/src/DistributionSocketLink.cc:2244
-#, c-format
-msgid "Could not connect to client %s."
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
+msgid "Suspended"
 msgstr ""
 
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:219
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:211
-#: ui/applets/gnome3/src/v5/WorkraveApplet.c:221
-#: ui/applets/mate/src/main-gtk2.c:285 ui/applets/mate/src/main-gtk3.c:210
-#: ui/applets/xfce/src/main.c:297 ui/apps/gtkmm/src/Menus.cc:340
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
+msgid "System default"
+msgstr "వ్యవస్థ అప్రమేయం"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
+msgid "Take rest break now"
+msgstr "ఇప్పుడు విశ్రాంతి విరామం తీసుకోండి"
+
+#: ui/app/Menus.cc:121
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:118
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
+msgid "The files containing your statistics history have been deleted."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "The number of breaks you postponed"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "The number of breaks you skipped"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "The number of times you took a break when being prompted"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "The number of times you took a break without being prompted"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "The number of times you were repeatedly prompted to break"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+msgid "The orientation of the tray"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+msgid "The total computer usage for the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "The total computer usage for the whole month of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+msgid "The total computer usage for the whole week of the selected day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of keys pressed"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "The total number of mouse button clicks"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "The total on-screen mouse movement"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "The total time this break was overdue"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "The total time you were using the mouse"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "This is your natural rest break."
+msgstr "ఇది మీ సహజ విశ్రాంతి విరామం."
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
 msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
 msgstr ""
 
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time before end:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time between breaks:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
+msgid "Time for a micro-break?"
+msgstr "ఒక సూక్ష్మ-విరామానికి సమయమా?"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
+msgid "Timers"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:64
+msgid "Train focusing the eyes"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:125
+msgid "Turn your head"
+msgstr "మీ తలని తిప్పండి"
+
+#: ui/data/exercises/exercises.xml.in:126
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr ""
+
+#: ui/app/Menus.cc:198
+msgid "Until next day"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Usage"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
+msgid "Use alternate monitor"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
+msgid "Use dark theme"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+msgid "User interface"
+msgstr "వాడుకరి ముఖాంతరం"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
+msgid "Version {}\n"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
+msgid "Volume:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "ఆగు"
+
+#. Confirm the user's intention
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
+msgid "Warning"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
+msgid "Wavefiles"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
+msgid "Weekly"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
 #: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/workrave.desktop.in:4
 msgid "Workrave"
 msgstr "వర్క్‌రేవ్"
 
@@ -182,1311 +1051,223 @@ msgstr "వర్క్‌రేవ్"
 msgid "Workrave Applet"
 msgstr "వర్క్‌రేవ్"
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
-#: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
-msgid "_Open"
+#: ui/app/Application.cc:346
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:310
-#: ui/applets/mate/src/main-gtk2.c:345 ui/applets/mate/src/main-gtk3.c:309
-msgid "_Statistics"
-msgstr "గణాంకాలు (_S)"
-
-#. Preferences
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ui/applets/mate/src/main-gtk2.c:347 ui/applets/mate/src/main-gtk3.c:311
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:150
-msgid "_Preferences"
-msgstr "అభిరుచులు (_P)"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:314
-#: ui/applets/mate/src/main-gtk2.c:349 ui/applets/mate/src/main-gtk3.c:313
-msgid "_Exercises"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:316
-#: ui/applets/mate/src/main-gtk2.c:351 ui/applets/mate/src/main-gtk3.c:315
-msgid "_Restbreak"
-msgstr "విశ్రాంతివిరామం (_R)"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:318
-#: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:120
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
-msgid "_Mode"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:320
-#: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:134
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Network"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:322
-#: ui/applets/mate/src/main-gtk2.c:357 ui/applets/mate/src/main-gtk3.c:321
-msgid "_Join"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:136
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:116
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
-msgid "_Disconnect"
+#: ui/app/workrave.metainfo.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:326
-#: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
-msgid "_Reconnect"
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:328
-#: ui/applets/mate/src/main-gtk2.c:363 ui/applets/mate/src/main-gtk3.c:327
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:157
-#, fuzzy
-msgid "_About"
-msgstr "గురించి (_A)..."
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:330
-#: ui/applets/mate/src/main-gtk2.c:365 ui/applets/mate/src/main-gtk3.c:329
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:159
-msgid "_Quit"
-msgstr "చాలించు (_Q)"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
-#: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
-#, fuzzy
-msgid "Show log"
-msgstr "చూపించు"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
-#: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-msgid "Reading mode"
-msgstr ""
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
-#: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
-msgid "Normal"
-msgstr ""
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
-#: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
-msgid "Suspended"
-msgstr ""
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1424 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
-msgid "Quiet"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:257
-#, fuzzy
-msgid "Lock..."
-msgstr "_తాళంవేయి"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:261
-#, fuzzy
-msgid "Lock"
-msgstr "_తాళంవేయి"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:265
-#, fuzzy
-msgid "Shutdown"
-msgstr "_నిలివివేయి"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:269
-msgid "Suspend"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:273
-msgid "Hibernate"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:277
-msgid "Suspend hybrid"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:397
-#, fuzzy
-msgid "_Skip"
-msgstr "_దాటవేయి"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:412
-#, fuzzy
-msgid "_Postpone"
-msgstr "_వాయిదావేయి"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:604
+#: ui/app/Application.cc:554
 msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:618
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
+#: ui/app/Application.cc:538
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
 msgstr ""
 
-#. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:46
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:53 ui/apps/gtkmm/src/GUI.cc:1413
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/Ui.cc:101
-msgid "Daily limit"
-msgstr "రోజువారీ పరిమితి"
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr ""
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
 
-#: ui/apps/gtkmm/src/DebugDialog.cc:42 ui/apps/gtkmm/src/DebugDialog.cc:44
-msgid "Debug log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:31
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:153
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-msgid "Exercises"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:240
-msgid "Exercises player"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:270
-msgid "Previous exercise"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:271
-msgid "Next exercise"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:272
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:457
-msgid "Pause exercises"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:276
-msgid "End exercises"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Resume"
-msgstr "కొనసాగించు"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Pause"
-msgstr "నిలుపు"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:455
-msgid "Resume exercises"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:294
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:774 ui/apps/gtkmm/src/GUI.cc:888
-#, fuzzy
-msgid "Workrave failed to start"
-msgstr "విండోస్ మొదలవుతున్నప్పుడే వర్క్‌రేవ్‌ని కూడా ప్రారంభించు"
-
-#: ui/apps/gtkmm/src/GUI.cc:775
-msgid "Is Workrave already running?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:883
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:886
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:1281
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:1287
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GtkUtil.cc:162
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:50
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:159
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-msgid "Micro-break"
-msgstr "సూక్ష్మ-విరామం"
-
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/MicroBreakWindow.cc:134
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:67
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:192
-msgid "Rest break"
-msgstr "విశ్రాంతి విరామం"
-
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GUI.cc:1424
-msgid "Mode: "
-msgstr ""
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:102
-msgid "Open"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:103
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
-msgid "Preferences"
-msgstr "అభిరుచులు"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
-msgid "Mode"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#, fuzzy
-msgid "Connect"
-msgstr "అనుసంధానించు (_C)"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
-#, fuzzy
-msgid "Disconnect"
-msgstr "అనుసంధానించు (_C)"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
-#, fuzzy
-msgid "Reconnect"
-msgstr "అనుసంధానించు (_C)"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:155
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:51
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
-msgid "Statistics"
-msgstr "గణాంకాలు"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
-msgid "About..."
-msgstr "గురించి..."
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#, fuzzy
-msgid "Quit"
-msgstr "చాలించు (_Q)"
-
-#. Restbreak now
-#. Gtk::AccelKey("<control>r"),
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:80 ui/apps/gtkmm/src/MainGtkMenu.cc:146
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-msgid "_Rest break"
-msgstr "విశ్రాంతి విరామం (_R)"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:122
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-msgid "_Normal"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:125
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
-msgid "Q_uiet"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
-msgid "_Suspended"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:130
-msgid "_Reading mode"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:135
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
-msgid "_Connect"
-msgstr "అనుసంధానించు (_C)"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:138
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-msgid "Show _log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
-msgid "Please relax for a few seconds"
-msgstr "దయచేసి కొన్ని క్షణాలు విరమించండి"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:224
-#, c-format
-msgid "Next rest break in %s"
-msgstr "తర్వాతి విశ్రాంతి విరామం %s లో"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:228
-#, c-format
-msgid "Rest break %s overdue"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:240
-#, c-format
-msgid "Daily limit in %s"
-msgstr "%s లో రోజువారీ పరిమితి"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:53
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:72
-msgid "Network connect"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:73
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:85
-msgid "Host name:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:86
-msgid "Port:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:50
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:93
-msgid "Enable networking"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:100
-msgid "Username:"
-msgstr "వాడుకరిపేరు:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:101
-msgid "Password:"
-msgstr "సంకేతపదం:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:107
-msgid "Allow incoming connections"
-msgstr "లోనికివచ్చు  సంధానాలను అనుమతించు"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:112
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "సాధారణ"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:123
-msgid "Server settings"
-msgstr "సేవకి అమరికలు"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Server port:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:146
-msgid "Reconnect attempts:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
-msgid "Reconnect interval:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:150
-msgid "Advanced"
-msgstr "ఉన్నత"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:165
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:192
-msgid "Host name"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Port"
-msgstr ""
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:239
-msgid "Hosts"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-msgid "Sounds"
-msgstr "ధ్వనులు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "స్థితి కిటికీ"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr ""
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:188
-msgid "Timers"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
-msgid "User interface"
-msgstr "వాడుకరి ముఖాంతరం"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:156
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:160
-msgid "No blocking"
-msgstr "నిరోధం లేదు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:157
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:161
-msgid "Block input"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:158
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:162
-msgid "Block input and screen"
-msgstr ""
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:181
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-msgid "Options"
-msgstr "ఎంపికలు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:183
-msgid "Block mode:"
-msgstr "నిరోధపు రీతి:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:203
-msgid "System default"
-msgstr "వ్యవస్థ అప్రమేయం"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:246
-msgid "(font not available)"
-msgstr "(ఖతి అందుబాటులో లేదు)"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:265
-msgid "Language:"
-msgstr "భాష:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:279
-#, fuzzy
-msgid "Start Workrave on logon"
-msgstr "విండోస్ మొదలవుతున్నప్పుడే వర్క్‌రేవ్‌ని కూడా ప్రారంభించు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:294
-msgid "Show system tray icon"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:304
-msgid "Icon Theme:"
-msgstr ""
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:317
-msgid "Sound Options"
-msgstr "ధ్వని ఎంపికలు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:323
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:326
-msgid "No sounds"
-msgstr "ధ్వనులు లేవు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:324
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:327
-msgid "Play sounds using sound card"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:348
-msgid "Volume:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
-msgid "Sound:"
-msgstr ""
-
-#. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:356
-msgid "Mute sounds during rest break and daily limit"
-msgstr ""
-
-#. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:364
-msgid "Sound Events"
-msgstr "ధ్వని ఘటనలు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:372
-msgid "Sound Theme:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:395
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:413
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:441
-msgid "Play"
-msgstr "ఆడించు"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-msgid "Event"
-msgstr "ఘటన"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:416
-msgid "Choose a sound"
-msgstr "ఒక ధ్వనిని ఎంచుకోండి"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:426
-msgid "Wavefiles"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:514
-msgid "Use alternate monitor"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:521
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:524
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "మూషిక కదలిక:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:545
-msgid "Debug monitoring"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:978
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:980
-msgid "Default"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
-msgid "Time for a micro-break?"
-msgstr "ఒక సూక్ష్మ-విరామానికి సమయమా?"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
 msgid "You need a rest break..."
 msgstr "మీకు విశ్రాంతి విరామం కావాలి..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:116
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
 msgid "You should stop for today..."
 msgstr "మీరు ఈ రోజుకి ఇక ఆపివేయాలి..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:286
-#, c-format
-msgid "Break in %s"
-msgstr "%s లో విరామం"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:290
-#, c-format
-msgid "Disappears in %s"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:294
-#, c-format
-msgid "Silent in %s"
-msgstr ""
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:150
-#, c-format
-msgid "Rest break for %s"
-msgstr ""
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
-msgid "Natural rest break"
-msgstr "సహజ విశ్రాంతి విరామం"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
-msgid "This is your natural rest break."
-msgstr "ఇది మీ సహజ విశ్రాంతి విరామం."
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:193
-msgid ""
-"This is your rest break. Make sure you stand up and\n"
-"walk away from your computer on a regular basis. Just\n"
-"walk around for a few minutes, stretch, and relax."
-msgstr ""
-
-#. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:116
-msgid "Browse history"
-msgstr "చరిత్రని చూడండి"
-
-#. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:121
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:128
-msgid "Date:"
-msgstr "తేదీ:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:159
-msgid "Breaks"
-msgstr "విరామాలు"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:167
-msgid "Break prompts"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "Repeated prompts"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "The number of times you were repeatedly prompted to break"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "Prompted breaks taken"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "The number of times you took a break when being prompted"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "Natural breaks taken"
-msgstr "సహజంగా తీసుకున్న విరామాలు"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "The number of times you took a break without being prompted"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "Breaks skipped"
-msgstr "వదిలివేసిన విరామాలు"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "The number of breaks you skipped"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "Breaks postponed"
-msgstr "వాయిదావేసిన విరామాలు"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "The number of breaks you postponed"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "Overdue time"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "The total time this break was overdue"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Active computer usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
 #, fuzzy
-msgid "Daily"
-msgstr "రోజువారీ పరిమితి"
+msgid "_About"
+msgstr "గురించి (_A)..."
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-msgid "The total computer usage for the selected day"
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "Weekly"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
+msgid "_Install update"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "The total computer usage for the whole week of the selected day"
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "Monthly"
+#: ui/app/Menus.cc:98
+msgid "_Normal"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "The total computer usage for the whole month of the selected day"
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
+msgid "_Open"
 msgstr ""
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid "Activity"
-msgstr "కార్యకలాపం"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "Mouse usage:"
-msgstr "మూషికపు వాడుక:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "The total time you were using the mouse"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "Mouse movement:"
-msgstr "మూషిక కదలిక:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "The total on-screen mouse movement"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
-msgid "Effective mouse movement:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:290
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "Mouse button clicks:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "The total number of mouse button clicks"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "Keystrokes:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "The total number of keys pressed"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:342
-#, c-format
-msgid "%s, from %s to %s"
-msgstr ""
-
-#. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-msgid "Warning"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:651
-msgid "Files deleted!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:652
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:654
-msgid "Info"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:659
-msgid "File deletion failed!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:660
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:662
-msgid "Error"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Text.cc:84
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d గంటలు"
-
-#: ui/apps/gtkmm/src/Text.cc:88
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d నిమిషాలు"
-
-#: ui/apps/gtkmm/src/Text.cc:92
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d క్షణాలు"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:181
-msgid "Take rest break now"
-msgstr "ఇప్పుడు విశ్రాంతి విరామం తీసుకోండి"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:203
-msgid "Wait"
-msgstr "ఆగు"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
-msgid "Place timers next to each other"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:94
-msgid "Place micro-break and rest break in one spot"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
-msgid "Place rest break and daily limit in one spot"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place all timers in one spot"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
-msgid "Hide"
-msgstr "దాచు"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:119
-msgid "Show"
-msgstr "చూపించు"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
-msgid "Show only when this timer is first due"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
-msgid "Display"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-msgid "The status window stays always on top of other windows"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:136
-msgid "Show status window"
-msgstr "స్థితి కిటికీని చూపించు"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:147
-msgid "Placement:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:148
-msgid "Cycle time:"
-msgstr ""
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-msgid "Micro-break:"
-msgstr "సూక్ష్మ-విరామం:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:154
-msgid "Rest break:"
-msgstr "విశ్రాంతి విరామం:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-msgid "Daily limit:"
-msgstr "రోజువారీ పరిమితి:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
-msgid "Fallback applet enabled"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
 #, fuzzy
-msgid "Show status icon"
-msgstr "స్థితి కిటికీని చూపించు"
+msgid "_Postpone"
+msgstr "_వాయిదావేయి"
 
-#. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:61
-msgid "Enable timer"
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "అభిరుచులు (_P)"
+
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "చాలించు (_Q)"
+
+#: ui/app/Menus.cc:127
+msgid "_Reading mode"
 msgstr ""
 
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
-msgid "Break prompting"
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
+msgid "_Remind me later"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
-msgid "Prompt before breaking"
+#: ui/app/Menus.cc:75
+msgid "_Rest break"
+msgstr "విశ్రాంతి విరామం (_R)"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "విశ్రాంతివిరామం (_R)"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
+#, fuzzy
+msgid "_Skip"
+msgstr "_దాటవేయి"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
+msgid "_Skip this version"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:104
-msgid "Maximum number of prompts:"
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "గణాంకాలు (_S)"
+
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
 msgstr ""
 
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:132
-msgid "Show 'Postpone' button"
+#: ui/app/Menus.cc:299
+#, qt-format
+msgid "_Suspended (until %1%)"
 msgstr ""
 
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:136
-msgid "Show 'Skip' button"
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Regard micro-breaks as activity"
+#: ui/app/Menus.cc:185
+msgid "and 1 minute"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
-msgid "Number of exercises:"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:158
-msgid "Start restbreak when screen is locked"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Time before end:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Time between breaks:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:199
-msgid "Break duration:"
-msgstr "విరామపు నిడివి:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-msgid "Postpone time:"
-msgstr "వాయిదా సమయం:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
-msgid "Break prompt"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Ui.cc:86
-msgid "Break ignored"
-msgstr "విరామాన్ని పట్టించుకోలేదు"
-
-#: ui/apps/gtkmm/src/Ui.cc:89
-msgid "Rest break started"
-msgstr "విశ్రాంతి విరామం మొదలైంది"
-
-#: ui/apps/gtkmm/src/Ui.cc:92
-msgid "Rest break ended"
-msgstr "విశ్రాంతి విరామం ముగిసింది"
-
-#: ui/apps/gtkmm/src/Ui.cc:95
-msgid "Micro-break started"
-msgstr "సూక్ష్మ-విరామం మొదలైంది"
-
-#: ui/apps/gtkmm/src/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "సూక్ష్మ-విరామం ముగిసింది"
-
-#: ui/apps/gtkmm/src/Ui.cc:104
-msgid "Exercise ended"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Ui.cc:107
-msgid "Exercises ended"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Ui.cc:110
-msgid "Exercise change"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Ui.cc:113
-msgid "?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:113
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:119
-msgid "Orientation"
-msgstr "దిశ"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:114
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:120
-msgid "The orientation of the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding that should be put around icons in the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "Icon Size"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:221
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:227
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "Specify session management ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Session management options:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Show session management options"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:6
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:7
+#: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
 msgstr ""
 
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
 msgstr ""
 
-#: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
+#~ msgid "About..."
+#~ msgstr "గురించి..."
 
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr ""
+#~ msgid "Advanced"
+#~ msgstr "ఉన్నత"
 
-#: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
+#~ msgid "Allow incoming connections"
+#~ msgstr "లోనికివచ్చు  సంధానాలను అనుమతించు"
 
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr ""
+#, fuzzy
+#~ msgid "Connect"
+#~ msgstr "అనుసంధానించు (_C)"
 
-#: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "కళ్ళని కదపండి"
-
-#: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:64
-msgid "Train focusing the eyes"
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:72
-msgid "Look into the darkness"
-msgstr "చీకటి లోనికి చూడండి"
-
-#: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:79
-msgid "Move the shoulders"
-msgstr "భుజాలని కదపండి"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:87
-msgid "Move the shoulders up and down"
-msgstr "భుజాలని పైకి మరియు క్రిందికి కదల్చండి"
-
-#: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:125
-msgid "Turn your head"
-msgstr "మీ తలని తిప్పండి"
-
-#: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
+#, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "%s కి అనుసంధానిస్తున్నాం."
 
 #~ msgid "Custom"
 #~ msgstr "అభిమత"
 
+#~ msgid "Daily usage"
+#~ msgstr "రోజువారీ వాడకం"
+
+#, fuzzy
+#~ msgid "Disconnect"
+#~ msgstr "అనుసంధానించు (_C)"
+
+#~ msgid "Password:"
+#~ msgstr "సంకేతపదం:"
+
+#, fuzzy
+#~ msgid "Quit"
+#~ msgstr "చాలించు (_Q)"
+
+#, fuzzy
+#~ msgid "Reconnect"
+#~ msgstr "అనుసంధానించు (_C)"
+
+#~ msgid "Server settings"
+#~ msgstr "సేవకి అమరికలు"
+
+#~ msgid "Username:"
+#~ msgstr "వాడుకరిపేరు:"
+
+#, fuzzy
+#~ msgid "Workrave failed to start"
+#~ msgstr "విండోస్ మొదలవుతున్నప్పుడే వర్క్‌రేవ్‌ని కూడా ప్రారంభించు"
+
 #~ msgid "_About..."
 #~ msgstr "గురించి (_A)..."
 
-#~ msgid "Daily usage"
-#~ msgstr "రోజువారీ వాడకం"
+#~ msgid "_Connect"
+#~ msgstr "అనుసంధానించు (_C)"

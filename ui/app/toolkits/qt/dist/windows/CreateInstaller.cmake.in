@@ -1,0 +1,41 @@
+if(POLICY CMP0011)
+  cmake_policy(SET CMP0011 NEW)
+endif()
+if(POLICY CMP0012)
+  cmake_policy(SET CMP0012 NEW)
+endif()
+
+# TODO: Duplicate information.
+list(APPEND CMAKE_MODULE_PATH "@CMAKE_SOURCE_DIR@/cmake/modules")
+
+message(STATUS "Resolving dependencies. This may take a while")
+
+function(gp_resolved_file_type_overridexx resolved_file type_var)
+  message("resolving ${file}...")
+  if(file MATCHES "^api-")
+    message("resolving ${file} as system")
+    set(${type_var} system PARENT_SCOPE)
+  endif()
+endfunction()
+
+if (@CMAKE_CROSSCOMPILING@)
+
+  set(CMAKE_OBJDUMP "@CMAKE_OBJDUMP@")
+  include(Win32ResolveDependencies)
+  resolve_dependencies("@CMAKE_CURRENT_BINARY_DIR@/../../src/Workrave.exe" dependencies resolved_dependencies "@SYS_ROOT@/bin")
+
+  foreach(dependency ${resolved_dependencies})
+    file (INSTALL ${dependency} DESTINATION "@CMAKE_INSTALL_PREFIX@/dist/lib")
+  endforeach()
+
+else()
+
+  set(APPS "${CMAKE_INSTALL_PREFIX}/bin/Workrave.exe")
+  set(PLUGINS "")
+  set(DIRS "@Boost_LIBRARY_DIRS@;@QT_BIN_DIR@")
+
+  file(GLOB_RECURSE PLUGINS "${CMAKE_INSTALL_PREFIX}/lib/plugins/*")
+  include(BundleUtilities)
+  set(BU_CHMOD_BUNDLE_ITEMS ON)
+  fixup_bundle("${APPS}"  "${PLUGINS}"  "${DIRS}")
+endif()

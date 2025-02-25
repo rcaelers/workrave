@@ -1,0 +1,132 @@
+{
+  "name": "workrave",
+  "version": "1.11.0-beta.16",
+  "dependencies": [
+    {
+      "name": "gettext",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "gettext",
+      "host": true,
+      "features": ["tools"],
+      "platform": "x86 | x64 | arm64"
+    },
+    {
+      "name": "python3",
+      "version>=": "3.11.10",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-asio",
+      "version>=": "1.86.0",
+      "features": ["ssl"],
+      "platform": "x64"
+    },
+    {
+      "name": "boost-beast",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-coroutine",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-date-time",
+      "version>=": "1.86.0",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "boost-interprocess",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-filesystem",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-format",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-iostreams",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-outcome",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-process",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-program-options",
+      "version>=": "1.86.0",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "boost-property-tree",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-serialization",
+      "version>=": "1.86.0",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "boost-signals2",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-url",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "boost-test",
+      "version>=": "1.86.0",
+      "platform": "x64"
+    },
+    {
+      "name": "pkgconf",
+      "version>=": "2.3.0",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "gtk3",
+      "version>=": "3.24.38#1",
+      "platform": "x64"
+    },
+    {
+      "name": "gtk3mm",
+      "version>=": "3.24.5",
+      "platform": "x64"
+    },
+    {
+      "name": "spdlog",
+      "version>=": "1.15.0",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "fmt",
+      "version>=": "11.0.2",
+      "platform": "x86 | x64"
+    },
+    {
+      "name": "adwaita-icon-theme",
+      "version>=": "43#1",
+      "platform": "x64"
+    }
+  ]
+}

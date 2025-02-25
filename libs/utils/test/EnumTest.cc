@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Rob Caelers & Raymond Penners
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,7 @@
 #include <sstream>
 
 #define BOOST_TEST_MODULE "workrave-utils-enum"
-#ifdef PLATFORM_OS_WINDOWS_NATIVE
-#  include <boost/test/unit_test.hpp>
-#else
-#  include <boost/test/included/unit_test.hpp>
-#endif
+#include <boost/test/unit_test.hpp>
 
 #include <boost/range/adaptor/reversed.hpp>
 
@@ -41,10 +37,6 @@ struct Fixture
 {
   Fixture()
   {
-#ifdef TRACING
-    Debug::init(boost::unit_test::framework::current_test_case().p_name.get() + "-");
-    Debug::name(std::string("main"));
-#endif
   }
 
   ~Fixture()
@@ -104,12 +96,22 @@ enum OperationModeEnum
   NotInRange
 };
 
+using namespace std::literals::string_view_literals;
+
 template<>
 struct workrave::utils::enum_traits<OperationModeEnum>
 {
   static constexpr auto min = OperationModeEnum::Normal;
   static constexpr auto max = OperationModeEnum::Quiet;
   static constexpr auto linear = true;
+  static constexpr auto invalid = OperationModeEnum::Invalid;
+
+  static constexpr std::array<std::pair<std::string_view, OperationModeEnum>, 5> names{
+    {{"normal", OperationModeEnum::Normal},
+     {"suspended", OperationModeEnum::Suspended},
+     {"quiet", OperationModeEnum::Quiet},
+     {"invalid", OperationModeEnum::Invalid},
+     {"notinrange", OperationModeEnum::NotInRange}}};
 };
 
 inline std::ostream &
@@ -175,33 +177,10 @@ struct workrave::utils::enum_traits<Kind>
 {
   static constexpr auto flag = true;
   static constexpr auto bits = 4;
-};
 
-inline std::ostream &
-operator<<(std::ostream &stream, Kind flag)
-{
-  if (flag == Kind::None)
-    {
-      stream << "none";
-    }
-  if ((flag & Kind::A) == Kind::A)
-    {
-      stream << "A";
-    }
-  if ((flag & Kind::B) == Kind::B)
-    {
-      stream << "B";
-    }
-  if ((flag & Kind::C) == Kind::C)
-    {
-      stream << "C";
-    }
-  if ((flag & Kind::D) == Kind::D)
-    {
-      stream << "D";
-    }
-  return stream;
-}
+  static constexpr std::array<std::pair<std::string_view, Kind>, 5> names{
+    {{"none", Kind::None}, {"A", Kind::A}, {"B", Kind::B}, {"C", Kind::C}, {"D", Kind::D}}};
+};
 
 BOOST_FIXTURE_TEST_SUITE(s, Fixture)
 
@@ -209,6 +188,8 @@ BOOST_AUTO_TEST_CASE(test_enum_class_mix_max)
 {
   BOOST_CHECK_EQUAL(workrave::utils::enum_has_min_v<OperationMode>, true);
   BOOST_CHECK_EQUAL(workrave::utils::enum_has_max_v<OperationMode>, true);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_has_invalid_v<OperationMode>, false);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_has_names_v<OperationMode>, false);
   BOOST_CHECK_EQUAL(workrave::utils::enum_has_min_v<OperationModeNoMinMax>, false);
   BOOST_CHECK_EQUAL(workrave::utils::enum_has_max_v<OperationModeNoMinMax>, false);
   BOOST_CHECK_EQUAL(workrave::utils::enum_min_value<OperationMode>(), 2);
@@ -231,6 +212,8 @@ BOOST_AUTO_TEST_CASE(test_enum_mix_max)
 {
   BOOST_CHECK_EQUAL(workrave::utils::enum_has_min_v<OperationModeEnum>, true);
   BOOST_CHECK_EQUAL(workrave::utils::enum_has_max_v<OperationModeEnum>, true);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_has_invalid_v<OperationModeEnum>, true);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_has_names_v<OperationModeEnum>, true);
   BOOST_CHECK_EQUAL(workrave::utils::enum_min_value<OperationModeEnum>(), 2);
   BOOST_CHECK_EQUAL(workrave::utils::enum_max_value<OperationModeEnum>(), 4);
   BOOST_CHECK_EQUAL(workrave::utils::enum_count<OperationModeEnum>(), 3);
@@ -244,6 +227,26 @@ BOOST_AUTO_TEST_CASE(test_enum_mix_max)
   BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Suspended), true);
   BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::Quiet), true);
   BOOST_CHECK_EQUAL(workrave::utils::enum_in_range<OperationModeEnum>(OperationModeEnum::NotInRange), false);
+}
+
+BOOST_AUTO_TEST_CASE(test_enum_class_from_string)
+{
+  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("invalid"), OperationModeEnum::Invalid);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("normal"), OperationModeEnum::Normal);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("suspended"), OperationModeEnum::Suspended);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("quiet"), OperationModeEnum::Quiet);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("notinrange"), OperationModeEnum::NotInRange);
+  BOOST_CHECK_EQUAL(workrave::utils::enum_from_string<OperationModeEnum>("foo"), OperationModeEnum::Invalid);
+}
+
+BOOST_AUTO_TEST_CASE(test_enum_class_to_string)
+{
+  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Invalid), "invalid");
+  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Normal), "normal");
+  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Suspended), "suspended");
+  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::Quiet), "quiet");
+  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(OperationModeEnum::NotInRange), "notinrange");
+  BOOST_CHECK_EQUAL(workrave::utils::enum_to_string<OperationModeEnum>(static_cast<OperationModeEnum>(200)), "");
 }
 
 BOOST_AUTO_TEST_CASE(test_enum_class_linear)

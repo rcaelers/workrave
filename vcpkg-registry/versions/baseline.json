@@ -1,0 +1,16 @@
+{
+  "default": {
+    "gtk3mm": {
+      "baseline": "3.24.5",
+      "port-version": 0
+    },
+    "gettext": {
+      "baseline": "0.22.5",
+      "port-version": 10
+    },
+    "adwaita-icon-theme": {
+      "baseline": "43",
+      "port-version": 1
+    }
+  }
+}

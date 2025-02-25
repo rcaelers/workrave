@@ -1,6 +1,4 @@
-// Statistics.cc
-//
-// Copyright (C) 2002 - 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +20,8 @@
 #endif
 
 #include "Statistics.hh"
-#ifdef PLATFORM_OS_MACOS
+
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -30,20 +29,16 @@
 #include <cmath>
 #include <cstring>
 #include <sstream>
+#include <filesystem>
 
 #include "debug.hh"
 
-#include "Statistics.hh"
-
 #include "Core.hh"
-#include "utils/Util.hh"
 #include "Timer.hh"
+
+#include "utils/Paths.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 #include "input-monitor/IInputMonitor.hh"
-
-#ifdef HAVE_DISTRIBUTION
-#  include "DistributionManager.hh"
-#endif
 
 const char *WORKRAVESTATS = "WorkRaveStats";
 const int STATSVERSION = 4;
@@ -51,6 +46,7 @@ const int STATSVERSION = 4;
 #define MAX_JUMP (10000)
 
 using namespace std;
+using namespace workrave::utils;
 
 Statistics::~Statistics()
 {
@@ -75,16 +71,12 @@ Statistics::init(Core *control)
 {
   core = control;
 
-  input_monitor =
-    workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Statistics);
+  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(
+    workrave::input_monitor::MonitorCapability::Statistics);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
     }
-
-#ifdef HAVE_DISTRIBUTION
-  init_distribution_manager();
-#endif
 
   current_day = nullptr;
   bool ok = load_current_day();
@@ -100,8 +92,7 @@ Statistics::init(Core *control)
 void
 Statistics::update()
 {
-  TRACE_ENTER("Statistics::update");
-
+  TRACE_ENTRY();
   IActivityMonitor::Ptr monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
 
@@ -118,7 +109,6 @@ Statistics::update()
 
   update_current_day(state == ACTIVITY_ACTIVE);
   save_day(current_day);
-  TRACE_EXIT();
 }
 
 bool
@@ -126,8 +116,8 @@ Statistics::delete_all_history()
 {
   update();
 
-  string histfile = Util::get_home_directory() + "historystats";
-  if (Util::file_exists(histfile.c_str()) && std::remove(histfile.c_str()))
+  std::filesystem::path histpath = Paths::get_state_directory() / "historystats";
+  if (std::filesystem::is_regular_file(histpath) && std::filesystem::remove(histpath))
     {
       return false;
     }
@@ -139,8 +129,8 @@ Statistics::delete_all_history()
       history.clear();
     }
 
-  string todayfile = Util::get_home_directory() + "todaystats";
-  if (Util::file_exists(todayfile.c_str()) && std::remove(todayfile.c_str()))
+  std::filesystem::path todaypath = Paths::get_state_directory() / "todaystats";
+  if (std::filesystem::is_regular_file(todaypath) && std::filesystem::remove(todaypath))
     {
       return false;
     }
@@ -161,7 +151,7 @@ Statistics::delete_all_history()
 void
 Statistics::start_new_day()
 {
-  TRACE_ENTER("Statistics::start_new_day");
+  TRACE_ENTRY();
   const time_t now = time(nullptr);
   struct tm *tmnow = localtime(&now);
 
@@ -173,7 +163,6 @@ Statistics::start_new_day()
         {
           TRACE_MSG("Save old day");
           day_to_history(current_day);
-          day_to_remote_history(current_day);
         }
 
       current_day = new DailyStatsImpl();
@@ -185,8 +174,6 @@ Statistics::start_new_day()
 
   update_current_day(false);
   save_day(current_day);
-
-  TRACE_EXIT();
 }
 
 void
@@ -194,12 +181,10 @@ Statistics::day_to_history(DailyStatsImpl *stats)
 {
   add_history(stats);
 
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "historystats" << ends;
+  std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  bool exists = Util::file_exists(ss.str());
-  ofstream stats_file(ss.str().c_str(), ios::app);
+  bool exists = std::filesystem::is_regular_file(path);
+  ofstream stats_file(path.string(), ios::app);
 
   if (!exists)
     {
@@ -210,36 +195,13 @@ Statistics::day_to_history(DailyStatsImpl *stats)
   stats_file.close();
 }
 
-//! Adds the current day to this history.
-void
-Statistics::day_to_remote_history(DailyStatsImpl *stats)
-{
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *dist_manager = core->get_distribution_manager();
-
-  if (dist_manager != nullptr)
-    {
-      PacketBuffer state_packet;
-      state_packet.create();
-
-      state_packet.pack_byte(STATS_MARKER_HISTORY);
-      pack_stats(state_packet, stats);
-      state_packet.pack_byte(STATS_MARKER_END);
-
-      dist_manager->broadcast_client_message(DCM_STATS, state_packet);
-    }
-#else
-  (void)stats;
-#endif
-}
-
 //! Saves the current day to the specified stream.
 void
 Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 {
   stats_file << "D " << stats->start.tm_mday << " " << stats->start.tm_mon << " " << stats->start.tm_year << " "
-             << stats->start.tm_hour << " " << stats->start.tm_min << " " << stats->stop.tm_mday << " " << stats->stop.tm_mon << " "
-             << stats->stop.tm_year << " " << stats->stop.tm_hour << " " << stats->stop.tm_min << endl;
+             << stats->start.tm_hour << " " << stats->start.tm_min << " " << stats->stop.tm_mday << " " << stats->stop.tm_mon
+             << " " << stats->stop.tm_year << " " << stats->stop.tm_hour << " " << stats->stop.tm_min << endl;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -267,11 +229,8 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
 void
 Statistics::save_day(DailyStatsImpl *stats)
 {
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "todaystats" << ends;
-
-  ofstream stats_file(ss.str().c_str());
+  std::filesystem::path path = Paths::get_state_directory() / "todaystats";
+  ofstream stats_file(path.string());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
@@ -289,7 +248,7 @@ Statistics::add_history(DailyStatsImpl *stats)
   else
     {
       bool found = false;
-      HistoryRIter i = history.rbegin();
+      auto i = history.rbegin();
       while (i != history.rend())
         {
           DailyStatsImpl *ref = *i;
@@ -333,18 +292,14 @@ Statistics::add_history(DailyStatsImpl *stats)
 bool
 Statistics::load_current_day()
 {
-  TRACE_ENTER("Statistics::load_current_day");
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "todaystats" << ends;
-
-  ifstream stats_file(ss.str().c_str());
+  TRACE_ENTRY();
+  std::filesystem::path path = Paths::get_state_directory() / "todaystats";
+  ifstream stats_file(path.string());
 
   load(stats_file, false);
 
   been_active = true;
 
-  TRACE_EXIT();
   return current_day != nullptr;
 }
 
@@ -352,24 +307,19 @@ Statistics::load_current_day()
 void
 Statistics::load_history()
 {
-  TRACE_ENTER("Statistics::load_history");
+  TRACE_ENTRY();
+  std::filesystem::path path = Paths::get_state_directory() / "historystats";
 
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "historystats" << ends;
-
-  ifstream stats_file(ss.str().c_str());
+  ifstream stats_file(path.string());
 
   load(stats_file, true);
-  TRACE_EXIT();
 }
 
 //! Loads the statistics.
 void
 Statistics::load(ifstream &infile, bool history)
 {
-  TRACE_ENTER("Statistics::load");
-
+  TRACE_ENTRY();
   DailyStatsImpl *stats = nullptr;
 
   bool ok = infile.good();
@@ -393,13 +343,12 @@ Statistics::load(ifstream &infile, bool history)
   while (ok && !infile.eof())
     {
       char line[BUFSIZ] = "";
-      char cmd;
 
       infile.getline(line, BUFSIZ);
 
       if (strlen(line) > 1)
         {
-          cmd = line[0];
+          char cmd = line[0];
 
           stringstream ss(line + 1);
 
@@ -491,8 +440,6 @@ Statistics::load(ifstream &infile, bool history)
     {
       add_history(stats);
     }
-
-  TRACE_EXIT();
 }
 
 //! Increment the specified statistics counter of the current day.
@@ -548,8 +495,7 @@ Statistics::get_counter(StatsValueType t)
 void
 Statistics::dump()
 {
-  TRACE_ENTER("Statistics::dump");
-
+  TRACE_ENTRY();
   update_current_day(false);
 
   stringstream ss;
@@ -573,8 +519,6 @@ Statistics::dump()
 
       ss << value << " ";
     }
-
-  TRACE_EXIT();
 }
 
 Statistics::DailyStatsImpl *
@@ -616,7 +560,7 @@ Statistics::get_day(int day) const
 void
 Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const
 {
-  TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
+  TRACE_ENTRY_PAR(y, m, d);
   idx = next = prev = -1;
   for (int i = 0; i <= int(history.size()); i++)
     {
@@ -644,7 +588,6 @@ Statistics::get_day_index_by_date(int y, int m, int d, int &idx, int &next, int 
     {
       next = 0;
     }
-  TRACE_EXIT();
 }
 
 int
@@ -681,226 +624,6 @@ Statistics::update_current_day(bool active)
         }
     }
 }
-
-#ifdef HAVE_DISTRIBUTION
-// Create the monitor based on the specified configuration.
-void
-Statistics::init_distribution_manager()
-{
-  DistributionManager *dist_manager = core->get_distribution_manager();
-
-  if (dist_manager != nullptr)
-    {
-      dist_manager->register_client_message(DCM_STATS, DCMT_MASTER, this);
-    }
-}
-
-bool
-Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
-{
-  TRACE_ENTER("Statistics::request_client_message");
-  (void)id;
-
-  update_current_day(false);
-  dump();
-
-  buffer.pack_byte(STATS_MARKER_TODAY);
-  pack_stats(buffer, current_day);
-  buffer.pack_byte(STATS_MARKER_END);
-
-  TRACE_EXIT();
-  return true;
-}
-
-bool
-Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
-{
-  TRACE_ENTER("Statistics::pack_stats");
-
-  int pos = 0;
-
-  buf.pack_byte(STATS_MARKER_STARTTIME);
-  buf.reserve_size(pos);
-  buf.pack_byte(stats->start.tm_mday);
-  buf.pack_byte(stats->start.tm_mon);
-  buf.pack_ushort(stats->start.tm_year);
-  buf.pack_byte(stats->start.tm_hour);
-  buf.pack_byte(stats->start.tm_min);
-  buf.update_size(pos);
-
-  buf.pack_byte(STATS_MARKER_STOPTIME);
-  buf.reserve_size(pos);
-  buf.pack_byte(stats->stop.tm_mday);
-  buf.pack_byte(stats->stop.tm_mon);
-  buf.pack_ushort(stats->stop.tm_year);
-  buf.pack_byte(stats->stop.tm_hour);
-  buf.pack_byte(stats->stop.tm_min);
-  buf.update_size(pos);
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      BreakStats &bs = current_day->break_stats[i];
-
-      buf.pack_byte(STATS_MARKER_BREAK_STATS);
-      buf.reserve_size(pos);
-      buf.pack_byte(i);
-      buf.pack_ushort(STATS_BREAKVALUE_SIZEOF);
-
-      for (int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
-        {
-          buf.pack_ulong(bs[j]);
-        }
-      buf.update_size(pos);
-    }
-
-  buf.pack_byte(STATS_MARKER_MISC_STATS);
-  buf.reserve_size(pos);
-  buf.pack_ushort(STATS_VALUE_SIZEOF);
-
-  for (int j = 0; j < STATS_VALUE_SIZEOF; j++)
-    {
-      buf.pack_ulong(current_day->misc_stats[j]);
-    }
-  buf.update_size(pos);
-
-  TRACE_EXIT();
-  return true;
-}
-
-bool
-Statistics::client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer)
-{
-  TRACE_ENTER("Statistics::client_message");
-
-  (void)id;
-  (void)master;
-  (void)client_id;
-
-  return false;
-
-  DailyStatsImpl *stats = nullptr;
-  int pos = 0;
-  bool stats_to_history = false;
-
-  while (buffer.bytes_available() > 0)
-    {
-      StatsMarker marker = (StatsMarker)buffer.unpack_byte();
-      TRACE_MSG("Marker = " << marker);
-      switch (marker)
-        {
-        case STATS_MARKER_TODAY:
-          stats = current_day;
-          break;
-
-        case STATS_MARKER_HISTORY:
-          stats = new DailyStatsImpl();
-          stats_to_history = true;
-          break;
-
-        case STATS_MARKER_STARTTIME:
-          {
-            int size = buffer.unpack_ushort();
-            (void)size;
-
-            stats->start.tm_mday = buffer.unpack_byte();
-            stats->start.tm_mon = buffer.unpack_byte();
-            stats->start.tm_year = buffer.unpack_ushort();
-            stats->start.tm_hour = buffer.unpack_byte();
-            stats->start.tm_min = buffer.unpack_byte();
-          }
-          break;
-
-        case STATS_MARKER_STOPTIME:
-          {
-            int size = buffer.unpack_ushort();
-            (void)size;
-
-            stats->stop.tm_mday = buffer.unpack_byte();
-            stats->stop.tm_mon = buffer.unpack_byte();
-            stats->stop.tm_year = buffer.unpack_ushort();
-            stats->stop.tm_hour = buffer.unpack_byte();
-            stats->stop.tm_min = buffer.unpack_byte();
-          }
-          break;
-
-        case STATS_MARKER_BREAK_STATS:
-          {
-            int size = buffer.read_size(pos);
-            int bt = buffer.unpack_byte();
-            (void)size;
-
-            BreakStats &bs = stats->break_stats[bt];
-
-            int count = buffer.unpack_ushort();
-
-            if (count > STATS_BREAKVALUE_SIZEOF)
-              {
-                count = STATS_BREAKVALUE_SIZEOF;
-              }
-
-            for (int j = 0; j < count; j++)
-              {
-                bs[j] = buffer.unpack_ulong();
-              }
-
-            buffer.skip_size(pos);
-          }
-          break;
-
-        case STATS_MARKER_MISC_STATS:
-          {
-            int size = buffer.read_size(pos);
-            int count = buffer.unpack_ushort();
-            (void)size;
-
-            if (count > STATS_VALUE_SIZEOF)
-              {
-                count = STATS_VALUE_SIZEOF;
-              }
-
-            for (int j = 0; j < count; j++)
-              {
-                stats->misc_stats[j] = buffer.unpack_ulong();
-              }
-
-            buffer.skip_size(pos);
-          }
-          break;
-
-        case STATS_MARKER_END:
-          if (stats_to_history)
-            {
-              TRACE_MSG("Save to history");
-              day_to_history(stats);
-              stats_to_history = false;
-            }
-          break;
-
-        default:
-          {
-            TRACE_MSG("Unknown marker");
-            int size = buffer.read_size(pos);
-            (void)size;
-            buffer.skip_size(pos);
-          }
-        }
-    }
-
-  if (stats_to_history)
-    {
-      // this should not happened. but just to avoid a potential memory leak...
-      TRACE_MSG("Save to history");
-      day_to_history(stats);
-      stats_to_history = false;
-    }
-
-  dump();
-
-  TRACE_EXIT();
-  return true;
-}
-
-#endif
 
 bool
 Statistics::DailyStatsImpl::starts_at_date(int y, int m, int d)
@@ -961,8 +684,9 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
           if (tv < std::chrono::seconds(1))
             {
               current_day->total_mouse_time += tv;
-              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
-                std::chrono::duration_cast<std::chrono::seconds>(current_day->total_mouse_time.time_since_epoch()).count();
+              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = std::chrono::duration_cast<std::chrono::seconds>(
+                                                                           current_day->total_mouse_time.time_since_epoch())
+                                                                           .count();
             }
 
           last_mouse_time = now;

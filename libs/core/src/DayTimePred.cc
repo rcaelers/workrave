@@ -1,6 +1,4 @@
-// DayTimePred.cc --- Daily Time Predicate
-//
-// Copyright (C) 2001, 2002, 2003, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

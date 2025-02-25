@@ -19,54 +19,68 @@
 #define WORKRAVE_CONFIG_SETTINGCACHE_HH
 
 #include <map>
-#include <utility>
 #include <memory>
 #include <boost/noncopyable.hpp>
 
 #include "config/IConfigurator.hh"
 #include "config/Setting.hh"
 
-namespace workrave
+namespace workrave::config
 {
-  namespace config
+  class SettingCache : public boost::noncopyable
   {
-    class SettingCache : public boost::noncopyable
+  private:
+    static auto &get_cache()
     {
-    public:
-      template<typename T, typename S = T>
-      static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const std::string &key, const S &def = S())
-      {
-        if (cache.find(key) == cache.end())
-          {
-            cache[key] = std::make_shared<workrave::config::Setting<T, S>>(config, key, def);
-          }
-
-        auto ret = std::dynamic_pointer_cast<workrave::config::Setting<T, S>>(cache[key]);
-        assert(ret.get() != nullptr);
-        return *ret;
-      }
-
-      static workrave::config::SettingGroup &group(IConfigurator::Ptr config, const std::string &key)
-      {
-        if (cache.find(key) == cache.end())
-          {
-            cache[key] = std::make_shared<workrave::config::SettingGroup>(config, key);
-          }
-
-        auto ret = std::dynamic_pointer_cast<workrave::config::SettingGroup>(cache[key]);
-        assert(ret.get() != nullptr);
-        return *ret;
-      }
-
-      static void reset()
-      {
-        cache.clear();
-      }
-
-    private:
       static std::map<std::string, std::shared_ptr<SettingBase>> cache;
-    };
-  } // namespace config
-} // namespace workrave
+      return cache;
+    }
+
+  public:
+    template<typename T, typename S = T>
+    static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const char *key, const S &def = S())
+    {
+      return workrave::config::SettingCache::get<T, S>(config, std::string{key}, def);
+    }
+
+    template<typename T, typename S = T>
+    static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, std::string_view key, const S &def = S())
+    {
+      return workrave::config::SettingCache::get<T, S>(config, std::string{key}, def);
+    }
+
+    template<typename T, typename S = T>
+    static workrave::config::Setting<T, S> &get(IConfigurator::Ptr config, const std::string &key, const S &def = S())
+    {
+      auto &cache = get_cache();
+      if (cache.find(key) == cache.end())
+        {
+          cache[key] = std::make_shared<workrave::config::Setting<T, S>>(config, key, def);
+        }
+
+      auto ret = std::dynamic_pointer_cast<workrave::config::Setting<T, S>>(cache[key]);
+      assert(ret.get() != nullptr);
+      return *ret;
+    }
+
+    static workrave::config::SettingGroup &group(IConfigurator::Ptr config, const std::string &key)
+    {
+      auto &cache = get_cache();
+      if (cache.find(key) == cache.end())
+        {
+          cache[key] = std::make_shared<workrave::config::SettingGroup>(config, key);
+        }
+
+      auto ret = std::dynamic_pointer_cast<workrave::config::SettingGroup>(cache[key]);
+      assert(ret.get() != nullptr);
+      return *ret;
+    }
+
+    static void reset()
+    {
+      get_cache().clear();
+    }
+  };
+} // namespace workrave::config
 
 #endif // WORKRAVE_CONFIG_SETTINGCACHE_HH

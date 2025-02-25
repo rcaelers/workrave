@@ -25,6 +25,9 @@
 #include <sstream>
 #include <map>
 
+#include <fmt/core.h>
+#include <fmt/format.h>
+
 class TracedFieldBase
 {
 public:
@@ -89,7 +92,7 @@ public:
   using value_type = ValueType;
   using base_type = TracedField<ValueType>;
 
-  explicit TracedField(const TracedField &p) noexcept
+  TracedField(const TracedField &p) noexcept
     : _name{p._name}
     , _value{p._value}
     , _last_published_value{p._last_published_value}
@@ -102,7 +105,7 @@ public:
       }
   }
 
-  explicit TracedField(TracedField &&p) noexcept
+  TracedField(TracedField &&p) noexcept
     : _name{std::move(p._name)}
     , _value{std::move(p._value)}
     , _last_published_value{p._last_published_value}
@@ -500,5 +503,21 @@ operator<<(std::ostream &s, const TracedField<T> &v)
   s << v.get();
   return s;
 }
+
+#if FMT_VERSION >= 90000
+
+template<typename T>
+struct fmt::formatter<TracedField<T>> : fmt::formatter<std::string>
+{
+  auto format(const TracedField<T> &t, format_context &ctx) const
+  {
+    std::ostringstream ss;
+    ss << t;
+    auto s = ss.str();
+    return fmt::formatter<std::string>::format(s, ctx);
+  }
+};
+
+#endif
 
 #endif // DIANOSTICS_HH

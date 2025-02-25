@@ -1,5 +1,3 @@
-// W32ActiveSetup.hh --- Active Setup for Workrave
-//
 // Copyright (C) 2012 Ray Satiro
 // All rights reserved.
 //
@@ -19,6 +17,10 @@
 
 #ifndef W32ACTIVESETUP_HH
 #define W32ACTIVESETUP_HH
+
+#include <windows.h>
+#include <vector>
+#include <string>
 
 class W32ActiveSetup
 {

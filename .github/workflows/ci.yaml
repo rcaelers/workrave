@@ -2,452 +2,497 @@ name: CI
 on:
   push:
     branches:
-      - topic/next-backport
-      - branch_v1_10
+      - "main"
+      - "topic/*"
     tags:
-      - 'v1_10_*'
+      - "v1_11_*"
   pull_request:
     branches:
-      - branch_v1_10
+      - "main"
+      - "topic/*"
 
 jobs:
+  prep:
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      attestations: write
+    outputs:
+      WORKRAVE_BUILD_DATETIME: ${{ steps.out.outputs.WORKRAVE_BUILD_DATETIME }}
+      WORKRAVE_BUILD_DATE: ${{ steps.out.outputs.WORKRAVE_BUILD_DATE }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: "recursive"
+
+      - id: out
+        run: |
+          export WORKRAVE_ENV=github-ubuntu
+          source ./tools/ci/config.sh
+          echo "WORKRAVE_BUILD_DATETIME=${WORKRAVE_BUILD_DATETIME}" >> $GITHUB_OUTPUT
+          echo "WORKRAVE_BUILD_DATE=${WORKRAVE_BUILD_DATE}" >> $GITHUB_OUTPUT
+
+      - name: Create catalog root
+        run: |
+          export WORKRAVE_ENV=github-ubuntu
+          ${{ github.workspace }}/tools/ci/catalog.sh
+        env:
+          WORKRAVE_JOB_INDEX: 9999
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        if: github.event_name == 'push'
+        with:
+          subject-path: "_deploy/*"
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-root-catalog
+          path: _deploy
+
+  build-windows-vcpkg:
+    name: windows vcpkg
+    env:
+      VCPKG_ROOT: C:/vcpkg
+      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: "recursive"
+
+      - name: vcpkg cache setup
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: configure
+        run: |
+          pip install Ninja2
+          cmake -G "Visual Studio 17 2022" -A x64 -B '${{ github.workspace }}/_build' `
+            -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake `
+            -DVCPKG_TARGET_TRIPLET=x64-windows `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DWITH_UI=Gtk+3 `
+            -DWITH_CRASHPAD=OFF `
+            -DWITH_AUTO_UPDATE=ON `
+            -DWITH_TRACING=ON
+
+      - name: build
+        run: |
+          cmake --build '${{github.workspace}}/_build' --config Release
+          cmake --install '${{github.workspace}}/_build' --config Release
+
   build-windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      attestations: write
+    if: ${{ false }}
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
-        platform: [ x86, x64 ]
+        configuration: [Debug, Release]
+        platform: [x86, x64]
     steps:
-      - uses: actions/checkout@v2
+      - name: Keep line ending
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - uses: actions/checkout@v4
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1
 
       - name: Build
-        run: msbuild ui/applets/win32/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
+        run: msbuild ui/applets/windows/src/Applet.sln -t:Rebuild -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
+
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        if: github.event_name == 'push'
+        with:
+          subject-path: |
+            ui/applets/windows/src/x64/Release/workrave-applet64.dll
+            ui/applets/windows/src/Release/workrave-applet.dll
+            ui/applets/windows/src/x64/Debug/workrave-applet64.dll
+            ui/applets/windows/src/Debug/workrave-applet.dll
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: applet
+          name: artifacts-applet
           path: |
-            ui/applets/win32/src/x64/Release/workrave-applet64.dll
-            ui/applets/win32/src/Release/workrave-applet.dll
-            ui/applets/win32/src/x64/Debug/workrave-applet64.dll
-            ui/applets/win32/src/Debug/workrave-applet.dll
+            ui/applets/windows/src/x64/Release/workrave-applet64.dll
+            ui/applets/windows/src/Release/workrave-applet.dll
+            ui/applets/windows/src/x64/Debug/workrave-applet64.dll
+            ui/applets/windows/src/Debug/workrave-applet.dll
 
-  build-mingw-autotools:
-    runs-on: ubuntu-latest
-    needs: [ build-windows ]
+  build-msys2:
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      attestations: write
+    needs: prep
     strategy:
       matrix:
         config:
-          - image: mingw-gtk
-            configuration: Release
-            compiler: gcc
-            upload: true
+          - configuration: Release
+            ui: Gtk+3
+            enable: TESTS, CRASHPAD, AUTO_UPDATE
+            upload: windows-gtk3-release
 
-          - image: mingw-gtk
-            configuration: Debug
-            compiler: gcc
-            upload: true
+          - configuration: Debug
+            enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
+            ui: Gtk+3
+            upload: windows-gtk3-debug
 
+          - configuration: Release
+            ui: Qt
+            enable: TESTS, AUTO_UPDATE
+
+          - configuration: Debug
+            enable: TESTS, TRACING, AUTO_UPDATE
+            ui: Qt
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: "recursive"
 
-      - name: Download applet artifacts from GitHub
-        uses: actions/download-artifact@v2
+      - uses: msys2/setup-msys2@v2
         with:
-          name: applet
-          path: _vsbuild
+          update: true
+          msystem: clang64
+          install: >-
+            git
+            mingw-w64-i686-clang
+            mingw-w64-i686-cmake
+            mingw-w64-i686-lld
+            mingw-w64-i686-ninja
+            mingw-w64-clang-x86_64-adwaita-icon-theme
+            mingw-w64-clang-x86_64-boost
+            mingw-w64-clang-x86_64-clang
+            mingw-w64-clang-x86_64-cmake
+            mingw-w64-clang-x86_64-gcc-compat
+            mingw-w64-clang-x86_64-gtkmm3
+            mingw-w64-clang-x86_64-lld
+            mingw-w64-clang-x86_64-ninja
+            mingw-w64-clang-x86_64-openssl
+            mingw-w64-clang-x86_64-python
+            mingw-w64-clang-x86_64-python-pip
+            mingw-w64-clang-x86_64-spdlog
+            mingw-w64-clang-x86_64-jq
+            mingw-w64-clang-x86_64-uasm
+            mingw-w64-clang-x86_64-rust
+            mingw-w64-clang-x86_64-qt6-base
+            mingw-w64-clang-x86_64-qt6-svg
+            mingw-w64-clang-x86_64-qt6-tools
+            mingw-w64-x86_64-rust
+            tar
+            xz
+            zip
 
-      - name: Build
+      - name: Build 64 bit
+        shell: msys2 {0}
         run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               docker run --rm \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build-autotools.sh"
-             fi
+          ./tools/ci/build.sh
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: m${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
+          WORKRAVE_ENV: github-windows-msys2
+          WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+          CONF_UI: ${{ matrix.config.ui }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        if: github.event_name == 'push'
+        with:
+          subject-path: _deploy/*
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: ${{ matrix.config.upload }}
         with:
-          name: artifacts
+          name: artifacts-${{ matrix.config.upload }}
           path: _deploy
 
-  build-linux-autotools:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 20
-      matrix:
-        config:
-          - image: ubuntu-bionic
-            compiler: gcc-8
-            gtk_version: 3
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: ubuntu-focal
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: ubuntu-focal
-            compiler: gcc
-            gtk_version: 2
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: ubuntu-groovy
-            compiler: gcc
-            gtk_version: 3
-            distcheck: yes
-            upload: true
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: ubuntu-groovy
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,pulse,dbus,experimental,gstreamer
-            disable: gsettings,indicator,xfce,mate,debug,distribution,tests,tracing
-
-          - image: ubuntu-hirsute
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-          - image: debian-testing
-            compiler: gcc
-            gtk_version: 3
-            enable: gnome3,gsettings,pulse,indicator,xfce,mate,dbus,distribution,experimental,gstreamer
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Build
-        run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               docker run --rm \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build-autotools.sh" || $FAILURE_ACTION
-             fi
-        env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
-           FAILURE_ACTION: ${{ matrix.config.experimental == true }}
-
-      - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
-        if: ${{ matrix.config.upload }}
-        with:
-          name: artifacts
-          path: _deploy
-
-  build:
+  build-cmake:
     runs-on: ${{ matrix.config.os }}
+    permissions:
+      id-token: write
+      attestations: write
+    needs: prep
+    defaults:
+      run:
+        shell: bash
     strategy:
       fail-fast: false
       max-parallel: 20
       matrix:
         config:
-          #- image: ubuntu-bionic
-          #  os: ubuntu-latest
-          #  compiler: gcc
-          #  ui: Gtk+3
-          #  enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-          #  disable: TESTS,COVERAGE,TRACING
-
           - image: ubuntu-focal
-            os: ubuntu-latest
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
 
-          - image: ubuntu-groovy
-            os: ubuntu-latest
+          - image: ubuntu-jammy
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
+            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
 
-          - image: ubuntu-groovy
-            os: ubuntu-latest
-            compiler: gcc
-            ui: Qt5
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
-
-          - image: ubuntu-hirsute
-            os: ubuntu-latest
+          - image: ubuntu-noble
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE
-            disable: TESTS,COVERAGE,TRACING
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
+            appimage: true
+            upload: ubuntu-noble
 
-          - image: ubuntu-groovy
-            os: ubuntu-latest
+          - image: ubuntu-oracular
+            os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
-            disable:
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
 
-          - image: ubuntu-groovy
-            os: ubuntu-latest
+          - image: ubuntu-plucky
+            os: ubuntu-24.04
             compiler: gcc
-            ui: Qt5
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
-            disable:
+            ui: Gtk+3
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            disable: COVERAGE,TRACING
 
-          - image: mingw-gtk-rawhide
-            os: ubuntu-latest
+          # - image: mingw-fedora-rawhide
+          #   os: ubuntu-24.04
+          #   compiler: clang
+          #   ui: Gtk+3
+          #   configuration: Release
+          #   enable:
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
+          #   upload: false
+
+          # - image: mingw-fedora-rawhide
+          #   os: ubuntu-24.04
+          #   compiler: clang
+          #   ui: Gtk+3
+          #   configuration: Debug
+          #   enable: TRACING
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
+          #   upload: false
+
+          - os: macos-latest
             compiler: clang
-            ui: Gtk+3
-            configuration: Release
-            enable:
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
-            #upload: true
+            ui: Qt
+            enable: TESTS,COVERAGE,TRACING
+            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
 
-          - image: mingw-gtk-rawhide
-            os: ubuntu-latest
-            compiler: clang
-            ui: Gtk+3
-            configuration: Debug
-            enable: TRACING
-            disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE
-            #upload: true
+          # - image: windows-msys2
+          #   os: windows-latest
+          #   ui: Gtk+3
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+          #   enable: TESTS,CRASHPAD,AUTO_UPDATE
+          #   configuration: Release
+          #   upload: true
 
-          #- os: macos-latest
-          #  compiler: clang
-          #  ui: Qt5
-          #  enable:
-          #  disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL,TESTS,COVERAGE,TRACING
+          # - image: windows-msys2
+          #   os: windows-latest
+          #   ui: Gtk+3
+          #   disable: INDICATOR,GSTREAMER,PULSE,GNOME_CLASSIC_PANEL
+          #   enable: TESTS,TRACING,CRASHPAD,AUTO_UPDATE
+          #   configuration: Debug
+          #   upload: true
 
     steps:
       - name: Prepare
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
           elif [[ $GITHUB_REF == refs/heads/next ]]; then
-            echo ::set-output name=version::latest
+            echo "version=latest" >> $GITHUB_OUTPUT
           elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/heads/}
+            echo "version=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
           else
-            echo ::set-output name=version::dev
+            echo "version=dev" >> $GITHUB_OUTPUT
           fi
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Prepare docker
+        id: image_digest
+        if: runner.os == 'Windows'
+        run: |
+          mkdir -p ~/_docker-cache
+          echo "digest=$(docker manifest inspect ghcr.io/rcaelers/workrave-build:${{ matrix.config.image }} -v | jq -r '.Descriptor.digest' | cut -d: -f2)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Prepare docker image cache
+        id: docker-cache
+        if: runner.os == 'Windows'
+        uses: actions/cache@v3
+        with:
+          path: ~/_docker-cache
+          key: docker-cache-${{ steps.image_digest.outputs.digest }}
+
+      - name: Download image if cache is outdated
+        if: steps.docker-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: |
+          docker pull ghcr.io/rcaelers/workrave-build:${{ matrix.config.image }}
+          docker save -o ~/_docker-cache/${{ matrix.config.image }}.tar ghcr.io/rcaelers/workrave-build:${{ matrix.config.image }}
+
+      - name: Use cache if current
+        if: steps.docker-cache.outputs.cache-hit == 'true' && runner.os == 'Windows'
+        run: docker load -i ~/_docker-cache/${{ matrix.config.image }}.tar
 
       - name: Setup build env
         if: matrix.config.os == 'macos-latest'
         run: |
-          brew install gettext qt5 python3 boost
+          brew install gettext qt python3 boost ninja spdlog pkg-config || true
           brew link gettext --force
+          brew link --overwrite python@3.12
           brew outdated cmake || brew upgrade cmake
-          pip3 install --user Jinja2==2.8 # required for dbus support, system (distro) wide include paths are ignored
+          pip3 install --break-system-packages --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
       - name: Build
         run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               export WORKRAVE_ENV=github-docker
-               docker run --rm \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build.sh"
+          if [[ $DOCKER_IMAGE ]]; then
+            if [[ $DOCKER_IMAGE =~ "windows-" ]]; then
+              IFS=$'\n'
+              export WORKRAVE_ENV=docker-windows-msys2
+              docker run --rm  -v $GITHUB_WORKSPACE:c:\\workspace\\source \
+                 `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                 ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+                 sh -c "/c/workspace/source/tools/ci/build.sh"
+            elif [[ $DOCKER_IMAGE =~ "mingw" || $WORKRAVE_ENV =~ "-msys2" ]]; then
+              IFS=$'\n'
+              export WORKRAVE_ENV=docker-linux
+              docker run --security-opt seccomp=unconfined --rm \
+                 ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined' || '' }} \
+                 -v $GITHUB_WORKSPACE:/workspace/source \
+                 `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                 ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+                 sh -c "/workspace/source/tools/ci/build.sh"
             else
-              export WORKRAVE_ENV=github
-              $GITHUB_WORKSPACE/build/ci/build.sh
-            fi
+              IFS=$'\n'
+              export WORKRAVE_ENV=docker-linux
+              docker run --security-opt seccomp=unconfined --rm \
+                 ${{ matrix.config.appimage && '--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined' || '' }} \
+                 -v $GITHUB_WORKSPACE:/workspace/source \
+                 `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                 ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+                 sh -c "/workspace/source/tools/ci/build.sh"
+            fi;
+          else
+            export WORKRAVE_ENV=github-ubuntu
+            $GITHUB_WORKSPACE/tools/ci/build.sh
+          fi
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_UI: ${{ matrix.config.ui }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
+          WORKRAVE_JOB_INDEX: ${{ strategy.job-index }}
+          CONF_COMPILER: ${{ matrix.config.compiler }}
+          CONF_UI: ${{ matrix.config.ui }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          CONF_DISABLE: ${{ matrix.config.disable }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          CONF_APPIMAGE: ${{ matrix.config.appimage }}
+          DOCKER_IMAGE: ${{ matrix.config.image }}
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        if: matrix.config.upload && github.event_name == 'push'
+        with:
+          subject-path: _deploy/*
 
       - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v2
-        if: ${{ matrix.config.upload }}
+        uses: actions/upload-artifact@v4
+        if: matrix.config.upload
         with:
-          name: binaries
+          name: artifacts-${{ matrix.config.upload }}
           path: _deploy
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [ build-linux-autotools, build-mingw-autotools ]
-    if: github.event_name == 'push' &&  github.ref == 'refs/heads/branch_v1_10'
+  merge:
+    runs-on: ubuntu-24.04
+    needs: [prep, build-cmake, build-msys2]
     steps:
-      - uses: actions/checkout@v2
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: all-artifacts
+          pattern: artifacts-*
+
+  deploy:
+    runs-on: ubuntu-24.04
+    needs: [prep, build-cmake, build-msys2, merge]
+    if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') )
+    steps:
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
-          name: artifacts
-          path: _deploy
+          name: all-artifacts
+          path: artifacts
+
+      - name: Sign
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo '${{ secrets.ED25519_KEY }}' > ${SECRETS_DIR}/ed25519key.pem
+          $GITHUB_WORKSPACE/tools/ci/sign.sh
+          rm -f ed25519key.pem
+        env:
+          ED25519_KEY: ${{ secrets.ED25519_KEY }}
+          WORKSPACE: ${{ github.workspace }}
+          SECRETS_DIR: ${{ github.workspace }}
+          ARTIFACTS: ${{ github.workspace }}/artifacts/
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: Upload artifacts to MinIO
         run: |
-          aws configure set aws_access_key_id travis
+          aws configure set aws_access_key_id github
           aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
           aws configure set default.region us-east-1
           aws configure set default.s3.signature_version s3v4
           aws configure set s3.endpoint_url https://snapshots.workrave.org/
-          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.10
+          aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive artifacts s3://snapshots/v1.11
         env:
-           WORKSPACE: ${{ github.workspace }}
-           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+          WORKSPACE: ${{ github.workspace }}
+          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
-      - name: Create artifact catalog
+      - name: Create artifact catalog / appcast
         run: |
-          cd $GITHUB_WORKSPACE/build/catalog
+          cd $GITHUB_WORKSPACE/tools/citool
           npm i
-          node --experimental-modules main.js
+          npm run build
+          node $GITHUB_WORKSPACE/tools/citool/dist/citool.js catalog
+          node $GITHUB_WORKSPACE/tools/citool/dist/citool.js appcast
         env:
-           WORKSPACE: ${{ github.workspace }}
-           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
-
-  release:
-    runs-on: ubuntu-latest
-    needs: [ build-linux-autotools, build-mingw-autotools ]
-    if: startsWith(github.ref, 'refs/tags/v')
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: artifacts
-          path: artifacts
-
-      - name: Prepare
-        id: prepare
-        run: |
-          TAG=${GITHUB_REF#refs/*/}
-          VERSION=$(echo $TAG | sed -e 's/_/./g' -e 's/-.*//g')
-
-          echo "TAG=${TAG}" >> $GITHUB_ENV
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-          CATALOGS=$( find ${{ github.workspace }}/artifacts/ -name "job-catalog*" )
-
-          PORTABLE=$(jq -r '.builds[].artifacts[] | select(.kind == "portable" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
-          PORTABLE=$(find ${{ github.workspace }}/artifacts/ -name $PORTABLE)
-          echo ::set-output name=portable_file::${PORTABLE}
-          echo ::set-output name=portable_name::workrave-win32-${VERSION}-portable.zip
-
-          INSTALLER=$(jq -r '.builds[].artifacts[] | select(.kind == "installer" and .platform == "windows" and .configuration=="release") | .filename' ${CATALOGS})
-          INSTALLER=$(find ${{ github.workspace }}/artifacts/ -name $INSTALLER)
-          echo ::set-output name=installer_file::${INSTALLER}
-          echo ::set-output name=installer_name::workrave-win32-${VERSION}.exe
-
-          SOURCE=$(jq -r '.builds[].artifacts[] | select(.kind == "source" and .platform == "all" and .configuration=="none") | .filename' ${CATALOGS})
-          SOURCE=$(find ${{ github.workspace }}/artifacts/ -name $SOURCE)
-          echo ::set-output name=source_file::${SOURCE}
-          echo ::set-output name=source_name::workrave-${VERSION}.tar.gz
-
-      - name: Generate news
-        run: |
-          cd ${{ github.workspace }}/build/newsgen
-          npm i
-          cd ${{ github.workspace }}
-          node ${{ github.workspace }}/build/newsgen/main.js \
-            --input "${{ github.workspace }}/changes.yaml" \
-            --template github \
-            --single \
-            --release $(echo $VERSION | sed -e 's/^v//g') \
-            --output "github-release-news"
-
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ env.VERSION }}
-          body_path: ${{ github.workspace }}/github-release-news
-          draft: true
-          prerelease: false
-
-      - name: Upload portable
-        if: steps.prepare.outputs.portable_file
-        id: upload-portable
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.prepare.outputs.portable_file }}
-          asset_name: ${{ steps.prepare.outputs.portable_name }}
-          asset_content_type: application/zip
-
-      - name: Upload installer
-        if: steps.prepare.outputs.installer_file
-        id: upload-installer
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.prepare.outputs.installer_file }}
-          asset_name: ${{ steps.prepare.outputs.installer_name }}
-          asset_content_type: application/octet-stream
-
-      - name: Upload source
-        if: steps.prepare.outputs.source_file
-        id: upload-source
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.prepare.outputs.source_file }}
-          asset_name: ${{ steps.prepare.outputs.source_name }}
-          asset_content_type: application/gzip
+          WORKSPACE: ${{ github.workspace }}
+          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
   website:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.event_name == 'push'
-    needs: [ deploy ]
+    needs: [deploy]
     steps:
       - name: Trigger workrave.org rebuild
         run: |

@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -128,7 +127,6 @@ ActivityMonitorStub::heartbeat()
 {
   if (listener)
     {
-      // std::cout << count << " " << get_current_state() << "\n";
       if (count == 5)
         {
           notify();

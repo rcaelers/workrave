@@ -1,6 +1,4 @@
-// DBusTestServer.cc
-//
-// Copyright (C) 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -139,7 +137,8 @@ DBusTestServer::test_struct_out_ref(const DBusTestData::StructWithAllBasicTypes 
 }
 
 void
-DBusTestServer::test_struct_out_ptr(DBusTestData::StructWithAllBasicTypes i_struct, DBusTestData::StructWithAllBasicTypes *o_struct)
+DBusTestServer::test_struct_out_ptr(DBusTestData::StructWithAllBasicTypes i_struct,
+                                    DBusTestData::StructWithAllBasicTypes *o_struct)
 {
   o_struct->m_int = i_struct.m_int + 1;
   o_struct->m_uint8 = i_struct.m_uint8 + 2;

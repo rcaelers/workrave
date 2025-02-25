@@ -1,4 +1,4 @@
-// Copyright (C) 2005, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2005 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,64 +19,48 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
 #include "IniConfigurator.hh"
 
-#include <boost/algorithm/string.hpp>
-#include <iostream>
 #include <fstream>
 
-#include "debug.hh"
-
-using namespace std;
+#include <boost/algorithm/string.hpp>
+#include <boost/property_tree/ini_parser.hpp>
 
 bool
-IniConfigurator::load(string filename)
+IniConfigurator::load(std::string filename)
 {
-  TRACE_ENTER_MSG("IniConfigurator::load", filename);
   bool ret = false;
 
   try
     {
+      last_filename = filename;
       boost::property_tree::ini_parser::read_ini(filename, pt);
       ret = !pt.empty();
-      last_filename = filename;
     }
-  catch (boost::property_tree::ini_parser_error &)
+  catch (boost::property_tree::ini_parser_error &e)
     {
+      logger->error("failed to load ({})", e.what());
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
-bool
-IniConfigurator::save(string filename)
-{
-  TRACE_ENTER_MSG("IniConfigurator::save", filename);
-  bool ret = false;
-
-  try
-    {
-      ofstream config_file(filename.c_str());
-      boost::property_tree::ini_parser::write_ini(config_file, pt);
-      ret = true;
-    }
-  catch (boost::property_tree::ini_parser_error &)
-    {
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
-
-bool
+void
 IniConfigurator::save()
 {
-  return save(last_filename);
+  try
+    {
+      std::ofstream config_file(last_filename.c_str());
+      boost::property_tree::ini_parser::write_ini(config_file, pt);
+    }
+  catch (boost::property_tree::ini_parser_error &e)
+    {
+      logger->error("failed to save ({})", e.what());
+    }
 }
 
 bool
@@ -91,118 +75,100 @@ IniConfigurator::has_user_value(const std::string &key)
     }
   catch (boost::property_tree::ptree_error &e)
     {
+      logger->debug("failed to read {} ({})", key, e.what());
       ret = false;
     }
 
   return ret;
 }
 
-bool
+void
 IniConfigurator::remove_key(const std::string &key)
 {
-  TRACE_ENTER_MSG("IniConfigurator::remove_key", key);
-  bool ret = true;
-
-  std::string::size_type pos = key.find('/');
-  if (key.npos != pos)
-    {
-      std::string inikey = key.substr(pos + 1);
-      std::string section = key.substr(0, pos);
-      boost::replace_all(inikey, "/", ".");
-
-      pt.get_child(section).erase(inikey);
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
-
-bool
-IniConfigurator::get_value(const std::string &key, VariantType type, Variant &out) const
-{
-  TRACE_ENTER_MSG("IniConfigurator::get_value", key);
-
-  bool ret = true;
-  boost::property_tree::ptree::path_type inikey = path(key);
-
-  out.type = type;
-
   try
     {
+      logger->debug("remove {}", key);
+      std::string::size_type pos = key.find('/');
+      if (std::string::npos != pos)
+        {
+          std::string inikey = key.substr(pos + 1);
+          std::string section = key.substr(0, pos);
+          boost::replace_all(inikey, "/", ".");
+
+          pt.get_child(section).erase(inikey);
+        }
+    }
+  catch (boost::property_tree::ptree_error &e)
+    {
+      logger->debug("failed to remove {} ({})", key, e.what());
+    }
+}
+
+std::optional<ConfigValue>
+IniConfigurator::get_value(const std::string &key, ConfigType type) const
+{
+  try
+    {
+      boost::property_tree::ptree::path_type inikey = path(key);
+      logger->debug("read {} = {}", key, pt.get<std::string>(inikey));
+
       switch (type)
         {
-        case VARIANT_TYPE_INT:
-          out.int_value = pt.get<int>(inikey);
-          break;
+        case ConfigType::Unknown:
+          return pt.get<std::string>(inikey);
 
-        case VARIANT_TYPE_BOOL:
-          out.bool_value = pt.get<bool>(inikey);
-          break;
+        case ConfigType::Int32:
+          return pt.get<int32_t>(inikey);
 
-        case VARIANT_TYPE_DOUBLE:
-          out.double_value = pt.get<double>(inikey);
-          break;
+        case ConfigType::Int64:
+          return pt.get<int64_t>(inikey);
 
-        case VARIANT_TYPE_NONE:
-          out.type = VARIANT_TYPE_STRING;
-          out.string_value = pt.get<string>(inikey);
-          break;
+        case ConfigType::Boolean:
+          return pt.get<bool>(inikey);
 
-        case VARIANT_TYPE_STRING:
-          out.string_value = pt.get<string>(inikey);
-          break;
+        case ConfigType::Double:
+          return pt.get<double>(inikey);
+
+        case ConfigType::String:
+          return pt.get<std::string>(inikey);
         }
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      ret = false;
+      logger->debug("failed to read {} ({})", key, e.what());
     }
-
-  TRACE_RETURN(ret);
-  return ret;
+  return {};
 }
 
-bool
-IniConfigurator::set_value(const std::string &key, Variant &value)
+void
+IniConfigurator::set_value(const std::string &key, const ConfigValue &value)
 {
-  bool ret = true;
-
-  boost::property_tree::ptree::path_type inikey = path(key);
-
   try
     {
-      switch (value.type)
-        {
-        case VARIANT_TYPE_INT:
-          pt.put(inikey, value.int_value);
-          break;
+      boost::property_tree::ptree::path_type inikey = path(key);
 
-        case VARIANT_TYPE_BOOL:
-          pt.put(inikey, value.bool_value);
-          break;
+      std::visit(
+        [inikey, key, this](auto &&value) {
+          using T = std::decay_t<decltype(value)>;
 
-        case VARIANT_TYPE_DOUBLE:
-          pt.put(inikey, value.double_value);
-          break;
-
-        case VARIANT_TYPE_NONE:
-        case VARIANT_TYPE_STRING:
-          pt.put(inikey, value.string_value);
-          break;
-        }
+          if constexpr (!std::is_same_v<std::monostate, T>)
+            {
+              logger->debug("write {} = {}", key, value);
+              pt.put(inikey, value);
+            }
+        },
+        value);
     }
-  catch (boost::property_tree::ptree_error &)
+  catch (boost::property_tree::ptree_error &e)
     {
-      ret = false;
+      logger->debug("failed to write {} ({})", key, e.what());
     }
-
-  return ret;
 }
 
 boost::property_tree::ptree::path_type
-IniConfigurator::path(const string &key) const
+IniConfigurator::path(const std::string &key)
 {
-  string new_key = key;
+  std::string new_key = key;
   bool first = true;
   for (auto &c: new_key)
     {

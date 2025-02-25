@@ -47,7 +47,7 @@ private:
   static void start_harpoon_helper();
   static void stop_harpoon_helper();
 
-  static HWND recursive_find_window(HWND hwnd, LPCTSTR lpClassName);
+  static HWND recursive_find_window(HWND hwnd, LPCSTR lpClassName);
 
   static HWND helper_window;
   static bool helper_started;

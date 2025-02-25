@@ -1,6 +1,5 @@
-ui/apps/gtkmm/src/workrave.desktop.in
-ui/apps/gtkmm/src/unix/gtktrayicon.c
-ui/apps/gtkmm/src/unix/gtktrayicon3.c
+ui/app/toolkits/gtkmm/src/org.workrave.Workrave.desktop.in
+ui/app/toolkits/gtkmm/src/unix/gtktrayicon.c
 ui/applets/xfce/src/workrave-xfce-applet-1.0.desktop.in.in
 ui/applets/xfce/src/workrave-xfce-applet-2.0.desktop.in.in
 ui/applets/xfce/src/workrave-xfce-applet.desktop.in

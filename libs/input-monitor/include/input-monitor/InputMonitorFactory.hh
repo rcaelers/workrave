@@ -20,6 +20,7 @@
 
 #include "config/IConfigurator.hh"
 #include "input-monitor/IInputMonitorFactory.hh"
+#include "input-monitor/IInputMonitor.hh"
 
 namespace workrave
 {

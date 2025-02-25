@@ -1,4 +1,0 @@
-dailylimit	ICON    DISCARDABLE     "../../../data/images/win32/timer-daily.ico"
-micropause	ICON    DISCARDABLE     "../../../data/images/win32/timer-micropause.ico"
-restbreak	ICON    DISCARDABLE     "../../../data/images/win32/timer-restbreak.ico"
-workrave	ICON    DISCARDABLE     "../../../data/images/win32/workrave.ico"

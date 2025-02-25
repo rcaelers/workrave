@@ -1,6 +1,4 @@
-// Core.cc --- The main controller
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -32,10 +30,13 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <filesystem>
+#include <chrono>
+
+#include <spdlog/spdlog.h>
 
 #include "Core.hh"
 
-#include "utils/Util.hh"
 #include "core/IApp.hh"
 #include "core/ICoreEventListener.hh"
 #include "LocalActivityMonitor.hh"
@@ -51,15 +52,8 @@
 #include "TimePred.hh"
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
-
-#ifdef HAVE_DISTRIBUTION
-#  include "DistributionManager.hh"
-#  include "IdleLogManager.hh"
-#  include "PacketBuffer.hh"
-#  ifndef NDEBUG
-#    include "FakeActivityMonitor.hh"
-#  endif
-#endif
+#include "utils/AssetPath.hh"
+#include "utils/Paths.hh"
 
 #include "dbus/DBusFactory.hh"
 #if defined(PLATFORM_OS_WINDOWS_NATIVE)
@@ -67,14 +61,15 @@
 #endif
 #include "dbus/IDBus.hh"
 #include "dbus/DBusException.hh"
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkrave.hh"
 #endif
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 #  include "Test.hh"
 #endif
 
 Core *Core::instance = nullptr;
+workrave::config::IConfigurator::Ptr Core::configurator = nullptr;
 
 const char *WORKRAVESTATE = "WorkRaveState";
 const int SAVESTATETIME = 60;
@@ -87,29 +82,33 @@ using namespace workrave::config;
 using namespace std;
 
 ICore::Ptr
-CoreFactory::create()
+CoreFactory::create(workrave::config::IConfigurator::Ptr configurator)
 {
+  Core::set_configurator(configurator);
   return std::make_shared<Core>();
+}
+
+void
+Core::set_configurator(workrave::config::IConfigurator::Ptr configurator)
+{
+  Core::configurator = configurator;
 }
 
 //! Constructs a new Core.
 Core::Core()
 {
-  TRACE_ENTER("Core::Core");
+  TRACE_ENTRY();
   hooks = std::make_shared<CoreHooks>();
   TimeSource::sync();
 
   assert(!instance);
   instance = this;
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 Core::~Core()
 {
-  TRACE_ENTER("Core::~Core");
-
+  TRACE_ENTRY();
   save_state();
 
   if (monitor != nullptr)
@@ -118,21 +117,6 @@ Core::~Core()
     }
 
   delete statistics;
-
-#ifdef HAVE_DISTRIBUTION
-  if (idlelog_manager != nullptr)
-    {
-      idlelog_manager->terminate();
-      delete idlelog_manager;
-    }
-
-  delete dist_manager;
-#  ifndef NDEBUG
-  delete fake_monitor;
-#  endif
-#endif
-
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -147,12 +131,9 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
   this->argc = argc;
   this->argv = argv;
 
-  init_configurator();
-  init_monitor(display_name);
+  CoreConfig::init(configurator);
 
-#ifdef HAVE_DISTRIBUTION
-  init_distribution_manager();
-#endif
+  init_monitor(display_name);
 
   init_breaks();
   init_statistics();
@@ -162,90 +143,33 @@ Core::init(int argc, char **argv, IApp *app, const char *display_name)
   load_misc();
 }
 
-//! Initializes the configurator.
-void
-Core::init_configurator()
-{
-  string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
-
-#ifdef HAVE_TESTS
-  if (hooks->hook_create_configurator())
-    {
-      configurator = hooks->hook_create_configurator()();
-    }
-#endif
-
-  if (!configurator)
-    {
-      if (Util::file_exists(ini_file))
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-          configurator->load(ini_file);
-        }
-      else
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
-          if (configurator == nullptr)
-            {
-              string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
-
-#if defined(PLATFORM_OS_UNIX)
-              if (configFile == "" || configFile == "config.xml")
-                {
-                  configFile = Util::get_home_directory() + "config.xml";
-                }
-#endif
-              if (configFile != "")
-                {
-                  configurator->load(configFile);
-                }
-            }
-
-          if (configurator == nullptr)
-            {
-              ini_file = Util::get_home_directory() + "workrave.ini";
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-              configurator->load(ini_file);
-              configurator->save(ini_file);
-            }
-        }
-    }
-
-  CoreConfig::init(configurator);
-
-  string home;
-  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home) && home != "")
-    {
-      Util::set_home_directory(home);
-    }
-}
-
 //! Initializes the communication bus.
 void
 Core::init_bus()
 {
+  TRACE_ENTRY();
   try
     {
       dbus = workrave::dbus::DBusFactory::create();
       dbus->init();
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
       extern void init_DBusWorkrave(workrave::dbus::IDBus::Ptr dbus);
       init_DBusWorkrave(dbus);
+#endif
 
+      dbus->register_object_path(DBUS_PATH_WORKRAVE);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
       dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.ConfigInterface", configurator.get());
-      dbus->register_object_path(DBUS_PATH_WORKRAVE);
 
-#  ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
       dbus->connect("/org/workrave/Workrave/Debug", "org.workrave.DebugInterface", Test::get_instance());
       dbus->register_object_path("/org/workrave/Workrave/Debug");
-#  endif
 #endif
     }
   catch (workrave::dbus::DBusException &)
     {
+      TRACE_MSG("Ex!");
     }
 }
 
@@ -253,24 +177,13 @@ Core::init_bus()
 void
 Core::init_monitor(const char *display_name)
 {
-#ifdef HAVE_DISTRIBUTION
-#  ifndef NDEBUG
-  fake_monitor = nullptr;
-  const char *env = getenv("WORKRAVE_FAKE");
-  if (env != nullptr)
-    {
-      fake_monitor = new FakeActivityMonitor();
-    }
-#  endif
-#endif
-
   workrave::input_monitor::InputMonitorFactory::init(configurator, display_name);
 
   configurator->set_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, 3, workrave::config::CONFIG_FLAG_INITIAL);
 
   local_monitor = std::make_shared<LocalActivityMonitor>();
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
     {
       monitor = hooks->hook_create_monitor()();
@@ -294,30 +207,7 @@ Core::init_breaks()
     {
       breaks[i].init(BreakId(i), configurator, application);
     }
-  application->set_break_response(this);
 }
-
-#ifdef HAVE_DISTRIBUTION
-//! Initializes the monitor based on the specified configuration.
-void
-Core::init_distribution_manager()
-{
-  dist_manager = new DistributionManager();
-  assert(dist_manager != nullptr);
-
-  dist_manager->init(configurator);
-  dist_manager->register_client_message(DCM_BREAKS, DCMT_MASTER, this);
-  dist_manager->register_client_message(DCM_TIMERS, DCMT_MASTER, this);
-  dist_manager->register_client_message(DCM_MONITOR, DCMT_MASTER, this);
-  dist_manager->register_client_message(DCM_IDLELOG, DCMT_SIGNON, this);
-  dist_manager->register_client_message(DCM_BREAKCONTROL, DCMT_PASSIVE, this);
-
-  dist_manager->add_listener(this);
-
-  idlelog_manager = new IdleLogManager(dist_manager->get_my_id());
-  idlelog_manager->init();
-}
-#endif
 
 //! Initializes the statistics.
 void
@@ -331,8 +221,7 @@ Core::init_statistics()
 void
 Core::load_monitor_config()
 {
-  TRACE_ENTER("Core::load_monitor_config");
-
+  TRACE_ENTRY();
   int noise;
   int activity;
   int idle;
@@ -342,13 +231,21 @@ Core::load_monitor_config()
   assert(local_monitor != nullptr);
 
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
-    noise = 9000;
+    {
+      noise = 9000;
+    }
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity))
-    activity = 1000;
+    {
+      activity = 1000;
+    }
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
-    idle = 5000;
+    {
+      idle = 5000;
+    }
   if (!configurator->get_value(CoreConfig::CFG_KEY_MONITOR_SENSITIVITY, sensitivity))
-    sensitivity = 3;
+    {
+      sensitivity = 3;
+    }
 
   // Pre 1.0 compatibility...
   if (noise < 50)
@@ -369,17 +266,16 @@ Core::load_monitor_config()
       configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
     }
 
-  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
+  TRACE_MSG("Monitor config = {} {} {}", noise, activity, idle);
 
   local_monitor->set_parameters(noise, activity, idle, sensitivity);
-  TRACE_EXIT();
 }
 
 //! Notification that the configuration has changed.
 void
 Core::config_changed_notify(const string &key)
 {
-  TRACE_ENTER_MSG("Core::config_changed_notify", key);
+  TRACE_ENTRY_PAR(key);
   string::size_type pos = key.find('/');
   string path;
 
@@ -396,7 +292,7 @@ Core::config_changed_notify(const string &key)
   if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
     {
       int mode;
-      if (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+      if (!configurator->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
         {
           mode = underlying_cast(OperationMode::Normal);
         }
@@ -405,13 +301,13 @@ Core::config_changed_notify(const string &key)
           mode = underlying_cast(OperationMode::Normal);
         }
       TRACE_MSG("Setting operation mode");
-      set_operation_mode_internal(OperationMode(mode), false);
+      set_operation_mode_internal(OperationMode(mode));
     }
 
   if (key == CoreConfig::CFG_KEY_USAGE_MODE)
     {
       int mode;
-      if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+      if (!configurator->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
         {
           mode = underlying_cast(UsageMode::Normal);
         }
@@ -422,7 +318,6 @@ Core::config_changed_notify(const string &key)
       TRACE_MSG("Setting usage mode");
       set_usage_mode_internal(UsageMode(mode), false);
     }
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -465,13 +360,6 @@ Core::get_timer(string name) const
         }
     }
   return nullptr;
-}
-
-//! Returns the configurator.
-workrave::config::IConfigurator::Ptr
-Core::get_configurator() const
-{
-  return configurator;
 }
 
 //!
@@ -536,25 +424,16 @@ Core::get_break_stage(BreakId id)
     }
 }
 
-#ifdef HAVE_DISTRIBUTION
-//! Returns the distribution manager.
-DistributionManager *
-Core::get_distribution_manager() const
-{
-  return dist_manager;
-}
-#endif
-
 //! Retrieves the operation mode.
 OperationMode
-Core::get_operation_mode()
+Core::get_active_operation_mode()
 {
-  return operation_mode;
+  return operation_mode_active;
 }
 
 //! Retrieves the regular operation mode.
 OperationMode
-Core::get_operation_mode_regular()
+Core::get_regular_operation_mode()
 {
   /* operation_mode_regular is the same as operation_mode unless there's an
   override in place, in which case operation_mode is the current override mode and
@@ -567,166 +446,111 @@ Core::get_operation_mode_regular()
 bool
 Core::is_operation_mode_an_override()
 {
-  return !!operation_mode_overrides.size();
+  return !operation_mode_overrides.empty();
 }
 
-//! Sets the operation mode.
 void
 Core::set_operation_mode(OperationMode mode)
 {
-  set_operation_mode_internal(mode, true);
+  using namespace std::chrono_literals;
+
+  set_operation_mode_internal(mode);
+  CoreConfig::operation_mode_auto_reset_duration().set(0min);
+  CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+}
+
+void
+Core::set_operation_mode_for(OperationMode mode, std::chrono::minutes duration)
+{
+  using namespace std::chrono_literals;
+
+  set_operation_mode_internal(mode);
+  CoreConfig::operation_mode_auto_reset_duration().set(duration);
+  if (duration > 0min)
+    {
+      CoreConfig::operation_mode_auto_reset_time().set(workrave::utils::TimeSource::get_real_time() + duration);
+    }
+  else
+    {
+      CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+    }
 }
 
 //! Temporarily overrides the operation mode.
 void
 Core::set_operation_mode_override(OperationMode mode, const std::string &id)
 {
-  if (!id.size())
-    return;
-
-  set_operation_mode_internal(mode, false, id);
+  if (!id.empty())
+    {
+      operation_mode_overrides[id] = mode;
+      update_active_operation_mode();
+    }
 }
 
 //! Removes the overridden operation mode.
 void
 Core::remove_operation_mode_override(const std::string &id)
 {
-  TRACE_ENTER("Core::remove_operation_mode_override");
-
-  if (!id.size() || !operation_mode_overrides.count(id))
-    return;
-
-  operation_mode_overrides.erase(id);
-
-  /* If there are other overrides still in the queue then pass in the first
-  override in the map. set_operation_mode_internal() will then search the
-  map for the most important override and set it as the active operation mode.
-  */
-  if (operation_mode_overrides.size())
+  if (!id.empty() && !operation_mode_overrides.empty())
     {
-      set_operation_mode_internal(operation_mode_overrides.begin()->second, false, operation_mode_overrides.begin()->first);
+      operation_mode_overrides.erase(id);
+      update_active_operation_mode();
     }
-  else
-    {
-      /* if operation_mode_regular is the same as the active operation mode then just
-      signal the mode has changed. During overrides the signal is not sent so it needs to
-      be sent now. Because the modes are the same it would not be called by
-      set_operation_mode_internal().
-      */
-      if (operation_mode_regular == operation_mode)
-        {
-          TRACE_MSG("Only calling core_event_operation_mode_changed().");
-          operation_mode_changed_signal(operation_mode_regular);
-
-          if (core_event_listener)
-            core_event_listener->core_event_operation_mode_changed(operation_mode_regular);
-
-#ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
-            }
-#endif
-        }
-      else
-        set_operation_mode_internal(operation_mode_regular, false);
-    }
-
-  TRACE_EXIT();
 }
 
 //! Set the operation mode.
 void
-Core::set_operation_mode_internal(OperationMode mode,
-                                  bool persistent,
-                                  const std::string &override_id /* default param: empty string */
-)
+Core::set_operation_mode_internal(OperationMode mode)
 {
-  TRACE_ENTER_MSG("Core::set_operation_mode", (persistent ? "persistent" : ""));
-
-  if (override_id.size())
-    {
-      TRACE_MSG("override_id: " << override_id);
-    }
-
-  TRACE_MSG("Incoming/requested mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
-                                              : mode == OperationMode::Suspended ? "OperationMode::Suspended"
-                                              : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
-                                                                                 : "???")
-                                          << (override_id.size() ? " (override)" : " (regular)"));
-
-  TRACE_MSG("Current mode is " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
-                                   : mode == OperationMode::Suspended ? "OperationMode::Suspended"
-                                   : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
-                                                                      : "???")
-                               << (operation_mode_overrides.size() ? " (override)" : " (regular)"));
-
-  if ((mode != OperationMode::Normal) && (mode != OperationMode::Quiet) && (mode != OperationMode::Suspended))
-    {
-      TRACE_RETURN("No change: incoming invalid");
-      return;
-    }
-
-  /* If the incoming operation mode is regular and the current operation mode is an
-  override then save the incoming operation mode and return.
-  */
-  if (!override_id.size() && operation_mode_overrides.size())
+  if (operation_mode_regular != mode)
     {
       operation_mode_regular = mode;
+      update_active_operation_mode();
+      CoreConfig::operation_mode().set(mode);
+      operation_mode_changed_signal(operation_mode_regular);
 
-      operation_mode_changed_signal(operation_mode);
-
-      int cm;
-      if (persistent && (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, cm) || (cm != underlying_cast(mode))))
-        get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(mode));
-
-      TRACE_RETURN("No change: current is an override type but incoming is regular");
-      return;
-    }
-
-  // If the incoming operation mode is tagged as an override
-  if (override_id.size())
-    {
-      // Add this override to the map
-      operation_mode_overrides[override_id] = mode;
-
-      /* Find the most important override. Override modes in order of importance:
-      OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
-      */
-      for (map<std::string, OperationMode>::iterator i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end());
-           ++i)
+#if defined(HAVE_DBUS)
+      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+      if (iface != nullptr)
         {
-          if (i->second == OperationMode::Suspended)
-            {
-              mode = OperationMode::Suspended;
-              break;
-            }
+          iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode_regular);
+        }
+#endif
+    }
+}
 
-          if ((i->second == OperationMode::Quiet) && (mode == OperationMode::Normal))
-            {
-              mode = OperationMode::Quiet;
-            }
+void
+Core::update_active_operation_mode()
+{
+  // std::cout << "Core::update_active_operation_mode " << operation_mode_regular << " " << operation_mode_active << " "
+  //           << operation_mode_overrides.size() << std::endl;
+  OperationMode mode = operation_mode_regular;
+
+  /* Find the most important override. Override modes in order of importance:
+     OperationMode::Suspended, OperationMode::Quiet, OperationMode::Normal
+  */
+  for (auto i = operation_mode_overrides.begin(); (i != operation_mode_overrides.end()); ++i)
+    {
+      if (i->second == OperationMode::Suspended)
+        {
+          mode = OperationMode::Suspended;
+          break;
+        }
+
+      if ((i->second == OperationMode::Quiet) && (mode == OperationMode::Normal))
+        {
+          mode = OperationMode::Quiet;
         }
     }
-
-  if (operation_mode != mode)
+  // std::cout << "Core::update_active_operation_mode " << operation_mode_regular << " " << operation_mode_active << " " << mode
+  //           << " " << operation_mode_overrides.size() << std::endl;
+  if (operation_mode_active != mode)
     {
-      TRACE_MSG("Changing active operation mode to " << (mode == OperationMode::Normal      ? "OperationMode::Normal"
-                                                         : mode == OperationMode::Suspended ? "OperationMode::Suspended"
-                                                         : mode == OperationMode::Quiet     ? "OperationMode::Quiet"
-                                                                                            : "???"));
+      OperationMode previous_mode = operation_mode_active;
+      operation_mode_active = mode;
 
-      OperationMode previous_mode = operation_mode;
-
-      operation_mode = mode;
-
-      if (!operation_mode_overrides.size())
-        operation_mode_regular = operation_mode;
-
-      if (operation_mode == OperationMode::Suspended)
+      if (operation_mode_active == OperationMode::Suspended)
         {
-          TRACE_MSG("Force idle");
           force_idle();
           monitor->suspend();
           stop_all_breaks();
@@ -746,38 +570,28 @@ Core::set_operation_mode_internal(OperationMode mode,
           monitor->resume();
         }
 
-      if (operation_mode == OperationMode::Quiet)
+      if (operation_mode_active == OperationMode::Quiet)
         {
           stop_all_breaks();
         }
 
-      if (!operation_mode_overrides.size())
-        {
-          /* The two functions in this block will trigger signals that can call back into this function.
-          Only if there are no overrides in place will that reentrancy be ok from here.
-          Otherwise the regular/user mode to restore would be overwritten.
-          */
-
-          if (persistent)
-            {
-              get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, underlying_cast(operation_mode.get()));
-            }
-
-          operation_mode_changed_signal(operation_mode);
-          if (core_event_listener)
-            core_event_listener->core_event_operation_mode_changed(operation_mode);
-
-#ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->OperationModeChanged("/org/workrave/Workrave/Core", operation_mode);
-            }
-#endif
-        }
+      // TODO: check if needed.
+      // TODO: check also missing in corenext
+      // operation_mode_changed_signal(operation_mode_active);
     }
+}
 
-  TRACE_EXIT();
+void
+Core::check_operation_mode_auto_reset()
+{
+  auto next_reset_time = CoreConfig::operation_mode_auto_reset_time()();
+
+  if ((next_reset_time.time_since_epoch().count() > 0) && (workrave::utils::TimeSource::get_real_time() >= next_reset_time)
+      && (CoreConfig::operation_mode()() != OperationMode::Normal))
+    {
+      spdlog::debug("Resetting operation mode");
+      set_operation_mode(OperationMode::Normal);
+    }
 }
 
 //! Retrieves the usage mode.
@@ -809,23 +623,18 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       if (persistent)
         {
-          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, underlying_cast(mode));
+          configurator->set_value(CoreConfig::CFG_KEY_USAGE_MODE, underlying_cast(mode));
         }
 
       usage_mode_changed_signal(mode);
 
-      if (core_event_listener != nullptr)
+#if defined(HAVE_DBUS)
+      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+      if (iface != nullptr)
         {
-          core_event_listener->core_event_usage_mode_changed(mode);
-
-#ifdef HAVE_DBUS
-          org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
-          if (iface != nullptr)
-            {
-              iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
-            }
-#endif
+          iface->UsageModeChanged("/org/workrave/Workrave/Core", mode);
         }
+#endif
     }
 }
 
@@ -841,17 +650,13 @@ void
 Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
   do_force_break(id, break_hint);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message_bool_param(id, BCM_START_BREAK, break_hint.get());
-#endif
 }
 
 //! Forces the start of the specified break.
 void
 Core::do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
 {
-  TRACE_ENTER_MSG("Core::do_force_break", id);
+  TRACE_ENTRY_PAR(id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
   BreakControl *breaker = breaks[id].get_break_control();
 
@@ -863,15 +668,13 @@ Core::do_force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
     }
 
   breaker->force_start_break(break_hint);
-  TRACE_EXIT();
 }
 
 //! Announces a change in time.
 void
 Core::time_changed()
 {
-  TRACE_ENTER("Core::time_changed");
-
+  TRACE_ENTRY();
   // In case out timezone changed..
   tzset();
 
@@ -881,16 +684,14 @@ Core::time_changed()
     {
       breaks[i].get_timer()->shift_time(0);
     }
-
-  TRACE_EXIT();
 }
 
 //! Announces a powersave state.
 void
 Core::set_powersave(bool down)
 {
-  TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << powersave_resume_time << " " << operation_mode);
+  TRACE_ENTRY_PAR(down);
+  TRACE_VAR(powersave, powersave_resume_time, operation_mode_active);
 
   if (down)
     {
@@ -900,6 +701,11 @@ Core::set_powersave(bool down)
           set_operation_mode_override(OperationMode::Suspended, "powersave");
           powersave_resume_time = 0;
           powersave = true;
+        }
+
+      for (const auto &i: breaks)
+        {
+          i.get_timer()->stop_timer();
         }
 
       save_state();
@@ -915,13 +721,12 @@ Core::set_powersave(bool down)
           int64_t current_time = TimeSource::get_real_time_sec();
 
           powersave_resume_time = current_time ? current_time : 1;
-          TRACE_MSG("set resume time " << powersave_resume_time);
+          TRACE_MSG("set resume time {}", powersave_resume_time);
         }
 
-      TRACE_MSG("resume time " << powersave_resume_time);
+      TRACE_MSG("resume time {}", powersave_resume_time);
       remove_operation_mode_override("powersave");
     }
-  TRACE_EXIT();
 }
 
 //! Sets the insist policy.
@@ -932,11 +737,11 @@ Core::set_powersave(bool down)
 void
 Core::set_insist_policy(InsistPolicy p)
 {
-  TRACE_ENTER_MSG("Core::set_insist_policy", p);
+  TRACE_ENTRY_PAR(p);
 
   if (active_insist_policy != InsistPolicy::Invalid && insist_policy != p)
     {
-      TRACE_MSG("refreeze " << active_insist_policy);
+      TRACE_MSG("refreeze {}", active_insist_policy);
       defrost();
       insist_policy = p;
       freeze();
@@ -945,7 +750,6 @@ Core::set_insist_policy(InsistPolicy p)
     {
       insist_policy = p;
     }
-  TRACE_EXIT();
 }
 
 //! Gets the insist policy.
@@ -959,16 +763,14 @@ Core::get_insist_policy() const
 void
 Core::force_idle()
 {
-  TRACE_ENTER("Core::force_idle");
+  TRACE_ENTRY();
   force_idle(BREAK_ID_NONE);
-  TRACE_EXIT();
 }
 
 void
 Core::force_idle(BreakId break_id)
 {
-  TRACE_ENTER("Core::force_idle_for_break");
-
+  TRACE_ENTRY();
   monitor->force_idle();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -984,7 +786,6 @@ Core::force_idle(BreakId break_id)
 
       breaks[i].get_timer()->force_idle();
     }
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -996,10 +797,6 @@ void
 Core::postpone_break(BreakId break_id)
 {
   do_postpone_break(break_id);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message(break_id, BCM_POSTPONE);
-#endif
 }
 
 //! User skips the specified break.
@@ -1007,24 +804,14 @@ void
 Core::skip_break(BreakId break_id)
 {
   do_skip_break(break_id);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message(break_id, BCM_SKIP);
-#endif
 }
 
 //! User stops the prelude.
 void
 Core::stop_prelude(BreakId break_id)
 {
-  TRACE_ENTER_MSG("Core::stop_prelude", break_id);
+  TRACE_ENTRY_PAR(break_id);
   do_stop_prelude(break_id);
-
-#ifdef HAVE_DISTRIBUTION
-  send_break_control_message(break_id, BCM_ABORT_PRELUDE);
-#endif
-
-  TRACE_EXIT();
 }
 
 //! User postpones the specified break.
@@ -1053,13 +840,12 @@ Core::do_skip_break(BreakId break_id)
 void
 Core::do_stop_prelude(BreakId break_id)
 {
-  TRACE_ENTER_MSG("Core::do_stop_prelude", break_id);
+  TRACE_ENTRY_PAR(break_id);
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
       BreakControl *bc = breaks[break_id].get_break_control();
       bc->stop_prelude();
     }
-  TRACE_EXIT();
 }
 
 /********************************************************************************/
@@ -1070,10 +856,12 @@ Core::do_stop_prelude(BreakId break_id)
 void
 Core::heartbeat()
 {
-  TRACE_ENTER("Core::heartbeat");
+  TRACE_ENTRY();
   assert(application != nullptr);
 
   TimeSource::sync();
+
+  check_operation_mode_auto_reset();
 
   // Performs timewarp checking.
   bool warped = process_timewarp();
@@ -1115,56 +903,14 @@ Core::heartbeat()
 
   // Done.
   last_process_time = current_time;
-
-  TRACE_EXIT();
 }
 
 //! Performs all distribution processing.
 void
 Core::process_distribution()
 {
-#ifdef HAVE_DISTRIBUTION
-  bool previous_master_mode = master_node;
-#endif
   // Default
   master_node = true;
-
-#ifdef HAVE_DISTRIBUTION
-
-  // Retrieve State.
-  ActivityState state = monitor->get_current_state();
-
-  if (dist_manager != nullptr)
-    {
-      dist_manager->heartbeart();
-      dist_manager->set_lock_master(state == ACTIVITY_ACTIVE);
-      master_node = dist_manager->is_master();
-
-      if (!master_node && state == ACTIVITY_ACTIVE)
-        {
-          master_node = dist_manager->claim();
-        }
-    }
-
-  if ((previous_master_mode != master_node) || (master_node && local_state != state))
-    {
-      PacketBuffer buffer;
-      buffer.create();
-
-      buffer.pack_ushort(1);
-      buffer.pack_ushort(state);
-
-      dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
-
-      buffer.clear();
-      bool ret = request_timer_state(buffer);
-      if (ret)
-        {
-          dist_manager->broadcast_client_message(DCM_TIMERS, buffer);
-        }
-    }
-
-#endif
 }
 
 //! Computes the current state.
@@ -1177,10 +923,10 @@ Core::process_state()
   // Default
   local_state = monitor->get_current_state();
 
-  map<std::string, int64_t>::iterator i = external_activity.begin();
+  auto i = external_activity.begin();
   while (i != external_activity.end())
     {
-      map<std::string, int64_t>::iterator next = i;
+      auto next = i;
       next++;
 
       if (i->second >= current_time)
@@ -1196,38 +942,12 @@ Core::process_state()
     }
 
   monitor_state = local_state;
-
-#if defined(HAVE_DISTRIBUTION) && !defined(NDEBUG)
-  if (fake_monitor != nullptr)
-    {
-      monitor_state = fake_monitor->get_current_state();
-    }
-#endif
-
-#ifdef HAVE_DISTRIBUTION
-  if (!master_node)
-    {
-      if (active_insist_policy == InsistPolicy::Ignore)
-        {
-          // Our own monitor is suspended, also ignore
-          // activity from remote parties.
-          monitor_state = ACTIVITY_IDLE;
-        }
-      else
-        {
-          monitor_state = remote_state;
-        }
-    }
-
-  // Update our idle history.
-  idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), monitor_state);
-#endif
 }
 
 void
 Core::report_external_activity(std::string who, bool act)
 {
-  TRACE_ENTER_MSG("Core::report_external_activity", who << " " << act);
+  TRACE_ENTRY_PAR(who, act);
   if (act)
     {
       int64_t current_time = TimeSource::get_real_time_sec();
@@ -1237,7 +957,6 @@ Core::report_external_activity(std::string who, bool act)
     {
       external_activity.erase(who);
     }
-  TRACE_EXIT();
 }
 
 void
@@ -1286,8 +1005,7 @@ Core::get_timer_overdue(BreakId id, int *value)
 void
 Core::process_timers()
 {
-  TRACE_ENTER("Core::process_timers");
-
+  TRACE_ENTRY();
   TimerInfo infos[BREAK_ID_SIZEOF];
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -1349,8 +1067,6 @@ Core::process_timers()
           daily_reset();
         }
     }
-
-  TRACE_EXIT();
 }
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -1361,7 +1077,7 @@ Core::process_timewarp()
 {
   bool ret = false;
 
-  TRACE_ENTER("Core::process_timewarp");
+  TRACE_ENTRY();
   if (last_process_time != 0)
     {
       int64_t current_time = TimeSource::get_real_time_sec();
@@ -1369,12 +1085,10 @@ Core::process_timewarp()
 
       if (abs((int)gap) > 5)
         {
-          TRACE_MSG("gap " << gap << " " << powersave << " " << operation_mode << " " << powersave_resume_time << " "
-                           << current_time);
-
+          TRACE_MSG("gap {} {} {} {} {}", gap, powersave, operation_mode_active, powersave_resume_time, current_time);
           if (!powersave)
             {
-              TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
+              TRACE_MSG("Time warp of {} seconds. Correcting ", gap);
 
               force_idle();
 
@@ -1389,7 +1103,16 @@ Core::process_timewarp()
             }
           else
             {
-              TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
+              TRACE_MSG("Time warp of {} seconds because of powersave", gap);
+
+              force_idle();
+
+              TimeSource::set_real_time_sec_sync(last_process_time + 1);
+              monitor_state = ACTIVITY_IDLE;
+
+              process_timers();
+
+              TimeSource::sync();
 
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
@@ -1405,7 +1128,6 @@ Core::process_timewarp()
           powersave_resume_time = 0;
         }
     }
-  TRACE_EXIT();
   return ret;
 }
 
@@ -1418,30 +1140,40 @@ Core::process_timewarp()
   bool ret = false;
   int64_t current_time = TimeSource::get_real_time_sec();
 
-  TRACE_ENTER("Core::process_timewarp");
+  TRACE_ENTRY();
   if (last_process_time != 0)
     {
-      int gap = current_time - 1 - last_process_time;
+      int64_t gap = current_time - 1 - last_process_time;
 
-      if (gap >= 30)
+      if (gap >= 10)
         {
-          TRACE_MSG("Time warp of " << gap << " seconds. Powersafe");
+          spdlog::info("Time warp of {} seconds. Powersave", gap);
+          TRACE_MSG("current time {}", current_time);
+          TRACE_MSG("synced time  {}", TimeSource::get_real_time_sec_sync());
+          TRACE_MSG("last process time {}", last_process_time);
 
           force_idle();
 
-          int save_current_time = current_time;
-
-          current_time = last_process_time + 1;
+          TimeSource::set_real_time_sec_sync(last_process_time + 1);
           monitor_state = ACTIVITY_IDLE;
 
           process_timers();
 
-          current_time = save_current_time;
+          TimeSource::sync();
           ret = true;
+
+          remove_operation_mode_override("powersave");
+        }
+
+      if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
+        {
+          spdlog::info("End of time warp after powersave");
+
+          powersave = false;
+          powersave_resume_time = 0;
         }
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -1456,15 +1188,14 @@ void
 Core::timer_action(BreakId id, TimerInfo info)
 {
   // No breaks when mode is quiet,
-  if (operation_mode == OperationMode::Quiet && info.event == TIMER_EVENT_LIMIT_REACHED)
+  if (operation_mode_active == OperationMode::Quiet && info.event == TIMER_EVENT_LIMIT_REACHED)
     {
       return;
     }
 
   BreakControl *breaker = breaks[id].get_break_control();
-  Timer *timer = breaks[id].get_timer();
 
-  assert(breaker != nullptr && timer != nullptr);
+  assert(breaker != nullptr);
 
   switch (info.event)
     {
@@ -1611,7 +1342,7 @@ Core::stop_all_breaks()
 void
 Core::daily_reset()
 {
-  TRACE_ENTER("Core::daily_reset");
+  TRACE_ENTRY();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
@@ -1624,24 +1355,25 @@ Core::daily_reset()
       t->daily_reset_timer();
     }
 
-#ifdef HAVE_DISTRIBUTION
-  idlelog_manager->reset();
-#endif
+  if ((CoreConfig::operation_mode_auto_reset_duration()() == -1min) && (CoreConfig::operation_mode()() != OperationMode::Normal))
+    {
+      using namespace std::chrono_literals;
+
+      spdlog::debug("Resetting operation mode");
+      set_operation_mode(OperationMode::Normal);
+      CoreConfig::operation_mode_auto_reset_duration().set(0min);
+      CoreConfig::operation_mode_auto_reset_time().set(std::chrono::system_clock::time_point{});
+    }
 
   save_state();
-
-  TRACE_EXIT();
 }
 
 //! Saves the current state.
 void
 Core::save_state() const
 {
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "state" << ends;
-
-  ofstream stateFile(ss.str().c_str());
+  std::filesystem::path path = Paths::get_state_directory() / "state";
+  ofstream stateFile(path.string());
 
   int64_t current_time = TimeSource::get_real_time_sec();
   stateFile << "WorkRaveState 3" << endl << current_time << endl;
@@ -1660,18 +1392,18 @@ Core::save_state() const
 void
 Core::load_misc()
 {
-  configurator->rename_key("gui/operation-mode", CoreConfig::CFG_KEY_OPERATION_MODE);
   configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
   configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
 
   int mode;
-  if (!get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+  if (!configurator->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
       mode = underlying_cast(OperationMode::Normal);
     }
-  set_operation_mode(OperationMode(mode));
+  set_operation_mode_internal(OperationMode(mode));
+  check_operation_mode_auto_reset();
 
-  if (!get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+  if (!configurator->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
     {
       mode = underlying_cast(UsageMode::Normal);
     }
@@ -1682,11 +1414,9 @@ Core::load_misc()
 void
 Core::load_state()
 {
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "state" << ends;
+  std::filesystem::path path = Paths::get_state_directory() / "state";
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_load_timer_state())
     {
       Timer *timers[workrave::BREAK_ID_SIZEOF];
@@ -1701,7 +1431,7 @@ Core::load_state()
     }
 #endif
 
-  ifstream stateFile(ss.str().c_str());
+  ifstream stateFile(path.string());
 
   int version = 0;
   bool ok = stateFile.good();
@@ -1760,7 +1490,7 @@ Core::post_event(CoreEvent event)
 void
 Core::freeze()
 {
-  TRACE_ENTER_MSG("Core::freeze", insist_policy);
+  TRACE_ENTRY_PAR(insist_policy);
   InsistPolicy policy = insist_policy;
 
   switch (policy)
@@ -1787,21 +1517,20 @@ Core::freeze()
     }
 
   active_insist_policy = policy;
-  TRACE_EXIT();
 }
 
 //! Undo the insist policy.
 void
 Core::defrost()
 {
-  TRACE_ENTER_MSG("Core::defrost", active_insist_policy);
+  TRACE_ENTRY_PAR(active_insist_policy);
 
   switch (active_insist_policy)
     {
     case InsistPolicy::Ignore:
       {
         // Resumes the activity monitor, if not suspended.
-        if (operation_mode != OperationMode::Suspended)
+        if (operation_mode_active != OperationMode::Suspended)
           {
             monitor->resume();
           }
@@ -1819,7 +1548,6 @@ Core::defrost()
     }
 
   active_insist_policy = InsistPolicy::Invalid;
-  TRACE_EXIT();
 }
 
 //! Is the user currently active?
@@ -1828,410 +1556,6 @@ Core::is_user_active() const
 {
   return monitor_state == ACTIVITY_ACTIVE;
 }
-
-/********************************************************************************/
-/**** Distribution                                                         ******/
-/********************************************************************************/
-
-#ifdef HAVE_DISTRIBUTION
-//! The distribution manager requests a client message.
-bool
-Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
-{
-  bool ret = false;
-
-  switch (id)
-    {
-    case DCM_BREAKS:
-      ret = request_break_state(buffer);
-      break;
-
-    case DCM_TIMERS:
-      ret = request_timer_state(buffer);
-      break;
-
-    case DCM_CONFIG:
-      break;
-
-    case DCM_MONITOR:
-      ret = true;
-      break;
-
-    case DCM_BREAKCONTROL:
-      ret = true;
-      break;
-
-    case DCM_IDLELOG:
-      idlelog_manager->get_idlelog(buffer);
-      ret = true;
-      break;
-
-    default:
-      break;
-    }
-
-  return ret;
-}
-
-//! The distribution manager delivers a client message.
-bool
-Core::client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer)
-{
-  bool ret = false;
-
-  (void)client_id;
-
-  switch (id)
-    {
-    case DCM_BREAKS:
-      ret = set_break_state(master, buffer);
-      break;
-
-    case DCM_TIMERS:
-      ret = set_timer_state(buffer);
-      break;
-
-    case DCM_MONITOR:
-      ret = set_monitor_state(master, buffer);
-      break;
-
-    case DCM_BREAKCONTROL:
-      ret = set_break_control(buffer);
-      break;
-
-    case DCM_CONFIG:
-      break;
-
-    case DCM_IDLELOG:
-      idlelog_manager->set_idlelog(buffer);
-      compute_timers();
-      ret = true;
-      break;
-
-    default:
-      break;
-    }
-
-  return ret;
-}
-
-bool
-Core::request_break_state(PacketBuffer &buffer)
-{
-  buffer.pack_ushort(BREAK_ID_SIZEOF);
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      BreakControl *bi = breaks[i].get_break_control();
-
-      if (bi != nullptr)
-        {
-          BreakControl::BreakStateData state_data{};
-          bi->get_state_data(state_data);
-
-          int pos = buffer.bytes_written();
-
-          buffer.pack_ushort(0);
-          buffer.pack_byte((guint8)state_data.forced_break);
-          buffer.pack_byte((guint8)state_data.reached_max_prelude);
-          buffer.pack_ulong((guint32)state_data.prelude_count);
-          buffer.pack_ulong((guint32)state_data.break_stage);
-          buffer.pack_ulong((guint32)state_data.prelude_time);
-
-          buffer.poke_ushort(pos, buffer.bytes_written() - pos);
-        }
-      else
-        {
-          buffer.pack_ushort(0);
-        }
-    }
-
-  return true;
-}
-
-bool
-Core::set_break_state(bool master, PacketBuffer &buffer)
-{
-  int num_breaks = buffer.unpack_ushort();
-
-  if (num_breaks > BREAK_ID_SIZEOF)
-    {
-      num_breaks = BREAK_ID_SIZEOF;
-    }
-
-  for (int i = 0; i < num_breaks; i++)
-    {
-      BreakControl *bi = breaks[i].get_break_control();
-
-      BreakControl::BreakStateData state_data{};
-
-      int data_size = buffer.unpack_ushort();
-
-      if (data_size > 0)
-        {
-          state_data.forced_break = buffer.unpack_byte();
-          state_data.reached_max_prelude = buffer.unpack_byte();
-          state_data.prelude_count = buffer.unpack_ulong();
-          state_data.break_stage = buffer.unpack_ulong();
-          state_data.prelude_time = buffer.unpack_ulong();
-
-          bi->set_state_data(master, state_data);
-        }
-    }
-
-  return true;
-}
-
-bool
-Core::request_timer_state(PacketBuffer &buffer) const
-{
-  TRACE_ENTER("Core::get_timer_state");
-
-  buffer.pack_ushort(BREAK_ID_SIZEOF);
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      Timer *t = breaks[i].get_timer();
-      buffer.pack_string(t->get_id().c_str());
-
-      Timer::TimerStateData state_data{};
-
-      t->get_state_data(state_data);
-
-      int pos = buffer.bytes_written();
-
-      buffer.pack_ushort(0);
-      buffer.pack_ulong((guint32)state_data.current_time);
-      buffer.pack_ulong((guint32)state_data.elapsed_time);
-      buffer.pack_ulong((guint32)state_data.elapsed_idle_time);
-      buffer.pack_ulong((guint32)state_data.last_pred_reset_time);
-      buffer.pack_ulong((guint32)state_data.total_overdue_time);
-
-      buffer.pack_ulong((guint32)state_data.last_limit_time);
-      buffer.pack_ulong((guint32)state_data.last_limit_elapsed);
-      buffer.pack_ushort((guint16)state_data.snooze_inhibited);
-
-      buffer.poke_ushort(pos, buffer.bytes_written() - pos);
-    }
-
-  TRACE_EXIT();
-  return true;
-}
-
-bool
-Core::set_timer_state(PacketBuffer &buffer)
-{
-  TRACE_ENTER("Core::set_timer_state");
-
-  int num_breaks = buffer.unpack_ushort();
-
-  TRACE_MSG("numtimer = " << num_breaks);
-  for (int i = 0; i < num_breaks; i++)
-    {
-      gchar *id = buffer.unpack_string();
-      TRACE_MSG("id = " << id);
-
-      if (id == nullptr)
-        {
-          TRACE_EXIT();
-          return false;
-        }
-
-      Timer *t = (Timer *)get_timer(id);
-
-      Timer::TimerStateData state_data{};
-
-      buffer.unpack_ushort();
-
-      state_data.current_time = buffer.unpack_ulong();
-      state_data.elapsed_time = buffer.unpack_ulong();
-      state_data.elapsed_idle_time = buffer.unpack_ulong();
-      state_data.last_pred_reset_time = buffer.unpack_ulong();
-      state_data.total_overdue_time = buffer.unpack_ulong();
-
-      state_data.last_limit_time = buffer.unpack_ulong();
-      state_data.last_limit_elapsed = buffer.unpack_ulong();
-      state_data.snooze_inhibited = buffer.unpack_ushort();
-
-      TRACE_MSG("state = " << state_data.current_time << " " << state_data.elapsed_time << " " << state_data.elapsed_idle_time
-                           << " " << state_data.last_pred_reset_time << " " << state_data.total_overdue_time);
-
-      if (t != nullptr)
-        {
-          t->set_state_data(state_data);
-        }
-
-      g_free(id);
-    }
-
-  TRACE_EXIT();
-  return true;
-}
-
-bool
-Core::set_monitor_state(bool master, PacketBuffer &buffer)
-{
-  (void)master;
-  TRACE_ENTER_MSG("Core::set_monitor_state", master << " " << master_node);
-
-  if (!master_node)
-    {
-      buffer.unpack_ushort();
-      remote_state = (ActivityState)buffer.unpack_ushort();
-      TRACE_MSG(remote_state);
-    }
-
-  TRACE_EXIT();
-  return true;
-}
-
-//! A remote client has signed on.
-void
-Core::signon_remote_client(string client_id)
-{
-  idlelog_manager->signon_remote_client(client_id);
-
-  if (master_node)
-    {
-      PacketBuffer buffer;
-      buffer.create();
-
-      ActivityState state = monitor->get_current_state();
-
-      buffer.pack_ushort(1);
-      buffer.pack_ushort(state);
-
-      dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
-
-      buffer.clear();
-    }
-}
-
-//! A remote client has signed off.
-void
-Core::signoff_remote_client(string client_id)
-{
-  TRACE_ENTER_MSG("Core::signoff_remote_client", client_id);
-  TRACE_MSG("Master = " << dist_manager->get_master_id());
-  if (client_id == dist_manager->get_master_id())
-    {
-      TRACE_MSG("Idle");
-      remote_state = ACTIVITY_IDLE;
-    }
-
-  idlelog_manager->signoff_remote_client(client_id);
-  TRACE_EXIT();
-}
-
-void
-Core::compute_timers()
-{
-  TRACE_ENTER("IdleLogManager:compute_timers");
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      int64_t autoreset = breaks[i].get_timer()->get_auto_reset();
-      int64_t idle = idlelog_manager->compute_idle_time();
-
-      if (autoreset != 0)
-        {
-          int64_t active_time = idlelog_manager->compute_active_time(autoreset);
-
-          if (idle > autoreset)
-            {
-              idle = autoreset;
-            }
-
-          breaks[i].get_timer()->set_values(active_time, idle);
-        }
-      else
-        {
-          int64_t active_time = idlelog_manager->compute_total_active_time();
-          breaks[i].get_timer()->set_values(active_time, idle);
-        }
-    }
-
-  TRACE_EXIT();
-}
-
-//! Sends a break control message to all workrave clients.
-void
-Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
-{
-  PacketBuffer buffer;
-  buffer.create();
-
-  buffer.pack_ushort(4);
-  buffer.pack_ushort(break_id);
-  buffer.pack_ushort(message);
-
-  dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
-}
-
-//! Sends a break control message with boolean parameter to all workrave clients.
-void
-Core::send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param)
-{
-  PacketBuffer buffer;
-  buffer.create();
-
-  buffer.pack_ushort(5);
-  buffer.pack_ushort(break_id);
-  buffer.pack_ushort(message);
-  buffer.pack_byte(param);
-
-  dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
-}
-
-bool
-Core::set_break_control(PacketBuffer &buffer)
-{
-  int data_size = buffer.unpack_ushort();
-
-  if (data_size >= 4)
-    {
-      BreakId break_id = (BreakId)buffer.unpack_ushort();
-      BreakControlMessage message = (BreakControlMessage)buffer.unpack_ushort();
-
-      switch (message)
-        {
-        case BCM_POSTPONE:
-          do_postpone_break(break_id);
-          break;
-
-        case BCM_SKIP:
-          do_skip_break(break_id);
-          break;
-
-        case BCM_ABORT_PRELUDE:
-          do_stop_prelude(break_id);
-          break;
-
-        case BCM_START_BREAK:
-          if (data_size >= 6)
-            {
-              // Only for post 1.9.1 workrave...
-              int break_hint = (int)buffer.unpack_ushort();
-              do_force_break(break_id, (BreakHint)break_hint);
-            }
-          else if (data_size >= 5)
-            {
-              // Only for post 1.6.2 workrave...
-              bool initiated_by_user = (bool)buffer.unpack_byte();
-              do_force_break(break_id, initiated_by_user ? BreakHint::UserInitiated : BreakHint::Normal);
-            }
-          else
-            {
-              do_force_break(break_id, BreakHint::UserInitiated);
-            }
-          break;
-        }
-    }
-
-  return true;
-}
-
-#endif // HAVE_DISTRIBUTION
 
 namespace workrave
 {

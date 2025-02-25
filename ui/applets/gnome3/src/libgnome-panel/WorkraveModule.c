@@ -46,7 +46,7 @@ gp_module_load(GpModule *module)
   gp_module_set_abi_version(module, GP_MODULE_ABI_VERSION);
 
   gp_module_set_id(module, "org.workrave.workrave-applet");
-  gp_module_set_version(module, PACKAGE_VERSION);
+  gp_module_set_version(module, WORKRAVE_VERSION);
 
   gp_module_set_applet_ids(module, "workrave", NULL);
 

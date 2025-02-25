@@ -21,11 +21,11 @@
 #include <memory>
 
 #include "dbus/IDBus.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "BreakStateModel.hh"
 
-class BreakDBus
+class BreakDBus : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<BreakDBus>;
@@ -42,7 +42,6 @@ private:
   workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   workrave::dbus::IDBus::Ptr dbus;
-  scoped_connections connections;
 };
 
 #endif // BREAKDBUS_HH

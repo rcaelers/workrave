@@ -1,4 +1,4 @@
-// Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2007 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ const string CoreConfig::CFG_KEY_REST_BREAK = "rest_break";
 const string CoreConfig::CFG_KEY_DAILY_LIMIT = "daily_limit";
 const string CoreConfig::CFG_KEY_TIMERS = "timers";
 const string CoreConfig::CFG_KEY_TIMER = "timers/%b";
-
 const string CoreConfig::CFG_KEY_TIMER_LIMIT = "timers/%b/limit";
 const string CoreConfig::CFG_KEY_TIMER_AUTO_RESET = "timers/%b/auto_reset";
 const string CoreConfig::CFG_KEY_TIMER_RESET_PRED = "timers/%b/reset_pred";
@@ -46,22 +45,20 @@ const string CoreConfig::CFG_KEY_TIMER_SNOOZE = "timers/%b/snooze";
 const string CoreConfig::CFG_KEY_TIMER_MONITOR = "timers/%b/monitor";
 const string CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "timers/%b/activity_sensitive";
 const string CoreConfig::CFG_KEY_TIMER_DAILY_LIMIT_USE_MICRO_BREAK_ACTIVITY = "timers/daily_limit/use_microbreak_activity";
-
 const string CoreConfig::CFG_KEY_BREAKS = "breaks";
 const string CoreConfig::CFG_KEY_BREAK = "breaks/%b";
-
 const string CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES = "breaks/%b/max_preludes";
 const string CoreConfig::CFG_KEY_BREAK_ENABLED = "breaks/%b/enabled";
-
 const string CoreConfig::CFG_KEY_MONITOR = "monitor";
-
 const string CoreConfig::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string CoreConfig::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string CoreConfig::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
-
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE = "general/operation-mode";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_DURATION = "general/operation_mode_auto_reset_duration";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operation_mode_auto_reset_options";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME = "general/operation_mode_auto_reset_time";
 const string CoreConfig::CFG_KEY_USAGE_MODE = "general/usage-mode";
 
 const string CoreConfig::CFG_KEY_DISTRIBUTION = "distribution";
@@ -78,7 +75,7 @@ const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/recon
 string
 CoreConfig::get_break_name(BreakId id)
 {
-  const char *names[] = {"micro_pause", "rest_break", "daily_limit"};
+  std::array<const char *, 3> names{"micro_pause", "rest_break", "daily_limit"};
   return names[(int)id];
 }
 
@@ -275,4 +272,22 @@ Setting<int, workrave::UsageMode> &
 CoreConfig::usage_mode()
 {
   return SettingCache::get<int, workrave::UsageMode>(config, CFG_KEY_USAGE_MODE);
+}
+
+Setting<int, std::chrono::minutes> &
+CoreConfig::operation_mode_auto_reset_duration()
+{
+  return SettingCache::get<int, std::chrono::minutes>(config, CFG_KEY_OPERATION_MODE_RESET_DURATION);
+}
+
+Setting<int64_t, std::chrono::system_clock::time_point> &
+CoreConfig::operation_mode_auto_reset_time()
+{
+  return SettingCache::get<int64_t, std::chrono::system_clock::time_point>(config, CFG_KEY_OPERATION_MODE_RESET_TIME);
+}
+
+Setting<std::vector<int>, std::vector<std::chrono::minutes>> &
+CoreConfig::operation_mode_auto_reset_options()
+{
+  return SettingCache::get<std::vector<int>, std::vector<std::chrono::minutes>>(config, CFG_KEY_OPERATION_MODE_RESET_OPTIONS);
 }

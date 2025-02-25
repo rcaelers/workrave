@@ -43,6 +43,7 @@
 enum
 {
   MENU_CHANGED,
+  MENU_ITEM_CHANGED,
   ALIVE_CHANGED,
   LAST_SIGNAL
 };
@@ -207,6 +208,22 @@ workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerbo
   gtk_widget_show(GTK_WIDGET(priv->image));
 }
 
+GVariant *
+workrave_timerbox_control_get_menus(WorkraveTimerboxControl *self)
+{
+  WorkraveTimerboxControlPrivate *priv = workrave_timerbox_control_get_instance_private(self);
+
+  GError *error = NULL;
+  GVariant *result = g_dbus_proxy_call_sync(priv->applet_proxy, "GetMenu", NULL, G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
+
+  if (error != NULL)
+    {
+      g_warning("Could not request menu for %s: %s", WORKRAVE_DBUS_APPLET_NAME, error->message);
+    }
+
+  return result;
+}
+
 static void
 workrave_timerbox_control_class_init(WorkraveTimerboxControlClass *klass)
 {
@@ -222,6 +239,17 @@ workrave_timerbox_control_class_init(WorkraveTimerboxControlClass *klass)
                                        G_TYPE_NONE,
                                        1,
                                        G_TYPE_VARIANT);
+
+  signals[MENU_ITEM_CHANGED] = g_signal_new("menu-item-changed",
+                                            G_TYPE_FROM_CLASS(klass),
+                                            G_SIGNAL_RUN_LAST | G_SIGNAL_MUST_COLLECT,
+                                            0,
+                                            NULL,
+                                            NULL,
+                                            g_cclosure_marshal_VOID__VARIANT,
+                                            G_TYPE_NONE,
+                                            1,
+                                            G_TYPE_VARIANT);
 
   signals[ALIVE_CHANGED] = g_signal_new("alive-changed",
                                         G_TYPE_FROM_CLASS(klass),
@@ -298,11 +326,20 @@ workrave_timerbox_control_dispose(GObject *object)
       priv->timer = 0;
     }
 
-  if (priv->image != NULL)
+  if (priv->startup_timer != 0)
     {
-      g_object_unref(priv->image);
-      priv->image = NULL;
+      g_source_remove(priv->startup_timer);
+      priv->startup_timer = 0;
     }
+
+  // g_clear_pointer(&priv->image, g_object_unref);
+  g_clear_pointer(&priv->applet_proxy_cancel, g_object_unref);
+  g_clear_pointer(&priv->applet_proxy, g_object_unref);
+  g_clear_pointer(&priv->control_proxy_cancel, g_object_unref);
+  g_clear_pointer(&priv->control_proxy, g_object_unref);
+  g_clear_pointer(&priv->core_proxy_cancel, g_object_unref);
+  g_clear_pointer(&priv->core_proxy, g_object_unref);
+  g_clear_pointer(&priv->timerbox, g_object_unref);
 
   G_OBJECT_CLASS(workrave_timerbox_control_parent_class)->dispose(object);
   return;
@@ -326,15 +363,26 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
       return;
     }
 
-  priv->owner_id =
-    g_bus_own_name(G_BUS_TYPE_SESSION, WORKRAVE_DBUS_NAME, G_BUS_NAME_OWNER_FLAGS_NONE, on_bus_acquired, NULL, NULL, self, NULL);
+  priv->owner_id = g_bus_own_name(G_BUS_TYPE_SESSION,
+                                  WORKRAVE_DBUS_NAME,
+                                  G_BUS_NAME_OWNER_FLAGS_NONE,
+                                  on_bus_acquired,
+                                  NULL,
+                                  NULL,
+                                  self,
+                                  NULL);
 
   GError *error = NULL;
 
   if (error == NULL)
     {
-      GVariant *result = g_dbus_proxy_call_sync(
-        priv->applet_proxy, "Embed", g_variant_new("(bs)", TRUE, WORKRAVE_DBUS_NAME), G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
+      GVariant *result = g_dbus_proxy_call_sync(priv->applet_proxy,
+                                                "Embed",
+                                                g_variant_new("(bs)", TRUE, WORKRAVE_DBUS_NAME),
+                                                G_DBUS_CALL_FLAGS_NONE,
+                                                -1,
+                                                NULL,
+                                                &error);
 
       if (error != NULL)
         {
@@ -351,8 +399,8 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
 
   if (error == NULL)
     {
-      GVariant *result =
-        g_dbus_proxy_call_sync(priv->applet_proxy, "GetTrayIconEnabled", NULL, G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
+      GVariant *
+        result = g_dbus_proxy_call_sync(priv->applet_proxy, "GetTrayIconEnabled", NULL, G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
 
       if (error != NULL)
         {
@@ -370,8 +418,8 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
 
   if (error == NULL)
     {
-      GVariant *result =
-        g_dbus_proxy_call_sync(priv->core_proxy, "GetOperationMode", NULL, G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
+      GVariant
+        *result = g_dbus_proxy_call_sync(priv->core_proxy, "GetOperationMode", NULL, G_DBUS_CALL_FLAGS_NONE, -1, NULL, &error);
 
       if (error != NULL)
         {
@@ -382,6 +430,7 @@ workrave_timerbox_control_start(WorkraveTimerboxControl *self)
           gchar *mode;
           g_variant_get(result, "(s)", &mode);
           workrave_timerbox_set_operation_mode(priv->timerbox, mode);
+          g_free(mode);
           g_variant_unref(result);
         }
     }
@@ -616,9 +665,14 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       on_update_timers(self, parameters);
     }
 
-  if (g_strcmp0(signal_name, "MenuUpdated") == 0)
+  else if (g_strcmp0(signal_name, "MenuUpdated") == 0)
     {
       g_signal_emit(self, signals[MENU_CHANGED], 0, parameters);
+    }
+
+  else if (g_strcmp0(signal_name, "MenuItemUpdated") == 0)
+    {
+      g_signal_emit(self, signals[MENU_ITEM_CHANGED], 0, parameters);
     }
 
   else if (g_strcmp0(signal_name, "TrayIconUpdated") == 0)
@@ -634,6 +688,7 @@ on_dbus_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       g_variant_get(parameters, "(s)", &mode);
       workrave_timerbox_set_operation_mode(priv->timerbox, mode);
       workrave_timerbox_update(priv->timerbox, priv->image);
+      g_free(mode);
     }
 }
 
@@ -691,13 +746,20 @@ on_update_timers(WorkraveTimerboxControl *self, GVariant *parameters)
           workrave_timerbox_set_enabled(priv->timerbox, TRUE);
           workrave_timerbox_control_update_show_tray_icon(self);
           workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
-          workrave_timebar_set_secondary_progress(
-            timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
+          workrave_timebar_set_secondary_progress(timebar,
+                                                  td[i].bar_secondary_val,
+                                                  td[i].bar_secondary_max,
+                                                  td[i].bar_secondary_color);
           workrave_timebar_set_text(timebar, td[i].bar_text);
         }
     }
 
   workrave_timerbox_update(priv->timerbox, priv->image);
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      g_free(td[i].bar_text);
+    }
 }
 
 static void

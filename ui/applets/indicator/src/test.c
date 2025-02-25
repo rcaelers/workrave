@@ -16,6 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include <gtk/gtk.h>
 
 #include <string.h>
@@ -154,8 +158,10 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
             {
               workrave_timerbox_set_enabled(timerbox, TRUE);
               workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
-              workrave_timebar_set_secondary_progress(
-                timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
+              workrave_timebar_set_secondary_progress(timebar,
+                                                      td[i].bar_secondary_val,
+                                                      td[i].bar_secondary_max,
+                                                      td[i].bar_secondary_color);
               workrave_timebar_set_text(timebar, td[i].bar_text);
             }
         }

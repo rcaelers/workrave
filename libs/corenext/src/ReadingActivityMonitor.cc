@@ -38,8 +38,9 @@ void
 ReadingActivityMonitor::init()
 {
   monitor->set_listener(shared_from_this());
-  connections.connect(modes->signal_usage_mode_changed(),
-                      [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) {
+    on_usage_mode_changed(std::forward<decltype(mode)>(mode));
+  });
 }
 
 void
@@ -57,11 +58,11 @@ ReadingActivityMonitor::resume()
 bool
 ReadingActivityMonitor::is_active()
 {
-  TRACE_ENTER("ReadingActivityMonitor::is_active");
+  TRACE_ENTRY();
   if (forced_idle)
     {
       bool local_is_active = monitor->is_active();
-      TRACE_MSG(local_is_active);
+      TRACE_VAR(local_is_active);
 
       if (local_is_active)
         {
@@ -71,13 +72,13 @@ ReadingActivityMonitor::is_active()
 
   if (forced_idle)
     {
-      TRACE_RETURN("Idle");
+      TRACE_MSG("Idle");
       return false;
     }
 
   if (suspended)
     {
-      TRACE_RETURN("Suspended");
+      TRACE_MSG("Suspended");
       return false;
     }
 
@@ -97,16 +98,15 @@ ReadingActivityMonitor::is_active()
       break;
     }
 
-  TRACE_RETURN(active);
+  TRACE_VAR(active);
   return active;
 }
 
 void
 ReadingActivityMonitor::force_idle()
 {
-  TRACE_ENTER("ReadingActivityMonitor::force_idle");
+  TRACE_ENTRY();
   forced_idle = true;
-  TRACE_EXIT();
 }
 
 void
@@ -121,8 +121,7 @@ ReadingActivityMonitor::on_usage_mode_changed(workrave::UsageMode mode)
 void
 ReadingActivityMonitor::handle_break_event(workrave::BreakId break_id, workrave::BreakEvent event)
 {
-  TRACE_ENTER_MSG("ReadingActivityMonitor::handle_break_event",
-                  break_id << " " << static_cast<std::underlying_type<workrave::BreakEvent>::type>(event));
+  TRACE_ENTRY_PAR(break_id, static_cast<std::underlying_type<workrave::BreakEvent>::type>(event));
   switch (state)
     {
     case Idle:
@@ -172,7 +171,6 @@ ReadingActivityMonitor::handle_break_event(workrave::BreakId break_id, workrave:
             }
         }
     }
-  TRACE_EXIT();
 }
 
 bool

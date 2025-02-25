@@ -8,33 +8,33 @@
   </import>
 
   <enum name="break_event" csymbol="workrave::BreakEvent">
-    <value name="show_prelude"       csymbol="workrave::BreakEvent::ShowPrelude"/>
-    <value name="show_break"         csymbol="workrave::BreakEvent::ShowBreak"/>
-    <value name="show_break_forced"  csymbol="workrave::BreakEvent::ShowBreakForced"/>
-    <value name="break_start"        csymbol="workrave::BreakEvent::BreakStart"/>
-    <value name="break_idle"         csymbol="workrave::BreakEvent::BreakIdle"/>
-    <value name="break_stop"         csymbol="workrave::BreakEvent::BreakStop"/>
-    <value name="break_ignored"      csymbol="workrave::BreakEvent::BreakIgnored"/>
-    <value name="break_postponed"    csymbol="workrave::BreakEvent::BreakPostponed"/>
-    <value name="break_skipped"      csymbol="workrave::BreakEvent::BreakSkipped"/>
-    <value name="break_taken"        csymbol="workrave::BreakEvent::BreakTaken"/>
+    <value name="show_prelude" csymbol="workrave::BreakEvent::ShowPrelude"/>
+    <value name="show_break" csymbol="workrave::BreakEvent::ShowBreak"/>
+    <value name="show_break_forced" csymbol="workrave::BreakEvent::ShowBreakForced"/>
+    <value name="break_start" csymbol="workrave::BreakEvent::BreakStart"/>
+    <value name="break_idle" csymbol="workrave::BreakEvent::BreakIdle"/>
+    <value name="break_stop" csymbol="workrave::BreakEvent::BreakStop"/>
+    <value name="break_ignored" csymbol="workrave::BreakEvent::BreakIgnored"/>
+    <value name="break_postponed" csymbol="workrave::BreakEvent::BreakPostponed"/>
+    <value name="break_skipped" csymbol="workrave::BreakEvent::BreakSkipped"/>
+    <value name="break_taken" csymbol="workrave::BreakEvent::BreakTaken"/>
   </enum>
 
   <enum name="break_id" csymbol="workrave::BreakId">
-    <value name="microbreak"  csymbol="workrave::BREAK_ID_MICRO_BREAK" value="0"/>
-    <value name="restbreak"   csymbol="workrave::BREAK_ID_REST_BREAK"/>
-    <value name="dailylimit"  csymbol="workrave::BREAK_ID_DAILY_LIMIT"/>
+    <value name="microbreak" csymbol="workrave::BREAK_ID_MICRO_BREAK" value="0"/>
+    <value name="restbreak" csymbol="workrave::BREAK_ID_REST_BREAK"/>
+    <value name="dailylimit" csymbol="workrave::BREAK_ID_DAILY_LIMIT"/>
   </enum>
 
   <enum name="operation_mode" csymbol="workrave::OperationMode">
-    <value name="normal"    csymbol="workrave::OperationMode::Normal" value="0"/>
+    <value name="normal" csymbol="workrave::OperationMode::Normal" value="0"/>
     <value name="suspended" csymbol="workrave::OperationMode::Suspended"/>
-    <value name="quiet"     csymbol="workrave::OperationMode::Quiet"/>
+    <value name="quiet" csymbol="workrave::OperationMode::Quiet"/>
   </enum>
 
   <enum name="usage_mode" csymbol="workrave::UsageMode">
-    <value name="normal"    csymbol="workrave::UsageMode::Normal" value="0"/>
-    <value name="reading"   csymbol="workrave::UsageMode::Reading"/>
+    <value name="normal" csymbol="workrave::UsageMode::Normal" value="0"/>
+    <value name="reading" csymbol="workrave::UsageMode::Reading"/>
   </enum>
 
   <interface name="org.workrave.CoreInterface" csymbol="Core">
@@ -42,7 +42,7 @@
       <arg type="operation_mode" name="mode" direction="in" />
     </method>
 
-    <method name="GetOperationMode" csymbol="get_operation_mode">
+    <method name="GetOperationMode" csymbol="get_regular_operation_mode">
       <arg type="operation_mode" name="mode" direction="out" hint="return"/>
     </method>
 
@@ -74,30 +74,30 @@
 
   <interface name="org.workrave.BreakInterface" csymbol="Break">
     <method name="IsTimerRunning" csymbol="is_running">
-      <arg type="bool"    name="value"    direction="out"  hint="return"/>
+      <arg type="bool" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="GetTimerIdle" csymbol="get_elapsed_idle_time">
-      <arg type="int32"    name="value"    direction="out" hint="return"/>
+      <arg type="int32" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="GetTimerElapsed" csymbol="get_elapsed_time">
-      <arg type="int32"     name="value"    direction="out" hint="return"/>
+      <arg type="int32" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="GetTimerRemaining" csymbol="get_timer_remaining">
-      <arg type="int32"     name="value"    direction="out" hint="return"/>
+      <arg type="int32" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="GetTimerOverdue" csymbol="get_total_overdue_time">
-      <arg type="int32"     name="value"    direction="out" hint="return"/>
+      <arg type="int32" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="PostponeBreak" csymbol="postpone_break"/>
     <method name="SkipBreak" csymbol="skip_break"/>
 
     <method name="GetBreakState" csymbol="get_break_stage">
-      <arg type="string"   name="state"    direction="out" hint="return"/>
+      <arg type="string" name="state" direction="out" hint="return"/>
     </method>
 
     <signal name="BreakStateChanged">
@@ -113,49 +113,50 @@
     <method name="SetString" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="string" name="value" direction="in" />
-      <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
 
     <method name="SetInt" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="int32"    name="value" direction="in" />
-      <arg type="bool"   name="success" direction="out" hint="return" />
+      <arg type="int32" name="value" direction="in" />
+    </method>
+
+    <method name="SetInt64" csymbol="set_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="int64" name="value" direction="in" />
     </method>
 
     <method name="SetBool" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="bool"   name="value" direction="in" />
-      <arg type="bool"   name="success" direction="out" hint="return" />
+      <arg type="bool" name="value" direction="in" />
     </method>
 
     <method name="SetDouble" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="double" name="value" direction="in" />
-      <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
 
     <method name="GetString" csymbol="get_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="bool"   name="found" direction="out" hint="return" />
+      <arg type="bool" name="found" direction="out" hint="return" />
       <arg type="string" name="value" direction="out" />
     </method>
 
     <method name="GetInt" csymbol="get_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="int32"    name="value" direction="out" />
-      <arg type="bool"   name="found" direction="out" hint="return" />
+      <arg type="int32" name="value" direction="out" />
+      <arg type="bool" name="found" direction="out" hint="return" />
     </method>
 
     <method name="GetBool" csymbol="get_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="bool"   name="value" direction="out" />
-      <arg type="bool"   name="found" direction="out" hint="return" />
+      <arg type="bool" name="value" direction="out" />
+      <arg type="bool" name="found" direction="out" hint="return" />
     </method>
 
     <method name="GetDouble" csymbol="get_value">
-      <arg type="string" name="key"   direction="in" />
+      <arg type="string" name="key" direction="in" />
       <arg type="double" name="value" direction="out" />
-      <arg type="bool"   name="found" direction="out" hint="return" />
+      <arg type="bool" name="found" direction="out" hint="return" />
     </method>
   </interface>
 </unit>

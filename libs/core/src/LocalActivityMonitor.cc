@@ -34,78 +34,69 @@ using namespace workrave::utils;
 //! Constructor.
 LocalActivityMonitor::LocalActivityMonitor()
 {
-  TRACE_ENTER("LocalActivityMonitor::LocalActivityMonitor");
-
+  TRACE_ENTRY();
   noise_threshold = 1 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
   activity_threshold = 2 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
   idle_threshold = 5 * workrave::utils::TimeSource::TIME_USEC_PER_SEC;
 
-  input_monitor =
-    workrave::input_monitor::InputMonitorFactory::create_monitor(workrave::input_monitor::MonitorCapability::Activity);
+  input_monitor = workrave::input_monitor::InputMonitorFactory::create_monitor(
+    workrave::input_monitor::MonitorCapability::Activity);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
     }
-
-  TRACE_EXIT();
 }
 
 //! Destructor.
 LocalActivityMonitor::~LocalActivityMonitor()
 {
-  TRACE_ENTER("LocalActivityMonitor::~LocalActivityMonitor");
-
+  TRACE_ENTRY();
   if (input_monitor != NULL)
     {
       input_monitor->unsubscribe(this);
     }
-
-  TRACE_EXIT();
 }
 
 //! Terminates the monitor.
 void
 LocalActivityMonitor::terminate()
 {
-  TRACE_ENTER("LocalActivityMonitor::terminate");
-
+  TRACE_ENTRY();
   if (input_monitor != nullptr)
     {
       input_monitor->terminate();
     }
-
-  TRACE_EXIT();
 }
 
 //! Suspends the activity monitoring.
 void
 LocalActivityMonitor::suspend()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::suspend", activity_state);
+  TRACE_ENTRY_PAR(activity_state);
   lock.lock();
   activity_state = ACTIVITY_SUSPENDED;
   lock.unlock();
   activity_state.publish();
-  TRACE_RETURN(activity_state);
+  TRACE_VAR(activity_state);
 }
 
 //! Resumes the activity monitoring.
 void
 LocalActivityMonitor::resume()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::resume", activity_state);
+  TRACE_ENTRY_PAR(activity_state);
   lock.lock();
   activity_state = ACTIVITY_IDLE;
   lock.unlock();
   activity_state.publish();
-  TRACE_RETURN(activity_state);
+  TRACE_VAR(activity_state);
 }
 
 //! Forces state te be idle.
 void
 LocalActivityMonitor::force_idle()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::force_idle", activity_state);
+  TRACE_ENTRY_PAR(activity_state);
   lock.lock();
   if (activity_state != ACTIVITY_SUSPENDED)
     {
@@ -114,23 +105,20 @@ LocalActivityMonitor::force_idle()
     }
   lock.unlock();
   activity_state.publish();
-  TRACE_RETURN(activity_state);
+  TRACE_VAR(activity_state);
 }
 
 //! Returns the current state
 ActivityState
 LocalActivityMonitor::get_current_state()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::get_current_state", activity_state);
+  TRACE_ENTRY_PAR(activity_state);
   lock.lock();
 
   // First update the state...
   if (activity_state == ACTIVITY_ACTIVE)
     {
       int64_t tv = TimeSource::get_monotonic_time_usec() - last_action_time;
-
-      TRACE_MSG("Active: " << (tv / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << "." << tv << " "
-                           << (idle_threshold / workrave::utils::TimeSource::TIME_USEC_PER_SEC) << " " << idle_threshold);
       if (tv > idle_threshold)
         {
           // No longer active.
@@ -140,7 +128,7 @@ LocalActivityMonitor::get_current_state()
 
   lock.unlock();
   activity_state.publish();
-  TRACE_RETURN(activity_state);
+  TRACE_VAR(activity_state);
   return activity_state;
 }
 

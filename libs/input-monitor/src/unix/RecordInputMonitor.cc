@@ -1,4 +1,4 @@
-// Copyright (C) 2001-2019 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2019 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,9 @@
 
 #include "RecordInputMonitor.hh"
 
+#include <memory>
+#include <chrono>
+
 #include "debug.hh"
 
 // Solaris needs this...
@@ -35,22 +38,19 @@
 
 #include "input-monitor/IInputMonitorListener.hh"
 
-#ifdef HAVE_APP_GTK
+#if defined(HAVE_APP_GTK)
 #  include <gdk/gdkx.h>
 #endif
-
-#include <memory>
-#include <chrono>
 
 using namespace std;
 
 int RecordInputMonitor::xi_event_base = 0;
 
-#ifndef HAVE_APP_GTK
+#if !defined(HAVE_APP_GTK)
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
 #endif
 
-#ifndef HAVE_APP_GTK
+#if !defined(HAVE_APP_GTK)
 //! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
@@ -74,7 +74,7 @@ RecordInputMonitor::RecordInputMonitor(const char *display_name)
 
 RecordInputMonitor::~RecordInputMonitor()
 {
-  TRACE_ENTER("RecordInputMonitor::~RecordInputMonitor");
+  TRACE_ENTRY();
   if (monitor_thread != nullptr)
     {
       monitor_thread->join();
@@ -84,7 +84,6 @@ RecordInputMonitor::~RecordInputMonitor()
     {
       XCloseDisplay(xrecord_datalink);
     }
-  TRACE_EXIT();
 }
 
 bool
@@ -101,21 +100,17 @@ RecordInputMonitor::init()
 void
 RecordInputMonitor::terminate()
 {
-  TRACE_ENTER("RecordInputMonitor::terminate");
-
+  TRACE_ENTRY();
   stop_xrecord();
 
   abort = true;
   monitor_thread->join();
-
-  TRACE_EXIT();
 }
 
 void
 RecordInputMonitor::run()
 {
-  TRACE_ENTER("RecordInputMonitor::run");
-
+  TRACE_ENTRY();
   error_trap_enter();
 
   if (XRecordEnableContext(xrecord_datalink, xrecord_context, &handle_xrecord_callback, (XPointer)this))
@@ -123,14 +118,12 @@ RecordInputMonitor::run()
       error_trap_exit();
       xrecord_datalink = nullptr;
     }
-
-  TRACE_EXIT();
 }
 
 void
 RecordInputMonitor::error_trap_enter()
 {
-#ifdef HAVE_APP_GTK
+#if defined(HAVE_APP_GTK)
   gdk_x11_display_error_trap_push(gdk_display_get_default());
 #else
   old_handler = XSetErrorHandler(&errorHandler);
@@ -140,7 +133,7 @@ RecordInputMonitor::error_trap_enter()
 void
 RecordInputMonitor::error_trap_exit()
 {
-#ifdef HAVE_APP_GTK
+#if defined(HAVE_APP_GTK)
   gdk_display_flush(gdk_display_get_default());
   gdk_x11_display_error_trap_pop_ignored(gdk_display_get_default());
 #else
@@ -158,7 +151,7 @@ RecordInputMonitor::handle_xrecord_key_event(XRecordInterceptData *data)
 void
 RecordInputMonitor::handle_xrecord_motion_event(XRecordInterceptData *data)
 {
-  TRACE_ENTER("RecordInputMonitor::handle_xrecord_motion_event");
+  TRACE_ENTRY();
   auto *event = (xEvent *)data->data;
 
   if (event != nullptr)
@@ -172,7 +165,6 @@ RecordInputMonitor::handle_xrecord_motion_event(XRecordInterceptData *data)
     {
       fire_action();
     }
-  TRACE_EXIT();
 }
 
 void
@@ -250,7 +242,7 @@ RecordInputMonitor::handle_xrecord_device_button_event(XRecordInterceptData *dat
 void
 RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData *data)
 {
-  TRACE_ENTER("RecordInputMonitor::handle_xrecord_callback");
+  TRACE_ENTRY();
   xEvent *event;
   auto *monitor = (RecordInputMonitor *)closure;
 
@@ -274,7 +266,7 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
         monitor->handle_xrecord_motion_event(data);
       else if (xi_event_base != 0)
         {
-          TRACE_MSG("msg " << (int)event->u.u.type << " " << xi_event_base << " " << XI_DeviceMotionNotify);
+          TRACE_MSG("msg {} {}", (int)event->u.u.type, xi_event_base, XI_DeviceMotionNotify);
           if (event->u.u.type == xi_event_base + XI_DeviceMotionNotify)
             {
               monitor->handle_xrecord_device_motion_event(data);
@@ -300,14 +292,13 @@ RecordInputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptDa
     {
       XRecordFreeData(data);
     }
-  TRACE_EXIT();
 }
 
 //! Initialize the XRecord monitoring.
 bool
 RecordInputMonitor::init_xrecord()
 {
-  TRACE_ENTER("RecordInputMonitor::init_xrecord");
+  TRACE_ENTRY();
   bool use_xrecord = false;
   int major, minor;
 
@@ -366,8 +357,7 @@ RecordInputMonitor::init_xrecord()
         }
     }
 
-  TRACE_MSG("use_xrecord= " << use_xrecord);
-  TRACE_EXIT();
+  TRACE_MSG("use_xrecord= {}", use_xrecord);
   return use_xrecord;
 }
 
@@ -375,14 +365,12 @@ RecordInputMonitor::init_xrecord()
 bool
 RecordInputMonitor::stop_xrecord()
 {
-  TRACE_ENTER("RecordInputMonitor::stop_xrecord");
-
+  TRACE_ENTRY();
   XRecordDisableContext(xrecord_datalink, xrecord_context);
   XRecordFreeContext(x11_display, xrecord_context);
   XFlush(xrecord_datalink);
   XCloseDisplay(x11_display);
   x11_display = nullptr;
 
-  TRACE_EXIT();
   return true;
 }

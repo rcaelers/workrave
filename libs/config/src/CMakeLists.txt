@@ -1,4 +1,4 @@
-add_library(workrave-libs-config STATIC 
+add_library(workrave-libs-config STATIC
   Configurator.cc
   ConfiguratorFactory.cc
   IniConfigurator.cc
@@ -8,8 +8,8 @@ add_library(workrave-libs-config STATIC
 target_code_coverage(workrave-libs-config)
 
 if (PLATFORM_OS_WINDOWS)
-  target_sources(workrave-libs-config PRIVATE win32/W32Configurator.cc)
-  target_include_directories(workrave-libs-config PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/win32)
+  target_sources(workrave-libs-config PRIVATE windows/W32Configurator.cc)
+  target_include_directories(workrave-libs-config PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/windows)
 elseif (PLATFORM_OS_MACOS)
   target_sources(workrave-libs-config PRIVATE macos/MacOSConfigurator.cc)
   target_include_directories(workrave-libs-config PRIVATE ${CMAKE_SOURCE_DIR}/libs/config/src/macos)
@@ -24,14 +24,16 @@ endif()
 
 if (HAVE_GSETTINGS)
   target_sources(workrave-libs-config PRIVATE GSettingsConfigurator.cc)
+  target_include_directories(workrave-libs-config PRIVATE ${GLIB_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(workrave-libs-config PRIVATE workrave-libs-utils)
+target_link_libraries(workrave-libs-config PRIVATE workrave-libs-utils Boost::boost)
 
 target_include_directories(workrave-libs-config
   PRIVATE
   ${CMAKE_SOURCE_DIR}/libs/config/src
   ${CMAKE_SOURCE_DIR}/libs/config/include/config
   PUBLIC
-  ${CMAKE_SOURCE_DIR}/libs/config/include)
+  ${CMAKE_SOURCE_DIR}/libs/config/include
+  ${Boost_INCLUDE_DIR})
 

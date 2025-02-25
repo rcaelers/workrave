@@ -3,9 +3,7 @@ if (HAVE_MATE)
 set(APPLETBINDIR "${LIBDIR}/mate-applets")
 set(UIDIR        "${DATADIR}/mate-panel/ui")
 
-set(LOCATION   "${CMAKE_INSTALL_PREFIX}/${APPLETBINDIR}/workrave-applet")
-set(IN_PROCESS true)
-set(VERSION    ${PACKAGE_VERSION})
+set(LOCATION "${CMAKE_INSTALL_PREFIX}/${APPLETBINDIR}/workrave-applet")
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/org.workrave.WorkraveApplet.mate-panel-applet.in.in
@@ -17,7 +15,7 @@ intltool_merge_desktop(
   ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel-applet)
 add_custom_target(generate_mate_panel_applet ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/org.workrave.WorkraveApplet.mate-panel-applet)
 
-set(SRC main-gtk3.c)
+set(SRC main.c)
 
 install(FILES workrave-menu.xml DESTINATION ${UIDIR})
 
@@ -38,14 +36,14 @@ target_link_libraries(mate-workrave-applet
 
 target_include_directories(mate-workrave-applet
   PRIVATE
-  ${CMAKE_SOURCE_DIR}/ui/common/include
+  ${CMAKE_SOURCE_DIR}/ui/libs/commonui/include
   ${MATE_INCLUDE_DIRS}
   )
 
 target_compile_definitions(mate-workrave-applet
   PRIVATE
-  -DWORKRAVE_MENU_UI_DIR="${UIDIR}"
-  -DGNOMELOCALEDIR="${DATADIR}/locale"
-	-DMATELOCALEDIR="${DATADIR}/locale"
+  -DWORKRAVE_MENU_UI_DIR="${CMAKE_INSTALL_PREFIX}/${UIDIR}"
+  -DGNOMELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale"
+  -DMATELOCALEDIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}/locale"
   )
 endif()

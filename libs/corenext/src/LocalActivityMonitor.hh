@@ -1,6 +1,4 @@
-// LocalActivityMonitor.hh --- LocalActivityMonitor functionality
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,14 +24,16 @@
 #include "IActivityMonitor.hh"
 
 #include "config/Config.hh"
-#include "utils/ScopedConnections.hh"
 #include "utils/TimeSource.hh"
+#include "utils/Signals.hh"
+#include "utils/Enum.hh"
 #include "input-monitor/IInputMonitor.hh"
 #include "input-monitor/IInputMonitorListener.hh"
 
 class LocalActivityMonitor
   : public IActivityMonitor
   , public workrave::input_monitor::IInputMonitorListener
+  , public workrave::utils::Trackable
 {
 public:
   LocalActivityMonitor(workrave::config::IConfigurator::Ptr config, const char *display_name);
@@ -118,7 +118,19 @@ private:
   //! Activity listener.
   IActivityMonitorListener::Ptr listener;
 
-  scoped_connections connections;
+  friend struct workrave::utils::enum_traits<LocalActivityMonitor::LocalActivityMonitorState>;
+};
+
+template<>
+struct workrave::utils::enum_traits<LocalActivityMonitor::LocalActivityMonitorState>
+{
+  static constexpr std::array<std::pair<std::string_view, LocalActivityMonitor::LocalActivityMonitorState>, 6> names{
+    {{"unknown", LocalActivityMonitor::ACTIVITY_MONITOR_UNKNOWN},
+     {"suspended", LocalActivityMonitor::ACTIVITY_MONITOR_SUSPENDED},
+     {"idle", LocalActivityMonitor::ACTIVITY_MONITOR_IDLE},
+     {"forced-idle", LocalActivityMonitor::ACTIVITY_MONITOR_FORCED_IDLE},
+     {"noise", LocalActivityMonitor::ACTIVITY_MONITOR_NOISE},
+     {"active", LocalActivityMonitor::ACTIVITY_MONITOR_ACTIVE}}};
 };
 
 #endif // LOCALACTIVITYMONITOR_HH

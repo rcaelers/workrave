@@ -1,5 +1,3 @@
-// System.cc
-//
 // Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
 // Copyright (C) 2014 Mateusz Jończyk
 // All rights reserved.
@@ -37,16 +35,12 @@
 #include <cstdio>
 #include <cstring>
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
 #include <algorithm>
 #include <iostream>
-
-#if defined(HAVE_STRINGS_H)
-#  include <strings.h>
-#endif
 
 #include "session/System.hh"
 #include "debug.hh"
@@ -68,10 +62,6 @@
 #  include "W32LockScreen.hh"
 #endif
 
-#if defined(HAVE_UNIX)
-#  include <sys/wait.h>
-#endif
-
 std::vector<IScreenLockMethod *> System::lock_commands;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
@@ -86,8 +76,7 @@ GDBusConnection *System::system_connection = nullptr;
 void
 System::init_DBus()
 {
-  TRACE_ENTER("System::init_dbus()");
-
+  TRACE_ENTRY();
   GError *error = nullptr;
   session_connection = g_bus_get_sync(G_BUS_TYPE_SESSION, nullptr, &error);
   if (error != nullptr)
@@ -105,8 +94,6 @@ System::init_DBus()
       g_error_free(error);
       error = nullptr;
     }
-
-  TRACE_EXIT();
 }
 
 bool
@@ -116,33 +103,34 @@ System::add_DBus_lock_cmd(const char *dbus_name,
                           const char *dbus_lock_method,
                           const char *dbus_method_to_check_existence)
 {
-  TRACE_ENTER_MSG("System::add_DBus_lock_cmd", dbus_name);
+  TRACE_ENTRY_PAR(dbus_name);
 
   // I wish we could use std::move here
   IScreenLockMethod *lock_method = nullptr;
-  lock_method =
-    new ScreenLockDBus(session_connection, dbus_name, dbus_path, dbus_interface, dbus_lock_method, dbus_method_to_check_existence);
+  lock_method = new ScreenLockDBus(session_connection,
+                                   dbus_name,
+                                   dbus_path,
+                                   dbus_interface,
+                                   dbus_lock_method,
+                                   dbus_method_to_check_existence);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
       lock_method = nullptr;
-      TRACE_RETURN(false);
+      TRACE_VAR(false);
       return false;
     }
-  else
-    {
-      lock_commands.push_back(lock_method);
-      TRACE_RETURN(true);
-      return true;
-    }
+
+  lock_commands.push_back(lock_method);
+  TRACE_VAR(true);
+  return true;
 }
 
 void
 System::init_DBus_lock_commands()
 {
-  TRACE_ENTER("System::init_DBus_lock_commands");
-
-  if (session_connection)
+  TRACE_ENTRY();
+  if (session_connection != nullptr)
     {
       //  Unity:
       //    - Gnome screensaver API + gnome-screensaver-command works,
@@ -199,17 +187,18 @@ System::init_DBus_lock_commands()
       add_DBus_lock_cmd("org.kde.ksmserver", "/ScreenSaver", "org.freedesktop.ScreenSaver", "Lock", "GetActive");
 
       // EFL:
-      add_DBus_lock_cmd(
-        "org.enlightenment.wm.service", "/org/enlightenment/wm/RemoteObject", "org.enlightenment.wm.Desktop", "Lock", nullptr);
+      add_DBus_lock_cmd("org.enlightenment.wm.service",
+                        "/org/enlightenment/wm/RemoteObject",
+                        "org.enlightenment.wm.Desktop",
+                        "Lock",
+                        "GetVirtualCount");
     }
-  TRACE_EXIT();
 }
 
 void
 System::add_DBus_system_state_command(ISystemStateChangeMethod *method)
 {
-  TRACE_ENTER("System::add_DBus_system_state_command");
-
+  TRACE_ENTRY();
   if (method->canDoAnything())
     {
       system_state_commands.push_back(method);
@@ -220,15 +209,13 @@ System::add_DBus_system_state_command(ISystemStateChangeMethod *method)
       delete method;
       TRACE_MSG("DBus service is useless");
     }
-
-  TRACE_EXIT();
 }
 
 void
 System::init_DBus_system_state_commands()
 {
-  TRACE_ENTER("System::init_DBus_system_state_commands");
-  if (system_connection)
+  TRACE_ENTRY();
+  if (system_connection != nullptr)
     {
       // These three DBus interfaces are too diverse
       // to implement support for them in one class
@@ -256,9 +243,7 @@ System::init_DBus_system_state_commands()
       //        system("C:\\WINDOWS\\System32\\shutdown -s");
       //    win7
       //        system("C:\\WINDOWS\\System32\\shutdown /s");
-#    undef ADD_DBUS_SERVICE
     }
-  TRACE_EXIT();
 }
 
 #  endif // HAVE_DBUS_GIO
@@ -266,26 +251,26 @@ System::init_DBus_system_state_commands()
 void
 System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, bool async)
 {
-  TRACE_ENTER_MSG("System::add_cmdline_lock_cmd", command_name);
+  TRACE_ENTRY_PAR(command_name);
   IScreenLockMethod *lock_method = nullptr;
   lock_method = new ScreenLockCommandline(command_name, parameters, async);
   if (!lock_method->is_lock_supported())
     {
       delete lock_method;
       lock_method = nullptr;
-      TRACE_RETURN(false);
+      TRACE_VAR(false);
     }
   else
     {
       lock_commands.push_back(lock_method);
-      TRACE_RETURN(true);
+      TRACE_VAR(true);
     }
 }
 
 void
 System::init_cmdline_lock_commands(const char *display)
 {
-  TRACE_ENTER_MSG("System::init_cmdline_lock_commands", display);
+  TRACE_ENTRY_PAR(display);
 
   // Works: XFCE, i3, LXDE
   add_cmdline_lock_cmd("gnome-screensaver-command", "--lock", false);
@@ -320,8 +305,6 @@ System::init_cmdline_lock_commands(const char *display)
     {
       add_cmdline_lock_cmd("xlock", nullptr, true);
     }
-
-  TRACE_EXIT();
 }
 
 #endif // PLATFORM_OS_UNIX
@@ -331,7 +314,7 @@ System::init_cmdline_lock_commands(const char *display)
 void
 System::init_windows_lock_commands()
 {
-  TRACE_ENTER("System::init_DBus_lock_commands");
+  TRACE_ENTRY();
   IScreenLockMethod *winLock = new W32LockScreen();
   if (winLock->is_lock_supported())
     {
@@ -340,16 +323,14 @@ System::init_windows_lock_commands()
   else
     {
       delete winLock;
-      winLock = NULL;
+      winLock = nullptr;
     }
-  TRACE_EXIT();
 }
 
 void
 System::init_windows_system_state_commands()
 {
-  TRACE_ENTER("System::init_DBus_system_state_commands");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 #endif // PLATFORM_OS_WINDOWS
@@ -357,71 +338,69 @@ System::init_windows_system_state_commands()
 bool
 System::lock_screen()
 {
-  TRACE_ENTER("System::lock");
-
+  TRACE_ENTRY();
   for (auto &lock_command: lock_commands)
     {
       if (lock_command->lock())
         {
-          TRACE_RETURN(true);
+          TRACE_VAR(true);
           return true;
         }
     }
 
-  TRACE_RETURN(false);
+  TRACE_VAR(false);
   return false;
 }
 
 bool
 System::execute(SystemOperation::SystemOperationType type)
 {
-  TRACE_ENTER("System::execute");
+  TRACE_ENTRY();
   if (type == SystemOperation::SYSTEM_OPERATION_NONE)
     {
       return false;
     }
-  else if (type == SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
+
+  if (type == SystemOperation::SYSTEM_OPERATION_LOCK_SCREEN)
     {
       return lock_screen();
     }
-  else
+
+  for (auto &system_state_command: system_state_commands)
     {
-      for (auto &system_state_command: system_state_commands)
+      bool ret = false;
+      switch (type)
         {
-          bool ret = false;
-          switch (type)
-            {
-            case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
-              ret = (system_state_command->shutdown());
-              break;
-            case SystemOperation::SYSTEM_OPERATION_SUSPEND:
-              ret = (system_state_command->suspend());
-              break;
-            case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-              ret = (system_state_command->hibernate());
-              break;
-            case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-              ret = (system_state_command->suspendHybrid());
-              break;
-            default:
-              throw "System::execute: Unknown system operation";
-            }
-          if (ret)
-            {
-              TRACE_RETURN(true);
-              return true;
-            }
+        case SystemOperation::SYSTEM_OPERATION_SHUTDOWN:
+          ret = (system_state_command->shutdown());
+          break;
+        case SystemOperation::SYSTEM_OPERATION_SUSPEND:
+          ret = (system_state_command->suspend());
+          break;
+        case SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+          ret = (system_state_command->hibernate());
+          break;
+        case SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+          ret = (system_state_command->suspendHybrid());
+          break;
+        default:
+          throw "System::execute: Unknown system operation";
+        }
+      if (ret)
+        {
+          TRACE_VAR(true);
+          return true;
         }
     }
-  TRACE_RETURN(false);
+
+  TRACE_VAR(false);
   return false;
 }
 
 void
 System::init()
 {
-  TRACE_ENTER("System::init");
-
+  TRACE_ENTRY();
 #if defined(PLATFORM_OS_UNIX)
   std::string display = workrave::utils::Platform::get_default_display_name();
 #endif
@@ -466,23 +445,20 @@ System::init()
     }
 
   std::sort(supported_system_operations.begin(), supported_system_operations.end());
-
-  TRACE_EXIT();
 }
 
 void
 System::clear()
 {
-  for (std::vector<IScreenLockMethod *>::iterator iter = lock_commands.begin(); iter != lock_commands.end(); ++iter)
+  for (auto &lock_command: lock_commands)
     {
-      delete *iter;
+      delete lock_command;
     }
   lock_commands.clear();
 
-  for (std::vector<ISystemStateChangeMethod *>::iterator iter = system_state_commands.begin(); iter != system_state_commands.end();
-       ++iter)
+  for (auto &system_state_command: system_state_commands)
     {
-      delete *iter;
+      delete system_state_command;
     }
   system_state_commands.clear();
 

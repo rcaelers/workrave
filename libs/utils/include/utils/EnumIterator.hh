@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Rob Caelers
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 #include <boost/iterator/iterator_categories.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
-
-#include <iostream>
 
 namespace workrave::utils
 {
@@ -141,7 +139,8 @@ namespace workrave::utils
   template<typename Enum>
   constexpr auto enum_range() noexcept
   {
-    return boost::make_iterator_range(enum_iterator<Enum>{enum_min_value<Enum>()}, enum_iterator<Enum>{enum_max_value<Enum>() + 1});
+    return boost::make_iterator_range(enum_iterator<Enum>{enum_min_value<Enum>()},
+                                      enum_iterator<Enum>{enum_max_value<Enum>() + 1});
   }
 
   template<typename Enum>

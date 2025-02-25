@@ -1,5 +1,3 @@
-// Core.hh --- The main controller
-//
 // Copyright (C) 2001 - 2012 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,19 +21,10 @@
 #include <cstdio>
 #include <sys/stat.h>
 #include <sys/types.h>
-#if STDC_HEADERS
-#  include <cstddef>
-#  include <cstdlib>
-#else
-#  if HAVE_STDLIB_H
-#    include <stdlib.h>
-#  endif
-#endif
-#if HAVE_UNISTD_H
-#  include <unistd.h>
-#endif
+#include <cstddef>
+#include <cstdlib>
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -44,7 +33,6 @@
 #include <map>
 
 #include "Break.hh"
-#include "core/IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "core/ICore.hh"
 #include "core/ICoreEventListener.hh"
@@ -59,42 +47,22 @@
 
 using namespace workrave;
 
-// Forward declarion of external interface.
-namespace workrave
-{
-  class ISoundPlayer;
-  class IApp;
-  class INetwork;
-} // namespace workrave
-
 class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
 
-#ifdef HAVE_DISTRIBUTION
-#  include "DistributionManager.hh"
-#  include "IDistributionClientMessage.hh"
-#  include "DistributionListener.hh"
-#endif
-
 class Core
-  :
-#ifdef HAVE_DISTRIBUTION
-  public IDistributionClientMessage
-  , public DistributionListener
-  ,
-#endif
-  public ICore
+  : public ICore
   , public workrave::config::IConfiguratorListener
-  , public IBreakResponse
 {
 public:
   Core();
   ~Core() override;
 
+  static void set_configurator(workrave::config::IConfigurator::Ptr configurator);
   static Core *get_instance();
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   static void reset_instance();
 #endif
 
@@ -106,14 +74,11 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id) override;
   Break *get_break(std::string name) override;
-  workrave::config::IConfigurator::Ptr get_configurator() const override;
   IActivityMonitor::Ptr get_activity_monitor() const;
   bool is_user_active() const override;
+  bool is_taking() const override;
   std::string get_break_stage(BreakId id);
 
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *get_distribution_manager() const override;
-#endif
   Statistics *get_statistics() const override;
   void set_core_events_listener(ICoreEventListener *l) override;
   void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) override;
@@ -123,10 +88,11 @@ public:
   int64_t get_time() const override;
   void post_event(CoreEvent event) override;
 
-  OperationMode get_operation_mode() override;
-  OperationMode get_operation_mode_regular() override;
+  OperationMode get_active_operation_mode() override;
+  OperationMode get_regular_operation_mode() override;
   bool is_operation_mode_an_override() override;
   void set_operation_mode(OperationMode mode) override;
+  void set_operation_mode_for(OperationMode mode, std::chrono::minutes duration) override;
   void set_operation_mode_override(OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
 
@@ -156,15 +122,14 @@ public:
   void get_timer_idle(BreakId id, int *value);
   void get_timer_overdue(BreakId id, int *value);
 
-  // BreakResponseInterface
-  void postpone_break(BreakId break_id) override;
-  void skip_break(BreakId break_id) override;
+  void postpone_break(BreakId break_id);
+  void skip_break(BreakId break_id);
 
   workrave::dbus::IDBus::Ptr get_dbus() const override;
   ICoreHooks::Ptr get_hooks() const override;
 
 private:
-#ifndef NDEBUG
+#if !defined(NDEBUG)
   enum ScriptCommand
   {
     SCRIPT_START = 1,
@@ -173,7 +138,6 @@ private:
 
   void init(int argc, char **argv, IApp *application, const char *display_name) override;
   void init_breaks();
-  void init_configurator();
   void init_monitor(const char *display_name);
   void init_distribution_manager();
   void init_bus();
@@ -200,37 +164,10 @@ private:
   void set_insist_policy(InsistPolicy p) override;
   InsistPolicy get_insist_policy() const;
 
-  void set_operation_mode_internal(OperationMode mode, bool persistent, const std::string &override_id = "");
+  void set_operation_mode_internal(OperationMode mode);
+  void check_operation_mode_auto_reset();
+  void update_active_operation_mode();
   void set_usage_mode_internal(UsageMode mode, bool persistent);
-
-#ifdef HAVE_DISTRIBUTION
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer) override;
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id, PacketBuffer &buffer) override;
-
-  bool request_break_state(PacketBuffer &buffer);
-  bool set_break_state(bool master, PacketBuffer &buffer);
-
-  bool request_timer_state(PacketBuffer &buffer) const;
-  bool set_timer_state(PacketBuffer &buffer);
-
-  bool set_monitor_state(bool master, PacketBuffer &buffer);
-
-  enum BreakControlMessage
-  {
-    BCM_POSTPONE,
-    BCM_SKIP,
-    BCM_ABORT_PRELUDE,
-    BCM_START_BREAK,
-  };
-
-  void send_break_control_message(BreakId break_id, BreakControlMessage message);
-  void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message, bool param);
-  bool set_break_control(PacketBuffer &buffer);
-
-  void signon_remote_client(std::string client_id) override;
-  void signoff_remote_client(std::string client_id) override;
-  void compute_timers();
-#endif // HAVE_DISTRIBUTION
 
 private:
   //! The one and only instance
@@ -252,7 +189,7 @@ private:
   Break breaks[workrave::BREAK_ID_SIZEOF];
 
   //! The Configurator.
-  workrave::config::IConfigurator::Ptr configurator{nullptr};
+  static workrave::config::IConfigurator::Ptr configurator;
 
   //! The activity monitor
   IActivityMonitor::Ptr monitor;
@@ -267,7 +204,7 @@ private:
   Statistics *statistics{nullptr};
 
   //! Current operation mode.
-  TracedField<OperationMode> operation_mode{"core.operation_mode", OperationMode::Normal};
+  TracedField<OperationMode> operation_mode_active{"core.operation_mode_active", OperationMode::Normal};
 
   //! The same as operation_mode unless operation_mode is an override mode.
   TracedField<OperationMode> operation_mode_regular{"core.operation_mode_regular", OperationMode::Normal};
@@ -308,22 +245,6 @@ private:
   //! Hooks to alter the backend behaviour.
   CoreHooks::Ptr hooks;
 
-#ifdef HAVE_DISTRIBUTION
-  //! The Distribution Manager
-  DistributionManager *dist_manager{nullptr};
-
-  //! State of the remote master.
-  TracedField<ActivityState> remote_state{"core.remote_state", ACTIVITY_IDLE};
-
-  //! Manager that collects idle times of all clients.
-  IdleLogManager *idlelog_manager{nullptr};
-
-#  ifndef NDEBUG
-  //! A fake activity monitor for testing puposes.
-  FakeActivityMonitor *fake_monitor{nullptr};
-#  endif
-#endif
-
   //! External activity
   std::map<std::string, int64_t> external_activity;
 
@@ -333,7 +254,7 @@ private:
   //! Usage mode changed notification.
   boost::signals2::signal<void(workrave::UsageMode)> usage_mode_changed_signal;
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   friend class Test;
 #endif
 };
@@ -350,7 +271,7 @@ Core::get_instance()
   return instance;
 }
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 inline void
 Core::reset_instance()
 {
@@ -374,6 +295,22 @@ inline bool
 Core::is_master() const
 {
   return master_node;
+}
+
+//!
+inline bool
+Core::is_taking() const
+{
+  bool taking = false;
+  for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
+    {
+      if (breaks[i].is_taking())
+        {
+          taking = true;
+        }
+    }
+
+  return taking;
 }
 
 #endif // CORE_HH

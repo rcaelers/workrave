@@ -1,5 +1,3 @@
-// DayTimePred.hh --- Daily Time Predicate
-//
 // Copyright (C) 2001, 2002, 2007, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -21,7 +19,7 @@
 #define TIMEPRED_HH
 
 #include <string>
-#include <time.h>
+#include <ctime>
 
 class TimePred
 {

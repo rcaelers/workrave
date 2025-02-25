@@ -1,5 +1,3 @@
-// DBus.hh --- DBUS interface
-//
 // Copyright (C) 2007, 2008, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -31,8 +29,6 @@
 #  include "DBusQt.hh"
 #elif defined(HAVE_DBUS_GIO)
 #  include "DBusGio.hh"
-#elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-#  include "DBusFreedesktop.hh"
 #else
 #  include "DBusDummy.hh"
 #endif
@@ -46,8 +42,6 @@ workrave::dbus::DBusFactory::create()
   return std::make_shared<workrave::dbus::DBusQt>();
 #elif defined(HAVE_DBUS_GIO)
   return std::make_shared<workrave::dbus::DBusGio>();
-#elif defined(HAVE_DBUS_FREEDESKTOP) && defined(HAVE_GLIB)
-  return std::make_shared<workrave::dbus::DBusFreeDesktop>();
 #else
   return std::make_shared<workrave::dbus::DBusDummy>();
 #endif

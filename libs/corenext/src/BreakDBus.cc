@@ -23,7 +23,7 @@
 
 #include "BreakDBus.hh"
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkraveNext.hh"
 #endif
 
@@ -40,10 +40,12 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
 {
   string break_name = CoreConfig::get_break_name(break_id);
 
-  connections.connect(break_state_model->signal_break_stage_changed(),
-                      [this](auto &&stage) { on_break_stage_changed(std::forward<decltype(stage)>(stage)); });
-  connections.connect(break_state_model->signal_break_event(),
-                      [this](auto &&event) { on_break_event(std::forward<decltype(event)>(event)); });
+  connect(break_state_model->signal_break_stage_changed(), this, [this](auto &&stage) {
+    on_break_stage_changed(std::forward<decltype(stage)>(stage));
+  });
+  connect(break_state_model->signal_break_event(), this, [this](auto &&event) {
+    on_break_event(std::forward<decltype(event)>(event));
+  });
 
   try
     {
@@ -59,7 +61,7 @@ BreakDBus::BreakDBus(BreakId break_id, BreakStateModel::Ptr break_state_model, I
 void
 BreakDBus::on_break_event(BreakEvent event)
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
   if (iface != nullptr)
     {
@@ -75,10 +77,10 @@ BreakDBus::on_break_stage_changed(BreakStage stage)
   (void)stage;
   (void)break_id;
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   std::string progress = Break::get_stage_text(stage);
 
-  if (progress != "")
+  if (!progress.empty())
     {
       org_workrave_BreakInterface *iface = org_workrave_BreakInterface::instance(dbus);
       if (iface != nullptr)

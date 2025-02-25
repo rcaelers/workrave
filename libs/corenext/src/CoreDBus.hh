@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Rob Caelers
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,13 @@
 #define COREDBUS_HH
 
 #include "dbus/IDBus.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "CoreModes.hh"
 
 #include <string>
 
-class CoreDBus
+class CoreDBus : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<CoreDBus>;
@@ -33,12 +33,11 @@ public:
   CoreDBus(CoreModes::Ptr modes, workrave::dbus::IDBus::Ptr dbus);
 
 private:
-  void on_operation_mode_changed(const workrave::OperationMode m);
-  void on_usage_mode_changed(const workrave::UsageMode m);
+  void on_operation_mode_changed(workrave::OperationMode operation_mode);
+  void on_usage_mode_changed(workrave::UsageMode usage_mode);
 
 private:
   workrave::dbus::IDBus::Ptr dbus;
-  scoped_connections connections;
 };
 
 #endif // COREDBUS_HH

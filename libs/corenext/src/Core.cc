@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#ifdef PLATFORM_OS_MACOS
+#if defined(PLATFORM_OS_MACOS)
 #  include "MacOSHelpers.hh"
 #endif
 
@@ -34,6 +34,7 @@
 #include "utils/TimeSource.hh"
 #include "input-monitor/InputMonitorFactory.hh"
 
+#include "utils/Paths.hh"
 #include "utils/AssetPath.hh"
 #include "core/IApp.hh"
 #include "Break.hh"
@@ -41,7 +42,7 @@
 #include "Statistics.hh"
 
 #include "dbus/DBusFactory.hh"
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkraveNext.hh"
 #  define DBUS_PATH_WORKRAVE "/org/workrave/Workrave/"
 #  define DBUS_SERVICE_WORKRAVE "org.workrave.Workrave"
@@ -54,29 +55,26 @@ using namespace workrave::dbus;
 using namespace workrave::utils;
 
 ICore::Ptr
-CoreFactory::create()
+CoreFactory::create(workrave::config::IConfigurator::Ptr configurator)
 {
-  return std::make_shared<Core>();
+  return std::make_shared<Core>(configurator);
 }
 
-Core::Core()
+Core::Core(workrave::config::IConfigurator::Ptr configurator)
+  : configurator(configurator)
 {
-  TRACE_ENTER("Core::Core");
+  TRACE_ENTRY();
   hooks = std::make_shared<CoreHooks>();
   TimeSource::sync();
-  TRACE_EXIT();
 }
 
 Core::~Core()
 {
-  TRACE_ENTER("Core::~Core");
-
+  TRACE_ENTRY();
   if (monitor)
     {
       monitor->terminate();
     }
-
-  TRACE_EXIT();
 }
 
 void
@@ -84,12 +82,12 @@ Core::init(IApp *app, const char *display_name)
 {
   application = app;
 
+  CoreConfig::init(configurator);
+
   dbus = DBusFactory::create();
   dbus->init();
 
-  init_configurator();
-
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   if (hooks->hook_create_monitor())
     {
       monitor = hooks->hook_create_monitor()();
@@ -116,79 +114,11 @@ Core::init(IApp *app, const char *display_name)
   init_bus();
 }
 
-void
-Core::init_configurator()
-{
-  string ini_file = AssetPath::complete_directory("workrave.ini", AssetPath::SEARCH_PATH_CONFIG);
-
-#ifdef HAVE_TESTS
-  if (hooks->hook_create_configurator())
-    {
-      configurator = hooks->hook_create_configurator()();
-    }
-#endif
-
-  // LCOV_EXCL_START
-  if (!configurator)
-    {
-      if (std::filesystem::is_regular_file(ini_file))
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-          configurator->load(ini_file);
-        }
-      else
-        {
-          configurator = ConfiguratorFactory::create(ConfigFileFormat::Native);
-
-          if (configurator == nullptr)
-            {
-              string configFile = AssetPath::complete_directory("config.xml", AssetPath::SEARCH_PATH_CONFIG);
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Xml);
-
-              if (configurator)
-                {
-#if defined(PLATFORM_OS_UNIX)
-                  if (configFile.empty() || configFile == "config.xml")
-                    {
-                      configFile = AssetPath::get_home_directory() + "config.xml";
-                    }
-#endif
-                  if (!configFile.empty())
-                    {
-                      configurator->load(configFile);
-                    }
-                }
-            }
-
-          if (configurator == nullptr)
-            {
-              ini_file = AssetPath::get_home_directory() + "workrave.ini";
-              configurator = ConfiguratorFactory::create(ConfigFileFormat::Ini);
-
-              if (configurator)
-                {
-                  configurator->load(ini_file);
-                  configurator->save(ini_file);
-                }
-            }
-        }
-    }
-
-  CoreConfig::init(configurator);
-
-  string home = CoreConfig::general_datadir()();
-  if (!home.empty())
-    {
-      AssetPath::set_home_directory(home);
-    }
-  // LCOV_EXCL_STOP
-}
-
 //! Initializes the communication bus.
 void
 Core::init_bus()
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   try
     {
       extern void init_DBusWorkraveNext(IDBus::Ptr dbus);
@@ -208,17 +138,12 @@ Core::init_bus()
 void
 Core::heartbeat()
 {
-  TRACE_ENTER("Core::heartbeat");
-
+  TRACE_ENTRY();
   TimeSource::sync();
 
-  // Process configuration
   configurator->heartbeat();
-
-  // Process breaks
   breaks_control->heartbeat();
-
-  TRACE_EXIT();
+  core_modes->heartbeat();
 }
 
 /********************************************************************************/
@@ -244,9 +169,25 @@ Core::force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint)
   breaks_control->force_break(id, break_hint);
 }
 
+//!
+bool
+Core::is_taking() const
+{
+  bool taking = false;
+  for (BreakId break_id = BREAK_ID_MICRO_BREAK; break_id < BREAK_ID_SIZEOF; break_id++)
+    {
+      if (get_break(break_id)->is_taking())
+        {
+          taking = true;
+        }
+    }
+
+  return taking;
+}
+
 //! Returns the specified break controller.
 IBreak::Ptr
-Core::get_break(BreakId id)
+Core::get_break(BreakId id) const
 {
   return breaks_control->get_break(id);
 }
@@ -256,13 +197,6 @@ IStatistics::Ptr
 Core::get_statistics() const
 {
   return statistics;
-}
-
-//! Returns the configurator.
-IConfigurator::Ptr
-Core::get_configurator() const
-{
-  return configurator;
 }
 
 //!
@@ -287,16 +221,16 @@ Core::is_user_active() const
 
 //! Retrieves the operation mode.
 OperationMode
-Core::get_operation_mode()
+Core::get_active_operation_mode()
 {
-  return core_modes->get_operation_mode();
+  return core_modes->get_active_operation_mode();
 }
 
 //! Retrieves the regular operation mode.
 OperationMode
-Core::get_operation_mode_regular()
+Core::get_regular_operation_mode()
 {
-  return core_modes->get_operation_mode_regular();
+  return core_modes->get_regular_operation_mode();
 }
 
 //! Checks if operation_mode is an override.
@@ -311,6 +245,12 @@ void
 Core::set_operation_mode(OperationMode mode)
 {
   core_modes->set_operation_mode(mode);
+}
+
+void
+Core::set_operation_mode_for(OperationMode mode, std::chrono::minutes duration)
+{
+  core_modes->set_operation_mode_for(mode, duration);
 }
 
 //! Temporarily overrides the operation mode.
@@ -363,8 +303,8 @@ Core::force_idle()
 void
 Core::set_powersave(bool down)
 {
-  TRACE_ENTER_MSG("Core::set_powersave", down);
-  TRACE_MSG(powersave << " " << core_modes->get_operation_mode());
+  TRACE_ENTRY_PAR(down);
+  TRACE_VAR(powersave, core_modes->get_active_operation_mode());
 
   if (down)
     {
@@ -383,7 +323,6 @@ Core::set_powersave(bool down)
       remove_operation_mode_override("powersave");
       powersave = false;
     }
-  TRACE_EXIT();
 }
 
 void

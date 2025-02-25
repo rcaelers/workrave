@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
@@ -25,6 +24,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <cstddef>
 #include <utility>
 
 #include "input-monitor/IInputMonitor.hh"
@@ -42,71 +42,64 @@ LocalActivityMonitor::LocalActivityMonitor(IConfigurator::Ptr config, const char
   : config(std::move(config))
   , display_name(display_name)
 {
-  TRACE_ENTER("LocalActivityMonitor::LocalActivityMonitor");
-  TRACE_EXIT();
+  TRACE_ENTRY();
 }
 
 //! Initializes the monitor.
 void
 LocalActivityMonitor::init()
 {
-  TRACE_ENTER("LocalActivityMonitor::init");
-
+  TRACE_ENTRY();
   InputMonitorFactory::init(config, display_name);
 
   load_config();
-  connections.add(CoreConfig::key_monitor().connect([this] { load_config(); }));
+  CoreConfig::key_monitor().connect(this, [this] { load_config(); });
 
   input_monitor = InputMonitorFactory::create_monitor(MonitorCapability::Activity);
   if (input_monitor != nullptr)
     {
       input_monitor->subscribe(this);
     }
-
-  TRACE_EXIT();
 }
 
 //! Terminates the monitor.
 void
 LocalActivityMonitor::terminate()
 {
-  TRACE_ENTER("LocalActivityMonitor::terminate");
-
+  TRACE_ENTRY();
   if (input_monitor != nullptr)
     {
       input_monitor->terminate();
     }
-
-  TRACE_EXIT();
 }
 
 //! Suspends the activity monitoring.
 void
 LocalActivityMonitor::suspend()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::suspend", state);
+  TRACE_ENTRY_PAR(state);
   lock.lock();
   state = ACTIVITY_MONITOR_SUSPENDED;
   lock.unlock();
-  TRACE_RETURN(state);
+  TRACE_VAR(state);
 }
 
 //! Resumes the activity monitoring.
 void
 LocalActivityMonitor::resume()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::resume", state);
+  TRACE_ENTRY_PAR(state);
   lock.lock();
   state = ACTIVITY_MONITOR_IDLE;
   lock.unlock();
-  TRACE_RETURN(state);
+  TRACE_VAR(state);
 }
 
 //! Forces state te be idle.
 void
 LocalActivityMonitor::force_idle()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::force_idle", state);
+  TRACE_ENTRY_PAR(state);
   lock.lock();
   if (state != ACTIVITY_MONITOR_SUSPENDED)
     {
@@ -114,7 +107,7 @@ LocalActivityMonitor::force_idle()
       last_action_time = 0;
     }
   lock.unlock();
-  TRACE_RETURN(state);
+  TRACE_VAR(state);
 }
 
 bool
@@ -127,7 +120,7 @@ LocalActivityMonitor::is_active()
 void
 LocalActivityMonitor::process_state()
 {
-  TRACE_ENTER_MSG("LocalActivityMonitor::process_state", state);
+  TRACE_ENTRY_PAR(state);
   lock.lock();
 
   // First update the state...
@@ -135,7 +128,7 @@ LocalActivityMonitor::process_state()
     {
       int64_t tv = TimeSource::get_monotonic_time_usec() - last_action_time;
 
-      TRACE_MSG("Active: " << tv << " " << idle_threshold);
+      TRACE_MSG("Active: {} {}", tv, idle_threshold);
       if (tv > idle_threshold)
         {
           // No longer active.
@@ -144,16 +137,16 @@ LocalActivityMonitor::process_state()
     }
 
   lock.unlock();
-  TRACE_RETURN(state);
+  TRACE_VAR(state);
 }
 
 //! Sets the operation parameters.
 void
 LocalActivityMonitor::set_parameters(int noise, int activity, int idle, int sensitivity)
 {
-  noise_threshold = noise * 1000;
-  activity_threshold = activity * 1000;
-  idle_threshold = idle * 1000;
+  noise_threshold = static_cast<int64_t>(noise) * 1000;
+  activity_threshold = static_cast<int64_t>(activity) * 1000;
+  idle_threshold = static_cast<int64_t>(idle) * 1000;
 
   this->sensitivity = sensitivity;
 
@@ -305,8 +298,7 @@ LocalActivityMonitor::call_listener()
 void
 LocalActivityMonitor::load_config()
 {
-  TRACE_ENTER("LocalActivityMonitor::load_config");
-
+  TRACE_ENTRY();
   int noise = CoreConfig::monitor_noise()();
   int activity = CoreConfig::monitor_activity()();
   int idle = CoreConfig::monitor_idle()();
@@ -331,10 +323,9 @@ LocalActivityMonitor::load_config()
       CoreConfig::monitor_idle().set(noise);
     }
 
-  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle << " " << sensitivity);
+  TRACE_MSG("Monitor config = {} {} {} {}", noise, activity, idle, sensitivity);
 
   set_parameters(noise, activity, idle, sensitivity);
-  TRACE_EXIT();
 }
 
 // TODO: implement somewhere else:
@@ -376,7 +367,7 @@ LocalActivityMonitor::load_config()
 // void
 // LocalActivityMonitor::report_external_activity(std::string who, bool act)
 // {
-//   TRACE_ENTER_MSG("LocalActivityMonitor::report_external_activity", who << " " << act);
+//   TRACE_ENTRY_PAR(who, act);
 //   if (act)
 //     {
 //       external_activity[who] = TimeSource::get_monotonic_time_sec() + 10;
@@ -385,5 +376,4 @@ LocalActivityMonitor::load_config()
 //     {
 //       external_activity.erase(who);
 //     }
-//   TRACE_EXIT();
-// }
+//   // }

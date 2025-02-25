@@ -1,4 +1,4 @@
-// Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
+// Copyright (C) 2007 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

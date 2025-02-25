@@ -1,0 +1,85 @@
+// Uncomment the following if using this file as your eww.scss:
+/*
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+*/
+
+.workrave, .workrave_compact {
+  background-color: #3a3a3a;
+  color: #b0b4bc;
+  border-width: 1px;
+  border-style: solid;
+  border-color: aliceblue;
+  border-radius: 6px;
+}
+
+.workrave {
+    padding: 7px;
+}
+
+.workrave_compact {
+    padding: 3px
+}
+
+.wr_prgbar_default > trough {
+    all: unset;
+    min-width: 5em;
+    background-color: white;
+    border-radius: 3px;
+}
+
+.wr_prgbar_default > trough > progress {
+    background-color: skyblue;
+    border-radius: 3px;
+}
+
+.wr_prgbar_close_to_break > trough {
+    all: unset;
+    min-width: 5em;
+    background-color: lightgrey;
+    border-radius: 3px;
+}
+
+.wr_prgbar_close_to_break > trough > progress {
+    background-color: orange;
+    border-radius: 3px;
+}
+
+.wr_prgbar_overdue > trough {
+    all: unset;
+    min-width: 5em;
+    background-color: red;
+    border-radius: 3px;
+}
+
+.wr_prgbar_disabled > trough {
+    all: unset;
+    min-width: 5em;
+    background-color: grey;
+    border-radius: 3px;
+}
+
+.wr_cprgbar_default {
+    color: skyblue;
+    background-color: grey;
+}
+
+.wr_cprgbar_close_to_break {
+    color: orange;
+    background-color: grey;
+}
+
+.wr_cprgbar_overdue {
+    color: grey;
+    background-color: red;
+}
+
+.wr_cprgbar_disabled {
+    color: grey;
+    background-color: grey;
+}
+
+.timer_label {
+    min-width: 6em;    
+}

@@ -1,4 +1,4 @@
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2021 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 //
 // All rights reserved.
@@ -27,7 +27,8 @@
 #include "config/IConfigurator.hh"
 #include "config/IConfiguratorListener.hh"
 #include "IConfigBackend.hh"
-#include "Variant.hh"
+
+#include "utils/Logging.hh"
 
 class Configurator
   : public workrave::config::IConfigurator
@@ -39,92 +40,78 @@ public:
 
   void heartbeat() override;
 
-  // IConfigurator
-  void set_delay(const std::string &name, int delay) override;
+  void set_delay(const std::string &key, int delay) override;
 
   bool load(std::string filename) override;
-  bool save(std::string filename) override;
-  bool save() override;
+  void save() override;
 
   bool has_user_value(const std::string &key) override;
 
-  bool remove_key(const std::string &key) const override;
-  bool rename_key(const std::string &key, const std::string &new_key) override;
+  void remove_key(const std::string &key) const override;
+  void rename_key(const std::string &key, const std::string &new_key) override;
 
   bool get_value(const std::string &key, std::string &out) const override;
   bool get_value(const std::string &key, bool &out) const override;
-  bool get_value(const std::string &key, int &out) const override;
+  bool get_value(const std::string &key, int32_t &out) const override;
+  bool get_value(const std::string &key, int64_t &out) const override;
   bool get_value(const std::string &key, double &out) const override;
+  std::optional<ConfigValue> get_value(const std::string &key, workrave::config::ConfigType type) const override;
 
-  void get_value_with_default(const std::string &key, std::string &out, std::string s) const override;
-  void get_value_with_default(const std::string &key, bool &out, const bool def) const override;
-  void get_value_with_default(const std::string &key, int &out, const int def) const override;
-  void get_value_with_default(const std::string &key, double &out, const double def) const override;
+  void get_value_with_default(const std::string &key, std::string &out, const std::string &def) const override;
+  void get_value_with_default(const std::string &key, bool &out, bool def) const override;
+  void get_value_with_default(const std::string &key, int32_t &out, int32_t def) const override;
+  void get_value_with_default(const std::string &key, int64_t &out, int64_t def) const override;
+  void get_value_with_default(const std::string &key, double &out, double def) const override;
 
-  bool set_value(const std::string &key,
+  void set_value(const std::string &key,
                  const std::string &v,
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key,
+  void set_value(const std::string &key,
                  const char *v,
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, int v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key, bool v, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
-  bool set_value(const std::string &key,
+  void set_value(const std::string &key,
+                 int32_t v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 int64_t v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
+                 bool v,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
+  void set_value(const std::string &key,
                  double v,
                  workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE) override;
 
   bool add_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
   bool remove_listener(workrave::config::IConfiguratorListener *listener) override;
   bool remove_listener(const std::string &key_prefix, workrave::config::IConfiguratorListener *listener) override;
-  bool find_listener(workrave::config::IConfiguratorListener *listener, std::string &key) const override;
-
-private:
-  using Listeners = std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>>;
-
-  //! Configuration change listeners.
-  Listeners listeners;
 
 private:
   struct DelayedConfig
   {
     std::string key;
-    Variant value;
+    ConfigValue value;
     int64_t until;
   };
 
-  struct Setting
-  {
-    std::string key;
-    int delay;
-  };
-
-  using DelayedList = std::map<std::string, DelayedConfig>;
-  using Settings = std::map<std::string, Setting>;
-
 private:
-  bool find_setting(const std::string &name, Setting &setting) const;
+  bool set_value(const std::string &key,
+                 ConfigValue &value,
+                 workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
 
-  bool set_value(const std::string &key, Variant &value, workrave::config::ConfigFlags flags = workrave::config::CONFIG_FLAG_NONE);
-  bool get_value(const std::string &key, VariantType type, Variant &value) const;
+  static std::string trim_key(const std::string &key);
 
   void fire_configurator_event(const std::string &key);
-  void strip_leading_slash(std::string &key) const;
-  void strip_trailing_slash(std::string &key) const;
-
   void config_changed_notify(const std::string &key) override;
 
 private:
-  //! Registered settings.
-  Settings settings;
-
-  //! Delayed settings
-  DelayedList delayed_config;
-
-  //! The backend in use.
+  std::map<std::string, int> delays;
+  std::map<std::string, DelayedConfig> delayed_config;
+  std::list<std::pair<std::string, workrave::config::IConfiguratorListener *>> listeners;
   IConfigBackend *backend{nullptr};
-
-  //! Next auto save time.
   int64_t auto_save_time{0};
+  std::string last_filename;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config")};
 };
 
 #endif // CONFIGURATOR_HH

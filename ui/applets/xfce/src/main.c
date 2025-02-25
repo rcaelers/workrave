@@ -25,9 +25,10 @@
 #include <gio/gio.h>
 
 #include "control.h"
+#include "utils.h"
 #include "commonui/credits.h"
 #include "commonui/nls.h"
-#include "commonui/MenuEnums.hh"
+#include "commonui/MenuDefs.hh"
 
 typedef struct _WorkraveApplet
 {
@@ -37,8 +38,7 @@ typedef struct _WorkraveApplet
   GtkImage *image;
   gboolean alive;
   int inhibit;
-  GtkMenuItem *menu_items[MENU_COMMAND_SIZEOF];
-
+  GHashTable *menus;
 } WorkraveApplet;
 
 static void dbus_call_finish(GDBusProxy *proxy, GAsyncResult *res, gpointer user_data);
@@ -46,164 +46,220 @@ static void on_menu_command(GtkMenuItem *menuitem, gpointer user_data);
 static void on_menu_check_changed(GtkMenuItem *item, gpointer user_data);
 static void on_menu_radio_changed(GtkMenuItem *item, gpointer user_data);
 static void on_menu_about(GtkMenuItem *item, WorkraveApplet *applet);
-static void on_menu_mode_changed(const char *mode, WorkraveApplet *applet);
+static void on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data);
+static void on_menu_item_changed(gpointer instance, GVariant *parameters, gpointer user_data);
 
-struct Menuitems
+static void
+menu_items_add(WorkraveApplet *applet, uint32_t id, GtkMenuItem *item)
 {
-  enum MenuCommand id;
-  gboolean autostart;
-  char *dbuscmd;
-};
+  uint64_t key = id;
 
-static struct Menuitems menu_data[] = {{MENU_COMMAND_OPEN, TRUE, "OpenMain"},
-                                       {MENU_COMMAND_PREFERENCES, FALSE, "Preferences"},
-                                       {MENU_COMMAND_EXERCISES, FALSE, "Exercises"},
-                                       {MENU_COMMAND_REST_BREAK, FALSE, "RestBreak"},
-                                       {MENU_COMMAND_MODE_SUBMENU, FALSE, NULL},
-                                       {MENU_COMMAND_MODE_NORMAL, FALSE, NULL},
-                                       {MENU_COMMAND_MODE_QUIET, FALSE, NULL},
-                                       {MENU_COMMAND_MODE_SUSPENDED, FALSE, NULL},
-                                       {MENU_COMMAND_NETWORK_SUBMENU, FALSE, NULL},
-                                       {MENU_COMMAND_NETWORK_CONNECT, FALSE, "NetworkConnect"},
-                                       {MENU_COMMAND_NETWORK_DISCONNECT, FALSE, "NetworkDisconnect"},
-                                       {MENU_COMMAND_NETWORK_LOG, FALSE, "NetworkLog"},
-                                       {MENU_COMMAND_NETWORK_RECONNECT, FALSE, "NetworkReconnect"},
-                                       {MENU_COMMAND_STATISTICS, FALSE, "Statistics"},
-                                       {MENU_COMMAND_ABOUT, FALSE, NULL},
-                                       {MENU_COMMAND_MODE_READING, FALSE, "ReadingMode"},
-                                       {MENU_COMMAND_QUIT, FALSE, "Quit"}};
-
-int
-lookup_menu_index_by_id(enum MenuCommand id)
-{
-  for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
-    {
-      if (menu_data[i].id == id)
-        {
-          return i;
-        }
-    }
-
-  return -1;
+#if GLIB_CHECK_VERSION(2, 68, 0)
+  g_hash_table_insert(applet->menus, g_memdup2(&key, sizeof(key)), item);
+#else
+  g_hash_table_insert(applet->menus, g_memdup(&key, sizeof(key)), item);
+#endif
 }
 
-int
-lookup_menu_index_by_menu_item(WorkraveApplet *applet, GtkMenuItem *item)
-{
-  for (int i = 0; i < MENU_COMMAND_SIZEOF; i++)
-    {
-      if (applet->menu_items[i] == item)
-        {
-          return lookup_menu_index_by_id(i);
-        }
-    }
+/* static void */
+/* menu_items_remove_all(WorkraveApplet *applet) */
+/* { */
+/*   g_hash_table_remove_all(applet->menus); */
+/* } */
 
-  return -1;
+static GtkMenuItem *
+menu_items_lookup_menu_item_by_id(WorkraveApplet *applet, uint32_t id)
+{
+  uint64_t key = id;
+  gpointer p = g_hash_table_lookup(applet->menus, &key);
+  if (p != NULL)
+    {
+      return p;
+    }
+  return NULL;
 }
 
-void
+static gboolean
+menu_items_lookup_id_by_menu_item(WorkraveApplet *applet, GtkMenuItem *item, uint32_t *id)
+{
+  GHashTableIter iter;
+  gpointer key, value;
+
+  g_hash_table_iter_init(&iter, applet->menus);
+  while (g_hash_table_iter_next(&iter, &key, &value))
+    {
+      if (value == item)
+        {
+          *id = *((uint64_t *)key);
+          return TRUE;
+        }
+    }
+  return FALSE;
+}
+
+static void
 on_alive_changed(gpointer instance, gboolean alive, gpointer user_data)
 {
   WorkraveApplet *applet = (WorkraveApplet *)user_data;
   applet->alive = alive;
 
-  if (!alive)
+  if (alive)
     {
-      for (int i = 0; i < sizeof(menu_data) / sizeof(struct Menuitems); i++)
+      GVariant *menus = workrave_timerbox_control_get_menus(applet->timerbox_control);
+      on_menu_changed(NULL, menus, user_data);
+      g_variant_unref(menus);
+    }
+  else
+    {
+      GHashTableIter iter;
+      gpointer key, value;
+      g_hash_table_iter_init(&iter, applet->menus);
+      while (g_hash_table_iter_next(&iter, &key, &value))
         {
-          GtkMenuItem *item = applet->menu_items[i];
-          if (item != NULL)
-            {
-              gtk_widget_set_visible(GTK_WIDGET(item), FALSE);
-            }
+          gtk_widget_hide(GTK_WIDGET(value));
         }
+      // TODO: get this to work reliably
+      // xfce_panel_plugin_menu_destroy(applet->plugin);
     }
 }
 
-void
+static void
+update_menu_item(WorkraveApplet *applet, GtkMenuItem *item, char *text, uint8_t flags)
+{
+  applet->inhibit++;
+  if (GTK_IS_CHECK_MENU_ITEM(item))
+    {
+      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), flags & MENU_ITEM_FLAG_ACTIVE);
+    }
+  gtk_widget_set_visible(GTK_WIDGET(item), (flags & MENU_ITEM_FLAG_VISIBLE));
+  gtk_menu_item_set_label(GTK_MENU_ITEM(item), text);
+
+  applet->inhibit--;
+  gtk_widget_show(GTK_WIDGET(item));
+}
+
+static void
 on_menu_changed(gpointer instance, GVariant *parameters, gpointer user_data)
 {
   WorkraveApplet *applet = (WorkraveApplet *)user_data;
 
+  // TODO: get this to work reliably
+  /* if (g_hash_table_size (applet->menus) > 0) */
+  /*   { */
+  /*     xfce_panel_plugin_menu_destroy(applet->plugin); */
+  /*     menu_items_remove_all(applet); */
+  /*   } */
+
   GVariantIter *iter;
-  g_variant_get(parameters, "(a(sii))", &iter);
+  g_variant_get(parameters, "(a(sssuyy))", &iter);
 
   char *text;
-  int id;
-  int flags;
+  char *dynamic_text;
+  char *action;
+  uint32_t id;
+  uint8_t type;
+  uint8_t flags;
 
   GSList *radio_group = NULL;
   GtkWidget *menu = NULL;
-  while (g_variant_iter_loop(iter, "(sii)", &text, &id, &flags))
+  while (g_variant_iter_loop(iter, "(sssuyy)", &text, &dynamic_text, &action, &id, &type, &flags))
     {
-      int index = lookup_menu_index_by_id((enum MenuCommand)id);
-      if (index == -1)
+      gchar *label;
+      gchar shortcut;
+      workrave_extract_shortcut(text, &label, &shortcut);
+
+      GtkMenuItem *item = menu_items_lookup_menu_item_by_id(applet, id);
+      if (item != NULL && type != MENU_ITEM_TYPE_SUBMENU_END && type != MENU_ITEM_TYPE_RADIOGROUP_END)
         {
+          update_menu_item(applet, item, label, flags);
           continue;
         }
 
-      GtkMenuItem *item = applet->menu_items[id];
-
-      if (flags & MENU_ITEM_FLAG_SUBMENU_END)
+      if (type == MENU_ITEM_TYPE_SUBMENU_END)
         {
           radio_group = NULL;
           menu = NULL;
         }
-
-      else if (item == NULL)
+      else if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN)
         {
-          if (flags & MENU_ITEM_FLAG_SUBMENU_BEGIN)
-            {
-              menu = gtk_menu_new();
-              item = GTK_MENU_ITEM(gtk_menu_item_new_with_label(text));
-              gtk_menu_item_set_submenu(item, menu);
-            }
-          else if (flags & MENU_ITEM_FLAG_RADIO)
-            {
-              item = GTK_MENU_ITEM(gtk_radio_menu_item_new_with_label(radio_group, text));
-              radio_group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(item));
-              g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_radio_changed), applet);
-            }
-          else if (flags & MENU_ITEM_FLAG_CHECK)
-            {
-              item = GTK_MENU_ITEM(gtk_check_menu_item_new_with_label(text));
-              g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_check_changed), applet);
-            }
-          else
-            {
-              item = GTK_MENU_ITEM(gtk_menu_item_new_with_label(text));
-              g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_command), applet);
-            }
-
-          if (item == NULL)
-            {
-              continue;
-            }
-
-          applet->menu_items[id] = item;
-          if (menu != NULL && !(flags & MENU_ITEM_FLAG_SUBMENU_BEGIN))
-            {
-              gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
-            }
-          else if (!(flags & MENU_ITEM_FLAG_SUBMENU_END))
-            {
-              xfce_panel_plugin_menu_insert_item(applet->plugin, item);
-            }
+          menu = gtk_menu_new();
+          item = GTK_MENU_ITEM(gtk_menu_item_new_with_label(label));
+          gtk_menu_item_set_submenu(item, menu);
+        }
+      else if (type == MENU_ITEM_TYPE_RADIO)
+        {
+          item = GTK_MENU_ITEM(gtk_radio_menu_item_new_with_label(radio_group, label));
+          radio_group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(item));
+          g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_radio_changed), applet);
+        }
+      else if (type == MENU_ITEM_TYPE_CHECK)
+        {
+          item = GTK_MENU_ITEM(gtk_check_menu_item_new_with_label(label));
+          g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_check_changed), applet);
+        }
+      else if (type == MENU_ITEM_TYPE_ACTION)
+        {
+          item = GTK_MENU_ITEM(gtk_menu_item_new_with_label(label));
+          g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(on_menu_command), applet);
         }
 
       if (item != NULL)
         {
+          menu_items_add(applet, id, item);
+          if (menu != NULL && type != MENU_ITEM_TYPE_SUBMENU_BEGIN)
+            {
+              gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
+            }
+          else if (type != MENU_ITEM_TYPE_SUBMENU_END)
+            {
+              xfce_panel_plugin_menu_insert_item(applet->plugin, item);
+            }
+
           applet->inhibit++;
           if (GTK_IS_CHECK_MENU_ITEM(item))
             {
               gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), flags & MENU_ITEM_FLAG_ACTIVE);
             }
           applet->inhibit--;
-          gtk_widget_show(GTK_WIDGET(item));
+          if (flags & MENU_ITEM_FLAG_VISIBLE)
+            {
+              gtk_widget_show(GTK_WIDGET(item));
+            }
         }
+
+      g_free(label);
     }
 
   g_variant_iter_free(iter);
+}
+
+static void
+on_menu_item_changed(gpointer instance, GVariant *parameters, gpointer user_data)
+{
+  WorkraveApplet *applet = (WorkraveApplet *)user_data;
+
+  char *text;
+  char *dynamic_text;
+  char *action;
+  uint32_t id;
+  uint8_t type;
+  uint8_t flags;
+
+  g_variant_get(parameters, "((sssuyy))", &text, &dynamic_text, &action, &id, &type, &flags);
+
+  gchar *label;
+  gchar shortcut;
+  workrave_extract_shortcut(text, &label, &shortcut);
+
+  GtkMenuItem *item = menu_items_lookup_menu_item_by_id(applet, id);
+  if (item != NULL)
+    {
+      update_menu_item(applet, item, label, flags);
+    }
+
+  g_free(text);
+  g_free(label);
+  g_free(action);
 }
 
 static void
@@ -235,34 +291,31 @@ on_menu_command(GtkMenuItem *item, gpointer user_data)
       return;
     }
 
-  int index = lookup_menu_index_by_menu_item(applet, item);
-  if (index == -1)
+  uint32_t id = 0;
+  gboolean valid = menu_items_lookup_id_by_menu_item(applet, item, &id);
+  if (!valid)
     {
       return;
     }
 
-  switch (menu_data[index].id)
+  if (id == MENU_COMMAND_ABOUT)
     {
-    case MENU_COMMAND_ABOUT:
       on_menu_about(item, applet);
-      break;
-
-    default:
-      {
-        GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->timerbox_control);
-        if (proxy != NULL)
-          {
-            g_dbus_proxy_call(proxy,
-                              menu_data[index].dbuscmd,
-                              NULL,
-                              menu_data[index].autostart ? G_DBUS_CALL_FLAGS_NONE : G_DBUS_CALL_FLAGS_NO_AUTO_START,
-                              -1,
-                              NULL,
-                              (GAsyncReadyCallback)dbus_call_finish,
-                              applet);
-          }
-      }
-      break;
+    }
+  else
+    {
+      GDBusProxy *proxy = workrave_timerbox_control_get_applet_proxy(applet->timerbox_control);
+      if (proxy != NULL)
+        {
+          g_dbus_proxy_call(proxy,
+                            "Command",
+                            g_variant_new("(i)", id),
+                            G_DBUS_CALL_FLAGS_NONE,
+                            -1,
+                            NULL,
+                            (GAsyncReadyCallback)dbus_call_finish,
+                            applet);
+        }
     }
 }
 
@@ -279,12 +332,12 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
                         "Workrave",
                         "program-name",
                         "Workrave",
-#ifdef WORKRAVE_GIT_VERSION
+#if defined(WORKRAVE_GIT_VERSION)
                         "version",
-                        PACKAGE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
+                        WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",
 #else
                         "version",
-                        PACKAGE_VERSION,
+                        WORKRAVE_VERSION,
 #endif
                         "copyright",
                         workrave_copyright,
@@ -315,25 +368,20 @@ on_menu_check_changed(GtkMenuItem *item, gpointer user_data)
       return;
     }
 
-  int index = lookup_menu_index_by_menu_item(applet, item);
-  if (index == -1)
+  uint32_t id = 0;
+  gboolean valid = menu_items_lookup_id_by_menu_item(applet, item, &id);
+  if (!valid)
     {
       return;
     }
 
-  gboolean new_state = FALSE;
-  if (GTK_IS_CHECK_MENU_ITEM(item))
-    {
-      new_state = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
-    }
-
-  GDBusProxy *proxy = workrave_timerbox_control_get_control_proxy(applet->timerbox_control);
+  GDBusProxy *proxy = workrave_timerbox_control_get_applet_proxy(applet->timerbox_control);
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
-                        menu_data[index].dbuscmd,
-                        g_variant_new("(b)", new_state),
-                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                        "Command",
+                        g_variant_new("(i)", id),
+                        G_DBUS_CALL_FLAGS_NONE,
                         -1,
                         NULL,
                         (GAsyncReadyCallback)dbus_call_finish,
@@ -351,42 +399,24 @@ on_menu_radio_changed(GtkMenuItem *item, gpointer user_data)
       return;
     }
 
-  int index = lookup_menu_index_by_menu_item(applet, item);
-  if (index == -1)
+  uint32_t id = 0;
+  gboolean valid = menu_items_lookup_id_by_menu_item(applet, item, &id);
+  if (!valid)
     {
       return;
     }
 
-  switch (menu_data[index].id)
-    {
-    case MENU_COMMAND_MODE_NORMAL:
-      on_menu_mode_changed("normal", applet);
-      break;
-    case MENU_COMMAND_MODE_SUSPENDED:
-      on_menu_mode_changed("suspended", applet);
-      break;
-    case MENU_COMMAND_MODE_QUIET:
-      on_menu_mode_changed("quiet", applet);
-      break;
-    default:
-      break;
-    }
-}
-
-static void
-on_menu_mode_changed(const char *mode, WorkraveApplet *applet)
-{
-  GDBusProxy *proxy = workrave_timerbox_control_get_core_proxy(applet->timerbox_control);
+  GDBusProxy *proxy = workrave_timerbox_control_get_applet_proxy(applet->timerbox_control);
   if (proxy != NULL)
     {
       g_dbus_proxy_call(proxy,
-                        "SetOperationMode",
-                        g_variant_new("(s)", mode),
-                        G_DBUS_CALL_FLAGS_NO_AUTO_START,
+                        "Command",
+                        g_variant_new("(i)", id),
+                        G_DBUS_CALL_FLAGS_NONE,
                         -1,
                         NULL,
                         (GAsyncReadyCallback)dbus_call_finish,
-                        &applet);
+                        applet);
     }
 }
 
@@ -395,14 +425,24 @@ workrave_applet_fill(WorkraveApplet *applet)
 {
   applet->timerbox_control = g_object_new(WORKRAVE_TIMERBOX_CONTROL_TYPE, NULL);
   applet->image = workrave_timerbox_control_get_image(applet->timerbox_control);
-  g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed), applet);
   g_signal_connect(G_OBJECT(applet->timerbox_control), "alive-changed", G_CALLBACK(on_alive_changed), applet);
+  g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-changed", G_CALLBACK(on_menu_changed), applet);
+  g_signal_connect(G_OBJECT(applet->timerbox_control), "menu-item-changed", G_CALLBACK(on_menu_item_changed), applet);
 
   workrave_timerbox_control_set_tray_icon_visible_when_not_running(applet->timerbox_control, TRUE);
   workrave_timerbox_control_set_tray_icon_mode(applet->timerbox_control, WORKRAVE_TIMERBOX_CONTROL_TRAY_ICON_MODE_FOLLOW);
 
   gtk_container_add(GTK_CONTAINER(applet->plugin), GTK_WIDGET(applet->image));
   gtk_widget_show_all(GTK_WIDGET(applet->plugin));
+}
+
+static void
+workrave_applet_free(XfcePanelPlugin *plugin, WorkraveApplet *applet)
+{
+  g_clear_pointer(&applet->timerbox_control, g_object_unref);
+  g_clear_pointer(&applet->menus, g_hash_table_destroy);
+
+  g_slice_free(WorkraveApplet, applet);
 }
 
 static void
@@ -415,18 +455,16 @@ workrave_applet_construct(XfcePanelPlugin *plugin)
   applet->alive = FALSE;
   applet->inhibit = 0;
 
-  for (int i = 0; i < MENU_COMMAND_SIZEOF; i++)
-    {
-      applet->menu_items[i] = NULL;
-    }
+  applet->menus = g_hash_table_new_full(g_int64_hash,
+                                        g_int64_equal,
+                                        (GDestroyNotify)g_free,
+                                        NULL); // (GDestroyNotify)g_object_unref);
 
   workrave_applet_fill(applet);
   xfce_panel_plugin_set_expand(plugin, FALSE);
   gtk_widget_show_all(GTK_WIDGET(plugin));
+
+  g_signal_connect(plugin, "free-data", G_CALLBACK(workrave_applet_free), applet);
 }
 
-#ifdef HAVE_XFCE4_GTK3
 XFCE_PANEL_PLUGIN_REGISTER(workrave_applet_construct);
-#else
-XFCE_PANEL_PLUGIN_REGISTER_EXTERNAL(workrave_applet_construct);
-#endif

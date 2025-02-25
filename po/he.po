@@ -2,1649 +2,1369 @@
 # Copyright (C) 2005 THE Workrave'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the Workrave package.
 # Haggai Eran <he3@bezeqint.net>, 2005.
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2022
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave cvs\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-05-30 12:47+0200\n"
-"PO-Revision-Date: 2011-02-16 19:23+0100\n"
-"Last-Translator: Haggai Eran <he3@bezeqint.net>\n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
+"PO-Revision-Date: 2021-12-02 15:32+0200\n"
+"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
 
-#: libs/core/src/DistributionSocketLink.cc:121
-#, c-format
-msgid "Reconnecting to %s."
-msgstr "התחברות מחדש אל %s."
-
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:408
-msgid "Could not enable network operation."
-msgstr "לא ניתן להפעיל פעילות רשת."
-
-#: libs/core/src/DistributionSocketLink.cc:417
-msgid "Disabling network operation."
-msgstr "מבטל פעילות רשת."
-
-#: libs/core/src/DistributionSocketLink.cc:523
-#: libs/core/src/DistributionSocketLink.cc:560
-#, fuzzy, c-format
-msgid "Connecting to %s."
-msgstr "מתחבר אל %s."
-
-#: libs/core/src/DistributionSocketLink.cc:675
-#: libs/core/src/DistributionSocketLink.cc:706
-#, fuzzy, c-format
-msgid "Removing client %s."
-msgstr "מסיר לקוח %s."
-
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:752
-#, fuzzy, c-format
-msgid "Disconnecting %s"
-msgstr "מנתק %s."
-
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:915
-#, fuzzy, c-format
-msgid "Client %s is now master."
-msgstr "הלקוח .%s הוא כעת השליט."
-
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:921
-msgid "I'm now master."
-msgstr "כעת אני השליט."
-
-#: libs/core/src/DistributionSocketLink.cc:1284
-#: libs/core/src/DistributionSocketLink.cc:1343
-#, fuzzy, c-format
-msgid "Client %s saying hello."
-msgstr "הלקוח %s אומר שלום."
-
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1293
-#: libs/core/src/DistributionSocketLink.cc:1373
-#, fuzzy, c-format
-msgid "Client %s access denied."
-msgstr "גישה נדחתה ללקוח %s."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1364
-#: libs/core/src/DistributionSocketLink.cc:1491
-#: libs/core/src/DistributionSocketLink.cc:1736
-#, fuzzy, c-format
-msgid "Client %s is duplicate."
-msgstr "הלקוח %s הוא כפיל."
-
-#: libs/core/src/DistributionSocketLink.cc:1443
-#, fuzzy, c-format
-msgid "Client %s signed off."
-msgstr "הלקוח %s התנתק."
-
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1527
-#, fuzzy, c-format
-msgid "Client %s is welcoming us."
-msgstr "הלקוח %s מברך אותנו."
-
-#: libs/core/src/DistributionSocketLink.cc:1769
-#, fuzzy, c-format
-msgid "Requesting master status from %s."
-msgstr "מבקש מצב שליט מ-%s."
-
-#: libs/core/src/DistributionSocketLink.cc:1782
-#, fuzzy, c-format
-msgid "Client timeout from %s."
-msgstr "זמן ההמתנה ללקוח %s עבר."
-
-#: libs/core/src/DistributionSocketLink.cc:1808
-#, fuzzy, c-format
-msgid "Rejecting master request from client %s."
-msgstr "דוחה בקשת שליט מלקוח %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1813
-#, fuzzy, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "מאשר בקשת שליט מלקוח %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1866
-#, fuzzy, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "לקוח שאינו שליט %s דחה את בקשת השליט."
-
-#: libs/core/src/DistributionSocketLink.cc:1870
-#, fuzzy, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "הלקוח %s דחה את בקשת השליט, ממתין."
-
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1944
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "הלקוח %s הוא השליט החדש."
-
-#: libs/core/src/DistributionSocketLink.cc:2072
-msgid "Network operation started."
-msgstr "פעולת רשת התחילה."
-
-#: libs/core/src/DistributionSocketLink.cc:2092
-msgid "Accepted new client."
-msgstr "התקבל לקוח חדש."
-
-#: libs/core/src/DistributionSocketLink.cc:2167
-#, fuzzy, c-format
-msgid "Client %s read error, closing."
-msgstr "שגיאה בקריאה מן הלקוח %s, סוגר."
-
-#: libs/core/src/DistributionSocketLink.cc:2172
-#: libs/core/src/DistributionSocketLink.cc:2239
-#, fuzzy, c-format
-msgid "Client %s closed connection."
-msgstr "הלקוח %s סגר את החיבור."
-
-#: libs/core/src/DistributionSocketLink.cc:2211
-#, fuzzy, c-format
-msgid "Client %s connected."
-msgstr "הלקוח %s התחבר."
-
-#: libs/core/src/DistributionSocketLink.cc:2244
-#, fuzzy, c-format
-msgid "Could not connect to client %s."
-msgstr "לא ניתן להתחבר ללקוח %s."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:219
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:211
-#: ui/applets/gnome3/src/v5/WorkraveApplet.c:221
-#: ui/applets/mate/src/main-gtk2.c:285 ui/applets/mate/src/main-gtk3.c:210
-#: ui/applets/xfce/src/main.c:297 ui/apps/gtkmm/src/Menus.cc:340
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/workrave.desktop.in:4
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave Applet"
-msgstr "ישומון Workrave"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
-#: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
-msgid "_Open"
-msgstr "_פתיחה"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:310
-#: ui/applets/mate/src/main-gtk2.c:345 ui/applets/mate/src/main-gtk3.c:309
-msgid "_Statistics"
-msgstr "_סטטיסטיקה"
-
-#. Preferences
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ui/applets/mate/src/main-gtk2.c:347 ui/applets/mate/src/main-gtk3.c:311
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:150
-msgid "_Preferences"
-msgstr "_העדפות"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:314
-#: ui/applets/mate/src/main-gtk2.c:349 ui/applets/mate/src/main-gtk3.c:313
-msgid "_Exercises"
-msgstr "_תרגילים"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:316
-#: ui/applets/mate/src/main-gtk2.c:351 ui/applets/mate/src/main-gtk3.c:315
-msgid "_Restbreak"
-msgstr "_הפסקת מנוחה"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:318
-#: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:120
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
-msgid "_Mode"
-msgstr "_מצב"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:320
-#: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:134
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Network"
-msgstr "_רשת"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:322
-#: ui/applets/mate/src/main-gtk2.c:357 ui/applets/mate/src/main-gtk3.c:321
-msgid "_Join"
-msgstr ""
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:136
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:116
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
-msgid "_Disconnect"
-msgstr "_התנתק"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:326
-#: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
-msgid "_Reconnect"
-msgstr "_התחבר מחדש"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:328
-#: ui/applets/mate/src/main-gtk2.c:363 ui/applets/mate/src/main-gtk3.c:327
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:157
-#, fuzzy
-msgid "_About"
-msgstr "_אודות..."
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:330
-#: ui/applets/mate/src/main-gtk2.c:365 ui/applets/mate/src/main-gtk3.c:329
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:159
-msgid "_Quit"
-msgstr "_יציאה"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
-#: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
-#, fuzzy
-msgid "Show log"
-msgstr "הצגת _יומן"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
-#: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-msgid "Reading mode"
-msgstr "מצב קריאה"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
-#: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
-#, fuzzy
-msgid "Normal"
-msgstr "_רגיל"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
-#: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
-#, fuzzy
-msgid "Suspended"
-msgstr "_השעיה"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1424 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
-#, fuzzy
-msgid "Quiet"
-msgstr "_שקט"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:257
-#, fuzzy
-msgid "Lock..."
-msgstr "_נעילה"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:261
-#, fuzzy
-msgid "Lock"
-msgstr "_נעילה"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:265
-#, fuzzy
-msgid "Shutdown"
-msgstr "_כיבוי"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:269
-#, fuzzy
-msgid "Suspend"
-msgstr "_השעיה"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:273
-msgid "Hibernate"
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:277
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "_השעיה"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:397
-#, fuzzy
-msgid "_Skip"
-msgstr "_דילוג"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:412
-#, fuzzy
-msgid "_Postpone"
-msgstr "_דחייה"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:604
-msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:618
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
-msgstr ""
-
-#. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:46
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:53 ui/apps/gtkmm/src/GUI.cc:1413
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/Ui.cc:101
-msgid "Daily limit"
-msgstr "מגבלה יומית"
-
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"הגעת למגבלה היומית שלך. אנא הפסק לעבוד\n"
-"לפני המחשב. אם יום העבודה שלך עוד לא הסתיים\n"
-"מצא דבר אחר לעשות, כמו למשל לסקור מסמך כלשהו."
-
-#: ui/apps/gtkmm/src/DebugDialog.cc:42 ui/apps/gtkmm/src/DebugDialog.cc:44
-msgid "Debug log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:31
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:153
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-msgid "Exercises"
-msgstr "תרגילים"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:240
-msgid "Exercises player"
-msgstr "מציג התרגילים"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:270
-msgid "Previous exercise"
-msgstr "התרגיל הקודם"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:271
-#, fuzzy
-msgid "Next exercise"
-msgstr "מספר התרגילים:"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:272
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:457
-#, fuzzy
-msgid "Pause exercises"
-msgstr "מספר התרגילים:"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:276
-#, fuzzy
-msgid "End exercises"
-msgstr "תרגילים"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Resume"
-msgstr "המשך"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Pause"
-msgstr "הפסק"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:455
-#, fuzzy
-msgid "Resume exercises"
-msgstr "מספר התרגילים:"
-
-#: ui/apps/gtkmm/src/GUI.cc:294
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:774 ui/apps/gtkmm/src/GUI.cc:888
-#, fuzzy
-msgid "Workrave failed to start"
-msgstr "ישומון Workrave"
-
-#: ui/apps/gtkmm/src/GUI.cc:775
-msgid "Is Workrave already running?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:883
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:886
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:1281
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
-msgstr ""
-
-#: ui/apps/gtkmm/src/GUI.cc:1287
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GtkUtil.cc:162
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:50
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:159
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-msgid "Micro-break"
-msgstr "הפסקה זעירה"
-
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/MicroBreakWindow.cc:134
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:67
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:192
-msgid "Rest break"
-msgstr "הפסקת מנוחה"
-
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GUI.cc:1424
-#, fuzzy
-msgid "Mode: "
-msgstr "_מצב"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:102
-#, fuzzy
-msgid "Open"
-msgstr "_פתיחה"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:103
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
-msgid "Preferences"
-msgstr "העדפות"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
-#, fuzzy
-msgid "Mode"
-msgstr "_מצב"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr "רשת"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#, fuzzy
-msgid "Connect"
-msgstr "_התחבר"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
-#, fuzzy
-msgid "Disconnect"
-msgstr "_התנתק"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
-#, fuzzy
-msgid "Reconnect"
-msgstr "_התחבר מחדש"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:155
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:51
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
-msgid "Statistics"
-msgstr "סטטיסטיקה"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
-msgid "About..."
-msgstr "אודות ..."
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#, fuzzy
-msgid "Quit"
-msgstr "_יציאה"
-
-#. Restbreak now
-#. Gtk::AccelKey("<control>r"),
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:80 ui/apps/gtkmm/src/MainGtkMenu.cc:146
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-msgid "_Rest break"
-msgstr "הפסקת _מנוחה"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:122
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-msgid "_Normal"
-msgstr "_רגיל"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:125
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
-msgid "Q_uiet"
-msgstr "_שקט"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
-msgid "_Suspended"
-msgstr "_השעיה"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:130
-msgid "_Reading mode"
-msgstr ""
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:135
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
-msgid "_Connect"
-msgstr "_התחבר"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:138
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-msgid "Show _log"
-msgstr "הצגת _יומן"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
-msgid "Please relax for a few seconds"
-msgstr "אנא הרגע לכמה שניות"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:224
-#, c-format
-msgid "Next rest break in %s"
-msgstr "הפסקת המנוחה הבאה בעוד %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:228
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "הפסקת המנוחה באיחור של %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:240
-#, c-format
-msgid "Daily limit in %s"
-msgstr "המגבלה היומית בעוד %s"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "המגבלה היומית באיחור של %s"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:53
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:72
-msgid "Network connect"
-msgstr "התחברות לרשת"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:73
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr "הכנס את שם המחשב ומספר הפורט של המחשב ברשת שאליו ברצונך להתחבר."
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:85
-msgid "Host name:"
-msgstr "שם המחשב:"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:86
-msgid "Port:"
-msgstr "פורט:"
-
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:50
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr "יומן רשת"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:93
-msgid "Enable networking"
-msgstr "הפעלת רשת"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:100
-msgid "Username:"
-msgstr "שם משתמש:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:101
-msgid "Password:"
-msgstr "סיסמה:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:107
-msgid "Allow incoming connections"
-msgstr "אפשור חיבורים נכנסים"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:112
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "כללי"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:123
-msgid "Server settings"
-msgstr "הגדרות שרת"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Server port:"
-msgstr "פורט השרת:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:146
-msgid "Reconnect attempts:"
-msgstr "נסיונות התחברות מחדש:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
-msgid "Reconnect interval:"
-msgstr "זמן בין נסיונות התחברות:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:150
-msgid "Advanced"
-msgstr "מתקדם"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:165
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"הרשימה הבאה מכילה את המחשבים אליהם תנסה Workrave להתחבר\n"
-"בעת ההפעלה. לחץ על שם מחשב או פורט על מנת לערוך."
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:192
-msgid "Host name"
-msgstr "שם המחשב"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Port"
-msgstr "פורט"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:239
-msgid "Hosts"
-msgstr "מחשבים"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-#, fuzzy
-msgid "Sounds"
-msgstr "צליל:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "חלון המצב"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr "ישומון"
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:188
-msgid "Timers"
-msgstr "שעונים"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
-msgid "User interface"
-msgstr "ממשק משתמש"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:156
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:160
-msgid "No blocking"
-msgstr "ללא חסימה"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:157
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:161
-msgid "Block input"
-msgstr "חסום קלט"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:158
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:162
-msgid "Block input and screen"
-msgstr "חסום קלט ומסך"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:181
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-msgid "Options"
-msgstr "אפשרויות"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:183
-msgid "Block mode:"
-msgstr "מצב חסימה:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:203
-msgid "System default"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:246
-msgid "(font not available)"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:265
-msgid "Language:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:279
-msgid "Start Workrave on logon"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:294
-msgid "Show system tray icon"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:304
-#, fuzzy
-msgid "Icon Theme:"
-msgstr "צליל:"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:317
-#, fuzzy
-msgid "Sound Options"
-msgstr "אפשרויות"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:323
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:326
-msgid "No sounds"
-msgstr "ללא צלילים"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:324
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:327
-msgid "Play sounds using sound card"
-msgstr "נגן צלילים בעזרת כרטיס קול"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:348
-msgid "Volume:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
-msgid "Sound:"
-msgstr "צליל:"
-
-#. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:356
-#, fuzzy
-msgid "Mute sounds during rest break and daily limit"
-msgstr "מקם את הפסקות המנוחה את המגבלה היומית באותה נקודה"
-
-#. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:364
-msgid "Sound Events"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:372
-#, fuzzy
-msgid "Sound Theme:"
-msgstr "צליל:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:395
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:413
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:441
-msgid "Play"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-msgid "Event"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:416
-#, fuzzy
-msgid "Choose a sound"
-msgstr "ללא צלילים"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:426
-msgid "Wavefiles"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:514
-msgid "Use alternate monitor"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:521
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:524
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "תזוזת עכבר:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:545
-msgid "Debug monitoring"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:978
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:980
-msgid "Default"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
-msgid "Time for a micro-break?"
-msgstr "זמן להפסקה זעירה?"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
-msgid "You need a rest break..."
-msgstr "אתה זקוק להפסקת מנוחה..."
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:116
-msgid "You should stop for today..."
-msgstr "אתה צריך להפסיק להיום..."
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:286
-#, c-format
-msgid "Break in %s"
-msgstr "הפסקה בעוד %s"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:290
-#, c-format
-msgid "Disappears in %s"
-msgstr "יעלם בעוד %s"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:294
-#, c-format
-msgid "Silent in %s"
-msgstr "שקט בעוד %s"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:150
-#, c-format
-msgid "Rest break for %s"
-msgstr "הפסקת מנוחה ל-%s"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
-#, fuzzy
-msgid "Natural rest break"
-msgstr "הפסקות טבעיות"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
-#, fuzzy
-msgid "This is your natural rest break."
-msgstr "אתה זקוק להפסקת מנוחה..."
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:193
-msgid ""
-"This is your rest break. Make sure you stand up and\n"
-"walk away from your computer on a regular basis. Just\n"
-"walk around for a few minutes, stretch, and relax."
-msgstr ""
-"זוהי הפסקת המנוחה שלך. קום/י על הרגלים\n"
-"והתרחק מן המחשב באופן סדיר. רק התהלך\n"
-"סביב לכמה דקות, התמתח והרגע."
-
-#. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:116
-msgid "Browse history"
-msgstr "עיון בהיסטוריה"
-
-#. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:121
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:128
-msgid "Date:"
-msgstr "תאריך:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:159
-msgid "Breaks"
-msgstr "הפסקות"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:167
-msgid "Break prompts"
-msgstr "שאלות לפני הפסקה"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr "מספר הפעמים בהם נשאלת לפני הפסקה, פרט לשאלות חוזרות לגבי אותה הפסקה"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "Repeated prompts"
-msgstr "שאלות חוזרות"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "מספר הפעמים בהם נשאלת באופן חוזר לפני הפסקה"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "Prompted breaks taken"
-msgstr "הפסקות שנלקחו"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "The number of times you took a break when being prompted"
-msgstr "מספר הפעמים שלקחת הפסקה לאחר שנשאלת"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "Natural breaks taken"
-msgstr "הפסקות טבעיות"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "The number of times you took a break without being prompted"
-msgstr "מספר הפעמים בהן לקחת הפסקה מבלי שנשאלת לכך"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "Breaks skipped"
-msgstr "הפסקות שדולגו"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "The number of breaks you skipped"
-msgstr "מספר ההפסקות עליהן דילגת"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "Breaks postponed"
-msgstr "הפסקות שנדחו"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "The number of breaks you postponed"
-msgstr "מספר ההפסקות שדחית"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "Overdue time"
-msgstr "זמן איחור"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "The total time this break was overdue"
-msgstr "הזמן הכולל של דחיית הפסקה זו"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Active computer usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-#, fuzzy
-msgid "Daily"
-msgstr "מגבלה יומית"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "השימוש הכולל במחשב"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "Weekly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "Monthly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid "Activity"
-msgstr "פעילות"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "Mouse usage:"
-msgstr "שימוש בעכבר:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "The total time you were using the mouse"
-msgstr "הזמן הכולל בו השתמשת בעכבר"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "Mouse movement:"
-msgstr "תזוזת עכבר:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "The total on-screen mouse movement"
-msgstr "סך התנועות של העכבר על המסך"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
-msgid "Effective mouse movement:"
-msgstr "תזוזת עכבר אפקטיבית:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:290
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr "סך התזוזת של העכבר שהיית עושה לו הזזת את העכבר בקווים ישרים בין לחיצות"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "Mouse button clicks:"
-msgstr "לחיצות עכבר"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "The total number of mouse button clicks"
-msgstr "מספר הפעמים הכולל של לחיצות על כפתורי העכבר"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "Keystrokes:"
-msgstr "הקשות מקשים:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "The total number of keys pressed"
-msgstr "המספר הכולל של המקשים שהוקשו"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:342
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, מ- %s עד %s"
-
-#. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-msgid "Warning"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:651
-msgid "Files deleted!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:652
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:654
-msgid "Info"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:659
-msgid "File deletion failed!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:660
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:662
-msgid "Error"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Text.cc:84
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d שעות"
-
-#: ui/apps/gtkmm/src/Text.cc:88
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d דקות"
-
-#: ui/apps/gtkmm/src/Text.cc:92
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d שניות"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:181
-msgid "Take rest break now"
-msgstr "צא להפסקת מנוחה עכשיו"
+#: ui/libs/commonui/src/Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d דקות"
 
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:203
-msgid "Wait"
-msgstr "המתנה"
+#: ui/libs/commonui/src/Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d שעות"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
-msgid "Place timers next to each other"
-msgstr "מקם את השעונים אחד ליד השני"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
+#, c-format
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, מ־{:%X} עד {:%X}"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:94
-msgid "Place micro-break and rest break in one spot"
-msgstr "מקם את ההפסקות הזעירות ואת הפסקות המנוחה באותה נקודה"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
+msgid "(font not available)"
+msgstr "(הגופן אינו זמין)"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
-msgid "Place rest break and daily limit in one spot"
-msgstr "מקם את הפסקות המנוחה את המגבלה היומית באותה נקודה"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place all timers in one spot"
-msgstr "מקם את כל השעונים באותה נקודה"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
-msgid "Hide"
-msgstr "הסתר"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:119
-msgid "Show"
-msgstr "הצג"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
-msgid "Show only when this timer is first due"
-msgstr "הצג רק כאשר השעון מתקרב לקיצו בפעם הראשונה"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
-msgid "Display"
-msgstr "תצוגה"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-msgid "The status window stays always on top of other windows"
-msgstr "חלון המצב נשאר תמיד מעל שאר החלונות"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:136
-msgid "Show status window"
-msgstr "הצג חלון מצב"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:147
-msgid "Placement:"
-msgstr "מיקום:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:148
-msgid "Cycle time:"
-msgstr "זמן מחזור:"
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-msgid "Micro-break:"
-msgstr "הפסקה זעירה:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:154
-msgid "Rest break:"
-msgstr "הפסקת מנוחה:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-msgid "Daily limit:"
-msgstr "מגבלה יומית:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
-#, fuzzy
-msgid "Fallback applet enabled"
-msgstr "ישומון מופעל"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:164
-#, fuzzy
-msgid "Show status icon"
-msgstr "הצג חלון מצב"
-
-#. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:61
-msgid "Enable timer"
-msgstr "הפעל שעון"
-
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
-msgid "Break prompting"
-msgstr "שאלה לפני הפסקה"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
-msgid "Prompt before breaking"
-msgstr "שאל לפני הפסקה"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:104
-msgid "Maximum number of prompts:"
-msgstr "מספר מירבי של שאלות:"
-
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:132
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "הצג כפתורי 'דחיה' ו'דילוג'"
-
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:136
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "הצג כפתורי 'דחיה' ו'דילוג'"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Regard micro-breaks as activity"
-msgstr "התיחס להפסקות זעירות כאל פעילות"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
-msgid "Number of exercises:"
-msgstr "מספר התרגילים:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:158
-msgid "Start restbreak when screen is locked"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
+msgid "<h3>Version {}</h3>\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Time before end:"
-msgstr "זמן לפני הסוף:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Time between breaks:"
-msgstr "זמן בין הפסקות:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:199
-msgid "Break duration:"
-msgstr "משך ההפסקה:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-msgid "Postpone time:"
-msgstr "זמן הדחיה:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
-msgid "Break prompt"
-msgstr "שאלה לפני הפסקה"
-
-#: ui/apps/gtkmm/src/Ui.cc:86
-msgid "Break ignored"
-msgstr "התעלמת מן ההפסקה"
-
-#: ui/apps/gtkmm/src/Ui.cc:89
-msgid "Rest break started"
-msgstr "התחלת הפסקת מנוחה"
-
-#: ui/apps/gtkmm/src/Ui.cc:92
-msgid "Rest break ended"
-msgstr "סוף הפסקת מנוחה"
-
-#: ui/apps/gtkmm/src/Ui.cc:95
-msgid "Micro-break started"
-msgstr "התחלה הפסקה זעירה"
-
-#: ui/apps/gtkmm/src/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "סוף ההפסקה הזעירה"
-
-#: ui/apps/gtkmm/src/Ui.cc:104
-msgid "Exercise ended"
-msgstr "סוף התרגיל"
-
-#: ui/apps/gtkmm/src/Ui.cc:107
-msgid "Exercises ended"
-msgstr "סוף התרגילים"
-
-#: ui/apps/gtkmm/src/Ui.cc:110
-#, fuzzy
-msgid "Exercise change"
-msgstr "סוף התרגיל"
-
-#: ui/apps/gtkmm/src/Ui.cc:113
+#: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
+msgstr "?"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
+msgid "A new version of {} is available"
 msgstr ""
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:113
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:119
-msgid "Orientation"
-msgstr "כיוון"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Active computer usage"
+msgstr "שימוש פעיל במחשב"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:114
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:120
-#, fuzzy
-msgid "The orientation of the tray"
-msgstr "כיוון המגש"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
+msgid "Activity"
+msgstr "פעילות"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color"
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+msgid "Applet"
+msgstr "יישומון"
+
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI)"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
+msgid "Auto update"
 msgstr ""
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color for symbolic icons"
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
+msgid "Automatically check for updates"
 msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding that should be put around icons in the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "Icon Size"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:221
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:227
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "Specify session management ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Session management options:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Show session management options"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr ""
-"תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)."
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:6
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"תכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
-"RSI)."
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:7
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
-msgstr "מתיחת כתף-זרוע"
-
-#: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"החזק יד אחת מאוזנת מתוחה לפני החזה. דחוף את היד עם היד השניה לעברך עד שתרגיש "
-"מתיחה קלה בכתף. השאר המצב זה לזמן קצר, וחזור על התרגיל עם היד השניה."
-
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr "מתיחת אצבעות"
-
-#: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"הפרד ומתח את האצבעות שלך עד שתרגיש מתיחה קלה, ואז השאר במצב זה למשך 10 "
-"שניות. הרגע, כופף את האצבעות במפרקים, והשאר כך למשך 10 שניות נוספות. חזור על "
-"התרגיל פעם נוספת."
-
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "סיבוב הצוואר"
-
-#: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"התחל כאשר הראש בתנוחה נוחה. אז הטה את הראש באיטיות לעבר כתף ימין למתיחה "
-"עדינה של השרירים שבצד שמאל של צווארך. השאר במצב זה למשך 5 שניות. לאחר מכן "
-"הטה את ראשך לצד שמאל למתיחת הצד השני. חזור פעמיים על כך צד."
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
-msgstr "מתיחת כתף אחורית"
+msgstr "מתיחת הכתף האחורית"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
+msgid "Block input"
+msgstr "חסום קלט"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
+msgid "Block input and screen"
+msgstr "חסום קלט ומסך"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
+msgid "Block mode:"
+msgstr "מצב חסימה:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
+msgid "Break duration:"
+msgstr "משך ההפסקה:"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "התעלמת מן ההפסקה"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
+#, c-format
+msgid "Break in %s"
+msgstr "הפסקה בעוד %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
+msgstr "הצעת לקיחת הפסקה"
+
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
+msgid "Break prompting"
+msgstr "הצעת לקיחת הפסקה"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
+msgid "Break prompts"
+msgstr "הצעות לקיחת הפסקה"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
+msgid "Breaks"
+msgstr "הפסקות"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
+msgid "Breaks postponed"
+msgstr "הפסקות שנדחו"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "Breaks skipped"
+msgstr "הפסקות שדולגו"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
+msgid "Browse history"
+msgstr "עיון בהיסטוריה"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
+msgid "Choose a sound"
+msgstr "נא לבחור צליל"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
+msgid "Close"
+msgstr "סגירה"
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "יש לכסות את העיניים עם כפות הידיים באופן שיאפשר לך להשאיר את העפעפיים פתוחים. כעת יש להסתכל אל תוך החשכה שבידיים שלך. תרגיל זה מעניק מנוחה טובה יותר לעיניים מאשר עצימתן."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
+msgid "Cycle time:"
+msgstr "זמן מחזור:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
+msgid "Daily"
+msgstr "יום"
+
+#. label
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
+msgid "Daily limit"
+msgstr "מגבלה יומית"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "המגבלה היומית באיחור של %s"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
+#, c-format
+msgid "Daily limit in %s"
+msgstr "המגבלה היומית בעוד %s"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+msgid "Daily limit:"
+msgstr "מגבלה יומית:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Date:"
+msgstr "תאריך:"
+
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
+msgid "Debug log"
+msgstr "יומן ניפוי שגיאות"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
+msgid "Debug monitoring"
+msgstr "ניפוי שגיאות במעקב"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
+msgid "Default"
+msgstr "ברירת מחדל"
+
+#. Delete button
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
+msgid "Delete all statistics history"
+msgstr "מחיקת כל היסטוריית הסטטיסטיקה"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
+#, c-format
+msgid "Disappears in %s"
+msgstr "ייעלם בעוד %s"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
+msgid "Display"
+msgstr "תצוגה"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
+msgid "Effective mouse movement:"
+msgstr "תזוזת עכבר אפקטיבית:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
+msgid "Enable shutting down the computer from the rest screen"
+msgstr "לאפשר לכבות את המחשב ממסך הפסקת המנוחה"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr "יש להפעיל אפשרות זו אם Workrave לא מצליח לזהות מתי נעשה שימוש במחשב"
+
+#. Enabled/Disabled checkbox
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
+msgid "Enable timer"
+msgstr "הפעלת שעון"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
+msgid "End exercises"
+msgstr "סיום התרגילים"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
+msgid "Error"
+msgstr "שגיאה"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr "צבע שגיאה"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr "צבע שגיאה לסמלים סימבוליים"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
+msgid "Event"
+msgstr "אירוע"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:110
+msgid "Exercise change"
+msgstr "החלפת תרגיל"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:104
+msgid "Exercise ended"
+msgstr "סוף התרגיל"
+
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr "תרגילים"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:107
+msgid "Exercises ended"
+msgstr "סוף התרגילים"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
+msgid "Exercises player"
+msgstr "מציג התרגילים"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+msgid "Fallback applet enabled"
+msgstr "יישומון הנסיגה מופעל"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
+msgid "File deletion failed!"
+msgstr "מחיקת הקובץ נכשלה!"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "Files deleted!"
+msgstr "הקבצים נמחקו!"
+
+#: ui/data/exercises/exercises.xml.in:22
+msgid "Finger stretch"
+msgstr "מתיחת האצבעות"
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
+msgstr ""
+
+#: ui/app/Menus.cc:178
+msgid "For 1 hour"
+msgstr ""
+
+#: ui/app/Menus.cc:189
+msgid "For 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr "צבע קִדמה"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr "צבע קִדמה לסמלים סימבוליים"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+msgid "General"
+msgstr "כללי"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
+msgid "Hibernate"
+msgstr "תרדמת"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
+msgid "Hide"
+msgstr "הסתרה"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr "גודל סמל"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
+msgid "Icon Theme:"
+msgstr "ערכת סמלים:"
+
+#: ui/app/Menus.cc:166
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
+msgid "Info"
+msgstr "מידע"
 
 #: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"שלב את אצבעותיך מאחרי הגב. אחר כך סובב בעדינות את המרפקים פנימה, תוך כדי "
-"ישור הידים. השאר במצב זה למשך 5 עד 15 שניות, ואז חזור על התרגיל פעמים."
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "יש לשלב את האצבעות מאחורי הגב. לאחר מכן יש לסובב בעדינות את המרפקים פנימה, תוך יישור הידיים. יש להישאר במצב זה למשך 5 עד 15 שניות, ואז לחזור על התרגיל פעמיים."
 
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "הזזת העיניים"
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "יש להחזיק יד אחת מאוזנת ומתוחה לפני החזה. יש לדחוף את היד הזו עם היד השנייה לעברך עד לתחושת מתיחה קלה בכתף. יש להישאר במצב זה לזמן קצר, ואז לחזור על התרגיל עם ידך השנייה."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "Keystrokes:"
+msgstr "הקשות מקשים:"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
+msgid "Language:"
+msgstr "שפה:"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
+msgid "Lock"
+msgstr "נעילה"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
+msgid "Lock..."
+msgstr "נעילה..."
 
 #: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"התבונן בפינה השמאלית העליונה של המסגרת החיצונית של הצג. עקוב אחר המסגרת "
-"באיטיות עד לפינה הימנית העליונה. המשך לפינה הבאה, עד שתעשה שני סיבובים. לאחר "
-"מכן הפוך את כיוון התרגיל."
-
-#: ui/data/exercises/exercises.xml.in:64
-msgid "Train focusing the eyes"
-msgstr "אימון התמקדות העיניים"
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "יש להתבונן בפינה השמאלית העליונה של המסגרת החיצונית של הצג. יש לעקוב אחר המסגרת באיטיות עד לפינה הימנית העליונה. יש להמשיך לפינה הבאה, עד להשלמת שני סיבובים. לאחר מכן, יש להפוך את כיוון התרגיל."
 
 #: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"התבונן לעבר הנקודה הרחוקה ביותר שאתה יכול לראות מאחורי הצג. מקד את העיניים "
-"באותה נקודה רחוקה. כעת התמקד במסגרת הצג. חזור על כך. אם אינך יכול להתבונן "
-"הרחק מעבר לצג, פנה לכיוון אחר עם נוף רחוק יותר. אז שנה את המוקד בין עצם "
-"מרוחק לבין עט המוחזק באותו המרחק שבו צג שלך נמצא ביחס לעיניך."
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "יש להתבונן לעבר הנקודה הרחוקה ביותר שאפשר לראות מעבר לצג. יש למקד את העיניים באותה הנקודה הרחוקה. כעת יש להתמקד במסגרת הצג. יש לחזור על התרגיל. אם אין באפשרותך להתבונן הרחק מעבר לצג, יש לפנות לכיוון אחר עם נוף רחוק יותר. לאחר מכן יש להעביר את ההתמקדות שלך בין עצם מרוחק לבין עט המוחזק באותו המרחק שבו נמצא הצג ביחס לעיניים שלך."
 
 #: ui/data/exercises/exercises.xml.in:72
 msgid "Look into the darkness"
 msgstr "התבוננות אל תוך החשיכה"
 
-#: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"כסה את עיניך בכפות הידים באופן שיאפשר לך להשאיר את העפעפיים פתוחים. כעת "
-"הסתכל אל תוך החשכה שבידיך. תרגיל זה נותן מנוחה טובה יותר לעיניים מאשר עצימתן."
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
+msgid "Maximum number of prompts:"
+msgstr "מספר הצעות מרבי:"
+
+#. FIXME: duplicate
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "הפסקה זעירה"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "סוף ההפסקה הזעירה"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "התחלה הפסקה זעירה"
+
+#. Layout
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+msgid "Micro-break:"
+msgstr "הפסקה זעירה:"
+
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
+msgid "Mode: "
+msgstr "מצב: "
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+#, fuzzy
+msgid "Monitoring"
+msgstr "ניפוי שגיאות במעקב"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
+msgid "Monthly"
+msgstr "חודש"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
+msgid "Mouse button clicks:"
+msgstr "לחיצות עכבר:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "Mouse movement:"
+msgstr "תזוזת עכבר:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
+msgid "Mouse sensitivity:"
+msgstr "רגישות העכבר:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
+msgid "Mouse usage:"
+msgstr "שימוש בעכבר:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "הזזת העיניים"
 
 #: ui/data/exercises/exercises.xml.in:79
 msgid "Move the shoulders"
 msgstr "הזזת הכתפיים"
 
-#: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"סובב את ידך הימנית לאט כמו מדחף של מטוס לצד הגוף. עשה זאת 4 פעמים קדימה, 4 "
-"פעמים לאחור, ואז הרגע למשך מספר שניות. חזור על התרגיל עם היד השמאלית."
-
 #: ui/data/exercises/exercises.xml.in:87
 msgid "Move the shoulders up and down"
 msgstr "הזזת הכתפיים מעלה ומטה"
 
-#: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
+#. Volume
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
+msgid "Mute sounds during rest break and daily limit"
+msgstr "השתקת הצלילים במהלך הפסקת מנוחה ולאחר הגעה למגבלה היומית"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
+msgid "Natural breaks taken"
+msgstr "הפסקות טבעיות"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "Natural rest break"
+msgstr "הפסקת מנוחה טבעית"
+
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "סיבוב הצוואר"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
+msgid "Next"
+msgstr "קדימה"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
+msgid "Next exercise"
+msgstr "לתרגיל הבא"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
+#, c-format
+msgid "Next rest break in %s"
+msgstr "הפסקת המנוחה הבאה בעוד %s"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
+msgid "No blocking"
+msgstr "ללא חסימה"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
+msgid "No sounds"
+msgstr "ללא צלילים"
+
+#: ui/applets/mate/src/main.c:385
+msgid "Normal"
+msgstr "רגיל"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
 msgstr ""
-"שים את ידיך על משענות הכסא שאתה יושב עליו, ודחוף את גופך כלפי מעלה עד שידיך "
-"יתיישרו. נסה להעלות את ראשך עוד יותר על ידי הורדת הכתפיים. חזור לכסא באיטיות."
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
+msgid "Number of exercises:"
+msgstr "מספר התרגילים:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr ""
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
+msgid "Options"
+msgstr "אפשרויות"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "כיוון"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "Overdue time"
+msgstr "זמן איחור"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr "ריפוד"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr "ריפוד שמיועד למיקום הסמלים במגש המערכת"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Pause"
+msgstr "השהיה"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
+msgid "Pause exercises"
+msgstr "להשהות את התרגילים"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
+msgid "Place all timers in one spot"
+msgstr "מיקום כל השעונים באותה נקודה"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "מיקום ההפסקות הזעירות והפסקות המנוחה באותה נקודה"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "מיקום הפסקות המנוחה והמגבלה היומית באותה נקודה"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
+msgid "Place timers next to each other"
+msgstr "מיקום השעונים אחד ליד השני"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
+msgid "Placement:"
+msgstr "מיקום:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
+msgid "Play"
+msgstr "ניגון"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
+msgid "Play sounds using sound card"
+msgstr "נגן צלילים בעזרת כרטיס קול"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
+msgid "Please relax for a few seconds"
+msgstr "נא להירגע לכמה שניות"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
+msgid "Postpone time:"
+msgstr "זמן הדחיה:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
+msgid "Preferences"
+msgstr "העדפות"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
+msgid "Previous"
+msgstr "אחורה"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
+msgid "Previous exercise"
+msgstr "לתרגיל הקודם"
+
+#: ui/app/workrave.metainfo.xml:7
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr "תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI)"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
+msgid "Prompt before breaking"
+msgstr "להציע לקחת הפסקה"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
+msgid "Prompted breaks taken"
+msgstr "הפסקות שנלקחו"
+
+#: ui/data/exercises/exercises.xml.in:88
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "יש לשים את הידיים על משענות הכיסא שעליו התיישבת, ולדחוף את גופך כלפי מעלה עד שהידיים שלך יתיישרו. יש לנסות להזיז את הראש עוד יותר בעזרת הורדת הכתפיים. יש לחזור לכיסא באיטיות."
+
+#: ui/app/Menus.cc:112
+msgid "Q_uiet"
+msgstr "_שקט"
+
+#: ui/app/Menus.cc:294
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr ""
+
+#: ui/app/Menus.cc:307
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
+msgid "Quiet"
+msgstr "שקט"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr "מצב קריאה"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
+msgid "Regard micro-breaks as activity"
+msgstr "התיחס להפסקות זעירות כאל פעילות"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
+msgid "Release notes"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
+msgid "Repeated prompts"
+msgstr "הצעות חוזרות"
+
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "הפסקת מנוחה"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "הפסקת המנוחה באיחור של %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "סוף הפסקת מנוחה"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
+#, c-format
+msgid "Rest break for %s"
+msgstr "הפסקת מנוחה ל־%s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "התחלת הפסקת מנוחה"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
+msgid "Rest break:"
+msgstr "הפסקת מנוחה:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Resume"
+msgstr "המשך"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
+msgid "Resume exercises"
+msgstr "להמשיך את התרגילים"
+
+#: ui/app/Menus.cc:81
+msgid "S_tatistics"
+msgstr "ס_טטיסטיקה"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "יש להפריד ולמתוח את האצבעות עד לתחושת מתיחה קלה, ולהישאר במצב זה למשך 10 שניות. לאחר מכן יש להירגע, ולכופף את האצבעות במפרקים, ולהישאר במצב זה למשך 10 שניות נוספות. יש לחזור על התרגיל פעם נוספת."
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "מתיחת כתף־זרוע"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
+msgid "Show"
+msgstr "הצגה"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
+msgid "Show 'Postpone' button"
+msgstr "הצגת כפתור \"דחייה\""
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
+msgid "Show 'Skip' button"
+msgstr "הצגת כפתור \"דילוג\""
+
+#: ui/applets/mate/src/main.c:379
+msgid "Show log"
+msgstr "הצגת היומן"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
+msgid "Show only when this timer is first due"
+msgstr "להציג רק כאשר השעון מתקרב לקצו בפעם הראשונה"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
+msgid "Show status icon"
+msgstr "הצגת סמל מצב"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
+msgid "Show status window"
+msgstr "הצגת חלון המצב"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
+msgid "Show system tray icon"
+msgstr "הצגת סמל במגש המערכת"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
+msgid "Shutdown"
+msgstr "כיבוי"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
+#, c-format
+msgid "Silent in %s"
+msgstr "שקט בעוד %s"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
+msgid "Software Update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
+msgid "Software updates"
+msgstr ""
+
+#. Sound themes
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
+msgid "Sound Events"
+msgstr "אירועי צליל"
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
+msgid "Sound Options"
+msgstr "אפשרויות צליל"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
+msgid "Sound Theme:"
+msgstr "ערכת צלילים:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
+msgid "Sound:"
+msgstr "צליל:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
+msgid "Sounds"
+msgstr "צלילים"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "יש לסובב את ידך הימנית לאט כמו מדחף של מטוס לצד הגוף. יש לעשות זאת 4 פעמים קדימה, 4 פעמים לאחור, ואז יש להירגע למשך מספר שניות. יש לחזור על התרגיל עם היד השמאלית."
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
+msgid "Start Workrave on logon"
+msgstr "הפעלת Workrave בעת התחברות"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
+msgid "Start restbreak when screen is locked"
+msgstr "התחלת הפסקת המנוחה בעת נעילת המסך"
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "יש להתחיל כאשר הראש שלך נמצא בתנוחה נוחה. לאחר מכן, יש להטות את הראש באיטיות לעבר הכתף הימנית עד לכדי מתיחה עדינה של השרירים שבצד שמאל של צווארך. יש להישאר במצב זה למשך 5 שניות. לאחר מכן, יש להטות את ראשך לצד השמאלי למתיחת הצד השני. יש לחזור על התרגיל פעמיים לכל צד."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
+msgid "Statistics"
+msgstr "סטטיסטיקה"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+msgid "Status Window"
+msgstr "חלון המצב"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr "צבע הצלחה"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr "צבע הצלחה לסמלים סימבוליים"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
+msgid "Suspend"
+msgstr "השהיה"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
+msgid "Suspend hybrid"
+msgstr "השהייה היברידית"
+
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
+msgid "Suspended"
+msgstr "מושהה"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
+msgid "System default"
+msgstr "ברירת המחדל של המערכת"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
+msgid "Take rest break now"
+msgstr "יש לצאת להפסקת מנוחה כעת"
+
+#: ui/app/Menus.cc:121
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:118
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr "לא היה ניתן למחוק את הקבצים שמכילים את היסטוריית הסטטיסטיקה שלך. להמשיך?"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
+msgid "The files containing your statistics history have been deleted."
+msgstr "נמחקו הקבצים שמכילים את היסטוריית הסטטיסטיקה שלך."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "The number of breaks you postponed"
+msgstr "מספר ההפסקות שדחית"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "The number of breaks you skipped"
+msgstr "מספר ההפסקות עליהן דילגת"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "The number of times you took a break when being prompted"
+msgstr "מספר הפעמים שלקחת הפסקה לאחר שקיבלת הצעה לכך"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "The number of times you took a break without being prompted"
+msgstr "מספר הפעמים בהן לקחת הפסקה מבלי שקיבלת הצעה לכך"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "מספר הפעמים בהן קיבלת הצעה לקחת הפסקה, פרט להצעות חוזרות לגבי אותה הפסקה"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "מספר הפעמים בהן קיבלת הצעה לקחת הפסקה"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+msgid "The orientation of the tray"
+msgstr "כיוון המגש"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "חלון המצב נשאר תמיד מעל שאר החלונות"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+msgid "The total computer usage for the selected day"
+msgstr "השימוש הכולל במחשב ביום הנבחר"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "The total computer usage for the whole month of the selected day"
+msgstr "השימוש הכולל במחשב בכל החודש של היום הנבחר"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+msgid "The total computer usage for the whole week of the selected day"
+msgstr "השימוש הכולל במחשב בכל השבוע של היום הנבחר"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "סך התזוזת של העכבר שהיית עושה לו הזזת את העכבר בקווים ישרים בין לחיצות"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of keys pressed"
+msgstr "המספר הכולל של המקשים שהוקשו"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "The total number of mouse button clicks"
+msgstr "מספר הפעמים הכולל של לחיצות על כפתורי העכבר"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "The total on-screen mouse movement"
+msgstr "סך התנועות של העכבר על המסך"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "The total time this break was overdue"
+msgstr "הזמן הכולל של דחיית הפסקה זו"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "The total time you were using the mouse"
+msgstr "הזמן הכולל בו השתמשת בעכבר"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "This is your natural rest break."
+msgstr "זוהי הפסקת המנוחה הטבעית שלך."
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr ""
+"זוהי הפסקת המנוחה שלך. יש לקום על הרגלים\n"
+"ולהתרחק מהמחשב באופן סדיר. אפשר פשוט\n"
+"להתהלך סביב לכמה דקות, להתמתח, ולהירגע."
+
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - RSI)."
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time before end:"
+msgstr "זמן לפני הסוף:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time between breaks:"
+msgstr "זמן בין הפסקות:"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
+msgid "Time for a micro-break?"
+msgstr "זמן להפסקה זעירה?"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
+msgid "Timers"
+msgstr "שעונים"
+
+#: ui/data/exercises/exercises.xml.in:64
+msgid "Train focusing the eyes"
+msgstr "אימון התמקדות העיניים"
 
 #: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
 msgstr "סיבוב הראש"
 
 #: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "יש לסובב את הראש שמאלה ולהישאר כך למשך 2 שניות. לאחר מכן יש לסובב את הראש ימינה ולהישאר כך למשך 2 שניות."
+
+#: ui/app/Menus.cc:198
+msgid "Until next day"
 msgstr ""
-"סובב את הראש שמאלה והשאר כך למשך 2 שניות. לאחר מכך סובב את הראש ימינה והשאר "
-"כך למשך 2 שניות."
 
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "השעה את השעון כאשר לא פעיל"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Usage"
+msgstr "שימוש"
 
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "נגן צלילים בעזרת הרמקול הפנימי"
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
+msgid "Use alternate monitor"
+msgstr "שימוש בשיטת מעקב חלופית"
 
-#~ msgid "_Quiet"
-#~ msgstr "_שקט"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
+msgid "Use dark theme"
+msgstr ""
 
-#~ msgid "_Connect..."
-#~ msgstr "_התחבר..."
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+msgid "User interface"
+msgstr "ממשק משתמש"
 
-#~ msgid "_Show Log..."
-#~ msgstr "_הצגת היומן..."
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
+msgid "Version {}\n"
+msgstr ""
 
-#~ msgid "_About..."
-#~ msgstr "_אודות..."
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
+msgid "Volume:"
+msgstr "עוצמת שמע:"
 
-#~ msgid "Daily usage"
-#~ msgstr "שימוש יומי"
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "המתנה"
 
-#, fuzzy
-#~ msgid "Reading Mode"
-#~ msgstr "מצב קריאה"
+#. Confirm the user's intention
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
+msgid "Warning"
+msgstr "אזהרה"
 
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "זוהי הפסקת המנוחה שלך. קום/י על הרגלים\n"
-#~ "והתרחק מן המחשב באופן סדיר. רק התהלך\n"
-#~ "סביב לכמה דקות, התמתח והרגע."
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr "צבע אזהרה"
 
-#~ msgid "Starting %s"
-#~ msgstr "שקט בעוד %s"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr "צבע אזהרה לסמלים סימבוליים"
 
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "לא יכול לתרגם את שם המחשב שלי. מבטל הפצה."
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
+msgid "Wavefiles"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
+msgid "Weekly"
+msgstr "שבוע"
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave Applet"
+msgstr "יישומון Workrave"
+
+#: ui/app/Application.cc:346
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr "לא היה באפשרות Workrave לעקוב אחר פעילות המקלדת והעכבר שלך.\n"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
+msgstr "Workrave היא תוכנית שמסייעת בהחלמה ומניעת פגיעת מתח חוזרת (Repetitive Strain Injury - RSI). התוכנית מבקשת ממך באופן תדיר לקחת הפסקות זעירות, הפסקות מנוחה, ומגבילה את זמן השימוש היומי שלך במחשב."
+
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr "Workrave במצב שקט. לא יופיעו חלוניות הפסקה."
+
+#: ui/app/Application.cc:554
+msgid ""
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
+msgstr ""
+"Workrave במצב השהיה.\n"
+"לא יתבצע מעקב אחר פעילות העכבר והמקלדת."
+
+#: ui/app/Application.cc:538
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "Workrave עדיין פועל. אפשר לגשת ל־Workrave בעזרת לחיצה על סמל הכבשה הלבנה. לחיצה על בועת דיבור זו תעלים את ההודעה"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr "יש להפעיל את Workrave מחדש באופן ידני לאחר שינוי הגדרה זו"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr "אין באפשרותך לדלג על הפסקה זו מאחר והפסקה נוספת שלא ניתן לדחות היא באיחור."
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr "אין באפשרותך לדלג על הפסקה זו מאחר והפסקה נוספת שלא ניתן לדלג עליה היא באיחור."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr "בחרת למחוק את היסטוריית הסטטיסטיקה שלך. להמשיך?"
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"הגעת למגבלה היומית שלך. נא להפסיק לעבוד\n"
+"במחשב. אם יום העבודה שלך עדיין לא הסתיים,\n"
+"יש למצוא דבר אחר לעשות, כמו לסקור מסמכים."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
+msgid "You need a rest break..."
+msgstr "הגיע הזמן להפסקת מנוחה..."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
+msgid "You should stop for today..."
+msgstr "הגיע הזמן להפסיק להיום..."
+
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
+msgid "_About"
+msgstr "על _אודות"
+
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "_תרגילים"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
+msgid "_Install update"
+msgstr ""
+
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "_מצב"
+
+#: ui/app/Menus.cc:98
+msgid "_Normal"
+msgstr "_רגיל"
+
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
+msgid "_Open"
+msgstr "_פתיחה"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
+msgid "_Postpone"
+msgstr "ד_חייה"
+
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "_העדפות"
+
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "_יציאה"
+
+#: ui/app/Menus.cc:127
+msgid "_Reading mode"
+msgstr "מצב _קריאה"
+
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
+msgid "_Remind me later"
+msgstr ""
+
+#: ui/app/Menus.cc:75
+msgid "_Rest break"
+msgstr "הפסקת _מנוחה"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "_הפסקת מנוחה"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
+msgid "_Skip"
+msgstr "_דילוג"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
+msgid "_Skip this version"
+msgstr ""
+
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "_סטטיסטיקה"
+
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
+msgstr "_השהיה"
+
+#: ui/app/Menus.cc:299
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_השהיה"
+
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
+msgstr ""
+
+#: ui/app/Menus.cc:185
+msgid "and 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:7
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr ""
+
+#~ msgid "About %s"
+#~ msgstr "על אודות %s"
+
+#~ msgid "About..."
+#~ msgstr "על אודות..."
+
+#~ msgid "Accepted new client."
+#~ msgstr "התקבל לקוח חדש."
+
+#, c-format
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "מתבצע אישור בקשת השליטה מהלקוח %s."
+
+#~ msgid "Advanced"
+#~ msgstr "מתקדם"
+
+#~ msgid "Allow incoming connections"
+#~ msgstr "לאפשר חיבורים נכנסים"
 
 #~ msgid "Break in"
 #~ msgstr "הפסקה בעוד %s"
 
-#~ msgid "Disappears in"
-#~ msgstr "יעלם בעוד %s"
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr "לא יכול לתרגם את שם המחשב שלי. מבטל הפצה."
 
-#~ msgid "Silent in"
-#~ msgstr "שקט בעוד %s"
+#, c-format
+#~ msgid "Client %s access denied."
+#~ msgstr "הגישה ללקוח %s נדחתה."
 
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "לא ניתן לאתחל את Bonobo"
+#, c-format
+#~ msgid "Client %s closed connection."
+#~ msgstr "הלקוח %s סגר את החיבור."
 
-#~ msgid "Inactive"
-#~ msgstr "לא פעיל"
+#, c-format
+#~ msgid "Client %s connected."
+#~ msgstr "התחבר הלקוח %s."
+
+#, c-format
+#~ msgid "Client %s is duplicate."
+#~ msgstr "הלקוח %s הוא כפיל."
+
+#, c-format
+#~ msgid "Client %s is now master."
+#~ msgstr "השליטה בידי הלקוח %s כעת."
+
+#, c-format
+#~ msgid "Client %s is now the new master."
+#~ msgstr "השליטה בידי הלקוח %s כעת."
+
+#, c-format
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "הלקוח %s מקבל את פנינו בברכה."
+
+#, c-format
+#~ msgid "Client %s read error, closing."
+#~ msgstr "שגיאת קריאה התקבלה מהלקוח %s, מתבצעת סגירה."
+
+#, c-format
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "הלקוח %s דחה את בקשת השליטה, בהמתנה."
+
+#, c-format
+#~ msgid "Client %s saying hello."
+#~ msgstr "הלקוח %s אומר שלום."
+
+#, c-format
+#~ msgid "Client %s signed off."
+#~ msgstr "הלקוח %s התנתק."
+
+#, c-format
+#~ msgid "Client timeout from %s."
+#~ msgstr "תם הזמן המוקצב ללקוח %s."
+
+#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
+#~ msgstr "סגור את העיניים ונשום זמן ארוך ככל שתוכל. נסה להרגע. כאשר אתה שואף, עשה זאת לאט ככל שתוכל. נסה לספור באיטיות עד שמונה בכל פעם שאתה נושם פנימה והחוצה. על מנת להרגיע את העיניים, נסה לעצום אותם בהפסקות זעירות."
+
+#, fuzzy
+#~ msgid "Connect"
+#~ msgstr "_התחברות"
+
+#, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "מתבצעת התחברות אל %s."
+
+#, c-format
+#~ msgid "Could not connect to client %s."
+#~ msgstr "לא ניתן להתחבר ללקוח %s."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "לא ניתן להפעיל פעילות רשת."
 
 #~ msgid "Credits"
 #~ msgstr "תודות"
 
-#~ msgid "_Written by"
-#~ msgstr "_נכתב ע\"י"
+#~ msgid "Daily usage"
+#~ msgstr "שימוש יומי"
 
-#~ msgid "_Documented by"
-#~ msgstr "_תועד ע\"י"
+#~ msgid "Disabling network operation."
+#~ msgstr "פעולת הרשת מתבטלת."
 
-#~ msgid "_Translated by"
-#~ msgstr "_תורגם ע\"י"
+#~ msgid "Disappears in"
+#~ msgstr "יעלם בעוד %s"
 
-#~ msgid "_Credits"
-#~ msgstr "תו_דות"
+#, fuzzy
+#~ msgid "Disconnect"
+#~ msgstr "_התנתקות"
 
-#~ msgid "About %s"
-#~ msgstr "אודות %s"
+#, c-format
+#~ msgid "Disconnecting %s"
+#~ msgstr "מתבצעת התנתקות מ־%s"
 
-#~ msgid ""
-#~ "Close your eyes and breathe out as long as you can and try to relax. When "
-#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-#~ "for each time you breathe in and out. To extra relax your eyes, try "
-#~ "closing them in micro pauses too."
-#~ msgstr ""
-#~ "סגור את העיניים ונשום זמן ארוך ככל שתוכל. נסה להרגע. כאשר אתה שואף, עשה "
-#~ "זאת לאט ככל שתוכל. נסה לספור באיטיות עד שמונה בכל פעם שאתה נושם פנימה "
-#~ "והחוצה. על מנת להרגיע את העיניים, נסה לעצום אותם בהפסקות זעירות."
+#~ msgid "Enable networking"
+#~ msgstr "הפעלת רשת"
 
 #~ msgid ""
-#~ "Go stand face to a wall (or something) and put your hands at shoulder "
-#~ "height against it with your elbows slightly bended. Push your body to the "
-#~ "wall, without changing the angle of your elbows. Then push your body back "
-#~ "from the wall again without changing the angle of the elbows."
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
 #~ msgstr ""
-#~ "לך ועמוד עם הפנים לקיר ושים את ידיך עליו כך שיהיו בגובה הכתף , עם המרפקים "
-#~ "מכופפים מעט. דחוף את הגוף לעבר הקיר, ללא שינוי הזווית של המרפקים. אחר כך "
-#~ "דחוף את הגוף בחזרה מן הקיר שוב ללא שינוי הזווית של המרפקים."
+#~ "נא לציין את שם המחשב ואת מספר הפִּתחה של מחשב\n"
+#~ "אליו ברצונך להתחבר."
 
-#~ msgid ""
-#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
-#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
-#~ "Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr ""
-#~ "החזק את הראש ישר ואת הלסת מקבילה לרצפה. הטה את הראש לאחור (תוך יצירת סנטר "
-#~ "כפול). השאר במצב זה למשך 2 שניות והרגע. הטה את הראש באותו האופן קדימה, "
-#~ "השאר במצב זה למשך 2 שניות והרגע שוב."
+#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
+#~ msgstr "יש לקום ולעמוד עם הפנים כלפי קיר (או משהו אחר) ולשים עליו את את הידיים כך שיהיו בגובה הכתף, עם המרפקים מכופפים מעט. דחוף את הגוף לעבר הקיר, ללא שינוי הזווית של המרפקים. לאחר מכןיש לדחוף את הגוף בחזרה מן הקיר שוב ללא שינוי הזווית של המרפקים."
+
+#~ msgid "Host name"
+#~ msgstr "שם המחשב"
+
+#~ msgid "Host name:"
+#~ msgstr "שם המחשב:"
+
+#~ msgid "Hosts"
+#~ msgstr "מחשבים"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "לא ניתן לאתחל את Bonobo"
+
+#~ msgid "I'm now master."
+#~ msgstr "השליטה בידיי כעת."
+
+#~ msgid "Inactive"
+#~ msgstr "לא פעיל"
+
+#~ msgid "Is Workrave already running?"
+#~ msgstr "האם Workrave כבר פועל?"
+
+#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr "החזק את הראש ישר ואת הלסת מקבילה לרצפה. הטה את הראש לאחור (תוך יצירת סנטר כפול). השאר במצב זה למשך 2 שניות והרגע. הטה את הראש באותו האופן קדימה, השאר במצב זה למשך 2 שניות והרגע שוב."
+
+#, fuzzy
+#~ msgid "Mode"
+#~ msgstr "_מצב"
 
 #~ msgid "Move the shoulder blades"
 #~ msgstr "הזזת העצם הבריח"
@@ -1652,31 +1372,163 @@ msgstr ""
 #~ msgid "Neck stretch"
 #~ msgstr "מתיחת הצוואר"
 
+#~ msgid "Network"
+#~ msgstr "רשת"
+
+#~ msgid "Network connect"
+#~ msgstr "התחברות לרשת"
+
+#~ msgid "Network log"
+#~ msgstr "יומן רשת"
+
+#~ msgid "Network operation started."
+#~ msgstr "פעולת הרשת החלה."
+
+#, c-format
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "הלקוח %s שאינו שליט דחה את בקשת השליטה."
+
+#, fuzzy
+#~ msgid "Open"
+#~ msgstr "_פתיחה"
+
+#~ msgid "Password:"
+#~ msgstr "סיסמה:"
+
+#~ msgid "Play sounds using built-in speaker"
+#~ msgstr "ניגון צלילים בעזרת הרמקול הפנימי"
+
+#~ msgid "Port"
+#~ msgstr "פִּתחה"
+
+#~ msgid "Port:"
+#~ msgstr "פִּתחה:"
+
+#, fuzzy
+#~ msgid "Quit"
+#~ msgstr "_יציאה"
+
+#, fuzzy
+#~ msgid "Reading Mode"
+#~ msgstr "מצב קריאה"
+
+#, fuzzy
+#~ msgid "Reconnect"
+#~ msgstr "_התחברות מחדש"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "ניסיונות להתחברות מחדש:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "מרווח זמן בין ניסיונות להתחברות מחדש:"
+
+#, c-format
+#~ msgid "Reconnecting to %s."
+#~ msgstr "מתבצעת התחברות מחדש אל %s."
+
+#, c-format
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "מתבצעת דחיית בקשת השליטה מהלקוח %s."
+
 #~ msgid "Relax the eyes"
 #~ msgstr "הרגעת העיניים"
 
-#~ msgid ""
-#~ "Stand by your desk and place both your palms on the desk with the fingers "
-#~ "pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr ""
-#~ "עמוד ליד השולחן ומקם את שתי כפות ידך על השולחן עם האצבעות מופנות כלפי "
-#~ "הגוף. מתח בעדינות את מפרק כף היד ואת האמות."
+#, c-format
+#~ msgid "Removing client %s."
+#~ msgstr "מתבצעת הסרת הלקוח %s."
 
-#~ msgid ""
-#~ "Stand up and try to reach the ceiling with your hands without lifting "
-#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
-#~ "the floor, without bending your arms. Keep them moving to the floor by "
-#~ "bending you back slowly until you can (almost) place them in front of "
-#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
-#~ "is straight up again."
-#~ msgstr ""
-#~ "עמוד ונסה להגיע לתקרה עם הידיים בלי להרים את העקבים. השאר כך מספר שניות. "
-#~ "לאחר מכן הורד את הידיים באיטיות לכיוון הרצפה, מבלי לכופף את הזרועות. המשך "
-#~ "את התנועה לעבר הרצפה על ידי כיפוף הגב באיטיות עד שתוכל (כמעט) להניח אותם "
-#~ "לפני הנעליים שלך. התישר באיטיות על ידי הרמת הגב מן המותניים ומעלה."
+#, c-format
+#~ msgid "Requesting master status from %s."
+#~ msgstr "נשלחת בקשה לקבלת שליטה מ־%s."
+
+#~ msgid "Server port:"
+#~ msgstr "פִּתחת השרת:"
+
+#~ msgid "Server settings"
+#~ msgstr "הגדרות שרת"
+
+#~ msgid "Show _log"
+#~ msgstr "הצגת _יומן"
+
+#~ msgid "Silent in"
+#~ msgstr "שקט בעוד %s"
+
+#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr "עמוד ליד השולחן ומקם את שתי כפות ידך על השולחן עם האצבעות מופנות כלפי הגוף. מתח בעדינות את מפרק כף היד ואת האמות."
+
+#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
+#~ msgstr "עמוד ונסה להגיע לתקרה עם הידיים בלי להרים את העקבים. השאר כך מספר שניות. לאחר מכן הורד את הידיים באיטיות לכיוון הרצפה, מבלי לכופף את הזרועות. המשך את התנועה לעבר הרצפה על ידי כיפוף הגב באיטיות עד שתוכל (כמעט) להניח אותם לפני הנעליים שלך. התישר באיטיות על ידי הרמת הגב מן המותניים ומעלה."
+
+#~ msgid "Starting %s"
+#~ msgstr "שקט בעוד %s"
 
 #~ msgid "Stretch your back"
 #~ msgstr "מתיחת הגב"
 
+#~ msgid "Suspend timer when inactive"
+#~ msgstr "השהיית השעון כאשר לא פעיל"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "הרשימה הבאה מכילה את המחשבים אליהם תנסה Workrave להתחבר\n"
+#~ "בעת ההפעלה. לחץ על שם מחשב או פִּתחה על מנת לערוך."
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "זוהי הפסקת המנוחה שלך. זה הזמן לקום על הרגלים\n"
+#~ "ולהתרחק מהמחשב באופן סדיר. אפשר פשוט להתהלך\n"
+#~ "סביב לכמה דקות, להתמתח ולהירגע."
+
+#~ msgid "Username:"
+#~ msgstr "שם משתמש:"
+
+#~ msgid "Workrave failed to start"
+#~ msgstr "הפעלת Workrave נכשלה"
+
 #~ msgid "Wrist and lower arm desk stretch"
 #~ msgstr "מתיחת מפרק כף היד והאמה"
+
+#~ msgid "_About..."
+#~ msgstr "על _אודות..."
+
+#~ msgid "_Connect"
+#~ msgstr "_התחברות"
+
+#~ msgid "_Connect..."
+#~ msgstr "_התחברות..."
+
+#~ msgid "_Credits"
+#~ msgstr "תו_דות"
+
+#~ msgid "_Disconnect"
+#~ msgstr "הת_נתקות"
+
+#~ msgid "_Documented by"
+#~ msgstr "_תועד ע\"י"
+
+#~ msgid "_Join"
+#~ msgstr "הצ_טרפות"
+
+#~ msgid "_Network"
+#~ msgstr "_רשת"
+
+#~ msgid "_Quiet"
+#~ msgstr "_שקט"
+
+#~ msgid "_Reconnect"
+#~ msgstr "הת_חברות מחדש"
+
+#~ msgid "_Show Log..."
+#~ msgstr "_הצגת היומן..."
+
+#~ msgid "_Translated by"
+#~ msgstr "_תורגם ע\"י"
+
+#~ msgid "_Written by"
+#~ msgstr "_נכתב ע\"י"

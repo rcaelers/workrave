@@ -1,6 +1,8 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 use strict;
+use warnings;
+use warnings::register;
 use integer;
 use POSIX qw(strftime);
 use Time::Local;
@@ -51,13 +53,18 @@ sub dumpdata($$$$$)
 {
 	my ($tmdate, $break, $misc, $breakstats, $miscstats) = @_;
 
-	die "No timestamp at line $.\n" if !defined($tmdate);
-	die "No breaks at line $.\n" if !defined($break);
+	warnings::warn "No timestamp at line $.\n" if !defined($tmdate);
+	warnings::warn "No breaks at line $.\n" if !defined($break);
 	foreach my $breaktype (0..2) {
-		die "No breaktype #$breaktype at line $.\n"
-			if !defined($break->{$breaktype});
+		if (!defined($break->{$breaktype})) {
+			warnings::warn "No breaktype #$breaktype at line $.\n";
+			return;
+		}
 	}
-	die "No misc at line $.\n" if !defined($misc);
+	warnings::warn "No misc at line $.\n" if !defined($misc);
+	if (!defined($tmdate) || !defined($break) || !defined($misc)) {
+		return;
+	}
 
 	my $ts = strftime("%Y%m%d%H%M", gmtime(timegm(0,
 		@$tmdate{qw(min hour mday mon year)})));
@@ -106,6 +113,7 @@ my ($tmdate, $break, $misc) = (undef, undef, undef);
 open(SOURCE, $source) or die "open $source: $!\n";
 while (<SOURCE>) {
 	chomp;
+	s/^\0*//; # remove corrupted data
 	if (/^WorkRaveStats 4$/) {
 		# Ignore header
 		next;

@@ -21,13 +21,13 @@
 #include <memory>
 
 #include "config/Config.hh"
-#include "utils/ScopedConnections.hh"
+#include "utils/Signals.hh"
 
 #include "BreakStateModel.hh"
 
 class DayTimePred;
 
-class BreakConfig
+class BreakConfig : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<BreakConfig>;
@@ -49,7 +49,6 @@ private:
   Timer::Ptr timer;
   bool enabled;
   bool use_microbreak_activity;
-  scoped_connections connections;
 };
 
 #endif // BREAKCONFIG_HH

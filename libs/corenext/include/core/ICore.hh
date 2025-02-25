@@ -1,6 +1,4 @@
-// ICore.hh --- The main controller interface
-//
-// Copyright (C) 2001 - 2009, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,9 +18,9 @@
 #ifndef WORKRAVE_BACKEND_ICORE_HH
 #define WORKRAVE_BACKEND_ICORE_HH
 
+#include <chrono>
 #include <memory>
 #include <string>
-
 #include <boost/signals2.hpp>
 
 #include "config/IConfigurator.hh"
@@ -41,7 +39,6 @@ namespace workrave
   {
   public:
     using Ptr = std::shared_ptr<ICore>;
-
     virtual ~ICore() = default;
 
     virtual boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed() = 0;
@@ -57,7 +54,7 @@ namespace workrave
     virtual void force_break(BreakId id, workrave::utils::Flags<BreakHint> break_hint) = 0;
 
     //! Return the break interface of the specified type.
-    [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) = 0;
+    [[nodiscard]] virtual IBreak::Ptr get_break(BreakId id) const = 0;
 
     //! Return the statistics interface.
     [[nodiscard]] virtual IStatistics::Ptr get_statistics() const = 0;
@@ -65,14 +62,20 @@ namespace workrave
     //! Is the user currently active?
     [[nodiscard]] virtual bool is_user_active() const = 0;
 
+    //! Is the user taking a break?
+    [[nodiscard]] virtual bool is_taking() const = 0;
+
     //! Retrieves the operation mode.
-    [[nodiscard]] virtual OperationMode get_operation_mode() = 0;
+    [[nodiscard]] virtual OperationMode get_active_operation_mode() = 0;
 
     //! Retrieves the regular operation mode.
-    [[nodiscard]] virtual OperationMode get_operation_mode_regular() = 0;
+    [[nodiscard]] virtual OperationMode get_regular_operation_mode() = 0;
 
     //! Sets the operation mode.
     virtual void set_operation_mode(OperationMode mode) = 0;
+
+    //! Sets the operation mode.
+    virtual void set_operation_mode_for(OperationMode mode, std::chrono::minutes duration) = 0;
 
     //! Temporarily overrides the operation mode.
     virtual void set_operation_mode_override(OperationMode mode, const std::string &id) = 0;
@@ -95,14 +98,8 @@ namespace workrave
     //! Set the break insist policy.
     virtual void set_insist_policy(InsistPolicy p) = 0;
 
-    //! Return the current time
-    //[[nodiscard]] virtual int64_t get_time() const = 0;
-
     //! Forces all breaks timers to become idle.
     virtual void force_idle() = 0;
-
-    //! Return configuration
-    [[nodiscard]] virtual config::IConfigurator::Ptr get_configurator() const = 0;
 
     //! Return the hooks
     [[nodiscard]] virtual ICoreHooks::Ptr get_hooks() const = 0;
@@ -114,7 +111,7 @@ namespace workrave
   class CoreFactory
   {
   public:
-    static ICore::Ptr create();
+    static ICore::Ptr create(workrave::config::IConfigurator::Ptr configurator);
   };
 }; // namespace workrave
 

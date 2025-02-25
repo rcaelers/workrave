@@ -20,8 +20,6 @@
 
 #include <string>
 
-#include "DBusBinding.hh"
-
 namespace workrave
 {
   namespace dbus

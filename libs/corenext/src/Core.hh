@@ -1,5 +1,3 @@
-// Core.hh --- The main controller
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -42,7 +40,7 @@ namespace workrave
 class Core : public workrave::ICore
 {
 public:
-  Core();
+  explicit Core(workrave::config::IConfigurator::Ptr configurator);
   ~Core() override;
 
   // ICore
@@ -51,16 +49,17 @@ public:
   void init(workrave::IApp *application, const char *display_name) override;
   void heartbeat() override;
   void force_break(workrave::BreakId id, workrave::utils::Flags<workrave::BreakHint> break_hint) override;
-  workrave::IBreak::Ptr get_break(workrave::BreakId id) override;
+  workrave::IBreak::Ptr get_break(workrave::BreakId id) const override;
   workrave::IStatistics::Ptr get_statistics() const override;
-  workrave::config::IConfigurator::Ptr get_configurator() const override;
   ICoreHooks::Ptr get_hooks() const override;
   workrave::dbus::IDBus::Ptr get_dbus() const override;
   bool is_user_active() const override;
-  workrave::OperationMode get_operation_mode() override;
-  workrave::OperationMode get_operation_mode_regular() override;
+  bool is_taking() const override;
+  workrave::OperationMode get_active_operation_mode() override;
+  workrave::OperationMode get_regular_operation_mode() override;
   bool is_operation_mode_an_override() override;
   void set_operation_mode(workrave::OperationMode mode) override;
+  void set_operation_mode_for(workrave::OperationMode mode, std::chrono::minutes duration) override;
   void set_operation_mode_override(workrave::OperationMode mode, const std::string &id) override;
   void remove_operation_mode_override(const std::string &id) override;
   workrave::UsageMode get_usage_mode() override;
@@ -73,7 +72,6 @@ public:
   void report_external_activity(std::string who, bool act);
 
 private:
-  void init_configurator();
   void init_bus();
 
 private:

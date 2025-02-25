@@ -1,4 +1,4 @@
-// Copyright (C) 2007, 2008, 2009, 2011, 2012, 2013 Rob Caelers & Raymond Penners
+// Copyright (C) 2007 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,9 @@ const string CoreConfig::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string CoreConfig::CFG_KEY_MONITOR_SENSITIVITY = "monitor/sensitivity";
 const string CoreConfig::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 const string CoreConfig::CFG_KEY_OPERATION_MODE = "general/operation-mode";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_DURATION = "general/operation_mode_auto_reset_duration";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_OPTIONS = "general/operation_mode_auto_reset_options";
+const string CoreConfig::CFG_KEY_OPERATION_MODE_RESET_TIME = "general/operation_mode_auto_reset_time";
 const string CoreConfig::CFG_KEY_USAGE_MODE = "general/usage-mode";
 
 CoreConfig::Defaults CoreConfig::default_config[] = {{
@@ -127,6 +130,8 @@ CoreConfig::init(IConfigurator::Ptr config)
     }
 
   config->set_value(CoreConfig::timer_daily_limit_use_micro_break_activity().key(), false, CONFIG_FLAG_INITIAL);
+  config->set_value(CoreConfig::operation_mode_auto_reset_duration().key(), 0, CONFIG_FLAG_INITIAL);
+  config->set_value(CoreConfig::operation_mode_auto_reset_options().key(), "30;60;120;240", CONFIG_FLAG_INITIAL);
 
   string monitor_name;
   bool ret = config->get_value(expand(CoreConfig::CFG_KEY_TIMER_MONITOR, BREAK_ID_DAILY_LIMIT), monitor_name);
@@ -267,4 +272,22 @@ Setting<int, workrave::UsageMode> &
 CoreConfig::usage_mode()
 {
   return SettingCache::get<int, workrave::UsageMode>(config, CFG_KEY_USAGE_MODE);
+}
+
+Setting<int, std::chrono::minutes> &
+CoreConfig::operation_mode_auto_reset_duration()
+{
+  return SettingCache::get<int, std::chrono::minutes>(config, CFG_KEY_OPERATION_MODE_RESET_DURATION);
+}
+
+Setting<int64_t, std::chrono::system_clock::time_point> &
+CoreConfig::operation_mode_auto_reset_time()
+{
+  return SettingCache::get<int64_t, std::chrono::system_clock::time_point>(config, CFG_KEY_OPERATION_MODE_RESET_TIME);
+}
+
+Setting<std::vector<int>, std::vector<std::chrono::minutes>> &
+CoreConfig::operation_mode_auto_reset_options()
+{
+  return SettingCache::get<std::vector<int>, std::vector<std::chrono::minutes>>(config, CFG_KEY_OPERATION_MODE_RESET_OPTIONS);
 }

@@ -17,20 +17,17 @@
 
 #include <string>
 
-namespace workrave
+namespace workrave::config
 {
-  namespace config
+  //! Listener to receive notifications of changed configuration.
+  class IConfiguratorListener
   {
-    //! Listener to receive notifications of changed configuration.
-    class IConfiguratorListener
-    {
-    public:
-      virtual ~IConfiguratorListener() = default;
+  public:
+    virtual ~IConfiguratorListener() = default;
 
-      //! The configuration item with specified key has changed.
-      virtual void config_changed_notify(const std::string &key) = 0;
-    };
-  } // namespace config
-} // namespace workrave
+    //! The configuration item with specified key has changed.
+    virtual void config_changed_notify(const std::string &key) = 0;
+  };
+} // namespace workrave::config
 
 #endif // WORKRAVE_CONFIG_ICONFIGURATORLISTENER_HH

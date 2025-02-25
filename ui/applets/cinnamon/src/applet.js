@@ -6,9 +6,18 @@ const PopupMenu = imports.ui.popupMenu;
 const Gettext = imports.gettext;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
-const Workrave = imports.gi.Workrave;
 
 const _ = Gettext.gettext;
+
+let Workrave = null;
+
+try {
+  imports.gi.versions.Workrave = "1.0";
+  Workrave = imports.gi.Workrave;
+} catch (error) {
+  imports.gi.versions.Workrave = "2.0";
+  Workrave = imports.gi.Workrave;
+}
 
 let start = GLib.get_monotonic_time();
 global.log('workrave-applet: start @ ' + start);
@@ -23,7 +32,7 @@ const IndicatorIface = '<node>\
         <arg type="i" name="command" direction="in" /> \
     </method> \
     <method name="GetMenu"> \
-        <arg type="a(sii)" name="menuitems" direction="out" /> \
+        <arg type="a(sssuyy)" name="menuitems" direction="out" /> \
     </method> \
     <method name="GetTrayIconEnabled"> \
         <arg type="b" name="enabled" direction="out" /> \
@@ -34,7 +43,10 @@ const IndicatorIface = '<node>\
         <arg type="(siuuuuuu)" /> \
     </signal> \
     <signal name="MenuUpdated"> \
-        <arg type="a(sii)" /> \
+        <arg type="a(sssuyy)" /> \
+    </signal> \
+    <signal name="MenuItemUpdated"> \
+        <arg type="(sssuyy)" /> \
     </signal> \
     <signal name="TrayIconUpdated"> \
         <arg type="b" /> \
@@ -151,6 +163,18 @@ const CoreIface = '<node>\
   </interface> \
 </node>';
 
+const MENU_ITEM_TYPE_SUBMENU_BEGIN = 1;
+const MENU_ITEM_TYPE_SUBMENU_END = 2;
+const MENU_ITEM_TYPE_RADIOGROUP_BEGIN = 3;
+const MENU_ITEM_TYPE_RADIOGROUP_END = 4;
+const MENU_ITEM_TYPE_ACTION = 5;
+const MENU_ITEM_TYPE_CHECK = 6;
+const MENU_ITEM_TYPE_RADIO = 7;
+const MENU_ITEM_TYPE_SEPARATOR = 8;
+
+const MENU_ITEM_FLAG_ACTIVE = 1;
+const MENU_ITEM_FLAG_VISIBLE = 2;
+
 let CoreProxy = Gio.DBusProxy.makeProxyWrapper(CoreIface);
 
 function MyApplet(metadata, orientation, panel_height, instanceId) {
@@ -173,10 +197,11 @@ MyApplet.prototype = {
         this._padding = 0;
         this._bus_name = 'org.workrave.CinnamonApplet';
         this._bus_id = 0;
+        this._menu_entries = {};
 
         this._area = new St.DrawingArea();
-        this._area.set_width(this.width=24);
-        this._area.set_height(this.height=this.panel_height);
+        this._area.set_width(this._width=24);
+        this._area.set_height(this._height=this.panel_height);
         this._area.connect('repaint', Lang.bind(this, this._draw));
 
         this.actor.add_actor(this._area, { y_align: St.Align.MIDDLE, y_fill: false });
@@ -186,6 +211,7 @@ MyApplet.prototype = {
         this._ui_proxy = new IndicatorProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/UI');
         this._timers_updated_id = this._ui_proxy.connectSignal("TimersUpdated", Lang.bind(this, this._onTimersUpdated));
         this._menu_updated_id = this._ui_proxy.connectSignal("MenuUpdated", Lang.bind(this, this._onMenuUpdated));
+        this._menu_item_updated_id = this._ui_proxy.connectSignal("MenuItemUpdated", Lang.bind(this, this._onMenuItemUpdated));
         this._trayicon_updated_id = this._ui_proxy.connectSignal("TrayIconUpdated", Lang.bind(this, this._onTrayIconUpdated));
 
         this._core_proxy = new CoreProxy(Gio.DBus.session, 'org.workrave.Workrave', '/org/workrave/Workrave/Core');
@@ -209,18 +235,28 @@ MyApplet.prototype = {
 
     _onDestroy: function()
     {
-        this._ui_proxy.EmbedRemote(false, 'CinnamonApplet');
+        if (this._ui_proxy != null)
+        {
+            this._ui_proxy.EmbedRemote(false, 'CinnamonApplet');
+        }
         this._stop();
         this._destroy();
     },
 
     _destroy: function() {
-        this._ui_proxy.disconnectSignal(this._timers_updated_id);
-        this._ui_proxy.disconnectSignal(this._menu_updated_id);
-        this._ui_proxy.disconnectSignal(this._trayicon_updated_id);
-        this._ui_proxy = null;
-        this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
-        this._core_proxy = null;
+        if (this._ui_proxy != null)
+        {
+            this._ui_proxy.disconnectSignal(this._timers_updated_id);
+            this._ui_proxy.disconnectSignal(this._menu_updated_id);
+            this._ui_proxy.disconnectSignal(this._menu_item_updated_id);
+            this._ui_proxy.disconnectSignal(this._trayicon_updated_id);
+            this._ui_proxy = null;
+        }
+        if (this._core_proxy != null)
+        {
+            this._core_proxy.disconnectSignal(this._operation_mode_changed_id);
+            this._core_proxy = null;
+        }
         this.actor.destroy();
     },
 
@@ -239,20 +275,28 @@ MyApplet.prototype = {
         }
     },
 
+    _stop_dbus: function()
+    {
+        if (this._alive)
+        {
+            Mainloop.source_remove(this._timeoutId);
+            Gio.DBus.session.unown_name(this._bus_id);
+            this._timeoutId = 0;
+            this._bus_id = 0;
+        }
+    },
+
     _stop: function()
     {
-         if (this._alive)
-         {
-             Mainloop.source_remove(this._timeoutId);
-             Gio.DBus.session.unown_name(this._bus_id);
-             this._bus_id = 0;
-             this._timerbox.set_enabled(false);
-             this._timerbox.set_force_icon(false);
-             this._area.queue_repaint();
-             this._alive = false;
-             this._updateMenu(null);
-             this._area.set_width(this.width=24);
-
+        if (this._alive)
+        {
+            this._stop_dbus();
+            this._timerbox.set_enabled(false);
+            this._timerbox.set_force_icon(false);
+            this._alive = false;
+            this._updateMenu(null);
+            this._area.queue_repaint();
+            this._area.set_width(this._width=24);
          }
      },
 
@@ -295,7 +339,6 @@ MyApplet.prototype = {
     },
 
     _onTimersUpdated : function(emitter, senderName, [microbreak, restbreak, daily]) {
-
         if (! this._alive)
         {
             this._start();
@@ -335,7 +378,7 @@ MyApplet.prototype = {
         }
 
         let width = this._timerbox.get_width();
-        this._area.set_width(this.width=width);
+        this._area.set_width(this._width=width);
         this._area.queue_repaint();
     },
 
@@ -353,6 +396,10 @@ MyApplet.prototype = {
 
     _onMenuUpdated : function(emitter, senderName, [menuitems]) {
         this._updateMenu(menuitems);
+    },
+
+    _onMenuItemUpdated : function(emitter, senderName, [menuitem]) {
+        this._updateItemMenu(menuitem);
     },
 
     _onTrayIconUpdated : function(emitter, senderName, [enabled]) {
@@ -381,6 +428,7 @@ MyApplet.prototype = {
 
     _updateMenu : function(menuitems) {
         this.menu.removeAll();
+        this._menu_entries = {}
 
         let current_menu = this.menu;
         let indent = "";
@@ -396,59 +444,98 @@ MyApplet.prototype = {
             for (var item in menuitems)
             {
                 let text = indent + menuitems[item][0];
-                let command = menuitems[item][1];
-                let flags = menuitems[item][2];
+                let dynamic_text = indent + menuitems[item][1];
+                let action = indent + menuitems[item][2];
+                let id = menuitems[item][3];
+                let type = menuitems[item][4];
+                let flags = menuitems[item][5];
 
-                if ((flags & 1) != 0)
+                let active = ((flags & MENU_ITEM_FLAG_ACTIVE) != 0);
+                let visible = ((flags & MENU_ITEM_FLAG_VISIBLE) != 0);
+                let popup;
+
+                dynamic_text = dynamic_text.replace("_", "");
+
+                if (type == MENU_ITEM_TYPE_SUBMENU_BEGIN)
                 {
-                    let popup = new PopupMenu.PopupSubMenuMenuItem(text);
+                    let popup = new PopupMenu.PopupSubMenuMenuItem(dynamic_text);
                     this.menu.addMenuItem(popup);
                     current_menu = popup.menu;
                     indent = "   "; // Look at CSS??
                 }
-                else if ((flags & 2) != 0)
+                else if (type == MENU_ITEM_TYPE_SUBMENU_END)
                 {
                     current_menu = this.menu;
                     indent = "";
                 }
-                else
+                else if (type == MENU_ITEM_TYPE_SEPARATOR)
                 {
-                    let active = ((flags & 16) != 0);
-                    let popup;
-
-                    if (text == "")
-                    {
-                        popup = new PopupSub.PopupSeparatorMenuItem();
-                    }
-                    else if ((flags & 4) != 0)
-                    {
-                        popup = new PopupMenu.PopupSwitchMenuItem(text);
-                        popup.setToggleState(active);
-                    }
-                    else if ((flags & 8) != 0)
-                    {
-                        popup = new PopupMenu.PopupMenuItem(text);
-
-                        // Gnome 3.6 & 3.8
-                        if (typeof popup.setShowDot === "function")
-                        {
-                            popup.setShowDot(active);
-                        }
-
-                        // Gnome 3.10 & newer
-                        else if (typeof popup.setOrnament === "function")
-                        {
-                            popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
-                        }
-                    }
-                    else
-                    {
-                        popup = new PopupMenu.PopupMenuItem(text);
-                    }
-
-                    popup.connect('activate', Lang.bind(this, this._onMenuCommand, command));
-                    current_menu.addMenuItem(popup);
+                    popup = new PopupMenu.PopupSeparatorMenuItem(dynamic_text);
                 }
+                else if (type == MENU_ITEM_TYPE_CHECK)
+                {
+                    popup = new PopupMenu.PopupSwitchMenuItem(dynamic_text);
+                    popup.setToggleState(active);
+                }
+                else if (type == MENU_ITEM_TYPE_RADIO)
+                {
+                    popup = new PopupMenu.PopupMenuItem(dynamic_text);
+
+                    // Gnome 3.6 & 3.8
+                    if (typeof popup.setShowDot === "function")
+                    {
+                        popup.setShowDot(active);
+                    }
+
+                    // Gnome 3.10 & newer
+                    else if (typeof popup.setOrnament === "function")
+                    {
+                        popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
+                    }
+                }
+                else if (type == MENU_ITEM_TYPE_ACTION)
+                {
+                    popup = new PopupMenu.PopupMenuItem(dynamic_text);
+                }
+
+                if (popup)
+                {
+                    popup.setSensitive(visible);
+                    popup.connect('activate', Lang.bind(this, this._onMenuCommand, id));
+                    current_menu.addMenuItem(popup);
+                    this._menu_entries[id] = popup;
+                }
+            }
+        }
+    },
+
+    _updateItemMenu : function(menuitem) {
+        let id = menuitem[2];
+        let type = menuitem[3];
+        let flags = menuitem[4];
+
+        let active = ((flags & MENU_ITEM_FLAG_ACTIVE) != 0);
+        let visible = ((flags & MENU_ITEM_FLAG_VISIBLE) != 0);
+        let popup = this._menu_entries[id];
+
+        popup.setSensitive(visible);
+
+        if (type == MENU_ITEM_TYPE_CHECK)
+        {
+            popup.setToggleState(active);
+        }
+        else if (type == MENU_ITEM_TYPE_RADIO)
+        {
+            // Gnome 3.6 & 3.8
+            if (typeof popup.setShowDot === "function")
+            {
+                popup.setShowDot(active);
+            }
+
+            // Gnome 3.10 & newer
+            else if (typeof popup.setOrnament === "function")
+            {
+                popup.setOrnament(active ? PopupMenu.Ornament.DOT : PopupMenu.Ornament.NONE);
             }
         }
     }

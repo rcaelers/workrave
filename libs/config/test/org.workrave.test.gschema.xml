@@ -37,12 +37,22 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
       <default>1234</default>
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int2">
+    <key type="i" name="int32-2">
+      <default>4321</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64-2">
       <default>4321</default>
       <summary></summary>
       <description></description>
@@ -80,7 +90,27 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="s" name="vstring">
+      <default>""</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="vint32">
+      <default>""</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="vduration">
+      <default>""</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>
@@ -92,6 +122,31 @@
     </key>
     <key type="i" name="mode">
       <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="extendedmode-int">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="extendedmode-string">
+      <default>"x"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="minutes">
+      <default>0</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="i" name="hours">
+      <default>0</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="time">
+      <default>0</default>
       <summary></summary>
       <description></description>
     </key>
@@ -109,7 +164,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>
@@ -126,7 +186,7 @@
     </key>
   </schema>
 
-    <schema path="/org/workrave/test/code-defaults/" id="org.workrave.test.code-defaults" gettext-domain="workrave">
+  <schema path="/org/workrave/test/code-defaults/" id="org.workrave.test.code-defaults" gettext-domain="workrave">
     <key type="b" name="bool">
       <default>true</default>
       <summary></summary>
@@ -142,7 +202,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>
@@ -154,7 +219,7 @@
     </key>
   </schema>
 
-    <schema path="/org/workrave/test/schema-defaults/" id="org.workrave.test.schema-defaults" gettext-domain="workrave">
+  <schema path="/org/workrave/test/schema-defaults/" id="org.workrave.test.schema-defaults" gettext-domain="workrave">
     <key type="b" name="bool">
       <default>true</default>
       <summary></summary>
@@ -170,7 +235,12 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="int">
+    <key type="i" name="int32">
+      <default>1234</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="int64">
       <default>1234</default>
       <summary></summary>
       <description></description>

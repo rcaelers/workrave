@@ -19,37 +19,34 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
+#include "XScreenSaverMonitor.hh"
 
-#ifdef HAVE_GTK
+#include <memory>
+
+#if defined(HAVE_GTK)
 #  include <gdk/gdkx.h>
 #endif
 
-#include <memory>
-#include <chrono>
-
-#include "XScreenSaverMonitor.hh"
-
 #include "input-monitor/IInputMonitorListener.hh"
 #include "utils/Platform.hh"
+#include "debug.hh"
 
 using namespace std;
 using namespace workrave::utils;
 
 XScreenSaverMonitor::~XScreenSaverMonitor()
 {
-  TRACE_ENTER("XScreenSaverMonitor::~XScreenSaverMonitor");
+  TRACE_ENTRY();
   if (monitor_thread)
     {
       monitor_thread->join();
     }
-  TRACE_EXIT();
 }
 
 bool
 XScreenSaverMonitor::init()
 {
-  TRACE_ENTER("XScreenSaverMonitor::init");
+  TRACE_ENTRY();
   int event_base;
   int error_base;
 
@@ -70,30 +67,26 @@ XScreenSaverMonitor::init()
       monitor_thread = std::make_shared<std::thread>([this] { run(); });
     }
 
-  TRACE_RETURN(has_extension);
+  TRACE_VAR(has_extension);
   return has_extension;
 }
 
 void
 XScreenSaverMonitor::terminate()
 {
-  TRACE_ENTER("XScreenSaverMonitor::terminate");
-
+  TRACE_ENTRY();
   mutex.lock();
   abort = true;
   cond.notify_all();
   mutex.unlock();
 
   monitor_thread->join();
-
-  TRACE_EXIT();
 }
 
 void
 XScreenSaverMonitor::run()
 {
-  TRACE_ENTER("XScreenSaverMonitor::run");
-
+  TRACE_ENTRY();
   {
     std::unique_lock lock(mutex);
     while (!abort)
@@ -110,6 +103,4 @@ XScreenSaverMonitor::run()
         cond.wait_for(lock, std::chrono::milliseconds(1000));
       }
   }
-
-  TRACE_EXIT();
 }

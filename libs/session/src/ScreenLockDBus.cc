@@ -34,7 +34,7 @@ ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
                                const char *dbus_method_to_check_existence)
   : dbus_lock_method(dbus_lock_method)
 {
-  TRACE_ENTER_MSG("ScreenLockDBus::ScreenLockDBus", dbus_name);
+  TRACE_ENTRY_PAR(dbus_name);
 
   // We do not allow autospawning services
   bool r = proxy.init_with_connection(connection,
@@ -53,13 +53,11 @@ ScreenLockDBus::ScreenLockDBus(GDBusConnection *connection,
     {
       proxy.clear();
     }
-  TRACE_EXIT();
 }
 
 bool
 ScreenLockDBus::lock()
 {
-  TRACE_ENTER_MSG("ScreenLockDBus::lock", dbus_lock_method);
+  TRACE_ENTRY_PAR(dbus_lock_method);
   return proxy.call_method(dbus_lock_method, nullptr, nullptr);
-  TRACE_EXIT();
 }

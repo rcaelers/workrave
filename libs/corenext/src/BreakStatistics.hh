@@ -1,5 +1,3 @@
-// BreakStatistics.hh
-//
 // Copyright (C) 2001 - 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -22,31 +20,32 @@
 
 #include <memory>
 
-#include "utils/ScopedConnections.hh"
-
 #include "BreakStateModel.hh"
 #include "Statistics.hh"
+#include "utils/Signals.hh"
 
-class BreakStatistics
+class BreakStatistics : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<BreakStatistics>;
 
 public:
-  BreakStatistics(workrave::BreakId break_id, BreakStateModel::Ptr break_state_model, Timer::Ptr timer, Statistics::Ptr statistics);
+  BreakStatistics(workrave::BreakId break_id,
+                  BreakStateModel::Ptr break_state_model,
+                  Timer::Ptr timer,
+                  Statistics::Ptr statistics);
 
   void update();
   void daily_reset();
 
 private:
-  void on_break_event(workrave::BreakEvent stage);
+  void on_break_event(workrave::BreakEvent event);
 
 private:
   workrave::BreakId break_id;
   BreakStateModel::Ptr break_state_model;
   Timer::Ptr timer;
   Statistics::Ptr statistics;
-  scoped_connections connections;
 };
 
 #endif // BREAKSTATISTICS_HH

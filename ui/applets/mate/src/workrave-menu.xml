@@ -8,12 +8,6 @@
    <menuitem name="Quiet" action="Quiet"/>
    <menuitem name="Suspended" action="Suspended"/>
 </menu>
-<menu name="Network" action="Network">
-   <menuitem name="Join" action="Join"/>
-   <menuitem name="Disconnect" action="Disconnect"/>
-   <menuitem name="Reconnect" action="Reconnect"/>
-   <menuitem name="ShowLog" action="ShowLog"/>
-</menu>
 <menuitem name="ReadingMode" action="ReadingMode"/>
 <separator/>
 <menuitem name="Preferences" action="Preferences"/>

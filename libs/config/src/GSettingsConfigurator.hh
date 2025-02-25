@@ -1,4 +1,4 @@
-// Copyright (C) 2011 Caelers <robc@krandor.nl>
+// Copyright (C) 2011-2021 Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,8 @@
 #include <glib.h>
 #include <gio/gio.h>
 
+#include "utils/Logging.hh"
+
 #include "IConfigBackend.hh"
 
 class GSettingsConfigurator
@@ -35,35 +37,31 @@ public:
   ~GSettingsConfigurator() override;
 
   bool load(std::string filename) override;
-  bool save(std::string filename) override;
-  bool save() override;
+  void save() override;
 
-  bool remove_key(const std::string &key) override;
+  void remove_key(const std::string &key) override;
   bool has_user_value(const std::string &key) override;
-  bool get_value(const std::string &key, VariantType type, Variant &value) const override;
-  bool set_value(const std::string &key, Variant &value) override;
+  std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const override;
+  void set_value(const std::string &key, const ConfigValue &value) override;
 
   void set_listener(workrave::config::IConfiguratorListener *listener) override;
   bool add_listener(const std::string &key_prefix) override;
   bool remove_listener(const std::string &key_prefix) override;
 
 private:
-  //! Send changes to.
-  workrave::config::IConfiguratorListener *listener{nullptr};
-
-  std::string schema_base;
-  std::string path_base;
-
-  using SettingsMap = std::map<std::string, GSettings *>;
-
-  //!
-  SettingsMap settings;
-
   void add_children();
-  void key_split(const std::string &key, std::string &parent, std::string &child) const;
-  GSettings *get_settings(const std::string &path, std::string &key) const;
+  static void key_split(const std::string &key, std::string &path, std::string &subkey);
+  GSettings *get_settings(const std::string &key, std::string &subkey) const;
 
   static void on_settings_changed(GSettings *settings, const gchar *key, void *user_data);
+
+private:
+  std::string schema_base{"org.workrave"};
+  std::string path_base{"/org/workrave/"};
+
+  workrave::config::IConfiguratorListener *listener{nullptr};
+  std::map<std::string, GSettings *> settings;
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:gsettings")};
 };
 
 #endif // GGSETTINGSCONFIGURATOR_HH

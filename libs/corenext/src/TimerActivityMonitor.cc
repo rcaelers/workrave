@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2001 - 2010, 2012, 2013 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
@@ -50,11 +49,11 @@ TimerActivityMonitor::resume()
 bool
 TimerActivityMonitor::is_active()
 {
-  TRACE_ENTER("TimerActivityMonitor::is_active");
+  TRACE_ENTRY();
   if (forced_idle)
     {
       bool local_is_active = monitor->is_active();
-      TRACE_MSG(local_is_active);
+      TRACE_VAR(local_is_active);
 
       if (local_is_active)
         {
@@ -64,13 +63,13 @@ TimerActivityMonitor::is_active()
 
   if (forced_idle)
     {
-      TRACE_RETURN("Idle");
+      TRACE_MSG("Idle");
       return false;
     }
 
   if (suspended)
     {
-      TRACE_RETURN("Suspended");
+      TRACE_MSG("Suspended");
       return false;
     }
 
@@ -80,19 +79,18 @@ TimerActivityMonitor::is_active()
 
   if (!running && idle >= reset)
     {
-      TRACE_RETURN("Idle stopped");
+      TRACE_MSG("Idle stopped");
       return false;
     }
 
-  TRACE_RETURN("Active");
+  TRACE_MSG("Active");
   return true;
 }
 
 void
 TimerActivityMonitor::force_idle()
 {
-  TRACE_ENTER("TimerActivityMonitor::force_idle");
+  TRACE_ENTRY();
   TRACE_MSG("Forcing idle");
   forced_idle = true;
-  TRACE_EXIT();
 }

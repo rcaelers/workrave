@@ -1,6 +1,4 @@
-// DBus.c
-//
-// Copyright (C) 2007, 2008, 2009, 2010, 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007 - 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -94,8 +92,10 @@ DBusFreeDesktop::register_service(const std::string &service)
 
   dbus_error_init(&error);
 
-  result =
-    dbus_bus_request_name(connection, service.c_str(), DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_DO_NOT_QUEUE, &error);
+  result = dbus_bus_request_name(connection,
+                                 service.c_str(),
+                                 DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_DO_NOT_QUEUE,
+                                 &error);
 
   if (dbus_error_is_set(&error))
     {

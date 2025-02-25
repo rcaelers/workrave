@@ -1,5 +1,3 @@
-// MacOSHelpers.hh --- Helpers for OS X
-//
 // Copyright (C) 2017 Tom Parker
 // All rights reserved.
 //
@@ -22,7 +20,7 @@
 
 #include <pthread.h>
 
-#ifndef _MACH_PORT_T
+#if !defined(_MACH_PORT_T)
 #  define _MACH_PORT_T
 #  include <sys/_types.h> /* __darwin_mach_port_t */
 typedef __darwin_mach_port_t mach_port_t;

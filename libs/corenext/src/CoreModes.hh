@@ -21,14 +21,16 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <chrono>
+#include <optional>
 #include <boost/signals2.hpp>
 
-#include "utils/ScopedConnections.hh"
-
 #include "IActivityMonitor.hh"
-#include "core/CoreTypes.hh"
 
-class CoreModes
+#include "core/CoreTypes.hh"
+#include "utils/Signals.hh"
+
+class CoreModes : public workrave::utils::Trackable
 {
 public:
   using Ptr = std::shared_ptr<CoreModes>;
@@ -39,23 +41,28 @@ public:
   boost::signals2::signal<void(workrave::OperationMode)> &signal_operation_mode_changed();
   boost::signals2::signal<void(workrave::UsageMode)> &signal_usage_mode_changed();
 
-  workrave::OperationMode get_operation_mode();
-  workrave::OperationMode get_operation_mode_regular();
+  workrave::OperationMode get_active_operation_mode();
+  workrave::OperationMode get_regular_operation_mode();
   bool is_operation_mode_an_override();
   void set_operation_mode(workrave::OperationMode mode);
+  void set_operation_mode_for(workrave::OperationMode mode, std::chrono::minutes duration);
   void set_operation_mode_override(workrave::OperationMode mode, const std::string &id);
   void remove_operation_mode_override(const std::string &id);
   workrave::UsageMode get_usage_mode();
   void set_usage_mode(workrave::UsageMode mode);
+  void heartbeat();
+  void daily_reset();
 
 private:
-  void set_operation_mode_internal(workrave::OperationMode mode, bool persistent, const std::string &override_id = "");
+  void set_operation_mode_internal(workrave::OperationMode mode);
+  void update_active_operation_mode();
   void set_usage_mode_internal(workrave::UsageMode mode, bool persistent);
   void load_config();
+  void check_auto_reset();
 
 private:
   //! Current operation mode.
-  workrave::OperationMode operation_mode;
+  workrave::OperationMode operation_mode_active;
 
   //! The same as operation_mode unless operation_mode is an override mode.
   workrave::OperationMode operation_mode_regular;
@@ -74,8 +81,6 @@ private:
 
   //! Usage mode changed notification.
   boost::signals2::signal<void(workrave::UsageMode)> usage_mode_changed_signal;
-
-  scoped_connections connections;
 };
 
 #endif // COREMODES_HH

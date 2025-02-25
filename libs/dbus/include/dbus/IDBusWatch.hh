@@ -1,5 +1,3 @@
-// IDBusWatch.hh --- DBUS bus watch interface
-//
 // Copyright (C) 2007, 2008, 2011, 2012 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

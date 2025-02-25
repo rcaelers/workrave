@@ -1,6 +1,4 @@
 /*
- * harpoon.h
- *
  * Copyright (C) 2002, 2003, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
@@ -20,10 +18,6 @@
  */
 #ifndef HARPOON_H
 #define HARPOON_H
-
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
 
 #include <windows.h>
 #include <mbstring.h>
@@ -98,7 +92,7 @@ extern "C"
   HARPOON_API BOOL harpoon_init(char imported_critical_filename_list[][511], BOOL debug);
   HARPOON_API void harpoon_exit(void);
 
-  HARPOON_API void harpoon_unhook();
+  HARPOON_API void harpoon_unhook(void);
   HARPOON_API BOOL harpoon_hook(HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel);
 
   HARPOON_API void harpoon_block_input(void);
@@ -110,56 +104,56 @@ extern "C"
 }
 #endif
 
-#ifndef XBUTTON1
+#if !defined(XBUTTON1)
 #  define XBUTTON1 0x0001
 #endif
 
-#ifndef XBUTTON2
+#if !defined(XBUTTON2)
 #  define XBUTTON2 0x0002
 #endif
 
-#ifndef PLATFORM_OS_WINDOWS_NATIVE
+#if !defined(PLATFORM_OS_WINDOWS_NATIVE)
 
-#  ifndef WM_XBUTTONDOWN
+#  if !defined(WM_XBUTTONDOWN)
 #    define WM_XBUTTONDOWN 523
 #  endif
 
-#  ifndef WM_XBUTTONUP
+#  if !defined(WM_XBUTTONUP)
 #    define WM_XBUTTONUP 524
 #  endif
 
-#  ifndef WM_XBUTTONDBLCLK
+#  if !defined(WM_XBUTTONDBLCLK)
 #    define WM_XBUTTONDBLCLK 525
 #  endif
 
-#  ifndef WM_MOUSEHWHEEL
+#  if !defined(WM_MOUSEHWHEEL)
 #    define WM_MOUSEHWHEEL 526
 #  endif
 
-#  ifndef WM_NCXBUTTONDOWN
+#  if !defined(WM_NCXBUTTONDOWN)
 #    define WM_NCXBUTTONDOWN 171
 #  endif
 
-#  ifndef WM_NCXBUTTONUP
+#  if !defined(WM_NCXBUTTONUP)
 #    define WM_NCXBUTTONUP 172
 #  endif
-#  ifndef WM_NCXBUTTONDBLCLK
+#  if !defined(WM_NCXBUTTONDBLCLK)
 #    define WM_NCXBUTTONDBLCLK 173
 #  endif
 
-#  ifndef WM_NCMOUSEHOVER
+#  if !defined(WM_NCMOUSEHOVER)
 #    define WM_NCMOUSEHOVER 672
 #  endif
 
-#  ifndef WM_NCMOUSELEAVE
+#  if !defined(WM_NCMOUSELEAVE)
 #    define WM_NCMOUSELEAVE 674
 #  endif
 
-#  ifndef WM_UNICHAR
+#  if !defined(WM_UNICHAR)
 #    define WM_UNICHAR 265
 #  endif
 
-#  ifndef WM_APPCOMMAND
+#  if !defined(WM_APPCOMMAND)
 #    define WM_APPCOMMAND 793
 #  endif
 

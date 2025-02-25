@@ -1,6 +1,4 @@
 /*
- * harpoon.c
- *
  * Copyright (C) 2002-2008 Raymond Penners <raymond@dotsphinx.com>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * Copyright (C) 2009-2010 Rob Caelers <robc@krandor.nl>
@@ -30,17 +28,17 @@
 
 #include "harpoon.h"
 
-#ifndef WH_KEYBOARD_LL
+#if !defined(WH_KEYBOARD_LL)
 #  error WH_KEYBOARD_LL not defined.
 #endif
 
 #if defined(__GNUC__)
 #  define DLLSHARE(v) v __attribute__((section(".shared"), shared))
-#  ifndef INLINE
+#  if !defined(INLINE)
 #    define INLINE inline
 #  endif
 #else
-#  ifndef INLINE
+#  if !defined(INLINE)
 #    define INLINE
 #  endif
 #  define snprintf _snprintf
@@ -82,7 +80,7 @@ static DWORD exec_process_id = 0;
 static void debug_send_message(const char *);
 static INLINE void if_debug_send_message(const char *);
 static void debug_process_menu_selection(WORD);
-static void debug_save_data();
+static void debug_save_data(void);
 static HMENU menu = NULL;
 
 static HANDLE dll_handle = NULL;
@@ -156,7 +154,7 @@ harpoon_block_input(void)
 }
 
 static int
-is_app_blocked()
+is_app_blocked(void)
 // Ensures we don't block any critical applications
 {
   int i;
@@ -549,7 +547,7 @@ harpoon_mouse_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, mouse_ll_hook, TRUE);
 }
 
-#ifndef _WIN64
+#if !defined(_WIN64)
 static LRESULT CALLBACK
 harpoon_mouse_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -661,7 +659,7 @@ harpoon_keyboard_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, keyboard_ll_hook, forcecallnext);
 }
 
-#ifndef _WIN64
+#if !defined(_WIN64)
 static LRESULT CALLBACK
 harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -676,7 +674,7 @@ harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 }
 #endif
 
-#ifdef _WIN64
+#if defined(_WIN64)
 static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -728,8 +726,8 @@ harpoon_init(char imported_critical_file_list[][511], BOOL debug_harpoon)
   HMENU menu_popup;
   DWORD dwStyle, dwExStyle;
 
-  WNDCLASSEX wclass = {
-    sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, dll_handle, NULL, NULL, NULL, NULL, HARPOON_WINDOW_CLASS, NULL};
+  WNDCLASSEX wclass =
+    {sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, dll_handle, NULL, NULL, NULL, NULL, HARPOON_WINDOW_CLASS, NULL};
 
   harpoon_exit();
 
@@ -876,7 +874,7 @@ harpoon_exit(void)
 }
 
 HARPOON_API void
-harpoon_unhook()
+harpoon_unhook(void)
 {
   if_debug_send_message("harpoon_unhook() called");
 
@@ -997,7 +995,7 @@ harpoon_hook_block_only(void)
     {
       harpoon_unhook();
 
-#ifdef _WIN64
+#if defined(_WIN64)
       if (msg_hook == NULL)
         {
           msg_hook = SetWindowsHookEx(WH_GETMESSAGE, harpoon_msg_block_hook, dll_handle, 0);
@@ -1038,7 +1036,7 @@ harpoon_hook_block_only(void)
 }
 
 static void
-_get_exec_filename()
+_get_exec_filename(void)
 {
   // keep this code out of dllmain. don't call from dllmain.
   // jay satiro, workrave project, august 2007
@@ -1311,7 +1309,7 @@ debug_process_menu_selection(WORD idm)
 }
 
 static void
-debug_save_data()
+debug_save_data(void)
 // This is called if the user opts to save the messages to a file.
 {
   char *buffer;

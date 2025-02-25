@@ -1,0 +1,46 @@
+{
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "cmake.configureOnEdit": false,
+  "cmake.configureOnOpen": false,
+  "cmake.sourceDirectory": "${workspaceFolder}/",
+  "cmake.buildDirectory": "${workspaceFolder}/_build",
+  "cmake.installPrefix": "${workspaceFolder}/_deploy",
+  "cmake.generator": "Ninja",
+  "cmake.cmakePath": "C:/msys64/clang64/bin/cmake.exe",
+  "cmake.configureSettings": {
+    "WITH_TESTS": "ON",
+    "CODE_COVERAGE": "OFF",
+    "WITH_SBOM": "OFF",
+    "WITH_TRACING": "ON",
+    "WITH_UI": "Gtk+3",
+    "WITH_CRASHPAD": "OFF",
+    "WITH_AUTO_UPDATE": "ON",
+    "WITH_CORE_NEXT": "OFF",
+    "CMAKE_PREFIX_PATH": "${workspaceFolder}/_ext",
+    "CMAKE_BUILD_TYPE": "${buildType}",
+    "CMAKE_C_COMPILER": "clang",
+    "CMAKE_CXX_COMPILER": "clang++",
+    "CMAKE_VERBOSE_MAKEFILE": "ON",
+    "CMAKE_TOOLCHAIN_FILE": "cmake/toolchains/msys2.cmake"
+  },
+  "cmake.environment": {
+    "MINGW_PREFIX": "C:/msys64/clang64",
+    "PATH": "C:/msys64/clang64/bin;$env{PATH}"
+  },
+  "cSpell.words": [
+    "BUILDERREGISTERY",
+    "buildid",
+    "GTKMM",
+    "ibox",
+    "Pimpl",
+    "repr",
+    "sigc",
+    "UITYPES",
+    "widg"
+  ],
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+}

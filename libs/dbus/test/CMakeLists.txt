@@ -25,28 +25,33 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
   set_target_properties(workrave-libs-dbus-test-server-qt PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT=1")
   set_target_properties(workrave-libs-dbus-test PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_QT=1")
 
-  include_directories(
+  target_include_directories(workrave-libs-dbus-test PRIVATE
     ${CMAKE_SOURCE_DIR}/libs/dbus/src
     ${CMAKE_SOURCE_DIR}/libs/dbus/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     )
 
-  if (HAVE_DBUS_FREEDESKTOP)
-    target_link_libraries(workrave-libs-dbus-test-server-qt ${DBUS_LIBRARIES})
-  endif()
+  target_include_directories(workrave-libs-dbus-test-server-qt PRIVATE
+    ${CMAKE_SOURCE_DIR}/libs/dbus/src
+    ${CMAKE_SOURCE_DIR}/libs/dbus/include
+    ${CMAKE_SOURCE_DIR}/libs/utils/include
+    )
 
-  target_link_libraries(workrave-libs-dbus-test workrave-libs-dbus)
-  target_link_libraries(workrave-libs-dbus-test workrave-libs-utils)
-  target_link_libraries(workrave-libs-dbus-test Qt${QT_VERSION_MAJOR}::DBus)
-  target_link_libraries(workrave-libs-dbus-test ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+  target_link_libraries(workrave-libs-dbus-test PRIVATE workrave-libs-dbus)
+  target_link_libraries(workrave-libs-dbus-test PRIVATE workrave-libs-utils)
+  target_link_libraries(workrave-libs-dbus-test PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
+  target_link_libraries(workrave-libs-dbus-test PRIVATE Boost::unit_test_framework)
+  target_link_libraries(workrave-libs-dbus-test PRIVATE Boost::test_exec_monitor)
+  target_link_libraries(workrave-libs-dbus-test PRIVATE ${EXTRA_LIBRARIES})
 
-  target_link_libraries(workrave-libs-dbus-test-server-qt workrave-libs-dbus)
-  target_link_libraries(workrave-libs-dbus-test-server-qt workrave-libs-utils)
-  target_link_libraries(workrave-libs-dbus-test-server-qt Qt${QT_VERSION_MAJOR}::DBus)
-  target_link_libraries(workrave-libs-dbus-test-server-qt ${Boost_LIBRARIES})
+  target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE workrave-libs-dbus)
+  target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE workrave-libs-utils)
+  target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
+  target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE Boost::unit_test_framework)
+  target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE Boost::test_exec_monitor)
+  target_link_libraries(workrave-libs-dbus-test-server-qt PRIVATE ${EXTRA_LIBRARIES})
 
   if (HAVE_DBUS_TEST_GIO)
-
     set(SERVER_GIO_SRC ${SERVER_GIO_SRC}
       DBusTestData.cc
       DBusTestServer.cc
@@ -58,11 +63,15 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
 
     set_target_properties(workrave-libs-dbus-test-server-gio PROPERTIES COMPILE_DEFINITIONS "DBUS_BACKEND_GIO=1")
     set_target_properties(workrave-libs-dbus-test-server-gio PROPERTIES COMPILE_DEFINITIONS "HAVE_DBUS_GIO=1")
-    include_directories(${GLIB_INCLUDE_DIRS})
+    target_include_directories(workrave-libs-dbus-test-server-gio PRIVATE ${GLIB_INCLUDE_DIRS})
 
     target_link_libraries(workrave-libs-dbus-test-server-gio workrave-libs-dbus)
     target_link_libraries(workrave-libs-dbus-test-server-gio workrave-libs-utils)
     target_link_libraries(workrave-libs-dbus-test-server-gio ${GLIB_LIBRARIES})
-    target_link_libraries(workrave-libs-dbus-test-server-gio ${Boost_LIBRARIES})
+    target_link_directories(workrave-libs-dbus-test-server-gio PRIVATE ${GLIB_LIBRARY_DIRS})
+    target_link_libraries(workrave-libs-dbus-test-server-gio Boost::unit_test_framework)
+    target_link_libraries(workrave-libs-dbus-test-server-gio Boost::test_exec_monitor)
+    target_link_libraries(workrave-libs-dbus-test-server-gio ${EXTRA_LIBRARIES})
+
   endif()
 endif()

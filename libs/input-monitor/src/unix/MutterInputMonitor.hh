@@ -22,6 +22,7 @@
 #include <mutex>
 #include <memory>
 #include <condition_variable>
+#include <chrono>
 
 #include "InputMonitor.hh"
 #include "utils/Diagnostics.hh"

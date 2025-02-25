@@ -1,6 +1,4 @@
-// ICoreTestHooks.hh
-//
-// Copyright (C) 2012, 2013 Rob Caelers
+// Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,7 +36,6 @@ public:
 
   using Ptr = std::shared_ptr<ICoreTestHooks>;
 
-  virtual std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() = 0;
   virtual std::function<IActivityMonitor::Ptr()> &hook_create_monitor() = 0;
   virtual std::function<bool(Timer *timers[workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() = 0;
 };

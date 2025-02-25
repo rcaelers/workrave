@@ -42,15 +42,14 @@ BreakConfig::BreakConfig(BreakId break_id, BreakStateModel::Ptr break_state_mode
   load_timer_config();
   load_break_config();
 
-  connections.add(CoreConfig::key_timer(break_id).connect([this] { load_timer_config(); }));
-  connections.add(CoreConfig::key_break(break_id).connect([this] { load_break_config(); }));
+  CoreConfig::key_timer(break_id).connect(this, [this] { load_timer_config(); });
+  CoreConfig::key_break(break_id).connect(this, [this] { load_break_config(); });
 }
 
 void
 BreakConfig::load_timer_config()
 {
-  TRACE_ENTER("BreakConfig::load_timer_config");
-
+  TRACE_ENTRY();
   // Read break limit.
   int limit = CoreConfig::timer_limit(break_id)();
   timer->set_limit(limit);
@@ -78,8 +77,6 @@ BreakConfig::load_timer_config()
     {
       use_microbreak_activity = (CoreConfig::timer_daily_limit_use_micro_break_activity()() != 0);
     }
-
-  TRACE_EXIT();
 }
 
 void

@@ -1,4 +1,3 @@
-//
 // Copyright (C) 2007, 2011, 2012, 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -20,10 +19,6 @@
 #  include "config.h"
 #endif
 
-#include <vector>
-#include <chrono>
-
-#include "debug.hh"
 #include "utils/TimeSource.hh"
 
 using namespace workrave::utils;
@@ -31,6 +26,17 @@ using namespace workrave::utils;
 ITimeSource::Ptr TimeSource::source;
 int64_t TimeSource::synced_real_time = 0;
 int64_t TimeSource::synced_monotonic_time = 0;
+
+std::chrono::system_clock::time_point
+TimeSource::get_real_time()
+{
+  if (source)
+    {
+      return std::chrono::system_clock::from_time_t(source->get_real_time_usec() / TIME_USEC_PER_SEC);
+    }
+
+  return std::chrono::system_clock::now();
+}
 
 int64_t
 TimeSource::get_real_time_usec()
@@ -74,6 +80,12 @@ int64_t
 TimeSource::get_real_time_sec_sync()
 {
   return synced_real_time / TIME_USEC_PER_SEC;
+}
+
+void
+TimeSource::set_real_time_sec_sync(int64_t t)
+{
+  synced_real_time = t * TIME_USEC_PER_SEC;
 }
 
 int64_t

@@ -1,5 +1,3 @@
-// WorkraveApplet.h
-//
 // Copyright (C) 2003 - 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //

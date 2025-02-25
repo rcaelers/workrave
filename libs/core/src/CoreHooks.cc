@@ -1,5 +1,3 @@
-// CoreHooks.cc
-//
 // Copyright (C) 2012, 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -25,12 +23,7 @@
 
 #include "CoreHooks.hh"
 
-#ifdef HAVE_TESTS
-std::function<workrave::config::IConfigurator::Ptr()> &
-CoreHooks::hook_create_configurator()
-{
-  return create_configurator_hook;
-}
+#if defined(HAVE_TESTS)
 
 std::function<IActivityMonitor::Ptr()> &
 CoreHooks::hook_create_monitor()

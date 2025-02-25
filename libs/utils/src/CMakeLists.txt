@@ -1,15 +1,17 @@
-add_library(workrave-libs-utils STATIC
+add_library(workrave-libs-utils STATIC)
+
+target_sources(workrave-libs-utils PRIVATE
+  Logging.cc
   Diagnostics.cc
   TimeSource.cc
   AssetPath.cc
-  Util.cc
-  WRID.cc
+  Paths.cc
   debug.cc)
 
 target_code_coverage(workrave-libs-utils)
 
 if (PLATFORM_OS_WINDOWS)
-  target_sources(workrave-libs-utils PRIVATE Platform-win32.cc win32/W32ActiveSetup.cc win32/W32CriticalSection.cc)
+  target_sources(workrave-libs-utils PRIVATE Platform-windows.cc windows/W32ActiveSetup.cc windows/W32CriticalSection.cc windows/StringUtils.cc)
   target_include_directories(workrave-libs-utils PRIVATE ${CMAKE_SOURCE_DIR}/libs/hooks/harpoon/include)
 endif()
 
@@ -35,17 +37,14 @@ endif()
 
 if (HAVE_GLIB)
   target_include_directories(workrave-libs-utils PRIVATE ${GLIB_INCLUDE_DIRS})
-  target_link_libraries(workrave-libs-utils PRIVATE ${GLIB_LIBS})
+  target_link_libraries(workrave-libs-utils PUBLIC ${GLIB_LIBRARIES})
 endif()
 
 if (HAVE_QT)
   target_link_libraries(workrave-libs-utils PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui)
 endif()
 
-if (HAVE_QT5)
-  target_include_directories(workrave-libs-utils PRIVATE ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-endif()
-
+target_link_libraries(workrave-libs-utils PUBLIC fmt::fmt spdlog::spdlog PRIVATE Boost::boost)
 
 target_include_directories(
   workrave-libs-utils

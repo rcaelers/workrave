@@ -1,4 +1,4 @@
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,12 @@
 #ifndef XMLCONFIGURATOR_HH
 #define XMLCONFIGURATOR_HH
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-
 #include <string>
+#include <boost/property_tree/ptree.hpp>
 
 #include "IConfigBackend.hh"
+
+#include "utils/Logging.hh"
 
 class XmlConfigurator : public virtual IConfigBackend
 {
@@ -32,20 +32,19 @@ public:
   ~XmlConfigurator() override = default;
 
   bool load(std::string filename) override;
-  bool save(std::string filename) override;
-  bool save() override;
+  void save() override;
 
-  bool remove_key(const std::string &key) override;
+  void remove_key(const std::string &key) override;
   bool has_user_value(const std::string &key) override;
-  bool get_value(const std::string &key, VariantType type, Variant &value) const override;
-  bool set_value(const std::string &key, Variant &value) override;
+  std::optional<ConfigValue> get_value(const std::string &key, ConfigType type) const override;
+  void set_value(const std::string &key, const ConfigValue &value) override;
 
 private:
-  std::string path(const std::string &key) const;
+  static std::string path(const std::string &key);
 
 private:
+  std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("config:xml")};
   boost::property_tree::ptree pt;
-
   std::string last_filename;
 };
 

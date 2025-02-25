@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Rob Caelers
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,9 +19,6 @@
 #define SIMULATEDTIME_HH
 
 #include <chrono>
-
-#include <boost/date_time/local_time/local_time.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"
@@ -53,7 +50,7 @@ public:
     tm.tm_mon = 9;
     tm.tm_year = 102;
     tm.tm_isdst = -1;
-    std::time_t tt = timelocal(&tm);
+    std::time_t tt = std::mktime(&tm);
 
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::from_time_t(tt);
     current_time = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch()).count();

@@ -1,5 +1,3 @@
-// Test.cc --- The main controller
-//
 // Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -21,15 +19,15 @@
 #  include "config.h"
 #endif
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "dbus/IDBus.hh"
 #endif
 
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
 
 #  include "Test.hh"
 
-Test *Test::instance = NULL;
+Test *Test::instance = nullptr;
 
 void
 Test::quit()

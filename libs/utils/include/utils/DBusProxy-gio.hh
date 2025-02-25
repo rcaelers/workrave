@@ -24,16 +24,8 @@
 #ifndef DBUSPROXYGIO_HH
 #define DBUSPROXYGIO_HH
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
-#include "debug.hh"
 #include <glib.h>
 #include <gio/gio.h>
-
-#include <string>
-#include <set>
 
 class DBusProxy
 {
@@ -93,9 +85,11 @@ public:
   gchar *get_last_error_message()
   {
     if (error == nullptr)
-      return nullptr;
-    else
-      return error->message;
+      {
+        return nullptr;
+      }
+
+    return error->message;
   }
 };
 

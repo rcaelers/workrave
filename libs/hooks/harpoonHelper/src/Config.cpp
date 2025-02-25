@@ -1,5 +1,3 @@
-// Config.cpp --- Configuration Access
-//
 // Copyright (C) 2002, 2005, 2006, 2007, 2009 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
@@ -44,7 +42,7 @@ Config::get_value(const string &key, string &out) const
 
   k = key_add_part(key_root, key);
   key_split(k, p, c);
-  p32 = key_win32ify(p);
+  p32 = key_windowsify(p);
 
   err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
 
@@ -142,7 +140,7 @@ Config::key_split(const string &key, string &parent, string &child) const
 }
 
 string
-Config::key_win32ify(const string &key) const
+Config::key_windowsify(const string &key) const
 {
   string rc = key;
   strip_trailing_slash(rc);

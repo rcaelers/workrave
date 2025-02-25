@@ -18,6 +18,8 @@
 #ifndef WORKRAVE_BACKEND_CORECONFIG_HH
 #define WORKRAVE_BACKEND_CORECONFIG_HH
 
+#include <chrono>
+
 #include "config/IConfigurator.hh"
 #include "config/Setting.hh"
 #include "core/ICore.hh"
@@ -48,12 +50,17 @@ public:
   static workrave::config::Setting<std::string> &general_datadir();
   static workrave::config::Setting<int, workrave::OperationMode> &operation_mode();
   static workrave::config::Setting<int, workrave::UsageMode> &usage_mode();
+  static workrave::config::Setting<int, std::chrono::minutes> &operation_mode_auto_reset_duration();
+  static workrave::config::Setting<std::vector<int>, std::vector<std::chrono::minutes>> &operation_mode_auto_reset_options();
+  static workrave::config::Setting<int64_t, std::chrono::system_clock::time_point> &operation_mode_auto_reset_time();
 
   // private:
   static const std::string CFG_KEY_TIMER_MONITOR;
+
   static const std::string CFG_KEY_MICRO_BREAK;
   static const std::string CFG_KEY_REST_BREAK;
   static const std::string CFG_KEY_DAILY_LIMIT;
+
   static const std::string CFG_KEY_TIMERS;
   static const std::string CFG_KEY_TIMER;
 
@@ -76,6 +83,9 @@ public:
   static const std::string CFG_KEY_MONITOR_SENSITIVITY;
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
+  static const std::string CFG_KEY_OPERATION_MODE_RESET_DURATION;
+  static const std::string CFG_KEY_OPERATION_MODE_RESET_OPTIONS;
+  static const std::string CFG_KEY_OPERATION_MODE_RESET_TIME;
   static const std::string CFG_KEY_USAGE_MODE;
 
   static const std::string CFG_KEY_DISTRIBUTION;

@@ -1,5 +1,3 @@
-// FakeActivityMonitor.hh
-//
 // Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -19,6 +17,10 @@
 
 #ifndef FAKEACTIVITYMONITOR_HH
 #define FAKEACTIVITYMONITOR_HH
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
 #include "IActivityMonitor.hh"
 

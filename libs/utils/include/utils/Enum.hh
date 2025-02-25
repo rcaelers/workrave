@@ -1,4 +1,4 @@
-// Copyright (C) 2021 Rob Caelers
+// Copyright (C) 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,19 @@
 #include <type_traits>
 #include <utility>
 #include <array>
+#include <algorithm>
 
 #include <iostream>
+#include <sstream>
+
+#include <fmt/core.h>
+#include <fmt/format.h>
 
 namespace workrave::utils
 {
   template<typename Enum>
-  using is_scoped_enum =
-    std::conjunction<std::is_enum<Enum>, std::negation<std::is_convertible<Enum, std::underlying_type_t<Enum>>>>;
+  using is_scoped_enum = std::conjunction<std::is_enum<Enum>,
+                                          std::negation<std::is_convertible<Enum, std::underlying_type_t<Enum>>>>;
 
   template<typename Enum>
   static constexpr bool is_scoped_enum_v = is_scoped_enum<Enum>::value;
@@ -70,6 +75,32 @@ namespace workrave::utils
   template<typename Enum>
   constexpr inline bool enum_has_max_v = enum_has_max<Enum>::value;
 
+  template<typename Enum, typename = std::void_t<>>
+  struct enum_has_names : std::false_type
+  {
+  };
+
+  template<typename Enum>
+  struct enum_has_names<Enum, std::void_t<decltype(enum_traits<Enum>::names)>> : std::true_type
+  {
+  };
+
+  template<typename Enum>
+  constexpr inline bool enum_has_names_v = enum_has_names<Enum>::value;
+
+  template<typename Enum, typename = std::void_t<>>
+  struct enum_has_invalid : std::false_type
+  {
+  };
+
+  template<typename Enum>
+  struct enum_has_invalid<Enum, std::void_t<decltype(enum_traits<Enum>::invalid)>> : std::true_type
+  {
+  };
+
+  template<typename Enum>
+  constexpr inline bool enum_has_invalid_v = enum_has_invalid<Enum>::value;
+
   template<typename Enum, std::enable_if_t<enum_has_min_v<Enum>, int> = 0>
   constexpr auto enum_min_value() noexcept
   {
@@ -98,6 +129,37 @@ namespace workrave::utils
   constexpr auto enum_in_range(Enum e) noexcept
   {
     return (underlying_cast(e) >= enum_min_value<Enum>()) && (underlying_cast(e) <= enum_max_value<Enum>());
+  }
+
+  template<typename Enum>
+  Enum enum_from_string(std::string key)
+  {
+    auto &names = enum_traits<Enum>::names;
+    const auto it = std::find_if(begin(names), end(names), [&key](const auto &v) { return v.first == key; });
+    if (it == std::end(names))
+      {
+        if constexpr (enum_has_invalid_v<Enum>)
+          {
+            return enum_traits<Enum>::invalid;
+          }
+        if constexpr (enum_has_min_v<Enum>)
+          {
+            return enum_traits<Enum>::min;
+          }
+      }
+    return it->second;
+  }
+
+  template<typename Enum>
+  std::string_view enum_to_string(Enum e)
+  {
+    auto &names = enum_traits<Enum>::names;
+    const auto it = std::find_if(begin(names), end(names), [&e](const auto &v) { return v.second == e; });
+    if (it == std::end(names))
+      {
+        return {};
+      }
+    return it->first;
   }
 
   template<typename Enum, class T, std::size_t N = workrave::utils::enum_count<Enum>()>
@@ -130,7 +192,8 @@ namespace workrave::utils
     }
   };
 
-  template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
+  template<typename Enum>
+  requires workrave::utils::enum_traits<Enum>::flag
   class Flags
   {
   public:
@@ -259,12 +322,13 @@ namespace workrave::utils
     repr_type value{0};
   };
 
-  template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::flag>>
-  std::ostream &operator<<(std::ostream &stream, Flags<Enum> flags)
+  template<typename Enum>
+  requires ::workrave::utils::enum_traits<Enum>::flag
+  std::ostream &operator<<(std::ostream &stream, ::workrave::utils::Flags<Enum> flags)
   {
     if (flags.get() == 0)
       {
-        stream << Enum(0);
+        stream << workrave::utils::enum_to_string(Enum(0));
       }
     else
       {
@@ -277,13 +341,22 @@ namespace workrave::utils
                   {
                     stream << ",";
                   }
-                stream << e;
+                stream << workrave::utils::enum_to_string(e);
               }
           }
       }
     return stream;
   }
 } // namespace workrave::utils
+
+template<typename Enum>
+requires workrave::utils::enum_has_names_v<Enum>
+std::ostream &
+operator<<(std::ostream &stream, const Enum e)
+{
+  stream << workrave::utils::enum_to_string(e);
+  return stream;
+}
 
 template<typename Enum, typename = std::enable_if_t<workrave::utils::enum_traits<Enum>::linear>>
 constexpr Enum
@@ -329,5 +402,32 @@ operator~(Enum e) noexcept
 {
   return ~workrave::utils::Flags<Enum>(e);
 }
+
+#if FMT_VERSION >= 90000
+
+template<typename Enum>
+requires workrave::utils::enum_has_names_v<Enum>
+struct fmt::formatter<Enum> : fmt::formatter<std::string_view>
+{
+  auto format(Enum e, format_context &ctx) const
+  {
+    return fmt::formatter<std::string_view>::format(workrave::utils::enum_to_string<Enum>(e), ctx);
+  }
+};
+
+template<typename Enum>
+requires workrave::utils::enum_has_names_v<Enum>
+struct fmt::formatter<workrave::utils::Flags<Enum>> : fmt::formatter<std::string>
+{
+  auto format(typename workrave::utils::Flags<Enum> e, format_context &ctx) const
+  {
+    std::ostringstream ss;
+    ss << e;
+    auto s = ss.str();
+    return fmt::formatter<std::string>::format(s, ctx);
+  }
+};
+
+#endif
 
 #endif // WORKAVE_LIBS_UTILS_ENUM_HH

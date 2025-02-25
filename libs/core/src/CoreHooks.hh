@@ -23,7 +23,7 @@
 
 class CoreHooks
   : public ICoreHooks
-#ifdef HAVE_TESTS
+#if defined(HAVE_TESTS)
   , public ICoreTestHooks
 #endif
 {
@@ -33,15 +33,13 @@ public:
   CoreHooks() = default;
   ~CoreHooks() override = default;
 
-#ifdef HAVE_TESTS
-  std::function<workrave::config::IConfigurator::Ptr()> &hook_create_configurator() override;
+#if defined(HAVE_TESTS)
   std::function<IActivityMonitor::Ptr()> &hook_create_monitor() override;
   std::function<bool(Timer * [workrave::BREAK_ID_SIZEOF])> &hook_load_timer_state() override;
 #endif
 
 private:
-#ifdef HAVE_TESTS
-  std::function<workrave::config::IConfigurator::Ptr()> create_configurator_hook;
+#if defined(HAVE_TESTS)
   std::function<IActivityMonitor::Ptr()> create_monitor_hook;
   std::function<bool(Timer * [workrave::BREAK_ID_SIZEOF])> load_timer_state_hook;
 #endif

@@ -1,15 +1,3 @@
-if (HAVE_APP_GTK)
-  foreach(size 16x16 24x24 32x32 48x48 64x64 96x96 128x128 scalable)
-    install(
-      DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${size}/
-      DESTINATION ${DATADIR}/icons/hicolor/${size}/apps
-      FILES_MATCHING
-      PATTERN "*.png"
-      PATTERN "*.svg"
-      )
-  endforeach()
-endif()
-
 FILE(GLOB images
   ${CMAKE_CURRENT_SOURCE_DIR}/*.xpm
   ${CMAKE_CURRENT_SOURCE_DIR}/*.png
@@ -19,3 +7,4 @@ FILE(GLOB images
 install(FILES ${images} DESTINATION ${IMAGESDIR})
 
 add_subdirectory(adwaita)
+add_subdirectory(workrave)

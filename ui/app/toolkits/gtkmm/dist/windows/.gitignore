@@ -1,0 +1,8 @@
+/setup.iss
+/lang.iss
+/runtime-base
+/runtime-gtk
+/runtime-wimp
+/runtime-dbus
+/Output
+.32

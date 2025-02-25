@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
+/* Copyright (C) 2014 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __WORKRAVE_TIMERBOX_CONTROL_H__
-#define __WORKRAVE_TIMERBOX_CONTROL_H__
+#ifndef WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H
+#define WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H
 
 #include <glib-object.h>
 
 #include "timerbox.h"
 
 #define WORKRAVE_TIMERBOX_CONTROL_TYPE (workrave_timerbox_control_get_type())
-#define WORKRAVE_TIMERBOX_CONTROL(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControl))
+#define WORKRAVE_TIMERBOX_CONTROL(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControl))
 #define WORKRAVE_IS_TIMERBOX_CONTROL(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), WORKRAVE_TIMERBOX_CONTROL_TYPE))
 #define WORKRAVE_TIMERBOX_CONTROL_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_CAST((klass), WORKRAVE_TIMERBOX_CONTROL_TYPE, WorkraveTimerboxControlClass))
@@ -68,4 +68,6 @@ GDBusProxy *workrave_timerbox_control_get_control_proxy(WorkraveTimerboxControl 
 void workrave_timerbox_control_set_tray_icon_mode(WorkraveTimerboxControl *self, enum WorkraveTimerboxControlTrayIconMode mode);
 void workrave_timerbox_control_set_tray_icon_visible_when_not_running(WorkraveTimerboxControl *self, gboolean show);
 
-#endif /* __WORKRAVE_TIMERBOX_CONTROL_H__ */
+GVariant *workrave_timerbox_control_get_menus(WorkraveTimerboxControl *self);
+
+#endif /* WORKRAVE_APPLET_COMMON_TIMERBOX_CONTROL_H */

@@ -21,23 +21,21 @@
 
 #include "debug.hh"
 
-#ifdef HAVE_REALPATH
-#  include <climits>
-#  include <cstdlib>
-#endif
+#include <climits>
+#include <cstdlib>
 
 #include "SoundPlayer.hh"
 #include "ISoundDriver.hh"
 #include "IMixer.hh"
 
-#if defined HAVE_GSTREAMER
+#if defined(HAVE_GSTREAMER)
 #  include "GstSoundPlayer.hh"
-#elif defined PLATFORM_OS_WINDOWS
+#elif defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
 #  include "W32SoundPlayer.hh"
 #  include "W32DirectSoundPlayer.hh"
 #  include "W32Mixer.hh"
-#elif defined PLATFORM_OS_MACOS
+#elif defined(PLATFORM_OS_MACOS)
 #  include "MacOSSoundPlayer.hh"
 #endif
 
@@ -104,7 +102,7 @@ SoundPlayer::init()
 void
 SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, int volume)
 {
-  TRACE_ENTER_MSG("SoundPlayer::play_sound ", wavfile << " " << mute_after_playback << " " << volume);
+  TRACE_ENTRY_PAR(wavfile, mute_after_playback, volume);
   delayed_mute = false;
 
   if (mute_after_playback && mixer != nullptr && driver != nullptr && driver->capability(SoundCapability::EOS_EVENT))
@@ -123,8 +121,6 @@ SoundPlayer::play_sound(const std::string &wavfile, bool mute_after_playback, in
           delayed_mute = false;
         }
     }
-
-  TRACE_EXIT();
 }
 
 bool

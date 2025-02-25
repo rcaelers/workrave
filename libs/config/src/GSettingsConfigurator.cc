@@ -1,4 +1,4 @@
-// Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2011 - 2021 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,27 +19,21 @@
 #  include "config.h"
 #endif
 
-#include "debug.hh"
-#include <cstring>
+#include "GSettingsConfigurator.hh"
+#include "IConfiguratorListener.hh"
+
+#include <array>
 #include <boost/algorithm/string/replace.hpp>
 
-#include "GSettingsConfigurator.hh"
-#include "Configurator.hh"
+#include "debug.hh"
 
-using namespace workrave;
-using namespace workrave::config;
-using namespace std;
-
-static string underscore_exceptions[] = {
+static const std::array<std::string, 2> underscore_exceptions = {
   "general/usage-mode",
   "general/operation-mode",
 };
 
 GSettingsConfigurator::GSettingsConfigurator()
 {
-  schema_base = "org.workrave";
-  path_base = "/org/workrave/";
-
   add_children();
 }
 
@@ -52,41 +46,31 @@ GSettingsConfigurator::~GSettingsConfigurator()
 }
 
 bool
-GSettingsConfigurator::load(string filename)
+GSettingsConfigurator::load(std::string filename)
 {
   (void)filename;
   return true;
 }
 
-bool
-GSettingsConfigurator::save(string filename)
-{
-  (void)filename;
-  return true;
-}
-
-bool
+void
 GSettingsConfigurator::save()
 {
-  return true;
+}
+
+void
+GSettingsConfigurator::remove_key(const std::string &key)
+{
+  std::string subkey;
+  GSettings *child = get_settings(key, subkey);
+  g_settings_reset(child, subkey.c_str());
 }
 
 bool
-GSettingsConfigurator::remove_key(const std::string &full_path)
+GSettingsConfigurator::has_user_value(const std::string &key)
 {
-  bool ret = true;
-  std::string key;
-  GSettings *child = get_settings(full_path, key);
-  g_settings_reset(child, key.c_str());
-  return ret;
-}
-
-bool
-GSettingsConfigurator::has_user_value(const std::string &full_path)
-{
-  std::string key;
-  GSettings *child = get_settings(full_path, key);
-  GVariant *value = g_settings_get_user_value(child, key.c_str());
+  std::string subkey;
+  GSettings *child = get_settings(key, subkey);
+  GVariant *value = g_settings_get_user_value(child, subkey.c_str());
   if (value != nullptr)
     {
       g_variant_unref(value);
@@ -95,140 +79,154 @@ GSettingsConfigurator::has_user_value(const std::string &full_path)
   return false;
 }
 
-bool
-GSettingsConfigurator::get_value(const std::string &full_path, VariantType type, Variant &out) const
+std::optional<ConfigValue>
+GSettingsConfigurator::get_value(const std::string &key, ConfigType type) const
 {
-  bool ret = false;
-
-  string key;
-  GSettings *child = get_settings(full_path, key);
-  if (child != nullptr)
+  std::string subkey;
+  GSettings *child = get_settings(key, subkey);
+  if (child == nullptr)
     {
-      GVariant *value = g_settings_get_value(child, key.c_str());
-      if (value != nullptr)
+      // TODO:log
+      return {};
+    }
+
+  GVariant *value = g_settings_get_value(child, subkey.c_str());
+  if (value == nullptr)
+    {
+      // TODO:log
+      return {};
+    }
+
+  if (type == ConfigType::Unknown)
+    {
+      const GVariantType *value_type = g_variant_get_type(value);
+
+      if (g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
         {
-          if (type == VARIANT_TYPE_NONE)
-            {
-              const GVariantType *value_type = g_variant_get_type(value);
-
-              if (g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
-                {
-                  type = VARIANT_TYPE_INT;
-                }
-              else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
-                {
-                  type = VARIANT_TYPE_BOOL;
-                }
-              else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
-                {
-                  type = VARIANT_TYPE_DOUBLE;
-                }
-              else if (g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
-                {
-                  type = VARIANT_TYPE_STRING;
-                }
-            }
-
-          ret = false;
-          const GVariantType *value_type = g_variant_get_type(value);
-
-          if (type == VARIANT_TYPE_INT && g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
-            {
-              out.int_value = g_settings_get_int(child, key.c_str());
-              ret = true;
-            }
-          else if (type == VARIANT_TYPE_BOOL && g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
-            {
-              out.bool_value = g_settings_get_boolean(child, key.c_str());
-              ret = true;
-            }
-          else if (type == VARIANT_TYPE_DOUBLE && g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
-            {
-              out.double_value = g_settings_get_double(child, key.c_str());
-              ret = true;
-            }
-          else if (type == VARIANT_TYPE_STRING && g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
-            {
-              out.string_value = g_settings_get_string(child, key.c_str());
-              ret = true;
-            }
-
-          // g_variant_unref(value);
+          type = ConfigType::Int32;
         }
-
-      if (ret)
+      else if (g_variant_type_equal(G_VARIANT_TYPE_INT64, value_type))
         {
-          out.type = type;
+          type = ConfigType::Int64;
+        }
+      else if (g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
+        {
+          type = ConfigType::Boolean;
+        }
+      else if (g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
+        {
+          type = ConfigType::Double;
+        }
+      else if (g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
+        {
+          type = ConfigType::String;
         }
     }
 
-  return ret;
-}
+  const GVariantType *value_type = g_variant_get_type(value);
+  g_variant_unref(value);
 
-bool
-GSettingsConfigurator::set_value(const std::string &full_path, Variant &value)
-{
-  bool ret = true;
-
-  string key;
-  GSettings *child = get_settings(full_path, key);
-
-  if (child != nullptr)
+  if (type == ConfigType::Int32 && g_variant_type_equal(G_VARIANT_TYPE_INT32, value_type))
     {
-      switch (value.type)
-        {
-        case VARIANT_TYPE_NONE:
-          ret = false;
-          break;
-
-        case VARIANT_TYPE_INT:
-          ret = g_settings_set_int(child, key.c_str(), value.int_value);
-          break;
-
-        case VARIANT_TYPE_BOOL:
-          ret = g_settings_set_boolean(child, key.c_str(), value.bool_value);
-          break;
-
-        case VARIANT_TYPE_DOUBLE:
-          ret = g_settings_set_double(child, key.c_str(), value.double_value);
-          break;
-
-        case VARIANT_TYPE_STRING:
-          ret = g_settings_set_string(child, key.c_str(), value.string_value.c_str());
-          break;
-
-        default:
-          ret = false;
-        }
+      int32_t v = g_settings_get_int(child, subkey.c_str());
+      return v;
     }
-  return ret;
+  if (type == ConfigType::Int64 && g_variant_type_equal(G_VARIANT_TYPE_INT64, value_type))
+    {
+      int64_t v = g_settings_get_int64(child, subkey.c_str());
+      return v;
+    }
+  if (type == ConfigType::Boolean && g_variant_type_equal(G_VARIANT_TYPE_BOOLEAN, value_type))
+    {
+      bool v = (g_settings_get_boolean(child, subkey.c_str()) == TRUE);
+      return v;
+    }
+  if (type == ConfigType::Double && g_variant_type_equal(G_VARIANT_TYPE_DOUBLE, value_type))
+    {
+      double v = g_settings_get_double(child, subkey.c_str());
+      return v;
+    }
+  if (type == ConfigType::String && g_variant_type_equal(G_VARIANT_TYPE_STRING, value_type))
+    {
+      auto *str = g_settings_get_string(child, subkey.c_str());
+      std::string v = str;
+      g_free(str);
+      return v;
+    }
+  return {};
 }
 
 void
-GSettingsConfigurator::set_listener(IConfiguratorListener *listener)
+GSettingsConfigurator::set_value(const std::string &key, const ConfigValue &value)
+{
+  std::string subkey;
+  GSettings *child = get_settings(key, subkey);
+
+  if (child == nullptr)
+    {
+      // TODO: log
+      return;
+    }
+
+  std::visit(
+    [child, subkey](auto &&value) {
+      using T = std::decay_t<decltype(value)>;
+
+      bool rc = false;
+      if constexpr (std::is_same_v<bool, T>)
+        {
+          rc = g_settings_set_boolean(child, subkey.c_str(), value);
+        }
+      else if constexpr (std::is_same_v<int64_t, T>)
+        {
+          rc = g_settings_set_int64(child, subkey.c_str(), value);
+        }
+      else if constexpr (std::is_same_v<int32_t, T>)
+        {
+          rc = g_settings_set_int(child, subkey.c_str(), value);
+        }
+      else if constexpr (std::is_same_v<double, T>)
+        {
+          rc = g_settings_set_double(child, subkey.c_str(), value);
+        }
+      else if constexpr (std::is_same_v<std::string, T>)
+        {
+          rc = g_settings_set_string(child, subkey.c_str(), value.c_str());
+        }
+
+      if (!rc)
+        {
+          throw std::runtime_error("cannot set key");
+        }
+    },
+    value);
+}
+
+void
+GSettingsConfigurator::set_listener(workrave::config::IConfiguratorListener *listener)
 {
   this->listener = listener;
 }
 
 bool
-GSettingsConfigurator::add_listener(const string &key)
+GSettingsConfigurator::add_listener(const std::string &key)
 {
   (void)key;
   return true;
 }
 
 bool
-GSettingsConfigurator::remove_listener(const string &remove_key)
+GSettingsConfigurator::remove_listener(const std::string &key_prefix)
 {
-  (void)remove_key;
+  (void)key_prefix;
   return true;
 }
 
 void
 GSettingsConfigurator::add_children()
 {
-  TRACE_ENTER("GSettingsConfigurator::add_children");
-  int len = schema_base.length();
+  TRACE_ENTRY();
+  std::size_t len = schema_base.length();
 
   gchar **schemas = nullptr;
   g_settings_schema_source_list_schemas(g_settings_schema_source_get_default(), TRUE, &schemas, nullptr);
@@ -243,28 +241,26 @@ GSettingsConfigurator::add_children()
           g_signal_connect(gsettings, "changed", G_CALLBACK(on_settings_changed), this);
         }
     }
-
-  TRACE_EXIT();
 }
 
 void
 GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data)
 {
-  TRACE_ENTER_MSG("GSettingsConfigurator::on_settings_changed", key);
-  gchar *path;
+  TRACE_ENTRY_PAR(key);
+  gchar *path = nullptr;
   g_object_get(gsettings, "path", &path, NULL);
 
-  string tmp = boost::algorithm::replace_all_copy(string(path) + key, "/org/workrave/", "");
-  string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
-  TRACE_MSG(changed);
+  std::string tmp = boost::algorithm::replace_all_copy(std::string(path) + key, "/org/workrave/", "");
+  std::string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
+  TRACE_VAR(changed);
 
-  for (auto &underscore_exception: underscore_exceptions)
+  for (const auto &exception: underscore_exceptions)
     {
-      string mangled = boost::algorithm::replace_all_copy(underscore_exception, "-", "_");
+      std::string mangled = boost::algorithm::replace_all_copy(exception, "-", "_");
       if (mangled == changed)
         {
-          changed = underscore_exception;
-          TRACE_MSG(" exception: " << changed);
+          changed = exception;
+          TRACE_MSG(" exception: {}", changed);
           break;
         }
     }
@@ -276,46 +272,44 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
     }
 
   g_free(path);
-  TRACE_EXIT();
 }
 
 void
-GSettingsConfigurator::key_split(const string &key, string &parent, string &child) const
+GSettingsConfigurator::key_split(const std::string &key, std::string &path, std::string &subkey)
 {
   const char *s = key.c_str();
   const char *slash = strrchr(s, '/');
-  if (slash)
+  if (slash != nullptr)
     {
-      parent = key.substr(0, slash - s);
-      child = slash + 1;
+      path = key.substr(0, slash - s);
+      subkey = slash + 1;
     }
   else
     {
-      parent = "";
-      child = "";
+      path = "";
+      subkey = "";
     }
 }
 
 GSettings *
-GSettingsConfigurator::get_settings(const std::string &full_path, string &key) const
+GSettingsConfigurator::get_settings(const std::string &key, std::string &subkey) const
 {
-  TRACE_ENTER_MSG("GSettingsConfigurator::get_settings", full_path);
+  TRACE_ENTRY_PAR(key);
 
-  string path;
+  std::string path;
 
-  string tmp = boost::algorithm::replace_all_copy(full_path, "_", "-");
-  key_split(tmp, path, key);
-  string schema = boost::algorithm::replace_all_copy(path, "/", ".");
+  std::string tmp = boost::algorithm::replace_all_copy(key, "_", "-");
+  key_split(tmp, path, subkey);
+  std::string schema = boost::algorithm::replace_all_copy(path, "/", ".");
 
-  TRACE_MSG(key << " " << path << " " << schema);
+  TRACE_VAR(subkey, path, schema);
 
   auto i = settings.find(schema_base + "." + schema);
   if (i == settings.end())
     {
-      TRACE_RETURN("NULL");
+      TRACE_MSG("NULL");
       return nullptr;
     }
 
-  TRACE_EXIT();
   return i->second;
 }

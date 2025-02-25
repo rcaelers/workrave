@@ -1,6 +1,4 @@
-// TimerActivityMonitor.hh
-//
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +20,7 @@
 
 #include "Core.hh"
 #include "IActivityMonitor.hh"
+#include "debug.hh"
 
 //! An Activity Monitor that takes its activity state from a timer.
 /*! This Activity Monitor is 'active' if the timer is running or if
@@ -60,11 +59,11 @@ public:
   //! Returns the current state
   ActivityState get_current_state() override
   {
-    TRACE_ENTER("TimerActivityMonitor::get_current_state");
+    TRACE_ENTRY();
     if (forced_idle)
       {
         ActivityState local_state = monitor->get_current_state();
-        TRACE_MSG(local_state);
+        TRACE_VAR(local_state);
 
         if (local_state != ACTIVITY_IDLE && local_state != ACTIVITY_SUSPENDED)
           {
@@ -74,13 +73,13 @@ public:
 
     if (forced_idle)
       {
-        TRACE_RETURN("Idle");
+        TRACE_MSG("Idle");
         return ACTIVITY_IDLE;
       }
 
     if (suspended)
       {
-        TRACE_RETURN("Suspended");
+        TRACE_MSG("Suspended");
         return ACTIVITY_SUSPENDED;
       }
 
@@ -90,23 +89,20 @@ public:
 
     if (state == STATE_STOPPED && idle >= reset)
       {
-        TRACE_RETURN("Idle stopped");
+        TRACE_MSG("Idle stopped");
         return ACTIVITY_IDLE;
       }
-    else
-      {
-        TRACE_RETURN("Active");
-        return ACTIVITY_ACTIVE;
-      }
+
+    TRACE_MSG("Active");
+    return ACTIVITY_ACTIVE;
   }
 
   //! Force state to be idle.
   void force_idle() override
   {
-    TRACE_ENTER("TimerActivityMonitor::force_idle");
+    TRACE_ENTRY();
     TRACE_MSG("Forcing idle");
     forced_idle = true;
-    TRACE_EXIT();
   }
 
   // Returns the collected statistics.

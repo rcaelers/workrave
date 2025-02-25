@@ -1,0 +1,9 @@
+{
+  "versions": [
+    {
+      "version": "43",
+      "port-version": 1,
+      "path": "$/ports/adwaita-icon-theme"
+    }
+  ]
+}

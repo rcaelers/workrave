@@ -1,13 +1,266 @@
 ---
 releases:
-  - version: 1.10.46
-    date: 2021-04-16T14:19:02+01:00
+  - version: 1.11.0-rc.1
+    date: 2025-01-07T17:49:37+01:00
     short: |-
-      Workrave 1.10.46 has been released. This release fixes an issue in the GNOME Shell applet and adds support for Gnome Shell 40.
+      Workrave 1.11.0-rc.1 has been released.
+    changes:
+      - Fix issue where a different window is focused after a break warning.
+
+  - version: 1.11.0-beta.16
+    date: 2024-11-19T20:01:18+01:00
+    short: |-
+      Workrave 1.11.0-beta.16 has been released.
+    changes:
+      - updated tamil Translation (#581, TamilNeram)
+      - Fix GNOME extension (#582, J. J. Ramsey)
+
+  - version: 1.11.0-beta.15
+    date: 2024-10-13T20:47:29+02:00
+    short: |-
+      Workrave 1.11.0-beta.15 has been released.
+    changes:
+      - Follow OS dark/light mode on Windows (#529)
+      - Fix dark mode on Windows (#537)
+      - Fix Linux crash (#575, ValdikSS)
+      - Fix translations in the exercises (#574)
+      - Fix link to Workrave's website in about window (#573)
+      - Fix issues where menu items could not be selected on Windows
+      - Fix update applet icon for first start (#578, klim-iv)
+      - Fix crash on wlroots compositors when break starts (#550,#552,#553,#554, Kirill Primak)
+      - Updated Tamil translation (#579, TamilNeram)
+      - Updated French translations (#545, WedoneOfficiel)
+      - Updated Indonesian translation (#560, Andika Triwidada)
+      - Enable application autostart across all Linux desktop managers (#548, Jon Petrissans)
+      - Python scripts for Waybar and Yambar applets (557,#558,#559,#561,#562, J. J. Ramsey)
+      - Reworked workrave-break-info.py into something that can be used as a Python module (#563, J. J. Ramsey)
+      - Beta channel now also receives release candidates and final releases
+
+  - version: 1.11.0-beta.14
+    date: 2024-06-15T14:29:23+02:00
+    short: |-
+      Workrave 1.11.0-beta.14 has been released.
+    changes:
+      - Start workrave after automatic update on Windows
+      - Save statistics before starting the automatic update
+
+  - version: 1.11.0-beta.13
+    date: 2024-06-11T12:30:10+02:00
+    short: |-
+      Workrave 1.11.0-beta.13 has been released.
+    changes:
+      - Improved handling of hibernate/suspend (#539,#540)
+
+  - version: 1.11.0-beta.12
+    date: 2024-03-21T19:48:51+01:00
+    short: |-
+      Workrave 1.11.0-beta.12 has been released.
+    changes:
+      - Fix installer integrity check
+
+  - version: 1.11.0-beta.11
+    date: 2024-03-19T19:57:38+01:00
+    short: |-
+      Workrave 1.11.0-beta.11 has been released.
+    changes:
+      - Support status icons using the StatusNotifierItem protocol (#447)
+      - Fix GNOME Shell 46 support (#532)
+      - Allow compilation without Wayland support (#523)
+      - Fix Wayland on KDE6 (#523)
+      - Fix force X11 option (#525)
+      - Prevent focus stealing on Windows when break window is closed
+
+  - version: 1.11.0-beta.10
+    date: 2024-02-02T18:57:28+01:00
+    short: |-
+      Workrave 1.11.0-beta.10 has been released.
+    changes:
+      - Fix issue where after installing an update, some files got removed after the first reboot.
+      - Fix issue where the main window is reopened after the screen is unlocked.
+      - Fix issue where the rest break window is opened below other Workrave windows.
+      - Add activity monitoring for KDE on Wayland
+      - Improved Wayland support on KDE (and other Wayland compositors that support the Layer Shell protocol)
+
+  - version: 1.11.0-beta.9
+    date: 2023-12-01T15:52:20+01:00
+    short: |-
+      Workrave 1.11.0-beta.9 has been released.
+    changes:
+      - Update Brazilian Portuguese translation (#512, Paulo Haddad Martim)
+      - Fix build on Ubuntu 20.04 and 22.04.
+
+  - version: 1.11.0-beta.8
+    date: 2023-11-26T18:49:51+01:00
+    short: |-
+      Workrave 1.11.0-beta.8 has been released.
+    changes:
+      - Workrave now always shows the exercises during a restbreak on the primary monitor
+
+  - version: 1.11.0-beta.7
+    date: 2023-08-14T22:34:36+02:00
+    short: |-
+      Workrave 1.11.0-beta.7 has been released. Note: automatic update from beta.6 is broken.
+      Please download the installer from GitHub (https://github.com/rcaelers/workrave/releases)
+    changes:
+      - Fix download of automatic update
+      - Support HTTP proxies for automatic update downloads
+      - Support Unicode characters in the automatic update changelog
+      - |-
+        Updated Translations:
+        - Created Tamil translation (#498, TamilNeram)
+        - Updated Italian translation (#496, albanobattistella)
+
+  - version: 1.11.0-beta.6
+    date: 2023-07-03T20:25:24+02:00
+    short: |-
+      Workrave 1.11.0-beta.6 has been released.
+    changes:
+      - Fix preferences icons on Linux
+      - Improve High-DPI icons on Windows
+      - Support GNOME Shell 44 (#471, Jeremy Bicha)
+      - Support GNOME Shell 44 in combination with Gtk 4 (#487)
+      - On Windows, Workrave now raises the main window when clicking on the pinned application icon.
+      - |-
+        Bug fixes:
+        - Fix "Start Workrave on logon" (#462)
+        - Fix Assertion 'GDK_IS_DISPLAY (display)' failed (#472)
+        - Several build fixes (#468, #469, #473, #474, wojnilowicz)
+        - Status window is no longer displayed when not configured (#444)
+      - |-
+        Updated Translations:
+        - Updated Polish translation (#465, ChuckMichael)
+        - Updated Italian translation (#489, #490, albanobattistella)
+        - Updated Polish translation (#484,  Hanna Kraska)
+        - Updates Spanish translation (#494, Cristian Martínez)
+
+  - version: 1.11.0-beta.5
+    date: 2023-01-12T17:29:18+01:00
+    short: |-
+      Workrave 1.11.0-beta.5 has been released.
+    changes:
+      - Added preferences for the experimental auto-update feature
+      - Preliminary support for custom user defined exercises
+      - Redesigned the preferences dialog
+      - |-
+        Bug fixes:
+        - Fixed language selection on Windows
+        - Fixed special characters in the Windows status icon menu
+        - Fixed issue where sound could not be disabled (#443)
+        - Fixed issue where the status window could not be disabled (#444)
+        - The installer now removes files no longer required (#446)
+
+  - version: 1.11.0-beta.2
+    date: 2022-11-08T19:35:00+01:00
+    short: |-
+      Workrave 1.11.0-beta2 has been released.
+    changes:
+      - Updates Polish translation (#423 by ChuckMichael)
+      - Update Dutch translation (#437 by WKobes)
+      - Support GNOME Shell 43 (#430 by Jeremy Bicha)
+      - Add option to force the use of the X11 Gtk backend on Wayland
+      - Experimental auto-update feature
+      - |-
+        Bug fixes:
+        - Fix 'Lock screen' functionality from rest break window
+        - Fix showing natural break window when screen is unlocked
+
+  - version: 1.11.0-alpha.3
+    date: 2022-06-30T16:53:59+02:00
+    short: |-
+      Workrave 1.11.0-alpha3 has been released.
+      This release fixes the GNOME shell applet.
+    changes:
+      - Fix GNOME shell applet loading on Ubuntu Focal
+
+  - version: 1.11.0-alpha.2
+    date: 2022-05-31T17:52:34+02:00
+    short: |-
+      Workrave 1.11.0-alpha2 has been released.
+    changes:
+      - Networking suport was removed
+      - Focus assist settings moved from menu to preferences
+      - The menus are no longer accessible during a break (#394 by 1Jesper1)
+      - |-
+        Bug fixes:
+        - Fix GNOME shell applet on GNOME 42 (#396)
+        - The installer will ask for a reboot if in-use files were overwritten
+        - The installer will terminate Workrave when it is running
+        - The application icon is now properly displayed
+        - The break warning window no longer disappears when moving aside
+      - |-
+        Translations:
+        - Updated Simplified Chinese translation (#391 by sr093906)
+        - Updated Italian translation (#403 by albanobattistella)
+
+  - version: 1.11.0-alpha.1
+    date: 2022-02-27T11:02:33+01:00
+    short: |-
+      Workrave 1.11.0-alpha1 has been released.
+      Workrave 1.11 has received limited testing and may not be as stable as Workrave 1.10.
+    changes:
+      - Major internal code cleanup and code modernization.
+      - Initial (incomplete) port to macOS using Qt6
+      - The default sound theme was changed to the "Subtle" theme (#362)
+      - You can now change the operation mode for a limited amount of time (#98,#305)
+      - A portable version is now available for Windows and Linux (#180)
+      - Workrave now follows the XDG basedirectory specification (#192)
+      - The Windows version is now 64 bit (#295)
+      - Workrave can now automatically change the operation mode based on Windows Focus Assist (#255,#226)
+      - A dark UI theme is now supported on Windows (#214)
+      - |-
+        Bug fixes:
+        - Fixed Windows system tray menu that would not always properly open (#373)
+        - Fixed vertical positioning of GNOME shell applet (#356)
+        - GGOME shell applet is now compatible with GNOME up to version 42 (#342, #352, #355)
+        - DPI scaling with multiple monitor has been fixed (#308, #315)
+        - Fixed the description of the backward shoulder stretch exercise (#354)
+        - Add version number to installer to support Microsoft's Windows Package Manager (winget) (#349, #353 by Kaleb Luedtke)
+      - |-
+        Translations:
+        - Complete overhaul of Simplified Chinese translation (#385 by sr093906)
+        - Updated Hebrew translation (#361 by Omer I.S.)
+        - Updated Italian translation (#359 by albanobattistella)
+        - Updated Persian translation (#358 by MSKF)
+        - Updated Catalan translation (#338 by Jordi Mallach)
+      - and more... (the final 1.11 release will have a more complete list of changes)
+
+  - version: 1.10.50
+    date: 2022-04-01T14:35:10+02:00
+    short: |-
+      Workrave 1.10.50 has been released. This release brings a number of small improvements.
+    changes:
+      - The "Restbreak now" button in the main window no longer responds to keyboard (#368)
+      - Allow installation on Windows without administrator rights.
+      - Fix vertical alignment of GNOME shell applet (#356)
+      - Support GNOME Shell 42 (#396)
+      - Restore support for Windows Vista and up (#367)
+      - The 'Backward shoulder stretch' exercises now plays a sound twice matching the description (#354)
+
+  - version: 1.10.49
+    date: 2022-01-05T15:05:19+01:00
+    short: |-
+      Workrave 1.10.49 has been released. This release adds support for GNOME Shell 41.
+    changes:
+      - Adds support for GNOME Shell 41 (#342, Timo Jyrinki)
+      - Inno Setup improvement (#353, Kaleb Luedtke)
+
+  - version: 1.10.48
+    date: 2021-08-03T17:26:00+02:00
+    short: |-
+      Workrave 1.10.48 has been released. This release fixes the GNOME Shell applet on GNOME Shell 3.30 and older.
+    changes:
+      - Fixed GNOME Shell applet on Ubuntu 18.04 (#281)
+
+  - version: 1.10.47
+    date: 2021-07-26T14:20:30+02:00
+    short: |-
+      Workrave 1.10.47 has been released. This release fixes an number of bugs and add support for GNOME Shell 40.
     changes:
       - Fixed a crash of the GNOME Shell applet (#281)
       - Adds support for GNOME Shell 40 (#288)
       - Fixed issue where the installer would fail when installing as system user (#291)
+      - Fixed incorrect disabling of postpone/skip button (#301)
+      - Warn if operation mode is not 'normal' after unlocking the screen (Windows only for now)
 
   - version: 1.10.45
     date: 2021-03-27T14:19:02+01:00
@@ -32,7 +285,7 @@ releases:
         - The cinnamon applet is no longer bouncing up and down (#253)
         - Fixed issue where the current language was always "Unrecognized language"
         - Fixed issue where activity monitoring would stop after restarting Gnome Shell
-        - Fixed issue that caused the main window to disappear (#244, 259)
+        - Fixed issue that caused the main window to disappear (#244, #259)
       - |-
         Translation updates:
         - Updated Chinese translation (#232, wintertee)
@@ -57,7 +310,7 @@ releases:
       - |-
         Fix issue where a break window could disappear after a few seconds.
       - |-
-        Fix issie where the Gnome Shell applet would be reload on Ubuntu 18.04.
+        Fix issue where the Gnome Shell applet would be reload on Ubuntu 18.04.
       - |-
         Update Traditional Chinese translation (Yuenfu Chiu)
 
@@ -133,7 +386,7 @@ releases:
         Fixed a bug that caused high CPU load when the main window was open for
         a long time.
       - |-
-        [internal change] Python 2 is no longer required for building Workrave.
+        \[internal change\] Python 2 is no longer required for building Workrave.
         The Python2-only Cheetah dependency has been replaced by Jinja 2
         (python3-jinja2). Additionally, Boost >= 1.52 is now required
         (libboost-dev).
@@ -261,7 +514,7 @@ releases:
     date: 2016-01-07T19:35:00+01:00
     changes:
       - |-
-        Improved security of network protocol.  
+        Improved security of network protocol.
         NOTE: this is a backward incompatible change. This version of Workrave
         will no longer connect to older Workrave versions.
       - Minor improvements
@@ -338,7 +591,7 @@ releases:
     changes:
       - Fix uninstall on Windows.
 
-  - version: "1.10"
+  - version: 1.10.0
     date: 2013-01-13T11:25:29+01:00
     changes:
       - |-

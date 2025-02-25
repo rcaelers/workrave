@@ -1,5 +1,3 @@
-// Debug.hh
-//
 // Copyright (C) 2001 - 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -22,7 +20,7 @@
 
 #include <assert.h>
 
-#ifdef NDEBUG
+#if defined(NDEBUG)
 
 #  define TRACE_ENTER(x)
 #  define TRACE_ENTER_MSG(x, y)
@@ -69,5 +67,5 @@ public:
     std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg << std::endl; \
     std::cerr.flush();
 
-#endif // TRACING
+#endif // HAVE_TRACING
 #endif // DEBUG_H

@@ -17,6 +17,8 @@ add_library(workrave-libs-core-next STATIC
   Timer.cc
   TimerActivityMonitor.cc)
 
+target_code_coverage(workrave-libs-core-next)
+
 if (HAVE_DBUS)
   dbus_generate_source(${CMAKE_CURRENT_SOURCE_DIR}/workrave-service.xml ${CMAKE_CURRENT_BINARY_DIR} DBusWorkraveNext)
   target_sources(workrave-libs-core-next PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkraveNext.cc)
@@ -29,11 +31,15 @@ if (WITH_CORE_NEXT)
 endif()
 
 target_link_libraries(workrave-libs-core-next
-  ${CMAKE_THREAD_LIBS_INIT}
+  PUBLIC
   workrave-libs-utils
   workrave-libs-config
-  workrave-libs-input-monitor
   workrave-libs-dbus)
+
+target_link_libraries(workrave-libs-core-next PUBLIC
+  $<$<NOT:$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>>:workrave-libs-input-monitor>
+  $<$<BOOL:$<TARGET_PROPERTY:USE_STUBS>>:workrave-libs-input-monitor-stub>
+)
 
 target_include_directories(
   workrave-libs-core-next

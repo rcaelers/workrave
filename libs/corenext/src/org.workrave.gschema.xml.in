@@ -6,6 +6,7 @@
     <child schema="org.workrave.monitor" name="monitor"/>
     <child schema="org.workrave.general" name="general"/>
     <child schema="org.workrave.advanced" name="advanced"/>
+    <child schema="org.workrave.state" name="state"/>
   </schema>
 
   <schema path="/org/workrave/advanced/" id="org.workrave.advanced" gettext-domain="workrave">
@@ -21,7 +22,7 @@
     <child schema="org.workrave.timers.rest-break" name="rest-break"/>
     <child schema="org.workrave.timers.daily-limit" name="daily-limit"/>
   </schema>
-  
+
   <schema path="/org/workrave/timers/daily-limit/" id="org.workrave.timers.daily-limit" gettext-domain="workrave">
     <key type="b" name="activity-sensitive">
       <default>true</default>
@@ -59,7 +60,7 @@
       <description></description>
     </key>
   </schema>
-    
+
   <schema path="/org/workrave/timers/micro-pause/" id="org.workrave.timers.micro-pause" gettext-domain="workrave">
     <key type="i" name="auto-reset">
       <default>30</default>
@@ -82,7 +83,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/timers/rest-break/" id="org.workrave.timers.rest-break" gettext-domain="workrave">
     <key type="b" name="activity-sensitive">
       <default>true</default>
@@ -116,7 +117,7 @@
     <child schema="org.workrave.breaks.rest-break" name="rest-break"/>
     <child schema="org.workrave.breaks.daily-limit" name="daily-limit"/>
   </schema>
-  
+
   <schema path="/org/workrave/breaks/daily-limit/" id="org.workrave.breaks.daily-limit" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
@@ -129,7 +130,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/breaks/micro-pause/" id="org.workrave.breaks.micro-pause" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
@@ -142,7 +143,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/breaks/rest-break/" id="org.workrave.breaks.rest-break" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
@@ -155,7 +156,7 @@
       <description></description>
     </key>
   </schema>
-  
+
   <schema path="/org/workrave/monitor/" id="org.workrave.monitor" gettext-domain="workrave">
     <key type="i" name="activity">
       <default>1000</default>
@@ -178,7 +179,7 @@
       <description></description>
     </key>
   </schema>
-    
+
   <schema path="/org/workrave/general/" id="org.workrave.general" gettext-domain="workrave">
     <key type="s" name="datadir">
       <default>""</default>
@@ -195,6 +196,23 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="i" name="operation-mode-auto-reset-duration">
+      <default>0</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="operation-mode-auto-reset-options">
+      <default>""</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="x" name="operation-mode-auto-reset-time">
+      <default>0</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+  <schema path="/org/workrave/state/" id="org.workrave.state" gettext-domain="workrave">
   </schema>
 
 </schemalist>

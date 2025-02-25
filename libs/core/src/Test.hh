@@ -1,5 +1,3 @@
-// Test.hh --- Whitebox testing code
-//
 // Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers
 // All rights reserved.
 //
@@ -36,7 +34,7 @@ private:
 inline Test *
 Test::get_instance()
 {
-  if (instance == NULL)
+  if (instance == nullptr)
     {
       instance = new Test();
     }

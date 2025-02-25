@@ -1,5 +1,3 @@
-// Platform.hh --- Platform class
-//
 // Copyright (C) 2013 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
@@ -23,25 +21,19 @@
 
 #include "utils/Platform.hh"
 
-#include <cstdlib>
-
-#ifdef HAVE_GTK
+#if defined(HAVE_GTK)
 #  include <glib.h>
 #  include <gdk/gdk.h>
-#  ifdef PLATFORM_OS_UNIX
+#  if defined(PLATFORM_OS_UNIX)
 #    include <gdk/gdkx.h>
 #  endif
-#  ifdef GDK_WINDOWING_WAYLAND
+#  if defined(GDK_WINDOWING_WAYLAND)
 #    include <gdk/gdkwayland.h>
 #  endif
 #endif
 
-#ifdef HAVE_QT
+#if defined(HAVE_QT)
 #  include <QtGui>
-#  if defined(HAVE_QT5)
-#    include <qdesktopwidget.h>
-#    include <qpa/qplatformnativeinterface.h>
-#  endif
 #  include <qapplication.h>
 
 #  if defined(PLATFORM_OS_UNIX)
@@ -51,7 +43,7 @@
 
 using namespace workrave::utils;
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 void *
 Platform::get_default_display()
 {
@@ -59,7 +51,7 @@ Platform::get_default_display()
 
 #  if defined(HAVE_GTK)
   GdkDisplay *display = gdk_display_get_default();
-  if (display != nullptr)
+  if (display != nullptr && GDK_IS_X11_DISPLAY(display))
     {
       xdisplay = gdk_x11_display_get_xdisplay(display);
     }
@@ -135,11 +127,11 @@ Platform::unsetenv(const char *name)
   return ::unsetenv(name);
 }
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 bool
 Platform::running_on_wayland()
 {
-#  ifdef GDK_WINDOWING_WAYLAND
+#  if defined(GDK_WINDOWING_WAYLAND)
   GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
   return GDK_IS_WAYLAND_DISPLAY(display);
 #  else

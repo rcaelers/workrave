@@ -1,7 +1,4 @@
-/*
- * workrave-timebar.h
- *
- * Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
+/* Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __WORKRAVE_TIMEBAR_H__
-#define __WORKRAVE_TIMEBAR_H__
+#ifndef WORKRAVE_APPLET_COMMON_TIMEBAR_H
+#define WORKRAVE_APPLET_COMMON_TIMEBAR_H
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -73,4 +70,4 @@ void workrave_timebar_set_text_alignment(WorkraveTimebar *self, int align);
 void workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height);
 void workrave_timebar_set_dimensions(WorkraveTimebar *self, int width, int height);
 
-#endif /* __WORKRAVE_TIMEBAR_H__ */
+#endif /* WORKRAVE_APPLET_COMMON_TIMEBAR_H_ */

@@ -1,0 +1,112 @@
+set WorkravePrefix = "/usr"
+set WorkraveImgPath = $WorkravePrefix + "/share/workrave/images"
+
+scanner {
+  ExecClient("stdbuf -oL workrave_break_info.py -f json", "workrave") {
+    WorkraveMicroBreakEnabled = Json(".microbreak_enabled")
+    WorkraveMicroBreakLeftInSeconds = Json(".microbreak_left_in_seconds")
+    WorkraveMicroBreakLeftStr = Json(".microbreak_left_str")
+    WorkraveMicroBreakLimitInSeconds = Json(".microbreak_limit_in_seconds")
+    WorkraveMicroBreakLimitStr = Json(".microbreak_limit_str")
+    WorkraveMicroBreakState = Json(".microbreak_state")
+      
+    WorkraveRestBreakEnabled = Json(".restbreak_enabled")
+    WorkraveRestBreakLeftInSeconds = Json(".restbreak_left_in_seconds")
+    WorkraveRestBreakLeftStr = Json(".restbreak_left_str")
+    WorkraveRestBreakLimitInSeconds = Json(".restbreak_limit_in_seconds")
+    WorkraveRestBreakLimitStr = Json(".restbreak_limit_str")
+    WorkraveRestBreakState = Json(".restbreak_state")
+      
+    WorkraveDailyLimitEnabled = Json(".dailylimit_enabled")
+    WorkraveDailyLimitLeftInSeconds = Json(".dailylimit_left_in_seconds")
+    WorkraveDailyLimitLeftStr = Json(".dailylimit_left_str")
+    WorkraveDailyLimitInSeconds = Json(".dailylimit_in_seconds")
+    WorkraveDailyLimitStr = Json(".dailylimit_str")
+    WorkraveDailyLimitState = Json(".dailylimit_state")
+  }
+}
+
+layout {
+  grid {
+
+    style = "workrave_widget_" + BarDir()
+    
+    button {
+      value = $WorkraveImgPath + "/workrave-icon-medium.png"
+      tooltip = "Launch Workrave"
+      action = "workrave-open.py"
+    }
+    
+    grid {
+
+      css = "* { -GtkWidget-direction: right; margin-left: 0.5em; margin-right: 0.5em;}"
+      style = If($WorkraveMicroBreakEnabled="true", "workrave_timer", "hidden")
+
+      image {
+        value = $WorkraveImgPath + "/micro-break.png"
+      }
+
+      grid {
+        css = "* { -GtkWidget-direction: bottom; margin-left: 0.25em; margin-right: 0.25em;}"
+        label {
+          value = $WorkraveMicroBreakLeftStr + "/" + $WorkraveMicroBreakLimitStr
+	  css = "* { -GtkWidget-align: 0; }"
+	  style = "workrave_" + Replace($WorkraveMicroBreakState, " ", "_")
+        }
+        scale {
+          value = If(WorkraveMicroBreakLeftInSeconds < 0.0,
+	             0.0,
+	             WorkraveMicroBreakLeftInSeconds/WorkraveMicroBreakLimitInSeconds)
+	  style = "workrave_" + Replace($WorkraveMicroBreakState, " ", "_")
+        }
+      }
+    }
+
+    grid {
+      css = "* { -GtkWidget-direction: right; margin-left: 0.5em; margin-right: 0.5em;}"
+      style = If($WorkraveRestBreakEnabled="true", "workrave_timer", "hidden")
+
+      image {
+        value = $WorkraveImgPath + "/rest-break.png"
+      }
+      grid {
+        css = "* { -GtkWidget-direction: bottom; margin-left: 0.25em; margin-right: 0.25em;}"
+        label {
+          value = $WorkraveRestBreakLeftStr + "/" + $WorkraveRestBreakLimitStr
+          css = "* { -GtkWidget-align: 0; }"
+	  style = "workrave_" + Replace($WorkraveRestBreakState, " ", "_")
+        }
+        scale {
+          value = If(WorkraveRestBreakLeftInSeconds < 0.0,
+	             0.0,
+		     WorkraveRestBreakLeftInSeconds/WorkraveRestBreakLimitInSeconds)
+	  style = "workrave_" + Replace($WorkraveRestBreakState, " ", "_")
+        }
+      }
+    }
+      
+    grid {
+      css = "* { -GtkWidget-direction: right; margin-left: 0.5em; margin-right: 0.5em;}"
+      style = If($WorkraveDailyLimitEnabled="true", "workrave_timer", "hidden")
+
+      image {
+        value = $WorkraveImgPath + "/daily-limit.png"
+      }
+      grid {
+        css = "* { -GtkWidget-direction: bottom; margin-left: 0.25em; margin-right: 0.25em;}"
+        label {
+          value = $WorkraveDailyLimitLeftStr + "/" + $WorkraveDailyLimitStr
+          css = "* { -GtkWidget-align: 0; }"
+	  style = "workrave_" + Replace($WorkraveDailyLimitState, " ", "_")
+        }
+        scale {
+          value = If(WorkraveDailyLimitLeftInSeconds < 0.0,
+	             0.0,
+		     WorkraveDailyLimitLeftInSeconds/WorkraveDailyLimitInSeconds)
+	  style = "workrave_" + Replace($WorkraveDailyLimitState, " ", "_")
+        }
+      }
+    }
+  }
+}
+

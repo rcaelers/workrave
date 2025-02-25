@@ -21,10 +21,6 @@
 #ifndef SYSTEMSTATECHANGEUPOWER_HH_
 #define SYSTEMSTATECHANGEUPOWER_HH_
 
-#ifdef HAVE_CONFIG_H
-#  include "config.h"
-#endif
-
 #include "utils/DBusProxy.hh"
 
 #include "session/ISystemStateChangeMethod.hh"

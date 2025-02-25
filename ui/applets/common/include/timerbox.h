@@ -1,7 +1,4 @@
-/*
- * workrave-timerbox.h
- *
- * Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
+/* Copyright (C) 2011, 2013 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __WORKRAVE_TIMERBOX_H__
-#define __WORKRAVE_TIMERBOX_H__
+#ifndef WORKRAVE_APPLET_COMMON_TIMERBOX_H
+#define WORKRAVE_APPLET_COMMON_TIMERBOX_H
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -72,4 +69,4 @@ int workrave_timerbox_get_width(WorkraveTimerbox *self);
 int workrave_timerbox_get_height(WorkraveTimerbox *self);
 WorkraveTimebar *workrave_timerbox_get_time_bar(WorkraveTimerbox *self, WorkraveBreakId timer);
 
-#endif /* __WORKRAVE_TIMERBOX_H__ */
+#endif /* WORKRAVE_APPLET_COMMON_TIMERBOX_H */

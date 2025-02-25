@@ -1,1563 +1,1395 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Moein Gh <tarfandkhaneh@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2021-05-30 12:47+0200\n"
-"PO-Revision-Date: 2011-04-16 13:23+0330\n"
-"Last-Translator: Moein Gh <tarfandkhaneh@gmail.com>\n"
-"Language-Team:  <Tarfandkhaneh@Gmail.com>\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
+"POT-Creation-Date: 2022-11-27 23:04+0100\n"
+"PO-Revision-Date: 2021-11-25 12:14+0330\n"
+"Last-Translator: MohammadSaleh Kamyab <mskf1383@protonmail.com>\n"
+"Language-Team: <Tarfandkhaneh@Gmail.com>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Persian\n"
-"X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
+"X-Generator: Poedit 2.4.2\n"
 
-# كلاينت
-#: libs/core/src/DistributionSocketLink.cc:121
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
-msgid "Reconnecting to %s."
-msgstr "اتصال مجدد به %s."
+msgid "%s%d seconds"
+msgstr "%s%d ثانیه"
 
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:408
-msgid "Could not enable network operation."
-msgstr "نمی توان بهره برداری از شبکه را فعال کرد"
+#: ui/libs/commonui/src/Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d دقیقه"
 
-#: libs/core/src/DistributionSocketLink.cc:417
-msgid "Disabling network operation."
-msgstr "در حال قطع شدن از شبکه..."
+#: ui/libs/commonui/src/Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d ساعت"
 
-#: libs/core/src/DistributionSocketLink.cc:523
-#: libs/core/src/DistributionSocketLink.cc:560
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
 #, c-format
-msgid "Connecting to %s."
-msgstr "در حال اتصال به %s."
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, از {:%X} به {:%X}"
 
-#: libs/core/src/DistributionSocketLink.cc:675
-#: libs/core/src/DistributionSocketLink.cc:706
-#, c-format
-msgid "Removing client %s."
-msgstr "در حال حذف کلاینت %s."
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:159
+msgid "(font not available)"
+msgstr "(قلم در دسترس نیست)"
 
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:752
-#, c-format
-msgid "Disconnecting %s"
-msgstr "در حال قطع کردن %s."
-
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:915
-#, c-format
-msgid "Client %s is now master."
-msgstr "کلاینت %s اکنون برجسته است"
-
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:921
-msgid "I'm now master."
-msgstr "من اکنون برجسته هستم"
-
-#: libs/core/src/DistributionSocketLink.cc:1284
-#: libs/core/src/DistributionSocketLink.cc:1343
-#, c-format
-msgid "Client %s saying hello."
-msgstr "کلاینت %s به شما خوش آمد می گوید"
-
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1293
-#: libs/core/src/DistributionSocketLink.cc:1373
-#, c-format
-msgid "Client %s access denied."
-msgstr "کلاینت %s دسترسی امکان پذیر نیست"
-
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1364
-#: libs/core/src/DistributionSocketLink.cc:1491
-#: libs/core/src/DistributionSocketLink.cc:1736
-#, c-format
-msgid "Client %s is duplicate."
-msgstr "کلاینت %s تکثیر می شود"
-
-#: libs/core/src/DistributionSocketLink.cc:1443
-#, c-format
-msgid "Client %s signed off."
-msgstr "کلاینت %s خارج شد."
-
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1527
-#, c-format
-msgid "Client %s is welcoming us."
-msgstr "کلاینت %s به ما خوشامد می گوید."
-
-#: libs/core/src/DistributionSocketLink.cc:1769
-#, c-format
-msgid "Requesting master status from %s."
-msgstr "درخواست وضعیت برجسته از %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1782
-#, c-format
-msgid "Client timeout from %s."
-msgstr "وقفه کلاینت از %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1808
-#, c-format
-msgid "Rejecting master request from client %s."
-msgstr "در حال رد کردن درخواست برجسته از کلاینت %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1813
-#, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "در حال تصدیق کردن درخواست برجسته از کلاینت %s."
-
-#: libs/core/src/DistributionSocketLink.cc:1866
-#, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "کلاینت نامشخص %s درخواست برجسته را رد کرد"
-
-#: libs/core/src/DistributionSocketLink.cc:1870
-#, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "کلاینت %s درخواست برجسته را رد کرد، تاخیر."
-
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1944
-#, c-format
-msgid "Client %s is now the new master."
-msgstr ".اکنون %s کلاینت برجسته ی جدید است"
-
-#: libs/core/src/DistributionSocketLink.cc:2072
-msgid "Network operation started."
-msgstr "گردش شبکه آغاز شد."
-
-#: libs/core/src/DistributionSocketLink.cc:2092
-msgid "Accepted new client."
-msgstr "کلاینت جدید پذیرفته شد."
-
-#: libs/core/src/DistributionSocketLink.cc:2167
-#, c-format
-msgid "Client %s read error, closing."
-msgstr "کلاینت %s اشتباه خواند، بسته می شود."
-
-#: libs/core/src/DistributionSocketLink.cc:2172
-#: libs/core/src/DistributionSocketLink.cc:2239
-#, c-format
-msgid "Client %s closed connection."
-msgstr "کلاینت %s اتصال را قطع کرد."
-
-#: libs/core/src/DistributionSocketLink.cc:2211
-#, c-format
-msgid "Client %s connected."
-msgstr "کلاینت %s وصل شد."
-
-#: libs/core/src/DistributionSocketLink.cc:2244
-#, c-format
-msgid "Could not connect to client %s."
-msgstr "نمی توان به کلاینت %s متصل شد."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:219
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:211
-#: ui/applets/gnome3/src/v5/WorkraveApplet.c:221
-#: ui/applets/mate/src/main-gtk2.c:285 ui/applets/mate/src/main-gtk3.c:210
-#: ui/applets/xfce/src/main.c:297 ui/apps/gtkmm/src/Menus.cc:340
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr "این برنامه کمک می کند به پیشگیری و بهبودی آسیب های فیزیکی مکرر."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.appdata.xml:6
-#: ui/apps/gtkmm/src/workrave.desktop.in:4
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave Applet"
-msgstr "Workrave Applet"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:308
-#: ui/applets/mate/src/main-gtk2.c:343 ui/applets/mate/src/main-gtk3.c:307
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:72
-msgid "_Open"
-msgstr "_باز کردن"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:310
-#: ui/applets/mate/src/main-gtk2.c:345 ui/applets/mate/src/main-gtk3.c:309
-msgid "_Statistics"
-msgstr "_آمار"
-
-#. Preferences
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:312
-#: ui/applets/mate/src/main-gtk2.c:347 ui/applets/mate/src/main-gtk3.c:311
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:150
-msgid "_Preferences"
-msgstr "_ترجیحات"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:314
-#: ui/applets/mate/src/main-gtk2.c:349 ui/applets/mate/src/main-gtk3.c:313
-msgid "_Exercises"
-msgstr "_نرمش ها"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:316
-#: ui/applets/mate/src/main-gtk2.c:351 ui/applets/mate/src/main-gtk3.c:315
-msgid "_Restbreak"
-msgstr "_استراحت"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:318
-#: ui/applets/mate/src/main-gtk2.c:353 ui/applets/mate/src/main-gtk3.c:317
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:120
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:107
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:90
-msgid "_Mode"
-msgstr "_حالت"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:320
-#: ui/applets/mate/src/main-gtk2.c:355 ui/applets/mate/src/main-gtk3.c:319
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:134
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:113
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:103
-msgid "_Network"
-msgstr "_شبکه"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:322
-#: ui/applets/mate/src/main-gtk2.c:357 ui/applets/mate/src/main-gtk3.c:321
-msgid "_Join"
-msgstr "_پیوستن"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:324
-#: ui/applets/mate/src/main-gtk2.c:359 ui/applets/mate/src/main-gtk3.c:323
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:136
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:116
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:96
-msgid "_Disconnect"
-msgstr "_قطع اتصال"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:326
-#: ui/applets/mate/src/main-gtk2.c:361 ui/applets/mate/src/main-gtk3.c:325
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:137
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:117
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:98
-msgid "_Reconnect"
-msgstr "_اتصال مجدد"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:328
-#: ui/applets/mate/src/main-gtk2.c:363 ui/applets/mate/src/main-gtk3.c:327
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:157
-msgid "_About"
-msgstr "_درباره"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:330
-#: ui/applets/mate/src/main-gtk2.c:365 ui/applets/mate/src/main-gtk3.c:329
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:159
-msgid "_Quit"
-msgstr "_خروج"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:334
-#: ui/applets/mate/src/main-gtk2.c:369 ui/applets/mate/src/main-gtk3.c:333
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:182
-msgid "Show log"
-msgstr "نمایش گزارش"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:336
-#: ui/applets/mate/src/main-gtk2.c:371 ui/applets/mate/src/main-gtk3.c:335
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:187
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:120
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:105
-msgid "Reading mode"
-msgstr "حالت خواندن"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:340
-#: ui/applets/mate/src/main-gtk2.c:375 ui/applets/mate/src/main-gtk3.c:339
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:164
-msgid "Normal"
-msgstr "عادی"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:342
-#: ui/applets/mate/src/main-gtk2.c:377 ui/applets/mate/src/main-gtk3.c:341
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GenericDBusApplet.cc:167
-msgid "Suspended"
-msgstr "موکول"
-
-#: ui/applets/gnome3/src/v4/WorkraveApplet.c:344
-#: ui/applets/mate/src/main-gtk2.c:379 ui/applets/mate/src/main-gtk3.c:343
-#: ui/apps/gtkmm/src/GUI.cc:1424 ui/apps/gtkmm/src/GenericDBusApplet.cc:170
-msgid "Quiet"
-msgstr "خاموش"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:257
-#, fuzzy
-msgid "Lock..."
-msgstr "_قفل"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:261
-#, fuzzy
-msgid "Lock"
-msgstr "_قفل"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:265
-#, fuzzy
-msgid "Shutdown"
-msgstr "خاتمه دادن"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:269
-#, fuzzy
-msgid "Suspend"
-msgstr "موکول"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:273
-msgid "Hibernate"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
+msgid "<h3>Version {}</h3>\n"
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:277
-#, fuzzy
-msgid "Suspend hybrid"
-msgstr "موکول"
+#: ui/app/toolkits/gtkmm/Ui.cc:113
+msgid "?"
+msgstr "؟"
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:397
-msgid "_Skip"
-msgstr "_پرش"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:412
-msgid "_Postpone"
-msgstr "_به بعد موکول کردن"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:604
-msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
+msgid "A new version of {} is available"
 msgstr ""
 
-#: ui/apps/gtkmm/src/BreakWindow.cc:618
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Active computer usage"
+msgstr "استفادهٔ فعّال از رایانه"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:270
+msgid "Activity"
+msgstr "فعّالیت"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:132
+msgid "Applet"
+msgstr "برنامک"
+
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "کمک به پیشگیری و بهبود آسیب‌های فیزیکی مکرّر"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
+msgid "Auto update"
 msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
+msgid "Automatically check for updates"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:38
+msgid "Backward shoulder stretch"
+msgstr "کشش شانهٔ عقب"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
+msgid "Block input"
+msgstr "مسدودسازی ورودی"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
+msgid "Block input and screen"
+msgstr "مسدودسازی ورودی و صفحه"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
+msgid "Block mode:"
+msgstr "حالت مسدود:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
+msgid "Break duration:"
+msgstr "مدّت وقفه:"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:86
+msgid "Break ignored"
+msgstr "وقفه نادیده رفته شد"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:236
+#, c-format
+msgid "Break in %s"
+msgstr "وقفه در %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:83
+msgid "Break prompt"
+msgstr "واداساز وقفه"
+
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
+msgid "Break prompting"
+msgstr "وادارسازی وقفه"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:160
+msgid "Break prompts"
+msgstr "وادارسازهای وقفه"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:152
+msgid "Breaks"
+msgstr "وقفه‌ها"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:177
+msgid "Breaks postponed"
+msgstr "وقفه‌های موکول شده"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "Breaks skipped"
+msgstr "وقفه‌های پریده شده"
+
+#. Navigation box
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:107
+msgid "Browse history"
+msgstr "تاریخچهٔ مرور"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
+msgid "Check for _Updates"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
+msgid "Choose a sound"
+msgstr "یک صدا انتخاب کنید"
+
+#. Dialog
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:56
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:94
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:142
+msgid "Close"
+msgstr "بستن"
+
+#: ui/data/exercises/exercises.xml.in:73
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "با دست‌هایتان چشم‌هایتان را بپوشانید به نحوی که همچنان بتوانید پلک‌هایتان را باز نگه دارید. اکنون چشم‌هایتان را باز کنید و به تاریکی کف دست‌تان نگاه کنید. این کار در مقایسه با بستن چشم‌ها، تسکین بیش‌تری به چشم‌هایتان می‌دهد."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
+msgid "Cycle time:"
+msgstr "زمان چرخه:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:184
+msgid "Daily"
+msgstr "روزانه"
 
 #. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:46
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:53 ui/apps/gtkmm/src/GUI.cc:1413
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/Ui.cc:101
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:173 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
 msgid "Daily limit"
 msgstr "محدودیت روزانه"
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:54
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something else to do, such as reviewing a document."
-msgstr ""
-"محدودیت روزانه ی شما تمام شد. لطفاً کارکردن با کامپیوتر را متوقف کنید. اگر "
-"روز کاری شما هنوز به پایان نرسیده، لطفاً کارهای دیگری انجام دهید، مانند بررسی "
-"یک متن یا سند."
-
-#: ui/apps/gtkmm/src/DebugDialog.cc:42 ui/apps/gtkmm/src/DebugDialog.cc:44
-msgid "Debug log"
-msgstr ""
-
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:31
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:161
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:153
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:105
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:75
-msgid "Exercises"
-msgstr "نرمش ها"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:240
-msgid "Exercises player"
-msgstr "اجرا کننده ی نرمش ها"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:270
-msgid "Previous exercise"
-msgstr "نرمش قبلی"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:271
-msgid "Next exercise"
-msgstr "نرمش بعدی"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:272
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:457
-msgid "Pause exercises"
-msgstr "توقف کوتاه نرمش ها"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:276
-msgid "End exercises"
-msgstr "پایان نرمش ها"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Resume"
-msgstr "ادامه"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:452
-msgid "Pause"
-msgstr "توقف کوتاه"
-
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:455
-msgid "Resume exercises"
-msgstr "ادامه ی نرمش ها"
-
-#: ui/apps/gtkmm/src/GUI.cc:294
-#, fuzzy
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-"WorkRave هنوز در حال اجراست. شما می توانید با کلیک کردن روی آیکن گوسفند سفید "
-"به آن دسترسی پیدا کنید."
-
-#: ui/apps/gtkmm/src/GUI.cc:774 ui/apps/gtkmm/src/GUI.cc:888
-msgid "Workrave failed to start"
-msgstr "WorkRave موفق به شروع نشد"
-
-#: ui/apps/gtkmm/src/GUI.cc:775
-msgid "Is Workrave already running?"
-msgstr "آیا WorkRave هنوز در حال اجراست؟"
-
-#: ui/apps/gtkmm/src/GUI.cc:883
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr "WorkRave نمی تواند فعالیت صفحه کلید و ماوس شما را ضبط کند.\n"
-
-#: ui/apps/gtkmm/src/GUI.cc:886
-msgid "Make sure that the RECORD extension is enabled in the X server."
-msgstr "Make sure that the RECORD extension is enabled in the X server."
-
-#: ui/apps/gtkmm/src/GUI.cc:1281
-msgid ""
-"Workrave is in suspended mode. Mouse and keyboard activity will not be "
-"monitored."
-msgstr "WorkRave در حالت موکول است. فعالیت موس و کیبرد نمی تواند ضبط شود."
-
-#: ui/apps/gtkmm/src/GUI.cc:1287
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr ""
-"WorkRave در حالت خاموش قرار دارد. هیچ پنجره ی استراحتی پدیدار نخواهد شد."
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GtkUtil.cc:162
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:50
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:159
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:251
-msgid "Micro-break"
-msgstr "میکرو استراحت!"
-
-#: ui/apps/gtkmm/src/GUI.cc:1413 ui/apps/gtkmm/src/GenericDBusApplet.cc:160
-#: ui/apps/gtkmm/src/GtkUtil.cc:162 ui/apps/gtkmm/src/MicroBreakWindow.cc:134
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:67
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:192
-msgid "Rest break"
-msgstr "استراحت"
-
-#: ui/apps/gtkmm/src/GUI.cc:1420 ui/apps/gtkmm/src/GUI.cc:1424
-msgid "Mode: "
-msgstr "حالت:"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:158
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:102
-#, fuzzy
-msgid "Open"
-msgstr "_باز کردن"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:159
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:76
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:103
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:73
-msgid "Preferences"
-msgstr "ترجیحات"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:162
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:174
-#, fuzzy
-msgid "Mode"
-msgstr "_حالت"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:177
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:184
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr "شبکه"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:178
-#, fuzzy
-msgid "Connect"
-msgstr "_اتصال"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:179
-#, fuzzy
-msgid "Disconnect"
-msgstr "_قطع اتصال"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:180
-#, fuzzy
-msgid "Reconnect"
-msgstr "_اتصال مجدد"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:191
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:155
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:51
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:121
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:109
-msgid "Statistics"
-msgstr "آمار"
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:192
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:122
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:110
-msgid "About..."
-msgstr "درباره..."
-
-#: ui/apps/gtkmm/src/GenericDBusApplet.cc:193
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:123
-#, fuzzy
-msgid "Quit"
-msgstr "_خروج"
-
-#. Restbreak now
-#. Gtk::AccelKey("<control>r"),
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:80 ui/apps/gtkmm/src/MainGtkMenu.cc:146
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:104
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:74
-msgid "_Rest break"
-msgstr "_استراحت"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:122
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:109
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:77
-msgid "_Normal"
-msgstr "_عادی"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:125
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:110
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:81
-msgid "Q_uiet"
-msgstr "Q_uiet"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:127
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:111
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:85
-msgid "_Suspended"
-msgstr "_موکول"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:130
-msgid "_Reading mode"
-msgstr "_حالت خواندن"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:135
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:115
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:94
-msgid "_Connect"
-msgstr "_اتصال"
-
-#: ui/apps/gtkmm/src/MainGtkMenu.cc:138
-#: ui/apps/gtkmm/src/unix/IndicatorAppletMenu.cc:118
-#: ui/apps/gtkmm/src/win32/W32AppletMenu.cc:99
-msgid "Show _log"
-msgstr "Show _log"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:217
-msgid "Please relax for a few seconds"
-msgstr "لطفاً برای چند ثانیه ریلکس باشید"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:224
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:228
 #, c-format
-msgid "Next rest break in %s"
-msgstr "استراحت بعدی در %s"
+msgid "Daily limit %s overdue"
+msgstr "محدودیت روزانهٔ %s به‌سر رسید"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:228
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "استراحت %s سر رسیده"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:240
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:224
 #, c-format
 msgid "Daily limit in %s"
 msgstr "محدودیت روزانه در %s"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:244
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "محدودیت روزانه %s سر رسیده"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+msgid "Daily limit:"
+msgstr "محدودیت روزانه:"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:53
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:72
-msgid "Network connect"
-msgstr "اتصال شبکه"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
+msgid "Date:"
+msgstr "تاریخ:"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:73
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"نام هاست و شماره ی پورت یک کامپیوتر/n در شبکه ای که می خواهید به آن متصل "
-"شوید وارد کنید."
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:38
+msgid "Debug log"
+msgstr "گزارش اشکال‌زدایی"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:85
-msgid "Host name:"
-msgstr "نام هاست:"
-
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:86
-msgid "Port:"
-msgstr "پورت:"
-
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:50
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:52
-msgid "Network log"
-msgstr "گزارش شبکه"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:93
-msgid "Enable networking"
-msgstr "فعال کردن شبکه"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:100
-msgid "Username:"
-msgstr "نام کاربری:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:101
-msgid "Password:"
-msgstr "گذرواژه:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:107
-msgid "Allow incoming connections"
-msgstr "اجازه بده به اتصال های ورودی"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:112
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "عمومی"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:123
-msgid "Server settings"
-msgstr "تنظیمات سرور"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Server port:"
-msgstr "پورت سرور:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:146
-msgid "Reconnect attempts:"
-msgstr "جستجو برای اتصال مجدد:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:147
-msgid "Reconnect interval:"
-msgstr "وقفه ی اتصال مجدد:"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:150
-msgid "Advanced"
-msgstr "پیشرفته"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:165
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"لیست زیرین هاستی را که WorkRave به آن متصل می شود تعیین می کند.برای ویرایش "
-"روی نام هاست یا شماره ی پورت کلیک کنید."
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:192
-msgid "Host name"
-msgstr "نام هاست"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:201
-msgid "Port"
-msgstr "پورت"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:239
-msgid "Hosts"
-msgstr "هاست ها"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-msgid "Sounds"
-msgstr "صداها"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "پنجره ی وضعیت"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr "Applet"
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:150
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:188
-msgid "Timers"
-msgstr "تایمرها"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
-msgid "User interface"
-msgstr "رابط کاربری"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:156
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:160
-msgid "No blocking"
-msgstr "No blocking"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:157
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:161
-msgid "Block input"
-msgstr "Block input"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:158
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:162
-msgid "Block input and screen"
-msgstr "Block input and screen"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:181
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:129
-msgid "Options"
-msgstr "تنظیمات"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:183
-msgid "Block mode:"
-msgstr "Block mode:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:203
-msgid "System default"
-msgstr "پیشفرض سیستم"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:246
-msgid "(font not available)"
-msgstr "(فونت در دسترس نیست)"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:265
-msgid "Language:"
-msgstr "زبان:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:279
-#, fuzzy
-msgid "Start Workrave on logon"
-msgstr "WorkRave هنگام بالا آمدن ویندوز بلافاصله اجرا شود"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:294
-msgid "Show system tray icon"
-msgstr "آیکن سینی ویندوز را نشان بده"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:304
-#, fuzzy
-msgid "Icon Theme:"
-msgstr "زمینه ی صدا:"
-
-#. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:317
-msgid "Sound Options"
-msgstr "تنظیمات صدا"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:323
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:326
-msgid "No sounds"
-msgstr "بدون صداها"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:324
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:327
-msgid "Play sounds using sound card"
-msgstr "پخش شدن صداها با استفاده از کارت صدا"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:348
-msgid "Volume:"
-msgstr "درجه صدا:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
-msgid "Sound:"
-msgstr "صدا:"
-
-#. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:356
-msgid "Mute sounds during rest break and daily limit"
-msgstr "صداها را در طول استراحت و محدودیت روزانه قطع کن"
-
-#. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:364
-msgid "Sound Events"
-msgstr "صدای حوادث"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:372
-msgid "Sound Theme:"
-msgstr "زمینه ی صدا:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:395
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:413
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:441
-msgid "Play"
-msgstr "پخش"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-msgid "Event"
-msgstr "رخداد"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:416
-msgid "Choose a sound"
-msgstr "یک صدا انتخاب کنید"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:426
-msgid "Wavefiles"
-msgstr "فایل های صوتی"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:514
-msgid "Use alternate monitor"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:521
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:524
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "حرکت ماوس:"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:529
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:545
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
 msgid "Debug monitoring"
-msgstr ""
+msgstr "پایش اشکال‌زدایی"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:978
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:980
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:388
 msgid "Default"
+msgstr "پیش‌گزیده"
+
+#. Delete button
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:112
+msgid "Delete all statistics history"
+msgstr "حذف تمام تاریخچهٔ آمار"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
 msgstr ""
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
-msgid "Time for a micro-break?"
-msgstr "زمانی برای یک استراحت کوتاه؟"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
-msgid "You need a rest break..."
-msgstr "شما به یک استراحت نیاز دارید..."
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:116
-msgid "You should stop for today..."
-msgstr "برای امروز کافیست..."
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:286
-#, c-format
-msgid "Break in %s"
-msgstr "Break in %s"
-
-#: ui/apps/gtkmm/src/PreludeWindow.cc:290
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
 msgid "Disappears in %s"
 msgstr "ناپدید شدن در %s"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:294
-#, c-format
-msgid "Silent in %s"
-msgstr "خاموش شدن در %s."
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:150
-#, c-format
-msgid "Rest break for %s"
-msgstr "استراحت برای %s."
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
-msgid "Natural rest break"
-msgstr "استراحت عادی"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:188
-msgid "This is your natural rest break."
-msgstr "این استراحت عادی شماست"
-
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:193
-msgid ""
-"This is your rest break. Make sure you stand up and\n"
-"walk away from your computer on a regular basis. Just\n"
-"walk around for a few minutes, stretch, and relax."
-msgstr ""
-"این استراحت شماست. بلند شوید و از کامپیوتر چند قدم دور شوید. فقط برای دقایقی "
-"کوتاه قدم بزنید، حرکات کششی انجام دهید و عضلات را شل (ریلکس) کنید."
-
-#. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:116
-msgid "Browse history"
-msgstr "تاریخچه ی جست و جو"
-
-#. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:121
-msgid "Delete all statistics history"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:128
-msgid "Date:"
-msgstr "تاریخ:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:159
-msgid "Breaks"
-msgstr "توقف ها (استراحت ها)"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:167
-msgid "Break prompts"
-msgstr "وادار کننده های استراحت"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"تعداد دفعاتی که شما وادار به استراحت شده اید، بدون احتساب وادار کننده های "
-"تکراری برای یک نرمش یکسان "
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "Repeated prompts"
-msgstr "وادار کننده های تکراری"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:172
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "تعداد دفعاتی که شما به طور مکرر برای استراحت وادار شده اید"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "Prompted breaks taken"
-msgstr "وادار کننده های استراحت گرفته شده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
-msgid "The number of times you took a break when being prompted"
-msgstr "تعداد دفعاتی که شما استراحت (نرمش) کرده اید زمانی که وادار شده اید"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "Natural breaks taken"
-msgstr "استراحت های عادی گرفته شده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:178
-msgid "The number of times you took a break without being prompted"
-msgstr "تعداد دفعاتی که شما استراحت (نرمش) کرده اید بدون وادار شدن"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "Breaks skipped"
-msgstr "استراحت های نادیده گرفته شده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:180
-msgid "The number of breaks you skipped"
-msgstr "تعداد استراحت هایی (نرمش هایی) که شما نادیده گرفته اید"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "Breaks postponed"
-msgstr "استراحت های به بعد موکول شده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:182
-msgid "The number of breaks you postponed"
-msgstr "تعداد استراحت هایی که شما به بعد موکول کرده اید"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "Overdue time"
-msgstr "زمان سر رسیده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
-msgid "The total time this break was overdue"
-msgstr "تعداد کل دفعاتی که این استراحت سر رسیده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:186
-msgid "Active computer usage"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-#, fuzzy
-msgid "Daily"
-msgstr "محدودیت روزانه"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:189
-#, fuzzy
-msgid "The total computer usage for the selected day"
-msgstr "کل میزان استفاده از کامپیوتر"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "Weekly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:192
-msgid "The total computer usage for the whole week of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "Monthly"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:195
-msgid "The total computer usage for the whole month of the selected day"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid "Activity"
-msgstr "فعالیت"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "Mouse usage:"
-msgstr "میزان استفاده از ماوس:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:285
-msgid "The total time you were using the mouse"
-msgstr "کل زمانی که شما از ماوس استفاده کرده اید"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "Mouse movement:"
-msgstr "حرکت ماوس:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:287
-msgid "The total on-screen mouse movement"
-msgstr "کل جابه جایی شدن های ماوس روی صفحه نمایش"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:289
-msgid "Effective mouse movement:"
-msgstr "جابه جایی های مفید ماوس:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:290
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"کل تعداد جابه جایی های ماوس که شما داشته بودید اگر ماوس را مستقیماً در یک خط "
-"راست بین کلیک ها جا به جا می کردید"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "Mouse button clicks:"
-msgstr "تعداد کلیک های ماوس"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:293
-msgid "The total number of mouse button clicks"
-msgstr "تعداد کل کلیک های دکمه ماوس"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "Keystrokes:"
-msgstr "ضربه های وارد شده به صفحه کلید:"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:294
-msgid "The total number of keys pressed"
-msgstr "تعداد کل دفعاتی که دکمه های صفحه کلید فشار داده شده"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:342
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, از %s به %s"
-
-#. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
-msgid "Warning"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:638
-msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:651
-msgid "Files deleted!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:652
-msgid "The files containing your statistics history have been deleted."
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:654
-msgid "Info"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:659
-msgid "File deletion failed!"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:660
-msgid ""
-"The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:662
-msgid "Error"
-msgstr ""
-
-#: ui/apps/gtkmm/src/Text.cc:84
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d ساعت ها"
-
-#: ui/apps/gtkmm/src/Text.cc:88
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d دقیقه ها"
-
-#: ui/apps/gtkmm/src/Text.cc:92
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d ثانیه ها"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:181
-msgid "Take rest break now"
-msgstr "اکنون استراحت کنید"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:203
-msgid "Wait"
-msgstr "منتظر باشید"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:88
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:93
-msgid "Place timers next to each other"
-msgstr "تایمرها را یکی پس از دیگری قرار دهید."
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:89
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:94
-msgid "Place micro-break and rest break in one spot"
-msgstr "میکرو-استراحت! و استراحت را در یک مکان قرار دهید"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:90
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:95
-msgid "Place rest break and daily limit in one spot"
-msgstr "استراحت و محدودیت روزانه را در یک مکان قرار دهید"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:91
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:96
-msgid "Place all timers in one spot"
-msgstr "همه ی تایمرها را در یک مکان قرار دهید"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:114
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:118
-msgid "Hide"
-msgstr "مخفی کردن"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:115
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:119
-msgid "Show"
-msgstr "نمایش دادن"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:116
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:120
-msgid "Show only when this timer is first due"
-msgstr "فقط زمانی نمایش بده که ابتدا این تایمر سر برسد"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
 msgid "Display"
 msgstr "نمایش"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:131
-msgid "The status window stays always on top of other windows"
-msgstr "پنجره ی وضعیت همیشه جلوی بقیه ی پنجره ها باشد"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:283
+msgid "Effective mouse movement:"
+msgstr "جابه‌جایی مؤثّر موشی:"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:136
-msgid "Show status window"
-msgstr "نمایش پنجره ی وضعیت"
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
+msgid "Enable shutting down the computer from the rest screen"
+msgstr "امکان خاموش کردن رایانه از صفحهٔ استراحت"
 
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:147
-msgid "Placement:"
-msgstr "امتحان:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:148
-msgid "Cycle time:"
-msgstr "زمان چرخه:"
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:153
-msgid "Micro-break:"
-msgstr "میکرو استراحت!:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:154
-msgid "Rest break:"
-msgstr "استراحت:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:155
-msgid "Daily limit:"
-msgstr "محدودیت روزانه:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:159
-#, fuzzy
-msgid "Fallback applet enabled"
-msgstr "Applet فعال شد"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePage.cc:164
-#, fuzzy
-msgid "Show status icon"
-msgstr "نمایش پنجره ی وضعیت"
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr "اگر وُرک‌وِیو موفّق به تشخیص استفادهٔ شما از رایانه‌تان نمی‌شود،‌ این گزینه را فعّال کنید"
 
 #. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:61
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
 msgid "Enable timer"
-msgstr "فعال کردن تایمر"
+msgstr "فعّال‌سازی زمان‌سنج"
 
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:98
-msgid "Break prompting"
-msgstr "برانگیختن برای استراحت"
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:144
+msgid "End exercises"
+msgstr "پایان نرمش‌ها"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:100
-msgid "Prompt before breaking"
-msgstr "برانگیختن قبل از استراحت"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:652
+msgid "Error"
+msgstr "خطا"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:104
-msgid "Maximum number of prompts:"
-msgstr "بیش ترین تعداد وادار کننده ها:"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr "رنگ خطا"
 
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:132
-#, fuzzy
-msgid "Show 'Postpone' button"
-msgstr "نمایش دکمه های \"به تعویق انداختن\" و \"پرش\""
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr "رنگ خطا برای نقشک‌های نمادین"
 
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:136
-#, fuzzy
-msgid "Show 'Skip' button"
-msgstr "نمایش دکمه های \"به تعویق انداختن\" و \"پرش\""
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
+msgid "Event"
+msgstr "رویداد"
 
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:147
-msgid "Regard micro-breaks as activity"
-msgstr "نگاه کردن به میکرو استراحت! به عنوان یک فعالیت"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:154
-msgid "Number of exercises:"
-msgstr "تعداد نرمش ها:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:158
-#, fuzzy
-msgid "Start restbreak when screen is locked"
-msgstr "شروع استراحت عادی زمانی که صفحه نمایش قفل شده"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:163
-msgid "Enable shutting down the computer from the rest screen"
-msgstr ""
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Time before end:"
-msgstr "زمان قبل از پایان:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:193
-msgid "Time between breaks:"
-msgstr "زمان بین استراحت ها:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:199
-msgid "Break duration:"
-msgstr "مدت استراحت:"
-
-#: ui/apps/gtkmm/src/TimerPreferencesPanel.cc:214
-msgid "Postpone time:"
-msgstr "زمان به تعویق انداختن:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
-msgid "Break prompt"
-msgstr "قطع سریع"
-
-#: ui/apps/gtkmm/src/Ui.cc:86
-msgid "Break ignored"
-msgstr "Break ignored"
-
-#: ui/apps/gtkmm/src/Ui.cc:89
-msgid "Rest break started"
-msgstr "استراحت تجدید نیرو شروع شد"
-
-#: ui/apps/gtkmm/src/Ui.cc:92
-msgid "Rest break ended"
-msgstr "استراحت تجدید نیرو پایان یافت"
-
-#: ui/apps/gtkmm/src/Ui.cc:95
-msgid "Micro-break started"
-msgstr "استراحت کوتاه شروع شد"
-
-#: ui/apps/gtkmm/src/Ui.cc:98
-msgid "Micro-break ended"
-msgstr "استراحت کوتاه پایان یافت"
-
-#: ui/apps/gtkmm/src/Ui.cc:104
-msgid "Exercise ended"
-msgstr "نرمش پایان یافت"
-
-#: ui/apps/gtkmm/src/Ui.cc:107
-msgid "Exercises ended"
-msgstr "نرمش ها پایان یافت"
-
-#: ui/apps/gtkmm/src/Ui.cc:110
+#: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
 msgstr "تغییر نرمش"
 
-#: ui/apps/gtkmm/src/Ui.cc:113
-msgid "?"
-msgstr ""
+#: ui/app/toolkits/gtkmm/Ui.cc:104
+msgid "Exercise ended"
+msgstr "نرمش تمام شد"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:113
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:119
-msgid "Orientation"
-msgstr "گرایش"
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr "نرمش‌ها"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:114
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:120
-msgid "The orientation of the tray"
-msgstr "گرایش سینی ویندوز"
+#: ui/app/toolkits/gtkmm/Ui.cc:107
+msgid "Exercises ended"
+msgstr "نرمش‌ها تمام شدند"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color"
-msgstr ""
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:108
+msgid "Exercises player"
+msgstr "اجرا کنندهٔ نرمش‌ها"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:129
-msgid "Foreground color for symbolic icons"
-msgstr ""
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+msgid "Fallback applet enabled"
+msgstr "عقب افتادن برنامک فعّال شد"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color"
-msgstr ""
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:649
+msgid "File deletion failed!"
+msgstr "حذف پرونده شکست خورد!"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:134
-msgid "Error color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:140
-msgid "Warning color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:146
-msgid "Success color for symbolic icons"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:152
-msgid "Padding that should be put around icons in the tray"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "Icon Size"
-msgstr ""
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon3.c:158
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:221
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:227
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "Specify session management ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:229
-msgid "ID"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Session management options:"
-msgstr ""
-
-#: ui/apps/gtkmm/src/win32/eggsmclient.c:243
-msgid "Show session management options"
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:7
-#, fuzzy
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr "این برنامه کمک می کند به پیشگیری و بهبودی آسیب های فیزیکی مکرر."
-
-#: ui/apps/gtkmm/src/workrave.appdata.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
-msgstr ""
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:6
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "کمک به پیشگیری و بهبودی آسیب های فیزیکی مکرر"
-
-#: ui/apps/gtkmm/src/workrave.desktop.in:7
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr ""
-
-#: ui/data/exercises/exercises.xml.in:4
-msgid "Shoulder-arm stretch"
-msgstr "کشیدن شانه_بازو"
-
-#: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"یکی از بازوهایتان را به صورت افقی در جلوی سینه تان نگه دارید. با دست دیگرتان "
-"این دست را فشار دهید تا زمانی که یک کشیدگی ملایم در شانه تان احساس کنید. این "
-"حالت را چند ثانیه نگه دارید، و همین تمرین را برای دست دیگرتان انجام دهید."
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+msgid "Files deleted!"
+msgstr "پرونده حدف شد!"
 
 #: ui/data/exercises/exercises.xml.in:22
 msgid "Finger stretch"
 msgstr "کشش انگشت"
 
-#: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
 msgstr ""
-"انگشت هایتان را از هم جدا کنید و بکشید تا زمانی که یک کشیدگی ملایم را احساس "
-"کنید، و این وضعیت را برای 10 ثانیه نگه دارید. شل کنید، و سپس انگشت هایتان را "
-"از قسمت بندها خم کنید، و این حالت را نیز برای 10 ثانیه نگه دارید. این تمریم "
-"را یک بار دیگر تکرار کنید."
 
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "کشیدن گردن به یک سمت"
-
-#: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
+#: ui/app/Menus.cc:178
+msgid "For 1 hour"
 msgstr ""
-"   تمرین را با سر خود در یک موقعیت راحت و مستقیم شروع کنید. سپس، به آرامی سر "
-"خود را به طرف شانه ی سمت راست خم کنید تا یک کشیدگی ملایم در ماهیچه های سمت "
-"چپ گردنتان حس شود. این حالت را برای 5 ثانیه نگه دارید. سپس، سر را به طرف "
-"شانه ی سمت چپ خم کنید تا ماهیچه های سمت راست گردنتان کشیده شود. این تمرین را "
-"دوبار برای هر سمت انجام دهید."
 
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr "Backward shoulder stretch"
+#: ui/app/Menus.cc:189
+msgid "For 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr "رنگ پیش‌زمینه"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr "رنگ پیش‌زمینه برای نقشک‌های نمادین"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+msgid "General"
+msgstr "عمومی"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:267
+msgid "Hibernate"
+msgstr "خواب زمستانی"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
+msgid "Hide"
+msgstr "پنهان"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr "اندازهٔ نقشک"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:231
+msgid "Icon Theme:"
+msgstr "پوستهٔ نقشک:"
+
+#: ui/app/Menus.cc:166
+msgid "Indefinitely"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
+msgid "Info"
+msgstr "اطّلاعات"
 
 #: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"انگشت هایتان را در پشتتان به هم بپیچانید. سپس آرنج هایتان را به آرامی به "
-"درون بپیچانید، در حالی که بازوهایتان را راست می کنید. این حالت را 5 تا 15 "
-"ثانیه نگه دارید، و این تمرین را دو بار انجام دهید."
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "انگشت‌هایتان را در پشت‌تان به هم بپیچانید. سپس در حالی که بازوهایتان را راست می کنید، آرنج‌هایتان را به آرامی به درون بپیچانید. این حالت را ۵ تا ۱۵ ثانیه نگه دارید، و این تمرین را دو بار انجام دهید."
 
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "چشم ها را حرکت دهید"
+#: ui/data/exercises/exercises.xml.in:5
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "یکی از بازوهایتان را به صورت افقی در جلوی سینه‌تان نگه دارید. با دست دیگرتان این دست را فشار دهید تا زمانی که یک کشیدگی ملایم در شانه‌تان احساس کنید. این حالت را تا چند ثانیه نگه دارید، و همین تمرین را برای دست دیگرتان هم انجام دهید."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "Keystrokes:"
+msgstr "ضربه‌های وارده به صفحه‌کلید:"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:178
+msgid "Language:"
+msgstr "زبان:"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:255
+msgid "Lock"
+msgstr "قفل"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:251
+msgid "Lock..."
+msgstr "قفل..."
 
 #: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"به گوشه ی بالایی سمت چپ لبه ی خارجی مانیتورتان نگاه کنید. لبه را به آرامی تا "
-"گوشه ی سمت راست دنبال کنید. ادامه دهید برای گوشه ی بعدی، هنگامی که دوبار دور "
-"آن را دنبال کرده باشید. سپس، تمرین را تا دفعه ی بعد کنار بگذارید."
-
-#: ui/data/exercises/exercises.xml.in:64
-msgid "Train focusing the eyes"
-msgstr "متمرکز کردن چشم ها را تمرین کنید"
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "به گوشهٔ بالایی سمت چپ لبهٔ خارجی صفحه‌نمایش‌تان نگاه کنید. لبه را به آرامی تا گوشهٔ سمت راست دنبال کنید. برای گوشهٔ بعدی ادامه دهید، تا هنگامی که دو بار دور آن را دنبال کرده باشید. سپس، تمرین را تا دفعهٔ بعد کنار بگذارید."
 
 #: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"نگاه کنید برای دورترین نقطه ای که پشت مانیتورتان می توانید ببینید. چشم "
-"هایتان را روی نقطه ی دور متمرکز کنید. سپس روی لبه ی مانیتور تمرکز کنید. آن "
-"را تکرار کنید. اگر شما نمی توانید خیلی دورتر از مانیتورتان را ببینید،  رو به "
-"روی یک مسیر با نمای طولانی تر بایستید. سپس تمرکزتان را بین یک شیء دورتر و یک "
-"خودکار در فاصله ی چشم هایتان تا مانیتور تغییر دهید."
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "به دورترین نقطه‌ای که پشت صفحه‌نمایش‌تان می‌توانید ببینید،‌ نگاه کنید. چشم‌هایتان را روی نقطه‌ای دور متمرکز کنید. سپس روی لبهٔ صفحه‌نمایش تمرکز کنید. آن را تکرار کنید. اگر شما نمی‌توانید خیلی دورتر از صفحه‌نمایش‌تان را ببینید، روبه‌روی یک مسیر با نمای طولانی‌تر بایستید. سپس تمرکزتان را بین یک شیء دورتر و یک خودکار در فاصلهٔ چشم‌هایتان تا صفحه‌نمایش تغییر دهید."
 
 #: ui/data/exercises/exercises.xml.in:72
 msgid "Look into the darkness"
-msgstr "به تاریکی نگاه کنید"
+msgstr "نگاه کردن به تاریکی"
 
-#: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"با دست هایتان چشم ها را بپوشانید به نحوی که همچنان بتوانید پلک ها را باز نگه "
-"دارید. اکنون چشم هایتان را باز کنید و به تاریکی کف دستتان نگاه کنید.این کار "
-"در مقایسه با بستن چشم ها، تسکین بیش تری به چشم هایتان می دهد."
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
+msgid "Maximum number of prompts:"
+msgstr "بیش‌ترین تعداد وادارسازها:"
+
+#. FIXME: duplicate
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:146
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:235 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "تنفّس"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:98
+msgid "Micro-break ended"
+msgstr "تنفّس تمام شد"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:95
+msgid "Micro-break started"
+msgstr "تنفّس شروع شد"
+
+#. Layout
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+msgid "Micro-break:"
+msgstr "تنفّس:"
+
+#: ui/app/Application.cc:579 ui/app/Application.cc:583
+msgid "Mode: "
+msgstr "حالت: "
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
+#, fuzzy
+msgid "Monitoring"
+msgstr "پایش اشکال‌زدایی"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:192
+msgid "Monthly"
+msgstr "ماهانه"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:286
+msgid "Mouse button clicks:"
+msgstr "تعداد کلیک‌های موشی:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
+msgid "Mouse movement:"
+msgstr "حرکت موشی:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
+msgid "Mouse sensitivity:"
+msgstr "حسّاسیت موشی:"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:278
+msgid "Mouse usage:"
+msgstr "استفاده از موشی:"
+
+#: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "حرکت چشم‌ها"
 
 #: ui/data/exercises/exercises.xml.in:79
 msgid "Move the shoulders"
-msgstr "شانه ها را حرکت دهید"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"بازوی راستتان را به آرامی در کنار بدنتان بچرخانید (درست مانند پروانه ی "
-"هواپیما). این حرکت را 4 بار به سمت جلو و 4 بار به سمت عقب انجام دهید و برای "
-"چند ثانیه عضلات را شل کنید. سپس همین تمرین را برای دست چپ تکرار کنید."
+msgstr "حرکت شانه‌ها"
 
 #: ui/data/exercises/exercises.xml.in:87
 msgid "Move the shoulders up and down"
-msgstr "شانه ها را بالا و پایین ببرید"
+msgstr "بالا و پایین بردن شانه‌ها"
+
+#. Volume
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
+msgid "Mute sounds during rest break and daily limit"
+msgstr "صداها را در طول استراحت و محدودیت روزانه قطع کن"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:172
+msgid "Natural breaks taken"
+msgstr "توقّف‌های عادی گرفته شده"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "Natural rest break"
+msgstr "استراحت عادی"
+
+#: ui/data/exercises/exercises.xml.in:30
+msgid "Neck tilt stretch"
+msgstr "کشش گردن"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:89
+msgid "Next"
+msgstr "پسین"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:139
+msgid "Next exercise"
+msgstr "نرمش پسین"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:208
+#, c-format
+msgid "Next rest break in %s"
+msgstr "استراحت پسین در %s"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
+msgid "No blocking"
+msgstr "بدون مسدودسازی"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
+msgid "No sounds"
+msgstr "بدون صدا"
+
+#: ui/applets/mate/src/main.c:385
+msgid "Normal"
+msgstr "عادی"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
+msgid "Number of exercises:"
+msgstr "تعداد نرمش‌ها:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr "تعداد پیکسل‌هایی که موشی باید جابه‌جا شود، پیش از این که به‌عنوان فعّالیت در نظر گرفته شود."
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr ""
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
+msgid "Options"
+msgstr "گزینه‌ها"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "جهت"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "Overdue time"
+msgstr "زمان به‌سر رسیده"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr "لایه‌گذاری"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr "لایه‌گذاری‌ای که باید اطراف نقشک‌ها در سینی گذاشته شود"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Pause"
+msgstr "مکث"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:140
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:314
+msgid "Pause exercises"
+msgstr "مکث نرمش‌ها"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
+msgid "Place all timers in one spot"
+msgstr "قرار دادن همهٔ زمان‌سنج‌ها را در یک مکان"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "قرار دادن تنفّس و استراحت در یک مکان"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "قرار دادن استراحت و محدودیت روزانه در یک مکان"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
+msgid "Place timers next to each other"
+msgstr "قرار دادن زمان‌سنج‌ها یکی پس از دیگری"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:122
+msgid "Placement:"
+msgstr "قرارگیری:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
+msgid "Play"
+msgstr "پخش"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
+msgid "Play sounds using sound card"
+msgstr "پخش شدن صداها با استفاده از کارت صدا"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:201
+msgid "Please relax for a few seconds"
+msgstr "لطفاً برای چند ثانیه آرام باشید"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
+msgid "Postpone time:"
+msgstr "زمان موکول کردن:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
+msgid "Preferences"
+msgstr "ترجیحات"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
+msgid "Previous"
+msgstr "پیشین"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:138
+msgid "Previous exercise"
+msgstr "نرمش پیشین"
+
+#: ui/app/workrave.metainfo.xml:7
+msgid "Program that assists in the recovery and prevention of RSI"
+msgstr "این برنامه به پیشگیری و بهبود آسیب‌های فیزیکی مکرّر کمک می‌کند"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
+msgid "Prompt before breaking"
+msgstr "وادارسازی پیش از وقفه"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:168
+msgid "Prompted breaks taken"
+msgstr "وقفه‌های وادارسازی شده"
 
 #: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "در حالی که روی صندلی نشسته‌اید دست‌هایتان را روی دستهٔ صندلی قرار دهید و بدن‌تان را به بالا فشار دهید تا جایی که آرنج‌هایتان راست می‌شود. با پایین آوردن شانه‌هایتان برای حرکت سرتان تلاش کنید. سپس به آرامی به صندلی‌تان برگردید."
+
+#: ui/app/Menus.cc:112
+msgid "Q_uiet"
+msgstr "سا_کت"
+
+#: ui/app/Menus.cc:294
+#, qt-format
+msgid "Q_uiet (until %1%)"
 msgstr ""
-"در حالی که روی صندلی نشسته اید دست هایتان را روی دسته ی صندلی قرار دهید و "
-"بدنتان را به بالا فشار دهید تا جایی که آرنج هایتان راست می شود. با پایین "
-"آوردن شانه هایتان برای حرکت سرتان تلاش کنید. سپس به آرامی به صندلی تان "
-"برگردید."
+
+#: ui/app/Menus.cc:307
+msgid "Q_uiet (until next day)"
+msgstr ""
+
+#: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
+msgid "Quiet"
+msgstr "ساکت"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr "حالت خواندن"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
+msgid "Regard micro-breaks as activity"
+msgstr "در نظر گرفتن تنفّس به عنوان یک فعّالیت"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
+msgid "Release channel:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
+msgid "Release notes"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
+msgid "Repeated prompts"
+msgstr "وادارسازی‌های مکرّر"
+
+#: ui/app/Application.cc:572 ui/app/toolkits/gtkmm/GtkUtil.cc:173
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:127
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:60
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:172 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "استراحت"
+
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:212
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "استراحت %s به‌سر رسید"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:92
+msgid "Rest break ended"
+msgstr "استراحت تمام شد"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:130
+#, c-format
+msgid "Rest break for %s"
+msgstr "استراحت برای %s"
+
+#: ui/app/toolkits/gtkmm/Ui.cc:89
+msgid "Rest break started"
+msgstr "استراحت شروع شد"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:129
+msgid "Rest break:"
+msgstr "استراحت:"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:309
+msgid "Resume"
+msgstr "از سرگیری"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:312
+msgid "Resume exercises"
+msgstr "از سرگیری نرمش‌ها"
+
+#: ui/app/Menus.cc:81
+msgid "S_tatistics"
+msgstr "آ_مار"
+
+#: ui/data/exercises/exercises.xml.in:23
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "انگشت‌هایتان را از هم جدا کنید و بکشید تا زمانی که یک کشیدگی ملایم را احساس کنید، و این وضعیت را برای ۱۰ ثانیه نگه دارید. شل کنید، و سپس انگشت‌هایتان را از قسمت بندها خم کنید، و این حالت را هم برای ۱۰ ثانیه نگه دارید. این تمرین را یک‌بار دیگر تکرار کنید."
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr ""
+
+#: ui/data/exercises/exercises.xml.in:4
+msgid "Shoulder-arm stretch"
+msgstr "کشش شانه-بازو"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
+msgid "Show"
+msgstr "آشکار"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
+msgid "Show 'Postpone' button"
+msgstr "نمایش دکمهٔ «موکول کردن»"
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
+msgid "Show 'Skip' button"
+msgstr "نمایش دکمهٔ «پرش»"
+
+#: ui/applets/mate/src/main.c:379
+msgid "Show log"
+msgstr "نمایش گزارش"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
+msgid "Show only when this timer is first due"
+msgstr "فقط هنگام به‌سر رسیدن آشکار شود"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
+msgid "Show status icon"
+msgstr "نمایش نقشک وضعیت"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:111
+msgid "Show status window"
+msgstr "نمایش پنجرهٔ وضعیت"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:207
+msgid "Show system tray icon"
+msgstr "نشان دادن نقشک سینی"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:259
+msgid "Shutdown"
+msgstr "خاموش کردن"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:244
+#, c-format
+msgid "Silent in %s"
+msgstr "سکوت در %s"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
+msgid "Software Update"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
+msgid "Software updates"
+msgstr ""
+
+#. Sound themes
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
+msgid "Sound Events"
+msgstr "صدای رویدادها"
+
+#. Options
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
+msgid "Sound Options"
+msgstr "تنظیمات صدا"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
+msgid "Sound Theme:"
+msgstr "پوستهٔ صدا:"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
+msgid "Sound:"
+msgstr "صدا:"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:147
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:149
+msgid "Sounds"
+msgstr "صداها"
+
+#: ui/data/exercises/exercises.xml.in:80
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "بازوی راست‌تان را به آرامی در کنار بدن‌تان بچرخانید. این حرکت را ۴ بار به سمت جلو و ۴ بار به سمت عقب انجام دهید و برای چند ثانیه عضلات را شل کنید. سپس همین تمرین را برای دست چپ تکرار کنید."
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:192
+msgid "Start Workrave on logon"
+msgstr "شروع وُرک‌رِیو هنگام ورود"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
+msgid "Start restbreak when screen is locked"
+msgstr "شروع استراحت زمانی که صفحه‌نمایش قفل است"
+
+#: ui/data/exercises/exercises.xml.in:31
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "تمرین را با سر خود در یک موقعیت راحت و مستقیم شروع کنید. سپس، به آرامی سر خود را به طرف شانهٔ سمت راست خم کنید تا یک کشیدگی ملایم در ماهیچه‌های سمت چپ گردن‌تان حس کنید. این حالت را برای ۵ ثانیه نگه دارید. سپس، سر را به طرف شانهٔ سمت چپ خم کنید تا ماهیچه‌های سمت راست گردن‌تان کشیده شود. این تمرین را دو بار برای هر سمت انجام دهید."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:45
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:118
+msgid "Statistics"
+msgstr "آمار"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+msgid "Status Window"
+msgstr "پنجرهٔ وضعیت"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr "رنگ موفّقیت"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr "رنگ موفّقیت برای نقشک‌های نمادین"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:263
+msgid "Suspend"
+msgstr "معلّق"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:271
+msgid "Suspend hybrid"
+msgstr "تعلیق ترکیبی"
+
+#: ui/app/Application.cc:579 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
+msgid "Suspended"
+msgstr "معلّق"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
+msgid "System default"
+msgstr "پیش‌گزیدهٔ سامانه"
+
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:167
+msgid "Take rest break now"
+msgstr "اکنون استراحت کنید"
+
+#: ui/app/Menus.cc:121
+msgid "Temporarily Quiet..."
+msgstr ""
+
+#: ui/app/Menus.cc:118
+msgid "Temporarily Suspended..."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr "پرونده‌های شامل تاریخچهٔ آمار شما نتوانستند حذف شوند. مجدّد سعی می‌کنید؟"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
+msgid "The files containing your statistics history have been deleted."
+msgstr "پرونده‌های شامل تاریخچهٔ آمار شما حذف شده است."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
+msgid "The number of breaks you postponed"
+msgstr "تعداد وقفه‌هایی که موکول کردید"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:175
+msgid "The number of breaks you skipped"
+msgstr "تعداد وقفه‌هایی که ازشان پریدید"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
+msgid "The number of times you took a break when being prompted"
+msgstr "تعداد دفعاتی که هنگام وادار شدن، توقّف کرده‌اید"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
+msgid "The number of times you took a break without being prompted"
+msgstr "تعداد دفعاتی که بدون وادار شدن توقّف کرده‌اید"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "تعداد دفعاتی که شما وادار به توقّف شده‌اید، بدون احتساب وادار کننده‌های تکراری برای یک وقفهٔ یکسان"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "تعداد دفعاتی که شما به‌طور مکرّر وادار به توقّف شده‌اید"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+msgid "The orientation of the tray"
+msgstr "جهت سینی"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr "اندازهٔ پیکسلی که نقشک‌ها باید به آن اجبار شوند، یا صفر"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "پنجرهٔ وضعیت همیشه جلوی بقیهٔ پنجره‌ها باشد"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
+msgid "The total computer usage for the selected day"
+msgstr "کلّ استفاده از رایانه برای روز انتخابی"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
+msgid "The total computer usage for the whole month of the selected day"
+msgstr "کلّ استفاده از رایانه برای کلّ ماه روز انتخابی"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
+msgid "The total computer usage for the whole week of the selected day"
+msgstr "کلّ استفاده از رایانه برای کلّ هفتهٔ روز انتخابی"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "کلّ جابه‌جایی موشی، اگر موشی‌تان را در خطّی مستقیم بین کلیک‌هایتان جابه‌جا می‌کردید"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
+msgid "The total number of keys pressed"
+msgstr "تعداد کلّ دفعاتی که دکمه‌های صفحه‌کلید فشرده شدند"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
+msgid "The total number of mouse button clicks"
+msgstr "تعداد کلّ کلیک‌های دکمهٔ موشی"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
+msgid "The total on-screen mouse movement"
+msgstr "کلّ جابه‌جایی موشی روی صفحه‌نمایش"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:180
+msgid "The total time this break was overdue"
+msgstr "کلّ زمانی که این وقفه به‌سر رسیده است"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
+msgid "The total time you were using the mouse"
+msgstr "کلّ زمانی که از موشی استفاده کرده‌اید"
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
+msgid "This is your natural rest break."
+msgstr "این استراحت عادی شماست."
+
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:173
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr ""
+"این استراحت شماست. حتماً بلند شوید و از رایانه‌تان\n"
+"چند قدم دور شوید. فقط برای دقایقی کوتاه قدم بزنید،\n"
+"حرکات کششی انجام دهید و عضلات‌تان را شل کنید."
+
+#: ui/app/toolkits/gtkmm/Toolkit.cc:239
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "این برنامه به پیش‌گیری و بهبود آسیب‌های فیزیکی مکرّر (RSI) کمک می‌کند."
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time before end:"
+msgstr "زمان پیش از پایان:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time between breaks:"
+msgstr "زمان بین وقفه‌ها:"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:96
+msgid "Time for a micro-break?"
+msgstr "زمان برای تنفّس؟"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:125
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:104
+msgid "Timers"
+msgstr "زمان‌سنج‌ها"
+
+#: ui/data/exercises/exercises.xml.in:64
+msgid "Train focusing the eyes"
+msgstr "متمرکز کردن چشم‌ها"
 
 #: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
-msgstr "سر خود را بچرخانید"
+msgstr "چرخاندن سر"
 
 #: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "سر خود را به سمت چپ بچرخانید و این حالت را برای ۲ ثانیه نگه دارید. سپس سر خود را به سمت راست بچرخانید و باز هم برای ۲ ثانیه نگه دارید."
+
+#: ui/app/Menus.cc:198
+msgid "Until next day"
 msgstr ""
-"سر خود را به سمت چپ بچرخانید و این حالت را برای 2 ثانیه نگه دارید. سپس سر "
-"خود را به سمت راست بچرخانید و باز هم برای 2 ثانیه نگه دارید."
 
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "موقوف کردن زمان سنج زمانی که غیرفعال است"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
+msgid "Usage"
+msgstr "استفاده"
 
-#~ msgid "Custom"
-#~ msgstr "عادت"
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
+msgid "Use alternate monitor"
+msgstr "استفاده از نمایشگر جایگزین"
 
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "پخش شدن صداها با استفاده از بلندگوی داخلی"
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
+msgid "Use dark theme"
+msgstr ""
 
-#~ msgid "_Quiet"
-#~ msgstr "_خاموش"
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+msgid "User interface"
+msgstr "رابط کاربری"
 
-#~ msgid "_Connect..."
-#~ msgstr "_اتصال..."
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
+msgid "Version {}\n"
+msgstr ""
 
-#~ msgid "_Show Log..."
-#~ msgstr "_نمایش عملکرد"
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
+msgid "Volume:"
+msgstr "حجم صدا:"
 
-#~ msgid "_About..."
-#~ msgstr "_درباره..."
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "منتظر باشید"
 
-#~ msgid "Daily usage"
-#~ msgstr "استفاده ی روزانه"
+#. Confirm the user's intention
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:630
+msgid "Warning"
+msgstr "هشدار"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr "رنگ هشدار"
+
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr "رنگ هشدار برای نقشک‌های نمادین"
+
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
+msgid "Wavefiles"
+msgstr "پرونده‌های وِیو"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:188
+msgid "Weekly"
+msgstr "هفتگی"
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:6
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave"
+msgstr "وُرک‌رِیو"
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave Applet"
+msgstr "برنامک وُرک‌رِیو"
+
+#: ui/app/Application.cc:346
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr "وُرک‌رِیو نمی تواند فعّالیت صفحه‌کلید و موشی شما را پایش کند.\n"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
+msgstr ""
+
+#: ui/app/workrave.metainfo.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
+msgstr "وُرک‌رِیو برنامه‌ای است که به پیشگیری و بهبود آسیب‌های فیزیکی مکرّر (RSI) کمک می‌کند. این برنامه مدام شما را برای تنفّس، استراحت یاد‌آوری می‌کند و شما را به محدودیت روزانه‌تان محدود می‌کند."
+
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr "وُرک‌رِیو در حالت ساکت قرار دارد. هیچ پنجرهٔ وقفه‌ای پدیدار نخواهد شد."
+
+#: ui/app/Application.cc:554
+msgid ""
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
+msgstr ""
+"وُرک‌رِیو در حالت تعلیق است.\n"
+"فعّالیت موشی و صفحه‌کلید پایش نخواهند شد."
+
+#: ui/app/Application.cc:538
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "وُرک‌رِیو هنوز در حال اجراست. شما می‌توانید با کلیک روی نقشک گوسفند سفید به آن دسترسی پیدا کنید. برای غیرفعال کردن این پیام، روی این بالون کلیک کنید"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr "پس از تغییر این تنظیم،‌ وُرک‌وِیو نیاز به راه‌اندازی مجدّد دارد"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr "تا زمانی که یک وقفهٔ موکول‌نشده به‌سر برسد، نمی‌توانید این وقفه را موکول کنید."
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr "تا زمانی که یک وقفهٔ نپریده به‌سر برسد، نمی‌توانید از این وقفه بپرید."
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr "شما حذف تاریخچهٔ آمار را برگزیده‌اید. ادامه می‌دهید؟"
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"محدودیت روزانهٔ شما تمام شد. لطفاً کارکردن با رایانه را\n"
+"متوقف کنید. اگر روزِ کاری شما هنوز به پایان نرسیده،\n"
+"لطفاً کارهای دیگری انجام دهید، مانند بررسی یک سند."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
+msgid "You need a rest break..."
+msgstr "شما به یک استراحت نیاز دارید..."
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
+msgid "You should stop for today..."
+msgstr "برای امروز کافی است..."
+
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
+msgid "_About"
+msgstr "_درباره"
+
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "_نرمش‌ها"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
+msgid "_Install update"
+msgstr ""
+
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "_حالت"
+
+#: ui/app/Menus.cc:98
+msgid "_Normal"
+msgstr "_عادی"
+
+#: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
+msgid "_Open"
+msgstr "_باز کردن"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:402
+msgid "_Postpone"
+msgstr "_موکول کردن"
+
+#: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "_ترجیحات"
+
+#: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "_خروج"
+
+#: ui/app/Menus.cc:127
+msgid "_Reading mode"
+msgstr "_حالت خواندن"
+
+#. button_size_group->add_widget(*skip_button);
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
+msgid "_Remind me later"
+msgstr ""
+
+#: ui/app/Menus.cc:75
+msgid "_Rest break"
+msgstr "_استراحت"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "_استراحت"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:391
+msgid "_Skip"
+msgstr "_پرش"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
+msgid "_Skip this version"
+msgstr ""
+
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "_آمار"
+
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
+msgstr "_معلّق"
+
+#: ui/app/Menus.cc:299
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "_معلّق"
+
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
+msgstr ""
+
+#: ui/app/Menus.cc:185
+msgid "and 1 minute"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr ""
+
+#: ui/app/org.workrave.Workrave.desktop.in:7
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr "typing;break;timer;wrists;health;rsi;وقفه;استراحت;تنفس;سلامت;نرمش;آسیب;"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr ""
+
+#~ msgid "Accepted new client."
+#~ msgstr "کارخواه جدید پذیرفته شد."
+
+#, c-format
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "در حال تصدیق درخواست ریاست از کارخواه %s."
+
+#~ msgid "Advanced"
+#~ msgstr "پیشرفته"
+
+#~ msgid "Allow incoming connections"
+#~ msgstr "مجاز کردن اتّصال‌های ورودی"
+
+#, c-format
+#~ msgid "Client %s access denied."
+#~ msgstr "دسترسی به کارخواه %s امکان‌پذیر نیست."
+
+#, c-format
+#~ msgid "Client %s closed connection."
+#~ msgstr "کارخواه %s اتّصال را قطع کرد."
+
+#, c-format
+#~ msgid "Client %s connected."
+#~ msgstr "کارخواه %s وصل شد."
+
+#, c-format
+#~ msgid "Client %s is duplicate."
+#~ msgstr "کارخواه %s تکثیر شده است."
+
+#, c-format
+#~ msgid "Client %s is now master."
+#~ msgstr "کارخواه %s اکنون رئیس است."
+
+#, c-format
+#~ msgid "Client %s is now the new master."
+#~ msgstr "اکنون کارخواه %s رئیس جدید است."
+
+#, c-format
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "کارخواه %s به ما خوش‌آمد می‌گوید."
+
+#, c-format
+#~ msgid "Client %s read error, closing."
+#~ msgstr "خطای خواندن کارخواه %s، در حال بستن."
+
+#, c-format
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "کارخواه %s درخواست ریاست را رد کرد، تأخیر."
+
+#, c-format
+#~ msgid "Client %s saying hello."
+#~ msgstr "کارخواه %s به شما سلام می‌گوید."
+
+#, c-format
+#~ msgid "Client %s signed off."
+#~ msgstr "کارخواه %s خارج شد."
+
+#, c-format
+#~ msgid "Client timeout from %s."
+#~ msgstr "وقفهٔ کارخواه از %s."
+
+#, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "در حال اتّصال به %s."
+
+#, c-format
+#~ msgid "Could not connect to client %s."
+#~ msgstr "نمی‌توان به کارخواه %s متّصل شد."
+
+#~ msgid "Could not enable network operation."
+#~ msgstr "نمی‌توان بهره‌برداری از شبکه را فعّال کرد."
+
+#~ msgid "Disabling network operation."
+#~ msgstr "در حال قطع کردن گردش شبکه."
+
+#, c-format
+#~ msgid "Disconnecting %s"
+#~ msgstr "در حال قطع کردن %s"
+
+#~ msgid "Enable networking"
+#~ msgstr "فعال کردن شبکه"
+
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "نام میزبان و شمارهٔ درگاه یک رایانه در شبکه‌ای\n"
+#~ "که می‌خواهید به آن متّصل شوید را وارد کنید."
+
+#~ msgid "Host name"
+#~ msgstr "نام میزبان"
+
+#~ msgid "Host name:"
+#~ msgstr "نام میزبان:"
+
+#~ msgid "Hosts"
+#~ msgstr "میزبان‌ها"
+
+#~ msgid "I'm now master."
+#~ msgstr "من اکنون رئیس هستم."
+
+#~ msgid "Is Workrave already running?"
+#~ msgstr "آیا وُرک‌رِیو هنوز در حال اجراست؟"
+
+#~ msgid "Network"
+#~ msgstr "شبکه"
+
+#~ msgid "Network connect"
+#~ msgstr "اتّصال شبکه"
+
+#~ msgid "Network log"
+#~ msgstr "گزارش شبکه"
+
+#~ msgid "Network operation started."
+#~ msgstr "گردش شبکه آغاز شد."
+
+#, c-format
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "کارخواه غیررئیس %s درخواست ریاست را رد کرد."
+
+#~ msgid "Password:"
+#~ msgstr "گذرواژه:"
+
+#~ msgid "Port"
+#~ msgstr "درگاه"
+
+#~ msgid "Port:"
+#~ msgstr "درگاه:"
+
+#~ msgid "Reconnect attempts:"
+#~ msgstr "تلاش برای اتّصال مجدّد:"
+
+#~ msgid "Reconnect interval:"
+#~ msgstr "وقفهٔ اتّصال مجدّد:"
+
+# کارخواه
+#, c-format
+#~ msgid "Reconnecting to %s."
+#~ msgstr "اتّصال مجدّد به %s."
+
+#, c-format
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "در حال رد کردن درخواست ریاست از کارخواه %s."
+
+#, c-format
+#~ msgid "Removing client %s."
+#~ msgstr "در حال حذف کارخواه %s."
+
+#, c-format
+#~ msgid "Requesting master status from %s."
+#~ msgstr "درخواست وضعیت رئیس از %s."
+
+#~ msgid "Server port:"
+#~ msgstr "درگاه کارساز:"
+
+#~ msgid "Server settings"
+#~ msgstr "تنظیمات کارساز"
+
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "سیاههٔ زیر میزبان‌هایی که وُرک‌رِیو هنگم شروع به آن متّصل می‌شود را\n"
+#~ "تعیین می‌کند. برای ویرایش روی نام میزبان یا شمارهٔ درگاه کلیک کنید."
+
+#~ msgid "Username:"
+#~ msgstr "نام کاربری:"
+
+#~ msgid "Workrave failed to start"
+#~ msgstr "وُرک‌رِیو موفق به شروع نشد"
+
+#~ msgid "_Disconnect"
+#~ msgstr "_قطع اتّصال"
+
+#~ msgid "_Join"
+#~ msgstr "_پیوستن"
+
+#~ msgid "_Network"
+#~ msgstr "_شبکه"
+
+#~ msgid "_Reconnect"
+#~ msgstr "_اتّصال مجدّد"

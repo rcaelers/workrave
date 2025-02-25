@@ -1,7 +1,4 @@
-/*
- * workrave-timerbox.c
- *
- * Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
+/* Copyright (C) 2011, 2012, 2013 Rob Caelers <robc@krandor.nl>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,15 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include "timerbox.h"
 
 #include <gtk/gtk.h>
 
 #include "timebar.h"
-
-#ifdef USE_GTK2
-#  include "compat.h"
-#endif
 
 static void workrave_timerbox_class_init(WorkraveTimerboxClass *klass);
 static void workrave_timerbox_init(WorkraveTimerbox *self);
@@ -97,7 +94,6 @@ workrave_timerbox_init(WorkraveTimerbox *self)
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-
       priv->slot_to_time_bar[i] = g_object_new(WORKRAVE_TYPE_TIMEBAR, NULL);
       priv->break_visible[i] = FALSE;
       priv->slot_to_break[i] = BREAK_ID_NONE;
@@ -124,9 +120,13 @@ workrave_timerbox_dispose(GObject *gobject)
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  g_object_unref(priv->normal_sheep_icon);
-  g_object_unref(priv->quiet_sheep_icon);
-  g_object_unref(priv->suspended_sheep_icon);
+  g_clear_pointer(&priv->normal_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->quiet_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->suspended_sheep_icon, g_object_unref);
+
+  g_clear_pointer(&priv->mode, g_free);
+  g_clear_pointer(&priv->settings, g_object_unref);
+  g_clear_pointer(&priv->name, g_free);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -212,8 +212,10 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
 
   if (priv->enabled)
     {
-      int x = 0, y = 0;
-      int bar_width, bar_height;
+      int x = 0;
+      int y = 0;
+      int bar_width = 0;
+      int bar_height = 0;
 
       if (priv->force_icon)
         {
@@ -247,8 +249,11 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
               WorkraveTimebar *bar = priv->slot_to_time_bar[bid];
 
               cairo_surface_t *surface = cairo_get_target(cr);
-              cairo_surface_t *bar_surface =
-                cairo_surface_create_for_rectangle(surface, x + icon_width + PADDING_X, y + bar_dy, bar_width, bar_height);
+              cairo_surface_t *bar_surface = cairo_surface_create_for_rectangle(surface,
+                                                                                x + icon_width + PADDING_X,
+                                                                                y + bar_dy,
+                                                                                bar_width,
+                                                                                bar_height);
               cairo_t *bar_cr = cairo_create(bar_surface);
               workrave_timebar_draw(bar, bar_cr);
               cairo_surface_destroy(bar_surface);
@@ -269,7 +274,8 @@ workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *he
 {
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  int bar_width, bar_height;
+  int bar_width = 0;
+  int bar_height = 0;
   workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
   int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
@@ -387,8 +393,8 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
 int
 workrave_timerbox_get_width(WorkraveTimerbox *self)
 {
-  int width;
-  int height;
+  int width = 0;
+  int height = 0;
   workrave_timerbox_compute_dimensions(self, &width, &height);
   return width;
 }
@@ -403,8 +409,8 @@ workrave_timerbox_get_width(WorkraveTimerbox *self)
 int
 workrave_timerbox_get_height(WorkraveTimerbox *self)
 {
-  int width;
-  int height;
+  int width = 0;
+  int height = 0;
   workrave_timerbox_compute_dimensions(self, &width, &height);
   return height;
 }
@@ -470,12 +476,21 @@ workrave_load_image(WorkraveTimerbox *self, const char *name)
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
   GdkPixbuf *ret = NULL;
 
+  char *file = NULL;
   char *theme = g_settings_get_string(priv->settings, "icontheme");
-
-  char *file = g_build_filename(WORKRAVE_PKGDATADIR, "images", theme, name, NULL);
-  if (!g_file_test(file, G_FILE_TEST_EXISTS))
+  if (theme != NULL)
     {
-      g_free(file);
+      file = g_build_filename(WORKRAVE_PKGDATADIR, "images", theme, name, NULL);
+      if (!g_file_test(file, G_FILE_TEST_EXISTS))
+        {
+          g_free(file);
+          file = NULL;
+        }
+      g_free(theme);
+    }
+
+  if (file == NULL)
+    {
       file = g_build_filename(WORKRAVE_PKGDATADIR, "images", name, NULL);
     }
 

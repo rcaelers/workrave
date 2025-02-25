@@ -59,7 +59,7 @@ class WorkraveTestBase(unittest.TestCase):
                        #"--", "-v", "--trace-children=yes", "--leak-check=full",
                        #"--show-reachable=yes",
                        #"--log-file=" + cwd +"/val." + str(instance),  
-                       cwd + "/ui/apps/text/src/workrave",
+                       cwd + "/ui/app/text/src/workrave",
                        env)
                   
 

@@ -1,5 +1,3 @@
-// WRID.c --- Definition of Workrave link ID
-//
 // Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -47,37 +45,32 @@ using namespace workrave;
 
 WRID::WRID()
 {
-  TRACE_ENTER("WRID::WRID");
-
+  TRACE_ENTRY();
   create();
 
-  TRACE_MSG(str());
-  TRACE_EXIT();
+  TRACE_VAR(str());
 }
 
 WRID::WRID(const WRID &rhs)
 {
-  TRACE_ENTER("WRID::WRID copy");
+  TRACE_ENTRY();
   memcpy(id, rhs.id, sizeof(id));
-  TRACE_EXIT();
 }
 
 WRID::WRID(const std::string &str)
 {
-  TRACE_ENTER("WRID::WRID str");
+  TRACE_ENTRY();
   set(str);
-  TRACE_EXIT();
 }
 
 WRID &
 WRID::operator=(const WRID &lid)
 {
-  TRACE_ENTER("WRID::WRID::=");
+  TRACE_ENTRY();
   if (this != &lid)
     {
       memcpy(id, lid.id, sizeof(id));
     }
-  TRACE_EXIT();
   return *this;
 }
 

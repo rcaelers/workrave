@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Rob Caelers
+// Copyright (C) 2013 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 #include "dbus/IDBus.hh"
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #  include "DBusWorkraveNext.hh"
 #endif
 #include "CoreModes.hh"
@@ -34,16 +34,18 @@ using namespace workrave::dbus;
 CoreDBus::CoreDBus(CoreModes::Ptr modes, IDBus::Ptr dbus)
   : dbus(dbus)
 {
-  connections.connect(modes->signal_operation_mode_changed(),
-                      [this](auto &&mode) { on_operation_mode_changed(std::forward<decltype(mode)>(mode)); });
-  connections.connect(modes->signal_usage_mode_changed(),
-                      [this](auto &&mode) { on_usage_mode_changed(std::forward<decltype(mode)>(mode)); });
+  connect(modes->signal_operation_mode_changed(), this, [this](auto &&mode) {
+    on_operation_mode_changed(std::forward<decltype(mode)>(mode));
+  });
+  connect(modes->signal_usage_mode_changed(), this, [this](auto &&mode) {
+    on_usage_mode_changed(std::forward<decltype(mode)>(mode));
+  });
 }
 
 void
-CoreDBus::on_operation_mode_changed(const OperationMode operation_mode)
+CoreDBus::on_operation_mode_changed(OperationMode operation_mode)
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
   if (iface != nullptr)
     {
@@ -53,9 +55,9 @@ CoreDBus::on_operation_mode_changed(const OperationMode operation_mode)
 }
 
 void
-CoreDBus::on_usage_mode_changed(const UsageMode usage_mode)
+CoreDBus::on_usage_mode_changed(UsageMode usage_mode)
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
   if (iface != nullptr)
     {

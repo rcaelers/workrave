@@ -51,8 +51,8 @@ HarpoonHelper::init(HINSTANCE hInstance)
   dwStyle = WS_OVERLAPPED;
   dwExStyle = WS_EX_TOOLWINDOW;
 
-  WNDCLASSEX wclass = {
-    sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, hInstance, NULL, NULL, NULL, NULL, HARPOON_HELPER_WINDOW_CLASS, NULL};
+  WNDCLASSEX wclass =
+    {sizeof(WNDCLASSEX), 0, harpoon_window_proc, 0, 0, hInstance, NULL, NULL, NULL, NULL, HARPOON_HELPER_WINDOW_CLASS, NULL};
 
   notification_class = RegisterClassEx(&wclass);
   if (!notification_class)
@@ -81,13 +81,8 @@ HarpoonHelper::init(HINSTANCE hInstance)
   init_critical_filename_list();
 
   bool debug = false;
-  bool mouse_lowlevel = false;
+  bool mouse_lowlevel = true;
   bool keyboard_lowlevel = true;
-
-  if (LOBYTE(LOWORD(GetVersion())) >= 6)
-    {
-      mouse_lowlevel = true;
-    }
 
   Config config;
   config.get_value("advanced/harpoon/debug", debug);
@@ -135,12 +130,7 @@ HarpoonHelper::init_critical_filename_list()
     critical_filename_list[i][0] = '\0';
 
   // Task Manager is always on the critical_filename_list
-  if (GetVersion() >= 0x80000000)
-    {
-      // Windows Me/98/95
-      strcpy(critical_filename_list[0], "taskman.exe");
-    }
-  else if (!check_for_taskmgr_debugger(critical_filename_list[0]))
+  if (!check_for_taskmgr_debugger(critical_filename_list[0]))
     {
       strcpy(critical_filename_list[0], "taskmgr.exe");
     }

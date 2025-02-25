@@ -38,7 +38,7 @@ namespace workrave
   public:
     WRID();
     WRID(const WRID &rhs);
-    WRID(const std::string &str);
+    explicit WRID(const std::string &str);
 
     WRID &operator=(const WRID &lid);
 

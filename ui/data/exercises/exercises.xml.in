@@ -38,7 +38,7 @@
     <title>Backward shoulder stretch</title>
     <description>Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice.</description>
     <sequence duration="30">
-      <image src="backward-shoulder-stretch.png" duration="15"/>
+      <image src="backward-shoulder-stretch.png" duration="10"/>
     </sequence>
   </exercise>
   <exercise>
