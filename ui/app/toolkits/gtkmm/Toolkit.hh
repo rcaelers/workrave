@@ -76,7 +76,7 @@ public:
   void init(std::shared_ptr<IApplicationContext> app) override;
   void deinit() override;
 
-  HeadInfo get_head_info(int screen_index) const override;
+  std::optional<HeadInfo> get_head_info(int screen_index) const override;
   int get_head_count() const override;
 
   void terminate() override;

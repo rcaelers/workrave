@@ -145,11 +145,22 @@ Toolkit::run()
   gapp->run();
 }
 
-HeadInfo
+std::optional<HeadInfo>
 Toolkit::get_head_info(int screen_index) const
 {
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  if (!display)
+    {
+      logger->error("Failed to get default display");
+      return {};
+    }
+
   Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(screen_index);
+  if (!monitor)
+    {
+      logger->error("Failed to get monitor for screen index {}", screen_index);
+      return {};
+    }
 
   HeadInfo head;
   head.primary = monitor->is_primary();
@@ -178,7 +189,13 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 {
   IBreakWindow::Ptr ret;
 
-  HeadInfo head = get_head_info(screen_index);
+  auto optional_head = get_head_info(screen_index);
+  if (!optional_head)
+    {
+      logger->error("Failed to retrieve monitor info for screen index {}", screen_index);
+      return nullptr;
+    }
+  HeadInfo head = *optional_head;
 
   BlockMode block_mode = GUIConfig::block_mode()();
 
@@ -201,7 +218,13 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 IPreludeWindow::Ptr
 Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
 {
-  HeadInfo head = get_head_info(screen_index);
+  auto optional_head = get_head_info(screen_index);
+  if (!optional_head)
+    {
+      logger->error("Failed to retrieve monitor info for screen index {}", screen_index);
+      return nullptr;
+    }
+  HeadInfo head = *optional_head;
   return std::make_shared<PreludeWindow>(head, break_id);
 }
 

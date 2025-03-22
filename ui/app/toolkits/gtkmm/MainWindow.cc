@@ -351,7 +351,12 @@ MainWindow::convert_display_to_monitor(int &x, int &y)
 
   for (int i = 0; i < app->get_toolkit()->get_head_count(); i++)
     {
-      HeadInfo head = toolkit_priv->get_head_info(i);
+      auto optional_head = toolkit_priv->get_head_info(i);
+      if (!optional_head)
+        {
+          continue;
+        }
+      HeadInfo head = *optional_head;
 
       int left = head.get_x();
       int top = head.get_y();
@@ -383,7 +388,12 @@ void
 MainWindow::convert_monitor_to_display(int &x, int &y, int head)
 {
   auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(app->get_toolkit());
-  HeadInfo h = toolkit_priv->get_head_info(head);
+  auto optional_head = toolkit_priv->get_head_info(head);
+  if (!optional_head)
+    {
+      return;
+    }
+  HeadInfo h = *optional_head;
 
   if (x < 0)
     {

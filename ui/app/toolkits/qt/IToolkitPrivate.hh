@@ -27,7 +27,7 @@ public:
 
   virtual auto get_desktop_image() -> QPixmap = 0;
 
-  // virtual HeadInfo get_head_info(int screen_index) const = 0;
+  // virtual std::optional<HeadInfo> get_head_info(int screen_index) const = 0;
   // virtual void attach_menu(Gtk::Menu *menu) = 0;
 };
 
