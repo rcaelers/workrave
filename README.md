@@ -21,6 +21,11 @@ Please visit https://workrave.org for more information.
 - Ubuntu and Debian users: `sudo apt-get install workrave`
 - FreeBSD users: `pkg install workrave`
 
+## Licenses
+
+Workrave is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+Parts of the code is licensed under different licenses. See the [LICENSES](LICENSES.md) for more information.
+
 ## Troubleshooting
 
 ### Show timers applet in Cinnamon
