@@ -41,7 +41,7 @@ Have a look at the [contrib](./contrib) directory to get a little insight into t
 - Workrave uses [dconf](https://wiki.gnome.org/Projects/dconf) to store its configuration.
   `dconf-editor` can be used to explore and manipulate the values - be careful!
 - Workrave can receive [dbus](https://www.freedesktop.org/wiki/Software/dbus/) signals.
-  Explore by having a look at the [example python script](./backend/src/dbus-example.py) or viewing in `qdbusviewer` (part of the `qttools5-dev-tools` package in Ubuntu).
+  Explore by having a look at the [example python script](./libs/core/src/dbus-example.py) or viewing in `qdbusviewer` (part of the `qttools5-dev-tools` package in Ubuntu).
 
 In both of these, workrave is found under the `org.workrave` key.
 
