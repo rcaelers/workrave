@@ -84,6 +84,8 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
   if (!file.empty())
     {
       std::filesystem::path path(file);
+      // app_indicator_set_icon shows an invalid icon when an extension is given
+      path.replace_extension();
       std::string directory = path.parent_path().string();
       std::string filename = path.filename().string();
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
