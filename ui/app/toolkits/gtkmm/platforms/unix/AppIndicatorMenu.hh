@@ -1,4 +1,5 @@
 // Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -57,6 +58,7 @@ private:
 private:
   std::shared_ptr<IPluginContext> context;
   AppHold apphold;
+  std::weak_ptr<DbusMenu> dbus_menu;
   std::shared_ptr<ToolkitMenu> menu;
   AppIndicator *indicator{};
 
