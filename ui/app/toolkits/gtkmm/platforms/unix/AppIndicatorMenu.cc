@@ -1,4 +1,5 @@
 // Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,17 +40,12 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
   app_indicator_set_attention_icon(indicator, "workrave");
 
-  DbusmenuServer *server{};
-  g_object_get(indicator, "dbus-menu-server", &server, NULL);
-  auto *root_menu_item = dbus_menu->get_root_menu_item();
-  g_object_ref(root_menu_item);
-  dbusmenu_server_set_root(server, root_menu_item);
-
   g_signal_connect(G_OBJECT(indicator),
                    APP_INDICATOR_SIGNAL_CONNECTION_CHANGED,
                    G_CALLBACK(&AppIndicatorMenu::on_appindicator_connection_changed),
                    this);
 
+  this->dbus_menu = dbus_menu;
   auto core = context->get_core();
   workrave::utils::connect(core->signal_operation_mode_changed(), tracker, [this](auto mode) {
     on_operation_mode_changed(mode);
@@ -89,6 +85,13 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
       app_indicator_set_icon(indicator, filename.c_str());
     }
+
+  DbusmenuServer *server{};
+  g_object_get(indicator, "dbus-menu-server", &server, NULL);
+  auto dbus_menu = this->dbus_menu.lock();
+  auto *root_menu_item = dbus_menu->get_root_menu_item();
+  g_object_ref(root_menu_item);
+  dbusmenu_server_set_root(server, root_menu_item);
 }
 
 void
