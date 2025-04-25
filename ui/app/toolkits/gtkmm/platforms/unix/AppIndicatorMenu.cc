@@ -24,6 +24,8 @@
 
 #include <filesystem>
 
+#include <glib.h>
+
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
 #include "GtkUtil.hh"
@@ -56,6 +58,12 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   GUIConfig::trayicon_enabled().attach(tracker, [&](bool enabled) {
     app_indicator_set_status(indicator, enabled ? APP_INDICATOR_STATUS_ACTIVE : APP_INDICATOR_STATUS_PASSIVE);
   });
+}
+
+AppIndicatorMenu::~AppIndicatorMenu()
+{
+  // The timer belongs to the main context and could trigger, when this object is already destroyed.
+  g_source_remove(apphold_release_timer_id);
 }
 
 void
@@ -96,18 +104,44 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
   dbusmenu_server_set_root(server, root_menu_item);
 }
 
+gboolean
+AppIndicatorMenu::apphold_release(gpointer user_data)
+{
+  auto *self = static_cast<AppIndicatorMenu *>(user_data);
+  if (!self->connected)
+    {
+      spdlog::info("AppIndicatorMenu: disconnected");
+      self->apphold.release();
+    }
+  self->apphold_release_timer_id = 0;
+  return G_SOURCE_REMOVE;
+};
+
 void
 AppIndicatorMenu::on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data)
 {
   auto *self = static_cast<AppIndicatorMenu *>(user_data);
   if (connected)
     {
-      spdlog::info("AppIndicatorMenu: connected");
-      self->apphold.hold();
+      self->connected = true;
+      if (self->apphold_release_timer_id)
+        {
+          spdlog::info("AppIndicatorMenu: reconnected");
+          g_source_remove(self->apphold_release_timer_id);
+          self->apphold_release_timer_id = 0;
+        }
+      else
+        {
+          spdlog::info("AppIndicatorMenu: connected");
+          self->apphold.hold();
+        }
     }
   else
     {
-      spdlog::info("AppIndicatorMenu: disconnected");
-      self->apphold.release();
+      self->connected = false;
+      guint waiting_time = 10;
+      spdlog::info("AppIndicatorMenu: disconnected (waiting {} s for a reconnection)", waiting_time);
+      // For filtering out cases, where system tray reloads only. It prevents the status window to show up in the meantime.
+      self->apphold_release_timer_id = g_timeout_add_seconds(waiting_time, &AppIndicatorMenu::apphold_release, user_data);
     }
 }

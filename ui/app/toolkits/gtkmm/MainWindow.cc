@@ -66,7 +66,8 @@ void
 MainWindow::open_window()
 {
   TRACE_ENTRY();
-  if (timer_box_view->get_visible_count() > 0)
+  // Head count is 0, when monitor is powered off due to sleeping on Sway.
+  if (timer_box_view->get_visible_count() > 0 && app->get_toolkit()->get_head_count() > 0)
     {
       stick();
       show_all();
