@@ -1,9 +1,20 @@
-Workrave NEWS -- history of user-visible changes. 07 January 2025
+Workrave NEWS -- history of user-visible changes. 04 May 2025
 Copyright (C) 2001-2025 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
+
+* Workrave 1.11.0-rc.2
+
+** Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
+** Add examples of usage with swaybar (#597, J. J. Ramsey)
+** Support GNOME Shell 48
+** Fix crash when monitor is powered off (#606)
+** Update DBus example (#611, Emmanuel Ferdman)
+** Fix an empty AppIndicator menu (#556,
+** Fix issue where the status window shows when Sway reloads despite being
+   disabled (#612,
 
 * Workrave 1.11.0-rc.1
 
