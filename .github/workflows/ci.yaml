@@ -239,19 +239,19 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-focal
-            os: ubuntu-24.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
-
           - image: ubuntu-jammy
             os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
+            appimage: true
+
+          - image: ubuntu-noble
+            os: ubuntu-24.04
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
 
           - image: ubuntu-noble
             os: ubuntu-24.04
