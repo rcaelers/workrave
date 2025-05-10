@@ -38,6 +38,9 @@
 #include "debug.hh"
 #include "utils/Paths.hh"
 
+#if defined(HAVE_UNFOLD_AUTO_UPDATE)
+#  include "updater/Config.hh"
+#endif
 #if defined(HAVE_HARPOON)
 #  include "input-monitor/Harpoon.hh"
 #endif
@@ -139,6 +142,9 @@ CrashReporter::Pimpl::init()
 
       annotations["product"] = "Workrave";
       annotations["version"] = WORKRAVE_VERSION;
+#if defined(HAVE_UNFOLD_AUTO_UPDATE)
+      annotations["channel"] = workrave::utils::enum_to_string(workrave::updater::Config::channel()());
+#endif
 #if defined(WORKRAVE_GIT_VERSION)
       annotations["commit"] = WORKRAVE_GIT_VERSION;
 #endif
