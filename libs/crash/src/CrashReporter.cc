@@ -37,10 +37,8 @@
 
 #include "debug.hh"
 #include "utils/Paths.hh"
+#include "utils/Platform.hh"
 
-#if defined(HAVE_UNFOLD_AUTO_UPDATE)
-#  include "updater/Config.hh"
-#endif
 #if defined(HAVE_HARPOON)
 #  include "input-monitor/Harpoon.hh"
 #endif
@@ -134,7 +132,7 @@ CrashReporter::Pimpl::init()
 #endif
 
       base::FilePath handler(app_dir / "bin" / handler_exe);
-      const std::string url("http://192.168.7.241:8888/api/minidump/upload?api_key=94a8033818104a4396d92178bb33ec0a");
+      const std::string url("http://192.168.7.153:80/api/minidump/upload");
 
       std::map<std::string, std::string> annotations;
       std::vector<std::string> arguments;
@@ -143,7 +141,15 @@ CrashReporter::Pimpl::init()
       annotations["product"] = "Workrave";
       annotations["version"] = WORKRAVE_VERSION;
 #if defined(HAVE_UNFOLD_AUTO_UPDATE)
-      annotations["channel"] = workrave::utils::enum_to_string(workrave::updater::Config::channel()());
+      auto value = utils::Platform::registry_get_value(R"(Software\Workrave\plugins\auto_update)", "channel");
+      if (value.has_value())
+        {
+          annotations["channel"] = *value;
+        }
+      else
+        {
+          annotations["channel"] = "none";
+        }
 #endif
 #if defined(WORKRAVE_GIT_VERSION)
       annotations["commit"] = WORKRAVE_GIT_VERSION;
