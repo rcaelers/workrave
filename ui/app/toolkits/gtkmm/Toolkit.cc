@@ -505,33 +505,36 @@ Toolkit::init_debug()
 void
 Toolkit::init_css()
 {
-  std::string css_file = AssetPath::complete_directory("user.css", SearchPathId::Config);
-  if (std::filesystem::is_regular_file(css_file))
+  try
     {
-      spdlog::info("Using CSS: {}", css_file);
+      auto provider = Gtk::CssProvider::create();
+      provider->load_from_resource("/workrave/ui/default.css");
 
-      try
+      auto screen = Gdk::Screen::get_default();
+      if (!screen)
         {
-          auto provider = Gtk::CssProvider::create();
-          provider->load_from_path(css_file);
+          spdlog::error("Failed to get default screen for CSS provider");
+          return;
+        }
 
-          auto screen = Gdk::Screen::get_default();
-          if (!screen)
-            {
-              spdlog::error("Failed to get default screen for CSS provider");
-              return;
-            }
+      Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-          Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
-        }
-      catch (const Glib::Exception &ex)
+      std::string css_file = AssetPath::complete_directory("user.css", SearchPathId::Config);
+      if (std::filesystem::is_regular_file(css_file))
         {
-          spdlog::error("Failed to load CSS: {}", ex.what().c_str());
+          spdlog::info("Loading user CSS: {}", css_file);
+          auto user_provider = Gtk::CssProvider::create();
+          user_provider->load_from_path(css_file);
+          Gtk::StyleContext::add_provider_for_screen(screen, user_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         }
-      catch (const std::exception &ex)
-        {
-          spdlog::error("Exception while loading CSS: {}", ex.what());
-        }
+    }
+  catch (const Glib::Exception &ex)
+    {
+      spdlog::error("Failed to load CSS: {}", ex.what().c_str());
+    }
+  catch (const std::exception &ex)
+    {
+      spdlog::error("Exception while loading CSS: {}", ex.what());
     }
 }
 

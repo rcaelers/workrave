@@ -57,8 +57,6 @@ private:
   void update_input_region(Gtk::Allocation &allocation);
   void on_size_allocate_event(Gtk::Allocation &allocation);
 
-  Gdk::Color rgba_to_color(const Gdk::RGBA &rgba);
-
 private:
   //! Avoid margin.
   const int SCREEN_MARGIN{20};

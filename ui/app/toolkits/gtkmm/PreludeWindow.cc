@@ -78,7 +78,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
 
   realize();
 
-  time_bar = Gtk::manage(new TimeBar);
+  time_bar = Gtk::manage(new TimeBar("prelude"));
   label = Gtk::manage(new Gtk::Label());
 
   Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
@@ -101,8 +101,8 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   color_warn = Gdk::RGBA("orange");
   color_alert = Gdk::RGBA("red");
 
-  GtkUtil::override_color("workrave-prelude-warn", color_warn);
-  GtkUtil::override_color("workrave-prelude-alert", color_alert);
+  GtkUtil::override_color("workrave-flash-warn", color_warn);
+  GtkUtil::override_color("workrave-flash-alert", color_alert);
 
   add(*frame);
 
@@ -289,13 +289,13 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     case IApp::STAGE_WARN:
       frame->set_frame_visible(true);
       frame->set_frame_flashing(500);
-      frame->set_frame_color(rgba_to_color(color_warn));
+      frame->set_frame_color(color_warn);
       icon = "prelude-hint-sad.png";
       break;
 
     case IApp::STAGE_ALERT:
       frame->set_frame_flashing(500);
-      frame->set_frame_color(rgba_to_color(color_alert));
+      frame->set_frame_color(color_alert);
       icon = "prelude-hint-sad.png";
       break;
 
@@ -440,13 +440,4 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
           window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
         }
     }
-}
-
-// Helper to convert RGBA to Color
-Gdk::Color
-PreludeWindow::rgba_to_color(const Gdk::RGBA &rgba)
-{
-  Gdk::Color color;
-  color.set_rgb_p(rgba.get_red(), rgba.get_green(), rgba.get_blue());
-  return color;
 }

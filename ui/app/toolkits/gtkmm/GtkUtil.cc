@@ -506,14 +506,19 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool ontop)
 }
 
 void
-GtkUtil::override_color(const std::string &color_name, Gdk::RGBA &color)
+GtkUtil::override_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color)
 {
   Gtk::Label label;
 
   try
     {
       auto context = label.get_style_context();
+
       context->add_class(color_name);
+      if (!widget_name.empty())
+        {
+          label.set_name(widget_name);
+        }
       color = context->get_color(context->get_state());
     }
   catch (const Glib::Error &error)
@@ -523,7 +528,7 @@ GtkUtil::override_color(const std::string &color_name, Gdk::RGBA &color)
 }
 
 void
-GtkUtil::override_bg_color(const std::string &color_name, Gdk::RGBA &color)
+GtkUtil::override_bg_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color)
 {
   Gtk::Label label;
 
@@ -531,8 +536,11 @@ GtkUtil::override_bg_color(const std::string &color_name, Gdk::RGBA &color)
     {
       auto context = label.get_style_context();
       context->add_class(color_name);
+      if (!widget_name.empty())
+        {
+          label.set_name(widget_name);
+        }
       color = context->get_background_color(context->get_state());
-      spdlog::info("CSS property '{}': {}", color_name, color.to_string().c_str());
     }
   catch (const Glib::Error &error)
     {

@@ -177,7 +177,8 @@ TimerBoxGtkView::init_widgets()
       labels[count] = w;
       images[count] = img;
 
-      bars[count] = new TimeBar;
+      std::array<std::string, BREAK_ID_SIZEOF> breakids = {"micro-break", "rest-break", "daily-limit"};
+      bars[count] = new TimeBar(breakids[count]);
       bars[count]->set_text_alignment(1);
       bars[count]->set_progress(0, 60);
       bars[count]->set_text(_("Wait"));
