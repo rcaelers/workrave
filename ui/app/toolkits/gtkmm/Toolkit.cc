@@ -31,9 +31,11 @@
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
 #include "config/IConfigurator.hh"
+#include "utils/AssetPath.hh"
 
 using namespace workrave;
 using namespace workrave::config;
+using namespace workrave::utils;
 
 Toolkit::Toolkit(int argc, char **argv)
   : argc(argc)
@@ -69,6 +71,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
+  init_css();
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
@@ -497,6 +500,39 @@ Toolkit::init_debug()
                         NULL);
     }
 #endif
+}
+
+void
+Toolkit::init_css()
+{
+  std::string css_file = AssetPath::complete_directory("user.css", SearchPathId::Config);
+  if (std::filesystem::is_regular_file(css_file))
+    {
+      spdlog::info("Using CSS: {}", css_file);
+
+      try
+        {
+          auto provider = Gtk::CssProvider::create();
+          provider->load_from_path(css_file);
+
+          auto screen = Gdk::Screen::get_default();
+          if (!screen)
+            {
+              spdlog::error("Failed to get default screen for CSS provider");
+              return;
+            }
+
+          Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+      catch (const Glib::Exception &ex)
+        {
+          spdlog::error("Failed to load CSS: {}", ex.what().c_str());
+        }
+      catch (const std::exception &ex)
+        {
+          spdlog::error("Exception while loading CSS: {}", ex.what());
+        }
+    }
 }
 
 // void

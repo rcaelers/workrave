@@ -49,10 +49,10 @@ public:
   void get_preferred_size(int &width, int &height) const;
 
 private:
-  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh);
+  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh) const;
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
-  void set_text_color(Gdk::Color color);
+  void set_text_color(Gdk::RGBA color);
 
 protected:
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
@@ -64,16 +64,16 @@ protected:
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
 private:
-  static std::map<TimerColorId, Gdk::Color> bar_colors;
+  static std::map<TimerColorId, Gdk::RGBA> bar_colors;
 
   //! Color of the time-bar.
-  TimerColorId bar_color;
+  TimerColorId bar_color{};
 
   //! Color of the time-bar.
-  TimerColorId secondary_bar_color;
+  TimerColorId secondary_bar_color{};
 
   //! Color of the text.
-  Gdk::Color bar_text_color;
+  Gdk::RGBA bar_text_color {"black"};
 
   //! The current value.
   int bar_value{0};

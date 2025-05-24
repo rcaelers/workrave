@@ -120,6 +120,7 @@ private:
 
   void init_multihead();
   void init_debug();
+  void init_css();
 
   bool on_timer();
   void on_main_window_closed();

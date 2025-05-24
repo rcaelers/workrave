@@ -21,10 +21,10 @@
 
 #include "debug.hh"
 
+#include <algorithm>
+#include <algorithm>
 #include <cassert>
-#include <cstdio>
 #include <cstdlib>
-#include <sstream>
 
 #include "TimeBar.hh"
 #include "commonui/Text.hh"
@@ -36,15 +36,15 @@ const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
 using namespace std;
 
-std::map<TimerColorId, Gdk::Color> TimeBar::bar_colors{
-  {TimerColorId::Active, Gdk::Color("lightblue")},
-  {TimerColorId::Inactive, Gdk::Color("lightgreen")},
-  {TimerColorId::Overdue, Gdk::Color("orange")},
-  {TimerColorId::ActiveDuringBreak1, Gdk::Color("red")},
-  {TimerColorId::ActiveDuringBreak2, Gdk::Color("#e00000")},
-  {TimerColorId::InactiveOverActive, Gdk::Color("#00d4b2")},
-  {TimerColorId::InactiveOverOverdue, Gdk::Color("lightgreen")},
-  {TimerColorId::Bg, Gdk::Color("#777777")},
+std::map<TimerColorId, Gdk::RGBA> TimeBar::bar_colors{
+  {TimerColorId::Active, Gdk::RGBA("lightblue")},
+  {TimerColorId::Inactive, Gdk::RGBA("lightgreen")},
+  {TimerColorId::Overdue, Gdk::RGBA("orange")},
+  {TimerColorId::ActiveDuringBreak1, Gdk::RGBA("red")},
+  {TimerColorId::ActiveDuringBreak2, Gdk::RGBA("#e00000")},
+  {TimerColorId::InactiveOverActive, Gdk::RGBA("#00d4b2")},
+  {TimerColorId::InactiveOverOverdue, Gdk::RGBA("lightgreen")},
+  {TimerColorId::Bg, Gdk::RGBA("#777777")},
 };
 
 TimeBar::TimeBar()
@@ -54,18 +54,25 @@ TimeBar::TimeBar()
 
   set_bar_color(TimerColorId::Inactive);
   set_secondary_bar_color(TimerColorId::Inactive);
-  set_text_color(Gdk::Color("black"));
+  set_text_color(Gdk::RGBA("black"));
 
   GtkUtil::set_theme_fg_color(this);
+
+  GtkUtil::override_color("workrave-timebar", bar_text_color);
+  GtkUtil::override_bg_color("workrave-timebar", bar_colors[TimerColorId::Bg]);
+  GtkUtil::override_bg_color("workrave-timebar-active", bar_colors[TimerColorId::Active]);
+  GtkUtil::override_bg_color("workrave-timebar-inactive", bar_colors[TimerColorId::Inactive]);
+  GtkUtil::override_bg_color("workrave-timebar-overdue", bar_colors[TimerColorId::Overdue]);
+  GtkUtil::override_bg_color("workrave-timebar-active-during-break1", bar_colors[TimerColorId::ActiveDuringBreak1]);
+  GtkUtil::override_bg_color("workrave-timebar-active-during-break2", bar_colors[TimerColorId::ActiveDuringBreak2]);
+  GtkUtil::override_bg_color("workrave-timebar-inactive-over-active", bar_colors[TimerColorId::InactiveOverActive]);
+  GtkUtil::override_bg_color("workrave-timebar-inactive-over-overdue", bar_colors[TimerColorId::InactiveOverOverdue]);
 }
 
 void
 TimeBar::set_progress(int value, int max_value)
 {
-  if (value > max_value)
-    {
-      value = max_value;
-    }
+  value = std::min(value, max_value);
 
   bar_value = value;
   bar_max_value = max_value;
@@ -74,10 +81,7 @@ TimeBar::set_progress(int value, int max_value)
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
-  if (value > max_value)
-    {
-      value = max_value;
-    }
+  value = std::min(value, max_value);
 
   secondary_bar_value = value;
   secondary_bar_max_value = max_value;
@@ -108,7 +112,7 @@ TimeBar::set_secondary_bar_color(TimerColorId color)
 }
 
 void
-TimeBar::set_text_color(Gdk::Color color)
+TimeBar::set_text_color(Gdk::RGBA color)
 {
   bar_text_color = color;
 }
@@ -161,14 +165,8 @@ TimeBar::get_preferred_size(int &width, int &height) const
   int mwidth = 0;
   int mheight = 0;
   plmin->get_pixel_size(mwidth, mheight);
-  if (mwidth > width)
-    {
-      width = mwidth;
-    }
-  if (mheight > height)
-    {
-      height = mheight;
-    }
+  width = std::max(mwidth, width);
+  height = std::max(mheight, height);
 
   width = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
@@ -469,7 +467,7 @@ TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &col
 }
 
 void
-TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh)
+TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh) const
 {
   (void)winh;
 

@@ -21,6 +21,8 @@
 
 #include "PreludeWindow.hh"
 
+#include <algorithm>
+
 #include <gtkmm.h>
 
 #include "commonui/nls.h"
@@ -96,8 +98,11 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   frame->add(*hbox);
   frame->signal_flash().connect(sigc::mem_fun(*this, &PreludeWindow::on_frame_flash_event));
   flash_visible = true;
-  color_warn = Gdk::Color("orange");
-  color_alert = Gdk::Color("red");
+  color_warn = Gdk::RGBA("orange");
+  color_alert = Gdk::RGBA("red");
+
+  GtkUtil::override_color("workrave-prelude-warn", color_warn);
+  GtkUtil::override_color("workrave-prelude-alert", color_alert);
 
   add(*frame);
 
@@ -218,10 +223,7 @@ PreludeWindow::refresh()
   int tminus = progress_max_value - progress_value;
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
-      if (tminus < 0)
-        {
-          tminus = 0;
-        }
+      tminus = std::max(tminus, 0);
 
       sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
     }
@@ -231,11 +233,11 @@ PreludeWindow::refresh()
 #if defined(PLATFORM_OS_WINDOWS)
   // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  if (hwnd)
+  if (hwnd != nullptr)
     {
       HWND hAncestor = GetAncestor(hwnd, GA_ROOT);
       HWND hDesktop = GetDesktopWindow();
-      if (hAncestor && hDesktop && hAncestor != hDesktop)
+      if ((hAncestor != nullptr) && (hDesktop != nullptr) && hAncestor != hDesktop)
         {
           hwnd = hAncestor;
         }
@@ -287,13 +289,13 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     case IApp::STAGE_WARN:
       frame->set_frame_visible(true);
       frame->set_frame_flashing(500);
-      frame->set_frame_color(color_warn);
+      frame->set_frame_color(rgba_to_color(color_warn));
       icon = "prelude-hint-sad.png";
       break;
 
     case IApp::STAGE_ALERT:
       frame->set_frame_flashing(500);
-      frame->set_frame_color(color_alert);
+      frame->set_frame_color(rgba_to_color(color_alert));
       icon = "prelude-hint-sad.png";
       break;
 
@@ -438,4 +440,13 @@ PreludeWindow::update_input_region(Gtk::Allocation &allocation)
           window->input_shape_combine_region(Cairo::Region::create(rect), 0, 0);
         }
     }
+}
+
+// Helper to convert RGBA to Color
+Gdk::Color
+PreludeWindow::rgba_to_color(const Gdk::RGBA &rgba)
+{
+  Gdk::Color color;
+  color.set_rgb_p(rgba.get_red(), rgba.get_green(), rgba.get_blue());
+  return color;
 }
