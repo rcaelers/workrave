@@ -40,8 +40,6 @@ std::map<TimerColorId, Gdk::RGBA> TimeBar::bar_colors{
   {TimerColorId::Active, Gdk::RGBA("lightblue")},
   {TimerColorId::Inactive, Gdk::RGBA("lightgreen")},
   {TimerColorId::Overdue, Gdk::RGBA("orange")},
-  {TimerColorId::ActiveDuringBreak1, Gdk::RGBA("red")},
-  {TimerColorId::ActiveDuringBreak2, Gdk::RGBA("#e00000")},
   {TimerColorId::InactiveOverActive, Gdk::RGBA("#00d4b2")},
   {TimerColorId::InactiveOverOverdue, Gdk::RGBA("lightgreen")},
   {TimerColorId::Bg, Gdk::RGBA("#777777")},
@@ -63,8 +61,6 @@ TimeBar::TimeBar()
   GtkUtil::override_bg_color("workrave-timebar-active", bar_colors[TimerColorId::Active]);
   GtkUtil::override_bg_color("workrave-timebar-inactive", bar_colors[TimerColorId::Inactive]);
   GtkUtil::override_bg_color("workrave-timebar-overdue", bar_colors[TimerColorId::Overdue]);
-  GtkUtil::override_bg_color("workrave-timebar-active-during-break1", bar_colors[TimerColorId::ActiveDuringBreak1]);
-  GtkUtil::override_bg_color("workrave-timebar-active-during-break2", bar_colors[TimerColorId::ActiveDuringBreak2]);
   GtkUtil::override_bg_color("workrave-timebar-inactive-over-active", bar_colors[TimerColorId::InactiveOverActive]);
   GtkUtil::override_bg_color("workrave-timebar-inactive-over-overdue", bar_colors[TimerColorId::InactiveOverOverdue]);
 }
