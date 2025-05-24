@@ -38,7 +38,6 @@ public:
                             int secondary_value,
                             int secondary_max) = 0;
   virtual void set_icon(OperationModeIcon icon) = 0;
-  virtual void set_geometry(Orientation orientation, int size) = 0;
   virtual void update_view() = 0;
 };
 

@@ -43,14 +43,12 @@ public:
   void set_text_alignment(int align);
 
   void set_border_size(int size);
-  void set_rotation(int r);
 
   void get_minimum_size(int &width, int &height) const;
   void get_preferred_size(int &width, int &height) const;
 
 private:
-  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh) const;
-  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
+  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height) const;
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
   void set_text_color(Gdk::RGBA color);
 
@@ -73,7 +71,7 @@ private:
   TimerColorId secondary_bar_color{};
 
   //! Color of the text.
-  Gdk::RGBA bar_text_color {"black"};
+  Gdk::RGBA bar_text_color{"black"};
 
   //! The current value.
   int bar_value{0};
@@ -92,9 +90,6 @@ private:
 
   //! Text alignment
   int bar_text_align{0};
-
-  //! Bar rotation (clockwise degrees)
-  int rotation{0};
 };
 
 #endif // TIMEBAR_HH

@@ -322,13 +322,6 @@ WindowsAppletWindow::run_event_pipe()
 }
 
 void
-WindowsAppletWindow::set_geometry(Orientation orientation, int size)
-{
-  (void)orientation;
-  (void)size;
-}
-
-void
 WindowsAppletWindow::set_icon(OperationModeIcon icon)
 {
 }

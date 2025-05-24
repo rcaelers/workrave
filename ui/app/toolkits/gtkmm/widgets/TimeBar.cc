@@ -22,12 +22,12 @@
 #include "debug.hh"
 
 #include <algorithm>
-#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 
 #include "TimeBar.hh"
 #include "commonui/Text.hh"
+#include "ui/UiTypes.hh"
 #include "GtkUtil.hh"
 
 const int MARGINX = 4;
@@ -118,13 +118,6 @@ TimeBar::set_text_color(Gdk::RGBA color)
 }
 
 void
-TimeBar::set_rotation(int r)
-{
-  rotation = r;
-  queue_resize();
-}
-
-void
 TimeBar::update()
 {
   queue_draw();
@@ -148,17 +141,11 @@ TimeBar::get_preferred_size(int &width, int &height) const
   // Not sure why create_pango_layout is not const...
   Glib::RefPtr<Pango::Layout> pl = const_cast<TimeBar *>(this)->create_pango_layout(bar_text);
 
-  string min_string = Text::time_to_string(-(59 + 59 * 60 + 9 * 60 * 60));
+  string min_string = Text::time_to_string(-(59 + (59 * 60) + (9 * 60 * 60)));
   Glib::RefPtr<Pango::Layout> plmin = const_cast<TimeBar *>(this)->create_pango_layout(min_string);
 
   Glib::RefPtr<Pango::Context> pcl = pl->get_context();
   Glib::RefPtr<Pango::Context> pcmin = plmin->get_context();
-  Pango::Matrix matrix = PANGO_MATRIX_INIT;
-
-  pango_matrix_rotate(&matrix, 360 - rotation);
-
-  pcl->set_matrix(matrix);
-  pcmin->set_matrix(matrix);
 
   pl->get_pixel_size(width, height);
 
@@ -169,7 +156,7 @@ TimeBar::get_preferred_size(int &width, int &height) const
   height = std::max(mheight, height);
 
   width = width + 2 * MARGINX;
-  height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
+  height = max(height + (2 * MARGINY), MIN_HORIZONTAL_BAR_HEIGHT);
 }
 
 Gtk::SizeRequestMode
@@ -184,15 +171,7 @@ TimeBar::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
   int width = 0;
   int height = 0;
   get_preferred_size(width, height);
-
-  if (rotation == 0 || rotation == 180)
-    {
-      minimum_width = natural_width = width;
-    }
-  else
-    {
-      minimum_width = natural_width = height;
-    }
+  minimum_width = natural_width = width;
 }
 
 void
@@ -201,15 +180,7 @@ TimeBar::get_preferred_height_vfunc(int &minimum_height, int &natural_height) co
   int width = 0;
   int height = 0;
   get_preferred_size(width, height);
-
-  if (rotation == 0 || rotation == 180)
-    {
-      minimum_height = natural_height = height;
-    }
-  else
-    {
-      minimum_height = natural_height = width;
-    }
+  minimum_height = natural_height = height;
 }
 
 void
@@ -239,21 +210,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   int win_w = allocation.get_width() - 2;
   int win_h = allocation.get_height();
 
-  // Logical width/height
-  // width = direction of bar
-  int win_lw = 0;
-  int win_lh = 0;
-  if (rotation == 0 || rotation == 180)
-    {
-      win_lw = win_w;
-      win_lh = win_h;
-    }
-  else
-    {
-      win_lw = win_h;
-      win_lh = win_w;
-    }
-
   // Draw background
   style_context->set_state(Gtk::STATE_FLAG_ACTIVE);
   Gdk::RGBA back_color = style_context->get_background_color();
@@ -263,29 +219,24 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   // the portion of the window that needs to be redrawn
   cr->rectangle(0, 0, win_w, win_h);
   cr->clip();
-
   style_context->render_background(cr, 0, 0, win_w - 1, win_h - 1);
   style_context->render_frame(cr, 0, 0, win_w - 1, win_h - 1);
-
-  // set_color(cr, back_color);
-  // cr->rectangle(border_size, border_size, win_w - 2*border_size, win_h - 2*border_size);
-  // cr->fill();
 
   // Bar
   int bar_width = 0;
   if (bar_max_value > 0)
     {
-      bar_width = (bar_value * (win_lw - 2 * border_size - 1)) / bar_max_value;
+      bar_width = (bar_value * (win_w - 2 * border_size - 1)) / bar_max_value;
     }
 
   // Secondary bar
   int sbar_width = 0;
   if (secondary_bar_max_value > 0)
     {
-      sbar_width = (secondary_bar_value * (win_lw - 2 * border_size - 1)) / secondary_bar_max_value;
+      sbar_width = (secondary_bar_value * (win_w - 2 * border_size - 1)) / secondary_bar_max_value;
     }
 
-  int bar_height = win_lh - 2 * border_size - 1;
+  int bar_height = win_h - (2 * border_size) - 1;
 
   if (sbar_width > 0)
     {
@@ -296,7 +247,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
       // in which this still happens.. need to check
       // this out some time.
       // assert(secondary_bar_color == TimerColorId::Inactive);
-      TimerColorId overlap_color;
+      TimerColorId overlap_color{TimerColorId::Bg};
       switch (bar_color)
         {
         case TimerColorId::Active:
@@ -315,43 +266,38 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
       if (sbar_width >= bar_width)
         {
-          if (bar_width)
+          if (bar_width != 0)
             {
               set_color(cr, bar_colors[overlap_color]);
-              draw_bar(cr, border_size, border_size, bar_width, bar_height, win_lw, win_lh);
+              draw_bar(cr, border_size, border_size, bar_width, bar_height);
             }
           if (sbar_width > bar_width)
             {
               set_color(cr, bar_colors[secondary_bar_color]);
-              draw_bar(cr, border_size + bar_width, border_size, sbar_width - bar_width, bar_height, win_lw, win_lh);
+              draw_bar(cr, border_size + bar_width, border_size, sbar_width - bar_width, bar_height);
             }
         }
       else
         {
-          if (sbar_width)
+          if (sbar_width != 0)
             {
               set_color(cr, bar_colors[overlap_color]);
-              draw_bar(cr, border_size, border_size, sbar_width, bar_height, win_lw, win_lh);
+              draw_bar(cr, border_size, border_size, sbar_width, bar_height);
             }
           set_color(cr, bar_colors[bar_color]);
-          draw_bar(cr, border_size + sbar_width, border_size, bar_width - sbar_width, bar_height, win_lw, win_lh);
+          draw_bar(cr, border_size + sbar_width, border_size, bar_width - sbar_width, bar_height);
         }
     }
   else
     {
       // No overlap
       set_color(cr, bar_colors[bar_color]);
-      draw_bar(cr, border_size, border_size, bar_width, bar_height, win_lw, win_lh);
+      draw_bar(cr, border_size, border_size, bar_width, bar_height);
     }
 
   // Text
-  Pango::Matrix matrix = PANGO_MATRIX_INIT;
-  pango_matrix_rotate(&matrix, 360 - rotation);
-
   Glib::RefPtr<Pango::Layout> pl1 = create_pango_layout(bar_text);
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
-
-  pc1->set_matrix(matrix);
 
   int text_width = 0;
   int text_height = 0;
@@ -363,76 +309,35 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   Gdk::Rectangle rect1;
   Gdk::Rectangle rect2;
 
-  if (rotation == 0 || rotation == 180)
+  if (win_w - text_width - MARGINX > 0)
     {
-      if (win_w - text_width - MARGINX > 0)
+      if (bar_text_align > 0)
         {
-          if (bar_text_align > 0)
-            {
-              text_x = (win_w - text_width - MARGINX);
-            }
-          else if (bar_text_align < 0)
-            {
-              text_x = MARGINX;
-            }
-          else
-            {
-              text_x = (win_w - text_width) / 2;
-            }
+          text_x = (win_w - text_width - MARGINX);
         }
-      else
+      else if (bar_text_align < 0)
         {
           text_x = MARGINX;
         }
-      text_y = (win_h - text_height) / 2;
-
-      int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
-      left_width += border_size;
-
-      Gdk::Rectangle left_rect(0, 0, left_width, win_h);
-      Gdk::Rectangle right_rect(left_width, 0, win_w - left_width, win_h);
-
-      rect1 = left_rect;
-      rect2 = right_rect;
+      else
+        {
+          text_x = (win_w - text_width) / 2;
+        }
     }
   else
     {
-      if (win_h - text_width - MARGINY > 0)
-        {
-          int a = bar_text_align;
-          if (rotation == 270)
-            {
-              a *= -1;
-            }
-          if (a > 0)
-            {
-              text_y = (win_h - text_width - MARGINY);
-            }
-          else if (a < 0)
-            {
-              text_y = MARGINY;
-            }
-          else
-            {
-              text_y = (win_h - text_width) / 2;
-            }
-        }
-      else
-        {
-          text_y = MARGINY;
-        }
-
-      text_x = (win_w - text_height) / 2;
-
-      int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
-      left_width += border_size;
-
-      Gdk::Rectangle up_rect(0, 0, win_w, left_width);
-      Gdk::Rectangle down_rect(0, left_width, win_w, win_h - left_width);
-
-      rect1 = up_rect;
-      rect2 = down_rect;
+      text_x = MARGINX;
     }
+  text_y = (win_h - text_height) / 2;
+
+  int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
+  left_width += border_size;
+
+  Gdk::Rectangle left_rect(0, 0, left_width, win_h);
+  Gdk::Rectangle right_rect(left_width, 0, win_w - left_width, win_h);
+
+  rect1 = left_rect;
+  rect2 = right_rect;
 
   cr->reset_clip();
   cr->rectangle(rect1.get_x(), rect1.get_y(), rect1.get_width(), rect1.get_height());
@@ -454,11 +359,6 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   return Gtk::Widget::on_draw(cr);
 }
 
-void
-TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color)
-{
-  cr->set_source_rgba(color.get_red_p(), color.get_green_p(), color.get_blue_p(), 1);
-}
 
 void
 TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color)
@@ -467,18 +367,8 @@ TimeBar::set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &col
 }
 
 void
-TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh) const
+TimeBar::draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height) const
 {
-  (void)winh;
-
-  if (rotation == 0 || rotation == 180)
-    {
-      cr->rectangle(x, y, width, height);
-      cr->fill();
-    }
-  else
-    {
-      cr->rectangle(y, winw - x - width, height, width);
-      cr->fill();
-    }
+  cr->rectangle(x, y, width, height);
+  cr->fill();
 }

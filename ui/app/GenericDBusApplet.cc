@@ -102,11 +102,6 @@ GenericDBusApplet::set_icon(OperationModeIcon icon)
 }
 
 void
-GenericDBusApplet::set_geometry(Orientation orientation, int size)
-{
-}
-
-void
 GenericDBusApplet::update_view()
 {
   TRACE_ENTRY();

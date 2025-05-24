@@ -187,7 +187,7 @@ MainWindow::init()
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(app->get_core()));
   timer_box_control = new TimerBoxControl(app->get_core(), "main_window", timer_box_view);
-  timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
+  timer_box_view->set_geometry(ORIENTATION_HORIZONTAL, -1);
   timer_box_control->update();
 
   auto *eventbox = Gtk::manage(new Gtk::EventBox);
