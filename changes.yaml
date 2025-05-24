@@ -1,5 +1,19 @@
 ---
 releases:
+  - version: 1.11.0-rc.2
+    date: 2025-05-04T00:00:00+02:00
+    short: |-
+      Workrave 1.11.0-rc.2 has been released.
+    changes:
+      - Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
+      - Add examples of usage with swaybar (#597, J. J. Ramsey)
+      - Support GNOME Shell 48
+      - Fix crash when monitor is powered off (#606)
+      - Update DBus example (#611, Emmanuel Ferdman)
+      - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
+      - Fix issue where the status window shows when Sway reloads despite being disabled (#612, #615, wojnilowicz)
+      - Support user defined colors (#619)
+
   - version: 1.11.0-rc.1
     date: 2025-01-07T17:49:37+01:00
     short: |-

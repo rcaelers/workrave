@@ -31,9 +31,11 @@
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
 #include "config/IConfigurator.hh"
+#include "utils/AssetPath.hh"
 
 using namespace workrave;
 using namespace workrave::config;
+using namespace workrave::utils;
 
 Toolkit::Toolkit(int argc, char **argv)
   : argc(argc)
@@ -69,6 +71,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   this->app = app;
 
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
+  init_css();
 
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
@@ -145,11 +148,22 @@ Toolkit::run()
   gapp->run();
 }
 
-HeadInfo
+std::optional<HeadInfo>
 Toolkit::get_head_info(int screen_index) const
 {
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  if (!display)
+    {
+      logger->error("Failed to get default display");
+      return {};
+    }
+
   Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(screen_index);
+  if (!monitor)
+    {
+      logger->error("Failed to get monitor for screen index {}", screen_index);
+      return {};
+    }
 
   HeadInfo head;
   head.primary = monitor->is_primary();
@@ -178,7 +192,13 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 {
   IBreakWindow::Ptr ret;
 
-  HeadInfo head = get_head_info(screen_index);
+  auto optional_head = get_head_info(screen_index);
+  if (!optional_head)
+    {
+      logger->error("Failed to retrieve monitor info for screen index {}", screen_index);
+      return nullptr;
+    }
+  HeadInfo head = *optional_head;
 
   BlockMode block_mode = GUIConfig::block_mode()();
 
@@ -201,7 +221,13 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 IPreludeWindow::Ptr
 Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
 {
-  HeadInfo head = get_head_info(screen_index);
+  auto optional_head = get_head_info(screen_index);
+  if (!optional_head)
+    {
+      logger->error("Failed to retrieve monitor info for screen index {}", screen_index);
+      return nullptr;
+    }
+  HeadInfo head = *optional_head;
   return std::make_shared<PreludeWindow>(head, break_id);
 }
 
@@ -474,6 +500,42 @@ Toolkit::init_debug()
                         NULL);
     }
 #endif
+}
+
+void
+Toolkit::init_css()
+{
+  try
+    {
+      auto provider = Gtk::CssProvider::create();
+      provider->load_from_resource("/workrave/ui/default.css");
+
+      auto screen = Gdk::Screen::get_default();
+      if (!screen)
+        {
+          spdlog::error("Failed to get default screen for CSS provider");
+          return;
+        }
+
+      Gtk::StyleContext::add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+      std::string css_file = AssetPath::complete_directory("user.css", SearchPathId::Config);
+      if (std::filesystem::is_regular_file(css_file))
+        {
+          spdlog::info("Loading user CSS: {}", css_file);
+          auto user_provider = Gtk::CssProvider::create();
+          user_provider->load_from_path(css_file);
+          Gtk::StyleContext::add_provider_for_screen(screen, user_provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+    }
+  catch (const Glib::Exception &ex)
+    {
+      spdlog::error("Failed to load CSS: {}", ex.what().c_str());
+    }
+  catch (const std::exception &ex)
+    {
+      spdlog::error("Exception while loading CSS: {}", ex.what());
+    }
 }
 
 // void

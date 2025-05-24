@@ -70,12 +70,12 @@ X11SystrayAppletWindow::notify_callback()
 
       if (o != GTK_ORIENTATION_VERTICAL)
         {
-          orientation = ORIENTATION_UP;
+          orientation = ORIENTATION_VERTICAL;
           TRACE_MSG("up");
         }
       else
         {
-          orientation = ORIENTATION_LEFT;
+          orientation = ORIENTATION_HORIZONTAL;
           TRACE_MSG("left");
         }
 
@@ -137,7 +137,7 @@ X11SystrayAppletWindow::activate()
       plug->add(*container);
       plug->show_all();
 
-      applet_orientation = ORIENTATION_UP;
+      applet_orientation = ORIENTATION_VERTICAL;
 
       GtkRequisition min_size;
       GtkRequisition natural_size;
@@ -209,11 +209,11 @@ X11SystrayAppletWindow::on_embedded()
 
       if (o != GTK_ORIENTATION_VERTICAL)
         {
-          orientation = ORIENTATION_UP;
+          orientation = ORIENTATION_VERTICAL;
         }
       else
         {
-          orientation = ORIENTATION_LEFT;
+          orientation = ORIENTATION_HORIZONTAL;
         }
 
       embedded = true;
@@ -267,14 +267,14 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
 
       if (o == GTK_ORIENTATION_VERTICAL)
         {
-          orientation = ORIENTATION_UP;
+          orientation = ORIENTATION_VERTICAL;
         }
       else
         {
-          orientation = ORIENTATION_LEFT;
+          orientation = ORIENTATION_HORIZONTAL;
         }
 
-      if (orientation == ORIENTATION_UP || orientation == ORIENTATION_DOWN)
+      if (orientation == ORIENTATION_VERTICAL)
         {
           if (applet_size != allocation.get_width())
             {

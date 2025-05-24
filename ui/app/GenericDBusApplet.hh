@@ -121,7 +121,6 @@ private:
                     int secondary_value,
                     int secondary_max) override;
   void set_icon(OperationModeIcon icon) override;
-  void set_geometry(Orientation orientation, int size) override;
   void update_view() override;
 
   // IDBusWatch

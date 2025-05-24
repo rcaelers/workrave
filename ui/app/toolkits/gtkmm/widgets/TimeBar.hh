@@ -19,6 +19,7 @@
 #define TIMEBAR_HH
 
 #include <string>
+#include <utility>
 
 #include <gtkmm.h>
 #include <gdkmm.h>
@@ -29,7 +30,7 @@
 class TimeBar : public Gtk::DrawingArea
 {
 public:
-  TimeBar();
+  explicit TimeBar(const std::string &name = "");
   ~TimeBar() override = default;
 
   void set_progress(int value, int max_value);
@@ -43,16 +44,45 @@ public:
   void set_text_alignment(int align);
 
   void set_border_size(int size);
-  void set_rotation(int r);
 
   void get_minimum_size(int &width, int &height) const;
   void get_preferred_size(int &width, int &height) const;
 
 private:
-  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, int x, int y, int width, int height, int winw, int winh);
-  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
-  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
-  void set_text_color(Gdk::Color color);
+  struct Bar
+  {
+    int x;
+    int y;
+    int width;
+    int height;
+    TimerColorId color;
+
+    Bar()
+      : x(0)
+      , y(0)
+      , width(0)
+      , height(0)
+      , color(TimerColorId::Bg)
+    {
+    }
+
+    Bar(int x, int y, int width, int height, TimerColorId color)
+      : x(x)
+      , y(y)
+      , width(width)
+      , height(height)
+      , color(color)
+    {
+    }
+  };
+
+  void draw_bar(const Cairo::RefPtr<Cairo::Context> &cr, const Bar &bar) const;
+  void draw_frame(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height);
+  std::array<Bar, 2> calc_bars(const Cairo::RefPtr<Cairo::Context> &cr, int width, int height);
+  void draw_bars(const Cairo::RefPtr<Cairo::Context> &cr, const std::array<Bar, 2> &bars);
+  void draw_text(const Cairo::RefPtr<Cairo::Context> &cr, const std::array<Bar, 2> &bars, int width, int win_h);
+
+  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color) const;
 
 protected:
   Gtk::SizeRequestMode get_request_mode_vfunc() const override;
@@ -64,16 +94,14 @@ protected:
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
 private:
-  static std::map<TimerColorId, Gdk::Color> bar_colors;
+  std::map<TimerColorId, Gdk::RGBA> bar_colors;
+  std::map<TimerColorId, Gdk::RGBA> bar_text_colors;
 
   //! Color of the time-bar.
-  TimerColorId bar_color;
+  TimerColorId bar_color{};
 
   //! Color of the time-bar.
-  TimerColorId secondary_bar_color;
-
-  //! Color of the text.
-  Gdk::Color bar_text_color;
+  TimerColorId secondary_bar_color{};
 
   //! The current value.
   int bar_value{0};
@@ -92,9 +120,6 @@ private:
 
   //! Text alignment
   int bar_text_align{0};
-
-  //! Bar rotation (clockwise degrees)
-  int rotation{0};
 };
 
 #endif // TIMEBAR_HH

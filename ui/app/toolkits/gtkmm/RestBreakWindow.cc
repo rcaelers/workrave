@@ -64,7 +64,7 @@ RestBreakWindow::create_gui()
   vbox->pack_start(*pluggable_panel, false, false, 0);
 
   // Timebar
-  timebar = Gtk::manage(new TimeBar);
+  timebar = Gtk::manage(new TimeBar("rest-break"));
   vbox->pack_start(*timebar, false, false, 6);
 
   Gtk::Box *bottom_box = create_bottom_box(true, GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)());
@@ -130,7 +130,10 @@ RestBreakWindow::draw_time_bar()
     {
       if (user_active && !is_flashing)
         {
-          frame->set_frame_color(Gdk::Color("orange"));
+          Gdk::RGBA color_warn{"orange"};
+          GtkUtil::override_color("workrave-flash-warn", "rest-break", color_warn);
+
+          frame->set_frame_color(color_warn);
           frame->set_frame_visible(true);
           frame->set_frame_flashing(500);
           is_flashing = true;
