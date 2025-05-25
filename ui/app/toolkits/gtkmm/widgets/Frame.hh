@@ -34,7 +34,7 @@ public:
 
   void set_frame_width(guint width);
   void set_frame_style(Style style);
-  void set_frame_color(const Gdk::Color &color);
+  void set_frame_color(const Gdk::RGBA &color);
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
   flash_signal_t &signal_flash();
@@ -50,7 +50,6 @@ protected:
   void get_preferred_height_for_width_vfunc(int width, int &minimum_height, int &natural_height) const override;
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
-  void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::Color &color);
   void set_color(const Cairo::RefPtr<Cairo::Context> &cr, const Gdk::RGBA &color);
 
 private:
@@ -58,10 +57,10 @@ private:
   guint frame_width{1};
 
   //! Color of the frame.
-  Gdk::Color frame_color;
+  Gdk::RGBA frame_color;
 
   //! Black
-  Gdk::Color color_black;
+  Gdk::RGBA color_black;
 
   //! Style of the frame.
   Style frame_style{STYLE_SOLID};

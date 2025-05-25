@@ -59,7 +59,7 @@ private:
   Gtk::Bin *container{nullptr};
   WRGtkTrayIcon *tray_icon{nullptr};
 
-  Orientation applet_orientation{ORIENTATION_UP};
+  Orientation applet_orientation{ORIENTATION_VERTICAL};
   int applet_size{0};
   bool applet_active{false};
   bool embedded{false};

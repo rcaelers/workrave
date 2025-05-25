@@ -19,7 +19,7 @@
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <array>
 
 #include <gtkmm/image.h>
 #include <gtkmm/sizegroup.h>
@@ -36,7 +36,6 @@
 
 #include "utils/AssetPath.hh"
 #include "ui/GUIConfig.hh"
-#include "core/IBreak.hh"
 
 using namespace std;
 using namespace workrave;
@@ -137,11 +136,11 @@ TimerBoxGtkView::init_widgets()
 {
   Glib::RefPtr<Gtk::SizeGroup> size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
 
-  const char *icons[] = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
+  const std::array<const char *, 3> icons = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       Gtk::Image *img = GtkUtil::create_image(icons[count]);
-      Gtk::Widget *w;
+      Gtk::Widget *w = nullptr;
       if (count == BREAK_ID_REST_BREAK)
         {
           img->set_padding(0, 0);
@@ -178,7 +177,8 @@ TimerBoxGtkView::init_widgets()
       labels[count] = w;
       images[count] = img;
 
-      bars[count] = new TimeBar;
+      std::array<std::string, BREAK_ID_SIZEOF> breakids = {"micro-break", "rest-break", "daily-limit"};
+      bars[count] = new TimeBar(breakids[count]);
       bars[count]->set_text_alignment(1);
       bars[count]->set_progress(0, 60);
       bars[count]->set_text(_("Wait"));
@@ -188,7 +188,7 @@ TimerBoxGtkView::init_widgets()
 void
 TimerBoxGtkView::update_widgets()
 {
-  const char *icons[] = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
+  const std::array<const char *, 3> icons = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       std::string filename = GtkUtil::get_image_filename(icons[count]);
@@ -224,16 +224,7 @@ TimerBoxGtkView::init_table()
   // Compute table dimensions.
   int rows = number_of_timers;
   int columns = 1;
-  bool reverse = false;
   int tsize = size;
-
-  rotation = 0;
-
-  if (rows == 0)
-    {
-      // Show sheep.
-      rows = 1;
-    }
 
   Gtk::Requisition label_size;
   Gtk::Requisition bar_size;
@@ -245,23 +236,18 @@ TimerBoxGtkView::init_table()
   TRACE_MSG("my_size = {} {}", my_size.width, my_size.height);
   TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      bars[i]->set_rotation(0);
-    }
-
   bars[0]->get_preferred_size(bar_size.width, bar_size.height);
   TRACE_MSG("bar_size = {} {}", bar_size.width, bar_size.height);
   TRACE_MSG("label_size = {} {}", label_size.width, label_size.height);
 
-  if (size == -1 && (orientation == ORIENTATION_LEFT))
+  if (size == -1 && (orientation == ORIENTATION_HORIZONTAL))
     {
       tsize = label_size.width + bar_size.width + 9;
     }
 
   if (tsize != -1)
     {
-      if ((orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT))
+      if (orientation == ORIENTATION_HORIZONTAL)
         {
           set_size_request(tsize, -1);
         }
@@ -272,36 +258,12 @@ TimerBoxGtkView::init_table()
       TRACE_MSG("size request = {}", tsize);
     }
 
-  if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
+  if (orientation == ORIENTATION_HORIZONTAL)
     {
-      if (tsize > bar_size.width + label_size.width + 8)
-        {
-          columns = 2;
-          rows = number_of_timers;
-        }
-      else if (tsize > bar_size.width + 2)
-        {
-          columns = 1;
-          rows = 2 * number_of_timers;
-        }
-      else
-        {
-          columns = 1;
-          rows = 2 * number_of_timers;
-
-          if (orientation == ORIENTATION_LEFT)
-            {
-              rotation = 90;
-            }
-          else
-            {
-              rotation = 270;
-              reverse = true;
-            }
-        }
+      columns = 2;
+      rows = number_of_timers;
       if (rows <= 0)
         {
-          TRACE_MSG("too small: rows");
           rows = 1;
         }
     }
@@ -310,27 +272,19 @@ TimerBoxGtkView::init_table()
       rows = tsize / (bar_size.height);
       if (rows <= 0)
         {
-          TRACE_MSG("too small: rows");
           rows = 1;
         }
 
       columns = 2 * ((number_of_timers + rows - 1) / rows);
-
       if (columns <= 0)
         {
           columns = 1;
         }
     }
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      bars[i]->set_rotation(rotation);
-    }
+  TRACE_MSG("c/r {} {} {}", columns, rows);
 
-  TRACE_MSG("c/r {} {} {}", columns, rows, rotation);
-
-  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count
-                    || reverse != table_reverse;
+  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count;
 
   // Remove old
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -357,16 +311,13 @@ TimerBoxGtkView::init_table()
     }
 
   TRACE_VAR(rows, table_rows, columns, table_columns);
-  //  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
   {
     TRACE_MSG("resize");
     resize(rows, columns);
     set_spacings(0);
-    // show_all();
 
     table_columns = columns;
     table_rows = rows;
-    table_reverse = reverse;
   }
 
   // Add sheep.
@@ -386,11 +337,6 @@ TimerBoxGtkView::init_table()
         {
           int item = i;
 
-          if (reverse)
-            {
-              item = number_of_timers - i + 1;
-            }
-
           current_content[i] = id;
 
           int cur_row = (2 * item) / columns;
@@ -399,10 +345,6 @@ TimerBoxGtkView::init_table()
           attach(*labels[id], cur_col, cur_col + 1, cur_row, cur_row + 1, Gtk::SHRINK, Gtk::EXPAND);
 
           int bias = 1;
-          if (reverse)
-            {
-              bias = -1;
-            }
 
           cur_row = (2 * item + bias) / columns;
           cur_col = (2 * item + bias) % columns;

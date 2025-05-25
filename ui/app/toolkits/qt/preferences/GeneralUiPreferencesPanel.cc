@@ -160,9 +160,8 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   layout->addWidget(autostart_cb);
 
-  char value[MAX_PATH];
-  bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
-  autostart_cb->setCheckState(rc ? Qt::Checked : Qt::Unchecked);
+  auto value = Platform::registry_get_value(RUNKEY, "Workrave");
+  autostart_cb->setCheckState(value.has_value() ? Qt::Checked : Qt::Unchecked);
 #endif
 
   auto *trayicon_cb = new QCheckBox;

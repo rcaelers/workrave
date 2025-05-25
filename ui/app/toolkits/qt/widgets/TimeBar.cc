@@ -34,8 +34,6 @@ std::map<TimerColorId, QColor> TimeBar::bar_colors{
   {TimerColorId::Active, QColor("lightblue")},
   {TimerColorId::Inactive, QColor("lightgreen")},
   {TimerColorId::Overdue, QColor("orange")},
-  {TimerColorId::ActiveDuringBreak1, QColor("red")},
-  {TimerColorId::ActiveDuringBreak2, QColor("#e00000")},
   {TimerColorId::InactiveOverActive, QColor("#00d4b2")},
   {TimerColorId::InactiveOverOverdue, QColor("lightgreen")},
   {TimerColorId::Bg, QColor("#777777")},

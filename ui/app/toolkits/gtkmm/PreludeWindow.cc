@@ -21,6 +21,8 @@
 
 #include "PreludeWindow.hh"
 
+#include <algorithm>
+
 #include <gtkmm.h>
 
 #include "commonui/nls.h"
@@ -76,7 +78,7 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
 
   realize();
 
-  time_bar = Gtk::manage(new TimeBar);
+  time_bar = Gtk::manage(new TimeBar("prelude"));
   label = Gtk::manage(new Gtk::Label());
 
   Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
@@ -96,8 +98,11 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   frame->add(*hbox);
   frame->signal_flash().connect(sigc::mem_fun(*this, &PreludeWindow::on_frame_flash_event));
   flash_visible = true;
-  color_warn = Gdk::Color("orange");
-  color_alert = Gdk::Color("red");
+  color_warn = Gdk::RGBA("orange");
+  color_alert = Gdk::RGBA("red");
+
+  GtkUtil::override_color("workrave-flash-warn", "prelude", color_warn);
+  GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
 
   add(*frame);
 
@@ -218,10 +223,7 @@ PreludeWindow::refresh()
   int tminus = progress_max_value - progress_value;
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
-      if (tminus < 0)
-        {
-          tminus = 0;
-        }
+      tminus = std::max(tminus, 0);
 
       sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
     }
@@ -231,11 +233,11 @@ PreludeWindow::refresh()
 #if defined(PLATFORM_OS_WINDOWS)
   // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
-  if (hwnd)
+  if (hwnd != nullptr)
     {
       HWND hAncestor = GetAncestor(hwnd, GA_ROOT);
       HWND hDesktop = GetDesktopWindow();
-      if (hAncestor && hDesktop && hAncestor != hDesktop)
+      if ((hAncestor != nullptr) && (hDesktop != nullptr) && hAncestor != hDesktop)
         {
           hwnd = hAncestor;
         }

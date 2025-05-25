@@ -152,6 +152,7 @@ Application::init_configurator()
     {
       if (std::filesystem::is_regular_file(ini_file))
         {
+          spdlog::info("Using INI configuration file: {}", ini_file);
           configurator = workrave::config::ConfiguratorFactory::create(workrave::config::ConfigFileFormat::Ini);
           configurator->load(ini_file);
         }
@@ -174,6 +175,7 @@ Application::init_configurator()
 #endif
                   if (!configFile.empty())
                     {
+                      spdlog::info("Using XML configuration file: {}", configFile);
                       configurator->load(configFile);
                     }
                 }
@@ -186,6 +188,7 @@ Application::init_configurator()
 
               if (configurator)
                 {
+                  spdlog::info("Using INI configuration file: {}", ini_file);
                   configurator->load(ini_file);
                   configurator->save();
                 }
@@ -432,7 +435,11 @@ Application::create_prelude_window(BreakId break_id)
 
   for (int i = 0; i < toolkit->get_head_count(); i++)
     {
-      prelude_windows.push_back(toolkit->create_prelude_window(i, break_id));
+      auto prelude_window = toolkit->create_prelude_window(i, break_id);
+      if (prelude_window)
+        {
+          prelude_windows.push_back(prelude_window);
+        }
     }
 }
 
@@ -479,8 +486,11 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
     {
       IBreakWindow::Ptr break_window = toolkit->create_break_window(i, break_id, break_flags);
 
-      break_windows.push_back(break_window);
-      break_window->init();
+      if (break_window)
+        {
+          break_windows.push_back(break_window);
+          break_window->init();
+        }
     }
 }
 

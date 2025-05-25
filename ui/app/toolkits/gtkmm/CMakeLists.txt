@@ -142,7 +142,7 @@ find_program(GLIB_COMPILE_RESOURCES NAMES glib-compile-resources REQUIRED)
 
 execute_process(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  COMMAND ${GLIB_COMPILE_RESOURCES} --sourcedir=${CMAKE_SOURCE_DIR}/ui/data --generate-dependencies resources.gresource.xml
+  COMMAND ${GLIB_COMPILE_RESOURCES} --sourcedir=${CMAKE_SOURCE_DIR}/ui/data --sourcedir=${CMAKE_CURRENT_SOURCE_DIR} --generate-dependencies resources.gresource.xml
   OUTPUT_VARIABLE RESOURCES_DEPENDENCIES
 )
 string( REPLACE "\n" ";" RESOURCES_DEPENDENCIES ${RESOURCES_DEPENDENCIES} )
@@ -153,6 +153,7 @@ add_custom_command(
   COMMAND ${GLIB_COMPILE_RESOURCES}
   ARGS
     --sourcedir=${CMAKE_SOURCE_DIR}/ui/data
+    --sourcedir=${CMAKE_CURRENT_SOURCE_DIR}
     --target=${CMAKE_CURRENT_BINARY_DIR}/resources.gresource.xml.c
     --generate-source
     ${CMAKE_CURRENT_SOURCE_DIR}/resources.gresource.xml

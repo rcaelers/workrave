@@ -23,8 +23,8 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.0-rc.1" )
-set (WORKRAVE_RESOURCE_VERSION "1,10,999,201" )
+set (WORKRAVE_VERSION "1.11.0-rc.2" )
+set (WORKRAVE_RESOURCE_VERSION "1,10,999,202" )
 set (WORKRAVE_CHANNEL "candidate" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
@@ -1003,7 +1003,7 @@ if (WITH_CRASHPAD)
     "Apache-2.0"
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
-    GIT_TAG 3c034ea97a60854acb4fa80634f50532c001279d
+    GIT_TAG d52c137a3d8b4adc20b33685460bf8cebd3c4634
   )
   FetchContent_MakeAvailable(crashpad)
 
