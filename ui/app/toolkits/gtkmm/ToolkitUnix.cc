@@ -25,6 +25,9 @@
 
 #include "BreakWindow.hh"
 
+#include "utils/Platform.hh"
+#include "DBusPreludeWindow.hh"
+
 #include "config/IConfigurator.hh"
 #include "debug.hh"
 
@@ -95,4 +98,25 @@ ToolkitUnix::show_notification(const std::string &id,
   auto icon = Gio::ThemedIcon::create("dialog-information");
   notification->set_icon(icon);
   gapp->send_notification(id, notification);
+}
+
+IPreludeWindow::Ptr
+ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
+{
+  if (workrave::utils::Platform::running_on_wayland())
+    {
+      auto core = app->get_core();
+      auto dbus = core->get_dbus();
+      if (DBusPreludeWindow::is_gnome_shell_applet_available(dbus))
+        {
+          if (screen_index == 0)
+            {
+              return std::make_shared<DBusPreludeWindow>();
+            }
+
+          return {};
+        }
+    }
+
+  return Toolkit::create_prelude_window(screen_index, break_id);
 }

@@ -2,6 +2,7 @@ add_library(workrave-toolkit-gtkmm OBJECT)
 
 target_sources(workrave-toolkit-gtkmm PRIVATE
   BreakWindow.cc
+  DBusPreludeWindow.cc
   DailyLimitWindow.cc
   DataConnector.cc
   DebugDialog.cc

@@ -12,6 +12,7 @@ import {
 } from "resource:///org/gnome/shell/extensions/extension.js";
 
 import Workrave from "gi://Workrave?version=2.0";
+import * as Prelude from "./prelude.js";
 
 let start = GLib.get_monotonic_time();
 console.log("workrave-applet: start @ " + start);
@@ -159,6 +160,26 @@ const CoreIface =
   </interface> \
 </node>';
 
+const PreludesIface = `
+<node>
+  <interface name="org.workrave.Preludes">
+    <method name="Start"/>
+    <method name="Stop"/>
+    <method name="Refresh"/>
+    <method name="SetProgress">
+      <arg type="i" name="value" direction="in"/>
+      <arg type="i" name="max_value" direction="in"/>
+    </method>
+    <method name="SetStage">
+      <arg type="s" name="stage" direction="in"/>
+    </method>
+    <method name="SetProgressText">
+      <arg type="s" name="text" direction="in"/>
+    </method>
+  </interface>
+</node>
+`;
+
 const MENU_ITEM_TYPE_SUBMENU_BEGIN = 1;
 const MENU_ITEM_TYPE_SUBMENU_END = 2;
 const MENU_ITEM_TYPE_RADIOGROUP_BEGIN = 3;
@@ -254,13 +275,14 @@ const WorkraveButton = GObject.registerClass(
       this.menu._setOpenedSubMenu = this._setOpenedSubmenu.bind(this);
       this._updateMenu(null);
 
+      this._exportPreludeWindowDBus(this);
+
       this.areas = [];
-      this.updateAreas();
+      this._updateAreas();
       this.monitorChangedHandler = Main.layoutManager.connect(
         "monitors-changed",
         this._updateAreas.bind(this)
       );
-      //this.enableAreas();
     }
 
     _updateAreas() {
@@ -273,8 +295,8 @@ const WorkraveButton = GObject.registerClass(
 
       for (let i = 0; i < this.monitors.length; i++) {
         let monitor = this.monitors[i];
-        let area = new PreludeWindow.PreludeWindow(monitor);
-        global.log(
+        let area = new Prelude.PreludeWindow(monitor);
+        console.log(
           "workrave-applet: monitor " +
             i +
             " " +
@@ -421,6 +443,69 @@ const WorkraveButton = GObject.registerClass(
     _draw(area) {
       let cr = area.get_context();
       this._timerbox.draw(cr);
+    }
+
+    _exportPreludeWindowDBus(applet) {
+      const impl = {
+        Start() {
+          applet.start_prelude();
+        },
+        Stop() {
+          applet.stop_prelude();
+        },
+        Refresh() {
+          applet.refresh_prelude();
+        },
+        SetProgress(value, max_value) {
+          applet.set_progress(value, max_value);
+        },
+        SetStage(stage) {
+          applet.set_stage(stage);
+        },
+        SetProgressText(text) {
+          applet.set_progress_text(text);
+        },
+      };
+      let exported = Gio.DBusExportedObject.wrapJSObject(PreludesIface, impl);
+      exported.export(Gio.DBus.session, "/org/workrave/Workrave/Preludes");
+      return exported;
+    }
+
+    start_prelude() {
+      console.log("workrave-applet: start_prelude");
+      this._enableAreas();
+    }
+
+    stop_prelude() {
+      console.log("workrave-applet: stop_prelude");
+      this._disableAreas();
+    }
+
+    refresh_prelude() {
+      console.log("workrave-applet: refresh_prelude");
+      for (let i = 0; i < this.areas.length; i++) {
+        let area = this.areas[i];
+        area.refresh();
+        area.queue_repaint();
+      }
+    }
+
+    set_progress(value, max_value) {
+      console.log("workrave-applet: set_progress " + value + " / " + max_value);
+      for (let i = 0; i < this.areas.length; i++) {
+        let area = this.areas[i];
+        area.set_progress(value, max_value);
+        area.queue_repaint();
+      }
+    }
+
+    set_stage(stage) {
+      console.log("workrave-applet: set_stage " + stage);
+      for (let i = 0; i < this.areas.length; i++) {
+        let area = this.areas[i];
+        area.set_stage(stage);
+        area.queue_repaint();
+      }
     }
 
     _onTimer() {
@@ -651,8 +736,6 @@ let workravePanelButton;
 export default class WorkraveExtension extends Extension {
   enable() {
     console.log("workrave-applet: enabling applet");
-    log(`enabling ${Me.metadata.name} version ${Me.metadata.version}`);
-
     workravePanelButton = new WorkraveButton();
     Main.panel.addToStatusArea("workrave-applet", workravePanelButton);
   }

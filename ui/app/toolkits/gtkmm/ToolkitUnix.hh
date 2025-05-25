@@ -34,6 +34,8 @@ public:
   IBreakWindow::Ptr create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) override;
   std::shared_ptr<Locker> get_locker() override;
 
+  IPreludeWindow::Ptr create_prelude_window(int screen, workrave::BreakId break_id) override;
+
   void show_notification(const std::string &id,
                          const std::string &title,
                          const std::string &balloon,
