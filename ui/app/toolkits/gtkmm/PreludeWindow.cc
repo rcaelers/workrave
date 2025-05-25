@@ -101,8 +101,8 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   color_warn = Gdk::RGBA("orange");
   color_alert = Gdk::RGBA("red");
 
-  GtkUtil::override_color("workrave-flash-warn", color_warn);
-  GtkUtil::override_color("workrave-flash-alert", color_alert);
+  GtkUtil::override_color("workrave-flash-warn", "prelude", color_warn);
+  GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
 
   add(*frame);
 

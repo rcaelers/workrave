@@ -43,8 +43,6 @@ public:
   void set_secondary_bar_color(TimerColorId color);
   void set_text_alignment(int align);
 
-  void set_border_size(int size);
-
   void get_minimum_size(int &width, int &height) const;
   void get_preferred_size(int &width, int &height) const;
 
