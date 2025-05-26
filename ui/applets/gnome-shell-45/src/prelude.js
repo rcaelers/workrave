@@ -7,7 +7,6 @@ import {
   Extension,
   gettext as _,
 } from "resource:///org/gnome/shell/extensions/extension.js";
-// import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensiofGenUtils.js';
 import Workrave from "gi://Workrave?version=2.0";
 
 const ICON_DIR = ""; // Extension.lookupByURL(import.meta.url).dir.get_child('images');
@@ -131,22 +130,25 @@ export class PreludeWindow extends St.Widget {
     GObject.registerClass({ GTypeName: "Workrave-PreludeWindow" }, this);
   }
 
-  _init(monitorIndex) {
+  _init(monitor) {
     super._init({
       reactive: true,
       track_hover: true,
     });
 
+    this._monitor = monitor;
     this._blink_timer = null;
+    this._blink_stage = "";
+    this._blink_on = false;
 
     this._init_icons();
-    this._init_ui(monitorIndex);
+    this._init_ui();
 
     this._timebar.set_progress(1, 30, Workrave.ColorId.active);
     this._timebar.set_secondary_progress(0, 0, Workrave.ColorId.active);
     this._timebar.set_text("Hello World");
     this._timebar.set_text_alignment(0);
-    this.set_stage("warn");
+    this.set_stage("initial");
   }
 
   set_progress(value, max_value, color) {
@@ -155,6 +157,16 @@ export class PreludeWindow extends St.Widget {
 
   set_progress_text(text) {
     this._timebar.set_text(text);
+  }
+
+  set_text(text) {
+    let label_text = `<span weight="bold" size="larger">${text}</span>`;
+    this._label.set_text(label_text);
+    this._label.get_clutter_text().set_use_markup(true);
+  }
+
+  refresh(text) {
+    this._timebar.queue_redraw();
   }
 
   set_stage(stage) {
@@ -168,17 +180,24 @@ export class PreludeWindow extends St.Widget {
       this._normal_icon.hide();
       this._sad_icon.show();
       this._blink_on = false;
-      this._blink_stage = stage;
+      if (this._blink_stage != "") {
+        this._frame.remove_style_class_name(
+          "prelude-frame-" + this._blink_stage
+        );
+        this._blink_stage = stage;
+      }
       this._blink_update();
-      this._blink_timer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
-        return this._on_blink_timer();
-      });
+      if (this._blink_timer == null) {
+        this._blink_timer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
+          return this._on_blink_timer();
+        });
+      }
     } else if (stage == "move-out") {
       if (!this.did_avoid) {
         this._blink_stage = "move-out";
         this._blink_update();
-        let x = this.get_position()[0];
-        this.set_position(x, 50);
+        this.did_avoid = true;
+        this.queue_relayout();
       }
     }
   }
@@ -276,6 +295,51 @@ export class PreludeWindow extends St.Widget {
 
     this._frame = inner_frame;
     this._timebar = timebar;
+    this._label = label;
+  }
+
+  vfunc_allocate(box) {
+    console.log(
+      "workrave-applet: vfunc prelude allocate1: " +
+        box.x1 +
+        " " +
+        box.y1 +
+        " " +
+        box.x2 +
+        " " +
+        box.y2
+    );
+    this.set_allocation(box);
+
+    let contentBox = this.get_theme_node().get_content_box(box);
+    console.log(
+      "workrave-applet: vfunc_prelude allocate2: " +
+        contentBox.x1 +
+        " " +
+        contentBox.y1 +
+        " " +
+        contentBox.x2 +
+        " " +
+        contentBox.y2
+    );
+
+    this.get_first_child().allocate(contentBox);
+
+    let [winWidth, winHeight] = [
+      contentBox.x2 - contentBox.x1,
+      contentBox.y2 - contentBox.y1,
+    ];
+
+    let centerX =
+      this._monitor.x + Math.floor((this._monitor.width - winWidth) / 2);
+    let centerY =
+      this._monitor.y + Math.floor((this._monitor.height - winHeight) / 2);
+
+    if (this.did_avoid) {
+      centerY = this._monitor.y + 50;
+    }
+
+    this.set_position(centerX, centerY);
   }
 }
 

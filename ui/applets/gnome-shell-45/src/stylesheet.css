@@ -1,27 +1,33 @@
-.prelude-window
-{
+.prelude-window {
   color: #00eeec;
   background-color: rgba(32, 32, 32, 0.95);
   border: 2px solid rgba(255, 255, 255, 0.16);
   border-radius: 8px;
 }
 
-.prelude-frame
-{
+.prelude-frame {
+  border: 8px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2px;
+}
+
+.prelude-frame-warn {
   border: 8px solid rgba(240, 120, 0, 0.96);
   border-radius: 2px;
 }
 
-.prelude-content
-{
+.prelude-frame-alert {
+  border: 8px solid rgba(255, 0, 0, 0.96);
+  border-radius: 2px;
+}
+
+.prelude-content {
   color: #eeeeec;
-  background-color: rgba(32, 32, 32, .1);
+  background-color: rgba(32, 32, 32, 0.1);
   padding: 18px;
   spacing: 16px;
 }
 
-.timebar-area
-{
+.timebar-area {
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 0px;
   margin: 0px;
