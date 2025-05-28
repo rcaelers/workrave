@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Rob Caelers & Raymond Penners
+// Copyright (C) 2025 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,17 @@
 #ifndef WORKRAVE_UI_DBUSPRELUDEWINDOW_HH
 #define WORKRAVE_UI_DBUSPRELUDEWINDOW_HH
 
+#include "Prelude.hh"
 #include "ui/IPreludeWindow.hh"
 #include "core/IApp.hh"
 #include "dbus/IDBus.hh"
 
-class DBusPreludeWindow : public IPreludeWindow
+class DBusPreludeWindow
+  : public IPreludeWindow
+  , Prelude
 {
 public:
-  DBusPreludeWindow();
+  explicit DBusPreludeWindow(workrave::BreakId break_id);
   ~DBusPreludeWindow() override;
 
   void start() override;
@@ -43,7 +46,8 @@ private:
 
 private:
   class Impl;
-  std::unique_ptr<Impl> impl_;
+  std::unique_ptr<Impl> impl;
+  workrave::BreakId break_id;
 };
 
 #endif // WORKRAVE_UI_DBUSPRELUDEWINDOW_HH

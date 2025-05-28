@@ -224,6 +224,17 @@ GeneralPreferencePanel::create_panel()
   connector->connect(GUIConfig::force_x11(), dc::wrap(force_x11_cb));
 
   panel->add_widget(*force_x11_cb, false, false);
+
+  auto *use_gnome_shell_preludes_lab = Gtk::manage(GtkUtil::create_label_with_tooltip(
+    _("Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"),
+    _("Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland.")));
+
+  use_gnome_shell_preludes_cb = Gtk::manage(new Gtk::CheckButton());
+  use_gnome_shell_preludes_cb->add(*use_gnome_shell_preludes_lab);
+  connector->connect(GUIConfig::use_gnome_shell_preludes(), dc::wrap(use_gnome_shell_preludes_cb));
+
+  panel->add_widget(*use_gnome_shell_preludes_cb, false, false);
+
 #endif
 
   update_icon_theme_combo();

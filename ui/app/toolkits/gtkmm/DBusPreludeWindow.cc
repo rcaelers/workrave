@@ -1,4 +1,4 @@
-// Copyright (C) 2025 Rob Caelers
+// Copyright (C) 2025 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,8 @@
 #include <giomm.h>
 
 #include "GtkUtil.hh"
-
-#include "dbus/DBusException.hh"
+#include "utils/Exception.hh"
+#include "utils/Enum.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -35,32 +35,37 @@ class DBusPreludeWindow::Impl
 public:
   Impl()
   {
-    proxy_ = Gio::DBus::Proxy::create_for_bus_sync(
+    try
+      {
+        proxy = Gio::DBus::Proxy::create_for_bus_sync(
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
-      Gio::DBus::BusType::SESSION,
+          Gio::DBus::BusType::SESSION,
 #else
-      Gio::DBus::BUS_TYPE_SESSION,
+          Gio::DBus::BUS_TYPE_SESSION,
 #endif
-      "org.workrave.Workrave",
-      "/org/workrave/Workrave/Prelude",
-      "org.workrave.Workrave.IPreludeWindow");
+          "org.workrave.Workrave",
+          "/org/workrave/Workrave/Prelude",
+          "org.workrave.Workrave.IPreludeWindow");
+      }
+    catch (const Glib::Error &e)
+      {
+        throw workrave::utils::Exception("Failed to create D-Bus proxy for prelude window: " + std::string(e.what()));
+      }
   }
 
   void callMethod(const std::string &method)
   {
-    proxy_->call_sync(method, Glib::VariantContainerBase(), -1, Gio::DBus::CALL_FLAGS_NONE);
+    proxy->call_sync(method, Glib::VariantContainerBase(), -1, Gio::DBus::CALL_FLAGS_NONE);
   }
 
   template<typename... Args>
   void callMethod(const std::string &method, Args &&...args)
   {
     auto variant = create_variant(std::forward<Args>(args)...);
-    proxy_->call_sync(method, variant, -1, Gio::DBus::CALL_FLAGS_NONE);
+    proxy->call_sync(method, variant, -1, Gio::DBus::CALL_FLAGS_NONE);
   }
 
 private:
-  Glib::RefPtr<Gio::DBus::Proxy> proxy_;
-
   Glib::VariantContainerBase create_variant()
   {
     return {};
@@ -70,10 +75,14 @@ private:
   {
     return Glib::Variant<std::tuple<std::decay_t<Args>...>>::create(std::make_tuple(std::forward<Args>(args)...));
   }
+
+private:
+  Glib::RefPtr<Gio::DBus::Proxy> proxy;
 };
 
-DBusPreludeWindow::DBusPreludeWindow()
-  : impl_(std::make_unique<Impl>())
+DBusPreludeWindow::DBusPreludeWindow(BreakId break_id)
+  : impl(std::make_unique<Impl>())
+  , break_id(break_id)
 {
 }
 
@@ -82,71 +91,61 @@ DBusPreludeWindow::~DBusPreludeWindow() = default;
 void
 DBusPreludeWindow::start()
 {
-  impl_->callMethod("Start");
+  std::string icon = GtkUtil::get_image_filename("prelude-hint.png");
+  std::string sad_icon = GtkUtil::get_image_filename("prelude-hint-sad.png");
+
+  Gdk::RGBA color_warn = Gdk::RGBA("orange");
+  Gdk::RGBA color_alert = Gdk::RGBA("red");
+
+  GtkUtil::override_color("workrave-flash-warn", "prelude", color_warn);
+  GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
+
+  impl->callMethod("Init", icon, sad_icon, color_warn.to_string(), color_alert.to_string());
+
+  std::string title = get_title(break_id);
+  impl->callMethod("Start", title);
 }
 
 void
 DBusPreludeWindow::stop()
 {
-  impl_->callMethod("Stop");
+  impl->callMethod("Stop");
 }
 
 void
 DBusPreludeWindow::refresh()
 {
-  impl_->callMethod("Refresh");
+  impl->callMethod("Refresh");
 }
 
 void
 DBusPreludeWindow::set_progress(int value, int max_value)
 {
-  impl_->callMethod("SetProgress", value, max_value);
+  impl->callMethod("SetProgress", value, max_value);
 }
 
 void
 DBusPreludeWindow::set_stage(workrave::IApp::PreludeStage stage)
 {
-  impl_->callMethod("SetStage", stage_to_string(stage));
+  impl->callMethod("SetStage", stage_to_string(stage));
 }
 
 void
 DBusPreludeWindow::set_progress_text(workrave::IApp::PreludeProgressText text)
 {
-  impl_->callMethod("SetProgressText", progress_text_to_string(text));
+  impl->callMethod("SetProgressText", progress_text_to_string(text));
 }
 
 std::string
 DBusPreludeWindow::stage_to_string(workrave::IApp::PreludeStage stage)
 {
-  switch (stage)
-    {
-    case workrave::IApp::STAGE_INITIAL:
-      return "initial";
-    case workrave::IApp::STAGE_MOVE_OUT:
-      return "move-out";
-    case workrave::IApp::STAGE_WARN:
-      return "warn";
-    case workrave::IApp::STAGE_ALERT:
-      return "alert";
-    default:
-      return "unknown";
-    }
+  return std::string(workrave::utils::enum_to_string(stage));
 }
 
 std::string
 DBusPreludeWindow::progress_text_to_string(workrave::IApp::PreludeProgressText text)
 {
-  switch (text)
-    {
-    case workrave::IApp::PROGRESS_TEXT_BREAK_IN:
-      return "break_in";
-    case workrave::IApp::PROGRESS_TEXT_DISAPPEARS_IN:
-      return "disappears_in";
-    case workrave::IApp::PROGRESS_TEXT_SILENT_IN:
-      return "silent_in";
-    default:
-      return "unknown";
-    }
+  return get_progress_text(text);
 }
 
 bool
@@ -159,7 +158,7 @@ DBusPreludeWindow::is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr db
 
   try
     {
-      return dbus->is_running("org.gnome.Shell");
+      return dbus->is_running("org.gnome.GnomeShellApplet");
     }
   catch (const workrave::dbus::DBusException &)
     {

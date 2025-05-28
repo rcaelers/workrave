@@ -40,6 +40,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="use-gnome-shell-preludes">
+      <default>false</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
 
   <schema path="/org/workrave/gui/applet/" id="org.workrave.gui.applet" gettext-domain="workrave">

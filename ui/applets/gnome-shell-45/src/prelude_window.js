@@ -3,13 +3,8 @@ import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import GObject from "gi://GObject";
 import St from "gi://St";
-import {
-  Extension,
-  gettext as _,
-} from "resource:///org/gnome/shell/extensions/extension.js";
+import { gettext as _ } from "resource:///org/gnome/shell/extensions/extension.js";
 import Workrave from "gi://Workrave?version=2.0";
-
-const ICON_DIR = ""; // Extension.lookupByURL(import.meta.url).dir.get_child('images');
 
 var TimeBarConstraint = GObject.registerClass(
   class TimeBarConstraint extends Clutter.Constraint {
@@ -19,14 +14,6 @@ var TimeBarConstraint = GObject.registerClass(
 
     vfunc_update_allocation(actor, actorBox) {
       let [width, height] = actorBox.get_size();
-      console.log(
-        "workrave-applet: timebar4: " +
-          width +
-          " " +
-          height +
-          " " +
-          actor.margin_bottom
-      );
       actor.set_size(Math.max(100, width), Math.max(40, height));
     }
   }
@@ -61,6 +48,10 @@ class TimeBar extends St.Widget {
     this._timebar = new Workrave.Timebar();
   }
 
+  refresh() {
+    this._area.queue_repaint();
+  }
+
   set_progress(value, max_value, color) {
     this._timebar.set_progress(value, max_value, color);
   }
@@ -79,10 +70,8 @@ class TimeBar extends St.Widget {
 
   _onDraw() {
     let cr = this._area.get_context();
-
     let [width, height] = this._area.get_surface_size();
     this._timebar.set_dimensions(width, height);
-
     this._timebar.draw(cr);
     cr.$dispose();
   }
@@ -98,29 +87,8 @@ class TimeBar extends St.Widget {
   }
 
   vfunc_allocate(box) {
-    console.log(
-      "workrave-applet: timebar5: " +
-        box.x1 +
-        " " +
-        box.y1 +
-        " " +
-        box.x2 +
-        " " +
-        box.y2
-    );
     this.set_allocation(box);
-
     let contentBox = this.get_theme_node().get_content_box(box);
-    console.log(
-      "workrave-applet: timebar5: " +
-        contentBox.x1 +
-        " " +
-        contentBox.y1 +
-        " " +
-        contentBox.x2 +
-        " " +
-        contentBox.y2
-    );
     this._area.allocate(contentBox);
   }
 }
@@ -130,23 +98,29 @@ export class PreludeWindow extends St.Widget {
     GObject.registerClass({ GTypeName: "Workrave-PreludeWindow" }, this);
   }
 
-  _init(monitor) {
+  _init(monitor, icon, sad_icon, warn_color, alert_color) {
     super._init({
       reactive: true,
       track_hover: true,
     });
 
     this._monitor = monitor;
+    this._icon = icon;
+    this._sad_icon = sad_icon;
+    this._warn_color = warn_color;
+    this._alert_color = alert_color;
+
     this._blink_timer = null;
     this._blink_stage = "";
     this._blink_on = false;
+    this._did_avoid = false;
 
     this._init_icons();
     this._init_ui();
 
     this._timebar.set_progress(1, 30, Workrave.ColorId.active);
     this._timebar.set_secondary_progress(0, 0, Workrave.ColorId.active);
-    this._timebar.set_text("Hello World");
+    this._timebar.set_text("");
     this._timebar.set_text_alignment(0);
     this.set_stage("initial");
   }
@@ -166,7 +140,8 @@ export class PreludeWindow extends St.Widget {
   }
 
   refresh(text) {
-    this._timebar.queue_redraw();
+    this._timebar.refresh();
+    this.queue_redraw();
   }
 
   set_stage(stage) {
@@ -175,58 +150,54 @@ export class PreludeWindow extends St.Widget {
       this._sad_icon.hide();
       if (this._blink_timer != null) {
         GLib.source_remove(this._blink_timer);
+        this._blink_timer = null;
       }
     } else if (stage == "warn" || stage == "alert") {
       this._normal_icon.hide();
       this._sad_icon.show();
       this._blink_on = false;
-      if (this._blink_stage != "") {
-        this._frame.remove_style_class_name(
-          "prelude-frame-" + this._blink_stage
-        );
-        this._blink_stage = stage;
-      }
-      this._blink_update();
+      this._blink_stage = stage;
       if (this._blink_timer == null) {
+        this._blink_update();
         this._blink_timer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
           return this._on_blink_timer();
         });
       }
     } else if (stage == "move-out") {
-      if (!this.did_avoid) {
+      if (!this._did_avoid) {
         this._blink_stage = "move-out";
         this._blink_update();
-        this.did_avoid = true;
+        this._did_avoid = true;
         this.queue_relayout();
       }
     }
   }
 
   _on_blink_timer() {
+    this._blink_on = !this._blink_on;
     this._blink_update();
     this.sync_hover();
     return true;
   }
 
   _blink_update() {
-    this._blink_on = !this._blink_on;
-
     if (this._blink_on) {
-      this._frame.add_style_class_name("prelude-frame-" + this._blink_stage);
+      let color =
+        this._blink_stage === "alert" ? this._alert_color : this._warn_color;
+      this._frame.set_style(`border-color: ${color};`);
     } else {
-      this._frame.remove_style_class_name("prelude-frame-" + this._blink_stage);
+      this._frame.set_style("");
     }
   }
 
   _get_icon(filename) {
-    let path = ""; // ICON_DIR.get_child(filename).get_path();
-    let gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(path) });
+    let gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(filename) });
     return new St.Icon({ gicon: gicon, icon_size: 48 });
   }
 
   _init_icons() {
-    this._normal_icon = this._get_icon("prelude-hint.png");
-    this._sad_icon = this._get_icon("prelude-hint-sad.png");
+    this._normal_icon = this._get_icon(this._icon);
+    this._sad_icon = this._get_icon(this._sad_icon);
     this._sad_icon.hide();
   }
 
@@ -269,28 +240,13 @@ export class PreludeWindow extends St.Widget {
     outer_frame.add_child(inner_frame);
 
     this.add_child(outer_frame);
-
     this.set_track_hover(true);
 
-    this.connect("notify::hover", () => {
-      console.log("workrave-applet: hover");
-    });
-
     let enterId = this.connect("enter-event", () => {
-      console.log("workrave-applet: enter");
-    });
-
-    outer_frame.connect("enter-event", () => {
-      console.log("workrave-applet: enter o");
-    });
-    inner_frame.connect("enter-event", () => {
-      console.log("workrave-applet: enter i");
-    });
-    vbox.connect("enter-event", () => {
-      console.log("workrave-applet: enter c");
-    });
-    hbox.connect("enter-event", () => {
-      console.log("workrave-applet: enter h");
+      if (!this._did_avoid) {
+        this.set_stage("move-out");
+        this._did_avoid = true;
+      }
     });
 
     this._frame = inner_frame;
@@ -299,29 +255,9 @@ export class PreludeWindow extends St.Widget {
   }
 
   vfunc_allocate(box) {
-    console.log(
-      "workrave-applet: vfunc prelude allocate1: " +
-        box.x1 +
-        " " +
-        box.y1 +
-        " " +
-        box.x2 +
-        " " +
-        box.y2
-    );
     this.set_allocation(box);
 
     let contentBox = this.get_theme_node().get_content_box(box);
-    console.log(
-      "workrave-applet: vfunc_prelude allocate2: " +
-        contentBox.x1 +
-        " " +
-        contentBox.y1 +
-        " " +
-        contentBox.x2 +
-        " " +
-        contentBox.y2
-    );
 
     this.get_first_child().allocate(contentBox);
 
@@ -335,31 +271,10 @@ export class PreludeWindow extends St.Widget {
     let centerY =
       this._monitor.y + Math.floor((this._monitor.height - winHeight) / 2);
 
-    if (this.did_avoid) {
+    if (this._did_avoid) {
       centerY = this._monitor.y + 50;
     }
 
     this.set_position(centerX, centerY);
   }
 }
-
-//  add(*frame);
-//
-//  switch (break_id)
-//    {
-//    case BREAK_ID_MICRO_BREAK:
-//      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), NULL));
-//      break;
-//
-//    case BREAK_ID_REST_BREAK:
-//      label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), NULL));
-//      break;
-//
-//    case BREAK_ID_DAILY_LIMIT:
-//      label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), NULL));
-//      break;
-//
-//    default:
-//      break;
-//    }
-//

@@ -12,7 +12,7 @@ import {
 } from "resource:///org/gnome/shell/extensions/extension.js";
 
 import Workrave from "gi://Workrave?version=2.0";
-import * as Prelude from "./prelude.js";
+import * as PreludeManager from "./prelude_manager.js";
 
 let start = GLib.get_monotonic_time();
 console.log("workrave-applet: start @ " + start);
@@ -160,34 +160,6 @@ const CoreIface =
   </interface> \
 </node>';
 
-const PreludesIface = `
-<node>
-  <interface name="org.workrave.Preludes">
-    <method name="Init">
-      <arg type="s" name="prelude_icon" direction="in"/>
-      <arg type="s" name="prelude_sad_icon" direction="in"/>
-      <arg type="s" name="warn_color" direction="in"/>
-      <arg type="s" name="alert_color" direction="in"/>
-    </method>
-    <method name="Start">
-      <arg type="s" name="text" direction="in"/>
-    </method>
-    <method name="Stop"/>
-    <method name="Refresh"/>
-    <method name="SetProgress">
-      <arg type="i" name="value" direction="in"/>
-      <arg type="i" name="max_value" direction="in"/>
-    </method>
-    <method name="SetStage">
-      <arg type="s" name="stage" direction="in"/>
-    </method>
-    <method name="SetProgressText">
-      <arg type="s" name="text" direction="in"/>
-    </method>
-  </interface>
-</node>
-`;
-
 const MENU_ITEM_TYPE_SUBMENU_BEGIN = 1;
 const MENU_ITEM_TYPE_SUBMENU_END = 2;
 const MENU_ITEM_TYPE_RADIOGROUP_BEGIN = 3;
@@ -216,7 +188,6 @@ const WorkraveButton = GObject.registerClass(
       this._menu_entries = {};
       this._watchid = 0;
       this._alive = false;
-      this._prelude_dbus = null;
 
       this._area = new St.DrawingArea({
         style_class: "workrave-area",
@@ -284,59 +255,7 @@ const WorkraveButton = GObject.registerClass(
       this.menu._setOpenedSubMenu = this._setOpenedSubmenu.bind(this);
       this._updateMenu(null);
 
-      this.areas = [];
-      this._updateAreas();
-      this.monitorChangedHandler = Main.layoutManager.connect(
-        "monitors-changed",
-        this._updateAreas.bind(this)
-      );
-    }
-
-    _updateAreas() {
-      if (this.activeArea) {
-        this.toggleDrawing();
-      }
-      this._removeAreas();
-
-      this.monitors = Main.layoutManager.monitors;
-
-      for (let i = 0; i < this.monitors.length; i++) {
-        let monitor = this.monitors[i];
-        let area = new Prelude.PreludeWindow(monitor);
-        console.log(
-          "workrave-applet: monitor " +
-            i +
-            " " +
-            monitor.width +
-            " " +
-            monitor.height
-        );
-
-        //Main.layoutManager._backgroundGroup.insert_child_above(area, Main.layoutManager._bgManagers[i].backgroundActor);
-        this.areas.push(area);
-      }
-    }
-
-    _enableAreas() {
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        Main.uiGroup.add_child(area);
-      }
-    }
-
-    _disableAreas() {
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        Main.uiGroup.remove_child(area);
-      }
-    }
-
-    _removeAreas() {
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        area.destroy();
-      }
-      this.areas = [];
+      this._prelude_manager = new PreludeManager.PreludeManager();
     }
 
     _setOpenedSubmenu(submenu) {
@@ -361,7 +280,6 @@ const WorkraveButton = GObject.registerClass(
     _connectCore() {}
 
     _onDestroy() {
-      console.log("workrave-applet: onDestroy");
       if (this._ui_proxy != null) {
         this._ui_proxy.EmbedRemote(false, this._bus_name);
       }
@@ -370,7 +288,6 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _destroy() {
-      console.log("workrave-applet: destroy");
       if (this.monitorChangedHandler) {
         Main.layoutManager.disconnect(this.monitorChangedHandler);
         this.monitorChangedHandler = null;
@@ -410,7 +327,10 @@ const WorkraveButton = GObject.registerClass(
         this._core_proxy.GetOperationModeRemote(
           this._onGetOperationModeReply.bind(this)
         );
-        this._prelude_dbus = this._exportPreludeWindowDBus(this);
+
+        if (this._prelude_manager != null) {
+          this._prelude_manager.start_dbus();
+        }
 
         this._timeoutId = GLib.timeout_add(
           GLib.PRIORITY_DEFAULT,
@@ -432,11 +352,8 @@ const WorkraveButton = GObject.registerClass(
         this._timeoutId = 0;
         this._bus_id = 0;
       }
-      if (this._prelude_dbus != null) {
-        console.log("workrave-applet: unexporting Preludes DBus interface");
-        this._prelude_dbus.flush();
-        this._prelude_dbus.unexport();
-        delete this._prelude_dbus;
+      if (this._prelude_manager != null) {
+        this._prelude_manager.stop_dbus();
       }
     }
 
@@ -456,101 +373,6 @@ const WorkraveButton = GObject.registerClass(
     _draw(area) {
       let cr = area.get_context();
       this._timerbox.draw(cr);
-    }
-
-    _exportPreludeWindowDBus(applet) {
-      const impl = {
-        Init(prelude_icon, prelude_sad_icon, warn_color, alert_color) {
-          applet.init_prelude(
-            prelude_icon,
-            prelude_sad_icon,
-            warn_color,
-            alert_color
-          );
-        },
-        Start(text) {
-          applet.start_prelude(text);
-        },
-        Stop() {
-          applet.stop_prelude();
-        },
-        Refresh() {
-          applet.refresh_prelude();
-        },
-        SetStage(stage) {
-          applet.set_prelude_stage(stage);
-        },
-        SetProgress(value, max_value) {
-          applet.set_prelude_progress(value, max_value);
-        },
-        SetProgressText(text) {
-          applet.set_prelude_progress_text(text);
-        },
-      };
-      console.log("workrave-applet: exporting Preludes DBus interface");
-      let exported = Gio.DBusExportedObject.wrapJSObject(PreludesIface, impl);
-      exported.export(Gio.DBus.session, "/org/workrave/Workrave/Preludes");
-      return exported;
-    }
-
-    init_prelude(prelude_icon, prelude_sad_icon, warn_color, alert_color) {
-      console.log(
-        "workrave-applet: init_prelude " +
-          prelude_icon +
-          " " +
-          prelude_sad_icon +
-          " " +
-          warn_color +
-          " " +
-          alert_color
-      );
-      // TODO:
-    }
-
-    start_prelude(text) {
-      console.log("workrave-applet: start_prelude");
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        area.set_text(text);
-      }
-      this._enableAreas();
-    }
-
-    stop_prelude() {
-      console.log("workrave-applet: stop_prelude");
-      this._disableAreas();
-    }
-
-    refresh_prelude() {
-      console.log("workrave-applet: refresh_prelude");
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        area.refresh();
-      }
-    }
-
-    set_prelude_stage(stage) {
-      console.log("workrave-applet: set_stage " + stage);
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        area.set_stage(stage);
-      }
-    }
-
-    set_prelude_progress(value, max_value) {
-      console.log("workrave-applet: set_progress " + value + " / " + max_value);
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        area.set_progress(value, max_value);
-      }
-    }
-
-    set_prelude_progress_text(text) {
-      console.log("workrave-applet: set_progress_text " + text);
-      for (let i = 0; i < this.areas.length; i++) {
-        let area = this.areas[i];
-        area.set_progress_text(text);
-      }
     }
 
     _onTimer() {

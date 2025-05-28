@@ -27,6 +27,7 @@
 
 #include "utils/Platform.hh"
 #include "DBusPreludeWindow.hh"
+#include "utils/Exception.hh"
 
 #include "config/IConfigurator.hh"
 #include "debug.hh"
@@ -103,7 +104,7 @@ ToolkitUnix::show_notification(const std::string &id,
 IPreludeWindow::Ptr
 ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
 {
-  if (workrave::utils::Platform::running_on_wayland())
+  if (workrave::utils::Platform::running_on_wayland() && GUIConfig::use_gnome_shell_preludes()())
     {
       auto core = app->get_core();
       auto dbus = core->get_dbus();
@@ -111,10 +112,19 @@ ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
         {
           if (screen_index == 0)
             {
-              return std::make_shared<DBusPreludeWindow>();
+              try
+                {
+                  return std::make_shared<DBusPreludeWindow>(break_id);
+                }
+              catch (const workrave::utils::Exception &ex)
+                {
+                  spdlog::warn("Workrave GNOME shell extension does not support preludes: {}", ex.what());
+                }
             }
-
-          return {};
+          else
+            {
+              return {};
+            }
         }
     }
 

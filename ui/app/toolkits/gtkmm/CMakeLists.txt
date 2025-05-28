@@ -15,6 +15,7 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   MainWindow.cc
   MicroBreakWindow.cc
   PreferencesDialog.cc
+  Prelude.cc
   PreludeWindow.cc
   RestBreakWindow.cc
   StatisticsDialog.cc
