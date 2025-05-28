@@ -25,10 +25,12 @@
 
 #include "BreakWindow.hh"
 
-#include "utils/Platform.hh"
-#include "DBusPreludeWindow.hh"
-#include "utils/Exception.hh"
+#if defined(PLATFORM_OS_UNIX)
+#  include "DBusPreludeWindow.hh"
+#endif
 
+#include "utils/Platform.hh"
+#include "utils/Exception.hh"
 #include "config/IConfigurator.hh"
 #include "debug.hh"
 
@@ -104,6 +106,7 @@ ToolkitUnix::show_notification(const std::string &id,
 IPreludeWindow::Ptr
 ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
 {
+#if defined(PLATFORM_OS_UNIX)
   if (workrave::utils::Platform::running_on_wayland() && GUIConfig::use_gnome_shell_preludes()())
     {
       auto core = app->get_core();
@@ -127,6 +130,6 @@ ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
             }
         }
     }
-
+#endif
   return Toolkit::create_prelude_window(screen_index, break_id);
 }

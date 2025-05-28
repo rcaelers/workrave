@@ -2,7 +2,6 @@ add_library(workrave-toolkit-gtkmm OBJECT)
 
 target_sources(workrave-toolkit-gtkmm PRIVATE
   BreakWindow.cc
-  DBusPreludeWindow.cc
   DailyLimitWindow.cc
   DataConnector.cc
   DebugDialog.cc
@@ -45,6 +44,7 @@ endif()
 if (PLATFORM_OS_UNIX)
   target_sources(workrave-toolkit-gtkmm PRIVATE
     ToolkitUnix.cc
+    DBusPreludeWindow.cc
     platforms/unix/X11SystrayAppletWindow.cc
     platforms/unix/desktop-window.c
     platforms/unix/gtktrayicon.c
