@@ -44,18 +44,20 @@ export class PreludeManager {
     this._alert_color = null;
   }
 
-  start_dbus() {
+  init() {
     if (this._dbus == null) {
       this._dbus = Gio.DBusExportedObject.wrapJSObject(PreludesIface, this);
       this._dbus.export(Gio.DBus.session, "/org/workrave/Workrave/Preludes");
     }
   }
 
-  stop_dbus() {
+  terminate() {
     if (this._dbus != null) {
       this._dbus.unexport();
       this._dbus = null;
     }
+    this._disableAreas();
+    this._removeAreas();
   }
 
   _updateAreas() {

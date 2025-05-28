@@ -316,7 +316,7 @@ const WorkraveButton = GObject.registerClass(
         );
 
         if (this._prelude_manager != null) {
-          this._prelude_manager.start_dbus();
+          this._prelude_manager.init();
         }
 
         this._timeoutId = GLib.timeout_add(
@@ -340,7 +340,7 @@ const WorkraveButton = GObject.registerClass(
         this._bus_id = 0;
       }
       if (this._prelude_manager != null) {
-        this._prelude_manager.stop_dbus();
+        this._prelude_manager.terminate();
       }
     }
 
