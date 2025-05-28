@@ -105,8 +105,6 @@ export class PreludeWindow extends St.Widget {
     });
 
     this._monitor = monitor;
-    this._icon = icon;
-    this._sad_icon = sad_icon;
     this._warn_color = warn_color;
     this._alert_color = alert_color;
 
@@ -115,7 +113,7 @@ export class PreludeWindow extends St.Widget {
     this._blink_on = false;
     this._did_avoid = false;
 
-    this._init_icons();
+    this._init_icons(icon, sad_icon);
     this._init_ui();
 
     this._timebar.set_progress(1, 30, Workrave.ColorId.active);
@@ -195,9 +193,9 @@ export class PreludeWindow extends St.Widget {
     return new St.Icon({ gicon: gicon, icon_size: 48 });
   }
 
-  _init_icons() {
-    this._normal_icon = this._get_icon(this._icon);
-    this._sad_icon = this._get_icon(this._sad_icon);
+  _init_icons(icon, sad_icon) {
+    this._normal_icon = this._get_icon(icon);
+    this._sad_icon = this._get_icon(sad_icon);
     this._sad_icon.hide();
   }
 

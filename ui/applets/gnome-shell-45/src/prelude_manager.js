@@ -103,10 +103,10 @@ export class PreludeManager {
   }
 
   Init(prelude_icon, prelude_sad_icon, warn_color, alert_color) {
-    this.icon = prelude_icon;
-    this.sad_icon = prelude_sad_icon;
-    this.warn_color = warn_color;
-    this.alert_color = alert_color;
+    this._icon = prelude_icon;
+    this._sad_icon = prelude_sad_icon;
+    this._warn_color = warn_color;
+    this._alert_color = alert_color;
   }
 
   Start(text) {
