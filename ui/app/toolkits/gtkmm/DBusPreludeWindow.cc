@@ -70,6 +70,15 @@ public:
         throw workrave::utils::Exception("Failed to create D-Bus proxy for prelude window");
       }
   }
+  Impl(const Impl &) = default;
+  Impl(Impl &&) = delete;
+  Impl &operator=(const Impl &) = default;
+  Impl &operator=(Impl &&) = delete;
+  explicit Impl(Glib::RefPtr<Gio::DBus::Proxy> proxy)
+    : proxy(std::move(proxy))
+  {
+  }
+
   ~Impl()
   {
     try
@@ -134,34 +143,69 @@ DBusPreludeWindow::~DBusPreludeWindow() = default;
 void
 DBusPreludeWindow::start()
 {
-  std::string title = get_title(break_id);
-  impl->callMethod("Start", title);
+  try
+    {
+      std::string title = get_title(break_id);
+      impl->callMethod("Start", title);
+    }
+  catch (const Glib::Exception &e)
+    {
+      spdlog::error("Failed to start D-Bus prelude window: {}", e.what().c_str());
+    }
 }
 
 void
 DBusPreludeWindow::stop()
 {
-  impl->callMethod("Stop");
+  try
+    {
+      impl->callMethod("Stop");
+    }
+  catch (const Glib::Exception &e)
+    {
+      spdlog::error("Failed to stop D-Bus prelude window: {}", e.what().c_str());
+    }
 }
 
 void
 DBusPreludeWindow::refresh()
 {
-  impl->callMethod("Refresh");
+  try
+    {
+      impl->callMethod("Refresh");
+    }
+  catch (const Glib::Exception &e)
+    {
+      spdlog::error("Failed to refresh D-Bus prelude window: {}", e.what().c_str());
+    }
 }
 
 void
 DBusPreludeWindow::set_progress(int value, int max_value)
 {
-  impl->callMethod("SetProgress", value, max_value);
-  auto text = fmt::format(fmt::runtime(progress_text), Text::time_to_string(max_value - value));
-  impl->callMethod("SetProgressText", text);
+  try
+    {
+      impl->callMethod("SetProgress", value, max_value);
+      auto text = fmt::format(fmt::runtime(progress_text), Text::time_to_string(max_value - value));
+      impl->callMethod("SetProgressText", text);
+    }
+  catch (const Glib::Exception &e)
+    {
+      spdlog::error("Failed to set D-Bus prelude window progress: {}", e.what().c_str());
+    }
 }
 
 void
 DBusPreludeWindow::set_stage(workrave::IApp::PreludeStage stage)
 {
-  impl->callMethod("SetStage", std::string(workrave::utils::enum_to_string(stage)));
+  try
+    {
+      impl->callMethod("SetStage", std::string(workrave::utils::enum_to_string(stage)));
+    }
+  catch (const Glib::Exception &e)
+    {
+      spdlog::error("Failed to set D-Bus prelude window stage: {}", e.what().c_str());
+    }
 }
 
 void
@@ -173,13 +217,13 @@ DBusPreludeWindow::set_progress_text(workrave::IApp::PreludeProgressText text)
 bool
 DBusPreludeWindow::is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr dbus)
 {
-  if (!dbus || !dbus->is_available())
-    {
-      return false;
-    }
-
   try
     {
+      if (!dbus || !dbus->is_available())
+        {
+          return false;
+        }
+
       return dbus->is_running("org.workrave.GnomeShellApplet");
     }
   catch (const workrave::dbus::DBusException &)
