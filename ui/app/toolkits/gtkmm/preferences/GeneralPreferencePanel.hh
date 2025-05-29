@@ -83,6 +83,7 @@ private:
 
 #if defined(PLATFORM_OS_UNIX)
   Gtk::CheckButton *force_x11_cb{nullptr};
+  Gtk::CheckButton *use_gnome_shell_preludes_cb{nullptr};
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)

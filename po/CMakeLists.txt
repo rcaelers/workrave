@@ -48,7 +48,7 @@ foreach (po_file ${POFILES})
     add_custom_command(
         TARGET update-po
         POST_BUILD
-        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
+        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none ${po_file} ${POTFILE}
         VERBATIM
     )
 

@@ -48,6 +48,7 @@ const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
 #endif
 #if defined(PLATFORM_OS_UNIX)
 const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
+const std::string GUIConfig::CFG_KEY_USE_GNOME_SHELL_PRELUDES = "gui/use_gnome_shell_preludes";
 #endif
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -225,6 +226,12 @@ auto
 GUIConfig::force_x11() -> workrave::config::Setting<bool> &
 {
   return SettingCache::get<bool>(config, CFG_KEY_FORCE_X11, true);
+}
+
+auto
+GUIConfig::use_gnome_shell_preludes() -> workrave::config::Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_USE_GNOME_SHELL_PRELUDES, true);
 }
 #endif
 
