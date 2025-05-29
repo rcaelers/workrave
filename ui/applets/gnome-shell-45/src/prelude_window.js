@@ -111,7 +111,7 @@ export class PreludeWindow extends St.Widget {
     this._blink_timer = null;
     this._blink_stage = "";
     this._blink_on = false;
-    this._did_avoid = false;
+    this._did_avoid = "";
 
     this._init_icons(icon, sad_icon);
     this._init_ui();
@@ -162,11 +162,10 @@ export class PreludeWindow extends St.Widget {
         });
       }
     } else if (stage == "move-out") {
-      if (!this._did_avoid) {
-        this._blink_stage = "move-out";
+      if (this._did_avoid == "") {
+        this._blink_stage = "";
         this._blink_update();
-        this._did_avoid = true;
-        this.queue_relayout();
+        this._did_avoid = "top";
       }
     }
   }
@@ -241,15 +240,33 @@ export class PreludeWindow extends St.Widget {
     this.set_track_hover(true);
 
     let enterId = this.connect("enter-event", () => {
-      if (!this._did_avoid) {
-        this.set_stage("move-out");
-        this._did_avoid = true;
+      let [x, y] = global.get_pointer();
+      if (y < this._monitor.y + this._monitor.height / 2) {
+        this._did_avoid = "top";
+      } else {
+        this._did_avoid = "bottom";
       }
+      this.queue_relayout();
+
+      return Clutter.EVENT_PROPAGATE;
     });
 
     this._frame = inner_frame;
     this._timebar = timebar;
     this._label = label;
+  }
+
+  avoid(window_height) {
+    let screen_height = this._monitor.height;
+    let top_y = this._monitor.y + 20;
+    let bottom_y = this._monitor.y + screen_height - window_height - 20;
+
+    if (this._did_avoid == "top") {
+      return bottom_y;
+    } else if (this._did_avoid == "bottom") {
+      return top_y;
+    }
+    return (screen_height - window_height) / 2 + this._monitor.y;
   }
 
   vfunc_allocate(box) {
@@ -269,8 +286,8 @@ export class PreludeWindow extends St.Widget {
     let centerY =
       this._monitor.y + Math.floor((this._monitor.height - winHeight) / 2);
 
-    if (this._did_avoid) {
-      centerY = this._monitor.y + 50;
+    if (this._did_avoid != "") {
+      centerY = this.avoid(winHeight);
     }
 
     this.set_position(centerX, centerY);
