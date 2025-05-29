@@ -41,13 +41,10 @@ public:
   static bool is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr dbus);
 
 private:
-  std::string stage_to_string(workrave::IApp::PreludeStage stage);
-  std::string progress_text_to_string(workrave::IApp::PreludeProgressText text);
-
-private:
   class Impl;
   std::unique_ptr<Impl> impl;
   workrave::BreakId break_id;
+  std::string progress_text;
 };
 
 #endif // WORKRAVE_UI_DBUSPRELUDEWINDOW_HH

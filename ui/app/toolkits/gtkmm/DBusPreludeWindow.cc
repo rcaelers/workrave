@@ -21,11 +21,13 @@
 
 #include "DBusPreludeWindow.hh"
 
+#include <spdlog/spdlog.h>
 #include <giomm.h>
 
 #include "GtkUtil.hh"
 #include "utils/Exception.hh"
 #include "utils/Enum.hh"
+#include "commonui/Text.hh"
 
 using namespace workrave;
 using namespace workrave::utils;
@@ -43,15 +45,42 @@ public:
 #else
           Gio::DBus::BUS_TYPE_SESSION,
 #endif
-          "org.workrave.Workrave",
-          "/org/workrave/Workrave/Prelude",
-          "org.workrave.Workrave.IPreludeWindow");
+          "org.workrave.GnomeShellApplet",
+          "/org/workrave/Workrave/Preludes",
+          "org.workrave.Preludes");
+
+        if (!proxy)
+          {
+            throw workrave::utils::Exception("Failed to create D-Bus proxy for prelude window");
+          }
+        std::string icon = GtkUtil::get_image_filename("prelude-hint.png");
+        std::string sad_icon = GtkUtil::get_image_filename("prelude-hint-sad.png");
+
+        Gdk::RGBA color_warn = Gdk::RGBA("orange");
+        Gdk::RGBA color_alert = Gdk::RGBA("red");
+
+        GtkUtil::override_color("workrave-flash-warn", "prelude", color_warn);
+        GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
+
+        callMethod("Init", icon, sad_icon, color_warn.to_string(), color_alert.to_string());
       }
     catch (const Glib::Error &e)
       {
-        throw workrave::utils::Exception("Failed to create D-Bus proxy for prelude window: " + std::string(e.what()));
+        spdlog::error("Failed to create D-Bus proxy for prelude window: {}", e.what().c_str());
+        throw workrave::utils::Exception("Failed to create D-Bus proxy for prelude window");
       }
   }
+  ~Impl()
+  {
+    try
+      {
+        callMethod("Terminate");
+      }
+    catch (...)
+      {
+        spdlog::error("Failed to terminate D-Bus prelude window");
+      }
+  };
 
   void callMethod(const std::string &method)
   {
@@ -73,7 +102,21 @@ private:
   template<typename... Args>
   Glib::VariantContainerBase create_variant(Args &&...args)
   {
-    return Glib::Variant<std::tuple<std::decay_t<Args>...>>::create(std::make_tuple(std::forward<Args>(args)...));
+    auto tuple = std::make_tuple(convert_arg(std::forward<Args>(args))...);
+    return Glib::Variant<decltype(tuple)>::create(tuple);
+  }
+
+  template<typename T>
+  auto convert_arg(T &&arg)
+  {
+    if constexpr (std::is_same_v<std::decay_t<T>, std::string>)
+      {
+        return Glib::ustring(std::forward<T>(arg));
+      }
+    else
+      {
+        return std::forward<T>(arg);
+      }
   }
 
 private:
@@ -91,17 +134,6 @@ DBusPreludeWindow::~DBusPreludeWindow() = default;
 void
 DBusPreludeWindow::start()
 {
-  std::string icon = GtkUtil::get_image_filename("prelude-hint.png");
-  std::string sad_icon = GtkUtil::get_image_filename("prelude-hint-sad.png");
-
-  Gdk::RGBA color_warn = Gdk::RGBA("orange");
-  Gdk::RGBA color_alert = Gdk::RGBA("red");
-
-  GtkUtil::override_color("workrave-flash-warn", "prelude", color_warn);
-  GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
-
-  impl->callMethod("Init", icon, sad_icon, color_warn.to_string(), color_alert.to_string());
-
   std::string title = get_title(break_id);
   impl->callMethod("Start", title);
 }
@@ -122,30 +154,20 @@ void
 DBusPreludeWindow::set_progress(int value, int max_value)
 {
   impl->callMethod("SetProgress", value, max_value);
+  auto text = fmt::format(fmt::runtime(progress_text), Text::time_to_string(max_value - value));
+  impl->callMethod("SetProgressText", text);
 }
 
 void
 DBusPreludeWindow::set_stage(workrave::IApp::PreludeStage stage)
 {
-  impl->callMethod("SetStage", stage_to_string(stage));
+  impl->callMethod("SetStage", std::string(workrave::utils::enum_to_string(stage)));
 }
 
 void
 DBusPreludeWindow::set_progress_text(workrave::IApp::PreludeProgressText text)
 {
-  impl->callMethod("SetProgressText", progress_text_to_string(text));
-}
-
-std::string
-DBusPreludeWindow::stage_to_string(workrave::IApp::PreludeStage stage)
-{
-  return std::string(workrave::utils::enum_to_string(stage));
-}
-
-std::string
-DBusPreludeWindow::progress_text_to_string(workrave::IApp::PreludeProgressText text)
-{
-  return get_progress_text(text);
+  progress_text = get_progress_text(text);
 }
 
 bool
@@ -158,10 +180,11 @@ DBusPreludeWindow::is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr db
 
   try
     {
-      return dbus->is_running("org.gnome.GnomeShellApplet");
+      return dbus->is_running("org.workrave.GnomeShellApplet");
     }
   catch (const workrave::dbus::DBusException &)
     {
       return false;
     }
+  return false;
 }

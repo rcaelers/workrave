@@ -48,12 +48,11 @@ Prelude::get_progress_text(IApp::PreludeProgressText text)
   switch (text)
     {
     case IApp::PreludeProgressText::BreakIn:
-      return _("Break in %s");
+      return _("Break in {}");
     case IApp::PreludeProgressText::DisappearsIn:
-      return _("Disappears in %s");
+      return _("Disappears in {}");
     case IApp::PreludeProgressText::SilentIn:
-      return _("Silent in %s");
+      return _("Silent in {}");
     }
   return "";
 }
-

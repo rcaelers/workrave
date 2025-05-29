@@ -14,6 +14,7 @@ const PreludesIface = `
       <arg type="s" name="warn_color" direction="in"/>
       <arg type="s" name="alert_color" direction="in"/>
     </method>
+    <method name="Terminate"/>
     <method name="Start">
       <arg type="s" name="text" direction="in"/>
     </method>
@@ -112,7 +113,19 @@ export class PreludeManager {
     this._sad_icon = prelude_sad_icon;
     this._warn_color = warn_color;
     this._alert_color = alert_color;
+
+    this._updateAreas();
+    // this._monitorChangedHandler = Main.layoutManager.connect(
+    //   "monitors-changed",
+    //   this._updateAreas.bind(this)
+    // );
+
     this._initialized = true;
+  }
+
+  Terminate() {
+    this._removeAreas();
+    this._initialized = false;
   }
 
   Start(text) {
@@ -122,11 +135,6 @@ export class PreludeManager {
     if (this._started) {
       throw new Error(_("PreludeManager already started"));
     }
-    this._updateAreas();
-    // this._monitorChangedHandler = Main.layoutManager.connect(
-    //   "monitors-changed",
-    //   this._updateAreas.bind(this)
-    // );
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
       area.set_text(text);
@@ -144,7 +152,6 @@ export class PreludeManager {
     //   this._monitorChangedHandler = null;
     // }
     this._disableAreas();
-    this._removeAreas();
     this._started = false;
   }
 
@@ -159,8 +166,8 @@ export class PreludeManager {
   }
 
   SetStage(stage) {
-    if (!this._started) {
-      throw new Error(_("PreludeManager not started"));
+    if (!this._initialized) {
+      throw new Error(_("PreludeManager not initialized"));
     }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
@@ -169,8 +176,8 @@ export class PreludeManager {
   }
 
   SetProgress(value, max_value) {
-    if (!this._started) {
-      throw new Error(_("PreludeManager not started"));
+    if (!this._initialized) {
+      throw new Error(_("PreludeManager not initialized"));
     }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
@@ -179,8 +186,8 @@ export class PreludeManager {
   }
 
   SetProgressText(text) {
-    if (!this._started) {
-      throw new Error(_("PreludeManager not started"));
+    if (!this._initialized) {
+      throw new Error(_("PreludeManager not initialized"));
     }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
