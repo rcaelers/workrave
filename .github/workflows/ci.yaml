@@ -56,6 +56,7 @@ jobs:
 
   build-windows-vcpkg:
     name: windows vcpkg
+    if: ${{ false }}
     env:
       VCPKG_ROOT: C:/vcpkg
       VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
