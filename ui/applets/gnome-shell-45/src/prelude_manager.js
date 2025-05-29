@@ -42,6 +42,9 @@ export class PreludeManager {
     this._sad_icon = null;
     this._warn_color = null;
     this._alert_color = null;
+
+    this._initialized = false;
+    this._started = false;
   }
 
   init() {
@@ -109,9 +112,16 @@ export class PreludeManager {
     this._sad_icon = prelude_sad_icon;
     this._warn_color = warn_color;
     this._alert_color = alert_color;
+    this._initialized = true;
   }
 
   Start(text) {
+    if (!this._initialized) {
+      throw new Error(_("PreludeManager not initialized"));
+    }
+    if (this._started) {
+      throw new Error(_("PreludeManager already started"));
+    }
     this._updateAreas();
     // this._monitorChangedHandler = Main.layoutManager.connect(
     //   "monitors-changed",
@@ -122,18 +132,26 @@ export class PreludeManager {
       area.set_text(text);
     }
     this._enableAreas();
+    this._started = true;
   }
 
   Stop() {
+    if (!this._started) {
+      throw new Error(_("PreludeManager not started"));
+    }
     // if (this._monitorChangedHandler) {
     //   Main.layoutManager.disconnect(this._monitorChangedHandler);
     //   this._monitorChangedHandler = null;
     // }
     this._disableAreas();
     this._removeAreas();
+    this._started = false;
   }
 
   Refresh() {
+    if (!this._started) {
+      throw new Error(_("PreludeManager not started"));
+    }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
       area.refresh();
@@ -141,6 +159,9 @@ export class PreludeManager {
   }
 
   SetStage(stage) {
+    if (!this._started) {
+      throw new Error(_("PreludeManager not started"));
+    }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
       area.set_stage(stage);
@@ -148,6 +169,9 @@ export class PreludeManager {
   }
 
   SetProgress(value, max_value) {
+    if (!this._started) {
+      throw new Error(_("PreludeManager not started"));
+    }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
       area.set_progress(value, max_value);
@@ -155,6 +179,9 @@ export class PreludeManager {
   }
 
   SetProgressText(text) {
+    if (!this._started) {
+      throw new Error(_("PreludeManager not started"));
+    }
     for (let i = 0; i < this._areas.length; i++) {
       let area = this._areas[i];
       area.set_progress_text(text);
