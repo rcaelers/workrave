@@ -209,9 +209,9 @@ export class PreludeWindow extends St.Widget {
     let timebar = new TimeBar();
 
     let vbox = new St.BoxLayout({
+      style_class: "prelude-info",
       vertical: true,
       reactive: true,
-      style: "spacing: 4px;",
     });
     vbox.add_child(label);
     vbox.add_child(timebar);
