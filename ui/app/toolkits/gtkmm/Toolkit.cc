@@ -21,6 +21,8 @@
 
 #include "Toolkit.hh"
 
+#include <algorithm>
+
 #include "DailyLimitWindow.hh"
 #include "GtkUtil.hh"
 #include "MicroBreakWindow.hh"
@@ -158,7 +160,15 @@ Toolkit::get_head_info(int screen_index) const
       return {};
     }
 
-  Glib::RefPtr<Gdk::Monitor> monitor = display->get_monitor(screen_index);
+  std::vector<Glib::RefPtr<Gdk::Monitor>> unique_monitors = get_unique_monitors();
+
+  if (screen_index < 0 || screen_index >= static_cast<int>(unique_monitors.size()))
+    {
+      logger->error("Invalid screen index {} (available: {})", screen_index, unique_monitors.size());
+      return {};
+    }
+
+  Glib::RefPtr<Gdk::Monitor> monitor = unique_monitors[screen_index];
   if (!monitor)
     {
       logger->error("Failed to get monitor for screen index {}", screen_index);
@@ -182,9 +192,10 @@ Toolkit::get_head_info(int screen_index) const
 int
 Toolkit::get_head_count() const
 {
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  logger->info("Toolkit reported # displays : {}", display->get_n_monitors());
-  return display->get_n_monitors();
+  std::vector<Glib::RefPtr<Gdk::Monitor>> unique_monitors = get_unique_monitors();
+  logger->info("Toolkit reported # displays : {} (after filtering duplicates)", unique_monitors.size());
+
+  return static_cast<int>(unique_monitors.size());
 }
 
 IBreakWindow::Ptr
@@ -606,8 +617,46 @@ void
 Toolkit::notify_confirm(const std::string &id)
 {
   TRACE_ENTRY();
-  if (notifiers.find(id) != notifiers.end())
+  if (notifiers.contains(id))
     {
       notifiers[id]();
     }
+}
+
+std::vector<Glib::RefPtr<Gdk::Monitor>>
+Toolkit::get_unique_monitors() const
+{
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  if (!display)
+    {
+      logger->error("Failed to get default display");
+      return {};
+    }
+
+  std::vector<Glib::RefPtr<Gdk::Monitor>> monitors;
+  int n_monitors = display->get_n_monitors();
+
+  for (int i = 0; i < n_monitors; ++i)
+    {
+      if (auto monitor = display->get_monitor(i))
+        {
+          Gdk::Rectangle geometry;
+          monitor->get_geometry(geometry);
+
+          auto is_duplicate = std::ranges::any_of(monitors, [&geometry](const auto &existing) {
+            Gdk::Rectangle existing_geometry;
+            existing->get_geometry(existing_geometry);
+            return geometry.get_x() == existing_geometry.get_x() && geometry.get_y() == existing_geometry.get_y()
+                   && geometry.get_width() == existing_geometry.get_width()
+                   && geometry.get_height() == existing_geometry.get_height();
+          });
+
+          if (!is_duplicate)
+            {
+              monitors.push_back(monitor);
+            }
+        }
+    }
+
+  return monitors;
 }
