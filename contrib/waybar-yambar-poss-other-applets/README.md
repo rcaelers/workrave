@@ -1,4 +1,4 @@
-These Python scripts can be used with Waybar, Yambar, and several other clients as well. They require the `pydbus` Python module.
+These Python scripts can be used with Waybar, Yambar, and several other clients as well. They require the `dasbus` Python module.
 
 The script `workrave_break_info.py` can also be used as a Python module (which is why it has underscores in its name instead of hyphens) for those who don't find the script flexible enough. (For example, a user of the Python-configured window manager/compositor qtile may prefer to use it as a module. Documentation for its use as a module is in the comments near the top of the script.)
 
