@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2022-11-27 23:04+0100\n"
+"POT-Creation-Date: 2025-05-29 16:51+0200\n"
 "PO-Revision-Date: 2024-10-15 22:20+0530\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: தமிழ்நேரக்குழு\n"
@@ -19,292 +19,419 @@ msgstr ""
 "X-Poedit-Language: Tamil\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: libs/core/src/DistributionSocketLink.cc:118
-#, c-format
-msgid "Reconnecting to %s."
-msgstr "%s உடன் மீண்டும் இணைக்கிறது"
+#: libs/corenext/src/org.workrave.gschema.xml.in:45
+#, fuzzy
+msgid "Replaced by use-microbreak-activity"
+msgstr "நுண்-இடைவேளைகளை செயல்பாடாக கருதவும்"
 
-#. We did not succeed in starting the server. Arghh.
-#: libs/core/src/DistributionSocketLink.cc:406
-msgid "Could not enable network operation."
-msgstr "இணைய செயல்பாட்டை இயக்க முடியவில்லை."
+#: ui/app/Application.cc:421
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr "பணிவெறியால் உங்கள் விசைப்பலகை மற்றும் சுட்டி செயல்பாட்டை கண்காணிக்க முடியவில்லை.\n"
 
-#: libs/core/src/DistributionSocketLink.cc:415
-msgid "Disabling network operation."
-msgstr "இணைய செயல்பாட்டை முடக்குகிறது."
+#: ui/app/Application.cc:625
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "பணிவெறி இன்னும் இயங்குகிறது. வெள்ளை செம்மறி சின்னத்தை சொடுக்குவதன் மூலம் நீங்கள் பணிவெறியை அணுகலாம். இந்த செய்தியை முடக்க இந்த பலூனை சொடுக்கவும்"
 
-#: libs/core/src/DistributionSocketLink.cc:521
-#: libs/core/src/DistributionSocketLink.cc:558
-#, c-format
-msgid "Connecting to %s."
-msgstr "%s உடன் இணைக்கிறது."
-
-#: libs/core/src/DistributionSocketLink.cc:673
-#: libs/core/src/DistributionSocketLink.cc:704
-#, c-format
-msgid "Removing client %s."
-msgstr "கிளையன்ட் %s ஐ நீக்குகிறது."
-
-#. Closing direct connection.
-#: libs/core/src/DistributionSocketLink.cc:750
-#, c-format
-msgid "Disconnecting %s"
-msgstr "%sஐ துண்டிக்கிறது"
-
-#. It's a remote client. mark it master.
-#: libs/core/src/DistributionSocketLink.cc:913
-#, c-format
-msgid "Client %s is now master."
-msgstr "கிளையன்ட் %s இப்போது முதன்மையானவர்."
-
-#. Its ME!
-#: libs/core/src/DistributionSocketLink.cc:919
-msgid "I'm now master."
-msgstr "நான் இப்போது மாஸ்டர்."
-
-#: libs/core/src/DistributionSocketLink.cc:1282
-#: libs/core/src/DistributionSocketLink.cc:1341
-#, c-format
-msgid "Client %s saying hello."
-msgstr "கிளையண்ட் %s ஹலோ கூறுகிறார்."
-
-#. Incorrect user.
-#. Incorrect password.
-#: libs/core/src/DistributionSocketLink.cc:1291
-#: libs/core/src/DistributionSocketLink.cc:1371
-#, c-format
-msgid "Client %s access denied."
-msgstr "கிளையண்ட் %s அணுகல் மறுக்கப்பட்டது."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: libs/core/src/DistributionSocketLink.cc:1362
-#: libs/core/src/DistributionSocketLink.cc:1489
-#: libs/core/src/DistributionSocketLink.cc:1734
-#, c-format
-msgid "Client %s is duplicate."
-msgstr "கிளையண்ட் %s நகல்."
-
-#: libs/core/src/DistributionSocketLink.cc:1441
-#, c-format
-msgid "Client %s signed off."
-msgstr "கிளையண்ட் %s கையொப்பமிட்டுள்ளார்."
-
-#. gint port =
-#: libs/core/src/DistributionSocketLink.cc:1525
-#, c-format
-msgid "Client %s is welcoming us."
-msgstr "கிளையண்ட் %s எங்களை வரவேற்கிறார்."
-
-#: libs/core/src/DistributionSocketLink.cc:1767
-#, c-format
-msgid "Requesting master status from %s."
-msgstr "%s இலிருந்து முதன்மை நிலையைக் கோருகிறது."
-
-#: libs/core/src/DistributionSocketLink.cc:1780
-#, c-format
-msgid "Client timeout from %s."
-msgstr "%s இலிருந்து கிளையன்ட் நேரம் முடிந்தது."
-
-#: libs/core/src/DistributionSocketLink.cc:1806
-#, c-format
-msgid "Rejecting master request from client %s."
-msgstr "கிளையன்ட் %s இலிருந்து முதன்மை கோரிக்கையை நிராகரிக்கிறது."
-
-#: libs/core/src/DistributionSocketLink.cc:1811
-#, c-format
-msgid "Acknowledging master request from client %s."
-msgstr "கிளையன்ட் %s இலிருந்து முதன்மை கோரிக்கையை ஒப்புக்கொள்கிறது."
-
-#: libs/core/src/DistributionSocketLink.cc:1864
-#, c-format
-msgid "Non-master client %s rejected master request."
-msgstr "முதன்மை அல்லாத கிளையன்ட் %s நிராகரிக்கப்பட்ட முதன்மை கோரிக்கை."
-
-#: libs/core/src/DistributionSocketLink.cc:1868
-#, c-format
-msgid "Client %s rejected master request, delaying."
-msgstr "கிளையண்ட் %s முதன்மை கோரிக்கையை நிராகரித்தார், தாமதப்படுத்துகிறார்."
-
-#. gint count =
-#: libs/core/src/DistributionSocketLink.cc:1942
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "கிளையன்ட் %s இப்போது புதிய மாஸ்டர்."
-
-#: libs/core/src/DistributionSocketLink.cc:2070
-msgid "Network operation started."
-msgstr "நெட்வொர்க் செயல்பாடு தொடங்கியது."
-
-#: libs/core/src/DistributionSocketLink.cc:2090
-msgid "Accepted new client."
-msgstr "புதிய கிளையன்ட் ஏற்கப்பட்டது."
-
-#: libs/core/src/DistributionSocketLink.cc:2165
-#, c-format
-msgid "Client %s read error, closing."
-msgstr "கிளையண்ட் %s வாசிப்பு பிழை, மூடுகிறது."
-
-#: libs/core/src/DistributionSocketLink.cc:2170
-#: libs/core/src/DistributionSocketLink.cc:2237
-#, c-format
-msgid "Client %s closed connection."
-msgstr "கிளையண்ட் %s இணைப்பு மூடப்பட்டது."
-
-#: libs/core/src/DistributionSocketLink.cc:2209
-#, c-format
-msgid "Client %s connected."
-msgstr "கிளையண்ட் %s இணைக்கப்பட்டுள்ளது."
-
-#: libs/core/src/DistributionSocketLink.cc:2242
-#, c-format
-msgid "Could not connect to client %s."
-msgstr "கிளையன்ட் %s உடன் இணைக்க முடியவில்லை."
-
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:354
-#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:364
-#: ui/applets/mate/src/main.c:256 ui/applets/xfce/src/main.c:347
-#: ui/apps/gtkmm/src/Toolkit.cc:225
+#: ui/app/Application.cc:641
 msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr ""
-"இந்த நிரல் மீண்டும் மீண்டும் வரும் திரிபு காயத்தின் (மீமீதிகாயம்) தடுப்பு "
-"மற்றும் மீட்புக்கு உதவுகிறது."
+"பணிவெறி இடைநிறுத்தப்பட்ட பயன்முறையில் உள்ளது.\n"
+"சுட்டி மற்றும் விசைப்பலகை செயல்பாடு கண்காணிக்கப்படாது."
 
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-#: ui/apps/gtkmm/src/workrave.metainfo.xml:6
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:4
-msgid "Workrave"
-msgstr "பணிவெறி"
+#: ui/app/Application.cc:649
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr "பணிவெறி அமைதியான பயன்முறையில் உள்ளது. இடைவேளை சாளரங்கள் தோன்றாது."
 
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave Applet"
-msgstr "பணிவெறி பயன்பாடு"
+#. FIXME: duplicate
+#: ui/app/Application.cc:659 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+msgid "Micro-break"
+msgstr "நுண்-இடைவெளி"
 
-#: ui/applets/mate/src/main.c:362 ui/apps/gtkmm/src/Menus.cc:46
-msgid "_Open"
-msgstr "திற"
-
-#: ui/applets/mate/src/main.c:364
-msgid "_Statistics"
-msgstr "புள்ளிவிவரங்கள்"
-
-#: ui/applets/mate/src/main.c:366 ui/apps/gtkmm/src/Menus.cc:52
-msgid "_Preferences"
-msgstr "விருப்பங்கள்"
-
-#: ui/applets/mate/src/main.c:368 ui/apps/gtkmm/src/Menus.cc:58
-msgid "_Exercises"
-msgstr "பயிற்சிகள்"
-
-#: ui/applets/mate/src/main.c:370
-msgid "_Restbreak"
-msgstr "ஓய்வுஇடைவேளை"
-
-#: ui/applets/mate/src/main.c:372 ui/apps/gtkmm/src/Menus.cc:67
-msgid "_Mode"
-msgstr "முறை"
-
-#: ui/applets/mate/src/main.c:374
-msgid "_Network"
-msgstr "இணையம்"
-
-#: ui/applets/mate/src/main.c:376
-msgid "_Join"
-msgstr "இணை"
-
-#: ui/applets/mate/src/main.c:378
-msgid "_Disconnect"
-msgstr "துண்டி"
-
-#: ui/applets/mate/src/main.c:380
-msgid "_Reconnect"
-msgstr "மீண்டும் இணைக்கவும்"
-
-#: ui/applets/mate/src/main.c:382 ui/apps/gtkmm/src/Menus.cc:103
-msgid "_About"
-msgstr "பற்றி"
-
-#: ui/applets/mate/src/main.c:384 ui/apps/gtkmm/src/Menus.cc:106
-msgid "_Quit"
-msgstr "வெளியேறு"
-
-#: ui/applets/mate/src/main.c:389
-msgid "Show log"
-msgstr "பதிவைக் காட்டு"
-
-#: ui/applets/mate/src/main.c:391
-msgid "Reading mode"
-msgstr "வாசிப்பு முறை"
-
-#: ui/applets/mate/src/main.c:395
-msgid "Normal"
-msgstr "இயல்பு"
-
-#: ui/applets/mate/src/main.c:397 ui/apps/gtkmm/src/GUI.cc:561
-msgid "Suspended"
-msgstr "இடைநிறுத்தப்பட்டது"
-
-#: ui/applets/mate/src/main.c:399 ui/apps/gtkmm/src/GUI.cc:565
-msgid "Quiet"
-msgstr "அமைதி"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:251
-msgid "Lock..."
-msgstr "பூட்டு..."
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:255
-msgid "Lock"
-msgstr "பூட்டு"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:259
-msgid "Shutdown"
-msgstr "பணிநிறுத்தம்"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:263
-msgid "Suspend"
-msgstr "இடைநிறுத்து"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:267
-msgid "Hibernate"
-msgstr "உறக்கநிலை"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:271
-msgid "Suspend hybrid"
-msgstr "கலப்பினை இடைநிறுத்து"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:389
-msgid "_Skip"
-msgstr "தவிர் (_S)"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:400
-msgid "_Postpone"
-msgstr "ஒத்திவை (_P)"
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:583
-msgid ""
-"You cannot skip this break while another non-skippable break is overdue."
-msgstr ""
-"தவிர்க்க முடியாத மற்றொரு இடைவேளை தாமதமாக இருக்கும் போது இந்த இடைவெளியை "
-"நீங்கள் தவிர்க்க முடியாது."
-
-#: ui/apps/gtkmm/src/BreakWindow.cc:597
-msgid ""
-"You cannot postpone this break while another non-postponable break is "
-"overdue."
-msgstr ""
-"இந்த இடைவேளையை நீங்கள் ஒத்திவைக்க முடியாது, அதே நேரத்தில் ஒத்திவைக்க முடியாத"
-" மற்றொரு இடைவேளை தாமதமாக உள்ளது."
+#: ui/app/Application.cc:659 ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+msgid "Rest break"
+msgstr "ஓய்வு இடைவேளை"
 
 #. label
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:43
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:50 ui/apps/gtkmm/src/GUI.cc:554
-#: ui/apps/gtkmm/src/GtkUtil.cc:167 ui/apps/gtkmm/src/Ui.cc:44
-#: ui/apps/gtkmm/src/Ui.cc:101
+#: ui/app/Application.cc:659 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
+#: ui/app/toolkits/gtkmm/Ui.cc:101
 msgid "Daily limit"
 msgstr "அன்றாட வரம்பு"
 
-#: ui/apps/gtkmm/src/DailyLimitWindow.cc:51
+#: ui/app/Application.cc:666 ui/app/Application.cc:670
+msgid "Mode: "
+msgstr "முறை:"
+
+#: ui/app/Application.cc:666 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:387
+msgid "Suspended"
+msgstr "இடைநிறுத்தப்பட்டது"
+
+#: ui/app/Application.cc:670 ui/app/platforms/windows/WindowsFocusAssist.cc:81
+#: ui/applets/mate/src/main.c:389
+msgid "Quiet"
+msgstr "அமைதி"
+
+#: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
+msgid "_Open"
+msgstr "திற"
+
+#: ui/app/Menus.cc:70 ui/applets/mate/src/main.c:364
+msgid "_Preferences"
+msgstr "விருப்பங்கள்"
+
+#: ui/app/Menus.cc:73
+msgid "_Rest break"
+msgstr "ஓய்வு இடைவேளை"
+
+#: ui/app/Menus.cc:76 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "பயிற்சிகள்"
+
+#: ui/app/Menus.cc:79
+msgid "S_tatistics"
+msgstr "புள்ளிவிவரங்கள்"
+
+#: ui/app/Menus.cc:88 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "முறை"
+
+#: ui/app/Menus.cc:96
+msgid "_Normal"
+msgstr "இயல்பு"
+
+#: ui/app/Menus.cc:103
+msgid "_Suspended"
+msgstr "இடைநிறுத்தப்பட்டது"
+
+#: ui/app/Menus.cc:110
+msgid "Q_uiet"
+msgstr "அமைதி"
+
+#: ui/app/Menus.cc:116
+msgid "Temporarily Suspended..."
+msgstr "தற்காலிகமாக இடைநிறுத்தப்பட்டது..."
+
+#: ui/app/Menus.cc:119
+msgid "Temporarily Quiet..."
+msgstr "தற்காலிகமாக அமைதியாக..."
+
+#: ui/app/Menus.cc:125
+msgid "_Reading mode"
+msgstr "வாசிப்பு முறை"
+
+#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
+msgid "_About"
+msgstr "பற்றி"
+
+#: ui/app/Menus.cc:138 ui/applets/mate/src/main.c:374
+msgid "_Quit"
+msgstr "வெளியேறு"
+
+#: ui/app/Menus.cc:164
+msgid "Indefinitely"
+msgstr "காலவரையின்றி"
+
+#: ui/app/Menus.cc:176
+msgid "For 1 hour"
+msgstr "1 மணிநேரத்திற்கு"
+
+#: ui/app/Menus.cc:183
+msgid "and 1 minute"
+msgstr "மற்றும் 1 நிமிடம்"
+
+#: ui/app/Menus.cc:187
+msgid "For 1 minute"
+msgstr "1 நிமிடத்திற்கு"
+
+#: ui/app/Menus.cc:196
+msgid "Until next day"
+msgstr "அடுத்த நாள் வரை"
+
+#: ui/app/Menus.cc:292
+#, qt-format
+msgid "Q_uiet (until %1%)"
+msgstr "அமைதி (%1% வரை)"
+
+#: ui/app/Menus.cc:297
+#, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "இடைநிறுத்தப்பட்டது (%1% வரை)"
+
+#: ui/app/Menus.cc:305
+msgid "Q_uiet (until next day)"
+msgstr "அமைதி (அடுத்த நாள் வரை)"
+
+#: ui/app/Menus.cc:310
+msgid "_Suspended (until next day)"
+msgstr "இடைநிறுத்தப்பட்டது (அடுத்த நாள் வரை)"
+
+#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:4
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave"
+msgstr "பணிவெறி"
+
+#: ui/app/org.workrave.Workrave.desktop.in:5
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "மீண்டும் மீண்டும் திரிபு காயத்தின் (மீமீதிகாயம்) தடுப்பு மற்றும் மீட்புக்கு உதவுகிறது"
+
+#: ui/app/org.workrave.Workrave.desktop.in:6
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr "தட்டச்சு;இடைவேலை;காலங்காட்டி;மணிக்கட்டு;உடல்நலம்;மீமீதிகாயம்;"
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
+msgid "Focus Assist"
+msgstr "கவன உதவி"
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
+msgid "Set operation mode based on Windows Focus Assist"
+msgstr "சாளரங்கள் கவன உதவியாளரின் அடிப்படையில் செயல்பாட்டு முறையை அமைக்கவும்"
+
+#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
+msgid "Operation mode during Focus Assist:"
+msgstr "கவன உதவியின் போது இயக்க முறை:"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
+msgid "Software Update"
+msgstr "மென்பொருள் புதுப்பிப்பு"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:131
+#, c++-format
+msgid "A new version of {} is available"
+msgstr "{} இன் புதிய பதிப்பு உள்ளது"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:139
+#, c++-format
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr "{} {} இப்போது கிடைக்கிறது -- உங்களிடம் {} உள்ளது. அதை இப்போது பதிவிறக்க விரும்புகிறீர்களா?"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
+msgid "Release notes"
+msgstr "வெளியீட்டு குறிப்புகள்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:164
+#, c++-format
+msgid "<h3>Version {}</h3>\n"
+msgstr "<h3>பதிப்பு {}</h3>\n"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:211
+#, c++-format
+msgid "Version {}\n"
+msgstr "பதிப்பு {}\n"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
+msgid "_Skip this version"
+msgstr "இந்த பதிப்பை தவிர் (_S)"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
+msgid "_Remind me later"
+msgstr "பின்னர் எனக்கு நினைவூட்டு"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
+msgid "_Install update"
+msgstr "புதுப்பிப்பை நிறுவவும்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
+#, fuzzy
+msgid "_Close"
+msgstr "மூடு"
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:309
+msgid "Downloading installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:312
+msgid "Verifying installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:315
+msgid "Running installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
+msgid "Stable"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
+#, fuzzy
+msgid "Release Candidate"
+msgstr "வெளியீட்டு குறிப்புகள்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
+msgid "Beta"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
+msgid "No proxy"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
+msgid "System proxy"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
+#, fuzzy
+msgid "Custom proxy"
+msgstr "தனிப்பயன்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:191
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:221
+msgid "Software updates"
+msgstr "மென்பொருள் புதுப்பிப்புகள்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:192
+msgid "Auto update"
+msgstr "தானியங்கு மேம்படுத்தல்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:193
+msgid "Automatically check for updates"
+msgstr "புதுப்பிப்புகளை தானாக சரிபார்க்கவும்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:195
+msgid "Get updates as soon as they are available"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:203
+msgid "Release channel:"
+msgstr "சேனலை வெளியிடு:"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
+msgid "Proxy Type:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
+msgid "Proxy:"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:230
+msgid "Check for _Updates"
+msgstr "புதுப்பிப்புகளை சரிபார்க்கவும்"
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:340
+msgid "Invalid appcast"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:343
+msgid "Failed to download appcast"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:346
+msgid "Failed to download installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:349
+msgid "Failed to validate installer integrity. Aborting upgrade"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:352
+msgid "Failed to execute installer"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:357
+#: ui/app/toolkits/gtkmm/AutoUpdater.cc:363
+msgid "Internal failure. Aborting upgrade"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:269
+msgid "Lock..."
+msgstr "பூட்டு..."
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:273
+msgid "Lock"
+msgstr "பூட்டு"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:277
+msgid "Shutdown"
+msgstr "பணிநிறுத்தம்"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:281
+msgid "Suspend"
+msgstr "இடைநிறுத்து"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:285
+msgid "Hibernate"
+msgstr "உறக்கநிலை"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:289
+msgid "Suspend hybrid"
+msgstr "கலப்பினை இடைநிறுத்து"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:408
+msgid "_Skip"
+msgstr "தவிர் (_S)"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:418
+msgid "_Postpone"
+msgstr "ஒத்திவை (_P)"
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:588
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr "தவிர்க்க முடியாத மற்றொரு இடைவேளை தாமதமாக இருக்கும் போது இந்த இடைவெளியை நீங்கள் தவிர்க்க முடியாது."
+
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:602
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr "இந்த இடைவேளையை நீங்கள் ஒத்திவைக்க முடியாது, அதே நேரத்தில் ஒத்திவைக்க முடியாத மற்றொரு இடைவேளை தாமதமாக உள்ளது."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
+msgid "Crash report details"
+msgstr "விபத்து அறிக்கை விவரங்கள்"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
+msgid "crash details"
+msgstr "செயலிழப்பு விவரங்கள்"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
+msgid "Workrave has crashed."
+msgstr "பணிவெறி செயலிழந்தது."
+
+# msgid ""
+# "The files containing your statistics history could not be deleted. Try "
+# "again?"
+# msgstr ""
+# "உங்கள் புள்ளிவிவர வரலாற்றைக் கொண்ட கோப்புகளை நீக்க முடியவில்லை. மீண்டும் "
+# "முயற்சிக்கிறீர்களா?"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
+msgid "The following logging will be attached to the crash report:"
+msgstr "பின்வரும் பதிவு செயலிழப்பு அறிக்கையுடன் இணைக்கப்படும்:"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
+msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
+msgstr "இந்த செயலிழப்பு அறிக்கை செயலிழந்த போது, பணிவெறி நிலை பற்றிய தொழில்நுட்ப தகவல்களையும் கொண்டுள்ளது என்பதை நினைவில் கொள்ளவும்."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
+msgid "Crash report"
+msgstr "விபத்து அறிக்கை"
+
+# msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+# msgstr "பணிவெறியால் விசைபலகை மற்றும் சுட்டியை கண்காணிக்க இயலாது"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
+msgstr "பணிவெறி செயலிழப்பு அறிக்கையாளர்"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
+msgstr "பணிவெறி ஒரு சிக்கலை எதிர்கொண்டது மற்றும் செயலிழந்தது. செயலிழப்பு அறிக்கையை அனுப்புவதன் மூலம் இந்த சிக்கலைக் கண்டறிந்து சரிசெய்ய எங்களுக்கு உதவவும்."
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
+msgid "Submit crash report to the Workrave developers"
+msgstr "பணிவெறி நிரலர்களுக்கு செயலிழப்பு அறிக்கையை சமர்ப்பிக்கவும்"
+
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
+msgid "Details..."
+msgstr "விவரங்கள்..."
+
+#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -314,445 +441,535 @@ msgstr ""
 "உங்கள் வேலை நாள் இன்னும் முடிவடையவில்லை என்றால்,\n"
 "ஆவணத்தை மதிப்பாய்வு செய்வது போன்ற வேறு ஏதாவது செய்ய வேண்டும்."
 
-#: ui/apps/gtkmm/src/DebugDialog.cc:38
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:33
 msgid "Debug log"
 msgstr "பிழைத்திருத்த பதிவு"
 
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:29
-msgid "Exercises"
-msgstr "பயிற்சிகள்"
-
 #. Dialog
-#: ui/apps/gtkmm/src/ExercisesDialog.cc:33
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:120
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:142
+#: ui/app/toolkits/gtkmm/DebugDialog.cc:51
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:90
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:143
 msgid "Close"
 msgstr "மூடு"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:88
+#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
+msgid "Exercises"
+msgstr "பயிற்சிகள்"
+
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
 msgid "Previous"
 msgstr "முந்தைய"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:89
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
 msgid "Next"
 msgstr "அடுத்து"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:108
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:112
 msgid "Exercises player"
 msgstr "பயிற்சி வீரர்"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:138
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
 msgid "Previous exercise"
 msgstr "முந்தைய உடற்பயிற்சி"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:139
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
 msgid "Next exercise"
 msgstr "அடுத்த பயிற்சி"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:140
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:320
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
 msgid "Pause exercises"
 msgstr "பயிற்சிகளை இடைநிறுத்தவும்"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:144
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
 msgid "End exercises"
 msgstr "பயிற்சிகளை முடிக்கவும்"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:315
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
 msgid "Resume"
 msgstr "தொடரவும்"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:315
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
 msgid "Pause"
 msgstr "இடைநிறுத்தம்"
 
-#: ui/apps/gtkmm/src/ExercisesPanel.cc:318
+#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
 msgid "Resume exercises"
 msgstr "பயிற்சிகளை தொடரவும்"
 
-#: ui/apps/gtkmm/src/GUI.cc:151
-msgid ""
-"Workrave is still running. You can access Workrave by clicking on the white "
-"sheep icon. Click on this balloon to disable this message"
-msgstr ""
-"பணிவெறி இன்னும் இயங்குகிறது. வெள்ளை செம்மறி சின்னத்தை சொடுக்குவதன் மூலம் "
-"நீங்கள் பணிவெறியை அணுகலாம். இந்த செய்தியை முடக்க இந்த பலூனை சொடுக்கவும்"
-
-#: ui/apps/gtkmm/src/GUI.cc:269 ui/apps/gtkmm/src/GUI.cc:354
-msgid "Workrave failed to start"
-msgstr "பணிவெறி தொடங்குவதில் தோல்வியடைந்தது"
-
-#: ui/apps/gtkmm/src/GUI.cc:270
-msgid "Is Workrave already running?"
-msgstr "பணிவெறி இயங்குகிறதா?"
-
-#: ui/apps/gtkmm/src/GUI.cc:537
-msgid ""
-"Workrave is in suspended mode.\n"
-"Mouse and keyboard activity will not be monitored."
-msgstr ""
-"பணிவெறி இடைநிறுத்தப்பட்ட பயன்முறையில் உள்ளது.\n"
-"சுட்டி மற்றும் விசைப்பலகை செயல்பாடு கண்காணிக்கப்படாது."
-
-#: ui/apps/gtkmm/src/GUI.cc:545
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr "பணிவெறி அமைதியான பயன்முறையில் உள்ளது. இடைவேளை சாளரங்கள் தோன்றாது."
-
-#. FIXME: duplicate
-#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:45
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:143
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:234 ui/apps/gtkmm/src/Ui.cc:38
-msgid "Micro-break"
-msgstr "நுண்-இடைவெளி"
-
-#: ui/apps/gtkmm/src/GUI.cc:554 ui/apps/gtkmm/src/GtkUtil.cc:167
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:123
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:57
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:173 ui/apps/gtkmm/src/Ui.cc:41
-msgid "Rest break"
-msgstr "ஓய்வு இடைவேளை"
-
-#: ui/apps/gtkmm/src/GUI.cc:561 ui/apps/gtkmm/src/GUI.cc:565
-msgid "Mode: "
-msgstr "முறை:"
-
-#: ui/apps/gtkmm/src/Menus.cc:55
-msgid "_Rest break"
-msgstr "ஓய்வு இடைவேளை"
-
-#: ui/apps/gtkmm/src/Menus.cc:61
-msgid "S_tatistics"
-msgstr "புள்ளிவிவரங்கள்"
-
-#: ui/apps/gtkmm/src/Menus.cc:75
-msgid "_Normal"
-msgstr "இயல்பு"
-
-#: ui/apps/gtkmm/src/Menus.cc:82
-msgid "_Suspended"
-msgstr "இடைநிறுத்தப்பட்டது"
-
-#: ui/apps/gtkmm/src/Menus.cc:89
-msgid "Q_uiet"
-msgstr "அமைதி"
-
-#: ui/apps/gtkmm/src/Menus.cc:96
-msgid "_Reading mode"
-msgstr "வாசிப்பு முறை"
-
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:200
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
 msgid "Please relax for a few seconds"
 msgstr "தயவுசெய்து சில கணங்கள் ஓய்வெடுங்கள்"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:207
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
 #, c-format
 msgid "Next rest break in %s"
 msgstr "%s இல் அடுத்த ஓய்வு இடைவேளை"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:211
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "ஓய்வு இடைவேளை %s தாமதமானது"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:223
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
 #, c-format
 msgid "Daily limit in %s"
 msgstr "%s இல் அன்றாட வரம்பு"
 
-#: ui/apps/gtkmm/src/MicroBreakWindow.cc:227
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "அன்றாட வரம்பு %s தாமதமானது"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:48
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:63
-msgid "Network connect"
-msgstr "பிணையம் இணை"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
+msgid "Orientation"
+msgstr "நோக்குநிலை"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:64
-msgid ""
-"Enter the host name and port number of a computer\n"
-"in the network you wish to connect to."
-msgstr ""
-"கணினியின் புரவலன் பெயர் மற்றும் துறைமுகம் எண்ணை உள்ளிடவும்\n"
-" நெட்வொர்க்கில் நீங்கள் இணைக்க விரும்புகிறீர்கள்."
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
+msgid "The orientation of the tray"
+msgstr "தட்டில் நோக்குநிலை"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:76
-msgid "Host name:"
-msgstr "புரவலன் பெயர்"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
+msgid "Foreground color"
+msgstr "முன்புற வண்ணம்"
 
-#: ui/apps/gtkmm/src/NetworkJoinDialog.cc:77
-msgid "Port:"
-msgstr "துறைமுகம்:"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
+msgid "Foreground color for symbolic icons"
+msgstr "குறியீட்டு சின்னங்களுக்கான முன்புற வண்ணம்"
 
-#: ui/apps/gtkmm/src/NetworkLogDialog.cc:45
-msgid "Network log"
-msgstr "பிணைய பதிவு"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color"
+msgstr "பிழை நிறம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:91
-msgid "Enable networking"
-msgstr "நெட்வொர்க்கிங் இயக்கு"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
+msgid "Error color for symbolic icons"
+msgstr "குறியீட்டு சின்னங்களுக்கான பிழை வண்ணம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:98
-msgid "Username:"
-msgstr "பயனர்பெயர்:"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
+msgid "Warning color"
+msgstr "எச்சரிக்கை நிறம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:99
-msgid "Password:"
-msgstr "கடவுச்சொல்:"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
+msgid "Warning color for symbolic icons"
+msgstr "குறியீட்டு சின்னங்களுக்கான எச்சரிக்கை வண்ணம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:105
-msgid "Allow incoming connections"
-msgstr "உள்வரும் இணைப்புகளை அனுமதி"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
+msgid "Success color"
+msgstr "வெற்றி நிறம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:110
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:90
-msgid "General"
-msgstr "பொது"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
+msgid "Success color for symbolic icons"
+msgstr "குறியீட்டு சின்னங்களுக்கான வெற்றி வண்ணம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:121
-msgid "Server settings"
-msgstr "சேவையக அமைப்புகள்"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
+msgid "Padding"
+msgstr "திணிப்பு"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:144
-msgid "Reconnect attempts:"
-msgstr "முயற்சிகளை மீண்டும் இணைக்கவும்:"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
+msgid "Padding that should be put around icons in the tray"
+msgstr "தட்டில் உள்ள சின்னங்களைச் சுற்றி வைக்கப்பட வேண்டிய திணிப்பு"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:145
-msgid "Reconnect interval:"
-msgstr "இடைவெளியை மீண்டும் இணைக்கவும்:"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
+msgid "Icon Size"
+msgstr "சின்னம் அளவு"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:148
-msgid "Advanced"
-msgstr "மேம்பட்ட"
+#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
+msgid "The pixel size that icons should be forced to, or zero"
+msgstr "சின்னங்கள் கட்டாயப்படுத்தப்பட வேண்டிய பிக்சல் அளவு, அல்லது சுழியம்"
 
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:163
-msgid ""
-"The following list specifies the hosts that Workrave connects to on\n"
-"start-up. Click the host name or port number to edit."
-msgstr ""
-"பின்வரும் பட்டியல், வொர்க்ரேவ் இணைக்கும் புரவலர்களைக் குறிப்பிடுகிறது\n"
-" தொடக்க. திருத்த புரவலன் பெயர் அல்லது துறைமுகம் எண்ணைக் சொடுக்கு செய்க."
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:190
-msgid "Host name"
-msgstr "புரவலன் பெயர்"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:199
-msgid "Port"
-msgstr "துறைமுகம்"
-
-#: ui/apps/gtkmm/src/NetworkPreferencePage.cc:237
-msgid "Hosts"
-msgstr "ஓச்ட்கள்"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:75
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:45
 msgid "Preferences"
 msgstr "விருப்பங்கள்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:94
-msgid "Sounds"
-msgstr "ஒலிகள்"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:97
-msgid "Status Window"
-msgstr "நிலை சாளரம்"
-
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:101
-msgid "Applet"
-msgstr "பயன்பாடு"
-
-#. Notebook
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:109
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:129
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:180
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
 msgid "Timers"
 msgstr "காலங்காட்டிகள்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:110
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:116
 msgid "User interface"
 msgstr "பயனர் இடைமுகம்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:112
-msgid "Network"
-msgstr "பிணையம்"
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+msgid "General"
+msgstr "பொது"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:153
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+msgid "Status Window"
+msgstr "நிலை சாளரம்"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
+msgid "Applet"
+msgstr "பயன்பாடு"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
+msgid "Monitoring"
+msgstr "கண்காணித்தல்"
+
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
+#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
+msgid "Sounds"
+msgstr "ஒலிகள்"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 msgid "No blocking"
 msgstr "தடுப்பு இல்லை"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:154
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
 msgid "Block input"
 msgstr "தடு உள்ளீடு"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:155
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
 msgid "Block input and screen"
 msgstr "உள்ளீடு மற்றும் திரையைத் தடு"
 
 #. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:173
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:122
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
 msgid "Options"
 msgstr "விருப்பங்கள்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:175
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
 msgid "Block mode:"
 msgstr "தடுப்பு முறை:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:195
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
 msgstr "கணினி இயல்புநிலை"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:238
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:157
 msgid "(font not available)"
 msgstr "(எழுத்துரு கிடைக்கவில்லை)"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:257
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
 msgid "Language:"
 msgstr "மொழி:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:271
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 msgid "Start Workrave on logon"
 msgstr "புகுபதிகையில் பணிவெறியைத் தொடங்கு"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:286
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:205
 msgid "Show system tray icon"
 msgstr "கணினி தட்டு சின்னத்தைக் காட்டு"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:296
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:206
+msgid "Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
+msgstr "வழிநிலத்தில் X11 ஐ கட்டாயப்படுத்தவும் (பணிவெறியின் மறுதொடக்கம் தேவை)"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:218
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
+msgstr "பணிவெறி இயல்பான முறையில் வழிநிலத்தை முழுமையாக ஆதரிக்கவில்லை. இந்த விருப்பம் வழிநிலத்தில் X11 ஐ பயன்படுத்துவதை கட்டாயப்படுத்துகிறது. இந்த விருப்பத்தை மாற்ற பணிவெறியின் மறுதொடக்கம் தேவைப்படுகிறது."
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:229
+msgid "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:230
+msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
 msgid "Icon Theme:"
 msgstr "சின்னம் கருப்பொருள்:"
 
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
+msgid "Light"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:249
+msgid "Dark"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:250
+msgid "Auto"
+msgstr ""
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
+#, fuzzy
+msgid "Dark mode:"
+msgstr "தடுப்பு முறை:"
+
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
+msgid "Default"
+msgstr "இயல்புநிலை"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
+msgid "Use alternate monitor"
+msgstr "மாற்று கண்காணியைப் பயன்படுத்து"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
+msgid "Enable this option if Workrave fails to detect when you are using your computer"
+msgstr "உங்கள் கணினியைப் பயன்படுத்தும் போது பணிவெறி கண்டறியத் தவறினால் இந்த விருப்பத்தை இயக்கவும்"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr "இந்த அமைப்பை மாற்றிய பின் பணிவெறி கைமுறையாக மறுதொடக்கம் செய்யப்பட வேண்டும்"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
+msgid "Mouse sensitivity:"
+msgstr "சுட்டி உணர்திறன்:"
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
+msgid "Number of pixels the mouse should move before it is considered activity."
+msgstr "செயல்பாடாக கருதப்படுவதற்கு முன் சுட்டி நகர வேண்டிய பிக்சல்களின் எண்ணிக்கை."
+
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
+msgid "Debug monitoring"
+msgstr "பிழைத்திருத்த கண்காணிப்பு"
+
 #. Options
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:309
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
 msgid "Sound Options"
 msgstr "ஒலி விருப்பங்கள்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:314
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
 msgid "No sounds"
 msgstr "ஒலிகள் இல்லை"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:315
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
 msgid "Play sounds using sound card"
 msgstr "ஒலி அட்டையைப் பயன்படுத்தி ஒலிகளை இயக்கவும்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:335
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
 msgstr "ஒலிஅளவு:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:338
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
 msgstr "ஒலி:"
 
 #. Volume
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:343
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
 msgid "Mute sounds during rest break and daily limit"
 msgstr "ஓய்வு இடைவேளை மற்றும் அன்றாட வரம்பின் போது ஒலிகளை முடக்கு"
 
 #. Sound themes
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:351
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
 msgid "Sound Events"
 msgstr "ஒலி நிகழ்வுகள்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:359
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
 msgid "Sound Theme:"
 msgstr "ஒலி கருப்பொருள்:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:382
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:400
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:420
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
 msgid "Play"
 msgstr "விளையாடு"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:387
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
 msgid "Event"
 msgstr "நிகழ்வு"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:403
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
 msgstr "ஒலியைத் தேர்ந்தெடு"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:409
+#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
 msgid "Wavefiles"
 msgstr "அலை கோப்புகள்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:481
-msgid "Use alternate monitor"
-msgstr "மாற்று கண்காணியைப் பயன்படுத்து"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
+msgid "Place timers next to each other"
+msgstr "காலங்காட்டிகளை ஒன்றன்பின் ஒன்றாக வைக்கவும்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:488
-msgid ""
-"Enable this option if Workrave fails to detect when you are using your "
-"computer"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
+msgid "Place micro-break and rest break in one spot"
+msgstr "நுண்-இடைவேளை மற்றும் ஓய்வு இடைவெளியை ஒரே இடத்தில் வைக்கவும்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
+msgid "Place rest break and daily limit in one spot"
+msgstr "ஓய்வு இடைவேளை மற்றும் அன்றாட வரம்பை ஒரே இடத்தில் வைக்கவும்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
+msgid "Place all timers in one spot"
+msgstr "அனைத்து காலங்காட்டிகளையும் ஒரே இடத்தில் வைக்கவும்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
+msgid "Hide"
+msgstr "மறை"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
+msgid "Show"
+msgstr "காட்டு"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
+msgid "Show only when this timer is first due"
+msgstr "இந்த காலங்காட்டி முதலில் வரும்போது மட்டும் காட்டு"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
+msgid "Display"
+msgstr "காட்சி"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
+msgid "The status window stays always on top of other windows"
+msgstr "நிலை சாளரம் எப்போதும் மற்ற சாளரங்களின் மேல் இருக்கும்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:112
+msgid "Show status window"
+msgstr "நிலை சாளரத்தைக் காட்டு"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
+msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environment do not support, or have disabled status icons."
 msgstr ""
-"உங்கள் கணினியைப் பயன்படுத்தும் போது பணிவெறி கண்டறியத் தவறினால் இந்த "
-"விருப்பத்தை இயக்கவும்"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:491
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr ""
-"இந்த அமைப்பை மாற்றிய பின் பணிவெறி கைமுறையாக மறுதொடக்கம் செய்யப்பட வேண்டும்"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
+msgid "Placement:"
+msgstr "இடம்:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:496
-msgid "Mouse sensitivity:"
-msgstr "சுட்டி உணர்திறன்:"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
+msgid "Cycle time:"
+msgstr "சுழற்சி நேரம்:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:497
-msgid ""
-"Number of pixels the mouse should move before it is considered activity."
-msgstr ""
-"செயல்பாடாக கருதப்படுவதற்கு முன் சுட்டி நகர வேண்டிய பிக்சல்களின் எண்ணிக்கை."
+#. Layout
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+msgid "Micro-break:"
+msgstr "நுண்-இடைவெளி:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:513
-msgid "Debug monitoring"
-msgstr "பிழைத்திருத்த கண்காணிப்பு"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+msgid "Rest break:"
+msgstr "ஓய்வு இடைவேளை:"
 
-#: ui/apps/gtkmm/src/PreferencesDialog.cc:937
-msgid "Default"
-msgstr "இயல்புநிலை"
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+msgid "Daily limit:"
+msgstr "அன்றாட வரம்பு:"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:104
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
+msgid "Fallback applet enabled"
+msgstr "பின்னடைவு பயன்பாடு இயக்கப்பட்டது"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
+msgid "Show status icon"
+msgstr "நிலை சின்னத்தைக் காட்டு"
+
+#. Enabled/Disabled checkbox
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
+msgid "Enable timer"
+msgstr "காலங்காட்டியை இயக்கு"
+
+#. Prelude frame
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
+msgid "Break prompting"
+msgstr "இடைவேளை தூண்டுதல்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
+msgid "Prompt before breaking"
+msgstr "இடைவேளைக்கு முன் கேட்கவும்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
+msgid "Maximum number of prompts:"
+msgstr "அதிகபட்ச எண்ணிக்கையிலான தூண்டுதல்கள்:"
+
+#. Ignorable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
+msgid "Show 'Postpone' button"
+msgstr "'ஒத்திவை' பொத்தானைக் காட்டு"
+
+#. Skippable
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
+msgid "Show 'Skip' button"
+msgstr "'தவிர்' பொத்தானைக் காட்டு"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
+msgid "Regard micro-breaks as activity"
+msgstr "நுண்-இடைவேளைகளை செயல்பாடாக கருதவும்"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
+msgid "Number of exercises:"
+msgstr "பயிற்சிகளின் எண்ணிக்கை:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
+msgid "Start restbreak when screen is locked"
+msgstr "திரை பூட்டப்பட்டிருக்கும் போது ஒய்வு இடைவேளை தொடங்கு"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
+msgid "Enable shutting down the computer from the rest screen"
+msgstr "ஓய்வு திரையில் இருந்து கணினியை மூடுவதை இயக்கு"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time before end:"
+msgstr "முடிவதற்கு முன் நேரம்:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
+msgid "Time between breaks:"
+msgstr "இடைவெளிகளுக்கு இடையேயான நேரம்:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
+msgid "Break duration:"
+msgstr "இடைவேளை காலம்:"
+
+#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
+msgid "Postpone time:"
+msgstr "நேரத்தை ஒத்திவைக்கவும்:"
+
+#: ui/app/toolkits/gtkmm/Prelude.cc:35
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:112
 msgid "Time for a micro-break?"
 msgstr "நுண்-இடைவேளைக்கான நேரமா?"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:108
+#: ui/app/toolkits/gtkmm/Prelude.cc:37
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:116
 msgid "You need a rest break..."
 msgstr "உங்களுக்கு ஓய்வு இடைவேளை தேவை..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:112
+#: ui/app/toolkits/gtkmm/Prelude.cc:39
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:120
 msgid "You should stop for today..."
 msgstr "இன்றைக்கு நீங்கள் நிறுத்த வேண்டும்..."
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:260
+#: ui/app/toolkits/gtkmm/Prelude.cc:51
+#, fuzzy, c++-format
+msgid "Break in {}"
+msgstr "{} இல் இடைநிறுத்தம்"
+
+#: ui/app/toolkits/gtkmm/Prelude.cc:53
+#, fuzzy, c++-format
+msgid "Disappears in {}"
+msgstr "{} இல் மறைந்துவிடும்"
+
+#: ui/app/toolkits/gtkmm/Prelude.cc:55
+#, fuzzy, c++-format
+msgid "Silent in {}"
+msgstr "{} இல் அமைதி"
+
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:262
 #, c-format
 msgid "Break in %s"
 msgstr "%s இல் இடைநிறுத்தம்"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:264
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
 #, c-format
 msgid "Disappears in %s"
 msgstr "%s இல் மறைந்துவிடும்"
 
-#: ui/apps/gtkmm/src/PreludeWindow.cc:268
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
 #, c-format
 msgid "Silent in %s"
 msgstr "%s இல் அமைதி"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:131
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
 #, c-format
 msgid "Rest break for %s"
 msgstr "%sக்கு ஓய்வு இடைவேளை"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
 msgid "Natural rest break"
 msgstr "இயற்கை ஓய்வு இடைவேளை"
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
 msgid "This is your natural rest break."
 msgstr "இது உங்களின் இயற்கையான ஓய்வு இடைவேளை."
 
-#: ui/apps/gtkmm/src/RestBreakWindow.cc:174
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -762,502 +979,314 @@ msgstr ""
 "வழக்கமாக உங்கள் கணினியிலிருந்து விலகிச் செல்லுங்கள்.\n"
 "சில நிமிடங்கள் சுற்றி நடக்கவும், நீட்டி, ஓய்வெடுக்கவும்."
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:45
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:118
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:46
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:119
 msgid "Statistics"
 msgstr "புள்ளிவிவரங்கள்"
 
 #. Navigation box
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:107
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:108
 msgid "Browse history"
 msgstr "வரலாற்றை உலாவவும்"
 
 #. Delete button
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:112
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:113
 msgid "Delete all statistics history"
 msgstr "அனைத்து புள்ளிவிவர வரலாற்றையும் நீக்கு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:119
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:120
 msgid "Date:"
 msgstr "தேதி:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:152
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:153
 msgid "Breaks"
 msgstr "இடைவேளைகள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:160
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:161
 msgid "Break prompts"
 msgstr "இடைவேளை தூண்டுதல்கள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:161
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"அதே இடைவேளைக்கான திரும்பத் திரும்ப கேட்கும் முறைகளைத் தவிர்த்து, எத்தனை முறை"
-" இடைவேளை எடுக்குமாறுத் தூண்டப்பட்டீர்கள்"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:162
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "அதே இடைவேளைக்கான திரும்பத் திரும்ப கேட்கும் முறைகளைத் தவிர்த்து, எத்தனை முறை இடைவேளை எடுக்குமாறுத் தூண்டப்பட்டீர்கள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:165
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:166
 msgid "Repeated prompts"
 msgstr "மீண்டும் மீண்டும் கேட்கும்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:165
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:167
 msgid "The number of times you were repeatedly prompted to break"
-msgstr ""
-"எத்தனை முறை இடைவேளை எடுக்குமாறு நீங்கள் மீண்டும் மீண்டும் தூண்டப்பட்டீர்கள்"
+msgstr "எத்தனை முறை இடைவேளை எடுக்குமாறு நீங்கள் மீண்டும் மீண்டும் தூண்டப்பட்டீர்கள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:169
 msgid "Prompted breaks taken"
 msgstr "தூண்டப்பட்ட இடைவெளிகள் எடுக்கப்பட்டன"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:168
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:170
 msgid "The number of times you took a break when being prompted"
 msgstr "உரையூட்டப்படும் போது நீங்கள் எத்தனை முறை ஓய்வு எடுத்தீர்கள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:171
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:173
 msgid "Natural breaks taken"
 msgstr "இயற்கையாக எடுக்கப்பட்ட இடைவெளிகள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:171
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:174
 msgid "The number of times you took a break without being prompted"
 msgstr "உரையாடப்படாமல் எத்தனை முறை ஓய்வு எடுத்தீர்கள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:173
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
 msgid "Breaks skipped"
 msgstr "தவிர்க்கப்பட்ட இடைவெளிகள்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:173
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:176
 msgid "The number of breaks you skipped"
 msgstr "நீங்கள் தவிர்த்த இடைவெளிகளின் எண்ணிக்கை"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "Breaks postponed"
 msgstr "இடைவேளைகள் ஒத்திவைக்கப்பட்டது"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:175
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:179
 msgid "The number of breaks you postponed"
 msgstr "நீங்கள் ஒத்திவைத்த இடைவெளிகளின் எண்ணிக்கை"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
 msgid "Overdue time"
 msgstr "தாமதமான நேரம்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:177
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:181
 msgid "The total time this break was overdue"
 msgstr "இந்த இடைவேளையின் மொத்த நேரம்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:179
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
 msgid "Usage"
 msgstr "பயன்பாடு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:179
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:183
 msgid "Active computer usage"
 msgstr "செயலில் உள்ள கணினி பயன்பாடு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:181
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:185
 msgid "Daily"
 msgstr "நாள்தோறும்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:181
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:186
 msgid "The total computer usage for the selected day"
 msgstr "தேர்ந்தெடுக்கப்பட்ட நாளின் மொத்த கணினி பயன்பாடு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:189
 msgid "Weekly"
 msgstr "வாராந்திரம்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:184
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:190
 msgid "The total computer usage for the whole week of the selected day"
 msgstr "தேர்ந்தெடுக்கப்பட்ட நாளின் முழு வாரத்திற்கான மொத்த கணினி பயன்பாடு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:187
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:193
 msgid "Monthly"
 msgstr "மாதாந்திர"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:187
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:194
 msgid "The total computer usage for the whole month of the selected day"
 msgstr "தேர்ந்தெடுக்கப்பட்ட நாளின் முழு மாதத்திற்கான மொத்த கணினி பயன்பாடு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:264
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:271
 msgid "Activity"
 msgstr "செயல்பாடு"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:272
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:279
 msgid "Mouse usage:"
 msgstr "சுட்டி பயன்பாடு:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:272
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:280
 msgid "The total time you were using the mouse"
 msgstr "நீங்கள் சுட்டியை பயன்படுத்திய மொத்த நேரம்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:273
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:281
 msgid "Mouse movement:"
 msgstr "சுட்டி இயக்கம்:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:273
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:282
 msgid "The total on-screen mouse movement"
 msgstr "மொத்த திரையில் சுட்டி இயக்கம்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:275
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:284
 msgid "Effective mouse movement:"
 msgstr "பயனுள்ள சுட்டி இயக்கம்:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:276
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"சொடுக்குகளுக்கு இடையே உங்கள் சுட்டியை நேர்கோட்டில் நகர்த்தியிருந்தால், மொத்த"
-" சுட்டி இயக்கம்"
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:285
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "சொடுக்குகளுக்கு இடையே உங்கள் சுட்டியை நேர்கோட்டில் நகர்த்தியிருந்தால், மொத்த சுட்டி இயக்கம்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:279
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:287
 msgid "Mouse button clicks:"
 msgstr "சுட்டி பொத்தான் சொடுக்கவும்:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:279
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:288
 msgid "The total number of mouse button clicks"
 msgstr "சுட்டி பொத்தான் சொடுக்குகளின் மொத்த எண்ணிக்கை"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:280
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
 msgid "Keystrokes:"
 msgstr "விசை அழுத்தங்கள்:"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:280
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:289
 msgid "The total number of keys pressed"
 msgstr "அழுத்தப்பட்ட விசைகளின் மொத்த எண்ணிக்கை"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:324
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:325
 #, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, %s முதல் %s வரை"
+msgid "{:%x}, from {:%X} to {:%X}"
+msgstr "{:%x}, {:%X} இலிருந்து {:%X} வரை"
 
 #. Confirm the user's intention
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:620
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:622
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:643
 msgid "Warning"
 msgstr "எச்சரிக்கை"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:620
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:641
 msgid "You have chosen to delete your statistics history. Continue?"
-msgstr ""
-"உங்கள் புள்ளிவிவர வரலாற்றை நீக்க நீங்கள் தேர்ந்தெடுத்துள்ளீர்கள். தொடரவா?"
+msgstr "உங்கள் புள்ளிவிவர வரலாற்றை நீக்க நீங்கள் தேர்ந்தெடுத்துள்ளீர்கள். தொடரவா?"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
 # msgid "You have chosen to delete your statistics history. Continue?"
 # msgstr ""
 # "உங்கள் புள்ளிவிவர வரலாற்றை நீக்க நீங்கள் தேர்வு செய்துள்ளீர்கள். தொடரவா?"
-
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:633
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:654
 msgid "Files deleted!"
 msgstr "கோப்புகள் நீக்கப்பட்டன!"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:633
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:655
 msgid "The files containing your statistics history have been deleted."
 msgstr "உங்கள் புள்ளிவிவர வரலாற்றைக் கொண்ட கோப்புகள் நீக்கப்பட்டன."
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:635
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:657
 msgid "Info"
 msgstr "தகவல்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:640
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:662
 msgid "File deletion failed!"
 msgstr "கோப்பு நீக்கம் தோல்வியடைந்தது!"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:643
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:663
+msgid "The files containing your statistics history could not be deleted. Try again?"
+msgstr "உங்கள் புள்ளிவிவர வரலாற்றைக் கொண்ட கோப்புகளை நீக்க முடியவில்லை. மீண்டும் முயற்சிக்கவா?"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:665
 msgid "Error"
 msgstr "பிழை"
 
-#: ui/apps/gtkmm/src/Text.cc:73
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d மணிநேரம்"
+#: ui/app/toolkits/gtkmm/Toolkit.cc:282
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveApplet.c:356
+#: ui/applets/gnome3/src/libpanel-applet-v5/WorkraveApplet.c:366
+#: ui/applets/mate/src/main.c:254 ui/applets/xfce/src/main.c:349
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "இந்த நிரல் மீண்டும் மீண்டும் வரும் திரிபு காயத்தின் (மீமீதிகாயம்) தடுப்பு மற்றும் மீட்புக்கு உதவுகிறது."
 
-#: ui/apps/gtkmm/src/Text.cc:77
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d நிமிடங்கள்"
-
-#: ui/apps/gtkmm/src/Text.cc:81
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d வினாடிகள்"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:171
-msgid "Take rest break now"
-msgstr "இப்போது ஓய்வு எடுங்கள்"
-
-#: ui/apps/gtkmm/src/TimerBoxGtkView.cc:188
-msgid "Wait"
-msgstr "காத்திரு"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:77
-msgid "Place timers next to each other"
-msgstr "காலங்காட்டிகளை ஒன்றன்பின் ஒன்றாக வைக்கவும்"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:78
-msgid "Place micro-break and rest break in one spot"
-msgstr "நுண்-இடைவேளை மற்றும் ஓய்வு இடைவெளியை ஒரே இடத்தில் வைக்கவும்"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:79
-msgid "Place rest break and daily limit in one spot"
-msgstr "ஓய்வு இடைவேளை மற்றும் அன்றாட வரம்பை ஒரே இடத்தில் வைக்கவும்"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:80
-msgid "Place all timers in one spot"
-msgstr "அனைத்து காலங்காட்டிகளையும் ஒரே இடத்தில் வைக்கவும்"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:96
-msgid "Hide"
-msgstr "மறை"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:97
-msgid "Show"
-msgstr "காட்டு"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:98
-msgid "Show only when this timer is first due"
-msgstr "இந்த காலங்காட்டி முதலில் வரும்போது மட்டும் காட்டு"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:101
-msgid "Display"
-msgstr "காட்சி"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:110
-msgid "The status window stays always on top of other windows"
-msgstr "நிலை சாளரம் எப்போதும் மற்ற சாளரங்களின் மேல் இருக்கும்"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:115
-msgid "Show status window"
-msgstr "நிலை சாளரத்தைக் காட்டு"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:126
-msgid "Placement:"
-msgstr "இடம்:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:127
-msgid "Cycle time:"
-msgstr "சுழற்சி நேரம்:"
-
-#. Layout
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:132
-msgid "Micro-break:"
-msgstr "நுண்-இடைவெளி:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:133
-msgid "Rest break:"
-msgstr "ஓய்வு இடைவேளை:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:134
-msgid "Daily limit:"
-msgstr "அன்றாட வரம்பு:"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:138
-msgid "Fallback applet enabled"
-msgstr "பின்னடைவு பயன்பாடு இயக்கப்பட்டது"
-
-#: ui/apps/gtkmm/src/TimerBoxPreferencePanel.cc:143
-msgid "Show status icon"
-msgstr "நிலை சின்னத்தைக் காட்டு"
-
-#. Enabled/Disabled checkbox
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:54
-msgid "Enable timer"
-msgstr "காலங்காட்டியை இயக்கு"
-
-#. Prelude frame
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:91
-msgid "Break prompting"
-msgstr "இடைவேளை தூண்டுதல்"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:93
-msgid "Prompt before breaking"
-msgstr "இடைவேளைக்கு முன் கேட்கவும்"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:97
-msgid "Maximum number of prompts:"
-msgstr "அதிகபட்ச எண்ணிக்கையிலான தூண்டுதல்கள்:"
-
-#. Ignorable
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:125
-msgid "Show 'Postpone' button"
-msgstr "'ஒத்திவை' பொத்தானைக் காட்டு"
-
-#. Skippable
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:129
-msgid "Show 'Skip' button"
-msgstr "'தவிர்' பொத்தானைக் காட்டு"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:140
-msgid "Regard micro-breaks as activity"
-msgstr "நுண்-இடைவேளைகளை செயல்பாடாக கருதவும்"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:149
-msgid "Number of exercises:"
-msgstr "பயிற்சிகளின் எண்ணிக்கை:"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:154
-msgid "Start restbreak when screen is locked"
-msgstr "திரை பூட்டப்பட்டிருக்கும் போது ஒய்வு இடைவேளை தொடங்கு"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:159
-msgid "Enable shutting down the computer from the rest screen"
-msgstr "ஓய்வு திரையில் இருந்து கணினியை மூடுவதை இயக்கு"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:184
-msgid "Time before end:"
-msgstr "முடிவதற்கு முன் நேரம்:"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:184
-msgid "Time between breaks:"
-msgstr "இடைவெளிகளுக்கு இடையேயான நேரம்:"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:190
-msgid "Break duration:"
-msgstr "இடைவேளை காலம்:"
-
-#: ui/apps/gtkmm/src/TimerPreferencePanel.cc:205
-msgid "Postpone time:"
-msgstr "நேரத்தை ஒத்திவைக்கவும்:"
-
-#: ui/apps/gtkmm/src/Ui.cc:83
+#: ui/app/toolkits/gtkmm/Ui.cc:83
 msgid "Break prompt"
 msgstr "இடைவேளை தூண்டு"
 
-#: ui/apps/gtkmm/src/Ui.cc:86
+#: ui/app/toolkits/gtkmm/Ui.cc:86
 msgid "Break ignored"
 msgstr "இடைவேளை புறக்கணிக்கப்பட்டது"
 
-#: ui/apps/gtkmm/src/Ui.cc:89
+#: ui/app/toolkits/gtkmm/Ui.cc:89
 msgid "Rest break started"
 msgstr "ஓய்வு இடைவேளை தொடங்கியது"
 
-#: ui/apps/gtkmm/src/Ui.cc:92
+#: ui/app/toolkits/gtkmm/Ui.cc:92
 msgid "Rest break ended"
 msgstr "ஓய்வு இடைவேளை முடிந்தது"
 
-#: ui/apps/gtkmm/src/Ui.cc:95
+#: ui/app/toolkits/gtkmm/Ui.cc:95
 msgid "Micro-break started"
 msgstr "நுண்-இடைவெளி தொடங்கியது"
 
-#: ui/apps/gtkmm/src/Ui.cc:98
+#: ui/app/toolkits/gtkmm/Ui.cc:98
 msgid "Micro-break ended"
 msgstr "நுண்-இடைவெளி முடிந்துவிட்டது"
 
-#: ui/apps/gtkmm/src/Ui.cc:104
+#: ui/app/toolkits/gtkmm/Ui.cc:104
 msgid "Exercise ended"
 msgstr "உடற்பயிற்சி முடிந்தது"
 
-#: ui/apps/gtkmm/src/Ui.cc:107
+#: ui/app/toolkits/gtkmm/Ui.cc:107
 msgid "Exercises ended"
 msgstr "பயிற்சிகள் முடிந்தது"
 
-#: ui/apps/gtkmm/src/Ui.cc:110
+#: ui/app/toolkits/gtkmm/Ui.cc:110
 msgid "Exercise change"
 msgstr "உடற்பயிற்சி மாற்றம்"
 
-#: ui/apps/gtkmm/src/Ui.cc:113
+#: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
 msgstr "?"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:119
-msgid "Orientation"
-msgstr "நோக்குநிலை"
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:166
+msgid "Take rest break now"
+msgstr "இப்போது ஓய்வு எடுங்கள்"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:120
-msgid "The orientation of the tray"
-msgstr "தட்டில் நோக்குநிலை"
+#: ui/app/toolkits/gtkmm/widgets/TimerBoxGtkView.cc:184
+msgid "Wait"
+msgstr "காத்திரு"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
-msgid "Foreground color"
-msgstr "முன்புற வண்ணம்"
+#: ui/app/workrave.metainfo.xml:5
+#, fuzzy
+msgid "Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)"
+msgstr "மீண்டும் மீண்டும் திரிபு காயத்தின் (மீமீதிகாயம்) தடுப்பு மற்றும் மீட்புக்கு உதவுகிறது"
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:128
-msgid "Foreground color for symbolic icons"
-msgstr "குறியீட்டு சின்னங்களுக்கான முன்புற வண்ணம்"
+#: ui/app/workrave.metainfo.xml:9
+#, fuzzy
+msgid "Workrave is a free program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). It frequently alerts you to take microbreaks, rest breaks and restricts you to your daily computer usage."
+msgstr "பணிவெறி என்பது மீண்டும் மீண்டும்  திரிபு காயத்தை (மீமீதிகாயம்) மீட்டெடுப்பதற்கும் தடுப்பதற்கும் உதவும் ஒரு நிரலாகும். நுண்-இடைநிறுத்தங்கள், ஓய்வு இடைவேளைகள் மற்றும் உங்களின் அன்றாட வரம்புக்கு உங்களை கட்டுப்படுத்துமாறு நிரல் அடிக்கடி உங்களை எச்சரிக்கிறது."
 
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-msgid "Error color"
-msgstr "பிழை நிறம்"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:133
-msgid "Error color for symbolic icons"
-msgstr "குறியீட்டு சின்னங்களுக்கான பிழை வண்ணம்"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-msgid "Warning color"
-msgstr "எச்சரிக்கை நிறம்"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:138
-msgid "Warning color for symbolic icons"
-msgstr "குறியீட்டு சின்னங்களுக்கான எச்சரிக்கை வண்ணம்"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
-msgid "Success color"
-msgstr "வெற்றி நிறம்"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:143
-msgid "Success color for symbolic icons"
-msgstr "குறியீட்டு சின்னங்களுக்கான வெற்றி வண்ணம்"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
-msgid "Padding"
-msgstr "திணிப்பு"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:148
-msgid "Padding that should be put around icons in the tray"
-msgstr "தட்டில் உள்ள சின்னங்களைச் சுற்றி வைக்கப்பட வேண்டிய திணிப்பு"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:153
-msgid "Icon Size"
-msgstr "சின்னம் அளவு"
-
-#: ui/apps/gtkmm/src/unix/gtktrayicon.c:154
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr "சின்னங்கள் கட்டாயப்படுத்தப்பட வேண்டிய பிக்சல் அளவு, அல்லது சுழியம்"
-
-#: ui/apps/gtkmm/src/workrave.metainfo.xml:7
-msgid "Program that assists in the recovery and prevention of RSI"
-msgstr "மீமீதிகாயத்தின் மீட்பு மற்றும் தடுப்புக்கு உதவும் திட்டம்"
-
-#: ui/apps/gtkmm/src/workrave.metainfo.xml:9
-msgid ""
-"Workrave is a program that assists in the recovery and prevention of "
-"Repetitive Strain Injury (RSI). The program frequently alerts you to take "
-"micro-pauses, rest breaks and restricts you to your daily limit."
+#: ui/app/workrave.metainfo.xml:17
+msgid "The break warning window"
 msgstr ""
-"பணிவெறி என்பது மீண்டும் மீண்டும்  திரிபு காயத்தை (மீமீதிகாயம்) "
-"மீட்டெடுப்பதற்கும் தடுப்பதற்கும் உதவும் ஒரு நிரலாகும். நுண்-இடைநிறுத்தங்கள்,"
-" ஓய்வு இடைவேளைகள் மற்றும் உங்களின் அன்றாட வரம்புக்கு உங்களை "
-"கட்டுப்படுத்துமாறு நிரல் அடிக்கடி உங்களை எச்சரிக்கிறது."
 
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:6
-msgid ""
-"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"மீண்டும் மீண்டும் திரிபு காயத்தின் (மீமீதிகாயம்) தடுப்பு மற்றும் மீட்புக்கு "
-"உதவுகிறது"
+#: ui/app/workrave.metainfo.xml:21
+#, fuzzy
+msgid "The restbreak window"
+msgstr "இப்போது ஓய்வு எடுங்கள்"
 
-#: ui/apps/gtkmm/src/org.workrave.Workrave.desktop.in:7
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr "தட்டச்சு;இடைவேலை;காலங்காட்டி;மணிக்கட்டு;உடல்நலம்;மீமீதிகாயம்;"
+#: ui/app/workrave.metainfo.xml:25
+#, fuzzy
+msgid "The main window"
+msgstr "நிலை சாளரத்தைக் காட்டு"
+
+#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
+msgid "Workrave Applet"
+msgstr "பணிவெறி பயன்பாடு"
+
+#: ui/applets/mate/src/main.c:362
+msgid "_Statistics"
+msgstr "புள்ளிவிவரங்கள்"
+
+#: ui/applets/mate/src/main.c:368
+msgid "_Restbreak"
+msgstr "ஓய்வுஇடைவேளை"
+
+#: ui/applets/mate/src/main.c:379
+msgid "Show log"
+msgstr "பதிவைக் காட்டு"
+
+#: ui/applets/mate/src/main.c:381
+msgid "Reading mode"
+msgstr "வாசிப்பு முறை"
+
+#: ui/applets/mate/src/main.c:385
+msgid "Normal"
+msgstr "இயல்பு"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
 msgstr "தோள்-கை நீட்டிப்பு"
 
 #: ui/data/exercises/exercises.xml.in:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other"
-" arm."
-msgstr ""
-"ஒரு கையை உங்கள் மார்பின் முன் கிடைமட்டமாக நீட்டவும். உங்கள் தோளில் ஒரு லேசான"
-" பதற்றத்தை உணரும் வரை இந்த கையை உங்கள் மற்ற கையை உங்களை நோக்கி தள்ளுங்கள். "
-"இந்த நிலையை சுருக்கமாகப் பிடித்துக் கொள்ளுங்கள், மேலும் உங்கள் பிற கைக்கு "
-"உடற்பயிற்சியை மீண்டும் செய்யவும்."
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "ஒரு கையை உங்கள் மார்பின் முன் கிடைமட்டமாக நீட்டவும். உங்கள் தோளில் ஒரு லேசான பதற்றத்தை உணரும் வரை இந்த கையை உங்கள் மற்ற கையை உங்களை நோக்கி தள்ளுங்கள். இந்த நிலையை சுருக்கமாகப் பிடித்துக் கொள்ளுங்கள், மேலும் உங்கள் பிற கைக்கு உடற்பயிற்சியை மீண்டும் செய்யவும்."
 
-#: ui/data/exercises/exercises.xml.in:5
 # msgid ""
 # "Keep one arm horizontally stretched in front of your chest. Push this arm "
 # "with your other arm towards you until you feel a mild tension in your "
@@ -1268,23 +1297,14 @@ msgstr ""
 # "பதற்றத்தை உணரும் வரை, இந்த கையை உங்கள் மற்றொரு கையால் உங்களை நோக்கித் "
 # "தள்ளவும். இந்த நிலையைச் சுருக்கமாகப் பிடித்து, உங்கள் மற்றொரு கைக்கான "
 # "பயிற்சியை மீண்டும் செய்யவும்."
-
 #: ui/data/exercises/exercises.xml.in:22
 msgid "Finger stretch"
 msgstr "விரல் நீட்டல்"
 
 #: ui/data/exercises/exercises.xml.in:23
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold"
-" again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"லேசான பதற்றம் உணரப்படும் வரை உங்கள் விரல்களை பிரித்து நீட்டவும், இதை 10 "
-"விநாடிகள் வைத்திருங்கள். ஓய்வெடுங்கள், பின்னர் உங்கள் விரல்களை நக்கிள்சில் "
-"வளைத்து, மீண்டும் 10 விநாடிகள் வைத்திருங்கள். இந்த பயிற்சியை மீண்டும் ஒரு "
-"முறை மீண்டும் செய்யவும்."
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "லேசான பதற்றம் உணரப்படும் வரை உங்கள் விரல்களை பிரித்து நீட்டவும், இதை 10 விநாடிகள் வைத்திருங்கள். ஓய்வெடுங்கள், பின்னர் உங்கள் விரல்களை நக்கிள்சில் வளைத்து, மீண்டும் 10 விநாடிகள் வைத்திருங்கள். இந்த பயிற்சியை மீண்டும் ஒரு முறை மீண்டும் செய்யவும்."
 
-#: ui/data/exercises/exercises.xml.in:23
 # msgid ""
 # "Separate and stretch your fingers until a mild tension is felt, and hold "
 # "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold"
@@ -1294,25 +1314,14 @@ msgstr ""
 # "வினாடிகள் வைத்திருங்கள். நிதானமாக, பின்னர் உங்கள் விரல்களை முழங்கால்களில் "
 # "வளைத்து, மீண்டும் 10 வினாடிகள் வைத்திருங்கள். இந்தப் பயிற்சியை மீண்டும் "
 # "ஒருமுறை செய்யவும்."
-
 #: ui/data/exercises/exercises.xml.in:30
 msgid "Neck tilt stretch"
 msgstr "கழுத்து சாய்வு நீட்சி"
 
 #: ui/data/exercises/exercises.xml.in:31
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to"
-" the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"வசதியான நேரான நிலையில் உங்கள் தலையுடன் தொடங்கவும். பின்னர், உங்கள் கழுத்தின்"
-" இடது பக்கத்தில் தசைகளை மெதுவாக நீட்ட உங்கள் தலையை உங்கள் வலது தோள்பட்டையில்"
-" மெதுவாக சாய்க்கவும். இந்த நிலையை 5 விநாடிகள் வைத்திருங்கள். பின்னர், உங்கள்"
-" மறுபக்கத்தை நீட்ட உங்கள் தலையை இடது பக்கமாக சாய்க்கவும். ஒவ்வொரு "
-"பக்கத்திற்கும் இதை இரண்டு முறை செய்யுங்கள்."
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "வசதியான நேரான நிலையில் உங்கள் தலையுடன் தொடங்கவும். பின்னர், உங்கள் கழுத்தின் இடது பக்கத்தில் தசைகளை மெதுவாக நீட்ட உங்கள் தலையை உங்கள் வலது தோள்பட்டையில் மெதுவாக சாய்க்கவும். இந்த நிலையை 5 விநாடிகள் வைத்திருங்கள். பின்னர், உங்கள் மறுபக்கத்தை நீட்ட உங்கள் தலையை இடது பக்கமாக சாய்க்கவும். ஒவ்வொரு பக்கத்திற்கும் இதை இரண்டு முறை செய்யுங்கள்."
 
-#: ui/data/exercises/exercises.xml.in:31
 # msgid ""
 # "Start with your head in a comfortable straight position. Then, slowly tilt "
 # "your head to your right shoulder to gently stretch the muscles on the left "
@@ -1324,53 +1333,30 @@ msgstr ""
 # "தோள்பட்டைக்கு மெதுவாக சாய்க்கவும். இந்த நிலையை 5 வினாடிகள் வைத்திருங்கள். "
 # "பின்னர், உங்கள் தலையை இடது பக்கம் சாய்க்கவும். உங்கள் மறுபக்கத்தை நீட்டிக்க,"
 # " ஒவ்வொரு பக்கத்திற்கும் இரண்டு முறை இதைச் செய்யுங்கள்."
-
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
 msgstr "பின்னோக்கி தோள்பட்டை நீட்டிப்பு"
 
 #: ui/data/exercises/exercises.xml.in:39
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"உங்கள் விரல்களை உங்கள் முதுகுக்குப் பின்னால் இணைக்கவும். பின்னர் உங்கள் "
-"கைகளை நேராக்கும்போது, ​​உங்கள் முழங்கைகளை மெதுவாக உள்நோக்கித் திருப்பவும். "
-"இந்த நிலையை 5 முதல் 15 வினாடிகள் வைத்திருங்கள், மேலும் இந்தப் பயிற்சியை "
-"இரண்டு முறை செய்யவும்."
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "உங்கள் விரல்களை உங்கள் முதுகுக்குப் பின்னால் இணைக்கவும். பின்னர் உங்கள் கைகளை நேராக்கும்போது, ​​உங்கள் முழங்கைகளை மெதுவாக உள்நோக்கித் திருப்பவும். இந்த நிலையை 5 முதல் 15 வினாடிகள் வைத்திருங்கள், மேலும் இந்தப் பயிற்சியை இரண்டு முறை செய்யவும்."
 
 #: ui/data/exercises/exercises.xml.in:45
+msgid "Move the eyes"
+msgstr "கண்களை நகர்த்தவும்"
+
+#: ui/data/exercises/exercises.xml.in:46
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "உங்கள் மானிட்டரின் வெளிப்புற எல்லையின் மேல் இடது மூலையைப் பாருங்கள். எல்லையை மெதுவாக மேல் வலது மூலையில் பின்தொடரவும். அடுத்த மூலையில் தொடரவும், நீங்கள் அதை இரண்டு முறை சுற்றி வரும் வரை. பின்னர், உடற்பயிற்சியை மாற்றியமைக்கவும்."
+
+#: ui/data/exercises/exercises.xml.in:64
 msgid "Train focusing the eyes"
 msgstr "கண்களை மையப்படுத்தும் பயிற்சி"
 
-#: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"உங்கள் மானிட்டரின் வெளிப்புற எல்லையின் மேல் இடது மூலையைப் பாருங்கள். எல்லையை"
-" மெதுவாக மேல் வலது மூலையில் பின்தொடரவும். அடுத்த மூலையில் தொடரவும், நீங்கள் "
-"அதை இரண்டு முறை சுற்றி வரும் வரை. பின்னர், உடற்பயிற்சியை மாற்றியமைக்கவும்."
-
 #: ui/data/exercises/exercises.xml.in:65
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes"
-" on the remote point. Then focus on your monitor border. Repeat it. If you "
-"cannot look very far from your monitor, face another direction with a longer"
-" view. Then switch your focus between a distant object and a pen held at the"
-" same distance from your eyes as your monitor."
-msgstr ""
-"உங்கள் மானிட்டர் பின்னால் நீங்கள் காணக்கூடிய மிக அதிகமான புள்ளியைப் "
-"பாருங்கள். உங்கள் கண்களை தொலை புள்ளியில் கவனம் செலுத்துங்கள். உங்கள் "
-"மானிட்டர் எல்லையில் கவனம் செலுத்துங்கள். அதை மீண்டும் செய்யவும். உங்கள் "
-"மானிட்டரிலிருந்து வெகு தொலைவில் பார்க்க முடியாவிட்டால், நீண்ட பார்வையுடன் "
-"மற்றொரு திசையை எதிர்கொள்ளுங்கள். உங்கள் கவனத்தை தொலைதூர பொருளுக்கும், உங்கள்"
-" மானிட்டரின் கண்களிலிருந்து அதே தூரத்தில் வைத்திருக்கும் பேனாவிற்கும் "
-"இடையில் உங்கள் கவனத்தை மாற்றவும்."
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "உங்கள் மானிட்டர் பின்னால் நீங்கள் காணக்கூடிய மிக அதிகமான புள்ளியைப் பாருங்கள். உங்கள் கண்களை தொலை புள்ளியில் கவனம் செலுத்துங்கள். உங்கள் மானிட்டர் எல்லையில் கவனம் செலுத்துங்கள். அதை மீண்டும் செய்யவும். உங்கள் மானிட்டரிலிருந்து வெகு தொலைவில் பார்க்க முடியாவிட்டால், நீண்ட பார்வையுடன் மற்றொரு திசையை எதிர்கொள்ளுங்கள். உங்கள் கவனத்தை தொலைதூர பொருளுக்கும், உங்கள் மானிட்டரின் கண்களிலிருந்து அதே தூரத்தில் வைத்திருக்கும் பேனாவிற்கும் இடையில் உங்கள் கவனத்தை மாற்றவும்."
 
-#: ui/data/exercises/exercises.xml.in:65
 # msgid ""
 # "Look for the furthest point you can see behind your monitor. Focus your eyes"
 # " on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -1385,38 +1371,22 @@ msgstr ""
 # "பார்வையுடன் மற்றொரு திசையை எதிர்கொள்ளுங்கள். பின்னர் தொலைதூரப் பொருளுக்கும் "
 # "பேனாவுக்கும் இடையே உங்கள் கவனத்தை மாற்றவும், உங்கள் கண்களில் இருந்து உங்கள் "
 # "கண்காணியின் அதே தூரத்தில் வைத்திருக்கும் பேனாவும்."
-
-
 #: ui/data/exercises/exercises.xml.in:72
 msgid "Look into the darkness"
 msgstr "இருட்டிருக்குள் பார்க்கவும்"
 
 #: ui/data/exercises/exercises.xml.in:73
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"உங்கள் கண் இமைகளை இன்னும் திறக்கும் வகையில் உங்கள் கண்களை உங்கள் "
-"உள்ளங்கைகளால் மூடவும். இப்போது உங்கள் கண்களைத் திறந்து உங்கள் உள்ளங்கைகளின் "
-"இருளைப் பாருங்கள். இந்தப் பயிற்சியானது உங்கள் கண்களை மூடுவதை விட சிறந்த "
-"நிவாரணத்தை அளிக்கிறது."
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "உங்கள் கண் இமைகளை இன்னும் திறக்கும் வகையில் உங்கள் கண்களை உங்கள் உள்ளங்கைகளால் மூடவும். இப்போது உங்கள் கண்களைத் திறந்து உங்கள் உள்ளங்கைகளின் இருளைப் பாருங்கள். இந்தப் பயிற்சியானது உங்கள் கண்களை மூடுவதை விட சிறந்த நிவாரணத்தை அளிக்கிறது."
 
 #: ui/data/exercises/exercises.xml.in:79
 msgid "Move the shoulders"
 msgstr "தோள்களை நகர்த்தவும்"
 
 #: ui/data/exercises/exercises.xml.in:80
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do"
-" this 4 times forwards, 4 times backwards and relax for a few seconds. "
-"Repeat with the left arm."
-msgstr ""
-"உங்கள் வலது கையை உங்கள் உடலின் அருகே ஒரு விமான உந்துசக்தியைப் போல மெதுவாக "
-"சுழற்றுங்கள். இதை 4 மடங்கு முன்னோக்கி, 4 மடங்கு பின்னோக்கி மற்றும் சில "
-"விநாடிகள் ஓய்வெடுங்கள். இடது கையால் மீண்டும் செய்யவும்."
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "உங்கள் வலது கையை உங்கள் உடலின் அருகே ஒரு விமான உந்துசக்தியைப் போல மெதுவாக சுழற்றுங்கள். இதை 4 மடங்கு முன்னோக்கி, 4 மடங்கு பின்னோக்கி மற்றும் சில விநாடிகள் ஓய்வெடுங்கள். இடது கையால் மீண்டும் செய்யவும்."
 
-#: ui/data/exercises/exercises.xml.in:80
 # msgid ""
 # "Spin your right arm slowly round like a plane propeller beside your body. Do"
 # " this 4 times forwards, 4 times backwards and relax for a few seconds. "
@@ -1425,295 +1395,249 @@ msgstr ""
 # "உங்கள் வலது கையை மெதுவாக உங்கள் உடலுக்கு அருகில் ஒரு விமான உந்துவிசை போல "
 # "சுழற்றுங்கள். இதை 4 முறை முன்னோக்கி செய்யவும், 4 முறை பின்னோக்கி சில நொடிகள்"
 # " ஓய்வெடுக்கவும். இடது கையால் மீண்டும் செய்யவும்."
-
 #: ui/data/exercises/exercises.xml.in:87
 msgid "Move the shoulders up and down"
 msgstr "தோள்களை மேலும் கீழும் நகர்த்தவும்"
 
 #: ui/data/exercises/exercises.xml.in:88
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"நீங்கள் உட்கார்ந்திருக்கும் போது உங்கள் நாற்காலியின் கைத்தாங்கலில் உங்கள் "
-"கைகளை வைத்து, உங்கள் கைகள் நேராக இருக்கும் வரை உங்கள் உடலை மேலே அழுத்தவும். "
-"உங்கள் தோள்களைக் குறைத்து உங்கள் தலையை மேலும் நகர்த்த முயற்சிக்கவும். "
-"மெதுவாக உங்கள் நாற்காலியில் நகர்த்தவும்."
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "நீங்கள் உட்கார்ந்திருக்கும் போது உங்கள் நாற்காலியின் கைத்தாங்கலில் உங்கள் கைகளை வைத்து, உங்கள் கைகள் நேராக இருக்கும் வரை உங்கள் உடலை மேலே அழுத்தவும். உங்கள் தோள்களைக் குறைத்து உங்கள் தலையை மேலும் நகர்த்த முயற்சிக்கவும். மெதுவாக உங்கள் நாற்காலியில் நகர்த்தவும்."
 
 #: ui/data/exercises/exercises.xml.in:125
 msgid "Turn your head"
 msgstr "உங்கள் தலையைத் திருப்பவும்"
 
 #: ui/data/exercises/exercises.xml.in:126
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"உங்கள் தலையை இடதுபுறமாகத் திருப்பி 2 வினாடிகள் அங்கேயே வைக்கவும். பின்னர் "
-"உங்கள் தலையை வலதுபுறமாகத் திருப்பி 2 வினாடிகள் அங்கேயே வைக்கவும்."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "உங்கள் தலையை இடதுபுறமாகத் திருப்பி 2 வினாடிகள் அங்கேயே வைக்கவும். பின்னர் உங்கள் தலையை வலதுபுறமாகத் திருப்பி 2 வினாடிகள் அங்கேயே வைக்கவும்."
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:332
+#: ui/libs/commonui/src/Text.cc:71
+#, c-format, qt-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d மணிநேரம்"
+
+#: ui/libs/commonui/src/Text.cc:75
+#, c-format, qt-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d நிமிடங்கள்"
+
+#: ui/libs/commonui/src/Text.cc:79
 #, c-format
-msgid "{:%x}, from {:%X} to {:%X}"
-msgstr "{:%x}, {:%X} இலிருந்து {:%X} வரை"
+msgid "%s%d seconds"
+msgstr "%s%d வினாடிகள்"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
-msgid "<h3>Version {}</h3>\n"
-msgstr "<h3>பதிப்பு {}</h3>\n"
+#, c-format
+#~ msgid "Reconnecting to %s."
+#~ msgstr "%s உடன் மீண்டும் இணைக்கிறது"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
-msgid "A new version of {} is available"
-msgstr "{} இன் புதிய பதிப்பு உள்ளது"
+#~ msgid "Could not enable network operation."
+#~ msgstr "இணைய செயல்பாட்டை இயக்க முடியவில்லை."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
-msgid "Auto update"
-msgstr "தானியங்கு மேம்படுத்தல்"
+#~ msgid "Disabling network operation."
+#~ msgstr "இணைய செயல்பாட்டை முடக்குகிறது."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
-msgid "Automatically check for updates"
-msgstr "புதுப்பிப்புகளை தானாக சரிபார்க்கவும்"
+#, c-format
+#~ msgid "Connecting to %s."
+#~ msgstr "%s உடன் இணைக்கிறது."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
-msgid "Check for _Updates"
-msgstr "புதுப்பிப்புகளை சரிபார்க்கவும்"
+#, c-format
+#~ msgid "Removing client %s."
+#~ msgstr "கிளையன்ட் %s ஐ நீக்குகிறது."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
-msgid "Crash report"
-msgstr "விபத்து அறிக்கை"
+#, c-format
+#~ msgid "Disconnecting %s"
+#~ msgstr "%sஐ துண்டிக்கிறது"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
-msgid "Crash report details"
-msgstr "விபத்து அறிக்கை விவரங்கள்"
+#, c-format
+#~ msgid "Client %s is now master."
+#~ msgstr "கிளையன்ட் %s இப்போது முதன்மையானவர்."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
-msgid "Details..."
-msgstr "விவரங்கள்..."
+#~ msgid "I'm now master."
+#~ msgstr "நான் இப்போது மாஸ்டர்."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Focus Assist"
-msgstr "கவன உதவி"
+#, c-format
+#~ msgid "Client %s saying hello."
+#~ msgstr "கிளையண்ட் %s ஹலோ கூறுகிறார்."
 
-#: ui/app/Menus.cc:178
-msgid "For 1 hour"
-msgstr "1 மணிநேரத்திற்கு"
+#, c-format
+#~ msgid "Client %s access denied."
+#~ msgstr "கிளையண்ட் %s அணுகல் மறுக்கப்பட்டது."
 
-#: ui/app/Menus.cc:189
-msgid "For 1 minute"
-msgstr "1 நிமிடத்திற்கு"
+#, c-format
+#~ msgid "Client %s is duplicate."
+#~ msgstr "கிளையண்ட் %s நகல்."
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
-msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr "வழிநிலத்தில் X11 ஐ கட்டாயப்படுத்தவும் (பணிவெறியின் மறுதொடக்கம் தேவை)"
+#, c-format
+#~ msgid "Client %s signed off."
+#~ msgstr "கிளையண்ட் %s கையொப்பமிட்டுள்ளார்."
 
-#: ui/app/Menus.cc:166
-msgid "Indefinitely"
-msgstr "காலவரையின்றி"
+#, c-format
+#~ msgid "Client %s is welcoming us."
+#~ msgstr "கிளையண்ட் %s எங்களை வரவேற்கிறார்."
 
-#: ui/data/exercises/exercises.xml.in:46
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next "
-"corneruntil you got around it two times. Then, reverse the exercise."
-msgstr ""
-"உங்கள் கண்காணியின் வெளிப்புற எல்லையின் மேல் இடது மூலையைப் பார்க்கவும். "
-"எல்லையை மெதுவாக மேல் வலது மூலையில் பின்தொடரவும். அடுத்த மூலைக்குச் "
-"செல்லவும், நீங்கள் அதை இரண்டு முறை சுற்றி வரும் வரை. பிறகு, உடற்பயிற்சியைத் "
-"திருப்பவும்."
+#, c-format
+#~ msgid "Requesting master status from %s."
+#~ msgstr "%s இலிருந்து முதன்மை நிலையைக் கோருகிறது."
 
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:139
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:141
-msgid "Monitoring"
-msgstr "கண்காணித்தல்"
+#, c-format
+#~ msgid "Client timeout from %s."
+#~ msgstr "%s இலிருந்து கிளையன்ட் நேரம் முடிந்தது."
 
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "கண்களை நகர்த்தவும்"
+#, c-format
+#~ msgid "Rejecting master request from client %s."
+#~ msgstr "கிளையன்ட் %s இலிருந்து முதன்மை கோரிக்கையை நிராகரிக்கிறது."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
-msgid ""
-"Note that this crash report also contains technical information about the "
-"state of Workrave when it crashed."
-msgstr ""
-"இந்த செயலிழப்பு அறிக்கை செயலிழந்த போது, பணிவெறி நிலை பற்றிய தொழில்நுட்ப "
-"தகவல்களையும் கொண்டுள்ளது என்பதை நினைவில் கொள்ளவும்."
+#, c-format
+#~ msgid "Acknowledging master request from client %s."
+#~ msgstr "கிளையன்ட் %s இலிருந்து முதன்மை கோரிக்கையை ஒப்புக்கொள்கிறது."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
-msgid "Operation mode during Focus Assist:"
-msgstr "கவன உதவியின் போது இயக்க முறை:"
+#, c-format
+#~ msgid "Non-master client %s rejected master request."
+#~ msgstr "முதன்மை அல்லாத கிளையன்ட் %s நிராகரிக்கப்பட்ட முதன்மை கோரிக்கை."
 
-#: ui/app/Menus.cc:294
-#, qt-format
-msgid "Q_uiet (until %1%)"
-msgstr "அமைதி (%1% வரை)"
+#, c-format
+#~ msgid "Client %s rejected master request, delaying."
+#~ msgstr "கிளையண்ட் %s முதன்மை கோரிக்கையை நிராகரித்தார், தாமதப்படுத்துகிறார்."
 
-#: ui/app/Menus.cc:307
-msgid "Q_uiet (until next day)"
-msgstr "அமைதி (அடுத்த நாள் வரை)"
+#, c-format
+#~ msgid "Client %s is now the new master."
+#~ msgstr "கிளையன்ட் %s இப்போது புதிய மாஸ்டர்."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
-msgid "Release channel:"
-msgstr "சேனலை வெளியிடு:"
+#~ msgid "Network operation started."
+#~ msgstr "நெட்வொர்க் செயல்பாடு தொடங்கியது."
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
-msgid "Release notes"
-msgstr "வெளியீட்டு குறிப்புகள்"
+#~ msgid "Accepted new client."
+#~ msgstr "புதிய கிளையன்ட் ஏற்கப்பட்டது."
 
+#, c-format
+#~ msgid "Client %s read error, closing."
+#~ msgstr "கிளையண்ட் %s வாசிப்பு பிழை, மூடுகிறது."
 
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
-msgid "Set operation mode based on Windows Focus Assist"
-msgstr "சாளரங்கள் கவன உதவியாளரின் அடிப்படையில் செயல்பாட்டு முறையை அமைக்கவும்"
+#, c-format
+#~ msgid "Client %s closed connection."
+#~ msgstr "கிளையண்ட் %s இணைப்பு மூடப்பட்டது."
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
-msgid "Software Update"
-msgstr "மென்பொருள் புதுப்பிப்பு"
+#, c-format
+#~ msgid "Client %s connected."
+#~ msgstr "கிளையண்ட் %s இணைக்கப்பட்டுள்ளது."
 
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
-msgid "Software updates"
-msgstr "மென்பொருள் புதுப்பிப்புகள்"
+#, c-format
+#~ msgid "Could not connect to client %s."
+#~ msgstr "கிளையன்ட் %s உடன் இணைக்க முடியவில்லை."
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
-msgid "Submit crash report to the Workrave developers"
-msgstr "பணிவெறி நிரலர்களுக்கு செயலிழப்பு அறிக்கையை சமர்ப்பிக்கவும்"
+#~ msgid "_Network"
+#~ msgstr "இணையம்"
 
-#: ui/app/Menus.cc:121
-msgid "Temporarily Quiet..."
-msgstr "தற்காலிகமாக அமைதியாக..."
+#~ msgid "_Join"
+#~ msgstr "இணை"
 
-#: ui/app/Menus.cc:118
-msgid "Temporarily Suspended..."
-msgstr "தற்காலிகமாக இடைநிறுத்தப்பட்டது..."
+#~ msgid "_Disconnect"
+#~ msgstr "துண்டி"
 
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
-msgid ""
-"The files containing your statistics history could not be deleted. Try "
-"again?"
-msgstr ""
-"உங்கள் புள்ளிவிவர வரலாற்றைக் கொண்ட கோப்புகளை நீக்க முடியவில்லை. மீண்டும் "
-"முயற்சிக்கவா?"
+#~ msgid "_Reconnect"
+#~ msgstr "மீண்டும் இணைக்கவும்"
 
-#: ui/apps/gtkmm/src/StatisticsDialog.cc:641
-# msgid ""
-# "The files containing your statistics history could not be deleted. Try "
-# "again?"
-# msgstr ""
-# "உங்கள் புள்ளிவிவர வரலாற்றைக் கொண்ட கோப்புகளை நீக்க முடியவில்லை. மீண்டும் "
-# "முயற்சிக்கிறீர்களா?"
+#~ msgid "Workrave failed to start"
+#~ msgstr "பணிவெறி தொடங்குவதில் தோல்வியடைந்தது"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
-msgid "The following logging will be attached to the crash report:"
-msgstr "பின்வரும் பதிவு செயலிழப்பு அறிக்கையுடன் இணைக்கப்படும்:"
+#~ msgid "Is Workrave already running?"
+#~ msgstr "பணிவெறி இயங்குகிறதா?"
 
-#: ui/app/Menus.cc:198
-msgid "Until next day"
-msgstr "அடுத்த நாள் வரை"
+#~ msgid "Network connect"
+#~ msgstr "பிணையம் இணை"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
-msgid "Use dark theme"
-msgstr "இருண்ட கருப்பொருள் பயன்படுத்து"
+#~ msgid ""
+#~ "Enter the host name and port number of a computer\n"
+#~ "in the network you wish to connect to."
+#~ msgstr ""
+#~ "கணினியின் புரவலன் பெயர் மற்றும் துறைமுகம் எண்ணை உள்ளிடவும்\n"
+#~ " நெட்வொர்க்கில் நீங்கள் இணைக்க விரும்புகிறீர்கள்."
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
-msgid "Version {}\n"
-msgstr "பதிப்பு {}\n"
+#~ msgid "Host name:"
+#~ msgstr "புரவலன் பெயர்"
 
-#: ui/app/Application.cc:346
-msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-msgstr ""
-"பணிவெறியால் உங்கள் விசைப்பலகை மற்றும் சுட்டி செயல்பாட்டை கண்காணிக்க "
-"முடியவில்லை.\n"
+#~ msgid "Port:"
+#~ msgstr "துறைமுகம்:"
 
-#: ui/apps/gtkmm/src/GUI.cc:352
-# msgid "Workrave could not monitor your keyboard and mouse activity.\n"
-# msgstr "பணிவெறியால் விசைபலகை மற்றும் சுட்டியை கண்காணிக்க இயலாது"
+#~ msgid "Network log"
+#~ msgstr "பிணைய பதிவு"
 
-#: ui/app/toolkits/gஉஇtkmm/CrashDialog.cc:136
-msgid "Workrave crash reporter"
-msgstr "பணிவெறி செயலிழப்பு அறிக்கையாளர்"
+#~ msgid "Enable networking"
+#~ msgstr "நெட்வொர்க்கிங் இயக்கு"
 
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-msgid ""
-"Workrave does not fully support Wayland natively. This option forces the use"
-" of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
-"பணிவெறி இயல்பான முறையில் வழிநிலத்தை முழுமையாக ஆதரிக்கவில்லை. இந்த விருப்பம் "
-"வழிநிலத்தில் X11 ஐ பயன்படுத்துவதை கட்டாயப்படுத்துகிறது. இந்த விருப்பத்தை "
-"மாற்ற பணிவெறியின் மறுதொடக்கம் தேவைப்படுகிறது."
+#~ msgid "Username:"
+#~ msgstr "பயனர்பெயர்:"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
-msgid ""
-"Workrave encountered a problem and crashed. Please help us to diagnose and "
-"fix this problem by sending a crash report."
-msgstr ""
-"பணிவெறி ஒரு சிக்கலை எதிர்கொண்டது மற்றும் செயலிழந்தது. செயலிழப்பு அறிக்கையை "
-"அனுப்புவதன் மூலம் இந்த சிக்கலைக் கண்டறிந்து சரிசெய்ய எங்களுக்கு உதவவும்."
+#~ msgid "Password:"
+#~ msgstr "கடவுச்சொல்:"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:64
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:148
-msgid "Workrave has crashed."
-msgstr "பணிவெறி செயலிழந்தது."
+#~ msgid "Allow incoming connections"
+#~ msgstr "உள்வரும் இணைப்புகளை அனுமதி"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
-msgid "_Install update"
-msgstr "புதுப்பிப்பை நிறுவவும்"
+#~ msgid "Server settings"
+#~ msgstr "சேவையக அமைப்புகள்"
 
-#. button_size_group->add_widget(*skip_button);
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
-msgid "_Remind me later"
-msgstr "பின்னர் எனக்கு நினைவூட்டு"
+#~ msgid "Reconnect attempts:"
+#~ msgstr "முயற்சிகளை மீண்டும் இணைக்கவும்:"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
-msgid "_Skip this version"
-msgstr "இந்த பதிப்பை தவிர் (_S)"
+#~ msgid "Reconnect interval:"
+#~ msgstr "இடைவெளியை மீண்டும் இணைக்கவும்:"
 
-#: ui/app/Menus.cc:299
-#, qt-format
-msgid "_Suspended (until %1%)"
-msgstr "இடைநிறுத்தப்பட்டது (%1% வரை)"
+#~ msgid "Advanced"
+#~ msgstr "மேம்பட்ட"
 
-#: ui/app/Menus.cc:312
-msgid "_Suspended (until next day)"
-msgstr "இடைநிறுத்தப்பட்டது (அடுத்த நாள் வரை)"
+#~ msgid ""
+#~ "The following list specifies the hosts that Workrave connects to on\n"
+#~ "start-up. Click the host name or port number to edit."
+#~ msgstr ""
+#~ "பின்வரும் பட்டியல், வொர்க்ரேவ் இணைக்கும் புரவலர்களைக் குறிப்பிடுகிறது\n"
+#~ " தொடக்க. திருத்த புரவலன் பெயர் அல்லது துறைமுகம் எண்ணைக் சொடுக்கு செய்க."
 
-#: ui/app/Menus.cc:185
-msgid "and 1 minute"
-msgstr "மற்றும் 1 நிமிடம்"
+#~ msgid "Host name"
+#~ msgstr "புரவலன் பெயர்"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
-msgid "crash details"
-msgstr "செயலிழப்பு விவரங்கள்"
+#~ msgid "Port"
+#~ msgstr "துறைமுகம்"
 
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
-msgid ""
-"{} {} is now available -- you have {}. Would you like to download it now?"
-msgstr ""
-"{} {} இப்போது கிடைக்கிறது -- உங்களிடம் {} உள்ளது. அதை இப்போது பதிவிறக்க "
-"விரும்புகிறீர்களா?"
+#~ msgid "Hosts"
+#~ msgstr "ஓச்ட்கள்"
 
-msgid "About..."
-msgstr "பற்றி..."
+#~ msgid "Network"
+#~ msgstr "பிணையம்"
 
-msgid "Connect"
-msgstr "இணை"
+#, c-format
+#~ msgid "%s, from %s to %s"
+#~ msgstr "%s, %s முதல் %s வரை"
 
-msgid "Custom"
-msgstr "தனிப்பயன்"
+#~ msgid "Program that assists in the recovery and prevention of RSI"
+#~ msgstr "மீமீதிகாயத்தின் மீட்பு மற்றும் தடுப்புக்கு உதவும் திட்டம்"
 
-msgid "Daily usage"
-msgstr "அன்றாட பயன்பாடு"
+#~ msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corneruntil you got around it two times. Then, reverse the exercise."
+#~ msgstr "உங்கள் கண்காணியின் வெளிப்புற எல்லையின் மேல் இடது மூலையைப் பார்க்கவும். எல்லையை மெதுவாக மேல் வலது மூலையில் பின்தொடரவும். அடுத்த மூலைக்குச் செல்லவும், நீங்கள் அதை இரண்டு முறை சுற்றி வரும் வரை. பிறகு, உடற்பயிற்சியைத் திருப்பவும்."
 
-msgid "Disconnect"
-msgstr "துண்டிக்கவும்"
+#~ msgid "Use dark theme"
+#~ msgstr "இருண்ட கருப்பொருள் பயன்படுத்து"
 
-msgid "Quit"
-msgstr "வெளியேறு"
+#~ msgid "About..."
+#~ msgstr "பற்றி..."
 
-msgid "Reconnect"
-msgstr "மீண்டும் இணை"
+#~ msgid "Connect"
+#~ msgstr "இணை"
 
-msgid "_About..."
-msgstr "பற்றி..."
+#~ msgid "Daily usage"
+#~ msgstr "அன்றாட பயன்பாடு"
 
-msgid "_Connect"
-msgstr "இணை"
+#~ msgid "Disconnect"
+#~ msgstr "துண்டிக்கவும்"
+
+#~ msgid "Quit"
+#~ msgstr "வெளியேறு"
+
+#~ msgid "Reconnect"
+#~ msgstr "மீண்டும் இணை"
+
+#~ msgid "_About..."
+#~ msgstr "பற்றி..."
+
+#~ msgid "_Connect"
+#~ msgstr "இணை"
