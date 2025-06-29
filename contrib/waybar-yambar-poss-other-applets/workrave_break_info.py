@@ -302,8 +302,11 @@ class WorkraveBreakInfo:
                          timer_type, timer_state, colors)
 
     def open_workrave(self):
-        wr_ui = self.session_bus.get_proxy('org.workrave.Workrave',
-                                           '/org/workrave/Workrave/UI')
+        wr_ui = self.session_bus.get_proxy(
+            'org.workrave.Workrave',
+            '/org/workrave/Workrave/UI',
+            interface_name = "org.workrave.AppletInterface"
+        )
 
         wr_ui.MenuAction('workrave.open')
 
