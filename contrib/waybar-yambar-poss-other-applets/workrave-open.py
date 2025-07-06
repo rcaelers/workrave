@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-import pydbus
+from dasbus.connection import SessionMessageBus
 
-session_bus = pydbus.SessionBus()
+session_bus = SessionMessageBus()
 
-wr_ui = session_bus.get('org.workrave.Workrave',
-                        '/org/workrave/Workrave/UI')
+wr_ui = session_bus.get_proxy('org.workrave.Workrave',
+                              '/org/workrave/Workrave/UI',
+                              interface_name = "org.workrave.AppletInterface")
 
 wr_ui.MenuAction('workrave.open')
