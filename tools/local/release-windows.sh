@@ -53,9 +53,11 @@ init_tools() {
     export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
     export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
 
+    SCRIPTS_LOCAL_DIR_WIN=$(cygpath -w ${SCRIPTS_DIR}/local)
+
     if [ -n "$DOSIGN" ]; then
-        export SIGNTOOL="C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe"
-        export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
+        export SIGNTOOLPS1="powershell.exe -ExecutionPolicy Bypass -File ${SCRIPTS_LOCAL_DIR_WIN}\sign-authenticode.ps1"
+        export SIGNTOOLSH="${SCRIPTS_DIR}/local/sign-authenticode.sh"
     fi
 
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
@@ -66,6 +68,7 @@ init() {
     init_tools
     init_version
     init_citool
+    init_s3
 }
 
 build_pre() {
@@ -94,6 +97,7 @@ build() {
 
 build_post() {
     export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
+    ARTIFACTS_EXE=$(find ${ARTIFACTS} -type f -name "*.exe")
     ${SCRIPTS_DIR}/ci/sign.sh
 }
 
@@ -135,27 +139,31 @@ catalog() {
 }
 
 appcast() {
-    if [ -z "${DRYRUN}" ]; then
-        node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
-    else
-        node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
-    fi
+    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
+    ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml          s3://snapshots/${S3_ARTIFACT_DIR}/
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
 }
 
-upload_s3() {
+init_s3(){
     "${AWS}" configure set aws_access_key_id github
     "${AWS}" configure set aws_secret_access_key ${SNAPSHOTS_SECRET_ACCESS_KEY}
     "${AWS}" configure set default.region us-east-1
     "${AWS}" configure set default.s3.signature_version s3v4
     "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
-    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}
+}
+
+upload_s3() {
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}/
 }
 
 upload_github() {
     github_create_release
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.xz
+    for ext in exe zip xz; do
+        ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
+        ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${ARTIFACT} ${ARTIFACT}.sigstore
+    done
 }
 
 usage() {
@@ -255,5 +263,5 @@ build_post
 if [ -z "${DRYRUN}" ]; then
     upload
     catalog
+    appcast
 fi
-appcast

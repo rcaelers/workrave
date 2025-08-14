@@ -23,23 +23,31 @@ for INPUT_FILE in "$@"; do
     fi
 
     OUTPUT_FILE="$INPUT_FILE"
+    TEMP_OUTPUT="${OUTPUT_FILE}.tmp"
 
     if curl -X POST http://studio.local:50051/sign/authenticode \
         -F "file=@${INPUT_FILE}" \
-        --output "$OUTPUT_FILE" \
+        --output "$TEMP_OUTPUT" \
         --silent \
         --show-error \
         --fail; then
 
-        if [ -s "$OUTPUT_FILE" ]; then
+        if [ -s "$TEMP_OUTPUT" ]; then
+            mv "$TEMP_OUTPUT" "$OUTPUT_FILE"
             echo "✅ File '$INPUT_FILE' successfully signed and saved"
         else
             echo "❌ Warning: Output file '$INPUT_FILE' is empty"
+            rm -f "$TEMP_OUTPUT"
         fi
 
     else
-        echo "❌ Failed to sign file '$INPUT_FILE'"
-        [ -f "$OUTPUT_FILE" ] && rm -f "$OUTPUT_FILE"
+        echo "❌ Signing failed for '$INPUT_FILE':"
+        if [ -f "$TEMP_OUTPUT" ] && ERROR_MSG=$(jq -r '.error // "Unknown error"' "$TEMP_OUTPUT" 2>/dev/null); then
+            echo "$ERROR_MSG"
+        else
+            echo "HTTP request failed"
+        fi
+        rm -f "$TEMP_OUTPUT"
     fi
     echo
 done
