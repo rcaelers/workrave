@@ -79,7 +79,9 @@ sbom_scan_installed_files() {
   done >${INSTALLERS_FILE}
 
   cat ${RUNTIME_INSTALLERS_FILE} | sed 's|C:/msys64||' >>${INSTALLERS_FILE}
-  cat ${RUNTIME32_INSTALLERS_FILE} | sed 's|C:/msys64||' >>${INSTALLERS_FILE}
+  if [ -f ${RUNTIME32_INSTALLERS_FILE} ]; then
+    cat ${RUNTIME32_INSTALLERS_FILE} | sed 's|C:/msys64||' >>${INSTALLERS_FILE}
+  fi
 }
 
 function sbom_scan_headers() {
