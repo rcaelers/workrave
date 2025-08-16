@@ -13,14 +13,14 @@ if(MINGW OR VCPKG_TOOLCHAIN)
 
     if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
       install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    else()
+    elseif(EXISTS /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
       install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
       # TODO: else: give warning, once
     endif()
 
     if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
       install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    else()
+    elseif(EXISTS /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo)
       install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
       # TODO: else: give warning, once
     endif()
