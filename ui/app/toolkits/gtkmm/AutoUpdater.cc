@@ -19,24 +19,24 @@
 #  include "config.h"
 #endif
 
+#include <gtkmm.h>
 #include <memory>
 #include <utility>
 #include <boost/asio.hpp>
-
-#include "AutoUpdater.hh"
-
-#include <spdlog/spdlog.h>
+#include <boost/outcome/std_result.hpp>
 #include <spdlog/fmt/ostr.h>
+#include <spdlog/spdlog.h>
 
+#include "AutoUpdateDialog.hh"
+#include "AutoUpdater.hh"
 #include "commonui/nls.h"
 #include "debug.hh"
+#include "sigstore/Bundle.hh"
 #include "unfold/Unfold.hh"
 #include "unfold/UnfoldErrors.hh"
 #include "updater/Config.hh"
 
-#include "AutoUpdateDialog.hh"
-
-#include <gtkmm.h>
+namespace outcome = boost::outcome_v2;
 
 AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   : context(context)
@@ -48,7 +48,7 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   workrave::updater::Config::init(context->get_configurator());
 
-  auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
+  auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/staging/v1.11/appcast.xml");
   if (!rc)
     {
       logger->error("Invalid appcast URL");
@@ -74,8 +74,26 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   init_channels();
 
-  updater->set_update_available_callback(
-    [&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
+  updater->set_update_available_callback([&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
+
+  updater->set_pre_download_validation_callback([&](const unfold::UpdateInfo &update_info) -> outcome::std_result<bool> {
+    logger->info("Pre download validating {} {}", update_info.version, update_info.download_url);
+    return update_info.download_url.starts_with("https://snapshots.workrave.org/snapshots/")
+           || update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+  });
+
+  updater->set_pre_install_validation_callback([&](const unfold::UpdateEnclosureInfo &installer_info) -> outcome::std_result<bool> {
+    logger->info("Pre install validating {}", installer_info.download_url);
+    return true;
+  });
+
+  updater->set_sigstore_verification_enabled(true);
+  updater->set_sigstore_validation_callback([&](std::shared_ptr<sigstore::Bundle> bundle) -> outcome::std_result<bool> {
+    logger->info("Validating sigstore bundle");
+    auto cert = bundle->get_certificate_info();
+    logger->info("Validating sigstore certificate {} {}", cert->subject_email(), cert->oidc_issuer());
+    return cert->oidc_issuer() == "https://github.com/login/oauth" && cert->subject_email() == "rob.caelers@gmail.com";
+  });
 
   updater->set_periodic_update_check_interval(std::chrono::hours{24});
   updater->set_periodic_update_check_enabled(workrave::updater::Config::enabled()());
@@ -121,9 +139,7 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
       }
     else
       {
-        logger->info("Priority changed to {}, active priority {}",
-                     priority == 1 ? "high" : "normal",
-                     updater->get_active_priority());
+        logger->info("Priority changed to {}, active priority {}", priority == 1 ? "high" : "normal", updater->get_active_priority());
       }
   });
 
@@ -190,8 +206,7 @@ AutoUpdater::init_preferences()
 
   auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", N_("Software updates"))
                     << (ui::prefwidgets::Frame::create(N_("Auto update"))
-                        << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))
-                             ->connect(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))->connect(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Toggle::create(N_("Get updates as soon as they are available"))
                              ->connect(&workrave::updater::Config::priority(),
                                        []() {
@@ -208,15 +223,13 @@ AutoUpdater::init_preferences()
                              ->assign(channels)
                              ->when(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Choice::create(N_("Proxy Type:"))
-                             ->connect(
-                               &workrave::updater::Config::proxy_type(),
-                               {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
+                             ->connect(&workrave::updater::Config::proxy_type(),
+                                       {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
                              ->assign(proxy_types)
                              ->when(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Entry::create(N_("Proxy:"))
                              ->connect(&workrave::updater::Config::proxy())
-                             ->when(&workrave::updater::Config::proxy_type(),
-                                    [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
+                             ->when(&workrave::updater::Config::proxy_type(), [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
 
   context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "workrave-update-symbolic");
   context->get_preferences_registry()->add(auto_update_def);
