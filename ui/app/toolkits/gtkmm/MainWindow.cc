@@ -200,6 +200,8 @@ MainWindow::init()
   realize_if_needed();
   Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_decorations(Gdk::DECOR_BORDER | Gdk::DECOR_TITLE | Gdk::DECOR_MENU);
+  HWND hwnd = (HWND)GDK_WINDOW_HWND(gtk_widget_get_window(Gtk::Widget::gobj()));
+  SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX));
 
 #if defined(PLATFORM_OS_UNIX)
   // HACK. this sets a different group leader in the WM_HINTS....
