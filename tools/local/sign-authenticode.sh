@@ -19,7 +19,7 @@ for INPUT_FILE in "$@"; do
 
     if [ ! -f "$INPUT_FILE" ]; then
         echo "❌ Error: Input file '$INPUT_FILE' does not exist"
-        continue
+        exit 1
     fi
 
     OUTPUT_FILE="$INPUT_FILE"
@@ -38,6 +38,7 @@ for INPUT_FILE in "$@"; do
         else
             echo "❌ Warning: Output file '$INPUT_FILE' is empty"
             rm -f "$TEMP_OUTPUT"
+            exit 1
         fi
 
     else
@@ -48,6 +49,7 @@ for INPUT_FILE in "$@"; do
             echo "HTTP request failed"
         fi
         rm -f "$TEMP_OUTPUT"
+        exit 1
     fi
-    echo
 done
+exit 0

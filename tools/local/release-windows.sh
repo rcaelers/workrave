@@ -97,8 +97,12 @@ build() {
 
 build_post() {
     export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
-    ARTIFACTS_EXE=$(find ${ARTIFACTS} -type f -name "*.exe")
     ${SCRIPTS_DIR}/ci/sign.sh
+
+    for ext in exe zip xz; do
+        ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
+        ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
+    done
 }
 
 newsgen() {

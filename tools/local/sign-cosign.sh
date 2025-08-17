@@ -19,7 +19,7 @@ for INPUT_FILE in "$@"; do
 
     if [ ! -f "$INPUT_FILE" ]; then
         echo "❌ Error: Input file '$INPUT_FILE' does not exist"
-        continue
+        exit 1
     fi
 
     OUTPUT_FILE="${INPUT_FILE}.sigstore"
@@ -38,11 +38,13 @@ for INPUT_FILE in "$@"; do
         else
             echo "❌ Warning: Output file '$OUTPUT_FILE' is empty"
             rm -f "$OUTPUT_FILE"
+            exit 1
         fi
 
     else
         echo "❌ Failed to sign file '$INPUT_FILE'"
         [ -f "$OUTPUT_FILE" ] && rm -f "$OUTPUT_FILE"
+        exit 1
     fi
     echo
 done
