@@ -1102,7 +1102,7 @@ if (WITH_CRASHPAD)
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.3.4
+    GIT_TAG v2.3.5
   )
   FetchContent_MakeAvailable(dump_syms)
 
