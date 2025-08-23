@@ -52,10 +52,10 @@ init_citool() {
 init_tools() {
     export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
     export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
-
-    SCRIPTS_LOCAL_DIR_WIN=$(cygpath -w ${SCRIPTS_DIR}/local)
+    export AWS_REGION=us-east-1
 
     if [ -n "$DOSIGN" ]; then
+        SCRIPTS_LOCAL_DIR_WIN=$(cygpath -w ${SCRIPTS_DIR}/local)
         export SIGNTOOLPS1="powershell.exe -ExecutionPolicy Bypass -File ${SCRIPTS_LOCAL_DIR_WIN}\sign-authenticode.ps1"
         export SIGNTOOLSH="${SCRIPTS_DIR}/local/sign-authenticode.sh"
     fi
@@ -99,10 +99,12 @@ build_post() {
     export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
     ${SCRIPTS_DIR}/ci/sign.sh
 
-    for ext in exe zip xz; do
-        ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
-        ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
-    done
+    if [ -n "$DOSIGN" ]; then
+        for ext in exe zip xz; do
+            ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
+            ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
+        done
+    fi
 }
 
 newsgen() {
@@ -144,12 +146,14 @@ catalog() {
 
 appcast() {
     node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
-    ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
-    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml          s3://snapshots/${S3_ARTIFACT_DIR}/
-    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
+    if [ -n "$DOSIGN" ]; then
+        ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
+        MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
+    fi
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml s3://snapshots/${S3_ARTIFACT_DIR}/
 }
 
-init_s3(){
+init_s3() {
     "${AWS}" configure set aws_access_key_id github
     "${AWS}" configure set aws_secret_access_key ${SNAPSHOTS_SECRET_ACCESS_KEY}
     "${AWS}" configure set default.region us-east-1
@@ -165,8 +169,11 @@ upload_github() {
     github_create_release
     for ext in exe zip xz; do
         ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
-        ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
-        "$GH" release upload ${WORKRAVE_GIT_TAG} ${ARTIFACT} ${ARTIFACT}.sigstore
+        if [ -n "$DOSIGN" ]; then
+            ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
+            "$GH" release upload ${WORKRAVE_GIT_TAG} ${ARTIFACT}.sigstore
+        fi
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${ARTIFACT}
     done
 }
 
