@@ -40,6 +40,84 @@ include(FindPythonModule)
 include(ExternalProject)
 include(FindPkgConfig)
 
+#-----------------------------------------------------------------------------------------------------
+# Version
+
+if(NOT DEFINED ENV{WORKRAVE_GIT_VERSION})
+  find_package(Git QUIET)
+  if(Git_FOUND)
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} rev-parse --is-inside-work-tree
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+      RESULT_VARIABLE GIT_RESULT
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+
+    if(GIT_RESULT EQUAL 0)
+      execute_process(
+        COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=10
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_VERSION_OUTPUT
+        RESULT_VARIABLE GIT_VERSION_RESULT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+      )
+
+      if(GIT_VERSION_RESULT EQUAL 0 AND GIT_VERSION_OUTPUT)
+        string(REGEX REPLACE "-g.*" "" WORKRAVE_GIT_VERSION "${GIT_VERSION_OUTPUT}")
+        message(STATUS "Using git version: ${WORKRAVE_GIT_VERSION}")
+      endif()
+    endif()
+  endif()
+else()
+  # Use environment variable
+  set(WORKRAVE_VERSION "$ENV{WORKRAVE_GIT_VERSION}")
+  message(STATUS "Using WORKRAVE_GIT_VERSION from environment: ${WORKRAVE_VERSION}")
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Build DateTime
+
+if(NOT DEFINED ENV{WORKRAVE_BUILD_DATETIME})
+  # Get current datetime in ISO format
+  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    # Windows PowerShell command for ISO datetime
+    execute_process(
+      COMMAND powershell -Command "Get-Date -Format 'yyyy-MM-ddTHH:mm:sszzz'"
+      OUTPUT_VARIABLE BUILD_DATETIME_OUTPUT
+      RESULT_VARIABLE BUILD_DATETIME_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  else()
+    # Unix/Linux date command for ISO datetime
+    execute_process(
+      COMMAND date --iso-8601=seconds
+      OUTPUT_VARIABLE BUILD_DATETIME_OUTPUT
+      RESULT_VARIABLE BUILD_DATETIME_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  endif()
+
+  if(BUILD_DATETIME_RESULT EQUAL 0 AND BUILD_DATETIME_OUTPUT)
+    set(WORKRAVE_BUILD_DATETIME "${BUILD_DATETIME_OUTPUT}")
+    message(STATUS "Using generated build datetime: ${WORKRAVE_BUILD_DATETIME}")
+  else()
+    # Fallback to current date/time using CMake's string(TIMESTAMP)
+    string(TIMESTAMP WORKRAVE_BUILD_DATETIME "%Y-%m-%dT%H:%M:%S%z")
+    message(STATUS "Using CMake timestamp fallback: ${WORKRAVE_BUILD_DATETIME}")
+  endif()
+else()
+  set(WORKRAVE_BUILD_DATETIME "$ENV{WORKRAVE_BUILD_DATETIME}")
+  message(STATUS "Using WORKRAVE_BUILD_DATETIME from environment: ${WORKRAVE_BUILD_DATETIME}")
+endif()
+
+message(STATUS "WORKRAVE_VERSION: ${WORKRAVE_VERSION}")
+message(STATUS "WORKRAVE_GIT_VERSION: ${WORKRAVE_GIT_VERSION}")
+message(STATUS "WORKRAVE_BUILD_DATETIME: ${WORKRAVE_BUILD_DATETIME}")
+
 #----------------------------------------------------------------------------------------------------
 # Macros
 
@@ -1024,7 +1102,7 @@ if (WITH_CRASHPAD)
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.3.4
+    GIT_TAG v2.3.5
   )
   FetchContent_MakeAvailable(dump_syms)
 

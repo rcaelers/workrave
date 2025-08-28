@@ -199,9 +199,25 @@ const WorkraveButton = GObject.registerClass(
       this._area.connect("repaint", this._draw.bind(this));
 
       this._box = new St.Bin();
-      this._box.add_child(this._area);
-      this.add_child(this._box);
-      this.show();
+      if (typeof this._box.add_child === "function") {
+        this._box.add_child(this._area);
+      } else if (typeof this.add_actor === "function") {
+        this._box.add_actor(this._area);
+      }
+
+      if (this.actor && typeof this.actor.add_child === "function") {
+        this.actor.add_child(this._box);
+        this.actor.show();
+      } else if (this.actor && typeof this.actor.add_actor === "function") {
+        this.actor.add_actor(this._box, { y_expand: true });
+        this.actor.show();
+      } else if (typeof this.add_actor === "function") {
+        this.add_actor(this._box);
+        this.show();
+      } else if (typeof this.add_child === "function") {
+        this.add_child(this._box);
+        this.show();
+      }
 
       this.connect("destroy", this._onDestroy.bind(this));
 

@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0-rc.2
-    date: 2025-05-04T00:00:00+02:00
+    date: 2025-08-31T00:00:00+02:00
     short: |-
       Workrave 1.11.0-rc.2 has been released.
     changes:
@@ -13,10 +13,10 @@ releases:
       - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
       - Fix issue where the status window shows when Sway reloads despite being disabled (#612, #615, wojnilowicz)
       - Support user defined colors (#619)
+      - Phil Dibbs contributed new sounds (bells_ensemble, shangri_la, synth_harp, tinkle_bell, tuned_udu, woodwind_ensemble)
       - Optionally delegate break prompts to the GNOME Shell extension.
         This prevents focus stealing when a break prompt is shown on Wayland.
         This option can be enabled in the general user interface preferences.
-
 
   - version: 1.11.0-rc.1
     date: 2025-01-07T17:49:37+01:00

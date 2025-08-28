@@ -282,7 +282,7 @@ TimerBoxGtkView::init_table()
         }
     }
 
-  TRACE_MSG("c/r {} {} {}", columns, rows);
+  TRACE_MSG("c/r {} {}", columns, rows);
 
   bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count;
 

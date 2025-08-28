@@ -157,6 +157,9 @@ CrashReporter::Pimpl::init()
 #if defined(WORKRAVE_BUILD_ID)
       annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif
+#if defined(WORKRAVE_BUILD_DATETIME)
+      annotations["build_date"] = WORKRAVE_BUILD_DATETIME;
+#endif
 
       TRACE_MSG("handler = {}", app_dir.string());
       TRACE_MSG("report = {}", temp_dir.string());

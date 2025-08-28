@@ -112,8 +112,8 @@ if [[ $DOCKER_IMAGE =~ "mingw" || $DOCKER_IMAGE =~ "windows" || $WORKRAVE_ENV =~
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/msys2.cmake
         echo Building on MSYS2
 
-        if [[ -n "$SIGNTOOL" ]]; then
-            CMAKE_FLAGS+=("-DISCC_FLAGS=/DSignTool=Certum;/SCertum=\$q$SIGNTOOL\$q sign $SIGNTOOL_SIGN_ARGS \$f")
+        if [[ -n "$SIGNTOOLSH" ]]; then
+            CMAKE_FLAGS+=("-DISCC_FLAGS=/DSignTool=Certum;/SCertum=$SIGNTOOLPS1 \$f")
         fi
     else
         TOOLCHAIN_FILE=${SOURCES_DIR}/cmake/toolchains/${CONF_SYSTEM}-${CONF_COMPILER}.cmake
@@ -222,15 +222,15 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
 fi
 
 # Sign Windows binaries
-if [[ $WORKRAVE_ENV == "local-windows-msys2" && -n "$SIGNTOOL" ]]; then
+if [[ $WORKRAVE_ENV == "local-windows-msys2" && -n "$SIGNTOOLSH" ]]; then
 
     files_to_sign=$(find ${OUTPUT_DIR} -name "*[Ww]orkrave*.exe")
 
     echo "Signing files : $files_to_sign"
 
     export MSYS2_ARG_CONV_EXCL="/n;/t;/fd;/v"
-    powershell -c "(New-Object Media.SoundPlayer C:/Windows/Media/Alarm05.wav).PlaySync();" &
-    "$SIGNTOOL" sign $SIGNTOOL_SIGN_ARGS $files_to_sign
+    ## powershell -c "(New-Object Media.SoundPlayer C:/Windows/Media/Alarm05.wav).PlaySync();" &
+    "$SIGNTOOLSH" $files_to_sign
     unset MSYS2_ARG_CONV_EXCL
 fi
 

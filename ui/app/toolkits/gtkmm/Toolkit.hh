@@ -20,6 +20,7 @@
 
 #include <memory>
 #include <map>
+#include <vector>
 #include <boost/signals2.hpp>
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -42,6 +43,8 @@
 #include "StatisticsDialog.hh"
 #include "commonui/Exercise.hh"
 #include "utils/Logging.hh"
+
+#include <gdkmm/monitor.h>
 
 #if defined(HAVE_STATUSICON)
 #  include "StatusIcon.hh"
@@ -121,6 +124,8 @@ private:
   void init_multihead();
   void init_debug();
   void init_css();
+
+  std::vector<Glib::RefPtr<Gdk::Monitor>> get_unique_monitors() const;
 
   bool on_timer();
   void on_main_window_closed();

@@ -6,7 +6,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-      GIT_TAG 2f3ca0f6d993ad55274946a8012ec12015b3a790
+      GIT_TAG f6290e4d89386de287b9a761f02b77d07a1923fb
     )
     if(NOT unfold_POPULATED)
       FetchContent_MakeAvailable(unfold)
@@ -32,8 +32,8 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       webview2
       "Microsoft Edge WebView2 embedded web browser control"
       "Microsoft-Web-WebView2"
-      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.2651.64
-      URL_HASH SHA1=e08093bd127686535cf3519011a584664e6d2b75
+      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.3405.78
+      URL_HASH SHA256=d035807b2aaba871e8c014759626f566e96934e6ce6f0587056ee81d5228c373
     )
     FetchContent_MakeAvailable(webview2)
 
