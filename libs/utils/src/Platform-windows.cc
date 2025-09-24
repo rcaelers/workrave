@@ -135,3 +135,42 @@ Platform::running_on_wayland()
 {
   return false;
 }
+
+bool
+Platform::is_arm64()
+{
+#if defined(_M_ARM64) || defined(__aarch64__)
+  // Native ARM64 build
+  return true;
+#elif defined(_M_X64) || defined(__x86_64__)
+  // AMD64 build - check if running on ARM64 through emulation
+  using LPFN_ISWOW64PROCESS2 = BOOL(WINAPI *)(HANDLE, PUSHORT, PUSHORT);
+  HMODULE kernel32 = GetModuleHandleA("kernel32.dll");
+  if (kernel32 != nullptr)
+    {
+      auto proc = GetProcAddress(kernel32, "IsWow64Process2");
+      if (proc != nullptr)
+        {
+          auto fnIsWow64Process2 = LPFN_ISWOW64PROCESS2(proc);
+          USHORT processMachine = 0;
+          USHORT nativeMachine = 0;
+
+          if (fnIsWow64Process2(GetCurrentProcess(), &processMachine, &nativeMachine) != FALSE)
+            {
+              // IMAGE_FILE_MACHINE_ARM64 = 0xAA64
+              return nativeMachine == 0xAA64;
+            }
+        }
+    }
+
+  // Fallback: try to detect ARM64 through processor architecture
+  SYSTEM_INFO si;
+  GetNativeSystemInfo(&si);
+
+  // PROCESSOR_ARCHITECTURE_ARM64 = 12
+  return si.wProcessorArchitecture == 12;
+#else
+  // Other architectures (x86, etc.)
+  return false;
+#endif
+}

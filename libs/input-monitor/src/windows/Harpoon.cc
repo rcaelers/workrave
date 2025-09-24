@@ -349,7 +349,17 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       std::filesystem::path install_dir = Paths::get_application_directory();
-      std::filesystem::path helper = install_dir / WORKRAVE_BINDIR32 / "WorkraveHelper.exe";
+      std::filesystem::path helper = install_dir;
+      if (Platform::is_arm64())
+        {
+          helper /= "binarm";
+        }
+      else
+        {
+          helper /= WORKRAVE_BINDIR32;
+        }
+      helper /= "WorkraveHelper.exe";
+
       string args = helper.string() + " " + Platform::get_application_name();
 
       if (CreateProcessA(helper.string().c_str(), (LPSTR)args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
