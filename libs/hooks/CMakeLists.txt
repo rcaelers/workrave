@@ -56,18 +56,36 @@ if (WIN32)
     endforeach()
   endforeach()
 
-  ## TODO: ARM64 support
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "amd64|AMD64")
+    set(HARPOON_PLATFORM "x64")
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
+    set(HARPOON_PLATFORM "ARM64")
+  else()
+    message(FATAL_ERROR "Unsupported processor: ${CMAKE_SYSTEM_PROCESSOR}")
+  endif()
+
   add_library(harpoon64 SHARED IMPORTED GLOBAL)
   set_target_properties(harpoon64 PROPERTIES
-    IMPORTED_LOCATION "${HARPOON_OUTPUT_DIR}/Release/x64/harpoon64.dll"
-    IMPORTED_IMPLIB "${HARPOON_OUTPUT_DIR}/Release/x64/harpoon64.lib"
+    IMPORTED_LOCATION "${HARPOON_OUTPUT_DIR}/Release/${HARPOON_PLATFORM}/harpoon64.dll"
+    IMPORTED_IMPLIB "${HARPOON_OUTPUT_DIR}/Release/${HARPOON_PLATFORM}/harpoon64.lib"
     INTERFACE_INCLUDE_DIRECTORIES "${HARPOON_SOLUTION_DIR}/harpoon/include;${HARPOON_SOLUTION_DIR}/harpoonHelper/include"
     PREFIX ""
   )
-  add_dependencies(harpoon64 Harpoon_Release_x64)
-  install(FILES "${HARPOON_OUTPUT_DIR}/Release/x86/harpoonHelper.exe" DESTINATION ${BINDIR32} RENAME WorkraveHelper.exe)
-  install(FILES "${HARPOON_OUTPUT_DIR}/Release/x86/harpoon.dll" DESTINATION ${BINDIR32})
-  install(FILES "${HARPOON_OUTPUT_DIR}/Release/x64/harpoon64.dll" DESTINATION ${BINDIR})
-  install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoonHelper.exe" DESTINATION binarm RENAME WorkraveHelper.exe)
-  install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoon64.dll" DESTINATION binarm)
+
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "amd64|AMD64")
+    add_dependencies(harpoon64 Harpoon_Release_x64)
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/x86/harpoonHelper.exe" DESTINATION ${BINDIR32} RENAME WorkraveHelper.exe)
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/x86/harpoon.dll" DESTINATION ${BINDIR32})
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/x64/harpoon64.dll" DESTINATION ${BINDIR})
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoonHelper.exe" DESTINATION binarm RENAME WorkraveHelper.exe)
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoon64.dll" DESTINATION binarm)
+
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
+    add_dependencies(harpoon64 Harpoon_Release_ARM64)
+    # TODO: build harpoonHelper for x64 locking iso x86
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/ARM64/harpoon64.dll" DESTINATION ${BINDIR})
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/x64/harpoonHelper.exe" DESTINATION binx64 RENAME WorkraveHelper.exe)
+    install(FILES "${HARPOON_OUTPUT_DIR}/Release/x64/harpoon64.dll" DESTINATION binx64)
+  endif()
+
 endif()

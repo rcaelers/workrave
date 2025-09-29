@@ -28,7 +28,7 @@ set (WORKRAVE_RESOURCE_VERSION "1,10,999,202" )
 set (WORKRAVE_CHANNEL "candidate" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
-set (CMAKE_INCLUDE_CURRENT_DIR ON)
+set (CMAKE_INCLUDE_CURRENT_DIR OFF)
 
 include(GNUInstallDirs)
 include(CheckLibraryExists)
