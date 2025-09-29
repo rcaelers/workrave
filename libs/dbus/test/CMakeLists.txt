@@ -31,7 +31,10 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
     ${CMAKE_SOURCE_DIR}/libs/utils/include
     )
 
-  target_include_directories(workrave-libs-dbus-test-server-qt PRIVATE
+  target_include_directories(workrave-libs-dbus-test-server-qt
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/libs/dbus/src
     ${CMAKE_SOURCE_DIR}/libs/dbus/include
     ${CMAKE_SOURCE_DIR}/libs/utils/include

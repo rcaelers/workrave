@@ -87,6 +87,7 @@ target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
 
 target_include_directories(workrave-toolkit-qt
   PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/utils
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/widgets
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/preferences
