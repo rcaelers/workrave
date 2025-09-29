@@ -43,7 +43,7 @@ if (PLATFORM_OS_MACOS)
 endif()
 
 if (PLATFORM_OS_UNIX)
-  target_sources(workrave-toolkit-qt PRIVATE ToolkitLinux.cc)
+  target_sources(workrave-toolkit-qt PRIVATE ToolkitUnix.cc)
   target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
 endif()
 
