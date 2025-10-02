@@ -202,6 +202,10 @@ jobs:
             xz
             zip
 
+      - name: install InnoSetup
+        shell: cmd
+        run: choco upgrade innosetup -y --no-progress
+
       - name: Build 64 bit
         shell: msys2 {0}
         run: |
