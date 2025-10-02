@@ -1,16 +1,16 @@
 # Simplified Chinese translation of WorkRave.
 # Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the workrave package.
-# Alick Zhao <alick9188@gmail.com>, 2012, Rex Tsai <chihchun@linux.org.tw>, 2004-2005;The Simplified Chinese translation was based on the traditional Chinese translation by Rex Tsai <chihchun@linux.org.tw>
+# Alick Zhao <alick9188@gmail.com>, 2012, Rex Tsai <chihchun@linux.org.tw>, 2004-2005; Sisyphe42 <az0189re@gmail.com>, 2025; The Simplified Chinese translation was based on the traditional Chinese translation by Rex Tsai <chihchun@linux.org.tw>
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.11-alpha1\n"
+"Project-Id-Version: workrave 1.10.53\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2022-02-18 21:46+0800\n"
-"Last-Translator: Alick Zhao <alick9188@gmail.com>\n"
+"PO-Revision-Date: 2025-09-07 22:20+0800\n"
+"Last-Translator: Sisyphe42 <az0189re@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "(字体不可用)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
 msgid "<h3>Version {}</h3>\n"
-msgstr ""
+msgstr "<h3>版本 {}</h3>\n"
 
 #: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
@@ -51,7 +51,7 @@ msgstr "？"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
 msgid "A new version of {} is available"
-msgstr ""
+msgstr "有新版本的 {} 可用"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Active computer usage"
@@ -71,11 +71,11 @@ msgstr "辅助重复性劳损（RSI）的预防和恢复"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
 msgid "Auto update"
-msgstr ""
+msgstr "自动更新"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
 msgid "Automatically check for updates"
-msgstr ""
+msgstr "自动检查更新"
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
@@ -138,7 +138,7 @@ msgstr "浏览历史"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
-msgstr ""
+msgstr "检查更新(_U)"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
@@ -158,11 +158,11 @@ msgstr "用手掌遮住你的眼睛，但保证还可以睁开你的眼睑。现
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:132
 msgid "Crash report"
-msgstr ""
+msgstr "崩溃报告"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:49
 msgid "Crash report details"
-msgstr ""
+msgstr "崩溃报告详情"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
@@ -304,7 +304,7 @@ msgstr "手指伸展"
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:83
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Focus Assist"
-msgstr ""
+msgstr "专注助手"
 
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
@@ -316,7 +316,7 @@ msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
+msgstr "在 Wayland 上强制使用 X11（需要重启 Workrave）"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
@@ -586,7 +586,7 @@ msgstr "推迟多久："
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
-msgstr "首选项"
+msgstr "偏好设置"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
 msgid "Previous"
@@ -748,12 +748,12 @@ msgstr "%s 后静默"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
 msgid "Software Update"
-msgstr ""
+msgstr "软件更新"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
 msgid "Software updates"
-msgstr ""
+msgstr "软件更新"
 
 #. Sound themes
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
@@ -838,11 +838,11 @@ msgstr "立即休息"
 
 #: ui/app/Menus.cc:121
 msgid "Temporarily Quiet..."
-msgstr ""
+msgstr "临时勿扰..."
 
 #: ui/app/Menus.cc:118
 msgid "Temporarily Suspended..."
-msgstr ""
+msgstr "临时暂停..."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
 msgid "The files containing your statistics history could not be deleted. Try again?"
@@ -993,7 +993,7 @@ msgstr "使用另一台显示器"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
-msgstr ""
+msgstr "使用深色主题"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
@@ -1001,7 +1001,7 @@ msgstr "用户界面"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
 msgid "Version {}\n"
-msgstr ""
+msgstr "版本 {}\n"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
@@ -1127,7 +1127,7 @@ msgstr "锻炼(_E)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
 msgid "_Install update"
-msgstr ""
+msgstr "安装更新(_I)"
 
 #: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
 msgid "_Mode"
@@ -1147,7 +1147,7 @@ msgstr "推迟(_P)"
 
 #: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
 msgid "_Preferences"
-msgstr "首选项(_P)"
+msgstr "偏好设置(_P)"
 
 #: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
 msgid "_Quit"
@@ -1160,7 +1160,7 @@ msgstr "阅读模式(_R)"
 #. button_size_group->add_widget(*skip_button);
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
 msgid "_Remind me later"
-msgstr ""
+msgstr "稍后提醒(_R)"
 
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
@@ -1176,7 +1176,7 @@ msgstr "跳过(_S)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
 msgid "_Skip this version"
-msgstr ""
+msgstr "跳过此版本(_S)"
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
@@ -1197,11 +1197,11 @@ msgstr ""
 
 #: ui/app/Menus.cc:185
 msgid "and 1 minute"
-msgstr ""
+msgstr "和 1 分钟"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:52
 msgid "crash details"
-msgstr ""
+msgstr "崩溃详情"
 
 #: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
