@@ -26,6 +26,15 @@ if (WIN32)
   set(configurations Debug Release)
   set(platforms x86 x64 ARM64)
 
+  # Determine Workrave architecture to pass to harpoon build
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "amd64|AMD64")
+    set(WORKRAVE_ARCH "X64")
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
+    set(WORKRAVE_ARCH "ARM64")
+  else()
+    message(FATAL_ERROR "Unsupported processor: ${CMAKE_SYSTEM_PROCESSOR}")
+  endif()
+
   foreach(configuration IN LISTS configurations)
     foreach(platform IN LISTS platforms)
       set(proj_name "Harpoon_${configuration}_${platform}")
@@ -50,6 +59,7 @@ if (WIN32)
                           /p:Configuration=${configuration}
                           /p:Platform=${platform}
                           /p:OutDir=${output_dir_win}/
+                          /p:DefineConstants=WORKRAVE_ARCH_${WORKRAVE_ARCH}
         INSTALL_COMMAND   ""
         BUILD_BYPRODUCTS  "${output_dir}/${target_name}.lib" "${output_dir}/${target_name}.dll"
       )
