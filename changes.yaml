@@ -15,6 +15,7 @@ releases:
       - Support user defined colors (#619)
       - Phil Dibbs contributed new sounds (bells_ensemble, shangri_la, synth_harp, tinkle_bell, tuned_udu, woodwind_ensemble)
       - Keyboard/mouse locking now works on ARM64 Windows
+      - Handle screen lock shortcut during breaks under Xorg
 
   - version: 1.11.0-rc.1
     date: 2025-01-07T17:49:37+01:00
