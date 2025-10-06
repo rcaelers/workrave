@@ -59,6 +59,5 @@ bool
 ScreenLockDBus::lock()
 {
   TRACE_ENTRY_PAR(dbus_lock_method);
-  spdlog::debug("ScreenLockDBus::lock() calling {}", dbus_lock_method);
   return proxy.call_method_asynch_no_result(dbus_lock_method, nullptr);
 }
