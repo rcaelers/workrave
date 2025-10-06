@@ -18,6 +18,7 @@
 #ifndef UNIXLOCKER_HH
 #define UNIXLOCKER_HH
 
+#include <vector>
 #include <gtk/gtk.h>
 #include <sigc++/sigc++.h>
 
@@ -44,6 +45,13 @@ private:
   bool lock_internal();
   bool on_lock_retry_timer();
 
+  static GdkFilterReturn event_filter(GdkXEvent *xevent, GdkEvent *event, gpointer data);
+  void handle_screen_lock_keystroke(unsigned int keycode, unsigned int modifier_state);
+  void query_desktop_lock_shortcuts();
+  void set_default_lock_shortcuts();
+  void add_keybinding_shortcut(const char *binding, const char *schema_name, const char *key_name);
+  bool parse_keybinding(const char *binding, unsigned long *keysym, unsigned int *modifiers);
+
 #if !GTK_CHECK_VERSION(3, 24, 0)
   GdkDevice *keyboard{nullptr};
   GdkDevice *pointer{nullptr};
@@ -51,7 +59,16 @@ private:
   GdkWindow *grab_window{nullptr};
   bool grab_wanted{false};
   bool grabbed{false};
+  int xi_opcode{-1};
   sigc::connection grab_retry_connection;
+
+  struct Shortcut
+  {
+    unsigned long keysym{0};
+    unsigned int modifiers{0};
+    bool valid{false};
+  };
+  std::vector<Shortcut> lock_shortcuts;
 };
 
 #endif // UNIXLOCKER_HH
