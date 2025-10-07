@@ -35,6 +35,8 @@
 #include <X11/XKBlib.h>
 #include <X11/X.h>
 
+#include <spdlog/spdlog.h>
+
 #include "debug.hh"
 #include "utils/Platform.hh"
 #include "session/System.hh"
