@@ -15,6 +15,11 @@ https://github.com/rcaelers/workrave/issues
 ** Fix an empty AppIndicator menu (#556,
 ** Fix issue where the status window shows when Sway reloads despite being
    disabled (#612,
+** Support user defined colors (#619)
+** Phil Dibbs contributed new sounds (bells_ensemble, shangri_la, synth_harp,
+   tinkle_bell, tuned_udu, woodwind_ensemble)
+** Keyboard/mouse locking now works on ARM64 Windows
+** Handle screen lock shortcut during breaks under Xorg
 
 * Workrave 1.11.0-rc.1
 
