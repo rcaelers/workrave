@@ -14,8 +14,8 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
-        platform: [ x86, x64 ]
+        configuration: [Debug, Release]
+        platform: [x86, x64]
     steps:
       - uses: actions/checkout@v4
 
@@ -37,17 +37,17 @@ jobs:
 
   merge-applet-artifacts:
     runs-on: ubuntu-24.04
-    needs: [ build-windows ]
+    needs: [build-windows]
     steps:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
         with:
           name: applet
           pattern: applet-*
-          
+
   build-mingw:
     runs-on: ubuntu-24.04
-    needs: [ build-windows,  merge-applet-artifacts]
+    needs: [build-windows, merge-applet-artifacts]
     strategy:
       matrix:
         config:
@@ -55,7 +55,7 @@ jobs:
             configuration: Release
             compiler: gcc
             upload: windows-gtk3-release
-            
+
           - image: mingw-gtk2
             configuration: Debug
             compiler: gcc
@@ -82,25 +82,25 @@ jobs:
 
       - name: Build
         run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               docker run --rm \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build.sh"
-             fi
+          if [[ $DOCKER_IMAGE ]]; then
+             IFS=$'\n'
+             docker run --rm \
+                 -v $GITHUB_WORKSPACE:/workspace/source \
+                 `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                 ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+                 sh -c "/workspace/source/build/ci/build.sh"
+           fi
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: m${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
+          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+          WORKRAVE_ENV: github-docker
+          WORKRAVE_JOB_INDEX: m${{ strategy.job-index }}
+          CONF_COMPILER: ${{ matrix.config.compiler }}
+          CONF_GTK_VER: ${{ matrix.config.gtk_version }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          CONF_DISABLE: ${{ matrix.config.disable }}
+          CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          DOCKER_IMAGE: ${{ matrix.config.image }}
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
@@ -116,12 +116,12 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-focal
+          - image: ubuntu-jammy
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
-          - image: ubuntu-focal
+          - image: ubuntu-noble
             compiler: gcc
             gtk_version: 3
             enable: gnome3,pulse,dbus,experimental,gstreamer,exercises,xml
@@ -134,7 +134,12 @@ jobs:
             upload: ubuntu-noble
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
 
-          - image: ubuntu-oracular
+          - image: ubuntu-plucky
+            compiler: gcc
+            gtk_version: 3
+            enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
+
+          - image: ubuntu-questing
             compiler: gcc
             gtk_version: 3
             enable: gnome3,gsettings,xml,pulse,indicator,xfce,mate,dbus,distribution,experimental,gconf,gstreamer,exercises
@@ -151,26 +156,26 @@ jobs:
 
       - name: Build
         run: |
-            if [[ $DOCKER_IMAGE ]]; then
-               IFS=$'\n'
-               docker run --rm \
-                   -v $GITHUB_WORKSPACE:/workspace/source \
-                   `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
-                   ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
-                   sh -c "/workspace/source/build/ci/build.sh" || $FAILURE_ACTION
-             fi
+          if [[ $DOCKER_IMAGE ]]; then
+             IFS=$'\n'
+             docker run --rm \
+                 -v $GITHUB_WORKSPACE:/workspace/source \
+                 `printenv | grep -E '^(CONF_.*|GITHUB_.*|DOCKER_IMAGE|WORKRAVE_.*)=' | sed  -e 's/^/-e/g' ` \
+                 ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
+                 sh -c "/workspace/source/build/ci/build.sh" || $FAILURE_ACTION
+           fi
         env:
-           WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
-           WORKRAVE_ENV: github-docker
-           WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
-           CONF_COMPILER: ${{ matrix.config.compiler }}
-           CONF_GTK_VER: ${{ matrix.config.gtk_version }}
-           CONF_ENABLE: ${{ matrix.config.enable }}
-           CONF_DISABLE: ${{ matrix.config.disable }}
-           CONF_DISTCHECK: ${{ matrix.config.distcheck }}
-           CONF_CONFIGURATION: ${{ matrix.config.configuration }}
-           DOCKER_IMAGE: ${{ matrix.config.image }}
-           FAILURE_ACTION: ${{ matrix.config.experimental == true }}
+          WORKRAVE_TAG: ${{ env.GITHUB_TAG }}
+          WORKRAVE_ENV: github-docker
+          WORKRAVE_JOB_INDEX: l${{ strategy.job-index }}
+          CONF_COMPILER: ${{ matrix.config.compiler }}
+          CONF_GTK_VER: ${{ matrix.config.gtk_version }}
+          CONF_ENABLE: ${{ matrix.config.enable }}
+          CONF_DISABLE: ${{ matrix.config.disable }}
+          CONF_DISTCHECK: ${{ matrix.config.distcheck }}
+          CONF_CONFIGURATION: ${{ matrix.config.configuration }}
+          DOCKER_IMAGE: ${{ matrix.config.image }}
+          FAILURE_ACTION: ${{ matrix.config.experimental == true }}
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
@@ -178,10 +183,10 @@ jobs:
         with:
           name: artifact-${{ matrix.config.upload }}
           path: _deploy
-  
+
   merge-artifacts:
     runs-on: ubuntu-24.04
-    needs: [ build-mingw, build-linux ]
+    needs: [build-mingw, build-linux]
     steps:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
@@ -191,7 +196,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-24.04
-    needs: [ build-linux, build-mingw, merge-artifacts ]
+    needs: [build-linux, build-mingw, merge-artifacts]
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
@@ -204,7 +209,7 @@ jobs:
           path: _deploy
 
       - name: Upload artifacts to MinIO
-        run: | 
+        run: |
           aws configure set aws_access_key_id github
           aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
           aws configure set default.region us-east-1
@@ -212,8 +217,8 @@ jobs:
           aws configure set s3.endpoint_url https://snapshots.workrave.org/
           aws s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive _deploy s3://snapshots/v1.10
         env:
-           WORKSPACE: ${{ github.workspace }}
-           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+          WORKSPACE: ${{ github.workspace }}
+          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
       - name: Create artifact catalog
         run: |
@@ -221,12 +226,12 @@ jobs:
           npm i
           node --experimental-modules main.js
         env:
-           WORKSPACE: ${{ github.workspace }}
-           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
+          WORKSPACE: ${{ github.workspace }}
+          SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
   release:
     runs-on: ubuntu-24.04
-    needs: [ build-linux, build-mingw, merge-artifacts ]
+    needs: [build-linux, build-mingw, merge-artifacts]
     if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-rc')
     steps:
       - uses: actions/checkout@v4
@@ -328,7 +333,7 @@ jobs:
   website:
     runs-on: ubuntu-24.04
     if: github.event_name == 'push'
-    needs: [ deploy ]
+    needs: [deploy]
     steps:
       - name: Trigger workrave.org rebuild
         run: |
