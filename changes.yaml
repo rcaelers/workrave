@@ -1,5 +1,12 @@
 ---
 releases:
+  - version: 1.10.54
+    date: 2025-10-16T19:12:54+02:00
+    short: |-
+      Workrave 1.10.54 has been released. This release adds support for GNOME Shell 49.
+    changes:
+      - Add support for GNOME Shell 49 (#636, Alessandro Astone)
+
   - version: 1.10.53
     date: 2025-02-15T21:37:52+01:00
     short: |-
