@@ -8,16 +8,6 @@
       <image src="shoulder-arm-stretch.png" mirrorx="yes" duration="10"/>
     </sequence>
   </exercise>
-<!--
-  <exercise>
-    <_title>Wrist and lower arm desk stretch</_title>
-    <_description>Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms.</_description>
-    <sequence duration="40">
-      <image src="wrist-lower-arm-desk-stretch-1.png" duration="5"/>
-      <image src="wrist-lower-arm-desk-stretch-2.png" duration="15"/>
-    </sequence>
-  </exercise>
--->
   <exercise>
     <_title>Finger stretch</_title>
     <_description>Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more.</_description>
@@ -51,15 +41,6 @@
        <image src="monitor-border-4.png" duration="4"/>
     </sequence>
   </exercise>
-<!--
-  <exercise>
-    <_title>Relax the eyes</_title>
-    <_description>Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too.</_description>
-    <sequence duration="12">
-       <image src="none" duration="6"/>
-    </sequence>
-  </exercise>
--->
   <exercise>
     <_title>Train focusing the eyes</_title>
     <_description>Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor.</_description>
@@ -92,35 +73,6 @@
        <image src="chair-pushup-2.png" duration="10"/>
     </sequence>
   </exercise>
-<!-- Disabled for 1.8.4 because images are wrong. Removed from NEWS
-     ** Herman Suijs contributed a new exercise named "Fist roll", thanks.
-  <exercise>
-     <_title>Fist roll</_title>
-     <_description>Put your underarm on a table and make a fist. Roll your fist away from your body untill it rests on your nuckles. Keep it for 2 seconds and roll it back. Repeat this 5 times for each hand. If the muscle is stretched to much, let your fingers rest on the table while rolling.</_description>
-     <sequence duration="20">
-       <image src="fist-roll-1.png" duration="2"/>
-       <image src="fist-roll-2.png" duration="2"/>
-     </sequence>
-  </exercise>
--->
-<!--
-  <exercise>
-    <_title>Move the shoulder blades</_title>
-    <_description>Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows.</_description>
-    <sequence duration="20">
-       <image src="none" duration="10"/>
-    </sequence>
-  </exercise>
--->
-<!--
-  <exercise>
-    <_title>Stretch your back</_title>
-    <_description>Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again.</_description>
-    <sequence duration="30">
-       <image src="none" duration="15"/>
-    </sequence>
-  </exercise>
--->
   <exercise>
     <_title>Turn your head</_title>
     <_description>Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</_description>
@@ -129,7 +81,22 @@
        <image src="turn-head-2.png" duration="3"/>
     </sequence>
   </exercise>
-<!--
+  <!-- begin "bad" exercises -->
+  <exercise>
+     <_title>Fist roll</_title>
+     <_description>Put your underarm on a table and make a fist. Roll your fist away from your body untill it rests on your nuckles. Keep it for 2 seconds and roll it back. Repeat this 5 times for each hand. If the muscle is stretched to much, let your fingers rest on the table while rolling.</_description>
+     <sequence duration="20">
+       <image src="fist-roll-1.png" duration="2"/>
+       <image src="fist-roll-2.png" duration="2"/>
+     </sequence>
+  </exercise>
+  <exercise>
+    <_title>Wrist and lower arm desk stretch</_title>
+    <_description>Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms.</_description>
+    <sequence duration="20">
+      <image src="wrist-lower-arm-desk-stretch-1.png" duration="20"/>
+    </sequence>
+  </exercise>
   <exercise>
     <_title>Neck stretch</_title>
     <_description>Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin).  Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again.</_description>
@@ -137,5 +104,162 @@
        <image src="none" duration="10"/>
     </sequence>
   </exercise>
--->
+  <exercise>
+    <_title>Move the shoulder blades</_title>
+    <_description>Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows.</_description>
+    <sequence duration="20">
+       <image src="none" duration="10"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Stretch your back</_title>
+    <_description>Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again.</_description>
+    <sequence duration="30">
+       <image src="none" duration="15"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Relax the eyes</_title>
+    <_description>Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Sit straight</_title>
+    <_description>Sit straight up as if your skull was suspended from a string.
+    don't forcibly straighten your back though. make sure to sit
+    exactly on the bones in your buttcheeks. concentrate on
+    breathing.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Wrist shake</_title>
+    <_description>tilt your upper body slightly to either side so that the arm
+    dangles loosely. now shake the wrist a couple of times while
+    keeping the shoulders loose.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Arm swing</_title>
+    <_description>stand up, let your arms swing sloppily to either side (left hand
+    to right pocket in front of body, right hand to left pocket
+    behind body, then vice versa). don't exercise force, just let
+    them swing.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Door frame stretch</_title>
+    <_description>walk up to the door frame, get upper arm horizontal, point lower
+    arm vertically upwards at 90 degrees. hold lower arm to door
+    frame, turn upper body away to stretch the chest muscles</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Crouch</_title>
+    <_description>sit on ground, make soles of feet touch each other. fold hands
+    behind neck, elbows between knees, gently pull down the neck and
+    entire upper body. breathe normally!</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Arm swing</_title>
+    <_description>standing up, let your arms dangle down both sides and swing them
+    back and forth, but only slightly, maybe 20-30 degrees each way.
+    concentrate on feeling the weight of your arms.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Body swing</_title>
+    <_description>standing up, bend your knees a little, then extrude them; repeat
+    in quick succession. feel your upper body shake and try to let
+    your arms dangle, let them pick up on the swing.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Finger bend</_title>
+    <_description>full finger and thumb extension (fingers straight)
+    bend fingers tight at 2nd joint from tip (knuckle, folds fingers in
+    half)
+    full finger and thumb extension (fingers straight)
+    bend fingers tight at 3rd joint from tip (folds fingers onto palm)
+    full finger and thumb extension (fingers straight)
+    bend fingers and thumb to form a ball (like making a fist)
+    full finger and thumb extension (fingers straight)
+    fold thumb into palm
+</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Shoulder Rotation</_title>
+    <_description>Circle your shoulders, then reverse directions.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Chin Tuck</_title>
+    <_description>Slide your chin inward, without bending your neck up or down. This is easiest to practice initially against a wall. Tuck chin in, attempting to touch back of neck to the wall while also maintaining head contact. Don't jam your chin down to your chest.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Shoulder Blade Retraction</_title>
+    <_description>Pull your shoulders down and back</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Shrug</_title>
+    <_description>Slowly raise your shoulders toward ears and hold for a few seconds. Gradually bring shoulders down and relax.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Arm Rotation</_title>
+    <_description>Raise your arms in front of your body. Rotate arms so palms face up, then rotate so backs of hands face each other.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Wrist Flex</_title>
+    <_description>With your elbows on desk, gently use left hand to bend right hand back toward forearm. Hold for a few seconds, then relax. Repeat on other side.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Toe curl</_title>
+    <_description>Flex toes up, then curl toes under. Release.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
+  <exercise>
+    <_title>Foot rotation</_title>
+    <_description>Circle foot slowly from the ankle, then reverse.</_description>
+    <sequence duration="12">
+       <image src="none" duration="6"/>
+    </sequence>
+  </exercise>
 </exercises>
