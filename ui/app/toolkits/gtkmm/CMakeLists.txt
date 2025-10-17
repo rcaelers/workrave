@@ -83,10 +83,12 @@ if (PLATFORM_OS_UNIX)
       target_sources(workrave-toolkit-gtkmm PRIVATE platforms/unix/AppIndicatorMenu.cc)
     endif()
 
-    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols)
-
-
-    target_include_directories(workrave-toolkit-gtkmm PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/)
+    target_include_directories(workrave-toolkit-gtkmm
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix
+        ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/protocols
+        ${CMAKE_CURRENT_BINARY_DIR}/platforms/unix/
+        ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 if (PLATFORM_OS_WINDOWS)

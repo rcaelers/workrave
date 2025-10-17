@@ -7,14 +7,29 @@ https://github.com/rcaelers/workrave/issues
 
 * Workrave 1.11.0-rc.2
 
-** Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
-** Add examples of usage with swaybar (#597, J. J. Ramsey)
-** Support GNOME Shell 48
-** Fix crash when monitor is powered off (#606)
-** Update DBus example (#611, Emmanuel Ferdman)
-** Fix an empty AppIndicator menu (#556,
-** Fix issue where the status window shows when Sway reloads despite being
-   disabled (#612,
+** Improvements:
+   - Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
+   - Add examples of usage with swaybar (#597, J. J. Ramsey)
+   - Support GNOME Shell 48
+   - Update DBus example (#611, Emmanuel Ferdman)
+   - Support for user defined colors (#619)
+   - Port workrave Python scripts for waybar, etc., to dasbus (#627, J. J.
+     Ramsey)
+   - Phil Dibbs contributed new sounds (bells_ensemble, shangri_la, synth_harp,
+     tinkle_bell, tuned_udu, woodwind_ensemble)
+   - Support GNOME Shell 49 (#636, Alessandro Astone)
+   - Keyboard/mouse locking now works on ARM64 Windows
+   - Handle screen lock shortcut during breaks under Xorg
+   - Add high DPI support on Windows (#650, Charlie Lin)
+** Bug fixes:
+   - Fix crash when monitor is powered off (#606)
+   - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
+   - Fix issue where the tray icon did not appear on waybar, swaybar, or wf-shell
+     trays (#555, #613, wojnilowicz)
+   - Fix issue where the status window shows when Sway reloads despite being
+     disabled (#612, #615, wojnilowicz)
+** Updated Translations:
+   - Update Chinese translation (#645, Sisyphe42)
 
 * Workrave 1.11.0-rc.1
 
