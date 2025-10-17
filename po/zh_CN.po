@@ -1,16 +1,16 @@
 # Simplified Chinese translation of WorkRave.
 # Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the workrave package.
-# Alick Zhao <alick9188@gmail.com>, 2012, Rex Tsai <chihchun@linux.org.tw>, 2004-2005; Sisyphe42 <az0189re@gmail.com>, 2025; The Simplified Chinese translation was based on the traditional Chinese translation by Rex Tsai <chihchun@linux.org.tw>
+# Alick Zhao <alick9188@gmail.com>, 2012, Rex Tsai <chihchun@linux.org.tw>, 2004-2005;The Simplified Chinese translation was based on the traditional Chinese translation by Rex Tsai <chihchun@linux.org.tw>
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.10.53\n"
+"Project-Id-Version: workrave 1.11-alpha1\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
 "POT-Creation-Date: 2022-11-27 23:04+0100\n"
-"PO-Revision-Date: 2025-09-07 22:20+0800\n"
-"Last-Translator: Sisyphe42 <az0189re@gmail.com>\n"
+"PO-Revision-Date: 2022-02-18 21:46+0800\n"
+"Last-Translator: Alick Zhao <alick9188@gmail.com>\n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "(字体不可用)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:138
 msgid "<h3>Version {}</h3>\n"
-msgstr "<h3>版本 {}</h3>\n"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/Ui.cc:113
 msgid "?"
@@ -51,7 +51,7 @@ msgstr "？"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:105
 msgid "A new version of {} is available"
-msgstr "有新版本的 {} 可用"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Active computer usage"
@@ -71,11 +71,11 @@ msgstr "辅助重复性劳损（RSI）的预防和恢复"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:131
 msgid "Auto update"
-msgstr "自动更新"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:132
 msgid "Automatically check for updates"
-msgstr "自动检查更新"
+msgstr ""
 
 #: ui/data/exercises/exercises.xml.in:38
 msgid "Backward shoulder stretch"
@@ -138,7 +138,7 @@ msgstr "浏览历史"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:151
 msgid "Check for _Updates"
-msgstr "检查更新(_U)"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
 msgid "Choose a sound"
@@ -158,11 +158,11 @@ msgstr "用手掌遮住你的眼睛，但保证还可以睁开你的眼睑。现
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:132
 msgid "Crash report"
-msgstr "崩溃报告"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:49
 msgid "Crash report details"
-msgstr "崩溃报告详情"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
@@ -304,7 +304,7 @@ msgstr "手指伸展"
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:83
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Focus Assist"
-msgstr "专注助手"
+msgstr ""
 
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
@@ -316,7 +316,7 @@ msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr "在 Wayland 上强制使用 X11（需要重启 Workrave）"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
@@ -586,7 +586,7 @@ msgstr "推迟多久："
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
-msgstr "偏好设置"
+msgstr "首选项"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:88
 msgid "Previous"
@@ -748,12 +748,12 @@ msgstr "%s 后静默"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:63
 msgid "Software Update"
-msgstr "软件更新"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:130
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:142
 msgid "Software updates"
-msgstr "软件更新"
+msgstr ""
 
 #. Sound themes
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
@@ -838,11 +838,11 @@ msgstr "立即休息"
 
 #: ui/app/Menus.cc:121
 msgid "Temporarily Quiet..."
-msgstr "临时勿扰..."
+msgstr ""
 
 #: ui/app/Menus.cc:118
 msgid "Temporarily Suspended..."
-msgstr "临时暂停..."
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
 msgid "The files containing your statistics history could not be deleted. Try again?"
@@ -993,7 +993,7 @@ msgstr "使用另一台显示器"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
-msgstr "使用深色主题"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
@@ -1001,7 +1001,7 @@ msgstr "用户界面"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:169
 msgid "Version {}\n"
-msgstr "版本 {}\n"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
 msgid "Volume:"
@@ -1046,364 +1046,16 @@ msgstr "Workrave 小程序"
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr "Workrave 无法监视你的键盘和鼠标活动。\n"
 
-#: ui/app/Application.cc:625
-msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
-msgstr "Workrave 仍在运行。你可以单击白羊图标访问 Workrave。单击这个气泡禁用这则消息"
-
-#: ui/app/Application.cc:641
-msgid ""
-"Workrave is in suspended mode.\n"
-"Mouse and keyboard activity will not be monitored."
-msgstr ""
-"Workrave 处于暂停模式。\n"
-"鼠标和键盘活动不受监控。"
-
-#: ui/app/Application.cc:649
-msgid "Workrave is in quiet mode. No break windows will appear."
-msgstr "Workrave 处于勿扰模式。不会出现休息窗口。"
-
-#. FIXME: duplicate
-#: ui/app/Application.cc:659 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
-msgid "Micro-break"
-msgstr "小憩"
-
-#: ui/app/Application.cc:659 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
-msgid "Rest break"
-msgstr "休息"
-
-#. label
-#: ui/app/Application.cc:659 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
-#: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
-msgid "Daily limit"
-msgstr "每日上限"
-
-#: ui/app/Application.cc:666 ui/app/Application.cc:670
-msgid "Mode: "
-msgstr "模式： "
-
-#: ui/app/Application.cc:666 ui/app/platforms/windows/WindowsFocusAssist.cc:81
-#: ui/applets/mate/src/main.c:387
-msgid "Suspended"
-msgstr "已暂停"
-
-#: ui/app/Application.cc:670 ui/app/platforms/windows/WindowsFocusAssist.cc:81
-#: ui/applets/mate/src/main.c:389
-msgid "Quiet"
-msgstr "勿扰"
-
-#: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
-msgid "_Open"
-msgstr "打开(_O)"
-
-#: ui/app/Menus.cc:70 ui/applets/mate/src/main.c:364
-msgid "_Preferences"
-msgstr "首选项(_P)"
-
-#: ui/app/Menus.cc:73
-msgid "_Rest break"
-msgstr "休息(_R)"
-
-#: ui/app/Menus.cc:76 ui/applets/mate/src/main.c:366
-msgid "_Exercises"
-msgstr "锻炼(_E)"
-
-#: ui/app/Menus.cc:79
-msgid "S_tatistics"
-msgstr "统计数据(_t)"
-
-#: ui/app/Menus.cc:88 ui/applets/mate/src/main.c:370
-msgid "_Mode"
-msgstr "模式(_M)"
-
-#: ui/app/Menus.cc:96
-msgid "_Normal"
-msgstr "常规(_N)"
-
-#: ui/app/Menus.cc:103
-msgid "_Suspended"
-msgstr "已暂停(_S)"
-
-#: ui/app/Menus.cc:110
-msgid "Q_uiet"
-msgstr "勿扰(_u)"
-
-#: ui/app/Menus.cc:116
-msgid "Temporarily Suspended..."
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
+msgid "Workrave crash reporter"
 msgstr ""
 
-#: ui/app/Menus.cc:119
-msgid "Temporarily Quiet..."
+#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
+msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
 msgstr ""
 
-#: ui/app/Menus.cc:125
-msgid "_Reading mode"
-msgstr "阅读模式(_R)"
-
-#: ui/app/Menus.cc:135 ui/applets/mate/src/main.c:372
-msgid "_About"
-msgstr "关于(_A)"
-
-#: ui/app/Menus.cc:138 ui/applets/mate/src/main.c:374
-msgid "_Quit"
-msgstr "退出(_Q)"
-
-#: ui/app/Menus.cc:164
-msgid "Indefinitely"
-msgstr ""
-
-#: ui/app/Menus.cc:176
-msgid "For 1 hour"
-msgstr ""
-
-#: ui/app/Menus.cc:183
-msgid "and 1 minute"
-msgstr ""
-
-#: ui/app/Menus.cc:187
-msgid "For 1 minute"
-msgstr ""
-
-#: ui/app/Menus.cc:196
-msgid "Until next day"
-msgstr ""
-
-#: ui/app/Menus.cc:292
-#, qt-format
-msgid "Q_uiet (until %1%)"
-msgstr ""
-
-#: ui/app/Menus.cc:297
-#, fuzzy, qt-format
-msgid "_Suspended (until %1%)"
-msgstr "已暂停(_S)"
-
-#: ui/app/Menus.cc:305
-msgid "Q_uiet (until next day)"
-msgstr ""
-
-#: ui/app/Menus.cc:310
-msgid "_Suspended (until next day)"
-msgstr ""
-
-#: ui/app/org.workrave.Workrave.desktop.in:4 ui/app/workrave.metainfo.xml:4
-#: ui/applets/gnome3/src/libgnome-panel/WorkraveModule.c:27
-msgid "Workrave"
-msgstr "Workrave"
-
-#: ui/app/org.workrave.Workrave.desktop.in:5
-msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr "辅助重复性劳损（RSI）的预防和恢复"
-
-#: ui/app/org.workrave.Workrave.desktop.in:6
-msgid "typing;break;timer;wrists;health;rsi;"
-msgstr "打字；休息；计时器；手腕；健康；RSI"
-
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:83
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:84
-msgid "Focus Assist"
-msgstr ""
-
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:85
-msgid "Set operation mode based on Windows Focus Assist"
-msgstr ""
-
-#: ui/app/platforms/windows/WindowsFocusAssist.cc:87
-msgid "Operation mode during Focus Assist:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:90
-msgid "Software Update"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:131
-#, c++-format
-msgid "A new version of {} is available"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:139
-#, c++-format
-msgid "{} {} is now available -- you have {}. Would you like to download it now?"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:148
-msgid "Release notes"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:164
-#, c++-format
-msgid "<h3>Version {}</h3>\n"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:211
-#, c++-format
-msgid "Version {}\n"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:258
-msgid "_Skip this version"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:264
-msgid "_Remind me later"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:267
-msgid "_Install update"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:274
-#, fuzzy
-msgid "_Close"
-msgstr "关闭"
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:309
-msgid "Downloading installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:312
-msgid "Verifying installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:315
-msgid "Running installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
-msgid "Stable"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
-msgid "Release Candidate"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:188
-msgid "Beta"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
-msgid "No proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
-msgid "System proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:189
-msgid "Custom proxy"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:191
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:221
-msgid "Software updates"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:192
-msgid "Auto update"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:193
-msgid "Automatically check for updates"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:195
-msgid "Get updates as soon as they are available"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:203
-msgid "Release channel:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:210
-msgid "Proxy Type:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:216
-msgid "Proxy:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:230
-msgid "Check for _Updates"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:340
-msgid "Invalid appcast"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:343
-msgid "Failed to download appcast"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:346
-msgid "Failed to download installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:349
-msgid "Failed to validate installer integrity. Aborting upgrade"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:352
-msgid "Failed to execute installer"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:357
-#: ui/app/toolkits/gtkmm/AutoUpdater.cc:363
-msgid "Internal failure. Aborting upgrade"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:269
-msgid "Lock..."
-msgstr "锁定..."
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:273
-msgid "Lock"
-msgstr "锁定"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:277
-msgid "Shutdown"
-msgstr "关闭"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:281
-msgid "Suspend"
-msgstr "暂停"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:285
-msgid "Hibernate"
-msgstr "休眠"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:289
-msgid "Suspend hybrid"
-msgstr "暂停混合"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:408
-msgid "_Skip"
-msgstr "跳过(_S)"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:418
-msgid "_Postpone"
-msgstr "推迟(_P)"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:588
-msgid "You cannot skip this break while another non-skippable break is overdue."
-msgstr "当另一个不可跳过的休息过期时，你不能跳过这个休息。"
-
-#: ui/app/toolkits/gtkmm/BreakWindow.cc:602
-msgid "You cannot postpone this break while another non-postponable break is overdue."
-msgstr "当另一个不可延后的休息过期时，你不能推迟这个休息。"
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:49
-msgid "Crash report details"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:52
-msgid "crash details"
+#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
+msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:64
@@ -1411,33 +1063,41 @@ msgstr ""
 msgid "Workrave has crashed."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:71
-msgid "The following logging will be attached to the crash report:"
-msgstr ""
+#: ui/app/workrave.metainfo.xml:9
+msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
+msgstr "Workrave 是一个辅助恢复和预防重复性劳损（RSI）的程序。这个程序经常提醒你进行短时间停顿和常规休息，并限制每天计算机用时。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:110
-msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
-msgstr ""
+#: ui/app/Application.cc:562
+msgid "Workrave is in quiet mode. No break windows will appear."
+msgstr "Workrave 处于勿扰模式。不会出现休息窗口。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:132
-msgid "Crash report"
+#: ui/app/Application.cc:554
+msgid ""
+"Workrave is in suspended mode.\n"
+"Mouse and keyboard activity will not be monitored."
 msgstr ""
+"Workrave 处于暂停模式。\n"
+"鼠标和键盘活动不受监控。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:136
-msgid "Workrave crash reporter"
-msgstr ""
+#: ui/app/Application.cc:538
+msgid "Workrave is still running. You can access Workrave by clicking on the white sheep icon. Click on this balloon to disable this message"
+msgstr "Workrave 仍在运行。你可以单击白羊图标访问 Workrave。单击这个气泡禁用这则消息"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:156
-msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
-msgstr ""
+#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
+msgid "Workrave needs to be restarted manually after changing this setting"
+msgstr "更改此设定后，需手动重启 Workrave"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:162
-msgid "Submit crash report to the Workrave developers"
-msgstr ""
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:587
+msgid "You cannot postpone this break while another non-postponable break is overdue."
+msgstr "当另一个不可延后的休息过期时，你不能推迟这个休息。"
 
-#: ui/app/toolkits/gtkmm/CrashDialog.cc:171
-msgid "Details..."
-msgstr ""
+#: ui/app/toolkits/gtkmm/BreakWindow.cc:573
+msgid "You cannot skip this break while another non-skippable break is overdue."
+msgstr "当另一个不可跳过的休息过期时，你不能跳过这个休息。"
+
+#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:628
+msgid "You have chosen to delete your statistics history. Continue?"
+msgstr "你选择了删除统计数据历史。继续吗？"
 
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:54
 msgid ""
@@ -1449,515 +1109,33 @@ msgstr ""
 "请不要再盯着计算机。\n"
 "如果你的工作日还没结束，找点别的事情做，比如阅读一份文件。"
 
-#: ui/app/toolkits/gtkmm/DebugDialog.cc:33
-msgid "Debug log"
-msgstr "调试日志"
-
-#. Dialog
-#: ui/app/toolkits/gtkmm/DebugDialog.cc:51
-#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:33
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:90
-#: ui/app/toolkits/gtkmm/StatisticsDialog.cc:143
-msgid "Close"
-msgstr "关闭"
-
-#: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
-msgid "Exercises"
-msgstr "锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
-msgid "Previous"
-msgstr "上一个"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
-msgid "Next"
-msgstr "下一个"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:112
-msgid "Exercises player"
-msgstr "锻炼播放器"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
-msgid "Previous exercise"
-msgstr "上个锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
-msgid "Next exercise"
-msgstr "下个锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
-msgid "Pause exercises"
-msgstr "暂停锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
-msgid "End exercises"
-msgstr "结束锻炼"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
-msgid "Resume"
-msgstr "继续"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
-msgid "Pause"
-msgstr "暂停"
-
-#: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
-msgid "Resume exercises"
-msgstr "继续锻炼"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
-msgid "Please relax for a few seconds"
-msgstr "请放松数秒"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
-msgstr "离下次休息还有 %s"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
-msgstr "休息过期了 %s"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
-msgstr "距每日上限还有 %s"
-
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
-msgstr "每日上限已过 %s"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
-msgid "Orientation"
-msgstr "方向"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:120
-msgid "The orientation of the tray"
-msgstr "托盘方向"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
-msgid "Foreground color"
-msgstr "前景色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:129
-msgid "Foreground color for symbolic icons"
-msgstr "象征图标的前景色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
-msgid "Error color"
-msgstr "错误颜色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:136
-msgid "Error color for symbolic icons"
-msgstr "象征图标的错误颜色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:141
-msgid "Warning color"
-msgstr "警告色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:142
-msgid "Warning color for symbolic icons"
-msgstr "象征图标的警告色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
-msgid "Success color"
-msgstr "成功颜色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:150
-msgid "Success color for symbolic icons"
-msgstr "象征图标的成功色"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:157
-msgid "Padding"
-msgstr "填充"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:158
-msgid "Padding that should be put around icons in the tray"
-msgstr "应当被放在托盘图标周围的填充"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:167
-msgid "Icon Size"
-msgstr "图标尺寸"
-
-#: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:168
-msgid "The pixel size that icons should be forced to, or zero"
-msgstr "图标应被强制的像素大小，或者为 0"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:45
-msgid "Preferences"
-msgstr "首选项"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
-msgid "Timers"
-msgstr "计时器"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:116
-msgid "User interface"
-msgstr "用户界面"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
-msgid "General"
-msgstr "常规"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
-msgstr "状态窗口"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
-msgid "Applet"
-msgstr "小程序"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
-#, fuzzy
-msgid "Monitoring"
-msgstr "调试监控"
-
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
-#: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
-msgid "Sounds"
-msgstr "声音"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
-msgid "No blocking"
-msgstr "无拦截"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:75
-msgid "Block input"
-msgstr "拦截输入"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:76
-msgid "Block input and screen"
-msgstr "拦截输入和屏幕"
-
-#. Options
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:126
-msgid "Options"
-msgstr "选项"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "拦截模式："
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
-msgid "System default"
-msgstr "系统默认"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:157
-msgid "(font not available)"
-msgstr "(字体不可用)"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "语言："
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
-msgid "Start Workrave on logon"
-msgstr "登录系统时启动 Workrave"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:205
-msgid "Show system tray icon"
-msgstr "显示系统托盘图标"
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:206
-msgid "Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:218
-msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:229
-msgid "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:230
-msgid "Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:243
-msgid "Icon Theme:"
-msgstr "图标主题："
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:248
-msgid "Light"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:249
-msgid "Dark"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:250
-msgid "Auto"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "拦截模式："
-
-#: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
-msgid "Default"
-msgstr "默认"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:56
-msgid "Use alternate monitor"
-msgstr "使用另一台显示器"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:63
-msgid "Enable this option if Workrave fails to detect when you are using your computer"
-msgstr "如 Workrave 未能检测到你何时在使用计算机，请启用此选项"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:66
-msgid "Workrave needs to be restarted manually after changing this setting"
-msgstr "更改此设定后，需手动重启 Workrave"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-msgid "Mouse sensitivity:"
-msgstr "鼠标敏感度："
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
-msgid "Number of pixels the mouse should move before it is considered activity."
-msgstr "鼠标需移动多少像素，才被认为是在活动。"
-
-#: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:88
-msgid "Debug monitoring"
-msgstr "调试监控"
-
-#. Options
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:56
-msgid "Sound Options"
-msgstr "声音选项"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:61
-msgid "No sounds"
-msgstr "无声音"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:62
-msgid "Play sounds using sound card"
-msgstr "使用声卡播放声音"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "音量："
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
-msgid "Sound:"
-msgstr "声音："
-
-#. Volume
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:90
-msgid "Mute sounds during rest break and daily limit"
-msgstr "在休息和每日上限期间静音"
-
-#. Sound themes
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:98
-msgid "Sound Events"
-msgstr "声音事件"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:106
-msgid "Sound Theme:"
-msgstr "声音主题："
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:129
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:147
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:167
-msgid "Play"
-msgstr "播放"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:134
-msgid "Event"
-msgstr "事件"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:150
-msgid "Choose a sound"
-msgstr "选择声音"
-
-#: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:156
-msgid "Wavefiles"
-msgstr "Wav 文件"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:73
-msgid "Place timers next to each other"
-msgstr "并排放置计时器"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:74
-msgid "Place micro-break and rest break in one spot"
-msgstr "将小憩和休息放在一起"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:75
-msgid "Place rest break and daily limit in one spot"
-msgstr "将休息和每日上限放在一起"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:76
-msgid "Place all timers in one spot"
-msgstr "将所有计时器放在一起"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:92
-msgid "Hide"
-msgstr "隐藏"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:93
-msgid "Show"
-msgstr "显示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:94
-msgid "Show only when this timer is first due"
-msgstr "只在计时器首次到期时显示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:97
-msgid "Display"
-msgstr "展示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:106
-msgid "The status window stays always on top of other windows"
-msgstr "状态窗口始终在最上层"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:112
-msgid "Show status window"
-msgstr "显示状态窗口"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
-msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environment do not support, or have disabled status icons."
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "放置："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "循环时间："
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "小憩："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "休息："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "每日上限："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
-msgid "Fallback applet enabled"
-msgstr "已启用备份小程序"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:144
-msgid "Show status icon"
-msgstr "显示状态图标"
-
-#. Enabled/Disabled checkbox
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:58
-msgid "Enable timer"
-msgstr "启用计时器"
-
-#. Prelude frame
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:95
-msgid "Break prompting"
-msgstr "休息提示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:97
-msgid "Prompt before breaking"
-msgstr "休息前提示"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "最多提示几次："
-
-#. Ignorable
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
-msgid "Show 'Postpone' button"
-msgstr "显示“推迟”按钮"
-
-#. Skippable
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:133
-msgid "Show 'Skip' button"
-msgstr "显示“跳过”按钮"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:144
-msgid "Regard micro-breaks as activity"
-msgstr "将小憩视为活动"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "锻炼次数："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
-msgid "Start restbreak when screen is locked"
-msgstr "屏幕锁定时开始休息"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:163
-msgid "Enable shutting down the computer from the rest screen"
-msgstr "允许从其他屏幕关闭计算机"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time before end:"
-msgstr "结束时限："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "休息间隔："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "休息持续时间："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "推迟多久："
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:35
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:112
-msgid "Time for a micro-break?"
-msgstr "小憩一下？"
-
-#: ui/app/toolkits/gtkmm/Prelude.cc:37
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:116
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:100
 msgid "You need a rest break..."
 msgstr "你需要一次休息..."
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:39
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:120
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:104
 msgid "You should stop for today..."
 msgstr "今天到此为止吧..."
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:51
-#, fuzzy, c++-format
-msgid "Break in {}"
-msgstr "{} 后休息"
+#: ui/app/Menus.cc:137 ui/applets/mate/src/main.c:372
+msgid "_About"
+msgstr "关于(_A)"
 
-#: ui/app/toolkits/gtkmm/Prelude.cc:53
-#, fuzzy, c++-format
-msgid "Disappears in {}"
-msgstr "{} 后消失"
+#: ui/app/Menus.cc:78 ui/applets/mate/src/main.c:366
+msgid "_Exercises"
+msgstr "锻炼(_E)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:195
 msgid "_Install update"
-msgstr "安装更新(_I)"
+msgstr ""
 
-#: ui/app/workrave.metainfo.xml:21
-#, fuzzy
-msgid "The restbreak window"
-msgstr "立即休息"
+#: ui/app/Menus.cc:90 ui/applets/mate/src/main.c:370
+msgid "_Mode"
+msgstr "模式(_M)"
 
-#: ui/app/workrave.metainfo.xml:25
-#, fuzzy
-msgid "The main window"
-msgstr "显示状态窗口"
+#: ui/app/Menus.cc:98
+msgid "_Normal"
+msgstr "常规(_N)"
 
 #: ui/app/Menus.cc:66 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -1969,7 +1147,7 @@ msgstr "推迟(_P)"
 
 #: ui/app/Menus.cc:72 ui/applets/mate/src/main.c:364
 msgid "_Preferences"
-msgstr "偏好设置(_P)"
+msgstr "首选项(_P)"
 
 #: ui/app/Menus.cc:140 ui/applets/mate/src/main.c:374
 msgid "_Quit"
@@ -1982,7 +1160,7 @@ msgstr "阅读模式(_R)"
 #. button_size_group->add_widget(*skip_button);
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:191
 msgid "_Remind me later"
-msgstr "稍后提醒(_R)"
+msgstr ""
 
 #: ui/app/Menus.cc:75
 msgid "_Rest break"
@@ -1998,125 +1176,40 @@ msgstr "跳过(_S)"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:184
 msgid "_Skip this version"
-msgstr "跳过此版本(_S)"
+msgstr ""
 
 #: ui/applets/mate/src/main.c:362
 msgid "_Statistics"
 msgstr "统计数据(_S)"
 
-#: ui/applets/mate/src/main.c:368
-msgid "_Restbreak"
-msgstr "休息(_R)"
+#: ui/app/Menus.cc:105
+msgid "_Suspended"
+msgstr "已暂停(_S)"
 
-#: ui/applets/mate/src/main.c:379
-msgid "Show log"
-msgstr "显示日志"
+#: ui/app/Menus.cc:299
+#, fuzzy, qt-format
+msgid "_Suspended (until %1%)"
+msgstr "已暂停(_S)"
 
-#: ui/applets/mate/src/main.c:381
-msgid "Reading mode"
-msgstr "阅读模式"
+#: ui/app/Menus.cc:312
+msgid "_Suspended (until next day)"
+msgstr ""
 
 #: ui/app/Menus.cc:185
 msgid "and 1 minute"
-msgstr "和 1 分钟"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:52
 msgid "crash details"
-msgstr "崩溃详情"
+msgstr ""
 
-#: ui/data/exercises/exercises.xml.in:5
-msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "保持一只手臂水平伸展在胸前。用另一只手臂将这只手臂推向你的身体，直到你感到肩膀有轻微的紧张感。短暂保持这个姿势，然后在另一只手臂上重复这个动作。"
+#: ui/app/org.workrave.Workrave.desktop.in:7
+msgid "typing;break;timer;wrists;health;rsi;"
+msgstr "打字；休息；计时器；手腕；健康；RSI"
 
-#: ui/data/exercises/exercises.xml.in:22
-msgid "Finger stretch"
-msgstr "手指伸展"
-
-#: ui/data/exercises/exercises.xml.in:23
-msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
-msgstr "分开并伸展你的手指，直到感觉到轻微的拉力，保持10秒钟。放松，然后弯曲手指的指关节，再坚持10秒。再做一遍这个练习。"
-
-#: ui/data/exercises/exercises.xml.in:30
-msgid "Neck tilt stretch"
-msgstr "颈部倾斜拉伸"
-
-#: ui/data/exercises/exercises.xml.in:31
-msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "开始时头处于舒适的笔直姿势。然后，慢慢地将头向右肩倾斜，轻轻伸展颈部左侧的肌肉。保持这个姿势5秒。然后，将头向左侧倾斜，伸展另一侧身体。每边做两次。"
-
-#: ui/data/exercises/exercises.xml.in:38
-msgid "Backward shoulder stretch"
-msgstr "后肩伸展"
-
-#: ui/data/exercises/exercises.xml.in:39
-msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "把你的手指交叉放在背后。然后将你的肘部轻轻地向内弯曲，同时伸直你的手臂。保持这个姿势5到15秒，然后重复这个练习两次。"
-
-#: ui/data/exercises/exercises.xml.in:45
-msgid "Move the eyes"
-msgstr "移动眼球"
-
-#: ui/data/exercises/exercises.xml.in:46
-msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "注视显示器外边框的左上角，目光沿着边框慢慢移到右上角。继续到下一个拐角，直到环绕屏幕边框两次。然后，反方向练习。"
-
-#: ui/data/exercises/exercises.xml.in:64
-msgid "Train focusing the eyes"
-msgstr "训练聚焦眼球"
-
-#: ui/data/exercises/exercises.xml.in:65
-msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you cannot look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
-msgstr "寻找显示器后面你能看到的最远的点。把你的眼睛集中在远处。然后专注于你的显示器边框。重复它。如果你没法看得离显示器很远，那就换一个方向，看得远一点。然后在一个远处物体和一支离你的眼睛和显示器相同距离的笔之间切换你的焦点。"
-
-#: ui/data/exercises/exercises.xml.in:72
-msgid "Look into the darkness"
-msgstr "注视黑暗"
-
-#: ui/data/exercises/exercises.xml.in:73
-msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
-msgstr "用手掌遮住你的眼睛，但保证还可以睁开你的眼睑。现在睁开你的眼睛，看看你手掌的黑暗。与简单闭上眼睛相比，这个练习能更好地放松你的眼睛。"
-
-#: ui/data/exercises/exercises.xml.in:79
-msgid "Move the shoulders"
-msgstr "移动肩膀"
-
-#: ui/data/exercises/exercises.xml.in:80
-msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
-msgstr "慢慢旋转你的右臂，就像身体旁边的飞机螺旋桨一样。向前做4次，向后做4次，放松几秒钟。左臂重复此动作。"
-
-#: ui/data/exercises/exercises.xml.in:87
-msgid "Move the shoulders up and down"
-msgstr "上下移动肩膀"
-
-#: ui/data/exercises/exercises.xml.in:88
-msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
-msgstr "当你坐着的时候，把你的手放在椅子的扶手上，把你的身体向上压，直到你的手臂伸直。试着通过降低肩膀来让头移得更远。慢慢移回到椅子上。"
-
-#: ui/data/exercises/exercises.xml.in:125
-msgid "Turn your head"
-msgstr "转头"
-
-#: ui/data/exercises/exercises.xml.in:126
-msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
-msgstr "把头向左转，保持2秒钟。然后把头向右转，保持2秒钟。"
-
-#: ui/libs/commonui/src/Text.cc:71
-#, c-format, qt-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d 小时"
-
-#: ui/libs/commonui/src/Text.cc:75
-#, c-format, qt-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d 分钟"
-
-#: ui/libs/commonui/src/Text.cc:79
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d 秒"
-
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "辅助恢复和预防重复性劳损（RSI）的程序"
+#: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:113
+msgid "{} {} is now available -- you have {}. Would you like to download it now?"
+msgstr ""
 
 #~ msgid "Accepted new client."
 #~ msgstr "已接受新客户端。"

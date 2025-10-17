@@ -20,11 +20,6 @@ try {
   Workrave = imports.gi.Workrave;
 }
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-
-const PreludeWindow = Me.imports.prelude;
-
 const _ = Gettext.gettext;
 
 let start = GLib.get_monotonic_time();
