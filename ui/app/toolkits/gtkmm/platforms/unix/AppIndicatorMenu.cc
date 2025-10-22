@@ -52,6 +52,10 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   workrave::utils::connect(core->signal_operation_mode_changed(), tracker, [this](auto mode) {
     on_operation_mode_changed(mode);
   });
+  auto menu_model = context->get_menu_model();
+  workrave::utils::connect(menu_model->signal_update(), tracker, [this]() {
+    update_dbus_menu_root();
+  });
   workrave::OperationMode mode = core->get_regular_operation_mode();
   on_operation_mode_changed(mode);
 
@@ -96,6 +100,12 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       app_indicator_set_icon(indicator, filename.c_str());
     }
 
+  update_dbus_menu_root();
+}
+
+void
+AppIndicatorMenu::update_dbus_menu_root()
+{
   DbusmenuServer *server{};
   g_object_get(indicator, "dbus-menu-server", &server, NULL);
   auto dbus_menu = this->dbus_menu.lock();
