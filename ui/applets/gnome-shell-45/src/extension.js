@@ -601,6 +601,7 @@ let workravePanelButton;
 export default class WorkraveExtension extends Extension {
   enable() {
     console.log("workrave-applet: enabling applet");
+
     workravePanelButton = new WorkraveButton();
     Main.panel.addToStatusArea("workrave-applet", workravePanelButton);
   }
