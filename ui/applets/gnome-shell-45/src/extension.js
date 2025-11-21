@@ -291,11 +291,6 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _destroy() {
-      if (this.monitorChangedHandler) {
-        Main.layoutManager.disconnect(this.monitorChangedHandler);
-        this.monitorChangedHandler = null;
-      }
-
       if (this._watchid > 0) {
         Gio.DBus.session.unwatch_name(this._watchid);
         this._watchid = 0;
