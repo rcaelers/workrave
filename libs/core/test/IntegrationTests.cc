@@ -65,6 +65,7 @@ using namespace std;
 using namespace workrave::utils;
 using namespace workrave::config;
 using namespace workrave;
+
 namespace workrave
 {
   std::ostream &operator<<(std::ostream &stream, ::workrave::OperationMode e)
@@ -80,6 +81,18 @@ namespace workrave
   }
 
   std::ostream &operator<<(std::ostream &stream, ::workrave::BreakEvent e)
+  {
+    stream << workrave::utils::enum_to_string(e);
+    return stream;
+  }
+
+  std::ostream &operator<<(std::ostream &stream, ::workrave::IApp::PreludeStage e)
+  {
+    stream << workrave::utils::enum_to_string(e);
+    return stream;
+  }
+
+  std::ostream &operator<<(std::ostream &stream, ::workrave::IApp::PreludeProgressText e)
   {
     stream << workrave::utils::enum_to_string(e);
     return stream;
@@ -631,11 +644,11 @@ public:
 
     if (prelude_count[active_prelude] < max_preludes)
       {
-        BOOST_CHECK_EQUAL(text, IApp::PROGRESS_TEXT_DISAPPEARS_IN);
+        BOOST_CHECK_EQUAL(text, IApp::PreludeProgressText::DisappearsIn);
       }
     else
       {
-        BOOST_CHECK_EQUAL(text, IApp::PROGRESS_TEXT_BREAK_IN);
+        BOOST_CHECK_EQUAL(text, IApp::PreludeProgressText::BreakIn);
       }
 
     need_refresh = true;
