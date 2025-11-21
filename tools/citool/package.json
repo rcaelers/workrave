@@ -23,7 +23,7 @@
     "async": "^3.2.6",
     "date-fns": "^4.1.0",
     "isomorphic-git": "^1.34.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "mergician": "^2.0.2",
     "moment": "^2.30.1",
     "node-fetch": "^3.3.2",
