@@ -6,6 +6,12 @@ if (WIN32)
   find_program(MSBUILD_EXECUTABLE
       NAMES msbuild.exe
       PATHS
+      "$ENV{ProgramFiles}/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles}/Microsoft Visual Studio/18/Professional/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles}/Microsoft Visual Studio/18/Enterprise/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/18/Professional/MSBuild/Current/Bin"
+      "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/18/Enterprise/MSBuild/Current/Bin"
       "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin"
       "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin"
       "$ENV{ProgramFiles}/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin"
@@ -16,7 +22,7 @@ if (WIN32)
   )
 
   if (NOT MSBUILD_EXECUTABLE)
-      message(FATAL_ERROR "msbuild.exe not found. Please ensure Visual Studio 2022 is installed.")
+      message(FATAL_ERROR "msbuild.exe not found. Please ensure Visual Studio 2022/2026 is installed.")
   endif()
 
   set(HARPOON_SOLUTION_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
