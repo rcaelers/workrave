@@ -18,11 +18,11 @@ run_docker_ppa() {
 }
 
 run_docker_deb() {
-    docker run --rm \
+    docker run --rm --privileged \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
-        ghcr.io/rcaelers/workrave-build:ubuntu-cowbuilder \
-        sh -c "/workspace/scripts/local/cow-build.sh"
+        ghcr.io/rcaelers/workrave-build:ubuntu-pbuilder \
+        sh -c "/workspace/scripts/local/pbuild.sh"
 }
 
 run_docker_appimage() {
