@@ -283,7 +283,7 @@ jobs:
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
-          - image: ubuntu-rolling
+          - image: ubuntu-resolute
             os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
