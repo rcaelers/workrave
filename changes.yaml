@@ -1,7 +1,7 @@
 ---
 releases:
   - version: 1.11.0-rc.2
-    date: 2025-05-04T00:00:00+02:00
+    date: 2025-11-23T00:00:00+02:00
     short: |-
       Workrave 1.11.0-rc.2 has been released.
     changes:
@@ -18,15 +18,19 @@ releases:
         - Keyboard/mouse locking now works on ARM64 Windows
         - Handle screen lock shortcut during breaks under Xorg
         - Add high DPI support on Windows (#650, Charlie Lin)
+        - Use Gnome Shell extension to display prelude windows (#621)
       - |-
         Bug fixes:
         - Fix crash when monitor is powered off (#606)
         - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
         - Fix issue where the tray icon did not appear on waybar, swaybar, or wf-shell trays (#555, #613, wojnilowicz)
         - Fix issue where the status window shows when Sway reloads despite being disabled (#612, #615, wojnilowicz)
+        - Update AppIndicator menu when menu content changes (#556, #652,ValdikSS)
       - |-
         Updated Translations:
         - Update Chinese translation (#645, Sisyphe42)
+        - Updated Indonesian translation (#653, Andika Triwidada)
+        - Fix French translation (#656)
 
   - version: 1.11.0-rc.1
     date: 2025-01-07T17:49:37+01:00

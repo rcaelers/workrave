@@ -28,20 +28,20 @@ namespace workrave
   {
   public:
     //! The stage of a break warning (prelude)
-    enum PreludeStage
+    enum class PreludeStage
     {
-      STAGE_INITIAL = 0,
-      STAGE_MOVE_OUT,
-      STAGE_WARN,
-      STAGE_ALERT
+      Initial = 0,
+      MoveOut,
+      Warn,
+      Alert
     };
 
     //! Text that the GUI show must in the prelude window.
-    enum PreludeProgressText
+    enum class PreludeProgressText
     {
-      PROGRESS_TEXT_BREAK_IN,
-      PROGRESS_TEXT_DISAPPEARS_IN,
-      PROGRESS_TEXT_SILENT_IN
+      BreakIn,
+      DisappearsIn,
+      SilentIn
     };
 
     virtual ~IApp() = default;
@@ -70,6 +70,26 @@ namespace workrave
     //! Set the progress text of the prelude window.
     virtual void set_prelude_progress_text(PreludeProgressText text) = 0;
   };
+
+  template<>
+  struct workrave::utils::enum_traits<IApp::PreludeStage>
+  {
+    static constexpr std::array<std::pair<std::string_view, IApp::PreludeStage>, 4> names{
+      {{"initial", IApp::PreludeStage::Initial},
+       {"move_out", IApp::PreludeStage::MoveOut},
+       {"warn", IApp::PreludeStage::Warn},
+       {"alert", IApp::PreludeStage::Alert}}};
+  };
+
+  template<>
+  struct workrave::utils::enum_traits<IApp::PreludeProgressText>
+  {
+    static constexpr std::array<std::pair<std::string_view, IApp::PreludeProgressText>, 3> names{
+      {{"break_in", IApp::PreludeProgressText::BreakIn},
+       {"disappears_in", IApp::PreludeProgressText::DisappearsIn},
+       {"silent_in", IApp::PreludeProgressText::SilentIn}}};
+  };
+
 } // namespace workrave
 
 #endif // WORKRAVE_BACKEND_IAPP_HH

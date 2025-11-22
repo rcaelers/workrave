@@ -12,6 +12,7 @@ import {
 } from "resource:///org/gnome/shell/extensions/extension.js";
 
 import Workrave from "gi://Workrave?version=2.0";
+import * as PreludeManager from "./prelude_manager.js";
 
 let start = GLib.get_monotonic_time();
 console.log("workrave-applet: start @ " + start);
@@ -256,6 +257,8 @@ const WorkraveButton = GObject.registerClass(
 
       this.menu._setOpenedSubMenu = this._setOpenedSubmenu.bind(this);
       this._updateMenu(null);
+
+      this._prelude_manager = new PreludeManager.PreludeManager();
     }
 
     _setOpenedSubmenu(submenu) {
@@ -280,7 +283,6 @@ const WorkraveButton = GObject.registerClass(
     _connectCore() {}
 
     _onDestroy() {
-      console.log("workrave-applet: onDestroy");
       if (this._ui_proxy != null) {
         this._ui_proxy.EmbedRemote(false, this._bus_name);
       }
@@ -289,7 +291,6 @@ const WorkraveButton = GObject.registerClass(
     }
 
     _destroy() {
-      console.log("workrave-applet: destroy");
       if (this._watchid > 0) {
         Gio.DBus.session.unwatch_name(this._watchid);
         this._watchid = 0;
@@ -324,6 +325,11 @@ const WorkraveButton = GObject.registerClass(
         this._core_proxy.GetOperationModeRemote(
           this._onGetOperationModeReply.bind(this)
         );
+
+        if (this._prelude_manager != null) {
+          this._prelude_manager.init();
+        }
+
         this._timeoutId = GLib.timeout_add(
           GLib.PRIORITY_DEFAULT,
           5000,
@@ -343,6 +349,9 @@ const WorkraveButton = GObject.registerClass(
         Gio.DBus.session.unown_name(this._bus_id);
         this._timeoutId = 0;
         this._bus_id = 0;
+      }
+      if (this._prelude_manager != null) {
+        this._prelude_manager.terminate();
       }
     }
 

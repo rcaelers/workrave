@@ -14,6 +14,7 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   MainWindow.cc
   MicroBreakWindow.cc
   PreferencesDialog.cc
+  Prelude.cc
   PreludeWindow.cc
   RestBreakWindow.cc
   StatisticsDialog.cc
@@ -43,6 +44,7 @@ endif()
 if (PLATFORM_OS_UNIX)
   target_sources(workrave-toolkit-gtkmm PRIVATE
     ToolkitUnix.cc
+    DBusPreludeWindow.cc
     platforms/unix/X11SystrayAppletWindow.cc
     platforms/unix/desktop-window.c
     platforms/unix/gtktrayicon.c

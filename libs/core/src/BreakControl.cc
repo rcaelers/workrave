@@ -157,20 +157,20 @@ BreakControl::heartbeat()
         else if (prelude_time == 20)
           {
             // Still not idle after 20s. Red alert.
-            application->set_prelude_stage(IApp::STAGE_ALERT);
+            application->set_prelude_stage(IApp::PreludeStage::Alert);
             application->refresh_break_window();
           }
         else if (prelude_time == 10)
           {
             // Still not idle after 10s. Yellow alert.
-            application->set_prelude_stage(IApp::STAGE_WARN);
+            application->set_prelude_stage(IApp::PreludeStage::Warn);
             application->refresh_break_window();
           }
 
         if (prelude_time == 4)
           {
             // Move prelude window to top of screen after 4s.
-            application->set_prelude_stage(IApp::STAGE_MOVE_OUT);
+            application->set_prelude_stage(IApp::PreludeStage::MoveOut);
           }
       }
       break;
@@ -648,15 +648,15 @@ BreakControl::prelude_window_start()
 
   application->create_prelude_window(break_id);
 
-  application->set_prelude_stage(IApp::STAGE_INITIAL);
+  application->set_prelude_stage(IApp::PreludeStage::Initial);
 
   if (!reached_max_prelude)
     {
-      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_DISAPPEARS_IN);
+      application->set_prelude_progress_text(IApp::PreludeProgressText::DisappearsIn);
     }
   else
     {
-      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
+      application->set_prelude_progress_text(IApp::PreludeProgressText::BreakIn);
     }
 
   update_prelude_window();

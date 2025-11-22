@@ -66,6 +66,8 @@ void workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr);
 void workrave_timebar_set_progress(WorkraveTimebar *self, int value, int max_value, WorkraveColorId color);
 void workrave_timebar_set_secondary_progress(WorkraveTimebar *self, int value, int max_value, WorkraveColorId color);
 void workrave_timebar_set_text(WorkraveTimebar *self, const gchar *text);
+void workrave_timebar_set_text_alignment(WorkraveTimebar *self, int align);
 void workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height);
+void workrave_timebar_set_dimensions(WorkraveTimebar *self, int width, int height);
 
 #endif /* WORKRAVE_APPLET_COMMON_TIMEBAR_H_ */

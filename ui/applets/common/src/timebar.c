@@ -70,6 +70,7 @@ struct _WorkraveTimebarPrivate
 
   //! Text to show;
   gchar *bar_text;
+  int bar_text_align;
 
   int width;
   int height;
@@ -123,6 +124,7 @@ workrave_timebar_init(WorkraveTimebar *self)
   priv->height = 0;
   priv->pango_context = NULL;
   priv->pango_layout = NULL;
+  priv->bar_text_align = 1;
 
   workrave_timebar_prepare(self);
 }
@@ -232,7 +234,6 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
 {
   WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
 
-  // g_debug("bar_text %s", priv->bar_text);
   pango_layout_set_text(priv->pango_layout, priv->bar_text, -1);
 
   int text_width, text_height;
@@ -240,6 +241,14 @@ workrave_timebar_draw_text(WorkraveTimebar *self, cairo_t *cr)
 
   int text_x, text_y;
   text_x = priv->width - text_width - MARGINX;
+
+  if (priv->bar_text_align > 0)
+    text_x = (priv->width - text_width - MARGINX);
+  else if (priv->bar_text_align < 0)
+    text_x = MARGINX;
+  else
+    text_x = (priv->width - text_width) / 2;
+
   if (text_x < 0)
     {
       text_x = MARGINX;
@@ -395,6 +404,13 @@ workrave_timebar_set_text(WorkraveTimebar *self, const gchar *text)
 }
 
 void
+workrave_timebar_set_text_alignment(WorkraveTimebar *self, int align)
+{
+  WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
+  priv->bar_text_align = align;
+}
+
+void
 workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr)
 {
   workrave_timebar_draw_bar(self, cr);
@@ -408,4 +424,13 @@ workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height)
 
   *width = priv->width;
   *height = priv->height;
+}
+
+void
+workrave_timebar_set_dimensions(WorkraveTimebar *self, int width, int height)
+{
+  WorkraveTimebarPrivate *priv = workrave_timebar_get_instance_private(self);
+
+  priv->width = width;
+  priv->height = height;
 }
