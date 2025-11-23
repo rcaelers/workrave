@@ -242,6 +242,20 @@ begin
   Result := (GetWindowsVersion >= $0A0055F0);
 end;
 
+procedure InitializeWizard();
+begin
+  // Do not require accepting the GPL license on Windows installation
+  WizardForm.LicenseAcceptedRadio.Checked := True;
+  WizardForm.LicenseAcceptedRadio.Visible := False;
+  WizardForm.LicenseNotAcceptedRadio.Visible := False;
+  WizardForm.LicenseLabel1.Visible := False;
+  WizardForm.LicenseMemo.Top := WizardForm.LicenseLabel1.Top;
+  WizardForm.LicenseMemo.Height :=
+    WizardForm.LicenseNotAcceptedRadio.Top +
+    WizardForm.LicenseNotAcceptedRadio.Height -
+    WizardForm.LicenseMemo.Top - ScaleY(5);
+end;
+
 Function InitializeSetup() : Boolean;
 begin
     taskPageShown := False;
@@ -251,7 +265,7 @@ end;
 
 Function InitializeUninstall() : Boolean;
 begin
-    FileCopy(ExpandConstant('{app}\libzapper-0.dll'), ExpandConstant('{tmp}\libzapper-0.dll'), False);
+    CopyFile(ExpandConstant('{app}\libzapper-0.dll'), ExpandConstant('{tmp}\libzapper-0.dll'), False);
     Result := EnsureWorkraveIsNotRunning(UninstallSilent());
 end;
 

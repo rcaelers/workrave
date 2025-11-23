@@ -19,6 +19,7 @@ releases:
         - Handle screen lock shortcut during breaks under Xorg
         - Add high DPI support on Windows (#650, Charlie Lin)
         - Use Gnome Shell extension to display prelude windows (#621)
+        - It is no longer required to accept the GPL license on installation on Windows (#648)
       - |-
         Bug fixes:
         - Fix crash when monitor is powered off (#606)
