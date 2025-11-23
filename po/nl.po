@@ -156,11 +156,11 @@ msgstr "Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt open
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:132
 msgid "Crash report"
-msgstr ""
+msgstr "Crashrapport"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:49
 msgid "Crash report details"
-msgstr ""
+msgstr "Crashrapport details"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:123
 msgid "Cycle time:"
@@ -215,7 +215,7 @@ msgstr "Alle statistieken verwijderen"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:171
 msgid "Details..."
-msgstr ""
+msgstr "Details..."
 
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:240
 #, c-format
@@ -302,19 +302,19 @@ msgstr "Vingers strekken"
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:83
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:84
 msgid "Focus Assist"
-msgstr ""
+msgstr "Focus Assist"
 
 #: ui/app/Menus.cc:178
 msgid "For 1 hour"
-msgstr ""
+msgstr "Gedurende 1 uur"
 
 #: ui/app/Menus.cc:189
 msgid "For 1 minute"
-msgstr ""
+msgstr "Gedurende 1 minuut"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:216
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
-msgstr ""
+msgstr "Forceer het gebruik van X11 op Wayland (vereist herstart van Workrave)"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:128
 msgid "Foreground color"
@@ -346,7 +346,7 @@ msgstr "Icoonthema:"
 
 #: ui/app/Menus.cc:166
 msgid "Indefinitely"
-msgstr ""
+msgstr "Voor onbepaalde tijd"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:644
 msgid "Info"
@@ -499,7 +499,7 @@ msgstr "Normaal"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:110
 msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
-msgstr ""
+msgstr "Let op: dit crashrapport bevat ook technische informatie over de staat van Workrave ten tijde van de crash."
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
 msgid "Number of exercises:"
@@ -511,7 +511,7 @@ msgstr "Aantal pixels dat de muis moet verplaatsen voordat het gezien wordt als 
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:87
 msgid "Operation mode during Focus Assist:"
-msgstr ""
+msgstr "Bedieningsmodus tijdens Focus Assist:"
 
 #. Options
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:94
@@ -617,11 +617,11 @@ msgstr "_Stil"
 #: ui/app/Menus.cc:294
 #, qt-format
 msgid "Q_uiet (until %1%)"
-msgstr ""
+msgstr "_Stil (tot %1%)"
 
 #: ui/app/Menus.cc:307
 msgid "Q_uiet (until next day)"
-msgstr ""
+msgstr "_Stil (tot morgen)"
 
 #: ui/app/Application.cc:583 ui/app/platforms/windows/WindowsFocusAssist.cc:81
 #: ui/applets/mate/src/main.c:389
@@ -638,11 +638,11 @@ msgstr "Micropauzes tellen als werktijd"
 
 #: ui/app/toolkits/gtkmm/AutoUpdater.cc:134
 msgid "Release channel:"
-msgstr ""
+msgstr "Release-kanaal:"
 
 #: ui/app/toolkits/gtkmm/AutoUpdateDialog.cc:122
 msgid "Release notes"
-msgstr ""
+msgstr "Release-opmerkingen"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:165
 msgid "Repeated prompts"
@@ -695,7 +695,7 @@ msgstr "Strek je vingers uit elkaar totdat je een lichte spanning voelt, en hou 
 
 #: ui/app/platforms/windows/WindowsFocusAssist.cc:85
 msgid "Set operation mode based on Windows Focus Assist"
-msgstr ""
+msgstr "Stel bedieningsmodus in op basis van Windows Focus Assist"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -803,7 +803,7 @@ msgstr "Statusvenster"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:162
 msgid "Submit crash report to the Workrave developers"
-msgstr ""
+msgstr "Crashrapport indienen bij de Workrave-ontwikkelaars"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:149
 msgid "Success color"
@@ -836,17 +836,15 @@ msgstr "Neem nu een rustpauze"
 
 #: ui/app/Menus.cc:121
 msgid "Temporarily Quiet..."
-msgstr ""
+msgstr "Tijdelijk stil..."
 
 #: ui/app/Menus.cc:118
 msgid "Temporarily Suspended..."
-msgstr ""
+msgstr "Tijdelijk uitgeschakeld..."
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:650
 msgid "The files containing your statistics history could not be deleted. Try again?"
-msgstr ""
-"De bestanden met de statistiekgeschiedenis konden niet gewist worden.\n"
-"Nogmaals proberen?"
+msgstr "De bestanden met de statistiekgeschiedenis konden niet gewist worden. Nogmaals proberen?"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:642
 msgid "The files containing your statistics history have been deleted."
@@ -854,7 +852,7 @@ msgstr "De bestanden met statistiekgeschiedenis zijn gewist."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:71
 msgid "The following logging will be attached to the crash report:"
-msgstr ""
+msgstr "De volgende logging wordt toegevoegd aan het crashrapport:"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:178
 msgid "The number of breaks you postponed"
@@ -981,7 +979,7 @@ msgstr "Draai je hoofd naar links en hou dat 2 seconden vast. Draai daarna je ho
 
 #: ui/app/Menus.cc:198
 msgid "Until next day"
-msgstr ""
+msgstr "Tot morgen"
 
 #: ui/app/toolkits/gtkmm/StatisticsDialog.cc:182
 msgid "Usage"
@@ -993,7 +991,7 @@ msgstr "Alternatieve activiteitmonitor gebruiken"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:235
 msgid "Use dark theme"
-msgstr ""
+msgstr "Gebruik donker thema"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
 msgid "User interface"
@@ -1048,20 +1046,20 @@ msgstr "Workrave kon geen toetsenbord- en muisactiviteit monitoren.\n"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:136
 msgid "Workrave crash reporter"
-msgstr ""
+msgstr "Workrave crashrapportage"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
 msgid "Workrave does not fully support Wayland natively. This option forces the use of X11 on Wayland. Changing this option requires a restart of Workrave."
-msgstr ""
+msgstr "Workrave ondersteunt Wayland niet volledig. Deze optie forceert het gebruik van X11 op Wayland. Het wijzigen van deze optie vereist een herstart van Workrave."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:156
 msgid "Workrave encountered a problem and crashed. Please help us to diagnose and fix this problem by sending a crash report."
-msgstr ""
+msgstr "Workrave heeft een probleem ondervonden en is gecrasht. Help ons dit probleem te diagnosticeren en op te lossen door een crashrapport te verzenden."
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:64
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:148
 msgid "Workrave has crashed."
-msgstr ""
+msgstr "Workrave is gecrasht."
 
 #: ui/app/workrave.metainfo.xml:9
 msgid "Workrave is a program that assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit."
@@ -1187,21 +1185,21 @@ msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
 #: ui/app/Menus.cc:299
-#, fuzzy, qt-format
+#, qt-format
 msgid "_Suspended (until %1%)"
-msgstr "_Uitgeschakeld"
+msgstr "_Uitgeschakeld (tot %1%)"
 
 #: ui/app/Menus.cc:312
 msgid "_Suspended (until next day)"
-msgstr ""
+msgstr "_Uitgeschakeld (tot morgen)"
 
 #: ui/app/Menus.cc:185
 msgid "and 1 minute"
-msgstr ""
+msgstr "en 1 minuut"
 
 #: ui/app/toolkits/gtkmm/CrashDialog.cc:52
 msgid "crash details"
-msgstr ""
+msgstr "crashdetails"
 
 #: ui/app/org.workrave.Workrave.desktop.in:7
 msgid "typing;break;timer;wrists;health;rsi;"
