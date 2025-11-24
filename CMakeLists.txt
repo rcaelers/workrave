@@ -72,8 +72,7 @@ if(NOT DEFINED ENV{WORKRAVE_GIT_VERSION})
   endif()
 else()
   # Use environment variable
-  set(WORKRAVE_VERSION "$ENV{WORKRAVE_GIT_VERSION}")
-  message(STATUS "Using WORKRAVE_GIT_VERSION from environment: ${WORKRAVE_VERSION}")
+  message(STATUS "Using WORKRAVE_GIT_VERSION from environment: ${WORKRAVE_GIT_VERSION}")
 endif()
 
 #----------------------------------------------------------------------------------------------------
