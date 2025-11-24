@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes. 04 May 2025
+Workrave NEWS -- history of user-visible changes. 22 November 2025
 Copyright (C) 2001-2025 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
@@ -21,6 +21,9 @@ https://github.com/rcaelers/workrave/issues
    - Keyboard/mouse locking now works on ARM64 Windows
    - Handle screen lock shortcut during breaks under Xorg
    - Add high DPI support on Windows (#650, Charlie Lin)
+   - Use Gnome Shell extension to display prelude windows (#621)
+   - It is no longer required to accept the GPL license on installation on
+     Windows (#648)
 ** Bug fixes:
    - Fix crash when monitor is powered off (#606)
    - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
@@ -28,8 +31,11 @@ https://github.com/rcaelers/workrave/issues
      trays (#555, #613, wojnilowicz)
    - Fix issue where the status window shows when Sway reloads despite being
      disabled (#612, #615, wojnilowicz)
+   - Update AppIndicator menu when menu content changes (#556, #652,ValdikSS)
 ** Updated Translations:
    - Update Chinese translation (#645, Sisyphe42)
+   - Updated Indonesian translation (#653, Andika Triwidada)
+   - Fix French translation (#656)
 
 * Workrave 1.11.0-rc.1
 
