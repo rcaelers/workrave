@@ -201,7 +201,7 @@ const WorkraveButton = GObject.registerClass(
       this._box = new St.Bin();
       if (typeof this._box.add_child === "function") {
         this._box.add_child(this._area);
-      } else if (typeof this.add_actor === "function") {
+      } else if (typeof this._box.add_actor === "function") {
         this._box.add_actor(this._area);
       }
 
