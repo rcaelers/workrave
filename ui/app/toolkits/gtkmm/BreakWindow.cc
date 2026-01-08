@@ -704,7 +704,7 @@ BreakWindow::start()
   realize_if_needed();
 
 #if defined(HAVE_WAYLAND)
-  if (window_manager)
+  if (window_manager && block_mode != BlockMode::Off)
     {
       window_manager->init_surface(*this, head.get_monitor(), true);
     }
