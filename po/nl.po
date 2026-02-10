@@ -580,7 +580,6 @@ msgid "Note that not all desktop environments show system tray icons, or have di
 msgstr "Let op: niet alle desktopomgevingen tonen systeemvakpictogrammen, of hebben systeemvakpictogrammen standaard uitgeschakeld."
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:113
-#, fuzzy
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr "Let op: het statusvenster wordt alleen verborgen als het statuspictogram of een applet wordt weergegeven. Sommige desktopomgevingen ondersteunen geen statuspictogrammen of hebben deze standaard uitgeschakeld."
 
