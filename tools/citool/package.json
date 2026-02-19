@@ -16,7 +16,7 @@
   "author": "Rob Caelers",
   "license": "MIT",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.937.0",
+    "@aws-sdk/client-s3": "^3.994.0",
     "@oclif/core": "4.8.0",
     "@oclif/plugin-commands": "^4.1.38",
     "@oclif/plugin-help": "6.2.36",
