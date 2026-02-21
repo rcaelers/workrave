@@ -34,7 +34,7 @@ class NewsGenerator {
         return typeof obj == 'string';
       })
       .addFilter('github', function (str) {
-        return str.replace(/#(.+)/, '[#$1](https://github.com/rcaelers/workrave/issues/$1)');
+        return str.replace(/#([0-9]+)/g, '[#$1](https://github.com/rcaelers/workrave/issues/$1)');
       })
       .addFilter('wrap', function (str, width) {
         return wrap(str, { indent: '', width: width });
