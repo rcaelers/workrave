@@ -149,7 +149,7 @@ build_single() {
 }
 
 build_all() {
-    for series in resolute questing plucky noble jammy; do
+    for series in resolute questing noble jammy; do
         build_single $series
     done
 }

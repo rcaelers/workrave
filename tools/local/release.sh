@@ -221,7 +221,7 @@ export CONF_CONFIGURATION=Release
 export WORKRAVE_ENV=local
 init
 
-export DOCKER_IMAGE="ubuntu-plucky"
+export DOCKER_IMAGE="ubuntu-resolute"
 setup
 run_docker_appimage
 env
