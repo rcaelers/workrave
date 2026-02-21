@@ -1,5 +1,19 @@
 ---
 releases:
+  - version: 1.11.0-rc.4
+    date: 2026-02-21T17:17:00+01:00
+    short: |-
+      Workrave 1.11.0-rc.4 has been released.
+    changes:
+      - |-
+        Translations:
+        - Added Georgian translation (#669, NorwayFun)
+        - Update Dutch translation
+      - |-
+        Bug fixes:
+          - Rest Break window no longer appears in top left corner in "No Lock" mode (#663, 664, ValdikSS)
+          - Fix Gnome Shell extension (#661, Nick kousu)
+
   - version: 1.11.0-rc.3
     date: 2025-11-25T18:26:24+01:00
     short: |-
