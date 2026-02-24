@@ -21,6 +21,7 @@ run_docker_deb() {
     docker run --rm --privileged \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
+        -e GIT_TAG=$GIT_TAG \
         ghcr.io/rcaelers/workrave-build:ubuntu-pbuilder \
         sh -c "/workspace/scripts/local/pbuild.sh"
 }

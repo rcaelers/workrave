@@ -26,4 +26,6 @@ for dir in $DIST_DIRS; do
     DIST=$dist pbuilder --update --basetgz /var/cache/pbuilder/base-$dist.tgz
     echo Running build for $dist
     DIST=$dist pbuilder --build workrave*.dsc --basetgz /var/cache/pbuilder/base-$dist.tgz
+    mkdir -p /workspace/deploy/$GIT_TAG/$dist
+    cp -a /var/cache/pbuilder/result/*$dist*.deb /var/cache/pbuilder/result/*$dist*.ddeb /workspace/deploy/$GIT_TAG/$dist
 done
