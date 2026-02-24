@@ -72,6 +72,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   TRACE_ENTRY();
   this->app = app;
 
+  Glib::set_prgname("org.workrave.Workrave");
   gapp = Gtk::Application::create(argc, argv, "org.workrave.Workrave");
   init_css();
 
