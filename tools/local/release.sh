@@ -76,6 +76,8 @@ init() {
         git checkout $COMMIT
     else
         cd source
+        git reset --hard HEAD
+        git clean -fdx
         git fetch
         git checkout $COMMIT
 
