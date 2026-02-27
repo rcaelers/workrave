@@ -23,7 +23,7 @@
 
 #include <stdlib.h>
 
-const char *workrave_copyright = "Copyright 2001-2025 Rob Caelers & Raymond Penners";
+const char *workrave_copyright = "Copyright 2001-2026 Rob Caelers & Raymond Penners";
 
 const char *workrave_authors[] = {"Developers:",
                                   "Rob Caelers <robc@krandor.org>",

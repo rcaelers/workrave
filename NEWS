@@ -1,5 +1,5 @@
-Workrave NEWS -- history of user-visible changes. 21 February 2026
-Copyright (C) 2001-2025 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes. 27 February 2026
+Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
@@ -14,6 +14,7 @@ https://github.com/rcaelers/workrave/issues
    - Rest Break window no longer appears in top left corner in "No Lock" mode
      (#663, 664, ValdikSS)
    - Fix Gnome Shell extension (#661, Nick kousu)
+   - Fix application icon on Linux
 
 * Workrave 1.11.0-rc.3
 
@@ -681,10 +682,10 @@ https://github.com/rcaelers/workrave/issues
    inverse)
 ** Gnome applets now support transparency.
 ** The 'datadir' configuration option in workrave.ini can now be a relative path:
-   
+
      [general]
      datadir=.\\Data
-   
+
    This will store all Workrave data in the 'Data' directory below the Workrave
    root directory. (Note the double backslash)
 ** Daily limit now properly resets when hibernated.
@@ -699,10 +700,10 @@ https://github.com/rcaelers/workrave/issues
    this directory)
 ** Support for configuring the data storage directory. Add the following two
    lines to your workrave.ini
-   
+
      [general]
      datadir=C:\\Workrave\\Data
-   
+
    This feature can be used to run Workrave from an USB memory stick. Note: On
    Windows, you have to use double backslashes like in the example above!
 ** Support for Gnome screen saver added (Matt Zimmerman).
@@ -920,7 +921,7 @@ https://github.com/rcaelers/workrave/issues
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2025 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2026 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
