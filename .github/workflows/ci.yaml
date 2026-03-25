@@ -193,9 +193,8 @@ jobs:
             mingw-w64-clang-x86_64-rust
             mingw-w64-clang-x86_64-spdlog
             mingw-w64-clang-x86_64-uasm
-            mingw-w64-i686-clang
+            mingw-w64-i686-gcc
             mingw-w64-i686-cmake
-            mingw-w64-i686-lld
             mingw-w64-i686-ninja
             mingw-w64-x86_64-rust
             tar
