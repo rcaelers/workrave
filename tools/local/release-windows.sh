@@ -151,6 +151,29 @@ appcast() {
         MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
     fi
     MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml s3://snapshots/${S3_ARTIFACT_DIR}/
+
+    appcast_git_push
+}
+
+appcast_git_push() {
+    local APPCAST_REPO_URL=git@github.com:rcaelers/workrave-appcast.git
+    local APPCAST_REPO_DIR=${WORKSPACE}/workrave-appcast
+
+    if [ ! -d "${APPCAST_REPO_DIR}/.git" ]; then
+        git clone "${APPCAST_REPO_URL}" "${APPCAST_REPO_DIR}"
+    else
+        git -C "${APPCAST_REPO_DIR}" pull --ff-only
+    fi
+
+    mkdir -p "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}"
+    cp appcast.xml "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}/appcast.xml"
+    if [ -n "$DOSIGN" ] && [ -f appcast.xml.sigstore ]; then
+        cp appcast.xml.sigstore "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}/appcast.xml.sigstore"
+    fi
+
+    git -C "${APPCAST_REPO_DIR}" add -A
+    git -C "${APPCAST_REPO_DIR}" commit -m "Update appcast for ${WORKRAVE_VERSION}" || true
+    git -C "${APPCAST_REPO_DIR}" push
 }
 
 init_s3() {
