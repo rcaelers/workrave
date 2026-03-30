@@ -39,8 +39,6 @@ jobs:
           ${{ github.workspace }}/tools/ci/catalog.sh
         env:
           WORKRAVE_JOB_INDEX: 9999
-          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
-          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: attest
         uses: actions/attest-build-provenance@v1
@@ -350,7 +348,7 @@ jobs:
       - name: Prepare docker image cache
         id: docker-cache
         if: runner.os == 'Windows'
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/_docker-cache
           key: docker-cache-${{ steps.image_digest.outputs.digest }}
