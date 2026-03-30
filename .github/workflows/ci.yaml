@@ -21,7 +21,7 @@ jobs:
       WORKRAVE_BUILD_DATETIME: ${{ steps.out.outputs.WORKRAVE_BUILD_DATETIME }}
       WORKRAVE_BUILD_DATE: ${{ steps.out.outputs.WORKRAVE_BUILD_DATE }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -60,7 +60,7 @@ jobs:
     runs-on: windows-latest
     if: ${{ false }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -105,7 +105,7 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -160,7 +160,7 @@ jobs:
             enable: TESTS, TRACING, AUTO_UPDATE
             ui: Qt
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -333,7 +333,7 @@ jobs:
             echo "version=dev" >> $GITHUB_OUTPUT
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -444,7 +444,7 @@ jobs:
     needs: [prep, build-cmake, build-msys2, merge]
     if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') )
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
