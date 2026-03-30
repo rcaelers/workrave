@@ -6,7 +6,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-      GIT_TAG f6290e4d89386de287b9a761f02b77d07a1923fb
+      GIT_TAG 605dcce9b72369104442efd496d3c2b261bb6cf6
     )
     if(NOT unfold_POPULATED)
       FetchContent_MakeAvailable(unfold)
