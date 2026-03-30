@@ -481,13 +481,12 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
-      - name: Create artifact catalog / appcast
+      - name: Create artifact catalog
         run: |
           cd $GITHUB_WORKSPACE/tools/citool
           npm i
           npm run build
           node $GITHUB_WORKSPACE/tools/citool/dist/citool.js catalog
-          node $GITHUB_WORKSPACE/tools/citool/dist/citool.js appcast
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
