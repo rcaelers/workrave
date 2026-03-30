@@ -2,14 +2,14 @@ name: CodeQL
 on:
   push:
     branches:
-      - "main"
-      - "topic/*"
+      - 'main'
+      - 'topic/*'
     tags:
-      - "v1_11_*"
+      - 'v1_11_*'
   pull_request:
     branches:
-      - "main"
-      - "topic/*"
+      - 'main'
+      - 'topic/*'
 
 jobs:
   check-msys2:
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: "recursive"
+          submodules: 'recursive'
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -49,9 +49,8 @@ jobs:
             mingw-w64-clang-x86_64-rust
             mingw-w64-clang-x86_64-spdlog
             mingw-w64-clang-x86_64-uasm
-            mingw-w64-i686-clang
+            mingw-w64-i686-gcc
             mingw-w64-i686-cmake
-            mingw-w64-i686-lld
             mingw-w64-i686-ninja
             mingw-w64-x86_64-rust
             tar
@@ -82,7 +81,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:c-cpp"
+          category: '/language:c-cpp'
 
   build-cmake:
     runs-on: ubuntu-latest
@@ -158,4 +157,4 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:c-cpp"
+          category: '/language:c-cpp'
