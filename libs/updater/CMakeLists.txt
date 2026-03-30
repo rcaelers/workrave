@@ -33,7 +33,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "Microsoft Edge WebView2 embedded web browser control"
       "Microsoft-Web-WebView2"
       URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.3856.49
-      URL_HASH SHA1=688937fd04b7d1a1d69fcbd914063895fa26d38c373
+      URL_HASH SHA1=688937fd04b7d1a1d69fcbd914063895fa26d38c
     )
     FetchContent_MakeAvailable(webview2)
 
