@@ -25,7 +25,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     set(BUILD_TESTING OFF CACHE INTERNAL "Disable tests")
     if(NOT cmark_POPULATED)
       FetchContent_MakeAvailable(cmark)
-      install(TARGETS unfold RUNTIME DESTINATION bin)
+      install(TARGETS cmark RUNTIME DESTINATION bin)
     endif()
 
     FetchContent_Declare_Logged(
