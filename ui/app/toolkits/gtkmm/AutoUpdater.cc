@@ -74,7 +74,8 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   init_channels();
 
-  updater->set_update_available_callback([&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
+  updater->set_update_available_callback(
+    [&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
 
   updater->set_pre_download_validation_callback([&](const unfold::UpdateInfo &update_info) -> outcome::std_result<bool> {
     logger->info("Pre download validating {} {}", update_info.version, update_info.download_url);
@@ -82,10 +83,11 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
            || update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
   });
 
-  updater->set_pre_install_validation_callback([&](const unfold::UpdateEnclosureInfo &installer_info) -> outcome::std_result<bool> {
-    logger->info("Pre install validating {}", installer_info.download_url);
-    return true;
-  });
+  updater->set_pre_install_validation_callback(
+    [&](const unfold::UpdateEnclosureInfo &installer_info) -> outcome::std_result<bool> {
+      logger->info("Pre install validating {}", installer_info.download_url);
+      return true;
+    });
 
   updater->set_sigstore_verification_enabled(true);
   updater->set_sigstore_validation_callback([&](std::shared_ptr<sigstore::Bundle> bundle) -> outcome::std_result<bool> {
@@ -139,7 +141,9 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
       }
     else
       {
-        logger->info("Priority changed to {}, active priority {}", priority == 1 ? "high" : "normal", updater->get_active_priority());
+        logger->info("Priority changed to {}, active priority {}",
+                     priority == 1 ? "high" : "normal",
+                     updater->get_active_priority());
       }
   });
 
@@ -178,7 +182,11 @@ AutoUpdater::init_channels()
 
   switch (channel)
     {
-    case workrave::updater::Channel::Beta:
+    case workrave::updater::Channel::Alpha:
+      allowed_channels.emplace_back("alpha");
+      [[fallthrough]];
+
+      case workrave::updater::Channel::Beta:
       allowed_channels.emplace_back("beta");
       [[fallthrough]];
 
@@ -206,7 +214,8 @@ AutoUpdater::init_preferences()
 
   auto_update_def = ui::prefwidgets::PanelDef::create("auto-update", "auto-update", N_("Software updates"))
                     << (ui::prefwidgets::Frame::create(N_("Auto update"))
-                        << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))->connect(&workrave::updater::Config::enabled())
+                        << ui::prefwidgets::Toggle::create(N_("Automatically check for updates"))
+                             ->connect(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Toggle::create(N_("Get updates as soon as they are available"))
                              ->connect(&workrave::updater::Config::priority(),
                                        []() {
@@ -219,17 +228,20 @@ AutoUpdater::init_preferences()
                              ->connect(&workrave::updater::Config::channel(),
                                        {{workrave::updater::Channel::Stable, 0},
                                         {workrave::updater::Channel::Candidate, 1},
-                                        {workrave::updater::Channel::Beta, 2}})
+                                        {workrave::updater::Channel::Beta, 2},
+                                        {workrave::updater::Channel::Alpha, 3}})
                              ->assign(channels)
                              ->when(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Choice::create(N_("Proxy Type:"))
-                             ->connect(&workrave::updater::Config::proxy_type(),
-                                       {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
+                             ->connect(
+                               &workrave::updater::Config::proxy_type(),
+                               {{unfold::ProxyType::None, 0}, {unfold::ProxyType::System, 1}, {unfold::ProxyType::Custom, 2}})
                              ->assign(proxy_types)
                              ->when(&workrave::updater::Config::enabled())
                         << ui::prefwidgets::Entry::create(N_("Proxy:"))
                              ->connect(&workrave::updater::Config::proxy())
-                             ->when(&workrave::updater::Config::proxy_type(), [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
+                             ->when(&workrave::updater::Config::proxy_type(),
+                                    [](unfold::ProxyType t) { return t == unfold::ProxyType::Custom; }));
 
   context->get_preferences_registry()->add_page("auto-update", N_("Software updates"), "workrave-update-symbolic");
   context->get_preferences_registry()->add(auto_update_def);

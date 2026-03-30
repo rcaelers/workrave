@@ -32,6 +32,7 @@ namespace workrave::updater
     Stable,
     Candidate,
     Beta,
+    Alpha,
   };
 
   class Config
@@ -63,12 +64,13 @@ template<>
 struct workrave::utils::enum_traits<workrave::updater::Channel>
 {
   static constexpr auto min = workrave::updater::Channel::Stable;
-  static constexpr auto max = workrave::updater::Channel::Beta;
+  static constexpr auto max = workrave::updater::Channel::Alpha;
   static constexpr auto linear = true;
   static constexpr std::array<std::pair<std::string_view, workrave::updater::Channel>, 5> names{
     {{"stable", workrave::updater::Channel::Stable},
      {"candidate", workrave::updater::Channel::Candidate},
-     {"beta", workrave::updater::Channel::Beta}}};
+     {"beta", workrave::updater::Channel::Beta},
+     {"alpha", workrave::updater::Channel::Alpha}}};
 };
 
 inline std::ostream &
