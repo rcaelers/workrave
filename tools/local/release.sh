@@ -55,7 +55,7 @@ run_docker_appimage() {
 
 init_newsgen() {
     cd ${SCRIPTS_DIR}/citool
-    npm install
+    npm ci
     npm run build
 }
 

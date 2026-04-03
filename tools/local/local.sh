@@ -57,7 +57,7 @@ upload() {
 
 init_newsgen() {
     cd ${SCRIPTS_DIR}/citool
-    npm install
+    npm ci
     npm run build
 }
 

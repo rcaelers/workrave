@@ -32,7 +32,7 @@ else
 fi
 
 cd ${SCRIPTS_DIR}/citool
-npm install
+npm ci
 npm run build
 cd ${SOURCES_DIR}
 node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \

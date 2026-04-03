@@ -482,7 +482,7 @@ jobs:
       - name: Create artifact catalog
         run: |
           cd $GITHUB_WORKSPACE/tools/citool
-          npm i
+          npm ci
           npm run build
           node $GITHUB_WORKSPACE/tools/citool/dist/citool.js catalog
         env:
