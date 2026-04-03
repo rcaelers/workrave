@@ -5,7 +5,7 @@ import xtend from 'xtend';
 import { Processor } from 'unified'
 
 
-export default function rehypeStringify(options: any) {
+export default function rehypeStringify(this: any, options: any) {
   const self = this
 
   self.options = options
