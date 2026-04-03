@@ -97,7 +97,7 @@ build() {
 
 build_post() {
     export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
-    ${SCRIPTS_DIR}/ci/sign.sh
+    ${SCRIPTS_DIR}/local/sign.sh
 
     if [ -n "$DOSIGN" ]; then
         for ext in exe zip xz; do

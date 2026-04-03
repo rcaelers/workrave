@@ -458,7 +458,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           echo '${{ secrets.ED25519_KEY }}' > ${SECRETS_DIR}/ed25519key.pem
           $GITHUB_WORKSPACE/tools/ci/sign.sh
-          rm -f ed25519key.pem
+          rm -f ${SECRETS_DIR}/ed25519key.pem
         env:
           ED25519_KEY: ${{ secrets.ED25519_KEY }}
           WORKSPACE: ${{ github.workspace }}
