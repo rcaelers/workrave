@@ -29,7 +29,7 @@ Write-Host "Inno Setup SignTool: Signing file $FileToSign"
 
 try {
     Write-Host "Inno Setup SignTool: Checking signing service health..."
-    $healthCheck = Invoke-WebRequest -Uri "https://studio.local:50051/health" -Method GET -TimeoutSec 5 -UseBasicParsing -SkipCertificateCheck
+    $healthCheck = Invoke-WebRequest -Uri "https://studio.local:50051/health" -Method GET -TimeoutSec 5 -UseBasicParsing
     if ($healthCheck.StatusCode -ne 200) {
         throw "Service not responding properly (Status: $($healthCheck.StatusCode))"
     }
