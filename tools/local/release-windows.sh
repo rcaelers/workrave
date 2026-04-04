@@ -215,12 +215,11 @@ parse_arguments() {
     export WORKRAVE_OVERRIDE_GIT_VERSION=
     export REPO=https://github.com/rcaelers/workrave.git
     export DOSIGN=
-    export SECRETS_DIR=
     export COMMIT=
     export ARTIFACT_ENV=
     export GITHUB_NOUPLOAD=
 
-    while getopts "Bc:C:D:dr:R:S:st:TW:" o; do
+    while getopts "Bc:C:D:dr:R:st:TW:" o; do
         case "${o}" in
         B)
             DOSBOM=1
@@ -247,9 +246,6 @@ parse_arguments() {
         s)
             DOSIGN=1
             ;;
-        S)
-            SECRETS_DIR=$(realpath "${OPTARG}")
-            ;;
         t)
             COMMIT="${OPTARG}"
             ;;
@@ -266,11 +262,6 @@ parse_arguments() {
         esac
     done
     shift $((OPTIND - 1))
-
-    if [ -z ${SECRETS_DIR} ]; then
-        echo No secrets directory specified.
-        exit 1
-    fi
 }
 
 export WORKRAVE_ENV=local-windows-msys2
@@ -283,7 +274,10 @@ mkdir -p ${SOURCES_DIR}
 
 export WORKRAVE_BUILD_ID_SUFFIX=local
 source ${SCRIPTS_DIR}/ci/config.sh
-source ${SECRETS_DIR}/env-snapshots
+
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-http://127.0.0.1:50051}"
+export SNAPSHOTS_SECRET_ACCESS_KEY=$(curl -sf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.s3_access_key" | jq -r .value)
+export GH_TOKEN=$(curl -sf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
 
 init
 source ${SCRIPTS_DIR}/ci/config.sh

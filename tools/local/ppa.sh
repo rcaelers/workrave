@@ -34,19 +34,6 @@ init_builddir() {
     fi
 }
 
-init_gpg() {
-    mkdir -p ~/.gnupg
-    chmod 600 ~/.gnupg
-
-    # Workaround for 'error building skey array: No such file or directory'
-    mkdir -p ~/.gnupg/private-keys-v1.d
-
-    echo allow-loopback-pinentry >~/.gnupg/gpg-agent.conf
-
-    gpg --import ${SECRETS_DIR}/pubring.gpg
-    gpg --passphrase-file ${SECRETS_DIR}/priv-key --batch --no-tty --yes --pinentry-mode loopback --allow-secret-key-import --import ${SECRETS_DIR}/secring.gpg
-}
-
 init_debian_packaging() {
     if [ -d $WORKSPACE/debian ]; then
         DEBIAN_PACKAGING_DIR=$WORKSPACE/debian
@@ -121,7 +108,7 @@ build_single() {
     build_changelog $series
 
     cd "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}"
-    debuild -p"gpg --passphrase-file ${SECRETS_DIR}/priv-key --batch --no-tty --yes --pinentry-mode loopback" -d -S -sa -kEC02F3CD5A24B1DE -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    debuild -p"${BASEDIR}/gpg-sign-client.sh" -d -S -sa -kEC02F3CD5A24B1DE -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     rm -rf "$DEPLOY_DIR/$series"
     mkdir -p "$DEPLOY_DIR/$series"
@@ -163,7 +150,6 @@ DEPLOY_TARFILE="${DEPLOY_DIR}/workrave-${WORKRAVE_DEB_VERSION}.tar.gz"
 parse_arguments $*
 
 init_builddir
-init_gpg
 init_debian_packaging
 init_dependencies
 init_newsgen

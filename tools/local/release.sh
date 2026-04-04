@@ -10,7 +10,6 @@ run_docker_ppa() {
     docker run --rm \
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
-        -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
@@ -33,7 +32,6 @@ run_docker_appimage() {
         --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
-        -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
@@ -43,7 +41,6 @@ run_docker_appimage() {
         --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
-        -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
@@ -169,9 +166,6 @@ parse_arguments() {
         R)
             REPO="${OPTARG}"
             ;;
-        S)
-            SECRETS_DIR="${OPTARG}"
-            ;;
         W)
             WORKSPACE_DIR="${OPTARG}"
             ;;
@@ -191,7 +185,7 @@ upload() {
 }
 
 upload_github() {
-    source ${SECRETS_DIR}/env-snapshots
+    export GH_TOKEN=$(curl -sf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
     gh release upload ${GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
 }
 
@@ -200,7 +194,6 @@ BUILD_DEB=
 PRERELEASE=
 DEBIAN_DIR=
 WEBSITE_DIR=
-SECRETS_DIR=
 WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
 SCRIPTS_DIR=${WORKSPACE_DIR}/source/tools/
 REPO=https://github.com/rcaelers/workrave.git
@@ -208,10 +201,8 @@ DRYRUN=
 
 parse_arguments $*
 
-if [ -z $SECRETS_DIR ]; then
-    echo No secrets directory specified.
-    exit 1
-fi
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-http://127.0.0.1:50051}"
+
 if [ -z $WEBSITE_DIR ]; then
     echo No website directory specified.
     exit 1
