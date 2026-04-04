@@ -275,7 +275,7 @@ mkdir -p ${SOURCES_DIR}
 export WORKRAVE_BUILD_ID_SUFFIX=local
 source ${SCRIPTS_DIR}/ci/config.sh
 
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://127.0.0.1:50051}"
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
 export SNAPSHOTS_SECRET_ACCESS_KEY=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.s3_access_key" | jq -r .value)
 export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
 

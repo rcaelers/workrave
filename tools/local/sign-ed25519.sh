@@ -9,7 +9,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-if ! curl -s http://studio.local:50051/health > /dev/null 2>&1; then
+if ! curl -sk https://studio.local:50051/health > /dev/null 2>&1; then
     echo "Error: Workrave signing service is not running" >&2
     exit 1
 fi
@@ -21,7 +21,7 @@ if [ ! -f "$INPUT_FILE" ]; then
     exit 1
 fi
 
-RESPONSE=$(curl -X POST http://studio.local:50051/sign/ed25519 \
+RESPONSE=$(curl -k -X POST https://studio.local:50051/sign/ed25519 \
     -F "file=@${INPUT_FILE}" \
     --silent \
     --show-error \

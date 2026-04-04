@@ -201,7 +201,7 @@ DRYRUN=
 
 parse_arguments $*
 
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://127.0.0.1:50051}"
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
 
 if [ -z $WEBSITE_DIR ]; then
     echo No website directory specified.

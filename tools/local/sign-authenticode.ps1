@@ -24,9 +24,12 @@ if (-not $FileToSign) {
 
 Write-Host "Inno Setup SignTool: Signing file $FileToSign"
 
+# Accept self-signed TLS certificate
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+
 try {
     Write-Host "Inno Setup SignTool: Checking signing service health..."
-    $healthCheck = Invoke-WebRequest -Uri "http://studio.local:50051/health" -Method GET -TimeoutSec 5 -UseBasicParsing
+    $healthCheck = Invoke-WebRequest -Uri "https://studio.local:50051/health" -Method GET -TimeoutSec 5 -UseBasicParsing -SkipCertificateCheck
     if ($healthCheck.StatusCode -ne 200) {
         throw "Service not responding properly (Status: $($healthCheck.StatusCode))"
     }
@@ -58,7 +61,7 @@ Write-Host "Inno Setup SignTool: File size: $($fileInfo.Length) bytes, Total req
 try {
     Write-Host "Inno Setup SignTool: Sending request to signing service..."
 
-    $request = [System.Net.HttpWebRequest]::Create("http://studio.local:50051/sign/authenticode")
+    $request = [System.Net.HttpWebRequest]::Create("https://studio.local:50051/sign/authenticode")
     $request.Method = "POST"
     $request.ContentType = "multipart/form-data; boundary=$boundary"
     $request.ContentLength = $totalLength

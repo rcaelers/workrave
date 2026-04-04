@@ -6,7 +6,7 @@
 # Usage in debuild:
 #   debuild -p"/path/to/gpg-sign-client.sh" -d -S -sa -kKEYID
 #
-# The signing service must be running at SIGNING_SERVICE_URL (default: https://127.0.0.1:50051).
+# The signing service must be running at SIGNING_SERVICE_URL (default: https://studio.local:50051).
 #
 # debuild/dpkg-buildpackage calls the signing program with gpg-compatible arguments:
 #   <program> --utf8-strings --textmode --armor --status-fd N -u KEYID --output OUTPUT [--detach-sign] INPUT
@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://127.0.0.1:50051}"
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
 
 # Parse gpg-compatible arguments
 STATUS_FD=""
