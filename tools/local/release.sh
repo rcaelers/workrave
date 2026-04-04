@@ -185,7 +185,7 @@ upload() {
 }
 
 upload_github() {
-    export GH_TOKEN=$(curl -sf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
+    export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
     gh release upload ${GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
 }
 
@@ -201,7 +201,7 @@ DRYRUN=
 
 parse_arguments $*
 
-SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-http://127.0.0.1:50051}"
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://127.0.0.1:50051}"
 
 if [ -z $WEBSITE_DIR ]; then
     echo No website directory specified.
