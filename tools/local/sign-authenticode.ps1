@@ -24,8 +24,9 @@ if (-not $FileToSign) {
 
 Write-Host "Inno Setup SignTool: Signing file $FileToSign"
 
-# Accept self-signed TLS certificate
+# Accept self-signed TLS certificate and force TLS 1.2
 [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
 
 try {
     Write-Host "Inno Setup SignTool: Checking signing service health..."
