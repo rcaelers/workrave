@@ -1,7 +1,7 @@
 if (UNIX AND NOT APPLE)
 
   set(uuid "workrave@workrave.org")
-  set(url "http://www.workrave.org")
+  set(url "https://www.workrave.org")
 
   configure_file(metadata.json.in ${CMAKE_CURRENT_BINARY_DIR}/metadata.json)
 

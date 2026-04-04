@@ -349,7 +349,7 @@ on_menu_about(GSimpleAction *gaction, GVariant *parameter, gpointer user_data)
                         "copyright",
                         workrave_copyright,
                         "website",
-                        "http://www.workrave.org",
+                        "https://www.workrave.org",
                         "website_label",
                         "www.workrave.org",
                         "comments",
