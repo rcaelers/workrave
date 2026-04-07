@@ -345,7 +345,6 @@ if (WIN32)
   file(WRITE "${EXTERNAL_SBOM_FILE}" "")
   if (WITH_SBOM)
     set (HAVE_SBOM ON)
-    file(APPEND "${EXTERNAL_SBOM_FILE}" "semver,v0.3.1,MIT,Semantic Versioning for modern C++,https://github.com/Neargye/semver\n") # from unfold
   endif()
 endif()
 
