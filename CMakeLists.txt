@@ -1180,6 +1180,24 @@ elseif (WITH_UI_GTK)
 endif()
 
 #----------------------------------------------------------------------------------------------------
+# SBOM discovery
+
+if(HAVE_SBOM)
+  # Sub-dependencies of unfold
+  sbom_set_license("semver" "MIT")
+  sbom_set_license("sigstore" "MIT")
+  sbom_set_license("sigstore_protos" "Apache-2.0")
+  sbom_set_license("googleapis_protos" "Apache-2.0")
+
+  # Crashpad submodules
+  sbom_set_license("mini_chromium" "BSD-3-Clause")
+  sbom_set_license("zlib" "Zlib")
+  sbom_set_license("lss" "BSD-3-Clause")
+
+  sbom_discover_packages()
+endif()
+
+#----------------------------------------------------------------------------------------------------
 # Summary
 
 function(feature_name name out)

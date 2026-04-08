@@ -13,18 +13,6 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       install(TARGETS unfold RUNTIME DESTINATION bin)
     endif()
 
-    if(HAVE_SBOM)
-      set(_deps_dir "${FETCHCONTENT_BASE_DIR}")
-      sbom_add_fetched_package(semver "Semantic Versioning for modern C++" "MIT"
-        "${_deps_dir}/semver-src" "https://github.com/Neargye/semver")
-      sbom_add_fetched_package(sigstore-verifier-cpp "Sigstore signature verification library" "Apache-2.0"
-        "${_deps_dir}/sigstore-src" "https://github.com/rcaelers/sigstore-verifier-cpp")
-      sbom_add_fetched_package(sigstore_protos "Sigstore protobuf specifications" "Apache-2.0"
-        "${_deps_dir}/sigstore_protos-src" "https://github.com/sigstore/protobuf-specs.git")
-      sbom_add_fetched_package(googleapis_protos "Google API protocol buffer definitions" "Apache-2.0"
-        "${_deps_dir}/googleapis_protos-src" "https://github.com/googleapis/googleapis.git")
-    endif()
-
     FetchContent_Declare_Logged(
       cmark
       "CommonMark parsing and rendering library"
