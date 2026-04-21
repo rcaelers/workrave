@@ -132,7 +132,8 @@ CrashReporter::Pimpl::init()
 #endif
 
       base::FilePath handler(app_dir / "bin" / handler_exe);
-      const std::string url("http://192.168.7.153:80/api/minidump/upload");
+      const std::string url(
+        "http://crashes-dev.workrave.org:80/api/minidump/upload?api_key=lbw9zrRuT02D2c5seXyDUOuU111mYBAwxdgOeOWRglW4L7aFl-Tvw6NBf3UI3mJqS1byU7-ByguSrAdfzhGixg==");
 
       std::map<std::string, std::string> annotations;
       std::vector<std::string> arguments;

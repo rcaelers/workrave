@@ -345,7 +345,6 @@ if (WIN32)
   file(WRITE "${EXTERNAL_SBOM_FILE}" "")
   if (WITH_SBOM)
     set (HAVE_SBOM ON)
-    file(APPEND "${EXTERNAL_SBOM_FILE}" "semver,v0.3.1,MIT,Semantic Versioning for modern C++,https://github.com/Neargye/semver\n") # from unfold
   endif()
 endif()
 
@@ -1080,7 +1079,7 @@ if (WITH_CRASHPAD)
     "Apache-2.0"
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
-    GIT_TAG d52c137a3d8b4adc20b33685460bf8cebd3c4634
+    GIT_TAG c99947a804278991bdb2106ab5b5db37af9e3365
   )
   FetchContent_MakeAvailable(crashpad)
 
@@ -1178,6 +1177,24 @@ if (WITH_UI_QT)
   add_subdirectory(ui/app/toolkits/qt/dist)
 elseif (WITH_UI_GTK)
   add_subdirectory(ui/app/toolkits/gtkmm/dist)
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# SBOM discovery
+
+if(HAVE_SBOM)
+  # Sub-dependencies of unfold
+  sbom_set_license("semver" "MIT")
+  sbom_set_license("sigstore" "MIT")
+  sbom_set_license("sigstore_protos" "Apache-2.0")
+  sbom_set_license("googleapis_protos" "Apache-2.0")
+
+  # Crashpad submodules
+  sbom_set_license("mini_chromium" "BSD-3-Clause")
+  sbom_set_license("zlib" "Zlib")
+  sbom_set_license("lss" "BSD-3-Clause")
+
+  sbom_discover_packages()
 endif()
 
 #----------------------------------------------------------------------------------------------------
