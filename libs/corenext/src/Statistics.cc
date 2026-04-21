@@ -243,11 +243,15 @@ void
 Statistics::save_day(DailyStatsImpl *stats)
 {
   std::filesystem::path path = Paths::get_state_directory() / "todaystats";
-  ofstream stats_file(path.string());
+  std::filesystem::path tmp_path = std::filesystem::path(path) += ".tmp";
+
+  ofstream stats_file(tmp_path.string());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION << endl;
 
   save_day(stats, stats_file);
+
+  std::filesystem::rename(tmp_path, path);
 }
 
 //! Add the stats the the history list.
