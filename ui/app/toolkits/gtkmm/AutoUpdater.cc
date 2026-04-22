@@ -48,7 +48,11 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   workrave::updater::Config::init(context->get_configurator());
 
-  auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11/appcast.xml");
+#ifdef HAVE_UPDATER_STAGING
+  auto rc = updater->set_appcast("https://appcast.workrave.org/staging/v1.11/appcast.xml");
+#else
+  auto rc = updater->set_appcast("https://appcast.workrave.org/v1.11/appcast.xml");
+#endif
   if (!rc)
     {
       logger->error("Invalid appcast URL");
@@ -79,8 +83,12 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   updater->set_pre_download_validation_callback([&](const unfold::UpdateInfo &update_info) -> outcome::std_result<bool> {
     logger->info("Pre download validating {} {}", update_info.version, update_info.download_url);
+#ifdef HAVE_UPDATER_STAGING
     return update_info.download_url.starts_with("https://snapshots.workrave.org/snapshots/")
            || update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+#else
+    return update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+#endif
   });
 
   updater->set_pre_install_validation_callback(
