@@ -94,6 +94,18 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   updater->set_pre_install_validation_callback(
     [&](const unfold::UpdateEnclosureInfo &installer_info) -> outcome::std_result<bool> {
       logger->info("Pre install validating {}", installer_info.download_url);
+      if (!installer_info.authenticode_info.has_value())
+        {
+          logger->error("Installer is not Authenticode signed");
+          return false;
+        }
+      const auto &auth = *installer_info.authenticode_info;
+      logger->info("Authenticode: signed={} valid={} subject={}", auth.is_signed, auth.is_valid, auth.subject_name);
+      if (!auth.is_signed || !auth.is_valid || auth.subject_name != "Rob Caelers")
+        {
+          logger->error("Authenticode signature verification failed");
+          return false;
+        }
       return true;
     });
 
@@ -115,7 +127,6 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
     {
       logger->error("Invalid priority");
       workrave::updater::Config::priority()(0);
-      return;
     }
 
   init_preferences();
