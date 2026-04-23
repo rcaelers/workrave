@@ -861,6 +861,7 @@ endif()
 if (WIN32)
   option(WITH_CRASHPAD "Use crashpad" OFF)
   option(WITH_AUTO_UPDATE "Use unfold auto-update" OFF)
+  option(WITH_UPDATER_STAGING "Use staging appcast and allow snapshot downloads" OFF)
   option(ISCC "Inno Setup Compiler")
   set(ISCC_FLAGS "" CACHE STRING "Inno Setup Compiler Arguments")
 
@@ -873,6 +874,10 @@ if (WIN32)
 
   if (WITH_AUTO_UPDATE)
     set (HAVE_UNFOLD_AUTO_UPDATE ON)
+  endif()
+
+  if (WITH_UPDATER_STAGING)
+    set (HAVE_UPDATER_STAGING ON)
   endif()
 
   set (PLATFORM_OS_WINDOWS ON)

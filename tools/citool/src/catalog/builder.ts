@@ -213,20 +213,22 @@ class Builder {
 
   async deduplicateBuilds() {
     const builds = this.catalog.builds();
-    const newestByTag = new Map<string, any>();
+    const newestByKey = new Map<string, any>();
 
     for (const build of builds) {
       const tag = build.tag;
       if (!tag) continue;
-      const existing = newestByTag.get(tag);
+      const key = `${tag}:${build.increment ?? ''}`;
+      const existing = newestByKey.get(key);
       if (!existing || Date.parse(build.date) > Date.parse(existing.date)) {
-        newestByTag.set(tag, build);
+        newestByKey.set(key, build);
       }
     }
 
     const deduplicated = builds.filter((build: any) => {
       if (!build.tag) return true;
-      return newestByTag.get(build.tag) === build;
+      const key = `${build.tag}:${build.increment ?? ''}`;
+      return newestByKey.get(key) === build;
     });
 
     if (deduplicated.length < builds.length) {
