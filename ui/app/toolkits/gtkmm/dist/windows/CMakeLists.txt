@@ -124,6 +124,12 @@ install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
 install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
 install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
+install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
+
+if (HAVE_SBOM)
+  find_program(BASH_CMD bash REQUIRED)
+  install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
+endif()
 
 if (MSVC)
   install(CODE "set(MSVC ${MSVC})")
@@ -134,6 +140,7 @@ if (MSVC)
 endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")

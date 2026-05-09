@@ -3,9 +3,10 @@ shopt -s extglob
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   WORKSPACE_DIR=$(pwd)
-  BUILD_DIR=${WORKSPACE_DIR}/_build
-  DEPLOY_DIR=${WORKSPACE_DIR}/_deploy
-  OUTPUT_DIR=${WORKSPACE_DIR}/_deploy
+  BUILD_DIR=${BUILD_DIR:-${WORKSPACE_DIR}/_build}
+  DEPLOY_DIR=${DEPLOY_DIR:-${WORKSPACE_DIR}/_deploy}
+  OUTPUT_DIR=${OUTPUT_DIR:-${WORKSPACE_DIR}/_deploy}
+  SOURCES_DIR=${SOURCES_DIR:-${WORKSPACE_DIR}}
 fi
 
 INSTALLERS_FILE="$BUILD_DIR/installers.txt"
