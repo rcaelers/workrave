@@ -8,7 +8,10 @@ releases:
       - |-
         Translations:
         - Added Georgian translation (#669, NorwayFun)
-        - Update Dutch translation
+        - Updated Dutch translation
+      - |-
+        Improvements:
+          - The D-Bus utility (gdbus) is no longer installed by default by the installer.
       - |-
         Bug fixes:
           - Rest Break window no longer appears in top left corner in "No Lock" mode (#663, 664, ValdikSS)
