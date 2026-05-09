@@ -766,7 +766,7 @@ if (WIN32)
 endif()
 
 if (HAVE_TESTS)
-  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework )
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework)
 endif()
 
 set (BOOST_MIN_VERSION "1.54.0")
