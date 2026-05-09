@@ -45,7 +45,7 @@ SignedUninstaller=yes
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
 Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescription: "Additional tasks:"
-Name: "gdbus"; Description: "Install D-Bus utility (allows other applications to control Workrave)"; GroupDescription: "Additional tasks:"
+Name: "gdbus"; Description: "Install D-Bus utility (allows other applications to control Workrave)"; GroupDescription: "Additional tasks:"; Flags: unchecked
 
 [Files]
 Source: "@INSTALL_WIN_PATH@\dist\libzapper-0.dll"; DestDir: "{app}";
