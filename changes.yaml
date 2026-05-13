@@ -6,6 +6,9 @@ releases:
       Workrave 1.11.0-rc.4 has been released.
     changes:
       - |-
+        Improvements:
+        - The D-Bus utility (gdbus.exe) is now an optional install on Windows.
+      - |-
         Translations:
         - Added Georgian translation (#669, NorwayFun)
         - Updated Dutch translation
