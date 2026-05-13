@@ -3,20 +3,24 @@
 
 # Workrave 1.11
 
-Please visit https://workrave.org for more information.
+Please visit <https://workrave.org> for more information.
 
 ## Install
 
-- Windows: download from https://workrave.org/download
+- Windows: download from <https://workrave.org/download>
 - Ubuntu: install with the "Ubuntu Software" application.
 - Ubuntu (and derivatives) Linux latest version:
   Add this PPA to your Software Sources
   `ppa:rob-caelers/workrave`
   either in the Ubuntu Software application, or from the terminal:
-  ```
+
+  ```bash
+
   sudo add-apt-repository ppa:rob-caelers/workrave
   sudo apt-get update
+
   ```
+
 - Arch Linux users: use `sudo pacman -S workrave` to install from the community repository
 - Ubuntu and Debian users: `sudo apt-get install workrave`
 - FreeBSD users: `pkg install workrave`
