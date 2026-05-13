@@ -1098,15 +1098,6 @@ if (WITH_CRASHPAD)
     message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
   endif()
 
-  # TODO: add for upload of symbols
-  # FetchContent_Declare(
-  #   breakpad
-  #   GIT_REPOSITORY
-  #   GIT_SHALLOW TRUE
-  #   GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
-  # )
-  # FetchContent_MakeAvailable(breakpad)
-
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
