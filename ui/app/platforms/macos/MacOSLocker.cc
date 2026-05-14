@@ -87,7 +87,7 @@ void
 MacOSLocker::Pimpl::foreground()
 {
   active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
-  active_app_hidden = [NSApp isHidden];
+  active_app_hidden = (static_cast<int>([NSApp isHidden]) != 0);
   [NSApp activateIgnoringOtherApps:YES];
 }
 
