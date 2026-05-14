@@ -20,6 +20,7 @@
 
 #if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_WINDOWS)
 #  include <string>
+#  include <optional>
 #endif
 
 namespace workrave::utils
@@ -40,7 +41,7 @@ namespace workrave::utils
 
 #if defined(PLATFORM_OS_WINDOWS)
     static bool registry_set_value(const char *path, const char *name, const char *value);
-    static bool registry_get_value(const char *path, const char *name, char *out);
+    static std::optional<std::string> registry_get_value(const char *path, const char *name);
     static std::string get_application_name();
 
   private:

@@ -35,7 +35,7 @@ export default class AppcastCmd extends Command {
     key: Flags.string({
       char: 'k',
       description: 'key',
-      default: 'travis',
+      default: 'github',
     }),
     secret: Flags.string({
       char: 's',

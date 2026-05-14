@@ -30,42 +30,59 @@
 using namespace std;
 using namespace workrave::utils;
 
-bool
-Platform::registry_get_value(const char *path, const char *name, char *out)
+std::optional<std::string>
+Platform::registry_get_value(const char *path, const char *name)
 {
-  HKEY handle;
-  bool rc = false;
-  LONG err;
+  HKEY handle = nullptr;
+  LONG err = 0;
 
   err = RegOpenKeyExA(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);
-  if (err == ERROR_SUCCESS)
+  if (err != ERROR_SUCCESS)
     {
-      DWORD type, size;
-      size = MAX_PATH;
-      err = RegQueryValueExA(handle, name, 0, &type, (LPBYTE)out, &size);
-      if (err == ERROR_SUCCESS)
-        {
-          rc = true;
-        }
-      RegCloseKey(handle);
+      return {};
     }
-  return rc;
+
+  DWORD type = 0;
+  DWORD size = 0;
+
+  err = RegQueryValueExA(handle, name, 0, &type, nullptr, &size);
+  if (err != ERROR_SUCCESS || type != REG_SZ)
+    {
+      RegCloseKey(handle);
+      return {};
+    }
+
+  std::string result(size - 1, '\0'); // -1 to account for null terminator
+  err = RegQueryValueExA(handle, name, 0, &type, reinterpret_cast<LPBYTE>(result.data()), &size);
+  RegCloseKey(handle);
+
+  if (err != ERROR_SUCCESS)
+    {
+      return {};
+    }
+
+  return result;
 }
 
 bool
 Platform::registry_set_value(const char *path, const char *name, const char *value)
 {
-  HKEY handle;
+  HKEY handle = nullptr;
   bool rc = false;
-  DWORD disp;
-  LONG err;
+  DWORD disp = 0;
+  LONG err = 0;
 
-  err = RegCreateKeyExA(HKEY_CURRENT_USER, path, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &handle, &disp);
+  err = RegCreateKeyExA(HKEY_CURRENT_USER, path, 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &handle, &disp);
   if (err == ERROR_SUCCESS)
     {
-      if (value != NULL)
+      if (value != nullptr)
         {
-          err = RegSetValueExA(handle, name, 0, REG_SZ, (BYTE *)value, static_cast<DWORD>(strlen(value) + 1));
+          err = RegSetValueExA(handle,
+                               name,
+                               0,
+                               REG_SZ,
+                               reinterpret_cast<const BYTE *>(value),
+                               static_cast<DWORD>(strlen(value) + 1));
         }
       else
         {
@@ -81,7 +98,7 @@ std::string
 Platform::get_application_name()
 {
   char app_dir_name[MAX_PATH];
-  GetModuleFileNameA(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
+  GetModuleFileNameA(GetModuleHandle(nullptr), app_dir_name, sizeof(app_dir_name));
   // app_dir_name == c:\program files\workrave\lib\workrave.exe
   char *s = strrchr(app_dir_name, '\\');
   return string(s);
@@ -92,7 +109,7 @@ Platform::convert(const char *c)
 {
   std::string s(c);
 
-  return std::wstring(s.begin(), s.end());
+  return {s.begin(), s.end()};
 }
 
 int

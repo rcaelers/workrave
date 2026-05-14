@@ -49,15 +49,15 @@ http://msdn2.microsoft.com/en-us/library/ms685100.aspx
 jay satiro, workrave project, september 2007
 */
 
-#include <assert.h>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #include "debug.hh"
-#include <sstream>
+#include <cassert>
 
 #include <windows.h>
+#include <tlhelp32.h>
 
 #include "W32LowLevelMonitor.hh"
 #if defined(HAVE_HARPOON)
@@ -390,8 +390,12 @@ W32LowLevelMonitor::time_critical_callback_thread()
 
   unhook();
 
-  k_hook = SetWindowsHookExW(WH_KEYBOARD_LL, &k_hook_callback, process_handle, 0);
-  m_hook = SetWindowsHookExW(WH_MOUSE_LL, &m_hook_callback, process_handle, 0);
+  bool currently_debugging = IsDebuggerPresent();
+  if (!currently_debugging)
+    {
+      k_hook = SetWindowsHookExW(WH_KEYBOARD_LL, &k_hook_callback, process_handle, 0);
+      m_hook = SetWindowsHookExW(WH_MOUSE_LL, &m_hook_callback, process_handle, 0);
+    }
 
   if (!k_hook || !m_hook)
     {

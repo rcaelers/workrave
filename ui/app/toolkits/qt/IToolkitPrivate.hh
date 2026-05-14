@@ -26,6 +26,9 @@ public:
   virtual ~IToolkitPrivate() = default;
 
   virtual auto get_desktop_image() -> QPixmap = 0;
+
+  // virtual std::optional<HeadInfo> get_head_info(int screen_index) const = 0;
+  // virtual void attach_menu(Gtk::Menu *menu) = 0;
 };
 
 #endif // ITOOLKIT_PRIVATE_HH

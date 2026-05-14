@@ -41,8 +41,6 @@ enum class TimerColorId
   Active = 0,
   Inactive,
   Overdue,
-  ActiveDuringBreak1,
-  ActiveDuringBreak2,
   InactiveOverActive,
   InactiveOverOverdue,
   Bg,
@@ -50,20 +48,16 @@ enum class TimerColorId
 
 enum Orientation
 {
-  ORIENTATION_UP,
-  ORIENTATION_RIGHT,
-  ORIENTATION_DOWN,
-  ORIENTATION_LEFT,
+  ORIENTATION_VERTICAL,
+  ORIENTATION_HORIZONTAL,
 };
 
 template<>
 struct workrave::utils::enum_traits<Orientation>
 {
   static constexpr std::array<std::pair<std::string_view, Orientation>, 4> names{{
-    {"up", ORIENTATION_UP},
-    {"right", ORIENTATION_RIGHT},
-    {"down", ORIENTATION_DOWN},
-    {"left", ORIENTATION_LEFT},
+    {"vertical", ORIENTATION_VERTICAL},
+    {"horizontal", ORIENTATION_HORIZONTAL},
   }};
 };
 

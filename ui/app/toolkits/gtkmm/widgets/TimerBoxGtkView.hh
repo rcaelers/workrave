@@ -18,7 +18,7 @@
 #ifndef TIMERBOXGTKVIEW_HH
 #define TIMERBOXGTKVIEW_HH
 
-#include <string>
+#include <array>
 #include <gtkmm.h>
 
 #include "core/ICore.hh"
@@ -43,7 +43,7 @@ class TimerBoxGtkView
   , public workrave::utils::Trackable
 {
 public:
-  TimerBoxGtkView(std::shared_ptr<workrave::ICore> core, bool transparent = false);
+  explicit TimerBoxGtkView(std::shared_ptr<workrave::ICore> core, bool transparent = false);
   ~TimerBoxGtkView() override;
 
   int get_visible_count() const;
@@ -57,10 +57,10 @@ public:
                     int secondary_value,
                     int secondary_max) override;
   void set_icon(OperationModeIcon icon) override;
-  void set_geometry(Orientation orientation, int size) override;
   void update_view() override;
   void set_enabled(bool enabled);
 
+  void set_geometry(Orientation orientation, int size);
   void set_sheep_only(bool sheep_only);
   bool is_sheep_only() const;
 
@@ -83,13 +83,13 @@ private:
   bool reconfigure{true};
 
   //! Array of time labels
-  Gtk::Widget *labels[workrave::BREAK_ID_SIZEOF]{};
+  std::array<Gtk::Widget *, workrave::BREAK_ID_SIZEOF> labels{};
 
   //! Array of time bar widgets.
-  TimeBar *bars[workrave::BREAK_ID_SIZEOF]{};
+  std::array<TimeBar *, workrave::BREAK_ID_SIZEOF> bars{};
 
   //! Break images
-  Gtk::Image *images[workrave::BREAK_ID_SIZEOF]{};
+  std::array<Gtk::Image *, workrave::BREAK_ID_SIZEOF> images{};
 
   //! Sheep
   Gtk::Image *sheep{nullptr};
@@ -98,7 +98,7 @@ private:
   Gtk::EventBox *sheep_eventbox{nullptr};
 
   //! orientation.
-  Orientation orientation{ORIENTATION_UP};
+  Orientation orientation{ORIENTATION_VERTICAL};
 
   //! Size
   int size{0};
@@ -109,20 +109,14 @@ private:
   //! Columns
   int table_columns{-1};
 
-  //! Reverse
-  bool table_reverse{false};
-
   //! Current slot content.
-  int current_content[workrave::BREAK_ID_SIZEOF]{};
+  std::array<int, workrave::BREAK_ID_SIZEOF> current_content{};
 
   //! New slot content.
-  int new_content[workrave::BREAK_ID_SIZEOF]{};
+  std::array<int, workrave::BREAK_ID_SIZEOF> new_content{};
 
   //! Number of visible breaks.
   int visible_count{-1};
-
-  //! Rotation (clockwise in degrees)
-  int rotation{0};
 
   //! Only show the sheep
   bool sheep_only{false};

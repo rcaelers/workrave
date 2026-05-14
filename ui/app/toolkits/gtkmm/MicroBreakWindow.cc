@@ -52,7 +52,7 @@ Gtk::Widget *
 MicroBreakWindow::create_gui()
 {
   // Time bar
-  time_bar = Gtk::manage(new TimeBar);
+  time_bar = Gtk::manage(new TimeBar("micro-break"));
   time_bar->set_text("Microbreak 0:32");
 
   // Label
@@ -154,7 +154,10 @@ MicroBreakWindow::update_time_bar()
     {
       if (user_active && !is_flashing)
         {
-          frame->set_frame_color(Gdk::Color("orange"));
+          Gdk::RGBA color_warn{"orange"};
+          GtkUtil::override_color("workrave-flash-warn", "micro-break", color_warn);
+
+          frame->set_frame_color(color_warn);
           frame->set_frame_visible(true);
           frame->set_frame_flashing(500);
           is_flashing = true;

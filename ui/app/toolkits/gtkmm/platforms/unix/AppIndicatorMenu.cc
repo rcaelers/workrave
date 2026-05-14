@@ -1,4 +1,5 @@
 // Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,6 +24,8 @@
 
 #include <filesystem>
 
+#include <glib.h>
+
 #include "utils/Signals.hh"
 #include "ui/GUIConfig.hh"
 #include "GtkUtil.hh"
@@ -39,17 +42,12 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
   app_indicator_set_attention_icon(indicator, "workrave");
 
-  DbusmenuServer *server{};
-  g_object_get(indicator, "dbus-menu-server", &server, NULL);
-  auto *root_menu_item = dbus_menu->get_root_menu_item();
-  g_object_ref(root_menu_item);
-  dbusmenu_server_set_root(server, root_menu_item);
-
   g_signal_connect(G_OBJECT(indicator),
                    APP_INDICATOR_SIGNAL_CONNECTION_CHANGED,
                    G_CALLBACK(&AppIndicatorMenu::on_appindicator_connection_changed),
                    this);
 
+  this->dbus_menu = dbus_menu;
   auto core = context->get_core();
   workrave::utils::connect(core->signal_operation_mode_changed(), tracker, [this](auto mode) {
     on_operation_mode_changed(mode);
@@ -60,6 +58,12 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   GUIConfig::trayicon_enabled().attach(tracker, [&](bool enabled) {
     app_indicator_set_status(indicator, enabled ? APP_INDICATOR_STATUS_ACTIVE : APP_INDICATOR_STATUS_PASSIVE);
   });
+}
+
+AppIndicatorMenu::~AppIndicatorMenu()
+{
+  // The timer belongs to the main context and could trigger, when this object is already destroyed.
+  g_source_remove(apphold_release_timer_id);
 }
 
 void
@@ -84,12 +88,34 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
   if (!file.empty())
     {
       std::filesystem::path path(file);
+      // app_indicator_set_icon shows an invalid icon when an extension is given
+      path.replace_extension();
       std::string directory = path.parent_path().string();
       std::string filename = path.filename().string();
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
       app_indicator_set_icon(indicator, filename.c_str());
     }
+
+  DbusmenuServer *server{};
+  g_object_get(indicator, "dbus-menu-server", &server, NULL);
+  auto dbus_menu = this->dbus_menu.lock();
+  auto *root_menu_item = dbus_menu->get_root_menu_item();
+  g_object_ref(root_menu_item);
+  dbusmenu_server_set_root(server, root_menu_item);
 }
+
+gboolean
+AppIndicatorMenu::apphold_release(gpointer user_data)
+{
+  auto *self = static_cast<AppIndicatorMenu *>(user_data);
+  if (!self->connected)
+    {
+      spdlog::info("AppIndicatorMenu: disconnected");
+      self->apphold.release();
+    }
+  self->apphold_release_timer_id = 0;
+  return G_SOURCE_REMOVE;
+};
 
 void
 AppIndicatorMenu::on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data)
@@ -97,12 +123,25 @@ AppIndicatorMenu::on_appindicator_connection_changed(gpointer appindicator, gboo
   auto *self = static_cast<AppIndicatorMenu *>(user_data);
   if (connected)
     {
-      spdlog::info("AppIndicatorMenu: connected");
-      self->apphold.hold();
+      self->connected = true;
+      if (self->apphold_release_timer_id)
+        {
+          spdlog::info("AppIndicatorMenu: reconnected");
+          g_source_remove(self->apphold_release_timer_id);
+          self->apphold_release_timer_id = 0;
+        }
+      else
+        {
+          spdlog::info("AppIndicatorMenu: connected");
+          self->apphold.hold();
+        }
     }
   else
     {
-      spdlog::info("AppIndicatorMenu: disconnected");
-      self->apphold.release();
+      self->connected = false;
+      guint waiting_time = 10;
+      spdlog::info("AppIndicatorMenu: disconnected (waiting {} s for a reconnection)", waiting_time);
+      // For filtering out cases, where system tray reloads only. It prevents the status window to show up in the meantime.
+      self->apphold_release_timer_id = g_timeout_add_seconds(waiting_time, &AppIndicatorMenu::apphold_release, user_data);
     }
 }

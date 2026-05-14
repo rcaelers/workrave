@@ -251,11 +251,6 @@ TimerBoxView::set_icon(OperationModeIcon icon)
 }
 
 void
-TimerBoxView::set_geometry(Orientation orientation, int size)
-{
-}
-
-void
 TimerBoxView::update_view()
 {
   if (reconfigure)

@@ -196,9 +196,8 @@ GeneralPreferencePanel::create_panel()
       connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
 
 #if defined(PLATFORM_OS_WINDOWS)
-      char value[MAX_PATH];
-      bool rc = Platform::registry_get_value(RUNKEY, "Workrave", value);
-      autostart_cb->set_active(rc);
+      auto value = Platform::registry_get_value(RUNKEY, "Workrave");
+      autostart_cb->set_active(value.has_value());
 #endif
     }
 

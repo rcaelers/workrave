@@ -1,0 +1,30 @@
+.workrave-flash-warn {
+  color: orange;
+}
+.workrave-flash-alert {
+  color: red;
+}
+.workrave-timebar {
+  color: black;
+  background-color: #777777;
+}
+.workrave-timebar-active {
+  color: black;
+  background-color: lightblue;
+}
+.workrave-timebar-inactive {
+  color: black;
+  background-color: lightgreen;
+}
+.workrave-timebar-overdue {
+  color: black;
+  background-color: orange;
+}
+.workrave-timebar-inactive-over-active {
+  color: black;
+  background-color: #00d4b2;
+}
+.workrave-timebar-inactive-over-overdue {
+  color: black;
+  background-color: lightgreen;
+}

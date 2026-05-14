@@ -143,7 +143,7 @@ appcast() {
 }
 
 upload_s3() {
-    "${AWS}" configure set aws_access_key_id travis
+    "${AWS}" configure set aws_access_key_id github
     "${AWS}" configure set aws_secret_access_key ${SNAPSHOTS_SECRET_ACCESS_KEY}
     "${AWS}" configure set default.region us-east-1
     "${AWS}" configure set default.s3.signature_version s3v4

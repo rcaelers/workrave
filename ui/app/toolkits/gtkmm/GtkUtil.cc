@@ -29,6 +29,7 @@
 #include <glib-object.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#include "gdkmm/rgba.h"
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include <windows.h>
@@ -502,4 +503,47 @@ GtkUtil::set_always_on_top(Gtk::Window *window, bool ontop)
   window->set_keep_above(ontop);
 
 #endif
+}
+
+void
+GtkUtil::override_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color)
+{
+  Gtk::Label label;
+
+  try
+    {
+      auto context = label.get_style_context();
+
+      context->add_class(color_name);
+      if (!widget_name.empty())
+        {
+          label.set_name(widget_name);
+        }
+      color = context->get_color(context->get_state());
+    }
+  catch (const Glib::Error &error)
+    {
+      spdlog::error("Error retrieving CSS property '{}': {}", color_name, error.what().c_str());
+    }
+}
+
+void
+GtkUtil::override_bg_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color)
+{
+  Gtk::Label label;
+
+  try
+    {
+      auto context = label.get_style_context();
+      context->add_class(color_name);
+      if (!widget_name.empty())
+        {
+          label.set_name(widget_name);
+        }
+      color = context->get_background_color(context->get_state());
+    }
+  catch (const Glib::Error &error)
+    {
+      spdlog::error("Error retrieving CSS property '{}': {}", color_name, error.what().c_str());
+    }
 }

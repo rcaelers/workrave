@@ -13,7 +13,7 @@ on:
 
 jobs:
   prep:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       attestations: write
@@ -239,19 +239,19 @@ jobs:
       max-parallel: 20
       matrix:
         config:
-          - image: ubuntu-focal
-            os: ubuntu-24.04
-            compiler: gcc
-            ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
-            disable: COVERAGE,TRACING
-
           - image: ubuntu-jammy
             os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
-            enable: INDICATOR,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
+            appimage: true
+
+          - image: ubuntu-noble
+            os: ubuntu-24.04
+            compiler: gcc
+            ui: Gtk+3
+            enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS,COVERAGE,TRACING
 
           - image: ubuntu-noble
             os: ubuntu-24.04
@@ -434,7 +434,7 @@ jobs:
           path: _deploy
 
   merge:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [prep, build-cmake, build-msys2]
     steps:
       - name: Merge Artifacts
@@ -473,7 +473,7 @@ jobs:
 
       - name: Upload artifacts to MinIO
         run: |
-          aws configure set aws_access_key_id travis
+          aws configure set aws_access_key_id github
           aws configure set aws_secret_access_key $SNAPSHOTS_SECRET_ACCESS_KEY
           aws configure set default.region us-east-1
           aws configure set default.s3.signature_version s3v4

@@ -1,6 +1,11 @@
-These Python scripts can be used with Waybar and Yambar, and possibly other clients as well. They require the `pydbus` Python module.
+These Python scripts can be used with Waybar, Yambar, and several other clients as well. They require the `pydbus` Python module.
 
 The script `workrave_break_info.py` can also be used as a Python module (which is why it has underscores in its name instead of hyphens) for those who don't find the script flexible enough. (For example, a user of the Python-configured window manager/compositor qtile may prefer to use it as a module. Documentation for its use as a module is in the comments near the top of the script.)
+
+The script `workrave-open.py` just opens Workrave's status window if it isn't already open (which doesn't necessarily happen if one simply types in `workrave` at the command-line).
+
+Waybar
+======
 
 To use with Waybar, place the files `workrave_break_info.py` and `workrave-open.py` somewhere in your `$PATH`, and add the following to your Waybar config file:
 ```json
@@ -13,7 +18,8 @@ To use with Waybar, place the files `workrave_break_info.py` and `workrave-open.
 ```
 Of course, `"custom/workrave"` should be added to one of these arrays in the Waybar config file: `modules-left`, `modules-center`, `modules-right`.
 
-Note that all `workrave-open.py` does is open Workrave's status window if it isn't already open (which doesn't necessarily happen if one simply types in `workrave` at the command-line).
+Yambar
+======
 
 To use `workrave_break_info.py` with Yambar, the following can be added to the Yambar config file:
 ```yaml
@@ -96,6 +102,9 @@ To use `workrave_break_info.py` with Yambar, the following can be added to the Y
 ```
 The above configuration of course assumes that `workrave_break_info.py` is in `~/bin`. (Yambar does not use `$PATH` for its script modules.) `default_color`, `close_to_break_color`, and `overdue_color` can be adjusted to one's taste, compatibility with Yambar's background, etc.
 
+Usage in other clients
+======================
+
 The `workrave_break_info.py` script also offers two other formats as well. One is "plain" format, which just has the script repeatedly prints the timer information from Workrave as brief plain text, e.g. `M: 4:53/5:00 R: 19:12/55:00`.
 
 The other format is "json", where the script repeatedly outputs Workrave's timer information in a JSON format that can be used, for example, by [Elkowar's Wacky Widgets](https://elkowar.github.io/eww/) or [Sfwbar](https://github.com/LBCrion/sfwbar). Each line of output is the string representation of a JSON object with the following keys and values:
@@ -126,6 +135,13 @@ The other format is "json", where the script repeatedly outputs Workrave's timer
 * `"dailylimit_bgcol"`: The desired background color for the display of the daily limit
 
 A given client using this JSON output may, of course, ignore at least some of these keys. Example files showing JSON format being used with EWW and Sfwbar are in the directories named, of course, "eww" and "sfwbar", respectively.
+
+An example of `workrave_break_info.py` being used as a module is in the script `swaybar/workrave_swaybar_gen_json.py`, which should be installed in the same directory as the `workrave_break_info.py` module. This script generates example JSON output for usage with [Sway's](https://swaywm.org/) swaybar, which requires a different kind of JSON format than that described above. This particular output shows the status of Workrave and the current time and date. To show other statuses in swaybar, the script `workrave_swaybar_gen_json.py` will need to be modified. (See the `swaybar-protocol` man page for how to do this.)
+
+In addition to the `workrave_swaybar_gen_json.py` script, there is also the `workrave-swaybar.sh` shell script, which both runs `workrave_swaybar_gen_json.py` and sets up swaybar so that it launches `workrave-open.py` when one clicks on the Workrave status in swaybar. To have Sway run this script at startup, set the arguments of `status_command` in Sway's config file to `exec /path/to/workrave-swaybar.sh`. Note that the `workrave-swaybar.sh` script assumes that both `workrave_swaybar_gen_json.py` and `workrave-open.py` are installed in `~/bin`.
+
+Detailed usage info for `workrave_break_info.py` script
+=======================================================
 
 Here is the usage of `workrave_break_info.py`:
 ```

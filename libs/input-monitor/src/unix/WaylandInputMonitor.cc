@@ -77,8 +77,28 @@ WaylandInputMonitor::init()
     }
 
   auto *wl_seat = gdk_wayland_seat_get_wl_seat(gdk_display_get_default_seat(gdk_display));
-  auto *wl_notification = ext_idle_notifier_v1_get_idle_notification(wl_notifier, timeout, wl_seat);
 
+  const auto wl_ntfr_ver = ext_idle_notifier_v1_get_version(wl_notifier);
+  const auto wl_ntfr_ver_w_input_idle = decltype(wl_ntfr_ver){2};
+
+  ext_idle_notification_v1 *wl_notification = nullptr;
+  if (wl_ntfr_ver < wl_ntfr_ver_w_input_idle)
+    {
+      TRACE_MSG("Falling back to version of ext-idle-notify-v1 protocol that "
+		"does not support ignoring idle inhibitors");
+
+      wl_notification = ext_idle_notifier_v1_get_idle_notification(wl_notifier,
+								   timeout, wl_seat);
+    }
+  else
+    {
+      TRACE_MSG("Using version of ext-idle-notify-v1 protocol that "
+		"supports ignoring idle inhibitors");
+	
+      wl_notification = ext_idle_notifier_v1_get_input_idle_notification(wl_notifier,
+									 timeout, wl_seat);
+    }
+  
   ext_idle_notification_v1_add_listener(wl_notification, &idle_notification_listener, this);
   monitor_thread = std::make_shared<std::thread>([this] { run(); });
 

@@ -1,4 +1,5 @@
 // Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2025 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +44,7 @@ class AppIndicatorMenu
 {
 public:
   explicit AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std::shared_ptr<DbusMenu> dbus_menu);
-  ~AppIndicatorMenu() override = default;
+  ~AppIndicatorMenu() override;
 
   std::string get_plugin_id() const override
   {
@@ -53,10 +54,14 @@ public:
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
   static void on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data);
+  static gboolean apphold_release(gpointer user_data);
 
 private:
   std::shared_ptr<IPluginContext> context;
   AppHold apphold;
+  bool connected;
+  guint apphold_release_timer_id{0};
+  std::weak_ptr<DbusMenu> dbus_menu;
   std::shared_ptr<ToolkitMenu> menu;
   AppIndicator *indicator{};
 

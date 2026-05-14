@@ -66,7 +66,8 @@ void
 MainWindow::open_window()
 {
   TRACE_ENTRY();
-  if (timer_box_view->get_visible_count() > 0)
+  // Head count is 0, when monitor is powered off due to sleeping on Sway.
+  if (timer_box_view->get_visible_count() > 0 && app->get_toolkit()->get_head_count() > 0)
     {
       stick();
       show_all();
@@ -186,7 +187,7 @@ MainWindow::init()
 
   timer_box_view = Gtk::manage(new TimerBoxGtkView(app->get_core()));
   timer_box_control = new TimerBoxControl(app->get_core(), "main_window", timer_box_view);
-  timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
+  timer_box_view->set_geometry(ORIENTATION_HORIZONTAL, -1);
   timer_box_control->update();
 
   auto *eventbox = Gtk::manage(new Gtk::EventBox);
@@ -351,7 +352,12 @@ MainWindow::convert_display_to_monitor(int &x, int &y)
 
   for (int i = 0; i < app->get_toolkit()->get_head_count(); i++)
     {
-      HeadInfo head = toolkit_priv->get_head_info(i);
+      auto optional_head = toolkit_priv->get_head_info(i);
+      if (!optional_head)
+        {
+          continue;
+        }
+      HeadInfo head = *optional_head;
 
       int left = head.get_x();
       int top = head.get_y();
@@ -383,7 +389,12 @@ void
 MainWindow::convert_monitor_to_display(int &x, int &y, int head)
 {
   auto toolkit_priv = std::dynamic_pointer_cast<IToolkitPrivate>(app->get_toolkit());
-  HeadInfo h = toolkit_priv->get_head_info(head);
+  auto optional_head = toolkit_priv->get_head_info(head);
+  if (!optional_head)
+    {
+      return;
+    }
+  HeadInfo h = *optional_head;
 
   if (x < 0)
     {

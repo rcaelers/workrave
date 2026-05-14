@@ -72,7 +72,7 @@ init_logging()
 static void
 crash2()
 {
-  int *p = 0;
+  int *p = nullptr;
   *p = 0;
   TRACE_ENTRY();
 }

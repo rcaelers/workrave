@@ -7,5 +7,6 @@
     <file alias="icons/scalable/workrave-sound-symbolic.svg">images/sound.svg</file>
     <file alias="icons/scalable/workrave-timer-symbolic.svg">images/timer.svg</file>
     <file alias="icons/scalable/workrave-update-symbolic.svg">images/update.svg</file>
+    <file alias="ui/default.css">default.css</file>
   </gresource>
 </gresources>

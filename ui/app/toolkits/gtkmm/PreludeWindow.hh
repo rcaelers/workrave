@@ -74,10 +74,10 @@ private:
   Frame *window_frame{nullptr};
 
   //! Warn color
-  Gdk::Color color_warn;
+  Gdk::RGBA color_warn;
 
   //! Alert color
-  Gdk::Color color_alert;
+  Gdk::RGBA color_alert;
 
   //! Label
   Gtk::Label *label{nullptr};

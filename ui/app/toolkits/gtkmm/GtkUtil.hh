@@ -74,6 +74,9 @@ public:
 
   static void set_always_on_top(Gtk::Window *window, bool ontop);
 
+  static void override_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color);
+  static void override_bg_color(const std::string &color_name, const std::string &widget_name, Gdk::RGBA &color);
+
 private:
   static Glib::Quark *label_quark;
 };
