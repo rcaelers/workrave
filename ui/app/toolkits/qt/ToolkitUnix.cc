@@ -34,6 +34,9 @@
 
 using namespace workrave::utils;
 
+#include "config/IConfigurator.hh"
+#include "debug.hh"
+
 ToolkitUnix::ToolkitUnix(int argc, char **argv)
   : Toolkit(argc, argv)
 {
@@ -72,11 +75,24 @@ ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 
   Toolkit::init(app);
 
-  // Glib::VariantType String(Glib::VARIANT_TYPE_STRING);
-  // gapp->add_action_with_parameter("confirm-notification", String, [this](const Glib::VariantBase &value) {
-  //   Glib::Variant<Glib::ustring> s = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-  //   notify_confirm(s.get());
-  // });
+  Glib::VariantType String(Glib::VARIANT_TYPE_STRING);
+  gapp->add_action_with_parameter("confirm-notification", String, [this](const Glib::VariantBase &value) {
+    Glib::Variant<Glib::ustring> s = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+    notify_confirm(s.get());
+  });
+}
+
+IBreakWindow::Ptr
+ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags)
+{
+  auto ret = Toolkit::create_break_window(screen_index, break_id, break_flags);
+  // FIXME: remove hack
+  if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
+    {
+      auto *gdk_window = break_window->get_window()->gobj();
+      locker->set_window(gdk_window);
+    }
+  return ret;
 }
 
 std::shared_ptr<Locker>

@@ -77,8 +77,19 @@ if (PLATFORM_OS_MACOS)
 endif()
 
 
+if (PLATFORM_OS_MACOS)
+  target_sources(workrave-toolkit-qt PRIVATE
+    ToolkitMacOS.cc
+    platforms/macos/MouseMonitor.cc
+    platforms/macos/MacOSDesktopWindow.cc)
+
+    set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
+endif()
+
 set(MOC_SOURCES
   AboutDialog.hh
+  AutoUpdateDialog.cc
   BreakWindow.hh
   DailyLimitWindow.hh
   DebugDialog.hh
@@ -120,8 +131,11 @@ target_link_directories(workrave-toolkit-qt PRIVATE
   ${X11_INCLUDE_PATH})
 
 if (HAVE_UNFOLD_AUTO_UPDATE)
-  target_link_libraries(workrave-toolkit-qt PUBLIC Unfold::unfold cmark)
-  target_compile_definitions(workrave-toolkit-qt PRIVATE CMARK_NO_SHORT_NAMES)
+  if (PLATFORM_OS_WINDOWS)
+    target_sources(workrave-toolkit-qt PRIVATE platforms/windows/Edge.cc)
+    target_link_libraries(workrave-toolkit-qt PUBLIC Unfold::unfold cmark webview2 ws2_32 mswsock)
+    target_compile_definitions(workrave-toolkit-qt PRIVATE CMARK_NO_SHORT_NAMES)
+  endif()
 
   target_sources(
     workrave-toolkit-qt

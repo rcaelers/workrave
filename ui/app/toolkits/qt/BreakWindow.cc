@@ -91,6 +91,7 @@ BreakWindow::init()
 
 BreakWindow::~BreakWindow()
 {
+  TRACE_ENTRY();
   if (frame != nullptr)
     {
       frame->set_frame_flashing(0);
@@ -102,66 +103,6 @@ BreakWindow::center()
 {
   QRect geometry = screen->geometry();
   setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), geometry));
-}
-
-void
-BreakWindow::add_lock_button(QGridLayout *box) const
-{
-  if (System::is_lockable())
-    {
-      QPushButton *button = UiUtil::create_image_text_button("lock.png", tr("Lock"));
-      box->addWidget(button, 1, box->columnCount());
-      connect(button, &QPushButton::click, this, &BreakWindow::on_lock_button_clicked);
-    }
-}
-
-// void
-// BreakWindow::add_shutdown_button(QGridLayout *box)
-// {
-//   if (System::is_shutdown_supported())
-//     {
-//       QPushButton *button = UiUtil::create_image_text_button("shutdown.png", tr("Shut down"));
-//       box->addWidget(button, 1, box->columnCount());
-//       connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
-//     }
-// }
-
-void
-BreakWindow::add_skip_button(QGridLayout *box, bool locked)
-{
-  if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
-    {
-      skip_button = new QPushButton(tr("Skip"));
-      skip_button->setEnabled(!locked);
-      if (locked)
-        {
-          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
-          skip_button->setToolTip(msg);
-        }
-      skip_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-      size_group->add_widget(skip_button);
-      box->addWidget(skip_button, 1, box->columnCount());
-      connect(skip_button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
-    }
-}
-
-void
-BreakWindow::add_postpone_button(QGridLayout *box, bool locked)
-{
-  if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
-    {
-      postpone_button = new QPushButton(tr("Postpone"));
-      postpone_button->setEnabled(!locked);
-      if (locked)
-        {
-          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
-          postpone_button->setToolTip(msg);
-        }
-      postpone_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-      size_group->add_widget(postpone_button);
-      box->addWidget(postpone_button, 1, box->columnCount());
-      connect(postpone_button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
-    }
 }
 
 void
@@ -246,8 +187,15 @@ BreakWindow::on_sysoper_combobox_changed(int index)
       return;
     }
 
-  // IGUI *gui = Application::get_instance();
-  // gui->interrupt_grab();
+  auto locker = app->get_toolkit()->get_locker();
+  locker->unlock();
+
+  // Glib::signal_timeout().connect(
+  //   [locker]() {
+  //     locker->lock();
+  //     return 0;
+  //   },
+  //   5000);
 
   System::execute(supported_system_operations[index].type);
 
@@ -256,13 +204,101 @@ BreakWindow::on_sysoper_combobox_changed(int index)
 }
 
 void
-BreakWindow::on_lock_button_clicked()
+BreakWindow::add_skip_button(QGridLayout *box, bool locked)
+{
+  if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
+    {
+      skip_button = new QPushButton(tr("Skip"));
+      skip_button->setEnabled(!locked);
+      if (locked)
+        {
+          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
+          skip_button->setToolTip(msg);
+        }
+      skip_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+      size_group->add_widget(skip_button);
+      box->addWidget(skip_button, 1, box->columnCount());
+      connect(skip_button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
+    }
+}
+
+void
+BreakWindow::add_postpone_button(QGridLayout *box, bool locked)
+{
+  if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+    {
+      postpone_button = new QPushButton(tr("Postpone"));
+      postpone_button->setEnabled(!locked);
+      if (locked)
+        {
+          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
+          postpone_button->setToolTip(msg);
+        }
+      postpone_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+      size_group->add_widget(postpone_button);
+      box->addWidget(postpone_button, 1, box->columnCount());
+      connect(postpone_button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
+    }
+}
+
+void
+BreakWindow::add_lock_button(QGridLayout *box) const
 {
   if (System::is_lockable())
     {
-      // IGUI *gui = Application::get_instance();
-      // gui->interrupt_grab();
-      System::lock_screen();
+      QPushButton *button = UiUtil::create_image_text_button("lock.png", tr("Lock"));
+      box->addWidget(button, 1, box->columnCount());
+      connect(button, &QPushButton::click, this, &BreakWindow::on_lock_button_clicked);
+    }
+}
+
+// void
+// BreakWindow::add_shutdown_button(QGridLayout *box)
+// {
+//   if (System::is_shutdown_supported())
+//     {
+//       QPushButton *button = UiUtil::create_image_text_button("shutdown.png", tr("Shut down"));
+//       box->addWidget(button, 1, box->columnCount());
+//       connect(button, &QPushButton::clicked, this, &BreakWindow::on_shutdown_button_clicked);
+//     }
+// }
+
+void
+BreakWindow::update_skip_postpone_lock()
+{
+  if ((postpone_button != nullptr && !postpone_button->isEnabled()) || (skip_button != nullptr && !skip_button->isEnabled()))
+    {
+      bool skip_locked = false;
+      bool postpone_locked = false;
+      BreakId overdue_break_id = BREAK_ID_NONE;
+      check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+
+      if (progress_bar != nullptr)
+        {
+          if (overdue_break_id != BREAK_ID_NONE)
+            {
+              auto core = app->get_core();
+              auto b = core->get_break(overdue_break_id);
+
+              progress_bar->setRange(0, b->get_auto_reset());
+              progress_bar->setValue(b->get_elapsed_idle_time());
+            }
+          else
+            {
+              progress_bar->hide();
+            }
+        }
+
+      if (!postpone_locked && postpone_button != nullptr)
+        {
+          postpone_button->setToolTip("");
+          postpone_button->setEnabled(true);
+        }
+      if (!skip_locked && skip_button != nullptr)
+        {
+          skip_button->setToolTip("");
+          skip_button->setEnabled(true);
+        }
     }
 }
 
@@ -292,6 +328,18 @@ BreakWindow::on_skip_button_clicked()
   auto b = core->get_break(break_id);
 
   b->skip_break();
+}
+
+void
+BreakWindow::on_lock_button_clicked()
+{
+  if (System::is_lockable())
+    {
+      auto locker = app->get_toolkit()->get_locker();
+      locker->unlock();
+      locker->lock();
+      System::lock_screen();
+    }
 }
 
 void
@@ -328,45 +376,6 @@ BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, 
                   return;
                 }
             }
-        }
-    }
-}
-
-void
-BreakWindow::update_skip_postpone_lock()
-{
-  if ((postpone_button != nullptr && !postpone_button->isEnabled()) || (skip_button != nullptr && !skip_button->isEnabled()))
-    {
-      bool skip_locked = false;
-      bool postpone_locked = false;
-      BreakId overdue_break_id = BREAK_ID_NONE;
-      check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
-
-      if (progress_bar != nullptr)
-        {
-          if (overdue_break_id != BREAK_ID_NONE)
-            {
-              auto core = app->get_core();
-              IBreak::Ptr b = core->get_break(overdue_break_id);
-
-              progress_bar->setRange(0, b->get_auto_reset());
-              progress_bar->setValue(b->get_elapsed_idle_time());
-            }
-          else
-            {
-              progress_bar->hide();
-            }
-        }
-
-      if (!postpone_locked && postpone_button != nullptr)
-        {
-          postpone_button->setToolTip("");
-          postpone_button->setEnabled(true);
-        }
-      if (!skip_locked && skip_button != nullptr)
-        {
-          skip_button->setToolTip("");
-          skip_button->setEnabled(true);
         }
     }
 }
