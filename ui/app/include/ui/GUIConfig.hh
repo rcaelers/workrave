@@ -76,6 +76,7 @@ public:
 #endif
 #if defined(PLATFORM_OS_UNIX)
   static workrave::config::Setting<bool> &force_x11();
+  static workrave::config::Setting<bool> &use_gnome_shell_preludes();
 #endif
   static workrave::config::Setting<bool> &main_window_always_on_top();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
@@ -118,6 +119,7 @@ private:
 #endif
 #if defined(PLATFORM_OS_UNIX)
   static const std::string CFG_KEY_FORCE_X11;
+  static const std::string CFG_KEY_USE_GNOME_SHELL_PRELUDES;
 #endif
 
   static const std::string CFG_KEY_MAIN_WINDOW;

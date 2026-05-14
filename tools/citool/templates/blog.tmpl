@@ -23,6 +23,6 @@ Changes since Workrave {{ entry.previous_version }}:
 Changes since Workrave {{ releases.releases[loop.index].version }}:
 {% endif %}
 {% for change in entry['changes'] -%}
-- {{ change | replace('\n', '\n  ') }}
+- {{ change | replace('\n', '\n  ') | github }}
 {% endfor %}
 {% endfor %}

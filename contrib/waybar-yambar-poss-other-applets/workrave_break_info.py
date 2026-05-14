@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import pydbus
+from dasbus.connection import SessionMessageBus
 from collections.abc import Sequence
 from collections import namedtuple
 
@@ -232,14 +232,19 @@ class WorkraveBreakInfo:
                  color_dict = None,
                  get_timer_state_func = None):
         
-        self.session_bus = pydbus.SessionBus()
+        self.session_bus = SessionMessageBus()
 
-        self._wr_core = self.session_bus.get(
+        self._wr_core = self.session_bus.get_proxy(
             'org.workrave.Workrave',
-            '/org/workrave/Workrave/Core'
+            '/org/workrave/Workrave/Core',
+            interface_name = "org.workrave.CoreInterface"
         )
 
-        self._wr_cfg = self._wr_core["org.workrave.ConfigInterface"]
+        self._wr_cfg = self.session_bus.get_proxy(
+            'org.workrave.Workrave',
+            '/org/workrave/Workrave/Core',
+            interface_name = "org.workrave.ConfigInterface"
+        )
 
         self._timer_enabled_paths = {
             "microbreak": "/breaks/micro-pause/enabled",
@@ -297,8 +302,11 @@ class WorkraveBreakInfo:
                          timer_type, timer_state, colors)
 
     def open_workrave(self):
-        wr_ui = self.session_bus.get('org.workrave.Workrave',
-                                     '/org/workrave/Workrave/UI')
+        wr_ui = self.session_bus.get_proxy(
+            'org.workrave.Workrave',
+            '/org/workrave/Workrave/UI',
+            interface_name = "org.workrave.AppletInterface"
+        )
 
         wr_ui.MenuAction('workrave.open')
 

@@ -52,10 +52,12 @@ init_citool() {
 init_tools() {
     export AWS=${AWS:-"/c/Program Files/Amazon/AWSCLIV2/aws"}
     export GH=${GH:-"/c/Program Files/GitHub CLI/gh.exe"}
+    export AWS_REGION=us-east-1
 
     if [ -n "$DOSIGN" ]; then
-        export SIGNTOOL="C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
-        export SIGNTOOL_SIGN_ARGS="/n Rob /t http://time.certum.pl /fd sha256 /v"
+        SCRIPTS_LOCAL_DIR_WIN=$(cygpath -w ${SCRIPTS_DIR}/local)
+        export SIGNTOOLPS1="powershell.exe -ExecutionPolicy Bypass -File ${SCRIPTS_LOCAL_DIR_WIN}\sign-authenticode.ps1"
+        export SIGNTOOLSH="${SCRIPTS_DIR}/local/sign-authenticode.sh"
     fi
 
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
@@ -66,6 +68,7 @@ init() {
     init_tools
     init_version
     init_citool
+    init_s3
 }
 
 build_pre() {
@@ -94,7 +97,14 @@ build() {
 
 build_post() {
     export ARTIFACTS=$(cygpath -w ${SOURCES_DIR}/_deploy)
-    ${SCRIPTS_DIR}/ci/sign.sh
+    ${SCRIPTS_DIR}/local/sign.sh
+
+    if [ -n "$DOSIGN" ]; then
+        for ext in exe zip xz; do
+            ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
+            ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
+        done
+    fi
 }
 
 newsgen() {
@@ -135,27 +145,59 @@ catalog() {
 }
 
 appcast() {
-    if [ -z "${DRYRUN}" ]; then
-        node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT}
-    else
-        node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
+    node ${SCRIPTS_DIR}/citool/dist/citool.js appcast --branch ${S3_ARTIFACT_DIR} ${ARTIFACT_ENVIRONMENT:+--environment $ARTIFACT_ENVIRONMENT} --file
+    if [ -n "$DOSIGN" ]; then
+        ${SCRIPTS_DIR}/local/sign-cosign.sh appcast.xml
+        MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml.sigstore s3://snapshots/${S3_ARTIFACT_DIR}/
     fi
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml s3://snapshots/${S3_ARTIFACT_DIR}/
+
+    appcast_git_push
 }
 
-upload_s3() {
+appcast_git_push() {
+    local APPCAST_REPO_URL=git@github.com:rcaelers/workrave-appcast.git
+    local APPCAST_REPO_DIR=${WORKSPACE}/workrave-appcast
+
+    if [ ! -d "${APPCAST_REPO_DIR}/.git" ]; then
+        git clone "${APPCAST_REPO_URL}" "${APPCAST_REPO_DIR}"
+    else
+        git -C "${APPCAST_REPO_DIR}" pull --ff-only
+    fi
+
+    mkdir -p "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}"
+    cp appcast.xml "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}/appcast.xml"
+    if [ -n "$DOSIGN" ] && [ -f appcast.xml.sigstore ]; then
+        cp appcast.xml.sigstore "${APPCAST_REPO_DIR}/${S3_ARTIFACT_DIR}/appcast.xml.sigstore"
+    fi
+
+    git -C "${APPCAST_REPO_DIR}" add -A
+    git -C "${APPCAST_REPO_DIR}" commit -m "Update appcast for ${WORKRAVE_VERSION}" || true
+    git -C "${APPCAST_REPO_DIR}" push
+}
+
+init_s3() {
     "${AWS}" configure set aws_access_key_id github
     "${AWS}" configure set aws_secret_access_key ${SNAPSHOTS_SECRET_ACCESS_KEY}
     "${AWS}" configure set default.region us-east-1
     "${AWS}" configure set default.s3.signature_version s3v4
     "${AWS}" configure set s3.endpoint_url https://snapshots.workrave.org/
-    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}
+}
+
+upload_s3() {
+    MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp --recursive ${ARTIFACTS} s3://snapshots/${S3_ARTIFACT_DIR}/
 }
 
 upload_github() {
     github_create_release
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.exe
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.zip
-    "$GH" release upload ${WORKRAVE_GIT_TAG} ${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.xz
+    for ext in exe zip xz; do
+        ARTIFACT=${SOURCES_DIR}/_deploy/${WORKRAVE_BUILD_ID}/*.${ext}
+        if [ -n "$DOSIGN" ]; then
+            ${SCRIPTS_DIR}/local/sign-cosign.sh ${ARTIFACT}
+            "$GH" release upload ${WORKRAVE_GIT_TAG} ${ARTIFACT}.sigstore
+        fi
+        "$GH" release upload ${WORKRAVE_GIT_TAG} ${ARTIFACT}
+    done
 }
 
 usage() {
@@ -173,12 +215,11 @@ parse_arguments() {
     export WORKRAVE_OVERRIDE_GIT_VERSION=
     export REPO=https://github.com/rcaelers/workrave.git
     export DOSIGN=
-    export SECRETS_DIR=
     export COMMIT=
     export ARTIFACT_ENV=
     export GITHUB_NOUPLOAD=
 
-    while getopts "Bc:C:D:dr:R:S:st:TW:" o; do
+    while getopts "Bc:C:D:dr:R:st:TW:" o; do
         case "${o}" in
         B)
             DOSBOM=1
@@ -205,9 +246,6 @@ parse_arguments() {
         s)
             DOSIGN=1
             ;;
-        S)
-            SECRETS_DIR=$(realpath "${OPTARG}")
-            ;;
         t)
             COMMIT="${OPTARG}"
             ;;
@@ -224,11 +262,6 @@ parse_arguments() {
         esac
     done
     shift $((OPTIND - 1))
-
-    if [ -z ${SECRETS_DIR} ]; then
-        echo No secrets directory specified.
-        exit 1
-    fi
 }
 
 export WORKRAVE_ENV=local-windows-msys2
@@ -241,7 +274,10 @@ mkdir -p ${SOURCES_DIR}
 
 export WORKRAVE_BUILD_ID_SUFFIX=local
 source ${SCRIPTS_DIR}/ci/config.sh
-source ${SECRETS_DIR}/env-snapshots
+
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
+export SNAPSHOTS_SECRET_ACCESS_KEY=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.s3_access_key" | jq -r .value)
+export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
 
 init
 source ${SCRIPTS_DIR}/ci/config.sh
@@ -255,5 +291,5 @@ build_post
 if [ -z "${DRYRUN}" ]; then
     upload
     catalog
+    appcast
 fi
-appcast

@@ -1,18 +1,67 @@
 ---
 releases:
+  - version: 1.11.0-rc.4
+    date: 2026-02-27T10:39:00+01:00
+    short: |-
+      Workrave 1.11.0-rc.4 has been released.
+    changes:
+      - |-
+        Improvements:
+        - The D-Bus utility (gdbus.exe) is now an optional install on Windows.
+      - |-
+        Translations:
+        - Added Georgian translation (#669, NorwayFun)
+        - Updated Dutch translation
+      - |-
+        Improvements:
+          - The D-Bus utility (gdbus) is no longer installed by default by the installer.
+      - |-
+        Bug fixes:
+          - Rest Break window no longer appears in top left corner in "No Lock" mode (#663, 664, ValdikSS)
+          - Fix Gnome Shell extension (#661, Nick kousu)
+          - Fix application icon on Linux
+
+  - version: 1.11.0-rc.3
+    date: 2025-11-25T18:26:24+01:00
+    short: |-
+      Workrave 1.11.0-rc.3 has been released.
+    changes:
+      - |-
+        Bug fixes:
+        - Fix high DPI fractional scaling on Windows
+
   - version: 1.11.0-rc.2
-    date: 2025-05-04T00:00:00+02:00
+    date: 2025-11-23T00:00:00+02:00
     short: |-
       Workrave 1.11.0-rc.2 has been released.
     changes:
-      - Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
-      - Add examples of usage with swaybar (#597, J. J. Ramsey)
-      - Support GNOME Shell 48
-      - Fix crash when monitor is powered off (#606)
-      - Update DBus example (#611, Emmanuel Ferdman)
-      - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
-      - Fix issue where the status window shows when Sway reloads despite being disabled (#612, #615, wojnilowicz)
-      - Support user defined colors (#619)
+      - |-
+        Improvements:
+        - Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
+        - Add examples of usage with swaybar (#597, J. J. Ramsey)
+        - Support GNOME Shell 48
+        - Update DBus example (#611, Emmanuel Ferdman)
+        - Support for user defined colors (#619)
+        - Port workrave Python scripts for waybar, etc., to dasbus (#627, J. J. Ramsey)
+        - Phil Dibbs contributed new sounds (bells_ensemble, shangri_la, synth_harp, tinkle_bell, tuned_udu, woodwind_ensemble)
+        - Support GNOME Shell 49 (#636, Alessandro Astone)
+        - Keyboard/mouse locking now works on ARM64 Windows
+        - Handle screen lock shortcut during breaks under Xorg
+        - Add high DPI support on Windows (#650, Charlie Lin)
+        - Use Gnome Shell extension to display prelude windows (#621)
+        - It is no longer required to accept the GPL license on installation on Windows (#648)
+      - |-
+        Bug fixes:
+        - Fix crash when monitor is powered off (#606)
+        - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
+        - Fix issue where the tray icon did not appear on waybar, swaybar, or wf-shell trays (#555, #613, wojnilowicz)
+        - Fix issue where the status window shows when Sway reloads despite being disabled (#612, #615, wojnilowicz)
+        - Update AppIndicator menu when menu content changes (#556, #652,ValdikSS)
+      - |-
+        Updated Translations:
+        - Update Chinese translation (#645, Sisyphe42)
+        - Updated Indonesian translation (#653, Andika Triwidada)
+        - Fix French translation (#656)
 
   - version: 1.11.0-rc.1
     date: 2025-01-07T17:49:37+01:00

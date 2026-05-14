@@ -53,6 +53,7 @@ public:
 
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
+  void update_dbus_menu_root();
   static void on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data);
   static gboolean apphold_release(gpointer user_data);
 

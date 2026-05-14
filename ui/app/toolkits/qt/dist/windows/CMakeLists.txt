@@ -60,13 +60,13 @@ set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 
 if(WINE)
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                      COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-                      DEPENDS workrave)
+                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                     DEPENDS workrave)
 else()
   add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                      COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-                      DEPENDS workrave
-                      VERBATIM)
+                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                     DEPENDS workrave
+                     VERBATIM)
 endif()
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
@@ -97,7 +97,7 @@ elseif (MINGW)
     BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32
     CMAKE_COMMAND ${CMAKE_COMMAND32}
     CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake
+      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
       -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
   )
 endif()

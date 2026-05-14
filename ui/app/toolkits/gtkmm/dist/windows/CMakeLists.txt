@@ -13,14 +13,14 @@ if(MINGW OR VCPKG_TOOLCHAIN)
 
     if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
       install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    elseif ()
+    elseif(EXISTS /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo)
       install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_3166.mo DESTINATION share/locale/${language}/LC_MESSAGES)
       # TODO: else: give warning, once
     endif()
 
     if (EXISTS ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo)
       install (FILES ${SYS_ROOT}/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
-    elseif()
+    elseif(EXISTS /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo)
       install (FILES /usr/share/locale/${language}/LC_MESSAGES/iso_639.mo DESTINATION share/locale/${language}/LC_MESSAGES)
       # TODO: else: give warning, once
     endif()
@@ -124,6 +124,12 @@ install(CODE "set(BINDIR32 \"${BINDIR32}\")")
 install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
 install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
 install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
+install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
+
+if (HAVE_SBOM)
+  find_program(BASH_CMD bash REQUIRED)
+  install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
+endif()
 
 if (MSVC)
   install(CODE "set(MSVC ${MSVC})")
@@ -134,6 +140,7 @@ if (MSVC)
 endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
@@ -187,7 +194,7 @@ elseif (MINGW)
     BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/.32
     CMAKE_COMMAND ${CMAKE_COMMAND32}
     CMAKE_CACHE_ARGS
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/msys2.cmake
+      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_SOURCE_DIR}/cmake/toolchains/mingw32-gcc.cmake
       -DCMAKE_INSTALL_PREFIX:FILEPATH=${CMAKE_INSTALL_PREFIX}
   )
 endif()

@@ -23,12 +23,12 @@ macro_ensure_out_of_source_build(
  )
 
 # Set Workrave version
-set (WORKRAVE_VERSION "1.11.0-rc.2" )
-set (WORKRAVE_RESOURCE_VERSION "1,10,999,202" )
+set (WORKRAVE_VERSION "1.11.0-rc.4" )
+set (WORKRAVE_RESOURCE_VERSION "1,10,999,204" )
 set (WORKRAVE_CHANNEL "candidate" )
 
 set (CMAKE_BUILD_TYPE_INIT "Release")
-set (CMAKE_INCLUDE_CURRENT_DIR ON)
+set (CMAKE_INCLUDE_CURRENT_DIR OFF)
 
 include(GNUInstallDirs)
 include(CheckLibraryExists)
@@ -39,6 +39,83 @@ include(CheckCSourceCompiles)
 include(FindPythonModule)
 include(ExternalProject)
 include(FindPkgConfig)
+
+#-----------------------------------------------------------------------------------------------------
+# Version
+
+if(NOT DEFINED ENV{WORKRAVE_GIT_VERSION})
+  find_package(Git QUIET)
+  if(Git_FOUND)
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} rev-parse --is-inside-work-tree
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+      RESULT_VARIABLE GIT_RESULT
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+
+    if(GIT_RESULT EQUAL 0)
+      execute_process(
+        COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=10
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_VERSION_OUTPUT
+        RESULT_VARIABLE GIT_VERSION_RESULT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+      )
+
+      if(GIT_VERSION_RESULT EQUAL 0 AND GIT_VERSION_OUTPUT)
+        string(REGEX REPLACE "-g.*" "" WORKRAVE_GIT_VERSION "${GIT_VERSION_OUTPUT}")
+        message(STATUS "Using git version: ${WORKRAVE_GIT_VERSION}")
+      endif()
+    endif()
+  endif()
+else()
+  # Use environment variable
+  message(STATUS "Using WORKRAVE_GIT_VERSION from environment: ${WORKRAVE_GIT_VERSION}")
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# Build DateTime
+
+if(NOT DEFINED ENV{WORKRAVE_BUILD_DATETIME})
+  # Get current datetime in ISO format
+  if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    # Windows PowerShell command for ISO datetime
+    execute_process(
+      COMMAND powershell -Command "Get-Date -Format 'yyyy-MM-ddTHH:mm:sszzz'"
+      OUTPUT_VARIABLE BUILD_DATETIME_OUTPUT
+      RESULT_VARIABLE BUILD_DATETIME_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  else()
+    # Unix/Linux date command for ISO datetime
+    execute_process(
+      COMMAND date --iso-8601=seconds
+      OUTPUT_VARIABLE BUILD_DATETIME_OUTPUT
+      RESULT_VARIABLE BUILD_DATETIME_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  endif()
+
+  if(BUILD_DATETIME_RESULT EQUAL 0 AND BUILD_DATETIME_OUTPUT)
+    set(WORKRAVE_BUILD_DATETIME "${BUILD_DATETIME_OUTPUT}")
+    message(STATUS "Using generated build datetime: ${WORKRAVE_BUILD_DATETIME}")
+  else()
+    # Fallback to current date/time using CMake's string(TIMESTAMP)
+    string(TIMESTAMP WORKRAVE_BUILD_DATETIME "%Y-%m-%dT%H:%M:%S%z")
+    message(STATUS "Using CMake timestamp fallback: ${WORKRAVE_BUILD_DATETIME}")
+  endif()
+else()
+  set(WORKRAVE_BUILD_DATETIME "$ENV{WORKRAVE_BUILD_DATETIME}")
+  message(STATUS "Using WORKRAVE_BUILD_DATETIME from environment: ${WORKRAVE_BUILD_DATETIME}")
+endif()
+
+message(STATUS "WORKRAVE_VERSION: ${WORKRAVE_VERSION}")
+message(STATUS "WORKRAVE_GIT_VERSION: ${WORKRAVE_GIT_VERSION}")
+message(STATUS "WORKRAVE_BUILD_DATETIME: ${WORKRAVE_BUILD_DATETIME}")
 
 #----------------------------------------------------------------------------------------------------
 # Macros
@@ -274,7 +351,6 @@ if (WIN32)
   file(WRITE "${EXTERNAL_SBOM_FILE}" "")
   if (WITH_SBOM)
     set (HAVE_SBOM ON)
-    file(APPEND "${EXTERNAL_SBOM_FILE}" "semver,v0.3.1,MIT,Semantic Versioning for modern C++,https://github.com/Neargye/semver\n") # from unfold
   endif()
 endif()
 
@@ -514,7 +590,7 @@ else()
 endif()
 
 option(WITH_GNOME_CLASSIC_PANEL "Enable Gnome 3 Classic panel applet support" ${WITH_GNOME_CLASSIC_PANEL_DEFAULT})
-option(WITH_GNOME45 "Use GNOME 45 API" OFF)
+option(WITH_GNOME45 "Use GNOME 45 API" ON)
 
 if (WITH_GNOME45)
   set (HAVE_GNOME45 ON)
@@ -714,7 +790,7 @@ if (WIN32)
 endif()
 
 if (HAVE_TESTS)
-  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework )
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework)
 endif()
 
 set (BOOST_MIN_VERSION "1.54.0")
@@ -807,6 +883,7 @@ endif()
 if (WIN32)
   option(WITH_CRASHPAD "Use crashpad" OFF)
   option(WITH_AUTO_UPDATE "Use unfold auto-update" OFF)
+  option(WITH_UPDATER_STAGING "Use staging appcast and allow snapshot downloads" OFF)
   option(ISCC "Inno Setup Compiler")
   set(ISCC_FLAGS "" CACHE STRING "Inno Setup Compiler Arguments")
 
@@ -819,6 +896,10 @@ if (WIN32)
 
   if (WITH_AUTO_UPDATE)
     set (HAVE_UNFOLD_AUTO_UPDATE ON)
+  endif()
+
+  if (WITH_UPDATER_STAGING)
+    set (HAVE_UPDATER_STAGING ON)
   endif()
 
   set (PLATFORM_OS_WINDOWS ON)
@@ -1029,7 +1110,7 @@ if (WITH_CRASHPAD)
     "Apache-2.0"
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
-    GIT_TAG d52c137a3d8b4adc20b33685460bf8cebd3c4634
+    GIT_TAG c99947a804278991bdb2106ab5b5db37af9e3365
   )
   FetchContent_MakeAvailable(crashpad)
 
@@ -1050,7 +1131,7 @@ if (WITH_CRASHPAD)
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.3.4
+    GIT_TAG v2.3.5
   )
   FetchContent_MakeAvailable(dump_syms)
 
@@ -1130,6 +1211,24 @@ if (WITH_UI_QT)
   add_subdirectory(ui/app/toolkits/qt/dist)
 elseif (WITH_UI_GTK)
   add_subdirectory(ui/app/toolkits/gtkmm/dist)
+endif()
+
+#----------------------------------------------------------------------------------------------------
+# SBOM discovery
+
+if(HAVE_SBOM)
+  # Sub-dependencies of unfold
+  sbom_set_license("semver" "MIT")
+  sbom_set_license("sigstore" "MIT")
+  sbom_set_license("sigstore_protos" "Apache-2.0")
+  sbom_set_license("googleapis_protos" "Apache-2.0")
+
+  # Crashpad submodules
+  sbom_set_license("mini_chromium" "BSD-3-Clause")
+  sbom_set_license("zlib" "Zlib")
+  sbom_set_license("lss" "BSD-3-Clause")
+
+  sbom_discover_packages()
 endif()
 
 #----------------------------------------------------------------------------------------------------

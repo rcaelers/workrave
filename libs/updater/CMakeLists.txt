@@ -6,7 +6,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "Auto-update framework"
       "MIT"
       GIT_REPOSITORY https://github.com/rcaelers/unfold.git
-      GIT_TAG 2f3ca0f6d993ad55274946a8012ec12015b3a790
+      GIT_TAG 6afccbf9cb3bdf0366353781890a0f12e161cb8c
     )
     if(NOT unfold_POPULATED)
       FetchContent_MakeAvailable(unfold)
@@ -18,22 +18,22 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       "CommonMark parsing and rendering library"
       "BSD-2-Clause/MIT"
       GIT_REPOSITORY https://github.com/commonmark/cmark.git
-      GIT_TAG        0.31.1
+      GIT_TAG        0.31.2
       GIT_SHALLOW    TRUE
       CMAKE_ARGS "BUILD_TESTING=OFF BUILD_STATIC_LIBS=OFF BUILD_SHARED_LIBS=ON"
     )
     set(BUILD_TESTING OFF CACHE INTERNAL "Disable tests")
     if(NOT cmark_POPULATED)
       FetchContent_MakeAvailable(cmark)
-      install(TARGETS unfold RUNTIME DESTINATION bin)
+      install(TARGETS cmark RUNTIME DESTINATION bin)
     endif()
 
     FetchContent_Declare_Logged(
       webview2
       "Microsoft Edge WebView2 embedded web browser control"
       "Microsoft-Web-WebView2"
-      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.2651.64
-      URL_HASH SHA1=e08093bd127686535cf3519011a584664e6d2b75
+      URL https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.3856.49
+      URL_HASH SHA1=688937fd04b7d1a1d69fcbd914063895fa26d38c
     )
     FetchContent_MakeAvailable(webview2)
 
@@ -48,10 +48,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
       install(FILES ${webview2_SOURCE_DIR}/runtimes/win-x64/native/WebView2Loader.dll DESTINATION bin)
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86|X86")
       target_link_directories(webview2 INTERFACE ${webview2_SOURCE_DIR}/build/native/x86)
-      install(FILES ${webview2_SOURCE_DIR}/runtimes/x86/native/WebView2Loader.dll DESTINATION bin)
+      install(FILES ${webview2_SOURCE_DIR}/runtimes/win-x86/native/WebView2Loader.dll DESTINATION bin)
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|ARM64")
       target_link_directories(webview2 INTERFACE ${webview2_SOURCE_DIR}/build/native/arm64)
-      install(FILES ${webview2_SOURCE_DIR}/runtimes/arm64/native/WebView2Loader.dll DESTINATION bin)
+      install(FILES ${webview2_SOURCE_DIR}/runtimes/win-arm64/native/WebView2Loader.dll DESTINATION bin)
     else()
       message(FATAL_ERROR "Unsupported processor: ${CMAKE_SYSTEM_PROCESSOR}")
     endif()

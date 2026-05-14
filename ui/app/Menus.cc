@@ -174,17 +174,17 @@ Menus::create_mode_autoreset_menu(workrave::OperationMode mode, menus::SubMenuNo
 
       std::string text = (hours == 0h)   ? ""
                          : (hours == 1h) ? N_("For 1 hour")
-                                         : boost::str(boost::format("For %1% hours") % hours.count());
+                                         : boost::str(boost::format(N_("For %1% hours")) % hours.count());
       if (minutes > 0min)
         {
           if (!text.empty())
             {
               text += " ";
-              text += (minutes == 1min) ? N_("and 1 minute") : boost::str(boost::format("and %1% minutes") % minutes.count());
+              text += (minutes == 1min) ? N_("and 1 minute") : boost::str(boost::format(N_("and %1% minutes")) % minutes.count());
             }
           else
             {
-              text += (minutes == 1min) ? N_("For 1 minute") : boost::str(boost::format("For %1% minutes") % minutes.count());
+              text += (minutes == 1min) ? N_("For 1 minute") : boost::str(boost::format(N_("For %1% minutes")) % minutes.count());
             }
         }
 

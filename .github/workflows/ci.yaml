@@ -2,14 +2,14 @@ name: CI
 on:
   push:
     branches:
-      - "main"
-      - "topic/*"
+      - 'main'
+      - 'topic/*'
     tags:
-      - "v1_11_*"
+      - 'v1_11_*'
   pull_request:
     branches:
-      - "main"
-      - "topic/*"
+      - 'main'
+      - 'topic/*'
 
 jobs:
   prep:
@@ -21,10 +21,10 @@ jobs:
       WORKRAVE_BUILD_DATETIME: ${{ steps.out.outputs.WORKRAVE_BUILD_DATETIME }}
       WORKRAVE_BUILD_DATE: ${{ steps.out.outputs.WORKRAVE_BUILD_DATE }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          submodules: "recursive"
+          submodules: 'recursive'
 
       - id: out
         run: |
@@ -39,14 +39,12 @@ jobs:
           ${{ github.workspace }}/tools/ci/catalog.sh
         env:
           WORKRAVE_JOB_INDEX: 9999
-          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
-          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
 
       - name: attest
         uses: actions/attest-build-provenance@v1
         if: github.event_name == 'push'
         with:
-          subject-path: "_deploy/*"
+          subject-path: '_deploy/*'
 
       - name: Upload artifacts to GitHub
         uses: actions/upload-artifact@v4
@@ -58,13 +56,14 @@ jobs:
     name: windows vcpkg
     env:
       VCPKG_ROOT: C:/vcpkg
-      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+      VCPKG_BINARY_SOURCES: 'clear;x-gha,readwrite'
     runs-on: windows-latest
+    if: ${{ false }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          submodules: "recursive"
+          submodules: 'recursive'
 
       - name: vcpkg cache setup
         uses: actions/github-script@v7
@@ -106,7 +105,7 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -145,11 +144,11 @@ jobs:
         config:
           - configuration: Release
             ui: Gtk+3
-            enable: TESTS, CRASHPAD, AUTO_UPDATE
+            enable: TESTS, CRASHPAD, AUTO_UPDATE, SBOM
             upload: windows-gtk3-release
 
           - configuration: Debug
-            enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE
+            enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE, SBOM
             ui: Gtk+3
             upload: windows-gtk3-debug
 
@@ -161,10 +160,10 @@ jobs:
             enable: TESTS, TRACING, AUTO_UPDATE
             ui: Qt
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          submodules: "recursive"
+          submodules: 'recursive'
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -172,32 +171,37 @@ jobs:
           msystem: clang64
           install: >-
             git
-            mingw-w64-i686-clang
-            mingw-w64-i686-cmake
-            mingw-w64-i686-lld
-            mingw-w64-i686-ninja
+            mingw-w64-clang-x86_64-abseil-cpp
             mingw-w64-clang-x86_64-adwaita-icon-theme
             mingw-w64-clang-x86_64-boost
             mingw-w64-clang-x86_64-clang
             mingw-w64-clang-x86_64-cmake
             mingw-w64-clang-x86_64-gcc-compat
             mingw-w64-clang-x86_64-gtkmm3
+            mingw-w64-clang-x86_64-jq
             mingw-w64-clang-x86_64-lld
             mingw-w64-clang-x86_64-ninja
             mingw-w64-clang-x86_64-openssl
+            mingw-w64-clang-x86_64-protobuf
             mingw-w64-clang-x86_64-python
             mingw-w64-clang-x86_64-python-pip
-            mingw-w64-clang-x86_64-spdlog
-            mingw-w64-clang-x86_64-jq
-            mingw-w64-clang-x86_64-uasm
-            mingw-w64-clang-x86_64-rust
             mingw-w64-clang-x86_64-qt6-base
             mingw-w64-clang-x86_64-qt6-svg
             mingw-w64-clang-x86_64-qt6-tools
+            mingw-w64-clang-x86_64-rust
+            mingw-w64-clang-x86_64-spdlog
+            mingw-w64-clang-x86_64-uasm
+            mingw-w64-i686-gcc
+            mingw-w64-i686-cmake
+            mingw-w64-i686-ninja
             mingw-w64-x86_64-rust
             tar
             xz
             zip
+
+      - name: install InnoSetup
+        shell: cmd
+        run: choco upgrade innosetup -y --no-progress
 
       - name: Build 64 bit
         shell: msys2 {0}
@@ -260,16 +264,16 @@ jobs:
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
             appimage: true
-            upload: ubuntu-noble
+            upload: true
 
-          - image: ubuntu-oracular
+          - image: ubuntu-questing
             os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
             enable: INDICATOR,GNOME45,GNOME_CLASSIC_PANEL,GSTREAMER,PULSE,TESTS
             disable: COVERAGE,TRACING
 
-          - image: ubuntu-plucky
+          - image: ubuntu-resolute
             os: ubuntu-24.04
             compiler: gcc
             ui: Gtk+3
@@ -336,7 +340,7 @@ jobs:
             echo "version=dev" >> $GITHUB_OUTPUT
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -351,7 +355,7 @@ jobs:
       - name: Prepare docker image cache
         id: docker-cache
         if: runner.os == 'Windows'
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: ~/_docker-cache
           key: docker-cache-${{ steps.image_digest.outputs.digest }}
@@ -371,7 +375,6 @@ jobs:
         run: |
           brew install gettext qt python3 boost ninja spdlog pkg-config || true
           brew link gettext --force
-          brew link --overwrite python@3.12
           brew outdated cmake || brew upgrade cmake
           pip3 install --break-system-packages --user Jinja2 # required for dbus support, system (distro) wide include paths are ignored
 
@@ -448,7 +451,7 @@ jobs:
     needs: [prep, build-cmake, build-msys2, merge]
     if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') )
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -462,7 +465,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           echo '${{ secrets.ED25519_KEY }}' > ${SECRETS_DIR}/ed25519key.pem
           $GITHUB_WORKSPACE/tools/ci/sign.sh
-          rm -f ed25519key.pem
+          rm -f ${SECRETS_DIR}/ed25519key.pem
         env:
           ED25519_KEY: ${{ secrets.ED25519_KEY }}
           WORKSPACE: ${{ github.workspace }}
@@ -483,13 +486,12 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}
 
-      - name: Create artifact catalog / appcast
+      - name: Create artifact catalog
         run: |
           cd $GITHUB_WORKSPACE/tools/citool
-          npm i
+          npm ci
           npm run build
           node $GITHUB_WORKSPACE/tools/citool/dist/citool.js catalog
-          node $GITHUB_WORKSPACE/tools/citool/dist/citool.js appcast
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}

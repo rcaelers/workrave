@@ -1,0 +1,28 @@
+.prelude-window {
+  color: #2e3436;
+  background-color: #f6f5f4;
+  border: 2px solid #babdb6;
+  border-radius: 8px;
+}
+
+.prelude-frame {
+  border: 6px solid transparent;
+  border-radius: 2px;
+}
+
+.prelude-content {
+  color: #2e3436;
+  background-color: #f6f5f4;
+  padding: 8px;
+  spacing: 16px;
+}
+
+.prelude-info {
+  spacing: 6px;
+}
+
+.timebar-area {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0px;
+  margin: 0px;
+}

@@ -22,6 +22,7 @@ if (HAVE_APP_GTK)
     PUBLIC
     ${CMAKE_SOURCE_DIR}/ui/libs/prefwidgets/toolkits/gtkmm/include
     PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/ui/libs/prefwidgets/toolkits/gtkmm/include/ui/prefwidgets/gtkmm
     ${GTK_INCLUDE_DIRS}
     )

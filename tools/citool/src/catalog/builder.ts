@@ -45,6 +45,7 @@ class Builder {
     try {
       await this.mergeCatalogs();
       await this.fixups();
+      await this.deduplicateBuilds();
       await this.sortCatalog();
       await this.removeOrphans();
       await this.updateGitLogs();
@@ -208,6 +209,50 @@ class Builder {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async deduplicateBuilds() {
+    const builds = this.catalog.builds();
+    const newestByKey = new Map<string, any>();
+
+    for (const build of builds) {
+      const tag = build.tag;
+      if (!tag) continue;
+      const key = `${tag}:${build.increment ?? ''}`;
+      const existing = newestByKey.get(key);
+      if (!existing || Date.parse(build.date) > Date.parse(existing.date)) {
+        newestByKey.set(key, build);
+      }
+    }
+
+    const deduplicated = builds.filter((build: any) => {
+      if (!build.tag) return true;
+      const key = `${build.tag}:${build.increment ?? ''}`;
+      return newestByKey.get(key) === build;
+    });
+
+    if (deduplicated.length < builds.length) {
+      console.log(`Deduplicated builds: removed ${builds.length - deduplicated.length} older duplicate(s)`);
+    }
+
+    for (const build of deduplicated) {
+      if (build.artifacts) {
+        const latestByUrl = new Map<string, any>();
+        for (const artifact of build.artifacts) {
+          const key = artifact.url;
+          const existing = latestByUrl.get(key);
+          if (!existing || (artifact.lastmod && (!existing.lastmod || artifact.lastmod > existing.lastmod))) {
+            latestByUrl.set(key, artifact);
+          }
+        }
+        if (latestByUrl.size < build.artifacts.length) {
+          console.log(`Deduplicated artifacts in build ${build.id}: removed ${build.artifacts.length - latestByUrl.size} duplicate(s)`);
+          build.artifacts = [...latestByUrl.values()];
+        }
+      }
+    }
+
+    this.catalog.setBuilds(deduplicated);
   }
 
   async sortCatalog() {

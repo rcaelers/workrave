@@ -97,6 +97,20 @@ typedef struct
 
 static void harpoon_hook_block_only(void);
 
+// Define HOOK_TYPE_GETMESSAGE only when this harpoon DLL matches Workrave.exe architecture:
+// - For x64 builds: only when WORKRAVE_ARCH_X64 is defined (x86-64 Workrave)
+// - For ARM64 builds: only when WORKRAVE_ARCH_ARM64 is defined (ARM64 Workrave)
+// - x86 builds never get it (they always link with harpoonHelper)
+#if defined(_M_X64) || defined(__x86_64__)
+#  if defined(WORKRAVE_ARCH_X64)
+#    define HOOK_TYPE_GETMESSAGE
+#  endif
+#elif defined(_M_ARM64) || defined(__aarch64__)
+#  if defined(WORKRAVE_ARCH_ARM64)
+#    define HOOK_TYPE_GETMESSAGE
+#  endif
+#endif
+
 /**********************************************************************
  * Misc
  **********************************************************************/
@@ -547,7 +561,7 @@ harpoon_mouse_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, mouse_ll_hook, TRUE);
 }
 
-#if !defined(_WIN64)
+#if !defined(HOOK_TYPE_GETMESSAGE)
 static LRESULT CALLBACK
 harpoon_mouse_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -659,7 +673,7 @@ harpoon_keyboard_ll_hook(int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return(code, wpar, lpar, keyboard_ll_hook, forcecallnext);
 }
 
-#if !defined(_WIN64)
+#if !defined(HOOK_TYPE_GETMESSAGE)
 static LRESULT CALLBACK
 harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -674,7 +688,7 @@ harpoon_keyboard_block_hook(int code, WPARAM wpar, LPARAM lpar)
 }
 #endif
 
-#if defined(_WIN64)
+#if defined(HOOK_TYPE_GETMESSAGE)
 static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
@@ -995,7 +1009,7 @@ harpoon_hook_block_only(void)
     {
       harpoon_unhook();
 
-#if defined(_WIN64)
+#if defined(HOOK_TYPE_GETMESSAGE)
       if (msg_hook == NULL)
         {
           msg_hook = SetWindowsHookEx(WH_GETMESSAGE, harpoon_msg_block_hook, dll_handle, 0);

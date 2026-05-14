@@ -45,6 +45,9 @@ target_link_libraries(workrave-libs-core PUBLIC
 
 target_include_directories(
   workrave-libs-core
+  PRIVATE
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}
   PUBLIC
   ${CMAKE_SOURCE_DIR}/libs/core/include)
 

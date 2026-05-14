@@ -10,7 +10,6 @@ run_docker_ppa() {
     docker run --rm \
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
-        -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
@@ -18,11 +17,12 @@ run_docker_ppa() {
 }
 
 run_docker_deb() {
-    docker run --rm \
+    docker run --rm --privileged \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
-        ghcr.io/rcaelers/workrave-build:ubuntu-cowbuilder \
-        sh -c "/workspace/scripts/local/cow-build.sh"
+        -e GIT_TAG=$GIT_TAG \
+        ghcr.io/rcaelers/workrave-build:ubuntu-pbuilder \
+        sh -c "/workspace/scripts/local/pbuild.sh"
 }
 
 run_docker_appimage() {
@@ -32,7 +32,6 @@ run_docker_appimage() {
         --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
-        -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
@@ -42,7 +41,6 @@ run_docker_appimage() {
         --cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined \
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR/$GIT_TAG:/workspace/deploy/" \
-        -v "$SECRETS_DIR:/workspace/secrets" \
         -v "$SCRIPTS_DIR:/workspace/scripts" \
         $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
@@ -54,7 +52,7 @@ run_docker_appimage() {
 
 init_newsgen() {
     cd ${SCRIPTS_DIR}/citool
-    npm install
+    npm ci
     npm run build
 }
 
@@ -75,6 +73,8 @@ init() {
         git checkout $COMMIT
     else
         cd source
+        git reset --hard HEAD
+        git clean -fdx
         git fetch
         git checkout $COMMIT
 
@@ -166,9 +166,6 @@ parse_arguments() {
         R)
             REPO="${OPTARG}"
             ;;
-        S)
-            SECRETS_DIR="${OPTARG}"
-            ;;
         W)
             WORKSPACE_DIR="${OPTARG}"
             ;;
@@ -188,7 +185,7 @@ upload() {
 }
 
 upload_github() {
-    source ${SECRETS_DIR}/env-snapshots
+    export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
     gh release upload ${GIT_TAG} ${DEPLOY_DIR}/${GIT_TAG}/*.AppImage
 }
 
@@ -197,7 +194,6 @@ BUILD_DEB=
 PRERELEASE=
 DEBIAN_DIR=
 WEBSITE_DIR=
-SECRETS_DIR=
 WORKSPACE_DIR=$(pwd)/_workrave_build_workspace
 SCRIPTS_DIR=${WORKSPACE_DIR}/source/tools/
 REPO=https://github.com/rcaelers/workrave.git
@@ -205,10 +201,8 @@ DRYRUN=
 
 parse_arguments $*
 
-if [ -z $SECRETS_DIR ]; then
-    echo No secrets directory specified.
-    exit 1
-fi
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
+
 if [ -z $WEBSITE_DIR ]; then
     echo No website directory specified.
     exit 1
@@ -221,7 +215,7 @@ export CONF_CONFIGURATION=Release
 export WORKRAVE_ENV=local
 init
 
-export DOCKER_IMAGE="ubuntu-plucky"
+export DOCKER_IMAGE="ubuntu-resolute"
 setup
 run_docker_appimage
 env

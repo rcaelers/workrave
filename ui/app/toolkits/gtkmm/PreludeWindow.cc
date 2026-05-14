@@ -101,8 +101,8 @@ PreludeWindow::PreludeWindow(HeadInfo head, BreakId break_id)
   color_warn = Gdk::RGBA("orange");
   color_alert = Gdk::RGBA("red");
 
-  GtkUtil::override_color("workrave-flash-warn", color_warn);
-  GtkUtil::override_color("workrave-flash-alert", color_alert);
+  GtkUtil::override_color("workrave-flash-warn", "prelude", color_warn);
+  GtkUtil::override_color("workrave-flash-alert", "prelude", color_alert);
 
   add(*frame);
 
@@ -260,15 +260,15 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 {
   switch (text)
     {
-    case IApp::PROGRESS_TEXT_BREAK_IN:
+    case IApp::PreludeProgressText::BreakIn:
       progress_text = _("Break in %s");
       break;
 
-    case IApp::PROGRESS_TEXT_DISAPPEARS_IN:
+    case IApp::PreludeProgressText::DisappearsIn:
       progress_text = _("Disappears in %s");
       break;
 
-    case IApp::PROGRESS_TEXT_SILENT_IN:
+    case IApp::PreludeProgressText::SilentIn:
       progress_text = _("Silent in %s");
       break;
     }
@@ -280,26 +280,26 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
   const char *icon = nullptr;
   switch (stage)
     {
-    case IApp::STAGE_INITIAL:
+    case IApp::PreludeStage::Initial:
       frame->set_frame_flashing(0);
       frame->set_frame_visible(false);
       icon = "prelude-hint.png";
       break;
 
-    case IApp::STAGE_WARN:
+    case IApp::PreludeStage::Warn:
       frame->set_frame_visible(true);
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_warn);
       icon = "prelude-hint-sad.png";
       break;
 
-    case IApp::STAGE_ALERT:
+    case IApp::PreludeStage::Alert:
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_alert);
       icon = "prelude-hint-sad.png";
       break;
 
-    case IApp::STAGE_MOVE_OUT:
+    case IApp::PreludeStage::MoveOut:
       if (!did_avoid)
         {
           auto [winx, winy] = GtkUtil::get_centered_position(*this, head);

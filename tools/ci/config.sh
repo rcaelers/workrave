@@ -6,7 +6,6 @@ local)
     SOURCES_DIR=${WORKSPACE}/source
     BUILD_DIR=${WORKSPACE}/build
     DEPLOY_DIR=${WORKSPACE}/deploy
-    SECRETS_DIR=${WORKSPACE}/secrets
     ;;
 
 local-windows-msys2)
@@ -60,7 +59,6 @@ github-windows-msys2)
 esac
 
 SCRIPTS_DIR=${SCRIPTS_DIR:-${SOURCES_DIR}/tools}
-SECRETS_DIR=${SECRETS_DIR:-${WORKSPACE}}
 CI_DIR=${SCRIPTS_DIR}/ci
 
 export DEBFULLNAME="Rob Caelers"

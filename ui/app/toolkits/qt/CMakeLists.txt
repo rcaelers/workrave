@@ -76,6 +76,10 @@ if (PLATFORM_OS_MACOS)
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
+if (PLATFORM_OS_UNIX)
+  target_sources(workrave-toolkit-qt PRIVATE ToolkitUnix.cc)
+  target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix)
+endif()
 
 if (PLATFORM_OS_MACOS)
   target_sources(workrave-toolkit-qt PRIVATE
@@ -118,6 +122,7 @@ set(MOC_SOURCES
 
 target_include_directories(workrave-toolkit-qt
   PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/utils
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/widgets
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/preferences

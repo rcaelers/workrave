@@ -25,6 +25,12 @@
 
 #include "BreakWindow.hh"
 
+#if defined(PLATFORM_OS_UNIX)
+#  include "DBusPreludeWindow.hh"
+#endif
+
+#include "utils/Platform.hh"
+#include "utils/Exception.hh"
 #include "config/IConfigurator.hh"
 #include "debug.hh"
 
@@ -95,4 +101,35 @@ ToolkitUnix::show_notification(const std::string &id,
   auto icon = Gio::ThemedIcon::create("dialog-information");
   notification->set_icon(icon);
   gapp->send_notification(id, notification);
+}
+
+IPreludeWindow::Ptr
+ToolkitUnix::create_prelude_window(int screen_index, workrave::BreakId break_id)
+{
+#if defined(PLATFORM_OS_UNIX)
+  if (workrave::utils::Platform::running_on_wayland() && GUIConfig::use_gnome_shell_preludes()())
+    {
+      auto core = app->get_core();
+      auto dbus = core->get_dbus();
+      if (DBusPreludeWindow::is_gnome_shell_applet_available(dbus))
+        {
+          if (screen_index == 0)
+            {
+              try
+                {
+                  return std::make_shared<DBusPreludeWindow>(break_id);
+                }
+              catch (const workrave::utils::Exception &ex)
+                {
+                  spdlog::debug("Workrave GNOME shell extension does not support preludes: {}", ex.what());
+                }
+            }
+          else
+            {
+              return {};
+            }
+        }
+    }
+#endif
+  return Toolkit::create_prelude_window(screen_index, break_id);
 }

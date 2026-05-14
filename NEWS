@@ -1,20 +1,57 @@
-Workrave NEWS -- history of user-visible changes. 04 May 2025
-Copyright (C) 2001-2025 Rob Caelers, Raymond Penners, Ray Satiro
+Workrave NEWS -- history of user-visible changes. 27 February 2026
+Copyright (C) 2001-2026 Rob Caelers, Raymond Penners, Ray Satiro
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 https://github.com/rcaelers/workrave/issues
 
+* Workrave 1.11.0-rc.4
+
+** Translations:
+   - Added Georgian translation (#669, NorwayFun)
+   - Update Dutch translation
+** Bug fixes:
+   - Rest Break window no longer appears in top left corner in "No Lock" mode
+     (#663, 664, ValdikSS)
+   - Fix Gnome Shell extension (#661, Nick kousu)
+   - Fix application icon on Linux
+
+* Workrave 1.11.0-rc.3
+
+** Bug fixes:
+   - Fix high DPI fractional scaling on Windows
+
 * Workrave 1.11.0-rc.2
 
-** Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
-** Add examples of usage with swaybar (#597, J. J. Ramsey)
-** Support GNOME Shell 48
-** Fix crash when monitor is powered off (#606)
-** Update DBus example (#611, Emmanuel Ferdman)
-** Fix an empty AppIndicator menu (#556,
-** Fix issue where the status window shows when Sway reloads despite being
-   disabled (#612,
+** Improvements:
+   - Allow Workrave to ignore idle inhibitors if possible (#596, J. J. Ramsey)
+   - Add examples of usage with swaybar (#597, J. J. Ramsey)
+   - Support GNOME Shell 48
+   - Update DBus example (#611, Emmanuel Ferdman)
+   - Support for user defined colors (#619)
+   - Port workrave Python scripts for waybar, etc., to dasbus (#627, J. J.
+     Ramsey)
+   - Phil Dibbs contributed new sounds (bells_ensemble, shangri_la, synth_harp,
+     tinkle_bell, tuned_udu, woodwind_ensemble)
+   - Support GNOME Shell 49 (#636, Alessandro Astone)
+   - Keyboard/mouse locking now works on ARM64 Windows
+   - Handle screen lock shortcut during breaks under Xorg
+   - Add high DPI support on Windows (#650, Charlie Lin)
+   - Use Gnome Shell extension to display prelude windows (#621)
+   - It is no longer required to accept the GPL license on installation on
+     Windows (#648)
+** Bug fixes:
+   - Fix crash when monitor is powered off (#606)
+   - Fix an empty AppIndicator menu (#556, #614, wojnilowicz)
+   - Fix issue where the tray icon did not appear on waybar, swaybar, or wf-shell
+     trays (#555, #613, wojnilowicz)
+   - Fix issue where the status window shows when Sway reloads despite being
+     disabled (#612, #615, wojnilowicz)
+   - Update AppIndicator menu when menu content changes (#556, #652,ValdikSS)
+** Updated Translations:
+   - Update Chinese translation (#645, Sisyphe42)
+   - Updated Indonesian translation (#653, Andika Triwidada)
+   - Fix French translation (#656)
 
 * Workrave 1.11.0-rc.1
 
@@ -645,10 +682,10 @@ https://github.com/rcaelers/workrave/issues
    inverse)
 ** Gnome applets now support transparency.
 ** The 'datadir' configuration option in workrave.ini can now be a relative path:
-   
+
      [general]
      datadir=.\\Data
-   
+
    This will store all Workrave data in the 'Data' directory below the Workrave
    root directory. (Note the double backslash)
 ** Daily limit now properly resets when hibernated.
@@ -663,10 +700,10 @@ https://github.com/rcaelers/workrave/issues
    this directory)
 ** Support for configuring the data storage directory. Add the following two
    lines to your workrave.ini
-   
+
      [general]
      datadir=C:\\Workrave\\Data
-   
+
    This feature can be used to run Workrave from an USB memory stick. Note: On
    Windows, you have to use double backslashes like in the example above!
 ** Support for Gnome screen saver added (Matt Zimmerman).
@@ -884,7 +921,7 @@ https://github.com/rcaelers/workrave/issues
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2025 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2026 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the

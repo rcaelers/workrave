@@ -16,7 +16,7 @@ class AppcastGenerator {
   params: any;
   catalog: any;
   news: any;
-  input: string;
+  input: string | undefined;
 
   tag_to_version(tag: any, increment: any) {
     let v = tag
@@ -31,7 +31,7 @@ class AppcastGenerator {
     return v;
   }
 
-  constructor(catalog: any, input: string, params: any) {
+  constructor(catalog: any, input: string | undefined, params: any) {
     this.catalog = catalog;
     this.params = params;
     this.input = input;
