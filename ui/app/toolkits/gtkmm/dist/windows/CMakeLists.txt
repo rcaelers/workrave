@@ -29,20 +29,12 @@ endif()
 
 include(FetchContent)
 
-FetchContent_Declare_Logged(
-  WindowsThemeAcrylic
-  "GTK theme based on the Windows 10 Mobile appearance"
-  "GPL-3.0"
-  GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10-Acrylic.git
-  GIT_TAG        e93765ea66d5440a13fb7b04d1fa0d2562516ab0
-  )
-
   FetchContent_Declare_Logged(
   WindowsTheme
   "Windows 10 Light GTK theme"
   "GPL-3.0"
   GIT_REPOSITORY https://github.com/B00merang-Project/Windows-10.git
-  GIT_TAG        b2ca25265d19843b618a956cd0ffa4aed2b80527
+  GIT_TAG        3a4116603b66a9adcb78f3987d7ea6f01de1cbce
   )
 
   FetchContent_Declare_Logged(
@@ -53,10 +45,13 @@ FetchContent_Declare_Logged(
   GIT_TAG        9f199c6b7c6050f36d0d15aaa6e9f4847e8b9066
   )
 
-FetchContent_GetProperties(WindowsThemeAcrylic)
-if(NOT windowsthemeacrylic_POPULATED)
-  FetchContent_MakeAvailable(WindowsThemeAcrylic)
-endif()
+  FetchContent_Declare_Logged(
+  FluentGtkTheme
+  "Fluent Windows 11 GTK theme"
+  "GPL-3.0"
+  GIT_REPOSITORY https://github.com/vinceliuice/Fluent-gtk-theme.git
+  GIT_TAG        9fc52910aeda73804c41bfcebf2bbd29205a4756
+  )
 
 FetchContent_GetProperties(WindowsTheme)
 if(NOT windowstheme_POPULATED)
@@ -68,8 +63,16 @@ if(NOT windowsartwork_POPULATED)
   FetchContent_MakeAvailable(WindowsArtwork)
 endif()
 
+FetchContent_GetProperties(FluentGtkTheme)
+if(NOT fluentgtktheme_POPULATED)
+  FetchContent_MakeAvailable(FluentGtkTheme)
+endif()
+
 install (DIRECTORY ${windowstheme_SOURCE_DIR}/gtk-3.20 DESTINATION share/themes/Windows10/)
-install (DIRECTORY ${windowsthemeacrylic_SOURCE_DIR}/gtk-3.0 DESTINATION share/themes/Windows10Acrylic/)
+install (DIRECTORY ${fluentgtktheme_SOURCE_DIR}/src/gtk/assets DESTINATION share/themes/Windows11/gtk-3.0/)
+install (DIRECTORY ${fluentgtktheme_SOURCE_DIR}/src/gtk/scalable DESTINATION share/themes/Windows11/gtk-3.0/assets/)
+install (FILES ${fluentgtktheme_SOURCE_DIR}/src/gtk/3.0/gtk.css DESTINATION share/themes/Windows11/gtk-3.0/)
+install (FILES ${fluentgtktheme_SOURCE_DIR}/src/gtk/3.0/gtk-Dark.css DESTINATION share/themes/Windows11/gtk-3.0/ RENAME gtk-dark.css)
 
 if(MINGW OR VCPKG_TOOLCHAIN)
   install (DIRECTORY ${SYS_ROOT}/etc/gtk-3.0 DESTINATION etc)
