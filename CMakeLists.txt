@@ -1091,6 +1091,7 @@ if (WITH_CRASHPAD)
     # GIT_SHALLOW TRUE
     GIT_TAG 2ee3985352352c4ad302635877561f7a6101da99
   )
+  set(CRASHPAD_ENABLE_STACKTRACE ON CACHE BOOL "Enable stack traces in crashpad" FORCE)
   FetchContent_MakeAvailable(crashpad)
 
   find_program(CARGO "cargo")
