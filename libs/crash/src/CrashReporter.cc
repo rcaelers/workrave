@@ -131,8 +131,13 @@ CrashReporter::Pimpl::init()
 #endif
 
       base::FilePath handler(app_dir / "bin" / handler_exe);
+#if defined(HAVE_CRASHPAD_STAGING)
       const std::string url(
-        "http://crashes-dev.workrave.org:80/api/minidump/upload?api_key=lbw9zrRuT02D2c5seXyDUOuU111mYBAwxdgOeOWRglW4L7aFl-Tvw6NBf3UI3mJqS1byU7-ByguSrAdfzhGixg==");
+        "http://crashes-dev.workrave.org/api/minidump/upload?api_key=s53y37tlRfqxGPrgX7OPxAOzc6PRx54cgnnBkOWufuu8RHheWxk_WEYOp4zYdFEhHQedDlZbrQS7UZI6aRooSg==");
+#else
+      const std::string url(
+        "http://crashes.workrave.org/api/minidump/upload?api_key=s53y37tlRfqxGPrgX7OPxAOzc6PRx54cgnnBkOWufuu8RHheWxk_WEYOp4zYdFEhHQedDlZbrQS7UZI6aRooSg==");
+#endif
 
       std::map<std::string, std::string> annotations;
       std::vector<std::string> arguments;

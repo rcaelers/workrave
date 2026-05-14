@@ -882,6 +882,7 @@ endif()
 
 if (WIN32)
   option(WITH_CRASHPAD "Use crashpad" OFF)
+  option(WITH_CRASHPAD_STAGING "Use staging crashpad server" OFF)
   option(WITH_AUTO_UPDATE "Use unfold auto-update" OFF)
   option(WITH_UPDATER_STAGING "Use staging appcast and allow snapshot downloads" OFF)
   option(ISCC "Inno Setup Compiler")
@@ -896,6 +897,10 @@ if (WIN32)
 
   if (WITH_AUTO_UPDATE)
     set (HAVE_UNFOLD_AUTO_UPDATE ON)
+  endif()
+
+  if (WITH_CRASHPAD_STAGING)
+    set (HAVE_CRASHPAD_STAGING ON)
   endif()
 
   if (WITH_UPDATER_STAGING)
@@ -1110,7 +1115,7 @@ if (WITH_CRASHPAD)
     "Apache-2.0"
     GIT_REPOSITORY https://github.com/rcaelers/crashpad.git
     # GIT_SHALLOW TRUE
-    GIT_TAG c99947a804278991bdb2106ab5b5db37af9e3365
+    GIT_TAG 1e996a93f6cc2e5c5dc689ada39766e9d1575292
   )
   FetchContent_MakeAvailable(crashpad)
 
@@ -1119,19 +1124,10 @@ if (WITH_CRASHPAD)
     message(FATAL_ERROR "Could not find cargo. Please install rust and cargo.")
   endif()
 
-  # TODO: add for upload of symbols
-  # FetchContent_Declare(
-  #   breakpad
-  #   GIT_REPOSITORY
-  #   GIT_SHALLOW TRUE
-  #   GIT_TAG c161459d7e94d7ef5840ba90aa26a4d5f955c976
-  # )
-  # FetchContent_MakeAvailable(breakpad)
-
   FetchContent_Declare(
     dump_syms
     GIT_REPOSITORY https://github.com/mozilla/dump_syms.git
-    GIT_TAG v2.3.5
+    GIT_TAG v2.3.7
   )
   FetchContent_MakeAvailable(dump_syms)
 
