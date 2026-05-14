@@ -61,6 +61,11 @@ init_tools() {
     fi
 
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
+    if [ -n "${ARTIFACT_ENVIRONMENT}" ]; then
+        export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes-dev.workrave.org}"
+    else
+        export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
+    fi
 }
 
 init() {
@@ -80,10 +85,14 @@ build() {
     export CONF_CONFIGURATION=Release
     export WORKRAVE_JOB_INDEX=1
     export CONF_SOURCE_TARBALL=1
-    export CONF_ENABLE="TESTS,AUTO_UPDATE"
+    export CONF_ENABLE="TESTS,AUTO_UPDATE,CRASHPAD"
     if [ -n "$DOSBOM" ]; then
         CONF_ENABLE="$CONF_ENABLE,SBOM"
     fi
+    if [ -n "${ARTIFACT_ENVIRONMENT}" ]; then
+        CONF_ENABLE="$CONF_ENABLE,UPDATER_STAGING,CRASHPAD_STAGING"
+    fi
+
     $SCRIPTS_DIR/ci/build.sh
 
     if [ -n "$DODEBUG" ]; then
@@ -153,6 +162,30 @@ appcast() {
     MSYS2_ARG_CONV_EXCL="*" "${AWS}" s3 --endpoint-url https://snapshots.workrave.org/ cp appcast.xml s3://snapshots/${S3_ARTIFACT_DIR}/
 
     appcast_git_push
+}
+
+upload_symbols() {
+    local sym_found=0
+    for SYM_FILE in ${SOURCES_DIR}/_build/Release/*.sym; do
+        if [ ! -f "${SYM_FILE}" ]; then
+            continue
+        fi
+        sym_found=1
+        local SYMBOL_UPLOAD_TOKEN
+        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload" | jq -r .value)
+        curl -X POST "${SYMBOL_SERVER_URL}/api/symbols/ljedvhandhqns8ey218x0m65/upload" \
+            --insecure \
+            -H "Authorization: Bearer ${SYMBOL_UPLOAD_TOKEN}" \
+            -Fupload_file_symbols=@"${SYM_FILE}" \
+            -Fproduct=Workrave \
+            -Fversion="${WORKRAVE_VERSION}" \
+            -Fchannel="${CHANNEL}" \
+            -Fcommit="${WORKRAVE_COMMIT_HASH}" \
+            -Fbuild_id="${WORKRAVE_BUILD_ID}"
+    done
+    if [ ${sym_found} -eq 0 ]; then
+        echo "No symbol files found, skipping symbol upload"
+    fi
 }
 
 appcast_git_push() {
@@ -292,4 +325,5 @@ if [ -z "${DRYRUN}" ]; then
     upload
     catalog
     appcast
+    upload_symbols
 fi
