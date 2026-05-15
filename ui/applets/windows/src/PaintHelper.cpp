@@ -124,9 +124,21 @@ PaintHelper::FixIconAlpha(HICON icon)
           bmi.bmiHeader.biPlanes = 1;
 
           int row_delta = row_size - bmi.bmiHeader.biWidth;
-          unsigned char *mask_data = (unsigned char *)malloc(icon_width * icon_height * 4);
+          unsigned char *mask_data = NULL;
 
-          if (GetDIBits(hdc, icon_info.hbmMask, 0, abs(bmi.bmiHeader.biHeight), mask_data, &bmi, DIB_RGB_COLORS))
+          if (icon_width >= 0 && icon_height >= 0)
+            {
+              size_t width = static_cast<size_t>(icon_width);
+              size_t height = static_cast<size_t>(icon_height);
+              if (width == 0 || height <= ((size_t)-1) / (width * 4))
+                {
+                  size_t mask_size = width * height * 4;
+                  mask_data = (unsigned char *)malloc(mask_size);
+                }
+            }
+
+          if (mask_data != NULL
+              && GetDIBits(hdc, icon_info.hbmMask, 0, abs(bmi.bmiHeader.biHeight), mask_data, &bmi, DIB_RGB_COLORS))
             {
               unsigned char *mask_ptr = mask_data;
 
