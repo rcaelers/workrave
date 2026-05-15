@@ -177,7 +177,6 @@ upload_symbols() {
             --insecure \
             -H "Authorization: Bearer ${SYMBOL_UPLOAD_TOKEN}" \
             -Fupload_file_symbols=@"${SYM_FILE}" \
-            -Fproduct=Workrave \
             -Fversion="${WORKRAVE_VERSION}" \
             -Fchannel="${CHANNEL}" \
             -Fcommit="${WORKRAVE_COMMIT_HASH}" \
