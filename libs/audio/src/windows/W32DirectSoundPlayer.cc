@@ -273,7 +273,7 @@ SoundClip::fill_buffer()
   wave_file->reset_file();
   size_t bytes_read = wave_file->read((BYTE *)locked_sound_buffer, locked_sound_buffer_size);
 
-  if (locked_sound_buffer_size - bytes_read > 0)
+  if (bytes_read < locked_sound_buffer_size)
     {
       FillMemory((BYTE *)locked_sound_buffer + bytes_read,
                  locked_sound_buffer_size - bytes_read,

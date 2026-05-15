@@ -292,7 +292,7 @@ TerminateProcessesByNames(const char *directory, const char **executable_names_t
 }
 
 static const char *workrave_executables[] =
-  {"Workrave.exe", "workrave.exe", "WorkraveHelper.exe", "gdbus.exe", "harpoonHelper.exe", "dbus-daemon.exe", NULL};
+  {"Workrave.exe", "workrave.exe", "WorkraveHelper.exe", "WorkraveCrashHandler.exe", "gdbus.exe", "harpoonHelper.exe", "dbus-daemon.exe", NULL};
 
 BOOL
 AreWorkraveProcessesRunning(const char *directory)
