@@ -61,7 +61,7 @@ init_tools() {
     fi
 
     export PATH="/c/Program Files/nodejs:/opt/jq/bin":$PATH
-    if [ -n "${ARTIFACT_ENVIRONMENT}" ]; then
+    if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
         export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes-dev.workrave.org}"
     else
         export SYMBOL_SERVER_URL="${SYMBOL_SERVER_URL:-https://crashes.workrave.org}"
@@ -89,7 +89,7 @@ build() {
     if [ -n "$DOSBOM" ]; then
         CONF_ENABLE="$CONF_ENABLE,SBOM"
     fi
-    if [ -n "${ARTIFACT_ENVIRONMENT}" ]; then
+    if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
         CONF_ENABLE="$CONF_ENABLE,UPDATER_STAGING,CRASHPAD_STAGING"
     fi
 
@@ -172,7 +172,7 @@ upload_symbols() {
         fi
         sym_found=1
         local SYMBOL_UPLOAD_TOKEN
-        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload" | jq -r .value)
+        SYMBOL_UPLOAD_TOKEN=$(curl -ksf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.symbol_upload.${DEPLOY_ENVIRONMENT}" | jq -r .value)
         curl -X POST "${SYMBOL_SERVER_URL}/api/symbols/ljedvhandhqns8ey218x0m65/upload" \
             --insecure \
             -H "Authorization: Bearer ${SYMBOL_UPLOAD_TOKEN}" \
@@ -248,7 +248,7 @@ parse_arguments() {
     export REPO=https://github.com/rcaelers/workrave.git
     export DOSIGN=
     export COMMIT=
-    export ARTIFACT_ENV=
+    export DEPLOY_ENVIRONMENT=production
     export GITHUB_NOUPLOAD=
 
     while getopts "Bc:C:D:dr:R:st:TW:" o; do
@@ -282,7 +282,7 @@ parse_arguments() {
             COMMIT="${OPTARG}"
             ;;
         T)
-            ARTIFACT_ENVIRONMENT="staging"
+            DEPLOY_ENVIRONMENT="staging"
             GITHUB_NOUPLOAD=1
             ;;
         W)
@@ -308,13 +308,17 @@ export WORKRAVE_BUILD_ID_SUFFIX=local
 source ${SCRIPTS_DIR}/ci/config.sh
 
 SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
-export SNAPSHOTS_SECRET_ACCESS_KEY=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.s3_access_key" | jq -r .value)
+export SNAPSHOTS_SECRET_ACCESS_KEY=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.s3_access_key.${DEPLOY_ENVIRONMENT}" | jq -r .value)
 export GH_TOKEN=$(curl -skf "${SIGNING_SERVICE_URL}/secrets/secrets.tokens.github_pat" | jq -r .value)
 
 init
 source ${SCRIPTS_DIR}/ci/config.sh
 
-export S3_ARTIFACT_DIR=${ARTIFACT_ENVIRONMENT:+$ARTIFACT_ENVIRONMENT/}v1.11
+if [ "${DEPLOY_ENVIRONMENT}" = "staging" ]; then
+    export S3_ARTIFACT_DIR=staging/v1.11
+else
+    export S3_ARTIFACT_DIR=v1.11
+fi
 export WORKRAVE_UPLOAD_DIR="snapshots/${S3_ARTIFACT_DIR}/${WORKRAVE_BUILD_ID}"
 
 build_pre
