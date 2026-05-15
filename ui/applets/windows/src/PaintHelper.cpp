@@ -128,11 +128,13 @@ PaintHelper::FixIconAlpha(HICON icon)
 
           if (icon_width >= 0 && icon_height >= 0)
             {
+              const size_t bytes_per_pixel = 4;
               size_t width = static_cast<size_t>(icon_width);
               size_t height = static_cast<size_t>(icon_height);
-              if (width == 0 || height <= ((size_t)-1) / (width * 4))
+              if (width <= ((size_t)-1) / bytes_per_pixel
+                  && (width == 0 || height <= ((size_t)-1) / (width * bytes_per_pixel)))
                 {
-                  size_t mask_size = width * height * 4;
+                  size_t mask_size = width * height * bytes_per_pixel;
                   mask_data = (unsigned char *)malloc(mask_size);
                 }
             }
