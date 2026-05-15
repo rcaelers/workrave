@@ -20,9 +20,6 @@ if (HAVE_MATE)
   add_subdirectory(mate)
 endif()
 
-if (WIN32)
-  add_subdirectory(windows)
-endif()
 
 if (HAVE_XFCE4)
   add_subdirectory(xfce)

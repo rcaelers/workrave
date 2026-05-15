@@ -47,7 +47,6 @@ if (PLATFORM_OS_WINDOWS)
   target_sources(workrave-app PRIVATE
     ApplicationWindows.cc
     platforms/windows/DesktopWindow.cc
-    platforms/windows/WindowsAppletWindow.cc
     platforms/windows/WindowsCompat.cc
     platforms/windows/WindowsForceFocus.cc
     platforms/windows/WindowsLocker.cc
@@ -68,8 +67,6 @@ if (PLATFORM_OS_WINDOWS)
   #endif()
 
   target_include_directories(workrave-app
-    PUBLIC
-    ${CMAKE_SOURCE_DIR}/ui/applets/windows/include
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows
     )

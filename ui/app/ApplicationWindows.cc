@@ -22,7 +22,6 @@
 
 #include "ApplicationWindows.hh"
 
-#include "WindowsAppletWindow.hh"
 #include "ui/windows/WindowsForceFocus.hh"
 #include "ui/windows/WindowsCompat.hh"
 
