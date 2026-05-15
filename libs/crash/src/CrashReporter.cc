@@ -188,6 +188,9 @@ CrashReporter::Pimpl::init()
 #if defined(WORKRAVE_GIT_VERSION)
       annotations["commit"] = WORKRAVE_GIT_VERSION;
 #endif
+#if defined(WORKRAVE_COMMIT_HASH)
+      annotations["commit_hash"] = WORKRAVE_COMMIT_HASH;
+#endif
 #if defined(WORKRAVE_BUILD_ID)
       annotations["buildid"] = WORKRAVE_BUILD_ID;
 #endif

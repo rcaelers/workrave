@@ -43,36 +43,57 @@ include(FindPkgConfig)
 #-----------------------------------------------------------------------------------------------------
 # Version
 
+find_package(Git QUIET)
+if(Git_FOUND)
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse --is-inside-work-tree
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    RESULT_VARIABLE GIT_RESULT
+    OUTPUT_QUIET
+    ERROR_QUIET
+  )
+endif()
+
 if(NOT DEFINED ENV{WORKRAVE_GIT_VERSION})
-  find_package(Git QUIET)
-  if(Git_FOUND)
+  if(Git_FOUND AND GIT_RESULT EQUAL 0)
     execute_process(
-      COMMAND ${GIT_EXECUTABLE} rev-parse --is-inside-work-tree
+      COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=10
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      RESULT_VARIABLE GIT_RESULT
-      OUTPUT_QUIET
+      OUTPUT_VARIABLE GIT_VERSION_OUTPUT
+      RESULT_VARIABLE GIT_VERSION_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
       ERROR_QUIET
     )
 
-    if(GIT_RESULT EQUAL 0)
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=10
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE GIT_VERSION_OUTPUT
-        RESULT_VARIABLE GIT_VERSION_RESULT
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-      )
-
-      if(GIT_VERSION_RESULT EQUAL 0 AND GIT_VERSION_OUTPUT)
-        string(REGEX REPLACE "-g.*" "" WORKRAVE_GIT_VERSION "${GIT_VERSION_OUTPUT}")
-        message(STATUS "Using git version: ${WORKRAVE_GIT_VERSION}")
-      endif()
+    if(GIT_VERSION_RESULT EQUAL 0 AND GIT_VERSION_OUTPUT)
+      string(REGEX REPLACE "-g.*" "" WORKRAVE_GIT_VERSION "${GIT_VERSION_OUTPUT}")
+      message(STATUS "Using git version: ${WORKRAVE_GIT_VERSION}")
     endif()
   endif()
 else()
   # Use environment variable
   message(STATUS "Using WORKRAVE_GIT_VERSION from environment: ${WORKRAVE_GIT_VERSION}")
+endif()
+
+if(NOT DEFINED ENV{WORKRAVE_COMMIT_HASH})
+  if(Git_FOUND AND GIT_RESULT EQUAL 0)
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+      OUTPUT_VARIABLE GIT_HASH_OUTPUT
+      RESULT_VARIABLE GIT_HASH_RESULT
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    if(GIT_HASH_RESULT EQUAL 0 AND GIT_HASH_OUTPUT)
+      set(WORKRAVE_COMMIT_HASH "${GIT_HASH_OUTPUT}")
+      message(STATUS "Using git commit hash: ${WORKRAVE_COMMIT_HASH}")
+    endif()
+  endif()
+else()
+  set(WORKRAVE_COMMIT_HASH "$ENV{WORKRAVE_COMMIT_HASH}")
+  message(STATUS "Using WORKRAVE_COMMIT_HASH from environment: ${WORKRAVE_COMMIT_HASH}")
 endif()
 
 #----------------------------------------------------------------------------------------------------
@@ -115,6 +136,7 @@ endif()
 
 message(STATUS "WORKRAVE_VERSION: ${WORKRAVE_VERSION}")
 message(STATUS "WORKRAVE_GIT_VERSION: ${WORKRAVE_GIT_VERSION}")
+message(STATUS "WORKRAVE_COMMIT_HASH: ${WORKRAVE_COMMIT_HASH}")
 message(STATUS "WORKRAVE_BUILD_DATETIME: ${WORKRAVE_BUILD_DATETIME}")
 
 #----------------------------------------------------------------------------------------------------
