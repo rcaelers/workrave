@@ -117,9 +117,37 @@ CrashReporter::Pimpl::init()
     {
       logging::SetLogMessageHandler(
         [](logging::LogSeverity severity, const char *file_path, int line, size_t message_start, const std::string &string) {
-          spdlog::warn("Crashpad: {}", string);
+          std::string msg = string.substr(message_start);
+          if (!msg.empty() && msg.back() == '\n')
+            {
+              msg.pop_back();
+            }
+          switch (severity)
+            {
+            case logging::LOG_VERBOSE:
+              spdlog::debug("Crashpad: {}", msg);
+              break;
+            case logging::LOG_INFO:
+              spdlog::info("Crashpad: {}", msg);
+              break;
+            case logging::LOG_WARNING:
+              spdlog::warn("Crashpad: {}", msg);
+              break;
+            case logging::LOG_ERROR:
+              spdlog::error("Crashpad: {}", msg);
+              break;
+            case logging::LOG_FATAL:
+              spdlog::critical("Crashpad: {}", msg);
+              break;
+            default:
+              // severity < LOG_VERBOSE: VLOG(n) with n > 1
+              spdlog::trace("Crashpad: {}", msg);
+              break;
+            }
           return false;
         });
+
+      logging::SetMinLogLevel(logging::LOG_VERBOSE);
 
       const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
       const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();

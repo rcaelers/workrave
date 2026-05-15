@@ -40,7 +40,11 @@
 #include "build/build_config.h"
 #include "tools/tool_support.h"
 
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+
 #include "commonui/nls.h"
+#include "utils/Paths.hh"
 #include "utils/StringUtils.hh"
 
 namespace
@@ -453,8 +457,8 @@ UserInteraction::requestUserConsent(const std::map<std::string, std::string> &an
                                     std::vector<base::FilePath> &attachments,
                                     const crashpad::CrashSummary &summary)
 {
-  //SetEnvironmentVariableA("GTK_DEBUG", 0);
-  //SetEnvironmentVariableA("G_MESSAGES_DEBUG", 0);
+  SetEnvironmentVariableA("GTK_DEBUG", 0);
+  SetEnvironmentVariableA("G_MESSAGES_DEBUG", 0);
   // No auto hide scrollbars
   SetEnvironmentVariableA("GTK_OVERLAY_SCROLLING", "0");
   // No Windows-7 style client-side decorations on Windows 10...
@@ -502,12 +506,56 @@ namespace
 {
   int HandlerMainAdaptor(int argc, char *argv[])
   {
+    const std::filesystem::path log_dir = workrave::utils::Paths::get_log_directory();
+    auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+      (log_dir / "workrave-crashhandler.log").string(), 1024 * 1024, 5, true);
+    auto logger = std::make_shared<spdlog::logger>("crashhandler", file_sink);
+    logger->flush_on(spdlog::level::critical);
+    spdlog::set_default_logger(logger);
+    spdlog::set_level(spdlog::level::trace);
+    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
+
+    logging::SetLogMessageHandler(
+      [](logging::LogSeverity severity, const char *file_path, int line, size_t message_start, const std::string &string) {
+        std::string msg = string.substr(message_start);
+        if (!msg.empty() && msg.back() == '\n')
+          {
+            msg.pop_back();
+          }
+        switch (severity)
+          {
+          case logging::LOG_VERBOSE:
+            spdlog::debug("Crashpad: {}", msg);
+            break;
+          case logging::LOG_INFO:
+            spdlog::info("Crashpad: {}", msg);
+            break;
+          case logging::LOG_WARNING:
+            spdlog::warn("Crashpad: {}", msg);
+            break;
+          case logging::LOG_ERROR:
+            spdlog::error("Crashpad: {}", msg);
+            break;
+          case logging::LOG_FATAL:
+            spdlog::critical("Crashpad: {}", msg);
+            break;
+          default:
+            // severity < LOG_VERBOSE: VLOG(n) with n > 1
+            spdlog::trace("Crashpad: {}", msg);
+            break;
+          }
+        return false;
+      });
+
+    logging::SetMinLogLevel(logging::LOG_VERBOSE);
+
     LOG(INFO) << "Workrave crashed.";
     auto *user_interaction = new UserInteraction;
     int ret = crashpad::HandlerMain(argc, argv, nullptr, user_interaction);
     LOG(INFO) << "Crash handled";
     delete user_interaction;
     LOG(INFO) << "Exit:" << ret;
+    spdlog::shutdown();
     return ret;
   }
 } // namespace
