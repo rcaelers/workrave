@@ -40,7 +40,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Tool);
 
-  timer_box_view = new TimerBoxView;
+  timer_box_view = new TimerBoxView(app->get_core());
   timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
 
   auto *layout = new QVBoxLayout();
