@@ -8,15 +8,13 @@ These are the differences a user is likely to notice when switching from the Gtk
 
 ### High Impact
 
-- [ ] Status window visibility behaves differently.
+- [x] Status window visibility behaves differently.
   - Gtk lets the user hide/close the status window while keeping Workrave alive through the tray icon or applet.
-  - Qt currently shows the status window at startup and does not fully honor the show/hide lifecycle from the Gtk UI.
-  - User impact: users who run Workrave mostly from the tray/status icon may get an unwanted status window or may be unable to manage it the same way.
+  - Qt now honors `gui/main_window/enabled`, supports open/close from the toolkit, and keeps Workrave alive when the status window is hidden.
 
-- [ ] System tray/status icon actions are incomplete.
+- [x] System tray/status icon actions are incomplete.
   - Gtk reacts to tray icon activation and balloon/notification activation.
-  - Qt creates a system tray icon, but activation is not wired through to the toolkit-level behavior.
-  - User impact: clicking the tray icon or notification may not open Workrave or perform the expected action.
+  - Qt now wires tray icon activation and notification clicks through the toolkit signals/notification callbacks.
 
 - [ ] Break blocking is less robust.
   - Gtk has mature fullscreen/input blocking behavior, platform-specific focus handling, and topmost handling.
@@ -28,22 +26,19 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Qt shows the preference, but the handler is commented out.
   - User impact: users cannot enable or disable Workrave autostart from the Qt preferences window.
 
-- [ ] Statistics history deletion is missing.
+- [x] Statistics history deletion is missing.
   - Gtk has a "Delete all statistics history" button with confirmation and retry handling.
-  - Qt creates a delete button internally, but it is not shown, and the delete handler is commented out.
-  - User impact: users cannot clear their statistics history from the Qt statistics dialog.
+  - Qt now shows the delete button and implements confirmation, retry, and operation-mode override behavior.
 
-- [ ] Activity statistics are missing.
+- [x] Activity statistics are missing.
   - Gtk shows an Activity tab with mouse usage, mouse movement, effective mouse movement, clicks, and keystrokes on non-macOS platforms.
-  - Qt only shows break statistics.
-  - User impact: users lose detailed activity statistics.
+  - Qt now adds the same Activity tab on non-macOS platforms and keeps macOS without detailed activity statistics.
 
 ### Medium Impact
 
-- [ ] Statistics do not refresh the same way.
+- [x] Statistics do not refresh the same way.
   - Gtk updates statistics before opening the dialog and starts a periodic refresh.
-  - Qt has a refresh timer in `StatisticsDialog::run()`, but the toolkit opens the dialog with `show()` and does not call `run()`.
-  - User impact: today's usage totals may appear stale while the dialog is open.
+  - Qt now updates statistics before initial display and starts the refresh timer when the toolkit opens the dialog.
 
 - [ ] "Rest break now" from a micro-break is missing.
   - Gtk can show a Rest Break button during a micro-break when the rest-break timer is enabled.
@@ -87,20 +82,18 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Qt omits authors/translators and website metadata.
   - User impact: credits and translator information are missing.
 
-- [ ] Tray/status tooltip is missing.
+- [x] Tray/status tooltip is missing.
   - Gtk updates the status icon tooltip.
-  - Qt has a TODO for toolkit tooltip handling.
-  - User impact: hovering the tray icon may not show the current Workrave status.
+  - Qt now forwards toolkit tooltip updates to the system tray icon.
 
 - [ ] Status-window position restore differs on multi-monitor setups.
   - Gtk stores position relative to the selected monitor and handles negative offsets.
   - Qt stores absolute coordinates.
   - User impact: the status window may reappear in a different or awkward place after monitor changes.
 
-- [ ] The status window context menu can appear at inappropriate times.
+- [x] The status window context menu can appear at inappropriate times.
   - Gtk suppresses the menu while a blocking break is active, depending on block mode.
-  - Qt always shows the menu on right-click.
-  - User impact: users may see menu actions during breaks when they should be blocked.
+  - Qt now updates the menu model and suppresses the context menu during input/all blocking breaks.
 
 - [ ] Timer-box icon behavior is incomplete.
   - Gtk changes the sheep/status icon for normal, quiet, and suspended modes and reacts to icon-theme changes.
@@ -128,38 +121,38 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 ## Toolkit and Application Integration
 
-- [ ] Wire Qt `MainWindow` close events into `Toolkit::signal_main_window_closed()`.
+- [x] Wire Qt `MainWindow` close events into `Toolkit::signal_main_window_closed()`.
   - Gtk: `MainWindow::signal_closed()` is connected in `Toolkit::init()`.
-  - Qt: the connection is commented out and `MainWindow` has no close signal yet.
-- [ ] Wire Qt status icon activation and notification activation into toolkit signals.
+  - Qt: `MainWindow::signal_closed()` is connected and close events are ignored after the toolkit handles hide/quit semantics.
+- [x] Wire Qt status icon activation and notification activation into toolkit signals.
   - Gtk: `StatusIcon::signal_activated()` and `signal_balloon_activated()` are connected.
-  - Qt: `StatusIcon::signal_activate()` exists but is not connected by `Toolkit`; notification/message click callbacks are not mapped back to `notify_confirm(id)`.
-- [ ] Implement `Toolkit::show_tooltip()` for the Qt tray icon.
-  - Qt currently contains only a TODO.
-- [ ] Return a useful display name from `Toolkit::get_display_name()`.
-  - Qt currently returns `nullptr`.
-- [ ] Match Gtk one-shot timer behavior for `ms == 0`.
-  - Gtk runs the callback on idle; Qt has a TODO and always creates an `OneshotTimer`.
-- [ ] Review Qt dialog presentation semantics.
+  - Qt: tray activation is connected and `QSystemTrayIcon::messageClicked` maps back to `notify_confirm(id)`.
+- [x] Implement `Toolkit::show_tooltip()` for the Qt tray icon.
+  - Qt forwards tooltip text to `StatusIcon::set_tooltip()`.
+- [x] Return a useful display name from `Toolkit::get_display_name()`.
+  - Qt returns the generic platform name, with `ToolkitUnix` returning Wayland/X11 display names when available.
+- [x] Match Gtk one-shot timer behavior for `ms == 0`.
+  - Qt now uses `QTimer::singleShot`, including zero-delay callbacks.
+- [x] Review Qt dialog presentation semantics.
   - Gtk uses `present()` for existing windows and calls `run()` where needed.
-  - Qt generally calls `show()` only; `StatisticsDialog::run()` is never called, so its periodic refresh timer does not start.
+  - Qt now calls `StatisticsDialog::run()` on creation and raises/activates the existing statistics dialog.
 
 ## Main Status Window and Timer Box
 
-- [ ] Implement Qt main-window open/close behavior equivalent to Gtk.
+- [x] Implement Qt main-window open/close behavior equivalent to Gtk.
   - Gtk supports `open_window()`, `close_window()`, `set_can_close()`, and updates `GUIConfig::timerbox_enabled("main_window")`.
-  - Qt always shows the window at startup and has TODOs in `Toolkit::hold()` / `release()`.
-- [ ] React to `GUIConfig::timerbox_enabled("main_window")` changes.
+  - Qt now has matching open/close/can-close methods and no longer unconditionally shows the status window at startup.
+- [x] React to `GUIConfig::timerbox_enabled("main_window")` changes.
   - Gtk opens or hides/iconifies the status window when the config changes.
-  - Qt does not currently track this setting after construction.
-- [ ] Implement close handling for the Qt status window.
+  - Qt now tracks the main-window timerbox setting and updates visibility when it changes.
+- [x] Implement close handling for the Qt status window.
   - Gtk prevents destruction, hides or iconifies based on `can_close`, and emits a closed signal.
 - [ ] Match Gtk positioning semantics.
   - Gtk stores window coordinates relative to the selected monitor and supports negative offsets from the right/bottom edge.
   - Qt stores absolute frame coordinates and only clamps to available geometry.
-- [ ] Update and gate the context menu before showing it.
+- [x] Update and gate the context menu before showing it.
   - Gtk suppresses the menu during blocking modes that should not allow interaction and calls `menu_model->update()` before popup.
-  - Qt always pops the menu on right-click.
+  - Qt now applies the same block-mode guard and updates the menu model before popup.
 - [ ] Complete `TimerBoxView::set_icon()` and icon theme refresh.
   - Gtk updates the sheep/status icon for normal, quiet, and suspended modes and reacts to `GUIConfig::icon_theme()`.
   - Qt has a TODO in `set_icon()`.
@@ -236,17 +229,18 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 ## Statistics
 
-- [ ] Start the statistics refresh timer when opening the Qt Statistics dialog.
-  - Qt `StatisticsDialog::run()` creates the timer, but `Toolkit::show_statistics()` only calls `show()`.
-- [ ] Call `statistics->update()` before initial display.
+- [x] Start the statistics refresh timer when opening the Qt Statistics dialog.
+  - Qt `Toolkit::show_statistics()` now calls `StatisticsDialog::run()` when the dialog is created.
+- [x] Call `statistics->update()` before initial display.
   - Gtk does this in the constructor.
-- [ ] Add the Activity statistics tab to Qt.
+- [x] Add the Activity statistics tab to Qt.
   - Gtk shows mouse usage, mouse movement, effective movement, clicks, and keystrokes on non-macOS platforms.
-  - Qt has placeholders (`activity_labels`) but no activity page.
-- [ ] Add "Delete all statistics history" to the Qt UI and implement it.
-  - Qt creates `delete_button` but does not add it to the layout, adds the calendar twice, and `on_history_delete_all()` is commented out.
-- [ ] Implement Qt `stream_distance()`.
+  - Qt now has a real activity page wired to `activity_labels`.
+- [x] Add "Delete all statistics history" to the Qt UI and implement it.
+  - Qt now adds the delete button, removes the duplicate calendar insertion, and implements the handler.
+- [x] Implement Qt `stream_distance()`.
   - Gtk converts pixels to meters using primary monitor dimensions.
+  - Qt now converts using the primary screen physical width and geometry.
 
 ## Windows-Specific Qt Gaps
 
