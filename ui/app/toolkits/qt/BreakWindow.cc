@@ -24,6 +24,7 @@
 #include <memory>
 
 #include <QtGui>
+#include <QCloseEvent>
 #include <QStyle>
 #include <QApplication>
 #include <utility>
@@ -307,15 +308,16 @@ BreakWindow::update_skip_postpone_lock()
     }
 }
 
-// bool
-// BreakWindow::on_delete_event(GdkEventAny *)
-// {
-//   if (block_mode == BlockMode::Off)
-//     {
-//       on_postpone_button_clicked();
-//     }
-//   return TRUE;
-// }
+void
+BreakWindow::closeEvent(QCloseEvent *event)
+{
+  if (block_mode == BlockMode::Off)
+    {
+      on_postpone_button_clicked();
+    }
+
+  event->ignore();
+}
 
 void
 BreakWindow::on_postpone_button_clicked()

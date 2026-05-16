@@ -68,6 +68,8 @@ protected:
   void add_lock_button(QGridLayout *box) const;
   void add_sysoper_combobox(QGridLayout *box);
 
+  void closeEvent(QCloseEvent *event) override;
+
 private:
   virtual QWidget *create_gui() = 0;
   virtual void update_break_window();
