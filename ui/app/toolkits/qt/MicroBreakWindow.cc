@@ -56,54 +56,25 @@ MicroBreakWindow::create_gui() -> QWidget *
   auto core = app->get_core();
   auto restbreak = core->get_break(BREAK_ID_REST_BREAK);
 
-  // if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
-  //   {
-  //     Gtk::HBox *button_box = nullptr;
-  //     if (break_flags != BREAK_FLAGS_NONE)
-  //       {
-  //         button_box = Gtk::manage(new Gtk::HBox(false, 6));
+  if (restbreak->is_enabled())
+    {
+      auto *button_box = new QHBoxLayout;
+      button_box->setContentsMargins(0, 0, 0, 0);
 
-  //         Gtk::HBox *bbox = Gtk::manage(new Gtk::HBox(true, 6));
-
-  //         if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
-  //           {
-  //             Gtk::Button *postpone_button = create_postpone_button();
-  //             bbox->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
-  //           }
-
-  //         if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
-  //           {
-  //             Gtk::Button *skip_button = create_skip_button();
-  //             bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
-  //           }
-
-  //         Gtk::Alignment *bboxa = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
-  //         bboxa->add(*bbox);
-
-  //         if (restbreak->is_enabled())
-  //           {
-  //             button_box->pack_start(*Gtk::manage(create_restbreaknow_button(false)), Gtk::PACK_SHRINK, 0);
-  //           }
-  //         button_box->pack_end(*bboxa, Gtk::PACK_EXPAND_WIDGET, 0);
-  //       }
-  //     else
-  //       {
-  //         button_box = Gtk::manage(new Gtk::HBox(false, 6));
-  //         button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)), Gtk::PACK_SHRINK, 0);
-  //       }
-  //     box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
-  //   }
-
-  // QHBoxLayout *button_box = new QHBoxLayout;
-  // if (restbreak->is_enabled())
-  //   {
-  //     QPushButton *button = UiUtil::create_image_text_button("timer-rest-break.png", tr("Rest break"));
-  //     connect(button, &QPushButton::clicked, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
-  //     button_box->addWidget(button);
-  //     button_box->addStretch();
-  //   }
-
-  // box->addLayout(button_box);
+      auto break_flags = get_break_flags();
+      auto *button = create_restbreaknow_button(break_flags == BREAK_FLAGS_NONE);
+      if (break_flags == BREAK_FLAGS_NONE)
+        {
+          button_box->addStretch();
+          button_box->addWidget(button);
+        }
+      else
+        {
+          button_box->addWidget(button);
+          button_box->addStretch();
+        }
+      box->addLayout(button_box);
+    }
 
   auto *widget = new QWidget;
   widget->setLayout(box);
@@ -111,11 +82,21 @@ MicroBreakWindow::create_gui() -> QWidget *
   return widget;
 }
 
+auto
+MicroBreakWindow::create_restbreaknow_button(bool label) -> QAbstractButton *
+{
+  auto *button = UiUtil::create_image_text_button("timer-rest-break.png", label ? tr("Rest break") : QString{});
+  button->setFocusPolicy(Qt::NoFocus);
+  button->setToolTip(tr("Rest break"));
+  connect(button, &QPushButton::clicked, this, &MicroBreakWindow::on_restbreaknow_button_clicked);
+  return button;
+}
+
 void
 MicroBreakWindow::on_restbreaknow_button_clicked()
 {
-  // IGUI *gui = Application::get_instance();
-  // gui->restbreak_now();
+  auto core = app->get_core();
+  core->force_break(BREAK_ID_REST_BREAK, BreakHint::Normal);
 }
 
 // Moved to BreakWindow?
