@@ -22,6 +22,7 @@
 #include <sstream>
 #include <ctime>
 #include <cstring>
+#include <iomanip>
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "core/ICore.hh"
@@ -38,6 +39,7 @@ StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplicationContext> app)
 {
   auto core = app->get_core();
   statistics = core->get_statistics();
+  statistics->update();
 
   for (auto &activity_label: activity_labels)
     {
@@ -51,11 +53,13 @@ StatisticsDialog::StatisticsDialog(std::shared_ptr<IApplicationContext> app)
 auto
 StatisticsDialog::run() -> int
 {
-  // Periodic timer.
-  auto *timer = new QTimer(this);
-  timer->setInterval(1000);
-  connect(timer, SIGNAL(timeout()), this, SLOT(on_timer()));
-  timer->start();
+  if (refresh_timer == nullptr)
+    {
+      refresh_timer = new QTimer(this);
+      refresh_timer->setInterval(1000);
+      connect(refresh_timer, &QTimer::timeout, this, [this]() { on_timer(); });
+      refresh_timer->start();
+    }
 
   return 0;
 }
@@ -77,11 +81,6 @@ StatisticsDialog::init_gui()
   auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
   layout->addWidget(buttonBox);
   connect(buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
-
-  auto *notebook = new QTabWidget();
-  notebook->setTabPosition(QTabWidget::West);
-  notebook->setIconSize(QSize(100, 100));
-  layout->addWidget(notebook);
 }
 
 void
@@ -124,8 +123,7 @@ StatisticsDialog::create_navigation_box(QLayout *parent)
   delete_button = new QPushButton(tr("Delete all statistics history"));
   delete_button->setIcon(QIcon::fromTheme("edit-delete"));
   connect(delete_button, &QPushButton::clicked, this, &StatisticsDialog::on_history_delete_all);
-
-  layout->addWidget(calendar);
+  layout->addWidget(delete_button);
 }
 
 void
@@ -138,7 +136,22 @@ StatisticsDialog::create_statistics_box(QLayout *parent)
 
   date_label = UiUtil::add_label(layout, tr("Date:"));
 
-  create_break_page(layout);
+  auto *notebook = new QTabWidget();
+  layout->addWidget(notebook);
+
+  auto *break_page = new QWidget();
+  auto *break_layout = new QVBoxLayout();
+  break_page->setLayout(break_layout);
+  create_break_page(break_layout);
+  notebook->addTab(break_page, tr("Breaks"));
+
+#if !defined(PLATFORM_OS_MACOS)
+  auto *activity_page = new QWidget();
+  auto *activity_layout = new QVBoxLayout();
+  activity_page->setLayout(activity_layout);
+  create_activity_page(activity_layout);
+  notebook->addTab(activity_page, tr("Activity"));
+#endif
 }
 
 void
@@ -255,6 +268,38 @@ StatisticsDialog::create_break_page(QBoxLayout *parent)
 }
 
 void
+StatisticsDialog::create_activity_page(QBoxLayout *parent)
+{
+  auto *table = new QGridLayout();
+  parent->addLayout(table);
+
+  QWidget *mouse_time_label = UiUtil::create_label_with_tooltip(tr("Mouse usage:"),
+                                                                tr("The total time you were using the mouse"));
+  QWidget *mouse_movement_label = UiUtil::create_label_with_tooltip(tr("Mouse movement:"),
+                                                                    tr("The total on-screen mouse movement"));
+  QWidget *mouse_click_movement_label = UiUtil::create_label_with_tooltip(
+    tr("Effective mouse movement:"),
+    tr("The total mouse movement you would have had if you moved your mouse in straight lines between clicks"));
+  QWidget *mouse_clicks_label = UiUtil::create_label_with_tooltip(tr("Mouse button clicks:"),
+                                                                  tr("The total number of mouse button clicks"));
+  QWidget *keystrokes_label = UiUtil::create_label_with_tooltip(tr("Keystrokes:"), tr("The total number of keys pressed"));
+
+  int y = 0;
+  table->addWidget(mouse_time_label, y++, 0);
+  table->addWidget(mouse_movement_label, y++, 0);
+  table->addWidget(mouse_click_movement_label, y++, 0);
+  table->addWidget(mouse_clicks_label, y++, 0);
+  table->addWidget(keystrokes_label, y++, 0);
+
+  for (int i = 0; i < 5; i++)
+    {
+      activity_labels[i] = new QLabel();
+      activity_labels[i]->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+      table->addWidget(activity_labels[i], i, 1);
+    }
+}
+
+void
 StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 {
   IStatistics::DailyStats empty{};
@@ -317,6 +362,32 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
 
       break_labels[i][6]->setText(UiUtil::time_to_string(value));
+    }
+
+  if (activity_labels[0] != nullptr)
+    {
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
+      if (value > 24 * 60 * 60)
+        {
+          value = 0;
+        }
+      activity_labels[0]->setText(UiUtil::time_to_string(value));
+
+      std::stringstream ss;
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+      stream_distance(ss, value);
+      activity_labels[1]->setText(QString::fromStdString(ss.str()));
+
+      ss.str("");
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+      stream_distance(ss, value);
+      activity_labels[2]->setText(QString::fromStdString(ss.str()));
+
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICKS];
+      activity_labels[3]->setText(QString::number(value));
+
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_KEYSTROKES];
+      activity_labels[4]->setText(QString::number(value));
     }
 }
 
@@ -543,57 +614,50 @@ StatisticsDialog::on_history_goto_first()
 void
 StatisticsDialog::on_history_delete_all()
 {
-  // TODO:
-  // /* Modal dialogs interrupt GUI input. That can be a problem if for example a break is
-  // triggered while the message boxes are shown. The user would have no way to interact
-  // with the break window without closing out the dialog which may be hidden behind it.
-  // Temporarily override operation mode to avoid catastrophe, and remove the
-  // override before any return.
-  // */
-  // const char funcname[] = "StatisticsDialog::on_history_delete_all";
-  // app->get_core()->set_operation_mode_override( OperationMode::Suspended, funcname );
+  const char funcname[] = "StatisticsDialog::on_history_delete_all";
+  app->get_core()->set_operation_mode_override(OperationMode::Suspended, funcname);
 
-  // // Confirm the user's intention
-  // string msg = UiUtil::create_alert_text(
-  //     tr("Warning"),
-  //     tr("You have chosen to delete your statistics history. Continue?")
-  //     );
-  // QMessageDialog mb_ask( *this, msg, true, QMESSAGE_WARNING, QBUTTONS_YES_NO, false );
-  // mb_ask.set_title( tr("Warning") );
-  // mb_ask.get_widget_for_response( QRESPONSE_NO )->grab_default();
-  // if( mb_ask.run() == QRESPONSE_YES )
-  // {
-  //     mb_ask.hide();
+  auto cleanup = [this, funcname]() {
+    app->get_core()->remove_operation_mode_override(funcname);
+  };
 
-  //     // Try to delete statistics history files
-  //     for( ;; )
-  //     {
-  //         if( statistics->delete_all_history() )
-  //         {
-  //             msg = UiUtil::create_alert_text(
-  //                 tr("Files deleted!"),
-  //                 tr("The files containing your statistics history have been deleted.")
-  //                 );
-  //             QMessageDialog mb_info( *this, msg, true, QMESSAGE_INFO, QBUTTONS_OK, false );
-  //             mb_info.set_title( tr("Info") );
-  //             mb_info.run();
-  //             break;
-  //         }
+  QMessageBox confirm(QMessageBox::Warning,
+                      tr("Warning"),
+                      tr("You have chosen to delete your statistics history. Continue?"),
+                      QMessageBox::Yes | QMessageBox::No,
+                      this);
+  confirm.setDefaultButton(QMessageBox::No);
+  if (confirm.exec() != QMessageBox::Yes)
+    {
+      cleanup();
+      return;
+    }
 
-  //         msg = UiUtil::create_alert_text(
-  //             tr("File deletion failed!"),
-  //             tr("The files containing your statistics history could not be deleted. Try again?")
-  //             );
-  //         QMessageDialog mb_error( *this, msg, true, QMESSAGE_ERROR, QBUTTONS_YES_NO, false );
-  //         mb_error.set_title( tr("Error") );
-  //         mb_error.get_widget_for_response( QRESPONSE_NO )->grab_default();
-  //         if( mb_error.run() != QRESPONSE_YES )
-  //             break;
-  //     }
-  // }
+  for (;;)
+    {
+      if (statistics->delete_all_history())
+        {
+          QMessageBox::information(this,
+                                   tr("Info"),
+                                   tr("The files containing your statistics history have been deleted."));
+          statistics->update();
+          display_calendar_date();
+          break;
+        }
 
-  // // Remove this function's operation mode override
-  // app->get_core()->remove_operation_mode_override( funcname );
+      QMessageBox retry(QMessageBox::Critical,
+                        tr("Error"),
+                        tr("The files containing your statistics history could not be deleted. Try again?"),
+                        QMessageBox::Yes | QMessageBox::No,
+                        this);
+      retry.setDefaultButton(QMessageBox::No);
+      if (retry.exec() != QMessageBox::Yes)
+        {
+          break;
+        }
+    }
+
+  cleanup();
 }
 
 auto
@@ -610,9 +674,13 @@ StatisticsDialog::on_timer() -> bool
 void
 StatisticsDialog::stream_distance(std::stringstream &stream, int64_t pixels)
 {
-  // TODO:
-  // char buf[64];
-  // double mm = (double) pixels * gdk_screen_width_mm() / gdk_screen_width();
-  // sprintf(buf, "%.02f m", mm/1000);
-  // stream << buf;
+  QScreen *screen = QGuiApplication::primaryScreen();
+  if (screen == nullptr || screen->geometry().width() <= 0 || screen->physicalSize().width() <= 0)
+    {
+      stream << "0.00 m";
+      return;
+    }
+
+  double mm = static_cast<double>(pixels) * screen->physicalSize().width() / screen->geometry().width();
+  stream << std::fixed << std::setprecision(2) << (mm / 1000) << " m";
 }

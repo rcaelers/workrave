@@ -56,6 +56,7 @@ private:
   QPushButton *last_button{nullptr};
   QPushButton *first_button{nullptr};
   QPushButton *delete_button{nullptr};
+  QTimer *refresh_timer{nullptr};
 
   bool update_usage_real_time{false};
 
@@ -68,7 +69,7 @@ private:
   void create_statistics_box(QLayout *parent);
 
   void create_break_page(QBoxLayout *parent);
-  //  void create_activity_page(QWidget *tnotebook);
+  void create_activity_page(QBoxLayout *parent);
 
   void stream_distance(std::stringstream &stream, int64_t pixels);
   void get_calendar_day_index(int &idx, int &next, int &prev);
