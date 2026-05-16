@@ -80,9 +80,9 @@ These are the differences a user is likely to notice when switching from the Gtk
 
 ### Lower Impact or Polish, But Still User-Visible
 
-- [ ] The About dialog has less information.
+- [x] The About dialog has less information.
   - Gtk shows authors, translators, website metadata, logo, copyright, and version.
-  - Qt omits authors/translators and website metadata.
+  - Qt now shows authors, translator credits, website metadata, logo, copyright, and version.
   - User impact: credits and translator information are missing.
 
 - [x] Tray/status tooltip is missing.
@@ -102,9 +102,9 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Gtk changes the sheep/status icon for normal, quiet, and suspended modes and reacts to icon-theme changes.
   - Qt now implements `TimerBoxView::set_icon()` and refreshes timer/status icons when the icon theme changes.
 
-- [ ] Rest-break exercises may appear on the wrong screen.
+- [x] Rest-break exercises may appear on the wrong screen.
   - Gtk only shows the exercise player on the primary monitor and shows the info panel elsewhere.
-  - Qt does not check primary-screen status.
+  - Qt now shows exercises only on the primary screen and uses the info panel elsewhere.
   - User impact: multi-monitor users may see duplicate or misplaced exercise panels.
 
 - [ ] Language selection is less polished.
@@ -172,23 +172,24 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Improve Windows/macOS break locking and focus behavior.
   - Windows now reasserts topmost/focus on refresh, installs the standard locker hook correctly, applies the screensaver-running guard, and restores the pre-break foreground window.
   - macOS now captures the pre-break foreground application in `prepare_lock()` before break windows are shown, then restores it on unlock.
-- [ ] Re-lock after system operations from break windows.
+- [x] Re-lock after system operations from break windows.
   - Gtk unlocks, schedules a relock after 5 seconds, then executes suspend/lock/shutdown.
-  - Qt unlocks and executes the operation, but the relock timer is commented out.
+  - Qt now unlocks, schedules a relock after 5 seconds, then executes the selected operation.
 - [x] Implement close handling for non-blocking Qt break windows.
   - Gtk treats closing a non-blocking break window as postpone.
   - Qt now maps close events in non-blocking mode to postpone and ignores the close event.
-- [ ] Fix locked postpone tooltip text.
+- [x] Fix locked postpone tooltip text.
   - Qt uses the skip wording for the locked postpone button; Gtk distinguishes skip and postpone text.
+  - Qt now uses postpone-specific wording for the locked postpone button.
 - [x] Add micro-break "Rest break" button.
   - Gtk can start a rest break from the micro-break window when the rest-break timer is enabled.
   - Qt now adds the button and calls `force_break(BREAK_ID_REST_BREAK, BreakHint::Normal)`.
-- [ ] Keep micro-break labels stable after the first layout.
+- [x] Keep micro-break labels stable after the first layout.
   - Gtk fixes the label size after first update to avoid resize/recenter churn.
-  - Qt does not currently do this.
-- [ ] Restrict rest-break exercises to the primary screen and honor `BREAK_FLAGS_NO_EXERCISES`.
+  - Qt now fixes the label minimum size after the first update and recenters once.
+- [x] Restrict rest-break exercises to the primary screen and honor `BREAK_FLAGS_NO_EXERCISES`.
   - Gtk shows exercises only on the primary head and falls back to the info panel otherwise.
-  - Qt checks `BREAK_FLAGS_NO_EXERCISES`, but not primary-screen status.
+  - Qt now checks both `BREAK_FLAGS_NO_EXERCISES` and primary-screen status.
 - [ ] Match rest-break recentering behavior when switching from exercises to the info panel.
   - Gtk preserves position in non-blocking primary-screen mode by moving relative to size delta.
   - Qt clears and re-centers more bluntly.
@@ -201,9 +202,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Add the Qt commonui `Entry` preference widget.
   - Gtk has `EntryWidget` and `Builder` handles `ui::prefwidgets::Entry`.
   - Qt now has `EntryWidget` and `Builder` handles `ui::prefwidgets::Entry`.
-- [ ] Fix focus quiet-mode override in `PreferencesDialog`.
+- [x] Fix focus quiet-mode override in `PreferencesDialog`.
   - Qt implements `eventFilter()` but does not install it on the dialog or application.
-  - Gtk overrides `on_focus_in_event()` and `on_focus_out_event()`.
+  - Qt now installs the filter on the dialog and handles focus/window activation changes like Gtk focus in/out.
 - [ ] Match platform-specific preference pages.
   - Gtk hides General and Applet pages on macOS.
   - Qt always creates General, Status Window, and Applet pages.
@@ -219,8 +220,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [ ] Improve language selection parity.
   - Gtk shows current-locale and native-language names, sorts with locale collation, and disables rows when fonts are unavailable.
   - Qt uses `QLocale` names only and does not disable unsupported languages.
-- [ ] Add the tray-icon explanatory tooltip in Qt preferences.
+- [x] Add the tray-icon explanatory tooltip in Qt preferences.
   - Gtk warns that some desktop environments do not show tray icons.
+  - Qt now shows the same warning as a tooltip on the tray icon checkbox.
 - [ ] Review `TimerBoxPreferencesPanel` sensitivity behavior.
   - Gtk explicitly unchecks and disables the main-window checkbox when all timers are hidden.
   - Qt writes the config false but leaves the checkbox update commented out.
@@ -269,9 +271,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 ## Dialogs and Secondary UI
 
-- [ ] Complete About dialog metadata.
+- [x] Complete About dialog metadata.
   - Gtk shows authors, translator credits, website, logo, copyright, and version.
-  - Qt has a TODO for authors/translators and omits website metadata.
+  - Qt now uses the shared credits metadata and shows the website link.
 - [ ] Review crash reporter localization and focus/default-button behavior.
   - Gtk uses translated strings and focuses the text entry.
   - Qt currently uses literal English strings.
