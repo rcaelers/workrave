@@ -31,6 +31,7 @@
 #include <QStyle>
 
 #include "utils/Platform.hh"
+#include "utils/Paths.hh"
 
 #include "UiUtil.hh"
 #include "ui/GUIConfig.hh"
@@ -151,14 +152,14 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 #endif
 
 #if defined(PLATFORM_OS_WINDOWS)
-  auto *autostart_cb = new QCheckBox;
+  autostart_cb = new QCheckBox;
   autostart_cb->setText(tr("Start Workrave on Windows startup"));
-  connect(autostart_cb, &QCheckBox::checkStateChanged, this, &GeneralUiPreferencesPanel::on_autostart_toggled);
 
   layout->addWidget(autostart_cb);
 
   auto value = Platform::registry_get_value(RUNKEY, "Workrave");
   autostart_cb->setCheckState(value.has_value() ? Qt::Checked : Qt::Unchecked);
+  connect(autostart_cb, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState) { on_autostart_toggled(); });
 #endif
 
   auto *trayicon_cb = new QCheckBox;
@@ -186,17 +187,17 @@ GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
 void
 GeneralUiPreferencesPanel::on_autostart_toggled()
 {
-  // bool on = autostart_cb->checkState() == Qt::Checked;
-  // gchar *value = NULL;
+  bool on = autostart_cb->checkState() == Qt::Checked;
 
-  // if (on)
-  //   {
-  // string appdir = Paths::get_application_directory();
-
-  // value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "bin" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
-  //}
-
-  // Util::registry_set_value(RUNKEY, "Workrave", value);
+  if (on)
+    {
+      auto exe = Paths::get_application_directory() / "bin" / "workrave.exe";
+      Platform::registry_set_value(RUNKEY, "Workrave", exe.string().c_str());
+    }
+  else
+    {
+      Platform::registry_set_value(RUNKEY, "Workrave", nullptr);
+    }
 }
 #endif
 
