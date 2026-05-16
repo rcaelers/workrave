@@ -42,6 +42,7 @@ private:
   void install_exercises_panel();
   void install_info_panel();
   auto get_exercise_count() -> int;
+  auto is_primary_screen() -> bool;
 
 private:
   std::shared_ptr<IApplicationContext> app;

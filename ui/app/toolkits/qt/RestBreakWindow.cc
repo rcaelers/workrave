@@ -45,7 +45,7 @@ RestBreakWindow::create_gui() -> QWidget *
   pluggable_panel = new QHBoxLayout;
   box->addLayout(pluggable_panel);
 
-  if (((get_break_flags() & BREAK_FLAGS_NO_EXERCISES) != 0) || get_exercise_count() == 0)
+  if (!is_primary_screen() || ((get_break_flags() & BREAK_FLAGS_NO_EXERCISES) != 0) || get_exercise_count() == 0)
     {
       install_info_panel();
     }
@@ -91,9 +91,21 @@ RestBreakWindow::get_exercise_count() -> int
   return ret;
 }
 
+auto
+RestBreakWindow::is_primary_screen() -> bool
+{
+  return get_screen() == QGuiApplication::primaryScreen();
+}
+
 void
 RestBreakWindow::install_exercises_panel()
 {
+  if (!is_primary_screen() || ((get_break_flags() & BREAK_FLAGS_NO_EXERCISES) != 0))
+    {
+      install_info_panel();
+      return;
+    }
+
   UiUtil::clear_layout(pluggable_panel);
 
   auto core = app->get_core();
