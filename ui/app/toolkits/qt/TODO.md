@@ -283,8 +283,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 ## Packaging and Build Follow-Up
 
-- [ ] Compare Qt and Gtk distribution scripts for missing macOS bundle setup.
+- [x] Compare Qt and Gtk distribution scripts for missing macOS bundle setup.
   - Gtk macOS packaging has helper scripts and environment setup for bundled resources.
-  - Qt packaging is simpler and may need equivalent runtime-resource checks.
-- [ ] Compare Windows installer helper coverage.
+  - Qt now configures its `Info.plist` and uses the correct DMG resource paths before `macdeployqt` runs.
+- [x] Compare Windows installer helper coverage.
   - Gtk has additional helper sources such as `ChangeAutorun.c` and SBOM generation; Qt has a different installer path that should be checked before release.
+  - Qt now carries the SBOM install script, passes Crashpad/DBus/SBOM/MSVC install flags, resolves Qt plugin dependencies, and emits Crashpad/SBOM installer entries from the generated install paths.

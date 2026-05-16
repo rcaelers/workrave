@@ -37,13 +37,32 @@ install(CODE "
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
 install(CODE "set(MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)")
+install(CODE "set(BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 install(CODE "set(DIST_PATH \"${CMAKE_CURRENT_BINARY_DIR}\")")
 install(CODE "set(INSTALL_PATH \"${CMAKE_INSTALL_PREFIX}\")")
 install(CODE "set(DEP_DIRS \"${CMAKE_INSTALL_PREFIX}/bin;${SYS_ROOT}/bin;${spdlog_BINARY_DIR}\")")
 install(CODE "set(BINDIR \"${BINDIR}\")")
 install(CODE "set(BINDIR32 \"${BINDIR32}\")")
+install(CODE "set(HAVE_CRASHPAD \"${HAVE_CRASHPAD}\")")
+install(CODE "set(HAVE_DBUS \"${HAVE_DBUS}\")")
+install(CODE "set(HAVE_SBOM \"${HAVE_SBOM}\")")
+install(CODE "set(SOURCE_DIR \"${CMAKE_SOURCE_DIR}\")")
+
+if (HAVE_SBOM)
+  find_program(BASH_CMD bash REQUIRED)
+  install(CODE "set(BASH_CMD \"${BASH_CMD}\")")
+endif()
+
+if (MSVC)
+  install(CODE "set(MSVC ${MSVC})")
+  install(CODE "set(VCPKG_INSTALLED_DIR \"${VCPKG_INSTALLED_DIR}\")")
+  install(CODE "set(VCPKG_TARGET_TRIPLET \"${VCPKG_TARGET_TRIPLET}\")")
+  install(CODE "set(CONFIG ${CONFIG})")
+  install(CODE "set(DEP_DIRS \"${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/$<$<CONFIG:Debug>:debug/>bin\")")
+endif()
 
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/InstallDependencies.cmake")
+install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/GenerateSBOM.cmake")
 install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/PrepareInnoSetup.cmake")
 
 string(REPLACE "/" "\\" INSTALL_WIN_PATH "${CMAKE_INSTALL_PREFIX}")
