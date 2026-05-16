@@ -452,6 +452,11 @@ BreakWindow::start()
   TRACE_ENTRY();
   // TODO: platform->foreground();
 
+  if (screen != nullptr)
+    {
+      setScreen(screen);
+    }
+
 #if defined(HAVE_WAYLAND)
   if (window_manager)
     {
@@ -467,7 +472,13 @@ BreakWindow::start()
     {
       block_window = new QWidget();
       block_window->setParent(nullptr);
-      block_window->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
+      block_window->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+      block_window->setAttribute(Qt::WA_ShowWithoutActivating);
+      if (screen != nullptr)
+        {
+          block_window->setScreen(screen);
+          block_window->setGeometry(screen->geometry());
+        }
       block_window->setAutoFillBackground(true);
       block_window->setPalette(QPalette(Qt::black));
       block_window->setWindowOpacity(block_mode == BlockMode::Input ? 0.2 : 1);
@@ -482,9 +493,7 @@ BreakWindow::start()
           block_window->setPalette(palette);
         }
 
-      // block_window->showFullScreen();
-      block_window->showMaximized();
-      block_window->raise();
+      block_window->showFullScreen();
 
       // TODO:
       // platform->lock();
@@ -494,7 +503,7 @@ BreakWindow::start()
   // set_skip_pager_hint(true);
   // set_skip_taskbar_hint(true);
   // WindowHints::set_always_on_top(this, true);
-  raise();
+  raise_break_windows();
 }
 
 void
@@ -530,6 +539,7 @@ BreakWindow::refresh()
   update_skip_postpone_lock();
   update_break_window();
   update_flashing_border();
+  raise_break_windows();
 }
 
 void
@@ -552,6 +562,22 @@ BreakWindow::update_flashing_border()
           frame->set_frame_visible(false);
           is_flashing = false;
         }
+    }
+}
+
+void
+BreakWindow::raise_break_windows()
+{
+  if (block_window != nullptr)
+    {
+      block_window->raise();
+    }
+
+  raise();
+
+  if (block_mode != BlockMode::Off && screen == QGuiApplication::primaryScreen())
+    {
+      activateWindow();
     }
 }
 

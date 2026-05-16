@@ -74,6 +74,7 @@ private:
 
   void update_skip_postpone_lock();
   void update_flashing_border();
+  void raise_break_windows();
 
   QLayout *create_break_buttons(bool lockable, bool shutdownable);
 
