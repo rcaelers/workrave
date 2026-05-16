@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.22)
-cmake_policy(VERSION 3.22)
+cmake_minimum_required(VERSION 3.28)
+cmake_policy(VERSION 3.28)
 
 if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
@@ -474,6 +474,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 
   message(STATUS "Checking for: Qt")
+  set(QT_NO_PRIVATE_MODULE_WARNING ON)
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui GuiPrivate Svg LinguistTools Xml ${EXTRA_QT_COMPONENTS} REQUIRED)
   qt6_standard_project_setup()
