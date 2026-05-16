@@ -46,19 +46,23 @@ public:
   void show_balloon(const QString &id, const QString &title, const QString &balloon);
 
   auto signal_activate() -> boost::signals2::signal<void()> &;
+  auto signal_balloon_activate() -> boost::signals2::signal<void(std::string)> &;
 
 private:
   void on_operation_mode_changed(workrave::OperationMode m);
 
 public Q_SLOTS:
   void on_activate(QSystemTrayIcon::ActivationReason reason);
+  void on_balloon_activate();
 
 private:
   std::map<workrave::OperationMode, QIcon> mode_icons;
   std::shared_ptr<QSystemTrayIcon> tray_icon;
   std::shared_ptr<ToolkitMenu> menu;
+  std::string active_balloon_id;
 
   boost::signals2::signal<void()> activate_signal;
+  boost::signals2::signal<void(std::string)> balloon_activate_signal;
 };
 
 #endif // STATUSICON_HH
