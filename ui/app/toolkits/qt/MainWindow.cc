@@ -21,6 +21,7 @@
 
 #include "MainWindow.hh"
 
+#include <QCloseEvent>
 #include <QMoveEvent>
 #include <QApplication>
 #include <QScreen>
@@ -34,6 +35,7 @@
 
 MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent)
   : QWidget(parent)
+  , app(app)
 {
   setFixedSize(minimumSize());
   setWindowFlags(Qt::Tool);
@@ -65,13 +67,90 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
     show();
   });
 
+  GUIConfig::key_timerbox("main_window").connect(this, [this]() { on_enabled_changed(); });
+  timer_box_control->update();
+  enabled = GUIConfig::timerbox_enabled("main_window")();
   move_to_start_position();
+
+  if (enabled)
+    {
+      open_window();
+    }
+}
+
+void
+MainWindow::open_window()
+{
+  TRACE_ENTRY();
+  if (app->get_toolkit()->get_head_count() <= 0)
+    {
+      return;
+    }
+
+  show();
+  raise();
+  move_to_start_position();
+  GUIConfig::timerbox_enabled("main_window").set(true);
+}
+
+void
+MainWindow::close_window()
+{
+  TRACE_ENTRY();
+  if (can_close)
+    {
+      hide();
+    }
+  else
+    {
+      showMinimized();
+    }
+
+  GUIConfig::timerbox_enabled("main_window").set(false);
+}
+
+void
+MainWindow::set_can_close(bool can_close)
+{
+  TRACE_ENTRY_PAR(can_close);
+  this->can_close = can_close;
+
+  if (!can_close && !isVisible())
+    {
+      open_window();
+    }
+}
+
+void
+MainWindow::on_enabled_changed()
+{
+  TRACE_ENTRY();
+  bool new_enabled = GUIConfig::timerbox_enabled("main_window")();
+
+  if (enabled != new_enabled)
+    {
+      enabled = new_enabled;
+      if (enabled)
+        {
+          open_window();
+        }
+      else
+        {
+          close_window();
+        }
+    }
 }
 
 void
 MainWindow::heartbeat()
 {
   timer_box_control->update();
+}
+
+auto
+MainWindow::signal_closed() -> boost::signals2::signal<void()> &
+{
+  return closed_signal;
 }
 
 void
@@ -116,8 +195,27 @@ MainWindow::move_to_start_position()
 void
 MainWindow::on_show_contextmenu(const QPoint &pos)
 {
+  bool taking = app->get_core()->is_taking();
+  if (taking && (GUIConfig::block_mode()() == BlockMode::All || GUIConfig::block_mode()() == BlockMode::Input))
+    {
+      return;
+    }
+
+  app->get_menu_model()->update();
   QPoint globalPos = mapToGlobal(pos);
   menu->get_menu()->popup(globalPos);
+}
+
+void
+MainWindow::closeEvent(QCloseEvent *event)
+{
+  TRACE_ENTRY();
+  if (can_close)
+    {
+      close_window();
+    }
+  closed_signal();
+  event->ignore();
 }
 
 void
