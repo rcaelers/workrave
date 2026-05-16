@@ -357,8 +357,11 @@ TimerBoxPreferencesPanel::enable_buttons()
         }
       if (num_disabled == 3)
         {
-          GUIConfig::timerbox_enabled(name).set(false);
-          // enabled_cb->setCheckState(Qt::Checked);
+          if (GUIConfig::timerbox_enabled(name)())
+            {
+              GUIConfig::timerbox_enabled(name).set(false);
+            }
+          enabled_cb->setCheckState(Qt::Unchecked);
         }
       enabled_cb->setEnabled(num_disabled != 3);
       place_button->setEnabled(num_disabled != 3);
