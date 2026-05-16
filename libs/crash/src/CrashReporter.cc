@@ -116,9 +116,37 @@ CrashReporter::Pimpl::init()
     {
       logging::SetLogMessageHandler(
         [](logging::LogSeverity severity, const char *file_path, int line, size_t message_start, const std::string &string) {
-          spdlog::warn("Crashpad: {}", string);
+          std::string msg = string.substr(message_start);
+          if (!msg.empty() && msg.back() == '\n')
+            {
+              msg.pop_back();
+            }
+          switch (severity)
+            {
+            case logging::LOG_VERBOSE:
+              spdlog::debug("Crashpad: {}", msg);
+              break;
+            case logging::LOG_INFO:
+              spdlog::info("Crashpad: {}", msg);
+              break;
+            case logging::LOG_WARNING:
+              spdlog::warn("Crashpad: {}", msg);
+              break;
+            case logging::LOG_ERROR:
+              spdlog::error("Crashpad: {}", msg);
+              break;
+            case logging::LOG_FATAL:
+              spdlog::critical("Crashpad: {}", msg);
+              break;
+            default:
+              // severity < LOG_VERBOSE: VLOG(n) with n > 1
+              spdlog::trace("Crashpad: {}", msg);
+              break;
+            }
           return false;
         });
+
+      logging::SetMinLogLevel(logging::LOG_VERBOSE);
 
       const std::filesystem::path temp_dir = std::filesystem::temp_directory_path() / "workrave-crashpad";
       const std::filesystem::path app_dir = workrave::utils::Paths::get_application_directory();
@@ -133,10 +161,10 @@ CrashReporter::Pimpl::init()
       base::FilePath handler(app_dir / "bin" / handler_exe);
 #if defined(HAVE_CRASHPAD_STAGING)
       const std::string url(
-        "http://crashes-dev.workrave.org/api/minidump/upload?api_key=s53y37tlRfqxGPrgX7OPxAOzc6PRx54cgnnBkOWufuu8RHheWxk_WEYOp4zYdFEhHQedDlZbrQS7UZI6aRooSg==");
+        "http://crashes-dev.workrave.org/api/minidump/ljedvhandhqns8ey218x0m65/upload");
 #else
       const std::string url(
-        "http://crashes.workrave.org/api/minidump/upload?api_key=s53y37tlRfqxGPrgX7OPxAOzc6PRx54cgnnBkOWufuu8RHheWxk_WEYOp4zYdFEhHQedDlZbrQS7UZI6aRooSg==");
+        "http://crashes.workrave.org/api/minidump/ljedvhandhqns8ey218x0m65/upload");
 #endif
 
       std::map<std::string, std::string> annotations;
@@ -158,6 +186,9 @@ CrashReporter::Pimpl::init()
 #endif
 #if defined(WORKRAVE_GIT_VERSION)
       annotations["commit"] = WORKRAVE_GIT_VERSION;
+#endif
+#if defined(WORKRAVE_COMMIT_HASH)
+      annotations["commit_hash"] = WORKRAVE_COMMIT_HASH;
 #endif
 #if defined(WORKRAVE_BUILD_ID)
       annotations["buildid"] = WORKRAVE_BUILD_ID;

@@ -116,7 +116,6 @@ ui/app/platforms/macos/MacOSAppletWindow.cc
 ui/app/platforms/macos/MacOSLocker.cc
 ui/app/platforms/windows/DesktopWindow.cc
 ui/app/platforms/windows/Remote.cc
-ui/app/platforms/windows/WindowsAppletWindow.cc
 ui/app/platforms/windows/WindowsCompat.cc
 ui/app/platforms/windows/WindowsFocusAssist.cc
 ui/app/platforms/windows/WindowsForceFocus.cc

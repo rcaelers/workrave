@@ -1373,7 +1373,8 @@ void
 Core::save_state() const
 {
   std::filesystem::path path = Paths::get_state_directory() / "state";
-  ofstream stateFile(path.string());
+  std::filesystem::path tmp_path = std::filesystem::path(path) += ".tmp";
+  ofstream stateFile(tmp_path.string());
 
   int64_t current_time = TimeSource::get_real_time_sec();
   stateFile << "WorkRaveState 3" << endl << current_time << endl;
@@ -1386,6 +1387,7 @@ Core::save_state() const
     }
 
   stateFile.close();
+  std::filesystem::rename(tmp_path, path);
 }
 
 //! Loads miscellaneous

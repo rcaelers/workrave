@@ -32,23 +32,62 @@ namespace Gtk
 class CrashDetailsDialog : public Gtk::Dialog
 {
 public:
-  CrashDetailsDialog(const std::vector<base::FilePath> &attachments);
+  CrashDetailsDialog(const std::vector<base::FilePath> &attachments,
+                     const crashpad::CrashSummary &summary);
   ~CrashDetailsDialog() override = default;
 
+  std::vector<base::FilePath> get_enabled_attachments() const;
+
 private:
+  void on_attachment_toggled(const Glib::ustring &path_str);
+  void on_selection_changed();
+  void load_content(int index);
+  void display_crash_info();
+
+  struct AttachmentEntry
+  {
+    base::FilePath path;
+    bool enabled{true};
+  };
+
+  struct AttachmentColumns : Gtk::TreeModelColumnRecord
+  {
+    AttachmentColumns()
+    {
+      add(enabled);
+      add(name);
+      add(type);
+      add(content);
+      add(index);
+    }
+    Gtk::TreeModelColumn<bool> enabled;
+    Gtk::TreeModelColumn<Glib::ustring> name;
+    Gtk::TreeModelColumn<int> type;              // 0=crash info, 1=stack trace, 2=file attachment
+    Gtk::TreeModelColumn<Glib::ustring> content; // pre-built text for type 0 and 1
+    Gtk::TreeModelColumn<int> index;             // file index for type 2, -1 otherwise
+  };
+
+  AttachmentColumns columns_;
+  Glib::RefPtr<Gtk::ListStore> list_store_;
+  Gtk::TreeView *tree_view_{nullptr};
+  Glib::RefPtr<Gtk::TextBuffer> content_buffer_;
+  Glib::RefPtr<Gtk::TextTag> bold_tag_;
+  std::vector<AttachmentEntry> entries_;
+  crashpad::CrashSummary summary_;
   Gtk::VBox *vbox{nullptr};
-  Gtk::ScrolledWindow scrolled_window;
-  Glib::RefPtr<Gtk::TextBuffer> text_buffer;
 };
 
 class CrashDialog : public Gtk::Dialog
 {
 public:
-  CrashDialog(const std::map<std::string, std::string> &annotations, const std::vector<base::FilePath> &attachments);
+  CrashDialog(const std::map<std::string, std::string> &annotations,
+              const std::vector<base::FilePath> &attachments,
+              const crashpad::CrashSummary &summary);
   ~CrashDialog() override = default;
 
   std::string get_user_text() const;
   bool get_consent() const;
+  std::vector<base::FilePath> get_selected_attachments() const;
 
 private:
   void on_submit_toggled();
@@ -61,7 +100,6 @@ private:
   Glib::RefPtr<Gtk::TextBuffer> text_buffer;
   CrashDetailsDialog *details_dlg{nullptr};
   Gtk::CheckButton *submit_cb{nullptr};
-  Gtk::Label *user_text_label{nullptr};
   Gtk::Frame *user_text_frame{nullptr};
 };
 
@@ -72,7 +110,8 @@ public:
   ~UserInteraction() override = default;
 
   bool requestUserConsent(const std::map<std::string, std::string> &annotations,
-                          const std::vector<base::FilePath> &attachments) override;
+                          std::vector<base::FilePath> &attachments,
+                          const crashpad::CrashSummary &summary) override;
   std::string getUserText() override;
   void reportCompleted(const crashpad::UUID &uuid) override;
 
