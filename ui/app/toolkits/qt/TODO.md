@@ -16,10 +16,15 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Gtk reacts to tray icon activation and balloon/notification activation.
   - Qt now wires tray icon activation and notification clicks through the toolkit signals/notification callbacks.
 
-- [ ] Break blocking is less robust.
+- [x] Break blocking is less robust on Windows/macOS.
   - Gtk has mature fullscreen/input blocking behavior, platform-specific focus handling, and topmost handling.
-  - Qt now uses per-screen fullscreen topmost blocker windows and re-raises the break window above them, but still has TODOs around platform-specific foreground/focus and input locking.
-  - User impact: during breaks, the user may be able to interact with other windows, move focus away, or see less reliable full-screen blocking than in Gtk.
+  - Qt now uses per-screen fullscreen topmost blocker windows, re-raises the break window above them, reasserts Windows topmost/focus, and preserves the pre-break foreground app on Windows/macOS.
+  - Windows standard locking now installs its low-level keyboard hook, uses the screensaver-running guard, and restores the pre-break foreground window.
+
+- [ ] Break blocking is less robust on Unix/Wayland.
+  - Gtk has mature X11 input grabbing and Wayland layer-shell behavior.
+  - Qt still has incomplete Unix/Wayland input locking and platform-specific foreground behavior.
+  - User impact: during breaks on Unix/Wayland, the user may be able to interact with other windows, move focus away, or see less reliable full-screen blocking than in Gtk.
 
 - [x] Windows startup preference does not work in Qt.
   - Gtk can enable/disable "Start Workrave on logon" by writing the Windows Run registry key.
@@ -163,7 +168,10 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 - [ ] Complete blocking/fullscreen behavior for Qt break windows.
   - Gtk has fullscreen-grab handling, transparent overlays, desktop-background windows, skip-taskbar/pager hints, and platform-specific focus handling.
-  - Qt creates a per-screen fullscreen `block_window`, but `platform->lock()` and platform-specific foreground/focus handling are TODOs.
+  - Qt creates a per-screen fullscreen `block_window` and improves Windows/macOS locking/focus, but Unix/Wayland input locking and some foreground behavior remain TODOs.
+- [x] Improve Windows/macOS break locking and focus behavior.
+  - Windows now reasserts topmost/focus on refresh, installs the standard locker hook correctly, applies the screensaver-running guard, and restores the pre-break foreground window.
+  - macOS now captures the pre-break foreground application in `prepare_lock()` before break windows are shown, then restores it on unlock.
 - [ ] Re-lock after system operations from break windows.
   - Gtk unlocks, schedules a relock after 5 seconds, then executes suspend/lock/shutdown.
   - Qt unlocks and executes the operation, but the relock timer is commented out.
