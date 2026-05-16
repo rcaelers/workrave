@@ -25,6 +25,7 @@
 
 #include <QtGui>
 #include <QCloseEvent>
+#include <QTimer>
 #include <QStyle>
 #include <QApplication>
 #include <utility>
@@ -195,13 +196,7 @@ BreakWindow::on_sysoper_combobox_changed(int index)
 
   auto locker = app->get_toolkit()->get_locker();
   locker->unlock();
-
-  // Glib::signal_timeout().connect(
-  //   [locker]() {
-  //     locker->lock();
-  //     return 0;
-  //   },
-  //   5000);
+  QTimer::singleShot(5000, this, [locker]() { locker->lock(); });
 
   System::execute(supported_system_operations[index].type);
 
@@ -237,7 +232,7 @@ BreakWindow::add_postpone_button(QGridLayout *box, bool locked)
       postpone_button->setEnabled(!locked);
       if (locked)
         {
-          QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
+          QString msg = tr("You cannot postpone this break while another non-postponable break is overdue.");
           postpone_button->setToolTip(msg);
         }
       postpone_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
