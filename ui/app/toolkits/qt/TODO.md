@@ -18,13 +18,12 @@ These are the differences a user is likely to notice when switching from the Gtk
 
 - [ ] Break blocking is less robust.
   - Gtk has mature fullscreen/input blocking behavior, platform-specific focus handling, and topmost handling.
-  - Qt has partial blocking and TODOs around foreground/focus and locking.
+  - Qt now uses per-screen fullscreen topmost blocker windows and re-raises the break window above them, but still has TODOs around platform-specific foreground/focus and input locking.
   - User impact: during breaks, the user may be able to interact with other windows, move focus away, or see less reliable full-screen blocking than in Gtk.
 
-- [ ] Windows startup preference does not work in Qt.
+- [x] Windows startup preference does not work in Qt.
   - Gtk can enable/disable "Start Workrave on logon" by writing the Windows Run registry key.
-  - Qt shows the preference, but the handler is commented out.
-  - User impact: users cannot enable or disable Workrave autostart from the Qt preferences window.
+  - Qt now initializes the checkbox from the same Windows Run registry key and updates it when toggled.
 
 - [x] Statistics history deletion is missing.
   - Gtk has a "Delete all statistics history" button with confirmation and retry handling.
@@ -70,10 +69,9 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Qt has this code commented out.
   - User impact: users cannot switch Workrave icon themes from preferences.
 
-- [ ] Plugin/commonui preference pages may miss text-entry controls.
+- [x] Plugin/commonui preference pages may miss text-entry controls.
   - Gtk supports commonui `Entry` widgets.
-  - Qt does not implement the commonui `Entry` widget yet.
-  - User impact: plugin or toolkit-agnostic preferences that need text entry may not render or may be incomplete.
+  - Qt now implements the commonui `Entry` widget and wires it into the prefwidgets builder.
 
 ### Lower Impact or Polish, But Still User-Visible
 
@@ -95,10 +93,9 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Gtk suppresses the menu while a blocking break is active, depending on block mode.
   - Qt now updates the menu model and suppresses the context menu during input/all blocking breaks.
 
-- [ ] Timer-box icon behavior is incomplete.
+- [x] Timer-box icon behavior is incomplete.
   - Gtk changes the sheep/status icon for normal, quiet, and suspended modes and reacts to icon-theme changes.
-  - Qt does not implement `TimerBoxView::set_icon()`.
-  - User impact: the small status window may not visually reflect quiet/suspended mode.
+  - Qt now implements `TimerBoxView::set_icon()` and refreshes timer/status icons when the icon theme changes.
 
 - [ ] Rest-break exercises may appear on the wrong screen.
   - Gtk only shows the exercise player on the primary monitor and shows the info panel elsewhere.
@@ -153,12 +150,12 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Update and gate the context menu before showing it.
   - Gtk suppresses the menu during blocking modes that should not allow interaction and calls `menu_model->update()` before popup.
   - Qt now applies the same block-mode guard and updates the menu model before popup.
-- [ ] Complete `TimerBoxView::set_icon()` and icon theme refresh.
+- [x] Complete `TimerBoxView::set_icon()` and icon theme refresh.
   - Gtk updates the sheep/status icon for normal, quiet, and suspended modes and reacts to `GUIConfig::icon_theme()`.
-  - Qt has a TODO in `set_icon()`.
-- [ ] Add the rest-break-now action to the timer box.
+  - Qt now updates the sheep/status icon and refreshes timer icons on icon-theme changes.
+- [x] Add the rest-break-now action to the timer box.
   - Gtk makes the rest-break timer icon clickable and calls `core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated)`.
-  - Qt has a disabled TODO branch for this.
+  - Qt now makes the rest-break timer icon clickable and calls the same core action.
 - [ ] Revisit timer-box geometry/orientation support.
   - Gtk supports horizontal/vertical geometry and explicit sizing; Qt currently uses a fixed two-column grid.
 
@@ -166,7 +163,7 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 - [ ] Complete blocking/fullscreen behavior for Qt break windows.
   - Gtk has fullscreen-grab handling, transparent overlays, desktop-background windows, skip-taskbar/pager hints, and platform-specific focus handling.
-  - Qt creates a separate `block_window`, but `platform->lock()` and foreground/focus handling are TODOs.
+  - Qt creates a per-screen fullscreen `block_window`, but `platform->lock()` and platform-specific foreground/focus handling are TODOs.
 - [ ] Re-lock after system operations from break windows.
   - Gtk unlocks, schedules a relock after 5 seconds, then executes suspend/lock/shutdown.
   - Qt unlocks and executes the operation, but the relock timer is commented out.
@@ -193,18 +190,18 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 
 ## Preferences and Common UI
 
-- [ ] Add the Qt commonui `Entry` preference widget.
+- [x] Add the Qt commonui `Entry` preference widget.
   - Gtk has `EntryWidget` and `Builder` handles `ui::prefwidgets::Entry`.
-  - Qt has no `EntryWidget` implementation and `Builder` skips `Entry`.
+  - Qt now has `EntryWidget` and `Builder` handles `ui::prefwidgets::Entry`.
 - [ ] Fix focus quiet-mode override in `PreferencesDialog`.
   - Qt implements `eventFilter()` but does not install it on the dialog or application.
   - Gtk overrides `on_focus_in_event()` and `on_focus_out_event()`.
 - [ ] Match platform-specific preference pages.
   - Gtk hides General and Applet pages on macOS.
   - Qt always creates General, Status Window, and Applet pages.
-- [ ] Implement Windows autostart in Qt preferences.
+- [x] Implement Windows autostart in Qt preferences.
   - Gtk writes/removes the Run registry value in `GeneralPreferencePanel::on_autostart_toggled()`.
-  - Qt's handler is commented out.
+  - Qt now writes/removes the same Run registry value in `GeneralUiPreferencesPanel::on_autostart_toggled()`.
 - [ ] Add Windows light/dark mode preference to Qt.
   - Gtk exposes `GUIConfig::light_dark_mode()` on Windows.
   - Qt has only theme-change logging in `Toolkit::eventFilter()`.
