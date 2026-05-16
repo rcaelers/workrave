@@ -181,6 +181,7 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   auto *trayicon_cb = new QCheckBox;
   trayicon_cb->setText(tr("Show system tray icon"));
+  trayicon_cb->setToolTip(tr("Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."));
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   layout->addWidget(trayicon_cb);
