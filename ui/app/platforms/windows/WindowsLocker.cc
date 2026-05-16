@@ -21,7 +21,25 @@
 
 #include "ui/windows/WindowsLocker.hh"
 
+#include <algorithm>
+#include <string>
 #include <windows.h>
+
+#include <spdlog/spdlog.h>
+
+#include "debug.hh"
+
+namespace
+{
+  auto get_window_title(HWND window) -> std::string
+  {
+    int length = GetWindowTextLengthA(window);
+    std::string text(static_cast<size_t>(length) + 1, '\0');
+    int copied = GetWindowTextA(window, text.data(), static_cast<int>(text.size()));
+    text.resize(static_cast<size_t>(std::max(copied, 0)));
+    return text;
+  }
+} // namespace
 
 class Hook
 {
@@ -65,9 +83,13 @@ Hook::instance()
 void
 Hook::enable()
 {
-  if (hook != nullptr)
+  if (hook == nullptr)
     {
       hook = SetWindowsHookEx(WH_KEYBOARD_LL, hook_callback, GetModuleHandle(nullptr), 0);
+      if (hook == nullptr)
+        {
+          spdlog::warn("Failed to install Windows break keyboard hook: {}", GetLastError());
+        }
     }
 }
 
@@ -121,16 +143,38 @@ WindowsLocker::can_lock()
 void
 WindowsLocker::prepare_lock()
 {
+  active_window = GetForegroundWindow();
+
+  if (active_window != nullptr)
+    {
+      std::string text = get_window_title(active_window);
+      TRACE_MSG("Save active window: {}", text);
+      spdlog::info("Save active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
+    }
 }
 
 void
 WindowsLocker::lock()
 {
   Hook::instance()->enable();
+
+  UINT previous_state = 0;
+  SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, TRUE, &previous_state, 0);
 }
 
 void
 WindowsLocker::unlock()
 {
+  UINT previous_state = 0;
+  SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, FALSE, &previous_state, 0);
   Hook::instance()->disable();
+
+  if (active_window != nullptr)
+    {
+      std::string text = get_window_title(active_window);
+      TRACE_MSG("Restore active window: {}", text);
+      spdlog::info("Restore active window: {} {}", text, reinterpret_cast<intptr_t>(active_window));
+      SetForegroundWindow(active_window);
+      active_window = nullptr;
+    }
 }
