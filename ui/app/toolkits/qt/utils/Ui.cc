@@ -21,6 +21,8 @@
 
 #include "Ui.hh"
 
+#include "ui/GUIConfig.hh"
+
 #include "utils/Exception.hh"
 #include "utils/AssetPath.hh"
 
@@ -46,6 +48,26 @@ Ui::get_break_name(workrave::BreakId id) -> QString
 }
 
 auto
+Ui::get_image_filename(const std::string &image) -> QString
+{
+  std::string theme = GUIConfig::icon_theme()();
+
+  if (!theme.empty())
+    {
+      theme += '/';
+    }
+
+  std::string path;
+  bool found = AssetPath::complete_directory(theme + image, SearchPathId::Images, path);
+  if (!found)
+    {
+      AssetPath::complete_directory(image, SearchPathId::Images, path);
+    }
+
+  return QString::fromStdString(path);
+}
+
+auto
 Ui::get_break_icon_filename(workrave::BreakId id) -> QString
 {
   std::string filename;
@@ -68,7 +90,7 @@ Ui::get_break_icon_filename(workrave::BreakId id) -> QString
       throw Exception("Invalid break id");
     }
 
-  return QString::fromStdString(AssetPath::complete_directory(filename, SearchPathId::Images));
+  return get_image_filename(filename);
 }
 
 auto
@@ -131,5 +153,5 @@ Ui::get_status_icon_filename(OperationModeIcon icon) -> QString
       break;
     }
 
-  return QString::fromStdString(AssetPath::complete_directory(filename, SearchPathId::Images));
+  return get_image_filename(filename);
 }

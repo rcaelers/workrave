@@ -21,6 +21,8 @@
 #include <QCoreApplication>
 #include <QString>
 
+#include <string>
+
 #include "core/CoreTypes.hh"
 #include "ui/UiTypes.hh"
 #include "ui/SoundTheme.hh"
@@ -31,6 +33,7 @@ class Ui
 
 public:
   static auto get_break_name(workrave::BreakId id) -> QString;
+  static auto get_image_filename(const std::string &image) -> QString;
   static auto get_break_icon_filename(workrave::BreakId id) -> QString;
   static auto get_status_icon_filename(OperationModeIcon icon) -> QString;
   static auto get_sound_event_name(SoundEvent event) -> QString;

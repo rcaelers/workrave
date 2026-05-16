@@ -21,12 +21,16 @@
 
 #include <QPushButton>
 #include <QLabel>
+#include <QIcon>
+#include <utility>
 
 #include "debug.hh"
 
+#include "core/ICore.hh"
+#include "ui/GUIConfig.hh"
+
 #include "Ui.hh"
 #include "UiUtil.hh"
-#include "utils/AssetPath.hh"
 
 #include "SizeGroup.hh"
 #include "TimerBoxView.hh"
@@ -34,7 +38,8 @@
 using namespace workrave;
 using namespace workrave::utils;
 
-TimerBoxView::TimerBoxView()
+TimerBoxView::TimerBoxView(std::shared_ptr<workrave::ICore> core)
+  : core(std::move(core))
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -71,10 +76,20 @@ TimerBoxView::init()
     {
       QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
 
-      if (false) // TODO: i == BREAK_ID_REST_BREAK)
+      if (i == BREAK_ID_REST_BREAK)
         {
           auto *button = new QPushButton("");
-          button->setIcon(pixmap);
+          button->setFlat(true);
+          button->setFocusPolicy(Qt::NoFocus);
+          button->setToolTip(tr("Take rest break now"));
+          button->setIcon(QIcon(pixmap));
+          button->setIconSize(pixmap.size());
+          connect(button, &QPushButton::clicked, this, [this]() {
+            if (core)
+              {
+                core->force_break(BREAK_ID_REST_BREAK, BreakHint::UserInitiated);
+              }
+          });
           labels[i] = button;
         }
       else
@@ -92,12 +107,11 @@ TimerBoxView::init()
       bars[i]->set_text(tr("Wait"));
     }
 
-  // TODO: move to UiUtil
-  std::string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
-  QPixmap pixmap(QString::fromStdString(sheep_file));
   sheep = new QLabel("");
-  sheep->setPixmap(pixmap);
-  // sheep->set_tooltip_text("Workrave");
+  sheep->setToolTip("Workrave");
+
+  GUIConfig::icon_theme().attach(this, [this](std::string) { update_widgets(); });
+  update_widgets();
 }
 
 auto
@@ -246,8 +260,29 @@ TimerBoxView::set_time_bar(BreakId id,
 void
 TimerBoxView::set_icon(OperationModeIcon icon)
 {
-  QString file = Ui::get_status_icon_filename(icon);
-  // TODO:
+  current_icon = icon;
+  sheep->setPixmap(QPixmap(Ui::get_status_icon_filename(icon)));
+}
+
+void
+TimerBoxView::update_widgets()
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
+
+      if (auto *button = qobject_cast<QPushButton *>(labels[i]); button != nullptr)
+        {
+          button->setIcon(QIcon(pixmap));
+          button->setIconSize(pixmap.size());
+        }
+      else if (auto *label = qobject_cast<QLabel *>(labels[i]); label != nullptr)
+        {
+          label->setPixmap(pixmap);
+        }
+    }
+
+  set_icon(current_icon);
 }
 
 void
