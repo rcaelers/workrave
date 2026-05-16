@@ -89,10 +89,10 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Gtk updates the status icon tooltip.
   - Qt now forwards toolkit tooltip updates to the system tray icon.
 
-- [ ] Status-window position restore differs on multi-monitor setups.
+- [x] Status-window position restore differs on multi-monitor setups.
   - Gtk stores position relative to the selected monitor and handles negative offsets.
-  - Qt stores absolute coordinates.
-  - User impact: the status window may reappear in a different or awkward place after monitor changes.
+  - Qt now stores the main window position relative to the selected screen, including right/bottom negative offsets.
+  - User impact: the status window previously could reappear in a different or awkward place after monitor changes.
 
 - [x] The status window context menu can appear at inappropriate times.
   - Gtk suppresses the menu while a blocking break is active, depending on block mode.
@@ -107,10 +107,10 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Qt now shows exercises only on the primary screen and uses the info panel elsewhere.
   - User impact: multi-monitor users may see duplicate or misplaced exercise panels.
 
-- [ ] Language selection is less polished.
+- [x] Language selection is less polished.
   - Gtk shows both current-locale and native-language names, sorts with locale collation, and disables languages whose native name cannot be rendered.
-  - Qt uses simpler `QLocale` labels.
-  - User impact: the language list may be harder to scan or may include entries that render poorly.
+  - Qt now uses the shared locale language maps, shows current/native names, sorts with locale collation, and disables entries with unsupported glyphs.
+  - User impact: the language list previously was harder to scan or could include entries that rendered poorly.
 
 - [x] Crash reporter text is not localized in Qt.
   - Gtk uses translated strings and shows detailed crash info/attachment controls.
@@ -149,9 +149,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
   - Qt now tracks the main-window timerbox setting and updates visibility when it changes.
 - [x] Implement close handling for the Qt status window.
   - Gtk prevents destruction, hides or iconifies based on `can_close`, and emits a closed signal.
-- [ ] Match Gtk positioning semantics.
+- [x] Match Gtk positioning semantics.
   - Gtk stores window coordinates relative to the selected monitor and supports negative offsets from the right/bottom edge.
-  - Qt stores absolute frame coordinates and only clamps to available geometry.
+  - Qt stores relative screen coordinates and restores them against the current screen geometry.
 - [x] Update and gate the context menu before showing it.
   - Gtk suppresses the menu during blocking modes that should not allow interaction and calls `menu_model->update()` before popup.
   - Qt now applies the same block-mode guard and updates the menu model before popup.
@@ -217,9 +217,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Add icon theme selection to Qt preferences.
   - Gtk scans image theme directories and writes `GUIConfig::icon_theme()`.
   - Qt now implements the same behavior with `std::filesystem`.
-- [ ] Improve language selection parity.
+- [x] Improve language selection parity.
   - Gtk shows current-locale and native-language names, sorts with locale collation, and disables rows when fonts are unavailable.
-  - Qt uses `QLocale` names only and does not disable unsupported languages.
+  - Qt now uses the same shared locale data, current/native columns, locale-aware sorting, and font support checks.
 - [x] Add the tray-icon explanatory tooltip in Qt preferences.
   - Gtk warns that some desktop environments do not show tray icons.
   - Qt now shows the same warning as a tooltip on the tray icon checkbox.
