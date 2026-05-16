@@ -64,14 +64,14 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Qt now shows the selected event's sound file and updates it when the event, theme, or custom file changes.
   - User impact: it is less clear which sound file is assigned to each event.
 
-- [ ] Windows light/dark appearance preference is missing.
+- [x] Windows light/dark appearance preference is missing.
   - Gtk exposes Light, Dark, and Auto on Windows and responds to Windows theme changes.
-  - Qt logs theme changes but does not expose or apply the same preference.
+  - Qt now exposes Light, Dark, and Auto on Windows, applies the selected color scheme, and updates Auto when Windows reports theme changes.
   - User impact: users lose explicit control over Workrave's light/dark mode.
 
-- [ ] Icon theme selection is missing.
+- [x] Icon theme selection is missing.
   - Gtk can select an icon theme from installed image theme directories.
-  - Qt has this code commented out.
+  - Qt now scans image theme directories and writes `GUIConfig::icon_theme()` from General preferences.
   - User impact: users cannot switch Workrave icon themes from preferences.
 
 - [x] Plugin/commonui preference pages may miss text-entry controls.
@@ -210,12 +210,12 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Implement Windows autostart in Qt preferences.
   - Gtk writes/removes the Run registry value in `GeneralPreferencePanel::on_autostart_toggled()`.
   - Qt now writes/removes the same Run registry value in `GeneralUiPreferencesPanel::on_autostart_toggled()`.
-- [ ] Add Windows light/dark mode preference to Qt.
+- [x] Add Windows light/dark mode preference to Qt.
   - Gtk exposes `GUIConfig::light_dark_mode()` on Windows.
-  - Qt has only theme-change logging in `Toolkit::eventFilter()`.
-- [ ] Add icon theme selection to Qt preferences.
+  - Qt now wires the same setting into General preferences and `ToolkitWindows`.
+- [x] Add icon theme selection to Qt preferences.
   - Gtk scans image theme directories and writes `GUIConfig::icon_theme()`.
-  - Qt has the Gtk code commented out.
+  - Qt now implements the same behavior with `std::filesystem`.
 - [ ] Improve language selection parity.
   - Gtk shows current-locale and native-language names, sorts with locale collation, and disables rows when fonts are unavailable.
   - Qt uses `QLocale` names only and does not disable unsupported languages.
@@ -254,8 +254,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
   - Qt installs a native event filter but does not register an event window, so some messages may never arrive.
 - [ ] Implement `ToolkitWindows::get_event_hwnd()`.
   - Qt currently returns `0`.
-- [ ] Handle `WM_SETTINGCHANGE` for automatic light/dark mode.
+- [x] Handle `WM_SETTINGCHANGE` for automatic light/dark mode.
   - Gtk updates dark mode when Windows reports `ImmersiveColorSet`.
+  - Qt now reapplies Auto mode when Windows reports `ImmersiveColorSet`.
 - [ ] Handle `WM_DEVICECHANGE` display notifications.
   - Gtk forwards display changes to GTK's display-change window; Qt currently logs `WM_DISPLAYCHANGE` only.
 - [ ] Restore tray icon fallback on release.
