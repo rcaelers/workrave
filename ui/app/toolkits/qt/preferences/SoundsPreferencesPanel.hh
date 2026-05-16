@@ -41,18 +41,27 @@ private:
   void on_sound_item_changed(QStandardItem *item);
 
   void update_theme_selection();
+  void update_selected_sound_file();
+  void update_sensitives();
 
   auto currentEvent() const -> SoundEvent;
+  auto currentSoundFilename() const -> std::string;
 
 private:
   SoundTheme::Ptr sound_theme;
   DataConnector::Ptr connector;
 
   QCheckBox *enabled_cb{nullptr};
+  QSlider *sound_volume_scale{nullptr};
+  QCheckBox *mute_cb{nullptr};
+  QGroupBox *sound_events_box{nullptr};
   QComboBox *sound_theme_button{nullptr};
   QStandardItemModel *sound_theme_model{nullptr};
   QTreeView *sounds_view{nullptr};
   QStandardItemModel *sounds_model{nullptr};
+  QPushButton *sound_play_button{nullptr};
+  QPushButton *sound_select_button{nullptr};
+  QLabel *selected_sound_label{nullptr};
 };
 
 #endif // SOUNDSPREFERENCESPANEL_HH

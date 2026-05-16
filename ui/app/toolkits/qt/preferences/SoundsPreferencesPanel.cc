@@ -22,8 +22,11 @@
 #include "SoundsPreferencesPanel.hh"
 
 #include <filesystem>
+#include <memory>
 
 #include <QtGui>
+#include <QDir>
+#include <QGridLayout>
 #include <QStyle>
 
 #include "DataConnector.hh"
@@ -48,7 +51,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationConte
 
   if (sound_theme->capability(workrave::audio::SoundCapability::VOLUME))
     {
-      auto *sound_volume_scale = new QSlider(Qt::Horizontal);
+      sound_volume_scale = new QSlider(Qt::Horizontal);
       sound_volume_scale->setMinimum(0);
       sound_volume_scale->setMaximum(100);
       sound_volume_scale->setSingleStep(1);
@@ -63,16 +66,17 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationConte
   enabled_cb->setText(tr("Enable sounds"));
   connector->connect(sound_theme->sound_enabled(), dc::wrap(enabled_cb));
   sound_options_layout->addWidget(enabled_cb);
+  connect(enabled_cb, &QCheckBox::toggled, this, [this]() { update_sensitives(); });
 
   if (sound_theme->capability(workrave::audio::SoundCapability::MUTE))
     {
-      auto *mute_cb = new QCheckBox;
+      mute_cb = new QCheckBox;
       mute_cb->setText(tr("Mute sounds during rest break and daily limit"));
       connector->connect(sound_theme->sound_mute(), dc::wrap(mute_cb));
       sound_options_layout->addWidget(mute_cb);
     }
 
-  auto *sound_events_box = new QGroupBox(tr("Sound Events"));
+  sound_events_box = new QGroupBox(tr("Sound Events"));
   layout->addWidget(sound_events_box);
   auto *sound_events_layout = new QVBoxLayout;
   sound_events_box->setLayout(sound_events_layout);
@@ -98,6 +102,7 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationConte
   sounds_view->setRootIsDecorated(false);
 
   connect(sounds_view, &QTreeView::activated, this, &SoundsPreferencesPanel::on_sound_item_activated);
+  connect(sounds_view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [this]() { update_selected_sound_file(); });
 
   // sounds_view->setColumnWidth(0, 100);
   // sounds_view->setColumnWidth(1, 200);
@@ -129,20 +134,27 @@ SoundsPreferencesPanel::SoundsPreferencesPanel(std::shared_ptr<IApplicationConte
   sounds_view->setColumnHidden(3, true);
   connect(sounds_model, &QStandardItemModel::itemChanged, this, &SoundsPreferencesPanel::on_sound_item_changed);
 
+  selected_sound_label = new QLabel;
+  selected_sound_label->setTextInteractionFlags(Qt::TextSelectableByMouse);
+  selected_sound_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  UiUtil::add_widget(sound_events_layout, tr("File:"), selected_sound_label);
+
   auto *sound_buttons_layout = new QHBoxLayout;
   sound_events_layout->addLayout(sound_buttons_layout);
 
-  auto *sound_play_button = new QPushButton(tr("Play"));
+  sound_play_button = new QPushButton(tr("Play"));
   sound_buttons_layout->addWidget(sound_play_button);
   connect(sound_play_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_play_sound);
 
-  auto *sound_select_button = new QPushButton("Choose");
+  sound_select_button = new QPushButton(tr("Choose"));
   sound_buttons_layout->addWidget(sound_select_button);
   connect(sound_select_button, &QPushButton::clicked, this, &SoundsPreferencesPanel::on_select_sound);
 
   sound_buttons_layout->addStretch();
 
   sounds_view->setCurrentIndex(sounds_model->index(0, 0));
+  update_selected_sound_file();
+  update_sensitives();
 }
 
 void
@@ -154,30 +166,46 @@ SoundsPreferencesPanel::on_sound_item_activated(const QModelIndex &index)
 void
 SoundsPreferencesPanel::on_select_sound()
 {
-  SoundEvent event = currentEvent();
-  std::string filename = sound_theme->sound_event(event)();
+  std::string filename = currentSoundFilename();
+
+  auto *fd = new QFileDialog(this, tr("Choose a sound"));
+  fd->setAttribute(Qt::WA_DeleteOnClose, true);
+  fd->setFileMode(QFileDialog::ExistingFile);
+  fd->setNameFilter(tr("Wave files (*.wav)"));
+  fd->setOption(QFileDialog::DontUseNativeDialog, true);
+  fd->setLabelText(QFileDialog::Accept, tr("Select"));
+
   if (!filename.empty())
     {
       std::filesystem::path path(filename);
       std::filesystem::path dirname = path.parent_path();
-      // std::filesystem::path basename = path.filename();
-
-      auto *fd = new QFileDialog(this);
-      fd->setAttribute(Qt::WA_DeleteOnClose, true);
-      fd->setFileMode(QFileDialog::ExistingFile);
       fd->setDirectory(QString::fromStdString(dirname.string()));
-      fd->setLabelText(QFileDialog::Accept, tr("Select"));
-      fd->show();
-
-      connect(fd, &QFileDialog::fileSelected, this, &SoundsPreferencesPanel::on_sound_selected);
+      fd->selectFile(QString::fromStdString(path.filename().string()));
     }
+
+  auto preview_filename = std::make_shared<QString>(QString::fromStdString(filename));
+  auto *preview_button = new QPushButton(tr("Play"), fd);
+  if (auto *dialog_layout = qobject_cast<QGridLayout *>(fd->layout()))
+    {
+      dialog_layout->addWidget(preview_button, dialog_layout->rowCount(), 0, 1, dialog_layout->columnCount());
+    }
+
+  connect(fd, &QFileDialog::currentChanged, this, [preview_filename](const QString &path) { *preview_filename = path; });
+  connect(preview_button, &QPushButton::clicked, this, [this, preview_filename]() {
+    if (!preview_filename->isEmpty())
+      {
+        sound_theme->play_sound(preview_filename->toStdString());
+      }
+  });
+  connect(fd, &QFileDialog::fileSelected, this, &SoundsPreferencesPanel::on_sound_selected);
+
+  fd->show();
 }
 
 void
 SoundsPreferencesPanel::on_play_sound()
 {
-  SoundEvent event = currentEvent();
-  std::string filename = sound_theme->sound_event(event)();
+  std::string filename = currentSoundFilename();
   if (!filename.empty())
     {
       sound_theme->play_sound(filename);
@@ -190,6 +218,7 @@ SoundsPreferencesPanel::on_sound_selected(const QString &filename)
   SoundEvent event = currentEvent();
   sound_theme->sound_event(event).set(filename.toStdString());
   update_theme_selection();
+  update_selected_sound_file();
 }
 
 void
@@ -207,8 +236,19 @@ void
 SoundsPreferencesPanel::on_sound_theme_changed(int index)
 {
   QStandardItem *item = sound_theme_model->item(index);
+  if (item == nullptr)
+    {
+      return;
+    }
+
   std::string theme_id = item->data().toString().toStdString();
+  if (theme_id.empty())
+    {
+      return;
+    }
+
   sound_theme->activate_theme(theme_id);
+  update_selected_sound_file();
 }
 
 void
@@ -241,6 +281,44 @@ SoundsPreferencesPanel::update_theme_selection()
   sound_theme_button->setCurrentIndex(active_index);
 }
 
+void
+SoundsPreferencesPanel::update_selected_sound_file()
+{
+  if (selected_sound_label == nullptr)
+    {
+      return;
+    }
+
+  std::string filename = currentSoundFilename();
+  if (filename.empty())
+    {
+      selected_sound_label->setText(tr("(No sound file)"));
+    }
+  else
+    {
+      selected_sound_label->setText(QDir::toNativeSeparators(QString::fromStdString(filename)));
+    }
+}
+
+void
+SoundsPreferencesPanel::update_sensitives()
+{
+  bool enabled = enabled_cb == nullptr || enabled_cb->isChecked();
+
+  if (sound_volume_scale != nullptr)
+    {
+      sound_volume_scale->setEnabled(enabled);
+    }
+  if (mute_cb != nullptr)
+    {
+      mute_cb->setEnabled(enabled);
+    }
+  if (sound_events_box != nullptr)
+    {
+      sound_events_box->setEnabled(enabled);
+    }
+}
+
 auto
 SoundsPreferencesPanel::currentEvent() const -> SoundEvent
 {
@@ -248,4 +326,16 @@ SoundsPreferencesPanel::currentEvent() const -> SoundEvent
   QStandardItem *item = sounds_model->item(index.row(), 2);
   std::string id = item->text().toStdString();
   return sound_theme->sound_id_to_event(id);
+}
+
+auto
+SoundsPreferencesPanel::currentSoundFilename() const -> std::string
+{
+  if (sounds_view == nullptr || sounds_model == nullptr || !sounds_view->currentIndex().isValid())
+    {
+      return {};
+    }
+
+  SoundEvent event = currentEvent();
+  return sound_theme->sound_event(event)();
 }
