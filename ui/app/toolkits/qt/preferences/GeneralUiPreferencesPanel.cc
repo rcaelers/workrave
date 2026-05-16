@@ -26,13 +26,17 @@
 
 #include <filesystem>
 #include <set>
+#include <vector>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
 
 #include <QtGui>
+#include <QCollator>
+#include <QFontMetrics>
 #include <QStyle>
 
+#include "commonui/Locale.hh"
 #include "utils/Platform.hh"
 #include "utils/Paths.hh"
 #include "utils/AssetPath.hh"
@@ -47,6 +51,55 @@ using namespace workrave::utils;
 #  include <windows.h>
 constexpr auto RUNKEY = R"(Software\Microsoft\Windows\CurrentVersion\Run)";
 #endif
+
+namespace
+{
+  enum LanguageColumn
+  {
+    LanguageCurrentColumn = 0,
+    LanguageNativeColumn = 1,
+    LanguageCodeColumn = 2,
+  };
+
+  QString format_language_name(const Locale::Language &language, const std::string &code)
+  {
+    QString text = QString::fromStdString(language.language_name);
+    if (text.isEmpty())
+      {
+        return QCoreApplication::translate("GeneralUiPreferencesPanel", "Unrecognized language: (%1)")
+          .arg(QString::fromStdString(code));
+      }
+
+    if (!language.country_name.empty())
+      {
+        text += " (" + QString::fromStdString(language.country_name) + ")";
+      }
+    return text;
+  }
+
+  class LanguageNameItem : public QStandardItem
+  {
+  public:
+    explicit LanguageNameItem(const QString &text)
+      : QStandardItem(text)
+    {
+    }
+
+    bool operator<(const QStandardItem &other) const override
+    {
+      const bool this_is_default = data(Qt::UserRole).toBool();
+      const bool other_is_default = other.data(Qt::UserRole).toBool();
+      if (this_is_default != other_is_default)
+        {
+          return this_is_default;
+        }
+
+      QCollator collator;
+      collator.setNumericMode(true);
+      return collator.compare(text(), other.text()) < 0;
+    }
+  };
+} // namespace
 
 GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicationContext> app)
 {
@@ -92,13 +145,13 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
   all_linguas.emplace_back("en");
 
   languages_combo = new QComboBox();
-  model = new QStandardItemModel(static_cast<int>(all_linguas.size()), 2);
+  model = new QStandardItemModel();
 
   auto *languages_view = new QTreeView;
   languages_combo->setView(languages_view);
   languages_view->setHeaderHidden(true);
-  languages_view->setColumnWidth(0, 300);
-  languages_view->setColumnWidth(1, 100);
+  languages_view->setColumnWidth(LanguageCurrentColumn, 260);
+  languages_view->setColumnWidth(LanguageNativeColumn, 180);
   languages_view->setModel(model);
 
   languages_view->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -107,50 +160,63 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   languages_combo->setEditable(false);
   languages_combo->setModel(model);
-  languages_combo->setModelColumn(0);
+  languages_combo->setModelColumn(LanguageCurrentColumn);
 
-  model->setItem(0, 0, new QStandardItem(tr("System default")));
-  model->setItem(0, 1, new QStandardItem(""));
+  Locale::LanguageMap languages_current_locale;
+  Locale::LanguageMap languages_native_locale;
+  Locale::get_all_languages_in_current_locale(languages_current_locale);
+  Locale::get_all_languages_in_native_locale(languages_native_locale);
 
-  QLocale current_locale;
+  auto append_language = [this](const QString &current, const QString &native, const std::string &code, bool enabled) {
+    QList<QStandardItem *> items;
+    auto *current_item = new LanguageNameItem(current);
+    auto *native_item = new QStandardItem(native);
+    native_item->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    auto *code_item = new QStandardItem(QString::fromStdString(code));
+    current_item->setData(code.empty(), Qt::UserRole);
 
-  int row = 1;
-  int selected = 0;
+    for (auto *item: {static_cast<QStandardItem *>(current_item), native_item, code_item})
+      {
+        item->setEnabled(enabled);
+        items.append(item);
+      }
+    model->appendRow(items);
+  };
+
+  append_language(tr("System default"), QString(), std::string(), true);
+
   for (auto code: all_linguas)
     {
-      if (current_locale_name == code)
+      QString current_name = format_language_name(languages_current_locale[code], code);
+      QString native_name;
+      bool enabled = true;
+      if (languages_current_locale[code].language_name != languages_native_locale[code].language_name)
         {
-          selected = row;
+          native_name = format_language_name(languages_native_locale[code], code);
+          if (!has_font_for_text(native_name))
+            {
+              native_name = tr("(font not available)");
+              enabled = false;
+            }
         }
 
-      QLocale l(QString::fromStdString(code));
-
-      QString language = l.nativeLanguageName();
-      QString country = l.nativeTerritoryName();
-
-      if (language == "")
-        {
-          language = QString::fromStdString(code);
-        }
-
-      if (country != "")
-        {
-          language += " (" + country + ")";
-        }
-
-      model->setItem(row, 0, new QStandardItem(language));
-
-      auto *item = new QStandardItem("");
-      item->setTextAlignment(Qt::AlignRight);
-      model->setItem(row, 1, item);
-
-      item = new QStandardItem(code.c_str());
-      model->setItem(row, 2, item);
-
-      row++;
+      append_language(current_name, native_name, code, enabled);
     }
 
-  languages_view->setColumnHidden(2, true);
+  model->sort(LanguageCurrentColumn);
+
+  int selected = 0;
+  for (int row = 0; row < model->rowCount(); ++row)
+    {
+      auto *item = model->item(row, LanguageCodeColumn);
+      if (item != nullptr && item->text().toStdString() == current_locale_name)
+        {
+          selected = row;
+          break;
+        }
+    }
+
+  languages_view->setColumnHidden(LanguageCodeColumn, true);
   languages_combo->setCurrentIndex(selected);
   UiUtil::add_widget(layout, tr("Language:"), languages_combo, size_group);
 #endif
@@ -181,7 +247,8 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   auto *trayicon_cb = new QCheckBox;
   trayicon_cb->setText(tr("Show system tray icon"));
-  trayicon_cb->setToolTip(tr("Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."));
+  trayicon_cb->setToolTip(
+    tr("Note that not all desktop environments show system tray icons, or have disabled system tray icons by default."));
   connector->connect(GUIConfig::trayicon_enabled(), dc::wrap(trayicon_cb));
 
   layout->addWidget(trayicon_cb);
@@ -200,6 +267,22 @@ GeneralUiPreferencesPanel::~GeneralUiPreferencesPanel()
       GUIConfig::locale().set(item->text().toStdString());
     }
 }
+
+#if defined(HAVE_LANGUAGE_SELECTION)
+bool
+GeneralUiPreferencesPanel::has_font_for_text(const QString &text) const
+{
+  QFontMetrics metrics(languages_combo != nullptr ? languages_combo->font() : font());
+  for (uint codepoint: text.toUcs4())
+    {
+      if (!metrics.inFontUcs4(codepoint))
+        {
+          return false;
+        }
+    }
+  return true;
+}
+#endif
 
 #if defined(PLATFORM_OS_WINDOWS)
 void

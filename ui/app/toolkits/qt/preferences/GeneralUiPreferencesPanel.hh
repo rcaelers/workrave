@@ -37,6 +37,9 @@ private:
   void on_block_changed();
   void update_icon_theme_combo();
   void on_icon_theme_changed();
+#if defined(HAVE_LANGUAGE_SELECTION)
+  bool has_font_for_text(const QString &text) const;
+#endif
 
 #if defined(PLATFORM_OS_WINDOWS)
   void on_autostart_toggled();
