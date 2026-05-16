@@ -23,12 +23,15 @@
 
 #include <QApplication>
 #include <QGuiApplication>
+#include <QTimer>
 
 #include "DailyLimitWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
 #include "debug.hh"
+#include "ui/GUIConfig.hh"
+#include "utils/Signals.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -62,20 +65,16 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
 
   main_window = new MainWindow(app);
 
-  // event_connections.emplace_back(main_window->signal_closed().connect(sigc::mem_fun(*this,
-  // &Toolkit::on_main_window_closed)));
+  workrave::utils::connect(main_window->signal_closed(), tracker, [this]() { on_main_window_closed(); });
 
   status_icon = std::make_shared<StatusIcon>(app);
-  // event_connections.emplace_back(status_icon->signal_activated().connect(sigc::mem_fun(*this,
-  // &Toolkit::on_status_icon_activated)));
-  // event_connections.emplace_back(status_icon->signal_balloon_activated().connect(sigc::mem_fun(*this,
-  // &Toolkit::on_status_icon_balloon_activated)));
+  workrave::utils::connect(status_icon->signal_activate(), tracker, [this]() { on_status_icon_activated(); });
+  workrave::utils::connect(status_icon->signal_balloon_activate(), tracker, [this](auto id) {
+    on_status_icon_balloon_activated(id);
+  });
 
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
-
-  main_window->show();
-  main_window->raise();
 }
 
 void
@@ -95,7 +94,7 @@ Toolkit::hold()
 {
   TRACE_ENTRY_PAR(hold_count);
   hold_count++;
-  // TODO: main_window->set_can_close(hold_count > 0);
+  main_window->set_can_close(can_close());
   setQuitOnLastWindowClosed(hold_count == 0);
 }
 
@@ -104,8 +103,14 @@ Toolkit::release()
 {
   TRACE_ENTRY_PAR(hold_count);
   hold_count--;
+  main_window->set_can_close(can_close());
   setQuitOnLastWindowClosed(hold_count == 0);
-  // TODO: main_window->set_can_close(hold_count > 0);
+}
+
+auto
+Toolkit::can_close() const -> bool
+{
+  return hold_count > 0;
 }
 
 void
@@ -222,8 +227,7 @@ void
 Toolkit::show_main_window()
 {
   TRACE_ENTRY();
-  main_window->show();
-  main_window->raise();
+  main_window->open_window();
 }
 
 void
@@ -244,8 +248,11 @@ Toolkit::show_statistics()
     {
       statistics_dialog = new StatisticsDialog(app);
       statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      statistics_dialog->run();
     }
   statistics_dialog->show();
+  statistics_dialog->raise();
+  statistics_dialog->activateWindow();
 }
 
 auto
@@ -281,14 +288,14 @@ Toolkit::signal_status_icon_activated() -> boost::signals2::signal<void()> &
 auto
 Toolkit::get_display_name() const -> const char *
 {
-  return nullptr;
+  display_name = QGuiApplication::platformName().toStdString();
+  return display_name.c_str();
 }
 
 void
 Toolkit::create_oneshot_timer(int ms, std::function<void()> func)
 {
-  // TODO: ms == 0
-  new OneshotTimer(ms, func);
+  QTimer::singleShot(ms, this, [func = std::move(func)]() { func(); });
 }
 
 void
@@ -304,7 +311,7 @@ Toolkit::show_notification(const std::string &id,
 void
 Toolkit::show_tooltip(const std::string &tip)
 {
-  // TODO:
+  status_icon->set_tooltip(QString::fromStdString(tip));
 }
 
 void
@@ -317,7 +324,15 @@ Toolkit::on_timer()
 void
 Toolkit::on_main_window_closed()
 {
-  main_window_closed_signal();
+  if (can_close())
+    {
+      GUIConfig::timerbox_enabled("main_window").set(false);
+      main_window_closed_signal();
+    }
+  else
+    {
+      terminate();
+    }
 }
 
 void

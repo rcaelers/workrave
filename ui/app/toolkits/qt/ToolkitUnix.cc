@@ -21,6 +21,8 @@
 
 #include "ToolkitUnix.hh"
 
+#include <QByteArray>
+
 #include <X11/Xlib.h>
 
 #include "debug.hh"
@@ -99,6 +101,26 @@ std::shared_ptr<Locker>
 ToolkitUnix::get_locker()
 {
   return locker;
+}
+
+auto
+ToolkitUnix::get_display_name() const -> const char *
+{
+  QByteArray wayland_display = qgetenv("WAYLAND_DISPLAY");
+  if (!wayland_display.isEmpty())
+    {
+      display_name = wayland_display.toStdString();
+      return display_name.c_str();
+    }
+
+  QByteArray x11_display = qgetenv("DISPLAY");
+  if (!x11_display.isEmpty())
+    {
+      display_name = x11_display.toStdString();
+      return display_name.c_str();
+    }
+
+  return Toolkit::get_display_name();
 }
 
 auto

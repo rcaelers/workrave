@@ -95,6 +95,7 @@ private:
   void show_main_window();
   void show_preferences();
   void show_statistics();
+  auto can_close() const -> bool;
 
   void on_main_window_closed();
   void on_status_icon_balloon_activated(const std::string &id);
@@ -121,6 +122,7 @@ private:
 
   std::shared_ptr<MenuModel> menu_model;
   std::shared_ptr<SoundTheme> sound_theme;
+  mutable std::string display_name;
 
   std::map<std::string, std::function<void()>> notifiers;
 

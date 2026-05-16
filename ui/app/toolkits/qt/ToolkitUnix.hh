@@ -18,6 +18,8 @@
 #ifndef TOOLKIT_UNIX_HH
 #define TOOLKIT_UNIX_HH
 
+#include <string>
+
 #include "IToolkitUnixPrivate.hh"
 #include "Toolkit.hh"
 
@@ -38,6 +40,7 @@ public:
   void preinit(std::shared_ptr<workrave::config::IConfigurator> config) override;
   void init(std::shared_ptr<IApplicationContext> app) override;
   std::shared_ptr<Locker> get_locker() override;
+  auto get_display_name() const -> const char * override;
 
   void show_notification(const std::string &id,
                          const std::string &title,
@@ -52,6 +55,7 @@ public:
 
 private:
   std::shared_ptr<UnixLocker> locker;
+  mutable std::string display_name;
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> wayland_window_manager;
 #endif
