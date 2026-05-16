@@ -6,6 +6,7 @@ if (HAVE_APP_QT)
     ../include/ui/prefwidgets/qt/BoxWidget.hh
     ../include/ui/prefwidgets/qt/ContainerWidget.hh
     ../include/ui/prefwidgets/qt/ChoiceWidget.hh
+    ../include/ui/prefwidgets/qt/EntryWidget.hh
     ../include/ui/prefwidgets/qt/FrameWidget.hh
     ../include/ui/prefwidgets/qt/ToggleWidget.hh
     ../include/ui/prefwidgets/qt/SpinWidget.hh
@@ -22,6 +23,7 @@ if (HAVE_APP_QT)
     Builder.cc
     ContainerWidget.cc
     ChoiceWidget.cc
+    EntryWidget.cc
     FrameWidget.cc
     ToggleWidget.cc
     SpinWidget.cc
@@ -60,4 +62,3 @@ target_link_libraries(workrave-libs-ui-prefwidgets-qt
 # if (PLATFORM_OS_UNIX)
 #   target_link_libraries(workrave-libs-ui-prefwidgets-qt PRIVATE ${X11_X11_LIB} ${X11_XTest_LIB} ${X11_Xscreensaver_LIB})
 # endif()
-
