@@ -373,8 +373,6 @@ Toolkit::eventFilter(QObject *obj, QEvent *event)
     {
       spdlog::info("Theme changed to {}",
                    (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Light) ? "Light" : "Dark");
-      event->accept();
-      return true;
     }
   return false;
 }

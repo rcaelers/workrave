@@ -29,7 +29,11 @@
 #include <dbt.h>
 #include <windows.h>
 
+#include <QGuiApplication>
+#include <QStyleHints>
+
 #include "debug.hh"
+#include "ui/GUIConfig.hh"
 
 using namespace workrave;
 using namespace workrave::config;
@@ -89,6 +93,27 @@ ToolkitWindows::hook_event()
 void
 ToolkitWindows::init_gui()
 {
+  GUIConfig::light_dark_mode().attach(config_tracker, [this](auto mode) { apply_light_dark_mode(mode); });
+}
+
+void
+ToolkitWindows::apply_light_dark_mode(LightDarkTheme mode)
+{
+  Qt::ColorScheme scheme = Qt::ColorScheme::Unknown;
+  switch (mode)
+    {
+    case LightDarkTheme::Light:
+      scheme = Qt::ColorScheme::Light;
+      break;
+    case LightDarkTheme::Dark:
+      scheme = Qt::ColorScheme::Dark;
+      break;
+    case LightDarkTheme::Auto:
+      scheme = is_windows_app_theme_dark() ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light;
+      break;
+    }
+
+  QGuiApplication::styleHints()->setColorScheme(scheme);
 }
 
 void
@@ -171,6 +196,19 @@ ToolkitWindows::nativeEventFilter(const QByteArray &eventType, void *message, qi
       }
       break;
 #endif
+
+    case WM_SETTINGCHANGE:
+      {
+        if (msg->lParam != 0 && _wcsicmp(L"ImmersiveColorSet", reinterpret_cast<wchar_t *>(msg->lParam)) == 0)
+          {
+            if (GUIConfig::light_dark_mode()() == LightDarkTheme::Auto)
+              {
+                logger->info("Theme change detected: switching to {} theme", is_windows_app_theme_dark() ? "dark" : "light");
+                apply_light_dark_mode(LightDarkTheme::Auto);
+              }
+          }
+      }
+      break;
 
     default:
       break;
