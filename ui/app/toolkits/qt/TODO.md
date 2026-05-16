@@ -205,9 +205,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Fix focus quiet-mode override in `PreferencesDialog`.
   - Qt implements `eventFilter()` but does not install it on the dialog or application.
   - Qt now installs the filter on the dialog and handles focus/window activation changes like Gtk focus in/out.
-- [ ] Match platform-specific preference pages.
+- [x] Match platform-specific preference pages.
   - Gtk hides General and Applet pages on macOS.
-  - Qt always creates General, Status Window, and Applet pages.
+  - Qt now hides Applet page on macOS and keeps the Status Window page.
 - [x] Implement Windows autostart in Qt preferences.
   - Gtk writes/removes the Run registry value in `GeneralPreferencePanel::on_autostart_toggled()`.
   - Qt now writes/removes the same Run registry value in `GeneralUiPreferencesPanel::on_autostart_toggled()`.
@@ -223,9 +223,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Add the tray-icon explanatory tooltip in Qt preferences.
   - Gtk warns that some desktop environments do not show tray icons.
   - Qt now shows the same warning as a tooltip on the tray icon checkbox.
-- [ ] Review `TimerBoxPreferencesPanel` sensitivity behavior.
+- [x] Review `TimerBoxPreferencesPanel` sensitivity behavior.
   - Gtk explicitly unchecks and disables the main-window checkbox when all timers are hidden.
-  - Qt writes the config false but leaves the checkbox update commented out.
+  - Qt now unchecks and disables the main-window checkbox when all timers are hidden.
 - [x] Polish sound preferences behavior.
   - Gtk has a "No sounds / Play sounds" combo that disables the sound-event UI.
   - Qt now disables the event group, volume, and mute controls when sounds are disabled.
