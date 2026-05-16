@@ -38,7 +38,8 @@ class MacOSLocker::Pimpl
 public:
   Pimpl() = default;
 
-  void foreground();
+  void prepare_foreground();
+  void activate();
   void restore_foreground();
   bool can_lock();
   void lock();
@@ -67,12 +68,13 @@ MacOSLocker::can_lock()
 void
 MacOSLocker::prepare_lock()
 {
+  pimpl->prepare_foreground();
 }
 
 void
 MacOSLocker::lock()
 {
-  pimpl->foreground();
+  pimpl->activate();
   pimpl->lock();
 }
 
@@ -84,10 +86,19 @@ MacOSLocker::unlock()
 }
 
 void
-MacOSLocker::Pimpl::foreground()
+MacOSLocker::Pimpl::prepare_foreground()
 {
-  active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
-  active_app_hidden = (static_cast<int>([NSApp isHidden]) != 0);
+  if (active_app == nil)
+    {
+      active_app = [[NSWorkspace sharedWorkspace] frontmostApplication];
+      active_app_hidden = (static_cast<int>([NSApp isHidden]) != 0);
+    }
+}
+
+void
+MacOSLocker::Pimpl::activate()
+{
+  prepare_foreground();
   [NSApp activateIgnoringOtherApps:YES];
 }
 
