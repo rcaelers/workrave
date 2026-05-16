@@ -119,8 +119,10 @@ PreferencesDialog::create_ui_page()
   QWidget *gui_mainwindow_page = new TimerBoxPreferencesPanel(app, "main_window");
   page->add_panel("mainwindow", gui_mainwindow_page, tr("Status Window"));
 
+#if !defined(PLATFORM_OS_MACOS)
   QWidget *gui_applet_page = new TimerBoxPreferencesPanel(app, "applet");
   page->add_panel("applet", gui_applet_page, tr("Applet"));
+#endif
 }
 
 void
