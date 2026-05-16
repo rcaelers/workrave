@@ -190,12 +190,12 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Restrict rest-break exercises to the primary screen and honor `BREAK_FLAGS_NO_EXERCISES`.
   - Gtk shows exercises only on the primary head and falls back to the info panel otherwise.
   - Qt now checks both `BREAK_FLAGS_NO_EXERCISES` and primary-screen status.
-- [ ] Match rest-break recentering behavior when switching from exercises to the info panel.
+- [x] Match rest-break recentering behavior when switching from exercises to the info panel.
   - Gtk preserves position in non-blocking primary-screen mode by moving relative to size delta.
-  - Qt clears and re-centers more bluntly.
-- [ ] Review prelude window behavior on platforms where windows cannot be positioned.
+  - Qt now adjusts by the size delta in non-blocking primary-screen mode and centers otherwise.
+- [x] Review prelude window behavior on platforms where windows cannot be positioned.
   - Gtk has an alignment/input-shape fallback.
-  - Qt centers on the `QScreen` and has no equivalent fallback.
+  - Qt now uses a transparent full-screen fallback, aligns the visible frame, and masks input to the frame region.
 
 ## Preferences and Common UI
 
