@@ -112,10 +112,10 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Qt uses simpler `QLocale` labels.
   - User impact: the language list may be harder to scan or may include entries that render poorly.
 
-- [ ] Crash reporter text is not localized in Qt.
-  - Gtk uses translated strings.
-  - Qt currently uses literal English strings.
-  - User impact: translated builds still show English crash reporter text.
+- [x] Crash reporter text is not localized in Qt.
+  - Gtk uses translated strings and shows detailed crash info/attachment controls.
+  - Qt now wraps user-visible crash reporter strings in a translation context and mirrors the detailed crash report view.
+  - User impact: translated builds previously still showed English crash reporter text, with fewer crash details.
 
 ## Implementation Notes
 
@@ -274,9 +274,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Complete About dialog metadata.
   - Gtk shows authors, translator credits, website, logo, copyright, and version.
   - Qt now uses the shared credits metadata and shows the website link.
-- [ ] Review crash reporter localization and focus/default-button behavior.
-  - Gtk uses translated strings and focuses the text entry.
-  - Qt currently uses literal English strings.
+- [x] Review crash reporter localization and focus/default-button behavior.
+  - Gtk uses translated strings, focuses the text entry, and lets users inspect/select report attachments.
+  - Qt now translates visible strings, adds the missing comments label/hint, focuses the comments text entry, and exposes crash summary/attachment selection.
 - [ ] Review Exercises dialog/panel sizing and action placement.
   - Gtk constrains exercise image/description sizes and uses the dialog action area in standalone mode.
   - Qt embeds all buttons in the panel and has fewer size constraints.

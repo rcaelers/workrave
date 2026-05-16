@@ -28,13 +28,30 @@
 class CrashDetailsDialog : public QDialog
 {
 public:
-  explicit CrashDetailsDialog(const std::vector<base::FilePath> &attachments, QWidget *parent = nullptr);
+  CrashDetailsDialog(const std::vector<base::FilePath> &attachments,
+                     const crashpad::CrashSummary &summary,
+                     QWidget *parent = nullptr);
   ~CrashDetailsDialog() override = default;
 
+  std::vector<base::FilePath> get_enabled_attachments() const;
+
 private:
+  void on_attachment_toggled(QTreeWidgetItem *item, int column);
+  void on_selection_changed(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+  void load_content(int index);
+  void display_crash_info();
+
+  struct AttachmentEntry
+  {
+    base::FilePath path;
+    bool enabled{true};
+  };
+
   QVBoxLayout *vbox{nullptr};
-  QScrollArea *scroll_area{nullptr};
-  QTextEdit *text_edit{nullptr};
+  QTreeWidget *tree_widget{nullptr};
+  QTextEdit *content_view{nullptr};
+  std::vector<AttachmentEntry> entries;
+  crashpad::CrashSummary summary;
 };
 
 class CrashDialog : public QDialog
@@ -42,11 +59,13 @@ class CrashDialog : public QDialog
 public:
   CrashDialog(const std::map<std::string, std::string> &annotations,
               const std::vector<base::FilePath> &attachments,
+              const crashpad::CrashSummary &summary,
               QWidget *parent = nullptr);
   ~CrashDialog() override = default;
 
   std::string get_user_text() const;
   bool get_consent() const;
+  std::vector<base::FilePath> get_selected_attachments() const;
 
 private:
   void on_submit_toggled();
@@ -67,7 +86,8 @@ public:
   ~UserInteraction() override = default;
 
   bool requestUserConsent(const std::map<std::string, std::string> &annotations,
-                          const std::vector<base::FilePath> &attachments) override;
+                          std::vector<base::FilePath> &attachments,
+                          const crashpad::CrashSummary &summary) override;
   std::string getUserText() override;
   void reportCompleted(const crashpad::UUID &uuid) override;
 
