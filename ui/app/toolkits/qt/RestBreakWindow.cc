@@ -116,15 +116,16 @@ RestBreakWindow::install_exercises_panel()
   pluggable_panel->addWidget(exercises_panel);
 
   exercises_panel->set_exercise_count(get_exercise_count());
-  workrave::utils::connect(exercises_panel->signal_stop(), this, [this] {
-    install_info_panel();
-    center();
-  });
+  workrave::utils::connect(exercises_panel->signal_stop(), this, [this] { install_info_panel(); });
+
+  center();
 }
 
 void
 RestBreakWindow::install_info_panel()
 {
+  const QSize old_size = size();
+
   UiUtil::clear_layout(pluggable_panel);
 
   auto core = app->get_core();
@@ -153,23 +154,34 @@ RestBreakWindow::install_info_panel()
   pluggable_panel->addLayout(restbreak_panel);
 
   UiUtil::invalidate(pluggable_panel);
+  reposition_after_panel_change(old_size);
+}
 
-  // BlockMode block_mode = GUIConfig::cfg_block_mode();
-  // if (block_mode == BlockMode::Off &&
-  //     screen == 0)
-  //   {
-  //     Gtk::Requisition new_size;
-  //     get_preferred_size(new_size, natural_size);
+void
+RestBreakWindow::reposition_after_panel_change(const QSize &old_size)
+{
+  if (layout() != nullptr)
+    {
+      layout()->activate();
+    }
 
-  //     int width_delta = (new_size.width - old_size.width) / 2;
-  //     int height_delta = (new_size.height -  old_size.height) / 2;
+  adjustSize();
 
-  //     int x, y;
-  //     get_position(x, y);
-  //     move(x - width_delta, y - height_delta);
-  //   }
-  // else
-  // {
-  //   center();
-  // }
+  if (!isVisible())
+    {
+      center();
+      return;
+    }
+
+  if (GUIConfig::block_mode()() == BlockMode::Off && is_primary_screen())
+    {
+      const QSize new_size = size();
+      const int width_delta = (new_size.width() - old_size.width()) / 2;
+      const int height_delta = (new_size.height() - old_size.height()) / 2;
+      move(x() - width_delta, y() - height_delta);
+    }
+  else
+    {
+      center();
+    }
 }

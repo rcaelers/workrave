@@ -41,6 +41,7 @@ private:
 
   void install_exercises_panel();
   void install_info_panel();
+  void reposition_after_panel_change(const QSize &old_size);
   auto get_exercise_count() -> int;
   auto is_primary_screen() -> bool;
 
