@@ -74,6 +74,7 @@ void
 PreferencesDialog::init_ui()
 {
   setMinimumSize(960, 640);
+  installEventFilter(this);
 
   auto *layout = new QVBoxLayout();
   setLayout(layout);
@@ -217,7 +218,12 @@ PreferencesDialog::add_page(const std::string &id, const QString &label, const s
 bool
 PreferencesDialog::eventFilter(QObject *watched, QEvent *event)
 {
-  if (event->type() == QEvent::FocusIn)
+  if (watched != this)
+    {
+      return QDialog::eventFilter(watched, event);
+    }
+
+  if (event->type() == QEvent::FocusIn || event->type() == QEvent::WindowActivate)
     {
       TRACE_ENTRY();
       BlockMode block_mode = GUIConfig::block_mode()();
@@ -231,7 +237,7 @@ PreferencesDialog::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-  else if (event->type() == QEvent::FocusOut)
+  else if (event->type() == QEvent::FocusOut || event->type() == QEvent::WindowDeactivate)
     {
       TRACE_ENTRY();
       auto core = app->get_core();
