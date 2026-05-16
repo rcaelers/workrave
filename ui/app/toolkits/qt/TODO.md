@@ -44,24 +44,24 @@ These are the differences a user is likely to notice when switching from the Gtk
   - Gtk updates statistics before opening the dialog and starts a periodic refresh.
   - Qt now updates statistics before initial display and starts the refresh timer when the toolkit opens the dialog.
 
-- [ ] "Rest break now" from a micro-break is missing.
+- [x] "Rest break now" from a micro-break is missing.
   - Gtk can show a Rest Break button during a micro-break when the rest-break timer is enabled.
-  - Qt has this UI commented out and the handler is empty.
+  - Qt now shows the Rest Break button when the rest-break timer is enabled and starts a rest break through the core.
   - User impact: users cannot turn a micro-break into a rest break from that prompt.
 
-- [ ] Closing a non-blocking break prompt does not postpone it.
+- [x] Closing a non-blocking break prompt does not postpone it.
   - Gtk treats closing a non-blocking break window as postponing the break.
-  - Qt has the equivalent close handler commented out.
+  - Qt now handles close events the same way for non-blocking break windows and keeps blocking break windows open.
   - User impact: closing a non-blocking break prompt may do nothing useful or behave inconsistently.
 
-- [ ] Sound preferences are less capable.
+- [x] Sound preferences are less capable.
   - Gtk disables the sound event controls when sounds are off, filters selectable files to wave files, and has preview playback in the file chooser.
-  - Qt has a simpler enable checkbox, no file filter, and no file-chooser preview.
+  - Qt now disables the event controls when sounds are off, filters the chooser to wave files, and adds a preview play button.
   - User impact: sound setup is easier to misuse and has fewer controls.
 
-- [ ] Custom sound selection does not track the selected event as well.
+- [x] Custom sound selection does not track the selected event as well.
   - Gtk updates the chooser to show the file for the selected sound event.
-  - Qt opens a file dialog from the current stored path but has no persistent visible selected-file state.
+  - Qt now shows the selected event's sound file and updates it when the event, theme, or custom file changes.
   - User impact: it is less clear which sound file is assigned to each event.
 
 - [ ] Windows light/dark appearance preference is missing.
@@ -175,14 +175,14 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [ ] Re-lock after system operations from break windows.
   - Gtk unlocks, schedules a relock after 5 seconds, then executes suspend/lock/shutdown.
   - Qt unlocks and executes the operation, but the relock timer is commented out.
-- [ ] Implement close handling for non-blocking Qt break windows.
+- [x] Implement close handling for non-blocking Qt break windows.
   - Gtk treats closing a non-blocking break window as postpone.
-  - Qt has the equivalent `on_delete_event()` commented out.
+  - Qt now maps close events in non-blocking mode to postpone and ignores the close event.
 - [ ] Fix locked postpone tooltip text.
   - Qt uses the skip wording for the locked postpone button; Gtk distinguishes skip and postpone text.
-- [ ] Add micro-break "Rest break" button.
+- [x] Add micro-break "Rest break" button.
   - Gtk can start a rest break from the micro-break window when the rest-break timer is enabled.
-  - Qt has this UI and handler commented out; the handler itself is empty.
+  - Qt now adds the button and calls `force_break(BREAK_ID_REST_BREAK, BreakHint::Normal)`.
 - [ ] Keep micro-break labels stable after the first layout.
   - Gtk fixes the label size after first update to avoid resize/recenter churn.
   - Qt does not currently do this.
@@ -224,12 +224,12 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [ ] Review `TimerBoxPreferencesPanel` sensitivity behavior.
   - Gtk explicitly unchecks and disables the main-window checkbox when all timers are hidden.
   - Qt writes the config false but leaves the checkbox update commented out.
-- [ ] Polish sound preferences behavior.
+- [x] Polish sound preferences behavior.
   - Gtk has a "No sounds / Play sounds" combo that disables the sound-event UI.
-  - Qt has an "Enable sounds" checkbox but does not disable the event list, theme selector, play button, or chooser when sounds are disabled.
-- [ ] Add sound file chooser filters and preview playback in Qt.
+  - Qt now disables the event group, volume, and mute controls when sounds are disabled.
+- [x] Add sound file chooser filters and preview playback in Qt.
   - Gtk filters wave files and provides a play button inside the file chooser.
-- [ ] Sync selected sound file state in Qt when the selected event/theme changes.
+- [x] Sync selected sound file state in Qt when the selected event/theme changes.
   - Gtk updates the chooser to the current event's filename; Qt opens a new file dialog only from the current stored file path and does not update visible filename state.
 
 ## Statistics
