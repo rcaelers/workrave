@@ -46,6 +46,7 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *
   : QWidget(nullptr, Qt::Window)
   , break_id(break_id)
   , screen(screen)
+  , position_windows(Platform::can_position_windows())
 {
 #if defined(HAVE_WAYLAND)
   window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
@@ -92,6 +93,10 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *
   frame->setLayout(frameLayout);
 
   layout->addWidget(frame);
+  if (!position_windows)
+    {
+      layout->setAlignment(frame, Qt::AlignCenter);
+    }
 
   auto *vlayout = new QVBoxLayout;
   vlayout->setSpacing(6);
@@ -123,6 +128,11 @@ PreludeWindow::PreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *
 
   setAttribute(Qt::WA_Hover);
   setAttribute(Qt::WA_ShowWithoutActivating);
+  if (!position_windows)
+    {
+      setAttribute(Qt::WA_TranslucentBackground);
+      setAutoFillBackground(false);
+    }
 
 #if defined(PLATFORM_OS_MACOS)
   mouse_monitor = std::make_shared<MouseMonitor>([this](auto x, auto y) { avoid_pointer(x, y); });
@@ -141,10 +151,22 @@ PreludeWindow::start()
 
   timebar->set_bar_color(TimerColorId::Overdue);
   refresh();
-  show();
 
   QRect rect = screen->geometry();
-  setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
+  if (position_windows)
+    {
+      adjustSize();
+      setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect));
+    }
+  else
+    {
+      setGeometry(rect);
+      set_frame_alignment(Qt::AlignCenter);
+    }
+
+  show();
+  raise();
+  update_input_region();
 
 #if defined(PLATFORM_OS_MACOS)
   mouse_monitor->start();
@@ -242,8 +264,16 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
     case IApp::PreludeStage::MoveOut:
       if (!did_avoid)
         {
-          const QRect rect = screen->geometry();
-          move(x(), rect.y() + SCREEN_MARGIN);
+          if (position_windows)
+            {
+              const QRect rect = screen->geometry();
+              QRect centered = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), rect);
+              move(centered.x(), rect.y() + SCREEN_MARGIN);
+            }
+          else
+            {
+              set_frame_alignment(Qt::AlignHCenter | Qt::AlignTop);
+            }
         }
       break;
     }
@@ -277,6 +307,22 @@ PreludeWindow::event(QEvent *event) -> bool
 void
 PreludeWindow::avoid_pointer(int px, int py)
 {
+  did_avoid = true;
+
+  if (!position_windows)
+    {
+      const int frame_midpoint = frame->geometry().center().y();
+      if (frame_midpoint > height() / 2)
+        {
+          set_frame_alignment(Qt::AlignHCenter | Qt::AlignTop);
+        }
+      else
+        {
+          set_frame_alignment(Qt::AlignHCenter | Qt::AlignBottom);
+        }
+      return;
+    }
+
   const QRect &geo = geometry();
 
   const QRect rect = screen->geometry();
@@ -317,5 +363,29 @@ PreludeWindow::avoid_pointer(int px, int py)
     }
 
   move(winx, winy);
-  did_avoid = true;
+}
+
+void
+PreludeWindow::set_frame_alignment(Qt::Alignment alignment)
+{
+  layout->setContentsMargins(1, SCREEN_MARGIN, 1, SCREEN_MARGIN);
+  layout->setAlignment(frame, alignment);
+  layout->activate();
+  QTimer::singleShot(0, this, [this] { update_input_region(); });
+}
+
+void
+PreludeWindow::update_input_region()
+{
+  if (!position_windows && frame != nullptr)
+    {
+      setMask(QRegion(frame->geometry()));
+    }
+}
+
+void
+PreludeWindow::resizeEvent(QResizeEvent *event)
+{
+  QWidget::resizeEvent(event);
+  update_input_region();
 }

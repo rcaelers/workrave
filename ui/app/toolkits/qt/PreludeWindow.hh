@@ -57,7 +57,10 @@ public:
 private:
   void on_frame_flash(bool frame_visible);
   void avoid_pointer(int x, int y);
+  void set_frame_alignment(Qt::Alignment alignment);
+  void update_input_region();
   auto event(QEvent *event) -> bool override;
+  void resizeEvent(QResizeEvent *event) override;
 
 private:
   const static int SCREEN_MARGIN = 20;
@@ -71,6 +74,7 @@ private:
   bool flash_visible = false;
   QString progress_text;
   bool did_avoid = false;
+  bool position_windows{true};
 
   QVBoxLayout *layout{nullptr};
   TimeBar *timebar{nullptr};
