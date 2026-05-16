@@ -51,9 +51,8 @@ run_docker_appimage() {
 }
 
 init_newsgen() {
-    cd ${SCRIPTS_DIR}/citool
-    npm ci
-    npm run build
+    source ${SCRIPTS_DIR}/ci/ship.sh
+    build_ship
 }
 
 init() {
@@ -115,7 +114,7 @@ generate_blog() {
     if [ ! -d $DIR ]; then
         mkdir -p ${DIR}
         cd /
-        node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+        run_ship newsgen \
             --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
             --release $(echo ${WORKRAVE_VERSION} | sed -e 's/^v//g') \

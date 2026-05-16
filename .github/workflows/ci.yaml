@@ -488,10 +488,10 @@ jobs:
 
       - name: Create artifact catalog
         run: |
-          cd $GITHUB_WORKSPACE/tools/citool
-          npm ci
-          npm run build
-          node $GITHUB_WORKSPACE/tools/citool/dist/citool.js catalog
+          export SCRIPTS_DIR=$GITHUB_WORKSPACE/tools
+          source $SCRIPTS_DIR/ci/ship.sh
+          build_ship
+          run_ship catalog
         env:
           WORKSPACE: ${{ github.workspace }}
           SNAPSHOTS_SECRET_ACCESS_KEY: ${{ secrets.SNAPSHOTS_SECRET_ACCESS_KEY }}

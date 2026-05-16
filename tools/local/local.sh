@@ -55,9 +55,8 @@ upload() {
 }
 
 init_newsgen() {
-    cd ${SCRIPTS_DIR}/citool
-    npm ci
-    npm run build
+    source ${SCRIPTS_DIR}/ci/ship.sh
+    build_ship
 }
 
 init() {
@@ -102,7 +101,7 @@ generate_news() {
     series=$1
 
     cd /
-    node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+    run_ship newsgen \
         --input "${SOURCES_DIR}/changes.yaml" \
         --template github \
         --release $(echo $VERSION | sed -e 's/^v//g') \
@@ -116,7 +115,7 @@ generate_news() {
     if [ ! -d $DIR ]; then
         mkdir -p ${DIR}
         cd /
-        node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+        run_ship newsgen \
             --input "${SOURCES_DIR}/changes.yaml" \
             --template blog \
             --release $(echo $VERSION | sed -e 's/^v//g') \

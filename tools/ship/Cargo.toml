@@ -1,0 +1,39 @@
+[package]
+name = "ship"
+version = "0.1.0"
+edition = "2021"
+description = "Workrave CI/CD tools (Rust port)"
+authors = ["Rob Caelers"]
+license = "MIT"
+
+[[bin]]
+name = "ship"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+async-trait = "0.1"
+aws-config = { version = "1", default-features = false, features = ["behavior-version-latest", "rt-tokio"] }
+aws-credential-types = "1"
+aws-sdk-s3 = { version = "1", default-features = false, features = ["rt-tokio", "rustls"] }
+aws-smithy-runtime-api = "1"
+aws-smithy-types = "1"
+chrono = { version = "0.4", features = ["serde"] }
+clap = { version = "4", features = ["derive", "env"] }
+git2 = { version = "0.20", default-features = false }
+minijinja = { version = "2", features = ["loader", "json", "loop_controls"] }
+pulldown-cmark = { version = "0.13", default-features = false }
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+semver = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+serde_yaml = "0.9"
+textwrap = { version = "0.16", default-features = false }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "fs"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[profile.release]
+lto = "thin"
+strip = true

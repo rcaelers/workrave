@@ -2,6 +2,7 @@
 
 BASEDIR=$(dirname "$0")
 source ${BASEDIR}/config.sh
+source ${SCRIPTS_DIR}/ci/ship.sh
 
 parse_arguments() {
   while getopts "c:" o; do
@@ -31,11 +32,9 @@ else
   CHANNEL=${CHANNEL:-dev}
 fi
 
-cd ${SCRIPTS_DIR}/citool
-npm ci
-npm run build
+build_ship
 cd ${SOURCES_DIR}
-node ${SCRIPTS_DIR}/citool/dist/citool.js newsgen \
+run_ship newsgen \
   --input "${SOURCES_DIR}/changes.yaml" \
   --template github \
   $GEN_ARGS \
