@@ -24,6 +24,9 @@
 #define HAVE_LANGUAGE_SELECTION
 #include "GeneralUiPreferencesPanel.hh"
 
+#include <filesystem>
+#include <set>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
 
@@ -32,6 +35,7 @@
 
 #include "utils/Platform.hh"
 #include "utils/Paths.hh"
+#include "utils/AssetPath.hh"
 
 #include "UiUtil.hh"
 #include "ui/GUIConfig.hh"
@@ -151,6 +155,12 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
   UiUtil::add_widget(layout, tr("Language:"), languages_combo, size_group);
 #endif
 
+  update_icon_theme_combo();
+  if (icon_theme_combo != nullptr)
+    {
+      UiUtil::add_widget(layout, tr("Icon Theme:"), icon_theme_combo, size_group);
+    }
+
 #if defined(PLATFORM_OS_WINDOWS)
   autostart_cb = new QCheckBox;
   autostart_cb->setText(tr("Start Workrave on Windows startup"));
@@ -160,6 +170,13 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
   auto value = Platform::registry_get_value(RUNKEY, "Workrave");
   autostart_cb->setCheckState(value.has_value() ? Qt::Checked : Qt::Unchecked);
   connect(autostart_cb, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState) { on_autostart_toggled(); });
+
+  light_dark_combo = new QComboBox;
+  light_dark_combo->addItem(tr("Light"));
+  light_dark_combo->addItem(tr("Dark"));
+  light_dark_combo->addItem(tr("Auto"));
+  connector->connect(GUIConfig::light_dark_mode(), dc::wrap(light_dark_combo));
+  UiUtil::add_widget(layout, tr("Dark mode:"), light_dark_combo, size_group);
 #endif
 
   auto *trayicon_cb = new QCheckBox;
@@ -220,71 +237,69 @@ GeneralUiPreferencesPanel::on_block_changed()
   GUIConfig::block_mode().set(m);
 }
 
-// void
-// GeneralPreferencePanel::on_icon_theme_changed()
-// {
-//   TRACE_ENTRY();
-//   int idx = icon_theme_button->get_active_row_number();
+void
+GeneralUiPreferencesPanel::on_icon_theme_changed()
+{
+  if (icon_theme_combo == nullptr)
+    {
+      return;
+    }
 
-//   if (idx == 0)
-//     {
-//       GUIConfig::icon_theme().set("");
-//     }
-//   else
-//     {
-//       GUIConfig::icon_theme().set(icon_theme_button->get_active_text());
-//     }
-// }
+  int idx = icon_theme_combo->currentIndex();
+  GUIConfig::icon_theme().set(idx <= 0 ? std::string() : icon_theme_combo->currentText().toStdString());
+}
 
-// void
-// GeneralPreferencePanel::update_icon_theme_combo()
-// {
-//   TRACE_ENTRY();
-//   std::list<std::string> themes;
+void
+GeneralUiPreferencesPanel::update_icon_theme_combo()
+{
+  std::set<std::string> themes;
 
-//   for (const auto &dirname: AssetPath::get_search_path(SearchPathId::Images))
-//     {
-//       auto path = dirname.string();
-//       if (!g_str_has_suffix(path.c_str(), "images"))
-//         {
-//           continue;
-//         }
+  for (const auto &dirname: AssetPath::get_search_path(SearchPathId::Images))
+    {
+      if (dirname.filename() != "images")
+        {
+          continue;
+        }
 
-//       GDir *dir = g_dir_open(path.c_str(), 0, nullptr);
-//       if (dir != nullptr)
-//         {
-//           const char *file = nullptr;
-//           while ((file = g_dir_read_name(dir)) != nullptr)
-//             {
-//               gchar *test_path = g_build_filename(dirname.string().c_str(), file, nullptr);
-//               if (test_path != nullptr && g_file_test(test_path, G_FILE_TEST_IS_DIR))
-//                 {
-//                   themes.emplace_back(file);
-//                 }
-//               g_free(test_path);
-//             }
-//           g_dir_close(dir);
-//         }
-//     }
+      std::error_code ec;
+      if (!std::filesystem::is_directory(dirname, ec))
+        {
+          continue;
+        }
 
-//   if (!themes.empty())
-//     {
-//       icon_theme_button = Gtk::manage(new Gtk::ComboBoxText());
+      for (const auto &entry: std::filesystem::directory_iterator(dirname, ec))
+        {
+          std::error_code entry_ec;
+          if (entry.is_directory(entry_ec))
+            {
+              themes.insert(entry.path().filename().string());
+            }
+        }
+    }
 
-//       icon_theme_button->append(_("Default"));
-//       icon_theme_button->set_active(0);
+  if (themes.empty())
+    {
+      return;
+    }
 
-//       std::string current_icontheme = GUIConfig::icon_theme()();
-//       int idx = 1;
-//       for (auto &theme: themes)
-//         {
-//           icon_theme_button->append(theme);
-//           if (current_icontheme == theme)
-//             {
-//               icon_theme_button->set_active(idx);
-//             }
-//           idx++;
-//         }
-//       icon_theme_button->signal_changed().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_icon_theme_changed));
-//     }
-// }
+  icon_theme_combo = new QComboBox;
+  icon_theme_combo->addItem(tr("Default"));
+
+  std::string current_icon_theme = GUIConfig::icon_theme()();
+  int selected = 0;
+  int idx = 1;
+  for (const auto &theme: themes)
+    {
+      icon_theme_combo->addItem(QString::fromStdString(theme));
+      if (current_icon_theme == theme)
+        {
+          selected = idx;
+        }
+      idx++;
+    }
+
+  icon_theme_combo->setCurrentIndex(selected);
+
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
+  QObject::connect(icon_theme_combo, signal, this, &GeneralUiPreferencesPanel::on_icon_theme_changed);
+}

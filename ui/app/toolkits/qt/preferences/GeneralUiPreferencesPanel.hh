@@ -35,11 +35,12 @@ public:
 
 private:
   void on_block_changed();
+  void update_icon_theme_combo();
+  void on_icon_theme_changed();
 
 #if defined(PLATFORM_OS_WINDOWS)
   void on_autostart_toggled();
 #endif
-  void on_icon_theme_changed();
 
 private:
   DataConnector::Ptr connector;
@@ -56,6 +57,7 @@ private:
 #endif
 #if defined(PLATFORM_OS_WINDOWS)
   QCheckBox *autostart_cb{nullptr};
+  QComboBox *light_dark_combo{nullptr};
 #endif
 
   std::shared_ptr<SizeGroup> size_group;
