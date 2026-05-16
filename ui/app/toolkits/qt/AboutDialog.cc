@@ -31,6 +31,30 @@
 using namespace workrave;
 using namespace workrave::utils;
 
+namespace
+{
+  auto
+  join_authors() -> QString
+  {
+    QStringList authors;
+    for (int index = 0; workrave_authors[index] != nullptr; index++)
+      {
+        authors << QString::fromUtf8(workrave_authors[index]);
+      }
+    return authors.join('\n');
+  }
+
+  auto
+  create_credits_view(const QString &text) -> QTextBrowser *
+  {
+    auto *view = new QTextBrowser;
+    view->setPlainText(text);
+    view->setOpenExternalLinks(true);
+    view->setMinimumSize(360, 180);
+    return view;
+  }
+} // namespace
+
 AboutDialog::AboutDialog()
 {
   setWindowTitle(tr("About Workrave"));
@@ -39,14 +63,14 @@ AboutDialog::AboutDialog()
   auto *layout = new QGridLayout(this);
   layout->setSizeConstraint(QLayout::SetFixedSize);
 
+  QString version = WORKRAVE_VERSION;
+#if defined(WORKRAVE_GIT_VERSION)
+  version += "\n(" WORKRAVE_GIT_VERSION ")";
+#endif
+
   QString description = qstr(qformat(tr("<h3>Workrave %s</h3>"
                                         "<br/>%s<br/>"))
-                             %
-#if defined(WORKRAVE_GIT_VERSION)
-                             (WORKRAVE_VERSION "(" WORKRAVE_GIT_VERSION ")") %
-#else
-                             (WORKRAVE_VERSION "") %
-#endif
+                             % version.toStdString() %
                              tr("This program assists in the prevention and recovery"
                                 " of Repetitive Strain Injury (RSI)."));
 
@@ -60,9 +84,19 @@ AboutDialog::AboutDialog()
   copyright_label->setOpenExternalLinks(false);
   copyright_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
+  auto *website_label = new QLabel(tr("<a href=\"https://www.workrave.org/\">www.workrave.org</a>"));
+  website_label->setOpenExternalLinks(true);
+  website_label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+
+  auto *credits = new QTabWidget;
+  credits->addTab(create_credits_view(join_authors()), tr("Authors"));
+  credits->addTab(create_credits_view(QString::fromUtf8(workrave_translators)), tr("Translators"));
+
   auto *vbox = new QVBoxLayout;
   vbox->addWidget(description_label);
   vbox->addWidget(copyright_label);
+  vbox->addWidget(website_label);
+  vbox->addWidget(credits);
 
   auto *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
   QPushButton *closeButton = button_box->button(QDialogButtonBox::Close);
@@ -77,6 +111,4 @@ AboutDialog::AboutDialog()
   layout->addWidget(logoLabel, 0, 0, 5, 1, Qt::AlignCenter);
   layout->addLayout(vbox, 0, 1, 4, 4);
   layout->addWidget(button_box, 4, 0, 1, 5);
-
-  // TODO: add authors/translators.
 }
