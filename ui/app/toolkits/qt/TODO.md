@@ -277,9 +277,9 @@ The rest of this file keeps lower-level notes that explain where the user-visibl
 - [x] Review crash reporter localization and focus/default-button behavior.
   - Gtk uses translated strings, focuses the text entry, and lets users inspect/select report attachments.
   - Qt now translates visible strings, adds the missing comments label/hint, focuses the comments text entry, and exposes crash summary/attachment selection.
-- [ ] Review Exercises dialog/panel sizing and action placement.
+- [x] Review Exercises dialog/panel sizing and action placement.
   - Gtk constrains exercise image/description sizes and uses the dialog action area in standalone mode.
-  - Qt embeds all buttons in the panel and has fewer size constraints.
+  - Qt now constrains the exercise image/description widgets and moves standalone player controls into the dialog button box.
 
 ## Packaging and Build Follow-Up
 

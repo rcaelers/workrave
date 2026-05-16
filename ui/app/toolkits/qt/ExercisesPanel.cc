@@ -37,10 +37,12 @@ using namespace workrave::utils;
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool standalone)
+ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, QDialogButtonBox *dialog_action_area)
   : sound_theme(app->get_sound_theme())
   , exercises(app->get_exercises())
 {
+  standalone = dialog_action_area != nullptr;
+
   auto exercise_list = exercises->get_exercises();
 
   copy(exercise_list.begin(), exercise_list.end(), back_inserter(shuffled_exercises));
@@ -50,50 +52,60 @@ ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool st
   std::shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), g);
 
   auto *box = new QGridLayout;
+  box->setContentsMargins(0, 0, 0, 0);
+  box->setHorizontalSpacing(6);
+  box->setVerticalSpacing(6);
 
   image = new QLabel;
   image->setFrameShape(QFrame::Panel);
+  image->setAlignment(Qt::AlignCenter);
+  image->setFixedSize(250, 250);
+  image->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   box->addWidget(image, 0, 0);
 
   progress_bar = new QProgressBar;
   progress_bar->setOrientation(Qt::Vertical);
   progress_bar->setTextVisible(false);
+  progress_bar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
   box->addWidget(progress_bar, 0, 1);
 
   description_text = new QTextEdit;
   description_text->setWordWrapMode(QTextOption::WordWrap);
   description_text->setReadOnly(true);
+  description_text->setFrameShape(QFrame::NoFrame);
 
   description_scroll = new QScrollArea;
   description_scroll->setWidget(description_text);
   description_scroll->setWidgetResizable(true);
+  description_scroll->setMinimumSize(250, 200);
+  description_scroll->setMaximumSize(300, 300);
+  description_scroll->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
   pause_button = new QPushButton;
 
-  auto *back_button = new QPushButton;
-  back_button->setIcon(QIcon::fromTheme("go-previous", UiUtil::create_icon("go-previous-symbolic.svg")));
+  back_button = new QPushButton;
+  back_button->setIcon(QIcon::fromTheme("media-skip-backward", UiUtil::create_icon("go-previous-symbolic.svg")));
 
-  auto *forward_button = new QPushButton;
-  forward_button->setIcon(QIcon::fromTheme("go-next", UiUtil::create_icon("go-next-symbolic.svg")));
+  forward_button = new QPushButton;
+  forward_button->setIcon(QIcon::fromTheme("media-skip-forward", UiUtil::create_icon("go-next-symbolic.svg")));
 
-  auto *stop_button = new QPushButton;
-  stop_button->setIcon(QIcon::fromTheme("window-close", UiUtil::create_icon("window-close-symbolic.svg")));
-
-  if (standalone)
+  if (dialog_action_area != nullptr)
     {
-      auto *button_box = new QHBoxLayout();
+      back_button->setText(tr("Previous"));
+      forward_button->setText(tr("Next"));
 
-      button_box->addWidget(stop_button);
-      button_box->addWidget(back_button);
-      button_box->addWidget(pause_button);
-      button_box->addWidget(forward_button);
+      dialog_action_area->addButton(back_button, QDialogButtonBox::ActionRole);
+      dialog_action_area->addButton(pause_button, QDialogButtonBox::ActionRole);
+      dialog_action_area->addButton(forward_button, QDialogButtonBox::ActionRole);
 
       box->addWidget(description_scroll, 0, 2);
-      box->addLayout(button_box, 1, 0, 1, 3);
     }
   else
     {
+      stop_button = new QPushButton;
+      stop_button->setIcon(QIcon::fromTheme("window-close", UiUtil::create_icon("window-close-symbolic.svg")));
+
       auto *button_box = new QHBoxLayout;
       auto *browse_label = new QLabel;
 
@@ -103,10 +115,11 @@ ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool st
       browse_label->setText(browse_label_text);
 
       button_box->addWidget(browse_label);
-      button_box->addWidget(stop_button);
+      button_box->addStretch();
       button_box->addWidget(back_button);
       button_box->addWidget(pause_button);
       button_box->addWidget(forward_button);
+      button_box->addWidget(stop_button);
 
       auto *description_box = new QVBoxLayout;
       description_box->addWidget(description_scroll);
@@ -118,12 +131,18 @@ ExercisesPanel::ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool st
   connect(back_button, &QPushButton::clicked, this, &ExercisesPanel::on_go_back);
   connect(forward_button, &QPushButton::clicked, this, &ExercisesPanel::on_go_forward);
   connect(pause_button, &QPushButton::clicked, this, &ExercisesPanel::on_pause);
-  connect(stop_button, &QPushButton::clicked, this, &ExercisesPanel::on_stop);
+  if (stop_button != nullptr)
+    {
+      connect(stop_button, &QPushButton::clicked, this, &ExercisesPanel::on_stop);
+    }
 
   back_button->setToolTip(tr("Previous exercise"));
   forward_button->setToolTip(tr("Next exercise"));
   pause_button->setToolTip(tr("Pause exercises"));
-  stop_button->setToolTip(tr("End exercises"));
+  if (stop_button != nullptr)
+    {
+      stop_button->setToolTip(tr("End exercises"));
+    }
 
   timer = new QTimer(this);
   connect(timer, SIGNAL(timeout()), this, SLOT(heartbeat()));
@@ -267,11 +286,13 @@ ExercisesPanel::refresh_pause()
 {
   if (paused)
     {
-      pause_button->setIcon(QIcon::fromTheme("media-playback-pause", UiUtil::create_icon("media-playback-pause-symbolic.svg")));
+      pause_button->setIcon(QIcon::fromTheme("media-playback-start", UiUtil::create_icon("media-playback-start-symbolic.svg")));
+      pause_button->setText(standalone ? tr("Resume") : QString());
     }
   else
     {
-      pause_button->setIcon(QIcon::fromTheme("media-playback-start", UiUtil::create_icon("media-playback-start-symbolic.svg")));
+      pause_button->setIcon(QIcon::fromTheme("media-playback-pause", UiUtil::create_icon("media-playback-pause-symbolic.svg")));
+      pause_button->setText(standalone ? tr("Pause") : QString());
     }
 
   if (paused)

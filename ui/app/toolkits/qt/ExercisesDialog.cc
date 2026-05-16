@@ -27,17 +27,29 @@
 #include "debug.hh"
 
 #include "ExercisesPanel.hh"
+#include "UiUtil.hh"
 
 ExercisesDialog::ExercisesDialog(std::shared_ptr<IApplicationContext> app)
 {
   TRACE_ENTRY();
+  setWindowTitle(tr("Exercises"));
+
   auto *layout = new QVBoxLayout();
   layout->setContentsMargins(1, 1, 1, 1);
   setLayout(layout);
 
-  panel = new ExercisesPanel(app, true);
+  auto *button_box = new QDialogButtonBox(QDialogButtonBox::Close);
+  QPushButton *close_button = button_box->button(QDialogButtonBox::Close);
+  close_button->setIcon(QIcon::fromTheme("window-close", UiUtil::create_icon("window-close-symbolic.svg")));
+  close_button->setAutoDefault(true);
+  close_button->setDefault(true);
+
+  panel = new ExercisesPanel(app, button_box);
   panel->set_exercise_count(0);
   panel->signal_stop().connect([this] { accept(); });
 
   layout->addWidget(panel);
+  layout->addWidget(button_box);
+
+  connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::accept);
 }

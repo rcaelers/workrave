@@ -111,7 +111,7 @@ RestBreakWindow::install_exercises_panel()
   auto core = app->get_core();
   core->set_insist_policy(InsistPolicy::Ignore);
 
-  auto *exercises_panel = new ExercisesPanel(app, false);
+  auto *exercises_panel = new ExercisesPanel(app);
 
   pluggable_panel->addWidget(exercises_panel);
 

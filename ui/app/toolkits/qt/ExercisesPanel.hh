@@ -33,7 +33,7 @@ class ExercisesPanel : public QWidget
   Q_OBJECT
 
 public:
-  explicit ExercisesPanel(std::shared_ptr<IApplicationContext> app, bool standalone);
+  explicit ExercisesPanel(std::shared_ptr<IApplicationContext> app, QDialogButtonBox *dialog_action_area = nullptr);
   ~ExercisesPanel() override = default;
 
   void set_exercise_count(int num);
@@ -70,7 +70,10 @@ private:
   QProgressBar *progress_bar{nullptr};
   QTextEdit *description_text{nullptr};
   QScrollArea *description_scroll{nullptr};
+  QPushButton *back_button{nullptr};
   QPushButton *pause_button{nullptr};
+  QPushButton *forward_button{nullptr};
+  QPushButton *stop_button{nullptr};
 
   std::shared_ptr<ExerciseCollection> exercises;
   std::vector<Exercise> shuffled_exercises;
@@ -82,6 +85,7 @@ private:
   int seq_time{0};
   bool paused{false};
   bool stopped{false};
+  bool standalone{false};
   int exercise_num{0};
   int exercise_count{0};
   static int exercises_pointer;
