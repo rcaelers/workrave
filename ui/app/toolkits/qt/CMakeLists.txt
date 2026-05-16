@@ -93,7 +93,6 @@ endif()
 
 set(MOC_SOURCES
   AboutDialog.hh
-  AutoUpdateDialog.cc
   BreakWindow.hh
   DailyLimitWindow.hh
   DebugDialog.hh

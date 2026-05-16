@@ -475,7 +475,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
 
   message(STATUS "Checking for: Qt")
   find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Svg LinguistTools Xml ${EXTRA_QT_COMPONENTS} REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui GuiPrivate Svg LinguistTools Xml ${EXTRA_QT_COMPONENTS} REQUIRED)
   qt6_standard_project_setup()
   set(CMAKE_AUTORCC ON)
 
