@@ -195,6 +195,13 @@ MicroBreakWindow::update_break_window()
 {
   update_label();
   time_bar->update();
+
+  if (!fixed_size)
+    {
+      label->setMinimumSize(label->sizeHint());
+      fixed_size = true;
+      center();
+    }
 }
 
 void

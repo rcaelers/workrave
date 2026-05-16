@@ -46,6 +46,7 @@ private:
   std::shared_ptr<IApplicationContext> app;
   TimeBar *time_bar{nullptr};
   QLabel *label{nullptr};
+  bool fixed_size{false};
 };
 
 #endif // MICROBREAKWINDOW_HH
