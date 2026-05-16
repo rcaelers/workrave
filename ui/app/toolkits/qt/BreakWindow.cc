@@ -28,6 +28,11 @@
 #include <QApplication>
 #include <utility>
 
+#if defined(PLATFORM_OS_WINDOWS)
+#  include <windows.h>
+#  include "ui/windows/WindowsForceFocus.hh"
+#endif
+
 #include "core/ICore.hh"
 #include "utils/AssetPath.hh"
 #include "utils/Platform.hh"
@@ -578,6 +583,16 @@ BreakWindow::raise_break_windows()
   if (block_mode != BlockMode::Off && screen == QGuiApplication::primaryScreen())
     {
       activateWindow();
+
+#if defined(PLATFORM_OS_WINDOWS)
+      auto hwnd = reinterpret_cast<HWND>(winId());
+      SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+      BringWindowToTop(hwnd);
+      if (WindowsForceFocus::GetForceFocusValue())
+        {
+          WindowsForceFocus::ForceWindowFocus(hwnd, 0);
+        }
+#endif
     }
 }
 
