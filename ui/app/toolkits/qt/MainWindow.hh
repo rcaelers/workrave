@@ -51,6 +51,8 @@ public Q_SLOTS:
   void on_show_contextmenu(const QPoint &pos);
 
 private:
+  int convert_display_to_monitor(int &x, int &y);
+  void convert_monitor_to_display(int &x, int &y, int head);
   void move_to_start_position();
   void on_enabled_changed();
 

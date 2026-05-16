@@ -21,6 +21,8 @@
 
 #include "MainWindow.hh"
 
+#include <algorithm>
+
 #include <QCloseEvent>
 #include <QMoveEvent>
 #include <QApplication>
@@ -161,16 +163,20 @@ MainWindow::move_to_start_position()
   int y = GUIConfig::main_window_y()();
   int head = GUIConfig::main_window_head()();
 
-  QList<QScreen *> screens = QGuiApplication::screens();
-  QScreen *screen = nullptr;
+  if (head >= app->get_toolkit()->get_head_count())
+    {
+      head = 0;
+    }
+  convert_monitor_to_display(x, y, head);
 
-  if (head < 0 || head >= screens.size())
+  QScreen *screen = QGuiApplication::screenAt(QPoint(x, y));
+  if (screen == nullptr)
     {
       screen = QGuiApplication::primaryScreen();
     }
-  else
+  if (screen == nullptr)
     {
-      screen = screens.at(head);
+      return;
     }
 
   const QRect availableGeometry = screen->availableGeometry();
@@ -190,6 +196,67 @@ MainWindow::move_to_start_position()
   TRACE_VAR(geometry.x(), geometry.y(), head);
 
   move(geometry.topLeft());
+}
+
+int
+MainWindow::convert_display_to_monitor(int &x, int &y)
+{
+  const QList<QScreen *> screens = QGuiApplication::screens();
+  for (int i = 0; i < screens.size(); i++)
+    {
+      QScreen *screen = screens.at(i);
+      if (screen == nullptr)
+        {
+          continue;
+        }
+
+      QRect geometry = screen->geometry();
+      if (x >= geometry.left() && y >= geometry.top() && x < geometry.left() + geometry.width()
+          && y < geometry.top() + geometry.height())
+        {
+          x -= geometry.left();
+          y -= geometry.top();
+
+          if (x >= geometry.width() / 2)
+            {
+              x -= geometry.width();
+            }
+          if (y >= geometry.height() / 2)
+            {
+              y -= geometry.height();
+            }
+          return i;
+        }
+    }
+
+  x = y = 100;
+  return 0;
+}
+
+void
+MainWindow::convert_monitor_to_display(int &x, int &y, int head)
+{
+  const QList<QScreen *> screens = QGuiApplication::screens();
+  if (head < 0 || head >= screens.size() || screens.at(head) == nullptr)
+    {
+      return;
+    }
+
+  QRect geometry = screens.at(head)->geometry();
+  if (x < 0)
+    {
+      x += geometry.width();
+    }
+  if (y < 0)
+    {
+      y += geometry.height();
+    }
+
+  x = std::clamp(x, 0, geometry.width());
+  y = std::clamp(y, 0, geometry.height());
+
+  x += geometry.left();
+  y += geometry.top();
 }
 
 void
@@ -223,12 +290,13 @@ MainWindow::moveEvent(QMoveEvent *event)
 {
   if (isVisible())
     {
-      GUIConfig::main_window_x().set(frameGeometry().x());
-      GUIConfig::main_window_y().set(frameGeometry().y());
+      int x = frameGeometry().x();
+      int y = frameGeometry().y();
+      int screen_index = convert_display_to_monitor(x, y);
 
-      QScreen *screen = window()->windowHandle()->screen();
-      auto screen_index = QGuiApplication::screens().indexOf(screen);
-      GUIConfig::main_window_head().set(static_cast<int>(screen_index));
+      GUIConfig::main_window_x().set(x);
+      GUIConfig::main_window_y().set(y);
+      GUIConfig::main_window_head().set(screen_index);
     }
   QWidget::moveEvent(event);
 }
