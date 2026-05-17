@@ -25,6 +25,7 @@
 
 #include <X11/Xlib.h>
 
+#include "BreakWindow.hh"
 #include "debug.hh"
 #include "utils/Platform.hh"
 #include "ui/GUIConfig.hh"
@@ -76,23 +77,15 @@ ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 #endif
 
   Toolkit::init(app);
-
-  Glib::VariantType String(Glib::VARIANT_TYPE_STRING);
-  gapp->add_action_with_parameter("confirm-notification", String, [this](const Glib::VariantBase &value) {
-    Glib::Variant<Glib::ustring> s = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-    notify_confirm(s.get());
-  });
 }
 
-IBreakWindow::Ptr
-ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags)
+auto
+ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) -> IBreakWindow::Ptr
 {
   auto ret = Toolkit::create_break_window(screen_index, break_id, break_flags);
-  // FIXME: remove hack
   if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
     {
-      auto *gdk_window = break_window->get_window()->gobj();
-      locker->set_window(gdk_window);
+      locker->set_window(break_window->winId());
     }
   return ret;
 }
@@ -143,11 +136,5 @@ ToolkitUnix::show_notification(const std::string &id,
                                const std::string &balloon,
                                std::function<void()> func)
 {
-  // notify_add_confirm_function(id, func);
-  // auto notification = Gio::Notification::create("Workrave");
-  // notification->set_body(balloon);
-  // notification->set_default_action_variant("app.confirm-notification", Glib::Variant<Glib::ustring>::create(id));
-  // auto icon = Gio::ThemedIcon::create("dialog-information");
-  // notification->set_icon(icon);
-  // gapp->send_notification(id, notification);
+  Toolkit::show_notification(id, title, balloon, std::move(func));
 }
