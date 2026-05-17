@@ -215,7 +215,7 @@ DBusPreludeWindow::set_progress_text(workrave::IApp::PreludeProgressText text)
 }
 
 bool
-DBusPreludeWindow::is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr dbus)
+DBusPreludeWindow::is_gnome_shell_applet_available(std::shared_ptr<workrave::dbus::IDBus> dbus)
 {
   try
     {
