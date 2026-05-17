@@ -39,6 +39,7 @@ public:
   // IToolkit
   void preinit(std::shared_ptr<workrave::config::IConfigurator> config) override;
   void init(std::shared_ptr<IApplicationContext> app) override;
+  auto create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) -> IBreakWindow::Ptr override;
   std::shared_ptr<Locker> get_locker() override;
   auto get_display_name() const -> const char * override;
 

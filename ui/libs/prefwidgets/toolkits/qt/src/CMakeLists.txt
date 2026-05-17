@@ -16,8 +16,6 @@ if (HAVE_APP_QT)
     ../include/ui/prefwidgets/qt/Widget.hh
   )
 
-  qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
-
   target_sources(workrave-libs-ui-prefwidgets-qt PRIVATE
     BoxWidget.cc
     Builder.cc
@@ -31,7 +29,7 @@ if (HAVE_APP_QT)
     SizeGroup.cc
     TimeEntryWidget.cc
     Widget.cc
-    ${MOC_SRC}
+    ${MOC_SOURCES}
     )
 
   target_include_directories(

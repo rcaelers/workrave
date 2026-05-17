@@ -143,6 +143,8 @@ WindowsLocker::can_lock()
 void
 WindowsLocker::prepare_lock()
 {
+  TRACE_ENTRY();
+
   active_window = GetForegroundWindow();
 
   if (active_window != nullptr)
@@ -165,6 +167,8 @@ WindowsLocker::lock()
 void
 WindowsLocker::unlock()
 {
+  TRACE_ENTRY();
+
   UINT previous_state = 0;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, FALSE, &previous_state, 0);
   Hook::instance()->disable();

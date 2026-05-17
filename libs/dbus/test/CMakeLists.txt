@@ -10,11 +10,8 @@ if (HAVE_DBUS AND HAVE_QT AND HAVE_TESTS)
     DBusTestQt.cc
     )
 
-  qt_wrap_cpp(MOC_SRC
+  set(TEST_SRC ${TEST_SRC}
     Test.hh
-  )
-
-  set(TEST_SRC ${TEST_SRC} ${MOC_SRC}
     Test.cc
     )
 

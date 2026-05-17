@@ -153,9 +153,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     )
 endif()
 
-qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
-
-target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
+target_sources(workrave-toolkit-qt PRIVATE ${MOC_SOURCES})
 
 
 target_link_libraries(workrave-toolkit-qt PRIVATE
