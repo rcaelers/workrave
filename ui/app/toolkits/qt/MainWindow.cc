@@ -202,6 +202,8 @@ int
 MainWindow::convert_display_to_monitor(int &x, int &y)
 {
   const QList<QScreen *> screens = QGuiApplication::screens();
+  const QRect frame = frameGeometry();
+
   for (int i = 0; i < screens.size(); i++)
     {
       QScreen *screen = screens.at(i);
@@ -214,16 +216,26 @@ MainWindow::convert_display_to_monitor(int &x, int &y)
       if (x >= geometry.left() && y >= geometry.top() && x < geometry.left() + geometry.width()
           && y < geometry.top() + geometry.height())
         {
-          x -= geometry.left();
-          y -= geometry.top();
-
-          if (x >= geometry.width() / 2)
+          if (x - geometry.left() >= geometry.width() / 2)
             {
-              x -= geometry.width();
+              const int frame_right = x + frame.width();
+              const int screen_right = geometry.left() + geometry.width();
+              x = frame_right - screen_right - 1;
             }
-          if (y >= geometry.height() / 2)
+          else
             {
-              y -= geometry.height();
+              x -= geometry.left();
+            }
+
+          if (y - geometry.top() >= geometry.height() / 2)
+            {
+              const int frame_bottom = y + frame.height();
+              const int screen_bottom = geometry.top() + geometry.height();
+              y = frame_bottom - screen_bottom - 1;
+            }
+          else
+            {
+              y -= geometry.top();
             }
           return i;
         }
@@ -243,20 +255,29 @@ MainWindow::convert_monitor_to_display(int &x, int &y, int head)
     }
 
   QRect geometry = screens.at(head)->geometry();
+  const QSize frame_size = frameGeometry().size();
+
   if (x < 0)
     {
-      x += geometry.width();
+      const int screen_right = geometry.left() + geometry.width();
+      x = x <= -frame_size.width() ? screen_right + x : screen_right + x + 1 - frame_size.width();
     }
+  else
+    {
+      x = std::clamp(x, 0, geometry.width());
+      x += geometry.left();
+    }
+
   if (y < 0)
     {
-      y += geometry.height();
+      const int screen_bottom = geometry.top() + geometry.height();
+      y = y <= -frame_size.height() ? screen_bottom + y : screen_bottom + y + 1 - frame_size.height();
     }
-
-  x = std::clamp(x, 0, geometry.width());
-  y = std::clamp(y, 0, geometry.height());
-
-  x += geometry.left();
-  y += geometry.top();
+  else
+    {
+      y = std::clamp(y, 0, geometry.height());
+      y += geometry.top();
+    }
 }
 
 void
