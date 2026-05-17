@@ -136,7 +136,7 @@ target_link_directories(workrave-toolkit-qt PRIVATE
 
 if (HAVE_UNFOLD_AUTO_UPDATE)
   if (PLATFORM_OS_WINDOWS)
-    target_sources(workrave-toolkit-qt PRIVATE platforms/windows/Edge.cc)
+    #target_sources(workrave-toolkit-qt PRIVATE platforms/windows/Edge.cc)
     target_link_libraries(workrave-toolkit-qt PUBLIC Unfold::unfold cmark webview2 ws2_32 mswsock)
     target_compile_definitions(workrave-toolkit-qt PRIVATE CMARK_NO_SHORT_NAMES)
   endif()
@@ -153,9 +153,7 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
     )
 endif()
 
-qt_wrap_cpp(MOC_SRC ${MOC_SOURCES})
-
-target_sources(workrave-toolkit-qt PRIVATE ${MOC_SRC})
+target_sources(workrave-toolkit-qt PRIVATE ${MOC_SOURCES})
 
 
 target_link_libraries(workrave-toolkit-qt PRIVATE
