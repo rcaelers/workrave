@@ -40,7 +40,7 @@ AppIndicatorMenu::AppIndicatorMenu(std::shared_ptr<IPluginContext> context, std:
   GtkWidget *menu_widget = gtk_menu_new();
   app_indicator_set_menu(indicator, GTK_MENU(menu_widget));
   app_indicator_set_status(indicator, APP_INDICATOR_STATUS_ACTIVE);
-  app_indicator_set_attention_icon(indicator, "workrave");
+  app_indicator_set_attention_icon_full(indicator, "workrave", "workrave-icon");
 
   g_signal_connect(G_OBJECT(indicator),
                    APP_INDICATOR_SIGNAL_CONNECTION_CHANGED,
@@ -97,7 +97,7 @@ AppIndicatorMenu::on_operation_mode_changed(workrave::OperationMode mode)
       std::string directory = path.parent_path().string();
       std::string filename = path.filename().string();
       app_indicator_set_icon_theme_path(indicator, directory.c_str());
-      app_indicator_set_icon(indicator, filename.c_str());
+      app_indicator_set_icon_full(indicator, filename.c_str(), "workrave-icon");
     }
 
   update_dbus_menu_root();
