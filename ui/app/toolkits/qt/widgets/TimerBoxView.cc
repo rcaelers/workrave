@@ -22,6 +22,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QIcon>
+#include <QSizePolicy>
 #include <utility>
 
 #include "debug.hh"
@@ -32,7 +33,6 @@
 #include "Ui.hh"
 #include "UiUtil.hh"
 
-#include "SizeGroup.hh"
 #include "TimerBoxView.hh"
 
 using namespace workrave;
@@ -70,20 +70,16 @@ TimerBoxView::init()
 
   setLayout(layout);
 
-  auto *size_group = new SizeGroup(Qt::Horizontal | Qt::Vertical);
-
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
-
       if (i == BREAK_ID_REST_BREAK)
         {
           auto *button = new QPushButton("");
           button->setFlat(true);
           button->setFocusPolicy(Qt::NoFocus);
+          button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
           button->setToolTip(tr("Take rest break now"));
-          button->setIcon(QIcon(pixmap));
-          button->setIconSize(pixmap.size());
+          button->setStyleSheet("QPushButton { border: 0; margin: 0; padding: 0; background: transparent; }");
           connect(button, &QPushButton::clicked, this, [this]() {
             if (core)
               {
@@ -95,11 +91,9 @@ TimerBoxView::init()
       else
         {
           auto *label = new QLabel("");
-          label->setPixmap(pixmap);
+          label->setAlignment(Qt::AlignCenter);
           labels[i] = label;
         }
-
-      size_group->add_widget(labels[i]);
 
       bars[i] = new TimeBar();
       bars[i]->set_text_alignment(1);
@@ -267,18 +261,27 @@ TimerBoxView::set_icon(OperationModeIcon icon)
 void
 TimerBoxView::update_widgets()
 {
+  std::array<QPixmap, BREAK_ID_SIZEOF> pixmaps;
+  QSize icon_size;
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      QPixmap pixmap(Ui::get_break_icon_filename(BreakId(i)));
+      pixmaps[i] = QPixmap(Ui::get_break_icon_filename(BreakId(i)));
+      icon_size = icon_size.expandedTo(pixmaps[i].size());
+    }
 
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
       if (auto *button = qobject_cast<QPushButton *>(labels[i]); button != nullptr)
         {
-          button->setIcon(QIcon(pixmap));
-          button->setIconSize(pixmap.size());
+          button->setIcon(QIcon(pixmaps[i]));
+          button->setIconSize(pixmaps[i].size());
+          button->setFixedSize(icon_size);
         }
       else if (auto *label = qobject_cast<QLabel *>(labels[i]); label != nullptr)
         {
-          label->setPixmap(pixmap);
+          label->setPixmap(pixmaps[i]);
+          label->setFixedSize(icon_size);
         }
     }
 
