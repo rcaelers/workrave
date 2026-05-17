@@ -38,7 +38,7 @@ public:
   void set_stage(workrave::IApp::PreludeStage stage) override;
   void set_progress_text(workrave::IApp::PreludeProgressText text) override;
 
-  static bool is_gnome_shell_applet_available(workrave::dbus::IDBus::Ptr dbus);
+  static bool is_gnome_shell_applet_available(std::shared_ptr<workrave::dbus::IDBus> dbus);
 
 private:
   class Impl;
