@@ -243,6 +243,16 @@ ToolkitWindows::filter_func(MSG *msg)
       }
       break;
 
+    case WM_USER:
+      {
+        if (msg->wParam == 14)
+          {
+            TRACE_MSG("WM_USER quit command received");
+            create_oneshot_timer(0, [this]() { terminate(); });
+          }
+      }
+      break;
+
     case WM_TIMECHANGE:
       {
         TRACE_MSG("WM_TIMECHANGE {} {}", msg->wParam, msg->lParam);
