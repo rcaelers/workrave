@@ -34,7 +34,7 @@ LicenseFile=@INSTALL_WIN_PATH@\COPYING.txt
 WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
 WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
 PrivilegesRequired=admin
-PrivilegesRequiredOverridesAllowed=commandline
+PrivilegesRequiredOverridesAllowed=dialog
 CloseApplications=no
 ArchitecturesInstallIn64BitMode=x64compatible
 #ifdef SignTool
