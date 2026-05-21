@@ -959,19 +959,12 @@ if (WIN32)
   find_library(SSP_LIBRARY libssp)
 
   if (NOT ISCC)
-    if (NOT WINE)
-      get_filename_component(PROGRAM_FILES_PATH
-        "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir]" ABSOLUTE)
+    get_filename_component(PROGRAM_FILES_PATH
+      "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir]" ABSOLUTE)
 
-      get_filename_component(PROGRAM_FILES_X86_PATH
-        "[HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion;ProgramFilesDir (x86)]" ABSOLUTE)
-
-      file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 6" "${PROGRAM_FILES_X86_PATH}/Inno Setup 6")
-      find_program(INNOCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
-      set(ISCC "${INNOCC}")
-    else()
-      set(ISCC "C:/Program Files/Inno Setup 6/ISCC.exe")
-    endif()
+    file(GLOB ISCC_PATHS "${PROGRAM_FILES_PATH}/Inno Setup 7")
+    find_program(INNOCC NAMES iscc.exe ISCC.exe PATHS ${ISCC_PATHS})
+    set(ISCC "${INNOCC}")
   endif()
 
   set (HAVE_GSETTINGS OFF)
