@@ -49,7 +49,7 @@ init_debian_packaging() {
 
 init_dependencies() {
     apt-get update -q
-    apt-get -y -q -V --no-install-recommends install libgnome-panel-dev
+    apt-get -y -q -V --no-install-recommends install ca-certificates curl dirmngr gnupg libgnome-panel-dev
 }
 
 init_newsgen() {
@@ -82,6 +82,20 @@ build_changelog() {
         --output "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}/debian/changelog"
 }
 
+ensure_gpg_public_key() {
+    local key_id=$WORKRAVE_GPG_KEY_ID
+    local public_key_url=${WORKRAVE_GPG_PUBLIC_KEY_URL:-${SIGNING_SERVICE_URL}/sign/gpg/public-key}
+
+    if gpg --batch --list-keys "$key_id" >/dev/null 2>&1; then
+        return
+    fi
+
+    echo "Importing GPG public key from $public_key_url for dput signature verification"
+    curl -skfSL "$public_key_url" | gpg --batch --import
+
+    gpg --batch --list-keys "$key_id" >/dev/null
+}
+
 build_setup() {
     series=$1
 
@@ -107,7 +121,7 @@ build_single() {
     build_changelog $series
 
     cd "$BUILD_DIR/$series/workrave-${WORKRAVE_VERSION}"
-    debuild -p"${BASEDIR}/gpg-sign-client.sh" -d -S -sa -kEC02F3CD5A24B1DE -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
+    debuild -p"${BASEDIR}/gpg-sign-client.sh" -d -S -sa -k"$WORKRAVE_GPG_KEY_ID" -j8 --lintian-opts --suppress-tags bad-distribution-in-changes-file
 
     rm -rf "$DEPLOY_DIR/$series"
     mkdir -p "$DEPLOY_DIR/$series"
@@ -126,8 +140,10 @@ build_single() {
         if [ -n "$DRYRUN" ]; then
             echo Dryrun.
         elif [ -n "$PRERELEASE" ]; then
+            ensure_gpg_public_key
             dput -d $WORKRAVE_TESTING_PPA workrave_*_source.changes
         else
+            ensure_gpg_public_key
             dput -d $WORKRAVE_PPA workrave_*_source.changes
         fi
 
@@ -142,6 +158,8 @@ build_all() {
 
 DRYRUN=
 PRERELEASE=
+SIGNING_SERVICE_URL="${SIGNING_SERVICE_URL:-https://studio.local:50051}"
+WORKRAVE_GPG_KEY_ID=${WORKRAVE_GPG_KEY_ID:-009D57DD1AEE3280943BF3E4EC02F3CD5A24B1DE}
 WORKRAVE_DEB_VERSION=$(echo ${WORKRAVE_VERSION} | sed -e 's/-/~/g')
 SOURCE_TARFILE="${SOURCES_DIR}/workrave-${WORKRAVE_DEB_VERSION}.tar.gz"
 DEPLOY_TARFILE="${DEPLOY_DIR}/workrave-${WORKRAVE_DEB_VERSION}.tar.gz"

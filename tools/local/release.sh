@@ -11,7 +11,7 @@ run_docker_ppa() {
         -v "$SOURCES_DIR:/workspace/source" \
         -v "$DEPLOY_DIR:/workspace/deploy" \
         -v "$SCRIPTS_DIR:/workspace/scripts" $DEBVOL \
-        $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
+        $(printenv | grep -E '^(DOCKER_IMAGE|CONF_.*|SIGNING_SERVICE_URL|WORKRAVE_.*)=' | sed -e 's/^/-e/g') \
         ghcr.io/rcaelers/workrave-build:${DOCKER_IMAGE} \
         sh -c "/workspace/scripts/local/ppa.sh -p $PPA $DRYRUN $PRERELEASE_ARG"
 }
