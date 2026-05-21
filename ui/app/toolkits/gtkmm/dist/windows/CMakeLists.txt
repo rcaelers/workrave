@@ -158,16 +158,10 @@ set(INSTALLER_NAME "workrave-installer")
 set(INSTALLER_TARGET "${INSTALLER_NAME}.exe")
 set(ISCC_FILENAME_FLAGS "/F${INSTALLER_NAME}")
 
-if(WINE)
-  add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${WINE}" "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-                     DEPENDS workrave)
-else()
-  add_custom_command(OUTPUT ${INSTALLER_TARGET}
-                     COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
-                     DEPENDS workrave
-                     VERBATIM)
-endif()
+add_custom_command(OUTPUT ${INSTALLER_TARGET}
+                   COMMAND "${ISCC}" setup.iss "/o${CMAKE_INSTALL_PREFIX}" "/DCHANNEL=${WORKRAVE_CHANNEL}" ${ISCC_FLAGS} ${ISCC_FILENAME_FLAGS}
+                   DEPENDS workrave
+                   VERBATIM)
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
 

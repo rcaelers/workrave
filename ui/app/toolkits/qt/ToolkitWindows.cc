@@ -31,6 +31,7 @@
 
 #include <QGuiApplication>
 #include <QStyleHints>
+#include <QTimer>
 
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
@@ -126,9 +127,28 @@ bool
 ToolkitWindows::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 {
   TRACE_ENTRY();
+  (void)eventType;
   auto *msg = static_cast<MSG *>(message);
   switch (msg->message)
     {
+    case WM_QUERYENDSESSION:
+      {
+        logger->info("Windows session end requested: reason=0x{:x}", static_cast<unsigned int>(msg->lParam));
+        *result = TRUE;
+        return true;
+      }
+
+    case WM_ENDSESSION:
+      {
+        logger->info("Windows session ending: end={}, reason=0x{:x}", msg->wParam != FALSE, static_cast<unsigned int>(msg->lParam));
+        if (msg->wParam != FALSE)
+          {
+            request_graceful_shutdown((msg->lParam & ENDSESSION_CLOSEAPP) != 0 ? "Restart Manager close request"
+                                                                               : "Windows session end");
+          }
+      }
+      break;
+
     case WM_WTSSESSION_CHANGE:
       {
         if (msg->wParam == WTS_SESSION_LOCK)
@@ -217,6 +237,22 @@ ToolkitWindows::nativeEventFilter(const QByteArray &eventType, void *message, qi
   event_hook(msg);
 
   return false;
+}
+
+void
+ToolkitWindows::request_graceful_shutdown(const char *reason)
+{
+  if (shutdown_requested)
+    {
+      return;
+    }
+
+  shutdown_requested = true;
+  logger->info("Gracefully shutting down Workrave: {}", reason);
+
+  get_locker()->unlock();
+
+  QTimer::singleShot(0, this, [this]() { terminate(); });
 }
 
 HWND

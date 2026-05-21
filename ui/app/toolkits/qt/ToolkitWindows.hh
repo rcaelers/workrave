@@ -58,12 +58,13 @@ private:
   void init_filter();
   void init_gui();
   void apply_light_dark_mode(LightDarkTheme mode);
-  bool filter_func(MSG *msg);
+  void request_graceful_shutdown(const char *reason);
 
   bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
 private:
   boost::signals2::signal<bool(MSG *msg), IToolkitWindows::event_combiner> event_hook;
   workrave::utils::Trackable config_tracker;
+  bool shutdown_requested{false};
 
 #if defined(HAVE_HARPOON)
   std::shared_ptr<WindowsHarpoonLocker> locker;
