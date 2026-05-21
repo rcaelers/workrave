@@ -44,11 +44,34 @@
 #include <spdlog/sinks/rotating_file_sink.h>
 
 #include "commonui/nls.h"
+#include "utils/AssetPath.hh"
 #include "utils/Paths.hh"
 #include "utils/StringUtils.hh"
 
 namespace
 {
+  Gtk::Image *create_crashed_sheep_image()
+  {
+    const std::string image_file = workrave::utils::AssetPath::complete_directory("workrave-sheep-crashed.svg",
+                                                                                 workrave::utils::SearchPathId::Images);
+
+    try
+      {
+        auto pixbuf = Gdk::Pixbuf::create_from_file(image_file, 120, 88, true);
+        return Gtk::manage(new Gtk::Image(pixbuf));
+      }
+    catch (const Glib::Exception &e)
+      {
+        spdlog::info("error loading crash dialog image {}", std::string(e.what()));
+      }
+    catch (const std::exception &e)
+      {
+        spdlog::info("error loading crash dialog image {}", std::string(e.what()));
+      }
+
+    return nullptr;
+  }
+
   std::string format_hex(uint64_t value)
   {
     std::ostringstream oss;
@@ -337,12 +360,20 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
 
   const Gdk::RGBA header_fg("#1a1a1a");
 
+  auto *header_content = Gtk::manage(new Gtk::HBox(false, 12));
+  header_content->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
+  header_box->pack_start(*header_content, false, false, 0);
+
+  auto *header_text = Gtk::manage(new Gtk::VBox(false, 6));
+  header_text->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
+  header_content->pack_start(*header_text, true, true, 0);
+
   auto *title_label = Gtk::manage(new Gtk::Label());
   title_label->set_markup("<span weight=\"bold\" size=\"large\">Workrave has crashed.</span>");
   title_label->set_xalign(0);
   title_label->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
   title_label->override_color(header_fg, Gtk::STATE_FLAG_NORMAL);
-  header_box->pack_start(*title_label, false, false, 0);
+  header_text->pack_start(*title_label, false, false, 0);
 
   auto *info_label = Gtk::manage(new Gtk::Label(
     _("Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."),
@@ -351,7 +382,16 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   info_label->set_xalign(0);
   info_label->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
   info_label->override_color(header_fg, Gtk::STATE_FLAG_NORMAL);
-  header_box->pack_start(*info_label, false, false, 0);
+  header_text->pack_start(*info_label, false, false, 0);
+
+  if (auto *sheep_image = create_crashed_sheep_image(); sheep_image != nullptr)
+    {
+      sheep_image->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
+      auto *sheep_align = Gtk::manage(new Gtk::Alignment(Gtk::ALIGN_END, Gtk::ALIGN_START, 0.0, 0.0));
+      sheep_align->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
+      sheep_align->add(*sheep_image);
+      header_content->pack_start(*sheep_align, false, false, 0);
+    }
 
   // Content area
   auto *content_box = Gtk::manage(new Gtk::VBox(false, 8));
