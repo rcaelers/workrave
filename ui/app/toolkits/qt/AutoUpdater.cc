@@ -47,8 +47,11 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
 
   workrave::updater::Config::init(context->get_configurator());
 
-  auto rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/v1.11-qt/appcast.xml");
-  // rc = updater->set_appcast("https://snapshots.workrave.org/snapshots/staging/v1.11/appcast.xml");
+#ifdef HAVE_UPDATER_STAGING
+  auto rc = updater->set_appcast("https://appcast.workrave.org/staging/v1.11/appcast-qt.xml");
+#else
+  auto rc = updater->set_appcast("https://appcast.workrave.org/v1.11/appcast-qt.xml");
+#endif
   if (!rc)
     {
       logger->error("Invalid appcast URL");
@@ -77,6 +80,42 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   updater->set_update_available_callback(
     [&]() -> boost::asio::awaitable<unfold::UpdateResponse> { return on_update_available(); });
 
+  updater->set_pre_download_validation_callback([&](const unfold::UpdateInfo &update_info) -> outcome::std_result<bool> {
+    logger->info("Pre download validating {} {}", update_info.version, update_info.download_url);
+#ifdef HAVE_UPDATER_STAGING
+    return update_info.download_url.starts_with("https://snapshots.workrave.org/snapshots/")
+           || update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+#else
+    return update_info.download_url.starts_with("https://github.com/rcaelers/workrave/");
+#endif
+  });
+
+  updater->set_pre_install_validation_callback(
+    [&](const unfold::UpdateEnclosureInfo &installer_info) -> outcome::std_result<bool> {
+      logger->info("Pre install validating {}", installer_info.download_url);
+      if (!installer_info.authenticode_info.has_value())
+        {
+          logger->error("Installer is not Authenticode signed");
+          return false;
+        }
+      const auto &auth = *installer_info.authenticode_info;
+      logger->info("Authenticode: signed={} valid={} subject={}", auth.is_signed, auth.is_valid, auth.subject_name);
+      if (!auth.is_signed || !auth.is_valid || auth.subject_name != "Rob Caelers")
+        {
+          logger->error("Authenticode signature verification failed");
+          return false;
+        }
+      return true;
+    });
+
+  updater->set_sigstore_verification_enabled(true);
+  updater->set_sigstore_validation_callback([&](std::shared_ptr<sigstore::Bundle> bundle) -> outcome::std_result<bool> {
+    logger->info("Validating sigstore bundle");
+    auto cert = bundle->get_certificate_info();
+    logger->info("Validating sigstore certificate {} {}", cert->subject_email(), cert->oidc_issuer());
+    return cert->oidc_issuer() == "https://github.com/login/oauth" && cert->subject_email() == "rob.caelers@gmail.com";
+  });
+
   updater->set_periodic_update_check_interval(std::chrono::hours{24});
   updater->set_periodic_update_check_enabled(workrave::updater::Config::enabled()());
   updater->set_proxy(workrave::updater::Config::proxy_type()());
@@ -87,7 +126,6 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
     {
       logger->error("Invalid priority");
       workrave::updater::Config::priority()(0);
-      return;
     }
 
   init_preferences();
