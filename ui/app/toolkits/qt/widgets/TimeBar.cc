@@ -29,8 +29,9 @@
 #include "debug.hh"
 
 const int MARGINX = 4;
-const int MARGINY = 1;
-const int MINIMUM_HEIGHT = 16;
+const int MARGINY = 2;
+const int MINIMUM_HEIGHT = 20;
+const int BORDER_SIZE = 1;
 
 std::map<TimerColorId, QColor> TimeBar::bar_colors{
   {TimerColorId::Active, QColor("lightblue")},
@@ -44,12 +45,21 @@ std::map<TimerColorId, QColor> TimeBar::bar_colors{
 TimeBar::TimeBar(QWidget *parent)
   : QWidget(parent)
 {
-  setBackgroundRole(QPalette::Base);
-  setAutoFillBackground(true);
+  setAttribute(Qt::WA_OpaquePaintEvent);
+  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
-  QFont mono_font = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-  mono_font.setPointSize(font().pointSize());
-  setFont(mono_font);
+  const QStringList families = QFontDatabase::families();
+  const QStringList preferred_families = {"Cascadia Mono", "Consolas", "DejaVu Sans Mono"};
+  for (const auto &family: preferred_families)
+    {
+      if (families.contains(family))
+        {
+          QFont mono_font(family);
+          mono_font.setPointSize(font().pointSize());
+          setFont(mono_font);
+          break;
+        }
+    }
 }
 
 void
@@ -129,24 +139,25 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
   TRACE_ENTRY();
   QStylePainter painter(this);
 
-  const int separator_height = 1;
-  const int bar_height = std::max(height() - separator_height, 0);
+  const QRect frame_rect = rect().adjusted(0, 0, -1, -1);
+  const QRect text_rect = frame_rect.adjusted(MARGINX + BORDER_SIZE, BORDER_SIZE, -(MARGINX + BORDER_SIZE), -BORDER_SIZE);
+  const int bar_height = std::max(frame_rect.height(), 0);
 
   // Draw background
-  painter.fillRect(rect(), QColor("white"));
+  painter.fillRect(frame_rect, QColor("white"));
 
   // Bar
   int bar_width = 0;
-  if (bar_max_value > 0)
+  if (bar_max_value > 0 && frame_rect.width() > 0)
     {
-      bar_width = (bar_value * width()) / bar_max_value;
+      bar_width = (bar_value * frame_rect.width()) / bar_max_value;
     }
 
   // Secondary bar
   int sbar_width = 0;
-  if (secondary_bar_max_value > 0)
+  if (secondary_bar_max_value > 0 && frame_rect.width() > 0)
     {
-      sbar_width = (secondary_bar_value * width()) / secondary_bar_max_value;
+      sbar_width = (secondary_bar_value * frame_rect.width()) / secondary_bar_max_value;
     }
 
   if (sbar_width > 0)
@@ -179,29 +190,38 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
         {
           if (bar_width != 0)
             {
-              painter.fillRect(0, 0, bar_width, bar_height, bar_colors[overlap_color]);
+              painter.fillRect(frame_rect.x(), frame_rect.y(), bar_width, bar_height, bar_colors[overlap_color]);
             }
           if (sbar_width > bar_width)
             {
-              painter.fillRect(bar_width, 0, sbar_width - bar_width, bar_height, bar_colors[secondary_bar_color]);
+              painter.fillRect(frame_rect.x() + bar_width,
+                               frame_rect.y(),
+                               sbar_width - bar_width,
+                               bar_height,
+                               bar_colors[secondary_bar_color]);
             }
         }
       else
         {
           if (sbar_width != 0)
             {
-              painter.fillRect(0, 0, sbar_width, bar_height, bar_colors[overlap_color]);
+              painter.fillRect(frame_rect.x(), frame_rect.y(), sbar_width, bar_height, bar_colors[overlap_color]);
             }
-          painter.fillRect(sbar_width, 0, bar_width - sbar_width, bar_height, bar_colors[bar_color]);
+          painter.fillRect(frame_rect.x() + sbar_width,
+                           frame_rect.y(),
+                           bar_width - sbar_width,
+                           bar_height,
+                           bar_colors[bar_color]);
         }
     }
   else
     {
       // No overlap
-      painter.fillRect(0, 0, bar_width, bar_height, bar_colors[bar_color]);
+      painter.fillRect(frame_rect.x(), frame_rect.y(), bar_width, bar_height, bar_colors[bar_color]);
     }
 
-  painter.fillRect(0, height() - separator_height, width(), separator_height, QColor("#8a8a8a"));
+  painter.setPen(QColor("#8f8f8f"));
+  painter.drawRect(frame_rect);
 
   Qt::Alignment alignment = Qt::AlignVCenter;
   if (bar_text_align > 0)
@@ -216,8 +236,6 @@ TimeBar::paintEvent(QPaintEvent * /* event */)
     {
       alignment |= Qt::AlignHCenter;
     }
-
-  QRect text_rect = rect().adjusted(MARGINX, 0, -MARGINX, -separator_height);
 
   painter.setPen(QColor("black"));
   painter.drawText(text_rect, alignment, bar_text);

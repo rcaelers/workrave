@@ -29,6 +29,7 @@
 using namespace workrave;
 
 StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app)
+  : apphold(app->get_toolkit())
 {
   mode_icons[workrave::OperationMode::Normal] = UiUtil::create_icon("workrave-icon-medium.png");
   mode_icons[workrave::OperationMode::Suspended] = UiUtil::create_icon("workrave-suspended-icon-medium.png");
@@ -45,7 +46,10 @@ StatusIcon::StatusIcon(std::shared_ptr<IApplicationContext> app)
   OperationMode mode = core->get_regular_operation_mode();
   tray_icon->setIcon(mode_icons[mode]);
 
-  GUIConfig::trayicon_enabled().attach(this, [&](bool enabled) { tray_icon->setVisible(enabled); });
+  GUIConfig::trayicon_enabled().attach(this, [&](bool enabled) {
+    tray_icon->setVisible(enabled);
+    apphold.set_hold(enabled && QSystemTrayIcon::isSystemTrayAvailable());
+  });
 
   QObject::connect(tray_icon.get(), &QSystemTrayIcon::activated, this, &StatusIcon::on_activate);
   QObject::connect(tray_icon.get(), &QSystemTrayIcon::messageClicked, this, &StatusIcon::on_balloon_activate);

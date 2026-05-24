@@ -24,6 +24,7 @@
 #include <algorithm>
 
 #include <QCloseEvent>
+#include <QIcon>
 #include <QMoveEvent>
 #include <QApplication>
 #include <QScreen>
@@ -34,19 +35,21 @@
 
 #include "ToolkitMenu.hh"
 #include "commonui/MenuDefs.hh"
+#include "Ui.hh"
 
 MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent)
   : QWidget(parent)
   , app(app)
 {
-  setFixedSize(minimumSize());
-  setWindowFlags(Qt::Tool);
+  setWindowTitle("Workrave");
+  setWindowIcon(QIcon(Ui::get_status_icon_filename(OperationModeIcon::Normal)));
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
 
   timer_box_view = new TimerBoxView(app->get_core());
   timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
 
   auto *layout = new QVBoxLayout();
-  layout->setContentsMargins(1, 1, 1, 1);
+  layout->setContentsMargins(2, 2, 2, 2);
   setLayout(layout);
 
   layout->addWidget(timer_box_view);
@@ -71,6 +74,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 
   GUIConfig::key_timerbox("main_window").connect(this, [this]() { on_enabled_changed(); });
   timer_box_control->update();
+  setFixedSize(sizeHint());
   enabled = GUIConfig::timerbox_enabled("main_window")();
   move_to_start_position();
 
@@ -89,8 +93,16 @@ MainWindow::open_window()
       return;
     }
 
+  timer_box_control->update();
+  setFixedSize(sizeHint());
+
   show();
+  if (isMinimized())
+    {
+      showNormal();
+    }
   raise();
+  activateWindow();
   move_to_start_position();
   GUIConfig::timerbox_enabled("main_window").set(true);
 }
