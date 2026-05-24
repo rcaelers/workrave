@@ -54,6 +54,40 @@ extern "C" int run(int argc, char **argv);
 
 using namespace workrave::utils;
 
+namespace
+{
+  auto create_rotating_file_sink(const std::filesystem::path &file,
+                                 std::size_t max_size,
+                                 std::size_t max_files,
+                                 bool rotate_on_open) -> spdlog::sink_ptr
+  {
+#if defined(PLATFORM_OS_WINDOWS)
+    spdlog::file_event_handlers event_handlers;
+    event_handlers.after_open = [](const spdlog::filename_t &, std::FILE *stream) {
+      const auto file_descriptor = _fileno(stream);
+      if (file_descriptor == -1)
+        {
+          return;
+        }
+
+      const auto handle = reinterpret_cast<HANDLE>(_get_osfhandle(file_descriptor));
+      if (handle != INVALID_HANDLE_VALUE)
+        {
+          SetHandleInformation(handle, HANDLE_FLAG_INHERIT, 0);
+        }
+    };
+
+    return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(file.string(),
+                                                                  max_size,
+                                                                  max_files,
+                                                                  rotate_on_open,
+                                                                  event_handlers);
+#else
+    return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(file.string(), max_size, max_files, rotate_on_open);
+#endif
+  }
+}
+
 static void
 init_logging()
 {
@@ -63,7 +97,7 @@ init_logging()
   const auto log_file = log_dir / "workrave.log";
 
   auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-  auto file_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(log_file.string(), 1024 * 1024, 5, true);
+  auto file_sink = create_rotating_file_sink(log_file, 1024 * 1024, 5, true);
 
   auto logger{std::make_shared<spdlog::logger>("workrave", std::initializer_list<spdlog::sink_ptr>{file_sink, console_sink})};
   logger->flush_on(spdlog::level::critical);
@@ -79,7 +113,7 @@ init_logging()
 #endif
 #if defined(HAVE_TRACING)
   const auto trace_file = log_dir / "workrave-trace.log";
-  auto trace_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(trace_file.string(), 1024 * 1024, 10, true);
+  auto trace_sink = create_rotating_file_sink(trace_file, 1024 * 1024, 10, true);
   auto tracer = std::make_shared<spdlog::logger>("trace", trace_sink);
   tracer->set_level(spdlog::level::trace);
   tracer->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%t] %v");
@@ -89,6 +123,24 @@ init_logging()
   ScopedTrace::init(tracer);
 #endif
 }
+
+#if defined(PLATFORM_OS_WINDOWS)
+static bool
+acquire_single_instance()
+{
+  static HANDLE mtx = nullptr;
+
+  mtx = CreateMutexA(nullptr, FALSE, "WorkraveMutex");
+  if (mtx != nullptr && GetLastError() == ERROR_ALREADY_EXISTS)
+    {
+      Remote remote;
+      remote.open();
+      return false;
+    }
+
+  return true;
+}
+#endif
 
 #ifdef PLATFORM_OS_WINDOWS
 static void
@@ -133,6 +185,13 @@ update_keymap()
 int
 run(int argc, char **argv)
 {
+#if defined(PLATFORM_OS_WINDOWS)
+  if (!acquire_single_instance())
+    {
+      return 0;
+    }
+#endif
+
   init_logging();
   TRACE_ENTRY();
 
@@ -188,21 +247,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdSh
 
   char *argv[] = {szCmdLine};
 
-  // InnoSetup: [...] requires that you add code to your application
-  // which creates a mutex with the name you specify in this
-  // directive.
-  HANDLE mtx = CreateMutexA(nullptr, FALSE, "WorkraveMutex");
-  if (mtx != nullptr && GetLastError() != ERROR_ALREADY_EXISTS)
-    {
-      run(sizeof(argv) / sizeof(argv[0]), argv);
-    }
-#  if defined(PLATFORM_OS_WINDOWS)
-  else
-    {
-      Remote remote;
-      remote.open();
-    }
-#  endif
+  run(sizeof(argv) / sizeof(argv[0]), argv);
   return (0);
 }
 

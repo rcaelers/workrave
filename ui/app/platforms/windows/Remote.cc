@@ -92,13 +92,13 @@ Remote::enum_windows_cb(HWND hwnd, LPARAM lParam)
       auto class_name = self->get_class_name(hwnd);
       auto title = self->get_title(hwnd);
 
-      if (class_name == "gdkWindowToplevel" && title == "Workrave")
+      if ((class_name == "gdkWindowToplevel" || class_name.starts_with("Qt")) && title == "Workrave")
         {
           auto process_name = self->get_process_name(hwnd);
           auto base = process_name.substr(process_name.find_last_of("/\\") + 1);
           boost::algorithm::to_lower(base);
 
-          if (base == "workrave.exe")
+          if (base == "workrave.exe" || base == "workraveqt.exe")
             {
               self->hwnd = hwnd;
               return FALSE;

@@ -40,8 +40,11 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 
+#include "utils/AssetPath.hh"
 #include "utils/Paths.hh"
 #include "utils/StringUtils.hh"
+
+#include <QSvgRenderer>
 
 namespace
 {
@@ -84,6 +87,29 @@ namespace
   auto qtr(const char *text) -> QString
   {
     return QCoreApplication::translate("CrashDialog", text);
+  }
+
+  auto create_crashed_sheep_label(QWidget *parent) -> QLabel *
+  {
+    const auto image_file = workrave::utils::AssetPath::complete_directory("workrave-sheep-crashed.svg",
+                                                                           workrave::utils::SearchPathId::Images);
+    QSvgRenderer svg(QString::fromStdString(image_file));
+    if (!svg.isValid())
+      {
+        spdlog::info("error loading crash dialog image {}", image_file);
+        return nullptr;
+      }
+
+    QPixmap pixmap(120, 88);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    svg.render(&painter, QRectF(0, 0, pixmap.width(), pixmap.height()));
+
+    auto *label = new QLabel(parent);
+    label->setPixmap(pixmap);
+    label->setFixedSize(pixmap.size());
+    label->setAlignment(Qt::AlignRight | Qt::AlignTop);
+    return label;
   }
 } // namespace
 
@@ -300,18 +326,30 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
 
   auto *header_frame = new QFrame(this);
   header_frame->setStyleSheet("QFrame { background: #fde8e8; color: #1a1a1a; }");
-  auto *header_layout = new QVBoxLayout(header_frame);
+  auto *header_layout = new QHBoxLayout(header_frame);
   header_layout->setContentsMargins(12, 12, 12, 12);
-  header_layout->setSpacing(6);
+  header_layout->setSpacing(12);
 
-  auto *title_label = new QLabel(qtr("<span style=\"font-size: large; font-weight: bold;\">Workrave has crashed.</span>"), this);
-  header_layout->addWidget(title_label);
+  auto *header_text_layout = new QVBoxLayout();
+  header_text_layout->setSpacing(6);
+
+  auto *title_label = new QLabel(qtr("<span style=\"font-size: large; font-weight: bold;\">Workrave has crashed.</span>"),
+                                 header_frame);
+  header_text_layout->addWidget(title_label);
 
   auto *info_label = new QLabel(
     qtr("Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."),
-    this);
+    header_frame);
   info_label->setWordWrap(true);
-  header_layout->addWidget(info_label);
+  header_text_layout->addWidget(info_label);
+
+  header_layout->addLayout(header_text_layout, 1);
+
+  if (auto *sheep_label = create_crashed_sheep_label(header_frame); sheep_label != nullptr)
+    {
+      header_layout->addWidget(sheep_label, 0, Qt::AlignRight | Qt::AlignTop);
+    }
+
   vbox->addWidget(header_frame);
 
   auto *content_box = new QWidget(this);

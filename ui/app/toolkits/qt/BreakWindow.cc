@@ -170,6 +170,9 @@ BreakWindow::add_sysoper_combobox(QGridLayout *box)
     }
 
   sysoper_combo = new QComboBox;
+  sysoper_combo->setIconSize(QSize(24, 24));
+  sysoper_combo->setMinimumSize(180, 44);
+  sysoper_combo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   append_row_to_sysoper_model(System::SystemOperation::SYSTEM_OPERATION_NONE);
 
   for (auto &item: supported_system_operations)
@@ -210,13 +213,16 @@ BreakWindow::add_skip_button(QGridLayout *box, bool locked)
   if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
     {
       skip_button = new QPushButton(tr("Skip"));
+      skip_button->setIcon(QIcon::fromTheme("window-close", UiUtil::create_icon("window-close-symbolic.svg")));
+      skip_button->setIconSize(QSize(18, 18));
       skip_button->setEnabled(!locked);
       if (locked)
         {
           QString msg = tr("You cannot skip this break while another non-skippable break is overdue.");
           skip_button->setToolTip(msg);
         }
-      skip_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+      skip_button->setMinimumSize(120, 44);
+      skip_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       size_group->add_widget(skip_button);
       box->addWidget(skip_button, 1, box->columnCount());
       connect(skip_button, &QPushButton::clicked, this, &BreakWindow::on_skip_button_clicked);
@@ -229,13 +235,16 @@ BreakWindow::add_postpone_button(QGridLayout *box, bool locked)
   if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
     {
       postpone_button = new QPushButton(tr("Postpone"));
+      postpone_button->setIcon(QIcon::fromTheme("go-next", UiUtil::create_icon("go-next-symbolic.svg")));
+      postpone_button->setIconSize(QSize(18, 18));
       postpone_button->setEnabled(!locked);
       if (locked)
         {
           QString msg = tr("You cannot postpone this break while another non-postponable break is overdue.");
           postpone_button->setToolTip(msg);
         }
-      postpone_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+      postpone_button->setMinimumSize(120, 44);
+      postpone_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       size_group->add_widget(postpone_button);
       box->addWidget(postpone_button, 1, box->columnCount());
       connect(postpone_button, &QPushButton::clicked, this, &BreakWindow::on_postpone_button_clicked);
@@ -248,8 +257,11 @@ BreakWindow::add_lock_button(QGridLayout *box) const
   if (System::is_lockable())
     {
       QPushButton *button = UiUtil::create_image_text_button("lock.png", tr("Lock"));
+      button->setIconSize(QSize(24, 24));
+      button->setMinimumSize(140, 44);
+      button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       box->addWidget(button, 1, box->columnCount());
-      connect(button, &QPushButton::click, this, &BreakWindow::on_lock_button_clicked);
+      connect(button, &QPushButton::clicked, this, &BreakWindow::on_lock_button_clicked);
     }
 }
 
@@ -390,7 +402,9 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable) -> QLayout *
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
       box = new QGridLayout;
-      box->setVerticalSpacing(0);
+      box->setHorizontalSpacing(12);
+      box->setVerticalSpacing(6);
+      box->setContentsMargins(16, 12, 16, 12);
 
       if (lockable || shutdownable)
         {
@@ -404,8 +418,9 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable) -> QLayout *
             }
         }
 
-      box->addWidget(new QWidget, 1, box->columnCount());
-      box->setColumnStretch(box->columnCount(), 100);
+      int spacer_column = box->columnCount();
+      box->addWidget(new QWidget, 1, spacer_column);
+      box->setColumnStretch(spacer_column, 100);
 
       if (break_flags != BREAK_FLAGS_NONE)
         {

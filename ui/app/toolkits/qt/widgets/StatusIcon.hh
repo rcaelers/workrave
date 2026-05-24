@@ -29,6 +29,7 @@
 #include "utils/Signals.hh"
 
 #include "commonui/MenuModel.hh"
+#include "ui/AppHold.hh"
 #include "ui/IApplicationContext.hh"
 
 class ToolkitMenu;
@@ -59,6 +60,7 @@ private:
   std::map<workrave::OperationMode, QIcon> mode_icons;
   std::shared_ptr<QSystemTrayIcon> tray_icon;
   std::shared_ptr<ToolkitMenu> menu;
+  AppHold apphold;
   std::string active_balloon_id;
 
   boost::signals2::signal<void()> activate_signal;

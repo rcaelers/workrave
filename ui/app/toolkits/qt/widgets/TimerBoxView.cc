@@ -65,8 +65,9 @@ void
 TimerBoxView::init()
 {
   layout = new QGridLayout();
-  layout->setSpacing(2);
-  layout->setContentsMargins(2, 2, 2, 2);
+  layout->setHorizontalSpacing(3);
+  layout->setVerticalSpacing(2);
+  layout->setContentsMargins(0, 0, 0, 0);
 
   setLayout(layout);
 
@@ -79,7 +80,7 @@ TimerBoxView::init()
           button->setFocusPolicy(Qt::NoFocus);
           button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
           button->setToolTip(tr("Take rest break now"));
-          button->setStyleSheet("QPushButton { border: 0; margin: 0; padding: 0; background: transparent; }");
+          button->setStyleSheet("QPushButton { border: 0; margin: 0; padding: 1px 0; background: transparent; }");
           connect(button, &QPushButton::clicked, this, [this]() {
             if (core)
               {
@@ -191,6 +192,7 @@ TimerBoxView::init_table()
           int cur_col = (2 * item) % columns;
 
           layout->addWidget(labels[id], cur_row, cur_col);
+          layout->setColumnStretch(cur_col, 0);
           labels[id]->show();
 
           int bias = 1;
@@ -203,6 +205,7 @@ TimerBoxView::init_table()
           cur_col = (2 * item + bias) % columns;
 
           layout->addWidget(bars[id], cur_row, cur_col);
+          layout->setColumnStretch(cur_col, 1);
           bars[id]->show();
         }
     }
