@@ -181,21 +181,22 @@ MainWindow::move_to_start_position()
 
   const QRect availableGeometry = screen->availableGeometry();
 
-  QRect geometry = frameGeometry();
-  geometry.moveTo(x, y);
+  QRect target_frame_geometry = frameGeometry();
+  target_frame_geometry.moveTo(x, y);
 
-  if (!geometry.intersects(availableGeometry))
+  if (!target_frame_geometry.intersects(availableGeometry))
     {
-      geometry.moveBottom(qMin(geometry.bottom(), availableGeometry.bottom()));
-      geometry.moveLeft(qMax(geometry.left(), availableGeometry.left()));
-      geometry.moveRight(qMin(geometry.right(), availableGeometry.right()));
+      target_frame_geometry.moveBottom(qMin(target_frame_geometry.bottom(), availableGeometry.bottom()));
+      target_frame_geometry.moveLeft(qMax(target_frame_geometry.left(), availableGeometry.left()));
+      target_frame_geometry.moveRight(qMin(target_frame_geometry.right(), availableGeometry.right()));
     }
-  geometry.moveTop(qMax(geometry.top(), availableGeometry.top()));
+  target_frame_geometry.moveTop(qMax(target_frame_geometry.top(), availableGeometry.top()));
 
   TRACE_VAR(x, y, head);
-  TRACE_VAR(geometry.x(), geometry.y(), head);
+  TRACE_VAR(target_frame_geometry.x(), target_frame_geometry.y(), head);
 
-  move(geometry.topLeft());
+  const QPoint frame_offset = geometry().topLeft() - frameGeometry().topLeft();
+  move(target_frame_geometry.topLeft() + frame_offset);
 }
 
 int
