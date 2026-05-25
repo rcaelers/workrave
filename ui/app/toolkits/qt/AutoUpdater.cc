@@ -22,6 +22,7 @@
 #include <memory>
 #include <utility>
 #include <boost/asio.hpp>
+#include <boost/outcome/std_result.hpp>
 
 #include "AutoUpdater.hh"
 
