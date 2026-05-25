@@ -49,6 +49,7 @@ private:
   DataConnector::Ptr connector;
 
   QComboBox *block_button{nullptr};
+  QCheckBox *sanctuary_ui_cb{nullptr};
   QComboBox *languages_combo{nullptr};
   QStandardItemModel *model{nullptr};
 

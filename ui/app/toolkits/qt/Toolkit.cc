@@ -28,6 +28,10 @@
 #include "DailyLimitWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
+#include "QmlMicroBreakWindow.hh"
+#include "QmlPreludeWindow.hh"
+#include "QmlDailyLimitWindow.hh"
+#include "QmlRestBreakWindow.hh"
 #include "RestBreakWindow.hh"
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
@@ -136,15 +140,36 @@ Toolkit::create_break_window(int screen_index, BreakId break_id, BreakFlags brea
 
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
-      ret = std::make_shared<MicroBreakWindow>(app, screen, break_flags);
+      if (GUIConfig::sanctuary_ui_enabled()())
+        {
+          ret = std::make_shared<QmlMicroBreakWindow>(app, screen, break_flags);
+        }
+      else
+        {
+          ret = std::make_shared<MicroBreakWindow>(app, screen, break_flags);
+        }
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = std::make_shared<RestBreakWindow>(app, screen, break_flags);
+      if (GUIConfig::sanctuary_ui_enabled()())
+        {
+          ret = std::make_shared<QmlRestBreakWindow>(app, screen, break_flags);
+        }
+      else
+        {
+          ret = std::make_shared<RestBreakWindow>(app, screen, break_flags);
+        }
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      ret = std::make_shared<DailyLimitWindow>(app, screen, break_flags);
+      if (GUIConfig::sanctuary_ui_enabled()())
+        {
+          ret = std::make_shared<QmlDailyLimitWindow>(app, screen, break_flags);
+        }
+      else
+        {
+          ret = std::make_shared<DailyLimitWindow>(app, screen, break_flags);
+        }
     }
 
   return ret;
@@ -155,6 +180,11 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id) -> 
 {
   QList<QScreen *> screens = QGuiApplication::screens();
   QScreen *screen = screens.at(screen_index);
+
+  if (GUIConfig::sanctuary_ui_enabled()())
+    {
+      return std::make_shared<QmlPreludeWindow>(screen, break_id);
+    }
 
   return std::make_shared<PreludeWindow>(app, screen, break_id);
 }

@@ -43,16 +43,24 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
 {
   setWindowTitle("Workrave");
   setWindowIcon(QIcon(Ui::get_status_icon_filename(OperationModeIcon::Normal)));
-  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
-
-  timer_box_view = new TimerBoxView(app->get_core());
-  timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
 
   auto *layout = new QVBoxLayout();
-  layout->setContentsMargins(2, 2, 2, 2);
+  layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
 
-  layout->addWidget(timer_box_view);
+  if (GUIConfig::sanctuary_ui_enabled()())
+    {
+      switch_view(GUIConfig::display_style()());
+      GUIConfig::display_style().connect(this, [this](DisplayStyle style) { switch_view(style); });
+    }
+  else
+    {
+      setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+
+      timer_box_view = new TimerBoxView(app->get_core());
+      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
+      layout->addWidget(timer_box_view);
+    }
 
   menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                        [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
@@ -81,6 +89,59 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   if (enabled)
     {
       open_window();
+    }
+}
+
+void
+MainWindow::switch_view(DisplayStyle style)
+{
+  bool was_visible = isVisible();
+  if (was_visible)
+    {
+      hide();
+    }
+
+  auto *vbox = qobject_cast<QVBoxLayout *>(layout());
+
+  if (qml_timer_box_view != nullptr)
+    {
+      vbox->removeWidget(qml_timer_box_view);
+      qml_timer_box_view->deleteLater();
+      qml_timer_box_view = nullptr;
+    }
+  if (timer_box_view != nullptr)
+    {
+      vbox->removeWidget(timer_box_view);
+      timer_box_view->deleteLater();
+      timer_box_view = nullptr;
+    }
+  timer_box_control.reset();
+
+  if (style == DisplayStyle::Classic)
+    {
+      setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+      setAttribute(Qt::WA_TranslucentBackground, false);
+
+      timer_box_view = new TimerBoxView(app->get_core());
+      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", timer_box_view);
+      vbox->addWidget(timer_box_view);
+    }
+  else
+    {
+      setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+      setAttribute(Qt::WA_TranslucentBackground);
+
+      qml_timer_box_view = new QmlTimerBoxView(app->get_core(), this, this);
+      timer_box_control = std::make_shared<TimerBoxControl>(app->get_core(), "main_window", qml_timer_box_view);
+      vbox->addWidget(qml_timer_box_view);
+    }
+
+  timer_box_control->update();
+  setFixedSize(sizeHint());
+
+  if (was_visible)
+    {
+      show();
     }
 }
 
@@ -159,6 +220,12 @@ void
 MainWindow::heartbeat()
 {
   timer_box_control->update();
+
+  // Resize the main window to match QML implicit size when display style changes
+  if (qml_timer_box_view != nullptr)
+    {
+      setFixedSize(sizeHint());
+    }
 }
 
 auto

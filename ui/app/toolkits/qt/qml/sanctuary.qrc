@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/sanctuary">
+        <file>DailyLimitOverlay.qml</file>
+        <file>MicroBreakOverlay.qml</file>
+        <file>PreludeOverlay.qml</file>
+        <file>RestBreakOverlay.qml</file>
+        <file>StatusWindow.qml</file>
+    </qresource>
+</RCC>

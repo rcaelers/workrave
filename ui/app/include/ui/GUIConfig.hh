@@ -37,6 +37,14 @@ enum class FocusMode
   Quiet
 };
 
+enum class DisplayStyle
+{
+  Rings   = 0,
+  Bars    = 1,
+  Focus   = 2,
+  Classic = 3
+};
+
 enum class LightDarkTheme
 {
   Light,
@@ -78,6 +86,8 @@ public:
   static workrave::config::Setting<bool> &force_x11();
   static workrave::config::Setting<bool> &use_gnome_shell_preludes();
 #endif
+  static workrave::config::Setting<bool> &sanctuary_ui_enabled();
+  static workrave::config::Setting<int, DisplayStyle> &display_style();
   static workrave::config::Setting<bool> &main_window_always_on_top();
   static workrave::config::Setting<bool> &main_window_start_in_tray();
   static workrave::config::Setting<int> &main_window_x();
@@ -122,6 +132,8 @@ private:
   static const std::string CFG_KEY_USE_GNOME_SHELL_PRELUDES;
 #endif
 
+  static const std::string CFG_KEY_SANCTUARY_UI_ENABLED;
+  static const std::string CFG_KEY_DISPLAY_STYLE;
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;

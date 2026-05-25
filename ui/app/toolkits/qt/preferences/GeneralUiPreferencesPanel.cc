@@ -135,6 +135,10 @@ GeneralUiPreferencesPanel::GeneralUiPreferencesPanel(std::shared_ptr<IApplicatio
 
   UiUtil::add_widget(layout, tr("Block mode:"), block_button, size_group);
 
+  sanctuary_ui_cb = new QCheckBox(tr("Use Sanctuary break windows (requires restart)"));
+  connector->connect(GUIConfig::sanctuary_ui_enabled(), dc::wrap(sanctuary_ui_cb));
+  layout->addWidget(sanctuary_ui_cb);
+
 #if defined(HAVE_LANGUAGE_SELECTION)
   std::string current_locale_name = GUIConfig::locale()();
 

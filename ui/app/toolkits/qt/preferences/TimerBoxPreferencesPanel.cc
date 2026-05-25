@@ -154,6 +154,24 @@ TimerBoxPreferencesPanel::init_timer_display()
 }
 
 void
+TimerBoxPreferencesPanel::init_display_style()
+{
+  display_style_button = new QComboBox;
+  display_style_button->addItem(tr("Rings"));
+  display_style_button->addItem(tr("Bars"));
+  display_style_button->addItem(tr("Focus"));
+  display_style_button->addItem(tr("Classic"));
+
+  int current = static_cast<int>(GUIConfig::display_style()());
+  display_style_button->setCurrentIndex(current);
+
+  void (QComboBox::*signal)(int) = &QComboBox::currentIndexChanged;
+  QObject::connect(display_style_button, signal, this, [](int index) {
+    GUIConfig::display_style().set(static_cast<DisplayStyle>(index));
+  });
+}
+
+void
 TimerBoxPreferencesPanel::init_fallback_applet()
 {
   applet_fallback_enabled_cb->setText(tr("Fallback applet enabled"));
@@ -177,6 +195,10 @@ TimerBoxPreferencesPanel::init()
   init_timer_display();
   init_fallback_applet();
   init_status_icon();
+  if (name == "main_window" && GUIConfig::sanctuary_ui_enabled()())
+    {
+      init_display_style();
+    }
 
   layout = new QVBoxLayout;
   setLayout(layout);
@@ -197,6 +219,10 @@ TimerBoxPreferencesPanel::init()
 #endif
         {
           display_layout->addWidget(ontop_cb);
+        }
+      if (display_style_button != nullptr)
+        {
+          UiUtil::add_widget(display_layout, tr("Display style:"), display_style_button, size_group);
         }
     }
   if (name == "applet")

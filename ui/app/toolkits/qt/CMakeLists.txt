@@ -1,8 +1,16 @@
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Quick QuickWidgets REQUIRED)
+
 add_library(workrave-toolkit-qt OBJECT)
 
 target_sources(workrave-toolkit-qt PRIVATE
+  qml/sanctuary.qrc
   AboutDialog.cc
   BreakWindow.cc
+  QmlDailyLimitWindow.cc
+  QmlMicroBreakWindow.cc
+  QmlPreludeWindow.cc
+  QmlRestBreakWindow.cc
+  QmlTimerBoxView.cc
   DailyLimitWindow.cc
   DebugDialog.cc
   ExercisesDialog.cc
@@ -94,6 +102,11 @@ endif()
 set(MOC_SOURCES
   AboutDialog.hh
   BreakWindow.hh
+  QmlDailyLimitWindow.hh
+  QmlMicroBreakWindow.hh
+  QmlPreludeWindow.hh
+  QmlRestBreakWindow.hh
+  QmlTimerBoxView.hh
   DailyLimitWindow.hh
   DebugDialog.hh
   ExercisesDialog.hh
@@ -159,6 +172,8 @@ target_sources(workrave-toolkit-qt PRIVATE ${MOC_SOURCES})
 target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-app
   workrave-libs-audio
+  Qt${QT_VERSION_MAJOR}::Quick
+  Qt${QT_VERSION_MAJOR}::QuickWidgets
   workrave-libs-config
   workrave-libs-core-next
   workrave-libs-dbus

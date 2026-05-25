@@ -45,6 +45,7 @@ private:
   void init_fallback_applet();
   void init_status_icon();
   void init_timer_display();
+  void init_display_style();
   void init_config();
   void init();
 
@@ -65,6 +66,7 @@ private:
   QCheckBox *ontop_cb{nullptr};
   QCheckBox *enabled_cb{nullptr};
   QComboBox *place_button{nullptr};
+  QComboBox *display_style_button{nullptr};
   std::array<QComboBox *, workrave::BREAK_ID_SIZEOF> timer_display_button{};
   QSpinBox *cycle_entry{nullptr};
   QCheckBox *applet_fallback_enabled_cb{nullptr};

@@ -1,0 +1,572 @@
+// Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
+#include "QmlRestBreakWindow.hh"
+
+#include <algorithm>
+#include <random>
+
+#include <QQmlContext>
+#include <QScreen>
+#include <QStringList>
+#include <QGuiApplication>
+#include <QTimer>
+#include <QUrl>
+
+#include "core/ICore.hh"
+#include "core/IBreak.hh"
+#include "core/CoreTypes.hh"
+#include "session/System.hh"
+#include "utils/AssetPath.hh"
+#include "debug.hh"
+#include "UiUtil.hh"
+#include "qformat.hh"
+
+using namespace workrave;
+using namespace workrave::utils;
+
+// ── RestBreakBridge ───────────────────────────────────────────────────────────
+
+RestBreakBridge::RestBreakBridge(std::shared_ptr<IApplicationContext> app,
+                                 BlockMode block_mode,
+                                 BreakFlags break_flags,
+                                 QObject *parent)
+  : QObject(parent)
+  , app(std::move(app))
+  , block_mode(block_mode)
+  , break_flags(break_flags)
+{
+}
+
+int
+RestBreakBridge::blockMode() const
+{
+  return static_cast<int>(block_mode);
+}
+
+bool
+RestBreakBridge::lockable() const
+{
+  return System::is_lockable();
+}
+
+bool
+RestBreakBridge::isNatural() const
+{
+  return (break_flags & BREAK_FLAGS_NATURAL) != 0;
+}
+
+bool
+RestBreakBridge::hasExercises() const
+{
+  return !shuffled_exercises.empty() && ex_count > 0;
+}
+
+int
+RestBreakBridge::exerciseCount() const
+{
+  return ex_count;
+}
+
+bool
+RestBreakBridge::canPostpone() const
+{
+  return (break_flags & BREAK_FLAGS_POSTPONABLE) != 0 && !postpone_locked;
+}
+
+bool
+RestBreakBridge::canSkip() const
+{
+  return (break_flags & BREAK_FLAGS_SKIPPABLE) != 0 && !skip_locked;
+}
+
+double
+RestBreakBridge::breakProgress() const
+{
+  if (break_max <= 0)
+    {
+      return 1.0;
+    }
+  double remaining = static_cast<double>(break_max - break_value) / break_max;
+  return qBound(0.0, remaining, 1.0);
+}
+
+QString
+RestBreakBridge::breakTime() const
+{
+  time_t t = static_cast<time_t>(break_max - break_value);
+  return tr("Rest break for %1").arg(UiUtil::time_to_string(t));
+}
+
+QString
+RestBreakBridge::breakTimeShort() const
+{
+  time_t t = static_cast<time_t>(std::max(0, break_max - break_value));
+  return UiUtil::time_to_string(t);
+}
+
+QString
+RestBreakBridge::breakMaxStr() const
+{
+  return UiUtil::time_to_string(static_cast<time_t>(break_max));
+}
+
+QStringList
+RestBreakBridge::exerciseNames() const
+{
+  QStringList list;
+  list.reserve(ex_count);
+  for (int i = 0; i < ex_count; i++)
+    {
+      list << QString::fromStdString(shuffled_exercises[i].title);
+    }
+  return list;
+}
+
+int
+RestBreakBridge::exerciseIndex() const
+{
+  return ex_index;
+}
+
+QString
+RestBreakBridge::exerciseName() const
+{
+  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
+    {
+      return {};
+    }
+  return QString::fromStdString(shuffled_exercises[ex_index].title);
+}
+
+QString
+RestBreakBridge::exerciseDescription() const
+{
+  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
+    {
+      return {};
+    }
+  return QString::fromStdString(shuffled_exercises[ex_index].description);
+}
+
+bool
+RestBreakBridge::exercisesDone() const
+{
+  return ex_done;
+}
+
+QString
+RestBreakBridge::exerciseImage() const
+{
+  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
+    {
+      return {};
+    }
+  const auto &seq = shuffled_exercises[ex_index].sequence;
+  if (seq.empty() || ex_image_it == seq.end())
+    {
+      return {};
+    }
+  std::string path = AssetPath::complete_directory(ex_image_it->image, SearchPathId::Exercises);
+  if (path.empty())
+    {
+      return {};
+    }
+  return QUrl::fromLocalFile(QString::fromStdString(path)).toString();
+}
+
+bool
+RestBreakBridge::exerciseImageMirror() const
+{
+  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
+    {
+      return false;
+    }
+  const auto &seq = shuffled_exercises[ex_index].sequence;
+  if (seq.empty() || ex_image_it == seq.end())
+    {
+      return false;
+    }
+  return ex_image_it->mirror_x;
+}
+
+double
+RestBreakBridge::exerciseProgress() const
+{
+  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
+    {
+      return 1.0;
+    }
+  const Exercise &ex = shuffled_exercises[ex_index];
+  if (ex.duration <= 0)
+    {
+      return 1.0;
+    }
+  double remaining = static_cast<double>(ex.duration - ex_time) / ex.duration;
+  return qBound(0.0, remaining, 1.0);
+}
+
+QString
+RestBreakBridge::exerciseTimeStr() const
+{
+  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
+    {
+      return {};
+    }
+  const Exercise &ex = shuffled_exercises[ex_index];
+  int t = std::max(0, ex.duration - ex_time);
+  return UiUtil::time_to_string(static_cast<time_t>(t));
+}
+
+bool
+RestBreakBridge::isPaused() const
+{
+  return ex_paused;
+}
+
+void
+RestBreakBridge::setProgress(int value, int max_value)
+{
+  break_value = value;
+  break_max = max_value;
+  Q_EMIT breakProgressChanged();
+}
+
+void
+RestBreakBridge::updateLockState()
+{
+  bool new_postpone_locked = false;
+  bool new_skip_locked = false;
+
+  auto core = app->get_core();
+  if (core->get_active_operation_mode() == OperationMode::Normal)
+    {
+      for (int id = BREAK_ID_REST_BREAK - 1; id >= 0; id--)
+        {
+          auto b = core->get_break(BreakId(id));
+          bool overdue = b->get_elapsed_time() > b->get_limit();
+
+          if (((break_flags & BREAK_FLAGS_USER_INITIATED) == 0) || b->is_max_preludes_reached())
+            {
+              if (!GUIConfig::break_ignorable(BreakId(id))())
+                {
+                  new_postpone_locked = overdue;
+                }
+              if (!GUIConfig::break_skippable(BreakId(id))())
+                {
+                  new_skip_locked = overdue;
+                }
+            }
+        }
+    }
+
+  if (new_postpone_locked != postpone_locked || new_skip_locked != skip_locked)
+    {
+      postpone_locked = new_postpone_locked;
+      skip_locked = new_skip_locked;
+      Q_EMIT lockStateChanged();
+    }
+}
+
+void
+RestBreakBridge::initExercises()
+{
+  bool can_show = (break_flags & BREAK_FLAGS_NO_EXERCISES) == 0;
+  auto exercises_obj = app->get_exercises();
+  can_show = can_show && exercises_obj->has_exercises();
+  int cfg_count = can_show ? GUIConfig::break_exercises(BREAK_ID_REST_BREAK)() : 0;
+  can_show = can_show && (cfg_count > 0);
+
+  if (!can_show)
+    {
+      app->get_core()->set_insist_policy(InsistPolicy::Halt);
+      return;
+    }
+
+  auto list = exercises_obj->get_exercises();
+  for (auto &e : list)
+    {
+      shuffled_exercises.push_back(e);
+    }
+
+  std::random_device rd;
+  std::mt19937 g(rd());
+  std::shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), g);
+
+  ex_count = std::min(cfg_count, static_cast<int>(shuffled_exercises.size()));
+  ex_index = 0;
+
+  app->get_core()->set_insist_policy(InsistPolicy::Ignore);
+
+  ex_timer = new QTimer(this);
+  ex_timer->setInterval(1000);
+  connect(ex_timer, &QTimer::timeout, this, &RestBreakBridge::onExerciseTick);
+  ex_timer->start();
+  startExercise();
+}
+
+void
+RestBreakBridge::startExercise()
+{
+  ex_time = 0;
+  ex_seq_time = 0;
+  const auto &seq = shuffled_exercises[ex_index].sequence;
+  ex_image_it = seq.end();
+  advanceImage();
+  Q_EMIT exerciseChanged();
+  Q_EMIT exerciseTimerChanged();
+}
+
+void
+RestBreakBridge::advanceImage()
+{
+  const auto &seq = shuffled_exercises[ex_index].sequence;
+  if (seq.empty())
+    {
+      return;
+    }
+  if (ex_image_it == seq.end())
+    {
+      ex_image_it = seq.begin();
+    }
+  else
+    {
+      ++ex_image_it;
+      if (ex_image_it == seq.end())
+        {
+          ex_image_it = seq.begin();
+        }
+    }
+  ex_seq_time += ex_image_it->duration;
+  Q_EMIT exerciseImageChanged();
+}
+
+void
+RestBreakBridge::onExerciseTick()
+{
+  if (ex_paused || ex_done || shuffled_exercises.empty())
+    {
+      return;
+    }
+  const Exercise &ex = shuffled_exercises[ex_index];
+  ex_time++;
+  if (ex_time >= ex_seq_time)
+    {
+      advanceImage();
+    }
+  Q_EMIT exerciseTimerChanged();
+  if (ex_time >= ex.duration)
+    {
+      ex_index++;
+      if (ex_index >= ex_count)
+        {
+          ex_done = true;
+          ex_timer->stop();
+          app->get_core()->set_insist_policy(InsistPolicy::Halt);
+          Q_EMIT exerciseChanged();
+        }
+      else
+        {
+          startExercise();
+        }
+    }
+}
+
+void
+RestBreakBridge::requestPostpone()
+{
+  QTimer::singleShot(0, this, [this]() {
+    app->get_core()->get_break(BREAK_ID_REST_BREAK)->postpone_break();
+  });
+}
+
+void
+RestBreakBridge::requestSkip()
+{
+  QTimer::singleShot(0, this, [this]() {
+    app->get_core()->get_break(BREAK_ID_REST_BREAK)->skip_break();
+  });
+}
+
+void
+RestBreakBridge::requestLock()
+{
+  if (System::is_lockable())
+    {
+      auto locker = app->get_toolkit()->get_locker();
+      locker->unlock();
+      locker->lock();
+      System::lock_screen();
+    }
+}
+
+void
+RestBreakBridge::nextExercise()
+{
+  if (shuffled_exercises.empty())
+    {
+      return;
+    }
+  ex_index++;
+  if (ex_index >= ex_count)
+    {
+      ex_done = true;
+      if (ex_timer != nullptr)
+        {
+          ex_timer->stop();
+        }
+      app->get_core()->set_insist_policy(InsistPolicy::Halt);
+      Q_EMIT exerciseChanged();
+    }
+  else
+    {
+      startExercise();
+    }
+}
+
+void
+RestBreakBridge::prevExercise()
+{
+  if (shuffled_exercises.empty())
+    {
+      return;
+    }
+  if (ex_index > 0)
+    {
+      ex_index--;
+    }
+  ex_done = false;
+  if (ex_timer != nullptr && !ex_timer->isActive())
+    {
+      ex_timer->start();
+    }
+  app->get_core()->set_insist_policy(InsistPolicy::Ignore);
+  startExercise();
+}
+
+void
+RestBreakBridge::togglePause()
+{
+  ex_paused = !ex_paused;
+  Q_EMIT pauseStateChanged();
+}
+
+// ── QmlRestBreakWindow ────────────────────────────────────────────────────────
+
+QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app,
+                                       QScreen *screen,
+                                       BreakFlags break_flags)
+  : app(std::move(app))
+  , screen(screen)
+  , break_flags(break_flags)
+  , block_mode(GUIConfig::block_mode()())
+{
+}
+
+QmlRestBreakWindow::~QmlRestBreakWindow()
+{
+  delete view;
+}
+
+void
+QmlRestBreakWindow::init()
+{
+  TRACE_ENTRY();
+
+  bridge = new RestBreakBridge(app, block_mode, break_flags);
+  bridge->initExercises();
+
+  view = new QQuickView();
+  view->setResizeMode(QQuickView::SizeRootObjectToView);
+  view->rootContext()->setContextProperty("bridge", bridge);
+
+  QObject::connect(view, &QQuickView::statusChanged, view, [this](QQuickView::Status status) {
+    if (status == QQuickView::Error)
+      {
+        for (const auto &err : view->errors())
+          {
+            spdlog::error("RestBreakOverlay QML error: {}", err.toString().toStdString());
+          }
+      }
+  });
+
+  view->setSource(QUrl("qrc:/sanctuary/RestBreakOverlay.qml"));
+
+  configure_view_for_block_mode();
+}
+
+void
+QmlRestBreakWindow::configure_view_for_block_mode()
+{
+  // Qt::SplashScreen maps to an elevated NSWindowLevel on macOS — stays visible
+  // even when another application has focus.  Qt::Tool disappears when backgrounded.
+  // Use the same flags for all block modes; QML handles the dim layer for mode 2.
+  view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+  view->setColor(Qt::transparent);
+}
+
+void
+QmlRestBreakWindow::start()
+{
+  TRACE_ENTRY();
+
+  if (screen != nullptr)
+    {
+      view->setScreen(screen);
+    }
+
+  bridge->updateLockState();
+
+  if (block_mode == BlockMode::All)
+    {
+      view->showFullScreen();
+    }
+  else if (block_mode == BlockMode::Input)
+    {
+      QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
+      view->setGeometry(geo);
+      view->show();
+    }
+  else // Off — centered toast
+    {
+      QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
+      const int card_w = 560;
+      const int card_h = 500;
+      int x = geo.x() + (geo.width() - card_w) / 2;
+      int y = geo.y() + (geo.height() - card_h) / 2;
+      view->setGeometry(x, y, card_w, card_h);
+      view->show();
+    }
+
+  view->raise();
+}
+
+void
+QmlRestBreakWindow::stop()
+{
+  TRACE_ENTRY();
+  view->hide();
+}
+
+void
+QmlRestBreakWindow::set_progress(int value, int max_value)
+{
+  bridge->setProgress(value, max_value);
+}

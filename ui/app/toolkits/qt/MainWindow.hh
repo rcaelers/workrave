@@ -22,9 +22,11 @@
 
 #include "ui/TimerBoxControl.hh"
 #include "ui/IApplicationContext.hh"
+#include "ui/GUIConfig.hh"
 #include "utils/Signals.hh"
 
 #include "TimerBoxView.hh"
+#include "QmlTimerBoxView.hh"
 #include "ToolkitMenu.hh"
 
 class MainWindow
@@ -55,12 +57,14 @@ private:
   void convert_monitor_to_display(int &x, int &y, int head);
   void move_to_start_position();
   void on_enabled_changed();
+  void switch_view(DisplayStyle style);
 
 private:
   std::shared_ptr<IApplicationContext> app;
   std::shared_ptr<ToolkitMenu> menu;
   std::shared_ptr<TimerBoxControl> timer_box_control;
   TimerBoxView *timer_box_view{nullptr};
+  QmlTimerBoxView *qml_timer_box_view{nullptr};
   bool enabled{false};
   bool can_close{false};
   boost::signals2::signal<void()> closed_signal;

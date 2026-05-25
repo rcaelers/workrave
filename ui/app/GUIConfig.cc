@@ -48,6 +48,8 @@ const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
 const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
 const std::string GUIConfig::CFG_KEY_USE_GNOME_SHELL_PRELUDES = "gui/use_gnome_shell_preludes";
 #endif
+const std::string GUIConfig::CFG_KEY_SANCTUARY_UI_ENABLED = "gui/sanctuary_ui_enabled";
+const std::string GUIConfig::CFG_KEY_DISPLAY_STYLE = "gui/display_style";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
@@ -103,6 +105,8 @@ GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
   config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, workrave::config::CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_AUTOSTART, true, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_SANCTUARY_UI_ENABLED, false, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_DISPLAY_STYLE, static_cast<int>(DisplayStyle::Rings), CONFIG_FLAG_INITIAL);
 
 #if defined(PLATFORM_OS_WINDOWS)
   bool dark = false;
@@ -237,6 +241,18 @@ auto
 GUIConfig::key_main_window() -> workrave::config::SettingGroup &
 {
   return SettingCache::group(config, CFG_KEY_MAIN_WINDOW);
+}
+
+auto
+GUIConfig::sanctuary_ui_enabled() -> Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_SANCTUARY_UI_ENABLED, false);
+}
+
+auto
+GUIConfig::display_style() -> Setting<int, DisplayStyle> &
+{
+  return SettingCache::get<int, DisplayStyle>(config, CFG_KEY_DISPLAY_STYLE, DisplayStyle::Rings);
 }
 
 auto
