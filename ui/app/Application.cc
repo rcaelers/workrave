@@ -525,6 +525,7 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
 
   active_break_id = break_id;
   active_break_flags = break_flags;
+  cached_break_button_state = compute_break_button_state();
 
   for (int i = 0; i < toolkit->get_head_count(); i++)
     {
@@ -579,7 +580,6 @@ Application::show_break_window()
       window->start();
     }
 
-  cached_break_button_state = compute_break_button_state();
   for (auto &window: break_windows)
     {
       window->set_break_button_state(cached_break_button_state);
