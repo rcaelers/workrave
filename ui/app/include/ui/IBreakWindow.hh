@@ -1,4 +1,4 @@
-// Copyright (C) 2001 - 2013 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2024 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,11 +19,39 @@
 #define WORKRAVE_UI_IBREAKWINDOW_HH
 
 #include <memory>
+#include "core/CoreTypes.hh"
 
-namespace workrave
+// App-computed state for the Postpone/Skip buttons.  The app layer owns
+// the logic; each toolkit's break window just renders whatever it receives.
+struct BreakButtonState
 {
-  class IBreakResponse;
-}
+  bool can_postpone{true};
+  bool can_skip{true};
+
+  // The lower-priority break that is currently locking the buttons.
+  // BREAK_ID_NONE means no lock is active.
+  workrave::BreakId overdue_break_id{workrave::BREAK_ID_NONE};
+
+  // auto-reset window length and how far along the user's idle time is
+  // (used to drive the "unlock progress" bar in the UI).
+  int64_t lock_max{0};
+  int64_t lock_value{0};
+
+  double lock_progress() const
+  {
+    if (lock_max <= 0)
+      {
+        return 0.0;
+      }
+    return static_cast<double>(lock_value) / static_cast<double>(lock_max);
+  }
+
+  bool operator==(const BreakButtonState &o) const
+  {
+    return can_postpone == o.can_postpone && can_skip == o.can_skip && overdue_break_id == o.overdue_break_id
+           && lock_max == o.lock_max && lock_value == o.lock_value;
+  }
+};
 
 class IBreakWindow
 {
@@ -45,6 +73,10 @@ public:
 
   //! Sets the progress to the specified value and maximum value.
   virtual void set_progress(int value, int max_value) = 0;
+
+  //! Delivers the app-computed button state. Default no-op so GTK windows
+  //! are unaffected and keep driving their own logic.
+  virtual void set_break_button_state(const BreakButtonState & /*state*/) {}
 };
 
 #endif // WORKRAVE_UI_IBREAKWINDOW_HH

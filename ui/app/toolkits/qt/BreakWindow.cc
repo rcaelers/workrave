@@ -277,40 +277,35 @@ BreakWindow::add_lock_button(QGridLayout *box) const
 // }
 
 void
-BreakWindow::update_skip_postpone_lock()
+BreakWindow::set_break_button_state(const BreakButtonState &state)
 {
-  if ((postpone_button != nullptr && !postpone_button->isEnabled()) || (skip_button != nullptr && !skip_button->isEnabled()))
+  if (postpone_button != nullptr)
     {
-      bool skip_locked = false;
-      bool postpone_locked = false;
-      BreakId overdue_break_id = BREAK_ID_NONE;
-      check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+      postpone_button->setEnabled(state.can_postpone);
+      postpone_button->setToolTip(state.can_postpone
+                                    ? QString{}
+                                    : tr("You cannot postpone this break while another non-postponable break is overdue."));
+    }
 
-      if (progress_bar != nullptr)
+  if (skip_button != nullptr)
+    {
+      skip_button->setEnabled(state.can_skip);
+      skip_button->setToolTip(state.can_skip
+                                ? QString{}
+                                : tr("You cannot skip this break while another non-skippable break is overdue."));
+    }
+
+  if (progress_bar != nullptr)
+    {
+      if (state.overdue_break_id != BREAK_ID_NONE)
         {
-          if (overdue_break_id != BREAK_ID_NONE)
-            {
-              auto core = app->get_core();
-              auto b = core->get_break(overdue_break_id);
-
-              progress_bar->setRange(0, b->get_auto_reset());
-              progress_bar->setValue(b->get_elapsed_idle_time());
-            }
-          else
-            {
-              progress_bar->hide();
-            }
+          progress_bar->setRange(0, static_cast<int>(state.lock_max));
+          progress_bar->setValue(static_cast<int>(state.lock_value));
+          progress_bar->show();
         }
-
-      if (!postpone_locked && postpone_button != nullptr)
+      else
         {
-          postpone_button->setToolTip("");
-          postpone_button->setEnabled(true);
-        }
-      if (!skip_locked && skip_button != nullptr)
-        {
-          skip_button->setToolTip("");
-          skip_button->setEnabled(true);
+          progress_bar->hide();
         }
     }
 }
@@ -356,43 +351,6 @@ BreakWindow::on_lock_button_clicked()
     }
 }
 
-void
-BreakWindow::check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, BreakId &overdue_break_id)
-{
-  TRACE_ENTRY();
-  skip_locked = false;
-  postpone_locked = false;
-  overdue_break_id = BREAK_ID_NONE;
-
-  auto core = app->get_core();
-  OperationMode mode = core->get_active_operation_mode();
-
-  if (mode == OperationMode::Normal)
-    {
-      for (int id = break_id - 1; id >= 0; id--)
-        {
-          auto b = core->get_break(BreakId(id));
-          bool overdue = b->get_elapsed_time() > b->get_limit();
-
-          if (((break_flags & BREAK_FLAGS_USER_INITIATED) == 0) || b->is_max_preludes_reached())
-            {
-              if (!GUIConfig::break_ignorable(BreakId(id))())
-                {
-                  postpone_locked = overdue;
-                }
-              if (!GUIConfig::break_skippable(BreakId(id))())
-                {
-                  skip_locked = overdue;
-                }
-              if (skip_locked || postpone_locked)
-                {
-                  overdue_break_id = BreakId(id);
-                  return;
-                }
-            }
-        }
-    }
-}
 
 auto
 BreakWindow::create_break_buttons(bool lockable, bool shutdownable) -> QLayout *
@@ -424,39 +382,16 @@ BreakWindow::create_break_buttons(bool lockable, bool shutdownable) -> QLayout *
 
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          bool skip_locked = false;
-          bool postpone_locked = false;
-          BreakId overdue_break_id = BREAK_ID_NONE;
-          check_skip_postpone_lock(skip_locked, postpone_locked, overdue_break_id);
+          // Buttons start unlocked; state will be pushed by Application::show_break_window.
+          add_skip_button(box, false);
+          add_postpone_button(box, false);
 
-          add_skip_button(box, skip_locked);
-          add_postpone_button(box, postpone_locked);
-
-          if (skip_locked || postpone_locked)
-            {
-              progress_bar = new QProgressBar;
-
-              progress_bar->setOrientation(Qt::Horizontal);
-              progress_bar->setTextVisible(false);
-              progress_bar->setRange(0, 30);
-              progress_bar->setValue(10);
-              progress_bar->update();
-
-              update_skip_postpone_lock();
-
-              if (skip_locked && postpone_locked)
-                {
-                  box->addWidget(progress_bar, 0, box->columnCount() - 2, 1, 2);
-                }
-              else if (skip_locked)
-                {
-                  box->addWidget(progress_bar, 0, box->columnCount() - 2, 1, 1);
-                }
-              else
-                {
-                  box->addWidget(progress_bar, 0, box->columnCount() - 1, 1, 1);
-                }
-            }
+          // Always create the progress bar but keep it hidden until a lock is active.
+          progress_bar = new QProgressBar;
+          progress_bar->setOrientation(Qt::Horizontal);
+          progress_bar->setTextVisible(false);
+          progress_bar->hide();
+          box->addWidget(progress_bar, 0, 0, 1, box->columnCount());
         }
     }
 
@@ -553,7 +488,6 @@ void
 BreakWindow::refresh()
 {
   TRACE_ENTRY();
-  update_skip_postpone_lock();
   update_break_window();
   update_flashing_border();
   raise_break_windows();

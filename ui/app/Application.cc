@@ -51,7 +51,46 @@
 // #endif
 
 using namespace workrave;
+
 using namespace workrave::utils;
+
+BreakButtonState
+Application::compute_break_button_state() const
+{
+  BreakButtonState state;
+
+  if (core->get_active_operation_mode() != OperationMode::Normal)
+    {
+      return state;
+    }
+
+  for (int id = static_cast<int>(active_break_id) - 1; id >= 0; id--)
+    {
+      auto b = core->get_break(BreakId(id));
+      bool overdue = b->get_elapsed_time() > b->get_limit();
+
+      if (((active_break_flags & BREAK_FLAGS_USER_INITIATED) == 0) || b->is_max_preludes_reached())
+        {
+          if (!GUIConfig::break_ignorable(BreakId(id))())
+            {
+              state.can_postpone = state.can_postpone && !overdue;
+            }
+          if (!GUIConfig::break_skippable(BreakId(id))())
+            {
+              state.can_skip = state.can_skip && !overdue;
+            }
+          if (!state.can_postpone || !state.can_skip)
+            {
+              state.overdue_break_id = BreakId(id);
+              state.lock_max = b->get_auto_reset();
+              state.lock_value = b->get_elapsed_idle_time();
+              break;
+            }
+        }
+    }
+
+  return state;
+}
 
 Application::Application(int argc, char **argv, std::shared_ptr<IToolkitFactory> toolkit_factory)
   : toolkit_factory(toolkit_factory)
@@ -485,6 +524,7 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
     }
 
   active_break_id = break_id;
+  active_break_flags = break_flags;
 
   for (int i = 0; i < toolkit->get_head_count(); i++)
     {
@@ -518,6 +558,7 @@ Application::hide_break_window()
 
   break_windows.clear();
   prelude_windows.clear();
+  cached_break_button_state = BreakButtonState{};
 
   toolkit->get_locker()->unlock();
   spdlog::info("Unlocking screen");
@@ -538,8 +579,10 @@ Application::show_break_window()
       window->start();
     }
 
+  cached_break_button_state = compute_break_button_state();
   for (auto &window: break_windows)
     {
+      window->set_break_button_state(cached_break_button_state);
       window->start();
     }
 
@@ -557,6 +600,19 @@ Application::refresh_break_window()
   for (auto &window: prelude_windows)
     {
       window->refresh();
+    }
+
+  if (active_break_id != BREAK_ID_NONE)
+    {
+      BreakButtonState new_state = compute_break_button_state();
+      if (!(new_state == cached_break_button_state))
+        {
+          cached_break_button_state = new_state;
+          for (auto &window: break_windows)
+            {
+              window->set_break_button_state(cached_break_button_state);
+            }
+        }
     }
 
   for (auto &window: break_windows)

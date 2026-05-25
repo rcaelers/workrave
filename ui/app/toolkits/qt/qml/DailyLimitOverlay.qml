@@ -20,10 +20,12 @@ Item {
     readonly property color colBg:       "#F5F1EA"
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
-    readonly property int  blockMode:   bridge != null ? bridge.blockMode   : 1
-    readonly property bool canPostpone: bridge != null ? bridge.canPostpone : true
-    readonly property bool canSkip:     bridge != null ? bridge.canSkip     : true
-    readonly property bool lockable:    bridge != null ? bridge.lockable    : false
+    readonly property int    blockMode:   bridge != null ? bridge.blockMode   : 1
+    readonly property bool   canPostpone: bridge != null ? bridge.canPostpone : true
+    readonly property bool   canSkip:     bridge != null ? bridge.canSkip     : true
+    readonly property bool   lockable:    bridge != null ? bridge.lockable    : false
+    readonly property bool   isLocked:    bridge != null ? bridge.isLocked    : false
+    readonly property double lockProgress: bridge != null ? bridge.lockProgress : 0.0
 
     // ── Warm background fill (all modes except toast) ─────────────────────────
     Rectangle {
@@ -250,6 +252,45 @@ Item {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: { if (bridge != null) bridge.requestSkip() }
+                        }
+                    }
+                }
+            }
+
+            // ── Lock indicator (visible when buttons are temporarily locked) ────
+            Item {
+                width: parent.width
+                height: root.isLocked ? lockCol.implicitHeight + 8 : 0
+                clip: true
+
+                Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+                Column {
+                    id: lockCol
+                    width: parent.width
+                    spacing: 8
+                    anchors.bottom: parent.bottom
+
+                    Text {
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        text: qsTr("Postpone and skip will unlock after resting")
+                        font.pixelSize: 11
+                        color: colMute
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        height: 4
+                        radius: 2
+                        color: "#E7E1D2"
+
+                        Rectangle {
+                            anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                            width: Math.max(4, parent.width * root.lockProgress)
+                            radius: 2
+                            color: colSage
+                            Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }
                 }

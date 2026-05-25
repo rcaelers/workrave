@@ -44,6 +44,8 @@ class MicroBreakBridge : public QObject
 
   Q_PROPERTY(bool canPostpone READ canPostpone NOTIFY lockStateChanged)
   Q_PROPERTY(bool canSkip READ canSkip NOTIFY lockStateChanged)
+  Q_PROPERTY(double lockProgress READ lockProgress NOTIFY lockStateChanged)
+  Q_PROPERTY(bool isLocked READ isLocked NOTIFY lockStateChanged)
   Q_PROPERTY(QString restBreakInfo READ restBreakInfo NOTIFY restBreakInfoChanged)
   Q_PROPERTY(bool userActive READ userActive NOTIFY userActivityChanged)
 
@@ -63,11 +65,13 @@ public:
 
   bool canPostpone() const;
   bool canSkip() const;
+  double lockProgress() const;
+  bool isLocked() const;
   QString restBreakInfo() const;
   bool userActive() const { return user_active; }
 
   void setProgress(int value, int max_value);
-  void updateLockState();
+  void setBreakButtonState(const BreakButtonState &state);
   void updateRestBreakInfo();
   void updateUserActivity();
 
@@ -92,6 +96,7 @@ private:
   int progress_max{1};
   bool postpone_locked{false};
   bool skip_locked{false};
+  double lock_progress{0.0};
   bool user_active{false};
   QString rest_break_info;
 };
@@ -110,6 +115,7 @@ public:
   void stop() override;
   void refresh() override;
   void set_progress(int value, int max_value) override;
+  void set_break_button_state(const BreakButtonState &state) override;
 
 private:
   void configure_view_for_block_mode();

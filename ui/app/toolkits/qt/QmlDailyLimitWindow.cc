@@ -72,38 +72,28 @@ DailyLimitBridge::canSkip() const
   return (break_flags & BREAK_FLAGS_SKIPPABLE) != 0 && !skip_locked;
 }
 
-void
-DailyLimitBridge::updateLockState()
+double
+DailyLimitBridge::lockProgress() const
 {
-  bool new_postpone_locked = false;
-  bool new_skip_locked = false;
+  return lock_progress_val;
+}
 
-  auto core = app->get_core();
-  if (core->get_active_operation_mode() == OperationMode::Normal)
+bool
+DailyLimitBridge::isLocked() const
+{
+  return postpone_locked || skip_locked;
+}
+
+void
+DailyLimitBridge::setBreakButtonState(const BreakButtonState &state)
+{
+  bool changed = (state.can_postpone == postpone_locked) || (state.can_skip == skip_locked)
+                 || (state.lock_progress() != lock_progress_val);
+  postpone_locked = !state.can_postpone;
+  skip_locked = !state.can_skip;
+  lock_progress_val = state.lock_progress();
+  if (changed)
     {
-      for (int id = BREAK_ID_DAILY_LIMIT - 1; id >= 0; id--)
-        {
-          auto b = core->get_break(BreakId(id));
-          bool overdue = b->get_elapsed_time() > b->get_limit();
-
-          if (((break_flags & BREAK_FLAGS_USER_INITIATED) == 0) || b->is_max_preludes_reached())
-            {
-              if (!GUIConfig::break_ignorable(BreakId(id))())
-                {
-                  new_postpone_locked = overdue;
-                }
-              if (!GUIConfig::break_skippable(BreakId(id))())
-                {
-                  new_skip_locked = overdue;
-                }
-            }
-        }
-    }
-
-  if (new_postpone_locked != postpone_locked || new_skip_locked != skip_locked)
-    {
-      postpone_locked = new_postpone_locked;
-      skip_locked = new_skip_locked;
       Q_EMIT lockStateChanged();
     }
 }
@@ -196,8 +186,6 @@ QmlDailyLimitWindow::start()
       view->setScreen(screen);
     }
 
-  bridge->updateLockState();
-
   if (block_mode == BlockMode::All)
     {
       view->showFullScreen();
@@ -234,4 +222,10 @@ QmlDailyLimitWindow::set_progress(int value, int max_value)
 {
   (void)value;
   (void)max_value;
+}
+
+void
+QmlDailyLimitWindow::set_break_button_state(const BreakButtonState &state)
+{
+  bridge->setBreakButtonState(state);
 }

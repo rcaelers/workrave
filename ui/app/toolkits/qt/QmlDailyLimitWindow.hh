@@ -36,8 +36,10 @@ class DailyLimitBridge : public QObject
 
   Q_PROPERTY(int  blockMode   READ blockMode   CONSTANT)
   Q_PROPERTY(bool lockable    READ lockable    CONSTANT)
-  Q_PROPERTY(bool canPostpone READ canPostpone NOTIFY lockStateChanged)
-  Q_PROPERTY(bool canSkip     READ canSkip     NOTIFY lockStateChanged)
+  Q_PROPERTY(bool canPostpone  READ canPostpone  NOTIFY lockStateChanged)
+  Q_PROPERTY(bool canSkip      READ canSkip      NOTIFY lockStateChanged)
+  Q_PROPERTY(double lockProgress READ lockProgress NOTIFY lockStateChanged)
+  Q_PROPERTY(bool isLocked     READ isLocked     NOTIFY lockStateChanged)
 
 public:
   explicit DailyLimitBridge(std::shared_ptr<IApplicationContext> app,
@@ -47,10 +49,12 @@ public:
 
   int  blockMode()   const;
   bool lockable()    const;
-  bool canPostpone() const;
-  bool canSkip()     const;
+  bool canPostpone()   const;
+  bool canSkip()       const;
+  double lockProgress() const;
+  bool isLocked()      const;
 
-  void updateLockState();
+  void setBreakButtonState(const BreakButtonState &state);
 
 Q_SIGNALS:
   void lockStateChanged();
@@ -67,6 +71,7 @@ private:
 
   bool postpone_locked{false};
   bool skip_locked{false};
+  double lock_progress_val{0.0};
 };
 
 // IBreakWindow implementation that hosts a QQuickView with DailyLimitOverlay.qml.
@@ -83,6 +88,7 @@ public:
   void stop() override;
   void refresh() override {}
   void set_progress(int value, int max_value) override;
+  void set_break_button_state(const BreakButtonState &state) override;
 
 private:
   void configure_view_for_block_mode();

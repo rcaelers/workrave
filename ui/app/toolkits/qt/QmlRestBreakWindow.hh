@@ -51,6 +51,8 @@ class RestBreakBridge : public QObject
   // Notified via lockStateChanged
   Q_PROPERTY(bool canPostpone READ canPostpone NOTIFY lockStateChanged)
   Q_PROPERTY(bool canSkip READ canSkip NOTIFY lockStateChanged)
+  Q_PROPERTY(double lockProgress READ lockProgress NOTIFY lockStateChanged)
+  Q_PROPERTY(bool isLocked READ isLocked NOTIFY lockStateChanged)
 
   // Notified via breakProgressChanged
   Q_PROPERTY(double breakProgress READ breakProgress NOTIFY breakProgressChanged)
@@ -92,6 +94,8 @@ public:
   // Lock state
   bool canPostpone() const;
   bool canSkip() const;
+  double lockProgress() const;
+  bool isLocked() const;
 
   // Break total time
   QString breakTimeShort() const;
@@ -120,7 +124,7 @@ public:
 
   // Called from QmlRestBreakWindow
   void setProgress(int value, int max_value);
-  void updateLockState();
+  void setBreakButtonState(const BreakButtonState &state);
   void initExercises();
 
 Q_SIGNALS:
@@ -154,6 +158,7 @@ private:
   int break_max{1};
   bool postpone_locked{false};
   bool skip_locked{false};
+  double lock_progress_val{0.0};
 
   std::vector<Exercise> shuffled_exercises;
   int ex_index{0};
@@ -180,6 +185,7 @@ public:
   void stop() override;
   void refresh() override {}
   void set_progress(int value, int max_value) override;
+  void set_break_button_state(const BreakButtonState &state) override;
 
 private:
   void configure_view_for_block_mode();

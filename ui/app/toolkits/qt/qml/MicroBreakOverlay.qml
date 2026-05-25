@@ -26,6 +26,8 @@ Item {
     readonly property double ringProgress: bridge != null ? bridge.ringProgress : 1.0
     readonly property string timeRemaining: bridge != null ? bridge.timeRemaining : "0:30"
     readonly property bool   userActive:   bridge != null ? bridge.userActive   : false
+    readonly property bool   isLocked:     bridge != null ? bridge.isLocked     : false
+    readonly property double lockProgress: bridge != null ? bridge.lockProgress  : 0.0
 
     // Ring colour: clay/orange when the user is active during the break, sage otherwise
     readonly property color ringColor: userActive ? colWarn : colSage
@@ -322,6 +324,44 @@ Item {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: { if (bridge != null) bridge.requestSkip() }
+                        }
+                    }
+                }
+            }
+            // ── Lock indicator (visible when postpone/skip are temporarily locked) ──
+            Item {
+                width: parent.width
+                height: root.isLocked ? lockCol.implicitHeight + 8 : 0
+                clip: true
+
+                Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+                Column {
+                    id: lockCol
+                    width: parent.width
+                    spacing: 8
+                    anchors.bottom: parent.bottom
+
+                    Text {
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                        text: qsTr("Postpone and skip will unlock after resting")
+                        font.pixelSize: 11
+                        color: colMute
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        height: 4
+                        radius: 2
+                        color: colTrack
+
+                        Rectangle {
+                            anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                            width: Math.max(4, parent.width * root.lockProgress)
+                            radius: 2
+                            color: colSage
+                            Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }
                 }

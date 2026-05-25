@@ -51,6 +51,7 @@ public:
   void start() override;
   void stop() override;
   void refresh() override;
+  void set_break_button_state(const BreakButtonState &state) override;
 
 protected:
   BreakFlags get_break_flags() const
@@ -74,13 +75,10 @@ private:
   virtual QWidget *create_gui() = 0;
   virtual void update_break_window();
 
-  void update_skip_postpone_lock();
   void update_flashing_border();
   void raise_break_windows();
 
   QLayout *create_break_buttons(bool lockable, bool shutdownable);
-
-  void check_skip_postpone_lock(bool &skip_locked, bool &postpone_locked, workrave::BreakId &overdue_break_id);
 
   void on_lock_button_clicked();
   void on_skip_button_clicked();

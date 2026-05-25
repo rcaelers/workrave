@@ -36,6 +36,8 @@ Item {
     readonly property bool       canPostpone:     bridge != null ? bridge.canPostpone        : true
     readonly property bool       canSkip:         bridge != null ? bridge.canSkip            : true
     readonly property bool       lockable:        bridge != null ? bridge.lockable           : false
+    readonly property bool       isLocked:        bridge != null ? bridge.isLocked           : false
+    readonly property double     lockProgress:    bridge != null ? bridge.lockProgress       : 0.0
     readonly property double     breakProgress:   bridge != null ? bridge.breakProgress      : 1.0
     readonly property string     breakTimeShort:  bridge != null ? bridge.breakTimeShort     : "5:00"
     readonly property string     breakMaxStr:     bridge != null ? bridge.breakMaxStr        : "10:00"
@@ -180,11 +182,50 @@ Item {
             }
         }
 
+        // ── Lock strip (visible when postpone/skip are temporarily disabled) ────
+        Item {
+            id: lockStrip
+            anchors { top: headerStrip.bottom; left: parent.left; right: parent.right }
+            height: root.isLocked ? lockStripCol.implicitHeight + 12 : 0
+            clip: true
+
+            Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+            Column {
+                id: lockStripCol
+                anchors { left: parent.left; right: parent.right; bottom: parent.bottom; bottomMargin: 6 }
+                spacing: 6
+
+                Text {
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                    text: qsTr("Postpone and skip will unlock after resting")
+                    font.pixelSize: 11
+                    color: colMute
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: 4
+                    radius: 2
+                    color: colTrack
+
+                    Rectangle {
+                        anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                        width: Math.max(4, parent.width * root.lockProgress)
+                        radius: 2
+                        color: colSage
+                        Behavior on width { NumberAnimation { duration: 500 } }
+                    }
+                }
+            }
+        }
+
         // ── Body area ─────────────────────────────────────────────────────────
         Item {
             id: bodyArea
             anchors {
-                top: headerStrip.bottom
+                top: lockStrip.bottom
                 topMargin: 20
                 left: parent.left
                 right: parent.right
