@@ -74,6 +74,41 @@ INSTALL(CODE "
     endif()
     ")
 
+# cmake --install always copies a fresh binary from the build tree, which resets
+# the binary to its build-time rpaths.  macdeployqt is gated by the stamp, so
+# when Qt frameworks are unchanged macdeployqt is skipped and the binary is left
+# with raw build-tree rpaths.  Fix this every install run — it is fast.
+INSTALL(CODE "
+    set(_bin \"${_deploy_app}/Contents/MacOS/${PROJECT_NAME}\")
+    set(_fwdir \"${_deploy_app}/Contents/Frameworks\")
+
+    # 1. Ensure @executable_path/../Frameworks is in the binary's rpath so that
+    #    all @rpath/... load commands resolve to the bundled Frameworks directory.
+    execute_process(COMMAND otool -l \"\${_bin}\" OUTPUT_VARIABLE _lc ERROR_QUIET)
+    if(NOT \"\${_lc}\" MATCHES \"@executable_path/../Frameworks\")
+        execute_process(COMMAND install_name_tool -add_rpath \"@executable_path/../Frameworks\" \"\${_bin}\" ERROR_QUIET)
+    endif()
+
+    # 2. Fix any bare (no @ prefix) dylib references whose library is already in
+    #    Frameworks (copied by a prior macdeployqt run).
+    execute_process(COMMAND otool -L \"\${_bin}\" OUTPUT_VARIABLE _libs ERROR_QUIET)
+    string(REGEX MATCHALL \"[^\n]+\" _lib_lines \"\${_libs}\")
+    foreach(_line \${_lib_lines})
+        string(STRIP \"\${_line}\" _line)
+        if(\"\${_line}\" MATCHES \"^([^/@][^/ ]+\\\\.dylib)\")
+            set(_libname \"\${CMAKE_MATCH_1}\")
+            if(EXISTS \"\${_fwdir}/\${_libname}\")
+                message(\"-- Fixing bare reference: \${_libname}\")
+                execute_process(
+                    COMMAND install_name_tool -change \"\${_libname}\"
+                            \"@executable_path/../Frameworks/\${_libname}\"
+                            \"\${_bin}\"
+                )
+            endif()
+        endif()
+    endforeach()
+")
+
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
     # cmake --install always copies a fresh binary from the build tree, so debug
     # entitlements must be re-applied on every install — after macdeployqt, which
