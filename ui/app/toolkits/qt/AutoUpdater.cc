@@ -31,12 +31,15 @@
 
 #include "commonui/nls.h"
 #include "debug.hh"
+#include "sigstore/Bundle.hh"
 #include "unfold/Unfold.hh"
 #include "unfold/UnfoldErrors.hh"
 #include "updater/Config.hh"
 #include "ui/prefwidgets/Widgets.hh"
 
 #include "AutoUpdateDialog.hh"
+
+namespace outcome = boost::outcome_v2;
 
 AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
   : context(context)
@@ -201,6 +204,11 @@ AutoUpdater::init_channels()
 
   switch (channel)
     {
+
+    case workrave::updater::Channel::Alpha:
+      allowed_channels.emplace_back("alpha");
+      [[fallthrough]];
+
     case workrave::updater::Channel::Beta:
       allowed_channels.emplace_back("beta");
       [[fallthrough]];
