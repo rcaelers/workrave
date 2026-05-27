@@ -204,6 +204,11 @@ AutoUpdater::init_channels()
 
   switch (channel)
     {
+
+    case workrave::updater::Channel::Alpha:
+      allowed_channels.emplace_back("alpha");
+      [[fallthrough]];
+
     case workrave::updater::Channel::Beta:
       allowed_channels.emplace_back("beta");
       [[fallthrough]];
