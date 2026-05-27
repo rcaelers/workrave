@@ -316,7 +316,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("Skip")
                         font.pixelSize: 12
-                        color: colMute
+                        color: colInk2
                         leftPadding: 4
                         rightPadding: 4
 

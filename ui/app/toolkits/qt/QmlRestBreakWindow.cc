@@ -526,20 +526,11 @@ QmlRestBreakWindow::start()
     {
       view->showFullScreen();
     }
-  else if (block_mode == BlockMode::Input)
+  else
     {
+      // Input and Off: full-screen transparent view; QML draws a centered floating card.
       QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
       view->setGeometry(geo);
-      view->show();
-    }
-  else // Off — centered toast
-    {
-      QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
-      const int card_w = 560;
-      const int card_h = 500;
-      int x = geo.x() + (geo.width() - card_w) / 2;
-      int y = geo.y() + (geo.height() - card_h) / 2;
-      view->setGeometry(x, y, card_w, card_h);
       view->show();
     }
 

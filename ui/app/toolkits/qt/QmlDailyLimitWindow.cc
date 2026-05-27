@@ -190,13 +190,7 @@ QmlDailyLimitWindow::start()
     {
       view->showFullScreen();
     }
-  else if (block_mode == BlockMode::Input)
-    {
-      QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
-      view->setGeometry(geo);
-      view->show();
-    }
-  else // Off — centered card
+  else
     {
       QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
       const int card_w = 560;
