@@ -261,7 +261,7 @@ if [[ $MSYSTEM == "CLANG64" ]]; then
 
     # Installer
 
-    # TODO: awaiting Inno 7 ninja ${MAKE_FLAGS[@]} installer
+    ninja ${MAKE_FLAGS[@]} installer
 
     if [[ -e ${OUTPUT_DIR}/workrave-installer.exe ]]; then
 

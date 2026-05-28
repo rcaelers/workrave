@@ -200,9 +200,23 @@ jobs:
             xz
             zip
 
-      - name: install InnoSetup
-        shell: cmd
-        run: choco upgrade innosetup -y --no-progress
+      - name: install Inno Setup 7 beta
+        shell: powershell
+        run: |
+          $downloadPage = Invoke-WebRequest -Uri 'https://jrsoftware.org/isdl.php'
+          $downloadLink = $downloadPage.Links |
+            Where-Object { $_.href -match 'innosetup-7\.[^/]*-beta-x64\.exe$' } |
+            Select-Object -First 1 -ExpandProperty href
+
+          if (-not $downloadLink) {
+            throw 'Unable to find the Inno Setup 7 beta x64 download link.'
+          }
+
+          $downloadUri = [System.Uri]::new([System.Uri]'https://jrsoftware.org/isdl.php', $downloadLink)
+          $installerPath = Join-Path $env:RUNNER_TEMP 'innosetup-7-beta-x64.exe'
+
+          Invoke-WebRequest -Uri $downloadUri.AbsoluteUri -OutFile $installerPath
+          Start-Process -FilePath $installerPath -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/SP-' -Wait
 
       - name: Build 64 bit
         shell: msys2 {0}
