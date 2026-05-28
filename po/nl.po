@@ -540,7 +540,7 @@ msgstr "Zelfstandig genomen pauzes"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
 msgid "Natural rest break"
-msgstr "Zelfstandig genomen pauzes"
+msgstr "Zelfstandig genomen pauze"
 
 #: ui/data/exercises/exercises.xml.in:30
 msgid "Neck tilt stretch"
