@@ -159,11 +159,17 @@ Item {
                             }
                         }
 
-                        Text {
+                        Rectangle {
                             visible: root.showExercises && root.canSkip
+                            height: 28; width: skipLabelH.implicitWidth + 20
+                            radius: 999; color: "transparent"
+                            border.color: colEdge; border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr("Skip"); font.pixelSize: 12; color: colInk2
-                            leftPadding: 4; rightPadding: 4
+                            Text {
+                                id: skipLabelH; anchors.centerIn: parent
+                                text: qsTr("Skip"); font.pixelSize: 12; font.weight: Font.Medium; color: colInk2
+                            }
+                            Accessible.role: Accessible.Button; Accessible.name: qsTr("Skip")
                             MouseArea {
                                 anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                                 onClicked: { if (bridge != null) bridge.requestSkip() }
@@ -374,11 +380,17 @@ Item {
                                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestPostpone() } }
                             }
 
-                            Text {
+                            Rectangle {
                                 visible: root.canSkip
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Skip"); font.pixelSize: 12; color: colInk2
-                                leftPadding: 4; rightPadding: 4
+                                height: 34; width: skipLabelR.implicitWidth + 28
+                                radius: 999; color: "transparent"
+                                border.color: colEdge; border.width: 1
+                                Text {
+                                    id: skipLabelR; anchors.centerIn: parent
+                                    text: qsTr("Skip"); font.pixelSize: 13; font.weight: Font.Medium
+                                    font.letterSpacing: 0.12; color: colInk2
+                                }
+                                Accessible.role: Accessible.Button; Accessible.name: qsTr("Skip")
                                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
                             }
                         }
@@ -468,11 +480,17 @@ Item {
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestPostpone() } }
                     }
 
-                    Text {
+                    Rectangle {
                         visible: root.canSkip
+                        height: 28; width: skipLabelFs.implicitWidth + 20
+                        radius: 999; color: "transparent"
+                        border.color: colEdge; border.width: 1
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Skip"); font.pixelSize: 12; color: colInk2
-                        leftPadding: 4; rightPadding: 4
+                        Text {
+                            id: skipLabelFs; anchors.centerIn: parent
+                            text: qsTr("Skip"); font.pixelSize: 12; font.weight: Font.Medium; color: colInk2
+                        }
+                        Accessible.role: Accessible.Button; Accessible.name: qsTr("Skip")
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
                     }
                 }

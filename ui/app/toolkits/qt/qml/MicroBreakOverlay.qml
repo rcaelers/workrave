@@ -52,12 +52,18 @@ Item {
         border.width: root.userActive ? 1.5 : 1
         Behavior on border.color { ColorAnimation { duration: 300 } }
 
-        // Position: centered for modes 1 & 2, top-left origin for toast (mode 0)
-        x: root.blockMode === 0 ? 0 : (root.width  - width)  / 2
-        y: root.blockMode === 0 ? 0 : (root.height - height) / 2
+        x: (root.width  - width)  / 2
+        y: (root.height - height) / 2
 
         scale: 1.0
         opacity: 1.0
+
+        // Allow dragging in Off mode (no blocking); first drag breaks the centering
+        // binding, after which the card stays wherever the user drops it.
+        DragHandler {
+            enabled: root.blockMode === 0
+            cursorShape: Qt.SizeAllCursor
+        }
 
         // Content column
         Column {
@@ -311,14 +317,29 @@ Item {
                     }
 
                     // Skip
-                    Text {
+                    Rectangle {
                         visible: bridge != null ? bridge.canSkip : true
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Skip")
-                        font.pixelSize: 12
-                        color: colInk2
-                        leftPadding: 4
-                        rightPadding: 4
+                        enabled: bridge != null ? bridge.canSkip : true
+                        height: 34
+                        width: skipLabel.implicitWidth + 28
+                        radius: 999
+                        color: "transparent"
+                        border.color: colEdge
+                        border.width: 1
+                        opacity: enabled ? 1.0 : 0.4
+
+                        Text {
+                            id: skipLabel
+                            anchors.centerIn: parent
+                            text: qsTr("Skip")
+                            font.pixelSize: 13
+                            font.weight: Font.Medium
+                            font.letterSpacing: 0.12
+                            color: colInk2
+                        }
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Skip")
 
                         MouseArea {
                             anchors.fill: parent

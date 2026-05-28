@@ -152,15 +152,28 @@ Item {
                         }
                     }
 
-                    // Skip text link
-                    Text {
+                    // Skip
+                    Rectangle {
                         visible: root.canSkip
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Skip")
-                        font.pixelSize: 12
-                        color: colInk2
-                        leftPadding: 4
-                        rightPadding: 4
+                        height: 34
+                        width: skipLabel.implicitWidth + 28
+                        radius: 999
+                        color: "transparent"
+                        border.color: colEdge
+                        border.width: 1
+
+                        Text {
+                            id: skipLabel
+                            anchors.centerIn: parent
+                            text: qsTr("Skip")
+                            font.pixelSize: 13
+                            font.weight: Font.Medium
+                            font.letterSpacing: 0.12
+                            color: colInk2
+                        }
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Skip")
 
                         MouseArea {
                             anchors.fill: parent

@@ -282,14 +282,11 @@ QmlMicroBreakWindow::configure_view_for_block_mode()
       view->setFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen);
       view->setColor(QColor("#1B1D1A"));
     }
-  else if (block_mode == BlockMode::Input)
+  else
     {
-      view->setFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen);
-      view->setColor(Qt::transparent);
-    }
-  else // Off — toast
-    {
-      view->setFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+      // Input and Off both use a full-screen transparent overlay; QML positions
+      // the card (centered for Input, top-right corner for Off).
+      view->setFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen | Qt::WindowDoesNotAcceptFocus);
       view->setColor(Qt::transparent);
     }
 }
@@ -310,18 +307,12 @@ QmlMicroBreakWindow::start()
     {
       view->showFullScreen();
     }
-  else if (block_mode == BlockMode::Input)
+  else
     {
+      // Input and Off: full-screen transparent overlay; QML positions the card
+      // (centered for Input, top-right corner for Off).
       QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
       view->setGeometry(geo);
-      view->show();
-    }
-  else // Off — top-right toast
-    {
-      QRect geo = (screen != nullptr) ? screen->geometry() : QGuiApplication::primaryScreen()->geometry();
-      const int card_w = 480;
-      const int card_h = 300;
-      view->setGeometry(geo.right() - card_w - 20, geo.top() + 20, card_w, card_h);
       view->show();
     }
 
