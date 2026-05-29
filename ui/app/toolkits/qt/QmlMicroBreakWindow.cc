@@ -211,6 +211,8 @@ MicroBreakBridge::requestPostpone()
 {
   QTimer::singleShot(0, this, [this]() {
     app->get_core()->get_break(BREAK_ID_MICRO_BREAK)->postpone_break();
+    if (on_dismiss_)
+      on_dismiss_();
   });
 }
 
@@ -219,6 +221,8 @@ MicroBreakBridge::requestSkip()
 {
   QTimer::singleShot(0, this, [this]() {
     app->get_core()->get_break(BREAK_ID_MICRO_BREAK)->skip_break();
+    if (on_dismiss_)
+      on_dismiss_();
   });
 }
 
@@ -268,6 +272,7 @@ QmlMicroBreakWindow::init()
   TRACE_ENTRY();
 
   bridge = new MicroBreakBridge(app, block_mode, break_flags);
+  bridge->setDismissHandler([this]() { stop(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);

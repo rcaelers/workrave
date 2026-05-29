@@ -408,6 +408,8 @@ RestBreakBridge::requestPostpone()
 {
   QTimer::singleShot(0, this, [this]() {
     app->get_core()->get_break(BREAK_ID_REST_BREAK)->postpone_break();
+    if (on_dismiss_)
+      on_dismiss_();
   });
 }
 
@@ -416,6 +418,8 @@ RestBreakBridge::requestSkip()
 {
   QTimer::singleShot(0, this, [this]() {
     app->get_core()->get_break(BREAK_ID_REST_BREAK)->skip_break();
+    if (on_dismiss_)
+      on_dismiss_();
   });
 }
 
@@ -508,6 +512,7 @@ QmlRestBreakWindow::init()
   TRACE_ENTRY();
 
   bridge = new RestBreakBridge(app, block_mode, break_flags);
+  bridge->setDismissHandler([this]() { stop(); });
   bridge->initExercises();
 
   view = new QQuickView();

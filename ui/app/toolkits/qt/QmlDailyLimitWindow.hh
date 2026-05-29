@@ -17,6 +17,7 @@
 #ifndef QMLDAILYLIMITWINDOW_HH
 #define QMLDAILYLIMITWINDOW_HH
 
+#include <functional>
 #include <memory>
 #include <QObject>
 #include <QScreen>
@@ -66,6 +67,7 @@ public:
   bool isClassic() const { return classic_; }
 
   void setBreakButtonState(const BreakButtonState &state);
+  void setDismissHandler(std::function<void()> fn) { on_dismiss_ = std::move(fn); }
   void updateUserActivity();
 
 Q_SIGNALS:
@@ -82,6 +84,8 @@ private:
   std::shared_ptr<IApplicationContext> app;
   BlockMode block_mode;
   BreakFlags break_flags;
+
+  std::function<void()> on_dismiss_;
 
   bool postpone_locked{false};
   bool skip_locked{false};

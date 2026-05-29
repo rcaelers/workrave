@@ -127,6 +127,8 @@ DailyLimitBridge::requestPostpone()
 {
   QTimer::singleShot(0, this, [this]() {
     app->get_core()->get_break(BREAK_ID_DAILY_LIMIT)->postpone_break();
+    if (on_dismiss_)
+      on_dismiss_();
   });
 }
 
@@ -135,6 +137,8 @@ DailyLimitBridge::requestSkip()
 {
   QTimer::singleShot(0, this, [this]() {
     app->get_core()->get_break(BREAK_ID_DAILY_LIMIT)->skip_break();
+    if (on_dismiss_)
+      on_dismiss_();
   });
 }
 
@@ -176,6 +180,7 @@ QmlDailyLimitWindow::init()
   TRACE_ENTRY();
 
   bridge = new DailyLimitBridge(app, block_mode, break_flags);
+  bridge->setDismissHandler([this]() { stop(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);

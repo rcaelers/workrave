@@ -17,6 +17,7 @@
 #ifndef QMLMICROBREAKWINDOW_HH
 #define QMLMICROBREAKWINDOW_HH
 
+#include <functional>
 #include <memory>
 #include <QObject>
 #include <QScreen>
@@ -81,6 +82,7 @@ public:
 
   void setProgress(int value, int max_value);
   void setBreakButtonState(const BreakButtonState &state);
+  void setDismissHandler(std::function<void()> fn) { on_dismiss_ = std::move(fn); }
   void updateRestBreakInfo();
   void updateUserActivity();
 
@@ -101,6 +103,8 @@ private:
   std::shared_ptr<IApplicationContext> app;
   BlockMode block_mode;
   BreakFlags break_flags;
+
+  std::function<void()> on_dismiss_;
 
   int progress_value{0};
   int progress_max{1};
