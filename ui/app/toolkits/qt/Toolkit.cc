@@ -183,7 +183,7 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id) -> 
 
   if (GUIConfig::sanctuary_ui_enabled()())
     {
-      return std::make_shared<QmlPreludeWindow>(screen, break_id);
+      return std::make_shared<QmlPreludeWindow>(app, screen, break_id);
     }
 
   return std::make_shared<PreludeWindow>(app, screen, break_id);

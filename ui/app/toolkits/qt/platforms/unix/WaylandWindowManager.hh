@@ -22,6 +22,7 @@
 #include <memory>
 
 #include <QWidget>
+#include <QWindow>
 #include <wayland-client-core.h>
 
 #include "wayland-wlr-layer-shell-unstable-v1-client-protocol.h"
@@ -30,6 +31,7 @@ class LayerSurface
 {
 public:
   LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWidget *window, QScreen *screen, bool keyboard_focus);
+  LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWindow *window, QScreen *screen, bool keyboard_focus);
   ~LayerSurface();
 
 private:
@@ -62,6 +64,7 @@ public:
   bool init();
 
   void init_surface(QWidget *window, QScreen *screen, bool keyboard_focus);
+  void init_surface(QWindow *window, QScreen *screen, bool keyboard_focus);
   void clear_surfaces();
 
 public:

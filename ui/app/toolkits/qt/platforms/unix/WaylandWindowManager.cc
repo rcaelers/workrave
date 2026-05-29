@@ -122,23 +122,37 @@ WaylandWindowManager::init_surface(QWidget *window, QScreen *screen, bool keyboa
 }
 
 void
+WaylandWindowManager::init_surface(QWindow *window, QScreen *screen, bool keyboard_focus)
+{
+  TRACE_ENTRY();
+  if (layer_shell != nullptr)
+    {
+      auto layer = std::make_shared<LayerSurface>(layer_shell, window, screen, keyboard_focus);
+      surfaces.push_back(layer);
+    }
+}
+
+void
 WaylandWindowManager::clear_surfaces()
 {
   TRACE_ENTRY();
   surfaces.clear();
 }
 
-LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWidget *window, QScreen *screen, bool keyboard_focus)
-  : layer_shell(layer_shell)
-  , keyboard_focus(keyboard_focus)
-
+static void
+layer_surface_init(struct zwlr_layer_shell_v1 *layer_shell,
+                   struct zwlr_layer_surface_v1 *&layer_surface,
+                   struct wl_display *display,
+                   QtWaylandClient::QWaylandWindow *wayland_window,
+                   QScreen *screen,
+                   bool keyboard_focus,
+                   const struct zwlr_layer_surface_v1_listener *listener,
+                   void *listener_data)
 {
-  TRACE_ENTRY();
-  auto *wayland_window = window->windowHandle()->nativeInterface<QNativeInterface::Private::QWaylandWindow>();
   auto *wayland_screen = screen->nativeInterface<QtWaylandClient::QWaylandScreen>();
+  auto *output         = wayland_screen->output();
+  auto *surface        = wayland_window->surface();
 
-  auto *output = wayland_screen->output();
-  auto *surface = wayland_window->surface();
   layer_surface = zwlr_layer_shell_v1_get_layer_surface(layer_shell,
                                                         surface,
                                                         output,
@@ -154,10 +168,29 @@ LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWidget *win
   zwlr_layer_surface_v1_set_keyboard_interactivity(layer_surface,
                                                    keyboard_focus ? ZWLR_LAYER_SURFACE_V1_KEYBOARD_INTERACTIVITY_EXCLUSIVE
                                                                   : ZWLR_LAYER_SURFACE_V1_KEYBOARD_INTERACTIVITY_NONE);
-  zwlr_layer_surface_v1_add_listener(layer_surface, &layer_surface_listener, this);
+  zwlr_layer_surface_v1_add_listener(layer_surface, listener, listener_data);
 
   wl_surface_commit(surface);
   wl_display_roundtrip(display);
+}
+
+LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWidget *window, QScreen *screen, bool keyboard_focus)
+  : layer_shell(layer_shell)
+  , keyboard_focus(keyboard_focus)
+{
+  TRACE_ENTRY();
+  auto *wayland_window = window->windowHandle()->nativeInterface<QNativeInterface::Private::QWaylandWindow>();
+  layer_surface_init(layer_shell, layer_surface, display, wayland_window, screen, keyboard_focus, &layer_surface_listener, this);
+}
+
+LayerSurface::LayerSurface(struct zwlr_layer_shell_v1 *layer_shell, QWindow *window, QScreen *screen, bool keyboard_focus)
+  : layer_shell(layer_shell)
+  , keyboard_focus(keyboard_focus)
+{
+  TRACE_ENTRY();
+  // QWindow (e.g. QQuickView) exposes the Wayland window directly via nativeInterface.
+  auto *wayland_window = window->nativeInterface<QNativeInterface::Private::QWaylandWindow>();
+  layer_surface_init(layer_shell, layer_surface, display, wayland_window, screen, keyboard_focus, &layer_surface_listener, this);
 }
 
 LayerSurface::~LayerSurface()

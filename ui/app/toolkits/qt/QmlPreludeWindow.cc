@@ -22,6 +22,13 @@
 
 #include <QQmlContext>
 #include <QGuiApplication>
+#include <QTimer>
+
+#include "utils/Platform.hh"
+
+#if defined(HAVE_WAYLAND)
+#  include "IToolkitUnixPrivate.hh"
+#endif
 
 using namespace workrave;
 
@@ -97,10 +104,10 @@ PreludeBridge::setStage(IApp::PreludeStage stage)
   int s = 0;
   switch (stage)
     {
-    case IApp::PreludeStage::Initial:  s = 0; break;
-    case IApp::PreludeStage::Warn:     s = 1; break;
-    case IApp::PreludeStage::Alert:    s = 2; break;
-    case IApp::PreludeStage::MoveOut:  s = 3; break;
+    case IApp::PreludeStage::Initial: s = 0; break;
+    case IApp::PreludeStage::Warn:    s = 1; break;
+    case IApp::PreludeStage::Alert:   s = 2; break;
+    case IApp::PreludeStage::MoveOut: s = 3; break;
     }
   if (stage_ != s)
     {
@@ -129,10 +136,19 @@ PreludeBridge::setProgressText(IApp::PreludeProgressText text)
 
 // ── QmlPreludeWindow ──────────────────────────────────────────────────────────
 
-QmlPreludeWindow::QmlPreludeWindow(QScreen *screen, BreakId break_id)
+QmlPreludeWindow::QmlPreludeWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakId break_id)
   : screen(screen)
+  , position_windows(workrave::utils::Platform::can_position_windows())
 {
+#if defined(HAVE_WAYLAND)
+  window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
+#else
+  (void)app;
+#endif
+
   bridge = new PreludeBridge(break_id);
+  if (!position_windows)
+    bridge->setFullscreen(true);
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -144,6 +160,17 @@ QmlPreludeWindow::QmlPreludeWindow(QScreen *screen, BreakId break_id)
   view->setSource(QUrl("qrc:/sanctuary/PreludeOverlay.qml"));
 
   QObject::connect(bridge, &PreludeBridge::skipRequested, view, [this]() { view->hide(); });
+
+#if defined(PLATFORM_OS_MACOS)
+  // macOS: use a Cocoa global event monitor for continuous mouse tracking.
+  // NSEvent.mouseLocation gives bottom-left-origin screen coordinates.
+  mouse_monitor = std::make_shared<MouseMonitor>([this](auto x, auto y) { avoid_pointer(x, y); });
+#else
+  // Linux/Windows: install a QEvent::Enter filter so we're notified when the
+  // mouse cursor enters the window and can move it out of the way.
+  auto *filter = new ViewEventFilter([this]() { avoid_pointer(0, 0); }, bridge);
+  view->installEventFilter(filter);
+#endif
 }
 
 QmlPreludeWindow::~QmlPreludeWindow()
@@ -174,15 +201,48 @@ void
 QmlPreludeWindow::start()
 {
   at_bottom = false;
-  view->setGeometry(top_rect());
+  did_avoid = false;
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->init_surface(view, screen, false);
+#endif
+
+  if (position_windows)
+    {
+      view->setGeometry(top_rect());
+    }
+  else
+    {
+      // Wayland: make the view cover the full screen; the card is positioned
+      // within the transparent fullscreen window via QML properties.
+      QRect geo = screen ? screen->availableGeometry() : QGuiApplication::primaryScreen()->availableGeometry();
+      view->setGeometry(geo);
+      bridge->setCardAtBottom(false);
+    }
+
   view->show();
   view->raise();
+  update_input_region();
+
+#if defined(PLATFORM_OS_MACOS)
+  mouse_monitor->start();
+#endif
 }
 
 void
 QmlPreludeWindow::stop()
 {
   view->hide();
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->clear_surfaces();
+#endif
+
+#if defined(PLATFORM_OS_MACOS)
+  mouse_monitor->stop();
+#endif
 }
 
 void
@@ -196,10 +256,21 @@ QmlPreludeWindow::set_stage(IApp::PreludeStage stage)
 {
   bridge->setStage(stage);
 
-  if (stage == IApp::PreludeStage::MoveOut)
+  // MoveOut: if the user has not already caused pointer avoidance, move the
+  // card/window to the top edge (matching the original PreludeWindow behavior).
+  if (stage == IApp::PreludeStage::MoveOut && !did_avoid)
     {
-      at_bottom = !at_bottom;
-      view->setGeometry(at_bottom ? bottom_rect() : top_rect());
+      if (position_windows)
+        {
+          view->setGeometry(top_rect());
+          at_bottom = false;
+        }
+      else
+        {
+          bridge->setCardAtBottom(false);
+          at_bottom = false;
+          QTimer::singleShot(0, view, [this] { update_input_region(); });
+        }
     }
 }
 
@@ -207,4 +278,62 @@ void
 QmlPreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 {
   bridge->setProgressText(text);
+}
+
+void
+QmlPreludeWindow::avoid_pointer(int px, int py)
+{
+  did_avoid = true;
+
+  // Wayland fullscreen: toggle the card between top and bottom within the
+  // transparent full-screen window rather than moving the window itself.
+  if (!position_windows)
+    {
+      bool new_at_bottom = !bridge->isCardAtBottom();
+      bridge->setCardAtBottom(new_at_bottom);
+      at_bottom = new_at_bottom;
+      QTimer::singleShot(0, view, [this] { update_input_region(); });
+      return;
+    }
+
+#if defined(PLATFORM_OS_MACOS)
+  // macOS NSEvent gives bottom-left-origin screen coordinates. Convert py to
+  // Qt's top-left origin before checking whether the pointer is inside our window.
+  {
+    const QRect win = view->geometry();
+    const QRect scr = screen ? screen->availableGeometry() : QGuiApplication::primaryScreen()->availableGeometry();
+    int qt_y        = scr.height() - py;
+    if (!win.contains(px, qt_y))
+      return;
+  }
+#else
+  (void)px;
+  (void)py;
+#endif
+
+  // Toggle between top and bottom based on where the window currently is.
+  if (at_bottom)
+    {
+      view->setGeometry(top_rect());
+      at_bottom = false;
+    }
+  else
+    {
+      view->setGeometry(bottom_rect());
+      at_bottom = true;
+    }
+}
+
+void
+QmlPreludeWindow::update_input_region()
+{
+  if (!position_windows)
+    {
+      // Restrict mouse input to the card area so the transparent surroundings
+      // do not steal events from the desktop.
+      QRect geo = screen ? screen->availableGeometry() : QGuiApplication::primaryScreen()->availableGeometry();
+      int card_x = (geo.width() - CARD_W) / 2;
+      int card_y = at_bottom ? (geo.height() - CARD_H - MARGIN) : MARGIN;
+      view->setMask(QRegion(card_x, card_y, CARD_W, CARD_H));
+    }
 }
