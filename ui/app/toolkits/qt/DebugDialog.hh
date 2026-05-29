@@ -22,6 +22,10 @@
 #include <QtWidgets>
 
 #include "ui/IApplicationContext.hh"
+#include "ui/IBreakWindow.hh"
+#include "ui/IPreludeWindow.hh"
+
+class QPushButton;
 
 class DebugDialog : public QDialog
 {
@@ -29,9 +33,24 @@ class DebugDialog : public QDialog
 
 public:
   explicit DebugDialog(std::shared_ptr<IApplicationContext> app);
+  ~DebugDialog() override;
 
 private:
+  void toggle_break(workrave::BreakId break_id, IBreakWindow::Ptr &window, QPushButton *button);
+  void toggle_prelude(workrave::BreakId break_id, IPreludeWindow::Ptr &window, QPushButton *button);
+  void stop_all();
+
   std::shared_ptr<IApplicationContext> app;
+
+  IBreakWindow::Ptr micro_window;
+  IBreakWindow::Ptr rest_window;
+  IBreakWindow::Ptr daily_window;
+  IPreludeWindow::Ptr prelude_window;
+
+  QPushButton *btn_micro{nullptr};
+  QPushButton *btn_rest{nullptr};
+  QPushButton *btn_daily{nullptr};
+  QPushButton *btn_prelude{nullptr};
 };
 
 #endif // DEBUGDIALOG_HH
