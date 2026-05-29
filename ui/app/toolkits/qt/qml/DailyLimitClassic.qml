@@ -9,11 +9,11 @@ Item {
 
     // ── Design tokens ────────────────────────────────────────────────────────
     readonly property color colBg:     "#E8E8E8"
+    readonly property color colBar:    "#4A90D9"
     readonly property color colBorder: "#AAAAAA"
     readonly property color colWarn:   "#F08700"
     readonly property color colInk:    "#1A1A1A"
     readonly property color colInk2:   "#444444"
-    readonly property color colBar:    "#4A90D9"
     readonly property color colBtn:    "#D4D0C8"
     readonly property color colBtnTxt: "#1A1A1A"
 
@@ -24,7 +24,6 @@ Item {
     readonly property bool   canSkip:     bridge != null ? bridge.canSkip     : true
     readonly property bool   isLocked:    bridge != null ? bridge.isLocked    : false
     readonly property double lockProg:    bridge != null ? bridge.lockProgress : 0.0
-    readonly property bool   lockable:    bridge != null ? bridge.lockable    : false
 
     // ── Flashing border ──────────────────────────────────────────────────────
     property bool flashState: false
@@ -49,9 +48,9 @@ Item {
     Rectangle {
         id: card
         z: 1
-        width: Math.min(parent.width - 48, 540)
+        width: Math.min(parent.width - 48, 440)
         color: colBg
-        radius: 2
+        radius: 0
         border.color: root.borderCol
         border.width: root.borderW
 
@@ -83,75 +82,54 @@ Item {
 
                 Column {
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 6
+                    spacing: 4
                     width: parent.width - 76
 
+                    // Bold title — matches GTK <span weight="bold" size="larger">
                     Text {
                         width: parent.width
                         text: qsTr("Daily limit")
-                        font.pixelSize: 14; font.bold: true
+                        font.pixelSize: 15; font.bold: true
                         color: colInk
                     }
 
                     Text {
                         width: parent.width
                         text: qsTr("You have reached your daily limit. Please stop working behind the computer. If your working day is not over yet, find something else to do, such as reviewing a document.")
-                        font.pixelSize: 12
-                        color: colInk2
+                        font.pixelSize: 13
+                        color: colInk
                         wrapMode: Text.WordWrap
                         lineHeight: 1.4
                     }
                 }
             }
 
-            Item { width: 1; height: 10 }
-
-            // ── Lock progress bar ────────────────────────────────────────────
+            // ── Lock progress bar (bare bar, no label — matches GTK) ─────────
             Item {
                 width: parent.width - 24
-                height: root.isLocked ? lockBar.implicitHeight + 4 : 0
+                height: root.isLocked ? 16 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
                 Behavior on height { NumberAnimation { duration: 200 } }
 
-                Column {
-                    id: lockBar
-                    width: parent.width
-                    spacing: 3
-
-                    Text {
-                        width: parent.width
-                        text: qsTr("Postpone and skip will unlock after resting")
-                        font.pixelSize: 10; color: colInk2
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    width: parent.width; height: 4; color: "#C0C0C0"
                     Rectangle {
-                        width: parent.width; height: 4; color: "#C0C0C0"
-                        Rectangle {
-                            width: Math.max(4, parent.width * root.lockProg)
-                            height: parent.height; color: colBar
-                            Behavior on width { NumberAnimation { duration: 500 } }
-                        }
+                        width: Math.max(4, parent.width * root.lockProg)
+                        height: parent.height; color: colBar
+                        Behavior on width { NumberAnimation { duration: 500 } }
                     }
                 }
             }
 
             Item { width: 1; height: 8 }
 
-            // ── Button row ───────────────────────────────────────────────────
+            // ── Button row: Postpone + Skip right-aligned ─────────────────────
             Row {
-                width: parent.width - 24
                 anchors.right: parent.right
                 anchors.rightMargin: 12
                 spacing: 6
-                layoutDirection: Qt.RightToLeft
-
-                ClassicButton {
-                    visible: root.canSkip
-                    enabled: root.canSkip
-                    label: qsTr("Skip")
-                    onClicked: { if (bridge != null) bridge.requestSkip() }
-                }
 
                 ClassicButton {
                     visible: root.canPostpone
@@ -161,9 +139,10 @@ Item {
                 }
 
                 ClassicButton {
-                    visible: root.lockable
-                    label: qsTr("Lock")
-                    onClicked: { if (bridge != null) bridge.requestLock() }
+                    visible: root.canSkip
+                    enabled: root.canSkip
+                    label: qsTr("Skip")
+                    onClicked: { if (bridge != null) bridge.requestSkip() }
                 }
             }
 
@@ -179,9 +158,9 @@ Item {
         signal clicked()
         property bool hovered: false
 
-        height: 26
-        width: btnText.implicitWidth + 20
-        radius: 2
+        height: 28
+        width: Math.max(btnText.implicitWidth + 24, 88)
+        radius: 0
         color: hovered ? "#C0BBAF" : colBtn
         border.color: "#888888"; border.width: 1
 

@@ -18,18 +18,17 @@ Item {
     readonly property color colBtnTxt: "#1A1A1A"
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
-    readonly property int    blockMode:   bridge != null ? bridge.blockMode   : 1
-    readonly property bool   userActive:  bridge != null ? bridge.userActive  : false
+    readonly property int    blockMode:   bridge != null ? bridge.blockMode      : 1
+    readonly property bool   userActive:  bridge != null ? bridge.userActive     : false
     readonly property double barProgress: bridge != null ? 1.0 - bridge.ringProgress : 0.0
-    readonly property string timeLeft:    bridge != null ? bridge.timeRemaining : "0:30"
-    readonly property string breakName:   bridge != null ? bridge.breakName    : qsTr("Micro-break")
-    readonly property bool   canPostpone: bridge != null ? bridge.canPostpone  : true
-    readonly property bool   canSkip:     bridge != null ? bridge.canSkip      : true
-    readonly property bool   isLocked:    bridge != null ? bridge.isLocked     : false
-    readonly property double lockProg:    bridge != null ? bridge.lockProgress  : 0.0
-    readonly property bool   lockable:    bridge != null ? bridge.lockable     : false
+    readonly property string timeLeft:    bridge != null ? bridge.timeRemaining  : "0:30"
+    readonly property string breakName:   bridge != null ? bridge.breakName      : qsTr("Micro-break")
+    readonly property bool   canPostpone: bridge != null ? bridge.canPostpone    : true
+    readonly property bool   canSkip:     bridge != null ? bridge.canSkip        : true
+    readonly property bool   isLocked:    bridge != null ? bridge.isLocked       : false
+    readonly property double lockProg:    bridge != null ? bridge.lockProgress   : 0.0
     readonly property bool   restEnabled: bridge != null ? bridge.restBreakEnabled : false
-    readonly property string restInfo:    bridge != null ? bridge.restBreakInfo : ""
+    readonly property string restInfo:    bridge != null ? bridge.restBreakInfo  : ""
 
     // ── Flashing border ──────────────────────────────────────────────────────
     property bool flashState: false
@@ -54,9 +53,9 @@ Item {
     Rectangle {
         id: card
         z: 1
-        width: Math.min(parent.width - 48, 520)
+        width: Math.min(parent.width - 48, 400)
         color: colBg
-        radius: 2
+        radius: 0
         border.color: root.borderCol
         border.width: root.borderW
 
@@ -91,10 +90,18 @@ Item {
                     spacing: 4
                     width: parent.width - 76
 
+                    // Bold title — matches GTK <span weight="bold" size="larger">
+                    Text {
+                        width: parent.width
+                        text: root.breakName
+                        font.pixelSize: 15; font.bold: true
+                        color: colInk
+                    }
+
                     Text {
                         width: parent.width
                         text: qsTr("Please relax for a few seconds")
-                        font.pixelSize: 13; font.bold: true
+                        font.pixelSize: 13
                         color: colInk
                         wrapMode: Text.Wrap
                     }
@@ -115,7 +122,7 @@ Item {
             // ── TimeBar ──────────────────────────────────────────────────────
             Rectangle {
                 width: parent.width - 24
-                height: 20
+                height: 22
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: "#C0C0C0"
                 clip: true
@@ -136,72 +143,58 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 6 }
-
-            // ── Lock progress bar ────────────────────────────────────────────
+            // ── Lock progress bar (bare bar, no label — matches GTK) ─────────
             Item {
                 width: parent.width - 24
-                height: root.isLocked ? lockBar.implicitHeight + 4 : 0
+                height: root.isLocked ? 8 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
                 Behavior on height { NumberAnimation { duration: 200 } }
 
-                Column {
-                    id: lockBar
-                    width: parent.width
-                    spacing: 3
-
-                    Text {
-                        width: parent.width
-                        text: qsTr("Postpone and skip will unlock after resting")
-                        font.pixelSize: 10; color: colInk2
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    width: parent.width; height: 4; color: "#C0C0C0"
                     Rectangle {
-                        width: parent.width; height: 4; color: "#C0C0C0"
-                        Rectangle {
-                            width: Math.max(4, parent.width * root.lockProg)
-                            height: parent.height; color: colBar
-                            Behavior on width { NumberAnimation { duration: 500 } }
-                        }
+                        width: Math.max(4, parent.width * root.lockProg)
+                        height: parent.height; color: colBar
+                        Behavior on width { NumberAnimation { duration: 500 } }
                     }
                 }
             }
 
             Item { width: 1; height: 8 }
 
-            // ── Button row ───────────────────────────────────────────────────
-            Row {
+            // ── Button row: Rest break (left) | Postpone + Skip (right) ──────
+            // Mirrors GTK layout: image button on left, skip/postpone right-aligned.
+            Item {
                 width: parent.width - 24
-                anchors.right: parent.right
-                anchors.rightMargin: 12
-                spacing: 6
-                layoutDirection: Qt.RightToLeft
+                height: 28
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 ClassicButton {
-                    visible: root.canSkip
-                    enabled: root.canSkip
-                    label: qsTr("Skip")
-                    onClicked: { if (bridge != null) bridge.requestSkip() }
-                }
-
-                ClassicButton {
-                    visible: root.canPostpone
-                    enabled: root.canPostpone
-                    label: qsTr("Postpone")
-                    onClicked: { if (bridge != null) bridge.requestPostpone() }
-                }
-
-                ClassicButton {
-                    visible: root.lockable
-                    label: qsTr("Lock")
-                    onClicked: { if (bridge != null) bridge.requestLock() }
-                }
-
-                ClassicButton {
+                    anchors.left: parent.left
                     visible: root.restEnabled
                     label: qsTr("Rest break")
                     onClicked: { if (bridge != null) bridge.requestRestBreak() }
+                }
+
+                Row {
+                    anchors.right: parent.right
+                    spacing: 6
+
+                    ClassicButton {
+                        visible: root.canPostpone
+                        enabled: root.canPostpone
+                        label: qsTr("Postpone")
+                        onClicked: { if (bridge != null) bridge.requestPostpone() }
+                    }
+
+                    ClassicButton {
+                        visible: root.canSkip
+                        enabled: root.canSkip
+                        label: qsTr("Skip")
+                        onClicked: { if (bridge != null) bridge.requestSkip() }
+                    }
                 }
             }
 
@@ -217,9 +210,9 @@ Item {
         signal clicked()
         property bool hovered: false
 
-        height: 26
-        width: btnText.implicitWidth + 20
-        radius: 2
+        height: 28
+        width: Math.max(btnText.implicitWidth + 24, 88)
+        radius: 0
         color: hovered ? "#C0BBAF" : colBtn
         border.color: "#888888"; border.width: 1
 

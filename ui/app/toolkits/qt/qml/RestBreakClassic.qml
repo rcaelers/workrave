@@ -32,10 +32,9 @@ Item {
     readonly property bool   canSkip:      bridge != null ? bridge.canSkip          : true
     readonly property bool   isLocked:     bridge != null ? bridge.isLocked         : false
     readonly property double lockProg:     bridge != null ? bridge.lockProgress     : 0.0
-    readonly property bool   lockable:     bridge != null ? bridge.lockable         : false
-    readonly property double barProgress:  bridge != null ? 1.0 - bridge.breakProgress : 0.0
+    // breakProgress = elapsed fraction (0→1); timebar fills left-to-right with elapsed time
+    readonly property double barProgress:  bridge != null ? bridge.breakProgress    : 0.0
     readonly property string timeLeft:     bridge != null ? bridge.breakTimeShort   : "5:00"
-    readonly property string breakMax:     bridge != null ? bridge.breakMaxStr      : "10:00"
 
     // ── Flashing border ──────────────────────────────────────────────────────
     property bool flashState: false
@@ -60,10 +59,10 @@ Item {
     Rectangle {
         id: card
         z: 1
-        width: root.showEx ? Math.min(parent.width - 48, 760)
-                           : Math.min(parent.width - 48, 560)
+        width: root.showEx ? Math.min(parent.width - 48, 640)
+                           : Math.min(parent.width - 48, 440)
         color: colBg
-        radius: 2
+        radius: 0
         border.color: root.borderCol
         border.width: root.borderW
 
@@ -111,7 +110,6 @@ Item {
                         width: parent.width
                         spacing: 16
 
-                        // Exercise image
                         Rectangle {
                             width: 200; height: 200
                             color: "#D0D0D0"
@@ -138,7 +136,7 @@ Item {
                             Text {
                                 width: parent.width
                                 text: bridge != null ? bridge.exerciseName : ""
-                                font.pixelSize: 18; font.bold: true
+                                font.pixelSize: 15; font.bold: true
                                 color: colInk; wrapMode: Text.Wrap
                             }
 
@@ -198,10 +196,11 @@ Item {
                         spacing: 4
                         width: parent.width - 76
 
+                        // Bold title — matches GTK <span weight="bold" size="larger">
                         Text {
                             width: parent.width
                             text: root.isNatural ? qsTr("Natural rest break") : qsTr("Rest break")
-                            font.pixelSize: 14; font.bold: true; color: colInk
+                            font.pixelSize: 15; font.bold: true; color: colInk
                         }
 
                         Text {
@@ -209,19 +208,19 @@ Item {
                             text: root.isNatural
                                   ? qsTr("This is your natural rest break.")
                                   : qsTr("This is your rest break. Make sure you stand up and walk away from your computer on a regular basis. Just walk around for a few minutes, stretch, and relax.")
-                            font.pixelSize: 12; color: colInk2
+                            font.pixelSize: 13; color: colInk
                             wrapMode: Text.WordWrap; lineHeight: 1.4
                         }
                     }
                 }
             }
 
-            Item { width: 1; height: 10 }
+            Item { width: 1; height: 8 }
 
             // ── TimeBar ──────────────────────────────────────────────────────
             Rectangle {
                 width: parent.width - 24
-                height: 20
+                height: 22
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: "#C0C0C0"
                 clip: true
@@ -242,54 +241,32 @@ Item {
                 }
             }
 
-            Item { width: 1; height: 6 }
-
-            // ── Lock progress bar ────────────────────────────────────────────
+            // ── Lock progress bar (bare bar, no label — matches GTK) ─────────
             Item {
                 width: parent.width - 24
-                height: root.isLocked ? lockBar.implicitHeight + 4 : 0
+                height: root.isLocked ? 8 : 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
                 Behavior on height { NumberAnimation { duration: 200 } }
 
-                Column {
-                    id: lockBar
-                    width: parent.width
-                    spacing: 3
-
-                    Text {
-                        width: parent.width
-                        text: qsTr("Postpone and skip will unlock after resting")
-                        font.pixelSize: 10; color: colInk2
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    width: parent.width; height: 4; color: "#C0C0C0"
                     Rectangle {
-                        width: parent.width; height: 4; color: "#C0C0C0"
-                        Rectangle {
-                            width: Math.max(4, parent.width * root.lockProg)
-                            height: parent.height; color: colBar
-                            Behavior on width { NumberAnimation { duration: 500 } }
-                        }
+                        width: Math.max(4, parent.width * root.lockProg)
+                        height: parent.height; color: colBar
+                        Behavior on width { NumberAnimation { duration: 500 } }
                     }
                 }
             }
 
             Item { width: 1; height: 8 }
 
-            // ── Button row ───────────────────────────────────────────────────
+            // ── Button row: Postpone + Skip right-aligned ─────────────────────
             Row {
-                width: parent.width - 24
                 anchors.right: parent.right
                 anchors.rightMargin: 12
                 spacing: 6
-                layoutDirection: Qt.RightToLeft
-
-                ClassicButton {
-                    visible: root.canSkip
-                    enabled: root.canSkip
-                    label: qsTr("Skip")
-                    onClicked: { if (bridge != null) bridge.requestSkip() }
-                }
 
                 ClassicButton {
                     visible: root.canPostpone
@@ -299,9 +276,10 @@ Item {
                 }
 
                 ClassicButton {
-                    visible: root.lockable
-                    label: qsTr("Lock")
-                    onClicked: { if (bridge != null) bridge.requestLock() }
+                    visible: root.canSkip
+                    enabled: root.canSkip
+                    label: qsTr("Skip")
+                    onClicked: { if (bridge != null) bridge.requestSkip() }
                 }
             }
 
@@ -317,9 +295,9 @@ Item {
         signal clicked()
         property bool hovered: false
 
-        height: 26
-        width: btnText.implicitWidth + 20
-        radius: 2
+        height: 28
+        width: Math.max(btnText.implicitWidth + 24, 88)
+        radius: 0
         color: hovered ? "#C0BBAF" : colBtn
         border.color: "#888888"; border.width: 1
 
