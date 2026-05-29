@@ -25,7 +25,6 @@
 
 #include <X11/Xlib.h>
 
-#include "BreakWindow.hh"
 #include "debug.hh"
 #include "utils/Platform.hh"
 #include "ui/GUIConfig.hh"
@@ -77,17 +76,6 @@ ToolkitUnix::init(std::shared_ptr<IApplicationContext> app)
 #endif
 
   Toolkit::init(app);
-}
-
-auto
-ToolkitUnix::create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) -> IBreakWindow::Ptr
-{
-  auto ret = Toolkit::create_break_window(screen_index, break_id, break_flags);
-  if (auto break_window = std::dynamic_pointer_cast<BreakWindow>(ret); break_window)
-    {
-      locker->set_window(break_window->winId());
-    }
-  return ret;
 }
 
 std::shared_ptr<Locker>

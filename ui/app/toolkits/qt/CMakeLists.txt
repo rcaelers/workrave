@@ -11,7 +11,6 @@ add_library(workrave-toolkit-qt OBJECT)
 target_sources(workrave-toolkit-qt PRIVATE
   qml/sanctuary.qrc
   AboutDialog.cc
-  BreakWindow.cc
   QmlDailyLimitWindow.cc
   QmlMicroBreakWindow.cc
   QmlPrefsDialog.cc
@@ -20,13 +19,10 @@ target_sources(workrave-toolkit-qt PRIVATE
   QmlPreludeWindow.cc
   QmlRestBreakWindow.cc
   QmlTimerBoxView.cc
-  DailyLimitWindow.cc
   DebugDialog.cc
   ExercisesDialog.cc
   ExercisesPanel.cc
   MainWindow.cc
-  MicroBreakWindow.cc
-  RestBreakWindow.cc
   StatisticsDialog.cc
   Toolkit.cc
   ToolkitFactory.cc
@@ -35,7 +31,6 @@ target_sources(workrave-toolkit-qt PRIVATE
   utils/Ui.cc
   utils/UiUtil.cc
   utils/qformat.cc
-  widgets/Frame.cc
   widgets/Icon.cc
   widgets/StatusIcon.cc
   widgets/TimeBar.cc
@@ -79,7 +74,7 @@ if (PLATFORM_OS_MACOS)
     platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc)
 
-    set_source_files_properties(BreakWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
@@ -94,13 +89,12 @@ if (PLATFORM_OS_MACOS)
     platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc)
 
-    set_source_files_properties(BreakWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
 set(MOC_SOURCES
   AboutDialog.hh
-  BreakWindow.hh
   QmlDailyLimitWindow.hh
   QmlMicroBreakWindow.hh
   QmlPrefsDialog.hh
@@ -109,18 +103,14 @@ set(MOC_SOURCES
   QmlPreludeWindow.hh
   QmlRestBreakWindow.hh
   QmlTimerBoxView.hh
-  DailyLimitWindow.hh
   DebugDialog.hh
   ExercisesDialog.hh
   ExercisesPanel.hh
   MainWindow.hh
-  MicroBreakWindow.hh
-  RestBreakWindow.hh
   StatisticsDialog.hh
   Toolkit.hh
   ToolkitMenu.hh
   utils/SizeGroup.hh
-  widgets/Frame.hh
   widgets/StatusIcon.hh
   widgets/TimeBar.hh
   widgets/TimerBoxView.hh

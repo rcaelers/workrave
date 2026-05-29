@@ -34,6 +34,11 @@
 #include "UiUtil.hh"
 #include "qformat.hh"
 #include "Ui.hh"
+#include "ui/GUIConfig.hh"
+
+#if defined(HAVE_WAYLAND)
+#  include "IToolkitUnixPrivate.hh"
+#endif
 
 using namespace workrave;
 
@@ -47,7 +52,16 @@ MicroBreakBridge::MicroBreakBridge(std::shared_ptr<IApplicationContext> app,
   , app(std::move(app))
   , block_mode(block_mode)
   , break_flags(break_flags)
+  , classic_(!GUIConfig::sanctuary_ui_enabled()())
 {
+  GUIConfig::sanctuary_ui_enabled().connect(this, [this](bool enabled) {
+    bool new_classic = !enabled;
+    if (new_classic != classic_)
+      {
+        classic_ = new_classic;
+        Q_EMIT classicChanged();
+      }
+  });
 }
 
 int
@@ -233,11 +247,14 @@ MicroBreakBridge::requestLock()
 QmlMicroBreakWindow::QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> app,
                                          QScreen *screen,
                                          BreakFlags break_flags)
-  : app(std::move(app))
+  : app(app)
   , screen(screen)
   , break_flags(break_flags)
   , block_mode(GUIConfig::block_mode()())
 {
+#if defined(HAVE_WAYLAND)
+  window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
+#endif
 }
 
 QmlMicroBreakWindow::~QmlMicroBreakWindow()
@@ -267,7 +284,7 @@ QmlMicroBreakWindow::init()
       }
   });
 
-  view->setSource(QUrl("qrc:/sanctuary/MicroBreakOverlay.qml"));
+  view->setSource(QUrl("qrc:/sanctuary/MicroBreakShell.qml"));
 
   configure_view_for_block_mode();
 }
@@ -301,6 +318,11 @@ QmlMicroBreakWindow::start()
       view->setScreen(screen);
     }
 
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->init_surface(view, screen, true);
+#endif
+
   bridge->updateRestBreakInfo();
 
   if (block_mode == BlockMode::All)
@@ -324,6 +346,11 @@ QmlMicroBreakWindow::stop()
 {
   TRACE_ENTRY();
   view->hide();
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->clear_surfaces();
+#endif
 }
 
 void

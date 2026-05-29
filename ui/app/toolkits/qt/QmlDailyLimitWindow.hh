@@ -28,9 +28,16 @@
 #include "ui/UiTypes.hh"
 #include "ui/IApplicationContext.hh"
 #include "core/CoreTypes.hh"
+#include "utils/Signals.hh"
+
+#if defined(HAVE_WAYLAND)
+#  include "WaylandWindowManager.hh"
+#endif
 
 // Data bridge exposed to DailyLimitOverlay.qml as "bridge" context property.
-class DailyLimitBridge : public QObject
+class DailyLimitBridge
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -40,6 +47,8 @@ class DailyLimitBridge : public QObject
   Q_PROPERTY(bool canSkip      READ canSkip      NOTIFY lockStateChanged)
   Q_PROPERTY(double lockProgress READ lockProgress NOTIFY lockStateChanged)
   Q_PROPERTY(bool isLocked     READ isLocked     NOTIFY lockStateChanged)
+  Q_PROPERTY(bool userActive   READ userActive   NOTIFY userActivityChanged)
+  Q_PROPERTY(bool classic      READ isClassic    NOTIFY classicChanged)
 
 public:
   explicit DailyLimitBridge(std::shared_ptr<IApplicationContext> app,
@@ -53,11 +62,16 @@ public:
   bool canSkip()       const;
   double lockProgress() const;
   bool isLocked()      const;
+  bool userActive() const { return user_active_; }
+  bool isClassic() const { return classic_; }
 
   void setBreakButtonState(const BreakButtonState &state);
+  void updateUserActivity();
 
 Q_SIGNALS:
   void lockStateChanged();
+  void userActivityChanged();
+  void classicChanged();
 
 public Q_SLOTS:
   void requestPostpone();
@@ -72,6 +86,8 @@ private:
   bool postpone_locked{false};
   bool skip_locked{false};
   double lock_progress_val{0.0};
+  bool user_active_{false};
+  bool classic_{false};
 };
 
 // IBreakWindow implementation that hosts a QQuickView with DailyLimitOverlay.qml.
@@ -86,7 +102,7 @@ public:
   void init() override;
   void start() override;
   void stop() override;
-  void refresh() override {}
+  void refresh() override;
   void set_progress(int value, int max_value) override;
   void set_break_button_state(const BreakButtonState &state) override;
 
@@ -100,6 +116,10 @@ private:
 
   QQuickView *view{nullptr};
   DailyLimitBridge *bridge{nullptr};
+
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> window_manager;
+#endif
 };
 
 #endif // QMLDAILYLIMITWINDOW_HH

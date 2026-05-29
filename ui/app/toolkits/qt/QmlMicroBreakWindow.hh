@@ -28,9 +28,16 @@
 #include "ui/UiTypes.hh"
 #include "ui/IApplicationContext.hh"
 #include "core/CoreTypes.hh"
+#include "utils/Signals.hh"
+
+#if defined(HAVE_WAYLAND)
+#  include "WaylandWindowManager.hh"
+#endif
 
 // Data bridge exposed to the QML scene as the "bridge" context property.
-class MicroBreakBridge : public QObject
+class MicroBreakBridge
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -48,6 +55,7 @@ class MicroBreakBridge : public QObject
   Q_PROPERTY(bool isLocked READ isLocked NOTIFY lockStateChanged)
   Q_PROPERTY(QString restBreakInfo READ restBreakInfo NOTIFY restBreakInfoChanged)
   Q_PROPERTY(bool userActive READ userActive NOTIFY userActivityChanged)
+  Q_PROPERTY(bool classic READ isClassic NOTIFY classicChanged)
 
 public:
   explicit MicroBreakBridge(std::shared_ptr<IApplicationContext> app,
@@ -69,6 +77,7 @@ public:
   bool isLocked() const;
   QString restBreakInfo() const;
   bool userActive() const { return user_active; }
+  bool isClassic() const { return classic_; }
 
   void setProgress(int value, int max_value);
   void setBreakButtonState(const BreakButtonState &state);
@@ -80,6 +89,7 @@ Q_SIGNALS:
   void lockStateChanged();
   void restBreakInfoChanged();
   void userActivityChanged();
+  void classicChanged();
 
 public Q_SLOTS:
   void requestPostpone();
@@ -98,6 +108,7 @@ private:
   bool skip_locked{false};
   double lock_progress{0.0};
   bool user_active{false};
+  bool classic_{false};
   QString rest_break_info;
 };
 
@@ -127,6 +138,10 @@ private:
 
   QQuickView *view{nullptr};
   MicroBreakBridge *bridge{nullptr};
+
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> window_manager;
+#endif
 };
 
 #endif // QMLMICROBREAKWINDOW_HH

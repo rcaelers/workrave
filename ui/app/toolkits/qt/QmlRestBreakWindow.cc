@@ -39,6 +39,10 @@
 #include "UiUtil.hh"
 #include "qformat.hh"
 
+#if defined(HAVE_WAYLAND)
+#  include "IToolkitUnixPrivate.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -52,7 +56,16 @@ RestBreakBridge::RestBreakBridge(std::shared_ptr<IApplicationContext> app,
   , app(std::move(app))
   , block_mode(block_mode)
   , break_flags(break_flags)
+  , classic_(!GUIConfig::sanctuary_ui_enabled()())
 {
+  GUIConfig::sanctuary_ui_enabled().connect(this, [this](bool enabled) {
+    bool new_classic = !enabled;
+    if (new_classic != classic_)
+      {
+        classic_ = new_classic;
+        Q_EMIT classicChanged();
+      }
+  });
 }
 
 int
@@ -380,6 +393,17 @@ RestBreakBridge::onExerciseTick()
 }
 
 void
+RestBreakBridge::updateUserActivity()
+{
+  bool active = app->get_core()->is_user_active();
+  if (active != user_active_)
+    {
+      user_active_ = active;
+      Q_EMIT userActivityChanged();
+    }
+}
+
+void
 RestBreakBridge::requestPostpone()
 {
   QTimer::singleShot(0, this, [this]() {
@@ -463,11 +487,14 @@ RestBreakBridge::togglePause()
 QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app,
                                        QScreen *screen,
                                        BreakFlags break_flags)
-  : app(std::move(app))
+  : app(app)
   , screen(screen)
   , break_flags(break_flags)
   , block_mode(GUIConfig::block_mode()())
 {
+#if defined(HAVE_WAYLAND)
+  window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
+#endif
 }
 
 QmlRestBreakWindow::~QmlRestBreakWindow()
@@ -497,7 +524,7 @@ QmlRestBreakWindow::init()
       }
   });
 
-  view->setSource(QUrl("qrc:/sanctuary/RestBreakOverlay.qml"));
+  view->setSource(QUrl("qrc:/sanctuary/RestBreakShell.qml"));
 
   configure_view_for_block_mode();
 }
@@ -522,6 +549,11 @@ QmlRestBreakWindow::start()
       view->setScreen(screen);
     }
 
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->init_surface(view, screen, true);
+#endif
+
   if (block_mode == BlockMode::All)
     {
       view->showFullScreen();
@@ -542,6 +574,17 @@ QmlRestBreakWindow::stop()
 {
   TRACE_ENTRY();
   view->hide();
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->clear_surfaces();
+#endif
+}
+
+void
+QmlRestBreakWindow::refresh()
+{
+  bridge->updateUserActivity();
 }
 
 void

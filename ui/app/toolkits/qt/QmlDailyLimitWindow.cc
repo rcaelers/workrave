@@ -32,6 +32,10 @@
 #include "session/System.hh"
 #include "debug.hh"
 
+#if defined(HAVE_WAYLAND)
+#  include "IToolkitUnixPrivate.hh"
+#endif
+
 using namespace workrave;
 using namespace workrave::utils;
 
@@ -45,7 +49,16 @@ DailyLimitBridge::DailyLimitBridge(std::shared_ptr<IApplicationContext> app,
   , app(std::move(app))
   , block_mode(block_mode)
   , break_flags(break_flags)
+  , classic_(!GUIConfig::sanctuary_ui_enabled()())
 {
+  GUIConfig::sanctuary_ui_enabled().connect(this, [this](bool enabled) {
+    bool new_classic = !enabled;
+    if (new_classic != classic_)
+      {
+        classic_ = new_classic;
+        Q_EMIT classicChanged();
+      }
+  });
 }
 
 int
@@ -99,6 +112,17 @@ DailyLimitBridge::setBreakButtonState(const BreakButtonState &state)
 }
 
 void
+DailyLimitBridge::updateUserActivity()
+{
+  bool active = app->get_core()->is_user_active();
+  if (active != user_active_)
+    {
+      user_active_ = active;
+      Q_EMIT userActivityChanged();
+    }
+}
+
+void
 DailyLimitBridge::requestPostpone()
 {
   QTimer::singleShot(0, this, [this]() {
@@ -131,11 +155,14 @@ DailyLimitBridge::requestLock()
 QmlDailyLimitWindow::QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> app,
                                          QScreen *screen,
                                          BreakFlags break_flags)
-  : app(std::move(app))
+  : app(app)
   , screen(screen)
   , break_flags(break_flags)
   , block_mode(GUIConfig::block_mode()())
 {
+#if defined(HAVE_WAYLAND)
+  window_manager = std::dynamic_pointer_cast<IToolkitUnixPrivate>(app->get_toolkit())->get_wayland_window_manager();
+#endif
 }
 
 QmlDailyLimitWindow::~QmlDailyLimitWindow()
@@ -164,7 +191,7 @@ QmlDailyLimitWindow::init()
       }
   });
 
-  view->setSource(QUrl("qrc:/sanctuary/DailyLimitOverlay.qml"));
+  view->setSource(QUrl("qrc:/sanctuary/DailyLimitShell.qml"));
 
   configure_view_for_block_mode();
 }
@@ -185,6 +212,11 @@ QmlDailyLimitWindow::start()
     {
       view->setScreen(screen);
     }
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->init_surface(view, screen, true);
+#endif
 
   if (block_mode == BlockMode::All)
     {
@@ -209,6 +241,17 @@ QmlDailyLimitWindow::stop()
 {
   TRACE_ENTRY();
   view->hide();
+
+#if defined(HAVE_WAYLAND)
+  if (window_manager)
+    window_manager->clear_surfaces();
+#endif
+}
+
+void
+QmlDailyLimitWindow::refresh()
+{
+  bridge->updateUserActivity();
 }
 
 void

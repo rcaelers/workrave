@@ -34,9 +34,16 @@
 #include "ui/UiTypes.hh"
 #include "ui/IApplicationContext.hh"
 #include "core/CoreTypes.hh"
+#include "utils/Signals.hh"
+
+#if defined(HAVE_WAYLAND)
+#  include "WaylandWindowManager.hh"
+#endif
 
 // Data bridge exposed to the QML scene as the "bridge" context property.
-class RestBreakBridge : public QObject
+class RestBreakBridge
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -76,6 +83,12 @@ class RestBreakBridge : public QObject
 
   // Notified via pauseStateChanged
   Q_PROPERTY(bool isPaused READ isPaused NOTIFY pauseStateChanged)
+
+  // Notified via userActivityChanged
+  Q_PROPERTY(bool userActive READ userActive NOTIFY userActivityChanged)
+
+  // Notified via classicChanged
+  Q_PROPERTY(bool classic READ isClassic NOTIFY classicChanged)
 
 public:
   explicit RestBreakBridge(std::shared_ptr<IApplicationContext> app,
@@ -122,10 +135,15 @@ public:
   // Pause
   bool isPaused() const;
 
+  // User activity
+  bool userActive() const { return user_active_; }
+  bool isClassic() const { return classic_; }
+
   // Called from QmlRestBreakWindow
   void setProgress(int value, int max_value);
   void setBreakButtonState(const BreakButtonState &state);
   void initExercises();
+  void updateUserActivity();
 
 Q_SIGNALS:
   void lockStateChanged();
@@ -134,6 +152,8 @@ Q_SIGNALS:
   void exerciseImageChanged();
   void exerciseTimerChanged();
   void pauseStateChanged();
+  void userActivityChanged();
+  void classicChanged();
 
 public Q_SLOTS:
   void requestPostpone();
@@ -169,6 +189,9 @@ private:
   bool ex_paused{false};
   std::list<Exercise::Image>::const_iterator ex_image_it;
   QTimer *ex_timer{nullptr};
+
+  bool user_active_{false};
+  bool classic_{false};
 };
 
 // IBreakWindow implementation that hosts a QQuickView with RestBreakOverlay.qml.
@@ -183,7 +206,7 @@ public:
   void init() override;
   void start() override;
   void stop() override;
-  void refresh() override {}
+  void refresh() override;
   void set_progress(int value, int max_value) override;
   void set_break_button_state(const BreakButtonState &state) override;
 
@@ -197,6 +220,10 @@ private:
 
   QQuickView *view{nullptr};
   RestBreakBridge *bridge{nullptr};
+
+#if defined(HAVE_WAYLAND)
+  std::shared_ptr<WaylandWindowManager> window_manager;
+#endif
 };
 
 #endif // QMLRESTBREAKWINDOW_HH
