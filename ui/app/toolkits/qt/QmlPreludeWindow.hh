@@ -28,6 +28,8 @@
 #include "core/CoreTypes.hh"
 #include "ui/IPreludeWindow.hh"
 #include "ui/IApplicationContext.hh"
+#include "ui/GUIConfig.hh"
+#include "utils/Signals.hh"
 #include "UiUtil.hh"
 
 #if defined(HAVE_WAYLAND)
@@ -57,8 +59,10 @@ private:
   Callback cb_;
 };
 
-// Data bridge exposed to PreludeOverlay.qml as "bridge" context property.
-class PreludeBridge : public QObject
+// Data bridge exposed to PreludeShell.qml / PreludeOverlay.qml / PreludeClassic.qml.
+class PreludeBridge
+  : public QObject
+  , public workrave::utils::Trackable
 {
   Q_OBJECT
 
@@ -71,6 +75,9 @@ class PreludeBridge : public QObject
   Q_PROPERTY(int     stage         READ stage         NOTIFY stageChanged)
   Q_PROPERTY(bool    fullscreen    READ isFullscreen  NOTIFY layoutChanged)
   Q_PROPERTY(bool    cardAtBottom  READ isCardAtBottom NOTIFY layoutChanged)
+  // classic == true  → PreludeClassic.qml (GTK look)
+  // classic == false → PreludeOverlay.qml (Sanctuary)
+  Q_PROPERTY(bool    classic       READ isClassic     NOTIFY classicChanged)
 
 public:
   explicit PreludeBridge(workrave::BreakId break_id, QObject *parent = nullptr);
@@ -84,6 +91,7 @@ public:
   int     stage()          const { return stage_; }
   bool    isFullscreen()   const { return fullscreen_; }
   bool    isCardAtBottom() const { return card_at_bottom_; }
+  bool    isClassic()      const { return classic_; }
 
   void setProgress(int value, int max_value);
   void setStage(workrave::IApp::PreludeStage stage);
@@ -98,6 +106,7 @@ Q_SIGNALS:
   void stageChanged();
   void skipRequested();
   void layoutChanged();
+  void classicChanged();
 
 private:
   workrave::BreakId break_id;
@@ -107,9 +116,12 @@ private:
   QString progress_label;
   bool fullscreen_{false};
   bool card_at_bottom_{false};
+  bool classic_{false};
 };
 
-// IPreludeWindow implementation hosting PreludeOverlay.qml in a QQuickView.
+// IPreludeWindow implementation hosting PreludeShell.qml in a QQuickView.
+// Always QML-based; the shell switches between Sanctuary and Classic designs
+// live when GUIConfig::sanctuary_ui_enabled changes.
 class QmlPreludeWindow : public IPreludeWindow
 {
 public:
@@ -125,7 +137,7 @@ public:
 
 private:
   static constexpr int CARD_W = 480;
-  static constexpr int CARD_H = 84;
+  static constexpr int CARD_H = 80;
   static constexpr int MARGIN = 20;
 
   QRect top_rect()    const;

@@ -1,8 +1,12 @@
 <RCC>
     <qresource prefix="/sanctuary">
+        <file alias="prelude-hint.png">../../../../data/images/prelude-hint.png</file>
+        <file alias="prelude-hint-sad.png">../../../../data/images/prelude-hint-sad.png</file>
         <file>DailyLimitOverlay.qml</file>
         <file>MicroBreakOverlay.qml</file>
+        <file>PreludeShell.qml</file>
         <file>PreludeOverlay.qml</file>
+        <file>PreludeClassic.qml</file>
         <file>RestBreakOverlay.qml</file>
         <file>StatusWindow.qml</file>
         <file>PrefTokens.qml</file>

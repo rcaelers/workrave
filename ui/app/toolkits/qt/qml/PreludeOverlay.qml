@@ -1,14 +1,6 @@
 // PreludeOverlay.qml — Sanctuary break-warning card
-// Three-column layout: [icon badge] [heading + countdown] [Skip button]
-// Loaded by QmlPreludeWindow into a transparent QQuickView.
-//
-// Normal mode  (position_windows=true, !bridge.fullscreen):
-//   The QQuickView is exactly CARD_W × CARD_H and the card fills it.
-//
-// Fullscreen mode (position_windows=false, bridge.fullscreen=true, Wayland):
-//   The QQuickView covers the whole screen. The card is positioned at the
-//   top or bottom centre via bridge.cardAtBottom, and the C++ side applies
-//   a window mask so only the card area receives mouse events.
+// Fills its parent (positioned by PreludeShell.qml via Loader).
+// Data comes from "bridge" context property (PreludeBridge).
 
 import QtQuick
 
@@ -27,14 +19,12 @@ Item {
     readonly property color colAlert:    "#B85A4A"
 
     // ── Bridge bindings ───────────────────────────────────────────────────────
-    readonly property int    stage:       bridge != null ? bridge.stage       : 0
-    readonly property int    breakType:   bridge != null ? bridge.breakType   : 0
-    readonly property string heading:     bridge != null ? bridge.heading     : qsTr("Time for a micro-break?")
-    readonly property bool   fullscreen:  bridge != null ? bridge.fullscreen  : false
-    readonly property bool   cardAtBottom: bridge != null ? bridge.cardAtBottom : false
-    readonly property string countdown:   bridge != null
-                                          ? (bridge.countdownText + " " + bridge.timeLabel)
-                                          : "Break in 0:30"
+    readonly property int    stage:    bridge != null ? bridge.stage    : 0
+    readonly property int    breakType: bridge != null ? bridge.breakType : 0
+    readonly property string heading:  bridge != null ? bridge.heading  : qsTr("Time for a micro-break?")
+    readonly property string countdown: bridge != null
+                                        ? (bridge.countdownText + " " + bridge.timeLabel)
+                                        : "Break in 0:30"
 
     // stage: 0=Initial, 1=Warn, 2=Alert, 3=MoveOut
     readonly property color stageAccent: stage === 1 ? colWarn
@@ -44,29 +34,10 @@ Item {
     // ── Icon per break type ───────────────────────────────────────────────────
     function breakIcon(t) { return t === 0 ? "✋" : (t === 1 ? "☕" : "☀") }
 
-    // ── Card dimensions ───────────────────────────────────────────────────────
-    readonly property int cardW:      480
-    readonly property int cardH:      84
-    readonly property int cardMargin: 20
-
     // ── Card ──────────────────────────────────────────────────────────────────
-    // Normal mode  : x=0, y=0, width=root.width, height=root.height
-    //                (the view is already CARD_W × CARD_H)
-    // Fullscreen   : fixed size centred horizontally, at top or bottom edge
     Rectangle {
         id: card
-
-        x:      root.fullscreen ? (root.width - root.cardW) / 2 : 0
-        y:      root.fullscreen
-                ? (root.cardAtBottom ? root.height - root.cardH - root.cardMargin
-                                     : root.cardMargin)
-                : 0
-        width:  root.fullscreen ? root.cardW  : root.width
-        height: root.fullscreen ? root.cardH  : root.height
-
-        // Smooth slide when toggling top ↔ bottom in fullscreen/Wayland mode.
-        Behavior on y { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
-
+        anchors.fill: parent
         color: colPanel
         radius: 16
         opacity: 0
@@ -94,7 +65,7 @@ Item {
             }
         }
 
-        // ── Content: icon | text ───────────────────────────────────────────────
+        // ── Content: icon | text ──────────────────────────────────────────────
         Item {
             id: contentArea
             anchors {
@@ -119,7 +90,7 @@ Item {
                 }
             }
 
-            // Text column: heading + countdown (fills space right of icon)
+            // Text column: heading + countdown
             Column {
                 anchors.left: iconBadge.right
                 anchors.leftMargin: 18

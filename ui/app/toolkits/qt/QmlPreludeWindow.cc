@@ -37,8 +37,19 @@ using namespace workrave;
 PreludeBridge::PreludeBridge(BreakId break_id, QObject *parent)
   : QObject(parent)
   , break_id(break_id)
+  , classic_(!GUIConfig::sanctuary_ui_enabled()())
 {
   progress_label = tr("Break in");
+
+  // Live-switch between Sanctuary and Classic designs without restarting.
+  GUIConfig::sanctuary_ui_enabled().connect(this, [this](bool enabled) {
+    bool new_classic = !enabled;
+    if (new_classic != classic_)
+      {
+        classic_ = new_classic;
+        Q_EMIT classicChanged();
+      }
+  });
 }
 
 QString
@@ -157,7 +168,7 @@ QmlPreludeWindow::QmlPreludeWindow(std::shared_ptr<IApplicationContext> app, QSc
   view->setFlags(Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
   view->setColor(Qt::transparent);
   view->rootContext()->setContextProperty("bridge", bridge);
-  view->setSource(QUrl("qrc:/sanctuary/PreludeOverlay.qml"));
+  view->setSource(QUrl("qrc:/sanctuary/PreludeShell.qml"));
 
   QObject::connect(bridge, &PreludeBridge::skipRequested, view, [this]() { view->hide(); });
 
