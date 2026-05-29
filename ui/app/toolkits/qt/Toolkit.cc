@@ -27,7 +27,6 @@
 
 #include "DailyLimitWindow.hh"
 #include "MicroBreakWindow.hh"
-#include "PreludeWindow.hh"
 #include "QmlMicroBreakWindow.hh"
 #include "QmlPreludeWindow.hh"
 #include "QmlDailyLimitWindow.hh"

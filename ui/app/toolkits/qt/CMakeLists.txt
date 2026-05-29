@@ -26,7 +26,6 @@ target_sources(workrave-toolkit-qt PRIVATE
   ExercisesPanel.cc
   MainWindow.cc
   MicroBreakWindow.cc
-  PreludeWindow.cc
   RestBreakWindow.cc
   StatisticsDialog.cc
   Toolkit.cc
@@ -80,7 +79,7 @@ if (PLATFORM_OS_MACOS)
     platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc)
 
-    set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(BreakWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
@@ -95,7 +94,7 @@ if (PLATFORM_OS_MACOS)
     platforms/macos/MouseMonitor.cc
     platforms/macos/MacOSDesktopWindow.cc)
 
-    set_source_files_properties(BreakWindow.cc PreludeWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(BreakWindow.cc ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
@@ -116,7 +115,6 @@ set(MOC_SOURCES
   ExercisesPanel.hh
   MainWindow.hh
   MicroBreakWindow.hh
-  PreludeWindow.hh
   RestBreakWindow.hh
   StatisticsDialog.hh
   Toolkit.hh
