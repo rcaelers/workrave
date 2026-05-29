@@ -1,0 +1,520 @@
+// Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef QMLPREFSBRIDGES_HH
+#define QMLPREFSBRIDGES_HH
+
+#include <memory>
+#include <QObject>
+#include <QString>
+#include <QVariantList>
+
+#include "core/CoreTypes.hh"
+#include "ui/IApplicationContext.hh"
+
+// ── Shared utility ─────────────────────────────────────────────────────────────
+
+namespace PrefUtils
+{
+  QString formatTime(int seconds);
+  double  normalize(int value, int minVal, int maxVal);
+  int     denormalize(double norm, int minVal, int maxVal, int step);
+  int     clampStep(int value, int delta, int minVal, int maxVal, int step);
+} // namespace PrefUtils
+
+// ── MicrobreakPrefBridge ───────────────────────────────────────────────────────
+
+class MicrobreakPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  // Enabled toggle
+  Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+
+  // Timing display + slider
+  Q_PROPERTY(QString limitDisplay    READ limitDisplay    NOTIFY timingChanged)
+  Q_PROPERTY(double  limitNorm       READ limitNorm       NOTIFY timingChanged)
+  Q_PROPERTY(QString durationDisplay READ durationDisplay NOTIFY timingChanged)
+  Q_PROPERTY(double  durationNorm    READ durationNorm    NOTIFY timingChanged)
+  Q_PROPERTY(QString snoozeDisplay   READ snoozeDisplay   NOTIFY timingChanged)
+  Q_PROPERTY(double  snoozeNorm      READ snoozeNorm      NOTIFY timingChanged)
+
+  // Break window options
+  Q_PROPERTY(bool showPostpone  READ showPostpone  WRITE setShowPostpone  NOTIFY optionsChanged)
+  Q_PROPERTY(bool showSkip      READ showSkip      WRITE setShowSkip      NOTIFY optionsChanged)
+  Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
+  Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
+
+public:
+  explicit MicrobreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool    enabled() const;
+  void    setEnabled(bool v);
+
+  QString limitDisplay() const;
+  double  limitNorm() const;
+  QString durationDisplay() const;
+  double  durationNorm() const;
+  QString snoozeDisplay() const;
+  double  snoozeNorm() const;
+
+  bool showPostpone() const;
+  void setShowPostpone(bool v);
+  bool showSkip() const;
+  void setShowSkip(bool v);
+  bool preludeEnabled() const;
+  void setPreludeEnabled(bool v);
+  int  maxPreludes() const;
+
+  Q_INVOKABLE void incrementLimit();
+  Q_INVOKABLE void decrementLimit();
+  Q_INVOKABLE void setLimitNorm(double norm);
+
+  Q_INVOKABLE void incrementDuration();
+  Q_INVOKABLE void decrementDuration();
+  Q_INVOKABLE void setDurationNorm(double norm);
+
+  Q_INVOKABLE void incrementSnooze();
+  Q_INVOKABLE void decrementSnooze();
+  Q_INVOKABLE void setSnoozeNorm(double norm);
+
+  Q_INVOKABLE void incrementMaxPreludes();
+  Q_INVOKABLE void decrementMaxPreludes();
+
+Q_SIGNALS:
+  void enabledChanged();
+  void timingChanged();
+  void optionsChanged();
+
+private:
+  std::shared_ptr<IApplicationContext> app;
+
+  static constexpr int LIMIT_MIN  = 60;
+  static constexpr int LIMIT_MAX  = 600;
+  static constexpr int LIMIT_STEP = 60;
+
+  static constexpr int DUR_MIN  = 15;
+  static constexpr int DUR_MAX  = 120;
+  static constexpr int DUR_STEP = 15;
+
+  static constexpr int SNOOZE_MIN  = 60;
+  static constexpr int SNOOZE_MAX  = 600;
+  static constexpr int SNOOZE_STEP = 60;
+};
+
+// ── RestBreakPrefBridge ────────────────────────────────────────────────────────
+
+class RestBreakPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+
+  Q_PROPERTY(QString limitDisplay    READ limitDisplay    NOTIFY timingChanged)
+  Q_PROPERTY(double  limitNorm       READ limitNorm       NOTIFY timingChanged)
+  Q_PROPERTY(QString durationDisplay READ durationDisplay NOTIFY timingChanged)
+  Q_PROPERTY(double  durationNorm    READ durationNorm    NOTIFY timingChanged)
+  Q_PROPERTY(QString snoozeDisplay   READ snoozeDisplay   NOTIFY timingChanged)
+  Q_PROPERTY(double  snoozeNorm      READ snoozeNorm      NOTIFY timingChanged)
+
+  Q_PROPERTY(int  exercises     READ exercises     NOTIFY optionsChanged)
+  Q_PROPERTY(bool autoNatural   READ autoNatural   WRITE setAutoNatural   NOTIFY optionsChanged)
+  Q_PROPERTY(bool enableShutdown READ enableShutdown WRITE setEnableShutdown NOTIFY optionsChanged)
+  Q_PROPERTY(bool showPostpone  READ showPostpone  WRITE setShowPostpone  NOTIFY optionsChanged)
+  Q_PROPERTY(bool showSkip      READ showSkip      WRITE setShowSkip      NOTIFY optionsChanged)
+  Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
+  Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
+
+public:
+  explicit RestBreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool    enabled() const;
+  void    setEnabled(bool v);
+
+  QString limitDisplay() const;
+  double  limitNorm() const;
+  QString durationDisplay() const;
+  double  durationNorm() const;
+  QString snoozeDisplay() const;
+  double  snoozeNorm() const;
+
+  int  exercises() const;
+  bool autoNatural() const;
+  void setAutoNatural(bool v);
+  bool enableShutdown() const;
+  void setEnableShutdown(bool v);
+  bool showPostpone() const;
+  void setShowPostpone(bool v);
+  bool showSkip() const;
+  void setShowSkip(bool v);
+  bool preludeEnabled() const;
+  void setPreludeEnabled(bool v);
+  int  maxPreludes() const;
+
+  Q_INVOKABLE void incrementLimit();
+  Q_INVOKABLE void decrementLimit();
+  Q_INVOKABLE void setLimitNorm(double norm);
+
+  Q_INVOKABLE void incrementDuration();
+  Q_INVOKABLE void decrementDuration();
+  Q_INVOKABLE void setDurationNorm(double norm);
+
+  Q_INVOKABLE void incrementSnooze();
+  Q_INVOKABLE void decrementSnooze();
+  Q_INVOKABLE void setSnoozeNorm(double norm);
+
+  Q_INVOKABLE void incrementExercises();
+  Q_INVOKABLE void decrementExercises();
+
+  Q_INVOKABLE void incrementMaxPreludes();
+  Q_INVOKABLE void decrementMaxPreludes();
+
+Q_SIGNALS:
+  void enabledChanged();
+  void timingChanged();
+  void optionsChanged();
+
+private:
+  std::shared_ptr<IApplicationContext> app;
+
+  static constexpr int LIMIT_MIN  = 900;
+  static constexpr int LIMIT_MAX  = 5400;
+  static constexpr int LIMIT_STEP = 300;
+
+  static constexpr int DUR_MIN  = 300;
+  static constexpr int DUR_MAX  = 1200;
+  static constexpr int DUR_STEP = 60;
+
+  static constexpr int SNOOZE_MIN  = 60;
+  static constexpr int SNOOZE_MAX  = 600;
+  static constexpr int SNOOZE_STEP = 60;
+};
+
+// ── DailyLimitPrefBridge ───────────────────────────────────────────────────────
+
+class DailyLimitPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+
+  Q_PROPERTY(QString limitDisplay  READ limitDisplay  NOTIFY timingChanged)
+  Q_PROPERTY(double  limitNorm     READ limitNorm     NOTIFY timingChanged)
+  Q_PROPERTY(QString snoozeDisplay READ snoozeDisplay NOTIFY timingChanged)
+  Q_PROPERTY(double  snoozeNorm    READ snoozeNorm    NOTIFY timingChanged)
+
+  Q_PROPERTY(bool useMicroBreakActivity READ useMicroBreakActivity WRITE setUseMicroBreakActivity NOTIFY optionsChanged)
+  Q_PROPERTY(bool showPostpone   READ showPostpone   WRITE setShowPostpone   NOTIFY optionsChanged)
+  Q_PROPERTY(bool showSkip       READ showSkip       WRITE setShowSkip       NOTIFY optionsChanged)
+  Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
+  Q_PROPERTY(int  maxPreludes    READ maxPreludes    NOTIFY optionsChanged)
+
+public:
+  explicit DailyLimitPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool    enabled() const;
+  void    setEnabled(bool v);
+
+  QString limitDisplay() const;
+  double  limitNorm() const;
+  QString snoozeDisplay() const;
+  double  snoozeNorm() const;
+
+  bool useMicroBreakActivity() const;
+  void setUseMicroBreakActivity(bool v);
+  bool showPostpone() const;
+  void setShowPostpone(bool v);
+  bool showSkip() const;
+  void setShowSkip(bool v);
+  bool preludeEnabled() const;
+  void setPreludeEnabled(bool v);
+  int  maxPreludes() const;
+
+  Q_INVOKABLE void incrementLimit();
+  Q_INVOKABLE void decrementLimit();
+  Q_INVOKABLE void setLimitNorm(double norm);
+
+  Q_INVOKABLE void incrementSnooze();
+  Q_INVOKABLE void decrementSnooze();
+  Q_INVOKABLE void setSnoozeNorm(double norm);
+
+  Q_INVOKABLE void incrementMaxPreludes();
+  Q_INVOKABLE void decrementMaxPreludes();
+
+Q_SIGNALS:
+  void enabledChanged();
+  void timingChanged();
+  void optionsChanged();
+
+private:
+  std::shared_ptr<IApplicationContext> app;
+
+  static constexpr int LIMIT_MIN  = 7200;
+  static constexpr int LIMIT_MAX  = 43200;
+  static constexpr int LIMIT_STEP = 1800;
+
+  static constexpr int SNOOZE_MIN  = 60;
+  static constexpr int SNOOZE_MAX  = 600;
+  static constexpr int SNOOZE_STEP = 60;
+};
+
+// ── StatusWindowPrefBridge ────────────────────────────────────────────────────
+
+class StatusWindowPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool    enabled         READ enabled         NOTIFY changed)
+  Q_PROPERTY(bool    alwaysOnTop     READ alwaysOnTop     NOTIFY changed)
+  // displayStyle: 0=Rings, 1=Bars, 2=Focus
+  Q_PROPERTY(int     displayStyle    READ displayStyle    NOTIFY changed)
+  // placement: 0=separate, 1=M+R, 2=R+D, 3=all-in-one
+  Q_PROPERTY(int     placement       READ placement       NOTIFY changed)
+  Q_PROPERTY(QString cycleDisplay    READ cycleDisplay    NOTIFY changed)
+  Q_PROPERTY(double  cycleNorm       READ cycleNorm       NOTIFY changed)
+  // visibility: 0=show, 1=first-due, 2=hide
+  Q_PROPERTY(int     microVisibility READ microVisibility NOTIFY changed)
+  Q_PROPERTY(int     restVisibility  READ restVisibility  NOTIFY changed)
+  Q_PROPERTY(int     dailyVisibility READ dailyVisibility NOTIFY changed)
+
+public:
+  explicit StatusWindowPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool    enabled() const;
+  bool    alwaysOnTop() const;
+  int     displayStyle() const;
+  int     placement() const;
+  QString cycleDisplay() const;
+  double  cycleNorm() const;
+  int     microVisibility() const;
+  int     restVisibility() const;
+  int     dailyVisibility() const;
+
+  Q_INVOKABLE void setEnabled(bool v);
+  Q_INVOKABLE void setAlwaysOnTop(bool v);
+  Q_INVOKABLE void setDisplayStyle(int v);
+  Q_INVOKABLE void setPlacement(int v);
+  Q_INVOKABLE void incrementCycle();
+  Q_INVOKABLE void decrementCycle();
+  Q_INVOKABLE void setCycleNorm(double norm);
+  Q_INVOKABLE void setMicroVisibility(int v);
+  Q_INVOKABLE void setRestVisibility(int v);
+  Q_INVOKABLE void setDailyVisibility(int v);
+
+Q_SIGNALS:
+  void changed();
+
+private:
+  static int flagsToVisibility(int flags);
+  static int visibilityToFlags(int v);
+
+  std::shared_ptr<IApplicationContext> app;
+
+  static constexpr int CYCLE_MIN  = 2;
+  static constexpr int CYCLE_MAX  = 30;
+  static constexpr int CYCLE_STEP = 1;
+};
+
+// ── MonitoringPrefBridge ───────────────────────────────────────────────────────
+
+class MonitoringPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  // Windows-only activity-detection settings
+  Q_PROPERTY(bool hasAlternateMonitor READ hasAlternateMonitor CONSTANT)
+  Q_PROPERTY(bool alternateMonitor    READ alternateMonitor    NOTIFY monitoringChanged)
+  Q_PROPERTY(int  sensitivity         READ sensitivity         NOTIFY monitoringChanged)
+
+public:
+  explicit MonitoringPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool hasAlternateMonitor() const;
+  bool alternateMonitor() const;
+  int  sensitivity() const;
+
+  Q_INVOKABLE void setAlternateMonitor(bool v);
+  Q_INVOKABLE void setSensitivity(int v);
+  Q_INVOKABLE void openDebugWindow();
+
+Q_SIGNALS:
+  void monitoringChanged();
+
+private:
+  std::shared_ptr<IApplicationContext> app;
+};
+
+// ── SoundsPrefBridge ───────────────────────────────────────────────────────────
+
+class SoundsPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool         enabled        READ enabled        NOTIFY soundsChanged)
+  Q_PROPERTY(bool         hasVolume      READ hasVolume      CONSTANT)
+  Q_PROPERTY(int          volume         READ volume         NOTIFY soundsChanged)
+  Q_PROPERTY(bool         hasMute        READ hasMute        CONSTANT)
+  Q_PROPERTY(bool         mute           READ mute           NOTIFY soundsChanged)
+  Q_PROPERTY(QVariantList themes         READ themes         NOTIFY soundsChanged)
+  Q_PROPERTY(QString      currentThemeId READ currentThemeId NOTIFY soundsChanged)
+  Q_PROPERTY(QVariantList events         READ events         NOTIFY soundsChanged)
+
+public:
+  explicit SoundsPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool         enabled() const;
+  bool         hasVolume() const;
+  int          volume() const;
+  bool         hasMute() const;
+  bool         mute() const;
+  QVariantList themes() const;
+  QString      currentThemeId() const;
+  QVariantList events() const;
+
+  Q_INVOKABLE void setEnabled(bool v);
+  Q_INVOKABLE void setVolume(int v);
+  Q_INVOKABLE void setMute(bool v);
+  Q_INVOKABLE void setTheme(const QString &id);
+  Q_INVOKABLE void setEventEnabled(const QString &id, bool v);
+  Q_INVOKABLE void pickEventFile(const QString &id);
+  Q_INVOKABLE void playEvent(const QString &id);
+  Q_INVOKABLE void clearEventFile(const QString &id);
+
+Q_SIGNALS:
+  void soundsChanged();
+
+private:
+  std::shared_ptr<IApplicationContext> app;
+};
+
+// ── GeneralPrefBridge ──────────────────────────────────────────────────────────
+
+class GeneralPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  // Block mode: 0=Off, 1=Input, 2=All
+  Q_PROPERTY(int  blockMode        READ blockMode        WRITE setBlockMode        NOTIFY blockModeChanged)
+  Q_PROPERTY(bool trayIconEnabled  READ trayIconEnabled  WRITE setTrayIconEnabled  NOTIFY systemChanged)
+  Q_PROPERTY(bool autostartEnabled READ autostartEnabled WRITE setAutostartEnabled NOTIFY systemChanged)
+
+  // Windows-only
+  Q_PROPERTY(bool hasDarkMode  READ hasDarkMode  CONSTANT)
+  // darkMode: 0=Light, 1=Dark, 2=Auto
+  Q_PROPERTY(int  darkMode     READ darkMode     NOTIFY systemChanged)
+
+  // Unix-only
+  Q_PROPERTY(bool hasForceX11           READ hasForceX11           CONSTANT)
+  Q_PROPERTY(bool forceX11              READ forceX11              NOTIFY systemChanged)
+  Q_PROPERTY(bool hasGnomeShellPreludes READ hasGnomeShellPreludes CONSTANT)
+  Q_PROPERTY(bool gnomeShellPreludes    READ gnomeShellPreludes    NOTIFY systemChanged)
+
+  // Linux icon-theme picker (empty list ⇒ row hidden)
+  Q_PROPERTY(QVariantList iconThemes      READ iconThemes      CONSTANT)
+  Q_PROPERTY(QString      currentIconTheme READ currentIconTheme NOTIFY systemChanged)
+
+public:
+  explicit GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  int  blockMode() const;
+  void setBlockMode(int v);
+
+  bool trayIconEnabled() const;
+  void setTrayIconEnabled(bool v);
+
+  bool autostartEnabled() const;
+  void setAutostartEnabled(bool v);
+
+  bool         hasDarkMode() const;
+  int          darkMode() const;
+
+  bool         hasForceX11() const;
+  bool         forceX11() const;
+
+  bool         hasGnomeShellPreludes() const;
+  bool         gnomeShellPreludes() const;
+
+  QVariantList iconThemes() const;
+  QString      currentIconTheme() const;
+
+  Q_INVOKABLE void setDarkMode(int v);
+  Q_INVOKABLE void setForceX11(bool v);
+  Q_INVOKABLE void setGnomeShellPreludes(bool v);
+  Q_INVOKABLE void setIconTheme(const QString &id);
+
+Q_SIGNALS:
+  void blockModeChanged();
+  void systemChanged();
+
+private:
+  QVariantList iconThemes_;   // computed once in constructor
+
+  std::shared_ptr<IApplicationContext> app;
+};
+
+// ── AppletPrefBridge ──────────────────────────────────────────────────────────
+// Mirrors StatusWindowPrefBridge for the "applet" timerbox; no alwaysOnTop.
+
+class AppletPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool    enabled         READ enabled         NOTIFY changed)
+  Q_PROPERTY(int     displayStyle    READ displayStyle    NOTIFY changed)
+  Q_PROPERTY(int     placement       READ placement       NOTIFY changed)
+  Q_PROPERTY(QString cycleDisplay    READ cycleDisplay    NOTIFY changed)
+  Q_PROPERTY(double  cycleNorm       READ cycleNorm       NOTIFY changed)
+  Q_PROPERTY(int     microVisibility READ microVisibility NOTIFY changed)
+  Q_PROPERTY(int     restVisibility  READ restVisibility  NOTIFY changed)
+  Q_PROPERTY(int     dailyVisibility READ dailyVisibility NOTIFY changed)
+
+public:
+  explicit AppletPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool    enabled() const;
+  int     displayStyle() const;
+  int     placement() const;
+  QString cycleDisplay() const;
+  double  cycleNorm() const;
+  int     microVisibility() const;
+  int     restVisibility() const;
+  int     dailyVisibility() const;
+
+  Q_INVOKABLE void setEnabled(bool v);
+  Q_INVOKABLE void setDisplayStyle(int v);
+  Q_INVOKABLE void setPlacement(int v);
+  Q_INVOKABLE void incrementCycle();
+  Q_INVOKABLE void decrementCycle();
+  Q_INVOKABLE void setCycleNorm(double norm);
+  Q_INVOKABLE void setMicroVisibility(int v);
+  Q_INVOKABLE void setRestVisibility(int v);
+  Q_INVOKABLE void setDailyVisibility(int v);
+
+Q_SIGNALS:
+  void changed();
+
+private:
+  static int flagsToVisibility(int flags);
+  static int visibilityToFlags(int v);
+
+  std::shared_ptr<IApplicationContext> app;
+
+  static constexpr int CYCLE_MIN  = 2;
+  static constexpr int CYCLE_MAX  = 30;
+  static constexpr int CYCLE_STEP = 1;
+};
+
+#endif // QMLPREFSBRIDGES_HH

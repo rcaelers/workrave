@@ -58,6 +58,7 @@ INSTALL(CODE "
         message(\"-- Installing Qt frameworks and plugins...\")
         execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
         execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} \"${_deploy_app}\" -verbose=1
+               -qmldir=${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/qml
                \"$<$<BOOL:${BOOST_PATH}>:-libpath=${BOOST_PATH}>\"
                \"$<$<BOOL:${FMT_PATH}>:-libpath=${FMT_PATH}>\"
                \"$<$<BOOL:${SPDLOG_PATH}>:-libpath=${SPDLOG_PATH}>\"

@@ -1,0 +1,17 @@
+/* Qt Design Studio project for Workrave Sanctuary QML */
+import QmlProject 1.3
+
+Project {
+    mainFile: "PrefsShell.qml"
+
+    QmlFiles {
+        directory: "."
+        recursive: false
+    }
+
+    importPaths: ["."]
+
+    Environment {
+        QT_QUICK_CONTROLS_STYLE: "Basic"
+    }
+}

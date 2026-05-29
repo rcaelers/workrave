@@ -1,4 +1,10 @@
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Quick QuickWidgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Quick QuickControls2 QuickWidgets REQUIRED)
+
+# Compute the QML import path from the Qt cmake directory. QLibraryInfo::path(QmlImportsPath)
+# resolves incorrectly for custom macOS framework builds (framework dir/../ = lib/, not the
+# Qt prefix), so we bake in the correct path at compile time.
+# Qt6Qml_DIR is .../lib/cmake/Qt6Qml — go up three levels then into qml/.
+get_filename_component(QT_QML_IMPORT_PATH_VALUE "${Qt6Qml_DIR}/../../../qml" ABSOLUTE)
 
 add_library(workrave-toolkit-qt OBJECT)
 
@@ -8,6 +14,9 @@ target_sources(workrave-toolkit-qt PRIVATE
   BreakWindow.cc
   QmlDailyLimitWindow.cc
   QmlMicroBreakWindow.cc
+  QmlPrefsDialog.cc
+  QmlPrefsBridges.cc
+  QmlPluginPrefBridges.cc
   QmlPreludeWindow.cc
   QmlRestBreakWindow.cc
   QmlTimerBoxView.cc
@@ -17,29 +26,20 @@ target_sources(workrave-toolkit-qt PRIVATE
   ExercisesPanel.cc
   MainWindow.cc
   MicroBreakWindow.cc
-  PreferencesDialog.cc
   PreludeWindow.cc
   RestBreakWindow.cc
   StatisticsDialog.cc
   Toolkit.cc
   ToolkitFactory.cc
   ToolkitMenu.cc
-  preferences/GeneralUiPreferencesPanel.cc
-  preferences/MonitoringPreferencesPanel.cc
-  preferences/SoundsPreferencesPanel.cc
-  preferences/TimerBoxPreferencesPanel.cc
-  preferences/TimerPreferencesPanel.cc
-  utils/DataConnector.cc
   utils/SizeGroup.cc
   utils/Ui.cc
   utils/UiUtil.cc
   utils/qformat.cc
   widgets/Frame.cc
   widgets/Icon.cc
-  widgets/IconListNotebook.cc
   widgets/StatusIcon.cc
   widgets/TimeBar.cc
-  widgets/TimeEntry.cc
   widgets/TimerBoxView.cc
 )
 
@@ -104,6 +104,9 @@ set(MOC_SOURCES
   BreakWindow.hh
   QmlDailyLimitWindow.hh
   QmlMicroBreakWindow.hh
+  QmlPrefsDialog.hh
+  QmlPrefsBridges.hh
+  QmlPluginPrefBridges.hh
   QmlPreludeWindow.hh
   QmlRestBreakWindow.hh
   QmlTimerBoxView.hh
@@ -113,22 +116,15 @@ set(MOC_SOURCES
   ExercisesPanel.hh
   MainWindow.hh
   MicroBreakWindow.hh
-  PreferencesDialog.hh
   PreludeWindow.hh
   RestBreakWindow.hh
   StatisticsDialog.hh
   Toolkit.hh
   ToolkitMenu.hh
-  preferences/GeneralUiPreferencesPanel.hh
-  preferences/SoundsPreferencesPanel.hh
-  preferences/TimerBoxPreferencesPanel.hh
-  preferences/TimerPreferencesPanel.hh
   utils/SizeGroup.hh
   widgets/Frame.hh
-  widgets/IconListNotebook.hh
   widgets/StatusIcon.hh
   widgets/TimeBar.hh
-  widgets/TimeEntry.hh
   widgets/TimerBoxView.hh
 )
 
@@ -137,9 +133,10 @@ target_include_directories(workrave-toolkit-qt
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/utils
   ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/widgets
-  ${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/preferences
   ${CMAKE_SOURCE_DIR}/ui/applets/indicator/include
   )
+
+target_compile_definitions(workrave-toolkit-qt PRIVATE "QT_QML_IMPORT_PATH=\"${QT_QML_IMPORT_PATH_VALUE}\"")
 
 target_link_directories(workrave-toolkit-qt PRIVATE
   ${Boost_LIBRARIES_DIRS}
@@ -173,6 +170,7 @@ target_link_libraries(workrave-toolkit-qt PRIVATE
   workrave-app
   workrave-libs-audio
   Qt${QT_VERSION_MAJOR}::Quick
+  Qt${QT_VERSION_MAJOR}::QuickControls2
   Qt${QT_VERSION_MAJOR}::QuickWidgets
   workrave-libs-config
   workrave-libs-core-next

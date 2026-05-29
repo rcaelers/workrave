@@ -265,8 +265,7 @@ Toolkit::show_preferences()
 {
   if (preferences_dialog == nullptr)
     {
-      preferences_dialog = new PreferencesDialog(app);
-      preferences_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      preferences_dialog = std::make_unique<QmlPrefsDialog>(app);
     }
   preferences_dialog->show();
 }

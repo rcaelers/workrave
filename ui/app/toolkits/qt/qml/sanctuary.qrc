@@ -5,5 +5,22 @@
         <file>PreludeOverlay.qml</file>
         <file>RestBreakOverlay.qml</file>
         <file>StatusWindow.qml</file>
+        <file>PrefTokens.qml</file>
+        <file>PrefsShell.qml</file>
+        <file>PrefGroup.qml</file>
+        <file>PrefToggleRow.qml</file>
+        <file>PrefStepper.qml</file>
+        <file>PrefSliderRow.qml</file>
+        <file>PrefTimeControl.qml</file>
+        <file>PrefSpinRow.qml</file>
+        <file>PrefChoiceRow.qml</file>
+        <file>MicrobreakPrefPage.qml</file>
+        <file>RestBreakPrefPage.qml</file>
+        <file>DailyLimitPrefPage.qml</file>
+        <file>GeneralPrefPage.qml</file>
+        <file>StatusWindowPrefPage.qml</file>
+        <file>MonitoringPrefPage.qml</file>
+        <file>SoundsPrefPage.qml</file>
+        <file>PluginPrefPage.qml</file>
     </qresource>
 </RCC>
