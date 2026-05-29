@@ -199,8 +199,8 @@ ui/app/toolkits/qt/DebugDialog.cc
 ui/app/toolkits/qt/dist/macos/Info.plist.in
 ui/app/toolkits/qt/dist/windows/CreateInstaller.cmake.in
 ui/app/toolkits/qt/dist/windows/setup.iss.in
-ui/app/toolkits/qt/ExercisesDialog.cc
-ui/app/toolkits/qt/ExercisesPanel.cc
+ui/app/toolkits/qt/QmlExercisesDialog.cc
+ui/app/toolkits/qt/qml/ExercisesDialog.qml
 ui/app/toolkits/qt/MainWindow.cc
 ui/app/toolkits/qt/platforms/macos/MacOSDesktopWindow.cc
 ui/app/toolkits/qt/platforms/macos/MouseMonitor.cc
