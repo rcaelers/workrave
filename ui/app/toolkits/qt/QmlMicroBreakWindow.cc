@@ -263,6 +263,7 @@ QmlMicroBreakWindow::QmlMicroBreakWindow(std::shared_ptr<IApplicationContext> ap
 
 QmlMicroBreakWindow::~QmlMicroBreakWindow()
 {
+  *alive_ = false;
   delete view;
 }
 
@@ -272,7 +273,7 @@ QmlMicroBreakWindow::init()
   TRACE_ENTRY();
 
   bridge = new MicroBreakBridge(app, block_mode, break_flags);
-  bridge->setDismissHandler([this]() { stop(); });
+  bridge->setDismissHandler([this, alive = alive_]() { if (*alive) stop(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);

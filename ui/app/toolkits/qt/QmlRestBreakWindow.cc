@@ -486,6 +486,18 @@ RestBreakBridge::togglePause()
   Q_EMIT pauseStateChanged();
 }
 
+void
+RestBreakBridge::endExercises()
+{
+  ex_done = true;
+  if (ex_timer != nullptr)
+    {
+      ex_timer->stop();
+    }
+  app->get_core()->set_insist_policy(InsistPolicy::Halt);
+  Q_EMIT exerciseChanged();
+}
+
 // ── QmlRestBreakWindow ────────────────────────────────────────────────────────
 
 QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app,
@@ -503,6 +515,7 @@ QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app,
 
 QmlRestBreakWindow::~QmlRestBreakWindow()
 {
+  *alive_ = false;
   delete view;
 }
 
@@ -512,7 +525,7 @@ QmlRestBreakWindow::init()
   TRACE_ENTRY();
 
   bridge = new RestBreakBridge(app, block_mode, break_flags);
-  bridge->setDismissHandler([this]() { stop(); });
+  bridge->setDismissHandler([this, alive = alive_]() { if (*alive) stop(); });
   bridge->initExercises();
 
   view = new QQuickView();

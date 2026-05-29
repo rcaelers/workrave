@@ -142,6 +142,7 @@ private:
 
   QQuickView *view{nullptr};
   MicroBreakBridge *bridge{nullptr};
+  std::shared_ptr<bool> alive_{std::make_shared<bool>(true)};
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
