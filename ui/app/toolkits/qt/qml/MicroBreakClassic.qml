@@ -173,41 +173,35 @@ Item {
             // ── Button row ───────────────────────────────────────────────────
             Row {
                 width: parent.width - 24
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 12
                 spacing: 6
+                layoutDirection: Qt.RightToLeft
 
-                // Rest break now button
+                ClassicButton {
+                    visible: root.canSkip
+                    enabled: root.canSkip
+                    label: qsTr("Skip")
+                    onClicked: { if (bridge != null) bridge.requestSkip() }
+                }
+
+                ClassicButton {
+                    visible: root.canPostpone
+                    enabled: root.canPostpone
+                    label: qsTr("Postpone")
+                    onClicked: { if (bridge != null) bridge.requestPostpone() }
+                }
+
+                ClassicButton {
+                    visible: root.lockable
+                    label: qsTr("Lock")
+                    onClicked: { if (bridge != null) bridge.requestLock() }
+                }
+
                 ClassicButton {
                     visible: root.restEnabled
                     label: qsTr("Rest break")
                     onClicked: { if (bridge != null) bridge.requestRestBreak() }
-                }
-
-                Item { Layout.fillWidth: true; width: 1 }
-
-                Row {
-                    spacing: 6
-                    anchors.right: parent.right
-
-                    ClassicButton {
-                        visible: root.lockable
-                        label: qsTr("Lock")
-                        onClicked: { if (bridge != null) bridge.requestLock() }
-                    }
-
-                    ClassicButton {
-                        visible: root.canPostpone
-                        enabled: root.canPostpone
-                        label: qsTr("Postpone")
-                        onClicked: { if (bridge != null) bridge.requestPostpone() }
-                    }
-
-                    ClassicButton {
-                        visible: root.canSkip
-                        enabled: root.canSkip
-                        label: qsTr("Skip")
-                        onClicked: { if (bridge != null) bridge.requestSkip() }
-                    }
                 }
             }
 
