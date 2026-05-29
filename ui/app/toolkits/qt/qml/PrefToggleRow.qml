@@ -10,16 +10,18 @@ Item {
     property string hint:    ""
     property string badge:   ""
     property bool   checked: false
+    property bool   isLast:  false
 
     signal toggled(bool checked)
 
     implicitWidth:  parent ? parent.width : 400
-    implicitHeight: rowContent.implicitHeight + 28
+    implicitHeight: rowContent.implicitHeight + tok.rowPad
 
     PrefTokens { id: tok }
 
     // ── Bottom divider ───────────────────────────────────────────────────────
     Rectangle {
+        visible: !root.isLast
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: 1
         color: tok.edge2
@@ -35,7 +37,7 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: toggle.left; rightMargin: 16; verticalCenter: parent.verticalCenter }
-            spacing: 3
+            spacing: tok.labelHintGap
 
             Item {
                 width: parent.width
@@ -44,7 +46,7 @@ Item {
                 Text {
                     id: labelText
                     text: root.label
-                    font.pixelSize: 14
+                    font.pixelSize: tok.labelPx
                     font.weight: Font.Medium
                     color: tok.ink
                 }
@@ -63,7 +65,7 @@ Item {
                         id: badgeText
                         anchors.centerIn: parent
                         text: root.badge
-                        font.pixelSize: 10
+                        font.pixelSize: tok.captionPx
                         font.weight: Font.DemiBold
                         font.letterSpacing: 9.5 * 0.14
                         color: tok.mute
@@ -75,10 +77,10 @@ Item {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: 12
+                font.pixelSize: tok.hintPx
                 color: tok.mute
                 wrapMode: Text.WordWrap
-                lineHeight: 1.45
+                lineHeight: tok.hintLineH
             }
         }
 

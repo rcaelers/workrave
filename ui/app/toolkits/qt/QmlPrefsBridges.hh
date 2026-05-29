@@ -62,7 +62,7 @@ public:
   explicit MicrobreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
   bool    enabled() const;
-  void    setEnabled(bool v);
+  Q_INVOKABLE void setEnabled(bool v);
 
   QString limitDisplay() const;
   double  limitNorm() const;
@@ -72,11 +72,11 @@ public:
   double  snoozeNorm() const;
 
   bool showPostpone() const;
-  void setShowPostpone(bool v);
+  Q_INVOKABLE void setShowPostpone(bool v);
   bool showSkip() const;
-  void setShowSkip(bool v);
+  Q_INVOKABLE void setShowSkip(bool v);
   bool preludeEnabled() const;
-  void setPreludeEnabled(bool v);
+  Q_INVOKABLE void setPreludeEnabled(bool v);
   int  maxPreludes() const;
 
   Q_INVOKABLE void incrementLimit();
@@ -142,7 +142,7 @@ public:
   explicit RestBreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
   bool    enabled() const;
-  void    setEnabled(bool v);
+  Q_INVOKABLE void setEnabled(bool v);
 
   QString limitDisplay() const;
   double  limitNorm() const;
@@ -153,15 +153,15 @@ public:
 
   int  exercises() const;
   bool autoNatural() const;
-  void setAutoNatural(bool v);
+  Q_INVOKABLE void setAutoNatural(bool v);
   bool enableShutdown() const;
-  void setEnableShutdown(bool v);
+  Q_INVOKABLE void setEnableShutdown(bool v);
   bool showPostpone() const;
-  void setShowPostpone(bool v);
+  Q_INVOKABLE void setShowPostpone(bool v);
   bool showSkip() const;
-  void setShowSkip(bool v);
+  Q_INVOKABLE void setShowSkip(bool v);
   bool preludeEnabled() const;
-  void setPreludeEnabled(bool v);
+  Q_INVOKABLE void setPreludeEnabled(bool v);
   int  maxPreludes() const;
 
   Q_INVOKABLE void incrementLimit();
@@ -226,7 +226,7 @@ public:
   explicit DailyLimitPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
   bool    enabled() const;
-  void    setEnabled(bool v);
+  Q_INVOKABLE void setEnabled(bool v);
 
   QString limitDisplay() const;
   double  limitNorm() const;
@@ -234,13 +234,13 @@ public:
   double  snoozeNorm() const;
 
   bool useMicroBreakActivity() const;
-  void setUseMicroBreakActivity(bool v);
+  Q_INVOKABLE void setUseMicroBreakActivity(bool v);
   bool showPostpone() const;
-  void setShowPostpone(bool v);
+  Q_INVOKABLE void setShowPostpone(bool v);
   bool showSkip() const;
-  void setShowSkip(bool v);
+  Q_INVOKABLE void setShowSkip(bool v);
   bool preludeEnabled() const;
-  void setPreludeEnabled(bool v);
+  Q_INVOKABLE void setPreludeEnabled(bool v);
   int  maxPreludes() const;
 
   Q_INVOKABLE void incrementLimit();
@@ -408,6 +408,7 @@ class GeneralPrefBridge : public QObject
 
   // Block mode: 0=Off, 1=Input, 2=All
   Q_PROPERTY(int  blockMode        READ blockMode        WRITE setBlockMode        NOTIFY blockModeChanged)
+  Q_PROPERTY(bool sanctuaryEnabled READ sanctuaryEnabled WRITE setSanctuaryEnabled NOTIFY systemChanged)
   Q_PROPERTY(bool trayIconEnabled  READ trayIconEnabled  WRITE setTrayIconEnabled  NOTIFY systemChanged)
   Q_PROPERTY(bool autostartEnabled READ autostartEnabled WRITE setAutostartEnabled NOTIFY systemChanged)
 
@@ -430,13 +431,16 @@ public:
   explicit GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
   int  blockMode() const;
-  void setBlockMode(int v);
+  Q_INVOKABLE void setBlockMode(int v);
+
+  bool sanctuaryEnabled() const;
+  Q_INVOKABLE void setSanctuaryEnabled(bool v);
 
   bool trayIconEnabled() const;
-  void setTrayIconEnabled(bool v);
+  Q_INVOKABLE void setTrayIconEnabled(bool v);
 
   bool autostartEnabled() const;
-  void setAutostartEnabled(bool v);
+  Q_INVOKABLE void setAutostartEnabled(bool v);
 
   bool         hasDarkMode() const;
   int          darkMode() const;

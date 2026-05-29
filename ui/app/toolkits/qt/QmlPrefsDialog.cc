@@ -108,6 +108,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
         if (root != nullptr)
           {
             QObject::connect(root, SIGNAL(navigateTo(QString, QString)), this, SLOT(onNavigateTo(QString, QString)));
+            QObject::connect(root, SIGNAL(closeRequested()), this, SLOT(onCloseRequested()));
           }
       }
   });
@@ -173,6 +174,12 @@ QmlPrefsDialog::onNavigateTo(const QString &section, const QString &page)
 
   root->setProperty("currentSection", section);
   root->setProperty("currentPage", page);
+}
+
+void
+QmlPrefsDialog::onCloseRequested()
+{
+  hide();
 }
 
 void

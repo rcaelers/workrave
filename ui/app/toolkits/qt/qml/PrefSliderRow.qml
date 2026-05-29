@@ -7,7 +7,7 @@ Item {
     id: root
 
     property real   value:       0.5
-    property color  sliderColor: "#6B8068"   // default sage
+    property color  sliderColor: tok.sage
     property var    ticks:       []
 
     signal moved(real value)
@@ -88,8 +88,8 @@ Item {
                 x: trackArea.width * modelData.at - implicitWidth / 2
                 anchors.top: parent.top
                 text: modelData.label
-                font.pixelSize: 10
-                font.family: "Menlo"
+                font.pixelSize: tok.tickPx
+                font.family: tok.monoFamily
                 font.letterSpacing: 9.5 * 0.04
                 color: tok.mute
             }

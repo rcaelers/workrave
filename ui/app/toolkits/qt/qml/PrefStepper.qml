@@ -35,7 +35,7 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "−"
-                    font.pixelSize: 16
+                    font.pixelSize: tok.btnPx
                     font.weight: Font.Medium
                     color: tok.ink2
                 }
@@ -64,8 +64,8 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: root.value
-                    font.pixelSize: 19
-                    font.family: "Georgia"
+                    font.pixelSize: tok.stepperPx
+                    font.family: tok.serifFamily
                     font.features: { "tnum": 1 }
                     color: tok.ink
                 }
@@ -78,7 +78,7 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "+"
-                    font.pixelSize: 16
+                    font.pixelSize: tok.btnPx
                     font.weight: Font.Medium
                     color: tok.ink2
                 }

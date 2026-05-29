@@ -23,7 +23,7 @@ Item {
             id: headerText
             anchors { left: parent.left; right: parent.right; top: parent.top }
             text: root.title.toUpperCase()
-            font.pixelSize: 11
+            font.pixelSize: tok.captionPx
             font.weight: Font.DemiBold
             font.letterSpacing: 10.5 * 0.18
             color: tok.mute

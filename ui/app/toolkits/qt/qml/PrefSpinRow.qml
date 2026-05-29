@@ -14,7 +14,7 @@ Item {
     signal decrement()
 
     implicitWidth:  parent ? parent.width : 400
-    implicitHeight: Math.max(labelCol.implicitHeight, stepper.implicitHeight) + 36
+    implicitHeight: Math.max(labelCol.implicitHeight, stepper.implicitHeight) + tok.rowPadLg
 
     PrefTokens { id: tok }
 
@@ -33,12 +33,12 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: stepper.left; rightMargin: 24; verticalCenter: parent.verticalCenter }
-            spacing: 3
+            spacing: tok.labelHintGap
 
             Text {
                 width: parent.width
                 text: root.label
-                font.pixelSize: 14
+                font.pixelSize: tok.labelPx
                 font.weight: Font.Medium
                 color: tok.ink
             }
@@ -47,10 +47,10 @@ Item {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: 12
+                font.pixelSize: tok.hintPx
                 color: tok.mute
                 wrapMode: Text.WordWrap
-                lineHeight: 1.45
+                lineHeight: tok.hintLineH
             }
         }
 

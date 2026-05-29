@@ -18,7 +18,12 @@
         <file>RestBreakPrefPage.qml</file>
         <file>DailyLimitPrefPage.qml</file>
         <file>GeneralPrefPage.qml</file>
+        <file>TimerStylePreview.qml</file>
+        <file>TimerStyleCard.qml</file>
+        <file>TimerPlacementCard.qml</file>
+        <file>TimerVisibilityRow.qml</file>
         <file>StatusWindowPrefPage.qml</file>
+        <file>AppletPrefPage.qml</file>
         <file>MonitoringPrefPage.qml</file>
         <file>SoundsPrefPage.qml</file>
         <file>PluginPrefPage.qml</file>

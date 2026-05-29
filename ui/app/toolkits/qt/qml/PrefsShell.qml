@@ -11,6 +11,7 @@ Item {
     property string currentPage:    "microbreak"
 
     signal navigateTo(string section, string page)
+    signal closeRequested()
 
     readonly property var staticNavModel: [
         { id: "timers", title: "Timers", children: [
@@ -135,13 +136,44 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
+
+            // Close button
+            Item {
+                id: closeBtn
+                anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
+                width: 22; height: 22
+
+                property bool hovered: false
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 11
+                    color: closeBtn.hovered ? tok.edge2 : "transparent"
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "✕"
+                    font.pixelSize: 13
+                    color: closeBtn.hovered ? tok.ink : tok.mute
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    onEntered: closeBtn.hovered = true
+                    onExited:  closeBtn.hovered = false
+                    onClicked: root.closeRequested()
+                }
+            }
         }
 
         // ── Body: sidebar + content ──────────────────────────────────────────
         Item {
             id: body
             width: parent.width
-            height: parent.height - 38
+            height: parent.height - 38 - 52
 
             // ── Sidebar ──────────────────────────────────────────────────────
             Rectangle {
@@ -290,6 +322,51 @@ Item {
                             }
                         }
                     }
+                }
+            }
+        }
+
+        // ── Footer ───────────────────────────────────────────────────────────
+        Rectangle {
+            width: parent.width
+            height: 52
+            color: tok.panel
+
+            Rectangle {
+                anchors { left: parent.left; right: parent.right; top: parent.top }
+                height: 1; color: tok.edge
+            }
+
+            Item {
+                id: footerCloseBtn
+                anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
+                width: 88; height: 32
+
+                property bool hovered: false
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 7
+                    color:  footerCloseBtn.hovered ? tok.sage : tok.sageSoft
+                    border.color: tok.sage
+                    border.width: 1
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    text: qsTr("Close")
+                    font.pixelSize: 13
+                    font.weight: Font.Medium
+                    color: footerCloseBtn.hovered ? tok.panel : tok.sageDeep
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    onEntered: footerCloseBtn.hovered = true
+                    onExited:  footerCloseBtn.hovered = false
+                    onClicked: root.closeRequested()
                 }
             }
         }

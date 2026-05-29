@@ -51,6 +51,7 @@ public:
 
 private Q_SLOTS:
   void onNavigateTo(const QString &section, const QString &page);
+  void onCloseRequested();
   void onQmlStatusChanged(int status);
 
 private:

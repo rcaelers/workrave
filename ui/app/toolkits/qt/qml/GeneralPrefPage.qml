@@ -41,18 +41,18 @@ Item {
 
                     Column {
                         width: parent.width
-                        spacing: 3
+                        spacing: tok.labelHintGap
 
                         Text {
                             text: qsTr("Block mode")
-                            font.pixelSize: 14; font.weight: Font.Medium
+                            font.pixelSize: tok.labelPx; font.weight: Font.Medium
                             color: tok.ink
                         }
                         Text {
                             width: parent.width
                             text: qsTr("What Workrave does to the rest of your screen when a break starts.")
-                            font.pixelSize: 12; color: tok.mute
-                            wrapMode: Text.WordWrap; lineHeight: 1.45
+                            font.pixelSize: tok.hintPx; color: tok.mute
+                            wrapMode: Text.WordWrap; lineHeight: tok.hintLineH
                         }
                     }
 
@@ -89,6 +89,21 @@ Item {
                         }
                     }
                 }
+            }
+        }
+
+        // ── Theme ─────────────────────────────────────────────────────────────
+        PrefGroup {
+            width: parent.width
+            title: qsTr("Theme")
+
+            PrefToggleRow {
+                width: parent.width
+                label: qsTr("Use Sanctuary UI")
+                hint:  qsTr("When enabled, break windows and the status window use the new QML-based design. Restart Workrave after changing this setting.")
+                checked: root.bridge ? root.bridge.sanctuaryEnabled : true
+                onToggled: (v) => { if (root.bridge) root.bridge.setSanctuaryEnabled(v) }
+                isLast: true
             }
         }
 

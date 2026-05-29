@@ -1150,6 +1150,19 @@ GeneralPrefBridge::setBlockMode(int v)
 }
 
 bool
+GeneralPrefBridge::sanctuaryEnabled() const
+{
+  return GUIConfig::sanctuary_ui_enabled()();
+}
+
+void
+GeneralPrefBridge::setSanctuaryEnabled(bool v)
+{
+  GUIConfig::sanctuary_ui_enabled().set(v);
+  Q_EMIT systemChanged();
+}
+
+bool
 GeneralPrefBridge::trayIconEnabled() const
 {
   return GUIConfig::trayicon_enabled()();

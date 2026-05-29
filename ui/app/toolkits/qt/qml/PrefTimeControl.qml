@@ -10,7 +10,7 @@ Item {
     property string value:         "0:00"
     property bool   sliderVisible: true
     property real   sliderValue:   0.5
-    property color  sliderColor:   "#6B8068"  // default sage; pass tok.clay for duration rows
+    property color  sliderColor:   tok.sage
     property var    ticks:         []
 
     signal increment()
@@ -20,7 +20,7 @@ Item {
     implicitWidth:  parent ? parent.width : 400
     implicitHeight: topRow.height
                     + (root.sliderVisible ? sliderItem.implicitHeight + 14 : 0)
-                    + 36   // 18px top + 18px bottom padding
+                    + tok.rowPadLg
 
     PrefTokens { id: tok }
 
@@ -40,12 +40,12 @@ Item {
         Column {
             id: labelCol
             anchors { left: parent.left; right: stepper.left; rightMargin: 24; verticalCenter: parent.verticalCenter }
-            spacing: 3
+            spacing: tok.labelHintGap
 
             Text {
                 width: parent.width
                 text: root.label
-                font.pixelSize: 14
+                font.pixelSize: tok.labelPx
                 font.weight: Font.Medium
                 color: tok.ink
             }
@@ -54,10 +54,10 @@ Item {
                 visible: root.hint !== ""
                 width: parent.width
                 text: root.hint
-                font.pixelSize: 12
+                font.pixelSize: tok.hintPx
                 color: tok.mute
                 wrapMode: Text.WordWrap
-                lineHeight: 1.45
+                lineHeight: tok.hintLineH
             }
         }
 
