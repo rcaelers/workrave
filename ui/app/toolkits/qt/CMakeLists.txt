@@ -1,10 +1,11 @@
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Quick QuickControls2 QuickWidgets REQUIRED)
 
-# Compute the QML import path from the Qt cmake directory. QLibraryInfo::path(QmlImportsPath)
-# resolves incorrectly for custom macOS framework builds (framework dir/../ = lib/, not the
-# Qt prefix), so we bake in the correct path at compile time.
-# Qt6Qml_DIR is .../lib/cmake/Qt6Qml — go up three levels then into qml/.
-get_filename_component(QT_QML_IMPORT_PATH_VALUE "${Qt6Qml_DIR}/../../../qml" ABSOLUTE)
+# Ask Qt for its authoritative QML import path instead of guessing from Qt6Qml_DIR.
+# Some layouts, such as MSYS2, place runtime modules under share/qt6/qml rather than prefix/qml.
+execute_process(
+  COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_INSTALL_QML
+  OUTPUT_VARIABLE QT_QML_IMPORT_PATH_VALUE
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 add_library(workrave-toolkit-qt OBJECT)
 

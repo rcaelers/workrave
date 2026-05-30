@@ -536,6 +536,7 @@ if ("${WITH_UI}" STREQUAL "Qt")
   endif()
 
   find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${QT_BIN_DIR}")
+  find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BIN_DIR}")
 
   set (HAVE_QT ON)
   set (HAVE_APP_QT ON)

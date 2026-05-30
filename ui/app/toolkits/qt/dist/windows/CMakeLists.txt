@@ -1,6 +1,13 @@
 include(InstallRequiredSystemLibraries)
 
+execute_process(
+  COMMAND ${QT_QTPATHS_EXECUTABLE} --query QT_HOST_LIBEXECS
+  OUTPUT_VARIABLE QT_HOST_LIBEXECS_DIR
+  OUTPUT_STRIP_TRAILING_WHITESPACE)
+string(REPLACE ";" "\\;" QT_ENV_PATH_LITERAL "${QT_ENV_PATH_VALUE}")
+
 set(plugin_dest_dir "lib/plugins")
+set(qml_dest_dir "qml")
 set(qtconf_dest_dir "bin")
 
 set(IMAGE_PLUGINS QJpegPlugin QGifPlugin)
@@ -24,15 +31,17 @@ set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QWindowsIntegrationPlugin)
 install(FILES WizModernImage.bmp DESTINATION dist)
 install(FILES WizModernSmall.bmp DESTINATION dist)
 
-install(DIRECTORY "${QT_PLUGINS_DIR}/platforms"     DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-install(DIRECTORY "${QT_PLUGINS_DIR}/imageformats"  DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-install(DIRECTORY "${QT_PLUGINS_DIR}/iconengines"   DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
-install(DIRECTORY "${QT_PLUGINS_DIR}/styles"        DESTINATION ${plugin_dest_dir} COMPONENT Runtime PATTERN "*_debug.dylib" EXCLUDE)
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/WindeployQt.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/WindeployQt.cmake"
+  @ONLY)
+
+install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/WindeployQt.cmake" COMPONENT Runtime)
 
 # Install a qt.conf file.
 # This inserts some cmake code into the install script to write the file
 install(CODE "
-  file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\")
+  file(WRITE \"${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"[Paths]\\nPlugins = ../lib/plugins/\\nQmlImports = ../qml/\")
   " COMPONENT Runtime)
 
 install(CODE "set(SYS_ROOT ${SYS_ROOT})")
