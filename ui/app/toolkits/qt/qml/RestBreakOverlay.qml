@@ -11,18 +11,7 @@ import QtQuick
 Item {
     id: root
 
-    // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colBg:       "#F5F1EA"
-    readonly property color colPanel:    "#FFFFFF"
-    readonly property color colInk:      "#2A2D29"
-    readonly property color colInk2:     "#4A4D46"
-    readonly property color colMute:     "#8A8B82"
-    readonly property color colSage:     "#6B8068"
-    readonly property color colSageSoft: "#D9E1D2"
-    readonly property color colClay:     "#C97B4A"
-    readonly property color colClaySoft: "#F2D9C5"
-    readonly property color colTrack:    "#E7E1D2"
-    readonly property color colEdge:     Qt.rgba(40/255, 45/255, 38/255, 0.10)
+    PrefTokens { id: tok }
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
     readonly property int        blockMode:       bridge != null ? bridge.blockMode          : 1
@@ -62,9 +51,9 @@ Item {
             anchors.centerIn: parent
             width: Math.min(parent.width - 48, 1040)
             height: cardCol.implicitHeight
-            color: colPanel
+            color: tok.panel
             radius: 24
-            border.color: colEdge
+            border.color: tok.edge
             border.width: 0.5
 
             Column {
@@ -82,7 +71,7 @@ Item {
                         spacing: 0
 
                         Rectangle {
-                            width: 6; height: 6; radius: 999; color: colClay
+                            width: 6; height: 6; radius: 999; color: tok.clay
                             anchors.verticalCenter: parent.verticalCenter
                         }
                         Item { width: 8; height: 1 }
@@ -92,10 +81,10 @@ Item {
                                   + (root.exerciseIndex + 1) + " " + qsTr("OF") + " " + root.exerciseCount
                                   + (root.blockMode === 1 ? " · " + qsTr("INPUT BLOCKED") : "")
                             font.pixelSize: 11; font.weight: Font.DemiBold
-                            font.letterSpacing: 0.5; color: colMute
+                            font.letterSpacing: 0.5; color: tok.mute
                         }
                         Item { width: 12; height: 1 }
-                        Rectangle { width: 1; height: 14; color: colEdge; anchors.verticalCenter: parent.verticalCenter }
+                        Rectangle { width: 1; height: 14; color: tok.edge; anchors.verticalCenter: parent.verticalCenter }
                         Item { width: 12; height: 1 }
                         Row {
                             anchors.verticalCenter: parent.verticalCenter
@@ -103,13 +92,13 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: root.breakTimeShort
-                                font.pixelSize: 18; font.family: "Georgia"; color: colInk
+                                font.pixelSize: 18; font.family: "Georgia"; color: tok.ink
                             }
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: qsTr("OF") + " " + root.breakMaxStr
                                 font.pixelSize: 11; font.weight: Font.DemiBold
-                                font.letterSpacing: 0.5; color: colMute
+                                font.letterSpacing: 0.5; color: tok.mute
                             }
                         }
                     }
@@ -122,7 +111,7 @@ Item {
                         Rectangle {
                             visible: root.lockable
                             width: 28; height: 28; radius: 999
-                            color: "transparent"; border.color: colEdge; border.width: 1
+                            color: "transparent"; border.color: tok.edge; border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
                             Text { anchors.centerIn: parent; text: "🔒"; font.pixelSize: 12 }
                             Accessible.role: Accessible.Button
@@ -136,7 +125,7 @@ Item {
                         // Postpone / Skip only in header when exercises are visible;
                         // when ring view is shown they move to the bottom of the card.
                         Rectangle {
-                            width: 1; height: 18; color: colEdge
+                            width: 1; height: 18; color: tok.edge
                             anchors.verticalCenter: parent.verticalCenter
                             visible: root.showExercises && root.lockable && (root.canPostpone || root.canSkip)
                         }
@@ -144,12 +133,12 @@ Item {
                         Rectangle {
                             visible: root.showExercises && root.canPostpone
                             height: 28; width: cardPostponeLbl.implicitWidth + 20
-                            radius: 999; color: "transparent"; border.color: colEdge; border.width: 1
+                            radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
                             opacity: root.canPostpone ? 1.0 : 0.4
                             anchors.verticalCenter: parent.verticalCenter
                             Text {
                                 id: cardPostponeLbl; anchors.centerIn: parent
-                                text: qsTr("Postpone"); font.pixelSize: 12; font.weight: Font.Medium; color: colInk2
+                                text: qsTr("Postpone"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2
                             }
                             Accessible.role: Accessible.Button
                             Accessible.name: qsTr("Postpone")
@@ -163,11 +152,11 @@ Item {
                             visible: root.showExercises && root.canSkip
                             height: 28; width: skipLabelH.implicitWidth + 20
                             radius: 999; color: "transparent"
-                            border.color: colEdge; border.width: 1
+                            border.color: tok.edge; border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
                             Text {
                                 id: skipLabelH; anchors.centerIn: parent
-                                text: qsTr("Skip"); font.pixelSize: 12; font.weight: Font.Medium; color: colInk2
+                                text: qsTr("Skip"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2
                             }
                             Accessible.role: Accessible.Button; Accessible.name: qsTr("Skip")
                             MouseArea {
@@ -179,7 +168,7 @@ Item {
                 }
 
                 // Separator
-                Rectangle { width: parent.width; height: 1; color: colEdge }
+                Rectangle { width: parent.width; height: 1; color: tok.edge }
 
                 // ── Lock strip ───────────────────────────────────────────────
                 Item {
@@ -199,14 +188,14 @@ Item {
                         Text {
                             width: parent.width; horizontalAlignment: Text.AlignHCenter
                             text: qsTr("Postpone and skip will unlock after resting")
-                            font.pixelSize: 11; color: colMute
+                            font.pixelSize: 11; color: tok.mute
                         }
                         Rectangle {
-                            width: parent.width; height: 4; radius: 2; color: colTrack
+                            width: parent.width; height: 4; radius: 2; color: tok.track
                             Rectangle {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: Math.max(4, parent.width * root.lockProgress)
-                                radius: 2; color: colSage
+                                radius: 2; color: tok.sage
                                 Behavior on width { NumberAnimation { duration: 500 } }
                             }
                         }
@@ -233,7 +222,7 @@ Item {
                             spacing: 8
                             Repeater {
                                 model: root.exerciseCount
-                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? colClay : colTrack }
+                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.clay : tok.track }
                             }
                         }
 
@@ -253,7 +242,7 @@ Item {
                                     fillMode: Image.PreserveAspectFit
                                 }
                                 Rectangle {
-                                    anchors.fill: parent; color: colSageSoft; radius: 16
+                                    anchors.fill: parent; color: tok.sageSoft; radius: 16
                                     visible: cardExImg.status !== Image.Ready || root.exerciseImage === ""
                                 }
                             }
@@ -265,13 +254,13 @@ Item {
                                 Text {
                                     width: parent.width
                                     text: root.exerciseName
-                                    font.pixelSize: 36; font.family: "Georgia"; color: colInk
+                                    font.pixelSize: 36; font.family: "Georgia"; color: tok.ink
                                     wrapMode: Text.Wrap; lineHeight: 1.1
                                 }
                                 Text {
                                     width: parent.width
                                     text: root.exerciseDesc
-                                    font.pixelSize: 15; color: colInk2
+                                    font.pixelSize: 15; color: tok.ink2
                                     wrapMode: Text.WordWrap; lineHeight: 1.6
                                 }
                             }
@@ -284,8 +273,8 @@ Item {
 
                             Rectangle {
                                 width: 36; height: 36; radius: 999
-                                color: "transparent"; border.color: colEdge; border.width: 1
-                                Text { anchors.centerIn: parent; text: "◄"; font.pixelSize: 12; color: colInk2 }
+                                color: "transparent"; border.color: tok.edge; border.width: 1
+                                Text { anchors.centerIn: parent; text: "◄"; font.pixelSize: 12; color: tok.ink2 }
                                 Accessible.role: Accessible.Button; Accessible.name: qsTr("Previous exercise")
                                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.prevExercise() } }
                             }
@@ -293,15 +282,15 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: root.exerciseTimeStr
-                                font.pixelSize: 34; font.family: "Georgia"; color: colInk
+                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
                                 horizontalAlignment: Text.AlignHCenter
                                 font.features: {"tnum": 1}
                             }
 
                             Rectangle {
                                 width: 36; height: 36; radius: 999
-                                color: "transparent"; border.color: colEdge; border.width: 1
-                                Text { anchors.centerIn: parent; text: "►"; font.pixelSize: 12; color: colInk2 }
+                                color: "transparent"; border.color: tok.edge; border.width: 1
+                                Text { anchors.centerIn: parent; text: "►"; font.pixelSize: 12; color: tok.ink2 }
                                 Accessible.role: Accessible.Button; Accessible.name: qsTr("Next exercise")
                                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.nextExercise() } }
                             }
@@ -330,19 +319,19 @@ Item {
                                 var cx = 140, cy = 140, r = 133, sw = 8;
                                 ctx.beginPath();
                                 ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-                                ctx.strokeStyle = colTrack.toString();
+                                ctx.strokeStyle = tok.track.toString();
                                 ctx.lineWidth = sw; ctx.stroke();
                                 ctx.beginPath();
                                 ctx.arc(cx, cy, r, -Math.PI / 2,
                                         -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001));
-                                ctx.strokeStyle = colSage.toString();
+                                ctx.strokeStyle = tok.sage.toString();
                                 ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                             }
 
                             Text {
                                 anchors.centerIn: parent
                                 text: root.breakTimeShort
-                                font.pixelSize: 70; font.family: "Georgia"; color: colInk
+                                font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
                             }
                         }
 
@@ -350,13 +339,13 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             visible: root.exercisesDone
                             text: qsTr("Exercises complete — please relax")
-                            font.pixelSize: 13; color: colMute
+                            font.pixelSize: 13; color: tok.mute
                         }
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             visible: !root.hasExercises
                             text: qsTr("Please stand up and walk away from your computer")
-                            font.pixelSize: 13; color: colMute
+                            font.pixelSize: 13; color: tok.mute
                         }
 
                         Item { width: 1; height: 16 }
@@ -369,12 +358,12 @@ Item {
                             Rectangle {
                                 visible: root.canPostpone
                                 height: 34; width: ringPostponeLbl.implicitWidth + 28
-                                radius: 999; color: "transparent"; border.color: colEdge; border.width: 1
+                                radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
                                 opacity: root.canPostpone ? 1.0 : 0.4
                                 anchors.verticalCenter: parent.verticalCenter
                                 Text {
                                     id: ringPostponeLbl; anchors.centerIn: parent
-                                    text: qsTr("Postpone"); font.pixelSize: 13; font.weight: Font.Medium; color: colInk2
+                                    text: qsTr("Postpone"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2
                                 }
                                 Accessible.role: Accessible.Button; Accessible.name: qsTr("Postpone")
                                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestPostpone() } }
@@ -384,11 +373,11 @@ Item {
                                 visible: root.canSkip
                                 height: 34; width: skipLabelR.implicitWidth + 28
                                 radius: 999; color: "transparent"
-                                border.color: colEdge; border.width: 1
+                                border.color: tok.edge; border.width: 1
                                 Text {
                                     id: skipLabelR; anchors.centerIn: parent
                                     text: qsTr("Skip"); font.pixelSize: 13; font.weight: Font.Medium
-                                    font.letterSpacing: 0.12; color: colInk2
+                                    font.letterSpacing: 0.12; color: tok.ink2
                                 }
                                 Accessible.role: Accessible.Button; Accessible.name: qsTr("Skip")
                                 MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
@@ -423,7 +412,7 @@ Item {
         anchors.fill: parent
         visible: root.blockMode === 2
 
-        Rectangle { anchors.fill: parent; color: colBg; z: 0 }
+        Rectangle { anchors.fill: parent; color: tok.bg; z: 0 }
 
         Item {
             id: contentArea
@@ -440,11 +429,11 @@ Item {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
-                    Rectangle { width: 6; height: 6; radius: 999; color: colClay; anchors.verticalCenter: parent.verticalCenter }
+                    Rectangle { width: 6; height: 6; radius: 999; color: tok.clay; anchors.verticalCenter: parent.verticalCenter }
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("REST BREAK") + " · " + (root.exerciseIndex + 1) + " " + qsTr("OF") + " " + root.exerciseCount
-                        font.pixelSize: 12; font.weight: Font.DemiBold; font.letterSpacing: 0.5; color: colMute
+                        font.pixelSize: 12; font.weight: Font.DemiBold; font.letterSpacing: 0.5; color: tok.mute
                     }
                 }
 
@@ -456,7 +445,7 @@ Item {
                     Rectangle {
                         visible: root.lockable
                         width: 28; height: 28; radius: 999
-                        color: "transparent"; border.color: colEdge; border.width: 1
+                        color: "transparent"; border.color: tok.edge; border.width: 1
                         anchors.verticalCenter: parent.verticalCenter
                         Text { anchors.centerIn: parent; text: "🔒"; font.pixelSize: 12 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Lock screen")
@@ -464,7 +453,7 @@ Item {
                     }
 
                     Rectangle {
-                        width: 1; height: 18; color: colEdge
+                        width: 1; height: 18; color: tok.edge
                         anchors.verticalCenter: parent.verticalCenter
                         visible: root.lockable && (root.canPostpone || root.canSkip)
                     }
@@ -472,10 +461,10 @@ Item {
                     Rectangle {
                         visible: root.canPostpone
                         height: 28; width: postponeLabel.implicitWidth + 20
-                        radius: 999; color: "transparent"; border.color: colEdge; border.width: 1
+                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
                         opacity: root.canPostpone ? 1.0 : 0.4
                         anchors.verticalCenter: parent.verticalCenter
-                        Text { id: postponeLabel; anchors.centerIn: parent; text: qsTr("Postpone"); font.pixelSize: 12; font.weight: Font.Medium; color: colInk2 }
+                        Text { id: postponeLabel; anchors.centerIn: parent; text: qsTr("Postpone"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Postpone")
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestPostpone() } }
                     }
@@ -484,11 +473,11 @@ Item {
                         visible: root.canSkip
                         height: 28; width: skipLabelFs.implicitWidth + 20
                         radius: 999; color: "transparent"
-                        border.color: colEdge; border.width: 1
+                        border.color: tok.edge; border.width: 1
                         anchors.verticalCenter: parent.verticalCenter
                         Text {
                             id: skipLabelFs; anchors.centerIn: parent
-                            text: qsTr("Skip"); font.pixelSize: 12; font.weight: Font.Medium; color: colInk2
+                            text: qsTr("Skip"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2
                         }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Skip")
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
@@ -511,14 +500,14 @@ Item {
                     Text {
                         width: parent.width; horizontalAlignment: Text.AlignHCenter
                         text: qsTr("Postpone and skip will unlock after resting")
-                        font.pixelSize: 11; color: colMute
+                        font.pixelSize: 11; color: tok.mute
                     }
                     Rectangle {
-                        width: parent.width; height: 4; radius: 2; color: colTrack
+                        width: parent.width; height: 4; radius: 2; color: tok.track
                         Rectangle {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
-                            radius: 2; color: colSage
+                            radius: 2; color: tok.sage
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }
@@ -546,7 +535,7 @@ Item {
                             anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right }
                             spacing: 2
 
-                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.family: "Georgia"; color: colMute; bottomPadding: 10 }
+                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.family: "Georgia"; color: tok.mute; bottomPadding: 10 }
 
                             Repeater {
                                 model: root.exerciseNames
@@ -558,7 +547,7 @@ Item {
 
                                     Rectangle {
                                         anchors { fill: parent; leftMargin: -4; rightMargin: -4 }
-                                        radius: 10; color: colPanel; border.color: colEdge; border.width: 0.5
+                                        radius: 10; color: tok.panel; border.color: tok.edge; border.width: 0.5
                                         visible: exRow.isCurrent
                                     }
                                     Row {
@@ -566,16 +555,16 @@ Item {
                                         spacing: 10
                                         Rectangle {
                                             width: 32; height: 32; radius: 8
-                                            color: exRow.isDone ? colSageSoft : (exRow.isCurrent ? colClaySoft : "transparent")
-                                            border.color: (!exRow.isDone && !exRow.isCurrent) ? colEdge : "transparent"; border.width: 1
+                                            color: exRow.isDone ? tok.sageSoft : (exRow.isCurrent ? tok.claySoft : "transparent")
+                                            border.color: (!exRow.isDone && !exRow.isCurrent) ? tok.edge : "transparent"; border.width: 1
                                             anchors.verticalCenter: parent.verticalCenter
-                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? colSage : (exRow.isCurrent ? colClay : colMute) }
+                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? tok.sage : (exRow.isCurrent ? tok.clay : tok.mute) }
                                         }
                                         Text {
                                             anchors.verticalCenter: parent.verticalCenter
                                             width: parent.width - 32 - 10
                                             text: modelData; font.pixelSize: 13; font.weight: exRow.isCurrent ? Font.Medium : Font.Normal
-                                            font.strikeout: exRow.isDone; color: exRow.isDone ? colMute : (exRow.isCurrent ? colInk : colInk2); elide: Text.ElideRight
+                                            font.strikeout: exRow.isDone; color: exRow.isDone ? tok.mute : (exRow.isCurrent ? tok.ink : tok.ink2); elide: Text.ElideRight
                                         }
                                     }
                                 }
@@ -593,12 +582,12 @@ Item {
                         Column {
                             anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                             spacing: 0
-                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.family: "Georgia"; color: colMute; bottomPadding: 4 }
-                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.family: "Georgia"; color: colInk; lineHeight: 1.0 }
-                            Text { anchors.right: parent.right; text: "OF " + root.breakMaxStr; font.pixelSize: 11; font.weight: Font.DemiBold; font.letterSpacing: 1.4; color: colMute; topPadding: 4; bottomPadding: 10 }
+                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.family: "Georgia"; color: tok.mute; bottomPadding: 4 }
+                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.family: "Georgia"; color: tok.ink; lineHeight: 1.0 }
+                            Text { anchors.right: parent.right; text: "OF " + root.breakMaxStr; font.pixelSize: 11; font.weight: Font.DemiBold; font.letterSpacing: 1.4; color: tok.mute; topPadding: 4; bottomPadding: 10 }
                             Rectangle {
-                                anchors.right: parent.right; width: parent.width; height: 4; radius: 2; color: colTrack
-                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: colClay }
+                                anchors.right: parent.right; width: parent.width; height: 4; radius: 2; color: tok.track
+                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: tok.clay }
                             }
                         }
                     }
@@ -617,7 +606,7 @@ Item {
                             id: exerciseCard
                             anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
                             height: Math.min(parent.height - 24, 680)
-                            radius: 24; color: colPanel; border.color: colEdge; border.width: 0.5
+                            radius: 24; color: tok.panel; border.color: tok.edge; border.width: 0.5
 
                             Item {
                                 id: activeView
@@ -630,7 +619,7 @@ Item {
                                     spacing: 8
                                     Repeater {
                                         model: root.exerciseCount
-                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? colClay : colTrack }
+                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.clay : tok.track }
                                     }
                                 }
 
@@ -642,20 +631,20 @@ Item {
                                     Rectangle {
                                         id: prevBtn
                                         anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                                        width: 36; height: 36; radius: 999; color: "transparent"; border.color: colEdge; border.width: 1
-                                        Text { anchors.centerIn: parent; text: "◄"; font.pixelSize: 12; color: colInk2 }
+                                        width: 36; height: 36; radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                                        Text { anchors.centerIn: parent; text: "◄"; font.pixelSize: 12; color: tok.ink2 }
                                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Previous exercise")
                                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.prevExercise() } }
                                     }
                                     Text {
                                         anchors.centerIn: parent; text: root.exerciseTimeStr
-                                        font.pixelSize: 34; font.family: "Georgia"; color: colInk
+                                        font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
                                     }
                                     Rectangle {
                                         id: nextBtn
                                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
-                                        width: 36; height: 36; radius: 999; color: "transparent"; border.color: colEdge; border.width: 1
-                                        Text { anchors.centerIn: parent; text: "►"; font.pixelSize: 12; color: colInk2 }
+                                        width: 36; height: 36; radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                                        Text { anchors.centerIn: parent; text: "►"; font.pixelSize: 12; color: tok.ink2 }
                                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Next exercise")
                                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.nextExercise() } }
                                     }
@@ -675,7 +664,7 @@ Item {
                                             fillMode: Image.PreserveAspectFit
                                         }
                                         Rectangle {
-                                            anchors.fill: parent; color: colSageSoft; radius: 16
+                                            anchors.fill: parent; color: tok.sageSoft; radius: 16
                                             visible: fsExImg.status !== Image.Ready || root.exerciseImage === ""
                                         }
                                     }
@@ -683,8 +672,8 @@ Item {
                                     Column {
                                         anchors { left: fsImgContainer.right; leftMargin: 32; right: parent.right; verticalCenter: parent.verticalCenter }
                                         spacing: 14
-                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.family: "Georgia"; color: colInk; wrapMode: Text.Wrap; lineHeight: 1.1 }
-                                        Text { width: parent.width; text: root.exerciseDesc; font.pixelSize: 15; color: colInk2; wrapMode: Text.WordWrap; lineHeight: 1.6 }
+                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.family: "Georgia"; color: tok.ink; wrapMode: Text.Wrap; lineHeight: 1.1 }
+                                        Text { width: parent.width; text: root.exerciseDesc; font.pixelSize: 15; color: tok.ink2; wrapMode: Text.WordWrap; lineHeight: 1.6 }
                                     }
                                 }
                             }
@@ -707,23 +696,23 @@ Item {
                                         var ctx = getContext("2d");
                                         ctx.clearRect(0, 0, width, height);
                                         var cx = 160, cy = 160, r = 152, sw = 9;
-                                        ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.strokeStyle = colTrack.toString(); ctx.lineWidth = sw; ctx.stroke();
-                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = colSage.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
+                                        ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.strokeStyle = tok.track.toString(); ctx.lineWidth = sw; ctx.stroke();
+                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.sage.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                                     }
                                 }
 
                                 Column {
                                     anchors.centerIn: parent
                                     spacing: 4
-                                    Text { anchors.horizontalCenter: parent.horizontalCenter; text: root.breakTimeShort; font.pixelSize: 80; font.family: "Georgia"; color: colInk }
-                                    Text { anchors.horizontalCenter: parent.horizontalCenter; visible: root.exercisesDone; text: qsTr("Exercises complete — please relax"); font.pixelSize: 13; color: colMute }
-                                    Text { anchors.horizontalCenter: parent.horizontalCenter; visible: !root.hasExercises; text: qsTr("Please stand up and walk away from your computer"); font.pixelSize: 13; color: colMute }
+                                    Text { anchors.horizontalCenter: parent.horizontalCenter; text: root.breakTimeShort; font.pixelSize: 80; font.family: "Georgia"; color: tok.ink }
+                                    Text { anchors.horizontalCenter: parent.horizontalCenter; visible: root.exercisesDone; text: qsTr("Exercises complete — please relax"); font.pixelSize: 13; color: tok.mute }
+                                    Text { anchors.horizontalCenter: parent.horizontalCenter; visible: !root.hasExercises; text: qsTr("Please stand up and walk away from your computer"); font.pixelSize: 13; color: tok.mute }
                                     Item { width: 1; height: 16 }
                                     Rectangle {
                                         anchors.horizontalCenter: parent.horizontalCenter
                                         visible: root.canSkip; height: 36; width: fsSkipLabel.implicitWidth + 28
-                                        radius: 999; color: "transparent"; border.color: colEdge; border.width: 1
-                                        Text { id: fsSkipLabel; anchors.centerIn: parent; text: qsTr("End break early"); font.pixelSize: 13; font.weight: Font.Medium; color: colInk2 }
+                                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                                        Text { id: fsSkipLabel; anchors.centerIn: parent; text: qsTr("End break early"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
                                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
                                     }
                                 }

@@ -7,19 +7,7 @@ import QtQuick
 Item {
     id: root
 
-    // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colPanel:    "#FFFFFF"
-    readonly property color colInk:      "#2A2D29"
-    readonly property color colInk2:     "#4A4D46"
-    readonly property color colMute:     "#8A8B82"
-    readonly property color colSage:     "#6B8068"
-    readonly property color colSageSoft: "#D9E1D2"
-    readonly property color colClay:     "#C97B4A"
-    readonly property color colClaySoft: "#F2D9C5"
-    readonly property color colTrack:    "#E7E1D2"
-    readonly property color colEdge:     Qt.rgba(40/255, 45/255, 38/255, 0.10)
-    readonly property color colEdge2:    Qt.rgba(40/255, 45/255, 38/255, 0.06)
-    readonly property color colWarn:     "#D4872A"
+    PrefTokens { id: tok }
 
     // blockMode: 0=Off (toast), 1=Input (centered, no dim), 2=All (fullscreen + dim)
     readonly property int    blockMode:    bridge != null ? bridge.blockMode    : 1
@@ -30,7 +18,7 @@ Item {
     readonly property double lockProgress: bridge != null ? bridge.lockProgress  : 0.0
 
     // Ring colour: clay/orange when the user is active during the break, sage otherwise
-    readonly property color ringColor: userActive ? colWarn : colSage
+    readonly property color ringColor: userActive ? tok.warn : tok.sage
 
     // ── Dim backdrop (block_input_and_screen only) ────────────────────────────
     Rectangle {
@@ -44,11 +32,11 @@ Item {
     Rectangle {
         id: card
         width: 480
-        color: colPanel
+        color: tok.panel
         radius: 24
         z: 1
 
-        border.color: root.userActive ? colWarn : colEdge
+        border.color: root.userActive ? tok.warn : tok.edge
         border.width: root.userActive ? 1.5 : 1
         Behavior on border.color { ColorAnimation { duration: 300 } }
 
@@ -91,7 +79,7 @@ Item {
                     height: 22
                     width: headerLabel.implicitWidth + 20
                     radius: 999
-                    color: colSageSoft
+                    color: tok.sageSoft
 
                     Text {
                         id: headerLabel
@@ -101,7 +89,7 @@ Item {
                         font.weight: Font.DemiBold
                         font.letterSpacing: 1.8
                         font.capitalization: Font.AllUppercase
-                        color: colSage
+                        color: tok.sage
                     }
                 }
 
@@ -113,14 +101,14 @@ Item {
                     width: 28; height: 28
                     radius: 999
                     color: "transparent"
-                    border.color: colEdge
+                    border.color: tok.edge
                     border.width: 1
 
                     Text {
                         anchors.centerIn: parent
                         text: "🔒"
                         font.pixelSize: 12
-                        color: colMute
+                        color: tok.mute
                     }
 
                     Accessible.role: Accessible.Button
@@ -158,7 +146,7 @@ Item {
 
                         ctx.beginPath();
                         ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-                        ctx.strokeStyle = colTrack;
+                        ctx.strokeStyle = tok.track;
                         ctx.lineWidth = sw;
                         ctx.stroke();
 
@@ -181,7 +169,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: 52
                         font.family: "Georgia"
-                        color: colInk
+                        color: tok.ink
                         renderType: Text.NativeRendering
                         font.features: { "tnum": 1 }
                     }
@@ -193,7 +181,7 @@ Item {
                         visible: root.userActive
                         text: qsTr("Please stop and relax")
                         font.pixelSize: 11
-                        color: colWarn
+                        color: tok.warn
                         opacity: root.userActive ? 1.0 : 0.0
                         Behavior on opacity { NumberAnimation { duration: 300 } }
                     }
@@ -205,7 +193,7 @@ Item {
                         visible: root.blockMode > 0 && !root.userActive
                         text: qsTr("Please relax for a few seconds")
                         font.pixelSize: 11
-                        color: colMute
+                        color: tok.mute
                     }
                 }
             }
@@ -222,7 +210,7 @@ Item {
                     height: 30
                     width: restChipRow.implicitWidth + 28
                     radius: 999
-                    color: colClaySoft
+                    color: tok.claySoft
 
                     Row {
                         id: restChipRow
@@ -232,14 +220,14 @@ Item {
                         Text {
                             text: "☕"
                             font.pixelSize: 12
-                            color: colClay
+                            color: tok.clay
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
                         Text {
                             text: bridge != null ? bridge.restBreakInfo : ""
                             font.pixelSize: 12
-                            color: colClay
+                            color: tok.clay
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
@@ -262,7 +250,7 @@ Item {
                         height: 34
                         width: restBtnLabel.implicitWidth + 28
                         radius: 999
-                        color: colClay
+                        color: tok.clay
 
                         Text {
                             id: restBtnLabel
@@ -292,7 +280,7 @@ Item {
                         width: postponeLabel.implicitWidth + 28
                         radius: 999
                         color: "transparent"
-                        border.color: colEdge
+                        border.color: tok.edge
                         border.width: 1
                         opacity: enabled ? 1.0 : 0.4
 
@@ -303,7 +291,7 @@ Item {
                             font.pixelSize: 13
                             font.weight: Font.Medium
                             font.letterSpacing: 0.12
-                            color: colInk2
+                            color: tok.ink2
                         }
 
                         Accessible.role: Accessible.Button
@@ -324,7 +312,7 @@ Item {
                         width: skipLabel.implicitWidth + 28
                         radius: 999
                         color: "transparent"
-                        border.color: colEdge
+                        border.color: tok.edge
                         border.width: 1
                         opacity: enabled ? 1.0 : 0.4
 
@@ -335,7 +323,7 @@ Item {
                             font.pixelSize: 13
                             font.weight: Font.Medium
                             font.letterSpacing: 0.12
-                            color: colInk2
+                            color: tok.ink2
                         }
 
                         Accessible.role: Accessible.Button
@@ -368,20 +356,20 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         text: qsTr("Postpone and skip will unlock after resting")
                         font.pixelSize: 11
-                        color: colMute
+                        color: tok.mute
                     }
 
                     Rectangle {
                         width: parent.width
                         height: 4
                         radius: 2
-                        color: colTrack
+                        color: tok.track
 
                         Rectangle {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2
-                            color: colSage
+                            color: tok.sage
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }

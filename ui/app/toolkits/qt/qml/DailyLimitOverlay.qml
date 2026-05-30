@@ -7,17 +7,7 @@ import QtQuick
 Item {
     id: root
 
-    // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colPanel:    "#FFFFFF"
-    readonly property color colInk:      "#2A2D29"
-    readonly property color colInk2:     "#4A4D46"
-    readonly property color colMute:     "#8A8B82"
-    readonly property color colSage:     "#6B8068"
-    readonly property color colSageSoft: "#D9E1D2"
-    readonly property color colClay:     "#C97B4A"
-    readonly property color colClaySoft: "#F2D9C5"
-    readonly property color colEdge:     Qt.rgba(40/255, 45/255, 38/255, 0.10)
-    readonly property color colBg:       "#F5F1EA"
+    PrefTokens { id: tok }
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
     readonly property int    blockMode:   bridge != null ? bridge.blockMode   : 1
@@ -30,7 +20,7 @@ Item {
     // ── Warm background fill (all modes except toast) ─────────────────────────
     Rectangle {
         anchors.fill: parent
-        color: colBg
+        color: tok.bg
         visible: root.blockMode !== 0
         z: 0
     }
@@ -39,11 +29,11 @@ Item {
     Rectangle {
         id: card
         width: 520
-        color: colPanel
+        color: tok.panel
         radius: 24
         z: 1
 
-        border.color: colEdge
+        border.color: tok.edge
         border.width: 1
 
         x: root.blockMode === 0 ? 0 : (root.width  - width)  / 2
@@ -76,7 +66,7 @@ Item {
                     height: 22
                     width: headerLabel.implicitWidth + 20
                     radius: 999
-                    color: colClaySoft
+                    color: tok.claySoft
 
                     Text {
                         id: headerLabel
@@ -86,7 +76,7 @@ Item {
                         font.weight: Font.DemiBold
                         font.letterSpacing: 1.8
                         font.capitalization: Font.AllUppercase
-                        color: colClay
+                        color: tok.clay
                     }
                 }
 
@@ -102,7 +92,7 @@ Item {
                         width: 28; height: 28
                         radius: 999
                         color: "transparent"
-                        border.color: colEdge
+                        border.color: tok.edge
                         border.width: 1
 
                         Text {
@@ -129,7 +119,7 @@ Item {
                         width: postponeLabel.implicitWidth + 20
                         radius: 999
                         color: "transparent"
-                        border.color: colEdge
+                        border.color: tok.edge
                         border.width: 1
                         opacity: enabled ? 1.0 : 0.4
 
@@ -139,7 +129,7 @@ Item {
                             text: qsTr("Postpone")
                             font.pixelSize: 12
                             font.weight: Font.Medium
-                            color: colInk2
+                            color: tok.ink2
                         }
 
                         Accessible.role: Accessible.Button
@@ -159,7 +149,7 @@ Item {
                         width: skipLabel.implicitWidth + 28
                         radius: 999
                         color: "transparent"
-                        border.color: colEdge
+                        border.color: tok.edge
                         border.width: 1
 
                         Text {
@@ -169,7 +159,7 @@ Item {
                             font.pixelSize: 13
                             font.weight: Font.Medium
                             font.letterSpacing: 0.12
-                            color: colInk2
+                            color: tok.ink2
                         }
 
                         Accessible.role: Accessible.Button
@@ -193,7 +183,7 @@ Item {
                 onPaint: {
                     var ctx = getContext("2d");
                     ctx.clearRect(0, 0, width, height);
-                    ctx.strokeStyle = colClay.toString();
+                    ctx.strokeStyle = tok.clay.toString();
                     ctx.lineWidth = 1.4;
                     ctx.lineCap = "round";
 
@@ -227,7 +217,7 @@ Item {
                 width: parent.width
                 text: qsTr("You have reached your daily limit. Please stop working behind the computer. If your working day is not over yet, find something else to do, such as reviewing a document.")
                 font.pixelSize: 15
-                color: colInk2
+                color: tok.ink2
                 wrapMode: Text.WordWrap
                 lineHeight: 1.5
                 horizontalAlignment: Text.AlignHCenter
@@ -247,7 +237,7 @@ Item {
                         height: 40
                         width: stopLabel.implicitWidth + 32
                         radius: 999
-                        color: colClay
+                        color: tok.clay
 
                         Text {
                             id: stopLabel
@@ -255,7 +245,7 @@ Item {
                             text: qsTr("Stop working")
                             font.pixelSize: 13
                             font.weight: Font.Medium
-                            color: colPanel
+                            color: tok.panel
                         }
 
                         Accessible.role: Accessible.Button
@@ -289,20 +279,20 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         text: qsTr("Postpone and skip will unlock after resting")
                         font.pixelSize: 11
-                        color: colMute
+                        color: tok.mute
                     }
 
                     Rectangle {
                         width: parent.width
                         height: 4
                         radius: 2
-                        color: "#E7E1D2"
+                        color: tok.track
 
                         Rectangle {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2
-                            color: colSage
+                            color: tok.sage
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }

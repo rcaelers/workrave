@@ -320,8 +320,8 @@ Item {
             radius: 6
             gradient: Gradient {
                 orientation: Gradient.Vertical
-                GradientStop { position: 0.0; color: "#c9d7c0" }
-                GradientStop { position: 1.0; color: "#b6c5a8" }
+                GradientStop { position: 0.0; color: tok.isDark ? "#2E3A2A" : "#c9d7c0" }
+                GradientStop { position: 1.0; color: tok.isDark ? "#253020" : "#b6c5a8" }
             }
             border.color: tok.edge
             border.width: 1

@@ -304,7 +304,7 @@ Item {
 
                                 Rectangle {
                                     anchors.fill: parent; radius: 6
-                                    color: clearMouse.containsMouse ? "#ffe5e5" : tok.panel2
+                                    color: clearMouse.containsMouse ? tok.dangerSoft : tok.panel2
                                     border.color: tok.edge; border.width: 1
                                     Behavior on color { ColorAnimation { duration: 120 } }
                                 }
@@ -313,7 +313,7 @@ Item {
                                     anchors.centerIn: parent
                                     text: qsTr("Clear")
                                     font.pixelSize: 12
-                                    color: "#c0392b"
+                                    color: tok.danger
                                 }
                                 MouseArea {
                                     id: clearMouse

@@ -8,20 +8,7 @@ import QtQuick
 Item {
     id: root
 
-    // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colBg:       "#F5F1EA"
-    readonly property color colPanel:    "#FFFFFF"
-    readonly property color colInk:      "#2A2D29"
-    readonly property color colInk2:     "#4A4D46"
-    readonly property color colMute:     "#8A8B82"
-    readonly property color colSage:     "#6B8068"
-    readonly property color colSageDeep: "#44563F"
-    readonly property color colClay:     "#C97B4A"
-    readonly property color colTrack:    "#E7E1D2"
-    readonly property color colEdge:     Qt.rgba(40/255, 45/255, 38/255, 0.10)
-    readonly property color colEdge2:    Qt.rgba(40/255, 45/255, 38/255, 0.06)
-    readonly property color colDanger:   "#B85A4A"
-    readonly property color colRest:     "#7FAF88"
+    PrefTokens { id: tok }
 
     // ── Bridge bindings (safe fallbacks while bridge initialises) ─────────────
     // Use != null (loose equality) to guard against both null and undefined.
@@ -49,9 +36,9 @@ Item {
 
     // ── State → colour helper ─────────────────────────────────────────────────
     function timerColor(overdue, progress) {
-        if (overdue)          return colDanger
-        if (progress < 0.25)  return colClay
-        return colSage
+        if (overdue)          return tok.danger
+        if (progress < 0.25)  return tok.clay
+        return tok.sage
     }
 
     // ── Per-style sizing ─────────────────────────────────────────────────────
@@ -68,9 +55,9 @@ Item {
     // ── Window background card ────────────────────────────────────────────────
     Rectangle {
         anchors.fill: parent
-        color: colPanel
+        color: tok.panel
         radius: 12
-        border.color: colEdge
+        border.color: tok.edge
         border.width: 1
     }
 
@@ -89,7 +76,7 @@ Item {
         }
 
         Rectangle {
-            width: 5; height: 5; radius: 999; color: colSage
+            width: 5; height: 5; radius: 999; color: tok.sage
             anchors { left: parent.left; leftMargin: 8; verticalCenter: parent.verticalCenter }
         }
 
@@ -98,24 +85,24 @@ Item {
             text: "Workrave"
             font.pixelSize: 11; font.italic: true
             font.family: "Georgia"
-            color: colInk
+            color: tok.ink
         }
 
         Text {
             id: closeX
             anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
-            text: "×"; font.pixelSize: 13; color: colMute; z: 1
+            text: "×"; font.pixelSize: 13; color: tok.mute; z: 1
             Accessible.role: Accessible.Button; Accessible.name: qsTr("Close")
             MouseArea {
                 anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                 onClicked: { if (bridge != null) bridge.requestClose() }
             }
-            HoverHandler { onHoveredChanged: parent.color = hovered ? colInk : colMute }
+            HoverHandler { onHoveredChanged: parent.color = hovered ? tok.ink : tok.mute }
         }
 
         Rectangle {
             anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-            height: 1; color: colEdge2
+            height: 1; color: tok.edge2
         }
     }
 
@@ -147,7 +134,7 @@ Item {
                     anchors.centerIn: parent; spacing: 3
                     Text {
                         text: "MICRO"; font.pixelSize: 8; font.letterSpacing: 1.1
-                        font.capitalization: Font.AllUppercase; color: colMute
+                        font.capitalization: Font.AllUppercase; color: tok.mute
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     MiniRing {
@@ -158,7 +145,7 @@ Item {
                     Text {
                         text: microTime; font.pixelSize: 13
                         font.family: "Georgia"
-                        color: microOverdue ? colDanger : colInk
+                        color: microOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -172,7 +159,7 @@ Item {
                     anchors.centerIn: parent; spacing: 3
                     Text {
                         text: "REST"; font.pixelSize: 8; font.letterSpacing: 1.1
-                        font.capitalization: Font.AllUppercase; color: colMute
+                        font.capitalization: Font.AllUppercase; color: tok.mute
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     MiniRing {
@@ -183,7 +170,7 @@ Item {
                     Text {
                         text: restTime; font.pixelSize: 13
                         font.family: "Georgia"
-                        color: restOverdue ? colDanger : colInk
+                        color: restOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -197,7 +184,7 @@ Item {
                     anchors.centerIn: parent; spacing: 3
                     Text {
                         text: "TODAY"; font.pixelSize: 8; font.letterSpacing: 1.1
-                        font.capitalization: Font.AllUppercase; color: colMute
+                        font.capitalization: Font.AllUppercase; color: tok.mute
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     MiniRing {
@@ -208,7 +195,7 @@ Item {
                     Text {
                         text: dailyTime; font.pixelSize: 13
                         font.family: "Georgia"
-                        color: dailyOverdue ? colDanger : colInk
+                        color: dailyOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -282,7 +269,7 @@ Item {
 
                         var r = 25, sw = 4;
                         ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-                        ctx.strokeStyle = root.colTrack; ctx.lineWidth = sw; ctx.stroke();
+                        ctx.strokeStyle = tok.track; ctx.lineWidth = sw; ctx.stroke();
 
                         ctx.beginPath();
                         ctx.arc(cx, cy, r, -Math.PI / 2,
@@ -293,12 +280,12 @@ Item {
                         if (idleProg > 0) {
                             var ri = 17, swi = 2.5;
                             ctx.beginPath(); ctx.arc(cx, cy, ri, 0, 2 * Math.PI);
-                            ctx.strokeStyle = root.colTrack; ctx.lineWidth = swi; ctx.stroke();
+                            ctx.strokeStyle = tok.track; ctx.lineWidth = swi; ctx.stroke();
 
                             ctx.beginPath();
                             ctx.arc(cx, cy, ri, -Math.PI / 2,
                                     -Math.PI / 2 + 2 * Math.PI * Math.max(idleProg, 0.001));
-                            ctx.strokeStyle = root.colRest;
+                            ctx.strokeStyle = tok.rest;
                             ctx.lineWidth = swi; ctx.lineCap = "round"; ctx.stroke();
                         }
                     }
@@ -311,14 +298,14 @@ Item {
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: 17
                         font.family: "Georgia"
-                        color: microOverdue ? colDanger : colInk
+                        color: microOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
                     Text {
                         text: "MICRO"
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: 8; font.letterSpacing: 1.1
-                        font.capitalization: Font.AllUppercase; color: colMute
+                        font.capitalization: Font.AllUppercase; color: tok.mute
                     }
                 }
             }
@@ -342,20 +329,20 @@ Item {
                     Text {
                         anchors { left: parent.left; leftMargin: 9; verticalCenter: parent.verticalCenter }
                         text: "REST"; font.pixelSize: 9; font.letterSpacing: 1.2
-                        font.capitalization: Font.AllUppercase; color: colMute
+                        font.capitalization: Font.AllUppercase; color: tok.mute
                     }
                     Text {
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         text: restTime; font.pixelSize: 13
                         font.family: "Georgia"
-                        color: restOverdue ? colDanger : colInk
+                        color: restOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
                 }
 
                 Rectangle {
                     anchors { top: restChip.bottom; left: parent.left; right: parent.right }
-                    height: 1; color: colEdge2
+                    height: 1; color: tok.edge2
                 }
 
                 Item {
@@ -369,13 +356,13 @@ Item {
                     Text {
                         anchors { left: parent.left; leftMargin: 9; verticalCenter: parent.verticalCenter }
                         text: "TODAY"; font.pixelSize: 9; font.letterSpacing: 1.2
-                        font.capitalization: Font.AllUppercase; color: colMute
+                        font.capitalization: Font.AllUppercase; color: tok.mute
                     }
                     Text {
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         text: dailyTime; font.pixelSize: 13
                         font.family: "Georgia"
-                        color: dailyOverdue ? colDanger : colInk
+                        color: dailyOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
                 }
@@ -389,7 +376,7 @@ Item {
 
     component MiniRing: Canvas {
         width: 34; height: 34
-        property color accent: colSage
+        property color accent: tok.sage
         property double progress: 0.5
         property double idleProgress: 0.0
 
@@ -405,7 +392,7 @@ Item {
 
             var r = 14.1, sw = 2.8;
             ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-            ctx.strokeStyle = root.colTrack; ctx.lineWidth = sw; ctx.stroke();
+            ctx.strokeStyle = tok.track; ctx.lineWidth = sw; ctx.stroke();
 
             ctx.beginPath();
             ctx.arc(cx, cy, r, -Math.PI / 2,
@@ -416,12 +403,12 @@ Item {
             if (idleProgress > 0) {
                 var ri = 9.0, swi = 2.0;
                 ctx.beginPath(); ctx.arc(cx, cy, ri, 0, 2 * Math.PI);
-                ctx.strokeStyle = root.colTrack; ctx.lineWidth = swi; ctx.stroke();
+                ctx.strokeStyle = tok.track; ctx.lineWidth = swi; ctx.stroke();
 
                 ctx.beginPath();
                 ctx.arc(cx, cy, ri, -Math.PI / 2,
                         -Math.PI / 2 + 2 * Math.PI * Math.max(idleProgress, 0.001));
-                ctx.strokeStyle = root.colRest;
+                ctx.strokeStyle = tok.rest;
                 ctx.lineWidth = swi; ctx.lineCap = "round"; ctx.stroke();
             }
         }
@@ -429,7 +416,7 @@ Item {
 
     component BarRow: Item {
         height: 26
-        property color  accent:        colSage
+        property color  accent:        tok.sage
         property string iconText:      "✋"
         property double progress:      0.5
         property double idleProgress:  0.0
@@ -463,7 +450,7 @@ Item {
             anchors { right: parent.right; top: parent.top; topMargin: 3 }
             text: timeText; font.pixelSize: 13
             font.family: "Georgia"
-            color: overdue ? colDanger : colInk
+            color: overdue ? tok.danger : tok.ink
             width: 46; horizontalAlignment: Text.AlignRight
             renderType: Text.NativeRendering; font.features: { "tnum": 1 }
         }
@@ -477,7 +464,7 @@ Item {
             }
             height: 4
 
-            Rectangle { anchors.fill: parent; radius: 99; color: colTrack }
+            Rectangle { anchors.fill: parent; radius: 99; color: tok.track }
             Rectangle {
                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                 width: Math.max(2, parent.width * progress); radius: 99; color: accent
@@ -494,10 +481,10 @@ Item {
             }
             height: 2
 
-            Rectangle { anchors.fill: parent; radius: 99; color: colTrack }
+            Rectangle { anchors.fill: parent; radius: 99; color: tok.track }
             Rectangle {
                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-                width: Math.max(1, parent.width * idleProgress); radius: 99; color: colRest
+                width: Math.max(1, parent.width * idleProgress); radius: 99; color: tok.rest
                 Behavior on width { NumberAnimation { duration: 800; easing.type: Easing.OutQuad } }
             }
         }

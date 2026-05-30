@@ -7,16 +7,7 @@ import QtQuick
 Item {
     id: root
 
-    // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colPanel:    "#FFFFFF"
-    readonly property color colInk:      "#2A2D29"
-    readonly property color colInk2:     "#4A4D46"
-    readonly property color colMute:     "#8A8B82"
-    readonly property color colSage:     "#6B8068"
-    readonly property color colSageSoft: "#D9E1D2"
-    readonly property color colEdge:     Qt.rgba(40/255, 45/255, 38/255, 0.10)
-    readonly property color colWarn:     "#D4872A"
-    readonly property color colAlert:    "#B85A4A"
+    PrefTokens { id: tok }
 
     // ── Bridge bindings ───────────────────────────────────────────────────────
     readonly property int    stage:    bridge != null ? bridge.stage    : 0
@@ -27,9 +18,9 @@ Item {
                                         : "Break in 0:30"
 
     // stage: 0=Initial, 1=Warn, 2=Alert, 3=MoveOut
-    readonly property color stageAccent: stage === 1 ? colWarn
-                                       : stage === 2 ? colAlert
-                                       :               colSage
+    readonly property color stageAccent: stage === 1 ? tok.warn
+                                       : stage === 2 ? tok.danger
+                                       :               tok.sage
 
     // ── Icon per break type ───────────────────────────────────────────────────
     function breakIcon(t) { return t === 0 ? "✋" : (t === 1 ? "☕" : "☀") }
@@ -38,12 +29,12 @@ Item {
     Rectangle {
         id: card
         anchors.fill: parent
-        color: colPanel
+        color: tok.panel
         radius: 16
         opacity: 0
         scale: 0.94
         border.width: 1.5
-        border.color: colEdge
+        border.color: tok.edge
 
         // Pulse border width + colour on Warn/Alert
         SequentialAnimation {
@@ -54,12 +45,12 @@ Item {
                 NumberAnimation { target: card; property: "border.width"; to: 5;               duration: root.stage === 1 ? 600 : 280; easing.type: Easing.InOutSine }
             }
             ParallelAnimation {
-                ColorAnimation  { target: card; property: "border.color"; to: colEdge; duration: root.stage === 1 ? 600 : 280; easing.type: Easing.InOutSine }
+                ColorAnimation  { target: card; property: "border.color"; to: tok.edge; duration: root.stage === 1 ? 600 : 280; easing.type: Easing.InOutSine }
                 NumberAnimation { target: card; property: "border.width"; to: 1.5;     duration: root.stage === 1 ? 600 : 280; easing.type: Easing.InOutSine }
             }
             onRunningChanged: {
                 if (!running) {
-                    card.border.color = root.stage >= 1 && root.stage <= 2 ? root.stageAccent : colEdge
+                    card.border.color = root.stage >= 1 && root.stage <= 2 ? root.stageAccent : tok.edge
                     card.border.width = 1.5
                 }
             }
@@ -81,7 +72,7 @@ Item {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 radius: 999
-                color: colSageSoft
+                color: tok.sageSoft
 
                 Text {
                     anchors.centerIn: parent
@@ -104,7 +95,7 @@ Item {
                     font.pixelSize: 17
                     font.family: "Georgia"
                     font.weight: Font.DemiBold
-                    color: colInk
+                    color: tok.ink
                     elide: Text.ElideRight
                     renderType: Text.NativeRendering
                 }
@@ -113,7 +104,7 @@ Item {
                     width: parent.width
                     text: root.countdown
                     font.pixelSize: 12
-                    color: colMute
+                    color: tok.mute
                     elide: Text.ElideRight
                 }
             }
@@ -132,7 +123,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: 999
-                color: colEdge
+                color: tok.edge
             }
 
             Rectangle {

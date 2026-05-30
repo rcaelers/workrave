@@ -147,7 +147,8 @@ Item {
             // ── Popup ────────────────────────────────────────────────────────
             popup: Popup {
                 y: pill.height + 2
-                width: Math.max(pill.width, 260)
+                x: pill.width - width   // right-align to pill's right edge so popup doesn't overflow right
+                width: Math.max(pill.width, 280)
                 height: Math.min(listView.contentHeight + 2, 320)
                 padding: 1
 
@@ -194,7 +195,7 @@ Item {
                         font.pixelSize: 13
                         font.weight: Font.Medium
                         color: tok.ink
-                        elide: Text.ElideRight
+                        elide: Text.ElideMiddle
                     }
 
                     Text {
