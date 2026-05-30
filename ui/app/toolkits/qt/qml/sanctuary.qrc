@@ -42,5 +42,6 @@
         <file>MonitoringPrefPage.qml</file>
         <file>SoundsPrefPage.qml</file>
         <file>PluginPrefPage.qml</file>
+        <file>PrefPluginGroups.qml</file>
     </qresource>
 </RCC>

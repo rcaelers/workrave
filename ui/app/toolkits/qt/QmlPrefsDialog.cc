@@ -46,7 +46,8 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   generalBridge      = new GeneralPrefBridge(this->app, this);
   monitoringBridge   = new MonitoringPrefBridge(this->app, this);
   soundsBridge       = new SoundsPrefBridge(this->app, this);
-  activeBridge       = new ActivePluginPageBridge(this);
+  activeBridge    = new ActivePluginPageBridge(this);
+  extensionBridge = new ActivePluginPageBridge(this);
   create_plugin_bridges();
 
   view = new QQuickView();
@@ -58,7 +59,9 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   {
     QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
     if (bundleQml.exists())
-      view->engine()->addImportPath(bundleQml.canonicalPath());
+      {
+        view->engine()->addImportPath(bundleQml.canonicalPath());
+      }
   }
 #endif
 #ifdef QT_QML_IMPORT_PATH
@@ -79,7 +82,8 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   ctx->setContextProperty("generalPrefBridge",      generalBridge);
   ctx->setContextProperty("monitoringPrefBridge",   monitoringBridge);
   ctx->setContextProperty("soundsPrefBridge",       soundsBridge);
-  ctx->setContextProperty("activePluginBridge",     activeBridge);
+  ctx->setContextProperty("activePluginBridge",  activeBridge);
+  ctx->setContextProperty("pageExtensionBridge", extensionBridge);
 
   // Build nav entries for plugin pages
   QVariantList pluginNavEntries;
@@ -161,7 +165,9 @@ QmlPrefsDialog::onNavigateTo(const QString &section, const QString &page)
 {
   QQuickItem *root = view->rootObject();
   if (root == nullptr)
-    return;
+    {
+      return;
+    }
 
   if (section == "plugin")
     {
@@ -170,6 +176,12 @@ QmlPrefsDialog::onNavigateTo(const QString &section, const QString &page)
         {
           activeBridge->loadPanel(it->second);
         }
+      extensionBridge->loadPanel(nullptr);
+    }
+  else
+    {
+      auto it = pluginBridges.find(page.toStdString());
+      extensionBridge->loadPanel(it != pluginBridges.end() ? it->second : nullptr);
     }
 
   root->setProperty("currentSection", section);

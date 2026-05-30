@@ -69,6 +69,7 @@ private:
   SoundsPrefBridge       *soundsBridge{nullptr};
 
   ActivePluginPageBridge                 *activeBridge{nullptr};
+  ActivePluginPageBridge                 *extensionBridge{nullptr};
   std::map<std::string, PluginPageBridge *> pluginBridges;
 };
 
