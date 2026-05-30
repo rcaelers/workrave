@@ -32,8 +32,6 @@
 #include "ui/AppHold.hh"
 #include "ui/Plugin.hh"
 
-#include "ui/prefwidgets/Widgets.hh"
-
 class AppletControl;
 
 class GenericDBusApplet
