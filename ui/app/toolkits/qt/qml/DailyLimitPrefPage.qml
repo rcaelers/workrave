@@ -67,24 +67,44 @@ Item {
 
         PrefGroup {
             width: parent.width
-            title: qsTr("Counting")
+            title: qsTr("Break prompting")
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Count microbreaks as activity")
-                hint:  qsTr("During a microbreak you're usually still seated. Turn on to limit the time spent at the computer; turn off to limit only active use.")
-                checked: root.bridge ? root.bridge.useMicroBreakActivity : false
-                onToggled: (v) => { if (root.bridge) root.bridge.setUseMicroBreakActivity(v) }
+                label: qsTr("Prompt before enforcing limit")
+                hint:  qsTr("Show a gentle reminder a few seconds before the limit is enforced.")
+                checked: root.bridge ? root.bridge.preludeEnabled : true
+                onToggled: (v) => { if (root.bridge) root.bridge.setPreludeEnabled(v) }
+            }
+
+            PrefToggleRow {
+                width: parent.width
+                visible: root.bridge ? root.bridge.preludeEnabled : true
+                label:   qsTr("Limit number of prompts")
+                hint:    qsTr("When off, Workrave keeps reminding you until the limit is enforced.")
+                checked: root.bridge ? root.bridge.hasMaxPreludes : false
+                onToggled: (v) => { if (root.bridge) root.bridge.setHasMaxPreludes(v) }
+            }
+
+            PrefSpinRow {
+                width: parent.width
+                visible: root.bridge ? (root.bridge.preludeEnabled && root.bridge.hasMaxPreludes) : false
+                label:   qsTr("Maximum number of prompts")
+                display: root.bridge ? root.bridge.maxPreludes.toString() : "3"
+                narrow:  true
+                onIncrement: { if (root.bridge) root.bridge.incrementMaxPreludes() }
+                onDecrement: { if (root.bridge) root.bridge.decrementMaxPreludes() }
             }
         }
 
         PrefGroup {
             width: parent.width
-            title: qsTr("Break window")
+            title: qsTr("Options")
 
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Show 'Postpone' button")
+                hint:  qsTr("Whether the postpone button appears on the break window.")
                 checked: root.bridge ? root.bridge.showPostpone : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setShowPostpone(v) }
             }
@@ -92,26 +112,17 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Show 'Skip' button")
+                hint:  qsTr("Whether the skip button appears on the break window.")
                 checked: root.bridge ? root.bridge.showSkip : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setShowSkip(v) }
             }
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Prompt before enforcing limit")
-                checked: root.bridge ? root.bridge.preludeEnabled : true
-                onToggled: (v) => { if (root.bridge) root.bridge.setPreludeEnabled(v) }
-            }
-
-            PrefSpinRow {
-                width: parent.width
-                visible: root.bridge ? root.bridge.preludeEnabled : true
-                label:   qsTr("Max prompts before forcing break")
-                hint:    qsTr("0 means unlimited — Workrave keeps prompting until you comply.")
-                display: root.bridge ? root.bridge.maxPreludes.toString() : "0"
-                narrow:  true
-                onIncrement: { if (root.bridge) root.bridge.incrementMaxPreludes() }
-                onDecrement: { if (root.bridge) root.bridge.decrementMaxPreludes() }
+                label: qsTr("Count microbreaks as activity")
+                hint:  qsTr("During a microbreak you're usually still seated. Turn on to limit the time spent at the computer; turn off to limit only active use.")
+                checked: root.bridge ? root.bridge.useMicroBreakActivity : false
+                onToggled: (v) => { if (root.bridge) root.bridge.setUseMicroBreakActivity(v) }
             }
         }
     }

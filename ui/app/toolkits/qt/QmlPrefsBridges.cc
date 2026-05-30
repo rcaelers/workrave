@@ -60,14 +60,16 @@ namespace PrefUtils
       {
         return QStringLiteral("%1:%2").arg(h).arg(m, 2, 10, QLatin1Char('0'));
       }
-    return QStringLiteral("%1:%2").arg(m).arg(s, 2, 10, QLatin1Char('0'));
+      return QStringLiteral("%1:%2").arg(m).arg(s, 2, 10, QLatin1Char('0'));
   }
 
   double
   normalize(int value, int minVal, int maxVal)
   {
     if (maxVal <= minVal)
-      return 0.0;
+      {
+        return 0.0;
+      }
     return std::clamp(static_cast<double>(value - minVal) / (maxVal - minVal), 0.0, 1.0);
   }
 
@@ -189,11 +191,34 @@ MicrobreakPrefBridge::setPreludeEnabled(bool v)
   Q_EMIT optionsChanged();
 }
 
+bool
+MicrobreakPrefBridge::hasMaxPreludes() const
+{
+  return CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK)() > 0;
+}
+
+void
+MicrobreakPrefBridge::setHasMaxPreludes(bool v)
+{
+  if (v)
+    {
+      if (CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK)() <= 0)
+        {
+          CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK).set(3);
+        }
+    }
+  else
+    {
+      CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK).set(-1);
+    }
+  Q_EMIT optionsChanged();
+}
+
 int
 MicrobreakPrefBridge::maxPreludes() const
 {
   int v = CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK)();
-  return (v < 0) ? 0 : v;  // 0 here means "unlimited" in the UI (negative in config)
+  return (v > 0) ? v : 3;
 }
 
 void
@@ -272,8 +297,7 @@ void
 MicrobreakPrefBridge::incrementMaxPreludes()
 {
   int cur = CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK)();
-  if (cur < 0)
-    cur = 0;
+  cur = std::max(cur, 1);
   CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK).set(std::min(cur + 1, 10));
   Q_EMIT optionsChanged();
 }
@@ -282,9 +306,7 @@ void
 MicrobreakPrefBridge::decrementMaxPreludes()
 {
   int cur = CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK)();
-  if (cur < 0)
-    cur = 0;
-  if (cur > 0)
+  if (cur > 1)
     {
       CoreConfig::break_max_preludes(BREAK_ID_MICRO_BREAK).set(cur - 1);
       Q_EMIT optionsChanged();
@@ -514,19 +536,41 @@ RestBreakPrefBridge::decrementExercises()
   Q_EMIT optionsChanged();
 }
 
+bool
+RestBreakPrefBridge::hasMaxPreludes() const
+{
+  return CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK)() > 0;
+}
+
+void
+RestBreakPrefBridge::setHasMaxPreludes(bool v)
+{
+  if (v)
+    {
+      if (CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK)() <= 0)
+        {
+          CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK).set(3);
+        }
+    }
+  else
+    {
+      CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK).set(-1);
+    }
+  Q_EMIT optionsChanged();
+}
+
 int
 RestBreakPrefBridge::maxPreludes() const
 {
   int v = CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK)();
-  return (v < 0) ? 0 : v;
+  return (v > 0) ? v : 3;
 }
 
 void
 RestBreakPrefBridge::incrementMaxPreludes()
 {
   int cur = CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK)();
-  if (cur < 0)
-    cur = 0;
+  cur = std::max(cur, 1);
   CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK).set(std::min(cur + 1, 10));
   Q_EMIT optionsChanged();
 }
@@ -535,9 +579,7 @@ void
 RestBreakPrefBridge::decrementMaxPreludes()
 {
   int cur = CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK)();
-  if (cur < 0)
-    cur = 0;
-  if (cur > 0)
+  if (cur > 1)
     {
       CoreConfig::break_max_preludes(BREAK_ID_REST_BREAK).set(cur - 1);
       Q_EMIT optionsChanged();
@@ -648,11 +690,34 @@ DailyLimitPrefBridge::setPreludeEnabled(bool v)
   Q_EMIT optionsChanged();
 }
 
+bool
+DailyLimitPrefBridge::hasMaxPreludes() const
+{
+  return CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT)() > 0;
+}
+
+void
+DailyLimitPrefBridge::setHasMaxPreludes(bool v)
+{
+  if (v)
+    {
+      if (CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT)() <= 0)
+        {
+          CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT).set(3);
+        }
+    }
+  else
+    {
+      CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT).set(-1);
+    }
+  Q_EMIT optionsChanged();
+}
+
 int
 DailyLimitPrefBridge::maxPreludes() const
 {
   int v = CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT)();
-  return (v < 0) ? 0 : v;
+  return (v > 0) ? v : 3;
 }
 
 void
@@ -707,8 +772,7 @@ void
 DailyLimitPrefBridge::incrementMaxPreludes()
 {
   int cur = CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT)();
-  if (cur < 0)
-    cur = 0;
+  cur = std::max(cur, 1);
   CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT).set(std::min(cur + 1, 10));
   Q_EMIT optionsChanged();
 }
@@ -717,9 +781,7 @@ void
 DailyLimitPrefBridge::decrementMaxPreludes()
 {
   int cur = CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT)();
-  if (cur < 0)
-    cur = 0;
-  if (cur > 0)
+  if (cur > 1)
     {
       CoreConfig::break_max_preludes(BREAK_ID_DAILY_LIMIT).set(cur - 1);
       Q_EMIT optionsChanged();
@@ -738,9 +800,13 @@ int
 StatusWindowPrefBridge::flagsToVisibility(int flags)
 {
   if ((flags & GUIConfig::BREAK_HIDE) != 0)
-    return 2;
+    {
+      return 2;
+    }
   if ((flags & GUIConfig::BREAK_WHEN_FIRST) != 0)
-    return 1;
+    {
+      return 1;
+    }
   return 0;
 }
 
@@ -748,9 +814,13 @@ int
 StatusWindowPrefBridge::visibilityToFlags(int v)
 {
   if (v == 2)
-    return GUIConfig::BREAK_HIDE;
+    {
+      return GUIConfig::BREAK_HIDE;
+    }
   if (v == 1)
-    return GUIConfig::BREAK_WHEN_FIRST;
+    {
+      return GUIConfig::BREAK_WHEN_FIRST;
+    }
   return 0;
 }
 
@@ -800,11 +870,17 @@ StatusWindowPrefBridge::placement() const
   int rb = GUIConfig::timerbox_slot("main", BREAK_ID_REST_BREAK)();
   int dl = GUIConfig::timerbox_slot("main", BREAK_ID_DAILY_LIMIT)();
   if (mp < rb && rb < dl)
-    return 0;
+    {
+      return 0;
+    }
   if (mp == rb && rb == dl)
-    return 3;
+    {
+      return 3;
+    }
   if (mp == rb)
-    return 1;
+    {
+      return 1;
+    }
   return 2;
 }
 
@@ -1115,7 +1191,9 @@ GeneralPrefBridge::GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, Q
     {
       auto path = dirname.string();
       if (path.size() < 6 || path.substr(path.size() - 6) != "images")
-        continue;
+        {
+          continue;
+        }
 
       try
         {
@@ -1312,9 +1390,13 @@ int
 AppletPrefBridge::flagsToVisibility(int flags)
 {
   if ((flags & GUIConfig::BREAK_HIDE) != 0)
-    return 2;
+    {
+      return 2;
+    }
   if ((flags & GUIConfig::BREAK_WHEN_FIRST) != 0)
-    return 1;
+    {
+      return 1;
+    }
   return 0;
 }
 
@@ -1322,9 +1404,13 @@ int
 AppletPrefBridge::visibilityToFlags(int v)
 {
   if (v == 2)
-    return GUIConfig::BREAK_HIDE;
+    {
+      return GUIConfig::BREAK_HIDE;
+    }
   if (v == 1)
-    return GUIConfig::BREAK_WHEN_FIRST;
+    {
+      return GUIConfig::BREAK_WHEN_FIRST;
+    }
   return 0;
 }
 
@@ -1361,11 +1447,17 @@ AppletPrefBridge::placement() const
   int rb = GUIConfig::timerbox_slot("applet", BREAK_ID_REST_BREAK)();
   int dl = GUIConfig::timerbox_slot("applet", BREAK_ID_DAILY_LIMIT)();
   if (mp < rb && rb < dl)
-    return 0;
+    {
+      return 0;
+    }
   if (mp == rb && rb == dl)
-    return 3;
+    {
+      return 3;
+    }
   if (mp == rb)
-    return 1;
+    {
+      return 1;
+    }
   return 2;
 }
 

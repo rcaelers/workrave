@@ -52,7 +52,7 @@ Item {
                 hint:  qsTr("How long each microbreak lasts.")
                 value: root.bridge ? root.bridge.durationDisplay : "0:30"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.143
-                sliderColor: "#C97B4A"
+                sliderColor: "#6B8068"
                 ticks: [
                     { at: 0.000, label: "15s" },
                     { at: 0.143, label: "30s" },
@@ -84,7 +84,39 @@ Item {
 
         PrefGroup {
             width: parent.width
-            title: qsTr("Break window")
+            title: qsTr("Break prompting")
+
+            PrefToggleRow {
+                width: parent.width
+                label: qsTr("Prompt before breaking")
+                hint:  qsTr("Show a gentle reminder a few seconds before the break starts.")
+                checked: root.bridge ? root.bridge.preludeEnabled : true
+                onToggled: (v) => { if (root.bridge) root.bridge.setPreludeEnabled(v) }
+            }
+
+            PrefToggleRow {
+                width: parent.width
+                visible: root.bridge ? root.bridge.preludeEnabled : true
+                label:   qsTr("Limit number of prompts")
+                hint:    qsTr("When off, Workrave keeps reminding you until the break starts.")
+                checked: root.bridge ? root.bridge.hasMaxPreludes : false
+                onToggled: (v) => { if (root.bridge) root.bridge.setHasMaxPreludes(v) }
+            }
+
+            PrefSpinRow {
+                width: parent.width
+                visible: root.bridge ? (root.bridge.preludeEnabled && root.bridge.hasMaxPreludes) : false
+                label:   qsTr("Maximum number of prompts")
+                display: root.bridge ? root.bridge.maxPreludes.toString() : "3"
+                narrow: true
+                onIncrement: { if (root.bridge) root.bridge.incrementMaxPreludes() }
+                onDecrement: { if (root.bridge) root.bridge.decrementMaxPreludes() }
+            }
+        }
+
+        PrefGroup {
+            width: parent.width
+            title: qsTr("Options")
 
             PrefToggleRow {
                 width: parent.width
@@ -100,24 +132,6 @@ Item {
                 hint:  qsTr("Whether the skip button appears on the break window.")
                 checked: root.bridge ? root.bridge.showSkip : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setShowSkip(v) }
-            }
-
-            PrefToggleRow {
-                width: parent.width
-                label: qsTr("Prompt before breaking")
-                hint:  qsTr("Show a gentle reminder a few seconds before the break starts.")
-                checked: root.bridge ? root.bridge.preludeEnabled : true
-                onToggled: (v) => { if (root.bridge) root.bridge.setPreludeEnabled(v) }
-            }
-
-            PrefSpinRow {
-                width: parent.width
-                label: qsTr("Maximum prompts before forcing a break")
-                hint:  qsTr("When you ignore a reminder, Workrave tries again — up to this many times. 0 means unlimited prompts.")
-                display: root.bridge ? root.bridge.maxPreludes.toString() : "2"
-                narrow: true
-                onIncrement: { if (root.bridge) root.bridge.incrementMaxPreludes() }
-                onDecrement: { if (root.bridge) root.bridge.decrementMaxPreludes() }
             }
         }
     }

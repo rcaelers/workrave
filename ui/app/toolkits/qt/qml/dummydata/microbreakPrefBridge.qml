@@ -11,6 +11,7 @@ QtObject {
     property bool   showPostpone:    true
     property bool   showSkip:        false
     property bool   preludeEnabled:  true
+    property bool   hasMaxPreludes:  true
     property int    maxPreludes:     3
 
     function setEnabled(v) {}
@@ -26,6 +27,7 @@ QtObject {
     function setShowPostpone(v) {}
     function setShowSkip(v) {}
     function setPreludeEnabled(v) {}
+    function setHasMaxPreludes(v) {}
     function incrementMaxPreludes() {}
     function decrementMaxPreludes() {}
 }

@@ -52,7 +52,7 @@ Item {
                 hint:  qsTr("How long each rest break lasts.")
                 value: root.bridge ? root.bridge.durationDisplay : "10:00"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.444
-                sliderColor: "#C97B4A"
+                sliderColor: "#6B8068"
                 ticks: [
                     { at: 0.000, label: "5m"  },
                     { at: 0.444, label: "10m" },
@@ -85,22 +85,55 @@ Item {
 
         PrefGroup {
             width: parent.width
-            title: qsTr("Exercises")
+            title: qsTr("Break prompting")
+
+            PrefToggleRow {
+                width: parent.width
+                label: qsTr("Prompt before breaking")
+                hint:  qsTr("Show a gentle reminder a few seconds before the break starts.")
+                checked: root.bridge ? root.bridge.preludeEnabled : true
+                onToggled: (v) => { if (root.bridge) root.bridge.setPreludeEnabled(v) }
+            }
+
+            PrefToggleRow {
+                width: parent.width
+                visible: root.bridge ? root.bridge.preludeEnabled : true
+                label:   qsTr("Limit number of prompts")
+                hint:    qsTr("When off, Workrave keeps reminding you until the break starts.")
+                checked: root.bridge ? root.bridge.hasMaxPreludes : false
+                onToggled: (v) => { if (root.bridge) root.bridge.setHasMaxPreludes(v) }
+            }
 
             PrefSpinRow {
                 width: parent.width
-                label: qsTr("Number of exercises per break")
-                hint:  qsTr("Workrave picks this many at random from its library each rest break.")
-                display: root.bridge ? root.bridge.exercises.toString() : "4"
-                narrow: true
-                onIncrement: { if (root.bridge) root.bridge.incrementExercises() }
-                onDecrement: { if (root.bridge) root.bridge.decrementExercises() }
+                visible: root.bridge ? (root.bridge.preludeEnabled && root.bridge.hasMaxPreludes) : false
+                label:   qsTr("Maximum number of prompts")
+                display: root.bridge ? root.bridge.maxPreludes.toString() : "3"
+                narrow:  true
+                onIncrement: { if (root.bridge) root.bridge.incrementMaxPreludes() }
+                onDecrement: { if (root.bridge) root.bridge.decrementMaxPreludes() }
             }
         }
 
         PrefGroup {
             width: parent.width
-            title: qsTr("Behavior")
+            title: qsTr("Options")
+
+            PrefToggleRow {
+                width: parent.width
+                label: qsTr("Show 'Postpone' button")
+                hint:  qsTr("Whether the postpone button appears on the break window.")
+                checked: root.bridge ? root.bridge.showPostpone : true
+                onToggled: (v) => { if (root.bridge) root.bridge.setShowPostpone(v) }
+            }
+
+            PrefToggleRow {
+                width: parent.width
+                label: qsTr("Show 'Skip' button")
+                hint:  qsTr("Whether the skip button appears on the break window.")
+                checked: root.bridge ? root.bridge.showSkip : true
+                onToggled: (v) => { if (root.bridge) root.bridge.setShowSkip(v) }
+            }
 
             PrefToggleRow {
                 width: parent.width
@@ -117,37 +150,20 @@ Item {
                 checked: root.bridge ? root.bridge.enableShutdown : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setEnableShutdown(v) }
             }
+        }
 
-            PrefToggleRow {
-                width: parent.width
-                label: qsTr("Show 'Postpone' button")
-                checked: root.bridge ? root.bridge.showPostpone : true
-                onToggled: (v) => { if (root.bridge) root.bridge.setShowPostpone(v) }
-            }
-
-            PrefToggleRow {
-                width: parent.width
-                label: qsTr("Show 'Skip' button")
-                checked: root.bridge ? root.bridge.showSkip : true
-                onToggled: (v) => { if (root.bridge) root.bridge.setShowSkip(v) }
-            }
-
-            PrefToggleRow {
-                width: parent.width
-                label: qsTr("Prompt before breaking")
-                checked: root.bridge ? root.bridge.preludeEnabled : true
-                onToggled: (v) => { if (root.bridge) root.bridge.setPreludeEnabled(v) }
-            }
+        PrefGroup {
+            width: parent.width
+            title: qsTr("Exercises")
 
             PrefSpinRow {
                 width: parent.width
-                visible: root.bridge ? root.bridge.preludeEnabled : true
-                label:   qsTr("Max prompts before forcing break")
-                hint:    qsTr("0 means unlimited — Workrave keeps prompting until you comply.")
-                display: root.bridge ? root.bridge.maxPreludes.toString() : "0"
-                narrow:  true
-                onIncrement: { if (root.bridge) root.bridge.incrementMaxPreludes() }
-                onDecrement: { if (root.bridge) root.bridge.decrementMaxPreludes() }
+                label: qsTr("Number of exercises per break")
+                hint:  qsTr("Workrave picks this many at random from its library each rest break.")
+                display: root.bridge ? root.bridge.exercises.toString() : "4"
+                narrow: true
+                onIncrement: { if (root.bridge) root.bridge.incrementExercises() }
+                onDecrement: { if (root.bridge) root.bridge.decrementExercises() }
             }
         }
     }

@@ -56,6 +56,7 @@ class MicrobreakPrefBridge : public QObject
   Q_PROPERTY(bool showPostpone  READ showPostpone  WRITE setShowPostpone  NOTIFY optionsChanged)
   Q_PROPERTY(bool showSkip      READ showSkip      WRITE setShowSkip      NOTIFY optionsChanged)
   Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
+  Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
 
 public:
@@ -77,6 +78,8 @@ public:
   Q_INVOKABLE void setShowSkip(bool v);
   bool preludeEnabled() const;
   Q_INVOKABLE void setPreludeEnabled(bool v);
+  bool hasMaxPreludes() const;
+  Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
 
   Q_INVOKABLE void incrementLimit();
@@ -136,6 +139,7 @@ class RestBreakPrefBridge : public QObject
   Q_PROPERTY(bool showPostpone  READ showPostpone  WRITE setShowPostpone  NOTIFY optionsChanged)
   Q_PROPERTY(bool showSkip      READ showSkip      WRITE setShowSkip      NOTIFY optionsChanged)
   Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
+  Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
 
 public:
@@ -162,6 +166,8 @@ public:
   Q_INVOKABLE void setShowSkip(bool v);
   bool preludeEnabled() const;
   Q_INVOKABLE void setPreludeEnabled(bool v);
+  bool hasMaxPreludes() const;
+  Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
 
   Q_INVOKABLE void incrementLimit();
@@ -220,6 +226,7 @@ class DailyLimitPrefBridge : public QObject
   Q_PROPERTY(bool showPostpone   READ showPostpone   WRITE setShowPostpone   NOTIFY optionsChanged)
   Q_PROPERTY(bool showSkip       READ showSkip       WRITE setShowSkip       NOTIFY optionsChanged)
   Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
+  Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes    READ maxPreludes    NOTIFY optionsChanged)
 
 public:
@@ -241,6 +248,8 @@ public:
   Q_INVOKABLE void setShowSkip(bool v);
   bool preludeEnabled() const;
   Q_INVOKABLE void setPreludeEnabled(bool v);
+  bool hasMaxPreludes() const;
+  Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
 
   Q_INVOKABLE void incrementLimit();
