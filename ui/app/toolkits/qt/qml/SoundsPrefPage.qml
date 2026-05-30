@@ -100,54 +100,12 @@ Item {
                 }
             }
 
-            // Mute row — only shown when the audio backend supports it
-            Item {
-                visible: root.bridge ? root.bridge.hasMute : false
+            PrefToggleRow {
                 width: parent.width
-                height: visible ? muteContent.implicitHeight + 28 : 0
-                clip: true
-
-                Rectangle {
-                    anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-                    height: 1; color: tok.edge2
-                }
-
-                Item {
-                    id: muteContent
-                    anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
-                    implicitHeight: muteLabel.implicitHeight
-
-                    Text {
-                        id: muteLabel
-                        anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                        text: qsTr("Mute")
-                        font.pixelSize: 14; font.weight: Font.Medium
-                        color: root.bridge && root.bridge.enabled ? tok.ink : tok.mute
-                    }
-
-                    Item {
-                        anchors { right: parent.right; verticalCenter: parent.verticalCenter }
-                        width: 36; height: 21
-
-                        Rectangle {
-                            anchors.fill: parent; radius: 999
-                            color: (root.bridge && root.bridge.mute) ? tok.sage : tok.track
-                            Behavior on color { ColorAnimation { duration: 150 } }
-                        }
-                        Rectangle {
-                            width: 17; height: 17; radius: 999; color: "#FFFFFF"
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: (root.bridge && root.bridge.mute) ? 17 : 2
-                            Behavior on x { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            enabled: root.bridge ? root.bridge.enabled : false
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: { if (root.bridge) root.bridge.setMute(!root.bridge.mute) }
-                        }
-                    }
-                }
+                label:   qsTr("Mute sounds during rest break and daily limit")
+                hint:    qsTr("Silences system audio when a rest break or daily limit begins.")
+                checked: root.bridge ? root.bridge.mute : false
+                onToggled: (v) => { if (root.bridge) root.bridge.setMute(v) }
             }
 
             // Theme row
