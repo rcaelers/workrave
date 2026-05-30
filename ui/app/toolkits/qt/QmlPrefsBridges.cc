@@ -25,6 +25,7 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QLocale>
 
 #include "core/CoreConfig.hh"
 #include "core/CoreTypes.hh"
@@ -1212,6 +1213,35 @@ GeneralPrefBridge::GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, Q
         {
         }
     }
+
+  // Build language list from ALL_LINGUAS + English
+  {
+    QVariantMap sys;
+    sys["id"]            = QString{};
+    sys["localizedName"] = tr("System default");
+    sys["nativeName"]    = QString{};
+    languages_.append(sys);
+
+    QString linguas = QString::fromLatin1(ALL_LINGUAS);
+    QStringList codes = linguas.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    codes.prepend(QStringLiteral("en"));
+
+    std::sort(codes.begin(), codes.end(), [](const QString &a, const QString &b) {
+      return QLocale(a).nativeLanguageName().compare(QLocale(b).nativeLanguageName(), Qt::CaseInsensitive) < 0;
+    });
+
+    for (const QString &code : std::as_const(codes))
+      {
+        // QLocale doesn't understand the @variant suffix used in gettext locale codes
+        QString qtCode = code.section(QLatin1Char('@'), 0, 0);
+        QLocale loc(qtCode);
+        QVariantMap m;
+        m["id"]            = code;
+        m["localizedName"] = QLocale::languageToString(loc.language());
+        m["nativeName"]    = loc.nativeLanguageName();
+        languages_.append(m);
+      }
+  }
 }
 
 int
@@ -1363,6 +1393,25 @@ void
 GeneralPrefBridge::setIconTheme(const QString &id)
 {
   GUIConfig::icon_theme().set(id.toStdString());
+  Q_EMIT systemChanged();
+}
+
+QVariantList
+GeneralPrefBridge::languages() const
+{
+  return languages_;
+}
+
+QString
+GeneralPrefBridge::currentLanguage() const
+{
+  return QString::fromStdString(GUIConfig::locale()());
+}
+
+void
+GeneralPrefBridge::setLanguage(const QString &locale)
+{
+  GUIConfig::locale().set(locale.toStdString());
   Q_EMIT systemChanged();
 }
 

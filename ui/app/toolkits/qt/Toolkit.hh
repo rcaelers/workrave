@@ -24,6 +24,7 @@
 
 #include <QApplication>
 #include <QTimer>
+#include <QTranslator>
 
 #include "AboutDialog.hh"
 #include "DebugDialog.hh"
@@ -90,6 +91,7 @@ protected:
   void notify_add_confirm_function(const std::string &id, std::function<void()> func);
   void notify_confirm(const std::string &id);
   virtual void apply_light_dark_mode(LightDarkTheme mode);
+  void apply_qt_locale(const std::string &locale_code);
 
 private:
   void show_about();
@@ -130,6 +132,7 @@ private:
   std::map<std::string, std::function<void()>> notifiers;
 
   workrave::utils::Trackable tracker;
+  QTranslator *current_translator{nullptr};
 
   boost::signals2::signal<void()> timer_signal;
   boost::signals2::signal<void()> main_window_closed_signal;

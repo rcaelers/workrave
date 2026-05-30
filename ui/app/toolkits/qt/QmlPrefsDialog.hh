@@ -48,6 +48,7 @@ public:
 
   void show();
   void hide();
+  void retranslate();
 
 private Q_SLOTS:
   void onNavigateTo(const QString &section, const QString &page);

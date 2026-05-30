@@ -22,9 +22,12 @@
 #include "Toolkit.hh"
 
 #include <QApplication>
+#include <QDir>
+#include <QFile>
 #include <QGuiApplication>
 #include <QStyleHints>
 #include <QTimer>
+#include <QTranslator>
 
 #include "QmlMicroBreakWindow.hh"
 #include "QmlPreludeWindow.hh"
@@ -75,6 +78,8 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   });
 
   GUIConfig::light_dark_mode().attach(tracker, [this](auto mode) { apply_light_dark_mode(mode); });
+  GUIConfig::locale().attach(tracker, [this](const std::string &locale) { apply_qt_locale(locale); });
+  apply_qt_locale(GUIConfig::locale()());
 
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
@@ -370,6 +375,61 @@ Toolkit::notify_confirm(const std::string &id)
 }
 
 void
+Toolkit::apply_qt_locale(const std::string &locale_code)
+{
+  if (current_translator != nullptr)
+    {
+      removeTranslator(current_translator);
+      delete current_translator;
+      current_translator = nullptr;
+    }
+
+  if (locale_code.empty())
+    {
+      return;
+    }
+
+  QString filename = "workrave_" + QString::fromStdString(locale_code) + ".qm";
+
+  // Find the .qm file: check installed bundle location, then walk up from
+  // the executable for dev-build layouts (po/ sibling of the build tree).
+  auto appDir = QCoreApplication::applicationDirPath();
+  QStringList candidates{
+    appDir + "/../Resources/share/translations/" + filename, // macOS bundle
+    appDir + "/../share/translations/" + filename,           // Linux/Windows installed
+  };
+  // Walk up from executable looking for a po/ directory (dev build)
+  {
+    QDir d(appDir);
+    for (int i = 0; i < 10; ++i)
+      {
+        candidates << d.filePath("po/" + filename);
+        if (!d.cdUp())
+          {
+            break;
+          }
+      }
+  }
+
+  for (const QString &candidate : std::as_const(candidates))
+    {
+      if (QFile::exists(candidate))
+        {
+          auto *translator = new QTranslator(this);
+          if (translator->load(candidate))
+            {
+              current_translator = translator;
+              installTranslator(current_translator);
+              spdlog::info("Qt translation loaded: {}", candidate.toStdString());
+              return;
+            }
+          delete translator;
+        }
+    }
+  spdlog::warn("Qt translation not found for locale: {}", locale_code);
+}
+
+void
 Toolkit::apply_light_dark_mode(LightDarkTheme mode)
 {
   Qt::ColorScheme scheme = Qt::ColorScheme::Unknown;
@@ -395,6 +455,10 @@ Toolkit::eventFilter(QObject *obj, QEvent *event)
     {
       spdlog::info("Theme changed to {}",
                    (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Light) ? "Light" : "Dark");
+    }
+  if (event->type() == QEvent::LanguageChange && preferences_dialog)
+    {
+      preferences_dialog->retranslate();
     }
   return false;
 }

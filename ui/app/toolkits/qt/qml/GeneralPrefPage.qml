@@ -128,6 +128,15 @@ Item {
                 onToggled: (v) => { if (root.bridge) root.bridge.setAutostartEnabled(v) }
             }
 
+            PrefLanguageRow {
+                width: parent.width
+                label:     qsTr("Language")
+                hint:      qsTr("Language used for Workrave's interface.")
+                languages: root.bridge ? root.bridge.languages : []
+                currentId: root.bridge ? root.bridge.currentLanguage : ""
+                onSelected: (id) => { if (root.bridge) root.bridge.setLanguage(id) }
+            }
+
             PrefChoiceRow {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasDarkMode : false

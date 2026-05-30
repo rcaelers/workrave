@@ -146,6 +146,15 @@ QmlPrefsDialog::hide()
 }
 
 void
+QmlPrefsDialog::retranslate()
+{
+  if (view != nullptr)
+    {
+      view->engine()->retranslate();
+    }
+}
+
+void
 QmlPrefsDialog::create_plugin_bridges()
 {
   auto registry = app->get_internal_preferences_registry();

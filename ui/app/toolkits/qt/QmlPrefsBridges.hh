@@ -433,8 +433,12 @@ class GeneralPrefBridge : public QObject
   Q_PROPERTY(bool gnomeShellPreludes    READ gnomeShellPreludes    NOTIFY systemChanged)
 
   // Linux icon-theme picker (empty list ⇒ row hidden)
-  Q_PROPERTY(QVariantList iconThemes      READ iconThemes      CONSTANT)
+  Q_PROPERTY(QVariantList iconThemes       READ iconThemes       CONSTANT)
   Q_PROPERTY(QString      currentIconTheme READ currentIconTheme NOTIFY systemChanged)
+
+  // Language picker — each entry: {id, localizedName, nativeName}
+  Q_PROPERTY(QVariantList languages       READ languages       CONSTANT)
+  Q_PROPERTY(QString      currentLanguage READ currentLanguage NOTIFY systemChanged)
 
 public:
   explicit GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
@@ -463,10 +467,14 @@ public:
   QVariantList iconThemes() const;
   QString      currentIconTheme() const;
 
+  QVariantList languages() const;
+  QString      currentLanguage() const;
+
   Q_INVOKABLE void setDarkMode(int v);
   Q_INVOKABLE void setForceX11(bool v);
   Q_INVOKABLE void setGnomeShellPreludes(bool v);
   Q_INVOKABLE void setIconTheme(const QString &id);
+  Q_INVOKABLE void setLanguage(const QString &locale);
 
 Q_SIGNALS:
   void blockModeChanged();
@@ -474,6 +482,7 @@ Q_SIGNALS:
 
 private:
   QVariantList iconThemes_;   // computed once in constructor
+  QVariantList languages_;    // computed once in constructor
 
   std::shared_ptr<IApplicationContext> app;
 };
