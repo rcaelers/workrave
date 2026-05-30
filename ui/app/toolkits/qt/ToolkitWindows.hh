@@ -57,7 +57,7 @@ public:
 private:
   void init_filter();
   void init_gui();
-  void apply_light_dark_mode(LightDarkTheme mode);
+  void apply_light_dark_mode(LightDarkTheme mode) override;
   void request_graceful_shutdown(const char *reason);
 
   bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;

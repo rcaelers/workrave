@@ -23,6 +23,7 @@
 
 #include <QApplication>
 #include <QGuiApplication>
+#include <QStyleHints>
 #include <QTimer>
 
 #include "QmlMicroBreakWindow.hh"
@@ -72,6 +73,8 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   workrave::utils::connect(status_icon->signal_balloon_activate(), tracker, [this](auto id) {
     on_status_icon_balloon_activated(id);
   });
+
+  GUIConfig::light_dark_mode().attach(tracker, [this](auto mode) { apply_light_dark_mode(mode); });
 
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
@@ -364,6 +367,25 @@ Toolkit::notify_confirm(const std::string &id)
     {
       notifiers[id]();
     }
+}
+
+void
+Toolkit::apply_light_dark_mode(LightDarkTheme mode)
+{
+  Qt::ColorScheme scheme = Qt::ColorScheme::Unknown;
+  switch (mode)
+    {
+    case LightDarkTheme::Light:
+      scheme = Qt::ColorScheme::Light;
+      break;
+    case LightDarkTheme::Dark:
+      scheme = Qt::ColorScheme::Dark;
+      break;
+    case LightDarkTheme::Auto:
+      scheme = Qt::ColorScheme::Unknown;
+      break;
+    }
+  QGuiApplication::styleHints()->setColorScheme(scheme);
 }
 
 bool

@@ -1269,32 +1269,20 @@ GeneralPrefBridge::setAutostartEnabled(bool v)
 bool
 GeneralPrefBridge::hasDarkMode() const
 {
-#if defined(PLATFORM_OS_WINDOWS)
   return true;
-#else
-  return false;
-#endif
 }
 
 int
 GeneralPrefBridge::darkMode() const
 {
-#if defined(PLATFORM_OS_WINDOWS)
   return static_cast<int>(GUIConfig::light_dark_mode()());
-#else
-  return 0;
-#endif
 }
 
 void
 GeneralPrefBridge::setDarkMode(int v)
 {
-#if defined(PLATFORM_OS_WINDOWS)
   GUIConfig::light_dark_mode().set(static_cast<LightDarkTheme>(v));
   Q_EMIT systemChanged();
-#else
-  (void)v;
-#endif
 }
 
 bool

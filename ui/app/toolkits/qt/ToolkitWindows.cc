@@ -94,7 +94,6 @@ ToolkitWindows::hook_event()
 void
 ToolkitWindows::init_gui()
 {
-  GUIConfig::light_dark_mode().attach(config_tracker, [this](auto mode) { apply_light_dark_mode(mode); });
 }
 
 void

@@ -1,13 +1,13 @@
 import QtQuick
 
 QtObject {
-    property int  blockMode:        1
-    property bool trayIconEnabled:  true
-    property bool autostartEnabled: false
+    property int  blockMode:          1
+    property bool sanctuaryEnabled:   true
+    property bool trayIconEnabled:    true
+    property bool autostartEnabled:   false
 
-    // Windows — set hasDarkMode: true to preview that row
-    property bool hasDarkMode: false
-    property int  darkMode:    0        // 0=Light, 1=Dark, 2=Auto
+    property bool hasDarkMode: true
+    property int  darkMode:    2        // 0=Light, 1=Dark, 2=Auto
 
     // Unix — set hasForceX11/hasGnomeShellPreludes: true to preview those rows
     property bool hasForceX11:           false
@@ -20,6 +20,7 @@ QtObject {
     property string currentIconTheme: ""
 
     function setBlockMode(v)          { console.log("setBlockMode", v) }
+    function setSanctuaryEnabled(v)   { console.log("setSanctuaryEnabled", v) }
     function setTrayIconEnabled(v)    { console.log("setTrayIconEnabled", v) }
     function setAutostartEnabled(v)   { console.log("setAutostartEnabled", v) }
     function setDarkMode(v)           { console.log("setDarkMode", v) }

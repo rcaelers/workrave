@@ -39,10 +39,10 @@ const std::string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 const std::string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED = "gui/closewarn_enabled";
 const std::string GUIConfig::CFG_KEY_AUTOSTART = "gui/autostart";
 const std::string GUIConfig::CFG_KEY_ICONTHEME = "gui/icontheme";
+const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
 #if defined(PLATFORM_OS_WINDOWS)
 const std::string GUIConfig::CFG_KEY_THEME_NAME = "gui/theme_name";
 const std::string GUIConfig::CFG_KEY_THEME_DARK = "gui/theme_dark";
-const std::string GUIConfig::CFG_KEY_LIGHT_DARK_MODE = "gui/light_dark_mode";
 #endif
 #if defined(PLATFORM_OS_UNIX)
 const std::string GUIConfig::CFG_KEY_FORCE_X11 = "gui/force_x11";
@@ -209,17 +209,17 @@ GUIConfig::icon_theme() -> Setting<std::string> &
   return SettingCache::get<std::string>(config, CFG_KEY_ICONTHEME, std::string());
 }
 
+auto
+GUIConfig::light_dark_mode() -> workrave::config::Setting<int, LightDarkTheme> &
+{
+  return SettingCache::get<int, LightDarkTheme>(config, CFG_KEY_LIGHT_DARK_MODE, LightDarkTheme::Auto);
+}
+
 #if defined(PLATFORM_OS_WINDOWS)
 auto
 GUIConfig::theme_name() -> workrave::config::Setting<std::string> &
 {
   return SettingCache::get<std::string>(config, CFG_KEY_THEME_NAME, std::string());
-}
-
-auto
-GUIConfig::light_dark_mode() -> workrave::config::Setting<int, LightDarkTheme> &
-{
-  return SettingCache::get<int, LightDarkTheme>(config, CFG_KEY_LIGHT_DARK_MODE, LightDarkTheme::Auto);
 }
 #endif
 

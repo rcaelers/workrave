@@ -35,9 +35,11 @@
 #include "StatusIcon.hh"
 
 #include "core/CoreTypes.hh"
+#include "ui/GUIConfig.hh"
 #include "ui/IApplicationContext.hh"
 #include "ui/IToolkit.hh"
 #include "utils/Logging.hh"
+#include "utils/Signals.hh"
 
 class Toolkit
   : public QApplication
@@ -87,6 +89,7 @@ public Q_SLOTS:
 protected:
   void notify_add_confirm_function(const std::string &id, std::function<void()> func);
   void notify_confirm(const std::string &id);
+  virtual void apply_light_dark_mode(LightDarkTheme mode);
 
 private:
   void show_about();

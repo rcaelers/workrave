@@ -128,7 +128,6 @@ Item {
                 onToggled: (v) => { if (root.bridge) root.bridge.setAutostartEnabled(v) }
             }
 
-            // Dark mode — Windows only
             PrefChoiceRow {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasDarkMode : false
