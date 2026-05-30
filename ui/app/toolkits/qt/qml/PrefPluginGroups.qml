@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Basic
 
 // PrefPluginGroups — renders groups from a plugin bridge into an existing pref page.
-// Set bridge to a PluginPageBridge/ActivePluginPageBridge exposing .groups.
+// Set bridge to an ActivePluginPageBridge/PluginPageBridge exposing .groups.
 Item {
     id: root
 
@@ -67,92 +67,85 @@ Item {
                                     required property int index
 
                                     width: rowsCol.width
-                                    implicitHeight: rowContent.implicitHeight
 
-                                    Rectangle {
-                                        visible: index > 0
-                                        anchors { left: parent.left; right: parent.right; top: parent.top; leftMargin: 16 }
-                                        height: 1
-                                        color: tok.edge2
+                                    // Hide (collapse) rows that are disabled — matches native pref page behaviour.
+                                    // Each row widget manages its own bottom divider.
+                                    visible: rowItem.modelData.enabled
+
+                                    // Use the height of whichever row type is active; Math.max across all
+                                    // types would include PrefTimeControl's slider height and create
+                                    // huge empty space in toggle/choice rows.
+                                    implicitHeight: {
+                                        var k = rowItem.modelData.kind
+                                        if (k === 1) return toggleRow.implicitHeight
+                                        if (k === 2) return timeRow.implicitHeight
+                                        if (k === 3) return spinRow.implicitHeight
+                                        if (k === 4) return choiceRow.implicitHeight
+                                        if (k === 5) return entryRow.implicitHeight
+                                        return 48
+                                    }
+
+                                    PrefToggleRow {
+                                        id: toggleRow
+                                        anchors { left: parent.left; right: parent.right }
+                                        visible: rowItem.modelData.kind === 1
+                                        label:   rowItem.modelData.label
+                                        checked: rowItem.modelData.checked
+                                        onToggled: rowItem.modelData.setChecked(!rowItem.modelData.checked)
+                                    }
+
+                                    PrefTimeControl {
+                                        id: timeRow
+                                        anchors { left: parent.left; right: parent.right }
+                                        visible:      rowItem.modelData.kind === 2
+                                        label:        rowItem.modelData.label
+                                        hint:         rowItem.modelData.timeDisplay
+                                        sliderValue:  rowItem.modelData.timeNorm
+                                        sliderVisible: true
+                                        onIncrement:  rowItem.modelData.increment()
+                                        onDecrement:  rowItem.modelData.decrement()
+                                        onSliderMoved: function(v) { rowItem.modelData.setTimeNorm(v) }
+                                    }
+
+                                    PrefSpinRow {
+                                        id: spinRow
+                                        anchors { left: parent.left; right: parent.right }
+                                        visible: rowItem.modelData.kind === 3
+                                        label:   rowItem.modelData.label
+                                        display: rowItem.modelData.spinDisplay
+                                        onIncrement: rowItem.modelData.increment()
+                                        onDecrement: rowItem.modelData.decrement()
+                                    }
+
+                                    PrefChoiceRow {
+                                        id: choiceRow
+                                        anchors { left: parent.left; right: parent.right }
+                                        visible:      rowItem.modelData.kind === 4
+                                        label:        rowItem.modelData.label
+                                        options:      rowItem.modelData.options
+                                        currentIndex: rowItem.modelData.currentIndex
+                                        onSelected: function(idx) { rowItem.modelData.setCurrentIndex(idx) }
                                     }
 
                                     Item {
-                                        id: rowContent
-                                        width: parent.width
-                                        implicitHeight: Math.max(toggleRow.implicitHeight,
-                                                                 timeRow.implicitHeight,
-                                                                 spinRow.implicitHeight,
-                                                                 choiceRow.implicitHeight,
-                                                                 entryRow.implicitHeight)
+                                        id: entryRow
+                                        anchors { left: parent.left; right: parent.right }
+                                        visible:        rowItem.modelData.kind === 5
+                                        implicitHeight: visible ? 48 : 0
 
-                                        PrefToggleRow {
-                                            id: toggleRow
-                                            anchors { left: parent.left; right: parent.right }
-                                            visible: rowItem.modelData.kind === 1
-                                            enabled: rowItem.modelData.enabled
-                                            label:   rowItem.modelData.label
-                                            checked: rowItem.modelData.checked
-                                            onToggled: rowItem.modelData.setChecked(!rowItem.modelData.checked)
+                                        Text {
+                                            anchors { left: parent.left; leftMargin: 16; verticalCenter: parent.verticalCenter }
+                                            text: rowItem.modelData.label
+                                            font.pixelSize: 13
+                                            color: tok.ink
                                         }
 
-                                        PrefTimeControl {
-                                            id: timeRow
-                                            anchors { left: parent.left; right: parent.right }
-                                            visible:      rowItem.modelData.kind === 2
-                                            enabled:      rowItem.modelData.enabled
-                                            label:        rowItem.modelData.label
-                                            hint:         rowItem.modelData.timeDisplay
-                                            sliderValue:  rowItem.modelData.timeNorm
-                                            sliderVisible: true
-                                            onIncrement:  rowItem.modelData.increment()
-                                            onDecrement:  rowItem.modelData.decrement()
-                                            onSliderMoved: function(v) { rowItem.modelData.setTimeNorm(v) }
-                                        }
-
-                                        PrefSpinRow {
-                                            id: spinRow
-                                            anchors { left: parent.left; right: parent.right }
-                                            visible: rowItem.modelData.kind === 3
-                                            enabled: rowItem.modelData.enabled
-                                            label:   rowItem.modelData.label
-                                            display: rowItem.modelData.spinDisplay
-                                            onIncrement: rowItem.modelData.increment()
-                                            onDecrement: rowItem.modelData.decrement()
-                                        }
-
-                                        PrefChoiceRow {
-                                            id: choiceRow
-                                            anchors { left: parent.left; right: parent.right }
-                                            visible:      rowItem.modelData.kind === 4
-                                            enabled:      rowItem.modelData.enabled
-                                            label:        rowItem.modelData.label
-                                            options:      rowItem.modelData.options
-                                            currentIndex: rowItem.modelData.currentIndex
-                                            onSelected: function(idx) { rowItem.modelData.setCurrentIndex(idx) }
-                                        }
-
-                                        Item {
-                                            id: entryRow
-                                            anchors { left: parent.left; right: parent.right }
-                                            visible:        rowItem.modelData.kind === 5
-                                            implicitHeight: visible ? 48 : 0
-                                            opacity:        rowItem.modelData.enabled ? 1.0 : 0.45
-
-                                            Text {
-                                                anchors { left: parent.left; leftMargin: 16; verticalCenter: parent.verticalCenter }
-                                                text: rowItem.modelData.label
-                                                font.pixelSize: 13
-                                                color: tok.ink
-                                            }
-
-                                            TextField {
-                                                anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
-                                                width: 200
-                                                text: rowItem.modelData.entryText
-                                                font.pixelSize: 13
-                                                enabled: rowItem.modelData.enabled
-                                                onEditingFinished: rowItem.modelData.setEntryText(text)
-                                            }
+                                        TextField {
+                                            anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
+                                            width: 200
+                                            text: rowItem.modelData.entryText
+                                            font.pixelSize: 13
+                                            onEditingFinished: rowItem.modelData.setEntryText(text)
                                         }
                                     }
                                 }
