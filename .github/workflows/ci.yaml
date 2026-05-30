@@ -203,19 +203,22 @@ jobs:
       - name: install Inno Setup 7 beta
         shell: powershell
         run: |
-          $downloadPage = Invoke-WebRequest -Uri 'https://jrsoftware.org/isdl.php'
-          $downloadLink = $downloadPage.Links |
-            Where-Object { $_.href -match 'innosetup-7\.[^/]*-beta-x64\.exe$' } |
-            Select-Object -First 1 -ExpandProperty href
-
-          if (-not $downloadLink) {
-            throw 'Unable to find the Inno Setup 7 beta x64 download link.'
+          $releases = Invoke-RestMethod -Uri 'https://api.github.com/repos/jrsoftware/issrc/releases' `
+            -Headers @{ 'User-Agent' = 'workrave-ci' }
+          $release = $releases |
+            Where-Object { $_.tag_name -match '^is-7_' -and -not $_.prerelease } |
+            Select-Object -First 1
+          if (-not $release) {
+            throw 'Unable to find an Inno Setup 7 release on GitHub.'
           }
-
-          $downloadUri = [System.Uri]::new([System.Uri]'https://jrsoftware.org/isdl.php', $downloadLink)
+          $asset = $release.assets |
+            Where-Object { $_.name -match 'innosetup-7.*-x64\.exe$' -and $_.name -notmatch '\.issig$' } |
+            Select-Object -First 1
+          if (-not $asset) {
+            throw "Unable to find x64 installer asset in release $($release.tag_name)."
+          }
           $installerPath = Join-Path $env:RUNNER_TEMP 'innosetup-7-beta-x64.exe'
-
-          Invoke-WebRequest -Uri $downloadUri.AbsoluteUri -OutFile $installerPath
+          Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $installerPath
           Start-Process -FilePath $installerPath -ArgumentList '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/SP-' -Wait
 
       - name: Build 64 bit
