@@ -1,10 +1,6 @@
 // RestBreakClassic.qml — GTK-faithful classic rest-break window.
 // Loaded by RestBreakShell.qml when bridge.classic is true.
 // All data comes from the C++ "bridge" context property (RestBreakBridge).
-//
-// Two body modes (driven by bridge.hasExercises / bridge.exercisesDone):
-//   Exercise panel — image, title, description, timer, navigation
-//   Info panel     — rest-break.png + instructional text
 
 import QtQuick
 
@@ -12,14 +8,15 @@ Item {
     id: root
 
     // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colBg:     "#E8E8E8"
-    readonly property color colBar:    "#4A90D9"
-    readonly property color colBorder: "#AAAAAA"
-    readonly property color colWarn:   "#F08700"
-    readonly property color colInk:    "#1A1A1A"
-    readonly property color colInk2:   "#444444"
-    readonly property color colBtn:    "#D4D0C8"
-    readonly property color colBtnTxt: "#1A1A1A"
+    readonly property color colBg:      "#E8E8E8"
+    readonly property color colBar:     "#4A90D9"
+    readonly property color colTimeBar: "#6ABF69"   // green, matches GTK Adwaita
+    readonly property color colBorder:  "#AAAAAA"
+    readonly property color colWarn:    "#F08700"
+    readonly property color colInk:     "#1A1A1A"
+    readonly property color colInk2:    "#444444"
+    readonly property color colBtn:     "#D4D0C8"
+    readonly property color colBtnTxt:  "#1A1A1A"
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
     readonly property int    blockMode:    bridge != null ? bridge.blockMode        : 1
@@ -32,9 +29,11 @@ Item {
     readonly property bool   canSkip:      bridge != null ? bridge.canSkip          : true
     readonly property bool   isLocked:     bridge != null ? bridge.isLocked         : false
     readonly property double lockProg:     bridge != null ? bridge.lockProgress     : 0.0
-    // breakProgress = elapsed fraction (0→1); timebar fills left-to-right with elapsed time
+    // barProgress = elapsed fraction (0→1); timebar fills left-to-right
     readonly property double barProgress:  bridge != null ? bridge.breakProgress    : 0.0
     readonly property string timeLeft:     bridge != null ? bridge.breakTimeShort   : "5:00"
+    // exProgress = remaining fraction (1.0=start → 0.0=end)
+    readonly property double exProgress:   bridge != null ? bridge.exerciseProgress : 1.0
 
     // ── Flashing border ──────────────────────────────────────────────────────
     property bool flashState: false
@@ -81,98 +80,108 @@ Item {
             // ── Body: exercise panel OR info panel ───────────────────────────
             Item {
                 width: parent.width - 24
-                height: root.showEx ? exercisePanel.implicitHeight : infoPanel.implicitHeight
+                height: root.showEx ? exercisePanel.height : infoPanel.height
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 // ── Exercise panel ───────────────────────────────────────────
-                Column {
+                // Layout: [image 200×200][vert-bar 8×200][title+desc+controls]
+                Row {
                     id: exercisePanel
                     visible: root.showEx
                     width: parent.width
-                    spacing: 10
+                    spacing: 0
 
-                    // Progress dots
-                    Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 6
-                        Repeater {
-                            model: bridge != null ? bridge.exerciseCount : 0
-                            Rectangle {
-                                width: 8; height: 8; radius: 999
-                                color: index <= (bridge != null ? bridge.exerciseIndex : 0)
-                                       ? colBar : "#BBBBBB"
-                            }
+                    // Exercise image
+                    Rectangle {
+                        width: 200; height: 200
+                        color: "#D0D0D0"
+
+                        Image {
+                            id: exImg
+                            anchors.fill: parent
+                            source: bridge != null ? bridge.exerciseImage : ""
+                            mirror: bridge != null ? bridge.exerciseImageMirror : false
+                            fillMode: Image.PreserveAspectFit
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "#D0D0D0"
+                            visible: exImg.status !== Image.Ready
+                                     || (bridge != null && bridge.exerciseImage === "")
                         }
                     }
 
-                    // Image + title/description
-                    Row {
-                        width: parent.width
-                        spacing: 16
+                    // Vertical countdown bar — remaining fraction fills from top, shrinks downward
+                    Rectangle {
+                        width: 8; height: 200
+                        color: "#C0C0C0"
 
                         Rectangle {
-                            width: 200; height: 200
-                            color: "#D0D0D0"
-                            anchors.verticalCenter: parent.verticalCenter
-
-                            Image {
-                                id: exImg
-                                anchors.fill: parent
-                                source: bridge != null ? bridge.exerciseImage : ""
-                                mirror: bridge != null ? bridge.exerciseImageMirror : false
-                                fillMode: Image.PreserveAspectFit
-                            }
-                            Rectangle {
-                                anchors.fill: parent; color: "#D0D0D0"
-                                visible: exImg.status !== Image.Ready || (bridge != null && bridge.exerciseImage === "")
-                            }
+                            width: parent.width
+                            height: parent.height * root.exProgress
+                            anchors.top: parent.top
+                            color: colBar
+                            Behavior on height { NumberAnimation { duration: 500 } }
                         }
+                    }
+
+                    // Title, description, and exercise player controls
+                    Item {
+                        id: textCol
+                        width: parent.width - 208
+                        // Grow tall enough for text + controls; never less than the image height
+                        height: Math.max(textBlock.implicitHeight + 8 + exControls.height + 8, 200)
 
                         Column {
-                            width: parent.width - 216
-                            anchors.verticalCenter: parent.verticalCenter
-                            spacing: 8
+                            id: textBlock
+                            anchors { top: parent.top; left: parent.left; right: parent.right }
+                            topPadding: 4; leftPadding: 8; rightPadding: 8
+                            spacing: 6
 
                             Text {
-                                width: parent.width
+                                width: parent.width - 16
                                 text: bridge != null ? bridge.exerciseName : ""
                                 font.pixelSize: 15; font.bold: true
                                 color: colInk; wrapMode: Text.Wrap
                             }
 
                             Text {
-                                width: parent.width
+                                width: parent.width - 16
                                 text: bridge != null ? bridge.exerciseDescription : ""
                                 font.pixelSize: 12; color: colInk2
-                                wrapMode: Text.WordWrap; lineHeight: 1.5
+                                wrapMode: Text.WordWrap; lineHeight: 1.4
                             }
                         }
-                    }
 
-                    // Navigation row: ◄  timer  ►  [Pause]
-                    Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 16
+                        // "Exercises player: |◄ ‖ ►| ×" — anchored to bottom-left
+                        Row {
+                            id: exControls
+                            anchors { bottom: parent.bottom; left: parent.left
+                                      leftMargin: 8; bottomMargin: 4 }
+                            spacing: 3
 
-                        ClassicButton {
-                            label: "◄"
-                            onClicked: { if (bridge != null) bridge.prevExercise() }
-                        }
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: qsTr("Exercises player:")
+                                font.pixelSize: 11; color: colInk2
+                            }
 
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: bridge != null ? bridge.exerciseTimeStr : "0:45"
-                            font.pixelSize: 22; font.bold: true; color: colInk
-                        }
-
-                        ClassicButton {
-                            label: "►"
-                            onClicked: { if (bridge != null) bridge.nextExercise() }
-                        }
-
-                        ClassicButton {
-                            label: (bridge != null && bridge.isPaused) ? qsTr("Resume") : qsTr("Pause")
-                            onClicked: { if (bridge != null) bridge.togglePause() }
+                            SmallButton {
+                                label: "|◄"
+                                onClicked: { if (bridge != null) bridge.prevExercise() }
+                            }
+                            SmallButton {
+                                label: (bridge != null && bridge.isPaused) ? "▶" : "‖"
+                                onClicked: { if (bridge != null) bridge.togglePause() }
+                            }
+                            SmallButton {
+                                label: "►|"
+                                onClicked: { if (bridge != null) bridge.nextExercise() }
+                            }
+                            SmallButton {
+                                label: "×"
+                                onClicked: { if (bridge != null) bridge.endExercises() }
+                            }
                         }
                     }
                 }
@@ -196,7 +205,6 @@ Item {
                         spacing: 4
                         width: parent.width - 76
 
-                        // Bold title — matches GTK <span weight="bold" size="larger">
                         Text {
                             width: parent.width
                             text: root.isNatural ? qsTr("Natural rest break") : qsTr("Rest break")
@@ -217,7 +225,7 @@ Item {
 
             Item { width: 1; height: 8 }
 
-            // ── TimeBar ──────────────────────────────────────────────────────
+            // ── TimeBar (green) ──────────────────────────────────────────────
             Rectangle {
                 width: parent.width - 24
                 height: 22
@@ -228,7 +236,7 @@ Item {
                 Rectangle {
                     width: Math.max(0, parent.width * root.barProgress)
                     height: parent.height
-                    color: colBar
+                    color: colTimeBar
                     Behavior on width { NumberAnimation { duration: 500 } }
                 }
 
@@ -241,7 +249,7 @@ Item {
                 }
             }
 
-            // ── Lock progress bar (bare bar, no label — matches GTK) ─────────
+            // ── Lock progress bar (bare bar, no label) ───────────────────────
             Item {
                 width: parent.width - 24
                 height: root.isLocked ? 8 : 0
@@ -289,20 +297,50 @@ Item {
         height: cardContent.implicitHeight
     }
 
-    // ── Inline button component ──────────────────────────────────────────────
+    // ── Small button for exercise player controls ─────────────────────────────
+    component SmallButton: Rectangle {
+        property string label: ""
+        signal clicked()
+        property bool hovered: false
+
+        height: 22
+        width: Math.max(lbl.implicitWidth + 10, 30)
+        radius: 0
+        color: hovered ? "#C0BBAF" : colBtn
+        border.color: "#888888"; border.width: 1
+
+        Text {
+            id: lbl
+            anchors.centerIn: parent
+            text: parent.label
+            font.pixelSize: 11
+            color: colBtnTxt
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onEntered: parent.hovered = true
+            onExited:  parent.hovered = false
+            onClicked: parent.clicked()
+        }
+    }
+
+    // ── Standard button ──────────────────────────────────────────────────────
     component ClassicButton: Rectangle {
         property string label: ""
         signal clicked()
         property bool hovered: false
 
         height: 28
-        width: Math.max(btnText.implicitWidth + 24, 88)
+        width: Math.max(btnLbl.implicitWidth + 24, 88)
         radius: 0
         color: hovered ? "#C0BBAF" : colBtn
         border.color: "#888888"; border.width: 1
 
         Text {
-            id: btnText
+            id: btnLbl
             anchors.centerIn: parent
             text: parent.label
             font.pixelSize: 12

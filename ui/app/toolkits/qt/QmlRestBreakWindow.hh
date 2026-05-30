@@ -164,6 +164,7 @@ public Q_SLOTS:
   void nextExercise();
   void prevExercise();
   void togglePause();
+  void endExercises();
 
 private Q_SLOTS:
   void onExerciseTick();
@@ -224,6 +225,7 @@ private:
 
   QQuickView *view{nullptr};
   RestBreakBridge *bridge{nullptr};
+  std::shared_ptr<bool> alive_{std::make_shared<bool>(true)};
 
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;

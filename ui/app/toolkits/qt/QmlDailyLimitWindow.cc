@@ -171,6 +171,7 @@ QmlDailyLimitWindow::QmlDailyLimitWindow(std::shared_ptr<IApplicationContext> ap
 
 QmlDailyLimitWindow::~QmlDailyLimitWindow()
 {
+  *alive_ = false;
   delete view;
 }
 
@@ -180,7 +181,7 @@ QmlDailyLimitWindow::init()
   TRACE_ENTRY();
 
   bridge = new DailyLimitBridge(app, block_mode, break_flags);
-  bridge->setDismissHandler([this]() { stop(); });
+  bridge->setDismissHandler([this, alive = alive_]() { if (*alive) stop(); });
 
   view = new QQuickView();
   view->setResizeMode(QQuickView::SizeRootObjectToView);

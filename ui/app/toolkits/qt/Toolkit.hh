@@ -27,7 +27,7 @@
 
 #include "AboutDialog.hh"
 #include "DebugDialog.hh"
-#include "ExercisesDialog.hh"
+#include "QmlExercisesDialog.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
 #include "QmlPrefsDialog.hh"
@@ -113,7 +113,7 @@ private:
   QPointer<StatisticsDialog> statistics_dialog;
   std::unique_ptr<QmlPrefsDialog> preferences_dialog;
   QPointer<DebugDialog> debug_dialog;
-  QPointer<ExercisesDialog> exercises_dialog;
+  QPointer<QmlExercisesDialog> exercises_dialog;
   QPointer<AboutDialog> about_dialog;
   std::shared_ptr<StatusIcon> status_icon;
   int hold_count{0};

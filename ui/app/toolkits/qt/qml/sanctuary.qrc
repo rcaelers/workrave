@@ -6,6 +6,7 @@
         <file alias="rest-break.png">../../../../data/images/rest-break.png</file>
         <file alias="daily-limit.png">../../../../data/images/daily-limit.png</file>
         <file alias="timer-rest-break.png">../../../../data/images/timer-rest-break.png</file>
+        <file>ExercisesDialog.qml</file>
         <file>DailyLimitClassic.qml</file>
         <file>DailyLimitOverlay.qml</file>
         <file>DailyLimitShell.qml</file>

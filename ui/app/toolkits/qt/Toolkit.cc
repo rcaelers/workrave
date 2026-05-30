@@ -219,8 +219,7 @@ Toolkit::show_exercises()
 {
   if (exercises_dialog == nullptr)
     {
-      exercises_dialog = new ExercisesDialog(app);
-      exercises_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      exercises_dialog = new QmlExercisesDialog(app);
     }
   exercises_dialog->show();
 }
