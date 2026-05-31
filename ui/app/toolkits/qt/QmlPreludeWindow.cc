@@ -25,6 +25,7 @@
 #include <QTimer>
 
 #include "utils/Platform.hh"
+#include <fmt/format.h>
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
@@ -39,7 +40,7 @@ PreludeBridge::PreludeBridge(BreakId break_id, QObject *parent)
   , break_id(break_id)
   , classic_(!GUIConfig::sanctuary_ui_enabled()())
 {
-  progress_label = tr("Break in");
+  progress_label = tr("Break in {}");
 
   // Live-switch between Sanctuary and Classic designs without restarting.
   GUIConfig::sanctuary_ui_enabled().connect(this, [this](bool enabled) {
@@ -92,7 +93,9 @@ PreludeBridge::timeShort() const
 QString
 PreludeBridge::countdownText() const
 {
-  return progress_label;
+  int remaining = std::max(progress_max - progress_value, 0);
+  auto time_str = UiUtil::time_to_string(static_cast<time_t>(remaining)).toStdString();
+  return QString::fromStdString(fmt::format(fmt::runtime(progress_label.toStdString()), time_str));
 }
 
 void
@@ -133,13 +136,13 @@ PreludeBridge::setProgressText(IApp::PreludeProgressText text)
   switch (text)
     {
     case IApp::PreludeProgressText::BreakIn:
-      progress_label = tr("Break in");
+      progress_label = tr("Break in {}");
       break;
     case IApp::PreludeProgressText::DisappearsIn:
-      progress_label = tr("Disappears in");
+      progress_label = tr("Disappears in {}");
       break;
     case IApp::PreludeProgressText::SilentIn:
-      progress_label = tr("Silent in");
+      progress_label = tr("Silent in {}");
       break;
     }
   Q_EMIT progressChanged();

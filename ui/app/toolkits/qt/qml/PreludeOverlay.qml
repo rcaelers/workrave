@@ -13,9 +13,7 @@ Item {
     readonly property int    stage:    bridge != null ? bridge.stage    : 0
     readonly property int    breakType: bridge != null ? bridge.breakType : 0
     readonly property string heading:  bridge != null ? bridge.heading  : qsTr("Time for a micro-break?")
-    readonly property string countdown: bridge != null
-                                        ? (bridge.countdownText + " " + bridge.timeLabel)
-                                        : "Break in 0:30"
+    readonly property string countdown: bridge != null ? bridge.countdownText : qsTr("Break in {}")
 
     // stage: 0=Initial, 1=Warn, 2=Alert, 3=MoveOut
     readonly property color stageAccent: stage === 1 ? tok.warn

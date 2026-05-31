@@ -98,9 +98,7 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        text: bridge != null
-                              ? (bridge.countdownText + " " + bridge.timeLabel)
-                              : qsTr("Break in 0:00")
+                        text: bridge != null ? bridge.countdownText : qsTr("Break in {}")
                         font.pixelSize: 11
                         font.bold: true
                         color: "#1A1A1A"

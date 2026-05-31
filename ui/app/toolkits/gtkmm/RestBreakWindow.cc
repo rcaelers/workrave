@@ -33,6 +33,7 @@
 
 #include "debug.hh"
 #include "commonui/nls.h"
+#include <fmt/format.h>
 #include "commonui/Text.hh"
 
 #include "Hig.hh"
@@ -119,9 +120,7 @@ RestBreakWindow::draw_time_bar()
   timebar->set_progress(progress_value, progress_max_value);
 
   time_t time = progress_max_value - progress_value;
-  char s[128];
-  sprintf(s, _("Rest break for %s"), Text::time_to_string(time, true).c_str());
-
+  auto s = fmt::format(fmt::runtime(_("Rest break for {}")), Text::time_to_string(time, true));
   timebar->set_text(s);
 
   auto core = app->get_core();

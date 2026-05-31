@@ -32,7 +32,7 @@
 #include "session/System.hh"
 #include "debug.hh"
 #include "UiUtil.hh"
-#include "qformat.hh"
+#include <fmt/format.h>
 #include "Ui.hh"
 #include "ui/GUIConfig.hh"
 
@@ -183,11 +183,11 @@ MicroBreakBridge::updateRestBreakInfo()
       int64_t rb = restbreak->get_limit() - restbreak->get_elapsed_time();
       if (rb >= 0)
         {
-          info = qstr(qformat(tr("Next rest break in %s")) % UiUtil::time_to_string(rb, true));
+          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Next rest break in {}").toStdString()), UiUtil::time_to_string(rb, true).toStdString()));
         }
       else
         {
-          info = qstr(qformat(tr("Rest break %s overdue")) % UiUtil::time_to_string(-rb, true));
+          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Rest break {} overdue").toStdString()), UiUtil::time_to_string(-rb, true).toStdString()));
         }
     }
   else if (daily->is_enabled())
@@ -195,7 +195,7 @@ MicroBreakBridge::updateRestBreakInfo()
       int64_t dl = daily->get_limit() - daily->get_elapsed_time();
       if (dl >= 0)
         {
-          info = qstr(qformat(tr("Daily limit in %s")) % UiUtil::time_to_string(dl, true));
+          info = QString::fromStdString(fmt::format(fmt::runtime(tr("Daily limit in {}").toStdString()), UiUtil::time_to_string(dl, true).toStdString()));
         }
     }
 

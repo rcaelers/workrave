@@ -242,7 +242,7 @@ Item {
 
                 Text {
                     anchors.centerIn: parent
-                    text: qsTr("Rest break for") + " " + root.timeLeft
+                    text: bridge != null ? bridge.breakTime : qsTr("Rest break for {}")
                     font.pixelSize: 11; font.bold: true
                     color: "#FFFFFF"
                     style: Text.Outline; styleColor: "#00000066"

@@ -30,6 +30,7 @@
 #include "debug.hh"
 #include "utils/Platform.hh"
 #include "commonui/Text.hh"
+#include <fmt/format.h>
 
 #include "Frame.hh"
 #include "TimeBar.hh"
@@ -216,18 +217,16 @@ PreludeWindow::stop()
 void
 PreludeWindow::refresh()
 {
-  char s[128] = "";
-
   time_bar->set_progress(progress_value, progress_max_value);
 
+  std::string s;
   int tminus = progress_max_value - progress_value;
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
       tminus = std::max(tminus, 0);
-
-      sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
+      s = fmt::format(fmt::runtime(progress_text), Text::time_to_string(tminus));
     }
-  time_bar->set_text(static_cast<const char *>(s));
+  time_bar->set_text(s);
   time_bar->update();
 
 #if defined(PLATFORM_OS_WINDOWS)
@@ -261,15 +260,15 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
   switch (text)
     {
     case IApp::PreludeProgressText::BreakIn:
-      progress_text = _("Break in %s");
+      progress_text = _("Break in {}");
       break;
 
     case IApp::PreludeProgressText::DisappearsIn:
-      progress_text = _("Disappears in %s");
+      progress_text = _("Disappears in {}");
       break;
 
     case IApp::PreludeProgressText::SilentIn:
-      progress_text = _("Silent in %s");
+      progress_text = _("Silent in {}");
       break;
     }
 }

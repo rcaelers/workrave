@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 11:27+0200\n"
+"POT-Creation-Date: 2026-05-31 13:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,18 +43,18 @@ msgstr ""
 
 #. FIXME: duplicate
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233 ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr ""
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -531,30 +531,30 @@ msgstr ""
 msgid "Resume exercises"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, c++-format
+msgid "Next rest break in {}"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, c++-format
+msgid "Rest break {} overdue"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, c++-format
+msgid "Daily limit in {}"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, c++-format
+msgid "Daily limit {} overdue"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -1005,67 +1005,58 @@ msgid "Postpone time:"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:112
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:15
 msgid "Time for a micro-break?"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:37
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:116
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:117
 msgid "You need a rest break..."
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:39
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:120
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:121
 msgid "You should stop for today..."
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
+#: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
+#: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, c++-format
 msgid "Break in {}"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, c++-format
 msgid "Disappears in {}"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, c++-format
 msgid "Silent in {}"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:264
-#, c-format
-msgid "Break in %s"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:268
-#, c-format
-msgid "Disappears in %s"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:272
-#, c-format
-msgid "Silent in %s"
-msgstr ""
-
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, c++-format
+msgid "Rest break for {}"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 msgid "Natural rest break"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 msgid "This is your natural rest break."
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1985,10 +1976,6 @@ msgstr ""
 msgid "Time for a break?"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PreludeClassic.qml:103
-msgid "Break in 0:00"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:165
 msgid "Exercises player:"
 msgstr ""
@@ -1998,10 +1985,6 @@ msgid ""
 "This is your rest break. Make sure you stand up and walk away from your "
 "computer on a regular basis. Just walk around for a few minutes, stretch, "
 "and relax."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-msgid "Rest break for"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80

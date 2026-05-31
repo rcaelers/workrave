@@ -37,7 +37,7 @@
 #include "utils/AssetPath.hh"
 #include "debug.hh"
 #include "UiUtil.hh"
-#include "qformat.hh"
+#include <fmt/format.h>
 
 #if defined(HAVE_WAYLAND)
 #  include "IToolkitUnixPrivate.hh"
@@ -136,8 +136,8 @@ RestBreakBridge::breakProgress() const
 QString
 RestBreakBridge::breakTime() const
 {
-  time_t t = static_cast<time_t>(break_max - break_value);
-  return tr("Rest break for %1").arg(UiUtil::time_to_string(t));
+  time_t t = static_cast<time_t>(std::max(0, break_max - break_value));
+  return QString::fromStdString(fmt::format(fmt::runtime(tr("Rest break for {}").toStdString()), UiUtil::time_to_string(t).toStdString()));
 }
 
 QString
