@@ -153,36 +153,6 @@ Item {
                 checked: root.bridge ? root.bridge.enableShutdown : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setEnableShutdown(v) }
             }
-
-            PrefTextRow {
-                width: parent.width
-                visible: root.bridge ? root.bridge.enableShutdown : false
-                label:   qsTr("Custom lock command")
-                hint:    qsTr("Shell command for locking the screen. When set, appears as 'Custom command' in the lock method list.")
-                value:   root.bridge ? root.bridge.customLockCommand : ""
-                placeholder: qsTr("e.g. /usr/bin/pmset displaysleepnow")
-                onCommitted: (text) => { if (root.bridge) root.bridge.setCustomLockCommand(text) }
-            }
-
-            PrefChoiceRow {
-                width: parent.width
-                visible: (root.bridge ? root.bridge.enableShutdown : false) && (root.bridge ? root.bridge.hasLockMethods : false)
-                label:   qsTr("Lock method")
-                hint:    qsTr("Which screen-lock backend to use when the Lock button is pressed.")
-                options: root.bridge ? root.bridge.lockMethodOptions : []
-                currentIndex: root.bridge ? root.bridge.lockMethodIndex : 0
-                onSelected: (idx) => { if (root.bridge) root.bridge.setLockMethodIndex(idx) }
-            }
-
-            PrefChoiceRow {
-                width: parent.width
-                visible: (root.bridge ? root.bridge.enableShutdown : false) && (root.bridge ? root.bridge.hasSleepOperations : false)
-                label:   qsTr("Sleep action")
-                hint:    qsTr("What the Sleep button does — suspend, hibernate, or hybrid sleep.")
-                options: root.bridge ? root.bridge.sleepOperationOptions : []
-                currentIndex: root.bridge ? root.bridge.sleepOperationIndex : 0
-                onSelected: (idx) => { if (root.bridge) root.bridge.setSleepOperationIndex(idx) }
-            }
         }
 
         PrefGroup {

@@ -342,7 +342,6 @@ RestBreakPrefBridge::RestBreakPrefBridge(std::shared_ptr<IApplicationContext> ap
   : QObject(parent)
   , app(std::move(app))
 {
-  System::set_custom_lock_command(GUIConfig::custom_lock_command()());
 }
 
 bool
@@ -631,145 +630,12 @@ RestBreakPrefBridge::decrementMaxPreludes()
     }
 }
 
-namespace
-{
-  const char *
-  sleep_op_id(System::SystemOperation::SystemOperationType type)
-  {
-    switch (type)
-      {
-      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
-        return "suspend";
-      case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-        return "hibernate";
-      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-        return "suspend_hybrid";
-      default:
-        return "";
-      }
-  }
-
-  const char *
-  sleep_op_label(System::SystemOperation::SystemOperationType type)
-  {
-    switch (type)
-      {
-      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
-        return "Suspend";
-      case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
-        return "Hibernate";
-      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
-        return "Hybrid sleep";
-      default:
-        return "";
-      }
-  }
-} // namespace
-
-bool
-RestBreakPrefBridge::hasLockMethods() const
-{
-  return !System::get_lock_methods().empty();
-}
-
-QStringList
-RestBreakPrefBridge::lockMethodOptions() const
-{
-  QStringList list;
-  for (const auto &m: System::get_lock_methods())
-    {
-      list << QString::fromStdString(m.label);
-    }
-  return list;
-}
-
-int
-RestBreakPrefBridge::lockMethodIndex() const
-{
-  const std::string pref = GUIConfig::preferred_lock_method()();
-  auto methods = System::get_lock_methods();
-  for (int i = 0; i < static_cast<int>(methods.size()); i++)
-    {
-      if (methods[i].id == pref)
-        return i;
-    }
-  return 0;
-}
-
-void
-RestBreakPrefBridge::setLockMethodIndex(int idx)
-{
-  auto methods = System::get_lock_methods();
-  if (idx >= 0 && idx < static_cast<int>(methods.size()))
-    {
-      GUIConfig::preferred_lock_method().set(methods[idx].id);
-      Q_EMIT optionsChanged();
-    }
-}
-
-QString
-RestBreakPrefBridge::customLockCommand() const
-{
-  return QString::fromStdString(GUIConfig::custom_lock_command()());
-}
-
-void
-RestBreakPrefBridge::setCustomLockCommand(const QString &cmd)
-{
-  const std::string s = cmd.toStdString();
-  GUIConfig::custom_lock_command().set(s);
-  System::set_custom_lock_command(s);
-  Q_EMIT optionsChanged();
-}
-
-bool
-RestBreakPrefBridge::hasSleepOperations() const
-{
-  return !System::get_sleep_operations().empty();
-}
-
-QStringList
-RestBreakPrefBridge::sleepOperationOptions() const
-{
-  QStringList list;
-  for (const auto &op: System::get_sleep_operations())
-    {
-      list << QString::fromLatin1(sleep_op_label(op.type));
-    }
-  return list;
-}
-
-int
-RestBreakPrefBridge::sleepOperationIndex() const
-{
-  const std::string pref = GUIConfig::preferred_sleep_operation()();
-  auto ops = System::get_sleep_operations();
-  for (int i = 0; i < static_cast<int>(ops.size()); i++)
-    {
-      if (sleep_op_id(ops[i].type) == pref)
-        return i;
-    }
-  return 0;
-}
-
-void
-RestBreakPrefBridge::setSleepOperationIndex(int idx)
-{
-  auto ops = System::get_sleep_operations();
-  if (idx >= 0 && idx < static_cast<int>(ops.size()))
-    {
-      GUIConfig::preferred_sleep_operation().set(sleep_op_id(ops[idx].type));
-      Q_EMIT optionsChanged();
-    }
-}
-
 // ── DailyLimitPrefBridge ───────────────────────────────────────────────────────
 
 DailyLimitPrefBridge::DailyLimitPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent)
   : QObject(parent)
   , app(std::move(app))
 {
-  System::set_custom_lock_command(GUIConfig::custom_lock_command()());
 }
 
 bool
@@ -833,103 +699,6 @@ DailyLimitPrefBridge::setEnableShutdown(bool v)
 {
   GUIConfig::break_enable_shutdown(BREAK_ID_DAILY_LIMIT).set(v);
   Q_EMIT optionsChanged();
-}
-
-bool
-DailyLimitPrefBridge::hasLockMethods() const
-{
-  return !System::get_lock_methods().empty();
-}
-
-QStringList
-DailyLimitPrefBridge::lockMethodOptions() const
-{
-  QStringList list;
-  for (const auto &m: System::get_lock_methods())
-    {
-      list << QString::fromStdString(m.label);
-    }
-  return list;
-}
-
-int
-DailyLimitPrefBridge::lockMethodIndex() const
-{
-  const std::string pref = GUIConfig::preferred_lock_method()();
-  auto methods = System::get_lock_methods();
-  for (int i = 0; i < static_cast<int>(methods.size()); i++)
-    {
-      if (methods[i].id == pref)
-        return i;
-    }
-  return 0;
-}
-
-void
-DailyLimitPrefBridge::setLockMethodIndex(int idx)
-{
-  auto methods = System::get_lock_methods();
-  if (idx >= 0 && idx < static_cast<int>(methods.size()))
-    {
-      GUIConfig::preferred_lock_method().set(methods[idx].id);
-      Q_EMIT optionsChanged();
-    }
-}
-
-QString
-DailyLimitPrefBridge::customLockCommand() const
-{
-  return QString::fromStdString(GUIConfig::custom_lock_command()());
-}
-
-void
-DailyLimitPrefBridge::setCustomLockCommand(const QString &cmd)
-{
-  const std::string s = cmd.toStdString();
-  GUIConfig::custom_lock_command().set(s);
-  System::set_custom_lock_command(s);
-  Q_EMIT optionsChanged();
-}
-
-bool
-DailyLimitPrefBridge::hasSleepOperations() const
-{
-  return !System::get_sleep_operations().empty();
-}
-
-QStringList
-DailyLimitPrefBridge::sleepOperationOptions() const
-{
-  QStringList list;
-  for (const auto &op: System::get_sleep_operations())
-    {
-      list << QString::fromLatin1(sleep_op_label(op.type));
-    }
-  return list;
-}
-
-int
-DailyLimitPrefBridge::sleepOperationIndex() const
-{
-  const std::string pref = GUIConfig::preferred_sleep_operation()();
-  auto ops = System::get_sleep_operations();
-  for (int i = 0; i < static_cast<int>(ops.size()); i++)
-    {
-      if (sleep_op_id(ops[i].type) == pref)
-        return i;
-    }
-  return 0;
-}
-
-void
-DailyLimitPrefBridge::setSleepOperationIndex(int idx)
-{
-  auto ops = System::get_sleep_operations();
-  if (idx >= 0 && idx < static_cast<int>(ops.size()))
-    {
-      GUIConfig::preferred_sleep_operation().set(sleep_op_id(ops[idx].type));
-      Q_EMIT optionsChanged();
-    }
 }
 
 bool
@@ -1495,6 +1264,8 @@ GeneralPrefBridge::GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, Q
   : QObject(parent)
   , app(std::move(app))
 {
+  System::set_custom_lock_command(GUIConfig::custom_lock_command()());
+
   // Enumerate icon themes once (Linux: subdirectories under the images search path)
   for (const auto &dirname : workrave::utils::AssetPath::get_search_path(workrave::utils::SearchPathId::Images))
     {
@@ -1721,6 +1492,138 @@ GeneralPrefBridge::setLanguage(const QString &locale)
 {
   GUIConfig::locale().set(locale.toStdString());
   Q_EMIT systemChanged();
+}
+
+namespace
+{
+  const char *
+  sleep_op_id(System::SystemOperation::SystemOperationType type)
+  {
+    switch (type)
+      {
+      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
+        return "suspend";
+      case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+        return "hibernate";
+      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+        return "suspend_hybrid";
+      default:
+        return "";
+      }
+  }
+
+  const char *
+  sleep_op_label(System::SystemOperation::SystemOperationType type)
+  {
+    switch (type)
+      {
+      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND:
+        return "Suspend";
+      case System::SystemOperation::SYSTEM_OPERATION_HIBERNATE:
+        return "Hibernate";
+      case System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID:
+        return "Hybrid sleep";
+      default:
+        return "";
+      }
+  }
+} // namespace
+
+bool
+GeneralPrefBridge::hasLockMethods() const
+{
+  return !System::get_lock_methods().empty();
+}
+
+QStringList
+GeneralPrefBridge::lockMethodOptions() const
+{
+  QStringList list;
+  for (const auto &m: System::get_lock_methods())
+    {
+      list << QString::fromStdString(m.label);
+    }
+  return list;
+}
+
+int
+GeneralPrefBridge::lockMethodIndex() const
+{
+  const std::string pref = GUIConfig::preferred_lock_method()();
+  auto methods = System::get_lock_methods();
+  for (int i = 0; i < static_cast<int>(methods.size()); i++)
+    {
+      if (methods[i].id == pref)
+        return i;
+    }
+  return 0;
+}
+
+void
+GeneralPrefBridge::setLockMethodIndex(int idx)
+{
+  auto methods = System::get_lock_methods();
+  if (idx >= 0 && idx < static_cast<int>(methods.size()))
+    {
+      GUIConfig::preferred_lock_method().set(methods[idx].id);
+      Q_EMIT lockPowerChanged();
+    }
+}
+
+QString
+GeneralPrefBridge::customLockCommand() const
+{
+  return QString::fromStdString(GUIConfig::custom_lock_command()());
+}
+
+void
+GeneralPrefBridge::setCustomLockCommand(const QString &cmd)
+{
+  const std::string s = cmd.toStdString();
+  GUIConfig::custom_lock_command().set(s);
+  System::set_custom_lock_command(s);
+  Q_EMIT lockPowerChanged();
+}
+
+bool
+GeneralPrefBridge::hasSleepOperations() const
+{
+  return !System::get_sleep_operations().empty();
+}
+
+QStringList
+GeneralPrefBridge::sleepOperationOptions() const
+{
+  QStringList list;
+  for (const auto &op: System::get_sleep_operations())
+    {
+      list << QString::fromLatin1(sleep_op_label(op.type));
+    }
+  return list;
+}
+
+int
+GeneralPrefBridge::sleepOperationIndex() const
+{
+  const std::string pref = GUIConfig::preferred_sleep_operation()();
+  auto ops = System::get_sleep_operations();
+  for (int i = 0; i < static_cast<int>(ops.size()); i++)
+    {
+      if (sleep_op_id(ops[i].type) == pref)
+        return i;
+    }
+  return 0;
+}
+
+void
+GeneralPrefBridge::setSleepOperationIndex(int idx)
+{
+  auto ops = System::get_sleep_operations();
+  if (idx >= 0 && idx < static_cast<int>(ops.size()))
+    {
+      GUIConfig::preferred_sleep_operation().set(sleep_op_id(ops[idx].type));
+      Q_EMIT lockPowerChanged();
+    }
 }
 
 // ── AppletPrefBridge ──────────────────────────────────────────────────────────

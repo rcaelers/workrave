@@ -145,14 +145,6 @@ class RestBreakPrefBridge : public QObject
   Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
 
-  Q_PROPERTY(bool         hasLockMethods        READ hasLockMethods        NOTIFY optionsChanged)
-  Q_PROPERTY(QStringList  lockMethodOptions     READ lockMethodOptions     NOTIFY optionsChanged)
-  Q_PROPERTY(int          lockMethodIndex       READ lockMethodIndex       NOTIFY optionsChanged)
-  Q_PROPERTY(QString      customLockCommand     READ customLockCommand     NOTIFY optionsChanged)
-  Q_PROPERTY(bool         hasSleepOperations    READ hasSleepOperations    CONSTANT)
-  Q_PROPERTY(QStringList  sleepOperationOptions READ sleepOperationOptions CONSTANT)
-  Q_PROPERTY(int          sleepOperationIndex   READ sleepOperationIndex   NOTIFY optionsChanged)
-
 public:
   explicit RestBreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
@@ -180,18 +172,6 @@ public:
   bool hasMaxPreludes() const;
   Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
-
-  bool        hasLockMethods() const;
-  QStringList lockMethodOptions() const;
-  int         lockMethodIndex() const;
-  Q_INVOKABLE void setLockMethodIndex(int idx);
-  QString     customLockCommand() const;
-  Q_INVOKABLE void setCustomLockCommand(const QString &cmd);
-
-  bool        hasSleepOperations() const;
-  QStringList sleepOperationOptions() const;
-  int         sleepOperationIndex() const;
-  Q_INVOKABLE void setSleepOperationIndex(int idx);
 
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();
@@ -256,14 +236,6 @@ class DailyLimitPrefBridge : public QObject
   Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes    READ maxPreludes    NOTIFY optionsChanged)
 
-  Q_PROPERTY(bool         hasLockMethods        READ hasLockMethods        NOTIFY optionsChanged)
-  Q_PROPERTY(QStringList  lockMethodOptions     READ lockMethodOptions     NOTIFY optionsChanged)
-  Q_PROPERTY(int          lockMethodIndex       READ lockMethodIndex       NOTIFY optionsChanged)
-  Q_PROPERTY(QString      customLockCommand     READ customLockCommand     NOTIFY optionsChanged)
-  Q_PROPERTY(bool         hasSleepOperations    READ hasSleepOperations    CONSTANT)
-  Q_PROPERTY(QStringList  sleepOperationOptions READ sleepOperationOptions CONSTANT)
-  Q_PROPERTY(int          sleepOperationIndex   READ sleepOperationIndex   NOTIFY optionsChanged)
-
 public:
   explicit DailyLimitPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
@@ -288,18 +260,6 @@ public:
   bool hasMaxPreludes() const;
   Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
-
-  bool        hasLockMethods() const;
-  QStringList lockMethodOptions() const;
-  int         lockMethodIndex() const;
-  Q_INVOKABLE void setLockMethodIndex(int idx);
-  QString     customLockCommand() const;
-  Q_INVOKABLE void setCustomLockCommand(const QString &cmd);
-
-  bool        hasSleepOperations() const;
-  QStringList sleepOperationOptions() const;
-  int         sleepOperationIndex() const;
-  Q_INVOKABLE void setSleepOperationIndex(int idx);
 
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();
@@ -492,6 +452,15 @@ class GeneralPrefBridge : public QObject
   Q_PROPERTY(QVariantList languages       READ languages       CONSTANT)
   Q_PROPERTY(QString      currentLanguage READ currentLanguage NOTIFY systemChanged)
 
+  // Lock & power (global, not per-break)
+  Q_PROPERTY(bool         hasLockMethods        READ hasLockMethods        NOTIFY lockPowerChanged)
+  Q_PROPERTY(QStringList  lockMethodOptions     READ lockMethodOptions     NOTIFY lockPowerChanged)
+  Q_PROPERTY(int          lockMethodIndex       READ lockMethodIndex       NOTIFY lockPowerChanged)
+  Q_PROPERTY(QString      customLockCommand     READ customLockCommand     NOTIFY lockPowerChanged)
+  Q_PROPERTY(bool         hasSleepOperations    READ hasSleepOperations    CONSTANT)
+  Q_PROPERTY(QStringList  sleepOperationOptions READ sleepOperationOptions CONSTANT)
+  Q_PROPERTY(int          sleepOperationIndex   READ sleepOperationIndex   NOTIFY lockPowerChanged)
+
 public:
   explicit GeneralPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
@@ -528,9 +497,22 @@ public:
   Q_INVOKABLE void setIconTheme(const QString &id);
   Q_INVOKABLE void setLanguage(const QString &locale);
 
+  bool        hasLockMethods() const;
+  QStringList lockMethodOptions() const;
+  int         lockMethodIndex() const;
+  Q_INVOKABLE void setLockMethodIndex(int idx);
+  QString     customLockCommand() const;
+  Q_INVOKABLE void setCustomLockCommand(const QString &cmd);
+
+  bool        hasSleepOperations() const;
+  QStringList sleepOperationOptions() const;
+  int         sleepOperationIndex() const;
+  Q_INVOKABLE void setSleepOperationIndex(int idx);
+
 Q_SIGNALS:
   void blockModeChanged();
   void systemChanged();
+  void lockPowerChanged();
 
 private:
   QVariantList iconThemes_;   // computed once in constructor

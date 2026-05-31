@@ -66,6 +66,10 @@ Item {
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.SizeHorCursor
+            // Prevent the parent Flickable from stealing this event once pressed —
+            // without this a Wacom pen's slight vertical movement triggers scrolling
+            // instead of moving the slider.
+            preventStealing: true
             onPressed:         (mouse) => updateValue(mouse.x)
             onPositionChanged: (mouse) => { if (pressed) updateValue(mouse.x) }
             function updateValue(mx) {
