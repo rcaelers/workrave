@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2011-02-16 19:22+0100\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team:  <eu@li.org>\n"
@@ -41,19 +41,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Mikro-atsedena "
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -67,8 +71,9 @@ msgstr "Atsedena"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -541,30 +546,30 @@ msgstr "Gelditu"
 msgid "Resume exercises"
 msgstr "Ariketa kopurua:"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Lasaitu segundu batzuk mesedez"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Hurrengo atsedena %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Atsedena %s minutuz atzeratu da"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "Eguneko mugarako %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Eguneko muga %s atzeratuta"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -644,7 +649,8 @@ msgid "General"
 msgstr "Orokorra"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Egoera Lehioa"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -689,9 +695,11 @@ msgstr "Sarrerak eta pantaia blokeatu"
 msgid "Options"
 msgstr "Aukerak"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Blokeo modua:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Blokeo modua"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -702,7 +710,8 @@ msgid "(font not available)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
@@ -757,10 +766,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Blokeo modua:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Blokeo modua"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -782,10 +792,11 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Saguaren mugimendua:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Saguaren mugimendua"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -811,7 +822,8 @@ msgid "Play sounds using sound card"
 msgstr "Soinuak jo soinu txartela erabiliz "
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
@@ -904,26 +916,19 @@ msgstr "Egoera lehioa erakutsi"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Kokagunea:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Kokagunea"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "Zikloaren denbora:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Mikro-atsedena:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Atsedena:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Eguneko muga:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Zikloaren denbora"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -957,9 +962,13 @@ msgstr "Etenduraren jakinarazpena"
 msgid "Prompt before breaking"
 msgstr "Eten aurretik jakinarazi"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Jakinarazpen gehienezko kopurua:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Jakinarazpen gehienezko kopurua"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -985,7 +994,9 @@ msgid "Regard micro-breaks as activity"
 msgstr "Mirko-atsedenak jardueratzat hartu"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
 msgstr "Ariketa kopurua:"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
@@ -1002,17 +1013,27 @@ msgstr ""
 msgid "Time before end:"
 msgstr "Amaitzeko denbora:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Etenduren arteko denbora:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Etenduren arteko denbora"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Atsedenaren iraupena:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Atsedenaren iraupena"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Atzerapenaren iraupena:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Atzerapenaren iraupena"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1031,7 +1052,7 @@ msgid "You should stop for today..."
 msgstr "Gaurkoz gelditu beharko zenuke ba..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1039,35 +1060,36 @@ msgid "Break in {}"
 msgstr "Atsedena: %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Desagertuko da %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Isilunea: %s"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Atseden denbora: %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Hartutako atseden naturalak"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Atsedena behar duzu ba..."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1550,12 +1572,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Kokagunea:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1582,12 +1598,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Kontagailu guztiak toki bakarrean jarri"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Zikloaren denbora:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1688,13 +1698,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Atzerapenaren iraupena:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1720,13 +1723,6 @@ msgstr "Jakinarazpen gehienezko kopurua:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Jakinarazpen gehienezko kopurua:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1765,11 +1761,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Blokeo modua:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1812,18 +1803,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-msgid "Language"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Blokeo modua:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1858,21 +1840,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Etenduren arteko denbora:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Atsedenaren iraupena:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1892,11 +1862,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Jardunean"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Saguaren mugimendua:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1939,18 +1904,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Egoera Lehioa"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Egoera lehioa erakutsi"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1978,11 +1939,6 @@ msgstr ""
 "Zure atseden garaian zaude. Altxa zaitez eta ordenagailuaren\n"
 "inguruan ibiltzea duzu onena. Minutu batzutan ibili, luzaketak egin\n"
 "eta lasaitu."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Atseden denbora: %s"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2038,11 +1994,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Ariketa kopurua:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2054,10 +2005,6 @@ msgstr "Soinurik ez"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
@@ -2088,318 +2035,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "Atsedena: %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Desagertuko da %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Isilunea: %s"
-
-#~ msgid "About %s"
-#~ msgstr "%s-ri buruz"
-
-#~ msgid "About..."
-#~ msgstr "...(r)i buruz"
-
-#~ msgid "Accepted new client."
-#~ msgstr "Bezero berria onartuta."
-
-#, fuzzy, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "%s bezeroaren maisutasun eskaera onartzen."
-
-#~ msgid "Advanced"
-#~ msgstr "Aurreratua"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Neure host izena ezin dut asmatu. Banaketa desgaitzen."
-
-#, fuzzy, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "%s bezeroa ezin da atzitu."
-
-#, fuzzy, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "%s bezeroak konexioa itxia."
-
-#, fuzzy, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "%s bezeroa konektatuta."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "%s bezeroa bikoiztuta dago."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "Orain %s bezeroa maisua da."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "%s bezeroa maisu berria da orain."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "%s bezeroak ongi etorria eman digu."
-
-#, fuzzy, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "%s bezeroaren irakurketa akatsa, ixten."
-
-#, fuzzy, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "%s bezeroari maisutasun eskaera utzia, atzeratzen."
-
-#, fuzzy, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "%s bezeroa agurtzen."
-
-#, fuzzy, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "%s bezeroak alde egin du."
-
-#, fuzzy, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "%s bezeroaren denbora amaitu da."
-
-#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
-#~ msgstr "Itxi begiak, aire guztia bota ezazu eta lasaitzen saiatu. Airea ahalik eta polikien hartu. Saia zaitez 8ra arte poliki-poliki zenbatzen airea hartu eta botatzen duzunean. Begiak are gehiago  lasaitzearren mikro-atsedenetan ere itxi itzazu."
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "_Konektatu"
-
-#, fuzzy, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "%s-rekin konektatzen"
-
-#, fuzzy, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Ezin dut %s bezeroarekin konektatu."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Ezin dut sare eragiketa gaitu"
-
-#~ msgid "Credits"
-#~ msgstr "Lan taldea"
-
-#~ msgid "Daily usage"
-#~ msgstr "Eguneko erabilpena"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Sare eragiketa desgaitzen"
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "_Deskonektatu"
-
-#, fuzzy, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "%s deskonektatzen."
-
-#~ msgid "Enable networking"
-#~ msgstr "Sare lana gaitu"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Konektatu nahi duzun sareko ordenagailuaren host izena\n"
-#~ "eta ataka zenbakia sartu."
-
-#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
-#~ msgstr "Horma baten aurrean jar zaitez eta eskuak sorbalden parean jarri , ukondoak piska bat malguturik. Gorputza hormaren aurka bultzatu ukondoen angelua aldatu gabe. Ukondoak horrela ere hormaren beste aldera eraman gorputza."
-
-#~ msgid "Host name"
-#~ msgstr "Host izena"
-
-#~ msgid "Host name:"
-#~ msgstr "Host izena:"
-
-#~ msgid "Hosts"
-#~ msgstr "Host-ak"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Ezin da Bonobo hasi"
-
-#~ msgid "I'm now master."
-#~ msgstr "Orain neu naiz maisua"
-
-#~ msgid "Inactive"
-#~ msgstr "Geldirik"
-
-#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr "Burua tente eta masaila lurrarekin paraleloan mantendu. Burua atzera bota kokospea ateraz. Bi segundutan egon eta lasaitu. Burua era berdinean aurrera bota, beste bi segundutan egon eta berriro lasaitu."
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "_Modua"
-
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Omoplatoak mugitu"
-
-#~ msgid "Neck stretch"
-#~ msgstr "Lepoa luzatu"
-
-#~ msgid "Network"
-#~ msgstr "Sarea"
-
-#~ msgid "Network connect"
-#~ msgstr "Sare konexioa"
-
-#~ msgid "Network log"
-#~ msgstr "Sarearen loga"
-
-#~ msgid "Network operation started."
-#~ msgstr "Sare eragiketa hasita."
-
-#, fuzzy, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "%s bezero ez-maisuari maisutasun eskaera ukatuta."
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "_Ireki"
-
-#~ msgid "Password:"
-#~ msgstr "Pasahitza:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Soinuak jo barruko bozgorailua erabiliz"
-
-#~ msgid "Port"
-#~ msgstr "Ataka"
-
-#~ msgid "Port:"
-#~ msgstr "Ataka:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen eta sendatzen laguntzen du."
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "_Irten"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Birkonektatu"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Birkonexio saiakerak:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Birkonexio tartea:"
-
-#, fuzzy, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "%s-rekin birkonektatzen"
-
-#, fuzzy, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "%s bezerotik maisutasun eskaerari uko."
-
-#~ msgid "Relax the eyes"
-#~ msgstr "Begiak lasaitu"
-
-#, fuzzy, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "%s bezeroa kentzen."
-
-#, fuzzy, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "%s-tik maisu egoeraz galdetzen."
-
-#~ msgid "Server port:"
-#~ msgstr "Zerbitzariaren ataka "
-
-#~ msgid "Server settings"
-#~ msgstr "Zerbitzariaren ezarpenak"
-
-#~ msgid "Show _log"
-#~ msgstr "_Log-a erakutsi"
-
-#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr "Mahaiaren ondoan zutitu eta esku-ahurrak bertan jarri hatzak zeure gorputzari apuntatuz. Eskumuturrak eta besaurreak poliki poliki luzatu."
-
-#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
-#~ msgstr "Zutitu eta orpoak altxatu gabe eskuekin sabaia ukitzen saiatu. Segundu batzutan horrela egon. Gero eskuak piskanaka zorurantz eraman besoak tolestu gabe. Segi mugitzen eskuak oinetakoen aurrean ia jarri arte makurtuz. Hasi zuzentzen, gerritik hasi eta lepoarekin amaituz tente amaitu arte."
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Isilunea: %s"
-
-#~ msgid "Stretch your back"
-#~ msgstr "Bizkarra luzatu"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Inaktibo dagoenean kontagailua eseki"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Hurrengo zerrendak Workrave hasterakoan konektatzen den\n"
-#~ "host-ak adierazten du. Editatzeko host izen edo ataka zenbakian egin klik."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Zure atseden garaian zaude. Altxa zaitez eta ordenagailuaren\n"
-#~ "inguruan ibiltzea duzu onena. Minutu batzutan ibili, luzaketak egin\n"
-#~ "eta lasaitu."
-
-#~ msgid "Username:"
-#~ msgstr "Erabiltzaile izena:"
-
-#, fuzzy
-#~ msgid "Workrave failed to start"
-#~ msgstr "Workrave Appleta"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Eskumuturrak eta besaurreak luzatu"
-
-#~ msgid "_About..."
-#~ msgstr "_Zerari buruz..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Konektatu"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Konektatu..."
-
-#~ msgid "_Credits"
-#~ msgstr "_Lan taldea: "
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Deskonektatu"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Dokumentazioa: "
-
-#~ msgid "_Network"
-#~ msgstr "_Sarea"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Geldirik"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Birkonektatu"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Loga Erakutsi..."
-
-#~ msgid "_Translated by"
-#~ msgstr "_Itzultzaileak: "
-
-#~ msgid "_Written by"
-#~ msgstr "_Egileak: "

@@ -68,7 +68,7 @@ MonitoringPreferencePanel::create_panel()
 
   sensitivity_box = Gtk::manage(new Gtk::HBox());
   Gtk::Widget *sensitivity_lab = Gtk::manage(
-    GtkUtil::create_label_with_tooltip(_("Mouse sensitivity:"),
+    GtkUtil::create_label_with_tooltip(std::string(_("Mouse sensitivity")) + ":",
                                        _("Number of pixels the mouse should move before it is considered activity.")));
   Gtk::SpinButton *sensitivity_spin = Gtk::manage(new Gtk::SpinButton(sensitivity_adjustment));
   sensitivity_box->pack_start(*sensitivity_lab, false, false, 0);

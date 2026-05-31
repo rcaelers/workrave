@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:31+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,10 +42,13 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
@@ -53,6 +56,7 @@ msgstr ""
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
@@ -68,8 +72,9 @@ msgstr ""
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -633,7 +638,8 @@ msgid "General"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -678,7 +684,8 @@ msgid "Options"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
@@ -690,7 +697,8 @@ msgid "(font not available)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
@@ -752,7 +760,8 @@ msgid "Auto"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-msgid "Dark mode:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
@@ -778,7 +787,8 @@ msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-msgid "Mouse sensitivity:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
@@ -805,7 +815,8 @@ msgid "Play sounds using sound card"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
@@ -899,24 +910,15 @@ msgid ""
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr ""
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr ""
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
@@ -950,7 +952,10 @@ msgid "Prompt before breaking"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
 msgstr ""
 
 #. Ignorable
@@ -975,7 +980,8 @@ msgid "Regard micro-breaks as activity"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+msgid "Number of exercises"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
@@ -993,15 +999,22 @@ msgid "Time before end:"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
@@ -1570,11 +1583,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-msgid "Placement"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid ""
@@ -1600,11 +1608,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:185
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
 msgid "All in one slot"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-msgid "Cycle time"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
@@ -1700,12 +1703,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-msgid "Postpone time"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1728,12 +1725,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-msgid "Maximum number of prompts"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
@@ -1772,10 +1763,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-msgid "Block mode"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
@@ -1820,16 +1807,8 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-msgid "Language"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-msgid "Dark mode"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
@@ -1868,18 +1847,8 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-msgid "Time between breaks"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-msgid "Break duration"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
@@ -1898,10 +1867,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:25
 msgid "Activity detection"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-msgid "Mouse sensitivity"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
@@ -1950,10 +1915,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:78
 msgid ""
 "Choose which sounds Workrave plays at break events, and adjust the volume."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-msgid "Status window"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
@@ -2044,10 +2005,6 @@ msgid ""
 "down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-msgid "Number of exercises"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2058,10 +2015,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106

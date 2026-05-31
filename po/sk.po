@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2019-02-23 22:45+0100\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: Slovak\n"
@@ -43,19 +43,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave je v tichom režime. Nebudú sa objavovať žiadne okná s výzvou na prestávku."
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Mikro-pauza"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -69,8 +73,9 @@ msgstr "Prestávka"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -529,30 +534,30 @@ msgstr "Pauza"
 msgid "Resume exercises"
 msgstr "Pokračovať v cvičeniach"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Prosím oddýchnite si niekoľko sekúnd"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Ďalšia prestávka bude o %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Prestávka o %s sa oneskoruje"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "Denný limit o %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Prekračujete denný limit o %s"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -634,7 +639,8 @@ msgid "General"
 msgstr "Všeobecné"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Stavové okno"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -678,9 +684,11 @@ msgstr "Blokovať vstupné zariadenia a obrazovku"
 msgid "Options"
 msgstr "Možnosti"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Blokovací režim:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Blokovací režim"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -690,9 +698,11 @@ msgstr "Východzie nastavenia"
 msgid "(font not available)"
 msgstr "(font nie je dostupný)"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "Jazyk:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
+msgstr "Jazyk"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -746,10 +756,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Blokovací režim:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Blokovací režim"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -771,9 +782,11 @@ msgstr "Použite túto voľbu, ak Workrave nedokáže detegovať vašu aktivitu"
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-msgid "Mouse sensitivity:"
-msgstr "Citlivosť myši:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Citlivosť myši"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -798,8 +811,9 @@ msgid "Play sounds using sound card"
 msgstr "Prehrávať zvuky pomocou zvukovej karty"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "Hlasitosť: "
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
@@ -888,26 +902,19 @@ msgstr "Zobraziť stavové okno"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Umiestnenie:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Umiestnenie"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "Trvanie cyklu:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Mikro-pauza:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Prestávka:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Denný limit:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Trvanie cyklu"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -941,9 +948,13 @@ msgstr "Pripomenutie pauzy"
 msgid "Prompt before breaking"
 msgstr "Pripomenúť pred pauzou"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Maximálny počet pripomenutí:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Maximálny počet pripomenutí"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -967,8 +978,10 @@ msgid "Regard micro-breaks as activity"
 msgstr "Považovať mikro-pauzy za aktivitu"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "Počet cvičení:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
+msgstr "Pokračovať v cvičeniach"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -984,17 +997,27 @@ msgstr "Povoliť vypnutie počítača z obrazovky prestávky"
 msgid "Time before end:"
 msgstr "Čas pred koncom:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Čas mezi pauzami:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Čas mezi pauzami"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Dĺžka pauzy:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Dĺžka pauzy"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Čas odloženia:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Čas odloženia"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1013,7 +1036,7 @@ msgid "You should stop for today..."
 msgstr "Na dnes už stačilo..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1021,33 +1044,34 @@ msgid "Break in {}"
 msgstr "Pauza o"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Zmizne o"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Tichý v"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Prestávka po %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 msgid "Natural rest break"
 msgstr "Prirodzene vykonaná pauza"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 msgid "This is your natural rest break."
 msgstr "Toto je vaša prirodzene vykonaná prestávka."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1528,12 +1552,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Umiestnenie:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1560,12 +1578,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Umiestniť všetky časovače dohromady"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Trvanie cyklu:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1666,13 +1678,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Čas odloženia:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1698,13 +1703,6 @@ msgstr "Maximálny počet pripomenutí:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Maximálny počet pripomenutí:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1744,11 +1742,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Blokovací režim:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1792,19 +1785,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
-msgid "Language"
-msgstr "Jazyk:"
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Blokovací režim:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1839,21 +1822,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Čas mezi pauzami:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Dĺžka pauzy:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1873,11 +1844,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Aktivita"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Citlivosť myši:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1920,18 +1886,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Stavové okno"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Zobraziť stavové okno"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1959,11 +1921,6 @@ msgstr ""
 "Nadišiel čas Vašej prestávky. Rozhodne nezostaňte\n"
 "sedieť -vstaňte, rozhýbte sa, choďte na chvíľu preč\n"
 "od počítača. Doprajte si niekoľko minút oddychu."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Prestávka po %s"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2019,11 +1976,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Počet cvičení:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2036,11 +1988,6 @@ msgstr "Bez zvukov"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
-msgid "Volume"
-msgstr "Hlasitosť: "
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
@@ -2070,326 +2017,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "Pauza o %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Zmizne o %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Tichý o %s"
-
-#~ msgid "About %s"
-#~ msgstr "O %s"
-
-#~ msgid "About..."
-#~ msgstr "O..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Akceptovaný nový klient."
-
-#, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "Potvrdzujem požiadavku vedúceho stavu od klienta %s."
-
-#~ msgid "Advanced"
-#~ msgstr "Pokročilé"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "Povoliť prichádzajúce spojenia"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Neviem zistiť môj vlastný názov počítača. Deaktivujem distribúciu."
-
-#, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "Klient %s odmietol prístup."
-
-#, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "Klient %s ukončil spojenie."
-
-#, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "Klient %s sa pripojil."
-
-#, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "Klient %s je duplikovaný."
-
-#, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "Klient %s je teraz vedúci."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "Klient %s je teraz novým vedúcim."
-
-#, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "Klient %s nás víta."
-
-#, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "Chyba čítania počas komunikácie s klientom %s, ukončujem."
-
-#, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "Klient %s odmietol požiadavku na vedúci stav, čakám."
-
-#, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "Klient %s zdraví."
-
-#, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "Klient %s sa odhlásil."
-
-#, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "Vypršal čas klienta %s."
-
-#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
-#~ msgstr "Zatvorte oči a vydychujte tak dlho ako dokážete a skúste relaxovať. Nadychujte sa tak pomaly, ako dokážete. Skúste počítať pomaly do 8 vždy, keď sa nadychujete a vydychujete. Pro ešte lepší odpočinok, zatvárajte oči aj pri mikro pauzách."
-
-#~ msgid "Connect"
-#~ msgstr "Pripojiť"
-
-#, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "Pripájam sa k %s."
-
-#, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Nepodarilo sa pripojiť ku klientovi %s."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Nepodarilo sa zapnúť sieťové operácie."
-
-#~ msgid "Credits"
-#~ msgstr "Kredity"
-
-#~ msgid "Daily usage"
-#~ msgstr "Denné použitie"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Vypínam sieťové operácie."
-
-#~ msgid "Disconnect"
-#~ msgstr "_Odpojiť"
-
-#, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "Odpájam %s"
-
-#~ msgid "Enable networking"
-#~ msgstr "Povoliť sieťové pripojenie"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Zadajte názov počítača v sieti, ku ktorému sa chcete pripojiť, \n"
-#~ "a jeho číslo portu."
-
-#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
-#~ msgstr "Postavte sa tvárou ku stene (alebo niečomu) a položte ruky do výšky pliec proti stene, lakte sú mierne ohnuté. Zatlačte telom proti stene, bez zmeny uhla lakťov. Potom odstrčte telo naspäť od steny, bez zmeny uhla lakťov."
-
-#~ msgid "Host name"
-#~ msgstr "Názov počítača"
-
-#~ msgid "Host name:"
-#~ msgstr "Názov počítača:"
-
-#~ msgid "Hosts"
-#~ msgstr "Počítače"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Nepodarilo sa inicializovať Bonobo"
-
-#~ msgid "I'm now master."
-#~ msgstr "Teraz som vedúci."
-
-#~ msgid "Inactive"
-#~ msgstr "Nečinný"
-
-#~ msgid "Is Workrave already running?"
-#~ msgstr "Je možné, že Workrave už beží?"
-
-#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr "Držte hlavu rovno, spodnú čeľusť rovnobežne s podlahou. Zakloňte hlavu dozadu, vydržte 2 sekundy a uvolnite sa. Predkloňte hlavu dopredu, opäť vydržte 2 sekundy a uvolnite sa."
-
-#~ msgid "Make sure that the RECORD extension is enabled in the X server."
-#~ msgstr "Skontrolujte, či máte povolené rozšírenie RECORD vo vašom X serveri."
-
-#~ msgid "Mode"
-#~ msgstr "Režim"
-
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Pohyb lopatkami"
-
-#~ msgid "Neck stretch"
-#~ msgstr "Ponaťahovanie krku"
-
-#~ msgid "Network"
-#~ msgstr "Sieť"
-
-#~ msgid "Network connect"
-#~ msgstr "Sieťové pripojenie"
-
-#~ msgid "Network log"
-#~ msgstr "Sieťový záznam"
-
-#~ msgid "Network operation started."
-#~ msgstr "Začali sieťové operácie."
-
-#, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "Klient %s nie je vedúci a odmietol požiadavku na vedúci stav."
-
-#~ msgid "Open"
-#~ msgstr "Otvoriť"
-
-#~ msgid "Password:"
-#~ msgstr "Heslo:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Prehrávať zvuky pomocou zabudovaného reproduktoru"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Tento program pomáha pri prevencii a regenerácii opakovaných bolestivých napätí (RSI)."
-
-#~ msgid "Quit"
-#~ msgstr "Koniec"
-
-#~ msgid "Reconnect"
-#~ msgstr "Obnoviť spojenie"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Pokusov o obnovu spojenia:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Interval obnovy spojenia:"
-
-#, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Obnovujem spojenie ku %s."
-
-#, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "Zamieta sa požiadavka vedúceho stavu od klienta %s."
-
-#~ msgid "Relax the eyes"
-#~ msgstr "Uvolnenie očí"
-
-#, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "Odstraňujem klienta %s."
-
-#, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Požiadavka vedúceho stavu od %s."
-
-#~ msgid "Restbreak"
-#~ msgstr "Přestávka"
-
-#~ msgid "Server port:"
-#~ msgstr "Port serveru:"
-
-#~ msgid "Server settings"
-#~ msgstr "Nastavenia serveru"
-
-#~ msgid "Show _log"
-#~ msgstr "Zobraziť _záznam"
-
-#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr "Postavte sa ku stolu a položte naň svoje dlane tak, aby prsty smerovalik telu. Jemne napínajte zápästia a dolnú časť rúk."
-
-#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
-#~ msgstr "Vstaňte a skúste rukami dosiahnuť na strop, päty nezdvíhajte. Vydržte niekoľko sekúnd. Potom pomaly spustite ruky k telu, ale neohýbajte ich v lakti. Pokračujete v pohybu smerom k podlahe ohýbaním chrbta, a ak môžete, dotknite sa rukami podlahy. Pomaly sa vystierajte späť do vzpriamenej polohy."
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Tichý v"
-
-#~ msgid "Stretch your back"
-#~ msgstr "Ponaťahovanie chrbta"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Zastaviť časovač pri nečinnosti"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Nasledujúci zoznam určuje počítače, ku ktorým sa Workrave pripojí\n"
-#~ "počas štartu. Ak chcete niektorý upraviť, kliknite na názov alebo port."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Nadišiel čas Vašej prestávky. Rozhodne nezostaňte\n"
-#~ "sedieť -vstaňte, rozhýbte sa, choďte na chvíľu preč\n"
-#~ "od počítača. Venujte niekoľko minút oddychu."
-
-#~ msgid "Username:"
-#~ msgstr "Meno:"
-
-#~ msgid "Workrave failed to start"
-#~ msgstr "Workrave sa nepodarilo spustiť"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Ponaťahovanie zápästí a predlaktí"
-
-#~ msgid "_About..."
-#~ msgstr "_O..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Pripojiť"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Pripojiť..."
-
-#~ msgid "_Credits"
-#~ msgstr "_Kredity"
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Odpojiť"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Zdokumentovali"
-
-#~ msgid "_Join"
-#~ msgstr "_Pridať"
-
-#~ msgid "_Network"
-#~ msgstr "_Sieť"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Tichý"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Obnoviť spojenie"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Zobraziť záznam..."
-
-#~ msgid "_Translated by"
-#~ msgstr "Preložili"
-
-#~ msgid "_Written by"
-#~ msgstr "_Napísali"

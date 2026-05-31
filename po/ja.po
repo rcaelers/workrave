@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
@@ -43,19 +43,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "小休止"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -69,8 +73,9 @@ msgstr "休憩"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -543,30 +548,30 @@ msgstr "一時停止"
 msgid "Resume exercises"
 msgstr "体操の回数："
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "少しの間リラックスしてください"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "次の休憩まで %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "休憩時間の遅延は %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "一日の制限時間まで %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "一日の制限時間の超過は %s"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -646,7 +651,8 @@ msgid "General"
 msgstr "一般"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "ステータス・ウィンドウ"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -691,9 +697,11 @@ msgstr "インプットとスクリーンをブロック"
 msgid "Options"
 msgstr "オプション"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "ブロック（操作禁止）モード："
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "ブロック（操作禁止）モード"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -704,7 +712,8 @@ msgid "(font not available)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
@@ -759,10 +768,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "ブロック（操作禁止）モード："
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "ブロック（操作禁止）モード"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -784,10 +794,11 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "マウス移動距離："
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "マウス移動距離"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -813,7 +824,8 @@ msgid "Play sounds using sound card"
 msgstr "サウンドカードを使って音を出す"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
@@ -906,26 +918,19 @@ msgstr "ステータスウィンドウを表示する"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "配置方法："
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "配置方法"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "交互に表示する周期："
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "小休止："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "休憩："
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "一日の制限時間："
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "交互に表示する周期"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -959,9 +964,13 @@ msgstr "休憩のきっかけ"
 msgid "Prompt before breaking"
 msgstr "休憩の前にきっかけ表示"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "きっかけの最大数："
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "きっかけの最大数"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -987,7 +996,9 @@ msgid "Regard micro-breaks as activity"
 msgstr "小休止を操作とみなす"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
 msgstr "体操の回数："
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
@@ -1004,17 +1015,27 @@ msgstr ""
 msgid "Time before end:"
 msgstr "終了までの時間："
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "休憩までの時間："
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "休憩までの時間"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "休憩時間："
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "休憩時間"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "延期時間："
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "延期時間"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1033,7 +1054,7 @@ msgid "You should stop for today..."
 msgstr "今日はもうやめましょう..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1041,35 +1062,36 @@ msgid "Break in {}"
 msgstr "休憩まで %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "消えるまで %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "音が消えるまで %s"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "休憩時間の残り %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 #, fuzzy
 msgid "Natural rest break"
 msgstr "自発的休憩"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "休憩が必要です..."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1552,12 +1574,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "配置方法："
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1584,12 +1600,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "すべてのタイマーを一箇所に交互に表示"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "交互に表示する周期："
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1690,13 +1700,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "延期時間："
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1722,13 +1725,6 @@ msgstr "きっかけの最大数："
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "きっかけの最大数："
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1767,11 +1763,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "ブロック（操作禁止）モード："
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1814,18 +1805,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-msgid "Language"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "ブロック（操作禁止）モード："
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1860,21 +1842,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "休憩までの時間："
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "休憩時間："
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1894,11 +1864,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "操作"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "マウス移動距離："
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1941,18 +1906,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "ステータス・ウィンドウ"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "ステータスウィンドウを表示する"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1980,11 +1941,6 @@ msgstr ""
 "残りの休憩時間。\n"
 "コンピュータから離れて歩きましょう。\n"
 "しばらくの間、周りを歩き回って、伸びをしてリラックスしましょう。"
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "休憩時間の残り %s"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2040,11 +1996,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "体操の回数："
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2056,10 +2007,6 @@ msgstr "サウンドなし"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
@@ -2090,294 +2037,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "休憩まで %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "消えるまで %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "音が消えるまで %s"
-
-#~ msgid "About %s"
-#~ msgstr "%s について"
-
-#~ msgid "About..."
-#~ msgstr "workrave(仕事に夢中?)について"
-
-#~ msgid "Accepted new client."
-#~ msgstr "新しいクライアント承認。"
-
-#, fuzzy, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "クライアント %s からの マスターリクエストを承認"
-
-#~ msgid "Advanced"
-#~ msgstr "高度な設定"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "自分のホスト名が解決できません。分散処理を停止します。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "クライアント %s 接続拒否。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "クライアント %s 接続終了。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "クライアント %s 接続。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "クライアント %s が重複。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "クライアント %s がマスター。"
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "クライアント %s が新しいマスターになった。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "クライアント %s 応答。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "クライアント %s 読み取りエラー、終了中。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "クライアント %s がマスターリクエストを拒否、延期中。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "クライアント %s が呼んでいる。"
-
-#, fuzzy, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "クライアント %s サインオフ。"
-
-#, fuzzy, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "%s からクライアントタイムアウト。"
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "接続(_C)"
-
-#, fuzzy, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "%s に接続中。"
-
-#, fuzzy, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "クライアント %s 接続不可。"
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "ネットワークオペレーションを起動できません。"
-
-#~ msgid "Credits"
-#~ msgstr "クレジット"
-
-#~ msgid "Daily usage"
-#~ msgstr "一日の使用時間"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "ネットワークオペレーションを停止中。"
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "切断(_D)"
-
-#, fuzzy, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "%s を切断中。"
-
-#~ msgid "Enable networking"
-#~ msgstr "ネットワーク作動"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "接続したいコンピュータのホスト名と\n"
-#~ "ポート番号を入力。"
-
-#~ msgid "Fist roll"
-#~ msgstr "拳を回す"
-
-#~ msgid "Host name"
-#~ msgstr "ホスト名"
-
-#~ msgid "Host name:"
-#~ msgstr "ホスト名："
-
-#~ msgid "Hosts"
-#~ msgstr "ホスト"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Bonobo の初期化不可能"
-
-#~ msgid "I'm now master."
-#~ msgstr "私がマスター。"
-
-#~ msgid "Inactive"
-#~ msgstr "動作停止"
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "モード(_M)"
-
-#~ msgid "Network"
-#~ msgstr "ネットワーク"
-
-#~ msgid "Network connect"
-#~ msgstr "ネットワーク接続"
-
-#~ msgid "Network log"
-#~ msgstr "ネットワークログ"
-
-#~ msgid "Network operation started."
-#~ msgstr "ネットワークオペレーション開始。"
-
-#, fuzzy, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "マスターでないクライアント %s がマスターリクエストは拒否。"
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "開く(_O)"
-
-#~ msgid "Password:"
-#~ msgstr "パスワード："
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "内蔵スピーカを使って音を出す"
-
-#~ msgid "Port"
-#~ msgstr "ポート"
-
-#~ msgid "Port:"
-#~ msgstr "ポート："
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Workrave(仕事に夢中？)は反復運動過多損傷 (RSI：Repetitive Strain Injury)を予防し回復を促します。"
-
-#~ msgid "Put your underarm on a table and make a fist. Roll your fist away from your body untill it rests on your nuckles. Keep it for 2 seconds and roll it back. Repeat this 5 times for each hand. If the muscle is stretched to much, let your fingers rest on the table while rolling."
-#~ msgstr "腕を机の上において、拳を握ります。指の（第一）関節が机に接するまで、拳を外側に倒します。そのままで2秒保持し戻します。両手を5回ずつ繰り返します。もし筋肉を伸ばし過ぎているようでしたら、外側に回したときに指を伸ばして休めます。"
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "終了(_Q)"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "再接続(_R)"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "再接続："
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "再接続間隔："
-
-#, fuzzy, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "%s に再接続中。"
-
-#, fuzzy, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "クライアント %s からのマスターリクエストを拒否。"
-
-#, fuzzy, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "クライアント %s を削除中。"
-
-#, fuzzy, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "%s からマスターステータスの要求。"
-
-#~ msgid "Server port:"
-#~ msgstr "サーバーポート："
-
-#~ msgid "Server settings"
-#~ msgstr "サーバー設定"
-
-#~ msgid "Show _log"
-#~ msgstr "ログ(_l)"
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "音が消えるまで %s"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "不動作時にタイマーを停止"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "以下のリストは Workrave(仕事に夢中?) が起動時に接続するホスト名です。\n"
-#~ "修正はホスト名またはポート番号をクリックする。"
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "残りの休憩時間。\n"
-#~ "コンピュータから離れて歩きましょう。\n"
-#~ "しばらくの間、周りを歩き回って、伸びをしてリラックスしましょう。"
-
-#~ msgid "Username:"
-#~ msgstr "ユーザ名："
-
-#, fuzzy
-#~ msgid "Workrave failed to start"
-#~ msgstr "Workrave(仕事に夢中?) アプレット"
-
-#~ msgid "_About..."
-#~ msgstr "workrave(仕事に夢中?)について(_A)"
-
-#~ msgid "_Connect"
-#~ msgstr "接続(_C)"
-
-#~ msgid "_Connect..."
-#~ msgstr "接続(_C)"
-
-#~ msgid "_Credits"
-#~ msgstr "クレジット(_C)"
-
-#~ msgid "_Disconnect"
-#~ msgstr "切断(_D)"
-
-#~ msgid "_Documented by"
-#~ msgstr "ドキュメント作者(_D) "
-
-#~ msgid "_Network"
-#~ msgstr "ネットワーク(_N)"
-
-#~ msgid "_Quiet"
-#~ msgstr "静粛(_Q)"
-
-#~ msgid "_Reconnect"
-#~ msgstr "再接続(_R)"
-
-#~ msgid "_Show Log..."
-#~ msgstr "ログ表示(_S)"
-
-#~ msgid "_Translated by"
-#~ msgstr "翻訳者(_T) "
-
-#~ msgid "_Written by"
-#~ msgstr "著作者(_W) "

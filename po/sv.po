@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2011-02-16 19:51+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -40,19 +40,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Mikropaus"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -66,8 +70,9 @@ msgstr "Vilopaus"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -537,30 +542,30 @@ msgstr "Paus"
 msgid "Resume exercises"
 msgstr "Återuppta övningar"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Slappna av i ett par sekunder"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Nästa vilopaus om %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Tidspunkt för vilopaus har överskridits med %s minuter"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "Daglig gräns på %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Daglig gräns överskriden med %s"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -639,7 +644,8 @@ msgid "General"
 msgstr "Allmänt"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Statusfönster"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -683,9 +689,11 @@ msgstr "Blockera tangentbord/mus och skärm"
 msgid "Options"
 msgstr "Alternativ"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Blockeringsläge:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Blockeringsläge"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -695,9 +703,11 @@ msgstr "Systemstandard"
 msgid "(font not available)"
 msgstr "(typsnitt inte tillgängligt)"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "Språk:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
+msgstr "Språk"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -752,10 +762,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Blockeringsläge:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Blockeringsläge"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -777,10 +788,11 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Musrörelser:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Musrörelser"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -805,8 +817,9 @@ msgid "Play sounds using sound card"
 msgstr "Spela upp ljud med ljudkort"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "Volym:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
@@ -896,26 +909,19 @@ msgstr "Visa statusfönster"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Placering:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Placering"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "Tidscykler:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Mikropaus:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Vilopaus:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Daglig gräns:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Tidscykler"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -949,9 +955,13 @@ msgstr "Pausuppmaningar"
 msgid "Prompt before breaking"
 msgstr "Uppmaning före pauser"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Maximalt antal uppmaningar:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Maximalt antal uppmaningar"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -977,8 +987,10 @@ msgid "Regard micro-breaks as activity"
 msgstr "Anse mikropaus vara en aktivitet"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "Antal övningar:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
+msgstr "Återuppta övningar"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -994,17 +1006,27 @@ msgstr ""
 msgid "Time before end:"
 msgstr "Tid före slut:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Tid mellan pauser:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Tid mellan pauser"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Längd på paus:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Längd på paus"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Flytta fram tid:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Flytta fram tid"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1023,7 +1045,7 @@ msgid "You should stop for today..."
 msgstr "Du bör sluta för idag..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1031,35 +1053,36 @@ msgid "Break in {}"
 msgstr "Paus om"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Försvinner om"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Tyst om"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Vilopaus i %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Naturliga pauser tagna"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Du behöver ta en vilopaus..."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1540,12 +1563,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Placering:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1572,12 +1589,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Placera alla pauser på samma ställe"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Tidscykler:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1678,13 +1689,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Flytta fram tid:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1710,13 +1714,6 @@ msgstr "Maximalt antal uppmaningar:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Maximalt antal uppmaningar:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1756,11 +1753,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Blockeringsläge:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1804,19 +1796,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
-msgid "Language"
-msgstr "Språk:"
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Blockeringsläge:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1851,21 +1833,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Tid mellan pauser:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Längd på paus:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1885,11 +1855,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Aktivitet"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Musrörelser:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1932,18 +1897,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Statusfönster"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Visa statusfönster"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1971,11 +1932,6 @@ msgstr ""
 "Detta är din vilopaus. Se till att du ställer dig upp och går\n"
 "bort från din dator på en regelbunden basis. Gå bara\n"
 "runt i några minuter, stretcha och slappna av."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Vilopaus i %s"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2031,11 +1987,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Antal övningar:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2048,11 +1999,6 @@ msgstr "Inga ljud"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
-msgid "Volume"
-msgstr "Volym:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
@@ -2082,352 +2028,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "Paus om %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Försvinner om %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Tyst om %s"
-
-#~ msgid ""
-#~ "A connection has been established with a remote Workrave.\n"
-#~ "This Workrave uses different break setting. Please resolve.."
-#~ msgstr ""
-#~ "En anslutning har etablerats med en fjärrinstans av Workrave.\n"
-#~ "Denna Workrave använder andra pausinställningar. Lös problemet.."
-
-#~ msgid "About %s"
-#~ msgstr "Om %s"
-
-#~ msgid "About..."
-#~ msgstr "Om..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Accepterade ny klient."
-
-#, fuzzy, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "Bekräftar begäran om master från klient %s: %d."
-
-#~ msgid "Advanced"
-#~ msgstr "Avancerat"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "Tillåt inkommande anslutningar"
-
-#~ msgid "An exception occurred '%s'"
-#~ msgstr "Ett undantag inträffade \"%s\""
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Kan inte slå upp mitt egna värdnamn. Inaktiverar distribution."
-
-#, fuzzy, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "Klient %s åtkomst nekas."
-
-#, fuzzy, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "Klient %s stängde anslutning."
-
-#, fuzzy, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "Klient %s ansluten."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "Klient %s är en dubblett."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "Klient %s är nu master."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "Klient %s är nu ny master."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "Klient %s välkomnar oss."
-
-#, fuzzy, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "Klient %s läsfel, stänger."
-
-#, fuzzy, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "Klient %s avvisade begäran om master, fördröjer."
-
-#, fuzzy, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "Klient %s säger hej."
-
-#, fuzzy, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "Klient %s loggade av."
-
-#, fuzzy, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "Timeout för klient från %s."
-
-#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
-#~ msgstr "Stäng dina ögon och andas ut så länge du kan och försök att slappna av. När du andas in igen, gör det så sakta som möjligt. Försök att räkna sakta till 8 för varje gång du andas ut och in. För att slappna av extra mycket i ögonen, försök att stänga dem i mikropauser."
-
-#~ msgid "Configuration conflict"
-#~ msgstr "Konflikt i konfigurationen"
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "_Anslut"
-
-#, fuzzy, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "Ansluter till %s."
-
-#, fuzzy, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Kunde inte ansluta till klient %s: %d."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Kunde inte aktivera nätverksfunktionen."
-
-#~ msgid "Credits"
-#~ msgstr "Tack till"
-
-#~ msgid "Daily usage"
-#~ msgstr "Daglig användning"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Inaktiverar nätverksfunktion."
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "_Koppla ned"
-
-#, fuzzy, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "Kopplar ner %s."
-
-#~ msgid "Enable networking"
-#~ msgstr "Aktivera nätverk"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Ange värdnamnet och portnummer till en dator på nätverket\n"
-#~ "som du önskar att ansluta till."
-
-#~ msgid "Fist roll"
-#~ msgstr "Vrid handen"
-
-#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
-#~ msgstr "Ställ dig med ansiktet mot en vägg (eller liknande). Placera händerna på väggen i skulderhöjd med armbågarna lätt böjda. Tryck kroppen mot väggen utan att ändra vinkel på armbågarna. Tryck dig tillbaka från väggen igen utan att ändra vinkel på armbågarna."
-
-#~ msgid "Host name"
-#~ msgstr "Värdnamn"
-
-#~ msgid "Host name:"
-#~ msgstr "Värdnamn:"
-
-#~ msgid "Hosts"
-#~ msgstr "Värdar"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Jag kunde inte initiera Bonobo"
-
-#~ msgid "I'm now master."
-#~ msgstr "Jag är nu master."
-
-#~ msgid "Inactive"
-#~ msgstr "Inaktiv"
-
-#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr "Håll huvudet rakt och käken parallellt med golvet. Flytta långsamt huvudet bakåt (så att du skapar en dubbelhaka). Håll kvar denna position i 2 sekunder och slappna av. Flytta huvudet på samma sätt framåt, håll kvar i 2 sekunder och slappna av igen."
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "_Läge"
-
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Rör på skulderbladen"
-
-#~ msgid "Neck stretch"
-#~ msgstr "Utsträckning av nacken"
-
-#~ msgid "Network"
-#~ msgstr "Nätverk"
-
-#~ msgid "Network connect"
-#~ msgstr "Nätverksanslutning"
-
-#~ msgid "Network log"
-#~ msgstr "Nätverkslogg"
-
-#~ msgid "Network operation started."
-#~ msgstr "Nätverksfunktion startad."
-
-#, fuzzy, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "Icke-master-klient %s avvisade begäran om master."
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "_Öppna"
-
-#~ msgid "Password:"
-#~ msgstr "Lösenord:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Spela upp ljud med den inbyggda högtalaren"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
-
-#~ msgid "Put your underarm on a table and make a fist. Roll your fist away from your body untill it rests on your nuckles. Keep it for 2 seconds and roll it back. Repeat this 5 times for each hand. If the muscle is stretched to much, let your fingers rest on the table while rolling."
-#~ msgstr "Lägg din underarm på ett bord och knyt handen. Vrid dina hand bort från kroppen tills den vilar på dina knogar. Håll den där i 2 sekunder och vrid den tillbaka. Upprepa denna övning 5 gånger för varje hand. Om muskeln sträcks ut för mycket, låt din fingrar vila på bordet under tiden du vrider."
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "_Avsluta"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Återanslut"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Återanslutningsförsök:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Återanslutningsintervall:"
-
-#, fuzzy, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Återansluter till %s."
-
-#, fuzzy, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "Avvisar begäran om master från klient %s: %d."
-
-#~ msgid "Relax the eyes"
-#~ msgstr "Slappna av med ögonen"
-
-#, fuzzy, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "Tar bort klient %s."
-
-#~ msgid "Repeat:"
-#~ msgstr "Upprepa:"
-
-#, fuzzy, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Begär masterstatus från %s."
-
-#~ msgid "Restbreak"
-#~ msgstr "Vilopaus"
-
-#~ msgid "Server port:"
-#~ msgstr "Serverport:"
-
-#~ msgid "Server settings"
-#~ msgstr "Serverinställningar"
-
-#~ msgid "Shared secret:"
-#~ msgstr "Delad hemlighet:"
-
-#~ msgid "Show _log"
-#~ msgstr "Visa _logg"
-
-#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr "Ställ dig vid skrivbordet och placera båda handflatorna på bordet med fingrarna pekandes mot din kropp. Sträck försiktigt handlederna och underarmarna."
-
-#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
-#~ msgstr "Stå upprest och försök att ta tag i taket med händerna utan att lyfta hälarna från golvet. Håll kvar i några sekunder. Låt händerna sjunka sakta mot golvet utan att böja armarna. Fortsätt att låta händerna sjunka mot golvet genom att sakta böja på ryggen framåt helt tills du (nästan) kan placera de framför dina skor. Räta sakta upp ryggen från höften tills du står upprest igen."
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Tyst om %s"
-
-#~ msgid "Stretch your back"
-#~ msgstr "Strekk ryggen"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Suspendera tidtagare vid inaktivitet"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Följande lista anger de värdar som Workrave ansluter till vid uppstart.\n"
-#~ "Klicka på värdnamnet eller portnumret för att redigera."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Detta är din vilopaus. Se till att du ställer dig upp och går\n"
-#~ "bort från din dator på en regelbunden basis. Gå bara\n"
-#~ "runt i några minuter, stretcha och slappna av."
-
-#~ msgid "Too many alias levels for a locale, may indicate a loop"
-#~ msgstr "För många aliasnivåer för en lokal, kan indikera en slinga"
-
-#~ msgid "Username:"
-#~ msgstr "Användarnamn:"
-
-#, fuzzy
-#~ msgid "Workrave failed to start"
-#~ msgstr "Starta Workrave vid uppstart av Windows"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Sträck ut handled och underarm"
-
-#~ msgid "_About..."
-#~ msgstr "_Om..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Anslut"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Anslut..."
-
-#~ msgid "_Credits"
-#~ msgstr "_Tack till"
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Koppla ned"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Dokumenterat av"
-
-#~ msgid "_Network"
-#~ msgstr "_Nätverk"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Tyst"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Återanslut"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Visa logg..."
-
-#~ msgid "_Translated by"
-#~ msgstr "_Översatt av"
-
-#~ msgid "_Written by"
-#~ msgstr "_Skrivet av"

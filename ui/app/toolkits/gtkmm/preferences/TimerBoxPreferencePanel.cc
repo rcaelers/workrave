@@ -124,15 +124,15 @@ TimerBoxPreferencePanel::create_page()
       hig->add_widget(*ontop_cb);
     }
 
-  hig->add_label(_("Placement:"), *place_button);
-  hig->add_label(_("Cycle time:"), *cycle_entry);
+  hig->add_label(std::string(_("Placement")) + ":", *place_button);
+  hig->add_label(std::string(_("Cycle time")) + ":", *cycle_entry);
 
   hig->add_caption(_("Timers"));
 
   // Layout
-  hig->add_label(_("Micro-break:"), *timer_display_button[0]);
-  hig->add_label(_("Rest break:"), *timer_display_button[1]);
-  hig->add_label(_("Daily limit:"), *timer_display_button[2]);
+  hig->add_label(std::string(_("Micro-break")) + ":", *timer_display_button[0]);
+  hig->add_label(std::string(_("Rest break")) + ":", *timer_display_button[1]);
+  hig->add_label(std::string(_("Daily limit")) + ":", *timer_display_button[2]);
 
   if (name == "applet")
     {

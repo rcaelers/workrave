@@ -98,7 +98,7 @@ TimerPreferencePanel::create_prelude_panel()
   hig->add_widget(*prelude_cb);
 
   Gtk::HBox *max_box = Gtk::manage(new Gtk::HBox());
-  has_max_prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Maximum number of prompts:")));
+  has_max_prelude_cb = Gtk::manage(new Gtk::CheckButton(std::string(_("Maximum number of prompts")) + ":"));
   max_prelude_spin = Gtk::manage(new Gtk::SpinButton(max_prelude_adjustment));
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);
   max_box->pack_start(*max_prelude_spin, false, false, 0);
@@ -150,7 +150,7 @@ TimerPreferencePanel::create_options_panel()
   if (break_id == BREAK_ID_REST_BREAK)
     {
       exercises_spin = Gtk::manage(new Gtk::SpinButton(exercises_adjustment));
-      hig->add_label(_("Number of exercises:"), *exercises_spin);
+      hig->add_label(std::string(_("Number of exercises")) + ":", *exercises_spin);
     }
 
   if (break_id == BREAK_ID_REST_BREAK)
@@ -185,14 +185,14 @@ TimerPreferencePanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gro
 
   // Limit time
   limit_tim = Gtk::manage(new TimeEntry());
-  Gtk::Label *limit_lab = hig->add_label(break_id == BREAK_ID_DAILY_LIMIT ? _("Time before end:") : _("Time between breaks:"),
+  Gtk::Label *limit_lab = hig->add_label(break_id == BREAK_ID_DAILY_LIMIT ? _("Time before end:") : std::string(_("Time between breaks")) + ":",
                                          *limit_tim);
   hsize_group->add_widget(*limit_lab);
 
   // Auto-reset time
   if (break_id != BREAK_ID_DAILY_LIMIT)
     {
-      const char *auto_reset_txt = _("Break duration:");
+      std::string auto_reset_txt = std::string(_("Break duration")) + ":";
 
       auto_reset_tim = Gtk::manage(new TimeEntry());
 
@@ -207,7 +207,7 @@ TimerPreferencePanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_gro
 
   // Snooze time
   snooze_tim = Gtk::manage(new TimeEntry());
-  Gtk::Label *snooze_lab = hig->add_label(_("Postpone time:"), *snooze_tim);
+  Gtk::Label *snooze_lab = hig->add_label(std::string(_("Postpone time")) + ":", *snooze_tim);
   hsize_group->add_widget(*snooze_lab);
 
   vsize_group->add_widget(*hig);

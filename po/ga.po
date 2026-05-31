@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2020-01-10 15:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -43,19 +43,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Tá Workrave sa mhód ciúin. Ní thaispeánfar aon fhuinneog i dtaobh sosa."
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Sos beag"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -69,8 +73,9 @@ msgstr "Sos scíthe"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -530,30 +535,30 @@ msgstr "Cuir ar sos é"
 msgid "Resume exercises"
 msgstr "Atosaigh cleachtaí"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Lig do scíth ar feadh roinnt soicind"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Beidh an chéad shos scíth eile i gceann %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Tá sos scíthe %s thar am"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "Teorainn laethúil i gceann %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Tá an teorainn laethúil %s i ndiaidh ama"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -634,7 +639,8 @@ msgid "General"
 msgstr "Coiteann"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Fuinneog Stádais"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -678,9 +684,11 @@ msgstr "Coisc ionchur agus an scáileán"
 msgid "Options"
 msgstr "Roghanna"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Mód coiscthe:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Mód coiscthe"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -690,9 +698,11 @@ msgstr "Réamhshocrú an chórais"
 msgid "(font not available)"
 msgstr "(níl an chlófhoireann ar fáil)"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "Teanga:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
+msgstr "Teanga"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -746,10 +756,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Mód coiscthe:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Mód coiscthe"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -771,10 +782,11 @@ msgstr "Cumasaigh an rogha seo má theipeann ar Workrave brath go bhfuil feidhm 
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Gluaiseacht na luchóige:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Gluaiseacht na luchóige"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -799,8 +811,9 @@ msgid "Play sounds using sound card"
 msgstr "Seinn fuaimeanna ag baint feidhm as an gcárta fuaimeanna"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "Airde:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
@@ -889,26 +902,19 @@ msgstr "Taispeáin an threofhuinneog"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Ionadú:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Ionadú"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "Aga an timthrialla:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Sos beag:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Sos scíthe:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Teorainn laethúil:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Aga an timthrialla"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -942,9 +948,13 @@ msgstr "Meabhrú do na sosanna"
 msgid "Prompt before breaking"
 msgstr "Nod roimh shos"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Líon uasta noda:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Líon uasta noda"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -968,8 +978,10 @@ msgid "Regard micro-breaks as activity"
 msgstr "Caith le sosanna beaga mar ghníomhaíocht"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "Líon na gcleachtaí:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
+msgstr "Atosaigh cleachtaí"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -985,17 +997,27 @@ msgstr "Cumasaigh gur féidir an ríomhaire a mhúchadh ón scáileán scíthe"
 msgid "Time before end:"
 msgstr "Am roimh an deireadh:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Am idir shosanna:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Am idir shosanna"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Fad an tsosa:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Fad an tsosa"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Aga ar fionraí:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Aga ar fionraí"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1014,7 +1036,7 @@ msgid "You should stop for today..."
 msgstr "Ba cheart duit éirí as an ríomhaire don lá seo..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1022,33 +1044,34 @@ msgid "Break in {}"
 msgstr "Sos i gceann %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Imíonn sé as radharc i gceann %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Ciúin i gceann %s"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Sos scíthe ar feadh %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 msgid "Natural rest break"
 msgstr "Sos aiceanta"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 msgid "This is your natural rest break."
 msgstr "Seo é do shos aiceanta."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1525,12 +1548,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Ionadú:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1557,12 +1574,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Cuir gach uaineadóir in aon bhall amháin"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Aga an timthrialla:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1661,13 +1672,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Aga ar fionraí:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1693,13 +1697,6 @@ msgstr "Líon uasta noda:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Líon uasta noda:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1739,11 +1736,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Mód coiscthe:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1787,19 +1779,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
-msgid "Language"
-msgstr "Teanga:"
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Mód coiscthe:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1834,21 +1816,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Am idir shosanna:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Fad an tsosa:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1868,11 +1838,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Gníomhaíocht"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Gluaiseacht na luchóige:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1915,18 +1880,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Fuinneog Stádais"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Taispeáin an threofhuinneog"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1954,11 +1915,6 @@ msgstr ""
 "Seo é do shos scíthe. Déan cinnte go seasann tú agus\n"
 "go siúlann tú ó do ríomhaire go rialta. Siúl \n"
 "ar feadh tamaillín, sín, agus lig do scíth."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Sos scíthe ar feadh %s"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2014,27 +1970,18 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Líon na gcleachtaí:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:30
+#, fuzzy
 msgid "Enable sounds"
-msgstr "Cumasaigh fuaimeanna"
+msgstr "Gan fuaimeanna"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
-msgid "Volume"
-msgstr "Airde:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
@@ -2064,270 +2011,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "Sos i gceann %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Imíonn sé as radharc i gceann %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Ciúin i gceann %s"
-
-#~ msgid "<h3>Workrave %s</h3><br/>%s<br/>"
-#~ msgstr "<h3>Workrave %s</h3><br/>%s<br/>"
-
-#~ msgid "About Workrave"
-#~ msgstr "Maidir le Workrave"
-
-#~ msgid "About..."
-#~ msgstr "Maidir leis..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Glacadh leis an gcliant nua."
-
-#, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "Ag admháil an t-iarratas bheith i gceanna ón gcliant %s."
-
-#~ msgid "Advanced"
-#~ msgstr "Ardroghanna"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "Ceadaigh naisc isteach"
-
-#, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "Diúltaíodh rochtain don cliant %s."
-
-#, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "Dún an cliant %s an ceangail."
-
-#, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "Tá an cliant %s ceangailte."
-
-#, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "Is dúblach é an cliant %s."
-
-#, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "Tá an cliant %s i gceannas anois."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "Tá an cliant %s i gceannas anois."
-
-#, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "Tá an cliant %s ag fearadh fáilte dúinn."
-
-#, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "Bhí botún sa léamh ag an gcliant %s. Tá sé á dúnadh."
-
-#, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "Diúltaigh an cliant %s don iarratas bheith i gceannas. Fan."
-
-#, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "Tá an cliant %s ag rá hóra."
-
-#, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "Dínasc an cliant %s."
-
-#, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "Tá an t-am istigh don cliant ar %s."
-
-#~ msgid "Connect"
-#~ msgstr "Ceangail"
-
-#, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "Ag nascadh le %s."
-
-#, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Níorbh fhéidir nascadh leis an gcliant %s."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Níorbh fhéidir oibríocht líonra a chumasú."
-
-#~ msgid "Daily usage"
-#~ msgstr "Gnáthaíocht laethúil"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Ag díchumasú oibríocht líonra."
-
-#~ msgid "Disconnect"
-#~ msgstr "Dícheangail"
-
-#, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "Ag dínascadh %s"
-
-#~ msgid "Enable networking"
-#~ msgstr "Cumasaigh líonrú"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Cuir isteach ainm an óstaigh agus uimhir phoirt ríomhaire\n"
-#~ "sa líonra ar mian leat ceangailt le."
-
-#~ msgid "Host name"
-#~ msgstr "Ainm an óstaigh"
-
-#~ msgid "Host name:"
-#~ msgstr "Ainm an óstaigh:"
-
-#~ msgid "Hosts"
-#~ msgstr "Óstaigh"
-
-#~ msgid "I'm now master."
-#~ msgstr "Táim i gceannas anois."
-
-#~ msgid "Is Workrave already running?"
-#~ msgstr "An bhfuil Workrave ag rith cheana?"
-
-#~ msgid "Mode"
-#~ msgstr "Mód"
-
-#~ msgid "Network"
-#~ msgstr "Líonra"
-
-#~ msgid "Network connect"
-#~ msgstr "Ceangail leis an líonra"
-
-#~ msgid "Network log"
-#~ msgstr "Oireas an líonra"
-
-#~ msgid "Network operation started."
-#~ msgstr "Tosaíodh oibríocht líonra."
-
-#, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "Diúltaigh an cliant neamhcheannasach %s don iarratas bheith i gceannas."
-
-#~ msgid "Open"
-#~ msgstr "Oscail"
-
-#~ msgid "Password:"
-#~ msgstr "Focal faire:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Seinn fuaimeanna trí na callairí ionsuite"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Cuidíonn an ríomhchlár seo le gortú athstraidhneála a sheachaint agus chun biseach a fháil uaidh."
-
-#~ msgid "Quit"
-#~ msgstr "Scoir"
-
-#~ msgid "Reading Mode"
-#~ msgstr "Mód Léitheoireachta"
-
-#~ msgid "Reconnect"
-#~ msgstr "Athcheangail"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Iarrachtaí athcheangailte:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Aga idir athnascadh:"
-
-#, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Ag nascadh arís le %s."
-
-#, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "Ag diúltú don iarratas chun a bheith i gceannas ón gcliant %s."
-
-#, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "Ag baint an chliaint %s."
-
-#, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Ag lorg cead bheith i gceannas ó %s."
-
-#~ msgid "Select"
-#~ msgstr "Roghnaigh"
-
-#~ msgid "Server port:"
-#~ msgstr "Port an fhreastalaí:"
-
-#~ msgid "Server settings"
-#~ msgstr "Socruithe an fhreastalaí"
-
-#~ msgid "Show _log"
-#~ msgstr "Taispeáin an t-oireas"
-
-#~ msgid "Shut down"
-#~ msgstr "Múch é"
-
-#~ msgid "Sound"
-#~ msgstr "Fuaim"
-
-#~ msgid "Start Workrave on Windows startup"
-#~ msgstr "Tosaigh Workrave tráth a thosaítear Windows"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Cuir an t-uaineadóir ar fionraí nuair atá sé neamhghníomhach"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Sonraítear thíos na freastalaithe a cheanglaíonn Workrave chuig nuair\n"
-#~ "a thosaíonn sé. Brú ainm an óstaigh nó uimhir an phoirt chun eagarthóireacht a dhéanamh orthu."
-
-#~ msgid "Username:"
-#~ msgstr "Ainm úsáideora:"
-
-#~ msgid "Workrave failed to start"
-#~ msgstr "Theip ar Workrave tosú"
-
-#~ msgid "_About..."
-#~ msgstr "_Maidir le..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Ceangail"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Ceangail..."
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Dícheangail"
-
-#~ msgid "_Join"
-#~ msgstr "_Cláraigh leis"
-
-#~ msgid "_Network"
-#~ msgstr "_Líonra"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Ciúin"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Athcheangail"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Taispeáin an tOireas..."

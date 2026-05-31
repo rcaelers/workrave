@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2024-03-02 15:24+0100\n"
 "Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
 "Language-Team:Italian\n"
@@ -43,19 +43,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "Workrave è in modalità silenziosa. Non verranno visualizzate finestre di pausa."
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Micropausa"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -69,8 +73,9 @@ msgstr "Pausa di riposo"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -532,30 +537,30 @@ msgstr "Pausa"
 msgid "Resume exercises"
 msgstr "Riprendi esercizi:"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Rilassati per alcuni secondi"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Prossimo riposo tra %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Riposo posticipato di %s minuti"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "Limite giornaliero tra %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Limite giornaliero %s superato"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -634,7 +639,8 @@ msgid "General"
 msgstr "Generale"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Finestra di Stato"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -678,9 +684,11 @@ msgstr "Blocca input e schermo"
 msgid "Options"
 msgstr "Opzioni"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Modalità Blocco:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Modalità Blocco"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -690,9 +698,11 @@ msgstr "Sistema predefinito"
 msgid "(font not available)"
 msgstr "(font non disponibile)"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "Lingua:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
+msgstr "Lingua"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -745,10 +755,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Modalità Blocco:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Modalità Blocco"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -770,9 +781,11 @@ msgstr "Abilita questa opzione se Workrave non riesce a rilevare quando stai usa
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr "Workrave deve essere riavviato manualmente dopo aver modificato questa impostazione"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-msgid "Mouse sensitivity:"
-msgstr "Sensibilità del mouse:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Sensibilità del mouse"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -797,8 +810,9 @@ msgid "Play sounds using sound card"
 msgstr "Riproduci suoni con la scheda audio"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "Volume:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
@@ -887,26 +901,19 @@ msgstr "Mostra la finestra di stato"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Posizione:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Posizione"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "Tempo ciclico per la visualizzazione:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Micropausa:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Pausa di riposo:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Limite giornaliero:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Tempo ciclico per la visualizzazione"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Fallback applet enabled"
@@ -938,9 +945,13 @@ msgstr "Avviso di pausa"
 msgid "Prompt before breaking"
 msgstr "Avvisa prima della pausa"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Massimo numero di avvisi:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Massimo numero di avvisi"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -964,8 +975,10 @@ msgid "Regard micro-breaks as activity"
 msgstr "Considera la micropausa come attività"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "Numero di esercizi:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
+msgstr "Riprendi esercizi:"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -981,17 +994,27 @@ msgstr "Abilita lo spegnimento del computer dalla schermata di riposo"
 msgid "Time before end:"
 msgstr "Tempo prima dell'interruzione:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Tempo tra le interruzioni:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Tempo tra le interruzioni"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Durata pausa:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Durata pausa"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Posponi di:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Posponi di"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1010,7 +1033,7 @@ msgid "You should stop for today..."
 msgstr "Dovresti fermarti per oggi..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1018,33 +1041,34 @@ msgid "Break in {}"
 msgstr "In pausa"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Scompare tra"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Silenzioso"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Riposo per %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 msgid "Natural rest break"
 msgstr "Pause spontanee"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 msgid "This is your natural rest break."
 msgstr "Questa è la tua pausa di riposo naturale."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1522,12 +1546,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Posizione:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1554,12 +1572,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Mostra tutti i timer insieme"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Tempo ciclico per la visualizzazione:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1660,13 +1672,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Posponi di:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1692,13 +1697,6 @@ msgstr "Massimo numero di avvisi:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Massimo numero di avvisi:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1739,11 +1737,6 @@ msgstr "Prossimo"
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Modalità Blocco:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1787,19 +1780,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
-msgid "Language"
-msgstr "Lingua:"
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Modalità Blocco:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1835,21 +1818,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Tempo tra le interruzioni:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Durata pausa:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1869,11 +1840,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Attività"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Sensibilità del mouse:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 #, fuzzy
@@ -1917,18 +1883,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Finestra di Stato"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Mostra icona di stato"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1956,11 +1918,6 @@ msgstr ""
 "Questo è il tuo riposo. Alzati in piedi e cammina lontano\n"
 "dal tuo computer. Fai giusto due passi lì intorno per qualche\n"
 "minuto, stiracchiati, e rilassati."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Riposo per %s"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2016,11 +1973,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Numero di esercizi:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2033,11 +1985,6 @@ msgstr "Nessun suono"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
-msgid "Volume"
-msgstr "Volume:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
@@ -2067,336 +2014,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "In pausa %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Scompare in %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Silenzioso in %s"
-
-#~ msgid "Note that this crash report also contains technical information about the state of Workrave when it crashed."
-#~ msgstr "Tieni presente che questo rapporto sugli arresti anomali contiene anche informazioni tecniche sullo stato di Workrave al momento dell'arresto anomalo."
-
-#~ msgid "The following logging will be attached to the crash report:"
-#~ msgstr "Le seguente registrazioni verranno allegate al rapporto sull'arresto anomalo:"
-
-#~ msgid "Workrave has crashed."
-#~ msgstr "Workrave è andato in crash."
-
-#~ msgid "About %s"
-#~ msgstr "Informazioni %s"
-
-#~ msgid "About..."
-#~ msgstr "Informazioni..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Nuovo client accettato."
-
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "Conferma della richiesta di master dal client %s."
-
-#~ msgid "Advanced"
-#~ msgstr "Avanzate"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "Consenti connessioni in entrata"
-
-#~ msgid "Block all"
-#~ msgstr "Blocca tutto"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Non posso risolvere il nome del mio server. Disattivo la distribuzione."
-
-#~ msgid "Client %s access denied."
-#~ msgstr "Accesso negato al client %s."
-
-#~ msgid "Client %s closed connection."
-#~ msgstr "Connessione chiusa per il client %s."
-
-#~ msgid "Client %s connected."
-#~ msgstr "Client %s connesso."
-
-#~ msgid "Client %s is duplicate."
-#~ msgstr "Il client %s è duplicato."
-
-#~ msgid "Client %s is now master."
-#~ msgstr "Il client %s è adesso il master."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "Il client %s é ora il nuovo master."
-
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "Il client %s ci dà il benvenuto."
-
-#~ msgid "Client %s read error, closing."
-#~ msgstr "Errore di lettura nel client %s, chiusura in corso."
-
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "Il client %s ha respinto la richiesta principale, ritardando."
-
-#~ msgid "Client %s saying hello."
-#~ msgstr "Il client %s ti stà salutando."
-
-#~ msgid "Client %s signed off."
-#~ msgstr "Il client %s si é disconnesso."
-
-#~ msgid "Client timeout from %s."
-#~ msgstr "Tempo scaduto per il client %s."
-
-#~ msgid "Close your eyes and breathe out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breathe in and out. To extra relax your eyes, try closing them in micro pauses too."
-#~ msgstr "Chiudi gli occhi, espira il più possibile e prova a rilassarti. Quando inspiri fallo il più lentamente possibile. Prova a contare lentamente fino a 8 ogni volta che inspiri ed espiri. Per rilassare ulteriormente gli occhi, cerca di chiuderli anche nelle micro pause."
-
-#~ msgid "Connect"
-#~ msgstr "Connetti"
-
-#~ msgid "Connect at start-up"
-#~ msgstr "Connetti all'avvio"
-
-#~ msgid "Connecting to %s."
-#~ msgstr "Connessione a %s."
-
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Impossibile connettersi al client %s."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Impossibile abilitare la connessione in rete."
-
-#~ msgid "Credits"
-#~ msgstr "Crediti"
-
-#~ msgid "Daily usage"
-#~ msgstr "Utilizzo giornaliero"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Disattivo la connessione in rete."
-
-#~ msgid "Disconnect"
-#~ msgstr "Disconnetti"
-
-#~ msgid "Disconnecting %s"
-#~ msgstr "Disconnessione %s"
-
-#~ msgid "Enable networking"
-#~ msgstr "Abilita Rete"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Inserisci il nome dell'host e il numero di porta del\n"
-#~ "computer al quale vuoi connetterti."
-
-#~ msgid "Force break after maximum exceeded"
-#~ msgstr "Forza pausa dopo il massimo superato"
-
-#~ msgid "Go stand face to a wall (or something) and put your hands at shoulder height against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows."
-#~ msgstr "Poniti di fronte ad un muro (o qualcosa del genere) e poggiaci le mani tenendole all'altezza delle spalle, con i gomiti leggermente piegati. Spingi il corpo verso il muro, senza cambiare l'angolo dei gomiti. Poi spingilo di nuovo lontano dal muro sempre senza cambiare l'angolo dei gomiti."
-
-#~ msgid "Host name"
-#~ msgstr "Nome host"
-
-#~ msgid "Host name:"
-#~ msgstr "Nome host:"
-
-#~ msgid "Hosts"
-#~ msgstr "Hosts"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Impossibile inizializzare Bonobo"
-
-#~ msgid "I'm now master."
-#~ msgstr "Adesso sono il master."
-
-#~ msgid "Inactive"
-#~ msgstr "Inattivo"
-
-#~ msgid "Is Workrave already running?"
-#~ msgstr "Workrave è già in esecuzione?"
-
-#~ msgid "Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin). Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr "Tieni la testa diritta con la mndibola parallela al suolo. Muovi la testa all'indietro, facendo doppio mento. Mantieni 2 secondi e rilassati. Ora muovi la testa in avanti allo stesso modo, mantieni 2 secondi e rilassati ancora."
-
-#~ msgid "Make sure that the RECORD extension is enabled in the X server."
-#~ msgstr "Assicurarsi che l'estensione RECORD sia abilitata nel server X."
-
-#~ msgid "Micro-pause ended"
-#~ msgstr "Fine della micropausa"
-
-#~ msgid "Mode"
-#~ msgstr "Modalità"
-
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Muovi le scapole"
-
-#~ msgid "Neck stretch"
-#~ msgstr "Stira il collo"
-
-#~ msgid "Network"
-#~ msgstr "Rete"
-
-#~ msgid "Network connect"
-#~ msgstr "Conneti alla Rete"
-
-#~ msgid "Network log"
-#~ msgstr "Log di Rete"
-
-#~ msgid "Network operation started."
-#~ msgstr "Attività di rete avviata."
-
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "Il client %s non è master ha rifiutato la richiesta di master."
-
-#~ msgid "None"
-#~ msgstr "Nessuno"
-
-#~ msgid "Open"
-#~ msgstr "Apri"
-
-#~ msgid "Password:"
-#~ msgstr "Password:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Riproduci suoni usando gli altoparlanti integrati"
-
-#~ msgid "Port"
-#~ msgstr "Porta"
-
-#~ msgid "Port:"
-#~ msgstr "Porta:"
-
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Programma che assiste nel recupero e prevenzione di RSI"
-
-#~ msgid "Quit"
-#~ msgstr "Esci"
-
-#~ msgid "Reconnect"
-#~ msgstr "Riconnetti"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Tentativi di connessione:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Intervallo tra i tentativi:"
-
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Riconnessione a %s."
-
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "Rifiuto dello stato di master dal client %s."
-
-#~ msgid "Relax the eyes"
-#~ msgstr "Rilassa gli occhi"
-
-#~ msgid "Removing client %s."
-#~ msgstr "Rimozione client %s."
-
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Richiedo lo stato di master a %s."
-
-#~ msgid "Resets at:"
-#~ msgstr "Ripristina a:"
-
-#~ msgid "Restbreak"
-#~ msgstr "Pausa di riposo"
-
-#~ msgid "Server port:"
-#~ msgstr "Porta del Server:"
-
-#~ msgid "Server settings"
-#~ msgstr "Impostazioni Server"
-
-#~ msgid "Show _log"
-#~ msgstr "Mostra _log"
-
-#~ msgid "Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr "Stai in piedi davanti alla tua scrivania e poggia il palmo delle mani sul piano con le dita rivolte verso di te. Delicatamente  stira i polsi e gli avambracci."
-
-#~ msgid "Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again."
-#~ msgstr "In piedi, prova a raggiungere il soffitto con le mani tenendo i talloni a terra. Mantieni pochi secondi. Quindi lascia andare lentamente le mani verso il pavimento, senza piegare le braccia. Continua a muoverti verso il pavimento curvando lentamente la schiena fino a posizionare le mani (quasi) davanti ai piedi. Ora ruota piano la schiena verso l'alto sulle anche, fino a tornare in posizione eretta."
-
-#~ msgid "Starting %s"
-#~ msgstr "Avvio %s"
-
-#~ msgid "Stretch your back"
-#~ msgstr "Stretching della schiena"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Sospendi il timer quando inattivo"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Il seguente elenco specifica gli host al quale Workrave si connette\n"
-#~ "all'avvio. Clicca sull'host o sulla porta per modificare."
-
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Questa è la tua pausa di riposo naturale. Assicurati di alzarti e\n"
-#~ "allontanati dal computer regolarmente. Basta\n"
-#~ "camminare per qualche minuto, fai stretch e rilassati."
-
-#~ msgid "Timer ignores activity"
-#~ msgstr "Il timer ignora l'attività"
-
-#~ msgid "Use dark theme"
-#~ msgstr "Usa il tema scuro"
-
-#~ msgid "Username:"
-#~ msgstr "Nome Utente:"
-
-#~ msgid "Workrave failed to start"
-#~ msgstr "Workrave non si è avviato"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Stretching di polsi e avambracci sulla scrivania"
-
-#~ msgid "_About..."
-#~ msgstr "Informazioni su..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Connetti"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Connetti..."
-
-#~ msgid "_Credits"
-#~ msgstr "_Crediti"
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Disconnetti"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Documentazione di:"
-
-#~ msgid "_Join"
-#~ msgstr "_Entra"
-
-#~ msgid "_Network"
-#~ msgstr "_Rete"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Silenzioso"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Riconnetti"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Mostra Log"
-
-#~ msgid "_Translated by"
-#~ msgstr "Albano Battistella"
-
-#~ msgid "_Written by"
-#~ msgstr "Scritto da"

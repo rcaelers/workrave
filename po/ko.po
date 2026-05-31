@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: softwant\n"
 "Language-Team: Korean <freeware@softwant.com>\n"
@@ -38,19 +38,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "잠깐 휴식"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -64,8 +68,9 @@ msgstr "정규 휴식"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -532,30 +537,30 @@ msgstr "잠시 대기"
 msgid "Resume exercises"
 msgstr "운동 다시 시작"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "잠시동안 긴장을 푸세요."
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "다음 휴식은 %s 후입니다"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "%s 초과 휴식"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "%s으로 일간 제한"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "일간 제한 %s를 넘어섬"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -634,7 +639,8 @@ msgid "General"
 msgstr "일반"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "상태 창"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -678,8 +684,10 @@ msgstr "입력과 화면 차단"
 msgid "Options"
 msgstr "선택사항"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
 msgstr "차단 방식"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
@@ -690,9 +698,11 @@ msgstr "시스템 설정 사용"
 msgid "(font not available)"
 msgstr "(글꼴을 사용할 수 없음)"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "언어:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
+msgstr "언어"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -747,9 +757,10 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
 msgstr "차단 방식"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
@@ -772,10 +783,11 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "마우스 동작:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "마우스 동작"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -800,8 +812,9 @@ msgid "Play sounds using sound card"
 msgstr "사운드카드를 사용하여 소리 재생"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "소리 크기:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
@@ -890,26 +903,19 @@ msgstr "상태 창에 표시"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "위치 :"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "위치"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "시간 주기:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "잠깐 휴식:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "휴식:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "일간 제한:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "시간 주기"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -943,9 +949,13 @@ msgstr "휴식 알림"
 msgid "Prompt before breaking"
 msgstr "휴식 전 알림"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "최대 알림 수:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "최대 알림 수"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -971,8 +981,10 @@ msgid "Regard micro-breaks as activity"
 msgstr "잠깐 휴식을 활동으로 간주"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "운동 횟수:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
+msgstr "운동 다시 시작"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -988,17 +1000,27 @@ msgstr ""
 msgid "Time before end:"
 msgstr "전에 :"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "휴식 간 시간:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "휴식 간 시간"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "휴식 시간:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "휴식 시간"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "연기 시간:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "연기 시간"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1017,7 +1039,7 @@ msgid "You should stop for today..."
 msgstr "오늘은 그만해야 해요..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1025,33 +1047,34 @@ msgid "Break in {}"
 msgstr "%s 경과 후 휴식"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "%s 후에 사라짐"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "%s 경과 후 잠잠잠"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "%s 동안 휴식"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 msgid "Natural rest break"
 msgstr "자연스런 휴식"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 msgid "This is your natural rest break."
 msgstr "이것은 여러분이 선택한 휴식입니다."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1532,12 +1555,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "위치 :"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1564,12 +1581,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "모든 시간 조절기를 한 곳에  둠"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "시간 주기:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1670,13 +1681,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "연기 시간:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1702,13 +1706,6 @@ msgstr "최대 알림 수:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "최대 알림 수:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1748,11 +1745,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "차단 방식"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1796,19 +1788,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
-msgid "Language"
-msgstr "언어:"
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "차단 방식"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1843,21 +1825,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "휴식 간 시간:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "휴식 시간:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1877,11 +1847,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "활동"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "마우스 동작:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1924,18 +1889,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "상태 창"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "상태 창에 표시"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1963,11 +1924,6 @@ msgstr ""
 "휴식시간입니다. 규칙적으로 일어나서 컴퓨터에서\n"
 "떨어지세요. 몇 분이라도 주변을 걷고, 몸을 뻗어서\n"
 "긴장을 푸세요."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "%s 동안 휴식"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2023,11 +1979,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "운동 횟수:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2040,11 +1991,6 @@ msgstr "소리사용 안함"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
-msgid "Volume"
-msgstr "소리 크기:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
@@ -2074,297 +2020,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "%s 경과 후 휴식"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "%s 후에 사라짐"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "%s 경과 후 잠잠잠"
-
-#, fuzzy, qt-format
-#~ msgid "Unrecognized language: (%1)"
-#~ msgstr "미확인 실행 선택사항 : %d"
-
-#~ msgid "About..."
-#~ msgstr "제품정보..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "새로운 클라언트 "
-
-#, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "고개 %s의 요청을 확인중입니다."
-
-#~ msgid "Advanced"
-#~ msgstr "고급설정"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "들어오는 연결 허용"
-
-#~ msgid "Application does not accept documents on command line"
-#~ msgstr "프로그램이 명령줄에서 문서를 접수하지 못하였습니다"
-
-#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-#~ msgstr "문서 URL을 'Type=Link' desktop 엔트리로 넘길 수 없습니다."
-
-#, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "클라이언트 %s의 접근이 차단됨"
-
-#, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "클라이언트 %s의 연결이 끊어짐"
-
-#, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "클라이언트 %s가 연결됨."
-
-#, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "클라이언트 %s가 중복임"
-
-#, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "클라이언트 %s는 현재 마스터임 "
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "클라이언트 %s는 현재 새로운 마스터임"
-
-#, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "클라이언트 %s가 우리를 환영하고 있습니다."
-
-#, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "클라이언트 %s 읽기 오류, 닫는 중"
-
-#, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "클라이언트 %s가 주인장 요청을 거부하였습니다, 거부중"
-
-#, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "클라이언트 %s 인사를 전합니다"
-
-#, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "클라이언트 %s 탈퇴하였습니다"
-
-#, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "%s부터 클라이언트 종료"
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "연결(_C)"
-
-#, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "%s에 연결 중"
-
-#, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "클라이언트 %s에 연결할 수 없음 "
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "네트워크 작업을 할 수 없음"
-
-#~ msgid "Daily usage"
-#~ msgstr "일일 사용량"
-
-#~ msgid "Disable connection to session manager"
-#~ msgstr "세션 관리자에 대한 연결을 사용중지합니다"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "네트워크 작업을 사용중지 중."
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "끊기(_D)"
-
-#, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "%s 연결을 끊는 중"
-
-#~ msgid "Enable networking"
-#~ msgstr "네트워킹 사용"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "연결하고자 하는 네트워크에 있는\n"
-#~ "컴퓨터의 호스트명과 포트 숫자를 입력하세요."
-
-#~ msgid "FILE"
-#~ msgstr "파일"
-
-#~ msgid "File is not a valid .desktop file"
-#~ msgstr "파일은 유효한 .데스크탑 파일이 아닙니다"
-
-#~ msgid "Host name"
-#~ msgstr "호스트명"
-
-#~ msgid "Host name:"
-#~ msgstr "호스트명:"
-
-#~ msgid "Hosts"
-#~ msgstr "호스트"
-
-#~ msgid "I'm now master."
-#~ msgstr "내가 주인장."
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "작업방식(_M)"
-
-#~ msgid "Network"
-#~ msgstr "네트워크"
-
-#~ msgid "Network connect"
-#~ msgstr "네트워크 연결"
-
-#~ msgid "Network log"
-#~ msgstr "네트워크 기록"
-
-#~ msgid "Network operation started."
-#~ msgstr "네트워크 작업이 시작됨"
-
-#, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "주인장이 아닌 클라이언트 %s가 아니면 주인장 요청을 거부하였슴"
-
-#~ msgid "Not a launchable item"
-#~ msgstr "실행할 수 있는 항목이 아님"
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "열기(_O)"
-
-#~ msgid "Password:"
-#~ msgstr "비밀번호:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "내장 스피커를 사용하여 소리 재생"
-
-#~ msgid "Port"
-#~ msgstr "포트"
-
-#~ msgid "Port:"
-#~ msgstr "포트:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "이 프로그램은 반복 긴장성 손상 증후군(RSI)을 방지하고 회복하는 데 도움을 제공합니다."
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "끝내기(_Q)"
-
-#, fuzzy
-#~ msgid "Reading Mode"
-#~ msgstr "읽기방식"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "다시 연결(_R)"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "다시 연결 시도:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "다시 연결 간격:"
-
-#, fuzzy, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "%에 대한 다시 연결 중"
-
-#, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "클라이언트 %s로 부터 주인장 요청 거부"
-
-#, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "클라이언트 %s를 제거 중"
-
-#, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "%s로 부터 주인장 상태 요청 중."
-
-#~ msgid "Server port:"
-#~ msgstr "서버 포트:"
-
-#~ msgid "Server settings"
-#~ msgstr "서버 설정"
-
-#~ msgid "Session management options:"
-#~ msgstr "세션 관리 선택사항:"
-
-#~ msgid "Show _log"
-#~ msgstr "로그표시(_l)"
-
-#~ msgid "Show session management options"
-#~ msgstr "세션 관리 선택사항 표시"
-
-#~ msgid "Specify file containing saved configuration"
-#~ msgstr "저장된 환경설장 파일 지정"
-
-#~ msgid "Specify session management ID"
-#~ msgstr "세션 관리 ID 지정"
-
-#~ msgid "Starting %s"
-#~ msgstr "%s 시작 중"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "사용 안할 땐 시간조절(기) 일시중지"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "다음 목록은 Workrave가 다음 시 시작시 연결하려는 호스트를 지정합니다.\n"
-#~ "편집할 호스트 명과 포트 숫자를 누릅니다."
-
-#~ msgid "Unrecognized desktop file Version '%s'"
-#~ msgstr "미확인 데스크탑 파일 버전 '%s'"
-
-#~ msgid "Username:"
-#~ msgstr "사용자명:"
-
-#, fuzzy
-#~ msgid "Workrave failed to start"
-#~ msgstr "윈도우즈 시작시 Workrave 시작"
-
-#~ msgid "_About..."
-#~ msgstr "정보(_A)..."
-
-#~ msgid "_Connect"
-#~ msgstr "연결(_C)"
-
-#~ msgid "_Connect..."
-#~ msgstr "연결(_C)..."
-
-#~ msgid "_Disconnect"
-#~ msgstr "끊기(_D)"
-
-#~ msgid "_Network"
-#~ msgstr "네트워크(_N)"
-
-#~ msgid "_Quiet"
-#~ msgstr "조용(_Q)"
-
-#~ msgid "_Reconnect"
-#~ msgstr "다시 연결(_R)"
-
-#~ msgid "_Show Log..."
-#~ msgstr "기록 표시(_S)..."

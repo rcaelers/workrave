@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2012-02-08 02:54+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Magyar <gnome-hu-list at gnome dot org>\n"
@@ -43,19 +43,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr "A Workrave csendes módban van. Nem jelennek meg a szünet ablakok."
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Rövid pihenő"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -69,8 +73,9 @@ msgstr "Pihenőidő"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -535,30 +540,30 @@ msgstr "Szünet"
 msgid "Resume exercises"
 msgstr "Gyakorlatok folytatása"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Kérem, lazítson pár másodpercig"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "A következő pihenőidő %s múlva lesz"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "A pihenőidő %s késésben van"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "A napi korlátozásból %s van hátra"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "A napi korlátozás %s túllépésben van"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -637,7 +642,8 @@ msgid "General"
 msgstr "Általános"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Állapotjelző ablak"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -681,9 +687,11 @@ msgstr "A bemenetek és a képernyő tiltása"
 msgid "Options"
 msgstr "Opciók"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Korlátozás:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Korlátozás"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -693,9 +701,11 @@ msgstr "Rendszer alapértelmezése"
 msgid "(font not available)"
 msgstr "(nem érhető el a betűtípus)"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
-msgstr "Nyelv:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
+msgstr "Nyelv"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:125
@@ -750,10 +760,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Korlátozás:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Korlátozás"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -776,10 +787,11 @@ msgstr "Engedélyezze ezt a beállítást, ha a Workrave nem ismeri fel, hogy mi
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Egérmozgás:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Egérmozgás"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -804,8 +816,9 @@ msgid "Play sounds using sound card"
 msgstr "Hangok lejátszása a hangkártyán keresztül"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
-msgstr "Hangerő:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
+msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
 msgid "Sound:"
@@ -894,26 +907,19 @@ msgstr "Állapotjelző ablak megjelenítése"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Elhelyezés:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Elhelyezés"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
 msgstr "Ciklusidő: (másodpercben)"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Rövid pihenő:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Pihenőidő:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Napi korlátozás:"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -947,9 +953,13 @@ msgstr "Felszólítás szünet tartására"
 msgid "Prompt before breaking"
 msgstr "Felszólítás a szünet előtt"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Felszólítások maximális száma:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Felszólítások maximális száma"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -975,8 +985,10 @@ msgid "Regard micro-breaks as activity"
 msgstr "Rövid pihenők tekintése aktivitásnak"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
-msgstr "Gyakorlatok száma:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
+msgstr "Gyakorlatok folytatása"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -992,17 +1004,27 @@ msgstr ""
 msgid "Time before end:"
 msgstr "Napi géphasználati korlát:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Szünetek közti idő:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Szünetek közti idő"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Szünet időtartama:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Szünet időtartama"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Elhalasztás hossza:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Elhalasztás hossza"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1021,7 +1043,7 @@ msgid "You should stop for today..."
 msgstr "Be kellene fejezni a számítógépes munkát mára…"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1029,33 +1051,34 @@ msgid "Break in {}"
 msgstr "Szünet ennyi idő múlva: %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Eltűnik ennyi idő múlva: %s"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Csend ennyi idő múlva: %s"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Még %s van hátra a pihenőidőből"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 msgid "Natural rest break"
 msgstr "Természetes szünet"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 msgid "This is your natural rest break."
 msgstr "Ez az Ön természetes pihenője."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1533,12 +1556,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Elhelyezés:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1565,12 +1582,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Az összes időzítő kijelzőjének összevonása"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Ciklusidő: (másodpercben)"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1672,13 +1683,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Elhalasztás hossza:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1704,13 +1708,6 @@ msgstr "Felszólítások maximális száma:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Felszólítások maximális száma:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1750,11 +1747,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Korlátozás:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1798,19 +1790,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-#, fuzzy
-msgid "Language"
-msgstr "Nyelv:"
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Korlátozás:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1845,21 +1827,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Szünetek közti idő:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Szünet időtartama:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1879,11 +1849,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Aktivitás"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Egérmozgás:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1926,18 +1891,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Állapotjelző ablak"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Állapotjelző ablak megjelenítése"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1964,11 +1925,6 @@ msgid "This is your rest break. Make sure you stand up and walk away from your c
 msgstr ""
 "Ez az Ön pihenőideje. Álljon föl, sétáljon el a számítógéptől.\n"
 "Lazítson, nyújtózzon, sétáljon pár percig."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Még %s van hátra a pihenőidőből"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2024,11 +1980,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Gyakorlatok száma:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2041,11 +1992,6 @@ msgstr "Hangok nélkül"
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-#, fuzzy
-msgid "Volume"
-msgstr "Hangerő:"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
@@ -2075,311 +2021,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "Szünet ennyi idő múlva: %s"
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Eltűnik ennyi idő múlva: %s"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Csend ennyi idő múlva: %s"
-
-#, fuzzy, qt-format
-#~ msgid "Unrecognized language: (%1)"
-#~ msgstr "Ismeretlen indítási kapcsoló: %d"
-
-#~ msgid "About..."
-#~ msgstr "Névjegy…"
-
-#~ msgid "Accepted new client."
-#~ msgstr "Új kliens elfogadva."
-
-#, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "%s kliens elsődlegességi kérelme elfogadva."
-
-#~ msgid "Advanced"
-#~ msgstr "Haladó"
-
-#~ msgid "Allow incoming connections"
-#~ msgstr "Bejövő kapcsolatok engedélyezése"
-
-#~ msgid "Application does not accept documents on command line"
-#~ msgstr "Az alkalmazás nem fogad el dokumentumokat a parancssorban"
-
-#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-#~ msgstr "Nem adhatók dokumentum-URI címek egy „Type=Link” asztali bejegyzésnek"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Nem oldható fel a saját gépnév. A hálózati műveletek felfüggesztésre kerültek."
-
-#, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "%s kliens hozzáférése megtagadva."
-
-#, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "%s kliens befejezte a kapcsolatot."
-
-#, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "%s kliens kapcsolódott."
-
-#, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "A következő kliens többször szerepel: %s."
-
-#, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "A következő kliens az elsődleges: %s."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "%s kliens az elsődleges."
-
-#, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "%s kliens üdvözöl minket."
-
-#, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "%s kliensen olvasási hiba történt, befejezés."
-
-#, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés."
-
-#, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "%s kliens „hello”-t küldött."
-
-#, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "%s kliens kijelentkezett."
-
-#, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "%s kliens túllépte az időkorlátot."
-
-#~ msgid "Connect"
-#~ msgstr "Kapcsolódás"
-
-#, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "Kapcsolódás: %s."
-
-#, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "Sikertelen kapcsolódás %s klienshez."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Nem engedélyezhetőek a hálózati műveletek."
-
-#~ msgid "Daily usage"
-#~ msgstr "Napi használat"
-
-#~ msgid "Disable connection to session manager"
-#~ msgstr "A munkamenet-kezelőhöz való csatlakozás tiltása"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Hálózati műveletek tiltása."
-
-#~ msgid "Disconnect"
-#~ msgstr "Leválasztás"
-
-#, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "%s kapcsolatának bontása"
-
-#~ msgid "Enable networking"
-#~ msgstr "Hálózatkezelés engedélyezése"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Adja meg annak a számítógépnek az adatait,\n"
-#~ "amelyhez csatlakozni szeretne."
-
-#~ msgid "FILE"
-#~ msgstr "FÁJL"
-
-#~ msgid "File is not a valid .desktop file"
-#~ msgstr "A fájl nem egy érvényes .desktop fájl"
-
-#~ msgid "Host name"
-#~ msgstr "Gépnév"
-
-#~ msgid "Host name:"
-#~ msgstr "Gépnév:"
-
-#~ msgid "Hosts"
-#~ msgstr "Gépek"
-
-#~ msgid "I'm now master."
-#~ msgstr "Én vagyok az elsődleges."
-
-#~ msgid "ID"
-#~ msgstr "Azonosító"
-
-#~ msgid "Is Workrave already running?"
-#~ msgstr "A Workrave már fut?"
-
-#~ msgid "Make sure that the RECORD extension is enabled in the X server."
-#~ msgstr "Győződjön meg róla, hogy a RECORD kiterjesztés engedélyezett az X kiszolgálón."
-
-#~ msgid "Mode"
-#~ msgstr "Mód"
-
-#~ msgid "Network"
-#~ msgstr "Hálózat"
-
-#~ msgid "Network connect"
-#~ msgstr "Hálózati csatlakozás"
-
-#~ msgid "Network log"
-#~ msgstr "Hálózati napló"
-
-#~ msgid "Network operation started."
-#~ msgstr "Hálózati műveletek elkezdve."
-
-#, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "%s nem elsődleges kliens elutasította elsődlegességi kérelmét."
-
-#~ msgid "Not a launchable item"
-#~ msgstr "Nem futtatható elem"
-
-#~ msgid "Open"
-#~ msgstr "Megnyitás"
-
-#~ msgid "Password:"
-#~ msgstr "Jelszó:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Hangok lejátszása a beépített hangszórón"
-
-#~ msgid "Port"
-#~ msgstr "Port"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – repetitive strain injury) megelőzésében és az abból való felépülésben."
-
-#~ msgid "Quit"
-#~ msgstr "Kilépés"
-
-#, fuzzy
-#~ msgid "Reading Mode"
-#~ msgstr "Olvasási mód"
-
-#~ msgid "Reconnect"
-#~ msgstr "Újracsatlakozás"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Újracsatlakozási próbálkozások száma:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Újracsatlakozási próbálkozások közti várakozás:"
-
-#, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Újrakapcsolódás ehhez: %s."
-
-#, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "%s kliens elsődlegességi kérelme elutasítva."
-
-#, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "%s kliens eltávolítása."
-
-#, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "Elsődleges állapot igénylése a következőtől: %s."
-
-#~ msgid "Server port:"
-#~ msgstr "Kiszolgáló portja:"
-
-#~ msgid "Server settings"
-#~ msgstr "Kiszolgálóbeállítások"
-
-#~ msgid "Session management options:"
-#~ msgstr "Munkamenet-kezelés kapcsolói:"
-
-#~ msgid "Show _log"
-#~ msgstr "Nap_ló"
-
-#~ msgid "Show session management options"
-#~ msgstr "Munkamenet-kezelési kapcsolók megjelenítése"
-
-#~ msgid "Specify file containing saved configuration"
-#~ msgstr "A mentett beállításokat tartalmazó fájl megadása"
-
-#~ msgid "Specify session management ID"
-#~ msgstr "A munkamenet-kezelő azonosítójának megadása"
-
-#~ msgid "Starting %s"
-#~ msgstr "%s indítása"
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Időzítés felfüggesztése, ha a felhasználó inaktív"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "A következő felsorolás azokat a gépeket tartalmazza, amelyekhez a Workrave\n"
-#~ "csatlakozik induláskor. Kattintson a gépnévre vagy a portra a módosításhoz."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Ez az Ön pihenőideje. Álljon föl, sétáljon el a számítógéptől.\n"
-#~ "Lazítson, nyújtózzon, sétáljon pár percig."
-
-#~ msgid "Unrecognized desktop file Version '%s'"
-#~ msgstr "Ismeretlen .desktop fájl verzió: „%s”"
-
-#~ msgid "Username:"
-#~ msgstr "Felhasználónév:"
-
-#~ msgid "Workrave failed to start"
-#~ msgstr "A Workrave indítása sikertelen"
-
-#~ msgid "_About..."
-#~ msgstr "_Névjegy…"
-
-#~ msgid "_Connect"
-#~ msgstr "C_satlakozás"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Csatlakozás…"
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Kapcsolat bontása"
-
-#~ msgid "_Join"
-#~ msgstr "_Csatlakozás"
-
-#~ msgid "_Network"
-#~ msgstr "_Hálózat"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Csendes"
-
-#~ msgid "_Reconnect"
-#~ msgstr "Ú_jracsatlakozás"
-
-#~ msgid "_Show Log..."
-#~ msgstr "Nap_ló..."

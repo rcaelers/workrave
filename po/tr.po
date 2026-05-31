@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.3\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2011-02-16 19:50+0100\n"
 "Last-Translator: Enver ALTIN <ealtin@parkyeri.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -42,19 +42,23 @@ msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
 msgid "Micro-break"
 msgstr "Kısa-mola"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -68,8 +72,9 @@ msgstr "Dinlenme molası"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -542,30 +547,30 @@ msgstr "Duraklat"
 msgid "Resume exercises"
 msgstr "Alıştırma sayısı:"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Birkaç saniye için rahatlayın"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Sonraki dinlenme molası %s sonra"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Dinlenme molası %s gecikti"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "%s içerisinde günlük sınır"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Günlük sınırı %s önce aştınız"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -645,7 +650,8 @@ msgid "General"
 msgstr "Genel"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr "Durum penceresi"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -690,9 +696,11 @@ msgstr "Giriş aygıtlarını ve ekranı engelle"
 msgid "Options"
 msgstr "Seçenekler"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
-msgstr "Engelleme kipi:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
+msgstr "Engelleme kipi"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
 msgid "System default"
@@ -703,7 +711,8 @@ msgid "(font not available)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
@@ -758,10 +767,11 @@ msgstr ""
 msgid "Auto"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-#, fuzzy
-msgid "Dark mode:"
-msgstr "Engelleme kipi:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
+msgstr "Engelleme kipi"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:157
@@ -783,10 +793,11 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
-msgstr "Fare hareketi:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
+msgstr "Fare hareketi"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:40
@@ -812,7 +823,8 @@ msgid "Play sounds using sound card"
 msgstr "Ses üretmek için ses kartı kullan"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
@@ -905,26 +917,19 @@ msgstr "Durum penceresini göster"
 msgid "Note that the status window is only hidden if the status icon, or an applet is shown. Some desktop environments do not support, or have disabled status icons."
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
-msgstr "Yerleşim:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
+msgstr "Yerleşim"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr "Döngü süresi:"
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-msgid "Micro-break:"
-msgstr "Kısa-mola:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-msgid "Rest break:"
-msgstr "Dinlenme molası:"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-msgid "Daily limit:"
-msgstr "Günlük sınır:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Döngü süresi"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 #, fuzzy
@@ -958,9 +963,13 @@ msgstr "Mola istemi"
 msgid "Prompt before breaking"
 msgstr "Mola vermeden önce hatırlatarak onay al"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "En fazla onay isteği:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "En fazla onay isteği"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -986,7 +995,9 @@ msgid "Regard micro-breaks as activity"
 msgstr "Kısa-molaları çalışma olarak algıla"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+#, fuzzy
+msgid "Number of exercises"
 msgstr "Alıştırma sayısı:"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
@@ -1003,17 +1014,27 @@ msgstr ""
 msgid "Time before end:"
 msgstr "Bitmeden önceki süre:"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-msgid "Time between breaks:"
-msgstr "Molalar arasındaki süre:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
+msgstr "Molalar arasındaki süre"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-msgid "Break duration:"
-msgstr "Mola süresi:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
+msgstr "Mola süresi"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-msgid "Postpone time:"
-msgstr "Erteleme süresi:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
+msgstr "Erteleme süresi"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
 #: ui/app/toolkits/gtkmm/PreludeWindow.cc:113
@@ -1032,7 +1053,7 @@ msgid "You should stop for today..."
 msgstr "Bugün için artık durmalısınız..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1040,35 +1061,36 @@ msgid "Break in {}"
 msgstr "%s sonra ara."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "%s sonra kaybolacak"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "%s sonra sessiz olacak."
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "%s için dinlenme molası"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Kendiliğinden verilen molalar"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Bir dinlenme molasına ihtiyacınız var..."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1551,12 +1573,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-#, fuzzy
-msgid "Placement"
-msgstr "Yerleşim:"
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1583,12 +1599,6 @@ msgstr ""
 #, fuzzy
 msgid "All in one slot"
 msgstr "Tüm zamanlayıcıları tek kutuda sırayla göster"
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Döngü süresi:"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1689,13 +1699,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Erteleme süresi:"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1721,13 +1724,6 @@ msgstr "En fazla onay isteği:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "En fazla onay isteği:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1766,11 +1762,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-#, fuzzy
-msgid "Block mode"
-msgstr "Engelleme kipi:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
 msgid "What Workrave does to the rest of your screen when a break starts."
@@ -1813,18 +1804,9 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-msgid "Language"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-#, fuzzy
-msgid "Dark mode"
-msgstr "Engelleme kipi:"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
 msgid "Light or dark colour scheme for the Workrave windows."
@@ -1859,21 +1841,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Molalar arasındaki süre:"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Mola süresi:"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1893,11 +1863,6 @@ msgstr ""
 #, fuzzy
 msgid "Activity detection"
 msgstr "Etkinlik"
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Fare hareketi:"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1940,18 +1905,14 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-#, fuzzy
-msgid "Status window"
-msgstr "Durum penceresi"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+#, fuzzy
 msgid "Status applet"
-msgstr ""
+msgstr "Durum penceresini göster"
 
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
@@ -1979,11 +1940,6 @@ msgstr ""
 "Bu sizin dinlenme molanız. Düzenli olarak ayağa kalkmalı\n"
 "ve bilgisayarınızdan uzaklaşmalısınız. Sadece birkaç\n"
 "dakika etrafta dolaşın, gerinin ve rahatlayın."
-
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "%s için dinlenme molası"
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
@@ -2039,11 +1995,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-#, fuzzy
-msgid "Number of exercises"
-msgstr "Alıştırma sayısı:"
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2055,10 +2006,6 @@ msgstr "Ses çıkarma"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
@@ -2089,289 +2036,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, c-format
-#~ msgid "Break in %s"
-#~ msgstr "%s sonra ara."
-
-#, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "%s sonra kaybolacak"
-
-#, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "%s sonra sessiz olacak."
-
-#~ msgid "About %s"
-#~ msgstr "%s hakkında"
-
-#~ msgid "About..."
-#~ msgstr "Workrave hakkında..."
-
-#~ msgid "Accepted new client."
-#~ msgstr "Yeni istemci kabul edildi."
-
-#, fuzzy, c-format
-#~ msgid "Acknowledging master request from client %s."
-#~ msgstr "%s istemcisinin asıl sunucu isteği yanıtlanıyor."
-
-#~ msgid "Advanced"
-#~ msgstr "Gelişmiş"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr "Bu istemci kendi kendisinin adını çözemedi, dağıtım işlevi kapatılıyor."
-
-#, fuzzy, c-format
-#~ msgid "Client %s access denied."
-#~ msgstr "%s istemcisinin erişimi reddedildi."
-
-#, fuzzy, c-format
-#~ msgid "Client %s closed connection."
-#~ msgstr "%s istemcisi bağlantıyı kesti."
-
-#, fuzzy, c-format
-#~ msgid "Client %s connected."
-#~ msgstr "%s istemcisi bağlandı."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is duplicate."
-#~ msgstr "%s istemcisi bir kopya."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is now master."
-#~ msgstr "%s istemcisi asıl sunucu oldu."
-
-#, c-format
-#~ msgid "Client %s is now the new master."
-#~ msgstr "%s istemcisi yeni asıl sunucu oldu."
-
-#, fuzzy, c-format
-#~ msgid "Client %s is welcoming us."
-#~ msgstr "%s istemcisi bağlantıya davet ediyor."
-
-#, fuzzy, c-format
-#~ msgid "Client %s read error, closing."
-#~ msgstr "%s istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
-
-#, fuzzy, c-format
-#~ msgid "Client %s rejected master request, delaying."
-#~ msgstr "%s istemcisi asıl sunucu isteğini reddetti, bekleniyor."
-
-#, fuzzy, c-format
-#~ msgid "Client %s saying hello."
-#~ msgstr "%s istemcisi merhaba diyor."
-
-#, fuzzy, c-format
-#~ msgid "Client %s signed off."
-#~ msgstr "%s istemcisi bağlantıyı kesti."
-
-#, fuzzy, c-format
-#~ msgid "Client timeout from %s."
-#~ msgstr "%s istemcisinin bağlantısı zaman aşımına uğradı."
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "_Bağlan"
-
-#, fuzzy, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "%s adresine bağlanılıyor."
-
-#, fuzzy, c-format
-#~ msgid "Could not connect to client %s."
-#~ msgstr "%s istemcisine bağlanılamadı."
-
-#~ msgid "Could not enable network operation."
-#~ msgstr "Ağ işlevi etkinleştirilemedi."
-
-#~ msgid "Credits"
-#~ msgstr "Katkıda bulunanlar"
-
-#~ msgid "Daily usage"
-#~ msgstr "Günlük kullanım"
-
-#~ msgid "Disabling network operation."
-#~ msgstr "Ağ işlevi hizmet dışı bırakılıyor."
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "Bağlantıyı _kes"
-
-#, fuzzy, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "%s bağlantısı kesiliyor."
-
-#~ msgid "Enable networking"
-#~ msgstr "Ağ bağlantısı desteğini etkinleştir"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Ağ üzerinde bağlanmak istediğiniz bilgisayarın adını\n"
-#~ "ve bağlantı noktası numarasını belirtin."
-
-#~ msgid "Host name"
-#~ msgstr "Sunucu adı"
-
-#~ msgid "Host name:"
-#~ msgstr "Sunucu adresi:"
-
-#~ msgid "Hosts"
-#~ msgstr "Sunucular"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Bonobo başlatılamadı"
-
-#~ msgid "I'm now master."
-#~ msgstr "Bu istemci şimdi asıl sunucu oldu."
-
-#~ msgid "Inactive"
-#~ msgstr "Hareketsiz"
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "Çalış_ma biçimi"
-
-#~ msgid "Network"
-#~ msgstr "Ağ"
-
-#~ msgid "Network connect"
-#~ msgstr "Ağ bağlantısı kur"
-
-#~ msgid "Network log"
-#~ msgstr "Ağ günlüğü"
-
-#~ msgid "Network operation started."
-#~ msgstr "Ağ işlemi başlatıldı."
-
-#, fuzzy, c-format
-#~ msgid "Non-master client %s rejected master request."
-#~ msgstr "Asıl olmayan istemci %s asıl sunucu isteğini reddetti."
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "_Aç"
-
-#~ msgid "Password:"
-#~ msgstr "Şifre:"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Ses üretmek için dahili hoparlörü kullan"
-
-#~ msgid "Port"
-#~ msgstr "Bağlantı noktası"
-
-#~ msgid "Port:"
-#~ msgstr "Bağlantı noktası:"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Bu uygulama tekrar eden eklem incinmesinin (RSI) engellenmesi ve tedavisine yardımcı olur."
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "Çı_k"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Yeniden bağlan"
-
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Yeniden bağlanma denemesi:"
-
-#~ msgid "Reconnect interval:"
-#~ msgstr "Yeniden bağlanma aralığı:"
-
-#, fuzzy, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "%s adresine yeniden bağlanılıyor."
-
-#, fuzzy, c-format
-#~ msgid "Rejecting master request from client %s."
-#~ msgstr "%s istemcisinden gelen asıl sunucu isteği reddedildi."
-
-#, fuzzy, c-format
-#~ msgid "Removing client %s."
-#~ msgstr "%s istemcisi listeden çıkarılıyor."
-
-#, fuzzy, c-format
-#~ msgid "Requesting master status from %s."
-#~ msgstr "%s adresinden asıl sunucu durumu isteniyor."
-
-#~ msgid "Server port:"
-#~ msgstr "Sunucu bağlantı noktası:"
-
-#~ msgid "Server settings"
-#~ msgstr "Sunucu ayarları"
-
-#~ msgid "Show _log"
-#~ msgstr "_Günlüğü göster"
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "%s sonra sessiz olacak."
-
-#~ msgid "Suspend timer when inactive"
-#~ msgstr "Hareketsiz olduğunda zamanlayıcıyı duraklat"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "Aşağıdaki liste Workrave'in başlangıçta bağlanacağı sunucuları\n"
-#~ "belirtir. Değişiklik yapmak için listedeki bir sunucu adını veya\n"
-#~ "bağlantı noktasını tıklayın."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Bu sizin dinlenme molanız. Düzenli olarak ayağa kalkmalı\n"
-#~ "ve bilgisayarınızdan uzaklaşmalısınız. Sadece birkaç\n"
-#~ "dakika etrafta dolaşın, gerinin ve rahatlayın."
-
-#~ msgid "Username:"
-#~ msgstr "Kullanıcı adı:"
-
-#, fuzzy
-#~ msgid "Workrave failed to start"
-#~ msgstr "Workrave panel takısı"
-
-#~ msgid "_About..."
-#~ msgstr "_Hakkında..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Bağlan"
-
-#~ msgid "_Connect..."
-#~ msgstr "_Bağlan..."
-
-#~ msgid "_Credits"
-#~ msgstr "_Katkıda bulunanlar"
-
-#~ msgid "_Disconnect"
-#~ msgstr "Bağlantıyı _kes"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Belgeleyenler"
-
-#~ msgid "_Network"
-#~ msgstr "_Ağ"
-
-#~ msgid "_Quiet"
-#~ msgstr "_Sessiz"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Yeniden bağlan"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Günlüğü göster"
-
-#~ msgid "_Translated by"
-#~ msgstr "_Yerelleştirenler"
-
-#~ msgid "_Written by"
-#~ msgstr "_Geliştirenler"

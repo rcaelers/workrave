@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 13:23+0200\n"
+"POT-Creation-Date: 2026-05-31 14:03+0200\n"
 "PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -38,21 +38,25 @@ msgstr ""
 msgid "Workrave is in quiet mode. No break windows will appear."
 msgstr ""
 
+#
 #. FIXME: duplicate
+#. Layout
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:48
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:144
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:236 ui/app/toolkits/gtkmm/Ui.cc:38
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:49
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:145
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:233
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
+#: ui/app/toolkits/gtkmm/Ui.cc:38
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:25
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:87
-#, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/GtkUtil.cc:174
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:125
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:53
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168 ui/app/toolkits/gtkmm/Ui.cc:41
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:126
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:54
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:167 ui/app/toolkits/gtkmm/Ui.cc:41
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:229
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
@@ -66,8 +70,9 @@ msgstr "Ripozo"
 #. label
 #: ui/app/Application.cc:723 ui/app/toolkits/gtkmm/DailyLimitWindow.cc:46
 #: ui/app/toolkits/gtkmm/DailyLimitWindow.cc:53
-#: ui/app/toolkits/gtkmm/GtkUtil.cc:174 ui/app/toolkits/gtkmm/Ui.cc:44
-#: ui/app/toolkits/gtkmm/Ui.cc:101
+#: ui/app/toolkits/gtkmm/GtkUtil.cc:174
+#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
+#: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
@@ -537,30 +542,30 @@ msgstr ""
 msgid "Resume exercises"
 msgstr ""
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:202
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:194
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:209
-#, c-format
-msgid "Next rest break in %s"
+#, fuzzy, c++-format
+msgid "Next rest break in {}"
 msgstr "Sekvanta ripozo en %s"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:213
-#, fuzzy, c-format
-msgid "Rest break %s overdue"
+#, fuzzy, c++-format
+msgid "Rest break {} overdue"
 msgstr "Ripozo por %s"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:225
-#, fuzzy, c-format
-msgid "Daily limit in %s"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:223
+#, fuzzy, c++-format
+msgid "Daily limit in {}"
 msgstr "Taglimo"
 
-#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:229
-#, fuzzy, c-format
-msgid "Daily limit %s overdue"
+#: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:227
+#, fuzzy, c++-format
+msgid "Daily limit {} overdue"
 msgstr "Taglimo"
 
 #: ui/app/toolkits/gtkmm/platforms/unix/gtktrayicon.c:119
@@ -640,7 +645,8 @@ msgid "General"
 msgstr "Ĝenerala"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
-msgid "Status Window"
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
+msgid "Status window"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:128
@@ -687,7 +693,8 @@ msgid "Options"
 msgstr "Opcioj"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:96
-msgid "Block mode:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
+msgid "Block mode"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:116
@@ -699,7 +706,8 @@ msgid "(font not available)"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:176
-msgid "Language:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
+msgid "Language"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:190
@@ -754,7 +762,8 @@ msgid "Auto"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:251
-msgid "Dark mode:"
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
+msgid "Dark mode"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:443
@@ -778,9 +787,10 @@ msgstr ""
 msgid "Workrave needs to be restarted manually after changing this setting"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:71
-#, fuzzy
-msgid "Mouse sensitivity:"
+#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
+msgid "Mouse sensitivity"
 msgstr "Prokrasta tempo"
 
 #: ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc:72
@@ -807,7 +817,8 @@ msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:82
-msgid "Volume:"
+#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
+msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc:85
@@ -901,28 +912,17 @@ msgid "Note that the status window is only hidden if the status icon, or an appl
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:127
-msgid "Placement:"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
+msgid "Placement"
 msgstr ""
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:128
-msgid "Cycle time:"
-msgstr ""
-
-#. Layout
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:133
-#, fuzzy
-msgid "Micro-break:"
-msgstr "Paŭzeto"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:134
-#, fuzzy
-msgid "Rest break:"
-msgstr "Ripozo"
-
-#: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
-#, fuzzy
-msgid "Daily limit:"
-msgstr "Taglimo"
+#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
+#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
+msgid "Cycle time"
+msgstr "Validigu retumadon"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:139
 msgid "Fallback applet enabled"
@@ -955,9 +955,13 @@ msgstr "Ripoza instigado"
 msgid "Prompt before breaking"
 msgstr "Instigu antaŭ ol ripozi"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:101
-msgid "Maximum number of prompts:"
-msgstr "Maksimuma numero da instigoj:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
+msgid "Maximum number of prompts"
+msgstr "Maksimuma numero da instigoj"
 
 #. Ignorable
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:129
@@ -984,7 +988,8 @@ msgid "Regard micro-breaks as activity"
 msgstr "Rigardu paŭzetoj kiel agado"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:153
-msgid "Number of exercises:"
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
+msgid "Number of exercises"
 msgstr ""
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
@@ -1002,19 +1007,26 @@ msgstr ""
 msgid "Time before end:"
 msgstr "Tempo por ripozo"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:188
-#, fuzzy
-msgid "Time between breaks:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
+msgid "Time between breaks"
 msgstr "Tempo por ripozo"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:195
-#, fuzzy
-msgid "Break duration:"
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
+msgid "Break duration"
 msgstr "Daŭro de paŭzo"
 
+#
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:210
-#, fuzzy
-msgid "Postpone time:"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
+#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
+#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
+msgid "Postpone time"
 msgstr "Prokrasta tempo"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:35
@@ -1035,7 +1047,7 @@ msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:51
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:266
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:263
 #: ui/app/toolkits/qt/qml/PreludeClassic.qml:101
 #: ui/app/toolkits/qt/qml/PreludeOverlay.qml:16
 #, fuzzy, c++-format
@@ -1043,35 +1055,36 @@ msgid "Break in {}"
 msgstr "Ĉesu en"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:53
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:270
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:267
 #, fuzzy, c++-format
 msgid "Disappears in {}"
 msgstr "Malaperas en"
 
 #: ui/app/toolkits/gtkmm/Prelude.cc:55
-#: ui/app/toolkits/gtkmm/PreludeWindow.cc:274
+#: ui/app/toolkits/gtkmm/PreludeWindow.cc:271
 #, fuzzy, c++-format
 msgid "Silent in {}"
 msgstr "Silentiĝu en"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#, c-format
-msgid "Rest break for %s"
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#, fuzzy, c++-format
+msgid "Rest break for {}"
 msgstr "Ripozo por %s"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
 #, fuzzy
 msgid "Natural rest break"
 msgstr "Ripozo"
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:164
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
 #, fuzzy
 msgid "This is your natural rest break."
 msgstr "Vi bezonas ripozon..."
 
-#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:169
+#: ui/app/toolkits/gtkmm/RestBreakWindow.cc:168
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1573,11 +1586,6 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:142
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:150
-msgid "Placement"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:148
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:156
 msgid "Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them."
@@ -1602,12 +1610,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:193
 msgid "All in one slot"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/AppletPrefPage.qml:197
-#: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:205
-#, fuzzy
-msgid "Cycle time"
-msgstr "Validigu retumadon"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:198
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:206
@@ -1706,13 +1708,6 @@ msgstr ""
 msgid "When today's active time crosses this, the daily-limit window appears."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:71
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:71
-#, fuzzy
-msgid "Postpone time"
-msgstr "Prokrasta tempo"
-
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:53
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:72
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:72
@@ -1738,13 +1733,6 @@ msgstr "Maksimuma numero da instigoj:"
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:94
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:112
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:113
-#, fuzzy
-msgid "Maximum number of prompts"
-msgstr "Maksimuma numero da instigoj:"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:109
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:127
@@ -1780,10 +1768,6 @@ msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:47
-msgid "Block mode"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:53
@@ -1826,16 +1810,8 @@ msgstr ""
 msgid "Launches Workrave automatically when you sign in."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:133
-msgid "Language"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:134
 msgid "Language used for Workrave's interface."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:143
-msgid "Dark mode"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:144
@@ -1870,21 +1846,9 @@ msgstr ""
 msgid "When off, no microbreak prompts will be shown."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:32
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:32
-#, fuzzy
-msgid "Time between breaks"
-msgstr "Tempo por ripozo"
-
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:33
 msgid "How long you've been using the keyboard or mouse before being prompted."
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:52
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:52
-#, fuzzy
-msgid "Break duration"
-msgstr "Daŭro de paŭzo"
 
 #: ui/app/toolkits/qt/qml/MicrobreakPrefPage.qml:53
 msgid "How long each microbreak lasts."
@@ -1903,11 +1867,6 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:25
 msgid "Activity detection"
 msgstr ""
-
-#: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:39
-#, fuzzy
-msgid "Mouse sensitivity"
-msgstr "Prokrasta tempo"
 
 #: ui/app/toolkits/qt/qml/MonitoringPrefPage.qml:56
 msgid "Debug"
@@ -1949,10 +1908,6 @@ msgstr ""
 msgid "Choose which sounds Workrave plays at break events, and adjust the volume."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:82
-msgid "Status window"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:83
 msgid "The little always-visible window with your three timers."
 msgstr ""
@@ -1987,11 +1942,6 @@ msgstr ""
 "piediru ĉirkaŭe por iom da minutoj, streĉu, kaj\n"
 "trankviliĝu."
 
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
-#, fuzzy
-msgid "Rest break for"
-msgstr "Ripozo por %s"
-
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
 msgid "REST BREAK"
@@ -2018,9 +1968,8 @@ msgid "Please stand up and walk away from your computer"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:585
-#, fuzzy
 msgid "Total left"
-msgstr "Ripozo"
+msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:715
 msgid "End break early"
@@ -2047,10 +1996,6 @@ msgstr ""
 msgid "Adds a power button to the rest break window so you can stop work and shut down or sleep the computer."
 msgstr ""
 
-#: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
-msgid "Number of exercises"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
 msgstr ""
@@ -2062,10 +2007,6 @@ msgstr "Ne sonoj"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
-
-#: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:56
-msgid "Volume"
 msgstr ""
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
@@ -2095,270 +2036,3 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr ""
-
-#, fuzzy, c-format
-#~ msgid "Break in %s"
-#~ msgstr "Ĉesu en"
-
-#, fuzzy, c-format
-#~ msgid "Disappears in %s"
-#~ msgstr "Malaperas en"
-
-#, fuzzy, c-format
-#~ msgid "Silent in %s"
-#~ msgstr "Silentiĝu en"
-
-#~ msgid "About %s"
-#~ msgstr "Pri %s"
-
-#~ msgid "About..."
-#~ msgstr "Pri..."
-
-#~ msgid "Advanced"
-#~ msgstr "Altgrada"
-
-#, fuzzy
-#~ msgid "Break visible:"
-#~ msgstr "Ĉesu en"
-
-#, fuzzy
-#~ msgid "Breaks taken"
-#~ msgstr "Ĉesu en"
-
-#, fuzzy
-#~ msgid "Connect"
-#~ msgstr "_Konektu"
-
-#~ msgid "Connect at start-up"
-#~ msgstr "Konektu je startigo"
-
-#, fuzzy, c-format
-#~ msgid "Connecting to %s."
-#~ msgstr "Konektaj detaloj"
-
-#~ msgid "Credits"
-#~ msgstr "Kreditoj"
-
-#, fuzzy
-#~ msgid "Disconnect"
-#~ msgstr "_Malkonektu"
-
-#, fuzzy, c-format
-#~ msgid "Disconnecting %s"
-#~ msgstr "_Malkonektu"
-
-#~ msgid "Enable networking"
-#~ msgstr "Validigu retumadon"
-
-#~ msgid ""
-#~ "Enter the host name and port number of a computer\n"
-#~ "in the network you wish to connect to."
-#~ msgstr ""
-#~ "Enigu nomo de retnodo kaj numero de pordo de komputilo\n"
-#~ "en la reto vi volas alkonteki."
-
-#~ msgid "Force break after maximum exceeded"
-#~ msgstr "Devigu ripzon post maksimumo superita"
-
-#~ msgid "Host name"
-#~ msgstr "Nomo de retnodo"
-
-#, fuzzy
-#~ msgid "Host name:"
-#~ msgstr "Nomo de retnodo"
-
-#~ msgid "Hosts"
-#~ msgstr "Retnodoj"
-
-#~ msgid "Identity"
-#~ msgstr "Identeco"
-
-#~ msgid "Inactive"
-#~ msgstr "Neaktiva"
-
-#, fuzzy
-#~ msgid "Micro-pause ended"
-#~ msgstr "Paŭzeto"
-
-#, fuzzy
-#~ msgid "Mode"
-#~ msgstr "_Modo"
-
-#~ msgid "Network"
-#~ msgstr "Reto"
-
-#~ msgid "Network connect"
-#~ msgstr "Rete konekti"
-
-#~ msgid "Network log"
-#~ msgstr "Reta protokolo"
-
-#~ msgid "Overdue rest break in %s"
-#~ msgstr "Malfrua ripozo en %s"
-
-#, fuzzy
-#~ msgid "Password:"
-#~ msgstr "Pasvorto"
-
-#~ msgid "Play sounds using built-in speaker"
-#~ msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
-
-#~ msgid "Port"
-#~ msgstr "Pordo"
-
-#, fuzzy
-#~ msgid "Port:"
-#~ msgstr "Pordo"
-
-#, fuzzy
-#~ msgid "Postponsed"
-#~ msgstr "Prokrastu"
-
-#, fuzzy
-#~ msgid "Program that assists in the recovery and prevention of RSI"
-#~ msgstr "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada Trostreĉa Vundo (RSI)."
-
-#, fuzzy
-#~ msgid "Quit"
-#~ msgstr "S_ilenta"
-
-#, fuzzy
-#~ msgid "Reconnect"
-#~ msgstr "_Rekonektu"
-
-#, fuzzy
-#~ msgid "Reconnect attempts:"
-#~ msgstr "Rekonektaj provoj"
-
-#, fuzzy
-#~ msgid "Reconnect interval:"
-#~ msgstr "Rekonekta intertempo"
-
-#, fuzzy, c-format
-#~ msgid "Reconnecting to %s."
-#~ msgstr "Rekonektaj provoj"
-
-#, fuzzy
-#~ msgid "Resets at:"
-#~ msgstr "Reŝargas je"
-
-#, fuzzy
-#~ msgid "Restbreak"
-#~ msgstr "Ripozo"
-
-#, fuzzy
-#~ msgid "Server port:"
-#~ msgstr "Servila pordo"
-
-#~ msgid "Server settings"
-#~ msgstr "Servilaj agordoj"
-
-#~ msgid "Show _log"
-#~ msgstr "Montru _protokolon"
-
-#, fuzzy
-#~ msgid "Show break at position:"
-#~ msgstr "Ripoza instigado"
-
-#, fuzzy
-#~ msgid "Skipped"
-#~ msgstr "Transsaltu"
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Silentiĝu en"
-
-#~ msgid ""
-#~ "The following list specifies the hosts that Workrave connects to on\n"
-#~ "start-up. Click the host name or port number to edit."
-#~ msgstr ""
-#~ "La sekvanta listo specifas la retnodoj kiu Workrave alkonektas ĉe\n"
-#~ "startigo.  Klaku nomon de retnodo aŭ numero de pordo por ŝanĝi."
-
-#~ msgid ""
-#~ "This dialog allows you to change the settings of the timers.  Each unit\n"
-#~ "of time is broken down into hours, minutes and seconds (also known as\n"
-#~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
-#~ msgstr ""
-#~ "Tiu ĉi dialogo permesas vin ŝanĝi agordojn de horloĝoj.  Ĉiu unuo\n"
-#~ "de tempo estas dispecigita al horoj, minutoj, kaj sekundoj (ankaŭ konata\n"
-#~ "kiel \"hh:mm:ss\" formato).  Tiuj ĉi ĉiu povas esti kontrolata individue."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Tiu ĉi estas vian ripozon. Certigu ke vi starigi kaj\n"
-#~ "piediri for de via komputilo regulare. Nur\n"
-#~ "piediru ĉirkaŭe por iom da minutoj, streĉu, kaj\n"
-#~ "trankviliĝu."
-
-#, fuzzy
-#~ msgid "Timer ignores activity"
-#~ msgstr "Rigardu paŭzetoj kiel agado"
-
-#, fuzzy
-#~ msgid "Total mouse time:"
-#~ msgstr "Prokrasta tempo"
-
-#, fuzzy
-#~ msgid "Username:"
-#~ msgstr "Salutnomo"
-
-#, fuzzy
-#~ msgid "You can configure the applet related settings from here."
-#~ msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
-
-#~ msgid "You can configure the user interface related settings from here."
-#~ msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
-
-#~ msgid ""
-#~ "You can connect several instances of Workrave in a network. All connected\n"
-#~ "instances share the same timer information, meaning you will be reminded\n"
-#~ "of your breaks even if you switch computers."
-#~ msgstr ""
-#~ "Vi povas konekti kelkajn aliajn aperoj de Workrave en reto. Ĉiu konektita\n"
-#~ "apero uzas la saman horloĝan informon, signifante ke vi estos rememorigita\n"
-#~ "de ripozoj eĉ se vi komutas komputilojn."
-
-#, fuzzy
-#~ msgid "_About..."
-#~ msgstr "Pri..."
-
-#~ msgid "_Connect"
-#~ msgstr "_Konektu"
-
-#, fuzzy
-#~ msgid "_Connect..."
-#~ msgstr "_Konektu"
-
-#~ msgid "_Credits"
-#~ msgstr "_Kreditoj"
-
-#~ msgid "_Disconnect"
-#~ msgstr "_Malkonektu"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Dokumentita de"
-
-#~ msgid "_Network"
-#~ msgstr "_Reto"
-
-#, fuzzy
-#~ msgid "_Quiet"
-#~ msgstr "S_ilenta"
-
-#~ msgid "_Reconnect"
-#~ msgstr "_Rekonektu"
-
-#, fuzzy
-#~ msgid "_Show Log..."
-#~ msgstr "Montru _protokolon"
-
-#~ msgid "_Translated by"
-#~ msgstr "_Tradukita de"
-
-#~ msgid "_Written by"
-#~ msgstr "_Verkita de"

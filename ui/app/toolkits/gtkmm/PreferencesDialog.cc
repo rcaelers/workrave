@@ -121,7 +121,7 @@ PreferencesDialog::create_ui_page()
 #endif
 
   Gtk::Widget *gui_mainwindow_page = Gtk::manage(new TimerBoxPreferencePanel(app, "main_window"));
-  page->add_panel("mainwindow", gui_mainwindow_page, _("Status Window"));
+  page->add_panel("mainwindow", gui_mainwindow_page, _("Status window"));
 
 #if !defined(PLATFORM_OS_MACOS)
   Gtk::Widget *gui_applet_page = Gtk::manage(new TimerBoxPreferencePanel(app, "applet"));
