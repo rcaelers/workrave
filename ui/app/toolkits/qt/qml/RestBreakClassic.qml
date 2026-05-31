@@ -29,6 +29,9 @@ Item {
     readonly property bool   canSkip:      bridge != null ? bridge.canSkip          : true
     readonly property bool   isLocked:     bridge != null ? bridge.isLocked         : false
     readonly property double lockProg:     bridge != null ? bridge.lockProgress     : 0.0
+    readonly property bool   lockable:     bridge != null ? bridge.lockable         : false
+    readonly property bool   shutdownable: bridge != null ? bridge.shutdownable     : false
+    readonly property bool   sleepable:    bridge != null ? bridge.sleepable        : false
     // barProgress = elapsed fraction (0→1); timebar fills left-to-right
     readonly property double barProgress:  bridge != null ? bridge.breakProgress    : 0.0
     readonly property string timeLeft:     bridge != null ? bridge.breakTimeShort   : "5:00"
@@ -270,24 +273,53 @@ Item {
 
             Item { width: 1; height: 8 }
 
-            // ── Button row: Postpone + Skip right-aligned ─────────────────────
-            Row {
-                anchors.right: parent.right
-                anchors.rightMargin: 12
-                spacing: 6
+            // ── Button row ───────────────────────────────────────────────────
+            Item {
+                width: parent.width - 24
+                height: 28 + 8
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                ClassicButton {
-                    visible: root.canPostpone
-                    enabled: root.canPostpone
-                    label: qsTr("Postpone")
-                    onClicked: { if (bridge != null) bridge.requestPostpone() }
+                // Left-aligned: Lock / Shut down / Sleep
+                Row {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 6
+
+                    ClassicButton {
+                        visible: root.lockable
+                        label: qsTr("Lock")
+                        onClicked: { if (bridge != null) bridge.requestLock() }
+                    }
+                    ClassicButton {
+                        visible: root.shutdownable
+                        label: qsTr("Shut down")
+                        onClicked: { if (bridge != null) bridge.requestShutdown() }
+                    }
+                    ClassicButton {
+                        visible: root.sleepable
+                        label: qsTr("Sleep")
+                        onClicked: { if (bridge != null) bridge.requestSleep() }
+                    }
                 }
 
-                ClassicButton {
-                    visible: root.canSkip
-                    enabled: root.canSkip
-                    label: qsTr("Skip")
-                    onClicked: { if (bridge != null) bridge.requestSkip() }
+                // Right-aligned: Postpone / Skip
+                Row {
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 6
+
+                    ClassicButton {
+                        visible: root.canPostpone
+                        enabled: root.canPostpone
+                        label: qsTr("Postpone")
+                        onClicked: { if (bridge != null) bridge.requestPostpone() }
+                    }
+                    ClassicButton {
+                        visible: root.canSkip
+                        enabled: root.canSkip
+                        label: qsTr("Skip")
+                        onClicked: { if (bridge != null) bridge.requestSkip() }
+                    }
                 }
             }
 

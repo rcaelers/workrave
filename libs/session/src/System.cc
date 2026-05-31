@@ -48,6 +48,7 @@
 #if defined(PLATFORM_OS_UNIX)
 #  include "utils/Platform.hh"
 #  include "ScreenLockCommandline.hh"
+#  include "ScreenLockCustomCommand.hh"
 
 #  if defined(HAVE_DBUS_GIO)
 #    include "ScreenLockDBus.hh"
@@ -63,6 +64,8 @@
 #endif
 
 std::vector<IScreenLockMethod *> System::lock_commands;
+std::vector<std::string> System::lock_command_ids;
+std::vector<std::string> System::lock_command_labels;
 std::vector<ISystemStateChangeMethod *> System::system_state_commands;
 std::vector<System::SystemOperation> System::supported_system_operations;
 
@@ -96,6 +99,28 @@ System::init_DBus()
     }
 }
 
+static const char *
+dbus_name_to_label(const char *dbus_name)
+{
+  if (strcmp(dbus_name, "org.gnome.ScreenSaver") == 0)
+    return "GNOME (DBus)";
+  if (strcmp(dbus_name, "org.cinnamon.ScreenSaver") == 0)
+    return "Cinnamon (DBus)";
+  if (strcmp(dbus_name, "org.mate.ScreenSaver") == 0)
+    return "MATE (DBus)";
+  if (strcmp(dbus_name, "org.freedesktop.ScreenSaver") == 0)
+    return "FreeDesktop (DBus)";
+  if (strcmp(dbus_name, "org.kde.screensaver") == 0)
+    return "KDE Screensaver (DBus)";
+  if (strcmp(dbus_name, "org.kde.krunner") == 0)
+    return "KDE KRunner (DBus)";
+  if (strcmp(dbus_name, "org.kde.ksmserver") == 0)
+    return "KDE Session Manager (DBus)";
+  if (strcmp(dbus_name, "org.enlightenment.wm.service") == 0)
+    return "Enlightenment (DBus)";
+  return dbus_name;
+}
+
 bool
 System::add_DBus_lock_cmd(const char *dbus_name,
                           const char *dbus_path,
@@ -122,6 +147,8 @@ System::add_DBus_lock_cmd(const char *dbus_name,
     }
 
   lock_commands.push_back(lock_method);
+  lock_command_ids.push_back(std::string("dbus:") + dbus_name);
+  lock_command_labels.push_back(dbus_name_to_label(dbus_name));
   TRACE_VAR(true);
   return true;
 }
@@ -263,6 +290,8 @@ System::add_cmdline_lock_cmd(const char *command_name, const char *parameters, b
   else
     {
       lock_commands.push_back(lock_method);
+      lock_command_ids.push_back(std::string("cmd:") + command_name);
+      lock_command_labels.push_back(command_name);
       TRACE_VAR(true);
     }
 }
@@ -319,6 +348,8 @@ System::init_windows_lock_commands()
   if (winLock->is_lock_supported())
     {
       lock_commands.push_back(winLock);
+      lock_command_ids.push_back("win32:lock");
+      lock_command_labels.push_back("Windows Lock Screen");
     }
   else
     {
@@ -335,6 +366,30 @@ System::init_windows_system_state_commands()
 
 #endif // PLATFORM_OS_WINDOWS
 
+void
+System::set_custom_lock_command(const std::string &cmd)
+{
+#if defined(PLATFORM_OS_UNIX)
+  auto it = std::find(lock_command_ids.begin(), lock_command_ids.end(), "custom");
+  if (it != lock_command_ids.end())
+    {
+      size_t idx = static_cast<size_t>(it - lock_command_ids.begin());
+      delete lock_commands[idx];
+      lock_commands.erase(lock_commands.begin() + static_cast<ptrdiff_t>(idx));
+      lock_command_ids.erase(lock_command_ids.begin() + static_cast<ptrdiff_t>(idx));
+      lock_command_labels.erase(lock_command_labels.begin() + static_cast<ptrdiff_t>(idx));
+    }
+  if (!cmd.empty())
+    {
+      lock_commands.push_back(new ScreenLockCustomCommand(cmd));
+      lock_command_ids.push_back("custom");
+      lock_command_labels.push_back("Custom command");
+    }
+#else
+  (void)cmd;
+#endif
+}
+
 bool
 System::lock_screen()
 {
@@ -350,6 +405,76 @@ System::lock_screen()
 
   TRACE_VAR(false);
   return false;
+}
+
+bool
+System::lock_screen_by_id(const std::string &id)
+{
+  TRACE_ENTRY();
+  if (!id.empty())
+    {
+      for (size_t i = 0; i < lock_commands.size(); i++)
+        {
+          if (lock_command_ids[i] == id)
+            {
+              return lock_commands[i]->lock();
+            }
+        }
+    }
+  return lock_screen();
+}
+
+bool
+System::is_shutdownable()
+{
+  for (auto &cmd: system_state_commands)
+    {
+      if (cmd->canShutdown())
+        {
+          return true;
+        }
+    }
+  return false;
+}
+
+bool
+System::is_sleepable()
+{
+  for (auto &cmd: system_state_commands)
+    {
+      if (cmd->canSuspend() || cmd->canHibernate() || cmd->canSuspendHybrid())
+        {
+          return true;
+        }
+    }
+  return false;
+}
+
+std::vector<System::LockMethodInfo>
+System::get_lock_methods()
+{
+  std::vector<LockMethodInfo> result;
+  for (size_t i = 0; i < lock_commands.size(); i++)
+    {
+      result.push_back({lock_command_ids[i], lock_command_labels[i]});
+    }
+  return result;
+}
+
+std::vector<System::SystemOperation>
+System::get_sleep_operations()
+{
+  std::vector<SystemOperation> ops;
+  for (const auto &op: supported_system_operations)
+    {
+      if (op.type == SystemOperation::SYSTEM_OPERATION_SUSPEND
+          || op.type == SystemOperation::SYSTEM_OPERATION_HIBERNATE
+          || op.type == SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID)
+        {
+          ops.push_back(op);
+        }
+    }
+  return ops;
 }
 
 bool
@@ -455,6 +580,8 @@ System::clear()
       delete lock_command;
     }
   lock_commands.clear();
+  lock_command_ids.clear();
+  lock_command_labels.clear();
 
   for (auto &system_state_command: system_state_commands)
     {

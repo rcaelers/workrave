@@ -1,7 +1,7 @@
 add_library(workrave-libs-session STATIC System.cc)
 
 if (PLATFORM_OS_UNIX)
-  target_sources(workrave-libs-session PRIVATE ScreenLockCommandline.cc)
+  target_sources(workrave-libs-session PRIVATE ScreenLockCommandline.cc ScreenLockCustomCommand.cc)
 
   if (HAVE_DBUS_GIO)
   target_sources(workrave-libs-session PRIVATE

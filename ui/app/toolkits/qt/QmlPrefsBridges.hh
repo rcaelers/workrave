@@ -145,6 +145,14 @@ class RestBreakPrefBridge : public QObject
   Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes   READ maxPreludes   NOTIFY optionsChanged)
 
+  Q_PROPERTY(bool         hasLockMethods        READ hasLockMethods        NOTIFY optionsChanged)
+  Q_PROPERTY(QStringList  lockMethodOptions     READ lockMethodOptions     NOTIFY optionsChanged)
+  Q_PROPERTY(int          lockMethodIndex       READ lockMethodIndex       NOTIFY optionsChanged)
+  Q_PROPERTY(QString      customLockCommand     READ customLockCommand     NOTIFY optionsChanged)
+  Q_PROPERTY(bool         hasSleepOperations    READ hasSleepOperations    CONSTANT)
+  Q_PROPERTY(QStringList  sleepOperationOptions READ sleepOperationOptions CONSTANT)
+  Q_PROPERTY(int          sleepOperationIndex   READ sleepOperationIndex   NOTIFY optionsChanged)
+
 public:
   explicit RestBreakPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
 
@@ -172,6 +180,18 @@ public:
   bool hasMaxPreludes() const;
   Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
+
+  bool        hasLockMethods() const;
+  QStringList lockMethodOptions() const;
+  int         lockMethodIndex() const;
+  Q_INVOKABLE void setLockMethodIndex(int idx);
+  QString     customLockCommand() const;
+  Q_INVOKABLE void setCustomLockCommand(const QString &cmd);
+
+  bool        hasSleepOperations() const;
+  QStringList sleepOperationOptions() const;
+  int         sleepOperationIndex() const;
+  Q_INVOKABLE void setSleepOperationIndex(int idx);
 
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();
@@ -229,11 +249,20 @@ class DailyLimitPrefBridge : public QObject
   Q_PROPERTY(double  snoozeNorm    READ snoozeNorm    NOTIFY timingChanged)
 
   Q_PROPERTY(bool useMicroBreakActivity READ useMicroBreakActivity WRITE setUseMicroBreakActivity NOTIFY optionsChanged)
+  Q_PROPERTY(bool enableShutdown READ enableShutdown WRITE setEnableShutdown NOTIFY optionsChanged)
   Q_PROPERTY(bool showPostpone   READ showPostpone   WRITE setShowPostpone   NOTIFY optionsChanged)
   Q_PROPERTY(bool showSkip       READ showSkip       WRITE setShowSkip       NOTIFY optionsChanged)
   Q_PROPERTY(bool preludeEnabled READ preludeEnabled WRITE setPreludeEnabled NOTIFY optionsChanged)
   Q_PROPERTY(bool hasMaxPreludes READ hasMaxPreludes NOTIFY optionsChanged)
   Q_PROPERTY(int  maxPreludes    READ maxPreludes    NOTIFY optionsChanged)
+
+  Q_PROPERTY(bool         hasLockMethods        READ hasLockMethods        NOTIFY optionsChanged)
+  Q_PROPERTY(QStringList  lockMethodOptions     READ lockMethodOptions     NOTIFY optionsChanged)
+  Q_PROPERTY(int          lockMethodIndex       READ lockMethodIndex       NOTIFY optionsChanged)
+  Q_PROPERTY(QString      customLockCommand     READ customLockCommand     NOTIFY optionsChanged)
+  Q_PROPERTY(bool         hasSleepOperations    READ hasSleepOperations    CONSTANT)
+  Q_PROPERTY(QStringList  sleepOperationOptions READ sleepOperationOptions CONSTANT)
+  Q_PROPERTY(int          sleepOperationIndex   READ sleepOperationIndex   NOTIFY optionsChanged)
 
 public:
   explicit DailyLimitPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
@@ -248,6 +277,8 @@ public:
 
   bool useMicroBreakActivity() const;
   Q_INVOKABLE void setUseMicroBreakActivity(bool v);
+  bool enableShutdown() const;
+  Q_INVOKABLE void setEnableShutdown(bool v);
   bool showPostpone() const;
   Q_INVOKABLE void setShowPostpone(bool v);
   bool showSkip() const;
@@ -257,6 +288,18 @@ public:
   bool hasMaxPreludes() const;
   Q_INVOKABLE void setHasMaxPreludes(bool v);
   int  maxPreludes() const;
+
+  bool        hasLockMethods() const;
+  QStringList lockMethodOptions() const;
+  int         lockMethodIndex() const;
+  Q_INVOKABLE void setLockMethodIndex(int idx);
+  QString     customLockCommand() const;
+  Q_INVOKABLE void setCustomLockCommand(const QString &cmd);
+
+  bool        hasSleepOperations() const;
+  QStringList sleepOperationOptions() const;
+  int         sleepOperationIndex() const;
+  Q_INVOKABLE void setSleepOperationIndex(int idx);
 
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();

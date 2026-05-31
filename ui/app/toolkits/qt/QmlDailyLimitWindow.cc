@@ -74,6 +74,18 @@ DailyLimitBridge::lockable() const
 }
 
 bool
+DailyLimitBridge::shutdownable() const
+{
+  return GUIConfig::break_enable_shutdown(BREAK_ID_DAILY_LIMIT)() && System::is_shutdownable();
+}
+
+bool
+DailyLimitBridge::sleepable() const
+{
+  return GUIConfig::break_enable_shutdown(BREAK_ID_DAILY_LIMIT)() && System::is_sleepable();
+}
+
+bool
 DailyLimitBridge::canPostpone() const
 {
   return (break_flags & BREAK_FLAGS_POSTPONABLE) != 0 && !postpone_locked;
@@ -150,7 +162,36 @@ DailyLimitBridge::requestLock()
       auto locker = app->get_toolkit()->get_locker();
       locker->unlock();
       locker->lock();
-      System::lock_screen();
+      System::lock_screen_by_id(GUIConfig::preferred_lock_method()());
+    }
+}
+
+void
+DailyLimitBridge::requestShutdown()
+{
+  System::execute(System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN);
+}
+
+void
+DailyLimitBridge::requestSleep()
+{
+  const std::string &pref = GUIConfig::preferred_sleep_operation()();
+  System::SystemOperation::SystemOperationType type = System::SystemOperation::SYSTEM_OPERATION_SUSPEND;
+  if (pref == "hibernate")
+    {
+      type = System::SystemOperation::SYSTEM_OPERATION_HIBERNATE;
+    }
+  else if (pref == "suspend_hybrid")
+    {
+      type = System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID;
+    }
+  if (!System::execute(type))
+    {
+      for (const auto &op: System::get_sleep_operations())
+        {
+          if (System::execute(op.type))
+            break;
+        }
     }
 }
 

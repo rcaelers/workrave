@@ -44,6 +44,8 @@ class DailyLimitBridge
 
   Q_PROPERTY(int  blockMode   READ blockMode   CONSTANT)
   Q_PROPERTY(bool lockable    READ lockable    CONSTANT)
+  Q_PROPERTY(bool shutdownable READ shutdownable CONSTANT)
+  Q_PROPERTY(bool sleepable    READ sleepable    CONSTANT)
   Q_PROPERTY(bool canPostpone  READ canPostpone  NOTIFY lockStateChanged)
   Q_PROPERTY(bool canSkip      READ canSkip      NOTIFY lockStateChanged)
   Q_PROPERTY(double lockProgress READ lockProgress NOTIFY lockStateChanged)
@@ -59,6 +61,8 @@ public:
 
   int  blockMode()   const;
   bool lockable()    const;
+  bool shutdownable() const;
+  bool sleepable()    const;
   bool canPostpone()   const;
   bool canSkip()       const;
   double lockProgress() const;
@@ -79,6 +83,8 @@ public Q_SLOTS:
   void requestPostpone();
   void requestSkip();
   void requestLock();
+  void requestShutdown();
+  void requestSleep();
 
 private:
   std::shared_ptr<IApplicationContext> app;

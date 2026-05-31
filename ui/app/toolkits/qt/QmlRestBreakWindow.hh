@@ -51,6 +51,8 @@ class RestBreakBridge
   // CONSTANT properties
   Q_PROPERTY(int blockMode READ blockMode CONSTANT)
   Q_PROPERTY(bool lockable READ lockable CONSTANT)
+  Q_PROPERTY(bool shutdownable READ shutdownable CONSTANT)
+  Q_PROPERTY(bool sleepable READ sleepable CONSTANT)
   Q_PROPERTY(bool isNatural READ isNatural CONSTANT)
   Q_PROPERTY(bool hasExercises READ hasExercises CONSTANT)
   Q_PROPERTY(int exerciseCount READ exerciseCount CONSTANT)
@@ -100,6 +102,8 @@ public:
   // CONSTANT accessors
   int blockMode() const;
   bool lockable() const;
+  bool shutdownable() const;
+  bool sleepable() const;
   bool isNatural() const;
   bool hasExercises() const;
   int exerciseCount() const;
@@ -161,6 +165,8 @@ public Q_SLOTS:
   void requestPostpone();
   void requestSkip();
   void requestLock();
+  void requestShutdown();
+  void requestSleep();
   void nextExercise();
   void prevExercise();
   void togglePause();

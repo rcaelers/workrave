@@ -81,6 +81,18 @@ RestBreakBridge::lockable() const
 }
 
 bool
+RestBreakBridge::shutdownable() const
+{
+  return GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)() && System::is_shutdownable();
+}
+
+bool
+RestBreakBridge::sleepable() const
+{
+  return GUIConfig::break_enable_shutdown(BREAK_ID_REST_BREAK)() && System::is_sleepable();
+}
+
+bool
 RestBreakBridge::isNatural() const
 {
   return (break_flags & BREAK_FLAGS_NATURAL) != 0;
@@ -431,7 +443,36 @@ RestBreakBridge::requestLock()
       auto locker = app->get_toolkit()->get_locker();
       locker->unlock();
       locker->lock();
-      System::lock_screen();
+      System::lock_screen_by_id(GUIConfig::preferred_lock_method()());
+    }
+}
+
+void
+RestBreakBridge::requestShutdown()
+{
+  System::execute(System::SystemOperation::SYSTEM_OPERATION_SHUTDOWN);
+}
+
+void
+RestBreakBridge::requestSleep()
+{
+  const std::string &pref = GUIConfig::preferred_sleep_operation()();
+  System::SystemOperation::SystemOperationType type = System::SystemOperation::SYSTEM_OPERATION_SUSPEND;
+  if (pref == "hibernate")
+    {
+      type = System::SystemOperation::SYSTEM_OPERATION_HIBERNATE;
+    }
+  else if (pref == "suspend_hybrid")
+    {
+      type = System::SystemOperation::SYSTEM_OPERATION_SUSPEND_HYBRID;
+    }
+  if (!System::execute(type))
+    {
+      for (const auto &op: System::get_sleep_operations())
+        {
+          if (System::execute(op.type))
+            break;
+        }
     }
 }
 

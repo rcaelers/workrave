@@ -30,6 +30,7 @@
         <file>PrefTimeControl.qml</file>
         <file>PrefSpinRow.qml</file>
         <file>PrefChoiceRow.qml</file>
+        <file>PrefTextRow.qml</file>
         <file>PrefLanguageRow.qml</file>
         <file>MicrobreakPrefPage.qml</file>
         <file>RestBreakPrefPage.qml</file>

@@ -29,6 +29,8 @@ Item {
     readonly property bool       canPostpone:     bridge != null ? bridge.canPostpone        : true
     readonly property bool       canSkip:         bridge != null ? bridge.canSkip            : true
     readonly property bool       lockable:        bridge != null ? bridge.lockable           : false
+    readonly property bool       shutdownable:    bridge != null ? bridge.shutdownable       : false
+    readonly property bool       sleepable:       bridge != null ? bridge.sleepable          : false
     readonly property bool       isLocked:        bridge != null ? bridge.isLocked           : false
     readonly property double     lockProgress:    bridge != null ? bridge.lockProgress       : 0.0
     readonly property double     breakProgress:   bridge != null ? bridge.breakProgress      : 1.0
@@ -103,7 +105,7 @@ Item {
                         }
                     }
 
-                    // Right: lock | divider | Postpone | Skip
+                    // Right: lock | shutdown | sleep | divider | Postpone | Skip
                     Row {
                         anchors { right: parent.right; rightMargin: 16; verticalCenter: parent.verticalCenter }
                         spacing: 4
@@ -122,12 +124,32 @@ Item {
                             }
                         }
 
+                        Rectangle {
+                            visible: root.shutdownable
+                            height: 28; width: shutdownLblH.implicitWidth + 20
+                            radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                            anchors.verticalCenter: parent.verticalCenter
+                            Text { id: shutdownLblH; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                            Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
+                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                        }
+
+                        Rectangle {
+                            visible: root.sleepable
+                            height: 28; width: sleepLblH.implicitWidth + 20
+                            radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                            anchors.verticalCenter: parent.verticalCenter
+                            Text { id: sleepLblH; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                            Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
+                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                        }
+
                         // Postpone / Skip only in header when exercises are visible;
                         // when ring view is shown they move to the bottom of the card.
                         Rectangle {
                             width: 1; height: 18; color: tok.edge
                             anchors.verticalCenter: parent.verticalCenter
-                            visible: root.showExercises && root.lockable && (root.canPostpone || root.canSkip)
+                            visible: root.showExercises && (root.lockable || root.shutdownable || root.sleepable) && (root.canPostpone || root.canSkip)
                         }
 
                         Rectangle {
@@ -356,6 +378,26 @@ Item {
                             spacing: 8
 
                             Rectangle {
+                                visible: root.shutdownable
+                                height: 34; width: ringShutdownLbl.implicitWidth + 28
+                                radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text { id: ringShutdownLbl; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
+                                Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
+                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                            }
+
+                            Rectangle {
+                                visible: root.sleepable
+                                height: 34; width: ringSleepLbl.implicitWidth + 28
+                                radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text { id: ringSleepLbl; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
+                                Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
+                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                            }
+
+                            Rectangle {
                                 visible: root.canPostpone
                                 height: 34; width: ringPostponeLbl.implicitWidth + 28
                                 radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
@@ -453,9 +495,29 @@ Item {
                     }
 
                     Rectangle {
+                        visible: root.shutdownable
+                        height: 28; width: shutdownLblFs.implicitWidth + 20
+                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        Text { id: shutdownLblFs; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                    }
+
+                    Rectangle {
+                        visible: root.sleepable
+                        height: 28; width: sleepLblFs.implicitWidth + 20
+                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        Text { id: sleepLblFs; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                    }
+
+                    Rectangle {
                         width: 1; height: 18; color: tok.edge
                         anchors.verticalCenter: parent.verticalCenter
-                        visible: root.lockable && (root.canPostpone || root.canSkip)
+                        visible: (root.lockable || root.shutdownable || root.sleepable) && (root.canPostpone || root.canSkip)
                     }
 
                     Rectangle {

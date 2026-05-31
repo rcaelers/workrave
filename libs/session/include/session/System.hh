@@ -29,6 +29,7 @@
 #  include <gio/gio.h>
 #endif
 
+#include <string>
 #include "session/IScreenLockMethod.hh"
 #include "session/ISystemStateChangeMethod.hh"
 
@@ -71,17 +72,30 @@ public:
     friend class System;
   };
 
+  struct LockMethodInfo
+  {
+    std::string id;
+    std::string label;
+  };
+
   static bool is_lockable()
   {
     return !lock_commands.empty();
   }
+  static bool is_shutdownable();
+  static bool is_sleepable();
+  static std::vector<LockMethodInfo> get_lock_methods();
+  static std::vector<SystemOperation> get_sleep_operations();
   static bool lock_screen();
+  static bool lock_screen_by_id(const std::string &id);
 
   static std::vector<SystemOperation> get_supported_system_operations()
   {
     return supported_system_operations;
   }
   static bool execute(SystemOperation::SystemOperationType type);
+
+  static void set_custom_lock_command(const std::string &cmd);
 
   // display will not be owned by System,
   // the caller may free it after calling
@@ -91,6 +105,8 @@ public:
 
 private:
   static std::vector<IScreenLockMethod *> lock_commands;
+  static std::vector<std::string> lock_command_ids;
+  static std::vector<std::string> lock_command_labels;
   static std::vector<ISystemStateChangeMethod *> system_state_commands;
   static std::vector<SystemOperation> supported_system_operations;
 #if defined(PLATFORM_OS_UNIX)

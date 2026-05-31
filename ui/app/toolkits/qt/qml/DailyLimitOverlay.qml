@@ -10,11 +10,13 @@ Item {
     PrefTokens { id: tok }
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
-    readonly property int    blockMode:   bridge != null ? bridge.blockMode   : 1
-    readonly property bool   canPostpone: bridge != null ? bridge.canPostpone : true
-    readonly property bool   canSkip:     bridge != null ? bridge.canSkip     : true
-    readonly property bool   lockable:    bridge != null ? bridge.lockable    : false
-    readonly property bool   isLocked:    bridge != null ? bridge.isLocked    : false
+    readonly property int    blockMode:    bridge != null ? bridge.blockMode    : 1
+    readonly property bool   canPostpone:  bridge != null ? bridge.canPostpone  : true
+    readonly property bool   canSkip:      bridge != null ? bridge.canSkip      : true
+    readonly property bool   lockable:     bridge != null ? bridge.lockable     : false
+    readonly property bool   shutdownable: bridge != null ? bridge.shutdownable : false
+    readonly property bool   sleepable:    bridge != null ? bridge.sleepable    : false
+    readonly property bool   isLocked:     bridge != null ? bridge.isLocked     : false
     readonly property double lockProgress: bridge != null ? bridge.lockProgress : 0.0
 
     // ── Warm background fill (all modes except toast) ─────────────────────────
@@ -109,6 +111,28 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: { if (bridge != null) bridge.requestLock() }
                         }
+                    }
+
+                    // Shut down button
+                    Rectangle {
+                        visible: root.shutdownable
+                        height: 28; width: dlShutdownLbl.implicitWidth + 20
+                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        Text { id: dlShutdownLbl; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                    }
+
+                    // Sleep button
+                    Rectangle {
+                        visible: root.sleepable
+                        height: 28; width: dlSleepLbl.implicitWidth + 20
+                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        Text { id: dlSleepLbl; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
                     }
 
                     // Postpone button (ghost pill)

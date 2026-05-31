@@ -29,6 +29,9 @@ using namespace workrave::config;
 const std::string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
 const std::string GUIConfig::CFG_KEY_BREAK_SKIPPABLE = "gui/breaks/%b/skippable_break";
 const std::string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enable_shutdown";
+const std::string GUIConfig::CFG_KEY_PREFERRED_LOCK_METHOD = "gui/preferred_lock_method";
+const std::string GUIConfig::CFG_KEY_PREFERRED_SLEEP_OPERATION = "gui/preferred_sleep_operation";
+const std::string GUIConfig::CFG_KEY_CUSTOM_LOCK_COMMAND = "gui/custom_lock_command";
 const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
 const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const std::string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
@@ -153,6 +156,24 @@ auto
 GUIConfig::break_enable_shutdown(workrave::BreakId break_id) -> Setting<bool> &
 {
   return SettingCache::get<bool>(config, expand(CFG_KEY_BREAK_ENABLE_SHUTDOWN, break_id), true);
+}
+
+auto
+GUIConfig::preferred_lock_method() -> Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_PREFERRED_LOCK_METHOD, std::string{});
+}
+
+auto
+GUIConfig::preferred_sleep_operation() -> Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_PREFERRED_SLEEP_OPERATION, std::string{"suspend"});
+}
+
+auto
+GUIConfig::custom_lock_command() -> Setting<std::string> &
+{
+  return SettingCache::get<std::string>(config, CFG_KEY_CUSTOM_LOCK_COMMAND, std::string{});
 }
 
 auto
