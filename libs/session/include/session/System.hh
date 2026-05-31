@@ -109,6 +109,11 @@ private:
   static std::vector<std::string> lock_command_labels;
   static std::vector<ISystemStateChangeMethod *> system_state_commands;
   static std::vector<SystemOperation> supported_system_operations;
+#if defined(PLATFORM_OS_MACOS)
+  static void init_macos_lock_commands();
+  static void init_macos_system_state_commands();
+#endif
+
 #if defined(PLATFORM_OS_UNIX)
 
 #  if defined(HAVE_DBUS_GIO)
