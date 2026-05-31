@@ -148,12 +148,12 @@ Item {
                     ClassicButton {
                         visible: root.shutdownable
                         label: qsTr("Shut down")
-                        onClicked: { if (bridge != null) bridge.requestShutdown() }
+                        onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?"))
                     }
                     ClassicButton {
                         visible: root.sleepable
                         label: qsTr("Sleep")
-                        onClicked: { if (bridge != null) bridge.requestSleep() }
+                        onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?"))
                     }
                 }
 
@@ -182,6 +182,16 @@ Item {
         }
 
         height: cardContent.implicitHeight
+    }
+
+    ConfirmDialog {
+        id: confirmDlg
+        anchors.fill: parent
+        z: 200
+        onConfirmed: (action) => {
+            if (action === "shutdown") { if (bridge != null) bridge.requestShutdown() }
+            else if (action === "sleep")    { if (bridge != null) bridge.requestSleep() }
+        }
     }
 
     // ── Inline button component ──────────────────────────────────────────────

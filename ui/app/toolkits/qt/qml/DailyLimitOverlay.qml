@@ -116,23 +116,21 @@ Item {
                     // Shut down button
                     Rectangle {
                         visible: root.shutdownable
-                        height: 28; width: dlShutdownLbl.implicitWidth + 20
-                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
-                        anchors.verticalCenter: parent.verticalCenter
-                        Text { id: dlShutdownLbl; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        width: 28; height: 28; radius: 999
+                        color: "transparent"; border.color: tok.edge; border.width: 1
+                        Text { anchors.centerIn: parent; text: "⏻"; font.pixelSize: 13 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
-                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?")) }
                     }
 
                     // Sleep button
                     Rectangle {
                         visible: root.sleepable
-                        height: 28; width: dlSleepLbl.implicitWidth + 20
-                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
-                        anchors.verticalCenter: parent.verticalCenter
-                        Text { id: dlSleepLbl; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        width: 28; height: 28; radius: 999
+                        color: "transparent"; border.color: tok.edge; border.width: 1
+                        Text { anchors.centerIn: parent; text: "💤"; font.pixelSize: 12 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
-                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                     }
 
                     // Postpone button (ghost pill)
@@ -328,6 +326,16 @@ Item {
         }
 
         height: content.implicitHeight + 64
+    }
+
+    ConfirmDialog {
+        id: confirmDlg
+        anchors.fill: parent
+        z: 200
+        onConfirmed: (action) => {
+            if (action === "shutdown") { if (bridge != null) bridge.requestShutdown() }
+            else if (action === "sleep")    { if (bridge != null) bridge.requestSleep() }
+        }
     }
 
     // ── Card enter animation ──────────────────────────────────────────────────

@@ -20,6 +20,7 @@
         <file>RestBreakOverlay.qml</file>
         <file>RestBreakShell.qml</file>
         <file>StatusWindow.qml</file>
+        <file>ConfirmDialog.qml</file>
         <file>PrefTokens.qml</file>
         <file>PrefsShell.qml</file>
         <file>PrefGroup.qml</file>

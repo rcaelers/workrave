@@ -126,22 +126,22 @@ Item {
 
                         Rectangle {
                             visible: root.shutdownable
-                            height: 28; width: shutdownLblH.implicitWidth + 20
-                            radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                            width: 28; height: 28; radius: 999
+                            color: "transparent"; border.color: tok.edge; border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
-                            Text { id: shutdownLblH; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                            Text { anchors.centerIn: parent; text: "⏻"; font.pixelSize: 13 }
                             Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
-                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?")) }
                         }
 
                         Rectangle {
                             visible: root.sleepable
-                            height: 28; width: sleepLblH.implicitWidth + 20
-                            radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                            width: 28; height: 28; radius: 999
+                            color: "transparent"; border.color: tok.edge; border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
-                            Text { id: sleepLblH; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                            Text { anchors.centerIn: parent; text: "💤"; font.pixelSize: 12 }
                             Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
-                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                         }
 
                         // Postpone / Skip only in header when exercises are visible;
@@ -384,7 +384,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 Text { id: ringShutdownLbl; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
                                 Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
-                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?")) }
                             }
 
                             Rectangle {
@@ -394,7 +394,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 Text { id: ringSleepLbl; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
                                 Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
-                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                             }
 
                             Rectangle {
@@ -496,22 +496,22 @@ Item {
 
                     Rectangle {
                         visible: root.shutdownable
-                        height: 28; width: shutdownLblFs.implicitWidth + 20
-                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                        width: 28; height: 28; radius: 999
+                        color: "transparent"; border.color: tok.edge; border.width: 1
                         anchors.verticalCenter: parent.verticalCenter
-                        Text { id: shutdownLblFs; anchors.centerIn: parent; text: qsTr("Shut down"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        Text { anchors.centerIn: parent; text: "⏻"; font.pixelSize: 13 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Shut down")
-                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestShutdown() } }
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("shutdown", qsTr("Shut down"), qsTr("Are you sure you want to shut down the computer?")) }
                     }
 
                     Rectangle {
                         visible: root.sleepable
-                        height: 28; width: sleepLblFs.implicitWidth + 20
-                        radius: 999; color: "transparent"; border.color: tok.edge; border.width: 1
+                        width: 28; height: 28; radius: 999
+                        color: "transparent"; border.color: tok.edge; border.width: 1
                         anchors.verticalCenter: parent.verticalCenter
-                        Text { id: sleepLblFs; anchors.centerIn: parent; text: qsTr("Sleep"); font.pixelSize: 12; font.weight: Font.Medium; color: tok.ink2 }
+                        Text { anchors.centerIn: parent; text: "💤"; font.pixelSize: 12 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
-                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSleep() } }
+                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                     }
 
                     Rectangle {
@@ -797,6 +797,16 @@ Item {
                 NumberAnimation { target: contentArea; property: "opacity"; to: 1.0; duration: 260; easing.type: Easing.OutCubic }
                 NumberAnimation { target: contentArea; property: "scale";   to: 1.0; duration: 260; easing.type: Easing.OutCubic }
             }
+        }
+    }
+
+    ConfirmDialog {
+        id: confirmDlg
+        anchors.fill: parent
+        z: 200
+        onConfirmed: (action) => {
+            if (action === "shutdown") { if (bridge != null) bridge.requestShutdown() }
+            else if (action === "sleep")    { if (bridge != null) bridge.requestSleep() }
         }
     }
 }
