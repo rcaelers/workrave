@@ -45,7 +45,11 @@
 #include "session/System.hh"
 #include "debug.hh"
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_MACOS)
+#  include "ScreenLockMacOS.hh"
+#  include "ScreenLockCustomCommand.hh"
+#  include "SystemStateChangeMacOS.hh"
+#elif defined(PLATFORM_OS_UNIX)
 #  include "utils/Platform.hh"
 #  include "ScreenLockCommandline.hh"
 #  include "ScreenLockCustomCommand.hh"
@@ -56,7 +60,7 @@
 #    include "SystemStateChangeLogind.hh"
 #    include "SystemStateChangeUPower.hh"
 #  endif
-#endif // PLATFORM_OS_UNIX
+#endif // PLATFORM_OS_MACOS / PLATFORM_OS_UNIX
 
 #if defined(PLATFORM_OS_WINDOWS)
 #  include "W32Shutdown.hh"
@@ -369,7 +373,7 @@ System::init_windows_system_state_commands()
 void
 System::set_custom_lock_command(const std::string &cmd)
 {
-#if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_MACOS) || defined(PLATFORM_OS_UNIX)
   auto it = std::find(lock_command_ids.begin(), lock_command_ids.end(), "custom");
   if (it != lock_command_ids.end())
     {
@@ -389,6 +393,22 @@ System::set_custom_lock_command(const std::string &cmd)
   (void)cmd;
 #endif
 }
+
+#if defined(PLATFORM_OS_MACOS)
+void
+System::init_macos_lock_commands()
+{
+  lock_commands.push_back(new ScreenLockMacOS());
+  lock_command_ids.push_back("macos:lock");
+  lock_command_labels.push_back("macOS Lock Screen");
+}
+
+void
+System::init_macos_system_state_commands()
+{
+  system_state_commands.push_back(new SystemStateChangeMacOS());
+}
+#endif
 
 bool
 System::lock_screen()
@@ -526,18 +546,20 @@ void
 System::init()
 {
   TRACE_ENTRY();
-#if defined(PLATFORM_OS_UNIX)
-  std::string display = workrave::utils::Platform::get_default_display_name();
-#endif
 
-#if defined(PLATFORM_OS_UNIX)
+#if defined(PLATFORM_OS_MACOS)
+  init_macos_lock_commands();
+  init_macos_system_state_commands();
+#elif defined(PLATFORM_OS_UNIX)
+  {
+    std::string display = workrave::utils::Platform::get_default_display_name();
 #  if defined(HAVE_DBUS_GIO)
-  init_DBus();
-  init_DBus_lock_commands();
-  init_DBus_system_state_commands();
+    init_DBus();
+    init_DBus_lock_commands();
+    init_DBus_system_state_commands();
 #  endif
-  init_cmdline_lock_commands(display.c_str());
-
+    init_cmdline_lock_commands(display.c_str());
+  }
 #elif defined(PLATFORM_OS_WINDOWS)
   init_windows_lock_commands();
   init_windows_system_state_commands();
