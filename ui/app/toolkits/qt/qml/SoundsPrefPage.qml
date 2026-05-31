@@ -174,7 +174,7 @@ Item {
         // ── Sound events ──────────────────────────────────────────────────────
         PrefGroup {
             width: parent.width
-            title: qsTr("Sound events")
+            title: qsTr("Sound Events")
 
             Repeater {
                 model: root.bridge ? root.bridge.events : []

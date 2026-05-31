@@ -17,7 +17,7 @@ Item {
 
         PrefToggleRow {
             width: parent.width
-            label: qsTr("Enable rest breaks")
+            label: qsTr("Enable timer")
             hint:  qsTr("When off, no rest break prompts will be shown.")
             checked: root.bridge ? root.bridge.enabled : true
             onToggled: (v) => { if (root.bridge) root.bridge.setEnabled(v) }
@@ -140,7 +140,7 @@ Item {
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Start rest break when screen is locked")
+                label: qsTr("Start restbreak when screen is locked")
                 hint:  qsTr("Counts time the screen is locked as part of your break. Prevents being prompted right after you unlock.")
                 checked: root.bridge ? root.bridge.autoNatural : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setAutoNatural(v) }
@@ -148,7 +148,7 @@ Item {
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Show shutdown / sleep button")
+                label: qsTr("Enable shutting down the computer from the rest screen")
                 hint:  qsTr("Adds a power button to the rest break window so you can stop work and shut down or sleep the computer.")
                 checked: root.bridge ? root.bridge.enableShutdown : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setEnableShutdown(v) }
@@ -161,7 +161,7 @@ Item {
 
             PrefSpinRow {
                 width: parent.width
-                label: qsTr("Number of exercises per break")
+                label: qsTr("Number of exercises")
                 hint:  qsTr("Workrave picks this many at random from its library each rest break.")
                 display: root.bridge ? root.bridge.exercises.toString() : "4"
                 narrow: true

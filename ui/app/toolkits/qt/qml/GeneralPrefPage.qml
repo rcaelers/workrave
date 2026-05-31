@@ -122,7 +122,7 @@ Item {
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Start Workrave on login")
+                label: qsTr("Start Workrave on logon")
                 hint:  qsTr("Launches Workrave automatically when you sign in.")
                 checked: root.bridge ? root.bridge.autostartEnabled : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setAutostartEnabled(v) }
@@ -140,7 +140,7 @@ Item {
             PrefChoiceRow {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasDarkMode : false
-                label:   qsTr("Appearance")
+                label:   qsTr("Dark mode")
                 hint:    qsTr("Light or dark colour scheme for the Workrave windows.")
                 options: [qsTr("Light"), qsTr("Dark"), qsTr("Auto")]
                 currentIndex: root.bridge ? root.bridge.darkMode : 0
@@ -187,7 +187,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasForceX11 : false
-                label: qsTr("Force X11 on Wayland")
+                label: qsTr("Force the use of X11 on Wayland (requires restart of Workrave)")
                 hint:  qsTr("Runs Workrave under XWayland instead of native Wayland. Requires a restart of Workrave.")
                 checked: root.bridge ? root.bridge.forceX11 : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setForceX11(v) }
@@ -196,7 +196,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasGnomeShellPreludes : false
-                label: qsTr("Use GNOME Shell extension for break prompts")
+                label: qsTr("Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)")
                 hint:  qsTr("Uses the Workrave GNOME Shell extension to show break prompts on Wayland. Experimental.")
                 checked: root.bridge ? root.bridge.gnomeShellPreludes : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setGnomeShellPreludes(v) }

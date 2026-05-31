@@ -67,7 +67,7 @@ Item {
 
             Repeater {
                 model: [
-                    { val: 0, label: qsTr("Always show")    },
+                    { val: 0, label: qsTr("Show")           },
                     { val: 1, label: qsTr("When first due") },
                     { val: 2, label: qsTr("Hide")           },
                 ]

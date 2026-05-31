@@ -36,7 +36,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Always on top")
-                hint:  qsTr("The status window stays above other windows.")
+                hint:  qsTr("The status window stays always on top of other windows")
                 checked: root.bridge ? root.bridge.alwaysOnTop : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setAlwaysOnTop(v) }
             }

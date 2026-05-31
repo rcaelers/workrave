@@ -17,7 +17,7 @@ Item {
 
         PrefToggleRow {
             width: parent.width
-            label: qsTr("Enable microbreaks")
+            label: qsTr("Enable timer")
             hint:  qsTr("When off, no microbreak prompts will be shown.")
             checked: root.bridge ? root.bridge.enabled : true
             onToggled: (v) => { if (root.bridge) root.bridge.setEnabled(v) }

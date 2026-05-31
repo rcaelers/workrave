@@ -27,7 +27,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Use alternate monitor")
-                hint:  qsTr("Enable if Workrave fails to detect when you are using your computer. Requires a restart of Workrave.")
+                hint:  qsTr("Enable this option if Workrave fails to detect when you are using your computer")
                 checked: root.bridge ? root.bridge.alternateMonitor : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setAlternateMonitor(v) }
             }
@@ -37,7 +37,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.alternateMonitor : false
                 label:   qsTr("Mouse sensitivity")
-                hint:    qsTr("Number of pixels the mouse must move before Workrave counts it as activity.")
+                hint:    qsTr("Number of pixels the mouse should move before it is considered activity.")
                 display: root.bridge ? root.bridge.sensitivity.toString() : "3"
                 onIncrement: { if (root.bridge) root.bridge.setSensitivity(root.bridge.sensitivity + 1) }
                 onDecrement: { if (root.bridge) root.bridge.setSensitivity(Math.max(1, root.bridge.sensitivity - 1)) }

@@ -17,7 +17,7 @@ Item {
 
         PrefToggleRow {
             width: parent.width
-            label: qsTr("Enable daily limit")
+            label: qsTr("Enable timer")
             hint:  qsTr("When off, no daily limit prompts will be shown.")
             checked: root.bridge ? root.bridge.enabled : true
             onToggled: (v) => { if (root.bridge) root.bridge.setEnabled(v) }
@@ -121,7 +121,7 @@ Item {
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Count microbreaks as activity")
+                label: qsTr("Regard micro-breaks as activity")
                 hint:  qsTr("During a microbreak you're usually still seated. Turn on to limit the time spent at the computer; turn off to limit only active use.")
                 checked: root.bridge ? root.bridge.useMicroBreakActivity : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setUseMicroBreakActivity(v) }

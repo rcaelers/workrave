@@ -48,7 +48,7 @@ foreach (po_file ${POFILES})
     add_custom_command(
         TARGET update-po
         POST_BUILD
-        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none -s ${po_file} ${POTFILE}
+        COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --no-wrap --backup=none ${po_file} ${POTFILE}
         VERBATIM
     )
 
@@ -68,10 +68,16 @@ if (GETTEXT_FOUND)
   add_custom_target(nls ALL DEPENDS ${gmo_files})
 
   set(XGETTEXT_ARGS -cTRANSLATORS --qt --keyword=_ --keyword=N_ --keyword=Q_:1g --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=translate:2 --keyword=translate:2,3c --keyword=g_dngettext:2,3 --from-code=UTF-8 --add-comments --msgid-bugs-address=https://github.com/rcaelers/workrave/issues)
+  set(XGETTEXT_QML_ARGS -cTRANSLATORS --language=JavaScript --keyword=qsTr --keyword=qsTranslate:2 --from-code=UTF-8 --add-comments --msgid-bugs-address=https://github.com/rcaelers/workrave/issues)
 
   add_custom_command(
     OUTPUT ${POTFILE}
-    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS} --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
+    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
+            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS}
+            --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
+    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
+            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_QML_ARGS}
+            --join-existing --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES-QML.in -o ${POTFILE}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
   macro(intltool_merge_xml IN OUT)
