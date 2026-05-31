@@ -44,6 +44,7 @@ Item {
                 onIncrement: { if (root.bridge) root.bridge.incrementLimit() }
                 onDecrement: { if (root.bridge) root.bridge.decrementLimit() }
                 onSliderMoved: (v) => { if (root.bridge) root.bridge.setLimitNorm(v) }
+                onCommitted:   (secs) => { if (root.bridge) root.bridge.setLimitSeconds(secs) }
             }
 
             PrefTimeControl {
@@ -62,6 +63,7 @@ Item {
                 onIncrement: { if (root.bridge) root.bridge.incrementSnooze() }
                 onDecrement: { if (root.bridge) root.bridge.decrementSnooze() }
                 onSliderMoved: (v) => { if (root.bridge) root.bridge.setSnoozeNorm(v) }
+                onCommitted:   (secs) => { if (root.bridge) root.bridge.setSnoozeSeconds(secs) }
             }
         }
 

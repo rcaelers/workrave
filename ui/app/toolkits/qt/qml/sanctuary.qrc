@@ -25,6 +25,7 @@
         <file>PrefGroup.qml</file>
         <file>PrefToggleRow.qml</file>
         <file>PrefStepper.qml</file>
+        <file>PrefTimeStepper.qml</file>
         <file>PrefSliderRow.qml</file>
         <file>PrefTimeControl.qml</file>
         <file>PrefSpinRow.qml</file>

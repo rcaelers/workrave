@@ -16,6 +16,7 @@ Item {
     signal increment()
     signal decrement()
     signal sliderMoved(real value)
+    signal committed(int seconds)
 
     implicitWidth:  parent ? parent.width : 400
     implicitHeight: topRow.height
@@ -61,12 +62,13 @@ Item {
             }
         }
 
-        PrefStepper {
+        PrefTimeStepper {
             id: stepper
             anchors { right: parent.right; verticalCenter: parent.verticalCenter }
             value: root.value
-            onIncrement: root.increment()
-            onDecrement: root.decrement()
+            onIncrement:  root.increment()
+            onDecrement:  root.decrement()
+            onCommitted: (secs) => root.committed(secs)
         }
     }
 

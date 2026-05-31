@@ -59,7 +59,7 @@ namespace PrefUtils
     int s = seconds % 60;
     if (h > 0)
       {
-        return QStringLiteral("%1:%2").arg(h).arg(m, 2, 10, QLatin1Char('0'));
+        return QStringLiteral("%1:%2:%3").arg(h).arg(m, 2, 10, QLatin1Char('0')).arg(s, 2, 10, QLatin1Char('0'));
       }
       return QStringLiteral("%1:%2").arg(m).arg(s, 2, 10, QLatin1Char('0'));
   }
@@ -247,6 +247,13 @@ MicrobreakPrefBridge::setLimitNorm(double norm)
 }
 
 void
+MicrobreakPrefBridge::setLimitSeconds(int seconds)
+{
+  CoreConfig::timer_limit(BREAK_ID_MICRO_BREAK).set(std::clamp(seconds, 1, 86400));
+  Q_EMIT timingChanged();
+}
+
+void
 MicrobreakPrefBridge::incrementDuration()
 {
   int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK)(), +1, DUR_MIN, DUR_MAX, DUR_STEP);
@@ -271,6 +278,13 @@ MicrobreakPrefBridge::setDurationNorm(double norm)
 }
 
 void
+MicrobreakPrefBridge::setDurationSeconds(int seconds)
+{
+  CoreConfig::timer_auto_reset(BREAK_ID_MICRO_BREAK).set(std::clamp(seconds, 1, 86400));
+  Q_EMIT timingChanged();
+}
+
+void
 MicrobreakPrefBridge::incrementSnooze()
 {
   int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK)(), +1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
@@ -291,6 +305,13 @@ MicrobreakPrefBridge::setSnoozeNorm(double norm)
 {
   int v = PrefUtils::denormalize(norm, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
   CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK).set(v);
+  Q_EMIT timingChanged();
+}
+
+void
+MicrobreakPrefBridge::setSnoozeSeconds(int seconds)
+{
+  CoreConfig::timer_snooze(BREAK_ID_MICRO_BREAK).set(std::clamp(seconds, 1, 86400));
   Q_EMIT timingChanged();
 }
 
@@ -474,6 +495,13 @@ RestBreakPrefBridge::setLimitNorm(double norm)
 }
 
 void
+RestBreakPrefBridge::setLimitSeconds(int seconds)
+{
+  CoreConfig::timer_limit(BREAK_ID_REST_BREAK).set(std::clamp(seconds, 1, 86400));
+  Q_EMIT timingChanged();
+}
+
+void
 RestBreakPrefBridge::incrementDuration()
 {
   int v = PrefUtils::clampStep(CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK)(), +1, DUR_MIN, DUR_MAX, DUR_STEP);
@@ -498,6 +526,13 @@ RestBreakPrefBridge::setDurationNorm(double norm)
 }
 
 void
+RestBreakPrefBridge::setDurationSeconds(int seconds)
+{
+  CoreConfig::timer_auto_reset(BREAK_ID_REST_BREAK).set(std::clamp(seconds, 1, 86400));
+  Q_EMIT timingChanged();
+}
+
+void
 RestBreakPrefBridge::incrementSnooze()
 {
   int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(), +1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
@@ -518,6 +553,13 @@ RestBreakPrefBridge::setSnoozeNorm(double norm)
 {
   int v = PrefUtils::denormalize(norm, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
   CoreConfig::timer_snooze(BREAK_ID_REST_BREAK).set(v);
+  Q_EMIT timingChanged();
+}
+
+void
+RestBreakPrefBridge::setSnoozeSeconds(int seconds)
+{
+  CoreConfig::timer_snooze(BREAK_ID_REST_BREAK).set(std::clamp(seconds, 1, 86400));
   Q_EMIT timingChanged();
 }
 
@@ -746,6 +788,13 @@ DailyLimitPrefBridge::setLimitNorm(double norm)
 }
 
 void
+DailyLimitPrefBridge::setLimitSeconds(int seconds)
+{
+  CoreConfig::timer_limit(BREAK_ID_DAILY_LIMIT).set(std::clamp(seconds, 1, 86400));
+  Q_EMIT timingChanged();
+}
+
+void
 DailyLimitPrefBridge::incrementSnooze()
 {
   int v = PrefUtils::clampStep(CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT)(), +1, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
@@ -766,6 +815,13 @@ DailyLimitPrefBridge::setSnoozeNorm(double norm)
 {
   int v = PrefUtils::denormalize(norm, SNOOZE_MIN, SNOOZE_MAX, SNOOZE_STEP);
   CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT).set(v);
+  Q_EMIT timingChanged();
+}
+
+void
+DailyLimitPrefBridge::setSnoozeSeconds(int seconds)
+{
+  CoreConfig::timer_snooze(BREAK_ID_DAILY_LIMIT).set(std::clamp(seconds, 1, 86400));
   Q_EMIT timingChanged();
 }
 
@@ -935,6 +991,13 @@ StatusWindowPrefBridge::setCycleNorm(double norm)
 {
   int v = PrefUtils::denormalize(norm, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
   GUIConfig::timerbox_cycle_time("main").set(v);
+  Q_EMIT changed();
+}
+
+void
+StatusWindowPrefBridge::setCycleSeconds(int seconds)
+{
+  GUIConfig::timerbox_cycle_time("main").set(std::clamp(seconds, 1, 86400));
   Q_EMIT changed();
 }
 
@@ -1548,6 +1611,13 @@ AppletPrefBridge::setCycleNorm(double norm)
 {
   int v = PrefUtils::denormalize(norm, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
   GUIConfig::timerbox_cycle_time("applet").set(v);
+  Q_EMIT changed();
+}
+
+void
+AppletPrefBridge::setCycleSeconds(int seconds)
+{
+  GUIConfig::timerbox_cycle_time("applet").set(std::clamp(seconds, 1, 86400));
   Q_EMIT changed();
 }
 

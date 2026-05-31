@@ -85,14 +85,17 @@ public:
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();
   Q_INVOKABLE void setLimitNorm(double norm);
+  Q_INVOKABLE void setLimitSeconds(int seconds);
 
   Q_INVOKABLE void incrementDuration();
   Q_INVOKABLE void decrementDuration();
   Q_INVOKABLE void setDurationNorm(double norm);
+  Q_INVOKABLE void setDurationSeconds(int seconds);
 
   Q_INVOKABLE void incrementSnooze();
   Q_INVOKABLE void decrementSnooze();
   Q_INVOKABLE void setSnoozeNorm(double norm);
+  Q_INVOKABLE void setSnoozeSeconds(int seconds);
 
   Q_INVOKABLE void incrementMaxPreludes();
   Q_INVOKABLE void decrementMaxPreludes();
@@ -173,14 +176,17 @@ public:
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();
   Q_INVOKABLE void setLimitNorm(double norm);
+  Q_INVOKABLE void setLimitSeconds(int seconds);
 
   Q_INVOKABLE void incrementDuration();
   Q_INVOKABLE void decrementDuration();
   Q_INVOKABLE void setDurationNorm(double norm);
+  Q_INVOKABLE void setDurationSeconds(int seconds);
 
   Q_INVOKABLE void incrementSnooze();
   Q_INVOKABLE void decrementSnooze();
   Q_INVOKABLE void setSnoozeNorm(double norm);
+  Q_INVOKABLE void setSnoozeSeconds(int seconds);
 
   Q_INVOKABLE void incrementExercises();
   Q_INVOKABLE void decrementExercises();
@@ -255,10 +261,12 @@ public:
   Q_INVOKABLE void incrementLimit();
   Q_INVOKABLE void decrementLimit();
   Q_INVOKABLE void setLimitNorm(double norm);
+  Q_INVOKABLE void setLimitSeconds(int seconds);
 
   Q_INVOKABLE void incrementSnooze();
   Q_INVOKABLE void decrementSnooze();
   Q_INVOKABLE void setSnoozeNorm(double norm);
+  Q_INVOKABLE void setSnoozeSeconds(int seconds);
 
   Q_INVOKABLE void incrementMaxPreludes();
   Q_INVOKABLE void decrementMaxPreludes();
@@ -319,6 +327,7 @@ public:
   Q_INVOKABLE void incrementCycle();
   Q_INVOKABLE void decrementCycle();
   Q_INVOKABLE void setCycleNorm(double norm);
+  Q_INVOKABLE void setCycleSeconds(int seconds);
   Q_INVOKABLE void setMicroVisibility(int v);
   Q_INVOKABLE void setRestVisibility(int v);
   Q_INVOKABLE void setDailyVisibility(int v);
@@ -521,6 +530,7 @@ public:
   Q_INVOKABLE void incrementCycle();
   Q_INVOKABLE void decrementCycle();
   Q_INVOKABLE void setCycleNorm(double norm);
+  Q_INVOKABLE void setCycleSeconds(int seconds);
   Q_INVOKABLE void setMicroVisibility(int v);
   Q_INVOKABLE void setRestVisibility(int v);
   Q_INVOKABLE void setDailyVisibility(int v);

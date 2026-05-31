@@ -207,6 +207,7 @@ Item {
                 onIncrement:    { if (root.bridge) root.bridge.incrementCycle() }
                 onDecrement:    { if (root.bridge) root.bridge.decrementCycle() }
                 onSliderMoved:  (v) => { if (root.bridge) root.bridge.setCycleNorm(v) }
+                onCommitted:    (secs) => { if (root.bridge) root.bridge.setCycleSeconds(secs) }
             }
         }
 
