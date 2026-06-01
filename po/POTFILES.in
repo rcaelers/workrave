@@ -192,7 +192,6 @@ ui/applets/indicator/src/indicator-workrave.c
 ui/applets/indicator/src/test.c
 ui/applets/mate/src/main.c
 ui/applets/xfce/src/main.c
-ui/app/toolkits/qt/AboutDialog.cc
 ui/app/toolkits/qt/AutoUpdateDialog.cc
 ui/app/toolkits/qt/CrashDialog.cc
 ui/app/toolkits/qt/DebugDialog.cc

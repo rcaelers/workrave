@@ -208,8 +208,7 @@ Toolkit::show_about()
 {
   if (about_dialog == nullptr)
     {
-      about_dialog = new AboutDialog;
-      about_dialog->setAttribute(Qt::WA_DeleteOnClose);
+      about_dialog = new QmlAboutDialog;
     }
   about_dialog->show();
 }

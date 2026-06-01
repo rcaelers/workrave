@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2024 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -13,20 +13,30 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
 
-#ifndef ABOUTDIALOG_HH
-#define ABOUTDIALOG_HH
+#ifndef QML_ABOUT_DIALOG_HH
+#define QML_ABOUT_DIALOG_HH
 
-#include <QtGui>
-#include <QtWidgets>
+#include <QObject>
+#include <QQuickView>
+#include <QWindow>
 
-class AboutDialog : public QDialog
+class QmlAboutDialog : public QObject
 {
   Q_OBJECT
 
 public:
-  AboutDialog();
+  explicit QmlAboutDialog(QObject *parent = nullptr);
+  ~QmlAboutDialog() override;
+
+  void show();
+
+private slots:
+  void onCloseRequested();
+  void onVisibilityChanged(QWindow::Visibility visibility);
+
+private:
+  QQuickView *view{nullptr};
 };
 
-#endif // ABOUTDIALOG_HH
+#endif // QML_ABOUT_DIALOG_HH

@@ -11,7 +11,7 @@ add_library(workrave-toolkit-qt OBJECT)
 
 target_sources(workrave-toolkit-qt PRIVATE
   qml/sanctuary.qrc
-  AboutDialog.cc
+  QmlAboutDialog.cc
   QmlDailyLimitWindow.cc
   QmlMicroBreakWindow.cc
   QmlPrefsDialog.cc
@@ -94,7 +94,7 @@ if (PLATFORM_OS_MACOS)
 endif()
 
 set(MOC_SOURCES
-  AboutDialog.hh
+  QmlAboutDialog.hh
   QmlDailyLimitWindow.hh
   QmlMicroBreakWindow.hh
   QmlPrefsDialog.hh

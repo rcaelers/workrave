@@ -26,8 +26,8 @@
 #include <QTimer>
 #include <QTranslator>
 
-#include "AboutDialog.hh"
 #include "DebugDialog.hh"
+#include "QmlAboutDialog.hh"
 #include "QmlExercisesDialog.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
@@ -120,7 +120,7 @@ private:
   std::unique_ptr<QmlPrefsDialog> preferences_dialog;
   QPointer<DebugDialog> debug_dialog;
   QPointer<QmlExercisesDialog> exercises_dialog;
-  QPointer<AboutDialog> about_dialog;
+  QPointer<QmlAboutDialog> about_dialog;
   std::shared_ptr<StatusIcon> status_icon;
   int hold_count{0};
 
