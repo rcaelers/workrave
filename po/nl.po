@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:40+0200\n"
+"POT-Creation-Date: 2026-06-01 20:45+0200\n"
 "PO-Revision-Date: 2022-10-15 15:51+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -1606,7 +1606,6 @@ msgstr "Je hebt je dagelijkse limiet bereikt. Stop met werken achter de computer
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:387
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:503
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:504
-#, fuzzy
 msgid "Shut down"
 msgstr "Uitschakelen"
 
@@ -1617,7 +1616,7 @@ msgstr "Uitschakelen"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:387
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:504
 msgid "Are you sure you want to shut down the computer?"
-msgstr ""
+msgstr "Weet je zeker dat je de computer wilt uitschakelen?"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:155
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:156
@@ -1633,7 +1632,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:513
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:514
 msgid "Sleep"
-msgstr ""
+msgstr "Slaapstand"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:156
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
@@ -1642,7 +1641,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:397
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:514
 msgid "Are you sure you want to put the computer to sleep?"
-msgstr ""
+msgstr "Weet je zeker dat je de computer in slaapstand wilt zetten?"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:169
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:151
@@ -1750,14 +1749,12 @@ msgid "During a microbreak you're usually still seated. Turn on to limit the tim
 msgstr "Tijdens een micropauze blijf je meestal nog zitten. Schakel dit in om de totale tijd achter de computer te beperken; schakel het uit om alleen actief gebruik te tellen."
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:132
-#, fuzzy
 msgid "Enable shutting down the computer from the daily limit screen"
-msgstr "Het afsluiten van de computer vanuit het rustpauze-scherm inschakelen"
+msgstr "Het afsluiten van de computer vanuit het scherm voor de dagelijkse limiet inschakelen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:133
-#, fuzzy
 msgid "Adds power buttons to the daily limit window so you can stop work and shut down or sleep the computer."
-msgstr "Voegt een aan-uitknop toe aan het rustpauzevenster zodat je kunt stoppen met werken en de computer kunt uitschakelen of in slaapstand kunt zetten."
+msgstr "Voegt energietoetsen toe aan het venster voor de dagelijkse limiet, zodat je kunt stoppen met werken en de computer kunt uitschakelen of in slaapstand kunt zetten."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
@@ -1821,37 +1818,36 @@ msgstr "Visuele stijl die voor de Workrave-pictogrammen wordt gebruikt."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:185
 msgid "Lock & power"
-msgstr ""
+msgstr "Vergrendelen en energiebeheer"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:189
 msgid "Custom lock command"
-msgstr ""
+msgstr "Aangepaste vergrendelopdracht"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
 msgid "Shell command for locking the screen. When set, appears as 'Custom command' in the lock method list."
-msgstr ""
+msgstr "Shellopdracht om het scherm te vergrendelen. Als deze is ingesteld, verschijnt deze als 'Aangepaste opdracht' in de lijst met vergrendelmethoden."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:192
 msgid "e.g. /usr/bin/pmset displaysleepnow"
-msgstr ""
+msgstr "bijv. /usr/bin/pmset displaysleepnow"
 
 #
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
-#, fuzzy
 msgid "Lock method"
-msgstr "Blokkeermodus"
+msgstr "Vergrendelmethode"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
 msgid "Which screen-lock backend to use when the Lock button is pressed."
-msgstr ""
+msgstr "Welke backend voor schermvergrendeling moet worden gebruikt wanneer op de knop Vergrendelen wordt gedrukt."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:209
 msgid "Sleep action"
-msgstr ""
+msgstr "Slaapstandactie"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:210
 msgid "What the Sleep button does — suspend, hibernate, or hybrid sleep."
-msgstr ""
+msgstr "Wat de knop Slaapstand doet — slaapstand, hibernatie of hybride slaapstand."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:222
 msgid "Linux display server"
@@ -2014,41 +2010,39 @@ msgstr "Voegt een aan-uitknop toe aan het rustpauzevenster zodat je kunt stoppen
 
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:165
 msgid "Workrave picks this many at random from its library each rest break."
-msgstr ""
+msgstr "Workrave kiest er bij elke rustpauze willekeurig zoveel uit zijn bibliotheek."
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:30
-#, fuzzy
 msgid "Enable sounds"
-msgstr "Geen geluid"
+msgstr "Geluiden inschakelen"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:31
 msgid "Play a sound when a break starts or ends."
-msgstr ""
+msgstr "Speel een geluid af wanneer een pauze begint of eindigt."
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:106
 msgid "Silences system audio when a rest break or daily limit begins."
-msgstr ""
+msgstr "Dempt systeemgeluid wanneer een rustpauze of dagelijkse limiet begint."
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
-#, fuzzy
 msgid "Sound theme"
 msgstr "Geluidsthema"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"
-msgstr ""
+msgstr "Kiezen…"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:314
 msgid "Clear"
-msgstr ""
+msgstr "Wissen"
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:31
 msgid "Turn off to hide the main window — Workrave still runs from the tray."
-msgstr ""
+msgstr "Schakel dit uit om het hoofdvenster te verbergen — Workrave blijft gewoon via het systeemvak actief."
 
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:38
 msgid "Always on top"
-msgstr ""
+msgstr "Altijd bovenaan"
 
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
