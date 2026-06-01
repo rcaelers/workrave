@@ -26,11 +26,12 @@ Item {
             Canvas {
                 required property var modelData
                 width: 34; height: 34
+                Connections { target: tok; function onTrackChanged() { requestPaint() } }
                 onPaint: {
                     var ctx = getContext("2d")
                     ctx.clearRect(0, 0, width, height)
                     ctx.lineWidth = 4
-                    ctx.strokeStyle = "rgba(40,45,38,0.12)"
+                    ctx.strokeStyle = tok.track.toString()
                     ctx.beginPath()
                     ctx.arc(17, 17, 13, 0, 2 * Math.PI)
                     ctx.stroke()
@@ -75,7 +76,7 @@ Item {
 
                     Rectangle {
                         anchors.fill: parent; radius: 2
-                        color: Qt.rgba(40/255, 45/255, 38/255, 0.12)
+                        color: tok.track
                     }
                     Rectangle {
                         width: parent.width * modelData.pct; height: parent.height
@@ -135,11 +136,12 @@ Item {
         Canvas {
             width: 46; height: 46
             anchors.verticalCenter: parent.verticalCenter
+            Connections { target: tok; function onTrackChanged() { requestPaint() } }
             onPaint: {
                 var ctx = getContext("2d")
                 ctx.clearRect(0, 0, width, height)
                 ctx.lineWidth = 5
-                ctx.strokeStyle = "rgba(40,45,38,0.12)"
+                ctx.strokeStyle = tok.track.toString()
                 ctx.beginPath()
                 ctx.arc(23, 23, 18, 0, 2 * Math.PI)
                 ctx.stroke()
@@ -164,8 +166,8 @@ Item {
                 Rectangle {
                     required property var modelData
                     width: 62; height: 18; radius: 9
-                    color: Qt.rgba(1, 1, 1, 0.7)
-                    border.color: Qt.rgba(40/255, 45/255, 38/255, 0.08)
+                    color: tok.panel2
+                    border.color: tok.edge
                     border.width: 1
 
                     Row {
