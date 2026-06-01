@@ -21,6 +21,7 @@
 #include <gtkmm/dialog.h>
 #include <gtkmm/box.h>
 #include <gtkmm/sizegroup.h>
+#include <string>
 
 class HigDialog : public Gtk::Dialog
 {
@@ -42,6 +43,7 @@ public:
   explicit HigCategoryPanel(const char *lab, bool fill = false);
   HigCategoryPanel();
   Gtk::Label *add_label(const char *lab, Gtk::Widget &widget, bool expand = false, bool fill = false);
+  Gtk::Label *add_label(const std::string &lab, Gtk::Widget &widget, bool expand = false, bool fill = false);
   void add_label(Gtk::Label &label, Gtk::Widget &widget, bool expand = false, bool fill = false);
   void add_widget(Gtk::Widget &widget, bool expand = false, bool fill = false);
 
