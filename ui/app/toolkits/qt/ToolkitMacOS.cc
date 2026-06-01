@@ -27,6 +27,7 @@
 #include "ui/macos/MacOSLocker.hh"
 
 #include <QEvent>
+#include <QTimer>
 #include <QWindow>
 
 static void
@@ -75,6 +76,11 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
   Toolkit::init(app);
 
   main_window->installEventFilter(this);
+
+  dock_tile = std::make_unique<MacDockTile>(app);
+  dock_timer = new QTimer(this);
+  connect(dock_timer, &QTimer::timeout, this, [this]() { dock_tile->tick(); });
+  dock_timer->start(1000);
 
   dock_menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                             [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });

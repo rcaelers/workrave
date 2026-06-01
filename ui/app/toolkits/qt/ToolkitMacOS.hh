@@ -20,8 +20,10 @@
 
 #include "Toolkit.hh"
 
+#include <memory>
 #include <QProxyStyle>
 #include <QStyleOption>
+#include "MacDockTile.hh"
 #include "ui/macos/MacOSLocker.hh"
 
 class MacOSMenuStyle : public QProxyStyle
@@ -48,6 +50,8 @@ private:
 
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;
+  std::unique_ptr<MacDockTile> dock_tile;
+  QTimer *dock_timer{nullptr};
 };
 
 #endif // TOOLKIT_MACOS_HH

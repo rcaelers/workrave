@@ -21,7 +21,9 @@
 #include "QmlTimerBoxView.hh"
 
 #include <QCursor>
+#include <QGuiApplication>
 #include <QQmlContext>
+#include <QScreen>
 #include <QVBoxLayout>
 
 #include "core/CoreTypes.hh"
@@ -139,6 +141,37 @@ StatusWindowBridge::continueWindowDrag()
   QPoint current = QCursor::pos();
   owner_window->move(owner_window->pos() + current - last_cursor_pos);
   last_cursor_pos = current;
+}
+
+void
+StatusWindowBridge::stopWindowDrag()
+{
+  if (owner_window == nullptr)
+    {
+      return;
+    }
+
+  const QRect frame = owner_window->frameGeometry();
+  QScreen *screen = QGuiApplication::screenAt(frame.center());
+  if (screen == nullptr)
+    {
+      screen = QGuiApplication::primaryScreen();
+    }
+  if (screen == nullptr)
+    {
+      return;
+    }
+
+  const QRect avail = screen->availableGeometry();
+  const int margin = 8;
+
+  const bool snap_right = frame.center().x() >= avail.center().x();
+  const bool snap_bottom = frame.center().y() >= avail.center().y();
+
+  const int x = snap_right ? avail.right() - frame.width() - margin + 1 : avail.left() + margin;
+  const int y = snap_bottom ? avail.bottom() - frame.height() - margin + 1 : avail.top() + margin;
+
+  owner_window->move(x, y);
 }
 
 // ── QmlTimerBoxView ───────────────────────────────────────────────────────────

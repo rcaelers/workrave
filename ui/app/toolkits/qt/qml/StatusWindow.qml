@@ -72,6 +72,7 @@ Item {
             acceptedButtons: Qt.LeftButton
             onPressed:         { if (bridge != null) bridge.startWindowDrag() }
             onPositionChanged: { if (pressedButtons & Qt.LeftButton && bridge != null) bridge.continueWindowDrag() }
+            onReleased:        { if (bridge != null) bridge.stopWindowDrag() }
             cursorShape: Qt.SizeAllCursor
         }
 

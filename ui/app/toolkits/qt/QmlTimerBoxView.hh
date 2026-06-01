@@ -109,6 +109,7 @@ public Q_SLOTS:
   Q_INVOKABLE void requestClose();
   Q_INVOKABLE void startWindowDrag();
   Q_INVOKABLE void continueWindowDrag();
+  Q_INVOKABLE void stopWindowDrag();
   Q_INVOKABLE void forceRestBreak();
 
 private:
