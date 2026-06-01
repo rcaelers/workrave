@@ -376,17 +376,17 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_Zárolás"
+msgstr "Zárolás"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_Zárolás"
+msgstr "Zárolás"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
 msgid "Shutdown"
-msgstr "_Leállítás"
+msgstr "Leállítás"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 #, fuzzy
@@ -517,7 +517,7 @@ msgstr "Előző gyakorlat"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:294
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:648
 msgid "Next exercise"
-msgstr "Gyakorlatok száma:"
+msgstr "Gyakorlatok száma"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
@@ -1625,7 +1625,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_Elhalasztás"
+msgstr "Elhalasztás"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1642,7 +1642,7 @@ msgstr "_Elhalasztás"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_Kihagyás"
+msgstr "Kihagyás"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"
@@ -1703,7 +1703,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Felszólítások maximális száma:"
+msgstr "Felszólítások maximális száma"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1767,7 +1767,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Hangtéma:"
+msgstr "Hangtéma"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1801,7 +1801,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Hangtéma:"
+msgstr "Hangtéma"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -2000,7 +2000,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
 #, fuzzy
 msgid "Sound theme"
-msgstr "Hangtéma:"
+msgstr "Hangtéma"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"

@@ -25,6 +25,9 @@
 #include <QDir>
 #include <QFile>
 #include <QGuiApplication>
+#include <QQmlEngine>
+#include <QQuickView>
+#include <QQuickWidget>
 #include <QStyleHints>
 #include <QTimer>
 #include <QTranslator>
@@ -67,6 +70,10 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   menu_model = app->get_menu_model();
   sound_theme = app->get_sound_theme();
 
+  GUIConfig::light_dark_mode().attach(tracker, [this](auto mode) { apply_light_dark_mode(mode); });
+  GUIConfig::locale().attach(tracker, [this](const std::string &locale) { apply_qt_locale(locale); });
+  apply_qt_locale(GUIConfig::locale()());
+
   main_window = new MainWindow(app);
 
   workrave::utils::connect(main_window->signal_closed(), tracker, [this]() { on_main_window_closed(); });
@@ -76,10 +83,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   workrave::utils::connect(status_icon->signal_balloon_activate(), tracker, [this](auto id) {
     on_status_icon_balloon_activated(id);
   });
-
-  GUIConfig::light_dark_mode().attach(tracker, [this](auto mode) { apply_light_dark_mode(mode); });
-  GUIConfig::locale().attach(tracker, [this](const std::string &locale) { apply_qt_locale(locale); });
-  apply_qt_locale(GUIConfig::locale()());
 
   connect(heartbeat_timer, SIGNAL(timeout()), this, SLOT(on_timer()));
   heartbeat_timer->start(1000);
@@ -368,7 +371,7 @@ void
 Toolkit::notify_confirm(const std::string &id)
 {
   TRACE_ENTRY();
-  if (notifiers.find(id) != notifiers.end())
+  if (notifiers.contains(id))
     {
       notifiers[id]();
     }
@@ -415,18 +418,20 @@ Toolkit::apply_qt_locale(const std::string &locale_code)
     {
       if (QFile::exists(candidate))
         {
-          auto *translator = new QTranslator(this);
+          auto *translator = new GettextTranslator(this);
           if (translator->load(candidate))
             {
               current_translator = translator;
               installTranslator(current_translator);
               spdlog::info("Qt translation loaded: {}", candidate.toStdString());
+              retranslate_all_qml_views();
               return;
             }
           delete translator;
         }
     }
   spdlog::warn("Qt translation not found for locale: {}", locale_code);
+  retranslate_all_qml_views();
 }
 
 void
@@ -448,6 +453,25 @@ Toolkit::apply_light_dark_mode(LightDarkTheme mode)
   QGuiApplication::styleHints()->setColorScheme(scheme);
 }
 
+void
+Toolkit::retranslate_all_qml_views()
+{
+  for (QWindow *w: QGuiApplication::topLevelWindows())
+    {
+      if (auto *qv = qobject_cast<QQuickView *>(w))
+        {
+          qv->engine()->retranslate();
+        }
+    }
+  for (QWidget *w: QApplication::allWidgets())
+    {
+      if (auto *qw = qobject_cast<QQuickWidget *>(w))
+        {
+          qw->engine()->retranslate();
+        }
+    }
+}
+
 bool
 Toolkit::eventFilter(QObject *obj, QEvent *event)
 {
@@ -455,10 +479,6 @@ Toolkit::eventFilter(QObject *obj, QEvent *event)
     {
       spdlog::info("Theme changed to {}",
                    (QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Light) ? "Light" : "Dark");
-    }
-  if (event->type() == QEvent::LanguageChange && preferences_dialog)
-    {
-      preferences_dialog->retranslate();
     }
   return false;
 }

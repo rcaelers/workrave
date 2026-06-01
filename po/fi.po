@@ -375,12 +375,12 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_Lukitse"
+msgstr "Lukitse"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_Lukitse"
+msgstr "Lukitse"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
@@ -1624,7 +1624,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_Lykkää"
+msgstr "Lykkää"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1641,7 +1641,7 @@ msgstr "_Lykkää"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_Ohita"
+msgstr "Ohita"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"

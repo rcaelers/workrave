@@ -372,17 +372,17 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_잠금"
+msgstr "잠금"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_잠금"
+msgstr "잠금"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
 msgid "Shutdown"
-msgstr "_종료"
+msgstr "종료"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 #, fuzzy
@@ -1373,7 +1373,7 @@ msgstr "휴식(_R)"
 #: ui/applets/mate/src/main.c:379
 #, fuzzy
 msgid "Show log"
-msgstr "로그표시(_l)"
+msgstr "로그표시(l)"
 
 #: ui/applets/mate/src/main.c:381
 msgid "Reading mode"
@@ -1382,7 +1382,7 @@ msgstr "읽기방식"
 #: ui/applets/mate/src/main.c:385
 #, fuzzy
 msgid "Normal"
-msgstr "보통(_N)"
+msgstr "보통(N)"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -1623,7 +1623,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_연기시킴"
+msgstr "연기시킴"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1640,7 +1640,7 @@ msgstr "_연기시킴"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_건너뛰기"
+msgstr "건너뛰기"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"
@@ -1701,7 +1701,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "최대 알림 수:"
+msgstr "최대 알림 수"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1765,7 +1765,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "소리 테마:"
+msgstr "소리 테마"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1799,7 +1799,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "소리 테마:"
+msgstr "소리 테마"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -1999,7 +1999,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
 #, fuzzy
 msgid "Sound theme"
-msgstr "소리 테마:"
+msgstr "소리 테마"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"

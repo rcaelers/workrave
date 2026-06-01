@@ -85,19 +85,19 @@ msgstr "Dnevna omejitev"
 #: ui/app/Application.cc:730 ui/app/Application.cc:734
 #, fuzzy
 msgid "Mode: "
-msgstr "_Način"
+msgstr "Način"
 
 #: ui/app/Application.cc:730 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 #, fuzzy
 msgid "Suspended"
-msgstr "_Zaustavljeno"
+msgstr "Zaustavljeno"
 
 #: ui/app/Application.cc:734 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 #, fuzzy
 msgid "Quiet"
-msgstr "_Tiho"
+msgstr "Tiho"
 
 #: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -378,22 +378,22 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_Zakleni"
+msgstr "Zakleni"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_Zakleni"
+msgstr "Zakleni"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
 msgid "Shutdown"
-msgstr "_Ugasni"
+msgstr "Ugasni"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 #, fuzzy
 msgid "Suspend"
-msgstr "_Zaustavljeno"
+msgstr "Zaustavljeno"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:285
 msgid "Hibernate"
@@ -402,7 +402,7 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:289
 #, fuzzy
 msgid "Suspend hybrid"
-msgstr "_Zaustavljeno"
+msgstr "Zaustavljeno"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:408
 #, fuzzy
@@ -669,7 +669,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:77
 #, fuzzy
 msgid "Sounds"
-msgstr "Zvok:"
+msgstr "Zvok"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
@@ -1391,7 +1391,7 @@ msgstr "_Počitek"
 #: ui/applets/mate/src/main.c:379
 #, fuzzy
 msgid "Show log"
-msgstr "Pokaži _dnevnik"
+msgstr "Pokaži dnevnik"
 
 #: ui/applets/mate/src/main.c:381
 msgid "Reading mode"
@@ -1400,7 +1400,7 @@ msgstr ""
 #: ui/applets/mate/src/main.c:385
 #, fuzzy
 msgid "Normal"
-msgstr "_Običajno"
+msgstr "Običajno"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -1642,7 +1642,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_Odloži"
+msgstr "Odloži"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1659,7 +1659,7 @@ msgstr "_Odloži"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_Preskoči"
+msgstr "Preskoči"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"
@@ -1720,7 +1720,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Največ pozivov:"
+msgstr "Največ pozivov"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1783,7 +1783,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Zvok:"
+msgstr "Zvok"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1816,7 +1816,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Zvok:"
+msgstr "Zvok"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -2016,7 +2016,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
 #, fuzzy
 msgid "Sound theme"
-msgstr "Zvok:"
+msgstr "Zvok"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"

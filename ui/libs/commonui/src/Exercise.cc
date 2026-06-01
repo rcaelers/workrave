@@ -117,10 +117,31 @@ ExerciseCollection::parse_exercises(const std::string &file_name)
   read_xml(file_name, pt);
   exercises.clear();
 
-#if defined(HAVE_GLIB)
-  const char *const *languages = g_get_language_names();
-#else
+  std::vector<std::string> lang_strings;
+  std::vector<const char *> lang_ptrs;
   const char *const *languages = nullptr;
+
+  if (!language_code_.empty())
+    {
+      lang_strings.push_back(language_code_);
+      auto pos = language_code_.find('_');
+      if (pos != std::string::npos)
+        {
+          lang_strings.push_back(language_code_.substr(0, pos));
+        }
+      lang_strings.emplace_back("en");
+      for (const auto &s: lang_strings)
+        {
+          lang_ptrs.push_back(s.c_str());
+        }
+      lang_ptrs.push_back(nullptr);
+      languages = lang_ptrs.data();
+    }
+#if defined(HAVE_GLIB)
+  else
+    {
+      languages = g_get_language_names();
+    }
 #endif
 
   for (boost::property_tree::ptree::value_type &v: pt.get_child("exercises"))
@@ -213,6 +234,13 @@ ExerciseCollection::load()
             }
         }
     }
+}
+
+void
+ExerciseCollection::set_language(const std::string &locale)
+{
+  language_code_ = locale;
+  load();
 }
 
 std::list<Exercise>

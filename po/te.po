@@ -377,17 +377,17 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_తాళంవేయి"
+msgstr "తాళంవేయి"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_తాళంవేయి"
+msgstr "తాళంవేయి"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
 msgid "Shutdown"
-msgstr "_నిలివివేయి"
+msgstr "నిలివివేయి"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 msgid "Suspend"
@@ -1600,7 +1600,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_వాయిదావేయి"
+msgstr "వాయిదావేయి"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1617,7 +1617,7 @@ msgstr "_వాయిదావేయి"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_దాటవేయి"
+msgstr "దాటవేయి"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"

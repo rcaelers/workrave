@@ -14,17 +14,17 @@ Item {
     signal closeRequested()
 
     readonly property var staticNavModel: [
-        { id: "timers", title: "Timers", children: [
-            { id: "microbreak",  title: "Microbreak"   },
-            { id: "restbreak",   title: "Rest break"   },
-            { id: "daily",       title: "Daily limit"  },
-            { id: "monitoring",  title: "Monitoring"   },
+        { id: "timers", title: qsTr("Timers"), children: [
+            { id: "microbreak",  title: qsTr("Microbreak")    },
+            { id: "restbreak",   title: qsTr("Rest break")    },
+            { id: "daily",       title: qsTr("Daily limit")   },
+            { id: "monitoring",  title: qsTr("Monitoring")    },
         ]},
-        { id: "ui", title: "User interface", children: [
-            { id: "general",     title: "General"        },
-            { id: "sounds",      title: "Sounds"         },
-            { id: "status",      title: "Status window"  },
-            { id: "applet",      title: "Status applet"  },
+        { id: "ui", title: qsTr("User interface"), children: [
+            { id: "general",     title: qsTr("General")         },
+            { id: "sounds",      title: qsTr("Sounds")          },
+            { id: "status",      title: qsTr("Status window")   },
+            { id: "applet",      title: qsTr("Status applet")   },
         ]},
     ]
 

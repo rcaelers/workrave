@@ -94,20 +94,20 @@ msgstr "Tägliches Limit"
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 #: ui/app/Application.cc:730 ui/app/Application.cc:734
 msgid "Mode: "
-msgstr "_Betriebsart"
+msgstr "Betriebsart"
 
 # src/app/gtkmm/Menus.cc:157
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 #: ui/app/Application.cc:730 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 msgid "Suspended"
-msgstr "_Angehalten"
+msgstr "Angehalten"
 
 # src/app/gtkmm/Menus.cc:164
 #: ui/app/Application.cc:734 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 msgid "Quiet"
-msgstr "St_ill"
+msgstr "Still"
 
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 #: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
@@ -409,25 +409,25 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_Sperren"
+msgstr "Sperren"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_Sperren"
+msgstr "Sperren"
 
 # src/app/gtkmm/TimerBoxPreferencePanel.cc:123
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
 msgid "Shutdown"
-msgstr "_Herunterfahren"
+msgstr "Herunterfahren"
 
 # src/app/gtkmm/Menus.cc:157
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 #, fuzzy
 msgid "Suspend"
-msgstr "_Angehalten"
+msgstr "Angehalten"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:285
 msgid "Hibernate"
@@ -438,7 +438,7 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:289
 #, fuzzy
 msgid "Suspend hybrid"
-msgstr "_Angehalten"
+msgstr "Angehalten"
 
 # src/app/gtkmm/BreakWindow.cc:327
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:408
@@ -729,7 +729,7 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:77
 msgid "Sounds"
-msgstr "Klang:"
+msgstr "Klang"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
@@ -1550,7 +1550,7 @@ msgstr "_Ruhepause"
 # src/app/gtkmm/Menus.cc:197
 #: ui/applets/mate/src/main.c:379
 msgid "Show log"
-msgstr "_Protokoll anzeigen"
+msgstr "Protokoll anzeigen"
 
 #: ui/applets/mate/src/main.c:381
 msgid "Reading mode"
@@ -1560,7 +1560,7 @@ msgstr "Lesemodus"
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ui/applets/mate/src/main.c:385
 msgid "Normal"
-msgstr "_Normal"
+msgstr "Normal"
 
 # src/app/shared/exercises/exercises.xml.in.h:21
 #: ui/data/exercises/exercises.xml.in:4
@@ -1832,7 +1832,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_Aufschieben"
+msgstr "Aufschieben"
 
 # src/app/gtkmm/BreakWindow.cc:327
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
@@ -1850,7 +1850,7 @@ msgstr "_Aufschieben"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_Überspringen"
+msgstr "Überspringen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"
@@ -1913,7 +1913,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Maximale Anzahl von Hinweisen:"
+msgstr "Maximale Anzahl von Hinweisen"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1980,7 +1980,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Klang:"
+msgstr "Klang"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -2015,7 +2015,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Klang:"
+msgstr "Klang"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -2227,7 +2227,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
 #, fuzzy
 msgid "Sound theme"
-msgstr "Klang:"
+msgstr "Klang"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"

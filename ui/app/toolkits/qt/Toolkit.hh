@@ -92,6 +92,7 @@ protected:
   void notify_confirm(const std::string &id);
   virtual void apply_light_dark_mode(LightDarkTheme mode);
   void apply_qt_locale(const std::string &locale_code);
+  void retranslate_all_qml_views();
 
 private:
   void show_about();
@@ -141,6 +142,24 @@ private:
   boost::signals2::signal<void()> status_icon_activated_signal;
 
   std::shared_ptr<spdlog::logger> logger{workrave::utils::Logging::create("toolkit")};
+};
+
+// Translator that looks up strings without context so that .qm files generated
+// from gettext .po files (which have no Qt context info) are found by qsTr().
+class GettextTranslator : public QTranslator
+{
+  Q_OBJECT
+
+public:
+  using QTranslator::QTranslator;
+
+  QString translate(const char *context, const char *sourceText, const char *disambiguation = nullptr, int n = -1) const override
+  {
+    QString r = QTranslator::translate("", sourceText, disambiguation, n);
+    if (!r.isEmpty())
+      return r;
+    return QTranslator::translate(context, sourceText, disambiguation, n);
+  }
 };
 
 class OneshotTimer : public QObject

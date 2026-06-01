@@ -84,19 +84,19 @@ msgstr "Limită zilnică"
 #: ui/app/Application.cc:730 ui/app/Application.cc:734
 #, fuzzy
 msgid "Mode: "
-msgstr "_Mod"
+msgstr "Mod"
 
 #: ui/app/Application.cc:730 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 #, fuzzy
 msgid "Suspended"
-msgstr "_Suspendat"
+msgstr "Suspendat"
 
 #: ui/app/Application.cc:734 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 #, fuzzy
 msgid "Quiet"
-msgstr "_Silențios"
+msgstr "Silențios"
 
 #: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -377,22 +377,22 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_Blochează"
+msgstr "Blochează"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_Blochează"
+msgstr "Blochează"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
 msgid "Shutdown"
-msgstr "_Închidere"
+msgstr "Închidere"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 #, fuzzy
 msgid "Suspend"
-msgstr "_Suspendat"
+msgstr "Suspendat"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:285
 msgid "Hibernate"
@@ -401,7 +401,7 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:289
 #, fuzzy
 msgid "Suspend hybrid"
-msgstr "_Suspendat"
+msgstr "Suspendat"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:408
 #, fuzzy
@@ -1381,7 +1381,7 @@ msgstr "_Pauză de odihnă"
 #: ui/applets/mate/src/main.c:379
 #, fuzzy
 msgid "Show log"
-msgstr "Arată jurna_lul"
+msgstr "Arată jurnalul"
 
 #: ui/applets/mate/src/main.c:381
 msgid "Reading mode"
@@ -1390,7 +1390,7 @@ msgstr ""
 #: ui/applets/mate/src/main.c:385
 #, fuzzy
 msgid "Normal"
-msgstr "_Normal"
+msgstr "Normal"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -1631,7 +1631,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_Amână"
+msgstr "Amână"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1648,7 +1648,7 @@ msgstr "_Amână"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_Sari peste"
+msgstr "Sari peste"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"
@@ -1709,7 +1709,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "Numărul maxim de sugerări:"
+msgstr "Numărul maxim de sugerări"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1773,7 +1773,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Tema sunetelor:"
+msgstr "Tema sunetelor"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1807,7 +1807,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Tema sunetelor:"
+msgstr "Tema sunetelor"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -2007,7 +2007,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
 #, fuzzy
 msgid "Sound theme"
-msgstr "Tema sunetelor:"
+msgstr "Tema sunetelor"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"

@@ -86,19 +86,19 @@ msgstr "Günlük sınır"
 #: ui/app/Application.cc:730 ui/app/Application.cc:734
 #, fuzzy
 msgid "Mode: "
-msgstr "Çalış_ma biçimi"
+msgstr "Çalışma biçimi"
 
 #: ui/app/Application.cc:730 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:387
 #, fuzzy
 msgid "Suspended"
-msgstr "_Duraklat"
+msgstr "Duraklat"
 
 #: ui/app/Application.cc:734 ui/app/platforms/windows/WindowsFocusAssist.cc:78
 #: ui/applets/mate/src/main.c:389
 #, fuzzy
 msgid "Quiet"
-msgstr "_Rahatsız etme"
+msgstr "Rahatsız etme"
 
 #: ui/app/Menus.cc:64 ui/applets/mate/src/main.c:360
 msgid "_Open"
@@ -379,12 +379,12 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:269
 #, fuzzy
 msgid "Lock..."
-msgstr "_Kilitle"
+msgstr "Kilitle"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
 #, fuzzy
 msgid "Lock"
-msgstr "_Kilitle"
+msgstr "Kilitle"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:277
 #, fuzzy
@@ -394,7 +394,7 @@ msgstr "Kapat"
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:281
 #, fuzzy
 msgid "Suspend"
-msgstr "_Duraklat"
+msgstr "Duraklat"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:285
 msgid "Hibernate"
@@ -403,7 +403,7 @@ msgstr ""
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:289
 #, fuzzy
 msgid "Suspend hybrid"
-msgstr "_Duraklat"
+msgstr "Duraklat"
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:408
 #, fuzzy
@@ -521,13 +521,13 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:648
 #, fuzzy
 msgid "Next exercise"
-msgstr "Alıştırma sayısı:"
+msgstr "Alıştırma sayısı"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:148
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:325
 #, fuzzy
 msgid "Pause exercises"
-msgstr "Alıştırma sayısı:"
+msgstr "Alıştırma sayısı"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:152
 #, fuzzy
@@ -545,7 +545,7 @@ msgstr "Duraklat"
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:321
 #, fuzzy
 msgid "Resume exercises"
-msgstr "Alıştırma sayısı:"
+msgstr "Alıştırma sayısı"
 
 #: ui/app/toolkits/gtkmm/MicroBreakWindow.cc:203
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:103
@@ -669,7 +669,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:77
 #, fuzzy
 msgid "Sounds"
-msgstr "Ses:"
+msgstr "Ses"
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:74
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:85
@@ -998,7 +998,7 @@ msgstr "Kısa-molaları çalışma olarak algıla"
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:164
 #, fuzzy
 msgid "Number of exercises"
-msgstr "Alıştırma sayısı:"
+msgstr "Alıştırma sayısı"
 
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:158
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:143
@@ -1391,7 +1391,7 @@ msgstr "_Dinlenme molası"
 #: ui/applets/mate/src/main.c:379
 #, fuzzy
 msgid "Show log"
-msgstr "_Günlüğü göster"
+msgstr "Günlüğü göster"
 
 #: ui/applets/mate/src/main.c:381
 msgid "Reading mode"
@@ -1400,7 +1400,7 @@ msgstr ""
 #: ui/applets/mate/src/main.c:385
 #, fuzzy
 msgid "Normal"
-msgstr "_Normal"
+msgstr "Normal"
 
 #: ui/data/exercises/exercises.xml.in:4
 msgid "Shoulder-arm stretch"
@@ -1641,7 +1641,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
 #, fuzzy
 msgid "Postpone"
-msgstr "_Ertele"
+msgstr "Ertele"
 
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
@@ -1658,7 +1658,7 @@ msgstr "_Ertele"
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
 #, fuzzy
 msgid "Skip"
-msgstr "_Atla"
+msgstr "Atla"
 
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
 msgid "DAILY LIMIT"
@@ -1719,7 +1719,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:104
 #, fuzzy
 msgid "Limit number of prompts"
-msgstr "En fazla onay isteği:"
+msgstr "En fazla onay isteği"
 
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:86
 msgid "When off, Workrave keeps reminding you until the limit is enforced."
@@ -1782,7 +1782,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:98
 #, fuzzy
 msgid "Theme"
-msgstr "Ses:"
+msgstr "Ses"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:102
 msgid "Use Sanctuary UI"
@@ -1815,7 +1815,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:154
 #, fuzzy
 msgid "Icon theme"
-msgstr "Ses:"
+msgstr "Ses"
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:155
 msgid "Visual style used for Workrave's icons."
@@ -2015,7 +2015,7 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:129
 #, fuzzy
 msgid "Sound theme"
-msgstr "Ses:"
+msgstr "Ses"
 
 #: ui/app/toolkits/qt/qml/SoundsPrefPage.qml:287
 msgid "Choose…"

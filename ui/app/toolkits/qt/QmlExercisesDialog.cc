@@ -33,6 +33,7 @@
 
 #include "utils/AssetPath.hh"
 #include "ui/SoundTheme.hh"
+#include "ui/GUIConfig.hh"
 #include "debug.hh"
 
 using namespace workrave::utils;
@@ -45,7 +46,8 @@ ExercisesBridge::ExercisesBridge(std::shared_ptr<IApplicationContext> app, QObje
   , sound_theme(this->app->get_sound_theme())
 {
   auto exercises_obj = this->app->get_exercises();
-  auto list          = exercises_obj->get_exercises();
+  exercises_obj->set_language(GUIConfig::locale()());
+  auto list = exercises_obj->get_exercises();
   for (auto &e : list)
     {
       shuffled_exercises.push_back(e);
