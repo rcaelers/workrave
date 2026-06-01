@@ -898,13 +898,13 @@ StatusWindowPrefBridge::visibilityToFlags(int v)
 bool
 StatusWindowPrefBridge::enabled() const
 {
-  return GUIConfig::timerbox_enabled("main")();
+  return GUIConfig::timerbox_enabled("main_window")();
 }
 
 void
 StatusWindowPrefBridge::setEnabled(bool v)
 {
-  GUIConfig::timerbox_enabled("main").set(v);
+  GUIConfig::timerbox_enabled("main_window").set(v);
   Q_EMIT changed();
 }
 
@@ -937,9 +937,9 @@ StatusWindowPrefBridge::setDisplayStyle(int v)
 int
 StatusWindowPrefBridge::placement() const
 {
-  int mp = GUIConfig::timerbox_slot("main", BREAK_ID_MICRO_BREAK)();
-  int rb = GUIConfig::timerbox_slot("main", BREAK_ID_REST_BREAK)();
-  int dl = GUIConfig::timerbox_slot("main", BREAK_ID_DAILY_LIMIT)();
+  int mp = GUIConfig::timerbox_slot("main_window", BREAK_ID_MICRO_BREAK)();
+  int rb = GUIConfig::timerbox_slot("main_window", BREAK_ID_REST_BREAK)();
+  int dl = GUIConfig::timerbox_slot("main_window", BREAK_ID_DAILY_LIMIT)();
   if (mp < rb && rb < dl)
     {
       return 0;
@@ -966,37 +966,37 @@ StatusWindowPrefBridge::setPlacement(int v)
     case 3: pos[1] = 0; pos[2] = 0; break;
     default: break;  // 0: keep {0,1,2}
     }
-  GUIConfig::timerbox_slot("main", BREAK_ID_MICRO_BREAK).set(pos[0]);
-  GUIConfig::timerbox_slot("main", BREAK_ID_REST_BREAK).set(pos[1]);
-  GUIConfig::timerbox_slot("main", BREAK_ID_DAILY_LIMIT).set(pos[2]);
+  GUIConfig::timerbox_slot("main_window", BREAK_ID_MICRO_BREAK).set(pos[0]);
+  GUIConfig::timerbox_slot("main_window", BREAK_ID_REST_BREAK).set(pos[1]);
+  GUIConfig::timerbox_slot("main_window", BREAK_ID_DAILY_LIMIT).set(pos[2]);
   Q_EMIT changed();
 }
 
 QString
 StatusWindowPrefBridge::cycleDisplay() const
 {
-  return PrefUtils::formatTime(GUIConfig::timerbox_cycle_time("main")());
+  return PrefUtils::formatTime(GUIConfig::timerbox_cycle_time("main_window")());
 }
 
 double
 StatusWindowPrefBridge::cycleNorm() const
 {
-  return PrefUtils::normalize(GUIConfig::timerbox_cycle_time("main")(), CYCLE_MIN, CYCLE_MAX);
+  return PrefUtils::normalize(GUIConfig::timerbox_cycle_time("main_window")(), CYCLE_MIN, CYCLE_MAX);
 }
 
 void
 StatusWindowPrefBridge::incrementCycle()
 {
-  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main")(), +1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
-  GUIConfig::timerbox_cycle_time("main").set(v);
+  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main_window")(), +1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  GUIConfig::timerbox_cycle_time("main_window").set(v);
   Q_EMIT changed();
 }
 
 void
 StatusWindowPrefBridge::decrementCycle()
 {
-  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main")(), -1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
-  GUIConfig::timerbox_cycle_time("main").set(v);
+  int v = PrefUtils::clampStep(GUIConfig::timerbox_cycle_time("main_window")(), -1, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
+  GUIConfig::timerbox_cycle_time("main_window").set(v);
   Q_EMIT changed();
 }
 
@@ -1004,53 +1004,53 @@ void
 StatusWindowPrefBridge::setCycleNorm(double norm)
 {
   int v = PrefUtils::denormalize(norm, CYCLE_MIN, CYCLE_MAX, CYCLE_STEP);
-  GUIConfig::timerbox_cycle_time("main").set(v);
+  GUIConfig::timerbox_cycle_time("main_window").set(v);
   Q_EMIT changed();
 }
 
 void
 StatusWindowPrefBridge::setCycleSeconds(int seconds)
 {
-  GUIConfig::timerbox_cycle_time("main").set(std::clamp(seconds, 1, 86400));
+  GUIConfig::timerbox_cycle_time("main_window").set(std::clamp(seconds, 1, 86400));
   Q_EMIT changed();
 }
 
 int
 StatusWindowPrefBridge::microVisibility() const
 {
-  return flagsToVisibility(GUIConfig::timerbox_flags("main", BREAK_ID_MICRO_BREAK)());
+  return flagsToVisibility(GUIConfig::timerbox_flags("main_window", BREAK_ID_MICRO_BREAK)());
 }
 
 void
 StatusWindowPrefBridge::setMicroVisibility(int v)
 {
-  GUIConfig::timerbox_flags("main", BREAK_ID_MICRO_BREAK).set(visibilityToFlags(v));
+  GUIConfig::timerbox_flags("main_window", BREAK_ID_MICRO_BREAK).set(visibilityToFlags(v));
   Q_EMIT changed();
 }
 
 int
 StatusWindowPrefBridge::restVisibility() const
 {
-  return flagsToVisibility(GUIConfig::timerbox_flags("main", BREAK_ID_REST_BREAK)());
+  return flagsToVisibility(GUIConfig::timerbox_flags("main_window", BREAK_ID_REST_BREAK)());
 }
 
 void
 StatusWindowPrefBridge::setRestVisibility(int v)
 {
-  GUIConfig::timerbox_flags("main", BREAK_ID_REST_BREAK).set(visibilityToFlags(v));
+  GUIConfig::timerbox_flags("main_window", BREAK_ID_REST_BREAK).set(visibilityToFlags(v));
   Q_EMIT changed();
 }
 
 int
 StatusWindowPrefBridge::dailyVisibility() const
 {
-  return flagsToVisibility(GUIConfig::timerbox_flags("main", BREAK_ID_DAILY_LIMIT)());
+  return flagsToVisibility(GUIConfig::timerbox_flags("main_window", BREAK_ID_DAILY_LIMIT)());
 }
 
 void
 StatusWindowPrefBridge::setDailyVisibility(int v)
 {
-  GUIConfig::timerbox_flags("main", BREAK_ID_DAILY_LIMIT).set(visibilityToFlags(v));
+  GUIConfig::timerbox_flags("main_window", BREAK_ID_DAILY_LIMIT).set(visibilityToFlags(v));
   Q_EMIT changed();
 }
 
