@@ -118,6 +118,7 @@ void
 ToolkitSubMenuEntry::init()
 {
   menu->clear();
+  children.clear();
 
   for (const auto &child_node: node->get_children())
     {
@@ -129,6 +130,42 @@ ToolkitSubMenuEntry::init()
           menu->insertAction(nullptr, action);
         }
     }
+
+  // Remove leading, trailing, and consecutive separators that result from
+  // filtered-out items (e.g. the Open action is excluded from the context menu
+  // but the separator after it remains and would appear as a stray first item).
+  auto cleanup_separators = [](QMenu *m) {
+    bool changed = true;
+    while (changed)
+      {
+        changed = false;
+        const auto actions = m->actions();
+        if (!actions.isEmpty() && actions.first()->isSeparator())
+          {
+            m->removeAction(actions.first());
+            changed = true;
+            continue;
+          }
+        if (!actions.isEmpty() && actions.last()->isSeparator())
+          {
+            m->removeAction(actions.last());
+            changed = true;
+            continue;
+          }
+        QAction *prev = nullptr;
+        for (auto *a: actions)
+          {
+            if (prev != nullptr && prev->isSeparator() && a->isSeparator())
+              {
+                m->removeAction(a);
+                changed = true;
+                break;
+              }
+            prev = a;
+          }
+      }
+  };
+  cleanup_separators(menu);
 }
 
 auto
@@ -274,7 +311,11 @@ ToolkitSectionMenuEntry::ToolkitSectionMenuEntry(ToolkitMenuContext::Ptr context
     {
       auto child = ToolkitMenuEntryFactory::create(get_context(), parent, child_node);
       children.push_back(child);
-      menu->insertAction(nullptr, child->get_action());
+      auto *action = child->get_action();
+      if (action != nullptr)
+        {
+          menu->insertAction(nullptr, action);
+        }
     }
 }
 

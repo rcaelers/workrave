@@ -29,9 +29,20 @@
 // #  include "MacOSAppletWindow.hh"
 // #endif
 
+int
+MacOSMenuStyle::pixelMetric(PixelMetric metric, const QStyleOption *opt, const QWidget *w) const
+{
+  if (metric == PM_MenuVMargin)
+    {
+      return QProxyStyle::pixelMetric(metric, opt, w) + 2;
+    }
+  return QProxyStyle::pixelMetric(metric, opt, w);
+}
+
 ToolkitMacOS::ToolkitMacOS(int argc, char **argv)
   : Toolkit(argc, argv)
 {
+  QApplication::setStyle(new MacOSMenuStyle(QStringLiteral("macos")));
   locker = std::make_shared<MacOSLocker>();
 }
 

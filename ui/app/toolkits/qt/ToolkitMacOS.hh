@@ -20,7 +20,16 @@
 
 #include "Toolkit.hh"
 
+#include <QProxyStyle>
+#include <QStyleOption>
 #include "ui/macos/MacOSLocker.hh"
+
+class MacOSMenuStyle : public QProxyStyle
+{
+public:
+  using QProxyStyle::QProxyStyle;
+  int pixelMetric(PixelMetric metric, const QStyleOption *opt, const QWidget *w) const override;
+};
 
 class ToolkitMacOS : public Toolkit
 {
