@@ -30,7 +30,7 @@
 #include "utils/Logging.hh"
 #include "utils/Signals.hh"
 
-class AutoUpdateDialog;
+class QmlAutoUpdateDialog;
 
 class AutoUpdater
   : public Plugin<AutoUpdater>
@@ -65,7 +65,7 @@ private:
   unfold::coro::IOContext io_context;
   unfold::coro::qt::scheduler scheduler;
   std::shared_ptr<unfold::Unfold> updater;
-  std::shared_ptr<AutoUpdateDialog> dialog;
+  std::shared_ptr<QmlAutoUpdateDialog> dialog;
   std::optional<handler_type> dialog_handler;
 
   std::shared_ptr<ui::prefwidgets::Def> auto_update_def;

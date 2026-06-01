@@ -1,4 +1,5 @@
 ui/app/toolkits/qt/qml/AboutDialog.qml
+ui/app/toolkits/qt/qml/AutoUpdateDialog.qml
 ui/app/toolkits/qt/qml/AppletPrefPage.qml
 ui/app/toolkits/qt/qml/DailyLimitClassic.qml
 ui/app/toolkits/qt/qml/DailyLimitOverlay.qml

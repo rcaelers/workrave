@@ -8,6 +8,7 @@
         <file alias="timer-rest-break.png">../../../../data/images/timer-rest-break.png</file>
         <file alias="workrave-sheep.svg">../../../../data/images/workrave-sheep.svg</file>
         <file>AboutDialog.qml</file>
+        <file>AutoUpdateDialog.qml</file>
         <file>ExercisesDialog.qml</file>
         <file>DailyLimitClassic.qml</file>
         <file>DailyLimitOverlay.qml</file>

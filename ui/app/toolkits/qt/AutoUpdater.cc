@@ -37,7 +37,7 @@
 #include "updater/Config.hh"
 #include "ui/prefwidgets/Widgets.hh"
 
-#include "AutoUpdateDialog.hh"
+#include "QmlAutoUpdateDialog.hh"
 
 namespace outcome = boost::outcome_v2;
 
@@ -289,11 +289,11 @@ AutoUpdater::show_update()
       co_return;
     }
 
-  dialog = std::make_shared<AutoUpdateDialog>(update_info, [this](auto choice) {
+  dialog = std::make_shared<QmlAutoUpdateDialog>(update_info, [this](auto choice) {
     auto response = unfold::UpdateResponse::Later;
     switch (choice)
       {
-      case AutoUpdateDialog::UpdateChoice::Now:
+      case QmlAutoUpdateDialog::UpdateChoice::Now:
         {
           response = unfold::UpdateResponse::Install;
           unfold::coro::qttask<void> task = [this]() -> unfold::coro::qttask<void> {
@@ -307,12 +307,12 @@ AutoUpdater::show_update()
         }
         break;
 
-      case AutoUpdateDialog::UpdateChoice::Later:
+      case QmlAutoUpdateDialog::UpdateChoice::Later:
         response = unfold::UpdateResponse::Later;
         dialog->close();
         break;
 
-      case AutoUpdateDialog::UpdateChoice::Skip:
+      case QmlAutoUpdateDialog::UpdateChoice::Skip:
         response = unfold::UpdateResponse::Skip;
         dialog->close();
         break;
