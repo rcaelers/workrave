@@ -107,9 +107,9 @@ private:
   void on_status_icon_balloon_activated(const std::string &id);
   void on_status_icon_activated();
 
+protected:
   bool eventFilter(QObject *obj, QEvent *event) override;
 
-protected:
   std::shared_ptr<IApplicationContext> app;
   MainWindow *main_window{nullptr};
 

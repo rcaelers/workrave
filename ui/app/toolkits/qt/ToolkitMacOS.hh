@@ -44,6 +44,8 @@ public:
   auto get_desktop_image() -> QPixmap override;
 
 private:
+  bool eventFilter(QObject *obj, QEvent *event) override;
+
   std::shared_ptr<MacOSLocker> locker;
   std::shared_ptr<ToolkitMenu> dock_menu;
 };

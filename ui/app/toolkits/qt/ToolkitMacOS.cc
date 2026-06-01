@@ -19,15 +19,38 @@
 #  include "config.h"
 #endif
 
+#import <AppKit/AppKit.h>
+
 #include "ToolkitMacOS.hh"
 #include "commonui/MenuDefs.hh"
 #include "MacOSDesktopWindow.hh"
 #include "ui/macos/MacOSLocker.hh"
-// TODO:
 
-// #if defined(PLATFORM_OS_MACOS)
-// #  include "MacOSAppletWindow.hh"
-// #endif
+#include <QEvent>
+#include <QWindow>
+
+static void
+configure_floating_panel(QWindow *qwindow)
+{
+  if (qwindow == nullptr)
+    {
+      return;
+    }
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast,performance-no-int-to-ptr)
+  auto *view = (__bridge NSView *)(reinterpret_cast<void *>(qwindow->winId()));
+  if (view == nil)
+    {
+      return;
+    }
+  NSWindow *nswindow = [view window];
+  if (nswindow == nil)
+    {
+      return;
+    }
+  [nswindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorStationary
+                                  | NSWindowCollectionBehaviorIgnoresCycle];
+  [nswindow setHidesOnDeactivate:NO];
+}
 
 int
 MacOSMenuStyle::pixelMetric(PixelMetric metric, const QStyleOption *opt, const QWidget *w) const
@@ -51,9 +74,24 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
 {
   Toolkit::init(app);
 
+  main_window->installEventFilter(this);
+
   dock_menu = std::make_shared<ToolkitMenu>(app->get_menu_model(),
                                             [](menus::Node::Ptr menu) { return menu->get_id() != MenuId::OPEN; });
   dock_menu->get_menu()->setAsDockMenu();
+}
+
+bool
+ToolkitMacOS::eventFilter(QObject *obj, QEvent *event)
+{
+  if (obj == main_window && event->type() == QEvent::WinIdChange)
+    {
+      if (main_window->windowFlags().testFlag(Qt::FramelessWindowHint))
+        {
+          configure_floating_panel(main_window->windowHandle());
+        }
+    }
+  return Toolkit::eventFilter(obj, event);
 }
 
 auto
