@@ -20,6 +20,9 @@
 
 #include "QmlTimerBoxView.hh"
 
+#include <array>
+#include <cstdlib>
+
 #include <QCursor>
 #include <QGuiApplication>
 #include <QQmlContext>
@@ -162,16 +165,47 @@ StatusWindowBridge::stopWindowDrag()
       return;
     }
 
+  // geo  = full screen including dock/menubar area
+  // avail = available area (excludes menubar on top; we still respect that for top snaps)
+  const QRect geo = screen->geometry();
   const QRect avail = screen->availableGeometry();
-  const int margin = 8;
 
-  const bool snap_right = frame.center().x() >= avail.center().x();
-  const bool snap_bottom = frame.center().y() >= avail.center().y();
+  // Snap only if a window corner is within snap_zone of the corresponding screen corner.
+  // Bottom/right targets use the full screen geometry so the window slides behind the dock.
+  // Top targets use availableGeometry.top() so the window stays below the menu bar.
+  // snap_zone is large enough to cover a typical macOS dock height (~80 px).
+  const int snap_zone = 120;
 
-  const int x = snap_right ? avail.right() - frame.width() - margin + 1 : avail.left() + margin;
-  const int y = snap_bottom ? avail.bottom() - frame.height() - margin + 1 : avail.top() + margin;
+  struct Candidate
+  {
+    QPoint frame_corner;  // the window corner being tested
+    QPoint screen_corner; // the reference corner for proximity test
+    QPoint target;        // where to move frameGeometry().topLeft()
+  };
 
-  owner_window->move(x, y);
+  const std::array<Candidate, 4> candidates{{
+    {frame.topLeft(), QPoint(geo.left(), avail.top()), QPoint(geo.left(), avail.top())},
+    {frame.topRight(),
+     QPoint(geo.right(), avail.top()),
+     QPoint(geo.right() - frame.width() + 1, avail.top())},
+    {frame.bottomLeft(),
+     geo.bottomLeft(),
+     QPoint(geo.left(), geo.bottom() - frame.height() + 1)},
+    {frame.bottomRight(),
+     geo.bottomRight(),
+     QPoint(geo.right() - frame.width() + 1, geo.bottom() - frame.height() + 1)},
+  }};
+
+  for (const auto &c : candidates)
+    {
+      const QPoint diff = c.frame_corner - c.screen_corner;
+      if (std::abs(diff.x()) <= snap_zone && std::abs(diff.y()) <= snap_zone)
+        {
+          owner_window->move(c.target);
+          return;
+        }
+    }
+  // No corner nearby — leave the window at its current position.
 }
 
 // ── QmlTimerBoxView ───────────────────────────────────────────────────────────
