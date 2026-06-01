@@ -79,7 +79,7 @@ Item {
                         Item { width: 8; height: 1 }
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr("REST BREAK") + " · "
+                            text: qsTr("Rest break").toUpperCase() + " · "
                                   + (root.exerciseIndex + 1) + " " + qsTr("OF") + " " + root.exerciseCount
                                   + (root.blockMode === 1 ? " · " + qsTr("INPUT BLOCKED") : "")
                             font.pixelSize: 11; font.weight: Font.DemiBold
@@ -474,7 +474,7 @@ Item {
                     Rectangle { width: 6; height: 6; radius: 999; color: tok.clay; anchors.verticalCenter: parent.verticalCenter }
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("REST BREAK") + " · " + (root.exerciseIndex + 1) + " " + qsTr("OF") + " " + root.exerciseCount
+                        text: qsTr("Rest break").toUpperCase() + " · " + (root.exerciseIndex + 1) + " " + qsTr("OF") + " " + root.exerciseCount
                         font.pixelSize: 12; font.weight: Font.DemiBold; font.letterSpacing: 0.5; color: tok.mute
                     }
                 }

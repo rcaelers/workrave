@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:23+0200\n"
+"POT-Creation-Date: 2026-06-01 20:40+0200\n"
 "PO-Revision-Date: 2011-02-16 19:51+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -64,6 +64,8 @@ msgstr "Mikropaus"
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:19
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:55
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr "Vilopaus"
@@ -76,6 +78,7 @@ msgstr "Vilopaus"
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
@@ -1716,10 +1719,6 @@ msgstr "Flytta fram"
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
-msgid "DAILY LIMIT"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
@@ -2022,11 +2021,6 @@ msgstr ""
 "Detta är din vilopaus. Se till att du ställer dig upp och går\n"
 "bort från din dator på en regelbunden basis. Gå bara\n"
 "runt i några minuter, stretcha och slappna av."
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-msgid "REST BREAK"
-msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101

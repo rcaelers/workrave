@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.52\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:23+0200\n"
+"POT-Creation-Date: 2026-06-01 20:40+0200\n"
 "PO-Revision-Date: 2025-10-24 15:47+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: \n"
@@ -69,6 +69,8 @@ msgstr "Istirahat mikro"
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:19
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:55
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr "Istirahat"
@@ -81,6 +83,7 @@ msgstr "Istirahat"
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
@@ -1697,10 +1700,6 @@ msgstr "Tunda"
 msgid "Skip"
 msgstr "Lewati"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
-msgid "DAILY LIMIT"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
@@ -2005,11 +2004,6 @@ msgstr ""
 "Ini adalah istirahat Anda. Pastikan Anda berdiri dan\n"
 "berjalan menjauh dari komputer secara teratur.\n"
 "Berjalanlah sebentar, meregang, dan rileks."
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-msgid "REST BREAK"
-msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101

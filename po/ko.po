@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:23+0200\n"
+"POT-Creation-Date: 2026-06-01 20:40+0200\n"
 "PO-Revision-Date: 2011-02-16 19:24+0100\n"
 "Last-Translator: softwant\n"
 "Language-Team: Korean <freeware@softwant.com>\n"
@@ -62,6 +62,8 @@ msgstr "잠깐 휴식"
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:19
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:55
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr "정규 휴식"
@@ -74,6 +76,7 @@ msgstr "정규 휴식"
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
@@ -1708,10 +1711,6 @@ msgstr "연기시킴"
 msgid "Skip"
 msgstr "건너뛰기"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
-msgid "DAILY LIMIT"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
@@ -2014,11 +2013,6 @@ msgstr ""
 "휴식시간입니다. 규칙적으로 일어나서 컴퓨터에서\n"
 "떨어지세요. 몇 분이라도 주변을 걷고, 몸을 뻗어서\n"
 "긴장을 푸세요."
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-msgid "REST BREAK"
-msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101

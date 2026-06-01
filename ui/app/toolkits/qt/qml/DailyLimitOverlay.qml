@@ -73,7 +73,7 @@ Item {
                     Text {
                         id: headerLabel
                         anchors.centerIn: parent
-                        text: qsTr("DAILY LIMIT")
+                        text: qsTr("Daily limit")
                         font.pixelSize: 10
                         font.weight: Font.DemiBold
                         font.letterSpacing: 1.8

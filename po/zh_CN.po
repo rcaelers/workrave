@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.10.53\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:23+0200\n"
+"POT-Creation-Date: 2026-06-01 20:40+0200\n"
 "PO-Revision-Date: 2025-09-07 22:20+0800\n"
 "Last-Translator: Sisyphe42 <az0189re@gmail.com>\n"
 "Language-Team: \n"
@@ -67,6 +67,8 @@ msgstr "小憩"
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:19
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:55
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr "休息"
@@ -79,6 +81,7 @@ msgstr "休息"
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
@@ -1697,10 +1700,6 @@ msgstr "推迟"
 msgid "Skip"
 msgstr "跳过"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
-msgid "DAILY LIMIT"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
@@ -2006,11 +2005,6 @@ msgstr ""
 "这是你的休息时间。\n"
 "确保你定期起身并离开计算机。\n"
 "四处走走，伸展一下身体，放松一下。"
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-msgid "REST BREAK"
-msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101

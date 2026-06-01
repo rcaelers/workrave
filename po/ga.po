@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-06-01 20:23+0200\n"
+"POT-Creation-Date: 2026-06-01 20:40+0200\n"
 "PO-Revision-Date: 2020-01-10 15:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -67,6 +67,8 @@ msgstr "Sos beag"
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:19
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:55
 #: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr "Sos scíthe"
@@ -79,6 +81,7 @@ msgstr "Sos scíthe"
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
 #: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
@@ -1699,10 +1702,6 @@ msgstr "Cuir siar é"
 msgid "Skip"
 msgstr "Léim thar seo"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
-msgid "DAILY LIMIT"
-msgstr ""
-
 #: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
@@ -2006,11 +2005,6 @@ msgstr ""
 "Seo é do shos scíthe. Déan cinnte go seasann tú agus\n"
 "go siúlann tú ó do ríomhaire go rialta. Siúl \n"
 "ar feadh tamaillín, sín, agus lig do scíth."
-
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
-msgid "REST BREAK"
-msgstr ""
 
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
 #: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101
