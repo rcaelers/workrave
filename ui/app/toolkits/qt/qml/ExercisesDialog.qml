@@ -37,17 +37,17 @@ Item {
             spacing: 6
 
             DialogButton {
-                label: qsTr("← Previous")
+                label: "← " + qsTr("Previous")
                 onClicked: { if (exercisesBridge != null) exercisesBridge.prevExercise() }
             }
             DialogButton {
                 label: (exercisesBridge != null && exercisesBridge.isPaused)
-                       ? qsTr("▶ Resume") : qsTr("⏸ Pause")
+                       ? "▶ " + qsTr("Resume") : "⏸ " + qsTr("Pause")
                 minWidth: 110
                 onClicked: { if (exercisesBridge != null) exercisesBridge.togglePause() }
             }
             DialogButton {
-                label: qsTr("Next →")
+                label: qsTr("Next") + " →"
                 onClicked: { if (exercisesBridge != null) exercisesBridge.nextExercise() }
             }
             DialogButton {
