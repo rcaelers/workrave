@@ -278,7 +278,7 @@ Item {
                         ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
 
                         if (idleProg > 0) {
-                            var ri = 17, swi = 2.5;
+                            var ri = 21, swi = 2;
                             ctx.beginPath(); ctx.arc(cx, cy, ri, 0, 2 * Math.PI);
                             ctx.strokeStyle = tok.track; ctx.lineWidth = swi; ctx.stroke();
 
