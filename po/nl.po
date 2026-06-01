@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/rcaelers/workrave/issues\n"
-"POT-Creation-Date: 2026-05-31 14:03+0200\n"
+"POT-Creation-Date: 2026-06-01 20:23+0200\n"
 "PO-Revision-Date: 2022-10-15 15:51+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -61,8 +61,9 @@ msgstr "Micropauze"
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:177
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:258
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:266
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:19
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:55
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:237
 msgid "Rest break"
 msgstr "Rustpauze"
@@ -74,8 +75,9 @@ msgstr "Rustpauze"
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:135
 #: ui/app/toolkits/gtkmm/Ui.cc:44 ui/app/toolkits/gtkmm/Ui.cc:101
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:237
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:91
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:94
 #: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:32
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:20
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:60
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:245
 msgid "Daily limit"
@@ -373,6 +375,8 @@ msgid "Lock..."
 msgstr "Vergrendelen..."
 
 #: ui/app/toolkits/gtkmm/BreakWindow.cc:273
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:145
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:290
 msgid "Lock"
 msgstr "Vergrendelen"
 
@@ -478,16 +482,18 @@ msgid "Close"
 msgstr "Sluiten"
 
 #: ui/app/toolkits/gtkmm/ExercisesDialog.cc:29
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:538
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:600
 #: ui/app/toolkits/qt/qml/RestBreakPrefPage.qml:160
 msgid "Exercises"
 msgstr "Oefeningen"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:92
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:40
 msgid "Previous"
 msgstr "Vorige"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:93
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:50
 msgid "Next"
 msgstr "Volgende"
 
@@ -496,14 +502,14 @@ msgid "Exercises player"
 msgstr "Oefeningen"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:146
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:278
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:636
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:300
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:698
 msgid "Previous exercise"
 msgstr "Vorige oefening"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:147
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:294
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:648
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:316
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:710
 msgid "Next exercise"
 msgstr "Volgende oefening"
 
@@ -517,10 +523,12 @@ msgid "End exercises"
 msgstr "Oefeningen stoppen"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
 msgid "Resume"
 msgstr "Hervatten"
 
 #: ui/app/toolkits/gtkmm/ExercisesPanel.cc:317
+#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
 msgid "Pause"
 msgstr "Pauzeren"
 
@@ -617,19 +625,23 @@ msgstr "Voorkeuren"
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:100
 #: ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc:130
 #: ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc:184
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:17
 msgid "Timers"
 msgstr "Timers"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:116
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:23
 msgid "User interface"
 msgstr "Gebruikersinterface"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:120
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:24
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:72
 msgid "General"
 msgstr "Algemeen"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:124
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:26
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:82
 msgid "Status window"
 msgstr "Statusvenster"
@@ -640,12 +652,14 @@ msgstr "Applet"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:135
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:137
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:21
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:65
 msgid "Monitoring"
 msgstr "Monitoring"
 
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:143
 #: ui/app/toolkits/gtkmm/PreferencesDialog.cc:145
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:25
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:77
 msgid "Sounds"
 msgstr "Geluiden"
@@ -710,7 +724,7 @@ msgid "Note that not all desktop environments show system tray icons, or have di
 msgstr "Let op: niet alle desktopomgevingen tonen systeemvakpictogrammen, of hebben systeemvakpictogrammen standaard uitgeschakeld."
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:217
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:227
 msgid "Force the use of X11 on Wayland (requires restart of Workrave)"
 msgstr "Forceer het gebruik van X11 op Wayland (vereist herstart van Workrave)"
 
@@ -719,7 +733,7 @@ msgid "Workrave does not fully support Wayland natively. This option forces the 
 msgstr "Workrave ondersteunt Wayland niet volledig. Deze optie forceert het gebruik van X11 op Wayland. Het wijzigen van deze optie vereist een herstart van Workrave."
 
 #: ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc:229
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:236
 msgid "Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"
 msgstr "Gebruik GNOME Shell-extensie om pauze-meldingen weer te geven op Wayland (EXPERIMENTEEL)"
 
@@ -1043,18 +1057,18 @@ msgid "Silent in {}"
 msgstr "Stil over {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:123
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:245
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:248
 #, c++-format
 msgid "Rest break for {}"
 msgstr "Rustpauze gedurende {}"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:210
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:213
 msgid "Natural rest break"
 msgstr "Zelfstandig genomen pauze"
 
 #: ui/app/toolkits/gtkmm/RestBreakWindow.cc:163
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:217
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:220
 msgid "This is your natural rest break."
 msgstr "Dit is een zelfstandig genomen pauze."
 
@@ -1565,69 +1579,120 @@ msgid "Per-timer visibility"
 msgstr "Zichtbaarheid per timer"
 
 #: ui/app/toolkits/qt/qml/AppletPrefPage.qml:221
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:18
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:50
 #: ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml:229
 msgid "Microbreak"
 msgstr "Micropauze"
 
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:98
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:218
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:101
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:240
 msgid "You have reached your daily limit. Please stop working behind the computer. If your working day is not over yet, find something else to do, such as reviewing a document."
-msgstr ""
-"Je hebt je dagelijkse limiet bereikt. Stop met werken achter de computer. Als je werkdag nog niet voorbij is, ga dan iets anders doen, zoals een document nakijken."
+msgstr "Je hebt je dagelijkse limiet bereikt. Stop met werken achter de computer. Als je werkdag nog niet voorbij is, ga dan iets anders doen, zoals een document nakijken."
 
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:137
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:129
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:136
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:150
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:151
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:122
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:123
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:295
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:296
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:133
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:134
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:385
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:386
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:387
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:503
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:504
+#, fuzzy
+msgid "Shut down"
+msgstr "Uitschakelen"
+
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:151
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:123
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:296
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:134
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:387
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:504
+msgid "Are you sure you want to shut down the computer?"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:155
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:156
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:132
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:300
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:143
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:144
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:395
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:396
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:397
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:513
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:514
+msgid "Sleep"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:156
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:133
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:301
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:144
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:397
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:514
+msgid "Are you sure you want to put the computer to sleep?"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:169
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:151
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:188
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:290
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:298
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:282
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:141
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:144
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:366
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:368
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:467
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:468
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:314
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:163
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:166
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:408
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:410
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:529
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:530
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:144
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:158
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:166
+#: ui/app/toolkits/qt/qml/DailyLimitClassic.qml:175
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:180
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:188
 #: ui/app/toolkits/qt/qml/MicroBreakClassic.qml:195
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:322
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:330
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:289
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:159
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:161
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:379
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:382
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:480
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:482
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:320
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:181
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:183
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:421
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:424
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:542
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:544
 msgid "Skip"
 msgstr "Overslaan"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:74
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:76
 msgid "DAILY LIMIT"
 msgstr "DAGELIJKSE LIMIET"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:105
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:107
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:115
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:118
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:451
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:120
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:493
 msgid "Lock screen"
 msgstr "Scherm vergrendelen"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:245
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:252
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:267
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:274
 msgid "Stop working"
 msgstr "Stop met werken"
 
-#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:280
+#: ui/app/toolkits/qt/qml/DailyLimitOverlay.qml:302
 #: ui/app/toolkits/qt/qml/MicroBreakOverlay.qml:357
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:190
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:502
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:212
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:564
 msgid "Postpone and skip will unlock after resting"
 msgstr "Uitstellen en overslaan worden na rust weer ontgrendeld"
 
@@ -1685,21 +1750,15 @@ msgstr "Bepaalt of de knop Overslaan in het pauzevenster wordt getoond."
 msgid "During a microbreak you're usually still seated. Turn on to limit the time spent at the computer; turn off to limit only active use."
 msgstr "Tijdens een micropauze blijf je meestal nog zitten. Schakel dit in om de totale tijd achter de computer te beperken; schakel het uit om alleen actief gebruik te tellen."
 
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:40
-msgid "← Previous"
-msgstr "← Vorige"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:132
+#, fuzzy
+msgid "Enable shutting down the computer from the daily limit screen"
+msgstr "Het afsluiten van de computer vanuit het rustpauze-scherm inschakelen"
 
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
-msgid "▶ Resume"
-msgstr "▶ Hervatten"
-
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:45
-msgid "⏸ Pause"
-msgstr "⏸ Pauzeren"
-
-#: ui/app/toolkits/qt/qml/ExercisesDialog.qml:50
-msgid "Next →"
-msgstr "Volgende →"
+#: ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml:133
+#, fuzzy
+msgid "Adds power buttons to the daily limit window so you can stop work and shut down or sleep the computer."
+msgstr "Voegt een aan-uitknop toe aan het rustpauzevenster zodat je kunt stoppen met werken en de computer kunt uitschakelen of in slaapstand kunt zetten."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:24
 msgid "During breaks"
@@ -1762,14 +1821,48 @@ msgid "Visual style used for Workrave's icons."
 msgstr "Visuele stijl die voor de Workrave-pictogrammen wordt gebruikt."
 
 #: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:185
+msgid "Lock & power"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:189
+msgid "Custom lock command"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:190
+msgid "Shell command for locking the screen. When set, appears as 'Custom command' in the lock method list."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:192
+msgid "e.g. /usr/bin/pmset displaysleepnow"
+msgstr ""
+
+#
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:199
+#, fuzzy
+msgid "Lock method"
+msgstr "Blokkeermodus"
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
+msgid "Which screen-lock backend to use when the Lock button is pressed."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:209
+msgid "Sleep action"
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:210
+msgid "What the Sleep button does — suspend, hibernate, or hybrid sleep."
+msgstr ""
+
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:222
 msgid "Linux display server"
 msgstr "Linux-beeldserver"
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:191
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:228
 msgid "Runs Workrave under XWayland instead of native Wayland. Requires a restart of Workrave."
 msgstr "Laat Workrave onder XWayland draaien in plaats van native Wayland. Vereist een herstart van Workrave."
 
-#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:200
+#: ui/app/toolkits/qt/qml/GeneralPrefPage.qml:237
 msgid "Uses the Workrave GNOME Shell extension to show break prompts on Wayland. Experimental."
 msgstr "Gebruikt de Workrave GNOME Shell-extensie om pauzemeldingen op Wayland te tonen. Experimenteel."
 
@@ -1819,6 +1912,11 @@ msgstr "Open het debugvenster om ruwe activiteitsgebeurtenissen en de status van
 msgid "Open debug window"
 msgstr "Debugvenster openen"
 
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:27
+#: ui/app/toolkits/qt/qml/PrefsShell.qml:87
+msgid "Status applet"
+msgstr "Statusapplet"
+
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:51
 msgid "A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."
 msgstr "Een korte pauze om weg te kijken, te strekken en te herstellen. Workrave herinnert je hier meerdere keren per uur aan."
@@ -1847,10 +1945,6 @@ msgstr "Kies welke geluiden Workrave afspeelt bij pauzegebeurtenissen en pas het
 msgid "The little always-visible window with your three timers."
 msgstr "Het kleine altijd zichtbare venster met je drie timers."
 
-#: ui/app/toolkits/qt/qml/PrefsShell.qml:87
-msgid "Status applet"
-msgstr "Statusapplet"
-
 #: ui/app/toolkits/qt/qml/PrefsShell.qml:88
 msgid "The system-tray or panel applet showing your three timers."
 msgstr "De systeemvak- of paneelapplet die je drie timers toont."
@@ -1863,45 +1957,44 @@ msgstr "Workrave — Voorkeuren"
 msgid "Time for a break?"
 msgstr "Tijd voor een pauze?"
 
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:165
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:168
 msgid "Exercises player:"
 msgstr "Oefeningen:"
 
-#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:218
+#: ui/app/toolkits/qt/qml/RestBreakClassic.qml:221
 msgid "This is your rest break. Make sure you stand up and walk away from your computer on a regular basis. Just walk around for a few minutes, stretch, and relax."
-msgstr ""
-"Dit is je rustpauze. Zorg ervoor dat je regelmatig opstaat en wegloopt van je computer. Loop een paar minuten rond, rek je uit en ontspan."
+msgstr "Dit is je rustpauze. Zorg ervoor dat je regelmatig opstaat en wegloopt van je computer. Loop een paar minuten rond, rek je uit en ontspan."
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:80
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 msgid "REST BREAK"
 msgstr "RUSTPAUZE"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:81
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:99
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:435
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:83
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:101
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:477
 msgid "OF"
 msgstr "VAN"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:82
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:84
 msgid "INPUT BLOCKED"
 msgstr "INVOER GEBLOKKEERD"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:341
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:708
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:363
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:770
 msgid "Exercises complete — please relax"
 msgstr "Oefeningen voltooid — ontspan nu"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:347
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:709
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:369
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:771
 msgid "Please stand up and walk away from your computer"
 msgstr "Sta op en loop weg van je computer"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:585
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:647
 msgid "Total left"
 msgstr "Nog over"
 
-#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:715
+#: ui/app/toolkits/qt/qml/RestBreakOverlay.qml:777
 msgid "End break early"
 msgstr "Pauze eerder beeindigen"
 
@@ -1966,3 +2059,15 @@ msgstr ""
 #: ui/app/toolkits/qt/qml/TimerVisibilityRow.qml:71
 msgid "When first due"
 msgstr "Als eerste afloopt"
+
+#~ msgid "← Previous"
+#~ msgstr "← Vorige"
+
+#~ msgid "▶ Resume"
+#~ msgstr "▶ Hervatten"
+
+#~ msgid "⏸ Pause"
+#~ msgstr "⏸ Pauzeren"
+
+#~ msgid "Next →"
+#~ msgstr "Volgende →"

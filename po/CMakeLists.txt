@@ -6,7 +6,35 @@ set(POTFILE ${CMAKE_CURRENT_BINARY_DIR}/workrave.pot)
 file(GLOB POFILES ${CMAKE_CURRENT_SOURCE_DIR}/*.po)
 
 if (GETTEXT_FOUND)
+  set(XGETTEXT_ARGS -cTRANSLATORS --qt --keyword=_ --keyword=N_ --keyword=Q_:1g --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=translate:2 --keyword=translate:2,3c --keyword=g_dngettext:2,3 --from-code=UTF-8 --add-comments --msgid-bugs-address=https://github.com/rcaelers/workrave/issues)
+  set(XGETTEXT_QML_ARGS -cTRANSLATORS --language=JavaScript --keyword=qsTr --keyword=qsTranslate:2 --from-code=UTF-8 --add-comments --msgid-bugs-address=https://github.com/rcaelers/workrave/issues)
+
+  # Regenerate the .pot from source — used both by the normal build and update-po.
+  add_custom_command(
+    OUTPUT ${POTFILE}
+    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
+            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS}
+            --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
+    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
+            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_QML_ARGS}
+            --join-existing --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES-QML.in -o ${POTFILE}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+  # update-pot: explicitly regenerate the .pot (always re-runs as a custom target).
+  add_custom_target(update-pot
+    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
+            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS}
+            --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
+    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
+            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_QML_ARGS}
+            --join-existing --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES-QML.in -o ${POTFILE}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Regenerating ${POTFILE}"
+  )
+
+  # update-po: regenerate .pot first, then merge into every .po file.
   add_custom_target(update-po)
+  add_dependencies(update-po update-pot)
 endif()
 
 foreach (po_file ${POFILES})
@@ -66,19 +94,6 @@ add_custom_target(translations ALL DEPENDS ${qm_files})
 
 if (GETTEXT_FOUND)
   add_custom_target(nls ALL DEPENDS ${gmo_files})
-
-  set(XGETTEXT_ARGS -cTRANSLATORS --qt --keyword=_ --keyword=N_ --keyword=Q_:1g --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=translate:2 --keyword=translate:2,3c --keyword=g_dngettext:2,3 --from-code=UTF-8 --add-comments --msgid-bugs-address=https://github.com/rcaelers/workrave/issues)
-  set(XGETTEXT_QML_ARGS -cTRANSLATORS --language=JavaScript --keyword=qsTr --keyword=qsTranslate:2 --from-code=UTF-8 --add-comments --msgid-bugs-address=https://github.com/rcaelers/workrave/issues)
-
-  add_custom_command(
-    OUTPUT ${POTFILE}
-    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
-            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_ARGS}
-            --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES.in -o ${POTFILE}
-    COMMAND ${CMAKE_COMMAND} -E env GETTEXTDATADIRS=${CMAKE_SOURCE_DIR}/po
-            ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_QML_ARGS}
-            --join-existing --files-from ${CMAKE_SOURCE_DIR}/po/POTFILES-QML.in -o ${POTFILE}
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
   macro(intltool_merge_xml IN OUT)
     add_custom_command(
