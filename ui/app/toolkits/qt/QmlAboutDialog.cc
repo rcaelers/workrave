@@ -30,6 +30,8 @@
 #include <QString>
 #include <QStringList>
 
+#include <spdlog/spdlog.h>
+
 #include "commonui/credits.h"
 #include "debug.hh"
 
@@ -78,7 +80,7 @@ QmlAboutDialog::QmlAboutDialog(QObject *parent)
   QObject::connect(view, &QQuickView::statusChanged, this, [this](QQuickView::Status status) {
     if (status == QQuickView::Error)
       {
-        for (const auto &err : view->errors())
+        for (const auto &err: view->errors())
           {
             spdlog::error("AboutDialog QML error: {}", err.toString().toStdString());
           }
