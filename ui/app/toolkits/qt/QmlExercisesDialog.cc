@@ -282,7 +282,9 @@ QmlExercisesDialog::QmlExercisesDialog(std::shared_ptr<IApplicationContext> app,
   {
     QDir bundleQml(QCoreApplication::applicationDirPath() + "/../Resources/qml");
     if (bundleQml.exists())
-      view->engine()->addImportPath(bundleQml.canonicalPath());
+      {
+        view->engine()->addImportPath(bundleQml.canonicalPath());
+      }
   }
 #endif
 #ifdef QT_QML_IMPORT_PATH
@@ -310,8 +312,6 @@ QmlExercisesDialog::QmlExercisesDialog(std::shared_ptr<IApplicationContext> app,
       }
   });
 
-  QObject::connect(view, &QWindow::visibilityChanged, this, &QmlExercisesDialog::onVisibilityChanged);
-
   view->setSource(QUrl("qrc:/sanctuary/ExercisesDialog.qml"));
 }
 
@@ -334,11 +334,3 @@ QmlExercisesDialog::onCloseRequested()
   view->hide();
 }
 
-void
-QmlExercisesDialog::onVisibilityChanged(QWindow::Visibility visibility)
-{
-  if (visibility == QWindow::Hidden)
-    {
-      deleteLater();
-    }
-}

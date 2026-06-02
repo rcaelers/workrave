@@ -1,182 +1,198 @@
-// ExercisesDialog.qml — Standalone exercises player.
+// ExercisesDialog.qml — Exercises player.
 // Loaded by QmlExercisesDialog via QQuickView.
-// All data comes from the C++ "exercisesBridge" context property (ExercisesBridge).
+// Context property: exercisesBridge (ExercisesBridge).
 
 import QtQuick
+import QtQuick.Controls.Basic
 
 Item {
     id: root
 
     signal closeRequested()
 
-    // ── Design tokens ────────────────────────────────────────────────────────
-    readonly property color colBg:     "#E8E8E8"
-    readonly property color colBar:    "#4A90D9"
-    readonly property color colInk:    "#1A1A1A"
-    readonly property color colInk2:   "#444444"
-    readonly property color colBtn:    "#D4D0C8"
-    readonly property color colBtnTxt: "#1A1A1A"
-    readonly property color colSep:    "#C0C0C0"
+    PrefTokens { id: tok }
 
-    // ── Bridge bindings ──────────────────────────────────────────────────────
     readonly property double exProgress: exercisesBridge != null ? exercisesBridge.exerciseProgress : 1.0
+    readonly property bool   exPaused:   exercisesBridge != null ? exercisesBridge.isPaused : false
 
-    // ── Background ───────────────────────────────────────────────────────────
     Rectangle {
         anchors.fill: parent
-        color: colBg
+        color: tok.bg
 
-        // ── Button row (anchored to bottom) ──────────────────────────────────
-        Row {
-            id: buttonRow
-            anchors {
-                bottom: parent.bottom
-                horizontalCenter: parent.horizontalCenter
-                bottomMargin: 12
-            }
-            spacing: 6
+        // ── Header ────────────────────────────────────────────────────────────
+        Rectangle {
+            id: header
+            anchors { top: parent.top; left: parent.left; right: parent.right }
+            height: 48
+            color: tok.panel
 
-            DialogButton {
-                label: "← " + qsTr("Previous")
-                onClicked: { if (exercisesBridge != null) exercisesBridge.prevExercise() }
+            Rectangle {
+                anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                height: 1; color: tok.edge
             }
-            DialogButton {
-                label: (exercisesBridge != null && exercisesBridge.isPaused)
-                       ? "▶ " + qsTr("Resume") : "⏸ " + qsTr("Pause")
-                minWidth: 110
-                onClicked: { if (exercisesBridge != null) exercisesBridge.togglePause() }
+
+            Text {
+                anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: 16 }
+                text: qsTr("Exercises")
+                font.pixelSize: 16; font.bold: true
+                color: tok.ink
             }
-            DialogButton {
-                label: qsTr("Next") + " →"
-                onClicked: { if (exercisesBridge != null) exercisesBridge.nextExercise() }
-            }
-            DialogButton {
-                label: qsTr("Close")
-                onClicked: root.closeRequested()
+
+            Text {
+                anchors { right: parent.right; verticalCenter: parent.verticalCenter; rightMargin: 16 }
+                text: exercisesBridge != null ? exercisesBridge.exerciseTimeStr : "0:00"
+                font.pixelSize: 22; font.bold: true
+                color: exPaused ? tok.warn : tok.sage
             }
         }
 
-        // ── Content area (image + bar + text) ────────────────────────────────
+        // ── Content ───────────────────────────────────────────────────────────
         Item {
             id: contentArea
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                bottom: buttonRow.top
-                topMargin: 12; leftMargin: 12; rightMargin: 12; bottomMargin: 8
-            }
+            anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: bottomBar.top }
+            anchors { topMargin: 16; leftMargin: 16; rightMargin: 16; bottomMargin: 16 }
 
-            // Exercise image — vertically centered
+            // ── Image panel (fills available height above the progress bar) ───
             Rectangle {
-                id: imgBox
-                width: 250; height: 250
-                color: "#D0D0D0"
-                anchors { left: parent.left; verticalCenter: parent.verticalCenter }
+                id: imgPanel
+                anchors { top: parent.top; left: parent.left; bottom: progressBar.top }
+                anchors.bottomMargin: 8
+                width: 220
+                color: tok.panel
+                border.color: tok.edge; border.width: 1
+                radius: 4
+                clip: true
 
                 Image {
-                    id: exImg
-                    anchors.fill: parent
+                    anchors { fill: parent; margins: 6 }
                     source: exercisesBridge != null ? exercisesBridge.exerciseImage : ""
                     mirror: exercisesBridge != null ? exercisesBridge.exerciseImageMirror : false
                     fillMode: Image.PreserveAspectFit
                     smooth: true
                 }
-                Rectangle {
-                    anchors.fill: parent
-                    color: "#D0D0D0"
-                    visible: exImg.status !== Image.Ready
-                             || (exercisesBridge != null && exercisesBridge.exerciseImage === "")
-                }
             }
 
-            // Vertical exercise countdown bar — remaining fraction, fills from top
+            // ── Countdown progress bar ────────────────────────────────────────
             Rectangle {
-                id: vertBar
-                width: 8; height: 250
-                color: colSep
-                anchors { left: imgBox.right; verticalCenter: parent.verticalCenter }
+                id: progressBar
+                anchors { bottom: parent.bottom; left: parent.left }
+                width: 220; height: 8
+                radius: 4
+                color: tok.track
 
                 Rectangle {
-                    width: parent.width
-                    height: parent.height * root.exProgress
-                    anchors.top: parent.top
-                    color: colBar
-                    Behavior on height { NumberAnimation { duration: 500 } }
+                    width: parent.width * root.exProgress
+                    height: parent.height
+                    radius: parent.radius
+                    color: exPaused ? tok.warn : tok.sage
+                    Behavior on width { NumberAnimation { duration: 500 } }
                 }
             }
 
-            // Title + scrollable description
+            // ── Right pane: title + scrollable description ────────────────────
             Item {
-                anchors {
-                    left: vertBar.right
-                    right: parent.right
-                    top: parent.top
-                    bottom: parent.bottom
-                    leftMargin: 10
+                anchors { top: parent.top; left: imgPanel.right; right: parent.right; bottom: parent.bottom }
+                anchors.leftMargin: 16
+
+                Text {
+                    id: exTitle
+                    anchors { top: parent.top; left: parent.left; right: parent.right }
+                    text: exercisesBridge != null ? exercisesBridge.exerciseName : ""
+                    font.pixelSize: 15; font.bold: true
+                    color: tok.ink
+                    wrapMode: Text.Wrap
                 }
 
-                Column {
-                    anchors { top: parent.top; left: parent.left; right: parent.right }
-                    spacing: 8
+                Rectangle {
+                    id: titleSep
+                    anchors { top: exTitle.bottom; left: parent.left; right: parent.right; topMargin: 10 }
+                    height: 1; color: tok.edge
+                }
+
+                Flickable {
+                    anchors { top: titleSep.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+                    anchors.topMargin: 10
+                    contentHeight: descText.implicitHeight
+                    clip: true
+                    flickableDirection: Flickable.VerticalFlick
+
+                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
 
                     Text {
+                        id: descText
                         width: parent.width
-                        text: exercisesBridge != null ? exercisesBridge.exerciseName : ""
-                        font.pixelSize: 15; font.bold: true
-                        color: colInk
-                        wrapMode: Text.Wrap
-                    }
-
-                    // Scrollable description
-                    Flickable {
-                        width: parent.width
-                        height: Math.min(descText.implicitHeight, contentArea.height - 30)
-                        contentWidth: parent.width
-                        contentHeight: descText.implicitHeight
-                        clip: true
-                        flickableDirection: Flickable.VerticalFlick
-
-                        Text {
-                            id: descText
-                            width: parent.width
-                            text: exercisesBridge != null ? exercisesBridge.exerciseDescription : ""
-                            font.pixelSize: 13
-                            color: colInk2
-                            wrapMode: Text.WordWrap
-                            lineHeight: 1.45
-                        }
+                        text: exercisesBridge != null ? exercisesBridge.exerciseDescription : ""
+                        font.pixelSize: 13
+                        color: tok.ink2
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.45
                     }
                 }
             }
         }
+
+        // ── Bottom bar ────────────────────────────────────────────────────────
+        Rectangle {
+            id: bottomBar
+            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+            height: 52
+            color: tok.panel
+
+            Rectangle {
+                anchors { top: parent.top; left: parent.left; right: parent.right }
+                height: 1; color: tok.edge
+            }
+
+            Row {
+                anchors { left: parent.left; verticalCenter: parent.verticalCenter; leftMargin: 16 }
+                spacing: 8
+
+                ActionButton {
+                    label: "◀  " + qsTr("Previous")
+                    onClicked: if (exercisesBridge != null) exercisesBridge.prevExercise()
+                }
+                ActionButton {
+                    label: exPaused ? ("▶  " + qsTr("Resume")) : ("⏸  " + qsTr("Pause"))
+                    onClicked: if (exercisesBridge != null) exercisesBridge.togglePause()
+                }
+                ActionButton {
+                    label: qsTr("Next") + "  ▶"
+                    onClicked: if (exercisesBridge != null) exercisesBridge.nextExercise()
+                }
+            }
+
+            ActionButton {
+                anchors { right: parent.right; verticalCenter: parent.verticalCenter; rightMargin: 16 }
+                label: qsTr("Close")
+                onClicked: root.closeRequested()
+            }
+        }
     }
 
-    // ── Button component ──────────────────────────────────────────────────────
-    component DialogButton: Rectangle {
+    // ── ActionButton component ────────────────────────────────────────────────
+    component ActionButton: Rectangle {
         property string label: ""
-        property int    minWidth: 100
-        signal clicked()
         property bool hovered: false
+        signal clicked()
 
         height: 30
-        width: Math.max(lbl.implicitWidth + 24, minWidth)
+        width: Math.max(lbl.implicitWidth + 24, 100)
         radius: 2
-        color: hovered ? "#C0BBAF" : colBtn
-        border.color: "#888888"; border.width: 1
+        color: hovered ? tok.sageSoft : tok.panel2
+        border.color: tok.edge; border.width: 1
 
         Text {
             id: lbl
             anchors.centerIn: parent
             text: parent.label
             font.pixelSize: 12
-            color: colBtnTxt
+            color: tok.ink
         }
 
         MouseArea {
             anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
             onEntered: parent.hovered = true
             onExited:  parent.hovered = false
             onClicked: parent.clicked()

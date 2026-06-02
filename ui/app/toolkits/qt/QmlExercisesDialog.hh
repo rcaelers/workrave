@@ -95,7 +95,6 @@ private:
 };
 
 // Standalone exercises player hosted in a QQuickView.
-// Deletes itself when the window is closed so that Toolkit's QPointer auto-nulls.
 class QmlExercisesDialog : public QObject
 {
   Q_OBJECT
@@ -108,7 +107,6 @@ public:
 
 private Q_SLOTS:
   void onCloseRequested();
-  void onVisibilityChanged(QWindow::Visibility visibility);
 
 private:
   std::shared_ptr<IApplicationContext> app;
