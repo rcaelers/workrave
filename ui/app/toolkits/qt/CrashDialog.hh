@@ -20,64 +20,7 @@
 
 #include <string>
 
-#include <QtGui>
-#include <QtWidgets>
-
 #include "handler/user_hook.h"
-
-class CrashDetailsDialog : public QDialog
-{
-public:
-  CrashDetailsDialog(const std::vector<base::FilePath> &attachments,
-                     const crashpad::CrashSummary &summary,
-                     QWidget *parent = nullptr);
-  ~CrashDetailsDialog() override = default;
-
-  std::vector<base::FilePath> get_enabled_attachments() const;
-
-private:
-  void on_attachment_toggled(QTreeWidgetItem *item, int column);
-  void on_selection_changed(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-  void load_content(int index);
-  void display_crash_info();
-
-  struct AttachmentEntry
-  {
-    base::FilePath path;
-    bool enabled{true};
-  };
-
-  QVBoxLayout *vbox{nullptr};
-  QTreeWidget *tree_widget{nullptr};
-  QTextEdit *content_view{nullptr};
-  std::vector<AttachmentEntry> entries;
-  crashpad::CrashSummary summary;
-};
-
-class CrashDialog : public QDialog
-{
-public:
-  CrashDialog(const std::map<std::string, std::string> &annotations,
-              const std::vector<base::FilePath> &attachments,
-              const crashpad::CrashSummary &summary,
-              QWidget *parent = nullptr);
-  ~CrashDialog() override = default;
-
-  std::string get_user_text() const;
-  bool get_consent() const;
-  std::vector<base::FilePath> get_selected_attachments() const;
-
-private:
-  void on_submit_toggled();
-  void on_details_clicked();
-
-private:
-  QTextEdit *text_edit{nullptr};
-  QVBoxLayout *vbox{nullptr};
-  CrashDetailsDialog *details_dlg{nullptr};
-  QCheckBox *submit_cb{nullptr};
-  QFrame *user_text_frame{nullptr};
-};
 
 class UserInteraction : public crashpad::UserHook
 {

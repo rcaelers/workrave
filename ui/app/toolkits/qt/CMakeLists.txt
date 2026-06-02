@@ -188,7 +188,7 @@ if (HAVE_GLIB)
 endif()
 
 if (HAVE_CRASH_REPORT)
-  add_executable(WorkraveCrashHandler CrashDialog.cc)
+  add_executable(WorkraveCrashHandler CrashDialog.cc QmlCrashDialog.cc)
 
   set(WR_VERSION ${WORKRAVE_VERSION})
   set(WR_RESOURCE_VERSION ${WORKRAVE_RESOURCE_VERSION})
@@ -197,17 +197,24 @@ if (HAVE_CRASH_REPORT)
     ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
 
-  target_sources(WorkraveCrashHandler PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/resource.rc)
+  target_sources(WorkraveCrashHandler PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/resource.rc
+    qml/crash.qrc)
 
   target_include_directories(WorkraveCrashHandler PRIVATE ${GTK_INCLUDE_DIRS})
   target_link_directories(WorkraveCrashHandler PRIVATE ${GTK_LIBRARY_DIRS})
   target_include_directories(WorkraveCrashHandler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/commonui/include)
+
+  target_compile_definitions(WorkraveCrashHandler PRIVATE "QT_QML_IMPORT_PATH=\"${QT_QML_IMPORT_PATH_VALUE}\"")
 
   target_link_libraries(WorkraveCrashHandler
     PRIVATE
     crashpad::handler_lib
     crashpad::tools
     workrave-libs-utils
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::Qml
+    Qt${QT_VERSION_MAJOR}::QuickControls2
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Svg
     Qt${QT_VERSION_MAJOR}::Xml
