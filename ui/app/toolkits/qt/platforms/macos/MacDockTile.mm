@@ -61,7 +61,7 @@ using namespace workrave::utils;
   // --- Icon (top ~62% of the tile) ---
   if (icon != nil)
     {
-      CGFloat iconSize = h * 0.62;
+      CGFloat iconSize = h * 0.65;
       NSRect iconRect = NSMakeRect((w - iconSize) / 2.0, h - iconSize, iconSize, iconSize);
       [icon drawInRect:iconRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0];
     }
@@ -69,7 +69,7 @@ using namespace workrave::utils;
   // --- Timer bars (bottom portion, 3 bars stacked bottom-up) ---
   const int kNumBars = static_cast<int>(workrave::BREAK_ID_SIZEOF);
   const CGFloat hPad = 6.0;
-  const CGFloat vPad = 4.0;
+  const CGFloat vPad = 8.0;
   const CGFloat barH = 10.0;
   const CGFloat gap = 3.0;
   const CGFloat barW = w - 2.0 * hPad;
@@ -79,8 +79,8 @@ using namespace workrave::utils;
 
   for (int i = 0; i < kNumBars; i++)
     {
-      // bottom bar = index 0 (micro), middle = 1 (rest), top = 2 (daily)
-      CGFloat y = vPad + static_cast<CGFloat>(i) * (barH + gap);
+      // top bar = index 0 (micro), middle = 1 (rest), bottom = 2 (daily)
+      CGFloat y = vPad + static_cast<CGFloat>(kNumBars - 1 - i) * (barH + gap);
       NSRect bgRect = NSMakeRect(hPad, y, barW, barH);
 
       // Track background
@@ -109,7 +109,7 @@ using namespace workrave::utils;
             }
           else
             {
-              fillColor = [NSColor colorWithRed:0.22 green:0.78 blue:0.32 alpha:0.95];
+              fillColor = [NSColor colorWithRed:0.565 green:0.933 blue:0.565 alpha:0.95]; // lightgreen #90EE90
             }
           [fillColor setFill];
           [[NSBezierPath bezierPathWithRoundedRect:fillRect xRadius:cornerR yRadius:cornerR] fill];
