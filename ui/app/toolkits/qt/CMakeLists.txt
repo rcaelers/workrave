@@ -22,8 +22,8 @@ target_sources(workrave-toolkit-qt PRIVATE
   QmlTimerBoxView.cc
   DebugDialog.cc
   QmlExercisesDialog.cc
+  QmlStatisticsDialog.cc
   MainWindow.cc
-  StatisticsDialog.cc
   Toolkit.cc
   ToolkitFactory.cc
   ToolkitMenu.cc
@@ -106,8 +106,8 @@ set(MOC_SOURCES
   QmlTimerBoxView.hh
   DebugDialog.hh
   QmlExercisesDialog.hh
+  QmlStatisticsDialog.hh
   MainWindow.hh
-  StatisticsDialog.hh
   Toolkit.hh
   ToolkitMenu.hh
   utils/SizeGroup.hh

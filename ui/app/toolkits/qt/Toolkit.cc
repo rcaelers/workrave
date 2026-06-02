@@ -78,7 +78,7 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
 
   workrave::utils::connect(main_window->signal_closed(), tracker, [this]() { on_main_window_closed(); });
 
-  status_icon = std::make_shared<StatusIcon>(app);
+  status_icon = std::make_unique<StatusIcon>(app);
   workrave::utils::connect(status_icon->signal_activate(), tracker, [this]() { on_status_icon_activated(); });
   workrave::utils::connect(status_icon->signal_balloon_activate(), tracker, [this](auto id) {
     on_status_icon_balloon_activated(id);
@@ -206,9 +206,9 @@ Toolkit::show_window(WindowType type)
 void
 Toolkit::show_about()
 {
-  if (about_dialog == nullptr)
+  if (!about_dialog)
     {
-      about_dialog = new QmlAboutDialog;
+      about_dialog = std::make_unique<QmlAboutDialog>();
     }
   about_dialog->show();
 }
@@ -227,9 +227,9 @@ Toolkit::show_debug()
 void
 Toolkit::show_exercises()
 {
-  if (exercises_dialog == nullptr)
+  if (!exercises_dialog)
     {
-      exercises_dialog = new QmlExercisesDialog(app);
+      exercises_dialog = std::make_unique<QmlExercisesDialog>(app);
     }
   exercises_dialog->show();
 }
@@ -254,15 +254,12 @@ Toolkit::show_preferences()
 void
 Toolkit::show_statistics()
 {
-  if (statistics_dialog == nullptr)
+  if (!statistics_dialog)
     {
-      statistics_dialog = new StatisticsDialog(app);
-      statistics_dialog->setAttribute(Qt::WA_DeleteOnClose);
-      statistics_dialog->run();
+      statistics_dialog = std::make_unique<QmlStatisticsDialog>(app);
     }
   statistics_dialog->show();
   statistics_dialog->raise();
-  statistics_dialog->activateWindow();
 }
 
 auto

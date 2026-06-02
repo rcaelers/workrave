@@ -32,7 +32,7 @@
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
 #include "QmlPrefsDialog.hh"
-#include "StatisticsDialog.hh"
+#include "QmlStatisticsDialog.hh"
 #include "StatusIcon.hh"
 
 #include "core/CoreTypes.hh"
@@ -116,12 +116,12 @@ protected:
 private:
   int argc{};
   char **argv{};
-  QPointer<StatisticsDialog> statistics_dialog;
+  std::unique_ptr<QmlStatisticsDialog> statistics_dialog;
   std::unique_ptr<QmlPrefsDialog> preferences_dialog;
   QPointer<DebugDialog> debug_dialog;
-  QPointer<QmlExercisesDialog> exercises_dialog;
-  QPointer<QmlAboutDialog> about_dialog;
-  std::shared_ptr<StatusIcon> status_icon;
+  std::unique_ptr<QmlExercisesDialog> exercises_dialog;
+  std::unique_ptr<QmlAboutDialog> about_dialog;
+  std::unique_ptr<StatusIcon> status_icon;
   int hold_count{0};
 
   QTimer *heartbeat_timer{nullptr};

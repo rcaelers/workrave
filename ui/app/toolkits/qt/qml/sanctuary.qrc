@@ -50,5 +50,6 @@
         <file>SoundsPrefPage.qml</file>
         <file>PluginPrefPage.qml</file>
         <file>PrefPluginGroups.qml</file>
+        <file>StatisticsDialog.qml</file>
     </qresource>
 </RCC>
