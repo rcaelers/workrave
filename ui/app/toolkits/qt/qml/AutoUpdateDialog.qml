@@ -3,6 +3,7 @@
 // All data comes from the C++ "updateBridge" context property (AutoUpdateBridge).
 
 import QtQuick
+import QtQuick.Controls.Basic
 
 Item {
     id: root
@@ -84,6 +85,8 @@ Item {
                 clip: true
                 flickableDirection: Flickable.VerticalFlick
 
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+
                 Text {
                     id: notesText
                     width: notesFl.width
@@ -93,23 +96,6 @@ Item {
                     color: tok.ink2
                     wrapMode: Text.WordWrap
                     lineHeight: 1.5
-                }
-            }
-
-            // Scrollbar track
-            Rectangle {
-                anchors { right: parent.right; top: parent.top; bottom: parent.bottom; margins: 2 }
-                width: 4; radius: 2
-                color: tok.track
-                visible: notesFl.contentHeight > notesFl.height
-
-                Rectangle {
-                    width: parent.width; radius: parent.radius
-                    color: tok.sage
-                    height: Math.max(24, parent.height * notesFl.height / Math.max(notesFl.contentHeight, 1))
-                    y: notesFl.contentY / Math.max(notesFl.contentHeight - notesFl.height, 1)
-                       * (parent.height - height)
-                    Behavior on y { NumberAnimation { duration: 100 } }
                 }
             }
         }
