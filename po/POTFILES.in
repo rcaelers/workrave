@@ -207,7 +207,6 @@ ui/app/toolkits/qt/QmlPrefsBridges.cc
 ui/app/toolkits/qt/QmlPrefsDialog.cc
 ui/app/toolkits/qt/QmlPreludeWindow.cc
 ui/app/toolkits/qt/QmlRestBreakWindow.cc
-ui/app/toolkits/qt/StatisticsDialog.cc
 ui/app/toolkits/qt/Toolkit.cc
 ui/app/toolkits/qt/ToolkitFactory.cc
 ui/app/toolkits/qt/ToolkitMacOS.cc
@@ -215,10 +214,8 @@ ui/app/toolkits/qt/ToolkitMenu.cc
 ui/app/toolkits/qt/ToolkitUnix.cc
 ui/app/toolkits/qt/ToolkitWindows.cc
 ui/app/toolkits/qt/utils/qformat.cc
-ui/app/toolkits/qt/utils/SizeGroup.cc
 ui/app/toolkits/qt/utils/Ui.cc
 ui/app/toolkits/qt/utils/UiUtil.cc
-ui/app/toolkits/qt/widgets/Icon.cc
 ui/app/toolkits/qt/widgets/StatusIcon.cc
 ui/app/toolkits/qt/widgets/TimeBar.cc
 ui/app/toolkits/qt/widgets/TimerBoxView.cc
