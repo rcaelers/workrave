@@ -1,5 +1,3 @@
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Quick QuickControls2 QuickWidgets REQUIRED)
-
 # Ask Qt for its authoritative QML import path instead of guessing from Qt6Qml_DIR.
 # Some layouts, such as MSYS2, place runtime modules under share/qt6/qml rather than prefix/qml.
 execute_process(
