@@ -140,7 +140,7 @@ Item {
                             width: 28; height: 28; radius: 999
                             color: "transparent"; border.color: tok.edge; border.width: 1
                             anchors.verticalCenter: parent.verticalCenter
-                            Text { anchors.centerIn: parent; text: "💤"; font.pixelSize: 12 }
+                            Text { anchors.centerIn: parent; text: "☽"; font.pixelSize: 14; color: tok.ink2 }
                             Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
                             MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                         }
@@ -525,7 +525,7 @@ Item {
                         width: 28; height: 28; radius: 999
                         color: "transparent"; border.color: tok.edge; border.width: 1
                         anchors.verticalCenter: parent.verticalCenter
-                        Text { anchors.centerIn: parent; text: "💤"; font.pixelSize: 12 }
+                        Text { anchors.centerIn: parent; text: "☽"; font.pixelSize: 14; color: tok.ink2 }
                         Accessible.role: Accessible.Button; Accessible.name: qsTr("Sleep")
                         MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: confirmDlg.ask("sleep", qsTr("Sleep"), qsTr("Are you sure you want to put the computer to sleep?")) }
                     }
