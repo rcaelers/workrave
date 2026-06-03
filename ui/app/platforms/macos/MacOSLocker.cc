@@ -24,6 +24,13 @@
 #import <Cocoa/Cocoa.h>
 #include <ApplicationServices/ApplicationServices.h>
 #import <AppKit/NSRunningApplication.h>
+
+// -activate was added to NSRunningApplication in macOS 14 and may not be visible at lower
+// deployment targets even though it is present in the SDK. Forward-declare it so the compiler
+// accepts the call inside the @available(macOS 14.0, *) guard below.
+@interface NSRunningApplication (Workrave_macOS14)
+- (BOOL)activate;
+@end
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
 
