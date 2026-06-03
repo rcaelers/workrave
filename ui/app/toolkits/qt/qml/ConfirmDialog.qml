@@ -61,7 +61,7 @@ Item {
             Text {
                 id: titleText
                 width: parent.width
-                font.pixelSize: 15; font.weight: Font.SemiBold
+                font.pixelSize: 15; font.weight: Font.DemiBold
                 color: tok.ink
                 wrapMode: Text.WordWrap
             }
