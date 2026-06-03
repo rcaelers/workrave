@@ -27,11 +27,9 @@ target_sources(workrave-toolkit-qt PRIVATE
   Toolkit.cc
   ToolkitFactory.cc
   ToolkitMenu.cc
-  utils/SizeGroup.cc
   utils/Ui.cc
   utils/UiUtil.cc
   utils/qformat.cc
-  widgets/Icon.cc
   widgets/StatusIcon.cc
   widgets/TimeBar.cc
   widgets/TimerBoxView.cc
@@ -110,7 +108,6 @@ set(MOC_SOURCES
   MainWindow.hh
   Toolkit.hh
   ToolkitMenu.hh
-  utils/SizeGroup.hh
   widgets/StatusIcon.hh
   widgets/TimeBar.hh
   widgets/TimerBoxView.hh
@@ -134,7 +131,6 @@ target_link_directories(workrave-toolkit-qt PRIVATE
 
 if (HAVE_UNFOLD_AUTO_UPDATE)
   if (PLATFORM_OS_WINDOWS)
-    # TODO: target_sources(workrave-toolkit-qt PRIVATE platforms/windows/Edge.cc)
     target_link_libraries(workrave-toolkit-qt PUBLIC Unfold::unfold webview2 ws2_32 mswsock)
   endif()
 

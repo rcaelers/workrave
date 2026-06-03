@@ -19,10 +19,6 @@
 #define UIUTIL_HH
 
 #include <QtWidgets>
-#include <memory>
-
-#include "SizeGroup.hh"
-#include "core/CoreTypes.hh"
 
 class UiUtil
 {
@@ -30,31 +26,7 @@ public:
   Q_DECLARE_TR_FUNCTIONS(UiUtil);
 
 public:
-  static auto create_alert_text(const QString &caption, const QString &body) -> QString;
-  static auto create_label(const QString &text, bool bold = false) -> QLabel *;
-  static auto create_image_label(const QString &filename) -> QLabel *;
-  static auto create_label_for_break(workrave::BreakId id) -> QLabel *;
-  static auto create_label_with_tooltip(const QString &text, const QString &tooltip) -> QLabel *;
-  static auto create_image_button(const QString &filename) -> QPushButton *;
-  static auto create_image_text_button(const QString &filename, const QString &text) -> QPushButton *;
-
-  static void clear_layout(QLayout *layout);
-
-  static void add_widget(QBoxLayout *layout,
-                         const QString &text,
-                         QWidget *widget,
-                         std::shared_ptr<SizeGroup> size_group = nullptr);
-  static void add_widget(QBoxLayout *layout, QLabel *label, QWidget *widget, std::shared_ptr<SizeGroup> size_group = nullptr);
-  static auto add_label(QBoxLayout *layout, const QString &text, bool bold, std::shared_ptr<SizeGroup> size_group) -> QLabel *;
-  static auto add_label(QBoxLayout *layout, const QString &text, std::shared_ptr<SizeGroup> size_group = nullptr) -> QLabel *;
-  static auto add_bold_label(QBoxLayout *layout, const QString &text, std::shared_ptr<SizeGroup> size_group = nullptr)
-    -> QLabel *;
-
   static auto create_icon(const QString &filename) -> QIcon;
-  static auto create_pixmap(const QString &filename, int height) -> QPixmap;
-
-  static void invalidate(QLayout *layout);
-
   static auto time_to_string(time_t t, bool display_units = false) -> QString;
 };
 
