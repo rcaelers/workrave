@@ -22,7 +22,6 @@ execute_process(
 set(glib_schema_compiler ${_glib_compile_schemas} CACHE INTERNAL "")
 
 set(GSETTINGS_DIR "${DATADIR}/glib-2.0/schemas/")
-set(GSETTINGS_ABS_DIR "${CMAKE_INSTALL_PREFIX}/${DATADIR}/glib-2.0/schemas/")
 
 message(STATUS "GSettings schemas will be installed into ${GSETTINGS_DIR}")
 if (GSETTINGS_COMPILE)
@@ -55,13 +54,18 @@ macro(gsettings_add_schemas SCHEMA_DIRECTORY)
   endforeach()
 
   if (GSETTINGS_COMPILE)
+    string(CONFIGURE [[
+      execute_process(
+        COMMAND "@glib_schema_compiler@" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/@GSETTINGS_DIR@"
+      )
+    ]] _gsettings_compile_code @ONLY)
+
     install(
       CODE "message (STATUS \"Compiling GSettings schemas\")"
       )
 
     install(
-      CODE "execute_process (COMMAND ${glib_schema_compiler} ${DESTDIR}${GSETTINGS_ABS_DIR})"
+      CODE "${_gsettings_compile_code}"
       )
   endif()
 endmacro()
-
