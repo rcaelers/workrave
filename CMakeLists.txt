@@ -163,7 +163,7 @@ macro(pkgconfig_get_var OUT PKG VARNAME)
 endmacro()
 
 function(make_install_destination_relative PATH_VAR PREFIX)
-  if (IS_ABSOLUTE "${${PATH_VAR}}" AND IS_ABSOLUTE "${PREFIX}")
+  if (DEFINED ${PATH_VAR} AND NOT "${${PATH_VAR}}" STREQUAL "" AND IS_ABSOLUTE "${${PATH_VAR}}" AND IS_ABSOLUTE "${PREFIX}")
     string(REGEX REPLACE "/+$" "" _prefix "${PREFIX}")
     string(FIND "${${PATH_VAR}}" "${_prefix}/" _prefix_pos)
     if (_prefix_pos EQUAL 0)

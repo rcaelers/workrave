@@ -57,7 +57,12 @@ macro(gsettings_add_schemas SCHEMA_DIRECTORY)
     string(CONFIGURE [[
       execute_process(
         COMMAND "@glib_schema_compiler@" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/@GSETTINGS_DIR@"
+        RESULT_VARIABLE _gsettings_compile_result
       )
+
+      if (NOT _gsettings_compile_result EQUAL 0)
+        message(FATAL_ERROR "Failed to compile GSettings schemas in $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/@GSETTINGS_DIR@")
+      endif()
     ]] _gsettings_compile_code @ONLY)
 
     install(
