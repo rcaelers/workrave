@@ -55,9 +55,7 @@ MacOSLocker::MacOSLocker()
   pimpl = std::make_unique<Pimpl>();
 }
 
-MacOSLocker::~MacOSLocker()
-{
-}
+MacOSLocker::~MacOSLocker() = default;
 
 bool
 MacOSLocker::can_lock()
@@ -99,7 +97,17 @@ void
 MacOSLocker::Pimpl::activate()
 {
   prepare_foreground();
-  [NSApp activateIgnoringOtherApps:YES];
+  if (@available(macOS 14.0, *))
+    {
+      [NSApp activate];
+    }
+  else
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+      [NSApp activateIgnoringOtherApps:YES];
+#pragma clang diagnostic pop
+    }
 }
 
 void
@@ -107,7 +115,17 @@ MacOSLocker::Pimpl::restore_foreground()
 {
   if (active_app != nil)
     {
-      [active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+      if (@available(macOS 14.0, *))
+        {
+          [active_app activate];
+        }
+      else
+        {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+          [active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+#pragma clang diagnostic pop
+        }
       if (active_app_hidden)
         {
           [NSApp hide:active_app];
