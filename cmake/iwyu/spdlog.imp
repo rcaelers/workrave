@@ -1,0 +1,5 @@
+[
+  { "include": [ "@<spdlog/details/.*>",   "private", "<spdlog/spdlog.h>", "public" ] },
+  { "include": [ "@\"spdlog/details/.*\"", "private", "<spdlog/spdlog.h>", "public" ] },
+  { "include": [ "<fmt/core.h>",           "private", "<fmt/format.h>",    "public" ] }
+]

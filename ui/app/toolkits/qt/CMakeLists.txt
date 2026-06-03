@@ -72,6 +72,13 @@ if (PLATFORM_OS_MACOS)
     platforms/macos/MacDockTile.mm)
 
     set_source_files_properties(ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc platforms/macos/MacDockTile.mm PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    # IWYU does not support Objective-C++; exclude all macOS ObjC++ sources
+    set_source_files_properties(
+      ToolkitMacOS.cc
+      platforms/macos/MouseMonitor.cc
+      platforms/macos/MacOSDesktopWindow.cc
+      platforms/macos/MacDockTile.mm
+      PROPERTIES SKIP_LINTING ON)
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 
@@ -87,6 +94,11 @@ if (PLATFORM_OS_MACOS)
     platforms/macos/MacOSDesktopWindow.cc)
 
     set_source_files_properties(ToolkitMacOS.cc platforms/macos/MouseMonitor.cc platforms/macos/MacOSDesktopWindow.cc PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+    set_source_files_properties(
+      ToolkitMacOS.cc
+      platforms/macos/MouseMonitor.cc
+      platforms/macos/MacOSDesktopWindow.cc
+      PROPERTIES SKIP_LINTING ON)
     target_include_directories(workrave-toolkit-qt PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()
 

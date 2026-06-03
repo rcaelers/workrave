@@ -90,6 +90,10 @@ if (PLATFORM_OS_MACOS)
                               platforms/macos/MacOSLocker.cc
                               platforms/macos/MacOSDock.mm
                               PROPERTIES COMPILE_FLAGS "-x objective-c++ -fobjc-arc")
+  set_source_files_properties(Locale.cc
+                              platforms/macos/MacOSLocker.cc
+                              platforms/macos/MacOSDock.mm
+                              PROPERTIES SKIP_LINTING ON)
 
   target_include_directories(workrave-app PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/macos)
 endif()

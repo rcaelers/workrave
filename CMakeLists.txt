@@ -277,6 +277,7 @@ if (WITH_TESTS)
 endif()
 
 include(code-coverage)
+include(IWYU)
 
 #----------------------------------------------------------------------------------------------------
 # Toolkit selection
