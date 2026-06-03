@@ -32,8 +32,9 @@ Item {
     readonly property bool       shutdownable:    bridge != null ? bridge.shutdownable       : false
     readonly property bool       sleepable:       bridge != null ? bridge.sleepable          : false
     readonly property bool       isLocked:        bridge != null ? bridge.isLocked           : false
-    readonly property double     lockProgress:    bridge != null ? bridge.lockProgress       : 0.0
+    readonly property double     lockProgress:     bridge != null ? bridge.lockProgress      : 0.0
     readonly property double     breakProgress:   bridge != null ? bridge.breakProgress      : 1.0
+    readonly property double     exerciseProgress: bridge != null ? bridge.exerciseProgress  : 1.0
     readonly property string     breakTimeShort:  bridge != null ? bridge.breakTimeShort     : "5:00"
     readonly property string     breakMaxStr:     bridge != null ? bridge.breakMaxStr        : "10:00"
 
@@ -252,20 +253,35 @@ Item {
                         Row {
                             width: parent.width; spacing: 28
 
-                            Item {
+                            Column {
                                 id: cardImgContainer
-                                width: 200; height: 200
+                                width: 200
+                                spacing: 8
 
-                                Image {
-                                    id: cardExImg
-                                    anchors.fill: parent
-                                    source: root.exerciseImage
-                                    mirror: root.exerciseMirror
-                                    fillMode: Image.PreserveAspectFit
+                                Item {
+                                    width: 200; height: 200
+
+                                    Image {
+                                        id: cardExImg
+                                        anchors.fill: parent
+                                        source: root.exerciseImage
+                                        mirror: root.exerciseMirror
+                                        fillMode: Image.PreserveAspectFit
+                                    }
+                                    Rectangle {
+                                        anchors.fill: parent; color: tok.sageSoft; radius: 16
+                                        visible: cardExImg.status !== Image.Ready || root.exerciseImage === ""
+                                    }
                                 }
+
                                 Rectangle {
-                                    anchors.fill: parent; color: tok.sageSoft; radius: 16
-                                    visible: cardExImg.status !== Image.Ready || root.exerciseImage === ""
+                                    width: 200; height: 8; radius: 4; color: tok.track
+                                    Rectangle {
+                                        width: parent.width * root.exerciseProgress
+                                        height: parent.height; radius: parent.radius
+                                        color: root.isPaused ? tok.warn : tok.sage
+                                        Behavior on width { NumberAnimation { duration: 500 } }
+                                    }
                                 }
                             }
 
@@ -718,16 +734,33 @@ Item {
                                     Item {
                                         id: fsImgContainer
                                         anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                                        width: Math.min(260, parent.height); height: width
+                                        width: Math.min(260, parent.height)
+                                        height: width + 16
 
-                                        Image {
-                                            id: fsExImg; anchors.fill: parent
-                                            source: root.exerciseImage; mirror: root.exerciseMirror
-                                            fillMode: Image.PreserveAspectFit
+                                        Item {
+                                            width: parent.width; height: parent.width
+                                            anchors.top: parent.top
+
+                                            Image {
+                                                id: fsExImg; anchors.fill: parent
+                                                source: root.exerciseImage; mirror: root.exerciseMirror
+                                                fillMode: Image.PreserveAspectFit
+                                            }
+                                            Rectangle {
+                                                anchors.fill: parent; color: tok.sageSoft; radius: 16
+                                                visible: fsExImg.status !== Image.Ready || root.exerciseImage === ""
+                                            }
                                         }
+
                                         Rectangle {
-                                            anchors.fill: parent; color: tok.sageSoft; radius: 16
-                                            visible: fsExImg.status !== Image.Ready || root.exerciseImage === ""
+                                            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                                            height: 8; radius: 4; color: tok.track
+                                            Rectangle {
+                                                width: parent.width * root.exerciseProgress
+                                                height: parent.height; radius: parent.radius
+                                                color: root.isPaused ? tok.warn : tok.sage
+                                                Behavior on width { NumberAnimation { duration: 500 } }
+                                            }
                                         }
                                     }
 
