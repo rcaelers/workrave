@@ -21,6 +21,11 @@
 
 #include "utils/TimeSource.hh"
 
+#include <cstdint>
+#include <chrono>
+
+#include "utils/ITimeSource.hh"
+
 using namespace workrave::utils;
 
 ITimeSource::Ptr TimeSource::source;
