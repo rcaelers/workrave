@@ -58,7 +58,7 @@ set(_iwyu_cmd
   -Xiwyu --cxx17ns
   -Xiwyu --no_fwd_decls
   -Xiwyu --quoted_includes_first
-  -Xiwyu --keep=config.h
+  -Xiwyu --keep=*/config.h
 )
 
 if(IWYU_SHARE_DIR)
@@ -98,7 +98,7 @@ if(APPLE)
   endif()
 endif()
 
-set(IWYU_COMMAND "${_iwyu_cmd}" CACHE INTERNAL "IWYU invocation command")
+set(IWYU_COMMAND "${_iwyu_cmd}" CACHE INTERNAL "IWYU invocation command" FORCE)
 
 # Apply globally — every C++ target defined after this point inherits IWYU.
 # Objective-C++ sources that IWYU cannot handle must opt out with SKIP_LINTING ON.
