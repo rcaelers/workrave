@@ -92,7 +92,6 @@ libs/utils/src/debug.cc
 libs/utils/src/Diagnostics.cc
 libs/utils/src/Logging.cc
 libs/utils/src/Paths.cc
-libs/utils/src/Platform.cc
 libs/utils/src/Platform-unix.cc
 libs/utils/src/Platform-windows.cc
 libs/utils/src/TimeSource.cc
