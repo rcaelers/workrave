@@ -20,9 +20,12 @@
 #endif
 
 #include <filesystem>
+#include <list>
+#include <string>
 
 #include "debug.hh"
 
+#include "utils/Enum.hh"
 #include "utils/AssetPath.hh"
 #include "utils/Paths.hh"
 
