@@ -958,8 +958,7 @@ BOOST_AUTO_TEST_CASE(test_timer_lower_auto_reset_to_in_the_past_while_idle)
 
   tick(false, 10, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // FIXME: why 6?
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 6 + count);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 10 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
     BOOST_REQUIRE_EQUAL(event, count == 0 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
   });
@@ -1769,8 +1768,6 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_limit_while_active_and_overdue)
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 101 + count);
   });
 
-  // FIXME: first loop of 201 step incresaes overdue time by 100.
-  // FIXME: second loop incresaes overdue time by 101. Why?
   BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 201);
 
   timer->set_limit_enabled(false);
@@ -1910,8 +1907,7 @@ BOOST_AUTO_TEST_CASE(test_timer_toggle_auto_reset_enable_after_reset)
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, count == 0 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // FIXME: why is this set to 20 instead of 60?
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 60 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 }
