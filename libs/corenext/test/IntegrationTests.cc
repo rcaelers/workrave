@@ -29,12 +29,8 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#if SPDLOG_VERSION >= 10600
-#  include <spdlog/pattern_formatter.h>
-#endif
-#if SPDLOG_VERSION >= 10801
-#  include <spdlog/cfg/env.h>
-#endif
+#include <spdlog/pattern_formatter.h>
+#include <spdlog/cfg/env.h>
 
 #include <filesystem>
 #include <iostream>
@@ -97,7 +93,6 @@ namespace workrave
   }
 } // namespace workrave
 
-#if SPDLOG_VERSION >= 10600
 class test_time_formatter_flag : public spdlog::custom_flag_formatter
 {
 public:
@@ -117,7 +112,6 @@ public:
 };
 
 int test_time_formatter_flag::timer = 0;
-#endif
 
 class GlobalFixture
 {
@@ -137,14 +131,10 @@ public:
     spdlog::set_level(spdlog::level::info);
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
 
-#if SPDLOG_VERSION >= 10600
     auto formatter = std::make_unique<spdlog::pattern_formatter>();
     formatter->add_flag<test_time_formatter_flag>('*').set_pattern("[%Y-%m-%d %H:%M:%S.%e %4*] [%n] [%^%-5l%$] %v");
     spdlog::set_formatter(std::move(formatter));
-#endif
-#if SPDLOG_VERSION >= 10801
     spdlog::cfg::load_env_levels();
-#endif
   }
 
   void teardown()
@@ -269,9 +259,7 @@ public:
 
     workrave::utils::TimeSource::sync();
     start_time = sim->get_real_time_usec();
-#if SPDLOG_VERSION >= 10600
     test_time_formatter_flag::timer = timer;
-#endif
     init_log_file();
     init_core();
   }
@@ -354,9 +342,7 @@ public:
             }
             sim->current_time += 1000000;
             timer++;
-#if SPDLOG_VERSION >= 10600
             test_time_formatter_flag::timer = (sim->current_time - start_time) / 1000000;
-#endif
           }
         catch (std::exception &e)
           {

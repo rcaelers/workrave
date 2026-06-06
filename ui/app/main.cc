@@ -43,12 +43,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
-#if SPDLOG_VERSION >= 10600
-#  include <spdlog/pattern_formatter.h>
-#endif
-#if SPDLOG_VERSION >= 10801
-#  include <spdlog/cfg/env.h>
-#endif
+#include <spdlog/pattern_formatter.h>
+#include <spdlog/cfg/env.h>
 
 extern "C" int run(int argc, char **argv);
 
@@ -86,7 +82,7 @@ namespace
     return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(file.string(), max_size, max_files, rotate_on_open);
 #endif
   }
-}
+} // namespace
 
 static void
 init_logging()
@@ -107,10 +103,7 @@ init_logging()
   spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%^%-5l%$] %v");
   spdlog::info("Workrave started");
   spdlog::info("Log file: {}", log_file.string());
-
-#if SPDLOG_VERSION >= 10801
   spdlog::cfg::load_env_levels();
-#endif
 #if defined(HAVE_TRACING)
   const auto trace_file = log_dir / "workrave-trace.log";
   auto trace_sink = create_rotating_file_sink(trace_file, 1024 * 1024, 10, true);
