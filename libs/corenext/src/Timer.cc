@@ -108,6 +108,13 @@ Timer::disable()
   if (timer_enabled)
     {
       timer_enabled = false;
+
+      if (last_stop_time != 0)
+        {
+          elapsed_idle_timespan += (TimeSource::get_monotonic_time_sec_sync() - last_stop_time);
+          last_stop_time = 0;
+        }
+
       stop_timer();
 
       last_start_time = 0;

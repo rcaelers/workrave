@@ -25,7 +25,6 @@
 #include <boost/signals2.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"
 
 #include "Timer.hh"
@@ -44,7 +43,7 @@ public:
     next = t;
   }
 
-  time_t get_next(time_t last_time)
+  time_t get_next(time_t last_time) override
   {
     if (next <= last_time)
       {
@@ -91,14 +90,14 @@ public:
     return timer;
   }
 
-  void tick(bool active)
+  void tick(bool active) const
   {
     TimeSource::sync();
     timer->process(active);
     sim->current_time += 1000000;
   }
 
-  void tick(bool active, int seconds, const std::function<void(int count)> &check_func)
+  void tick(bool active, int seconds, const std::function<void(int count)> &check_func) const
   {
     for (int i = 0; i < seconds; i++)
       {
@@ -125,7 +124,7 @@ public:
       }
   }
 
-  void tick(bool active, int seconds, const std::function<void(int count, TimerEvent event)> &check_func)
+  void tick(bool active, int seconds, const std::function<void(int count, TimerEvent event)> &check_func) const
   {
     for (int i = 0; i < seconds; i++)
       {
@@ -213,8 +212,6 @@ BOOST_AUTO_TEST_CASE(test_timer_elasped_idle_time)
 {
   init();
 
-  // TODO: old core:  tick(false, 200, [this](int count) { BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 +
-  // count : count); });
   tick(false, 200, [this](int count) { BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count); });
 
   tick(true, 100, [this](int count) { BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0); });
@@ -1256,14 +1253,14 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_when_not_over_limit_and_idle_then_enable
 
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 50);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0); // FIXME: 5
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 4);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
   });
 
   tick(true, 100, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 50);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 4);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
   });
@@ -1301,23 +1298,23 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_when_not_over_limit_and_idle_then_enable
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 50);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0); // FIXME: 5
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 4);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
 
   tick(true, 100, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 50);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 4);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
 
   timer->enable();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    BOOST_REQUIRE_EQUAL(event, count == 19 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), count < 19 ? 50 : 0);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 1 + count);
+    BOOST_REQUIRE_EQUAL(event, count == 15 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), count < 15 ? 50 : 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 5 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
 }
@@ -1440,21 +1437,21 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_when_over_limit_and_idle_then_enable_and
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
   tick(true, 100, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
   tick(false, 100, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
@@ -1498,30 +1495,30 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_when_over_limit_and_idle_then_enable_and
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0); // FIXME: why reset?
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
   tick(true, 100, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
   tick(false, 100, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
   timer->enable();
 
   tick(false, 100, [this](int count, TimerEvent event) {
-    BOOST_REQUIRE_EQUAL(event, count == 19 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), count < 19 ? 150 : 0);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 1 + count);
+    BOOST_REQUIRE_EQUAL(event, count == 10 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), count < 10 ? 150 : 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 10 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 }
@@ -1531,10 +1528,8 @@ BOOST_AUTO_TEST_CASE(test_timer_enable_limit_when_active_and_not_overdue)
   init();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // TODO: BOOST_REQUIRE_EQUAL(event, count == 20 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // TODO:  BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 + count : count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
@@ -1565,10 +1560,8 @@ BOOST_AUTO_TEST_CASE(test_timer_enable_limit_when_active_and_overdue)
   init();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // TODO:  BOOST_REQUIRE_EQUAL(event, count == 20 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // TODO: BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 + count : count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
@@ -1858,7 +1851,7 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_limit_when_timer_is_disabled)
   tick(true, 50, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 49);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
 
@@ -2010,7 +2003,7 @@ BOOST_AUTO_TEST_CASE(test_timer_toggle_auto_reset_when_timer_is_disabled)
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 0);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 9);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
@@ -2020,20 +2013,20 @@ BOOST_AUTO_TEST_CASE(test_timer_toggle_auto_reset_when_timer_is_disabled)
   tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 1 + count); // FIXME: should 10+count
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 10 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
   timer->set_auto_reset_enabled(true);
 
-  tick(false, 14, [this](int count, TimerEvent event) {
+  tick(false, 5, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 150);
-    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 6 + count);
+    BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 15 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 50);
   });
 
-  tick(false, 5, [this](int count, TimerEvent event) {
+  tick(false, 15, [this](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, count == 0 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);

@@ -91,9 +91,9 @@ public:
     return timer;
   }
 
-  void tick(bool active)
+  void tick(bool active) const
   {
-    TimerInfo info;
+    TimerInfo info{};
     info.event = TIMER_EVENT_NONE;
     info.idle_time = 0;
     info.elapsed_time = 0;
@@ -103,13 +103,13 @@ public:
     sim->current_time += 1000000;
   }
 
-  void tick(bool active, int seconds, const std::function<void(int count)> &check_func)
+  void tick(bool active, int seconds, const std::function<void(int count)> &check_func) const
   {
     for (int i = 0; i < seconds; i++)
       {
         try
           {
-            TimerInfo info;
+            TimerInfo info{};
             info.event = TIMER_EVENT_NONE;
             info.idle_time = 0;
             info.elapsed_time = 0;
@@ -141,7 +141,7 @@ public:
       {
         try
           {
-            TimerInfo info;
+            TimerInfo info{};
             info.event = TIMER_EVENT_NONE;
             info.idle_time = 0;
             info.elapsed_time = 0;
@@ -1162,7 +1162,7 @@ BOOST_AUTO_TEST_CASE(test_timer_limit_reached_inhibit_snooze_event)
   tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
   timer->inhibit_snooze();
-  
+
   tick(true, 200, [](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, count == 48 ? TIMER_EVENT_LIMIT_REACHED : TIMER_EVENT_NONE);
   });
