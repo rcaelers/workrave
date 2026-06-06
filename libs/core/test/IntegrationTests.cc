@@ -52,7 +52,6 @@ using namespace std::chrono_literals;
 #include "config/Config.hh"
 #include "config/SettingCache.hh"
 
-#include "utils/ITimeSource.hh"
 #include "utils/TimeSource.hh"
 #include "debug.hh"
 
@@ -250,7 +249,7 @@ public:
 
     for (int i = 0; i < workrave::BREAK_ID_SIZEOF; i++)
       {
-        auto b = core->get_break(workrave::BreakId(i));
+        auto *b = core->get_break(workrave::BreakId(i));
         b->signal_break_event().connect(std::bind(&Backend::on_break_event, this, workrave::BreakId(i), std::placeholders::_1));
         prelude_count[i] = 0;
       }
@@ -320,7 +319,6 @@ public:
             did_refresh = false;
             need_refresh = false;
             workrave::utils::TimeSource::sync();
-            monitor->heartbeat();
             core->heartbeat();
 
             for (int j = 0; j < workrave::BREAK_ID_SIZEOF; j++)
@@ -1498,7 +1496,9 @@ BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude)
   expect(335, "break_event", "break_id=micro_pause event=BreakIgnored");
   expect(335, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(335, "hide");
-  tick(true, 336);
+  tick(true, 335);
+  monitor->notify();
+  tick(true, 1);
 
   verify();
 }
@@ -1698,7 +1698,11 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   expect(631, "break", "break_id=micro_pause break_hint=normal");
   expect(631, "show");
   expect(631, "break_event", "break_id=micro_pause event=ShowBreak");
-  tick(true, 760);
+  tick(true, 335);
+  monitor->notify();
+  tick(true, 151);
+  monitor->notify();
+  tick(true, 300);
 
   verify();
 }

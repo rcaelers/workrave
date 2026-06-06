@@ -1162,8 +1162,7 @@ BOOST_AUTO_TEST_CASE(test_timer_limit_reached_inhibit_snooze_event)
   tick(true, 1, [](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
 
   timer->inhibit_snooze();
-
-  // Next: tick(true, 200, [=,this](int count, TimerEvent event) { BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE); });
+  
   tick(true, 200, [](int count, TimerEvent event) {
     BOOST_REQUIRE_EQUAL(event, count == 48 ? TIMER_EVENT_LIMIT_REACHED : TIMER_EVENT_NONE);
   });
@@ -1546,12 +1545,9 @@ BOOST_AUTO_TEST_CASE(test_timer_enable_limit_when_active_and_not_overdue)
   init();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // Next: BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, count == 20 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // Next:BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 + count : count);
-
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
 
@@ -1581,10 +1577,8 @@ BOOST_AUTO_TEST_CASE(test_timer_enable_limit_when_active_and_overdue)
   init();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // Next: BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, count == 20 ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // Next: BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), count < 20 ? 20 + count : count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });
@@ -1883,10 +1877,8 @@ BOOST_AUTO_TEST_CASE(test_timer_disable_limit_when_timer_is_disabled)
   timer->enable();
 
   tick(false, 50, [this](int count, TimerEvent event) {
-    // Next: BOOST_REQUIRE_EQUAL(event, TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(event, count == 0 ? TIMER_EVENT_RESET : TIMER_EVENT_NONE);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_time(), 0);
-    // Next: BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 21 + count);
     BOOST_REQUIRE_EQUAL(timer->get_elapsed_idle_time(), 20 + count);
     BOOST_REQUIRE_EQUAL(timer->get_total_overdue_time(), 0);
   });

@@ -1284,6 +1284,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_during_prelude)
       expect(t + 35, "break_event", "break_id=micro_pause event=BreakIdle");
       expect(t + 35, "break_event", "break_id=micro_pause event=BreakStop");
 
+      // TODO: 95 ticks after 1st iteration
       tick(false, 300);
       tick(false, 5);
       tick(true, 10);
@@ -1320,6 +1321,7 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_active_while_no_break_or_prelude_active)
       expect(t + 20, "break_event", "break_id=micro_pause event=BreakIdle");
       expect(t + 20, "break_event", "break_id=micro_pause event=BreakStop");
 
+      // TODO: 95 ticks after 1ste iteration
       tick(false, 100);
       tick(true, 50);
       tick(false, 50);
@@ -1415,11 +1417,14 @@ BOOST_AUTO_TEST_CASE(test_reading_mode_suspend)
       t += 321;
     }
 
+  // TODO: 1578
   expect(1582, "operationmode", "mode=1"); // TODO: 1578 in old core
   core->set_operation_mode(workrave::OperationMode::Suspended);
   tick(true, 100);
+  // TODO: 1678
   expect(1682, "operationmode", "mode=0"); // TODO: 1678 in old core
   core->set_operation_mode(workrave::OperationMode::Normal);
+  // TODO:
   tick(false, 400);
 
   t = 1684;
@@ -1489,7 +1494,9 @@ BOOST_AUTO_TEST_CASE(test_user_ignores_first_prelude)
   expect(335, "break_event", "break_id=micro_pause event=BreakIgnored");
   expect(335, "break_event", "break_id=micro_pause event=BreakIdle");
   expect(335, "hide");
-  tick(true, 336);
+  tick(true, 335);
+  monitor->notify();
+  tick(true, 1);
 
   verify();
 }
@@ -1689,7 +1696,11 @@ BOOST_AUTO_TEST_CASE(test_forced_break)
   expect(631, "break", "break_id=micro_pause break_hint=normal");
   expect(631, "show");
   expect(631, "break_event", "break_id=micro_pause event=ShowBreak");
-  tick(true, 760);
+  tick(true, 335);
+  monitor->notify();
+  tick(true, 151);
+  monitor->notify();
+  tick(true, 300);
 
   verify();
 }
@@ -2363,7 +2374,7 @@ BOOST_AUTO_TEST_CASE(test_daily_limit_regard_micro_break_as_activity)
   expect(7201, "break_event", "break_id=daily_limit event=ShowPrelude");
   tick(false, 7200);
 
-  // TODO: 7210 in old core (4x)
+  // TODO: 7209 in old core (4x)
   expect(7210, "hide");
   expect(7210, "break", "break_id=daily_limit break_hint=normal");
   expect(7210, "show");
