@@ -25,12 +25,7 @@
 #include <ApplicationServices/ApplicationServices.h>
 #import <AppKit/NSRunningApplication.h>
 
-// -activate was added to NSRunningApplication in macOS 14 and may not be visible at lower
-// deployment targets even though it is present in the SDK. Forward-declare it so the compiler
-// accepts the call inside the @available(macOS 14.0, *) guard below.
-@interface NSRunningApplication (Workrave_macOS14)
-- (BOOL)activate;
-@end
+
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
 
@@ -122,17 +117,10 @@ MacOSLocker::Pimpl::restore_foreground()
 {
   if (active_app != nil)
     {
-      if (@available(macOS 14.0, *))
-        {
-          [active_app activate];
-        }
-      else
-        {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-          [active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+      [active_app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
 #pragma clang diagnostic pop
-        }
       if (active_app_hidden)
         {
           [NSApp hide:active_app];
