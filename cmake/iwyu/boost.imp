@@ -1,2 +1,35 @@
 [
+  { "include": ["<boost/optional/detail/optional_common_defs.hpp>",                        "private", "<boost/optional.hpp>",               "public"] },
+
+  { "include": ["<boost/signals2/mutex.hpp>",                                               "private", "<boost/signals2.hpp>",               "public"] },
+  { "include": ["<boost/signals2/variadic_signal.hpp>",                                     "private", "<boost/signals2.hpp>",               "public"] },
+
+  { "include": ["<boost/preprocessor/arithmetic/limits/dec_256.hpp>",                       "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/arithmetic/limits/inc_256.hpp>",                       "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/comparison/limits/not_equal_256.hpp>",                 "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/control/expr_iif.hpp>",                                "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/control/iif.hpp>",                                     "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/detail/limits/auto_rec_256.hpp>",                      "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/logical/compl.hpp>",                                   "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/logical/limits/bool_256.hpp>",                         "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/repetition/detail/limits/for_256.hpp>",                "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/repetition/for.hpp>",                                  "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/seq/limits/elem_256.hpp>",                             "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/seq/limits/size_256.hpp>",                             "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/tuple/elem.hpp>",                                      "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/tuple/limits/to_seq_64.hpp>",                          "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/tuple/to_seq.hpp>",                                    "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/preprocessor/variadic/limits/elem_64.hpp>",                         "private", "<boost/test/unit_test.hpp>",          "public"] },
+
+  { "include": ["<boost/test/framework.hpp>",                                               "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/tools/context.hpp>",                                           "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/tools/old/interface.hpp>",                                     "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/tree/auto_registration.hpp>",                                  "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/tree/global_fixture.hpp>",                                     "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/tree/test_unit.hpp>",                                          "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/unit_test_log.hpp>",                                           "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/unit_test_suite.hpp>",                                         "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/utils/basic_cstring/basic_cstring.hpp>",                       "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/utils/class_properties.hpp>",                                  "private", "<boost/test/unit_test.hpp>",          "public"] },
+  { "include": ["<boost/test/utils/lazy_ostream.hpp>",                                      "private", "<boost/test/unit_test.hpp>",          "public"] }
 ]

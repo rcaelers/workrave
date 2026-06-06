@@ -73,7 +73,7 @@ else()
   message(WARNING "IWYU: bundled mapping files not found; Qt/Boost mappings unavailable")
 endif()
 
-foreach(_imp qt.imp boost.imp spdlog.imp)
+foreach(_imp qt.imp boost.imp spdlog.imp workrave.imp)
   set(_imp_path "${CMAKE_SOURCE_DIR}/cmake/iwyu/${_imp}")
   if(EXISTS "${_imp_path}")
     list(APPEND _iwyu_cmd -Xiwyu "--mapping_file=${_imp_path}")
