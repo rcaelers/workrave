@@ -56,6 +56,12 @@ INSTALL(CODE "
 
     if(_need_deploy)
         message(\"-- Installing Qt frameworks and plugins...\")
+        file(REMOVE_RECURSE
+             \"${_deploy_app}/Contents/Frameworks\"
+             \"${_deploy_app}/Contents/PlugIns\"
+             \"${_deploy_app}/Contents/Resources/qml\")
+        file(REMOVE \"${_deploy_app}/Contents/MacOS/workrave-core-shadow-helper\")
+        file(MAKE_DIRECTORY \"${_deploy_app}/Contents/Frameworks\")
         execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
         execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} \"${_deploy_app}\" -verbose=1
                -qmldir=${CMAKE_SOURCE_DIR}/ui/app/toolkits/qt/qml
@@ -74,6 +80,19 @@ INSTALL(CODE "
         message(\"-- Qt frameworks up to date, skipping macdeployqt.\")
     endif()
     ")
+
+if (HAVE_CORE_SHADOW)
+    INSTALL(PROGRAMS "$<TARGET_FILE:workrave-core-shadow-helper>" DESTINATION "${BINDIR}")
+    INSTALL(CODE "
+        set(_helper \"${_deploy_app}/Contents/MacOS/workrave-core-shadow-helper\")
+        if(EXISTS \"\${_helper}\")
+            execute_process(COMMAND otool -l \"\${_helper}\" OUTPUT_VARIABLE _helper_lc ERROR_QUIET)
+            if(NOT \"\${_helper_lc}\" MATCHES \"@executable_path/../Frameworks\")
+                execute_process(COMMAND install_name_tool -add_rpath \"@executable_path/../Frameworks\" \"\${_helper}\" ERROR_QUIET)
+            endif()
+        endif()
+    ")
+endif()
 
 # cmake --install always copies a fresh binary from the build tree, which resets
 # the binary to its build-time rpaths.  macdeployqt is gated by the stamp, so

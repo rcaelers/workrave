@@ -134,6 +134,10 @@ else()
   target_link_libraries(workrave-app PRIVATE workrave-libs-core)
 endif()
 
+if (HAVE_CORE_SHADOW)
+  target_link_libraries(workrave-app PRIVATE workrave-libs-core-shadow)
+endif()
+
 if (HAVE_CRASH_REPORT)
   target_link_libraries(workrave-app PRIVATE workrave-libs-crash)
 endif()
@@ -175,6 +179,10 @@ if (HAVE_CORE_NEXT)
   target_link_libraries(workrave PRIVATE workrave-libs-core-next)
 else()
   target_link_libraries(workrave PRIVATE workrave-libs-core)
+endif()
+
+if (HAVE_CORE_SHADOW)
+  target_link_libraries(workrave PRIVATE workrave-libs-core-shadow)
 endif()
 
 if (HAVE_APP_GTK)

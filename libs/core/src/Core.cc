@@ -61,7 +61,7 @@
 #endif
 #include "dbus/IDBus.hh"
 #include "dbus/DBusException.hh"
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
 #  include "DBusWorkrave.hh"
 #endif
 #if defined(HAVE_TESTS)
@@ -153,7 +153,7 @@ Core::init_bus()
       dbus = workrave::dbus::DBusFactory::create();
       dbus->init();
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
       extern void init_DBusWorkrave(std::shared_ptr<workrave::dbus::IDBus> dbus);
       init_DBusWorkrave(dbus);
 #endif
@@ -509,7 +509,7 @@ Core::set_operation_mode_internal(OperationMode mode)
       CoreConfig::operation_mode().set(mode);
       operation_mode_changed_signal(operation_mode_regular);
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
       if (iface != nullptr)
         {
@@ -628,7 +628,7 @@ Core::set_usage_mode_internal(UsageMode mode, bool persistent)
 
       usage_mode_changed_signal(mode);
 
-#if defined(HAVE_DBUS)
+#if defined(HAVE_DBUS) && !defined(HAVE_CORE_SHADOW)
       org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
       if (iface != nullptr)
         {

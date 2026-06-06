@@ -6,6 +6,7 @@
 #cmakedefine HAVE_APPINDICATOR
 #cmakedefine HAVE_APPINDICATOR_AYATANA
 #cmakedefine HAVE_CORE_NEXT
+#cmakedefine HAVE_CORE_SHADOW
 #cmakedefine HAVE_CRASH_REPORT
 #cmakedefine HAVE_CRASHPAD
 #cmakedefine HAVE_DBUS

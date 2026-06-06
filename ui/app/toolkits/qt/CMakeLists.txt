@@ -187,6 +187,10 @@ if (HAVE_UNFOLD_AUTO_UPDATE)
   target_link_libraries(workrave-toolkit-qt PRIVATE workrave-libs-updater)
 endif()
 
+if (HAVE_CORE_SHADOW)
+  target_link_libraries(workrave-toolkit-qt PRIVATE workrave-libs-core-shadow)
+endif()
+
 if (HAVE_GLIB)
   target_include_directories(workrave-toolkit-qt PRIVATE ${GLIB_INCLUDE_DIRS})
   target_link_directories(workrave-toolkit-qt PRIVATE ${GLIB_LIBPATH})

@@ -45,6 +45,9 @@
 #include "utils/AssetPath.hh"
 #include "config/ConfiguratorFactory.hh"
 #include "core/CoreConfig.hh"
+#if defined(HAVE_CORE_SHADOW)
+#  include "core-shadow/CoreShadow.hh"
+#endif
 
 // #if defined(HAVE_DBUS)
 // #  include "GenericDBusApplet.hh"
@@ -298,6 +301,9 @@ void
 Application::init_core()
 {
   core = CoreFactory::create(configurator);
+#if defined(HAVE_CORE_SHADOW)
+  core = workrave::core_shadow::CoreShadowFactory::wrap(core, configurator);
+#endif
   context->set_core(core);
 #if defined(HAVE_CORE_NEXT)
   core->init(this, toolkit->get_display_name());

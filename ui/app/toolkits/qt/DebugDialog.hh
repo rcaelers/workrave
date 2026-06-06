@@ -26,6 +26,8 @@
 #include "ui/IPreludeWindow.hh"
 
 class QPushButton;
+class QTextBrowser;
+class QTimer;
 
 class DebugDialog : public QDialog
 {
@@ -39,6 +41,8 @@ private:
   void toggle_break(workrave::BreakId break_id, IBreakWindow::Ptr &window, QPushButton *button);
   void toggle_prelude(workrave::BreakId break_id, IPreludeWindow::Ptr &window, QPushButton *button);
   void stop_all();
+  void refresh_state();
+  [[nodiscard]] QString active_core_debug_state_html() const;
 
   std::shared_ptr<IApplicationContext> app;
 
@@ -51,6 +55,8 @@ private:
   QPushButton *btn_rest{nullptr};
   QPushButton *btn_daily{nullptr};
   QPushButton *btn_prelude{nullptr};
+  QTextBrowser *state_view{nullptr};
+  QTimer *refresh_timer{nullptr};
 };
 
 #endif // DEBUGDIALOG_HH
